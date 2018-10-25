@@ -42,7 +42,7 @@
 	 (class StaticCanvas (PlotCanvas)
 		(def compute_initial_figure (self)
 		  (setf t (np.arange 0 3 .01)
-			s (np.sin (* 2 pi t))
+			s (np.sin (* 2 np.pi t))
 			)
 		  (self.axes.plot t s)))
 	 (class DynamicCanvas (PlotCanvas)
@@ -64,6 +64,30 @@
 				  l
 				  (string "r"))
 		  (self.draw)))
+	 (class ApplicationWindow (qw.QMainWindow)
+		(def __init__ (self)
+		  (qw.QMainWindow.__init__ self)
+		  (self.setAttribute qc.Qt.WA_DeleteOnClose)
+		  (setf self.main_widget (qw.QWidget self)
+			l (qw.QVBoxLayout self.main_widget)
+			sc (StaticCanvas self.main_widget
+					 :width 5
+					 :height 4
+					 :dpi 100)
+			dc (DynamicCanvas self.main_widget
+					 :width 5
+					 :height 4
+					 :dpi 100))
+		  (l.addWidget sc)
+		  (l.addWidget dc)
+		  (self.main_widget.setFocus)
+		  (self.setCentralWidget self.main_widget)
+		  ))
+	 (setf qApp (qw.QApplication sys.argv)
+	       aw (ApplicationWindow)
+	       )
+	 (aw.show)
+	 (sys.exit (qApp.exec_))
 	 )))
   ;(run code)
   (write-source "/home/martin/stage/cl-py-generator/example/02_qt/source/code" code))
