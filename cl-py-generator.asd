@@ -5,5 +5,7 @@
     :author " <kielhorn.martin@gmail.com>"
     :licence "GPL"
     :depends-on ("alexandria")
-    ;:serial t
-    :components ((:file "py")) )
+    :serial t
+    :components ((:file "package")
+		 (:file "py")
+		 (:file "pipe")) )

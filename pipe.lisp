@@ -1,16 +1,30 @@
-(eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload :cl-py-generator))
-;; https://www.kdnuggets.com/2018/08/introduction-t-sne-python.html
-;; https://www.youtube.com/watch?v=RJVL80Gg3lA
-;; sudo pacman -S autopep8
-
 (in-package :cl-py-generator)
 
 ;; strace -f -s 256 -p `ps x|grep python3.5|head -n 1|cut -d " " -f 1`
-(defparameter *python* 
-  (sb-ext:run-program "python3" '()
-		      :search t :wait nil
-		      :pty t))
+(defparameter *python* nil)
+(defparameter *python-reading-thread* nil)
+
+
+(defun start-python ()
+  (unless (and *python*
+	       (eq :running (sb-impl::process-%status *python*)))
+    (setf *python*
+	  (sb-ext:run-program "python3" '()
+			      :search t :wait nil
+			      :pty t))
+    (when *python-reading-thread*
+      (sb-thread:join-thread *python-reading-thread*)
+      (setf *python-reading-thread* nil))
+    (setf *python-reading-thread*
+	  (sb-thread:make-thread
+	   #'(lambda (standard-output)
+	       (let ((*standard-output* standard-output))
+		 (loop for line = (read-line (sb-impl::process-pty *python*) nil 'foo)
+		    until (eq line 'foo)
+		    do
+		      (print line))))
+	   :name "python-reader"
+	   :arguments (list *standard-output*)))))
 
 (defun run (code)
   (assert (eq :running (sb-impl::process-%status *python*)))
@@ -22,30 +36,4 @@
    (terpri s)
    (force-output s)))
 
-(sb-thread:make-thread
- #'(lambda (standard-output)
-     (let ((*standard-output* standard-output))
-      (loop for line = (read-line (sb-impl::process-pty *python*) nil 'foo)
-	 until (eq line 'foo)
-	 do
-	   (print line))))
- :name "python-reader"
- :arguments (list *standard-output*))
 
-
-
-(let ((code
-       `(do0
-	 (imports (sys
-		   (plt matplotlib.pyplot)
-		   (np numpy)
-		   (pd pandas)
-		   pathlib))
-	 (plt.ion)
-	 (setf x (np.linspace 0 2.0 30)
-	       y (np.sin x))
-	 (plt.plot x y)
-	 (plt.grid))))
-  (run code)
-  (write-source "/home/martin/stage/cl-py-generator/source/code" code)
-  )

@@ -1,22 +1,5 @@
 ;(ql:quickload "optima")
 ;(ql:quickload "alexandria")
-(defpackage :cl-py-generator
-  (:use :cl
-	;:optima
-	:alexandria)
-  (:export
-   #:tuple
-   #:indent
-   #:do
-   #:do0
-   #:def
-   #:slice
-   #:dot
-   #:**
-   #:imports
-   #:try
-   #:write-source
-   ))
 
 (in-package :cl-py-generator)
 (setf (readtable-case *readtable*) :invert)

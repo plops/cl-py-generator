@@ -6,33 +6,7 @@
 
 (in-package :cl-py-generator)
 
-;; strace -f -s 256 -p `ps x|grep python3.5|head -n 1|cut -d " " -f 1`
-(defparameter *python* 
-  (sb-ext:run-program "python3" '()
-		      :search t :wait nil
-		      :pty t))
-
-(defun run (code)
-  (assert (eq :running (sb-impl::process-%status *python*)))
-  (let ((s (sb-impl::process-pty *python*)))
-    (write-sequence
-    (cl-py-generator::emit-py  :clear-env t
-			       :code code)
-    s)
-   (terpri s)
-   (force-output s)))
-
-(sb-thread:make-thread
- #'(lambda (standard-output)
-     (let ((*standard-output* standard-output))
-      (loop for line = (read-line (sb-impl::process-pty *python*) nil 'foo)
-	 until (eq line 'foo)
-	 do
-	   (print line))))
- :name "python-reader"
- :arguments (list *standard-output*))
-
-
+(start-python)
 
 (let ((code
        `(do0
@@ -47,5 +21,4 @@
 	 (plt.plot x y)
 	 (plt.grid))))
   (run code)
-  (write-source "/home/martin/stage/cl-py-generator/source/code" code)
-  )
+  (write-source "/home/martin/stage/cl-py-generator/example/01_plot/source/code" code))
