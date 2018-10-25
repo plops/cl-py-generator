@@ -67,6 +67,11 @@
 			      (emit (cadr code))))
 	      (do (with-output-to-string (s)
 		    (format s "~{~a~%~}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
+	      (class (destructuring-bind (name parents &rest body) (cdr code)
+		       (format nil "class ~a~a:~%~a"
+			       name
+			       (emit `(tuple ,@parents))
+			       (emit `(do ,@body)))))
 	      (do0 (with-output-to-string (s)
 		     (format s "~a~%~{~a~%~}"
 			     (emit (cadr code))
