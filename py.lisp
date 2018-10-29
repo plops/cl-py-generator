@@ -62,6 +62,13 @@
 		       (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
 	      (list (let ((args (cdr code)))
 		      (format nil "[~{~a~^, ~}]" (mapcar #'emit args))))
+              (dict (let* ((args (cdr code))
+                          (str (with-output-to-string (s)
+                                 (loop for (e f) in args
+                                    do
+                                      (format s "(~a):(~a)," (emit e) (emit f))))))
+                      (format nil "{~a}" ;; remove trialing comma
+                              (subseq str 0 (- (length str) 2)))))
 	      (indent (format nil "~{~a~}~a"
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
@@ -106,7 +113,9 @@
 	      (aref (destructuring-bind (name &rest indices) (cdr code)
 		      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
 	      (slice (let ((args (cdr code)))
-		       (format nil "~{~a~^:~}" args)))
+		       (if (null args)
+			   (format nil ":")
+			   (format nil "~{~a~^:~}" args))))
 	      (dot (let ((args (cdr code)))
 		   (format nil "~{~a~^.~}" (mapcar #'emit args))))
 	      (+ (let ((args (cdr code)))
