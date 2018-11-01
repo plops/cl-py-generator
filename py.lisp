@@ -60,6 +60,8 @@
 	    (case (car code)
 	      (tuple (let ((args (cdr code)))
 		       (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
+	      (ntuple (let ((args (cdr code)))
+		       (format nil "~{~a~^, ~}" (mapcar #'emit args))))
 	      (list (let ((args (cdr code)))
 		      (format nil "[~{~a~^, ~}]" (mapcar #'emit args))))
               (dict (let* ((args (cdr code))
@@ -67,8 +69,8 @@
                                  (loop for (e f) in args
                                     do
                                       (format s "(~a):(~a)," (emit e) (emit f))))))
-                      (format nil "{~a}" ;; remove trialing comma
-                              (subseq str 0 (- (length str) 2)))))
+                      (format nil "{~a}" ;; remove trailing comma
+                              (subseq str 0 (- (length str) 1)))))
 	      (indent (format nil "~{~a~}~a"
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
@@ -83,6 +85,23 @@
 		     (format s "~a~%~{~a~%~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
+	      (lambda (destructuring-bind (lambda-list &rest body) (cdr code)
+		     (multiple-value-bind (req-param opt-param res-param
+						     key-param other-key-p aux-param key-exist-p)
+			 (parse-ordinary-lambda-list lambda-list)
+		       (declare (ignorable req-param opt-param res-param
+					   key-param other-key-p aux-param key-exist-p))
+		       (with-output-to-string (s)
+			 (format s "lambda ~a: ~a"
+				 (emit `(ntuple ,@(append req-param
+							 (loop for e in key-param collect 
+							      (destructuring-bind ((keyword-name name) init suppliedp)
+								  e
+								(declare (ignorable keyword-name suppliedp))
+								`(= ,name ,init))))))
+				 (if (cdr body)
+				     (break "body ~a should have only one entry" body)
+				     (emit (car body))))))))
 	      (def (destructuring-bind (name lambda-list &rest body) (cdr code)
 		     (multiple-value-bind (req-param opt-param res-param
 						     key-param other-key-p aux-param key-exist-p)
@@ -140,6 +159,10 @@
 			   (emit (second args)))))
 	      (// (let ((args (cdr code)))
 		   (format nil "((~a)//(~a))"
+			   (emit (first args))
+			   (emit (second args)))))
+	      (% (let ((args (cdr code)))
+		   (format nil "((~a)%(~a))"
 			   (emit (first args))
 			   (emit (second args)))))
 	      (and (let ((args (cdr code)))
