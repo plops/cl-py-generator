@@ -25,7 +25,7 @@
 			  :if-exists :supersede
 			  :if-does-not-exist :create)
 	 (write-sequence code-str s))
-      (sb-ext:run-program "/usr/bin/autopep8" (list (namestring fn)))))))
+      (sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))))))
 
 (defun print-sufficient-digits-f64 (f)
   "print a double floating point number as a string with a given nr. of
@@ -64,13 +64,13 @@
 		       (format nil "~{~a~^, ~}" (mapcar #'emit args))))
 	      (list (let ((args (cdr code)))
 		      (format nil "[~{~a~^, ~}]" (mapcar #'emit args))))
-              (dict (let* ((args (cdr code))
-                          (str (with-output-to-string (s)
-                                 (loop for (e f) in args
-                                    do
-                                      (format s "(~a):(~a)," (emit e) (emit f))))))
-                      (format nil "{~a}" ;; remove trailing comma
-                              (subseq str 0 (- (length str) 1)))))
+              (dict (let* ((args (cdr code)))
+		      (let ((str (with-output-to-string (s)
+				   (loop for (e f) in args
+				      do
+					(format s "(~a):(~a)," (emit e) (emit f))))))
+			(format nil "{~a}" ;; remove trailing comma
+				(subseq str 0 (- (length str) 1))))))
 	      (indent (format nil "~{~a~}~a"
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
@@ -134,7 +134,7 @@
 	      (slice (let ((args (cdr code)))
 		       (if (null args)
 			   (format nil ":")
-			   (format nil "~{~a~^:~}" args))))
+			   (format nil "~{~a~^:~}" (mapcar #'emit args)))))
 	      (dot (let ((args (cdr code)))
 		   (format nil "~{~a~^.~}" (mapcar #'emit args))))
 	      (+ (let ((args (cdr code)))
@@ -187,7 +187,8 @@
 			      (emit condition)
 			      (emit `(do ,true-statement)))
 		      (when false-statement
-			(format s "else:~%~a"
+			(format s "~a:~%~a"
+				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
@@ -195,7 +196,24 @@
 			    (format nil "import ~a~%" args))))
 	      (imports (destructuring-bind (args) (cdr code)
 			 (format nil "~{~a~}" (mapcar #'(lambda (x) (emit `(import ,x))) args))))
-	      (try (let ((body (cdr code)))
+	      (with (destructuring-bind (form &rest body) (cdr code)
+		      (with-output-to-string (s)
+		       (format s "~a~a:~%~a"
+			       (emit "with ")
+			       (emit form)
+			       (emit `(do ,@body))))))
+	      (try (destructuring-bind (prog &rest exceptions) (cdr code)
+		     (with-output-to-string (s)
+		       (format s "~a:~%~a"
+			       (emit "try")
+			       (emit `(do ,prog)))
+		       (loop for e in exceptions do
+			    (destructuring-bind (form &rest body) e
+			      (format s "~a~%"
+				      (emit `(indent ,(format nil "except ~a:" (emit form)))))
+			      (format s "~a" (emit `(do ,@body)))))))
+	       
+	       #+nil (let ((body (cdr code)))
 		     (with-output-to-string (s)
 		       (format s "~a:~%" (emit "try"))
 		       (format s "~a" (emit `(do ,@body)))
