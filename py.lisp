@@ -63,6 +63,8 @@
 	    (case (car code)
 	      (tuple (let ((args (cdr code)))
 		       (format nil "(~{~a,~})" (mapcar #'emit args))))
+	      (paren (let ((args (cdr code)))
+		       (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
 	      (ntuple (let ((args (cdr code)))
 		       (format nil "~{~a~^, ~}" (mapcar #'emit args))))
 	      (list (let ((args (cdr code)))
@@ -82,7 +84,7 @@
 	      (class (destructuring-bind (name parents &rest body) (cdr code)
 		       (format nil "class ~a~a:~%~a"
 			       name
-			       (emit `(tuple ,@parents))
+			       (emit `(paren ,@parents))
 			       (emit `(do ,@body)))))
 	      (do0 (with-output-to-string (s)
 		     (format s "~a~%~{~a~%~}"
@@ -114,7 +116,7 @@
 		       (with-output-to-string (s)
 			 (format s "def ~a~a:~%"
 				 name
-				 (emit `(tuple ,@(append req-param
+				 (emit `(paren ,@(append req-param
 							 (loop for e in key-param collect 
 							      (destructuring-bind ((keyword-name name) init suppliedp)
 								  e
@@ -231,7 +233,7 @@
 			  (plist (subseq args (length positional)))
 			  (props (loop for e in plist by #'cddr collect e)))
 		     (format nil "~a~a" name
-			     (emit `(tuple ,@(append
+			     (emit `(paren ,@(append
 					      positional
 					      (loop for e in props collect
 						   `(= ,(format nil "~a" e) ,(getf plist e)))))))))))
