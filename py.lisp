@@ -174,6 +174,8 @@
 			   (emit (second args)))))
 	      (and (let ((args (cdr code)))
 		     (format nil "(~{(~a)~^ and ~})" (mapcar #'emit args))))
+	      (& (let ((args (cdr code)))
+		     (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args))))
 	      (or (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^ or ~})" (mapcar #'emit args))))
 	      (string (format nil "\"~a\"" (cadr code)))
@@ -186,6 +188,11 @@
 		       (format s "for ~a in ~a:~%"
 			       (emit vs)
 			       (emit ls))
+		       (format s "~a" (emit `(do ,@body))))))
+	      (while (destructuring-bind (vs &rest body) (cdr code)
+		     (with-output-to-string (s)
+		       (format s "while ~a:~%"
+			       (emit `(paren ,vs)))
 		       (format s "~a" (emit `(do ,@body))))))
 
 	      (if (destructuring-bind (condition true-statement &optional false-statement) (cdr code)
@@ -228,15 +235,25 @@
 			       (emit "except Exception as e:")
 			       (emit `(do "print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)"))))))
 	      (t (destructuring-bind (name &rest args) code
-		   (let* ((positional (loop for i below (length args) until (keywordp (elt args i)) collect
-					   (elt args i)))
-			  (plist (subseq args (length positional)))
-			  (props (loop for e in plist by #'cddr collect e)))
-		     (format nil "~a~a" name
-			     (emit `(paren ,@(append
-					      positional
-					      (loop for e in props collect
-						   `(= ,(format nil "~a" e) ,(getf plist e)))))))))))
+		   
+		   (if (listp name)
+		       ;; lambda call and similar complex constructs
+		       (format nil "(~a)(~a)" (emit name) (if args
+							      (emit `(paren ,@args))
+							      ""))
+		       #+nil(if (eq 'lambda (car name))
+			   (format nil "(~a)(~a)" (emit name) (emit `(paren ,@args)))
+			   (break "error: unknown call"))
+		       ;; function call
+		       (let* ((positional (loop for i below (length args) until (keywordp (elt args i)) collect
+					       (elt args i)))
+			      (plist (subseq args (length positional)))
+			      (props (loop for e in plist by #'cddr collect e)))
+			 (format nil "~a~a" name
+				 (emit `(paren ,@(append
+						  positional
+						  (loop for e in props collect
+						       `(= ,(format nil "~a" e) ,(getf plist e))))))))))))
 	    (cond
 	      ((or (symbolp code)
 		   (stringp code)) ;; print variable
