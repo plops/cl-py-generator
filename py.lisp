@@ -204,6 +204,8 @@
 			(format s "~a:~%~a"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
+	      (yield (destructuring-bind (args) (cdr code)
+			(format nil "yield ~a" (emit args))))
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
 			    (format nil "import ~a as ~a~%" (second args) (first args))
