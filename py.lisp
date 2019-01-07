@@ -114,7 +114,7 @@
 		       (declare (ignorable req-param opt-param res-param
 					   key-param other-key-p aux-param key-exist-p))
 		       (with-output-to-string (s)
-			 (format s "~2&def ~a~a:~%"
+			 (format s "def ~a~a:~%"
 				 name
 				 (emit `(paren ,@(append req-param
 							 (loop for e in key-param collect 
@@ -219,12 +219,12 @@
 			       (emit `(do ,@body))))))
 	      (try (destructuring-bind (prog &rest exceptions) (cdr code)
 		     (with-output-to-string (s)
-		       (format s "~a:~%~a"
+		       (format s "~&~a:~%~a"
 			       (emit "try")
 			       (emit `(do ,prog)))
 		       (loop for e in exceptions do
 			    (destructuring-bind (form &rest body) e
-			      (format s "~a~%"
+			      (format s "~&~a~%"
 				      (emit `(indent ,(format nil "except ~a:" (emit form)))))
 			      (format s "~a" (emit `(do ,@body)))))))
 	       
