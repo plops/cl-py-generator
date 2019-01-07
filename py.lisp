@@ -179,6 +179,7 @@
 	      (or (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^ or ~})" (mapcar #'emit args))))
 	      (string (format nil "\"~a\"" (cadr code)))
+	      (string3 (format nil "\"\"\"~a\"\"\"" (cadr code)))
 	      (return_ (format nil "return ~a" (emit (caadr code))))
 	      (return (let ((args (cdr code)))
 			(format nil "~a" (emit `(return_ ,args)))))
