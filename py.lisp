@@ -87,7 +87,7 @@
 			       (emit `(paren ,@parents))
 			       (emit `(do ,@body)))))
 	      (do0 (with-output-to-string (s)
-		     (format s "~a~%~{~a~%~}"
+		     (format s "~&~a~{~&~a~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
 	      (lambda (destructuring-bind (lambda-list &rest body) (cdr code)
@@ -114,7 +114,7 @@
 		       (declare (ignorable req-param opt-param res-param
 					   key-param other-key-p aux-param key-exist-p))
 		       (with-output-to-string (s)
-			 (format s "def ~a~a:~%"
+			 (format s "~2&def ~a~a:~%"
 				 name
 				 (emit `(paren ,@(append req-param
 							 (loop for e in key-param collect 
