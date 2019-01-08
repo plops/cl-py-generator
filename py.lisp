@@ -51,8 +51,6 @@
 (defparameter *env-macros* nil)
 
 
-(parse-ordinary-lambda-list `(mode &key (index 1) core (thickness 0 thickness-p)))
-1
 
 (defun emit-py (&key code (str nil) (clear-env nil) (level 0))
   ;(format t "emit ~a ~a~%" level code)
@@ -106,7 +104,9 @@
 							      (destructuring-bind ((keyword-name name) init suppliedp)
 								  e
 								(declare (ignorable keyword-name suppliedp))
-								`(= ,name ,init))))))
+								(if init
+								    `(= ,name ,init)
+								    `(= ,name "None")))))))
 				 (if (cdr body)
 				     (break "body ~a should have only one entry" body)
 				     (emit (car body))))))))
