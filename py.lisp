@@ -6,7 +6,8 @@
 
 (defparameter *file-hashes* (make-hash-table))
 
-(defun write-source (name code &optional (dir (user-homedir-pathname)))
+(defun write-source (name code &optional (dir (user-homedir-pathname))
+				 ignore-hash)
   (let* ((fn (merge-pathnames (format nil "~a.py" name)
 			      dir))
 	(code-str (emit-py
@@ -15,7 +16,7 @@
 	(fn-hash (sxhash fn))
 	 (code-hash (sxhash code-str)))
     (multiple-value-bind (old-code-hash exists) (gethash fn-hash *file-hashes*)
-     (when (or (not exists) (/= code-hash old-code-hash))
+     (when (or (not exists) ignore-hash (/= code-hash old-code-hash))
        ;; store the sxhash of the c source in the hash table
        ;; *file-hashes* with the key formed by the sxhash of the full
        ;; pathname
