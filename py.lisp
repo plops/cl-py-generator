@@ -124,10 +124,8 @@
 							      (destructuring-bind ((keyword-name name) init suppliedp)
 								  e
 								(declare (ignorable keyword-name suppliedp))
-								`(= ,name ,init)
-								#+nil
-								(if suppliedp
-								    
+								(if init
+								    `(= ,name ,init)
 								    `(= ,name "None"))))))))
 			 (format s "~a" (emit `(do ,@body)))))))
 	      (= (destructuring-bind (a b) (cdr code)
