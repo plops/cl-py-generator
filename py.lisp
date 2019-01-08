@@ -51,6 +51,8 @@
 (defparameter *env-macros* nil)
 
 
+(parse-ordinary-lambda-list `(mode &key (index 1) core (thickness 0 thickness-p)))
+1
 
 (defun emit-py (&key code (str nil) (clear-env nil) (level 0))
   ;(format t "emit ~a ~a~%" level code)
@@ -122,10 +124,11 @@
 							      (destructuring-bind ((keyword-name name) init suppliedp)
 								  e
 								(declare (ignorable keyword-name suppliedp))
+								`(= ,name ,init)
+								#+nil
 								(if suppliedp
-								    `(= ,name ,init)
-								    `(= ,name "
-None"))))))))
+								    
+								    `(= ,name "None"))))))))
 			 (format s "~a" (emit `(do ,@body)))))))
 	      (= (destructuring-bind (a b) (cdr code)
 		   (format nil "~a=~a" (emit a) (emit b))))
