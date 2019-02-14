@@ -24,6 +24,7 @@ Options:
 	    
 	    "# martin kielhorn 2019-02-14"
 	    "# pip2 install --user PySide2"
+	    "#  The scripts pyside2-lupdate, pyside2-rcc and pyside2-uic are installed in /home/martin/.local/bin"
 	    "# example from https://pypi.org/project/Trellis/0.7a2/"
 	    "#  pip install --user Trellis==0.7a2"
 	    "# https://github.com/PEAK-Legacy/Trellis"
