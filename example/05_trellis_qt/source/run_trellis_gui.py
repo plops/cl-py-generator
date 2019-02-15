@@ -36,39 +36,23 @@ class Rectangle(trellis.Component):
     x_span=trellis.maintain(lambda self: ((self.x_max)-(self.x_min)), initially=0)
     x_min=trellis.maintain(lambda self: ((self.x)-((((5.e-1))*(self.x_span)))), initially=0)
     x_max=trellis.maintain(lambda self: ((self.x)+((((5.e-1))*(self.x_span)))), initially=0)
-    @trellis.perform
-    def show_value(self):
-        print("rect {}-{} {}:{}".format(self.x, self.x_span, self.x_min, self.x_max))
-r=Rectangle(x_min=1, x_max=10)
-r2=Rectangle(x=3, x_span=2)
-r3=Rectangle(x=3, x_min=1)
-class Box(trellis.Component):
-    x=trellis.maintain(lambda self: ((self.x_min)+((((5.e-1))*(self.x_span)))), initially=0)
-    x_span=trellis.maintain(lambda self: ((self.x_max)-(self.x_min)), initially=0)
-    x_min=trellis.maintain(lambda self: ((self.x)-((((5.e-1))*(self.x_span)))), initially=0)
-    x_max=trellis.maintain(lambda self: ((self.x)+((((5.e-1))*(self.x_span)))), initially=0)
     y=trellis.maintain(lambda self: ((self.y_min)+((((5.e-1))*(self.y_span)))), initially=0)
     y_span=trellis.maintain(lambda self: ((self.y_max)-(self.y_min)), initially=0)
     y_min=trellis.maintain(lambda self: ((self.y)-((((5.e-1))*(self.y_span)))), initially=0)
     y_max=trellis.maintain(lambda self: ((self.y)+((((5.e-1))*(self.y_span)))), initially=0)
-    z=trellis.maintain(lambda self: ((self.z_min)+((((5.e-1))*(self.z_span)))), initially=0)
-    z_span=trellis.maintain(lambda self: ((self.z_max)-(self.z_min)), initially=0)
-    z_min=trellis.maintain(lambda self: ((self.z)-((((5.e-1))*(self.z_span)))), initially=0)
-    z_max=trellis.maintain(lambda self: ((self.z)+((((5.e-1))*(self.z_span)))), initially=0)
     @trellis.perform
     def show_value(self):
-        print("rect x={} x_span={} x_min={} x_max={} y={} y_span={} y_min={} y_max={} z={} z_span={} z_min={} z_max={}".format(self.x, self.x_span, self.x_min, self.x_max, self.y, self.y_span, self.y_min, self.y_max, self.z, self.z_span, self.z_min, self.z_max))
+        print("rect x={} x_span={} x_min={} x_max={} y={} y_span={} y_min={} y_max={}".format(self.x, self.x_span, self.x_min, self.x_max, self.y, self.y_span, self.y_min, self.y_max))
     @trellis.modifier
     def translate(self, r):
         self.x=((self.x)+(r[0]))
         self.y=((self.y)+(r[1]))
-        self.z=((self.z)+(r[2]))
     @trellis.modifier
     def grow(self, r):
         self.x_span=((self.x_span)+(r[0]))
         self.y_span=((self.y_span)+(r[1]))
-        self.z_span=((self.z_span)+(r[2]))
-def make_box_c(r=np.array([(0.0e+0), (0.0e+0), (0.0e+0)]), r_span=np.array([(1.e+0), (1.e+0), (1.e+0)])):
-    return Box(x=r[0], y=r[1], z=r[2], x_span=r_span[0], y_span=r_span[1], z_span=r_span[2])
-def make_box(min=np.array([(0.0e+0), (0.0e+0), (0.0e+0)]), max=np.array([(1.e+0), (1.e+0), (1.e+0)])):
-    return Box(x_min=min[0], y_min=min[1], z_min=min[2], x_max=max[0], y_max=max[1], z_max=max[2])
+def make_rect_c(r=np.array([(0.0e+0), (0.0e+0)]), r_span=np.array([(1.e+0), (1.e+0)])):
+    return Rectangle(x=r[0], y=r[1], x_span=r_span[0], y_span=r_span[1])
+def make_rect(min=np.array([(0.0e+0), (0.0e+0)]), max=np.array([(1.e+0), (1.e+0)])):
+    return Rectangle(x_min=min[0], y_min=min[1], x_max=max[0], y_max=max[1])
+r=make_rect_c()

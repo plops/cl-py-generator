@@ -54,103 +54,76 @@ Options:
 	    (setf args (docopt.docopt __doc__ :version (string "0.0.1")))
 	    (if (aref args (string "--verbose"))
 		(print args))
-	    (class Rectangle (trellis.Component)
-		   (setf x (trellis.maintain
-			    (lambda (self)
-			      (+ self.x_min (* .5 self.x_span)))
-			    :initially 0)
-			 x_span (trellis.maintain
-				 (lambda (self)
-				   (- self.x_max self.x_min))
-				 :initially 0)
-			 x_min (trellis.maintain
-				(lambda (self)
-				  (- self.x (* .5 self.x_span)))
-				:initially 0)
-			 x_max (trellis.maintain
-				(lambda (self)
-				  (+ self.x (* .5 self.x_span)))
-				:initially 0))
-		   "@trellis.perform"
-		   (def show_value (self)
-		     (print (dot (string "rect {}-{} {}:{}")
-				 (format self.x self.x_span
-					 self.x_min
-					 self.x_max)))))
+	    
 
-	    (setf r (Rectangle :x_min 1 :x_max 10)
-		  r2 (Rectangle :x 3 :x_span 2)
-		  r3 (Rectangle :x 3 :x_min 1))
-
-
-	    (do0
-	     (class Box (trellis.Component)
-		    ,(flet ((self (e &optional name)
-			      (if name
-				  (format nil "self.~a_~a" e name)
-				  (format nil "self.~a" e)))
-			    (variable (e &optional name)
-                              (if name
-				  (format nil "~a_~a" e name)
-				  (format nil "~a" e))))
-		       `(do0
-			 ,@(loop for e in '(x y z) collect
-				`(setf ,e (trellis.maintain
-					   (lambda (self)
-					     (+ ,(self e "min") (* .5 ,(self e "span"))))
-					   :initially 0)
-				       ,(variable e "span") (trellis.maintain
+	    ,(let ((coords `(x y)))
+	     `(do0
+	      (class Rectangle (trellis.Component)
+		     ,(flet ((self (e &optional name)
+			       (if name
+				   (format nil "self.~a_~a" e name)
+				   (format nil "self.~a" e)))
+			     (variable (e &optional name)
+                               (if name
+				   (format nil "~a_~a" e name)
+				   (format nil "~a" e))))
+			`(do0
+			  ,@(loop for e in coords collect
+				 `(setf ,e (trellis.maintain
+					    (lambda (self)
+					      (+ ,(self e "min") (* .5 ,(self e "span"))))
+					    :initially 0)
+					,(variable e "span") (trellis.maintain
+							      (lambda (self)
+								(- ,(self e "max") ,(self e "min")))
+							      :initially 0)
+					,(variable e "min") (trellis.maintain
 							     (lambda (self)
-							       (- ,(self e "max") ,(self e "min")))
+							       (- ,(self e)  (* .5 ,(self e "span"))))
 							     :initially 0)
-				       ,(variable e "min") (trellis.maintain
-							    (lambda (self)
-							      (- ,(self e)  (* .5 ,(self e "span"))))
-							    :initially 0)
-				       ,(variable e "max") (trellis.maintain
-							    (lambda (self)
-							      (+ ,(self e) (* .5 ,(self e "span"))))
-							    :initially 0))
-				)
-			 ,(let ((l (loop for e in '(x y z) append
-					(loop for f in '(nil span min max) collect
-					     (self e f))))
-				(l-var (loop for e in '(x y z) append
-					    (loop for f in '(nil span min max) collect
-						 (variable e f)))))
-			    `(do0
-			      "@trellis.perform"
-			      (def show_value (self)
-				(print (dot (string ,(format nil "rect ~{~a~^ ~}" (loop for e in l-var collect (format nil "~a={}" e))))
-					    (format ,@l))))))
-			 (do0
-			  "@trellis.modifier"
-			  (def translate (self r)
-			    ,@(loop for e in '(x y z) and i from 0 collect
-				   `(setf ,(self e) (+ ,(self e)
-						       (aref r ,i))))))
-			 (do0
-			  "@trellis.modifier"
-			  (def grow (self r)
-			    ,@(loop for e in '(x y z) and i from 0 collect
-				   `(setf ,(self e "span") (+ ,(self e "span")
-							      (aref r ,i))))))
-			 )
-		       )
-		    )
+					,(variable e "max") (trellis.maintain
+							     (lambda (self)
+							       (+ ,(self e) (* .5 ,(self e "span"))))
+							     :initially 0))
+				 )
+			  ,(let ((l (loop for e in coords append
+					 (loop for f in '(nil span min max) collect
+					      (self e f))))
+				 (l-var (loop for e in coords append
+					     (loop for f in '(nil span min max) collect
+						  (variable e f)))))
+			     `(do0
+			       "@trellis.perform"
+			       (def show_value (self)
+				 (print (dot (string ,(format nil "rect ~{~a~^ ~}" (loop for e in l-var collect (format nil "~a={}" e))))
+					     (format ,@l))))))
+			  (do0
+			   "@trellis.modifier"
+			   (def translate (self r)
+			     ,@(loop for e in coords and i from 0 collect
+				    `(setf ,(self e) (+ ,(self e)
+							(aref r ,i))))))
+			  (do0
+			   "@trellis.modifier"
+			   (def grow (self r)
+			     ,@(loop for e in coords and i from 0 collect
+				    `(setf ,(self e "span") (+ ,(self e "span")
+							       (aref r ,i)))))))))
 
-	     (def make_box_c (&key (r (np.array (list 0.0 0.0 0.0)))
-				   (r_span (np.array (list 1.0 1.0 1.0))))
-	       (return (Box ,@(loop for e in '(x y z) and i from 0 append
-				   `(,(make-keyword (string-upcase e)) (aref r ,i)))
-			    ,@(loop for e in '(x y z) and i from 0 append
-				   `(,(make-keyword (string-upcase (format nil "~a_span" e))) (aref r_span ,i))))))
-	     (def make_box (&key (min (np.array (list 0.0 0.0 0.0)))
-				 (max (np.array (list 1.0 1.0 1.0))))
-	       (return (Box ,@(loop for e in '(x y z) and i from 0 append
-				   `(,(make-keyword (string-upcase (format nil "~a_min" e))) (aref min ,i)))
-			    ,@(loop for e in '(x y z) and i from 0 append
-				   `(,(make-keyword (string-upcase (format nil "~a_max" e))) (aref max ,i)))))))
+	      (def make_rect_c (&key (r (np.array (list 0.0 0.0)))
+				    (r_span (np.array (list 1.0 1.0))))
+		(return (Rectangle ,@(loop for e in coords and i from 0 append
+				    `(,(make-keyword (string-upcase e)) (aref r ,i)))
+			     ,@(loop for e in coords and i from 0 append
+				    `(,(make-keyword (string-upcase (format nil "~a_span" e))) (aref r_span ,i))))))
+	      (def make_rect (&key (min (np.array (list 0.0 0.0)))
+				  (max (np.array (list 1.0 1.0))))
+		(return (Rectangle ,@(loop for e in coords and i from 0 append
+				    `(,(make-keyword (string-upcase (format nil "~a_min" e))) (aref min ,i)))
+			     ,@(loop for e in coords and i from 0 append
+				    `(,(make-keyword (string-upcase (format nil "~a_max" e))) (aref max ,i))))))))
+
+	    (setf r (make_rect_c))
 	    
 	    #+nil
 	    (do0		 ;if (== __name__ (string "__main__"))
