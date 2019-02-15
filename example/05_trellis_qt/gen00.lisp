@@ -2,6 +2,8 @@
   (ql:quickload "cl-py-generator"))
 (in-package :cl-py-generator)
 
+;;http://www.celles.net/wiki/Python/raw
+
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/05_trellis_qt")
   (defparameter *code-file* "run_trellis_gui")
@@ -41,26 +43,21 @@ Options:
 		      pathlib
 		      re
 		      ))
+
+	    
 	    (imports (traceback))
 
+	    (imports ((qw PySide2.QtWidgets)
+		      (qc PySide2.QtCore)))
+	    
 	    "from peak.events import trellis"
 	    (setf args (docopt.docopt __doc__ :version (string "0.0.1")))
 	    (if (aref args (string "--verbose"))
 		(print args))
-	    
-	    (class TempConverter (trellis.Component)
-		   (setf F (trellis.maintain (lambda (self) (+ 32 (* 1.8 self.C)))
-					     :initially 32)
-			 C (trellis.maintain (lambda (self) (/ (- self.F 32) 1.8))
-					     :initially 0))
-		   "@trellis.perform"
-		   (def show_values (self)
-		     (print (dot (string "Celsius    .. {}")
-				 (format self.C)))
-		     (print (dot (string "Fahrenheit .. {}")
-				 (format self.F)))))
-	    (setf tc (TempConverter :C (float (aref args (string "-c"))))
-		  tc.F 32
-		  tc.C -40)
-	    )))
+	    (do0 ;if (== __name__ (string "__main__"))
+	     (setf app (qw.QApplication sys.argv)
+		   label (qw.QLabel (string "Hello World"))
+		   )
+	     (label.show)
+	     (sys.exit (app.exec_))))))
     (write-source *source* code)))

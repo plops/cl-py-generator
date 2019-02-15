@@ -9,6 +9,7 @@ Options:
 """
 # martin kielhorn 2019-02-14
 # pip2 install --user PySide2
+#  The scripts pyside2-lupdate, pyside2-rcc and pyside2-uic are installed in /home/martin/.local/bin
 # example from https://pypi.org/project/Trellis/0.7a2/
 #  pip install --user Trellis==0.7a2
 # https://github.com/PEAK-Legacy/Trellis
@@ -24,17 +25,13 @@ import numpy as np
 import pathlib
 import re
 import traceback
+import PySide2.QtWidgets as qw
+import PySide2.QtCore as qc
 from peak.events import trellis
 args=docopt.docopt(__doc__, version="0.0.1")
 if ( args["--verbose"] ):
     print(args)
-class TempConverter(trellis.Component):
-    F=trellis.maintain(lambda self: ((32)+((((1.799999952316284e+0))*(self.C)))), initially=32)
-    C=trellis.maintain(lambda self: ((((self.F)-(32)))/((1.799999952316284e+0))), initially=0)
-    @trellis.perform
-    def show_values(self):
-        print("Celsius    .. {}".format(self.C))
-        print("Fahrenheit .. {}".format(self.F))
-tc=TempConverter(C=float(args["-c"]))
-tc.F=32
-tc.C=-40
+app=qw.QApplication(sys.argv)
+label=qw.QLabel("Hello World")
+label.show()
+sys.exit(app.exec_())
