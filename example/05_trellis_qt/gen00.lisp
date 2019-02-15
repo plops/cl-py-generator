@@ -49,6 +49,10 @@ Options:
 
 	    (imports ((qw PySide2.QtWidgets)
 		      (qc PySide2.QtCore)))
+
+	    (imports (select))
+	    "# pip2 install systemd-python"
+	    "from systemd import journal"
 	    
 	    "from peak.events import trellis"
 	    (setf args (docopt.docopt __doc__ :version (string "0.0.1")))
@@ -124,7 +128,18 @@ Options:
 				    `(,(make-keyword (string-upcase (format nil "~a_max" e))) (aref max ,i))))))))
 
 	    (setf r (make_rect_c))
-	    
+	    (do0
+	     (setf j (journal.Reader))
+	     (j.log_level journal.LOG_INFO)
+	     (j.seek_tail)
+	     (j.get_next)
+	     (while (j.get_next)
+	       (for (e j)
+		    (if (!= (string "") (aref e (string MESSAGE)))
+			(print (dot (string "{} {}")
+				    (format (aref e (string __REALTIME_TIMESTAMP))
+					    (aref e (string MESSAGE))
+					    )))))))
 	    #+nil
 	    (do0		 ;if (== __name__ (string "__main__"))
 	     (setf app (qw.QApplication sys.argv)

@@ -27,6 +27,9 @@ import re
 import traceback
 import PySide2.QtWidgets as qw
 import PySide2.QtCore as qc
+import select
+# pip2 install systemd-python
+from systemd import journal
 from peak.events import trellis
 args=docopt.docopt(__doc__, version="0.0.1")
 if ( args["--verbose"] ):
@@ -56,3 +59,11 @@ def make_rect_c(r=np.array([(0.0e+0), (0.0e+0)]), r_span=np.array([(1.e+0), (1.e
 def make_rect(min=np.array([(0.0e+0), (0.0e+0)]), max=np.array([(1.e+0), (1.e+0)])):
     return Rectangle(x_min=min[0], y_min=min[1], x_max=max[0], y_max=max[1])
 r=make_rect_c()
+j=journal.Reader()
+j.log_level(journal.LOG_INFO)
+j.seek_tail()
+j.get_next()
+while (j.get_next()):
+    for e in j:
+        if ( (("")!=(e["MESSAGE"])) ):
+            print("{} {}".format(e["__REALTIME_TIMESTAMP"], e["MESSAGE"]))
