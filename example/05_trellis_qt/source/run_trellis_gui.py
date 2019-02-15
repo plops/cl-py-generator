@@ -40,3 +40,5 @@ class Rectangle(trellis.Component):
     def show_value(self):
         print("rect {}-{} {}:{}".format(self.x, self.x_span, self.x_min, self.x_max))
 r=Rectangle(x_min=1, x_max=10)
+r2=Rectangle(x=3, x_span=2)
+r3=Rectangle(x=3, x_min=1)

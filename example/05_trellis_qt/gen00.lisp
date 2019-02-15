@@ -78,7 +78,9 @@ Options:
 					 self.x_min
 					 self.x_max)))))
 
-	    (setf r (Rectangle :x_min 1 :x_max 10))
+	    (setf r (Rectangle :x_min 1 :x_max 10)
+		  r2 (Rectangle :x 3 :x_span 2)
+		  r3 (Rectangle :x 3 :x_min 1))
 	    #+nil
 	    (do0 ;if (== __name__ (string "__main__"))
 	     (setf app (qw.QApplication sys.argv)
