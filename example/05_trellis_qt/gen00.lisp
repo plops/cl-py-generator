@@ -129,6 +129,7 @@ Options:
 
 	    (setf r (make_rect_c))
 	    (do0
+	     "#  https://stackoverflow.com/questions/26331116/reading-systemd-journal-from-python-script"
 	     (setf j (journal.Reader))
 	     (j.log_level journal.LOG_INFO)
 	     (j.seek_tail)
