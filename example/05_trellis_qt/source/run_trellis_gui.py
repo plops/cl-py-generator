@@ -31,7 +31,12 @@ from peak.events import trellis
 args=docopt.docopt(__doc__, version="0.0.1")
 if ( args["--verbose"] ):
     print(args)
-app=qw.QApplication(sys.argv)
-label=qw.QLabel("Hello World")
-label.show()
-sys.exit(app.exec_())
+class Rectangle(trellis.Component):
+    x=trellis.maintain(lambda self: ((self.x_min)+((((5.e-1))*(self.x_span)))), initially=0)
+    x_span=trellis.maintain(lambda self: ((self.x_max)-(self.x_min)), initially=0)
+    x_min=trellis.maintain(lambda self: ((self.x)-((((5.e-1))*(self.x_span)))), initially=0)
+    x_max=trellis.maintain(lambda self: ((self.x)+((((5.e-1))*(self.x_span)))), initially=0)
+    @trellis.perform
+    def show_value(self):
+        print("rect {}-{} {}:{}".format(self.x, self.x_span, self.x_min, self.x_max))
+r=Rectangle(x_min=1, x_max=10)

@@ -54,6 +54,32 @@ Options:
 	    (setf args (docopt.docopt __doc__ :version (string "0.0.1")))
 	    (if (aref args (string "--verbose"))
 		(print args))
+	    (class Rectangle (trellis.Component)
+		   (setf x (trellis.maintain
+			    (lambda (self)
+			      (+ self.x_min (* .5 self.x_span)))
+			    :initially 0)
+			 x_span (trellis.maintain
+				 (lambda (self)
+				   (- self.x_max self.x_min))
+				 :initially 0)
+			 x_min (trellis.maintain
+				(lambda (self)
+				  (- self.x (* .5 self.x_span)))
+				:initially 0)
+			 x_max (trellis.maintain
+				(lambda (self)
+				  (+ self.x (* .5 self.x_span)))
+				:initially 0))
+		   "@trellis.perform"
+		   (def show_value (self)
+		     (print (dot (string "rect {}-{} {}:{}")
+				 (format self.x self.x_span
+					 self.x_min
+					 self.x_max)))))
+
+	    (setf r (Rectangle :x_min 1 :x_max 10))
+	    #+nil
 	    (do0 ;if (== __name__ (string "__main__"))
 	     (setf app (qw.QApplication sys.argv)
 		   label (qw.QLabel (string "Hello World"))
