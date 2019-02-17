@@ -52,6 +52,9 @@ class CustomTableModel(qc.QAbstractTableModel):
     def data(self, index, role):
         if ( ((qc.Qt.DisplayRole)==(role)) ):
             return str(self.dataframe[index.column()].iloc[index.row()])
+class PandasView(qw.QMainWindow):
+    def __init__(self):
+        super(PandasView, self).__init__()
 class Rectangle(trellis.Component):
     x=trellis.maintain(lambda self: ((self.x_min)+((((5.e-1))*(self.x_span)))), initially=0)
     x_span=trellis.maintain(lambda self: ((self.x_max)-(self.x_min)), initially=0)
@@ -82,7 +85,9 @@ j=journal.Reader()
 j.log_level(journal.LOG_INFO)
 j.seek_tail()
 j.get_next()
+res=[]
 while (j.get_next()):
     for e in j:
         if ( (("")!=(e["MESSAGE"])) ):
-            print("{} {}".format(e["__REALTIME_TIMESTAMP"], e["MESSAGE"]))
+            res.append({("time"):(e["__REALTIME_TIMESTAMP"]),("message"):(e["MESSAGE"])})
+df=pd.DataFrame(res)

@@ -81,8 +81,13 @@ Options:
 		   (def data (self index role)
 		     (if (== qc.Qt.DisplayRole role)
 			 (return (str (dot (aref self.dataframe (index.column))
-					   (aref iloc (index.row)))))))
-		   )
+					   (aref iloc (index.row))))))))
+
+	    (class PandasView (qw.QMainWindow)
+		   (def __init__ (self)
+		     (dot (super PandasView self)
+			  (__init__))
+		     ))
 	    
 	    ,(let ((coords `(x y)))
 	     `(do0
@@ -158,13 +163,20 @@ Options:
 	     (j.log_level journal.LOG_INFO)
 	     (j.seek_tail)
 	     (j.get_next)
+	     (setf res (list))
 	     (while (j.get_next)
 	       (for (e j)
 		    (if (!= (string "") (aref e (string MESSAGE)))
-			(print (dot (string "{} {}")
-				    (format (aref e (string __REALTIME_TIMESTAMP))
-					    (aref e (string MESSAGE))
-					    )))))))
+			(do0
+			 (res.append
+			  (dict ((string "time") (aref e (string __REALTIME_TIMESTAMP)))
+				((string "message") (aref e (string MESSAGE)))))
+			 #+nil
+			 (print (dot (string "{} {}")
+				     (format (aref e (string __REALTIME_TIMESTAMP))
+					     (aref e (string MESSAGE))
+					     ))))))))
+	    (setf df (pd.DataFrame res))
 	    #+nil
 	    (do0		 ;if (== __name__ (string "__main__"))
 	     (setf app (qw.QApplication sys.argv)
