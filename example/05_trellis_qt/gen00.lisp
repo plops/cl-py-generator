@@ -64,18 +64,23 @@ Options:
 	    ;; https://github.com/vfxpipeline/Python-MongoDB-Example/blob/master/lib/customModel.py
 	    (class PandasTableModel (qc.QAbstractTableModel)
 		   (def __init__ (self dataframe &key (parent None))
+		     (print (string "PandasTableModel.__init__"))
 		     (qc.QAbstractTableModel.__init__ self)
 		     (setf self.dataframe dataframe))
 		   (def flags (self index)
+		     (print (string "PandasTableModel.flags"))
 		     (if (not (index.isValid))
 			 (return None))
 		     (return (or qc.Qt.ItemIsEnabled qc.Qt.ItemIsSelectable)))
 		   (def rowCount (self *args **kwargs)
+		     (print (string "PandasTableModel.rowCount"))
 		     (return (len self.dataframe.index)))
 		   (def columnCount (self *args **kwargs)
+		     (print (string "PandasTableModel.columnCount"))
 		     (return (len self.dataframe.columns)))
 		   (def headerData (self section orientation
 					 &key (role qc.Qt.DisplayRole))
+		     (print (string "PandasTableModel.headerData"))
 		     (if (!= qc.Qt.DisplayRole role)
 			 (return None))
 		     (try
@@ -87,6 +92,7 @@ Options:
 		      (IndexError
 		       (return None))))
 		   (def data (self index role)
+		     (print (string "PandasTableModel.data"))
 		     (if (!= qc.Qt.DisplayRole role)
 			 (return None))
 		     (if (not (index.isValid))
@@ -97,6 +103,7 @@ Options:
 
 	    (class PandasView (qw.QMainWindow)
 		   (def __init__ (self dataframe)
+		     (print (string "PandasView.__init__"))
 		     (dot (super PandasView self)
 			  (__init__))
 		     (setf self.model (PandasTableModel dataframe)
@@ -105,9 +112,11 @@ Options:
 		     (self.table_view.setModel self.model)
 		     ))
 	    (class PandasWindow (qw.QWidget)
+		   
 		   (def __init__ (self dataframe *args)
+		     (print (string  "PandasWindow.__init__"))
 		     (qw.QWidget.__init__ self *args)
-		     (self.setGeometry 70 150 800 600)
+		     (self.setGeometry 70 150 430 200)
 		     (self.setWindowTitle (string "title"))
 		     (setf self.pandas_view (PandasView dataframe))
 		     (setf self.layout (qw.QVBoxLayout self))

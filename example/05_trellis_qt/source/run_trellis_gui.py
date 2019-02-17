@@ -38,17 +38,22 @@ if ( args["--verbose"] ):
     print(args)
 class PandasTableModel(qc.QAbstractTableModel):
     def __init__(self, dataframe, parent=None):
+        print("PandasTableModel.__init__")
         qc.QAbstractTableModel.__init__(self)
         self.dataframe=dataframe
     def flags(self, index):
+        print("PandasTableModel.flags")
         if ( not(index.isValid()) ):
             return None
         return ((qc.Qt.ItemIsEnabled) or (qc.Qt.ItemIsSelectable))
     def rowCount(self, *args, **kwargs):
+        print("PandasTableModel.rowCount")
         return len(self.dataframe.index)
     def columnCount(self, *args, **kwargs):
+        print("PandasTableModel.columnCount")
         return len(self.dataframe.columns)
     def headerData(self, section, orientation, role=qc.Qt.DisplayRole):
+        print("PandasTableModel.headerData")
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
         try:
@@ -59,6 +64,7 @@ class PandasTableModel(qc.QAbstractTableModel):
         except IndexError:
             return None
     def data(self, index, role):
+        print("PandasTableModel.data")
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
         if ( not(index.isValid()) ):
@@ -66,14 +72,16 @@ class PandasTableModel(qc.QAbstractTableModel):
         return str(self.dataframe.ix[index.row(),index.column()])
 class PandasView(qw.QMainWindow):
     def __init__(self, dataframe):
+        print("PandasView.__init__")
         super(PandasView, self).__init__()
         self.model=PandasTableModel(dataframe)
         self.table_view=qw.QTableView()
         self.table_view.setModel(self.model)
 class PandasWindow(qw.QWidget):
     def __init__(self, dataframe, *args):
+        print("PandasWindow.__init__")
         qw.QWidget.__init__(self, *args)
-        self.setGeometry(70, 150, 800, 600)
+        self.setGeometry(70, 150, 430, 200)
         self.setWindowTitle("title")
         self.pandas_view=PandasView(dataframe)
         self.layout=qw.QVBoxLayout(self)
