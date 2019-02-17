@@ -45,15 +45,25 @@ class CustomTableModel(qc.QAbstractTableModel):
             return None
         return ((qc.Qt.ItemIsEnabled) or (qc.Qt.ItemIsSelectable))
     def rowCount(self, *args, **kwargs):
-        return len(self.dataframe)
+        return len(self.dataframe.index)
     def columnCount(self, *args, **kwargs):
         return len(self.dataframe.columns)
     def headerData(self, section, orientation, role=qc.Qt.DisplayRole):
-        if ( ((((qc.Qt.Horizontal)==(orientation))) and (((qc.Qt.DisplayRole)==(role)))) ):
-            return self.dataframe.columns[section]
+        if ( ((qc.Qt.DisplayRole)!=(role)) ):
+            return None
+        try:
+            if ( ((qc.Qt.Horizontal)==(orientation)) ):
+                return list(self.dataframe.columns)[section]
+            if ( ((qc.Qt.Vertical)==(orientation)) ):
+                return list(self.dataframe.index)[section]
+        except IndexError:
+            return None
     def data(self, index, role):
-        if ( ((qc.Qt.DisplayRole)==(role)) ):
-            return str(self.dataframe[index.column()].iloc[index.row()])
+        if ( ((qc.Qt.DisplayRole)!=(role)) ):
+            return None
+        if ( not(index.isValid()) ):
+            return None
+        return str(self.dataframe.ix[index.row(),index.column()])
 class PandasView(qw.QMainWindow):
     def __init__(self, dataframe):
         super(PandasView, self).__init__()

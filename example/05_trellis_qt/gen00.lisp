@@ -3,7 +3,7 @@
 (in-package :cl-py-generator)
 
 ;;http://www.celles.net/wiki/Python/raw
-
+; https://stackoverflow.com/questions/44603119/how-to-display-a-pandas-data-frame-with-pyqt5
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/05_trellis_qt")
   (defparameter *code-file* "run_trellis_gui")
@@ -71,19 +71,29 @@ Options:
 			 (return None))
 		     (return (or qc.Qt.ItemIsEnabled qc.Qt.ItemIsSelectable)))
 		   (def rowCount (self *args **kwargs)
-		     (return (len self.dataframe)))
+		     (return (len self.dataframe.index)))
 		   (def columnCount (self *args **kwargs)
 		     (return (len self.dataframe.columns)))
 		   (def headerData (self section orientation
 					 &key (role qc.Qt.DisplayRole))
-		     (if (and
-			  (== qc.Qt.Horizontal orientation)
-			  (== qc.Qt.DisplayRole role))
-			 (return (aref self.dataframe.columns section))))
+		     (if (!= qc.Qt.DisplayRole role)
+			 (return None))
+		     (try
+		      (do0
+		       (if (== qc.Qt.Horizontal orientation)
+			   (return (aref ("list" self.dataframe.columns) section)))
+		       (if (== qc.Qt.Vertical orientation)
+			   (return (aref ("list" self.dataframe.index) section))))
+		      (IndexError
+		       (return None))))
 		   (def data (self index role)
-		     (if (== qc.Qt.DisplayRole role)
-			 (return (str (dot (aref self.dataframe (index.column))
-					   (aref iloc (index.row))))))))
+		     (if (!= qc.Qt.DisplayRole role)
+			 (return None))
+		     (if (not (index.isValid))
+			 (return None))
+		     (return (str (aref self.dataframe.ix
+					(index.row)
+					(index.column))))))
 
 	    (class PandasView (qw.QMainWindow)
 		   (def __init__ (self dataframe)
