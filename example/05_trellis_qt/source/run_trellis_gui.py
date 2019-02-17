@@ -36,8 +36,8 @@ from peak.events import trellis
 args=docopt.docopt(__doc__, version="0.0.1")
 if ( args["--verbose"] ):
     print(args)
-class CustomTableModel(qc.QAbstractTableModel):
-    def __init__(self, dataframe):
+class PandasTableModel(qc.QAbstractTableModel):
+    def __init__(self, dataframe, parent=None):
         qc.QAbstractTableModel.__init__(self)
         self.dataframe=dataframe
     def flags(self, index):
@@ -67,7 +67,7 @@ class CustomTableModel(qc.QAbstractTableModel):
 class PandasView(qw.QMainWindow):
     def __init__(self, dataframe):
         super(PandasView, self).__init__()
-        self.model=CustomTableModel(dataframe)
+        self.model=PandasTableModel(dataframe)
         self.table_view=qw.QTableView()
         self.table_view.setModel(self.model)
 class PandasWindow(qw.QWidget):
@@ -77,7 +77,9 @@ class PandasWindow(qw.QWidget):
         self.setWindowTitle("title")
         self.pandas_view=PandasView(dataframe)
         self.layout=qw.QVBoxLayout(self)
+        self.label=qw.QLabel("Hello World")
         self.layout.addWidget(self.pandas_view)
+        self.layout.addWidget(self.label)
         self.setLayout(self.layout)
 class Rectangle(trellis.Component):
     x=trellis.maintain(lambda self: ((self.x_min)+((((5.e-1))*(self.x_span)))), initially=0)

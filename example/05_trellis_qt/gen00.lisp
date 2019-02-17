@@ -62,8 +62,8 @@ Options:
 		(print args))
 	    
 	    ;; https://github.com/vfxpipeline/Python-MongoDB-Example/blob/master/lib/customModel.py
-	    (class CustomTableModel (qc.QAbstractTableModel)
-		   (def __init__ (self dataframe)
+	    (class PandasTableModel (qc.QAbstractTableModel)
+		   (def __init__ (self dataframe &key (parent None))
 		     (qc.QAbstractTableModel.__init__ self)
 		     (setf self.dataframe dataframe))
 		   (def flags (self index)
@@ -99,7 +99,7 @@ Options:
 		   (def __init__ (self dataframe)
 		     (dot (super PandasView self)
 			  (__init__))
-		     (setf self.model (CustomTableModel dataframe)
+		     (setf self.model (PandasTableModel dataframe)
 			   self.table_view (qw.QTableView)
 			   )
 		     (self.table_view.setModel self.model)
@@ -111,7 +111,9 @@ Options:
 		     (self.setWindowTitle (string "title"))
 		     (setf self.pandas_view (PandasView dataframe))
 		     (setf self.layout (qw.QVBoxLayout self))
+		     (setf self.label (qw.QLabel (string "Hello World")))
 		     (self.layout.addWidget self.pandas_view)
+		     (self.layout.addWidget self.label)
 		     (self.setLayout self.layout)))
 	    ,(let ((coords `(x y)))
 	     `(do0
