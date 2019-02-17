@@ -50,7 +50,8 @@ class CustomTableModel(qc.QAbstractTableModel):
         if ( ((((qc.Qt.Horizontal)==(orientation))) and (((qc.Qt.DisplayRole)==(role)))) ):
             return self.dataframe.columns[section]
     def data(self, index, role):
-        
+        if ( ((qc.Qt.DisplayRole)==(role)) ):
+            return str(self.dataframe[index.column()].iloc[index.row()])
 class Rectangle(trellis.Component):
     x=trellis.maintain(lambda self: ((self.x_min)+((((5.e-1))*(self.x_span)))), initially=0)
     x_span=trellis.maintain(lambda self: ((self.x_max)-(self.x_min)), initially=0)

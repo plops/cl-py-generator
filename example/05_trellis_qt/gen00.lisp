@@ -79,7 +79,9 @@ Options:
 			  (== qc.Qt.DisplayRole role))
 			 (return (aref self.dataframe.columns section))))
 		   (def data (self index role)
-		     ())
+		     (if (== qc.Qt.DisplayRole role)
+			 (return (str (dot (aref self.dataframe (index.column))
+					   (aref iloc (index.row)))))))
 		   )
 	    
 	    ,(let ((coords `(x y)))
