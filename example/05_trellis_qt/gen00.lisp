@@ -40,6 +40,7 @@ Options:
 		      sys
 		      docopt
 		      (np numpy)
+		      (pd pandas)
 		      pathlib
 		      re
 		      ))
@@ -48,7 +49,8 @@ Options:
 	    (imports (traceback))
 
 	    (imports ((qw PySide2.QtWidgets)
-		      (qc PySide2.QtCore)))
+		      (qc PySide2.QtCore)
+		      (qg PySide2.QtGui)))
 
 	    (imports (select))
 	    "# pip2 install systemd-python"
@@ -59,7 +61,27 @@ Options:
 	    (if (aref args (string "--verbose"))
 		(print args))
 	    
-
+	    ;; https://github.com/vfxpipeline/Python-MongoDB-Example/blob/master/lib/customModel.py
+	    (class CustomTableModel (qc.QAbstractTableModel)
+		   (def __init__ (self dataframe)
+		     (qc.QAbstractTableModel.__init__ self)
+		     (self.dataframe dataframe))
+		   (def flags (self index)
+		     (return qc.Qt.ItemIsSelectable))
+		   (def rowCount (self *args **kwargs)
+		     (return (len self.dataframe)))
+		   (def columnCount (self *args **kwargs)
+		     (return (len self.dataframe.columns)))
+		   (def headerData (self section orientation
+					 &key (role qc.Qt.DisplayRole))
+		     (if (and
+			  (== qc.Qt.Horizontal orientation)
+			  (== qc.Qt.DisplayRole role))
+			 (return (aref self.dataframe.columns section))))
+		   (def data (self index role)
+		     ())
+		   )
+	    
 	    ,(let ((coords `(x y)))
 	     `(do0
 	      (class Rectangle (trellis.Component)
