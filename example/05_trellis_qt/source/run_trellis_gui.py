@@ -39,7 +39,7 @@ if ( args["--verbose"] ):
 class CustomTableModel(qc.QAbstractTableModel):
     def __init__(self, dataframe):
         qc.QAbstractTableModel.__init__(self)
-        self.dataframe(dataframe)
+        self.dataframe=dataframe
     def flags(self, index):
         return qc.Qt.ItemIsSelectable
     def rowCount(self, *args, **kwargs):
@@ -53,8 +53,11 @@ class CustomTableModel(qc.QAbstractTableModel):
         if ( ((qc.Qt.DisplayRole)==(role)) ):
             return str(self.dataframe[index.column()].iloc[index.row()])
 class PandasView(qw.QMainWindow):
-    def __init__(self):
+    def __init__(self, dataframe):
         super(PandasView, self).__init__()
+        self.model=CustomTableModel(dataframe)
+        self.table_view=qw.QTableView()
+        self.table_view.setModel(self.model)
 class Rectangle(trellis.Component):
     x=trellis.maintain(lambda self: ((self.x_min)+((((5.e-1))*(self.x_span)))), initially=0)
     x_span=trellis.maintain(lambda self: ((self.x_max)-(self.x_min)), initially=0)
@@ -91,3 +94,7 @@ while (j.get_next()):
         if ( (("")!=(e["MESSAGE"])) ):
             res.append({("time"):(e["__REALTIME_TIMESTAMP"]),("message"):(e["MESSAGE"])})
 df=pd.DataFrame(res)
+app=qw.QApplication(sys.argv)
+pv=PandasView(df)
+pv.show()
+sys.exit(app.exec_())
