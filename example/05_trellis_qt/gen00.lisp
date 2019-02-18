@@ -34,7 +34,7 @@ Options:
 	    "# wget http://peak.telecommunity.com/snapshots/Contextual-0.7a1.dev-r2695.tar.gz http://peak.telecommunity.com/snapshots/Trellis-0.7a3-dev-r2610.tar.gz "
 	    "#  pip2 install --user Contextual-0.7a1.dev-r2695.tar.gz"
 	    "# i installed trellis by commenting out the contextual line in its setup.py and then extracting the egg file into ~/.local/lib/python2.7/site-packages/peak"
-	    "from peak.events import trellis"
+	    ;;"from peak.events import trellis"
 
 	    (imports (os
 		      sys
@@ -56,7 +56,7 @@ Options:
 	    "# pip2 install systemd-python"
 	    "from systemd import journal"
 	    
-	    "from peak.events import trellis"
+	    
 	    (setf args (docopt.docopt __doc__ :version (string "0.0.1")))
 	    (if (aref args (string "--verbose"))
 		(print args))

@@ -17,7 +17,6 @@ Options:
 # wget http://peak.telecommunity.com/snapshots/Contextual-0.7a1.dev-r2695.tar.gz http://peak.telecommunity.com/snapshots/Trellis-0.7a3-dev-r2610.tar.gz 
 #  pip2 install --user Contextual-0.7a1.dev-r2695.tar.gz
 # i installed trellis by commenting out the contextual line in its setup.py and then extracting the egg file into ~/.local/lib/python2.7/site-packages/peak
-from peak.events import trellis
 import os
 import sys
 import docopt
@@ -32,7 +31,6 @@ import PySide2.QtGui as qg
 import select
 # pip2 install systemd-python
 from systemd import journal
-from peak.events import trellis
 args=docopt.docopt(__doc__, version="0.0.1")
 if ( args["--verbose"] ):
     print(args)
@@ -66,7 +64,6 @@ class PandasTableModel(qc.QAbstractTableModel):
         return str(self.dataframe.iloc[index.row(),index.column()])
 class PandasView(qw.QWidget):
     def __init__(self, df):
-        print("PandasView.__init__")
         super(PandasView, self).__init__()
         self.model=PandasTableModel(df)
         self.table_view=qw.QTableView()
