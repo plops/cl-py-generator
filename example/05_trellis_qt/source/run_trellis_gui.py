@@ -47,28 +47,33 @@ class PandasTableModel(qc.QAbstractTableModel):
             return None
         return ((qc.Qt.ItemIsEnabled) or (qc.Qt.ItemIsSelectable))
     def rowCount(self, *args, **kwargs):
-        print("PandasTableModel.rowCount")
-        return len(self.dataframe.index)
+        res=len(self.dataframe.index)
+        print("PandasTableModel.rowCount {}".format(res))
+        return res
     def columnCount(self, *args, **kwargs):
-        print("PandasTableModel.columnCount")
-        return len(self.dataframe.columns)
+        res=len(self.dataframe.columns)
+        print("PandasTableModel.columnCount {}".format(res))
+        return res
     def headerData(self, section, orientation, role=qc.Qt.DisplayRole):
-        print("PandasTableModel.headerData")
+        print("PandasTableModel.headerData {} {} {}".format(section, orientation, role))
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
         try:
             if ( ((qc.Qt.Horizontal)==(orientation)) ):
+                print("{}".format(list(self.dataframe.columns)[section]))
                 return list(self.dataframe.columns)[section]
             if ( ((qc.Qt.Vertical)==(orientation)) ):
+                print("{}".format(list(self.dataframe.index)[section]))
                 return list(self.dataframe.index)[section]
         except IndexError:
             return None
     def data(self, index, role):
-        print("PandasTableModel.data")
+        print("PandasTableModel.data {} {}".format(index, role))
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
         if ( not(index.isValid()) ):
             return None
+        print("{}".format(str(self.dataframe.ix[index.row(),index.column()])))
         return str(self.dataframe.ix[index.row(),index.column()])
 class PandasView(qw.QMainWindow):
     def __init__(self, dataframe):
