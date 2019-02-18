@@ -62,6 +62,8 @@ Options:
 		(print args))
 	    
 	    ;; https://github.com/vfxpipeline/Python-MongoDB-Example/blob/master/lib/customModel.py
+	    ;; https://doc.qt.io/qtforpython/PySide2/QtCore/QAbstractTableModel.html?highlight=qabstracttablemodel
+	    ;; https://github.com/datalyze-solutions/pandas-qt/blob/master/pandasqt/models/DataFrameModel.py
 	    (class PandasTableModel (qc.QAbstractTableModel)
 		   (def __init__ (self dataframe &key (parent None))
 		     (print (string "PandasTableModel.__init__"))
