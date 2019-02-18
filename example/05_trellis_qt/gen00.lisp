@@ -159,24 +159,23 @@ Options:
 			   self.table_view (qw.QTableView)
 			   )
 		     (self.table_view.setModel self.model)
-		     #+nil(do0
-		      (setf
+		     #+nil(do0 (setf
 		       self.horizontal_header (self.table_view.horizontalHeader)
 		       self.vertical_header (self.table_view.verticalHeader))
-		      (self.horizontal_header.setSectionResizeMode
-		       qw.QHeaderView.ResizeToContents)
-		      (self.vertical_header.setSectionResizeMode
-		       qw.QHeaderView.ResizeToContents
-		       )
-		      (self.horizontal_header.setStretchLastSection True)
-		      (setf self.main_layout (qw.QHBoxLayout)
-			    size (qw.QSizePolicy
-				  qw.QSizePolicy.Preferred
-				  qw.QSizePolicy.Preferred))
-		      (size.setHorizontalStretch 1)
-		      (self.table_view.setSizePolicy size)
-		      (self.main_layout.addWidget self.table_view)
-		      (self.setLayout self.main_layout))
+			  (self.horizontal_header.setSectionResizeMode
+			   qw.QHeaderView.ResizeToContents)
+			  (self.vertical_header.setSectionResizeMode
+			   qw.QHeaderView.ResizeToContents)
+			  (self.horizontal_header.setStretchLastSection True)
+			  (setf self.main_layout (qw.QHBoxLayout)
+				size (qw.QSizePolicy
+				      qw.QSizePolicy.Preferred
+				      qw.QSizePolicy.Preferred))
+			  (size.setHorizontalStretch 1)
+			  (self.table_view.setSizePolicy size))
+		     (setf self.main_layout (qw.QHBoxLayout))
+		     (self.main_layout.addWidget self.table_view)
+		     (self.setLayout self.main_layout)
 		     ))
 	    #+nil(class PandasWindow (qw.QWidget)
 		   

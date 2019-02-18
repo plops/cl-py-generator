@@ -70,6 +70,9 @@ class PandasView(qw.QWidget):
         self.model=PandasTableModel()
         self.table_view=qw.QTableView()
         self.table_view.setModel(self.model)
+        self.main_layout=qw.QHBoxLayout()
+        self.main_layout.addWidget(self.table_view)
+        self.setLayout(self.main_layout)
 class MainWindow(qw.QMainWindow):
     def __init__(self, widget):
         super(MainWindow, self).__init__()
