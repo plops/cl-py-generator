@@ -94,51 +94,31 @@ Options:
 			 (return None))
 		     (if (not (index.isValid))
 			 (return None))
-		     (return (str (aref self.dataframe.ix
+		     (return (str (aref self.dataframe.iloc
 					(index.row)
 					(index.column))))))
 	    
 
 	    (class PandasView (qw.QWidget)
 		   (def __init__ (self df)
-		     (print (string "PandasView.__init__"))
 		     (dot (super PandasView self)
 			  (__init__))
 		     (setf self.model (PandasTableModel df)
 			   self.table_view (qw.QTableView)
 			   )
 		     (self.table_view.setModel self.model)
-		     #+nil(do0 (setf
-		       self.horizontal_header (self.table_view.horizontalHeader)
-		       self.vertical_header (self.table_view.verticalHeader))
-			  (self.horizontal_header.setSectionResizeMode
-			   qw.QHeaderView.ResizeToContents)
-			  (self.vertical_header.setSectionResizeMode
-			   qw.QHeaderView.ResizeToContents)
-			  (self.horizontal_header.setStretchLastSection True)
-			  (setf self.main_layout (qw.QHBoxLayout)
-				size (qw.QSizePolicy
-				      qw.QSizePolicy.Preferred
-				      qw.QSizePolicy.Preferred))
-			  (size.setHorizontalStretch 1)
-			  (self.table_view.setSizePolicy size))
 		     (setf self.main_layout (qw.QHBoxLayout))
 		     (self.main_layout.addWidget self.table_view)
 		     (self.setLayout self.main_layout)
 		     ))
-	    #+nil(class PandasWindow (qw.QWidget)
-		   
-		   (def __init__ (self dataframe *args)
-		     (print (string  "PandasWindow.__init__"))
-		     (qw.QWidget.__init__ self *args)
-		     (self.setGeometry 70 150 430 200)
-		     (self.setWindowTitle (string "title"))
-		     (setf self.pandas_view (PandasView dataframe))
-		     (setf self.layout (qw.QVBoxLayout self))
-		     (setf self.label (qw.QLabel (string "Hello World")))
-		     (self.layout.addWidget self.pandas_view)
-		     (self.layout.addWidget self.label)
-		     (self.setLayout self.layout)))
+	    (class MainWindow (qw.QMainWindow)
+		   (def __init__ (self widget)
+		     (dot (super MainWindow self) (__init__))
+		     (self.setCentralWidget widget))
+		   (do0
+		    "@qc.Slot()"
+		    (def exit_app (self checked)
+		      (sys.exit))))
 	    #+nil,(let ((coords `(x y)))
 	     `(do0
 	      (class Rectangle (trellis.Component)
@@ -221,20 +201,9 @@ Options:
 			 (res.append
 			  (dict ((string "time") (aref e (string __REALTIME_TIMESTAMP)))
 				((string "message") (aref e (string MESSAGE)))))
-			 #+nil
-			 (print (dot (string "{} {}")
-				     (format (aref e (string __REALTIME_TIMESTAMP))
-					     (aref e (string MESSAGE))
-					     ))))))))
+			 )))))
 	    (setf df (pd.DataFrame res))
-	    (class MainWindow (qw.QMainWindow)
-		   (def __init__ (self widget)
-		     (dot (super MainWindow self) (__init__))
-		     (self.setCentralWidget widget))
-		   (do0
-		    "@qc.Slot()"
-		    (def exit_app (self checked)
-		      (sys.exit))))
+	    
 	    (do0		 ;if (== __name__ (string "__main__"))
 	     (setf app (qw.QApplication sys.argv)
 		   widget (PandasView df)

@@ -63,7 +63,7 @@ class PandasTableModel(qc.QAbstractTableModel):
             return None
         if ( not(index.isValid()) ):
             return None
-        return str(self.dataframe.ix[index.row(),index.column()])
+        return str(self.dataframe.iloc[index.row(),index.column()])
 class PandasView(qw.QWidget):
     def __init__(self, df):
         print("PandasView.__init__")
@@ -74,6 +74,13 @@ class PandasView(qw.QWidget):
         self.main_layout=qw.QHBoxLayout()
         self.main_layout.addWidget(self.table_view)
         self.setLayout(self.main_layout)
+class MainWindow(qw.QMainWindow):
+    def __init__(self, widget):
+        super(MainWindow, self).__init__()
+        self.setCentralWidget(widget)
+    @qc.Slot()
+    def exit_app(self, checked):
+        sys.exit()
 #  https://stackoverflow.com/questions/26331116/reading-systemd-journal-from-python-script
 j=journal.Reader()
 j.log_level(journal.LOG_INFO)
@@ -85,13 +92,6 @@ while (j.get_next()):
         if ( (("")!=(e["MESSAGE"])) ):
             res.append({("time"):(e["__REALTIME_TIMESTAMP"]),("message"):(e["MESSAGE"])})
 df=pd.DataFrame(res)
-class MainWindow(qw.QMainWindow):
-    def __init__(self, widget):
-        super(MainWindow, self).__init__()
-        self.setCentralWidget(widget)
-    @qc.Slot()
-    def exit_app(self, checked):
-        sys.exit()
 app=qw.QApplication(sys.argv)
 widget=PandasView(df)
 win=MainWindow(widget)
