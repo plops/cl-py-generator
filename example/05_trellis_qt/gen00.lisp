@@ -64,6 +64,7 @@ Options:
 	    ;; https://github.com/vfxpipeline/Python-MongoDB-Example/blob/master/lib/customModel.py
 	    ;; https://doc.qt.io/qtforpython/PySide2/QtCore/QAbstractTableModel.html?highlight=qabstracttablemodel
 	    ;; https://github.com/datalyze-solutions/pandas-qt/blob/master/pandasqt/models/DataFrameModel.py
+	    #+nil
 	    (class PandasTableModel (qc.QAbstractTableModel)
 		   (def __init__ (self dataframe &key (parent None))
 		     (print (string "PandasTableModel.__init__"))
@@ -118,18 +119,65 @@ Options:
 		     (return (str (aref self.dataframe.ix
 					(index.row)
 					(index.column))))))
+	    (class PandasTableModel (qc.QAbstractTableModel)
+		   (def __init__ (self)
+		     (qc.QAbstractTableModel.__init__ self)
+		     (setf self._input_dates (list 1 2 3 4)
+			   self._input_magnitudes (list 5 6 7 8)))
+		   (def rowCount (self *args **kwargs)
+		     (return 4))
+		   (def columnCount (self *args **kwargs)
+		     (return 2))
+		   (def headerData (self section orientation role)
+		     (if (!= qc.Qt.DisplayRole role)
+			 (return None))
+		     (if (== qc.Qt.Horizontal orientation)
+			 (return (aref (tuple (string "Date")
+					      (string "Magnitude"))
+				       section)))
+		     (if (== qc.Qt.Vertical orientation)
+			 (return (dot (string "{}")
+				      (format section)))))
+		   (def data (self index role)
+		     (if (!= qc.Qt.DisplayRole role)
+			 (return None))
+		     (if (not (index.isValid))
+			 (return None))
+		     (setf col (index.column)
+			   row (index.row))
+		     (if (== 0 col)
+			 (return (aref self._input_dates row)))
+		     (if (== 1 col)
+			 (return (aref self._input_magnitudes row)))))
 
-	    (class PandasView (qw.QMainWindow)
-		   (def __init__ (self dataframe)
+	    (class PandasView (qw.QWidget)
+		   (def __init__ (self)
 		     (print (string "PandasView.__init__"))
 		     (dot (super PandasView self)
 			  (__init__))
-		     (setf self.model (PandasTableModel dataframe)
+		     (setf self.model (PandasTableModel)
 			   self.table_view (qw.QTableView)
 			   )
 		     (self.table_view.setModel self.model)
+		     (setf
+		      self.horizontal_header (self.table_view.horizontalHeader)
+		      self.vertical_header (self.table_view.verticalHeader))
+		     (self.horizontal_header.setSectionResizeMode
+		      qw.QHeaderView.ResizeToContents)
+		     (self.vertical_header.setSectionResizeMode
+		      qw.QHeaderView.ResizeToContents
+		      )
+		     (self.horizontal_header.setStretchLastSection True)
+		     (setf self.main_layout (qw.QHBoxLayout)
+			   size (qw.QSizePolicy
+				 qw.QSizePolicy.Preferred
+				 qw.QSizePolicy.Preferred))
+		     (size.setHorizontalStretch 1)
+		     (self.table_view.setSizePolicy size)
+		     (self.main_layout.addWidget self.table_view)
+		     (self.setLayout self.main_layout)
 		     ))
-	    (class PandasWindow (qw.QWidget)
+	    #+nil(class PandasWindow (qw.QWidget)
 		   
 		   (def __init__ (self dataframe *args)
 		     (print (string  "PandasWindow.__init__"))
@@ -142,7 +190,7 @@ Options:
 		     (self.layout.addWidget self.pandas_view)
 		     (self.layout.addWidget self.label)
 		     (self.setLayout self.layout)))
-	    ,(let ((coords `(x y)))
+	    #+nil,(let ((coords `(x y)))
 	     `(do0
 	      (class Rectangle (trellis.Component)
 		     ,(flet ((self (e &optional name)
@@ -209,8 +257,8 @@ Options:
 			     ,@(loop for e in coords and i from 0 append
 				    `(,(make-keyword (string-upcase (format nil "~a_max" e))) (aref max ,i))))))))
 
-	    (setf r (make_rect_c))
-	    (do0
+	    #+nil(setf r (make_rect_c))
+	    #+nil(do0
 	     "#  https://stackoverflow.com/questions/26331116/reading-systemd-journal-from-python-script"
 	     (setf j (journal.Reader))
 	     (j.log_level journal.LOG_INFO)
@@ -229,15 +277,20 @@ Options:
 				     (format (aref e (string __REALTIME_TIMESTAMP))
 					     (aref e (string MESSAGE))
 					     ))))))))
-	    (setf df (pd.DataFrame res))
-	    
+	    #+nil(setf df (pd.DataFrame res))
+	    (class MainWindow (qw.QMainWindow)
+		   (def __init__ (self widget)
+		     (dot (super MainWindow self) (__init__))
+		     (self.setCentralWidget widget))
+		   (do0
+		    "@qc.Slot()"
+		    (def exit_app (self checked)
+		      (sys.exit))))
 	    (do0		 ;if (== __name__ (string "__main__"))
 	     (setf app (qw.QApplication sys.argv)
-		   ;label (qw.QLabel (string "Hello World"))
-		   )
-					;(label.show)
-	    ;(setf pv (PandasView df))  (pv.show)
-	     (setf win (PandasWindow df))
+		   widget (PandasView)
+		   win (MainWindow widget))
+	     
 	     (win.show)
 	     (sys.exit (app.exec_))))))
     (write-source *source* code)))

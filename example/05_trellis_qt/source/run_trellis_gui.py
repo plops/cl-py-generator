@@ -37,100 +37,59 @@ args=docopt.docopt(__doc__, version="0.0.1")
 if ( args["--verbose"] ):
     print(args)
 class PandasTableModel(qc.QAbstractTableModel):
-    def __init__(self, dataframe, parent=None):
-        print("PandasTableModel.__init__")
+    def __init__(self):
         qc.QAbstractTableModel.__init__(self)
-        self.dataframe=dataframe
-    def flags(self, index):
-        print("PandasTableModel.flags")
-        if ( not(index.isValid()) ):
-            return None
-        return ((qc.Qt.ItemIsEnabled) or (qc.Qt.ItemIsSelectable))
+        self._input_dates=[1, 2, 3, 4]
+        self._input_magnitudes=[5, 6, 7, 8]
     def rowCount(self, *args, **kwargs):
-        res=len(self.dataframe.index)
-        print("PandasTableModel.rowCount {}".format(res))
-        return res
+        return 4
     def columnCount(self, *args, **kwargs):
-        res=len(self.dataframe.columns)
-        print("PandasTableModel.columnCount {}".format(res))
-        return res
-    def headerData(self, section, orientation, role=qc.Qt.DisplayRole):
-        print("PandasTableModel.headerData {} {} {}".format(section, orientation, role))
+        return 2
+    def headerData(self, section, orientation, role):
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
-        try:
-            if ( ((qc.Qt.Horizontal)==(orientation)) ):
-                print("{}".format(list(self.dataframe.columns)[section]))
-                return list(self.dataframe.columns)[section]
-            if ( ((qc.Qt.Vertical)==(orientation)) ):
-                print("{}".format(list(self.dataframe.index)[section]))
-                return list(self.dataframe.index)[section]
-        except IndexError:
-            return None
+        if ( ((qc.Qt.Horizontal)==(orientation)) ):
+            return ("Date","Magnitude",)[section]
+        if ( ((qc.Qt.Vertical)==(orientation)) ):
+            return "{}".format(section)
     def data(self, index, role):
-        print("PandasTableModel.data {} {}".format(index, role))
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
         if ( not(index.isValid()) ):
             return None
-        print("{}".format(str(self.dataframe.ix[index.row(),index.column()])))
-        return str(self.dataframe.ix[index.row(),index.column()])
-class PandasView(qw.QMainWindow):
-    def __init__(self, dataframe):
+        col=index.column()
+        row=index.row()
+        if ( ((0)==(col)) ):
+            return self._input_dates[row]
+        if ( ((1)==(col)) ):
+            return self._input_magnitudes[row]
+class PandasView(qw.QWidget):
+    def __init__(self):
         print("PandasView.__init__")
         super(PandasView, self).__init__()
-        self.model=PandasTableModel(dataframe)
+        self.model=PandasTableModel()
         self.table_view=qw.QTableView()
         self.table_view.setModel(self.model)
-class PandasWindow(qw.QWidget):
-    def __init__(self, dataframe, *args):
-        print("PandasWindow.__init__")
-        qw.QWidget.__init__(self, *args)
-        self.setGeometry(70, 150, 430, 200)
-        self.setWindowTitle("title")
-        self.pandas_view=PandasView(dataframe)
-        self.layout=qw.QVBoxLayout(self)
-        self.label=qw.QLabel("Hello World")
-        self.layout.addWidget(self.pandas_view)
-        self.layout.addWidget(self.label)
-        self.setLayout(self.layout)
-class Rectangle(trellis.Component):
-    x=trellis.maintain(lambda self: ((self.x_min)+((((5.e-1))*(self.x_span)))), initially=0)
-    x_span=trellis.maintain(lambda self: ((self.x_max)-(self.x_min)), initially=0)
-    x_min=trellis.maintain(lambda self: ((self.x)-((((5.e-1))*(self.x_span)))), initially=0)
-    x_max=trellis.maintain(lambda self: ((self.x)+((((5.e-1))*(self.x_span)))), initially=0)
-    y=trellis.maintain(lambda self: ((self.y_min)+((((5.e-1))*(self.y_span)))), initially=0)
-    y_span=trellis.maintain(lambda self: ((self.y_max)-(self.y_min)), initially=0)
-    y_min=trellis.maintain(lambda self: ((self.y)-((((5.e-1))*(self.y_span)))), initially=0)
-    y_max=trellis.maintain(lambda self: ((self.y)+((((5.e-1))*(self.y_span)))), initially=0)
-    @trellis.perform
-    def show_value(self):
-        print("rect x={} x_span={} x_min={} x_max={} y={} y_span={} y_min={} y_max={}".format(self.x, self.x_span, self.x_min, self.x_max, self.y, self.y_span, self.y_min, self.y_max))
-    @trellis.modifier
-    def translate(self, r):
-        self.x=((self.x)+(r[0]))
-        self.y=((self.y)+(r[1]))
-    @trellis.modifier
-    def grow(self, r):
-        self.x_span=((self.x_span)+(r[0]))
-        self.y_span=((self.y_span)+(r[1]))
-def make_rect_c(r=np.array([(0.0e+0), (0.0e+0)]), r_span=np.array([(1.e+0), (1.e+0)])):
-    return Rectangle(x=r[0], y=r[1], x_span=r_span[0], y_span=r_span[1])
-def make_rect(min=np.array([(0.0e+0), (0.0e+0)]), max=np.array([(1.e+0), (1.e+0)])):
-    return Rectangle(x_min=min[0], y_min=min[1], x_max=max[0], y_max=max[1])
-r=make_rect_c()
-#  https://stackoverflow.com/questions/26331116/reading-systemd-journal-from-python-script
-j=journal.Reader()
-j.log_level(journal.LOG_INFO)
-j.seek_tail()
-j.get_next()
-res=[]
-while (j.get_next()):
-    for e in j:
-        if ( (("")!=(e["MESSAGE"])) ):
-            res.append({("time"):(e["__REALTIME_TIMESTAMP"]),("message"):(e["MESSAGE"])})
-df=pd.DataFrame(res)
+        self.horizontal_header=self.table_view.horizontalHeader()
+        self.vertical_header=self.table_view.verticalHeader()
+        self.horizontal_header.setSectionResizeMode(qw.QHeaderView.ResizeToContents)
+        self.vertical_header.setSectionResizeMode(qw.QHeaderView.ResizeToContents)
+        self.horizontal_header.setStretchLastSection(True)
+        self.main_layout=qw.QHBoxLayout()
+        size=qw.QSizePolicy(qw.QSizePolicy.Preferred, qw.QSizePolicy.Preferred)
+        size.setHorizontalStretch(1)
+        self.table_view.setSizePolicy(size)
+        self.main_layout.addWidget(self.table_view)
+        self.setLayout(self.main_layout)
+class MainWindow(qw.QMainWindow):
+    def __init__(self, widget):
+        super(MainWindow, self).__init__()
+        self.setCentralWidget(widget)
+    @qc.Slot()
+    def exit_app(self, checked):
+        sys.exit()
 app=qw.QApplication(sys.argv)
-win=PandasWindow(df)
+widget=PandasView()
+win=MainWindow(widget)
 win.show()
 sys.exit(app.exec_())
