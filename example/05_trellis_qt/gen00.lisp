@@ -64,7 +64,7 @@ Options:
 	    ;; https://github.com/vfxpipeline/Python-MongoDB-Example/blob/master/lib/customModel.py
 	    ;; https://doc.qt.io/qtforpython/PySide2/QtCore/QAbstractTableModel.html?highlight=qabstracttablemodel
 	    ;; https://github.com/datalyze-solutions/pandas-qt/blob/master/pandasqt/models/DataFrameModel.py
-	    #+nil
+	    
 	    (class PandasTableModel (qc.QAbstractTableModel)
 		   (def __init__ (self dataframe &key (parent None))
 		     (print (string "PandasTableModel.__init__"))
@@ -119,6 +119,7 @@ Options:
 		     (return (str (aref self.dataframe.ix
 					(index.row)
 					(index.column))))))
+	    #+nil
 	    (class PandasTableModel (qc.QAbstractTableModel)
 		   (def __init__ (self)
 		     (qc.QAbstractTableModel.__init__ self)
@@ -151,11 +152,11 @@ Options:
 			 (return (aref self._input_magnitudes row)))))
 
 	    (class PandasView (qw.QWidget)
-		   (def __init__ (self)
+		   (def __init__ (self df)
 		     (print (string "PandasView.__init__"))
 		     (dot (super PandasView self)
 			  (__init__))
-		     (setf self.model (PandasTableModel)
+		     (setf self.model (PandasTableModel df)
 			   self.table_view (qw.QTableView)
 			   )
 		     (self.table_view.setModel self.model)
@@ -258,7 +259,7 @@ Options:
 				    `(,(make-keyword (string-upcase (format nil "~a_max" e))) (aref max ,i))))))))
 
 	    #+nil(setf r (make_rect_c))
-	    #+nil(do0
+	    (do0
 	     "#  https://stackoverflow.com/questions/26331116/reading-systemd-journal-from-python-script"
 	     (setf j (journal.Reader))
 	     (j.log_level journal.LOG_INFO)
@@ -277,7 +278,7 @@ Options:
 				     (format (aref e (string __REALTIME_TIMESTAMP))
 					     (aref e (string MESSAGE))
 					     ))))))))
-	    #+nil(setf df (pd.DataFrame res))
+	    (setf df (pd.DataFrame res))
 	    (class MainWindow (qw.QMainWindow)
 		   (def __init__ (self widget)
 		     (dot (super MainWindow self) (__init__))
@@ -288,7 +289,7 @@ Options:
 		      (sys.exit))))
 	    (do0		 ;if (== __name__ (string "__main__"))
 	     (setf app (qw.QApplication sys.argv)
-		   widget (PandasView)
+		   widget (PandasView df)
 		   win (MainWindow widget))
 	     
 	     (win.show)

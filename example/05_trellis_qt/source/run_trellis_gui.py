@@ -37,42 +37,65 @@ args=docopt.docopt(__doc__, version="0.0.1")
 if ( args["--verbose"] ):
     print(args)
 class PandasTableModel(qc.QAbstractTableModel):
-    def __init__(self):
+    def __init__(self, dataframe, parent=None):
+        print("PandasTableModel.__init__")
         qc.QAbstractTableModel.__init__(self)
-        self._input_dates=[1, 2, 3, 4]
-        self._input_magnitudes=[5, 6, 7, 8]
+        self.dataframe=dataframe
+    def flags(self, index):
+        print("PandasTableModel.flags")
+        if ( not(index.isValid()) ):
+            return None
+        return ((qc.Qt.ItemIsEnabled) or (qc.Qt.ItemIsSelectable))
     def rowCount(self, *args, **kwargs):
-        return 4
+        res=len(self.dataframe.index)
+        print("PandasTableModel.rowCount {}".format(res))
+        return res
     def columnCount(self, *args, **kwargs):
-        return 2
-    def headerData(self, section, orientation, role):
+        res=len(self.dataframe.columns)
+        print("PandasTableModel.columnCount {}".format(res))
+        return res
+    def headerData(self, section, orientation, role=qc.Qt.DisplayRole):
+        print("PandasTableModel.headerData {} {} {}".format(section, orientation, role))
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
-        if ( ((qc.Qt.Horizontal)==(orientation)) ):
-            return ("Date","Magnitude",)[section]
-        if ( ((qc.Qt.Vertical)==(orientation)) ):
-            return "{}".format(section)
+        try:
+            if ( ((qc.Qt.Horizontal)==(orientation)) ):
+                print("{}".format(list(self.dataframe.columns)[section]))
+                return list(self.dataframe.columns)[section]
+            if ( ((qc.Qt.Vertical)==(orientation)) ):
+                print("{}".format(list(self.dataframe.index)[section]))
+                return list(self.dataframe.index)[section]
+        except IndexError:
+            return None
     def data(self, index, role):
+        print("PandasTableModel.data {} {}".format(index, role))
         if ( ((qc.Qt.DisplayRole)!=(role)) ):
             return None
         if ( not(index.isValid()) ):
             return None
-        col=index.column()
-        row=index.row()
-        if ( ((0)==(col)) ):
-            return self._input_dates[row]
-        if ( ((1)==(col)) ):
-            return self._input_magnitudes[row]
+        print("{}".format(str(self.dataframe.ix[index.row(),index.column()])))
+        return str(self.dataframe.ix[index.row(),index.column()])
 class PandasView(qw.QWidget):
-    def __init__(self):
+    def __init__(self, df):
         print("PandasView.__init__")
         super(PandasView, self).__init__()
-        self.model=PandasTableModel()
+        self.model=PandasTableModel(df)
         self.table_view=qw.QTableView()
         self.table_view.setModel(self.model)
         self.main_layout=qw.QHBoxLayout()
         self.main_layout.addWidget(self.table_view)
         self.setLayout(self.main_layout)
+#  https://stackoverflow.com/questions/26331116/reading-systemd-journal-from-python-script
+j=journal.Reader()
+j.log_level(journal.LOG_INFO)
+j.seek_tail()
+j.get_next()
+res=[]
+while (j.get_next()):
+    for e in j:
+        if ( (("")!=(e["MESSAGE"])) ):
+            res.append({("time"):(e["__REALTIME_TIMESTAMP"]),("message"):(e["MESSAGE"])})
+df=pd.DataFrame(res)
 class MainWindow(qw.QMainWindow):
     def __init__(self, widget):
         super(MainWindow, self).__init__()
@@ -81,7 +104,7 @@ class MainWindow(qw.QMainWindow):
     def exit_app(self, checked):
         sys.exit()
 app=qw.QApplication(sys.argv)
-widget=PandasView()
+widget=PandasView(df)
 win=MainWindow(widget)
 win.show()
 sys.exit(app.exec_())
