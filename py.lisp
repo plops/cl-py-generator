@@ -209,7 +209,7 @@
 			      (emit condition)
 			      (emit `(do ,true-statement)))
 		      (when false-statement
-			(format s "~a:~%~a"
+			(format s "~&~a:~%~a"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
 	      (import (destructuring-bind (args) (cdr code)
