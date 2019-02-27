@@ -231,9 +231,9 @@
 			       (emit `(do ,prog)))
 		       (loop for e in exceptions do
 			    (destructuring-bind (form &rest body) e
-			      (if (eq form 'finally)
+			      (if (member form '(else finally))
 				  (format s "~&~a~%"
-					  (emit `(indent "finally:")))
+					  (emit `(indent ,(format nil "~a:" form))))
 				  (format s "~&~a~%"
 				       (emit `(indent ,(format nil "except ~a:" (emit form))))))
 			      (format s "~a" (emit `(do ,@body)))))))
