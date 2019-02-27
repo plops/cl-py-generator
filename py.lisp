@@ -231,8 +231,11 @@
 			       (emit `(do ,prog)))
 		       (loop for e in exceptions do
 			    (destructuring-bind (form &rest body) e
-			      (format s "~&~a~%"
-				      (emit `(indent ,(format nil "except ~a:" (emit form)))))
+			      (if (eq form 'finally)
+				  (format s "~&~a~%"
+					  (emit `(indent "finally:")))
+				  (format s "~&~a~%"
+				       (emit `(indent ,(format nil "except ~a:" (emit form))))))
 			      (format s "~a" (emit `(do ,@body)))))))
 	       
 	       #+nil (let ((body (cdr code)))
