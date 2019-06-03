@@ -157,6 +157,8 @@
 		   (format nil "(~{(~a)~^*~})" (mapcar #'emit args))))
 	      (== (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^==~})" (mapcar #'emit args))))
+	      (<< (let ((args (cdr code)))
+		    (format nil "(~{(~a)~^<<~})" (mapcar #'emit args))))
 	      (!= (let ((args (cdr code)))
 		   (format nil "(~{(~a)~^!=~})" (mapcar #'emit args))))
 	      (< (let ((args (cdr code)))
@@ -186,11 +188,14 @@
 	      (and (let ((args (cdr code)))
 		     (format nil "(~{(~a)~^ and ~})" (mapcar #'emit args))))
 	      (& (let ((args (cdr code)))
-		     (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args))))
+		   (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args))))
+	      (|\|| (let ((args (cdr code)))
+		     (format nil "(~{(~a)~^ | ~})" (mapcar #'emit args))))
 	      (or (let ((args (cdr code)))
 		    (format nil "(~{(~a)~^ or ~})" (mapcar #'emit args))))
 	      (string (format nil "\"~a\"" (cadr code)))
 	      (string3 (format nil "\"\"\"~a\"\"\"" (cadr code)))
+	      (rstring3 (format nil "r\"\"\"~a\"\"\"" (cadr code)))
 	      (return_ (format nil "return ~a" (emit (caadr code))))
 	      (return (let ((args (cdr code)))
 			(format nil "~a" (emit `(return_ ,args)))))
@@ -213,7 +218,7 @@
 			      (emit condition)
 			      (emit `(do ,true-statement)))
 		      (when false-statement
-			(format s "~a:~%~a"
+			(format s "~&~a:~%~a"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
 	      (import (destructuring-bind (args) (cdr code)
@@ -235,8 +240,11 @@
 			       (emit `(do ,prog)))
 		       (loop for e in exceptions do
 			    (destructuring-bind (form &rest body) e
-			      (format s "~&~a~%"
-				      (emit `(indent ,(format nil "except ~a:" (emit form)))))
+			      (if (member form '(else finally))
+				  (format s "~&~a~%"
+					  (emit `(indent ,(format nil "~a:" form))))
+				  (format s "~&~a~%"
+				       (emit `(indent ,(format nil "except ~a:" (emit form))))))
 			      (format s "~a" (emit `(do ,@body)))))))
 	       
 	       #+nil (let ((body (cdr code)))
