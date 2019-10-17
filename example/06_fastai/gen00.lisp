@@ -4,7 +4,7 @@
 
 
 (progn
-  (defparameter *path* "/home/martin/stage/cl-py-generator/example/06_fastai/")
+  (defparameter *path* "/home/martin/stage/cl-py-generator/example/06_fastai")
   (defparameter *code-file* "run_00_pets")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *inspection-facts*
@@ -38,9 +38,12 @@
 
 
 	    "from fastai import *"
-	    "from fastai.vision import *"))
+	    "from fastai.vision import *"
+
+	    (setf path (untar_data URLs.PETS))
+	    (print path)
+	    ))
 	 )
-   
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
    ))
 
