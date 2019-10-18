@@ -78,7 +78,8 @@
 		   (ntuple losses idxs) (interp.top_losses))
 	     (interp.plot_top_losses 9)
 	     (interp.plot_confusion_matrix)
-	     (interp.most_confused :min_val 2)
+	     (print
+	      (interp.most_confused :min_val 2))
 	     )
 	    ))
 	 )
