@@ -64,11 +64,22 @@
 	     (do0
 	      (data.show_batch :rows 3)
 	      (print data.classes)))
-	    (setf learn (cnn_learner data
-				     models.resnet34
-				     :metrics error_rate))
-	    (learn.fit_one_cycle 4)
-	    (learn.save (string "save-1"))
+	    (do0
+	     "# %%"
+	     (setf learn (cnn_learner data
+				      models.resnet34
+				      :metrics error_rate))
+	     (learn.fit_one_cycle 4)
+	     (learn.save (string "save-1")))
+
+	    (do0
+	     "# %%"
+	     (setf interp (ClassificationInterpretation.from_learner learn)
+		   (ntuple losses idxs) (interp.top_losses))
+	     (interp.plot_top_losses 9)
+	     (interp.plot_confusion_matrix)
+	     (interp.most_confused :min_val 2)
+	     )
 	    ))
 	 )
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
