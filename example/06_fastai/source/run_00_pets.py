@@ -10,7 +10,7 @@ from fastai.metrics import error_rate
 path=untar_data(URLs.PETS)
 print("using image data from: {}".format(path))
 np.random.seed(2)
-bs=180
+bs=140
 # %%
 path_anno, path_img=path.ls()
 fnames=get_image_files(path_img)
