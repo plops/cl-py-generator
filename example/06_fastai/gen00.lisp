@@ -47,7 +47,7 @@
 	    (print (dot (string "using image data from: {}")
 			(format path)))
 	    (np.random.seed 2)
-	    (setf bs 128)
+	    (setf bs 180)
 	    (do0
 	     "# %%"
 	     (setf (ntuple path_anno path_img) (path.ls)
