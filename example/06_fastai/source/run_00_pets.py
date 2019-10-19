@@ -20,10 +20,13 @@ data.normalize(imagenet_stats)
 def look():
     data.show_batch(rows=3)
     print(data.classes)
-# %%
 learn=cnn_learner(data, models.resnet34, metrics=error_rate)
-learn.fit_one_cycle(4)
-learn.save("save-1")
+fn=pathlib.Path("/home/martin/.fastai/data/oxford-iiit-pet/images/models/save-1.pth")
+if ( fn.is_file() ):
+    learn.load(fn.stem)
+else:
+    learn.fit_one_cycle(4)
+    learn.save(fn.stem)
 # %%
 interp=ClassificationInterpretation.from_learner(learn)
 losses, idxs=interp.top_losses()

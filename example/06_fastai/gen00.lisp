@@ -65,12 +65,17 @@
 	      (data.show_batch :rows 3)
 	      (print data.classes)))
 	    (do0
-	     "# %%"
 	     (setf learn (cnn_learner data
-				      models.resnet34
-				      :metrics error_rate))
-	     (learn.fit_one_cycle 4)
-	     (learn.save (string "save-1")))
+					models.resnet34
+					:metrics error_rate))
+	     (setf fn (pathlib.Path (string "/home/martin/.fastai/data/oxford-iiit-pet/images/models/save-1.pth")))
+	     (if (dot fn (is_file))
+	      (do0
+	       (learn.load fn.stem))
+	      (do0
+	       
+	       (learn.fit_one_cycle 4)
+	       (learn.save fn.stem))))
 
 	    (do0
 	     "# %%"
