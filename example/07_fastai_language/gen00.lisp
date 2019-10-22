@@ -104,7 +104,26 @@
 		  (sentences.append
 		   (learn.predict text n_words :temperature .75)))
 	     (print (dot (string "\\n")
-			 (join sentences)))))))
+			 (join sentences))))
+
+	    (do0 "# %% load data for classification"
+	     (setf fn (pathlib.Path (string "/home/martin/.fastai/data/imdb/data_class.pkl")))
+	     (if (fn.is_file)
+		 (do0
+		  (setf data_class (load_data path (string "data_class.pkl" :bs bs))))
+		 (do0
+		  (setf path (untar_data URLs.IMDB)
+			data_class (dot (TextList.from_folder path :vocab data_lm.vocab)
+					(split_by_folder :valid (string "test"))
+					(label_from_folder :classes (list (string "neg" "pos")))
+					(databunch :bs bs)))
+		  (data_class.save (string "data_class.pkl")))))
+	    (do0 "# %%"
+		 (setf learn (text_classifier_learner data_class AWD_LSTM :drop_mult .5))
+		 (learn.load_encoder (string "fine_tuned_enc"))
+		 (do0 (learn.lr_find)
+		      (learn.recorder.plot))
+		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 

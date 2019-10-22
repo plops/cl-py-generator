@@ -42,3 +42,16 @@ sentences=[]
 for _ in range(n_sentences):
     sentences.append(learn.predict(text, n_words, temperature=(7.499999999999999e-1)))
 print("\n".join(sentences))
+# %% load data for classification
+fn=pathlib.Path("/home/martin/.fastai/data/imdb/data_class.pkl")
+if ( fn.is_file() ):
+    data_class=load_data(path, "data_class.pkl")
+else:
+    path=untar_data(URLs.IMDB)
+    data_class=TextList.from_folder(path, vocab=data_lm.vocab).split_by_folder(valid="test").label_from_folder(classes=["neg"]).databunch(bs=bs)
+    data_class.save("data_class.pkl")
+# %%
+learn=text_classifier_learner(data_class, AWD_LSTM, drop_mult=(5.e-1))
+learn.load_encoder("fine_tuned_enc")
+learn.lr_find()
+learn.recorder.plot()
