@@ -91,8 +91,9 @@
 		 (do0
 		  (learn.load (string "fine_tuned")))
 		 (do0 (learn.unfreeze)
+		      ;; this takes 10*25 min
 		      (learn.fit_one_cycle 10 1e-3 :moms (tuple .8 .7))
-		      (learn.save (string "fine_tuned"))
+		      (learn.save (string "fine_tuned")) ;; don't forget to call the two functions
 		      (learn.save_encoder (string "fine_tuned_enc")))))
 	    (do0
 	     (setf text (string "I liked this movie because")
