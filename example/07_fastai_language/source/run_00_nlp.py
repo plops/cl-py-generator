@@ -40,5 +40,5 @@ n_words=40
 n_sentences=2
 sentences=[]
 for _ in range(n_sentences):
-    sentences.apppend(learn.predict(text, n_words, temperature=(7.499999999999999e-1)))
+    sentences.append(learn.predict(text, n_words, temperature=(7.499999999999999e-1)))
 print("\n".join(sentences))

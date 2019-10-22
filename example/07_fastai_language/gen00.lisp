@@ -101,11 +101,10 @@
 		   n_sentences 2)
 	     (setf sentences (list))
 	     (for (_ (range n_sentences))
-		  (sentences.apppend
+		  (sentences.append
 		   (learn.predict text n_words :temperature .75)))
 	     (print (dot (string "\\n")
-			 (join sentences))))
-	    )))
+			 (join sentences)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
