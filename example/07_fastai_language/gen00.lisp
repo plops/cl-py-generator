@@ -51,8 +51,11 @@
 	    (setf bs 48)
 
 	    (if (fn.is_file)
-	      (do0 (setf data_lm (load_data path (string "data_lm.pkl" :bs bs))))
-	      (do0
+		(do0
+		 (print (string "load lm data from pkl"))
+		 (setf data_lm (load_data path (string "data_lm.pkl" :bs bs))))
+		(do0
+		 (print (string "load lm data from disk"))
 	       #+nil (setf data (TextDataBunch.from_csv :path path :csv_name (string "texts.csv")))
 	       (setf data_lm (dot (TextList.from_folder path)
 			       (filter_by_folder :include (list (string "train")
@@ -71,14 +74,36 @@
 	     (learn.lr_find)
 	     (learn.recorder.plot :skip_end 15))
 
+
 	    (setf fn_head (pathlib.Path (string "/home/martin/.fastai/data/imdb/models/fit_head.pth")))
 	    (if (fn_head.is_file)
 		(do0
+		 (print (string "load language model"))
 		 (learn.load (string "fit_head")))
 		(do0
+		 (print (string "train language model"))
 		 (learn.fit_one_cycle 1 1e-2 :moms (tuple .8 .7)) ;; takes 25min
 		 (learn.save (string "fit_head"))))
-	    
+	    (do0
+	     (print (string "unfreeze 1 fine_tuned"))
+	     (setf fn_fine (pathlib.Path (string "/home/martin/.fastai/data/imdb/models/fine_tuned.pth")))
+	     (if (fn_fine.is_file)
+		 (do0
+		  (learn.load (string "fine_tuned")))
+		 (do0 (learn.unfreeze)
+		      (learn.fit_one_cycle 10 1e-3 :moms (tuple .8 .7))
+		      (learn.save (string "fine_tuned"))
+		      (learn.save_encoder (string "fine_tuned_enc")))))
+	    (do0
+	     (setf text (string "I liked this movie because")
+		   n_words 40
+		   n_sentences 2)
+	     (setf sentences (list))
+	     (for (_ (range n_sentences))
+		  (sentences.apppend
+		   (learn.predict text n_words :temperature .75)))
+	     (print (dot (string "\\n")
+			 (join sentences))))
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
