@@ -85,16 +85,20 @@
 		 (learn.fit_one_cycle 1 1e-2 :moms (tuple .8 .7)) ;; takes 25min
 		 (learn.save (string "fit_head"))))
 	    (do0
-	     (print (string "unfreeze 1 fine_tuned"))
+	     
 	     (setf fn_fine (pathlib.Path (string "/home/martin/.fastai/data/imdb/models/fine_tuned.pth")))
 	     (if (fn_fine.is_file)
 		 (do0
+		  (print (string "load fine tuned language model"))
 		  (learn.load (string "fine_tuned")))
-		 (do0 (learn.unfreeze)
+		 (do0
+		  (print (string "unfreeze and refine language model"))
+		  (learn.unfreeze)
 		      ;; this takes 10*25 min
 		      (learn.fit_one_cycle 10 1e-3 :moms (tuple .8 .7))
 		      (learn.save (string "fine_tuned")) ;; don't forget to call the two functions
 		      (learn.save_encoder (string "fine_tuned_enc")))))
+	    #+nil
 	    (do0
 	     (setf text (string "I liked this movie because")
 		   n_words 40
@@ -107,11 +111,14 @@
 			 (join sentences))))
 
 	    (do0 "# %% load data for classification"
-	     (setf fn (pathlib.Path (string "/home/martin/.fastai/data/imdb/data_class.pkl")))
+		 
+		 (setf fn (pathlib.Path (string "/home/martin/.fastai/data/imdb/data_class.pkl")))
 	     (if (fn.is_file)
 		 (do0
+		  (print (string "load data for classification from pkl"))
 		  (setf data_class (load_data path (string "data_class.pkl" :bs bs))))
 		 (do0
+		  (print (string "load data for classification from disk"))
 		  (setf path (untar_data URLs.IMDB)
 			data_class (dot (TextList.from_folder path :vocab data_lm.vocab)
 					(split_by_folder :valid (string "test"))
@@ -119,10 +126,12 @@
 					(databunch :bs bs)))
 		  (data_class.save (string "data_class.pkl")))))
 	    (do0 "# %%"
+		 (print (string "learn classifier"))
 		 (setf learn (text_classifier_learner data_class AWD_LSTM :drop_mult .5))
 		 (learn.load_encoder (string "fine_tuned_enc"))
-		 (do0 (learn.lr_find)
-		      (learn.recorder.plot))
+		 #+nil (do0 (learn.lr_find)
+			    (learn.recorder.plot))
+		 (learn.fit_one_cycle 1 2e-2 :moms (tuple .8 .7))
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 

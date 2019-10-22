@@ -26,32 +26,28 @@ else:
     print("train language model")
     learn.fit_one_cycle(1, (9.999999776482582e-3), moms=((8.00000011920929e-1),(6.99999988079071e-1),))
     learn.save("fit_head")
-print("unfreeze 1 fine_tuned")
 fn_fine=pathlib.Path("/home/martin/.fastai/data/imdb/models/fine_tuned.pth")
 if ( fn_fine.is_file() ):
+    print("load fine tuned language model")
     learn.load("fine_tuned")
 else:
+    print("unfreeze and refine language model")
     learn.unfreeze()
     learn.fit_one_cycle(10, (1.0000000474974513e-3), moms=((8.00000011920929e-1),(6.99999988079071e-1),))
     learn.save("fine_tuned")
     learn.save_encoder("fine_tuned_enc")
-text="I liked this movie because"
-n_words=40
-n_sentences=2
-sentences=[]
-for _ in range(n_sentences):
-    sentences.append(learn.predict(text, n_words, temperature=(7.499999999999999e-1)))
-print("\n".join(sentences))
 # %% load data for classification
 fn=pathlib.Path("/home/martin/.fastai/data/imdb/data_class.pkl")
 if ( fn.is_file() ):
+    print("load data for classification from pkl")
     data_class=load_data(path, "data_class.pkl")
 else:
+    print("load data for classification from disk")
     path=untar_data(URLs.IMDB)
     data_class=TextList.from_folder(path, vocab=data_lm.vocab).split_by_folder(valid="test").label_from_folder(classes=["neg"]).databunch(bs=bs)
     data_class.save("data_class.pkl")
 # %%
+print("learn classifier")
 learn=text_classifier_learner(data_class, AWD_LSTM, drop_mult=(5.e-1))
 learn.load_encoder("fine_tuned_enc")
-learn.lr_find()
-learn.recorder.plot()
+learn.fit_one_cycle(1, (1.9999999552965164e-2), moms=((8.00000011920929e-1),(6.99999988079071e-1),))
