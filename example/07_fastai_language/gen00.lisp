@@ -68,7 +68,9 @@
 
 	    
 	    
-	    (setf learn (language_model_learner data_lm AWD_LSTM :drop_mult .3))
+	    (setf learn (language_model_learner data_lm :pretrained_model URLs.WT103 ;AWD_LSTM
+						:drop_mult .3
+						))
 
 	    #+nil (do0
 	     (learn.lr_find)
