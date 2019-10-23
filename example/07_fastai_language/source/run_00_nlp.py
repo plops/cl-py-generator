@@ -17,7 +17,7 @@ else:
     print("load lm data from disk")
     data_lm=TextList.from_folder(path).filter_by_folder(include=["train", "test", "unsup"]).split_by_rand_pct((1.0000000149011612e-1)).label_for_lm().databunch(bs=bs)
     data_lm.save("data_lm.pkl")
-learn=language_model_learner(data_lm, pretrained_model=URLs.WT103, drop_mult=(3.0000001192092896e-1))
+learn=language_model_learner(data_lm, AWD_LSTM, drop_mult=(3.0000001192092896e-1))
 fn_head=pathlib.Path("/home/martin/.fastai/data/imdb/models/fit_head.pth")
 if ( fn_head.is_file() ):
     print("load language model")
@@ -33,7 +33,7 @@ if ( fn_fine.is_file() ):
 else:
     print("unfreeze and refine language model")
     learn.unfreeze()
-    learn.fit_one_cycle(10, (1.0000000474974513e-3), moms=((8.00000011920929e-1),(6.99999988079071e-1),))
+    learn.fit_one_cycle(1, (1.0000000474974513e-3), moms=((8.00000011920929e-1),(6.99999988079071e-1),))
     learn.save("fine_tuned")
     learn.save_encoder("fine_tuned_enc")
 # %% load data for classification

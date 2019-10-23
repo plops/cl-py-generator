@@ -68,14 +68,16 @@
 
 	    
 	    
-	    (setf learn (language_model_learner data_lm :pretrained_model URLs.WT103 ;AWD_LSTM
+	    (setf learn (language_model_learner data_lm
+						;:pretrained_model URLs.WT103
+						AWD_LSTM
 						:drop_mult .3
 						))
 
 	    #+nil (do0
 	     (learn.lr_find)
 	     (learn.recorder.plot :skip_end 15))
-
+	    ;; is this the issue i am having: https://github.com/fastai/fastai/issues/1289
 
 	    (setf fn_head (pathlib.Path (string "/home/martin/.fastai/data/imdb/models/fit_head.pth")))
 	    (if (fn_head.is_file)
@@ -97,7 +99,7 @@
 		  (print (string "unfreeze and refine language model"))
 		  (learn.unfreeze)
 		      ;; this takes 10*25 min
-		      (learn.fit_one_cycle 10 1e-3 :moms (tuple .8 .7))
+		      (learn.fit_one_cycle 1 1e-3 :moms (tuple .8 .7))
 		      (learn.save (string "fine_tuned")) ;; don't forget to call the two functions
 		      (learn.save_encoder (string "fine_tuned_enc")))))
 	    #+nil
