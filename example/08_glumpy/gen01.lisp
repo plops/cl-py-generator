@@ -36,6 +36,20 @@
 				      (values float))
 			     (return (- (length (- p center))
 					radius)))
+			    (defun color (d)
+			      (declare (type float d)
+				       (values vec4))
+			      (let ((white (vec3 1 1 1))
+				    (blue (vec3 .1 .4 .7))
+				    (color (- white (* (sign d) blue))))
+				(declare (type vec3 white blue color))
+				(setf color (* color
+					       (- 1s0
+						  (* (exp (* -4s0 (abs d)))
+						     (+ .8s0 (* .2s0 (cos (* 140s0 d))))))))
+				(setf color (mix color white
+						 (- 1s0 (smoothstep 0s0 .02s0 (abs d)))))
+				(return (vec4 color 1s0))))
 			    (defun main ()
 			      (let ((epsilon .005s0)
 				    (d (distance v_position.xy (vec2 0s0) .5s0))
@@ -43,7 +57,8 @@
 				
 				(declare (type "const float" epsilon)
 					 (type float d))
-				(if (< d (- epsilon))
+				(setf gl_FragColor (color d))
+				#+nil (if (< d (- epsilon))
 				    (setf gl_FragColor (vec4 (- 1s0 (abs d))
 							     0 0 1))
 				    (if (< epsilon d)
