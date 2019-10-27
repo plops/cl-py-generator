@@ -5,6 +5,7 @@
 
 
 (progn
+  ;; https://github.com/rougier/python-opengl/blob/master/code/chapter-03/glumpy-quad-solid.py
   (in-package :cl-py-generator)
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/08_glumpy")
   (defparameter *code-file* "run_00_window")
@@ -16,6 +17,10 @@
 		  "attribute vec2 position;"
 		  (defun main ()
 		    (setf gl_Position (vec4 position 0s0 1s0))))))
+	 (fragment-code (cl-cpp-generator2::emit-c :code `(do
+							   ;"varying vec4 v_color;"
+		  (defun main ()
+		    (setf gl_FragColor (vec4 1s0 0s0 0s0 1s0))))))
 	 (code
 	  `(do0
 	    (do0
@@ -43,7 +48,20 @@
 	    (do0
 	     (app.use (string "glfw"))
 	     (setf window (app.Window))
-	     (setf vertex (string3 ,vertex-code)))
+	     (setf vertex (string3 ,vertex-code)
+		   fragment (string3 ,fragment-code)
+		   quad (gloo.Program vertex fragment :count 4)
+		   (aref quad (string "position"))
+		   (ntuple (tuple -1 1)
+			   (tuple 1 1)
+			   (tuple -1 -1)
+			   (tuple 1 -1)))
+	     (do0
+	      "@window.event"
+	      (def on_draw (dt)
+		(window.clear)
+		(quad.draw gl.GL_TRIANGLE_STRIP)))
+	     (app.run))
 	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
