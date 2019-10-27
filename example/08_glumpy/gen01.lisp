@@ -13,10 +13,15 @@
   (defparameter *inspection-facts*
     `((10 "")))
 
-  (let* ((vertex-code (cl-cpp-generator2::emit-c :code `(do
-		  "attribute vec2 position;"
-		  (defun main ()
-		    (setf gl_Position (vec4 position 0s0 1s0))))))
+  (let* ((vertex-code (cl-cpp-generator2::emit-c
+		       :code
+		       `(do
+			 "attribute vec2 position;"
+			 "attribute vec4 color;"
+			  "varying vec4 v_color;"
+			  (defun main ()
+			   (setf gl_Position (vec4 position 0s0 1s0))
+			   (setf v_color color)))))
 	 (fragment-code (cl-cpp-generator2::emit-c
 			 :code
 			 `(do

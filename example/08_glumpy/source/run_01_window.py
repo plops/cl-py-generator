@@ -7,8 +7,11 @@ from glumpy import app, gloo, gl
 app.use("glfw")
 window=app.Window()
 vertex="""        attribute vec2 position;
+        attribute vec4 color;
+        varying vec4 v_color;
         void main (){
                         gl_Position=vec4(position, (0.0e+0f), (1.e+0f));
+                        v_color=color;
 }"""
 fragment="""        varying vec4 v_color;
         void main (){
