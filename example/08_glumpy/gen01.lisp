@@ -38,7 +38,9 @@
 					radius)))
 			    (defun main ()
 			      (let ((epsilon .005s0)
-				    (d (distance v_position (vec2 0s0) .5s0)))
+				    (d (distance v_position.xy (vec2 0s0) .5s0))
+				    )
+				
 				(declare (type "const float" epsilon)
 					 (type float d))
 				(if (< d (- epsilon))

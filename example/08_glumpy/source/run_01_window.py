@@ -18,7 +18,7 @@ fragment="""        varying vec4 v_position;
 }
         void main (){
                         const float epsilon  = (5.e-3f);
-        float d  = distance(v_position, vec2((0.0e+0f)), (5.e-1f));
+        float d  = distance(v_position.xy, vec2((0.0e+0f)), (5.e-1f));
         if ( d<(-(epsilon)) ) {
                                     gl_FragColor=vec4((((1.e+0f))-(abs(d))), 0, 0, 1);
 } else {
