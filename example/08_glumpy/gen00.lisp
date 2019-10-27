@@ -1,16 +1,22 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "cl-py-generator"))
-(in-package :cl-py-generator)
+  (ql:quickload "cl-py-generator")
+  (ql:quickload "cl-cpp-generator2"))
+
 
 
 (progn
+  (in-package :cl-py-generator)
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/08_glumpy")
   (defparameter *code-file* "run_00_window")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *inspection-facts*
     `((10 "")))
 
-  (let* ((code
+  (let* ((vertex-code (cl-cpp-generator2::emit-c :code `(do
+		  "attribute vec2 position;"
+		  (defun main ()
+		    (setf gl_Position (vec4 position 0s0 1s0))))))
+	 (code
 	  `(do0
 	    (do0
 	     #+nil (imports (matplotlib))
@@ -36,8 +42,9 @@
 	    "from glumpy import app, gloo, gl"
 	    (do0
 	     (app.use (string "glfw"))
-	     (setf window (app.Window)))
-
+	     (setf window (app.Window))
+	     (setf vertex (string3 ,vertex-code)))
+	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
