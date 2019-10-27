@@ -33,6 +33,10 @@
 					;scipy.ndimage
 					;scipy.optimize
 			    ))
+	    "from glumpy import app, gloo, gl"
+	    (do0
+	     (app.use (string "glfw"))
+	     (setf window (app.Window)))
 
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
