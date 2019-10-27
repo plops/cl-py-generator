@@ -6,6 +6,12 @@
 
 
 (progn
+  ;; define the shader within the cl-cpp-generator2 package i use this
+  ;; method because in-package needs to appear as top level to have an
+  ;; effect during compilation i want to be able to press C-c C-c in
+  ;; slime to evaluate all the code and generate the py file. this is
+  ;; the easiest way i found to achieve this.
+  
   (let ((*package* (sb-int:find-undeleted-package-or-lose "CL-CPP-GENERATOR2")))
     ;progn (in-package :cl-cpp-generator2)
 
