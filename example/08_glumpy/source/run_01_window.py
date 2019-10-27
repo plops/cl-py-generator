@@ -5,14 +5,23 @@ plt.ion()
 import numpy as np
 from glumpy import app, gloo, gl
 app.use("glfw")
-window=app.Window()
-vertex="""        attribute vec2 position;
-        varying vec2 v_position;
+V=np.zeros(16, [("center",np.float32,2,), ("radius",np.float32,1,)])
+V["center"]=np.dstack([np.linspace(32, ((512)-(32)), len(V)), np.linspace(25, 28, len(V))])
+V["radius"]=15
+window=app.Window(512, 50, color=(1,1,1,1,))
+vertex="""        uniform vec2 resolution;
+        attribute vec2 center;
+        attribute float radius;
+        varying vec2 v_center;
+        varying float v_radius;
         void main (){
-                        gl_Position=vec4(position, (0.0e+0f), (1.e+0f));
-                        v_position=position;
+                        v_radius=radius;
+        v_center=center;
+        gl_PointSize=(((2.e+0f))+(ceil((((2.e+0f))*(radius)))));
+                        gl_Position=vec4((((-1.e+0f))+((((2.e+0f))*(((center)/(resolution)))))), (0.0e+0f), (1.e+0f));
 }"""
-fragment="""        varying vec4 v_position;
+fragment="""        varying vec4 v_center;
+        varying float v_radius;
         float distance (vec2 p, vec2 center, float radius){
                 return ((length(((p)-(center))))-(radius));
 }
@@ -44,7 +53,9 @@ fragment="""        varying vec4 v_position;
                         vec2 pq0  = ((v0)-(((e0)*(clamp(((dot(v0, e0))/(dot(e0, e0))), (0.0e+0f), (1.e+0f))))));
                         vec2 pq1  = ((v1)-(((e1)*(clamp(((dot(v1, e1))/(dot(e1, e1))), (0.0e+0f), (1.e+0f))))));
                         vec2 pq2  = ((v2)-(((e2)*(clamp(((dot(v2, e2))/(dot(e2, e2))), (0.0e+0f), (1.e+0f))))));
-                        float s  = sign(((((e0.x)*(e2.y)))-(((e0.y)*(e2.x)))));
+                        auto s  = sign(((((e0.x)*(e2.y)))-(((e0.y)*(e2.x)))));
+        y;
+        declare(type(float, s));
                         vec2 vv0  = vec2(dot(pq0, pq0), ((s)*(((((v0.x)*(e0.y)))-(((v0.y)*(e0.x)))))));
                         vec2 vv1  = vec2(dot(pq1, pq1), ((s)*(((((v1.x)*(e1.y)))-(((v1.y)*(e1.x)))))));
                         vec2 vv2  = vec2(dot(pq2, pq2), ((s)*(((((v2.x)*(e2.y)))-(((v2.y)*(e2.x)))))));
@@ -60,14 +71,22 @@ fragment="""        varying vec4 v_position;
         return vec4(color, (1.e+0f));
 }
         void main (){
-                        const float epsilon  = (5.e-3f);
-        float d  = distance(v_position.xy, vec2((0.0e+0f)), (5.e-1f));
-                gl_FragColor=color(d);
+                        vec2 p  = ((gl_FragCoord.xy)-(v_center));
+        float a  = (1.e+0f);
+        float d  = ((length(p))+((-(v_radius)))+((1.e+0f)));
+                d=abs(d);
+        if ( (0.0e+0f)<d ) {
+                                                a=exp(((-1)*(d)*(d)));
+};
+                gl_FragColor=vec3(vec3((0.0e+0f)), a);
 }"""
-quad=gloo.Program(vertex, fragment, count=4)
-quad["position"]=(-1,1,), (1,1,), (-1,-1,), (1,-1,)
+points=gloo.Program(vertex, fragment)
+points.bind(V.view(gloo.VertexBuffer))
+@window.event
+def on_resize(width, height):
+    points["resolution"]=(width,height,)
 @window.event
 def on_draw(dt):
     window.clear()
-    quad.draw(gl.GL_TRIANGLE_STRIP)
+    points.draw(gl.GL_POINTS)
 app.run()
