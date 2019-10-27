@@ -36,6 +36,78 @@
 				      (values float))
 			     (return (- (length (- p center))
 					radius)))
+			    (defun SDF_circle (p radius)
+			     (declare (type vec2 p)
+				      (type float radius)
+				      (values float))
+			     (return (- (length p)
+					radius)))
+			    (defun SDF_plane (p p0 p1)
+			     (declare (type vec2 p p0 p1)
+				      (values float))
+			     (let ((tt (- p1 p0))
+				   (o (normalize (vec2 tt.y (- tt.x)))))
+			       (declare (type vec2 tt o))
+			       (return (dot o (- p0 p)))))
+			    (defun SDF_box (p size)
+			     (declare (type vec2 p size)
+				      (values float))
+			     (let ((d (- (abs p) size))
+				   )
+			       (declare (type vec2 d))
+			       (return (+ (min (max d.x d.y)
+					       0s0)
+					  (length (max d 0s0))))))
+			    (defun SDF_round_box (p size radius)
+			      (declare (type vec2 p size)
+				       (type float radius)
+				      (values float))
+			      (return (- (SDF_box p size)
+					 radius)))
+			    (defun SDF_fake_box (p size)
+			     (declare (type vec2 p size)
+				      (values float))
+			     (return (max (- (abs p.x) size.x)
+					  (- (abs p.y) size.y))))
+			    (defun SDF_triangle (p p0 p1 p2)
+			      (declare (type vec2 p p0 p1 p2)
+				       (values float))
+			      ,@(loop for (e f) in `((1 0)
+						     (2 1)
+						     (0 2)) and i from 0
+				   collect
+				     (let ((name (format nil "e~a" i)))
+				       `(let ((,name
+					       (- ,(format nil "p~a" e)
+						  ,(format nil "p~a" f))))
+					  (declare (type vec2 ,name)))))
+			      ,@(loop for (e f) in `(("" 0)
+						     ("" 1)
+						     ("" 2)) and i from 0
+				   collect
+				     (let ((name (format nil "v~a" i)))
+				       `(let ((,name
+					       (- ,(format nil "p~a" e)
+						  ,(format nil "p~a" f))))
+					  (declare (type vec2 ,name)))))
+			      ,@(loop for i below 3 collect
+				     (let ((name (format nil "pq~a" i))
+					   (v (format nil "v~a" i))
+					   (e (format nil "e~a" i)))
+				       `(let ((,name
+					       (- ,v
+						  (* ,e
+						     (clamp (/ (dot ,v ,e)
+							       (dot ,e ,e))
+							    0s0 1s0)))))
+					  (declare (type vec2 ,name)))))
+			      (let (
+				   )
+				(declare (type vec2 d)
+					 (type float s))))
+			    
+			    
+			    
 			    (defun color (d)
 			      (declare (type float d)
 				       (values vec4))
