@@ -171,7 +171,7 @@
   
   
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/08_glumpy")
-  (defparameter *code-file* "run_01_window")
+  (defparameter *code-file* "run_01_circles")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *inspection-facts*
     `((10 "")))
@@ -180,8 +180,8 @@
 	 
 	 (code
 	  `(do0
-	    "# https://github.com/rougier/python-opengl/blob/master/code/chapter-03/glumpy-quad-solid.py"
-	    "# https://www.labri.fr/perso/nrougier/python-opengl/#id7"
+	    "# https://www.labri.fr/perso/nrougier/python-opengl/code/chapter-07/circles-aligned.pyhttps://github.com/rougier/python-opengl/blob/master/code/chapter-03/glumpy-quad-solid.py"
+	    "# https://www.labri.fr/perso/nrougier/python-opengl/#id27"
 	    (do0
 	     #+nil (imports (matplotlib))
 					;(matplotlib.use (string "Agg"))
