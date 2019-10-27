@@ -17,17 +17,37 @@
 		       :code
 		       `(do
 			 "attribute vec2 position;"
-			 "attribute vec4 color;"
-			  "varying vec4 v_color;"
+					;"attribute vec4 color;"
+					;"varying vec4 v_color;"
+			 "varying vec2 v_position;"
 			  (defun main ()
 			   (setf gl_Position (vec4 position 0s0 1s0))
-			   (setf v_color color)))))
+			   ;(setf v_color color)
+			   (setf v_position position)
+			   ))))
 	 (fragment-code (cl-cpp-generator2::emit-c
 			 :code
 			 `(do
-			   "varying vec4 v_color;"
-			   (defun main ()
-			     (setf gl_FragColor v_color)))))
+					;"varying vec4 v_color;"
+			   "varying vec4 v_position;"
+			   (defun distance (p center radius)
+			     (declare (type vec2 p center)
+				      (type float radius)
+				      (values float))
+			     (return (- (length (- p center))
+					radius)))
+			    (defun main ()
+			      (let ((epsilon .005s0)
+				    (d (distance v_position (vec2 0s0) .5s0)))
+				(declare (type "const float" epsilon)
+					 (type float d))
+				(if (< d (- epsilon))
+				    (setf gl_FragColor (vec4 (- 1s0 (abs d))
+							     0 0 1))
+				    (if (< epsilon d)
+					(setf gl_FragColor (vec4 0 0 (- 1s0 (abs d))
+								 1))
+					(setf gl_FragColor (vec4 1 1 1 1)))))))))
 	 (code
 	  `(do0
 	    "# https://github.com/rougier/python-opengl/blob/master/code/chapter-03/glumpy-quad-solid.py"
@@ -64,11 +84,13 @@
 							    (tuple 1 1)
 							    (tuple -1 -1)
 							    (tuple 1 -1))
-		   (aref quad (string "color"))  (ntuple
-						  (tuple 1 1 0 1)
-						  (tuple 1 0 0 1)
-						  (tuple 0 0 1 1)
-						  (tuple 0 1 0 1)))
+		   )
+	     #+nil (setf (aref quad (string "color"))
+			       (ntuple
+				(tuple 1 1 0 1)
+				(tuple 1 0 0 1)
+				(tuple 0 0 1 1)
+				(tuple 0 1 0 1)))
 	     (do0
 	      "@window.event"
 	      (def on_draw (dt)
