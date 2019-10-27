@@ -44,7 +44,12 @@ fragment="""        varying vec4 v_position;
                         vec2 pq0  = ((v0)-(((e0)*(clamp(((dot(v0, e0))/(dot(e0, e0))), (0.0e+0f), (1.e+0f))))));
                         vec2 pq1  = ((v1)-(((e1)*(clamp(((dot(v1, e1))/(dot(e1, e1))), (0.0e+0f), (1.e+0f))))));
                         vec2 pq2  = ((v2)-(((e2)*(clamp(((dot(v2, e2))/(dot(e2, e2))), (0.0e+0f), (1.e+0f))))));
-                ;
+                        float s  = sign(((((e0.x)*(e2.y)))-(((e0.y)*(e2.x)))));
+                        vec2 vv0  = vec2(dot(pq0, pq0), ((s)*(((((dot(v0, x))*(dot(e0, y))))-(((dot(v0, y))*(dot(e0, x))))))));
+                        vec2 vv1  = vec2(dot(pq1, pq1), ((s)*(((((dot(v1, x))*(dot(e1, y))))-(((dot(v1, y))*(dot(e1, x))))))));
+                        vec2 vv2  = vec2(dot(pq2, pq2), ((s)*(((((dot(v2, x))*(dot(e2, y))))-(((dot(v2, y))*(dot(e2, x))))))));
+                        vec2 d  = min(min(vv0, vv1), vv2);
+        return (((-(sqrt(d.x))))*(sign(d.y)));
 }
         vec4 color (float d){
                         vec3 white  = vec3(1, 1, 1);

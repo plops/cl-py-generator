@@ -97,14 +97,33 @@
 				       `(let ((,name
 					       (- ,v
 						  (* ,e
-						     (clamp (/ (dot ,v ,e)
-							       (dot ,e ,e))
+						     (clamp (/ ("dot" ,v ,e)
+							       ("dot" ,e ,e))
 							    0s0 1s0)))))
 					  (declare (type vec2 ,name)))))
+			      (let ((s (sign (- (* e0.x e2.y)
+						(* e0.y e2.x))))
+				    )
+				(declare 
+					 (type float s)))
+			      ,@(loop for i below 3 collect
+				     (let ((name (format nil "vv~a" i))
+					   (v (format nil "v~a" i))
+					   (e (format nil "e~a" i))
+					   (pq (format nil "pq~a" i)))
+				       `(let ((,name
+					       (vec2 ("dot" ,pq ,pq)
+						     (* s (- (* (dot ,v x) (dot ,e y))
+							     (* (dot ,v y) (dot ,e x)))))))
+					  (declare (type vec2 ,name)))))
 			      (let (
-				   )
+				    (d (min (min vv0 vv1)
+					    vv2))
+				    )
 				(declare (type vec2 d)
-					 (type float s))))
+					 )
+				(return (* (- (sqrt d.x))
+					   (sign d.y)))))
 			    
 			    
 			    
