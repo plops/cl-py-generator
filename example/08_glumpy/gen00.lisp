@@ -5,7 +5,7 @@
 
 
 (progn
-  ;; https://github.com/rougier/python-opengl/blob/master/code/chapter-03/glumpy-quad-solid.py
+  
   (in-package :cl-py-generator)
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/08_glumpy")
   (defparameter *code-file* "run_00_window")
@@ -23,6 +23,8 @@
 		    (setf gl_FragColor (vec4 1s0 0s0 0s0 1s0))))))
 	 (code
 	  `(do0
+	    "# https://github.com/rougier/python-opengl/blob/master/code/chapter-03/glumpy-quad-solid.py"
+	    "# https://www.labri.fr/perso/nrougier/python-opengl/#id7"
 	    (do0
 	     #+nil (imports (matplotlib))
 			      ;(matplotlib.use (string "Agg"))
