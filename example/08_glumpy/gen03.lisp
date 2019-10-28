@@ -27,9 +27,9 @@
 					(setf v_thickness (abs thickness)
 					      v_alpha 1s0))
 				    (let (;; half of the width that the shader will touch
-					  (tt (+ antialias (/ thickness 2s0)))
+					  (tt (+ antialias (/ v_thickness 2s0)))
 					  ;; length of the segment (without caps)
-					  (l (distance p1 p0))
+					  (l (distance p0 p1))
 					  ;; u in [0..1] .. distance along segment
 					  ;; u<0, u>l    .. cap area
 					  (u (- (* 2s0 uv.x) 1s0))
@@ -40,6 +40,7 @@
 					  ;; unit vector normal to segment 
 					  (O (vec2 -TT.y TT.x))
 					  (p (+ p0
+						(vec2 .5s0 .5s0)
 						(* uv.x TT l)
 						(* u TT tt)
 						(* v O tt))))
@@ -148,7 +149,7 @@
 					       (reshape n 1 2))
 		   (aref V (string "p1")) (dot (np.dstack
 						(tuple (np.linspace 110 1110 n)
-						       (* (np.ones n) 750)))
+						       (* (np.ones n) 350)))
 					       (reshape n 1 2))
 		   (aref V (string "uv")) (tuple (tuple 0 0)
 						 (tuple 0 1)
@@ -160,7 +161,7 @@
 	     
 	     (setf vertex (string3 ,cl-cpp-generator2::*vertex-code*)
 		   fragment (string3 ,cl-cpp-generator2::*fragment-code*)
-		   segments (gloo.Program vertex fragment)
+		   segments (gloo.Program vertex fragment :count (* 4 n))
 		   )
 	     (segments.bind (dot V
 				 (ravel)

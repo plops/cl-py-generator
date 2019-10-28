@@ -7,7 +7,7 @@ window=app.Window(1200, 400, color=(1,1,1,1,))
 n=100
 V=np.zeros((n,4,), dtype=[("p0",np.float32,2,), ("p1",np.float32,2,), ("uv",np.float32,2,), ("thickness",np.float32,1,)])
 V["p0"]=np.dstack((np.linspace(100, 1100, n),((np.ones(n))*(50)),)).reshape(n, 1, 2)
-V["p1"]=np.dstack((np.linspace(110, 1110, n),((np.ones(n))*(750)),)).reshape(n, 1, 2)
+V["p1"]=np.dstack((np.linspace(110, 1110, n),((np.ones(n))*(350)),)).reshape(n, 1, 2)
 V["uv"]=((0,0,),(0,1,),(1,0,),(1,1,),)
 V["thickness"]=np.linspace((1.0000000149011612e-1), (8.e+0), n).reshape(n, 1)
 vertex="""        uniform vec2 resolution;
@@ -24,13 +24,13 @@ vertex="""        uniform vec2 resolution;
                                     v_thickness=abs(thickness);
             v_alpha=(1.e+0f);
 }
-                        float tt  = ((antialias)+(((thickness)/((2.e+0f)))));
-        float l  = distance(p1, p0);
+                        float tt  = ((antialias)+(((v_thickness)/((2.e+0f)))));
+        float l  = distance(p0, p1);
         float u  = (((((2.e+0f))*(uv.x)))-((1.e+0f)));
         float v  = (((((2.e+0f))*(uv.y)))-((1.e+0f)));
         vec2 TT  = normalize(((p1)-(p0)));
         vec2 O  = vec2(-TT.y, TT.x);
-        vec2 p  = ((p0)+(((uv.x)*(TT)*(l)))+(((u)*(TT)*(tt)))+(((v)*(O)*(tt))));
+        vec2 p  = ((p0)+(vec2((5.e-1f), (5.e-1f)))+(((uv.x)*(TT)*(l)))+(((u)*(TT)*(tt)))+(((v)*(O)*(tt))));
                 gl_Position=vec4((((((((2.e+0f))*(p)))/(resolution)))-((1.e+0f))), (0.0e+0f), (1.e+0f));
                 // local space
                 TT=vec2((1.e+0f), (0.0e+0f));
@@ -64,7 +64,7 @@ fragment="""        uniform float antialias;
 };
 };
 }"""
-segments=gloo.Program(vertex, fragment)
+segments=gloo.Program(vertex, fragment, count=((4)*(n)))
 segments.bind(V.ravel().view(gloo.VertexBuffer))
 segments["antialias"]=(2.e+0)
 I=np.zeros((n,6,), dtype=np.uint32)
