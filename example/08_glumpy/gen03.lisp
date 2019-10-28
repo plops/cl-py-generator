@@ -15,7 +15,7 @@
 			       `(do
 				 "uniform vec2 resolution;"
 				 "uniform float antialias;"
-				  "attribute float thickenss;"
+				  "attribute float thickness;"
 				  "attribute vec2 p0, p1, uv;"
 				  "varying float v_alpha, v_thickness;"
 				  "varying vec2 v_p0, v_p1, v_p;"
@@ -109,13 +109,13 @@
 	  `(do0
 	    "# https://www.labri.fr/perso/nrougier/python-opengl/code/chapter-09/agg-segments.py "
 	    "# https://www.labri.fr/perso/nrougier/python-opengl/#id39"
-	    (do0
-	     #+nil (imports (matplotlib))
+	    #+nil (do0
+	     (imports (matplotlib))
 					;(matplotlib.use (string "Agg"))
 	     (imports ((plt matplotlib.pyplot)))
 	     (plt.ion))
 	    
-	    (imports (			;os
+	     (imports (			;os
 					;sys
 					;time
 					;docopt
@@ -133,28 +133,56 @@
 	    "from glumpy import app, gloo, gl"
 	    (do0
 	     (app.use (string "glfw"))
-	     (setf V (np.zeros 16 (list (tuple (string "center") np.float32 2)
-					(tuple (string "radius") np.float32 1)))
-		   (aref V (string "center")) (np.dstack
-					       (list (np.linspace 32 (- 512 32) (len V))
-						     (np.linspace 25 28 (len V))))
-		   (aref V (string "radius")) (np.linspace 1 15 (len V)))
-	     (setf window (app.Window 512 50 :color (tuple 1 1 1 1)))
+	     (setf window (app.Window 1200 400 :color (tuple 1 1 1 1)))
+	     
+	     (setf n 100
+		   V (np.zeros (tuple n 4)
+			       :dtype (list (tuple (string "p0") np.float32 2)
+					    (tuple (string "p1") np.float32 2)
+					    (tuple (string "uv") np.float32 2)
+					    (tuple (string "thickness") np.float32 1)
+					    ))
+		   (aref V (string "p0")) (dot (np.dstack
+						(tuple (np.linspace 100 1100 n)
+						       (* (np.ones n) 50)))
+					       (reshape n 1 2))
+		   (aref V (string "p1")) (dot (np.dstack
+						(tuple (np.linspace 110 1110 n)
+						       (* (np.ones n) 750)))
+					       (reshape n 1 2))
+		   (aref V (string "uv")) (tuple (tuple 0 0)
+						 (tuple 0 1)
+						 (tuple 1 0)
+						 (tuple 1 1))
+		   (aref V (string "thickness")) (dot (np.linspace .1s0 8s0 n)
+						      (reshape n 1))
+		   )
+	     
 	     (setf vertex (string3 ,cl-cpp-generator2::*vertex-code*)
 		   fragment (string3 ,cl-cpp-generator2::*fragment-code*)
-		   points (gloo.Program vertex fragment)
+		   segments (gloo.Program vertex fragment)
 		   )
-	     (points.bind (V.view gloo.VertexBuffer))
+	     (segments.bind (dot V
+				 (ravel)
+				 (view gloo.VertexBuffer)))
+	     (setf (aref segments (string "antialias")) 2s0)
+
+	     (setf I (np.zeros (tuple n 6) :dtype np.uint32)
+		   (aref I ":") (list 0 1 2 1 2 3)
+		   
+		   I (+ I (* 4 (dot (np.arange n :dtype np.uint32)
+				    (reshape n 1))))
+		   I (dot I (ravel) (view gloo.IndexBuffer)))
 	     (do0
 	      "@window.event"
 	      (def on_resize (width height)
-		(setf (aref points (string "resolution"))
+		(setf (aref segments (string "resolution"))
 		      (tuple width height))))
 	     (do0
 	      "@window.event"
 	      (def on_draw (dt)
 		(window.clear)
-		(points.draw gl.GL_POINTS)))
+		(segments.draw gl.GL_TRIANGLES I)))
 	     (app.run))
 	    
 	    )))

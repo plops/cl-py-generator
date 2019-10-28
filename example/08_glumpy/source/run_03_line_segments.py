@@ -1,17 +1,18 @@
 # https://www.labri.fr/perso/nrougier/python-opengl/code/chapter-09/agg-segments.py 
 # https://www.labri.fr/perso/nrougier/python-opengl/#id39
-import matplotlib.pyplot as plt
-plt.ion()
 import numpy as np
 from glumpy import app, gloo, gl
 app.use("glfw")
-V=np.zeros(16, [("center",np.float32,2,), ("radius",np.float32,1,)])
-V["center"]=np.dstack([np.linspace(32, ((512)-(32)), len(V)), np.linspace(25, 28, len(V))])
-V["radius"]=np.linspace(1, 15, len(V))
-window=app.Window(512, 50, color=(1,1,1,1,))
+window=app.Window(1200, 400, color=(1,1,1,1,))
+n=100
+V=np.zeros((n,4,), dtype=[("p0",np.float32,2,), ("p1",np.float32,2,), ("uv",np.float32,2,), ("thickness",np.float32,1,)])
+V["p0"]=np.dstack((np.linspace(100, 1100, n),((np.ones(n))*(50)),)).reshape(n, 1, 2)
+V["p1"]=np.dstack((np.linspace(110, 1110, n),((np.ones(n))*(750)),)).reshape(n, 1, 2)
+V["uv"]=((0,0,),(0,1,),(1,0,),(1,1,),)
+V["thickness"]=np.linspace((1.0000000149011612e-1), (8.e+0), n).reshape(n, 1)
 vertex="""        uniform vec2 resolution;
         uniform float antialias;
-        attribute float thickenss;
+        attribute float thickness;
         attribute vec2 p0, p1, uv;
         varying float v_alpha, v_thickness;
         varying vec2 v_p0, v_p1, v_p;
@@ -63,13 +64,18 @@ fragment="""        uniform float antialias;
 };
 };
 }"""
-points=gloo.Program(vertex, fragment)
-points.bind(V.view(gloo.VertexBuffer))
+segments=gloo.Program(vertex, fragment)
+segments.bind(V.ravel().view(gloo.VertexBuffer))
+segments["antialias"]=(2.e+0)
+I=np.zeros((n,6,), dtype=np.uint32)
+I[:]=[0, 1, 2, 1, 2, 3]
+I=((I)+(((4)*(np.arange(n, dtype=np.uint32).reshape(n, 1)))))
+I=I.ravel().view(gloo.IndexBuffer)
 @window.event
 def on_resize(width, height):
-    points["resolution"]=(width,height,)
+    segments["resolution"]=(width,height,)
 @window.event
 def on_draw(dt):
     window.clear()
-    points.draw(gl.GL_POINTS)
+    segments.draw(gl.GL_TRIANGLES, I)
 app.run()
