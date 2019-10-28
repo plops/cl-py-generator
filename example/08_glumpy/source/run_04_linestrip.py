@@ -42,13 +42,13 @@ fragment="""        uniform float antialias, thickness, linelength;
                                     d=((length(v_uv))-(w));
 } else {
                         if ( (linelength)<=(v_uv.x) ) {
-                                                d=((distance(v_uv, vec2(linelength, 0)))-(0));
+                                                d=((distance(v_uv, vec2(linelength, 0)))-(w));
 } else {
                                                 d=((abs(v_uv.y))-(w));
 }
 }
         if ( d<0 ) {
-                                    gl_FragColor=vec4((0.0e+0f), (0.0e+0f), (0.0e+0f), (1.e+0f));
+                                    gl_FragColor=vec4((1.e+0f), (0.0e+0f), (0.0e+0f), (1.e+0f));
 } else {
                                     d=((d)/(antialias));
             gl_FragColor=vec4((0.0e+0f), (2.e-1f), (0.0e+0f), exp(((-d)*(d))));

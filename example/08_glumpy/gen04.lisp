@@ -74,10 +74,10 @@
 		(if (<= linelength
 			v_uv.x)
 		    (setf d (- (distance v_uv (vec2 linelength 0))
-			       0))
+			       w))
 		    (setf d (- (abs v_uv.y) w))))
 	    (if (< d 0)
-		(setf gl_FragColor (vec4 0s0 0s0 0s0 1s0))
+		(setf gl_FragColor (vec4 1s0 0s0 0s0 1s0))
 		(setf d (/ d antialias)
 		      gl_FragColor (vec4 0s0 .2s0 0s0 (exp (* -d d)))))))))))
 
