@@ -26,10 +26,14 @@
 					      v_alpha (abs thickness))
 					(setf v_thickness (abs thickness)
 					      v_alpha 1s0))
+				    
 				    (let (;; half of the width that the shader will touch
-					  (tt (+ antialias (/ v_thickness 2s0)))
+					  (tt (+ (/ v_thickness 2s0)
+						 antialias ))
 					  ;; length of the segment (without caps)
-					  (l (distance p0 p1))
+					  (l ;(length (- p0 p1))
+					     (distance p0 p1)
+					     )
 					  ;; u in [0..1] .. distance along segment
 					  ;; u<0, u>l    .. cap area
 					  (u (- (* 2s0 uv.x) 1s0))
@@ -66,7 +70,7 @@
      :code
      `(do
        "uniform float antialias;"
-       "varying float v_thickness, v_alpha;"
+       "varying float v_alpha, v_thickness;"
 	"varying vec2 v_p0, v_p1, v_p;"
 	
 	
@@ -86,10 +90,11 @@
 		    (setf d (+ (abs v_p.y)
 			       offset))))
 	    (if (< d 0)
-		(setf gl_FragColor (vec4 0s0 0s0 0s0 v_alpha))
+		(setf gl_FragColor (vec4 1s0 0s0 0s0 v_alpha)
+		      )
 		(when (< d antialias)
-		  (setf d (exp (* -d d))
-			gl_FragColor (vec4 0s0 0s0 0s0 (* v_alpha d)))))))))))
+			(setf d (exp (* -d d))
+			      gl_FragColor (vec4 0s0 0s0 0s0 (* v_alpha d)))))))))))
 
 
 
@@ -136,21 +141,14 @@
 	     (app.use (string "glfw"))
 	     (setf window (app.Window 1200 400 :color (tuple 1 1 1 1)))
 	     
-	     (setf n 100
+	     (setf n 120
 		   V (np.zeros (tuple n 4)
 			       :dtype (list (tuple (string "p0") np.float32 2)
 					    (tuple (string "p1") np.float32 2)
 					    (tuple (string "uv") np.float32 2)
 					    (tuple (string "thickness") np.float32 1)
 					    ))
-		   (aref V (string "p0")) (dot (np.dstack
-						(tuple (np.linspace 100 1100 n)
-						       (* (np.ones n) 50)))
-					       (reshape n 1 2))
-		   (aref V (string "p1")) (dot (np.dstack
-						(tuple (np.linspace 110 1110 n)
-						       (* (np.ones n) 350)))
-					       (reshape n 1 2))
+		   
 		   (aref V (string "uv")) (tuple (tuple 0 0)
 						 (tuple 0 1)
 						 (tuple 1 0)
@@ -158,7 +156,25 @@
 		   (aref V (string "thickness")) (dot (np.linspace .1s0 8s0 n)
 						      (reshape n 1))
 		   )
-	     
+	     #+nil((aref V (string "p0")) (dot (np.dstack
+					   (tuple (np.linspace 100 1100 n)
+						  (* (np.ones n) 50)))
+					  (reshape n 1 2))
+	      (aref V (string "p1")) (dot (np.dstack
+					   (tuple (np.linspace 110 1110 n)
+						  (* (np.ones n) 350)))
+					  (reshape n 1 2)))
+		   
+		   ,@(loop for i below 2 and e in `((100 1100 50)
+						    (100 1110 350))
+			collect
+			  (destructuring-bind (xstart xend y) e
+			    `(setf (aref V (string ,(format nil "p~a" i)))
+				   (dot (np.dstack
+					 (tuple
+					  (np.linspace ,xstart ,xend n)
+					  (* (np.ones n) ,y)))
+					(reshape n 1 2)))))
 	     (setf vertex (string3 ,cl-cpp-generator2::*vertex-code*)
 		   fragment (string3 ,cl-cpp-generator2::*fragment-code*)
 		   segments (gloo.Program vertex fragment :count (* 4 n))
