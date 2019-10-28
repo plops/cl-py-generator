@@ -89,7 +89,7 @@
   
   
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/08_glumpy")
-  (defparameter *code-file* "run_04_linestrip")
+  (defparameter *code-file* "run_05_linestrip3d")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *inspection-facts*
     `((10 "")))

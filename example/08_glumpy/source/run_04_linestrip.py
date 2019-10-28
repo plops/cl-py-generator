@@ -48,10 +48,10 @@ fragment="""        uniform float antialias, thickness, linelength;
 }
 }
         if ( d<0 ) {
-                                    gl_FragColor=vec4((1.e+0f), (0.0e+0f), (0.0e+0f), (1.e+0f));
+                                    gl_FragColor=vec4((0.0e+0f), (0.0e+0f), (0.0e+0f), (1.e+0f));
 } else {
                                     d=((d)/(antialias));
-            gl_FragColor=vec4((0.0e+0f), (2.e-1f), (0.0e+0f), exp(((-d)*(d))));
+            gl_FragColor=vec4((0.0e+0f), (0.0e+0f), (0.0e+0f), exp(((-d)*(d))));
 };
 }"""
 app.use("glfw")
