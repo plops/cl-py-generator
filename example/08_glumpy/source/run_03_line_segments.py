@@ -10,85 +10,58 @@ V["center"]=np.dstack([np.linspace(32, ((512)-(32)), len(V)), np.linspace(25, 28
 V["radius"]=np.linspace(1, 15, len(V))
 window=app.Window(512, 50, color=(1,1,1,1,))
 vertex="""        uniform vec2 resolution;
-        attribute vec2 center;
-        attribute float radius;
-        varying vec2 v_center;
-        varying float v_radius;
+        uniform float antialias;
+        attribute float thickenss;
+        attribute vec2 p0, p1, uv;
+        varying float v_alpha, v_thickness;
+        varying vec2 v_p0, v_p1, v_p;
         void main (){
-                        v_radius=radius;
-        v_center=center;
-        gl_PointSize=(((2.e+0f))+(ceil((((2.e+0f))*(radius)))));
-                        gl_Position=vec4((((-1.e+0f))+((((2.e+0f))*(((center)/(resolution)))))), (0.0e+0f), (1.e+0f));
+                if ( abs(thickness)<(1.e+0f) ) {
+                                    v_thickness=(1.e+0f);
+            v_alpha=abs(thickness);
+} else {
+                                    v_thickness=abs(thickness);
+            v_alpha=(1.e+0f);
+}
+                        float tt  = ((antialias)+(((thickness)/((2.e+0f)))));
+        float l  = distance(p1, p0);
+        float u  = (((((2.e+0f))*(uv.x)))-((1.e+0f)));
+        float v  = (((((2.e+0f))*(uv.y)))-((1.e+0f)));
+        vec2 TT  = normalize(((p1)-(p0)));
+        vec2 O  = vec2(-TT.y, TT.x);
+        vec2 p  = ((p0)+(((uv.x)*(TT)*(l)))+(((u)*(TT)*(tt)))+(((v)*(O)*(tt))));
+                gl_Position=vec4((((((((2.e+0f))*(p)))/(resolution)))-((1.e+0f))), (0.0e+0f), (1.e+0f));
+                // local space
+                TT=vec2((1.e+0f), (0.0e+0f));
+        O=vec2((0.0e+0f), (1.e+0f));
+        p=((((uv.x)*(TT)*(l)))+(((u)*(TT)*(tt)))+(((v)*(O)*(tt))));
+                v_p0=vec2((0.0e+0f), (0.0e+0f));
+        v_p1=vec2((1.e+0f), (0.0e+0f));
+        v_p=p;
 }"""
-fragment="""        varying vec2 v_center;
-        varying float v_radius;
-            float distance (vec2 p, vec2 center, float radius){
-                return ((length(((p)-(center))))-(radius));
-}
-    float SDF_circle (vec2 p, float radius){
-                return ((length(p))-(radius));
-}
-    float SDF_plane (vec2 p, vec2 p0, vec2 p1){
-                        vec2 tt  = ((p1)-(p0));
-        vec2 o  = normalize(vec2(tt.y, (-(tt.x))));
-        return dot(o, ((p0)-(p)));
-}
-    float SDF_box (vec2 p, vec2 size){
-                        vec2 d  = ((abs(p))-(size));
-        return ((min(max(d.x, d.y), (0.0e+0f)))+(length(max(d, (0.0e+0f)))));
-}
-    float SDF_round_box (vec2 p, vec2 size, float radius){
-                return ((SDF_box(p, size))-(radius));
-}
-    float SDF_fake_box (vec2 p, vec2 size){
-                return max(((abs(p.x))-(size.x)), ((abs(p.y))-(size.y)));
-}
-    float SDF_triangle (vec2 p, vec2 p0, vec2 p1, vec2 p2){
-                        vec2 e0  = ((p1)-(p0));
-                        vec2 e1  = ((p2)-(p1));
-                        vec2 e2  = ((p0)-(p2));
-                        vec2 v0  = ((p)-(p0));
-                        vec2 v1  = ((p)-(p1));
-                        vec2 v2  = ((p)-(p2));
-                        vec2 pq0  = ((v0)-(((e0)*(clamp(((dot(v0, e0))/(dot(e0, e0))), (0.0e+0f), (1.e+0f))))));
-                        vec2 pq1  = ((v1)-(((e1)*(clamp(((dot(v1, e1))/(dot(e1, e1))), (0.0e+0f), (1.e+0f))))));
-                        vec2 pq2  = ((v2)-(((e2)*(clamp(((dot(v2, e2))/(dot(e2, e2))), (0.0e+0f), (1.e+0f))))));
-                        float s  = sign(((((e0.x)*(e2.y)))-(((e0.y)*(e2.x)))));
-                        vec2 vv0  = vec2(dot(pq0, pq0), ((s)*(((((v0.x)*(e0.y)))-(((v0.y)*(e0.x)))))));
-                        vec2 vv1  = vec2(dot(pq1, pq1), ((s)*(((((v1.x)*(e1.y)))-(((v1.y)*(e1.x)))))));
-                        vec2 vv2  = vec2(dot(pq2, pq2), ((s)*(((((v2.x)*(e2.y)))-(((v2.y)*(e2.x)))))));
-                        vec2 d  = min(min(vv0, vv1), vv2);
-        return (((-(sqrt(d.x))))*(sign(d.y)));
-}
-    float csg_union (float a, float b){
-                return min(a, b);
-}
-    float csg_difference (float a, float b){
-                return max(a, (-(b)));
-}
-    float csg_intersection (float a, float b){
-                return max(a, b);
-}
-    float csg_exclusion (float a, float b){
-                return min(max(a, (-(b))), max((-(a)), b));
-}
-    vec4 color (float d){
-                        vec3 white  = vec3(1, 1, 1);
-        vec3 blue  = vec3((1.e-1f), (4.e-1f), (7.e-1f));
-        vec3 color  = ((white)-(((sign(d))*(blue))));
-                color=((color)*((((1.e+0f))-(((exp((((-4.e+0f))*(abs(d)))))*((((8.e-1f))+((((2.e-1f))*(cos((((1.4e+2f))*(d)))))))))))));
-                color=mix(color, white, (((1.e+0f))-(smoothstep((0.0e+0f), (1.9999999e-2f), abs(d)))));
-        return vec4(color, (1.e+0f));
-};
+fragment="""        uniform float antialias;
+        varying float v_thickness, v_alpha;
+        varying vec2 v_p0, v_p1, v_p;
         void main (){
-                        vec2 p  = ((gl_FragCoord.xy)-(v_center));
-        float a  = (1.e+0f);
-        float d  = csg_difference(SDF_circle(p, v_radius), SDF_box(((p)+(vec2(v_radius, 0))), vec2(10, (((4.e-1f))*(v_radius)))));
-                d=abs(d);
-        if ( (0.0e+0f)<d ) {
-                                                a=exp(((-1)*(d)*(d)));
+                        float d  = (0.0e+0f);
+        float offset  = ((((v_thickness)/((-2.e+0f))))+(((antialias)/((2.e+0f)))));
+        if ( v_p.x<0 ) {
+                                    d=((distance(v_p, v_p0))+(offset));
+} else {
+                        if ( distance(v_p1, v_p0)<v_p.x ) {
+                                                d=((distance(v_p, v_p1))+(offset));
+} else {
+                                                d=((abs(v_p.y))+(offset));
+}
+}
+        if ( d<0 ) {
+                                    gl_FragColor=vec4((0.0e+0f), (0.0e+0f), (0.0e+0f), v_alpha);
+} else {
+                        if ( d<antialias ) {
+                                                                d=exp(((-d)*(d)));
+                gl_FragColor=vec4((0.0e+0f), (0.0e+0f), (0.0e+0f), ((v_alpha)*(d)));
 };
-                gl_FragColor=vec4(vec3((0.0e+0f)), a);
+};
 }"""
 points=gloo.Program(vertex, fragment)
 points.bind(V.view(gloo.VertexBuffer))

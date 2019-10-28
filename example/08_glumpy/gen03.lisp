@@ -14,167 +14,81 @@
 			       :code
 			       `(do
 				 "uniform vec2 resolution;"
-				 "attribute vec2 center;"
-				  "attribute float radius;"
-				  "varying vec2 v_center;"
-				  "varying float v_radius;"
-					;"attribute vec2 position;"
-					;"attribute vec4 color;"
-					;"varying vec4 v_color;"
-					;"varying vec2 v_position;"
+				 "uniform float antialias;"
+				  "attribute float thickenss;"
+				  "attribute vec2 p0, p1, uv;"
+				  "varying float v_alpha, v_thickness;"
+				  "varying vec2 v_p0, v_p1, v_p;"
 				  (defun main ()
-				    (setf v_radius radius
-					  v_center center
-					  gl_PointSize (+ 2s0 (ceil (* 2s0 radius))))
-				    (setf gl_Position (vec4 (+ -1s0 (* 2s0 (/ center resolution)))
-							    0s0 1s0))
+				    ;; handle thin lines with v_alpha
+				    (if (< (abs thickness) 1s0)
+					(setf v_thickness 1s0
+					      v_alpha (abs thickness))
+					(setf v_thickness (abs thickness)
+					      v_alpha 1s0))
+				    (let (;; half of the width that the shader will touch
+					  (tt (+ antialias (/ thickness 2s0)))
+					  ;; length of the segment (without caps)
+					  (l (distance p1 p0))
+					  ;; u in [0..1] .. distance along segment
+					  ;; u<0, u>l    .. cap area
+					  (u (- (* 2s0 uv.x) 1s0))
+					  ;; coordinate of line thickness
+					  (v (- (* 2s0 uv.y) 1s0))
+					  ;; unit vector tangential to segment
+					  (TT (normalize (- p1 p0)))
+					  ;; unit vector normal to segment 
+					  (O (vec2 -TT.y TT.x))
+					  (p (+ p0
+						(* uv.x TT l)
+						(* u TT tt)
+						(* v O tt))))
+				      (declare (type float tt l u v)
+					       (type vec2 TT O p))
+				      (setf gl_Position (vec4 (- (/ (* 2s0 p)
+								    resolution)
+								 1s0)
+							      0s0 1s0))
+				      (do0 "// local space"
+					   (setf TT (vec2 1s0 0s0)
+						 O (vec2 0s0 1s0)
+						 p (+ (* uv.x TT l)
+						      (* u TT tt)
+						      (* v O tt)))
+					   (setf v_p0 (vec2 0s0 0s0)
+						 v_p1 (vec2 1s0 0s0)
+						 v_p p)))
 				    
 				    ))))
   (defparameter *fragment-code*
     (cl-cpp-generator2::emit-c
      :code
      `(do
-					;"varying vec4 v_color;"
-					;"varying vec4 v_position;"
-       "varying vec2 v_center;"
-       "varying float v_radius;"
-	(do0
-	 (defun distance (p center radius)
-	   (declare (type vec2 p center)
-		    (type float radius)
-		    (values float))
-	   (return (- (length (- p center))
-		      radius)))
-	 (defun SDF_circle (p radius)
-	   (declare (type vec2 p)
-		    (type float radius)
-		    (values float))
-	   (return (- (length p)
-		      radius)))
-	 (defun SDF_plane (p p0 p1)
-	   (declare (type vec2 p p0 p1)
-		    (values float))
-	   (let ((tt (- p1 p0))
-		 (o (normalize (vec2 tt.y (- tt.x)))))
-	     (declare (type vec2 tt o))
-	     (return ("dot" o (- p0 p)))))
-	 (defun SDF_box (p size)
-	   (declare (type vec2 p size)
-		    (values float))
-	   (let ((d (- (abs p) size))
-		 )
-	     (declare (type vec2 d))
-	     (return (+ (min (max d.x d.y)
-			     0s0)
-			(length (max d 0s0))))))
-	 (defun SDF_round_box (p size radius)
-	   (declare (type vec2 p size)
-		    (type float radius)
-		    (values float))
-	   (return (- (SDF_box p size)
-		      radius)))
-	 (defun SDF_fake_box (p size)
-	   (declare (type vec2 p size)
-		    (values float))
-	   (return (max (- (abs p.x) size.x)
-			(- (abs p.y) size.y))))
-	 (defun SDF_triangle (p p0 p1 p2)
-	   (declare (type vec2 p p0 p1 p2)
-		    (values float))
-	   ,@(loop for (e f) in `((1 0)
-				  (2 1)
-				  (0 2)) and i from 0
-		collect
-		  (let ((name (format nil "e~a" i)))
-		    `(let ((,name
-			    (- ,(format nil "p~a" e)
-			       ,(format nil "p~a" f))))
-		       (declare (type vec2 ,name)))))
-	   ,@(loop for (e f) in `(("" 0)
-				  ("" 1)
-				  ("" 2)) and i from 0
-		collect
-		  (let ((name (format nil "v~a" i)))
-		    `(let ((,name
-			    (- ,(format nil "p~a" e)
-			       ,(format nil "p~a" f))))
-		       (declare (type vec2 ,name)))))
-	   ,@(loop for i below 3 collect
-		  (let ((name (format nil "pq~a" i))
-			(v (format nil "v~a" i))
-			(e (format nil "e~a" i)))
-		    `(let ((,name
-			    (- ,v
-			       (* ,e
-				  (clamp (/ ("dot" ,v ,e)
-					    ("dot" ,e ,e))
-					 0s0 1s0)))))
-		       (declare (type vec2 ,name)))))
-	   (let ((s (sign (- (* e0.x e2.y)
-			     (* e0.y e2.x))))
-		 )
-	     (declare 
-			(type float s)))
-	   ,@(loop for i below 3 collect
-		  (let ((name (format nil "vv~a" i))
-			(v (format nil "v~a" i))
-			(e (format nil "e~a" i))
-			(pq (format nil "pq~a" i)))
-		    `(let ((,name
-			    (vec2 ("dot" ,pq ,pq)
-				  (* s (- (* (dot ,v x) (dot ,e y))
-					  (* (dot ,v y) (dot ,e x)))))))
-		       (declare (type vec2 ,name)))))
-	   (let (
-		 (d (min (min vv0 vv1)
-			 vv2))
-		 )
-	     (declare (type vec2 d)
-		      )
-	     (return (* (- (sqrt d.x))
-			(sign d.y)))))
-	 
-
-	 ,@(loop for (name code) in `((union (min a b))
-				      (difference (max a (- b)))
-				      (intersection (max a b))
-				      (exclusion (min (max a (- b))
-						      (max (- a) b))))
-		collect
-		`(defun ,(format nil "csg_~a" name) (a b)
-		  (declare (type float a b)
-			   (values float))
-		  (return ,code)))
-	 
-	 (defun color (d)
-	   (declare (type float d)
-		    (values vec4))
-	   (let ((white (vec3 1 1 1))
-		 (blue (vec3 .1 .4 .7))
-		 (color (- white (* (sign d) blue))))
-	     (declare (type vec3 white blue color))
-	     (setf color (* color
-			    (- 1s0
-			       (* (exp (* -4s0 (abs d)))
-				  (+ .8s0 (* .2s0 (cos (* 140s0 d))))))))
-	     (setf color (mix color white
-			      (- 1s0 (smoothstep 0s0 .02s0 (abs d)))))
-	     (return (vec4 color 1s0)))))
+       "uniform float antialias;"
+       "varying float v_thickness, v_alpha;"
+	"varying vec2 v_p0, v_p1, v_p;"
+	
+	
 	(defun main ()
-	  (let ((p (- gl_FragCoord.xy v_center))
-		(a 1s0)
-		(d (csg_difference
-		    
-		    (SDF_circle p v_radius)
-		    (SDF_box (+ p (vec2 v_radius 0))
-			     (vec2 10
-				   (* .4 v_radius))))))
-	    (declare (type vec2 p)
-		     (type float a d))
-	    (setf d (abs d))
-	    (when (< 0s0 d)
-	      (setf a (exp (* -1 d d))))
-	    (setf gl_FragColor (vec4 (vec3 0s0) a))))))))
+	  (let ((d 0s0)
+		(offset (+ (/ v_thickness -2s0)
+			   (/ antialias 2s0))))
+	    (declare (type float d offset))
+	    ;; compute signed distance to envelope
+	    (if (< v_p.x 0)
+		(setf d (+ (distance v_p v_p0)
+			   offset))
+		(if (< (distance v_p1 v_p0)
+		       v_p.x)
+		    (setf d (+ (distance v_p v_p1)
+			       offset))
+		    (setf d (+ (abs v_p.y)
+			       offset))))
+	    (if (< d 0)
+		(setf gl_FragColor (vec4 0s0 0s0 0s0 v_alpha))
+		(when (< d antialias)
+		  (setf d (exp (* -d d))
+			gl_FragColor (vec4 0s0 0s0 0s0 (* v_alpha d)))))))))))
 
 
 
