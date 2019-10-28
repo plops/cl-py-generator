@@ -38,7 +38,7 @@
 					;"varying vec4 v_position;"
        "varying vec2 v_center;"
        "varying float v_radius;"
-	#+nil (do0
+	(do0
 	 (defun distance (p center radius)
 	   (declare (type vec2 p center)
 		    (type float radius)
@@ -113,7 +113,7 @@
 	   (let ((s (sign (- (* e0.x e2.y)
 			     (* e0.y e2.x))))
 		 )
-	     y	       (declare 
+	     (declare 
 			(type float s)))
 	   ,@(loop for i below 3 collect
 		  (let ((name (format nil "vv~a" i))
@@ -134,7 +134,17 @@
 	     (return (* (- (sqrt d.x))
 			(sign d.y)))))
 	 
-	 
+
+	 ,@(loop for (name code) in `((union (min a b))
+				      (difference (max a (- b)))
+				      (intersection (max a b))
+				      (exclusion (min (max a (- b))
+						      (max (- a) b))))
+		collect
+		`(defun ,(format nil "csg_~a" name) (a b)
+		  (declare (type float a b)
+			   (values float))
+		  (return ,code)))
 	 
 	 (defun color (d)
 	   (declare (type float d)
@@ -153,10 +163,13 @@
 	(defun main ()
 	  (let ((p (- gl_FragCoord.xy v_center))
 		(a 1s0)
-		(d (+ (length p)
-		      (- v_radius)
-		      1s0)))
-	    (declare (type vec2 p)
+		(d (csg_difference
+		    
+		    (SDF_circle p v_radius)
+		    (SDF_box (+ p (vec2 v_radius 0))
+			     (vec2 10
+				   (* .4 v_radius))))))
+	    (declare (type vec2 p)l
 		     (type float a d))
 	    (setf d (abs d))
 	    (when (< 0s0 d)
@@ -171,7 +184,7 @@
   
   
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/08_glumpy")
-  (defparameter *code-file* "run_01_circles")
+  (defparameter *code-file* "run_02_csg")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *inspection-facts*
     `((10 "")))
@@ -211,7 +224,7 @@
 		   (aref V (string "center")) (np.dstack
 					       (list (np.linspace 32 (- 512 32) (len V))
 						     (np.linspace 25 28 (len V))))
-		   (aref V (string "radius")) 15)
+		   (aref V (string "radius")) (np.linspace 1 15 (len V)))
 	     (setf window (app.Window 512 50 :color (tuple 1 1 1 1)))
 	     (setf vertex (string3 ,cl-cpp-generator2::*vertex-code*)
 		   fragment (string3 ,cl-cpp-generator2::*fragment-code*)

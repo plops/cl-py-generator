@@ -1,0 +1,24 @@
+
+* Installation for Gentoo
+
+- emerge dev-python/pyopengl cython
+- git clone https://github.com/glumpy/glumpy
+- git clone https://github.com/drufat/triangle.git
+
+- run `python setup.py install` in both git directories
+
+* Contents
+
+| name  | comment                  |
+|-------+--------------------------|
+| gen00 | minimal shader example   |
+| gen01 | draw several circles     |
+| gen02 | subtract box from circle |
+| gen03 | line segment             |
+|       |                          |
+
+
+* Reference
+
+- https://github.com/rougier/python-opengl
+- http://www.labri.fr/perso/nrougier/python-opengl
