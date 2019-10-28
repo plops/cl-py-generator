@@ -187,7 +187,8 @@
 					  )
 				    (curr V_curr)
 				    (next V_next)
-				    (thickness 1s0)
+				    (thickness
+				     9s0)
 				    (antialias 1.5s0)
 				    (linelength length)) collect
 		    `(setf (aref segments (string ,e))

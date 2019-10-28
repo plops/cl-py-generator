@@ -84,7 +84,7 @@ segments=gloo.Program(vertex, fragment)
 segments["prev"]=V_prev
 segments["curr"]=V_curr
 segments["next"]=V_next
-segments["thickness"]=(1.e+0)
+segments["thickness"]=(9.e+0)
 segments["antialias"]=(1.4999999999999997e+0)
 segments["linelength"]=length
 @window.event
