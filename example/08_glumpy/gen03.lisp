@@ -94,7 +94,7 @@
 		      )
 		(when (< d antialias)
 			(setf d (exp (* -d d))
-			      gl_FragColor (vec4 0s0 0s0 0s0 (* v_alpha d)))))))))))
+			      gl_FragColor (vec4 0s0 .2s0 0s0 (* v_alpha d)))))))))))
 
 
 
@@ -138,10 +138,14 @@
 		      ))
 	    "from glumpy import app, gloo, gl"
 	    (do0
+	     (setf vertex (string3 ,cl-cpp-generator2::*vertex-code*)
+		   fragment (string3 ,cl-cpp-generator2::*fragment-code*)
+		   
+		   )
 	     (app.use (string "glfw"))
 	     (setf window (app.Window 1200 400 :color (tuple 1 1 1 1)))
 	     
-	     (setf n 120
+	     (setf n 100
 		   V (np.zeros (tuple n 4)
 			       :dtype (list (tuple (string "p0") np.float32 2)
 					    (tuple (string "p1") np.float32 2)
@@ -175,10 +179,8 @@
 					  (np.linspace ,xstart ,xend n)
 					  (* (np.ones n) ,y)))
 					(reshape n 1 2)))))
-	     (setf vertex (string3 ,cl-cpp-generator2::*vertex-code*)
-		   fragment (string3 ,cl-cpp-generator2::*fragment-code*)
-		   segments (gloo.Program vertex fragment :count (* 4 n))
-		   )
+		   
+	     (setf segments (gloo.Program vertex fragment :count (* 4 n)))
 	     (segments.bind (dot V
 				 (ravel)
 				 (view gloo.VertexBuffer)))

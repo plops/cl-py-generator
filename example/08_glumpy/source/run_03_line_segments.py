@@ -2,14 +2,6 @@
 # https://www.labri.fr/perso/nrougier/python-opengl/#id39
 import numpy as np
 from glumpy import app, gloo, gl
-app.use("glfw")
-window=app.Window(1200, 400, color=(1,1,1,1,))
-n=120
-V=np.zeros((n,4,), dtype=[("p0",np.float32,2,), ("p1",np.float32,2,), ("uv",np.float32,2,), ("thickness",np.float32,1,)])
-V["uv"]=((0,0,),(0,1,),(1,0,),(1,1,),)
-V["thickness"]=np.linspace((1.0000000149011612e-1), (8.e+0), n).reshape(n, 1)
-V["p0"]=np.dstack((np.linspace(100, 1100, n),((np.ones(n))*(50)),)).reshape(n, 1, 2)
-V["p1"]=np.dstack((np.linspace(100, 1110, n),((np.ones(n))*(350)),)).reshape(n, 1, 2)
 vertex="""        uniform vec2 resolution;
         uniform float antialias;
         attribute float thickness;
@@ -60,10 +52,18 @@ fragment="""        uniform float antialias;
 } else {
                         if ( d<antialias ) {
                                                                 d=exp(((-d)*(d)));
-                gl_FragColor=vec4((0.0e+0f), (0.0e+0f), (0.0e+0f), ((v_alpha)*(d)));
+                gl_FragColor=vec4((0.0e+0f), (2.e-1f), (0.0e+0f), ((v_alpha)*(d)));
 };
 };
 }"""
+app.use("glfw")
+window=app.Window(1200, 400, color=(1,1,1,1,))
+n=100
+V=np.zeros((n,4,), dtype=[("p0",np.float32,2,), ("p1",np.float32,2,), ("uv",np.float32,2,), ("thickness",np.float32,1,)])
+V["uv"]=((0,0,),(0,1,),(1,0,),(1,1,),)
+V["thickness"]=np.linspace((1.0000000149011612e-1), (8.e+0), n).reshape(n, 1)
+V["p0"]=np.dstack((np.linspace(100, 1100, n),((np.ones(n))*(50)),)).reshape(n, 1, 2)
+V["p1"]=np.dstack((np.linspace(100, 1110, n),((np.ones(n))*(350)),)).reshape(n, 1, 2)
 segments=gloo.Program(vertex, fragment, count=((4)*(n)))
 segments.bind(V.ravel().view(gloo.VertexBuffer))
 segments["antialias"]=(2.e+0)

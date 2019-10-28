@@ -15,7 +15,7 @@
 | gen01 | draw several circles     |
 | gen02 | subtract box from circle |
 | gen03 | line segment             |
-|       |                          |
+| gen04 | smooth 2d line           |
 
 
 * Reference

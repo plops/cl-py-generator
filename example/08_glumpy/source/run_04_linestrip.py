@@ -3,79 +3,95 @@
 import numpy as np
 from glumpy import app, gloo, gl
 vertex="""        uniform vec2 resolution;
-        uniform float antialias;
-        attribute float thickness;
-        attribute vec2 p0, p1, uv;
-        varying float v_alpha, v_thickness;
-        varying vec2 v_p0, v_p1, v_p;
+        uniform float antialias, thickness, linelength;
+        attribute vec4 prev, curr, next;
+        varying vec2 v_uv;
         void main (){
-                if ( abs(thickness)<(1.e+0f) ) {
-                                    v_thickness=(1.e+0f);
-            v_alpha=abs(thickness);
+                        float w  = ((((thickness)/((2.e+0f))))+(antialias));
+        vec2 p ;
+        if ( (prev.xy)==(curr.xy) ) {
+                                    vec2 t1  = normalize(((next.xy)-(curr.xy)));
+            vec2 n1  = vec2(-t1.y, t1.x);
+                        v_uv=vec2(-w, ((curr.z)*(w)));
+            p=((curr.xy)+(((-w)*(t1)))+(((curr.z)*(w)*(n1))));
 } else {
-                                    v_thickness=abs(thickness);
-            v_alpha=(1.e+0f);
+                        if ( (curr.xy)==(next.xy) ) {
+                                                vec2 t0  = normalize(((curr.xy)-(prev.xy)));
+                vec2 n0  = vec2(-t0.y, t0.x);
+                                v_uv=vec2(((w)+(linelength)), ((curr.z)*(w)));
+                p=((curr.xy)+(((w)*(t0)))+(((curr.z)*(w)*(n0))));
+} else {
+                                                vec2 t0  = normalize(((curr.xy)-(prev.xy)));
+                vec2 n0  = vec2(-t0.y, t0.x);
+                vec2 t1  = normalize(((next.xy)-(curr.xy)));
+                vec2 n1  = vec2(-t1.y, t1.x);
+                vec2 miter  = normalize(((n0)+(n1)));
+                float dy  = ((w)/(dot(miter, n1)));
+                                v_uv=vec2(curr.w, ((curr.z)*(w)));
+                p=((curr.xy)+(((dy)*(curr.z)*(miter))));
 }
-                        float tt  = ((((v_thickness)/((2.e+0f))))+(antialias));
-        float l  = distance(p0, p1);
-        float u  = (((((2.e+0f))*(uv.x)))-((1.e+0f)));
-        float v  = (((((2.e+0f))*(uv.y)))-((1.e+0f)));
-        vec2 TT  = normalize(((p1)-(p0)));
-        vec2 O  = vec2(-TT.y, TT.x);
-        vec2 p  = ((p0)+(vec2((5.e-1f), (5.e-1f)))+(((uv.x)*(TT)*(l)))+(((u)*(TT)*(tt)))+(((v)*(O)*(tt))));
+}
                 gl_Position=vec4((((((((2.e+0f))*(p)))/(resolution)))-((1.e+0f))), (0.0e+0f), (1.e+0f));
-                // local space
-                TT=vec2((1.e+0f), (0.0e+0f));
-        O=vec2((0.0e+0f), (1.e+0f));
-        p=((((uv.x)*(TT)*(l)))+(((u)*(TT)*(tt)))+(((v)*(O)*(tt))));
-                v_p0=vec2((0.0e+0f), (0.0e+0f));
-        v_p1=vec2((1.e+0f), (0.0e+0f));
-        v_p=p;
 }"""
-fragment="""        uniform float antialias;
-        varying float v_alpha, v_thickness;
-        varying vec2 v_p0, v_p1, v_p;
+fragment="""        uniform float antialias, thickness, linelength;
+        varying vec2 v_uv;
         void main (){
                         float d  = (0.0e+0f);
-        float offset  = ((((v_thickness)/((-2.e+0f))))+(((antialias)/((2.e+0f)))));
-        if ( v_p.x<0 ) {
-                                    d=((distance(v_p, v_p0))+(offset));
+        float w  = ((((thickness)/((2.e+0f))))-(antialias));
+        if ( v_uv.x<0 ) {
+                                    d=((length(v_uv))-(w));
 } else {
-                        if ( distance(v_p1, v_p0)<v_p.x ) {
-                                                d=((distance(v_p, v_p1))+(offset));
+                        if ( (linelength)<=(v_uv.x) ) {
+                                                d=((distance(v_uv, vec2(linelength, 0)))-(0));
 } else {
-                                                d=((abs(v_p.y))+(offset));
+                                                d=((abs(v_uv.y))-(w));
 }
 }
         if ( d<0 ) {
-                                    gl_FragColor=vec4((1.e+0f), (0.0e+0f), (0.0e+0f), v_alpha);
+                                    gl_FragColor=vec4((0.0e+0f), (0.0e+0f), (0.0e+0f), (1.e+0f));
 } else {
-                        if ( d<antialias ) {
-                                                                d=exp(((-d)*(d)));
-                gl_FragColor=vec4((0.0e+0f), (2.e-1f), (0.0e+0f), ((v_alpha)*(d)));
-};
+                                    d=((d)/(antialias));
+            gl_FragColor=vec4((0.0e+0f), (2.e-1f), (0.0e+0f), exp(((-d)*(d))));
 };
 }"""
 app.use("glfw")
 window=app.Window(1200, 400, color=(1,1,1,1,))
-n=100
-V=np.zeros((n,4,), dtype=[("p0",np.float32,2,), ("p1",np.float32,2,), ("uv",np.float32,2,), ("thickness",np.float32,1,)])
-V["uv"]=((0,0,),(0,1,),(1,0,),(1,1,),)
-V["thickness"]=np.linspace((1.0000000149011612e-1), (8.e+0), n).reshape(n, 1)
-V["p0"]=np.dstack((np.linspace(100, 1100, n),((np.ones(n))*(50)),)).reshape(n, 1, 2)
-V["p1"]=np.dstack((np.linspace(100, 1110, n),((np.ones(n))*(350)),)).reshape(n, 1, 2)
-segments=gloo.Program(vertex, fragment, count=((4)*(n)))
-segments.bind(V.ravel().view(gloo.VertexBuffer))
-segments["antialias"]=(2.e+0)
-I=np.zeros((n,6,), dtype=np.uint32)
-I[:]=[0, 1, 2, 1, 2, 3]
-I=((I)+(((4)*(np.arange(n, dtype=np.uint32).reshape(n, 1)))))
-I=I.ravel().view(gloo.IndexBuffer)
+def bake(P, closed=False):
+    epsilon=(1.000000013351432e-10)
+    n=len(P)
+    if ( ((closed) and (((epsilon)<(((((P[0])-(P[-1])))**(2)).sum())))) ):
+        P=np.append(P, P[0])
+        P=P.reshape(((n)+(1)), 2)
+        n=((n)+(1))
+    V=np.zeros((((1)+(n)+(1)),2,4,), dtype=np.float32)
+    V_prev, V_curr, V_next=(V[:-2],V[1:-1],V[2:],)
+    V_curr[...,0]=P[:,np.newaxis,0]
+    V_curr[...,1]=P[:,np.newaxis,1]
+    V_curr[...,2]=(1,-1,)
+    L=np.cumsum(np.sqrt(((((P[1:])-(P[:-1])))**(2)).sum(axis=1))).reshape(((n)-(1)), 1)
+    V_curr[1:,:,3]=L
+    if ( closed ):
+        V[0], V[-1]=(V[-3],V[2],)
+    else:
+        V[0], V[-1]=(V[1],V[-2],)
+    return (V_prev,V_curr,V_next,L[-1],)
+n=1024
+TT=np.linspace(0, ((12)*(2)*(np.pi)), n, dtype=np.float32)
+R=np.linspace(10, 246, n, dtype=np.float32)
+P=np.dstack((((256)+(((np.cos(TT))*(R)))),((256)+(((np.sin(TT))*(R)))),)).squeeze()
+V_prev, V_curr, V_next, length=bake(P)
+segments=gloo.Program(vertex, fragment)
+segments["prev"]=V_prev
+segments["curr"]=V_curr
+segments["next"]=V_next
+segments["thickness"]=(1.e+0)
+segments["antialias"]=(1.4999999999999997e+0)
+segments["linelength"]=length
 @window.event
 def on_resize(width, height):
     segments["resolution"]=(width,height,)
 @window.event
 def on_draw(dt):
     window.clear()
-    segments.draw(gl.GL_TRIANGLES, I)
+    segments.draw(gl.GL_TRIANGLE_STRIP)
 app.run()

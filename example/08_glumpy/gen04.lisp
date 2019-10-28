@@ -9,87 +9,77 @@
 			       :code
 			       `(do
 				 "uniform vec2 resolution;"
-				 "uniform float antialias;"
-				  "attribute float thickness;"
-				  "attribute vec2 p0, p1, uv;"
-				  "varying float v_alpha, v_thickness;"
-				  "varying vec2 v_p0, v_p1, v_p;"
+				 "uniform float antialias, thickness, linelength;"
+				  "attribute vec4 prev, curr, next;"
+				  "varying vec2 v_uv;"
 				  (defun main ()
-				    ;; handle thin lines with v_alpha
-				    (if (< (abs thickness) 1s0)
-					(setf v_thickness 1s0
-					      v_alpha (abs thickness))
-					(setf v_thickness (abs thickness)
-					      v_alpha 1s0))
-				    
-				    (let (;; half of the width that the shader will touch
-					  (tt (+ (/ v_thickness 2s0)
-						 antialias ))
-					  ;; length of the segment (without caps)
-					  (l ;(length (- p0 p1))
-					     (distance p0 p1)
-					     )
-					  ;; u in [0..1] .. distance along segment
-					  ;; u<0, u>l    .. cap area
-					  (u (- (* 2s0 uv.x) 1s0))
-					  ;; coordinate of line thickness
-					  (v (- (* 2s0 uv.y) 1s0))
-					  ;; unit vector tangential to segment
-					  (TT (normalize (- p1 p0)))
-					  ;; unit vector normal to segment 
-					  (O (vec2 -TT.y TT.x))
-					  (p (+ p0
-						(vec2 .5s0 .5s0)
-						(* uv.x TT l)
-						(* u TT tt)
-						(* v O tt))))
-				      (declare (type float tt l u v)
-					       (type vec2 TT O p))
+				    (let ((w (+ (/ thickness 2s0)
+						antialias))
+					  (p))
+				      (declare (type float w)
+					       (type vec2 p))
+				      (if (== prev.xy curr.xy)
+					  (let ((t1 (normalize (- next.xy curr.xy)))
+						(n1 (vec2 -t1.y t1.x))
+						)
+					    (declare (type vec2 t1 n1))
+					    (setf v_uv (vec2 -w (* curr.z w))
+						  p (+ curr.xy
+						       (* -w t1)
+						       (* curr.z w n1))))
+					  (if (== curr.xy next.xy)
+					      (let ((t0 (normalize (- curr.xy prev.xy)))
+						    (n0 (vec2 -t0.y t0.x))
+						    )
+						(declare (type vec2 t0 n0))
+						(setf v_uv (vec2 (+ w linelength)
+								 (* curr.z w))
+						      p (+ curr.xy
+							   (* w t0)
+							   (* curr.z w n0))))
+					      (let ((t0 (normalize (- curr.xy prev.xy)))
+						    (n0 (vec2 -t0.y t0.x))
+						    (t1 (normalize (- next.xy curr.xy)))
+						    (n1 (vec2 -t1.y t1.x))
+						    (miter (normalize (+ n0 n1)))
+						    (dy (/ w ("dot" miter n1)))
+						    )
+						(declare (type vec2 t0 n0 t1 n1 miter)
+							 (type float dy))
+						(setf v_uv (vec2 curr.w
+								 (* curr.z w))
+						      p (+ curr.xy
+							   (* dy curr.z miter))))))
 				      (setf gl_Position (vec4 (- (/ (* 2s0 p)
 								    resolution)
 								 1s0)
-							      0s0 1s0))
-				      (do0 "// local space"
-					   (setf TT (vec2 1s0 0s0)
-						 O (vec2 0s0 1s0)
-						 p (+ (* uv.x TT l)
-						      (* u TT tt)
-						      (* v O tt)))
-					   (setf v_p0 (vec2 0s0 0s0)
-						 v_p1 (vec2 1s0 0s0)
-						 v_p p)))
-				    
+							      0s0
+							      1s0)))
 				    ))))
   (defparameter *fragment-code*
     (cl-cpp-generator2::emit-c
      :code
      `(do
-       "uniform float antialias;"
-       "varying float v_alpha, v_thickness;"
-	"varying vec2 v_p0, v_p1, v_p;"
+       "uniform float antialias, thickness, linelength;"
+       "varying vec2 v_uv;"
 	
 	
 	(defun main ()
 	  (let ((d 0s0)
-		(offset (+ (/ v_thickness -2s0)
-			   (/ antialias 2s0))))
-	    (declare (type float d offset))
-	    ;; compute signed distance to envelope
-	    (if (< v_p.x 0)
-		(setf d (+ (distance v_p v_p0)
-			   offset))
-		(if (< (distance v_p1 v_p0)
-		       v_p.x)
-		    (setf d (+ (distance v_p v_p1)
-			       offset))
-		    (setf d (+ (abs v_p.y)
-			       offset))))
+		(w (- (/ thickness 2s0)
+		      antialias)))
+	    (declare (type float d w))
+	    (if (< v_uv.x 0)
+		(setf d (- (length v_uv) w))
+		(if (<= linelength
+			v_uv.x)
+		    (setf d (- (distance v_uv (vec2 linelength 0))
+			       0))
+		    (setf d (- (abs v_uv.y) w))))
 	    (if (< d 0)
-		(setf gl_FragColor (vec4 1s0 0s0 0s0 v_alpha)
-		      )
-		(when (< d antialias)
-			(setf d (exp (* -d d))
-			      gl_FragColor (vec4 0s0 .2s0 0s0 (* v_alpha d)))))))))))
+		(setf gl_FragColor (vec4 0s0 0s0 0s0 1s0))
+		(setf d (/ d antialias)
+		      gl_FragColor (vec4 0s0 .2s0 0s0 (exp (* -d d)))))))))))
 
 
 
@@ -139,54 +129,71 @@
 		   )
 	     (app.use (string "glfw"))
 	     (setf window (app.Window 1200 400 :color (tuple 1 1 1 1)))
-	     
-	     (setf n 100
-		   V (np.zeros (tuple n 4)
-			       :dtype (list (tuple (string "p0") np.float32 2)
-					    (tuple (string "p1") np.float32 2)
-					    (tuple (string "uv") np.float32 2)
-					    (tuple (string "thickness") np.float32 1)
-					    ))
-		   
-		   (aref V (string "uv")) (tuple (tuple 0 0)
-						 (tuple 0 1)
-						 (tuple 1 0)
-						 (tuple 1 1))
-		   (aref V (string "thickness")) (dot (np.linspace .1s0 8s0 n)
-						      (reshape n 1))
-		   )
-	     #+nil((aref V (string "p0")) (dot (np.dstack
-					   (tuple (np.linspace 100 1100 n)
-						  (* (np.ones n) 50)))
-					  (reshape n 1 2))
-	      (aref V (string "p1")) (dot (np.dstack
-					   (tuple (np.linspace 110 1110 n)
-						  (* (np.ones n) 350)))
-					  (reshape n 1 2)))
-		   
-		   ,@(loop for i below 2 and e in `((100 1100 50)
-						    (100 1110 350))
-			collect
-			  (destructuring-bind (xstart xend y) e
-			    `(setf (aref V (string ,(format nil "p~a" i)))
-				   (dot (np.dstack
-					 (tuple
-					  (np.linspace ,xstart ,xend n)
-					  (* (np.ones n) ,y)))
-					(reshape n 1 2)))))
-		   
-	     (setf segments (gloo.Program vertex fragment :count (* 4 n)))
-	     (segments.bind (dot V
-				 (ravel)
-				 (view gloo.VertexBuffer)))
-	     (setf (aref segments (string "antialias")) 2s0)
 
-	     (setf I (np.zeros (tuple n 6) :dtype np.uint32)
-		   (aref I ":") (list 0 1 2 1 2 3)
-		   
-		   I (+ I (* 4 (dot (np.arange n :dtype np.uint32)
-				    (reshape n 1))))
-		   I (dot I (ravel) (view gloo.IndexBuffer)))
+	     (def bake (P &key (closed False))
+	       (setf epsilon 1e-10
+		     n (len P))
+	       (if (and closed
+			(< epsilon (dot (** (- (aref P 0)
+					       (aref P -1)) 2)
+					(sum))))
+		   (setf P (np.append P (aref P 0))
+			 P (P.reshape (+ n 1) 2)
+			 n (+ n 1)))
+	       (setf V (np.zeros (tuple (+ 1 n 1)
+					2
+					4)
+				 :dtype np.float32)
+		     (ntuple V_prev V_curr V_next) (tuple
+						    (aref V ":-2")
+						    (aref V "1:-1")
+						    (aref V "2:"))
+		     (aref V_curr "..." 0) (aref P ":" np.newaxis 0)
+		     (aref V_curr "..." 1) (aref P ":" np.newaxis 1)
+		     (aref V_curr "..." 2) (tuple 1 -1)
+		     L (dot (np.cumsum
+			     (np.sqrt (dot
+				       (** (- (aref P "1:")
+					      (aref P ":-1"))
+					   2)
+				       (sum :axis 1))))
+			    (reshape (- n 1) 1))
+		     (aref V_curr "1:" ":" 3) L)
+	       (if closed
+		   (setf (ntuple (aref V 0)
+				 (aref V -1))
+			 (tuple (aref V -3)
+				(aref V 2)))
+		   (setf (ntuple (aref V 0)
+				 (aref V -1))
+			 (tuple (aref V 1)
+				(aref V -2))))
+	       (return (tuple V_prev V_curr V_next (aref L -1))))
+
+	     (setf n 1024
+		   TT (np.linspace 0
+				   (* 12 2 np.pi)
+				   n
+				   :dtype np.float32)
+		   R (np.linspace 10 246 n :dtype np.float32)
+		   P (dot (np.dstack (tuple
+				      (+ 256 (* (np.cos TT) R))
+				      (+ 256 (* (np.sin TT) R))))
+			  (squeeze))
+		   (ntuple V_prev V_curr V_next length) (bake P)
+		   segments (gloo.Program vertex fragment)
+		   )
+	     ,@(loop for (e f) in `((prev V_prev
+					  )
+				    (curr V_curr)
+				    (next V_next)
+				    (thickness 1s0)
+				    (antialias 1.5s0)
+				    (linelength length)) collect
+		    `(setf (aref segments (string ,e))
+			   ,f))
+	     
+	     
 	     (do0
 	      "@window.event"
 	      (def on_resize (width height)
@@ -196,7 +203,7 @@
 	      "@window.event"
 	      (def on_draw (dt)
 		(window.clear)
-		(segments.draw gl.GL_TRIANGLES I)))
+		(segments.draw gl.GL_TRIANGLE_STRIP)))
 	     (app.run))
 	    
 	    )))
