@@ -109,7 +109,7 @@ segments["prev"]=V_prev
 segments["curr"]=V_curr
 segments["next"]=V_next
 segments["uv"]=UV
-segments["thickness"]=(5.e+0)
+segments["thickness"]=(1.5e+1)
 segments["antialias"]=(1.4999999999999997e+0)
 segments["linelength"]=length
 segments["model"]=np.eye(4, dtype=np.float32)
@@ -126,11 +126,11 @@ def on_init():
 @window.event
 def on_draw(dt):
     global phi, theta, duration
-    window.clear()
+    window.clear(clearflags=((gl.GL_COLOR_BUFFER_BIT) or (gl.GL_DEPTH_BUFFER_BIT)))
     gl.glDepthMask(gl.GL_FALSE)
     segments.draw(gl.GL_TRIANGLE_STRIP)
-    theta=((theta)+(1))
-    phi=((phi)+(2))
+    theta=((theta)+((1.0000000149011612e-1)))
+    phi=((phi)+((2.0000000298023224e-1)))
     model=np.eye(4, dtype=np.float32)
     glm.rotate(model, theta, 0, 1, 0)
     glm.rotate(model, phi, 1, 0, 0)

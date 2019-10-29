@@ -235,8 +235,7 @@
 				    (curr V_curr)
 				    (next V_next)
 				    (uv UV)
-				    (thickness
-				     5s0)
+				    (thickness 15s0)
 				    (antialias 1.5s0)
 				    (linelength length)
 				    (model (np.eye 4 :dtype np.float32))
@@ -266,11 +265,12 @@
 	      "@window.event"
 	      (def on_draw (dt)
 		"global phi, theta, duration"
-		(window.clear)
+		(window.clear :clearflags (or gl.GL_COLOR_BUFFER_BIT
+						  gl.GL_DEPTH_BUFFER_BIT))
 		(gl.glDepthMask gl.GL_FALSE)
 		(segments.draw gl.GL_TRIANGLE_STRIP)
-		(setf theta (+ theta 1)
-		      phi (+ phi 2)
+		(setf theta (+ theta .1)
+		      phi (+ phi .2)
 		      model (np.eye 4 :dtype np.float32))
 		(glm.rotate model theta 0 1 0)
 		(glm.rotate model phi 1 0 0)
