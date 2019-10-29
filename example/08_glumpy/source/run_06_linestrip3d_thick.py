@@ -126,7 +126,7 @@ def on_init():
 @window.event
 def on_draw(dt):
     global phi, theta, duration
-    window.clear(clearflags=((gl.GL_COLOR_BUFFER_BIT) or (gl.GL_DEPTH_BUFFER_BIT)))
+    window.clear(clearflags=((gl.GL_COLOR_BUFFER_BIT) | (gl.GL_DEPTH_BUFFER_BIT)))
     gl.glDepthMask(gl.GL_FALSE)
     segments.draw(gl.GL_TRIANGLE_STRIP)
     theta=((theta)+((1.0000000149011612e-1)))

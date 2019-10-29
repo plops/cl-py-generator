@@ -265,7 +265,7 @@
 	      "@window.event"
 	      (def on_draw (dt)
 		"global phi, theta, duration"
-		(window.clear :clearflags (or gl.GL_COLOR_BUFFER_BIT
+		(window.clear :clearflags (logior gl.GL_COLOR_BUFFER_BIT
 						  gl.GL_DEPTH_BUFFER_BIT))
 		(gl.glDepthMask gl.GL_FALSE)
 		(segments.draw gl.GL_TRIANGLE_STRIP)
