@@ -8,6 +8,8 @@ vertex="""        uniform vec2 viewport;
         attribute vec3 prev, curr, next;
         attribute vec2 uv;
         varying vec2 v_uv;
+        varying vec3 v_normal;
+        varying float v_thickness;
         void main (){
                         vec4 NDC_prev  = ((projection)*(view)*(model)*(vec4(prev.xyz, (1.e+0f))));
                         vec4 NDC_curr  = ((projection)*(view)*(model)*(vec4(curr.xyz, (1.e+0f))));
@@ -15,6 +17,13 @@ vertex="""        uniform vec2 viewport;
                         vec2 screen_prev  = ((viewport)*(((((((NDC_prev.xy)/(NDC_prev.w)))+((1.e+0f))))/((2.e+0f)))));
                         vec2 screen_curr  = ((viewport)*(((((((NDC_curr.xy)/(NDC_curr.w)))+((1.e+0f))))/((2.e+0f)))));
                         vec2 screen_next  = ((viewport)*(((((((NDC_next.xy)/(NDC_next.w)))+((1.e+0f))))/((2.e+0f)))));
+                        vec4 normal  = ((model)*(vec4(curr.xyz, (1.e+0f))));
+                v_normal=normal.xyz;
+        if ( normal.z<0 ) {
+                                    v_thickness=((thickness)/((2.e+0f)));
+} else {
+                                    v_thickness=((((thickness)*(((pow(normal.z, (5.e-1f)))+(1)))))/((2.e+0f)));
+};
                         float w  = ((((thickness)/((2.e+0f))))+(antialias));
         vec2 position ;
         vec2 t0  = normalize(((screen_curr.xy)-(screen_prev.xy)));
@@ -39,10 +48,15 @@ vertex="""        uniform vec2 viewport;
 }"""
 fragment="""        uniform float antialias, thickness, linelength;
         varying vec2 v_uv;
+        varying float v_thickness;
+        varying vec3 v_normal;
         void main (){
                         float d  = (0.0e+0f);
-        float w  = ((((thickness)/((2.e+0f))))-(antialias));
+        float w  = ((((v_thickness)/((2.e+0f))))-(antialias));
         vec3 color  = vec3((0.0e+0f), (0.0e+0f), (0.0e+0f));
+        if ( v_normal.z<0 ) {
+                                                color=(((7.5e-1f))*(vec3(pow(abs(v_normal.z), (5.e-1f)))));
+};
         if ( v_uv.x<0 ) {
                                     d=((length(v_uv))-(w));
 } else {
@@ -60,7 +74,7 @@ fragment="""        uniform float antialias, thickness, linelength;
 };
 }"""
 app.use("glfw")
-window=app.Window(1200, 400, color=(1,1,1,1,))
+window=app.Window(1920, 1080, color=(1,1,1,1,))
 def bake(P, closed=False):
     epsilon=(1.000000013351432e-10)
     n=len(P)
@@ -106,6 +120,9 @@ theta=0
 def on_resize(width, height):
     segments["projection"]=glm.perspective((3.e+1), ((width)/(float(height))), (2.e+0), (1.e+2))
     segments["viewport"]=(width,height,)
+@window.event
+def on_init():
+    gl.glEnable(gl.GL_DEPTH_TEST)
 @window.event
 def on_draw(dt):
     global phi, theta, duration

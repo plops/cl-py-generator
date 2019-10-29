@@ -14,6 +14,8 @@
 				  "attribute vec3 prev, curr, next;"
 				  "attribute vec2 uv;"
 				  "varying vec2 v_uv;"
+				  "varying vec3 v_normal;"
+				  "varying float v_thickness;"
 				  (defun main ()
 				    ;; normalized device coordinates
 				    ,@(loop for e in `(prev curr next) collect
@@ -33,6 +35,15 @@
 								,(format nil "NDC_~a.w" e))
 							     1s0) 2s0))))
 					       (declare (type vec2 ,name)))))
+				    ;; compute thickness according to line orientation
+				    (let ((normal (* model (vec4 curr.xyz 1s0))))
+				      (declare (type vec4 normal))
+				      (setf v_normal normal.xyz)
+				      (if (< normal.z 0)
+					  (setf v_thickness (/ thickness 2s0))
+					  (setf v_thickness (/ (* thickness (+ (pow normal.z .5)
+									       1))
+							       2s0))))
 				    (let ((w (+ (/ thickness 2s0)
 						antialias))
 					  (position)
@@ -82,15 +93,21 @@
      `(do
        "uniform float antialias, thickness, linelength;"
        "varying vec2 v_uv;"
+	"varying float v_thickness;"
+	"varying vec3 v_normal;"
 	
 	
 	(defun main ()
 	  (let ((d 0s0)
-		(w (- (/ thickness 2s0)
+		(w (- (/ v_thickness 2s0)
 		      antialias))
 		(color (vec3 0s0 0s0 0s0)))
+
 	    (declare (type float d w)
 		     (type vec3 color))
+	    (when (< v_normal.z 0)
+	      (setf color (* .75 (vec3 (pow (abs v_normal.z)
+					    .5s0)))))
 	    (if (< v_uv.x 0)
 		(setf d (- (length v_uv) w)) ;; cap at start
 		(if (<= linelength
@@ -151,7 +168,7 @@
 		   
 		   )
 	     (app.use (string "glfw"))
-	     (setf window (app.Window 1200 400 :color (tuple 1 1 1 1)))
+	     (setf window (app.Window 1920 1080 :color (tuple 1 1 1 1)))
 
 	     (def bake (P &key (closed False))
 	       (setf epsilon 1e-10
@@ -241,6 +258,10 @@
 				       100s0)
 		      (aref segments (string "viewport"))
 		      (tuple width height))))
+	     (do0
+	      "@window.event"
+	      (def on_init ()
+		(gl.glEnable gl.GL_DEPTH_TEST)))
 	     (do0
 	      "@window.event"
 	      (def on_draw (dt)
