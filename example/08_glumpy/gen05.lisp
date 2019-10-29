@@ -8,53 +8,72 @@
   (defparameter *vertex-code* (cl-cpp-generator2::emit-c
 			       :code
 			       `(do
-				 "uniform vec2 resolution;"
-				 "uniform float antialias, thickness, linelength;"
-				  "attribute vec4 prev, curr, next;"
+				 "uniform vec2 viewport;"
+				 "uniform mat4 model, view, projection;"
+				  "uniform float antialias, thickness, linelength;"
+				  "attribute vec3 prev, curr, next;"
+				  "attribute vec2 uv;"
 				  "varying vec2 v_uv;"
 				  (defun main ()
-				    (let ((w (+ (/ thickness 2s0)
-						antialias))
-					  (p))
-				      (declare (type float w)
-					       (type vec2 p))
-				      (if (== prev.xy curr.xy)
-					  (let ((t1 (normalize (- next.xy curr.xy)))
-						(n1 (vec2 -t1.y t1.x))
+				    (let (;; normalized device coordinates
+					  ,@(loop for e in `(prev curr next) collect
+						 `(,(format nil "NDC_~a" e)
+						    (* projection
+						       view
+						       model
+						       (vec4 (dot ,e xyz) 1s0))))
+					  ;; screen coordinates
+					  ,@(loop for e in `(prev curr next) collect
+						 `(,(format nil "screen_~a" e)
+						    (* viewport
+						       (/ (+ (/ ,(format nil "NDC_~a.xy" e)
+								,(format nil "NDC_~a.w" e))
+							     1s0) 2s0)
+						       (vec4 (dot ,e xyz) 1s0)))))
+				      (declare (type vec4 NDC_prev NDC_curr NDC_next)
+					       (type vec4 screen_prev screen_curr screen_next))
+				     (let ((w (+ (/ thickness 2s0)
+						 antialias))
+					   (position)
+					   (t0 (normalize (- screen_curr.xy screen_prev.xy)))
+					   (n0 (vec2 -t0.y t0.x))
+					   (t1 (normalize (- screen_next.xy screen_curr.xy)))
+					   (n1 (vec2 -t1.y t1.x))
+					   
+					   
+					   					   )
+				       (declare (type float w)
+						(type vec2 position)
+						(type vec2 t0 n0 t1 n1
+
+						      )
 						)
-					    (declare (type vec2 t1 n1))
-					    (setf v_uv (vec2 -w (* curr.z w))
-						  p (+ curr.xy
-						       (* -w t1)
-						       (* curr.z w n1))))
-					  (if (== curr.xy next.xy)
-					      (let ((t0 (normalize (- curr.xy prev.xy)))
-						    (n0 (vec2 -t0.y t0.x))
-						    )
-						(declare (type vec2 t0 n0))
-						(setf v_uv (vec2 (+ w linelength)
-								 (* curr.z w))
-						      p (+ curr.xy
-							   (* w t0)
-							   (* curr.z w n0))))
-					      (let ((t0 (normalize (- curr.xy prev.xy)))
-						    (n0 (vec2 -t0.y t0.x))
-						    (t1 (normalize (- next.xy curr.xy)))
-						    (n1 (vec2 -t1.y t1.x))
-						    (miter (normalize (+ n0 n1)))
-						    (dy (/ w ("dot" miter n1)))
-						    )
-						(declare (type vec2 t0 n0 t1 n1 miter)
-							 (type float dy))
-						(setf v_uv (vec2 curr.w
-								 (* curr.z w))
-						      p (+ curr.xy
-							   (* dy curr.z miter))))))
-				      (setf gl_Position (vec4 (- (/ (* 2s0 p)
-								    resolution)
-								 1s0)
-							      0s0
-							      1s0)))
+				       (setf v_uv (vec2 uv.x (* uv.y w)))
+				       (if (== prev.xy curr.xy)
+					   (setf v_uv.x -w
+						 position (+ screen_curr.xy
+							     (* -w t1)
+							     (* uv.y w n1)))
+					   (if (== curr.xy next.xy)
+					       (setf v_uv.x (+ w linelength)
+						     position (+ screen_curr.xy
+								 (* w t0)
+								 (* uv.y w n0)))
+					       (let ((miter (normalize (+ n0 n1)))
+						     ;; max avoids glitch for too large miter
+						     (dy (/ w (max ("dot" miter n1)
+								   1s0))))
+						 (declare (type vec2 miter)
+							  (type float dy))
+						 (setf position (+ screen_curr.xy
+								   (* dy uv.y miter))))))
+				       ;; ndc coordinates
+				       (setf gl_Position (vec4 (- (/ (* 2s0 position)
+								     resolution)
+								  1s0)
+							       (/ NDC_curr.z
+								  NDC_curr.w)
+							       1s0))))
 				    ))))
   (defparameter *fragment-code*
     (cl-cpp-generator2::emit-c
@@ -114,7 +133,7 @@
 		      (np numpy)
 					;serial
 					;(pd pandas)
-					;(xr xarray)
+					;(xr xarray)c
 					;(xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)

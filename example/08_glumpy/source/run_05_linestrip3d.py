@@ -2,36 +2,40 @@
 # https://www.labri.fr/perso/nrougier/python-opengl/#id39
 import numpy as np
 from glumpy import app, gloo, gl
-vertex="""        uniform vec2 resolution;
+vertex="""        uniform vec2 viewport;
+        uniform mat4 model, view, projection;
         uniform float antialias, thickness, linelength;
-        attribute vec4 prev, curr, next;
+        attribute vec3 prev, curr, next;
+        attribute vec2 uv;
         varying vec2 v_uv;
         void main (){
-                        float w  = ((((thickness)/((2.e+0f))))+(antialias));
-        vec2 p ;
+                        auto NDC_prev  = ((projection)*(view)*(model)*(vec4(prev.xyz, (1.e+0f))));
+        auto NDC_curr  = ((projection)*(view)*(model)*(vec4(curr.xyz, (1.e+0f))));
+        auto NDC_next  = ((projection)*(view)*(model)*(vec4(next.xyz, (1.e+0f))));
+        auto screen_prev  = ((viewport)*(((((((NDC_prev.xy)/(NDC_prev.w)))+((1.e+0f))))/((2.e+0f))))*(vec4(prev.xyz, (1.e+0f))));
+        auto screen_curr  = ((viewport)*(((((((NDC_curr.xy)/(NDC_curr.w)))+((1.e+0f))))/((2.e+0f))))*(vec4(curr.xyz, (1.e+0f))));
+        auto screen_next  = ((viewport)*(((((((NDC_next.xy)/(NDC_next.w)))+((1.e+0f))))/((2.e+0f))))*(vec4(next.xyz, (1.e+0f))));
+                float w  = ((((thickness)/((2.e+0f))))+(antialias));
+        vec2 position ;
+        vec2 t0  = normalize(((screen_curr.xy)-(screen_prev.xy)));
+        vec2 n0  = vec2(-t0.y, t0.x);
+        vec2 t1  = normalize(((screen_next.xy)-(screen_curr.xy)));
+        vec2 n1  = vec2(-t1.y, t1.x);
+                v_uv=vec2(uv.x, ((uv.y)*(w)));
         if ( (prev.xy)==(curr.xy) ) {
-                                    vec2 t1  = normalize(((next.xy)-(curr.xy)));
-            vec2 n1  = vec2(-t1.y, t1.x);
-                        v_uv=vec2(-w, ((curr.z)*(w)));
-            p=((curr.xy)+(((-w)*(t1)))+(((curr.z)*(w)*(n1))));
+                                    v_uv.x=-w;
+            position=((screen_curr.xy)+(((-w)*(t1)))+(((uv.y)*(w)*(n1))));
 } else {
                         if ( (curr.xy)==(next.xy) ) {
-                                                vec2 t0  = normalize(((curr.xy)-(prev.xy)));
-                vec2 n0  = vec2(-t0.y, t0.x);
-                                v_uv=vec2(((w)+(linelength)), ((curr.z)*(w)));
-                p=((curr.xy)+(((w)*(t0)))+(((curr.z)*(w)*(n0))));
+                                                v_uv.x=((w)+(linelength));
+                position=((screen_curr.xy)+(((w)*(t0)))+(((uv.y)*(w)*(n0))));
 } else {
-                                                vec2 t0  = normalize(((curr.xy)-(prev.xy)));
-                vec2 n0  = vec2(-t0.y, t0.x);
-                vec2 t1  = normalize(((next.xy)-(curr.xy)));
-                vec2 n1  = vec2(-t1.y, t1.x);
-                vec2 miter  = normalize(((n0)+(n1)));
-                float dy  = ((w)/(dot(miter, n1)));
-                                v_uv=vec2(curr.w, ((curr.z)*(w)));
-                p=((curr.xy)+(((dy)*(curr.z)*(miter))));
+                                                vec2 miter  = normalize(((n0)+(n1)));
+                float dy  = ((w)/(max(dot(miter, n1), (1.e+0f))));
+                                position=((screen_curr.xy)+(((dy)*(uv.y)*(miter))));
 }
 }
-                gl_Position=vec4((((((((2.e+0f))*(p)))/(resolution)))-((1.e+0f))), (0.0e+0f), (1.e+0f));
+                gl_Position=vec4((((((((2.e+0f))*(position)))/(resolution)))-((1.e+0f))), ((NDC_curr.z)/(NDC_curr.w)), (1.e+0f));
 }"""
 fragment="""        uniform float antialias, thickness, linelength;
         varying vec2 v_uv;
