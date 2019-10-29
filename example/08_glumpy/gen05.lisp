@@ -17,21 +17,22 @@
 				  (defun main ()
 				    ;; normalized device coordinates
 				    ,@(loop for e in `(prev curr next) collect
-						 `(let ((,(format nil "NDC_~a" e)
-							 (* projection
-							    view
-							    model
-							    (vec4 (dot ,e xyz) 1s0))))
-						    (declare (type vec4 ,(format nil "NDC_~a" e)))))
+					   (let ((name (format nil "NDC_~a" e)))
+					    `(let ((,name
+						    (* projection
+						       view
+						       model
+						       (vec4 (dot ,e xyz) 1s0))))
+					       (declare (type vec4 ,name)))))
 				    ;; screen coordinates
 				    ,@(loop for e in `(prev curr next) collect
-						 `(let ((,(format nil "screen_~a" e)
-							 (* viewport
-							    (/ (+ (/ ,(format nil "NDC_~a.xy" e)
-								     ,(format nil "NDC_~a.w" e))
-								  1s0) 2s0)
-							    (vec4 (dot ,e xyz) 1s0))))
-						    (declare (type vec4 ,(format nil "screen_~a" e)))))
+					   (let ((name (format nil "screen_~a" e)))
+					    `(let ((,name
+						    (* viewport
+						       (/ (+ (/ ,(format nil "NDC_~a.xy" e)
+								,(format nil "NDC_~a.w" e))
+							     1s0) 2s0))))
+					       (declare (type vec2 ,name)))))
 				    (let ((w (+ (/ thickness 2s0)
 						antialias))
 					  (position)
@@ -69,7 +70,7 @@
 								  (* dy uv.y miter))))))
 				      ;; ndc coordinates
 				      (setf gl_Position (vec4 (- (/ (* 2s0 position)
-								    resolution)
+								    viewport)
 								 1s0)
 							      (/ NDC_curr.z
 								 NDC_curr.w)

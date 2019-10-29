@@ -9,12 +9,12 @@ vertex="""        uniform vec2 viewport;
         attribute vec2 uv;
         varying vec2 v_uv;
         void main (){
-                        auto NDC_prev  = ((projection)*(view)*(model)*(vec4(prev.xyz, (1.e+0f))));
-                        auto NDC_curr  = ((projection)*(view)*(model)*(vec4(curr.xyz, (1.e+0f))));
-                        auto NDC_next  = ((projection)*(view)*(model)*(vec4(next.xyz, (1.e+0f))));
-                        auto screen_prev  = ((viewport)*(((((((NDC_prev.xy)/(NDC_prev.w)))+((1.e+0f))))/((2.e+0f))))*(vec4(prev.xyz, (1.e+0f))));
-                        auto screen_curr  = ((viewport)*(((((((NDC_curr.xy)/(NDC_curr.w)))+((1.e+0f))))/((2.e+0f))))*(vec4(curr.xyz, (1.e+0f))));
-                        auto screen_next  = ((viewport)*(((((((NDC_next.xy)/(NDC_next.w)))+((1.e+0f))))/((2.e+0f))))*(vec4(next.xyz, (1.e+0f))));
+                        vec4 NDC_prev  = ((projection)*(view)*(model)*(vec4(prev.xyz, (1.e+0f))));
+                        vec4 NDC_curr  = ((projection)*(view)*(model)*(vec4(curr.xyz, (1.e+0f))));
+                        vec4 NDC_next  = ((projection)*(view)*(model)*(vec4(next.xyz, (1.e+0f))));
+                        vec2 screen_prev  = ((viewport)*(((((((NDC_prev.xy)/(NDC_prev.w)))+((1.e+0f))))/((2.e+0f)))));
+                        vec2 screen_curr  = ((viewport)*(((((((NDC_curr.xy)/(NDC_curr.w)))+((1.e+0f))))/((2.e+0f)))));
+                        vec2 screen_next  = ((viewport)*(((((((NDC_next.xy)/(NDC_next.w)))+((1.e+0f))))/((2.e+0f)))));
                         float w  = ((((thickness)/((2.e+0f))))+(antialias));
         vec2 position ;
         vec2 t0  = normalize(((screen_curr.xy)-(screen_prev.xy)));
@@ -35,7 +35,7 @@ vertex="""        uniform vec2 viewport;
                                 position=((screen_curr.xy)+(((dy)*(uv.y)*(miter))));
 }
 }
-                gl_Position=vec4((((((((2.e+0f))*(position)))/(resolution)))-((1.e+0f))), ((NDC_curr.z)/(NDC_curr.w)), (1.e+0f));
+                gl_Position=vec4((((((((2.e+0f))*(position)))/(viewport)))-((1.e+0f))), ((NDC_curr.z)/(NDC_curr.w)), (1.e+0f));
 }"""
 fragment="""        uniform float antialias, thickness, linelength;
         varying vec2 v_uv;
