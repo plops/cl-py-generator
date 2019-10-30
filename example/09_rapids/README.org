@@ -1,0 +1,2 @@
+* References
+- https://www.youtube.com/watch?v=lV7rtDW94do "cuDF: RAPIDS GPU-Accelerated Dataframe Library" - Mark Harris (PyCon AU 2019)
