@@ -125,6 +125,7 @@ def on_resize(width, height):
 @window.event
 def on_init():
     gl.glEnable(gl.GL_DEPTH_TEST)
+    gl.glClearColor(1, 0, 0, 1)
 @window.event
 def on_draw(dt):
     global phi, theta, duration
