@@ -204,14 +204,10 @@
 		     (aref UV "1:" ":" 0) L
 		     (aref UV "..." 1) (tuple 1 -1))
 	       (if closed
-		   (setf (ntuple (aref V 0)
-				 (aref V -1))
-			 (tuple (aref V -3)
-				(aref V 2)))
-		   (setf (ntuple (aref V 0)
-				 (aref V -1))
-			 (tuple (aref V 1)
-				(aref V -2))))
+		   (setf (aref V 0) (aref V -3)
+			 (aref V -1) (aref V 2))
+		   (setf (aref V 0) (aref V 1)
+			 (aref V -1) (aref V -2)))
 	       (return (tuple V_prev V_curr V_next UV (aref L -1))))
 
 	     (setf n 2048
@@ -219,7 +215,7 @@
 				   (* 20 2 np.pi)
 				   n
 				   :dtype np.float32)
-		   R (np.linspace .1 (- np.pi .1)n :dtype np.float32)
+		   R (np.linspace .1 (- np.pi .1) n :dtype np.float32)
 		   X (* (np.cos TT)
 			(np.sin R))
 		   Y (* (np.sin TT)
@@ -260,14 +256,17 @@
 	     (do0
 	      "@window.event"
 	      (def on_init ()
-		(gl.glEnable gl.GL_DEPTH_TEST)))
+		(gl.glEnable gl.GL_DEPTH_TEST)
+		;(gl.glDepthFunc gl.GL_GREATER)
+		))
 	     (do0
 	      "@window.event"
 	      (def on_draw (dt)
 		"global phi, theta, duration"
-		(window.clear :clearflags (logior gl.GL_COLOR_BUFFER_BIT
-						  gl.GL_DEPTH_BUFFER_BIT))
-		(gl.glDepthMask gl.GL_FALSE)
+		(window.clear #+nil :clearflags
+			      #+nil (logior gl.GL_COLOR_BUFFER_BIT
+				      gl.GL_DEPTH_BUFFER_BIT))
+					;(gl.glDepthMask gl.GL_FALSE)
 		(segments.draw gl.GL_TRIANGLE_STRIP)
 		(setf theta (+ theta .1)
 		      phi (+ phi .2)

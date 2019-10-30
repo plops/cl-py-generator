@@ -92,9 +92,11 @@ def bake(P, closed=False):
     UV[1:,:,0]=L
     UV[...,1]=(1,-1,)
     if ( closed ):
-        V[0], V[-1]=(V[-3],V[2],)
+        V[0]=V[-3]
+        V[-1]=V[2]
     else:
-        V[0], V[-1]=(V[1],V[-2],)
+        V[0]=V[1]
+        V[-1]=V[-2]
     return (V_prev,V_curr,V_next,UV,L[-1],)
 n=2048
 TT=np.linspace(0, ((20)*(2)*(np.pi)), n, dtype=np.float32)
@@ -126,8 +128,7 @@ def on_init():
 @window.event
 def on_draw(dt):
     global phi, theta, duration
-    window.clear(clearflags=((gl.GL_COLOR_BUFFER_BIT) | (gl.GL_DEPTH_BUFFER_BIT)))
-    gl.glDepthMask(gl.GL_FALSE)
+    window.clear()
     segments.draw(gl.GL_TRIANGLE_STRIP)
     theta=((theta)+((1.0000000149011612e-1)))
     phi=((phi)+((2.0000000298023224e-1)))
