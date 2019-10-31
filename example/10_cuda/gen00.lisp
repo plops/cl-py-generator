@@ -60,8 +60,12 @@
 	     (setf mod (SourceModule
 			(string3 ,cl-cpp-generator2::*cuda-code*))
 		   
+		   func (mod.get_function (string "doublify"))
 		   
-		    ))
+		   )
+	     (func a_gpu :block (tuple 4 4 1))
+	     (setf a_doubled (np.empty_like a))
+	     (cuda.memcpy_dtoh a_doubled a_gpu))
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 

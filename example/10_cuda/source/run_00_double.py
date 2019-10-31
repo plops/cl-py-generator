@@ -12,3 +12,7 @@ mod=SourceModule("""        __global__void doublify (float* a){
                         int idx  = ((threadIdx.x)+(((4)*(threadIdx.y))));
         a[idx]*=(2);
 }""")
+func=mod.get_function("doublify")
+func(a_gpu, block=(4,4,1,))
+a_doubled=np.empty_like(a)
+cuda.memcpy_dtoh(a_doubled, a_gpu)

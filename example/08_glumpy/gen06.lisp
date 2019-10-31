@@ -258,7 +258,9 @@
 	      (def on_init ()
 		(gl.glEnable gl.GL_DEPTH_TEST)
 					;(gl.glDepthFunc gl.GL_GREATER)
-	
+		#+nil (do0
+		 (gl.glEnable gl.GL_BLEND)
+		 (gl.glBlendFunc gl.GL_SRC_ALPHA gl.GL_ONE_MINUS_SRC_ALPHA))
 		))
 	     (do0
 	      "@window.event"
