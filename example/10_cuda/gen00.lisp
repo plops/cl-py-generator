@@ -8,7 +8,7 @@
    :code
    `(do
      (defun doublify (a)
-       (declare (values "__global__void")
+       (declare (values "__global__ void")
 		(type "float*" a))
        (let ((idx (+ threadIdx.x
 		     (* 4 threadIdx.y))))
@@ -65,7 +65,10 @@
 		   )
 	     (func a_gpu :block (tuple 4 4 1))
 	     (setf a_doubled (np.empty_like a))
-	     (cuda.memcpy_dtoh a_doubled a_gpu))
+	     (cuda.memcpy_dtoh a_doubled a_gpu)
+	     (print a_doubled)
+	     (print a))
+	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
