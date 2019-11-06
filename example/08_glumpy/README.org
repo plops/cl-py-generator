@@ -9,16 +9,17 @@
 
 * Contents
 
-| name  | comment                          |
-|-------+----------------------------------|
-| gen00 | minimal shader example           |
-| gen01 | draw several circles             |
-| gen02 | subtract box from circle         |
-| gen03 | line segment                     |
-| gen04 | smooth 2d line                   |
-| gen05 | 3d line                          |
-| gen06 | 3d line that is thinner far away |
-|       |                                  |
+| name  | comment                                  |
+|-------+------------------------------------------|
+| gen00 | minimal shader example                   |
+| gen01 | draw several circles                     |
+| gen02 | subtract box from circle                 |
+| gen03 | line segment                             |
+| gen04 | smooth 2d line                           |
+| gen05 | 3d line                                  |
+| gen06 | 3d line that is thinner far away         |
+| gen07 | scrolling bar to visualize vsync tearing |
+|       |                                          |
 
 * Reference
 

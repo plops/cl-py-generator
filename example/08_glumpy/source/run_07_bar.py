@@ -117,7 +117,8 @@ segments["view"]=glm.translation(0, 0, -5)
 phi=0
 theta=0
 pos=0
-posdir=(((1.e+0))/(10))
+rate=2300
+posdir=(((1.e+0))/(rate))
 @window.event
 def on_resize(width, height):
     segments["projection"]=glm.perspective((3.e+1), ((width)/(float(height))), (2.e+0), (1.e+2))
@@ -127,7 +128,7 @@ def on_init():
     gl.glEnable(gl.GL_DEPTH_TEST)
 @window.event
 def on_draw(dt):
-    global phi, theta, duration, pos, posdir
+    global phi, theta, duration, pos, posdir, rate
     window.clear()
     segments.draw(gl.GL_TRIANGLE_STRIP)
     theta=((theta)+((1.0000000149011612e-1)))
@@ -135,9 +136,9 @@ def on_draw(dt):
     model=np.eye(4, dtype=np.float32)
     glm.rotate(model, theta, 0, 1, 0)
     glm.rotate(model, phi, 1, 0, 0)
-    pos=((pos)+(posdir))
-    if ( ((((((0)<(posdir))) and (((((10)*(posdir)))<(pos))))) or (((((posdir)<(0))) and (((pos)<(((10)*(posdir)))))))) ):
+    pos=((pos)+(((10)*(posdir))))
+    if ( ((((((0)<(posdir))) and (((((rate)*(posdir)))<(pos))))) or (((((posdir)<(0))) and (((pos)<(((rate)*(posdir)))))))) ):
         posdir=((posdir)*(-1))
     segments["view"]=glm.translation(pos, 0, -5)
     segments["model"]=model
-app.run()
+app.run(framerate=0)

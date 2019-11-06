@@ -236,7 +236,8 @@
 	     (setf phi 0
 		   theta 0
 		   pos 0
-		   posdir (/ 1s0 10))
+		   rate 2300
+		   posdir (/ 1s0 rate))
 	     
 	     
 	     (do0
@@ -256,7 +257,7 @@
 	     (do0
 	      "@window.event"
 	      (def on_draw (dt)
-		"global phi, theta, duration, pos, posdir"
+		"global phi, theta, duration, pos, posdir, rate"
 		(window.clear)
 		(segments.draw gl.GL_TRIANGLE_STRIP)
 		(setf theta (+ theta .1)
@@ -264,12 +265,12 @@
 		      model (np.eye 4 :dtype np.float32))
 		(glm.rotate model theta 0 1 0)
 		(glm.rotate model phi 1 0 0)
-		(setf pos (+ pos posdir))
+		(setf pos (+ pos (* 10 posdir)))
 		(if (or (and (< 0 posdir )
-			  (< (* 10 posdir) pos )
+			  (< (* rate posdir) pos )
 			  )
 			(and (< posdir  0)
-			  (< pos (* 10 posdir))
+			  (< pos (* rate posdir))
 			  ))
 		    (setf posdir (* posdir -1)))
 		
@@ -277,7 +278,7 @@
 		      (glm.translation pos 0 -5))
 		(setf (aref segments (string "model"))
 		      model)))
-	     (app.run ;:framerate 60
+	     (app.run :framerate 0
 	      )))))
     (cl-py-generator::write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
