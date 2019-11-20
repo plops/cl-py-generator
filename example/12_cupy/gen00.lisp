@@ -27,6 +27,7 @@
 	  `(do0
 	    "# https://youtu.be/CQDsT81GyS8?t=3238 Valentin Haenel: Create CUDA kernels from Python using Numba and CuPy | PyData Amsterdam 2019"
 	    "# pip3 install --user cupy-cuda101"
+	    "#  sudo ln -s /opt/cuda/nvvm/lib64/libnvvm.so* /usr/lib"
 	    #+nil (do0
 	     (imports (matplotlib))
 					;(matplotlib.use (string "Agg"))
