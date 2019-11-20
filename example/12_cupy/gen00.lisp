@@ -28,6 +28,7 @@
 	 (code
 	  `(do0
 	    "# https://youtu.be/CQDsT81GyS8?t=3238 Valentin Haenel: Create CUDA kernels from Python using Numba and CuPy | PyData Amsterdam 2019"
+	    "# pip3 install --user cupy-cuda101"
 	    #+nil (do0
 	     (imports (matplotlib))
 					;(matplotlib.use (string "Agg"))
@@ -39,7 +40,7 @@
 					;time
 					;docopt
 					;pathlib
-		       ;(np numpy)
+		       (np numpy)
 		       (cp cupy)
 					;serial
 					;(pd pandas)
@@ -51,7 +52,14 @@
 					;scipy.optimize
 		      math
 		      ))
-	    
+	     (do0
+	      (setf ary (dot (cp.arange 10)
+			     (reshape (tuple 2 5))))
+	      (print (repr ary))
+	      ,@(loop for e in `(dtype shape strides device) collect
+		     `(print (dot (string ,(format nil "~a = {}" e))
+				  (format (dot ary ,e)))))
+	      )
 	    )))
     (cl-py-generator::write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 

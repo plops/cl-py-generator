@@ -15,7 +15,7 @@ hypot.py_func((3.e+0), (4.e+0))
 @jit(nopython=True)
 def ex1(x, y, out):
     for i in range(x.shape[0]):
-        out[i]=((x[i])+(y[i]))
+        out[i]=hypot(x[i], y[i])
 in1=np.arange(10, dtype=np.float32)
 in2=((1)+(((2)*(in1))))
 out=np.empty_like(in1)
