@@ -68,7 +68,7 @@
 
 	      (do0
 	       "# numba on gpu"
-	       (@vectorize (list (string "int64(int64,int64)"))
+	       (@vectorize (list (string "int64(int64,int64)")) 
 			   :target (string "cuda"))
 	       (def add_ufunc (x y)
 		 (return (+ x y)))
