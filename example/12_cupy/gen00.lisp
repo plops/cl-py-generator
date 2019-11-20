@@ -89,12 +89,24 @@
 						   :dtype np.float32))
 		    (add_ufunc ag bg :out out_device)
 		    (print (out_device.copy_to_host)))
-	       (do0 (setf out_device2
+	       #+nil (do0 (setf out_device2
 			  (numba.cuda.device_array :shape (tuple 4)
 						   :dtype np.float32))
 		    (add_ufunc ag bcg :out out_device2)
 		    (print (out_device2.copy_to_host)))
-	      )
+	       )
+
+	      (do0
+	       "import cupy as cp"
+	       (do0
+		(setf ap (cp.asarray a)
+		      bp (cp.asarray b)
+		      out_cp (cp.empty_like bp))
+		(print (string "numba function called with cupy arrays")
+		       )
+		(add_ufunc ap bp :out out_cp)
+		(print out_cp)
+		))
 	    ))))
     (cl-py-generator::write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
