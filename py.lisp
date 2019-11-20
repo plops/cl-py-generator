@@ -223,6 +223,14 @@
 			(format s "~&~a:~%~a"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
+	      (when (destructuring-bind (condition &rest forms) (cdr code)
+                      (emit `(if ,condition
+                                 (do0
+                                  ,@forms)))))
+              (unless (destructuring-bind (condition &rest forms) (cdr code)
+                        (emit `(if (not ,condition)
+                                   (do0
+                                    ,@forms)))))
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
 			    (format nil "import ~a as ~a~%" (second args) (first args))
