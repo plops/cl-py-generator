@@ -107,6 +107,7 @@
 		(add_ufunc ap bp :out out_cp)
 		(print out_cp)
 		))
+	      "# https://github.com/numba/euroscipy2019-numba/blob/master/5%20-%20Troubleshooting%20and%20Debugging.ipynb "
 	    ))))
     (cl-py-generator::write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
