@@ -48,16 +48,38 @@
 					;(u astropy.units)
 					;scipy.ndimage
 					;scipy.optimize
+		      math
 		      ))
 	    "from numba import jit"
-	    "@jit"
-	    (def hypot (x y)
-	      (setf x (np.abs x)
-		    y (np.abs y)
-		    tt (np.min x y)
-		    x (np.max x y)
-		    tt (/ tt x))
-	      (return (* x (np.sqrt (+ 1 (* tt tt)))))))))
+
+	    (do0
+	     "@jit(nopython=True)"
+	     (def hypot (x y)
+	       (setf x (abs x)
+		     y (abs y)
+		     tt (min x y)
+		     x (max x y)
+		     tt (/ tt x))
+	       (return (* x (math.sqrt (+ 1 (* tt tt))))))
+					;"%timeit"
+	     (hypot 3s0 4s0)
+					;"%timeit"
+	     (hypot.py_func 3s0 4s0))
+
+	    (do0
+	     "@jit(nopython=True)"
+	     (def ex1 (x y out)
+	       (for (i (range (aref x.shape 0)))
+		    (setf (aref out i)
+			  (+ (aref x i)
+			     (aref y i)))))
+	     (setf in1 (np.arange 10 :dtype np.float32)
+		   in2 (+ 1 (* 2 in1))
+		   out (np.empty_like in1))
+	     (ex1 in1 in2 out))
+
+	    
+	    )))
     (cl-py-generator::write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
