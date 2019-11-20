@@ -50,9 +50,10 @@
 					;(u astropy.units)
 					;scipy.ndimage
 					;scipy.optimize
-		      math
+		       math
+		       numba
 		       ))
-	     "from numba import vectorize"
+	     ;"from numba import vectorize"
 	     (do0
 	      (setf ary (dot (cp.arange 10)
 			     (reshape (tuple 2 5))))
@@ -68,7 +69,7 @@
 
 	      (do0
 	       "# numba on gpu"
-	       (@vectorize (list (string "int64(int64,int64)")) 
+	       (@numba.vectorize (list (string "int64(int64,int64)")) 
 			   :target (string "cuda"))
 	       (def add_ufunc (x y)
 		 (return (+ x y)))
@@ -79,6 +80,13 @@
 			    (reshape (tuple 4 4))))
 	       (print (add_ufunc a b))
 	       (print (add_ufunc b_col c))
+	       (do0 (setf ag (numba.cuda.to_device a)
+			  bg (numba.cuda.to_device b))
+		    (print (add_ufunc ag bg)))
+	       (do0 (setf out_device
+			  (numba.cuda.device_array :shape (tuple 4)
+						   :dtype np.float32))
+		    (add_ufunc ag bg :out out_device))
 	      )
 	    ))))
     (cl-py-generator::write-source (format nil "~a/source/~a" *path* *code-file*) code)))
