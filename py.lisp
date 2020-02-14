@@ -32,17 +32,23 @@
        (sb-ext:run-program "/usr/bin/yapf" (list (namestring fn)))))))
 
 (defun print-sufficient-digits-f64 (f)
-  "print a double floating point number as a string with a given nr. of
-  digits. parse it again and increase nr. of digits until the same bit
+  "print a double floating point number as a string with a given nr. of                                                                                                                                             
+  digits. parse it again and increase nr. of digits until the same bit                                                                                                                                              
   pattern."
-  (let* ((ff (coerce f 'double-float))
-	 (s (format nil "~E" ff)))
-    #+nil (assert (= 0d0 (- ff
-			    (read-from-string s))))
-    (assert (< (abs (- ff
-		       (read-from-string s)))
-	       1d-12))
-   (substitute #\e #\d s)))
+
+  (let* ((a f)
+         (digits 1)
+         (b (- a 1)))
+    (loop while (if (< 0 (abs a))
+                    (< (/ (abs (- a b))
+                          (abs a))
+                       1e-12)
+                    (< (abs (- a b))
+                       1e-12)) do
+         (setf b (read-from-string (format nil "~,vG" digits a)))
+         (incf digits))
+    (substitute #\e #\d (format nil "~,vG" digits a))))
+
 
 ;(print-sufficient-digits-f64 1d0)
 
