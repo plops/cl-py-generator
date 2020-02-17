@@ -39,14 +39,13 @@
   (let* ((a f)
          (digits 1)
          (b (- a 1)))
-    (loop while (if (< 0 (abs a))
-                    (< (/ (abs (- a b))
-                          (abs a))
-                       1e-12)
-                    (< (abs (- a b))
-                       1e-12)) do
-         (setf b (read-from-string (format nil "~,vG" digits a)))
-         (incf digits))
+    (unless (eq a 0)
+      (loop while (< 1d-12
+		     (/ (abs (- a b))
+		       (abs a))
+		    ) do
+          (setf b (read-from-string (format nil "~,vG" digits a)))
+          (incf digits)))
     (substitute #\e #\d (format nil "~,vG" digits a))))
 
 
