@@ -39,7 +39,7 @@
   (let* ((a f)
          (digits 1)
          (b (- a 1)))
-    (unless (eq a 0)
+    (unless (= a 0)
       (loop while (< 1d-12
 		     (/ (abs (- a b))
 		       (abs a))
