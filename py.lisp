@@ -110,8 +110,8 @@
 								  e
 								(declare (ignorable keyword-name suppliedp))
 								(if init
-								    `(= ,name ,init)
-								    `(= ,name "None")))))))
+								    `(= ,(emit name) ,init)
+								    `(= ,(emit name) "None")))))))
 				 (if (cdr body)
 				     (break "body ~a should have only one entry" body)
 				     (emit (car body))))))))
@@ -124,14 +124,15 @@
 		       (with-output-to-string (s)
 			 (format s "def ~a~a:~%"
 				 name
-				 (emit `(paren ,@(append req-param
-							 (loop for e in key-param collect 
-							      (destructuring-bind ((keyword-name name) init suppliedp)
-								  e
-								(declare (ignorable keyword-name suppliedp))
-								(if init
-								    `(= ,name ,init)
-								    `(= ,name "None"))))))))
+				 (emit `(paren
+					 ,@(append (mapcar #'emit req-param)
+						   (loop for e in key-param collect 
+							(destructuring-bind ((keyword-name name) init suppliedp)
+							    e
+							  (declare (ignorable keyword-name suppliedp))
+							  (if init
+							      `(= ,name ,init)
+							      `(= ,name "None"))))))))
 			 (format s "~a" (emit `(do ,@body)))))))
 	      (= (destructuring-bind (a b) (cdr code)
 		   (format nil "~a=~a" (emit a) (emit b))))
@@ -292,9 +293,10 @@
 						  (loop for e in props collect
 						       `(= ,(format nil "~a" e) ,(getf plist e))))))))))))
 	    (cond
-	      ((or (symbolp code)
-		   (stringp code)) ;; print variable
+	      ((symbolp code) ;; print variable
 	       (format nil "~a" code))
+	      ((stringp code)
+		(substitute #\: #\- (format nil "~a" code)))
 	      ((numberp code) ;; print constants
 	       (cond ((integerp code) (format str "~a" code))
 		     ((floatp code)
