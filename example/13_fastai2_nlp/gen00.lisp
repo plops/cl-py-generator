@@ -107,7 +107,9 @@
 					      (Perplexity)))
 			      (to_fp16)))
 	     (setf
-	      fn_1epoch (string "1epoch")
+	      problem (string "imdb")
+	      fn_1epoch (dot (string "{}_1epoch")
+			     (format problem))
 	      path_1epoch (pathlib.Path
 			   (dot
 			    (string "/home/martin/.fastai/data/imdb/models/{}.pth")
@@ -122,7 +124,11 @@
 		  (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
 		  (learn.save fn_1epoch))))
 	    
-	    
+	    (do0
+	     (learn.unfreeze)
+	     (learn.fit_one_cycle 10 2e-3)
+	     (learn.save_encoder (dot (string "{}_finetuned")
+				      (format problem))))
 	    
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
