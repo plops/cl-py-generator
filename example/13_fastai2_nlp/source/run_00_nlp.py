@@ -16,41 +16,48 @@ path_1epoch=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(f
 fn_finetuned="{}_finetuned".format(problem)
 path_finetuned=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_finetuned))
 fn_classifier="{}_classifier".format(problem)
-if ( path_finetuned.is_file() ):
-    print("load finetuned encoder")
-    learn=learn.load(fn_1epoch)
-    learn=learn.load_encoder(fn_finetuned)
+path_classifier=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_classifier))
+if ( path_classifier.is_file() ):
+    print("load pre-existing classifier")
+    dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=32, seq_len=72)
+    learn=text_classifier_learner(dls_class, AWD_LSTM, drop_mult=(0.50    ), metrics=accuracy).to_fp16()
+    learn=learn.load(fn_classifier)
 else:
-    if ( path_1epoch.is_file() ):
-        print("load preexisting 1epoch")
+    if ( path_finetuned.is_file() ):
+        print("load finetuned encoder")
         learn=learn.load(fn_1epoch)
-        print("finetune encoder will take 10x 20min")
-        learn.unfreeze()
-        learn.fit_one_cycle(10, (2.00e-3))
-        learn.save_encoder(fn_finetuned)
-    else:
-        print("compute 1epoch (takes 18min)")
+        learn=learn.load_encoder(fn_finetuned)
+        print("create classifier")
+        dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=32, seq_len=72)
+        learn=text_classifier_learner(dls_class, AWD_LSTM, drop_mult=(0.50    ), metrics=accuracy).to_fp16()
+        learn=learn.load_encoder(fn_finetuned)
+        print("unfreeze layer 1")
         learn.fit_one_cycle(1, (2.00e-2))
-        # => 16min45sec, 1min
-        # epoch     train_loss  valid_loss  accuracy  perplexity  time
-        # 0         4.152357    3.935240    0.297858  51.174419   17:51
-        learn.save(fn_1epoch)
-print("create classifier")
-dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=32, seq_len=72)
-learn=text_classifier_learner(dls_class, AWD_LSTM, drop_mult=(0.50    ), metrics=accuracy).to_fp16()
-learn=learn.load_encoder(fn_finetuned)
-print("unfreeze layer 1")
-learn.fit_one_cycle(1, (2.00e-2))
-print("unfreeze 2 layers")
-learn.freeze_to(-2)
-val=(1.00e-2)
-learn.fit_one_cycle(1, slice(((val)/((((2.60    ))**(4)))), val))
-print("unfreeze 3 layers")
-learn.freeze_to(-3)
-val=(5.00e-3)
-learn.fit_one_cycle(1, slice(((val)/((((2.60    ))**(4)))), val))
-print("unfreeze all layers")
-learn.unfreeze()
-val=(1.00e-3)
-learn.fit_one_cycle(2, slice(((val)/((((2.60    ))**(4)))), val))
-learn.save(fn_classifier)
+        print("unfreeze 2 layers")
+        learn.freeze_to(-2)
+        val=(1.00e-2)
+        learn.fit_one_cycle(1, slice(((val)/((((2.60    ))**(4)))), val))
+        print("unfreeze 3 layers")
+        learn.freeze_to(-3)
+        val=(5.00e-3)
+        learn.fit_one_cycle(1, slice(((val)/((((2.60    ))**(4)))), val))
+        print("unfreeze all layers")
+        learn.unfreeze()
+        val=(1.00e-3)
+        learn.fit_one_cycle(2, slice(((val)/((((2.60    ))**(4)))), val))
+        learn.save(fn_classifier)
+    else:
+        if ( path_1epoch.is_file() ):
+            print("load preexisting 1epoch")
+            learn=learn.load(fn_1epoch)
+            print("finetune encoder will take 10x 20min")
+            learn.unfreeze()
+            learn.fit_one_cycle(10, (2.00e-3))
+            learn.save_encoder(fn_finetuned)
+        else:
+            print("compute 1epoch (takes 18min)")
+            learn.fit_one_cycle(1, (2.00e-2))
+            # => 16min45sec, 1min
+            # epoch     train_loss  valid_loss  accuracy  perplexity  time
+            # 0         4.152357    3.935240    0.297858  51.174419   17:51
+            learn.save(fn_1epoch)

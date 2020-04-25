@@ -121,29 +121,120 @@
 			    (string "/home/martin/.fastai/data/imdb/models/{}.pth")
 			    (format fn_finetuned)))
 	      fn_classifier (dot (string "{}_classifier")
-				(format problem)))
-	     (if (path_finetuned.is_file)
+				 (format problem))
+	      path_classifier (pathlib.Path
+			       (dot
+				(string "/home/martin/.fastai/data/imdb/models/{}.pth")
+				(format fn_classifier))))
+	     (if (path_classifier.is_file)
 		 (do0
-		  (print (string "load finetuned encoder"))
-		  (setf learn (learn.load fn_1epoch)
-			learn (learn.load_encoder fn_finetuned)))
-		 (do0
-		  (if (path_1epoch.is_file)
+		  (print (string "load pre-existing classifier")
+			 )
+		  (setf dls_class
+			(dot
+			 (DataBlock
+			  :blocks (tuple
+				   (TextBlock.from_folder path
+							  :vocab dls_lm.vocab)
+				   CategoryBlock)
+			  :get_y parent_label
+			  :get_items (partial get_text_files
+					      :folders (list
+							(string "train")
+							(string "test")))
+			  :splitter (GrandparentSplitter
+				     :valid_name (string "test")))
+			 (dataloaders path 
+				      :path path
+				      :bs 32
+				      :seq_len 72)))
+		  (setf learn (dot (text_classifier_learner
+				    dls_class 
+				    AWD_LSTM
+				    :drop_mult .5
+				    :metrics accuracy)
+				   (to_fp16))
+			
+			)
+		  (setf learn
+			(learn.load fn_classifier))
+		  
+		  
+		  )
+		 (if (path_finetuned.is_file)
+		     (do0
+		      (print (string "load finetuned encoder"))
+		      (setf learn (learn.load fn_1epoch)
+			    learn (learn.load_encoder fn_finetuned))
+
 		      (do0
-		       (print (string "load preexisting 1epoch"))
-		       (setf learn (learn.load fn_1epoch))
-		       (print (string "finetune encoder will take 10x 20min"))
+		       (print (string "create classifier"))
+		       (setf dls_class
+			     (dot
+			      (DataBlock
+			       :blocks (tuple
+					(TextBlock.from_folder path
+							       :vocab dls_lm.vocab)
+					CategoryBlock)
+			       :get_y parent_label
+			       :get_items (partial get_text_files
+						   :folders (list
+							     (string "train")
+							     (string "test")))
+			       :splitter (GrandparentSplitter
+					  :valid_name (string "test")))
+			      (dataloaders path 
+					   :path path
+					   :bs 32
+					   :seq_len 72)))
+		       (setf learn (dot (text_classifier_learner
+					 dls_class 
+					 AWD_LSTM
+					 :drop_mult .5
+					 :metrics accuracy)
+					(to_fp16))
+			     learn (learn.load_encoder fn_finetuned))
 		       (do0
+			(print (string "unfreeze layer 1"))
+			(learn.fit_one_cycle 1 2e-2))
+		       
+		       (do0
+			(print (string "unfreeze 2 layers"))
+			(learn.freeze_to -2)
+			(setf val 1e-2)
+			(learn.fit_one_cycle 1 ("slice" (/ val (** 2.6 4))
+							val)))
+		       (do0
+			(print (string "unfreeze 3 layers"))
+			(learn.freeze_to -3)
+			(setf val 5e-3)
+			(learn.fit_one_cycle 1 ("slice" (/ val (** 2.6 4))
+							val)))
+		       (do0
+			(print (string "unfreeze all layers"))
 			(learn.unfreeze)
-			(learn.fit_one_cycle 10 2e-3)
-			(learn.save_encoder fn_finetuned)))
-		      (do0
-		       (print (string "compute 1epoch (takes 18min)"))
-		       (learn.fit_one_cycle 1 2e-2)
-		       (comment "=> 16min45sec, 1min")
-		       (comment "epoch     train_loss  valid_loss  accuracy  perplexity  time")
-		       (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
-		       (learn.save fn_1epoch))))))
+			(setf val 1e-3)
+			(learn.fit_one_cycle 2 ("slice" (/ val (** 2.6 4))
+							val)))
+		       (learn.save fn_classifier))
+		      )
+		     (do0
+		      (if (path_1epoch.is_file)
+			  (do0
+			   (print (string "load preexisting 1epoch"))
+			   (setf learn (learn.load fn_1epoch))
+			   (print (string "finetune encoder will take 10x 20min"))
+			   (do0
+			    (learn.unfreeze)
+			    (learn.fit_one_cycle 10 2e-3)
+			    (learn.save_encoder fn_finetuned)))
+			  (do0
+			   (print (string "compute 1epoch (takes 18min)"))
+			   (learn.fit_one_cycle 1 2e-2)
+			   (comment "=> 16min45sec, 1min")
+			   (comment "epoch     train_loss  valid_loss  accuracy  perplexity  time")
+			   (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
+			   (learn.save fn_1epoch)))))))
 	    
 	    #+nil
 	    (do0
@@ -156,56 +247,7 @@
 	     (print (dot (string "\\n")
 			 (join preds))))
 
-	    (do0
-	     (print (string "create classifier"))
-	     (setf dls_class
-		   (dot
-		    (DataBlock
-		     :blocks (tuple
-			      (TextBlock.from_folder path
-						     :vocab dls_lm.vocab)
-			      CategoryBlock)
-		     :get_y parent_label
-		     :get_items (partial get_text_files
-					 :folders (list
-						   (string "train")
-						   (string "test")))
-		     :splitter (GrandparentSplitter
-				:valid_name (string "test")))
-		    (dataloaders path 
-				 :path path
-				 :bs 32
-				 :seq_len 72)))
-	     (setf learn (dot (text_classifier_learner
-			       dls_class 
-			       AWD_LSTM
-			       :drop_mult .5
-			       :metrics accuracy)
-			      (to_fp16))
-		   learn (learn.load_encoder fn_finetuned))
-	     (do0
-	      (print (string "unfreeze layer 1"))
-	      (learn.fit_one_cycle 1 2e-2))
-	     
-	     (do0
-	      (print (string "unfreeze 2 layers"))
-	      (learn.freeze_to -2)
-	      (setf val 1e-2)
-	      (learn.fit_one_cycle 1 ("slice" (/ val (** 2.6 4))
-					      val)))
-	     (do0
-	      (print (string "unfreeze 3 layers"))
-	      (learn.freeze_to -3)
-	      (setf val 5e-3)
-	      (learn.fit_one_cycle 1 ("slice" (/ val (** 2.6 4))
-					      val)))
-	     (do0
-	      (print (string "unfreeze all layers"))
-	      (learn.unfreeze)
-	      (setf val 1e-3)
-	      (learn.fit_one_cycle 2 ("slice" (/ val (** 2.6 4))
-					      val)))
-	     (learn.save fn_classifier))
+	    
 	    	    
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
