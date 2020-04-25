@@ -50,6 +50,14 @@
 					(list (string "train")
 					      (string "test")
 					      (string "unsup"))))
+	    (setf spacy (WordTokenizer)
+		  tkn (Tokenizer spacy))
+
+	    
+	    (setf txts (L (for-generator (o (aref files ":2000"))
+			   (dot o
+				(open)
+				(read)))))
 	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))

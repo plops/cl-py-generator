@@ -218,6 +218,12 @@
 			       (emit vs)
 			       (emit ls))
 		       (format s "~a" (emit `(do ,@body))))))
+	      (for-generator
+	       (destructuring-bind ((vs ls) expr) (cdr code)
+		     (format nil "~a for ~a in ~a"
+			     (emit expr)
+			     (emit vs)
+			     (emit ls))))
 	      (while (destructuring-bind (vs &rest body) (cdr code)
 		     (with-output-to-string (s)
 		       (format s "while ~a:~%"
