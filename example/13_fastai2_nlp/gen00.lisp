@@ -174,7 +174,7 @@
 				:valid_name (string "test")))
 		    (dataloaders path
 				 :path path
-				 :bs 128
+				 :bs 412
 				 :seq_len 72)))
 	     (setf learn (dot (text_classifier_learner
 			       dls_class

@@ -36,7 +36,7 @@ else:
         # 0         4.152357    3.935240    0.297858  51.174419   17:51
         learn.save(fn_1epoch)
 print("create classifier")
-dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=128, seq_len=72)
+dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=412, seq_len=72)
 learn=text_classifier_learner(dls_class, AWD_LSTM, drop_mult=(0.50    ), metrics=accuracy).to_fp16()
 learn=learn.load_encoder(fn_finetuned)
 learn.fit_one_cycle(1, (2.00e-2))
