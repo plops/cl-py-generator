@@ -22,13 +22,14 @@
 			      (imports ((plt matplotlib.pyplot)))
 			 (plt.ion))
 	    
-	    #+nil (imports (			;os
+	    (imports (			;os
 					;sys
 					;time
 					;docopt
 					;pathlib
 		      ;(np numpy)
-		      ;serial
+					;serial
+			    pathlib
 					;(pd pandas)
 					;(xr xarray)
 					;(xrp xarray.plot)
@@ -105,12 +106,21 @@
 			       :metrics (list accuracy
 					      (Perplexity)))
 			      (to_fp16)))
-	     
-	     (learn.fit_one_cycle 1 2e-2)
-	     (comment "=> 16min45sec, 1min")
-	     (comment "epoch     train_loss  valid_loss  accuracy  perplexity  time")
-	     (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
-	     (learn.save (string "1epoch")))
+	     (setf
+	      fn_1epoch (string "1epoch")
+	      path_1epoch (pathlib.Path
+			   (dot
+			    (string "/home/martin/.fastai/data/imdb/models/{}.pth")
+			    (format fn_1epoch))))
+	     (if (path_1epoch.is_file)
+		 (do0
+		  (setf learn (learn.load fn_1epoch)))
+		 (do0
+		  (learn.fit_one_cycle 1 2e-2)
+		  (comment "=> 16min45sec, 1min")
+		  (comment "epoch     train_loss  valid_loss  accuracy  perplexity  time")
+		  (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
+		  (learn.save fn_1epoch))))
 	    
 	    
 	    
