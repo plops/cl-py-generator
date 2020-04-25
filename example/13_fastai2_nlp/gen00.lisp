@@ -172,7 +172,7 @@
 						   (string "test")))
 		     :splitter (GrandparentSplitter
 				:valid_name (string "test")))
-		    (dataloaders path
+		    (dataloaders path 
 				 :path path
 				 :bs 412
 				 :seq_len 72)))
