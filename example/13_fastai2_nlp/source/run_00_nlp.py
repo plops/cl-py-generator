@@ -34,3 +34,9 @@ else:
         # epoch     train_loss  valid_loss  accuracy  perplexity  time
         # 0         4.152357    3.935240    0.297858  51.174419   17:51
         learn.save(fn_1epoch)
+print("text review generation")
+TEXT="I hated this movie because"
+N_WORDS=80
+N_SENTENCES=12
+preds=[learn.predict(TEXT, N_WORDS, temperature=(0.750    )) for _ in range(N_SENTENCES)]
+print("\n".join(preds))

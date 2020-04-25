@@ -143,7 +143,15 @@
 		       (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
 		       (learn.save fn_1epoch))))))
 	    
-	    
+	    (do0
+	     (print (string "text review generation"))
+	     (setf TEXT (string "I hated this movie because")
+		   N_WORDS 80
+		   N_SENTENCES 12
+		   preds (list (for-generator (_ (range N_SENTENCES))
+					      (learn.predict TEXT N_WORDS :temperature .75))))
+	     (print (dot (string "\\n")
+			 (join preds))))
 	    
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
