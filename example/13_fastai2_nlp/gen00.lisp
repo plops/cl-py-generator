@@ -50,14 +50,37 @@
 					(list (string "train")
 					      (string "test")
 					      (string "unsup"))))
-	    (setf spacy (WordTokenizer)
-		  tkn (Tokenizer spacy))
 
-	    
+
 	    (setf txts (L (for-generator (o (aref files ":2000"))
 			   (dot o
 				(open)
 				(read)))))
+	    
+	    (do0
+	     (setf spacy (WordTokenizer)
+		   tkn (Tokenizer spacy))
+
+	     (do0
+	      (setf sp (SubwordTokenizer :vocab_sz 1000))
+	      (dot sp
+		   (setup txts)))
+
+
+	     (setf toks200 (dot (aref txts ":200")
+				(map tkn)))
+	     (do0
+	      (setf num (Numericalize))
+	      (num.setup toks200)
+	      )
+	     (do0 (setf nums200 (dot toks200
+				    (map num)))
+		  (setf dl (LMDataLoader nums200)))
+	     
+	     (comment "From the book: At every epoch we shuffle our collection of documents and concatenate them into a stream of tokens. We then cut that stream into a batch of fixed-size consecutive mini-streams. Our model will then read the mini-streams in order, and thanks to an inner state, it will produce the same activation whatever sequence length you picked."))
+	    
+	    
+	    
 	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))

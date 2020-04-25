@@ -14,6 +14,7 @@ cd fastcore
 pip install --user -e ".[dev]"
 
 
+pip install --user sentencepiece
 # why do i need the following?
 pip install --user ipykernel
   #+end_example
