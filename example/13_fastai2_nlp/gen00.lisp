@@ -107,7 +107,9 @@
 			      (to_fp16)))
 	     
 	     (learn.fit_one_cycle 1 2e-2)
-	     (comment "=> 16min45sec")
+	     (comment "=> 16min45sec, 1min")
+	     (comment "epoch     train_loss  valid_loss  accuracy  perplexity  time")
+	     (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
 	     (learn.save (string "1epoch")))
 	    
 	    
