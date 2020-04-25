@@ -3,6 +3,7 @@
 import matplotlib
 import matplotlib.pyplot as plt
 plt.ion()
+import os
 import pathlib
 from fastai2.text.all import *
 path=untar_data(URLs.IMDB)
@@ -61,3 +62,4 @@ else:
             # epoch     train_loss  valid_loss  accuracy  perplexity  time
             # 0         4.152357    3.935240    0.297858  51.174419   17:51
             learn.save(fn_1epoch)
+print("pid={}".format(os.getpid()))

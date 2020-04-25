@@ -23,3 +23,71 @@ pip install --user ipykernel
 * Documentation
 
 https://github.com/fastai/fastbook/blob/master/10_nlp.ipynb
+
+
+* Debug
+https://docs.nvidia.com/deeplearning/sdk/cudnn-developer-guide/index.html
+  #+begin_example
+export CUDNN_LOGINFO_DBG=1
+export CUDNN_LOGDEST_DBG=stdout
+  #+end_example
+
+** used libraries
+   #+begin_example
+# get the pid of the python process and look for all open files:
+lsof -p 6593|grep .so
+   #+end_example
+   #+begin_example
+martin@labolg /proc $ lsof -p 6593|grep .so|grep cu
+python3 6593 martin  mem    REG              254,1     350613 5516497 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/curand.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    1355045 5516499 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/cufft.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    3406088 5516526 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/fusion.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1  459633080 5516583 /home/martin/.local/lib64/python3.6/site-packages/cupy/.data/lib/libcudnn.so.7
+python3 6593 martin  mem    REG              254,1    2788206 5516500 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/cudnn.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     482965 5516524 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/raw.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     170656 5516527 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/flags.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     358282 5516528 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/dlpack.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     509951 5516532 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_routines_statistics.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     400847 5516533 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_routines_sorting.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     140369 5516536 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_routines_logic.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     201092 5516538 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_memory_range.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     343298 5516531 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_scalar.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    2830852 5516539 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_kernel.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     166732 5516541 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_dtype.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     629812 5516534 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_routines_math.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    1320890 5516537 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_routines_indexing.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1   79061527 5516582 /home/martin/.local/lib64/python3.6/site-packages/cupy/.data/lib/libnccl.so.2
+python3 6593 martin  mem    REG              254,1   44606214 5516481 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/thrust.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1  190512040 3224142 /opt/cuda/targets/x86_64-linux/lib/libcusolver.so.10.3.0.89
+python3 6593 martin  mem    REG              254,1  128314296 3224207 /opt/cuda/targets/x86_64-linux/lib/libcusparse.so.10.3.1.89
+python3 6593 martin  mem    REG              254,1   60081336 3224217 /opt/cuda/targets/x86_64-linux/lib/libcurand.so.10.1.2.89
+python3 6593 martin  mem    REG              254,1  153253224 3224154 /opt/cuda/targets/x86_64-linux/lib/libcufft.so.10.1.2.89
+python3 6593 martin  mem    REG              254,1   67812400 3224107 /opt/cuda/targets/x86_64-linux/lib/libcublas.so.10.2.2.89
+python3 6593 martin  mem    REG              254,1    1795168 5516535 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/_routines_manipulation.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     578607 5516489 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/nccl.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     164974 5516487 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/nvtx.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     102385 5516485 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/profiler.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     465814 5516525 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/internal.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     880604 5516486 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/pinned_memory.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     319434 5516488 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/nvrtc.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     537132 5516493 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/driver.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    1112668 5516482 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/texture.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     198057 5516490 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/memory_hook.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    2550340 5516491 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/memory.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     833303 5516492 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/function.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    3277326 5516495 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/cusparse.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    1868380 5516496 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/cusolver.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1   29925776 3224187 /opt/cuda/targets/x86_64-linux/lib/libcublasLt.so.10.2.2.89
+python3 6593 martin  mem    REG              254,1     280019 5515959 /home/martin/.local/lib64/python3.6/site-packages/cupy/util.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     518139 5516483 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/stream.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1    1371818 5516501 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/cublas.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     942678 5516484 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/runtime.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1     679369 5516494 /home/martin/.local/lib64/python3.6/site-packages/cupy/cuda/device.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1   22039608 3224191 /opt/cuda/targets/x86_64-linux/lib/libnvrtc.so.10.2.89
+python3 6593 martin  mem    REG              254,1    3687433 5516529 /home/martin/.local/lib64/python3.6/site-packages/cupy/core/core.cpython-36m-x86_64-linux-gnu.so
+python3 6593 martin  mem    REG              254,1   16728800 2783080 /usr/lib64/libcuda.so.440.82
+python3 6593 martin  mem    REG              254,1     225008 5523136 /home/martin/.local/lib64/python3.6/site-packages/torch/lib/libc10_cuda.so
+python3 6593 martin  mem    REG              254,1 1056832272 5523141 /home/martin/.local/lib64/python3.6/site-packages/torch/lib/libtorch_cuda.so
+python3 6593 martin  mem    REG              254,1     523816 5523143 /home/martin/.local/lib64/python3.6/site-packages/torch/lib/libcudart-80664282.so.10.2
+
+   #+end_example

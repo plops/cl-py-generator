@@ -22,7 +22,7 @@
 			      (imports ((plt matplotlib.pyplot)))
 			 (plt.ion))
 	    
-	    (imports (			;os
+	    (imports (			os
 					;sys
 					;time
 					;docopt
@@ -248,7 +248,8 @@
 			 (join preds))))
 
 	    
-	    	    
+	    (print (dot (string "pid={}")
+			(format (os.getpid))))
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
  
