@@ -1,0 +1,13 @@
+* Install
+#+begin_example
+cd ~/src
+git clone https://github.com/fastai/fastai2
+cd fastai2
+pip install -e ".[dev]"
+
+cd ~/src
+git clone https://github.com/fastai/fastcore
+cd fastcore
+pip install -e ".[dev]"
+
+  #+end_example
