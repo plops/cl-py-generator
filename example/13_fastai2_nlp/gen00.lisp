@@ -105,7 +105,9 @@
 			       :metrics (list accuracy
 					      (Perplexity)))
 			      (to_fp16)))
+	     
 	     (learn.fit_one_cycle 1 2e-2)
+	     (comment "=> 16min")
 	     (learn.save (string "1epoch")))
 	    
 	    
