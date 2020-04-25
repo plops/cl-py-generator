@@ -30,6 +30,8 @@ https://docs.nvidia.com/deeplearning/sdk/cudnn-developer-guide/index.html
   #+begin_example
 export CUDNN_LOGINFO_DBG=1
 export CUDNN_LOGDEST_DBG=stdout
+# or
+export CUDNN_LOGDEST_DBG=/dev/shm/cudnn.log
   #+end_example
 
 ** used libraries

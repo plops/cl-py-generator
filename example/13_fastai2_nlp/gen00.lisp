@@ -238,7 +238,7 @@
 	    
 	    #+nil
 	    (do0
-	     (print (string "text review generation"))
+	     (print (string "text review generation (refined model needs to be loaded)"))
 	     (setf TEXT (string "I hated this movie because")
 		   N_WORDS 80
 		   N_SENTENCES 12
