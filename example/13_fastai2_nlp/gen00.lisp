@@ -97,7 +97,14 @@
 			       (dataloaders path
 					    :path path
 					    :bs 128
-					    :seq_len 80))))
+					    :seq_len 80))
+		   learn (dot (language_model_learner
+			       dls_lm
+			       AWD_LSTM
+			       :drop_mult .3
+			       :metrics (list accuracy
+					      (Perplexity)))
+			      (to_fp16))))
 	    
 	    
 	    
