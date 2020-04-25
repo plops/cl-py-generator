@@ -16,16 +16,21 @@ path_1epoch=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(f
 fn_finetuned="{}_finetuned".format(problem)
 path_finetuned=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_finetuned))
 if ( path_finetuned.is_file() ):
-    # how to load finetuned model?
+    print("load finetuned encoder")
+    learn=learn.load(fn_1epoch)
+    learn=learn.load_encoder(fn_finetuned)
 else:
     if ( path_1epoch.is_file() ):
+        print("load preexisting 1epoch")
         learn=learn.load(fn_1epoch)
+        print("finetune encoder")
+        learn.unfreeze()
+        learn.fit_one_cycle(10, (2.00e-3))
+        learn.save_encoder(fn_finetuned)
     else:
+        print("compute 1epoch")
         learn.fit_one_cycle(1, (2.00e-2))
         # => 16min45sec, 1min
         # epoch     train_loss  valid_loss  accuracy  perplexity  time
         # 0         4.152357    3.935240    0.297858  51.174419   17:51
         learn.save(fn_1epoch)
-learn.unfreeze()
-learn.fit_one_cycle(10, (2.00e-3))
-learn.save_encoder(fn_finetuned)
