@@ -130,7 +130,7 @@
 		 (do0
 		  (print (string "load pre-existing classifier")
 			 )
-		  (setf dls_class
+		  (setf dls_class 
 			(dot
 			 (DataBlock
 			  :blocks (tuple
