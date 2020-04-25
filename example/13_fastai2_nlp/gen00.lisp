@@ -174,10 +174,10 @@
 				:valid_name (string "test")))
 		    (dataloaders path 
 				 :path path
-				 :bs 412
+				 :bs 128
 				 :seq_len 72)))
 	     (setf learn (dot (text_classifier_learner
-			       dls_class
+			       dls_class 
 			       AWD_LSTM
 			       :drop_mult .5
 			       :metrics accuracy)
