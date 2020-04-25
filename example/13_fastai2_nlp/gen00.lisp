@@ -174,7 +174,7 @@
 				:valid_name (string "test")))
 		    (dataloaders path 
 				 :path path
-				 :bs 128
+				 :bs 64
 				 :seq_len 72)))
 	     (setf learn (dot (text_classifier_learner
 			       dls_class 
@@ -201,6 +201,18 @@
 	      (learn.fit_one_cycle 2 ("slice" (/ val (** 2.6 4))
 					      val)))
 	     (learn.save fn_classifier))
+
+	    #+nil(
+create classifier
+epoch     train_loss  valid_loss  accuracy  time    
+0         0.373528    0.207123    0.917160  00:41                                                                                   
+epoch     train_loss  valid_loss  accuracy  time    
+0         0.274816    0.194190    0.923640  00:50                                                                                   
+epoch     train_loss  valid_loss  accuracy  time    
+0         0.221757    0.175182    0.933000  01:05                                                                                   
+epoch     train_loss  valid_loss  accuracy  time    
+
+	     )
 	    
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
