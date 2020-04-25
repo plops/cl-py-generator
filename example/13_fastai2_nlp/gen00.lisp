@@ -168,7 +168,7 @@
 			    learn (learn.load_encoder fn_finetuned))
 
 		      (do0
-		       (print (string "create classifier"))
+		       (print (string "create classifier (will take 11min)"))
 		       (setf dls_class
 			     (dot
 			      (DataBlock

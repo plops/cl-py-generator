@@ -27,7 +27,7 @@ else:
         print("load finetuned encoder")
         learn=learn.load(fn_1epoch)
         learn=learn.load_encoder(fn_finetuned)
-        print("create classifier")
+        print("create classifier (will take 11min)")
         dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=32, seq_len=72)
         learn=text_classifier_learner(dls_class, AWD_LSTM, drop_mult=(0.50    ), metrics=accuracy).to_fp16()
         learn=learn.load_encoder(fn_finetuned)
