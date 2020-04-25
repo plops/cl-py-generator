@@ -96,7 +96,7 @@
 				:splitter (RandomSplitter .1))
 			       (dataloaders path
 					    :path path
-					    :bs 128
+					    :bs 96
 					    :seq_len 80))
 		   learn (dot (language_model_learner
 			       dls_lm
