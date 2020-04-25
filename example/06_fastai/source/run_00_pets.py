@@ -1,6 +1,6 @@
 # lesson 1: image classification
 # export LANG=en_US.utf8
-# https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson1-pets.ipynb
+# https://github.com/fastai/course:v3/blob/master/nbs/dl1/lesson1:pets.ipynb
 import matplotlib
 import matplotlib.pyplot as plt
 plt.ion()
@@ -44,5 +44,5 @@ else:
     learn.lr_find()
     learn.recorder.plot()
     learn.unfreeze()
-    learn.fit_one_cycle(2, max_lr=slice((9.999999974752427e-7), (9.999999747378752e-5)))
+    learn.fit_one_cycle(2, max_lr=slice((1.00e-6), (1.00e-4)))
     learn.save(fn2.stem)

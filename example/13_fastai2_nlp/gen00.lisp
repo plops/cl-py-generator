@@ -42,8 +42,15 @@
 	    "from fastai2.text.all import *"
 
 
-	    (setf path (untar_data URLs.IMDB)
-		  )
+	    (setf path (untar_data URLs.IMDB))
+	    (comment "=> Path('/home/martin/.fastai/data/imdb')")
+
+	    (setf files (get_text_files path
+					:folders
+					(list (string "train")
+					      (string "test")
+					      (string "unsup"))))
+	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 

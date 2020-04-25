@@ -5,3 +5,5 @@ import matplotlib.pyplot as plt
 plt.ion()
 from fastai2.text.all import *
 path=untar_data(URLs.IMDB)
+# => Path('/home/martin/.fastai/data/imdb')
+files=get_text_files(path, folders=["train", "test", "unsup"])

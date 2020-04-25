@@ -28,7 +28,7 @@
 					;docopt
 					;pathlib
 		      ;(np numpy)
-		      ;serial
+					;serial
 					;(pd pandas)
 					;(xr xarray)
 					;(xrp xarray.plot)

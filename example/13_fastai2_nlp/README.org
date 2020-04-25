@@ -1,13 +1,24 @@
 * Install
 #+begin_example
+# optionally get rid of old stuff:
+# rm ~/.cache/pip
+
 cd ~/src
 git clone https://github.com/fastai/fastai2
 cd fastai2
-pip install -e ".[dev]"
+pip install --user -e ".[dev]"
 
 cd ~/src
 git clone https://github.com/fastai/fastcore
 cd fastcore
-pip install -e ".[dev]"
+pip install --user -e ".[dev]"
 
+
+# why do i need the following?
+pip install --user ipykernel
   #+end_example
+
+
+* Documentation
+
+https://github.com/fastai/fastbook/blob/master/10_nlp.ipynb
