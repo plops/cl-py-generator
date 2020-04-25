@@ -13,14 +13,19 @@ learn=language_model_learner(dls_lm, AWD_LSTM, drop_mult=(0.30    ), metrics=[ac
 problem="imdb"
 fn_1epoch="{}_1epoch".format(problem)
 path_1epoch=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_1epoch))
-if ( path_1epoch.is_file() ):
-    learn=learn.load(fn_1epoch)
+fn_finetuned="{}_finetuned".format(problem)
+path_finetuned=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_finetuned))
+if ( path_finetuned.is_file() ):
+    # how to load finetuned model?
 else:
-    learn.fit_one_cycle(1, (2.00e-2))
-    # => 16min45sec, 1min
-    # epoch     train_loss  valid_loss  accuracy  perplexity  time
-    # 0         4.152357    3.935240    0.297858  51.174419   17:51
-    learn.save(fn_1epoch)
+    if ( path_1epoch.is_file() ):
+        learn=learn.load(fn_1epoch)
+    else:
+        learn.fit_one_cycle(1, (2.00e-2))
+        # => 16min45sec, 1min
+        # epoch     train_loss  valid_loss  accuracy  perplexity  time
+        # 0         4.152357    3.935240    0.297858  51.174419   17:51
+        learn.save(fn_1epoch)
 learn.unfreeze()
 learn.fit_one_cycle(10, (2.00e-3))
-learn.save_encoder("{}_finetuned".format(problem))
+learn.save_encoder(fn_finetuned)

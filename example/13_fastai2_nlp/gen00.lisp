@@ -113,22 +113,31 @@
 	      path_1epoch (pathlib.Path
 			   (dot
 			    (string "/home/martin/.fastai/data/imdb/models/{}.pth")
-			    (format fn_1epoch))))
-	     (if (path_1epoch.is_file)
+			    (format fn_1epoch)))
+	      fn_finetuned (dot (string "{}_finetuned")
+				(format problem))
+	      path_finetuned (pathlib.Path
+			   (dot
+			    (string "/home/martin/.fastai/data/imdb/models/{}.pth")
+			    (format fn_finetuned))))
+	     (if (path_finetuned.is_file)
 		 (do0
-		  (setf learn (learn.load fn_1epoch)))
+		  (comment "how to load finetuned model?"))
 		 (do0
-		  (learn.fit_one_cycle 1 2e-2)
-		  (comment "=> 16min45sec, 1min")
-		  (comment "epoch     train_loss  valid_loss  accuracy  perplexity  time")
-		  (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
-		  (learn.save fn_1epoch))))
+		  (if (path_1epoch.is_file)
+		      (do0
+		       (setf learn (learn.load fn_1epoch)))
+		      (do0
+		       (learn.fit_one_cycle 1 2e-2)
+		       (comment "=> 16min45sec, 1min")
+		       (comment "epoch     train_loss  valid_loss  accuracy  perplexity  time")
+		       (comment "0         4.152357    3.935240    0.297858  51.174419   17:51")
+		       (learn.save fn_1epoch))))))
 	    
 	    (do0
 	     (learn.unfreeze)
 	     (learn.fit_one_cycle 10 2e-3)
-	     (learn.save_encoder (dot (string "{}_finetuned")
-				      (format problem))))
+	     (learn.save_encoder fn_finetuned))
 	    
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
