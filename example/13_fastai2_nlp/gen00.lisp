@@ -43,51 +43,55 @@
 	    "from fastai2.text.all import *"
 
 
-	    (setf path (untar_data URLs.IMDB))
-	    (comment "=> Path('/home/martin/.fastai/data/imdb')")
-
-	    #+nil (do0
-	     (setf files (get_text_files path
-					 :folders
-
-					 (list (string "train")
-					       (string "test")
-					       (string "unsup"))))
-
-
-	     (setf txts (L (for-generator (o (aref files ":2000"))
-					  (dot o
-					       (open)
-					       (read))))))
+	    (setf path ;(untar_data URLs.IMDB)
+		  (pathlib.Path (string "/home/martin/txt_utf8"))
+		  )
 	    
+	    ;(comment "=> Path('/home/martin/.fastai/data/imdb')")
+
 	    #+nil
-	    (do0
-	     (setf spacy (WordTokenizer)
-		   tkn (Tokenizer spacy))
+	    (do0 (do0
+		  (setf files (get_text_files path
+					      :folders
 
-	     (do0
-	      (setf sp (SubwordTokenizer :vocab_sz 1000))
-	      (dot sp
-		   (setup txts)))
+					      (list (string "train")
+						    (string "test")
+						    (string "unsup"))))
 
 
-	     (setf toks200 (dot (aref txts ":200")
-				(map tkn)))
-	     (do0
-	      (setf num (Numericalize))
-	      (num.setup toks200)
-	      )
-	     (do0 (setf nums200 (dot toks200
-				    (map num)))
-		  (setf dl (LMDataLoader nums200)))
-	     
-	     (comment "From the book: At every epoch we shuffle our collection of documents and concatenate them into a stream of tokens. We then cut that stream into a batch of fixed-size consecutive mini-streams. Our model will then read the mini-streams in order, and thanks to an inner state, it will produce the same activation whatever sequence length you picked."))
+		  (setf txts (L (for-generator (o (aref files ":200"))
+					       (dot o
+						    (open  :encoding (string "latin1"))
+						    (read))))))
+		 
+		 
+		 (do0
+		  (setf spacy (WordTokenizer)
+			tkn (Tokenizer spacy))
+
+		  (do0
+		   (setf sp (SubwordTokenizer :vocab_sz 1000))
+		   (dot sp
+			(setup txts)))
+
+
+		  (setf toks200 (dot (aref txts ":200")
+				     (map tkn)))
+		  (do0
+		   (setf num (Numericalize))
+		   (num.setup toks200)
+		   )
+		  (do0 (setf nums200 (dot toks200
+					  (map num)))
+		       (setf dl (LMDataLoader nums200)))
+		  
+		  (comment "From the book: At every epoch we shuffle our collection of documents and concatenate them into a stream of tokens. We then cut that stream into a batch of fixed-size consecutive mini-streams. Our model will then read the mini-streams in order, and thanks to an inner state, it will produce the same activation whatever sequence length you picked.")))
 
 	    (do0
 	     (setf get_imdb (partial get_text_files
 				     :folders
-				     (list (string "train")
-					       (string "test")
+				     (list ;(string "train")
+					   ;(string "test")
 					       (string "unsup")))
 		   dls_lm (dot (DataBlock
 				:blocks (TextBlock.from_folder
@@ -107,25 +111,42 @@
 					      (Perplexity)))
 			      (to_fp16)))
 	     (setf
-	      problem (string "imdb")
+	      problem (string "txt"
+			      ;"imdb"
+			      )
 	      fn_1epoch (dot (string "{}_1epoch")
 			     (format problem))
-	      path_1epoch (pathlib.Path
-			   (dot
-			    (string "/home/martin/.fastai/data/imdb/models/{}.pth")
-			    (format fn_1epoch)))
+	      path_1epoch (/ (/ path
+				(string "models")
+				)
+			     (dot (string "{}.pth") (format fn_1epoch))
+			     )
+	      #+nil (pathlib.Path
+				   (dot
+				    (string "/home/martin/{}/models/{}.pth"
+					; "/home/martin/.fastai/data/{}/models/{}.pth"
+					    )
+				    (format problem fn_1epoch)))
 	      fn_finetuned (dot (string "{}_finetuned")
 				(format problem))
 	      path_finetuned (pathlib.Path
 			   (dot
-			    (string "/home/martin/.fastai/data/imdb/models/{}.pth")
-			    (format fn_finetuned)))
+			    (string "/home/martin/{}/models/{}.pth" ;"/home/martin/.fastai/data/{}/models/{}.pth"
+				    )
+			    (format problem fn_finetuned)))
 	      fn_classifier (dot (string "{}_classifier")
 				 (format problem))
 	      path_classifier (pathlib.Path
 			       (dot
-				(string "/home/martin/.fastai/data/imdb/models/{}.pth")
-				(format fn_classifier))))
+				(string "/home/martin/{}/models/{}.pth" ;"/home/martin/.fastai/data/{}/models/{}.pth"
+					)
+				(format problem fn_classifier))))
+
+	     (do0
+	      (unless (path_1epoch.is_file)
+		(print (dot (string "{} doesnt exist")
+			    (format path_1epoch)))))
+	     
 	     (if (path_classifier.is_file)
 		 (do0
 		  (print (string "load pre-existing classifier")

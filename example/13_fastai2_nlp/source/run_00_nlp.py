@@ -6,18 +6,19 @@ plt.ion()
 import os
 import pathlib
 from fastai2.text.all import *
-path=untar_data(URLs.IMDB)
-# => Path('/home/martin/.fastai/data/imdb')
-get_imdb=partial(get_text_files, folders=["train", "test", "unsup"])
+path=pathlib.Path("/home/martin/txt_utf8")
+get_imdb=partial(get_text_files, folders=["unsup"])
 dls_lm=DataBlock(blocks=TextBlock.from_folder(path, is_lm=True), get_items=get_imdb, splitter=RandomSplitter((0.10    ))).dataloaders(path, path=path, bs=64, seq_len=80)
 learn=language_model_learner(dls_lm, AWD_LSTM, drop_mult=(0.30    ), metrics=[accuracy, Perplexity()]).to_fp16()
-problem="imdb"
+problem="txt"
 fn_1epoch="{}_1epoch".format(problem)
-path_1epoch=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_1epoch))
+path_1epoch=((((path)/("models")))/("{}.pth".format(fn_1epoch)))
 fn_finetuned="{}_finetuned".format(problem)
-path_finetuned=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_finetuned))
+path_finetuned=pathlib.Path("/home/martin/{}/models/{}.pth".format(problem, fn_finetuned))
 fn_classifier="{}_classifier".format(problem)
-path_classifier=pathlib.Path("/home/martin/.fastai/data/imdb/models/{}.pth".format(fn_classifier))
+path_classifier=pathlib.Path("/home/martin/{}/models/{}.pth".format(problem, fn_classifier))
+if ( not(path_1epoch.is_file()) ):
+    print("{} doesnt exist".format(path_1epoch))
 if ( path_classifier.is_file() ):
     print("load pre-existing classifier")
     dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=32, seq_len=72)

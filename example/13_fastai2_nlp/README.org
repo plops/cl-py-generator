@@ -22,7 +22,17 @@ pip install --user ipykernel
 
 * Documentation
 
+language model
+
 https://github.com/fastai/fastbook/blob/master/10_nlp.ipynb
+
+neural architecture
+https://arxiv.org/pdf/1708.02182.pdf
+
+
+saving the model in order to resume training later
+https://stackoverflow.com/questions/42703500/best-way-to-save-a-trained-model-in-pytorch
+
 
 
 * Debug
@@ -33,6 +43,65 @@ export CUDNN_LOGDEST_DBG=stdout
 # or
 export CUDNN_LOGDEST_DBG=/dev/shm/cudnn.log
   #+end_example
+
+output looks like this:
+  #+begin_example
+I! CuDNN (v7605) function cudnnDestroyTensorDescriptor() called:
+i! Time: 2020-04-26T04:53:40.881150 (0d+0h+0m+23s since start)
+i! Process=3315; Thread=3331; GPU=NULL; Handle=NULL; StreamId=NULL.
+
+
+I! CuDNN (v7605) function cudnnDestroyTensorDescriptor() called:
+i! Time: 2020-04-26T04:53:40.881157 (0d+0h+0m+23s since start)
+i! Process=3315; Thread=3331; GPU=NULL; Handle=NULL; StreamId=NULL.
+  #+end_example
+
+** GPU Utilization
+
+   #+begin_example
+nvidia-smi -q -g 0 -d UTILIZATION -l 
+
+Driver Version                      : 440.82
+CUDA Version                        : 10.2
+
+Attached GPUs                       : 1
+GPU 00000000:07:00.0
+    Utilization
+        Gpu                         : 27 %
+        Memory                      : 19 %
+        Encoder                     : 0 %
+        Decoder                     : 0 %
+    GPU Utilization Samples
+        Duration                    : 98.51 sec
+        Number of Samples           : 99
+        Max                         : 38 %
+        Min                         : 25 %
+        Avg                         : 29 %
+    Memory Utilization Samples
+        Duration                    : 98.51 sec
+        Number of Samples           : 99
+        Max                         : 27 %
+        Min                         : 17 %
+        Avg                         : 19 %
+    ENC Utilization Samples
+        Duration                    : 98.51 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    DEC Utilization Samples
+        Duration                    : 98.51 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+
+   #+end_example
+
+   #+begin_example
+learn.model = model.cuda()
+   #+end_example 
+
 
 ** used libraries
    #+begin_example
