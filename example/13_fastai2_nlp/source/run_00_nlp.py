@@ -12,13 +12,16 @@ dls_lm=DataBlock(blocks=TextBlock.from_folder(path, is_lm=True), get_items=get_i
 learn=language_model_learner(dls_lm, AWD_LSTM, drop_mult=(0.30    ), metrics=[accuracy, Perplexity()]).to_fp16()
 problem="txt"
 fn_1epoch="{}_1epoch".format(problem)
-path_1epoch=((((path)/("models")))/("{}.pth".format(fn_1epoch)))
 fn_finetuned="{}_finetuned".format(problem)
-path_finetuned=pathlib.Path("/home/martin/{}/models/{}.pth".format(problem, fn_finetuned))
 fn_classifier="{}_classifier".format(problem)
-path_classifier=pathlib.Path("/home/martin/{}/models/{}.pth".format(problem, fn_classifier))
+path_1epoch=((((path)/("models")))/("{}.pth".format(fn_1epoch)))
+path_finetuned=((((path)/("models")))/("{}.pth".format(fn_finetuned)))
+path_classifier=((((path)/("models")))/("{}.pth".format(fn_classifier)))
+print("pid={}".format(os.getpid()))
 if ( not(path_1epoch.is_file()) ):
     print("{} doesnt exist".format(path_1epoch))
+if ( not(path_finetuned.is_file()) ):
+    print("{} doesnt exist".format(path_finetuned))
 if ( path_classifier.is_file() ):
     print("load pre-existing classifier")
     dls_class=DataBlock(blocks=(TextBlock.from_folder(path, vocab=dls_lm.vocab),CategoryBlock,), get_y=parent_label, get_items=partial(get_text_files, folders=["train", "test"]), splitter=GrandparentSplitter(valid_name="test")).dataloaders(path, path=path, bs=32, seq_len=72)
@@ -63,4 +66,3 @@ else:
             # epoch     train_loss  valid_loss  accuracy  perplexity  time
             # 0         4.152357    3.935240    0.297858  51.174419   17:51
             learn.save(fn_1epoch)
-print("pid={}".format(os.getpid()))

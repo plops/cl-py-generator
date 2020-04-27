@@ -112,40 +112,62 @@
 			      (to_fp16)))
 	     (setf
 	      problem (string "txt"
-			      ;"imdb"
+					;"imdb"
 			      )
 	      fn_1epoch (dot (string "{}_1epoch")
 			     (format problem))
-	      path_1epoch (/ (/ path
-				(string "models")
-				)
-			     (dot (string "{}.pth") (format fn_1epoch))
-			     )
+					;path_1epoch
+	      #+nil (/ (/ path
+			  (string "models")
+			  )
+		       (dot (string "{}.pth") (format fn_1epoch))
+		       )
 	      #+nil (pathlib.Path
-				   (dot
-				    (string "/home/martin/{}/models/{}.pth"
+		     (dot
+		      (string "/home/martin/{}/models/{}.pth"
 					; "/home/martin/.fastai/data/{}/models/{}.pth"
-					    )
-				    (format problem fn_1epoch)))
+			      )
+		      (format problem fn_1epoch)))
 	      fn_finetuned (dot (string "{}_finetuned")
 				(format problem))
-	      path_finetuned (pathlib.Path
-			   (dot
-			    (string "/home/martin/{}/models/{}.pth" ;"/home/martin/.fastai/data/{}/models/{}.pth"
-				    )
-			    (format problem fn_finetuned)))
+	      ; path_finetuned
+	      #+nil (pathlib.Path
+	       (dot
+		(string "/home/martin/{}/models/{}.pth" ;"/home/martin/.fastai/data/{}/models/{}.pth"
+			)
+		(format problem fn_finetuned)))
 	      fn_classifier (dot (string "{}_classifier")
 				 (format problem))
-	      path_classifier (pathlib.Path
-			       (dot
-				(string "/home/martin/{}/models/{}.pth" ;"/home/martin/.fastai/data/{}/models/{}.pth"
-					)
-				(format problem fn_classifier))))
+	      ;path_classifier
+	      #+nil (pathlib.Path
+	       (dot
+		(string "/home/martin/{}/models/{}.pth" ;"/home/martin/.fastai/data/{}/models/{}.pth"
+			)
+		(format problem fn_classifier))))
 
+	     ,@(loop for e in `(1epoch finetuned classifier)
+		  collect
+		    (let ((fn (format nil "fn_~a" e))
+			  (path (format nil "path_~a" e)))
+		      `(setf ,path
+			     (/ (/ path
+				   (string "models")
+				   )
+				(dot (string "{}.pth") (format ,fn))
+			   ))))
+
+
+	     
+	     
 	     (do0
+	      (print (dot (string "pid={}")
+			(format (os.getpid))))
 	      (unless (path_1epoch.is_file)
 		(print (dot (string "{} doesnt exist")
-			    (format path_1epoch)))))
+			    (format path_1epoch))))
+	      (unless (path_finetuned.is_file)
+		(print (dot (string "{} doesnt exist")
+			    (format path_finetuned)))))
 	     
 	     (if (path_classifier.is_file)
 		 (do0
@@ -269,8 +291,7 @@
 			 (join preds))))
 
 	    
-	    (print (dot (string "pid={}")
-			(format (os.getpid))))
+	    
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
  
