@@ -1,0 +1,2 @@
+- https://github.com/NVIDIA/Megatron-LM
+- https://youtu.be/S27pHKBEp30?t=1392 transfer learning bert
