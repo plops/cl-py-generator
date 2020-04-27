@@ -109,7 +109,7 @@ learn.model = model.cuda()
    #+end_example 
 
 
-** used libraries
+** used libraries 
    #+begin_example
 # get the pid of the python process and look for all open files:
 lsof -p 6593|grep .so
