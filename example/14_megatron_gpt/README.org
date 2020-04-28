@@ -1,2 +1,24 @@
 - https://github.com/NVIDIA/Megatron-LM
 - https://youtu.be/S27pHKBEp30?t=1392 transfer learning bert
+
+
+* Install on gentoo
+
+  #+begin_example
+sudo emerge python-regex
+
+cd ~/src
+git clone https://github.com/NVIDIA/apex
+cd apex
+sudo eselect gcc set 1 # switch to gcc 8.4
+. /etc/profile
+pip install --user -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+
+cd ~/src
+git clone https://github.com/NVIDIA/Megatron-LM
+  #+end_example
+
+
+* Example run
+
+- https://github.com/NVIDIA/Megatron-LM#gpt-2-text-generation
