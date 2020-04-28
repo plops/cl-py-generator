@@ -19,6 +19,26 @@ git clone https://github.com/NVIDIA/Megatron-LM
   #+end_example
 
 
+- pre-trained model from here (i downloaded this with browser, not ngc):
+ https://ngc.nvidia.com/catalog/models/nvidia:megatron_lm_345m/version
+
+#+begin_example
+martin@labolg ~/stage/cl-py-generator/example/14_megatron_gpt/source/data/model $ sum latest_checkpointed_iteration.txt 
+34929     1
+martin@labolg ~/stage/cl-py-generator/example/14_megatron_gpt/source/data/model $ sum release/mp_rank_00/model_optim_rng.pt 
+65317 693172
+
+
+extract again after running python script:
+martin@labolg ~/stage/cl-py-generator/example/14_megatron_gpt/source/data/model $ sum latest_checkpointed_iteration.txt 
+34929     1
+martin@labolg ~/stage/cl-py-generator/example/14_megatron_gpt/source/data/model $ sum release/mp_rank_00/model_optim_rng.pt 
+65317 693172
+
+
+#+end_example
+
+
 * Example run
 
 - https://github.com/NVIDIA/Megatron-LM#gpt-2-text-generation
