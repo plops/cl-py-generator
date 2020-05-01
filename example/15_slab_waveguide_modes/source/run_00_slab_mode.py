@@ -24,12 +24,15 @@ xa=((xa)-(np.mean(xa)))
 nx=int(np.round(((a)/(dx))))
 nx1=int(np.round(((((Nx)-(nx)))/(2))))
 nx2=((nx1)+(nx)+(-1))
-N=np.ones((Nx,1,))
+N=np.ones(Nx)
 N[0:nx1:2]=n2
 N[nx1:nx2]=n1
 N[nx2+1:Nx]=n2
 print("Sx={} Nx={} nx={} nx1={} nx2={}".format(Sx, Nx, nx, nx1, nx2))
 # perform fd analysis
 k0=((((2)*(np.pi)))/(lam0))
-DX2=scipy.sparse.diags((((1)*(np.ones(((Nx)-(1))))),((-2)*(np.ones(((Nx)-(0))))),((1)*(np.ones(((Nx)-(1))))),), (-1,0,1,))
-print(DX2.toarray())
+DX2=(((((1.0    ))/(((((k0)*(dx)))**(2)))))*(scipy.sparse.diags((((1)*(np.ones(((Nx)-(1))))),((-2)*(np.ones(((Nx)-(0))))),((1)*(np.ones(((Nx)-(1))))),), (-1,0,1,))))
+N2=scipy.sparse.diags((((N)**(2)),), (0,))
+A=((DX2)+(N2))
+(V,D,)=scipy.sparse.linalg.eigs(A)
+NEFF=np.sqrt(np.diag(D))

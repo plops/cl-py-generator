@@ -44,7 +44,7 @@
 					;scipy.ndimage
 					;scipy.optimize
 		      scipy.sparse.linalg
-		      ;scipy.sparses
+					
 		      ))
 	    (do0
 	     (comment "simulation parameters")
@@ -70,7 +70,8 @@
 		   nx1 (int (np.round (/ (- Nx nx) 2))) ;; start
 		   nx2 (+ nx1 nx -1) ;; end
 		   )
-	     (setf N (np.ones (tuple Nx 1))
+	     (setf N (np.ones Nx ;(tuple Nx 1)
+			      )
 		   (aref N "0:nx1-2") n2
 		   (aref N "nx1:nx2") n1
 		   (aref N "nx2+1:Nx") n2)
@@ -80,13 +81,23 @@
 	    (do0
 	     (comment "perform fd analysis")
 	     (setf k0 (/ (* 2 np.pi) lam0))
-	     (setf DX2 (scipy.sparse.diags
-			(tuple
-			 (* +1 (np.ones (- Nx 1) ))
-			 (* -2 (np.ones (- Nx 0) ))
-			 (* +1 (np.ones (- Nx 1) )))
-			(tuple -1 0 1)))
-	     (print (DX2.toarray)))
+	     (setf DX2 (*
+			(/ 1s0
+			   (** (* k0 dx) 2))
+			(scipy.sparse.diags
+			 (tuple
+			  (* +1 (np.ones (- Nx 1) ))
+			  (* -2 (np.ones (- Nx 0) ))
+			  (* +1 (np.ones (- Nx 1) )))
+			 (tuple -1 0 1)))
+		   )
+					; (print (DX2.toarray))
+	     (setf N2 (scipy.sparse.diags (tuple (** N 2))
+					  (tuple 0)))
+	     (setf A (+ DX2 N2))
+	     (setf (tuple V D) (scipy.sparse.linalg.eigs A))
+	     (setf NEFF (np.sqrt (np.diag D)))
+	     )
 	    
 	    ))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
