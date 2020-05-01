@@ -11,7 +11,7 @@ https://youtu.be/Sh0XjszSjVw?list=PLLYQF5WvJdJWIfJ1UFYA2DvM4VT2Ef_86&t=2207 matl
 - sparse float32 can solve with 4 correct digits behind the comma, but is 11 times faster than the full solver
 #+begin_example
 >>> 0.6442/0.056
-11.503571428571428
+11.5
 #+end_example
 - float32 and float64 don't differ in runtime (why?)
 
