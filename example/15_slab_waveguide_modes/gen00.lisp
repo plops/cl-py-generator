@@ -44,7 +44,7 @@
 					;scipy.ndimage
 					;scipy.optimize
 		      scipy.sparse.linalg
-					
+		      time
 		      ))
 	    (do0
 	     (comment "simulation parameters")
@@ -96,13 +96,26 @@
 					  (tuple 0)))
 	     (setf A (+ DX2 N2))
 	     (do0
-	      (setf (tuple D V) (np.linalg.eig (A.toarray)))
+	      (setf Afull (A.toarray))
+	      (do0
+	       (setf start (time.clock))
+	       (setf (tuple D V) (np.linalg.eig Afull))
+	       (setf end (time.clock)
+		     duration_full (- end start))
+	       ,(show `(duration_full)))
+	      
 	      (setf NEFF (np.real (np.sqrt (+ 0j D)))
 		    ))
 	     ;; np.real around sqrt?
-	     #+nil (do0
-	      (setf (tuple V D) (scipy.sparse.linalg.eigs A))
-	      (setf NEFF (np.sqrt (np.diag D))))
+	     #-nil (do0
+		    (do0
+	       (setf start (time.clock))
+	       (setf (tuple Ds Vs) (scipy.sparse.linalg.eigs A M :which (string "LR")))
+	       (setf end (time.clock)
+		     duration_sparse (- end start))
+	       ,(show `(duration_sparse)))
+		    
+	      (setf NEFFs (np.sqrt Ds)))
 	     )
 
 	    (do0
@@ -122,13 +135,17 @@
 		  (setf x0 (* 2 m)
 			y0 (* .5 (+ a b))
 			x (+ x0 (* 3 (aref V1 ":" m)))
+			xs (+ x0 (* 3 (aref Vs ":" m)))
 			y (np.linspace (- -b (/ a 2))
 				       (+ b (/ a 2))
 				       Nx)
 			)
 		  (plt.plot x y)
-		  (plt.text x0 y0 (dot (string "mode={}\\n{:6.4f}")
-				       (format m (aref NEFF1 m)))))
+		  (plt.plot xs y)
+		  (plt.text x0 y0 (dot (string "mode={}\\n{:6.4f}\\n{:6.4f}")
+				       (format m
+					       (aref NEFF1 m)
+					       (aref NEFFs m)))))
 	     )
 	    
 	    ))) 
