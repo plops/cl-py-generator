@@ -1,1 +1,40 @@
+* Description
+
+This is a mode solver for a slab waveguide.
+
+* Reference
 https://youtu.be/Sh0XjszSjVw?list=PLLYQF5WvJdJWIfJ1UFYA2DvM4VT2Ef_86&t=2207 matlab code for slab
+
+* Results
+
+- full float32 eigen solver gives 7 correct digits behind the comma
+- sparse float32 can solve with 4 correct digits behind the comma
+- float64 
+
+
+  #+begin_example
+float32:
+martin@labolg ~/stage/cl-py-generator/example/15_slab_waveguide_modes/source $ python3 -i run_00_slab_mode.py 
+lam0=1.0 n1=2.0 n2=1.0 a=3.0 b=5.0 dx=0.05 M=5
+Sx=13.0 Nx=260 nx=60 nx1=100 nx2=159
+duration_full=3.514067
+duration_sparse=0.05604900000000024
+m=0 neff=1.9936549663543701 neff_sparse=1.9936562776565552 neff_diff=-1.3113021850585938e-06
+m=1 neff=1.9745241403579712 neff_sparse=1.9745253324508667 neff_diff=-1.1920928955078125e-06
+m=2 neff=1.942312240600586 neff_sparse=1.9423136711120605 neff_diff=-1.430511474609375e-06
+m=3 neff=1.8964974880218506 neff_sparse=1.8964972496032715 neff_diff=2.384185791015625e-07
+m=4 neff=1.8362815380096436 neff_sparse=1.8362795114517212 neff_diff=2.0265579223632812e-06
+
+float64:
+martin@labolg ~/stage/cl-py-generator/example/15_slab_waveguide_modes/source $ python3 -i run_00_slab_mode.py 
+lam0=1.0 n1=2.0 n2=1.0 a=3.0 b=5.0 dx=0.05 M=5
+Sx=13.0 Nx=260 nx=60 nx1=100 nx2=159
+duration_full=0.6373739999999999
+duration_sparse=0.057819000000000065
+m=0 neff=1.9936549614366141 neff_sparse=1.9936549614366128 neff_diff=1.3322676295501878e-15
+m=1 neff=1.9745241766907797 neff_sparse=1.9745241766907684 neff_diff=1.1324274851176597e-14
+m=2 neff=1.9423122819423335 neff_sparse=1.9423122819423342 neff_diff=-6.661338147750939e-16
+m=3 neff=1.896497541238598 neff_sparse=1.8964975412385994 neff_diff=-1.3322676295501878e-15
+m=4 neff=1.8362815071902927 neff_sparse=1.8362815071902883 neff_diff=4.440892098500626e-15
+
+  #+end_example
