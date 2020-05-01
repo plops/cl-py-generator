@@ -94,7 +94,8 @@
 					; (print (DX2.toarray))
 	     (setf N2 (scipy.sparse.diags (tuple (** N 2))
 					  (tuple 0)))
-	     (setf A (+ DX2 N2))
+	     (setf A (dot (+ DX2 N2)
+			  (astype np.float32)))
 	     (do0
 	      (setf Afull (A.toarray))
 	      (do0
