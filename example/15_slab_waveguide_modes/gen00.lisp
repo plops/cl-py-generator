@@ -116,7 +116,8 @@
 		     duration_sparse (- end start))
 	       ,(show `(duration_sparse)))
 		    
-	      (setf NEFFs (np.sqrt Ds)))
+		    (setf NEFFs (np.real (np.sqrt Ds)))
+		    )
 	     )
 
 	    (do0
@@ -136,13 +137,19 @@
 		  (setf x0 (* 2 m)
 			y0 (* .5 (+ a b))
 			x (+ x0 (* 3 (aref V1 ":" m)))
-			xs (+ x0 (* 3 (aref Vs ":" m)))
+			xs (+ x0 (* 3 (np.real (aref Vs ":" m))))
 			y (np.linspace (- -b (/ a 2))
 				       (+ b (/ a 2))
 				       Nx)
 			)
 		  (plt.plot x y)
 		  (plt.plot xs y)
+		  (do0
+		   (setf neff (aref NEFF1 m)
+ 			 neff_sparse (aref NEFFs m)
+			 neff_diff (- neff neff_sparse))
+		   ,(show `(m neff neff_sparse neff_diff
+			    )))
 		  (plt.text x0 y0 (dot (string "mode={}\\n{:6.4f}\\n{:6.4f}")
 				       (format m
 					       (aref NEFF1 m)

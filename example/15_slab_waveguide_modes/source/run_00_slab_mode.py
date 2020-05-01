@@ -47,7 +47,7 @@ start=time.clock()
 end=time.clock()
 duration_sparse=((end)-(start))
 print("duration_sparse={}".format(duration_sparse))
-NEFFs=np.sqrt(Ds)
+NEFFs=np.real(np.sqrt(Ds))
 # plot
 ind=np.flip(np.argsort(NEFF))
 NEFF1=np.flip(np.sort(NEFF))
@@ -62,8 +62,12 @@ for m in range(M):
     x0=((2)*(m))
     y0=(((0.50    ))*(((a)+(b))))
     x=((x0)+(((3)*(V1[:,m]))))
-    xs=((x0)+(((3)*(Vs[:,m]))))
+    xs=((x0)+(((3)*(np.real(Vs[:,m])))))
     y=np.linspace(((-b)-(((a)/(2)))), ((b)+(((a)/(2)))), Nx)
     plt.plot(x, y)
     plt.plot(xs, y)
+    neff=NEFF1[m]
+    neff_sparse=NEFFs[m]
+    neff_diff=((neff)-(neff_sparse))
+    print("m={} neff={} neff_sparse={} neff_diff={}".format(m, neff, neff_sparse, neff_diff))
     plt.text(x0, y0, "mode={}\n{:6.4f}\n{:6.4f}".format(m, NEFF1[m], NEFFs[m]))
