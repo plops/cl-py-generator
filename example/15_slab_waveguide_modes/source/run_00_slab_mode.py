@@ -52,3 +52,4 @@ for m in range(M):
     x=((x0)+(((3)*(V1[:,m]))))
     y=np.linspace(((-b)-(((a)/(2)))), ((b)+(((a)/(2)))), Nx)
     plt.plot(x, y)
+    plt.text(x0, y0, "mode={}\n{:6.4f}".format(m, NEFF1[m]))

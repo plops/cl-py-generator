@@ -126,7 +126,9 @@
 				       (+ b (/ a 2))
 				       Nx)
 			)
-		  (plt.plot x y))
+		  (plt.plot x y)
+		  (plt.text x0 y0 (dot (string "mode={}\\n{:6.4f}")
+				       (format m (aref NEFF1 m)))))
 	     )
 	    
 	    ))) 
