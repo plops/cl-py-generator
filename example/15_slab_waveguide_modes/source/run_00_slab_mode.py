@@ -34,5 +34,11 @@ k0=((((2)*(np.pi)))/(lam0))
 DX2=(((((1.0    ))/(((((k0)*(dx)))**(2)))))*(scipy.sparse.diags((((1)*(np.ones(((Nx)-(1))))),((-2)*(np.ones(((Nx)-(0))))),((1)*(np.ones(((Nx)-(1))))),), (-1,0,1,))))
 N2=scipy.sparse.diags((((N)**(2)),), (0,))
 A=((DX2)+(N2))
-(V,D,)=np.linalg.eig(A.toarray())
-NEFF=np.sqrt(((0j)+(np.diag(D))))
+(D,V,)=np.linalg.eig(A.toarray())
+NEFF=np.real(np.sqrt(((0j)+(D))))
+# plot
+ind=np.flip(np.argsort(NEFF))
+NEFF1=np.flip(np.sort(NEFF))
+V1=V[:,ind]
+for m in range(M):
+    plt.plot(V1[:,m])

@@ -96,11 +96,22 @@
 					  (tuple 0)))
 	     (setf A (+ DX2 N2))
 	     (do0
-	      (setf (tuple V D) (np.linalg.eig (A.toarray)))
-	      (setf NEFF (np.sqrt (+ 0j (np.diag D)))))
+	      (setf (tuple D V) (np.linalg.eig (A.toarray)))
+	      (setf NEFF (np.real (np.sqrt (+ 0j D)))
+		    ))
+	     ;; np.real around sqrt?
 	     #+nil (do0
 	      (setf (tuple V D) (scipy.sparse.linalg.eigs A))
 	      (setf NEFF (np.sqrt (np.diag D))))
+	     )
+
+	    (do0
+	     (comment "plot")
+	     (setf ind (np.flip (np.argsort NEFF))
+		   NEFF1 (np.flip (np.sort NEFF)))
+	     (setf V1 (aref V ":" ind))
+	     (for (m (range M))
+		  (plt.plot (aref V1 ":" m)))
 	     )
 	    
 	    ))) 
