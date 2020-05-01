@@ -40,5 +40,15 @@ NEFF=np.real(np.sqrt(((0j)+(D))))
 ind=np.flip(np.argsort(NEFF))
 NEFF1=np.flip(np.sort(NEFF))
 V1=V[:,ind]
+# substrate
+plt.axhline(y=((-b)-(((a)/(2)))))
+plt.axhline(y=((b)+(((a)/(2)))))
+# core
+plt.axhline(y=((-a)/(2)))
+plt.axhline(y=((a)/(2)))
 for m in range(M):
-    plt.plot(V1[:,m])
+    x0=((2)*(m))
+    y0=(((0.50    ))*(((a)+(b))))
+    x=((x0)+(((3)*(V1[:,m]))))
+    y=np.linspace(((-b)-(((a)/(2)))), ((b)+(((a)/(2)))), Nx)
+    plt.plot(x, y)
