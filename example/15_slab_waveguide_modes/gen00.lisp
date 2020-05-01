@@ -95,8 +95,12 @@
 	     (setf N2 (scipy.sparse.diags (tuple (** N 2))
 					  (tuple 0)))
 	     (setf A (+ DX2 N2))
-	     (setf (tuple V D) (scipy.sparse.linalg.eigs A))
-	     (setf NEFF (np.sqrt (np.diag D)))
+	     (do0
+	      (setf (tuple V D) (np.linalg.eig (A.toarray)))
+	      (setf NEFF (np.sqrt (+ 0j (np.diag D)))))
+	     #+nil (do0
+	      (setf (tuple V D) (scipy.sparse.linalg.eigs A))
+	      (setf NEFF (np.sqrt (np.diag D))))
 	     )
 	    
 	    ))) 
