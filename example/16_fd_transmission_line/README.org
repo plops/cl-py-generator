@@ -16,3 +16,14 @@ lecture slides: https://empossible.net/wp-content/uploads/2018/03/Lecture-Transm
 
 - forced potential: https://youtu.be/UsJOar8oS94?t=2863
   
+- 2x grid: https://youtu.be/UsJOar8oS94?t=2978
+
+- modify L and b to force voltage: https://youtu.be/UsJOar8oS94?t=3386
+  - force matrix F (indicates where metals are)
+  - force potentials vf 
+  - zero rows in L with zeros where metals
+  - add F to L
+
+- how to get unknowns after solution: https://youtu.be/UsJOar8oS94?t=3708
+- force potential https://youtu.be/UsJOar8oS94?t=4499
+- solve equation https://youtu.be/UsJOar8oS94?t=4573
