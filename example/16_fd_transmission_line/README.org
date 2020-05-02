@@ -1,0 +1,7 @@
+* References
+
+https://empossible.net/academics/emp4301_5301/
+lecture slides: https://empossible.net/wp-content/uploads/2018/03/Lecture-Transmission-Line-Analysis.pdf
+discretization: https://youtu.be/UsJOar8oS94?t=1789
+matrix form: https://youtu.be/UsJOar8oS94?t=2123
+inhomogenous matrix equation: https://youtu.be/UsJOar8oS94?t=2343
