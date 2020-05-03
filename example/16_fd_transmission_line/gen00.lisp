@@ -19,7 +19,7 @@
   (let* ((code
 	  `(do0
 	    "# "
-	    "# export LANG=en_US.utf8"
+	    ;"# export LANG=en_US.utf8"
 	    
 	    
 	    (do0
@@ -46,7 +46,21 @@
 		      scipy.sparse.linalg
 		      time
 		      ))
+	    "from numpy import *"
+
 	    (do0
+	     (setf Nx (+ 12 5 13)
+		   Ny (+ 5 15))
+	     (setf RES (np.array (tuple Nx Ny)))
+	     (setf SIG (np.zeros RES)
+		   (aref SIG "13:13+5") 1)
+	     (setf GND (np.ones RES)
+		   (aref GND (slice 1 (- Nx 1)) (slice 1 (- Ny 1))) 0)
+	     (setf ERxx (np.ones RES)
+		   (aref ERxx ":" "0:5") 6)
+	     (setf ERyy (ERxx.copy)))
+	    
+	    #+nil (do0
 	     (comment "simulation parameters")
 	     (setf lam0 1s0
 		   n1 2s0
@@ -57,6 +71,7 @@
 		   M 5		  ;; number of modes to calculate
 		   )
 	     ,(show `(lam0 n1 n2 a b dx M)))
+	    #+nil
 	    (do0
 	     (comment "compute grid")
 	     (setf Sx (+ a (* 2 b))
@@ -78,6 +93,7 @@
 	     ,(show `(Sx Nx ;xa
 			 nx nx1 nx2
 			 )))
+	    #+nil
 	    (do0
 	     (comment "perform fd analysis")
 	     (setf k0 (/ (* 2 np.pi) lam0))
@@ -120,6 +136,7 @@
 		    )
 	     )
 
+	    #+nil
 	    (do0
 	     (comment "plot")
 	     (setf ind (np.flip (np.argsort NEFF))
