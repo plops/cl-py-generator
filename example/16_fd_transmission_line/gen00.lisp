@@ -53,7 +53,7 @@
 		   Ny (+ 5 15))
 	     (setf RES (np.array (tuple Nx Ny)))
 	     (setf SIG (np.zeros RES)
-		   (aref SIG "13:13+5") 1)
+		   (aref SIG "13:13+5" 5) 1)
 	     (setf GND (np.ones RES)
 		   (aref GND (slice 1 (- Nx 1)) (slice 1 (- Ny 1))) 0)
 	     (setf ERxx (np.ones RES)
