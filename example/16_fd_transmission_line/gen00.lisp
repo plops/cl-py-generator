@@ -51,15 +51,20 @@
 
 	    (do0
 	     (setf Nx (+ 12 5 13)
-		   Ny (+ 5 15))
+		   Ny (+ 5 15)
+		   dx 1
+		   dy 1)
 	     (setf N (array (tuple Nx Ny))
+		   RES (array (tuple dx dy))
 		   TM (* Nx Ny))
 	     (setf SIG (zeros N)
 		   (aref SIG "13:13+5" 5) 1)
 	     (setf GND (ones N)
 		   (aref GND (slice 1 (- Nx 1)) (slice 1 (- Ny 1))) 0)
+	     ;; true where we have metal
 	     (setf F (+ SIG GND))
-	     
+
+	     ;; metal with voltages
 	     (setf V0 1.0
 		   vf (+ (* SIG V0) (* GND 0)))
 	     ;; fixme define ERxx and ERyy using 2x grid

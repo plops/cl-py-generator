@@ -9,7 +9,10 @@ from numpy import *
 from scipy.sparse import *
 Nx=((12)+(5)+(13))
 Ny=((5)+(15))
+dx=1
+dy=1
 N=array((Nx,Ny,))
+RES=array((dx,dy,))
 TM=((Nx)*(Ny))
 SIG=zeros(N)
 SIG[13:13+5,5]=1
