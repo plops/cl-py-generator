@@ -47,19 +47,38 @@
 		      time
 		      ))
 	    "from numpy import *"
+	    "from scipy.sparse import *"
 
 	    (do0
 	     (setf Nx (+ 12 5 13)
 		   Ny (+ 5 15))
-	     (setf RES (np.array (tuple Nx Ny)))
-	     (setf SIG (np.zeros RES)
+	     (setf N (array (tuple Nx Ny))
+		   TM (* Nx Ny))
+	     (setf SIG (zeros N)
 		   (aref SIG "13:13+5" 5) 1)
-	     (setf GND (np.ones RES)
+	     (setf GND (ones N)
 		   (aref GND (slice 1 (- Nx 1)) (slice 1 (- Ny 1))) 0)
-	     (setf ERxx (np.ones RES)
+	     (setf F (+ SIG GND))
+	     
+	     (setf V0 1.0
+		   vf (+ (* SIG V0) (* GND 0)))
+	     ;; fixme define ERxx and ERyy using 2x grid
+	     (setf ERxx (ones N)
 		   (aref ERxx ":" "0:5") 6)
 	     (setf ERyy (ERxx.copy)))
-	    
+
+	    (do0
+	     ,@(loop for e in `(SIG GND F ERxx ERyy) collect
+		    `(setf ,e (diags (tuple (dot ,e (ravel)))
+				     (tuple 0))))
+	     ,@(loop for e in `(vf) collect
+		    `(setf ,e (dot ,e (ravel))))
+	    )
+	    (do0
+	     (setf b (* F vf))
+	     (setf L_ (+ F (* (- (eye TM)
+				 F)
+			      L))))
 	    #+nil (do0
 	     (comment "simulation parameters")
 	     (setf lam0 1s0
