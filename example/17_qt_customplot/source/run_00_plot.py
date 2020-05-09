@@ -17,9 +17,9 @@ import zipfile
 import io
 # %%
 output_path="/dev/shm"
-_code_git_version="ed7e260fcbeb6c1839e9b7ecd5d3f289767f7526"
-_code_repository="https://github.com/plops/cl-py-generator/example/17_qt_customplot/run_00_plot.py"
-_code_generation_time="08:57:53 of Saturday, 2020-05-09 (GMT+1)"
+_code_git_version="b0640b1e60f43d3f1f8f4567ec20810fe0cd1784"
+_code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/run_00_plot.py"
+_code_generation_time="08:58:56 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
