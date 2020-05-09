@@ -9,13 +9,14 @@ from PyQt5.QtCore import QAbstractTableModel, Qt
 from PyQt5.QtGui import QPen, QBrush, QColor
 from QCustomPlot2 import *
 import numpy as np
+import collections
 import pandas as pd
 import pathlib
 # %%
 output_path="/dev/shm"
-_code_git_version="da9598806643536707a3ff7036c2214c168c880c"
+_code_git_version="0d0be5484a9bc8bf05c421cb94cc4980cefd4231"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="11:31:53 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="11:33:42 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -70,7 +71,7 @@ df["base_fn"]=df.input_fn.str.extract("(.*)_input")
 df["label_fn"]=df.base_fn.apply(lambda x: ((x)+("_label")))
 df["label"]=df.label_fn.apply(read_from_file)
 df["value"]=df.input_fn.apply(read_from_file)
-df["values"]=df.input_fn.apply(lambda x: [int(read_from_file(x))])
+df["values"]=df.input_fn.apply(lambda x: collections.deque(maxlen=1000))
 model=DataFrameModel(df)
 table.setModel(model)
 table.selectionModel().selectionChanged.connect(selectionChanged)

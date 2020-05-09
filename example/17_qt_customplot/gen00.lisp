@@ -56,6 +56,7 @@
 					;docopt
 					;pathlib
 		    (np numpy)
+		    collections
 					;serial
 		    (pd pandas)
 		    ;(xr xarray)
@@ -222,7 +223,7 @@
 	      (setf (aref df (string "value"))
 		    (df.input_fn.apply read_from_file))
 	      (setf (aref df (string "values"))
-			  (df.input_fn.apply (lambda (x) (list (int (read_from_file x))))))
+			  (df.input_fn.apply (lambda (x) (collections.deque :maxlen 1000))))
 	      (do0 (setf model (DataFrameModel df))
 		   (table.setModel model)))
 	     (dot table
