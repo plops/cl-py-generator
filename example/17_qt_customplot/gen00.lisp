@@ -91,7 +91,7 @@
 	   (string ,(let ((str (with-output-to-string (s)
 				 (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
 		      (subseq str 0 (1- (length str)))))
-	   _code_repository (string ,(format nil "https://github.com/plops/cl-py-generator/examples/~a/~a.py" *repo-sub-path* *code-file*)
+	   _code_repository (string ,(format nil "https://github.com/plops/cl-py-generator/example/~a/~a.py" *repo-sub-path* *code-file*)
 				    )
 
 	   _code_generation_time
