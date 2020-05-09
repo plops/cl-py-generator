@@ -165,7 +165,7 @@
 	     (setf custom_plot (QCustomPlot))
 	     (setf graph (custom_plot.addGraph))
 	     (setf x (np.linspace -3 3 300))
-	     (dot graph
+	     #+nil (dot graph
 		  (setData x
 			   (np.sin x)))
 	     (graph.setPen (QPen Qt.blue))
@@ -226,6 +226,22 @@
 		  (selectionModel)
 		  selectionChanged
 		  (connect selectionChanged))))
+
+	   (do0
+	    (def update_values ()
+	      (for ((tuple idx row) (df.iterrows))
+		   (setf (dot df
+			      (aref loc idx (string "value")))
+			 (read_from_file row.input_fn))))
+	    (setf timer (PyQt5.QtCore.QTimer))
+	    (timer.setInterval 10)
+	    (timer.timeout.connect update_values)
+	    (timer.start))
+	   
+	   (dot graph
+		  (setData x
+			   (np.sin x)))
+	   
 	   (def run0 ()
 	     (comments "apparently i don't need to call this. without it i can interact with python -i console")
 	     (app.exec_))))))

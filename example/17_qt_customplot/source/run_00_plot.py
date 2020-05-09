@@ -13,9 +13,9 @@ import pandas as pd
 import pathlib
 # %%
 output_path="/dev/shm"
-_code_git_version="f2f37b1bfc83aec864bfafdc469d57586a3519ba"
+_code_git_version="0d6d73a729dbe097e369e9911ca3c1f74a40d901"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="11:09:39 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="11:17:17 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -48,7 +48,6 @@ table.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 custom_plot=QCustomPlot()
 graph=custom_plot.addGraph()
 x=np.linspace(-3, 3, 300)
-graph.setData(x, np.sin(x))
 graph.setPen(QPen(Qt.blue))
 custom_plot.rescaleAxes()
 custom_plot.setInteractions(QCP.Interactions(((QCP.iRangeDrag) | (QCP.iRangeZoom) | (QCP.iSelectPlottables))))
@@ -73,6 +72,14 @@ df["value"]=df.input_fn.apply(read_from_file)
 model=DataFrameModel(df)
 table.setModel(model)
 table.selectionModel().selectionChanged.connect(selectionChanged)
+def update_values():
+    for (idx,row,) in df.iterrows():
+        df.loc[idx,"value"]=read_from_file(row.input_fn)
+timer=PyQt5.QtCore.QTimer()
+timer.setInterval(10)
+timer.timeout.connect(update_values)
+timer.start()
+graph.setData(x, np.sin(x))
 def run0():
     # apparently i don't need to call this. without it i can interact with python -i console
     app.exec_()
