@@ -163,6 +163,7 @@
 
 	    (do0
 	     (setf custom_plot (QCustomPlot))
+	     (custom_plot.setFixedHeight 250)
 	     (setf graph (custom_plot.addGraph))
 	     (setf x (np.linspace -3 3 300))
 	     #+nil (dot graph

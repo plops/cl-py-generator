@@ -13,9 +13,9 @@ import pandas as pd
 import pathlib
 # %%
 output_path="/dev/shm"
-_code_git_version="c650020b931747e1c01e54396a556f6960127d86"
+_code_git_version="da9598806643536707a3ff7036c2214c168c880c"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="11:29:44 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="11:31:53 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -46,6 +46,7 @@ table=QtWidgets.QTableView(window)
 # select whole row when clicking into table
 table.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 custom_plot=QCustomPlot()
+custom_plot.setFixedHeight(250)
 graph=custom_plot.addGraph()
 x=np.linspace(-3, 3, 300)
 graph.setPen(QPen(Qt.blue))
