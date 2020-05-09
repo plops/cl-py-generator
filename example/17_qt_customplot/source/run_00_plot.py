@@ -1,17 +1,20 @@
 # pip3 install --user QCustomPlot2
 # change gui font size in linux: xrandr --output HDMI-0 --dpi 55
+# shttps://pypi.org/project/QCustomPlot2/
 import PyQt5
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel
 from PyQt5.QtCore import QAbstractTableModel, Qt
+from PyQt5.QtGui import QPen, QBrush, QColor
+from QCustomPlot2 import *
 import numpy as np
 import pandas as pd
 import pathlib
 # %%
 output_path="/dev/shm"
-_code_git_version="60d53b80f90d216cd4f5dbf470dc9c59c001cd2f"
+_code_git_version="47701897898e7ee7dc8e22beb998aa4f561bcac2"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="09:20:00 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="11:02:00 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -41,7 +44,14 @@ window.setWindowTitle("run_00_plot")
 table=QtWidgets.QTableView(window)
 # select whole row when clicking into table
 table.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+custom_plot=QCustomPlot()
+graph=custom_plot.addGraph()
+x=np.arange(-3, 3, 300)
+graph.setData(x, np.sin(x))
+graph.setPen(QPen(Qt.blue))
+custom_plot.rescaleAxes()
 layout.addWidget(table)
+layout.addWidget(custom_plot)
 window.show()
 def selectionChanged(selected, deselected):
     global other_table, df

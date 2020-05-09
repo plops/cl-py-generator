@@ -18,8 +18,9 @@
   
 (let* ((code
 	`(do0
-	  (comment "pip3 install --user QCustomPlot2")
-	  (comment "change gui font size in linux: xrandr --output HDMI-0 --dpi 55")
+	  (comments "pip3 install --user QCustomPlot2"
+		    "change gui font size in linux: xrandr --output HDMI-0 --dpi 55"
+		    "shttps://pypi.org/project/QCustomPlot2/")
 	  (do0
 	   #+nil (do0
 		  (imports (matplotlib))
@@ -42,6 +43,8 @@
 	  "from PyQt5 import QtCore, QtGui, QtWidgets"
 	  "from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel"
 	  "from PyQt5.QtCore import QAbstractTableModel, Qt"
+	  "from PyQt5.QtGui import QPen, QBrush, QColor"
+	  "from QCustomPlot2 import *"
 	  
 
 	  (imports (			;os
@@ -157,8 +160,16 @@
 	     "# select whole row when clicking into table"
 	     (table.setSelectionBehavior QtWidgets.QTableView.SelectRows))
 
-	    
-	    ,@(loop for e in `(table)
+	    (do0
+	     (setf custom_plot (QCustomPlot))
+	     (setf graph (custom_plot.addGraph))
+	     (setf x (np.arange -3 3 300))
+	     (dot graph
+		  (setData x
+			   (np.sin x)))
+	     (graph.setPen (QPen Qt.blue))
+	     (custom_plot.rescaleAxes))
+	    ,@(loop for e in `(table custom_plot)
 		 collect
 		   `(dot layout (addWidget ,e)))
 	    
