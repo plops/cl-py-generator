@@ -4,22 +4,14 @@ import PyQt5
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel
 from PyQt5.QtCore import QAbstractTableModel, Qt
-import time
 import numpy as np
 import pandas as pd
-import xarray as xr
-import xarray.plot as xrp
-import skimage.restoration
 import pathlib
-import re
-import requests
-import zipfile
-import io
 # %%
 output_path="/dev/shm"
-_code_git_version="15266de860f13a7e3038ff18b6417bd6dfcd325b"
+_code_git_version="e084c672689298af3167bacb3fd1a6f9e0edb086"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="09:12:11 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="09:18:38 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -61,10 +53,11 @@ def selectionChanged(selected, deselected):
 def read_from_file(fn):
     with open(fn, "r") as file:
         return file.read().replace("\n", "")
-df=pd.DataFrame({("input"):(list(map(str, pathlib.Path("/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/").glob("*input"))))})
-df["base_fn"]=df.input.str.extract("(.*)_input")
+df=pd.DataFrame({("input_fn"):(list(map(str, pathlib.Path("/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/").glob("*input"))))})
+df["base_fn"]=df.input_fn.str.extract("(.*)_input")
 df["label_fn"]=df.base_fn.apply(lambda x: ((x)+("_label")))
 df["label"]=df.label_fn.apply(read_from_file)
+df["value"]=df.input_fn.apply(read_from_file)
 model=DataFrameModel(df)
 table.setModel(model)
 table.selectionModel().selectionChanged.connect(selectionChanged)

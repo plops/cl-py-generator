@@ -48,15 +48,15 @@
 					;sys
 					;traceback
 					;pdb
-		    time
+		    ;time
 					;docopt
 					;pathlib
 		    (np numpy)
 					;serial
 		    (pd pandas)
-		    (xr xarray)
-		    (xrp xarray.plot)
-		    skimage.restoration 
+		    ;(xr xarray)
+		    ;(xrp xarray.plot)
+		    ;skimage.restoration 
 					;skimage.feature
 					;skimage.morphology
 					;skimage.measure
@@ -68,10 +68,10 @@
 					; nfft
 					; ttv_driver
 		    pathlib
-		    re
-		    requests
-		    zipfile
-		    io
+		    ;re
+		    ;requests
+		    ;zipfile
+		    ;io
 					;sklearn
 					;sklearn.linear_model
 		    ))
@@ -191,16 +191,19 @@
 				   (read)
 				   (replace (string "\\n")
 					    (string ""))))))
-	      (setf df (pd.DataFrame (dict ((string "input")
+	      (setf df (pd.DataFrame (dict ((string "input_fn")
 					    ("list" (map str
 							 (dot (pathlib.Path (string "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/"))
 							      (glob (string "*input"))))))))
 		    (aref df (string "base_fn"))
-		    (df.input.str.extract (string "(.*)_input"))
+		    (df.input_fn.str.extract (string "(.*)_input"))
 		    (aref df (string "label_fn"))
 		    (df.base_fn.apply (lambda (x) (+ x (string "_label"))))
-		    (aref df (string "label"))
+		    )
+	      (setf (aref df (string "label"))
 		    (df.label_fn.apply read_from_file))
+	      (setf (aref df (string "value"))
+			  (df.input_fn.apply read_from_file))
 	      (setf model (DataFrameModel df))
 	      (table.setModel model))
 	     (dot table
