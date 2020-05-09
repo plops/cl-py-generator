@@ -219,9 +219,11 @@
 	      (setf (aref df (string "label"))
 		    (df.label_fn.apply read_from_file))
 	      (setf (aref df (string "value"))
-			  (df.input_fn.apply read_from_file))
-	      (setf model (DataFrameModel df))
-	      (table.setModel model))
+		    (df.input_fn.apply read_from_file))
+	      (setf (aref df (string "values"))
+			  (df.input_fn.apply (lambda (x) (list (int (read_from_file x))))))
+	      (do0 (setf model (DataFrameModel df))
+		   (table.setModel model)))
 	     (dot table
 		  (selectionModel)
 		  selectionChanged
@@ -229,16 +231,26 @@
 
 	   (do0
 	    (def update_values ()
+	      "global df, graph, custom_plot"
 	      (for ((tuple idx row) (df.iterrows))
 		   (setf (dot df
 			      (aref loc idx (string "value")))
-			 (read_from_file row.input_fn))))
+			 (read_from_file row.input_fn))
+		   (dot (aref row (string "values"))
+			(append (int (read_from_file row.input_fn)))))
+	      (do0 (setf model (DataFrameModel df))
+		   (table.setModel model))
+	      (setf y (aref row (string "values")))
+	      (dot graph
+		   (setData (range (len y)) y))
+	      (custom_plot.rescaleAxes)
+	      (custom_plot.show))
 	    (setf timer (PyQt5.QtCore.QTimer))
 	    (timer.setInterval 10)
 	    (timer.timeout.connect update_values)
 	    (timer.start))
 	   
-	   (dot graph
+	   #+nil (dot graph
 		  (setData x
 			   (np.sin x)))
 	   
