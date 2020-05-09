@@ -9,9 +9,9 @@ import pandas as pd
 import pathlib
 # %%
 output_path="/dev/shm"
-_code_git_version="e084c672689298af3167bacb3fd1a6f9e0edb086"
+_code_git_version="60d53b80f90d216cd4f5dbf470dc9c59c001cd2f"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="09:18:38 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="09:20:00 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -62,4 +62,5 @@ model=DataFrameModel(df)
 table.setModel(model)
 table.selectionModel().selectionChanged.connect(selectionChanged)
 def run0():
+    # apparently i don't need to call this. without it i can interact with python -i console
     app.exec_()

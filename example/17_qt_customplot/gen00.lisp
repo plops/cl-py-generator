@@ -211,6 +211,7 @@
 		  selectionChanged
 		  (connect selectionChanged))))
 	   (def run0 ()
+	     (comments "apparently i don't need to call this. without it i can interact with python -i console")
 	     (app.exec_))))))
   (write-source (format nil "~a/source/~a" *path* *code-file*) code)
   #+nil (sb-ext:run-program "/usr/bin/scp" `("-C"
