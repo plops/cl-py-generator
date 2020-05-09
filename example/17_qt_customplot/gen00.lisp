@@ -20,7 +20,8 @@
 	`(do0
 	  (comments "pip3 install --user QCustomPlot2"
 		    "change gui font size in linux: xrandr --output HDMI-0 --dpi 55"
-		    "shttps://pypi.org/project/QCustomPlot2/")
+		    "https://pypi.org/project/QCustomPlot2/"
+		    "https://osdn.net/users/salsergey/pf/QCustomPlot2-PyQt5/scm/blobs/master/examples/plots/mainwindow.py")
 	  (do0
 	   #+nil (do0
 		  (imports (matplotlib))
@@ -163,12 +164,16 @@
 	    (do0
 	     (setf custom_plot (QCustomPlot))
 	     (setf graph (custom_plot.addGraph))
-	     (setf x (np.arange -3 3 300))
+	     (setf x (np.linspace -3 3 300))
 	     (dot graph
 		  (setData x
 			   (np.sin x)))
 	     (graph.setPen (QPen Qt.blue))
-	     (custom_plot.rescaleAxes))
+	     (custom_plot.rescaleAxes)
+	     (custom_plot.setInteractions
+	      (QCP.Interactions (logior QCP.iRangeDrag
+				       QCP.iRangeZoom
+				       QCP.iSelectPlottables))))
 	    ,@(loop for e in `(table custom_plot)
 		 collect
 		   `(dot layout (addWidget ,e)))
