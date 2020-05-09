@@ -16,7 +16,7 @@
 | 14 | megatron_gpt         |   20% | try BERT neural model (2020 nvidia, trained with 40gb wikipedia in 1h on 1500 gpus)     |
 | 15 | slab_waveguide_modes |  100% | get modes in optical slabe waveguide using finite-difference and eigenvalue solver      |
 | 16 | fd_transmission_line |   30% | compute impedance of a transmission line with a given cross-section                     |
-
+| 17 | qt_customplot        |   95% | interactive plotting of cpu thermals                                                    |
 * References
 
 - https://norvig.com/python-lisp.html
