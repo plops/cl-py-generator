@@ -13,9 +13,9 @@ import pandas as pd
 import pathlib
 # %%
 output_path="/dev/shm"
-_code_git_version="c558d8bf9fe4d77f7d9ee9608a684d81b1f2dc6a"
+_code_git_version="c650020b931747e1c01e54396a556f6960127d86"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="11:26:30 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="11:29:44 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -80,10 +80,10 @@ def update_values():
         row["values"].append(int(read_from_file(row.input_fn)))
     model=DataFrameModel(df)
     table.setModel(model)
-    y=row["values"]
+    y=df.iloc[1]["values"]
     graph.setData(range(len(y)), y)
     custom_plot.rescaleAxes()
-    custom_plot.show()
+    custom_plot.replot()
 timer=PyQt5.QtCore.QTimer()
 timer.setInterval(10)
 timer.timeout.connect(update_values)

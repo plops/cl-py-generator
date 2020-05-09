@@ -240,11 +240,11 @@
 			(append (int (read_from_file row.input_fn)))))
 	      (do0 (setf model (DataFrameModel df))
 		   (table.setModel model))
-	      (setf y (aref row (string "values")))
+	      (setf y (aref (aref df.iloc 1) (string "values")))
 	      (dot graph
 		   (setData (range (len y)) y))
 	      (custom_plot.rescaleAxes)
-	      (custom_plot.show))
+	      (custom_plot.replot))
 	    (setf timer (PyQt5.QtCore.QTimer))
 	    (timer.setInterval 10)
 	    (timer.timeout.connect update_values)
