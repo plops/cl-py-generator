@@ -17,9 +17,9 @@ import zipfile
 import io
 # %%
 output_path="/dev/shm"
-_code_git_version="af63471eb738916b53d7102e547e41c77564efed"
+_code_git_version="15266de860f13a7e3038ff18b6417bd6dfcd325b"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="08:59:45 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="09:12:11 of Saturday, 2020-05-09 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
@@ -57,7 +57,14 @@ def selectionChanged(selected, deselected):
         # https://stackoverflow.com/questions/5889705/pyqt:how:to:remove:elements:from:a:qvboxlayout/5890555
         zip_table.setParent(None)
     row=df.iloc[selected.indexes()[0].row()]
-df=pd.DataFrame(list(pathlib.Path(".").glob("*")))
+# the only realtime data source i can think of: power consumption of my cpu
+def read_from_file(fn):
+    with open(fn, "r") as file:
+        return file.read().replace("\n", "")
+df=pd.DataFrame({("input"):(list(map(str, pathlib.Path("/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/").glob("*input"))))})
+df["base_fn"]=df.input.str.extract("(.*)_input")
+df["label_fn"]=df.base_fn.apply(lambda x: ((x)+("_label")))
+df["label"]=df.label_fn.apply(read_from_file)
 model=DataFrameModel(df)
 table.setModel(model)
 table.selectionModel().selectionChanged.connect(selectionChanged)

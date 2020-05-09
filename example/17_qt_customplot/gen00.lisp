@@ -183,8 +183,24 @@
 	    
 	    (do0
 	     (do0
-	      (setf df (pd.DataFrame ("list" (dot (pathlib.Path (string "."))
-						  (glob (string "*"))))))
+	      (comments "the only realtime data source i can think of: power consumption of my cpu")
+	      (def read_from_file (fn)
+		(with (as (open fn (string "r"))
+			  file)
+		      (return (dot file
+				   (read)
+				   (replace (string "\\n")
+					    (string ""))))))
+	      (setf df (pd.DataFrame (dict ((string "input")
+					    ("list" (map str
+							 (dot (pathlib.Path (string "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/"))
+							      (glob (string "*input"))))))))
+		    (aref df (string "base_fn"))
+		    (df.input.str.extract (string "(.*)_input"))
+		    (aref df (string "label_fn"))
+		    (df.base_fn.apply (lambda (x) (+ x (string "_label"))))
+		    (aref df (string "label"))
+		    (df.label_fn.apply read_from_file))
 	      (setf model (DataFrameModel df))
 	      (table.setModel model))
 	     (dot table
