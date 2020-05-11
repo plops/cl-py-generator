@@ -138,6 +138,8 @@
 		   (format nil "~a=~a" (emit a) (emit b))))
 	      (in (destructuring-bind (a b) (cdr code)
 		    (format nil "(~a in ~a)" (emit a) (emit b))))
+	      (is (destructuring-bind (a b) (cdr code)
+		    (format nil "(~a is ~a)" (emit a) (emit b))))
 	      (as (destructuring-bind (a b) (cdr code)
 		   (format nil "~a as ~a" (emit a) (emit b))))
 	      (setf (let ((args (cdr code)))
