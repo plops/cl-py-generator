@@ -29,7 +29,7 @@
        #+nil
 
        (sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
-       (sb-ext:run-program "/usr/bin/yapf" (list (namestring fn)))))))
+       #+sbcl (sb-ext:run-program "/usr/bin/yapf" (list (namestring fn)))))))
 
 (defun print-sufficient-digits-f64 (f)
   "print a double floating point number as a string with a given nr. of                                                                                                                                             

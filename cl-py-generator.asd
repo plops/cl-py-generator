@@ -8,4 +8,4 @@
     :serial t
     :components ((:file "package")
 		 (:file "py")
-		 (:file "pipe")) )
+		 #+sbcl (:file "pipe")) )

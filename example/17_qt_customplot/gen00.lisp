@@ -93,8 +93,10 @@
 	  
 	  (setf
 	   _code_git_version
-	   (string ,(let ((str (with-output-to-string (s)
-				 (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
+	   (string ,(let ((str 
+                           #-sbcl "xxx"
+                           #+sbcl (with-output-to-string (s)
+                                    (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
 		      (subseq str 0 (1- (length str)))))
 	   _code_repository (string ,(format nil "https://github.com/plops/cl-py-generator/tree/master/example/~a/source/~a.py" *repo-sub-path* *code-file*)
 				    )
