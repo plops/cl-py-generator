@@ -21,7 +21,8 @@
 	    (comments
 	     
 	     "change gui font size in linux: xrandr --output HDMI-0 --dpi 55"
-	     "https://further-reading.net/2018/08/quick-tutorial-pyqt-5-browser/")
+	     "https://further-reading.net/2018/08/quick-tutorial-pyqt-5-browser/"
+	     "emerge PyQtWebEngine")
 	    (do0
 	     #+nil (do0
 		    (imports (matplotlib))
@@ -39,7 +40,7 @@
 		    (matplotlib.rc (string "font") **font)
 		    )
 
-	     ,@(loop for e in `(QtCore QtGui QtWebkit QtWebEngineWidgets) collect
+	     ,@(loop for e in `(QtCore QtGui QtWebEngineWidgets) collect
 		    (format nil "from PyQt5.~a import *" e)
 		    )
 	     

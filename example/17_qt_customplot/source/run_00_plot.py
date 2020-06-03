@@ -14,9 +14,9 @@ import pandas as pd
 import pathlib
 # %%
 output_path="/dev/shm"
-_code_git_version="4fcdc05aeb4fc0f8846b3335936d6732fc652741"
+_code_git_version="xx"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/17_qt_customplot/source/run_00_plot.py"
-_code_generation_time="11:36:29 of Saturday, 2020-05-09 (GMT+1)"
+_code_generation_time="07:48:06 of Thursday, 2020-05-21 (GMT+1)"
 class DataFrameModel(QtCore.QAbstractTableModel):
     # this is boiler plate to render a dataframe as a QTableView
     # https://learndataanalysis.org/display:pandas:dataframe:with:pyqt5:qtableview:widget/
