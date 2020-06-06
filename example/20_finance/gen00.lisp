@@ -103,7 +103,7 @@
 				 date
 				 (- tz))))))
 	    (do0
-	     (comment "%%")
+	     (comment "%% https://towardsdatascience.com/best-5-free-stock-market-apis-in-2019-ad91dddec984")
 	     (setf msft (yf.Ticker (string "MSFT"))))
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
