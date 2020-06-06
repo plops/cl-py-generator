@@ -1,0 +1,3 @@
+* Literature
+- https://github.com/ranaroussi/yfinance
+- https://towardsdatascience.com/best-5-free-stock-market-apis-in-2019-ad91dddec984
