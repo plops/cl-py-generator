@@ -176,6 +176,7 @@
 
 	     (do0
 	      (comments "setup debug callback")
+	      (setf callback None)
 	      (when enable_validation_layers
 		(setf createinfo (VkDebugReportCallbackCreateInfoEXT
 				  :flags (logior VK_DEBUG_REPORT_WARNING_BIT_EXT
@@ -184,7 +185,7 @@
 		(setf callback (vkCreateDebugReportCallbackEXT instance createinfo None))))
 
 
-	     (do0
+	     #+nil (do0
 	      (comments "pick physical device")
 	      (class QueueFamilyIndices (object)
 		     (def __init__ (self)
@@ -221,7 +222,9 @@
 	     (win.show)
 
 	     (def cleanup ()
-	       "global win, instance"
+	       "global win, instance, callback"
+	       (when callback
+		 (vkDestroyDebugReportCallbackEXT instance callback None))
 	       (vkDestroyInstance instance None)
 	       (del win))
 
