@@ -174,12 +174,49 @@
 		   instance (vkCreateInstance instanceinfo None))
 
 
-	     (when enable_validation_layers
-	       (setf createinfo (VkDebugReportCallbackCreateInfoEXT
-				 :flags (logior VK_DEBUG_REPORT_WARNING_BIT_EXT
-						VK_DEBUG_REPORT_ERROR_BIT_EXT)
-				 :pfnCallback debug_callback))
-	       (setf callback (vkCreateDebugReportCallbackEXT instance createinfo None)))
+	     (do0
+	      (comments "setup debug callback")
+	      (when enable_validation_layers
+		(setf createinfo (VkDebugReportCallbackCreateInfoEXT
+				  :flags (logior VK_DEBUG_REPORT_WARNING_BIT_EXT
+						 VK_DEBUG_REPORT_ERROR_BIT_EXT)
+				  :pfnCallback debug_callback))
+		(setf callback (vkCreateDebugReportCallbackEXT instance createinfo None))))
+
+
+	     (do0
+	      (comments "pick physical device")
+	      (class QueueFamilyIndices (object)
+		     (def __init__ (self)
+		       (setf self.graphicsFamily -1))
+		     @property
+		     (def isComplete (self)
+		       (return (<= 0 self.graphicsFamily))))
+	      (def find_queue_families (dev)
+		(setf indices (QueueFamilyIndices)
+		      family_props (vkGetPhysicalDeviceQueueFamilyProperties dev))
+		(for ((ntuple i prop) (enumerate family_props))
+		     (when (and (< 0 prop.queueCount)
+				(& prop.queueFlags VK_QUEUE_GRAPHICS_BIT))
+		       (setf indices.graphicsFamily i))
+		     (when indices.isComplete
+		       break))
+		(return indices)
+		)
+	      (def is_device_suitable (dev)
+		(setf indices (find_queue_families dev))
+		(return indices.isComplete))
+
+	      (do0
+	       (setf physical_devices (vkEnumeratePhysicalDevices instance)
+		     physical_device None)
+	       (for (d physical_devices)
+		    (when (is_device_suitable d)
+		      (setf physical_device d)
+		      break))
+	       (assert (!= None physical_device)))
+
+	      )
 	     
 	     (win.show)
 
