@@ -4,9 +4,9 @@
 (in-package :cl-py-generator)
 
 (progn
-  (defparameter *repo-sub-path* "20_finance")
+  (defparameter *repo-sub-path* "21_vulkan_qt")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *repo-sub-path*))
-  (defparameter *code-file* "run_00_browser")
+  (defparameter *code-file* "run_00_show")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *inspection-facts*
     `((10 "")))
@@ -49,9 +49,9 @@
 					;time
 					;docopt
 					;pathlib
-		      (yf yfinance)
+		      ;(yf yfinance)
 		      (np numpy)
-		      collections
+		      ;collections
 					;serial
 		      (pd pandas)
 					;(xr xarray)
@@ -74,8 +74,16 @@
 					;io
 					;sklearn
 					;sklearn.linear_model
+		      
 		      ))
-
+	    "from vulkan import *"
+	    (do0
+	     (imports (PyQt5)
+		      )
+	     "from PyQt5 import QtCore, QtGui, QtWidgets"
+	     "from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel"
+	     "from PyQt5.QtCore import QAbstractTableModel, Qt")
+	    
 	    (do0
 	     (comment "%%")
 	     (setf
@@ -102,9 +110,51 @@
 				 month
 				 date
 				 (- tz))))))
+	    #+nil
+	    (class HelloTriangleApplication (QtGui.QWindow)
+		   (def __init__ (self)
+		     (dot (super HelloTriangleApplication self)
+			  (__init__))
+		     (self.setWidth 512)
+		     (self.setHeight 512)
+
+		     "global _code_git_version, _code_generation_time"
+		     (self.setTitle (dot (string "vulkan -- {} {}")
+					 (format _code_generation_time
+						 _code_git_version))))
+		   (def __del__ (self)
+		     (print (string "close"))
+		     pass))
 	    (do0
-	     (comment "%% https://towardsdatascience.com/best-5-free-stock-market-apis-in-2019-ad91dddec984")
-	     (setf msft (yf.Ticker (string "MSFT"))))
+	     (setf app (QApplication (list (string "")))
+		   win (QWidget)
+		   ;(HelloTriangleApplication)
+		   )
+	     (setf appinfo (VkApplicationInfo :pApplicationName (string "python vk")
+					      :applicationVersion (VK_MAKE_VERSION 1 0 0)
+					      :pEngineName (string "pyvulkan")
+					      :engineVersion (VK_MAKE_VERSION 1 0 0)
+					      :apiVersion VK_API_VERSION)
+		   extensions (list (for-generator (e (vkEnumerateInstanceExtensionProperties None))
+						   e.extensionName))
+		   instanceinfo (VkInstanceCreateInfo :pApplicationInfo appinfo
+						      :enabledLayerCount 0
+						      :enabledExtensionCount (len extensions)
+						      :ppEnabledExtensionNames extensions)
+		   instance (vkCreateInstance instanceinfo None))
+	     
+	     (win.show)
+
+	     (def cleanup ()
+	       "global win"
+	       (del win))
+
+	     (app.aboutToQuit.connect cleanup)
+	     
+	     (def run ()
+	       (sys.exit
+		(app.exec_)))
+	     )
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
