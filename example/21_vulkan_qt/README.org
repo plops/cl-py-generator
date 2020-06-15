@@ -2,4 +2,4 @@
 - https://github.com/mackst/vulkan-tutorial uses realitix/vulkan (i think) and pyside2
 - https://github.com/realitix/vulkan
 - https://github.com/fynv/VkInline rasterization very simplified
-- https://github.com/mackst/pyvk
+- https://github.com/mackst/pyvk seems to be newer than vulkan-tutorial
