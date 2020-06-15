@@ -7,10 +7,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel
 from PyQt5.QtCore import QAbstractTableModel, Qt
 # %%
-_code_git_version="6ce88b64d27f011c132668389d189060789a8b1f"
+_code_git_version="91943f27e8af095d5cc0fdaca875a2279c34864a"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/21_vulkan_qt/source/run_00_show.py"
-_code_generation_time="21:07:20 of Monday, 2020-06-15 (GMT+1)"
-validation_layer=["VK_LAYER_LUNARG_standard_validation"]
+_code_generation_time="21:12:44 of Monday, 2020-06-15 (GMT+1)"
+validation_layers=["VK_LAYER_KHRONOS_validation"]
 enable_validation_layers=True
 class InstanceProcAddr(object):
     def __init__(self, func):
@@ -35,7 +35,7 @@ app=QApplication([""])
 win=QWidget()
 appinfo=VkApplicationInfo(pApplicationName="python vk", applicationVersion=VK_MAKE_VERSION(1, 0, 0), pEngineName="pyvulkan", engineVersion=VK_MAKE_VERSION(1, 0, 0), apiVersion=VK_API_VERSION)
 extensions=[e.extensionName for e in vkEnumerateInstanceExtensionProperties(None)]
-instanceinfo=VkInstanceCreateInfo(pApplicationInfo=appinfo, enabledLayerCount=0, enabledExtensionCount=len(extensions), ppEnabledExtensionNames=extensions)
+instanceinfo=VkInstanceCreateInfo(pApplicationInfo=appinfo, enabledLayerCount=len(validation_layers)  if  enable_validation_layers else 0, ppEnabledLayerNames=validation_layers  if  enable_validation_layers else None, enabledExtensionCount=len(extensions), ppEnabledExtensionNames=extensions)
 instance=vkCreateInstance(instanceinfo, None)
 if ( enable_validation_layers ):
     createinfo=VkDebugReportCallbackCreateInfoEXT(flags=((VK_DEBUG_REPORT_WARNING_BIT_EXT) | (VK_DEBUG_REPORT_ERROR_BIT_EXT)), pfnCallback=debug_callback)

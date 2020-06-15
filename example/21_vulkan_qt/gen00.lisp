@@ -127,7 +127,7 @@
 		     pass))
 
 	    (do0
-	     (setf validation_layer (list (string "VK_LAYER_LUNARG_standard_validation"))
+	     (setf validation_layers (list (string "VK_LAYER_KHRONOS_validation"))
 		   enable_validation_layers True)
 	     (class InstanceProcAddr (object)
 		    (def __init__ (self func)
@@ -167,7 +167,8 @@
 		   extensions (list (for-generator (e (vkEnumerateInstanceExtensionProperties None))
 						   e.extensionName))
 		   instanceinfo (VkInstanceCreateInfo :pApplicationInfo appinfo
-						      :enabledLayerCount 0
+						      :enabledLayerCount (space (len validation_layers) " if " enable_validation_layers "else" 0)
+						      :ppEnabledLayerNames (space validation_layers " if " enable_validation_layers "else" None)
 						      :enabledExtensionCount (len extensions)
 						      :ppEnabledExtensionNames extensions)
 		   instance (vkCreateInstance instanceinfo None))
