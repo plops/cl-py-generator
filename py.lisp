@@ -96,6 +96,9 @@
 		     (format s "~&~a~{~&~a~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
+	      (space (with-output-to-string (s)
+		     (format s "~{~a~^ ~}"
+			     (mapcar #'(lambda (x) (emit x)) (cdr code)))))
 	      (lambda (destructuring-bind (lambda-list &rest body) (cdr code)
 		     (multiple-value-bind (req-param opt-param res-param
 						     key-param other-key-p aux-param key-exist-p)
