@@ -125,6 +125,35 @@
 		   (def __del__ (self)
 		     (print (string "close"))
 		     pass))
+
+	    (do0
+	     (setf validation_layer (list (string "VK_LAYER_LUNARG_standard_validation"))
+		   enable_validation_layers True)
+	     (class InstanceProcAddr (object)
+		    (def __init__ (self func)
+		      (setf self.__func func))
+		    (def __call__ (self *args **kwargs)
+		      (setf func_name self.__func.__name__
+			    func (vkGetInstanceProcAddr (aref args 0)
+							func_name))
+		      (if func
+			  (return (func *args **kwargs))
+			  (return VK_ERROR_EXTENSION_NOT_PRESENT)))))
+
+	    (do0
+	     @InstanceProcAddr
+	     (def vkCreateDebugReportCallbackEXT (instance pCreateInfo pAllocator)
+	       pass)
+	     @InstanceProcAddr
+	     (def vkDestroyDebugReportCallbackEXT (instance pCreateInfo pAllocator)
+	       pass)
+	     (def debug_callback (*args)
+	       (print (dot (string "debug: {} {}")
+			   (format (aref args 5)
+				   (aref args 6))))
+	       (return 0))
+	     )
+	    
 	    (do0
 	     (setf app (QApplication (list (string "")))
 		   win (QWidget)
@@ -142,11 +171,20 @@
 						      :enabledExtensionCount (len extensions)
 						      :ppEnabledExtensionNames extensions)
 		   instance (vkCreateInstance instanceinfo None))
+
+
+	     (when enable_validation_layers
+	       (setf createinfo (VkDebugReportCallbackCreateInfoEXT
+				 :flags (logior VK_DEBUG_REPORT_WARNING_BIT_EXT
+						VK_DEBUG_REPORT_ERROR_BIT_EXT)
+				 :pfnCallback debug_callback))
+	       (setf callback (vkCreateDebugReportCallbackEXT instance createinfo None)))
 	     
 	     (win.show)
 
 	     (def cleanup ()
-	       "global win"
+	       "global win, instance"
+	       (vkDestroyInstance instance None)
 	       (del win))
 
 	     (app.aboutToQuit.connect cleanup)
