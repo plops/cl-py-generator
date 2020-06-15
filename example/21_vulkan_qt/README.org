@@ -1,0 +1,4 @@
+* Reference
+- https://github.com/mackst/vulkan-tutorial uses realitix/vulkan (i think) and pyside2
+- https://github.com/realitix/vulkan
+- https://github.com/fynv/VkInline rasterization very simplified
