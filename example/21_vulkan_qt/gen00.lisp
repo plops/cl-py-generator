@@ -18,7 +18,7 @@
   
   (let* ((code
 	  `(do0
-	    
+	    "#!/usr/bin/python3"
 	    (do0
 	     #+nil (do0
 		    (imports (matplotlib))
@@ -152,7 +152,7 @@
 			   (format (aref args 5)
 				   (aref args 6))))
 	       (return 0))
-	     )
+	     ) 
 	    
 	    (do0
 	     (setf app (QApplication (list (string "")))
@@ -166,6 +166,11 @@
 					      :apiVersion VK_API_VERSION)
 		   extensions (list (for-generator (e (vkEnumerateInstanceExtensionProperties None))
 						   e.extensionName))
+		   extensions (list (string "VK_KHR_get_physical_device_properties2")
+				    (string "VK_KHR_get_surface_capabilities2")
+				    (string "VK_KHR_surface")
+				    ;(string "VK_EXT_debug_utils")
+				    )
 		   instanceinfo (VkInstanceCreateInfo :pApplicationInfo appinfo
 						      :enabledLayerCount (space (len validation_layers) " if " enable_validation_layers "else" 0)
 						      :ppEnabledLayerNames (space validation_layers " if " enable_validation_layers "else" None)
@@ -177,12 +182,15 @@
 	     (do0
 	      (comments "setup debug callback")
 	      (setf callback None)
-	      (when enable_validation_layers
-		(setf createinfo (VkDebugReportCallbackCreateInfoEXT
-				  :flags (logior VK_DEBUG_REPORT_WARNING_BIT_EXT
-						 VK_DEBUG_REPORT_ERROR_BIT_EXT)
-				  :pfnCallback debug_callback))
-		(setf callback (vkCreateDebugReportCallbackEXT instance createinfo None))))
+	      
+	      #+Nil(do0
+	       (setf callback None)
+	       (when enable_validation_layers
+		 (setf createinfo (VkDebugReportCallbackCreateInfoEXT
+				   :flags (logior VK_DEBUG_REPORT_WARNING_BIT_EXT
+						  VK_DEBUG_REPORT_ERROR_BIT_EXT)
+				   :pfnCallback debug_callback))
+		 (setf callback (vkCreateDebugReportCallbackEXT instance createinfo None)))))
 
 
 	     #+nil (do0
@@ -233,7 +241,7 @@
 	     (def run ()
 	       (sys.exit
 		(app.exec_)))
-	     )
+	     (run))
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 

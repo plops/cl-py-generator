@@ -122,7 +122,15 @@
 
 	    (do0
 	     (comment "%%")
-	     (start_chrome)
+					; (start_chrome)
+
+	     (def run ()
+	       (start_firefox)
+	       (go_to (string "www.google.com")))
+	     (def reload ()
+	       (exec (dot (open (string "run_00_show.py"))
+			  (read))))
+	     ; (write (string "site:nvidia.com nvrtc"))
 	     ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
