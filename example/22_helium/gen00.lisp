@@ -126,11 +126,21 @@
 
 	     (def run ()
 	       (start_firefox)
-	       (go_to (string "www.google.com")))
+	       )
 	     (def reload ()
 	       (exec (dot (open (string "run_00_show.py"))
 			  (read))))
-	     ; (write (string "site:nvidia.com nvrtc"))
+	     (do0
+	      (go_to (string "www.google.com/ncr"))
+	      (go_to (string "www.google.com/ncr"))
+	      (write (string "site:nvidia.com nvrtc"))
+	      (press ENTER)
+	      
+	      ,@(loop for e in `("Tools"
+				 "Any Time"
+				 "Past week") collect
+		     `(click (string ,e)))
+	      )
 	     ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
