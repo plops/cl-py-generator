@@ -52,11 +52,11 @@
 					;time
 					;docopt
 					;pathlib
-		      ;(yf yfinance)
-		      ;(np numpy)
-		      ;collections
+					;(yf yfinance)
+					;(np numpy)
+					;collections
 					;serial
-		      ;(pd pandas)
+					;(pd pandas)
 					;(xr xarray)
 					;(xrp xarray.plot)
 					;skimage.restoration 
@@ -70,7 +70,7 @@
 					;scipy.ndimage.morphology
 					; nfft
 					; ttv_driver
-		      ;pathlib
+					;pathlib
 					;re
 					;requests
 					;zipfile
@@ -121,14 +121,24 @@
 		   (def on_button_clicked (self widget)
 		     (print (string "hello world"))))
 	    
-	    (do0
-	     (setf win (ButtonWindow); (Gtk.Window)
+	    #+nil(do0
+	     (setf win (ButtonWindow)	; (Gtk.Window)
 		   )
 	     (win.connect (string "destroy")
 			  Gtk.main_quit)
 	     (win.show_all)
 	     (Gtk.main))
-
+	    (do0 
+	     ;; treeview has associated model
+	     ;; liststore has rows of data with no children
+	     ;; treestore contains rows and rows may have child rows
+	     (setf store (Gtk.ListStore str str float)
+		   treeiter (store.append (list (string "art of prog")
+						(string "knuth")
+						24.45)))
+	     ;; store.get_iter() will return a TreeIter
+	     ;; or use treepath
+	     (setf tree (Gtk.TreeView store)))
 	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
