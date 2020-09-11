@@ -111,7 +111,7 @@
 				 date
 				 (- tz))))))
 
-	    (class ButtonWindow (Gtk.Window)
+	    #+nil (class ButtonWindow (Gtk.Window)
 		   (def __init__ (self)
 		     (Gtk.Window.__init__ self :title (string "hello world"))
 		     (setf self.button (Gtk.Button :label (string "click here")))
@@ -120,15 +120,73 @@
 		     (self.add self.button))
 		   (def on_button_clicked (self widget)
 		     (print (string "hello world"))))
+
+	    (class TreeViewWindow (Gtk.Window)
+		   (def language_filter_func (self model iter data)
+		     (if (or "self.current_filter_language is None"
+			     (== self.current_filter_language (string "None")))
+			 (return True)
+			 (return (== (aref (aref model iter)
+					   2)
+				     self.current_filter_language))))
+		   (def __init__ (self)
+		     (Gtk.Window.__init__ self :title (string "hello world"))
+		     ;(setf self.grid (Gtk.Grid))
+		     ;(self.add (self.grid))
+		     (do0
+		      ;; fill store
+		      (setf self.store (Gtk.ListStore str int str)
+			    )
+		      (for (ref (list (tuple (string "firefox")
+					    2002
+					    (string "c++"))
+				      (tuple (string "emacs")
+					    1984
+					    (string "lisp"))))
+			   (self.store.append ("list" ref))))
+		     (do0
+		      ;; filter
+		      (setf self.filter (self.store.filter_new)
+			    self.current_filter_language None)
+		      (self.filter.set_visible_func self.language_filter_func)
+		      )
+
+		     (do0
+		      ;; renders
+		      (setf self.treeview (Gtk.TreeView.new_with_model self.filter))
+		      (for ((ntuple i column_title) (enumerate (list (string "software")
+								     (string "release_year")
+								     (string "language"))))
+			   (setf renderer (Gtk.CellRendererText)
+				 column (Gtk.TreeViewColumn column_title renderer :text i))
+			   (self.treeview.append_column column)))
+
+
+		     (do0
+		      ;; scroll
+		      (setf self.scroll (Gtk.ScrolledWindow)
+			    )
+		      (self.scroll.set_vexpand True)
+		      (self.add self.scroll)
+		      (self.scroll.add self.treeview)
+		      (self.show_all)
+		      )
+		     )
+		   )
+
 	    
-	    #+nil(do0
-	     (setf win (ButtonWindow)	; (Gtk.Window)
+
+	    
+	    (do0
+	     (setf win (TreeViewWindow)	 ;(ButtonWindow)	; (Gtk.Window)
 		   )
 	     (win.connect (string "destroy")
 			  Gtk.main_quit)
 	     (win.show_all)
 	     (Gtk.main))
-	    (do0 
+
+	    
+	    #+nil (do0 
 	     ;; treeview has associated model
 	     ;; liststore has rows of data with no children
 	     ;; treestore contains rows and rows may have child rows
@@ -138,7 +196,43 @@
 						24.45)))
 	     ;; store.get_iter() will return a TreeIter
 	     ;; or use treepath
-	     (setf tree (Gtk.TreeView store)))
+	     (setf tree (Gtk.TreeView store))
+
+	     #+nil(do0 ;; single column
+	      (setf renderer (Gtk.CellRendererText)
+		    column (Gtk.TreeViewColumn (string "title")
+					       renderer
+					       :text 0)
+		    )
+	      (tree.append_column column))
+
+	     (do0
+	      ;; multi column
+	      ,(let ((l `(title author)))
+		 `(do0
+		   (setf column (Gtk.TreeViewColumn (string ,(format nil "~{~a~^ and ~}" l))))
+		   ,@(loop for e in l and i from 0 collect
+			  `(do0
+			    (setf ,e (Gtk.CellRendererText))
+			    (column.pack_start ,e True)
+			    (column.add_attribute ,e (string "text") ,i)))
+		   (tree.append_column column)))
+	      
+	      )
+
+	     (do0 ;; selection
+	      (setf select (tree.get_selection)
+		    )
+	      (def on_tree_selection_changed (selection)
+		(setf (ntuple model treeiter) (selection.get_selected))
+		(when "treeiter is not None"
+		  (print (string "you selected")
+			 (aref (aref model treeiter)
+			       0))))
+	      (select.connect (string "changed")
+			      on_tree_selection_changed))
+	     
+	     )
 	    
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
