@@ -79,7 +79,10 @@
 					;sklearn.linear_model
 		      wx
 		      ))
-	    
+	    (do0
+	     (imports ( gi))
+	     (gi.require_version (string "Gtk") (string "3.0"))
+	     "from gi.repository import Gtk")
 	    
 	    (do0
 	     (comment "%%")
@@ -107,6 +110,13 @@
 				 month
 				 date
 				 (- tz))))))
+
+	    (do0
+	     (setf win (Gtk.Window))
+	     (win.connect (string "destroy")
+			  Gtk.main_quit)
+	     (win.show_all)
+	     (Gtk.main))
 
 	    
 	    )))

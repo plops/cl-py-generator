@@ -45,7 +45,8 @@
 		       (abs a))
 		    ) do
           (setf b (read-from-string (format nil "~,vG" digits a)))
-          (incf digits)))
+           (incf digits)
+	   ))
     (substitute #\e #\d (format nil "~,vG" digits a))))
 
 
@@ -64,6 +65,7 @@
 	  *env-macros* nil))
   (flet ((emit (code &optional (dl 0))
 	   (emit-py :code code :clear-env nil :level (+ dl level))))
+    (format nil "emit-py ~a" level)
     (if code
 	(if (listp code)
 	    (case (car code)
