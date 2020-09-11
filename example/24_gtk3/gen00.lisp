@@ -111,8 +111,19 @@
 				 date
 				 (- tz))))))
 
+	    (class ButtonWindow (Gtk.Window)
+		   (def __init__ (self)
+		     (Gtk.Window.__init__ self :title (string "hello world"))
+		     (setf self.button (Gtk.Button :label (string "click here")))
+		     (self.button.connect (string "clicked")
+					  self.on_button_clicked)
+		     (self.add self.button))
+		   (def on_button_clicked (self widget)
+		     (print (string "hello world"))))
+	    
 	    (do0
-	     (setf win (Gtk.Window))
+	     (setf win (ButtonWindow); (Gtk.Window)
+		   )
 	     (win.connect (string "destroy")
 			  Gtk.main_quit)
 	     (win.show_all)
