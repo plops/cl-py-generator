@@ -26,3 +26,26 @@ Generating package: generated.s1_level_0
 Generating package: generated.s1_level_0_index
 
 #+end_example
+
+- https://sentinel.esa.int/documents/247904/685163/Sentinel-1-Level-0-Data-Decoding-Package.pdf
+
+#+begin_example
+Sentinel-1 SAR Standard L0 Product consists of the following components
+
+Manifest (XML File) describing the overall context and content
+
+Annotation Data Components - SDC (Binary Files)
+  one revord for each ISP
+
+Index Data Components – IDC (Binary Files), each associated to a MDC and containing the
+description (bytes location, time, size etc.) of the logical blocks of data in which the corresponding
+measurement Data Component can be divided.
+
+Representation Data Components – RDC (Measurement Schema, Index Schema, Annotation
+Schema); XML Schema files, annotated with SDF mark-ups, that describe the Representation
+Information (format and content) of every Data Component (Measurement, Index or Annotation)
+of the Sentinel-1 L0 Product; they are used to access, validate and manipulate data. They are
+contained in a dedicated folder (named “support”) within the product.
+#+end_example
+
+- my question is, if I can use the xsd schema files to decode the binary data and if yes how useful is that
