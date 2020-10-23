@@ -17,6 +17,16 @@
 | 15 | slab_waveguide_modes |  100% | get modes in optical slabe waveguide using finite-difference and eigenvalue solver      |
 | 16 | fd_transmission_line |   30% | compute impedance of a transmission line with a given cross-section                     |
 | 17 | qt_customplot        |   95% | interactive plotting of cpu thermals                                                    |
+| 18 | qt_webkit            |       |                                                                                         |
+| 19 | qt_webengine         |       |                                                                                         |
+| 20 | finance              |       |                                                                                         |
+| 21 | vulkan_qt            |       |                                                                                         |
+| 22 | helium               |       |                                                                                         |
+| 23 | wx                   |       |                                                                                         |
+| 24 | gtk3                 |       |                                                                                         |
+| 25 | fastai2_again        |       |                                                                                         |
+| 26 | copernicus_xsd       |    4% | i thought i can use the xsd files to open the binary data, but i can't figure out how   |
+|    |                      |       |                                                                                         |
 * References
 
 - https://norvig.com/python-lisp.html

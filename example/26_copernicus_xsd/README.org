@@ -49,3 +49,5 @@ contained in a dedicated folder (named “support”) within the product.
 #+end_example
 
 - my question is, if I can use the xsd schema files to decode the binary data and if yes how useful is that
+
+- i don't really see a way to proceed
