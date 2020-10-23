@@ -1,1 +1,5 @@
 - use xsdata to load copernicus sentinel 1 data
+
+#+begin_example
+pip3 install --user xsdata
+#+end_example
