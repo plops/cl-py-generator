@@ -10,6 +10,7 @@ import numpy as np
 import serial
 import pandas as pd
 from generated import *
-_code_git_version="fd8083001a555bd746a9eb8c05e043845fbd93ff"
+_code_git_version="66e6811232d925e0f4a0f5c8f0da62125ed58de6"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/26_copernicus_xsd/source/run_00_load_data.py"
-_code_generation_time="19:37:37 of Friday, 2020-10-23 (GMT+1)"
+_code_generation_time="19:41:48 of Friday, 2020-10-23 (GMT+1)"
+fns=list(pathlib.Path("./").glob("S1*RAW*.SAFE/*.dat"))

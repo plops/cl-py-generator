@@ -86,9 +86,10 @@
 			      year
 			      month
 			      date
-			      (- tz)))))
-		 
-	)
+			      (- tz))))))
+	    (setf fns ("list"
+		       (dot (pathlib.Path (string "./"))
+			    (glob (string "S1*RAW*.SAFE/*.dat")))))
 	)
 	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
