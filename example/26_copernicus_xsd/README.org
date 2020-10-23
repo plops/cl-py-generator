@@ -1,5 +1,28 @@
 - use xsdata to load copernicus sentinel 1 data
 
 #+begin_example
-pip3 install --user xsdata
+pip3 install --user xsdata dataclasses
+#+end_example
+
+
+#+begin_example
+xsdata S1B_S3_RAW__0SDH_20201018T213510_20201018T213535_023872_02D5DD_EE5A.SAFE/support/
+
+martin@labolg ~/stage/cl-py-generator/example/26_copernicus_xsd/source/b $ xsdata S1B_S3_RAW__0SDH_20201018T213510_20201018T213535_023872_02D5DD_EE5A.SAFE/support/     
+Parsing schema s1-level-0-annot.xsd
+Compiling schema s1-level-0-annot.xsd
+Builder: 13 main and 0 inner classes
+Parsing schema s1-level-0.xsd
+Compiling schema s1-level-0.xsd
+Builder: 40 main and 0 inner classes
+Parsing schema s1-level-0-index.xsd
+Compiling schema s1-level-0-index.xsd
+Builder: 9 main and 0 inner classes
+Analyzer input: 62 main and 0 inner classes
+Analyzer output: 11 main and 0 inner classes
+Generating package: init
+Generating package: generated.s1_level_0_annot
+Generating package: generated.s1_level_0
+Generating package: generated.s1_level_0_index
+
 #+end_example

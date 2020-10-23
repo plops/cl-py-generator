@@ -33,7 +33,8 @@
 					;"from matplotlib.figure import Figure"
 		  (imports ((plt matplotlib.pyplot)
 			    (animation matplotlib.animation) 
-                            (xrp xarray.plot)))
+                            ;(xrp xarray.plot)
+			    ))
                   
 		  (plt.ion)
 					;(plt.ioff)
@@ -48,8 +49,8 @@
 			   (np numpy)
 			   serial
 			   (pd pandas)
-			   (xr xarray)
-			   (xrp xarray.plot)
+			   ;(xr xarray)
+			   ;(xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)
 					; EP_SerialIO
@@ -62,7 +63,7 @@
 			   ;datetime
 		      
 			   ))
-
+		 "from generated import *"
 
 		 (setf
 	       _code_git_version
