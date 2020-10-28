@@ -1,0 +1,11 @@
+- log fan speed 
+#+BEGIN_EXAMPLE
+while true; do date |tr '\12' ' '; cat fan|grep "^speed:";usleep 500000;done > /home/martin/fanspeed_log
+#+END_EXAMPLE
+
+- convert to csv
+#+BEGIN_EXAMPLE
+echo "time,fan" > fanspeed_log.csv
+cat fanspeed_log |sed 's/speed:/,/g'>> fanspeed_log.csv
+
+#+END_EXAMPLE
