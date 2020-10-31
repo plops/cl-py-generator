@@ -88,12 +88,19 @@
 			      date
 			      (- tz))))))
 
-	    (setf df (pd.read_csv (pathlib.Path (string "~/fanspeed_log.csv"))))
+	    (setf df (pd.read_csv (aref sys.argv 1)
+				  :sep (rstring3 "speed:\\s+")
+				  :skipinitialspace True
+					;(string "~/fanspeed_log.csv")
+				  )
+		  df.columns (list (string "time") (string "fan")))
+	    (setf df (aref df.iloc ":-1"))
 	    (setf (aref df (string "timestamp"))
 		  (pd.to_datetime df.time))
 
 	    (plt.plot df.timestamp df.fan)
 	    (plt.grid)
+	    (plt.title (string "/proc/acpi/ibm/fan"))
 	    )
 	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
