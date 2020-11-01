@@ -1,1 +1,8 @@
 - https://examples.dask.org/array.html
+
+- on fedora 33
+#+begin_example
+sudo dnf install python3-dask
+ip3 install --user "dask[distributed]"
+
+#+end_example

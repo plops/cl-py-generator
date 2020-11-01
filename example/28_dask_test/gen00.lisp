@@ -62,7 +62,7 @@
 			   ;itertools
 			   ;datetime
 			   dask.distributed
-			   dask.array
+			   (da dask.array)
 			   ))
 		 
 
@@ -93,7 +93,15 @@
 				:processes False
 				:threads_per_worker 2
 				:n_workers 1
-				:memory_limit (string "2GB"))))))
+				:memory_limit (string "2GB")))
+		  (setf x (da.random.random (tuple 10000 10000)
+					    :chunks (tuple 1000 1000))
+			y (+ x x.T)
+			z (dot (aref y "::2"
+				     "5000:")
+			       (mean :axis 1)))
+		  ;z.compute
+		  )))
 	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
