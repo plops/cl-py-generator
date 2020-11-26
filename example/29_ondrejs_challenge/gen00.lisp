@@ -96,7 +96,7 @@
 				    #+nil (dot (pathlib.Path (string "./supplementary_materials/photos"))
 					 (glob (string "*.tiff")))))
 
-		  (for (fn fns)
+		  (for (fn (list (aref fns 1)))
 		       (do0
 			(print fn)
 		  #+nil
@@ -128,8 +128,18 @@
 		      (plt.imshow (np.log (np.abs sk))))
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 0 1)))
-		      (plt.title (string "inverse fft"))
-		      (plt.imshow (np.real ik) :cmap (string "gray")))
+		      (plt.title (string "inverse fft (neg)"))
+		      (setf g (np.real ik))
+		      
+		      (plt.imshow (* (< g 0) g -1)
+				  :cmap (string "gray")))
+		     (do0
+		      (setf ax (plt.subplot2grid pl (tuple 1 1)))
+		      (plt.title (string "inverse fft (pos)"))
+		      
+		      
+		      (plt.imshow (* (<  0 g) g )
+				  :cmap (string "gray")))
 		     
 		     (plt.savefig (dot (string "/dev/shm/{}.png")
 				       (format fn.stem))))))

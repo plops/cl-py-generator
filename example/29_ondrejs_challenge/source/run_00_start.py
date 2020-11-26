@@ -9,11 +9,11 @@ import pathlib
 import numpy as np
 import pandas as pd
 import libtiff
-_code_git_version="6bbe4a9a1de39c3bb76093ae763061d136333f64"
+_code_git_version="2c5b6f9fdf704d60fa02fa8c94e2791d8dc5c523"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/28_dask_test/source/run_00_start.py"
-_code_generation_time="19:27:41 of Thursday, 2020-11-26 (GMT+1)"
+_code_generation_time="19:37:54 of Thursday, 2020-11-26 (GMT+1)"
 fns=list(pathlib.Path("./supplementary_materials/video").glob("*.tif"))
-for fn in fns:
+for fn in [fns[1]]:
     print(fn)
     # pip3 install --user libtiff
     tif=libtiff.TIFF.open(fn)
@@ -34,6 +34,10 @@ for fn in fns:
     plt.title("fftshift")
     plt.imshow(np.log(np.abs(sk)))
     ax=plt.subplot2grid(pl, (0,1,))
-    plt.title("inverse fft")
-    plt.imshow(np.real(ik), cmap="gray")
+    plt.title("inverse fft (neg)")
+    g=np.real(ik)
+    plt.imshow(((((g)<(0)))*(g)*(-1)), cmap="gray")
+    ax=plt.subplot2grid(pl, (1,1,))
+    plt.title("inverse fft (pos)")
+    plt.imshow(((((0)<(g)))*(g)), cmap="gray")
     plt.savefig("/dev/shm/{}.png".format(fn.stem))
