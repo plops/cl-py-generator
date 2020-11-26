@@ -111,7 +111,7 @@
 		    (comments "a dot is in the middle, so i will need fftshift")
 		    (setf sk (np.fft.ifftshift k ; :axes (tuple 1 0)
 					       ))
-		    (setf ik (np.fft.ifft sk))
+		    (setf ik (np.fft.ifft2 sk))
 		    (do0
 		     (setf pl (tuple 2 2))
 		     (plt.close (string "all"))

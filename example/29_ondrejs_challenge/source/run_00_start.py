@@ -9,9 +9,9 @@ import pathlib
 import numpy as np
 import pandas as pd
 import libtiff
-_code_git_version="f50aa0f34e1984ed8be81356a207b650707a7bb1"
+_code_git_version="ff262e3f95ae708414abc2197de461e596c6e74b"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/28_dask_test/source/run_00_start.py"
-_code_generation_time="19:20:56 of Thursday, 2020-11-26 (GMT+1)"
+_code_generation_time="19:22:50 of Thursday, 2020-11-26 (GMT+1)"
 fns=list(pathlib.Path("./supplementary_materials/video").glob("*.tif"))
 for fn in fns:
     print(fn)
@@ -23,7 +23,7 @@ for fn in fns:
     k=((((1j)*(im[:,:256])))+((((1.0    ))*(im[:,256:]))))
     # a dot is in the middle, so i will need fftshift
     sk=np.fft.ifftshift(k)
-    ik=np.fft.ifft(sk)
+    ik=np.fft.ifft2(sk)
     pl=(2,2,)
     plt.close("all")
     plt.figure(0, (16,9,))
