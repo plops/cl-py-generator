@@ -91,12 +91,13 @@
 			      date
 			      (- tz)))))
 		 (do0
-		  (setf fns ("list" #-nil (dot (pathlib.Path (string "./supplementary_materials/video"))
-					       (glob (string "*.tif")))
+		  (setf fns ("list" #-nil (dot (pathlib.Path (string "./supplementary_materials/"))
+					       (glob (string "**/*.tif*")))
 				    #+nil (dot (pathlib.Path (string "./supplementary_materials/photos"))
 					 (glob (string "*.tiff")))))
 
-		  (for (fn (list (aref fns 1)))
+		  (for (fn fns ;(list (aref fns 1))
+			   )
 		       (do0
 			(print fn)
 		  #+nil
@@ -129,7 +130,8 @@
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 0 1)))
 		      (setf g (np.real ik))
-		      (setf highs (+ 127 (- 128 (* (< g 0) g -1))))
+		      (setf highs (+ 127 (- 128 (* (< g 0) g -1)))
+			    highs_mask (< g 0))
 		      (setf mi (np.min highs)
 			    ma (np.max highs))
 		      (plt.title (dot (string "inverse fft (neg) {}..{}")
@@ -139,7 +141,8 @@
 				  :cmap (string "gray")))
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 1 1)))
-		      (setf lows (* (<  0 g) g ))
+		      (setf lows (* (<  0 g) g )
+			    lows_mask (< 0 g))
 		      (setf mi (np.min lows)
 			    ma (np.max lows))
 		      (plt.title (dot (string "inverse fft (pos) {}..{}")
@@ -155,7 +158,7 @@
 		      (plt.title (string "inverse fft (bright and shadow together)"))
 		      
 		      
-		      (plt.imshow (+ highs lows)
+		      (plt.imshow (+ (* highs_mask highs) (* lows_mask lows))
 				  :cmap (string "gray")))
 		     
 		     (plt.savefig (dot (string "/dev/shm/{}.png")
