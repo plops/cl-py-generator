@@ -91,8 +91,10 @@
 			      date
 			      (- tz)))))
 		 (do0
-		  (setf fns ("list" (dot (pathlib.Path (string "./supplementary_materials/video"))
-					 (glob (string "*.tif")))))
+		  (setf fns ("list" #-nil (dot (pathlib.Path (string "./supplementary_materials/video"))
+					       (glob (string "*.tif")))
+				    #+nil (dot (pathlib.Path (string "./supplementary_materials/photos"))
+					 (glob (string "*.tiff")))))
 
 		  (for (fn fns)
 		       (do0
@@ -106,8 +108,8 @@
 		    (setf im (tif.read_image))
 		    (comments "(256,512) float64"
 			      "assume it is real and imag next to each other")
-		    (setf k (+ (* 1j (aref im ":" ":256"))
-			       (* 1s0 (aref im ":" "256:"))))
+		    (setf k (+ (* 1s0 (aref im ":" ":256"))
+			       (* 1j (aref im ":" "256:"))))
 		    (comments "a dot is in the middle, so i will need fftshift")
 		    (setf sk (np.fft.ifftshift k ; :axes (tuple 1 0)
 					       ))
@@ -127,7 +129,7 @@
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 0 1)))
 		      (plt.title (string "inverse fft"))
-		      (plt.imshow (np.abs ik)))
+		      (plt.imshow (np.real ik) :cmap (string "gray")))
 		     
 		     (plt.savefig (dot (string "/dev/shm/{}.png")
 				       (format fn.stem))))))
