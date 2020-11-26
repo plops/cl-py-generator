@@ -129,7 +129,7 @@
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 0 1)))
 		      (setf g (np.real ik))
-		      (setf highs (- 128 (* (< g 0) g -1)))
+		      (setf highs (+ 127 (- 128 (* (< g 0) g -1))))
 		      (setf mi (np.min highs)
 			    ma (np.max highs))
 		      (plt.title (dot (string "inverse fft (neg) {}..{}")

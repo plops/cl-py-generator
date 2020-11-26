@@ -9,9 +9,9 @@ import pathlib
 import numpy as np
 import pandas as pd
 import libtiff
-_code_git_version="b5b39583aa8da1bc2b5bb216c43f3c3da22fecae"
+_code_git_version="d3dc62cc236924c98b83790870f9edf1943ebda5"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/28_dask_test/source/run_00_start.py"
-_code_generation_time="19:44:22 of Thursday, 2020-11-26 (GMT+1)"
+_code_generation_time="19:45:35 of Thursday, 2020-11-26 (GMT+1)"
 fns=list(pathlib.Path("./supplementary_materials/video").glob("*.tif"))
 for fn in [fns[1]]:
     print(fn)
@@ -35,7 +35,7 @@ for fn in [fns[1]]:
     plt.imshow(np.log(np.abs(sk)))
     ax=plt.subplot2grid(pl, (0,1,))
     g=np.real(ik)
-    highs=((128)-(((((g)<(0)))*(g)*(-1))))
+    highs=((127)+(((128)-(((((g)<(0)))*(g)*(-1))))))
     mi=np.min(highs)
     ma=np.max(highs)
     plt.title("inverse fft (neg) {}..{}".format(int(mi), int(ma)))
