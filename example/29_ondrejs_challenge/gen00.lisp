@@ -115,7 +115,7 @@
 					       ))
 		    (setf ik (np.fft.ifft2 sk))
 		    (do0
-		     (setf pl (tuple 2 2))
+		     (setf pl (tuple 2 3))
 		     (plt.close (string "all"))
 		     (plt.figure 0 (tuple 16 9))
 		     (do0
@@ -129,16 +129,25 @@
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 0 1)))
 		      (plt.title (string "inverse fft (neg)"))
+		      (comments "this is the bright part of the image")
 		      (setf g (np.real ik))
-		      
-		      (plt.imshow (* (< g 0) g -1)
+		      (setf highs (np.abs (* (< g 0) g -1)))
+		      (plt.imshow highs
 				  :cmap (string "gray")))
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 1 1)))
 		      (plt.title (string "inverse fft (pos)"))
+		      (setf lows (* (<  0 g) g ))
+		      
+		      (plt.imshow lows
+				  :cmap (string "gray")))
+
+		     (do0
+		      (setf ax (plt.subplot2grid pl (tuple 1 2)))
+		      (plt.title (string "inverse fft (bright and shadow together)"))
 		      
 		      
-		      (plt.imshow (* (<  0 g) g )
+		      (plt.imshow (+ highs lows)
 				  :cmap (string "gray")))
 		     
 		     (plt.savefig (dot (string "/dev/shm/{}.png")

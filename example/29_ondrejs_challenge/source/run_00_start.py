@@ -9,9 +9,9 @@ import pathlib
 import numpy as np
 import pandas as pd
 import libtiff
-_code_git_version="2c5b6f9fdf704d60fa02fa8c94e2791d8dc5c523"
+_code_git_version="e86a8370055c34c4649e2d35cbe3794328fcae50"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/28_dask_test/source/run_00_start.py"
-_code_generation_time="19:37:54 of Thursday, 2020-11-26 (GMT+1)"
+_code_generation_time="19:41:25 of Thursday, 2020-11-26 (GMT+1)"
 fns=list(pathlib.Path("./supplementary_materials/video").glob("*.tif"))
 for fn in [fns[1]]:
     print(fn)
@@ -24,7 +24,7 @@ for fn in [fns[1]]:
     # a dot is in the middle, so i will need fftshift
     sk=np.fft.ifftshift(k)
     ik=np.fft.ifft2(sk)
-    pl=(2,2,)
+    pl=(2,3,)
     plt.close("all")
     plt.figure(0, (16,9,))
     ax=plt.subplot2grid(pl, (0,0,))
@@ -35,9 +35,15 @@ for fn in [fns[1]]:
     plt.imshow(np.log(np.abs(sk)))
     ax=plt.subplot2grid(pl, (0,1,))
     plt.title("inverse fft (neg)")
+    # this is the bright part of the image
     g=np.real(ik)
-    plt.imshow(((((g)<(0)))*(g)*(-1)), cmap="gray")
+    highs=np.abs(((((g)<(0)))*(g)*(-1)))
+    plt.imshow(highs, cmap="gray")
     ax=plt.subplot2grid(pl, (1,1,))
     plt.title("inverse fft (pos)")
-    plt.imshow(((((0)<(g)))*(g)), cmap="gray")
+    lows=((((0)<(g)))*(g))
+    plt.imshow(lows, cmap="gray")
+    ax=plt.subplot2grid(pl, (1,2,))
+    plt.title("inverse fft (bright and shadow together)")
+    plt.imshow(((highs)+(lows)), cmap="gray")
     plt.savefig("/dev/shm/{}.png".format(fn.stem))
