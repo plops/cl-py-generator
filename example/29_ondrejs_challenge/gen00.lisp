@@ -91,13 +91,32 @@
 			      date
 			      (- tz)))))
 		 (do0
-		  (setf fn (string "./supplementary_materials/photos/RIMG1832-1.tiff"))
-		  ;(setf dat (plt.imread fn))
+		  (setf fns ("list" (dot (pathlib.Path (string "./supplementary_materials/photos/"))
+					 (glob (string "*.tiff")))))
+
+		  (for (fn fns)
+		   (do0
+		  #+nil
+		    (setf fn (string "./supplementary_materials/photos/RIMG1832-1.tiff"))
+					;(setf dat (plt.imread fn))
 					;(setf im (PIL.Image.open fn))
-		  (comments "pip3 install --user libtiff")
-		  (setf tif (libtiff.TIFF.open fn))
-		  (setf im (tif.read_image))
-		  (comments "(256,512) float64")
+		    (comments "pip3 install --user libtiff")
+		    (setf tif (libtiff.TIFF.open fn))
+		    (setf im (tif.read_image))
+		    (comments "(256,512) float64"
+			      "assume it is real and imag next to each other")
+		    (setf k (+ (* 1j (aref im ":" ":256"))
+			       (* 1s0 (aref im ":" "256:"))))
+		    (comments "a dot is in the middle, so i will need fftshift")
+		    (setf sk (np.fft.ifftshift k ; :axes (tuple 1 0)
+					       ))
+		    (setf ik (np.fft.ifft sk))
+		    (do0
+		     (plt.close (string "all"))
+		     (plt.title fn)
+		     (plt.imshow (np.abs ik))
+		     (plt.savefig (dot (string "/dev/shm/{}.png")
+				       (format fn.stem))))))
 		  )))
 	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
