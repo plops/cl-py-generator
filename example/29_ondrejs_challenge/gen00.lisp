@@ -128,16 +128,24 @@
 		      (plt.imshow (np.log (np.abs sk))))
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 0 1)))
-		      (plt.title (string "inverse fft (neg)"))
-		      (comments "this is the bright part of the image")
 		      (setf g (np.real ik))
-		      (setf highs (np.abs (* (< g 0) g -1)))
+		      (setf highs (- 128 (* (< g 0) g -1)))
+		      (setf mi (np.min highs)
+			    ma (np.max highs))
+		      (plt.title (dot (string "inverse fft (neg) {}..{}")
+				      (format (int mi) (int ma))))
+		      (comments "this is the bright part of the image")
 		      (plt.imshow highs
 				  :cmap (string "gray")))
 		     (do0
 		      (setf ax (plt.subplot2grid pl (tuple 1 1)))
-		      (plt.title (string "inverse fft (pos)"))
 		      (setf lows (* (<  0 g) g ))
+		      (setf mi (np.min lows)
+			    ma (np.max lows))
+		      (plt.title (dot (string "inverse fft (pos) {}..{}")
+				      (format (int mi) (int ma))))
+		      
+		      
 		      
 		      (plt.imshow lows
 				  :cmap (string "gray")))
