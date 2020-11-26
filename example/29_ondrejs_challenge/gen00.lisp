@@ -91,11 +91,12 @@
 			      date
 			      (- tz)))))
 		 (do0
-		  (setf fns ("list" (dot (pathlib.Path (string "./supplementary_materials/photos/"))
-					 (glob (string "*.tiff")))))
+		  (setf fns ("list" (dot (pathlib.Path (string "./supplementary_materials/video"))
+					 (glob (string "*.tif")))))
 
 		  (for (fn fns)
-		   (do0
+		       (do0
+			(print fn)
 		  #+nil
 		    (setf fn (string "./supplementary_materials/photos/RIMG1832-1.tiff"))
 					;(setf dat (plt.imread fn))
@@ -112,9 +113,22 @@
 					       ))
 		    (setf ik (np.fft.ifft sk))
 		    (do0
+		     (setf pl (tuple 2 2))
 		     (plt.close (string "all"))
-		     (plt.title fn)
-		     (plt.imshow (np.abs ik))
+		     (plt.figure 0 (tuple 16 9))
+		     (do0
+		      (setf ax (plt.subplot2grid pl (tuple 0 0)))
+		      (plt.title fn)
+		      (plt.imshow (np.log (np.abs k))))
+		     (do0
+		      (setf ax (plt.subplot2grid pl (tuple 1 0)))
+		      (plt.title (string "fftshift"))
+		      (plt.imshow (np.log (np.abs sk))))
+		     (do0
+		      (setf ax (plt.subplot2grid pl (tuple 0 1)))
+		      (plt.title (string "inverse fft"))
+		      (plt.imshow (np.abs ik)))
+		     
 		     (plt.savefig (dot (string "/dev/shm/{}.png")
 				       (format fn.stem))))))
 		  )))
