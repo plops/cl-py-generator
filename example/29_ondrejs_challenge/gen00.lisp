@@ -63,7 +63,8 @@
 			   ;datetime
 			   ;dask.distributed
 					;(da dask.array)
-			   PIL
+					;PIL
+			   libtiff
 			   ))
 		 
 
@@ -90,8 +91,13 @@
 			      date
 			      (- tz)))))
 		 (do0
-		  (setf im (PIL.Image.open (string "./supplementary_materials/photos/RIMG1832-1.tiff")))
-		  
+		  (setf fn (string "./supplementary_materials/photos/RIMG1832-1.tiff"))
+		  ;(setf dat (plt.imread fn))
+					;(setf im (PIL.Image.open fn))
+		  (comments "pip3 install --user libtiff")
+		  (setf tif (libtiff.TIFF.open fn))
+		  (setf im (tif.read_image))
+		  (comments "(256,512) float64")
 		  )))
 	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
