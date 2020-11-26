@@ -9,9 +9,9 @@ import pathlib
 import numpy as np
 import pandas as pd
 import libtiff
-_code_git_version="a259c2f4979fba6afb4bd2629abfd13d32ffcf2b"
-_code_repository="https://github.com/plops/cl-py-generator/tree/master/example/28_dask_test/source/run_00_start.py"
-_code_generation_time="19:49:42 of Thursday, 2020-11-26 (GMT+1)"
+_code_git_version="ade9e676d7bb9ac6beaec961e2daf535f4a10784"
+_code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
+_code_generation_time="20:00:58 of Thursday, 2020-11-26 (GMT+1)"
 fns=list(pathlib.Path("./supplementary_materials/").glob("**/*.tif*"))
 for fn in fns:
     print(fn)
