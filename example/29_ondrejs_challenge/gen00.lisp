@@ -62,7 +62,8 @@
 			   ;itertools
 			   ;datetime
 			   ;dask.distributed
-			   ;(da dask.array)
+					;(da dask.array)
+			   PIL
 			   ))
 		 
 
@@ -89,6 +90,7 @@
 			      date
 			      (- tz)))))
 		 (do0
+		  (setf im (PIL.Image.open (string "./supplementary_materials/photos/RIMG1832-1.tiff")))
 		  
 		  )))
 	   ))
