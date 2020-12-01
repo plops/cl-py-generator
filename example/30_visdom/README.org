@@ -1,0 +1,6 @@
+- first mention i saw: https://youtu.be/f-CvtA2nuN8?t=667
+- https://github.com/facebookresearch/visdom
+- `pip3 install --user visdom`
+- run `~/.local/bin/visdom` and connect to the url with a browser
+
+
