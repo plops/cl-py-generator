@@ -79,10 +79,18 @@
 			      (- tz)))))
 		 
 		 (do0
-		  (setf root (Tk)
-			
-			
-			)
+		  (setf root (Tk))
+
+		  (def myclick ()
+		    (setf mylab (Label root :text (string "look!"))
+			  )
+		   (mylab.pack))
+		  
+		  (setf but (Button root
+				    :text (string "click")
+				    :padx 23
+				    :command myclick))
+		  (but.pack)
 		  ,@(loop for (e r c) in `(("hello" 0 0)
 				      ("my name is" 1 1))
 			 and i from 0
