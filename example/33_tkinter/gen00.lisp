@@ -88,8 +88,11 @@
 			 and i from 0
 			 collect
 			 `(do0
-			   (setf ,(format nil "lab~a" i) (Label root :text (string ,e)))
-			   (dot ,(format nil "lab~a" i)
+			   (setf ,(format nil "lab~a" i)
+				 (dot (Label root :text (string ,e))
+				      (grid :row ,r
+					  :column ,c)))
+			   #+nil (dot ,(format nil "lab~a" i)
 				(grid :row ,r
 					  :column ,c))))
 
