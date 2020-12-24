@@ -80,10 +80,22 @@
 		 
 		 (do0
 		  (setf root (Tk)
-			lab (Label root :text (string "helo"))
+			
 			
 			)
-		  (lab.pack))
+		  ,@(loop for (e r c) in `(("hello" 0 0)
+				      ("my name is" 1 1))
+			 and i from 0
+			 collect
+			 `(do0
+			   (setf ,(format nil "lab~a" i) (Label root :text (string ,e)))
+			   (dot ,(format nil "lab~a" i)
+				(grid :row ,r
+					  :column ,c))))
+
+		  
+		  (root.mainloop)
+		  )
 		 ))
  	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
