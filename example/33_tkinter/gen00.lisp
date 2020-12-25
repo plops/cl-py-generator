@@ -78,7 +78,7 @@
 			      date
 			      (- tz)))))
 		 
-		 (do0
+		 #+nil (do0
 		  (setf root (Tk))
 
 		  (def myclick ()
@@ -88,7 +88,7 @@
 		  
 		  (setf but (Button root
 				    :text (string "click")
-				    :padx 23
+				    :padx 23t 
 				    :command myclick))
 		  (but.pack)
 		  ,@(loop for (e r c) in `(("hello" 0 0)
@@ -107,6 +107,58 @@
 		  
 		  (root.mainloop)
 		  )
+
+		 (do0
+		  (do0
+		   (setf root (Tk ))
+		   (root.title  (string "simple calculator")))
+		  (do0
+		   (setf e (dot (Entry root :width 35 :borderwidth 5)
+				(grid :row 0
+				      :column 0
+				      :columnspan 3
+				      :padx 10
+				      :pady 10)))
+
+		   (def button_add ()
+		     return)
+		   ,@(loop for e in `((0 4 0)
+
+					    (1 3 0)
+					    (2 3 1)
+					    (3 3 2)
+
+					    (4 2 0)
+					    (5 2 1)
+					    (6 2 2)
+
+					    (7 1 0)
+					    (8 1 1)
+					    (9 1 2)
+					    )
+			 
+			   collect
+			   (destructuring-bind (name r c &key (padx 40)
+							   (pady 20)
+							   (command 'button_add)
+							   (columnspan 1)) e
+			    `(do0
+			      (setf ,(format nil "button_~a" name)
+				    (dot (Button root :text (string ,name)
+						     :padx ,padx
+						     :pady ,pady
+						     :command ,command
+						   
+						     )
+					 (grid :row ,r
+					       :column ,c
+					         :columnspan ,columnspan
+					       )))
+			      #+nil (dot ,(format nil "lab~a" i)
+					 (grid :row ,r
+					       :column ,c)))))
+		   )
+		  (root.mainloop))
 		 ))
  	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
