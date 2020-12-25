@@ -128,7 +128,22 @@
 		     (entry.delete 0 END)
 		     (entry.insert 0 (+ (str cur)
 				    (str n)))
-		     return)
+		     )
+
+		   (def button_clear ()
+		   
+		     (entry.delete 0 END)
+		     )
+		   (def button_add ()
+		     (setf first_number (entry.get))
+		     "global f_num"
+		     (setf f_num (int first_number))
+		     (entry.delete 0 END))
+		   (def button_equal ()
+		     (setf second_number (entry.get))
+		     (entry.delete 0 END)
+		     (entry.insert 0 (+ f_num
+					(int second_number))))
 		   ,@(loop for e in `((0 4 0)
 
 					    (1 3 0)
@@ -143,9 +158,9 @@
 					    (8 1 1)
 				      (9 1 2)
 
-				      (add 5 0 :padx 39)
-				      (eq 5 1 :padx 91 :columnspan 2)
-				      (clear 4 1 :padx 79 :columnspan 2)
+				      (add 5 0 :padx 39 :command button_add)
+				      (eq 5 1 :padx 91 :columnspan 2 :command button_equal)
+				      (clear 4 1 :padx 79 :columnspan 2 :command button_clear)
 					    )
 			 
 			   collect
