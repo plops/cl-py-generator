@@ -113,14 +113,21 @@
 		   (setf root (Tk ))
 		   (root.title  (string "simple calculator")))
 		  (do0
-		   (setf e (dot (Entry root :width 35 :borderwidth 5)
-				(grid :row 0
-				      :column 0
-				      :columnspan 3
-				      :padx 10
-				      :pady 10)))
-
-		   (def button_add ()
+		   (setf entry (Entry root :width 35 :borderwidth 5)
+			 )
+		   (entry.grid :row 0
+			       :column 0
+			       :columnspan 3
+			       :padx 10
+			       :pady 10)
+		   
+		   
+		   (def button_click (n)
+		   
+		     (setf cur (entry.get))
+		     (entry.delete 0 END)
+		     (entry.insert 0 (+ (str cur)
+				    (str n)))
 		     return)
 		   ,@(loop for e in `((0 4 0)
 
@@ -134,31 +141,37 @@
 
 					    (7 1 0)
 					    (8 1 1)
-					    (9 1 2)
+				      (9 1 2)
+
+				      (add 5 0 :padx 39)
+				      (eq 5 1 :padx 91 :columnspan 2)
+				      (clear 4 1 :padx 79 :columnspan 2)
 					    )
 			 
 			   collect
 			   (destructuring-bind (name r c &key (padx 40)
 							   (pady 20)
-							   (command 'button_add)
+							   (command `(lambda () (button_click ,name)))
 							   (columnspan 1)) e
-			    `(do0
-			      (setf ,(format nil "button_~a" name)
-				    (dot (Button root :text (string ,name)
-						     :padx ,padx
-						     :pady ,pady
-						     :command ,command
+			     (let ((but (format nil "button_~a" name)))
+			      `(do0
+				(setf ,but
+				      (dot (Button root :text (string ,name)
+							:padx ,padx
+							:pady ,pady
+							:command ,command
 						   
-						     )
-					 (grid :row ,r
-					       :column ,c
-					         :columnspan ,columnspan
-					       )))
-			      #+nil (dot ,(format nil "lab~a" i)
-					 (grid :row ,r
-					       :column ,c)))))
-		   )
-		  (root.mainloop))
+							)
+					   )
+				      )
+				(dot ,but
+				 (grid :row ,r
+				       :column ,c
+				       :columnspan ,columnspan
+				       ))
+				)))))
+		 ; (root.mainloop)
+		  )
 		 ))
  	   ))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
