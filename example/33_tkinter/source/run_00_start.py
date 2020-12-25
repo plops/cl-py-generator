@@ -3,9 +3,9 @@ import pathlib
 import numpy as np
 import pandas as pd
 from tkinter import *
-_code_git_version="9e5b04c3fddad20454ebc9d679dea20097f87752"
+_code_git_version="202039645b9a54b6b4201abc1d4fb673e63e9b49"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="05:01:05 of Friday, 2020-12-25 (GMT+1)"
+_code_generation_time="06:19:28 of Friday, 2020-12-25 (GMT+1)"
 root=Tk()
 root.title("simple calculator")
 entry=Entry(root, width=35, borderwidth=5)
