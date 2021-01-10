@@ -1,0 +1,2 @@
+- use https://github.com/getpelican/pelican to create my github pages site
+- https://docs.getpelican.com/en/latest/quickstart.html
