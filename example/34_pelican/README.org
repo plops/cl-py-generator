@@ -1,2 +1,7 @@
 - use https://github.com/getpelican/pelican to create my github pages site
 - https://docs.getpelican.com/en/latest/quickstart.html
+
+- install
+#+begin_example
+python3 -m pip install --user "pelican[markdown]"
+#+end_example
