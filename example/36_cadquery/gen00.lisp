@@ -80,7 +80,12 @@
 		       cbore_dia 4.4
 		       cbore_depth 2.1
 		       r (dot (cq.Workplane (string "XY"))
-			      (box length height thickness)))
+			      (box length height thickness)
+			      ;; use selector: maximize in z direction
+			      (faces (string ">Z"))
+			      (workplane)
+			      (hole center_hole_dia)
+			      ))
 		 
 		 (show r (tuple 204 204 204 0.0))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
