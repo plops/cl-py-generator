@@ -85,6 +85,17 @@
 			      (faces (string ">Z"))
 			      (workplane)
 			      (hole center_hole_dia)
+			      (faces (string ">Z"))
+			      (rect (- length 8)
+				    (- height 8)
+				    :forConstruction True)
+			      ;; create 4 holes at the corners
+			      (vertices)
+			      (cboreHole
+			       cbore_hole_dia
+			       cbore_dia
+			       cbore_depth)
+			      
 			      ))
 		 
 		 (show r (tuple 204 204 204 0.0))))))
