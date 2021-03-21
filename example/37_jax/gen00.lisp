@@ -138,13 +138,17 @@
 		  (setf xs_mod (model (tuple .1 -.2 .5 10.0)
 				      :xs xs
 				      :noise True))
-		  (xrp.imshow xs_mod))
+		  )
 
 		 (do0
 		   (setf param_opt
 		    (scipy.optimize.least_squares model_merit
-						  (tuple .1 -.2 .5 10.0)
+						  (tuple .12 -.27 .8 13.0)
 						  :kwargs (dict ((string "xs") xs_mod)))))
+		 (do0
+		  (setf xs_fit (model param_opt.x
+				      :xs xs))
+		  (xrp.imshow (- xs_fit xs_mod)))
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 

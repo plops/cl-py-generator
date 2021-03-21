@@ -9,9 +9,9 @@ import jax
 import jax.random
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
-_code_git_version="9ee33b2a85a4acbb00f8b562d324dbc0c1b34916"
+_code_git_version="1b950588d1032c30e79fb571708af679b5e262e7"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="19:50:01 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="19:53:24 of Sunday, 2021-03-21 (GMT+1)"
 def tanh(x):
     y=jnp.exp((((-2.0    ))*(x)))
     return (((((1.0    ))-(y)))/((((1.0    ))+(y))))
@@ -37,5 +37,6 @@ def model_merit(param, xs=None):
     res=model(param, xs=xs)
     return ((res.values.astype(jnp.float64))-(xs.values.astype(jnp.float64))).ravel()
 xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(10.    ),), xs=xs, noise=True)
-xrp.imshow(xs_mod)
-param_opt=scipy.optimize.least_squares(model_merit, ((0.10    ),(-0.20    ),(0.50    ),(10.    ),), kwargs={("xs"):(xs_mod)})
+param_opt=scipy.optimize.least_squares(model_merit, ((0.120    ),(-0.270    ),(0.80    ),(13.    ),), kwargs={("xs"):(xs_mod)})
+xs_fit=model(param_opt.x, xs=xs)
+xrp.imshow(((xs_fit)-(xs_mod)))
