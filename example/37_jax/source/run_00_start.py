@@ -7,18 +7,20 @@ import scipy.optimize
 import jax.numpy as jnp
 import jax
 import jax.random
+import jax.config
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
-_code_git_version="d759ced62d0fe356d4f7a81e8ae918fa9bc06ebc"
+jax.config.update("jax_enable_x64", True)
+_code_git_version="dca45bc5d6bdba44402f312226259919587bf8bb"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="20:43:10 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="21:02:31 of Sunday, 2021-03-21 (GMT+1)"
 def tanh(x):
     y=jnp.exp((((-2.0    ))*(x)))
     return (((((1.0    ))-(y)))/((((1.0    ))+(y))))
 grad_tanh=grad(tanh)
 print(grad_tanh((1.0    )))
-nx=7
-ny=5
+nx=32
+ny=27
 x=jnp.linspace(-1, 1, nx)
 y=jnp.linspace(-1, 1, ny)
 q=jnp.sqrt(((((x[...,jnp.newaxis])**(2)))+(((y[jnp.newaxis,...])**(2)))))
@@ -43,14 +45,20 @@ def jax_model(param, x, y, goal):
     x0, y0, radius, amp=param
     r=jnp.sqrt(((((((x[...,jnp.newaxis])+(x0)))**(2)))+(((((y[jnp.newaxis,...])+(y0)))**(2)))))
     s=abs(((amp)*(sinc(((r)/(radius))))))
-    return ((goal)-(s)).ravel()
-j=jacrev(jax_model, argnums=0)
-x0=((0.120    ),(-0.270    ),(0.80    ),(13.    ),)
-x=xs.x.values
-y=xs.y.values
-goal=xs.values
-j(x0, x, y, goal)
-x0=((0.120    ),(-0.270    ),(0.80    ),(13.    ),)
-param_opt=scipy.optimize.least_squares(model_merit, x0, jac=jit(jacfwd(model_merit, argnums=0)), kwargs={("xs"):(xs_mod)})
+    return ((goal.astype(jnp.float64))-(s.astype(jnp.float64))).ravel()
+j=jit(jacrev(jax_model, argnums=0))
+def j_for_call(param, xs=None):
+    x=xs.x.values.astype(jnp.float64)
+    y=xs.y.values.astype(jnp.float64)
+    goal=xs.values.astype(jnp.float64)
+    return j(param, x, y, goal)
+x0=((0.120    ),(-0.270    ),(0.30    ),(13.    ),)
+param_opt=scipy.optimize.least_squares(model_merit, x0, jac=j_for_call, verbose=2, kwargs={("xs"):(xs_mod)})
 xs_fit=model(param_opt.x, xs=xs)
+pl=(1,3,)
+ax=plt.subplot2grid(pl, (0,0,))
+xrp.imshow(xs_mod)
+ax=plt.subplot2grid(pl, (0,1,))
+xrp.imshow(xs_fit)
+ax=plt.subplot2grid(pl, (0,2,))
 xrp.imshow(((xs_fit)-(xs_mod)))
