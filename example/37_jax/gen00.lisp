@@ -179,6 +179,7 @@
 						  x0
 						  :jac j_for_call
 					;:gtol None
+						  :xtol None
 						  :verbose 2
 						  :kwargs (dict ((string "xs") xs_mod)))))
 		 (do0
