@@ -24,8 +24,23 @@
 	 
 	 (code
 	  `(do0
-	    (do0 "# %% imports"
-		 
+	    (do0 
+		 (do0
+		  
+		  (imports (matplotlib))
+                                        ;(matplotlib.use (string "QT5Agg"))
+					;"from matplotlib.backends.backend_qt5agg import (FigureCanvas, NavigationToolbar2QT as NavigationToolbar)"
+					;"from matplotlib.figure import Figure"
+		  (imports ((plt matplotlib.pyplot)
+			  ;  (animation matplotlib.animation) 
+                            ;(xrp xarray.plot)
+			    ))
+                  
+		  (plt.ion)
+					;(plt.ioff)
+		  ;;(setf font (dict ((string size) (string 6))))
+		  ;; (matplotlib.rc (string "font") **font)
+		  )
 		 (imports (		;os
 			   ;sys
 			   ;time
@@ -34,21 +49,21 @@
 			   ;(np numpy)
 			   ;serial
 			   ;(pd pandas)
-			   ;(xr xarray)
-			   ;(xrp xarray.plot)
+			   (xr xarray)
+			   (xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)
 					; EP_SerialIO
 			   ;scipy.ndimage
-			   ;scipy.optimize
+			   scipy.optimize
 					;nfft
 			   ;sklearn
 			   ;sklearn.linear_model
 			   ;itertools
 					;datetime
-
-			   (cq cadquery)))
-		 "from Helpers import show"
+			   (jnp jax.numpy)
+			   ))
+		 "from jax import grad, jit, jacfwd, jacrev"
 		 (setf
 		  _code_git_version
 		  (string ,(let ((str (with-output-to-string (s)
@@ -72,6 +87,43 @@
 				     date
 				     (- tz))
 			     )))
+		 (do0
+		  (def tanh (x)
+		    (setf y (jnp.exp (* -2s0 x))
+			  )
+		    (return (/ (- 1s0 y)
+			       (+ 1s0 y))))
+		  (setf grad_tanh (grad tanh))
+		  (print (grad_tanh 1.0) ))
+
+		 (do0
+		  
+		  (setf nx 32
+			ny 27
+			x (jnp.linspace -1 1 nx)
+			y (jnp.linspace -1 1 ny))
+		  (setf q (+ (** (aref x "...,jnp.newaxis") 2)
+			     (** (aref y "jnp.newaxis,...") 2)))
+		   
+		  (setf xs (xr.DataArray :data q
+					 :coords (list x y)
+					 :dims (list (string "x")
+
+						     (string "y"))))
+
+		  (def model (param &key xs)
+		    (setf (ntuple x0 y0) param)
+		    (setf res (xs.copy))
+		    (setf r (jnp.sqrt (+ (** (aref xs.x "...,np.newaxis") 2)
+					 (** (aref xs.y "np.newaxis,...") 2))))
+		    
+		    (setf res.values r)
+		    (return res)
+		    )
+		  (xrp.imshow xs))
+
+		 (do0
+		  (scipy.optimize.least_squares))
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
