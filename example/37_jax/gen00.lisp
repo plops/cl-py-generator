@@ -114,25 +114,37 @@
 
 						     (string "y"))))
 
-		  (def model (param &key xs)
+		  (def model (param &key xs (noise False))
 		    (setf (ntuple x0 y0 radius amp) param)
 		    (setf res (xs.copy))
 		    (setf r (jnp.sqrt (+ (** (+ (aref xs.x.values "...,jnp.newaxis") x0) 2)
 					 (** (+ (aref xs.y.values "jnp.newaxis,...") y0) 2))))
 		    (setf s (abs (* amp (sinc (/ r radius)))))
-		    (setf key (jax.random.PRNGKey 0))
-		    (setf s (+ s (jax.random.uniform key s.shape)))
+
+		    (when noise
+		     (do0 (setf key (jax.random.PRNGKey 0))
+			  (setf s (+ s (jax.random.uniform key s.shape)))))
 		    (setf res.values s)
 		    
 		    
 		    (return res)
 		    )
+		  (def model_merit (param &key xs
+					  )
+		    (setf res (model param :xs xs))
+		    (return (dot (- (res.values.astype jnp.float64)
+				    (xs.values.astype jnp.float64))
+				 (ravel))))
 		  (setf xs_mod (model (tuple .1 -.2 .5 10.0)
-				      :xs xs))
+				      :xs xs
+				      :noise True))
 		  (xrp.imshow xs_mod))
 
 		 (do0
-		  (scipy.optimize.least_squares))
+		   (setf param_opt
+		    (scipy.optimize.least_squares model_merit
+						  (tuple .1 -.2 .5 10.0)
+						  :kwargs (dict ((string "xs") xs_mod)))))
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
