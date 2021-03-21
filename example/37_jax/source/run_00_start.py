@@ -9,16 +9,16 @@ import jax
 import jax.random
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
-_code_git_version="e836d3a39d4e384a6a94cf3d3b7a08e084c013a8"
+_code_git_version="d759ced62d0fe356d4f7a81e8ae918fa9bc06ebc"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="20:02:54 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="20:43:10 of Sunday, 2021-03-21 (GMT+1)"
 def tanh(x):
     y=jnp.exp((((-2.0    ))*(x)))
     return (((((1.0    ))-(y)))/((((1.0    ))+(y))))
 grad_tanh=grad(tanh)
 print(grad_tanh((1.0    )))
-nx=32
-ny=27
+nx=7
+ny=5
 x=jnp.linspace(-1, 1, nx)
 y=jnp.linspace(-1, 1, ny)
 q=jnp.sqrt(((((x[...,jnp.newaxis])**(2)))+(((y[jnp.newaxis,...])**(2)))))
@@ -26,7 +26,9 @@ xs=xr.DataArray(data=q, coords=[x, y], dims=["x", "y"])
 def model(param, xs=None, noise=False):
     x0, y0, radius, amp=param
     res=xs.copy()
-    r=jnp.sqrt(((((((xs.x.values[...,jnp.newaxis])+(x0)))**(2)))+(((((xs.y.values[jnp.newaxis,...])+(y0)))**(2)))))
+    xx=xs.x.values[...,jnp.newaxis]
+    yy=xs.y.values[jnp.newaxis,...]
+    r=jnp.sqrt(((((((xx)+(x0)))**(2)))+(((((yy)+(y0)))**(2)))))
     s=abs(((amp)*(sinc(((r)/(radius))))))
     if ( noise ):
         key=jax.random.PRNGKey(0)
@@ -42,6 +44,13 @@ def jax_model(param, x, y, goal):
     r=jnp.sqrt(((((((x[...,jnp.newaxis])+(x0)))**(2)))+(((((y[jnp.newaxis,...])+(y0)))**(2)))))
     s=abs(((amp)*(sinc(((r)/(radius))))))
     return ((goal)-(s)).ravel()
-param_opt=scipy.optimize.least_squares(model_merit, ((0.120    ),(-0.270    ),(0.80    ),(13.    ),), jac=jit(jacfwd(model_merit)), kwargs={("xs"):(xs_mod)})
+j=jacrev(jax_model, argnums=0)
+x0=((0.120    ),(-0.270    ),(0.80    ),(13.    ),)
+x=xs.x.values
+y=xs.y.values
+goal=xs.values
+j(x0, x, y, goal)
+x0=((0.120    ),(-0.270    ),(0.80    ),(13.    ),)
+param_opt=scipy.optimize.least_squares(model_merit, x0, jac=jit(jacfwd(model_merit, argnums=0)), kwargs={("xs"):(xs_mod)})
 xs_fit=model(param_opt.x, xs=xs)
 xrp.imshow(((xs_fit)-(xs_mod)))

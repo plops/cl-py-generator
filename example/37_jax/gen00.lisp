@@ -101,8 +101,8 @@
 
 		 (do0
 		  
-		  (setf nx 32
-			ny 27
+		  (setf nx 7
+			ny 5
 			x (jnp.linspace -1 1 nx)
 			y (jnp.linspace -1 1 ny))
 		  (setf q (jnp.sqrt (+ (** (aref x "...,jnp.newaxis") 2)
@@ -117,8 +117,10 @@
 		  (def model (param &key xs (noise False))
 		    (setf (ntuple x0 y0 radius amp) param)
 		    (setf res (xs.copy))
-		    (setf r (jnp.sqrt (+ (** (+ (aref xs.x.values "...,jnp.newaxis") x0) 2)
-					 (** (+ (aref xs.y.values "jnp.newaxis,...") y0) 2))))
+		    (setf xx (aref xs.x.values "...,jnp.newaxis")
+			  yy (aref xs.y.values "jnp.newaxis,..."))
+		    (setf r (jnp.sqrt (+ (** (+ xx x0) 2)
+					 (** (+ yy y0) 2))))
 		    (setf s (abs (* amp (sinc (/ r radius)))))
 
 		    (when noise
@@ -138,7 +140,7 @@
 				      :xs xs
 				      :noise True))
 		  )
-
+		 
 		 (do0
 		  (def jax_model (param x y goal)
 		    (setf (ntuple x0 y0 radius amp) param)
@@ -147,14 +149,21 @@
 					 (** (+ (aref y "jnp.newaxis,...") y0) 2))))
 		    (setf s (abs (* amp (sinc (/ r radius)))))
 		    (return (dot (- goal s)
-				 (ravel)))))
+				 (ravel))))
+		  (setf j (jacrev jax_model :argnums 0))
+		  (setf x0 (tuple .12 -.27 .8 13.0)
+			x xs.x.values
+			y xs.y.values
+			goal xs.values)
+		  (j x0 x y goal))
 		 
 
 		 (do0
+		  (setf x0 (tuple .12 -.27 .8 13.0))
 		   (setf param_opt
 		    (scipy.optimize.least_squares model_merit
-						  (tuple .12 -.27 .8 13.0)
-						  :jac (jit (jacfwd model_merit))
+						  x0
+						  :jac (jit (jacfwd model_merit :argnums 0))
 						  ;:gtol None
 						  :kwargs (dict ((string "xs") xs_mod)))))
 		 (do0
