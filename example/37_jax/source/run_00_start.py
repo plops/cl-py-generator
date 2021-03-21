@@ -11,14 +11,9 @@ import jax.config
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
 jax.config.update("jax_enable_x64", True)
-_code_git_version="5cfe69f6bfb54572d916832806badc3e5d9da62b"
+_code_git_version="d25d4041cc7ae873809547d41a77515f1ecad223"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="21:04:55 of Sunday, 2021-03-21 (GMT+1)"
-def tanh(x):
-    y=jnp.exp((((-2.0    ))*(x)))
-    return (((((1.0    ))-(y)))/((((1.0    ))+(y))))
-grad_tanh=grad(tanh)
-print(grad_tanh((1.0    )))
+_code_generation_time="21:18:54 of Sunday, 2021-03-21 (GMT+1)"
 nx=32
 ny=27
 x=jnp.linspace(-1, 1, nx)
@@ -39,22 +34,24 @@ def model(param, xs=None, noise=False):
     return res
 def model_merit(param, xs=None):
     res=model(param, xs=xs, noise=False)
-    return ((res.values.astype(jnp.float64))-(xs.values.astype(jnp.float64))).ravel()
-xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(10.    ),), xs=xs, noise=True)
+    return ((res.values.astype(jnp.float32))-(xs.values.astype(jnp.float32))).ravel()
+xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(30.    ),), xs=xs, noise=False)
 def jax_model(param, x, y, goal):
     x0, y0, radius, amp=param
     r=jnp.sqrt(((((((x[...,jnp.newaxis])+(x0)))**(2)))+(((((y[jnp.newaxis,...])+(y0)))**(2)))))
     s=abs(((amp)*(sinc(((r)/(radius))))))
-    return ((goal.astype(jnp.float64))-(s.astype(jnp.float64))).ravel()
+    return ((goal.astype(jnp.float32))-(s.astype(jnp.float32))).ravel()
 j=jit(jacrev(jax_model, argnums=0))
 def j_for_call(param, xs=None):
-    x=xs.x.values.astype(jnp.float64)
-    y=xs.y.values.astype(jnp.float64)
-    goal=xs.values.astype(jnp.float64)
+    x=xs.x.values.astype(jnp.float32)
+    y=xs.y.values.astype(jnp.float32)
+    goal=xs.values.astype(jnp.float32)
     return j(param, x, y, goal)
-x0=((0.120    ),(-0.270    ),(0.30    ),(13.    ),)
-param_opt=scipy.optimize.least_squares(model_merit, x0, jac=j_for_call, xtol=None, verbose=2, kwargs={("xs"):(xs_mod)})
+x0=((0.120    ),(-0.270    ),(0.450    ),(28.    ),)
+param_opt=scipy.optimize.least_squares(model_merit, x0, verbose=2, kwargs={("xs"):(xs_mod)})
+print(param_opt)
 xs_fit=model(param_opt.x, xs=xs)
+plt.figure(figsize=(14,6,))
 pl=(1,3,)
 ax=plt.subplot2grid(pl, (0,0,))
 xrp.imshow(xs_mod)

@@ -93,7 +93,7 @@
 				     date
 				     (- tz))
 			     )))
-		 (do0
+		 #+nil (do0
 		  (def tanh (x)
 		    (setf y (jnp.exp (* -2s0 x))
 			  )
@@ -136,12 +136,13 @@
 		    )
 		  (def model_merit (param &key xs)
 		    (setf res (model param :xs xs :noise False))
-		    (return (dot (- (res.values.astype jnp.float64)
-				    (xs.values.astype jnp.float64))
+		    (return (dot (- (res.values.astype jnp.float32)
+				    (xs.values.astype jnp.float32))
 				 (ravel))))
-		  (setf xs_mod (model (tuple .1 -.2 .5 10.0)
+		  (setf xs_mod (model (tuple .1 -.2 .5 30.0)
 				      :xs xs
-				      :noise True))
+				      :noise False ; True
+				      ))
 		  )
 		 
 		 (do0
@@ -151,8 +152,8 @@
 		    (setf r (jnp.sqrt (+ (** (+ (aref x "...,jnp.newaxis") x0) 2)
 					 (** (+ (aref y "jnp.newaxis,...") y0) 2))))
 		    (setf s (abs (* amp (sinc (/ r radius)))))
-		    (return (dot (- (dot goal (astype jnp.float64))
-				    (dot s (astype jnp.float64)))
+		    (return (dot (- (dot goal (astype jnp.float32))
+				    (dot s (astype jnp.float32)))
 				 (ravel))))
 		  (setf j (jit (jacrev jax_model :argnums 0)))
 		  #+nil (do0
@@ -164,27 +165,29 @@
 		   )
 		  (def j_for_call (param &key xs)
 		     (setf 
-		      x (dot xs.x.values (astype jnp.float64)
+		      x (dot xs.x.values (astype jnp.float32)
 			     )
-		      y (dot xs.y.values (astype jnp.float64)
+		      y (dot xs.y.values (astype jnp.float32)
 			    )
-		      goal (dot xs.values (astype jnp.float64)))
+		      goal (dot xs.values (astype jnp.float32)))
 		     (return (j param x y goal))))
 		 
 
 		 (do0
-		  (setf x0 (tuple .12 -.27 .3 13.0))
+		  (setf x0 (tuple .12 -.27 .45 28.0))
 		   (setf param_opt
 		    (scipy.optimize.least_squares model_merit
 						  x0
-						  :jac j_for_call
+						 ; :jac j_for_call
 					;:gtol None
-						  :xtol None
+						  ;:xtol None
 						  :verbose 2
-						  :kwargs (dict ((string "xs") xs_mod)))))
+						  :kwargs (dict ((string "xs") xs_mod))))
+		   (print param_opt))
 		 (do0
 		  (setf xs_fit (model param_opt.x
 				      :xs xs))
+		  (plt.figure :figsize (tuple 14 6))
 		  (setf pl (tuple 1 3))
 		  ,@(loop for e in `(xs_mod
 				     xs_fit
