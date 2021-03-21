@@ -139,6 +139,15 @@
 				      :noise True))
 		  )
 
+		 (do0
+		  (def jax_model (param x y goal)
+		    (setf (ntuple x0 y0 radius amp) param)
+		    
+		    (setf r (jnp.sqrt (+ (** (+ (aref x "...,jnp.newaxis") x0) 2)
+					 (** (+ (aref y "jnp.newaxis,...") y0) 2))))
+		    (setf s (abs (* amp (sinc (/ r radius)))))
+		    (return (dot (- goal s)
+				 (ravel)))))
 		 
 
 		 (do0
