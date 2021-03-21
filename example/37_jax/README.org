@@ -1,0 +1,4 @@
+- install
+#+begin_example
+pip3 install jax jaxlib
+#+end_example
