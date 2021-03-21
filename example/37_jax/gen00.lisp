@@ -64,6 +64,7 @@
 			   (jnp jax.numpy)
 			   ))
 		 "from jax import grad, jit, jacfwd, jacrev"
+		 ,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
 		 (setf
 		  _code_git_version
 		  (string ,(let ((str (with-output-to-string (s)
@@ -102,8 +103,8 @@
 			ny 27
 			x (jnp.linspace -1 1 nx)
 			y (jnp.linspace -1 1 ny))
-		  (setf q (+ (** (aref x "...,jnp.newaxis") 2)
-			     (** (aref y "jnp.newaxis,...") 2)))
+		  (setf q (jnp.sqrt (+ (** (aref x "...,jnp.newaxis") 2)
+			      (** (aref y "jnp.newaxis,...") 2))))
 		   
 		  (setf xs (xr.DataArray :data q
 					 :coords (list x y)
@@ -112,15 +113,17 @@
 						     (string "y"))))
 
 		  (def model (param &key xs)
-		    (setf (ntuple x0 y0) param)
+		    (setf (ntuple x0 y0 radius amp) param)
 		    (setf res (xs.copy))
-		    (setf r (jnp.sqrt (+ (** (aref xs.x "...,np.newaxis") 2)
-					 (** (aref xs.y "np.newaxis,...") 2))))
-		    
-		    (setf res.values r)
+		    (setf r (jnp.sqrt (+ (** (+ (aref xs.x.values "...,jnp.newaxis") x0) 2)
+					 (** (+ (aref xs.y.values "jnp.newaxis,...") y0) 2))))
+		    (setf s (abs (* amp (sinc (/ r radius)))))
+		    (setf res.values s)
 		    (return res)
 		    )
-		  (xrp.imshow xs))
+		  (setf xs_mod (model (tuple .1 -.2 .5 1.0)
+				      :xs xs))
+		  (xrp.imshow xs_mod))
 
 		 (do0
 		  (scipy.optimize.least_squares))

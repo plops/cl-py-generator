@@ -6,9 +6,10 @@ import xarray.plot as xrp
 import scipy.optimize
 import jax.numpy as jnp
 from jax import grad, jit, jacfwd, jacrev
-_code_git_version="11484fe107f84a28d87d73f30284966c47f2568f"
+from jax.numpy import sqrt, newaxis, sinc, abs
+_code_git_version="5311b1718a3e6ebc6d0c3f88caa4fd0db19e04ef"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="19:24:10 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="19:38:24 of Sunday, 2021-03-21 (GMT+1)"
 def tanh(x):
     y=jnp.exp((((-2.0    ))*(x)))
     return (((((1.0    ))-(y)))/((((1.0    ))+(y))))
@@ -18,13 +19,15 @@ nx=32
 ny=27
 x=jnp.linspace(-1, 1, nx)
 y=jnp.linspace(-1, 1, ny)
-q=((((x[...,jnp.newaxis])**(2)))+(((y[jnp.newaxis,...])**(2))))
+q=jnp.sqrt(((((x[...,jnp.newaxis])**(2)))+(((y[jnp.newaxis,...])**(2)))))
 xs=xr.DataArray(data=q, coords=[x, y], dims=["x", "y"])
 def model(param, xs=None):
-    x0, y0=param
+    x0, y0, radius, amp=param
     res=xs.copy()
-    r=jnp.sqrt(((((xs.x[...,np.newaxis])**(2)))+(((xs.y[np.newaxis,...])**(2)))))
-    res.values=r
+    r=jnp.sqrt(((((((xs.x.values[...,jnp.newaxis])+(x0)))**(2)))+(((((xs.y.values[jnp.newaxis,...])+(y0)))**(2)))))
+    s=abs(((amp)*(sinc(((r)/(radius))))))
+    res.values=s
     return res
-xrp.imshow(xs)
+xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(1.0    ),), xs=xs)
+xrp.imshow(xs_mod)
 scipy.optimize.least_squares()
