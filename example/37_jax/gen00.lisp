@@ -141,7 +141,7 @@
 				 (ravel))))
 		  (setf xs_mod (model (tuple .1 -.2 .5 30.0)
 				      :xs xs
-				      :noise False ; True
+				      :noise True
 				      ))
 		  )
 		 

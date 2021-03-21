@@ -11,9 +11,9 @@ import jax.config
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
 jax.config.update("jax_enable_x64", True)
-_code_git_version="457d6caa6354010793718144df089792335fbcc6"
+_code_git_version="7557b4b69d3a756c524653d8dc25718e1b5a6f4d"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="21:31:20 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="21:32:07 of Sunday, 2021-03-21 (GMT+1)"
 nx=32
 ny=27
 x=jnp.linspace(-1, 1, nx)
@@ -35,7 +35,7 @@ def model(param, xs=None, noise=False):
 def model_merit(param, xs=None):
     res=model(param, xs=xs, noise=False)
     return ((res.values.astype(jnp.float32))-(xs.values.astype(jnp.float32))).ravel()
-xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(30.    ),), xs=xs, noise=False)
+xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(30.    ),), xs=xs, noise=True)
 def jax_model(param, x, y, goal):
     x0, y0, radius, amp=param
     r=jnp.sqrt(((((((x[...,jnp.newaxis])+(x0)))**(2)))+(((((y[jnp.newaxis,...])+(y0)))**(2)))))
