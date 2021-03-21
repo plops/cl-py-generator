@@ -178,7 +178,7 @@
 		   (setf param_opt
 		    (scipy.optimize.least_squares model_merit
 						  x0
-						 ; :jac j_for_call
+						  :jac j_for_call
 					;:gtol None
 						  ;:xtol None
 						  :verbose 2

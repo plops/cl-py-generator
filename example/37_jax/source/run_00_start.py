@@ -11,9 +11,9 @@ import jax.config
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
 jax.config.update("jax_enable_x64", True)
-_code_git_version="d25d4041cc7ae873809547d41a77515f1ecad223"
+_code_git_version="30f471bdbfe01e74accda98f8b13e87a46696e29"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="21:18:54 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="21:19:39 of Sunday, 2021-03-21 (GMT+1)"
 nx=32
 ny=27
 x=jnp.linspace(-1, 1, nx)
@@ -48,7 +48,7 @@ def j_for_call(param, xs=None):
     goal=xs.values.astype(jnp.float32)
     return j(param, x, y, goal)
 x0=((0.120    ),(-0.270    ),(0.450    ),(28.    ),)
-param_opt=scipy.optimize.least_squares(model_merit, x0, verbose=2, kwargs={("xs"):(xs_mod)})
+param_opt=scipy.optimize.least_squares(model_merit, x0, jac=j_for_call, verbose=2, kwargs={("xs"):(xs_mod)})
 print(param_opt)
 xs_fit=model(param_opt.x, xs=xs)
 plt.figure(figsize=(14,6,))
