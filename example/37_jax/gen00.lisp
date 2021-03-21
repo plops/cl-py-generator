@@ -152,8 +152,9 @@
 		    (setf r (jnp.sqrt (+ (** (+ (aref x "...,jnp.newaxis") x0) 2)
 					 (** (+ (aref y "jnp.newaxis,...") y0) 2))))
 		    (setf s (abs (* amp (sinc (/ r radius)))))
-		    (return (dot (- (dot goal (astype jnp.float32))
-				    (dot s (astype jnp.float32)))
+		    (return (dot (- (dot s (astype jnp.float32))
+				    (dot goal (astype jnp.float32))
+				    )
 				 (ravel))))
 		  (setf j (jit (jacrev jax_model :argnums 0)))
 		  #+nil (do0
@@ -178,9 +179,11 @@
 		   (setf param_opt
 		    (scipy.optimize.least_squares model_merit
 						  x0
-						  :jac j_for_call
+						  ;:jac (string "3-point")
+						  ;:jac (string "cs")
+						   :jac j_for_call
 					;:gtol None
-						  ;:xtol None
+					;:xtol None
 						  :verbose 2
 						  :kwargs (dict ((string "xs") xs_mod))))
 		   (print param_opt))

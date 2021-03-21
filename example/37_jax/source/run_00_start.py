@@ -11,9 +11,9 @@ import jax.config
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
 jax.config.update("jax_enable_x64", True)
-_code_git_version="385a839c43ce62d00606443125970d4d6fa86989"
+_code_git_version="457d6caa6354010793718144df089792335fbcc6"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="21:24:45 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="21:31:20 of Sunday, 2021-03-21 (GMT+1)"
 nx=32
 ny=27
 x=jnp.linspace(-1, 1, nx)
@@ -40,7 +40,7 @@ def jax_model(param, x, y, goal):
     x0, y0, radius, amp=param
     r=jnp.sqrt(((((((x[...,jnp.newaxis])+(x0)))**(2)))+(((((y[jnp.newaxis,...])+(y0)))**(2)))))
     s=abs(((amp)*(sinc(((r)/(radius))))))
-    return ((goal.astype(jnp.float32))-(s.astype(jnp.float32))).ravel()
+    return ((s.astype(jnp.float32))-(goal.astype(jnp.float32))).ravel()
 j=jit(jacrev(jax_model, argnums=0))
 def j_for_call(param, xs=None):
     x=xs.x.values.astype(jnp.float32)
