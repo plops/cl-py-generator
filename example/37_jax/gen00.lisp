@@ -129,9 +129,8 @@
 		    
 		    (return res)
 		    )
-		  (def model_merit (param &key xs
-					  )
-		    (setf res (model param :xs xs))
+		  (def model_merit (param &key xs)
+		    (setf res (model param :xs xs :noise False))
 		    (return (dot (- (res.values.astype jnp.float64)
 				    (xs.values.astype jnp.float64))
 				 (ravel))))
@@ -140,10 +139,14 @@
 				      :noise True))
 		  )
 
+		 
+
 		 (do0
 		   (setf param_opt
 		    (scipy.optimize.least_squares model_merit
 						  (tuple .12 -.27 .8 13.0)
+						  :jac (jit (jacfwd model_merit))
+						  ;:gtol None
 						  :kwargs (dict ((string "xs") xs_mod)))))
 		 (do0
 		  (setf xs_fit (model param_opt.x
