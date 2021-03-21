@@ -1,3 +1,8 @@
+- localize abs(sinc) on a 2d image with noise
+- show how to perform multivariate optimization with scipy
+- use jax to compute jacobian (using automatic differentiation)
+
+
 - install
 #+begin_example
 pip3 install jax jaxlib
