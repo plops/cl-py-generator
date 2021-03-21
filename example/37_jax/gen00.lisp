@@ -62,6 +62,8 @@
 			   ;itertools
 					;datetime
 			   (jnp jax.numpy)
+			   jax
+			   jax.random
 			   ))
 		 "from jax import grad, jit, jacfwd, jacrev"
 		 ,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
@@ -118,10 +120,14 @@
 		    (setf r (jnp.sqrt (+ (** (+ (aref xs.x.values "...,jnp.newaxis") x0) 2)
 					 (** (+ (aref xs.y.values "jnp.newaxis,...") y0) 2))))
 		    (setf s (abs (* amp (sinc (/ r radius)))))
+		    (setf key (jax.random.PRNGKey 0))
+		    (setf s (+ s (jax.random.uniform key s.shape)))
 		    (setf res.values s)
+		    
+		    
 		    (return res)
 		    )
-		  (setf xs_mod (model (tuple .1 -.2 .5 1.0)
+		  (setf xs_mod (model (tuple .1 -.2 .5 10.0)
 				      :xs xs))
 		  (xrp.imshow xs_mod))
 

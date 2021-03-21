@@ -5,11 +5,13 @@ import xarray as xr
 import xarray.plot as xrp
 import scipy.optimize
 import jax.numpy as jnp
+import jax
+import jax.random
 from jax import grad, jit, jacfwd, jacrev
 from jax.numpy import sqrt, newaxis, sinc, abs
-_code_git_version="5311b1718a3e6ebc6d0c3f88caa4fd0db19e04ef"
+_code_git_version="52c9cf9410716b331e20b9f4edc14a4a3cd9e30c"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="19:38:24 of Sunday, 2021-03-21 (GMT+1)"
+_code_generation_time="19:44:20 of Sunday, 2021-03-21 (GMT+1)"
 def tanh(x):
     y=jnp.exp((((-2.0    ))*(x)))
     return (((((1.0    ))-(y)))/((((1.0    ))+(y))))
@@ -26,8 +28,10 @@ def model(param, xs=None):
     res=xs.copy()
     r=jnp.sqrt(((((((xs.x.values[...,jnp.newaxis])+(x0)))**(2)))+(((((xs.y.values[jnp.newaxis,...])+(y0)))**(2)))))
     s=abs(((amp)*(sinc(((r)/(radius))))))
+    key=jax.random.PRNGKey(0)
+    s=((s)+(jax.random.uniform(key, s.shape)))
     res.values=s
     return res
-xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(1.0    ),), xs=xs)
+xs_mod=model(((0.10    ),(-0.20    ),(0.50    ),(10.    ),), xs=xs)
 xrp.imshow(xs_mod)
 scipy.optimize.least_squares()
