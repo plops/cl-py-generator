@@ -170,7 +170,7 @@
 		      y (dot xs.y.values (astype jnp.float32)
 			    )
 		      goal (dot xs.values (astype jnp.float32)))
-		     (return (j param x y goal))))
+		    (return (jnp.array (j param x y goal)))))
 		 
 
 		 (do0
