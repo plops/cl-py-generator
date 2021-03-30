@@ -127,7 +127,26 @@
 				  (tuple 0 255 0)
 				  2)
 		    (return image)
-		    ))
+		    )
+		  (def draw_landmarks (image landmarks)
+		    (setf (ntuple height width)
+			  (aref image.shape "0:2")
+			  )
+		    (do0
+		     ;(setf landmark_point (list))
+		     (for (l landmarks.landmark)
+			  (when (or (< l.visibility 0)
+				    (< l.presence 0))
+			    continue)
+			  (do0 (setf lx (min (int (* l.x width))
+					    (- width 1)))
+			       (setf ly (min (int (* l.y height))
+					     (- height 1))))
+			  ;(landmark_point.append (tuple lx ly))
+			  (cv.circle image (tuple lx ly)
+				     1 (tuple 0 255 0)
+				     1)))
+		    (return image)))
 		 (do0
 		  (setf cap (cv.VideoCapture (string "/dev/video0")))
 		  (setf mp_face_mesh mp.solutions.face_mesh)
@@ -153,6 +172,8 @@
 					      debug_image
 					      face_landmarks))
 				 (setf debug_image
+				       (draw_landmarks debug_image face_landmarks))
+				 #+nil (setf debug_image
 				       (draw_bounding_rect
 					debug_image brect)))))
 			 (do0
