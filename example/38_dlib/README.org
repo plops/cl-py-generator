@@ -1,0 +1,12 @@
+- install on fedora:
+#+begin_example
+sudo dnf install python3-dlib 
+# python3-opencv
+#pip3 install --user python-ffmpeg
+pip3 install --user mediapipe
+#+end_example
+
+- references
+  - https://www.youtube.com/watch?v=5Au65Kimn5M
+  - https://www.youtube.com/watch?v=MbSGLWelu0g
+  - https://github.com/ai-coodinator/mediapipe-python
