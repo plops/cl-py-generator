@@ -3,7 +3,7 @@
 sudo dnf install python3-dlib 
 # python3-opencv
 #pip3 install --user python-ffmpeg
-pip3 install --user mediapipe
+pip3 install --user mediapipe mss
 #+end_example
 
 - references
