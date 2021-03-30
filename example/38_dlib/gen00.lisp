@@ -63,10 +63,11 @@
 					;datetime
 			   (np numpy)
 			   (cv cv2)
-			   (mediapipe mp)
+			   (mp mediapipe)
 			  ; jax
 			   ;jax.random
-			   ;jax.config
+					;jax.config
+			   copy
 			   ))
 		
 		 (setf
@@ -94,6 +95,32 @@
 			     )))
 
 		 (do0
-		  (setf cap (cv.VideoCapture (string "/dev/video0"))))))))
+		  (setf cap (cv.VideoCapture (string "/dev/video0")))
+		  (setf mp_face_mesh mp.solutions.face_mesh)
+		  (setf face_mesh (dot mp_face_mesh
+				       (FaceMesh
+					:max_num_faces 3
+					:min_detection_confidence .7
+					:min_tracking_confidence .5))))
+		 (do0
+		  (while True
+			 (setf (ntuple ret image)
+			       (cap.read))
+			 (unless ret
+			   break)
+			 (setf debug_image (copy.deepcopy image))
+			 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
+			 (setf results (face_mesh.process image))
+			 (do0
+			  (setf key (cv.waitKey 1))
+			  (when (== 27 key)
+			    break)
+			  )
+			 (cv.imshow (string "face mesh")
+				    debug_image))
+		  )
+		 (do0
+		  (cap.release)
+		  (cv.destroyAllWindows))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
