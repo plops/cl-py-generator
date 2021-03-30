@@ -68,8 +68,9 @@
 			   ;jax.random
 					;jax.config
 			   copy
+			   
 			   ))
-		
+		"from mss import mss"
 		 (setf
 		  _code_git_version
 		  (string ,(let ((str (with-output-to-string (s)
@@ -147,8 +148,16 @@
 				     1 (tuple 0 255 0)
 				     1)))
 		    (return image)))
+		 #+nil (do0
+		  (setf cap (cv.VideoCapture (string "/dev/video0"))))
 		 (do0
-		  (setf cap (cv.VideoCapture (string "/dev/video0")))
+		  (setf bbox (dict ((string "top") 100)
+				   ((string "left") 0)
+				   ((string "width") 400)
+				   ((string "height") 300))
+			sct (mss)))
+		 (do0
+		  
 		  (setf mp_face_mesh mp.solutions.face_mesh)
 		  (setf face_mesh (dot mp_face_mesh
 				       (FaceMesh
@@ -157,10 +166,14 @@
 					:min_tracking_confidence .5))))
 		 (do0
 		  (while True
-			 (setf (ntuple ret image)
-			       (cap.read))
-			 (unless ret
-			   break)
+			 #+nil
+			 (do0 (setf (ntuple ret image)
+				    (cap.read))
+			      (unless ret
+				break))
+			 (do0
+			  (setf sct_img (sct.grab bbox))
+			  (setf image (np.array sct_img)))
 			 (setf debug_image (copy.deepcopy image))
 			 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
 			 (setf results (face_mesh.process image))
