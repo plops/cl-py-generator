@@ -100,10 +100,11 @@
 		 #-nil (do0
 			(setf cap (cv.VideoCapture (string "/dev/video0")))
 			,@(loop for e in `((MODE 0)
+					  
 					   (FRAME_WIDTH 640)
 					   (FRAME_HEIGHT 480)
 					   (AUTO_EXPOSURE 1)
-					   (EXPOSURE 1250))
+					   (EXPOSURE 50))
 				collect
 					  (destructuring-bind (name &optional value)
 					      e
@@ -129,7 +130,7 @@
 		 (cv.namedWindow (string "image")
 				 cv.WINDOW_NORMAL)
 		 (cv.resizeWindow (string "image")
-				  (// 1920 2) 1000)
+				  (// 1920 2) 1080)
 		 (do0
 		  (while True
 			 (do0 (setf (ntuple ret image)
