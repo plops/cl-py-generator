@@ -94,43 +94,49 @@
 				     date
 				     (- tz))
 			     )))
-
+		 #+nil
+		 (print (cv.getBuildInformation))
 		 
 		 #-nil (do0
-		  (setf cap (cv.VideoCapture (string "/dev/video0"))))
-		 (do0
-		  (setf bbox (dict ((string "top") 180)
-				   ((string "left") 10)
-				   ((string "width") 512)
-				   ((string "height") 512))
-			sct (mss)))
-		 (do0
-		  
-		  (setf 
-			 mp_holistic mp.solutions.holistic
-			mp_drawing mp.solutions.drawing_utils)
-		  (setf holistic (dot mp_holistic
-				       (Holistic
-					;:max_num_faces 3
-					:min_detection_confidence .7
-					:min_tracking_confidence .5))))
-		 (do0
-		  (setf drawing_spec (mp_drawing.DrawingSpec :thickness 1 :circle_radius 1))
-		  )
+			(setf cap (cv.VideoCapture (string "/dev/video0")))
+			,@(loop for e in `( ;(MODE_YUYV)
+					   (FRAME_WIDTH 640)
+					   (FRAME_HEIGHT 480)
+					   (AUTO_EXPOSURE 1)
+					   (EXPOSURE .1))
+				collect
+					  (destructuring-bind (name &optional value)
+					      e
+					    (let ((full-mode (format nil "cv.CAP_PROP_~a" name)))
+					      `(do0
+						
+						(do0
+						 (setf r
+						       ,(if value
+							    `(cap.set ,full-mode ,value)
+							    `(cap.set ,full-mode )))
+						 (unless r
+						   (print (string ,(format nil "problem with ~a"  name))
+							  )))
+						(do0
+						 (setf r
+						       (cap.get ,full-mode ))
+						 (print (dot  (string ,(format nil "~a={}"  name))
+							      (format r))
+							)))))))
+		 
+		 
 		 (cv.namedWindow (string "image")
 				 cv.WINDOW_NORMAL)
-		 #+nil (cv.resizeWindow (string "image")
-				  1800 1000)
+		 (cv.resizeWindow (string "image")
+				  (// 1920 2) 1000)
 		 (do0
 		  (while True
-			 #+nil
 			 (do0 (setf (ntuple ret image)
 				    (cap.read))
 			      (unless ret
 				break))
-			 #-nil (do0
-			  (setf sct_img (sct.grab bbox))
-			  (setf image (np.array sct_img)))
+			 
 					;(setf debug_image (copy.deepcopy image))
 			 (do0 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
 			     ; (setf debug_image (copy.deepcopy image))

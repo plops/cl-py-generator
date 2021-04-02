@@ -119,16 +119,16 @@
 		  )
 		 (cv.namedWindow (string "image")
 				 cv.WINDOW_NORMAL)
-		 (cv.resizeWindow (string "image")
+		 #+nil (cv.resizeWindow (string "image")
 				  1800 1000)
 		 (do0
 		  (while True
-			 #-nil
+			 #+nil
 			 (do0 (setf (ntuple ret image)
 				    (cap.read))
 			      (unless ret
 				break))
-			 #+nil (do0
+			 #-nil (do0
 			  (setf sct_img (sct.grab bbox))
 			  (setf image (np.array sct_img)))
 					;(setf debug_image (copy.deepcopy image))
