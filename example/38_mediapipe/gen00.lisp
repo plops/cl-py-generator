@@ -6,7 +6,7 @@
 
 
 (progn
-  (defparameter *path* "/home/martin/stage/cl-py-generator/example/38_dlib")
+  (defparameter *path* "/home/martin/stage/cl-py-generator/example/38_mediapipe")
   (defparameter *code-file* "run_00_start")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *host*
@@ -25,7 +25,7 @@
 	 (code
 	  `(do0
 	    (do0 
-		 (do0
+		 #+nil(do0
 		  
 		  (imports (matplotlib))
                                         ;(matplotlib.use (string "QT5Agg"))
@@ -49,13 +49,13 @@
 			   ;(np numpy)
 			   ;serial
 			   ;(pd pandas)
-			   (xr xarray)
-			   (xrp xarray.plot)
+			   ;(xr xarray)
+			   ;(xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)
 					; EP_SerialIO
 			   ;scipy.ndimage
-			   scipy.optimize
+			;   scipy.optimize
 					;nfft
 			   ;sklearn
 			   ;sklearn.linear_model
@@ -151,19 +151,23 @@
 		 #+nil (do0
 		  (setf cap (cv.VideoCapture (string "/dev/video0"))))
 		 (do0
-		  (setf bbox (dict ((string "top") 100)
-				   ((string "left") 0)
-				   ((string "width") 400)
-				   ((string "height") 300))
+		  (setf bbox (dict ((string "top") 180)
+				   ((string "left") 10)
+				   ((string "width") 512)
+				   ((string "height") 512))
 			sct (mss)))
 		 (do0
 		  
-		  (setf mp_face_mesh mp.solutions.face_mesh)
+		  (setf mp_face_mesh mp.solutions.face_mesh
+			mp_drawing mp.solutions.drawing_utils)
 		  (setf face_mesh (dot mp_face_mesh
 				       (FaceMesh
 					:max_num_faces 3
 					:min_detection_confidence .7
 					:min_tracking_confidence .5))))
+		 (do0
+		  (setf drawing_spec (mp_drawing.DrawingSpec :thickness 1 :circle_radius 1))
+		 )
 		 (do0
 		  (while True
 			 #+nil
@@ -174,9 +178,21 @@
 			 (do0
 			  (setf sct_img (sct.grab bbox))
 			  (setf image (np.array sct_img)))
-			 (setf debug_image (copy.deepcopy image))
-			 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
-			 (setf results (face_mesh.process image))
+			 ;(setf debug_image (copy.deepcopy image))
+			 (do0 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
+			      (setf debug_image (copy.deepcopy image))
+			      (setf image.flags.writeable False)
+			      (setf results (face_mesh.process image)))
+
+			 (do0
+			  (when results.multi_face_landmarks
+			    (for (face_landmarks results.multi_face_landmarks)
+				 (mp_drawing.draw_landmarks
+				  :image debug_image
+				  :landmark_list face_landmarks
+				  :connections mp_face_mesh.FACE_CONNECTIONS
+				  :connection_drawing_spec drawing_spec))))
+			 #+nil
 			 (do0
 			  (unless (is results.multi_face_landmarks
 				      None)

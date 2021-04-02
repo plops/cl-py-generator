@@ -1,17 +1,11 @@
-import matplotlib
-import matplotlib.pyplot as plt
-plt.ion()
-import xarray as xr
-import xarray.plot as xrp
-import scipy.optimize
 import numpy as np
 import cv2 as cv
 import mediapipe as mp
 import copy
 from mss import mss
-_code_git_version="d1fe65da2a4f27df5fe3627d03a0c12224220710"
+_code_git_version="11c29ec1eb5904a34f8daa21e01267a09e19f4ec"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="21:47:42 of Tuesday, 2021-03-30 (GMT+1)"
+_code_generation_time="05:19:05 of Friday, 2021-04-02 (GMT+1)"
 def calc_bounding_rect(image, landmarks):
     height, width=image.shape[0:2]
     landmark_array=np.empty((0,2,), int)
@@ -37,17 +31,19 @@ def draw_landmarks(image, landmarks):
 bbox={("top"):(180),("left"):(10),("width"):(512),("height"):(512)}
 sct=mss()
 mp_face_mesh=mp.solutions.face_mesh
+mp_drawing=mp.solutions.drawing_utils
 face_mesh=mp_face_mesh.FaceMesh(max_num_faces=3, min_detection_confidence=(0.70    ), min_tracking_confidence=(0.50    ))
+drawing_spec=mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 while (True):
     sct_img=sct.grab(bbox)
     image=np.array(sct_img)
-    debug_image=copy.deepcopy(image)
     image=cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    debug_image=copy.deepcopy(image)
+    image.flags.writeable=False
     results=face_mesh.process(image)
-    if ( not((results.multi_face_landmarks is None)) ):
+    if ( results.multi_face_landmarks ):
         for face_landmarks in results.multi_face_landmarks:
-            brect=calc_bounding_rect(debug_image, face_landmarks)
-            debug_image=draw_landmarks(debug_image, face_landmarks)
+            mp_drawing.draw_landmarks(image=debug_image, landmark_list=face_landmarks, connections=mp_face_mesh.FACE_CONNECTIONS, connection_drawing_spec=drawing_spec)
     key=cv.waitKey(1)
     if ( ((27)==(key)) ):
         break
