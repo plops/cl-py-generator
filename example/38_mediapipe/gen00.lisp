@@ -178,13 +178,13 @@
 			 (do0
 			  (setf sct_img (sct.grab bbox))
 			  (setf image (np.array sct_img)))
-			 ;(setf debug_image (copy.deepcopy image))
+			 (setf debug_image (copy.deepcopy image))
 			 (do0 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
-			      (setf debug_image (copy.deepcopy image))
+			      ;(setf debug_image (copy.deepcopy image))
 			      (setf image.flags.writeable False)
 			      (setf results (face_mesh.process image)))
 
-			 (do0
+			 #+nil (do0
 			  (when results.multi_face_landmarks
 			    (for (face_landmarks results.multi_face_landmarks)
 				 (mp_drawing.draw_landmarks
@@ -192,7 +192,7 @@
 				  :landmark_list face_landmarks
 				  :connections mp_face_mesh.FACE_CONNECTIONS
 				  :connection_drawing_spec drawing_spec))))
-			 #+nil
+			 #-nil
 			 (do0
 			  (unless (is results.multi_face_landmarks
 				      None)

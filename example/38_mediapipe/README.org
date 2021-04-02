@@ -6,8 +6,15 @@ sudo dnf install python3-dlib
 pip3 install --user mediapipe mss
 #+end_example
 
+- content
+|       |                |   |
+| gen00 | face landmarks |   |
+| gen01 | holistic body landmarks |   |
+
 - references
   - https://www.youtube.com/watch?v=5Au65Kimn5M
   - https://www.youtube.com/watch?v=MbSGLWelu0g
   - https://github.com/ai-coodinator/mediapipe-python
   - https://google.github.io/mediapipe/solutions/face_mesh.html
+  - https://www.youtube.com/watch?v=V9CiJhHQKkc live perception
+
