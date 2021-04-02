@@ -99,11 +99,11 @@
 		 
 		 #-nil (do0
 			(setf cap (cv.VideoCapture (string "/dev/video0")))
-			,@(loop for e in `( ;(MODE_YUYV)
+			,@(loop for e in `((MODE 0)
 					   (FRAME_WIDTH 640)
 					   (FRAME_HEIGHT 480)
 					   (AUTO_EXPOSURE 1)
-					   (EXPOSURE .1))
+					   (EXPOSURE 1250))
 				collect
 					  (destructuring-bind (name &optional value)
 					      e
@@ -138,27 +138,13 @@
 				break))
 			 
 					;(setf debug_image (copy.deepcopy image))
-			 (do0 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
+			 (do0 ;(setf image (cv.cvtColor image cv.COLOR_YUYV2RGB))
 			     ; (setf debug_image (copy.deepcopy image))
 
 			      (setf image.flags.writeable False)
-			      (setf results (holistic.process image)))
+			      )
 
-			 (do0
-			   (setf image.flags.writeable True)
-			   
-			   (setf image (cv.cvtColor image cv.COLOR_RGB2BGR))
-			   ,@(loop for (e f) in `((face_landmarks FACE_CONNECTIONS)
-						  (right_hand_landmarks HAND_CONNECTIONS)
-						  (left_hand_landmarks HAND_CONNECTIONS)
-						  (pose_landmarks POSE_CONNECTIONS))
-				   collect
-				   `
-			      (mp_drawing.draw_landmarks
-			       :image image ;debug_image
-			       :landmark_list (dot results ,e)
-			       :connections (dot mp_holistic ,f)
-			       :connection_drawing_spec drawing_spec)))
+			
 			 
 			 (do0
 			  (setf key (cv.waitKey 1))
@@ -166,11 +152,10 @@
 			    break)
 			  )
 			 (cv.imshow (string "image")
-				    image ; debug_image
-				    ))
+				    image ))
 		  )
 		 (do0
-		  ;(cap.release)
+		  (cap.release)
 		  (cv.destroyAllWindows))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
