@@ -96,7 +96,7 @@
 			     )))
 
 		 
-		 #+nil (do0
+		 #-nil (do0
 		  (setf cap (cv.VideoCapture (string "/dev/video0"))))
 		 (do0
 		  (setf bbox (dict ((string "top") 180)
@@ -116,18 +116,22 @@
 					:min_tracking_confidence .5))))
 		 (do0
 		  (setf drawing_spec (mp_drawing.DrawingSpec :thickness 1 :circle_radius 1))
-		 )
+		  )
+		 (cv.namedWindow (string "image")
+				 cv.WINDOW_NORMAL)
+		 (cv.resizeWindow (string "image")
+				  1800 1000)
 		 (do0
 		  (while True
-			 #+nil
+			 #-nil
 			 (do0 (setf (ntuple ret image)
 				    (cap.read))
 			      (unless ret
 				break))
-			 (do0
+			 #+nil (do0
 			  (setf sct_img (sct.grab bbox))
 			  (setf image (np.array sct_img)))
-			 ;(setf debug_image (copy.deepcopy image))
+					;(setf debug_image (copy.deepcopy image))
 			 (do0 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
 			     ; (setf debug_image (copy.deepcopy image))
 
@@ -155,7 +159,7 @@
 			  (when (== 27 key)
 			    break)
 			  )
-			 (cv.imshow (string "body")
+			 (cv.imshow (string "image")
 				    image ; debug_image
 				    ))
 		  )
