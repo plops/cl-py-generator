@@ -71,7 +71,11 @@
 			   
 			   ))
 		,@(loop for (pkg exprs) in `((kivy.app (App))
-					     (kivy.uix.widget (Widget)))
+					     (kivy.uix.widget (Widget))
+					     (kivy.properties (NumericProperty
+							       ReferenceListProperty)
+							      )
+					     (kivy.vector (Vector)))
 			collect
 			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
 		 (setf
@@ -97,11 +101,6 @@
 				     date
 				     (- tz))
 			     )))
-		 (class PongGame (Widget)
-			pass)
-		 (class PongApp (App)
-			(def build (self)
-			  (return (PongGame))))
 		 (class PongBall (Widget)
 			(setf vx (NumericProperty 0)
 			      vy (NumericProperty 0)
@@ -110,6 +109,12 @@
 			  (setf self.pos
 				(+ (Vector *self.v)
 				   self.pos))))
+		 (class PongGame (Widget)
+			pass)
+		 (class PongApp (App)
+			(def build (self)
+			  (return (PongGame))))
+		 
 		 (when (== __name__ (string "__main__"))
 		   (dot (PongApp)
 			(run)))))))
@@ -118,26 +123,35 @@
 			    :if-exists :supersede
 			    :if-does-not-exist :create)
       (format s "#:kivy 1.0.9
-<PongGame>:
- canvas:
-  Rectangle:
-   pos: self.center_x-5, 0
-   size: 10, self.height
-  Label:
-   font_size: 70
-   center_x: root.width / 4
-   top: root.top - 50
-   text: '0'
-  Label:
-   font_size: 70
-   center_x: root.width * 3 / 4
-   top: root.top - 50
-   text: '0'
+
+
 <PongBall>:
- size: 50, 50
- canvas:
-  Ellipse:
-   pos: self.pos
-   size: self.size
+    size: 50, 50 
+    canvas:
+        Ellipse:
+            pos: self.pos
+            size: self.size          
+
+<PongGame>:
+    canvas:
+        Rectangle:
+            pos: self.center_x - 5, 0
+            size: 10, self.height
+    
+    Label:
+        font_size: 70  
+        center_x: root.width / 4
+        top: root.top - 50
+        text: "0"
+        
+    Label:
+        font_size: 70  
+        center_x: root.width * 3 / 4
+        top: root.top - 50
+        text: "0"
+    
+    PongBall:
+        center: self.parent.center
+        
   "))))
 
