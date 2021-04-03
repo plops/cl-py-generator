@@ -69,14 +69,16 @@
 			   ;jax.config
 			   copy
 			   
-			   ))
+				 ))
+		(imports (random))
 		,@(loop for (pkg exprs) in `((kivy.app (App))
 					     (kivy.uix.widget (Widget))
 					     (kivy.properties (NumericProperty
 							       ReferenceListProperty
 							       ObjectProperty)
 							      )
-					     (kivy.vector (Vector)))
+					     (kivy.vector (Vector))
+					     (kivy.clock (Clock)))
 			collect
 			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
 		 (setf
@@ -116,7 +118,7 @@
 			  (setf self.ball.center self.center
 				self.ball.v (dot
 					     (Vector 4 0)
-					     (rotate (randint 0 360)))))
+					     (rotate (random.randint 0 360)))))
 			(def update (self dt)
 			  (do0
 			   (self.ball.move)
@@ -128,14 +130,16 @@
 			     (setf self.ball.vx (* -1 self.ball.vx))))
 			  pass))
 		 (class PongApp (App)
+			(setf game None)
 			(def build (self)
-			  (setf game (PongGame))
-			  (Clock.schedule_interval game.update
+			  (setf self.game (PongGame))
+			  (Clock.schedule_interval self.game.update
 						   (/ 1s0 60))
-			  (return game)))
+			  (return self.game)))
 		 
 		 (when (== __name__ (string "__main__"))
-		   (dot (PongApp)
+		   (setf app (PongApp))
+		   (dot app
 			(run)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
     (with-output-to-file (s (format nil "~a/source/pong.kv" *path*)
@@ -152,7 +156,9 @@
             size: self.size          
 
 <PongGame>:
-    ball: pong_ball
+
+    ball: pong_ball        
+    
     canvas:
         Rectangle:
             pos: self.center_x - 5, 0
@@ -162,17 +168,18 @@
         font_size: 70  
         center_x: root.width / 4
         top: root.top - 50
-        text: "0"
+        text: '0'
         
     Label:
         font_size: 70  
         center_x: root.width * 3 / 4
         top: root.top - 50
-        text: "0"
+        text: '0'
     
     PongBall:
         id: pong_ball
         center: self.parent.center
-        
+
+
   "))))
 
