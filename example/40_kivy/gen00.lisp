@@ -73,7 +73,8 @@
 		,@(loop for (pkg exprs) in `((kivy.app (App))
 					     (kivy.uix.widget (Widget))
 					     (kivy.properties (NumericProperty
-							       ReferenceListProperty)
+							       ReferenceListProperty
+							       ObjectProperty)
 							      )
 					     (kivy.vector (Vector)))
 			collect
@@ -110,10 +111,28 @@
 				(+ (Vector *self.v)
 				   self.pos))))
 		 (class PongGame (Widget)
-			pass)
+			(setf ball (ObjectProperty None))
+			(def serve_ball (self)
+			  (setf self.ball.center self.center
+				self.ball.v (dot
+					     (Vector 4 0)
+					     (rotate (randint 0 360)))))
+			(def update (self dt)
+			  (do0
+			   (self.ball.move)
+			   (when (or (< self.ball.y 0)
+				     (< self.height self.ball.top))
+			     (setf self.ball.vy (* -1 self.ball.vy)))
+			   (when (or (< self.ball.x 0)
+				     (< self.width self.ball.right))
+			     (setf self.ball.vx (* -1 self.ball.vx))))
+			  pass))
 		 (class PongApp (App)
 			(def build (self)
-			  (return (PongGame))))
+			  (setf game (PongGame))
+			  (Clock.schedule_interval game.update
+						   (/ 1s0 60))
+			  (return game)))
 		 
 		 (when (== __name__ (string "__main__"))
 		   (dot (PongApp)
@@ -133,6 +152,7 @@
             size: self.size          
 
 <PongGame>:
+    ball: pong_ball
     canvas:
         Rectangle:
             pos: self.center_x - 5, 0
@@ -151,6 +171,7 @@
         text: "0"
     
     PongBall:
+        id: pong_ball
         center: self.parent.center
         
   "))))
