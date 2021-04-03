@@ -1,9 +1,10 @@
 import time
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-_code_git_version="fd0d92dac2da1d46aaebfe76e9adf4306fd21da8"
+from camera import Camera2
+_code_git_version="879cb56fa01c7ee9dc2f7093b6a7b04656e7f96e"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="20:09:06 of Saturday, 2021-04-03 (GMT+1)"
+_code_generation_time="21:28:12 of Saturday, 2021-04-03 (GMT+1)"
 class MainLayout(BoxLayout):
     pass
 class MainApp(App):
