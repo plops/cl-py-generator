@@ -3,10 +3,12 @@ import cv2 as cv
 import mediapipe as mp
 import copy
 from mss import mss
-_code_git_version="bed9720ccc3a8c9dc3d4a482c386686b7d62e3f3"
+_code_git_version="d836113e90419830b996dc14d91b5fcd8f4617b4"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="16:26:45 of Friday, 2021-04-02 (GMT+1)"
-cap=cv.VideoCapture("/dev/video0")
+_code_generation_time="22:52:45 of Saturday, 2021-04-03 (GMT+1)"
+cam=False
+if ( cam ):
+    cap=cv.VideoCapture("/dev/video0")
 bbox={("top"):(180),("left"):(10),("width"):(512),("height"):(512)}
 sct=mss()
 mp_holistic=mp.solutions.holistic
@@ -15,8 +17,13 @@ holistic=mp_holistic.Holistic(min_detection_confidence=(0.70    ), min_tracking_
 drawing_spec=mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 cv.namedWindow("image", cv.WINDOW_NORMAL)
 while (True):
-    sct_img=sct.grab(bbox)
-    image=np.array(sct_img)
+    if ( cam ):
+        ret, image=cap.read()
+        if ( not(ret) ):
+            break
+    else:
+        sct_img=sct.grab(bbox)
+        image=np.array(sct_img)
     image=cv.cvtColor(image, cv.COLOR_BGR2RGB)
     image.flags.writeable=False
     results=holistic.process(image)
@@ -30,4 +37,6 @@ while (True):
     if ( ((27)==(key)) ):
         break
     cv.imshow("image", image)
+if ( cam ):
+    cap.release()
 cv.destroyAllWindows()

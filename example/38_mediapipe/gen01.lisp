@@ -95,9 +95,10 @@
 				     (- tz))
 			     )))
 
-		 
-		 #-nil (do0
-		  (setf cap (cv.VideoCapture (string "/dev/video0"))))
+		 (setf cam True)
+		 (when cam
+		     (do0
+		    (setf cap (cv.VideoCapture (string "/dev/video0")))))
 		 (do0
 		  (setf bbox (dict ((string "top") 180)
 				   ((string "left") 10)
@@ -123,14 +124,14 @@
 				  1800 1000)
 		 (do0
 		  (while True
-			 #+nil
-			 (do0 (setf (ntuple ret image)
-				    (cap.read))
-			      (unless ret
-				break))
-			 #-nil (do0
-			  (setf sct_img (sct.grab bbox))
-			  (setf image (np.array sct_img)))
+			 (if cam
+			  (do0 (setf (ntuple ret image)
+				     (cap.read))
+			       (unless ret
+				 break))
+			  (do0
+			   (setf sct_img (sct.grab bbox))
+			   (setf image (np.array sct_img))))
 					;(setf debug_image (copy.deepcopy image))
 			 (do0 (setf image (cv.cvtColor image cv.COLOR_BGR2RGB))
 			     ; (setf debug_image (copy.deepcopy image))
@@ -164,7 +165,8 @@
 				    ))
 		  )
 		 (do0
-		  ;(cap.release)
+		  (when cam
+		    (cap.release))
 		  (cv.destroyAllWindows))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
