@@ -104,6 +104,20 @@
 				     date
 				     (- tz))
 			     )))
+		 (class PongPaddle (Widget)
+			(setf score (NumericProperty 0))
+			(def bounce_ball (self ball)
+			  (when (self.collide_widget ball)
+			    (setf (ntuple vx vy) ball.v
+				  offset (/ (- ball.center_y
+					       self.center_y)
+					    (* .5 self.height))
+				  bounced (Vector (* -1 vx)
+						  vy)
+				  vel (* 1.1 bounced)
+				  ball.velocity (ntuple vel.x
+							(+ vel.y offset)))
+			    )))
 		 (class PongBall (Widget)
 			(setf vx (NumericProperty 0)
 			      vy (NumericProperty 0)
@@ -113,26 +127,47 @@
 				(+ (Vector *self.v)
 				   self.pos))))
 		 (class PongGame (Widget)
-			(setf ball (ObjectProperty None))
-			(def serve_ball (self)
+			,@(loop for e in `(ball player1 player2)
+				collect
+				`(setf ,e (ObjectProperty None)))
+			(def serve_ball (self &key (vel (tuple 4 0)))
 			  (setf self.ball.center self.center
-				self.ball.v (dot
-					     (Vector 4 0)
-					     (rotate (random.randint 0 360)))))
+				self.ball.v vel))
 			(def update (self dt)
 			  (do0
 			   (self.ball.move)
+			   ,@(loop for e in `(player1
+					      player2)
+				   collect
+				   `((dot self
+					  ,e
+					  bounce_ball)
+				     self.ball))
 			   (when (or (< self.ball.y 0)
 				     (< self.height self.ball.top))
 			     (setf self.ball.vy (* -1 self.ball.vy)))
-			   (when (or (< self.ball.x 0)
+			   #+nil (when (or (< self.ball.x 0)
 				     (< self.width self.ball.right))
-			     (setf self.ball.vx (* -1 self.ball.vx))))
-			  pass))
+				   (setf self.ball.vx (* -1 self.ball.vx)))
+			   ,@(loop for (e f) in `((player2 (< self.ball.x
+							      self.x))
+						  (player1 (< self.width
+							      self.x)))
+				   collect
+				   `(when ,f
+				      (incf (dot self ,e  score))
+				      (self.serve_ball :vel (tuple 4 0)))))
+			  )
+			(def on_touch_move (self touch)
+			  (when (< touch.x (/ self.width 3))
+			    (setf self.player1.center_y touch.y))
+			  (when (< (- self.width (/ self.width 3)) touch.x )
+			    (setf self.player2.center_y touch.y))))
 		 (class PongApp (App)
 			(setf game None)
 			(def build (self)
 			  (setf self.game (PongGame))
+			  (self.game.serve_ball)
 			  (Clock.schedule_interval self.game.update
 						   (/ 1s0 60))
 			  (return self.game)))
@@ -155,31 +190,48 @@
             pos: self.pos
             size: self.size          
 
+<PongPaddle>:
+    size: 25, 200
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
 <PongGame>:
 
     ball: pong_ball        
-    
+    player1: player_left
+    player2: player_right
     canvas:
         Rectangle:
             pos: self.center_x - 5, 0
             size: 10, self.height
-    
+      
     Label:
         font_size: 70  
         center_x: root.width / 4
         top: root.top - 50
-        text: '0'
+        text: str(root.player1.score)
         
     Label:
         font_size: 70  
         center_x: root.width * 3 / 4
         top: root.top - 50
-        text: '0'
+        text: str(root.player2.score)
     
     PongBall:
         id: pong_ball
         center: self.parent.center
-
+        
+    PongPaddle:
+        id: player_left
+        x: root.x
+        center_y: root.center_y
+        
+    PongPaddle:
+        id: player_right
+        x: root.width - self.width
+        center_y: root.center_y
 
   "))))
 
