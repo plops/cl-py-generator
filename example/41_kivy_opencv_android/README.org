@@ -1,0 +1,9 @@
+- https://python-for-android.readthedocs.io/en/latest/quickstart/
+- to see what packages are supported
+#+begin_example
+pip3 install --user python-for-android
+p4a recipes
+#+end_example
+
+- opencv depends on numpy
+- no mediapipe
