@@ -7,7 +7,7 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/40_kivy")
-  (defparameter *code-file* "run_00_kivy")
+  (defparameter *code-file* "main")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *host*
     "10.1.99.12")

@@ -4,9 +4,17 @@
 - https://www.youtube.com/watch?v=yr7n0C2tspI kivy app to apk
 #+begin_example
 pip3 install --user buildozer
+
 #+end_example
 
 - https://kivy.org/doc/stable/gettingstarted/installation.html
 #+begin_example
 pip3 install --user 'kivy[full]'
+# on fedora:
+sudo dnf install java-latest-openjdk-devel libtool perl-FindBin
+cd source
+buildozer init
+buildozer -v android debug
 #+end_example
+
+- final directory is 1.4G    .

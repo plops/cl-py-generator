@@ -4,9 +4,9 @@ from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
 from kivy.vector import Vector
 from kivy.clock import Clock
-_code_git_version="a2e0e15ccc8b29bd3f99c03782fe2bf729f417fa"
+_code_git_version="79ec8fe5fe8ec95d3ac6026eb1e502bbada7c7ba"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="18:11:34 of Saturday, 2021-04-03 (GMT+1)"
+_code_generation_time="18:16:02 of Saturday, 2021-04-03 (GMT+1)"
 class PongPaddle(Widget):
     score=NumericProperty(0)
     def bounce_ball(self, ball):
