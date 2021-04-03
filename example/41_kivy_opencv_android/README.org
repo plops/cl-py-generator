@@ -7,3 +7,5 @@ p4a recipes
 
 - opencv depends on numpy
 - no mediapipe
+
+- example code: https://github.com/liyuanrui/kivy-for-android-opencv-demo

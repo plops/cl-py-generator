@@ -79,7 +79,8 @@
 							       ObjectProperty)
 							      )
 					     ;(kivy.vector (Vector))
-					     ;(kivy.clock (Clock))
+					(kivy.clock (Clock))
+					     (camera (Camera2))
 					     )
 			collect
 			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
@@ -128,61 +129,67 @@
 		   (dot app
 			(run)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
+    (write-source (format nil "~a/source/camera" *path*)
+		  `(do0
+		    (imports (kivy
+			      (cv cv2)
+			      (np numpy)
+			      ))
+		    ,@(loop for (pkg exprs) in
+			    `((kivy.uix.camera (Camera))
+			      (kivy.graphics.texture (Texture)))
+			collect
+			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
+		    (class Camera2 (Camera)
+			   (setf first_frame None)
+			   (def _camera_loaded (self *largs)
+			     (if (== kivy.platform (string "android"))
+				 (setf self.texture (Texture.create :size self.resolution
+								    :colorfmt (string "rgb"))
+				       self.texture_size (list self.texture.size))
+				 (dot (super Camera2 self)
+				      (_camera_loaded))))
+			   (def on_tex (self *l)
+			     (when (== kivy.platform (string "android"))
+			       (setf buf (self._camera.grab_frame))
+			       (unless buf
+				 (return))
+			       (setf frame (self._camera.decode_frame buf)
+				     frame (self.process_frame frame)
+				     self.image frame
+				     buf (frame.tostring)
+				     )
+			       (self.texture.blit_buffer buf
+							 :colorfmt (string "rgb")
+							 :bufferfmt (string "ubyte")))
+			     (dot (super Camera2 self)
+				  (on_tex *l)))
+			   (def process_frame (self frame)
+			     (setf (ntuple r g b) (cv.split frame)
+				   frame (cv.merge (tuple b g r))
+				   (ntuple rows cols channel) frame.shape
+				   M (cv.getRotationMatrix2D (tuple (/ cols 2)
+								    (/ rows 2)
+								    90 1))
+				   dst (cv.warpAffine frame M (tuple cols rows))
+				   frame (cv.flip dst 1))
+			     (when (== self.index 1)
+			       (setf frame (cv.flit dst -1)))
+			     (return frame)))))
     (with-output-to-file (s (format nil "~a/source/main.kv" *path*)
 			    :if-exists :supersede
 			    :if-does-not-exist :create)
       (format s "#:kivy 1.0.9
 
-
-<PongBall>:
-    size: 50, 50 
-    canvas:
-        Ellipse:
-            pos: self.pos
-            size: self.size          
-
-<PongPaddle>:
-    size: 25, 200
-    canvas:
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-<PongGame>:
-
-    ball: pong_ball        
-    player1: player_left
-    player2: player_right
-    canvas:
-        Rectangle:
-            pos: self.center_x - 5, 0
-            size: 10, self.height
-      
-    Label:
-        font_size: 70  
-        center_x: root.width / 4
-        top: root.top - 50
-        text: str(root.player1.score)
-        
-    Label:
-        font_size: 70  
-        center_x: root.width * 3 / 4
-        top: root.top - 50
-        text: str(root.player2.score)
+<MainLayout>:
+    orientation: 'vertical'
+    padding: (36, 36)
     
-    PongBall:
-        id: pong_ball
-        center: self.parent.center
-        
-    PongPaddle:
-        id: player_left
-        x: root.x
-        center_y: root.center_y
-        
-    PongPaddle:
-        id: player_right
-        x: root.width - self.width
-        center_y: root.center_y
+    Camera2:
+        index: 0
+        resolution: (640,480)
+        id: camera
+        play: True
 
-  "))))
+"))))
 

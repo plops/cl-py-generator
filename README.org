@@ -27,7 +27,7 @@
 | 25 | fastai2_again        |       |                                                                                         |
 | 26 | copernicus_xsd       |    4% | i thought i can use the xsd files to open the binary data, but i can't figure out how   |
 |    |                      |       |                                                                                         |
-| 40 | kivy                 |       | runs python and kivy on android                                                         |
+| 40 | kivy                 |       | pong game, runs python and kivy on android                                              |
 * References
 
 - https://norvig.com/python-lisp.html
