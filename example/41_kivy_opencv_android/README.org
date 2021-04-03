@@ -37,3 +37,5 @@ See also "/home/martin/stage/cl-py-generator/example/41_kivy_opencv_android/sour
 - https://github.com/opencv/opencv/issues/18131
 - they seem to use a specific cmake file, maybe this one: ~/buildozer/android/platform/android-ndk-r19c/build/cmake/android.toolchain.cmake
 
+- https://github.com/opencv/opencv/issues/18131
+- maybe i wait a few months until they sort this out
