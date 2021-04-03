@@ -9,3 +9,31 @@ p4a recipes
 - no mediapipe
 
 - example code: https://github.com/liyuanrui/kivy-for-android-opencv-demo
+
+- build apk:
+#+begin_example
+buildozer -v android debug
+#+end_example
+
+- i am blocked, buildozer doesn't create the android version of opencv
+#+begin_example
+-- Android SDK Tools: ver. 2.0 (description: 'Android SDK Command-line Tools')
+-- Android SDK Build Tools: ver. 31.0.0-rc2 (subdir 31.0.0-rc2 from 31.0.0-rc2)
+CMake Error at cmake/android/OpenCVDetectAndroidSDK.cmake:176 (message):
+  Android SDK Tools: OpenCV requires Android SDK Tools revision 14 or newer.
+
+  Use BUILD_ANDROID_PROJECTS=OFF to prepare Android project files without
+  building them
+Call Stack (most recent call first):
+  CMakeLists.txt:780 (include)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/martin/stage/cl-py-generator/example/41_kivy_opencv_android/source/.buildozer/android/platform/build-armeabi-v7a/build/other_builds/opencv/armeabi-v7a__ndk_target_21/opencv/build/CMakeFiles/CMakeOutput.log".
+See also "/home/martin/stage/cl-py-generator/example/41_kivy_opencv_android/source/.buildozer/android/platform/build-armeabi-v7a/build/other_builds/opencv/armeabi-v7a__ndk_target_21/opencv/build/CMakeFiles/CMakeError.log".
+
+#+end_example
+
+- https://github.com/opencv/opencv/issues/18131
+- they seem to use a specific cmake file, maybe this one: ~/buildozer/android/platform/android-ndk-r19c/build/cmake/android.toolchain.cmake
+

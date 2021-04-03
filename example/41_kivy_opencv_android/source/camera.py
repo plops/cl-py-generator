@@ -4,7 +4,7 @@ import numpy as np
 from kivy.uix.camera import Camera
 from kivy.graphics.texture import Texture
 class Camera2(Camera):
-    first_frame=None
+    firstFrame=None
     def _camera_loaded(self, *largs):
         if ( ((kivy.platform)==("android")) ):
             self.texture=Texture.create(size=self.resolution, colorfmt="rgb")

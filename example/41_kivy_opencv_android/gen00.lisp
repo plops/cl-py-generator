@@ -119,8 +119,8 @@
 				(ntuple rows cols) (aref image.shape ":2")
 				ctime (aref (time.ctime)
 					    "11:19")
-				self.root.ids.label.text
-				(dot (string "{:s} {}x{} image")
+				;self.root.ids.label.text
+				#+nil (dot (string "{:s} {}x{} image")
 				     (format ctime rows cols)))
 			  (Clock.schedule_once self.detect 1)))
 		 
@@ -141,7 +141,7 @@
 			collect
 			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
 		    (class Camera2 (Camera)
-			   (setf first_frame None)
+			   (setf firstFrame None)
 			   (def _camera_loaded (self *largs)
 			     (if (== kivy.platform (string "android"))
 				 (setf self.texture (Texture.create :size self.resolution
