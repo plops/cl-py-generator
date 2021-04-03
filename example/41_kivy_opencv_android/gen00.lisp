@@ -6,7 +6,7 @@
 
 
 (progn
-  (defparameter *path* "/home/martin/stage/cl-py-generator/example/40_kivy")
+  (defparameter *path* "/home/martin/stage/cl-py-generator/example/41_kivy_opencv_android")
   (defparameter *code-file* "main")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *host*
@@ -70,15 +70,17 @@
 			   copy
 			   
 				 ))
-		(imports (random))
+		(imports (time))
 		,@(loop for (pkg exprs) in `((kivy.app (App))
-					     (kivy.uix.widget (Widget))
-					     (kivy.properties (NumericProperty
+					;(kivy.uix.widget (Widget))
+					     (kivy.uix.boxlayout (BoxLayout))
+					     #+nil (kivy.properties (NumericProperty
 							       ReferenceListProperty
 							       ObjectProperty)
 							      )
-					     (kivy.vector (Vector))
-					     (kivy.clock (Clock)))
+					     ;(kivy.vector (Vector))
+					     ;(kivy.clock (Clock))
+					     )
 			collect
 			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
 		 (setf
@@ -104,82 +106,29 @@
 				     date
 				     (- tz))
 			     )))
-		 (class PongPaddle (Widget)
-			(setf score (NumericProperty 0))
-			(def bounce_ball (self ball)
-			  (when (self.collide_widget ball)
-			    (setf (ntuple vx vy) ball.v
-				  offset (/ (- ball.center_y
-					       self.center_y)
-					    (* .5 self.height))
-				  bounced (Vector (* -1 vx)
-						  vy)
-				  vel (* bounced 1.1)
-				  ball.v (ntuple vel.x
-							(+ vel.y offset)))
-			    )))
-		 (class PongBall (Widget)
-			(setf vx (NumericProperty 0)
-			      vy (NumericProperty 0)
-			      v (ReferenceListProperty vx vy))
-			(def move (self)
-			  (setf self.pos
-				(+ (Vector *self.v)
-				   self.pos))))
-		 (class PongGame (Widget)
-			,@(loop for e in `(ball player1 player2)
-				collect
-				`(setf ,e (ObjectProperty None)))
-			(def serve_ball (self &key (vel (tuple 4 0)))
-			  (setf self.ball.center self.center
-				self.ball.v vel))
-			(def update (self dt)
-			  (do0
-			   (self.ball.move)
-			   ,@(loop for e in `(player1
-					      player2)
-				   collect
-				   `(dot self
-					 ,e
-					 (bounce_ball self.ball))
-				   )
-			   (when (or (< self.ball.y self.y)
-				     (< self.top self.ball.top ))
-			     (setf self.ball.vy (* -1 self.ball.vy)))
-			 
-			   ,@(loop for (e f vx) in `((player2 (< self.ball.x
-							      self.x)
-							   4)
-						  (player1 (< self.width
-							      self.ball.x)
-							   -4))
-				   collect
-				   `(when ,f
-				      (setf  (dot self ,e  score)
-					     (+ 1
-					      (dot self ,e  score)))
-				      (self.serve_ball :vel (tuple ,vx 0)))))
-			  )
-			(def on_touch_move (self touch)
-			  (when (< touch.x (/ self.width 3))
-			    (setf self.player1.center_y touch.y))
-			  (when (< (- self.width (/ self.width 3)) touch.x )
-			    (setf self.player2.center_y touch.y))))
-		 (class PongApp (App)
-			(setf game None)
-			(def build (self)
-			  (setf self.game (PongGame))
-			  (self.game.serve_ball)
-			  (Clock.schedule_interval self.game.update
-						   (/ 1s0 60))
-			  (return self.game)))
+		 (class MainLayout (BoxLayout)
+			pass)
+		 (class MainApp (App)
+		    	(def build (self)
+			  (return (MainLayout)))
+			(def on_start (self)
+			  (Clock.schedule_once self.detect 5))
+			(def detect (self nap)
+			  (setf image self.root.ids.camera.image
+				(ntuple rows cols) (aref image.shape ":2")
+				ctime (aref (time.ctime)
+					    "11:19")
+				self.root.ids.label.text
+				(dot (string "{:s} {}x{} image")
+				     (format ctime rows cols)))
+			  (Clock.schedule_once self.detect 1)))
 		 
 		 (when (== __name__ (string "__main__"))
-		   (setf app (PongApp))
+		   (setf app (MainApp))
 		   (dot app
 			(run)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
-    (with-output-to-file (s (format nil "~a/source/pong.kv" *path*)
+    (with-output-to-file (s (format nil "~a/source/main.kv" *path*)
 			    :if-exists :supersede
 			    :if-does-not-exist :create)
       (format s "#:kivy 1.0.9
