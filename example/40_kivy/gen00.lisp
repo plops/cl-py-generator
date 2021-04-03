@@ -114,8 +114,8 @@
 					    (* .5 self.height))
 				  bounced (Vector (* -1 vx)
 						  vy)
-				  vel (* 1.1 bounced)
-				  ball.velocity (ntuple vel.x
+				  vel (* bounced 1.1)
+				  ball.v (ntuple vel.x
 							(+ vel.y offset)))
 			    )))
 		 (class PongBall (Widget)
@@ -139,24 +139,26 @@
 			   ,@(loop for e in `(player1
 					      player2)
 				   collect
-				   `((dot self
-					  ,e
-					  bounce_ball)
-				     self.ball))
-			   (when (or (< self.ball.y 0)
-				     (< self.height self.ball.top))
+				   `(dot self
+					 ,e
+					 (bounce_ball self.ball))
+				   )
+			   (when (or (< self.ball.y self.y)
+				     (< self.top self.ball.top ))
 			     (setf self.ball.vy (* -1 self.ball.vy)))
-			   #+nil (when (or (< self.ball.x 0)
-				     (< self.width self.ball.right))
-				   (setf self.ball.vx (* -1 self.ball.vx)))
-			   ,@(loop for (e f) in `((player2 (< self.ball.x
-							      self.x))
+			 
+			   ,@(loop for (e f vx) in `((player2 (< self.ball.x
+							      self.x)
+							   4)
 						  (player1 (< self.width
-							      self.x)))
+							      self.ball.x)
+							   -4))
 				   collect
 				   `(when ,f
-				      (incf (dot self ,e  score))
-				      (self.serve_ball :vel (tuple 4 0)))))
+				      (setf  (dot self ,e  score)
+					     (+ 1
+					      (dot self ,e  score)))
+				      (self.serve_ball :vel (tuple ,vx 0)))))
 			  )
 			(def on_touch_move (self touch)
 			  (when (< touch.x (/ self.width 3))
