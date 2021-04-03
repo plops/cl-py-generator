@@ -19,3 +19,4 @@ buildozer -v android debug
 
 - final directory is 1.4G    .
 - apk is 13Mb
+
