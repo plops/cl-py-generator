@@ -1,0 +1,5 @@
+- https://www.youtube.com/watch?v=9JH8r8mz0g4 kivy basics (for desktop)
+- https://www.youtube.com/watch?v=yr7n0C2tspI kivy app to apk
+#+begin_example
+pip3 install --user buildozer
+#+end_example
