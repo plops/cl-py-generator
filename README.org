@@ -27,9 +27,10 @@
 | 25 | fastai2_again        |       |                                                                                                              |   |   |
 | 26 | copernicus_xsd       |    4% | i thought i can use the xsd files to open the binary data, but i can't figure out how                        |   |   |
 |    |                      |       |                                                                                                              |   |   |
+|    |                      |       |                                                                                                              |   |   |
 | 36 | cadquery             |   85% | proof of concept script for modelling with freecad                                                           |   |   |
 | 37 | jax                  |  100% | fit a 2d sinc using levenberg-marquart (gradients computed by jax)                                           |   |   |
-| 38 | mediapipe            |  100% | facemesh and holistic (body, face, hands)                                                                    |   |   |
+| 38 | mediapipe            |  100% | facemesh and holistic (body, face, hands) from camera or screencapture, visualization with opencv            |   |   |
 | 39 | opencv               |   20% | try to read out camera on linux with opencv (as raw as possibly, i tried to do some calibration but stopped) |   |   |
 | 40 | kivy                 |  100% | pong game, runs python and kivy on android                                                                   |   |   |
 | 41 | kivy_opencv_android  |   20% | try to display camera; opencv build not working                                                              |   |   |
