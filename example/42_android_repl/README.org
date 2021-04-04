@@ -1,0 +1,31 @@
+- buildozer stopped
+#+begin_example
+[INFO]:    Building liblzma for armeabi-v7a
+[INFO]:    -> directory context /home/martin/stage/cl-py-generator/example/42_android_repl/source/.buildozer/android/platform/build-armeabi-v7a/build/other_builds/liblzma/armeabi-v7a__ndk_target_21/liblzma
+[INFO]:    -> running autoreconf -vif
+           working: autoreconf: autopoint is needed because this package uses Gettext                                                                                                  Exception in thread background thread for pid 126520:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 954, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 892, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/martin/.local/lib/python3.9/site-packages/sh.py", line 1637, in wrap
+    fn(*rgs, **kwargs)
+  File "/home/martin/.local/lib/python3.9/site-packages/sh.py", line 2561, in background_thread
+    handle_exit_code(exit_code)
+  File "/home/martin/.local/lib/python3.9/site-packages/sh.py", line 2265, in fn
+    return self.command.handle_command_exit_code(exit_code)
+  File "/home/martin/.local/lib/python3.9/site-packages/sh.py", line 865, in handle_command_exit_code
+    raise exc
+sh.ErrorReturnCode_1: 
+
+  RAN: /usr/bin/autoreconf -vif
+
+  STDOUT:
+autoreconf: Entering directory `.'
+autoreconf: running: autopoint --force
+Can't exec "autopoint": No such file or directory at /usr/share/autoconf/Autom4te/FileUtils.pm line 345.
+autoreconf: failed to run autopoint: No such file or directory
+autoreconf: autopoint is needed because this package uses Gettext
+
+#+end_example
