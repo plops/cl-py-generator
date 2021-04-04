@@ -35,7 +35,8 @@ autoreconf: autopoint is needed because this package uses Gettext
 sudo dnf install gettext-devel
 #+end_example
 
-- now buildozer created an apk
+- now buildozer created an apk (54 MB)
+- 2.5GB .buildozer directory
 - how to get it to tablet?
 #+begin_example
 buildozer serve
