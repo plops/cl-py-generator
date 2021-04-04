@@ -29,3 +29,8 @@ autoreconf: failed to run autopoint: No such file or directory
 autoreconf: autopoint is needed because this package uses Gettext
 
 #+end_example
+
+- autopoint
+#+begin_example
+sudo dnf install gettext-devel
+#+end_example
