@@ -34,3 +34,14 @@ autoreconf: autopoint is needed because this package uses Gettext
 #+begin_example
 sudo dnf install gettext-devel
 #+end_example
+
+- now buildozer created an apk
+- how to get it to tablet?
+#+begin_example
+buildozer serve
+#+end_example
+
+- i needed to create an ssh tunnel to the tablet:
+#+begin_example
+ssh -R 8000:localhost:8000 s6
+#+end_example
