@@ -42,7 +42,7 @@ requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
-# (list) Garden requirements
+# (list) Garden requirements 
 #garden_requirements =
 
 # (str) Presplash of the application
