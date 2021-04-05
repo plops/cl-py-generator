@@ -74,7 +74,8 @@
 			  subprocess
 			  os
 			  IPython
-			  jupyter_core.command
+			  ;jupyter_core.command
+			  notebook.notebookapp
 			  sys))
 		,@(loop for (pkg exprs) in `((kivy.app (App))
 					;(kivy.uix.widget (Widget))
@@ -142,10 +143,13 @@
 		   #+nil
 		   (subprocess.Popen (string "jupyter notebook")
 				     :shell True)
-		   (do0
+		   #+nil (do0
 		    (setf sys.argv (list (string "bla")
 					 (string "notebook")))
 		    (jupyter_core.command.main ))
+		   (do0
+		    
+		    (notebook.notebookapp.main))
 		   #+nil (IPython.start_ipython :argv (list))
 		   (setf app (MainApp))
 		   (dot app
