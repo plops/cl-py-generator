@@ -80,7 +80,7 @@
 							      )
 					     ;(kivy.vector (Vector))
 					(kivy.clock (Clock))
-					     (camera (Camera2))
+					     ;(camera (Camera2))
 					     )
 			collect
 			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
@@ -139,6 +139,6 @@
 <MainLayout>:
     orientation: 'vertical'
     padding: (36, 36)
-
+ 
 "))))
 
