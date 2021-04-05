@@ -44,7 +44,7 @@ requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,
 
 # (list) Garden requirements 
 #garden_requirements =
-
+ 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
 
