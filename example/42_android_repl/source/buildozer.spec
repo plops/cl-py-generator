@@ -34,9 +34,9 @@ version = 0.1
 # version.regex = __version__ = ['"](.*)['"]
 # version.filename = %(source.dir)s/main.py
 
-# (list) Application requirements
+# (list) Application requirementsu
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray
+requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray,mediapipe
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
