@@ -46,3 +46,16 @@ buildozer serve
 #+begin_example
 ssh -R 8000:localhost:8000 s6
 #+end_example
+
+- with connected adb:
+#+begin_example
+buildozer -v android debug deploy run logcat
+#+end_example
+
+- the reason why the app is not starting (in logcat)
+#+begin_example
+04-05 08:24:11.043  4462  4489 I python  :  Traceback (most recent call last):
+04-05 08:24:11.044  4462  4489 I python  :    File "/home/martin/stage/cl-py-generator/example/42_android_repl/source/.buildozer/android/app/main.py", line 5, in <module>
+04-05 08:24:11.044  4462  4489 I python  :  ModuleNotFoundError: No module named 'camera'
+04-05 08:24:11.044  4462  4489 I python  : Python for android ended.
+#+end_example
