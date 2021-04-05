@@ -59,3 +59,31 @@ buildozer -v android debug deploy run logcat
 04-05 08:24:11.044  4462  4489 I python  :  ModuleNotFoundError: No module named 'camera'
 04-05 08:24:11.044  4462  4489 I python  : Python for android ended.
 #+end_example
+
+- print the contents from android:
+#+begin_example
+04-05 08:55:41.646  5391  5417 I python  : ../app/_python_bundle/site-packages/pandas/core/ops/dispatch.pyc
+04-05 08:55:41.646  5391  5417 I python  : ../app/_python_bundle/site-packages/pandas/core/computation/align.pyc
+04-05 08:55:41.646  5391  5417 I python  : ../app/_python_bundle/site-packages/pandas/core/computation/__init__.pyc
+04-05 08:55:41.646  5391  5417 I python  : ../app/_python_bundle/site-packages/pandas/core/computation/api.pyc
+04-05 08:55:41.646  5391  5417 I python  : ../app/_python_bundle/site-packages/pandas/core/computation/engines.pyc
+04-05 08:55:41.646  5391  5417 I python  : ../app/_python_bundle/site-packages/pandas/core/computation/common.pyc
+...
+04-05 08:55:41.781  5391  5417 I python  : ../app/_python_bundle/site-packages/xarray-0.17.0.dist-info/RECORD
+04-05 08:55:41.781  5391  5417 I python  : ../app/_python_bundle/site-packages/xarray-0.17.0.dist-info/INSTALLER
+04-05 08:55:41.781  5391  5417 I python  : ../app/_python_bundle/site-packages/xarray-0.17.0.dist-info/WHEEL
+04-05 08:55:41.781  5391  5417 I python  : ../app/_python_bundle/site-packages/xarray-0.17.0.dist-info/METADATA
+04-05 08:55:41.781  5391  5417 I python  : ../app/.kivy/mods
+04-05 08:55:41.781  5391  5417 I python  : ../app/.kivy/icon
+04-05 08:55:41.781  5391  5417 I python  : ../app/.kivy/logs
+04-05 08:55:41.781  5391  5417 I python  : ../app/.kivy/config.ini
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-64.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-16.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-512.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-256.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-128.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-32.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-24.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-48.png
+04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/logs/kivy_21-04-05_0.txt
+#+end_example
