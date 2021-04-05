@@ -36,7 +36,9 @@ version = 0.1
 
 # (list) Application requirementsu
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray,mediapipe
+requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray
+
+#,mediapipe
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -58,7 +60,7 @@ orientation = all
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
 
 #
-# OSX Specific
+# OSX Specific 
 #
 
 #
