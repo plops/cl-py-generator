@@ -72,7 +72,8 @@
 				 ))
 		(imports (time
 			  subprocess
-			  os))
+			  os
+			  IPython))
 		,@(loop for (pkg exprs) in `((kivy.app (App))
 					;(kivy.uix.widget (Widget))
 					     (kivy.uix.boxlayout (BoxLayout))
@@ -131,11 +132,14 @@
 			 (os.walk folder))
 			(for (filename (+ folders files))
 			     (yield (os.path.join root filename)))))
+		 (def find (dir)
+		   (for (filename (listfiles dir))
+			(print filename)))
 		 (when (== __name__ (string "__main__"))
-		   (for (filename (listfiles (string "../")))
-			(print filename))
+		   #+nil
 		   (subprocess.Popen (string "jupyter notebook")
 				     :shell True)
+		   (IPython.start_ipython :argv (list))
 		   (setf app (MainApp))
 		   (dot app
 			(run)))))))
