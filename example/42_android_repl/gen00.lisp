@@ -70,7 +70,9 @@
 			   copy
 			   
 				 ))
-		(imports (time))
+		(imports (time
+			  subprocess
+			  os))
 		,@(loop for (pkg exprs) in `((kivy.app (App))
 					;(kivy.uix.widget (Widget))
 					     (kivy.uix.boxlayout (BoxLayout))
@@ -121,11 +123,19 @@
 				;self.root.ids.label.text
 				#+nil (dot (string "{:s} {}x{} image")
 					   (format ctime rows cols)))
-			  (print (dot (string "{:s} {}x{} image")
-				     (format ctime rows cols)))
+			  (print (dot (string "{:s}")
+				     (format ctime )))
 			  (Clock.schedule_once self.detect 1)))
-		 
+		 (def listfiles (folder)
+		   (for ((ntuple root folders files)
+			 (os.walk folder))
+			(for (filename (+ folders files))
+			     (yield (os.path.join root filename)))))
 		 (when (== __name__ (string "__main__"))
+		   (for (filename (listfiles (string "../")))
+			(print filename))
+		   (subprocess.Popen (string "jupyter notebook")
+				     :shell True)
 		   (setf app (MainApp))
 		   (dot app
 			(run)))))))
