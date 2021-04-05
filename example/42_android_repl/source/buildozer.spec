@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirementsu
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray,mediapipe
+requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray,mediapipe,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -85,7 +85,7 @@ fullscreen = 0
 #android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = CAMERA
+android.permissions = CAMERA, INTERNET
 #INTERNET
 
 # (int) Target Android API, should be as high as possible.

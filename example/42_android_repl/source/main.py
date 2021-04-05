@@ -2,12 +2,14 @@ import time
 import subprocess
 import os
 import IPython
+import jupyter_core.command
+import sys
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
-_code_git_version="fa43eabdd9cdcd92c93bd410b0fd3edd9e21c6ad"
+_code_git_version="5bf6be7d8aeb6463002fc2468f73a574c54ea972"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time="09:10:04 of Monday, 2021-04-05 (GMT+1)"
+_code_generation_time="20:38:43 of Monday, 2021-04-05 (GMT+1)"
 class MainLayout(BoxLayout):
     pass
 class MainApp(App):
@@ -27,6 +29,7 @@ def find(dir):
     for filename in listfiles(dir):
         print(filename)
 if ( ((__name__)==("__main__")) ):
-    IPython.start_ipython(argv=[])
+    sys.argv=["bla", "notebook"]
+    jupyter_core.command.main()
     app=MainApp()
     app.run()

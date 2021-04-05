@@ -73,7 +73,9 @@
 		(imports (time
 			  subprocess
 			  os
-			  IPython))
+			  IPython
+			  jupyter_core.command
+			  sys))
 		,@(loop for (pkg exprs) in `((kivy.app (App))
 					;(kivy.uix.widget (Widget))
 					     (kivy.uix.boxlayout (BoxLayout))
@@ -83,7 +85,8 @@
 							      )
 					     ;(kivy.vector (Vector))
 					(kivy.clock (Clock))
-					     ;(camera (Camera2))
+					;(camera (Camera2))
+					     
 					     )
 			collect
 			(format nil "from ~a import ~{~a~^, ~}" pkg exprs))
@@ -139,7 +142,11 @@
 		   #+nil
 		   (subprocess.Popen (string "jupyter notebook")
 				     :shell True)
-		   (IPython.start_ipython :argv (list))
+		   (do0
+		    (setf sys.argv (list (string "bla")
+					 (string "notebook")))
+		    (jupyter_core.command.main ))
+		   #+nil (IPython.start_ipython :argv (list))
 		   (setf app (MainApp))
 		   (dot app
 			(run)))))))

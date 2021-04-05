@@ -87,3 +87,9 @@ buildozer -v android debug deploy run logcat
 04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/icon/kivy-icon-48.png
 04-05 08:55:41.782  5391  5417 I python  : ../app/.kivy/logs/kivy_21-04-05_0.txt
 #+end_example
+
+
+- jupyter kernels: https://www.youtube.com/watch?v=GExKsQ-OU78
+- Jupyter: Kernels, Protocols, and the IPython Reference Implementation
+- 2017-11
+- Matthias Bussonnier (UC Berkeley BIDS), *Paul Ivanov* (Bloomberg LP)
