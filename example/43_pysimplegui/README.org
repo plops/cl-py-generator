@@ -1,0 +1,4 @@
+- https://github.com/PySimpleGUI/PySimpleGUI
+#+begin_example
+pip3 install --user pysimplegui
+#+end_example
