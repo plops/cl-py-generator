@@ -34,7 +34,9 @@
 | 39 | opencv               |   20% | try to read out camera on linux with opencv (as raw as possibly, i tried to do some calibration but stopped) |   |   |
 | 40 | kivy                 |  100% | pong game, runs python and kivy on android                                                                   |   |   |
 | 41 | kivy_opencv_android  |   20% | try to display camera; opencv build not working                                                              |   |   |
-
+| 42 | android_repl         |   40% | numpy, scipy for android, needs interface                                                                    |   |   |
+| 43 | pysimplegui          |   90% | show matplotlib diagrams with some rudimentary gui elements in browser                                       |   |   |
+|    |                      |       |                                                                                                              |   |   |
 * Todo
 
 - Can I use reader macros, so that I can declare strings with " " instead of with (string " ")?

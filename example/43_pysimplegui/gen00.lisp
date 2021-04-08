@@ -85,7 +85,7 @@
 		 (window.close))
 		))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
-    (write-source (format nil "~a/source/run_01_interactive.py" *path*)
+    (write-source (format nil "~a/source/run_01_interactive" *path*)
 		  `(do0
 		    (imports ((sg
 			       ;;PySimpleGUI
@@ -114,6 +114,51 @@
 					      )
 					(string "! Thanks for trying.")))))
 		 (window.close))
+		    ))
+    (write-source (format nil "~a/source/run_02_pyplot" *path*)
+		  `(do0
+		    (imports ((sg
+			       PySimpleGUIWeb
+			       )
+			      (np numpy)
+			      matplotlib.backends.backend_tkagg
+			      matplotlib.figure
+			      matplotlib
+			      
+			      (plt matplotlib.pyplot)
+			      io))
+		    (do0
+		 (setf layout (list 
+				    (list (sg.Image :key (string "-IMAGE-")))
+				    (list
+				     (sg.Button (string "Draw"))
+				     (sg.Button (string "Exit")))))
+		 (setf window (sg.Window (string "plot example") layout))
+		 (while True
+			(setf (ntuple event values)
+			      (window.read))
+			(when (in event (tuple sg.WIN_CLOSED
+					       (string "Exit")))
+			  break)
+			(when (== event (string "Draw"))
+			  (do0
+			   (plt.close (string "all"))
+			   (setf fig (plt.figure :figsize (list 5 4)
+						 :dpi 72)
+				 x (np.linspace 0 3 100))
+			   (dot fig (add_subplot 111)
+				(plot x (np.sin (* 2 np.pi x)))))
+			  (do0
+			   (setf canv (matplotlib.backends.backend_tkagg.FigureCanvasAgg (plt.gcf))
+				 buf (io.BytesIO))
+			   (canv.print_figure buf :format (string "png"))
+			   (when (is buf None)
+			     (print "problem"))
+			   (buf.seek 0)
+			   (dot (aref window (string "-IMAGE-"))
+				(update :data (buf.read))))))
+		 (window.close))
+		    
 		    ))
     ))
 
