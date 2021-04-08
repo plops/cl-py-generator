@@ -1,5 +1,4 @@
-import sg
-import PySimpleGUI
+import PySimpleGUI as sg
 layout=[[sg.Text("name:")], [sg.Input()], [sg.Button("Ok")]]
 window=sg.Window("Window Title", layout)
 while (True):

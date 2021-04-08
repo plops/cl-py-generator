@@ -1,4 +1,4 @@
 - https://github.com/PySimpleGUI/PySimpleGUI
 #+begin_example
-pip3 install --user pysimplegui
+pip3 install --user pysimplegui pysimpleguiqt pysimpleguiwx pysimpleguiweb htmlparser
 #+end_example

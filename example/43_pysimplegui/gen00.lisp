@@ -70,12 +70,50 @@
 			   copy
 			   
 				 ))
-		(imports (sg PySimpleGUI))
-		(setf layout (list (list (sg.Text (string "name:")))
-				   (list (sg.Input))
-				   (list (sg.Button (string "Ok")))))
-		(setf window (sg.Window #>"Window Title" layout))
+		(imports ( (sg PySimpleGUI)))
+		(do0
+		 (setf layout (list (list (sg.Text (string "name:")))
+				    (list (sg.Input))
+				    (list (sg.Button (string "Ok")))))
+		 (setf window (sg.Window (string "Window Title") layout))
+		 (while True
+			(setf (ntuple event values)
+			      (window.read))
+			(when (in event (tuple sg.WIN_CLOSED
+					       (string "Cancel")))
+			  break))
+		 (window.close))
 		))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)
+    (write-source (format nil "~a/source/run_01_interactive.py" *path*)
+		  `(do0
+		    (imports ((sg
+			       ;;PySimpleGUI
+			       ;;PySimpleGUIQt
+			       ;;PySimpleGUIWx
+			       PySimpleGUIWeb
+			       )))
+		    (do0
+		 (setf layout (list (list (sg.Text (string "name:")))
+				    (list (sg.Input :key (string "-INPUT-")))
+				    (list (sg.Text :size (tuple 40 1)
+						   :key (string "-OUTPUT-")))
+				    (list
+				     (sg.Button (string "Ok"))
+				     (sg.Button (string "Quit")))))
+		 (setf window (sg.Window (string "Window Title") layout))
+		 (while True
+			(setf (ntuple event values)
+			      (window.read))
+			(when (in event (tuple sg.WIN_CLOSED
+					       (string "Quit")))
+			  break)
+			(dot (aref window (string "-OUTPUT-"))
+			     (update (+ (string "Hello ")
+					(aref values (string "-INPUT-")
+					      )
+					(string "! Thanks for trying.")))))
+		 (window.close))
+		    ))
     ))
 
