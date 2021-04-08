@@ -5,3 +5,6 @@ pip3 install --user pysimplegui pysimpleguiqt pysimpleguiwx pysimpleguiweb htmlp
 
 - web needs a remi 2020.11.10 or newer to work in python 3.9
 https://github.com/PySimpleGUI/PySimpleGUI/issues/3614
+#+begin_example
+pip install --user git+https://github.com/dddomodossola/remi.git
+#+end_example
