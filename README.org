@@ -34,6 +34,14 @@
 | 39 | opencv               |   20% | try to read out camera on linux with opencv (as raw as possibly, i tried to do some calibration but stopped) |   |   |
 | 40 | kivy                 |  100% | pong game, runs python and kivy on android                                                                   |   |   |
 | 41 | kivy_opencv_android  |   20% | try to display camera; opencv build not working                                                              |   |   |
+
+* Todo
+
+- Can I use reader macros, so that I can declare strings with " " instead of with (string " ")?
+- https://gist.github.com/chaitanyagupta/9324402
+- https://edicl.github.io/cl-interpol/
+- maybe make a #s"list" emit a symbol
+
 * References
 
 - https://norvig.com/python-lisp.html
