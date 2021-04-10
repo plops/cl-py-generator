@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirementsu
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray,mediapipe,plyer,jupyter_core
+requirements = python3,kivy,numpy,jax,jaxlib,scipy,matplotlib,ipython,ipykernel,traitlets,ipython_genutils,pygments,pexpect,ptyprocess,decorator,pickleshare,backcall,jedi,wcwidth,prompt-toolkit,ipython-genutils,six,parso,jupyter,pandas,pyjnius,requests,xarray,mediapipe,plyer,jupyter_core,pysimpleguiweb
 
 #,notebook
 

@@ -6,7 +6,7 @@
 
 
 (progn
-  (defparameter *path* "/home/martin/stage/cl-py-generator/example/43_pysimplegui")
+  (defparameter *path* "/home/martin/stage/cl-py-generator/example/44_zernike")
   (defparameter *code-file* "run_00_one_shot")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *host*
@@ -19,13 +19,38 @@
       "Thursday" "Friday" "Saturday"
       "Sunday"))
 
+  (progn
+ (defun choose (n k)
+   (labels ((prod-enum (s e)
+	      (do ((i s (1+ i)) (r 1 (* i r))) ((> i e) r)))
+	    (fact (n) (prod-enum 1 n)))
+     (/ (prod-enum (- (1+ n) k) n) (fact k))))
+
+
+ (defun zernike-radial-coef (m n)
+   "returns the scale of the term rho**(n-2k)"
+   (when (oddp (- n m))
+     (break "odd number not supported"))
+   (loop for k
+	 from 0
+	 upto (/ (- n m)
+		 2)
+	 collect
+	 (* 
+	  (expt -1 k)
+	  (choose (- n k)
+		  k)
+	  (choose (- n (* 2 k))
+		  (- (/ (- n m)
+			2)
+		     k))))))
      
   (let* (
 	 
 	 (code
 	  `(do0
 	    (do0 
-		 #+nil(do0
+		 #-nil(do0
 		  
 		  (imports (matplotlib))
                                         ;(matplotlib.use (string "QT5Agg"))
@@ -41,7 +66,7 @@
 		  ;;(setf font (dict ((string size) (string 6))))
 		  ;; (matplotlib.rc (string "font") **font)
 		  )
-		#+nil  (imports (		;os
+	         (imports (		;os
 					;sys
 					;time
 					;docopt
@@ -62,103 +87,46 @@
 					;itertools
 					;datetime
 			   (np numpy)
-			   (cv cv2)
+			   ;(cv cv2)
 					;(mp mediapipe)
 					;jax
-			   ; jax.random
-			   ;jax.config
-			   copy
+					; jax.random
+					;jax.config
+			  ; copy
 			   
-				 ))
-		(imports ( (sg PySimpleGUI)))
-		(do0
-		 (setf layout (list (list (sg.Text (string "name:")))
-				    (list (sg.Input))
-				    (list (sg.Button (string "Ok")))))
-		 (setf window (sg.Window (string "Window Title") layout))
-		 (while True
-			(setf (ntuple event values)
-			      (window.read))
-			(when (in event (tuple sg.WIN_CLOSED
-					       (string "Cancel")))
-			  break))
-		 (window.close))
+			   ))
+		
+		 (do0
+		  (setf coef (list ,@()))
+		)
 		))))
-    (write-source (format nil "~a/source/~a" *path* *code-file*) code)
-    (write-source (format nil "~a/source/run_01_interactive" *path*)
-		  `(do0
-		    (imports ((sg
-			       ;;PySimpleGUI
-			       ;;PySimpleGUIQt
-			       ;;PySimpleGUIWx
-			       PySimpleGUIWeb
-			       )))
-		    (do0
-		 (setf layout (list (list (sg.Text (string "name:")))
-				    (list (sg.Input :key (string "-INPUT-")))
-				    (list (sg.Text :size (tuple 40 1)
-						   :key (string "-OUTPUT-")))
-				    (list
-				     (sg.Button (string "Ok"))
-				     (sg.Button (string "Quit")))))
-		 (setf window (sg.Window (string "Window Title") layout))
-		 (while True
-			(setf (ntuple event values)
-			      (window.read))
-			(when (in event (tuple sg.WIN_CLOSED
-					       (string "Quit")))
-			  break)
-			(dot (aref window (string "-OUTPUT-"))
-			     (update (+ (string "Hello ")
-					(aref values (string "-INPUT-")
-					      )
-					(string "! Thanks for trying.")))))
-		 (window.close))
-		    ))
-    (write-source (format nil "~a/source/run_02_pyplot" *path*)
-		  `(do0
-		    (imports ((sg
-			       PySimpleGUIWeb
-			       )
-			      (np numpy)
-			      matplotlib.backends.backend_tkagg
-			      matplotlib.figure
-			      matplotlib
-			      
-			      (plt matplotlib.pyplot)
-			      io))
-		    (do0
-		 (setf layout (list 
-				    (list (sg.Image :key (string "-IMAGE-")))
-				    (list
-				     (sg.Button (string "Draw"))
-				     (sg.Button (string "Exit")))))
-		 (setf window (sg.Window (string "plot example") layout))
-		 (while True
-			(setf (ntuple event values)
-			      (window.read))
-			(when (in event (tuple sg.WIN_CLOSED
-					       (string "Exit")))
-			  break)
-			(when (== event (string "Draw"))
-			  (do0
-			   (plt.close (string "all"))
-			   (setf fig (plt.figure :figsize (list 5 4)
-						 :dpi 72)
-				 x (np.linspace 0 3 100))
-			   (dot fig (add_subplot 111)
-				(plot x (np.sin (* 2 np.pi x)))))
-			  (do0
-			   (setf canv (matplotlib.backends.backend_tkagg.FigureCanvasAgg (plt.gcf))
-				 buf (io.BytesIO))
-			   (canv.print_figure buf :format (string "png"))
-			   (when (is buf None)
-			     (print "problem"))
-			   (buf.seek 0)
-			   (dot (aref window (string "-IMAGE-"))
-				(update :data (buf.read))))))
-		 (window.close))
-		    
-		    ))
-    ))
+    (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
+
+
+
+(defun osa-index (n l)
+  (/ (+ (* n (+ n 2))
+	l)
+     2))
+
+(let* ((mapping
+       (sort 
+	(remove-if #'null
+		   (loop for n from 0 upto 5
+			 appending
+			 (loop for l from -5 upto 5
+			       collect
+			       (let ((j (osa-index n l)))
+				 (when (and (<= 0 j)
+					    (integerp j))
+				   (list j (list n l)))))))
+	#'< :key #'first)
+       )
+       (keys (mapcar #'first mapping))
+       (unique-keys (remove-duplicates keys)))
+  (loop for e in unique-keys
+	collect
+	(when (<=
+	       (count e keys) 1)
+	  eq)))
