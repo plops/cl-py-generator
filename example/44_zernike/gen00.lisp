@@ -125,8 +125,8 @@
        )
        (keys (mapcar #'first mapping))
        (unique-keys (remove-duplicates keys)))
-  (loop for e in unique-keys
-	collect
-	(when (<=
-	       (count e keys) 1)
-	  eq)))
+  (remove-if #'null (loop for e in unique-keys
+	 collect
+	 (unless (<=
+		  (count e keys) 1)
+	   e))))
