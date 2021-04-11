@@ -132,8 +132,18 @@
 		 (choose (- n (* 2 k))
 			 (- (/ (- n l)
 			       2)
-			    k))))))))
-     
+			    k)))
+		:n n
+		:l l
+		:k k)))
+       (defun zernike-radial-coef-sorted (n l)
+	 "return coefficients of the radial polynomial sorted by degree (lowest degree first)"
+	 (sort 
+	  (zernike-radial-coef n l)
+	  #'<
+	  :key #'(lambda (x) (destructuring-bind (&key degree coef n l k) x
+			       degree))))))
+  
   (let* (
 	 
 	 (code
@@ -212,10 +222,34 @@
 			    (setf azi (np.sin arg))
 			    (setf azi (np.cos arg)))
 			(comments "polynomial coefficients in order of increasing degree, (1 2 3) is 1 + 2*x + 3*x**2")
-			(setf coef (list ,@(loop for e in lut-indices
-						 collect
-						 (destructuring-bind (j &key n l merit merit2) e
-						   `(list ,@(zernike-radial-coef n l)))
+			(setf coef
+			      (list ,@(loop for e in lut-indices
+					    collect
+					    (destructuring-bind (j &key n l merit merit2) e
+					      
+					      `(list ,@(let* ((coef-sparse (zernike-radial-coef-sorted n l))
+							      ;; create a full set of coefficients (for each degree of the polynomial)
+							      (n-coef-sparse (length coef-sparse))
+							      (max-degree (destructuring-bind (&key degree coef n l k) (car (last coef-sparse))
+									    degree))
+							      (coef-full (loop for c from 0 upto max-degree collect 0)))
+							 
+							 
+							 (loop for c in coef-sparse
+							       do
+								  (destructuring-bind (&key degree coef n l k) c
+								    (format t "degree=~a coef-full,coef=~a nlk=~a~%" degree (list coef-full coef) (list n l k))
+								    (defparameter *bla* (list :max-degree max-degree
+										   :n-sparse n-coef-sparse
+										   :sparse coef-sparse
+										   :coef-full coef-full
+											      :n-full (length coef-full
+													      )
+											      :nlk (list n l k)
+											      :degree degree))
+								    ;(setf (elt coef-full degree) coef)
+								    ))
+							 coef-full)))
 						 )))
 			(setf osa_index (osa_index_nl_to_j n l))
 			
@@ -225,8 +259,4 @@
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
-(sort 
- (zernike-radial-coef 6 2)
- #'<
- :key #'(lambda (x) (destructuring-bind (&key degree coef) x
-		      degree)))
+
