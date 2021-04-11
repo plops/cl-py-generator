@@ -126,14 +126,19 @@
 				   (when (and (<= 0 j)
 					      (integerp j))
 				     `(,j :n ,n  :l ,l))))))
-	  #'< :key #'first)
-	 )
+	  #'< :key #'first))
        (keys (mapcar #'first mapping)) ;; [<j>]* with duplicates
        (unique-keys (remove-duplicates keys)) ; [<j>]* without duplicates
        (repeated-keys ; [<j>]* only duplicates
 	 (remove-if #'null (loop for e in unique-keys
 					      collect
 					      (unless (<=
+						       (count e keys) 1)
+						e))))
+       (single-keys ; [<j>]* that occur only once
+	 (remove-if #'null (loop for e in unique-keys
+					      collect
+					      (when (=
 						       (count e keys) 1)
 						e))))
        (mapping-merit ;; [<j> :n <n> :l <l> :merit <abs(n+l)> :merit <abs(n)+abs(l)>]* each j occurs once (merit minimized) 
@@ -173,6 +178,9 @@
 			    (destructuring-bind (j &key n l merit merit2) x
 			      merit2)))))))))
 
-  
-  
-  mapping-merit)
+  (sort ;; merge unique j->(n,l) mappings and the best mapping of j->(n,l) mappings with mulitplicity
+   (append
+	 mapping-merit
+	 (loop for e in single-keys
+	       collect (find e mapping :key #'first)))
+	#'< :key #'first))
