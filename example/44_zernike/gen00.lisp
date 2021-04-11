@@ -115,34 +115,42 @@
 	when (eql (funcall key e) needle)
 	  collect position))
 
-(let* ((mapping
-       (sort 
-	(remove-if #'null
-		   (loop for n from 0 upto 5
-			 appending
-			 (loop for l from -5 upto 5
-			       collect
-			       (let ((j (osa-index n l)))
-				 (when (and (<= 0 j)
-					    (integerp j))
-				   `(,j :n ,n  :l ,l))))))
-	#'< :key #'first)
-       )
-       (keys (mapcar #'first mapping))
-       (unique-keys (remove-duplicates keys))
-       (repeated-keys (remove-if #'null (loop for e in unique-keys
+(let* ((mapping ;; [<j> :n <n> :l <l>]* 
+	 (sort 
+	  (remove-if #'null
+		     (loop for n from 0 upto 5
+			   appending
+			   (loop for l from -5 upto 5
+				 collect
+				 (let ((j (osa-index n l)))
+				   (when (and (<= 0 j)
+					      (integerp j))
+				     `(,j :n ,n  :l ,l))))))
+	  #'< :key #'first)
+	 )
+       (keys (mapcar #'first mapping)) ;; [<j>]* with duplicates
+       (unique-keys (remove-duplicates keys)) ; [<j>]* without duplicates
+       (repeated-keys ; [<j>]* only duplicates
+	 (remove-if #'null (loop for e in unique-keys
 					      collect
 					      (unless (<=
 						       (count e keys) 1)
-						e)))))
-  (loop for e in repeated-keys
-	collect
-	(let ((repeated-positions 
-		(all-positions e mapping :key #'first)))
-	  (loop for duplicated-index-map in (mapcar #'(lambda (pos) (elt mapping pos))
-						    repeated-positions)
-		collect
-		(destructuring-bind (j &key n l) duplicated-index-map
-		  (assert (eq j e))
-		  `(j ,e n ,n l ,l n+l ,(+ n l))))))
-  )
+						e))))
+       (mapping-merit ;; [<j> :n <n> :l <l> :merit <abs(n+l)>]* each j occurs once (merit minimized) 
+	 (loop for e in repeated-keys
+	 collect
+	 (let ((repeated-positions ; [<pos>]* positions where e is equal to an entry in mapping
+		 (all-positions e mapping :key #'first)))
+	   (let ((all-merit-for-e ;; [<j=e> :n <n> :l <l> :merit <abs(n+l)>]* 
+		  (loop for duplicated-index-map ;; acces mapping
+			  in (mapcar #'(lambda (pos) (elt mapping pos))
+				     repeated-positions)
+			collect
+			(destructuring-bind (j &key n l) duplicated-index-map
+			  (assert (eq j e))
+			  ;; compute merit function abs(n+l)
+			  `(,e :n ,n :l ,l :merit ,(abs (+ n l)))))))
+	     (sort all-merit-for-e #'< :key #'(lambda (x)
+						(destructuring-bind (j &key n l merit) x
+						  merit))))))))
+  mapping-merit)
