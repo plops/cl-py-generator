@@ -122,14 +122,17 @@
 	       upto (/ (- n l)
 		       2)
 	       collect
-	       (* 
-		(expt -1 k)
-		(choose (- n k)
-			k)
-		(choose (- n (* 2 k))
-			(- (/ (- n l)
-			      2)
-			   k)))))))
+	       (list
+		:degree (- n (* 2 k))
+		:coef
+		(* 
+		 (expt -1 k)
+		 (choose (- n k)
+			 k)
+		 (choose (- n (* 2 k))
+			 (- (/ (- n l)
+			       2)
+			    k))))))))
      
   (let* (
 	 
@@ -203,11 +206,12 @@
 						  `(list ,n ,l)))))
 			(return (aref lut j)))
 		      (def zernike (rho phi &key (n 0) (l 0))
-			,(format nil "n in [0 .. ~a], l in [-~a .. ~a]" nmax lmax lmax)
+			(comments ,(format nil "n in [0 .. ~a], l in [-~a .. ~a]" nmax lmax lmax))
 			(setf arg (* phi m))
 			(if (< l 0)
 			    (setf azi (np.sin arg))
 			    (setf azi (np.cos arg)))
+			(comments "polynomial coefficients in order of increasing degree, (1 2 3) is 1 + 2*x + 3*x**2")
 			(setf coef (list ,@(loop for e in lut-indices
 						 collect
 						 (destructuring-bind (j &key n l merit merit2) e
@@ -215,12 +219,14 @@
 						 )))
 			(setf osa_index (osa_index_nl_to_j n l))
 			
-			(setf radial (np.polynomail.polynomial.polyval (aref coef osa_index)))
-			)
-		      #+nil (setf coef (list ,@()))
-		      ))
-		 ))))
+			(setf radial (np.polynomial.polynomial.polyval rho (aref coef osa_index)))
+			(return (* radial azi))
+			)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
-
+(sort 
+ (zernike-radial-coef 6 2)
+ #'<
+ :key #'(lambda (x) (destructuring-bind (&key degree coef) x
+		      degree)))
