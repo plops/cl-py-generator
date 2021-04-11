@@ -152,7 +152,16 @@
 			  `(,e :n ,n :l ,l
 			       :merit ,(abs (+ n l))
 			       :merit2 ,(+ (abs n) (abs l)))))))
-	     ;; sort by merit and merit2
+	     ;; sort by merit and merit2 to make results match the example table in wikipedia
+;; => (((0 :n 0 :l 0 :merit 0 :merit2 0) (0 :n 1 :l -3 :merit 2 :merit2 4))
+;;     ((1 :n 1 :l -1 :merit 0 :merit2 2) (1 :n 0 :l 2 :merit 2 :merit2 2))
+;;     ((2 :n 1 :l 1 :merit 2 :merit2 2) (2 :n 0 :l 4 :merit 4 :merit2 4)
+;;      (2 :n 2 :l -4 :merit 2 :merit2 6))
+;;     ((3 :n 2 :l -2 :merit 0 :merit2 4) (3 :n 1 :l 3 :merit 4 :merit2 4))
+;;     ((4 :n 2 :l 0 :merit 2 :merit2 2) (4 :n 1 :l 5 :merit 6 :merit2 6))
+;;     ((5 :n 2 :l 2 :merit 4 :merit2 4) (5 :n 3 :l -5 :merit 2 :merit2 8))
+;;     ((6 :n 3 :l -3 :merit 0 :merit2 6) (6 :n 2 :l 4 :merit 6 :merit2 6))
+;;     ((10 :n 4 :l -4 :merit 0 :merit2 8) (10 :n 3 :l 5 :merit 8 :merit2 8)))
 	     (stable-sort
 	      (sort all-merit-for-e #'< :key #'(lambda (x)
 						 (destructuring-bind (j &key n l merit merit2) x
@@ -161,6 +170,6 @@
 			   (destructuring-bind (j &key n l merit merit2) x
 			     merit2))))))))
 
-
+  
   
   mapping-merit)
