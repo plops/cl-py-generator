@@ -149,18 +149,18 @@
 			(destructuring-bind (j &key n l) duplicated-index-map
 			  (assert (eq j e))
 			  ;; compute merit function abs(n+l)
-			  `(,e :n ,n :l ,l :merit ,(+ (abs n) (abs l)))))))
-	     (sort all-merit-for-e #'< :key #'(lambda (x)
-						(destructuring-bind (j &key n l merit) x
-						  merit))))))))
-;; => (((0 :n 0 :l 0 :merit 0) (0 :n 1 :l -3 :merit 4))
-;;     ((1 :n 0 :l 2 :merit 2) (1 :n 1 :l -1 :merit 2))
-;;     ((2 :n 1 :l 1 :merit 2) (2 :n 0 :l 4 :merit 4) (2 :n 2 :l -4 :merit 6))
-;;     ((3 :n 1 :l 3 :merit 4) (3 :n 2 :l -2 :merit 4))
-;;     ((4 :n 2 :l 0 :merit 2) (4 :n 1 :l 5 :merit 6))
-;;     ((5 :n 2 :l 2 :merit 4) (5 :n 3 :l -5 :merit 8))
-;;     ((6 :n 2 :l 4 :merit 6) (6 :n 3 :l -3 :merit 6))
-;;     ((10 :n 3 :l 5 :merit 8) (10 :n 4 :l -4 :merit 8)))
+			  `(,e :n ,n :l ,l
+			       :merit ,(abs (+ n l))
+			       :merit2 ,(+ (abs n) (abs l)))))))
+	     ;; sort by merit and merit2
+	     (stable-sort
+	      (sort all-merit-for-e #'< :key #'(lambda (x)
+						 (destructuring-bind (j &key n l merit merit2) x
+						   merit)))
+	      #'< :key #'(lambda (x)
+			   (destructuring-bind (j &key n l merit merit2) x
+			     merit2))))))))
+
 
   
   mapping-merit)
