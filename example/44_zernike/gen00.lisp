@@ -7,7 +7,7 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/44_zernike")
-  (defparameter *code-file* "run_00_one_shot")
+  (defparameter *code-file* "run_00_zernike")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *host*
     "10.1.99.12")
@@ -21,7 +21,8 @@
 
   (progn
 
-    (progn (defun osa-index-nl-to-j (n l)
+    (progn
+      (defun osa-index-nl-to-j (n l)
    (/ (+ (* n (+ n 2))
 	 l)
       2))
@@ -31,7 +32,7 @@
 	 (loop for e in haystack and position from 0
 	       when (eql (funcall key e) needle)
 		 collect position))
-
+       
        (defun osa-indices-j-to-nl (&key (n 5) (l 5))
 	 "Given a 2d zernike index n,l return list of mappings between j to pairs n,l: []"
 	 (let* ((mapping ;; [<j> :n <n> :l <l>]* 
@@ -112,13 +113,13 @@
 	   (/ (prod-enum (- (1+ n) k) n) (fact k))))
 
        
-       (defun zernike-radial-coef (m n)
+       (defun zernike-radial-coef (n l)
 	 "returns the scale of the term rho**(n-2k)"
-	 (when (oddp (- n m))
+	 (when (oddp (- n l))
 	   (break "odd number not supported"))
 	 (loop for k
 	       from 0
-	       upto (/ (- n m)
+	       upto (/ (- n l)
 		       2)
 	       collect
 	       (* 
@@ -126,7 +127,7 @@
 		(choose (- n k)
 			k)
 		(choose (- n (* 2 k))
-			(- (/ (- n m)
+			(- (/ (- n l)
 			      2)
 			   k)))))))
      
@@ -180,14 +181,46 @@
 			  ; copy
 			   
 			   ))
-		
-		 (do0
-		  (setf coef (list ,@()))
-		)
-		))))
+		 ,(let* ((lmax 5)
+			 (nmax 5)
+			 (lut-indices (osa-indices-j-to-nl :n nmax :l lmax))
+			 (jmax (loop for e in lut-indices
+				     maximize
+				     (destructuring-bind 
+					 (j &key n l merit merit2) e
+				       j)
+				     )))
+		    `(do0
+		      (def osa_index_nl_to_j (n l)
+			(return (/ (+ (* n (+ n 2))
+				      l)
+				   2)))
+		      (def osa_index_j_to_nl (j)
+			(setf lut (list ,@(loop for e in lut-indices
+						collect
+						(destructuring-bind 
+						    (j &key n l merit merit2) e
+						  `(list ,n ,l)))))
+			(return (aref lut j)))
+		      (def zernike (rho phi &key (n 0) (l 0))
+			,(format nil "n in [0 .. ~a], l in [-~a .. ~a]" nmax lmax lmax)
+			(setf arg (* phi m))
+			(if (< l 0)
+			    (setf azi (np.sin arg))
+			    (setf azi (np.cos arg)))
+			(setf coef (list ,@(loop for e in lut-indices
+						 collect
+						 (destructuring-bind (j &key n l merit merit2) e
+						   `(list ,@(zernike-radial-coef n l)))
+						 )))
+			(setf osa_index (osa_index_nl_to_j n l))
+			
+			(setf radial (np.polynomail.polynomial.polyval (aref coef osa_index)))
+			)
+		      #+nil (setf coef (list ,@()))
+		      ))
+		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
-
-
 
 
 
