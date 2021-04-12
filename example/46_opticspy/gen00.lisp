@@ -24,7 +24,7 @@
 	 (code
 	  `(do0
 	    (do0 
-		 #-nil(do0
+		 #+nil(do0
 		  
 		  (imports (matplotlib))
                                         ;(matplotlib.use (string "QT5Agg"))
@@ -68,11 +68,11 @@
 					;jax.config
 			  ; copy
 
-
+			   (opr opticspy.ray_tracing)
 			   ))
-		 "from opticspy.ray_tracing import *"
+		 
 		 (do0
-		  (setf l (lens.Lens :lens_name (string "Triplet")
+		  (setf l (opr.lens.Lens :lens_name (string "Triplet")
 				     :creator (string "XF"))
 			l.FNO 5)
 		  (l.lens_info))
