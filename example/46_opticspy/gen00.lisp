@@ -77,10 +77,35 @@
 			l.FNO 5)
 		  (l.lens_info))
 		 (do0
-		  ,@(loop for e in `(656.3 587.6 486.1)
+		  ,@(loop for e in `((add_wavelength :wl (656.3 587.6 486.1))
+				     (add_field_YAN :angle (0 14 20))
+				     )
+			  appending
+			  (destructuring-bind (name param vals) e
+			    (loop for v in vals collect
+				  `(dot l (,name ,param ,v)))))
+		  (l.list_wavelengths)
+		  (l.list_fields))
+		 (do0
+		  ,@(loop for e
+			    in `((1e9 1e9 air)
+				 (41.15909 6.09755 S-BSM18_ohara)
+				 (-957.83146 9.349 air)
+				 (-51.32 2.032 N-SF2_schott)
+				 (42.378 5.996 air)
+				 (1e9 4.065 air :STO True)
+				 (247.45 6.097 S-BSM18_ohara)
+				 (-40.04 85.59 air)
+				 (1e9 0 air))
+			  and i from 1
 			  collect
-			  `(l.add_wavelength :wl ,e))
-		  (l.list_wavelengths))
+			  (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
+			   `(l.add_surface :number ,i
+					  :radius ,radius
+					  :thickness ,thickness
+					  :glass (string ,material)
+					  :output ,output
+					  :STO ,STO))))
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
