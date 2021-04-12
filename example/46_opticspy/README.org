@@ -1,4 +1,7 @@
 - install
 #+begin_example
-pip3 install --user opticspy
+cd ~/src
+git clone https://github.com/Sterncat/opticspy
+pip3 install --user -e opticspy
 #+end_example
+- http://opticspy.org/

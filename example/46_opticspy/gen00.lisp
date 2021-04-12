@@ -6,8 +6,8 @@
 
 
 (progn
-  (defparameter *path* "/home/martin/stage/cl-py-generator/example/45_nasdaq")
-  (defparameter *code-file* "run_00_nasdaq")
+  (defparameter *path* "/home/martin/stage/cl-py-generator/example/46_opticspy")
+  (defparameter *code-file* "run_00_lens")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
   (defparameter *host*
     "10.1.99.12")
@@ -67,16 +67,21 @@
 					; jax.random
 					;jax.config
 			  ; copy
-			   (ns nasdaq_stock.nasdaq_stock)
+
+
 			   ))
-		 ,(let ((l `(nvda asml mu iivi ipgp))) 
-		    `(do0
-		      (setf res (list))
-		     ,@(loop for e in l
-			     collect
-			     `(res.append (ns.stock (string ,e))))
-		     (setf df (pd.DataFrame res))
-		     df))))))
+		 "from opticspy.ray_tracing import *"
+		 (do0
+		  (setf l (lens.Lens :lens_name (string "Triplet")
+				     :creator (string "XF"))
+			l.FNO 5)
+		  (l.lens_info))
+		 (do0
+		  ,@(loop for e in `(656.3 587.6 486.1)
+			  collect
+			  `(l.add_wavelength :wl ,e))
+		  (l.list_wavelengths))
+		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
