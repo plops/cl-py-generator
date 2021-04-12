@@ -3,5 +3,9 @@
 cd ~/src
 git clone https://github.com/Sterncat/opticspy
 pip3 install --user -e opticspy
+
+# edit opticspy/__init__.py and remove mplot3d
 #+end_example
+
+
 - http://opticspy.org/
