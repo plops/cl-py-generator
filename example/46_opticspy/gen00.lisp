@@ -128,6 +128,21 @@
 					    (list 1 2 3)
 					    :n 6
 					    :grid_type (string "circular")))
+
+		 (do0
+		  (plt.figure)
+		  (opr.analysis.Ray_fan l (list 1 2 3)
+					(list 1 2 3)
+					))
+		 (do0
+		  (opr.trace.trace_one_ray l :field_num 2 :wave_num 1
+					     :ray (list 0 -1)
+					     :start 0
+					     :end 0
+					     :output True
+					     :output_list (list ,@(loop for e in `(X Y Z K L M)
+								   collect
+								   `(string ,e)))))
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
