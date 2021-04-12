@@ -106,9 +106,9 @@
 					  :glass (string ,material)
 					  :output ,output
 					   :STO ,STO))))
-		 (plt.figure :figsize (list 16 9))
+		 
 		 (do0
-		  (plt.subplot 2 2 1)
+		  (plt.figure)
 		  (l.refresh_paraxial)
 		  (setf d (opr.trace.trace_draw_ray l))
 		  (opr.draw.draw_system l)
@@ -117,9 +117,17 @@
 		  ;; grid n .. rays through y axis of entrance pupil
 		  ;; circular n .. rays rings in entrance pupil
 		  ;; random n .. rays through entrance pupil
-		  (plt.subplot 2 2 2)
-		  (opr.field.grid_generator 6 :grid_type (string "circular")
-					    :output True))
+
+		  
+		  (opr.field.grid_generator :n 6 :grid_type (string "circular")
+					      :output True)
+		  (plt.grid))
+		 (do0
+		  (plt.figure)
+		  (opr.analysis.spotdiagram l (list 1 2 3)
+					    (list 1 2 3)
+					    :n 6
+					    :grid_type (string "circular")))
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
