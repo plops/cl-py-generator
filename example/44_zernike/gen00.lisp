@@ -23,9 +23,9 @@
 
     (progn
       (defun osa-index-nl-to-j (n l)
-   (/ (+ (* n (+ n 2))
-	 l)
-      2))
+	(/ (+ (* n (+ n 2))
+	      l)
+	   2))
 
        (defun all-positions (needle haystack &key (key #'identity))
 	 "find multiple occurances of needle in haystack"
@@ -42,7 +42,7 @@
 				    appending
 				    (loop for l from (- l) upto l
 					  collect
-					  (let ((j (osa-index n l)))
+					  (let ((j (osa-index-nl-to-j n l)))
 					    (when (and (<= 0 j)
 						       (integerp j))
 					      `(,j :n ,n  :l ,l))))))
@@ -197,12 +197,14 @@
 		 ,(let* ((lmax 5)
 			 (nmax 5)
 			 (lut-indices (osa-indices-j-to-nl :n nmax :l lmax))
-			 (jmax (loop for e in lut-indices
+			 #+nil (jmax (loop for e in lut-indices
 				     maximize
 				     (destructuring-bind 
 					 (j &key n l merit merit2) e
 				       j)
 				     )))
+					;(declare (ignorable jmax))
+		    (defparameter *lut* lut-indices)
 		    `(do0
 		      (def osa_index_nl_to_j (n l)
 			(return (/ (+ (* n (+ n 2))
@@ -234,20 +236,21 @@
 									    degree))
 							      (coef-full (loop for c from 0 upto max-degree collect 0)))
 							 
-							 
+							 (defparameter *sparse* (list :coef-sparse coef-sparse
+										      :max-degree max-degree))
 							 (loop for c in coef-sparse
 							       do
 								  (destructuring-bind (&key degree coef n l k) c
-								    (format t "degree=~a coef-full,coef=~a nlk=~a~%" degree (list coef-full coef) (list n l k))
-								    (defparameter *bla* (list :max-degree max-degree
-										   :n-sparse n-coef-sparse
-										   :sparse coef-sparse
-										   :coef-full coef-full
-											      :n-full (length coef-full
-													      )
-											      :nlk (list n l k)
-											      :degree degree))
-								    ;(setf (elt coef-full degree) coef)
+								     (progn (format t "degree=~a coef-full,coef=~a nlk=~a~%" degree (list coef-full coef) (list n l k))
+									   (defparameter *bla* (list :max-degree max-degree
+												     :n-sparse n-coef-sparse
+												     :sparse coef-sparse
+												     :coef-full coef-full
+												     :n-full (length coef-full
+														     )
+												     :nlk (list n l k)
+												     :degree degree)))
+								     (setf (elt coef-full degree) coef)
 								    ))
 							 coef-full)))
 						 )))
