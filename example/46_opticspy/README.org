@@ -1,0 +1,4 @@
+- install
+#+begin_example
+pip3 install --user opticspy
+#+end_example
