@@ -142,8 +142,17 @@
 					     :output True
 					     :output_list (list ,@(loop for e in `(X Y Z K L M)
 								   collect
-								   `(string ,e)))))
-		 ))))
+									`(string ,e)))))
+		 (do0
+		  ,@(loop for e in `((image_position)
+				     (EFY)
+				     (EFY 2 3)
+				     (EP)
+				     EPD
+				     (EX)
+				     (OAL))
+			  collect
+			  `(dot l ,e)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
