@@ -1,3 +1,6 @@
+import matplotlib
+import matplotlib.pyplot as plt
+plt.ion()
 import pandas as pd
 import numpy as np
 import opticspy.ray_tracing as opr
@@ -21,3 +24,11 @@ l.add_surface(number=6, radius=(1.0e+9), thickness=(4.0650    ), glass="air", ou
 l.add_surface(number=7, radius=(247.450    ), thickness=(6.0970    ), glass="S-BSM18_ohara", output=True, STO=False)
 l.add_surface(number=8, radius=(-40.040    ), thickness=(85.590    ), glass="air", output=True, STO=False)
 l.add_surface(number=9, radius=(1.0e+9), thickness=0, glass="air", output=True, STO=False)
+plt.figure(figsize=[16, 9])
+plt.subplot(2, 2, 1)
+l.refresh_paraxial()
+d=opr.trace.trace_draw_ray(l)
+opr.draw.draw_system(l)
+plt.grid()
+plt.subplot(2, 2, 2)
+opr.field.grid_generator(6, grid_type="circular", output=True)
