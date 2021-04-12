@@ -118,7 +118,7 @@
 		  ;; circular n .. rays rings in entrance pupil
 		  ;; random n .. rays through entrance pupil
 
-		  
+		  (plt.figure)
 		  (opr.field.grid_generator :n 6 :grid_type (string "circular")
 					      :output True)
 		  (plt.grid))
