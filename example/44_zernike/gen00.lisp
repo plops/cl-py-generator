@@ -257,8 +257,8 @@
 			(setf osa_index (osa_index_nl_to_j n l))
 			
 			(setf radial (np.polynomial.polynomial.polyval rho (aref coef osa_index)))
-			(setf mask (< rho 1))
-			(return (* (* mask radial) azi))
+			
+			(return (* radial azi))
 			)
 		      (do0
 		       (setf x (np.linspace -1 1 64)
@@ -266,13 +266,14 @@
 			     rho (* x (aref y ":" np.newaxis))
 			     phi (np.arctan2 (aref y ":" np.newaxis) x))
 		       (setf zval (zernike rho phi :n 1 :l 1))
-		       (setf xs (xr.DataArray :data zval
+		       (setf mask (np.where (< rho 1) 1s0 np.nan))
+		       (setf xs (xr.DataArray :data (* mask zval)
 					      :coords (list y x)
 					      :dims (list (string "y")
 							  (string "x"))))
 		       (xs.plot)
-		       (setf cs (xrp.contour xs))
-		       (plt.clabels cs :color (string "k"))
+		       (setf cs (xrp.contour xs  :colors (string "k")))
+		       (plt.clabel cs :inline True)
 		       (plt.grid)
 		       )))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
