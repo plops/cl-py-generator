@@ -79,7 +79,7 @@
 					   )
 
 		  _code_generation_time
-		  (string ,(multiple-value-bind
+		  (string ,(multiple-value-bind 
 				 (second minute hour date month year day-of-week dst-p tz)
 			       (get-decoded-time)
 			     (declare (ignorable dst-p))
