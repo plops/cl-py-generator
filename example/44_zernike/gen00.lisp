@@ -162,8 +162,8 @@
                   
 		  (plt.ion)
 					;(plt.ioff)
-		  ;;(setf font (dict ((string size) (string 6))))
-		  ;; (matplotlib.rc (string "font") **font)
+		  (setf font (dict ((string size) (string 6))))
+		  (matplotlib.rc (string "font") **font)
 		  )
 	         (imports (		;os
 					;sys
@@ -172,7 +172,7 @@
 					;pathlib
 					;(np numpy)
 					;serial
-					;(pd pandas)
+			   (pd pandas)
 			   (xr xarray)
 			   (xrp xarray.plot)
 					;skimage.restoration
@@ -290,22 +290,57 @@
 						   :dims (list (string "y")
 							       (string "x"))))
 			    (return xs))))
-		      (do0
-		       (plt.figure :figsize (list 16 9))
-		       (for (j (range 0 20))
-			    (do0
-			     (plt.subplot 4 5 (+ j 1))
-			     (setf (tuple n l) (osa_index_j_to_nl j))
-			     (setf xs (xr_zernike n l))
-			     (do0 (xs.plot :vmin -1 :vmax 1 :add_colorbar False)
-				  (setf cs (xrp.contour xs  :colors (string "k")))
-				  (plt.clabel cs :inline True)
-				  (plt.grid)
-				  (plt.title (dot (string "j={} n={} l={}")
-						  (format j n l))))
-			     ))
-		       (plt.tight_layout :rect (list 0 0 1 .98))
-		       (plt.savefig (string "zernikes.png")))))))))
+		      ,(let ((l `((1 1 tilt)
+				  (2 0 defocus)
+				  (2 2 primary-astigmatism)
+				  (3 1 primary-coma)
+				  (3 3 trefoil)
+				  (4 0 primary-spherical)
+				  (4 2 secondary-astigmatism)
+				  (4 4 tetrafoil)
+				  (5 1 secondary-coma)
+				  (5 3 secondary-trefoil)
+				  (5 5 pentafoil)
+				  (6 0 secondary-spherical)
+				  (6 2 tertiary-astigmatism)
+				  (6 4 secondary-trefoil)
+				  (6 6 hexafoil)
+				  (7 1 tertiary-coma)
+				  (7 3 tertiary-trefoil)
+				  (7 5 secondary-pentafoil)
+				  (7 7 heptafoil)
+				  (8 0 tretiary-spherical))
+				))
+			`(do0
+			 (plt.figure :figsize (list 20 9))
+			 (setf zernike_names (pd.DataFrame
+					      (dict ((string "n") (list ,@(mapcar #'first l)))
+						    ((string "l") (list ,@(mapcar #'second l)))
+						    ((string "name") (list ,@(mapcar #'(lambda (x) `(string ,(third x))) l))))
+					      ))
+			 (for (j (range 0 (* 4 8)))
+			      (do0
+			       (setf ax (plt.subplot 4 8 (+ j 1)))
+			       (ax.set_aspect (string "equal"))
+			       (setf (tuple n l) (osa_index_j_to_nl j))
+			       (setf xs (xr_zernike n l))
+			       (do0 (xs.plot :vmin -1 :vmax 1 :add_colorbar False)
+				    (setf cs (xrp.contour xs  :colors (string "k")))
+				    (plt.clabel cs :inline True)
+				    (plt.grid)
+				    (setf lookup (aref zernike_names (& (== zernike_names.n n)
+									(== zernike_names.l (np.abs l)))))
+				    (if (== 1 (len lookup))
+				     (plt.title (dot (string "j={} n={} l={}\\n{}")
+						     (format j n l
+							     (dot lookup 
+							      name
+							      (item)))))
+				     (plt.title (dot (string "j={} n={} l={}")
+						     (format j n l)))))
+			       ))
+			 (plt.tight_layout :rect (list 0 0 1 .98))
+			 (plt.savefig (string "zernikes.png"))))))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
