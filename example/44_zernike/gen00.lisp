@@ -292,17 +292,15 @@
 			    (return xs))))
 		      (do0
 		       (plt.figure :figsize (list 16 9))
-		       (for (n (range 0 5))
-			    (for (l (range 0 5))
-				 (do0
-				  
-				  (setf j (osa_index_nl_to_j n l))
-				  (plt.subplot 4 4 (+ j 1))
-				  (setf xs (xr_zernike n l))
-				  (do0 (xs.plot)
-				       (setf cs (xrp.contour xs  :colors (string "k")))
-				       (plt.clabel cs :inline True)
-				       (plt.grid))))))))))))
+		       (for (j (range 0 16))
+			    (do0
+			     (plt.subplot 4 4 (+ j 1))
+			     (setf (tuple n l) (osa_index_j_to_nl j))
+			     (setf xs (xr_zernike n l))
+			     (do0 (xs.plot)
+				  (setf cs (xrp.contour xs  :colors (string "k")))
+				  (plt.clabel cs :inline True)
+				  (plt.grid)))))))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
