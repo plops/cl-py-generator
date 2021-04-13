@@ -257,17 +257,17 @@
 			(setf osa_index (osa_index_nl_to_j n l))
 			
 			(setf radial (np.polynomial.polynomial.polyval rho (aref coef osa_index)))
-			
-			(return (* radial azi))
+			(setf mask (np.where (< rho 1) 1s0 np.nan))
+			(return (* mask radial azi))
 			)
 		      (do0
-		       (setf x (np.linspace -1 1 64)
-			     y (np.linspace -1 1 32)
-			     rho (* x (aref y ":" np.newaxis))
+		       (setf x (np.linspace -1 1 128)
+			     y (np.linspace -1 1 128)
+			     rho (np.hypot x (aref y ":" np.newaxis))
 			     phi (np.arctan2 (aref y ":" np.newaxis) x))
 		       (setf zval (zernike rho phi :n 1 :l 1))
-		       (setf mask (np.where (< rho 1) 1s0 np.nan))
-		       (setf xs (xr.DataArray :data (* mask zval)
+		       
+		       (setf xs (xr.DataArray :data zval
 					      :coords (list y x)
 					      :dims (list (string "y")
 							  (string "x"))))
