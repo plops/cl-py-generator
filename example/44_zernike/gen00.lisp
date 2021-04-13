@@ -312,15 +312,15 @@
 				  (8 0 tretiary-spherical))
 				))
 			`(do0
-			 (plt.figure :figsize (list 20 9))
+			 (plt.figure :figsize (list 19 10))
 			 (setf zernike_names (pd.DataFrame
 					      (dict ((string "n") (list ,@(mapcar #'first l)))
 						    ((string "l") (list ,@(mapcar #'second l)))
 						    ((string "name") (list ,@(mapcar #'(lambda (x) `(string ,(third x))) l))))
 					      ))
-			 (for (j (range 0 (* 4 8)))
+			 (for (j (range 0 (* 5 8)))
 			      (do0
-			       (setf ax (plt.subplot 4 8 (+ j 1)))
+			       (setf ax (plt.subplot 5 8 (+ j 1)))
 			       (ax.set_aspect (string "equal"))
 			       (setf (tuple n l) (osa_index_j_to_nl j))
 			       (setf xs (xr_zernike n l))
