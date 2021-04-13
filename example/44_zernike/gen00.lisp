@@ -229,19 +229,19 @@
 					    collect
 					    (destructuring-bind (j &key n l merit merit2) e
 					      
-					      `(list ,@(let* ((coef-sparse (zernike-radial-coef-sorted n l))
+					      `(list ,@(let* ((coef-sparse (zernike-radial-coef-sorted n (abs l)))
 							      ;; create a full set of coefficients (for each degree of the polynomial)
 							      (n-coef-sparse (length coef-sparse))
 							      (max-degree (destructuring-bind (&key degree coef n l k) (car (last coef-sparse))
 									    degree))
 							      (coef-full (loop for c from 0 upto max-degree collect 0)))
 							 
-							 (defparameter *sparse* (list :coef-sparse coef-sparse
+							 #+nil (defparameter *sparse* (list :coef-sparse coef-sparse
 										      :max-degree max-degree))
 							 (loop for c in coef-sparse
 							       do
 								  (destructuring-bind (&key degree coef n l k) c
-								     (progn (format t "degree=~a coef-full,coef=~a nlk=~a~%" degree (list coef-full coef) (list n l k))
+								     #+nil (progn (format t "degree=~a coef-full,coef=~a nlk=~a~%" degree (list coef-full coef) (list n l k))
 									   (defparameter *bla* (list :max-degree max-degree
 												     :n-sparse n-coef-sparse
 												     :sparse coef-sparse
