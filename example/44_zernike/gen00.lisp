@@ -318,9 +318,9 @@
 						    ((string "l") (list ,@(mapcar #'second l)))
 						    ((string "name") (list ,@(mapcar #'(lambda (x) `(string ,(third x))) l))))
 					      ))
-			 (for (j (range 0 (* 5 8)))
+			 (for (j (range 0 (* 4 9)))
 			      (do0
-			       (setf ax (plt.subplot 5 8 (+ j 1)))
+			       (setf ax (plt.subplot 4 9 (+ j 1)))
 			       (ax.set_aspect (string "equal"))
 			       (setf (tuple n l) (osa_index_j_to_nl j))
 			       (setf xs (xr_zernike n l))
