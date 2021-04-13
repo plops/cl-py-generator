@@ -194,8 +194,8 @@
 			  ; copy
 			   
 			   ))
-		 ,(let* ((lmax 5)
-			 (nmax 5)
+		 ,(let* ((lmax 10)
+			 (nmax 10)
 			 (lut-indices (osa-indices-j-to-nl :n nmax :l lmax))
 			 #+nil (jmax (loop for e in lut-indices
 				     maximize
@@ -207,7 +207,7 @@
 		    (defparameter *lut* lut-indices)
 		    `(do0
 		      (def osa_index_nl_to_j (n l)
-			(return (/ (+ (* n (+ n 2))
+			(return (// (+ (* n (+ n 2))
 				      l)
 				   2)))
 		      (def osa_index_j_to_nl (j)
@@ -219,7 +219,7 @@
 			(return (aref lut j)))
 		      (def zernike (rho phi &key (n 0) (l 0))
 			(comments ,(format nil "n in [0 .. ~a], l in [-~a .. ~a]" nmax lmax lmax))
-			(setf arg (* phi m))
+			(setf arg (* phi (abs l)))
 			(if (< l 0)
 			    (setf azi (np.sin arg))
 			    (setf azi (np.cos arg)))
@@ -258,7 +258,13 @@
 			
 			(setf radial (np.polynomial.polynomial.polyval rho (aref coef osa_index)))
 			(return (* radial azi))
-			)))))))
+			)
+		      (do0
+		       (setf x (np.linspace 0 1 30)
+			     y (np.linspace 0 1 30)
+			     rho (* x (aref y ":" np.newaxis))
+			     phi (np.arctan2 (aref y ":" np.newaxis) x))
+		       (setf z (zernike rho phi :n 0 :l 0)))))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
