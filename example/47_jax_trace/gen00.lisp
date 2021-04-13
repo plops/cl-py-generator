@@ -61,12 +61,12 @@
 			   ;sklearn.linear_model
 			   ;itertools
 					;datetime
-			   (jnp jax.numpy)
+			   (np jax.numpy)
 			   jax
 			   jax.random
 			   jax.config
 			   ))
-		 "from jax import grad, jit, jacfwd, jacrev"
+		 "from jax import grad, jit, jacfwd, jacrev, vmap, lax"
 		 ,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
 		 (jax.config.update (string "jax_enable_x64")
 					   True)
@@ -93,113 +93,12 @@
 				     date
 				     (- tz))
 			     )))
-		 #+nil (do0
-		  (def tanh (x)
-		    (setf y (jnp.exp (* -2s0 x))
-			  )
-		    (return (/ (- 1s0 y)
-			       (+ 1s0 y))))
-		  (setf grad_tanh (grad tanh))
-		  (print (grad_tanh 1.0) ))
-
 		 (do0
-		  
-		  (setf nx 32
-			ny 27
-			x (jnp.linspace -1 1 nx)
-			y (jnp.linspace -1 1 ny))
-		  (setf q (jnp.sqrt (+ (** (aref x "...,jnp.newaxis") 2)
-			      (** (aref y "jnp.newaxis,...") 2))))
-		   
-		  (setf xs (xr.DataArray :data q
-					 :coords (list x y)
-					 :dims (list (string "x")
-
-						     (string "y"))))
-
-		  (def model (param &key xs (noise False))
-		    (setf (ntuple x0 y0 radius amp) param)
-		    (setf res (xs.copy))
-		    (setf xx (aref xs.x.values "...,jnp.newaxis")
-			  yy (aref xs.y.values "jnp.newaxis,..."))
-		    (setf r (jnp.sqrt (+ (** (+ xx x0) 2)
-					 (** (+ yy y0) 2))))
-		    (setf s (abs (* amp (sinc (/ r radius)))))
-
-		    (when noise
-		     (do0 (setf key (jax.random.PRNGKey 0))
-			  (setf s (+ s (jax.random.uniform key s.shape)))))
-		    (setf res.values s)
-		    
-		    
-		    (return res)
-		    )
-		  (def model_merit (param &key xs)
-		    (setf res (model param :xs xs :noise False))
-		    (return (dot (- (res.values.astype jnp.float32)
-				    (xs.values.astype jnp.float32))
-				 (ravel))))
-		  (setf xs_mod (model (tuple .1 -.2 .5 30.0)
-				      :xs xs
-				      :noise True
-				      ))
-		  )
-		 
-		 (do0
-		  (def jax_model (param x y goal)
-		    (setf (ntuple x0 y0 radius amp) param)
-		    
-		    (setf r (jnp.sqrt (+ (** (+ (aref x "...,jnp.newaxis") x0) 2)
-					 (** (+ (aref y "jnp.newaxis,...") y0) 2))))
-		    (setf s (abs (* amp (sinc (/ r radius)))))
-		    (return (dot (- (dot s (astype jnp.float32))
-				    (dot goal (astype jnp.float32))
-				    )
-				 (ravel))))
-		  (setf j (jit (jacrev jax_model :argnums 0)))
-		  #+nil (do0
-		   (setf x0 (tuple .12 -.27 .8 13.0)
-			 x xs.x.values
-			 y xs.y.values
-			 goal xs.values)
-		   (j x0 x y goal)
-		   )
-		  (def j_for_call (param &key xs)
-		     (setf 
-		      x (dot xs.x.values (astype jnp.float32)
-			     )
-		      y (dot xs.y.values (astype jnp.float32)
-			    )
-		      goal (dot xs.values (astype jnp.float32)))
-		    (return (jnp.array (j param x y goal)))))
-		 
-
-		 (do0
-		  (setf x0 (tuple .12 -.27 .45 28.0))
-		   (setf param_opt
-		    (scipy.optimize.least_squares model_merit
-						  x0
-						  ;:jac (string "3-point")
-						  ;:jac (string "cs")
-						   :jac j_for_call
-					;:gtol None
-					;:xtol None
-						  :verbose 2
-						  :kwargs (dict ((string "xs") xs_mod))))
-		   (print param_opt))
-		 (do0
-		  (setf xs_fit (model param_opt.x
-				      :xs xs))
-		  (plt.figure :figsize (tuple 14 6))
-		  (setf pl (tuple 1 3))
-		  ,@(loop for e in `(xs_mod
-				     xs_fit
-				     (- xs_fit xs_mod))
-			  and i from 0
-			  collect
-			  `(do0
-			    (setf ax (plt.subplot2grid pl (tuple 0 ,i)))
-			    (xrp.imshow ,e))))
-		 ))))
+		  (def raymarch (ro rd sdf_fn &key (max_steps 10))
+		    (setf tt 0.0)
+		    (for (i (range max_steps))
+			 (setf p (+ ro (* tt rd))
+			       tt (+ tt (sdf_fn p))))
+		    (return tt)))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
