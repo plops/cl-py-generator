@@ -277,8 +277,8 @@
 			    (plt.grid))
 		       )
 		      (do0
-		       (def xr_zernike (&key (n 0) (l 0) (x (np.linspace -1 1 32))
-					     (y (np.linspace -1 1 32)))
+		       (def xr_zernike (&key (n 0) (l 0) (x (np.linspace -1 1 64))
+					     (y (np.linspace -1 1 64)))
 			 (string3 "return xarray with evaluated zernike polynomial")
 			 (do0 (setf
 			      rho (np.hypot x (aref y ":" np.newaxis))
@@ -292,15 +292,20 @@
 			    (return xs))))
 		      (do0
 		       (plt.figure :figsize (list 16 9))
-		       (for (j (range 0 16))
+		       (for (j (range 0 20))
 			    (do0
-			     (plt.subplot 4 4 (+ j 1))
+			     (plt.subplot 4 5 (+ j 1))
 			     (setf (tuple n l) (osa_index_j_to_nl j))
 			     (setf xs (xr_zernike n l))
-			     (do0 (xs.plot)
+			     (do0 (xs.plot :vmin -1 :vmax 1 :add_colorbar False)
 				  (setf cs (xrp.contour xs  :colors (string "k")))
 				  (plt.clabel cs :inline True)
-				  (plt.grid)))))))))))
+				  (plt.grid)
+				  (plt.title (dot (string "j={} n={} l={}")
+						  (format j n l))))
+			     ))
+		       (plt.tight_layout :rect (list 0 0 1 .98))
+		       (plt.savefig (string "zernikes.png")))))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
