@@ -310,7 +310,9 @@
 				  (7 5 secondary-pentafoil)
 				  (7 7 heptafoil)
 				  (8 0 tretiary-spherical))
-				))
+				)
+			     (h 4)
+			     (w 9))
 			`(do0
 			 (plt.figure :figsize (list 19 10))
 			 (setf zernike_names (pd.DataFrame
@@ -318,9 +320,9 @@
 						    ((string "l") (list ,@(mapcar #'second l)))
 						    ((string "name") (list ,@(mapcar #'(lambda (x) `(string ,(third x))) l))))
 					      ))
-			 (for (j (range 0 (* 4 9)))
+			 (for (j (range 0 (* ,h ,w)))
 			      (do0
-			       (setf ax (plt.subplot 4 9 (+ j 1)))
+			       (setf ax (plt.subplot ,h ,w (+ j 1)))
 			       (ax.set_aspect (string "equal"))
 			       (setf (tuple n l) (osa_index_j_to_nl j))
 			       (setf xs (xr_zernike n l))
@@ -337,9 +339,14 @@
 							      name
 							      (item)))))
 				     (plt.title (dot (string "j={} n={} l={}")
-						     (format j n l)))))
+						     (format j n l))))
+				    (unless (== (% j ,w) 0)
+				      (plt.ylabel None))
+				    (unless (== (% (// j ,w) ,h) ,(- h 1))
+				      (plt.xlabel None)))
 			       ))
-			 (plt.tight_layout :rect (list 0 0 1 .98))
+			 (plt.tight_layout ;:rect (list 0 0 1 .98)
+			  )
 			 (plt.savefig (string "zernikes.png"))))))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
