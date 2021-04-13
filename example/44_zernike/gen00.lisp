@@ -157,7 +157,7 @@
 					;"from matplotlib.figure import Figure"
 		  (imports ((plt matplotlib.pyplot)
 			  ;  (animation matplotlib.animation) 
-                            ;(xrp xarray.plot)
+                            (xrp xarray.plot)
 			    ))
                   
 		  (plt.ion)
@@ -173,8 +173,8 @@
 					;(np numpy)
 					;serial
 					;(pd pandas)
-					;(xr xarray)
-					;(xrp xarray.plot)
+			   (xr xarray)
+			   (xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)
 					; EP_SerialIO
@@ -257,14 +257,24 @@
 			(setf osa_index (osa_index_nl_to_j n l))
 			
 			(setf radial (np.polynomial.polynomial.polyval rho (aref coef osa_index)))
-			(return (* radial azi))
+			(setf mask (< rho 1))
+			(return (* (* mask radial) azi))
 			)
 		      (do0
-		       (setf x (np.linspace 0 1 30)
-			     y (np.linspace 0 1 30)
+		       (setf x (np.linspace -1 1 64)
+			     y (np.linspace -1 1 32)
 			     rho (* x (aref y ":" np.newaxis))
 			     phi (np.arctan2 (aref y ":" np.newaxis) x))
-		       (setf z (zernike rho phi :n 0 :l 0)))))))))
+		       (setf zval (zernike rho phi :n 1 :l 1))
+		       (setf xs (xr.DataArray :data zval
+					      :coords (list y x)
+					      :dims (list (string "y")
+							  (string "x"))))
+		       (xs.plot)
+		       (setf cs (xrp.contour xs))
+		       (plt.clabels cs :color (string "k"))
+		       (plt.grid)
+		       )))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
