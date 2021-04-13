@@ -261,21 +261,48 @@
 			(return (* mask radial azi))
 			)
 		      (do0
-		       (setf x (np.linspace -1 1 128)
-			     y (np.linspace -1 1 128)
-			     rho (np.hypot x (aref y ":" np.newaxis))
-			     phi (np.arctan2 (aref y ":" np.newaxis) x))
-		       (setf zval (zernike rho phi :n 1 :l 1))
-		       
-		       (setf xs (xr.DataArray :data zval
-					      :coords (list y x)
-					      :dims (list (string "y")
-							  (string "x"))))
-		       (xs.plot)
-		       (setf cs (xrp.contour xs  :colors (string "k")))
-		       (plt.clabel cs :inline True)
-		       (plt.grid)
-		       )))))))
+		       (do0 (setf x (np.linspace -1 1 128)
+			      y (np.linspace -1 1 128)
+			      rho (np.hypot x (aref y ":" np.newaxis))
+			      phi (np.arctan2 (aref y ":" np.newaxis) x))
+			    (setf zval (zernike rho phi :n 1 :l 1))
+			    
+			    (setf xs (xr.DataArray :data zval
+						   :coords (list y x)
+						   :dims (list (string "y")
+							       (string "x")))))
+		       #+nil (do0 (xs.plot)
+			    (setf cs (xrp.contour xs  :colors (string "k")))
+			    (plt.clabel cs :inline True)
+			    (plt.grid))
+		       )
+		      (do0
+		       (def xr_zernike (&key (n 0) (l 0) (x (np.linspace -1 1 32))
+					     (y (np.linspace -1 1 32)))
+			 (string3 "return xarray with evaluated zernike polynomial")
+			 (do0 (setf
+			      rho (np.hypot x (aref y ":" np.newaxis))
+			      phi (np.arctan2 (aref y ":" np.newaxis) x))
+			    (setf zval (zernike rho phi :n n :l l))
+			    
+			    (setf xs (xr.DataArray :data zval
+						   :coords (list y x)
+						   :dims (list (string "y")
+							       (string "x"))))
+			    (return xs))))
+		      (do0
+		       (plt.figure :figsize (list 16 9))
+		       (for (n (range 0 5))
+			    (for (l (range 0 5))
+				 (do0
+				  
+				  (setf j (osa_index_nl_to_j n l))
+				  (plt.subplot 4 4 (+ j 1))
+				  (setf xs (xr_zernike n l))
+				  (do0 (xs.plot)
+				       (setf cs (xrp.contour xs  :colors (string "k")))
+				       (plt.clabel cs :inline True)
+				       (plt.grid))))))))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
