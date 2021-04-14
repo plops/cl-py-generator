@@ -258,7 +258,7 @@
 			(setf N 64
 			      xs (np.linspace 0 1 N)
 			      (ntuple us vs) (np.meshgrid xs xs)
-			      uv (dot (np.vstack (list (us.flattend)
+			      uv (dot (np.vstack (list (us.flatten)
 						       (vs.flatten)))
 				      T)
 			      )
