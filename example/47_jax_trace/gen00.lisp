@@ -101,14 +101,30 @@
 			       tt (+ tt (sdf_fn p))))
 		    (return tt))
 		  ,(let ((l `((none 0.0)
-			      (floor .1)
-			      (ceil .2)
-			      (wall_rd .3)
-			      (wall_wh .4)
-			      (wall_gr .5)
-			      (short_block .6)
-			      (tall_block .7)
-			      (light 1.0)
+			      (floor .1 :c py)
+			      (ceiling .2 :c (- 4.0 py))
+			      (leftwall .3 :c (- px -2.0))
+			      (backwall .4 :c (- 4.0 pz))
+			      (rightwall .5 :c (- 2.0 px))
+			      (short_block .6 :c d :code
+					  (setf bw .6
+						p2 (rotateY (- p
+							       (np.array (list .65
+									       bw
+									       1.7)))
+							    (* -.1 np.pi))
+						d (udBox p2 (np.array (list bw bw bw)))))
+			      (tall_block .7 :c d :code
+					   (setf bh 1.3
+							       p2 (rotateY (- p
+									      (np.array (list -.64
+											      bh
+											      2.6)))
+								     (* .15 np.pi))
+							 d (udBox p2 (np.array (list .6 bh .6)))))
+			      (light 1.0 :c (udBox (- p (np.array (list 0 3.9 2.0))
+						      )
+						   (np.array (list .5 .01 .5))))
 			      (sphere .9))))
 		     `(do0
 		       (def df (obj_id dist)
@@ -138,17 +154,21 @@
 			    ,@(loop for e in lr
 				    collect
 				    (destructuring-bind (name code) e
-				      `(def ,(format nil "~a" name) (p a)
+				      `(def ,(format nil "rotate~a" name) (p a)
 					(setf c (np.cos a)
 					      s (np.sin a)
 					      (ntuple px py pz) p)
-					(return (np.array (list ,@code))))))))
+					 (return (np.array (list ,@code))))))))
 		       (def opU (a b)
 			 (string3 "union of two solids")
 			 (setf condition (np.tile (< (aref a 1 None)
 						     (aref b 1 None))
 						  (list 2)))
 			 (return (np.where condition a b)))
+		       (def sdScene (p)
+			 (string3 "Cornell box")
+			 (setf (ntuple px py pz) p)
+			 )
 		       )))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
