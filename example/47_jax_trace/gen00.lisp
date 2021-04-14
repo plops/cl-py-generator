@@ -114,7 +114,7 @@
 		       (def df (obj_id dist)
 			 (return (np.array (list obj_id dist))))
 		       (def udBox (p b)
-			 (comments "b .. half-widths")
+			 (comments "distance field of box, b .. half-widths")
 			 (return (length (np.maximum (- (np.abs p)
 							b)
 						     0.0))))
@@ -123,8 +123,32 @@
 					   (+ (* s py)
 					      (* c pz))))
 				    (Y ((+ (* c px)
-					   (* s pz)))
-				       )))))
+					   (* s pz))
+					py
+					(+ (* -s px)
+					   (* c pz)))
+
+				       )
+				    (Z ((- (* c px)
+					   (* s py))
+					(+ (* s px)
+					   (* c py))
+					pz)))))
+			  `(do0
+			    ,@(loop for e in lr
+				    collect
+				    (destructuring-bind (name code) e
+				      `(def ,(format nil "~a" name) (p a)
+					(setf c (np.cos a)
+					      s (np.sin a)
+					      (ntuple px py pz) p)
+					(return (np.array (list ,@code))))))))
+		       (def opU (a b)
+			 (string3 "union of two solids")
+			 (setf condition (np.tile (< (aref a 1 None)
+						     (aref b 1 None))
+						  (list 2)))
+			 (return (np.where condition a b)))
 		       )))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
