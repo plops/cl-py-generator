@@ -96,7 +96,8 @@
 			     )))
 		 (do0
 		  (def length (p)
-		    (return (np.linalg.norm p :axis 1 :keepdims True)))
+		    (return (np.linalg.norm p ;:axis 1 :keepdims True
+					    )))
 		  (def normalize (p)
 		    (return (/ p (length p))))
 		  (def raymarch (ro rd sdf_fn &key (max_steps 10))
@@ -202,7 +203,7 @@
 			 (return (normalize "grad(dist)(p)")))
 		       (def sampleCosineWeightedHemisphere (rng_key n)
 			 (setf (ntuple rng_key subkey ) (random.split rng_key)
-			       u (random.uniform subkey :shape 2
+			       u (random.uniform subkey :shape (tuple 2)
 							:minval 0
 							:maxval 1)
 			       (ntuple u1 u2) u)
@@ -221,8 +222,7 @@
 			(setf nor (normalize (np.array (list 1.0 1.0 0)))
 			      nor (np.tile nor (list 1000 1))
 			      rng_key (random.split RNG_KEY 1000))
-			(setf rd ((vmap sampleCosineWeightedHemisphere)
-				  rng_key nor))
+			(setf rd "vmap(sampleCosineWeightedHemisphere)(rng_key,nor)")
 			(setf fig (plt.figure)
 			      
 			      )
@@ -234,7 +234,8 @@
 			 (plt.xlabel (string "x"))
 			 (plt.xlabel (string "y"))
 			 (plt.xlabel (string "z"))
-			 (ax.set_aspect (string "equal")))
+			 ;(ax.set_aspect (string "equal"))
+			 )
 			(do0
 			 (setf ax (fig.add_subplot 122))
 			 (ax.scatter (aref rd ":" 0)
