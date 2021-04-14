@@ -37,6 +37,7 @@
 			    ))
                   
 		  (plt.ion)
+		  "from mpl_toolkits.mplot3d import Axes3D"
 					;(plt.ioff)
 		  ;;(setf font (dict ((string size) (string 6))))
 		  ;; (matplotlib.rc (string "font") **font)
@@ -66,7 +67,7 @@
 			   jax.random
 			   jax.config
 			   ))
-		 "from jax import grad, jit, jacfwd, jacrev, vmap, lax"
+		 "from jax import grad, jit, jacfwd, jacrev, vmap, lax, random"
 		 ,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
 		 (jax.config.update (string "jax_enable_x64")
 					   True)
@@ -94,12 +95,17 @@
 				     (- tz))
 			     )))
 		 (do0
+		  (def length (p)
+		    (return (np.linalg.norm p :axis 1 :keepdims True)))
+		  (def normalize (p)
+		    (return (/ p (length p))))
 		  (def raymarch (ro rd sdf_fn &key (max_steps 10))
 		    (setf tt 0.0)
 		    (for (i (range max_steps))
 			 (setf p (+ ro (* tt rd))
 			       tt (+ tt (sdf_fn p))))
 		    (return tt))
+		  (comments "numers in meter, light source is 1m x 1m, box is 4m x 4m")
 		  ,(let ((l `((none 0.0)
 			      (floor .1 :c py)
 			      (ceiling .2 :c (- 4.0 py))
@@ -127,7 +133,14 @@
 						   (np.array (list .5 .01 .5))))
 			      (sphere .9))))
 		     `(do0
+		         ,@(loop for e in l
+				 collect
+				 (destructuring-bind (object-name object-id &key c code) e
+				   `(do0
+				     (setf ,(string-upcase (format nil "obj_~a" object-name))
+					   ,object-id))))
 		       (def df (obj_id dist)
+			 (string3 "hard coded enums for each object. associate intersection points with their nearest object. values are arbitrary")
 			 (return (np.array (list obj_id dist))))
 		       (def udBox (p b)
 			 (comments "distance field of box, b .. half-widths")
@@ -165,10 +178,68 @@
 						     (aref b 1 None))
 						  (list 2)))
 			 (return (np.where condition a b)))
+		     
 		       (def sdScene (p)
 			 (string3 "Cornell box")
 			 (setf (ntuple px py pz) p)
-			 )
+			 ,@(loop for e in l
+				 collect
+				 (destructuring-bind (object-name object-id &key c code) e
+				   (let ((object (string-downcase (format nil "obj_~a" object-name))))
+				     `(do0
+				       ,(if code
+					    code
+					    `(comments " "))
+				      (setf ,object
+					    (df ,(string-upcase (format nil "OBJ_~a" object-name))
+						,c)
+					    res (opU res ,object))
+				      ))))
+			 (return res))
+		       (def dist (p)
+			 (return (aref (sdScene p) 1)))
+		       (def calcNormalWithAutograd (p)
+			 (return (normalize "grad(dist)(p)")))
+		       (def sampleCosineWeightedHemisphere (rng_key n)
+			 (setf (ntuple rng_key subkey ) (random.split rng_key)
+			       u (random.uniform subkey :shape 2
+							:minval 0
+							:maxval 1)
+			       (ntuple u1 u2) u)
+			 (setf uu (normalize (np.cross n (np.array (list 0.0 1.0 1.0))))
+			       vv (np.cross uu n)
+			       ra (np.sqrt u2)
+			       rx (* ra (np.cos (* 2 np.pi u1)))
+			       ry (* ra (np.sin (* 2 np.pi u1)))
+			       rz (np.sqrt (- 1.0 u2))
+			       rr (+ (* rx uu)
+				     (* ry vv)
+				     (* rz n)))
+			 (return (normalize rr)))
+		       (do0
+			(setf RNG_KEY (random.PRNGKey 0))
+			(setf nor (normalize (np.array (list 1.0 1.0 0)))
+			      nor (np.tile nor (list 1000 1))
+			      rng_key (random.split RNG_KEY 1000))
+			(setf rd ((vmap sampleCosineWeightedHemisphere)
+				  rng_key nor))
+			(setf fig (plt.figure)
+			      
+			      )
+			(do0
+			 (setf ax (fig.add_subplot 121 :projection (string "3d")))
+			 (ax.scatter (aref rd ":" 0)
+				     (aref rd ":" 2)
+				     (aref rd ":" 1))
+			 (plt.xlabel (string "x"))
+			 (plt.xlabel (string "y"))
+			 (plt.xlabel (string "z"))
+			 (ax.set_aspect (string "equal")))
+			(do0
+			 (setf ax (fig.add_subplot 122))
+			 (ax.scatter (aref rd ":" 0)
+				     (aref rd ":" 1))
+			 (ax.set_aspect (string "equal"))))
 		       )))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
