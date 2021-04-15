@@ -42,7 +42,7 @@
 					;sys
 					time
 					;docopt
-					;pathlib
+					pathlib
 					;(np numpy)
 					;serial
 					(pd pandas)
@@ -58,7 +58,7 @@
 					;sklearn.linear_model
 					;itertools
 					;datetime
-			   (np numpy)
+			  ; (np numpy)
 			   ;(cv cv2)
 					;(mp mediapipe)
 					;jax
@@ -67,10 +67,20 @@
 			  ; copy
 
 			   (opr opticspy.ray_tracing)
-			   cProfile
+			   ;cProfile
+			   (np jax.numpy)
+			   jax
+			   jax.random
+			   jax.config
 			   ))
 		 "from opticspy.ray_tracing.glass_function.refractiveIndex import *"
 
+		 "from jax import grad, jit, jacfwd, jacrev, vmap, lax, random"
+		 ,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
+		 ,(format nil "from jax import ~{~a~^, ~}" `(grad jit jacfwd jacrev vmap lax random))
+		 (jax.config.update (string "jax_enable_x64")
+					   True)
+		 
 		 (do0
 		  (comments "https://stackoverflow.com/questions/5849800/what-is-the-python-equivalent-of-matlabs-tic-and-toc-functions")
 		  (class Timer (object)
@@ -89,15 +99,16 @@
 			l.FNO 5)
 		  (l.lens_info))
 		 
-		 (do0
+		 #+nil (do0
 		  (do0
-		   (def prof () ;with (Timer (string "get 3 refractive indices"))
+		   (;def prof () ;
+		     with (Timer (string "get 3 refractive indices"))
 			(setf index
 			      (opr.glass_funcs.glass2indexlist l.wavelength_list (string "S-BSM18_ohara")))))
-		  ;index
-		  (cProfile.run (string "prof()"))
+		  index
+		  ;(cProfile.run (string "prof()"))
 		  )
-		 #+nil (do0
+		 #-nil (do0
 		  ,(let ((system-def `((1e9 1e9 air)
 			      (41.15909 6.09755 S-BSM18_ohara)
 			      (-957.83146 9.349 air)
@@ -108,7 +119,8 @@
 			      (-40.04 85.59 air)
 			      (1e9 0 air)))
 			 (l-wl `(656.3 587.6 486.1))
-			 (l-wl-name `(red green blue)))
+			 (l-wl-name `(red green blue))
+			 (system-fn "system.csv"))
 		     `(do0
 		       (do0
 			,@(loop for e in `((add_wavelength :wl ,l-wl)
@@ -120,31 +132,42 @@
 					`(dot l (,name ,param ,v)))))
 			(l.list_wavelengths)
 			(l.list_fields))
-		       (with (Timer (string "system definition"))
-			(setf df (pd.DataFrame
-				  (list
-				   ,@(loop for e in system-def
-					   and i from 1
-					   collect
-					   (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
-					     `(dict ,@(loop for e in `(radius thickness material STO output)
-							    and f in (list radius thickness `(string ,material) STO output)
-							    collect
-							  
-							    `((string ,e) ,f))
-						    ,@(loop for color in l-wl-name
-							    and wl in l-wl
-							    and i from 0
-							    collect
-							    `((string ,(format nil "n_~a" color))
-							      (aref (opr.glass_funcs.glass2indexlist
-								     (list ,wl)
-								     (string ,material))
-								    0)
-							      )))
-					   
-					     ))))))))
-		  (df.to_csv (string "system.csv")))
+		       (do0
+			(setf system_data (pathlib.Path (string ,system-fn)))
+			(if (dot system_data
+				 (exists))
+			    (do0
+			     (setf df (pd.read_csv (string ,system-fn))))
+			    (do0
+			     (with (Timer (string "system definition"))
+				   (setf df (pd.DataFrame
+					     (list
+					      ,@(loop for e in system-def
+						      and i from 1
+						      collect
+						      (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
+							`(dict ,@(loop for e in `(radius thickness material STO output)
+								       and f in (list radius thickness `(string ,material) STO output)
+								       collect
+								      
+								       `((string ,e) ,f))
+							       ,@(loop for color in l-wl-name
+								       and wl in l-wl
+								       and i from 0
+								       collect
+								       `((string ,(format nil "n_~a" color))
+									 (aref (opr.glass_funcs.glass2indexlist
+										(list ,wl)
+										(string ,material))
+									       0)
+									 )))
+						       
+							))))))
+			     (df.to_csv (str system_data))
+			     ))
+
+			)))
+		  )
 		 
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
