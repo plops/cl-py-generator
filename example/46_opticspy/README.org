@@ -13,5 +13,6 @@ pip3 install --user -e opticspy
 - plan for gen01
   - keep system information in pandas dataframe
   - use opticspy to compute paraxial parameters and pupil, use its index model
+    - i think opticspy just uses the pytmm material database 
   - implement sequential raytracer through spheres with jax
   - compute waveaberration

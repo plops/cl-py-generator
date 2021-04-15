@@ -68,6 +68,7 @@
 
 			   (opr opticspy.ray_tracing)
 			   ))
+		 "from opticspy.ray_tracing.glass_function.refractiveIndex import *"
 		 
 		 (do0
 		  (setf l (opr.lens.Lens :lens_name (string "Triplet")
@@ -109,6 +110,10 @@
 				       )))))
 		  (df.to_csv (string "system.csv")))
 		 (do0
+		  (setf index
+			(opr.glass_funcs.glass2indexlist l.wavelength_list (string "S-BSM18_ohara")))
+		  index)
+		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
 		       (l.add_surface
 			 :number idx
