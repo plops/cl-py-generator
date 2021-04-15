@@ -106,7 +106,8 @@
 						      
 						      `((string ,e) ,f)))
 				       
-				       ))))))
+				       )))))
+		  (df.to_csv (string "system.csv")))
 		 (do0
 		  (for ((ntuple idx row) (df.iterrows))
 		       (l.add_surface
