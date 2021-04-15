@@ -9,3 +9,8 @@ pip3 install --user -e opticspy
 
 
 - http://opticspy.org/
+
+- plan
+  - use opticspy to compute paraxial parameters and pupil
+  - implement sequential raytracer through spheres with jax
+  - compute waveaberration
