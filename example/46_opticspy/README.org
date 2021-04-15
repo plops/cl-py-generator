@@ -16,3 +16,8 @@ pip3 install --user -e opticspy
     - i think opticspy just uses the pytmm material database 
   - implement sequential raytracer through spheres with jax
   - compute waveaberration
+
+
+- references
+  - short overview of jax https://www.youtube.com/watch?v=0mVmRHMaOJ4
+  - 1h talk on jax: https://www.youtube.com/watch?v=BzuEGdGHKjc
