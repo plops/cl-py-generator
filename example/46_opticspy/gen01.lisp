@@ -75,44 +75,59 @@
 				     :creator (string "XF"))
 			l.FNO 5)
 		  (l.lens_info))
-		 (do0
-		  ,@(loop for e in `((add_wavelength :wl (656.3 587.6 486.1))
-				     (add_field_YAN :angle (0 14 20))
-				     )
-			  appending
-			  (destructuring-bind (name param vals) e
-			    (loop for v in vals collect
-				  `(dot l (,name ,param ,v)))))
-		  (l.list_wavelengths)
-		  (l.list_fields))
-		 (do0
-		  (setf df (pd.DataFrame
-			    (list
-			     ,@(loop for e
-				       in `((1e9 1e9 air)
-					    (41.15909 6.09755 S-BSM18_ohara)
-					    (-957.83146 9.349 air)
-					    (-51.32 2.032 N-SF2_schott)
-					    (42.378 5.996 air)
-					    (1e9 4.065 air :STO True)
-					    (247.45 6.097 S-BSM18_ohara)
-					    (-40.04 85.59 air)
-					    (1e9 0 air))
-				       and i from 1
-				     collect
-				     (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
-				       `(dict ,@(loop for e in `(radius thickness material STO output)
-						      and f in (list radius thickness `(string ,material) STO output)
-						      collect
-						      
-						      `((string ,e) ,f)))
-				       
-				       )))))
-		  (df.to_csv (string "system.csv")))
+		 
 		 (do0
 		  (setf index
 			(opr.glass_funcs.glass2indexlist l.wavelength_list (string "S-BSM18_ohara")))
 		  index)
+		 (do0
+		  ,(let ((system-def `((1e9 1e9 air)
+			      (41.15909 6.09755 S-BSM18_ohara)
+			      (-957.83146 9.349 air)
+			      (-51.32 2.032 N-SF2_schott)
+			      (42.378 5.996 air)
+			      (1e9 4.065 air :STO True)
+			      (247.45 6.097 S-BSM18_ohara)
+			      (-40.04 85.59 air)
+			      (1e9 0 air)))
+			 (l-wl `(656.3 587.6 486.1))
+			 (l-wl-name `(red green blue)))
+		     `(do0
+		       (do0
+			,@(loop for e in `((add_wavelength :wl ,l-wl)
+					   (add_field_YAN :angle (0 14 20))
+					   )
+				appending
+				(destructuring-bind (name param vals) e
+				  (loop for v in vals collect
+					`(dot l (,name ,param ,v)))))
+			(l.list_wavelengths)
+			(l.list_fields))
+		       (setf df (pd.DataFrame
+				 (list
+				  ,@(loop for e in system-def
+					  and i from 1
+					  collect
+					  (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
+					    `(dict ,@(loop for e in `(radius thickness material STO output)
+							   and f in (list radius thickness `(string ,material) STO output)
+							   collect
+							  
+							   `((string ,e) ,f))
+						   ,@(loop for color in l-wl-name
+							   and wl in l-wl
+							   and i from 0
+							   collect
+							   `((string ,(format nil "n_~a" color))
+							     (aref (opr.glass_funcs.glass2indexlist
+								    (list ,wl)
+								    (string ,material))
+								   0)
+							     )))
+					   
+					    )))))))
+		  (df.to_csv (string "system.csv")))
+		 
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
 		       (l.add_surface
