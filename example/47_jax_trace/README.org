@@ -1,2 +1,4 @@
 - https://blog.evjang.com/2019/11/jaxpt.html
 
+- current state: don't understand the example code, to make it run. 
+- i only wanted raytracer for optics so maybe not useful to get pathtracer running
