@@ -40,7 +40,7 @@
 		  )
 	         (imports (		;os
 					;sys
-					;time
+					time
 					;docopt
 					;pathlib
 					;(np numpy)
@@ -69,6 +69,18 @@
 			   (opr opticspy.ray_tracing)
 			   ))
 		 "from opticspy.ray_tracing.glass_function.refractiveIndex import *"
+
+		 (do0
+		  (comments "https://stackoverflow.com/questions/5849800/what-is-the-python-equivalent-of-matlabs-tic-and-toc-functions")
+		  (class Timer (object)
+			 (def __init__ (self &key (name None))
+			   (setf self.name name))
+			 (def __enter__ (self)
+			   (setf self.tstart (time.time)))
+			 (def __exit__ (self type value traceback)
+			   (print (dot (string "[{}] elapsed: {}s")
+				       (format self.name (- (time.time)
+							    self.tstart)))))))
 		 
 		 (do0
 		  (setf l (opr.lens.Lens :lens_name (string "Triplet")
@@ -103,29 +115,30 @@
 					`(dot l (,name ,param ,v)))))
 			(l.list_wavelengths)
 			(l.list_fields))
-		       (setf df (pd.DataFrame
-				 (list
-				  ,@(loop for e in system-def
-					  and i from 1
-					  collect
-					  (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
-					    `(dict ,@(loop for e in `(radius thickness material STO output)
-							   and f in (list radius thickness `(string ,material) STO output)
-							   collect
+		       (with (Timer (string "system definition"))
+			(setf df (pd.DataFrame
+				  (list
+				   ,@(loop for e in system-def
+					   and i from 1
+					   collect
+					   (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
+					     `(dict ,@(loop for e in `(radius thickness material STO output)
+							    and f in (list radius thickness `(string ,material) STO output)
+							    collect
 							  
-							   `((string ,e) ,f))
-						   ,@(loop for color in l-wl-name
-							   and wl in l-wl
-							   and i from 0
-							   collect
-							   `((string ,(format nil "n_~a" color))
-							     (aref (opr.glass_funcs.glass2indexlist
-								    (list ,wl)
-								    (string ,material))
-								   0)
-							     )))
+							    `((string ,e) ,f))
+						    ,@(loop for color in l-wl-name
+							    and wl in l-wl
+							    and i from 0
+							    collect
+							    `((string ,(format nil "n_~a" color))
+							      (aref (opr.glass_funcs.glass2indexlist
+								     (list ,wl)
+								     (string ,material))
+								    0)
+							      )))
 					   
-					    )))))))
+					     ))))))))
 		  (df.to_csv (string "system.csv")))
 		 
 		#+nil (do0
