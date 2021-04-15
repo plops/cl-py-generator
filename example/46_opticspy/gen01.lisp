@@ -171,25 +171,30 @@
 
 		 (do0
 		  (comments "https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/")
-		  (do0
-		   (comments "rd .. ray direction"
-			     "ro .. ray origin, with p(tau) = ro + tau * rd"
-			     "sc .. sphere center"
-			     "sr .. sphere radius"
-			     " a t^2 + b t + c = 0")
-		   (setf oc (- ro sc))
-		   (setf a (np.dot rd rd)
-			 b (* 2 (np.dot rd (- ro c)))
-			 c (- (dot oc oc)
-			      (** r 2))
-			 discriminant (- (** b 2) (* 4 a c)))
-		   (comments "two solutions when discriminant > 0 (intersection)")
-		   (setf tau0 (/ (+ b (np.sqrt discriminant))
-				 (* 2 a))
-			 tau1 (/ (- b (np.sqrt discriminant))
-				 (* 2 a)))
-		   
-		   ))
+		  (def hit_sphere (ro rd sc sr)
+		   (do0
+		    (comments "rd .. ray direction"
+			      "ro .. ray origin, with p(tau) = ro + tau * rd"
+			      "sc .. sphere center"
+			      "sr .. sphere radius"
+			      " a t^2 + b t + c = 0")
+		    (setf oc (- ro sc))
+		    (setf a (np.dot rd rd)
+			  b (* 2 (np.dot rd (- ro sc)))
+			  c (- (np.dot oc oc)
+			       (** sr 2))
+			  discriminant (- (** b 2) (* 4 a c)))
+		    (comments "two solutions when discriminant > 0 (intersection)")
+		    (setf tau0 (/ (+ b (np.sqrt discriminant))
+				  (* 2 a))
+			  tau1 (/ (- b (np.sqrt discriminant))
+				  (* 2 a)))
+		    (return (np.array (list tau0 tau1)))))
+		  (print
+		   (hit_sphere (np.array (list 0 0 0))
+			       (np.array (list 1 0 0))
+			       (np.array (list 0 0 0))
+			       1)))
 		 
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
