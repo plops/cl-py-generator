@@ -1,42 +1,45 @@
 * Examples
 
-| nr | name                 | state | comment                                                                                                      |   |   |
-|  1 | plot                 |  100% | plot a sinus with matplotlib                                                                                 |   |   |
-|  2 | qt                   |  100% | pyside2 matplotlib example                                                                                   |   |   |
-|  3 | cl                   |   30% | opencl test, never really worked                                                                             |   |   |
-|  5 | trellis_qt           |   80% | dataflow gui, only works in python2, i wouldn't use anymore                                                  |   |   |
-|  6 | fastai               |   90% | pet image classification (fastai-v1 2019)                                                                    |   |   |
-|  7 | fastai_language      |   90% | LSTM (fastai-v1 2019) language model                                                                         |   |   |
-|  8 | glumpy               |  100% | some experiments with glumpy and cl-cpp-generator for shader code; too low-level for me                      |   |   |
-|  9 | rapids               |    0% | tried to understand what nvidia rapids is                                                                    |   |   |
-| 10 | cuda                 |   80% | a pycuda example                                                                                             |   |   |
-| 11 | numba                |  100% | numba example (no gpu)                                                                                       |   |   |
-| 12 | cupy                 |  100% | numba and cupy example (with gpu)                                                                            |   |   |
-| 13 | fastai2_nlp          |  100% | fine tune LSTM model (fastai-v2 2019)                                                                        |   |   |
-| 14 | megatron_gpt         |   20% | try BERT neural model (2020 nvidia, trained with 40gb wikipedia in 1h on 1500 gpus)                          |   |   |
-| 15 | slab_waveguide_modes |  100% | get modes in optical slabe waveguide using finite-difference and eigenvalue solver                           |   |   |
-| 16 | fd_transmission_line |   30% | compute impedance of a transmission line with a given cross-section                                          |   |   |
-| 17 | qt_customplot        |   95% | interactive plotting of cpu thermals                                                                         |   |   |
-| 18 | qt_webkit            |       |                                                                                                              |   |   |
-| 19 | qt_webengine         |       |                                                                                                              |   |   |
-| 20 | finance              |       |                                                                                                              |   |   |
-| 21 | vulkan_qt            |       |                                                                                                              |   |   |
-| 22 | helium               |       |                                                                                                              |   |   |
-| 23 | wx                   |       |                                                                                                              |   |   |
-| 24 | gtk3                 |       |                                                                                                              |   |   |
-| 25 | fastai2_again        |       |                                                                                                              |   |   |
-| 26 | copernicus_xsd       |    4% | i thought i can use the xsd files to open the binary data, but i can't figure out how                        |   |   |
-|    |                      |       |                                                                                                              |   |   |
-|    |                      |       |                                                                                                              |   |   |
-| 36 | cadquery             |   85% | proof of concept script for modelling with freecad                                                           |   |   |
-| 37 | jax                  |  100% | fit a 2d sinc using levenberg-marquart (gradients computed by jax)                                           |   |   |
-| 38 | mediapipe            |  100% | facemesh and holistic (body, face, hands) from camera or screencapture, visualization with opencv            |   |   |
-| 39 | opencv               |   20% | try to read out camera on linux with opencv (as raw as possibly, i tried to do some calibration but stopped) |   |   |
-| 40 | kivy                 |  100% | pong game, runs python and kivy on android                                                                   |   |   |
-| 41 | kivy_opencv_android  |   20% | try to display camera; opencv build not working                                                              |   |   |
-| 42 | android_repl         |   40% | numpy, scipy for android, needs interface                                                                    |   |   |
-| 43 | pysimplegui          |   90% | show matplotlib diagrams with some rudimentary gui elements in browser                                       |   |   |
-|    |                      |       |                                                                                                              |   |   |
+| nr | name                 | state | comment                                                                                                                    |   |   |
+|  1 | plot                 |  100% | plot a sinus with matplotlib                                                                                               |   |   |
+|  2 | qt                   |  100% | pyside2 matplotlib example                                                                                                 |   |   |
+|  3 | cl                   |   30% | opencl test, never really worked                                                                                           |   |   |
+|  5 | trellis_qt           |   80% | dataflow gui, only works in python2, i wouldn't use anymore                                                                |   |   |
+|  6 | fastai               |   90% | pet image classification (fastai-v1 2019)                                                                                  |   |   |
+|  7 | fastai_language      |   90% | LSTM (fastai-v1 2019) language model                                                                                       |   |   |
+|  8 | glumpy               |  100% | some experiments with glumpy and cl-cpp-generator for shader code; too low-level for me                                    |   |   |
+|  9 | rapids               |    0% | tried to understand what nvidia rapids is                                                                                  |   |   |
+| 10 | cuda                 |   80% | a pycuda example                                                                                                           |   |   |
+| 11 | numba                |  100% | numba example (no gpu)                                                                                                     |   |   |
+| 12 | cupy                 |  100% | numba and cupy example (with gpu)                                                                                          |   |   |
+| 13 | fastai2_nlp          |  100% | fine tune LSTM model (fastai-v2 2019)                                                                                      |   |   |
+| 14 | megatron_gpt         |   20% | try BERT neural model (2020 nvidia, trained with 40gb wikipedia in 1h on 1500 gpus)                                        |   |   |
+| 15 | slab_waveguide_modes |  100% | get modes in optical slabe waveguide using finite-difference and eigenvalue solver                                         |   |   |
+| 16 | fd_transmission_line |   30% | compute impedance of a transmission line with a given cross-section                                                        |   |   |
+| 17 | qt_customplot        |   95% | interactive plotting of cpu thermals                                                                                       |   |   |
+| 18 | qt_webkit            |       |                                                                                                                            |   |   |
+| 19 | qt_webengine         |       |                                                                                                                            |   |   |
+| 20 | finance              |       |                                                                                                                            |   |   |
+| 21 | vulkan_qt            |       |                                                                                                                            |   |   |
+| 22 | helium               |       |                                                                                                                            |   |   |
+| 23 | wx                   |       |                                                                                                                            |   |   |
+| 24 | gtk3                 |       |                                                                                                                            |   |   |
+| 25 | fastai2_again        |       |                                                                                                                            |   |   |
+| 26 | copernicus_xsd       |    4% | i thought i can use the xsd files to open the binary data, but i can't figure out how                                      |   |   |
+|    |                      |       |                                                                                                                            |   |   |
+|    |                      |       |                                                                                                                            |   |   |
+| 36 | cadquery             |   85% | proof of concept script for modelling with freecad                                                                         |   |   |
+| 37 | jax                  |  100% | fit a 2d sinc using levenberg-marquart (gradients computed by jax)                                                         |   |   |
+| 38 | mediapipe            |  100% | facemesh and holistic (body, face, hands) from camera or screencapture, visualization with opencv                          |   |   |
+| 39 | opencv               |   20% | try to read out camera on linux with opencv (as raw as possibly, i tried to do some calibration but stopped)               |   |   |
+| 40 | kivy                 |  100% | pong game, runs python and kivy on android                                                                                 |   |   |
+| 41 | kivy_opencv_android  |   20% | try to display camera; opencv build not working                                                                            |   |   |
+| 42 | android_repl         |   40% | numpy, scipy for android, needs interface                                                                                  |   |   |
+| 43 | pysimplegui          |   90% | show matplotlib diagrams with some rudimentary gui elements in browser                                                     |   |   |
+| 44 | zernike              |  100% | evalutate zernike polynomial, might work with jax instead of numpy (and autodiff)                                          |   |   |
+| 45 | nasdaq               |    0% | wanted to get prices but library not working                                                                               |   |   |
+| 46 | opticspy             |   70% | gives good baseline for optics simulation, has paraxial model; lacks speed, autodiff, computation of wavefront aberrations |   |   |
+| 47 | jax_trace            |   30% | tried to understand path tracer with jax                                                                                   |   |   |
 * Todo
 
 - Can I use reader macros, so that I can declare strings with " " instead of with (string " ")?
