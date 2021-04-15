@@ -89,8 +89,9 @@
 		  (l.lens_info))
 		 
 		 (do0
-		  (setf index
-			(opr.glass_funcs.glass2indexlist l.wavelength_list (string "S-BSM18_ohara")))
+		  (with (Timer (string "get 3 refractive indices"))
+			(setf index
+			      (opr.glass_funcs.glass2indexlist l.wavelength_list (string "S-BSM18_ohara"))))
 		  index)
 		 (do0
 		  ,(let ((system-def `((1e9 1e9 air)
