@@ -67,6 +67,7 @@
 			  ; copy
 
 			   (opr opticspy.ray_tracing)
+			   cProfile
 			   ))
 		 "from opticspy.ray_tracing.glass_function.refractiveIndex import *"
 
@@ -89,11 +90,14 @@
 		  (l.lens_info))
 		 
 		 (do0
-		  (with (Timer (string "get 3 refractive indices"))
+		  (do0
+		   (def prof () ;with (Timer (string "get 3 refractive indices"))
 			(setf index
-			      (opr.glass_funcs.glass2indexlist l.wavelength_list (string "S-BSM18_ohara"))))
-		  index)
-		 (do0
+			      (opr.glass_funcs.glass2indexlist l.wavelength_list (string "S-BSM18_ohara")))))
+		  ;index
+		  (cProfile.run (string "prof()"))
+		  )
+		 #+nil (do0
 		  ,(let ((system-def `((1e9 1e9 air)
 			      (41.15909 6.09755 S-BSM18_ohara)
 			      (-957.83146 9.349 air)
