@@ -39,4 +39,5 @@ vjp
 - oryx probabilistic programming
   -  given a function that generates a sample from a distribution can
     you give back a function that returns the log joint density
-  - automatic function inversion (maybe useful to find pupil?)
+  - inverse .. automatic function inversion (maybe useful to find pupil?)
+  - reap, plant .. change values
