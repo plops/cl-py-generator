@@ -114,13 +114,13 @@
 		  )
 		 #-nil (do0
 		  ,(let ((system-def `((1e9 1e9 air)
-				       (41.15909 6.09755 S-BSM18_ohara)
+				       (41.15909 6.09755 S-BSM18_ohara :comment (string "first"))
 				       (-957.83146 9.349 air)
 				       (-51.32 2.032 N-SF2_schott)
 				       (42.378 5.996 air)
-				       (1e9 4.065 air :STO True)
+				       (1e9 4.065 air :STO True :comment (string "stop"))
 				       (247.45 6.097 S-BSM18_ohara)
-				       (-40.04 85.59 air)
+				       (-40.04 85.59 air :comment (string "last"))
 				       (1e9 0 air)))
 			 (l-wl `(656.3 587.6 486.1))q
 			 (l-wl-name `(red green blue))
@@ -149,9 +149,9 @@
 					      ,@(loop for e in system-def
 						      and i from 1
 						      collect
-						      (destructuring-bind (radius thickness material &key (STO 'False) (output 'True)) e
-							`(dict ,@(loop for e in `(radius thickness material STO output)
-								       and f in (list radius thickness `(string ,material) STO output)
+						      (destructuring-bind (radius thickness material &key (STO 'False) (comment 'None) (output 'True)) e
+							`(dict ,@(loop for e in `(radius thickness material STO output comment)
+								       and f in (list radius thickness `(string ,material) STO output comment)
 								       collect
 								      
 								       `((string ,e) ,f))
