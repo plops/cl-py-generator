@@ -121,7 +121,7 @@
 				       (1e9 4.065 air :STO True :comment (string "stop"))
 				       (247.45 6.097 S-BSM18_ohara)
 				       (-40.04 85.59 air :comment (string "last"))
-				       (1e9 0 air)))
+				       (1e9 10 air)))
 			 (l-wl `(656.3 587.6 486.1))
 			 (l-wl-name `(red green blue))
 			 (system-fn "system.csv"))
@@ -188,12 +188,15 @@
 		      (setf (aref df (string "aperture")) 40)
 
 		      (def compute_arc_angles (row)
-			(do0 (setf h row.aperture
+			(setf theta1 0
+			      theta2 360)
+			#+nil (do0 (setf h row.aperture
 				   r (numpy.abs row.radius)
 				   arg (/ h r)
 				   theta_ (numpy.rad2deg (numpy.arcsin arg)))
 			     (comments "starting and ending angle of the arc. arc is drawn in counter-clockwise direction")
-			     (if (< 0 row.radius)
+			     
+			     #+nil (if (< 0 row.radius)
 				 (setf
 				  theta1 (- 180 theta_)
 				  theta2 (+ 180 theta_))
@@ -258,7 +261,7 @@
 						   (- 1 (** p 2)))))
 				  n)))))
 		 (do0
-		  (setf fig (figure :figsize (list 16 8))
+		  (setf fig (figure :figsize (list 16 3))
 			ax (fig.gca)
 			)
 		  (grid)
@@ -268,15 +271,29 @@
 			 (setf r (numpy.abs row.radius))
 			 
 			 (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
-					    r r
+							       r r
+							       :angle 0
 					    :theta1 row.theta1
 					    :theta2 row.theta2
 					      :alpha .8
 					      :facecolor None
 					    :edgecolor (string "k")))
-			 (plt.text (+ row.center_x row.radius)
+			 (plt.text row.thickness_cum
 				   0
 			       (dot (string "{}")
+				    (format idx)))
+			 (do0
+			  (setf a (* (/ np.pi 180) 20))
+			  (setf dx (* r (numpy.cos a))
+				dy (* r (numpy.sin a)))
+			  (ax.add_patch (matplotlib.patches.Arrow
+					 row.center_x
+					 0
+					 (+ dx row.center_x)
+					 (+ dy 0))))
+			 (plt.text row.center_x
+				   10
+			       (dot (string "c{}")
 				    (format idx)))))
 		  #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
 			       (aref df.thickness_cum.iloc -1))
