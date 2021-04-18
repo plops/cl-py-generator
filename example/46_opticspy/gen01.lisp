@@ -188,15 +188,15 @@
 		      (setf (aref df (string "aperture")) 40)
 
 		      (def compute_arc_angles (row)
-			(setf theta1 0
+			#+nil (setf theta1 0
 			      theta2 360)
-			#+nil (do0 (setf h row.aperture
+			#-nil (do0 (setf h row.aperture
 				   r (numpy.abs row.radius)
 				   arg (/ h r)
 				   theta_ (numpy.rad2deg (numpy.arcsin arg)))
 			     (comments "starting and ending angle of the arc. arc is drawn in counter-clockwise direction")
 			     
-			     #+nil (if (< 0 row.radius)
+			     #-nil (if (< 0 row.radius)
 				 (setf
 				  theta1 (- 180 theta_)
 				  theta2 (+ 180 theta_))
@@ -271,7 +271,7 @@
 			 (setf r (numpy.abs row.radius))
 			 
 			 (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
-							       r r
+							       (* 2 r) (* 2 r)
 							       :angle 0
 					    :theta1 row.theta1
 					    :theta2 row.theta2
@@ -283,14 +283,17 @@
 			       (dot (string "{}")
 				    (format idx)))
 			 (do0
-			  (setf a (* (/ np.pi 180) 20))
-			  (setf dx (* r (numpy.cos a))
-				dy (* r (numpy.sin a)))
+			  (setf avec (* (/ np.pi 180) 30 ; (numpy.random.uniform 0 360)
+				     ))
+			  (setf dx (* r (numpy.cos avec))
+				dy (* r (numpy.sin avec)))
 			  (ax.add_patch (matplotlib.patches.Arrow
 					 row.center_x
 					 0
 					 (+ dx row.center_x)
-					 (+ dy 0))))
+					 (+ dy 0)
+					 :edgecolor (string "k"))
+					))
 			 (plt.text row.center_x
 				   10
 			       (dot (string "c{}")
