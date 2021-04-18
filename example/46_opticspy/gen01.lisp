@@ -176,6 +176,8 @@
 		 (do0 (comments "accumulate thicknesses (replace first infinity with a finite number for plotting)")
 		      (setf xstart -30)
 		      (setf (aref df (string "thickness_cum0"))
+			    (numpy.cumsum (aref df.thickness.iloc "0:"))
+			    #+nil
 			    (+ (list xstart)
 			       ("list" (+ xstart
 					  (numpy.cumsum (aref df.thickness.iloc "1:"))))))
@@ -184,7 +186,7 @@
 			    (- df.thickness_cum0 (dot (aref df.thickness_cum0 (== df.comment (string "first")))
 						      (item))))
 		      (setf (aref df (string "center_x"))
-			    (+ df.radius df.thickness_cum))
+			    (+ df.radius (- df.thickness_cum df.thickness)))
 		      #+nil(setf (aref df (string "aperture")) 20 ;40
 			      )
 
@@ -275,19 +277,32 @@
 		       (for ((ntuple idx row) (df.iterrows))
 			  (do0		;when (< row.radius 1e8)
 			   (setf r (numpy.abs row.radius))
+			   (setf x (- (dot row thickness_cum)
+				      (dot row thickness)))
+			   #+nil(try
+			    (setf x (dot (aref df.iloc (- idx 1)) thickness_cum))
+			    ("Exception as e"
+			     (setf x -10)))
 			 
 			   (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
 								 (* 2 r) (* 2 r)
 								 :angle 0
 								 :theta1 row.theta1
 								 :theta2 row.theta2
-								 :alpha .8
+								 :alpha 1
+								 :linewidth 3
 								 :facecolor None
 								 :edgecolor (aref colors idx)))
-			   (plt.text row.thickness_cum
-				     0
+			   (plt.text x
+				     40
 				     (dot (string "{}")
-					  (format idx)))
+					  (format idx))
+				     :color  (aref colors idx))
+			   (plt.text x
+				     (+ 35 (* -5 (== (% idx 2) 0)))
+				     (dot (string "{:3.2f}")
+					  (format row.thickness))
+				     :color  (aref colors idx))
 			   (do0
 			    (setf avec (* (/ np.pi 180) row.theta1 ;30 ; (numpy.random.uniform 0 360)
 					  ))
@@ -298,16 +313,17 @@
 					   0
 					   (+ dx row.center_x)
 					   (+ dy 0)
-					   :edgecolor (string "k"))
+					   :edgecolor  (aref colors idx))
 					  ))
 			   (plt.text row.center_x
-				     10
+				     -40
 				     (dot (string "c{}")
-					  (format idx)))))))
+					  (format idx))
+				     :color (aref colors idx) )))))
 		  #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
 			       (aref df.thickness_cum.iloc -1))
 			     )
-		  (xlim (tuple -100 300))
+		  (xlim (tuple -35 125))
 		  (ylim (tuple -50 50)))
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
