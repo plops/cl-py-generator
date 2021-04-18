@@ -267,38 +267,43 @@
 			)
 		  (grid)
 		  (ax.set_aspect (string "equal"))
-		  (for ((ntuple idx row) (df.iterrows))
-		       (do0 ;when (< row.radius 1e8)
-			 (setf r (numpy.abs row.radius))
+		  ,(let ((palette `(black rosybrown lightcoral darkred red tomato sienna darkorange
+					  darkkhaki olive yellowgreen darkseagreen springgreen  teal deepskyblue dedgerblue
+					  slategray nvay rebeccapurple mediumorchid fuchsia deeppink)))
+		     `(do0
+		       (setf colors (list ,@(loop for e in palette collect `(string ,e))))
+		       (for ((ntuple idx row) (df.iterrows))
+			  (do0		;when (< row.radius 1e8)
+			   (setf r (numpy.abs row.radius))
 			 
-			 (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
-							       (* 2 r) (* 2 r)
-							       :angle 0
-					    :theta1 row.theta1
-					    :theta2 row.theta2
-					      :alpha .8
-					      :facecolor None
-					    :edgecolor (string "k")))
-			 (plt.text row.thickness_cum
-				   0
-			       (dot (string "{}")
-				    (format idx)))
-			 (do0
-			  (setf avec (* (/ np.pi 180) row.theta1 ;30 ; (numpy.random.uniform 0 360)
-				     ))
-			  (setf dx (* r (numpy.cos avec))
-				dy (* r (numpy.sin avec)))
-			  (ax.add_patch (matplotlib.patches.Arrow
-					 row.center_x
-					 0
-					 (+ dx row.center_x)
-					 (+ dy 0)
-					 :edgecolor (string "k"))
-					))
-			 (plt.text row.center_x
-				   10
-			       (dot (string "c{}")
-				    (format idx)))))
+			   (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
+								 (* 2 r) (* 2 r)
+								 :angle 0
+								 :theta1 row.theta1
+								 :theta2 row.theta2
+								 :alpha .8
+								 :facecolor None
+								 :edgecolor (aref colors idx)))
+			   (plt.text row.thickness_cum
+				     0
+				     (dot (string "{}")
+					  (format idx)))
+			   (do0
+			    (setf avec (* (/ np.pi 180) row.theta1 ;30 ; (numpy.random.uniform 0 360)
+					  ))
+			    (setf dx (* r (numpy.cos avec))
+				  dy (* r (numpy.sin avec)))
+			    (ax.add_patch (matplotlib.patches.Arrow
+					   row.center_x
+					   0
+					   (+ dx row.center_x)
+					   (+ dy 0)
+					   :edgecolor (string "k"))
+					  ))
+			   (plt.text row.center_x
+				     10
+				     (dot (string "c{}")
+					  (format idx)))))))
 		  #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
 			       (aref df.thickness_cum.iloc -1))
 			     )
