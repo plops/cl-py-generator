@@ -189,12 +189,25 @@
 				  (* 2 a))
 			  tau1 (/ (- b (np.sqrt discriminant))
 				  (* 2 a)))
-		    (return (np.array (list tau0 tau1)))))
+		    ;(return (np.array (list tau0 tau1)))
+		    ))
 		  (print
 		   (hit_sphere (np.array (list 0 0 0))
 			       (np.array (list 1 0 0))
 			       (np.array (list 0 0 0))
-			       1)))
+			       1))
+		  (def snell (rd n ni no)
+		    ;;https://physics.stackexchange.com/questions/435512/snells-law-in-vector-form
+		    (string3 "rd .. ray direction"
+			     "n  .. surface normal"
+			     "ni .. refractive index on input side"
+			     "no .. refractive index on output side")
+		    (setf u (/ n1 n2)
+			  p (np.dot rd n))
+		    (return (+ (* u (- rd (* p n)))
+			       (* (np.sqrt (- 1 (* (** u 2)
+						   (- 1 (** p 2)))))  n)
+			      ))))
 		 
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
