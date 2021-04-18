@@ -81,7 +81,7 @@
 		 ,(format nil "from matplotlib.pyplot import ~{~a~^, ~}"
 			  `(plot imshow tight_layout xlabel ylabel
 				 title subplot subplot2grid grid
-				 legend figure Circle gcf xlim ylim))
+				 legend figure  gcf xlim ylim))
 		 (jax.config.update (string "jax_enable_x64")
 					   True)
 		 
@@ -175,12 +175,17 @@
 		  )
 		 (do0 (comments "accumulate thicknesses (replace first infinity with a finite number for plotting)")
 		      (setf xstart -30)
-		      (setf (aref df (string "thickness_cum"))
+		      (setf (aref df (string "thickness_cum0"))
 			    (+ (list xstart)
 					   ("list" (+ xstart
-						      (numpy.cumsum (aref df.thickness "1:"))))))
+						      (numpy.cumsum (aref df.thickness.iloc "1:"))))))
+		      (comments "shift thickness_cum0 to have first surface at 0")
+		      (setf (aref df (string "thickness_cum"))
+			    (- df.thickness_cum0 (dot (aref df.thickness_cum0 (== df.comment (string "first")))
+						      (item))))
 		      (setf (aref df (string "center_x"))
-			    (+ df.radius df.thickness_cum)))
+			    (+ df.radius df.thickness_cum))
+		      (setf (aref df (string "aperture")) 10))
 
 		 (do0
 		  (comments "https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/")
@@ -233,9 +238,23 @@
 		  (ax.set_aspect (string "equal"))
 		  (for ((ntuple idx row) (df.iterrows))
 		       (when (< row.radius 1e8)
-			(ax.add_patch (Circle (tuple row.center_x 0)
-					      (numpy.abs row.radius)
-					      :alpha .2
+			 (setf r (numpy.abs row.radius)
+			       )
+			 (setf h row.aperture
+			       arg (/ h r)
+			       theta_ (numpy.rad2deg (numpy.arcsin arg)))
+			 (if (< 0 row.radius)
+			     (setf
+				 theta1 (- 180 theta_)
+				 theta2 (+ 180 theta_))
+			     (setf
+				 theta1 theta_
+				 theta2 (* -1 theta_)))
+			 (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
+					    r r
+					    :theta1 theta1
+					    :theta2 theta2
+					      :alpha .8
 					      :facecolor None
 					      :edgecolor (string "k")))))
 		  (xlim (tuple (aref df.thickness_cum.iloc 0)
