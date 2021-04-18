@@ -37,7 +37,19 @@ vjp
 #+end_example
 
 - oryx probabilistic programming
-  -  given a function that generates a sample from a distribution can
-    you give back a function that returns the log joint density
+  - given a function that generates a sample from a distribution can
+   you give back a function that returns the log joint density
   - inverse .. automatic function inversion (maybe useful to find pupil?)
   - reap, plant .. change values
+
+- http://resources.mpi-inf.mpg.de/lensflareRendering/pdf/flare.pdf
+  - ray tracing lens flares
+  - only sequences involving an even number of reflections impinge on the sensor
+  - those with more than two reflections can usually be ignored
+  - enumerate all two-reflection sequences
+    - for n fresnel interfaces in an optical system, there are N=n*(n-1)/2 such sequences
+  - at each intersection compare hitpoint of ray with diameter of
+    surface, record maximum normalized distance from the optical axis
+    - r_rel = max (r_rel, r/r_surface)
+  - as ray passes through aperture plane, a pair of intersection
+    coordinates (ua, va) is stored
