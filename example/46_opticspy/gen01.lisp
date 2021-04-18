@@ -113,15 +113,15 @@
 		  ;(cProfile.run (string "prof()"))
 		  )
 		 #-nil (do0
-		  ,(let ((system-def `((1e9 1e9 air)
-				       (41.15909 6.09755 S-BSM18_ohara :comment (string "first"))
-				       (-957.83146 9.349 air)
-				       (-51.32 2.032 N-SF2_schott)
-				       (42.378 5.996 air)
-				       (1e9 4.065 air :STO True :comment (string "stop"))
-				       (247.45 6.097 S-BSM18_ohara)
-				       (-40.04 85.59 air :comment (string "last"))
-				       (1e9 10 air)))
+		  ,(let ((system-def `((1e9 1e9 air 30)
+				       (41.15909 6.09755 S-BSM18_ohara 20 :comment (string "first"))
+				       (-957.83146 9.349 air 20)
+				       (-51.32 2.032 N-SF2_schott 12)
+				       (42.378 5.996 air 12)
+				       (1e9 4.065 air 8 :STO True :comment (string "stop"))
+				       (247.45 6.097 S-BSM18_ohara 15)
+				       (-40.04 85.59 air 15 :comment (string "last"))
+				       (1e9 10 air 40)))
 			 (l-wl `(656.3 587.6 486.1))
 			 (l-wl-name `(red green blue))
 			 (system-fn "system.csv"))
@@ -149,9 +149,9 @@
 					      ,@(loop for e in system-def
 						      and i from 1
 						      collect
-						      (destructuring-bind (radius thickness material &key (STO 'False) (comment 'None) (output 'True)) e
-							`(dict ,@(loop for e in `(radius thickness material STO output comment)
-								       and f in (list radius thickness `(string ,material) STO output comment)
+						      (destructuring-bind (radius thickness material aperture &key (STO 'False) (comment 'None) (output 'True)) e
+							`(dict ,@(loop for e in `(radius thickness material aperture STO output comment)
+								       and f in (list radius thickness `(string ,material) aperture STO output comment)
 								       collect
 								      
 								       `((string ,e) ,f))
@@ -177,33 +177,33 @@
 		      (setf xstart -30)
 		      (setf (aref df (string "thickness_cum0"))
 			    (+ (list xstart)
-					   ("list" (+ xstart
-						      (numpy.cumsum (aref df.thickness.iloc "1:"))))))
+			       ("list" (+ xstart
+					  (numpy.cumsum (aref df.thickness.iloc "1:"))))))
 		      (comments "shift thickness_cum0 to have first surface at 0")
 		      (setf (aref df (string "thickness_cum"))
 			    (- df.thickness_cum0 (dot (aref df.thickness_cum0 (== df.comment (string "first")))
 						      (item))))
 		      (setf (aref df (string "center_x"))
 			    (+ df.radius df.thickness_cum))
-		      (setf (aref df (string "aperture")) 20 ;40
-			    )
+		      #+nil(setf (aref df (string "aperture")) 20 ;40
+			      )
 
 		      (def compute_arc_angles (row)
 			#+nil (setf theta1 0
-			      theta2 360)
+				    theta2 360)
 			#-nil (do0 (setf h row.aperture
-				   r (numpy.abs row.radius)
-				   arg (/ h r)
-				   theta_ (numpy.rad2deg (numpy.arcsin arg)))
-			     (comments "starting and ending angle of the arc. arc is drawn in counter-clockwise direction")
+					 r (numpy.abs row.radius)
+					 arg (/ h r)
+					 theta_ (numpy.rad2deg (numpy.arcsin arg)))
+				   (comments "starting and ending angle of the arc. arc is drawn in counter-clockwise direction")
 			     
-			     #-nil (if (< 0 row.radius)
-				 (setf
-				  theta1 (- 180 theta_)
-				  theta2 (+ 180 theta_))
-				 (setf
-				  theta1 (- 360 theta_)
-				  theta2 theta_)))
+				   #-nil (if (< 0 row.radius)
+					     (setf
+					      theta1 (- 180 theta_)
+					      theta2 (+ 180 theta_))
+					     (setf
+					      theta1 (- 360 theta_)
+					      theta2 theta_)))
 			(return (pd.Series (dict ((string "theta1") theta1)
 						 ((string "theta2") theta2)))))
 		      
