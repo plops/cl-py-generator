@@ -185,7 +185,33 @@
 						      (item))))
 		      (setf (aref df (string "center_x"))
 			    (+ df.radius df.thickness_cum))
-		      (setf (aref df (string "aperture")) 10))
+		      (setf (aref df (string "aperture")) 10)
+
+		      (def compute_arc_angles (row)
+			(do0 (setf h row.aperture
+				   r (numpy.abs row.radius)
+				   arg (/ h r)
+				   theta_ (numpy.rad2deg (numpy.arcsin arg)))
+			     (if (< 0 row.radius)
+				 (setf
+				  theta1 (- 180 theta_)
+				  theta2 (+ 180 theta_))
+				 (setf
+				  theta1 (* -1 theta_)
+				  theta2 (* 1 theta_))))
+			(return (pd.Series (dict ((string "theta1") theta1)
+						 ((string "theta2") theta2)))))
+		      
+		      (do0
+		       
+		       (setf df_new
+			     (df.apply compute_arc_angles
+				       :axis (string "columns")
+				       :result_type (string "expand"))
+			     df (pd.concat (list df df_new)
+					   :axis (string "columns"))
+			    
+			     )))
 
 		 (do0
 		  (comments "https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/")
@@ -238,18 +264,17 @@
 		  (ax.set_aspect (string "equal"))
 		  (for ((ntuple idx row) (df.iterrows))
 		       (when (< row.radius 1e8)
-			 (setf r (numpy.abs row.radius)
-			       )
-			 (setf h row.aperture
-			       arg (/ h r)
-			       theta_ (numpy.rad2deg (numpy.arcsin arg)))
-			 (if (< 0 row.radius)
-			     (setf
-				 theta1 (- 180 theta_)
-				 theta2 (+ 180 theta_))
-			     (setf
-				 theta1 theta_
-				 theta2 (* -1 theta_)))
+			 (setf r (numpy.abs row.radius))
+			 (do0 (setf h row.aperture
+				arg (/ h r)
+				theta_ (numpy.rad2deg (numpy.arcsin arg)))
+			      (if (< 0 row.radius)
+				  (setf
+				   theta1 (- 180 theta_)
+				   theta2 (+ 180 theta_))
+				  (setf
+				   theta1 (* -1 theta_)
+				   theta2 (* 1 theta_))))
 			 (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
 					    r r
 					    :theta1 theta1
