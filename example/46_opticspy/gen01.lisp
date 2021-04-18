@@ -185,7 +185,8 @@
 						      (item))))
 		      (setf (aref df (string "center_x"))
 			    (+ df.radius df.thickness_cum))
-		      (setf (aref df (string "aperture")) 40)
+		      (setf (aref df (string "aperture")) 20 ;40
+			    )
 
 		      (def compute_arc_angles (row)
 			#+nil (setf theta1 0
@@ -283,7 +284,7 @@
 			       (dot (string "{}")
 				    (format idx)))
 			 (do0
-			  (setf avec (* (/ np.pi 180) 30 ; (numpy.random.uniform 0 360)
+			  (setf avec (* (/ np.pi 180) row.theta1 ;30 ; (numpy.random.uniform 0 360)
 				     ))
 			  (setf dx (* r (numpy.cos avec))
 				dy (* r (numpy.sin avec)))
