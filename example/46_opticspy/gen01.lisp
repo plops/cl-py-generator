@@ -81,7 +81,7 @@
 		 ,(format nil "from matplotlib.pyplot import ~{~a~^, ~}"
 			  `(plot imshow tight_layout xlabel ylabel
 				 title subplot subplot2grid grid
-				 legend figure  gcf xlim ylim))
+				 legend figure gcf xlim ylim))
 		 (jax.config.update (string "jax_enable_x64")
 					   True)
 		 
@@ -122,7 +122,7 @@
 				       (247.45 6.097 S-BSM18_ohara)
 				       (-40.04 85.59 air :comment (string "last"))
 				       (1e9 0 air)))
-			 (l-wl `(656.3 587.6 486.1))q
+			 (l-wl `(656.3 587.6 486.1))
 			 (l-wl-name `(red green blue))
 			 (system-fn "system.csv"))
 		     `(do0
@@ -185,20 +185,21 @@
 						      (item))))
 		      (setf (aref df (string "center_x"))
 			    (+ df.radius df.thickness_cum))
-		      (setf (aref df (string "aperture")) 10)
+		      (setf (aref df (string "aperture")) 40)
 
 		      (def compute_arc_angles (row)
 			(do0 (setf h row.aperture
 				   r (numpy.abs row.radius)
 				   arg (/ h r)
 				   theta_ (numpy.rad2deg (numpy.arcsin arg)))
+			     (comments "starting and ending angle of the arc. arc is drawn in counter-clockwise direction")
 			     (if (< 0 row.radius)
 				 (setf
 				  theta1 (- 180 theta_)
 				  theta2 (+ 180 theta_))
 				 (setf
-				  theta1 (* -1 theta_)
-				  theta2 (* 1 theta_))))
+				  theta1 (- 360 theta_)
+				  theta2 theta_)))
 			(return (pd.Series (dict ((string "theta1") theta1)
 						 ((string "theta2") theta2)))))
 		      
@@ -263,28 +264,24 @@
 		  (grid)
 		  (ax.set_aspect (string "equal"))
 		  (for ((ntuple idx row) (df.iterrows))
-		       (when (< row.radius 1e8)
+		       (do0 ;when (< row.radius 1e8)
 			 (setf r (numpy.abs row.radius))
-			 (do0 (setf h row.aperture
-				arg (/ h r)
-				theta_ (numpy.rad2deg (numpy.arcsin arg)))
-			      (if (< 0 row.radius)
-				  (setf
-				   theta1 (- 180 theta_)
-				   theta2 (+ 180 theta_))
-				  (setf
-				   theta1 (* -1 theta_)
-				   theta2 (* 1 theta_))))
+			 
 			 (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
 					    r r
-					    :theta1 theta1
-					    :theta2 theta2
+					    :theta1 row.theta1
+					    :theta2 row.theta2
 					      :alpha .8
 					      :facecolor None
-					      :edgecolor (string "k")))))
-		  (xlim (tuple (aref df.thickness_cum.iloc 0)
+					    :edgecolor (string "k")))
+			 (plt.text (+ row.center_x row.radius)
+				   0
+			       (dot (string "{}")
+				    (format idx)))))
+		  #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
 			       (aref df.thickness_cum.iloc -1))
-			)
+			     )
+		  (xlim (tuple -100 300))
 		  (ylim (tuple -50 50)))
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
