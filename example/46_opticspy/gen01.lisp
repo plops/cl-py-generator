@@ -78,6 +78,10 @@
 		 "from jax import grad, jit, jacfwd, jacrev, vmap, lax, random"
 		 ,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
 		 ,(format nil "from jax import ~{~a~^, ~}" `(grad jit jacfwd jacrev vmap lax random))
+		 ,(format nil "from matplotlib.pyplot import ~{~a~^, ~}"
+			  `(plot imshow tight_layout xlabel ylabel
+				 title subplot subplot2grid grid
+				 legend figure Circle gcf xlim ylim))
 		 (jax.config.update (string "jax_enable_x64")
 					   True)
 		 
@@ -110,15 +114,15 @@
 		  )
 		 #-nil (do0
 		  ,(let ((system-def `((1e9 1e9 air)
-			      (41.15909 6.09755 S-BSM18_ohara)
-			      (-957.83146 9.349 air)
-			      (-51.32 2.032 N-SF2_schott)
-			      (42.378 5.996 air)
-			      (1e9 4.065 air :STO True)
-			      (247.45 6.097 S-BSM18_ohara)
-			      (-40.04 85.59 air)
-			      (1e9 0 air)))
-			 (l-wl `(656.3 587.6 486.1))
+				       (41.15909 6.09755 S-BSM18_ohara)
+				       (-957.83146 9.349 air)
+				       (-51.32 2.032 N-SF2_schott)
+				       (42.378 5.996 air)
+				       (1e9 4.065 air :STO True)
+				       (247.45 6.097 S-BSM18_ohara)
+				       (-40.04 85.59 air)
+				       (1e9 0 air)))
+			 (l-wl `(656.3 587.6 486.1))q
 			 (l-wl-name `(red green blue))
 			 (system-fn "system.csv"))
 		     `(do0
@@ -163,11 +167,20 @@
 									 )))
 						       
 							))))))
+			     
 			     (df.to_csv (str system_data))
 			     ))
 
 			)))
 		  )
+		 (do0 (comments "accumulate thicknesses (replace first infinity with a finite number for plotting)")
+		      (setf xstart -30)
+		      (setf (aref df (string "thickness_cum"))
+			    (+ (list xstart)
+					   ("list" (+ xstart
+						      (numpy.cumsum (aref df.thickness "1:"))))))
+		      (setf (aref df (string "center_x"))
+			    (+ df.radius df.thickness_cum)))
 
 		 (do0
 		  (comments "https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/")
@@ -207,11 +220,28 @@
 			     "no .. refractive index on output side")
 		    (setf u (/ n1 n2)
 			  p (np.dot rd n))
-		    (return (+ (* u (- rd (* p n)))
+		    (return (+ (* u
+				  (- rd (* p n)))
 			       (* (np.sqrt (- 1 (* (** u 2)
-						   (- 1 (** p 2)))))  n)
-			      ))))
-		 
+						   (- 1 (** p 2)))))
+				  n)))))
+		 (do0
+		  (setf fig (figure :figsize (list 16 8))
+			ax (fig.gca)
+			)
+		  (grid)
+		  (ax.set_aspect (string "equal"))
+		  (for ((ntuple idx row) (df.iterrows))
+		       (when (< row.radius 1e8)
+			(ax.add_patch (Circle (tuple row.center_x 0)
+					      (numpy.abs row.radius)
+					      :alpha .2
+					      :facecolor None
+					      :edgecolor (string "k")))))
+		  (xlim (tuple (aref df.thickness_cum.iloc 0)
+			       (aref df.thickness_cum.iloc -1))
+			)
+		  (ylim (tuple -50 50)))
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
 		       (l.add_surface
