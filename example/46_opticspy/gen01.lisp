@@ -113,8 +113,8 @@
 		  ;(cProfile.run (string "prof()"))
 		  )
 		 #-nil (do0
-		  ,(let ((system-def `((1e9 1e9 air 30)
-				       (41.15909 6.09755 S-BSM18_ohara 20 :comment (string "first"))
+		  ,(let ((system-def `((1e9 1e9 air 30 :comment (string "first"))
+				       (41.15909 6.09755 S-BSM18_ohara 20 )
 				       (-957.83146 9.349 air 20)
 				       (-51.32 2.032 N-SF2_schott 12)
 				       (42.378 5.996 air 12)
@@ -186,7 +186,8 @@
 			    (- df.thickness_cum0 (dot (aref df.thickness_cum0 (== df.comment (string "first")))
 						      (item))))
 		      (setf (aref df (string "center_x"))
-			    (+ df.radius (- df.thickness_cum df.thickness)))
+			    (+ df.radius (- df.thickness_cum df.thickness))
+			       )
 		      #+nil(setf (aref df (string "aperture")) 20 ;40
 			      )
 
@@ -298,27 +299,35 @@
 				     (dot (string "{}")
 					  (format idx))
 				     :color  (aref colors idx))
-			   (plt.text x
+			   (plt.text row.center_x
 				     (+ 35 (* -5 (== (% idx 2) 0)))
 				     (dot (string "{:3.2f}")
 					  (format row.thickness))
 				     :color  (aref colors idx))
-			   (do0
-			    (setf avec (* (/ np.pi 180) row.theta1 ;30 ; (numpy.random.uniform 0 360)
-					  ))
-			    (setf dx (* r (numpy.cos avec))
-				  dy (* r (numpy.sin avec)))
-			    (ax.add_patch (matplotlib.patches.Arrow
-					   row.center_x
-					   0
-					   (+ dx row.center_x)
-					   (+ dy 0)
-					   :edgecolor  (aref colors idx))
-					  ))
+			   ,@(loop for e in `(row.theta1 ;row.theta2
+					      )
+				   collect
+				   `(do0
+						 (setf avec (* (/ np.pi 180) ,e ;row.theta1
+							       ))
+						 (setf dx (* r (numpy.cos avec))
+						       dy (* r (numpy.sin avec)))
+						 (ax.add_patch (matplotlib.patches.Arrow
+								row.center_x
+								0
+								(+ dx)
+								(+ dy)
+								:edgecolor  (aref colors idx))
+							       )))
 			   (plt.text row.center_x
 				     -40
 				     (dot (string "c{}")
 					  (format idx))
+				     :color (aref colors idx) )
+			   (plt.text row.center_x
+				     (- 45 (* -5 (== (% idx 2) 0)))
+				     (dot (string "x{:3.2f}")
+					  (format row.center_x))
 				     :color (aref colors idx) )))))
 		  #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
 			       (aref df.thickness_cum.iloc -1))
