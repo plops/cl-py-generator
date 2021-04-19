@@ -103,6 +103,32 @@
 		 ;; np.frombuffer(m, np.float32)
 
 		 (do0
+		  (def main (canvas)
+		    (setf adapter (wgpu.request_adapter :canvas canvas
+							:power_preference (string "high-performance"))
+			  device (adapter.request_device))
+		    (return (_main canvas device)))
+		  (do0 "@python2shader"
+		       (def vertex_shader (&key (index (tuple RES_INPUT (string "VertexId") i32))
+						(pos (tuple RES_OUTPUT (string "Position") vec4))
+						(color (tuple RES_OUTPUT 0 vec3)))
+			 (setf positions (list (vec2 .0 .5)
+					       (vec2 .5 .5)
+					       (vec2 -.5 .7))
+			       p (aref positions index)
+			       pos (vec4 p .0 1.)
+			       color (vec3 p .5))))
+		  (do0 "@python2shader"
+		       (def fragment_shader (&key (in_color (tuple RES_INPUT 0 vec3))
+						  (out_color (tuple RES_OUTPUT 0 vec4)))
+			 (setf out_color (vec4 in_color 1.0))))
+		  (def _main (canvas device)
+		    ,@(loop for (obj code) in `((vshader vertex_shader)
+					(fshader fragment_shader))
+			    collect
+			    `(setf ,obj (device.create_shader_module :code ,code)))))
+		 
+		 (do0
 		  (glfw.init)
 		  (setf glfw.ERROR_REPORTING (string "warn"))
 		  (setf canvas (wgpu.gui.glfw.WgpuCanvas :title (string "wgpu triangle with glfw")))
