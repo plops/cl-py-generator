@@ -223,6 +223,8 @@
 
 		 (do0
 		  (comments "https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/")
+		  (def eval_ray (ro rd tau)
+		    (return (+ ro (* tau rd))))
 		  (def hit_sphere (ro rd sc sr)
 		   (do0
 		    (string3 "intersection of ray and a sphere, returns two ray parameters tau{1,2}"
@@ -234,17 +236,22 @@
 		    (setf oc (- ro sc))
 		    (comments "b is somehow related to the intersection sequence. i should think more about that")
 		    (setf a (np.dot rd rd)
-			  b (* 2 (np.dot rd (- ro sc)))
+			  delta (- ro sc)
+			  b (* 2 (np.dot rd delta))
 			  c (- (np.dot oc oc)
 			       (** sr 2))
 			  discriminant (- (** b 2) (* 4 a c)))
+		    #+nil ,@(loop for e in `(a b c rd delta)
+			    collect
+			    `(print (dot (string ,(format nil "~a={}" e))
+					 (format ,e))))
 		    (comments "two solutions when discriminant > 0 (intersection)")
 		    (comments "sign of b controls which tau is the earlier hitpoint.")
 		    (setf tau0 (/ (+ b (np.sqrt discriminant))
 				  (* 2 a))
 			  tau1 (/ (- b (np.sqrt discriminant))
 				  (* 2 a)))
-		    (return (np.array (list tau0 tau1)))
+		    (return (list tau0 tau1))
 		    ))
 		  (print
 		   (hit_sphere (np.array (list 0 0 0))
@@ -332,6 +339,24 @@
 		  #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
 			       (aref df.thickness_cum.iloc -1))
 			     )
+		  (do0
+		   (setf rd (* -1 (np.array (list 1 .2 0)))
+			 rd (/ rd (np.linalg.norm rd))
+			 )
+		   (for (ro (list (np.array (list -20 -20 0))
+				  (np.array (list -20 -18 0))
+				  (np.array (list -20 -16 0))
+				  (np.array (list -20 -14 0))))
+			;; ro rd sc sr
+			(setf (ntuple tau1 tau2) (hit_sphere ro rd (np.array (list (aref df.center_x 1) 0 0))
+							     (aref df.radius 1)))
+			(setf p1 (eval_ray ro rd tau1))
+			(plot (list (aref ro 0)
+				    (aref p1 0))
+			      (list (aref ro 1)
+				    (aref p1 1))
+			      :color (string "k")
+			      )))
 		  (xlim (tuple -35 125))
 		  (ylim (tuple -50 50)))
 		#+nil (do0
