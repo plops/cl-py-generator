@@ -129,8 +129,9 @@
 			    `(setf ,obj (device.create_shader_module :code ,code)))
 		    ,@(loop for e in `((bind_group_layout :entries (list))
 				       (bind_group :layout bind_group_layout :entries (list))
-				       (pipeline_layout :bind_group_layout (list bind_group_layout))
-				       (render_pipeline :layout pipeline_layout))
+				       (pipeline_layout :bind_group_layouts (list bind_group_layout))
+				       (render_pipeline :layout pipeline_layout
+							:vertex (dictionary :module vshader)))
 			    collect
 			    (destructuring-bind (name &rest rest) e
 			      `(setf ,name (dot device (,(format nil "create_~a" name)
