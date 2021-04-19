@@ -1,1 +1,5 @@
-- pip3 install --user wgpu-py
+- pip3 install --user wgpu-py pyshader glfw
+- sudo dnf install mesa-vulkan-drivers
+
+- flexx .. python toolkit for web interfaces
+- pscript .. subset-of-python to javascript transpiler

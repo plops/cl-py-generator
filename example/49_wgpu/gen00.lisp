@@ -71,11 +71,15 @@
 			   ;(np jax.numpy)
 			   ;jax
 			   ;jax.random
-			   ;jax.config
+					;jax.config
+			   glfw
 			   wgpu
-			   wgpu.backend.rs
-			   wgpu.gui.glfw))
-		 
+			   
+			   
+			   wgpu.gui.glfw
+			   wgpu.backends.rs
+			   ))
+		 ,(format nil "from pyshader import ~{~a~^, ~}" `(python2shader RES_INPUT RES_OUTPUT vec2 vec3 vec4 i32))
 		 ;"from jax import grad, jit, jacfwd, jacrev, vmap, lax, random"
 		 ;,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
 		 ;,(format nil "from jax import ~{~a~^, ~}" `(grad jit jacfwd jacrev vmap lax random))
@@ -93,6 +97,16 @@
 			   (print (dot (string "[{}] elapsed: {}s")
 				       (format self.name (- (time.time)
 							    self.tstart)))))))
+
+		 ;; m = buffer.read_data()
+		 ;; m.cast('f')
+		 ;; np.frombuffer(m, np.float32)
+
+		 (do0
+		  (glfw.init)
+		  (setf glfw.ERROR_REPORTING (string "warn"))
+		  (setf canvas (wgpu.gui.glfw.WgpuCanvas :title (string "wgpu triangle with glfw")))
+		  (main canvas))
 		 
 		 )
 	    ))
