@@ -132,7 +132,10 @@
 		  (glfw.init)
 		  (setf glfw.ERROR_REPORTING (string "warn"))
 		  (setf canvas (wgpu.gui.glfw.WgpuCanvas :title (string "wgpu triangle with glfw")))
-		  (main canvas))
+		  (main canvas)
+		  (while (wgpu.gui.glfw.update_glfw_canvasses)
+			 (glfw.poll_events))
+		  (glfw.terminate))
 		 
 		 )
 	    ))
