@@ -113,8 +113,8 @@
 		  ;(cProfile.run (string "prof()"))
 		  )
 		 #-nil (do0
-		  ,(let ((system-def `((1e9 1e9 air 30 :comment (string "first"))
-				       (41.15909 6.09755 S-BSM18_ohara 20 )
+		  ,(let ((system-def `((1e9 1e9 air 30)
+				       (41.15909 6.09755 S-BSM18_ohara 20  :comment (string "first"))
 				       (-957.83146 9.349 air 20)
 				       (-51.32 2.032 N-SF2_schott 12)
 				       (42.378 5.996 air 12)
@@ -223,6 +223,7 @@
 
 		 (do0
 		  (comments "https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/")
+		  (comments "https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection")
 		  (def eval_ray (tau &key ro rd)
 		    (return (+ ro (* tau rd))))
 		  (def hit_sphere (ro rd sc sr)
@@ -234,22 +235,27 @@
 			     "sr .. sphere radius"
 			     " a t^2 + b t + c = 0")
 		    (setf oc (- ro sc))
-		    (comments "b is somehow related to the intersection sequence. i should think more about that")
-		    (setf a (np.dot rd rd)
+		    (comments "rd.oc (in b) is the distance along the ray to the point that is closest to the center of the sphere. if it is negative there will be no intersection (i.e. it would be behind the rays origin)")
+		    (setf a 1 ;(np.dot rd rd)
 			  b (* 2 (np.dot rd oc))
 			  c (- (np.dot oc oc)
 			       (** sr 2))
 			  discriminant (- (** b 2) (* 4 a c)))
-		    #+nil ,@(loop for e in `(a b c rd oc)
+		    #-nil ,@(loop for e in `(a b c rd oc)
 				  collect
 				  `(print (dot (string ,(format nil "~a={}" e))
 					       (format ,e))))
 		    (comments "two solutions when discriminant > 0 (intersection)")
 		    (comments "sign of b controls which tau is the earlier hitpoint.")
-		    (setf tau0 (/ (+ b (np.sqrt discriminant))
-				  (* 2 a))
-			  tau1 (/ (- b (np.sqrt discriminant))
-				  (* 2 a)))
+		    (setf s .5 ;(/ .5s0 a)
+			  )
+		    ;; avoid catastrophic cancellation
+		     (setf q (* -.5 (+ b (* (np.sign b) (np.sqrt discriminant))))
+			  tau1 (/ q a)
+			  tau0 (/ c q))
+		    #-nil (setf tau0 (* s (+ b (np.sqrt discriminant)))
+			  tau1 (* s (- b (np.sqrt discriminant)))
+			  )
 		    (comments "if both tau positive: ray faces sphere and is intersecting. the smaller tau1 (with b-..) is the first intersection")
 		    (comments "if one tau is positive and one is negative, then ray is shooting from inside the sphere (and we want the positive)")
 		    ;(return (list tau0 tau1))
@@ -261,6 +267,7 @@
 			  (return tau0)
 			  (return tau1)))
 		    (return tau0)
+		    ;; outside-directed normal at intersection point is P_hit - Sphere_Center
 		    ))
 		  (print
 		   (hit_sphere (np.array (list 0 0 0))
@@ -349,13 +356,13 @@
 			       (aref df.thickness_cum.iloc -1))
 			     )
 		  (do0
-		   (setf rd (* 1 (np.array (list 1 0 0)))
+		   (setf rd (* 1 (np.array (list 1 .1 0)))
 			 rd (/ rd (np.linalg.norm rd))
 			 )
 		   (for (ro (list ,@(loop for e from -40 upto 40 by 2 collect
 					  `(np.array (list -20 ,e 0)))))
 			;; ro rd sc sr
-			(setf tau (hit_sphere ro rd (np.array (list (+ -40 (* -1 (aref df.center_x 1))) 0 0))
+			(setf tau (hit_sphere ro rd (np.array (list (aref df.center_x 1) 0 0))
 							     (aref df.radius 1)))
 			,@(loop for e in `(tau)
 			    collect
@@ -365,7 +372,7 @@
 					   ) and color in `(k r)
 				collect
 				`(do0 (setf p1 (eval_ray ,e :ro ro :rd rd))
-				      (plt.scatter
+				      #+nil (plt.scatter
 				       (aref ro 0)
 				       (aref ro 1))
 				      (plot (list (aref ro 0)
