@@ -101,7 +101,7 @@
 		 ;; m = buffer.read_data()
 		 ;; m.cast('f')
 		 ;; np.frombuffer(m, np.float32)
-
+		 ;; https://github.com/pygfx/wgpu-py/blob/main/examples/triangle.py
 		 (do0
 		  (def main (canvas)
 		    (setf adapter (wgpu.request_adapter :canvas canvas
@@ -126,7 +126,16 @@
 		    ,@(loop for (obj code) in `((vshader vertex_shader)
 					(fshader fragment_shader))
 			    collect
-			    `(setf ,obj (device.create_shader_module :code ,code)))))
+			    `(setf ,obj (device.create_shader_module :code ,code)))
+		    ,@(loop for e in `((bind_group_layout :entries (list))
+				       (bind_group :layout bind_group_layout :entries (list))
+				       (pipeline_layout :bind_group_layout (list bind_group_layout))
+				       (render_pipeline :layout pipeline_layout))
+			    collect
+			    (destructuring-bind (name &rest rest) e
+			      `(setf ,name (dot device (,(format nil "create_~a" name)
+							,@rest))))))
+		  )
 		 
 		 (do0
 		  (glfw.init)
