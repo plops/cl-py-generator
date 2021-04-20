@@ -7,7 +7,7 @@ pip install --user .
 #+end_example
 
 - pip3 install --user pyshader glfw
-- sudo dnf install mesa-vulkan-drivers
+- sudo dnf install mesa-vulkan-drivers renderdoc
 
 - flexx .. python toolkit for web interfaces
 - pscript .. subset-of-python to javascript transpiler
