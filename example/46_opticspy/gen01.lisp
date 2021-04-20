@@ -268,7 +268,7 @@
 			  p1 (eval_ray tau1 :ro ro :rd rd)
 			  p (eval_ray tau :ro ro :rd rd))
 
-		    #-nil ,@(loop for e in `(a b c ro rd oc sc tau0 tau1 tau p0 p1 p)
+		    #+nil ,@(loop for e in `(a b c ro rd oc sc tau0 tau1 tau p0 p1 p)
 				  collect
 				  `(print (dot (string ,(format nil "~a={}" e))
 					       (format ,e))))
@@ -293,7 +293,7 @@
 			       (* (np.sqrt (- 1 (* (** u 2)
 						   (- 1 (** p 2)))))
 				  n)))))
-		 #+nil (do0
+		 #-nil (do0
 		  (setf fig (figure :figsize (list 16 3))
 			ax (fig.gca)
 			)
@@ -362,15 +362,14 @@
 			       (aref df.thickness_cum.iloc -1))
 			     )
 		  (do0
-		   (setf rd (* 1 (np.array (list 1 0 0)))
+		   (setf rd (* 1 (np.array (list 1 .2 0)))
 			 rd (/ rd (np.linalg.norm rd)))
 		   (for (ro (list ,@(loop for e from -40 upto 40 by 2 collect
-					  `(np.array (list -1 ,e 0)))))
+					  `(np.array (list -20 ,e 0)))))
 			;; ro rd sc sr
 			(setf surface_idx 1)
 			(setf tau (hit_sphere :ro ro :rd rd
-					      :sc (np.array (list (aref df.center_x surface_idx) 0 0
-								    ))
+					      :sc (np.array (list (aref df.center_x surface_idx) 0 0))
 					      :sr (aref df.radius surface_idx)))
 			,@(loop for e in `(tau)
 			    collect
@@ -390,7 +389,7 @@
 					    :color (string ,color)
 					    :alpha .3
 					    )))))
-		  (xlim (tuple -135 125))
+		  (xlim (tuple -35 125))
 		  (ylim (tuple -50 50)))
 		#+nil (do0
 		  (for ((ntuple idx row) (df.iterrows))
