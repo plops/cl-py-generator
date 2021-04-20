@@ -74,7 +74,7 @@
 					;jax.config
 			   glfw
 			   wgpu
-			   
+			   math
 			   
 			   wgpu.gui.glfw
 			   wgpu.backends.rs
@@ -187,8 +187,18 @@
 		  (setf glfw.ERROR_REPORTING (string "warn"))
 		  (setf canvas (wgpu.gui.glfw.WgpuCanvas :title (string "wgpu triangle with glfw")))
 		  (main canvas)
+		  #+nil
 		  (while (wgpu.gui.glfw.update_glfw_canvasses)
 			 (glfw.poll_events))
+		  (def better_event_loop (&key (max_fps 60))
+		    (setf td (/ 1s0 max_fps))
+		    (while (wgpu.gui.glfw.update_glfw_canvasses)
+			   (setf now (time.perf_counter)
+				 tnext (* (math.ceil (/ now td)) td))
+			   (while (< now tnext)
+				  (glfw.wait_events_timeout (- tnext now))
+				  (setf now (time.perf_counter)))))
+		  (better_event_loop)
 		  (glfw.terminate))
 		 
 		 )
