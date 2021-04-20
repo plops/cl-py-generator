@@ -234,7 +234,7 @@
 			     "sc .. sphere center"
 			     "sr .. sphere radius"
 			     " a t^2 + b t + c = 0")
-		    (setf oc (- ro sc))
+		    (setf oc (- sc ro))
 		    (comments "rd.oc (in b) is the distance along the ray to the point that is closest to the center of the sphere. if it is negative there will be no intersection (i.e. it would be behind the rays origin)")
 		    (setf a 1 ;(np.dot rd rd)
 			  b (* 2 (np.dot rd oc))
@@ -276,7 +276,7 @@
 		    ;; outside-directed normal at intersection point is P_hit - Sphere_Center
 		    ))
 		  (print
-		   (hit_sphere :ro (np.array (list -3 0 0))
+		   (hit_sphere :ro (np.array (list -10 0 0))
 			       :rd (np.array (list 1 0 0))
 			       :sc (np.array (list 0 0 0))
 			       :sr 1))
