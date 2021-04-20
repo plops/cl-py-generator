@@ -226,7 +226,7 @@
 		  (comments "https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection")
 		  (def eval_ray (tau &key ro rd)
 		    (return (+ ro (* tau rd))))
-		  (def hit_sphere (ro rd sc sr)
+		  (def hit_sphere (&key ro rd sc sr)
 		   (do0
 		    (string3 "intersection of ray and a sphere, returns two ray parameters tau{1,2}"
 			     "rd .. ray direction"
@@ -241,10 +241,7 @@
 			  c (- (np.dot oc oc)
 			       (** sr 2))
 			  discriminant (- (** b 2) (* 4 a c)))
-		    #-nil ,@(loop for e in `(a b c rd oc)
-				  collect
-				  `(print (dot (string ,(format nil "~a={}" e))
-					       (format ,e))))
+		    
 		    (comments "two solutions when discriminant > 0 (intersection)")
 		    (comments "sign of b controls which tau is the earlier hitpoint.")
 		    (setf s .5 ;(/ .5s0 a)
@@ -258,22 +255,31 @@
 			  )
 		    (comments "if both tau positive: ray faces sphere and is intersecting. the smaller tau1 (with b-..) is the first intersection")
 		    (comments "if one tau is positive and one is negative, then ray is shooting from inside the sphere (and we want the positive)")
-		    ;(return (list tau0 tau1))
+		    (setf tau tau0)
 		    (when (and (< 0 tau0)
 			       (< 0 tau1))
-		      (return tau1))
+		      (setf tau tau1))
 		    (when (and (< (* tau1 tau0) 0))
 		      (if (< 0 tau0)
-			  (return tau0)
-			  (return tau1)))
-		    (return tau0)
+			  (setf tau tau0)
+			  (setf tau tau1)))
+
+		    (setf p0 (eval_ray tau0 :ro ro :rd rd)
+			  p1 (eval_ray tau1 :ro ro :rd rd)
+			  p (eval_ray tau :ro ro :rd rd))
+
+		    #-nil ,@(loop for e in `(a b c ro rd oc sc tau0 tau1 tau p0 p1 p)
+				  collect
+				  `(print (dot (string ,(format nil "~a={}" e))
+					       (format ,e))))
+		    (return tau)
 		    ;; outside-directed normal at intersection point is P_hit - Sphere_Center
 		    ))
 		  (print
-		   (hit_sphere (np.array (list 0 0 0))
-			       (np.array (list 1 0 0))
-			       (np.array (list 0 0 0))
-			       1))
+		   (hit_sphere :ro (np.array (list -3 0 0))
+			       :rd (np.array (list 1 0 0))
+			       :sc (np.array (list 0 0 0))
+			       :sr 1))
 		  (def snell (rd n ni no)
 		    ;;https://physics.stackexchange.com/questions/435512/snells-law-in-vector-form
 		    (string3 "rd .. ray direction"
@@ -287,7 +293,7 @@
 			       (* (np.sqrt (- 1 (* (** u 2)
 						   (- 1 (** p 2)))))
 				  n)))))
-		 (do0
+		 #+nil (do0
 		  (setf fig (figure :figsize (list 16 3))
 			ax (fig.gca)
 			)
@@ -356,14 +362,16 @@
 			       (aref df.thickness_cum.iloc -1))
 			     )
 		  (do0
-		   (setf rd (* 1 (np.array (list 1 .1 0)))
-			 rd (/ rd (np.linalg.norm rd))
-			 )
+		   (setf rd (* 1 (np.array (list 1 0 0)))
+			 rd (/ rd (np.linalg.norm rd)))
 		   (for (ro (list ,@(loop for e from -40 upto 40 by 2 collect
-					  `(np.array (list -20 ,e 0)))))
+					  `(np.array (list -1 ,e 0)))))
 			;; ro rd sc sr
-			(setf tau (hit_sphere ro rd (np.array (list (aref df.center_x 1) 0 0))
-							     (aref df.radius 1)))
+			(setf surface_idx 1)
+			(setf tau (hit_sphere :ro ro :rd rd
+					      :sc (np.array (list (aref df.center_x surface_idx) 0 0
+								    ))
+					      :sr (aref df.radius surface_idx)))
 			,@(loop for e in `(tau)
 			    collect
 			    `(print (dot (string ,(format nil "~a={}" e))
