@@ -1,4 +1,12 @@
-- pip3 install --user wgpu-py pyshader glfw
+- install newest wgpu
+#+begin_example
+git clone https://github.com/pygfx/wgpu-py
+cd wgpu-py
+python download-wgpu-native.py
+pip install --user .
+#+end_example
+
+- pip3 install --user pyshader glfw
 - sudo dnf install mesa-vulkan-drivers
 
 - flexx .. python toolkit for web interfaces

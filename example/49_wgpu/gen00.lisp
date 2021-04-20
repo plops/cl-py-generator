@@ -131,11 +131,55 @@
 				       (bind_group :layout bind_group_layout :entries (list))
 				       (pipeline_layout :bind_group_layouts (list bind_group_layout))
 				       (render_pipeline :layout pipeline_layout
-							:vertex (dictionary :module vshader)))
-			    collect
+							:vertex  (dictionary :module vshader
+									     :entry_point (string "main")
+									     :buffers (list))
+							:primitive (dictionary :topology wgpu.PrimitiveTopology.triangle_list
+									       :strip_index_format wgpu.IndexFormat.uint32
+									       :front_face wgpu.FrontFace.ccw
+									       :cull_mode wgpu.CullMode.none)
+							:depth_stencil None
+							:multisample (dictionary :count 1
+										 :mask "0xFFFFffff"
+										 :alpha_to_coverage_enabled False)
+							:fragment (dictionary
+								   :module fshader
+								   :entry_point (string "main")
+								   :targets
+								   (list
+								    (dictionary :format wgpu.TextureFormat.bgra8unorm_srgb
+										:blend (dictionary :color
+												   (tuple wgpu.BlendFactor.one
+													  wgpu.BlendFactor.zero
+													  wgpu.BlendOperation.add
+													  )
+												   :alpha
+												   (tuple wgpu.BlendFactor.one
+													  wgpu.BlendFactor.zero
+													  wgpu.BlendOperation.add
+													  )))))
+							)
+				       )
+			    collect 
 			    (destructuring-bind (name &rest rest) e
 			      `(setf ,name (dot device (,(format nil "create_~a" name)
-							,@rest))))))
+							,@rest)))))
+		    (setf swap_chain (canvas.configure_swap_chain :device device))
+		    (def draw_frame ()
+		      (with (as swap_chain current_texture_view)
+			    (setf command_encoder (device.create_command_encoder)
+				  render_pass (command_encoder.begin_render_pass
+					       :color_attachments (list (dictionary
+									 :view current_texture_view
+									 :resolve_target None
+									 :load_value (tuple 0 0 0 1)
+									 :store_op wgpu.StoreOp.store))))
+			    (render_pass.set_pipeline render_pipeline)
+			    (render_pass.set_bind_group 0 bind_group (list) 0 999_999)
+			    (render_pass.draw 3 1 0 0)
+			    (render_pass.end_pass)
+			    (device.queue.submit (list command_encoder.finish))))
+		    (canvas.request_draw draw_frame))
 		  )
 		 
 		 (do0

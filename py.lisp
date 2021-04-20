@@ -6,6 +6,49 @@
 
 (defparameter *file-hashes* (make-hash-table))
 
+(defun write-notebook (nb-file nb-code)
+  "write python jupyter notebook"
+  (let ((tmp (format nil "~a.tmp" nb-file)))
+    (with-output-to-file (s tmp :if-exists :supersede
+				:if-does-not-exist :create)
+      (format s "~a~%"
+	      (jonathan:to-json
+	       `(:|cells|
+		  ,(loop for e in nb-code
+			 collect
+			 (destructuring-bind (name &rest rest) e
+			   (case name
+			     (`markdown `(:cell_type "markdown"
+					  :metadata :empty
+					  :source
+					  ,(loop for p in rest
+						 collect
+						 (format nil "~a~c" p #\Newline))))
+			     (`python `(:cell_type "code"
+					:metadata :empty
+					:execution_count :null
+					:outputs ()
+					:source
+					,(loop for p in rest
+					       appending
+					       (let ((tempfn "/dev/shm/cell"))
+						 (write-source tempfn p)
+						 (with-open-file (stream (format nil "~a.py" tempfn))
+						   (loop for line = (read-line stream nil)
+							 while line
+							 collect
+							 (format nil "~a~c" line #\Newline)))))))
+			     )))
+		  :|metadata| (:|kernelspec| (:|display_name| "Python 3"
+					       :|language| "python"
+					      :|name| "python3"))
+		 :|nbformat| 4
+		  :|nbformat_error| 2))))
+    (sb-ext:run-program "/usr/bin/jq" `("-M" "." ,tmp)
+			:output nb-file
+			:if-output-exists :supersede)
+    (delete-file tmpq)))
+
 (defun write-source (name code &optional (dir (user-homedir-pathname))
 				 ignore-hash)
   (let* ((fn (merge-pathnames (format nil "~a.py" name)
@@ -56,7 +99,13 @@
 (defparameter *env-functions* nil)
 (defparameter *env-macros* nil)
 
-
+#+nil
+(defun dotry (code)
+  `(try (do0
+	 ,code)
+	("Exception as exc"
+	 ,(lprint `(exc))
+	 pass)))
 
 (defun emit-py (&key code (str nil) (clear-env nil) (level 0))
   ;(format t "emit ~a ~a~%" level code)
@@ -86,6 +135,11 @@
 					(format s "(~a):(~a)," (emit e) (emit f))))))
 			(format nil "{~a}" ;; remove trailing comma
 				(subseq str 0 (- (length str) 1))))))
+	      (dictionary (let* ((args (cdr code)))
+			    (format nil "dict~a"
+				    (emit `(paren ,@(loop for (e f) on args by #'cddr
+							  collect
+							  `(= ,e ,f)))))))
 	      (indent (format nil "~{~a~}~a"
 			      (loop for i below level collect "    ")
 			      (emit (cadr code))))
@@ -224,6 +278,8 @@
 	      (return_ (format nil "return ~a" (emit (caadr code))))
 	      (return (let ((args (cdr code)))
 			(format nil "~a" (emit `(return_ ,args)))))
+	      (assert (let ((args (cdr code)))
+			(format nil "assert ~a" (emit `(ntuple ,@args)))))
 	      (for (destructuring-bind ((vs ls) &rest body) (cdr code)
 		     (with-output-to-string (s)
 		       ;(format s "~a" (emit '(indent)))
