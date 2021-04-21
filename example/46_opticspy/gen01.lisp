@@ -340,7 +340,7 @@
 				     (dot (string "{:3.2f}")
 					  (format row.thickness))
 				     :color  (aref colors idx))
-			   ,@(loop for e in `(row.theta1 ;row.theta2
+			  #+nil  ,@(loop for e in `(row.theta1 ;row.theta2
 					      )
 				   collect
 				   `(do0
