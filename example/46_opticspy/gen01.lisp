@@ -389,7 +389,7 @@
 				collect
 				`(do0 (setf p1 (eval_ray ,e :ro ro :rd rd))
 				      (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
-				      (setf rd_trans (snell :rd rd :n n
+				      (setf rd_trans (snell :rd rd :n (* -1 n)
 							    :ni (aref df.n_green (- surface_idx 1))
 							    :no (aref df.n_green (- surface_idx 0))))
 				      (setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
