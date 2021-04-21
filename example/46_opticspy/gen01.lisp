@@ -144,29 +144,29 @@
 			     (setf df (pd.read_csv (string ,system-fn))))
 			    (do0
 			     (with (Timer (string "system definition"))
-				   (setf df (pd.DataFrame
-					     (list
-					      ,@(loop for e in system-def
-						      and i from 1
-						      collect
-						      (destructuring-bind (radius thickness material aperture &key (STO 'False) (comment 'None) (output 'True)) e
-							`(dict ,@(loop for e in `(radius thickness material aperture STO output comment)
-								       and f in (list radius thickness `(string ,material) aperture STO output comment)
+				   (setf df
+					 (pd.DataFrame
+					  (list
+					   ,@(loop for e in system-def
+						   and i from 1
+						   collect
+						   (destructuring-bind (radius thickness material aperture
+								       &key (STO 'False) (comment 'None) (output 'True)) e
+						     `(dict ,@(loop for e in `(radius thickness material aperture STO output comment)
+								    and f in (list radius thickness `(string ,material) aperture STO output comment)
 								       collect
-								      
-								       `((string ,e) ,f))
-							       ,@(loop for color in l-wl-name
-								       and wl in l-wl
-								       and i from 0
-								       collect
-								       `((string ,(format nil "n_~a" color))
-									 (aref (opr.glass_funcs.glass2indexlist
-										(list ,wl)
-										(string ,material))
-									       0)
-									 )))
-						       
-							))))))
+								    `((string ,e) ,f))
+							    ,@(loop for color in l-wl-name
+								    and wl in l-wl
+								    and i from 0
+								    collect
+								    `((string ,(format nil "n_~a" color))
+								      (aref (opr.glass_funcs.glass2indexlist
+									     (list ,wl)
+									     (string ,material))
+									    0)
+								      )))
+						     ))))))
 			     
 			     (df.to_csv (str system_data))
 			     ))
@@ -264,14 +264,15 @@
 			  (setf tau tau0)
 			  (setf tau tau1)))
 
-		    (setf p0 (eval_ray tau0 :ro ro :rd rd)
-			  p1 (eval_ray tau1 :ro ro :rd rd)
-			  p (eval_ray tau :ro ro :rd rd))
+		    #+nil 
+		    (do0 (setf p0 (eval_ray tau0 :ro ro :rd rd)
+			   p1 (eval_ray tau1 :ro ro :rd rd)
+			       p (eval_ray tau :ro ro :rd rd))
 
-		    #+nil ,@(loop for e in `(a b c ro rd oc sc tau0 tau1 tau p0 p1 p)
-				  collect
-				  `(print (dot (string ,(format nil "~a={}" e))
-					       (format ,e))))
+			 #+nil ,@(loop for e in `(a b c ro rd oc sc tau0 tau1 tau p0 p1 p)
+				       collect
+				       `(print (dot (string ,(format nil "~a={}" e))
+						    (format ,e)))))
 		    (return tau)
 		    ;; outside-directed normal at intersection point is P_hit - Sphere_Center
 		    ))
@@ -280,7 +281,10 @@
 			       :rd (np.array (list 1 0 0))
 			       :sc (np.array (list 0 0 0))
 			       :sr 1))
-		  (def snell (rd n ni no)
+		  (def sphere_normal_out (&key p_hit sc sr)
+		    (return (/ (- p_hit sc) sr)))
+		  
+		  (def snell (&key rd n ni no)
 		    ;;https://physics.stackexchange.com/questions/435512/snells-law-in-vector-form
 		    (string3 "rd .. ray direction"
 			     "n  .. surface normal"
@@ -368,9 +372,11 @@
 					  `(np.array (list -20 ,e 0)))))
 			;; ro rd sc sr
 			(setf surface_idx 1)
+			(setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
+			      sr (aref df.radius surface_idx))
 			(setf tau (hit_sphere :ro ro :rd rd
-					      :sc (np.array (list (aref df.center_x surface_idx) 0 0))
-					      :sr (aref df.radius surface_idx)))
+					      :sc sc
+					      :sr sr))
 			,@(loop for e in `(tau)
 			    collect
 			    `(print (dot (string ,(format nil "~a={}" e))
@@ -379,6 +385,7 @@
 					   ) and color in `(k r)
 				collect
 				`(do0 (setf p1 (eval_ray ,e :ro ro :rd rd))
+				      (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
 				      #+nil (plt.scatter
 				       (aref ro 0)
 				       (aref ro 1))
@@ -387,6 +394,13 @@
 					    (list (aref ro 1)
 						  (aref p1 1))
 					    :color (string ,color)
+					    :alpha .3
+					    )
+				      (plot (list (aref p1 0)
+						  (aref (+ p1 (* 10 n)) 0))
+					    (list (aref p1 1)
+						  (aref (+ p1 (* 10 n)) 1))
+					    :color (string "r")
 					    :alpha .3
 					    )))))
 		  (xlim (tuple -35 125))
