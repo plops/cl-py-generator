@@ -6,7 +6,7 @@
 
 (defparameter *file-hashes* (make-hash-table))
 
-(defun write-notebook (nb-file nb-code)
+(defun write-notebook (&key nb-file nb-code)
   "write python jupyter notebook"
   (let ((tmp (format nil "~a.tmp" nb-file)))
     (with-output-to-file (s tmp :if-exists :supersede
@@ -43,11 +43,11 @@
 					       :|language| "python"
 					      :|name| "python3"))
 		 :|nbformat| 4
-		  :|nbformat_error| 2))))
+		  :|nbformat_minor| 2))))
     (sb-ext:run-program "/usr/bin/jq" `("-M" "." ,tmp)
 			:output nb-file
 			:if-output-exists :supersede)
-    (delete-file tmpq)))
+    (delete-file tmp)))
 
 (defun write-source (name code &optional (dir (user-homedir-pathname))
 				 ignore-hash)
