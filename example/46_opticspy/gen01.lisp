@@ -373,45 +373,51 @@
 			 rd (/ rd (np.linalg.norm rd)))
 		   (for (ro (list ,@(loop for e from -40 upto 40 by 2 collect
 					  `(np.array (list -20 ,e 0)))))
-			;; ro rd sc sr
-			(setf surface_idx 1)
-			(setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
-			      sr (aref df.radius surface_idx))
-			(setf tau (hit_sphere :ro ro :rd rd
-					      :sc sc
-					      :sr sr))
-			,@(loop for e in `(tau)
-			    collect
-			    `(print (dot (string ,(format nil "~a={}" e))
-					 (format ,e))))
-			,@(loop for e in `(tau ; tau2
-					   ) and color in `(k r)
-				collect
-				`(do0 (setf p1 (eval_ray ,e :ro ro :rd rd))
-				      (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
-				      (setf rd_trans (snell :rd rd :n (* -1 n)
-							    :ni (aref df.n_green (- surface_idx 1))
-							    :no (aref df.n_green (- surface_idx 0))))
-				      (setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
-				      #+nil (plt.scatter
-				       (aref ro 0)
-				       (aref ro 1))
-				      (plot (list (aref ro 0)
-						  (aref p1 0)
-						  (aref p2 0))
-					    (list (aref ro 1)
-						  (aref p1 1)
-						  (aref p2 1))
-					    :color (string ,color)
-					    :alpha .3
-					    )
-				      (plot (list (aref p1 0)
-						  (aref (+ p1 (* 10 n)) 0))
-					    (list (aref p1 1)
-						  (aref (+ p1 (* 10 n)) 1))
-					    :color (string "r")
-					    :alpha .3
-					    )))))
+			(for (surface_idx (range 1 6))
+			 (do0
+			  ;(setf surface_idx 1)
+			  (setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
+				sr (aref df.radius surface_idx))
+			  (setf tau (hit_sphere :ro ro :rd rd
+						:sc sc
+						:sr sr))
+			  #+nil,@(loop for e in `(tau)
+				       collect
+				       `(print (dot (string ,(format nil "~a={}" e))
+						    (format ,e))))
+			  ,@(loop for e in `(tau ; tau2
+					     ) and color in `(k r)
+				  collect
+				  `(do0 (setf p1 (eval_ray ,e :ro ro :rd rd))
+					(setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
+					(setf rd_trans (snell :rd rd :n (* -1 n)
+							      :ni (aref df.n_green (- surface_idx 1))
+							      :no (aref df.n_green (- surface_idx 0))))
+					(setf rd rd_trans
+					      ro p1)
+					;(setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
+					#+nil (plt.scatter
+					       (aref ro 0)
+					       (aref ro 1))
+					(plot (list (aref ro 0)
+						    (aref p1 0)
+						    ;(aref p2 0)
+						    )
+					      (list (aref ro 1)
+						    (aref p1 1)
+						    ;(aref p2 1)
+						    )
+					      :color (string ,color)
+					      :alpha .3
+					      )
+					#+nil
+					(plot (list (aref p1 0)
+						    (aref (+ p1 (* 10 n)) 0))
+					      (list (aref p1 1)
+						    (aref (+ p1 (* 10 n)) 1))
+					      :color (string "r")
+					      :alpha .3
+					      )))))))
 		  (xlim (tuple -35 125))
 		  (ylim (tuple -50 50)))
 		#+nil (do0
