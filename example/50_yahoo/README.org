@@ -1,0 +1,9 @@
+- reference
+  - https://www.youtube.com/watch?v=fw4gK-leExw
+
+- install:
+#+begin_example
+pip3 install --user bs4 requests
+sudo dnf install jq
+
+#+end_example
