@@ -290,13 +290,16 @@
 			     "n  .. surface normal"
 			     "ni .. refractive index on input side"
 			     "no .. refractive index on output side")
-		    (setf u (/ n1 n2)
+		    (setf u (/ ni no)
 			  p (np.dot rd n))
 		    (return (+ (* u
 				  (- rd (* p n)))
 			       (* (np.sqrt (- 1 (* (** u 2)
 						   (- 1 (** p 2)))))
-				  n)))))
+				  n))))
+
+		  
+		  )
 		 #-nil (do0
 		  (setf fig (figure :figsize (list 16 3))
 			ax (fig.gca)
@@ -386,13 +389,19 @@
 				collect
 				`(do0 (setf p1 (eval_ray ,e :ro ro :rd rd))
 				      (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
+				      (setf rd_trans (snell :rd rd :n n
+							    :ni (aref df.n_green (- surface_idx 1))
+							    :no (aref df.n_green (- surface_idx 0))))
+				      (setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
 				      #+nil (plt.scatter
 				       (aref ro 0)
 				       (aref ro 1))
 				      (plot (list (aref ro 0)
-						  (aref p1 0))
+						  (aref p1 0)
+						  (aref p2 0))
 					    (list (aref ro 1)
-						  (aref p1 1))
+						  (aref p1 1)
+						  (aref p2 1))
 					    :color (string ,color)
 					    :alpha .3
 					    )
