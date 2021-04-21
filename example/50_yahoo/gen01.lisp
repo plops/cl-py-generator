@@ -88,8 +88,9 @@
      (python
       (do0 (setf stock (string "F"))))
      ,@ (loop for (name url) in `((stats "https://finance.yahoo.com/quote/{}/key-statistics?p={}")
-				  (profile "https://finance.yahoo.com/quote/{}/profile?p={}")
-				  (financials "https://finance.yahoo.com/quote/{}/financials?p={}"))
+				  ;(profile "https://finance.yahoo.com/quote/{}/profile?p={}")
+				  ;(financials "https://finance.yahoo.com/quote/{}/financials?p={}")
+				  )
 	      collect
 	      `(python
 		(do0 ;def ,name (stock)
@@ -100,7 +101,40 @@
 		  (setf pattern (re.compile (rstring3 "\\s--\\sData\\s--\\s"))
 			script_data (dot (soup.find (string "script")
 						    :text pattern)
-					 (aref contents 0))))))
+					 (aref contents 0)))
+		  (setf start (- (script_data.find (string "context")) 2))
+		  (setf json_data (json.loads (aref script_data (slice start -12))))
+		  ,@(loop for e in `((is incomeStatementHistory)
+				     (cf cashflowStatementHistory cashflowStatements)
+				     (bs balanceSheetHistory balanceSheetStatements))
+			  collect
+			  (destructuring-bind (short-name s1 &optional (s2 s1)) e
+			   (labels ((name (prefix)
+				      (format nil "~a_~a" prefix short-name)))
+			     `(do0 (setf ,(name "annual")
+				     (aref
+				      (aref
+				       (aref
+					(aref
+					 (aref
+					  (aref json_data (string "context"))
+					  (string "dispatcher"))
+					 (string "stores"))
+					(string "QuoteSummaryStore"))
+				       (string ,s1))
+				      (string ,s2)))
+				   (setf ,(name "quarterly")
+				     (aref
+				      (aref
+				       (aref
+					(aref
+					 (aref
+					  (aref json_data (string "context"))
+					  (string "dispatcher"))
+					 (string "stores"))
+					(string "QuoteSummaryStore"))
+				       (string ,(format nil "~aQuarterly" s1)))
+				      (string ,s2))))))))))
      ))
   )
 
