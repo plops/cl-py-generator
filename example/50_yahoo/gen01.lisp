@@ -65,8 +65,8 @@
 			 re
 			 json
 			 csv
-			 io.StringIO
-			 bs4.BeautifulSoup
+			 ;io.StringIO
+			 bs4
 			 requests
 			   
 			 (np jax.numpy)
@@ -80,16 +80,28 @@
 			`(plot imshow tight_layout xlabel ylabel
 			       title subplot subplot2grid grid
 			       legend figure gcf xlim ylim))
+	       
 		 
 		 
 	       )
 	      ))
      (python
-      (do0
-       ,@ (loop for e in `((stats "https://finance.yahoo.com/quote/F/key-statistics?p=F")
-			   (profile "https://finance.yahoo.com/quote/F/profile?p=F")
-			   (financials "https://finance.yahoo.com/quote/F/financials?p=F")))
-       ))))
+      (do0 (setf stock (string "F"))))
+     ,@ (loop for (name url) in `((stats "https://finance.yahoo.com/quote/{}/key-statistics?p={}")
+				  (profile "https://finance.yahoo.com/quote/{}/profile?p={}")
+				  (financials "https://finance.yahoo.com/quote/{}/financials?p={}"))
+	      collect
+	      `(python
+		(do0 ;def ,name (stock)
+		  (setf response (requests.get (dot (string ,url)
+						    (format stock stock))))
+		  (setf soup (bs4.BeautifulSoup response.text
+						(string "html.parser")))
+		  (setf pattern (re.compile (rstring3 "\\s--\\sData\\s--\\s"))
+			script_data (dot (soup.find (string "script")
+						    :text pattern)
+					 (aref contents 0))))))
+     ))
   )
 
 
