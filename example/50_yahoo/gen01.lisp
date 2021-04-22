@@ -89,14 +89,18 @@
       (do0 (setf stock (string "F"))))
      ,@ (loop for (name url json-headers)
 		in
-	      `((stats "https://finance.yahoo.com/quote/{}/key-statistics?p={}" ((is (aref x (string "financialData"))
-										     (transpose))
+	      `((stats "https://finance.yahoo.com/quote/{}/key-statistics?p={}"
+		       ((is
+			 (dot  (pd.DataFrame (aref x (string "financialData")))
+			       (transpose)))
+										 
 					; (cf cashflowStatementHistory cashflowStatements)
 					;(bs balanceSheetHistory balanceSheetStatements)
 										  ))
 		(profile "https://finance.yahoo.com/quote/{}/profile?p={}"
-			 (
-			  (officer (aref (aref x (string "assetProfile")) (string "companyOfficers")))))
+			 ((officer (pd.DataFrame (aref (aref x (string "assetProfile")) (string "companyOfficers"))))
+			  (summary (aref (aref x (string "assetProfile")) (string "longBusinessSummary")))))
+
 					;(financials "https://finance.yahoo.com/quote/{}/financials?p={}")
 				  )
 	      collect
@@ -114,7 +118,7 @@
 		  (setf json_data (json.loads (aref script_data (slice start -12))))
 		  ,@(loop for e in json-headers
 			  collect
-			  (destructuring-bind (short-name code &optional (code-after-pd nil)) e
+			  (destructuring-bind (short-name code) e
 			   (labels ((name (prefix)
 				      (format nil "~a_~a" prefix short-name)))
 			     `(do0
@@ -126,14 +130,9 @@
 					      (string "stores"))
 					     (string "QuoteSummaryStore")))
 			       (setf ,(name "dat")
-				     ,(if code-after-pd
-				      `(dot (pd.DataFrame
-					    ,code)
-					    ,code-after-pd)
-				      `(dot (pd.DataFrame
-					    ,code)))
+				     ,code
 					 )
-				   ,(name "dat"))))))))
+				   (display ,(name "dat")))))))))
      (python (do0
 	      (with (as (open (string "/dev/shm/data.json")
 			      (string "w"))
