@@ -87,9 +87,17 @@
 	      ))
      (python
       (do0 (setf stock (string "F"))))
-     ,@ (loop for (name url) in `((stats "https://finance.yahoo.com/quote/{}/key-statistics?p={}")
-				  ;(profile "https://finance.yahoo.com/quote/{}/profile?p={}")
-				  ;(financials "https://finance.yahoo.com/quote/{}/financials?p={}")
+     ,@ (loop for (name url json-headers)
+		in
+	      `((stats "https://finance.yahoo.com/quote/{}/key-statistics?p={}" ((is (aref x (string "financialData"))
+										     (transpose))
+					; (cf cashflowStatementHistory cashflowStatements)
+					;(bs balanceSheetHistory balanceSheetStatements)
+										  ))
+		(profile "https://finance.yahoo.com/quote/{}/profile?p={}"
+			 (
+			  (officer (aref (aref x (string "assetProfile")) (string "companyOfficers")))))
+					;(financials "https://finance.yahoo.com/quote/{}/financials?p={}")
 				  )
 	      collect
 	      `(python
@@ -104,37 +112,28 @@
 					 (aref contents 0)))
 		  (setf start (- (script_data.find (string "context")) 2))
 		  (setf json_data (json.loads (aref script_data (slice start -12))))
-		  ,@(loop for e in `((is incomeStatementHistory)
-				     (cf cashflowStatementHistory cashflowStatements)
-				     (bs balanceSheetHistory balanceSheetStatements))
+		  ,@(loop for e in json-headers
 			  collect
-			  (destructuring-bind (short-name s1 &optional (s2 s1)) e
+			  (destructuring-bind (short-name code &optional (code-after-pd nil)) e
 			   (labels ((name (prefix)
 				      (format nil "~a_~a" prefix short-name)))
-			     `(do0 (setf ,(name "annual")
-				     (aref
-				      (aref
-				       (aref
-					(aref
-					 (aref
-					  (aref json_data (string "context"))
-					  (string "dispatcher"))
-					 (string "stores"))
-					(string "QuoteSummaryStore"))
-				       (string ,s1))
-				      (string ,s2)))
-				   (setf ,(name "quarterly")
-				     (aref
-				      (aref
-				       (aref
-					(aref
-					 (aref
-					  (aref json_data (string "context"))
-					  (string "dispatcher"))
-					 (string "stores"))
-					(string "QuoteSummaryStore"))
-				       (string ,(format nil "~aQuarterly" s1)))
-				      (string ,s2))))))))))
+			     `(do0
+			       (setf x (aref
+					     (aref
+					      (aref
+					       (aref json_data (string "context"))
+					       (string "dispatcher"))
+					      (string "stores"))
+					     (string "QuoteSummaryStore")))
+			       (setf ,(name "dat")
+				     ,(if code-after-pd
+				      `(dot (pd.DataFrame
+					    ,code)
+					    ,code-after-pd)
+				      `(dot (pd.DataFrame
+					    ,code)))
+					 )
+				   ,(name "dat"))))))))
      (python (do0
 	      (with (as (open (string "/dev/shm/data.json")
 			      (string "w"))
