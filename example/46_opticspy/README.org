@@ -10,6 +10,13 @@ pip3 install --user -e opticspy
 
 - http://opticspy.org/
 
+
+- contents
+| file  | state | comment                                                                          |
+|-------+-------+----------------------------------------------------------------------------------|
+| gen00 |   90% | try opticspy, it has material models and paraxial approximation but is very slow |
+| gen01 |   50% | ray tracer with jax                                                              |
+| gen02 |       | notebook                                                                         |
 - plan for gen01
   - keep system information in pandas dataframe
   - use opticspy to compute paraxial parameters and pupil, use its index model

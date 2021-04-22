@@ -370,9 +370,10 @@
 			     )
 		  (do0
 		   
-		   (for (ro (list ,@(loop for e from -25 upto 15 by 2 collect
+		   (for (ro (list ,@(loop for e in `(0 1e-6 1) ; from -25 upto 15 by 2
+					  collect
 					  `(np.array (list -20 ,e 0)))))
-			(setf rd (* 1 (np.array (list 1 .2 0)))
+			(setf rd (* 1 (np.array (list 1 0 0)))
 			 rd (/ rd (np.linalg.norm rd)))
 			(for (surface_idx (range 1 9))
 			 (do0
