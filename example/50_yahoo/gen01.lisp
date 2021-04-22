@@ -135,6 +135,11 @@
 					(string "QuoteSummaryStore"))
 				       (string ,(format nil "~aQuarterly" s1)))
 				      (string ,s2))))))))))
+     (python (do0
+	      (with (as (open (string "/dev/shm/data.json")
+			      (string "w"))
+			outfile)
+		    (json.dump json_data outfile))))
      ))
   )
 
