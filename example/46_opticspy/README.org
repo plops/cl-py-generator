@@ -60,3 +60,7 @@ vjp
     - r_rel = max (r_rel, r/r_surface)
   - as ray passes through aperture plane, a pair of intersection
     coordinates (ua, va) is stored
+
+- how to find chief ray of camera objective
+  - trace ray from object space (with finite field angle) into the system until the surface with the stop
+  - vary ray angle until stop is hit on optical axis
