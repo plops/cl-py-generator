@@ -296,13 +296,14 @@
      (python
       (do0
        (def trace (&key df ro rd (start 1) (end None))
-	 (string3 "trace ray (ro,rd) through the system defined in df. ")
+	 (string3 "trace ray (ro,rd) through the system defined in df. start and end define the surfaces to consider. ")
         (do0
 	 (when (is end None)
 	   (setf end (- (len df) 1)))
-	 #+nil (setf rd (* 1 (np.array (list 1 0 0)))
-	       rd (/ rd (np.linalg.norm rd)))
-	 (for (surface_idx (range 1 9))
+	 #-nil (setf rd (* 1 (np.array (list 1 0 0)))
+		     rd (/ rd (np.linalg.norm rd)))
+	 (setf res (list))
+	 (for (surface_idx (range start end))
 	      (do0
 			
 	       (setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
@@ -321,33 +322,26 @@
 						   :ni (aref df.n_green (- surface_idx 1))
 						   :no (aref df.n_green (- surface_idx 0))))
 			     
-					;(setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
-			     #+nil (plt.scatter
-				    (aref ro 0)
-				    (aref ro 1))
-			     (plot (list (aref ro 0)
-					 (aref p1 0)
-					;(aref p2 0)
-					 )
-				   (list (aref ro 1)
-					 (aref p1 1)
-					;(aref p2 1)
-					 )
-				   :color (string ,color)
-				   :alpha .3
-				   )
+			     (res.append (dictionary :surface_idx surface_idx
+						     :ro ro
+						     :rd rd
+						     :tau tau
+						     :phit p1
+						     :normal n
+						     :rd_trans rd_trans
+						     :sc sc
+						     :sr sr))
 			     (setf rd rd_trans
 				   ro p1)
-			     #+nil
-			     (plot (list (aref p1 0)
-					 (aref (+ p1 (* 3 n)) 0))
-				   (list (aref p1 1)
-					 (aref (+ p1 (* 3 n)) 1))
-				   :color (string "r")
-				   :alpha .3
-				   )))))))
+			     ))))
+	 (return (pd.DataFrame res))))
        ))
 
+     (python
+      (do0
+       (trace :df df
+	      :ro (np.array (list -20 0 0))
+	      :rd (np.array (list 1 .2 0)))))
      (python
       (do0
 		  (setf fig (figure :figsize (list 16 3))
