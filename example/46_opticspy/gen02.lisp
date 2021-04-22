@@ -49,7 +49,7 @@
 					;(u astropy.units)
 					; EP_SerialIO
 					;scipy.ndimage
-					;   scipy.optimize
+					scipy.optimize
 					;nfft
 					;sklearn
 					;sklearn.linear_model
@@ -351,16 +351,16 @@
 	      :rd (np.array (list 1 .2 0)))))
      (python
       (do0
-       (comments "search fro chief ray")
+       (comments "search for chief ray (manually)")
        (trace :df df
-	      :ro (np.array (list -20 0 0))
+	      :ro (np.array (list -20 10 0))
 	      :rd (np.array (list 1 .2 0))
 	      :end 5)
        ))
 
      (python
       (do0
-       (comments "search fro chief ray")
+       (comments "search for chief ray with a graph")
        (def chief (x)
 	 (setf dfo
 	  (trace :df df
@@ -371,13 +371,22 @@
 		      (aref iloc -1)
 		      (aref rd 1)
 		      (item))))
-       (setf xs (np.linspace -3 3 100)
+       (setf xs (np.linspace -3 3 17)
 	     ys (list))
        (for (x xs)
 	    (ys.append (chief x)))
        (figure)
        (plt.plot xs ys)
        (grid)
+       ))
+      (python
+      (do0
+       (comments "search for chief ray with root finder")
+       (setf sol
+	(scipy.optimize.root_scalar chief :method (string "brentq")
+					  :bracket (list -0.06 0.06)
+				    ))
+       sol
        ))
      (python
       (do0
