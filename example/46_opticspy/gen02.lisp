@@ -408,7 +408,7 @@
 			   #+nil(try
 			    (setf x (dot (aref df.iloc (- idx 1)) thickness_cum))
 			    ("Exception as e"
-			     (setf x -10)))
+			     (setf x -10))) 
 			 
 			   (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
 								 (* 2 r) (* 2 r)
