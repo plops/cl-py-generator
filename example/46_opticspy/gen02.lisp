@@ -300,7 +300,7 @@
         (do0
 	 (when (is end None)
 	   (setf end (- (len df) 1)))
-	 #-nil (setf rd (* 1 (np.array (list 1 0 0)))
+	 #-nil (setf
 		     rd (/ rd (np.linalg.norm rd)))
 	 (setf res (list))
 	 (for (surface_idx (range start end))
@@ -317,20 +317,25 @@
 		       collect
 		       `(do0 (setf p1 (eval_ray ,e :ro ro :rd rd)) ;; hit point
 			     (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
+			     (setf normal (* -1 n)
+				   ni (aref df.n_green (- surface_idx 1))
+				   no (aref df.n_green (- surface_idx 0)))
 			     (setf rd_trans (snell :rd rd
-						   :n (* -1 n)
-						   :ni (aref df.n_green (- surface_idx 1))
-						   :no (aref df.n_green (- surface_idx 0))))
+						   :n normal
+						   :ni ni
+						   :no no))
 			     
 			     (res.append (dictionary :surface_idx surface_idx
 						     :ro ro
 						     :rd rd
 						     :tau tau
 						     :phit p1
-						     :normal n
+						     :normal normal
 						     :rd_trans rd_trans
 						     :sc sc
-						     :sr sr))
+						     :sr sr
+						     :ni ni
+						     :no no))
 			     (setf rd rd_trans
 				   ro p1)
 			     ))))
