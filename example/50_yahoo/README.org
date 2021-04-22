@@ -3,7 +3,8 @@
 
 - install:
 #+begin_example
-pip3 install --user bs4 requests
+pip3 install --user bs4 requests 
+pip3 install --user mplfinance # to plot candlesticks
 sudo dnf install jq
 
 #+end_example

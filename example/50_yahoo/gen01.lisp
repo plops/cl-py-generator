@@ -70,6 +70,7 @@
 			 requests
 			   
 			 (np jax.numpy)
+			 (mpf mplfinance)
 			   
 			 ))
 		 
@@ -99,7 +100,12 @@
 										  ))
 		(profile "https://finance.yahoo.com/quote/{}/profile?p={}"
 			 ((officer (pd.DataFrame (aref (aref x (string "assetProfile")) (string "companyOfficers"))))
-			  (summary (aref (aref x (string "assetProfile")) (string "longBusinessSummary")))))
+			  (business_summary (aref (aref x (string "assetProfile")) (string "longBusinessSummary")))
+			  (sec (pd.DataFrame (aref (aref x (string "secFilings")) (string "filings"))))
+			  #+nil (events (pd.DataFrame (aref (aref x (string "calendarEvents"))
+						      (string "earnings"))))
+			  (summary_detail (dot (pd.DataFrame (aref x (string "summaryDetail")))
+					       (transpose)))))
 
 					;(financials "https://finance.yahoo.com/quote/{}/financials?p={}")
 				  )
@@ -116,23 +122,58 @@
 					 (aref contents 0)))
 		  (setf start (- (script_data.find (string "context")) 2))
 		  (setf json_data (json.loads (aref script_data (slice start -12))))
+		  (setf x (aref
+			   (aref
+			    (aref
+			     (aref json_data (string "context"))
+			     (string "dispatcher"))
+			    (string "stores"))
+			   (string "QuoteSummaryStore")))
 		  ,@(loop for e in json-headers
 			  collect
 			  (destructuring-bind (short-name code) e
 			   (labels ((name (prefix)
 				      (format nil "~a_~a" prefix short-name)))
 			     `(do0
-			       (setf x (aref
-					     (aref
-					      (aref
-					       (aref json_data (string "context"))
-					       (string "dispatcher"))
-					      (string "stores"))
-					     (string "QuoteSummaryStore")))
-			       (setf ,(name "dat")
-				     ,code
-					 )
-				   (display ,(name "dat")))))))))
+			       (try (do0
+				 (setf ,(name "dat")
+				       ,code
+				       )
+				 (display ,(name "dat")))
+				    ("Exception as e"
+				     (display e)
+				     pass)))))))))
+
+
+     (python
+      (do0
+       (setf stock_url (dot (string "https://query1.finance.yahoo.com/v7/finance/download/{}?")
+			    (format stock)))
+					; period1=1587535484&period2=1619071484&interval=1d&events=history&includeAdjustedClose=true
+       (setf params (dictionary ;:period1 1587535484
+				;:period2 1619071484
+				:range (string "1y")
+				:interval (string "1d")
+				:events (string "history")
+				:includeAdjustedClose True))
+       (setf response (requests.get stock_url :params params))
+       (setf df_stock (pd.read_csv (io.StringIO response.text)
+				   :index_col 0
+				   :parse_dates True)
+	     )
+       (display df_stock)
+       #+nil (do0
+	(figure)
+	(dot df_stock (set_index (string "Date"))
+	     High (plot))
+	(dot df_stock (set_index (string "Date"))
+	     Low (plot))
+	(grid))
+       (do0
+	(mpf.plot df_stock :type (string "candle") :volume True)
+	;(grid)
+	)))
+     
      (python (do0
 	      (with (as (open (string "/dev/shm/data.json")
 			      (string "w"))
