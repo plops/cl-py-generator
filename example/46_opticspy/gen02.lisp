@@ -298,8 +298,9 @@
        (def trace (&key df ro rd (start 1) (end None))
 	 (string3 "trace ray (ro,rd) through the system defined in df. start and end define the surfaces to consider. ")
         (do0
-	 (when (is end None)
-	   (setf end (- (len df) 1)))
+	 (if (is end None)
+	     (setf end (- (len df) 1))
+	     (setf end (+ end 1)))
 	 #-nil (setf
 		     rd (/ rd (np.linalg.norm rd)))
 	 (setf res (list))
@@ -344,9 +345,40 @@
 
      (python
       (do0
+       (comments "trace a ray through the full system")
        (trace :df df
 	      :ro (np.array (list -20 0 0))
 	      :rd (np.array (list 1 .2 0)))))
+     (python
+      (do0
+       (comments "search fro chief ray")
+       (trace :df df
+	      :ro (np.array (list -20 0 0))
+	      :rd (np.array (list 1 .2 0))
+	      :end 5)
+       ))
+
+     (python
+      (do0
+       (comments "search fro chief ray")
+       (def chief (x)
+	 (setf dfo
+	  (trace :df df
+		 :ro (np.array (list -20 10 0))
+		 :rd (np.array (list 1 x 0))
+		 :end 5))
+	 (return (dot dfo
+		      (aref iloc -1)
+		      (aref rd 1)
+		      (item))))
+       (setf xs (np.linspace -3 3 100)
+	     ys (list))
+       (for (x xs)
+	    (ys.append (chief x)))
+       (figure)
+       (plt.plot xs ys)
+       (grid)
+       ))
      (python
       (do0
 		  (setf fig (figure :figsize (list 16 3))
