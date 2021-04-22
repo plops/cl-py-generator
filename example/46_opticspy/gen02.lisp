@@ -209,7 +209,8 @@
 			     df (pd.concat (list df df_new)
 					   :axis (string "columns"))
 			    
-			     )))))
+			     )
+		       df))))
 
      (python
       (do0
@@ -267,6 +268,7 @@
 		    (return tau)
 		    ;; outside-directed normal at intersection point is P_hit - Sphere_Center
 		    ))
+		  #+nil
 		  (print
 		   (hit_sphere :ro (np.array (list -10 0 0))
 			       :rd (np.array (list 1 0 0))
@@ -291,6 +293,60 @@
 
 		  
 		  ))
+     (python
+      (do0
+       (def trace (&key df ro rd (start 1) (end None))
+	 (string3 "trace ray (ro,rd) through the system defined in df. ")
+        (do0
+	 (when (is end None)
+	   (setf end (- (len df) 1)))
+	 #+nil (setf rd (* 1 (np.array (list 1 0 0)))
+	       rd (/ rd (np.linalg.norm rd)))
+	 (for (surface_idx (range 1 9))
+	      (do0
+			
+	       (setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
+		     sr (aref df.radius surface_idx))
+	       (setf tau (hit_sphere :ro ro :rd rd
+				     :sc sc
+				     :sr sr))
+	      
+	       ,@(loop for e in `(tau ; tau2
+				  ) and color in `(k)
+		       collect
+		       `(do0 (setf p1 (eval_ray ,e :ro ro :rd rd)) ;; hit point
+			     (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
+			     (setf rd_trans (snell :rd rd
+						   :n (* -1 n)
+						   :ni (aref df.n_green (- surface_idx 1))
+						   :no (aref df.n_green (- surface_idx 0))))
+			     
+					;(setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
+			     #+nil (plt.scatter
+				    (aref ro 0)
+				    (aref ro 1))
+			     (plot (list (aref ro 0)
+					 (aref p1 0)
+					;(aref p2 0)
+					 )
+				   (list (aref ro 1)
+					 (aref p1 1)
+					;(aref p2 1)
+					 )
+				   :color (string ,color)
+				   :alpha .3
+				   )
+			     (setf rd rd_trans
+				   ro p1)
+			     #+nil
+			     (plot (list (aref p1 0)
+					 (aref (+ p1 (* 3 n)) 0))
+				   (list (aref p1 1)
+					 (aref (+ p1 (* 3 n)) 1))
+				   :color (string "r")
+				   :alpha .3
+				   )))))))
+       ))
 
      (python
       (do0
