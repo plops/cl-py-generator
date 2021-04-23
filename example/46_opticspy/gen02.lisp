@@ -351,16 +351,7 @@
 	      :rd (np.array (list 1 .2 0)))))
      (python
       (do0
-       (comments "search for chief ray (manually)")
-       (trace :df df
-	      :ro (np.array (list -20 10 0))
-	      :rd (np.array (list 1 .2 0))
-	      :end 5)
-       ))
-
-     (python
-      (do0
-       (comments "search for chief ray with a graph")
+       (comments "reduce number of arguments and return values to minimum.")
        (def chief (x)
 	 (setf dfo
 	  (trace :df df
@@ -371,6 +362,16 @@
 		      (aref iloc -1)
 		      (aref rd 1)
 		      (item))))
+       
+       ))
+     (python
+      (do0
+       (comments "search for chief ray (manually)")
+       (chief .2)))
+     (python
+      (do0
+       (comments "search for chief ray with a graph")
+       
        (setf xs (np.linspace -3 3 17)
 	     ys (list))
        (for (x xs)
@@ -381,13 +382,103 @@
        ))
       (python
       (do0
-       (comments "search for chief ray with root finder")
+       (comments "search for chief ray with root finder (without gradient)")
        (setf sol
 	(scipy.optimize.root_scalar chief :method (string "brentq")
 					  :bracket (list -0.06 0.06)
 				    ))
        sol
        ))
+     ,@(let ((l `(radius n_green center_x)))
+	 `(
+	   (python
+	    (do0
+	     (comments "the only required parameters for trace")
+	     (setf adf0 (aref df (list ,@ (loop for e in l collect `(string ,e)))))
+	     (setf adf (dot adf0
+			    values))
+	     (comments "first argument selects surface_idx, second argument is column: adf[3,1] is surface_idx=3, column=n_green")
+	     adf0))
+	   (python
+	    (do0
+	     (comments "create a trace function that only uses arrays (so that all computations can be represented with jax)")
+       (def trace2 (&key adf ro rd (start 1) (end None))
+	 (string3 "trace ray (ro,rd) through the system defined in df. start and end define the surfaces to consider. ")
+        (do0
+	 (if (is end None)
+	     (setf end (- (len adf) 1))
+	     (setf end (+ end 1)))
+	 (setf rd (/ rd (np.linalg.norm rd)))
+	 ;(setf res (list))
+	 (for (surface_idx (range start end))
+	      (do0
+	       (setf sr (aref adf surface_idx ,(position 'radius l))
+		     center_x (aref adf surface_idx ,(position 'center_x l))
+		     ni (aref adf (- surface_idx 1) ,(position 'n_green l))
+		     no (aref adf (- surface_idx 0) ,(position 'n_green l)))	
+	       (setf sc (np.array (list center_x 0 0)))
+	       (setf tau (hit_sphere :ro ro :rd rd
+				     :sc sc
+				     :sr sr))
+	      
+	       (do0 (setf p1 (eval_ray tau :ro ro :rd rd)) ;; hit point
+		       (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
+		       (setf normal (* -1 n)
+			   )
+		       (setf rd_trans (snell :rd rd
+					     :n normal
+					     :ni ni
+					     :no no))
+		       #+nil
+		       (res.append (dictionary :surface_idx surface_idx
+					       :ro ro
+					       :rd rd
+					       :tau tau
+					       :phit p1
+					       :normal normal
+					       :rd_trans rd_trans
+					       :sc sc
+					       :sr sr
+					       :ni ni
+					       :no no))
+		       (setf rd rd_trans
+			     ro p1)
+		       )))
+	 (return p1)))
+       
+       ))
+	   (python
+	    (do0
+	     (def chief2 (x)
+	       (setf phit (trace2 :adf adf
+				 :ro (np.array (list -20 10 0))
+				 :rd (np.array (list 1 x 0))
+				  :end 5))
+	       (return (aref phit 1))
+	       )))
+	   (python
+      (do0
+       (comments "compare pandas based chief ray search with jax/numpy-based")
+       
+       (setf xs (np.linspace -3 3 17)
+	     ys (list)
+	     ys2 (list))
+       (for (x xs)
+	    (ys.append (chief x))
+	    (ys2.append (chief2 x)))
+       (figure)
+       (plt.plot xs ys :label (string "pandas"))
+       (plt.plot xs ys2 :label (string "jax/numpy"))
+       (legend)
+       (grid)
+       ))
+	   #+nil (python
+      (do0
+       (comments "trace a ray through the full system")
+       (trace2 :adf adf
+	      :ro (np.array (list -20 0 0))
+	      :rd (np.array (list 1 .2 0)))))))
+     
      (python
       (do0
 		  (setf fig (figure :figsize (list 16 3))
