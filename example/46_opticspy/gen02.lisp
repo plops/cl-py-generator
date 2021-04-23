@@ -360,7 +360,7 @@
 		 :end 5))
 	 (return (dot dfo
 		      (aref iloc -1)
-		      (aref rd 1)
+		      (aref ro 1)
 		      (item))))
        
        ))
@@ -409,7 +409,7 @@
 	     (setf end (- (len adf) 1))
 	     (setf end (+ end 1)))
 	 (setf rd (/ rd (np.linalg.norm rd)))
-	 ;(setf res (list))
+	 (setf res (list))
 	 (for (surface_idx (range start end))
 	      (do0
 	       (setf sr (aref adf surface_idx ,(position 'radius l))
@@ -429,7 +429,7 @@
 					     :n normal
 					     :ni ni
 					     :no no))
-		       #+nil
+		       #-nil
 		       (res.append (dictionary :surface_idx surface_idx
 					       :ro ro
 					       :rd rd
@@ -443,7 +443,9 @@
 					       :no no))
 		       (setf rd rd_trans
 			     ro p1)
-		       )))
+		    )))
+	 (return (pd.DataFrame res))
+	 #+nil
 	 (return p1)))
        
        ))
@@ -454,6 +456,11 @@
 				 :ro (np.array (list -20 10 0))
 				 :rd (np.array (list 1 x 0))
 				  :end 5))
+	      #+nil (return (dot phit
+		      (aref iloc -1)
+		      (aref ro 1)
+		      (item)))
+	       #-nil
 	       (return (aref phit 1))
 	       )))
 	   (python
