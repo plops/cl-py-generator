@@ -395,8 +395,9 @@
 	    (do0
 	     (comments "the only required parameters for trace")
 	     (setf adf0 (aref df (list ,@ (loop for e in l collect `(string ,e)))))
-	     (setf adf (dot adf0
-			    values))
+	     (setf adf (jax.numpy.asarray
+			(dot adf0
+			     values)))
 	     (comments "first argument selects surface_idx, second argument is column: adf[3,1] is surface_idx=3, column=n_green")
 	     adf0))
 	   (python
@@ -479,12 +480,14 @@
        (legend)
        (grid)
        ))
-	   #+nil (python
-      (do0
-       (comments "trace a ray through the full system")
-       (trace2 :adf adf
-	      :ro (np.array (list -20 0 0))
-	      :rd (np.array (list 1 .2 0)))))))
+
+	   (python
+	    (do0
+	     (setf d_chief2 (jit (jacfwd chief2)))))
+	   (python
+	    (do0
+	     (d_chief2 .2)))
+	   ))
      
      (python
       (do0
