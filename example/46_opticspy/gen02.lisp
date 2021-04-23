@@ -483,10 +483,17 @@
 
 	   (python
 	    (do0
-	     (setf d_chief2 (jit (jacfwd chief2)))))
+	     (setf d_chief2 (jacfwd chief2))))
 	   (python
 	    (do0
 	     (d_chief2 .2)))
+	   (python
+	    (do0
+	     (setf sol
+	      (scipy.optimize.root_scalar chief2 :method (string "newton")
+						 :x0 .4
+						 :fprime d_chief2))
+	     sol))
 	   ))
      
      (python
