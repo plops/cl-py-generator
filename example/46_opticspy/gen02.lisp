@@ -360,7 +360,7 @@
 		 :end 5))
 	 (return (dot dfo
 		      (aref iloc -1)
-		      (aref ro 1)
+		      (aref phit 1)
 		      (item))))
        
        ))
@@ -385,7 +385,7 @@
        (comments "search for chief ray with root finder (without gradient)")
        (setf sol
 	(scipy.optimize.root_scalar chief :method (string "brentq")
-					  :bracket (list -0.06 0.06)
+					  :bracket (list -0.5 0.5)
 				    ))
        sol
        ))
@@ -409,7 +409,7 @@
 	     (setf end (- (len adf) 1))
 	     (setf end (+ end 1)))
 	 (setf rd (/ rd (np.linalg.norm rd)))
-	 (setf res (list))
+	 #+nil(setf res (list))
 	 (for (surface_idx (range start end))
 	      (do0
 	       (setf sr (aref adf surface_idx ,(position 'radius l))
@@ -429,7 +429,7 @@
 					     :n normal
 					     :ni ni
 					     :no no))
-		       #-nil
+		       #+nil
 		       (res.append (dictionary :surface_idx surface_idx
 					       :ro ro
 					       :rd rd
@@ -444,8 +444,8 @@
 		       (setf rd rd_trans
 			     ro p1)
 		    )))
-	 (return (pd.DataFrame res))
-	 #+nil
+	 #+nil (return (pd.DataFrame res))
+	 #-nil
 	 (return p1)))
        
        ))
