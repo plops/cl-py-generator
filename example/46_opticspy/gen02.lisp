@@ -504,16 +504,30 @@
 
 	   (python
 	    (do0
-	     (setf d_chief2 (jacfwd chief2))))
+	     (setf chief2j (jit chief2))
+	     (setf d_chief2 (jacfwd chief2))
+	     (setf d_chief2j (jit d_chief2))))
 	   (python
 	    (do0
 	     (d_chief2 .2)))
 	   (python
 	    (do0
-	     (setf sol
-	      (scipy.optimize.root_scalar chief2 :method (string "newton")
-						 :x0 .4
-						 :fprime d_chief2))
+	     (with (Timer (string "newton search (conventional) 2.1s")
+			  )
+		   (setf sol
+			   (scipy.optimize.root_scalar chief2 :method (string "newton")
+							      :x0 .4
+							      :fprime d_chief2)))
+	     sol))
+	   (python
+	    (do0
+	     (with
+	      (Timer (string "newton search (jit) 0.016sx")
+		     )
+	      (setf sol
+			   (scipy.optimize.root_scalar chief2j :method (string "newton")
+							       :x0 .4
+							       :fprime d_chief2j)))
 	     sol))
 	   ))
      
