@@ -384,7 +384,8 @@
       (do0
        (comments "search for chief ray with root finder (without gradient)")
        (setf sol
-	(scipy.optimize.root_scalar chief :method (string "brentq")
+	     (scip
+	      y.optimize.root_scalar chief :method (string "brentq")
 					  :bracket (list -0.5 0.5)
 				    ))
        sol
@@ -402,9 +403,10 @@
 	     adf0))
 	   (python
 	    (do0
+	     
 	     (comments "create a trace function that only uses arrays (so that all computations can be represented with jax)")
        (def trace2 (&key adf ro rd (start 1) (end None))
-	 (string3 "trace ray (ro,rd) through the system defined in df. start and end define the surfaces to consider. ")
+	 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. ")
         (do0
 	 (if (is end None)
 	     (setf end (- (len adf) 1))
@@ -462,7 +464,8 @@
 		      (aref ro 1)
 		      (item)))
 	       #-nil
-	       (return (aref phit 1))
+	       (return (aref phit 1)
+		       )
 	       )))
 	   (python
       (do0
