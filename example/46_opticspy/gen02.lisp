@@ -260,11 +260,12 @@
 
 		    (do0
 		     
-		     (setf tau_out_0 (np.where (& (< 0 tau0)
-						  (< 0 tau1))
+		     (setf tau_out (np.where (& (< 0 tau0)
+						  (<= tau1 0))
+					       tau0
 					       tau1
 					       ))
-		     (return tout))
+		     (return tau_out))
 
 		    #+nil 
 		    (do0 (setf p0 (eval_ray tau0 :ro ro :rd rd)
