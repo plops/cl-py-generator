@@ -64,3 +64,26 @@ vjp
 - how to find chief ray of camera objective
   - trace ray from object space (with finite field angle) into the system until the surface with the stop
   - vary ray angle until stop is hit on optical axis
+
+- truth table to select the correct tau:
+  - jax can't jit my if expressions. try to reformulate the logic as a single expression that can go into np.where
+  - if both tau positive: ray faces sphere and is intersecting. the smaller tau1 (with b-..) is the first intersection
+  - if one tau is positive and one is negative, then ray is shooting from inside the sphere (and we want the positive)
+
+  - i think the top three lines of this table convey the happy path of
+    the ray tracer. in the last case the lens is entirely behind the
+    ray
+
+| t0>0 | t1>0 | t1*t0 < 0 | out           |
+|------+------+-----------+---------------|
+|    1 |    1 |         0 | t1            |
+|    0 |    1 |         1 | t1            |
+|    1 |    0 |         1 | t0            |
+|------+------+-----------+---------------|
+|    0 |    0 |         0 | *no solution* |
+|      |      |           |               |
+  
+  - the following expression should work:
+#+begin_example
+np.where( t0>0 & t1<=0 , t0, t1)
+#+end_example

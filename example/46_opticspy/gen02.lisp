@@ -247,14 +247,24 @@
 			  )
 		    (comments "if both tau positive: ray faces sphere and is intersecting. the smaller tau1 (with b-..) is the first intersection")
 		    (comments "if one tau is positive and one is negative, then ray is shooting from inside the sphere (and we want the positive)")
-		    (setf tau tau0)
-		    (when (and (< 0 tau0)
-			       (< 0 tau1))
-		      (setf tau tau1))
-		    (when (and (< (* tau1 tau0) 0))
-		      (if (< 0 tau0)
-			  (setf tau tau0)
-			  (setf tau tau1)))
+		    #+nil
+		    (do0 (setf tau tau0)
+			 (when (and (< 0 tau0)
+				    (< 0 tau1))
+			   (setf tau tau1))
+			 (when (and (< (* tau1 tau0) 0))
+			   (if (< 0 tau0)
+			       (setf tau tau0)
+			       (setf tau tau1)))
+			 (return tau))
+
+		    (do0
+		     
+		     (setf tau_out_0 (np.where (& (< 0 tau0)
+						  (< 0 tau1))
+					       tau1
+					       ))
+		     (return tout))
 
 		    #+nil 
 		    (do0 (setf p0 (eval_ray tau0 :ro ro :rd rd)
@@ -265,7 +275,7 @@
 				       collect
 				       `(print (dot (string ,(format nil "~a={}" e))
 						    (format ,e)))))
-		    (return tau)
+		    ;(return tau0)
 		    ;; outside-directed normal at intersection point is P_hit - Sphere_Center
 		    ))
 		  #+nil
@@ -293,6 +303,13 @@
 
 		  
 		  ))
+     (python
+      (do0
+       (setf jh (jit hit_sphere))
+       (setf o (jh :ro (np.array (list -20 0 0))
+		   :rd (np.array (list 1 0 0))
+		   :sc (np.array (list 0 0 0))
+		   :sr 1))))
      (python
       (do0
        (def trace (&key df ro rd (start 1) (end None))
