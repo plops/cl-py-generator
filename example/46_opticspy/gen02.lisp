@@ -606,18 +606,19 @@
 		    )
 	 (do0
 
-	  (for (rd rds)
+	  (for (rd0 rds)
+	       (setf rd1 rd0)
 	   (for (ro ros #+nil (list ,@(loop for e in `(0 1e-6 1) ; from -25 upto 15 by 2
 					    collect
 					    `(np.array (list -20 ,e 0)))))
-		(setf ; rd (* 1 (np.array (list 1 0 0)))
-		      rd (/ rd (np.linalg.norm rd)))
+		(setf 
+		      rd1 (/ rd1 (np.linalg.norm rd1)))
 		(for (surface_idx (range 1 9))
 		     (do0
 					;(setf surface_idx 2)
 		      (setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
 			    sr (aref df.radius surface_idx))
-		      (setf tau (hit_sphere :ro ro :rd rd
+		      (setf tau (hit_sphere :ro ro :rd rd1
 					    :sc sc
 					    :sr sr))
 		      #+nil,@(loop for e in `(tau)
@@ -627,9 +628,9 @@
 		      ,@(loop for e in `(tau ; tau2
 					 ) and color in `(k)
 			      collect
-			      `(do0 (setf p1 (eval_ray ,e :ro ro :rd rd)) ;; hit point
+			      `(do0 (setf p1 (eval_ray ,e :ro ro :rd rd1)) ;; hit point
 				    (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
-				    (setf rd_trans (snell :rd rd
+				    (setf rd_trans (snell :rd rd1
 							  :n (* -1 n)
 							  :ni (aref df.n_green (- surface_idx 1))
 							  :no (aref df.n_green (- surface_idx 0))))
@@ -649,7 +650,7 @@
 					  :color (string ,color)
 					  :alpha .3
 					  )
-				    (setf rd rd_trans
+				    (setf rd1 rd_trans
 					  ro p1)
 				    #+nil
 				    (plot (list (aref p1 0)
