@@ -705,7 +705,7 @@
 	    (setf theta 5
 		  phi 0
 		  ro_z 0)
-		 ,@(loop for e in l
+		 #+nil ,@(loop for e in l
 			 collect
 			 (destructuring-bind (name args &key x0 target) e
 			   `(setf ,(format nil "merit_~a" name)
@@ -715,15 +715,25 @@
 						  ;; i only care about the y coordinate because phi=0
 						    0)
 					     ,target))
-					:argnums 0)))))))
+					:argnums 0)))))
+		 (setf into_stop_meridional
+				  (jit (value_and_grad
+					(lambda (x target)
+					  (- (aref  (into_stop :ro_y x :ro_z ro_z :theta theta :phi phi)
+						  ;; i only care about the y coordinate because phi=0
+						    0)
+					     target))
+					:argnums 0)))))
 	  ,@(loop for e in l
 		  collect
 		  (destructuring-bind (name args &key x0 target) e
 		    `(python
 		     (do0
 		      (setf ,(format nil "sol_~a" name)
-			    (scipy.optimize.root_scalar ,(format nil "merit_~a" name)
-							:method (string "newton")
+			    (scipy.optimize.root_scalar ;,(format nil "merit_~a" name)
+			     into_stop_meridional
+			     :args (tuple ,target)
+			     :method (string "newton")
 							:x0 ,x0
 							:fprime True
 							))
