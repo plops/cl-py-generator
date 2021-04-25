@@ -668,13 +668,45 @@
 	 (xlim (tuple -35 125))
 	 (ylim (tuple -50 50))))))
 
+     (markdown "plot a single ray")
+     
      (python
       (do0
        (draw :df df
 	     :ros (list (np.array (list -20 10 0)))
 	     :rds (list (np.array (list 1 0 0)))
-	)))
+	     )))
+     (markdown "plot a ray bundle")
 
+     (python
+	   (do0
+	    (setf theta_ (np.deg2rad theta)
+		  phi_ (np.deg2rad phi))
+	    (setf ros (list)
+		  rds (list))
+
+	    (for (ro_y (np.linspace -20 20 30))
+		 (do0
+			
+			(ros.append (np.array (list -20 ro_y
+						    0)))
+			(rds.append  (np.array (list (np.cos theta_)
+						     (* (np.cos phi_)
+							(np.sin theta_))
+						     (* (np.sin phi_)
+							(np.sin theta_)))))
+			
+			
+			))
+	   
+	    (draw :df df
+		 :ros ros
+		  :rds rds
+		  :end 5
+		  ))
+	   
+	   )
+     
      (markdown "add more parameters to the chief2 function to vary field position and the target point in the pupil. the new function can find more than just chief rays, so the name changes to `into_stop`")
      (python
       (do0
@@ -772,38 +804,54 @@
 	    (draw :df df
 		 :ros ros
 		  :rds rds
-		  :end 5))
-	   
-	   )
+		  :end None)))
 
-	   (python
+	  (python
+	   (do0
+	    (setf n 32)
+	    (setf ys (np.concatenate
+		      (tuple (np.linspace sol_coma_low.root
+					  sol_chief.root (// n 2))
+			     (aref (np.linspace sol_chief.root
+						sol_coma_up.root
+						(// n 2))
+				   "1:")))))) 
+	  
+
+	  (python
 	   (do0
 	    (setf theta_ (np.deg2rad theta)
 		  phi_ (np.deg2rad phi))
 	    (setf ros (list)
 		  rds (list))
 
-	    (for (ro_y (np.linspace -20 20 30))
+	    (for (ro_y ys)
 		 (do0
-			
-			(ros.append (np.array (list -20 ro_y
-						    0)))
-			(rds.append  (np.array (list (np.cos theta_)
-						     (* (np.cos phi_)
-							(np.sin theta_))
-						     (* (np.sin phi_)
-							(np.sin theta_)))))
-			
-			
-			))
-	   
+		  
+		  (ros.append (np.array (list -20 ro_y
+					      0)))
+		  (rds.append  (np.array (list (np.cos theta_)
+					       (* (np.cos phi_)
+						  (np.sin theta_))
+					       (* (np.sin phi_)
+						  (np.sin theta_)))))
+		  
+		  
+		  ))
+	    
 	    (draw :df df
-		 :ros ros
+		  :ros ros
 		  :rds rds
-		  :end 5
+		  
 		  ))
 	   
 	   )
+
+	  
+
+	  
+	  
+	  
 
 
 	  ))
