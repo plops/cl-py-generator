@@ -533,130 +533,141 @@
      
      (python
       (do0
-		  (setf fig (figure :figsize (list 16 3))
-			ax (fig.gca)
-			)
-		  (grid)
-		  (ax.set_aspect (string "equal"))
-		  ,(let ((palette `(black rosybrown lightcoral darkred red tomato sienna darkorange
-					  darkkhaki olive yellowgreen darkseagreen springgreen  teal deepskyblue dedgerblue
-					  slategray nvay rebeccapurple mediumorchid fuchsia deeppink)))
-		     `(do0
-		       (setf colors (list ,@(loop for e in palette collect `(string ,e))))
-		       (for ((ntuple idx row) (df.iterrows))
-			  (do0		;when (< row.radius 1e8)
-			   (setf r (numpy.abs row.radius))
-			   (setf x (- (dot row thickness_cum)
-				      (dot row thickness)))
-			   #+nil(try
-			    (setf x (dot (aref df.iloc (- idx 1)) thickness_cum))
-			    ("Exception as e"
-			     (setf x -10))) 
+       
+       (def draw (&key df ros rds)
+	 (string3 "trace rays (list of origins in ros and directions in rds) through a system in dataframe df.")
+	(do0
+	 (setf fig (figure :figsize (list 9 3))
+	       ax (fig.gca)
+	       )
+	 (grid)
+	 (ax.set_aspect (string "equal"))
+	 ,(let ((palette `(black rosybrown lightcoral darkred red tomato sienna darkorange
+				 darkkhaki olive yellowgreen darkseagreen springgreen  teal deepskyblue dedgerblue
+				 slategray nvay rebeccapurple mediumorchid fuchsia deeppink)))
+	    `(do0
+	      (setf colors (list ,@(loop for e in palette collect `(string ,e))))
+	      (for ((ntuple idx row) (df.iterrows))
+		   (do0			;when (< row.radius 1e8)
+		    (setf r (numpy.abs row.radius))
+		    (setf x (- (dot row thickness_cum)
+			       (dot row thickness)))
+		    #+nil(try
+			  (setf x (dot (aref df.iloc (- idx 1)) thickness_cum))
+			  ("Exception as e"
+			   (setf x -10))) 
 			 
-			   (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
-								 (* 2 r) (* 2 r)
-								 :angle 0
-								 :theta1 row.theta1
-								 :theta2 row.theta2
-								 :alpha 1
-								 :linewidth 3
-								 :facecolor None
-								 :edgecolor (aref colors idx)))
-			   (plt.text x
-				     40
-				     (dot (string "{}")
-					  (format idx))
-				     :color  (aref colors idx))
-			   (plt.text row.center_x
-				     (+ 35 (* -5 (== (% idx 2) 0)))
-				     (dot (string "{:3.2f}")
-					  (format row.thickness))
-				     :color  (aref colors idx))
-			  #+nil  ,@(loop for e in `(row.theta1 ;row.theta2
+		    (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
+							  (* 2 r) (* 2 r)
+							  :angle 0
+							  :theta1 row.theta1
+							  :theta2 row.theta2
+							  :alpha 1
+							  :linewidth 3
+							  :facecolor None
+							  :edgecolor (aref colors idx)))
+		    (plt.text x
+			      40
+			      (dot (string "{}")
+				   (format idx))
+			      :color  (aref colors idx))
+		    (plt.text row.center_x
+			      (+ 35 (* -5 (== (% idx 2) 0)))
+			      (dot (string "{:3.2f}")
+				   (format row.thickness))
+			      :color  (aref colors idx))
+		    #+nil  ,@(loop for e in `(row.theta1 ;row.theta2
 					      )
 				   collect
 				   `(do0
-						 (setf avec (* (/ np.pi 180) ,e ;row.theta1
-							       ))
-						 (setf dx (* r (numpy.cos avec))
-						       dy (* r (numpy.sin avec)))
-						 (ax.add_patch (matplotlib.patches.Arrow
-								row.center_x
-								0
-								(+ dx)
-								(+ dy)
-								:edgecolor  (aref colors idx))
-							       )))
-			   (plt.text row.center_x
-				     -40
-				     (dot (string "c{}")
-					  (format idx))
-				     :color (aref colors idx) )
-			   (plt.text row.center_x
-				     (- 45 (* -5 (== (% idx 2) 0)))
-				     (dot (string "x{:3.2f}")
-					  (format row.center_x))
-				     :color (aref colors idx) )))))
-		  #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
-			       (aref df.thickness_cum.iloc -1))
-			     )
-		  (do0
-		   
-		   (for (ro (list ,@(loop for e in `(0 1e-6 1) ; from -25 upto 15 by 2
-					  collect
-					  `(np.array (list -20 ,e 0)))))
-			(setf rd (* 1 (np.array (list 1 0 0)))
-			 rd (/ rd (np.linalg.norm rd)))
-			(for (surface_idx (range 1 9))
-			 (do0
-			  ;(setf surface_idx 2)
-			  (setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
-				sr (aref df.radius surface_idx))
-			  (setf tau (hit_sphere :ro ro :rd rd
-						:sc sc
-						:sr sr))
-			  #+nil,@(loop for e in `(tau)
-				       collect
-				       `(print (dot (string ,(format nil "~a={}" e))
-						    (format ,e))))
-			  ,@(loop for e in `(tau ; tau2
-					     ) and color in `(k)
-				  collect
-				  `(do0 (setf p1 (eval_ray ,e :ro ro :rd rd)) ;; hit point
-					(setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
-					(setf rd_trans (snell :rd rd
-							      :n (* -1 n)
-							      :ni (aref df.n_green (- surface_idx 1))
-							      :no (aref df.n_green (- surface_idx 0))))
+				     (setf avec (* (/ np.pi 180) ,e ;row.theta1
+						   ))
+				     (setf dx (* r (numpy.cos avec))
+					   dy (* r (numpy.sin avec)))
+				     (ax.add_patch (matplotlib.patches.Arrow
+						    row.center_x
+						    0
+						    (+ dx)
+						    (+ dy)
+						    :edgecolor  (aref colors idx))
+						   )))
+		    (plt.text row.center_x
+			      -40
+			      (dot (string "c{}")
+				   (format idx))
+			      :color (aref colors idx) )
+		    (plt.text row.center_x
+			      (- 45 (* -5 (== (% idx 2) 0)))
+			      (dot (string "x{:3.2f}")
+				   (format row.center_x))
+			      :color (aref colors idx) )))))
+	 #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
+			   (aref df.thickness_cum.iloc -1))
+		    )
+	 (do0
+
+	  (for (rd rds)
+	   (for (ro ros #+nil (list ,@(loop for e in `(0 1e-6 1) ; from -25 upto 15 by 2
+					    collect
+					    `(np.array (list -20 ,e 0)))))
+		(setf ; rd (* 1 (np.array (list 1 0 0)))
+		      rd (/ rd (np.linalg.norm rd)))
+		(for (surface_idx (range 1 9))
+		     (do0
+					;(setf surface_idx 2)
+		      (setf sc (np.array (list (aref df.center_x surface_idx) 0 0))
+			    sr (aref df.radius surface_idx))
+		      (setf tau (hit_sphere :ro ro :rd rd
+					    :sc sc
+					    :sr sr))
+		      #+nil,@(loop for e in `(tau)
+				   collect
+				   `(print (dot (string ,(format nil "~a={}" e))
+						(format ,e))))
+		      ,@(loop for e in `(tau ; tau2
+					 ) and color in `(k)
+			      collect
+			      `(do0 (setf p1 (eval_ray ,e :ro ro :rd rd)) ;; hit point
+				    (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
+				    (setf rd_trans (snell :rd rd
+							  :n (* -1 n)
+							  :ni (aref df.n_green (- surface_idx 1))
+							  :no (aref df.n_green (- surface_idx 0))))
 				  	
 					;(setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
-					#+nil (plt.scatter
-					       (aref ro 0)
-					       (aref ro 1))
-					(plot (list (aref ro 0)
-						    (aref p1 0)
-						    ;(aref p2 0)
-						    )
-					      (list (aref ro 1)
-						    (aref p1 1)
-						    ;(aref p2 1)
-						    )
-					      :color (string ,color)
-					      :alpha .3
-					      )
-					(setf rd rd_trans
-					      ro p1)
-					#+nil
-					(plot (list (aref p1 0)
-						    (aref (+ p1 (* 3 n)) 0))
-					      (list (aref p1 1)
-						    (aref (+ p1 (* 3 n)) 1))
-					      :color (string "r")
-					      :alpha .3
-					      )))))))
-		  (xlim (tuple -35 125))
-		  (ylim (tuple -50 50))))
+				    #+nil (plt.scatter
+					   (aref ro 0)
+					   (aref ro 1))
+				    (plot (list (aref ro 0)
+						(aref p1 0)
+					;(aref p2 0)
+						)
+					  (list (aref ro 1)
+						(aref p1 1)
+					;(aref p2 1)
+						)
+					  :color (string ,color)
+					  :alpha .3
+					  )
+				    (setf rd rd_trans
+					  ro p1)
+				    #+nil
+				    (plot (list (aref p1 0)
+						(aref (+ p1 (* 3 n)) 0))
+					  (list (aref p1 1)
+						(aref (+ p1 (* 3 n)) 1))
+					  :color (string "r")
+					  :alpha .3
+					  ))))))))
+	 (xlim (tuple -35 125))
+	 (ylim (tuple -50 50))))))
 
+     (python
+      (do0
+       (draw :df df
+	     :ros (list (np.array (list -20 10 0)))
+	     :rds (list (np.array (list 1 0 0)))
+	)))
 
      (markdown "add more parameters to the chief2 function to vary field position and the target point in the pupil. the new function can find more than just chief rays, so the name changes to `into_stop`")
      (python
@@ -678,14 +689,14 @@
 	 (return (aref phit "1:")))
        (setf into_stop_j (jacfwd into_stop))))
 
-     ,@(let ((l `((chief (:ro_y 10 :ro_z 0 :phi 0)
-			 :x0 -12
+     ,@(let ((l `((chief (:ro_y x :ro_z 0 :theta 10 :phi 0)
+			 :x0 10
 			 :target 0)
-		  (margin_up (:ro_y 10 :ro_z 0 :phi 0)
-			     :x0 -12
+		  (coma_up (:ro_y x :ro_z 0 :theta 10 :phi 0)
+			     :x0 10
 			     :target (aref df.aperture 5))
-		  (margin_down (:ro_y 10 :ro_z 0 :phi 0)
-			       :x0 -12
+		  (coma_low (:ro_y x :ro_z 0 :theta 10 :phi 0)
+			       :x0 10
 			       :target (* -1 (aref df.aperture 5)))
 		 )))
 	`((python
@@ -696,10 +707,7 @@
 			   `(setf ,(format nil "merit_~a" name)
 				  (jit (value_and_grad
 					(lambda (x)
-					  (- (aref  (into_stop :ro_y 10
-							     :ro_z 0
-							     :theta x
-							     :phi 0)
+					  (- (aref  (into_stop ,@args)
 						  ;; i only care about the y coordinate because phi=0
 						    0)
 					     ,target))
@@ -709,14 +717,43 @@
 		  (destructuring-bind (name args &key x0 target) e
 		    `(python
 		     (do0
-		      (setf sol
+		      (setf ,(format nil "sol_~a" name)
 			    (scipy.optimize.root_scalar ,(format nil "merit_~a" name)
 							:method (string "newton")
 							:x0 ,x0
 							:fprime True
 							))
 		      sol)
-		     )))))
+		     )))
+	  (python
+	   (do0
+	    (setf theta_ (np.deg2rad 10)
+		  phi_ (np.deg2rad 0))
+	    (setf ros (list)
+		  rds (list))
+	    ,@(loop for e in l
+		    collect
+		    (destructuring-bind (name args &key x0 target) e
+		      `(do0
+			
+			(ros.append (np.array (list -20 (dot ,(format nil "sol_~a" name)
+							     root
+							     (item))
+						    0)))
+			(rds.append  (np.array (list (np.cos theta_)
+						     (* (np.cos phi_)
+							(np.sin theta_))
+						     (* (np.sin phi_)
+							(np.sin theta_)))))
+			
+			
+			)
+		      ))
+	    (draw :df df
+		 :ros ros
+		 :rds rds))
+	   
+	   )))
      
 
      
