@@ -366,7 +366,7 @@
 
      (python
       (do0
-       (comments "trace a ray through the full system")
+       (comments "trace a ray through the full system") 
        (trace :df df
 	      :ro (np.array (list -20 0 0))
 	      :rd (np.array (list 1 .2 0)))))
@@ -473,8 +473,8 @@
 	 (return p1)))
 
        
-       "@jit"
-       (def trace2_op (&key adf ro rd (start 0) (end None))
+      ; "@jit"
+       (def trace2_op (&key adf ro rd (start 1) (end None))
 	 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the optical path length between ray origin and the last hit point")
         (do0
 	 (if (is end None)
@@ -509,6 +509,7 @@
 	 (return op)))
        
        ))
+	   #+nil 
 	   (python
 	    (do0
 	     "@jit"
@@ -525,6 +526,7 @@
 	       (return (aref phit 1)
 		       )
 	       )))
+	   #+nil
 	   (python
       (do0
        (comments "compare pandas based chief ray search with jax/numpy-based")
@@ -541,15 +543,17 @@
        (legend)
        (grid)
        ))
-
+#+nil
 	   (python
 	    (do0
 	     (setf chief2j (jit chief2))
 	     (setf d_chief2 (jacfwd chief2))
 	     (setf d_chief2j (jit d_chief2))))
+#+nil
 	   (python
 	    (do0
 	     (d_chief2 .2)))
+#+nil
 	   (python
 	    (do0
 	     (with (Timer (string "newton search (conventional) 2.1s")
@@ -559,6 +563,7 @@
 							      :x0 .4
 							      :fprime d_chief2)))
 	     sol))
+#+nil
 	   (python
 	    (do0
 	     (with
@@ -717,7 +722,9 @@
      (markdown "plot a ray bundle")
 
      (python
-	   (do0
+      (do0
+       (setf theta 5
+	     phi 0)
 	    (setf theta_ (np.deg2rad theta)
 		  phi_ (np.deg2rad phi))
 	    (setf ros (list)
