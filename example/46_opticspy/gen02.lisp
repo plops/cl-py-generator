@@ -73,7 +73,7 @@
 			 ))
 		 "from opticspy.ray_tracing.glass_function.refractiveIndex import *"
 
-		 "from jax import grad, jit, jacfwd, jacrev, vmap, lax, random"
+		 "from jax import grad, jit, jacfwd, jacrev, vmap, lax, random, value_and_grad"
 		 ,(format nil "from jax.numpy import ~{~a~^, ~}" `(sqrt newaxis sinc abs))
 		 ,(format nil "from jax import ~{~a~^, ~}" `(grad jit jacfwd jacrev vmap lax random))
 		 
@@ -474,13 +474,13 @@
 	    (do0
 	     (def chief2 (x)
 	       (setf phit (trace2 :adf adf
-				 :ro (np.array (list -20 10 0))
-				 :rd (np.array (list 1 x 0))
+				  :ro (np.array (list -20 10 0))
+				  :rd (np.array (list 1 x 0))
 				  :end 5))
-	      #+nil (return (dot phit
-		      (aref iloc -1)
-		      (aref ro 1)
-		      (item)))
+	       #+nil (return (dot phit
+				  (aref iloc -1)
+				  (aref ro 1)
+				  (item)))
 	       #-nil
 	       (return (aref phit 1)
 		       )
@@ -522,7 +522,7 @@
 	   (python
 	    (do0
 	     (with
-	      (Timer (string "newton search (jit) 0.016sx")
+	      (Timer (string "newton search (jit) 0.016")
 		     )
 	      (setf sol
 			   (scipy.optimize.root_scalar chief2j :method (string "newton")
@@ -656,6 +656,70 @@
 					      )))))))
 		  (xlim (tuple -35 125))
 		  (ylim (tuple -50 50))))
+
+
+     (markdown "add more parameters to the chief2 function to vary field position and the target point in the pupil. the new function can find more than just chief rays, so the name changes to `into_stop`")
+     (python
+      (do0
+       "@jit"
+       (def into_stop (&key (ro_y 10) (ro_z 0) (theta .1) (phi 0))
+	 (string "trace from field point into stop. this can be used to find theta that corresponts to the chief ray or pairs of theta and phi that belong to marginal rays. Angles are in degree.")
+	 (setf theta_ (np.deg2rad theta)
+	       phi_ (np.deg2rad phi))
+	 (setf phit (trace2 :adf adf
+			    :ro (np.array (list -20 ro_y ro_z))
+			    :rd (np.array (list (np.cos theta_)
+						(* (np.cos phi_)
+						   (np.sin theta_))
+						(* (np.sin phi_)
+						   (np.sin theta_))))
+			    :end 5))
+	 (comments "the stop plane fixes the x coordinate, only return y and z")
+	 (return (aref phit "1:")))
+       (setf into_stop_j (jacfwd into_stop))))
+
+     ,@(let ((l `((chief (:ro_y 10 :ro_z 0 :phi 0)
+			 :x0 -12
+			 :target 0)
+		  (margin_up (:ro_y 10 :ro_z 0 :phi 0)
+			     :x0 -12
+			     :target (aref df.aperture 5))
+		  (margin_down (:ro_y 10 :ro_z 0 :phi 0)
+			       :x0 -12
+			       :target (* -1 (aref df.aperture 5)))
+		 )))
+	`((python
+		(do0
+		 ,@(loop for e in l
+			 collect
+			 (destructuring-bind (name args &key x0 target) e
+			   `(setf ,(format nil "merit_~a" name)
+				  (jit (value_and_grad
+					(lambda (x)
+					  (- (aref  (into_stop :ro_y 10
+							     :ro_z 0
+							     :theta x
+							     :phi 0)
+						  ;; i only care about the y coordinate because phi=0
+						    0)
+					     ,target))
+					:argnums 0)))))))
+	  ,@(loop for e in l
+		  collect
+		  (destructuring-bind (name args &key x0 target) e
+		    `(python
+		     (do0
+		      (setf sol
+			    (scipy.optimize.root_scalar ,(format nil "merit_~a" name)
+							:method (string "newton")
+							:x0 ,x0
+							:fprime True
+							))
+		      sol)
+		     )))))
+     
+
+     
      
      ))
   )
