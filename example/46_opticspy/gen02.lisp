@@ -474,14 +474,14 @@
 
        
        "@jit"
-       (def trace2_opd (&key adf ro rd (start 1) (end None))
+       (def trace2_op (&key adf ro rd (start 0) (end None))
 	 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the optical path length between ray origin and the last hit point")
         (do0
 	 (if (is end None)
 	     (setf end (- (len adf) 1))
 	     (setf end (+ end 1)))
 	 (setf rd (/ rd (np.linalg.norm rd)))
-	 (setf opd 0d0)
+	 (setf op 0d0)
 	 (for (surface_idx (range start end))
 	      (do0
 	       (setf sr (aref adf surface_idx ,(position 'radius l))
@@ -494,7 +494,7 @@
 				     :sr sr))
 	      
 	       (do0 (setf p1 (eval_ray tau :ro ro :rd rd)) ;; hit point
-		    (setf opd (+ opd (* ni (np.linalg.norm (- p1 ro)))))
+		    (setf op (+ op (* ni (np.linalg.norm (- p1 ro)))))
 		       (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
 		       (setf normal (* -1 n))
 		       (setf rd_trans (snell :rd rd
@@ -506,7 +506,7 @@
 			     ro p1)
 		    )))
 	 
-	 (return opd)))
+	 (return op)))
        
        ))
 	   (python
@@ -895,7 +895,7 @@
 
 	  (python
 	   (do0
-	    (setf opd (list))
+	    (setf op (list))
 	       (for (ro_y ys)
 		 (do0
 		  
@@ -907,19 +907,19 @@
 					       (* (np.sin phi_)
 						  (np.sin theta_)))))
 		  
-		  (opd.append
+		  (op.append
 		   (dot
-		    (trace2_opd :adf adf :ro ro :rd rd)
+		    (trace2_op :adf adf :ro ro :rd rd)
 		    (item)))))
 	       ))
 	  (python
 	   (do0
 	    (figure)
 	    (plot normalized_pupil
-		  opd)
+		  op)
 	    (grid)
 	    (xlabel (string "normalized pupil"))
-	    (ylabel (string "opd"))))
+	    (ylabel (string "optical path"))))
 
 	  
 
