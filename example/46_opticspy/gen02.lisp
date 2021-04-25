@@ -631,7 +631,7 @@
 				     (ax.add_patch (matplotlib.patches.Arrow
 						    row.center_x
 						    0
-						    (+ dx)
+						    (+ dx) 
 						    (+ dy)
 						    :edgecolor  (aref colors idx))
 						   )))
