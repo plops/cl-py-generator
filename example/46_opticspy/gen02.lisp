@@ -734,7 +734,7 @@
 	    (setf theta_ (np.deg2rad theta)
 		  phi_ (np.deg2rad phi))
 	    (setf ros (list)
-		  rds (list))
+		  rds (list)) 
 	    ,@(loop for e in l
 		    collect
 		    (destructuring-bind (name args &key x0 target) e
