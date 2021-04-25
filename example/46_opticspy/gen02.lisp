@@ -425,8 +425,9 @@
 	    (do0
 	     
 	     (comments "create a trace function that only uses arrays (so that all computations can be represented with jax)")
-       (def trace2 (&key adf ro rd (start 1) (end None))
-	 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. ")
+	     "@jit"
+	     (def trace2 (&key adf ro rd (start 1) (end None))
+	 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the hit point in the last surface")
         (do0
 	 (if (is end None)
 	     (setf end (- (len adf) 1))
@@ -470,10 +471,47 @@
 	 #+nil (return (pd.DataFrame res))
 	 #-nil
 	 (return p1)))
+
+       
+       "@jit"
+       (def trace2_opd (&key adf ro rd (start 1) (end None))
+	 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the optical path length between ray origin and the last hit point")
+        (do0
+	 (if (is end None)
+	     (setf end (- (len adf) 1))
+	     (setf end (+ end 1)))
+	 (setf rd (/ rd (np.linalg.norm rd)))
+	 (setf opd 0d0)
+	 (for (surface_idx (range start end))
+	      (do0
+	       (setf sr (aref adf surface_idx ,(position 'radius l))
+		     center_x (aref adf surface_idx ,(position 'center_x l))
+		     ni (aref adf (- surface_idx 1) ,(position 'n_green l))
+		     no (aref adf (- surface_idx 0) ,(position 'n_green l)))	
+	       (setf sc (np.array (list center_x 0 0)))
+	       (setf tau (hit_sphere :ro ro :rd rd
+				     :sc sc
+				     :sr sr))
+	      
+	       (do0 (setf p1 (eval_ray tau :ro ro :rd rd)) ;; hit point
+		    (setf opd (+ opd (* ni (np.linalg.norm (- p1 ro)))))
+		       (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
+		       (setf normal (* -1 n))
+		       (setf rd_trans (snell :rd rd
+					     :n normal
+					     :ni ni
+					     :no no))
+		    
+		       (setf rd rd_trans
+			     ro p1)
+		    )))
+	 
+	 (return opd)))
        
        ))
 	   (python
 	    (do0
+	     "@jit"
 	     (def chief2 (x)
 	       (setf phit (trace2 :adf adf
 				  :ro (np.array (list -20 10 0))
@@ -809,6 +847,14 @@
 	  (python
 	   (do0
 	    (setf n 32)
+	    (setf normalized_pupil
+		  (np.concatenate
+		      (tuple (np.linspace -1
+					  0 (// n 2))
+			     (aref (np.linspace 0
+						1
+						(// n 2))
+				   "1:"))))
 	    (setf ys (np.concatenate
 		      (tuple (np.linspace sol_coma_low.root
 					  sol_chief.root (// n 2))
@@ -846,6 +892,34 @@
 		  ))
 	   
 	   )
+
+	  (python
+	   (do0
+	    (setf opd (list))
+	       (for (ro_y ys)
+		 (do0
+		  
+		  (setf ro (np.array (list -20 ro_y
+					      0)))
+		  (setf rd  (np.array (list (np.cos theta_)
+					       (* (np.cos phi_)
+						  (np.sin theta_))
+					       (* (np.sin phi_)
+						  (np.sin theta_)))))
+		  
+		  (opd.append
+		   (dot
+		    (trace2_opd :adf adf :ro ro :rd rd)
+		    (item)))))
+	       ))
+	  (python
+	   (do0
+	    (figure)
+	    (plot normalized_pupil
+		  opd)
+	    (grid)
+	    (xlabel (string "normalized pupil"))
+	    (ylabel (string "opd"))))
 
 	  
 
