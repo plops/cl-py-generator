@@ -689,18 +689,21 @@
 	 (return (aref phit "1:")))
        (setf into_stop_j (jacfwd into_stop))))
 
-     ,@(let ((l `((chief (:ro_y x :ro_z 0 :theta 10 :phi 0)
+     ,@(let ((l `((chief (:ro_y x :ro_z ro_z :theta theta :phi phi)
 			 :x0 10
 			 :target 0)
-		  (coma_up (:ro_y x :ro_z 0 :theta 10 :phi 0)
+		  (coma_up (:ro_y x :ro_z ro_z :theta theta :phi phi)
 			     :x0 10
 			     :target (aref df.aperture 5))
-		  (coma_low (:ro_y x :ro_z 0 :theta 10 :phi 0)
+		  (coma_low (:ro_y x :ro_z ro_z :theta theta :phi phi)
 			       :x0 10
 			       :target (* -1 (aref df.aperture 5)))
 		 )))
 	`((python
-		(do0
+	   (do0
+	    (setf theta 5
+		  phi 0
+		  ro_z 0)
 		 ,@(loop for e in l
 			 collect
 			 (destructuring-bind (name args &key x0 target) e
@@ -723,12 +726,12 @@
 							:x0 ,x0
 							:fprime True
 							))
-		      sol)
+		      ,(format nil "sol_~a" name))
 		     )))
 	  (python
 	   (do0
-	    (setf theta_ (np.deg2rad 10)
-		  phi_ (np.deg2rad 0))
+	    (setf theta_ (np.deg2rad theta)
+		  phi_ (np.deg2rad phi))
 	    (setf ros (list)
 		  rds (list))
 	    ,@(loop for e in l
