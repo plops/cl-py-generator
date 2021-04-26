@@ -446,7 +446,7 @@
 	      (do0
 	       "#export"
 	       (comments "create a trace function that only uses arrays (so that all computations can be represented with jax)")
-	       "@jit"
+	       ;"@jit"
 	       (def trace2 (&key adf ro rd (start 1) (end None))
 		 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the hit point in the last surface")
 		 (do0
@@ -494,7 +494,7 @@
 		  (return p1)))
 
 	      
-	       "@jit"
+	       ;"@jit"
 	       (def trace2_op (&key adf ro rd (start 1) (end None))
 		 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the optical path length between ray origin and the last hit point")
 		 (do0
@@ -778,7 +778,7 @@
 	   (python
        (do0
 	"#export"
-	"@jit"
+	;"@jit"
 	(def into_stop (&key (ro_y 10) (ro_z 0) (theta 1) (phi 0))
 	   (string "trace from field point into stop. this can be used to find theta that corresponts to the chief ray or pairs of theta and phi that belong to marginal rays. Angles are in degree.")
 	   (setf theta_ (np.deg2rad theta)
