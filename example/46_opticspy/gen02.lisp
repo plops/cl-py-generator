@@ -329,7 +329,7 @@
 	 (string3 "trace ray (ro,rd) through the system defined in df. start and end define the surfaces to consider. ")
          (do0
 	  (if (is end None)
-	      (setf end (- (len df) 1))
+	      (setf end (len df))
 	      (setf end (+ end 1)))
 	  #-nil (setf
 		 rd (/ rd (np.linalg.norm rd)))
@@ -451,7 +451,7 @@
 		 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the hit point in the last surface")
 		 (do0
 		  (if (is end None)
-		      (setf end (- (len adf) 1))
+		      (setf end (len adf))
 		      (setf end (+ end 1)))
 		  (setf rd (/ rd (np.linalg.norm rd)))
 		  #+nil(setf res (list))
@@ -499,7 +499,7 @@
 		 (string3 "trace ray (ro,rd) through the system defined in adf. start and end define the surfaces to consider. return the optical path length between ray origin and the last hit point")
 		 (do0
 		  (if (is end None)
-		      (setf end (- (len adf) 1))
+		      (setf end (len adf))
 		      (setf end (+ end 1)))
 		  (setf rd (/ rd (np.linalg.norm rd)))
 		  (setf op 0d0)
