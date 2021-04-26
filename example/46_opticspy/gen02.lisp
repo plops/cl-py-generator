@@ -768,26 +768,26 @@
 
      ,@(progn
 	 `( (markdown "add more parameters to the chief2 function to vary field position and the target point in the pupil. the new function can find more than just chief rays, so the name changes to `into_stop`")
-	    (python
-	(do0
-	 "#export"
-	 "@jit"
-	 (def into_stop (&key (ro_y 10d0) (ro_z 0d0) (theta .1d0) (phi 0d0))
-	   (string "trace from field point into stop. this can be used to find theta that corresponts to the chief ray or pairs of theta and phi that belong to marginal rays. Angles are in degree.")
-	   (setf theta_ (np.deg2rad theta)
-		 phi_ (np.deg2rad phi))
-	   (setf phit (trace2 :adf adf
-			      :ro (np.array (list -20 ro_y ro_z))
-			      :rd (np.array (list (np.cos theta_)
-						  (* (np.cos phi_)
-						     (np.sin theta_))
-						  (* (np.sin phi_)
-						     (np.sin theta_))))
-			      :end 5))
-	   (comments "the stop plane fixes the x coordinate, only return y and z")
-	   (return (aref phit "1:")))
-					; (setf into_stop_j (jacfwd into_stop))
-	 ))
+	   (python
+       (do0
+	"#export"
+	"@jit"
+	(def into_stop (&key (ro_y 10) (ro_z 0) (theta 1) (phi 0))
+	  #+nil (string "trace from field point into stop. this can be used to find theta that corresponts to the chief ray or pairs of theta and phi that belong to marginal rays. Angles are in degree.")
+	  #+nil (setf theta_ (np.deg2rad theta)
+		phi_ (np.deg2rad phi))
+	 #+nil  (setf phit (trace2 :adf adf
+			     :ro (np.array (list -20 ro_y ro_z))
+			     :rd (np.array (list (np.cos theta_)
+						 (* (np.cos phi_)
+						    (np.sin theta_))
+						 (* (np.sin phi_)
+						    (np.sin theta_))))
+			     :end 5))
+	  #+nil (comments "the stop plane fixes the x coordinate, only return y and z")
+	  #+nil (return (aref phit "1:")))
+	
+	))
 	    
 	   ))
      #+nil
@@ -795,8 +795,26 @@
       `(
        
        
-      
-       
+      (python
+       (do0
+	"#export"
+	"@jit"
+	(def into_stop (&key (ro_y 10d0) (ro_z 0d0) (theta .1d0) (phi 0d0))
+	  (string "trace from field point into stop. this can be used to find theta that corresponts to the chief ray or pairs of theta and phi that belong to marginal rays. Angles are in degree.")
+	  (setf theta_ (np.deg2rad theta)
+		phi_ (np.deg2rad phi))
+	  (setf phit (trace2 :adf adf
+			     :ro (np.array (list -20 ro_y ro_z))
+			     :rd (np.array (list (np.cos theta_)
+						 (* (np.cos phi_)
+						    (np.sin theta_))
+						 (* (np.sin phi_)
+						    (np.sin theta_))))
+			     :end 5))
+	  (comments "the stop plane fixes the x coordinate, only return y and z")
+	  (return (aref phit "1:")))
+					; (setf into_stop_j (jacfwd into_stop))
+	))
       
        
 
