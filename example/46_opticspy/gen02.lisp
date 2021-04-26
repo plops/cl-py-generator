@@ -356,7 +356,7 @@
 						    :ni ni
 						    :no no))
 			      (setf dist (np.linalg.norm (- p1 ro))
-				    opt_dist (* dist ni))
+				    opt_distance (* dist ni))
 			      (res.append (dictionary :surface_idx surface_idx
 						      :ro ro
 						      :rd rd
@@ -369,7 +369,7 @@
 						      :ni ni
 						      :no no
 						      :distance dist
-						      :optical_distance opt_dist))
+						      :optical_distance opt_distance))
 			      (setf rd rd_trans
 				    ro p1)
 			      ))))
