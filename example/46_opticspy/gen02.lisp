@@ -891,6 +891,7 @@
 						1
 						(// n 2))
 				   "1:"))))
+	       
 	       (setf ys (np.concatenate
 			 (tuple (np.linspace sol_coma_low.root
 					     sol_chief.root (// n 2))
@@ -904,6 +905,7 @@
 	      (do0
 	       (setf pupil_pos (list))
 	       (for (y ys)
+		    
 		    (pupil_pos.append
 		     (dictionary :ro_y y
 				 :pupil
@@ -937,11 +939,12 @@
 		     phi_ (np.deg2rad phi))
 	       (setf ros (list)
 		     rds (list))
-
+	       (setf y0 sol_chief.root)
 	       (for (ro_y ys)
 		    (do0
-		    
-		     (ros.append (np.array (list -20 ro_y
+		     (setf dx (* (- ro_y y0) (np.sin theta_))
+			  dy (* (- ro_y y0) (np.cos theta_)))
+		     (ros.append (np.array (list (+ -20 (* -1 dx)) (+ ro_y dy)
 						 0)))
 		     (rds.append  (np.array (list (np.cos theta_)
 						  (* (np.cos phi_)
@@ -964,10 +967,12 @@
 	      (do0
 	       "#export"
 	       (setf op (list))
+	       (setf y0 sol_chief.root)
 	       (for (ro_y ys)
 		    (do0
-		    
-		     (setf ro (np.array (list -20 ro_y
+		    (setf dx (* -1 (- ro_y y0) (np.sin theta_))
+			  dy (* (- ro_y y0) (np.cos theta_)))
+		     (setf ro (np.array (list (+ -20 dx) (+ ro_y dy)
 					      0)))
 		     (setf rd  (np.array (list (np.cos theta_)
 					       (* (np.cos phi_)
