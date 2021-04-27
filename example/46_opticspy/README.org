@@ -89,4 +89,10 @@ np.where( t0>0 & t1<=0 , t0, t1)
 #+end_example
 
 - how to measure optical path length for an object in infinity?
-  - ray origins for bundle of rays through all pupil points should be on a plane perpendicular to the direction of the incidident beam
+  - ray origins for bundle of rays through all pupil points should be
+    on a plane perpendicular to the direction of the incidident beam
+  - search chief ray
+  - search upper and lower coma ray on plane perpendicular to chief
+    ray
+  - interpolate points between coma rays
+  - trace into stop to get normalized pupil coordinates
