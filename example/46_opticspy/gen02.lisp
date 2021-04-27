@@ -994,14 +994,18 @@
 	      (do0
 	       (comments "wavelength in mm")
 	       (setf wl_green 587.6e-6)))
+	     (markdown "as long as waveaberration<lambda/14 the contributions to the field increase focus intensity.")
 	     (python
 	      (do0
 	       "#export"
 	       (figure)
+	       (setf da (/ (np.array op) wl_green))
 	       (plot df_pupil.pupil_y_normalized
-		     (/ (np.array op) wl_green))
+		     (- da (np.min da)))
+	       (plt.axhline (/ 1 14.0))
 	       (grid)
-	       (xlabel (string "normalized pupil"))
+	       (title (string "wave aberration with lambda/14 line"))
+	       (xlabel (string "normalized pupil y"))
 	       (ylabel (string "optical path (wavelengths)"))))
 	    
 
