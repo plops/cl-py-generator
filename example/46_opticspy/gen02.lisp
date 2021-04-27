@@ -877,10 +877,12 @@
 		     :rds rds
 		     :end None)))
 
+	     (markdown "interpolate y positions between upper and lower coma ray to the chief ray.")
 	     (python
 	      (do0
 	       "#export"
 	       (setf n 32)
+	       #+nil
 	       (setf normalized_pupil
 		     (np.concatenate
 		      (tuple (np.linspace -1
@@ -895,7 +897,38 @@
 				(aref (np.linspace sol_chief.root
 						   sol_coma_up.root
 						   (// n 2))
-				      "1:")))))) 
+				      "1:"))))
+	       ))
+	     (markdown "obtain pupil coordinates for the different y positions")
+	     (python
+	      (do0
+	       (setf pupil_pos (list))
+	       (for (y ys)
+		    (pupil_pos.append
+		     (dictionary :ro_y y
+				 :pupil
+				 (trace2 :adf adf
+					 :ro (np.array (list -20 y  0))
+					 :rd (np.array (list (np.cos theta_)
+							     (* (np.cos phi_)
+						     (np.sin theta_))
+							     (* (np.sin phi_)
+								(np.sin theta_))))
+					 :start 1
+					 :end 5)))
+		    )
+	       (setf df_pupil (pd.DataFrame pupil_pos))
+	       (setf (aref df_pupil (string "pupil_y")) (dot
+							 df_pupil
+							 pupil
+							 (apply (lambda (x)
+								  (aref x 1)))
+							 ))
+	       (setf (aref df_pupil (string "pupil_y_normalized")
+			   )
+		     (/ df_pupil.pupil_y
+			(aref df.aperture.iloc 5)))
+	       df_pupil))
 	    
 
 	     (python
@@ -926,7 +959,7 @@
 		     ))
 	     
 	      )
-
+	     (markdown "get optical path for each pupil position")
 	     (python
 	      (do0
 	       "#export"
@@ -946,16 +979,31 @@
 		      (dot
 		       (trace2_op :adf adf :ro ro :rd rd)
 		       (item)))))
+	       op
 	       ))
 	     (python
 	      (do0
 	       "#export"
 	       (figure)
-	       (plot normalized_pupil
+	       (plot df_pupil.pupil_y_normalized
 		     op)
 	       (grid)
 	       (xlabel (string "normalized pupil"))
-	       (ylabel (string "optical path"))))
+	       (ylabel (string "optical path (mm)"))))
+	     (python
+	      (do0
+	       (comments "wavelength in mm")
+	       (setf wl_green 587.6e-6)))
+	     (python
+	      (do0
+	       "#export"
+	       (figure)
+	       (plot df_pupil.pupil_y_normalized
+		     (/ (np.array op) wl_green))
+	       (grid)
+	       (xlabel (string "normalized pupil"))
+	       (ylabel (string "optical path (wavelengths)"))))
+	    
 
 	    
 
