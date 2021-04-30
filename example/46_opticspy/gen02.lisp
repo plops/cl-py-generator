@@ -779,12 +779,12 @@
        (do0
 	"#export"
 	;"@jit"
-	(def into_stop (&key (ro_y 10) (ro_z 0) (theta 1) (phi 0))
+	(def into_stop (&key (ro_x -20) (ro_y 10) (ro_z 0) (theta 1) (phi 0))
 	   (string "trace from field point into stop. this can be used to find theta that corresponts to the chief ray or pairs of theta and phi that belong to marginal rays. Angles are in degree.")
 	   (setf theta_ (np.deg2rad theta)
 		phi_ (np.deg2rad phi))
 	   (setf phit (trace2 :adf adf
-			     :ro (np.array (list -20 ro_y ro_z))
+			     :ro (np.array (list ro_x ro_y ro_z))
 			     :rd (np.array (list (np.cos theta_)
 						 (* (np.cos phi_)
 						    (np.sin theta_))
@@ -801,10 +801,10 @@
      ,@(let ((l `((chief (:ro_y x :ro_z ro_z :theta theta :phi phi)
 			   :x0 10
 			   :target 0)
-		    (coma_up (:ro_y x :ro_z ro_z :theta theta :phi phi)
-			     :x0 10
-			     :target (aref df.aperture 5))
-		    (coma_low (:ro_y x :ro_z ro_z :theta theta :phi phi)
+		  #+nil (coma_up (:ro_y x :ro_z ro_z :theta theta :phi phi)
+			   :x0 10
+			   :target (aref df.aperture 5))
+		#+nil    (coma_low (:ro_y x :ro_z ro_z :theta theta :phi phi)
 			      :x0 10
 			      :target (* -1 (aref df.aperture 5)))
 		    )))
@@ -848,6 +848,45 @@
 				 ))
 			  ,(format nil "sol_~a" name))
 			 )))
+	     (markdown "coordinate system. (theta,phi,ro_x) defines illumination angle and field position")
+	     (python
+	      (do0
+	       
+	       
+	       (def into_stop_parallel_to_chief (&key tau chief_ro theta phi)
+		(do0
+		  (setf theta_ (np.deg2rad theta)
+		     phi_ (np.deg2rad phi))
+		 (comments "create a direction perpendicular to chief ray in the tangential plane of the chief ray")
+		 (setf chief_rd (np.array (list (np.cos theta_)
+						(* (np.cos phi_)
+						   (np.sin theta_))
+						(* (np.sin phi_)
+						   (np.sin theta_))))
+		       )
+		 (setf rd (np.cross chief_rd
+				    (np.array (list 0.0 0 1))))
+		 (setf new_ro (eval_ray tau
+					:ro chief_ro
+					:rd rd))
+		 ;; into_stop (&key (ro_x -20) (ro_y 10) (ro_z 0) (theta 1) (phi 0))
+		 (return (into_stop :ro_x (aref new_ro 0)
+			     :ro_y (aref new_ro 1)
+			     :ro_z (aref new_ro 2)
+			     :theta theta
+			     :phi phi))
+		 ))))
+	     (python
+	      (do0
+	       (setf
+		coma_pupil_pos
+		(into_stop_parallel_to_chief
+		 :tau .1
+		 :chief_ro (np.array (list -20
+					   (sol_chief.root.item)
+					   0))
+		 :theta theta
+		 :phi phi))))
 	     (python
 	      (do0
 	       (setf theta_ (np.deg2rad theta)
@@ -1026,29 +1065,8 @@
      #+nil
      ,@(progn
       `(
-       
-       
-     
-      
-       
-
-      
-      
-     
-	
-
-	
-      
-      
-       
-
-       ))
-     
-
-     
-     
-     ))
-  )
+))
+)))
 
 
 
