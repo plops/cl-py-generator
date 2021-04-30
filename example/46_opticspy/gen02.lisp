@@ -864,8 +864,9 @@
 						(* (np.sin phi_)
 						   (np.sin theta_))))
 		       )
-		 (setf rd (np.cross chief_rd
-				    (np.array (list 0.0 0 1))))
+		 (setf rd (np.cross (np.array (list 0.0 0 1))
+				    chief_rd
+				    ))
 		 (setf new_ro (eval_ray tau
 					:ro chief_ro
 					:rd rd))
@@ -875,7 +876,23 @@
 			     :ro_z (aref new_ro 2)
 			     :theta theta
 			     :phi phi))
-		 ))))
+		 ))
+	       
+	       
+	       (setf into_stop_coma
+		     (jit (value_and_grad
+			   (lambda (tau target)
+			     (- (aref (into_stop_parallel_to_chief
+				     :tau .1
+				     :chief_ro (np.array (list -20
+							       (sol_chief.root.item)
+							       0))
+				     :theta theta
+				     :phi phi)
+				      0)
+				target)
+			     )
+			   :argnums 0)))))
 	     (python
 	      (do0
 	       (setf
@@ -886,7 +903,37 @@
 					   (sol_chief.root.item)
 					   0))
 		 :theta theta
-		 :phi phi))))
+		 :phi phi))
+	       coma_pupil_pos))
+
+	     (python
+		(do0
+		 (setf xs (np.linspace -4 4 13)
+		       ys (list))
+		 (for (x xs)
+		  (ys.append
+		   (aref (into_stop_parallel_to_chief
+			  :tau x
+			  :chief_ro (np.array (list -20
+						    (sol_chief.root.item)
+						    0))
+			  :theta theta
+			  :phi phi) 0)))
+		 (figure)
+		 (plot xs ys)
+		 (grid)
+		 (xlabel (string "tau"))
+		 (ylabel (string "ypos in pupil"))))
+	     (python
+	      (do0
+	       (setf tau_coma_up (scipy.optimize.root_scalar ;,(format nil "merit_~a" name)
+				  into_stop_coma
+				  :args (tuple (aref df.aperture 5))
+				  :method (string "newton")
+				  :x0 0
+				  :fprime True))
+	       tau_coma_up))
+	     
 	     (python
 	      (do0
 	       (setf theta_ (np.deg2rad theta)
