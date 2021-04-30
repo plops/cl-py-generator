@@ -883,7 +883,7 @@
 		     (jit (value_and_grad
 			   (lambda (tau target)
 			     (- (aref (into_stop_parallel_to_chief
-				     :tau .1
+				     :tau tau
 				     :chief_ro (np.array (list -20
 							       (sol_chief.root.item)
 							       0))
