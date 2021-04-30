@@ -877,6 +877,29 @@
 			     :theta theta
 			     :phi phi))
 		 ))
+
+	       (def rays_parallel_to_chief (&key tau chief_ro theta phi)
+		(do0
+		  (setf theta_ (np.deg2rad theta)
+		     phi_ (np.deg2rad phi))
+		  
+		 (setf chief_rd (np.array (list (np.cos theta_)
+						(* (np.cos phi_)
+						   (np.sin theta_))
+						(* (np.sin phi_)
+						   (np.sin theta_))))
+		       )
+		 (setf rd (np.cross (np.array (list 0.0 0 1))
+				    chief_rd
+				    ))
+		 (setf new_ro (eval_ray tau
+					:ro chief_ro
+					:rd rd))
+		 
+		 (return (dictionary :ro new_ro
+				     :rd rd
+				     :tau tau))
+		 ))
 	       
 	       
 	       (setf into_stop_coma
@@ -930,34 +953,57 @@
 				  into_stop_coma
 				  :args (tuple (aref df.aperture 5))
 				  :method (string "newton")
-				  :x0 0
+				  :x0 (aref df.aperture 5)
 				  :fprime True))
 	       tau_coma_up))
+	     (python
+	      (do0
+	       (setf tau_coma_low (scipy.optimize.root_scalar ;,(format nil "merit_~a" name)
+				  into_stop_coma
+				  :args (tuple (* -1 (aref df.aperture 5)))
+				  :method (string "newton")
+				  :x0 (* -1 (aref df.aperture 5))
+				  :fprime True))
+	       tau_coma_low))
 	     
 	     (python
 	      (do0
-	       (setf theta_ (np.deg2rad theta)
-		     phi_ (np.deg2rad phi))
+	       
+	       (setf chief_ro (np.array (list -20
+					      (sol_chief.root.item)
+					      0)
+					)
+		     )
+	       (setf n 32)
+	       (setf taus (np.concatenate
+			 (tuple (np.linspace (tau_coma_low.root.item)
+					     0
+					     (// n 2))
+				(aref (np.linspace 0
+						   (tau_coma_up.root.item)
+						   (// n 2))
+				      "1:"))))
 	       (setf ros (list)
-		     rds (list)) 
-	       ,@(loop for e in l
-		       collect
-		       (destructuring-bind (name args &key x0 target) e
-			 `(do0
-			  
-			   (ros.append (np.array (list -20 (dot ,(format nil "sol_~a" name)
-								root
-								(item))
-						       0)))
-			   (rds.append  (np.array (list (np.cos theta_)
-							(* (np.cos phi_)
-							   (np.sin theta_))
-							(* (np.sin phi_)
-							   (np.sin theta_)))))
-			  
-			  
-			   )
-			 ))
+		     rds (list)
+		     res (list))
+	       (for (tau taus)
+		    (setf d (rays_parallel_to_chief :tau tau :chief_ro chief_ro
+						    :theta theta
+						    :phi phi))
+		    (setf (aref d (string "pupil"))
+			  (trace2 :adf adf
+				  :ro (aref d (string "ro"))
+				  :rd (aref d (string "rd"))
+				  :start 1
+				  :end 5))
+		    (res.append d)
+		    (ros.append (numpy.asarray (aref d (string "ro"))))
+		    (rds.append (numpy.asarray (aref d (string "rd")))))
+	       (setf df_taus (pd.DataFrame res))
+	       df_taus
+	       ))
+	     (python
+	      (do0
 	       (draw :df df
 		     :ros ros
 		     :rds rds
