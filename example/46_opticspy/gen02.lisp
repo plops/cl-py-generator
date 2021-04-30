@@ -975,7 +975,7 @@
 					      0)
 					)
 		     )
-	       (setf n 12)
+	       (setf n 32)
 	       (setf taus (np.concatenate
 			 (tuple (np.linspace (tau_coma_low.root.item)
 					     0
@@ -991,12 +991,24 @@
 		    (setf d (rays_parallel_to_chief :tau tau :chief_ro chief_ro
 						    :theta theta
 						    :phi phi))
-		    (setf (aref d (string "pupil"))
-			  (trace2 :adf adf
+		    (setf pupil (trace2 :adf adf
 				  :ro (aref d (string "ro"))
 				  :rd (aref d (string "chief_rd"))
 				  :start 1
 				  :end 5))
+		    (setf (aref d (string "pupil"))
+			  pupil)
+		    (setf (aref d (string "pupil_y"))
+			  (aref pupil 1))
+		    (setf (aref d (string "pupil_y_normalized"))
+			  (/ (aref pupil 1)
+			     (aref df.aperture 5)))
+		    (setf (aref d (string "op"))
+			  (dot (trace2_op :adf adf
+				      :ro (aref d (string "ro"))
+				      :rd (aref d (string "chief_rd"))
+					  )
+			       (item)))
 		    (res.append d)
 		    (ros.append (aref d (string "ro")))
 		    (rds.append (aref d (string "chief_rd"))))
@@ -1010,140 +1022,33 @@
 		     :rds rds
 		     :end None)))
 
-	     (markdown "interpolate y positions between upper and lower coma ray to the chief ray.")
-	     (python
-	      (do0
-	       "#export"
-	       (setf n 32)
-	       #+nil
-	       (setf normalized_pupil
-		     (np.concatenate
-		      (tuple (np.linspace -1
-					  0 (// n 2))
-			     (aref (np.linspace 0
-						1
-						(// n 2))
-				   "1:"))))
-	       
-	       (setf ys (np.concatenate
-			 (tuple (np.linspace sol_coma_low.root
-					     sol_chief.root (// n 2))
-				(aref (np.linspace sol_chief.root
-						   sol_coma_up.root
-						   (// n 2))
-				      "1:"))))
-	       ))
-	     (markdown "obtain pupil coordinates for the different y positions")
-	     (python
-	      (do0
-	       (setf pupil_pos (list))
-	       (for (y ys)
-		    
-		    (pupil_pos.append
-		     (dictionary :ro_y y
-				 :pupil
-				 (trace2 :adf adf
-					 :ro (np.array (list -20 y  0))
-					 :rd (np.array (list (np.cos theta_)
-							     (* (np.cos phi_)
-						     (np.sin theta_))
-							     (* (np.sin phi_)
-								(np.sin theta_))))
-					 :start 1
-					 :end 5)))
-		    )
-	       (setf df_pupil (pd.DataFrame pupil_pos))
-	       (setf (aref df_pupil (string "pupil_y")) (dot
-							 df_pupil
-							 pupil
-							 (apply (lambda (x)
-								  (aref x 1)))
-							 ))
-	       (setf (aref df_pupil (string "pupil_y_normalized")
-			   )
-		     (/ df_pupil.pupil_y
-			(aref df.aperture.iloc 5)))
-	       df_pupil))
-	    
-
-	     (python
-	      (do0
-	       (setf theta_ (np.deg2rad theta)
-		     phi_ (np.deg2rad phi))
-	       (setf ros (list)
-		     rds (list))
-	       (setf y0 sol_chief.root)
-	       (for (ro_y ys)
-		    (do0
-		     (setf dx (* (- ro_y y0) (np.sin theta_))
-			  dy (* (- ro_y y0) (np.cos theta_)))
-		     (ros.append (np.array (list (+ -20 (* -1 dx)) (+ ro_y dy)
-						 0)))
-		     (rds.append  (np.array (list (np.cos theta_)
-						  (* (np.cos phi_)
-						     (np.sin theta_))
-						  (* (np.sin phi_)
-						     (np.sin theta_)))))
-		    
-		    
-		     ))
-
-	       
-	       (draw :df df
-		     :ros ros
-		     :rds rds
-		    
-		     ))
-	     
-	      )
-	     (markdown "get optical path for each pupil position")
-	     (python
-	      (do0
-	       "#export"
-	       (setf op (list))
-	       (setf y0 sol_chief.root)
-	       (for (ro_y ys)
-		    (do0
-		    (setf dx (* -1 (- ro_y y0) (np.sin theta_))
-			  dy (* (- ro_y y0) (np.cos theta_)))
-		     (setf ro (np.array (list (+ -20 dx) (+ ro_y dy)
-					      0)))
-		     (setf rd  (np.array (list (np.cos theta_)
-					       (* (np.cos phi_)
-						  (np.sin theta_))
-					       (* (np.sin phi_)
-						  (np.sin theta_)))))
-		    
-		     (op.append
-		      (dot
-		       (trace2_op :adf adf :ro ro :rd rd)
-		       (item)))))
-	       op
-	       ))
 	     (python
 	      (do0
 	       "#export"
 	       (figure)
-	       (plot df_pupil.pupil_y_normalized
-		     op)
+	       (plot df_taus.pupil_y_normalized
+		     df_taus.op
+		     
+		     )
 	       (grid)
 	       (xlabel (string "normalized pupil"))
 	       (ylabel (string "optical path (mm)"))))
 	     (python
-	      (do0
-	       (comments "wavelength in mm")
-	       (setf wl_green 587.6e-6)))
+	     )
 	     (markdown "as long as waveaberration<lambda/14 the contributions to the field increase focus intensity.")
 	     (python
 	      (do0
 	       "#export"
 	       (figure)
-	       (setf da (/ (np.array op) wl_green))
-	       (plot df_pupil.pupil_y_normalized
-		     (- da (np.min da)))
+	        (do0
+		 (comments "wavelength in mm")
+		 (setf wl_green 587.6e-6))
+		(setf da (/ df_taus.op wl_green))
+		(plot df_pupil.pupil_y_normalized
+		      (- da (np.min da)))
 	       (plt.axhline (/ 1 14.0))
 	       (grid)
-	       (title (string "wave aberration with lambda/14 line"))
+	       (title (string "wave aberration with lambda/14 line (green)"))
 	       (xlabel (string "normalized pupil y"))
 	       (ylabel (string "optical path (wavelengths)"))))
 	    
