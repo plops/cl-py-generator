@@ -897,7 +897,8 @@
 					:rd rd))
 		 
 		 (return (dictionary :ro new_ro
-				     :rd rd
+				     :tau_rd rd
+				     :chief_rd chief_rd
 				     :tau tau))
 		 ))
 	       
@@ -974,7 +975,7 @@
 					      0)
 					)
 		     )
-	       (setf n 32)
+	       (setf n 12)
 	       (setf taus (np.concatenate
 			 (tuple (np.linspace (tau_coma_low.root.item)
 					     0
@@ -993,12 +994,12 @@
 		    (setf (aref d (string "pupil"))
 			  (trace2 :adf adf
 				  :ro (aref d (string "ro"))
-				  :rd (aref d (string "rd"))
+				  :rd (aref d (string "chief_rd"))
 				  :start 1
 				  :end 5))
 		    (res.append d)
-		    (ros.append (numpy.asarray (aref d (string "ro"))))
-		    (rds.append (numpy.asarray (aref d (string "rd")))))
+		    (ros.append (aref d (string "ro")))
+		    (rds.append (aref d (string "chief_rd"))))
 	       (setf df_taus (pd.DataFrame res))
 	       df_taus
 	       ))
