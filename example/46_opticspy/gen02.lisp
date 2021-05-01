@@ -1044,28 +1044,16 @@
 		 (comments "wavelength in mm")
 		 (setf wl_green 587.6e-6))
 		(setf da (/ df_taus.op wl_green))
-		(plot df_pupil.pupil_y_normalized
-		      (- da (np.min da)))
+		(plot df_taus.pupil_y_normalized
+		      (- da (da.min)))
 	       (plt.axhline (/ 1 14.0))
 	       (grid)
-	       (title (string "wave aberration with lambda/14 line (green)"))
+	       (title (dot (string "wave aberration with lambda/14 line (green, theta={}deg)")
+			   (format theta)))
 	       (xlabel (string "normalized pupil y"))
 	       (ylabel (string "optical path (wavelengths)"))))
 	    
-
-	    
-
-	    
-	    
-	    
-
-
-	     ))
-     #+nil
-     ,@(progn
-      `(
-))
-)))
+	     )))))
 
 
 

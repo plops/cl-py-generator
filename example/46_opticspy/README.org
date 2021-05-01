@@ -12,11 +12,12 @@ pip3 install --user -e opticspy
 
 
 - contents
-| file  | state | comment                                                                          |
-|-------+-------+----------------------------------------------------------------------------------|
-| gen00 |   90% | try opticspy, it has material models and paraxial approximation but is very slow |
-| gen01 |   50% | ray tracer with jax                                                              |
-| gen02 |       | notebook                                                                         |
+| file  | state | comment                                                                           |
+|-------+-------+-----------------------------------------------------------------------------------|
+| gen00 |   90% | try opticspy, it has material models and paraxial approximation but is very slow  |
+| gen01 |   50% | ray tracer with jax                                                               |
+| gen02 |   60% | notebook for tracing tangential rays and computing optical path                   |
+| gen03 |       | notebook for arbitrary rays                                                       |
 - plan for gen01
   - keep system information in pandas dataframe
   - use opticspy to compute paraxial parameters and pupil, use its index model
