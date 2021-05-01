@@ -962,7 +962,15 @@
 	       (figure :figsize (list 8 6 ))
 	       (setf wl_green 587.6e-6)
 	       (setf wave_aberration0 (/ pathlengths wl_green))
-	       (setf wave_aberration (- wave_aberration0 (np.min wave_aberration0)))
+	       (setf s wave_aberration0.shape)
+	       (setf wave_aberration1 (- wave_aberration0 (aref wave_aberration0
+								(// (aref s 0) 2)
+								(// (aref s 1) 2))))
+	       (setf wave_aberration (np.where (< (np.hypot (aref pupil_coords ":" ":" 1)
+							    (aref pupil_coords ":" ":" 2))
+						  8)
+					       wave_aberration1
+					       np.nan))
 	       (contourf (aref pupil_coords ":" ":" 1)
 			     (aref pupil_coords ":" ":" 2)
 			     wave_aberration
@@ -976,8 +984,8 @@
 	       (clabel cs)
 	       (grid)
 	       (dot plt (gca) (set_aspect (string "equal")))
-	       (xlabel (string "y"))
-	       (ylabel (string "z"))
+	       (xlabel (string "y (mm)"))
+	       (ylabel (string "z (mm)"))
 	       (title (dot (string "wave aberration phi={} theta={}")
 			   (format phi theta)))
 	       (plt.savefig (string "/home/martin/plot.png"))
