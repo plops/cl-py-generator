@@ -556,7 +556,9 @@
 					    ro p1)
 				 ))))))
 	    (xlim (tuple -35 125))
-	    (ylim (tuple -50 50))))))
+	    (ylim (tuple -50 50))
+	    (xlabel (string "x (mm)"))
+	    (ylabel (string "y (mm)"))))))
 
 	    
 	    ))
@@ -586,9 +588,7 @@
 	    
 	    ))
 
-     ,@(let ((l `((chief (:ro_y x :ro_z ro_z :theta theta :phi phi)
-			   :x0 10
-			   :target 0))))
+     ,@(progn
 	   `((python
 	      (do0
 	       "#export"
@@ -868,24 +868,14 @@
 	       (plt.suptitle (dot (string "phi={} theta={}")
 				  (format phi theta)))
 	       ))
-
-	     #+nil 
 	     (python
 	      (do0
-	       "#export"
-	       (figure)
-	        (do0
-		 (comments "wavelength in mm")
-		 (setf wl_green 587.6e-6))
-		(setf da (/ df_taus.op wl_green))
-		(plot df_taus.pupil_y_normalized
-		      (- da (da.min)))
-	       (plt.axhline (/ 1 14.0))
-	       (grid)
-	       (title (dot (string "wave aberration with lambda/14 line (green, theta={}deg)")
-			   (format theta)))
-	       (xlabel (string "normalized pupil y"))
-	       (ylabel (string "optical path (wavelengths)"))))
+	       (setf all_ro (np.stack df_taus.ro.values))
+	       (setf vtrace2_op (jit (vmap (lambda (x) (trace2_op :adf adf :ro x
+								  :rd (aref df_taus.chief_rd.iloc 0))))))
+	       (setf all_op
+		(vtrace2_op all_ro))
+	       ))
 	    
 	     )))))
 
