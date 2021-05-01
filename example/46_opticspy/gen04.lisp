@@ -593,7 +593,7 @@
 	      (do0
 	       "#export"
 	       (setf theta 5
-		     phi 0
+		     phi 15
 		     ro_z 0)
 	       
 	       (setf into_stop_chief
@@ -778,8 +778,13 @@
 			  pupil)
 		    (setf (aref d (string "pupil_y"))
 			  (aref pupil 1))
+		    (setf (aref d (string "pupil_z"))
+			  (aref pupil 2))
 		    (setf (aref d (string "pupil_y_normalized"))
 			  (/ (aref pupil 1)
+			     (aref df.aperture 5)))
+		    (setf (aref d (string "pupil_z_normalized"))
+			  (/ (aref pupil 2)
 			     (aref df.aperture 5)))
 		    (setf (aref d (string "op"))
 			  (dot (trace2_op :adf adf
@@ -803,17 +808,68 @@
 	     (python
 	      (do0
 	       "#export"
-	       (figure)
-	       (plot df_taus.pupil_y_normalized
-		     df_taus.op
-		     
-		     )
-	       (grid)
-	       (xlabel (string "normalized pupil"))
-	       (ylabel (string "optical path (mm)"))))
+	       (figure :figsize (tuple 9 5))
+	       (do0
+		(subplot 1 2 1)
+		(setf df_ (aref df_taus df_taus.tan))
+		(plot df_.pupil_y_normalized
+		      df_.op
+		      )
+		(do0 (grid)
+		     (title (string "tangential rays"))
+		    (xlabel (string "normalized pupil y"))
+		    (ylabel (string "optical path (mm)"))))
+	       (do0
+		(subplot 1 2 2)
+		(setf df_ (aref df_taus ~df_taus.tan))
+		(plot df_.pupil_z_normalized
+		      df_.op
+		      )
+		(do0 (grid)
+		     (title (string "sagittal rays"))
+		    (xlabel (string "normalized pupil z"))
+		    (ylabel (string "optical path (mm)"))))
+	        (plt.suptitle (dot (string "phi={} theta={}")
+				  (format phi theta)))
+	       ))
+	   
+	  ;   (markdown "as long as waveaberration<lambda/14 the contributions to the field increase focus intensity.")
+
 	     (python
-	     )
-	     (markdown "as long as waveaberration<lambda/14 the contributions to the field increase focus intensity.")
+	      (do0
+	       "#export"
+	       (figure :figsize (tuple 9 5))
+	       (do0
+		 (comments "wavelength in mm")
+		 (setf wl_green 587.6e-6))
+	       
+	       (do0
+		(subplot 1 2 1)
+		(setf df_ (aref df_taus df_taus.tan))
+		(setf da (/ df_.op wl_green))
+		(plot df_.pupil_y_normalized
+		      (- da (da.min))
+		      )
+		(do0 (grid)
+		     (title (string  "tangential rays"))
+		    (xlabel (string "normalized pupil y"))
+		    (ylabel (string "optical path (wavelengths)"))))
+	       (do0
+		(subplot 1 2 2)
+		(setf df_ (aref df_taus ~df_taus.tan))
+		(setf da (/ df_.op wl_green))
+		(plot df_.pupil_z_normalized
+		      (- da (da.min))
+		      )
+		(do0 (grid)
+		     (title (string "sagittal rays"))
+		    (xlabel (string "normalized pupil z"))
+		    (ylabel (string "optical path (wavelengths)"))))
+	       (plt.suptitle (dot (string "phi={} theta={}")
+				  (format phi theta)))
+	       ))
+
+	     #+nil 
 	     (python
 	      (do0
 	       "#export"
