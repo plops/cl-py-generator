@@ -14,7 +14,7 @@
       "Sunday"))
   
   (write-notebook
-   :nb-file (format nil "~a/source/02_trace.ipynb" *path*)
+   :nb-file (format nil "~a/source/04_trace.ipynb" *path*)
    :nb-code
    `(
      (python
@@ -164,6 +164,7 @@
 			     
 			  (df.to_csv (str system_data))
 			  ))
+		     df
 
 		     )))
 	       )))
@@ -315,13 +316,7 @@
 
 		  
        ))
-     (python
-      (do0
-       (setf jh (jit hit_sphere))
-       (setf o (jh :ro (np.array (list -20 0 0))
-		   :rd (np.array (list 1 0 0))
-		   :sc (np.array (list 0 0 0))
-		   :sr 1))))
+ 
      (python
       (do0
        
@@ -383,53 +378,6 @@
 	  (return df)))
        ))
 
-     (python
-      (do0
-       (comments "trace a ray through the full system") 
-       (trace :df df
-	      :ro (np.array (list -20 0 0))
-	      :rd (np.array (list 1 .2 0)))))
-     (python
-	(do0
-	 (comments "reduce number of arguments and return values to minimum.")
-	 (def chief (x)
-	   (setf dfo
-		 (trace :df df
-			:ro (np.array (list -20 10 0))
-			:rd (np.array (list 1 x 0))
-			:end 5))
-	   (return (dot dfo
-			(aref iloc -1)
-			(aref phit 1)
-			(item))))
-       
-	 ))
-     (python
-	(do0
-	 (comments "search for chief ray (manually)")
-	 (chief .2)))
-     (python
-	(do0
-	 (comments "search for chief ray with a graph")
-	
-	 (setf xs (np.linspace -3 3 17)
-	       ys (list))
-	 (for (x xs)
-	      (ys.append (chief x)))
-	 (figure)
-	 (plt.plot xs ys)
-	 (grid)
-	 ))
-
-      (python
-	(do0
-	 (comments "search for chief ray with root finder (without gradient)")
-	 (setf sol
-	       (scipy.optimize.root_scalar chief :method (string "brentq")
-						 :bracket (list -0.5 0.5)
-					   ))
-	 sol
-	 ))
      ,@(let ((l `(radius n_green center_x)))
 	   `(
 	     (python
@@ -530,72 +478,7 @@
 		  (return op)))
 	      
 	       ))
-	     #+nil 
-	     (python
-	      (do0
-	       "@jit"
-	       (def chief2 (x)
-		 (setf phit (trace2 :adf adf
-				    :ro (np.array (list -20 10 0))
-				    :rd (np.array (list 1 x 0))
-				    :end 5))
-		 #+nil (return (dot phit
-				    (aref iloc -1)
-				    (aref ro 1)
-				    (item)))
-		 #-nil
-		 (return (aref phit 1)
-			 )
-		 )))
-	     #+nil
-	     (python
-	      (do0
-	       (comments "compare pandas based chief ray search with jax/numpy-based")
-	      
-	       (setf xs (np.linspace -3 3 17)
-		     ys (list)
-		     ys2 (list))
-	       (for (x xs)
-		    (ys.append (chief x))
-		    (ys2.append (chief2 x)))
-	       (figure)
-	       (plt.plot xs ys :label (string "pandas"))
-	       (plt.plot xs ys2 :label (string "jax/numpy"))
-	       (legend)
-	       (grid)
-	       ))
-	     #+nil
-	     (python
-	      (do0
-	       (setf chief2j (jit chief2))
-	       (setf d_chief2 (jacfwd chief2))
-	       (setf d_chief2j (jit d_chief2))))
-	     #+nil
-	     (python
-	      (do0
-	       (d_chief2 .2)))
-	     #+nil
-	     (python
-	      (do0
-	       (with (Timer (string "newton search (conventional) 2.1s")
-			    )
-		     (setf sol
-			   (scipy.optimize.root_scalar chief2 :method (string "newton")
-							      :x0 .4
-							      :fprime d_chief2)))
-	       sol))
-	     #+nil
-	     (python
-	      (do0
-	       (with
-		(Timer (string "newton search (jit) 0.016")
-		       )
-		(setf sol
-		      (scipy.optimize.root_scalar chief2j :method (string "newton")
-							  :x0 .4
-							  :fprime d_chief2j)))
-	       sol))
-	     ))
+	 ))
      
      ,@(progn
 	  `((python
@@ -623,11 +506,6 @@
 		       (setf r (numpy.abs row.radius))
 		       (setf x (- (dot row thickness_cum)
 				  (dot row thickness)))
-		       #+nil(try
-			     (setf x (dot (aref df.iloc (- idx 1)) thickness_cum))
-			     ("Exception as e"
-			      (setf x -10))) 
-		      
 		       (ax.add_patch (matplotlib.patches.Arc (tuple row.center_x 0)
 							     (* 2 r) (* 2 r)
 							     :angle 0
@@ -637,50 +515,11 @@
 							     :linewidth 3
 							     :facecolor None
 							     :edgecolor (aref colors idx)))
-		       #+nil (do0 (plt.text x
-					    40
-					    (dot (string "{}")
-						 (format idx))
-					    :color  (aref colors idx))
-				  (plt.text row.center_x
-					    (+ 35 (* -5 (== (% idx 2) 0)))
-					    (dot (string "{:3.2f}")
-						 (format row.thickness))
-					    :color  (aref colors idx)))
-		       #+nil  ,@(loop for e in `(row.theta1 ;row.theta2
-						 )
-				      collect
-				      `(do0
-					(setf avec (* (/ np.pi 180) ,e ;row.theta1
-						      ))
-					(setf dx (* r (numpy.cos avec))
-					      dy (* r (numpy.sin avec)))
-					(ax.add_patch (matplotlib.patches.Arrow
-						       row.center_x
-						       0
-						       (+ dx) 
-						       (+ dy)
-						       :edgecolor  (aref colors idx))
-						      )))
-		       #+nil(do0
-			     (plt.text row.center_x
-				       -40
-				       (dot (string "c{}")
-					    (format idx))
-				       :color (aref colors idx) )
-			     (plt.text row.center_x
-				       (- 45 (* -5 (== (% idx 2) 0)))
-				       (dot (string "x{:3.2f}")
-					    (format row.center_x))
-				       :color (aref colors idx) ))))))
-	    #+nil(xlim (tuple (aref df.thickness_cum.iloc 0)
-			      (aref df.thickness_cum.iloc -1))
-		       )
+		       ))))
+	   
 	    (do0
 
-	     (for ((ntuple ro rd1) (zip ros rds) #+nil (list ,@(loop for e in `(0 1e-6 1) ; from -25 upto 15 by 2
-								     collect
-								     `(np.array (list -20 ,e 0)))))
+	     (for ((ntuple ro rd1) (zip ros rds) )
 		  (setf 
 		   rd1 (/ rd1 (np.linalg.norm rd1)))
 		  (for (surface_idx (range 1 9))
@@ -691,12 +530,8 @@
 			(setf tau (hit_sphere :ro ro :rd rd1
 					      :sc sc
 					      :sr sr))
-			#+nil,@(loop for e in `(tau)
-				     collect
-				     `(print (dot (string ,(format nil "~a={}" e))
-						  (format ,e))))
-			,@(loop for e in `(tau ; tau2
-					   ) and color in `(k)
+		
+			,@(loop for e in `(tau ) and color in `(k)
 				collect
 				`(do0 (setf p1 (eval_ray ,e :ro ro :rd rd1)) ;; hit point
 				      (setf n (sphere_normal_out :p_hit p1 :sc sc :sr sr))
@@ -705,72 +540,25 @@
 							    :ni (aref df.n_green (- surface_idx 1))
 							    :no (aref df.n_green (- surface_idx 0))))
 				     
-					;(setf p2 (eval_ray 10 :ro p1 :rd rd_trans))
-				      #+nil (plt.scatter
-					     (aref ro 0)
-					     (aref ro 1))
+				
 				      (plot (list (aref ro 0)
 						  (aref p1 0)
-					;(aref p2 0)
+				
 						  )
 					    (list (aref ro 1)
 						  (aref p1 1)
-					;(aref p2 1)
+				
 						  )
 					    :color (string ,color)
 					    :alpha .3
 					    )
 				      (setf rd1 rd_trans
 					    ro p1)
-				      #+nil
-				      (plot (list (aref p1 0)
-						  (aref (+ p1 (* 3 n)) 0))
-					    (list (aref p1 1)
-						  (aref (+ p1 (* 3 n)) 1))
-					    :color (string "r")
-					    :alpha .3
-					    )))))))
+				 ))))))
 	    (xlim (tuple -35 125))
 	    (ylim (tuple -50 50))))))
-	    (markdown "plot a single ray")
-	    (python
-	     (do0
-	      (draw :df df
-		    :ros (list (np.array (list -20d0 10 0)))
-		    :rds (list (np.array (list 1d0 0 0)))
-		    )))
 
-	    (markdown "plot a ray bundle")
-	    (python
-	(do0
-	 (setf theta 5d0
-	       phi 0d0)
-	 (setf theta_ (np.deg2rad theta)
-	       phi_ (np.deg2rad phi))
-	 (setf ros (list)
-	       rds (list))
-
-	 (for (ro_y (np.linspace -20 20 30))
-	      (do0
-	     
-	       (ros.append (np.array (list -20d0 ro_y
-					   0)))
-	       (rds.append  (np.array (list (np.cos theta_)
-					    (* (np.cos phi_)
-					       (np.sin theta_))
-					    (* (np.sin phi_)
-					       (np.sin theta_)))))
-	      
-	      
-	       ))
-	
-	 (draw :df df
-	       :ros ros
-	       :rds rds
-	       :end 5
-	       ))
-       
-	)
+	    
 	    ))
 
      ,@(progn
@@ -800,123 +588,88 @@
 
      ,@(let ((l `((chief (:ro_y x :ro_z ro_z :theta theta :phi phi)
 			   :x0 10
-			   :target 0)
-		  #+nil (coma_up (:ro_y x :ro_z ro_z :theta theta :phi phi)
-			   :x0 10
-			   :target (aref df.aperture 5))
-		#+nil    (coma_low (:ro_y x :ro_z ro_z :theta theta :phi phi)
-			      :x0 10
-			      :target (* -1 (aref df.aperture 5)))
-		    )))
+			   :target 0))))
 	   `((python
 	      (do0
 	       "#export"
 	       (setf theta 5
 		     phi 0
 		     ro_z 0)
-	       #+nil ,@(loop for e in l
-			     collect
-			     (destructuring-bind (name args &key x0 target) e
-			       `(setf ,(format nil "merit_~a" name)
-				      (jit (value_and_grad
-					    (lambda (x)
-					      (- (aref  (into_stop ,@args)
-							;; i only care about the y coordinate because phi=0
-							0)
-						 ,target))
-					    :argnums 0)))))
-	       (setf into_stop_meridional
+	       
+	       (setf into_stop_chief
 		     (jit (value_and_grad
-			   (lambda (x target)
-			     (- (aref  (into_stop :ro_y x :ro_z ro_z :theta theta :phi phi)
-				       ;; i only care about the y coordinate because phi=0
-				       0)
-				target))
-			   :argnums 0)))))
-	     ,@(loop for e in l
-		     collect
-		     (destructuring-bind (name args &key x0 target) e
-		       `(python
-			 (do0
-			  (setf ,(format nil "sol_~a" name)
-				(scipy.optimize.root_scalar ;,(format nil "merit_~a" name)
-				 into_stop_meridional
-				 :args (tuple ,target)
-				 :method (string "newton")
-				 :x0 ,x0
-				 :fprime True
-				 ))
-			  ,(format nil "sol_~a" name))
-			 )))
-	     (markdown "coordinate system. (theta,phi,ro_x) defines illumination angle and field position")
-	     (python
-	      (do0
-	       
-	       
-	       (def into_stop_parallel_to_chief (&key tau chief_ro theta phi)
-		(do0
-		  (setf theta_ (np.deg2rad theta)
-		     phi_ (np.deg2rad phi))
-		 (comments "create a direction perpendicular to chief ray in the tangential plane of the chief ray")
-		 (setf chief_rd (np.array (list (np.cos theta_)
-						(* (np.cos phi_)
-						   (np.sin theta_))
-						(* (np.sin phi_)
-						   (np.sin theta_))))
-		       )
-		 (setf rd (np.cross (np.array (list 0.0 0 1))
-				    chief_rd
-				    ))
-		 (setf new_ro (eval_ray tau
-					:ro chief_ro
-					:rd rd))
-		 ;; into_stop (&key (ro_x -20) (ro_y 10) (ro_z 0) (theta 1) (phi 0))
-		 (return (into_stop :ro_x (aref new_ro 0)
-			     :ro_y (aref new_ro 1)
-			     :ro_z (aref new_ro 2)
-			     :theta theta
-			     :phi phi))
-		 ))
-
-	       (def rays_parallel_to_chief (&key tau chief_ro theta phi)
-		(do0
-		  (setf theta_ (np.deg2rad theta)
-		     phi_ (np.deg2rad phi))
-		  
-		 (setf chief_rd (np.array (list (np.cos theta_)
-						(* (np.cos phi_)
-						   (np.sin theta_))
-						(* (np.sin phi_)
-						   (np.sin theta_))))
-		       )
-		 (setf rd (np.cross (np.array (list 0.0 0 1))
-				    chief_rd
-				    ))
-		 (setf new_ro (eval_ray tau
-					:ro chief_ro
-					:rd rd))
-		 
-		 (return (dictionary :ro new_ro
-				     :tau_rd rd
-				     :chief_rd chief_rd
-				     :tau tau))
-		 ))
-	       
-	       
-	       (setf into_stop_coma
-		     (jit (value_and_grad
-			   (lambda (tau target)
-			     (- (aref (into_stop_parallel_to_chief
-				     :tau tau
-				     :chief_ro (np.array (list -20
-							       (sol_chief.root.item)
-							       0))
-				     :theta theta
-				     :phi phi)
-				      0)
-				target)
+			   (lambda (x)
+			     (aref  (into_stop :ro_y x :ro_z ro_z :theta theta :phi phi)
+				    ;; i only care about the y coordinate because phi=0
+				    0)
 			     )
 			   :argnums 0)))))
+	     (python
+			 (do0
+			  (setf sol_chief
+				(scipy.optimize.root_scalar
+				 into_stop_chief
+				 :method (string "newton")
+				 :x0 0
+				 :fprime True
+				 ))
+			  sol_chief)
+			 )
+	     
+	     (markdown "coordinate system. (theta,phi,ro_x) defines illumination angle and field position")
+	     (python
+	      ,(let ((code `(do0 (setf theta_ (np.deg2rad theta)
+			       phi_ (np.deg2rad phi))
+			 (comments "create a direction perpendicular to chief ray in the tangential plane of the chief ray")
+			 (setf chief_rd (np.array (list (np.cos theta_)
+							(* (np.cos phi_)
+							   (np.sin theta_))
+							(* (np.sin phi_)
+							   (np.sin theta_)))))
+			 (setf rd (np.cross (np.array (list 0.0 0 1))
+					    chief_rd
+					    ))
+			 (setf new_ro (eval_ray tau
+						:ro chief_ro
+						:rd rd)))))
+		`(do0
+	       
+	       
+		 (def into_stop_parallel_to_chief (&key tau chief_ro theta phi)
+		   (do0
+		    ,code
+		    
+		    (return (into_stop :ro_x (aref new_ro 0)
+				       :ro_y (aref new_ro 1)
+				       :ro_z (aref new_ro 2)
+				       :theta theta
+				       :phi phi))
+		    ))
+
+		 (def rays_parallel_to_chief (&key tau chief_ro theta phi)
+		   (do0
+		    ,code		 
+		    (return (dictionary :ro new_ro
+					:tau_rd rd
+					:chief_rd chief_rd
+					:tau tau))
+		    ))
+	       
+	       
+		 (setf into_stop_coma_tan
+		       (jit (value_and_grad
+			     (lambda (tau target)
+			       (- (aref (into_stop_parallel_to_chief
+					 :tau tau
+					 :chief_ro (np.array (list -20
+								   (sol_chief.root.item)
+								   0))
+					 :theta theta
+					 :phi phi)
+					0)
+				  target)
+			       )
+			     :argnums 0))))))
 	     (python
 	      (do0
 	       (setf
