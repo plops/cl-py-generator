@@ -658,6 +658,39 @@
 					:tau tau
 					:tan tan))
 		    ))
+		 (def rays_parallel_to_chief2 (&key tau_tan tau_sag chief_ro theta phi (tan True))
+		   (do0
+		    (do0 (setf theta_ (np.deg2rad theta)
+			       phi_ (np.deg2rad phi))
+			 (comments "create a direction perpendicular to chief ray in the tangential plane of the chief ray")
+			 (setf chief_rd (np.array (list (np.cos theta_)
+							(* (np.cos phi_)
+							   (np.sin theta_))
+							(* (np.sin phi_)
+							   (np.sin theta_)))))
+			 (setf sideways_rd_tan (np.array (list 0.0 0 1)))
+			 (setf sideways_rd_sag (np.array (list 0.0 1 0)))
+			 (setf rd_sag (np.cross sideways_rd_sag
+						chief_rd
+						)
+			       rd_tan (np.cross sideways_rd_tan
+						chief_rd
+						))
+			 (setf new_ro_sag (eval_ray tau_sag
+						:ro (np.array (list 0.0 0 0))
+						:rd rd_sag))
+			 (setf new_ro_tan (eval_ray tau_tan
+						:ro chief_ro
+						:rd rd_tan))
+			 (setf new_ro (+ new_ro_sag
+					 new_ro_tan)))		 
+		    (return new_ro #+nil (dictionary :ro new_ro
+					:tau_rd_tan rd_tan
+					:tau_rd_sag rd_sag
+					:chief_rd chief_rd
+					:tau_sag tau_sag
+					:tau_tan tau_tan))
+		    ))
 	       
 	       
 		 (setf into_stop_coma_tan
@@ -868,14 +901,55 @@
 	       (plt.suptitle (dot (string "phi={} theta={}")
 				  (format phi theta)))
 	       ))
+	     (markdown "process all points with vmap")
 	     (python
 	      (do0
-	       (setf all_ro (np.stack df_taus.ro.values))
+	       (setf all_ro (np.stack df_taus.ro.values)
+		     )
+	       (setf chief_rd  (aref df_taus.chief_rd.iloc 0))
 	       (setf vtrace2_op (jit (vmap (lambda (x) (trace2_op :adf adf :ro x
-								  :rd (aref df_taus.chief_rd.iloc 0))))))
+								  :rd chief_rd)))))
 	       (setf all_op
 		(vtrace2_op all_ro))
 	       ))
+	     (markdown "sample pupil with 2d")
+	     (python
+	      (do0
+	       (comments "create 2d map of tau values that will cover the pupil")
+	       (setf (ntuple sag2 tan2)
+		     (np.meshgrid taus_sag
+				  taus_tan))
+	       (comments "convert 2d tau values to ray origins perpendicular to the chief ray")
+	       (setf vrays_parallel_to_chief2 (jit (vmap (lambda (x y)
+							   (rays_parallel_to_chief2 :tau_sag x
+										    :tau_tan y
+										    :chief_ro chief_ro
+										    :theta theta
+										    :phi phi
+										    )))))
+	       (setf ros (vrays_parallel_to_chief2 (sag2.ravel)
+						 (tan2.ravel)))
+	       ))
+	     (markdown "get exact pupil positions for the 2d maps")
+	     (python
+	      (do0
+	       (setf vpupil (jit (vmap
+				  (lambda (x)
+				   (trace2 :adf adf
+					   :ro x
+					   :rd chief_rd
+					   :start 1
+					   :end 5)))))
+	       (setf pupil_coords (vpupil ros))))
+	     (markdown "get optical path difference for each ray in each point of the 2d pupil")
+	     (python
+	      (do0
+	       (setf vtrace2_op (jit (vmap (lambda (x)
+					     (trace2_op :adf adf
+				      :ro x
+				      :rd chief_rd
+					  )))))
+	       (setf pathlengths (vtrace2_op ros))))
 	    
 	     )))))
 
