@@ -626,7 +626,10 @@
 							   (np.sin theta_))
 							(* (np.sin phi_)
 							   (np.sin theta_)))))
-			 (setf rd (np.cross (np.array (list 0.0 0 1))
+			 (if tan
+			     (setf sideways_rd (np.array (list 0.0 0 1)))
+			     (setf sideways_rd (np.array (list 0.0 1 0))))
+			 (setf rd (np.cross sideways_rd
 					    chief_rd
 					    ))
 			 (setf new_ro (eval_ray tau
@@ -635,7 +638,7 @@
 		`(do0
 	       
 	       
-		 (def into_stop_parallel_to_chief (&key tau chief_ro theta phi)
+		 (def into_stop_parallel_to_chief (&key tau chief_ro theta phi (tan True))
 		   (do0
 		    ,code
 		    
@@ -646,7 +649,7 @@
 				       :phi phi))
 		    ))
 
-		 (def rays_parallel_to_chief (&key tau chief_ro theta phi)
+		 (def rays_parallel_to_chief (&key tau chief_ro theta phi (tan True))
 		   (do0
 		    ,code		 
 		    (return (dictionary :ro new_ro
@@ -665,60 +668,47 @@
 								   (sol_chief.root.item)
 								   0))
 					 :theta theta
-					 :phi phi)
+					 :phi phi
+					 :tan True)
+					0)
+				  target)
+			       )
+			     :argnums 0)))
+		 (setf into_stop_coma_sag
+		       (jit (value_and_grad
+			     (lambda (tau target)
+			       (- (aref (into_stop_parallel_to_chief
+					 :tau tau
+					 :chief_ro (np.array (list -20
+								   (sol_chief.root.item)
+								   0))
+					 :theta theta
+					 :phi phi
+					 :tan False)
 					0)
 				  target)
 			       )
 			     :argnums 0))))))
-	     (python
-	      (do0
-	       (setf
-		coma_pupil_pos
-		(into_stop_parallel_to_chief
-		 :tau .1
-		 :chief_ro (np.array (list -20
-					   (sol_chief.root.item)
-					   0))
-		 :theta theta
-		 :phi phi))
-	       coma_pupil_pos))
-
-	     (python
-		(do0
-		 (setf xs (np.linspace -4 4 13)
-		       ys (list))
-		 (for (x xs)
-		  (ys.append
-		   (aref (into_stop_parallel_to_chief
-			  :tau x
-			  :chief_ro (np.array (list -20
-						    (sol_chief.root.item)
-						    0))
-			  :theta theta
-			  :phi phi) 0)))
-		 (figure)
-		 (plot xs ys)
-		 (grid)
-		 (xlabel (string "tau"))
-		 (ylabel (string "ypos in pupil"))))
-	     (python
-	      (do0
-	       (setf tau_coma_up (scipy.optimize.root_scalar ;,(format nil "merit_~a" name)
-				  into_stop_coma
-				  :args (tuple (aref df.aperture 5))
-				  :method (string "newton")
-				  :x0 (aref df.aperture 5)
-				  :fprime True))
-	       tau_coma_up))
-	     (python
-	      (do0
-	       (setf tau_coma_low (scipy.optimize.root_scalar ;,(format nil "merit_~a" name)
-				  into_stop_coma
-				  :args (tuple (* -1 (aref df.aperture 5)))
-				  :method (string "newton")
-				  :x0 (* -1 (aref df.aperture 5))
-				  :fprime True))
-	       tau_coma_low))
+	    
+	     ,@(let ((l `((coma_up :tan True :target  (aref df.aperture 5))
+			 (coma_down :tan True :target  (* -1 (aref df.aperture 5)))
+			 (coma_up :tan False :target  (aref df.aperture 5))
+			 (coma_down :tan False :target  (* -1 (aref df.aperture 5)))
+			 )))
+		 `(,@(loop for e in l
+			   collect
+			   (destructuring-bind (name &key (tan True) (target 0.0)) e
+			    `(python
+			      (do0
+			       (setf ,(format nil "tau_~a_~a" (if tan "tan" "sag") name)
+				     (scipy.optimize.root_scalar 
+							  ,(format nil "into_stop_coma_~a" (if tan "tan" "sag"))
+							  :args (tuple ,target)
+							  :method (string "newton")
+							  :x0 ,target
+							  :fprime True))
+			       ,(format nil "tau_~a_~a" (if tan "tan" "sag") name)))))))
+	     
 	     
 	     (python
 	      (do0
