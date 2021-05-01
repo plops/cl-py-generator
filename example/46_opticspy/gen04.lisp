@@ -48,8 +48,8 @@
 					;(np numpy)
 					;serial
 			     (pd pandas)
-					;(xr xarray)
-					;(xrp xarray.plot)
+					(xr xarray)
+					(xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)
 					; EP_SerialIO
@@ -87,7 +87,7 @@
 		 
 		   ,(format nil "from matplotlib.pyplot import ~{~a~^, ~}"
 			    `(plot imshow tight_layout xlabel ylabel
-				   title subplot subplot2grid grid
+				   suptitle contour contourf clabel title subplot subplot2grid grid
 				   legend figure gcf xlim ylim))
 
 		   (IPython.core.display.display
@@ -956,6 +956,33 @@
 				      (reshape taus_sag.size
 					       taus_tan.size
 					       )))))
+	     (markdown "construct xarray with pathlengths and pupil coordinates")
+	     (python
+	      (do0
+	       (figure :figsize (list 8 6 ))
+	       (setf wl_green 587.6e-6)
+	       (setf wave_aberration0 (/ pathlengths wl_green))
+	       (setf wave_aberration (- wave_aberration0 (np.min wave_aberration0)))
+	       (contourf (aref pupil_coords ":" ":" 1)
+			     (aref pupil_coords ":" ":" 2)
+			     wave_aberration
+			     :levels 100)
+	       (plt.colorbar)
+	       (setf cs (contour (aref pupil_coords ":" ":" 1)
+			     (aref pupil_coords ":" ":" 2)
+			     wave_aberration
+			     :colors (string "k")
+			     ))
+	       (clabel cs)
+	       (grid)
+	       (dot plt (gca) (set_aspect (string "equal")))
+	       (xlabel (string "y"))
+	       (ylabel (string "z"))
+	       (title (dot (string "wave aberration phi={} theta={}")
+			   (format phi theta)))
+	       (plt.savefig (string "/home/martin/plot.png"))
+	       )
+	      )
 	    
 	     )))))
 
