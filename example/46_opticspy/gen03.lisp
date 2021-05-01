@@ -14,7 +14,7 @@
       "Sunday"))
   
   (write-notebook
-   :nb-file (format nil "~a/source/02_trace.ipynb" *path*)
+   :nb-file (format nil "~a/source/03_trace.ipynb" *path*)
    :nb-code
    `(
      (python
