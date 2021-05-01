@@ -655,7 +655,8 @@
 		    (return (dictionary :ro new_ro
 					:tau_rd rd
 					:chief_rd chief_rd
-					:tau tau))
+					:tau tau
+					:tan tan))
 		    ))
 	       
 	       
@@ -691,49 +692,83 @@
 			     :argnums 0))))))
 	    
 	     ,@(let ((l `((coma_up :tan True :target  (aref df.aperture 5))
-			 (coma_down :tan True :target  (* -1 (aref df.aperture 5)))
-			 (coma_up :tan False :target  (aref df.aperture 5))
-			 (coma_down :tan False :target  (* -1 (aref df.aperture 5)))
+			  (coma_lo :tan True :target  (* -1 (aref df.aperture 5)))
+			  (coma_up :tan False :target  (aref df.aperture 5))
+			  (coma_lo :tan False :target  (* -1 (aref df.aperture 5)))
 			 )))
 		 `(,@(loop for e in l
 			   collect
-			   (destructuring-bind (name &key (tan True) (target 0.0)) e
+			   (destructuring-bind (name &key (tan `True) (target 0.0)) e
 			    `(python
 			      (do0
-			       (setf ,(format nil "tau_~a_~a" (if tan "tan" "sag") name)
+			       (setf ,(format nil "tau_~a_~a" (if (eq tan 'True) "tan" "sag") name)
 				     (scipy.optimize.root_scalar 
 							  ,(format nil "into_stop_coma_~a" (if tan "tan" "sag"))
 							  :args (tuple ,target)
 							  :method (string "newton")
 							  :x0 ,target
 							  :fprime True))
-			       ,(format nil "tau_~a_~a" (if tan "tan" "sag") name)))))))
+			       ,(format nil "tau_~a_~a" (if (eq tan 'True) "tan" "sag") name)))))))
 	     
 	     
 	     (python
 	      (do0
-	       
 	       (setf chief_ro (np.array (list -20
 					      (sol_chief.root.item)
-					      0)
-					)
-		     )
+					      0)))
 	       (setf n 32)
-	       (setf taus (np.concatenate
-			 (tuple (np.linspace (tau_coma_low.root.item)
-					     0
-					     (// n 2))
-				(aref (np.linspace 0
-						   (tau_coma_up.root.item)
-						   (// n 2))
-				      "1:"))))
+	       (setf taus_tan (np.concatenate
+			   (tuple (np.linspace (dot tau_tan_coma_lo root (item))
+					       0
+					       (// n 2))
+				  (aref (np.linspace 0
+						     (dot tau_tan_coma_up root (item))
+						     (// n 2))
+					"1:"))))
+	       (setf taus_sag (np.concatenate
+			   (tuple (np.linspace (dot tau_sag_coma_lo root (item))
+					       0
+					       (// n 2))
+				  (aref (np.linspace 0
+						     (dot tau_sag_coma_up root (item))
+						     (// n 2))
+					"1:"))))
 	       (setf ros (list)
 		     rds (list)
 		     res (list))
-	       (for (tau taus)
-		    (setf d (rays_parallel_to_chief :tau tau :chief_ro chief_ro
+	       (for (tau taus_tan)
+		    (setf d (rays_parallel_to_chief :tau tau
+						    :chief_ro chief_ro
 						    :theta theta
-						    :phi phi))
+						    :phi phi
+						    :tan True))
+		    (setf pupil (trace2 :adf adf
+				  :ro (aref d (string "ro"))
+				  :rd (aref d (string "chief_rd"))
+				  :start 1
+				  :end 5))
+		    (setf (aref d (string "pupil"))
+			  pupil)
+		    (setf (aref d (string "pupil_y"))
+			  (aref pupil 1))
+		    (setf (aref d (string "pupil_y_normalized"))
+			  (/ (aref pupil 1)
+			     (aref df.aperture 5)))
+		    (setf (aref d (string "op"))
+			  (dot (trace2_op :adf adf
+				      :ro (aref d (string "ro"))
+				      :rd (aref d (string "chief_rd"))
+					  )
+			       (item)))
+		    (res.append d)
+		    (ros.append (aref d (string "ro")))
+		    (rds.append (aref d (string "chief_rd"))))
+	       (for (tau taus_sag)
+		    (setf d (rays_parallel_to_chief :tau tau
+						    :chief_ro chief_ro
+						    :theta theta
+						    :phi phi
+						    :tan False))
 		    (setf pupil (trace2 :adf adf
 				  :ro (aref d (string "ro"))
 				  :rd (aref d (string "chief_rd"))
