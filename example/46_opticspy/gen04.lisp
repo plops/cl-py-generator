@@ -940,7 +940,10 @@
 					   :rd chief_rd
 					   :start 1
 					   :end 5)))))
-	       (setf pupil_coords (vpupil ros))))
+	       (setf pupil_coords (dot  (vpupil ros)
+					(reshape taus_sag.size
+						 taus_tan.size
+						 3)))))
 	     (markdown "get optical path difference for each ray in each point of the 2d pupil")
 	     (python
 	      (do0
@@ -949,7 +952,10 @@
 				      :ro x
 				      :rd chief_rd
 					  )))))
-	       (setf pathlengths (vtrace2_op ros))))
+	       (setf pathlengths (dot (vtrace2_op ros)
+				      (reshape taus_sag.size
+					       taus_tan.size
+					       )))))
 	    
 	     )))))
 
