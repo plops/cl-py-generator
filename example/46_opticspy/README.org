@@ -18,7 +18,7 @@ pip3 install --user -e opticspy
 | gen01 |   50% | ray tracer with jax                                                               |
 | gen02 |   60% | notebook for tracing tangential rays and computing optical path                   |
 | gen03 |   20% | notebook for tangential rays and a thin lens (stopped working on that)            |
-| gen04 |       | notebook for arbitrary rays                                                       |
+| gen04 |       | notebook for arbitrary rays, 2d wave aberrations                                  |
 - plan for gen01
   - keep system information in pandas dataframe
   - use opticspy to compute paraxial parameters and pupil, use its index model
