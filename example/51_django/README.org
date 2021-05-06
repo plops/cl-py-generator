@@ -1,0 +1,5 @@
+- https://docs.djangoproject.com/en/3.2/intro/tutorial01/
+
+#+begin_example
+django-admin startproject mysite
+#+end_example
