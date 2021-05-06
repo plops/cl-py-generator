@@ -316,6 +316,9 @@
                         (emit `(if (not ,condition)
                                    (do0
                                     ,@forms)))))
+	      (import-from (destructuring-bind (module &rest rest) (cdr code)
+			     (format nil "from ~a import ~{~a~^, ~}" module
+				     rest)))
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
 			    (format nil "import ~a as ~a~%" (second args) (first args))

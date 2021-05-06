@@ -13,7 +13,18 @@
    `(do0
      (imports (django.http))
      (def index (request)
-       (return (django.http.HttpResponse (string "hello world")))))))
+       (return (django.http.HttpResponse (string "hello world"))))))
+  (write-source
+   (format nil "~a/mysite/polls/urls.py" *path*)
+   `(do0
+     (import-from django.urls path include)
+     (import-from django.contrib admin)
+     (import-from "." views)
+     
+     (setf urlpatterns
+	   (list (path (string "")
+		       views.index
+		       :name (string "index")))))))
 
 
 

@@ -2,4 +2,5 @@
 
 #+begin_example
 django-admin startproject mysite
+python3 manage.py startapp polls
 #+end_example

@@ -3,8 +3,6 @@
   (ql:quickload "alexandria"))
 (in-package :cl-py-generator)
 
-
-
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/44_zernike")
   (defparameter *code-file* "run_00_zernike")
@@ -27,7 +25,16 @@
 	      l)
 	   2))
 
-       (defun all-positions (needle haystack &key (key #'identity))
+      (defun fringe-index-nl-to-j (n l)
+	(+ (expt (+ 1 (/ (+ n (abs l))
+			 2))
+		 2)
+	  (* -2 (abs l))
+	  (* (signum l)
+	     (/ (- 1 (signum l))
+		2))))
+
+      (defun all-positions (needle haystack &key (key #'identity))
 	 "find multiple occurances of needle in haystack"
 	 (loop for e in haystack and position from 0
 	       when (eql (funcall key e) needle)
@@ -206,17 +213,27 @@
 					;(declare (ignorable jmax))
 		    (defparameter *lut* lut-indices)
 		    `(do0
-		      (def osa_index_nl_to_j (n l)
-			(return (// (+ (* n (+ n 2))
-				      l)
-				   2)))
-		      (def osa_index_j_to_nl (j)
-			(setf lut (list ,@(loop for e in lut-indices
-						collect
-						(destructuring-bind 
-						    (j &key n l merit merit2) e
-						  `(list ,n ,l)))))
-			(return (aref lut j)))
+		      (do0
+		       (def osa_index_nl_to_j (n l)
+			 (return (// (+ (* n (+ n 2))
+					l)
+				     2)))
+		       (def osa_index_j_to_nl (j)
+			 (setf lut (list ,@(loop for e in lut-indices
+						 collect
+						 (destructuring-bind 
+						     (j &key n l merit merit2) e
+						   `(list ,n ,l)))))
+			 (return (aref lut j))))
+		      (do0
+		       (def fringe_index_nl_to_j (n l)
+			 (return (+ (** (+ 1 (/ (+ n (np.abs l))
+						2))
+					2)
+				    (* -2 (np.abs l))
+				    (* (np.sign l)
+				       (/ (- 1 (np.sign l))
+					  2))))))
 		      (def zernike (rho phi &key (n 0) (l 0))
 			(comments ,(format nil "n in [0 .. ~a], l in [-~a .. ~a]" nmax lmax lmax))
 			(setf arg (* phi (abs l)))
