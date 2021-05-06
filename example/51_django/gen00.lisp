@@ -31,12 +31,20 @@
      (class Question (models.Model)
 	    (setf question_text (models.CharField :max_length 200)
 		  ;; human readable name as first arg:
-		  pub_date (models.DateTimeField (string "date published"))))
+		  pub_date (models.DateTimeField (string "date published")))
+	    (def __str__ (self)
+	      (return self.question_text))
+	    (def was_published_recently (self)
+	      (return (<= (- (timezone.now)
+			     (datetime.timedelta :days 1))
+			  self.pub_date))))
      (class Choice (models.Model)
 	    (setf question (models.ForeignKey Question
 					      :on_delete models.CASCADE)
 		  choice_text (models.CharField :max_length 200)
-		  votes (models.IntegerField :default 0)))))
+		  votes (models.IntegerField :default 0))
+	    (def __str__ (self)
+	      (return self.choice_text)))))
   (write-source
    (format nil "~a/mysite/mysite/urls" *path*)
    `(do0
