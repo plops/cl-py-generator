@@ -7,13 +7,19 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/51_django/")
-
+  
   (write-source
    (format nil "~a/mysite/polls/views" *path*)
    `(do0
-     (imports (django.http))
+     (import-from django.http HttpResponse)
+  
      (def index (request)
-       (return (django.http.HttpResponse (string "hello world"))))))
+       (return (HttpResponse (string "hello world"))))
+     ,@(loop for e in `(detail results vote)
+	     collect
+	     `(def ,e (request question_id)
+		(return (HttpResponse (dot (string ,(format nil "~a of question {}." e))
+					   (format question_id))))))))
   (write-source
    (format nil "~a/mysite/polls/urls" *path*)
    `(do0
@@ -23,7 +29,14 @@
      (setf urlpatterns
 	   (list (path (string "")
 		       views.index
-		       :name (string "index"))))))
+		       :name (string "index"))
+		 ,@(loop for e in `(detail results vote)
+			 collect
+			 `(path (string ,(format nil "<int:question_id>/~a" (case e
+									      ('detail "")
+									      (t e))))
+				(dot views ,e)
+				:name (string ,e)))))))
   (write-source
    (format nil "~a/mysite/polls/models" *path*)
    `(do0
