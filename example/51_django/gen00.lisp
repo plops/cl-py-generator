@@ -54,7 +54,7 @@
 	   (list
 	    ,@(loop for e in `(admin auth contenttypes sessions messages staticfiles)
 		    collect
-		    `(string ,(format nil "django.contrib.~a")))))
+		    `(string ,(format nil "django.contrib.~a" e)))))
      (setf MIDDLEWARE
 	   (list
 	    ,@(loop for e in `(middleware.security.Security
@@ -81,6 +81,22 @@
 	   (dictionary :default
 		       (dictionary :ENGINE (string "django.db.backends.sqlite3")
 				   :NAME (/ BASE_DIR (string "db.sqlite3")))))
+     (setf AUTH_PASSWORD_VALIDATORS
+	   (list
+	    ,@(loop for e in `(UserAttributeSimilarityValidator
+			       MinimumLengthValidator
+			       CommonPasswordValidator
+			       NumericPasswordValidator)
+		    collect
+		    `(dictionary :NAME
+				 (string ,(format nil "django.auth.password_validation.~a" e))))))
+     (setf LANGUAGE_CODE (string "en-us")
+	   TIME_ZONE (string "UTC")
+	   USE_I18N (string "True")
+	   USE_L10N (string "True")
+	   USE_TZ (string "True"))
+     (setf STATIC_URL (string "/static/"))
+     (setf DEFAULT_AUTO_FIELD (string "django.db.models.BigAutoField"))
      )))
 
 
