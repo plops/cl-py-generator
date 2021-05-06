@@ -93,7 +93,7 @@
 		    `(dictionary :NAME
 				 (string ,(format nil "django.auth.password_validation.~a" e))))))
      (setf LANGUAGE_CODE (string "en-us")
-	   TIME_ZONE (string "UTC")
+	   TIME_ZONE (string "Europe/Amsterdam")
 	   USE_I18N (string "True")
 	   USE_L10N (string "True")
 	   USE_TZ (string "True"))

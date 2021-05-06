@@ -3,6 +3,7 @@
 #+begin_example
 django-admin startproject mysite
 python3 manage.py startapp polls
+python manage.py migrate
 #+end_example
 
 - secret
