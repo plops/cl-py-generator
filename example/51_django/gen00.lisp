@@ -25,6 +25,19 @@
 		       views.index
 		       :name (string "index"))))))
   (write-source
+   (format nil "~a/mysite/polls/models" *path*)
+   `(do0
+     (import-from django.db models)
+     (class Question (models.Model)
+	    (setf question_text (models.CharField :max_length 200)
+		  ;; human readable name as first arg:
+		  pub_date (models.DateTimeField (string "date published"))))
+     (class Choice (models.Model)
+	    (setf question (models.ForeignKey Question
+					      :on_delete models.CASCADE)
+		  choice_text (models.CharField :max_length 200)
+		  votes (models.IntegerField :default 0)))))
+  (write-source
    (format nil "~a/mysite/mysite/urls" *path*)
    `(do0
      (import-from django.urls path include)
@@ -54,6 +67,7 @@
 	   ALLOWED_HOSTS (list))
      (setf INSTALLED_APPS
 	   (list
+	    (string "polls.apps.PollsConfig")
 	    ,@(loop for e in `(admin auth contenttypes sessions messages staticfiles)
 		    collect
 		    `(string ,(format nil "django.contrib.~a" e)))))

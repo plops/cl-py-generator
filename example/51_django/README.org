@@ -4,6 +4,9 @@
 django-admin startproject mysite
 python3 manage.py startapp polls
 python manage.py migrate
+
+# after changing polls/models.py
+python manage.py makemigrations polls
 #+end_example
 
 - secret
@@ -11,3 +14,9 @@ python manage.py migrate
 secret
 mysite/settings.py
 #+end_example
+
+
+- look at sql that would run to perform a migration
+  #+begin_example
+python3 manage.py sqlmigrate polls 0001
+  #+end_example
