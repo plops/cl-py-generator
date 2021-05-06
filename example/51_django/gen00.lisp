@@ -46,6 +46,12 @@
 	    (def __str__ (self)
 	      (return self.choice_text)))))
   (write-source
+   (format nil "~a/mysite/polls/admin" *path*)
+   `(do0
+     (import-from django.contrib admin)
+     (import-from .models Question)
+     (admin.site.register Question)))
+  (write-source
    (format nil "~a/mysite/mysite/urls" *path*)
    `(do0
      (import-from django.urls path include)
