@@ -4,3 +4,9 @@
 django-admin startproject mysite
 python3 manage.py startapp polls
 #+end_example
+
+- secret
+#+begin_example
+secret
+mysite/settings.py
+#+end_example
