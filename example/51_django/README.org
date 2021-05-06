@@ -7,6 +7,9 @@ python manage.py migrate
 
 # after changing polls/models.py
 python manage.py makemigrations polls
+
+python manage.py check
+python manage.py migrate
 #+end_example
 
 - secret
@@ -20,3 +23,5 @@ mysite/settings.py
   #+begin_example
 python3 manage.py sqlmigrate polls 0001
   #+end_example
+- migrations should be committed to version control system so that
+  other developers and production can migrate their database
