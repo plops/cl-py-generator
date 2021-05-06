@@ -47,7 +47,9 @@
 			 parent
 			 parent)
 	   SECRET_KEY (string ,(with-open-file (s "secret")
-				 (read s)))
+				 (let ((a (make-string (file-length s))))
+				   (read-sequence a s)
+				   a)))
 	   DEBUG True
 	   ALLOWED_HOSTS (list))
      (setf INSTALLED_APPS
