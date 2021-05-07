@@ -11,10 +11,11 @@
   (write-source
    (format nil "~a/mysite/polls/views" *path*)
    `(do0
-     (imports-from (django.http HttpResponse Http404)
-		   ;(django.template loader)
-      (django.shortcuts render get_object_or_404)
-      (.models Question))
+     (imports-from (django.http HttpResponse HttpResponseRedirect Http404)
+					;(django.template loader)
+		   (django.shortcuts render get_object_or_404)
+		   (django.urls reverse)
+		   (.models Question Choice))
   
      (def index (request)
        (setf latest_question_list (aref (Question.objects.order_by
@@ -29,17 +30,37 @@
        (do0
 	(setf question (get_object_or_404 Question :pk question_id))
 	)
-       #+nil (try
-	(setf question (Question.objects.get :pk question_id))
-	(Question.DoesNotExist
-	 (raise Http404 (string "question does not exist"))))
+       
        (return (render request (string "polls/detail.html")
 		       (dictionary :question question))))
-     ,@(loop for e in `( results vote)
-	     collect
-	     `(def ,e (request question_id)
-		(return (HttpResponse (dot (string ,(format nil "~a of question {}." e))
-					   (format question_id))))))))
+     (def vote (request question_id)
+       (do0
+	(setf question (get_object_or_404 Question :pk question_id))
+	)
+       (try
+	(setf selected_choice (question.choice_set.get :pk (dot request (aref POST (string "choice")))))
+	((tuple KeyError Choice.DoesNotExist)
+	 (comments "redisplay voting form")
+	 (return (render request (string "polls/detail.html")
+			 (dictionary :question question
+				     :error_message (string "you didn't select a choice")
+				     ))))
+	(else (setf selected_choice.votes (+ 1 selected_choice.votes))
+	   (selected_choice.save)
+	   ;; redirect prevents data being posted twice if user hits back button
+	   ;; reverse avoids hardcoded url, name of the view we want to pass control to
+	   (return (HttpResponseRedirect (reverse (string "polls:results")
+						  :args (tuple question.id))))
+	   ))
+       )
+     (def results (request question_id)
+       (do0
+	(setf question (get_object_or_404 Question :pk question_id))
+	)
+       
+       (return (render request (string "polls/results.html")
+		       (dictionary :question question))))
+     ))
   (write-source
    (format nil "~a/mysite/polls/urls" *path*)
    `(do0
