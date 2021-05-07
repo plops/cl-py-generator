@@ -45,7 +45,7 @@
    `(do0
      (import-from django.urls path)
      (import-from "." views)
-     
+     (setf app_name (string "polls"))
      (setf urlpatterns
 	   (list (path (string "")
 		       views.index
