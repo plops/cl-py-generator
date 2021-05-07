@@ -19,17 +19,18 @@
 		   (.models Question Choice))
      
 
-     ,@(loop for (stem view code) in `((index ListView (do0 (setf context_object_name
-						     (string "latest_question_list"))
-					       (def get_queryset (self)
-						 (return
-						   (aref (Question.objects.order_by
-							  (string "-pub_date"))
-							 ":5")))))
-				       (detail DetailView (setf model Question))
-				       (results DetailView (setf model Question)))
+     ,@(loop for (stem class parent code) in `((index IndexView ListView
+						      (do0 (setf context_object_name
+								 (string "latest_question_list"))
+							   (def get_queryset (self)
+							     (return
+							       (aref (Question.objects.order_by
+								      (string "-pub_date"))
+								     ":5")))))
+					       (detail DetailView DetailView (setf model Question))
+					       (results ResultsView DetailView (setf model Question)))
 	     collect
-	     `(class ,view ((dot generic ,view))
+	     `(class ,class ((dot generic ,parent))
 		     (setf template_name (string ,(format nil "polls/~a.html" stem)))
 		     ,code))
      
@@ -63,15 +64,19 @@
 	   (list (path (string "")
 		       (dot views IndexView (as_view))
 		       :name (string "index"))
-		 ,@(loop for (e f) in `((detail DetailView) (results ResultsView) (vote vote))
+		 ,@(loop for (e f) in `((detail DetailView) (results ResultsView)
+					)
 			 collect
 			 `(path (string ,(format nil "<int:pk>/~a" (case e
-									      ('detail "")
-									      (t e))))
+								     ('detail "")
+								     (t e))))
 				,(if (eq e 'vote)
 				     `(dot views ,f)
 				     `(dot views ,f (as_view)))
-				:name (string ,e)))))))
+				:name (string ,e)))
+		 (path (string "<int:question_id>/vote/")
+		       views.vote
+		       :name (string "vote"))))))
   (write-source
    (format nil "~a/mysite/polls/models" *path*)
    `(do0
