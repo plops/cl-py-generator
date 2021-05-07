@@ -11,18 +11,20 @@
   (write-source
    (format nil "~a/mysite/polls/views" *path*)
    `(do0
-     (imports-from (django.http HttpResponse)
-		   (django.template loader)
-		   (.models Question))
+     (imports-from ;(django.http HttpResponse)
+		   ;(django.template loader)
+      (django.shortcuts render)
+      (.models Question))
   
      (def index (request)
        (setf latest_question_list (aref (Question.objects.order_by
 					 (string "-pub_date"))
 					(slice "" 5))
-	     template (loader.get_template (string "polls/index.html"))
+	     ;template (loader.get_template (string "polls/index.html"))
 	     context (dictionary
 		      :latest_question_list latest_question_list))
-       (return (HttpResponse (template.render context request))))
+       (return ;(HttpResponse (template.render context request))
+	 (render request (string "polls/index.html") context)))
      ,@(loop for e in `(detail results vote)
 	     collect
 	     `(def ,e (request question_id)
