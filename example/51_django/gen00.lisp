@@ -15,24 +15,24 @@
 					;(django.template loader)
 		   (django.shortcuts render get_object_or_404)
 		   (django.urls reverse)
+		   (django.views generic)
 		   (.models Question Choice))
-  
-     (def index (request)
-       (setf latest_question_list (aref (Question.objects.order_by
-					 (string "-pub_date"))
-					(slice "" 5))
-	     ;template (loader.get_template (string "polls/index.html"))
-	     context (dictionary
-		      :latest_question_list latest_question_list))
-       (return ;(HttpResponse (template.render context request))
-	 (render request (string "polls/index.html") context)))
-     (def detail (request question_id)
-       (do0
-	(setf question (get_object_or_404 Question :pk question_id))
-	)
-       
-       (return (render request (string "polls/detail.html")
-		       (dictionary :question question))))
+     
+
+     ,@(loop for (stem view code) in `((index IndexView (do0 (setf context_object_name
+						     (string "latest_question_list"))
+					       (def get_queryset (self)
+						 (return
+						   (aref (Question.objects.order_by
+							  (string "-pub_date"))
+							 ":5")))))
+			 (detail DetailView (setf model Question))
+				       (results DetailView (setf model Question)))
+	     collect
+	     `(class ,view ((dot generic ,view))
+		     (setf template_name (string ,(format nil "polls/~a.html" stem)))
+		     ,code))
+     
      (def vote (request question_id)
        (do0
 	(setf question (get_object_or_404 Question :pk question_id))
@@ -52,15 +52,7 @@
 	   (return (HttpResponseRedirect (reverse (string "polls:results")
 						  :args (tuple question.id))))
 	   ))
-       )
-     (def results (request question_id)
-       (do0
-	(setf question (get_object_or_404 Question :pk question_id))
-	)
-       
-       (return (render request (string "polls/results.html")
-		       (dictionary :question question))))
-     ))
+       )))
   (write-source
    (format nil "~a/mysite/polls/urls" *path*)
    `(do0
