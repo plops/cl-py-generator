@@ -69,14 +69,16 @@
      (setf app_name (string "polls"))
      (setf urlpatterns
 	   (list (path (string "")
-		       views.index
+		       (dot views IndexView (as_view))
 		       :name (string "index"))
-		 ,@(loop for e in `(detail results vote)
+		 ,@(loop for (e f) in `((detail DetailView) (results ResultsView) (vote vote))
 			 collect
-			 `(path (string ,(format nil "<int:question_id>/~a" (case e
+			 `(path (string ,(format nil "<int:pk>/~a" (case e
 									      ('detail "")
 									      (t e))))
-				(dot views ,e)
+				,(if (eq e 'vote)
+				     `(dot views ,f)
+				     `(dot views ,f (as_view)))
 				:name (string ,e)))))))
   (write-source
    (format nil "~a/mysite/polls/models" *path*)
