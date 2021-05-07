@@ -12,9 +12,16 @@
    (format nil "~a/mysite/polls/views" *path*)
    `(do0
      (import-from django.http HttpResponse)
+     (import-from .models Question)
   
      (def index (request)
-       (return (HttpResponse (string "hello world"))))
+       (setf latest_question_list (aref (Question.objects.order_by
+					 (string "-pub_date"))
+					(slice "" 5))
+	     output (dot (string ",")
+			 (join (for-generator (q latest_question_list)
+					      q.question_text))))
+       (return (HttpResponse output)))
      ,@(loop for e in `(detail results vote)
 	     collect
 	     `(def ,e (request question_id)
