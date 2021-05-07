@@ -19,14 +19,14 @@
 		   (.models Question Choice))
      
 
-     ,@(loop for (stem view code) in `((index IndexView (do0 (setf context_object_name
+     ,@(loop for (stem view code) in `((index ListView (do0 (setf context_object_name
 						     (string "latest_question_list"))
 					       (def get_queryset (self)
 						 (return
 						   (aref (Question.objects.order_by
 							  (string "-pub_date"))
 							 ":5")))))
-			 (detail DetailView (setf model Question))
+				       (detail DetailView (setf model Question))
 				       (results DetailView (setf model Question)))
 	     collect
 	     `(class ,view ((dot generic ,view))
