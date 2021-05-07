@@ -319,6 +319,11 @@
 	      (import-from (destructuring-bind (module &rest rest) (cdr code)
 			     (format nil "from ~a import ~{~a~^, ~}" module
 				     rest)))
+	      (imports-from (destructuring-bind (&rest module-defs) (cdr code)
+			      (with-output-to-string (s)
+				(loop for e in module-defs
+				      do
+				      (format s "~a~%" (emit `(import-from ,@e)))))))
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
 			    (format nil "import ~a as ~a~%" (second args) (first args))
