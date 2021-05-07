@@ -11,9 +11,9 @@
   (write-source
    (format nil "~a/mysite/polls/views" *path*)
    `(do0
-     (imports-from ;(django.http HttpResponse)
+     (imports-from (django.http HttpResponse Http404)
 		   ;(django.template loader)
-      (django.shortcuts render)
+      (django.shortcuts render get_object_or_404)
       (.models Question))
   
      (def index (request)
@@ -25,7 +25,17 @@
 		      :latest_question_list latest_question_list))
        (return ;(HttpResponse (template.render context request))
 	 (render request (string "polls/index.html") context)))
-     ,@(loop for e in `(detail results vote)
+     (def detail (request question_id)
+       (do0
+	(setf question (get_object_or_404 Question :pk question_id))
+	)
+       #+nil (try
+	(setf question (Question.objects.get :pk question_id))
+	(Question.DoesNotExist
+	 (raise Http404 (string "question does not exist"))))
+       (return (render request (string "polls/detail.html")
+		       (dictionary :question question))))
+     ,@(loop for e in `( results vote)
 	     collect
 	     `(def ,e (request question_id)
 		(return (HttpResponse (dot (string ,(format nil "~a of question {}." e))
