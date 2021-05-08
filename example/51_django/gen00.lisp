@@ -31,7 +31,13 @@
 									  (order_by
 									   (string "-pub_date")))
 								     (slice "" 5))))))
-					       (detail DetailView DetailView (setf model Question))
+					       (detail DetailView DetailView (do0 (setf model Question)
+										  (def get_queryset (self)
+										    (return
+										      (dot Question
+											   objects
+											   (filter :pub_date__lte (timezone.now))
+											   )))))
 					       (results ResultsView DetailView (setf model Question)))
 	     collect
 	     `(class ,class ((dot generic ,parent))
@@ -127,6 +133,27 @@
        (return (Question.objects.create
 		:question_text question_text
 		:pub_date time)))
+     (class QuestionDetailViewTests (TestCase)
+	    ,@(loop for e in `((past :pre  (setf q (create_question :question_text (string "past question")
+								      :days -5)
+						   )
+				       :post (self.assertContains response q.question_text) )
+			       (future :pre  (setf q (create_question :question_text (string "future question")
+								      :days 5))
+				       :post (self.assertEqual response.status_code 404) ))
+		    collect
+		    (destructuring-bind (name &key pre post) e
+		      `(def ,(format nil "test_~a_question" name) (self)
+			 ,(if pre
+			      pre
+			      `(comments "no pre"))
+			 (setf url (reverse (string "polls:detail")
+					    :args (tuple q.id))
+			       response (self.client.get url))
+			 ,(if post
+			      post
+			      `(comments "no post"))
+			 ))))
      (class QuestionIndexViewTests (TestCase)
 	    ,@(loop for e in `((no :post (do0
 					  (self.assertEqual response.status_code 200)
@@ -140,8 +167,10 @@
 								     (list q)))
 			       (future :pre (setf q (create_question :question_text (string "futurue question")
 								   :days 30))
-				     :post (self.assertQuerysetEqual (aref response.context (string "latest_question_list"))
-								     (list q)))
+				       :post (do0
+					      (self.assertContains response (string "No polls are available"))
+					      (self.assertQuerysetEqual (aref response.context (string "latest_question_list"))
+								      (list ))))
 			       (future_and_past :pre (setf q0 (create_question :question_text (string "past question")
 									       :days -30)
 							    q1 (create_question :question_text (string "futurue question")
