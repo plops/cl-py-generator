@@ -92,13 +92,17 @@
    `(do0
      (imports (datetime))
      (imports-from (django.db models)
-		  (django.utils timezone))
+		   (django.utils timezone)
+		   (django.contrib admin))
      (class Question (models.Model)
 	    (setf question_text (models.CharField :max_length 200)
 		  ;; human readable name as first arg:
 		  pub_date (models.DateTimeField (string "date published")))
 	    (def __str__ (self)
 	      (return self.question_text))
+	    (@admin.display :boolean True
+			    :ordering (string "pub_date")
+			    :description (string "Published recently?"))
 	    (def was_published_recently (self)
 	      (setf now (timezone.now))
 	      (return (<= (- now
