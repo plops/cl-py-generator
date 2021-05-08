@@ -115,9 +115,20 @@
   (write-source
    (format nil "~a/mysite/polls/admin" *path*)
    `(do0
-     (import-from django.contrib admin)
-     (import-from .models Question)
-     (admin.site.register Question)))
+     (imports-from (django.contrib admin)
+		   (.models Question))
+
+     
+     (class QuestionAdmin (admin.ModelAdmin)
+	    #+nil (do0
+	     (comments "publication date field before question field")
+	     (setf fields (list (string "pub_date")
+				(string "question_text"))))
+	    (do0
+	     (setf fieldsets (list
+			      (tuple None (dictionary :fields (list (string "question_text"))))
+			      (tuple (string "date information") (dictionary :fields (list (string "pub_date"))))))))
+     (admin.site.register Question QuestionAdmin)))
    (write-source
    (format nil "~a/mysite/polls/tests" *path*)
    `(do0
