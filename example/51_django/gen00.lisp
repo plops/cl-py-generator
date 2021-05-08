@@ -16,6 +16,7 @@
 		   (django.shortcuts render get_object_or_404)
 		   (django.urls reverse)
 		   (django.views generic)
+		   (django.utils timezone)
 		   (.models Question Choice))
      
 
@@ -24,9 +25,12 @@
 								 (string "latest_question_list"))
 							   (def get_queryset (self)
 							     (return
-							       (aref (Question.objects.order_by
-								      (string "-pub_date"))
-								     ":5")))))
+							       (aref (dot Question
+									  objects
+									  (filter :pub_date__lte (timezone.now))
+									  (order_by
+									   (string "-pub_date")))
+								     (slice "" 5))))))
 					       (detail DetailView DetailView (setf model Question))
 					       (results ResultsView DetailView (setf model Question)))
 	     collect
@@ -114,7 +118,53 @@
      (imports (datetime))
      (imports-from (django.test TestCase)
 		   (django.utils timezone)
+		   (django.urls reverse)
 		   (.models Question))
+     (def create_question (question_text days)
+       (string3 "create question. days is negative for publishing date in the past")
+       (setf time (+ (timezone.now)
+		     (datetime.timedelta :days days)))
+       (return (Question.objects.create
+		:question_text question_text
+		:pub_date time)))
+     (class QuestionIndexViewTests (TestCase)
+	    ,@(loop for e in `((no :post (do0
+					  (self.assertEqual response.status_code 200)
+					  (self.assertContains response (string "No polls are available"))
+					  (self.assertQuerysetEqual (aref response.context
+									  (string "latest_question_list"))
+								    (list))))
+			       (past :pre (setf q (create_question :question_text (string "past question")
+								   :days -30))
+				     :post (self.assertQuerysetEqual (aref response.context (string "latest_question_list"))
+								     (list q)))
+			       (future :pre (setf q (create_question :question_text (string "futurue question")
+								   :days 30))
+				     :post (self.assertQuerysetEqual (aref response.context (string "latest_question_list"))
+								     (list q)))
+			       (future_and_past :pre (setf q0 (create_question :question_text (string "past question")
+									       :days -30)
+							    q1 (create_question :question_text (string "futurue question")
+								   :days 30))
+				     :post (self.assertQuerysetEqual (aref response.context (string "latest_question_list"))
+								     (list q0)))
+			       (two_past :pre (setf q0 (create_question :question_text (string "past question")
+									       :days -30)
+							    q1 (create_question :question_text (string "futurue question")
+								   :days -5))
+				     :post (self.assertQuerysetEqual (aref response.context (string "latest_question_list"))
+								     (list q1 q0)))
+			       )
+		    collect
+		    (destructuring-bind (name &key pre post) e
+		      `(def ,(format nil "test_~a_question" name) (self)
+			 ,(if pre
+			      pre
+			      `(comments "no pre"))
+			 (setf response (self.client.get (reverse (string "polls:index"))))
+			 ,(if post
+			      post
+			      `(comments "no post"))))))
      (class QuestionModelTests (TestCase)
 	    ,@(loop for (name code result) in
 		    `((future (+ (timezone.now)
