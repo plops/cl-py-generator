@@ -118,7 +118,7 @@
      (imports-from (django.contrib admin)
 		   (.models Question Choice))
 
-     (class ChoiceInline (admin.StackedInline)
+     (class ChoiceInline (admin.TabularInline)
 	    (setf model Choice
 		  extra 3))
      
