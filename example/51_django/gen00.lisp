@@ -80,7 +80,9 @@
   (write-source
    (format nil "~a/mysite/polls/models" *path*)
    `(do0
-     (import-from django.db models)
+     (imports (datetime))
+     (imports-from (django.db models)
+		  (django.utils timezone))
      (class Question (models.Model)
 	    (setf question_text (models.CharField :max_length 200)
 		  ;; human readable name as first arg:
@@ -88,9 +90,11 @@
 	    (def __str__ (self)
 	      (return self.question_text))
 	    (def was_published_recently (self)
-	      (return (<= (- (timezone.now)
+	      (setf now (timezone.now))
+	      (return (<= (- now
 			     (datetime.timedelta :days 1))
-			  self.pub_date))))
+			  self.pub_date
+			  now))))
      (class Choice (models.Model)
 	    (setf question (models.ForeignKey Question
 					      :on_delete models.CASCADE)
