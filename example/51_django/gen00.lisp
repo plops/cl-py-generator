@@ -131,7 +131,10 @@
 	     (setf fieldsets (list
 			      (tuple None (dictionary :fields (list (string "question_text"))))
 			      (tuple (string "date information") (dictionary :fields (list (string "pub_date"))))))
-	     (setf inlines (list ChoiceInline))))
+	     (setf inlines (list ChoiceInline))
+	     (setf list_display (tuple (string "question_text")
+				       (string "pub_date")
+				       (string "was_published_recently")))))
      (admin.site.register Question QuestionAdmin)))
    (write-source
    (format nil "~a/mysite/polls/tests" *path*)
