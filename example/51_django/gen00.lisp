@@ -104,6 +104,21 @@
      (import-from django.contrib admin)
      (import-from .models Question)
      (admin.site.register Question)))
+   (write-source
+   (format nil "~a/mysite/polls/tests" *path*)
+   `(do0
+     (imports (datetime))
+     (imports-from (django.test TestCase)
+		   (django.utils timezone)
+		   (.models Question))
+     (class QuestionModelTests (TestCase)
+	    (def test_was_published_recently_with_future_question (self)
+	      (setf time (+ (timezone.now)
+			    (datetime.timedelta :days 30))
+		    future_question (Question :pub_date time))
+	      (self.assertIs (future_question.was_published_recently)
+			     False)))
+     ))
   (write-source
    (format nil "~a/mysite/mysite/urls" *path*)
    `(do0
