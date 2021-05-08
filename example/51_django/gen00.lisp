@@ -116,8 +116,11 @@
    (format nil "~a/mysite/polls/admin" *path*)
    `(do0
      (imports-from (django.contrib admin)
-		   (.models Question))
+		   (.models Question Choice))
 
+     (class ChoiceInline (admin.StackedInline)
+	    (setf model Choice
+		  extra 3))
      
      (class QuestionAdmin (admin.ModelAdmin)
 	    #+nil (do0
@@ -127,7 +130,8 @@
 	    (do0
 	     (setf fieldsets (list
 			      (tuple None (dictionary :fields (list (string "question_text"))))
-			      (tuple (string "date information") (dictionary :fields (list (string "pub_date"))))))))
+			      (tuple (string "date information") (dictionary :fields (list (string "pub_date"))))))
+	     (setf inlines (list ChoiceInline))))
      (admin.site.register Question QuestionAdmin)))
    (write-source
    (format nil "~a/mysite/polls/tests" *path*)
