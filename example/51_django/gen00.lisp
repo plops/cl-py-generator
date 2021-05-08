@@ -157,7 +157,7 @@
      (class QuestionIndexViewTests (TestCase)
 	    ,@(loop for e in `((no :post (do0
 					  (self.assertEqual response.status_code 200)
-					  (self.assertContains response (string "No polls are available"))
+					  (self.assertContains response (string "no polls are available"))
 					  (self.assertQuerysetEqual (aref response.context
 									  (string "latest_question_list"))
 								    (list))))
@@ -168,7 +168,7 @@
 			       (future :pre (setf q (create_question :question_text (string "futurue question")
 								   :days 30))
 				       :post (do0
-					      (self.assertContains response (string "No polls are available"))
+					      (self.assertContains response (string "no polls are available"))
 					      (self.assertQuerysetEqual (aref response.context (string "latest_question_list"))
 								      (list ))))
 			       (future_and_past :pre (setf q0 (create_question :question_text (string "past question")
