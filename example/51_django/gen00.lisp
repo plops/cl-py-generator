@@ -138,7 +138,11 @@
 	     (setf inlines (list ChoiceInline))
 	     (setf list_display (tuple (string "question_text")
 				       (string "pub_date")
-				       (string "was_published_recently")))))
+				       (string "was_published_recently")))
+	     (comments "add sidebar so you can select by date published")
+	     (setf list_filter (list (string "pub_date"))
+		   )
+	     (setf search_fields (list (string "question_text")))))
      (admin.site.register Question QuestionAdmin)))
    (write-source
    (format nil "~a/mysite/polls/tests" *path*)
@@ -284,7 +288,7 @@
      (setf ROOT_URLCONF (string "mysite.urls"))
      (setf TEMPLATES (list
 		      (dictionary :BACKEND (string "django.template.backends.django.DjangoTemplates")
-				  :DIRS (list)
+				  :DIRS (list (/ BASE_DIR (string "templates")))
 				  :APP_DIRS True
 				  :OPTIONS (dictionary :context_processors
 						       (list (string "django.template.context_processors.debug")

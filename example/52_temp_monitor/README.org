@@ -32,6 +32,28 @@ Temperature Sensor 2:               45 Celsius
 ...
 #+end_example
 
+- sudo /usr/sbin/nvme smart-log /dev/nvme0
+
+#+begin_example
+Smart Log for NVME device:nvme0 namespace-id:ffffffff
+critical_warning                    : 0
+temperature                         : 39 C
+available_spare                     : 100%
+available_spare_threshold           : 10%
+percentage_used                     : 0%
+...
+Warning Temperature Time            : 0
+Critical Composite Temperature Time : 0
+Temperature Sensor 1                : 39 C
+Temperature Sensor 2                : 49 C
+Thermal Management T1 Trans Count   : 0
+Thermal Management T2 Trans Count   : 0
+Thermal Management T1 Total Time    : 0
+Thermal Management T2 Total Time    : 0
+#+end_example
+
+
+
 - /opt/bin/nvidia-smi
 #+begin_example
 ...
