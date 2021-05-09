@@ -1,5 +1,6 @@
 - periodically collect temperature information of system components
 
+  
 - /usr/bin/sensors
 #+begin_example
 nvme-pci-0300
@@ -60,3 +61,9 @@ Thermal Management T2 Total Time    : 0
 | 48%   61C    P2   104W / 125W |   4516MiB /  7981MiB |    100%      Default |
 ...
 #+end_example
+
+
+- misc:
+
+- sudo nvme error-log /dev/nvme0
+- sudo nvme fw-log /dev/nvme0 

@@ -90,7 +90,21 @@
 				     (- tz))
 			     )))
 
+		 ,(let ((l `((/usr/bin/sensors)
+			    (sudo /usr/sbin/smartctl -xa /dev/nvme0)
+			    (sudo /usr/sbin/nvme smart-log /dev/nvme0)
+			     (/opt/bin/nvidia-smi))))
+		    `(do0
+		      ,@(loop for e in l
+			      collect
+			      
+			      `(subprocess.call (list ,@(loop for ee in e
+							      collect
+							      `(string ,ee)))))))
+
 
 		 ))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
+
+
 
