@@ -112,7 +112,8 @@
 									collect
 								     `(string ,ee)))
 						       :stdout f)))
-		       (time.sleep 30))))
+		       (time.sleep 30)
+		       (print count))))
 
 
 		 ))))

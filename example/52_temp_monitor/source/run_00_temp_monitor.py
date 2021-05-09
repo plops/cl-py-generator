@@ -2,9 +2,9 @@ import subprocess
 import datetime
 import time
 
-_code_git_version = "3939121c178aecddaf845e7cc7e94c0ffeacd997"
+_code_git_version = "1daa352bd9deb6139cefa29417e8bee5293af5fb"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
-_code_generation_time = "08:59:38 of Sunday, 2021-05-09 (GMT+1)"
+_code_generation_time = "09:02:38 of Sunday, 2021-05-09 (GMT+1)"
 count = 0
 while (True):
     count = ((count) + (1))
@@ -21,3 +21,4 @@ while (True):
     with open("{}_nvda".format(nowstr), "w") as f:
         subprocess.call(["/opt/bin/nvidia-smi"], stdout=f)
     time.sleep(30)
+    print(count)
