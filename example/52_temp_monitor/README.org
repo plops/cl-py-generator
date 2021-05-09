@@ -1,0 +1,40 @@
+- periodically collect temperature information of system components
+
+- /usr/bin/sensors
+#+begin_example
+nvme-pci-0300
+Adapter: PCI adapter
+Composite:    +33.9°C  (low  = -273.1°C, high = +84.8°C)
+                       (crit = +84.8°C)
+Sensor 1:     +33.9°C  (low  = -273.1°C, high = +65261.8°C)
+Sensor 2:     +43.9°C  (low  = -273.1°C, high = +65261.8°C)
+
+zenpower-pci-00c3
+Adapter: PCI adapter
+SVI2_Core:     1.25 V  
+SVI2_SoC:      1.04 V  
+Tdie:         +84.8°C  (high = +95.0°C)
+Tctl:         +84.8°C  
+Tccd1:        +85.0°C  
+SVI2_P_Core:  40.16 W  
+SVI2_P_SoC:    9.16 W  
+SVI2_C_Core:  32.28 A  
+SVI2_C_SoC:    8.83 A  
+
+#+end_example
+
+- sudo /usr/sbin/smartctl -xa /dev/nvme0
+  - seems to be the same as sensors
+#+begin_example
+...
+Temperature Sensor 1:               35 Celsius
+Temperature Sensor 2:               45 Celsius
+...
+#+end_example
+
+- /opt/bin/nvidia-smi
+#+begin_example
+...
+| 48%   61C    P2   104W / 125W |   4516MiB /  7981MiB |    100%      Default |
+...
+#+end_example
