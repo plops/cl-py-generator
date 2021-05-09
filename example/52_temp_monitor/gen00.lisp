@@ -64,6 +64,8 @@
 					;jax.config
 			   ;copy
 			   subprocess
+			   datetime
+			   time
 			   ))
 		
 		 (setf
@@ -89,18 +91,28 @@
 				     date
 				     (- tz))
 			     )))
-
-		 ,(let ((l `((/usr/bin/sensors)
-			    (sudo /usr/sbin/smartctl -xa /dev/nvme0)
-			    (sudo /usr/sbin/nvme smart-log /dev/nvme0)
-			     (/opt/bin/nvidia-smi))))
-		    `(do0
-		      ,@(loop for e in l
-			      collect
+		 (setf count 0)
+		 (while True
+			(setf count (+ count 1))
+			(setf now (datetime.datetime.now)
+			      nowstr (now.strftime (string "%Y%m%d_%H%M_%S")))
+		  ,(let ((l `((sensors (/usr/bin/sensors))
+			      (smart (sudo /usr/sbin/smartctl -xa /dev/nvme0))
+			      (nvme (sudo /usr/sbin/nvme smart-log /dev/nvme0))
+			      (nvda (/opt/bin/nvidia-smi)))))
+		     `(do0
+		       ,@(loop for (name e) in l
+			       collect
 			      
-			      `(subprocess.call (list ,@(loop for ee in e
-							      collect
-							      `(string ,ee)))))))
+			       `(with (as (open (dot (string ,(format nil "{}_~a" name))
+						     (format nowstr))
+						(string "w"))
+					  f)
+				      (subprocess.call (list ,@(loop for ee in e
+									collect
+								     `(string ,ee)))
+						       :stdout f)))
+		       (time.sleep 30))))
 
 
 		 ))))
