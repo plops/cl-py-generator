@@ -41,7 +41,7 @@
 			   ;sys
 			   ;time
 					;docopt
-			   ;pathlib
+			   pathlib
 			   (np numpy)
 			   ;serial
 			   (pd pandas)
@@ -91,6 +91,29 @@
 				     date
 				     (- tz))
 			     )))
+		 ,(let ((l `(;sensors
+			     ;smart
+			     ;nvme
+			     nvda)))
+		     `(do0
+		       ,@(loop for name in l
+			       collect
+			       `(do0
+				 (setf fns (dot (pathlib.Path (string "data/"))
+						(glob (string ,(format nil "*_~a" name)))))
+				 (setf df (pd.DataFrame (dictionary :fn fns)))
+				 (setf (aref df (string "ts"))
+				       (dot df fn
+					    (apply
+					     (lambda (x)
+					       (dot datetime
+						    datetime
+						    (strptime
+						     x.stem
+						     (string ,(format nil "%Y%m%d_%H%M_%S_~a" name))))))))
+				 ))
+		       ))
+		 
 		 
 
 		 ))))
