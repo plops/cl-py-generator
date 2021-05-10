@@ -62,6 +62,15 @@ Thermal Management T2 Total Time    : 0
 ...
 #+end_example
 
+- note `nvidia-smi -q` is easier to parse:
+  #+begin_example
+...
+        Power Draw                        : 102.19 W
+        Power Limit                       : 125.00 W
+        Default Power Limit               : 175.00 W
+...
+  #+end_example
+
 
 - misc:
 
