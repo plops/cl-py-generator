@@ -66,6 +66,7 @@
 			   subprocess
 			   datetime
 			   time
+			   re
 			   ))
 		
 		 (setf
@@ -91,6 +92,17 @@
 				     date
 				     (- tz))
 			     )))
+
+		  (def grep_nvda (fn)
+		  (with (as (open fn
+				  )
+			    f)
+			(setf ls
+			      (f.readlines))
+			(for (l ls)
+			     (when (in (string "W / ") l)
+			       (return l)))))
+		  
 		 ,(let ((l `(;sensors
 			     ;smart
 			     ;nvme
@@ -111,8 +123,14 @@
 						    (strptime
 						     x.stem
 						     (string ,(format nil "%Y%m%d_%H%M_%S_~a" name))))))))
+				 (setf (aref df (string "line"))
+				       (dot df fn
+					    (apply grep_nvda)))
 				 ))
 		       ))
+
+		
+		 (print (grep_nvda (aref df.fn.iloc 0)))
 		 
 		 
 
