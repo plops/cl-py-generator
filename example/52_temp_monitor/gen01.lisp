@@ -126,11 +126,29 @@
 				 (setf (aref df (string "line"))
 				       (dot df fn
 					    (apply grep_nvda)))
+				 (setf (aref df (list (string "str_gpu_fan")
+						      (string "str_gpu_temp")
+						      ;(string "gpu_pow")
+						      ;(string "gpu_mem")
+						      ))
+				       (dot df line str
+					    (extract (rstring3 "\\| (\\d*)% *(\\d*).*"))))
+				 (setf (aref df (string "gpu_fan"))
+				       (dot (aref df (string "str_gpu_fan"))
+					    (astype float))
+				       )
+				 (setf (aref df (string "gpu_temp"))
+				       (dot (aref df (string "str_gpu_temp"))
+					    (astype float))
+				       )
+				 (setf df_ (df.set_index (string "ts")))
+				 (df_.gpu_temp.plot)
+				 (df_.gpu_fan.plot)
 				 ))
 		       ))
 
 		
-		 (print (grep_nvda (aref df.fn.iloc 0)))
+		 ;(print (grep_nvda (aref df.fn.iloc 0)))
 		 
 		 
 
