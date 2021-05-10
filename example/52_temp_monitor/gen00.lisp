@@ -99,7 +99,8 @@
 		  ,(let ((l `((sensors (/usr/bin/sensors))
 			      (smart (sudo /usr/sbin/smartctl -xa /dev/nvme0))
 			      (nvme (sudo /usr/sbin/nvme smart-log /dev/nvme0))
-			      (nvda (/opt/bin/nvidia-smi)))))
+			      (nvda (/opt/bin/nvidia-smi))
+			      (nvda2 (/opt/bin/nvidia-smi -q)))))
 		     `(do0
 		       ,@(loop for (name e) in l
 			       collect
