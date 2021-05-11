@@ -1,5 +1,8 @@
 - periodically collect temperature information of system components
-
+|       |                                   |
+| gen00 | acquisition                       |
+| gen01 | plot nvidia (superseded by gen02) |
+| gen02 | parse alternative data source for nvda (and nvme) |
   
 - /usr/bin/sensors
 #+begin_example
