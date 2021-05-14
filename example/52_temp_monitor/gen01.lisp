@@ -144,6 +144,7 @@
 				 (setf df_ (df.set_index (string "ts")))
 				 (df_.gpu_temp.plot)
 				 (df_.gpu_fan.plot)
+				 (plt.legend)
 				 ))
 		       ))
 
