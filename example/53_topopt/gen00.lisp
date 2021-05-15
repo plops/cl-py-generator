@@ -98,7 +98,7 @@
 			volfrac .4
 			rmin 5.4
 			penal 3.0
-			ft 1
+			ft 1 ;; filter method: 0 .. sensitivity, 1 .. density based  
 			
 			)
 		  (def lk ()
@@ -147,7 +147,43 @@
 		    (if (< 0 gt)
 			       (setf l1 lmid)
 			       (setf l2 lmid))
-		    (return (tuple xnew gt))))))))
+		    (return (tuple xnew gt)))
+		  (do0
+		   (setf Emin 1e-9
+			 Emax 1.0
+			 ndof (* 2 (+ nelx 1)
+				 (+ nely 1))
+			 x (* volfrac (np.ones (* nely nelx)
+					       :dtype float))
+			 xold (x.copy)
+			 xPhys (x.copy)
+			 g 0
+			 dc (np.zeros (list nely nelx)
+				      :dtype float)
+			 KE (lk)
+			 edofMat (np.zeros (list (* nelx nely) 8)
+					   :dtype int)
+			 )
+		   (for (elx (range nelx))
+			(for (ely (range nely))
+			     (setf el (+ ely (* elx nely))
+				   n1 (+ (* (+ nely 1)
+					    elx)
+					 ely)
+				   n2 (+ (* (+ nely 1)
+					    (+ elx 1))
+					 ely)
+				   (aerf edofMat el ":")
+				   (np.aray (list ,@(loop for (e f) in `((n1 2)
+									 (n1 3)
+									 (n2 2)
+									 (n2 3)
+									 (n2 1)
+									 (n1 0)
+									 (n1 1))
+							  collect
+							  `(+ (* 2 ,e) ,f))))))))
+		  )))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
