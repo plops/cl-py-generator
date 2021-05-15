@@ -1,1 +1,6 @@
 - https://www.topopt.mek.dtu.dk/Apps-and-software/Topology-optimization-codes-written-in-Python
+
+- requirement:
+  #+begin_example
+pip3 install --user cvxopt
+  #+end_example
