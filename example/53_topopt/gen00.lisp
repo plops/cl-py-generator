@@ -21,7 +21,7 @@
 	 (code
 	  `(do0
 	    (do0 
-		 #+nil(do0
+		 #-nil(do0
 		  
 		  (imports (matplotlib))
                                         ;(matplotlib.use (string "QT5Agg"))
@@ -57,13 +57,14 @@
 			   ;sklearn.linear_model
 			   ;itertools
 					;datetime
-			   ;(np numpy)
-			   
-			  ; jax
+			   (np numpy)
+			   scipy.sparse
+			   scipy.sparse.linalg
+					; jax
 			   ;jax.random
 					;jax.config
 			   ;copy
-			   subprocess
+			   ;subprocess
 			   datetime
 			   time
 			   ))
@@ -90,7 +91,63 @@
 				     month
 				     date
 				     (- tz))
-			     )))))))
+			     )))
+		 (do0
+		  (setf nelx 180
+			nely 60
+			volfrac .4
+			rmin 5.4
+			penal 3.0
+			ft 1
+			
+			)
+		  (def lk ()
+		    (setf E 1
+			  nu .3
+			  k (np.array (list (- .5 (/ nu 6)
+					       )
+					    (+ 1/8 (/ nu 8))
+					    (- -1/4 (/ nu 12))
+					    (+ -1/8 (* 3 (/ nu 8)))
+					    (+ -1/4 (/ nu 12))
+					    (- -1/8 (/ nu 8))
+					    (/ nu 6)
+					    (- 1/8 (* 3 (/ nu 8)))))
+			  KE (* (/ E (- 1 (** nu 2)))
+				(np.array
+				 (list
+				  ,@(loop for e in `(0 1 2 3 4 5 6 7
+						       1 0 7 6 5 4 3 2
+						       2 7 0 5 6 3 4 1
+						       3 6 5 0 7 2 1 4
+						       4 5 6 7 0 1 2 3
+						       5 4 3 2 1 0 7 6
+						       6 3 4 1 2 7 0 5
+						       7 2 1 4 3 6 5 0)
+					  collect
+					  `(aref k ,e))))))
+		    (return KE))
+		  ;; optimality criterion
+		  (def oc (&key nelx nely x volfrac dc dv g)
+		    (setf l1 0
+			  l2 1e9
+			  move .2
+			  xnew (np.zeros (* nelx nely)))
+		    (while (< 1e-3 (/ (- l2 l1)
+				      (+ l1 l2)))
+			   (setf lmid (* .5 (+ l2 l1))
+				 (aref xnew ":")
+				 (np.maximum 0.0
+					     (np.maximum (- x move)
+							 (np.minimum 1.0
+								     (np.minimum (+ x move)
+										 (* x (np.sqrt (/ -dc (* dv lmid))))))))
+				 gt (+ g (np.sum (* dv (- xnew x)))))
+			   )
+		    (if (< 0 gt)
+			       (setf l1 lmid)
+			       (setf l2 lmid))
+		    (return (tuple xnew gt))))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
 
