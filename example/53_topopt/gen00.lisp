@@ -174,15 +174,57 @@
 					 ely)
 				   (aref edofMat el ":")
 				   (np.array (list ,@(loop for (e f) in `((n1 2)
-									 (n1 3)
-									 (n2 2)
+									  (n1 3)
+									  (n2 2)
 									  (n2 3)
 									  (n2 0)
 									  (n2 1)
 									  (n1 0)
 									  (n1 1))
 							  collect
-							  `(+ (* 2 ,e) ,f))))))))
+							   `(+ (* 2 ,e) ,f)))))))
+		   (setf iK (dot (np.kron edofMat (np.ones (tuple 8 1)))
+				 (flatten)))
+		   (setf jK (dot (np.kron edofMat (np.ones (tuple 1 8)))
+				 (flatten)))
+		   (setf nfilter (int (* nelx
+					 nely
+					 (** (+ 1
+						(* 2
+						 (- (np.ceil rmin)
+						    1)))
+					     2))))
+		   ,@(loop for e in `(iH jH sH)
+			   collect
+			   `(setf ,e (np.zeros nfilter)))
+		   (setf cc 0)
+		   (for (i (range nelx))
+			(for (j (range nely))
+			     (setf row (+ (* i nely) j)
+				   
+				   )
+			     (setf 
+				    kk1 (int (np.maximum 0
+							 (- i (- (np.ceil rmin) 1))))
+				    kk2 (int (np.maximum nelx
+							 (+ i (np.ceil rmin)))))
+			     (setf 
+				    ll1 (int (np.maximum 0
+							 (- j (- (np.ceil rmin) 1))))
+				    ll2 (int (np.maximum nely
+							 (+ j (np.ceil rmin)))))
+			     (for (k (range kk1 kk2))
+				  (for (l (range ll1 ll2))
+				       (setf col (+ l (* k nely))
+					     fac (- rmin
+						    (np.hypot (- i k)
+							      (- j l))))
+				       (setf (aref iH cc) row
+					     (aref jH cc) col)
+				       (setf (aref sH cc) (np.maximum 0.0
+								      fac))
+				       (setf cc (+ cc 1))))
+			     )))
 		  )))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
