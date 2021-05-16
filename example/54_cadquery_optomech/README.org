@@ -1,5 +1,5 @@
 - https://www.nature.com/articles/s41467-020-19447-9#citeas
-- openflexure delta stage
+- openflexure delta stage (openscad)
   - https://openflexure.org/projects/deltastage/
   - https://gitlab.com/openflexure/openflexure-delta-stage/
     
