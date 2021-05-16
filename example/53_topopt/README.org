@@ -5,3 +5,20 @@
 pip3 install --user cvxopt
   #+end_example
 
+  
+- https://youtu.be/H2OxHdQEQCQ
+  - they refer to paper from topopt group
+  - https://github.com/yuanming-hu/spgrid_topo_opt
+    - based on taichi
+#+begin_example
+cd ~/src
+wget https://raw.githubusercontent.com/yuanming-hu/taichi/legacy/install.py
+sudo dnf install python3-devel git cmake libX11-devel
+python3 install.py # it wants to call sudo!
+cd ~/src
+git clone https://github.com/yuanming-hu/spgrid_topo_opt
+export TC_MKL_PATH=/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin/
+export CUDA_ARCH=61 # or 0 if there is no CUDA
+export TC_USE_DOUBLE=1 #
+
+#+end_example

@@ -148,17 +148,21 @@
 			       (setf l2 lmid))
 		    (return (tuple xnew gt)))
 		  (do0
+		   ;; max and min stiffness
 		   (setf Emin 1e-9
 			 Emax 1.0
 			 ndof (* 2 (+ nelx 1)
 				 (+ nely 1))
+			 ;; allocate design variable
 			 x (* volfrac (np.ones (* nely nelx)
 					       :dtype float))
 			 xold (x.copy)
 			 xPhys (x.copy)
+			 ;; g must be initialized for NGuyen/Paulino OC approach
 			 g 0
-			 dc (np.zeros (list nely nelx)
+			 dc (np.zeros (tuple nely nelx)
 				      :dtype float)
+			 ;; build index vectors for coo matrix
 			 KE (lk)
 			 edofMat (np.zeros (list (* nelx nely) 8)
 					   :dtype int)
@@ -181,48 +185,54 @@
 									  (n2 1)
 									  (n1 0)
 									  (n1 1))
-							  collect
+							   collect
 							   `(+ (* 2 ,e) ,f)))))))
+		   ;; index pointers for coo matrix
 		   (setf iK (dot (np.kron edofMat (np.ones (tuple 8 1)))
 				 (flatten)))
 		   (setf jK (dot (np.kron edofMat (np.ones (tuple 1 8)))
 				 (flatten)))
+		   ;; assemble index+data vectors for coo matrix
+		   ;; nfilter=1306800
 		   (setf nfilter (int (* nelx
 					 nely
 					 (** (+ 1
 						(* 2
-						 (- (np.ceil rmin)
-						    1)))
+						   (- (np.ceil rmin)
+						      1)))
 					     2))))
+		   (print (dot (string "nfilter={}")
+			       (format nfilter)))
 		   ,@(loop for e in `(iH jH sH)
 			   collect
 			   `(setf ,e (np.zeros nfilter)))
 		   (setf cc 0)
 		   (for (i (range nelx))
 			(for (j (range nely))
-			     (setf row (+ (* i nely) j)
-				   
-				   )
+			     (setf row (+ (* i nely) j))
+			     (setf
+			      crmin (np.ceil rmin)
+			      crmin1 (- crmin 1)
+			      kk1 (int (np.maximum 0
+						   (- i crmin1)))
+			      kk2 (int (np.maximum nelx
+						   (+ i crmin))))
 			     (setf 
-				    kk1 (int (np.maximum 0
-							 (- i (- (np.ceil rmin) 1))))
-				    kk2 (int (np.maximum nelx
-							 (+ i (np.ceil rmin)))))
-			     (setf 
-				    ll1 (int (np.maximum 0
-							 (- j (- (np.ceil rmin) 1))))
-				    ll2 (int (np.maximum nely
-							 (+ j (np.ceil rmin)))))
+			      ll1 (int (np.maximum 0
+						   (- j crmin1)))
+			      ll2 (int (np.maximum nely
+						   (+ j crmin))))
+			     
 			     (for (k (range kk1 kk2))
 				  (for (l (range ll1 ll2))
 				       (setf col (+ l (* k nely))
 					     fac (- rmin
 						    (np.hypot (- i k)
 							      (- j l))))
-				       (setf (aref iH cc) row
-					     (aref jH cc) col)
-				       (setf (aref sH cc) (np.maximum 0.0
-								      fac))
+				       #+nil (do0 (setf (aref iH cc) row
+						  (aref jH cc) col)
+					    (setf (aref sH cc) (np.maximum 0.0
+									   fac)))
 				       (setf cc (+ cc 1))))
 			     )))
 		  )))))
