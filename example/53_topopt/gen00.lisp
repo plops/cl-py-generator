@@ -229,7 +229,7 @@
 					     fac (- rmin
 						    (np.hypot (- i k)
 							      (- j l))))
-				       #+nil (do0 (setf (aref iH cc) row
+				       e (do0 (setf (aref iH cc) row
 						  (aref jH cc) col)
 					    (setf (aref sH cc) (np.maximum 0.0
 									   fac)))

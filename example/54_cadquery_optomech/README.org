@@ -2,4 +2,10 @@
 - openflexure delta stage (openscad)
   - https://openflexure.org/projects/deltastage/
   - https://gitlab.com/openflexure/openflexure-delta-stage/
-    
+- FreeCAD 0.19 - Basic Course - Part 1 - Your start with FreeCAD (English)
+   - https://www.youtube.com/watch?v=u8otDF_C_fw
+   - https://github.com/Flowwie/flowwie-freecad
+   - good intro but stops early and no new videos yet
+
+- https://www.youtube.com/watch?v=1Ns_pZRUwFQ
+  - FreeCAD Practice Part
