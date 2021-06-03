@@ -115,15 +115,14 @@
 			l2 (Part.LineSegment p4 p5))
 		  (setf e1 (l1.toShape)
 			e2 (arc.toShape)
-			e4 (l2.toShape)
+			e3 (l2.toShape)
 			wire (Part.Wire (list e1 e2 e3)))
 		  (do0 (setf M (Base.Matrix))
 
-		       (M.rotateZ math.py))
+		       (M.rotateZ math.pi))
 		  (do0
 		   (comments "mirror wire")
-		   (setf wire_ (wire.copy)
-			 )
+		   (setf wire_ (wire.copy))
 		   (wire_.transformShape M)
 		   (setf wire_profile (Part.Wire (list wire wire_))))
 		  (do0
@@ -131,7 +130,9 @@
 		   (do0
 		    (setf prism (Base.Vector 0 0 h)
 			  body (face_profile.extrude prism)
-			  body (body.makeFillet (/ thick 12.0)
+			  )
+		    #+nil
+		    (setf body (body.makeFillet (/ thick 12.0)
 						body.Edges))
 		    (setf neck_location (Base.Vector 0 0 h)
 			  neck_normal (Base.Vector 0 0 1)
@@ -143,6 +144,8 @@
 						  neck_normal))
 
 		    (setf body (body.fuse neck))
+		    (setf body (body.makeFillet (/ thick 12.0)
+						body.Edges))
 		    (Part.show body)
 		    
 		    ))
