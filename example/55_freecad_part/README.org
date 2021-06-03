@@ -1,0 +1,3 @@
+- https://wiki.freecadweb.org/Topological_data_scripting#Example:_The_OCC_bottle
+- freecad exposes some opencascade functionality from its Part module
+- go through the example of how to construct a bottle with a screw thread
