@@ -133,8 +133,17 @@
 			  body (face_profile.extrude prism)
 			  body (body.makeFillet (/ thick 12.0)
 						body.Edges))
-		    (setf neck (Base.Vector 0 0 h)
-			  neck_normal (Base.Vector 0 0 1))
+		    (setf neck_location (Base.Vector 0 0 h)
+			  neck_normal (Base.Vector 0 0 1)
+			  neck_r (/ thick 4)
+			  neck_h (/ h 10)
+			  neck (Part.makeCylinder neck_r
+						  neck_h
+						  neck_location
+						  neck_normal))
+
+		    (setf body (body.fuse neck))
+		    (Part.show body)
 		    
 		    ))
 		 )))))
