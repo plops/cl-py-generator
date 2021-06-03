@@ -97,6 +97,46 @@
 				     (- tz))
 			     )))
 		 (do0
+		  (setf w 50.0
+			h 70.0
+			thick 30.0)
+		  ,@(loop for e in `(((/ w -2) 0 0)
+				     ((/ w -2) (/ thick -4) 0)
+				     (0        (/ thick -2) 0)
+				     ((/ w 2) (/ thick -4) 0)
+				     ((/ w 2) 0 0)
+				     )
+			  and i from 1
+			  collect
+			  `(setf ,(format nil "p~a" i)
+				 (Base.Vector ,@e)))
+		  (setf arc (Part.Arc p2 p3 p4)
+			l1 (Part.LineSegment p1 p2)
+			l2 (Part.LineSegment p4 p5))
+		  (setf e1 (l1.toShape)
+			e2 (arc.toShape)
+			e4 (l2.toShape)
+			wire (Part.Wire (list e1 e2 e3)))
+		  (do0 (setf M (Base.Matrix))
+
+		       (M.rotateZ math.py))
+		  (do0
+		   (comments "mirror wire")
+		   (setf wire_ (wire.copy)
+			 )
+		   (wire_.transformShape M)
+		   (setf wire_profile (Part.Wire (list wire wire_))))
+		  (do0
+		   (setf face_profile (Part.Face wire_profile))
+		   (do0
+		    (setf prism (Base.Vector 0 0 h)
+			  body (face_profile.extrude prism)
+			  body (body.makeFillet (/ thick 12.0)
+						body.Edges))
+		    (setf neck (Base.Vector 0 0 h)
+			  neck_normal (Base.Vector 0 0 1))
+		    
+		    ))
 		 )))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
