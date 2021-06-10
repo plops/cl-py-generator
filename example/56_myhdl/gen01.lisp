@@ -64,32 +64,33 @@
 		      `(setf ,e (Signal (bool 0))))
 	      (setf dffa_inst (dffa q d clk rst))
 	      (do0
-	       (@always (delay 10))
-	       (def clkgen ()
-		 (setf clk.next (not clk))))
+	       (do0
+		(@always (delay 10))
+		(def clkgen ()
+		  (setf clk.next (not clk))))
 
-	      (do0
-	       (@always clk.negedge)
-	       (def stimulus ()
-		 (setf d.next (randrange 2))))
+	       (do0
+		(@always clk.negedge)
+		(def stimulus ()
+		  (setf d.next (randrange 2))))
 
 
-	      (do0
-	       @instance
-	       (def rstgen ()
-		 (yield (delay 5))
-		 (setf rst.next 1)
-		 (while True
-			(do0 
-			 (yield (delay (randrange 500 1000)))
-			 (setf rst.next 0))
-			(do0 
-			 (yield (delay (randrange 80 140)))
-			 (setf rst.next 1)))))
-	      (return (ntuple dffa_inst
-			      clkgen
-			      stimulus
-			      rstgen)))
+	       (do0
+		@instance
+		(def rstgen ()
+		  (yield (delay 5))
+		  (setf rst.next 1)
+		  (while True
+			 (do0 
+			  (yield (delay (randrange 500 1000)))
+			  (setf rst.next 0))
+			 (do0 
+			  (yield (delay (randrange 80 140)))
+			  (setf rst.next 1)))))
+	       (return (ntuple dffa_inst
+			       clkgen
+			       stimulus
+			       rstgen))))
 
 	    (def simulate (timesteps)
 	      (setf tb (traceSignals test_dffa)

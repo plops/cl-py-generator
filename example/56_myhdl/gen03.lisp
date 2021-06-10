@@ -48,46 +48,82 @@
 			)))
 
 
-	    (def led (sys_clk sys_rst_n led)
+	    (def led (sys_clk sys_rst_n led counter)
 	      (do0
-	       @always_comb ;; whenever on of the inputs changes
-	       
+	       (@always clk.posedge sys_rst_n.negedge)
 	       (def logic ()
-		 (if (== g 1)
-		     (setf q.next d))))
+		 (if (== rst 0)
+		     (setf counter.next 0)
+		     (setf counter.next (+ counter 1)))))
 	      (return logic))
+	    (setf counter (Signal (modbv 0 :min 0 :max ,(expt 2 24))))
 
-	    (def test_latch ()
-	      ,@(loop for e in `(q d g)
-		      collect
-		      `(setf ,e (Signal (bool 0))))
-	      (setf inst (latch q d g))
-	      ,@(loop for (q e f) in `((d dgen 7)
-				       (g ggen 41))
-		      collect
-		      `(do0
-		   (@always (delay ,f))
-		   (def ,e ()
-		     (setf (dot ,q next) (randrange 2)))))
-	      (return (ntuple inst dgen ggen)))
+	    (def test_led ()
+	      (do0 
+	       ,@(loop for e in `(sys_clk sys_rst_n)
+		       collect
+		       `(setf ,e (Signal (bool 0))))
+	       ,@(loop for e in `(led)
+		       collect
+		       `(setf ,e (list (Signal (bool 0))
+				       (Signal (bool 0))
+				       (Signal (bool 0)))))
+	       (setf inst (led sys_clk sys_rst_n led counter)))
+
+	      (do0
+	       (do0
+		(@always (delay 10))
+		(def clkgen ()
+		  (setf sys_clk.next (not sys_clk))))
+
+	       #+nil (do0
+		(@always clk.negedge)
+		(def stimulus ()
+		  (setf d.next (randrange 2))))
+
+
+	       (do0
+		@instance
+		(def rstgen ()
+		  (yield (delay 5))
+		  (setf sys_rst_n.next 0)
+		  (while True
+			 (do0 
+			  (yield (delay (randrange 500 1000)))
+			  (setf sys_rst_n.next 1))
+			 (do0 
+			  (yield (delay (randrange 80 140)))
+			  (setf sys_rst_n.next 0)))))
+	       (return (ntuple inst
+			       clkgen
+			       ;stimulus
+			       rstgen))))
 
 	    (def simulate (timesteps)
-	      (setf tb (traceSignals test_latch)
+	      (setf tb (traceSignals test_led)
 		    sim (Simulation tb))
 	      (sim.run timesteps))
 	    (simulate 2000)
 
 
 	    (def convert ()
-	      ,@(loop for e in `(q d g)
-		      collect
-		      `(setf ,e (Signal (bool 0))))
-	      (toVerilog latch q d g))
+	      (do0 
+	       ,@(loop for e in `(sys_clk sys_rst_n)
+		       collect
+		       `(setf ,e (Signal (bool 0))))
+	       ,@(loop for e in `(led)
+		       collect
+		       `(setf ,e (list (Signal (bool 0))
+				       (Signal (bool 0))
+				       (Signal (bool 0)))))
+	       (toVerilog led sys_clk sys_rst_n led counter))
+	      )
 	    (convert)
 	    )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     (with-open-file (s (format nil "~a/~a" *source* "test.cst")
-		       :direction :output)
+		       :direction :output
+		       :if-exists :supersede :if-does-not-exist :create)
       (flet ((p (str)
 	       (format s "~a;~%" str)))
 	(loop for (e f) in `((sys_clk 35)

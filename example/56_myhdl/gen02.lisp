@@ -7,7 +7,7 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")
-  (defparameter *code-file* "run_01_dffa")
+  (defparameter *code-file* "run_02_latch")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
 
   (defparameter *day-names*
@@ -49,60 +49,41 @@
 
 	    (comments "d flip-flop with asynchronous reset")
 
-	    (def dffa (q d clk rst)
+	    (def latch (q d g)
 	      (do0
-	       (@always clk.posedge rst.negedge)
+	       @always_comb ;; whenever on of the inputs changes
+	       
 	       (def logic ()
-		 (if (== rst 0)
-		     (setf q.next 0)
+		 (if (== g 1)
 		     (setf q.next d))))
 	      (return logic))
 
-	    (def test_dffa ()
-	      ,@(loop for e in `(q d clk rst)
+	    (def test_latch ()
+	      ,@(loop for e in `(q d g)
 		      collect
 		      `(setf ,e (Signal (bool 0))))
-	      (setf dffa_inst (dffa q d clk rst))
-	      (do0
-	       (@always (delay 10))
-	       (def clkgen ()
-		 (setf clk.next (not clk))))
-
-	      (do0
-	       (@always clk.negedge)
-	       (def stimulus ()
-		 (setf d.next (randrange 2))))
-
-
-	      (do0
-	       @instance
-	       (def rstgen ()
-		 (yield (delay 5))
-		 (setf rst.next 1)
-		 (while True
-			(do0 
-			 (yield (delay (randrange 500 1000)))
-			 (setf rst.next 0))
-			(do0 
-			 (yield (delay (randrange 80 140)))
-			 (setf rst.next 1)))))
-	      (return (ntuple dffa_inst
-			      clkgen
-			      stimulus
-			      rstgen)))
+	      (setf inst (latch q d g))
+	      ,@(loop for (q e f) in `((d dgen 7)
+				       (g ggen 41))
+		      collect
+		      `(do0
+		   (@always (delay ,f))
+		   (def ,e ()
+		     (setf (dot ,q next) (randrange 2)))))
+	      (return (ntuple inst dgen ggen)))
 
 	    (def simulate (timesteps)
-	      (setf tb (traceSignals test_dffa)
+	      (setf tb (traceSignals test_latch)
 		    sim (Simulation tb))
 	      (sim.run timesteps))
 	    (simulate 2000)
 
 
 	    (def convert ()
-	      ,@(loop for e in `(q d clk rst)
+	      ,@(loop for e in `(q d g)
 		      collect
 		      `(setf ,e (Signal (bool 0))))
-	      (toVerilog dffa q d clk rst))
+	      (toVerilog latch q d g))
 	    (convert)
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))

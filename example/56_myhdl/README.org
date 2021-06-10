@@ -1,9 +1,11 @@
 - contents
 
-| file  | level | comment                                                         |
-|-------+-------+-----------------------------------------------------------------|
-| gen00 |     1 | some simple tests http://myhdl.org/docs/examples/flipflops.html |
-|       |       |                                                                 |
+| file  | level | comment                                                             |
+|-------+-------+---------------------------------------------------------------------|
+| gen00 |     3 | dff some simple tests http://myhdl.org/docs/examples/flipflops.html |
+| gen01 |     3 | dffa                                                                |
+| gen02 |     3 | latch                                                               |
+| gen03 |     2 | gowin tang nano led blink                                           |
   
 - install
   #+begin_example
