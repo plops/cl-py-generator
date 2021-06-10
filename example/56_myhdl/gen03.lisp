@@ -66,19 +66,21 @@
 	       (@always sys_clk.posedge sys_rst_n.negedge)
 	       (def logic_led ()
 		 (if (== sys_rst_n 0)
-		     (setf (aref led
+		     (setf (dot led #+nil (aref led
 
-				 ":") #b110
-				 )
-		     (setf (aref led
-
-				 ":") 0
+				      ":")
+				next)
+			   (aref (intbv #b110) (slice 3 0))
 			   )
-		     #+nil (if (== counter (- MAX_COUNT 1))
-			 (setf led.next #+nil(dot (aref led (slice 2 0))
-				    next)
-			       (concat (aref led (slice 1 0))
-				       (aref led 2)))
+		     
+		     (if (== counter MAX_COUNT)
+			 
+			#+nil (setf (dot (aref led (slice 2 1)) next ) (aref led (slice 1 0))
+			       ;(dot (aref led (slice 2 1)) next ) (aref led 2) 
+			       )
+			 #-nil (setf (dot led #+nil (aref led ":") next)
+				     (concat (aref led (slice 1 0))
+					     (aref led 2)))
 			 (setf led.next led)))))
 	      (return (tuple logic logic_led)))
 	    
