@@ -7,7 +7,7 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")
-  (defparameter *code-file* "run_00_flop")
+  (defparameter *code-file* "run_01_dffa")
   (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
 
   (defparameter *day-names*
@@ -47,19 +47,22 @@
 				(- tz))
 			)))
 
-	    (def dff (q d clk)
+	    (comments "d flip-flop with asynchronous reset")
+
+	    (def dffa (q d clk rst)
 	      (do0
-	       (@always clk.posedge)
+	       (@always clk.posedge rst.negedge)
 	       (def logic ()
-		 (setf q.next d)))
+		 (if (== rst 0)
+		     (setf q.next 0)
+		     (setf q.next d))))
 	      (return logic))
 
-	    (def test_dff ()
-	      (setf (ntuple q d clk)
-		    (list
-		     (for-generator (i (range 3))
-				    (Signal (bool 0)))))
-	      (setf dff_inst (dff q d clk))
+	    (def test_dffa ()
+	      ,@(loop for e in `(q d clk rst)
+		      collect
+		      `(setf ,e (Signal (bool 0))))
+	      (setf dffa_inst (dffa q d clk rst))
 	      (do0
 	       (@always (delay 10))
 	       (def clkgen ()
@@ -69,22 +72,37 @@
 	       (@always clk.negedge)
 	       (def stimulus ()
 		 (setf d.next (randrange 2))))
-	      (return (ntuple dff_inst
-				 clkgen
-				 stimulus)))
+
+
+	      (do0
+	       @instance
+	       (def rstgen ()
+		 (yield (delay 5))
+		 (setf rst.next 1)
+		 (while True
+			(do0 
+			 (yield (delay (randrange 500 1000)))
+			 (setf rst.next 0))
+			(do0 
+			 (yield (delay (randrange 80 140)))
+			 (setf rst.next 1)))))
+	      (return (ntuple dffa_inst
+			      clkgen
+			      stimulus
+			      rstgen)))
 
 	    (def simulate (timesteps)
-	      (setf tb (traceSignals test_dff)
+	      (setf tb (traceSignals test_dffa)
 		    sim (Simulation tb))
 	      (sim.run timesteps))
 	    (simulate 2000)
 
 
 	    (def convert ()
-	      ,@(loop for e in `(q d clk)
+	      ,@(loop for e in `(q d clk rst)
 		      collect
 		      `(setf ,e (Signal (bool 0))))
-	      (toVerilog dff q d clk))
+	      (toVerilog dffa q d clk rst))
 	    (convert)
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))

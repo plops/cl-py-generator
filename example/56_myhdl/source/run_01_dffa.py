@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "6d8096fcdbc4894dc84e51894352fb6cdd9b080b"
+_code_git_version = "a4df740cf39dab4316176e5d9da77ec9c4b8a30d"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/run_00_flop.py"
-_code_generation_time = "18:46:27 of Thursday, 2021-06-10 (GMT+1)"
+_code_generation_time = "18:47:10 of Thursday, 2021-06-10 (GMT+1)"
 
 
 # d flip-flop with asynchronous reset
@@ -23,7 +23,7 @@ def test_dffa():
     d = Signal(bool(0))
     clk = Signal(bool(0))
     rst = Signal(bool(0))
-    dffa_inst = dff(q, d, clk, rst)
+    dffa_inst = dffa(q, d, clk, rst)
 
     @always(delay(10))
     def clkgen():
@@ -59,7 +59,8 @@ def convert():
     q = Signal(bool(0))
     d = Signal(bool(0))
     clk = Signal(bool(0))
-    toVerilog(dff, q, d, clk)
+    rst = Signal(bool(0))
+    toVerilog(dffa, q, d, clk, rst)
 
 
 convert()
