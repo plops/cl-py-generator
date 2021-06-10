@@ -1,5 +1,18 @@
+- contents
+
+| file  | level | comment                                                         |
+|-------+-------+-----------------------------------------------------------------|
+| gen00 |     1 | some simple tests http://myhdl.org/docs/examples/flipflops.html |
+|       |       |                                                                 |
+  
 - install
   #+begin_example
 pip3 install --user myhdl
   #+end_example
-- http://myhdl.org/docs/examples/flipflops.html
+
+- run
+  #+begin_example
+  cd source
+  python3 run_00_flop.py
+gtkwave test_dff.vcd
+  #+end_example
