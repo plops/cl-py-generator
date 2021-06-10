@@ -57,7 +57,17 @@
 		     (if (< counter (- MAX_COUNT 1))
 			 (setf counter.next (+ counter 1))
 			 (setf counter.next 0)))))
-	      (return logic))
+	      (do0
+	       (@always sys_clk.posedge sys_rst_n.negedge)
+	       (def logic_led ()
+		 (if (== sys_rst_n 0)
+		     (setf led.next #b110)
+		     (if (== counter (- MAX_COUNT 1))
+			 (setf (aref led (slice 2 0))
+			       (concat (aref led (slice 1 0))
+				       (aref led 2)))
+			 (setf led.next led)))))
+	      (return (tuple logic logic_led)))
 	    
 	    (setf counter (Signal (intbv 0 :min 0 :max MAX_COUNT)))
 
