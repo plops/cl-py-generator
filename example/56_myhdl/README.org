@@ -1,0 +1,5 @@
+- install
+  #+begin_example
+pip3 install --user myhdl
+  #+end_example
+- http://myhdl.org/docs/examples/flipflops.html
