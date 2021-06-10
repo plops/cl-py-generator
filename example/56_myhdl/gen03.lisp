@@ -47,29 +47,41 @@
 				(- tz))
 			)))
 
-	    (setf MAX_COUNT 2_000_000)
-	    (def leds (sys_clk sys_rst_n led counter)
+	    (setf MAX_COUNT (- 2_000_000 1))
+
+	    
+	    (setf counter (Signal (intbv 0 :min 0 :max (+ 1 MAX_COUNT))))
+
+	    @block
+	    (def leds (sys_clk sys_rst_n led)
 	      (do0
 	       (@always sys_clk.posedge sys_rst_n.negedge)
 	       (def logic ()
 		 (if (== sys_rst_n 0)
 		     (setf counter.next 0)
-		     (if (< counter (- MAX_COUNT 1))
+		     (if (< counter MAX_COUNT)
 			 (setf counter.next (+ counter 1))
 			 (setf counter.next 0)))))
 	      (do0
 	       (@always sys_clk.posedge sys_rst_n.negedge)
 	       (def logic_led ()
 		 (if (== sys_rst_n 0)
-		     (setf led.next #b110)
-		     (if (== counter (- MAX_COUNT 1))
-			 (setf (aref led (slice 2 0))
+		     (setf (aref led
+
+				 ":") #b110
+				 )
+		     (setf (aref led
+
+				 ":") 0
+			   )
+		     #+nil (if (== counter (- MAX_COUNT 1))
+			 (setf led.next #+nil(dot (aref led (slice 2 0))
+				    next)
 			       (concat (aref led (slice 1 0))
 				       (aref led 2)))
 			 (setf led.next led)))))
 	      (return (tuple logic logic_led)))
 	    
-	    (setf counter (Signal (intbv 0 :min 0 :max MAX_COUNT)))
 
 	    #+nil(def test_leds ()
 	      (do0 
@@ -119,7 +131,7 @@
 	    
 	    (do0
 	     
-	     (def convert ()
+	     (def convert_this (hdl)
 	       (do0 
 		,@(loop for e in `(sys_clk sys_rst_n)
 			collect
@@ -127,9 +139,12 @@
 		,@(loop for e in `(led)
 			collect
 			`(setf ,e (Signal (aref (intbv 0) (slice 3 "")))))
-		(toVerilog leds sys_clk sys_rst_n led counter))
+		(setf leds_1 (leds sys_clk sys_rst_n led ))
+		(leds_1.convert :hdl hdl)
+		#+nil (toVerilog leds sys_clk sys_rst_n led ;counter
+			   ))
 	       )
-	     (convert))
+	     (convert_this :hdl (string "Verilog")))
 	    )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     (with-open-file (s (format nil "~a/~a" *source* "test.cst")
