@@ -47,28 +47,29 @@
 				(- tz))
 			)))
 
-
-	    (def led (sys_clk sys_rst_n led counter)
+	    (setf MAX_COUNT 2_000_000)
+	    (def leds (sys_clk sys_rst_n led counter)
 	      (do0
 	       (@always clk.posedge sys_rst_n.negedge)
 	       (def logic ()
 		 (if (== rst 0)
 		     (setf counter.next 0)
-		     (setf counter.next (+ counter 1)))))
+		     (if (< counter (- MAX_COUNT 1))
+			 (setf counter.next (+ counter 1))
+			 (setf counter.next 0)))))
 	      (return logic))
-	    (setf counter (Signal (modbv 0 :min 0 :max ,(expt 2 24))))
+	    
+	    (setf counter (Signal (intbv 0 :min 0 :max MAX_COUNT)))
 
-	    (def test_led ()
+	    #+nil(def test_leds ()
 	      (do0 
 	       ,@(loop for e in `(sys_clk sys_rst_n)
 		       collect
 		       `(setf ,e (Signal (bool 0))))
 	       ,@(loop for e in `(led)
 		       collect
-		       `(setf ,e (list (Signal (bool 0))
-				       (Signal (bool 0))
-				       (Signal (bool 0)))))
-	       (setf inst (led sys_clk sys_rst_n led counter)))
+		       `(setf ,e (Signal (aref (intbv 0) (slice 3 "")))))
+	       (setf inst (leds sys_clk sys_rst_n led counter)))
 
 	      (do0
 	       (do0
@@ -99,26 +100,26 @@
 			       ;stimulus
 			       rstgen))))
 
-	    (def simulate (timesteps)
-	      (setf tb (traceSignals test_led)
-		    sim (Simulation tb))
-	      (sim.run timesteps))
-	    (simulate 2000)
-
-
-	    (def convert ()
-	      (do0 
-	       ,@(loop for e in `(sys_clk sys_rst_n)
-		       collect
-		       `(setf ,e (Signal (bool 0))))
-	       ,@(loop for e in `(led)
-		       collect
-		       `(setf ,e (list (Signal (bool 0))
-				       (Signal (bool 0))
-				       (Signal (bool 0)))))
-	       (toVerilog led sys_clk sys_rst_n led counter))
-	      )
-	    (convert)
+	    #+nil
+	    (do0 (def simulate (timesteps)
+		   (setf tb (traceSignals test_leds)
+			 sim (Simulation tb))
+		   (sim.run timesteps))
+		 (simulate 2000))
+	    
+	    (do0
+	     
+	     (def convert ()
+	       (do0 
+		,@(loop for e in `(sys_clk sys_rst_n)
+			collect
+			`(setf ,e (Signal (bool 0))))
+		,@(loop for e in `(led)
+			collect
+			`(setf ,e (Signal (aref (intbv 0) (slice 3 "")))))
+		(toVerilog leds sys_clk sys_rst_n led counter))
+	       )
+	     (convert))
 	    )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     (with-open-file (s (format nil "~a/~a" *source* "test.cst")
