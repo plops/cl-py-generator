@@ -50,9 +50,9 @@
 	    (setf MAX_COUNT 2_000_000)
 	    (def leds (sys_clk sys_rst_n led counter)
 	      (do0
-	       (@always clk.posedge sys_rst_n.negedge)
+	       (@always sys_clk.posedge sys_rst_n.negedge)
 	       (def logic ()
-		 (if (== rst 0)
+		 (if (== sys_rst_n 0)
 		     (setf counter.next 0)
 		     (if (< counter (- MAX_COUNT 1))
 			 (setf counter.next (+ counter 1))
