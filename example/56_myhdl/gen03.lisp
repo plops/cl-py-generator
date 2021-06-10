@@ -78,9 +78,10 @@
 			#+nil (setf (dot (aref led (slice 2 1)) next ) (aref led (slice 1 0))
 			       ;(dot (aref led (slice 2 1)) next ) (aref led 2) 
 			       )
-			 #-nil (setf (dot led #+nil (aref led ":") next)
-				     (concat (aref led (slice 1 0))
-					     (aref led 2)))
+			 #-nil (setf (dot (aref led (slice 3 0)) next)
+				     (concat (aref led (slice 2 0))
+					     (aref led (slice 1 0))
+					     ))
 			 (setf led.next led)))))
 	      (return (tuple logic logic_led)))
 	    
