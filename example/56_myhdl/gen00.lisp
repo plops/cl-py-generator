@@ -78,6 +78,14 @@
 		    sim (Simulation tb))
 	      (sim.run timesteps))
 	    (simulate 2000)
+
+
+	    (def convert ()
+	      ,@(loop for e in `(q d clk)
+		      collect
+		      `(setf ,e (Signal (bool 0))))
+	      (toVerilog dff q d clk))
+	    (convert)
 	    )))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
