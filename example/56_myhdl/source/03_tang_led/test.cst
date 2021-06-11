@@ -1,0 +1,5 @@
+IO_LOC "sys_clk" 35;
+IO_LOC "sys_rst_n" 15;
+IO_LOC "led[0]" 16;
+IO_LOC "led[1]" 17;
+IO_LOC "led[2]" 18;
