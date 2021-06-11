@@ -1,20 +1,20 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "96bde527b2e8be9c22aa0883177945e247d58a16"
+_code_git_version = "e6ba2138655632643c4da2e922dacdd7c623fdc6"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/run_00_flop.py"
-_code_generation_time = "19:06:13 of Friday, 2021-06-11 (GMT+1)"
+_code_generation_time = "19:19:29 of Friday, 2021-06-11 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
-v_back = intbv(6)
-v_pulse = intbv(5)
-v_extent = intbv(480)
-v_front = intbv(62)
-h_back = intbv(182)
-h_pulse = intbv(1)
-h_extent = intbv(800)
-h_front = intbv(210)
+v_back = 6
+v_pulse = 5
+v_extent = 480
+v_front = 62
+h_back = 182
+h_pulse = 1
+h_extent = 800
+h_front = 210
 pixel_for_hs = ((h_extent) + (h_back) + (h_front))
 line_for_vs = ((v_extent) + (v_back) + (v_front))
 pixel_count = Signal(
@@ -48,9 +48,19 @@ def lcd(pixel_clk, n_rst, data_r, data_g, data_b):
             data_b.next = 0
             data_g.next = 0
 
+    @always_comb
+    def logic_sync():
+        if (((((h_pulse) <=
+               (pixel_count))) & (((pixel_count) <=
+                                   (((pixel_for_hs) - (h_front))))))):
+            lcd_hsync = 0
+        else:
+            lcd_hsync = 1
+
     return (
         logic_count,
         logic_data,
+        logic_sync,
     )
 
 

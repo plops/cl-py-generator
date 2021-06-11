@@ -61,7 +61,7 @@
 			       (h front 210))
 		    collect
 		    (destructuring-bind (dir name value) e
-		      `(setf ,(format nil "~a_~a" dir name) (intbv ,value))))
+		      `(setf ,(format nil "~a_~a" dir name) ,value)))
 	    (setf pixel_for_hs (+ h_extent h_back h_front)
 		  line_for_vs (+ v_extent v_back v_front))
 	    (setf pixel_count (Signal (intbv 0 :min 0 :max (+ h_extent h_back h_front 100)))
@@ -96,8 +96,17 @@
 	      (do0
 	       @always_comb
 	       (def logic_sync ()
-		 (setf lcd_hsync )))
-	      (return (tuple logic_count logic_data)))
+		 (if (& (<= h_pulse
+			    pixel_count )
+			(<= pixel_count (- pixel_for_hs h_front) 
+			      
+			     
+			      ))
+		     (setf lcd_hsync 0)
+		     (setf lcd_hsync 1)
+		     
+		     )))
+	      (return (tuple logic_count logic_data logic_sync)))
 
 
 	    
