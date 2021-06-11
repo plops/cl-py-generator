@@ -307,5 +307,14 @@ endmodule"))
 		 (destructuring-bind (name (start end) vals) e
 		   (loop for v in vals and i from start upto end
 			 do
-			    (p (format nil "IO_LOC \"lcd_~a[~a]\" ~a" name i v)))))))))
+			    (p (format nil "IO_LOC \"lcd_~a[~a]\" ~a" name i v)))))
+	(loop for e in `(n_rst lcd_clk lcd_sync lcd_de key xtal_in lcd_hsync
+			       (lcd_r 4) (lcd_g 5) (lcd_b 4)
+			       )
+	      do
+		 (if (listp e)
+		     (destructuring-bind (name i) e
+		       (loop for count from 0 upto i do
+			(p (format nil "IO_PORT \"~a[~a]\" IO_TYPE=LVCMOS33" name count))))
+		     (p (format nil "IO_PORT \"~a\" IO_TYPE=LVCMOS33" e))))))))
 
