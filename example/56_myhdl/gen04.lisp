@@ -88,8 +88,8 @@
 	       (def logic_data ()
 		 (when (== n_rst 0)
 		     (setf data_r.next 0
-			   data_b 0
-			   data_g 0
+			   data_b.next 0
+			   data_g.next 0
 			   )
 		     
 		     )))
@@ -102,9 +102,11 @@
 	     
 	     (def convert_this (hdl)
 	       (do0 
-		,@(loop for e in `(pixel_clk n_rst)
+		,@(loop for e in `(pixel_clk ;n_rst
+				   )
 			collect
 			`(setf ,e (Signal (bool 0))))
+		(setf n_rst (ResetSignal 0 :active 0 :isasync False))
 		,@(loop for (e f) in `((data_r 5) (data_g 6) (data_b 5)
 				       )
 			collect

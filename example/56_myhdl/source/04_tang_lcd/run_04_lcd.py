@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "502f8925f7c49e318ba29f183e6ac0cbc27fd42d"
+_code_git_version = "96bde527b2e8be9c22aa0883177945e247d58a16"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/run_00_flop.py"
-_code_generation_time = "19:03:45 of Friday, 2021-06-11 (GMT+1)"
+_code_generation_time = "19:06:13 of Friday, 2021-06-11 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -45,8 +45,8 @@ def lcd(pixel_clk, n_rst, data_r, data_g, data_b):
     def logic_data():
         if (((n_rst) == (0))):
             data_r.next = 0
-            data_b = 0
-            data_g = 0
+            data_b.next = 0
+            data_g.next = 0
 
     return (
         logic_count,
@@ -56,7 +56,7 @@ def lcd(pixel_clk, n_rst, data_r, data_g, data_b):
 
 def convert_this(hdl):
     pixel_clk = Signal(bool(0))
-    n_rst = Signal(bool(0))
+    n_rst = ResetSignal(0, active=0, isasync=False)
     data_r = Signal(intbv(0)[5:])
     data_g = Signal(intbv(0)[6:])
     data_b = Signal(intbv(0)[5:])
