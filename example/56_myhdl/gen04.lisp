@@ -105,6 +105,14 @@
 		     (setf lcd_hsync 0)
 		     (setf lcd_hsync 1)
 		     
+		     )
+		 (if (& (<= v_pulse
+			    line_count)
+			(<= line_count 
+			    line_for_vs))
+		     (setf lcd_vsync 0)
+		     (setf lcd_vsync 1)
+		     
 		     )))
 	      (return (tuple logic_count logic_data logic_sync)))
 
