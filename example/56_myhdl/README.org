@@ -24,3 +24,44 @@ gtkwave test_dff.vcd
   - https://www.easics.com/
   - http://cmosis.com  
   - http://icsense.com
+  - determinism
+    - output should not depend on order of computation
+    - Signal class is leaf object of determinism
+    - scheduler is the simulator it handles the updates
+  - hardware type widths
+  - decorators:
+    - @instance
+    - @always
+    - @always_comb automatic sensitivity
+    - @always_seq writes reset automatically
+  - intbv integer with bit vector
+    - intbv(0,min=-1,max=8)
+  - 2 compilers
+    - to simulator
+    - to gate implementation
+    - synthesis (synopsis became big on this)
+    - language based design for hardware
+    - rather restricted
+      - register transfer level is quite a low level
+    - worried about python3 a bit
+  - verification is the most important
+    - testbenches
+    - iterate until everything works
+    - strongest point of MyHDL
+    - benefits from python's expressive power
+    - agile hardware design
+    - test driven design for hardware
+    - foundation is the MyHDL simulator
+      - update signal values
+      - check which generators become active
+      - run in any order
+    - waveform viewing (is an important tool but overrated)
+      - you need self checking test framework
+    - pypy is a python2.7 compliant interpreter
+      - just in time technology
+      - 8-20 faster benchmarks
+  - future
+    - fixed point support
+    - attribute lookup for interfaces
+    - python 3
+    

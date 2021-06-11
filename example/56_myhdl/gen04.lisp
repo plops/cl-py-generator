@@ -7,8 +7,8 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")
-  (defparameter *code-file* "run_03_led")
-  (defparameter *source* (format nil "~a/source/03_tang_led/" *path*))
+  (defparameter *code-file* "run_04_lcd")
+  (defparameter *source* (format nil "~a/source/04_tang_lcd/" *path*))
 
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -47,109 +47,133 @@
 				(- tz))
 			)))
 
-	    (setf MAX_COUNT (- 2_000_000 1))
+	    (comments "https://tangnano.sipeed.com/en/examples/2_lcd.html")
+	    (comments "https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v")
+	    (comments "AT050TN43.pdf ILI6122.pdf ")
 
-	    
-	    (setf counter (Signal (intbv 0 :min 0 :max (+ 1 MAX_COUNT))))
+	    ,@(loop for e in `((v back 6)
+			       (v pulse 5)
+			       (v extent 480)
+			       (v front 62)
+			       (h back 182)
+			       (h pulse 1)
+			       (h extent 800)
+			       (h front 210))
+		    collect
+		    (destructuring-bind (dir name value) e
+		      `(setf ,(format nil "~a_~a" dir name) (intbv ,value))))
+	    (setf pixel_for_hs (+ h_extent h_back h_front)
+		  line_for_vs (+ v_extent v_back v_front))
+
 
 	    @block
-	    (def leds (sys_clk sys_rst_n led)
+	    (def lcd (pixel_clk n_rst)
 	      (do0
-	       (@always sys_clk.posedge sys_rst_n.negedge)
+	       (@always pixel_clk.posedge n_rst.negedge)
 	       (def logic ()
-		 (if (== sys_rst_n 0)
-		     (setf counter.next 0)
-		     (if (< counter MAX_COUNT)
-			 (setf counter.next (+ counter 1))
-			 (setf counter.next 0)))))
-	      (do0
-	       (@always sys_clk.posedge sys_rst_n.negedge)
-	       (def logic_led ()
-		 (if (== sys_rst_n 0)
-		     (setf (dot led #+nil (aref led
+		 (if (== n_rst 0)
+		     (setf line_count.next 0
+			   pixel_count.next 0)
+		     (if (== pixel_count pixe_for_hs)
+			 (setf line_count.next (+ line_count 1)
+			       pixel_count.next 0)
+			 (when (== line_count line_for_vs)
+			   (setf line_count.next 0
+				 pixel_count.next 0)))
+		     )))
+	      (return (tuple logic)))
 
-				      ":")
-				next)
-			   (aref (intbv #b110) (slice 3 0))
-			   )
-		     
-		     (if (== counter MAX_COUNT)
-			 
-			#+nil (setf (dot (aref led (slice 2 1)) next ) (aref led (slice 1 0))
-			       ;(dot (aref led (slice 2 1)) next ) (aref led 2) 
-			       )
-			 #-nil (setf (dot (aref led (slice 3 0)) next)
-				     (concat (aref led (slice 2 0))
-					     (aref led (slice 1 0))
-					     ))
-			 (setf led.next led)))))
-	      (return (tuple logic logic_led)))
+
 	    
-
-	    #+nil(def test_leds ()
-	      (do0 
-	       ,@(loop for e in `(sys_clk sys_rst_n)
-		       collect
-		       `(setf ,e (Signal (bool 0))))
-	       ,@(loop for e in `(led)
-		       collect
-		       `(setf ,e (Signal (aref (intbv 0) (slice 3 "")))))
-	       (setf inst (leds sys_clk sys_rst_n led counter)))
-
-	      (do0
-	       (do0
-		(@always (delay 10))
-		(def clkgen ()
-		  (setf sys_clk.next (not sys_clk))))
-
-	       #+nil (do0
-		(@always clk.negedge)
-		(def stimulus ()
-		  (setf d.next (randrange 2))))
-
-
-	       (do0
-		@instance
-		(def rstgen ()
-		  (yield (delay 5))
-		  (setf sys_rst_n.next 0)
-		  (while True
-			 (do0 
-			  (yield (delay (randrange 500 1000)))
-			  (setf sys_rst_n.next 1))
-			 (do0 
-			  (yield (delay (randrange 80 140)))
-			  (setf sys_rst_n.next 0)))))
-	       (return (ntuple inst
-			       clkgen
-			       ;stimulus
-			       rstgen))))
-
-	    #+nil
-	    (do0 (def simulate (timesteps)
-		   (setf tb (traceSignals test_leds)
-			 sim (Simulation tb))
-		   (sim.run timesteps))
-		 (simulate 2000))
 	    
 	    (do0
 	     
 	     (def convert_this (hdl)
 	       (do0 
-		,@(loop for e in `(sys_clk sys_rst_n)
+		,@(loop for e in `(pixel_clk n_rst)
 			collect
 			`(setf ,e (Signal (bool 0))))
-		,@(loop for e in `(led)
-			collect
-			`(setf ,e (Signal (aref (intbv 0) (slice 3 "")))))
-		(setf leds_1 (leds sys_clk sys_rst_n led ))
-		(leds_1.convert :hdl hdl)
-		#+nil (toVerilog leds sys_clk sys_rst_n led ;counter
-			   ))
+	
+		(setf lcd_1 (lcd pixel_clk n_rst))
+		(lcd_1.convert :hdl hdl))
 	       )
 	     (convert_this :hdl (string "Verilog")))
 	    )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
+    (with-open-file (s (format nil "~a/~a" *source* "rpll.v")
+		       :direction :output
+		       :if-exists :supersede)
+      (format s "~a"
+	      "module Gowin_rPLL (clkout, clkoutd, clkin);
+
+output clkout;
+output clkoutd;
+input clkin;
+
+wire lock_o;
+wire clkoutp_o;
+wire clkoutd3_o;
+wire gw_gnd;
+
+assign gw_gnd = 1'b0;
+
+rPLL rpll_inst (
+    .CLKOUT(clkout),
+    .LOCK(lock_o),
+    .CLKOUTP(clkoutp_o),
+    .CLKOUTD(clkoutd),
+    .CLKOUTD3(clkoutd3_o),
+    .RESET(gw_gnd),
+    .RESET_P(gw_gnd),
+    .CLKIN(clkin),
+    .CLKFB(gw_gnd),
+    .FBDSEL({gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
+    .IDSEL({gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
+    .ODSEL({gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
+    .PSDA({gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
+    .DUTYDA({gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
+    .FDLY({gw_gnd,gw_gnd,gw_gnd,gw_gnd})
+);
+
+defparam rpll_inst.FCLKIN = \"24\";
+defparam rpll_inst.DYN_IDIV_SEL = \"false\";
+defparam rpll_inst.IDIV_SEL = 2;
+defparam rpll_inst.DYN_FBDIV_SEL = \"false\";
+defparam rpll_inst.FBDIV_SEL = 24;
+defparam rpll_inst.DYN_ODIV_SEL = \"false\";
+defparam rpll_inst.ODIV_SEL = 4;
+defparam rpll_inst.PSDA_SEL = \"0000\";
+defparam rpll_inst.DYN_DA_EN = \"true\";
+defparam rpll_inst.DUTYDA_SEL = \"1000\";
+defparam rpll_inst.CLKOUT_FT_DIR = 1'b1;
+defparam rpll_inst.CLKOUTP_FT_DIR = 1'b1;
+defparam rpll_inst.CLKOUT_DLY_STEP = 0;
+defparam rpll_inst.CLKOUTP_DLY_STEP = 0;
+defparam rpll_inst.CLKFB_SEL = \"internal\";
+defparam rpll_inst.CLKOUT_BYPASS = \"false\";
+defparam rpll_inst.CLKOUTP_BYPASS = \"false\";
+defparam rpll_inst.CLKOUTD_BYPASS = \"false\";
+defparam rpll_inst.DYN_SDIV_SEL = 6;
+defparam rpll_inst.CLKOUTD_SRC = \"CLKOUT\";
+defparam rpll_inst.CLKOUTD3_SRC = \"CLKOUT\";
+defparam rpll_inst.DEVICE = \"GW1N-1\";
+endmodule"))
+
+    (with-open-file (s (format nil "~a/~a" *source* "osc.v")
+		       :direction :output
+		       :if-exists :supersede)
+      (format s "~a"
+	      "module Gowin_OSC (oscout);
+
+output oscout;
+
+OSCH osc_inst (
+    .OSCOUT(oscout)
+);
+
+defparam osc_inst.FREQ_DIV = 10;
+
+endmodule"))
     (with-open-file (s (format nil "~a/~a" *source* "test.cst")
 		       :direction :output
 		       :if-exists :supersede :if-does-not-exist :create)
