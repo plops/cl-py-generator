@@ -18,3 +18,8 @@ pip3 install --user myhdl
   python3 run_00_flop.py
 gtkwave test_dff.vcd
   #+end_example
+
+- https://www.youtube.com/watch?v=LSgOpvr8FII
+  - https://www.easics.com/
+  - http://cmosis.com  
+  - http://icsense.com
