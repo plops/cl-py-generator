@@ -100,7 +100,15 @@
 	      (do0
 	       @always_comb
 	       (def logic_sync ()
-		 (if (& (<= h_pulse
+		 (setf lcd_hsync
+		       (? (& (<= h_pulse
+			    pixel_count )
+			(<= pixel_count (+ h_extent h_back) ; (- pixel_for_hs h_front) 
+			      
+			     
+			    ))
+			  0 1))
+		 #+nil (if (& (<= h_pulse
 			    pixel_count )
 			(<= pixel_count (+ h_extent h_back) ; (- pixel_for_hs h_front) 
 			      
