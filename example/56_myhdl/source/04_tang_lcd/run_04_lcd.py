@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "20c14158067e6d3ac3d6c646705d98f6152e0460"
+_code_git_version = "cf0e74d9669da0f891013ae662bcbf8d1c7a16f7"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/run_00_flop.py"
-_code_generation_time = "19:22:30 of Friday, 2021-06-11 (GMT+1)"
+_code_generation_time = "19:27:19 of Friday, 2021-06-11 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -24,7 +24,8 @@ line_count = Signal(
 
 
 @block
-def lcd(pixel_clk, n_rst, data_r, data_g, data_b):
+def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, data_r, data_g,
+        data_b):
     @always(pixel_clk.posedge, n_rst.negedge)
     def logic_count():
         if (((n_rst) == (0))):
@@ -60,6 +61,15 @@ def lcd(pixel_clk, n_rst, data_r, data_g, data_b):
             lcd_vsync = 0
         else:
             lcd_vsync = 1
+        if (((((((h_back) <=
+                 (pixel_count))) & (((pixel_count) <=
+                                     (((h_extent) + (h_back))))))) &
+             (((((v_back) <=
+                 (line_count))) & (((line_count) <=
+                                    (((v_extent) + (((v_back) - (1))))))))))):
+            lcd_de = 1
+        else:
+            lcd_de = 0
 
     return (
         logic_count,
@@ -70,11 +80,15 @@ def lcd(pixel_clk, n_rst, data_r, data_g, data_b):
 
 def convert_this(hdl):
     pixel_clk = Signal(bool(0))
+    lcd_de = Signal(bool(0))
+    lcd_hsync = Signal(bool(0))
+    lcd_vsync = Signal(bool(0))
     n_rst = ResetSignal(0, active=0, isasync=False)
     data_r = Signal(intbv(0)[5:])
     data_g = Signal(intbv(0)[6:])
     data_b = Signal(intbv(0)[5:])
-    lcd_1 = lcd(pixel_clk, n_rst, data_r, data_b, data_g)
+    lcd_1 = lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, data_r, data_b,
+                data_g)
     lcd_1.convert(hdl=hdl)
 
 

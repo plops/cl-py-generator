@@ -68,7 +68,7 @@
 		  line_count (Signal (intbv 0 :min 0 :max (+ v_extent v_back v_front 100))))
 
 	    @block
-	    (def lcd (pixel_clk n_rst data_r data_g data_b)
+	    (def lcd (pixel_clk n_rst lcd_de lcd_hsync lcd_vsync data_r data_g data_b)
 	      (do0
 	       (@always pixel_clk.posedge n_rst.negedge)
 	       (def logic_count ()
@@ -111,9 +111,17 @@
 			(<= line_count 
 			    line_for_vs))
 		     (setf lcd_vsync 0)
-		     (setf lcd_vsync 1)
-		     
-		     )))
+		     (setf lcd_vsync 1))
+		 (if (& (& (<= h_back pixel_count)
+			   (<= pixel_count (+ h_extent h_back)))
+			(& (<= v_back
+			       line_count)
+			   (<= line_count 
+			       (+ v_extent (- v_back 1))))
+			)
+		     (setf lcd_de 1
+			   )
+		     (setf lcd_de 0))))
 	      (return (tuple logic_count logic_data logic_sync)))
 
 
@@ -124,7 +132,8 @@
 	     (def convert_this (hdl)
 	       (do0 
 		,@(loop for e in `(pixel_clk ;n_rst
-				   )
+				   lcd_de lcd_hsync 
+				   lcd_vsync)
 			collect
 			`(setf ,e (Signal (bool 0))))
 		(setf n_rst (ResetSignal 0 :active 0 :isasync False))
@@ -133,7 +142,9 @@
 			collect
 			`(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
 	
-		(setf lcd_1 (lcd pixel_clk n_rst data_r data_b data_g))
+		(setf lcd_1 (lcd pixel_clk n_rst
+				 lcd_de lcd_hsync lcd_vsync
+				 data_r data_b data_g))
 		(lcd_1.convert :hdl hdl))
 	       )
 	     (convert_this :hdl (string "Verilog")))
