@@ -72,7 +72,7 @@
 		     `(setf ,(format nil "data_~a" e)
 			    (Signal (aref (intbv 0) (slice 10 "")))))
 	    @block
-	    (def lcd (pixel_clk n_rst lcd_de lcd_hsync lcd_vsync data_r data_g data_b)
+	    (def lcd (pixel_clk n_rst lcd_de lcd_hsync lcd_vsync lcd_r lcd_g lcd_b)
 	      (do0
 	       (@always pixel_clk.posedge n_rst.negedge)
 	       (def logic_count ()
@@ -166,7 +166,8 @@
 	
 		(setf lcd_1 (lcd pixel_clk n_rst
 				 lcd_de lcd_hsync lcd_vsync
-				 lcd_r lcd_b lcd_g))
+				 lcd_r lcd_b lcd_g
+				 ))
 		(lcd_1.convert :hdl hdl))
 	       )
 	     (convert_this :hdl (string "Verilog")))
