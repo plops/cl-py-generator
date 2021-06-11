@@ -54,7 +54,7 @@
 	    ,@(loop for e in `((v back 6)
 			       (v pulse 5)
 			       (v extent 480)
-			       (v front 62)
+			       (v front 62) ;; 45
 			       (h back 182)
 			       (h pulse 1)
 			       (h extent 800)
@@ -64,24 +64,36 @@
 		      `(setf ,(format nil "~a_~a" dir name) (intbv ,value))))
 	    (setf pixel_for_hs (+ h_extent h_back h_front)
 		  line_for_vs (+ v_extent v_back v_front))
-
+	    (setf pixel_count (Signal (intbv 0 :min 0 :max (+ h_extent h_back h_front 100)))
+		  line_count (Signal (intbv 0 :min 0 :max (+ v_extent v_back v_front 100))))
 
 	    @block
-	    (def lcd (pixel_clk n_rst)
+	    (def lcd (pixel_clk n_rst data_r data_g data_b)
 	      (do0
 	       (@always pixel_clk.posedge n_rst.negedge)
-	       (def logic ()
+	       (def logic_count ()
 		 (if (== n_rst 0)
 		     (setf line_count.next 0
 			   pixel_count.next 0)
-		     (if (== pixel_count pixe_for_hs)
+		     (if (== pixel_count pixel_for_hs)
 			 (setf line_count.next (+ line_count 1)
 			       pixel_count.next 0)
-			 (when (== line_count line_for_vs)
+			 (if (== line_count line_for_vs)
 			   (setf line_count.next 0
-				 pixel_count.next 0)))
+				 pixel_count.next 0)
+			   (setf pixel_count.next (+ pixel_count 1))))
 		     )))
-	      (return (tuple logic)))
+	      (do0
+	       (@always pixel_clk.posedge n_rst.negedge)
+	       (def logic_data ()
+		 (when (== n_rst 0)
+		     (setf data_r.next 0
+			   data_b 0
+			   data_g 0
+			   )
+		     
+		     )))
+	      (return (tuple logic_count logic_data)))
 
 
 	    
@@ -93,8 +105,12 @@
 		,@(loop for e in `(pixel_clk n_rst)
 			collect
 			`(setf ,e (Signal (bool 0))))
+		,@(loop for (e f) in `((data_r 5) (data_g 6) (data_b 5)
+				       )
+			collect
+			`(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
 	
-		(setf lcd_1 (lcd pixel_clk n_rst))
+		(setf lcd_1 (lcd pixel_clk n_rst data_r data_b data_g))
 		(lcd_1.convert :hdl hdl))
 	       )
 	     (convert_this :hdl (string "Verilog")))
