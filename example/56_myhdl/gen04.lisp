@@ -93,6 +93,10 @@
 			   )
 		     
 		     )))
+	      (do0
+	       @always_comb
+	       (def logic_sync ()
+		 (setf lcd_hsync )))
 	      (return (tuple logic_count logic_data)))
 
 
