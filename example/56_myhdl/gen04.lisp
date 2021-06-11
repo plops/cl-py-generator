@@ -67,6 +67,10 @@
 	    (setf pixel_count (Signal (intbv 0 :min 0 :max (+ h_extent h_back h_front 100)))
 		  line_count (Signal (intbv 0 :min 0 :max (+ v_extent v_back v_front 100))))
 
+	    ,@ (loop for e in `(r g b)
+		     collect
+		     `(setf ,(format nil "data_~a" e)
+			    (Signal (aref (intbv 0) (slice 10 "")))))
 	    @block
 	    (def lcd (pixel_clk n_rst lcd_de lcd_hsync lcd_vsync data_r data_g data_b)
 	      (do0
@@ -117,12 +121,30 @@
 			(& (<= v_back
 			       line_count)
 			   (<= line_count 
-			       (+ v_extent (- v_back 1))))
+			       (+ v_extent 5 ;(- v_back 1)
+				  )))
 			)
 		     (setf lcd_de 1
 			   )
 		     (setf lcd_de 0))))
-	      (return (tuple logic_count logic_data logic_sync)))
+
+	      (do0
+	       @always_comb
+	       (def logic_pattern ()
+		 ,@(loop for (e f) in `((lcd_r 400)
+					(lcd_b 640)
+					(lcd_g 840)
+					)
+			 collect
+			 `(do0
+			   ,(let ((res `(setf (dot ,e next) 0)))
+			      (loop for val in `(16 8 4 2 1 0) and i from 0
+				    do
+				(setf res `(if (< pixel_count ,(- f (* 40 i)))
+					       (setf (dot ,e next) ,val)
+					       ,res)))
+			      res)))))
+	      (return (tuple logic_count logic_data logic_sync logic_pattern)))
 
 
 	    
@@ -137,14 +159,14 @@
 			collect
 			`(setf ,e (Signal (bool 0))))
 		(setf n_rst (ResetSignal 0 :active 0 :isasync False))
-		,@(loop for (e f) in `((data_r 5) (data_g 6) (data_b 5)
+		,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
 				       )
 			collect
 			`(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
 	
 		(setf lcd_1 (lcd pixel_clk n_rst
 				 lcd_de lcd_hsync lcd_vsync
-				 data_r data_b data_g))
+				 lcd_r lcd_b lcd_g))
 		(lcd_1.convert :hdl hdl))
 	       )
 	     (convert_this :hdl (string "Verilog")))
@@ -237,6 +259,4 @@ endmodule"))
 			   )
 	      do
 	      (p (format nil "IO_LOC \"~a\" ~a" e f)))))))
-
-
 
