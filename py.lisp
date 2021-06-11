@@ -308,6 +308,13 @@
 			(format s "~&~a:~%~a"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
+	      (? (destructuring-bind (condition true-statement false-statement)
+		     (cdr code)
+		   (format nil "(~a) if (~a) else (~a)"
+			   
+			   (emit true-statement)
+			   (emit condition)
+			   (emit false-statement))))
 	      (when (destructuring-bind (condition &rest forms) (cdr code)
                       (emit `(if ,condition
                                  (do0
