@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "e6ba2138655632643c4da2e922dacdd7c623fdc6"
+_code_git_version = "924daea6766eed4ed462b10237ca148d3ad905c1"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/run_00_flop.py"
-_code_generation_time = "19:19:29 of Friday, 2021-06-11 (GMT+1)"
+_code_generation_time = "19:20:49 of Friday, 2021-06-11 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -50,9 +50,8 @@ def lcd(pixel_clk, n_rst, data_r, data_g, data_b):
 
     @always_comb
     def logic_sync():
-        if (((((h_pulse) <=
-               (pixel_count))) & (((pixel_count) <=
-                                   (((pixel_for_hs) - (h_front))))))):
+        if (((((h_pulse) <= (pixel_count))) & (((pixel_count) <=
+                                                (((h_extent) + (h_back))))))):
             lcd_hsync = 0
         else:
             lcd_hsync = 1

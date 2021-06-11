@@ -98,7 +98,7 @@
 	       (def logic_sync ()
 		 (if (& (<= h_pulse
 			    pixel_count )
-			(<= pixel_count (- pixel_for_hs h_front) 
+			(<= pixel_count (+ h_extent h_back) ; (- pixel_for_hs h_front) 
 			      
 			     
 			      ))
