@@ -20,6 +20,7 @@ gtkwave test_dff.vcd
   #+end_example
 
 - https://www.youtube.com/watch?v=LSgOpvr8FII
+  - MyHDL designing digital hardware with Python by Jan Decaluwe
   - https://www.easics.com/
   - http://cmosis.com  
   - http://icsense.com
