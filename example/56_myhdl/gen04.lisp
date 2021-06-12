@@ -76,7 +76,7 @@
 			   xtal_in
 			   lcd_clk
 			   lcd_hsync
-			   lcd_sync
+			   lcd_vsync
 			   lcd_de
 			   lcd_r
 			   lcd_g
@@ -261,6 +261,28 @@ defparam rpll_inst.CLKOUTD_SRC = \"CLKOUT\";
 defparam rpll_inst.CLKOUTD3_SRC = \"CLKOUT\";
 defparam rpll_inst.DEVICE = \"GW1N-1\";
 endmodule"))
+     (with-open-file (s (format nil "~a/~a" *source* "lcd_project.gprj")
+		       :direction :output
+		       :if-exists :supersede)
+       ;; write project file for gowin ide
+      (format s 
+	      "<?xml version=\"1\" encoding=\"UTF-8\"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name=\"GW1N-1\" pn=\"GW1N-LV1QN48C6/I5\">gw1n1-004</Device>
+    <FileList>
+~{        ~a~^~%~}
+    </FileList>
+</Project>
+"
+	      (loop for (e f) in `((lcd.v verilog)
+				   (osc.v verilog)
+				   (rpll.v verilog)
+				   (test.cst cst))
+		    collect
+		    (format nil "<File path=\"~a\" type=\"file.~a\" enable=\"1\"/>" e f))))
 
     (with-open-file (s (format nil "~a/~a" *source* "osc.v")
 		       :direction :output
@@ -293,7 +315,7 @@ endmodule"))
 		 (p (format nil "IO_LOC \"~a\" ~a" e f)))
 	(loop for (e f) in `((clk 11)
 			     (de 5)
-			     (sync 46)
+			     (vsync 46)
 			     (hsync 10)
 			     )
 	      do
@@ -308,7 +330,7 @@ endmodule"))
 		   (loop for v in vals and i from start upto end
 			 do
 			    (p (format nil "IO_LOC \"lcd_~a[~a]\" ~a" name i v)))))
-	(loop for e in `(n_rst lcd_clk lcd_sync lcd_de key xtal_in lcd_hsync
+	(loop for e in `(n_rst lcd_clk lcd_vsync lcd_de key xtal_in lcd_hsync
 			       (lcd_r 4) (lcd_g 5) (lcd_b 4)
 			       )
 	      do
