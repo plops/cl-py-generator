@@ -70,7 +70,7 @@
 		      `(setf ,(format nil "data_~a" e)
 			     (Signal (aref (intbv 0) (slice 10 "")))))
 	     
-		(do0
+		#+nil (do0
 		 @block
 		 (def TOP (n_rst
 			   xtal_in
@@ -193,7 +193,7 @@
 	      
 	      (def convert_this (hdl)
 		(do0 
-		 #+nil
+		 #-nil
 		 (do0
 
 		  (do0 ,@(loop for e in `(pixel_clk ;n_rst
@@ -213,7 +213,7 @@
 					   lcd_r lcd_b lcd_g
 					   ))
 			  (lcd_1.convert :hdl hdl)))
-		 (do0 (do0 ,@(loop for e in `(pixel_clk ;n_rst
+		 #+nil (do0 (do0 ,@(loop for e in `(pixel_clk ;n_rst
 				      lcd_de lcd_hsync 
 				      lcd_vsync xtal_in lcd_clk)
 			   collect
@@ -313,6 +313,7 @@ endmodule"))
 </Project>
 "
 	      (loop for (e f) in `((lcd.v verilog)
+				   (top.v verilog)
 				   (osc.v verilog)
 				   (rpll.v verilog)
 				   (test.cst cst))
@@ -334,6 +335,63 @@ OSCH osc_inst (
 defparam osc_inst.FREQ_DIV = 10;
 
 endmodule"))
+    (with-open-file (s (format nil "~a/~a" *source* "top.v")
+		       :direction :output
+		       :if-exists :supersede)
+      (labels ((p (rest)
+		 (format s "~{~a~%~}" rest))
+	       (paren (rest)
+		 
+		 (format s "(~{~a~^,~})" rest)))
+	(p `("module top"))
+	(paren
+	 (append (loop for e in `(n_rst xtal_in)
+		       collect
+		       (format nil "input ~a" e))
+		 (loop for e in `(lcd_clk lcd_hsync lcd_vsync lcd_ed
+					  "[4:0] lcd_r"
+					  "[5:0] lcd_g"
+					  "[4:0] lcd_b"
+					; led_r led_g led_b
+					;key
+					  )
+		       collect
+		       (format nil "output ~a" e))))
+	(p `(";"))
+	(p 
+	   (loop for e in `(clk_sys clk_pix; oscout_o
+				      )
+		       collect
+		       (format nil "wire ~a;" e))
+	   )
+	(p `("Gowin_rPLL chip_pll"))
+	(paren (loop for  (e f) in `((clkout clk_sys)
+				       (clkoutd clk_pix)
+				       (clkin xtal_in))
+		       collect
+		       (format nil ".~a(~a)" e f)))
+	(p `(";"))
+	(p `("lcd lcd_1")
+	   )
+	(paren (loop for  e in `((clk clk_sys)
+				 n_rst 
+				 clk_pix
+				 lcd_de 
+				 lcd_hsync
+				 lcd_vsync
+				 lcd_b
+				 lcd_g
+				 lcd_r)
+		     collect
+		     (if (listp e)
+			 (format nil ".~a(~a)" (first e) (second e))
+			 (format nil ".~a(~a)" e e )))
+	       )
+	(p `(";"))
+
+	
+	(p `("assign lcd_clk = clk_pix;"))
+	(p `("endmodule"))))
     (with-open-file (s (format nil "~a/~a" *source* "test.cst")
 		       :direction :output
 		       :if-exists :supersede :if-does-not-exist :create)

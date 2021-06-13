@@ -6,6 +6,7 @@
     <Device name="GW1N-1" pn="GW1N-LV1QN48C6/I5">gw1n1-004</Device>
     <FileList>
         <File path="lcd.v" type="file.verilog" enable="1"/>
+        <File path="top.v" type="file.verilog" enable="1"/>
         <File path="osc.v" type="file.verilog" enable="1"/>
         <File path="rpll.v" type="file.verilog" enable="1"/>
         <File path="test.cst" type="file.cst" enable="1"/>

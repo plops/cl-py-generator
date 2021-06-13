@@ -64,4 +64,11 @@ gtkwave test_dff.vcd
     - fixed point support
     - attribute lookup for interfaces
     - python 3
-    
+
+- verilog code formatter
+  #+begin_example
+git clone https://github.com/thomasrussellmurphy/istyle-verilog-formatter
+cd istyle-verilog-formatter
+make
+iStyle
+  #+end_example
