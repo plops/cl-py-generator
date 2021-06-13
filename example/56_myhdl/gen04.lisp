@@ -83,15 +83,25 @@
 			   lcd_b
 			  ; key
 			   )
+
 		   
-		   (do0
+		    #+nil (do0
 		    @always_comb
 		    (def logic ()
 		      (setf lcd_clk clk_pix)))
 		   
-		   (setf lcd_1 (lcd clk_pix n_rst  lcd_de lcd_hsync lcd_vsync lcd_r lcd_g lcd_b))
-		   (return logic))
-		 )
+		   (setf lcd_1 (lcd lcd_clk ;clk_pix
+				    n_rst  lcd_de lcd_hsync lcd_vsync lcd_r lcd_g lcd_b))
+		   (return ; logic
+		     ))
+		 
+		 (setf TOP.verilog_code (string3 " Gowin_PLL chip_pll(
+        .clkout(clk_sys), //output clkout      //200M
+        .clkoutd(clk_pix), //output clkoutd   //33.33M
+        .clkin(xtal_in) //input clkin
+    );	
+")))
+		
 		(do0
 	      @block
 	      (def lcd (pixel_clk n_rst lcd_de lcd_hsync lcd_vsync lcd_r lcd_g lcd_b)
@@ -183,22 +193,47 @@
 	      
 	      (def convert_this (hdl)
 		(do0 
-		 ,@(loop for e in `(pixel_clk ;n_rst
-				    lcd_de lcd_hsync 
-				    lcd_vsync)
-			 collect
-			 `(setf ,e (Signal (bool 0))))
-		 (setf n_rst (ResetSignal 0 :active 0 :isasync False))
-		 ,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
-					)
-			 collect
-			 `(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
-		 
-		 (setf lcd_1 (lcd pixel_clk n_rst
-				  lcd_de lcd_hsync lcd_vsync
-				  lcd_r lcd_b lcd_g
-				  ))
-		 (lcd_1.convert :hdl hdl))
+		 #+nil
+		 (do0
+
+		  (do0 ,@(loop for e in `(pixel_clk ;n_rst
+				      lcd_de lcd_hsync 
+				      lcd_vsync)
+			   collect
+			       `(setf ,e (Signal (bool 0))))
+		       (setf n_rst (ResetSignal 0 :active 0 :isasync False))
+		       ,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
+					      )
+			       collect
+			       `(setf ,e (Signal (aref (intbv 0) (slice ,f ""))))))
+		     
+		     
+		     (do0 (setf lcd_1 (lcd pixel_clk n_rst
+					   lcd_de lcd_hsync lcd_vsync
+					   lcd_r lcd_b lcd_g
+					   ))
+			  (lcd_1.convert :hdl hdl)))
+		 (do0 (do0 ,@(loop for e in `(pixel_clk ;n_rst
+				      lcd_de lcd_hsync 
+				      lcd_vsync xtal_in lcd_clk)
+			   collect
+			       `(setf ,e (Signal (bool 0))))
+		       (setf n_rst (ResetSignal 0 :active 0 :isasync False))
+		       ,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
+					      )
+			       collect
+			       `(setf ,e (Signal (aref (intbv 0) (slice ,f ""))))))
+		      (setf top_1 (TOP n_rst
+			   xtal_in
+			   lcd_clk
+			   lcd_hsync
+			   lcd_vsync
+			   lcd_de
+			   lcd_r
+			   lcd_g
+			   lcd_b))
+		      (top_1.convert :hdl hdl))
+		 )
 		)
 	      (convert_this :hdl (string "Verilog")))
 	     )))
@@ -306,7 +341,7 @@ endmodule"))
 	       (format s "~a;~%" str)))
 	(loop for (e f) in `((xtal_in 35)
 			     (n_rst 14)
-			     (key 15)
+			     ;(key 15)
 			     (led_r 16)
 			     (led_g 17)
 			     (led_b 18)
@@ -330,7 +365,8 @@ endmodule"))
 		   (loop for v in vals and i from start upto end
 			 do
 			    (p (format nil "IO_LOC \"lcd_~a[~a]\" ~a" name i v)))))
-	(loop for e in `(n_rst lcd_clk lcd_vsync lcd_de key xtal_in lcd_hsync
+	(loop for e in `(n_rst lcd_clk lcd_vsync lcd_de ;key
+			       xtal_in lcd_hsync
 			       (lcd_r 4) (lcd_g 5) (lcd_b 4)
 			       )
 	      do

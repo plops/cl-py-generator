@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "f0abfdab0ad67788f119aa74da8f6a421294b77f"
+_code_git_version = "0bccb27c43ec695c97c1c170e83b5e8fbca86e94"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/run_00_flop.py"
-_code_generation_time = "20:08:27 of Saturday, 2021-06-12 (GMT+1)"
+_code_generation_time = "21:04:13 of Sunday, 2021-06-13 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -29,13 +29,17 @@ data_b = Signal(intbv(0)[10:])
 @block
 def TOP(n_rst, xtal_in, lcd_clk, lcd_hsync, lcd_vsync, lcd_de, lcd_r, lcd_g,
         lcd_b):
-    @always_comb
-    def logic():
-        lcd_clk = clk_pix
-
-    lcd_1 = lcd(clk_pix, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g,
+    lcd_1 = lcd(lcd_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g,
                 lcd_b)
-    return logic
+    return
+
+
+TOP.verilog_code = """ Gowin_PLL chip_pll(
+        .clkout(clk_sys), //output clkout      //200M
+        .clkoutd(clk_pix), //output clkoutd   //33.33M
+        .clkin(xtal_in) //input clkin
+    );	
+"""
 
 
 @block
@@ -156,13 +160,15 @@ def convert_this(hdl):
     lcd_de = Signal(bool(0))
     lcd_hsync = Signal(bool(0))
     lcd_vsync = Signal(bool(0))
+    xtal_in = Signal(bool(0))
+    lcd_clk = Signal(bool(0))
     n_rst = ResetSignal(0, active=0, isasync=False)
     lcd_r = Signal(intbv(0)[5:])
     lcd_g = Signal(intbv(0)[6:])
     lcd_b = Signal(intbv(0)[5:])
-    lcd_1 = lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_b,
-                lcd_g)
-    lcd_1.convert(hdl=hdl)
+    top_1 = TOP(n_rst, xtal_in, lcd_clk, lcd_hsync, lcd_vsync, lcd_de, lcd_r,
+                lcd_g, lcd_b)
+    top_1.convert(hdl=hdl)
 
 
 convert_this(hdl="Verilog")
