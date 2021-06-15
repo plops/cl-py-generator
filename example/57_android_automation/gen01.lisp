@@ -48,7 +48,9 @@
 			   mss
 			   cv2
 			   ))
-	     (imports-from (PIL Image)
+	      (imports-from (PIL Image)
+			    (cv2 imshow destroyAllWindows
+				 waitKey imwrite setMouseCallback)
 			   )
 	     (setf
 	      _code_git_version
@@ -82,18 +84,55 @@
 					       collect
 					       `(string ,e))))))
 	     (do0
-	      (setf sct (mss.mss)
-		    )
+	      (setf sct (mss.mss))
+	      (setf x_start 0
+		    y_start 0
+		    x_end 0
+		    y_end 0
+		    cropping False)
+	      (def mouse_crop (event x y flags param)
+		"global x_start, y_start, x_end, y_end, cropping"
+		(if (== event cv2.EVENT_LBUTTONDOWN)
+		  (setf x_start x
+			y_start y
+			x_end x
+			y_end y
+			cropping True)
+		    (if (== event cv2.EVENT_MOUSEMOVE)
+			(when (== cropping True)
+			  (setf x_end x
+				y_end y))
+			(when (== event cv2.EVENT_LBUTTONUP)
+			  (setf x_end x
+				y_end y
+				cropping False)
+			  (setf q (list (tuple x_start y_start)
+						(tuple x_end y_end)))
+			  (when (== (len q)
+				    2)
+			    (setf roi (aref img (slice (aref (aref q 0) 1)
+						       (aref (aref q 1) 1))
+					    (slice (aref (aref q 0) 0)
+						   (aref (aref q 1) 0))))
+			    (imshow (string "cropped") roi)
+			    (imwrite (string "/dev/shm/crop.jpg")
+				     roi)
+			    )))))
 	      (while True
 		     (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384)))
 		     (setf img (np.array scr))
-		     (cv2.imshow (string "output")
-				 img)
+		     (imshow (string "output")
+			     img)
 		     (when (== (& (cv2.waitKey 25) #xff)
 			       (ord (string "q")))
-		       (cv2.destroyAllWindows)
+		       (destroyAllWindows)
 		       (setf running False)
-		       break))
+		       break)
+		     (when (== (& (cv2.waitKey 25) #xff)
+			       (ord (string "m")))
+		       (setMouseCallback (string "output") mouse_crop)
+		       
+		       ))
 	      )
 	     (scrcpy.terminate)
 	)))
