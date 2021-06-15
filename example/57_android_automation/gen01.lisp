@@ -49,8 +49,8 @@
 			   cv2
 			   ))
 	      (imports-from (PIL Image)
-			    (cv2 imshow destroyAllWindows
-				 waitKey imwrite setMouseCallback)
+			    (cv2 imshow destroyAllWindows imread
+				 waitKey imwrite setMouseCallback circle matchTemplate minMaxLoc)
 			   )
 	     (setf
 	      _code_git_version
@@ -118,21 +118,32 @@
 			    (imwrite (string "/dev/shm/crop.jpg")
 				     roi)
 			    )))))
+	      (do0 
+	       (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
+			  img (np.array scr))
+		    (imshow (string "output")
+			    img))
+	       (setMouseCallback (string "output") mouse_crop))
+	      (setf pause (imread (string "img/pause.jpg") 0))
+	      (print pause.dtype)
 	      (while True
-		     (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384)))
-		     (setf img (np.array scr))
-		     (imshow (string "output")
-			     img)
+		     (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
+				img (np.array scr))
+			  
+			  (do0
+			   (setf res (matchTemplate img pause cv2.TM_CCORR_NORMED)
+				 (ntuple w h ch) pause.shape
+				 (ntuple mi ma miloc maloc ) (minMaxLoc res))
+			   (circle img maloc 12 (tuple 0 0 255) 5))
+			  (imshow (string "output")
+			    img))
+		     
 		     (when (== (& (cv2.waitKey 25) #xff)
 			       (ord (string "q")))
 		       (destroyAllWindows)
 		       (setf running False)
 		       break)
-		     (when (== (& (cv2.waitKey 25) #xff)
-			       (ord (string "m")))
-		       (setMouseCallback (string "output") mouse_crop)
-		       
-		       ))
+		     )
 	      )
 	     (scrcpy.terminate)
 	)))
