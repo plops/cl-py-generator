@@ -46,8 +46,9 @@
 			   ;datetime
 					;time
 			   mss
+			   cv2
 			   ))
-	     #+nil(imports-from ()
+	     (imports-from (PIL Image)
 			   )
 	     (setf
 	      _code_git_version
@@ -70,7 +71,7 @@
 				 date
 				 (- tz)))))
 	     (do0
-	      (subprocess.run (list ,@(loop for e in `(scrcpy --always-on-top
+	      (subprocess.Popen (list ,@(loop for e in `(scrcpy --always-on-top
 							      -m 640
 							      -w
 							      --window-x 0
@@ -79,6 +80,20 @@
 							      )
 					    collect
 					    `(string ,e)))))
+	     (do0
+	      (setf sct (mss.mss)
+		    )
+	      (while True
+		     (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384)))
+		     (setf img (np.array scr))
+		     (cv2.imshow (string "output")
+				 img)
+		     (when (== (& (cv2.waitKey 25) #xff)
+			       (ord (string "q")))
+		       (cv2.destroyAllWindows)
+		       (setf running False)
+		       break))
+	      )
 	)))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
