@@ -71,15 +71,16 @@
 				 date
 				 (- tz)))))
 	     (do0
-	      (subprocess.Popen (list ,@(loop for e in `(scrcpy --always-on-top
-							      -m 640
-							      -w
-							      --window-x 0
-							      --window-y 0
-							      ;; --turn-screen-off
-							      )
-					    collect
-					    `(string ,e)))))
+	      (setf scrcpy
+	       (subprocess.Popen (list ,@(loop for e in `(scrcpy --always-on-top
+								 -m 640
+								 -w
+								 --window-x 0
+								 --window-y 0
+								 ;; --turn-screen-off
+								 )
+					       collect
+					       `(string ,e))))))
 	     (do0
 	      (setf sct (mss.mss)
 		    )
@@ -94,6 +95,7 @@
 		       (setf running False)
 		       break))
 	      )
+	     (scrcpy.terminate)
 	)))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
