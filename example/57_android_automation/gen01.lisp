@@ -15,8 +15,40 @@
       "Sunday"))
   (let* ((code
 	   `(do0
-	     (imports-from (myhdl *)
-			   (random randrange))
+	      (imports (		;os
+					;sys
+					;time
+					;docopt
+					;pathlib
+					;(np numpy)
+					;serial
+					;(pd pandas)
+					;(xr xarray)
+					;(xrp xarray.plot)
+					;skimage.restoration
+					;(u astropy.units)
+					; EP_SerialIO
+					;scipy.ndimage
+					;   scipy.optimize
+					;nfft
+					;sklearn
+					;sklearn.linear_model
+					;itertools
+					;datetime
+			   (np numpy)
+			   ; scipy.sparse
+			   ;scipy.sparse.linalg
+					; jax
+					;jax.random
+					;jax.config
+					;copy
+					subprocess
+			   ;datetime
+					;time
+			   mss
+			   ))
+	     #+nil(imports-from ()
+			   )
 	     (setf
 	      _code_git_version
 	      (string ,(let ((str (with-output-to-string (s)
@@ -37,6 +69,16 @@
 				 month
 				 date
 				 (- tz)))))
+	     (do0
+	      (subprocess.run (list ,@(loop for e in `(scrcpy --always-on-top
+							      -m 640
+							      -w
+							      --window-x 0
+							      --window-y 0
+							      ;; --turn-screen-off
+							      )
+					    collect
+					    `(string ,e)))))
 	)))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
