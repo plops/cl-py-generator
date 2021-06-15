@@ -9,16 +9,12 @@
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")
   (defparameter *code-file* "run_04_lcd")
   (defparameter *source* (format nil "~a/source/04_tang_lcd/" *path*))
-
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
       "Sunday"))
-
-  
   (let* ((code
 	   `(do0
-	     
 	     (imports-from (myhdl *)
 			   (random randrange))
 	     (setf
@@ -26,9 +22,7 @@
 	      (string ,(let ((str (with-output-to-string (s)
 				    (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
 			 (subseq str 0 (1- (length str)))))
-	      _code_repository (string ,(format nil "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/run_00_flop.py")
-				       )
-
+	      _code_repository (string ,(format nil "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"))
 	      _code_generation_time
 	      (string ,(multiple-value-bind
 			     (second minute hour date month year day-of-week dst-p tz)
@@ -42,13 +36,10 @@
 				 year
 				 month
 				 date
-				 (- tz))
-			 )))
-
+				 (- tz)))))
 	     (comments "https://tangnano.sipeed.com/en/examples/2_lcd.html")
 	     (comments "https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v")
 	     (comments "AT050TN43.pdf ILI6122.pdf ")
-
 	     ,@(loop for e in `((v back 6)
 				(v pulse 5)
 				(v extent 480)
@@ -64,46 +55,12 @@
 		   line_for_vs (+ v_extent v_back v_front))
 	     (setf pixel_count (Signal (intbv 0 :min 0 :max (+ h_extent h_back h_front 100)))
 		   line_count (Signal (intbv 0 :min 0 :max (+ v_extent v_back v_front 100))))
-
 	     ,@ (loop for e in `(r g b)
 		      collect
 		      `(setf ,(format nil "data_~a" e)
 			     (Signal (aref (intbv 0) (slice 10 "")))))
-	     
-		#+nil (do0
+	     	(do0
 		 @block
-		 (def TOP (n_rst
-			   xtal_in
-			   lcd_clk
-			   lcd_hsync
-			   lcd_vsync
-			   lcd_de
-			   lcd_r
-			   lcd_g
-			   lcd_b
-			  ; key
-			   )
-
-		   
-		    #+nil (do0
-		    @always_comb
-		    (def logic ()
-		      (setf lcd_clk clk_pix)))
-		   
-		   (setf lcd_1 (lcd lcd_clk ;clk_pix
-				    n_rst  lcd_de lcd_hsync lcd_vsync lcd_r lcd_g lcd_b))
-		   (return ; logic
-		     ))
-		 
-		 (setf TOP.verilog_code (string3 " Gowin_PLL chip_pll(
-        .clkout(clk_sys), //output clkout      //200M
-        .clkoutd(clk_pix), //output clkoutd   //33.33M
-        .clkin(xtal_in) //input clkin
-    );	
-")))
-		
-		(do0
-	      @block
 	      (def lcd (pixel_clk n_rst lcd_de lcd_hsync lcd_vsync lcd_r lcd_g lcd_b)
 		(do0
 		 (@always pixel_clk.posedge n_rst.negedge)
@@ -117,18 +74,14 @@
 			   (if (== line_count line_for_vs)
 			       (setf line_count.next 0
 				     pixel_count.next 0)
-			       (setf pixel_count.next (+ pixel_count 1))))
-		       )))
+			       (setf pixel_count.next (+ pixel_count 1)))))))
 		(do0
 		 (@always pixel_clk.posedge n_rst.negedge)
 		 (def logic_data ()
 		   (when (== n_rst 0)
 		     (setf data_r.next 0
 			   data_b.next 0
-			   data_g.next 0
-			   )
-		     
-		     )))
+			   data_g.next 0))))
 		(do0
 		 @always_comb
 		 (def logic_sync ()
@@ -136,20 +89,14 @@
 			       (? (& (<= h_pulse
 					 pixel_count )
 				     (<= pixel_count (+ h_extent h_back) ; (- pixel_for_hs h_front) 
-					 
-					 
 					 ))
 				  0 1))
 		   (if (& (<= h_pulse
 			      pixel_count )
 			  (<= pixel_count (+ h_extent h_back) ; (- pixel_for_hs h_front) 
-			      
-			      
 			      ))
 		       (setf lcd_hsync 0)
-		       (setf lcd_hsync 1)
-		       
-		       )
+		       (setf lcd_hsync 1))
 		   (if (& (<= v_pulse
 			      line_count)
 			  (<= line_count 
@@ -162,19 +109,15 @@
 				 line_count)
 			     (<= line_count 
 				 (+ v_extent 5 ;(- v_back 1)
-				    )))
-			  )
-		       (setf lcd_de 1
-			     )
+				    ))))
+		       (setf lcd_de 1)
 		       (setf lcd_de 0))))
-
 		(do0
 		 @always_comb
 		 (def logic_pattern ()
 		   ,@(loop for (e f) in `((lcd_r 400)
 					  (lcd_b 640)
-					  (lcd_g 840)
-					  )
+					  (lcd_g 840))
 			   collect
 			   `(do0
 			     ,(let ((res `(setf (dot ,e next) 0)))
@@ -185,17 +128,11 @@
 							,res)))
 				res)))))
 		(return (tuple logic_count logic_data logic_sync logic_pattern))))
-
-
-	     
-	     
 	     (do0
-	      
 	      (def convert_this (hdl)
 		(do0 
 		 #-nil
 		 (do0
-
 		  (do0 ,@(loop for e in `(pixel_clk ;n_rst
 				      lcd_de lcd_hsync 
 				      lcd_vsync)
@@ -212,31 +149,8 @@
 					   lcd_de lcd_hsync lcd_vsync
 					   lcd_r lcd_b lcd_g
 					   ))
-			  (lcd_1.convert :hdl hdl)))
-		 #+nil (do0 (do0 ,@(loop for e in `(pixel_clk ;n_rst
-				      lcd_de lcd_hsync 
-				      lcd_vsync xtal_in lcd_clk)
-			   collect
-			       `(setf ,e (Signal (bool 0))))
-		       (setf n_rst (ResetSignal 0 :active 0 :isasync False))
-		       ,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
-					      )
-			       collect
-			       `(setf ,e (Signal (aref (intbv 0) (slice ,f ""))))))
-		      (setf top_1 (TOP n_rst
-			   xtal_in
-			   lcd_clk
-			   lcd_hsync
-			   lcd_vsync
-			   lcd_de
-			   lcd_r
-			   lcd_g
-			   lcd_b))
-		      (top_1.convert :hdl hdl))
-		 )
-		)
-	      (convert_this :hdl (string "Verilog")))
-	     )))
+			  (lcd_1.convert :hdl hdl)))))
+	      (convert_this :hdl (string "Verilog"))))))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     (with-open-file (s (format nil "~a/~a" *source* "rpll.v")
 		       :direction :output
@@ -312,8 +226,8 @@ endmodule"))
     </FileList>
 </Project>
 "
-	      (loop for (e f) in `((lcd.v verilog)
-				   (top.v verilog)
+	      (loop for (e f) in `((top.v verilog)
+				   (lcd.v verilog)
 				   (osc.v verilog)
 				   (rpll.v verilog)
 				   (test.cst cst))
@@ -348,7 +262,7 @@ endmodule"))
 	 (append (loop for e in `(n_rst xtal_in)
 		       collect
 		       (format nil "input ~a" e))
-		 (loop for e in `(lcd_clk lcd_hsync lcd_vsync lcd_ed
+		 (loop for e in `(lcd_clk lcd_hsync lcd_vsync lcd_de
 					  "[4:0] lcd_r"
 					  "[5:0] lcd_g"
 					  "[4:0] lcd_b"
@@ -371,8 +285,7 @@ endmodule"))
 		       collect
 		       (format nil ".~a(~a)" e f)))
 	(p `(";"))
-	(p `("lcd lcd_1")
-	   )
+	(p `("lcd lcd_1"))
 	(paren (loop for  e in `((clk clk_sys)
 				 n_rst 
 				 clk_pix
@@ -388,8 +301,6 @@ endmodule"))
 			 (format nil ".~a(~a)" e e )))
 	       )
 	(p `(";"))
-
-	
 	(p `("assign lcd_clk = clk_pix;"))
 	(p `("endmodule"))))
     (with-open-file (s (format nil "~a/~a" *source* "test.cst")
@@ -415,8 +326,7 @@ endmodule"))
 		 (p (format nil "IO_LOC \"lcd_~a\" ~a" e f)))
 	(loop for e in `((r (0 4) (27 28 29 30 31))
 			 (g (0 5) (32 33 34 38 39))
-			 (b (0 4) (41 42 43 44 45))
-			 )
+			 (b (0 4) (41 42 43 44 45)))
 	      
 	      do
 		 (destructuring-bind (name (start end) vals) e
@@ -425,8 +335,7 @@ endmodule"))
 			    (p (format nil "IO_LOC \"lcd_~a[~a]\" ~a" name i v)))))
 	(loop for e in `(n_rst lcd_clk lcd_vsync lcd_de ;key
 			       xtal_in lcd_hsync
-			       (lcd_r 4) (lcd_g 5) (lcd_b 4)
-			       )
+			       (lcd_r 4) (lcd_g 5) (lcd_b 4))
 	      do
 		 (if (listp e)
 		     (destructuring-bind (name i) e
