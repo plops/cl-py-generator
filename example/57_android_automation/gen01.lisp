@@ -226,13 +226,20 @@
 		      (setf (ntuple ,@(mapcar #'first l))
 			    pars)
 		      (return (np.concatenate (list (- dft.sx (* scale_x (- dft.x offset_x)))
-				     (- dft.y (* scale_y (- dft.y offset_y))
-					)))))
+						    (- dft.sy (* scale_y (- dft.y offset_y)))))))
 		    (setf sol
 			  (scipy.optimize.least_squares trafo (tuple ,@(mapcar #'second l))
 							:method (string "lm"))
 			  )
-		    (print sol))))
+		    (print sol)
+		    (setf (ntuple ,@(mapcar #'first l))
+			  sol.x)
+		    (setf (aref dft (string "cx"))  (* scale_x (- dft.x offset_x))
+			  (aref dft (string "cy"))  (* scale_y (- dft.y offset_y)
+						       )
+			  
+			  )
+		    )))
 	      #+nil (do0 (setf pause (imread (string "img/pause.jpg") cv2.IMREAD_COLOR))
 		   (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
 	      
