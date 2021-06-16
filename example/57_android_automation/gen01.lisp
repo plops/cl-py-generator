@@ -42,7 +42,8 @@
 					;jax.random
 					;jax.config
 					;copy
-					subprocess
+			   subprocess
+			   threading
 			   ;datetime
 					;time
 			   mss
@@ -51,6 +52,7 @@
 	      (imports-from (PIL Image)
 			    (cv2 imshow destroyAllWindows imread
 				 waitKey imwrite setMouseCallback circle matchTemplate minMaxLoc)
+			    (ppadb.client Client)
 			   )
 	     (setf
 	      _code_git_version
@@ -83,6 +85,30 @@
 								 )
 					       collect
 					       `(string ,e))))))
+
+	     (do0
+	      (setf adb (Client :host (string "127...1")
+				:port 5037)
+		    devices (adb.devices))
+	      (when (== 0 (len devices))
+		(print (string "no device attached"))
+		(quit))
+	      (setf device (aref devices 0)))
+
+	     (do0
+	      (setf running True)
+	      (def touch_collect_suns ()
+		"global running"
+		(while running
+		       (setf x1 150
+			     y1 100
+			     x2 630
+			     y2 200)
+		       (device.shell (dot (string "input touchscreen swipe {} {} {} {} 10")
+					  (format x1 y1 x2 y2)))))
+	      (setf thr (threading.Thread :target touch_collect_suns))
+	      (thr.start))
+	     
 	     (do0
 	      (setf sct (mss.mss))
 	      (setf x_start 0
