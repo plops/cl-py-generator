@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "ce9e5ab250d428bceb1e1c3f964d081115fc47a0"
+_code_git_version = "ab51b51418e700ef61b255da4e2437d04c220d4c"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "22:06:39 of Wednesday, 2021-06-16 (GMT+1)"
+_code_generation_time = "22:20:27 of Wednesday, 2021-06-16 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf

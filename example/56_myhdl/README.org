@@ -72,3 +72,6 @@ cd istyle-verilog-formatter
 make
 iStyle
   #+end_example
+
+- when place & route complains about pin can't be assigned because it is MSPI or SSPI, go to
+  project->configuration->dual-purpose pin-> use as regular io
