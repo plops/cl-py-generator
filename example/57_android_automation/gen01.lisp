@@ -15,13 +15,13 @@
       "Sunday"))
   (defun lprint (cmd &optional rest)
     `(when debug
-       (print (dot (string ,(format nil "{} ~{~a={}~^ ~}" rest))
+       (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}" cmd rest))
 		   (format (- (time.time) start_time)
 			   ,@rest)))))
-  (let* ((l-template `((SALE 1904 105)
-			 (back 80 74)
-			 (how_to_play 970 893)
-			 (hook1 292 1090)
+  (let* ((l-template `((SALE 1904 105  (608 37))
+			 (back 80 74 (25.5 25))
+			 (how_to_play 970 893 (312 288))
+			 (hook1 292 1090 (91.5 351))
 			 (pause)
 			 (Play ))
 		     )
@@ -41,7 +41,7 @@
 					;(u astropy.units)
 					; EP_SerialIO
 					;scipy.ndimage
-					;   scipy.optimize
+				        scipy.optimize
 					;nfft
 					;sklearn
 					;sklearn.linear_model
@@ -194,7 +194,7 @@
 	       (setf res (list))
 	       ,@(loop for e in l-template
 			 collect
-			 (destructuring-bind (name &optional x y) e
+			 (destructuring-bind (name &optional x y screen) e
 			   `(do0
 			     (setf fn  (string ,(format nil "img/~a.jpg" name)))
 			     (setf ,name (imread fn
@@ -203,18 +203,40 @@
 				  `(do0
 				    (setf ,(format nil "~a_x" name) ,x)
 				    (setf ,(format nil "~a_y" name) ,y)
+				    (setf ,(format nil "~a_screen_x" name) ,(first screen))
+				    (setf ,(format nil "~a_screen_y" name) ,(second screen))
 				    (res.append (dictionary :x ,x
 							    :y ,y
+							    :sx ,(first screen)
+							    :sy ,(second screen)
 							    :name ,name
 							    :fn fn)))
 				  `(comments "no x y coords"))
 			     )))
 	       (setf dft (pd.DataFrame res))
-		 )
+	       )
+	      (do0
+	       ,(lprint "compute transform between scrcpy and device coordinates")
+	       ,(let ((l `((offset_x 0)
+			   (offset_y 0)
+			   (scale_x 1)
+			   (scale_y 1))))
+		  `(do0
+		    (def trafo (pars)
+		      (setf (ntuple ,@(mapcar #'first l))
+			    pars)
+		      (return (np.concatenate (list (- dft.sx (* scale_x (- dft.x offset_x)))
+				     (- dft.y (* scale_y (- dft.y offset_y))
+					)))))
+		    (setf sol
+			  (scipy.optimize.least_squares trafo (tuple ,@(mapcar #'second l))
+							:method (string "lm"))
+			  )
+		    (print sol))))
 	      #+nil (do0 (setf pause (imread (string "img/pause.jpg") cv2.IMREAD_COLOR))
 		   (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
 	      
-	      (do0 ;while True
+	      (while True
 		     (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
 				imga (np.array scr)
 				img (aref imga 
@@ -234,18 +256,20 @@
 				   20 (tuple 0 0 255) 5))
 			  ,@(loop for e in l-template
 				  collect
-				  (destructuring-bind (name &optional x y ) e
-				   `(do0
-				     (setf res (matchTemplate img ,name
-							      cv2.TM_CCORR_NORMED)
-					   (ntuple w h ch) (dot ,name shape)
-					   (ntuple mi ma miloc maloc ) (minMaxLoc res)
-					   center (+ (np.array maloc)
-						     (* .5 (np.array (list h w)))))
-				     (circle imga  ("tuple" (dot center (astype int)))
-					     20 (tuple 0 0 255) 5)
-				     ,(lprint (format nil "~a" name)
-					      `(center)))))
+				  (destructuring-bind (name &optional x y screen) e
+				    (if x
+				      `(do0
+				      (setf res (matchTemplate img ,name
+							       cv2.TM_CCORR_NORMED)
+					    (ntuple w h ch) (dot ,name shape)
+					    (ntuple mi ma miloc maloc ) (minMaxLoc res)
+					    center (+ (np.array maloc)
+						      (* .5 (np.array (list h w)))))
+				      (circle imga  ("tuple" (dot center (astype int)))
+					      20 (tuple 0 0 255) 5)
+				      ,(lprint (format nil "~a" name)
+					       `(center)))
+				      `(comment "no"))))
 
 			  (imshow (string "output")
 			    imga))
@@ -254,12 +278,12 @@
 			       (ord (string "q")))
 		       (destroyAllWindows)
 		       (setf running False)
-		       ;break
+		       break
 		       )
 		     )
 	      )
 	     
-	    ; (scrcpy.terminate)
+	     (scrcpy.terminate)
 	)))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
