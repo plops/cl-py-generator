@@ -216,11 +216,11 @@
 	       (setf dft (pd.DataFrame res))
 	       )
 	      (do0
-	       ,(lprint "compute transform between scrcpy and device coordinates")
-	       ,(let ((l `((offset_x 0)
-			   (offset_y 0)
-			   (scale_x 1)
-			   (scale_y 1))))
+	       ,(lprint "compute transform from screen to scrcpy window coordinates")
+	       ,(let ((l `((offset_x 1.26)
+			   (offset_y -7.35)
+			   (scale_x .32)
+			   (scale_y .32))))
 		  `(do0
 		    (def trafo (pars)
 		      (setf (ntuple ,@(mapcar #'first l))
