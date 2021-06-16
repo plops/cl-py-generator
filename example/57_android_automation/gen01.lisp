@@ -23,7 +23,17 @@
 			 (how_to_play 970 893 (312 288))
 			 (hook1 292 1090 (91.5 351))
 			 (pause)
-			 (Play ))
+		       (Play )
+		       ;(empty_playground)
+		       (empty_tile_powerup)
+		       (lets_rock_2)
+		       (lets_rock)
+		       (load_old_plants)
+		       (placed_btm_shooter_on_powerup)
+		       (placed_tree)
+		       (plant_balls)
+		       (plant_btm_shooter)
+		       (plant_tree))
 		     )
 	 (code
 	   `(do0
@@ -205,6 +215,29 @@
 				    (setf ,(format nil "~a_y" name) ,y)
 				    (setf ,(format nil "~a_screen_x" name) ,(first screen))
 				    (setf ,(format nil "~a_screen_y" name) ,(second screen))
+				    (def ,(format nil "tap_~a" name) ()
+				      ,(lprint (format nil "tap ~a" name)
+					       `(,(format nil "~a_x" name)
+						 ,(format nil "~a_y" name)))
+				      )
+				    (def ,(format nil "find_and_tap_~a" name) (scr)
+				      (setf imga (np.array scr)
+				      img (aref imga 
+						":" ":" (slice "" -1)))
+				      (do0
+				      (setf res (matchTemplate img ,name
+							       cv2.TM_CCORR_NORMED)
+					    (ntuple w h ch) (dot ,name shape)
+					    (ntuple mi ma miloc maloc ) (minMaxLoc res)
+					    center (+ (np.array maloc)
+						      (* .5 (np.array (list h w)))))
+				      (circle imga  ("tuple" (dot center (astype int)))
+					      20 (tuple 0 0 255) 5)
+				      )
+				      ,(lprint (format nil "find tap ~a" name)
+					       `(center))
+				      (return imga)
+				      )
 				    (res.append (dictionary :x ,x
 							    :y ,y
 							    :sx ,(first screen)
@@ -242,7 +275,7 @@
 		    )))
 
 	      (do0
-	       ,(lprint "compute transform from scrcpy to device coordinates")
+	       ,(lprint "compute transform from scrcpy to device coordinates. use this to generate tap positions")
 	       ,(let ((l `((offset_x_inv -.41)
 			   (offset_y_inv 2.35)
 			   (scale_x_inv 3.12)
@@ -271,10 +304,10 @@
 	      
 	      (while True
 		     (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
-				imga (np.array scr)
-				img (aref imga 
-					  ":" ":" (slice "" -1))
+				
 				)
+
+			  (setf imga (find_and_tap_how_to_play scr))
 			  
 		          #+nil (do0
 			   (setf res (matchTemplate img Play
@@ -287,7 +320,7 @@
 					   (* .5 (np.array (list h w)))))
 			   (circle imga  ("tuple" (dot center (astype int)))
 				   20 (tuple 0 0 255) 5))
-			  ,@(loop for e in l-template
+			  #+nil ,@(loop for e in l-template
 				  collect
 				  (destructuring-bind (name &optional x y screen) e
 				    (if x
