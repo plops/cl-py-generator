@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "04d280e1478db3852159564e2a34a20d01f960b0"
+_code_git_version = "8bf633c9ce912c47281e2b2f020ecb5b47e64299"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "19:57:33 of Tuesday, 2021-06-15 (GMT+1)"
+_code_generation_time = "10:39:50 of Wednesday, 2021-06-16 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -20,7 +20,7 @@ line_for_vs = ((v_extent) + (v_back) + (v_front))
 pixel_count = Signal(
     intbv(0, min=0, max=((h_extent) + (h_back) + (h_front) + (100))))
 line_count = Signal(
-    intbv(0, min=0, max=((v_extent) + (v_back) + (v_front) + (100))))
+    intbv(0, min=0, max=((2) * (((v_extent) + (v_back) + (v_front) + (100))))))
 data_r = Signal(intbv(0)[10:])
 data_g = Signal(intbv(0)[10:])
 data_b = Signal(intbv(0)[10:])
@@ -44,32 +44,25 @@ def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g, lcd_b):
                 else:
                     pixel_count.next = ((pixel_count) + (1))
 
-    @always(pixel_clk.posedge, n_rst.negedge)
-    def logic_data():
-        if (((n_rst) == (0))):
-            data_r.next = 0
-            data_b.next = 0
-            data_g.next = 0
-
     @always_comb
     def logic_sync():
         if (((((h_pulse) <= (pixel_count))) & (((pixel_count) <=
                                                 (((h_extent) + (h_back))))))):
-            lcd_hsync = 0
+            lcd_hsync.next = 0
         else:
-            lcd_hsync = 1
+            lcd_hsync.next = 1
         if (((((v_pulse) <= (line_count))) & (((line_count) <=
                                                (line_for_vs))))):
-            lcd_vsync = 0
+            lcd_vsync.next = 0
         else:
-            lcd_vsync = 1
+            lcd_vsync.next = 1
         if (((((((h_back) <= (pixel_count))) & (((pixel_count) <=
                                                  (((h_extent) + (h_back)))))))
              & (((((v_back) <= (line_count))) & (((line_count) <=
                                                   (((v_extent) + (5))))))))):
-            lcd_de = 1
+            lcd_de.next = 1
         else:
-            lcd_de = 0
+            lcd_de.next = 0
 
     @always_comb
     def logic_pattern():
@@ -133,7 +126,6 @@ def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g, lcd_b):
 
     return (
         logic_count,
-        logic_data,
         logic_sync,
         logic_pattern,
     )
@@ -148,8 +140,8 @@ def convert_this(hdl):
     lcd_r = Signal(intbv(0)[5:])
     lcd_g = Signal(intbv(0)[6:])
     lcd_b = Signal(intbv(0)[5:])
-    lcd_1 = lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_b,
-                lcd_g)
+    lcd_1 = lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g,
+                lcd_b)
     lcd_1.convert(hdl=hdl)
 
 

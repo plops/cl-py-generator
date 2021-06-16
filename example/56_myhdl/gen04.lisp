@@ -54,7 +54,7 @@
 	     (setf pixel_for_hs (+ h_extent h_back h_front)
 		   line_for_vs (+ v_extent v_back v_front))
 	     (setf pixel_count (Signal (intbv 0 :min 0 :max (+ h_extent h_back h_front 100)))
-		   line_count (Signal (intbv 0 :min 0 :max (+ v_extent v_back v_front 100))))
+		   line_count (Signal (intbv 0 :min 0 :max (* 2  (+ v_extent v_back v_front 100)))))
 	     ,@ (loop for e in `(r g b)
 		      collect
 		      `(setf ,(format nil "data_~a" e)
@@ -75,7 +75,7 @@
 			       (setf line_count.next 0
 				     pixel_count.next 0)
 			       (setf pixel_count.next (+ pixel_count 1)))))))
-		(do0
+		#+nil(do0
 		 (@always pixel_clk.posedge n_rst.negedge)
 		 (def logic_data ()
 		   (when (== n_rst 0)
@@ -91,18 +91,18 @@
 				     (<= pixel_count (+ h_extent h_back) ; (- pixel_for_hs h_front) 
 					 ))
 				  0 1))
-		   (if (& (<= h_pulse
+		   #-nil(if (& (<= h_pulse
 			      pixel_count )
 			  (<= pixel_count (+ h_extent h_back) ; (- pixel_for_hs h_front) 
 			      ))
-		       (setf lcd_hsync 0)
-		       (setf lcd_hsync 1))
+		       (setf lcd_hsync.next 0)
+		       (setf lcd_hsync.next 1))
 		   (if (& (<= v_pulse
 			      line_count)
 			  (<= line_count 
 			      line_for_vs))
-		       (setf lcd_vsync 0)
-		       (setf lcd_vsync 1))
+		       (setf lcd_vsync.next 0)
+		       (setf lcd_vsync.next 1))
 		   (if (& (& (<= h_back pixel_count)
 			     (<= pixel_count (+ h_extent h_back)))
 			  (& (<= v_back
@@ -110,8 +110,8 @@
 			     (<= line_count 
 				 (+ v_extent 5 ;(- v_back 1)
 				    ))))
-		       (setf lcd_de 1)
-		       (setf lcd_de 0))))
+		       (setf lcd_de.next 1)
+		       (setf lcd_de.next 0))))
 		(do0
 		 @always_comb
 		 (def logic_pattern ()
@@ -127,7 +127,8 @@
 							(setf (dot ,e next) ,val)
 							,res)))
 				res)))))
-		(return (tuple logic_count logic_data logic_sync logic_pattern))))
+		(return (tuple logic_count ;logic_data
+			       logic_sync logic_pattern))))
 	     (do0
 	      (def convert_this (hdl)
 		(do0 
@@ -147,7 +148,7 @@
 		     
 		     (do0 (setf lcd_1 (lcd pixel_clk n_rst
 					   lcd_de lcd_hsync lcd_vsync
-					   lcd_r lcd_b lcd_g
+					   lcd_r lcd_g lcd_b
 					   ))
 			  (lcd_1.convert :hdl hdl)))))
 	      (convert_this :hdl (string "Verilog"))))))
@@ -228,13 +229,13 @@ endmodule"))
 "
 	      (loop for (e f) in `((top.v verilog)
 				   (lcd.v verilog)
-				   (osc.v verilog)
+				   ;(osc.v verilog)
 				   (rpll.v verilog)
 				   (test.cst cst))
 		    collect
 		    (format nil "<File path=\"~a\" type=\"file.~a\" enable=\"1\"/>" e f))))
 
-    (with-open-file (s (format nil "~a/~a" *source* "osc.v")
+  #+nil  (with-open-file (s (format nil "~a/~a" *source* "osc.v")
 		       :direction :output
 		       :if-exists :supersede)
       (format s "~a"
@@ -286,15 +287,15 @@ endmodule"))
 		       (format nil ".~a(~a)" e f)))
 	(p `(";"))
 	(p `("lcd lcd_1"))
-	(paren (loop for  e in `((clk clk_sys)
-				 n_rst 
-				 clk_pix
-				 lcd_de 
-				 lcd_hsync
-				 lcd_vsync
-				 lcd_b
-				 lcd_g
-				 lcd_r)
+	(paren (loop for  e in `(;(clk clk_sys)
+				   n_rst 
+				   (pixel_clk clk_pix)
+				   lcd_de 
+				   lcd_hsync
+				   lcd_vsync
+				   lcd_r
+				   lcd_g
+				   lcd_b)
 		     collect
 		     (if (listp e)
 			 (format nil ".~a(~a)" (first e) (second e))
@@ -311,9 +312,7 @@ endmodule"))
 	(loop for (e f) in `((xtal_in 35)
 			     (n_rst 14)
 			     ;(key 15)
-			     (led_r 16)
-			     (led_g 17)
-			     (led_b 18)
+			     ;(led_r 16) (led_g 17) (led_b 18)
 			     )
 	      do
 		 (p (format nil "IO_LOC \"~a\" ~a" e f)))

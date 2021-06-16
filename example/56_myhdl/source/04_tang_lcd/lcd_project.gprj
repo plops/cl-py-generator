@@ -7,7 +7,6 @@
     <FileList>
         <File path="top.v" type="file.verilog" enable="1"/>
         <File path="lcd.v" type="file.verilog" enable="1"/>
-        <File path="osc.v" type="file.verilog" enable="1"/>
         <File path="rpll.v" type="file.verilog" enable="1"/>
         <File path="test.cst" type="file.cst" enable="1"/>
     </FileList>
