@@ -255,7 +255,7 @@
 						    (- dft.y (* scale_y_inv (- dft.sy offset_y_inv)))))))
 		    (setf sol
 			  (scipy.optimize.least_squares trafo_inv (tuple ,@(mapcar #'second l))
-							:method (string "lm"))
+							 :method (string "lm"))
 			  )
 		    (print sol)
 		    (setf (ntuple ,@(mapcar #'first l))
