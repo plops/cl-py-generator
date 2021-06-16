@@ -240,6 +240,32 @@
 			  
 			  )
 		    )))
+
+	      (do0
+	       ,(lprint "compute transform from scrcpy to device coordinates")
+	       ,(let ((l `((offset_x_inv -.41)
+			   (offset_y_inv 2.35)
+			   (scale_x_inv 3.12)
+			   (scale_y_inv 3.12))))
+		  `(do0
+		    (def trafo_inv (pars)
+		      (setf (ntuple ,@(mapcar #'first l))
+			    pars)
+		      (return (np.concatenate (list (- dft.x (* scale_x_inv (- dft.sx offset_x_inv)))
+						    (- dft.y (* scale_y_inv (- dft.sy offset_y_inv)))))))
+		    (setf sol
+			  (scipy.optimize.least_squares trafo_inv (tuple ,@(mapcar #'second l))
+							:method (string "lm"))
+			  )
+		    (print sol)
+		    (setf (ntuple ,@(mapcar #'first l))
+			  sol.x)
+		    (setf (aref dft (string "cx_inv"))  (* scale_x_inv (- dft.sx offset_x_inv))
+			  (aref dft (string "cy_inv"))  (* scale_y_inv (- dft.sy offset_y_inv)
+						       )
+			  
+			  )
+		    )))
 	      #+nil (do0 (setf pause (imread (string "img/pause.jpg") cv2.IMREAD_COLOR))
 		   (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
 	      
