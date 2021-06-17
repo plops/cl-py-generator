@@ -39,7 +39,11 @@
 
 	     (comments "https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb")
 	
-	   
+
+
+	     (setf rom (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
+				      collect
+				      `(list ,(format nil "0x~a" e)))))
 	     	(do0
 		 @block
 	      (def mem (clk adr we di do)
