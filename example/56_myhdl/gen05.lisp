@@ -278,7 +278,7 @@
 				     (destructuring-bind (name &optional (default 0)) e
 				       `(setf ,name (Signal (bool ,default)))))
 			     
-			     ,@(loop for (e f) in `((adr 16) (di 8) (do 8))
+			     ,@(loop for (e f) in `((adr 8) (di 8) (do 8))
 				     collect
 				     `(setf ,e (Signal (aref (modbv 0) (slice ,f "")))))
 			     )
@@ -321,32 +321,23 @@
 		       :if-exists :supersede :if-does-not-exist :create)
       (flet ((p (str)
 	       (format s "~a;~%" str)))
-	(loop for (e f) in `((xtal_in 35)
-			     (n_rst 14)
-			     ;(key 15)
-			     ;(led_r 16) (led_g 17) (led_b 18)
+	(loop for (e f) in `((clk 35)
+			     (rst 14)
+			     			     
 			     )
 	      do
 		 (p (format nil "IO_LOC \"~a\" ~a" e f)))
-	(loop for (e f) in `((clk 11)
-			     (de 5)
-			     (vsync 46)
-			     (hsync 10)
-			     )
-	      do
-		 (p (format nil "IO_LOC \"lcd_~a\" ~a" e f)))
-	(loop for e in `((r (0 4) (27 28 29 30 31))
-			 (g (0 5) (32 33 34 38 39 40))
-			 (b (0 4) (41 42 43 44 45)))
+	(loop for e in `((di (0 7) (27 28 29 30  31 32 33 34))
+			 (do (0 7) (3 38 39 40  41 42 43 44))
+			 (adr (0 7)(8 45 46 47  48 4 5 6)))
 	      
 	      do
 		 (destructuring-bind (name (start end) vals) e
 		   (loop for v in vals and i from start upto end
 			 do
-			    (p (format nil "IO_LOC \"lcd_~a[~a]\" ~a" name i v)))))
-	(loop for e in `(n_rst lcd_clk lcd_vsync lcd_de ;key
-			       xtal_in lcd_hsync
-			       (lcd_r 4) (lcd_g 5) (lcd_b 4))
+			    (p (format nil "IO_LOC \"~a[~a]\" ~a" name i v)))))
+	
+	(loop for e in `(rst clk)
 	      do
 		 (if (listp e)
 		     (destructuring-bind (name i) e

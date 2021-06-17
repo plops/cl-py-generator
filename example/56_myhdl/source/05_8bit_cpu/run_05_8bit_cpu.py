@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "f33602ae4a73aaa5f2d00d3f36d3f036e7ae4281"
+_code_git_version = "4f38da42f84768c3cb2f238a7ecd6b84fd437313"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "18:02:20 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "21:42:49 of Thursday, 2021-06-17 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -136,7 +136,7 @@ def convert_this(hdl):
     clk = Signal(bool(0))
     rst = Signal(bool(1))
     we = Signal(bool(0))
-    adr = Signal(modbv(0)[16:])
+    adr = Signal(modbv(0)[8:])
     di = Signal(modbv(0)[8:])
     do = Signal(modbv(0)[8:])
     mi = mem(clk, adr, we, di, do)
