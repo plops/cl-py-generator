@@ -316,6 +316,7 @@
 				 (destructuring-bind (condition &rest statements) clause
 				   (format s "~&~a:~%~a"
 					   (cond ((and (eq condition 't) (eq i 0))
+						  ;; this special case may happen when you comment out all but the last cond clauses
 						  (format nil "if ( True )"))
 						 ((eq i 0) (format nil "if ( ~a )" (emit condition)))
 						 ((eq condition 't) (emit `(indent "else")))
