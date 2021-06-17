@@ -85,3 +85,4 @@ Edit->Cable
 Burn
 /home/martin/stage/cl-py-generator/example/56_myhdl/source/04_tang_lcd/impl/pnr/lcd_project.fs
 #+end_example
+ 
