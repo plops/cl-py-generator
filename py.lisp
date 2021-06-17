@@ -313,13 +313,13 @@
 		      (with-output-to-string (s)
 			(loop for clause in clauses and i from 0
 			      do
-				 (destructuring-bind (condition statement) clause
+				 (destructuring-bind (condition &rest statements) clause
 				   (format s "~&~a:~%~a"
 					   (cond ((eq i 0) (format nil "if ( ~a )" (emit condition)))
 						 ((eq condition t) (emit `(indent "else")))
 						 (t (emit `(indent ,(format nil "elif ( ~a )" (emit condition)))))
 						 )
-					   (emit `(do ,statement)))))
+					   (emit `(do ,@statements)))))
 		      )))
 	      (? (destructuring-bind (condition true-statement false-statement)
 		     (cdr code)

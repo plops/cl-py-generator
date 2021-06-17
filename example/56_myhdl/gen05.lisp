@@ -116,7 +116,12 @@
 			       ((== cyc D)
 				(setf im.next do
 				      am.next (& ir 7)
-				      ir.next (& (>> ir 3) #x1f))))))
+				      ir.next (& (>> ir 3) #x1f))
+				(when (== (>> ir 3) opc.RTS)
+				  (setf addr.next (+ sp 1)
+					sp.next (+ sp 1))
+				  )
+				(setf cyc.next E)))))
 			  (return logic)
 			  )))
 		   
