@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "e2e9b726a5aaf63d94f3f7a08eb99b62f2575bc6"
+_code_git_version = "6651f0a599f5272e11e189f74898350067237014"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "08:14:17 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "08:28:38 of Thursday, 2021-06-17 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -72,9 +72,39 @@ def processor(clk, rst, di, do, adr, we):
             am.next = ((ir) & (7))
             ir.next = ((((ir) >> (3))) & (31))
             if (((((ir) >> (3))) == (opc.RTS))):
-                addr.next = ((sp) + (1))
+                adr.next = ((sp) + (1))
                 sp.next = ((sp) + (1))
             cyc.next = E
+        elif (((cyc) == (E))):
+            if (((ir) == (opc.LDA))):
+                if (((am) == (adm.IMM))):
+                    ra.next = im
+                    pc.next = ((pc) + (1))
+                elif (((am) == (adm.ABS))):
+                    adr.next = ((((do) << (8))) | (im))
+                    pc.next = ((pc) + (2))
+                elif (((am) == (adm.IDX))):
+                    adr.next = ((((do) << (8))) | (((im) + (rx))))
+                    pc.next = ((pc) + (2))
+            elif (((ir) == (opc.STA))):
+                if (((am) == (adm.ABS))):
+                    adr.next = ((((do) << (8))) | (im))
+                    we.next = 1
+                    di.next = ra
+                    pc.next = ((pc) + (2))
+                elif (((am) == (adm.IDX))):
+                    adr.next = ((((do) << (8))) | (((im) + (rx))))
+                    we.next = 1
+                    di.next = ra
+                    pc.next = ((pc) + (2))
+            elif (((ir) == (opc.TAX))):
+                rx.next = ra
+                rw.next = 1
+            elif (((ir) == (opc.TXA))):
+                ra.next = rx
+            elif (((ir) == (opc.ADD))):
+                ra.next = ((ra) + (im))
+                pc.next = ((pc) + (1))
 
     return logic
 

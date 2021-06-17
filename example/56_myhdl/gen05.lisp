@@ -118,10 +118,48 @@
 				      am.next (& ir 7)
 				      ir.next (& (>> ir 3) #x1f))
 				(when (== (>> ir 3) opc.RTS)
-				  (setf addr.next (+ sp 1)
+				  (setf adr.next (+ sp 1)
 					sp.next (+ sp 1))
 				  )
-				(setf cyc.next E)))))
+				(setf cyc.next E))
+			       ((== cyc E)
+				(cond ((== ir opc.LDA)
+				       (cond ((== am adm.IMM)
+					      (setf ra.next im ;; fixme: adr?
+						    pc.next (+ pc 1)))
+					     ((== am adm.ABS)
+					      (setf adr.next (logior (<< do 8)
+								     im)
+						    pc.next (+ pc 2)))
+					     ((== am adm.IDX)
+					      (setf adr.next (logior (<< do 8)
+								     (+ im rx))
+						    pc.next (+ pc 2)))))
+				      ((== ir opc.STA)
+				       (cond 
+					     ((== am adm.ABS)
+					      (setf adr.next (logior (<< do 8)
+								     im)
+						    we.next 1
+						    di.next ra
+						    pc.next (+ pc 2)))
+					     ((== am adm.IDX)
+					      (setf adr.next (logior (<< do 8)
+								     (+ im rx))
+						    we.next 1
+						    di.next ra
+						    pc.next (+ pc 2)))))
+				      ,@(loop for e in `((TAX rx ra rw 1)
+							 (TXA ra rx)
+							 (ADD ra (+ ra im)
+							      pc (+ pc 1)))
+					      collect
+					      (destructuring-bind (opcode &rest rest) e
+						`((== ir (dot opc ,opcode))
+						  ,@(loop for (a b) on rest by #'cddr
+							  collect
+							  `(setf (dot ,a next) ,b)))))
+				      )))))
 			  (return logic)
 			  )))
 		   
