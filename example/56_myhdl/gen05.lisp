@@ -130,7 +130,7 @@
 					sp.next (+ sp 1))
 				  )
 				(setf cyc.next E))
-			     #+nil  ((== cyc E)
+			       ((== cyc E)
 				(cond ((== ir opc.LDA)
 				       (cond ((== am adm.IMM)
 					      (setf ra.next im ;; fixme: adr?
@@ -143,7 +143,7 @@
 					      (setf adr.next (logior (<< do 8)
 								     (+ im rx))
 						    pc.next (+ pc 2)))))
-				      ((== ir opc.STA)
+				       ((== ir opc.STA)
 				       (cond 
 					 ((== am adm.ABS)
 					  (setf adr.next (logior (<< do 8)
@@ -157,11 +157,14 @@
 						we.next 1
 						di.next ra
 						pc.next (+ pc 2)))))
-				      ((== ir opc.JNZ)
-				       (if (== 0 (aref sr 6))
-					   (setf pc.next (+ pc (im.signed)))
-					   (setf pc.next (+ pc 1))))
-				     #+allop  ((== ir opc.JZ)
+
+				       ((== ir opc.JNZ)
+					;; FIXME: myhdl complains about the if for some reason
+					(setf pc.next (+ pc 1))
+					#+nil (if (== (aref sr 6) 0)
+					    (setf pc.next (+ pc (im.signed)))
+					    (setf pc.next (+ pc 1))))
+				     #+allop ((== ir opc.JZ)
 				       (if (== 0 (aref sr 6))
 					   (setf pc.next (+ pc 1))
 					   (setf pc.next (+ pc (im.signed)))
@@ -217,12 +220,12 @@
 
 			       ((== cyc M1)
 				(cond
-				  #+nil ((or (== ir opc.PLA)
+				  #+allop ((or (== ir opc.PLA)
 				       (and (== ir opc.LDA)
 					    (or (== am adm.ABS) ;; fixme precedence?
 						(== am adm.IDX))))
 				   (setf ra.next do))
-				  #+nil ((== ir opc.JSR)
+				  #+allop ((== ir opc.JSR)
 				   (setf adr.next sp
 					 sp.next (- sp 1)
 					 di.next (& (+ pc 2) #xff)

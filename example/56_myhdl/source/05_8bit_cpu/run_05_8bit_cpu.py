@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "3d38eb0885eb80f3bc215c204c62064971847bc8"
+_code_git_version = "f33602ae4a73aaa5f2d00d3f36d3f036e7ae4281"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "17:48:42 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "18:02:20 of Thursday, 2021-06-17 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -69,6 +69,44 @@ def processor(clk, rst, di, do, adr, we):
             am.next = ((ir) & (7))
             ir.next = ((((ir) >> (3))) & (31))
             cyc.next = E
+        elif (((cyc) == (E))):
+            if (((ir) == (opc.LDA))):
+                if (((am) == (adm.IMM))):
+                    ra.next = im
+                    pc.next = ((pc) + (1))
+                elif (((am) == (adm.ABS))):
+                    adr.next = ((((do) << (8))) | (im))
+                    pc.next = ((pc) + (2))
+                elif (((am) == (adm.IDX))):
+                    adr.next = ((((do) << (8))) | (((im) + (rx))))
+                    pc.next = ((pc) + (2))
+            elif (((ir) == (opc.STA))):
+                if (((am) == (adm.ABS))):
+                    adr.next = ((((do) << (8))) | (im))
+                    we.next = 1
+                    di.next = ra
+                    pc.next = ((pc) + (2))
+                elif (((am) == (adm.IDX))):
+                    adr.next = ((((do) << (8))) | (((im) + (rx))))
+                    we.next = 1
+                    di.next = ra
+                    pc.next = ((pc) + (2))
+            elif (((ir) == (opc.JNZ))):
+                pc.next = ((pc) + (1))
+            elif (((ir) == (opc.TAX))):
+                rx.next = ra
+                rw.next = 1
+            elif (((ir) == (opc.TXA))):
+                ra.next = rx
+            elif (((ir) == (opc.INX))):
+                rx.next = ((rx) + (1))
+                rw.next = 1
+            elif (((ir) == (opc.CMP))):
+                rw.next = 2
+                sr.next = concat(((128) <= (((ra) - (im)))),
+                                 ((((ra) - (im))) == (0)), sr[6:0])
+                pc.next = ((pc) + (1))
+            cyc.next = M1
         elif (((cyc) == (M1))):
             if (True):
                 we.next = 0
