@@ -3,7 +3,6 @@
   (ql:quickload "alexandria"))
 (in-package :cl-py-generator)
 
-;; https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")
@@ -37,7 +36,8 @@
 				 month
 				 date
 				 (- tz)))))
-	    
+
+	     (comments "https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb")
 	
 	   
 	     	(do0
@@ -57,30 +57,25 @@
 			   (setf do.next (aref rom adr.val))
 			   (setf do.next (aref ram adr.val))))))
 		(return logic)))
-
+		 
 		
 	     (do0
 	      (def convert_this (hdl)
 		(do0 
-		 #-nil
+		 
 		 (do0
-		  (do0 ,@(loop for e in `(pixel_clk ;n_rst
-				      lcd_de lcd_hsync 
-				      lcd_vsync)
-			   collect
-			       `(setf ,e (Signal (bool 0))))
-		       (setf n_rst (ResetSignal 0 :active 0 :isasync False))
-		       ,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
-					      )
+		  (do0 ,@(loop for e in `((clk) (rst 1) (we))
 			       collect
-			       `(setf ,e (Signal (aref (intbv 0) (slice ,f ""))))))
-		     
-		     
-		     (do0 (setf lcd_1 (lcd pixel_clk n_rst
-					   lcd_de lcd_hsync lcd_vsync
-					   lcd_r lcd_g lcd_b
-					   ))
-			  (lcd_1.convert :hdl hdl)))))
+			       (destructuring-bind (name &optional (default 0)) e
+				`(setf ,name (Signal (bool ,default)))))
+		       
+		       ,@(loop for (e f) in `((adr 16) (di 8) (do 8))
+			       collect
+			       `(setf ,e (Signal (aref (modbv 0) (slice ,f "")))))
+		       )
+		  (setf mi (mem clk adr we di do))
+		  (mi.convert :hdl hdl)
+		  )))
 	      (convert_this :hdl (string "Verilog"))))))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     (with-open-file (s (format nil "~a/~a" *source* "cpu_project.gprj")
