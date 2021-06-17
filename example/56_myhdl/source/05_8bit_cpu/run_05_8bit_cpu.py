@@ -1,15 +1,15 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "50f5d9a2d312db491314871f0618937266fc8f2f"
+_code_git_version = "dd23b4a2487f69580a5a2d7e4d9f2cee3bfb19d3"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "09:07:42 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "17:34:18 of Thursday, 2021-06-17 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
 OPC = namedtuple("opc", [
     "LDA", "STA", "PHA", "PLA", "ASL", "ASR", "TXA", "TAX", "INX", "DEX",
-    "ADD", "SUB", "AND", "OR", "XOR", "CMP", "RTS", "JNX", "JZ", "JSR", "JMP"
+    "ADD", "SUB", "AND", "OR", "XOR", "CMP", "RTS", "JNZ", "JZ", "JSR", "JMP"
 ])
 opc = OPC(*range(21))
 rom = (
@@ -97,6 +97,16 @@ def processor(clk, rst, di, do, adr, we):
                     we.next = 1
                     di.next = ra
                     pc.next = ((pc) + (2))
+            elif (((ir) == (opc.JNZ))):
+                if (((0) == (sr[6]))):
+                    pc.next = ((pc) + (im.signed()))
+                else:
+                    pc.next = ((pc) + (1))
+            elif (((ir) == (opc.JZ))):
+                if (((0) == (sr[6]))):
+                    pc.next = ((pc) + (1))
+                else:
+                    pc.next = ((pc) + (im.signed()))
             elif (((ir) == (opc.TAX))):
                 rx.next = ra
                 rw.next = 1
@@ -153,6 +163,39 @@ def processor(clk, rst, di, do, adr, we):
                 ra.next = ((ra) >> (im))
                 pc.next = ((pc) + (1))
             cyc.next = M1
+        elif (((cyc) == (M1))):
+            if (((((ir) == (opc.PLA)))
+                 or (((((ir) == (opc.LDA))) and (((((am) == (adm.ABS))) or
+                                                  (((am) == (adm.IDX))))))))):
+                ra.next = do
+            elif (((ir) == (opc.JSR))):
+                adr.next = sp
+                sp.next = ((sp) - (1))
+                di.next = ((((pc) + (2))) & (255))
+                we.next = 1
+                pc.next = ((((do) << (8))) | (im))
+            elif (((ir) == (opc.RTS))):
+                pc.next = do
+            else:
+                we.next = 0
+                adr.next = pc
+            cyc.next = M2
+        elif (((cyc) == (M2))):
+            if (((ir) == (17))):
+                ra.next = do
+                sr.next = concat(((128) <= (do)), ((do) == (0)), sr[6:0])
+            elif (((rw) == (0))):
+                sr.next = concat(((128) <= (ra)), ((ra) == (0)), sr[6:0])
+            elif (((rw) == (1))):
+                sr.next = concat(((128) <= (ra)), ((rx) == (0)), sr[6:0])
+            if (((ir) == (23))):
+                pc.next = ((((do) << (8))) | (((pc) & (255))))
+                adr.next = ((((do) << (8))) | (((pc) & (255))))
+            else:
+                adr.next = pc
+            we.next = 0
+            rw.next = 0
+            cyc.next = F1
 
     return logic
 

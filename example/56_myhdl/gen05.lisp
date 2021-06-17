@@ -43,7 +43,7 @@
 
 	     ,(let ((adm-l `(imp imm abs rel idx))
 		    (opc-l `(lda sta pha pla asl asr txa tax inx dex add sub and or
-				 xor cmp rts jnx jz jsr jmp)))
+				 xor cmp rts jnz jz jsr jmp)))
 		`(do0
 		  ,@(loop for (name l) in `((adm ,adm-l)
 					    (opc ,opc-l))
@@ -150,6 +150,15 @@
 						we.next 1
 						di.next ra
 						pc.next (+ pc 2)))))
+				      ((== ir opc.JNZ)
+				       (if (== 0 (aref sr 6))
+					   (setf pc.next (+ pc (im.signed)))
+					   (setf pc.next (+ pc 1))))
+				      ((== ir opc.JZ)
+				       (if (== 0 (aref sr 6))
+					   (setf pc.next (+ pc 1))
+					   (setf pc.next (+ pc (im.signed)))
+					   ))
 				      ,@(loop for e in `((TAX rx ra rw 1)
 							 (TXA ra rx)
 							 (INX rx (+ rx 1)
@@ -197,7 +206,54 @@
 						  (setf ra.next (,operator ra im)
 							pc.next (+ pc 1)))))
 				      )
-				(setf cyc.next M1)))))
+				(setf cyc.next M1))
+
+			       ((== cyc M1)
+				(cond
+				  ((or (== ir opc.PLA)
+				       (and (== ir opc.LDA)
+					    (or (== am adm.ABS) ;; fixme precedence?
+						(== am adm.IDX))))
+				   (setf ra.next do))
+				  ((== ir opc.JSR)
+				   (setf adr.next sp
+					 sp.next (- sp 1)
+					 di.next (& (+ pc 2) #xff)
+					 we.next 1
+					 pc.next (logior (<< do 8)
+							 im))
+				   )
+				  ((== ir opc.RTS)
+				   (setf pc.next do))
+				  (t
+				   (setf we.next 0
+					 adr.next pc)))
+				(setf cyc.next M2))
+			       ((== cyc M2)
+				(cond ((== ir #x11)
+				       (setf ra.next do
+					     sr.next (concat (<= #x80 do)
+							     (== do 0)
+							     (aref sr (slice 6 0)))))
+				      ((== rw 0)
+				       (setf sr.next (concat (<= #x80 ra)
+							     (== ra 0)
+							     (aref sr (slice 6 0)))))
+				      ((== rw 1)
+				       (setf sr.next (concat (<= #x80 ra)
+							     (== rx 0)
+							     (aref sr (slice 6 0))))))
+				;; fixme: is that really a new if?
+				(if (== ir #x17)
+				    (setf pc.next (logior (<< do 8)
+							  (& pc #xff))
+					  adr.next (logior (<< do 8)
+							   (& pc #xff)))
+				    (setf adr.next pc))
+				(setf we.next 0
+				      rw.next 0
+				      cyc.next F1)
+				))))
 			  (return logic)
 			  )))
 		   
