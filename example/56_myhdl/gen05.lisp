@@ -40,47 +40,50 @@
 	     (comments "https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb")
 	
 
-
-	     (setf rom (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
-				      collect
-				      `(list ,(format nil "0x~a" e)))))
-	     	(do0
-		 @block
-	      (def mem (clk adr we di do)
-		(setf ram (list
-			   (for-generator (i (range #x2000))
-					  (Signal (aref (intbv 0) (slice 8 ""))))))
-		(do0
-		 (@always clk.posedge)
-		 (def logic ()
-		   (if we
-		       (setf (dot (aref ram adr.val)
-				  next)
-			     di)
-		       (if (< adr (len rom))
-			   (setf do.next (aref rom adr.val))
-			   (setf do.next (aref ram adr.val))))))
-		(return logic)))
-		 
-		
-	     (do0
-	      (def convert_this (hdl)
-		(do0 
-		 
-		 (do0
-		  (do0 ,@(loop for e in `((clk) (rst 1) (we))
-			       collect
-			       (destructuring-bind (name &optional (default 0)) e
-				`(setf ,name (Signal (bool ,default)))))
+	     ,@(let ((ram-size #x100))
+		 `( (setf rom (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
+					    collect
+					    (format nil "0x~a" e))))
+		   (do0
+		    @block
+		    (def mem (clk adr we di do)
+		      (setf ram (list
+				 (for-generator (i (range ,ram-size))
+						(Signal (aref (intbv 0) (slice 8 ""))))))
+		     
+		      (do0
+		       (@always clk.posedge)
+		       (def logic ()
+			 (if we
+			     (setf (dot (aref ram adr.val)
+					next)
+				   di)
+			     (if (< adr (len rom))
+				 (setf do.next 0; (aref rom adr.val)
+				       )
+				 (setf do.next (aref ram adr.val))))))
+		      (return logic)))
+		   
+		   
+		   (do0
+		    (def convert_this (hdl)
+		      (do0 
 		       
-		       ,@(loop for (e f) in `((adr 16) (di 8) (do 8))
-			       collect
-			       `(setf ,e (Signal (aref (modbv 0) (slice ,f "")))))
-		       )
-		  (setf mi (mem clk adr we di do))
-		  (mi.convert :hdl hdl)
-		  )))
-	      (convert_this :hdl (string "Verilog"))))))
+		       (do0
+			(do0 ,@(loop for e in `((clk) (rst 1) (we))
+				     collect
+				     (destructuring-bind (name &optional (default 0)) e
+				       `(setf ,name (Signal (bool ,default)))))
+			     
+			     ,@(loop for (e f) in `((adr 16) (di 8) (do 8))
+				     collect
+				     `(setf ,e (Signal (aref (modbv 0) (slice ,f "")))))
+			     )
+			      (setf mi (mem clk adr we di do))
+			      (mi.convert :hdl hdl)
+			      ;(toVerilog rom)
+			      )))
+		    (convert_this :hdl (string "Verilog"))))))))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     (with-open-file (s (format nil "~a/~a" *source* "cpu_project.gprj")
 		       :direction :output
