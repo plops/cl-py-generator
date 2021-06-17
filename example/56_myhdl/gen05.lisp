@@ -130,7 +130,7 @@
 					sp.next (+ sp 1))
 				  )
 				(setf cyc.next E))
-			       ((== cyc E)
+			     #+nil  ((== cyc E)
 				(cond ((== ir opc.LDA)
 				       (cond ((== am adm.IMM)
 					      (setf ra.next im ;; fixme: adr?

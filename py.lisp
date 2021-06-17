@@ -315,8 +315,10 @@
 			      do
 				 (destructuring-bind (condition &rest statements) clause
 				   (format s "~&~a:~%~a"
-					   (cond ((eq i 0) (format nil "if ( ~a )" (emit condition)))
-						 ((eq condition t) (emit `(indent "else")))
+					   (cond ((and (eq condition 't) (eq i 0))
+						  (format nil "if ( True )"))
+						 ((eq i 0) (format nil "if ( ~a )" (emit condition)))
+						 ((eq condition 't) (emit `(indent "else")))
 						 (t (emit `(indent ,(format nil "elif ( ~a )" (emit condition)))))
 						 )
 					   (emit `(do ,@statements)))))
