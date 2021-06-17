@@ -42,8 +42,15 @@
 	
 
 	     ,(let ((adm-l `(imp imm abs rel idx))
-		    (opc-l `(lda sta pha pla asl asr txa tax inx dex add sub and or
-				 xor cmp rts jnz jz jsr jmp)))
+		    (opc-l `(lda sta
+					;pha pla asl asr
+				 txa tax inx
+				 ; dex add sub and or xor
+				 cmp
+					;rts
+				 jnz
+				 ;jz jsr jmp
+				 )))
 		`(do0
 		  ,@(loop for (name l) in `((adm ,adm-l)
 					    (opc ,opc-l))
@@ -118,7 +125,7 @@
 				(setf im.next do
 				      am.next (& ir 7)
 				      ir.next (& (>> ir 3) #x1f))
-				(when (== (>> ir 3) opc.RTS)
+				#+allop (when (== (>> ir 3) opc.RTS)
 				  (setf adr.next (+ sp 1)
 					sp.next (+ sp 1))
 				  )
@@ -154,7 +161,7 @@
 				       (if (== 0 (aref sr 6))
 					   (setf pc.next (+ pc (im.signed)))
 					   (setf pc.next (+ pc 1))))
-				      ((== ir opc.JZ)
+				     #+allop  ((== ir opc.JZ)
 				       (if (== 0 (aref sr 6))
 					   (setf pc.next (+ pc 1))
 					   (setf pc.next (+ pc (im.signed)))
@@ -163,13 +170,13 @@
 							 (TXA ra rx)
 							 (INX rx (+ rx 1)
 							      rw 1)
-							 (DEX rx (- rx 1)
+							 #+allop (DEX rx (- rx 1)
 							      rw 1)
-							 (PHA adr sp
+							 #+allop (PHA adr sp
 							      sp (- sp 1)
 							      di ra
 							      we 1)
-							 (PLA sp (+ sp 1)
+							 #+allop (PLA sp (+ sp 1)
 							      adr (+ sp 1)
 							      )
 							 (CMP rw 2
@@ -178,13 +185,13 @@
 								  (== (- ra im) 0)
 								  (aref sr (slice 6 0)))
 							      pc (+ pc 1))
-							 (JSR adr sp
+							 #+allop (JSR adr sp
 							      sp (- sp 1)
 							      di (>> (+ pc 2) 8)
 							      we 1)
-							 (RTS adr (+ sp 1)
+							 #+allop (RTS adr (+ sp 1)
 							      sp (+ sp 1))
-							 (JMP pc (logior (<< do 8) im))
+							 #+allop (JMP pc (logior (<< do 8) im))
 							 )
 					      collect
 					      (destructuring-bind (opcode &rest rest) e
@@ -192,7 +199,7 @@
 						  ,@(loop for (a b) on rest by #'cddr
 							  collect
 							  `(setf (dot ,a next) ,b)))))
-				      ,@(loop for e in `((ADD +)
+				     #+allop ,@(loop for e in `((ADD +)
 							 (SUB -)
 							 (AND &)
 							 (OR logior)
@@ -210,12 +217,12 @@
 
 			       ((== cyc M1)
 				(cond
-				  ((or (== ir opc.PLA)
+				  #+nil ((or (== ir opc.PLA)
 				       (and (== ir opc.LDA)
 					    (or (== am adm.ABS) ;; fixme precedence?
 						(== am adm.IDX))))
 				   (setf ra.next do))
-				  ((== ir opc.JSR)
+				  #+nil ((== ir opc.JSR)
 				   (setf adr.next sp
 					 sp.next (- sp 1)
 					 di.next (& (+ pc 2) #xff)
@@ -223,7 +230,7 @@
 					 pc.next (logior (<< do 8)
 							 im))
 				   )
-				  ((== ir opc.RTS)
+				 #+allop ((== ir opc.RTS)
 				   (setf pc.next do))
 				  (t
 				   (setf we.next 0
