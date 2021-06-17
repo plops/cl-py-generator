@@ -87,8 +87,18 @@ Burn
 #+end_example
  
  
-- 8bit cpu
+- 8bit cpu with many features disabled
 - 132 MHz
 - 173/1152 logic (165 lut, 8 alu)
 - 63/945 register (54 ff, 9 io ff)
 - 102/576 cls
+- 4.2mW
+
+- 8bit cpu with everything on
+- 91MHz
+- 483/1152 logic (459 lut, 24 alu)
+- 74/945 reg (67 ff, 7 io ff)
+- 276/576 cls
+- in 10
+- out 17
+- 17.8mW

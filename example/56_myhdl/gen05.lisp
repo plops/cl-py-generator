@@ -3,6 +3,7 @@
   (ql:quickload "alexandria"))
 (in-package :cl-py-generator)
 
+(push :allop *features*)
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")
@@ -43,13 +44,17 @@
 
 	     ,(let ((adm-l `(imp imm abs rel idx))
 		    (opc-l `(lda sta
-					;pha pla asl asr
+					;
+				 pha pla asl asr
 				 txa tax inx
-				 ; dex add sub and or xor
+					;
+				 dex add sub and or xor
 				 cmp
-					;rts
+					;
+				 rts
 				 jnz
-				 ;jz jsr jmp
+					;
+				 jz jsr jmp
 				 )))
 		`(do0
 		  ,@(loop for (name l) in `((adm ,adm-l)
@@ -165,9 +170,9 @@
 					    (setf pc.next (+ pc (im.signed)))
 					    (setf pc.next (+ pc 1))))
 				     #+allop ((== ir opc.JZ)
-				       (if (== 0 (aref sr 6))
+				       (do0 ;if (== 0 (aref sr 6))
 					   (setf pc.next (+ pc 1))
-					   (setf pc.next (+ pc (im.signed)))
+					   ;   (setf pc.next (+ pc (im.signed)))
 					   ))
 				      ,@(loop for e in `((TAX rx ra rw 1)
 							 (TXA ra rx)
