@@ -63,6 +63,33 @@
 				       )
 				 (setf do.next (aref ram adr.val))))))
 		      (return logic)))
+
+		    ,(let ((l `((ir instruction-register)
+				(im immediate-value)
+				(rx x-register)
+				(rw w-register-for-status-flags)
+				(sr status-register)
+				(am addressing-mode)
+				(sp stack-pointer))))
+		      `(do0
+			@block
+			(def processor (clk rst di do adr we)
+
+			  (setf (ntuple F1 F2 D E M1 M2) (range 0 6)
+				pc (Signal (aref (modbv 0) "11:"))
+				cyc (Signal (aref (modbv 0) "3:"))
+				(ntuple ,@ (mapcar #'first l))
+				(list (for-generator (i (range ,(length l)))
+						      (Signal (aref (modbv 0) "8:"))))
+				sp (Signal (aref (modbv #xff) "8:")))
+			 (do0
+		       (@always clk.posedge)
+		       (def logic ()
+			 (if rst
+			     (setf pc.next 0
+				   adr.next 0))))
+			  (return logic)
+			  )))
 		   
 		   
 		   (do0
@@ -79,8 +106,10 @@
 				     collect
 				     `(setf ,e (Signal (aref (modbv 0) (slice ,f "")))))
 			     )
-			      (setf mi (mem clk adr we di do))
-			      (mi.convert :hdl hdl)
+			(setf mi (mem clk adr we di do)
+			      cpu (processor clk rst di do adr we))
+			(mi.convert :hdl hdl)
+			(cpu.convert :hdl hdl)
 			      ;(toVerilog rom)
 			      )))
 		    (convert_this :hdl (string "Verilog"))))))))
@@ -102,7 +131,8 @@
 </Project>
 "
 	      (loop for (e f) in `(;(top.v verilog)
-				   (cpu.v verilog)
+				   (mem.v verilog)
+				   (processor.v verilog)
 				   ;(osc.v verilog)
 				   ;(rpll.v verilog)
 				   (test.cst cst))
