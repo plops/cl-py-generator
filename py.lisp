@@ -308,6 +308,19 @@
 			(format s "~&~a:~%~a"
 				(emit `(indent "else"))
 				(emit `(do ,false-statement)))))))
+	      (cond (destructuring-bind (&rest clauses) (cdr code)
+		      ;; if <cond1> : <code1> elif <cond2> : <code2> else <code3>
+		      (with-output-to-string (s)
+			(loop for clause in clauses and i from 0
+			      do
+				 (destructuring-bind (condition statement) clause
+				   (format s "~a:~%~a"
+					   (cond ((eq i 0) (emit `(indent ,(format nil "if ( ~a )" (emit condition)))))
+						 ((eq condition t) (emit `(indent "else")))
+						 (t (emit `(indent ,(format nil "elif ( ~a )" (emit condition)))))
+						 )
+					   (emit `(do ,statement)))))
+		      )))
 	      (? (destructuring-bind (condition true-statement false-statement)
 		     (cdr code)
 		   (format nil "(~a) if (~a) else (~a)"
