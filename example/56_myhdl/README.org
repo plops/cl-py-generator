@@ -87,3 +87,8 @@ Burn
 #+end_example
  
  
+- 8bit cpu
+- 132 MHz
+- 173/1152 logic (165 lut, 8 alu)
+- 63/945 register (54 ff, 9 io ff)
+- 102/576 cls
