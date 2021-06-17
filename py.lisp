@@ -314,8 +314,8 @@
 			(loop for clause in clauses and i from 0
 			      do
 				 (destructuring-bind (condition statement) clause
-				   (format s "~a:~%~a"
-					   (cond ((eq i 0) (emit `(indent ,(format nil "if ( ~a )" (emit condition)))))
+				   (format s "~&~a:~%~a"
+					   (cond ((eq i 0) (format nil "if ( ~a )" (emit condition)))
 						 ((eq condition t) (emit `(indent "else")))
 						 (t (emit `(indent ,(format nil "elif ( ~a )" (emit condition)))))
 						 )
