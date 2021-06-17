@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "b8263490aaeb24b081e5702bc96b4a9bfd634108"
+_code_git_version = "50f5d9a2d312db491314871f0618937266fc8f2f"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "08:40:10 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "09:07:42 of Thursday, 2021-06-17 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -51,7 +51,7 @@ def processor(clk, rst, di, do, adr, we):
     F1, F2, D, E, M1, M2 = range(0, 6)
     pc = Signal(modbv(0)[11:])
     cyc = Signal(modbv(0)[3:])
-    ir, im, rx, rw, sr, am, sp = [Signal(modbv(0)[8:]) for i in range(7)]
+    ir, im, ra, rx, rw, sr, am, sp = [Signal(modbv(0)[8:]) for i in range(8)]
     sp = Signal(modbv(255)[8:])
 
     @always(clk.posedge)
@@ -130,7 +130,7 @@ def processor(clk, rst, di, do, adr, we):
                 adr.next = ((sp) + (1))
                 sp.next = ((sp) + (1))
             elif (((ir) == (opc.JMP))):
-                pc.next = ((((do) << (8))) | (lm))
+                pc.next = ((((do) << (8))) | (im))
             elif (((ir) == (opc.ADD))):
                 ra.next = ((ra) + (im))
                 pc.next = ((pc) + (1))

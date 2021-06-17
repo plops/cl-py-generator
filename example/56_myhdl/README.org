@@ -75,3 +75,13 @@ iStyle
 
 - when place & route complains about pin can't be assigned because it is MSPI or SSPI, go to
   project->configuration->dual-purpose pin-> use as regular io
+
+- how to program
+#+begin_example
+
+cd /home/martin/gowin_fpga/b/Programmer/bin
+sudo ./programmer
+Edit->Cable
+Burn
+/home/martin/stage/cl-py-generator/example/56_myhdl/source/04_tang_lcd/impl/pnr/lcd_project.fs
+#+end_example

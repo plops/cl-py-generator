@@ -83,6 +83,7 @@
 
 		    ,(let ((l `((ir instruction-register)
 				(im immediate-value)
+				(ra accumulator)
 				(rx x-register)
 				(rw w-register-for-status-flags)
 				(sr status-register)
@@ -174,7 +175,7 @@
 							      we 1)
 							 (RTS adr (+ sp 1)
 							      sp (+ sp 1))
-							 (JMP pc (logior (<< do 8) lm))
+							 (JMP pc (logior (<< do 8) im))
 							 )
 					      collect
 					      (destructuring-bind (opcode &rest rest) e
