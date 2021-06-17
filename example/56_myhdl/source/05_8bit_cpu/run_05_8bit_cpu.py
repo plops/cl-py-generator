@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "6651f0a599f5272e11e189f74898350067237014"
+_code_git_version = "b8263490aaeb24b081e5702bc96b4a9bfd634108"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "08:28:38 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "08:40:10 of Thursday, 2021-06-17 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -102,9 +102,57 @@ def processor(clk, rst, di, do, adr, we):
                 rw.next = 1
             elif (((ir) == (opc.TXA))):
                 ra.next = rx
+            elif (((ir) == (opc.INX))):
+                rx.next = ((rx) + (1))
+                rw.next = 1
+            elif (((ir) == (opc.DEX))):
+                rx.next = ((rx) - (1))
+                rw.next = 1
+            elif (((ir) == (opc.PHA))):
+                adr.next = sp
+                sp.next = ((sp) - (1))
+                di.next = ra
+                we.next = 1
+            elif (((ir) == (opc.PLA))):
+                sp.next = ((sp) + (1))
+                adr.next = ((sp) + (1))
+            elif (((ir) == (opc.CMP))):
+                rw.next = 2
+                sr.next = concat(((128) <= (((ra) - (im)))),
+                                 ((((ra) - (im))) == (0)), sr[6:0])
+                pc.next = ((pc) + (1))
+            elif (((ir) == (opc.JSR))):
+                adr.next = sp
+                sp.next = ((sp) - (1))
+                di.next = ((((pc) + (2))) >> (8))
+                we.next = 1
+            elif (((ir) == (opc.RTS))):
+                adr.next = ((sp) + (1))
+                sp.next = ((sp) + (1))
+            elif (((ir) == (opc.JMP))):
+                pc.next = ((((do) << (8))) | (lm))
             elif (((ir) == (opc.ADD))):
                 ra.next = ((ra) + (im))
                 pc.next = ((pc) + (1))
+            elif (((ir) == (opc.SUB))):
+                ra.next = ((ra) - (im))
+                pc.next = ((pc) + (1))
+            elif (((ir) == (opc.AND))):
+                ra.next = ((ra) & (im))
+                pc.next = ((pc) + (1))
+            elif (((ir) == (opc.OR))):
+                ra.next = ((ra) | (im))
+                pc.next = ((pc) + (1))
+            elif (((ir) == (opc.XOR))):
+                ra.next = ((ra) ^ (im))
+                pc.next = ((pc) + (1))
+            elif (((ir) == (opc.ASL))):
+                ra.next = ((ra) << (im))
+                pc.next = ((pc) + (1))
+            elif (((ir) == (opc.ASR))):
+                ra.next = ((ra) >> (im))
+                pc.next = ((pc) + (1))
+            cyc.next = M1
 
     return logic
 

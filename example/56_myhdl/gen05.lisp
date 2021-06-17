@@ -137,29 +137,66 @@
 						    pc.next (+ pc 2)))))
 				      ((== ir opc.STA)
 				       (cond 
-					     ((== am adm.ABS)
-					      (setf adr.next (logior (<< do 8)
-								     im)
-						    we.next 1
-						    di.next ra
-						    pc.next (+ pc 2)))
-					     ((== am adm.IDX)
-					      (setf adr.next (logior (<< do 8)
-								     (+ im rx))
-						    we.next 1
-						    di.next ra
-						    pc.next (+ pc 2)))))
+					 ((== am adm.ABS)
+					  (setf adr.next (logior (<< do 8)
+								 im)
+						we.next 1
+						di.next ra
+						pc.next (+ pc 2)))
+					 ((== am adm.IDX)
+					  (setf adr.next (logior (<< do 8)
+								 (+ im rx))
+						we.next 1
+						di.next ra
+						pc.next (+ pc 2)))))
 				      ,@(loop for e in `((TAX rx ra rw 1)
 							 (TXA ra rx)
-							 (ADD ra (+ ra im)
-							      pc (+ pc 1)))
+							 (INX rx (+ rx 1)
+							      rw 1)
+							 (DEX rx (- rx 1)
+							      rw 1)
+							 (PHA adr sp
+							      sp (- sp 1)
+							      di ra
+							      we 1)
+							 (PLA sp (+ sp 1)
+							      adr (+ sp 1)
+							      )
+							 (CMP rw 2
+							      sr (concat
+								  (<= #x80 (- ra im))
+								  (== (- ra im) 0)
+								  (aref sr (slice 6 0)))
+							      pc (+ pc 1))
+							 (JSR adr sp
+							      sp (- sp 1)
+							      di (>> (+ pc 2) 8)
+							      we 1)
+							 (RTS adr (+ sp 1)
+							      sp (+ sp 1))
+							 (JMP pc (logior (<< do 8) lm))
+							 )
 					      collect
 					      (destructuring-bind (opcode &rest rest) e
 						`((== ir (dot opc ,opcode))
 						  ,@(loop for (a b) on rest by #'cddr
 							  collect
 							  `(setf (dot ,a next) ,b)))))
-				      )))))
+				      ,@(loop for e in `((ADD +)
+							 (SUB -)
+							 (AND &)
+							 (OR logior)
+							 (XOR logxor)
+							 (ASL <<)
+							 (ASR >>)
+							 )
+					      collect
+					      (destructuring-bind (opcode operator) e
+						`((== ir (dot opc ,opcode))
+						  (setf ra.next (,operator ra im)
+							pc.next (+ pc 1)))))
+				      )
+				(setf cyc.next M1)))))
 			  (return logic)
 			  )))
 		   
