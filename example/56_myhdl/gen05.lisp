@@ -15,6 +15,7 @@
   (let* ((code
 	   `(do0
 	     (imports-from (myhdl *)
+			   (collections namedtuple)
 			)
 	     (setf
 	      _code_git_version
@@ -40,6 +41,22 @@
 	     (comments "https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb")
 	
 
+	     ,(let ((adm-l `(imp imm abs rel idx))
+		    (opc-l `(lda sta pha pla asl asr txa tax inx dex add sub and or
+				 xor cmp rts jnx jz jsr jmp)))
+		`(do0
+		  ,@(loop for (name l) in `((adm ,adm-l)
+					    (opc ,opc-l))
+			  collect
+			  `(do0
+			    (setf ,(string-upcase name)
+				  (namedtuple (string ,name)
+						    (list ,@(loop for e in l collect
+								  `(string ,(string-upcase e))))
+						    ))
+			    (setf ,name (,(string-upcase name)
+					 (*range ,(length l))))))))
+	     
 	     ,@(let ((ram-size #x100))
 		 `( (setf rom (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
 					    collect
@@ -95,7 +112,11 @@
 			       ((== cyc F2)
 				(setf adr.next (+ pc 1)
 				      ir.next do
-				      cyc.next D)))))
+				      cyc.next D))
+			       ((== cyc D)
+				(setf im.next do
+				      am.next (& ir 7)
+				      ir.next (& (>> ir 3) #x1f))))))
 			  (return logic)
 			  )))
 		   
