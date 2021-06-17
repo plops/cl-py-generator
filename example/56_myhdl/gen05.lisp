@@ -85,9 +85,17 @@
 			 (do0
 		       (@always clk.posedge)
 		       (def logic ()
-			 (if rst
-			     (setf pc.next 0
-				   adr.next 0))))
+			 (cond (rst
+				 (setf pc.next 0
+				       adr.next 0))
+			       ((== cyc F1)
+				(setf adr.next (+ pc 1)
+				      pc.next (+ pc 1)
+				      cyc.next F2))
+			       ((== cyc F2)
+				(setf adr.next (+ pc 1)
+				      ir.next do
+				      cyc.next D)))))
 			  (return logic)
 			  )))
 		   
