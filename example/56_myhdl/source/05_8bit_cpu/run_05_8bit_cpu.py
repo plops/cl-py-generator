@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "4e4ab247b6a8268ba5c75a2f91b765114b8c458b"
+_code_git_version = "fffd58baa1a8170e788cf55ab4a4f03a0caf4dba"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "21:52:00 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "21:59:50 of Thursday, 2021-06-17 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -71,9 +71,6 @@ def processor(clk, rst, di, do, adr, we):
             im.next = do
             am.next = ((ir) & (7))
             ir.next = ((((ir) >> (3))) & (31))
-            if (((((ir) >> (3))) == (opc.RTS))):
-                adr.next = ((sp) + (1))
-                sp.next = ((sp) + (1))
             cyc.next = E
         elif (((cyc) == (E))):
             if (((ir) == (opc.LDA))):
@@ -99,8 +96,6 @@ def processor(clk, rst, di, do, adr, we):
                     pc.next = ((pc) + (2))
             elif (((ir) == (opc.JNZ))):
                 pc.next = ((pc) + (1))
-            elif (((ir) == (opc.JZ))):
-                pc.next = ((pc) + (1))
             elif (((ir) == (opc.TAX))):
                 rx.next = ra
                 rw.next = 1
@@ -109,37 +104,13 @@ def processor(clk, rst, di, do, adr, we):
             elif (((ir) == (opc.INX))):
                 rx.next = ((rx) + (1))
                 rw.next = 1
-            elif (((ir) == (opc.DEX))):
-                rx.next = ((rx) - (1))
-                rw.next = 1
-            elif (((ir) == (opc.PHA))):
-                adr.next = sp
-                sp.next = ((sp) - (1))
-                di.next = ra
-                we.next = 1
-            elif (((ir) == (opc.PLA))):
-                sp.next = ((sp) + (1))
-                adr.next = ((sp) + (1))
             elif (((ir) == (opc.CMP))):
                 rw.next = 2
                 sr.next = concat(((128) <= (((ra) - (im)))),
                                  ((((ra) - (im))) == (0)), sr[6:0])
                 pc.next = ((pc) + (1))
-            elif (((ir) == (opc.JSR))):
-                adr.next = sp
-                sp.next = ((sp) - (1))
-                di.next = ((((pc) + (2))) >> (8))
-                we.next = 1
-            elif (((ir) == (opc.RTS))):
-                adr.next = ((sp) + (1))
-                sp.next = ((sp) + (1))
-            elif (((ir) == (opc.JMP))):
-                pc.next = ((((do) << (8))) | (im))
             elif (((ir) == (opc.ADD))):
                 ra.next = ((ra) + (im))
-                pc.next = ((pc) + (1))
-            elif (((ir) == (opc.SUB))):
-                ra.next = ((ra) - (im))
                 pc.next = ((pc) + (1))
             elif (((ir) == (opc.AND))):
                 ra.next = ((ra) & (im))
@@ -147,30 +118,12 @@ def processor(clk, rst, di, do, adr, we):
             elif (((ir) == (opc.OR))):
                 ra.next = ((ra) | (im))
                 pc.next = ((pc) + (1))
-            elif (((ir) == (opc.XOR))):
-                ra.next = ((ra) ^ (im))
-                pc.next = ((pc) + (1))
             elif (((ir) == (opc.ASL))):
                 ra.next = ((ra) << (im))
                 pc.next = ((pc) + (1))
-            elif (((ir) == (opc.ASR))):
-                ra.next = ((ra) >> (im))
-                pc.next = ((pc) + (1))
             cyc.next = M1
         elif (((cyc) == (M1))):
-            if (((((ir) == (opc.PLA)))
-                 or (((((ir) == (opc.LDA))) and (((((am) == (adm.ABS))) or
-                                                  (((am) == (adm.IDX))))))))):
-                ra.next = do
-            elif (((ir) == (opc.JSR))):
-                adr.next = sp
-                sp.next = ((sp) - (1))
-                di.next = ((((pc) + (2))) & (255))
-                we.next = 1
-                pc.next = ((((do) << (8))) | (im))
-            elif (((ir) == (opc.RTS))):
-                pc.next = do
-            else:
+            if (True):
                 we.next = 0
                 adr.next = pc
             cyc.next = M2

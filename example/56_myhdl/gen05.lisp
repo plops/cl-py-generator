@@ -3,7 +3,7 @@
   (ql:quickload "alexandria"))
 (in-package :cl-py-generator)
 
-(push :allop *features*)
+;(push :allop *features*)
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")
@@ -207,13 +207,13 @@
 						  ,@(loop for (a b) on rest by #'cddr
 							  collect
 							  `(setf (dot ,a next) ,b)))))
-				     #+allop ,@(loop for e in `((ADD +)
-							 (SUB -)
+				      ,@(loop for e in `((ADD +)
+			       				 #+allop (SUB -)
 							 (AND &)
 							 (OR logior)
-							 (XOR logxor)
+							 #+allop (XOR logxor)
 							 (ASL <<)
-							 (ASR >>)
+							 #+allop  (ASR >>)
 							 )
 					      collect
 					      (destructuring-bind (opcode operator) e

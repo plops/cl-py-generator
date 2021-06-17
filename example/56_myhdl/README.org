@@ -102,3 +102,9 @@ Burn
 - in 10
 - out 17
 - 17.8mW
+
+- 8bit cpu nearly minimal but add, and, or, >>
+- 96MHz
+- 229/1152 (213 lut, 16 alu)
+- 63/945 reg
+- 133/576 cls
