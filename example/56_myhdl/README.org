@@ -131,3 +131,16 @@ https://github.com/diodep/ch55x_jtag firmware for tang nano jtag
   - 86/1152 logic (86 lut)
   - 20/945 reg (20 ff)
   - io 22 (2 in, 20 out)
+
+- display is 4.3 inch TFT LCD Display Common Screen GL04303600-40 GL043056B0-40 GL043026-N6 480(RGB)*272
+  - 480x272
+  - probably:
+  - normally white, transmissive LCD
+  - viewing direction 12 o'clock
+  - outside WxHxT: 105.5mm 67.2mm 3.0mm
+  - active area WxH: 95.04mm 53.856mm
+  - pixel pitch: 0.198mm
+  - pixel arrangement: rgb vertical stripes
+  - drive ic st7282  
+  - https://www.sitronix.com.tw/en/products/industrial-display-driver-ic/single-chip-solution-color/
+  - 1.65 ~vdd, 3.0~3.6 vdda

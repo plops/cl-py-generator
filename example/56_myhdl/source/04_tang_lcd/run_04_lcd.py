@@ -1,26 +1,27 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "442693bf27032e41bf6bae9b090486de225dbe49"
+_code_git_version = "9f3e3665d07bf9b0e0055cd5c41c0689e1035b48"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "16:27:40 of Friday, 2021-06-18 (GMT+1)"
+_code_generation_time = "18:11:27 of Friday, 2021-06-18 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
 v_back = 6
 v_pulse = 5
 v_extent = 272
-v_front = 62
-h_back = 182
+v_front = 45
+h_back = 5
 h_pulse = 1
 h_extent = 480
-h_front = 210
+h_front = 20
 pixel_for_hs = ((h_extent) + (h_back) + (h_front))
 line_for_vs = ((v_extent) + (v_back) + (v_front))
 pixel_count = Signal(
     intbv(0, min=0, max=((h_extent) + (h_back) + (h_front) + (100))))
 line_count = Signal(
     intbv(0, min=0, max=((2) * (((v_extent) + (v_back) + (v_front) + (100))))))
+frame_count = Signal(intbv(0, min=0, max=255))
 data_r = Signal(intbv(0)[10:])
 data_g = Signal(intbv(0)[10:])
 data_b = Signal(intbv(0)[10:])
@@ -64,70 +65,34 @@ def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g, lcd_b):
         else:
             lcd_de.next = 0
 
+    @always(lcd_vsync.posedge)
+    def logic_frame():
+        frame_count.next = ((frame_count) + (1))
+
     @always_comb
     def logic_pattern():
-        if (((pixel_count) < (200))):
+        if (((((frame_count) + (pixel_count))) < (200))):
             lcd_r.next = 0
+        elif (((((frame_count) + (pixel_count))) < (240))):
+            lcd_r.next = 1
+        elif (((((frame_count) + (pixel_count))) < (280))):
+            lcd_r.next = 2
+        elif (((((frame_count) + (pixel_count))) < (320))):
+            lcd_r.next = 4
+        elif (((((frame_count) + (pixel_count))) < (360))):
+            lcd_r.next = 8
+        elif (((((frame_count) + (pixel_count))) < (480))):
+            lcd_r.next = 16
         else:
-            if (((pixel_count) < (240))):
-                lcd_r.next = 1
-            else:
-                if (((pixel_count) < (280))):
-                    lcd_r.next = 2
-                else:
-                    if (((pixel_count) < (320))):
-                        lcd_r.next = 4
-                    else:
-                        if (((pixel_count) < (360))):
-                            lcd_r.next = 8
-                        else:
-                            if (((pixel_count) < (400))):
-                                lcd_r.next = 16
-                            else:
-                                lcd_r.next = 0
-        if (((pixel_count) < (440))):
-            lcd_b.next = 0
-        else:
-            if (((pixel_count) < (480))):
-                lcd_b.next = 1
-            else:
-                if (((pixel_count) < (520))):
-                    lcd_b.next = 2
-                else:
-                    if (((pixel_count) < (560))):
-                        lcd_b.next = 4
-                    else:
-                        if (((pixel_count) < (600))):
-                            lcd_b.next = 8
-                        else:
-                            if (((pixel_count) < (640))):
-                                lcd_b.next = 16
-                            else:
-                                lcd_b.next = 0
-        if (((pixel_count) < (640))):
+            lcd_r.next = 0
             lcd_g.next = 0
-        else:
-            if (((pixel_count) < (680))):
-                lcd_g.next = 1
-            else:
-                if (((pixel_count) < (720))):
-                    lcd_g.next = 2
-                else:
-                    if (((pixel_count) < (760))):
-                        lcd_g.next = 4
-                    else:
-                        if (((pixel_count) < (800))):
-                            lcd_g.next = 8
-                        else:
-                            if (((pixel_count) < (840))):
-                                lcd_g.next = 16
-                            else:
-                                lcd_g.next = 0
+            lcd_b.next = 0
 
     return (
         logic_count,
         logic_sync,
         logic_pattern,
+        logic_frame,
     )
 
 

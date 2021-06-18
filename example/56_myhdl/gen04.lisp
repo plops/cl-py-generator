@@ -45,20 +45,23 @@
 				(v pulse 5)
 				(v extent 272 ; 480
 				   )
-				(v front  62
+				(v front  45 ;62
 				   ) ;; 45
-				(h back 182)
+				(h back 5 ;182
+				   )
 				(h pulse 1)
 				(h extent 480 ;800
 				   )
-				(h front 210))
+				(h front 20 ; 210
+				   ))
 		     collect
 		     (destructuring-bind (dir name value) e
 		       `(setf ,(format nil "~a_~a" dir name) ,value)))
 	     (setf pixel_for_hs (+ h_extent h_back h_front)
 		   line_for_vs (+ v_extent v_back v_front))
 	     (setf pixel_count (Signal (intbv 0 :min 0 :max (+ h_extent h_back h_front 100)))
-		   line_count (Signal (intbv 0 :min 0 :max (* 2  (+ v_extent v_back v_front 100)))))
+		   line_count (Signal (intbv 0 :min 0 :max (* 2  (+ v_extent v_back v_front 100))))
+		   frame_count (Signal (intbv 0 :min 0 :max 255)))
 	     ,@ (loop for e in `(r g b)
 		      collect
 		      `(setf ,(format nil "data_~a" e)
@@ -106,7 +109,8 @@
 			  (<= line_count 
 			      line_for_vs))
 		       (setf lcd_vsync.next 0)
-		       (setf lcd_vsync.next 1))
+		       (setf lcd_vsync.next 1)
+		       )
 		   (if (& (& (<= h_back pixel_count)
 			     (<= pixel_count (+ h_extent h_back)))
 			  (& (<= v_back
@@ -116,6 +120,11 @@
 				    ))))
 		       (setf lcd_de.next 1)
 		       (setf lcd_de.next 0))))
+		(do0
+		 (@always lcd_vsync.posedge)
+		 (def logic_frame ()
+		   (setf frame_count.next (+ frame_count 1))))
+		
 		(do0
 		 @always_comb
 		 (def logic_pattern ()
@@ -131,7 +140,36 @@
 				lcd_g.next 0
 				lcd_b.next 0))
 			 )
-		   #+color ,@(loop for (e f) in `((lcd_r 400)
+		   ;#+color
+		   #+nil 
+		   (cond
+		     ,@(let ((n-col 8)
+			     (n-row 4)
+			     (w 480)
+			     (h 272))
+			 (loop for col below n-col
+			      collect ; appending
+			      (progn ;loop for row below n-row
+				     ;collect
+				     `((& (& (< ,(max 0 (floor (/ (* 1.0 (- col 1) w) n-col))) pixel_count)
+					     (< pixel_count ,(min w (floor (/ (* 1.0 col w) n-col)))))
+					#+nil   (& (< ,(max 0 (floor (/ (* 1.0 (- row 1) h) n-row))) line_count)
+					     (< line_count ,(min h (floor (/ (* 1.0 row h) n-row))))))
+				       (setf lcd_g.next ,(floor (* col (expt 2 6))))
+					;				       (setf lcd_r.next ,(floor (* col (expt 2 5))))
+				       ))))
+		     (t (setf lcd_r.next 0
+			      lcd_g.next 0
+			      lcd_b.next 0)))
+		   #-nil (cond ,@(loop for val in `(200  240 280 320 360 480)
+				 and p in `(0 1 2 4 8 16)
+				 collect
+				       `((< (+ frame_count  pixel_count) ,val)
+					 (setf lcd_r.next ,p)))
+			       (t (setf lcd_r.next 0
+					lcd_g.next 0
+					lcd_b.next 0)))
+		   #+nil,@(loop for (e f) in `((lcd_r 400)
 					  (lcd_b 640)
 					  (lcd_g 840))
 			   collect
@@ -144,7 +182,7 @@
 							,res)))
 				res)))))
 		(return (tuple logic_count ;logic_data
-			       logic_sync logic_pattern))))
+			       logic_sync logic_pattern logic_frame))))
 	     (do0
 	      (def convert_this (hdl)
 		(do0 
