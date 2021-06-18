@@ -108,3 +108,6 @@ Burn
 - 229/1152 (213 lut, 16 alu)
 - 63/945 reg
 - 133/576 cls
+
+- another repo with cosimulation and a bit more discussion of the 1 bit cpu:
+  https://github.com/hackfin/1pCPU/
