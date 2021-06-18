@@ -6,7 +6,9 @@
 | gen01 |     3 | dffa                                                                |
 | gen02 |     3 | latch                                                               |
 | gen03 |     2 | gowin tang nano led blink                                           |
-  
+| gen04 |       | lcd driver                                                          |
+| gen05 |       | 8bit cpu                                                            |
+| gen06 |       | cpu in single page of code                                          |
 - install
   #+begin_example
 pip3 install --user myhdl
@@ -111,3 +113,9 @@ Burn
 
 - another repo with cosimulation and a bit more discussion of the 1 bit cpu:
   https://github.com/hackfin/1pCPU/
+
+- about microcontroller (usb): https://github.com/sipeed/Tang-Nano-Doc/issues/2
+- http://dl.sipeed.com/MAIX/factory_firmware/ch552
+http://dl.sipeed.com/MAIX/factory_firmware/ch552
+https://github.com/Blinkinlabs/ch554_sdcc/blob/master/documentation/CH554%20manual%20english.pdf
+https://github.com/diodep/ch55x_jtag firmware for tang nano jtag
