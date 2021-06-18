@@ -4,6 +4,7 @@
 (in-package :cl-py-generator)
 
 
+(push :color *features*)
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/56_myhdl")

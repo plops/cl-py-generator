@@ -126,3 +126,8 @@ https://github.com/diodep/ch55x_jtag firmware for tang nano jtag
   - 23/945 reg (1 latch, 20 ff, 2 io latch)
   - io 9 (2 in, 7 out)
   - 1/1 pll
+
+- gen04 lcd with 5 6 5 bit rgb
+  - 86/1152 logic (86 lut)
+  - 20/945 reg (20 ff)
+  - io 22 (2 in, 20 out)

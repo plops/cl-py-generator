@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "bab0e56393af29adffedb117ec2ecacbbbf66fef"
+_code_git_version = "442693bf27032e41bf6bae9b090486de225dbe49"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "16:24:21 of Friday, 2021-06-18 (GMT+1)"
+_code_generation_time = "16:27:40 of Friday, 2021-06-18 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -66,16 +66,63 @@ def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g, lcd_b):
 
     @always_comb
     def logic_pattern():
-        if (((pixel_count) < (240))):
-            lcd_r.next = 1
-        elif (((pixel_count) < (480))):
-            lcd_g.next = 1
-        elif (((pixel_count) < (600))):
-            lcd_b.next = 1
-        else:
+        if (((pixel_count) < (200))):
             lcd_r.next = 0
-            lcd_g.next = 0
+        else:
+            if (((pixel_count) < (240))):
+                lcd_r.next = 1
+            else:
+                if (((pixel_count) < (280))):
+                    lcd_r.next = 2
+                else:
+                    if (((pixel_count) < (320))):
+                        lcd_r.next = 4
+                    else:
+                        if (((pixel_count) < (360))):
+                            lcd_r.next = 8
+                        else:
+                            if (((pixel_count) < (400))):
+                                lcd_r.next = 16
+                            else:
+                                lcd_r.next = 0
+        if (((pixel_count) < (440))):
             lcd_b.next = 0
+        else:
+            if (((pixel_count) < (480))):
+                lcd_b.next = 1
+            else:
+                if (((pixel_count) < (520))):
+                    lcd_b.next = 2
+                else:
+                    if (((pixel_count) < (560))):
+                        lcd_b.next = 4
+                    else:
+                        if (((pixel_count) < (600))):
+                            lcd_b.next = 8
+                        else:
+                            if (((pixel_count) < (640))):
+                                lcd_b.next = 16
+                            else:
+                                lcd_b.next = 0
+        if (((pixel_count) < (640))):
+            lcd_g.next = 0
+        else:
+            if (((pixel_count) < (680))):
+                lcd_g.next = 1
+            else:
+                if (((pixel_count) < (720))):
+                    lcd_g.next = 2
+                else:
+                    if (((pixel_count) < (760))):
+                        lcd_g.next = 4
+                    else:
+                        if (((pixel_count) < (800))):
+                            lcd_g.next = 8
+                        else:
+                            if (((pixel_count) < (840))):
+                                lcd_g.next = 16
+                            else:
+                                lcd_g.next = 0
 
     return (
         logic_count,
@@ -89,10 +136,10 @@ def convert_this(hdl):
     lcd_de = Signal(bool(0))
     lcd_hsync = Signal(bool(0))
     lcd_vsync = Signal(bool(0))
-    lcd_r = Signal(bool(0))
-    lcd_g = Signal(bool(0))
-    lcd_b = Signal(bool(0))
     n_rst = ResetSignal(0, active=0, isasync=False)
+    lcd_r = Signal(intbv(0)[5:])
+    lcd_g = Signal(intbv(0)[6:])
+    lcd_b = Signal(intbv(0)[5:])
     lcd_1 = lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g,
                 lcd_b)
     lcd_1.convert(hdl=hdl)
