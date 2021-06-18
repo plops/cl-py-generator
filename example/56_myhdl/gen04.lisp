@@ -166,20 +166,21 @@
 		   #-nil (cond ,@(loop for val in `(200  240 280 320 360 480)
 				 and p in `(0 1 2 4 8 16)
 				 collect
-				       `((< (+ frame_count  pixel_count) ,val)
+				       `((& (< 100 line_count)
+					    (< (+ frame_count  pixel_count) ,val))
 					 (setf lcd_r.next ,p)))
 			       (t (setf lcd_r.next 0
 					
 					lcd_b.next 0)))
-		   (cond ,@(loop for val in `(100  140 180 220 260 380)
-				 and p in `(0 1 2 4 8 16 32)
+		   (cond ,@(loop for val in `(50 100 150 200 200 250 )
+				 and p in `(#b111111 #b011111 #b001111 #b000111 #b000011 #b000001)
 				 collect
-				 `((& frame_odd
+				 `((& ; frame_odd
 				      (< pixel_count ,val))
 					 (setf lcd_g.next ,p)))
-			       (t (setf 
+			       (t (setf lcd_r.next 0
 					lcd_g.next 0
-					)))
+					lcd_b.next 0)))
 		   #+nil,@(loop for (e f) in `((lcd_r 400)
 					  (lcd_b 640)
 					  (lcd_g 840))

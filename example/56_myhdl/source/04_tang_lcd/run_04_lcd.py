@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "79e770da1c7f60303c7bdc8882f7d1b637e9f939"
+_code_git_version = "3eaadf5e6ac62dcfb7414ecf14a016cf33f69a83"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "18:34:13 of Friday, 2021-06-18 (GMT+1)"
+_code_generation_time = "18:57:18 of Friday, 2021-06-18 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -73,35 +73,43 @@ def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g, lcd_b):
 
     @always_comb
     def logic_pattern():
-        if (((((frame_count) + (pixel_count))) < (200))):
+        if (((((100) < (line_count))) & (((((frame_count) + (pixel_count))) <
+                                          (200))))):
             lcd_r.next = 0
-        elif (((((frame_count) + (pixel_count))) < (240))):
+        elif (((((100) < (line_count))) & (((((frame_count) + (pixel_count))) <
+                                            (240))))):
             lcd_r.next = 1
-        elif (((((frame_count) + (pixel_count))) < (280))):
+        elif (((((100) < (line_count))) & (((((frame_count) + (pixel_count))) <
+                                            (280))))):
             lcd_r.next = 2
-        elif (((((frame_count) + (pixel_count))) < (320))):
+        elif (((((100) < (line_count))) & (((((frame_count) + (pixel_count))) <
+                                            (320))))):
             lcd_r.next = 4
-        elif (((((frame_count) + (pixel_count))) < (360))):
+        elif (((((100) < (line_count))) & (((((frame_count) + (pixel_count))) <
+                                            (360))))):
             lcd_r.next = 8
-        elif (((((frame_count) + (pixel_count))) < (480))):
+        elif (((((100) < (line_count))) & (((((frame_count) + (pixel_count))) <
+                                            (480))))):
             lcd_r.next = 16
         else:
             lcd_r.next = 0
             lcd_b.next = 0
-        if (((frame_odd) & (((pixel_count) < (100))))):
-            lcd_g.next = 0
-        elif (((frame_odd) & (((pixel_count) < (140))))):
+        if (((((pixel_count) < (50))))):
+            lcd_g.next = 63
+        elif (((((pixel_count) < (100))))):
+            lcd_g.next = 31
+        elif (((((pixel_count) < (150))))):
+            lcd_g.next = 15
+        elif (((((pixel_count) < (200))))):
+            lcd_g.next = 7
+        elif (((((pixel_count) < (200))))):
+            lcd_g.next = 3
+        elif (((((pixel_count) < (250))))):
             lcd_g.next = 1
-        elif (((frame_odd) & (((pixel_count) < (180))))):
-            lcd_g.next = 2
-        elif (((frame_odd) & (((pixel_count) < (220))))):
-            lcd_g.next = 4
-        elif (((frame_odd) & (((pixel_count) < (260))))):
-            lcd_g.next = 8
-        elif (((frame_odd) & (((pixel_count) < (380))))):
-            lcd_g.next = 16
         else:
+            lcd_r.next = 0
             lcd_g.next = 0
+            lcd_b.next = 0
 
     return (
         logic_count,
