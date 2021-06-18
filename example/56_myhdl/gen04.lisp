@@ -42,11 +42,14 @@
 	     (comments "AT050TN43.pdf ILI6122.pdf ")
 	     ,@(loop for e in `((v back 6)
 				(v pulse 5)
-				(v extent 480)
-				(v front 62) ;; 45
+				(v extent 272 ; 480
+				   )
+				(v front  62
+				   ) ;; 45
 				(h back 182)
 				(h pulse 1)
-				(h extent 800)
+				(h extent 480 ;800
+				   )
 				(h front 210))
 		     collect
 		     (destructuring-bind (dir name value) e
@@ -115,7 +118,19 @@
 		(do0
 		 @always_comb
 		 (def logic_pattern ()
-		   ,@(loop for (e f) in `((lcd_r 400)
+		   #-color
+		   (cond ((< pixel_count 240)
+			  (setf lcd_r.next 1))
+			 ((< pixel_count 480)
+			  (setf lcd_g.next 1))
+			 ((< pixel_count 600)
+			  (setf lcd_b.next 1))
+			 (t
+			  (setf lcd_r.next 0
+				lcd_g.next 0
+				lcd_b.next 0))
+			 )
+		   #+color ,@(loop for (e f) in `((lcd_r 400)
 					  (lcd_b 640)
 					  (lcd_g 840))
 			   collect
@@ -136,14 +151,19 @@
 		 (do0
 		  (do0 ,@(loop for e in `(pixel_clk ;n_rst
 				      lcd_de lcd_hsync 
-				      lcd_vsync)
+				      lcd_vsync
+				      #-color lcd_r
+				      #-color lcd_g
+				      #-color lcd_b
+				      )
 			   collect
 			       `(setf ,e (Signal (bool 0))))
 		       (setf n_rst (ResetSignal 0 :active 0 :isasync False))
-		       ,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
+		       #+color ,@(loop for (e f) in `((lcd_r 5) (lcd_g 6) (lcd_b 5)
 					      )
 			       collect
-			       `(setf ,e (Signal (aref (intbv 0) (slice ,f ""))))))
+				       `(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
+		       )
 		     
 		     
 		     (do0 (setf lcd_1 (lcd pixel_clk n_rst
@@ -264,9 +284,13 @@ endmodule"))
 		       collect
 		       (format nil "input ~a" e))
 		 (loop for e in `(lcd_clk lcd_hsync lcd_vsync lcd_de
-					  "[4:0] lcd_r"
-					  "[5:0] lcd_g"
-					  "[4:0] lcd_b"
+					  #+color "[4:0] lcd_r"
+					  #+color "[5:0] lcd_g"
+					  #+color "[4:0] lcd_b"
+
+					  #-color lcd_r
+					  #-color lcd_g
+					  #-color lcd_b
 					; led_r led_g led_b
 					;key
 					  )
@@ -323,6 +347,7 @@ endmodule"))
 			     )
 	      do
 		 (p (format nil "IO_LOC \"lcd_~a\" ~a" e f)))
+	#+color
 	(loop for e in `((r (0 4) (27 28 29 30 31))
 			 (g (0 5) (32 33 34 38 39 40))
 			 (b (0 4) (41 42 43 44 45)))
@@ -332,9 +357,20 @@ endmodule"))
 		   (loop for v in vals and i from start upto end
 			 do
 			    (p (format nil "IO_LOC \"lcd_~a[~a]\" ~a" name i v)))))
+
+	
+	#-color (loop for e in `((r 31)
+			 (g 40)
+			 (b 45))
+		      ;; only most significant color bit
+	      do
+		 (destructuring-bind (name v) e
+		   (p (format nil "IO_LOC \"lcd_~a\" ~a" name v))))
 	(loop for e in `(n_rst lcd_clk lcd_vsync lcd_de ;key
 			       xtal_in lcd_hsync
-			       (lcd_r 4) (lcd_g 5) (lcd_b 4))
+			       #+color (lcd_r 4) #+color (lcd_g 5) #+color (lcd_b 4)
+			       #-color lcd_r #-color lcd_g #-color lcd_b
+			       )
 	      do
 		 (if (listp e)
 		     (destructuring-bind (name i) e
