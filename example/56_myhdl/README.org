@@ -119,3 +119,10 @@ Burn
 http://dl.sipeed.com/MAIX/factory_firmware/ch552
 https://github.com/Blinkinlabs/ch554_sdcc/blob/master/documentation/CH554%20manual%20english.pdf
 https://github.com/diodep/ch55x_jtag firmware for tang nano jtag
+
+
+- gen04 lcd with 1 bit per color:
+  - 66/1152 logic (66 lut)
+  - 23/945 reg (1 latch, 20 ff, 2 io latch)
+  - io 9 (2 in, 7 out)
+  - 1/1 pll
