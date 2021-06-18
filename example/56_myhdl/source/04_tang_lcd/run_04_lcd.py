@@ -1,9 +1,9 @@
 from myhdl import *
 from random import randrange
 
-_code_git_version = "9f3e3665d07bf9b0e0055cd5c41c0689e1035b48"
+_code_git_version = "79e770da1c7f60303c7bdc8882f7d1b637e9f939"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "18:11:27 of Friday, 2021-06-18 (GMT+1)"
+_code_generation_time = "18:34:13 of Friday, 2021-06-18 (GMT+1)"
 # https://tangnano.sipeed.com/en/examples/2_lcd.html
 # https://github.com/sipeed/Tang-Nano-examples/blob/master/example_lcd/lcd_pjt/src/VGAMod.v
 # AT050TN43.pdf ILI6122.pdf
@@ -22,6 +22,7 @@ pixel_count = Signal(
 line_count = Signal(
     intbv(0, min=0, max=((2) * (((v_extent) + (v_back) + (v_front) + (100))))))
 frame_count = Signal(intbv(0, min=0, max=255))
+frame_odd = Signal(bool(0))
 data_r = Signal(intbv(0)[10:])
 data_g = Signal(intbv(0)[10:])
 data_b = Signal(intbv(0)[10:])
@@ -68,6 +69,7 @@ def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g, lcd_b):
     @always(lcd_vsync.posedge)
     def logic_frame():
         frame_count.next = ((frame_count) + (1))
+        frame_odd.next = not (frame_odd)
 
     @always_comb
     def logic_pattern():
@@ -85,8 +87,21 @@ def lcd(pixel_clk, n_rst, lcd_de, lcd_hsync, lcd_vsync, lcd_r, lcd_g, lcd_b):
             lcd_r.next = 16
         else:
             lcd_r.next = 0
-            lcd_g.next = 0
             lcd_b.next = 0
+        if (((frame_odd) & (((pixel_count) < (100))))):
+            lcd_g.next = 0
+        elif (((frame_odd) & (((pixel_count) < (140))))):
+            lcd_g.next = 1
+        elif (((frame_odd) & (((pixel_count) < (180))))):
+            lcd_g.next = 2
+        elif (((frame_odd) & (((pixel_count) < (220))))):
+            lcd_g.next = 4
+        elif (((frame_odd) & (((pixel_count) < (260))))):
+            lcd_g.next = 8
+        elif (((frame_odd) & (((pixel_count) < (380))))):
+            lcd_g.next = 16
+        else:
+            lcd_g.next = 0
 
     return (
         logic_count,

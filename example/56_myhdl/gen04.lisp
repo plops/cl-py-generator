@@ -61,7 +61,8 @@
 		   line_for_vs (+ v_extent v_back v_front))
 	     (setf pixel_count (Signal (intbv 0 :min 0 :max (+ h_extent h_back h_front 100)))
 		   line_count (Signal (intbv 0 :min 0 :max (* 2  (+ v_extent v_back v_front 100))))
-		   frame_count (Signal (intbv 0 :min 0 :max 255)))
+		   frame_count (Signal (intbv 0 :min 0 :max 255))
+		   frame_odd (Signal (bool 0)))
 	     ,@ (loop for e in `(r g b)
 		      collect
 		      `(setf ,(format nil "data_~a" e)
@@ -123,7 +124,8 @@
 		(do0
 		 (@always lcd_vsync.posedge)
 		 (def logic_frame ()
-		   (setf frame_count.next (+ frame_count 1))))
+		   (setf frame_count.next (+ frame_count 1))
+		   (setf frame_odd.next (not frame_odd))))
 		
 		(do0
 		 @always_comb
@@ -167,8 +169,17 @@
 				       `((< (+ frame_count  pixel_count) ,val)
 					 (setf lcd_r.next ,p)))
 			       (t (setf lcd_r.next 0
-					lcd_g.next 0
+					
 					lcd_b.next 0)))
+		   (cond ,@(loop for val in `(100  140 180 220 260 380)
+				 and p in `(0 1 2 4 8 16 32)
+				 collect
+				 `((& frame_odd
+				      (< pixel_count ,val))
+					 (setf lcd_g.next ,p)))
+			       (t (setf 
+					lcd_g.next 0
+					)))
 		   #+nil,@(loop for (e f) in `((lcd_r 400)
 					  (lcd_b 640)
 					  (lcd_g 840))
