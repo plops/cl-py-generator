@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "4b589f93e18224095182c4cbb8a6a1c9efb20528"
+_code_git_version = "c86f4edfee3c7e448bb955cb833bedf86df930d8"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "12:55:18 of Saturday, 2021-06-19 (GMT+1)"
+_code_generation_time = "13:00:31 of Saturday, 2021-06-19 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -12,7 +12,7 @@ OPC = namedtuple("opc", [
     "ADD", "SUB", "AND", "OR", "XOR", "CMP", "RTS", "JNZ", "JZ", "JSR", "JMP"
 ])
 opc = OPC(*range(21))
-rom = (
+rom_data = (
     1,
     0,
     56,
@@ -30,6 +30,15 @@ rom = (
 
 
 @block
+def rom(clk, adr, do, CONTENT):
+    @always_comb
+    def read():
+        do.next = CONTENT[int(adr)]
+
+    return read
+
+
+@block
 def mem(clk, adr, we, di, do):
     ram = [Signal(intbv(0)[8:]) for i in range(256)]
 
@@ -39,7 +48,7 @@ def mem(clk, adr, we, di, do):
             ram[adr.val].next = di
         else:
             if (((adr) < (len(rom)))):
-                do.next = rom[adr.val]
+                do.next = 0
             else:
                 do.next = ram[adr.val]
 
@@ -154,10 +163,10 @@ def convert_this(hdl):
     di = Signal(modbv(0)[8:])
     do = Signal(modbv(0)[8:])
     adr = Signal(intbv(0)[8:])
+    rom_1 = rom(clk, adr, do, rom_data)
     mi = mem(clk, adr, we, di, do)
     cpu = processor(clk, rst, di, do, adr, we)
-    mi.convert(hdl=hdl)
-    cpu.convert(hdl=hdl)
+    rom_1.convert(hdl=hdl)
 
 
 convert_this(hdl="Verilog")

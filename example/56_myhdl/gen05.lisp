@@ -71,9 +71,17 @@
 					 (*range ,(length l))))))))
 	     
 	     ,@(let ((ram-size #x100))
-		 `( (setf rom (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
+		 `( (setf rom_data (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
 					    collect
 					    (read-from-string (format nil "#x~a" e)))))
+		    (do0
+		     @block
+		     (def rom (clk adr do CONTENT)
+		       (do0
+			@always_comb
+			(def read ()
+			  (setf do.next (aref CONTENT (int adr)))))
+		       (return read)))
 		   (do0
 		    @block
 		    (def mem (clk adr we di do)
@@ -89,7 +97,8 @@
 					next)
 				   di)
 			     (if (< adr (len rom))
-				 (setf do.next  (aref rom adr.val))
+				 (setf do.next 0 ; (aref rom_data adr.val)
+				       )
 				 (setf do.next (aref ram adr.val))))))
 		      (return logic)))
 
@@ -291,11 +300,14 @@
 				     collect
 				     `(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
 			     )
-			(setf mi (mem clk adr we di do)
+			(setf rom_1 (rom clk adr do rom_data)
+			      mi (mem clk adr we di do)
+			      
 			      cpu (processor clk rst di do adr we))
-			(mi.convert :hdl hdl)
-			(cpu.convert :hdl hdl)
-			      ;(toVerilog rom)
+			(rom_1.convert :hdl hdl)
+			#+nil (mi.convert :hdl hdl)
+			#+nil (cpu.convert :hdl hdl)
+			      
 			      )))
 		    (convert_this :hdl (string "Verilog"))))))))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
