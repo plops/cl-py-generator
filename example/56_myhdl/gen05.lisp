@@ -71,10 +71,10 @@
 					 (*range ,(length l))))))))
 	     
 	     ,@(let ((ram-size #x100))
-		 `( (setf rom_data (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
+		 `( #+nil (setf rom_data (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
 					    collect
 					    (read-from-string (format nil "#x~a" e)))))
-		    (do0
+		  #+nil  (do0
 		     @block
 		     (def rom (clk adr do CONTENT)
 		       (do0
@@ -89,17 +89,21 @@
 				 (for-generator (i (range ,ram-size))
 						(Signal (aref (intbv 0) (slice 8 ""))))))
 		     
-		      (do0
-		       (@always clk.posedge)
-		       (def logic ()
-			 (if we
-			     (setf (dot (aref ram adr.val)
-					next)
-				   di)
-			     (if (< adr (len rom))
-				 (setf do.next 0 ; (aref rom_data adr.val)
-				       )
-				 (setf do.next (aref ram adr.val))))))
+		      ,(let ((l `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)))
+			 `(do0
+			       (@always clk.posedge)
+			       (def logic ()
+				 (if we
+				     (setf (dot (aref ram adr.val)
+						next)
+					   di)
+				     (if (< adr ,(length l))
+					 (cond ,@(loop for val in l
+						       and i from 0
+						       collect
+						       `((== adr.val ,i)
+							 (setf do.next  ,(format nil "0x~a" val))))) 
+					 (setf do.next (aref ram adr.val)))))))
 		      (return logic)))
 
 		    ,(let ((l `((ir instruction-register)
@@ -300,13 +304,13 @@
 				     collect
 				     `(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
 			     )
-			(setf rom_1 (rom clk adr do rom_data)
+			(setf ; rom_1 (rom clk adr do rom_data)
 			      mi (mem clk adr we di do)
 			      
 			      cpu (processor clk rst di do adr we))
-			(rom_1.convert :hdl hdl)
-			#+nil (mi.convert :hdl hdl)
-			#+nil (cpu.convert :hdl hdl)
+			;(rom_1.convert :hdl hdl)
+			#-nil (mi.convert :hdl hdl)
+			#-nil (cpu.convert :hdl hdl)
 			      
 			      )))
 		    (convert_this :hdl (string "Verilog"))))))))

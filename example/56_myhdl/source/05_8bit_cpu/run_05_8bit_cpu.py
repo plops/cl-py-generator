@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "c86f4edfee3c7e448bb955cb833bedf86df930d8"
+_code_git_version = "ca08404c05f7d2c5a4462741febb17bf2ee96e73"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "13:00:31 of Saturday, 2021-06-19 (GMT+1)"
+_code_generation_time = "13:31:09 of Saturday, 2021-06-19 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -12,30 +12,6 @@ OPC = namedtuple("opc", [
     "ADD", "SUB", "AND", "OR", "XOR", "CMP", "RTS", "JNZ", "JZ", "JSR", "JMP"
 ])
 opc = OPC(*range(21))
-rom_data = (
-    1,
-    0,
-    56,
-    12,
-    0,
-    1,
-    64,
-    48,
-    121,
-    16,
-    139,
-    248,
-    0,
-)
-
-
-@block
-def rom(clk, adr, do, CONTENT):
-    @always_comb
-    def read():
-        do.next = CONTENT[int(adr)]
-
-    return read
 
 
 @block
@@ -47,8 +23,33 @@ def mem(clk, adr, we, di, do):
         if (we):
             ram[adr.val].next = di
         else:
-            if (((adr) < (len(rom)))):
-                do.next = 0
+            if (((adr) < (13))):
+                if (((adr.val) == (0))):
+                    do.next = 0x1
+                elif (((adr.val) == (1))):
+                    do.next = 0x0
+                elif (((adr.val) == (2))):
+                    do.next = 0x38
+                elif (((adr.val) == (3))):
+                    do.next = 0x0c
+                elif (((adr.val) == (4))):
+                    do.next = 0x0
+                elif (((adr.val) == (5))):
+                    do.next = 0x1
+                elif (((adr.val) == (6))):
+                    do.next = 0x40
+                elif (((adr.val) == (7))):
+                    do.next = 0x30
+                elif (((adr.val) == (8))):
+                    do.next = 0x79
+                elif (((adr.val) == (9))):
+                    do.next = 0x10
+                elif (((adr.val) == (10))):
+                    do.next = 0x8b
+                elif (((adr.val) == (11))):
+                    do.next = 0xf8
+                elif (((adr.val) == (12))):
+                    do.next = 0x0
             else:
                 do.next = ram[adr.val]
 
@@ -163,10 +164,10 @@ def convert_this(hdl):
     di = Signal(modbv(0)[8:])
     do = Signal(modbv(0)[8:])
     adr = Signal(intbv(0)[8:])
-    rom_1 = rom(clk, adr, do, rom_data)
     mi = mem(clk, adr, we, di, do)
     cpu = processor(clk, rst, di, do, adr, we)
-    rom_1.convert(hdl=hdl)
+    mi.convert(hdl=hdl)
+    cpu.convert(hdl=hdl)
 
 
 convert_this(hdl="Verilog")
