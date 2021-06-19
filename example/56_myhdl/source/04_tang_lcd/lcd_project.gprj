@@ -9,6 +9,5 @@
         <File path="rpll.v" type="file.verilog" enable="1"/>
         <File path="top.v" type="file.verilog" enable="1"/>
         <File path="test.cst" type="file.cst" enable="1"/>
-        <File path="src/lcd_project.gao" type="file.gao" enable="1"/>
     </FileList>
 </Project>

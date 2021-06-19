@@ -44,13 +44,14 @@
 
 	     ,(let ((adm-l `(imp imm abs rel idx))
 		    (opc-l `(lda sta
-					;
+				 ;
 				 pha pla asl asr
 				 txa tax inx
-					;
+
 				 dex add sub and or xor
+				 
 				 cmp
-					;
+				 ;
 				 rts
 				 jnz
 					;
@@ -72,7 +73,7 @@
 	     ,@(let ((ram-size #x100))
 		 `( (setf rom (tuple ,@(loop for e in `(01 00 38 0c 00 01 40 30 79 10 8b f8 00)
 					    collect
-					    (format nil "0x~a" e))))
+					    (read-from-string (format nil "#x~a" e)))))
 		   (do0
 		    @block
 		    (def mem (clk adr we di do)
@@ -88,8 +89,7 @@
 					next)
 				   di)
 			     (if (< adr (len rom))
-				 (setf do.next 0; (aref rom adr.val)
-				       )
+				 (setf do.next  (aref rom adr.val))
 				 (setf do.next (aref ram adr.val))))))
 		      (return logic)))
 
@@ -283,9 +283,13 @@
 				     (destructuring-bind (name &optional (default 0)) e
 				       `(setf ,name (Signal (bool ,default)))))
 			     
-			     ,@(loop for (e f) in `((adr 8) (di 8) (do 8))
+
+			     ,@(loop for (e f) in `( (di 8) (do 8))
 				     collect
 				     `(setf ,e (Signal (aref (modbv 0) (slice ,f "")))))
+			     ,@(loop for (e f) in `((adr 8))
+				     collect
+				     `(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
 			     )
 			(setf mi (mem clk adr we di do)
 			      cpu (processor clk rst di do adr we))

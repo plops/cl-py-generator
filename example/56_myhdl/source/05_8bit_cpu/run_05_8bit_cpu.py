@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "fffd58baa1a8170e788cf55ab4a4f03a0caf4dba"
+_code_git_version = "4b589f93e18224095182c4cbb8a6a1c9efb20528"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "21:59:50 of Thursday, 2021-06-17 (GMT+1)"
+_code_generation_time = "12:55:18 of Saturday, 2021-06-19 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -13,19 +13,19 @@ OPC = namedtuple("opc", [
 ])
 opc = OPC(*range(21))
 rom = (
-    0x1,
-    0x0,
-    0x38,
-    0x0c,
-    0x0,
-    0x1,
-    0x40,
-    0x30,
-    0x79,
-    0x10,
-    0x8b,
-    0xf8,
-    0x0,
+    1,
+    0,
+    56,
+    12,
+    0,
+    1,
+    64,
+    48,
+    121,
+    16,
+    139,
+    248,
+    0,
 )
 
 
@@ -39,7 +39,7 @@ def mem(clk, adr, we, di, do):
             ram[adr.val].next = di
         else:
             if (((adr) < (len(rom)))):
-                do.next = 0
+                do.next = rom[adr.val]
             else:
                 do.next = ram[adr.val]
 
@@ -151,9 +151,9 @@ def convert_this(hdl):
     clk = Signal(bool(0))
     rst = Signal(bool(1))
     we = Signal(bool(0))
-    adr = Signal(modbv(0)[8:])
     di = Signal(modbv(0)[8:])
     do = Signal(modbv(0)[8:])
+    adr = Signal(intbv(0)[8:])
     mi = mem(clk, adr, we, di, do)
     cpu = processor(clk, rst, di, do, adr, we)
     mi.convert(hdl=hdl)
