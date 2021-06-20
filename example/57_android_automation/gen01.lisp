@@ -62,7 +62,7 @@
 				(y (floor (+ arena-dim-min-y  (* (- arena-dim-max-y
 							      arena-dim-min-y)
 							   (/ row-idx (length row-idxs)) )))))
-			    (format t "power-field ~a~%" `(:x ,x :y ,y))
+			    #+nil (format t "power-field ~a~%" `(:x ,x :y ,y))
 			    
 			    (return-from power-field (values x y))))))
       (break "power-field: ~a not found" name))
@@ -397,7 +397,7 @@
 			  (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
 	       ,(let* ((initial-placement
 			`((plant_btm_shooter power-field (A B C D E))
-			  ;(plant_tree field (a5 b5 c5 d5 e5))
+			  (plant_tree field (a5 b5 c5 d5 e5))
 			  ))
 		       (initial-placement-code-parts `())
 		       (initial-placement-states (let ((count 0))
@@ -443,10 +443,10 @@
 			      (destructuring-bind (&key state-name code) (elt initial-placement-code-parts i)
 				`((== fsm_state ,(s state-name))
 				  ,code
-				  #+nil (setf fsm_state ,(s (when (< (+ i 1) (length initial-placement-code-parts))
-							(destructuring-bind (&key state-name code) (elt initial-placement-code-parts (+ 1 i))
-							  state-name)
-							`placement-finished)))
+				  (setf fsm_state ,(s (if (< (+ i 1) (length initial-placement-code-parts))
+							 (destructuring-bind (&key state-name code) (elt initial-placement-code-parts (+ 1 i))
+							   state-name)
+							 `placement-finished)))
 				  ))
 			      )
 			))
@@ -505,7 +505,12 @@
 				      (time.sleep 1)
 				      (setf fsm_state ,(s (first initial-placement-states)))
 				      )
-				     ,@initial-placement-code)
+				     ,@initial-placement-code
+				     ((== fsm_state ,(s  'placement-finished))
+				      (time.sleep 1)
+				      (setf fsm_state ,(s 'placement-finished))
+				      )
+				     )
 				
 				
 			  
