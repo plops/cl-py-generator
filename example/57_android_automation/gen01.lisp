@@ -241,11 +241,11 @@
 			      #+nil  ,(lprint (format nil "find tap ~a" name)
 					      `(center))
 
-			      (do0 (setf thr (threading.Thread :target (lambda ()
+			      #+nil (do0 (setf thr (threading.Thread :target (lambda ()
 									 (tap_android (aref center 0)
 										      (aref center 1)))))
 				    (thr.start))
-			       #+nil (tap_android
+			        (tap_android
 				(aref center 0)
 				(aref center 1))
 			       (return imga)
@@ -337,56 +337,71 @@
 	       )
 	      #+nil (do0 (setf pause (imread (string "img/pause.jpg") cv2.IMREAD_COLOR))
 		   (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
-	      
-	      (while True
-		     (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
+	      ,(let ((fsm-states `(menu modal-dialog)))
+		 (flet ((s (name)
+			  (loop for s in fsm-states and i from 0
+				do
+				   (when (eq s name)
+				     (return i)))))
+		  `(do0
+		    (setf fsm_state ,(s 'menu))
+		    (while True
+			   (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
 				
-				)
-			  (setf imga (np.array scr)
-				)
-			  (when (< .99 (find_strength_how_to_play scr))
-			    (setf imga (find_and_tap_how_to_play scr)))
-			  (when (< .99 (find_strength_X scr))
-			    (setf imga (find_and_tap_X scr)))
-			  
-		          #+nil (do0
-			   (setf res (matchTemplate img Play
-						    cv2.TM_CCORR_NORMED
-						    ;cv2.TM_SQDIFF
-						    )
-				 (ntuple w h ch) Play.shape
-				 (ntuple mi ma miloc maloc ) (minMaxLoc res)
-				 center (+ (np.array maloc)
-					   (* .5 (np.array (list h w)))))
-			   (circle imga  ("tuple" (dot center (astype int)))
-				   20 (tuple 0 0 255) 5))
-			  #+nil ,@(loop for e in l-template
-				  collect
-				  (destructuring-bind (name &optional x y screen) e
-				    (if x
-				      `(do0
-				      (setf res (matchTemplate img ,name
-							       cv2.TM_CCORR_NORMED)
-					    (ntuple w h ch) (dot ,name shape)
-					    (ntuple mi ma miloc maloc ) (minMaxLoc res)
-					    center (+ (np.array maloc)
-						      (* .5 (np.array (list h w)))))
-				      (circle imga  ("tuple" (dot center (astype int)))
-					      20 (tuple 0 0 255) 5)
-				      ,(lprint (format nil "~a" name)
-					       `(center)))
-				      `(comment "no"))))
+				      )
+				(setf imga (np.array scr)
+				      )
+				(cond
 
-			  (imshow (string "output")
-			    imga))
+				  ((== fsm_state ,(s 'menu))
+				   (when (< .99 (find_strength_how_to_play scr))
+				     (setf imga (find_and_tap_how_to_play scr)))
+				   (setf fsm_state ,(s 'modal-dialog)))
+				  ((== fsm_state ,(s 'modal-dialog))
+				   (when (< .99 (find_strength_X scr))
+				     (setf imga (find_and_tap_X scr)))
+				   (setf fsm_state ,(s 'menu))))
+				
+				
+			  
+				#+nil (do0
+				       (setf res (matchTemplate img Play
+								cv2.TM_CCORR_NORMED
+					;cv2.TM_SQDIFF
+								)
+					     (ntuple w h ch) Play.shape
+					     (ntuple mi ma miloc maloc ) (minMaxLoc res)
+					     center (+ (np.array maloc)
+						       (* .5 (np.array (list h w)))))
+				       (circle imga  ("tuple" (dot center (astype int)))
+					       20 (tuple 0 0 255) 5))
+				#+nil ,@(loop for e in l-template
+					      collect
+					      (destructuring-bind (name &optional x y screen) e
+						(if x
+						    `(do0
+						      (setf res (matchTemplate img ,name
+									       cv2.TM_CCORR_NORMED)
+							    (ntuple w h ch) (dot ,name shape)
+							    (ntuple mi ma miloc maloc ) (minMaxLoc res)
+							    center (+ (np.array maloc)
+								      (* .5 (np.array (list h w)))))
+						      (circle imga  ("tuple" (dot center (astype int)))
+							      20 (tuple 0 0 255) 5)
+						      ,(lprint (format nil "~a" name)
+							       `(center)))
+						    `(comment "no"))))
+
+				(imshow (string "output")
+					imga))
 		     
-		     (when (== (& (cv2.waitKey 25) #xff)
-			       (ord (string "q")))
-		       (destroyAllWindows)
-		       (setf running False)
-		       break
-		       )
-		     )
+			   (when (== (& (cv2.waitKey 25) #xff)
+				     (ord (string "q")))
+			     (destroyAllWindows)
+			     (setf running False)
+			     break
+			     )
+			   ))))
 	      )
 	     
 	     (scrcpy.terminate)
