@@ -239,8 +239,13 @@
 					20 (tuple 0 0 255) 5)
 				)
 			      #+nil  ,(lprint (format nil "find tap ~a" name)
-					`(center))
-			       (tap_android
+					      `(center))
+
+			      (do0 (setf thr (threading.Thread :target (lambda ()
+									 (tap_android (aref center 0)
+										      (aref center 1)))))
+				    (thr.start))
+			       #+nil (tap_android
 				(aref center 0)
 				(aref center 1))
 			       (return imga)
