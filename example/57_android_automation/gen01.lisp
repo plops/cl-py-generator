@@ -44,9 +44,9 @@
 	       (loop for col in row and col-idx from 0
 		     do
 			(when (string= col (format nil "~a" name))
-			  (let ((x (floor (+ arena-dim-min-x #+nil (* (- arena-dim-max-x
+			  (let ((x (floor (+ arena-dim-min-x (* (- arena-dim-max-x
 							     arena-dim-min-x)
-							  (/ (+ col-idx 1) (- (length col-idxs) 0)) ))))
+								(/ (+ col-idx 0) (- (length col-idxs) 1)) ))))
 				(y (floor  (+ arena-dim-min-y  (* (- arena-dim-max-y
 								     arena-dim-min-y)
 								  (/ (+ row-idx 0) (- (length row-idxs) 1)) )))))
@@ -59,9 +59,9 @@
 	       (loop for col in row and col-idx from 0
 		     do
 			(when (eq col name)
-			  (let ((x (floor (+ arena-dim-min-x #+nil (* (- arena-dim-max-x
+			  (let ((x (floor (+ arena-dim-min-x (* (- arena-dim-max-x
 							     arena-dim-min-x)
-							  (/ (+ 1 col-idx) (length col-idxs)) ))))
+							  (/ (+ 0 col-idx) (- (length col-idxs) 1)) ))))
 				(y (floor (+ arena-dim-min-y   (* (- arena-dim-max-y
 							      arena-dim-min-y)
 							   (/ (+ 0 row-idx) (- (length row-idxs) 1)) )))))
