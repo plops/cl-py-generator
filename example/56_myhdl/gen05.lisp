@@ -82,6 +82,20 @@
 			(def read ()
 			  (setf do.next (aref CONTENT (int adr)))))
 		       (return read)))
+		  (do0
+		   @block
+		   (def Gowin_SP_2048x8 ()
+		     (string3 "similar to https://discourse.myhdl.org/t/instantiating-fpga-components/353/3")
+		     (do0
+		      (@always)
+		      (def NoLogic ()
+			pass))
+		     (setf Gowin_SP_2048x8.verilog_code
+			   (string3 (with-output-to-string (s)
+				      (macrolet ((p (cmd &rest rest)
+						   `(format s ,(format nil "~a~%" cmd) ,@rest)))
+					(p "SP sp_inst_0(.DO)")))))
+		     (return NoLogic)))
 		   (do0
 		    @block
 		    (def mem (clk adr we di do)

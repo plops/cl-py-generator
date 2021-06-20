@@ -144,3 +144,7 @@ https://github.com/diodep/ch55x_jtag firmware for tang nano jtag
   - drive ic st7282  
   - https://www.sitronix.com.tw/en/products/industrial-display-driver-ic/single-chip-solution-color/
   - 1.65 ~vdd, 3.0~3.6 vdda
+
+- instantiating fpga components
+https://discourse.myhdl.org/t/instantiating-fpga-components/353/3
+  

@@ -33,7 +33,8 @@
 		       (placed_tree)
 		       (plant_balls)
 		       (plant_btm_shooter)
-		       (plant_tree))
+		       (plant_tree)
+		       (X))
 		     )
 	 (code
 	   `(do0
@@ -150,6 +151,7 @@
 			(device.shell (dot (string "input touchscreen tap {} {}")
 					   (format x1 y1)))))
 	       
+	       #+nil
 	       (do0 (setf thr (threading.Thread :target tap_play))
 		    (thr.start)
 		    (setf running False))))
@@ -209,6 +211,40 @@
 			     (setf fn  (string ,(format nil "img/~a.jpg" name)))
 			     (setf ,name (imread fn
 						 cv2.IMREAD_COLOR))
+			     (def ,(format nil "find_strength_~a" name) (scr)
+				      (setf imga (np.array scr)
+				      img (aref imga 
+						":" ":" (slice "" -1)))
+				      (do0
+				      (setf res (matchTemplate img ,name
+							       cv2.TM_CCORR_NORMED)
+					    (ntuple w h ch) (dot ,name shape)
+					    (ntuple mi ma miloc maloc ) (minMaxLoc res)
+					    ))
+				      
+				      (return ma)
+			       )
+			     (def ,(format nil "find_and_tap_~a" name) (scr)
+			       (setf imga (np.array scr)
+				     img (aref imga 
+					       ":" ":" (slice "" -1)))
+			       (do0
+				(setf res (matchTemplate img ,name
+							 cv2.TM_CCORR_NORMED)
+				      (ntuple w h ch) (dot ,name shape)
+				      (ntuple mi ma miloc maloc ) (minMaxLoc res)
+				      center (+ (np.array maloc)
+						(* .5 (np.array (list h w)))))
+				(circle imga  ("tuple" (dot center (astype int)))
+					20 (tuple 0 0 255) 5)
+				)
+			      #+nil  ,(lprint (format nil "find tap ~a" name)
+					`(center))
+			       (tap_android
+				(aref center 0)
+				(aref center 1))
+			       (return imga)
+				      )
 			     ,(if (and x y)
 				  `(do0
 				    (setf ,(format nil "~a_x" name) ,x)
@@ -220,24 +256,8 @@
 					       `(,(format nil "~a_x" name)
 						 ,(format nil "~a_y" name)))
 				      )
-				    (def ,(format nil "find_and_tap_~a" name) (scr)
-				      (setf imga (np.array scr)
-				      img (aref imga 
-						":" ":" (slice "" -1)))
-				      (do0
-				      (setf res (matchTemplate img ,name
-							       cv2.TM_CCORR_NORMED)
-					    (ntuple w h ch) (dot ,name shape)
-					    (ntuple mi ma miloc maloc ) (minMaxLoc res)
-					    center (+ (np.array maloc)
-						      (* .5 (np.array (list h w)))))
-				      (circle imga  ("tuple" (dot center (astype int)))
-					      20 (tuple 0 0 255) 5)
-				      )
-				      ,(lprint (format nil "find tap ~a" name)
-					       `(center))
-				      (return imga)
-				      )
+				   
+				     
 				    (res.append (dictionary :x ,x
 							    :y ,y
 							    :sx ,(first screen)
@@ -298,7 +318,18 @@
 						       )
 			  
 			  )
-		    )))
+		    (def tap_android (x1 y1)
+		 "global running"
+		 (do0 ;while running
+		  (setf xx1 (* scale_x_inv (- x1 offset_x_inv)))
+		  (setf yy1 (* scale_y_inv (- y1 offset_y_inv)))
+			,(lprint "tap" `(x1 y1 xx1 yy1))
+
+			
+			(device.shell (dot (string "input touchscreen tap {} {}")
+					   (format xx1 yy1)))))
+		    ))
+	       )
 	      #+nil (do0 (setf pause (imread (string "img/pause.jpg") cv2.IMREAD_COLOR))
 		   (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
 	      
@@ -306,8 +337,12 @@
 		     (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
 				
 				)
-
-			  (setf imga (find_and_tap_how_to_play scr))
+			  (setf imga (np.array scr)
+				)
+			  (when (< .99 (find_strength_how_to_play scr))
+			    (setf imga (find_and_tap_how_to_play scr)))
+			  (when (< .99 (find_strength_X scr))
+			    (setf imga (find_and_tap_X scr)))
 			  
 		          #+nil (do0
 			   (setf res (matchTemplate img Play

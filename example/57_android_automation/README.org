@@ -9,3 +9,5 @@
   #+begin_example
 pip3 install --user opencv-python pure-python-adb
   #+end_example
+
+- try to play plants vs zombies
