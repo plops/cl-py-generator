@@ -10,9 +10,9 @@ from PIL import Image
 from cv2 import imshow, destroyAllWindows, imread, waitKey, imwrite, setMouseCallback, circle, matchTemplate, minMaxLoc
 from ppadb.client import Client
 
-_code_git_version = "2f1ff53f8ff5c1cf7d04235bc7b144837cf867f4"
+_code_git_version = "0284c4356184bcee5eb5dae27b5bea67c14189d4"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "17:00:58 of Sunday, 2021-06-20 (GMT+1)"
+_code_generation_time = "17:16:45 of Sunday, 2021-06-20 (GMT+1)"
 start_time = time.time()
 debug = True
 scrcpy = subprocess.Popen([
@@ -732,65 +732,59 @@ while (True):
         s = find_strength_plant_btm_shooter(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_btm_shooter(scr)
-            tap_direct(1025, 250)
+            tap_direct(650, 250)
         fsm_state = 6
     elif (((fsm_state) == (6))):
         s = find_strength_plant_btm_shooter(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_btm_shooter(scr)
-            tap_direct(1150, 396)
+            tap_direct(650, 433)
         fsm_state = 7
     elif (((fsm_state) == (7))):
         s = find_strength_plant_btm_shooter(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_btm_shooter(scr)
-            tap_direct(1150, 543)
+            tap_direct(650, 617)
         fsm_state = 8
     elif (((fsm_state) == (8))):
         s = find_strength_plant_btm_shooter(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_btm_shooter(scr)
-            tap_direct(1150, 690)
+            tap_direct(650, 800)
         fsm_state = 9
     elif (((fsm_state) == (9))):
         s = find_strength_plant_btm_shooter(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_btm_shooter(scr)
-            tap_direct(1025, 837)
+            tap_direct(650, 984)
         fsm_state = 10
     elif (((fsm_state) == (10))):
         s = find_strength_plant_tree(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_tree(scr)
-            tap_direct(1275, 250)
+            tap_direct(650, 250)
         fsm_state = 11
     elif (((fsm_state) == (11))):
         s = find_strength_plant_tree(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_tree(scr)
-            tap_direct(1275, 396)
+            tap_direct(650, 433)
         fsm_state = 12
     elif (((fsm_state) == (12))):
         s = find_strength_plant_tree(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_tree(scr)
-            tap_direct(1275, 543)
+            tap_direct(650, 800)
         fsm_state = 13
     elif (((fsm_state) == (13))):
         s = find_strength_plant_tree(scr)
         if ((((0.990)) < (s))):
             imga = find_and_tap_plant_tree(scr)
-            tap_direct(1275, 690)
+            tap_direct(650, 984)
         fsm_state = 14
     elif (((fsm_state) == (14))):
-        s = find_strength_plant_tree(scr)
-        if ((((0.990)) < (s))):
-            imga = find_and_tap_plant_tree(scr)
-            tap_direct(1275, 837)
-        fsm_state = 15
-    elif (((fsm_state) == (15))):
         time.sleep(1)
-        fsm_state = 15
+        fsm_state = 14
     imshow("output", imga)
     cv2.moveWindow("output", 650, 400)
     if (((((cv2.waitKey(25)) & (255))) == (ord("q")))):

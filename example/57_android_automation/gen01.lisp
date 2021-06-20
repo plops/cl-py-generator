@@ -35,18 +35,21 @@
 			      (0 0 0 0 D 0)
 			      (0 0 0 E 0 0)))
 	 )
+    (defparameter *arena* arena-names
+      )
+    (defparameter *arena-power-names* arena-power-names)
     (defun field (name)
       (loop for row in arena-names and row-idx from 0
 	    do
 	       (loop for col in row and col-idx from 0
 		     do
 			(when (string= col (format nil "~a" name))
-			  (let ((x (floor (+ arena-dim-min-x (* (- arena-dim-max-x
+			  (let ((x (floor (+ arena-dim-min-x #+nil (* (- arena-dim-max-x
 							     arena-dim-min-x)
-							  (/ col-idx (length col-idxs)) ))))
+							  (/ (+ col-idx 1) (- (length col-idxs) 0)) ))))
 				(y (floor  (+ arena-dim-min-y  (* (- arena-dim-max-y
 								     arena-dim-min-y)
-								  (/ row-idx (length row-idxs)) )))))
+								  (/ (+ row-idx 0) (- (length row-idxs) 1)) )))))
 			    
 			    (return-from field (values x y))))))
       (break "field: ~a not found" name))
@@ -56,12 +59,12 @@
 	       (loop for col in row and col-idx from 0
 		     do
 			(when (eq col name)
-			  (let ((x (floor (+ arena-dim-min-x (* (- arena-dim-max-x
+			  (let ((x (floor (+ arena-dim-min-x #+nil (* (- arena-dim-max-x
 							     arena-dim-min-x)
-							  (/ col-idx (length col-idxs)) ))))
-				(y (floor (+ arena-dim-min-y  (* (- arena-dim-max-y
+							  (/ (+ 1 col-idx) (length col-idxs)) ))))
+				(y (floor (+ arena-dim-min-y   (* (- arena-dim-max-y
 							      arena-dim-min-y)
-							   (/ row-idx (length row-idxs)) )))))
+							   (/ (+ 0 row-idx) (- (length row-idxs) 1)) )))))
 			    #+nil (format t "power-field ~a~%" `(:x ,x :y ,y))
 			    
 			    (return-from power-field (values x y))))))
@@ -397,7 +400,7 @@
 			  (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
 	       ,(let* ((initial-placement
 			`((plant_btm_shooter power-field (A B C D E))
-			  (plant_tree field (a5 b5 c5 d5 e5))
+			  (plant_tree field (a5 b5 d5 e5))
 			  ))
 		       (initial-placement-code-parts `())
 		       (initial-placement-states (let ((count 0))
