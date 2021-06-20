@@ -28,6 +28,7 @@
 		       (empty_tile_powerup)
 		       (lets_rock_2)
 		       (lets_rock)
+		       (lets_rock_weapon_selection)
 		       (load_old_plants)
 		       (placed_btm_shooter_on_powerup)
 		       (placed_tree)
@@ -337,21 +338,26 @@
 	       )
 	      #+nil (do0 (setf pause (imread (string "img/pause.jpg") cv2.IMREAD_COLOR))
 		   (setf Play (imread (string "img/Play.jpg") cv2.IMREAD_COLOR)))
-	      ,(let ((fsm-states `(menu modal-dialog)))
+	      ,(let ((fsm-states ;`(menu modal-dialog)
+		       `(menu weapon-selection weapon-wait weapon-approval weapon-placement)
+		       ))
 		 (flet ((s (name)
 			  (loop for s in fsm-states and i from 0
 				do
 				   (when (eq s name)
 				     (return i)))))
 		  `(do0
-		    (setf fsm_state ,(s 'menu))
+		    (setf fsm_state ,(s ;'menu
+				      'weapon-wait
+				      ))
 		    (while True
 			   (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
 				
 				      )
+				;,(lprint "new screen")
 				(setf imga (np.array scr)
 				      )
-				(cond
+				#+nil (cond
 
 				  ((== fsm_state ,(s 'menu))
 				   (when (< .99 (find_strength_how_to_play scr))
@@ -361,6 +367,44 @@
 				   (when (< .99 (find_strength_X scr))
 				     (setf imga (find_and_tap_X scr)))
 				   (setf fsm_state ,(s 'menu))))
+
+				(cond
+
+				  ((== fsm_state ,(s 'menu))
+				   (setf play_strength (find_strength_Play scr))
+				   ,(lprint "menu" `(play_strength))
+				   (when (< .99 play_strength)
+				     (setf imga (find_and_tap_Play scr))
+				     (setf fsm_state ,(s 'weapon-selection)))
+				   )
+				  ((== fsm_state ,(s 'weapon-selection))
+				   (do0 (setf st_old_plants (find_strength_load_old_plants scr))
+					,(lprint "weapon-selection" `(st_old_plants))
+					(when (< .99 st_old_plants)
+					  (setf imga (find_and_tap_load_old_plants scr))
+					  (setf fsm_state ,(s 'weapon-wait))))
+				   
+				   )
+				  ((== fsm_state ,(s 'weapon-wait))
+				   (time.sleep 1)
+				   (setf fsm_state ,(s 'weapon-approval))
+				   )
+				  ((== fsm_state ,(s 'weapon-approval))
+				   (do0 (setf s (find_strength_lets_rock_weapon_selection scr))
+					,(lprint "weapon-approval" `(s))
+					(when (< .93 s)
+					  (setf imga (find_and_tap_lets_rock_weapon_selection scr))
+					  (setf fsm_state ,(s 'weapon-placement))))
+				   
+				   )
+				  ((== fsm_state ,(s 'weapon-placement))
+				   (do0 (setf s (find_strength_plant_btm_shooter scr))
+					,(lprint "weapon-placement" `(s))
+					(time.sleep 3)
+					(when (< .99 s)
+					  (setf imga (find_and_tap_plant_btm_shooter scr))))
+				   (setf fsm_state ,(s 'weapon-placement))
+				   ))
 				
 				
 			  
@@ -393,7 +437,9 @@
 						    `(comment "no"))))
 
 				(imshow (string "output")
-					imga))
+					imga)
+				(cv2.moveWindow (string "output")
+						650 400))
 		     
 			   (when (== (& (cv2.waitKey 25) #xff)
 				     (ord (string "q")))
