@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "ca08404c05f7d2c5a4462741febb17bf2ee96e73"
+_code_git_version = "9402add364b4d7369be67297958ce8ccff9261a7"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "13:31:09 of Saturday, 2021-06-19 (GMT+1)"
+_code_generation_time = "04:00:18 of Monday, 2021-06-21 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -12,6 +12,35 @@ OPC = namedtuple("opc", [
     "ADD", "SUB", "AND", "OR", "XOR", "CMP", "RTS", "JNZ", "JZ", "JSR", "JMP"
 ])
 opc = OPC(*range(21))
+
+
+@block
+def Gowin_SP_2048x8(clk=None,
+                    oce=None,
+                    ce=None,
+                    reset=None,
+                    wre=None,
+                    ad=None,
+                    din=None,
+                    dout=None):
+    """similar to https://discourse.myhdl.org/t/instantiating-fpga-components/353/3"""
+    @always()
+    def NoLogic():
+        pass
+
+    sp_inst_0_dout_w = Signal(modbv(0)[23:0])
+    sp_inst_0_dout_w.driven = "wire"
+    gw_gnd = Signal(bool(0))
+    gw_gnd.next = 0
+    do_all = concat(sp_inst_0_dout_w, dout)
+    blksel = concat(gw_gnd, gw_gnd, gw_gnd)
+    ad_all = concat(ad, gw_gnd, gw_gnd, gw_gnd)
+    di_all = concat(gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd,
+                    gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd,
+                    gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd,
+                    gw_gnd, gw_gnd, gw_gnd, din)
+    Gowin_SP_2048x8.verilog_code = """SP sp_inst_0(.DO(do_all),.CLK(clk),.OCE(oce),.CE(ce),.RESET(reset),.WRE(wre),.BLKSEL(blksel),.AD(ad_all),.DI(di_all)));"""
+    return NoLogic
 
 
 @block
@@ -164,10 +193,25 @@ def convert_this(hdl):
     di = Signal(modbv(0)[8:])
     do = Signal(modbv(0)[8:])
     adr = Signal(intbv(0)[8:])
+    ad = Signal(intbv(0)[((1) + (10)):0])
+    clk = Signal(bool(0))
+    oce = Signal(bool(0))
+    ce = Signal(bool(0))
+    reset = Signal(bool(0))
+    wre = Signal(bool(0))
     mi = mem(clk, adr, we, di, do)
+    ram_sp = Gowin_SP_2048x8(clk=clk,
+                             oce=oce,
+                             ce=ce,
+                             reset=rst,
+                             wre=wre,
+                             ad=ad,
+                             din=di,
+                             dout=do)
     cpu = processor(clk, rst, di, do, adr, we)
     mi.convert(hdl=hdl)
     cpu.convert(hdl=hdl)
+    ram_sp.convert(hdl=hdl)
 
 
 convert_this(hdl="Verilog")

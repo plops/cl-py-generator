@@ -84,17 +84,46 @@
 		       (return read)))
 		  (do0
 		   @block
-		   (def Gowin_SP_2048x8 ()
+		   (def Gowin_SP_2048x8 (&key clk oce ce reset wre ad din dout)
 		     (string3 "similar to https://discourse.myhdl.org/t/instantiating-fpga-components/353/3")
 		     (do0
 		      (@always)
 		      (def NoLogic ()
 			pass))
+		     (setf sp_inst_0_dout_w (Signal (aref (modbv 0) (slice 23 0)))
+			   sp_inst_0_dout_w.driven (string "wire"))
+		     ,@(loop for e in `(;clk oce ce reset wre
+					    gw_gnd)
+			     collect
+			     `(setf ,e (Signal (bool 0))))
+		     (setf gw_gnd.next 0)
+		     #+nil ,@(loop for (e f) in `((ad 10)
+					    (din 7)
+					    )
+			     collect
+			     `(setf ,e (Signal (aref (intbv 0 ) (slice (+ 1 ,f) 0)))))
+		     (setf do_all (concat sp_inst_0_dout_w
+				      dout)
+			   blksel (concat ,@(loop for i below 3 collect `gw_gnd))
+			   ad_all (concat ad ,@(loop for i below 3 collect `gw_gnd))
+			   di_all (concat ,@(loop for i below 24 collect `gw_gnd)
+					  din))
+		     
 		     (setf Gowin_SP_2048x8.verilog_code
-			   (string3 (with-output-to-string (s)
+			   (string3 ,(with-output-to-string (s)
 				      (macrolet ((p (cmd &rest rest)
 						   `(format s ,(format nil "~a~%" cmd) ,@rest)))
-					(p "SP sp_inst_0(.DO)")))))
+					(format s "SP sp_inst_0(~{~a~^,~}));"
+					   (loop for (e f) in `((DO do_all)
+							      (CLK clk)
+							      (OCE oce)
+							      (CE ce)
+							      (RESET reset)
+							      (WRE wre)
+							      (BLKSEL blksel)
+							      (AD ad_all)
+							      (DI di_all))
+						 collect (format nil ".~a(~a)" e f)))))))
 		     (return NoLogic)))
 		   (do0
 		    @block
@@ -318,13 +347,32 @@
 				     collect
 				     `(setf ,e (Signal (aref (intbv 0) (slice ,f "")))))
 			     )
+			,@(loop for (e f) in `((ad 10)
+					       
+					   ; (din 7)
+					       )
+			     collect
+				`(setf ,e (Signal (aref (intbv 0 ) (slice (+ 1 ,f) 0)))))
+			,@(loop for e in `(clk oce ce reset wre
+					   ; gw_gnd
+					       )
+			     collect
+			     `(setf ,e (Signal (bool 0))))
 			(setf ; rom_1 (rom clk adr do rom_data)
 			      mi (mem clk adr we di do)
-			      
+			      ram_sp (Gowin_SP_2048x8 :clk clk
+						      :oce oce
+						      :ce ce
+						      :reset rst
+						      :wre wre
+						      :ad ad
+						      :din di
+						      :dout do)
 			      cpu (processor clk rst di do adr we))
 			;(rom_1.convert :hdl hdl)
 			#-nil (mi.convert :hdl hdl)
 			#-nil (cpu.convert :hdl hdl)
+			(ram_sp.convert :hdl hdl)
 			      
 			      )))
 		    (convert_this :hdl (string "Verilog"))))))))

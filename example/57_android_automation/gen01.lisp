@@ -79,14 +79,21 @@
 			(empty_tile_powerup)
 			(lets_rock_2)
 			(lets_rock)
-			(lets_rock_weapon_selection)
+			 (lets_rock_weapon_selection)
+			 (lets_rock_arena_populated)
 			(load_old_plants)
 			(placed_btm_shooter_on_powerup)
 			(placed_tree)
 			(plant_balls)
 			(plant_btm_shooter)
 			(plant_tree)
-			(X))
+			 (X)
+			 (leaf_to_collect)
+			 (sun_to_collect)
+			 (leaf_green_empty)
+			 (leaf_green_notempty)
+			 (continue_current_reward_streak)
+			 (continue_got_gauntlet))
 		      )
 	  (code
 	    `(do0
@@ -433,7 +440,9 @@
 			`(menu weapon-selection weapon-wait weapon-approval
 			       weapon-placement-wait 
 			       ,@initial-placement-states
-			       placement-finished)
+			       placement-finished
+			       start-battle
+			       start-battle-wait)
 			))
 		  (flet ((s (name)
 			   (loop for s in fsm-states and i from 0
@@ -454,8 +463,9 @@
 			      )
 			))
 		     `(do0
-		       (setf fsm_state ,(s ;'menu
-					 'weapon-placement-wait
+		       (setf fsm_state ,(s 'menu
+					 ;'weapon-placement-wait
+					 ;'placement-finished
 					 ))
 		       (while True
 			      (do0 (setf scr (sct.grab (dictionary :left 5 :top 22 :width 640 :height 384))
@@ -480,7 +490,7 @@
 				     ((== fsm_state ,(s 'menu))
 				      (setf play_strength (find_strength_Play scr))
 				      ,(lprint "menu" `(play_strength))
-				      (when (< .99 play_strength)
+				      (when (< .98 play_strength)
 					(setf imga (find_and_tap_Play scr))
 					(setf fsm_state ,(s 'weapon-selection)))
 				      )
@@ -511,7 +521,19 @@
 				     ,@initial-placement-code
 				     ((== fsm_state ,(s  'placement-finished))
 				      (time.sleep 1)
-				      (setf fsm_state ,(s 'placement-finished))
+				      (setf fsm_state ,(s 'start-battle))
+				      )
+				      ((== fsm_state ,(s 'start-battle))
+				      (do0 (setf s (find_strength_lets_rock_arena_populated scr))
+					   ,(lprint "start-battle" `(s))
+					   (when (< .99 s)
+					     (setf imga (find_and_tap_lets_rock_arena_populated scr))
+					     (setf fsm_state ,(s 'start-battle-wait))))
+				   
+				       )
+				      ((== fsm_state ,(s  'start-battle-wait))
+				      (time.sleep 1)
+				      (setf fsm_state ,(s 'start-battle-wait))
 				      )
 				     )
 				

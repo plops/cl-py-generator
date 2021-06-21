@@ -10,9 +10,9 @@ from PIL import Image
 from cv2 import imshow, destroyAllWindows, imread, waitKey, imwrite, setMouseCallback, circle, matchTemplate, minMaxLoc
 from ppadb.client import Client
 
-_code_git_version = "d7ffee20429a7f43935ed0af43d4ed36b39027a8"
+_code_git_version = "9402add364b4d7369be67297958ce8ccff9261a7"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "17:17:49 of Sunday, 2021-06-20 (GMT+1)"
+_code_generation_time = "17:50:34 of Sunday, 2021-06-20 (GMT+1)"
 start_time = time.time()
 debug = True
 scrcpy = subprocess.Popen([
@@ -412,6 +412,36 @@ def find_and_tap_lets_rock_weapon_selection(scr):
 
 
 # no x y coords
+fn = "img/lets_rock_arena_populated.jpg"
+lets_rock_arena_populated = imread(fn, cv2.IMREAD_COLOR)
+
+
+def find_strength_lets_rock_arena_populated(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, lets_rock_arena_populated, cv2.TM_CCORR_NORMED)
+    w, h, ch = lets_rock_arena_populated.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    return ma
+
+
+def find_and_tap_lets_rock_arena_populated(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, lets_rock_arena_populated, cv2.TM_CCORR_NORMED)
+    w, h, ch = lets_rock_arena_populated.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    center = ((np.array(maloc)) + ((((0.50)) * (np.array([h, w])))))
+    circle(imga, tuple(center.astype(int)), 20, (
+        0,
+        0,
+        255,
+    ), 5)
+    tap_android(center[0], center[1])
+    return imga
+
+
+# no x y coords
 fn = "img/load_old_plants.jpg"
 load_old_plants = imread(fn, cv2.IMREAD_COLOR)
 
@@ -624,6 +654,188 @@ def find_and_tap_X(scr):
 
 
 # no x y coords
+fn = "img/leaf_to_collect.jpg"
+leaf_to_collect = imread(fn, cv2.IMREAD_COLOR)
+
+
+def find_strength_leaf_to_collect(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, leaf_to_collect, cv2.TM_CCORR_NORMED)
+    w, h, ch = leaf_to_collect.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    return ma
+
+
+def find_and_tap_leaf_to_collect(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, leaf_to_collect, cv2.TM_CCORR_NORMED)
+    w, h, ch = leaf_to_collect.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    center = ((np.array(maloc)) + ((((0.50)) * (np.array([h, w])))))
+    circle(imga, tuple(center.astype(int)), 20, (
+        0,
+        0,
+        255,
+    ), 5)
+    tap_android(center[0], center[1])
+    return imga
+
+
+# no x y coords
+fn = "img/sun_to_collect.jpg"
+sun_to_collect = imread(fn, cv2.IMREAD_COLOR)
+
+
+def find_strength_sun_to_collect(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, sun_to_collect, cv2.TM_CCORR_NORMED)
+    w, h, ch = sun_to_collect.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    return ma
+
+
+def find_and_tap_sun_to_collect(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, sun_to_collect, cv2.TM_CCORR_NORMED)
+    w, h, ch = sun_to_collect.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    center = ((np.array(maloc)) + ((((0.50)) * (np.array([h, w])))))
+    circle(imga, tuple(center.astype(int)), 20, (
+        0,
+        0,
+        255,
+    ), 5)
+    tap_android(center[0], center[1])
+    return imga
+
+
+# no x y coords
+fn = "img/leaf_green_empty.jpg"
+leaf_green_empty = imread(fn, cv2.IMREAD_COLOR)
+
+
+def find_strength_leaf_green_empty(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, leaf_green_empty, cv2.TM_CCORR_NORMED)
+    w, h, ch = leaf_green_empty.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    return ma
+
+
+def find_and_tap_leaf_green_empty(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, leaf_green_empty, cv2.TM_CCORR_NORMED)
+    w, h, ch = leaf_green_empty.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    center = ((np.array(maloc)) + ((((0.50)) * (np.array([h, w])))))
+    circle(imga, tuple(center.astype(int)), 20, (
+        0,
+        0,
+        255,
+    ), 5)
+    tap_android(center[0], center[1])
+    return imga
+
+
+# no x y coords
+fn = "img/leaf_green_notempty.jpg"
+leaf_green_notempty = imread(fn, cv2.IMREAD_COLOR)
+
+
+def find_strength_leaf_green_notempty(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, leaf_green_notempty, cv2.TM_CCORR_NORMED)
+    w, h, ch = leaf_green_notempty.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    return ma
+
+
+def find_and_tap_leaf_green_notempty(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, leaf_green_notempty, cv2.TM_CCORR_NORMED)
+    w, h, ch = leaf_green_notempty.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    center = ((np.array(maloc)) + ((((0.50)) * (np.array([h, w])))))
+    circle(imga, tuple(center.astype(int)), 20, (
+        0,
+        0,
+        255,
+    ), 5)
+    tap_android(center[0], center[1])
+    return imga
+
+
+# no x y coords
+fn = "img/continue_current_reward_streak.jpg"
+continue_current_reward_streak = imread(fn, cv2.IMREAD_COLOR)
+
+
+def find_strength_continue_current_reward_streak(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, continue_current_reward_streak,
+                        cv2.TM_CCORR_NORMED)
+    w, h, ch = continue_current_reward_streak.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    return ma
+
+
+def find_and_tap_continue_current_reward_streak(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, continue_current_reward_streak,
+                        cv2.TM_CCORR_NORMED)
+    w, h, ch = continue_current_reward_streak.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    center = ((np.array(maloc)) + ((((0.50)) * (np.array([h, w])))))
+    circle(imga, tuple(center.astype(int)), 20, (
+        0,
+        0,
+        255,
+    ), 5)
+    tap_android(center[0], center[1])
+    return imga
+
+
+# no x y coords
+fn = "img/continue_got_gauntlet.jpg"
+continue_got_gauntlet = imread(fn, cv2.IMREAD_COLOR)
+
+
+def find_strength_continue_got_gauntlet(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, continue_got_gauntlet, cv2.TM_CCORR_NORMED)
+    w, h, ch = continue_got_gauntlet.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    return ma
+
+
+def find_and_tap_continue_got_gauntlet(scr):
+    imga = np.array(scr)
+    img = imga[:, :, :-1]
+    res = matchTemplate(img, continue_got_gauntlet, cv2.TM_CCORR_NORMED)
+    w, h, ch = continue_got_gauntlet.shape
+    mi, ma, miloc, maloc = minMaxLoc(res)
+    center = ((np.array(maloc)) + ((((0.50)) * (np.array([h, w])))))
+    circle(imga, tuple(center.astype(int)), 20, (
+        0,
+        0,
+        255,
+    ), 5)
+    tap_android(center[0], center[1])
+    return imga
+
+
+# no x y coords
 dft = pd.DataFrame(res)
 if (debug):
     print("{} compute transform from screen to scrcpy window coordinates ".
@@ -694,7 +906,7 @@ def tap_direct(x1, y1):
     device.shell("input touchscreen tap {} {}".format(x1, y1))
 
 
-fsm_state = 4
+fsm_state = 0
 while (True):
     scr = sct.grab(dict(left=5, top=22, width=640, height=384))
     imga = np.array(scr)
@@ -703,7 +915,7 @@ while (True):
         if (debug):
             print("{} menu play_strength={}".format(
                 ((time.time()) - (start_time)), play_strength))
-        if ((((0.990)) < (play_strength))):
+        if ((((0.980)) < (play_strength))):
             imga = find_and_tap_Play(scr)
             fsm_state = 1
     elif (((fsm_state) == (1))):
@@ -784,7 +996,18 @@ while (True):
         fsm_state = 14
     elif (((fsm_state) == (14))):
         time.sleep(1)
-        fsm_state = 14
+        fsm_state = 15
+    elif (((fsm_state) == (15))):
+        s = find_strength_lets_rock_arena_populated(scr)
+        if (debug):
+            print("{} start-battle s={}".format(((time.time()) - (start_time)),
+                                                s))
+        if ((((0.990)) < (s))):
+            imga = find_and_tap_lets_rock_arena_populated(scr)
+            fsm_state = 16
+    elif (((fsm_state) == (16))):
+        time.sleep(1)
+        fsm_state = 16
     imshow("output", imga)
     cv2.moveWindow("output", 650, 400)
     if (((((cv2.waitKey(25)) & (255))) == (ord("q")))):
