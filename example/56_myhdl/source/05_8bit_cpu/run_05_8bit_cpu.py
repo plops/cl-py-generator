@@ -1,9 +1,9 @@
 from myhdl import *
 from collections import namedtuple
 
-_code_git_version = "9402add364b4d7369be67297958ce8ccff9261a7"
+_code_git_version = "81b209f0c0fabd78da477c46760d921fe8377163"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time = "04:00:18 of Monday, 2021-06-21 (GMT+1)"
+_code_generation_time = "05:09:33 of Monday, 2021-06-21 (GMT+1)"
 # https://nbviewer.jupyter.org/github/pcornier/1pCPU/blob/master/pCPU.ipynb
 ADM = namedtuple("adm", ["IMP", "IMM", "ABS", "REL", "IDX"])
 adm = ADM(*range(5))
@@ -39,7 +39,8 @@ def Gowin_SP_2048x8(clk=None,
                     gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd,
                     gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd, gw_gnd,
                     gw_gnd, gw_gnd, gw_gnd, din)
-    Gowin_SP_2048x8.verilog_code = """SP sp_inst_0(.DO(do_all),.CLK(clk),.OCE(oce),.CE(ce),.RESET(reset),.WRE(wre),.BLKSEL(blksel),.AD(ad_all),.DI(di_all)));"""
+    do_all.read = True
+    Gowin_SP_2048x8.verilog_code = """SP sp_inst_0(.DO($do_all),.CLK($clk),.OCE($oce),.CE($ce),.RESET($reset),.WRE($wre),.BLKSEL($blksel),.AD($ad_all),.DI($di_all)));"""
     return NoLogic
 
 

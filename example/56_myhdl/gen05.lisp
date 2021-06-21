@@ -108,8 +108,9 @@
 			   ad_all (concat ad ,@(loop for i below 3 collect `gw_gnd))
 			   di_all (concat ,@(loop for i below 24 collect `gw_gnd)
 					  din))
-		     
-		     (setf Gowin_SP_2048x8.verilog_code
+
+		     (setf do_all.read True)
+		      (setf Gowin_SP_2048x8.verilog_code
 			   (string3 ,(with-output-to-string (s)
 				      (macrolet ((p (cmd &rest rest)
 						   `(format s ,(format nil "~a~%" cmd) ,@rest)))
@@ -123,8 +124,9 @@
 							      (BLKSEL blksel)
 							      (AD ad_all)
 							      (DI di_all))
-						 collect (format nil ".~a(~a)" e f)))))))
-		     (return NoLogic)))
+						 collect (format nil ".~a($~a)" e f)))))))
+		     (return NoLogic))
+		  )
 		   (do0
 		    @block
 		    (def mem (clk adr we di do)
@@ -397,7 +399,8 @@
 				   (mem.v verilog)
 				   (processor.v verilog)
 				   ;(osc.v verilog)
-				   ;(rpll.v verilog)
+					;(rpll.v verilog)
+				   (Gowin_SP_2048x8.v verilog)
 				   (test.cst cst))
 		    collect
 		    (format nil "<File path=\"~a\" type=\"file.~a\" enable=\"1\"/>" e f))))

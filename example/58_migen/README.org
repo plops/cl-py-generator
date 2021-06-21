@@ -1,1 +1,6 @@
-https://m-labs.hk/migen/manual/fhdl.html
+- https://m-labs.hk/migen/manual/fhdl.html
+
+- Slices work like Python slices, not like VHDL or Verilog slices. The
+  first bound is the index of the LSB and is inclusive. The second
+  bound is the index of MSB and is exclusive. In V*HDL, bounds are
+  MSB:LSB and both are inclusive.
