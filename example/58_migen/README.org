@@ -4,3 +4,21 @@
   first bound is the index of the LSB and is inclusive. The second
   bound is the index of MSB and is exclusive. In V*HDL, bounds are
   MSB:LSB and both are inclusive.
+- Cat concatenation: To be consistent with slices, the first signal is
+  connected to the bits with the lowest indices in the result. This is
+  the opposite of the way the “{}” construct works in Verilog.
+
+- i can't reach the website with the documentation anymore
+
+- https://youtu.be/AFVDZeg4RVY?t=1233
+  - load store add substract compare branch
+  - call and return if you write perl
+  - venkat rao
+    - which books to read for management
+      - https://venkateshrao.com/
+    - good to great not big management advice
+    - as kid:
+       - john updike
+       - john barth
+       - doris lessing
+    
