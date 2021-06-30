@@ -1,1 +1,4 @@
-https://nmigen.info/nmigen/latest/intro.html
+- https://nmigen.info/nmigen/latest/intro.html
+- https://vivonomicon.com/2020/04/14/learning-fpga-design-with-nmigen/
+- https://github.com/cpldcpu/MCPU/tree/master/verilog
+
