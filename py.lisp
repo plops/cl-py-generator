@@ -210,6 +210,12 @@
 					     (let ((a (elt args i))
 						   (b (elt args (+ 1 i))))
 					       `(= ,a ,b))))))))
+	      (incf (destructuring-bind (target &optional (val 1)) (cdr code)
+		      (format nil "~a += ~a" (emit target) (emit val))))
+	      (decf (destructuring-bind (target &optional (val 1)) (cdr code)
+		      (format nil "~a -= ~a"
+			      (emit target)
+			      (emit val))))
 	      (aref (destructuring-bind (name &rest indices) (cdr code)
 		      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
 	      (slice (let ((args (cdr code)))
