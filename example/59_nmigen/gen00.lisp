@@ -23,6 +23,7 @@
 	     (imports ,*py-modules*)
 	     (imports-from (nmigen  *)
 			   (nmigen.back.pysim *)
+			   (nmigen.back verilog)
 			   (nmigen.utils *)
 			   ;(nmigen.compat.sim Simulator)
 			   )
@@ -115,6 +116,16 @@
 	       (sim.add_sync_process bench)
 	       (with (sim.write_vcd (string "up_counter.vcd"))
 		     (sim.run))))
+
+	     (do0
+	      ;; cat up_counter.v|grep -v '(\*'
+	      (setf top (UpCounter 25))
+	      (with (as (open (string "up_counter.v")
+			      (string "w"))
+			f)
+		    (f.write (verilog.convert top
+					      :ports (list top.en
+							   top.ovf)))))
 	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)))
 
