@@ -2,3 +2,19 @@
 - https://vivonomicon.com/2020/04/14/learning-fpga-design-with-nmigen/
 - https://github.com/cpldcpu/MCPU/tree/master/verilog
 
+
+- wrong repo?
+#+begin_example
+pip3 install --user nmigen #installs 0.2
+#git clone https://github.com/m-labs/nmigen
+pip3 install --user git+https://github.com/m-labs/nmigen.git
+#+end_example
+- try this: https://nmigen.info/nmigen/latest/install.html
+
+  #+begin_example
+#pip3 install --user --upgrade nmigen[builtin-yosys]
+pip3 install --user 'git+https://github.com/nmigen/nmigen.git#egg=nmigen[builtin-yosys]'
+sudo dnf install pypy3
+pypy3 -m ensurepip
+pypy3 -m pip install --user 'git+https://github.com/nmigen/nmigen.git#egg=nmigen[builtin-yosys]'
+  #+end_example

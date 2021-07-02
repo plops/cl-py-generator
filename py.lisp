@@ -284,7 +284,7 @@
 	      (return_ (format nil "return ~a" (emit (caadr code))))
 	      (return (let ((args (cdr code)))
 			(format nil "~a" (emit `(return_ ,args)))))
-	      (assert (let ((args (cdr code)))
+	      #+nil(assert (let ((args (cdr code)))
 			(format nil "assert ~a" (emit `(ntuple ,@args)))))
 	      (for (destructuring-bind ((vs ls) &rest body) (cdr code)
 		     (with-output-to-string (s)
