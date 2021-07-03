@@ -139,12 +139,12 @@
 			(with (m.If (self.states.any))
 			      (incf m.d.sync (self.states.eq 0)))
 			(with (m.Else)
-			      (with (m.If (and (aref accumulator 8)
-					       (dot  (aref data (slice 6 8))
+			      (with (m.If (logand (aref self.accumulator 8)
+					       (dot  (aref self.data (slice 6 8))
 						     (all))))
 				    (incf m.d.sync (self.states.eq #b101)))
 			      (with (m.Else)
-				    (incf m.d.sync (self.states.eq (Cat 0 (~ (aref data (slice 6 8))))))))
+				    (incf m.d.sync (self.states.eq (Cat 0 (~ (aref self.data (slice 6 8))))))))
 			)
 		       
 		       
