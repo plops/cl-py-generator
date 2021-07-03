@@ -101,9 +101,12 @@
 								  )
 									 )
 					     (self.oe.eq (logior self.clk
-								 ~self.rst
+								 (~ self.rst)
 								 (== self.states (C #b001 3))
 								 (== self.states (C #b101 3))))
+					     (self.we.eq (logior self.clk
+								 (~ self.rst)
+								 (!= self.states (C #b001 3))))
 					     )
 			       collect
 			       `(incf m.d.comb
