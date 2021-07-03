@@ -94,17 +94,16 @@
 		     (def elaborate (self platform)
 		       (setf m (Module))
 		       ,@(loop for code in `((self.adr.eq self.adreg)
-					     (self.data.eq  ; (string "--------") ;(aref self.accumulator (slice 0 8))
-							     #+nil  (? (!= self.states 1)
-
-								      0 ;; fixme: high impedance
-							       (aref self.accumulator (slice 0 8))
-							       )
-							     (Mux (== self.states (C #b001 3)
+					     (self.data.eq  	         (Mux (== self.states (C #b001 3)
 								      )
 								  (aref self.accumulator (slice 0 8))
-								  0)
-							     )
+								  0 ;; fixme: tristate
+								  )
+									 )
+					     (self.oe.eq (logior self.clk
+								 ~self.rst
+								 (== self.states (C #b001 3))
+								 (== self.states (C #b101 3))))
 					     )
 			       collect
 			       `(incf m.d.comb
