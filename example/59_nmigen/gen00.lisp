@@ -16,6 +16,7 @@
   (defparameter *py-modules*
     `(nmigen
       (pd pandas)
+      (np numpy)
       ))
   (let* ((code
 	   `(do0
@@ -76,7 +77,8 @@
 			     self.en (Signal)
 			     self.ovf (Signal)
 			     ;; state
-			     self.count (Signal 16)
+			     self.count (Signal (int (np.ceil (/ (np.log limit)
+							     (np.log 2)))))
 			     )
 		       )
 		     (def elaborate (self platform)
@@ -118,7 +120,7 @@
 		     (sim.run))))
 
 	     (do0
-	      ;; cat up_counter.v|grep -v '(\*'
+	      
 	      (setf top (UpCounter 25))
 	      (with (as (open (string "up_counter.v")
 			      (string "w"))
