@@ -102,6 +102,14 @@
 			       collect
 			       `(incf m.d.comb
 				      ,code))
+		       (with (m.If (self.states.any))
+			     (incf m.d.sync (self.adreg.eq self.pc))
+			     
+			     #+nil (incf m.d.sync
+					 (self.adreg (aref self.data (aref 0 6)))))
+		       (with (m.Else )
+			     (incf m.d.sync
+				   (self.pc.eq (+ self.adreg 1))))
 		      #+nil(with (m.If self.en)
 			     (with (m.If self.ovf)
 				   (incf m.d.sync
