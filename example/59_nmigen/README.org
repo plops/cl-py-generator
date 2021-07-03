@@ -1,7 +1,8 @@
 - https://nmigen.info/nmigen/latest/intro.html
 - https://vivonomicon.com/2020/04/14/learning-fpga-design-with-nmigen/
 - https://github.com/cpldcpu/MCPU/tree/master/verilog
-
+- https://github.com/m-labs/nmigen/blob/master/doc/PROPOSAL.md
+- https://github.com/RobertBaruch/nmigen-tutorial/blob/master/6_combining.md
 
 - wrong repo?
 #+begin_example
