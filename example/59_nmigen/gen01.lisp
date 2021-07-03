@@ -7,8 +7,8 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/59_nmigen")
-  (defparameter *code-file* "run_00_first")
-  (defparameter *source* (format nil "~a/source/00_first" *path*))
+  (defparameter *code-file* "run_01_mcpu")
+  (defparameter *source* (format nil "~a/source/01_mcpu" *path*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
@@ -69,25 +69,39 @@
 
 	     (do0
 
-	      ;; https://nmigen.info/nmigen/latest/start.html
-	      (class UpCounter (Elaboratable)
-		     (def __init__ (self limit)
-		       (setf self.limit limit
-			     ;; ports
-			     self.en (Signal)
-			     self.ovf (Signal)
-			     ;; state
-			     self.count (Signal (range 0 (+ 1 limit))
-						#+nil(int (np.ceil (/ (np.log limit)
-								    (np.log 2)))))
-			     )
+	   
+	      (class MCPU (Elaboratable)
+		     (def __init__ (self )
+		       ,@(loop for e in `(;; ports
+					  (data 8)
+					  (adr 6)
+					  (oe)
+					  (we)
+					  (rst)
+					  (clk)
+					  ;; registers
+					  (accumulator 9)
+					  (adreg 6)
+					  (pc 6)
+					  (states 3)
+					  )
+			       collect
+			       (destructuring-bind (name &optional (size 1)) e
+				`(setf (dot self ,name) (Signal ,size))))
+		       
 		       )
 		     (def elaborate (self platform)
 		       (setf m (Module))
-		       (incf m.d.comb
-			     (self.ovf.eq (== self.count
-					      self.limit)))
-		       (with (m.If self.en)
+		       ,@(loop for code in `((== self.adr self.adreg)
+					  (== self.data  (? (!= self.states 1)
+							      0 ;; fixme: high impedance
+							      (aref self.accumulator (slice 8 0))
+							      )
+						))
+			       collect
+			       `(incf m.d.comb
+				      ,code))
+		      #+nil(with (m.If self.en)
 			     (with (m.If self.ovf)
 				   (incf m.d.sync
 					 (self.count.eq 0)))
@@ -97,7 +111,7 @@
 		       (return m)))
 	      )
 
-	     (do0
+	     #+nil (do0
 	      (setf dut (UpCounter 25))
 	      (def bench ()
 		(yield (dut.en.eq 0))
@@ -120,15 +134,19 @@
 	       (with (sim.write_vcd (string "up_counter.vcd"))
 		     (sim.run))))
 
+	     
 	     (do0
 	      
-	      (setf top (UpCounter 25))
-	      (with (as (open (string "up_counter.v")
+	      (setf top (MCPU))
+	      (with (as (open (string "mcpu.v")
 			      (string "w"))
 			f)
 		    (f.write (verilog.convert top
-					      :ports (list top.en
-							   top.ovf)))))
+					      :ports (list 
+						      ,@(loop for e in `(data adr oe we rst clk)
+							      collect
+							      `(dot top ,e))
+						      )))))
 	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)))
 
