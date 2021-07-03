@@ -100,7 +100,8 @@
 								      0 ;; fixme: high impedance
 							       (aref self.accumulator (slice 0 8))
 							       )
-							     (Mux self.states
+							     (Mux (== self.states (C #b001 3)
+								      )
 								  (aref self.accumulator (slice 0 8))
 								  0)
 							     )
