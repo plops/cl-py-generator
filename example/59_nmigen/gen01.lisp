@@ -69,7 +69,8 @@
 
 	     (do0
 
-	   
+	      (def LCat (*args)
+		(return (Cat (aref *args (slice "" "" -1)))))
 	      (class MCPU (Elaboratable)
 		     (def __init__ (self )
 		       ,@(loop for e in `(;; ports
@@ -102,14 +103,51 @@
 			       collect
 			       `(incf m.d.comb
 				      ,code))
-		       (with (m.If (self.states.any))
-			     (incf m.d.sync (self.adreg.eq self.pc))
-			     
-			     #+nil (incf m.d.sync
-					 (self.adreg (aref self.data (aref 0 6)))))
-		       (with (m.Else )
-			     (incf m.d.sync
-				   (self.pc.eq (+ self.adreg 1))))
+		       (do0
+			;; pc / address path
+			(with (m.If (self.states.any))
+				  (incf m.d.sync (self.adreg.eq self.pc))
+				  
+				  )
+			    (with (m.Else )
+				  (incf m.d.sync
+					(self.pc.eq (+ self.adreg 1)))
+				  (incf m.d.sync
+					(self.adreg.eq (aref self.data (slice 0 6))))))
+		       
+		       (do0
+			;; alu / data path
+			(with (m.Switch self.states)
+			      ,@(loop for (e f) in `((#b010 (self.accumulator.eq
+							     (+ (Cat 0
+								     (aref self.accumulator
+									   (slice 0 8)))
+								(Cat 0 self.data))))
+						     (#b011 (dot self (aref accumulator (slice 0 8))
+								 (eq ;; nor
+								  (~
+								   (logior (aref self.accumulator (slice 0 7))
+									   self.data)))))
+						     (#b101 (dot self (aref accumulator 8)
+								 (eq 0))))
+				      collect
+				      `(with (m.Case ,e)
+					     ,f))))
+
+		       (do0
+			;; stat machine
+			(with (m.If (self.states.any))
+			      (incf m.d.sync (self.states.eq 0)))
+			(with (m.Else)
+			      (with (m.If (and (aref accumulator 8)
+					       (dot  (aref data (slice 6 8))
+						     (all))))
+				    (incf m.d.sync (self.states.eq #b101)))
+			      (with (m.Else)
+				    (incf m.d.sync (self.states.eq (Cat 0 (~ (aref data (slice 6 8))))))))
+			)
+		       
+		       
 		      #+nil(with (m.If self.en)
 			     (with (m.If self.ovf)
 				   (incf m.d.sync
