@@ -77,8 +77,9 @@
 			     self.en (Signal)
 			     self.ovf (Signal)
 			     ;; state
-			     self.count (Signal (int (np.ceil (/ (np.log limit)
-							     (np.log 2)))))
+			     self.count (Signal (range 0 (+ 1 limit))
+						#+nil(int (np.ceil (/ (np.log limit)
+								    (np.log 2)))))
 			     )
 		       )
 		     (def elaborate (self platform)
