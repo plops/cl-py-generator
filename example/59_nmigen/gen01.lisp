@@ -92,11 +92,12 @@
 		       )
 		     (def elaborate (self platform)
 		       (setf m (Module))
-		       ,@(loop for code in `((== self.adr self.adreg)
-					  (== self.data  (? (!= self.states 1)
-							      0 ;; fixme: high impedance
-							      (aref self.accumulator (slice 8 0))
-							      )
+		       ,@(loop for code in `((self.adr.eq self.adreg)
+					     (self.data.eq  (aref self.accumulator (slice 0 8))
+							    #+nil  (? (!= self.states 1)
+							       0 ;; fixme: high impedance
+							       (aref self.accumulator (slice 8 0))
+							       )
 						))
 			       collect
 			       `(incf m.d.comb
