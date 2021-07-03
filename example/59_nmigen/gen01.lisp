@@ -144,20 +144,15 @@
 						     (all))))
 				    (incf m.d.sync (self.states.eq #b101)))
 			      (with (m.Else)
-				    (incf m.d.sync (self.states.eq (Cat 0 (~ (aref self.data (slice 6 8))))))))
+				    (incf m.d.sync (self.states.eq (LCat 0 (~ (aref self.data (slice 6 8))))))))
 			)
 		       
 		       
-		      #+nil(with (m.If self.en)
-			     (with (m.If self.ovf)
-				   (incf m.d.sync
-					 (self.count.eq 0)))
-			     (with (m.Else)
-				   (incf m.d.sync
-					 (self.count.eq (+ self.count 1)))))
+		 
 		       (return m)))
 	      )
 
+	     ;; look at code without comments: cat mcpu.v |sed 's/\(*.*\)//g'|sed 's+/*.*/++g'|grep -v "^$"
 	     #+nil (do0
 	      (setf dut (UpCounter 25))
 	      (def bench ()
