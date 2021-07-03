@@ -94,13 +94,17 @@
 		     (def elaborate (self platform)
 		       (setf m (Module))
 		       ,@(loop for code in `((self.adr.eq self.adreg)
-					     (self.data.eq  (string "--------") ;(aref self.accumulator (slice 0 8))
-							    #+nil  (? (!= self.states 1)
+					     (self.data.eq  ; (string "--------") ;(aref self.accumulator (slice 0 8))
+							     #+nil  (? (!= self.states 1)
 
 								      0 ;; fixme: high impedance
 							       (aref self.accumulator (slice 0 8))
 							       )
-						))
+							     (Mux self.states
+								  (aref self.accumulator (slice 0 8))
+								  0)
+							     )
+					     )
 			       collect
 			       `(incf m.d.comb
 				      ,code))
