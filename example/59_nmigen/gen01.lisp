@@ -14,10 +14,12 @@
       "Thursday" "Friday" "Saturday"
       "Sunday"))
   (defparameter *py-modules*
-    `(nmigen
+    `(ednmigen
+
       (pd pandas)
       (np numpy)
       ))
+
   (let* ((code
 	   `(do0
 	     (imports (sys))
@@ -91,6 +93,14 @@
 				`(setf (dot self ,name) (Signal ,size))))
 		       
 		       )
+		     (def ports (self)
+		       (return (list self.data
+				     self.adr
+				     self.oe
+				     self.we
+				     self.rst
+				     self.clk))
+		       )
 		     (def elaborate (self platform)
 		       (setf m (Module))
 		       ,@(loop for code in `((self.adr.eq self.adreg)
@@ -127,6 +137,7 @@
 			;; alu / data path
 			(with (m.Switch self.states)
 			      ,@(loop for (e f) in `((#b010 (self.accumulator.eq
+							     ;; add
 							     (+ (Cat 0
 								     (aref self.accumulator
 									   (slice 0 8)))
@@ -137,13 +148,14 @@
 								   (logior (aref self.accumulator (slice 0 7))
 									   self.data)))))
 						     (#b101 (dot self (aref accumulator 8)
+								 ;; branch not taken, clear carry
 								 (eq 0))))
 				      collect
 				      `(with (m.Case ,e)
 					     ,f))))
 
 		       (do0
-			;; stat machine
+			;; state machine
 			(with (m.If (self.states.any))
 			      (incf m.d.sync (self.states.eq 0)))
 			(with (m.Else)
