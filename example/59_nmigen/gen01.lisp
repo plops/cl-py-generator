@@ -14,12 +14,17 @@
       "Thursday" "Friday" "Saturday"
       "Sunday"))
   (defparameter *py-modules*
-    `(ednmigen
+    `(nmigen
 
       (pd pandas)
       (np numpy)
       ))
-
+  (defparameter *cpu-ports* `((data 8)
+			      (adr 6)
+			      (oe)
+			      (we)
+			      (rst)
+			      (clk)))
   (let* ((code
 	   `(do0
 	     (imports (sys))
@@ -76,12 +81,7 @@
 	      (class MCPU (Elaboratable)
 		     (def __init__ (self )
 		       ,@(loop for e in `(;; ports
-					  (data 8)
-					  (adr 6)
-					  (oe)
-					  (we)
-					  (rst)
-					  (clk)
+					  ,@*cpu-ports* 
 					  ;; registers
 					  (accumulator 9)
 					  (adreg 6)
@@ -197,7 +197,7 @@
 		     (sim.run))))
 
 	     
-	     (do0
+	     #+nil (do0
 	      
 	      (setf top (MCPU))
 	      (with (as (open (string "mcpu.v")
@@ -209,6 +209,30 @@
 							      collect
 							      `(dot top ,e))
 						      )))))
+
+	     (do0
+	      (setf m (Module))
+	      (setf cpu (MCPU))
+	      (setf m.submodules.cpu cpu)
+
+
+	      (do0
+	       ,@(loop for e in *cpu-ports*
+			       collect
+			       (destructuring-bind (name &optional (size 1)) e
+				 `(do0 (setf ,name (Signal ,size))
+				       (incf m.d.comb (dot cpu ,name (eq ,name)))))))
+	      
+	      (setf sim (Simulator m))
+	      (def process ()
+		(yield (dot oe (eq 0))))
+	      (sim.add_process process)
+	      (with (sim.write_vcd (string "test.vcd")
+				   (string "test.gtkw")
+				   :traces (cpu.ports))
+		    (sim.run)))
+
+	     
 	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)))
 
