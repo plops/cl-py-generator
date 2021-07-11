@@ -26,7 +26,33 @@ pypy3 -m pip install --user pandas
 
 - https://www.youtube.com/watch?v=85ZCTuekjGA
   - Robert Baruch: Building a 6800 CPU on an FPGA with nMigen (part 1)
+  - pinball machine
+  - ice40-hx8k
+    - bidirectional logic shifters
+  - 2 8bit accumulators
+  - 16bit index reg, stack pointer, program counter
+  - some flags
+  - 16bit address but
+  - 8bit data bus
+  - two clocks phase1, phase2
+    - read mem:
+      - after posedge phase1 set addr (stable after tAD)
+      - access time t_acc 
+      - relative to negedge of phase2 (that is when the cpu latches the data being read)
+    - write mem
+      - addr set at posedge phase1
+  - at least two cycles
+  - explanation of ADC (add with carry)
+	
   - https://www.youtube.com/watch?v=AQOXoKQhG3I (part 2)
+    - blinking an led
+    - elaboratable
+    - simulator of combinatorial logic with explicit delays
+    - boolector proof engine for formal verification
+#+begin_example
+python3 adder.py generate -t il > toplevel.il
+sby -f adder.sby
+#+end_example
   - https://www.youtube.com/watch?v=aLQqOxnVMOQ (part 3)
   - https://www.youtube.com/watch?v=xqMtyCu4lME (part 4)
   - https://www.youtube.com/watch?v=9MMb9dSnNvo (part 5)
@@ -37,3 +63,4 @@ pypy3 -m pip install --user pandas
   - https://www.youtube.com/watch?v=rbakgYM4b9I (part 10)
   - https://www.youtube.com/watch?v=PSpk3R4VfWU (part 11)
     - needs hx4k
+  - https://github.com/RobertBaruch/n6800
