@@ -23,3 +23,17 @@ pypy3 -m pip install --user numpy
 #pypy3 -m pip install --user jax jaxlib
 pypy3 -m pip install --user pandas
   #+end_example
+
+- https://www.youtube.com/watch?v=85ZCTuekjGA
+  - Robert Baruch: Building a 6800 CPU on an FPGA with nMigen (part 1)
+  - https://www.youtube.com/watch?v=AQOXoKQhG3I (part 2)
+  - https://www.youtube.com/watch?v=aLQqOxnVMOQ (part 3)
+  - https://www.youtube.com/watch?v=xqMtyCu4lME (part 4)
+  - https://www.youtube.com/watch?v=9MMb9dSnNvo (part 5)
+  - https://www.youtube.com/watch?v=C6sUaElP9hA (part 6)
+  - https://www.youtube.com/watch?v=AerXEa84jsc (part 7)
+  - https://www.youtube.com/watch?v=6acCiGBjM6s (part 8)
+  - https://www.youtube.com/watch?v=Xe1cbCZIaKQ (part 9)
+  - https://www.youtube.com/watch?v=rbakgYM4b9I (part 10)
+  - https://www.youtube.com/watch?v=PSpk3R4VfWU (part 11)
+    - needs hx4k

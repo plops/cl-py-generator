@@ -78,6 +78,22 @@
 
 	      (def LCat (*args)
 		(return (Cat (aref *args (slice "" "" -1)))))
+	      
+	      ,(let ((word-size 8)
+		     (address-size 6))
+		 `(class RamChip (Elaboratable)
+		       (def __init__ (self)
+			 
+			 ,@(loop for e in `((data ,word-size)
+					    (adr ,address-size)
+					    (oe)
+					    (we)
+					    (cs))
+				 collect
+				 (destructuring-bind (name &optional (size 1)) e
+				   `(setf (dot self ,name) (Signal ,size))))
+			 (setf mem (Signal ,word-size))
+			 )))
 	      (class MCPU (Elaboratable)
 		     (def __init__ (self )
 		       ,@(loop for e in `(;; ports
@@ -227,6 +243,7 @@
 	      (def process ()
 		(yield (dot oe (eq 0))))
 	      (sim.add_process process)
+	      (sim.add_clock 1e-6)
 	      (with (sim.write_vcd (string "test.vcd")
 				   (string "test.gtkw")
 				   :traces (cpu.ports))
