@@ -49,10 +49,20 @@ pypy3 -m pip install --user pandas
     - elaboratable
     - simulator of combinatorial logic with explicit delays
     - boolector proof engine for formal verification
+      
+    - Assert: truncate adder result to 8 bits for formal verification
+      bmc (bounded model check) to pass
 #+begin_example
 python3 adder.py generate -t il > toplevel.il
 sby -f adder.sby
 #+end_example
+    - nmigen.asserts.Cover: find adder.y == 1
+    - `Assume(adder.x == (adder.y << 1))`
+    - Clocky(Elaborate)
+    - yield waits for one clock period    
+    - counter example trace
+    - ensure load is zero
+      `Past(clocky.load)==0`
   - https://www.youtube.com/watch?v=aLQqOxnVMOQ (part 3)
   - https://www.youtube.com/watch?v=xqMtyCu4lME (part 4)
   - https://www.youtube.com/watch?v=9MMb9dSnNvo (part 5)

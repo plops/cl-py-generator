@@ -3,7 +3,7 @@
   (ql:quickload "alexandria"))
 (in-package :cl-py-generator)
 ;; https://pypi.org/project/python-edgar/
-
+;; python3 -m pip install --user  git+https://github.com/edgarminers/python-edgar
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/61_edgar")
@@ -86,7 +86,11 @@
 		   debug True)
 
 	     
-	     
+	     (edgar.download_index
+	      (string "/home/martin/stage/cl-py-generator/example/61_edgar/source/data")
+	      2018
+	      (string "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0")
+	      :skip_all_present_except_last False)
 	     
 	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
