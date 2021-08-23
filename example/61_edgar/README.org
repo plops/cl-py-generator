@@ -1,0 +1,8 @@
+#+begin_example
+cd source/data
+grep "MICRON TECHNOLOGY INC" *|grep "|8-K|"
+#+end_example
+
+
+- youtube tutorial: Python for Finance - SEC Edgar Scraping Financial
+  Statements https://www.youtube.com/watch?v=_eN7D0IKu4Q
