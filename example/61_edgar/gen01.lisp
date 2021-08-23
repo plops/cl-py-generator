@@ -117,74 +117,76 @@
 			(apply (lambda (x)
 				 (dot (string "https://www.sec.gov/Archives/{}")
 				      (format x))))))
-	     (do0
-	      (setf user_agent (string "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36"))
-	      (setf url (dot df url (aref iloc 0)))
-	      (setf response (dot requests 
-				  (get url
-				       :headers
-				       (dict ((string "User-agent") user_agent)))))
-	      (setf tables
-		    (pd.read_html
-		     (dot 
-			  response text)
-		     ))
-	      (setf tab1 (aref tables 1))
-	    #+nil  (setf doc_name  (dot  (aref tab1 (== tab1.Type (string "EX-101.INS")))
-		     Document))
+	     (for (url (tqdm.tqdm df.url))
 	      (do0
-	       (setf soup (BeautifulSoup response.text (string "html.parser")))
-	       (setf btab1 (aref (soup.findAll (string "table"))
-				 1))
-	       (setf links (list))
 	       (do0
-		(for (tr (btab1.findAll (string "tr")))
-		     (setf trs (tr.findAll (string "td")))
-		     (for (each trs)
-			  (try
-			    (do0
+		(setf user_agent (string "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36"))
+					;(setf url (dot df url (aref iloc 0)))
+		(setf response (dot requests 
+				    (get url
+					 :headers
+					 (dict ((string "User-agent") user_agent)))))
+		(setf tables
+		      (pd.read_html
+		       (dot 
+			response text)
+		       ))
+		(setf tab1 (aref tables 1))
+		#+nil  (setf doc_name  (dot  (aref tab1 (== tab1.Type (string "EX-101.INS")))
+					     Document))
+		(do0
+		 (setf soup (BeautifulSoup response.text (string "html.parser")))
+		 (setf btab1 (aref (soup.findAll (string "table"))
+				   1))
+		 (setf links (list))
+		 (do0
+		  (for (tr (btab1.findAll (string "tr")))
+		       (setf trs (tr.findAll (string "td")))
+		       (for (each trs)
+			    (try
+			     (do0
 			      (setf link (dot each (aref (find (string "a"))
 							 (string "href")))
 				    )
 			      (links.append link))
-			    ("Exception as e"
-			     pass)
-			    ))))
-	       (setf (aref tab1 (string "Link"))
-		     links)
-	       (setf (aref tab1 (string "url"))
-		   (dot tab1
-			Link
-			(apply (lambda (x)
-				 (dot (string "https://www.sec.gov{}")
-				      (format x))))))
-	       (setf (aref tab1 (string "filename"))
-		   (dot tab1
-			Link
-			(apply (lambda (x)
-				 (dot pathlib
-				      (Path x)
-				      name)
-				 ))))
-	       ,@(loop for (e f suffix) in `((ins EX-101.INS xml)
-				      (sch EX-101.SCH xsd))
-		       collect
-		       `(do0
-			 (setf row (dot (aref tab1 (== tab1.Type (string ,f)))
-					(aref iloc 0)))
-			 (setf url (dot row			
-					url))
-			 (setf ,(format nil "response_~a" e)
-			        (dot requests 
-				     (get url
-					  :headers
-					  (dict ((string "User-agent") user_agent)))))
-			 (with (as (open (/ (pathlib.Path (string ,suffix))
-					    row.filename) #+nil(string ,(format nil "response_~a.~a" e suffix))
-					 (string "w"))
-				   f)
-			       (f.write (dot ,(format nil "response_~a" e)
-					     text)))))))
+			     ("Exception as e"
+			      pass)
+			     ))))
+		 (setf (aref tab1 (string "Link"))
+		       links)
+		 (setf (aref tab1 (string "url"))
+		       (dot tab1
+			    Link
+			    (apply (lambda (x)
+				     (dot (string "https://www.sec.gov{}")
+					  (format x))))))
+		 (setf (aref tab1 (string "filename"))
+		       (dot tab1
+			    Link
+			    (apply (lambda (x)
+				     (dot pathlib
+					  (Path x)
+					  name)
+				     ))))
+		 ,@(loop for (e f suffix) in `((ins EX-101.INS xml)
+					       (sch EX-101.SCH xsd))
+			 collect
+			 `(do0
+			   (setf row (dot (aref tab1 (== tab1.Type (string ,f)))
+					  (aref iloc 0)))
+			   (setf url (dot row			
+					  url))
+			   (setf ,(format nil "response_~a" e)
+			         (dot requests 
+				      (get url
+					   :headers
+					   (dict ((string "User-agent") user_agent)))))
+			   (with (as (open (/ (pathlib.Path (string ,suffix))
+					      row.filename) #+nil(string ,(format nil "response_~a.~a" e suffix))
+							    (string "w"))
+				     f)
+				 (f.write (dot ,(format nil "response_~a" e)
+					       text)))))))))
 	     
 	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
