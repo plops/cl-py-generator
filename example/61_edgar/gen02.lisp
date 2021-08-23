@@ -99,27 +99,36 @@
 		  (for (fn (tqdm.tqdm fns))
 		       (do0
 			(comments "python-xbrl")
-			(setf parser (xbrl.XBRLParser)
-			      xb (parser.parse (open fn))
-			      gaap (parser.parseGAAP xb
-						     :doc_date (dot fn
-								    stem
-								    (aref (split (string "-"))
-									  -1))
-						     :context (string "current")
-						     :ignore_errors 0)
-			      seri (xbrl.GAAPSerializer)
-			      d (seri.dump gaap)
-			      )
-			(setf (aref d (string "filename"))
+			(try
+			 (do0
+			  (setf parser (xbrl.XBRLParser)
+				xb (parser.parse (open fn))
+				gaap (parser.parseGAAP xb
+						       :doc_date (dot fn
+								      stem
+								      (aref (split (string "-"))
+									    -1))
+						       :context (string "current")
+						       :ignore_errors 0)
+				seri (xbrl.GAAPSerializer)
+				d (seri.dump gaap)
+				)
+			  (setf (aref d (string "filename"))
 			      fn)
-			(res.append d))))
+			  (res.append d)
+			  )
+			 ("Exception as e"
+			  ,(lprint "exception" `(e fn))
+			  pass))
+			
+			)))
 	     (setf df (pd.DataFrame res))
 	     (do0
 	      (comments "remove columns that only contain zeros")
 	      (setf df (dot df (aref loc ":"
 			     (dot (!= df 0)
 				  (any :axis 0))))))
+	     (setf df (df.sort_values :by (string "filename")))
 	     (df.to_csv (string "mu.csv"))
 	     	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
