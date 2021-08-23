@@ -94,20 +94,33 @@
 			(dot 
 			 (pathlib.Path (string "xml/"))
 			 (glob (string "*.xml")))))
-	     (setf fn (aref fns 0))
+					;(setf fn (aref fns 0))
+	     (do0 (setf res (list))
+		  (for (fn (tqdm.tqdm fns))
+		       (do0
+			(comments "python-xbrl")
+			(setf parser (xbrl.XBRLParser)
+			      xb (parser.parse (open fn))
+			      gaap (parser.parseGAAP xb
+						     :doc_date (dot fn
+								    stem
+								    (aref (split (string "-"))
+									  -1))
+						     :context (string "current")
+						     :ignore_errors 0)
+			      seri (xbrl.GAAPSerializer)
+			      d (seri.dump gaap)
+			      )
+			(setf (aref d (string "filename"))
+			      fn)
+			(res.append d))))
+	     (setf df (pd.DataFrame res))
 	     (do0
-	      (comments "python-xbrl")
-	      (setf parser (xbrl.XBRLParser)
-		    xb (parser.parse (open fn))
-		    gaap (parser.parseGAAP xb
-					   :doc_date (dot fn
-							  stem
-							  (aref (split (string "-"))
-								-1))
-					   :context (string "current")
-					   :ignore_errors 0)
-		    seri (xbrl.GAAPSerializer)
-		    result (seri.dump gaap)))
+	      (comments "remove columns that only contain zeros")
+	      (setf df (dot df (aref loc ":"
+			     (dot (!= df 0)
+				  (any :axis 0))))))
+	     (df.to_csv (string "mu.csv"))
 	     	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
