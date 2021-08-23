@@ -168,11 +168,16 @@
 					  (Path x)
 					  name)
 				     ))))
-		 ,@(loop for (e f suffix) in `((ins EX-101.INS xml)
+		 ,@(loop for (e f suffix) in `((ins (EX-101.INS XML) xml)
 					       (sch EX-101.SCH xsd))
 			 collect
 			 `(do0
-			   (setf row (dot (aref tab1 (== tab1.Type (string ,f)))
+			   (setf row (dot (aref tab1 ,(if (listp f)
+							  `(logior ,@(loop for ff in f
+									   collect
+									   `(== tab1.Type (string ,ff)))
+								   )
+							  `(== tab1.Type (string ,f))))
 					  (aref iloc 0)))
 			   (setf url (dot row			
 					  url))
