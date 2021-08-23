@@ -139,7 +139,7 @@
 		 (setf btab1 (aref (soup.findAll (string "table"))
 				   1))
 		 (setf links (list))
-		 (do0
+		 (do0 
 		  (for (tr (btab1.findAll (string "tr")))
 		       (setf trs (tr.findAll (string "td")))
 		       (for (each trs)
