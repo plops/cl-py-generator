@@ -99,7 +99,13 @@
 	      (comments "python-xbrl")
 	      (setf parser (xbrl.XBRLParser)
 		    xb (parser.parse (open fn))
-		    gaap (parser.parseGAAP xb)
+		    gaap (parser.parseGAAP xb
+					   :doc_date (dot fn
+							  stem
+							  (aref (split (string "-"))
+								-1))
+					   :context (string "current")
+					   :ignore_errors 0)
 		    seri (xbrl.GAAPSerializer)
 		    result (seri.dump gaap)))
 	     	     )))
