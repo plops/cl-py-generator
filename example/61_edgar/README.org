@@ -1,3 +1,15 @@
+|       |                                                        |   |   |
+|-------+--------------------------------------------------------+---+---|
+| gen00 | download edgar index tables                            |   |   |
+| gen01 | download xml and xsd file for micron quarterly reports |   |   |
+| gen02 | parse xml file with quarterly report                   |   |   |
+#+begin_example
+python3 -m pip install --user  git+https://github.com/edgarminers/python-edgar
+python3 -m pip install --user "xsdata[cli,lxml,soap]"
+python3 -m pip install --user git+https://github.com/greedo/python-xbrl/
+#+end_example
+
+
 #+begin_example
 cd source/data
 grep "MICRON TECHNOLOGY INC" *|grep "|8-K|"
@@ -6,3 +18,20 @@ grep "MICRON TECHNOLOGY INC" *|grep "|8-K|"
 
 - youtube tutorial: Python for Finance - SEC Edgar Scraping Financial
   Statements https://www.youtube.com/watch?v=_eN7D0IKu4Q
+  - the python code that is shown is a bit messy
+  - i'm not sure if the author knows what he is doing
+
+- https://youtu.be/dJymnTL3hgc
+  - still too low level
+    
+- https://www.codeproject.com/Articles/1227765/Parsing-XBRL-with-Python
+  - that is quite a nice document
+
+  #+begin_example
+cd source
+~/.local/bin/xsdata generate xsd
+  #+end_example
+
+comment out the following object in the xml file with <!--  --> 
+BusinessAcquisitionProFormaNetIncomeLossIncludingPortionAttributabletoNoncontrollingInterest
+BusinessCombinationConsiderationTransferredSettlementOfReceivablesPayablesWithAcquireeNet

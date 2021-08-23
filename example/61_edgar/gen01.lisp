@@ -5,6 +5,8 @@
 ;; https://pypi.org/project/python-edgar/
 ;; python3 -m pip install --user  git+https://github.com/edgarminers/python-edgar
 
+;; limit to 10 requests per second
+
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/61_edgar")
   (defparameter *code-file* "run_01_read_edgar")
@@ -25,7 +27,7 @@
 					;sys
 					;time
 					;docopt
-					;pathlib
+					pathlib
 					;(np numpy)
 					;serial
 		       (pd pandas)
@@ -56,12 +58,13 @@
 		       ;cv2
 		       time
 		       edgar
-		       
+		       tqdm
+		       requests
 		       ))
 	     #+nil (imports-from (selenium webdriver)
 			   (selenium.webdriver.common.keys Keys)
 			   )
-	     
+	     "from bs4 import BeautifulSoup"
 	     (setf
 	      _code_git_version
 	      (string ,(let ((str (with-output-to-string (s)
@@ -85,11 +88,104 @@
 	     (setf start_time (time.time)
 		   debug True)
 
-	     (setf df (pd.read_csv (string "data/2021-QTR3.tsv")
-				   :sep (string "\\t")
-				   :lineterminator (string "\\n")
-				   :names None))
-	     df
+	     (setf fns ("list"
+			(dot 
+			 (pathlib.Path (string "data/"))
+			 (glob (string "*-QTR*.tsv")))))
+	     (setf df (pd.DataFrame))
+	     (for (fn (tqdm.tqdm fns))
+		  (setf df0 (pd.read_csv fn
+				    :sep (string "|")
+					;:lineterminator (string "\\n")
+				    :names (list ,@(loop for e in `(cik name filing_type
+									filing_date
+									filing_url_txt
+									filing_url)
+							 collect
+							 `(string ,e)))
+				    :header None))
+		  
+		  (setf df_ (aref df0
+				  (& (== df0.name (string "MICRON TECHNOLOGY INC"))
+				     (== df0.filing_type (string "10-Q")))))
+		  (setf df (df.append df_)))
+	     (setf df (dot df (sort_values :by (string "filing_date"))
+			   ))
+	     (setf (aref df (string "url"))
+		   (dot df
+			filing_url
+			(apply (lambda (x)
+				 (dot (string "https://www.sec.gov/Archives/{}")
+				      (format x))))))
+	     (do0
+	      (setf user_agent (string "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36"))
+	      (setf url (dot df url (aref iloc 0)))
+	      (setf response (dot requests 
+				  (get url
+				       :headers
+				       (dict ((string "User-agent") user_agent)))))
+	      (setf tables
+		    (pd.read_html
+		     (dot 
+			  response text)
+		     ))
+	      (setf tab1 (aref tables 1))
+	    #+nil  (setf doc_name  (dot  (aref tab1 (== tab1.Type (string "EX-101.INS")))
+		     Document))
+	      (do0
+	       (setf soup (BeautifulSoup response.text (string "html.parser")))
+	       (setf btab1 (aref (soup.findAll (string "table"))
+				 1))
+	       (setf links (list))
+	       (do0
+		(for (tr (btab1.findAll (string "tr")))
+		     (setf trs (tr.findAll (string "td")))
+		     (for (each trs)
+			  (try
+			    (do0
+			      (setf link (dot each (aref (find (string "a"))
+							 (string "href")))
+				    )
+			      (links.append link))
+			    ("Exception as e"
+			     pass)
+			    ))))
+	       (setf (aref tab1 (string "Link"))
+		     links)
+	       (setf (aref tab1 (string "url"))
+		   (dot tab1
+			Link
+			(apply (lambda (x)
+				 (dot (string "https://www.sec.gov{}")
+				      (format x))))))
+	       (setf (aref tab1 (string "filename"))
+		   (dot tab1
+			Link
+			(apply (lambda (x)
+				 (dot pathlib
+				      (Path x)
+				      name)
+				 ))))
+	       ,@(loop for (e f suffix) in `((ins EX-101.INS xml)
+				      (sch EX-101.SCH xsd))
+		       collect
+		       `(do0
+			 (setf row (dot (aref tab1 (== tab1.Type (string ,f)))
+					(aref iloc 0)))
+			 (setf url (dot row			
+					url))
+			 (setf ,(format nil "response_~a" e)
+			        (dot requests 
+				     (get url
+					  :headers
+					  (dict ((string "User-agent") user_agent)))))
+			 (with (as (open (/ (pathlib.Path (string ,suffix))
+					    row.filename) #+nil(string ,(format nil "response_~a.~a" e suffix))
+					 (string "w"))
+				   f)
+			       (f.write (dot ,(format nil "response_~a" e)
+					     text)))))))
+	     
 	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
