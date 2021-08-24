@@ -88,10 +88,10 @@
 	     (setf start_time (time.time)
 		   debug True)
 
-	     (setf fns ("list"
-			(dot 
-			 (pathlib.Path (string "data/"))
-			 (glob (string "*-QTR*.tsv")))))
+	     (setf fns (sorted ("list"
+			 (dot 
+			  (pathlib.Path (string "data/"))
+			  (glob (string "*-QTR*.tsv"))))))
 
 	     ,(let ((out-csv `(string "mu-links.csv")))
 		`(if (dot (pathlib.Path ,out-csv)
@@ -114,11 +114,15 @@
 								   collect
 								   `(string ,e)))
 					      :header None))
-		       (setf target (string "II-VI INC"))
+		       (setf target (string ;"MICRON TECHNOLOGY INC"
+					    ;"II-VI INC"
+				     "NVIDIA CORP"
+				     ))
 		       ,(lprint "search for name" `(target))
 		       (setf df_ (aref df0
 				       (& (== df0.name target)
-					  (== df0.filing_type (string "10-Q")))))
+					  (logior (== df0.filing_type (string "10-Q"))
+						  (== df0.filing_type (string "10-K"))))))
 		       (setf df (df.append df_)))
 		  (setf df (dot df (sort_values :by (string "filing_date"))
 				))

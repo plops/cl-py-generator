@@ -149,7 +149,7 @@
 	     (setf fns (sorted ("list"
 			 (dot 
 			  (pathlib.Path (string "xml_all/"))
-			  (glob (string "mu-20??????.xml"))))))
+			  (glob (string "nvda-2021????_htm.xml"))))))
 	     ,(lprint "files to open" `(fns))
 	     (for (fn fns)
 		  (print (str fn)))
@@ -169,7 +169,7 @@
 			    (setf parser (xbrl.instance.XbrlParser cache
 								   )
 				  )))
-	    #+nil (setf facts (list))
+	     (setf facts (list))
 	     (setf facts_to_collect (list ,@(loop for e in l-concept
 						  #+nil
 						  `(Assets
@@ -276,7 +276,7 @@
 			   
 
 			     (for (fact inst.facts)
-				  #+nil (facts.append fact.concept.name)
+				  (facts.append fact.concept.name)
 				  (unless (in fact.concept.name
 					      facts_to_collect)
 				    continue)
@@ -478,6 +478,9 @@
 		 (when
 		     (x.startswith (string "u0"))
 		   (return False))
+		 (when
+		     (x.startswith (string "Unit"))
+		   (return False))
 		 (return True)
 		 )
 	       ,@(loop for e in l-concept #+nil `(Assets
@@ -485,40 +488,46 @@
 		       and ei from 0
 		       collect
 		       `(do0
-			 (setf all_units (dot (aref pdf (tuple (string "unit")
-							       (string ,e)))
-					      (unique)
-					      (tolist)
-					      
-					      ))
 			 
-			 (setf current_unit
-			       (next
-				(filter unit_selector
-					all_units))
-			       )
-			 (setf da (aref pdf (tuple (string "value")
-						   (string ,e))))
-			 (plt.sca ax0)
-			 ,@(loop for e in `((usd :mi 3e9) (usd :ma 3e9) (shares :mi 0))
-				 and ei from 1
-				 collect
-				 (destructuring-bind (unit-name &key mi ma) e
-				   `(do0
-				     (when (and (== current_unit (string ,unit-name))
-						,(if mi
-						   `(< ,mi (da.max))
-						   `True)
-						,(if ma
-						   `(< (da.max) ,ma)
-						   `True))
+			 (try
+			  (do0
+			   (do0 (setf all_units (dot (aref pdf (tuple (string "unit")
+								(string ,e)))
+					       (unique)
+					       (tolist)
+					      
+					       ))
+			      
+			      (setf current_unit
+				    (next
+				     (filter unit_selector
+					     all_units))
+				    )
+			      (setf da (aref pdf (tuple (string "value")
+							(string ,e))))
+			      (plt.sca ax0))
+			   ,@(loop for e in `((usd :mi .25e9) (usd :ma .25e9) (shares :mi 0))
+				   and ei from 1
+				   collect
+				   (destructuring-bind (unit-name &key mi ma) e
+				     `(do0
+				       (when (and (in (string ,unit-name) (dot current_unit (lower)) )
+						  ,(if mi
+						       `(< ,mi (da.max))
+						       `True)
+						  ,(if ma
+						       `(< (da.max) ,ma)
+						       `True))
 				       
-				       (plt.sca ,(format nil "ax~a" ei))))))
-			 (plt.plot (dot pdf index)
-				   da
-				   :label (dot (string ,(format nil "~a [{}]" e))
-					       (format current_unit
-						       )))
+					 (plt.sca ,(format nil "ax~a" ei))))))
+			   (plt.plot (dot pdf index)
+				     da
+				     :label (dot (string ,(format nil "~a [{}]" e))
+						 (format current_unit
+							 ))))
+			  ("Exception as e"
+			   ,(lprint "exception" `(e))
+			   pass))
 			 ))
 	       ,@(loop for i below n-plots collect
 		       `(do0
