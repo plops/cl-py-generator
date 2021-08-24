@@ -115,6 +115,7 @@
 			    (setf parser (xbrl.instance.XbrlParser cache
 								   )
 				  )))
+	     (setf facts (list))
 	     (do0 (setf res (list))
 		  (for (fn ;(list (aref fns 0))
 			   (tqdm.tqdm fns)
@@ -131,6 +132,7 @@
 			   
 
 			     (for (fact inst.facts)
+				  (facts.append fact.concept.name)
 				  (unless (in fact.concept.name
 					      (list ,@(loop for e in `(Assets
 								       Liabilities
@@ -152,7 +154,7 @@
 				   (setf parser (xbrl.XBRLParser)
 					 xb (parser.parse (open fn))
 					 gaap (parser.parseGAAP xb
-								:doc_date (dot fn
+								:doc_date (dot fn 
 									       stem
 									       (aref (split (string "-"))
 										     -1))
