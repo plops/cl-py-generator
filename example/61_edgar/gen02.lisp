@@ -96,8 +96,8 @@
 		   debug True)
 	     (setf fns ("list"
 			(dot 
-			 (pathlib.Path (string "xml/"))
-			 (glob (string "*.xml")))))
+			 (pathlib.Path (string "xml_all/"))
+			 (glob (string "mu-20??????.xml")))))
 	     
 	     (do0
 	      (setf user_agent (string "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36"))
@@ -116,8 +116,8 @@
 								   )
 				  )))
 	     (do0 (setf res (list))
-		  (for (fn (list (aref fns 0))
-			   ;(tqdm.tqdm fns)
+		  (for (fn ;(list (aref fns 0))
+			   (tqdm.tqdm fns)
 			   )
 		       
 		       (do0
