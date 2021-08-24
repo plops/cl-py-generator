@@ -6,7 +6,10 @@
 #+begin_example
 python3 -m pip install --user  git+https://github.com/edgarminers/python-edgar
 python3 -m pip install --user "xsdata[cli,lxml,soap]"
+# attempt 1 
 python3 -m pip install --user git+https://github.com/greedo/python-xbrl/
+# attempt 2
+python3 -m pip install --user git+https://github.com/manusimidt/py-xbrl
 #+end_example
 
 
