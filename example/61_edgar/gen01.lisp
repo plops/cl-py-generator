@@ -92,31 +92,41 @@
 			(dot 
 			 (pathlib.Path (string "data/"))
 			 (glob (string "*-QTR*.tsv")))))
-	     (setf df (pd.DataFrame))
-	     (for (fn (tqdm.tqdm fns))
-		  (setf df0 (pd.read_csv fn
-				    :sep (string "|")
+
+	     ,(let ((out-csv `(string "mu-links.csv")))
+		`(if (dot (pathlib.Path ,out-csv)
+			  (exists))
+		     (do0
+		      (setf df (dot (pd.read_csv ,out-csv)
+				    (sort_values :by (string "filing_date")
+						 :ascending False))))
+		     (do0 
+		  (setf df (pd.DataFrame))
+		  (for (fn (tqdm.tqdm fns))
+		       (setf df0 (pd.read_csv fn
+					      :sep (string "|")
 					;:lineterminator (string "\\n")
-				    :names (list ,@(loop for e in `(cik name filing_type
-									filing_date
-									filing_url_txt
-									filing_url)
-							 collect
-							 `(string ,e)))
-				    :header None))
-		  
-		  (setf df_ (aref df0
-				  (& (== df0.name (string "MICRON TECHNOLOGY INC"))
-				     (== df0.filing_type (string "10-Q")))))
-		  (setf df (df.append df_)))
-	     (setf df (dot df (sort_values :by (string "filing_date"))
-			   ))
-	     (setf (aref df (string "url"))
-		   (dot df
-			filing_url
-			(apply (lambda (x)
-				 (dot (string "https://www.sec.gov/Archives/{}")
-				      (format x))))))
+					      :names (list ,@(loop for e in `(cik name filing_type
+										  filing_date
+										  filing_url_txt
+										  filing_url)
+								   collect
+								   `(string ,e)))
+					      :header None))
+		   
+		       (setf df_ (aref df0
+				       (& (== df0.name (string "MICRON TECHNOLOGY INC"))
+					  (== df0.filing_type (string "10-Q")))))
+		       (setf df (df.append df_)))
+		  (setf df (dot df (sort_values :by (string "filing_date"))
+				))
+		  (setf (aref df (string "url"))
+			(dot df
+			     filing_url
+			     (apply (lambda (x)
+				      (dot (string "https://www.sec.gov/Archives/{}")
+					   (format x))))))
+		  (df.to_csv ,out-csv))))
 	     (for (url (tqdm.tqdm df.url))
 	      (do0
 	       (do0
