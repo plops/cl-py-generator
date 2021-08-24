@@ -20,9 +20,61 @@
        (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}" cmd rest))
 		   (format (- (time.time) start_time)
 			   ,@rest)))))
-  (let* (
+  (let* ((l-concept #+nil `(Assets
+		      Liabilities
+		      AvailableForSaleSecurities
+		      CommonStockSharesAuthorized
+		      CommonStockSharesIssued
+		      CommonStockSharesOutstanding
+		      CommonStockValue
+		      ConvertibleDebtEquity
+		      DebtCurrent
+		      )
+		    `(Assets
+							     AssetsCurrent
+							     AvailableForSaleSecurities
+							     CommonStockSharesAuthorized
+							     CommonStockSharesIssued
+							     CommonStockSharesOutstanding
+							     CommonStockValue
+							     CustomerAdvancesCurrent
+							     DebtCurrent
+							     EmployeeRelatedLiabilitiesCurrent
+							     Goodwill
+							     IncomeTaxesReceivable
+							     InventoryNet
+							     Liabilities
+							     MinorityInterest
+							     StockholdersEquity
+							     ConvertibleDebtEquity
+							     OtherReceivables
+							     TreasuryStockShares
+							     TreasuryStockValue
+							     UnrecognizedTaxBenefits
+							     LongTermDebt
+							     LongTermDebtCurrent
+							     DeferredRevenue
+							     ;EntityPublicFloat
+							     AssetsFairValueDisclosure
+							     ))
 	 (code
 	   `(do0
+	     (do0
+		  
+		     (imports (matplotlib))
+                                        ;(matplotlib.use (string "QT5Agg"))
+					;"from matplotlib.backends.backend_qt5agg import (FigureCanvas, NavigationToolbar2QT as NavigationToolbar)"
+					;"from matplotlib.figure import Figure"
+		     (imports ((plt matplotlib.pyplot)
+					;  (animation matplotlib.animation) 
+					;(xrp xarray.plot)
+			       ))
+                  
+		     (plt.ion)
+					;(plt.ioff)
+		     (setf font (dict ((string size) (string 5))))
+		     (matplotlib.rc (string "font") **font)
+		     )
 	     (imports (			;os
 					;sys
 					;time
@@ -115,8 +167,14 @@
 			    (setf parser (xbrl.instance.XbrlParser cache
 								   )
 				  )))
-	     (setf facts (list))
-	     (setf facts_to_collect (list ,@(loop for e in `(Assets
+	    #+nil (setf facts (list))
+	     (setf facts_to_collect (list ,@(loop for e in l-concept
+						  #+nil
+						  `(Assets
+						    Liabilities
+						    ;ShareholdersEquity
+						    )
+						  #+nil `(Assets
 							     AssetsCurrent
 							     AvailableForSaleSecurities
 							     CommonStockSharesAuthorized
@@ -203,6 +261,7 @@
 		  (for (fn ;(list (aref fns 0))
 			   (tqdm.tqdm fns)
 			   )
+		       ,(lprint "read" `(fn))
 		       
 		       (do0
 			
@@ -215,17 +274,32 @@
 			   
 
 			     (for (fact inst.facts)
-				  (facts.append fact.concept.name)
+				  #+nil (facts.append fact.concept.name)
 				  (unless (in fact.concept.name
 					      facts_to_collect)
 				    continue)
 				  (when (< 0 (len fact.context.segments))
 				    continue)
 				  (try
-				   (res.append (dictionary :filename (str fn)
-							   :date fact.context.instant_date
-							   :concept fact.concept.name
-							   :value fact.value))
+				   (do0
+				    (setf d (dictionary :filename (str fn)))
+				    ,@(loop for (e f) in `((date fact.context.instant_date)
+							   (concept fact.concept.name)
+							   (value fact.value)
+							   (unit fact.unit.unit_id)
+							   (decimals fact.decimals)
+							   )
+					    collect
+					    `(do0
+					      (try
+					       (do0
+						(setf (aref d (string ,e))
+						      ,f))
+					       ("Exception as e"
+						,(lprint (format nil "exception ~a" e)
+							 `(e fn))))))
+				    
+				    (res.append d))
 				   ("Exception as e"
 				    ,(lprint "exception200" `(e fact.concept.name fn))
 				    pass)))
@@ -259,16 +333,109 @@
 			    pass)) 
 			
 			)))
+	  #+nil    ,(let ((l `(Assets
+
+
+		      AssetsCurrent
+		      AssetsFairValueDisclosure
+		      AvailableForSaleSecurities
+		      BasisOfAccounting
+		      CommonStockSharesAuthorized
+		      CommonStockSharesIssued
+		      CommonStockSharesOutstanding
+		      CommonStockValue
+		      ComprehensiveIncomeNetOfTax
+		      ConvertibleDebtEquity
+		      CostOfGoodsAndServicesSold
+		      CustomerAdvancesCurrent
+		      DebtCurrent
+		      DeferredRevenue
+		      Depreciation
+		      DepreciationDepletionAndAmortization
+		      DerivativeAssets
+		      DerivativeLiabilities
+		      EarningsPerShareBasic
+		      EarningsPerShareDiluted
+		      EmployeeRelatedLiabilitiesCurrent
+		      EntityPublicFloat
+		      EscrowDeposit
+		      Goodwill
+		      GrossProfit
+		      IncomeTaxExpenseBenefit
+		      IncomeTaxesPaidNet
+		      IncomeTaxesReceivable
+		      InterestExpense
+		      InventoryNet
+		      InvestmentIncomeNet
+		      Liabilities
+		      LongTermDebt
+		      LongTermDebtCurrent
+		      MinorityInterest
+		      OperatingIncomeLoss
+		      OperatingLossCarryforwards
+		      OtherReceivables
+		      PreOpeningCosts
+		      ProfitLoss
+		      RevenueFromGrants
+		      RoyaltyRevenue
+		      SaleOfStockPricePerShare
+		      SalesRevenueNet
+		      SeveranceCosts1
+		      ShareBasedCompensation
+		      StockholdersEquity
+		      TreasuryStockShares
+		      TreasuryStockValue
+		      UnrecognizedTaxBenefits)
+		      ))
+		`(do0
+		  (def get (n &key fns)
+		    (setf facts_to_collect (list ,@(loop for e in l collect `(string ,e))))
+		    (setf res (list))
+		    (for (fn (tqdm.tqdm fns))
+			 (setf inst (parser.parse_instance_locally (str fn)))
+		     (for (fact inst.facts)
+			  (unless (in fact.concept.name
+				      (list (aref facts_to_collect n)))
+			    continue)
+			  (when (< 0 (len fact.context.segments))
+			    continue)
+			  (try
+			   (res.append (dictionary :filename (str fn)
+						   :date fact.context.instant_date
+						   :concept fact.concept.name
+						   :value fact.value))
+			   ("Exception as e"
+			    ,(lprint "exception354" `(e fact.concept.name fn))
+			    pass))))
+		    (return (pd.DataFrame res)))
+		 ))
+
+	     
 	     (setf df0 (pd.DataFrame res)
 		   )
+
 	     (do0
+	      (setf pdf (dot (aref df0 (list (string "date")
+					     (string "concept")
+					     (string "value")
+					     (string "unit")
+					     (string "decimals")))
+			     (aref iloc (dot (aref df0 (list (string "date")
+							     (string "concept")))
+					     (drop_duplicates)
+					     index))
+			     (pivot :index (string "date")
+				    :columns (string "concept")))))
+
+	     #+nl(do0
 	      (setf df1 (dot (aref df0 (list (string "date")
 					   (string "concept")
 					     (string "value"))) (drop_duplicates))
 		    df2 (aref df0.iloc df1.index))
-	      (setf pivot_df (df2.pivot :index (string "date")
+	      (setf pivot_df (df1.pivot :index (string "date")
 				       :columns (string "concept")))
 	      (print pivot_df))
+	     
 	     #+nil
 	     (do0 (do0
 	       (comments "remove columns that only contain zeros")
@@ -277,8 +444,88 @@
 					   (any :axis 0))))))
 		  (setf df (df.sort_values :by (string "filename"))))
 	     (df0.to_csv (string "mu.csv"))
-	     (pivot_df.to_csv (string "mu_pivot.csv"))
-	     	     )))
+	     (pdf.to_csv (string "mu_pivot.csv"))
+
+	     #+nil (do0
+	      (plt.figure :figsize (list 12 8))
+	      (setf pl (list 1 3))
+	      ,@(loop for e in `(Assets
+				 Liabilities
+				 ;ShareholdersEquity
+				 )
+		      and ei from 0
+		      collect
+		      `(do0
+			(setf ax (plt.subplot2grid pl (list 0 0)))
+			(pivot_df.plot :y (tuple (string "value")
+						 (string ,e))
+				       :ax ax)
+			(plt.grid))))
+
+	     ,(let ((n-plots 4))
+	      `(do0
+	       (plt.figure :figsize (list 14 11))
+	       (setf pl (list ,n-plots 1))
+	       ,@(loop for i below n-plots collect
+		       `(setf ,(format nil "ax~a" i)
+			      (plt.subplot2grid pl (list ,i 0))))
+
+	       (def unit_selector (x)
+		 (unless (isinstance x str)
+		   (return False))
+		 (when
+		     (x.startswith (string "u0"))
+		   (return False))
+		 (return True)
+		 )
+	       ,@(loop for e in l-concept #+nil `(Assets
+						  Liabilities)
+		       and ei from 0
+		       collect
+		       `(do0
+			 (setf all_units (dot (aref pdf (tuple (string "unit")
+							       (string ,e)))
+					      (unique)
+					      (tolist)
+					      
+					      ))
+			 
+			 (setf current_unit
+			       (next
+				(filter unit_selector
+					all_units))
+			       )
+			 (setf da (aref pdf (tuple (string "value")
+						   (string ,e))))
+			 (plt.sca ax0)
+			 ,@(loop for e in `((usd :mi 3e9) (usd :ma 3e9) (shares :mi 0))
+				 and ei from 1
+				 collect
+				 (destructuring-bind (unit-name &key mi ma) e
+				   `(do0
+				     (when (and (== current_unit (string ,unit-name))
+						,(if mi
+						   `(< ,mi (da.max))
+						   `True)
+						,(if ma
+						   `(< (da.max) ,ma)
+						   `True))
+				       
+				       (plt.sca ,(format nil "ax~a" ei))))))
+			 (plt.plot (dot pdf index)
+				   da
+				   :label (dot (string ,(format nil "~a [{}]" e))
+					       (format current_unit
+						       )))
+			 ))
+	       ,@(loop for i below n-plots collect
+		       `(do0
+			 (plt.sca ,(format nil "ax~a" i))
+			 (plt.xlabel (string "date"))
+			 (plt.legend)
+			 (plt.grid)))
+	       )))
+	   ))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
 

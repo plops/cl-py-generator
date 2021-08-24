@@ -5,7 +5,7 @@
 ;; https://pypi.org/project/python-edgar/
 ;; python3 -m pip install --user  git+https://github.com/edgarminers/python-edgar
 
-;; limit to 10 requests per second
+;; limit to 10 requests per second 
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-py-generator/example/61_edgar")
