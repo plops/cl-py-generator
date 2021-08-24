@@ -177,7 +177,7 @@
 				     (dot pathlib
 					  (Path x)
 					  name)
-				     ))))
+				     )))) 
 
 		 (for ((ntuple idx row) (tab1.iterrows))
 		  (do0
