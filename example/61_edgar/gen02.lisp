@@ -174,7 +174,15 @@
 			    pass)) 
 			
 			)))
-	     (setf df (pd.DataFrame res))
+	     (setf df (pd.DataFrame res)
+		   )
+	     (do0
+	      (setf df (dot (aref df (list (string "date")
+					   (string "concept")
+					   (string "value"))) (drop_duplicates)))
+	      (setf pivot_df (df.pivot :index (string "date")
+				       :columns (string "concept")))
+	      (print pivot_df))
 	     #+nil
 	     (do0 (do0
 	       (comments "remove columns that only contain zeros")
