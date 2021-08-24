@@ -168,30 +168,50 @@
 					  (Path x)
 					  name)
 				     ))))
-		 ,@(loop for (e f suffix) in `((ins (EX-101.INS XML) xml)
-					       (sch EX-101.SCH xsd))
-			 collect
-			 `(do0
-			   (setf row (dot (aref tab1 ,(if (listp f)
-							  `(logior ,@(loop for ff in f
-									   collect
-									   `(== tab1.Type (string ,ff)))
-								   )
-							  `(== tab1.Type (string ,f))))
-					  (aref iloc 0)))
-			   (setf url (dot row			
-					  url))
-			   (setf ,(format nil "response_~a" e)
-			         (dot requests 
-				      (get url
-					   :headers
-					   (dict ((string "User-agent") user_agent)))))
-			   (with (as (open (/ (pathlib.Path (string ,suffix))
-					      row.filename) #+nil(string ,(format nil "response_~a.~a" e suffix))
-							    (string "w"))
-				     f)
-				 (f.write (dot ,(format nil "response_~a" e)
-					       text)))))))))
+
+		 (for ((ntuple idx row) (tab1.iterrows))
+		  (do0
+		   
+		   (setf url (dot row			
+				  url))
+		   (setf response
+			 (dot requests 
+			      (get url
+				   :headers
+				   (dict ((string "User-agent") user_agent)))))
+		   (with (as (open (/ (pathlib.Path (string "xml_all"))
+				      row.filename) 
+						    (string "w"))
+			     f)
+			 (f.write (dot response
+				       text)))))
+		 #+nil 
+		 (do0
+		  (comments "only download 2 files (xml and xsd)")
+		  ,@(loop for (e f suffix) in `((ins (EX-101.INS XML) xml)
+						  (sch EX-101.SCH xsd))
+			    collect
+			    `(do0
+			      (setf row (dot (aref tab1 ,(if (listp f)
+							     `(logior ,@(loop for ff in f
+									      collect
+									      `(== tab1.Type (string ,ff)))
+								      )
+							     `(== tab1.Type (string ,f))))
+					     (aref iloc 0)))
+			      (setf url (dot row			
+					     url))
+			      (setf ,(format nil "response_~a" e)
+			            (dot requests 
+					 (get url
+					      :headers
+					      (dict ((string "User-agent") user_agent)))))
+			      (with (as (open (/ (pathlib.Path (string ,suffix))
+						 row.filename) #+nil(string ,(format nil "response_~a.~a" e suffix))
+							       (string "w"))
+					f)
+				    (f.write (dot ,(format nil "response_~a" e)
+						  text))))))))))
 	     
 	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
