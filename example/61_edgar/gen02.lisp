@@ -116,19 +116,36 @@
 								   )
 				  )))
 	     (do0 (setf res (list))
-		  (for (fn ;(list (aref fns 0))
-			   (tqdm.tqdm fns)
+		  (for (fn (list (aref fns 0))
+			   ;(tqdm.tqdm fns)
 			   )
 		       
 		       (do0
 			
-			(do0 ; try
+			(try
 			   (do0
 			    (do0
 			     (comments "py-xbrl")
 			     (setf inst (parser.parse_instance_locally (str fn)))
-			     (setf d (dictionary :filename (str fn)))
-			     (res.append d)
+			     
+			   
+
+			     (for (fact inst.facts)
+				  (unless (in fact.concept.name
+					      (list ,@(loop for e in `(Assets
+								       Liabilities
+								       StockholdersEquity)
+							    collect
+							    `(string ,e))))
+				    continue)
+				  (when (< 0 (len fact.context.segments))
+				    continue)
+				  (res.append (dictionary :filename (str fn)
+							  :date fact.context.instant_date
+							  :concept fact.concept.name
+							  :value fact.value)))
+
+			     
 			     )
 			    #+nil (do0
 				   (comments "python-xbrl")
@@ -148,7 +165,7 @@
 					 fn)
 				   (res.append d)
 				   ))
-			  #+nil  ("Exception as e"
+			   ("Exception as e"
 			    ,(lprint "exception" `(e fn))
 			  
 			    (res.append (dictionary :filename fn
