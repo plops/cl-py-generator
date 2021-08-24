@@ -146,10 +146,20 @@
 				 (- tz)))))
 	     (setf start_time (time.time)
 		   debug True)
-	     (setf fns (sorted ("list"
-			 (dot 
-			  (pathlib.Path (string "xml_all/"))
-			  (glob (string "nvda-2021????_htm.xml"))))))
+	     (setf ticker (string "nvda"))
+	     (setf fns1 ("list"
+			  (dot 
+			   (pathlib.Path (string "xml_all/"))
+			   (glob (dot (string "{}-20??????.xml")
+				      (format ticker)))))
+		   fns2 ("list"
+			  (dot 
+			   (pathlib.Path (string "xml_all/"))
+			   (glob (dot (string "{}-20??????_htm.xml")
+				      (format ticker))))))
+	     (setf fns (sorted
+			(+ fns1
+			 fns2)))
 	     ,(lprint "files to open" `(fns))
 	     (for (fn fns)
 		  (print (str fn)))
