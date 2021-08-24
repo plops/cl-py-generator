@@ -116,6 +116,89 @@
 								   )
 				  )))
 	     (setf facts (list))
+	     (setf facts_to_collect (list ,@(loop for e in `(Assets
+							     AssetsCurrent
+							     AvailableForSaleSecurities
+							     CommonStockSharesAuthorized
+							     CommonStockSharesIssued
+							     CommonStockSharesOutstanding
+							     CommonStockValue
+							     CustomerAdvancesCurrent
+							     DebtCurrent
+							     EmployeeRelatedLiabilitiesCurrent
+							     Goodwill
+							     IncomeTaxesReceivable
+							     InventoryNet
+							     Liabilities
+							     MinorityInterest
+							     StockholdersEquity
+							     ConvertibleDebtEquity
+							     OtherReceivables
+							     TreasuryStockShares
+							     TreasuryStockValue
+							     UnrecognizedTaxBenefits
+							     LongTermDebt
+							     LongTermDebtCurrent
+							     DeferredRevenue
+							     EntityPublicFloat
+							     AssetsFairValueDisclosure
+							     )
+						  
+					#+nil	  `(Assets
+
+
+								AssetsCurrent
+								AssetsFairValueDisclosure
+								AvailableForSaleSecurities
+								BasisOfAccounting
+								CommonStockSharesAuthorized
+								CommonStockSharesIssued
+								CommonStockSharesOutstanding
+								CommonStockValue
+								ComprehensiveIncomeNetOfTax
+								ConvertibleDebtEquity
+								CostOfGoodsAndServicesSold
+								CustomerAdvancesCurrent
+								DebtCurrent
+								DeferredRevenue
+								Depreciation
+								DepreciationDepletionAndAmortization
+								DerivativeAssets
+								DerivativeLiabilities
+								EarningsPerShareBasic
+								EarningsPerShareDiluted
+								EmployeeRelatedLiabilitiesCurrent
+								EntityPublicFloat
+								EscrowDeposit
+								Goodwill
+								GrossProfit
+								IncomeTaxExpenseBenefit
+								IncomeTaxesPaidNet
+								IncomeTaxesReceivable
+								InterestExpense
+								InventoryNet
+								InvestmentIncomeNet
+								Liabilities
+								LongTermDebt
+								LongTermDebtCurrent
+								MinorityInterest
+								OperatingIncomeLoss
+								OperatingLossCarryforwards
+								OtherReceivables
+								PreOpeningCosts
+								ProfitLoss
+								RevenueFromGrants
+								RoyaltyRevenue
+								SaleOfStockPricePerShare
+								SalesRevenueNet
+								SeveranceCosts1
+								ShareBasedCompensation
+								StockholdersEquity
+								TreasuryStockShares
+								TreasuryStockValue
+								UnrecognizedTaxBenefits)
+							    collect
+							    `(string ,e))))
 	     (do0 (setf res (list))
 		  (for (fn ;(list (aref fns 0))
 			   (tqdm.tqdm fns)
@@ -134,18 +217,18 @@
 			     (for (fact inst.facts)
 				  (facts.append fact.concept.name)
 				  (unless (in fact.concept.name
-					      (list ,@(loop for e in `(Assets
-								       Liabilities
-								       StockholdersEquity)
-							    collect
-							    `(string ,e))))
+					      facts_to_collect)
 				    continue)
 				  (when (< 0 (len fact.context.segments))
 				    continue)
-				  (res.append (dictionary :filename (str fn)
-							  :date fact.context.instant_date
-							  :concept fact.concept.name
-							  :value fact.value)))
+				  (try
+				   (res.append (dictionary :filename (str fn)
+							   :date fact.context.instant_date
+							   :concept fact.concept.name
+							   :value fact.value))
+				   ("Exception as e"
+				    ,(lprint "exception200" `(e fact.concept.name fn))
+				    pass)))
 
 			     
 			     )
@@ -176,13 +259,14 @@
 			    pass)) 
 			
 			)))
-	     (setf df (pd.DataFrame res)
+	     (setf df0 (pd.DataFrame res)
 		   )
 	     (do0
-	      (setf df (dot (aref df (list (string "date")
+	      (setf df1 (dot (aref df0 (list (string "date")
 					   (string "concept")
-					   (string "value"))) (drop_duplicates)))
-	      (setf pivot_df (df.pivot :index (string "date")
+					     (string "value"))) (drop_duplicates))
+		    df2 (aref df0.iloc df1.index))
+	      (setf pivot_df (df2.pivot :index (string "date")
 				       :columns (string "concept")))
 	      (print pivot_df))
 	     #+nil
@@ -192,7 +276,8 @@
 				      (dot (!= df 0)
 					   (any :axis 0))))))
 		  (setf df (df.sort_values :by (string "filename"))))
-	     (df.to_csv (string "mu.csv"))
+	     (df0.to_csv (string "mu.csv"))
+	     (pivot_df.to_csv (string "mu_pivot.csv"))
 	     	     )))
     (write-source (format nil "~a/~a" *source* *code-file*) code)
     ))
