@@ -116,8 +116,8 @@
 								   )
 				  )))
 	     (do0 (setf res (list))
-		  (for (fn (list (aref fns 0))
-			   ;(tqdm.tqdm fns)
+		  (for (fn ;(list (aref fns 0))
+			   (tqdm.tqdm fns)
 			   )
 		       
 		       (do0
