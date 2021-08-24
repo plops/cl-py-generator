@@ -141,7 +141,7 @@
 		       (dot 
 			response text)
 		       ))
-		(setf tab1 (aref tables 1))
+		(setf tab1 (aref tables 1)) 
 		#+nil  (setf doc_name  (dot  (aref tab1 (== tab1.Type (string "EX-101.INS")))
 					     Document))
 		(do0
