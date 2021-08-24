@@ -154,7 +154,7 @@
 			    (res.append (dictionary :filename fn
 						    :comment e))
 			   
-			    pass))
+			    pass)) 
 			
 			)))
 	     (setf df (pd.DataFrame res))
