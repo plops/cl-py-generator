@@ -146,11 +146,13 @@
 				 (- tz)))))
 	     (setf start_time (time.time)
 		   debug True)
-	     (setf fns ("list"
-			(dot 
-			 (pathlib.Path (string "xml_all/"))
-			 (glob (string "mu-20??????.xml")))))
-	     
+	     (setf fns (sorted ("list"
+			 (dot 
+			  (pathlib.Path (string "xml_all/"))
+			  (glob (string "mu-20??????.xml"))))))
+	     ,(lprint "files to open" `(fns))
+	     (for (fn fns)
+		  (print (str fn)))
 	     (do0
 	      (setf user_agent (string "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36"))
 	      (logging.basicConfig :level logging.INFO)
