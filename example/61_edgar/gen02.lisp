@@ -146,7 +146,7 @@
 				 (- tz)))))
 	     (setf start_time (time.time)
 		   debug True)
-	     (setf ticker (string "nvda"))
+	     (setf ticker (string "mu"))
 	     (setf fns1 ("list"
 			  (dot 
 			   (pathlib.Path (string "xml_all/"))
@@ -515,7 +515,8 @@
 				    )
 			      (setf da (aref pdf (tuple (string "value")
 							(string ,e))))
-			      (plt.sca ax0))
+			      (plt.sca ax0)
+			      (plt.title ticker))
 			   ,@(loop for e in `((usd :mi .25e9) (usd :ma .25e9) (shares :mi 0))
 				   and ei from 1
 				   collect
