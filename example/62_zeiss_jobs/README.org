@@ -1,0 +1,5 @@
+* goal:
+
+- https://zeiss.de/jobs
+- not easy to find jobs that I find interesting
+- try to import into pandas table
