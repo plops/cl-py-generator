@@ -3,3 +3,12 @@
 - https://zeiss.de/jobs
 - not easy to find jobs that I find interesting
 - try to import into pandas table
+
+
+|       |               |
+| gen01 | selenium code |
+| gen02 | helium code (should be easier to write, i hope) |
+
+- pip install --user helium
+- https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
+- helium tutorial https://youtu.be/Texh_xJfzEM
