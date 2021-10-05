@@ -205,7 +205,8 @@
 		(time.sleep 3)))))))
 
        (do0 (setf df (pd.DataFrame res))
-	    (display df))
+	    (display df)
+	    (df.to_csv (string "contents.csv")))
        ))
 
      (python
