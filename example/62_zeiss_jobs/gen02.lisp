@@ -11,6 +11,11 @@
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
       "Sunday"))
+  (defun lprint (cmd &optional rest)
+    `(when debug
+       (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}" cmd rest))
+                   (format  (- (time.time) start_time)
+                           ,@rest)))))
 
   (write-notebook
    :nb-file (format nil "~a/source/02_helium_scrape.ipynb" *path*)
@@ -96,6 +101,8 @@
 	      ))
      (python
       (do0
+       (setf start_time (time.time)
+	     debug True)
        (setf
 	      _code_git_version
 	      (string ,(let ((str (with-output-to-string (s)
@@ -138,10 +145,11 @@
        (driver.set_window_size (* 2 1900) (* 2 1040))))
      (python (do0
 	      (go_to (string "https://www.zeiss.de/jobs"))
-	      (when
+	      #+nil (when
 		  (dot (Text (string "Datenschutzeinstellungen"))
 		       (exists))
 		(click (string "Alle akzeptieren")))
+	      (click (string "Alle akzeptieren"))
 	      (press PAGE_DOWN)
 	      ;; Button().exists()
 	      ;;(click (string "Nein, danke"))
@@ -149,7 +157,9 @@
 	      (click (string "alle ausklappen"))
 	      (click (string "Semiconductor Manufacturing Technology"))
 	      (click (string "Oberkochen"))
-	      (click (string "Suchen"))))
+	      (click (string "Suchen"))
+	      (time.sleep 3)
+	      (press PAGE_DOWN)))
      (python
       (do0
        (setf next_href None
@@ -159,7 +169,20 @@
 	(while True
 	 (do0
 	  (do0
-       	   (setf l (find_all (S (string "ul.list-container > li"))))
+	   (press PAGE_DOWN)
+	   (time.sleep 1)
+	   (press PAGE_DOWN)
+	   
+	   (for (count (range 3))
+       	    (try
+	     (do0 (setf l (find_all (S (string "ul.list-container > li"))))
+		  (dot (aref l 0)
+		       web_element
+		       text)
+		  break)
+	     ("Exception as e"
+	      ,(lprint "exception" `(count e))
+	      pass)))
 	   (for (e l)
 		(setf (ntuple job location) (dot e web_element text (split (string "\\n"))))
 		(res.append (dictionary :job job
@@ -171,25 +194,20 @@
 			      0)
 		 old_next_href next_href
 		 next_href (next_button.web_element.get_property (string "href")))
-	   (if
-	    (== next_href old_next_href)
-	    (do0
-	     ;; the last link will point to the current page
-	     ;; then we stop
-	     break)
-	    (do0 
-	     (click next_button))))))
-	)
+	   ,(lprint "href" `(old_next_href next_href))
+	   (if (== next_href old_next_href)
+	       (do0
+		;; the last link will point to the current page
+		;; then we stop
+		break)
+	       (do0 
+		(click next_button)
+		(time.sleep 3)))))))
 
        (do0 (setf df (pd.DataFrame res))
 	    (display df))
-       
-       
-
        ))
-     
 
-     
      (python
       (do0
        (kill_browser)))
