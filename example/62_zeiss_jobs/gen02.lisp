@@ -176,6 +176,7 @@
 	   (for (count (range 3))
        	    (try
 	     (do0 (setf l (find_all (S (string "ul.list-container > li"))))
+		  (setf ll (find_all (S (string "ul.list-container > li > a.linkicon"))))
 		  (dot (aref l 0)
 		       web_element
 		       text)
@@ -183,10 +184,12 @@
 	     ("Exception as e"
 	      ,(lprint "exception" `(count e))
 	      pass)))
-	   (for (e l)
+	   (for ((ntuple e el) (zip l ll))
 		(setf (ntuple job location) (dot e web_element text (split (string "\\n"))))
+		(setf current_link (dot el web_element (get_property (string "href"))))
 		(res.append (dictionary :job job
-					:location location)))
+					:location location
+					:link current_link)))
 	   )
 	  (do0
        	   (setf next_button (aref
