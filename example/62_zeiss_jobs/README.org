@@ -5,9 +5,10 @@
 - try to import into pandas table
 
 
-|       |               |
-| gen01 | selenium code |
-| gen02 | helium code (should be easier to write, i hope) |
+|       |                                                                                                         |
+| gen01 | selenium code, to difficult to figure out the xpaths                                                    |
+| gen02 | helium code (much easier to select buttons with text), create contents.csv with name, location and link |
+| gen03 | download all the links                                                                                  |
 
 - pip install --user helium
 - https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md

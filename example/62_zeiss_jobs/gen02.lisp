@@ -157,6 +157,11 @@
 	      (click (string "alle ausklappen"))
 	      (click (string "Semiconductor Manufacturing Technology"))
 	      (click (string "Oberkochen"))
+	      (click (string "Forschung & Entwicklung"))
+	      (click (string "Engineering"))
+	      ;(click (string "Digital & IT"))
+	      (click (string "Berufserfahrener"))
+	      
 	      (click (string "Suchen"))
 	      (time.sleep 3)
 	      (press PAGE_DOWN)))
@@ -209,7 +214,7 @@
 
        (do0 (setf df (pd.DataFrame res))
 	    (display df)
-	    (df.to_csv (string "contents.csv")))
+	    (df.to_csv (string "contents3.csv")))
        ))
 
      (python
