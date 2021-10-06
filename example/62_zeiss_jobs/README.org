@@ -9,7 +9,10 @@
 | gen01 | selenium code, to difficult to figure out the xpaths                                                    |
 | gen02 | helium code (much easier to select buttons with text), create contents.csv with name, location and link |
 | gen03 | download all the links                                                                                  |
-
-- pip install --user helium
+| gen04 | create html page                                                                                        |
+|       |                                                                                                         |
+- for gen02: pip install --user helium
+- for gen04: pip install --user domonic
 - https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
 - helium tutorial https://youtu.be/Texh_xJfzEM
+

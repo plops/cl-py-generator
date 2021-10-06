@@ -1,6 +1,8 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "cl-py-generator")
-  (ql:quickload "alexandria"))
+  (ql:quickload "alexandria")
+  ;(ql:quickload "cl-who")
+  )
 (in-package :cl-py-generator)
 
 
@@ -95,8 +97,9 @@
 			      plot imshow tight_layout xlabel ylabel
 			      title subplot subplot2grid grid
 			      legend figure gcf xlim ylim)
-			     ;(helium *)
-			     )
+					;(helium *)
+			     ;;https://pythonawesome.com/a-library-to-generate-html-with-python-3/
+			     (domonic.html *))
 		 
 	       )
 	      ))
@@ -135,12 +138,24 @@
 
      (python
       (do0
-       (with (as  (open (string "overview.html")
-			(string "w"))
-		  f)
-	     (for ((ntuple idx row) (df.iterrows))
-	      (f.write (dot (string "wget -m {}\\n")
-			    (format row.link)))))))
+       (setf tab (list) )
+       (for ((ntuple idx row) (df.iterrows))
+	    (tab.append
+	     (tr
+	      (td (dot (string "{}")
+		       (format idx)))
+	      (td row.job)
+	      (td row.link))))
+       (setf page (html
+		   (body
+		    (h1 (string "Hello World"))
+		    (table
+		     (tr
+		      (th (string "idx"))
+		      (th (string "name"))
+		      (th (string "link")))
+		     tab))))
+       (render page (string "index.html"))))
      ))
   )
 

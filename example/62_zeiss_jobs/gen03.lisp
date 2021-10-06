@@ -140,14 +140,7 @@
 	      (f.write (dot (string "wget -m {}\\n")
 			    (format row.link)))))))
 
-     (python
-      (do0
-       (with (as  (open (string "overview.html")
-			(string "w"))
-		  f)
-	     (for ((ntuple idx row) (df.iterrows))
-	      (f.write (dot (string "wget -m {}\\n")
-			    (format row.link)))))))
+     
      ))
   )
 
