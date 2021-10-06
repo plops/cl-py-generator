@@ -149,8 +149,14 @@
 	     (tr
 	      (td (dot (string "{}")
 		       (format idx)))
-	      (td row.job)
-	      (td row.link))))
+	      (td (a row.job :_href (dot (string "/")
+					 (join (dot  row
+						     link
+						     (aref
+						      (split (string "/"))
+						      (slice -4 "")))))))
+	      ;(td row.link)
+	      )))
        (setf page (html
 		   (body
 		    (h1 (string "Hello World"))
