@@ -138,9 +138,14 @@
 
      (python
       (do0
-       (setf tab (list) )
+       (setf tab (table
+		     (tr
+		      (th (string "idx"))
+		      (th (string "name"))
+		      (th (string "link")))
+		     ))
        (for ((ntuple idx row) (df.iterrows))
-	    (tab.append
+	    (tab.appendChild
 	     (tr
 	      (td (dot (string "{}")
 		       (format idx)))
@@ -149,12 +154,7 @@
        (setf page (html
 		   (body
 		    (h1 (string "Hello World"))
-		    (table
-		     (tr
-		      (th (string "idx"))
-		      (th (string "name"))
-		      (th (string "link")))
-		     tab))))
+		    tab)))
        (render page (string "index.html"))))
      ))
   )
