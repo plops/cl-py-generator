@@ -10,9 +10,29 @@
 | gen02 | helium code (much easier to select buttons with text), create contents.csv with name, location and link |
 | gen03 | download all the links                                                                                  |
 | gen04 | create html page                                                                                        |
-|       |                                                                                                         |
+| gen05 | store data in postgres                                                                                  |
 - for gen02: pip install --user helium
 - for gen04: pip install --user domonic
+- for gen05: pip install --user asyncpg
+  - https://github.com/MagicStack/asyncpg
+  - pure python pg interface  https://github.com/tlocke/pg8000
+  - https://hakibenita.com/fast-load-data-python-postgresql
+  - https://fedoraproject.org/wiki/PostgreSQL
+#+begin_example
+sudo dnf install postgresql-server postgresql-contrib postgresql-upgrade
+sudo dnf install pgadmin3
+sudo postgresql-setup --upgrade
+# sudo systemctl enable postgresql
+sudo systemctl start postgresql
+systemctl status postgresql.service
+sudo su
+su - postgres
+reindexdb
+psql
+\password postgres # set a password
+createuser martin
+createdb --owner=martin zeiss
+#+end_example
 - https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
 - helium tutorial https://youtu.be/Texh_xJfzEM
 
