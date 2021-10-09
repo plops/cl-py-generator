@@ -20,7 +20,7 @@
                            ,@rest)))))
 
   (write-notebook
-   :nb-file (format nil "~a/source/04_overview.ipynb" *path*)
+   :nb-file (format nil "~a/source/05_create_postgres.ipynb" *path*)
    :nb-code
    `(
      (python (do0
@@ -74,7 +74,9 @@
 			 ; csv
 					;io.StringIO
 					;bs4
-					requests
+					;requests
+			 asyncio
+			 asyncpg
 			   
 					;(np jax.numpy)
 					;(mpf mplfinance)
@@ -83,23 +85,12 @@
 			 ))
 	       
 		 
-	      #+nil  (imports-from (selenium webdriver)
-			     (selenium.webdriver.common.keys Keys)
-			     (selenium.webdriver.support.ui WebDriverWait)
-			     (selenium.webdriver.common.by By)
-			     (selenium.webdriver.support expected_conditions)
-			     
-			     
-			     )
-		 
 	       
 	       (imports-from (matplotlib.pyplot
 			      plot imshow tight_layout xlabel ylabel
 			      title subplot subplot2grid grid
 			      legend figure gcf xlim ylim)
-					;(helium *)
-			     ;;https://pythonawesome.com/a-library-to-generate-html-with-python-3/
-			     (domonic.html *))
+						    )
 		 
 	       )
 	      ))
@@ -130,39 +121,16 @@
 
        (setf start_time (time.time)
 	     debug True)))
-     (python
-      (do0
-       (setf df (pd.read_csv (string "contents3.csv")))
-       ))
-     
 
      (python
       (do0
-       (setf tab (table
-		     (tr
-		      (th (string "idx"))
-		      (th (string "name"))
-		      (th (string "link")))
-		     ))
-       (for ((ntuple idx row) (df.iterrows))
-	    (tab.appendChild
-	     (tr
-	      (td (dot (string "{}")
-		       (format idx)))
-	      (td (a row.job :_href (dot (string "/")
-					 (join (dot  row
-						     link
-						     (aref
-						      (split (string "/"))
-						      (slice -4 "")))))))
-	      ;(td row.link)
-	      )))
-       (setf page (html
-		   (body
-		    (h1 (string "Hello World"))
-		    tab)))
-       (render page (string "index.html"))))
-     ))
+       (space async
+	      (def run ()
+		(setf conn (space await (asyncpg.connect :user (string "martin")
+							 :password None
+							 :database (string "zeiss")
+							 :host (string "127.0.0.1"))))))
+       ))))
   )
 
 

@@ -10,13 +10,17 @@
 | gen02 | helium code (much easier to select buttons with text), create contents.csv with name, location and link |
 | gen03 | download all the links                                                                                  |
 | gen04 | create html page                                                                                        |
-| gen05 | store data in postgres                                                                                  |
+| gen05 | store data in postgres (asyncpg)                                                                        |
+| gen06 | store data in postgres (psycopg2)                                                                       |
+
 - for gen02: pip install --user helium
 - for gen04: pip install --user domonic
 - for gen05: pip install --user asyncpg
   - https://github.com/MagicStack/asyncpg
+  - https://github.com/bdowning/sql-athame generate sql queries
+  - https://github.com/nackjicholson/aiosql another query writer
   - pure python pg interface  https://github.com/tlocke/pg8000
-  - https://hakibenita.com/fast-load-data-python-postgresql
+  - https://hakibenita.com/fast-load-data-python-postgresql psycopg2 examples with benchmarking
   - https://fedoraproject.org/wiki/PostgreSQL
 #+begin_example
 sudo dnf install postgresql-server postgresql-contrib postgresql-upgrade
@@ -33,6 +37,17 @@ psql
 createuser martin
 createdb --owner=martin zeiss
 #+end_example
+
+- for gen06: pip install --user psycopg2-binary
+  #+begin_example
+sudo su
+su - postgres
+psql
+\password martin
+GRANT ALL ON DATABASE zeiss TO martin;
+# modify pg_hba.conf like this:
+  host    all             all             127.0.0.1/32            trust
+  #+end_example
 - https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
 - helium tutorial https://youtu.be/Texh_xJfzEM
 

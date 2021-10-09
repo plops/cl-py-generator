@@ -20,7 +20,7 @@
                            ,@rest)))))
 
   (write-notebook
-   :nb-file (format nil "~a/source/05_create_postgres.ipynb" *path*)
+   :nb-file (format nil "~a/source/06_create_postgres.ipynb" *path*)
    :nb-code
    `(
      (python (do0
@@ -75,8 +75,7 @@
 					;io.StringIO
 					;bs4
 					;requests
-			 asyncio
-			 asyncpg
+			 psycopg2
 			   
 					;(np jax.numpy)
 					;(mpf mplfinance)
@@ -124,12 +123,13 @@
 
      (python
       (do0
-       (space async
-	      (def run ()
-		(setf conn (space await (asyncpg.connect :user (string "martin")
-							 :password None
-							 :database (string "zeiss")
-							 :host (string "127.0.0.1"))))))
+       (comments "sudo systemctl start postgresql")
+       (setf connection (psycopg2.connect :host (string "127.0.0.1")
+					  :database (string "zeiss")
+					  :user (string "martin")
+					  :password None
+					  )
+	     connection.autocommit True)
        ))))
   )
 
