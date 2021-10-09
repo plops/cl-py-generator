@@ -38,7 +38,7 @@ createuser martin
 createdb --owner=martin zeiss
 #+end_example
 
-- for gen06: pip install --user psycopg2-binary
+- for gen06: pip install --user psycopg2-binary memory-profiler
   #+begin_example
 sudo su
 su - postgres

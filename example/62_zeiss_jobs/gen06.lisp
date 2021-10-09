@@ -89,7 +89,10 @@
 			      plot imshow tight_layout xlabel ylabel
 			      title subplot subplot2grid grid
 			      legend figure gcf xlim ylim)
-						    )
+			     (memory_profiler memory_usage)
+			     (functools wraps)
+			     )
+	       
 		 
 	       )
 	      ))
@@ -153,7 +156,47 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~});"
       (do0
        (with (as (connection.cursor)
 		 cursor)
-	     (create_staging_table cursor))))))
+	     (create_staging_table cursor))))
+     (python
+      (do0
+       (def profile (fn)
+	 (@wraps fn)
+	 (def inner (*args **kwargs)
+	   (setf fn_kwargs_str (dot (string ", ")
+				    (join (for-generator ((ntuple k v)
+							  (kwargs.items))
+							 (dot (string "{}={}")
+							      (format k v))))))
+	   (print (dot (string "{}({})")
+		       (format fn.__name__
+			       fn_kwargs_str)))
+	   (setf start (time.perf_counter))
+	   (setf retval (fn *args **kwargs))
+	   (setf elapsed (- (time.perf_counter)
+			    start))
+	   (print (dot (string "Time {:0.4}")
+		       (format elapsed)))
+
+	   (setf (ntuple mem
+			 retval)
+		 (memory_usage (tuple fn args kwargs)
+			       :retval True
+			       :timeout 200
+			       :interval 1e-7))
+	   (print (dot (string "Memoyr {}")
+		       (format (- (max mem)
+				  (min mem)))))
+	   (return retval))
+	 (return inner))))
+     (python
+      (do0
+       "@profile"
+       (def work (n)
+	 (for (i (range n)
+		 )
+	      (** 2 n)))
+       (work 10)
+       (work :n 10_000)))))
   )
 
 
