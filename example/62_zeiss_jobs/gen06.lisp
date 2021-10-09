@@ -183,7 +183,7 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~});"
 			       :retval True
 			       :timeout 200
 			       :interval 1e-7))
-	   (print (dot (string "Memoyr {}")
+	   (print (dot (string "Memory {}")
 		       (format (- (max mem)
 				  (min mem)))))
 	   (return retval))
