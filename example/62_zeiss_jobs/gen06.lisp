@@ -130,7 +130,30 @@
 					  :password None
 					  )
 	     connection.autocommit True)
-       ))))
+       ))
+
+     (python
+      (do0
+       ,(let ((tab "staging_jobs")
+	      (tab-contents `((id INTEGER)
+			      (name TEXT)
+			      (location TEXT)
+			      (description TEXT)
+			      )))
+	  `(def create_staging_table (cursor)
+	   (cursor.execute
+	    (string3 ,(format nil "DROP TABLE IF exists ~a;
+CREATE UNLOGGED TABLE ~a (~{~a~^,~});"
+			      tab
+			      tab
+			      (loop for (e f) in tab-contents
+				    collect
+				    (format nil "~a ~a" e f)))))))))
+     (python
+      (do0
+       (with (as (connection.cursor)
+		 cursor)
+	     (create_staging_table cursor))))))
   )
 
 
