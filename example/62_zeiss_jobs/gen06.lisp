@@ -137,28 +137,6 @@
 
      (python
       (do0
-       ,(let ((tab "staging_jobs")
-	      (tab-contents `((id INTEGER)
-			      (name TEXT)
-			      (location TEXT)
-			      (description TEXT)
-			      )))
-	  `(def create_staging_table (cursor)
-	   (cursor.execute
-	    (string3 ,(format nil "DROP TABLE IF exists ~a;
-CREATE UNLOGGED TABLE ~a (~{~a~^,~});"
-			      tab
-			      tab
-			      (loop for (e f) in tab-contents
-				    collect
-				    (format nil "~a ~a" e f)))))))))
-     (python
-      (do0
-       (with (as (connection.cursor)
-		 cursor)
-	     (create_staging_table cursor))))
-     (python
-      (do0
        (def profile (fn)
 	 (@wraps fn)
 	 (def inner (*args **kwargs)
@@ -188,7 +166,41 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~});"
 				  (min mem)))))
 	   (return retval))
 	 (return inner))))
+     
      (python
+      ,(let ((tab "staging_jobs")
+	     (tab-contents `((id INTEGER)
+			     (name TEXT)
+			     (location TEXT)
+			     (description TEXT)
+			     )))
+	 `(do0
+	   (def create_staging_table (cursor)
+	     (cursor.execute
+	      (string3 ,(format nil "DROP TABLE IF exists ~a;
+CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
+				tab
+				tab
+				(loop for (e f) in tab-contents
+				      collect
+				      (format nil "~a ~a" e f))))))
+	   (def insert_one_by_one (connection data)
+	     (with (as (connection.cursor)
+		       cursor)
+		   (create_staging_table cursor)
+		   (for (e data)
+			(dot cursor
+			     (execute
+			      (string3
+			       ,(format nil "INSERT INTO ~a VALUES (~{%(~a)s~^,~%~})" tab  (mapcar #'first tab-contents)))
+			      data))))))))
+     (python
+      (do0
+       (with (as (connection.cursor)
+		 cursor)
+	     (create_staging_table cursor))))
+     
+   #+nil  (python
       (do0
        "@profile"
        (def work (n)
