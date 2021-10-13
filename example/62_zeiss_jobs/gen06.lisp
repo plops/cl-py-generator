@@ -229,17 +229,49 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 	    ;(print row)
 	    (insert_one_by_one connection row)
 	    )))
-     (python
-      (do0
-       (setf soup (BeautifulSoup (dot df1 (aref iloc 0) description )
-				 (string "html.parser")))
-       ,@(loop for e in `(jobtitle locations recruiter-info)
-	       collect
-	       `(do0
-		 (setf ,(substitute #\_ #\- (format nil "~a" e))
-		       (dot soup
-			    (find_all (string "div")
-				      :class_ (string ,e))))))))
+     ,(let ((l `((h1 jobtitle)
+		(h2 locations)
+		(div recruiter-info :code
+		     (lambda (x)
+		       (dot (string " ")
+			    (join (dot (aref x 1)
+				       text
+				       (strip)
+				       (split)))))))))
+      `(python
+	(do0
+	 (setf soup (BeautifulSoup (dot df1 (aref iloc 0) description )
+				   (string "html.parser")))
+	  ,@(loop for e in l
+		 collect
+		 (destructuring-bind (element class
+				      &key
+				      (code `(lambda (x)
+					       (dot (aref x 0)
+						    text))))
+		     e
+		   (let ((var0 (substitute #\_ #\- (format nil "~a0" class)))
+			 (var (substitute #\_ #\- (format nil "~a" class))))
+		     `(do0
+		      (setf ,var0
+			    (dot soup
+				 (find_all (string ,element )
+					   :class_ (string ,class))))
+		      (setf ,var (,code ,var0))
+		      ))))
+	  ,@(loop for e in l
+		 collect
+		 (destructuring-bind (element class
+				      &key
+				      (code `(lambda (x)
+					       (dot (aref x 0)
+						    text))))
+		     e
+		   (let (
+			 (var (substitute #\_ #\- (format nil "~a" class))))
+		     `(print (dot (string ,(format nil "~a = '{}'" var))
+				  (format ,var)) ))))
+	  )))
    #+nil  (python
       (do0
        "@profile"
