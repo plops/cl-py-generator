@@ -169,10 +169,11 @@
      
      (python
       ,(let ((tab "staging_jobs")
-	     (tab-contents `(;(id INTEGER)
+	     (tab-contents `((id INTEGER)
 			     (job TEXT)
 			     (location TEXT)
 			     (link TEXT)
+			     (description TEXT)
 			     )))
 	 `(do0
 	   (def create_staging_table (cursor)
@@ -202,9 +203,26 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 	     (create_staging_table cursor)
 	     )
        (setf df (pd.read_csv (string "contents3.csv")))
-       (insert_one_by_one connection (dot df
-					  (drop :labels (string "Unnamed: 0")
+
+       (do0
+	(comments "rename id column")
+	(setf df1 (dot df (rename :columns (dict ((string "Unnamed: 0")
+						  (string "id")))))))
+       (do0
+	(comments "load html files")
+	(def load_html (row)
+	  (setf fn (dot row.link
+			(aref (split (string "https://"))
+			      1)))
+	  (with (as (open fn)
+		    f)
+		(return (f.read))))
+	(setf (aref df1 (string "description"))
+	      (dot df1 (apply load_html :axis 1))))
+       (insert_one_by_one connection (dot df1
+					  #+nil (drop :labels (string "Unnamed: 0")
 						:axis 1)
+					  
 					  (to_dict (string "records"))))
        #+nil (for ((ntuple idx row) (df.iterrows))
 	    ;(print row)
