@@ -91,6 +91,7 @@
 			      legend figure gcf xlim ylim)
 			     (memory_profiler memory_usage)
 			     (functools wraps)
+			     (bs4 BeautifulSoup)
 			     )
 	       
 		 
@@ -228,7 +229,17 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 	    ;(print row)
 	    (insert_one_by_one connection row)
 	    )))
-     
+     (python
+      (do0
+       (setf soup (BeautifulSoup (dot df1 (aref iloc 0) description )
+				 (string "html.parser")))
+       ,@(loop for e in `(jobtitle locations recruiter-info)
+	       collect
+	       `(do0
+		 (setf ,(substitute #\_ #\- (format nil "~a" e))
+		       (dot soup
+			    (find_all (string "div")
+				      :class_ (string ,e))))))))
    #+nil  (python
       (do0
        "@profile"

@@ -46,7 +46,7 @@ createuser martin
 createdb --owner=martin zeiss
 #+end_example
 
-- for gen06: pip install --user psycopg2-binary memory-profiler
+- for gen06: pip install --user psycopg2-binary memory-profiler beautifulsoup4
   #+begin_example
 sudo su
 su - postgres
@@ -58,4 +58,4 @@ GRANT ALL ON DATABASE zeiss TO martin;
   #+end_example
 - https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
 - helium tutorial https://youtu.be/Texh_xJfzEM
-
+- https://realpython.com/beautiful-soup-web-scraper-python/ scraping fake job site
