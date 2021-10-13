@@ -237,7 +237,8 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 			    (join (dot (aref x 1)
 				       text
 				       (strip)
-				       (split)))))))))
+				       (split))))))
+		 )))
       `(python
 	(do0
 	 (setf soup (BeautifulSoup (dot df1 (aref iloc 0) description )
@@ -259,6 +260,19 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 					   :class_ (string ,class))))
 		      (setf ,var (,code ,var0))
 		      ))))
+
+	  (do0
+	   (setf texts (dot soup
+			     (find_all (string "div")
+				       :class_ (string "text"))))
+	   ,@(loop for i below 4
+		   collect
+		   `(setf ,(format nil "text~a" i)
+			  (aref texts ,i)))
+	   ,@(loop for i below 4
+		   collect
+		   `(print (dot (string ,(format nil "text~a='{}'" i))
+				(format ,(format nil "text~a" i))))))
 	  ,@(loop for e in l
 		 collect
 		 (destructuring-bind (element class
