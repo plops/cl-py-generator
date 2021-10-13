@@ -135,7 +135,7 @@
 	     connection.autocommit True)
        ))
 
-     (python
+    (python
       (do0
        (def profile (fn)
 	 (@wraps fn)
@@ -169,10 +169,10 @@
      
      (python
       ,(let ((tab "staging_jobs")
-	     (tab-contents `((id INTEGER)
-			     (name TEXT)
+	     (tab-contents `(;(id INTEGER)
+			     (job TEXT)
 			     (location TEXT)
-			     (description TEXT)
+			     (link TEXT)
 			     )))
 	 `(do0
 	   (def create_staging_table (cursor)
@@ -184,6 +184,7 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 				(loop for (e f) in tab-contents
 				      collect
 				      (format nil "~a ~a" e f))))))
+	   "@profile"
 	   (def insert_one_by_one (connection data)
 	     (with (as (connection.cursor)
 		       cursor)
@@ -193,12 +194,22 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 			     (execute
 			      (string3
 			       ,(format nil "INSERT INTO ~a VALUES (~{%(~a)s~^,~%~})" tab  (mapcar #'first tab-contents)))
-			      data))))))))
+			      e))))))))
      (python
       (do0
        (with (as (connection.cursor)
 		 cursor)
-	     (create_staging_table cursor))))
+	     (create_staging_table cursor)
+	     )
+       (setf df (pd.read_csv (string "contents3.csv")))
+       (insert_one_by_one connection (dot df
+					  (drop :labels (string "Unnamed: 0")
+						:axis 1)
+					  (to_dict (string "records"))))
+       #+nil (for ((ntuple idx row) (df.iterrows))
+	    ;(print row)
+	    (insert_one_by_one connection row)
+	    )))
      
    #+nil  (python
       (do0

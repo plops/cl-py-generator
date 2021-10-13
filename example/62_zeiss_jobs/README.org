@@ -4,6 +4,14 @@
 - not easy to find jobs that I find interesting
 - try to import into pandas table
 
+* topics
+- helium/selenium web scraper
+- postgresql
+- memory profiler
+- execution time profiler
+
+  
+* files
 
 |       |                                                                                                         |
 | gen01 | selenium code, to difficult to figure out the xpaths                                                    |
