@@ -220,15 +220,83 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 		(return (f.read))))
 	(setf (aref df1 (string "description"))
 	      (dot df1 (apply load_html :axis 1))))
-       (insert_one_by_one connection (dot df1
-					  #+nil (drop :labels (string "Unnamed: 0")
-						:axis 1)
-					  
-					  (to_dict (string "records"))))
-       #+nil (for ((ntuple idx row) (df.iterrows))
-	    ;(print row)
-	    (insert_one_by_one connection row)
+       (do0
+	(comments "parse html sites")
+	(do0
+	 ,(let* ((l `((h1 jobtitle)
+		     (h2 locations)
+		     (div recruiter-info :code
+			  (lambda (x)
+			    (dot (string " ")
+				 (join (dot (aref x 1)
+					    text
+					    (strip)
+					    (split))))))
+		     ))
+		(vars `(,@(loop for i below 4
+			     collect
+			     (format nil "text~a" i)
+			      )
+		      
+		      ,@(loop for e in l
+			      collect
+			      (destructuring-bind (element class
+						   &key
+						     (code `(lambda (x)
+							      (dot (aref x 0)
+								   text))))
+				  e
+				(let (
+				      (var (substitute #\_ #\- (format nil "~a" class))))
+				  var))))))
+	    `(do0
+	      (do0
+	       (def parse_html (row)
+		 (setf soup (BeautifulSoup (dot row description )
+					   (string "html.parser")))
+		 ,@(loop for e in l
+			 collect
+			 (destructuring-bind (element class
+					      &key
+						(code `(lambda (x)
+							 (dot (aref x 0)
+							      text))))
+			     e
+			   (let ((var0 (substitute #\_ #\- (format nil "~a0" class)))
+				 (var (substitute #\_ #\- (format nil "~a" class))))
+			     `(do0
+			       (setf ,var0
+				     (dot soup
+					  (find_all (string ,element )
+						    :class_ (string ,class))))
+			       (setf ,var (,code ,var0))
+			       ))))
+
+		 (do0
+		  (setf texts (dot soup
+				   (find_all (string "div")
+					     :class_ (string "text"))))
+		  ,@(loop for i below 4
+			  collect
+			  `(setf ,(format nil "text~a" i)
+				 (aref texts ,i)))
+
+		  (return
+		    (list
+		     ,@vars
+		     ))))
+
+	       (setf (aref df1 (list ,@(mapcar #'(lambda (x) `(string ,x))
+				       vars)))
+	     (dot df1 (apply parse_html :axis (string "columns")
+					      :result_type (string "expand"))))
+	       ))
 	    )))
+       
+       (insert_one_by_one connection (dot df1
+					  (to_dict (string "records"))))
+       ))
+
      ,(let ((l `((h1 jobtitle)
 		(h2 locations)
 		(div recruiter-info :code
@@ -241,30 +309,32 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 		 )))
       `(python
 	(do0
-	 (setf soup (BeautifulSoup (dot df1 (aref iloc 0) description )
-				   (string "html.parser")))
+	 (do0
+	  (setf idx 1)
+	  (setf soup (BeautifulSoup (dot df1 (aref iloc idx) description )
+				    (string "html.parser")))
 	  ,@(loop for e in l
-		 collect
-		 (destructuring-bind (element class
-				      &key
-				      (code `(lambda (x)
-					       (dot (aref x 0)
-						    text))))
-		     e
-		   (let ((var0 (substitute #\_ #\- (format nil "~a0" class)))
-			 (var (substitute #\_ #\- (format nil "~a" class))))
-		     `(do0
-		      (setf ,var0
-			    (dot soup
-				 (find_all (string ,element )
-					   :class_ (string ,class))))
-		      (setf ,var (,code ,var0))
-		      ))))
+		  collect
+		  (destructuring-bind (element class
+				       &key
+					 (code `(lambda (x)
+						  (dot (aref x 0)
+						       text))))
+		      e
+		    (let ((var0 (substitute #\_ #\- (format nil "~a0" class)))
+			  (var (substitute #\_ #\- (format nil "~a" class))))
+		      `(do0
+			(setf ,var0
+			      (dot soup
+				   (find_all (string ,element )
+					     :class_ (string ,class))))
+			(setf ,var (,code ,var0))
+			))))
 
 	  (do0
 	   (setf texts (dot soup
-			     (find_all (string "div")
-				       :class_ (string "text"))))
+			    (find_all (string "div")
+				      :class_ (string "text"))))
 	   ,@(loop for i below 4
 		   collect
 		   `(setf ,(format nil "text~a" i)
@@ -274,18 +344,19 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 		   `(print (dot (string ,(format nil "text~a='{}'" i))
 				(format ,(format nil "text~a" i))))))
 	  ,@(loop for e in l
-		 collect
-		 (destructuring-bind (element class
-				      &key
-				      (code `(lambda (x)
-					       (dot (aref x 0)
-						    text))))
-		     e
-		   (let (
-			 (var (substitute #\_ #\- (format nil "~a" class))))
-		     `(print (dot (string ,(format nil "~a = '{}'" var))
-				  (format ,var)) ))))
+		  collect
+		  (destructuring-bind (element class
+				       &key
+					 (code `(lambda (x)
+						  (dot (aref x 0)
+						       text))))
+		      e
+		    (let (
+			  (var (substitute #\_ #\- (format nil "~a" class))))
+		      `(print (dot (string ,(format nil "~a = '{}'" var))
+				   (format ,var)) )))))
 	  )))
+     
    #+nil  (python
       (do0
        "@profile"
