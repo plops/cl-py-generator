@@ -176,7 +176,7 @@
 			     (link TEXT)
 			     (description TEXT)
 			     ,@(loop for e in `(text0 text1 text2 text3
-						      jobtitles locations
+						      jobtitle locations
 						      recruiter_info)
 				     collect
 				     `(,e TEXT))
@@ -240,7 +240,8 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 		     ))
 		(vars `(,@(loop for i below 4
 			     collect
-			     (format nil "text~a" i)
+				(format nil "text~a" i)
+				
 			      )
 		      
 		      ,@(loop for e in l
@@ -284,7 +285,8 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 		  ,@(loop for i below 4
 			  collect
 			  `(setf ,(format nil "text~a" i)
-				 (aref texts ,i)))
+				 (dot (aref texts ,i)
+				      text)))
 
 		  (return
 		    (list
