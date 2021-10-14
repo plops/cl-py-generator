@@ -175,6 +175,11 @@
 			     (location TEXT)
 			     (link TEXT)
 			     (description TEXT)
+			     ,@(loop for e in `(text0 text1 text2 text3
+						      jobtitles locations
+						      recruiter_info)
+				     collect
+				     `(,e TEXT))
 			     )))
 	 `(do0
 	   (def create_staging_table (cursor)
@@ -309,6 +314,7 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 		 )))
       `(python
 	(do0
+	 (comments "prototype code to parse html")
 	 (do0
 	  (setf idx 1)
 	  (setf soup (BeautifulSoup (dot df1 (aref iloc idx) description )
