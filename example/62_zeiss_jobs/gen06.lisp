@@ -285,12 +285,14 @@ CREATE UNLOGGED TABLE ~a (~{~a~^,~%~});"
 		  ,@(loop for i below 4
 			  collect
 			  `(setf ,(format nil "text~a" i)
-				 (dot (aref texts ,i)
+				 (aref texts ,i)
+				 #+nil (dot (aref texts ,i)
 				      text)))
 
 		  (return
 		    (list
-		     ,@vars
+		     ,@(mapcar #'(lambda (x) `(str ,x))
+				vars)
 		     ))))
 
 	       (setf (aref df1 (list ,@(mapcar #'(lambda (x) `(string ,x))
