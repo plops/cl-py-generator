@@ -59,3 +59,20 @@ GRANT ALL ON DATABASE zeiss TO martin;
 - https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
 - helium tutorial https://youtu.be/Texh_xJfzEM
 - https://realpython.com/beautiful-soup-web-scraper-python/ scraping fake job site
+
+* user interface
+  - https://appsmith.com
+  - https://github.com/appsmithorg/appsmith
+  - https://docs.appsmith.com/setup/docker
+#+begin_example
+# on fedora
+#sudo dnf install docker-compose
+pip3 install --user docker-compose # 1.29.2
+sudo dnf install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install docker-ce docker-ce-cli containerd.io
+mkdir appsmith
+cd appsmith
+curl -L https://bit.ly/2WMPFPy -o $PWD/docker-compose.yml
+docker-compose up -d
+#+end_example
