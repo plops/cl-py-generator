@@ -123,7 +123,7 @@
     3. Find all HTML a tags and select those that are within the same website
     4. Create edge between current link and next
     5. Visit next link
-    6. Repeat…")
+    6. Repeat...")
      (python
       (do0
        (setf domain (string "connectingfigures.com")
