@@ -1,6 +1,6 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "cl-py-generator")
-  (ql:quickload "alexandria"))
+  (ql:quickload "alexandria")
+  (ql:quickload "cl-py-generator"))
 (in-package :cl-py-generator)
 
 
@@ -120,7 +120,39 @@
 
      (python
       (do0
+       (setf domain (string "connectingfigures.com")
+	     url (dot (string "https://{}/")
+		      (format domain)))
+       (setf processed (list)
+	     queue (list url)
+	     G (nx.DiGraph))
+       (while queue
+	      (setf l (queue.pop 0)
+		    req (requests.get l)
+		    soup (bs4.BeautifulSoup req.content (string "html.parser"))
+		    links (soup.find_all (string "a"))
+		    links (list (for-generator (ln "links if ln.get('href')")
+					       (ln.get (string "href"))))
+		    links (list (for-generator (ln links)
+					       (aref 
+						(ln.split (string "#")) 0)))
+		    links (list (for-generator (ln "links if domain in ln")
+					       ln))
+		    links (list (for-generator (ln "links if ln != l")
+					       ln))
+		    links (set links))
+	      (setf to_add (list (for-generator (ln "links if ln not in queue")
+						ln))
+		    to_add (list (for-generator (ln "to_add if ln not in processed")
+						ln)))
+	      (queue.extend to_add)
+	      (for (link links)
+		   (print (tuple l link))
+		   (G.add_edge l link))
+	      (processed.append l)
+	)
        ))
+     
 
      ))
   )

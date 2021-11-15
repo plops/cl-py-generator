@@ -67,12 +67,18 @@ GRANT ALL ON DATABASE zeiss TO martin;
 #+begin_example
 # on fedora
 #sudo dnf install docker-compose
-pip3 install --user docker-compose # 1.29.2
+
+# pip3 install --user docker-compose # 1.29.2
+# pip3 uninstall docker-compose
+
 sudo dnf install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io
 mkdir appsmith
 cd appsmith
 curl -L https://bit.ly/2WMPFPy -o $PWD/docker-compose.yml
-docker-compose up -d
+# docker-compose up -d
+sudo systemctl start docker
+sudo docker run -d --name appsmith -p 80:80 -p 9001:9001 -v "$PWD/stacks:/appsmith-stacks" appsmith/appsmith-ce
+ sudo docker logs -f appsmith
 #+end_example
