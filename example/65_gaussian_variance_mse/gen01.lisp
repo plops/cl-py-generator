@@ -333,6 +333,7 @@
 	     
 		   (do0
 		    (figure)
+		    (setf log True)
 		    (comments "plot histogram")
 		    (plt.hist ,code-value
 			      :bins (np.linspace (- a (* 3 (- b a)))
@@ -343,10 +344,13 @@
 			      :color (string "yellowgreen")
 			      :linewidth 3
 			      :label (string "histogram")
+			      :log log
 			      )
 		    (xlabel (string ,(format nil "$\\~a$" var))))
 		   (do0
-		    (plot var ,pdf :color (string "k") :label (string ,pdf))
+		    (if log
+			(plt.semilogy var ,pdf :color (string "k") :label (string ,pdf))
+			(plot var ,pdf :color (string "k") :label (string ,pdf)))
 		    
 		    (plt.axvline a :color (string "r") :linestyle (string "dashed")
 				   :label (dot (string "a={num:6.{precision}f}")
@@ -372,7 +376,10 @@
 		    (title (dot (string "n={}, red .. {:.1f}% confidence (numeric {:6.4f}%)")
 				(format n (* 100 alpha)
 					(* 100 (np.trapz y_fill var_ab)))))
+		    (when log
+		      (ylim 1e-6 10))
 		    (grid)
+		    
 		    (legend)))))
 	
 	))))))
