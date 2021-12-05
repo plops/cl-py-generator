@@ -347,8 +347,7 @@
 		    (xlabel (string ,(format nil "$\\~a$" var))))
 		   (do0
 		    (plot var ,pdf :color (string "k") :label (string ,pdf))
-		    (title (dot (string "n={}, red .. {:.1f}% confidence")
-				(format n (* 100 alpha))))
+		    
 		    (plt.axvline a :color (string "r") :linestyle (string "dashed")
 				   :label (dot (string "a={num:6.{precision}f}")
 					       (format :num a :precision (int (* -1 (np.floor
@@ -362,14 +361,17 @@
 		    (do0
 		     (comments "fill the confidence interval")
 		     (setf var_ab (np.linspace a b 120))
+		     (setf y_fill ,code-pdf-shade)
 		     (plt.fill_between
 		      var_ab
 		      0
-		      ,code-pdf-shade
+		      y_fill
 		      :color (string "red")
 		      :alpha .5
 		      ))
-	      
+		    (title (dot (string "n={}, red .. {:.1f}% confidence (numeric {:6.4f}%)")
+				(format n (* 100 alpha)
+					(* 100 (np.trapz y_fill var_ab)))))
 		    (grid)
 		    (legend)))))
 	
