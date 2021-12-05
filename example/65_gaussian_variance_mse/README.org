@@ -1,0 +1,12 @@
+https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=1277&context=facpub
+2006-12-05
+A Bayesian perspective on estimating mean, variance, and 
+standard-deviation from data standard-deviation from data
+
+Travis E. Oliphant 
+
+#+begin_example
+
+#+end_example
+
+
