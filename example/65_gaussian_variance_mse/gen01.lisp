@@ -247,16 +247,19 @@
 			       :code-pdf
 			       (do0
 				(setf std var)
-				(setf f_std_X (* (np.sqrt (/ (** (* n C)
-								 (- n 1))
-							     (** 2 (- n 1))))
-						 (* (/ 2
-						       (*
-							(scipy.special.gamma (/ (- n 1)
-										2))
-							(** std n)))
-						    (np.exp (/ (* n C)
-							       (*   -2 (** std 2))))))))
+				(try
+				 (setf f_std_X (* (np.sqrt (/ (** (* n C)
+								  (- n 1))
+							      (** 2 (- n 1))))
+						  (* (/ 2
+							(*
+							 (scipy.special.gamma (/ (- n 1)
+										 2))
+							 (** std n)))
+						     (np.exp (/ (* n C)
+								(*   -2 (** std 2)))))))
+				 ("Exception as e"
+				  pass)))
 				  :code-pdf-shade
 				  (* (np.sqrt (/ (** (* n C)
 								 (- n 1))
@@ -334,13 +337,16 @@
 		    (do0
 		     (comments "fill the confidence interval")
 		     (setf var_ab (np.linspace a b 120))
-		     (plt.fill_between
-		      var_ab
-		      0
-		      ,code-pdf-shade
-		      :color (string "red")
-		      :alpha .5
-		      ))
+		     (try 
+		      (plt.fill_between
+		       var_ab
+		       0
+		       ,code-pdf-shade
+		       :color (string "red")
+		       :alpha .5
+		       )
+		      ("Exception as e"
+		       pass)))
 	      
 		    (grid)
 		    (legend)))))
