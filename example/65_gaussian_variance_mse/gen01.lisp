@@ -181,74 +181,141 @@
 	      xbar 0.0
 	      C 1.0
 	      sC (np.sqrt C))
-	(setf q (gen_noise :n 10 :repeats repeats :loc xbar :scale sC))
+	(setf q (gen_noise :n n :repeats repeats :loc xbar :scale sC))
 	(setf 
 	      tn (np.exp (- (scipy.special.gammaln (/ n 2))
 			    (scipy.special.gammaln (/ (- n 1) 2)))))
 
 	
-	(do0
-	 (comments "marginal distributions for mean")
-	 (comments "confidence interval alpha x 100 percent")
-	 (setf alpha .96)
-	 (setf da (* (np.sqrt (/ C (- n 1)))
-			    (scipy.stats.t.ppf (* .5 (+ 1 alpha))
-					       (- n 1))))
-	 (setf a (- xbar da))
-	 (setf db da)
-	 (setf b (+ xbar db))
-	 (do0
-	  (setf mu_lo (* -3 sC)
-		mu_hi (* 3 sC)))
-	 (setf mu (np.linspace (+ xbar mu_lo) 
-			       (+ xbar mu_hi)
-			       200))
-	 
-	 (setf f_mu_X (* (/ tn (np.sqrt (* np.pi C)))
-			 (np.power (+ 1 (/ (** (- mu xbar) 2)
-					   C))
-				   (/ n -2))))
-	 (do0
-	  (plot mu f_mu_X :label (string "f_mu_X"))
-	  (title (dot (string "n={}")
-		      (format n)))
-	  (plt.axvline a :color (string "r") :linestyle (string "dashed")
-			 :label (dot (string "a={num:6.{precision}f}")
-				     (format :num a :precision (int (* -1 (np.floor
-									   (np.log10 da))))
-					     )))
-	  (plt.axvline b :color (string "orange") :linestyle (string "dashed")
-		       :label (dot (string "b={num:6.{precision}f}")
-				     (format :num b :precision (int (* -1 (np.floor
-									   (np.log10 db))))
-					     )))
-	  (do0
-	   (comments "fill the confidence interval")
-	   (setf mu_ab (np.linspace a b 120))
-	   (plt.fill_between
-	    mu_ab
-	   0
-	    (* (/ tn (np.sqrt (* np.pi C)))
-			 (np.power (+ 1 (/ (** (- mu_ab xbar) 2)
+	,@(loop for e in `((mu mean
+			       :center xbar
+			       :pdf f_mu_X
+			       :code-confidence
+			       (do0 (setf da (* (np.sqrt (/ C (- n 1)))
+						(scipy.stats.t.ppf (* .5 (+ 1 alpha))
+								   (- n 1))))
+				    
+				    (setf db da)
+				    (setf a (- xbar da))
+				    (setf b (+ xbar db))
+				    (do0
+				     (setf var_lo (* -3 sC)
+					   var_hi (* 3 sC))
+				     (setf var (np.linspace (+ xbar var_lo) 
+							    (+ xbar var_hi)
+							    200))))
+			       :code-pdf
+			       (do0
+				(setf mu var)
+				(setf f_mu_X (* (/ tn (np.sqrt (* np.pi C)))
+						(np.power (+ 1 (/ (** (- mu xbar) 2)
+								       C))
+							  (/ n -2)))))
+			       :code-value
+			       (dot q (mean :dim (string "n"))
+				   values)
+			       )
+			   (sigma standard-deviation
+				  :center sC
+				  :pdf f_std_X
+			       :code-confidence
+			       (do0 
+				    (setf arg0 (np.sqrt (/ (* n C)
+							   2)))
+				    (setf c_invcdf_gengamma -2)
+				    (comments "median as center point")
+				    (setf a (* arg0 (scipy.stats.gengamma.ppf (/ (- 1 alpha)
+										 2)
+									      (/ (- n 1)
+										 2)
+									      c_invcdf_gengamma)))
+				    (setf b (* arg0 (scipy.stats.gengamma.ppf (/ (+ 1 alpha)
+										 2)
+									      (/ (- n 1)
+										 2)
+									      c_invcdf_gengamma)))
+				    (do0
+				     (setf var (np.linspace 0 b
+							    200))))
+			       :code-pdf
+			       (do0
+				(setf std var)
+				(setf f_std_X (* (np.sqrt (/ (** (* n C)
+								 (- n 1))
+							     (** 2 (- n 1))))
+						 (* (/ 2
+						       (*
+							(scipy.special.gamma (/ (- n 1)
+										2))
+							(** std n)))
+						    (np.exp (/ (* n C)
+							       (*   -2 (** std 2))))))))
+			       :code-value
+			       (dot q (std :dim (string "n"))
+				   values)
+			       )
+			   )
+		collect
+		(destructuring-bind (var var-string
+				     &key
+				       center
+				       pdf
+				       code-confidence
+				       code-pdf
+				       code-value
+				       ) e
+		 `(do0
+		   (comments ,(format nil "marginal distributions for ~a" var-string))
+		   (comments "confidence interval alpha x 100 percent")
+		   (setf alpha .96)
+		   ,code-confidence
+		   
+		   
+
+		   ,code-pdf
+	     
+		   (do0
+		    (figure)
+		    (comments "plot histogram")
+		    (plt.hist ,code-value
+			      :bins var
+			      :density True
+			      :histtype (string "step")
+			      :color (string "yellowgreen")
+			      :linewidth 3
+			      :label (string "histogram")
+			      )
+		    (xlabel (string ,(format nil "$\\~a$" var))))
+		   (do0
+		    (plot var ,pdf :color (string "k") :label (string ,pdf))
+		    (title (dot (string "n={}, red .. {:.1f}% confidence")
+				(format n (* 100 alpha))))
+		    (plt.axvline a :color (string "r") :linestyle (string "dashed")
+				   :label (dot (string "a={num:6.{precision}f}")
+					       (format :num a :precision (int (* -1 (np.floor
+										     (np.log10 da))))
+						       )))
+		    (plt.axvline b :color (string "orange") :linestyle (string "dashed")
+				   :label (dot (string "b={num:6.{precision}f}")
+					       (format :num b :precision (int (* -1 (np.floor
+										     (np.log10 db))))
+						       )))
+		    (do0
+		     (comments "fill the confidence interval")
+		     (setf var_ab (np.linspace a b 120))
+		     (plt.fill_between
+		      var_ab
+		      0
+		      (* (/ tn (np.sqrt (* np.pi C)))
+			 (np.power (+ 1 (/ (** (- var_ab ,center) 2)
 					   C))
 				   (/ n -2)))
-	    :color (string "red")
-	    :alpha .5
-	    ))
-	  (do0
-	   (comments "plot histogram")
-	   (plt.hist (dot q (mean :dim (string "n"))
-			  values)
-		     :bins mu #+nil (np.linspace (np.min mu)
-					(np.max mu)
-					132)
-		     :density True
-		     :histtype (string "step")
-		     :color (string "purple")
-		     :linewidth 3
-		     ))
-	  (grid)
-	  (legend)))
+		      :color (string "red")
+		      :alpha .5
+		      ))
+	      
+		    (grid)
+		    (legend)))))
 	
 	))))))
 
