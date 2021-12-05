@@ -55,6 +55,7 @@
 					; EP_SerialIO
 					;scipy.ndimage
 			  scipy.optimize
+			  scipy.stats
 			  scipy.special
 					;nfft
 					;sklearn
@@ -185,17 +186,57 @@
 	      tn (np.exp (- (scipy.special.gammaln (/ n 2))
 			    (scipy.special.gammaln (/ (- n 1) 2)))))
 
-	(comments "marginal distributions for mean and standard deviation")
+	
 	(do0
-	 (setf mu (np.linspace (- xbar (* 6 sC))
-			       (+ xbar (* 6 sC))
+	 (comments "marginal distributions for mean")
+	 (comments "confidence interval alpha x 100 percent")
+	 (setf alpha .96)
+	 (setf da (* (np.sqrt (/ C (- n 1)))
+			    (scipy.stats.t.ppf (* .5 (+ 1 alpha))
+					       (- n 1))))
+	 (setf a (- xbar da))
+	 (setf db da)
+	 (setf b (+ xbar db))
+	 (do0
+	  (setf mu_lo (* -6 sC)
+		mu_hi (* 6 sC)))
+	 (setf mu (np.linspace (+ xbar mu_lo) 
+			       (+ xbar mu_hi)
 			       200))
+	 
 	 (setf f_mu_X (* (/ tn (np.sqrt (* np.pi C)))
 			 (np.power (+ 1 (/ (** (- mu xbar) 2)
 					   C))
 				   (/ n -2))))
 	 (do0
-	  (plot mu f_mu_X :label (string "f_mu_X"))))
+	  (plot mu f_mu_X :label (string "f_mu_X"))
+	  (title (dot (string "n={}")
+		      (format n)))
+	  (plt.axvline a :color (string "r") :linestyle (string "dashed")
+			 :label (dot (string "a={num:6.{precision}f}")
+				     (format :num a :precision (int (* -1 (np.floor
+									   (np.log10 da))))
+					     )))
+	  (plt.axvline b :color (string "orange") :linestyle (string "dashed")
+		       :label (dot (string "b={num:6.{precision}f}")
+				     (format :num b :precision (int (* -1 (np.floor
+									   (np.log10 db))))
+					     )))
+	  (do0
+	   (comments "fill the confidence interval")
+	   (setf mu_ab (np.linspace a b 120))
+	   (plt.fill_between
+	    mu_ab
+	   0
+	    (* (/ tn (np.sqrt (* np.pi C)))
+			 (np.power (+ 1 (/ (** (- mu_ab xbar) 2)
+					   C))
+				   (/ n -2)))
+	    :color (string "red")
+	    :alpha .5
+	    ))
+	  (grid)
+	  (legend)))
 	
 	))))))
 
