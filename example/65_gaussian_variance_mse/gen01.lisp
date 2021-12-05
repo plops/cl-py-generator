@@ -269,8 +269,18 @@
 						    (np.exp (/ (* n C)
 							       (*   -2 (** var_ab 2))))))
 			       :code-value
-			       (dot q (std :dim (string "n"))
-				   values)
+			       #+nil (dot q (std :dim (string "n"))
+					  values)
+			       (dot (* (/ tn
+				      (- n 1))
+				   (np.sqrt
+				    (* 2
+				       (dot
+					(** (- q
+					       (dot q (mean :dim (string "n"))))
+					    2)
+					(sum :dim (string "n"))))))
+				    values)
 			       )
 			   )
 		collect
