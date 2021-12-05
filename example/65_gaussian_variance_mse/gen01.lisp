@@ -54,7 +54,8 @@
 					;(u astropy.units)
 					; EP_SerialIO
 					;scipy.ndimage
-					;   scipy.optimize
+			  scipy.optimize
+			  scipy.special
 					;nfft
 					;sklearn
 					;sklearn.linear_model
@@ -129,7 +130,22 @@
 
       (python
        (do0
-	"#export"))))))
+	"#export"
+	(def gen_noise (&key (n 100) (repeats 300) (loc 0) (scale 1))
+	  (setf a
+		(np.random.normal :loc loc :scale scale :size (list repeats n)))
+	  (return (xr.DataArray :data a
+				:dims (list (string "repeats")
+					    (string "n"))
+				:coords (dictionary
+					 :repeats (np.linspace repeats)
+					 :n (np.linspace n))
+				:attrs (dictionary
+					:description (string "normal noise")
+					:loc loc
+					:scale scale)
+				)))
+	(setf q (gen_noise))))))))
 
 
 
