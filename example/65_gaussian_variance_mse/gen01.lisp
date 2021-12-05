@@ -247,15 +247,31 @@
 			       :code-pdf
 			       (do0
 				(setf std var)
-				(setf f_std_X (* (np.sqrt (/ (** (* n C)
-								 (- n 1))
-							     (** 2 (- n 1))))
-						 (* (/ 2
-						       (** std n))
-						    (np.exp (- (/ (* n C)
-								  (*   -2 (** std 2)))
-							       (scipy.special.gammaln (/ (- n 1)
-											 2)))))))
+				(setf f_std_X
+				      (* (np.sqrt (/ (** (* n C)
+							 (- n 1))
+						     (** 2 (- n 1))))
+					 (* (/ 2
+					       (** std n))
+					    (np.exp (- (/ (* n C)
+							  (*   -2 (** std 2)))
+						       (scipy.special.gammaln (/ (- n 1)
+										 2))))))
+				      #+nil (* 2
+						 (np.exp
+						  (+ (* (* (/ - n 1)
+							   2)
+							(np.log (* n C)))
+						     (- (/ (* n C)
+							   (*   -2 (** std 2)))
+							(scipy.special.gammaln (/ (- n 1)
+										  2))
+							(* (/ (- n 1)
+							      2)
+							   (np.log 2))
+
+							(* n (np.log std))
+							)))))
 				)
 				  :code-pdf-shade
 				  (* (np.sqrt (/ (** (* n C)
