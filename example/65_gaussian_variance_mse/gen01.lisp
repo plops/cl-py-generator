@@ -211,6 +211,11 @@
 						(np.power (+ 1 (/ (** (- mu xbar) 2)
 								       C))
 							  (/ n -2)))))
+			       :code-pdf-shade
+			       (* (/ tn (np.sqrt (* np.pi C)))
+				  (np.power (+ 1 (/ (** (- var_ab xbar) 2)
+						    C))
+					    (/ n -2)))
 			       :code-value
 			       (dot q (mean :dim (string "n"))
 				   values)
@@ -235,7 +240,9 @@
 										 2)
 									      c_invcdf_gengamma)))
 				    (do0
-				     (setf var (np.linspace 0 b
+				     (setf var (np.linspace (np.maximum 0 (- a (* 3 (- b a))))
+							    (+ b (* 3 (- b a)))
+							    
 							    200))))
 			       :code-pdf
 			       (do0
@@ -250,6 +257,17 @@
 							(** std n)))
 						    (np.exp (/ (* n C)
 							       (*   -2 (** std 2))))))))
+				  :code-pdf-shade
+				  (* (np.sqrt (/ (** (* n C)
+								 (- n 1))
+							     (** 2 (- n 1))))
+						 (* (/ 2
+						       (*
+							(scipy.special.gamma (/ (- n 1)
+										2))
+							(** var_ab n)))
+						    (np.exp (/ (* n C)
+							       (*   -2 (** var_ab 2))))))
 			       :code-value
 			       (dot q (std :dim (string "n"))
 				   values)
@@ -262,6 +280,7 @@
 				       pdf
 				       code-confidence
 				       code-pdf
+				       code-pdf-shade
 				       code-value
 				       ) e
 		 `(do0
@@ -278,7 +297,9 @@
 		    (figure)
 		    (comments "plot histogram")
 		    (plt.hist ,code-value
-			      :bins var
+			      :bins (np.linspace (- a (* 3 (- b a)))
+						 (+ b (* 3 (- b a)))
+						 200)
 			      :density True
 			      :histtype (string "step")
 			      :color (string "yellowgreen")
@@ -306,10 +327,7 @@
 		     (plt.fill_between
 		      var_ab
 		      0
-		      (* (/ tn (np.sqrt (* np.pi C)))
-			 (np.power (+ 1 (/ (** (- var_ab ,center) 2)
-					   C))
-				   (/ n -2)))
+		      ,code-pdf-shade
 		      :color (string "red")
 		      :alpha .5
 		      ))
