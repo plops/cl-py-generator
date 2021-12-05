@@ -147,21 +147,12 @@
 				)))
 	(setf q (gen_noise))
 	q))
+      
       (python
        (do0
-	"#export"
-	(setf n 10
-	      repeats 300)
-	(setf q (gen_noise :n 10 :repeats repeats))
-	(setf tn (/ (scipy.special.gamma (/ n 2))
-		    (scipy.special.gamma (/ (- n 1) 2)))
-	      tn_ (np.exp (- (scipy.special.gammaln (/ n 2))
-			     (scipy.special.gammaln (/ (- n 1) 2)))))
+	(comments "look at numerical stability of gamma function calculation"
+		  "without logarithm the gamma function stops working at around n=350")
 	
-	))
-      (python
-       (do0
-	(comments (string "look at numerical stability of gamma function calculation"))
 	(setf n (np.arange 1 320))
 	(setf tn (/ (scipy.special.gamma (/ n 2))
 		    (scipy.special.gamma (/ (- n 1) 2)))
@@ -179,7 +170,34 @@
 	 (plot n (np.abs (- tn tn_)) :label (string "residual gamma-exp gammaln"))
 	 (xlabel (string "n"))
 	 (legend)
-	 (grid))))))))
+	 (grid))))
+
+      (python
+       (do0
+	"#export"
+	(setf n 10
+	      repeats 300
+	      xbar 0.0
+	      C 1.0
+	      sC (np.sqrt C))
+	(setf q (gen_noise :n 10 :repeats repeats :loc xbar :scale sC))
+	(setf 
+	      tn (np.exp (- (scipy.special.gammaln (/ n 2))
+			    (scipy.special.gammaln (/ (- n 1) 2)))))
+
+	(comments "marginal distributions for mean and standard deviation")
+	(do0
+	 (setf mu (np.linspace (- xbar (* 6 sC))
+			       (+ xbar (* 6 sC))
+			       200))
+	 (setf f_mu_X (* (/ tn (np.sqrt (* np.pi C)))
+			 (np.power (+ 1 (/ (** (- mu xbar) 2)
+					   C))
+				   (/ n -2))))
+	 (do0
+	  (plot mu f_mu_X :label (string "f_mu_X"))))
+	
+	))))))
 
 
 
