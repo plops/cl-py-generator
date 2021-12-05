@@ -138,14 +138,48 @@
 				:dims (list (string "repeats")
 					    (string "n"))
 				:coords (dictionary
-					 :repeats (np.linspace repeats)
-					 :n (np.linspace n))
+					 :repeats (np.arange repeats)
+					 :n (np.arange n))
 				:attrs (dictionary
 					:description (string "normal noise")
 					:loc loc
 					:scale scale)
 				)))
-	(setf q (gen_noise))))))))
+	(setf q (gen_noise))
+	q))
+      (python
+       (do0
+	"#export"
+	(setf n 10
+	      repeats 300)
+	(setf q (gen_noise :n 10 :repeats repeats))
+	(setf tn (/ (scipy.special.gamma (/ n 2))
+		    (scipy.special.gamma (/ (- n 1) 2)))
+	      tn_ (np.exp (- (scipy.special.gammaln (/ n 2))
+			     (scipy.special.gammaln (/ (- n 1) 2)))))
+	
+	))
+      (python
+       (do0
+	(comments (string "look at numerical stability of gamma function calculation"))
+	(setf n (np.arange 1 320))
+	(setf tn (/ (scipy.special.gamma (/ n 2))
+		    (scipy.special.gamma (/ (- n 1) 2)))
+	      tn_ (np.exp (- (scipy.special.gammaln (/ n 2))
+			     (scipy.special.gammaln (/ (- n 1) 2))))
+	      )
+	(do0
+	 (plot n tn :label (string "gamma"))
+	 (plot n tn_ :label (string "exp gammaln"))
+	 (xlabel (string "n"))
+	 (legend)
+	 (grid))
+	(do0
+	 (figure)
+	 (plot n (np.abs (- tn tn_)) :label (string "residual gamma-exp gammaln"))
+	 (xlabel (string "n"))
+	 (legend)
+	 (grid))))))))
 
 
 

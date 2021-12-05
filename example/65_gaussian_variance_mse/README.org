@@ -1,12 +1,18 @@
+- purpose:
+  - the purpose of this example code is to visualize how the standard
+    deviation estimate of normally distributed data can be estimated
+    - the confidence interval will be computed
+    - the result will depend on the number of random numbers (more is better)
+- scope:
+
+- reference:
+#+begin_example      
 https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=1277&context=facpub
-2006-12-05
 A Bayesian perspective on estimating mean, variance, and 
 standard-deviation from data standard-deviation from data
 
-Travis E. Oliphant 
-
-#+begin_example
-
+Travis E. Oliphant
+2006-12-05
 #+end_example
 
 
