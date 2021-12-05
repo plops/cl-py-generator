@@ -248,7 +248,7 @@
 			       (do0
 				(setf std var)
 				(setf f_std_X
-				      (* (np.sqrt (/ (** (* n C)
+				      #+nil (* (np.sqrt (/ (** (* n C)
 							 (- n 1))
 						     (** 2 (- n 1))))
 					 (* (/ 2
@@ -257,23 +257,36 @@
 							  (*   -2 (** std 2)))
 						       (scipy.special.gammaln (/ (- n 1)
 										 2))))))
-				      #+nil (* 2
-						 (np.exp
-						  (+ (* (* (/ - n 1)
-							   2)
-							(np.log (* n C)))
-						     (- (/ (* n C)
-							   (*   -2 (** std 2)))
-							(scipy.special.gammaln (/ (- n 1)
-										  2))
-							(* (/ (- n 1)
-							      2)
-							   (np.log 2))
-
-							(* n (np.log std))
-							)))))
+				      (* 
+					 (* 2 
+					    (np.exp (+ (/ (* n C)
+							  (*   -2 (** std 2)))
+						       (* -1 (scipy.special.gammaln (/ (- n 1)
+										       2)))
+						       (* -1 n (np.log std))
+						       (- (* 
+							   (/ (- n 1) 2)
+							   (np.log  (* n C)))
+							  (* (/ (- n 1)
+								2)
+							     (np.log 2)))))))
+				      )
 				)
 				  :code-pdf-shade
+				    (* 
+					 (* 2 
+					    (np.exp (+ (/ (* n C)
+							  (*   -2 (** var_ab 2)))
+						       (* -1 (scipy.special.gammaln (/ (- n 1)
+										       2)))
+						       (* -1 n (np.log var_ab))
+						       (- (* 
+							   (/ (- n 1) 2)
+							   (np.log  (* n C)))
+							  (* (/ (- n 1)
+								2)
+							     (np.log 2)))))))
+				  #+nil
 				  (* (np.sqrt (/ (** (* n C)
 								 (- n 1))
 							     (** 2 (- n 1))))
