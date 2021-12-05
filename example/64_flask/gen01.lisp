@@ -17,8 +17,11 @@
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
-    `(
+    `((python (do0
+	       "# default_exp serve01"))
       (python (do0
+	       
+	       "#export"
 	       (do0
 					;"%matplotlib notebook"
 		#+nil(do0
@@ -97,6 +100,7 @@
 	       ))
       (python
        (do0
+	"#export"
 	(setf
 	 _code_git_version
 	 (string ,(let ((str (with-output-to-string (s)
@@ -120,14 +124,19 @@
 
 	(setf start_time (time.time)
 	      debug True)))
-      (do0
-       (setf app (Flask __name__))
+
+
+      (python
        (do0
-	(@app.route (string "/"))
-	(def index ()
-	  (return (string "hello world"))))
-       (when (== __name__ (string "__main__"))
-	 (app.run :debug True)))))))
+	"#export"
+	(setf app (Flask __name__))
+	(do0
+	 (@app.route (string "/"))
+	 (def index ()
+	   (return (string "hello world"))))
+	(comments "running in jupyter doesn't work just like that: https://stackoverflow.com/questions/41831929/debug-flask-server-inside-jupyter-notebook")
+	(when (== __name__ (string "__main__"))
+	  (app.run :debug True))))))))
 
 
 
