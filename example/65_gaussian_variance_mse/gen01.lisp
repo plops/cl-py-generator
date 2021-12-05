@@ -177,7 +177,7 @@
        (do0
 	"#export"
 	(setf n 10
-	      repeats 300
+	      repeats 100_000
 	      xbar 0.0
 	      C 1.0
 	      sC (np.sqrt C))
@@ -198,8 +198,8 @@
 	 (setf db da)
 	 (setf b (+ xbar db))
 	 (do0
-	  (setf mu_lo (* -6 sC)
-		mu_hi (* 6 sC)))
+	  (setf mu_lo (* -3 sC)
+		mu_hi (* 3 sC)))
 	 (setf mu (np.linspace (+ xbar mu_lo) 
 			       (+ xbar mu_hi)
 			       200))
@@ -235,6 +235,18 @@
 	    :color (string "red")
 	    :alpha .5
 	    ))
+	  (do0
+	   (comments "plot histogram")
+	   (plt.hist (dot q (mean :dim (string "n"))
+			  values)
+		     :bins mu #+nil (np.linspace (np.min mu)
+					(np.max mu)
+					132)
+		     :density True
+		     :histtype (string "step")
+		     :color (string "purple")
+		     :linewidth 3
+		     ))
 	  (grid)
 	  (legend)))
 	
