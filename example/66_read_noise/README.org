@@ -1,0 +1,27 @@
+
+- how can i get access to raw data from sony back illuminated sensor?
+  - raspberry pi hq camera
+  - iphone
+
+- how can i get raw data from iphone
+  - Adobe Lightroom: Photo Editor
+    - free app that can store raw images
+  - ? safari javascript
+  - ? flutter ios
+    - https://pub.dev/packages/image_picker
+      - raw support not explicitly mentioned, unlikely
+    - https://pub.dev/packages/camera
+      - >= ios-10.0
+    - https://github.com/flutter/plugins/blob/5b5f8016d31a172470ae5da49f2c0b57e2fe2481/packages/camera/camera/ios/Classes/CameraPlugin.m
+      - seems to control exposure time
+      - raw might be possible
+  - phonegap/cordova
+  - xamarin
+  - swift cross compile
+    - https://thi.im/posts/cross-compiling-for-ios-part-1-build-swiftui-apps-from-linux/
+    - https://github.com/orgs/apple-cross-toolchain/repositories
+  - swift on ipad
+  - NOPE swift app
+    - i don't want to deal with mac
+  - NOPE react native
+    - doesn't support raw readout on iphone
