@@ -13,6 +13,9 @@
     - debug iOS safari using chrome web developer tools
       https://github.com/RemoteDebug/remotedebug-ios-webkit-adapter (archived)
     - replaced by https://inspect.dev/ (30 day trial)
+    - media recorder api
+      - https://webkit.org/blog/11353/mediarecorder-api/
+      - seems to always compress output
   - ? flutter ios
     - https://pub.dev/packages/image_picker
       - raw support not explicitly mentioned, unlikely
