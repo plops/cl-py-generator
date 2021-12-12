@@ -26,6 +26,8 @@
 	  https://groups.google.com/a/chromium.org/g/chromium-extensions/c/3_V4gw15KZ4
 	  - https://developers.google.com/web/fundamentals/media/recording-video/#access_the_raw_data_from_the_camera
 	  - webcodecs api https://youtu.be/c5XIDt90VgY?t=117
+	    - https://web.dev/webcodecs/
+	    - firefox will have it soon, safari still developing https://web.dev/webcodecs/
   - ? flutter ios
     - https://pub.dev/packages/image_picker
       - raw support not explicitly mentioned, unlikely
