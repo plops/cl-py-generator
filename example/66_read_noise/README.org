@@ -7,6 +7,9 @@
   - Adobe Lightroom: Photo Editor
     - free app that can store raw images
   - ? safari javascript
+    - debug iOS safari using chrome web developer tools
+      https://github.com/RemoteDebug/remotedebug-ios-webkit-adapter (archived)
+    - replaced by https://inspect.dev/
   - ? flutter ios
     - https://pub.dev/packages/image_picker
       - raw support not explicitly mentioned, unlikely

@@ -186,7 +186,7 @@
 	      tn (np.exp (- (scipy.special.gammaln (/ n 2))
 			    (scipy.special.gammaln (/ (- n 1) 2)))))
 
-	
+	(setf log False)
 	,@(loop for e in `((mu mean
 			       :center xbar
 			       :pdf f_mu_X
@@ -333,7 +333,7 @@
 	     
 		   (do0
 		    (figure)
-		    (setf log True)
+		    
 		    (comments "plot histogram")
 		    (plt.hist ,code-value
 			      :bins (np.linspace (- a (* 3 (- b a)))
