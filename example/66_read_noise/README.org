@@ -16,6 +16,15 @@
     - media recorder api
       - https://webkit.org/blog/11353/mediarecorder-api/
       - seems to always compress output
+	- lossless H264 possible?
+	  https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/isTypeSupported
+	- hevc
+	  In HEVC, only QP=4 is truly lossless quantization
+	- lossless mime types?
+	  https://stackoverflow.com/questions/41739837/all-mime-types-supported-by-mediarecorder-in-firefox-and-chrome
+	- chrome
+	  https://groups.google.com/a/chromium.org/g/chromium-extensions/c/3_V4gw15KZ4
+	  - https://developers.google.com/web/fundamentals/media/recording-video/#access_the_raw_data_from_the_camera
   - ? flutter ios
     - https://pub.dev/packages/image_picker
       - raw support not explicitly mentioned, unlikely
