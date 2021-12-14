@@ -1,6 +1,13 @@
 https://github.com/fredrik-johansson/python-flint
 
 #+begin_example
-sudo dnf install flint-devel arb-devel
+sudo dnf install flint-devel arb-devel # pip searches for header in usr local
 pip install --user python-flint
 #+end_example
+
+#+begin_example
+git clone https://github.com/fredrik-johansson/arb
+git clone https://github.com/wbhart/flint2/
+#+end_example
+
+

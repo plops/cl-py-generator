@@ -17,7 +17,8 @@
     `((np numpy)
       (pd pandas)
       (xr xarray)
-      matplotlib))
+      matplotlib
+      ))
   (let ((nb-file "source/01_play.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
@@ -99,7 +100,7 @@
 		#+nil
 		(imports-from (flask Flask render_template
 				     request redirect url_for))
-		
+		"from flint import *"
 		(imports-from (matplotlib.pyplot
 			       plot imshow tight_layout xlabel ylabel
 			       title subplot subplot2grid grid
@@ -158,6 +159,36 @@
 			  (t (break "problem")))))))
 	(display df_status)))
 
+      (python
+       (do0
+	(setf a (fmpz_poly (list 1 2 3))
+	      b (fmpz_poly (list 2 3 4)))
+	(a.gcd (* a b))))
+
+      (python
+       (do0
+	(showgood
+	 (lambda ()
+	   (dot (+ (* (arb.pi)
+		      (** 10 100))
+		   (/ (arb 1)
+		      1000))
+		(sin)))
+	 :dps 25)))
+
+      (python
+       (do0
+	(comments "acb .. complex number")
+	(setf ctx.dps 30)
+	(** (acb.integral
+	     (lambda (x _)
+	       (dot (** -x 2)
+		    (exp))
+	       )
+	     -100
+	     100)
+	    2)))
+      
       
             ))))
 
