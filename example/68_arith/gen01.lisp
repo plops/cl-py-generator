@@ -7,18 +7,23 @@
 (progn
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
-  (defparameter *example-subdir* "example/67_self_reference")
+  (defparameter *example-subdir* "example/68_arith")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
       "Sunday"))
-  (let ((nb-file "source/01_plot.ipynb"))
+  (defparameter *libs*
+    `((np numpy)
+      (pd pandas)
+      (xr xarray)
+      matplotlib))
+  (let ((nb-file "source/01_play.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp plot01"))
+	       "# default_exp play01"))
       (python (do0
 	       
 	       "#export"
@@ -45,10 +50,11 @@
 			  time
 					;docopt
 					;pathlib
-					(np numpy)
+					;(np numpy)
 					;serial
-					(pd pandas)
-					(xr xarray)
+					;(pd pandas)
+					;(xr xarray)
+			  ,@*libs*
 					(xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)
@@ -127,53 +133,33 @@
 
 	(setf start_time (time.time)
 	      debug True)))
-
-      (markdown
-       "Twitter Fermat's Library @fermatslibrary Dec 13")
       (python
        (do0
 	"#export"
-	(setf x (* .1 (np.arange 1200))
-	      y (* .1 (np.arange 150)))
-	(setf xs (xr.DataArray
-		  :data (np.zeros (list (len x) (len y)))
-		  :dims (list (string "x")
-			      (string "y"))
-		  :coords
-		  (dictionary
+	(setf df_status
+	      (pd.DataFrame
+	       (list
+		,@(loop for e in *libs*
+			collect
+			(cond
+			  ((listp e)
+			   (destructuring-bind (nick name) e
+			     `(dictionary
+			       :name (string ,name)
+			       :version
+			       (dot ,nick __version__)
+			       )))
+			  ((symbolp e)
+			   `(dictionary
+			       :name (string ,e)
+			       :version
+			       (dot ,e __version__)
+			       ))
+			  (t (break "problem")))))))
+	(display df_status)))
 
-		   :x x
-		   :y y
-		   )))
-
-	(setf x2 (dot np
-		      (tile x (list (len y) 1))
-		      (transpose))
-	      y2 (dot np
-		      (tile y (list (len x) 1))))
-	#+nil (setf xs.values
-	      (< .5
-		 (np.floor
-		  (np.mod
-		   (* (// y2 17)
-		      (np.power 2 (+
-				  (* -17 (np.floor x2)
-				     )
-				  (np.mod (np.floor y2)
-					  17))))
-		   2))))
-	(setf xs.values
-	      (* (// y2 17)
-		 (np.power 2 (+
-			      (* -17 (np.floor x2)
-				 )
-			      (np.mod (np.floor y2)
-				      17))))
-	      )))
-      (python
-       (do0
-	(xs.plot)))
-      ))))
+      
+            ))))
 
 
 
