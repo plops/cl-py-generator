@@ -1,0 +1,6 @@
+https://github.com/fredrik-johansson/python-flint
+
+#+begin_example
+sudo dnf install flint-devel arb-devel
+pip install --user python-flint
+#+end_example
