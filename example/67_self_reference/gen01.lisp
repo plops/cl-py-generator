@@ -133,8 +133,8 @@
       (python
        (do0
 	"#export"
-	(setf x (np.arange 120)
-	      y (np.arange 15))
+	(setf x (* .1 (np.arange 1200))
+	      y (* .1 (np.arange 150)))
 	(setf xs (xr.DataArray
 		  :data (np.zeros (list (len x) (len y)))
 		  :dims (list (string "x")
@@ -145,18 +145,31 @@
 		   :x x
 		   :y y
 		   )))
-	 
-	(setf xs.values
+
+	(setf x2 (dot np
+		      (tile x (list (len y) 1))
+		      (transpose))
+	      y2 (dot np
+		      (tile y (list (len x) 1))))
+	#+nil (setf xs.values
 	      (< .5
 		 (np.floor
 		  (np.mod
-		   (* (// y 17)
-		      (np.expt 2 (+
-				  (* -17 (np.floor x)
+		   (* (// y2 17)
+		      (np.power 2 (+
+				  (* -17 (np.floor x2)
 				     )
-				  (np.mod (np.floor y)
+				  (np.mod (np.floor y2)
 					  17))))
-		   2))))))
+		   2))))
+	(setf xs.values
+	      (* (// y2 17)
+		 (np.power 2 (+
+			      (* -17 (np.floor x2)
+				 )
+			      (np.mod (np.floor y2)
+				      17))))
+	      )))
       (python
        (do0
 	(xs.plot)))
