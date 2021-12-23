@@ -6,7 +6,7 @@ reading and writing JSON files.
 
 - alternatives:
   - pydal
-
+  - pandas read_sql
 #+begin_example
 pip install --user dataset
 #+end_example

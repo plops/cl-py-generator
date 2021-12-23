@@ -18,7 +18,7 @@
       (pd pandas)
       (xr xarray)
       matplotlib
-      dataset
+      (ds dataset)
       ))
   (let ((nb-file "source/01_play.ipynb"))
    (write-notebook
@@ -147,7 +147,41 @@
 
       (python
        (do0
+	(setf db (ds.connect (string "sqlite:///mydatabase.db")))
 	))
+
+      (python
+       (do0
+	(setf table (aref db (string "user")))))
+
+      (python
+       (do0
+	(table.insert
+	 (dictionary
+	  :name (string "jon do")
+	  :age 49
+	  :country (string "ch")))
+	(table.insert
+	 (dictionary
+	  :name (string "jane do")
+	  :age 42
+	  :country (string "fr"
+			   )
+	  :gender (string "female")))))
+      (python
+       (do0
+	(table.update
+	 (dictionary
+	  :name (string "jon do")
+	  :age 45
+	  )
+	 (list (string "name"))
+	 )))
+      (python (do0
+	       (display db.tables)
+	       (display table.columns)
+	       (display ("list"
+			 (dot table   (all))))))
       ))))
 
 
