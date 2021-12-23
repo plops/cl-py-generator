@@ -1,0 +1,12 @@
+dataset makes reading and writing data in databases as simple as
+reading and writing JSON files.
+
+- https://github.com/pudo/dataset
+- https://news.ycombinator.com/item?id=11052920
+
+- alternatives:
+  - pydal
+
+#+begin_example
+pip install --user dataset
+#+end_example
