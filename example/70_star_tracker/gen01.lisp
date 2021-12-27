@@ -146,12 +146,15 @@
 			       (dot ,e __version__)
 			       ))
 			  (t (break "problem")))))))
-	(display df_status)))
+	(print df_status)))
 
       (python
        (do0
 	"#export"
-	(setf cap (cv2.VideoCapture (string "stars_XnRy3sJqfu4.webm")))
+	(setf cap (cv2.VideoCapture (string
+				     ;"ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part"
+				     "/home/martin/stars_XnRy3sJqfu4.webm"
+				     )))
 	(unless (cap.isOpened)
 	  (print (string "error opening video stream or file")))
 	(while (cap.isOpened)
