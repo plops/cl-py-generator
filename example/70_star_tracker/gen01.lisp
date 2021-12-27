@@ -7,7 +7,7 @@
 (progn
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
-  (defparameter *example-subdir* "example/69_dataset")
+  (defparameter *example-subdir* "example/70_star_tracker")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -16,9 +16,10 @@
   (defparameter *libs*
     `((np numpy)
       (pd pandas)
-      (xr xarray)
+      ;(xr xarray)
       matplotlib
-      (ds dataset)
+					;(ds dataset)
+      cv2
       ))
   (let ((nb-file "source/01_play.ipynb"))
    (write-notebook
@@ -88,6 +89,7 @@
 					;(mpf mplfinance)
 			   
 			  ))
+		"from cv2 import *"
 	      		(imports-from (matplotlib.pyplot
 			       plot imshow tight_layout xlabel ylabel
 			       title subplot subplot2grid grid
@@ -97,6 +99,7 @@
 	       ))
       (python
        (do0
+	"#export"
 	(setf
 	 _code_git_version
 	 (string ,(let ((str (with-output-to-string (s)
@@ -147,42 +150,26 @@
 
       (python
        (do0
-	(setf db (ds.connect (string "sqlite:///mydatabase.db")))
-	))
-
-      (python
-       (do0
-	(setf table (aref db (string "user")))))
-
-      (python
-       (do0
-	(table.insert
-	 (dictionary
-	  :name (string "jon do")
-	  :age 49
-	  :country (string "ch")))
-	(table.insert
-	 (dictionary
-	  :name (string "jane do")
-	  :age 42
-	  :country (string "fr"
-			   )
-	  :gender (string "female")))))
-      (python
-       (do0
-	(table.update
-	 (dictionary
-	  :name (string "jon do")
-	  :age 45
-	  )
-	 (list (string "name"))
-	 )))
-      (python (do0
-	       (display db.tables)
-	       (display table.columns)
-	       (display ("list"
-			 (dot table   (all))))))
-      ))))
+	"#export"
+	(setf cap (cv2.VideoCapture (string "stars_XnRy3sJqfu4.webm")))
+	(unless (cap.isOpened)
+	  (print (string "error opening video stream or file")))
+	(while (cap.isOpened)
+	       (setf (ntuple ret frame)
+		     (cap.read))
+	       (if ret
+		   (do0
+		    (cv2.imshow (string "frame")
+				frame)
+		    (when (== (& (cv2.waitKey 25)
+				 #xff  )
+			      (ord (string "q")))
+		      break))
+		   break)
+	       )
+	(cap.release)
+	(cv2.destroyAllWindows)
+	))))))
 
 
 
