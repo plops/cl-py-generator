@@ -151,6 +151,11 @@
 
       (python
        (do0
+	(class ArgsStub
+	       ()
+	       (setf filename  (string "/home/martin/ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part")))))
+      (python
+       (do0
 	"#export"
 	(setf parser (argparse.ArgumentParser))
 	(parser.add_argument (string "-i")
@@ -166,8 +171,8 @@
        (do0
 	"#export"
 	(setf cap (cv2.VideoCapture args.filename #+nil  (string
-				     ;"ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part"
-				     "/home/martin/stars_XnRy3sJqfu4.webm"
+					;"ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part"
+							  "/home/martin/stars_XnRy3sJqfu4.webm"
 				     )))
 	(unless (cap.isOpened)
 	  (print (string "error opening video stream or file")))
@@ -177,7 +182,10 @@
 	       (if ret
 		   (do0
 		    (cv2.imshow (string "frame")
-				frame)
+				(aref frame
+				      (slice "" 512)
+				      (slice 900 "")
+				      1))
 		    (when (== (& (cv2.waitKey 25)
 				 #xff  )
 			      (ord (string "q")))
