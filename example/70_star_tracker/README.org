@@ -10,3 +10,5 @@ ERROR: Command errored out with exit status 1: /usr/bin/python3 -u -c 'import io
 pip3 install --user opencv-python
 https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
 #+end_example
+https://github.com/rodegerdts/Pyalmanac
+https://rhodesmill.org/skyfield/

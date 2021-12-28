@@ -178,7 +178,7 @@
 	  (print (string "error opening video stream or file")))
 	(while (cap.isOpened)
 	       (setf (ntuple ret frame)
-		     (cap.read))
+		     (cap.read))x1
 	       (if ret
 		   (do0
 		    (cv2.imshow (string "frame")
