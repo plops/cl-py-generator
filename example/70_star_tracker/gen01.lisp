@@ -87,6 +87,7 @@
 					;(nx networkx)
 					;(np jax.numpy)
 					;(mpf mplfinance)
+			  argparse
 			   
 			  ))
 		"from cv2 import *"
@@ -151,7 +152,20 @@
       (python
        (do0
 	"#export"
-	(setf cap (cv2.VideoCapture (string
+	(setf parser (argparse.ArgumentParser))
+	(parser.add_argument (string "-i")
+			     :dest (string "filename")
+			     :required True
+			     :help (string "input file")
+			     :metavar (string "FILE"))
+	(setf args (parser.parse_args))
+	
+	
+	))
+      (python
+       (do0
+	"#export"
+	(setf cap (cv2.VideoCapture args.filename #+nil  (string
 				     ;"ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part"
 				     "/home/martin/stars_XnRy3sJqfu4.webm"
 				     )))
