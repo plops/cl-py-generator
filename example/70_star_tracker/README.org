@@ -32,5 +32,16 @@ https://www.youtube.com/watch?v=IvgfFeqmSwo
 https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_extrema.html
 
 - stacking images
+  - fit linear gradient for light pollution
+  - difference of gaussians
+  - fit gaussian locally
+  - camera model (intrinsic and extrinsic matrix, neglect distortion)
+  - constellation matching
 https://benedikt-bitterli.me/astro/
   
+
+- james webb observations
+  https://www.youtube.com/watch?v=fI-VD5QWQYU
+
+- point set registration
+  https://en.wikipedia.org/wiki/Point_set_registration
