@@ -30,3 +30,7 @@ https://www.youtube.com/watch?v=IvgfFeqmSwo
 
 - local maxima and local contrast
 https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_extrema.html
+
+- stacking images
+https://benedikt-bitterli.me/astro/
+  
