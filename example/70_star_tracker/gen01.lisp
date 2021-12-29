@@ -18,6 +18,7 @@
       (pd pandas)
       ;(xr xarray)
       matplotlib
+      (s skyfield)
 					;(ds dataset)
       cv2
       ))
@@ -88,8 +89,11 @@
 					;(np jax.numpy)
 					;(mpf mplfinance)
 			  argparse
-			   
+			   skyfield.api
+			  skyfield.data
+			  skyfield.data.hipparcos
 			  ))
+		
 		"from cv2 import *"
 	      		(imports-from (matplotlib.pyplot
 			       plot imshow tight_layout xlabel ylabel
@@ -170,6 +174,15 @@
       (python
        (do0
 	"#export"
+	(with (as (open (string "/home/martin/stage/cl-py-generator/example/70_star_tracker/source/hip_main.dat"))
+		  f)
+	 (setf stars
+	       (dot skyfield data hipparcos
+		(load_dataframe f))))
+	))
+      (python
+       (do0
+	"#export"
 	(setf cap (cv2.VideoCapture args.filename #+nil  (string
 					;"ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part"
 							  "/home/martin/stars_XnRy3sJqfu4.webm"
@@ -178,7 +191,7 @@
 	  (print (string "error opening video stream or file")))
 	(while (cap.isOpened)
 	       (setf (ntuple ret frame)
-		     (cap.read))x1
+		     (cap.read))
 	       (if ret
 		   (do0
 		    (cv2.imshow (string "frame")
