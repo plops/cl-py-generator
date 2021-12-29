@@ -89,6 +89,7 @@
 					;(np jax.numpy)
 					;(mpf mplfinance)
 			  argparse
+			  (sns seaborn)
 			   skyfield.api
 			  skyfield.data
 			  skyfield.data.hipparcos
@@ -105,6 +106,7 @@
       (python
        (do0
 	"#export"
+	(sns.set_theme)
 	(setf
 	 _code_git_version
 	 (string ,(let ((str (with-output-to-string (s)
@@ -186,16 +188,20 @@
 	(do0
 	 (setf h (plt.hist2d hip.ra_degrees
 			     hip.dec_degrees
-			     :bins (list (np.linspace 0 360 80)
-					 (np.linspace -90 90 120))
+			     :bins (list (np.linspace 0 360 360)
+					 (np.linspace -90 90 180))
 			     :cmap (string "cubehelix")
 			     ))
 	 (plt.colorbar   (aref h 3))
 	 (do0
 	  (xlabel (string "right ascension [degree]"))
-	  (ylabel (string "declination [degree]"))))
+	  (ylabel (string "declination [degree]"))
+	  (do0
+	   (xlim 0 360)
+	   (ylim -90 90)
+	   ;(grid)
+	   (plt.axis (string "equal")))))
 	(do0
-	 (figure)
 	 (dot (aref hip (< hip.magnitude 4))
 	      plot (scatter :x (string "ra_degrees")
 			    :y (string "dec_degrees")
@@ -203,8 +209,13 @@
 			    :marker (string ",")))
 	 (do0
 	  (xlabel (string "right ascension [degree]"))
-	  (ylabel (string "declination [degree]")))
-	 (grid))
+	  (ylabel (string "declination [degree]"))
+	  (title (string "stars with magnitude < 4"))
+	  (grid)
+	  (do0
+	   (xlim 0 360)
+	   (ylim -90 90)
+	   (plt.axis (string "equal")))))
 	))
       (python
        (do0
