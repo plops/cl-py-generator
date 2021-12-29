@@ -45,3 +45,5 @@ https://benedikt-bitterli.me/astro/
 
 - point set registration
   https://en.wikipedia.org/wiki/Point_set_registration
+https://www.youtube.com/watch?v=dhzLQfDBx2Q
+ICP & Point Cloud Registration - Part 1: Known Data Association & SVD (Cyrill Stachniss, 2021)
