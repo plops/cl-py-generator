@@ -7,7 +7,7 @@ pip3 install --user av
     ----------------------------------------
 ERROR: Command errored out with exit status 1: /usr/bin/python3 -u -c 'import io, os, sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-8fe5kyik/av_748416fa3d684e88ac8c0bdc72d08788/setup.py'"'"'; __file__='"'"'/tmp/pip-install-8fe5kyik/av_748416fa3d684e88ac8c0bdc72d08788/setup.py'"'"';f = getattr(tokenize, '"'"'open'"'"', open)(__file__) if os.path.exists(__file__) else io.StringIO('"'"'from setuptools import setup; setup()'"'"');code = f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' install --record /tmp/pip-record-3ioskj5o/install-record.txt --single-version-externally-managed --user --prefix= --compile --install-headers /home/martin/.local/include/python3.10/av Check the logs for full command output.
 
-pip3 install --user opencv-python
+pip3 install --user opencv-python scikit-image
 
 https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
 #+end_example

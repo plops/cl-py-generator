@@ -60,7 +60,8 @@
 					;(xr xarray)
 			  ,@*libs*
 					(xrp xarray.plot)
-					;skimage.restoration
+					skimage.restoration
+			  skimage.morphology
 					;(u astropy.units)
 					; EP_SerialIO
 					;scipy.ndimage
@@ -241,7 +242,7 @@
 				      (slice 900 "")
 				      1))
 		    (cv2.imshow (string "frame")
-				da)
+				(* 255 (skimage.morphology.h_maxima da 20)))
 		    (when (== (& (cv2.waitKey 25)
 				 #xff  )
 			      (ord (string "q")))
