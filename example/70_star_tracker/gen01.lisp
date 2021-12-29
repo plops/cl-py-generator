@@ -176,9 +176,17 @@
 	"#export"
 	(with (as (open (string "/home/martin/stage/cl-py-generator/example/70_star_tracker/source/hip_main.dat"))
 		  f)
-	 (setf stars
+	 (setf hip
 	       (dot skyfield data hipparcos
-		(load_dataframe f))))
+		    (load_dataframe f))))
+	(comments "ra .. 0 360"
+		  "dec .. -90-90"
+		  "parallax .. -54-300 and few upto 800")
+	(plt.hist2d hip.ra_degrees
+		    hip.dec_degrees
+		    :bins (list (np.linspace 0 360 80)
+				(np.linspace -90 90 120))
+		  )
 	))
       (python
        (do0

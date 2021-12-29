@@ -19,3 +19,4 @@ https://github.com/skyfielders/python-skyfield/blob/master/skyfield/data/hipparc
 pip3 install --user skyfield
 wget https://cdsarc.u-strasbg.fr/ftp/cats/I/239/hip_main.dat # 51MB
 #+end_example
+https://www.cosmos.esa.int/web/hipparcos/catalogues
