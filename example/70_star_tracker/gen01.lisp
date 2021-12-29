@@ -188,9 +188,12 @@
 	(do0
 	 (setf h (plt.hist2d hip.ra_degrees
 			     hip.dec_degrees
-			     :bins (list (np.linspace 0 360 360)
-					 (np.linspace -90 90 180))
+			     :bins (list (np.linspace 0 360 (// 360 2))
+					 (np.linspace -90 90 (// 180 2)))
 			     :cmap (string "cubehelix")
+			     :norm (dot matplotlib
+					colors
+					(LogNorm))
 			     ))
 	 (plt.colorbar   (aref h 3))
 	 (do0
@@ -202,7 +205,8 @@
 	   ;(grid)
 	   (plt.axis (string "equal")))))
 	(do0
-	 (dot (aref hip (< hip.magnitude 4))
+	 (setf max_mag 6)
+	 (dot (aref hip (< hip.magnitude max_mag))
 	      plot (scatter :x (string "ra_degrees")
 			    :y (string "dec_degrees")
 			    :s 1
@@ -210,8 +214,9 @@
 	 (do0
 	  (xlabel (string "right ascension [degree]"))
 	  (ylabel (string "declination [degree]"))
-	  (title (string "stars with magnitude < 4"))
-	  (grid)
+	  (title (dot (string "stars with magnitude < {}")
+		      (format max_mag)))
+	  ;(grid)
 	  (do0
 	   (xlim 0 360)
 	   (ylim -90 90)
@@ -231,11 +236,12 @@
 		     (cap.read))
 	       (if ret
 		   (do0
-		    (cv2.imshow (string "frame")
-				(aref frame
+		    (setf da (aref frame
 				      (slice "" 512)
 				      (slice 900 "")
 				      1))
+		    (cv2.imshow (string "frame")
+				da)
 		    (when (== (& (cv2.waitKey 25)
 				 #xff  )
 			      (ord (string "q")))

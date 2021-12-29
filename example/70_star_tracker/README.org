@@ -21,3 +21,12 @@ wget https://cdsarc.u-strasbg.fr/ftp/cats/I/239/hip_main.dat # 51MB
 #+end_example
 https://www.cosmos.esa.int/web/hipparcos/catalogues
 https://www.cosmos.esa.int/documents/532822/553204/sect2_01.pdf/88f60038-085c-4cf0-9de0-42af104e8ae1
+
+- a master thesis trying to train haar classifiers
+https://www.instructables.com/Star-Recognition-Using-Computer-Vision-OpenCV/
+https://github.com/raspberrystars/CV-Star-Sensor
+- geometry
+https://www.youtube.com/watch?v=IvgfFeqmSwo
+
+- local maxima and local contrast
+https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_extrema.html
