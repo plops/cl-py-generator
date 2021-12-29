@@ -182,11 +182,14 @@
 	(comments "ra .. 0 360"
 		  "dec .. -90-90"
 		  "parallax .. -54-300 and few upto 800")
-	(plt.hist2d hip.ra_degrees
-		    hip.dec_degrees
-		    :bins (list (np.linspace 0 360 80)
-				(np.linspace -90 90 120))
-		  )
+	(setf h (plt.hist2d hip.ra_degrees
+		     hip.dec_degrees
+		     :bins (list (np.linspace 0 360 80)
+				 (np.linspace -90 90 120))
+		     :cmap (string "cubehelix")
+			    ))
+	(plt.colorbar   (aref h 3))
+	
 	))
       (python
        (do0
