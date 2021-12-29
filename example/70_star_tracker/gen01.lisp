@@ -189,7 +189,8 @@
 		     :cmap (string "cubehelix")
 			    ))
 	(plt.colorbar   (aref h 3))
-	
+	(xlabel (string "right ascension [degree]"))
+	(ylabel (string "declination [degree]"))
 	))
       (python
        (do0
