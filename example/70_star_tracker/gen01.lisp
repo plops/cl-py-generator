@@ -181,16 +181,30 @@
 		    (load_dataframe f))))
 	(comments "ra .. 0 360"
 		  "dec .. -90-90"
+		  "magnitude .. -2-14, peak at 8"
 		  "parallax .. -54-300 and few upto 800")
-	(setf h (plt.hist2d hip.ra_degrees
-		     hip.dec_degrees
-		     :bins (list (np.linspace 0 360 80)
-				 (np.linspace -90 90 120))
-		     :cmap (string "cubehelix")
-			    ))
-	(plt.colorbar   (aref h 3))
-	(xlabel (string "right ascension [degree]"))
-	(ylabel (string "declination [degree]"))
+	(do0
+	 (setf h (plt.hist2d hip.ra_degrees
+			     hip.dec_degrees
+			     :bins (list (np.linspace 0 360 80)
+					 (np.linspace -90 90 120))
+			     :cmap (string "cubehelix")
+			     ))
+	 (plt.colorbar   (aref h 3))
+	 (do0
+	  (xlabel (string "right ascension [degree]"))
+	  (ylabel (string "declination [degree]"))))
+	(do0
+	 (figure)
+	 (dot (aref hip (< hip.magnitude 4))
+	      plot (scatter :x (string "ra_degrees")
+			    :y (string "dec_degrees")
+			    :s 1
+			    :marker (string ",")))
+	 (do0
+	  (xlabel (string "right ascension [degree]"))
+	  (ylabel (string "declination [degree]")))
+	 (grid))
 	))
       (python
        (do0
