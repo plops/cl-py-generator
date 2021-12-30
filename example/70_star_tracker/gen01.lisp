@@ -160,7 +160,8 @@
        (do0
 	(class ArgsStub
 	       ()
-	       (setf filename  (string "/home/martin/ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part")))))
+	       (setf filename  (string "/home/martin/ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part")
+		     threshold 30))))
       (python
        (do0
 	"#export"
@@ -170,6 +171,11 @@
 			     :required True
 			     :help (string "input file")
 			     :metavar (string "FILE"))
+	(parser.add_argument (string "-t")
+			     :dest (string "threshold")
+			     :default 30
+			     :help (string "h_maximum threshold")
+			     :type int)
 	(setf args (parser.parse_args))
 	
 	
@@ -237,12 +243,21 @@
 		     (cap.read))
 	       (if ret
 		   (do0
+		    (setf da_rgb (aref frame
+				       (slice "" 512)
+				       (slice 900 "")
+				       ":")
+			  )
 		    (setf da (aref frame
 				      (slice "" 512)
 				      (slice 900 "")
 				      1))
+		    (setf peaks (* 255 (skimage.morphology.h_maxima da args.threshold)))
+		    (setf (aref da_rgb ":" ":" 1)
+			  peaks
+			  )
 		    (cv2.imshow (string "frame")
-				(* 255 (skimage.morphology.h_maxima da 20)))
+				da_rgb)
 		    (when (== (& (cv2.waitKey 25)
 				 #xff  )
 			      (ord (string "q")))
