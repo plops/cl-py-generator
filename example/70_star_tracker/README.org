@@ -47,3 +47,5 @@ https://benedikt-bitterli.me/astro/
   https://en.wikipedia.org/wiki/Point_set_registration
 https://www.youtube.com/watch?v=dhzLQfDBx2Q
 ICP & Point Cloud Registration - Part 1: Known Data Association & SVD (Cyrill Stachniss, 2021)
+https://www.youtube.com/watch?v=ktRqKxddjJk ICP
+https://www.youtube.com/watch?v=CJE59i8oxIE least squares
