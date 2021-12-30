@@ -161,7 +161,9 @@
 	(class ArgsStub
 	       ()
 	       (setf filename  (string "/home/martin/ISS Timelapse - Stars Above The World (29 _ 30 Marzo 2017)-8fCLTeY7tQg.mp4.part")
-		     threshold 30))))
+		     threshold 30
+		     skip_frames 0
+		     decimate_frames 1))))
       (python
        (do0
 	"#export"
@@ -176,7 +178,18 @@
 			     :default 30
 			     :help (string "h_maximum threshold")
 			     :type int)
+	(parser.add_argument (string "-s")
+			     :dest (string "skip_frames")
+			     :default 0
+			     :help (string "skip frames from the beginning of the file")
+			     :type int)
+	(parser.add_argument (string "-d")
+			     :dest (string "decimate_frames")
+			     :default 1
+			     :help (string "skip <N> frames from file before processing the next")
+			     :type int)
 	(setf args (parser.parse_args))
+	(print args)
 	
 	
 	))
@@ -238,26 +251,32 @@
 				     )))
 	(unless (cap.isOpened)
 	  (print (string "error opening video stream or file")))
+	(cap.set cv2.CAP_PROP_POS_FRAMES
+		 args.skip_frames)
 	(while (cap.isOpened)
-	       (setf (ntuple ret frame)
-		     (cap.read))
+	       (for (n (range args.decimate_frames))
+		(setf (ntuple ret frame)
+		      (cap.read)))
 	       (if ret
 		   (do0
-		    (setf da_rgb (aref frame
-				       (slice "" 512)
-				       (slice 900 "")
-				       ":")
-			  )
-		    (setf da (aref frame
-				      (slice "" 512)
-				      (slice 900 "")
-				      1))
-		    (setf peaks (* 255 (skimage.morphology.h_maxima da args.threshold)))
-		    (setf (aref da_rgb ":" ":" 1)
-			  peaks
-			  )
+		    #+nil
+		    (do0 
+		     (setf da_rgb (aref frame
+					(slice "" 512)
+					(slice 900 "")
+					":")
+			   )
+		     (setf da (aref frame
+				    (slice "" 512)
+				    (slice 900 "")
+				    1))
+		     (setf peaks (* 255 (skimage.morphology.h_maxima da args.threshold)))
+		     (setf (aref da_rgb ":" ":" 1)
+			   peaks
+			   ))
 		    (cv2.imshow (string "frame")
-				da_rgb)
+				frame ; da_rgb
+				)
 		    (when (== (& (cv2.waitKey 25)
 				 #xff  )
 			      (ord (string "q")))
