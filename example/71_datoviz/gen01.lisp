@@ -21,7 +21,7 @@
 					(s skyfield)
 					;(ds dataset)
 					; cv2
-      datoviz
+      ;datoviz
       ))
   (let ((nb-file "source/01_play.ipynb"))
    (write-notebook
@@ -104,7 +104,7 @@
 			       title subplot subplot2grid grid
 			       legend figure gcf xlim ylim))
 
-		(imports-from (datoviz canvas run colormap))
+		(imports-from (datoviz canvas  run colormap))
 		 )
 	       ))
       (python
@@ -170,7 +170,7 @@
 	(setf parser (argparse.ArgumentParser))
 	(parser.add_argument (string "-i")
 			     :dest (string "filename")
-			     :required True
+			     ;:required True
 			     :help (string "input file")
 			     :metavar (string "FILE"))
 	
@@ -182,19 +182,17 @@
       (python
        (do0
 	"#export"
-	(python
-       (do0
-	"#export"
+	
 	(with (as (open (string "/home/martin/stage/cl-py-generator/example/70_star_tracker/source/hip_main.dat"))
 		  f)
-	 (setf hip
-	       (dot skyfield data hipparcos
-		    (load_dataframe f))))
+	      (setf hip
+		    (dot skyfield data hipparcos
+			 (load_dataframe f))))
 	(comments "ra .. 0 360"
 		  "dec .. -90-90"
 		  "magnitude .. -2-14, peak at 8"
 		  "parallax .. -54-300 and few upto 800")
-	))))
+	))
       (python
        (do0
 	(comments "for interactive IPython")
@@ -203,7 +201,7 @@
        (do0
 	"#export"
 	(setf c (canvas)
-	      s (scene)
+	      s (c.scene)
 	      ;; static panzoom axes arcball camera
 	      p (c.panel :controller (string "axes"))
 	      v (p.visual (string "marker")))
@@ -218,7 +216,7 @@
 		     :cmap (string "viridis")))
 	,@(loop for e in `(pos ms color)
 		collect
-		`(visual.data (string ,e) ,e))
+		`(v.data (string ,e) ,e))
 	(run)
 	))
       
