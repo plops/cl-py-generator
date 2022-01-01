@@ -185,7 +185,7 @@
 	
 	(with (as (open (string "/home/martin/stage/cl-py-generator/example/70_star_tracker/source/hip_main.dat"))
 		  f)
-	      (setf hip
+	      (setf df
 		    (dot skyfield data hipparcos
 			 (load_dataframe f))))
 	(comments "ra .. 0 360"
@@ -203,16 +203,22 @@
 	(setf c (canvas)
 	      s (c.scene)
 	      ;; static panzoom axes arcball camera
-	      p (c.panel :controller (string "axes"))
+	      p (s.panel :controller (string "axes"))
 	      v (p.visual (string "marker")))
 	;; pos 3d
 	;; ms marker size
 	;; color values
 
+	(setf da (dot (aref df (list (string "ra_degrees")
+				     (string "dec_degrees")))
+		      values)
+	      pos (aref np.c_ da (np.zeros (aref da.shape 0)))
+	      ms df.magnitude.values
+	      color_values ms)
 	(setf color (colormap
 		     color_values
 		     :vmin -2 :vmax 16
-		     :alpha .9
+		     :alpha .2
 		     :cmap (string "viridis")))
 	,@(loop for e in `(pos ms color)
 		collect
