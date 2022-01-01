@@ -230,10 +230,24 @@
 	 (def on_change (value)
 	   (v.data (string "ms")
 		   (* ms value))))
+	(do0 
+	 (setf sf (gui.control (string "slider_float")
+			       (string "alpha")
+			       :vmin 0 :vmax 1))
+	 "@sf.connect"
+	 (def on_change (value)
+	   (setf color (colormap
+		     color_values
+		     :vmin -2 :vmax 16
+		     :alpha value
+		     :cmap (string "viridis")))
+	   (v.data (string "color")
+		   color)))
 	
 	,@(loop for e in `(pos ms color)
 		collect
 		`(v.data (string ,e) ,e))
+	(comments "right click and move up/down left/right to scale axes")
 	(run)
 	))
       
