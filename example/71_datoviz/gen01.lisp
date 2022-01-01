@@ -214,7 +214,7 @@
 				     (string "dec_degrees")))
 		      values)
 	      pos (aref np.c_ da (np.zeros (aref da.shape 0)))
-	      ms df.magnitude.values
+	      ms (- 16 df.magnitude.values)
 	      color_values ms)
 	(setf color (colormap
 		     color_values
@@ -225,7 +225,7 @@
 	(do0 
 	 (setf sf (gui.control (string "slider_float")
 			       (string "marker size")
-			       :vmin .5 :vmax 3))
+			       :vmin .1 :vmax 3))
 	 "@sf.connect"
 	 (def on_change (value)
 	   (v.data (string "ms")

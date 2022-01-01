@@ -211,9 +211,9 @@
 	;; color values
 	
 	(setf 
-	      rad 10
+	      rad 1
 	      dec (* (/ np.pi 180) (+ 90  df.dec_degrees))
-	      ra (* (/ np.pi 180) df.ra_degrees)
+	      ra (*  (/ np.pi 180) df.ra_degrees)
 	      (aref df (string "x")) (* rad
 					(np.sin dec)
 					(np.cos ra))
@@ -239,7 +239,7 @@
 	(do0 
 	 (setf sf (gui.control (string "slider_float")
 			       (string "marker size")
-			       :vmin .05 :vmax 3))
+			       :vmin .06 :vmax .6))
 	 "@sf.connect"
 	 (def on_change (value)
 	   (v.data (string "ms")
