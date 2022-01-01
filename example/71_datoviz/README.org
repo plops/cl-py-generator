@@ -1,0 +1,10 @@
+- https://datoviz.org/tutorials/install/
+  - vulkan based visualization tool
+#+begin_example
+sudo dnf install python3.8  # fedora is on 3.10
+# https://developer.fedoraproject.org/tech/languages/python/multiple-pythons.html
+python3.8 -m venv env
+source env/bin/activate
+python -m pip install http://dl.datoviz.org/v0.1.0-alpha.1/datoviz-0.1.0a1-cp38-cp38-manylinux_2_24_x86_64.whl
+
+#+end_example
