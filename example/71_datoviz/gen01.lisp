@@ -201,6 +201,7 @@
        (do0
 	"#export"
 	(setf c (canvas)
+	      gui (c.gui (string "gui"))
 	      s (c.scene)
 	      ;; static panzoom axes arcball camera
 	      p (s.panel :controller (string "axes"))
@@ -208,7 +209,7 @@
 	;; pos 3d
 	;; ms marker size
 	;; color values
-
+	
 	(setf da (dot (aref df (list (string "ra_degrees")
 				     (string "dec_degrees")))
 		      values)
@@ -220,6 +221,16 @@
 		     :vmin -2 :vmax 16
 		     :alpha .2
 		     :cmap (string "viridis")))
+
+	(do0 
+	 (setf sf (gui.control (string "slider_float")
+			       (string "marker size")
+			       :vmin .5 :vmax 3))
+	 "@sf.connect"
+	 (def on_change (value)
+	   (v.data (string "ms")
+		   (* ms value))))
+	
 	,@(loop for e in `(pos ms color)
 		collect
 		`(v.data (string ,e) ,e))
