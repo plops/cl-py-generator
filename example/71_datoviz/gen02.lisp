@@ -205,14 +205,14 @@
 	      s (c.scene)
 	      ;; static panzoom axes arcball camera
 	      p (s.panel :controller (string "arcball"))
-	      v (p.visual (string "marker")))
+	      v (p.visual (string "marker") :depth_test True))
 	;; pos 3d
 	;; ms marker size
 	;; color values
 	
 	(setf 
 	      rad 10
-	      dec (* (/ np.pi 180) df.dec_degrees)
+	      dec (* (/ np.pi 180) (+ 90  df.dec_degrees))
 	      ra (* (/ np.pi 180) df.ra_degrees)
 	      (aref df (string "x")) (* rad
 					(np.sin dec)
