@@ -228,18 +228,18 @@
 				      (string "z")))
 		      values)
 	      
-	      ms df.magnitude.values
+	      ms (- 16 df.magnitude.values)
 	      color_values ms)
 	(setf color (colormap
 		     color_values
 		     :vmin -2 :vmax 16
 		     :alpha .2
-		     :cmap (string "viridis")))
+		     :cmap (string "cubehelix")))
 
 	(do0 
 	 (setf sf (gui.control (string "slider_float")
 			       (string "marker size")
-			       :vmin .5 :vmax 3))
+			       :vmin .05 :vmax 3))
 	 "@sf.connect"
 	 (def on_change (value)
 	   (v.data (string "ms")
@@ -254,7 +254,7 @@
 		     color_values
 		     :vmin -2 :vmax 16
 		     :alpha value
-		     :cmap (string "viridis")))
+		     :cmap (string "cubehelix")))
 	   (v.data (string "color")
 		   color)))
 	
