@@ -247,6 +247,8 @@
 	,@(loop for e in `(pos ms color)
 		collect
 		`(v.data (string ,e) ,e))
+	#+nil (v.data (string "line_width")
+		0s0)
 	(comments "right click and move up/down left/right to scale axes")
 	(run)
 	))
