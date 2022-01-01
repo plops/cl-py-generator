@@ -23,12 +23,12 @@
 					; cv2
       ;datoviz
       ))
-  (let ((nb-file "source/01_play.ipynb"))
+  (let ((nb-file "source/02_play.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp play01"))
+	       "# default_exp play02"))
       (python (do0
 	       
 	       "#export"
@@ -204,16 +204,30 @@
 	      gui (c.gui (string "gui"))
 	      s (c.scene)
 	      ;; static panzoom axes arcball camera
-	      p (s.panel :controller (string "axes"))
+	      p (s.panel :controller (string "arcball"))
 	      v (p.visual (string "marker")))
 	;; pos 3d
 	;; ms marker size
 	;; color values
 	
-	(setf da (dot (aref df (list (string "ra_degrees")
-				     (string "dec_degrees")))
+	(setf 
+	      rad 10
+	      dec (* (/ np.pi 180) df.dec_degrees)
+	      ra (* (/ np.pi 180) df.ra_degrees)
+	      (aref df (string "x")) (* rad
+					(np.sin dec)
+					(np.cos ra))
+	      (aref df (string "y")) (* rad
+					(np.sin dec)
+					(np.sin ra))
+	      (aref df (string "z")) (* rad
+					(np.cos dec)
+					)
+	      pos (dot (aref df (list (string "x")
+				      (string "y")
+				      (string "z")))
 		      values)
-	      pos (aref np.c_ da (np.zeros (aref da.shape 0)))
+	      
 	      ms df.magnitude.values
 	      color_values ms)
 	(setf color (colormap

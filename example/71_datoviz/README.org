@@ -1,5 +1,11 @@
+|       |                           |
+| gen01 | plot star map             |
+| gen02 | plot star map on a sphere |
+|       |                           |
+
 - https://datoviz.org/tutorials/install/
   - vulkan based visualization tool
+- https://cyrille.rossant.net/datoviz/
 #+begin_example
 sudo dnf install python3.8  # fedora is on 3.10
 # https://developer.fedoraproject.org/tech/languages/python/multiple-pythons.html
