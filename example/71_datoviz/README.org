@@ -6,5 +6,5 @@ sudo dnf install python3.8  # fedora is on 3.10
 python3.8 -m venv env
 source env/bin/activate
 python -m pip install http://dl.datoviz.org/v0.1.0-alpha.1/datoviz-0.1.0a1-cp38-cp38-manylinux_2_24_x86_64.whl
-
+python -c "import datoviz; datoviz.demo()"
 #+end_example
