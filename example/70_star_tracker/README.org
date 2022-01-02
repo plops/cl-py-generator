@@ -67,7 +67,7 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
       astronomical images, The Astronomical Journal 139, 1782--1800.
     - 10.1088/0004-6256/139/5/1782
     - algorithm:
-      - robust source detection
+      - robust star detection
       - geometric hash of sets of 4 or 5 stars
   - http://nova.astrometry.net/ web interface
     - try with a screenshot from ISS video:
@@ -111,7 +111,7 @@ Pixel scale:	133 arcsec/pixel
 Orientation:	Up is 33.3 degrees E of N
 #+end_example
 
-- build attempt on fedora 35
+- build on fedora 35
 #+begin_example
 sudo dnf -y install cairo-devel libpng-devel libjpeg-turbo-devel zlib-devel bzip2-devel swig python-devel cfitsio-devel wcslib-devel
 sudo dnf -y install netpbm netpbm-devel netpbm-progs
