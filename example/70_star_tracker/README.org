@@ -68,6 +68,25 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
     - 10.1088/0004-6256/139/5/1782
     - algorithm:
       - robust star detection
+	- subtract median smoothed image to remove sky variations
+	- estimate image noise by
+	  - selecting 3000 random pairs of pixels separated by 5 rows
+            and columns
+	  - flux difference for each pair
+	  - compute variance -> approximately twice the variance
+            sigma^2 in each pixel
+      - detect compact objects
+	- use pixels with with values > 8 sigma
+	- merge connected components into objects
+	- find peak in each object
+	  - local peak
+	  - exclude peaks that are joined by saddle points within 3
+            sigma of a larger peak (or 1% of the larger peaks value,
+            whatever is greater)
+	- compute centroid
+	  - fit gaussian to 3x3 grid around star's peak
+	  - if outside 3x3 default to peak pixel (usually this is an
+            artifact)
       - geometric hash of sets of 4 stars
 	- the hash code represents the relative position of the 4 stars
 	- search for similar hash codes in an index -> location, scale
