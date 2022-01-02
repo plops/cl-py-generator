@@ -136,4 +136,44 @@ cd demo
 time solve-field apod2.jpg
 #+end_example
 
- 
+#+begin_example
+[martin@localhost demo]$ time solve-field /dev/shm/sky.png 
+Reading input file 1 of 1: "/dev/shm/sky.png"...
+Read file stdin: 1106 x 439 pixels x 1 color(s); maxval 255
+Using 8-bit output
+Extracting sources...
+simplexy: found 1449 sources.
+cairoutils.c:715:cairoutils_read_ppm_stream: Netpbm is not available; can't read PPM images
+cairoutils.c:715:cairoutils_read_ppm_stream: cairoutils.c:715:cairoutils_read_ppm_stream: Netpbm is not available; can't read PPM images
+Netpbm is not available; can't read PPM images
+cairoutils.c:715:cairoutils_read_ppm_stream: Netpbm is not available; can't read PPM images
+libpng warning: Image width is zero in IHDR
+libpng warning: Image height is zero in IHDR
+libpng error: Invalid IHDR data
+solve-field.c:327:plot_source_overlay Plotting command failed
+ solve-field.c:133:run_command Command was: "/usr/local/astrometry/bin/plotxy -I /tmp/tmp.ppm.7BPz71 -i /dev/shm/sky.axy -C red -w 2 -N 50 -x 1 -y 1 -P | /usr/local/astrometry/bin/plotxy -i /dev/shm/sky.axy -I - -w 2 -r 3 -C red -n 50 -N 200 -x 1 -y 1 > /dev/shm/sky-objs.png"
+
+ solve-field.c:132:run_command Command exited with exit status 134
+Solving...
+Reading file "/dev/shm/sky.axy"...
+Field 1 did not solve (index index-4119.fits, field objects 1-10).
+Field 1 did not solve (index index-4118.fits, field objects 1-10).
+Field 1 did not solve (index index-4117.fits, field objects 1-10).
+  log-odds ratio 281.474 (1.74793e+122), 77 match, 2 conflict, 125 distractors, 88 index.
+  RA,Dec = (274.544,3.38952), pixel scale 133.315 arcsec/pix.
+  Hit/miss:   Hit/miss: ++++++++++++++++++-+++++++++--+-+++++++++-+++-+++-+++++--++-+-+-++++----+---c-----+++--+--+-+---+---
+Field 1: solved with index index-4116.fits.
+Field 1 solved: writing to file /dev/shm/sky.solved to indicate this.
+Field: /dev/shm/sky.png
+Field center: (RA,Dec) = (274.520687, 3.353554) deg.
+Field center: (RA H:M:S, Dec D:M:S) = (18:18:04.965, +03:21:12.794).
+Field size: 38.1296 x 15.745 degrees
+Field rotation angle: up is 146.8 degrees E of N
+Field parity: neg
+Creating new FITS file "/dev/shm/sky.new"...
+
+
+real	0m4.630s
+user	0m4.293s
+sys	0m0.716s
+#+end_example
