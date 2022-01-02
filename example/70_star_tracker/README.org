@@ -88,10 +88,27 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
 	  - if outside 3x3 default to peak pixel (usually this is an
             artifact)
       - geometric hash of sets of 4 stars
+	- this is a 4d search:
+	  - pointing of camera axis (2d)
+	  - orientation  (rotation of camera around axis, 1d)
+	  - field of view (solid angle subtended by camera image, 1d)
 	- the hash code represents the relative position of the 4 stars
+	  - most widely separated stars A and B define local coordinate system
+	  - remaining stars C and D create hash code vector (x_C,y_C,x_D,y_D)
+	  - C and D must be in the circle that has A and B on diameter
+	  - two symmetries:
+	    - swap A and B
+	    - swap C and D
+	  - to break symmetry force x_C<=x_D and x_C+x_D <= 1
+	  - code vector is invariant to
+	    - translation
+	    - scaling
+	    - rotation
 	- search for similar hash codes in an index -> location, scale
           and orientation in the sky
 	- bayesian decision if the alignment is correct
+	- recognize images that span < 1e-6 area of the sky
+	
   - http://nova.astrometry.net/ web interface
     - try with a screenshot from ISS video:
 #+begin_example      
