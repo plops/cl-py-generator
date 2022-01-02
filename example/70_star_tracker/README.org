@@ -67,3 +67,43 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
       astronomical images, The Astronomical Journal 139, 1782--1800.
     - 10.1088/0004-6256/139/5/1782
   - http://nova.astrometry.net/ web interface
+    - try with a screenshot from ISS video:
+#+begin_example      
+Job 6062285:
+Success
+
+Source extraction image (fullsize)
+Log file tail [-]
+(full)
+
+  B =            0           0  7.5536e-05
+                 0  1.5696e-05
+       -3.6992e-06
+  AP =     -0.10537 -0.00029953  1.2102e-07
+       -2.1926e-05 -8.3652e-05
+       -2.3552e-05
+  BP =    -0.029927   0.0002898 -7.3252e-05
+        0.00013301 -1.5928e-05
+        3.4403e-06
+  sqrt(det(CD))=132.575 [arcsec]
+Found tag-along columns from field: FLUX BACKGROUND
+Field 1: solved with index index-4116.fits.
+Field 1: tried 15092 quads, matched 57168 codes.
+Spent 3.69566 s user, 0.272006 s system, 3.96766 s total, 3.96876 s wall time.
+Writing 79 rows (of 345 field and 88 index objects) to correspondence file.
+cx<=dx constraints: 0
+meanx constraints: 72765
+RA,Dec constraints: 0
+AB scale constraints: 0
+Spent 3.97598 seconds on this field.
+#+end_example
+
+#+begin_example
+Center (RA, Dec):	(274.631, 3.413)
+Center (RA, hms):	18h 18m 31.391s
+Center (Dec, dms):	+03° 24' 47.286"
+Size:	40.7 x 16.2 deg
+Radius:	21.911 deg
+Pixel scale:	133 arcsec/pixel
+Orientation:	Up is 33.3 degrees E of N
+#+end_example
