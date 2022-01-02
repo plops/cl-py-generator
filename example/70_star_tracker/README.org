@@ -108,9 +108,8 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
           and orientation in the sky
 	- bayesian decision if the alignment is correct
 	- recognize images that span < 1e-6 area of the sky
-	
-  - http://nova.astrometry.net/ web interface
-    - try with a screenshot from ISS video:
+	- using 5 stars in hash makes it more likely that not all
+          stars are captured
 #+begin_example      
 Job 6062285:
 Success
