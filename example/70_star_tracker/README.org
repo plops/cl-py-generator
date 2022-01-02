@@ -65,6 +65,7 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
     - Lang, D., Hogg, D.W., Mierle, K., Blanton, M., & Roweis, S.,
       2010, Astrometry.net: Blind astrometric calibration of arbitrary
       astronomical images, The Astronomical Journal 139, 1782--1800.
+    - open access: https://arxiv.org/abs/0910.2233
     - 10.1088/0004-6256/139/5/1782
     - algorithm:
       - robust star detection
@@ -218,7 +219,3 @@ sys	0m0.716s
 #+end_example
 
 
-- nebulosity astrophotography software
-  - http://www.stark-labs.com/
-  - https://news.ycombinator.com/item?id=29768816
-  - https://github.com/celstark/OpenNebulosity
