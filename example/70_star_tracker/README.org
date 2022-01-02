@@ -128,7 +128,7 @@ for i in $( seq -w 7 19 ); do wget http://data.astrometry.net/4100/index-41$i.fi
 #+end_example
 
 #+begin_example
-
+pip install --user pyfits
 export PATH=${PATH}:/usr/local/astrometry/bin
 cd demo
 time solve-field apod2.jpg
