@@ -221,3 +221,5 @@ sys	0m0.716s
 
 - paper on how to roll back the clock and estimate sky in any given
   year: https://arxiv.org/abs/0805.0759
+  - they seem to be able to determine the epoch to +/- 5 years
+  - they thank yann lecun
