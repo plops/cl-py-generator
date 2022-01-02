@@ -50,3 +50,6 @@ ICP & Point Cloud Registration - Part 1: Known Data Association & SVD (Cyrill St
 https://www.youtube.com/watch?v=ktRqKxddjJk ICP iterative closest point
 https://www.youtube.com/watch?v=CJE59i8oxIE least squares
 https://github.com/niosus/notebooks/blob/master/icp.ipynb
+
+- https://www.youtube.com/watch?v=RhF9u1EAU8k
+  Use this TRICK to FIND OBJECTS in the SKY with a Telescope, a Laptop and a Camera // EAA PUSH-TO
