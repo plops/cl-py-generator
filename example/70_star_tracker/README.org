@@ -59,3 +59,11 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
     for you. Input an image and we'll give you back astrometric
     calibration meta-data, plus lists of known objects falling inside
     the field of view.
+  - http://github.com/dstndstn/astrometry.net source code
+  - http://astrometry.net/doc/readme.html documentation
+  - paper:
+    - Lang, D., Hogg, D.W., Mierle, K., Blanton, M., & Roweis, S.,
+      2010, Astrometry.net: Blind astrometric calibration of arbitrary
+      astronomical images, The Astronomical Journal 139, 1782--1800.
+    - 10.1088/0004-6256/139/5/1782
+  - http://nova.astrometry.net/ web interface
