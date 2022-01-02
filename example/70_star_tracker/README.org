@@ -66,6 +66,9 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
       2010, Astrometry.net: Blind astrometric calibration of arbitrary
       astronomical images, The Astronomical Journal 139, 1782--1800.
     - 10.1088/0004-6256/139/5/1782
+    - algorithm:
+      - robust source detection
+      - geometric hash of sets of 4 or 5 stars
   - http://nova.astrometry.net/ web interface
     - try with a screenshot from ISS video:
 #+begin_example      
@@ -106,4 +109,16 @@ Size:	40.7 x 16.2 deg
 Radius:	21.911 deg
 Pixel scale:	133 arcsec/pixel
 Orientation:	Up is 33.3 degrees E of N
+#+end_example
+
+- build attempt on fedora 35
+#+begin_example
+sudo dnf -y install cairo-devel libpng-devel libjpeg-turbo-devel zlib-devel bzip2-devel swig python-devel cfitsio-devel wcslib-devel
+sudo dnf -y install netpbm netpbm-devel netpbm-progs
+git clone https://github.com/dstndstn/astrometry.net
+./configure
+make -j6
+make -j6 py
+make -j6 extra
+sudo make install # in /usr/local/astrometry 
 #+end_example
