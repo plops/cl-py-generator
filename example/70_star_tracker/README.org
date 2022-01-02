@@ -68,7 +68,11 @@ https://github.com/niosus/notebooks/blob/master/icp.ipynb
     - 10.1088/0004-6256/139/5/1782
     - algorithm:
       - robust star detection
-      - geometric hash of sets of 4 or 5 stars
+      - geometric hash of sets of 4 stars
+	- the hash code represents the relative position of the 4 stars
+	- search for similar hash codes in an index -> location, scale
+          and orientation in the sky
+	- bayesian decision if the alignment is correct
   - http://nova.astrometry.net/ web interface
     - try with a screenshot from ISS video:
 #+begin_example      
