@@ -223,3 +223,4 @@ sys	0m0.716s
   year: https://arxiv.org/abs/0805.0759
   - they seem to be able to determine the epoch to +/- 5 years
   - they thank yann lecun
+  - including brightness might help with estimation
