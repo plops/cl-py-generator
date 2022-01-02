@@ -133,3 +133,4 @@ export PATH=${PATH}:/usr/local/astrometry/bin
 cd demo
 time solve-field apod2.jpg
 #+end_example
+ x
