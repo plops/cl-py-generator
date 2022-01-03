@@ -224,3 +224,4 @@ sys	0m0.716s
   - they seem to be able to determine the epoch to +/- 5 years
   - they thank yann lecun
   - including brightness might help with estimation
+  - oh sam roweis died in 2010 (on astrometry.net/news.html)
