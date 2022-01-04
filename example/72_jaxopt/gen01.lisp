@@ -166,10 +166,11 @@
        (do0
 	"#export"
 	(setf x (np.linspace 0 4 120)
-	      y (+ (np.sin x)
-		   (np.random.normal :loc 0.0 :scale .01  :size (len x))))
-	(plot x y)
-	(grid)))
+	      y0 (np.sin x)
+	      y (+ y0
+		   		   (np.random.normal :loc 0.0 :scale .1  :size (len x))))
+	#+nil (do0 (plot x y)
+	     (grid))))
 
       ,(let* ((params `((:name phase :start .1)
 			(:name amplitude :start 1.0)
@@ -211,6 +212,10 @@
 			    (dot sol
 				 (aref params ,i)
 				 (item)))
+		      (setf ,name
+			    (dot sol
+				 (aref params ,i)
+				 (item)))
 		      (setf (aref d (string ,(format nil "~a0" name)))
 			    (dot
 			     (aref x0 ,i)
@@ -224,8 +229,16 @@
 			       (item))))
 	   (res.append d)
 	   (setf df (pd.DataFrame res))
-	   (print df))
-	  
+	   (print df)
+	   )
+	  (do0
+	   (figure)
+	   (plot x y0 :label (string "noise-free data"))
+	   (plot x y :label (string "data with noise"))
+	   (plot x ,fun-model :label (string "fit"))
+	   (legend)
+	   (grid)
+	   )
 	  )))
       ))))
 
