@@ -1,5 +1,6 @@
 - https://github.com/google/jaxopt
 - https://jaxopt.github.io/
+- paper: https://arxiv.org/abs/2105.15183
 #+begin_example
 pip3 install --user jaxopt
 #+end_example

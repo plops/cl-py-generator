@@ -175,7 +175,7 @@
 			(:name amplitude :start 1.0)
 		       (:name offset :start 0.0)))
 	      (fun-model `(+ offset
-			     (* amplitude (jnp.cos (+ phase x)))))
+			     (* amplitude (jnp.sin (+ phase x)))))
 	      (fun-residual `(- y ,fun-model)))
 	`(python
 	 (do0
@@ -189,7 +189,10 @@
 		      `(setf ,name (aref params ,i))))
 	    (return (jnp.sum (** ,fun-residual
 				 2))))
-	  (do0 (setf gd (jaxopt.GradientDescent :fun merit0)
+	  (do0 (setf gd (jaxopt.GradientDescent :fun merit0
+						:tol 1e-5
+						:maxiter 500
+						:implicit_diff True)
 		     x0 (jnp.array (list ,@(loop for e in params
 							  and i from 0
 							  collect
