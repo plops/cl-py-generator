@@ -1,0 +1,5 @@
+- https://github.com/google/jaxopt
+- https://jaxopt.github.io/
+#+begin_example
+pip3 install --user jaxopt
+#+end_example
