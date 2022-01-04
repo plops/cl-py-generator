@@ -73,16 +73,17 @@
 	 (write-sequence code-str s))
        #+nil
        (sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
-       #+sbcl (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
-       #+nil
+       #+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
+       
        (progn
 	 ;; python3 -m pip install --user black
-	 ;; should i use --fast option?
+	 ;; should i use --fast option?xs
 	 (sb-ext:run-program "/home/martin/.local/bin/black"
-			     (list (namestring fn))))))))
+			     (list "--fast"
+				   (namestring  fn))))))))
 
 (defun print-sufficient-digits-f64 (f)
-  "print a double floating point number as a string with a given nr. of                                                                                                                                             
+  "print a double floating point number as a string with a given nr. of                                                                                       x                                                      
   digits. parse it again and increase nr. of digits until the same bit                                                                                                                                              
   pattern."
 

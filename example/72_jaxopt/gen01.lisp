@@ -7,7 +7,7 @@
 (progn
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
-  (defparameter *example-subdir* "example/71_datoviz")
+  (defparameter *example-subdir* "example/72_jaxopt")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -16,10 +16,12 @@
   (defparameter *libs*
     `((np numpy)
       (pd pandas)
+      jax
+      
 					;(xr xarray)
-					;matplotlib
-					(s skyfield)
-					;(ds dataset)
+      matplotlib
+					;(s skyfield)
+      ;;(ds dataset)
 					; cv2
       ;datoviz
       ))
@@ -34,7 +36,7 @@
 	       "#export"
 	        (do0
 					;"%matplotlib notebook"
-		 #+nil (do0
+		 #-nil (do0
 		      
 		      (imports (matplotlib))
                                         ;(matplotlib.use (string "QT5Agg"))
@@ -92,25 +94,26 @@
 					;(mpf mplfinance)
 			  argparse
 			  ;(sns seaborn)
-			   skyfield.api
-			  skyfield.data
-			  skyfield.data.hipparcos
+			  ;skyfield.api
+			  ;skyfield.data
+					;skyfield.data.hipparcos
+			  (jnp jax.numpy)
+			  jax.config
+			  jaxopt
+			  numpy.random
 			  ))
 		
-		;"from cv2 import *"
-	      	#+nil
 			(imports-from (matplotlib.pyplot
 			       plot imshow tight_layout xlabel ylabel
 			       title subplot subplot2grid grid
 			       legend figure gcf xlim ylim))
 
-		(imports-from (datoviz canvas  run colormap))
 		 )
 	       ))
       (python
        (do0
 	"#export"
-	
+	(jax.config.update (string "jax_enable_x64") True)
 	(setf
 	 _code_git_version
 	 (string ,(let ((str (with-output-to-string (s)
@@ -161,98 +164,66 @@
 
       (python
        (do0
-	(class ArgsStub
-	       ()
-	       (setf filename (string "test.txt")))))
-      (python
-       (do0
 	"#export"
-	(setf parser (argparse.ArgumentParser))
-	(parser.add_argument (string "-i")
-			     :dest (string "filename")
-			     ;:required True
-			     :help (string "input file")
-			     :metavar (string "FILE"))
-	
-	(setf args (parser.parse_args))
-	(print args)
-	
-	
-	))
-      (python
-       (do0
-	"#export"
-	
-	(with (as (open (string "/home/martin/stage/cl-py-generator/example/70_star_tracker/source/hip_main.dat"))
-		  f)
-	      (setf df
-		    (dot skyfield data hipparcos
-			 (load_dataframe f))))
-	(comments "ra .. 0 360"
-		  "dec .. -90-90"
-		  "magnitude .. -2-14, peak at 8"
-		  "parallax .. -54-300 and few upto 800")
-	))
-      (python
-       (do0
-	(comments "for interactive IPython")
-	"%gui datoviz"))
-      (python
-       (do0
-	"#export"
-	(setf c (canvas)
-	      gui (c.gui (string "gui"))
-	      s (c.scene)
-	      ;; static panzoom axes arcball camera
-	      p (s.panel :controller (string "axes"))
-	      v (p.visual (string "marker")))
-	;; pos 3d
-	;; ms marker size
-	;; color values
-	
-	(setf da (dot (aref df (list (string "ra_degrees")
-				     (string "dec_degrees")))
-		      values)
-	      pos (aref np.c_ da (np.zeros (aref da.shape 0)))
-	      ms (- 16 df.magnitude.values)
-	      color_values ms)
-	(setf color (colormap
-		     color_values
-		     :vmin -2 :vmax 16
-		     :alpha .2
-		     :cmap (string "viridis")))
+	(setf x (np.linspace 0 4 120)
+	      y (+ (np.sin x)
+		   (np.random.normal :loc 0.0 :scale .01  :size (len x))))
+	(plot x y)
+	(grid)))
 
-	(do0 
-	 (setf sf (gui.control (string "slider_float")
-			       (string "marker size")
-			       :vmin .1 :vmax 3))
-	 "@sf.connect"
-	 (def on_change (value)
-	   (v.data (string "ms")
-		   (* ms value))))
-	(do0 
-	 (setf sf (gui.control (string "slider_float")
-			       (string "alpha")
-			       :vmin 0 :vmax 1))
-	 "@sf.connect"
-	 (def on_change (value)
-	   (setf color (colormap
-		     color_values
-		     :vmin -2 :vmax 16
-		     :alpha value
-		     :cmap (string "viridis")))
-	   (v.data (string "color")
-		   color)))
-	
-	,@(loop for e in `(pos ms color)
-		collect
-		`(v.data (string ,e) ,e))
-	#+nil (v.data (string "line_width")
-		0s0)
-	(comments "right click and move up/down left/right to scale axes")
-	(run)
-	))
-      
+      ,(let* ((params `((:name phase :start .1)
+			(:name amplitude :start 1.0)
+		       (:name offset :start 0.0)))
+	      (fun-model `(+ offset
+			     (* amplitude (jnp.cos (+ phase x)))))
+	      (fun-residual `(- y ,fun-model)))
+	`(python
+	 (do0
+	  "#export"
+	  (setf res (list))
+	  (def merit0 (params y x)
+	    ,@(loop for e in params
+		    and i from 0
+		    collect
+		    (destructuring-bind (&key name start) e
+		      `(setf ,name (aref params ,i))))
+	    (return (jnp.sum (** ,fun-residual
+				 2))))
+	  (do0 (setf gd (jaxopt.GradientDescent :fun merit0)
+		     x0 (jnp.array (list ,@(loop for e in params
+							  and i from 0
+							  collect
+							  (destructuring-bind (&key name start) e
+							    start))))
+		     sol (gd.run x0
+				 :x x
+				 :y y)))
+	  (do0
+	   (setf d "{}")
+	   ,@(loop for e in params and i from 0
+		   collect
+		   (destructuring-bind (&key name start) e
+		    `(do0
+		      (setf (aref d (string ,name))
+			    (dot sol
+				 (aref params ,i)
+				 (item)))
+		      (setf (aref d (string ,(format nil "~a0" name)))
+			    (dot
+			     (aref x0 ,i)
+			     (item))))))
+	   ,@(loop for e in `(iter_num stepsize error "t")
+		   collect
+		   `(setf (aref d (string ,e))
+			  (dot sol
+			       state
+			       ,e
+			       (item))))
+	   (res.append d)
+	   (setf df (pd.DataFrame res))
+	   (print df))
+	  
+	  )))
       ))))
 
 
