@@ -1,0 +1,7 @@
+- call optimizer to minimize residual
+- ensure measurement error is used for weighing xi^2
+- compute hessian with jax
+- compute parameter fit errors from inverse hessian
+
+- references
+  - https://root.cern.ch/download/minuit.pdf
