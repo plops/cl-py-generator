@@ -5,3 +5,5 @@
 
 - references
   - https://root.cern.ch/download/minuit.pdf
+ - https://gist.github.com/slinderman/24552af1bdbb6cb033bfea9b2dc4ecfd
+ - https://github.com/google/jax/blob/main/jax/_src/scipy/optimize/bfgs.py

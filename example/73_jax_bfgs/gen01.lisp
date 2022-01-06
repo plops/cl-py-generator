@@ -7,7 +7,7 @@
 (progn
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
-  (defparameter *example-subdir* "example/72_jaxopt")
+  (defparameter *example-subdir* "example/73_jax_bfgs")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -115,7 +115,7 @@
 			  jax.config
 			  jax.scipy.optimize
 			  jax.experimental.maps
-			  jaxopt
+			  jax.numpy.linalg
 			  numpy.random
 			  ))
 		
@@ -182,482 +182,210 @@
 
       (python
        (do0
-	"#export"
 	(setf x (np.linspace 0 4 120)
 	      y0 (np.sin x)
+	      delta_y .1
 	      y (+ y0
-		   		   (np.random.normal :loc 0.0 :scale .1  :size (len x))))
-	#+nil (do0 (plot x y)
-	     (grid))))
-
-     #+nil ,(let* ((params `((:name phase :start .1)
-			(:name amplitude :start 1.0)
-		       (:name offset :start 0.0)))
-	      (fun-model `(+ offset
-			     (* amplitude (jnp.sin (+ phase x)))))
-	      (fun-residual `(- y ,fun-model)))
-	`(python
-	 (do0
-	  "#export"
-	  (comments "try GradientDescent from jaxopt")
-	  (setf res (list))
-	  (def merit0 (params y x)
-	    ,@(loop for e in params
-		    and i from 0
-		    collect
-		    (destructuring-bind (&key name start) e
-		      `(setf ,name (aref params ,i))))
-	    (return (jnp.sum (** ,fun-residual
-				 2))))
-	  (do0 (setf gd (jaxopt.GradientDescent :fun merit0
-						:tol 1e-5
-						:maxiter 500
-						:implicit_diff True)
-		     x0 (jnp.array (list ,@(loop for e in params
-							  and i from 0
-							  collect
-							  (destructuring-bind (&key name start) e
-							    start))))
-		     sol (gd.run x0
-				 :x x
-				 :y y)))
-	  (do0
-	   (setf d "{}")
-	   ,@(loop for e in params and i from 0
-		   collect
-		   (destructuring-bind (&key name start) e
-		    `(do0
-		      (setf (aref d (string ,name))
-			    (dot sol
-				 (aref params ,i)
-				 (item)))
-		      (setf ,name
-			    (dot sol
-				 (aref params ,i)
-				 (item)))
-		      (setf (aref d (string ,(format nil "~a0" name)))
-			    (dot
-			     (aref x0 ,i)
-			     (item))))))
-	   ,@(loop for e in `(iter_num stepsize error "t")
-		   collect
-		   `(setf (aref d (string ,e))
-			  (dot sol
-			       state
-			       ,e
-			       (item))))
-	   (res.append d)
-	   (setf df (pd.DataFrame res))
-	   (print df)
-	   )
-	  (do0
-	   (figure)
-	   (plot x y0 :label (string "noise-free data"))
-	   (plot x y :label (string "data with noise"))
-	   (plot x ,fun-model :label (string "fit"))
-	   (legend)
-	   (grid)
-	   )
-	  )))
-
-     #+nil 
-      ,(let* ((params `((:name phase :start .1)
-			(:name amplitude :start 1.0)
-		       (:name offset :start 0.0)))
-	      (fun-model `(+ offset
-			     (* amplitude (jnp.sin (+ phase x)))))
-	      (fun-residual `(- y ,fun-model)))
-	`(python
-	 (do0
-	  "#export"
-	  (comments "try minimize from jax")
-	  (setf res (list))
-	  (def merit1 (params y x)
-	    ,@(loop for e in params
-		    and i from 0
-		    collect
-		    (destructuring-bind (&key name start) e
-		      `(setf ,name (aref params ,i))))
-	    (return (jnp.sum (** ,fun-residual
-				 2))))
-	  (do0 (setf x0 (jnp.array (list ,@(loop for e in params
-							  and i from 0
-							  collect
-							  (destructuring-bind (&key name start) e
-							    start))))
-		     sol (jax.scipy.optimize.minimize
-			  merit1
-			  x0
-			  :args (tuple y x)
-			  :method (string "BFGS"))))
-	  (do0
-	   (setf d "{}")
-	   ,@(loop for e in params and i from 0
-		   collect
-		   (destructuring-bind (&key name start) e
-		    `(do0
-		      (setf (aref d (string ,name))
-			    (dot sol
-				 (aref x ,i)
-				 (item)))
-		      (setf ,name
-			    (dot sol
-				 (aref x ,i)
-				 (item)))
-		      (setf (aref d (string ,(format nil "~a0" name)))
-			    (dot
-			     (aref x0 ,i)
-			     (item))))))
-	   ,@(loop for e in `(success status fun nfev njev nit)
-		   collect
-		   `(setf (aref d (string ,e))
-			  (dot sol
-			       ,e
-			       (item))))
-	   (res.append d)
-	   (setf df1 (pd.DataFrame res))
-	   (print df1)
-	   )
-	  (do0
-	   (figure :figsize (list 12 8))
-	   (setf pl (list 2 1))
-	   (do0 
-	    (subplot2grid pl (list 0 0))
-	    (plot x y0 :label (string "noise-free data"))
-	    (plt.scatter x y :label (string "data with noise"))
-	    (plot x ,fun-model :label (string "fit"))
-	    (legend)
-	    (grid))
-	   (do0 
-	    (subplot2grid pl (list 1 0))
-	    (plot x (- y0 ,fun-model) :label (string "residual noise-free data"))
-	    (plt.scatter x (- y ,fun-model) :label (string "residual data with noise"))
-	    (legend)
-	    (grid))
-	   )
-	  )))
-
-     #+nil,(let* ((params `((:name phase :start .1)
-			(:name amplitude :start 1.0)
-		       (:name offset :start 0.0)))
-	      (fun-model `(+ offset
-			     (* amplitude (jnp.sin (+ phase x)))))
-	      (fun-residual `(- y ,fun-model)))
-	`(python
-	 (do0
-	  "#export"
-	  (comments "try minimize many replicas with different noise with jax and vmap")
-	  (setf n_batch 1000)
-	  (def make2d (a)
-	    (return (dot a
-			 (repeat n_batch)
-			 (reshape -1 n_batch))))
-	  (setf nx 120
-		x (np.linspace 0 4 nx)
+		   (np.random.normal :loc 0.0 :scale delta_y  :size (len x))))))
+      
+      ,@(let* ((params `((:name phase :start .1)
+			 (:name amplitude :start 1.0)
+			 (:name offset :start 0.0)))
+	       (fun-model `(+ offset
+			      (* amplitude (jnp.sin (+ phase x)))))
+	       (fun-residual `(/ (- y ,fun-model)
+				 y_std)))
+	`((python
+	   (do0
+	    "#export"
+	    (comments "try minimize many replicas with different noise with jax and xmap for named axes")
+	    (setf n_batch (* 4 3))
+	    (def make2d (a)
+	      (return (dot a
+			   (repeat n_batch)
+			   (reshape -1 n_batch))))
+	    (setf nx 120
+		  x (np.linspace 0 4 nx)
 		
-		x_2d (make2d x)
-		y0 (np.sin x)
-		y0_2d (make2d y0) ;; 100x120
-		noise_2d (np.random.normal :loc 0.0 :scale .1  :size y0_2d.shape) 
-		y_2d (+ y0_2d
-			noise_2d)
-		)
-	  (setf x0 (jnp.array (list ,@(loop for e in params
-						       and i from 0
-						       collect
-						       (destructuring-bind (&key name start) e
-							 start))))
-		x0_2d (make2d x0))
-	  (setf res (list))
-	  (def merit2 (params y x)
-	    ,@(loop for e in params
-		    and i from 0
-		    collect
-		    (destructuring-bind (&key name start) e
-		      `(setf ,name (aref params ,i))))
-	    (return (jnp.sum (** ,fun-residual
-				 2))))
-	  (do0 (setf 
-		jv #+nil(jax.jit
-			 (jax.pmap
-			  (jax.vmap (lambda (x0 y x)
-				      (jax.scipy.optimize.minimize
-				       merit2
-				       x0
-				       :args (tuple y x)
-				       :method (string "BFGS")))
-				    :in_axes (tuple 1 1 1)
-				    :out_axes 0
-				    )
-			  :in_axes (tuple 1 1 1)
-			  :out_axes 0)
-			 )
-		   #-nil(jax.jit
-			 (jax.vmap (lambda (x0 y x)
-				     (jax.scipy.optimize.minimize
-				      merit2
-				      x0
-				      :args (tuple y x)
-				      :method (string "BFGS")))
-				   :in_axes (tuple 1 1 1)
-				   :out_axes 0)
-		    )
-		#+nil(jax.vmap (lambda (x0 y x)
-				     (jax.scipy.optimize.minimize
-				      merit2
-				      x0
-				      :args (tuple y x)
-				      :method (string "BFGS")))
-				   :in_axes (tuple 1 1 1)
-				   :out_axes 0)
-		     ))
+		  x_2d (make2d x)
+		  y0 (np.sin x)
+		  y y0
+		  y0_2d (make2d y0) ;; 100x120
+		  delta_y .1
+		  noise_2d (np.random.normal :loc 0.0
+					     :scale delta_y
+					     :size y0_2d.shape) 
+		  y_2d (+ y0_2d
+			  noise_2d)
+		  )
+	    (setf x0 (jnp.array (list ,@(loop for e in params
+					      and i from 0
+					      collect
+					      (destructuring-bind (&key name start) e
+						start))))
+		  x0_2d (make2d x0))
+	    (setf res (list))
+	    (def merit3 (params y x y_std)
+	      ,@(loop for e in params
+		      and i from 0
+		      collect
+		      (destructuring-bind (&key name start) e
+			`(setf ,name (aref params ,i))))
+	      (return (jnp.sum (** ,fun-residual
+				   2))))
 
-	  
-	  (do0
-	   (do0 (setf jv0_start (time.time))
-	    (setf 
-	     sol (jv x0_2d y_2d x_2d))
-	    (setf jv0_end (time.time)))
-	   (setf jv_start (time.time))
-	   (setf 
-	    sol (jv x0_2d y_2d x_2d))
-	   (setf jv_end (time.time)))
-	  
-	  (do0
-	   (setf d (dictionary :duration_jit_and_call (- jv0_end jv0_start)
-			       :duration_call (- jv_end jv_start)))
-	   ,@(loop for e in params and i from 0
-		   collect
-		   (destructuring-bind (&key name start) e
-		    `(do0
-		      (setf (aref d (string ,name))
-			    (dot sol
-				 (aref x ":" ,i)
-				 (mean)
-				 (item)))
-		      (setf (aref d (string ,(format nil "~a_err" name)))
-			    (dot sol
-				 (aref x ":" ,i)
-				 (std)
-				 (item)))
-		      (setf ,name
-			    (aref d (string ,name)))
-		      (setf (aref d (string ,(format nil "~a0" name)))
-			    (dot
-			     (aref x0 ,i)
-			     (item))))))
-	   ,@(loop for e in `(success status fun nfev njev nit)
-		   collect
-		   `(do0
-		     (setf (aref d (string ,e))
-			   (dot sol
-				(aref ,e ":")
-				(mean)
-				(item)))
-		     (setf (aref d (string ,(format nil "~a_err" e)))
-			   (dot sol
-				(aref ,e ":")
-				(std)
-				(item)))))
-	   (res.append d)
-	   (setf df2 (pd.DataFrame res))
-	   (print (dot df2 (aref iloc 0)))
-	   )
-	  (do0
-	   (figure :figsize (list 12 8))
-	   (setf pl (list 2 1))
-	   (do0 
-	    (subplot2grid pl (list 0 0))
-	    (plot x y0 :label (string "noise-free data"))
-	    (for (i (range n_batch))
-		 (plt.scatter x (aref y_2d ":" i) :label (? (== i 0)
-							    (string "data with noise")
-							    (string "_no_legend_"))
-						  :alpha .09
-			      :color (string "r")))
-	    (plot x ,fun-model :label (string "fit avg"))
-	    (for (i (range n_batch))
-		 ,@(loop for e in params and i from 0
-		   collect
-		   (destructuring-bind (&key name start) e
-		    `(do0
-		      (setf ,name
-			    (dot sol
-				 (aref x i ,i)
-				 (mean)
-				 (item)))
-		      )))
-		 (plot x ,fun-model :color (string "k") :label (? (== i 0)
-							(string "fit")
-								  (string "_no_legend_"))
-		       :alpha .1))
-	    (legend)
-	    (grid))
-	   (do0 
-	    (subplot2grid pl (list 1 0))
-	    (plot x (- y0 ,fun-model) :label (string "residual noise-free data"))
-	    (plt.scatter x (- y ,fun-model) :label (string "residual data with noise"))
-	    (legend)
-	    (grid))
-	   )
-	  )))
-
-     ,(let* ((params `((:name phase :start .1)
-			(:name amplitude :start 1.0)
-		       (:name offset :start 0.0)))
-	      (fun-model `(+ offset
-			     (* amplitude (jnp.sin (+ phase x)))))
-	      (fun-residual `(- y ,fun-model)))
-	`(python
-	 (do0
-	  "#export"
-	  (comments "try minimize many replicas with different noise with jax and xmap for named axes")
-	  (setf n_batch (* 4 10))
-	  (def make2d (a)
-	    (return (dot a
-			 (repeat n_batch)
-			 (reshape -1 n_batch))))
-	  (setf nx 120
-		x (np.linspace 0 4 nx)
-		
-		x_2d (make2d x)
-		y0 (np.sin x)
-		y0_2d (make2d y0) ;; 100x120
-		noise_2d (np.random.normal :loc 0.0 :scale .1  :size y0_2d.shape) 
-		y_2d (+ y0_2d
-			noise_2d)
-		)
-	  (setf x0 (jnp.array (list ,@(loop for e in params
-						       and i from 0
-						       collect
-						       (destructuring-bind (&key name start) e
-							 start))))
-		x0_2d (make2d x0))
-	  (setf res (list))
-	  (def merit3 (params y x)
-	    ,@(loop for e in params
-		    and i from 0
-		    collect
-		    (destructuring-bind (&key name start) e
-		      `(setf ,name (aref params ,i))))
-	    (return (jnp.sum (** ,fun-residual
-				 2))))
-
-	  (setf mesh_devices (np.array (jax.devices))
-		mesh_def (tuple mesh_devices
-				(tuple (string "x"))))
-	    
-	  (do0 (setf 
-		distr_jv
-		(xmap (lambda (x0 y x)
-			(jax.scipy.optimize.minimize
+	    (setf mesh_devices (np.array (jax.devices))
+		  mesh_def (tuple mesh_devices
+				  (tuple (string "x"))))
+	    (def optimize_and_error_estimate (x0 y x y_std)
+	      (setf sol (jax.scipy.optimize.minimize
 			 merit3
 			 x0
-			 :args (tuple y x)
-			 :method (string "BFGS")))
-		      
-		      :in_axes (tuple (dict (1 (string "left")))
-				      (dict (1 (string "left")))
-				      "{}"
-				      ;(dict (1 (string "left")))
-				      )
-		      :out_axes (list (string "left") "...")
-		      :axis_resources (dictionary :left (string "x"))
-		      )))
+			 :args (tuple y x y_std)
+			 :method (string "BFGS"))
+		    )
+	      (setf hessian_fun (jax.jacfwd (jax.jacrev
+					     (lambda (p) (merit3 p y x y_std)))))
+	      (setf hessian_mat (hessian_fun sol.x))
+	      (setf sol_err (jnp.sqrt (jnp.diag (jnp.linalg.inv hessian_mat))))
+	      (return (jnp.hstack (tuple sol.x
+					 sol_err))))
+	    (do0 (setf 
+		  distr_jv
+		  (xmap 
+		      optimize_and_error_estimate
+			:in_axes (tuple (dict (1 (string "left")))
+					(dict (1 (string "left")))
+					"{}"
+					;(dict (1 (string "left")))
+					"{}"
+					)
+			:out_axes (list (string "left") "...")
+			:axis_resources (dictionary :left (string "x"))
+			)))
 
-	  ,@(loop for i below 2 collect
-		  `(do0
-		    ,(if (eq i 0)
-			 `(print (string "initialize jit"))
-			 `(print (string "call jit second time")))
-		    (setf ,(format nil "jv~a_start" i) (time.time))
-		    (with (jax.experimental.maps.mesh *mesh_def)
-			  (setf ,(if (eq i 0)
-				     `sol0
-				     `sol)
-				(distr_jv x0_2d y_2d x))
-			  )
-		    (setf ,(format nil "jv~a_end" i) (time.time))))
+	    ,@(loop for i below 2 collect
+		    `(do0
+		      ,(if (eq i 0)
+			   `(print (string "initialize jit"))
+			   `(print (string "call jit second time")))
+		      (setf ,(format nil "jv~a_start" i) (time.time))
+		      (with (jax.experimental.maps.mesh *mesh_def)
+			    (setf ,(if (eq i 0)
+				       `sol0
+				       `sol)
+				  (distr_jv x0_2d y_2d x delta_y))
+			    )
+		      (setf ,(format nil "jv~a_end" i) (time.time))))
 	  
 	  
-	  (do0
-	   (setf d (dictionary :duration_jit_and_call (- jv0_end jv0_start)
-			       :duration_call (- jv1_end jv1_start)))
-	   ,@(loop for e in params and i from 0
-		   collect
-		   (destructuring-bind (&key name start) e
-		    `(do0
-		      (setf (aref d (string ,name))
-			    (dot sol
-				 (aref x ":" ,i)
-				 (mean)
-				 (item)))
-		      (setf (aref d (string ,(format nil "~a_err" name)))
-			    (dot sol
-				 (aref x ":" ,i)
-				 (std)
-				 (item)))
-		      (setf ,name
-			    (aref d (string ,name)))
-		      (setf (aref d (string ,(format nil "~a0" name)))
-			    (dot
-			     (aref x0 ,i)
-			     (item))))))
-	   ,@(loop for e in `(success status fun nfev njev nit)
-		   collect
-		   `(do0
-		     (setf (aref d (string ,e))
-			   (dot sol
-				(aref ,e ":")
-				(mean)
-				(item)))
-		     (setf (aref d (string ,(format nil "~a_err" e)))
-			   (dot sol
-				(aref ,e ":")
-				(std)
-				(item)))))
-	   (res.append d)
-	   (setf df2 (pd.DataFrame res))
-	   (print (dot df2 (aref iloc 0)))
+	    (do0
+	     (setf d (dictionary :duration_jit_and_call (- jv0_end jv0_start)
+				 :duration_call (- jv1_end jv1_start)))
+	     ,@(loop for e in params and i from 0
+		     collect
+		     (destructuring-bind (&key name start) e
+		       `(do0
+			 (setf (aref d (string ,name))
+			       (dot 
+				    (aref sol ":" ,i)
+				    (mean)
+				    (item)))
+			 (setf (aref d (string ,(format nil "~a_err" name)))
+			       (dot 
+				    (aref sol ":" ,i)
+				    (std)
+				    (item)))
+			 (setf (aref d (string ,(format nil "~a_fiterr" name)))
+			       (dot 
+				    (aref sol ":" ,(+ (length params) i))
+				    (mean)
+				    (item)))
+			 (setf ,name
+			       (aref d (string ,name)))
+			 (setf (aref d (string ,(format nil "~a0" name)))
+			       (dot
+				(aref x0 ,i)
+				(item))))))
+	     #+nil
+	     ,@(loop for e in `(success status fun nfev njev nit)
+		     collect
+		     `(do0
+		       (setf (aref d (string ,e))
+			     (dot sol
+				  (aref ,e ":")
+				  (mean)
+				  (item)))
+		       (setf (aref d (string ,(format nil "~a_err" e)))
+			     (dot sol
+				  (aref ,e ":")
+				  (std)
+				  (item)))))
+	     (res.append d)
+	     (setf df (pd.DataFrame res))
+	     (print (dot df (aref iloc 0)))
+	     )
 	   )
-	  (do0
-	   (figure :figsize (list 12 8))
-	   (setf pl (list 2 1))
-	   (do0 
-	    (subplot2grid pl (list 0 0))
-	    (plot x y0 :label (string "noise-free data"))
-	    (for (i (range n_batch))
-		 (plt.scatter x (aref y_2d ":" i) :label (? (== i 0)
-							    (string "data with noise")
-							    (string "_no_legend_"))
-						  :alpha .09
-			      :color (string "r")))
-	    (plot x ,fun-model :label (string "fit avg"))
-	    (for (i (range n_batch))
-		 ,@(loop for e in params and i from 0
-		   collect
-		   (destructuring-bind (&key name start) e
-		    `(do0
-		      (setf ,name
-			    (dot sol
-				 (aref x i ,i)
-				 (mean)
-				 (item)))
-		      )))
-		 (plot x ,fun-model :color (string "k") :label (? (== i 0)
-							(string "fit")
-								  (string "_no_legend_"))
-		       :alpha .1))
-	    (legend)
-	    (grid))
-	   (do0 
-	    (subplot2grid pl (list 1 0))
-	    (plot x (- y0 ,fun-model) :label (string "residual noise-free data"))
-	    (plt.scatter x (- y ,fun-model) :label (string "residual data with noise"))
-	    (legend)
-	    (grid))
-	   )
-	  )))
+	   (do0
+	    (figure :figsize (list 12 10))
+	    (setf pl (list 3 1))
+	    (do0 
+	     (subplot2grid pl (list 0 0))
+	     (plot x y0 :linewidth 4
+		   	:label (string "noise-free data")
+			:color (string "green"))
+	     (for (i (range n_batch))
+		  (plt.scatter x (aref y_2d ":" i) :label (? (== i 0)
+							     (string "data with noise")
+							     (string "_no_legend_"))
+						   :alpha .09
+						   :color (string "r")))
+	     (plot x ,fun-model :linewidth 2 :label (string "fit avg")
+		   :color (string "red"))
+	     (for (i (range n_batch))
+		  ,@(loop for e in params and i from 0
+			  collect
+			  (destructuring-bind (&key name start) e
+			    `(do0
+			      (setf ,name
+				    (dot 
+					 (aref sol i ,i)
+					 (mean)
+					 (item)))
+			      )))
+		  (plot x ,fun-model :color (string "k") :label (? (== i 0)
+								   (string "fit")
+								   (string "_no_legend_"))
+				     :alpha .1))
+	     (legend)
+	     (grid))
+	    (do0 
+	     (subplot2grid pl (list 1 0))
+	     (setf model ,fun-model)
+	     (setf noisefree_residual (- y0 model))
+	     (setf noisy_residual (- y model))
+	     (plot x noisefree_residual
+		   :label (string "residual noise-free data"))
+	     (plt.scatter x noisy_residual
+			  :label (string "residual data with noise")
+			  :alpha .3)
+	     (legend)
+	     (grid))
+	    (do0 
+	     (subplot2grid pl (list 2 0))
+	     (setf noisefree_residual_weighted (/ (- y0 model)
+						  delta_y))
+	     (setf noisy_residual_weighted (/ (- y model)
+					      delta_y))
+	     (plot x noisefree_residual_weighted
+		   :label (string "weighted residual noise-free data"))
+	     (plt.scatter x noisy_residual_weighted
+			  :label (string "weighted residual data with noise")
+			  :alpha .3)
+	     (legend)
+	     (grid))
+	    )
+	    )))
       ))))
 
 
