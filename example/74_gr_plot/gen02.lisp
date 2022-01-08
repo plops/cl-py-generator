@@ -182,11 +182,23 @@
       (python
        (do0
 	"#export"
-	(setf x (np.linspace 0 4 120))
-	(for (phase (np.linspace 0 2 1000))
-	 (do0
-	  (setf y (np.sin (+ phase x)))
-	  (mlab.plot x y)))))))))
+	(setf ny 41
+	      nx 32)
+	(setf x (np.linspace 0 4 nx)
+	      y (np.linspace 0 12 ny)
+	      )
+	(for (phase (np.linspace 0 20 1000))
+	 (setf 
+	  
+	  z (+ (np.sin (+ phase (aref x ":" np.newaxis)))
+	       (np.cos (aref y np.newaxis ":"))))
+	 (mlab.heatmap (aref z (slice "" "" -1)
+			     ":")
+		       :xlim (list (x.min)
+				   (x.max))
+		       :ylim (list (y.min)
+				   (y.max))
+		       ))))))))
 
 
 
