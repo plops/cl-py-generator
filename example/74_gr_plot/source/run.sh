@@ -1,2 +1,3 @@
 nbdev_build_lib
-python3 -i try_jax/play01.py 
+export MPLBACKEND=module://gr.matplotlib.backend_gr
+python3 -i try_gr/play01.py 
