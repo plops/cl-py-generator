@@ -16,20 +16,20 @@
     `((np numpy)
       (pd pandas)
       ;jax
-      
+      gr
       (xr xarray)
-      matplotlib
+      ;matplotlib
 					;(s skyfield)
       ;;(ds dataset)
 					; cv2
       ;datoviz
       ))
-  (let ((nb-file "source/01_play.ipynb"))
+  (let ((nb-file "source/02_play.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp play01"))
+	       "# default_exp play02"))
       #+nil (python
        (do0
 	"#export"
@@ -49,7 +49,7 @@
 	       (do0
 		
 					;"%matplotlib notebook"
-		 #-nil (do0
+		 #+nil (do0
 		      
 		      (imports (matplotlib))  
                       ;(matplotlib.use (string "gr"))
@@ -75,8 +75,8 @@
 					;(pd pandas)
 					;(xr xarray)
 			  ,@*libs*
-			  (xrp xarray.plot)
-			  ;skimage.restoration
+			  ;(xrp xarray.plot)
+					;skimage.restoration
 			  ;skimage.morphology
 					;(u astropy.units)
 					; EP_SerialIO
@@ -118,13 +118,13 @@
 			  ;numpy.random
 			  ))
 		
-			(imports-from (matplotlib.pyplot
+		#+nil (imports-from (matplotlib.pyplot
 			       plot imshow tight_layout xlabel ylabel
 			       title subplot subplot2grid grid
 			       legend figure gcf xlim ylim))
 			#+nil (imports-from (jax.experimental.maps
 				       xmap))
-
+			(imports-from (gr.pygr mlab))
 		 )
 	       ))
       (python
@@ -183,8 +183,10 @@
        (do0
 	"#export"
 	(setf x (np.linspace 0 4 120))
-	(setf y (np.sin x))
-	(plot x y)))))))
+	(for (phase (np.linspace 0 2 1000))
+	 (do0
+	  (setf y (np.sin (+ phase x)))
+	  (mlab.plot x y)))))))))
 
 
 

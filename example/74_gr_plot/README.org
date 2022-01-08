@@ -1,3 +1,7 @@
+|       |                                                  |
+| gen01 | try gr as backend for matplotlib and xarray.plot |
+| gen02 | try pure gr                                      |
+
 - https://www.youtube.com/watch?v=BzM0Wa3eWcQ (2016)
   - written in C
   - can plot streaming data
@@ -8,3 +12,8 @@ pip3 install --user gr
 export MLBACKEND="module://gr.matplotlib.backend_gr"
 #+end_example
   - animation on the fly are possible
+
+- https://www.youtube.com/watch?v=EK9J4pHDzQo (2020, julia)
+  - renderer for latex formulas
+  - better integration in jupyterlab
+  - interactive elements in browser
