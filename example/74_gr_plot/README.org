@@ -1,0 +1,9 @@
+- https://www.youtube.com/watch?v=BzM0Wa3eWcQ
+  - written in C
+  - can plot streaming data
+  - python, julia, javascript, fortran support
+  - can be used as backend for matplotlib (makes it much faster)
+#+begin_example
+pip3 install --user gr
+export MLBACKEND="module://gr.matplotlib.backend_gr"
+#+end_example
