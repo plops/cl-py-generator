@@ -190,15 +190,17 @@
 	(for (phase (np.linspace 0 20 1000))
 	 (setf 
 	  
-	  z (+ (np.sin (+ phase (aref x ":" np.newaxis)))
-	       (np.cos (aref y np.newaxis ":"))))
+	  z (+ (np.sin (+ phase (aref x np.newaxis ":" )))
+	       (np.cos (aref y  ":" np.newaxis))))
 	 (mlab.heatmap (aref z (slice "" "" -1)
 			     ":")
 		       :xlim (list (x.min)
 				   (x.max))
 		       :ylim (list (y.min)
 				   (y.max))
-		       ))))))))
+		       )
+	 (mlab.contour x y z :levels 10
+		       :colors (string "k")))))))))
 
 
 
