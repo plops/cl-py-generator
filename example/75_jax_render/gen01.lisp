@@ -187,11 +187,13 @@
        (do0
 	(def volumetric_rendering (color sigma z_vals dirs)
 	  (setf eps 1s-10
-		dists (- (aref z_vals "..." (slice 1 ""))
-			 (aref z_vals "..." (slice "" -1)))
+		inv_eps (/ 1s0 eps)
+		z_right (aref z_vals "..." (slice 1 ""))
+		z_left (aref z_vals "..." (slice "" -1))
+		dists (- z_right
+			 z_left)
 		)
-	  #+nil
-	  (do0
+	  #+nil (do0
 	   (comments "ray relative distance to absolute distance"
 		     "not necessary if rays_d is normalized")
 	   (setf 
@@ -216,7 +218,46 @@
 					     "..."
 					     (slice "" -1))
 				       eps)
-				    :axis -1)))))
+				    :axis -1))))
+	  (do0
+	   (comments "absolute amount of light stuck in each voxel")
+	   (setf weights (* alpha accum_prod))
+	   (setf comp_color (dot
+			     (* (aref weights
+				      "..."
+				      None)
+				(jax.nn.sigmoid color))
+			     (sum :axis -2))))
+	  (do0
+	   (comments "weighted average of the depths by contribution to final color")
+	   (setf depth (dot (* weights
+			       z_left)
+			    (sum :axis -1))))
+	  (do0
+	   (comments "total amount of light absorbed along the ray")
+	   (setf acc (dot weights
+			  (sum :axis -1)))
+	   )
+	  (do0
+	   (comments "equivalent to disp = 1/max(eps, where(acc>eps,depth/acc,0))"
+		     "but more efficient and stable")
+	   (setf disparity (/ acc depth)
+		 disparity (jnp.where (&
+				       (< 0 disparity)
+				       (< disparity inv_eps)
+				       (< eps acc))
+				      disparity
+				      inv_eps)))
+	  #+nil (do0
+	   (comments "include white background in final color")
+	   (setf comp_color (+ comp_color
+			       (- 1s0
+				  (aref acc "..." None)))))
+	  (return comp_color
+		  disparity
+		  acc
+		  weights)
+	  )
 	))
       
       ))))
