@@ -1,2 +1,4 @@
 - https://github.com/sarafridov/plenoxels
 - https://github.com/sarafridov/plenoxels/blob/main/plenoxel.py
+- https://arxiv.org/pdf/2112.05131.pdf
+- https://arxiv.org/pdf/1906.07751.pdf
