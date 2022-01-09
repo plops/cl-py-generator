@@ -204,7 +204,19 @@
 	   (setf alpha (- 1s0
 			  (jnp.exp (* -1
 				      (jax.nn.relu sigma)
-				      dists))))))
+				      dists)))))
+	  (setf accum_prod
+		(jnp.concatenate
+		 (list (jnp.ones_like (aref alpha
+					    "..."
+					    (slice "" 1))
+				      alpha.dtype)
+		       (jnp.cumprod (+ -1s0
+				       (aref alpha
+					     "..."
+					     (slice "" -1))
+				       eps)
+				    :axis -1)))))
 	))
       
       ))))
