@@ -1,0 +1,2 @@
+- https://github.com/sarafridov/plenoxels
+- https://github.com/sarafridov/plenoxels/blob/main/plenoxel.py
