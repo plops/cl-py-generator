@@ -186,6 +186,8 @@
       (python
        (do0
 	(def volumetric_rendering (color sigma z_vals dirs)
+	  (comments "formulate rendering process for semi-transparent volumes that mimic front-to-back additive blending"
+		    "as camera ray traverses volume of inhomogeneous material, it accumulates color in proportion to the local color and density of the material at each point along its path")
 	  (setf eps 1s-10
 		inv_eps (/ 1s0 eps)
 		z_right (aref z_vals "..." (slice 1 ""))
