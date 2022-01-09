@@ -188,19 +188,28 @@
 	      y (np.linspace 0 12 ny)
 	      )
 	(for (phase (np.linspace 0 20 1000))
-	 (setf 
+	     (do0 (gr.clearws)
+		  (setf 
 	  
-	  z (+ (np.sin (+ phase (aref x np.newaxis ":" )))
-	       (np.cos (aref y  ":" np.newaxis))))
-	 (mlab.heatmap (aref z (slice "" "" -1)
-			     ":")
-		       :xlim (list (x.min)
-				   (x.max))
-		       :ylim (list (y.min)
-				   (y.max))
-		       )
-	 (mlab.contour x y z :levels 10
-		       :colors (string "k")))))))))
+		   z (+ (np.sin (+ phase (aref x np.newaxis ":" )))
+			(np.cos (+ .54 (aref y  ":" np.newaxis)))))
+		  ;; first value in upper left corner
+		  
+		  (mlab.heatmap z #+nil
+				  (aref (dot z (transpose)) (slice "" "" -1)
+					":")
+				  :xlim (list (x.min)
+					      (x.max))
+				  :ylim (list (y.min)
+					      (y.max))
+				  :zlim (list -2 2)
+				)
+		  (mlab.hold True)
+		  (mlab.contour x y z :levels 10
+				      :color (string "k"))
+		  (mlab.hold False)
+		  (gr.updatews)
+		  (time.sleep .0001)))))))))
 
 
 

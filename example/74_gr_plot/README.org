@@ -8,6 +8,8 @@
   - python, julia, javascript, fortran support
   - can be used as backend for matplotlib (makes it much faster)
 #+begin_example
+# on fedora:
+sudo  dnf install libXt libXrender libXext mesa-libGL qt5-qtbase-gui
 pip3 install --user gr
 export MLBACKEND="module://gr.matplotlib.backend_gr"
 #+end_example
