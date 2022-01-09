@@ -240,7 +240,9 @@
 	   )
 	  (do0
 	   (comments "equivalent to disp = 1/max(eps, where(acc>eps,depth/acc,0))"
-		     "but more efficient and stable")
+		     "but more efficient and stable"
+		     "to model occlusions the ray accumulates not only color but also opacity"
+		     "if accumulated opacity reaches 1 for example when the ray traverses an opaque region then no further color can be accumulated on the ray")
 	   (setf disparity (/ acc depth)
 		 disparity (jnp.where (&
 				       (< 0 disparity)
