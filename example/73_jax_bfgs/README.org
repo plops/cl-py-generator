@@ -1,3 +1,8 @@
+|       |                                  |
+| gen01 | fit noisy sinus (1d fit)         |
+| gen02 | multi-dimensional compound model |
+|       |                                  |
+
 - call optimizer to minimize residual
 - ensure measurement error is used for weighing xi^2
 - compute hessian with jax

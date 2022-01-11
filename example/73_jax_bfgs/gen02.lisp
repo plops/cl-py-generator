@@ -18,19 +18,28 @@
       (pd pandas)
       jax
       
-					;(xr xarray)
+      (xr xarray)
       matplotlib
 					;(s skyfield)
       ;;(ds dataset)
 					; cv2
       ;datoviz
       ))
-  (let ((nb-file "source/01_play.ipynb"))
+  (defun scale (a &key (percentile 2) (range 10))
+	  "Set mi1 and ma1 for robust display. percentile [default=2%] gives the range of samples that will be ignored at the extrema. range [default=10%] increases the range a bit."
+	  `(do0
+	    (setf mi0 (np.nanpercentile ,a ,percentile)
+		  ma0 (np.nanpercentile ,a ,(- 100 percentile))
+		  d (- ma0 mi0)
+		  mi1 (- mi0 (/ (* d ,range) 100))
+		  ma1 (+ ma0 (/ (* d ,range) 100))))
+	  )
+  (let ((nb-file "source/02_play.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp play01"))
+	       "# default_exp play02"))
       (python
        (do0
 	"#export"
@@ -76,7 +85,7 @@
 					;(pd pandas)
 					;(xr xarray)
 			  ,@*libs*
-					;		(xrp xarray.plot)
+			  (xrp xarray.plot)
 			  ;skimage.restoration
 			  ;skimage.morphology
 					;(u astropy.units)
@@ -178,15 +187,48 @@
 			       (dot ,e __version__)
 			       ))
 			  (t (break "problem")))))))
-	(print df_status)))
+	(display df_status)))
 
       (python
+       
        (do0
 	(setf x (np.linspace 0 4 120)
-	      y0 (np.sin x)
-	      delta_y .1
-	      y (+ y0
-		   (np.random.normal :loc 0.0 :scale delta_y  :size (len x))))))
+	      y (np.linspace -1 1 43)
+	      ch (np.arange 3)
+	      data (+
+		    (np.cos (aref y None ":" None))
+		    (np.sin (+ (aref x ":" None None)
+			       (* .33 (aref ch None None ":")))))
+	      )
+	,(let ((dim-def `((:name x :contents x)
+			  (:name y :contents y)
+			  (:name ch :contents ch))))
+	   `(setf xs (xr.DataArray
+		     :data data
+		     :dims (list ,@(mapcar (lambda (x)
+					     `(string ,(getf x :name)))
+					   dim-def))
+		     :coords (dict
+			      ,@(mapcar (lambda (x)
+					  `((string ,(getf x :name))
+					    ,(getf x :contents)))
+					dim-def)))))
+	xs
+	))
+      (python
+       (do0
+	(setf ch 0)
+	(setf da (aref xs ":" ":" ch))
+	
+	,(scale `da)
+	(do0
+	 (da.plot :vmin mi1 :vmax ma1
+		  :cmap (string "cubehelix"))
+	 (plt.clabel
+	  (xrp.contour da
+		       :levels (np.linspace mi1 ma1 6)
+		       :colors (string "k"))))
+	))
       
       ,@(let* ((params `((:name phase :start .1)
 			 (:name amplitude :start 1.0)
