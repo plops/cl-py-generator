@@ -268,12 +268,12 @@
 		       :colors (string "k"))))
 	))
       
-      ,@(let* ((x-poly `(0 1 2 3))
+      ,@(let* ((x-poly `(0 1 2 3 4 5))
 	       (params `(
 			 ,@(loop for i in x-poly
 				 collect
 				 `(:name ,(format nil "xp_a~a" i)
-				   :start ,(expt .1 i)))
+				   :start .1))
 			 (:name xp_c0 :start 1.5)
 			 ))
 	       (fun-model `(+ ,@(loop for i in x-poly
