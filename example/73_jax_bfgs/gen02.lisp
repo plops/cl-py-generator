@@ -30,7 +30,7 @@
 	  `(do0
 	    (setf mi0 (np.nanpercentile ,a ,percentile)
 		  ma0 (np.nanpercentile ,a ,(- 100 percentile))
-		  d (- ma0 ma1)
+		  d (- ma0 mi0)
 		  mi1 (- mi0 (/ (* d ,range) 100))
 		  ma1 (+ ma0 (/ (* d ,range) 100))))
 	  )
@@ -43,7 +43,15 @@
       (python
        (do0
 	"#export"
-	
+	(do0
+	 (import os)
+	 (setf 
+	  (dot os (aref environ (string "MPLBACKEND"))
+		      )
+	  (string "module://gr.matplotlib.backend_gr"))
+	 (imports-from (pylab      plot draw pause)
+		       )
+	 (imports (gr)))
 	(comments "spread jax work over 4 virtual cpu cores:")
 	(imports (os
 		  multiprocessing))
