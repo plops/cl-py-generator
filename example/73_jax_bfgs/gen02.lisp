@@ -217,13 +217,16 @@
 		    (np.cos yy)
 		    (np.sin (+ xx
 			       (* .33 cc))))
+	      noise (np.random.normal :loc 0.0
+				      :scale .052
+				      :size data.shape)
 	      )
 	,(let ((dim-def `((:name x :contents x)
 			  (:name y :contents y)
 			  (:name z :contents z)
 			  (:name ch :contents ch))))
 	   `(setf xs (xr.DataArray
-		     :data data
+		     :data (+ data noise)
 		     :dims (list ,@(mapcar (lambda (x)
 					     `(string ,(getf x :name)))
 					   dim-def))
@@ -260,11 +263,15 @@
 		       :colors (string "k"))))
 	))
       
-      ,@(let* ((params `((:name phase :start .1)
-			 (:name amplitude :start 1.0)
-			 (:name offset :start 0.0)))
-	       (fun-model `(+ offset
-			      (* amplitude (jnp.sin (+ phase x)))))
+      ,@(let* ((params `((:name xp_a0 :start 2.5)
+			 (:name xp_a1 :start .1)
+			 (:name xp_a2 :start -.1)
+			 (:name xp_c0 :start 1.5)
+			 ))
+	       (fun-model `(+ xp_a0
+			      (* xp_a1 (- xx xp_c0))
+			      (* xp_a2 (** (- xx xp_c0)
+					   2))))
 	       (fun-residual `(/ (- y ,fun-model)
 				 y_std)))
 	`((python
