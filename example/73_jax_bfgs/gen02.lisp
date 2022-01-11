@@ -43,7 +43,7 @@
       (python
        (do0
 	"#export"
-	(do0
+	#+nil (do0
 	 (import os)
 	 (setf 
 	  (dot os (aref environ (string "MPLBACKEND"))
@@ -200,16 +200,27 @@
       (python
        
        (do0
-	(setf x (np.linspace 0 4 120)
-	      y (np.linspace -1 1 43)
-	      ch (np.arange 3)
+	(setf dtype np.float32)
+	(setf x (np.linspace 0 4 64 :dtype dtype) 
+	      y (np.linspace -1 1 43          :dtype dtype)
+	      z (np.linspace -1 1 32 :dtype dtype)
+	      ch (np.arange 3 :dtype dtype)
+	      xx (aref x ":" None None None)
+	      yy (aref y None ":" None None)
+	      zz (aref z None None ":" None)
+	      cc (aref ch None None None ":")
 	      data (+
-		    (np.cos (aref y None ":" None))
-		    (np.sin (+ (aref x ":" None None)
-			       (* .33 (aref ch None None ":")))))
+		    (np.exp (/ (- (** (- zz
+					 .3)
+				      2))
+			       -.1))
+		    (np.cos yy)
+		    (np.sin (+ xx
+			       (* .33 cc))))
 	      )
 	,(let ((dim-def `((:name x :contents x)
 			  (:name y :contents y)
+			  (:name z :contents z)
 			  (:name ch :contents ch))))
 	   `(setf xs (xr.DataArray
 		     :data data
