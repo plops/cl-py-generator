@@ -3,7 +3,7 @@
   (ql:quickload "cl-py-generator"))
 (in-package :cl-py-generator)
 
-
+;; https://github.com/sciapp/python-gr/tree/master/examples
 (progn
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
@@ -30,7 +30,7 @@
 	  `(do0
 	    (setf mi0 (np.nanpercentile ,a ,percentile)
 		  ma0 (np.nanpercentile ,a ,(- 100 percentile))
-		  d (- ma0 mi0)
+		  d (- ma0 ma1)
 		  mi1 (- mi0 (/ (* d ,range) 100))
 		  ma1 (+ ma0 (/ (* d ,range) 100))))
 	  )
