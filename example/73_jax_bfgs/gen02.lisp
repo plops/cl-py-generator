@@ -236,8 +236,9 @@
 	))
       (python
        (do0
-	(setf ch 0)
-	(setf da (aref xs ":" ":" ch))
+	(setf ch 0
+	      z 16)
+	(setf da (aref xs ":" ":" z ch))
 	
 	,(scale `da)
 	(do0
