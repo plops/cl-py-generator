@@ -236,6 +236,16 @@
 	))
       (python
        (do0
+	(comments "1d plot")
+	(setf ch 0
+	      z 16
+	      y 20)
+	(setf da (aref xs ":" y z ch))
+	(da.plot)
+	(grid)))
+      (python
+       (do0
+	(comments "2d plot")
 	(setf ch 0
 	      z 16)
 	(setf da (aref xs ":" ":" z ch))
