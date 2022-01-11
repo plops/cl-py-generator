@@ -201,10 +201,14 @@
        
        (do0
 	(setf dtype np.float32)
-	(setf x (np.linspace 0 4 64 :dtype dtype) 
-	      y (np.linspace -1 1 43          :dtype dtype)
-	      z (np.linspace -1 1 32 :dtype dtype)
-	      ch (np.arange 3 :dtype dtype)
+	(setf nx 64
+	      ny 43
+	      nz 32
+	      nch 3
+	      x (np.linspace 0 4 nx :dtype dtype) 
+	      y (np.linspace -1 1 ny          :dtype dtype)
+	      z (np.linspace -1 1 nz :dtype dtype)
+	      ch (np.arange nch :dtype dtype)
 	      xx (aref x ":" None None None)
 	      yy (aref y None ":" None None)
 	      zz (aref z None None ":" None)
@@ -217,8 +221,9 @@
 		    (np.cos yy)
 		    (np.sin (+ xx
 			       (* .33 cc))))
+	      data_std .052 
 	      noise (np.random.normal :loc 0.0
-				      :scale .052
+				      :scale data_std
 				      :size data.shape)
 	      )
 	,(let ((dim-def `((:name x :contents x)
@@ -272,39 +277,38 @@
 			      (* xp_a1 (- xx xp_c0))
 			      (* xp_a2 (** (- xx xp_c0)
 					   2))))
-	       (fun-residual `(/ (- y ,fun-model)
-				 y_std)))
+	       (fun-residual `(/ (- data ,fun-model)
+				 data_std))
+	       (merit-args `(data data_std xx)))
 	`((python
 	   (do0
 	    "#export"
-	    (comments "try minimize many replicas with different noise with jax and xmap for named axes")
-	    (setf n_batch (* 4 3))
-	    (def make2d (a)
-	      (return (dot a
-			   (repeat n_batch)
-			   (reshape -1 n_batch))))
-	    (setf nx 120
-		  x (np.linspace 0 4 nx)
-		
-		  x_2d (make2d x)
-		  y0 (np.sin x)
-		  y y0
-		  y0_2d (make2d y0) ;; 100x120
-		  delta_y .1
-		  noise_2d (np.random.normal :loc 0.0
-					     :scale delta_y
-					     :size y0_2d.shape) 
-		  y_2d (+ y0_2d
-			  noise_2d)
-		  )
+	    
 	    (setf x0 (jnp.array (list ,@(loop for e in params
 					      and i from 0
 					      collect
 					      (destructuring-bind (&key name start) e
 						start))))
-		  x0_2d (make2d x0))
+		  x0_d (dot (aref x0
+			      None	;x
+			      None	;y
+			      None	;z
+			      None	;ch
+			      ":"
+				  )
+			    (tile
+			     (list
+			      1 ;nx
+			      ny
+			      nz
+			      nch
+			      1))))
+	    ,@(loop for e in `(x0_d xx yy zz cc)
+		    collect
+		    `(print (dot (string ,(format nil "~a.shape={}" e))
+				 (format (dot ,e shape)))))
 	    (setf res (list))
-	    (def merit3 (params y x y_std)
+	    (def merit (params ,@merit-args)
 	      ,@(loop for e in params
 		      and i from 0
 		      collect
@@ -315,35 +319,63 @@
 
 	    (setf mesh_devices (np.array (jax.devices))
 		  mesh_def (tuple mesh_devices
-				  (tuple (string "x"))))
-	    (def optimize_and_error_estimate (x0 y x y_std)
+				  (tuple (string "cpu"))))
+	    (def optimize_and_error_estimate (x0 ,@merit-args)
 	      (setf sol (jax.scipy.optimize.minimize
-			 merit3
+			 merit
 			 x0
-			 :args (tuple y x y_std)
+			 :args (tuple ,@merit-args)
 			 :method (string "BFGS"))
 		    )
 	      (setf hessian_fun (jax.jacfwd (jax.jacrev
-					     (lambda (p) (merit3 p y x y_std)))))
+					     (lambda (p) (merit p ,@merit-args)))))
 	      (setf hessian_mat (hessian_fun sol.x))
 	      (setf sol_err (jnp.sqrt (jnp.diag (jnp.linalg.inv hessian_mat))))
 	      (return (jnp.hstack (tuple sol.x
 					 sol_err))))
-	    (do0 (setf 
-		  distr_jv
-		  (xmap 
-		      optimize_and_error_estimate
-			:in_axes (tuple (dict (1 (string "left")))
-					(dict (1 (string "left")))
-					"{}"
-					;(dict (1 (string "left")))
-					"{}"
+	    (do0
+	     (comments "call 1d optimization")
+	     (setf data1 (aref data
+							 ":"
+							 (// ny 2)
+							 (// nz 2)
+							 (// ch 2)))
+	     (setf sol (optimize_and_error_estimate x0
+						   data1
+						   data_std
+						   xx))
+	     (do0 (plot (dot xx (squeeze)) data1)
+		  ,@(loop for e in params
+		      and i from 0
+		      collect
+		      (destructuring-bind (&key name start) e
+			`(setf ,name (aref sol ,i))))
+		  (setf model1 ,fun-model)
+		  (plot (dot xx (squeeze)) (dot model1 (squeeze)))
+		  (grid))
+	     )
+           #+nil ,(let* ((all-axes `(y z ch))
+		    (in-axes `(dict
+			       ,@(loop for e in all-axes
+				       and i from 1
+				       collect
+				       `(,i (string ,e))))))
+	       `(do0 (setf 
+	 	      distr_jv
+		       (xmap 
+			optimize_and_error_estimate
+			:in_axes (tuple ,in-axes ; data
+					"{}"	 ; data_std
+					,in-axes ; x
 					)
-			:out_axes (list (string "left") "...")
-			:axis_resources (dictionary :left (string "x"))
-			)))
+			:out_axes (list ,@(loop for e in all-axes
+						collect
+						`(string ,e))
+					"...")
+			; :axis_resources (dictionary :x (string "cpu"))
+			))))
 
-	    ,@(loop for i below 2 collect
+	    #+nil ,@(loop for i below 2 collect
 		    `(do0
 		      ,(if (eq i 0)
 			   `(print (string "initialize jit"))
@@ -353,11 +385,11 @@
 			    (setf ,(if (eq i 0)
 				       `sol0
 				       `sol)
-				  (distr_jv x0_2d y_2d x delta_y))
+				  (distr_jv x0_d ,@merit-args))
 			    )
 		      (setf ,(format nil "jv~a_end" i) (time.time))))
 	  
-	  
+	  #+nil
 	    (do0
 	     (setf d (dictionary :duration_jit_and_call (- jv0_end jv0_start)
 				 :duration_call (- jv1_end jv1_start)))
@@ -404,7 +436,8 @@
 	     (setf df (pd.DataFrame res))
 	     (print (dot df (aref iloc 0)))
 	     )
-	   )
+	    )
+	   #+nil
 	   (do0
 	    (figure :figsize (list 12 10))
 	    (setf pl (list 3 1))
