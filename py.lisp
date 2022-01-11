@@ -74,7 +74,7 @@
        #+nil
        (sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
        #+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
-       #+nil
+       
        (progn
 	 ;; python3 -m pip install --user black
 	 ;; should i use --fast option?xs

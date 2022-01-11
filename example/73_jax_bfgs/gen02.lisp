@@ -376,15 +376,16 @@
 	     ,(let* ((all-axes `(y))
 		    (in-axes `(dict
 			       ,@(loop for e in all-axes
-				       and i from 1
+				       and i from 0
 				       collect
 				       `(,i (string ,e))))))
 	       `(do0 (setf 
 	 	      distr_jv
 		       (xmap 
 			optimize_and_error_estimate
-			:in_axes (tuple ,in-axes ; data
-					"{}"	 ; data_std
+			:in_axes (tuple ,in-axes ; fit parameters
+					,in-axes ; data
+					,in-axes ;"{}"	 ; data_std
 					,in-axes ; x
 					)
 			:out_axes (list ,@(loop for e in all-axes
@@ -393,11 +394,15 @@
 					"...")
 			; :axis_resources (dictionary :x (string "cpu"))
 			))))
-	     ,(let ((fun-args `((jnp.array (dot x0 (tile (list ny 1))))
-				(jnp.array (dot (aref xs ":" ":" pz pch)
-						values))
-				data_std
-				(dot (jnp.array x) (tile (list ny 1))))))
+	     ,(let ((fun-args `((dot (jnp.array x0) (tile (list ny 1))
+				     )
+  				(jnp.array (dot (aref xs ":" ":" pz pch)
+						values
+						(transpose)))
+				(dot (jnp.array data_std)
+				     (tile (list ny nx)))
+				(dot (jnp.array x) (tile (list ny 1))
+				     ))))
 		`(do0
 		  ,@(loop for e in fun-args
 			  and i from 0 
@@ -405,8 +410,9 @@
 			  `(do0
 			    (setf ,(format nil "arg~a" i)
 				  ,e)
-			    (print (dot ,(format nil "arg~a" i)
-					shape))))
+			    (print (dot (string ,(format nil "arg~a.shape={}" i))
+					(format (dot ,(format nil "arg~a" i)
+						     shape))))))
 		  
 		  (with (jax.experimental.maps.mesh *mesh_def)
 			(setf sol (distr_jv ,@(loop for e in fun-args
