@@ -231,7 +231,8 @@
 			   (format nil ":")
 			   (format nil "~{~a~^:~}" (mapcar #'emit args)))))
 	      (dot (let ((args (cdr code)))
-		   (format nil "~{~a~^.~}" (mapcar #'emit args))))
+		     ;; don't print . for nil arguments
+		   (format nil "~{~a~^.~}" (mapcar #'emit (remove-if #'null args)))))
 	      (+ (let ((args (cdr code)))
 		   (format nil "(~{(~a)~^+~})" (mapcar #'emit args))))
 	      (- (let ((args (cdr code)))
