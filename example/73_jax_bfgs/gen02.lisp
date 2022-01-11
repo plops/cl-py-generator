@@ -336,28 +336,44 @@
 	      (setf sol_err (jnp.sqrt (jnp.diag (jnp.linalg.inv hessian_mat))))
 	      (return (jnp.hstack (tuple sol.x
 					 sol_err))))
-	    (do0
+	    #+nnnnnnil (do0
 	     (comments "call 1d optimization")
-	     (setf data1 (aref data
-							 ":"
-							 (// ny 2)
-							 (// nz 2)
-							 (// ch 2)))
+	     (setf py (// ny 2)
+		   pz (// nz 2)
+		   pch (// ch 2))
+	     (setf data1_noise  (jnp.array (dot (aref xs
+						      ":"
+						  py pz pch)
+						values)))
+	     (setf data1 (jnp.array (aref data
+					  ":"
+					  py pz pch)))
 	     (setf sol (optimize_and_error_estimate x0
-						   data1
+						   data1_noise
 						   data_std
 						   (dot xx (squeeze))))
-	     (do0 (plot (dot xx (squeeze)) data1)
+	     (do0 (plot (dot xx (squeeze)) data1
+			:linewidth 5
+			)
+		  (plot (dot xx (squeeze)) data1_noise
+			:linewidth 1
+			:alpha .7
+			:color (string "black")
+			)
 		  ,@(loop for e in params
 		      and i from 0
 		      collect
 		      (destructuring-bind (&key name start) e
 			`(setf ,name (aref sol ,i))))
 		  (setf model1 ,fun-model)
-		  (plot (dot xx (squeeze)) (dot model1 (squeeze)))
+		  (plot (dot xx (squeeze)) (dot model1 (squeeze))
+			:color (string "red"))
 		  (grid))
 	     )
-           #+nil ,(let* ((all-axes `(y z ch))
+
+	    (do0
+	     (comments "sweep over y coordinate")
+	     ,(let* ((all-axes `(y))
 		    (in-axes `(dict
 			       ,@(loop for e in all-axes
 				       and i from 1
@@ -377,8 +393,53 @@
 					"...")
 			; :axis_resources (dictionary :x (string "cpu"))
 			))))
+	     ,(let ((fun-args `((jnp.array (dot x0 (tile (list ny 1))))
+				(jnp.array (dot (aref xs ":" ":" pz pch)
+						values))
+				data_std
+				(dot (jnp.array x) (tile (list ny 1))))))
+		`(do0
+		  ,@(loop for e in fun-args
+			  and i from 0 
+			  collect
+			  `(do0
+			    (setf ,(format nil "arg~a" i)
+				  ,e)
+			    (print (dot ,(format nil "arg~a" i)
+					shape))))
+		  
+		  (with (jax.experimental.maps.mesh *mesh_def)
+			(setf sol (distr_jv ,@(loop for e in fun-args
+						    and i from 0 
+						    collect
+						     (format nil "arg~a" i)
 
-	    #+nil ,@(loop for i below 2 collect
+						    ))))))
+	     )
+	    #+nil
+            ,(let* ((all-axes `(y z ch))
+		    (in-axes `(dict
+			       ,@(loop for e in all-axes
+				       and i from 1
+				       collect
+				       `(,i (string ,e))))))
+	       `(do0 (setf 
+	 	      distr_jv
+		       (xmap 
+			optimize_and_error_estimate
+			:in_axes (tuple ,in-axes ; data
+					"{}"	 ; data_std
+					,in-axes ; x
+					)
+			:out_axes (list ,@(loop for e in all-axes
+						collect
+						`(string ,e))
+					"...")
+			; :axis_resources (dictionary :x (string "cpu"))
+			))))
+	    #+nil
+
+	    ,@(loop for i below 1 collect
 		    `(do0
 		      ,(if (eq i 0)
 			   `(print (string "initialize jit"))
