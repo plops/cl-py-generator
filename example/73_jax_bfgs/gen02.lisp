@@ -268,15 +268,18 @@
 		       :colors (string "k"))))
 	))
       
-      ,@(let* ((params `((:name xp_a0 :start 2.5)
-			 (:name xp_a1 :start .1)
-			 (:name xp_a2 :start -.1)
+      ,@(let* ((x-poly `(0 1 2 3))
+	       (params `(
+			 ,@(loop for i in x-poly
+				 collect
+				 `(:name ,(format nil "xp_a~a" i)
+				   :start ,(expt .1 i)))
 			 (:name xp_c0 :start 1.5)
 			 ))
-	       (fun-model `(+ xp_a0
-			      (* xp_a1 (- xx xp_c0))
-			      (* xp_a2 (** (- xx xp_c0)
-					   2))))
+	       (fun-model `(+ ,@(loop for i in x-poly
+				      collect
+				      `(* ,(format nil "xp_a~a" i)
+					  (** (- xx xp_c0) ,i)))))
 	       (fun-residual `(/ (- data ,fun-model)
 				 data_std))
 	       (merit-args `(data data_std xx)))
@@ -343,7 +346,7 @@
 	     (setf sol (optimize_and_error_estimate x0
 						   data1
 						   data_std
-						   xx))
+						   (dot xx (squeeze))))
 	     (do0 (plot (dot xx (squeeze)) data1)
 		  ,@(loop for e in params
 		      and i from 0
