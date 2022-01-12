@@ -439,7 +439,14 @@
 		       (plot))
 		  (plot      xs2.y
 			     xp_c0
-			     :color (string "r")))))
+			     :color (string "r")
+			     :label (string "fit c0"))
+		  (legend)
+		  (title (string "model"))
+		  (figure)
+		  (dot (- xs2 xs_model2)
+		       (plot))
+		  (title (string "residual")))))
 	     )
 	    #+nil
             ,(let* ((all-axes `(y z ch))
