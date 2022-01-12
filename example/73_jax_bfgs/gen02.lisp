@@ -328,6 +328,7 @@
 			 merit
 			 x0
 			 :args (tuple ,@merit-args)
+			 :tol .01
 			 :method (string "BFGS"))
 		    )
 	      (setf hessian_fun (jax.jacfwd (jax.jacrev
@@ -420,7 +421,22 @@
 						    collect
 						     (format nil "arg~a" i)
 
-						    ))))))
+						    ))))
+		  (setf xs2 (aref xs ":" ":" pz pch))
+		  (do0 (dot xs2
+			    (plot))
+		       (figure)
+		       
+		  ,@(loop for e in params
+		      and i from 0
+		      collect
+		      (destructuring-bind (&key name start) e
+			`(setf ,name (aref sol ":" ,i))))
+		  (setf model2 ,fun-model)
+		  (setf xs_model2 (xs2.copy)
+			xs_model2.values (dot model2 (squeeze)))
+		  (dot xs_model2
+		       (plot)))))
 	     )
 	    #+nil
             ,(let* ((all-axes `(y z ch))
