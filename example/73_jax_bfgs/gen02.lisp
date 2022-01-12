@@ -268,7 +268,7 @@
 		       :colors (string "k"))))
 	))
       
-      ,@(let* ((x-poly `(0 1 2 3 4 5))
+      ,@(let* ((x-poly `(0  2))
 	       (params `(
 			 ,@(loop for i in x-poly
 				 collect
@@ -436,7 +436,10 @@
 		  (setf xs_model2 (xs2.copy)
 			xs_model2.values (dot model2 (squeeze)))
 		  (dot xs_model2
-		       (plot)))))
+		       (plot))
+		  (plot      xs2.y
+			     xp_c0
+			     :color (string "r")))))
 	     )
 	    #+nil
             ,(let* ((all-axes `(y z ch))
