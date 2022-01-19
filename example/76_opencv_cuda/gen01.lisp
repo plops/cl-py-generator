@@ -221,7 +221,65 @@
 	       (cv.imshow (string "img") img)
 	       (cv.waitKey 500)))
 	(cv.destroyAllWindows))
-      )
+       )
+
+      (python
+       (do0
+	"#export"
+	(setf (ntuple ret mtx dist rvecs tvecs)
+	      (cv.calibrateCamera
+	       objpoints
+	       imgpoints
+	       (aref gray.shape (slice "" "" -1))
+	       None None
+	       ))
+	(display mtx)))
+
+      (python
+       (do0
+	"#export"
+	(setf img (cv.imread (str (aref fns 0)))
+	      (ntuple h w) (dot img (aref shape (slice "" 2)))
+	      (ntuple new_mtx roi)
+	      (cv.getOptimalNewCameraMatrix mtx
+					    dist
+					    (list w h)
+					    1 (list w h)))
+	(display new_mtx)))
+
+      (python
+       (do0
+	"#export"
+	(setf dst (cv.undistort img mtx dist None new_mtx)
+	      (ntuple x y w h) roi
+	      dst (aref dst (slice y (+ y h))
+			(slice x (+ x w))))
+	(do0
+	 (cv.imshow (string "dst") dst)
+	 (cv.waitKey 5000)
+	 (cv.destroyAllWindows))))
+
+      (python
+       (do0
+	"#export"
+	(setf res 0.0)
+	(for (i (range (len objpoints)))
+	     (setf (ntuple imgpoints2 _)
+		   (cv.projectPoints
+		    (aref objpoints i)
+		    (aref rvecs i)
+		    (aref tvecs i)
+		    mtx
+		    dist))
+	     (setf err (/ (cv.norm
+			   (aref imgpoints i)
+			   imgpoints2
+			   cv.NORM_L2)
+			  (len imgpoints2)))
+	     (incf res err))
+	(print (dot (string "mean reprojection error: {:5.3f}")
+		    (format (/ res
+			       (len objpoints)))))))
       
       ))))
 
