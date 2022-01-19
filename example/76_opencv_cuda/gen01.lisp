@@ -15,7 +15,7 @@
       "Sunday"))
   (defparameter *libs*
     `((np numpy)
-      cv2
+      (cv cv2)
       (pd pandas)
       
       ;jax
@@ -173,6 +173,7 @@
 
       (python
        (do0
+	"#export"
 	(comments "https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html")
 	(setf fns ("list"
 		   (dot (pathlib.Path (string "/home/martin/src/opencv-4.5.5/samples/data/"))
@@ -180,6 +181,46 @@
 	(display fns)
 
 	)
+       )
+
+      (python
+       (do0
+	"#export"
+	(setf criteria
+	      (tuple
+	       (+ cv.TERM_CRITERIA_EPS
+		  cv.TERM_CRITERIA_MAX_ITER
+		  )
+	       30
+	       .001))
+	(setf objp (np.zeros (list (* 6 7) 3)
+			     np.float32)
+	      (aref objp ":" (slice "" 2))
+	      (dot np (aref mgrid (slice 0 7)
+			     (slice 0 6))
+		   T (reshape -1 2))
+	      objpoints (list)
+	      imgpoints (list))
+	(for (fn fns)
+	     (setf img (cv.imread (str fn))
+		   gray (cv.cvtColor img cv.COLOR_BGR2GRAY))
+	     (setf (ntuple ret corners)
+		   (cv.findChessboardCorners gray
+					     (list 7 6)
+					     None))
+	     (when ret
+	       (objpoints.append objp)
+	       (setf corners2 (cv.cornerSubPix gray
+					       corners
+					       (list 11 11)
+					       (list -1 -1)
+					       criteria))
+	       (imgpoints.append corners)
+	       (cv.drawChessboardCorners img (list 7 6)
+					 corners2 ret)
+	       (cv.imshow (string "img") img)
+	       (cv.waitKey 500)))
+	(cv.destroyAllWindows))
       )
       
       ))))
