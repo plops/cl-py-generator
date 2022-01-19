@@ -277,7 +277,7 @@
 			   cv.NORM_L2)
 			  (len imgpoints2)))
 	     (incf res err))
-	(print (dot (string "mean reprojection error: {:5.3f}")
+	(print (dot (string "mean reprojection error: {:5.3f}px")
 		    (format (/ res
 			       (len objpoints)))))))
       
