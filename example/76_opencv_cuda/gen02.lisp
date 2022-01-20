@@ -17,45 +17,30 @@
     `((np numpy)
       (cv cv2)
       (pd pandas)
-      
-      ;jax
-      ;gr
-					;(xr xarray)
-      ;;matplotlib
-					;(s skyfield)
-      ;;(ds dataset)
-					; cv2
-      ;datoviz
       ))
-  (let ((nb-file "source/01_play.ipynb"))
+  (let ((nb-file "source/02_show_checkerboard.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp play01"))
-      
+	       "# default_exp play02"
+	       (comments "pip3 install --user opencv-python opencv-python-contrib")))
       (python (do0
-	       
 	       "#export"
 	       (do0
-		
-					;"%matplotlib notebook"
-		 #+nil (do0
-		      
-		      (imports (matplotlib))
-                                        ;(matplotlib.use (string "QT5Agg"))
-					;"from matplotlib.backends.backend_qt5agg import (FigureCanvas, NavigationToolbar2QT as NavigationToolbar)"
-					;"from matplotlib.figure import Figure"
-		      (imports ((plt matplotlib.pyplot)
+					
+		#+nil (do0
+			;"%matplotlib notebook"
+		      	(imports (matplotlib))
+			(imports ((plt matplotlib.pyplot)
 					;  (animation matplotlib.animation) 
 					;(xrp xarray.plot)
-				))
-                  
-		      (plt.ion)
+				  ))
+			(plt.ion)
 					;(plt.ioff)
-		      ;;(setf font (dict ((string size) (string 6))))
-		      ;; (matplotlib.rc (string "font") **font)
-		      )
+			;;(setf font (dict ((string size) (string 6))))
+			;; (matplotlib.rc (string "font") **font)
+			)
 		(imports (		;os
 					;sys
 			  time
@@ -67,8 +52,8 @@
 					;(xr xarray)
 			  ,@*libs*
 					;		(xrp xarray.plot)
-			  ;skimage.restoration
-			  ;skimage.morphology
+					;skimage.restoration
+					;skimage.morphology
 					;(u astropy.units)
 					; EP_SerialIO
 					;scipy.ndimage
@@ -98,16 +83,13 @@
 					;(mpf mplfinance)
 			  ;argparse
 			  ;(sns seaborn)
-			  ;skyfield.api
-			  ;skyfield.data
-					;skyfield.data.hipparcos
-			  ;(jnp jax.numpy)
-			  ;jax.config
-			  ;jax.scipy.optimize
-			  ;jax.experimental.maps
-			  ;jax.numpy.linalg
-			  ;jax.nn
-			  
+					;(jnp jax.numpy)
+					;jax.config
+					;jax.scipy.optimize
+					;jax.experimental.maps
+					;jax.numpy.linalg
+					;jax.nn
+			  cv2.aruco
 			  ))
 		#+nil
 			(imports-from (matplotlib.pyplot
@@ -174,115 +156,13 @@
       (python
        (do0
 	"#export"
-	(comments "https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html")
-	(setf fns ("list"
-		   (dot (pathlib.Path (string "data/"
-					      #+nil "/home/martin/src/opencv-4.5.5/samples/data/"))
-			(glob (string "left*.jpg")))))
-	(display fns)
-
-	)
-       )
-
-      (python
-       (do0
-	"#export"
-	(setf criteria
-	      (tuple
-	       (+ cv.TERM_CRITERIA_EPS
-		  cv.TERM_CRITERIA_MAX_ITER
-		  )
-	       30
-	       .001))
-	(setf objp (np.zeros (list (* 6 7) 3)
-			     np.float32)
-	      (aref objp ":" (slice "" 2))
-	      (dot np (aref mgrid (slice 0 7)
-			     (slice 0 6))
-		   T (reshape -1 2))
-	      objpoints (list)
-	      imgpoints (list))
-	(for (fn fns)
-	     (setf img (cv.imread (str fn))
-		   gray (cv.cvtColor img cv.COLOR_BGR2GRAY))
-	     (setf (ntuple ret corners)
-		   (cv.findChessboardCorners gray
-					     (list 7 6)
-					     None))
-	     (when ret
-	       (objpoints.append objp)
-	       (setf corners2 (cv.cornerSubPix gray
-					       corners
-					       (list 11 11)
-					       (list -1 -1)
-					       criteria))
-	       (imgpoints.append corners)
-	       (cv.drawChessboardCorners img (list 7 6)
-					 corners2 ret)
-	       (cv.imshow (string "img") img)
-	       (cv.waitKey 500)))
-	(cv.destroyAllWindows))
-       )
-
-      (python
-       (do0
-	"#export"
-	(setf (ntuple ret mtx dist rvecs tvecs)
-	      (cv.calibrateCamera
-	       objpoints
-	       imgpoints
-	       (aref gray.shape (slice "" "" -1))
-	       None None
-	       ))
-	(display mtx)))
-
-      (python
-       (do0
-	"#export"
-	(setf img (cv.imread (str (aref fns 0)))
-	      (ntuple h w) (dot img (aref shape (slice "" 2)))
-	      (ntuple new_mtx roi)
-	      (cv.getOptimalNewCameraMatrix mtx
-					    dist
-					    (list w h)
-					    1 (list w h)))
-	(display new_mtx)))
-
-      (python
-       (do0
-	"#export"
-	(setf dst (cv.undistort img mtx dist None new_mtx)
-	      (ntuple x y w h) roi
-	      dst (aref dst (slice y (+ y h))
-			(slice x (+ x w))))
-	(do0
-	 (cv.imshow (string "dst") dst)
-	 (cv.waitKey 5000)
-	 (cv.destroyAllWindows))))
-
-      (python
-       (do0
-	"#export"
-	(setf res 0.0)
-	(for (i (range (len objpoints)))
-	     (setf (ntuple imgpoints2 _)
-		   (cv.projectPoints
-		    (aref objpoints i)
-		    (aref rvecs i)
-		    (aref tvecs i)
-		    mtx
-		    dist))
-	     (setf err (/ (cv.norm
-			   (aref imgpoints i)
-			   imgpoints2
-			   cv.NORM_L2)
-			  (len imgpoints2)))
-	     (incf res err))
-	(print (dot (string "mean reprojection error: {:5.3f}px")
-		    (format (/ res
-			       (len objpoints)))))))
-      
-      ))))
+	(comments "https://answers.opencv.org/question/98447/camera-calibration-using-charuco-and-python/")
+	(setf d (cv.aruco.getPredefinedDictionary cv.aruco.DICT_4x4_50)
+	      board (cv.aruco.CharucoBoard_create 3 3 .025 .0125 d)
+	      board_img (board.draw (list 600 600)))
+	(cv.imshow (string "board")
+		   board_img)
+	))))))
 
 
 
