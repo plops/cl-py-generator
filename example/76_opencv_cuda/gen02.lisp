@@ -24,7 +24,7 @@
     :nb-code
     `((python (do0
 	       "# default_exp play02"
-	       (comments "pip3 install --user opencv-python opencv-python-contrib")))
+	       (comments "pip3 install --user opencv-python opencv-contrib-python")))
       (python (do0
 	       "#export"
 	       (do0
