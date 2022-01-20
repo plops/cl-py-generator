@@ -280,10 +280,11 @@
 		     all_ids (list))
 	 (for (frame (range (len xs.frame)))
 	      (do0
-	       (setf rgb (dot xs
+	       (setf gray (dot xs
 			      (aref cb frame "...")
 			      values)
-		     gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY))
+		     ;gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY)
+		     )
 	       (setf markers (cv.aruco.detectMarkers gray aruco_dict))
 	       
 	       (when (< 0 (len (aref markers 0)))
