@@ -245,22 +245,44 @@
 		       (res.append (raw.postprocess))))
 	    (setf
 	     data (np.stack res 0)
-	     xs (xr.DataArray
-		 :data data
-		 ;; 10 3024 4032 3
-		 :dims (list (string "frame")
-			     (string "h")
-			     (string "w")
-			     (string "ch"))
-		 :coords (dictionary
-			  :frame (np.arange (aref data.shape 0))
-			  :h (np.arange (aref data.shape 1))
-			  :w (np.arange (aref data.shape 2))
-			  :ch (np.arange (aref data.shape 3)))))
+	     xs (xr.Dataset
+		 (dictionary
+		  :cb (xr.DataArray
+		   :data data
+		   ;; 10 3024 4032 3
+		   :dims (list (string "frame")
+			       (string "h")
+			       (string "w")
+			       (string "ch"))
+		   :coords (dictionary
+			    :frame (np.arange (aref data.shape 0))
+			    :h (np.arange (aref data.shape 1))
+			    :w (np.arange (aref data.shape 2))
+			    :ch (np.arange (aref data.shape 3)))))))
 	    (xs.to_netcdf xs_fn))
 	   (do0
 		   (print (dot (string "duration loading from dng and saving netcdf {:4.2f}s")
-			       (format (- (time.time) start))))))))))))))
+			       (format (- (time.time) start))))))))))
+      (python
+       (do0
+	"#export"
+	(setf w (string "cb"))
+	(cv.namedWindow w
+			cv.WINDOW_NORMAL ;AUTOSIZE
+			)
+	(cv.resizeWindow w 800 600)
+	(for (frame (range (len xs.frame)))
+	     (do0 (cv.imshow
+		   w
+		   (dot xs
+			(aref cb frame "...")
+			values))
+		  (cv.setWindowTitle w
+				     (dot (string "frame {}")
+					  (format frame)))
+		  (cv.waitKey 0)))
+	(cv.destroyAllWindows)
+	))))))
 
 
 
