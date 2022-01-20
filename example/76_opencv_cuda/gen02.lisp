@@ -157,9 +157,16 @@
        (do0
 	"#export"
 	(comments "https://answers.opencv.org/question/98447/camera-calibration-using-charuco-and-python/")
-	(setf d (cv.aruco.getPredefinedDictionary cv.aruco.DICT_4x4_50)
-	      board (cv.aruco.CharucoBoard_create 3 3 .025 .0125 d)
-	      board_img (board.draw (list 600 600)))
+	(setf d (cv.aruco.getPredefinedDictionary cv.aruco.DICT_4X4_250)
+	      squares_x 16
+	      squares_y 9
+	      square_length 2 ;; in m
+	      marker_length 1 ;; in m
+	      board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
+	      out_size (tuple (// 1920 2) (// 1080 2))
+	      board_img (board.draw out_size))
+	(cv.imwrite (string "charuco1.png")
+		    board_img)
 	(cv.imshow (string "board")
 		   board_img)
 	))))))
