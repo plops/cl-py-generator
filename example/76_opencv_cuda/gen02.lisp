@@ -157,20 +157,36 @@
        (do0
 	"#export"
 	(comments "https://answers.opencv.org/question/98447/camera-calibration-using-charuco-and-python/")
-	(setf d (cv.aruco.getPredefinedDictionary cv.aruco.DICT_4X4_250)
-	      squares_x 16
-	      squares_y 9
-	      square_length 2 ;; in m
-	      marker_length 1 ;; in m
-	      board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
-	      out_size (tuple (// 1920 2) (// 1080 2))
-	      board_img (board.draw out_size))
+	,(let* ((screen-fac 1)
+		(screen-w (* screen-fac 1920))
+		(screen-h (* screen-fac 1080))
+		(squares-fac 3)
+		(squares-x (* squares-fac 16))
+		(squares-y (* squares-fac 9))
+		(n-squares (/ (* squares-x squares-y)
+			      2))) 
+	   `(setf d (cv.aruco.getPredefinedDictionary (dot cv aruco
+							   ,(format nil "DICT_4X4_~a"
+								   (cond ((< n-squares 50)
+									  50)
+									 ((< n-squares 100)
+									  100)
+									 ((< n-squares 250)
+									  250)
+									 ((< n-squares 1000)
+									  1000)
+									 (t (break "too many"))))))
+	       squares_x ,squares-x
+	       squares_y ,squares-y
+	       square_length 2 ;; in m
+	       marker_length 1 ;; in m
+	       board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
+	       out_size (tuple ,screen-w ,screen-h)
+	       board_img (board.draw out_size)))
 	(cv.imwrite (string "charuco1.png")
 		    board_img)
 	(cv.imshow (string "board")
-		   (np.dstack (list board_img
-				    board_img
-				    board_img)))
+		   board_img)
 	(do0 (cv.waitKey 5000)
 	      (cv.destroyAllWindows))
 	))))))
