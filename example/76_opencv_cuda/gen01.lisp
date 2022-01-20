@@ -179,7 +179,7 @@
 		   (dot (pathlib.Path (string "data/"
 					      #+nil "/home/martin/src/opencv-4.5.5/samples/data/"))
 			(glob (string "left*.jpg")))))
-	(display fns)
+	(print fns)
 
 	)
        )
@@ -234,7 +234,7 @@
 	       (aref gray.shape (slice "" "" -1))
 	       None None
 	       ))
-	(display mtx)))
+	(print mtx)))
 
       (python
        (do0
@@ -246,7 +246,7 @@
 					    dist
 					    (list w h)
 					    1 (list w h)))
-	(display new_mtx)))
+	(print new_mtx)))
 
       (python
        (do0
