@@ -176,7 +176,8 @@
 	"#export"
 	(comments "https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html")
 	(setf fns ("list"
-		   (dot (pathlib.Path (string "/home/martin/src/opencv-4.5.5/samples/data/"))
+		   (dot (pathlib.Path (string "data/"
+					      #+nil "/home/martin/src/opencv-4.5.5/samples/data/"))
 			(glob (string "left*.jpg")))))
 	(display fns)
 

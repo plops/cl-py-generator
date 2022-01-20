@@ -219,7 +219,7 @@
 				      2))
 			       -.1))
 		    (np.cos yy)
-		    (np.sin (+ xx
+		    (np.sin (+ (+ xx (np.sin (* .02 (**  yy  2))))
 			       (* .33 cc))))
 	      data_std .052 
 	      noise (np.random.normal :loc 0.0
@@ -236,7 +236,7 @@
 					     `(string ,(getf x :name)))
 					   dim-def))
 		     :coords (dict
-			      ,@(mapcar (lambda (x)
+ 			      ,@(mapcar (lambda (x)
 					  `((string ,(getf x :name))
 					    ,(getf x :contents)))
 					dim-def)))))
@@ -337,7 +337,10 @@
 	      (setf sol_err (jnp.sqrt (jnp.diag (jnp.linalg.inv hessian_mat))))
 	      (return (jnp.hstack (tuple sol.x
 					 sol_err))))
-	    #+nnnnnnil (do0
+	    (setf py (// ny 2)
+		   pz (// nz 2)
+		   pch (// ch 2))
+	    #+nil (do0
 	     (comments "call 1d optimization")
 	     (setf py (// ny 2)
 		   pz (// nz 2)
@@ -450,7 +453,7 @@
 	     )
 	    #+nil
             ,(let* ((all-axes `(y z ch))
-		    (in-axes `(dict
+		    (in-axes `(dict 
 			       ,@(loop for e in all-axes
 				       and i from 1
 				       collect
