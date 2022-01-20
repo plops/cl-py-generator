@@ -1,7 +1,8 @@
 |       |                                                                                       |
 | gen01 | try example code for camera calibration with the images that come with opencv release |
 | gen02 | display checkerboard with charuco indices, fullscreen, shift in x and y               |
-
+| gen03 | load dng files and detect markers                                                     |
+| gen04 | load png files and detect markers                                                     |
 - install dependencies for cl-py-generator on popos
 #+begin_example
 sudo apt install jq

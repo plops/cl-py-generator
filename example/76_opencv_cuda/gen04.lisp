@@ -18,7 +18,7 @@
       (cv cv2)
       (pd pandas)
       (xr xarray)
-      rawpy
+      ;rawpy
       ))
   (let ((nb-file "source/04_load_jpg.ipynb"))
    (write-notebook
@@ -26,7 +26,7 @@
     :nb-code
     `((python (do0
 	       "# default_exp play04_jpg"
-	       (comments "pip3 install --user opencv-python opencv-contrib-python rawpy tqdm")))
+	       (comments "pip3 install --user opencv-python opencv-contrib-python tqdm")))
       (python (do0
 	       "#export"
 	       (do0
@@ -222,7 +222,7 @@
        (do0
 	"#export"
 	(do0
-	 (setf xs_fn  (string "calib/checkerboards.nc") )
+	 (setf xs_fn  (string "calib2/checkerboards.nc") )
 	 (if (dot pathlib (Path xs_fn) (exists))
 	     (do0
 	      (setf start (time.time))
@@ -235,14 +235,15 @@
 	      )
 	   (setf fns ("list"
 		      (dot pathlib
-			   (Path (string "/home/martin/stage/cl-py-generator/example/76_opencv_cuda/source/calib/"))
-			   (glob (string "APC*.dng")))))
+			   (Path (string "calib2/"))
+			   (glob (string "*.jpg")))))
 	   (do0
 	    (setf res (list))
 	    (for (fn (tqdm.tqdm fns))
-		 (with (as (rawpy.imread (str fn))
-			   raw)
-		       (res.append (raw.postprocess))))
+		 
+		 (setf rgb (cv.imread (str fn)))
+		 (setf gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY))
+		 (res.append gray))
 	    (setf
 	     data (np.stack res 0)
 	     xs (xr.Dataset
@@ -253,15 +254,17 @@
 		   :dims (list (string "frame")
 			       (string "h")
 			       (string "w")
-			       (string "ch"))
+			       ;(string "ch")
+			       )
 		   :coords (dictionary
 			    :frame (np.arange (aref data.shape 0))
 			    :h (np.arange (aref data.shape 1))
 			    :w (np.arange (aref data.shape 2))
-			    :ch (np.arange (aref data.shape 3)))))))
+			    ;:ch (np.arange (aref data.shape 3))
+			    )))))
 	    (xs.to_netcdf xs_fn))
 	   (do0
-		   (print (dot (string "duration loading from dng and saving netcdf {:4.2f}s")
+		   (print (dot (string "duration loading from jpg and saving netcdf {:4.2f}s")
 			       (format (- (time.time) start))))))))))
       (python
        (do0

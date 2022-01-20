@@ -265,43 +265,55 @@
 			       (format (- (time.time) start))))))))))
       (python
        (do0
-	"#export"
+	"#export" 
 	(setf w (string "cb"))
 	(cv.namedWindow w
 			cv.WINDOW_NORMAL ;AUTOSIZE
 			)
 	(cv.resizeWindow w 800 600)
-	
-	(for (frame (range (len xs.frame)))
-	     (do0
-	      (setf rgb (dot xs
-			(aref cb frame "...")1
-			     values)
-		    gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY))
-	      (setf markers (cv.aruco.detectMarkers gray aruco_dict))
-	      (setf all_corners (list)
-		    all_ids (list))
-	      (when (< 0 (len (aref markers 0)))
-		(setf corners (cv.aruco.interpolateCornersCharuco (aref markers 0)
-								  (aref markers 1)
-								  gray board) )
-		#+nil(when (and (is (aref corners 1) "not None")
-			   (is (aref corners 2) "not None")
-			   (< 3 (len (aref markers 1)))
-			   (== 0 (% decimator 3)))
-		  (all_corners.append (aref markers 1))
-		  (all_ids.append (aref markers 2)))
-		(cv.aruco.drawDetectedMarkers gray
-					      (aref markers 0)
-					      (aref markers 1)))
-	      (do0 
-	       (cv.imshow
-		w
-		gray)
-	       (cv.setWindowTitle w
-				  (dot (string "frame {}")
-				       (format frame)))
-	       (cv.waitKey 0))))
+	(do0
+	 (setf decimator 0)
+	 (setf all_corners (list)
+		     all_ids (list))
+	 (for (frame (range (len xs.frame)))
+	      (do0
+	       (setf rgb (dot xs
+			      (aref cb frame "...")
+			      values)
+		     gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY))
+	       (setf markers (cv.aruco.detectMarkers gray aruco_dict))
+	       
+	       (when (< 0 (len (aref markers 0)))
+		 (setf (ntuple corners ids num)
+		       (cv.aruco.interpolateCornersCharuco (aref markers 0)
+							      (aref markers 1)
+							      gray board) )
+		 (when (and (is corners "not None")
+				 (is ids "not None")
+				 (< 3 corners)
+				 (== 0 (% decimator 3)))
+			(all_corners.append corners)
+			(all_ids.append ids))
+		 (cv.aruco.drawDetectedMarkers gray
+					       (aref markers 0)
+					       (aref markers 1)))
+
+	      
+	       (do0 
+		(cv.imshow
+		 w
+		 gray)
+		(cv.setWindowTitle w
+				   (dot (string "frame {}")
+					(format frame)))
+		(cv.waitKey 20))
+	       (incf decimator))))
+	(try (setf cal (cv.aruco.calibrateCameraCharuco
+			      all_corners all_ids board gray.shape
+			      None None))
+		   ("Exception as e"
+		    (print e)
+		    pass))
 	(cv.destroyAllWindows)
 	))))))
 
