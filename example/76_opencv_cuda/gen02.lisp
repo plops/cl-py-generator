@@ -190,11 +190,13 @@
 		  (cv.namedWindow w
 				  cv.WINDOW_NORMAL)
 		  (cv.resizeWindow w ,screen-w ,screen-h)
-		  (do0
-		   (cv.moveWindow w 5 5)
-		   (cv.imshow w
-			      board_img)))))
-	(do0 (cv.waitKey 5000)
+		  (for (x (range 20))
+		   (do0
+		    (cv.moveWindow w (* 5 x) 5)
+		    (cv.imshow w
+			       board_img)
+		    (cv.waitKey 500))))))
+	(do0 (cv.waitKey 500)
 	      (cv.destroyAllWindows))
 	))))))
 
