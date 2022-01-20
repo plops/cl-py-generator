@@ -155,7 +155,7 @@
 			       ))
 			  (t (break "problem")))))))
 	(print df_status)))
-      #+nil
+      
       (python
        (do0
 	"#export"
@@ -176,7 +176,7 @@
 				 squares-y2)
 			      2))) 
 	   `(do0
-	     (setf d (cv.aruco.getPredefinedDictionary (dot cv aruco
+	     (setf aruco_dict (cv.aruco.getPredefinedDictionary (dot cv aruco
 							    ,(format nil "DICT_4X4_~a"
 								     (cond ((< n-squares 50)
 									    50)
@@ -191,14 +191,14 @@
 		   squares_y ,squares-y2
 		   square_length 2 ;; in m
 		   marker_length 1 ;; in m
-		   board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
+		   board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length aruco_dict)
 		   out_size (tuple ,screen-w2 ,screen-h2)
 		   board_img (board.draw out_size)
 		   steps_x 5
 		   steps_y 5)
 	     #+nil (cv.imwrite (string "charuco1.png")
 			       board_img)
-	     (do0 (setf w (string "board"))
+	     #+nil (do0 (setf w (string "board"))
 		  (cv.namedWindow w
 				  cv.WINDOW_NORMAL)
 		  (cv.setWindowProperty
@@ -214,7 +214,7 @@
 				    (aref board_img (slice y (- ,screen-h y))
 					  (slice x (+ ,screen-w x))))
 			 (cv.waitKey 0)))))))
-	(do0 (cv.waitKey 500)
+	#+nil (do0 (cv.waitKey 500)
 	      (cv.destroyAllWindows))
 	))
 
@@ -271,16 +271,37 @@
 			cv.WINDOW_NORMAL ;AUTOSIZE
 			)
 	(cv.resizeWindow w 800 600)
+	
 	(for (frame (range (len xs.frame)))
-	     (do0 (cv.imshow
-		   w
-		   (dot xs
+	     (do0
+	      (setf rgb (dot xs
 			(aref cb frame "...")
-			values))
-		  (cv.setWindowTitle w
-				     (dot (string "frame {}")
-					  (format frame)))
-		  (cv.waitKey 0)))
+			     values)
+		    gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY))
+	      (setf markers (cv.aruco.detectMarkers gray aruco_dict))
+	      (setf all_corners (list)
+		    all_ids (list))
+	      (when (< 0 (len (aref markers 0)))
+		(setf corners (cv.aruco.interpolateCornersCharuco (aref markers 0)
+								  (aref markers 1)
+								  gray board) )
+		#+nil(when (and (is (aref corners 1) "not None")
+			   (is (aref corners 2) "not None")
+			   (< 3 (len (aref markers 1)))
+			   (== 0 (% decimator 3)))
+		  (all_corners.append (aref markers 1))
+		  (all_ids.append (aref markers 2)))
+		(cv.aruco.drawDetectedMarkers gray
+					      (aref markers 0)
+					      (aref markers 1)))
+	      (do0 
+	       (cv.imshow
+		w
+		gray)
+	       (cv.setWindowTitle w
+				  (dot (string "frame {}")
+				       (format frame)))
+	       (cv.waitKey 0))))
 	(cv.destroyAllWindows)
 	))))))
 
