@@ -25,7 +25,7 @@
     :nb-code
     `((python (do0
 	       "# default_exp play03_dng"
-	       (comments "pip3 install --user opencv-python opencv-contrib-python rawpy")))
+	       (comments "pip3 install --user opencv-python opencv-contrib-python rawpy tqdm")))
       (python (do0
 	       "#export"
 	       (do0
@@ -91,6 +91,7 @@
 					;jax.numpy.linalg
 					;jax.nn
 			  cv2.aruco
+			  tqdm
 			  ))
 		#+nil
 			(imports-from (matplotlib.pyplot
@@ -223,9 +224,12 @@
 		   (dot pathlib
 			(Path (string "/home/martin/stage/cl-py-generator/example/76_opencv_cuda/source/calib/"))
 			(glob (string "APC*.dng")))))
-	(with (as (rawpy.imread (str (aref fns 0)))
-		  raw)
-	      (setf rgb (raw.postprocess)))))))))
+	(do0
+	 (setf res (list))
+	 (for (fn (tqdm.tqdm fns))
+	  (with (as (rawpy.imread (str fn))
+		    raw)
+		(res.append (raw.postprocess)))))))))))
 
 
 
