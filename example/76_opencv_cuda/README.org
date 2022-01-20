@@ -1,6 +1,6 @@
 |       |                                                                                       |
 | gen01 | try example code for camera calibration with the images that come with opencv release |
-| gen02 | display checkerboard with some kind of code                                           |
+| gen02 | display checkerboard with charuco indices, fullscreen, shift in x and y               |
 
 - install dependencies for cl-py-generator on popos
 #+begin_example

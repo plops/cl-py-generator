@@ -201,14 +201,17 @@
 		   cv.WINDOW_FULLSCREEN)
 		  #+nil
 		  (cv.resizeWindow w ,screen-w ,screen-h)
-		  (for (x (dot (np.round (np.linspace 0 ,(- square-a 1) 3))
-			       (astype int)))
-		   (do0
-		    ;(cv.moveWindow w (* 5 x) 5)
-		    (cv.imshow w
-			       (aref board_img (slice 0 (- ,screen-h 0))
-				     (slice x (+ ,screen-w x))))
-		    (cv.waitKey 500))))))
+		  (for(y  (dot (np.round (np.linspace 0 ,(- square-a 1) 3))
+				(astype int)))
+		   (for (x #+nil (range ,square-a)
+			   (dot (np.round (np.linspace 0 ,(- square-a 1) 3))
+				(astype int)))
+			(do0
+					;(cv.moveWindow w (* 5 x) 5)
+			 (cv.imshow w
+				    (aref board_img (slice y (- ,screen-h y))
+					  (slice x (+ ,screen-w x))))
+			 (cv.waitKey 500)))))))
 	(do0 (cv.waitKey 500)
 	      (cv.destroyAllWindows))
 	))))))
