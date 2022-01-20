@@ -158,35 +158,42 @@
 	"#export"
 	(comments "https://answers.opencv.org/question/98447/camera-calibration-using-charuco-and-python/")
 	,(let* ((screen-fac 1)
-		(screen-w (* screen-fac 1920))
-		(screen-h (* screen-fac 1080))
+		(screen-w (* screen-fac (- 1920 200)))
+		(screen-h (* screen-fac (- 1080 100)))
 		(squares-fac 3)
 		(squares-x (* squares-fac 16))
 		(squares-y (* squares-fac 9))
 		(n-squares (/ (* squares-x squares-y)
 			      2))) 
-	   `(setf d (cv.aruco.getPredefinedDictionary (dot cv aruco
-							   ,(format nil "DICT_4X4_~a"
-								   (cond ((< n-squares 50)
-									  50)
-									 ((< n-squares 100)
-									  100)
-									 ((< n-squares 250)
-									  250)
-									 ((< n-squares 1000)
-									  1000)
-									 (t (break "too many"))))))
-	       squares_x ,squares-x
-	       squares_y ,squares-y
-	       square_length 2 ;; in m
-	       marker_length 1 ;; in m
-	       board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
-	       out_size (tuple ,screen-w ,screen-h)
-	       board_img (board.draw out_size)))
-	(cv.imwrite (string "charuco1.png")
-		    board_img)
-	(cv.imshow (string "board")
-		   board_img)
+	   `(do0
+	     (setf d (cv.aruco.getPredefinedDictionary (dot cv aruco
+							    ,(format nil "DICT_4X4_~a"
+								     (cond ((< n-squares 50)
+									    50)
+									   ((< n-squares 100)
+									    100)
+									   ((< n-squares 250)
+									    250)
+									   ((< n-squares 1000)
+									    1000)
+									   (t (break "too many"))))))
+		   squares_x ,squares-x
+		   squares_y ,squares-y
+		   square_length 2 ;; in m
+		   marker_length 1 ;; in m
+		   board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
+		   out_size (tuple ,screen-w ,screen-h)
+		   board_img (board.draw out_size))
+	     #+nil (cv.imwrite (string "charuco1.png")
+			       board_img)
+	     (do0 (setf w (string "board"))
+		  (cv.namedWindow w
+				  cv.WINDOW_NORMAL)
+		  (cv.resizeWindow w ,screen-w ,screen-h)
+		  (do0
+		   (cv.moveWindow w 5 5)
+		   (cv.imshow w
+			      board_img)))))
 	(do0 (cv.waitKey 5000)
 	      (cv.destroyAllWindows))
 	))))))
