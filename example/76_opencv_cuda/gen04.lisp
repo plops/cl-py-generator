@@ -297,11 +297,13 @@
 							   :markerIds ids
 							   :image gray
 							   :board board) )
-		 #+nil (when (and (is int_corners "not None")
-			    (is int_ids "not None")
-			    (< 3 int_corners)
+		 (when (< 20 charuco_retval)
+		   (comments "found at least 20 squares")
+		   #+nil(and		;(is int_corners "not None")
+					;(is int_ids "not None")
+			   (< 3 int_corners)
 					;(== 0 (% decimator 3))
-			    )
+			   )
 		   (all_corners.append int_corners)
 		   (all_ids.append int_ids))
 		#+nil (cv.aruco.drawDetectedMarkers gray
@@ -329,12 +331,22 @@
 		(cv.waitKey 1))
 	       ;(incf decimator)
 	       )))
-	(try (setf cal (cv.aruco.calibrateCameraCharuco
-			      all_corners all_ids board gray.shape
-			      None None))
+	(try (setf (ntuple calibration
+			   camera_matrix
+			   distortion_params
+			   rvecs
+			   tvecs)
+		   (cv.aruco.calibrateCameraCharuco
+		    :charucoCorners all_corners
+		    :charucoIds all_ids
+		    :board board
+		    :imageSize gray.shape
+		    :cameraMatrix None
+		    :distCoeffs None))
 		   ("Exception as e"
 		    (print e)
 		    pass))
+	(print camera_matrix)
 	(cv.destroyAllWindows)
 	))))))
 
