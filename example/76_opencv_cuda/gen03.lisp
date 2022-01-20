@@ -275,7 +275,7 @@
 	(for (frame (range (len xs.frame)))
 	     (do0
 	      (setf rgb (dot xs
-			(aref cb frame "...")
+			(aref cb frame "...")1
 			     values)
 		    gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY))
 	      (setf markers (cv.aruco.detectMarkers gray aruco_dict))
