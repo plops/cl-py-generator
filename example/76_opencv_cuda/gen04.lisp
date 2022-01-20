@@ -189,7 +189,7 @@
 									   (t (break "too many"))))))
 		   squares_x ,squares-x2
 		   squares_y ,squares-y2
-		   square_length 2 ;; in m
+		   square_length 2 ;; in m, i should measure this after displaying the pattern
 		   marker_length 1 ;; in m
 		   board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length aruco_dict)
 		   out_size (tuple ,screen-w2 ,screen-h2)
@@ -285,22 +285,25 @@
 			      values)
 		     ;gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY)
 		     )
-	       (setf markers (cv.aruco.detectMarkers gray aruco_dict))
+	       (setf (ntuple corners ids rejected_points)
+		     ;; markers
+		     (cv.aruco.detectMarkers gray aruco_dict))
 	       
-	       (when (< 0 (len (aref markers 0)))
-		 (setf (ntuple corners ids num)
-		       (cv.aruco.interpolateCornersCharuco (aref markers 0)
-							      (aref markers 1)
-							      gray board) )
-		 (when (and (is corners "not None")
-				 (is ids "not None")
-				 (< 3 corners)
-				 (== 0 (% decimator 3)))
-			(all_corners.append corners)
-			(all_ids.append ids))
+	       (when (< 0 (len corners))
+		 (setf (ntuple int_corners int_ids num)
+		       (cv.aruco.interpolateCornersCharuco corners
+							   ids
+							   gray board) )
+		 (when (and (is int_corners "not None")
+				 (is int_ids "not None")
+				 (< 3 int_corners)
+				 ;(== 0 (% decimator 3))
+				 )
+			(all_corners.append int_corners)
+			(all_ids.append int_ids))
 		 (cv.aruco.drawDetectedMarkers gray
-					       (aref markers 0)
-					       (aref markers 1)))
+					       corners
+					       ids))
 
 	      
 	       (do0 
