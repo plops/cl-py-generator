@@ -17,14 +17,15 @@
     `((np numpy)
       (cv cv2)
       (pd pandas)
+      rawpy
       ))
-  (let ((nb-file "source/02_show_checkerboard.ipynb"))
+  (let ((nb-file "source/03_load_dng.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp play02"
-	       (comments "pip3 install --user opencv-python opencv-contrib-python")))
+	       "# default_exp play03_dng"
+	       (comments "pip3 install --user opencv-python opencv-contrib-python rawpy")))
       (python (do0
 	       "#export"
 	       (do0
@@ -152,7 +153,7 @@
 			       ))
 			  (t (break "problem")))))))
 	(print df_status)))
-
+      #+nil
       (python
        (do0
 	"#export"
@@ -213,7 +214,18 @@
 			 (cv.waitKey 0)))))))
 	(do0 (cv.waitKey 500)
 	      (cv.destroyAllWindows))
-	))))))
+	))
+
+      (python
+       (do0
+	"#export"
+	(setf fns ("list"
+		   (dot pathlib
+			(Path (string "/home/martin/stage/cl-py-generator/example/76_opencv_cuda/source/calib/"))
+			(glob (string "APC*.dng")))))
+	(with (as (rawpy.imread (str (aref fns 0)))
+		  raw)
+	      (setf rgb (raw.postprocess)))))))))
 
 
 

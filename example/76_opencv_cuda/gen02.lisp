@@ -190,7 +190,9 @@
 		   marker_length 1 ;; in m
 		   board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
 		   out_size (tuple ,screen-w2 ,screen-h2)
-		   board_img (board.draw out_size))
+		   board_img (board.draw out_size)
+		   steps_x 5
+		   steps_y 5)
 	     #+nil (cv.imwrite (string "charuco1.png")
 			       board_img)
 	     (do0 (setf w (string "board"))
@@ -201,17 +203,14 @@
 		   cv.WINDOW_FULLSCREEN)
 		  #+nil
 		  (cv.resizeWindow w ,screen-w ,screen-h)
-		  (for(y  (dot (np.round (np.linspace 0 ,(- square-a 1) 3))
-				(astype int)))
-		   (for (x #+nil (range ,square-a)
-			   (dot (np.round (np.linspace 0 ,(- square-a 1) 3))
-				(astype int)))
+		  (for(y  (dot (np.round (np.linspace 0 ,(- square-a 1) steps_y)) (astype int)))
+		   (for (x (dot (np.round (np.linspace 0 ,(- square-a 1) steps_x)) (astype int)))
 			(do0
 					;(cv.moveWindow w (* 5 x) 5)
 			 (cv.imshow w
 				    (aref board_img (slice y (- ,screen-h y))
 					  (slice x (+ ,screen-w x))))
-			 (cv.waitKey 500)))))))
+			 (cv.waitKey 0)))))))
 	(do0 (cv.waitKey 500)
 	      (cv.destroyAllWindows))
 	))))))
