@@ -163,7 +163,14 @@
 		(squares-fac 3)
 		(squares-x (* squares-fac 16))
 		(squares-y (* squares-fac 9))
-		(n-squares (/ (* squares-x squares-y)
+		;; add one row and column for shifting
+		(square-a (/ screen-w squares-x))
+		(screen-w2 (+ screen-w square-a))
+		(screen-h2 (+ screen-h square-a))
+		(squares-x2 (+ 1 squares-x))
+		(squares-y2 (+ 1 squares-y))
+		(n-squares (/ (* squares-x2
+				 squares-y2)
 			      2))) 
 	   `(do0
 	     (setf d (cv.aruco.getPredefinedDictionary (dot cv aruco
@@ -177,12 +184,12 @@
 									   ((< n-squares 1000)
 									    1000)
 									   (t (break "too many"))))))
-		   squares_x ,squares-x
-		   squares_y ,squares-y
+		   squares_x ,squares-x2
+		   squares_y ,squares-y2
 		   square_length 2 ;; in m
 		   marker_length 1 ;; in m
 		   board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
-		   out_size (tuple ,screen-w ,screen-h)
+		   out_size (tuple ,screen-w2 ,screen-h2)
 		   board_img (board.draw out_size))
 	     #+nil (cv.imwrite (string "charuco1.png")
 			       board_img)
@@ -194,11 +201,13 @@
 		   cv.WINDOW_FULLSCREEN)
 		  #+nil
 		  (cv.resizeWindow w ,screen-w ,screen-h)
-		  (for (x (range 20))
+		  (for (x (dot (np.round (np.linspace 0 ,(- square-a 1) 3))
+			       (astype int)))
 		   (do0
-		    (cv.moveWindow w (* 5 x) 5)
+		    ;(cv.moveWindow w (* 5 x) 5)
 		    (cv.imshow w
-			       board_img)
+			       (aref board_img (slice 0 (- ,screen-h 0))
+				     (slice x (+ ,screen-w x))))
 		    (cv.waitKey 500))))))
 	(do0 (cv.waitKey 500)
 	      (cv.destroyAllWindows))
