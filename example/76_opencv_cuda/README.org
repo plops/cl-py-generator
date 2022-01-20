@@ -102,4 +102,5 @@ sudo apt install sbcl
   #+begin_example
 https://longervision.github.io/2017/03/12/ComputerVision/OpenCV/opencv-external-posture-estimation-ArUco-board/
 https://longervision.github.io/2017/03/13/ComputerVision/OpenCV/opencv-external-posture-estimation-ChArUco-board/
+https://github.com/kyle-bersani/opencv-examples/tree/master/CalibrationByCharucoBoard
   #+end_example
