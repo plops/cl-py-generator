@@ -1,3 +1,7 @@
+|       |                                                                                       |
+| gen01 | try example code for camera calibration with the images that come with opencv release |
+| gen02 | display checkerboard with some kind of code                                           |
+
 - install dependencies for cl-py-generator on popos
 #+begin_example
 sudo apt install jq
