@@ -273,49 +273,60 @@
 	(cv.namedWindow w
 			cv.WINDOW_NORMAL ;AUTOSIZE
 			)
-	(cv.resizeWindow w 800 600)
+	(cv.resizeWindow w 1600 900)
 	(do0
-	 (setf decimator 0)
+	 ; (setf decimator 0)
 	 (setf all_corners (list)
-		     all_ids (list))
+	       all_ids (list))
+	 (setf aruco_params (cv.aruco.DetectorParameters_create))
 	 (for (frame (range (len xs.frame)))
 	      (do0
 	       (setf gray (dot xs
-			      (aref cb frame "...")
-			      values)
-		     ;gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY)
+			       (aref cb frame "...")
+			       values)
+					;gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY)
 		     )
 	       (setf (ntuple corners ids rejected_points)
 		     ;; markers
-		     (cv.aruco.detectMarkers gray aruco_dict))
+		     (cv.aruco.detectMarkers gray aruco_dict
+					     :parameters aruco_params))
 	       
 	       (when (< 0 (len corners))
-		 (setf (ntuple int_corners int_ids num)
+		 (setf (ntuple charuco_retval int_corners int_ids)
 		       (cv.aruco.interpolateCornersCharuco corners
 							   ids
 							   gray board) )
-		 (when (and (is int_corners "not None")
-				 (is int_ids "not None")
-				 (< 3 int_corners)
-				 ;(== 0 (% decimator 3))
-				 )
-			(all_corners.append int_corners)
-			(all_ids.append int_ids))
-		 (cv.aruco.drawDetectedMarkers gray
+		 #+nil (when (and (is int_corners "not None")
+			    (is int_ids "not None")
+			    (< 3 int_corners)
+					;(== 0 (% decimator 3))
+			    )
+		   (all_corners.append int_corners)
+		   (all_ids.append int_ids))
+		#+nil (cv.aruco.drawDetectedMarkers gray
 					       corners
-					       ids))
+					       ids
+					       (tuple 0 255 0))
+		 
+		 (setf img (cv.aruco.drawDetectedCornersCharuco gray
+						       int_corners
+						       int_ids
+					       
+						       (tuple 0 255 0))))
 
 	      
 	       (do0 
 		(cv.imshow
 		 w
-		 (aref gray (slice "" "" 4)
+		 #-nil img
+		 #+nil (aref gray (slice "" "" 4)
 		       (slice "" "" 4)))
 		(cv.setWindowTitle w
 				   (dot (string "frame {}")
 					(format frame)))
 		(cv.waitKey 1))
-	       (incf decimator))))
+	       ;(incf decimator)
+	       )))
 	(try (setf cal (cv.aruco.calibrateCameraCharuco
 			      all_corners all_ids board gray.shape
 			      None None))
