@@ -158,8 +158,8 @@
 	"#export"
 	(comments "https://answers.opencv.org/question/98447/camera-calibration-using-charuco-and-python/")
 	,(let* ((screen-fac 1)
-		(screen-w (* screen-fac (- 1920 200)))
-		(screen-h (* screen-fac (- 1080 100)))
+		(screen-w (* screen-fac 1920))
+		(screen-h (* screen-fac 1080))
 		(squares-fac 3)
 		(squares-x (* squares-fac 16))
 		(squares-y (* squares-fac 9))
@@ -189,6 +189,10 @@
 	     (do0 (setf w (string "board"))
 		  (cv.namedWindow w
 				  cv.WINDOW_NORMAL)
+		  (cv.setWindowProperty
+		   w cv.WND_PROP_FULLSCREEN
+		   cv.WINDOW_FULLSCREEN)
+		  #+nil
 		  (cv.resizeWindow w ,screen-w ,screen-h)
 		  (for (x (range 20))
 		   (do0
