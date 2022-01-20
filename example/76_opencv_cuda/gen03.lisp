@@ -17,6 +17,7 @@
     `((np numpy)
       (cv cv2)
       (pd pandas)
+      (xr xarray)
       rawpy
       ))
   (let ((nb-file "source/03_load_dng.ipynb"))
@@ -50,7 +51,7 @@
 					;(np numpy)
 					;serial
 					;(pd pandas)
-					;(xr xarray)
+			  ;(xr xarray)
 			  ,@*libs*
 					;		(xrp xarray.plot)
 					;skimage.restoration
@@ -229,7 +230,22 @@
 	 (for (fn (tqdm.tqdm fns))
 	  (with (as (rawpy.imread (str fn))
 		    raw)
-		(res.append (raw.postprocess)))))))))))
+		(res.append (raw.postprocess))))
+	 (setf
+	  data (np.stack res 0)
+	  xs (xr.DataArray
+	      :data data
+	      ;; 10 3024 4032 3
+	      :dims (list (string "frame")
+			  (string "h")
+			  (string "w")
+			  (string "ch"))
+	      :coords (dictionary
+		       :frame (np.arange (aref data.shape 0))
+		       :h (np.arange (aref data.shape 1))
+		       :w (np.arange (aref data.shape 2))
+		       :ch (np.arange (aref data.shape 3)))))
+	 (xs.to_netcdf (string "calib/checkerboards.nc")))))))))
 
 
 
