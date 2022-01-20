@@ -306,11 +306,12 @@
 	       (do0 
 		(cv.imshow
 		 w
-		 gray)
+		 (aref gray (slice "" "" 4)
+		       (slice "" "" 4)))
 		(cv.setWindowTitle w
 				   (dot (string "frame {}")
 					(format frame)))
-		(cv.waitKey 20))
+		(cv.waitKey 1))
 	       (incf decimator))))
 	(try (setf cal (cv.aruco.calibrateCameraCharuco
 			      all_corners all_ids board gray.shape
