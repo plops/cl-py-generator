@@ -168,7 +168,8 @@
 	(cv.imwrite (string "charuco1.png")
 		    board_img)
 	(cv.imshow (string "board")
-		   board_img)
+		   (np.tile board_img
+			    (list 1 1 3)))
 	))))))
 
 
