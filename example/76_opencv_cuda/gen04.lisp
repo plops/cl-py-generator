@@ -293,9 +293,10 @@
 	       
 	       (when (< 0 (len corners))
 		 (setf (ntuple charuco_retval int_corners int_ids)
-		       (cv.aruco.interpolateCornersCharuco corners
-							   ids
-							   gray board) )
+		       (cv.aruco.interpolateCornersCharuco :markerCorners corners
+							   :markerIds ids
+							   :image gray
+							   :board board) )
 		 #+nil (when (and (is int_corners "not None")
 			    (is int_ids "not None")
 			    (< 3 int_corners)
@@ -308,10 +309,11 @@
 					       ids
 					       (tuple 0 255 0))
 		 
-		 (setf img (cv.aruco.drawDetectedCornersCharuco gray
-						       int_corners
-						       int_ids
-					       
+		(setf img (cv.aruco.drawDetectedCornersCharuco
+			   :image gray
+						      :charucoCorners int_corners
+						      :charucoIds int_ids
+						      :cornerColor
 						       (tuple 0 255 0))))
 
 	      
