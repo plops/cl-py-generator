@@ -168,8 +168,11 @@
 	(cv.imwrite (string "charuco1.png")
 		    board_img)
 	(cv.imshow (string "board")
-		   (np.tile board_img
-			    (list 1 1 3)))
+		   (np.dstack (list board_img
+				    board_img
+				    board_img)))
+	(do0 (cv.waitKey 5000)
+	      (cv.destroyAllWindows))
 	))))))
 
 

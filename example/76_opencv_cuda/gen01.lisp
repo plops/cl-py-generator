@@ -257,8 +257,8 @@
 			(slice x (+ x w))))
 	(do0
 	 (cv.imshow (string "dst") dst)
-	 (cv.waitKey 5000)
-	 (cv.destroyAllWindows))))
+	 (do0 (cv.waitKey 5000)
+	      (cv.destroyAllWindows)))))
 
       (python
        (do0
