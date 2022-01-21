@@ -293,6 +293,11 @@
 					     :parameters aruco_params))
 	       
 	       (when (< 0 (len corners))
+		 (comments "corners[N-1].shape = 1 4 2, for each of N markers provide 4 corners"
+			   "ids[0] = 653, id for this particular marker"
+			   "cameraMatrix (optional) [fx 0 cx; 0 fy c0; 0 0 1]"
+			   "distCoeffs (optional 4,5,8 or 12 elements) k1 k2 p1 p1 [k3 [k4 k5 k6] [s1 s2 s3 s4]]"
+			   "minMarkers (optional) number of adjacent markers that must be detected to return corner")
 		 (setf (ntuple charuco_retval int_corners int_ids)
 		       (cv.aruco.interpolateCornersCharuco :markerCorners corners
 							   :markerIds ids
@@ -329,6 +334,10 @@
 		    (cv.waitKey 1)))))
 	       ;(incf decimator)
 	       )))
+	(do0
+	 (comments "all_corners[0].shape = 295 1 2"
+		   "all_ids[0].shape     = 295 1"))
+	
 	(try (setf (ntuple calibration
 			   camera_matrix
 			   distortion_params
