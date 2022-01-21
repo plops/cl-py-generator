@@ -392,7 +392,8 @@
 			   :recovered_id ref_recovered_ids))
 	      ))
 	(do0
-	 (comments "board.chessboardCorners.shape 1296 3"))
+	 (comments "board.chessboardCorners.shape 1296 3")
+	 (comments "board.objPoints[685].shape 4 3;  coordinates of 4 points in CCW order,  z coordinate 0"))
 
 
 	(do0
