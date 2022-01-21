@@ -104,4 +104,25 @@ https://longervision.github.io/2017/03/12/ComputerVision/OpenCV/opencv-external-
 https://longervision.github.io/2017/03/13/ComputerVision/OpenCV/opencv-external-posture-estimation-ChArUco-board/
 https://github.com/kyle-bersani/opencv-examples/tree/master/CalibrationByCharucoBoard
 https://docs.opencv.org/4.5.5/ python below c++ definitions
-  #+end_example
+
+https://www.frontiersin.org/articles/10.3389/fbinf.2021.740342/full differential renderer to predict pose and protein structure (on localization microscopy images)
+  - SMLM reconstruction is a z-projection of the structure being imaged (with unknown rotation and translation)
+    - ? is the size of the fluorescent marker a limitation, what if can't go into the structure
+  - differentiable renderer for SMLM point clouds (parameters: x,y, 3 angles, sigma)
+  - images that are close in appearance usually close in pose
+  - CEP152/HsSAS-6 complex
+    - ? cryo-em or x-ray structure as ground truth?
+  - https://github.com/OniDaito/Holly
+    - nice animations, makes it a bit clearer
+  
+https://www.edwardrosten.com/work/woodford_2020_large.pdf
+  - ceres solver .. for large scale bundle adjustment
+    - (*) http://ceres-solver.org/automatic_derivatives.html C++ Jet type (auto-differentiation)
+    - A simple (well behaved) differentiable interpolation is the Cubic Hermite Spline.
+  - 2016 drap inverse radial lens distortions
+  - https://www2.imm.dtu.dk/pubdb/edoc/imm3215.pdf non-linear least squares lectures
+  - colmap for initial camera parameters https://colmap.github.io/tutorial.html
+  - image pyramid to improve convergence
+
+(*) .. particularly interesting
+#+end_example
