@@ -466,21 +466,25 @@
 	 (print camera_matrix3)
 	 (print distortion_params3)
 	 (do0
-	  (setf M camera_matrix)
-	  ,(let ((l `(fx fy cx cy k1 k2 p1 p2 k3 k4 k5 k6 s1 s2 s3 s4 τx τy)))
+	  (setf M camera_matrix3
+		D distortion_params3)
+	  ,(let ((l `(fx fy cx cy k1 k2 p1 p2 k3;  k4 k5 k6 s1 s2 s3 s4 τx τy
+			 )))
 	   `(for ((ntuple idx (tuple name val))
 		 (enumerate (zip (list ,@(mapcar #'(lambda (x) `(string ,x))
 						 l))
-				 (list (aref M 0 0)
-				       (aref M 1 1)
-				       (aref M 0 2)
-				       (aref M 1 2)
-				       ,@(loop for e in (subseq l 4)
-					       collect
-					       `-1)
+				 (list (aref M 0 0) ;; fx
+				       (aref M 1 1) ;; fy
+				       (aref M 0 2) ;; cx
+				       (aref M 1 2) ;; cy
+				       (aref D 0 0)   ;; k1
+				       (aref D 0 1)   ;; k2
+				       (aref D 0 2) ;; p1
+				       (aref D 0 3) ;; p2
+				       (aref D 0 4) ;; k3
 				       ))))
 	       
-		(print (dot (string "{} = {}±{}")
+		(print (dot (string "{} = {}±{} ({:2.1f}%)")
 			    (format name
 				    (dot decimal (Decimal (dot (string "{:.4g}")
 							       (format val)))
@@ -490,7 +494,11 @@
 							       (format (dot (aref intrinsic_err idx)
 									    (item)))))
 					 (normalize)
-					 (to_eng_string))))
+					 (to_eng_string))
+				    (np.abs (* 100 (/ 
+					     (dot (aref intrinsic_err idx)
+						  (item))
+					     val)))))
 		       ))))))
       
       ))))
