@@ -279,7 +279,8 @@
 	 (setf all_corners (list)
 	       all_ids (list))
 	 (setf aruco_params (cv.aruco.DetectorParameters_create))
-	 (for (frame (range (len xs.frame)))
+	 (setf do_plot False)
+	 (for (frame (tqdm.tqdm (range (len xs.frame))))
 	      (do0
 	       (setf gray (dot xs
 			       (aref cb frame "...")
@@ -299,36 +300,33 @@
 							   :board board) )
 		 (when (< 20 charuco_retval)
 		   (comments "found at least 20 squares")
-		   #+nil(and		;(is int_corners "not None")
-					;(is int_ids "not None")
-			   (< 3 int_corners)
-					;(== 0 (% decimator 3))
-			   )
 		   (all_corners.append int_corners)
 		   (all_ids.append int_ids))
-		#+nil (cv.aruco.drawDetectedMarkers gray
-					       corners
-					       ids
-					       (tuple 0 255 0))
-		 
-		(setf img (cv.aruco.drawDetectedCornersCharuco
-			   :image gray
-						      :charucoCorners int_corners
-						      :charucoIds int_ids
-						      :cornerColor
-						       (tuple 0 255 0))))
+		 (when do_plot
+		  (do0
+		   #+nil (cv.aruco.drawDetectedMarkers gray
+						       corners
+						       ids
+						       (tuple 0 255 0))
+		  
+		   (setf img (cv.aruco.drawDetectedCornersCharuco
+			      :image gray
+			      :charucoCorners int_corners
+			      :charucoIds int_ids
+			      :cornerColor
+			      (tuple 0 255 0)))
 
-	      
-	       (do0 
-		(cv.imshow
-		 w
-		 #-nil img
-		 #+nil (aref gray (slice "" "" 4)
-		       (slice "" "" 4)))
-		(cv.setWindowTitle w
-				   (dot (string "frame {}")
-					(format frame)))
-		(cv.waitKey 1))
+		   
+		   (do0 
+		    (cv.imshow
+		     w
+		     #-nil img
+		     #+nil (aref gray (slice "" "" 4)
+				 (slice "" "" 4)))
+		    (cv.setWindowTitle w
+				       (dot (string "frame {}")
+					    (format frame)))
+		    (cv.waitKey 1)))))
 	       ;(incf decimator)
 	       )))
 	(try (setf (ntuple calibration
@@ -347,6 +345,7 @@
 		    (print e)
 		    pass))
 	(print camera_matrix)
+	(print distortion_params)
 	(cv.destroyAllWindows)
 	))))))
 
