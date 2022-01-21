@@ -277,7 +277,8 @@
 	(do0
 	 ; (setf decimator 0)
 	 (setf all_corners (list)
-	       all_ids (list))
+	       all_ids (list)
+	       all_rejects (list))
 	 (setf aruco_params (cv.aruco.DetectorParameters_create))
 	 (setf do_plot False)
 	 (for (frame (tqdm.tqdm (range (len xs.frame))))
@@ -287,6 +288,7 @@
 			       values)
 					;gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY)
 		     )
+	       (comments "rejected_points[NR-1].shape = 1 4 2, NR=566")
 	       (setf (ntuple corners ids rejected_points)
 		     ;; markers
 		     (cv.aruco.detectMarkers gray aruco_dict
@@ -297,7 +299,8 @@
 			   "ids[0] = 653, id for this particular marker"
 			   "cameraMatrix (optional) [fx 0 cx; 0 fy c0; 0 0 1]"
 			   "distCoeffs (optional 4,5,8 or 12 elements) k1 k2 p1 p1 [k3 [k4 k5 k6] [s1 s2 s3 s4]]"
-			   "minMarkers (optional) number of adjacent markers that must be detected to return corner")
+			   "minMarkers (optional) number of adjacent markers that must be detected to return corner"
+			   )
 		 (setf (ntuple charuco_retval int_corners int_ids)
 		       (cv.aruco.interpolateCornersCharuco :markerCorners corners
 							   :markerIds ids
@@ -306,7 +309,8 @@
 		 (when (< 20 charuco_retval)
 		   (comments "found at least 20 squares")
 		   (all_corners.append int_corners)
-		   (all_ids.append int_ids))
+		   (all_ids.append int_ids)
+		   (all_rejects.append rejected_points))
 		 (when do_plot
 		  (do0
 		   #+nil (cv.aruco.drawDetectedMarkers gray
@@ -355,6 +359,34 @@
 		    pass))
 	(print camera_matrix)
 	(print distortion_params)
+
+	(do0
+	 (comments "once we have an estimate of camera matrix and distortion,"
+		   "we can use refineDetectedMarkers to look for the missing markers")
+	 (setf res (list))
+	 (for ((ntuple int_corners int_ids rejected_points)
+	       (tqdm.tqdm (zip all_corners
+			       all_ids
+			       all_rejects)))
+	      (setf (ntuple ref_corners
+			    ref_ids
+			    ref_rejects
+			    ref_recovered_ids)
+	       (cv.aruco.refineDetectedMarkers :image gray
+					       :board board
+					       :detectedCorners int_corners
+					       :detectedIds int_ids
+					       :rejectedCorners rejected_points
+					       :cameraMatrix camera_matrix
+					       :distCoeffs distortion_params))
+	      (res.append (dictionary
+			   :corner ref_corners
+			   :id ref_ids
+			   :reject ref_rejects
+			   :recovered_id ref_recovered_ids))
+	      ))
+
+	
 	(cv.destroyAllWindows)
 	))))))
 
