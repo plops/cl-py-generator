@@ -93,6 +93,7 @@
 					;jax.nn
 			  cv2.aruco
 			  tqdm
+			  decimal
 			  ))
 		#+nil
 			(imports-from (matplotlib.pyplot
@@ -440,6 +441,10 @@
 
       (python
        (do0
+	(comments "intrinsics: fx,fy,cx,cy,k1,k2,p1,p2,k3,k4,k5,k6,s1,s2,s3,s4,τx,τy"
+		  "extrinsics: R0,T0,…,RM−1,TM−1"
+		  "M .. number of frames"
+		  "R_i, T_i .. concatenated 1x3 vectors")
 	 (try (setf (ntuple calibration3
 			    camera_matrix3
 			    distortion_params3
@@ -459,7 +464,20 @@
 	       (print e)
 	       pass))
 	 (print camera_matrix3)
-	 (print distortion_params3)))
+	 (print distortion_params3)
+	 (do0
+	  (for ((ntuple idx name)
+		(enumerate (list ,@(mapcar #'(lambda (x) `(string ,x))
+					  `(fx fy cx cy k1 k2 p1 p2 k3 k4 k5 k6 s1 s2 s3 s4 τx τy)))))
+	       
+	       (print (dot (string "{}_err = {}")
+			   (format name
+				   (dot decimal (Decimal (dot (string "{:.1g}")
+							      (format (dot (aref intrinsic_err idx)
+									   (item)))))
+					(normalize)
+					 (to_eng_string))))
+		       )))))
       
       ))))
 
