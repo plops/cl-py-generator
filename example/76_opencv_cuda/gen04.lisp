@@ -26,7 +26,7 @@
     :nb-code
     `((python (do0
 	       "# default_exp play04_jpg"
-	       (comments "pip3 install --user opencv-python opencv-contrib-python tqdm")))
+	       (comments "pip3 install --user opencv-python opencv-contrib-python tqdm xarray pandas")))
       (python (do0
 	       "#export"
 	       (do0
