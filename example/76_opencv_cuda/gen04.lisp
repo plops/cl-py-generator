@@ -26,7 +26,7 @@
     :nb-code
     `((python (do0
 	       "# default_exp play04_jpg"
-	       (comments "pip3 install --user opencv-python opencv-contrib-python tqdm xarray pandas")))
+	       (comments "pip3 install --user opencv-python opencv-contrib-python tqdm xarray pandas h5netcdf")))
       (python (do0
 	       "#export"
 	       (do0
@@ -269,18 +269,21 @@
       (python
        (do0
 	"#export" 
+	(setf do_plot False)
 	(setf w (string "cb"))
-	(cv.namedWindow w
-			cv.WINDOW_NORMAL ;AUTOSIZE
-			)
-	(cv.resizeWindow w 1600 900)
+
+	(when do_plot
+	 (do0 (cv.namedWindow w
+			      cv.WINDOW_NORMAL ;AUTOSIZE
+			      )
+	      (cv.resizeWindow w 1600 900)))
 	(do0
 	 ; (setf decimator 0)
 	 (setf all_corners (list)
 	       all_ids (list)
 	       all_rejects (list))
 	 (setf aruco_params (cv.aruco.DetectorParameters_create))
-	 (setf do_plot False)
+	
 	 (for (frame (tqdm.tqdm (range (len xs.frame))))
 	      (do0
 	       (setf gray (dot xs
@@ -385,9 +388,11 @@
 			   :reject ref_rejects
 			   :recovered_id ref_recovered_ids))
 	      ))
+	(do0
+	 (comments "board.chessboardCorners.shape 1296 3"))
 
-	
-	(cv.destroyAllWindows)
+	(when do_plot
+	 (cv.destroyAllWindows))
 	))))))
 
 

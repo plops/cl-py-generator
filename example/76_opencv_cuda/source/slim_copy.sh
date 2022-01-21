@@ -1,4 +1,6 @@
-rsync -av --progress *.ipynb calib2/*.nc slim:/dev/shm
+rsync -av --progress *.ipynb slim:/dev/shm
+
+# calib2/*.nc
 
 # tunnel to slim
 #     ssh slim -L 8888:localhost:8888 
