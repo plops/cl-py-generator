@@ -266,6 +266,7 @@
 	   (do0
 		   (print (dot (string "duration loading from jpg and saving netcdf {:4.2f}s")
 			       (format (- (time.time) start))))))))))
+
       (python
        (do0
 	"#export" 
@@ -345,23 +346,24 @@
 	 (comments "all_corners[0].shape = 295 1 2"
 		   "all_ids[0].shape     = 295 1"))
 	
-	(try (setf (ntuple calibration
-			   camera_matrix
-			   distortion_params
-			   rvecs
-			   tvecs)
-		   (cv.aruco.calibrateCameraCharuco
-		    :charucoCorners all_corners
-		    :charucoIds all_ids
-		    :board board
-		    :imageSize gray.shape
-		    :cameraMatrix None
-		    :distCoeffs None))
-		   ("Exception as e"
-		    (print e)
-		    pass))
-	(print camera_matrix)
-	(print distortion_params)
+	(do0
+	 (try (setf (ntuple calibration
+			    camera_matrix
+			    distortion_params
+			    rvecs
+			    tvecs)
+		    (cv.aruco.calibrateCameraCharuco
+		     :charucoCorners all_corners
+		     :charucoIds all_ids
+		     :board board
+		     :imageSize gray.shape
+		     :cameraMatrix None
+		     :distCoeffs None))
+	      ("Exception as e"
+	       (print e)
+	       pass))
+	 (print camera_matrix)
+	 (print distortion_params))
 
 	(do0
 	 (comments "once we have an estimate of camera matrix and distortion,"
@@ -391,9 +393,75 @@
 	(do0
 	 (comments "board.chessboardCorners.shape 1296 3"))
 
+
+	(do0
+	 (try (setf (ntuple calibration2
+			    camera_matrix2
+			    distortion_params2
+			    rvecs2
+			    tvecs2)
+		    (cv.aruco.calibrateCameraCharuco
+		     :charucoCorners ref_corners
+		     :charucoIds ref_ids
+		     :board board
+		     :imageSize gray.shape
+		     :cameraMatrix camera_matrix ;None
+		     :distCoeffs distortion_params ;None
+		     ))
+	      ("Exception as e"
+	       (print e)
+	       pass))
+	 (print camera_matrix2)
+	 (print distortion_params2))
+	
 	(when do_plot
 	 (cv.destroyAllWindows))
-	))))))
+	))
+      
+      (python
+       (do0
+	 (try (setf (ntuple calibration2
+			    camera_matrix2
+			    distortion_params2
+			    rvecs2
+			    tvecs2)
+		    (cv.aruco.calibrateCameraCharuco
+		     :charucoCorners ref_corners
+		     :charucoIds ref_ids
+		     :board board
+		     :imageSize gray.shape
+		     :cameraMatrix camera_matrix
+		     :distCoeffs distortion_params))
+	      ("Exception as e"
+	       (print e)
+	       pass))
+	 (print camera_matrix2)
+	 (print distortion_params2)))
+
+      (python
+       (do0
+	 (try (setf (ntuple calibration3
+			    camera_matrix3
+			    distortion_params3
+			    rvecs3
+			    tvecs3
+			    intrinsic_err
+			    extrinsic_err
+			    view_err)
+		    (cv.aruco.calibrateCameraCharucoExtended
+		     :charucoCorners all_corners
+		     :charucoIds all_ids
+		     :board board
+		     :imageSize gray.shape
+		     :cameraMatrix camera_matrix
+		     :distCoeffs distortion_params))
+	      ("Exception as e"
+	       (print e)
+	       pass))
+	 (print camera_matrix3)
+	 (print distortion_params3)))
+      
+      ))))
 
 
 
