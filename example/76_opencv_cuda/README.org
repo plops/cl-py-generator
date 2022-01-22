@@ -176,4 +176,7 @@ https://github.com/CosmoStat/mccd
   -  Once trained, the MCCD PSF model can then recover the PSF at any position in the field of view.
   - allows to output interpolated PSFs with a specific centroid.
   -    RBF interpolation for the global part.
+
+- book learning opencv 3 (2017)
+  - representation of rotation as vector 3, length is angle, direction is rotation axis 
 #+end_example

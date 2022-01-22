@@ -18,6 +18,7 @@
       (cv cv2)
       (pd pandas)
       (xr xarray)
+      lmfit
       ;rawpy
       ))
   (let ((nb-file "source/04_load_jpg.ipynb"))
@@ -26,12 +27,12 @@
     :nb-code
     `((python (do0
 	       "# default_exp play04_jpg"
-	       (comments "pip3 install --user opencv-python opencv-contrib-python tqdm xarray pandas h5netcdf")))
+	       (comments "pip3 install --user opencv-python opencv-contrib-python tqdm xarray pandas h5netcdf lmfit")))
       (python (do0
 	       "#export"
 	       (do0
 					
-		#+nil (do0
+		#-nil (do0
 			;"%matplotlib notebook"
 		      	(imports (matplotlib))
 			(imports ((plt matplotlib.pyplot)
@@ -95,7 +96,7 @@
 			  tqdm
 			  decimal
 			  ))
-		#+nil
+		#-nil
 			(imports-from (matplotlib.pyplot
 			       plot imshow tight_layout xlabel ylabel
 			       title subplot subplot2grid grid
@@ -202,7 +203,7 @@
 	     #+nil (cv.imwrite (string "charuco1.png")
 			       board_img)
 	     #+nil (do0 (setf w (string "board"))
-		  (cv.namedWindow w
+		  (cv.namedWindow w1
 				  cv.WINDOW_NORMAL)
 		  (cv.setWindowProperty
 		   w cv.WND_PROP_FULLSCREEN
@@ -459,37 +460,7 @@
 	 (print camera_matrix2)
 	 (print distortion_params2)))
 
-      (python
-       (do0
-	(comments "collect the data, so that i can implement the fit myself")
-	(comments "function calibrateCameraCharuco https://github.com/opencv/opencv_contrib/blob/a26f71313009c93d105151094436eecd4a0990ed/modules/aruco/src/charuco.cpp")
-	(assert (< 0 (len all_ids)))
-	(assert (== (len all_ids)
-		    (len all_corners)))
-	(setf res (list))
-	(for ((ntuple i ids) (enumerate all_ids))
-	     (setf n_corners (len ids)
-		   corners (aref all_corners i))
-	     (assert (< 0 n_corners))
-	     (assert (== n_corners (len corners)))
-	     (for (j (range n_corners))
-		  (setf point_id (aref ids j))
-		  (assert (<= 0 point_id))
-		  (assert (< point_id (len board.chessboardCorners)))
-		  (res.append
-		   (dictionary :frame_idx i
-			       :corner_idx j
-			       :point_id (dot point_id (item))
-			       ;; checkerboard
-			       :x (aref (aref board.chessboardCorners point_id) 0 0)
-			       :y (aref (aref board.chessboardCorners point_id) 0 1)
-			       ;; camera
-			       :X (aref corners j 0 0)
-			       :Y (aref corners j 0 1)
-			       ))))
-	(setf df (pd.DataFrame res))
-	df))
-
+      
       (python
        (do0
 	(comments "calibration step by itself")
@@ -552,6 +523,105 @@
 						  (item))
 					     val)))))
 		       ))))))
+
+      (python
+       (do0
+	(comments "collect the data, so that i can implement the fit myself")
+	(comments "function calibrateCameraCharuco https://github.com/opencv/opencv_contrib/blob/a26f71313009c93d105151094436eecd4a0990ed/modules/aruco/src/charuco.cpp")
+	(assert (< 0 (len all_ids)))
+	(assert (== (len all_ids)
+		    (len all_corners)))
+	(setf res (list))
+	(for ((ntuple i ids) (enumerate all_ids))
+	     (setf n_corners (len ids)
+		   corners (aref all_corners i))
+	     (assert (< 0 n_corners))
+	     (assert (== n_corners (len corners)))
+	     (for (j (range n_corners))
+		  (setf point_id (aref ids j))
+		  (assert (<= 0 point_id))
+		  (assert (< point_id (len board.chessboardCorners)))
+		  (res.append
+		   (dictionary :frame_idx i
+			       :corner_idx j
+			       :point_id (dot point_id (item))
+			       ;; checkerboard
+			       :x (aref (aref board.chessboardCorners point_id) 0 0)
+			       :y (aref (aref board.chessboardCorners point_id) 0 1)
+			       ;; camera
+			       :u (aref corners j 0 0)
+			       :v (aref corners j 0 1)
+			       ))))
+	(setf df (pd.DataFrame res))
+	df))
+      (python
+       (do0
+	(comments "plot the coordinates")
+	(plot df.X df.Y)
+	(grid)))
+      (python
+       (do0
+	
+	(plot df.x df.y)
+	(grid)))
+
+      ;; 
+
+      ,(let (
+	     ;; first list scalar parameters
+	     (merit-params `((:name fx :start 3340)
+			     (:name fy :start 3340)
+			     (:name cx :start 2025)
+			     (:name cy :start 1430)
+			     (:name k1 :start .06)
+			     (:name k2 :start -.3)
+			     (:name p1 :start .001)
+			     (:name p2 :start .0004)
+			     (:name k3 :start .33)
+			     (:name rvecs :start .1 :shape (n 3))
+			     (:name tvecs :start .1 :shape (n 3))
+			     ))
+	     (merit-fun )
+	     )
+	`(python
+	  (do0
+	   (def merit (params grid_x grid_y cam_x cam_y)
+	     (setf n (len grid_x)
+		   count_start ,(loop named outer
+				     for e in merit-params
+				     and i from 0
+				     do
+					(destructuring-bind (&key name start (shape 1)) e
+					      (unless (eq shape 1)
+						(return-from outer i)))))
+	     ,@(loop for e in merit-params
+		     and i from 0
+		     collect
+		     (destructuring-bind (&key name start (shape 1)) e
+		       `,(if (eq shape 1)
+			     `(setf ,name (aref params ,i))
+			     `(do0
+			       (setf ,name
+				     (dot (aref params (slice count_start (+ count_start (* ,@shape))))
+					  (reshape (list ,@shape))))
+			       (incf count_start  (* ,@shape)))
+			     
+			     ))))
+	   (do0
+	    (setf grid_x df.x
+		  grid_y df.y
+		  cam_x df.u
+		  cam_y df.v)
+	    (setf n (len grid_x))
+	    (setf params0 (+  (list ,@(loop for e in merit-params
+					    and i from 0
+					    collect
+					    (destructuring-bind (&key name start (shape 1)) e
+					      (if (eq shape 1)
+						  start
+						  `(* (list ,start) (* ,@shape))))))))
+	    (setf fitter (lmfit.Minimizer merit params0)))
+	   )))
       
       ))))
 
