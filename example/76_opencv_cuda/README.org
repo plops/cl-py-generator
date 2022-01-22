@@ -116,9 +116,10 @@ aruco paper (2014)
    - correctly identify marker rotation (marker self-distance)
  - detection algorithm:
    - local threshold (fast alternative to canny)
-   - contour extraction (suzuki abe)
+   - contour extraction (suzuki abe 10.1016/0734-189X(85)90016-7)
      - defines hierarchical relationships among borders
      - differentiates outer boundary and hole boundary
+     - nice video demonstration https://www.youtube.com/watch?v=_aTC-Rc4Io0
 
 https://www.frontiersin.org/articles/10.3389/fbinf.2021.740342/full differential renderer to predict pose and protein structure (on localization microscopy images)
   - SMLM reconstruction is a z-projection of the structure being imaged (with unknown rotation and translation)
