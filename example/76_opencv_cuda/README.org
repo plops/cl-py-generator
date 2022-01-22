@@ -191,5 +191,15 @@ https://github.com/CosmoStat/mccd
       - faster than ransac with many outliers
     - new methods https://opencv.org/evaluating-opencvs-new-ransacs/
       - usac
+  - parameter count
+    - K frames
+    - N corners
+    - K frames provide 2NK constaints
+    - 4 instrinsic (fx,fy,cx,cy, ignoring distortion), 6K extrinsic
+    - for solution we need 2NK >= 6K+4; (N-3)K >= 2
+    - K > 1 because one frame only gives 4 corners worth of information
+  - zhang's method
+    - B matrix
+    - svd of R matrix, force diagonal from singular values to identity matrix to force R into a confirming rotation matrix
     
 #+end_example
