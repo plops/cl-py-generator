@@ -569,7 +569,8 @@
 
       ,(let (
 	     ;; first list scalar parameters
-	     (merit-params `((:name fx :start 3340)
+	     (merit-params `(;; intrinsics (same for all views)
+			     (:name fx :start 3340)
 			     (:name fy :start 3340)
 			     (:name cx :start 2025)
 			     (:name cy :start 1430)
@@ -578,15 +579,16 @@
 			     (:name p1 :start .001)
 			     (:name p2 :start .0004)
 			     (:name k3 :start .33)
-			     (:name rvecs :start .1 :shape (n 3))
-			     (:name tvecs :start .1 :shape (n 3))
+			     ;; unknowns per frame / view
+			     (:name rvecs :start .1 :shape (n_frames 2))
+			     (:name tvecs :start .1 :shape (n_frames 2))
 			     ))
 	     (merit-fun )
 	     )
 	`(python
 	  (do0
 	   (def merit (params grid_x grid_y cam_x cam_y)
-	     (setf n (len grid_x)
+	     (setf n_frames (len grid_x)
 		   count_start ,(loop named outer
 				     for e in merit-params
 				     and i from 0
@@ -613,13 +615,20 @@
 		  cam_x df.u
 		  cam_y df.v)
 	    (setf n (len grid_x))
-	    (setf params0 (+  (list ,@(loop for e in merit-params
-					    and i from 0
-					    collect
-					    (destructuring-bind (&key name start (shape 1)) e
-					      (if (eq shape 1)
-						  start
-						  `(* (list ,start) (* ,@shape))))))))
+	    ,(let ((scalar-params
+		     (loop for e in merit-params
+			   and i from 0
+			   collect
+			   (destructuring-bind (&key name start (shape 1)) e
+			     (if (eq shape 1)
+				 start
+				 (loop-finish))))))
+	       `(setf params0 (+  (list ,@scalar-params)
+				  ,@(loop for e in (subseq merit-params (length scalar-params))
+					  collect
+					  (destructuring-bind (&key name start (shape 1)) e
+					    `(* (list ,start) (* ,@shape)))
+					  ))))
 	    (setf fitter (lmfit.Minimizer merit params0)))
 	   )))
       

@@ -178,5 +178,18 @@ https://github.com/CosmoStat/mccd
   -    RBF interpolation for the global part.
 
 - book learning opencv 3 (2017)
-  - representation of rotation as vector 3, length is angle, direction is rotation axis 
+  - representation of rotation as vector 3, length is angle, direction is rotation axis
+  - findHomography
+    - default method minimizes reprojection error of all points, not robust in presence of noise
+    - ransac computes homography for subset of points
+      - split input into inliers and outliers
+      - robust even with many outliers but needs ransacReprojThreshold [px]
+    - lmeds (least median of squares) minimizes median error
+      - only robust with few outliers
+    - rho
+      - weighted ransac
+      - faster than ransac with many outliers
+    - new methods https://opencv.org/evaluating-opencvs-new-ransacs/
+      - usac
+    
 #+end_example
