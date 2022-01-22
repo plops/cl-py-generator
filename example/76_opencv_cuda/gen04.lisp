@@ -324,7 +324,10 @@
 		   (all_rejects.append rejected_points))
 		 (when save_figure
 		     (do0 
-			
+		      (comments "image 16 and 25 have the most recognized markers (i think)"
+				"blue .. markers, index fixed to board, starts from top left, increases towards right"
+				"green .. corners, fixed to board, starts from bottom left increases towards right")
+		      ;; i shall look where drawDetectedCornersCharuco gets it's coordinates from
 		      (setf img (cv.aruco.drawDetectedCornersCharuco
 				 :image (cv.cvtColor gray cv.COLOR_GRAY2RGB)
 				 :charucoCorners int_corners
