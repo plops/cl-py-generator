@@ -326,7 +326,7 @@
 		     (do0 
 			
 		      (setf img (cv.aruco.drawDetectedCornersCharuco
-				 :image gray
+				 :image (cv.cvtColor gray cv.COLOR_GRAY2RGB)
 				 :charucoCorners int_corners
 				 :charucoIds int_ids
 				 :cornerColor
