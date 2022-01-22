@@ -273,7 +273,11 @@
       (python
        (do0
 	"#export" 
-	(setf do_plot False)
+	(setf do_plot
+					;True
+					False
+					)
+	(setf save_figure True)
 	(setf w (string "cb"))
 
 	(when do_plot
@@ -318,19 +322,25 @@
 		   (all_corners.append int_corners)
 		   (all_ids.append int_ids)
 		   (all_rejects.append rejected_points))
+		 (when save_figure
+		     (do0 
+			
+		      (setf img (cv.aruco.drawDetectedCornersCharuco
+				 :image gray
+				 :charucoCorners int_corners
+				 :charucoIds int_ids
+				 :cornerColor
+				 (tuple 0 255 0)))
+		      (cv.aruco.drawDetectedMarkers img
+						    corners
+						    ids
+						    (tuple 0 255 0))
+		      (cv.imwrite (dot (string "/dev/shm/{:02d}.jpg")
+				       (format frame))
+				  img)))
 		 (when do_plot
-		  (do0
-		   #+nil (cv.aruco.drawDetectedMarkers gray
-						       corners
-						       ids
-						       (tuple 0 255 0))
-		  
-		   (setf img (cv.aruco.drawDetectedCornersCharuco
-			      :image gray
-			      :charucoCorners int_corners
-			      :charucoIds int_ids
-			      :cornerColor
-			      (tuple 0 255 0)))
+		   (do0
+		    
 
 		   
 		   (do0 
@@ -424,8 +434,7 @@
 	 (print distortion_params2))
 	
 	(when do_plot
-	 (cv.destroyAllWindows))
-	))
+	 (cv.destroyAllWindows))))
       #+nil
       (python
        (do0
