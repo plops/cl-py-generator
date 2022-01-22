@@ -395,7 +395,10 @@
 	      ))
 	(do0
 	 (comments "board.chessboardCorners.shape 1296 3")
-	 (comments "board.objPoints[685].shape 4 3;  coordinates of 4 points in CCW order,  z coordinate 0"))
+	 (comments
+	  "all marker corners on the board"
+	  "board.objPoints[685].shape 4 3;  coordinates of 4 points in CCW order,  z coordinate 0"
+		   ))
 
 	#+nil
 	(do0
@@ -444,6 +447,41 @@
 
       (python
        (do0
+	(comments "collect the data, so that i can implement the fit myself")
+	(setf res (list))
+	(for (frame xs.frame.values)
+	     (setf corners (aref all_corners frame)
+		   ids (aref all_ids frame))
+	     ;; all_ids[0].shape = 295 1
+	     (for ((ntuple id_idx id_array) (enumerate ids))
+		  ;; all_corners[0].shape = 295 1 2
+		  (setf (ntuple x y ) (aref corners id_idx 0 ":"))
+		  (setf identitfier (id_array.item))
+		  ;; board.objPoints[685].shape = 4 3
+		  ;; board.nearestMarkerCorners[1295] = array[3,1]
+		  #+inl ,@(loop for corner in `(a b c d) and corner-i from 0
+			  appending
+			  (loop for coord in `(x y) and coord-i from 0
+				collect
+				`(setf ,(format nil "~a~a" corner coord)
+				       (aref (aref board.objPoints identifier) ,corner-i ,coord-i))))
+		  (res.append (dictionary :frame frame
+					  :id id
+					  :x x
+					  :y y
+					  :X (aref board.chessboardCorners identifier 0)
+					  :Y (aref board.chessboardCorners identifier 1)
+					  #+nil ,@(loop for corner in `(a b c d) and corner-i from 0
+						  appending
+						  (loop for coord in `(x y) and coord-i from 0
+							appending
+							`(,(make-keyword (string-upcase (format nil "~a~a" corner coord))) ,(format nil "~a~a" corner coord))))
+					  ))))
+	(setf df (pd.DataFrame res))))
+
+      (python
+       (do0
+	(comments "calibration step by itself")
 	(comments "intrinsics: fx,fy,cx,cy,k1,k2,p1,p2,k3,k4,k5,k6,s1,s2,s3,s4,τx,τy"
 		  "extrinsics: R0,T0,…,RM−1,TM−1"
 		  "M .. number of frames"

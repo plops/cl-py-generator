@@ -107,6 +107,14 @@ https://longervision.github.io/2017/03/13/ComputerVision/OpenCV/opencv-external-
 https://github.com/kyle-bersani/opencv-examples/tree/master/CalibrationByCharucoBoard
 https://docs.opencv.org/4.5.5/ python below c++ definitions
 
+aruco paper (2014)
+ - 10.1016/j.patcog.2014.01.005
+ - markers selected by random process
+ - considering:
+   - number of transitions
+   - hamming distance to other markers
+   - correctly identify marker rotation (marker self-distance)
+
 https://www.frontiersin.org/articles/10.3389/fbinf.2021.740342/full differential renderer to predict pose and protein structure (on localization microscopy images)
   - SMLM reconstruction is a z-projection of the structure being imaged (with unknown rotation and translation)
     - ? is the size of the fluorescent marker a limitation, what if can't go into the structure
