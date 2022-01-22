@@ -327,13 +327,13 @@
 		      (comments "image 16 and 25 have the most recognized markers (i think)"
 				"blue .. markers, index fixed to board, starts from top left, increases towards right"
 				"green .. corners, fixed to board, starts from bottom left increases towards right")
-		      ;; i shall look where drawDetectedCornersCharuco gets it's coordinates from
+		      
 		      (setf img (cv.aruco.drawDetectedCornersCharuco
 				 :image (cv.cvtColor gray cv.COLOR_GRAY2RGB)
-				 :charucoCorners int_corners
-				 :charucoIds int_ids
+				 :charucoCorners int_corners ;; sub pixel corner positions in image of checkerboard intersections
+				 :charucoIds int_ids ;; corner index to draw the id (optional)
 				 :cornerColor
-				 (tuple 0 255 0)))
+				 (tuple 255 255 0)))
 		      (cv.aruco.drawDetectedMarkers img
 						    corners
 						    ids
@@ -349,8 +349,8 @@
 		   (do0 
 		    (cv.imshow
 		     w
-		     #-nil img
-		     #+nil (aref gray (slice "" "" 4)
+		     #+nil img
+		     #-nil (aref gray (slice "" "" 4)
 				 (slice "" "" 4)))
 		    (cv.setWindowTitle w
 				       (dot (string "frame {}")
@@ -462,36 +462,33 @@
       (python
        (do0
 	(comments "collect the data, so that i can implement the fit myself")
+	(comments "function calibrateCameraCharuco https://github.com/opencv/opencv_contrib/blob/a26f71313009c93d105151094436eecd4a0990ed/modules/aruco/src/charuco.cpp")
+	(assert (< 0 (len all_ids)))
+	(assert (== (len all_ids)
+		    (len all_corners)))
 	(setf res (list))
-	(for (frame xs.frame.values)
-	     (setf corners (aref all_corners frame)
-		   ids (aref all_ids frame))
-	     ;; all_ids[0].shape = 295 1
-	     (for ((ntuple id_idx id_array) (enumerate ids))
-		  ;; all_corners[0].shape = 295 1 2
-		  (setf (ntuple x y ) (aref corners id_idx 0 ":"))
-		  (setf identitfier (id_array.item))
-		  ;; board.objPoints[685].shape = 4 3
-		  ;; board.nearestMarkerCorners[1295] = array[3,1]
-		  #+inl ,@(loop for corner in `(a b c d) and corner-i from 0
-			  appending
-			  (loop for coord in `(x y) and coord-i from 0
-				collect
-				`(setf ,(format nil "~a~a" corner coord)
-				       (aref (aref board.objPoints identifier) ,corner-i ,coord-i))))
-		  (res.append (dictionary :frame frame
-					  :id id
-					  :x x
-					  :y y
-					  :X (aref board.chessboardCorners identifier 0)
-					  :Y (aref board.chessboardCorners identifier 1)
-					  #+nil ,@(loop for corner in `(a b c d) and corner-i from 0
-						  appending
-						  (loop for coord in `(x y) and coord-i from 0
-							appending
-							`(,(make-keyword (string-upcase (format nil "~a~a" corner coord))) ,(format nil "~a~a" corner coord))))
-					  ))))
-	(setf df (pd.DataFrame res))))
+	(for ((ntuple i ids) (enumerate all_ids))
+	     (setf n_corners (len ids)
+		   corners (aref all_corners i))
+	     (assert (< 0 n_corners))
+	     (assert (== n_corners (len corners)))
+	     (for (j (range n_corners))
+		  (setf point_id (aref ids j))
+		  (assert (<= 0 point_id))
+		  (assert (< point_id (len board.chessboardCorners)))
+		  (res.append
+		   (dictionary :frame_idx i
+			       :corner_idx j
+			       :point_id (dot point_id (item))
+			       ;; checkerboard
+			       :x (aref (aref board.chessboardCorners point_id) 0 0)
+			       :y (aref (aref board.chessboardCorners point_id) 0 1)
+			       ;; camera
+			       :X (aref corners j 0 0)
+			       :Y (aref corners j 0 1)
+			       ))))
+	(setf df (pd.DataFrame res))
+	df))
 
       (python
        (do0
