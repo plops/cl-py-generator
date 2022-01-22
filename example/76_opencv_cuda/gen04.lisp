@@ -197,6 +197,8 @@
 		   board_img (board.draw out_size)
 		   steps_x 5
 		   steps_y 5)
+	     (print (dot (string "aruco dictionary can correct at most {} bits")
+			 (format aruco_dict.maxCorrectionBits)))
 	     #+nil (cv.imwrite (string "charuco1.png")
 			       board_img)
 	     #+nil (do0 (setf w (string "board"))

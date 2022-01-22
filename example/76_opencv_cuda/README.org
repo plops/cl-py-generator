@@ -114,12 +114,29 @@ aruco paper (2014)
    - number of transitions
    - hamming distance to other markers
    - correctly identify marker rotation (marker self-distance)
+   - the final dictionary has a value tau that is the minimum hamming distance between any two markers
  - detection algorithm:
    - local threshold (fast alternative to canny)
    - contour extraction (suzuki abe 10.1016/0734-189X(85)90016-7)
      - defines hierarchical relationships among borders
      - differentiates outer boundary and hole boundary
-     - nice video demonstration https://www.youtube.com/watch?v=_aTC-Rc4Io0
+     - nice video demonstration
+       - https://www.youtube.com/watch?v=_aTC-Rc4Io0
+         - detect blue marker
+  - polygonal approximation (douglas peucker)
+       - only keep 4-vertex polygons
+       - https://www.youtube.com/watch?v=IG3UkAqHnQI
+         - approximate contours with polygon
+  - undo perspective projection by computing homography matrix
+  - extract internal code square
+  - optimal threshold for bimodal image (otsu)
+  - divide into grid, sample bits
+  - marker identification and error correction
+    - 4 identifiers (one for each possible rotation)
+    - lookup in dictionary using sorted balanced binary tree
+    - errors of at most (tau-1)/2 bits can be corrected
+    - complexity of error correction is O(4 * len(dictionary))
+    - reported as aruco_dict.maxCorrectionBits
 
 https://www.frontiersin.org/articles/10.3389/fbinf.2021.740342/full differential renderer to predict pose and protein structure (on localization microscopy images)
   - SMLM reconstruction is a z-projection of the structure being imaged (with unknown rotation and translation)
