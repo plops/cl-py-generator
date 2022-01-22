@@ -201,5 +201,10 @@ https://github.com/CosmoStat/mccd
   - zhang's method
     - B matrix
     - svd of R matrix, force diagonal from singular values to identity matrix to force R into a confirming rotation matrix
-    
+    - 5 element distortion parameters is for fisheye lenses
+    - 8 element form is used with CALIB_RATIONAL_MODEL to be used for high-precision calibration of exotic lenses
+    - flags can hold some parameters fixed
+  - solve for extrinsics only
+    - solvePnP or solvePnPRansac
+    - can use supplied tvec and rvec as guess (useExtrinsicGuess)
 #+end_example
