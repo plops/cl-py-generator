@@ -366,9 +366,11 @@
 	 (print camera_matrix)
 	 (print distortion_params))
 
+	#+nil
 	(do0
 	 (comments "once we have an estimate of camera matrix and distortion,"
-		   "we can use refineDetectedMarkers to look for the missing markers")
+		   "we can use refineDetectedMarkers to look for the missing markers"
+		   "FIXME: subsequent calibration is not working. i read about issues with the order of ids returned by refineDetectedMarkers, might be the cause")
 	 (setf res (list))
 	 (for ((ntuple int_corners int_ids rejected_points)
 	       (tqdm.tqdm (zip all_corners
@@ -395,7 +397,7 @@
 	 (comments "board.chessboardCorners.shape 1296 3")
 	 (comments "board.objPoints[685].shape 4 3;  coordinates of 4 points in CCW order,  z coordinate 0"))
 
-
+	#+nil
 	(do0
 	 (try (setf (ntuple calibration2
 			    camera_matrix2
@@ -419,7 +421,7 @@
 	(when do_plot
 	 (cv.destroyAllWindows))
 	))
-      
+      #+nil
       (python
        (do0
 	 (try (setf (ntuple calibration2
