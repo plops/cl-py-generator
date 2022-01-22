@@ -133,9 +133,10 @@ https://www.edwardrosten.com/work/woodford_2020_large.pdf
 https://jax-cosmo.readthedocs.io/en/latest/notebooks/jax-cosmo-intro.html
   - library for cosmology
   - has cubic interpolation with jax
-  - https://github.com/DifferentiableUniverseInitiative/jax_cosmo/issues/29
-  - (*) standalone https://github.com/DifferentiableUniverseInitiative/jax_cosmo/blob/master/jax_cosmo/scipy/interpolate.py
-
+     - discussion: https://github.com/DifferentiableUniverseInitiative/jax_cosmo/issues/29
+     - (*) standalone interoplator https://github.com/DifferentiableUniverseInitiative/jax_cosmo/blob/master/jax_cosmo/scipy/interpolate.py
+  - discussion Fisher/covariance https://jax-cosmo.readthedocs.io/en/latest/notebooks/jax-cosmo-intro.html
+  
 https://github.com/CosmoStat/mccd
   - non-parametric MCCD PSF modelling
   - generate a PSF model based on stars observations in the field of view
