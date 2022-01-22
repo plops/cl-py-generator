@@ -114,6 +114,11 @@ aruco paper (2014)
    - number of transitions
    - hamming distance to other markers
    - correctly identify marker rotation (marker self-distance)
+ - detection algorithm:
+   - local threshold (fast alternative to canny)
+   - contour extraction (suzuki abe)
+     - defines hierarchical relationships among borders
+     - differentiates outer boundary and hole boundary
 
 https://www.frontiersin.org/articles/10.3389/fbinf.2021.740342/full differential renderer to predict pose and protein structure (on localization microscopy images)
   - SMLM reconstruction is a z-projection of the structure being imaged (with unknown rotation and translation)
