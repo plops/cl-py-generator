@@ -100,6 +100,8 @@ sudo apt install sbcl
 
 - references
   #+begin_example
+(*) .. particularly interesting
+
 https://longervision.github.io/2017/03/12/ComputerVision/OpenCV/opencv-external-posture-estimation-ArUco-board/
 https://longervision.github.io/2017/03/13/ComputerVision/OpenCV/opencv-external-posture-estimation-ChArUco-board/
 https://github.com/kyle-bersani/opencv-examples/tree/master/CalibrationByCharucoBoard
@@ -119,10 +121,25 @@ https://www.edwardrosten.com/work/woodford_2020_large.pdf
   - ceres solver .. for large scale bundle adjustment
     - (*) http://ceres-solver.org/automatic_derivatives.html C++ Jet type (auto-differentiation)
     - A simple (well behaved) differentiable interpolation is the Cubic Hermite Spline.
+    - very good documentation
+    - (*) hessian, handling of manifolds (LocalParameterization, rank deficient Jacobian)
   - 2016 drap inverse radial lens distortions
   - https://www2.imm.dtu.dk/pubdb/edoc/imm3215.pdf non-linear least squares lectures
   - colmap for initial camera parameters https://colmap.github.io/tutorial.html
   - image pyramid to improve convergence
 
-(*) .. particularly interesting
+
+
+https://jax-cosmo.readthedocs.io/en/latest/notebooks/jax-cosmo-intro.html
+  - library for cosmology
+  - has cubic interpolation with jax
+  - https://github.com/DifferentiableUniverseInitiative/jax_cosmo/issues/29
+  - (*) standalone https://github.com/DifferentiableUniverseInitiative/jax_cosmo/blob/master/jax_cosmo/scipy/interpolate.py
+
+https://github.com/CosmoStat/mccd
+  - non-parametric MCCD PSF modelling
+  - generate a PSF model based on stars observations in the field of view
+  -  Once trained, the MCCD PSF model can then recover the PSF at any position in the field of view.
+  - allows to output interpolated PSFs with a specific centroid.
+  -    RBF interpolation for the global part.
 #+end_example
