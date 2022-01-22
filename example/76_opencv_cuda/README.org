@@ -138,6 +138,7 @@ aruco paper (2014)
     - complexity of error correction is O(4 * len(dictionary))
     - reported as aruco_dict.maxCorrectionBits
     - ? how about charucoboards, do they allow more corrections with the knowledge of neighboring markers?
+    - linear regression of marker side pixels to refine corners
 
 https://www.frontiersin.org/articles/10.3389/fbinf.2021.740342/full differential renderer to predict pose and protein structure (on localization microscopy images)
   - SMLM reconstruction is a z-projection of the structure being imaged (with unknown rotation and translation)
