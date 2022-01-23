@@ -707,13 +707,22 @@
 		    center (np.array (list (list cx)
 				       (list cy ))))
 	      (setf r (- uv center))
-	      (setf uv_nodist (* (+ 1
+	      (setf uv_pinhole (* (+ 1
 				    (* k1 (** r 2))
 				    (* k2 (** r 4))
 				    (* k3 (** r 6)))
 				 uv))
-	      ,(lprint `(Q W WQ M MWQ mwq uv r uv_nodist))))
-
+	      ,(lprint `(Q W WQ M MWQ mwq uv r uv_pinhole))))
+	    (python
+	     (do0
+	      (setf r (np.linspace 0 1))
+	      (plot r (+ 1
+				    (* k1 (** r 2))
+				    (* k2 (** r 4))
+				    (* k3 (** r 6))))
+	      (grid)
+	      (xlabel (string "r"))
+	      (ylabel (string "distortion factor"))))
 	    (python
 	   (do0
 	    (def merit (params grid_x grid_y cam_x cam_y)
