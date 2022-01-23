@@ -293,9 +293,10 @@
 	       cv.CALIB_ZERO_TANGENT_DIST
 	       cv.CALIB_FIX_ASPECT_RATIO
 	       
-	       cv.CALIB_FIX_K1
-	       cv.CALIB_FIX_K2
+	     ;  cv.CALIB_FIX_K1
+	     ;  cv.CALIB_FIX_K2
 	       cv.CALIB_FIX_K3))))
+      
       (python
        (do0
 	(comments "use this for the second run to make use of existing camera matrix")
@@ -308,6 +309,8 @@
 	(setf calibrate_camera_flags (logior
 				      
 				      calibrate_camera_flags_general))))
+
+      
       (python
        (do0
 	"#export" 
@@ -777,6 +780,7 @@
 
 	     (python
 	      (do0
+	       (comments "quiver plot to show mismatch between camera coordinates and transformed object coordinates")
 	       (setf x0  (dot np (stack (dot dft uv values))
 			      (aref (squeeze) ":" 0))
 		     y0 (dot np (stack (dot dft uv values))
@@ -785,7 +789,7 @@
 			      (aref (squeeze) ":" 0))
 		     y1  (dot np (stack (dot dft mwq values))
 			      (aref (squeeze) ":" 1))
-		     dx (- x0 x1)
+		     dx (- x0 x1) 
 		     dy (- y0 y1)
 		     s 1)
 	       (plt.quiver x0
@@ -798,11 +802,31 @@
 			    :marker (string "x")
 			    :color (string "r"))
 	       (grid)
-	       (do0
+
+	       #-nil (do0
 		(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
-		(plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
-			(xlabel (string "x"))
-			(ylabel (string "y"))))
+		(plt.ylim 0 (+ -1 (dot xs h (max) (item))))
+		
+		(plt.axis (string "equal")))
+	       ;(dot plt (gca) (set_aspect (string "auto")))
+	       (do0
+		(xlabel (string "x"))
+		(ylabel (string "y")))))
+
+	    (python
+	     (do0
+	      (setf r (np.sqrt (+ (** (- x0 cx) 2 )
+				  (** (- y0 cy) 2 ))))
+	      (plt.scatter r (np.sqrt (+ (** dx 2)
+					 (** dy 2))))
+	             (do0
+	
+		      (do0
+		       (xlim 0 2500)
+		       (grid)
+		(xlabel (string "r"))
+		(ylabel (string "dr"))))
+	      ))
 	    #+nil 
 	    (python
 	     (do0
