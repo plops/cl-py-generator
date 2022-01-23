@@ -614,8 +614,22 @@
 						  (list 0 0 1))))
 			  ;; physical transformation matrix W (rotation and translation)
 			  (setf W (np.hstack r1 r2 trans))
-			  ;; image coordinate q in the camera
+			  
+			  ;; image coordinate q in the perfect pinhole camera q=(x_p,y_p)
 			  (setf q (np.matmul M (np.matmul W Q)))
+			  ;; image coordinates q_d=(x_d,y_d) in the camera with distortions
+			  (setf q (+ (* (+ 1
+					   (* k1 (** r 2))
+					   (* k2 (** r 4))
+					   (* k3 (** r 6)))
+					(np.array (list x_d y_d)))
+				     (np.array (list (+ (* 2 p1 x_d y_d)
+							(* p2 (+ (** r 2)
+								 (* 2 (** x_d 2)))))
+						     (+ (* p1 (+ (** r 2)
+								 (* 2 (** y_d 2))))
+							(* 2 p2 x_d y_d))))))
+			  
 			  ))
 	     )
 	`(python
