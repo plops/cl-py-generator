@@ -611,8 +611,9 @@
 					  (np.linspace 0 (+ -1 (dot xs h (max) (item))) (* 9 fac)))
 		    :cmap (string "cubehelix"))
 	(plt.colorbar)
-	(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
-	(plt.ylim 0 (+ -1 (dot xs h (max) (item))))
+	(do0
+	 (plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+	 (plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 	(grid)))
 
       ;; 
@@ -765,6 +766,35 @@
 				    :marker (string ,marker)))
 			
 			(grid)
+			(xlabel (string "x"))
+			(ylabel (string "y"))))
+
+	     (python
+	      (do0
+	       (setf x0  (dot np (stack (dot dft uv values))
+			      (aref (squeeze) ":" 0))
+		     y0 (dot np (stack (dot dft uv values))
+			     (aref (squeeze) ":" 1))
+		     x1  (dot np (stack (dot dft mwq values))
+			      (aref (squeeze) ":" 0))
+		     y1  (dot np (stack (dot dft mwq values))
+			      (aref (squeeze) ":" 1))
+		     dx (- x0 x1)
+		     dy (- y0 y1)
+		     s 1)
+	       (plt.quiver x0
+			    y0
+			    (* s dx)
+			    (* s dy)
+			    )
+	       (plt.scatter (list cx)
+			    (list cy)
+			    :markers (string "x")
+			    :color (string "r"))
+	       (grid)
+	       (do0
+		(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+		(plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 			(xlabel (string "x"))
 			(ylabel (string "y"))))
 	    #+nil 
