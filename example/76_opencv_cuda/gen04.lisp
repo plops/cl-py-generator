@@ -569,6 +569,8 @@
        (do0
 	(comments "plot the coordinates")
 	(plt.scatter df.x df.y)
+	(plt.xlim 0 (df.x.max))
+	(plt.ylim 0 (df.y.max))
 	(grid)))
       (python
        (do0
@@ -577,6 +579,8 @@
 					  (* 9 fac))
 		    :cmap (string "cubehelix"))
 	(plt.colorbar)
+	(plt.xlim 0 (dot xs w (max) (item)))
+	(plt.ylim 0 (dot xs h (max) (item)))
 	(grid)))
 
       ;; 
