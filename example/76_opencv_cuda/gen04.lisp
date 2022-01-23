@@ -310,10 +310,11 @@
 				      
 				      calibrate_camera_flags_general))))
 
-      #+nil
+      
       (python
        (do0
-	"#export" 
+	"#export"
+	(comments "collect corners for each frame")
 	(setf do_plot
 					;True
 					False
@@ -505,10 +506,10 @@
 	 (print camera_matrix2)
 	 (print distortion_params2)))
 
-      #+nil
+      
       (python
        (do0
-	(comments "calibration step by itself")
+	(comments "calibration step by itself, also print fit errors for the parameters")
 	(comments "intrinsics: fx,fy,cx,cy,k1,k2,p1,p2,k3,k4,k5,k6,s1,s2,s3,s4,τx,τy"
 		  "extrinsics: R0,T0,…,RM−1,TM−1"
 		  "M .. number of frames"
@@ -570,7 +571,7 @@
 					     val)))))
 		       ))))))
 
-      #+nil 
+      
       (python
        (do0
 	(comments "collect the data, so that i can implement the fit myself")
@@ -601,7 +602,7 @@
 			       ))))
 	(setf df (pd.DataFrame res))
 	df))
-      #+nil
+      
       (python
        (do0
 	(comments "plot the coordinates")
@@ -609,9 +610,10 @@
 	(plt.xlim 0 (* 2 squares_x))
 	(plt.ylim 0 (* 2 squares_y))
 	(grid)))
-      #+nil
+      
       (python
        (do0
+	(comments "heatmap of point density/coverage of the camera")
 	(setf fac 3)
 	(plt.hist2d df.u df.v :bins (list (np.linspace 0 (+ -1 (dot xs w (max) (item))) (* 16 fac))
 					  (np.linspace 0 (+ -1 (dot xs h (max) (item))) (* 9 fac)))
@@ -623,10 +625,10 @@
 	(grid)))
 
 
-      #+nil
+      
       ,@(let (
 	     ;; first list scalar parameters
-	     (merit-params `(;; intrinsics (same for all views)
+	    #+nil (merit-params `(;; intrinsics (same for all views)
 			     (:name fx :start 3336)
 			     (:name fy :start 3336)
 			     (:name cx :start 2008)
@@ -640,7 +642,7 @@
 			     (:name rvecs :start .1 :shape (n_frames 2))
 			     (:name tvecs :start .1 :shape (n_frames 2))
 			     ))
-	     (merit-fun `(do0
+	     #+nil (merit-fun `(do0
 			  ;; object coordinate Q on the checkerboard
 			  (setf Q (np.array (list (list X)
 						  (list Y)
@@ -745,8 +747,9 @@
 		  :uv_pinhole uv_pinhole
 		  ))
 		))
-	      (setf dft (pd.DataFrame res))))
-	    #+nil
+	      (setf dft (pd.DataFrame res))
+	      dft))
+	    
 	    ,@(loop for e in `((:col uv :x u :y v)
 			       ;(:col uvc :x u-c :y v-c)
 			       (:col mwq :x x_prime :y y_prime)
@@ -768,7 +771,7 @@
 			(xlabel (string ,x))
 			(ylabel (string ,y))))
 		      ))
-	    #+nil
+	    
 	    (python
 	     (do0
 	      ,@(loop for (col marker) in `((uv "+")
@@ -788,7 +791,7 @@
 			(ylabel (string "y"))))
 	    
 
-	    #+nil
+	    
 	    ,@(let ((coord-pairs `((uv mwq)
 				   (uv uv_pinhole)
 				   (mwq uv_pinhole))))
@@ -830,9 +833,10 @@
 			    (xlabel (string "x"))
 			    (ylabel (string "y")))))))
 
-	    #+nil
+	    
 	    (python
 	     (do0
+	      (comments "show distortion for the corners in this particular frame")
 	      (setf r (np.sqrt (+ (** (- x0 cx) 2 )
 				  (** (- y0 cy) 2 ))))
 	      (plt.scatter r (np.sqrt (+ (** dx 2)
@@ -845,7 +849,7 @@
 		(xlabel (string "r"))
 		(ylabel (string "dr"))))
 	      ))
-	    #+nil 
+	    
 	    (python
 	     (do0
 	      (comments "distortion should be monotonic (barrel distortion decreases). if not then consider calibration a failure")
