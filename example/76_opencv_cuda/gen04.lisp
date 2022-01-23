@@ -703,8 +703,16 @@
 	      (comments "divide by 3rd coordinate")
 	      (setf mwq (/ MWQ (aref MWQ 2)))
 	      (setf uv (np.array (list (list row.u )
-				       (list row.v ))))
-	      ,(lprint `(Q W WQ M MWQ mwq uv))))
+				       (list row.v )))
+		    center (np.array (list (list cx)
+				       (list cy ))))
+	      (setf r (- uv center))
+	      (setf uv_nodist (* (+ 1
+				    (* k1 (** r 2))
+				    (* k2 (** r 4))
+				    (* k3 (** r 6)))
+				 uv))
+	      ,(lprint `(Q W WQ M MWQ mwq uv r uv_nodist))))
 
 	    (python
 	   (do0
