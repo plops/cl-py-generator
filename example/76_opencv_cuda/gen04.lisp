@@ -700,7 +700,11 @@
 						  (list 0 fx cy)
 						  (list 0 0 1))))
 	      (setf MWQ (np.matmul M WQ))
-	      ,(lprint `(Q W WQ M MWQ))))
+	      (comments "divide by 3rd coordinate")
+	      (setf mwq (/ MWQ (aref MWQ 2)))
+	      (setf uv (np.array (list (list row.u )
+				       (list row.v ))))
+	      ,(lprint `(Q W WQ M MWQ mwq uv))))
 
 	    (python
 	   (do0
