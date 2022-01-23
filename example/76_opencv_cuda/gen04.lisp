@@ -726,7 +726,11 @@
 					 (list row.v )))
 		      center (np.array (list (list cx)
 					     (list cy))))
-		(setf uv_pinhole (cv.undistortPoints :src uv
+		(setf xy_pprime (/ (- uv center)
+				   (np.array (list fx fy)))
+		      xy_prime (/ xy_pprime (+ 1 k1 r))
+		      uv_pinhole (* xy_pprime (+ 1 k1 )))
+		(setf uv_pinhole_cv (cv.undistortPoints :src uv
 						     :cameraMatrix camera_matrix
 						     :distCoeffs distortion_params))
 		;(setf uvc (- uv center))
@@ -743,8 +747,9 @@
 		  :mwq mwq
 		  :uv uv
 		  ;:uvc uvc
-		  ;:r r
+					;:r r
 		  :uv_pinhole uv_pinhole
+		  :uv_pinhole_cv uv_pinhole_cv
 		  ))
 		))
 	      (setf dft (pd.DataFrame res))
@@ -766,8 +771,8 @@
 				     :s 1)
 			(grid)
 			(do0
-		(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
-		(plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
+			 (plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+			 (plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 			(xlabel (string ,x))
 			(ylabel (string ,y))))
 		      ))
@@ -822,12 +827,12 @@
 					:color (string "r"))
 			   (grid)
 			   (title (string ,(format nil "compare ~a and ~a" A B)))
-
+			   (plt.axis (string "equal"))
 			   #-nil (do0
 				  (plt.xlim 0 (+ -1 (dot xs w (max) (item))))
 				  (plt.ylim 0 (+ -1 (dot xs h (max) (item))))
 				  
-				  (plt.axis (string "equal")))
+				  )
 					;(dot plt (gca) (set_aspect (string "auto")))
 			   (do0
 			    (xlabel (string "x"))
