@@ -601,7 +601,17 @@
 			     (:name rvecs :start .1 :shape (n_frames 2))
 			     (:name tvecs :start .1 :shape (n_frames 2))
 			     ))
-	     (merit-fun )
+	     (merit-fun `(do0
+					;(setf q (np.matmul H Q))
+			  (setf Q (np.array (list (list X)
+						  (list Y)
+						  (list 1))))
+			  (setf M (np.array (list (list fx 0 cx)
+						  (list 0 fx cy)
+						  (list 0 0 1))))
+			  (setf W (np.hstack r1 r2 trans))
+			  (setf q (np.matmul M (np.matmul W Q)))
+			  ))
 	     )
 	`(python
 	  (do0
@@ -626,7 +636,8 @@
 					  (reshape (list ,@shape))))
 			       (incf count_start  (* ,@shape)))
 			     
-			     ))))
+			     )))
+	     ,merit-fun)
 	   (do0
 	    (setf grid_x df.x
 		  grid_y df.y
