@@ -569,8 +569,8 @@
        (do0
 	(comments "plot the coordinates")
 	(plt.scatter df.x df.y)
-	(plt.xlim 0 (df.x.max))
-	(plt.ylim 0 (df.y.max))
+	(plt.xlim 0 (* 2 squares_x))
+	(plt.ylim 0 (* 2 squares_y))
 	(grid)))
       (python
        (do0
