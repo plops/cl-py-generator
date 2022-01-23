@@ -703,7 +703,9 @@
 			    `(setf ,name ,val)))))
 	      (comments "https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d Detailed description explains how to compute r"
 			"documentation of undistortPoints explains how modify coordinates: https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html#ga55c716492470bfe86b0ee9bf3a1f0f7e "
-			"maybe this is clearer: https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga7dfb72c9cf9780a347fbe3d1c47e5d5a initUndistortRectifyMap")
+			"maybe this is clearer: https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga7dfb72c9cf9780a347fbe3d1c47e5d5a initUndistortRectifyMap"
+			"here they don't have to perform undistort of the camera points but distortion of the model's coordinates"
+			"fx_prime and cx_prime are parameters from the new camera matrix")
 	      (setf M (np.array (list (list fx 0 cx)
 						  (list 0 fx cy)
 						  (list 0 0 1))))
@@ -723,15 +725,27 @@
 	       
 		(comments "divide by 3rd coordinate, this will return x_prime y_prime")
 		(setf mwq (/ MWQ (aref MWQ 2)))
+
+		(do0
+		 (comments "for each point in the corrected image compute the corresponding point in the (distorted) camera image ")
+					;(setf cx_prime ())
+		 (setf
+		  F (np.array (list (list fx)
+					       (list fy)))
+		  xy_  (/ (- uv center)
+			  F)
+		       r2 (+ (** (aref xy_ 0) 2)
+			     (** (aref xy_ 1) 2))
+		       mwq_ (* xy_ (+ 1 (* k1 r2)))
+		       mwq_distorted (+ (* mwq_ F ) center))
+		 (setf ))
+		
 		(setf uv (np.array (list (list row.u )
 					 (list row.v )))
 		      center (np.array (list (list cx)
 					     (list cy))))
-		(setf xy_pprime (/ (- uv center)
-				   (np.array (list fx fy)))
-		      xy_prime (/ xy_pprime (+ 1 k1 r))
-		      uv_pinhole (* xy_pprime (+ 1 k1 )))
-		(setf uv_pinhole_cv (cv.undistortPoints :src uv
+		
+		(setf uv_pinhole (cv.undistortPoints :src uv
 						     :cameraMatrix camera_matrix
 						     :distCoeffs distortion_params))
 		;(setf uvc (- uv center))
@@ -746,11 +760,12 @@
 		(res.append
 		 (dictionary
 		  :mwq mwq
+		  :mwq_distorted mwq_distorted
 		  :uv uv
 		  ;:uvc uvc
 					;:r r
+		  
 		  :uv_pinhole uv_pinhole
-		  :uv_pinhole_cv uv_pinhole_cv
 		  ))
 		))
 	      (setf dft (pd.DataFrame res))
@@ -760,6 +775,7 @@
 			       ;(:col uvc :x u-c :y v-c)
 			       (:col mwq :x x_prime :y y_prime)
 			       (:col uv_pinhole :x x_pprime :y y_pprime)
+			       (:col mwq_distorted :x u :y v)
 			       )
 		    collect
 		    (destructuring-bind (&key col x y) e
@@ -799,7 +815,8 @@
 
 	    
 	    ,@(let ((coord-pairs `((uv mwq)
-				   (uv uv_pinhole)
+				   (uv mwq_distorted)
+				   ;(uv uv_pinhole)
 				   (mwq uv_pinhole))))
 		(loop for (A B) in coord-pairs
 			collect
