@@ -321,3 +321,9 @@ p2 = 0.0003247±0.0001 (31.2%)
 k3 = 0.3215±0.01 (3.6%)
 
 #+end_example
+
+- image dimensions are 4032 x 3024 pixels, 36 frames
+  - image center x = 2016
+  - image center y = 1512
+  - deviation of optical axis from image center x = 8
+  -           ...                               y = 71
