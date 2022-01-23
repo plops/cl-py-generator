@@ -668,7 +668,7 @@
 	  `((python
 	     (do0
 	      (comments "try the transform with a single corner")
-	      (setf frame_idx 15)
+	      (setf frame_idx 17)
 	      (setf rvec (aref rvecs frame_idx)
 		    tvec (aref tvecs frame_idx))
 	      (setf (ntuple R3 R3jac) (cv.Rodrigues :src rvec))
@@ -751,6 +751,9 @@
 					  (aref (squeeze) ":" 1))
 				     :s 1)
 			(grid)
+			(do0
+		(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+		(plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 			(xlabel (string ,x))
 			(ylabel (string ,y))))
 		      ))
@@ -765,7 +768,10 @@
 					 (aref (squeeze) ":" 1))
 				    :marker (string ,marker)))
 			
-			(grid)
+	      (grid)
+	       (do0
+		(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+		(plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 			(xlabel (string "x"))
 			(ylabel (string "y"))))
 
@@ -789,7 +795,7 @@
 			    )
 	       (plt.scatter (list cx)
 			    (list cy)
-			    :markers (string "x")
+			    :marker (string "x")
 			    :color (string "r"))
 	       (grid)
 	       (do0
