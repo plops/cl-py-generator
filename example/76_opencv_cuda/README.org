@@ -327,3 +327,10 @@ k3 = 0.3215±0.01 (3.6%)
   - image center y = 1512
   - deviation of optical axis from image center x = 8
   -           ...                               y = 71
+
+
+- ideas to get better input data
+  - acquire dark image, bright image, positive checkerboard, inverted
+    checkerboard
+  - fix use constant threshold to detect corners
+  - refine subpixel corners with cornerSubPix with tighter termination criteria
