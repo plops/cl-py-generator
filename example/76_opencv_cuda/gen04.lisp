@@ -273,11 +273,32 @@
 
       (python
        (do0
+	"#export"
 	(comments "this will be used by interpolateCornersCharuco"
 		  "initially with out camera matrix ApproxCalib will be run"
 		  "you can execute the next cell again after camera_matrix has been found to run LocalHom")
 	(setf camera_matrix None
 	      distortion_params None)))
+      (python
+       (do0
+	"#export"
+	(comments "flags for camera calibration that influence the model (fix fx=fy, number of coefficents for distortion)")
+	(setf calibrate_camera_flags_general
+	      (logior
+	       cv.CALIB_ZERO_TANGENT_DIST
+	       cv.CALIB_FIX_ASPECT_RATIO))))
+      (python
+       (do0
+	(comments "use this for the second run to make use of existing camera matrix")
+	(setf calibrate_camera_flags (logior cv.CALIB_USE_INTRINSIC_GUESS
+					     calibrate_camera_flags_general))))
+      (python
+       (do0
+	"#export"
+	(comments "use these flags for the first run")
+	(setf calibrate_camera_flags (logior
+				      
+				      calibrate_camera_flags_general))))
       (python
        (do0
 	"#export" 
@@ -385,8 +406,9 @@
 		     :charucoIds all_ids
 		     :board board
 		     :imageSize gray.shape
-		     :cameraMatrix None
-		     :distCoeffs None))
+		     :cameraMatrix camera_matrix
+		     :distCoeffs distortion_params
+		     :flags calibrate_camera_flags))
 	      ("Exception as e"
 	       (print e)
 	       pass))
@@ -493,7 +515,8 @@
 		     :board board
 		     :imageSize gray.shape
 		     :cameraMatrix camera_matrix
-		     :distCoeffs distortion_params))
+		     :distCoeffs distortion_params
+		     :flags calibrate_camera_flags))
 	      ("Exception as e"
 	       (print e)
 	       pass))
