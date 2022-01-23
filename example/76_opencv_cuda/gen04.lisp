@@ -662,29 +662,21 @@
 	  `((python
 	     (do0
 	      (comments "try the transform with a single corner")
-	      (setf frame_idx 16)
+	      (setf frame_idx 15)
 	      (setf rvec (aref rvecs frame_idx)
 		    tvec (aref tvecs frame_idx))
 	      (setf (ntuple R3 R3jac) (cv.Rodrigues :src rvec))
 	      (setf W (np.hstack (list (aref R3 ":" (slice 0 2))
 				       tvec)))
-	      (setf row (dot (aref df (== df.frame_idx frame_idx))
-			     (aref iloc 120)))
-	      (setf Q (np.array (list (list row.x)
-				      (list row.y)
-				      (list 1))))
-	      (setf WQ (np.matmul W Q))
-	      
-
 	      (do0
-	       (setf M camera_matrix3
+	       (setf Mcam camera_matrix3
 		     D distortion_params3)
 	       ,(let ((l `(fx fy cx cy k1 k2 p1 p2 k3;  k4 k5 k6 s1 s2 s3 s4 τx τy
 			      ))
-		      (ll `((aref M 0 0)		    ;; fx
-			    (aref M 1 1)		    ;; fy
-			    (aref M 0 2)		    ;; cx
-			    (aref M 1 2)		    ;; cy
+		      (ll `((aref Mcam 0 0)		    ;; fx
+			    (aref Mcam 1 1)		    ;; fy
+			    (aref Mcam 0 2)		    ;; cx
+			    (aref Mcam 1 2)		    ;; cy
 			    (aref D 0 0)		    ;; k1
 			    (aref D 0 1)		    ;; k2
 			    (aref D 0 2)		    ;; p1
@@ -695,27 +687,64 @@
 		    ,@(loop for name in l and val in ll
 			    collect
 			    `(setf ,name ,val)))))
-	      
+	      (comments "https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d Detailed description explains how to compute r")
 	      (setf M (np.array (list (list fx 0 cx)
 						  (list 0 fx cy)
 						  (list 0 0 1))))
-	      (setf MWQ (np.matmul M WQ))
-	      (comments "divide by 3rd coordinate")
-	      (setf mwq (/ MWQ (aref MWQ 2)))
-	      (setf uv (np.array (list (list row.u )
-				       (list row.v )))
-		    center (np.array (list (list cx)
-					   (list cy ))))
-	      (comments "https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d Detailed description explains how to compute r")
-	      (setf r (- uv center))
-	      (setf uv_pinhole (* (+ 1
-				    (* k1 (** r 2))
-				    (* k2 (** r 4))
-				    (* k3 (** r 6)))
-				 uv))
-	      ,(lprint `(Q W WQ M MWQ mwq uv r uv_pinhole))))
+	      
+	      (setf df_ (aref df (== df.frame_idx frame_idx)))
+	      (setf row (dot df_
+			     (aref iloc 120)))
+	      (setf res (list))
+	      (for ((ntuple idx row) (df_.iterrows))
+
+	       (do0
+		(setf Q (np.array (list (list row.x)
+					(list row.y)
+					(list 1))))
+		(setf WQ (np.matmul W Q))
+		(setf MWQ (np.matmul M WQ))
+	       
+		(comments "divide by 3rd coordinate, this will return x_prime y_prime")
+		(setf mwq (/ MWQ (aref MWQ 2)))
+		(setf uv (np.array (list (list row.u )
+					 (list row.v )))
+		      center (np.array (list (list cx)
+					     (list cy))))
+	       
+		(setf r (np.linalg.norm (aref mwq (slice "" 2))))
+		(setf uv_pinhole (* (+ 1
+				       (* k1 (** r 2))
+				       (* k2 (** r 4))
+				       (* k3 (** r 6)))
+				    uv))
+					;,(lprint `(Q W WQ M MWQ mwq uv r uv_pinhole))
+		(res.append
+		 (dictionary
+		  :mwq mwq
+		  :uv uv
+		  :r r
+		  :uv_pinhole uv_pinhole))
+		))
+	      (setf dft (pd.DataFrame res))))
+	    ,@(loop for e in `((:col uv :x u :y v)
+			       (:col mwq :x x_prime :y y_prime)
+			       (:col uv_pinhole :x x_pprime :y y_pprime))
+		    collect
+		    (destructuring-bind (&key col x y) e
+		     `(python
+		       (do0
+			(plt.scatter (dot np (stack (dot dft ,col values))
+					  (aref (squeeze) ":" 0))
+				     (dot np (stack dft.uv.values)
+					  (aref (squeeze) ":" 1))
+				     :s 1)
+			(grid)
+			(xlabel (string ,x))
+			(ylabel (string ,y))))))
 	    (python
 	     (do0
+	      (comments "distortion should be monotonic (barrel distortion decreases). if not then consider calibration a failure")
 	      (setf r (np.linspace 0 1))
 	      (plot r (+ 1
 				    (* k1 (** r 2))
