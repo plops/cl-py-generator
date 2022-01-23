@@ -716,41 +716,58 @@
 					 (list row.v )))
 		      center (np.array (list (list cx)
 					     (list cy))))
-		(setf uvc (- uv center))
-	       
-		(setf r (np.linalg.norm (aref uvc (slice "" 2))))
-		(setf uv_pinhole (* (+ 1
-				       (* k1 (** r 2))
-				       (* k2 (** r 4))
-				       (* k3 (** r 6)))
-				    uv))
+		;(setf uvc (- uv center))
+	        #+nil
+		(do0 (setf r (np.linalg.norm (aref uvc (slice "" 2))))
+		    	(setf uv_pinhole (* (+ 1
+						       (* k1 (** r 2))
+						       (* k2 (** r 4))
+						       (* k3 (** r 6)))
+						    uv)))
 					;,(lprint `(Q W WQ M MWQ mwq uv r uv_pinhole))
 		(res.append
 		 (dictionary
 		  :mwq mwq
 		  :uv uv
-		  :uvc uvc
-		  :r r
-		  :uv_pinhole uv_pinhole
+		  ;:uvc uvc
+		  ;:r r
+		 ; :uv_pinhole uv_pinhole
 		  ))
 		))
 	      (setf dft (pd.DataFrame res))))
 	    ,@(loop for e in `((:col uv :x u :y v)
-			       (:col uvc :x u-c :y v-c)
+			       ;(:col uvc :x u-c :y v-c)
 			       (:col mwq :x x_prime :y y_prime)
-			       (:col uv_pinhole :x x_pprime :y y_pprime))
+			      ; (:col uv_pinhole :x x_pprime :y y_pprime)
+			       )
 		    collect
 		    (destructuring-bind (&key col x y) e
-		     `(python
+		      `(python
 		       (do0
 			(plt.scatter (dot np (stack (dot dft ,col values))
 					  (aref (squeeze) ":" 0))
-				     (dot np (stack dft.uv.values)
+				     (dot np (stack (dot dft ,col values))
 					  (aref (squeeze) ":" 1))
 				     :s 1)
 			(grid)
 			(xlabel (string ,x))
-			(ylabel (string ,y))))))
+			(ylabel (string ,y))))
+		      ))
+	    (python
+	     (do0
+	      ,@(loop for (col marker) in `((uv "+")
+					    (mwq "x"))
+		      collect
+		      `(plt.scatter (dot np (stack (dot dft ,col values))
+					 (aref (squeeze) ":" 0))
+				    (dot np (stack (dot dft ,col values))
+					 (aref (squeeze) ":" 1))
+				    :marker (string ,marker)))
+			
+			(grid)
+			(xlabel (string "x"))
+			(ylabel (string "y"))))
+	    #+nil 
 	    (python
 	     (do0
 	      (comments "distortion should be monotonic (barrel distortion decreases). if not then consider calibration a failure")
