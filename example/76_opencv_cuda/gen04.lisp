@@ -273,12 +273,18 @@
 
       (python
        (do0
+	(comments "this will be used by interpolateCornersCharuco"
+		  "initially with out camera matrix ApproxCalib will be run"
+		  "you can execute the next cell again after camera_matrix has been found to run LocalHom")
+	(setf camera_matrix None)))
+      (python
+       (do0
 	"#export" 
 	(setf do_plot
 					;True
 					False
 					)
-	(setf save_figure True)
+	(setf save_figure False)
 	(setf w (string "cb"))
 
 	(when do_plot
@@ -317,7 +323,8 @@
 		       (cv.aruco.interpolateCornersCharuco :markerCorners corners
 							   :markerIds ids
 							   :image gray
-							   :board board) )
+							   :board board
+							   :cameraMatrix camera_matrix) )
 		 (when (< 20 charuco_retval)
 		   (comments "found at least 20 squares")
 		   (all_corners.append int_corners)
