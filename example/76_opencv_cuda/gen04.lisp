@@ -287,10 +287,15 @@
        (do0
 	"#export"
 	(comments "flags for camera calibration that influence the model (fix fx=fy, number of coefficents for distortion)")
+	(comments "fix K1,K2 and K3 to zero (no distortion)")
 	(setf calibrate_camera_flags_general
 	      (logior
 	       cv.CALIB_ZERO_TANGENT_DIST
-	       cv.CALIB_FIX_ASPECT_RATIO))))
+	       cv.CALIB_FIX_ASPECT_RATIO
+	       
+	       cv.CALIB_FIX_K1
+	       cv.CALIB_FIX_K2
+	       cv.CALIB_FIX_K3))))
       (python
        (do0
 	(comments "use this for the second run to make use of existing camera matrix")
@@ -711,8 +716,9 @@
 					 (list row.v )))
 		      center (np.array (list (list cx)
 					     (list cy))))
+		(setf uvc (- uv center))
 	       
-		(setf r (np.linalg.norm (aref mwq (slice "" 2))))
+		(setf r (np.linalg.norm (aref uvc (slice "" 2))))
 		(setf uv_pinhole (* (+ 1
 				       (* k1 (** r 2))
 				       (* k2 (** r 4))
@@ -723,11 +729,14 @@
 		 (dictionary
 		  :mwq mwq
 		  :uv uv
+		  :uvc uvc
 		  :r r
-		  :uv_pinhole uv_pinhole))
+		  :uv_pinhole uv_pinhole
+		  ))
 		))
 	      (setf dft (pd.DataFrame res))))
 	    ,@(loop for e in `((:col uv :x u :y v)
+			       (:col uvc :x u-c :y v-c)
 			       (:col mwq :x x_prime :y y_prime)
 			       (:col uv_pinhole :x x_pprime :y y_pprime))
 		    collect
