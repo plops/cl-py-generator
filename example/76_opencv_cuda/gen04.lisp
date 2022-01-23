@@ -575,12 +575,12 @@
       (python
        (do0
 	(setf fac 3)
-	(plt.hist2d df.u df.v :bins (list (* 16 fac)
-					  (* 9 fac))
+	(plt.hist2d df.u df.v :bins (list (np.linspace 0 (+ -1 (dot xs w (max) (item))) (* 16 fac))
+					  (np.linspace 0 (+ -1 (dot xs h (max) (item))) (* 9 fac)))
 		    :cmap (string "cubehelix"))
 	(plt.colorbar)
-	(plt.xlim 0 (dot xs w (max) (item)))
-	(plt.ylim 0 (dot xs h (max) (item)))
+	(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+	(plt.ylim 0 (+ -1 (dot xs h (max) (item))))
 	(grid)))
 
       ;; 
