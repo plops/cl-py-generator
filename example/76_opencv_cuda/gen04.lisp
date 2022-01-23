@@ -21,6 +21,15 @@
       lmfit
       ;rawpy
       ))
+  (defun scale (da &key (perc 2) (range 10))
+    (let ((d `(- ma mi)))
+      `(do0
+	(setf mi (np.nanpercentile ,da ,perc)
+	      ma (np.nanpercentile ,da (- 100
+					 ,perc))
+	      mi1 (- mi (* ,(/ range 100.0) ,d))
+	      ma1 (+ ma (* ,(/ range 100.0) ,d))
+	      ))))
   (defun lprint (&optional rest)
     `(print (dot (string ,(format nil "~{~a={}~^\\n~}" rest))
                  (format  ;(- (time.time) start_time)
@@ -745,9 +754,11 @@
 		      center (np.array (list (list cx)
 					     (list cy))))
 		
-		(setf uv_pinhole (cv.undistortPoints :src uv
-						     :cameraMatrix camera_matrix
-						     :distCoeffs distortion_params))
+		(setf uv_pinhole_  (dot (cv.undistortPoints :src uv
+							:cameraMatrix camera_matrix
+							    :distCoeffs distortion_params)
+					(reshape (list 2 1)))
+		      uv_pinhole (+ (* uv_pinhole_ F ) center))
 		;(setf uvc (- uv center))
 	        #+nil
 		(do0 (setf r (np.linalg.norm (aref uvc (slice "" 2))))
@@ -787,40 +798,48 @@
 					  (aref (squeeze) ":" 1))
 				     :s 1)
 			(grid)
-			(do0
+			#+nnnnnil (do0
 			 (plt.xlim 0 (+ -1 (dot xs w (max) (item))))
 			 (plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 			(xlabel (string ,x))
 			(ylabel (string ,y))))
 		      ))
-	    
-	    (python
-	     (do0
-	      ,@(loop for (col marker) in `((uv "+")
-					    (mwq "x"))
-		      collect
-		      `(plt.scatter (dot np (stack (dot dft ,col values))
-					 (aref (squeeze) ":" 0))
-				    (dot np (stack (dot dft ,col values))
-					 (aref (squeeze) ":" 1))
-				    :marker (string ,marker)))
+
+	    ,@(loop for (A B) in `((uv mwq)
+				   (uv mwq_distorted)
+				   (uv uv_pinhole)
+				   (uv_pinhole mwq))
+		    collect
+		    `(python
+		      (do0
+		       (figure :figsize (list 16 9 ))
+		  ,@(loop for (col marker) in `((,A "+")
+						(,B "x"))
+			  collect
+			  `(plt.scatter (dot np (stack (dot dft ,col values))
+					     (aref (squeeze) ":" 0))
+					(dot np (stack (dot dft ,col values))
+					     (aref (squeeze) ":" 1))
+					:marker (string ,marker)))
 			
-	      (grid)
-	       (do0
-		(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
-		(plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
-			(xlabel (string "x"))
-			(ylabel (string "y"))))
+		  (grid)
+		  (do0
+		   (plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+		   (plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
+		  (xlabel (string "x"))
+		  (ylabel (string "y")))))
 	    
 
 	    
 	    ,@(let ((coord-pairs `((uv mwq)
 				   (uv mwq_distorted)
-				   ;(uv uv_pinhole)
-				   (mwq uv_pinhole))))
+				   
+				   (mwq uv_pinhole)
+				   (uv uv_pinhole))))
 		(loop for (A B) in coord-pairs
 			collect
-			`(python
+		      `(python
+			(figure :figsize (list 16 9 ))
 			  (do0
 			   (comments "quiver plot to show mismatch between camera coordinates and transformed object coordinates")
 			   (setf x0  (dot np (stack (dot dft ,A values))
@@ -833,18 +852,26 @@
 					  (aref (squeeze) ":" 1))
 				 dx (- x0 x1) 
 				 dy (- y0 y1)
-				 s 1)
+				 )
+			   
+
+			   ,(scale `(np.sqrt (+ (** dx 2)
+						(** dy 2))))
+			   
+			   (setf s 20)
 			   (plt.quiver x0
 				       y0
-				       (* s dx)
-				       (* s dy)
+				       dx
+				       dy
+				       :scale (* s ma1)
 				       )
 			   (plt.scatter (list cx)
 					(list cy)
 					:marker (string "x")
 					:color (string "r"))
 			   (grid)
-			   (title (string ,(format nil "compare ~a and ~a" A B)))
+			   (title (dot (string ,(format nil "compare ~a and ~a max={:6.4f}" A B))
+				       (format ma1)))
 			   (plt.axis (string "equal"))
 			   #-nil (do0
 				  (plt.xlim 0 (+ -1 (dot xs w (max) (item))))
