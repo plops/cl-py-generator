@@ -768,6 +768,14 @@
 						       (* k3 (** r 6)))
 						    uv)))
 					;,(lprint `(Q W WQ M MWQ mwq uv r uv_pinhole))
+		(do0
+		 (comments "project checkerboard object into image"
+			   "https://docs.opencv.org/4.x/d4/d94/tutorial_camera_calibration.html computeReprojectionErrors")
+		 (setf (ntuple uv_proj uv_proj_jac) (cv.projectPoints :objectPoints Q
+							       :rvec rvec
+							       :tvec tvec
+							       :cameraMatrix camera_matrix
+							       :distCoeffs distortion_params)))
 		(res.append
 		 (dictionary
 		  :mwq mwq
@@ -777,13 +785,14 @@
 					;:r r
 		  
 		  :uv_pinhole uv_pinhole
+		  :uv_proj uv_proj
 		  ))
 		))
 	      (setf dft (pd.DataFrame res))
 	      dft))
 	    
 	    ,@(loop for e in `((:col uv :x u :y v)
-			       ;(:col uvc :x u-c :y v-c)
+			       (:col uv_proj :x u :y v)
 			       (:col mwq :x x_prime :y y_prime)
 			       (:col uv_pinhole :x x_pprime :y y_pprime)
 			       (:col mwq_distorted :x u :y v)
@@ -808,6 +817,7 @@
 	    ,@(loop for (A B) in `((uv mwq)
 				   (uv mwq_distorted)
 				   (uv uv_pinhole)
+				   (uv uv_proj)
 				   (uv_pinhole mwq))
 		    collect
 		    `(python
@@ -833,7 +843,10 @@
 	    
 	    ,@(let ((coord-pairs `((uv mwq)
 				   (uv mwq_distorted)
-				   
+				   (uv uv_proj)
+				   (mwq uv_proj)
+				   (mwq_distorted uv_proj)
+				   (uv_pinhole uv_proj)
 				   (mwq uv_pinhole)
 				   (uv uv_pinhole))))
 		(loop for (A B) in coord-pairs
