@@ -702,7 +702,8 @@
 			    collect
 			    `(setf ,name ,val)))))
 	      (comments "https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d Detailed description explains how to compute r"
-			"documentation of undistortPoints explains how modify coordinates: https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html#ga55c716492470bfe86b0ee9bf3a1f0f7e ")
+			"documentation of undistortPoints explains how modify coordinates: https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html#ga55c716492470bfe86b0ee9bf3a1f0f7e "
+			"maybe this is clearer: https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga7dfb72c9cf9780a347fbe3d1c47e5d5a initUndistortRectifyMap")
 	      (setf M (np.array (list (list fx 0 cx)
 						  (list 0 fx cy)
 						  (list 0 0 1))))
