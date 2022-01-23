@@ -21,6 +21,10 @@
       lmfit
       ;rawpy
       ))
+  (defun lprint (&optional rest)
+    `(print (dot (string ,(format nil "~{~a={}~^\\n~}" rest))
+                 (format  ;(- (time.time) start_time)
+                  ,@rest))))
   (let ((nb-file "source/04_load_jpg.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
@@ -608,18 +612,18 @@
 
       ;; 
 
-      ,(let (
+      ,@(let (
 	     ;; first list scalar parameters
 	     (merit-params `(;; intrinsics (same for all views)
-			     (:name fx :start 3344)
-			     (:name fy :start 3342)
+			     (:name fx :start 3336)
+			     (:name fy :start 3336)
 			     (:name cx :start 2008)
-			     (:name cy :start 1441)
-			     (:name k1 :start .050)
-			     (:name k2 :start -.247)
-			     (:name p1 :start -.00016)
-			     (:name p2 :start  .00032)
-			     (:name k3 :start .32)
+			     (:name cy :start 1436)
+			     (:name k1 :start  .0504)
+			     (:name k2 :start -.2428)
+			     ;(:name p1 :start -.00016)
+			     ;(:name p2 :start  .00032)
+			     (:name k3 :start .311)
 			     ;; unknowns per frame / view
 			     (:name rvecs :start .1 :shape (n_frames 2))
 			     (:name tvecs :start .1 :shape (n_frames 2))
@@ -646,7 +650,7 @@
 					   (* k2 (** r 4))
 					   (* k3 (** r 6)))
 					(np.array (list x_d y_d)))
-				     (np.array (list (+ (* 2 p1 x_d y_d)
+				    #+nil  (np.array (list (+ (* 2 p1 x_d y_d)
 							(* p2 (+ (** r 2)
 								 (* 2 (** x_d 2)))))
 						     (+ (* p1 (+ (** r 2)
@@ -655,53 +659,96 @@
 			  
 			  ))
 	     )
-	`(python
-	  (do0
-	   (def merit (params grid_x grid_y cam_x cam_y)
-	     (setf n_frames (len grid_x)
-		   count_start ,(loop named outer
-				     for e in merit-params
-				     and i from 0
-				     do
-					(destructuring-bind (&key name start (shape 1)) e
-					      (unless (eq shape 1)
-						(return-from outer i)))))
-	     ,@(loop for e in merit-params
-		     and i from 0
-		     collect
-		     (destructuring-bind (&key name start (shape 1)) e
-		       `,(if (eq shape 1)
-			     `(setf ,name (aref params ,i))
-			     `(do0
-			       (setf ,name
-				     (dot (aref params (slice count_start (+ count_start (* ,@shape))))
-					  (reshape (list ,@shape))))
-			       (incf count_start  (* ,@shape)))
-			     
-			     )))
-	     ,merit-fun)
+	  `((python
+	     (do0
+	      (comments "try the transform with a single corner")
+	      (setf frame_idx 16)
+	      (setf rvec (aref rvecs frame_idx)
+		    tvec (aref tvecs frame_idx))
+	      (setf (ntuple R3 R3jac) (cv.Rodrigues :src rvec))
+	      (setf W (np.hstack (list (aref R3 ":" (slice 0 2))
+				       tvec)))
+	      (setf row (dot (aref df (== df.frame_idx frame_idx))
+			     (aref iloc 120)))
+	      (setf Q (np.array (list (list row.x)
+				      (list row.y)
+				      (list 1))))
+	      (setf WQ (np.matmul W Q))
+	      
+
+	      (do0
+	       (setf M camera_matrix3
+		     D distortion_params3)
+	       ,(let ((l `(fx fy cx cy k1 k2 p1 p2 k3;  k4 k5 k6 s1 s2 s3 s4 τx τy
+			      ))
+		      (ll `((aref M 0 0)		    ;; fx
+			    (aref M 1 1)		    ;; fy
+			    (aref M 0 2)		    ;; cx
+			    (aref M 1 2)		    ;; cy
+			    (aref D 0 0)		    ;; k1
+			    (aref D 0 1)		    ;; k2
+			    (aref D 0 2)		    ;; p1
+			    (aref D 0 3)		    ;; p2
+			    (aref D 0 4)		    ;; k3
+			    )))
+		  `(do0
+		    ,@(loop for name in l and val in ll
+			    collect
+			    `(setf ,name ,val)))))
+	      
+	      (setf M (np.array (list (list fx 0 cx)
+						  (list 0 fx cy)
+						  (list 0 0 1))))
+	      (setf MWQ (np.matmul M WQ))
+	      ,(lprint `(Q W WQ M MWQ))))
+
+	    (python
 	   (do0
-	    (setf grid_x df.x
-		  grid_y df.y
-		  cam_x df.u
-		  cam_y df.v)
-	    (setf n (len grid_x))
-	    ,(let ((scalar-params
-		     (loop for e in merit-params
-			   and i from 0
-			   collect
-			   (destructuring-bind (&key name start (shape 1)) e
-			     (if (eq shape 1)
-				 start
-				 (loop-finish))))))
-	       `(setf params0 (+  (list ,@scalar-params)
-				  ,@(loop for e in (subseq merit-params (length scalar-params))
-					  collect
+	    (def merit (params grid_x grid_y cam_x cam_y)
+	      (setf n_frames (len grid_x)
+		    count_start ,(loop named outer
+				       for e in merit-params
+				       and i from 0
+				       do
 					  (destructuring-bind (&key name start (shape 1)) e
-					    `(* (list ,start) (* ,@shape)))
-					  ))))
-	    (setf fitter (lmfit.Minimizer merit params0)))
-	   )))
+					    (unless (eq shape 1)
+					      (return-from outer i)))))
+	      ,@(loop for e in merit-params
+		      and i from 0
+		      collect
+		      (destructuring-bind (&key name start (shape 1)) e
+			`,(if (eq shape 1)
+			      `(setf ,name (aref params ,i))
+			      `(do0
+				(setf ,name
+				      (dot (aref params (slice count_start (+ count_start (* ,@shape))))
+					   (reshape (list ,@shape))))
+				(incf count_start  (* ,@shape)))
+			     
+			      )))
+	      ,merit-fun)
+	    (do0
+	     (setf grid_x df.x
+		   grid_y df.y
+		   cam_x df.u
+		   cam_y df.v)
+	     (setf n (len grid_x))
+	     ,(let ((scalar-params
+		      (loop for e in merit-params
+			    and i from 0
+			    collect
+			    (destructuring-bind (&key name start (shape 1)) e
+			      (if (eq shape 1)
+				  start
+				  (loop-finish))))))
+		`(setf params0 (+  (list ,@scalar-params)
+				   ,@(loop for e in (subseq merit-params (length scalar-params))
+					   collect
+					   (destructuring-bind (&key name start (shape 1)) e
+					     `(* (list ,start) (* ,@shape)))
+					   ))))
+	     (setf fitter (lmfit.Minimizer merit params0)))
+	    ))))
       
       ))))
 
