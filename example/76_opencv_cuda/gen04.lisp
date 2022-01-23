@@ -276,7 +276,8 @@
 	(comments "this will be used by interpolateCornersCharuco"
 		  "initially with out camera matrix ApproxCalib will be run"
 		  "you can execute the next cell again after camera_matrix has been found to run LocalHom")
-	(setf camera_matrix None)))
+	(setf camera_matrix None
+	      distortion_params None)))
       (python
        (do0
 	"#export" 
@@ -309,8 +310,11 @@
 	       (comments "rejected_points[NR-1].shape = 1 4 2, NR=566")
 	       (setf (ntuple corners ids rejected_points)
 		     ;; markers
-		     (cv.aruco.detectMarkers gray aruco_dict
-					     :parameters aruco_params))
+		     (cv.aruco.detectMarkers :image gray
+					     :dictionary aruco_dict
+					     :parameters aruco_params
+					     :cameraMatrix camera_matrix
+					     :distCoeff distortion_params))
 	       
 	       (when (< 0 (len corners))
 		 (comments "corners[N-1].shape = 1 4 2, for each of N markers provide 4 corners"
