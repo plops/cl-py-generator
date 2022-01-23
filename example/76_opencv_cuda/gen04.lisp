@@ -568,12 +568,15 @@
       (python
        (do0
 	(comments "plot the coordinates")
-	(plot df.X df.Y)
+	(plt.scatter df.x df.y)
 	(grid)))
       (python
        (do0
-	
-	(plot df.x df.y)
+	(setf fac 3)
+	(plt.hist2d df.u df.v :bins (list (* 16 fac)
+					  (* 9 fac))
+		    :cmap (string "cubehelix"))
+	(plt.colorbar)
 	(grid)))
 
       ;; 
