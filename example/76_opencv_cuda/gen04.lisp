@@ -705,7 +705,8 @@
 	      (setf uv (np.array (list (list row.u )
 				       (list row.v )))
 		    center (np.array (list (list cx)
-				       (list cy ))))
+					   (list cy ))))
+	      (comments "https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d Detailed description explains how to compute r")
 	      (setf r (- uv center))
 	      (setf uv_pinhole (* (+ 1
 				    (* k1 (** r 2))
