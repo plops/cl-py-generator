@@ -334,3 +334,5 @@ k3 = 0.3215±0.01 (3.6%)
     checkerboard
   - fix use constant threshold to detect corners
   - refine subpixel corners with cornerSubPix with tighter termination criteria
+    - selectAndRefineChessboardCorners seems to do this but it doesn't
+      seem to be called
