@@ -294,7 +294,7 @@
 	       cv.CALIB_FIX_ASPECT_RATIO
 	       
 	     ;  cv.CALIB_FIX_K1
-	     ;  cv.CALIB_FIX_K2
+	       cv.CALIB_FIX_K2
 	       cv.CALIB_FIX_K3))))
       
       (python
@@ -310,7 +310,7 @@
 				      
 				      calibrate_camera_flags_general))))
 
-      
+      #+nil
       (python
        (do0
 	"#export" 
@@ -505,7 +505,7 @@
 	 (print camera_matrix2)
 	 (print distortion_params2)))
 
-      
+      #+nil
       (python
        (do0
 	(comments "calibration step by itself")
@@ -570,6 +570,7 @@
 					     val)))))
 		       ))))))
 
+      #+nil 
       (python
        (do0
 	(comments "collect the data, so that i can implement the fit myself")
@@ -600,6 +601,7 @@
 			       ))))
 	(setf df (pd.DataFrame res))
 	df))
+      #+nil
       (python
        (do0
 	(comments "plot the coordinates")
@@ -607,6 +609,7 @@
 	(plt.xlim 0 (* 2 squares_x))
 	(plt.ylim 0 (* 2 squares_y))
 	(grid)))
+      #+nil
       (python
        (do0
 	(setf fac 3)
@@ -619,8 +622,8 @@
 	 (plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 	(grid)))
 
-      ;; 
 
+      #+nil
       ,@(let (
 	     ;; first list scalar parameters
 	     (merit-params `(;; intrinsics (same for all views)
@@ -671,7 +674,7 @@
 	  `((python
 	     (do0
 	      (comments "try the transform with a single corner")
-	      (setf frame_idx 17)
+	      (setf frame_idx 24)
 	      (setf rvec (aref rvecs frame_idx)
 		    tvec (aref tvecs frame_idx))
 	      (setf (ntuple R3 R3jac) (cv.Rodrigues :src rvec))
@@ -696,7 +699,8 @@
 		    ,@(loop for name in l and val in ll
 			    collect
 			    `(setf ,name ,val)))))
-	      (comments "https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d Detailed description explains how to compute r")
+	      (comments "https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d Detailed description explains how to compute r"
+			"documentation of undistortPoints explains how modify coordinates: https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html#ga55c716492470bfe86b0ee9bf3a1f0f7e ")
 	      (setf M (np.array (list (list fx 0 cx)
 						  (list 0 fx cy)
 						  (list 0 0 1))))
@@ -720,6 +724,9 @@
 					 (list row.v )))
 		      center (np.array (list (list cx)
 					     (list cy))))
+		(setf uv_pinhole (cv.undistortPoints :src uv
+						     :cameraMatrix camera_matrix
+						     :distCoeffs distortion_params))
 		;(setf uvc (- uv center))
 	        #+nil
 		(do0 (setf r (np.linalg.norm (aref uvc (slice "" 2))))
@@ -735,14 +742,15 @@
 		  :uv uv
 		  ;:uvc uvc
 		  ;:r r
-		 ; :uv_pinhole uv_pinhole
+		  :uv_pinhole uv_pinhole
 		  ))
 		))
 	      (setf dft (pd.DataFrame res))))
+	    #+nil
 	    ,@(loop for e in `((:col uv :x u :y v)
 			       ;(:col uvc :x u-c :y v-c)
 			       (:col mwq :x x_prime :y y_prime)
-			      ; (:col uv_pinhole :x x_pprime :y y_pprime)
+			       (:col uv_pinhole :x x_pprime :y y_pprime)
 			       )
 		    collect
 		    (destructuring-bind (&key col x y) e
@@ -760,6 +768,7 @@
 			(xlabel (string ,x))
 			(ylabel (string ,y))))
 		      ))
+	    #+nil
 	    (python
 	     (do0
 	      ,@(loop for (col marker) in `((uv "+")
@@ -777,42 +786,51 @@
 		(plt.ylim 0 (+ -1 (dot xs h (max) (item)))))
 			(xlabel (string "x"))
 			(ylabel (string "y"))))
+	    
 
-	     (python
-	      (do0
-	       (comments "quiver plot to show mismatch between camera coordinates and transformed object coordinates")
-	       (setf x0  (dot np (stack (dot dft uv values))
-			      (aref (squeeze) ":" 0))
-		     y0 (dot np (stack (dot dft uv values))
-			     (aref (squeeze) ":" 1))
-		     x1  (dot np (stack (dot dft mwq values))
-			      (aref (squeeze) ":" 0))
-		     y1  (dot np (stack (dot dft mwq values))
-			      (aref (squeeze) ":" 1))
-		     dx (- x0 x1) 
-		     dy (- y0 y1)
-		     s 1)
-	       (plt.quiver x0
-			    y0
-			    (* s dx)
-			    (* s dy)
-			    )
-	       (plt.scatter (list cx)
-			    (list cy)
-			    :marker (string "x")
-			    :color (string "r"))
-	       (grid)
+	    #+nil
+	    ,@(let ((coord-pairs `((uv mwq)
+				   (uv uv_pinhole)
+				   (mwq uv_pinhole))))
+		(loop for (A B) in coord-pairs
+			collect
+			`(python
+			  (do0
+			   (comments "quiver plot to show mismatch between camera coordinates and transformed object coordinates")
+			   (setf x0  (dot np (stack (dot dft ,A values))
+					  (aref (squeeze) ":" 0))
+				 y0 (dot np (stack (dot dft ,A values))
+					 (aref (squeeze) ":" 1))
+				 x1  (dot np (stack (dot dft ,B values))
+					  (aref (squeeze) ":" 0))
+				 y1  (dot np (stack (dot dft ,B values))
+					  (aref (squeeze) ":" 1))
+				 dx (- x0 x1) 
+				 dy (- y0 y1)
+				 s 1)
+			   (plt.quiver x0
+				       y0
+				       (* s dx)
+				       (* s dy)
+				       )
+			   (plt.scatter (list cx)
+					(list cy)
+					:marker (string "x")
+					:color (string "r"))
+			   (grid)
+			   (title (string ,(format nil "compare ~a and ~a" A B)))
 
-	       #-nil (do0
-		(plt.xlim 0 (+ -1 (dot xs w (max) (item))))
-		(plt.ylim 0 (+ -1 (dot xs h (max) (item))))
-		
-		(plt.axis (string "equal")))
-	       ;(dot plt (gca) (set_aspect (string "auto")))
-	       (do0
-		(xlabel (string "x"))
-		(ylabel (string "y")))))
+			   #-nil (do0
+				  (plt.xlim 0 (+ -1 (dot xs w (max) (item))))
+				  (plt.ylim 0 (+ -1 (dot xs h (max) (item))))
+				  
+				  (plt.axis (string "equal")))
+					;(dot plt (gca) (set_aspect (string "auto")))
+			   (do0
+			    (xlabel (string "x"))
+			    (ylabel (string "y")))))))
 
+	    #+nil
 	    (python
 	     (do0
 	      (setf r (np.sqrt (+ (** (- x0 cx) 2 )
@@ -839,6 +857,7 @@
 	      (grid)
 	      (xlabel (string "r"))
 	      (ylabel (string "distortion factor"))))
+	    #+nil
 	    (python
 	   (do0
 	    (def merit (params grid_x grid_y cam_x cam_y)
