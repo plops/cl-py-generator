@@ -303,7 +303,7 @@
 	       cv.CALIB_FIX_ASPECT_RATIO
 	       
 	     ;  cv.CALIB_FIX_K1
-	       cv.CALIB_FIX_K2
+	      ; cv.CALIB_FIX_K2
 	       cv.CALIB_FIX_K3))))
       
       (python
@@ -738,6 +738,12 @@
 		(do0
 		 (comments "for each point in the corrected image compute the corresponding point in the (distorted) camera image ")
 					;(setf cx_prime ())
+
+		 (setf uv (np.array (list (list row.u )
+					 (list row.v )))
+		      center (np.array (list (list cx)
+					     (list cy))))
+		 
 		 (setf
 		  F (np.array (list (list fx)
 					       (list fy)))
@@ -747,12 +753,9 @@
 			     (** (aref xy_ 1) 2))
 		       mwq_ (* xy_ (+ 1 (* k1 r2)))
 		       mwq_distorted (+ (* mwq_ F ) center))
-		 (setf ))
+		 )
 		
-		(setf uv (np.array (list (list row.u )
-					 (list row.v )))
-		      center (np.array (list (list cx)
-					     (list cy))))
+		
 		
 		(setf uv_pinhole_  (dot (cv.undistortPoints :src uv
 							:cameraMatrix camera_matrix
@@ -847,6 +850,7 @@
 				   (mwq uv_proj)
 				   (mwq_distorted uv_proj)
 				   (uv_pinhole uv_proj)
+				   (uv uv_proj) ;; this is the real comparison between model and camera image
 				   (mwq uv_pinhole)
 				   (uv uv_pinhole))))
 		(loop for (A B) in coord-pairs

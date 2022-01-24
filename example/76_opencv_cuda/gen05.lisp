@@ -18,12 +18,12 @@
       (cv cv2)
       (pd pandas)
       ))
-  (let ((nb-file "source/02_show_checkerboard.ipynb"))
+  (let ((nb-file "source/05_show_checkerboard.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp play02"
+	       "# default_exp play05"
 	       (comments "pip3 install --user opencv-python opencv-contrib-python")))
       (python (do0
 	       "#export"
@@ -160,7 +160,7 @@
 	,(let* ((screen-fac 1)
 		(screen-w (* screen-fac 1920))
 		(screen-h (* screen-fac 1080))
-		(squares-fac 3)
+		(squares-fac 1)
 		(squares-x (* squares-fac 16))
 		(squares-y (* squares-fac 9))
 		;; add one row and column for shifting
@@ -174,7 +174,7 @@
 			      2))) 
 	   `(do0
 	     (setf d (cv.aruco.getPredefinedDictionary (dot cv aruco
-							    ,(format nil "DICT_4X4_~a"
+							    ,(format nil "DICT_5X5_~a"
 								     (cond ((< n-squares 50)
 									    50)
 									   ((< n-squares 100)
@@ -191,8 +191,10 @@
 		   board (cv.aruco.CharucoBoard_create squares_x squares_y square_length marker_length d)
 		   out_size (tuple ,screen-w2 ,screen-h2)
 		   board_img (board.draw out_size)
-		   steps_x 5
-		   steps_y 5)
+		   steps_x 1
+		   steps_y 1)
+	     (print (dot (string "aruco dictionary can correct at most {} bits")
+			 (format d.maxCorrectionBits)))
 	     #+nil (cv.imwrite (string "charuco1.png")
 			       board_img)
 	     (do0 (setf w (string "board"))

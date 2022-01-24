@@ -239,7 +239,7 @@
        (do0
 	"#export"
 	(do0
-	 (setf xs_fn  (string "calib2/checkerboards.nc") )
+	 (setf xs_fn  (string "calib05_01/checkerboards.nc") )
 	 (if (dot pathlib (Path xs_fn) (exists))
 	     (do0
 	      (setf start (time.time))
@@ -252,7 +252,7 @@
 	      )
 	   (setf fns ("list"
 		      (dot pathlib
-			   (Path (string "calib2/"))
+			   (Path (string "calib05_01/"))
 			   (glob (string "*.jpg")))))
 	   (do0
 	    (setf res (list))
@@ -262,7 +262,10 @@
 		 (setf gray (cv.cvtColor rgb cv.COLOR_BGR2GRAY))
 		 (res.append gray))
 	    (setf
-	     data (np.stack res 0)
+	     data (np.stack (map (lambda (x)
+				   (? (== 4032 (aref x.shape 0))
+				      x
+				      (x.transpose))) res) 0)
 	     xs (xr.Dataset
 		 (dictionary
 		  :cb (xr.DataArray
@@ -302,8 +305,8 @@
 	       cv.CALIB_ZERO_TANGENT_DIST
 	       cv.CALIB_FIX_ASPECT_RATIO
 	       
-	     ;  cv.CALIB_FIX_K1
-	      ; cv.CALIB_FIX_K2
+	       cv.CALIB_FIX_K1
+	       cv.CALIB_FIX_K2
 	       cv.CALIB_FIX_K3))))
       
       (python
@@ -738,6 +741,11 @@
 		(do0
 		 (comments "for each point in the corrected image compute the corresponding point in the (distorted) camera image ")
 					;(setf cx_prime ())
+
+		 (setf uv (np.array (list (list row.u )
+					 (list row.v )))
+		      center (np.array (list (list cx)
+					     (list cy))))
 		 (setf
 		  F (np.array (list (list fx)
 					       (list fy)))
@@ -747,12 +755,9 @@
 			     (** (aref xy_ 1) 2))
 		       mwq_ (* xy_ (+ 1 (* k1 r2)))
 		       mwq_distorted (+ (* mwq_ F ) center))
-		 (setf ))
+		 )
 		
-		(setf uv (np.array (list (list row.u )
-					 (list row.v )))
-		      center (np.array (list (list cx)
-					     (list cy))))
+		
 		
 		(setf uv_pinhole_  (dot (cv.undistortPoints :src uv
 							:cameraMatrix camera_matrix

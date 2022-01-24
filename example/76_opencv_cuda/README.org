@@ -3,6 +3,9 @@
 | gen02 | display checkerboard with charuco indices, fullscreen, shift in x and y               |
 | gen03 | load dng files and detect markers                                                     |
 | gen04 | load png files and detect markers                                                     |
+| gen05 | copy of gen02, give the algorithm a chance for error correction in markers            |
+| gen06 | copy of gen04, load data of 05 checkerboard                                           |
+|       |                                                                                       |
 - install dependencies for cl-py-generator on popos
 #+begin_example
 sudo apt install jq
@@ -107,6 +110,12 @@ https://longervision.github.io/2017/03/13/ComputerVision/OpenCV/opencv-external-
 https://github.com/kyle-bersani/opencv-examples/tree/master/CalibrationByCharucoBoard
 https://docs.opencv.org/4.5.5/ python below c++ definitions
 https://github.com/opencv/opencv/issues/15992 good discussion of the shortcomings of opencvs distortion model
+  - dlr manual
+    - pinhole model is only valid beyond 30times the focal length (may be too conservative)
+    - tilted checkerboard better for focal length estimation
+    - orthogonal images are beneficial for distortion parameter estimation
+      - distortion can often be neglected for consumer cameras
+    
 
 aruco paper (2014)
  - 10.1016/j.patcog.2014.01.005
@@ -211,7 +220,21 @@ https://github.com/CosmoStat/mccd
   - object coordinates to camera coordinates
     T = origin_object - origin_camera
     Pc = R (Po-T)
-  
+
+https://github.com/midjji
+  - owner: Mikael Persson (Linkoeping University)
+  - https://github.com/midjji/mlib
+    - use qt for reentrant plotting from any thread
+  - https://github.com/midjji/pnp
+    - wrapper for PNP solver
+    - use to avoid Opencv Epnp
+
+https://github.com/eyalroz
+  - owner: Eyal Rozenberg (Technion, Amsterdam)
+  - https://github.com/eyalroz/cuda-api-wrappers
+    - (*) aims for clarity
+  - https://github.com/eyalroz/cuda-kat
+    - lane_id_within_warp() -> grid_info::lane::id() -> gi::lane::id()
 #+end_example
 
 - effect of rerun interpolateCornersCharuco with camera_matrix
