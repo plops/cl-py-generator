@@ -223,7 +223,7 @@
 		   cv.WINDOW_FULLSCREEN)
 		  #+nil
 		  (cv.resizeWindow w ,screen-w ,screen-h)
-		  (for(y  (dot (np.round (np.linspace 0 ,(- square-a 1) steps_y)) (astype int)))
+		  (for(y  (dot (np.round (np.linspace 0 ,(- square-a 1) steps_y)) (astype in)))
 		   (for (x (dot (np.round (np.linspace 0 ,(- square-a 1) steps_x)) (astype int)))
 			(do0
 					;(cv.moveWindow w (* 5 x) 5)
@@ -239,7 +239,7 @@
        (do0
 	"#export"
 	(do0
-	 (setf xs_fn  (string "calib2/checkerboards.nc") )
+	 (setf xs_fn  (string "calib03/checkerboards.nc") )
 	 (if (dot pathlib (Path xs_fn) (exists))
 	     (do0
 	      (setf start (time.time))
@@ -252,7 +252,7 @@
 	      )
 	   (setf fns ("list"
 		      (dot pathlib
-			   (Path (string "calib2/"))
+			   (Path (string "calib03/"))
 			   (glob (string "*.jpg")))))
 	   (do0
 	    (setf res (list))
@@ -302,8 +302,8 @@
 	       cv.CALIB_ZERO_TANGENT_DIST
 	       cv.CALIB_FIX_ASPECT_RATIO
 	       
-	     ;  cv.CALIB_FIX_K1
-	      ; cv.CALIB_FIX_K2
+	       cv.CALIB_FIX_K1
+	      cv.CALIB_FIX_K2
 	       cv.CALIB_FIX_K3))))
       
       (python

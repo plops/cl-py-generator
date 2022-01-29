@@ -35,12 +35,12 @@
     `(print (dot (string ,(format nil "~{~a={}~^\\n~}" rest))
                  (format  ;(- (time.time) start_time)
                   ,@rest))))
-  (let ((nb-file "source/01_basic_gui.ipynb"))
+  (let ((nb-file "source/02_basic_gui.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
     :nb-code
     `((python (do0
-	       "# default_exp run01_basic_gui"
+	       "# default_exp run02_basic_gui"
 	       (comments "pip3 install --user wxPython"
 			 "note: this seems to compile wxwidgets and can take a while")))
       (python (do0
@@ -179,19 +179,56 @@
 	       (def __init__ (self parent image_size)
 		 (dot (super)
 		      (__init__ parent))
-		 (setf img (wx.Image *image_size)
-		       self.image_ctrl (wx.StaticBitmap self
-							:bitmap (wx.Bitmap img)))
-		 (setf browse_btn (wx.Button self :label (string "Browse")))
+		 (do0
+		  (setf img (wx.Image *image_size)
+			self.image_ctrl (wx.StaticBitmap self
+							 :bitmap (wx.Bitmap img))))
+		 (do0
+		  (setf browse_btn (wx.Button self :label (string "Browse")))
+		  (browse_btn.Bind wx.EVT_BUTTON self.on_browse))
+		 (do0
+		  (setf self.photo_txt (wx.TextCtrl self :size (list 200 -1))))
+
+		 (do0
+		  (setf hsizer (wx.BoxSizer wx.HORIZONTAL))
+		  (hsizer.Add browse_btn 0 wx.ALL 5)
+		  (hsizer.Add self.photo_txt 0 wx.ALL 5))
+		 
 		 (do0
 		  (setf main_sizer (wx.BoxSizer wx.VERTICAL))
 		  (main_sizer.Add self.image_ctlr 0 wx.ALL 5)
-		  (main_sizer.Add browser_btn)
+		  (main_sizer.Add hsizer 0 wx.ALL 5)
 		  (self.SetSizer main_sizer))
 		 (main_sizer.Fit parent)
-		 (self.Layout)
-		 )
-	       )
+		 (self.Layout)))
+	(def on_browse (self event)
+	  (rstring3 "Browse for an image file
+@param event: The event object")
+	  (setf wildcard (string "JPEG files (*.jpg)|*.jpg"))
+	  (with (as (wx.FileDialog None
+				 (string "Choose a file")
+				 :wildcard wildcard
+				 :style wx.ID_OPEN)
+		    dialog)
+		(when (== wx.ID_OK (dialog.ShowModal))
+		  (self.photo_txt.SetValues (dialog.GetPath))
+		  (self.load_image))))
+
+	(def load_image (self)
+	  (setf filepath (self.photo_txt.GetValue)
+		img (wx.Image filepath wx.BITMAP_TYPE_ANY)
+		W (img.GetWidth)
+		H (img.GetHeight))
+	  (if (< H W)
+	      (setf NewW self.max_size
+		    NewH (/ (* self.max_size H) W))
+	      (setf NewW (/ (* self.max_size W) H)
+		    NewH self.max_size))
+	  (setf img (img.Scale NewW NewH))
+	  (self.image_ctrl.SetBitmap (wx.Bitmap img))
+	  (self.Refresh))
+
+	
 	(class MainFrame (wx.Frame)
 	       (def __init__ (self parent image_size)
 		 (dot (super)

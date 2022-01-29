@@ -176,8 +176,30 @@
        (do0
 	"#export"
 	(class ImagePanel (wx.Panel)
+	       (def __init__ (self parent image_size)
+		 (dot (super)
+		      (__init__ parent))
+		 (setf img (wx.Image *image_size)
+		       self.image_ctrl (wx.StaticBitmap self
+							:bitmap (wx.Bitmap img)))
+		 (setf browse_btn (wx.Button self :label (string "Browse")))
+		 (do0
+		  (setf main_sizer (wx.BoxSizer wx.VERTICAL))
+		  (main_sizer.Add self.image_ctlr 0 wx.ALL 5)
+		  (main_sizer.Add browser_btn)
+		  (self.SetSizer main_sizer))
+		 (main_sizer.Fit parent)
+		 (self.Layout)
+		 )
 	       )
 	(class MainFrame (wx.Frame)
+	       (def __init__ (self parent image_size)
+		 (dot (super)
+		      (__init__ None :title (string "image viewer")))
+		 (do0
+		  (setf panel (ImagePanel self
+					  :image_size (list 240 240)))
+		  (self.Show)))
 	       ))
        )
       (python
