@@ -1,5 +1,5 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "spinneret")
+  ;(ql:quickload "spinneret")
   (ql:quickload "cl-py-generator")
   )
 
@@ -97,7 +97,7 @@
 	    "# undo: ")
 	  ))) 
 
-  (defmacro with-page ((&key title)
+  #+nil (defmacro with-page ((&key title)
 		       &body body)
     `(spinneret:with-html
 	 (:doctype)
@@ -114,13 +114,23 @@
 		     ))) code))
 	    (incf nb-counter))
 	  (gen-html (path code)
-	    (with-open-file (s (format nil "~a/source/web/~a/~{~a~^/~}" *path* path)
-			       :direction :output
-			       :if-exists :supersede
-			       :if-does-not-exist :create)
-	      (format s "~a" code))))
+	    (let ((fn (format nil "~a/source/web/~{~a~^/~}" *path* path)))
+	      (ensure-directories-exist (pathname fn))
+	     (with-open-file (s fn
+				:direction :output
+				:if-exists :supersede
+				:if-does-not-exist :create)
+	       (format s "~a" code)))))
      (gen-html `(posts templates posts post_list.html)
-	       (with-page (:title "PyGram")
+	       "<!doctype html>
+<html>
+<body>
+{% for post in object_list %}
+<strong>{{ post.author.username }}</strong><br/>
+{% endfor %}
+</body>
+</html>"
+	       #+nil (with-page (:title "PyGram")
 		 "{% for post in object_list %}"
 		 "{% endfor %}"))
      (gen `(posts models)
