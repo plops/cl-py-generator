@@ -77,6 +77,11 @@
 	  `("# tell django to make migrations"
 	    "./manage.py makemigrations"
 	    "# undo: rm -rf posts/migrations ")
+	  )
+     (out "migrate.sh"
+	  `("# tell django to make migrations"
+	    "./manage.py migrate"
+	    "# undo: rm -rf posts/migrations ")
 	  )))
 
   (let ((nb-counter 1))
