@@ -1,7 +1,9 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "lass")
   ;; NOTE: if lass gives an error, use ACCEPT, this works for me as of 2022-01-29
-  (ql:quickload "spinneret")
+  (ql:quickload "spinneret"))
+
+(eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "cl-py-generator"))
 
 
@@ -104,7 +106,8 @@
 	       (write-notebook
 	       :nb-file fn
 	       :nb-code (append `((python (do0
-					   ,(format nil "# default_exp ~{~a~^/~}" path)
+					   (comments
+					    ,(format nil " default_exp ~{~a~^/~}" path))
 					   ))) code))
 	       (format t "~&~c[31m wrote Python ~c[0m ~a~%"
 		       #\ESC #\ESC fn))
@@ -198,11 +201,11 @@
 			  :value "Comment"))))
      (gen `(posts models)
 	  `(
-	    (python (cell
-	       (do0 
-		(imports-from (django.db models)
-			      (django.contrib.auth.models User)))
-	       ))
+	    (python
+	     (cell
+	      (imports-from (django.db models)
+			    (django.contrib.auth.models User))
+	      ))
 	    
 	    (python
 	     (cell
@@ -223,8 +226,7 @@
 	    ))
      (gen `(posts views)
 	  `(
-	    (python (do0
-		     (comments "export")
+	    (python (cell
 	       (do0 
 		(imports-from ,@(loop for (e f) in `((list ListView)
 						     (edit CreateView)
@@ -253,8 +255,7 @@
 			       (aref context "comment_form") (CommentForm))
 			 (return context))))))))
      (gen `(pygram urls)
-	  `((python (do0
-		     "#export"
+	  `((python (cell
 	       (do0 
 		(imports-from (django.contrib admin)
 			      (django.urls path)
@@ -281,8 +282,7 @@
 			  :document_root settings.MEDIA_ROOT))))))))
      (gen `(posts admin)
 	  `(
-	    (python (do0
-		     "#export"
+	    (python (cell
 	       (do0 
 		(imports-from (django.contrib admin)
 			      (posts.models Post))
