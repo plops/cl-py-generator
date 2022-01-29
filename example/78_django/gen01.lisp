@@ -115,7 +115,7 @@
 	   :font-size 2em
 	   :background "#f2f2f2"
 	   :margin-bottom 15px)
- `(.header>a   :color inherit
+ #+nil`(.header>a   :color inherit
 	       :text-decoration none)
  )))
 	(:body ,@body))))
@@ -137,24 +137,19 @@
 	       (format s "~a" code)))))
      (gen-html `(posts templates posts base.html)
 	       (with-page (:title "PyGram")
-		 
-		 "
-{% for post in object_list %}
+		 (:div :class "header"
+		       (:a :href (string "/")
+			   "PyGram"
+			   ))
+		 (:div :class "container"
+		       "
+{% block content %}
 "
-		 (:strong "{{ post.author.username }}")
-		 
-		 (:br)
-		 (:img :src "{{ post.image.url }}"
-		       :width 400
-		       :height 400)
-		 (:p (:em "{{ post.created }}")
-		     (:br)
-		     "{{ post.description }}")
-		 
-		 "
-{% endfor %}
-"))
-     (gen-html `(posts templates posts post_list.html)
+		       "
+
+{% endblock %}
+")))
+    #+nil (gen-html `(posts templates posts post_list.html)
 	       (with-page (:title "PyGram")
 		 "
 {% for post in object_list %}
@@ -172,6 +167,24 @@
 		 "
 {% endfor %}
 "))
+     (gen-html `(posts templates posts post_list.html)
+	       (format nil "{% extends 'posts/base.html' %}
+{% block content %}
+  {% for post in object_list %}
+  ~a
+  {% endfor %}
+{% endblock %}
+"
+		(spinneret:with-html-string
+		  (:strong "{{ post.author.username }}")
+		  (:br)
+		  (:img :src "{{ post.image.url }}"
+			:width 400
+			:height 400)
+		  (:p (:em "{{ post.created }}")
+		      (:br)
+		      "{{ post.description }}")
+		  )))
      (gen `(posts models)
 	  `(
 	    (python (do0
