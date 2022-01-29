@@ -57,6 +57,10 @@
 	 `("# bootstrap django project"
 			     "django-admin startproject pygram ."
 			     "# undo: rm -rf pygram manage.py")
+	 )
+    (out "setup04_runserver.sh"
+	 `("# start django webserver"
+	   "./manage.py runserver")
 	 ))
   
   
