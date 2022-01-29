@@ -191,8 +191,12 @@
 	    (python (do0
 		     "#export"
 	       (do0 
-		(imports-from (django.views.generic.list ListView)
-			      (django.views.generic.edit CreateView)
+		(imports-from ,@(loop for (e f) in `((list ListView)
+						     (edit CreateView)
+						     (detail DetailView))
+				      collect
+				      `((dot django views generic ,e) ,f))
+			      (django forms)
 			      (posts.models Post)
 			      )
 		(class PostList (ListView)
@@ -203,7 +207,9 @@
 			     fields (list "image"
 					  "description"
 					  "author")
-			     success_url "/")))))))
+			     success_url "/"))
+		(class PostDetail (DetailView)
+		       (setf model Post)))))))
      (gen `(pygram urls)
 	  `((python (do0
 		     "#export"
