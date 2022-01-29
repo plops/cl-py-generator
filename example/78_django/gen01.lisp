@@ -152,12 +152,16 @@
      (gen-html `(posts templates posts post_list.html)
 	       (format nil "{% extends 'posts/base.html' %}
 {% block content %}
+  ~a
   {% for post in object_list %}
   ~a
   {% endfor %}
 {% endblock %}
 "
-		(spinneret:with-html-string
+		       (spinneret:with-html-string
+			 (:a :href "{% url 'new' %}"
+			     (:h1 "Create new post")))
+		       (spinneret:with-html-string
 		  (:strong "{{ post.author.username }}")
 		  (:br)
 		  (:img :src "{{ post.image.url }}"
