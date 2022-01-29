@@ -114,7 +114,7 @@
 				:if-exists :supersede
 				:if-does-not-exist :create)
 	       (format s "~a" code))
-	      (format t "\\x1b[31m wrote HTML \\x1b[0m ~a~%" fn))))
+	      (format t "~c[31m wrote HTML ~c[0m ~a~%" #\ESC #\ESC fn))))
      (gen-html `(posts templates posts base.html)
 	       (with-page (:title "PyGram")
 		 (:div :class "header"
