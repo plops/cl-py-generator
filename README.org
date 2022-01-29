@@ -59,3 +59,12 @@
 - https://norvig.com/python-lisp.html
 - https://news.ycombinator.com/item?id=20605660 discussion of hy
   
+
+* Changes
+ 
+- 2022-01-29 emit strings by default
+  -  from now on i don't have to write (string <..>) all the
+    time. modifications will be necessary in the code examples. most
+    prevalent are the "#export" statements at the beginning of
+    notebook cells and the explicit list conversion of for-generator
+    ("list" (for-generator () ...))
