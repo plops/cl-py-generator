@@ -53,13 +53,15 @@
 		     :if-exists :supersede
 		     :if-does-not-exist :create)
     (format s "~{~a~^~%~}" `("# install dependencies into virtual environment"
-			     "pip install -r requirements.txt")))
+			     "pip install -r requirements.txt"
+			     "# undo: rm -rf env")))
   (with-open-file (s (format nil "~a/source/web/setup03.sh" *path*)
 		     :direction :output
 		     :if-exists :supersede
 		     :if-does-not-exist :create)
     (format s "~{~a~^~%~}" `("# bootstrap django project"
-			     "django-admin startproject pygram")))
+			     "django-admin startproject pygram ."
+			     "# undo: rm -rf pygram")))
   (let ((nb-file "source/01_basic_gui.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
