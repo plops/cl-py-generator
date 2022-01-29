@@ -7,7 +7,9 @@
 (in-package :cl-py-generator)
 
 
+
 (progn
+  (setf *warn-breaking* nil)
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
   (defparameter *example-subdir* "example/78_django")
@@ -94,21 +96,25 @@
  )))
 	(:body ,@body))))
   (let ((nb-counter 1))
-   (flet ((gen (path code) 
-	    (write-notebook
-	     :nb-file (format nil "source/~3,'0d_~{~a~^_~}.ipynb" nb-counter path)
-	     :nb-code (append `((python (do0
-		     ,(format nil "# default_exp ~{~a~^/~}" path)
-		     ))) code))
+    (flet ((gen (path code)
+	     (let ((fn  (format nil "source/~3,'0d_~{~a~^_~}.ipynb" nb-counter path)))
+	       (write-notebook
+	       :nb-file fn
+	       :nb-code (append `((python (do0
+					   ,(format nil "# default_exp ~{~a~^/~}" path)
+					   ))) code))
+	       (format t "\\x1b[31m wrote Python \\x1b[0m ~a~%" fn))
 	    (incf nb-counter))
 	  (gen-html (path code)
 	    (let ((fn (format nil "~a/source/web/~{~a~^/~}" *path* path)))
 	      (ensure-directories-exist (pathname fn))
+	      
 	     (with-open-file (s fn
 				:direction :output
 				:if-exists :supersede
 				:if-does-not-exist :create)
-	       (format s "~a" code)))))
+	       (format s "~a" code))
+	      (format t "\\x1b[31m wrote HTML \\x1b[0m ~a~%" fn))))
      (gen-html `(posts templates posts base.html)
 	       (with-page (:title "PyGram")
 		 (:div :class "header"

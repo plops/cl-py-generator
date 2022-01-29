@@ -4,6 +4,7 @@
 (in-package :cl-py-generator)
 (setf (readtable-case *readtable*) :invert)
 
+(defparameter *warn-breaking* t)
 (defparameter *file-hashes* (make-hash-table))
 
 (defun write-notebook (&key nb-file nb-code)
@@ -420,7 +421,8 @@
 	      ((symbolp code) ;; print variable
 	       (format nil "~a" code))
 	      ((stringp code)
-	       (format t "~&BREAKING CHANGE ~a is printed as string (used to be symbol, please use (symbol <code>) from now on). I seldomly used this for (\"list\" ...) ~%" code)
+	       (when *warn-breaking*
+		 (format t "~&BREAKING CHANGE ~a is printed as string (used to be symbol, please use (symbol <code>) from now on). I seldomly used this for (\"list\" ...) ~%" code))
 	       ;(substitute #\: #\- )
 	       (format nil "\"~a\"" code))
 	      ((numberp code) ;; print constants
