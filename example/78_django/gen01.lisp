@@ -144,6 +144,19 @@
 		       (setf model Post)
 		       ))
 	       ))
+	    ))
+     (gen `(pygram urls)
+	  `(
+	    (python (do0
+		     "#export"
+	       (do0 
+		(imports-from (django.contrib admin)
+			      (django.urls path)
+			      )
+		(setf urlpatterns (list
+				   (path (string "admin/")
+					 admin.site.urls))))
+	       ))
 	    ))))
 
   (sb-ext:run-program "/usr/bin/sh" `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh")
