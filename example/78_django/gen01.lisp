@@ -12,32 +12,6 @@
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
   (defparameter *example-subdir* "example/78_django")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
-  (defparameter *day-names*
-    '("Monday" "Tuesday" "Wednesday"
-      "Thursday" "Friday" "Saturday"
-      "Sunday"))
-  (defparameter *libs*
-    `(;(np numpy)
-      ;(cv cv2)
-      ;(pd pandas)
-      ;(xr xarray)
-      ;lmfit
-      ;rawpy
-      ;wx
-      ))
-  (defun scale (da &key (perc 2) (range 10))
-    (let ((d `(- ma mi)))
-      `(do0
-	(setf mi (np.nanpercentile ,da ,perc)
-	      ma (np.nanpercentile ,da (- 100
-					 ,perc))
-	      mi1 (- mi (* ,(/ range 100.0) ,d))
-	      ma1 (+ ma (* ,(/ range 100.0) ,d))
-	      ))))
-  (defun lprint (&optional rest)
-    `(print (dot ,(format nil "~{~a={}~^\\n~}" rest)
-                 (format  ;(- (time.time) start_time)
-                  ,@rest))))
   (let ((shell-counter 1))
    (flet ((out (fn lines &key (count t))
 	    (with-open-file (s (if count
