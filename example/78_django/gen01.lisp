@@ -106,7 +106,7 @@
 	 (:title ,title))
 	(:body ,@body))))
   (let ((nb-counter 1))
-   (flet ((gen (path code)
+   (flet ((gen (path code) 
 	    (write-notebook
 	     :nb-file (format nil "source/~3,'0d_~{~a~^_~}.ipynb" nb-counter path)
 	     :nb-code (append `((python (do0
