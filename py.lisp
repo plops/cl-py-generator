@@ -286,6 +286,7 @@
 	      (comment (format nil "# ~a~%" (cadr code)))
 	      (comments (let ((args (cdr code)))
 			  (format nil "~{# ~a~%~}" args)))
+	      (symbol (substitute #\: #\- (format nil "~a" (cadr code))))
 	      (string (format nil "\"~a\"" (cadr code)))
 	      (string-b (format nil "b\"~a\"" (cadr code)))
 	      (string3 (format nil "\"\"\"~a\"\"\"" (cadr code)))
@@ -419,7 +420,9 @@
 	      ((symbolp code) ;; print variable
 	       (format nil "~a" code))
 	      ((stringp code)
-		(substitute #\: #\- (format nil "~a" code)))
+	       (format t "~&BREAKING CHANGE ~a is printed as string (used to be symbol, please use (symbol <code>) from now on)~%" code)
+	       ;(substitute #\: #\- )
+	       (format nil "\"~a\"" code))
 	      ((numberp code) ;; print constants
 	       (cond ((integerp code) (format str "~a" code))
 		     ((floatp code)

@@ -185,6 +185,20 @@
 		      (:br)
 		      "{{ post.description }}")
 		  )))
+     (gen-html `(posts templates posts post_form.html)
+	       (format nil "{% extends 'posts/base.html' %}
+{% block content %}
+  ~a
+{% endblock %}
+"
+		(spinneret:with-html-string
+		  (:h1 "Create new post")
+		  (:form :action "{% url 'new' %}"
+			 :method "POST"
+			 :enctype "multipart/form-data"
+			 "{% csrf_token %}"
+			 "{{ form.as_p }}"
+			 (:input :type "submit" :value "Post")))))
      (gen `(posts models)
 	  `(
 	    (python (do0
@@ -228,7 +242,7 @@
 		       (setf model Post
 			     fields (list (string "image")
 					  (string "description")
-					  (string "user"))
+					  (string "author"))
 			     success_url (string "/"))
 		       ))
 	       ))
