@@ -1,5 +1,5 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  ;(ql:quickload "spinneret")
+  (ql:quickload "spinneret")
   (ql:quickload "cl-py-generator")
   )
 
@@ -97,10 +97,10 @@
 	    "# undo: ")
 	  ))) 
 
-  #+nil (defmacro with-page ((&key title)
+   (defmacro with-page ((&key title)
 		       &body body)
-    `(spinneret:with-html
-	 (:doctype)
+    `(spinneret:with-html-string
+       (:doctype)
        (:html
 	(:head
 	 (:title ,title))
@@ -122,7 +122,7 @@
 				:if-does-not-exist :create)
 	       (format s "~a" code)))))
      (gen-html `(posts templates posts post_list.html)
-	       "<!doctype html>
+	       #+nil "<!doctype html>
 <html>
 <body>
 {% for post in object_list %}
@@ -130,9 +130,15 @@
 {% endfor %}
 </body>
 </html>"
-	       #+nil (with-page (:title "PyGram")
-		 "{% for post in object_list %}"
-		 "{% endfor %}"))
+	       (with-page (:title "PyGram")
+		 "
+{% for post in object_list %}
+"
+		 (:strong "{{ post.author.username }}")
+		 (:br)
+		 "
+{% endfor %}
+"))
      (gen `(posts models)
 	  `(
 	    (python (do0
