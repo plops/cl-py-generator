@@ -226,7 +226,8 @@
 			   NewH (/ (* self.max_size H) W))
 		     (setf NewW (/ (* self.max_size W) H)
 			   NewH self.max_size))
-		 (setf img (img.Scale (int NewW) (int NewH)))
+		 (setf img (img.Scale (int NewW) (int NewH)
+			    ))
 		 (self.image_ctrl.SetBitmap (wx.Bitmap img))
 		 (self.Refresh)))
 
