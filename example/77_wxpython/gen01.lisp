@@ -182,10 +182,10 @@
 		 (setf img (wx.Image *image_size)
 		       self.image_ctrl (wx.StaticBitmap self
 							:bitmap (wx.Bitmap img)))
-		 (setf browse_btn (wx.Button self :label (string "Browse")))
+		 (setf browser_btn (wx.Button self :label (string "Browse")))
 		 (do0
 		  (setf main_sizer (wx.BoxSizer wx.VERTICAL))
-		  (main_sizer.Add self.image_ctlr 0 wx.ALL 5)
+		  (main_sizer.Add self.image_ctrl 0 wx.ALL 5)
 		  (main_sizer.Add browser_btn)
 		  (self.SetSizer main_sizer))
 		 (main_sizer.Fit parent)
@@ -193,7 +193,7 @@
 		 )
 	       )
 	(class MainFrame (wx.Frame)
-	       (def __init__ (self parent image_size)
+	       (def __init__ (self)
 		 (dot (super)
 		      (__init__ None :title (string "image viewer")))
 		 (do0
@@ -205,7 +205,7 @@
       (python
        (do0
 	"#export"
-	(when (== __name__ (string "main"))
+	(when (== __name__ (string "__main__"))
 	  (setf app (wx.App :redirect False)
 		frame (MainFrame)
 		)

@@ -230,7 +230,7 @@
 
 	
 	(class MainFrame (wx.Frame)
-	       (def __init__ (self parent image_size)
+	       (def __init__ (self)
 		 (dot (super)
 		      (__init__ None :title (string "image viewer")))
 		 (do0
@@ -242,7 +242,7 @@
       (python
        (do0
 	"#export"
-	(when (== __name__ (string "main"))
+	(when (== __name__ (string "__main__"))
 	  (setf app (wx.App :redirect False)
 		frame (MainFrame)
 		)
