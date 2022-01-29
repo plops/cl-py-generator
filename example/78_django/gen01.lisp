@@ -109,7 +109,7 @@
 	  `(
 	    (python (do0
 		     "#export"
-	       (do0
+	       (do0 
 		(imports-from (django.db models)
 			      (django.contrib.auth.models User)))
 	       ))
