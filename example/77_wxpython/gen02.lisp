@@ -196,23 +196,23 @@
 		 
 		 (do0
 		  (setf main_sizer (wx.BoxSizer wx.VERTICAL))
-		  (main_sizer.Add self.image_ctlr 0 wx.ALL 5)
+		  (main_sizer.Add self.image_ctrl 0 wx.ALL 5)
 		  (main_sizer.Add hsizer 0 wx.ALL 5)
 		  (self.SetSizer main_sizer))
 		 (main_sizer.Fit parent)
-		 (self.Layout)))
-	(def on_browse (self event)
-	  (rstring3 "Browse for an image file
+		 (self.Layout))
+	       (def on_browse (self event)
+		 (rstring3 "Browse for an image file
 @param event: The event object")
-	  (setf wildcard (string "JPEG files (*.jpg)|*.jpg"))
-	  (with (as (wx.FileDialog None
-				 (string "Choose a file")
-				 :wildcard wildcard
-				 :style wx.ID_OPEN)
-		    dialog)
-		(when (== wx.ID_OK (dialog.ShowModal))
-		  (self.photo_txt.SetValues (dialog.GetPath))
-		  (self.load_image))))
+		 (setf wildcard (string "JPEG files (*.jpg)|*.jpg"))
+		 (with (as (wx.FileDialog None
+					  (string "Choose a file")
+					  :wildcard wildcard
+					  :style wx.ID_OPEN)
+			   dialog)
+		       (when (== wx.ID_OK (dialog.ShowModal))
+			 (self.photo_txt.SetValue (dialog.GetPath))
+			 (self.load_image)))))
 
 	(def load_image (self)
 	  (setf filepath (self.photo_txt.GetValue)
