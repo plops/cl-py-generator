@@ -35,7 +35,7 @@
 	      ma1 (+ ma (* ,(/ range 100.0) ,d))
 	      ))))
   (defun lprint (&optional rest)
-    `(print (dot (string ,(format nil "~{~a={}~^\\n~}" rest))
+    `(print (dot ,(format nil "~{~a={}~^\\n~}" rest)
                  (format  ;(- (time.time) start_time)
                   ,@rest))))
   (let ((shell-counter 1))
@@ -138,7 +138,7 @@
      (gen-html `(posts templates posts base.html)
 	       (with-page (:title "PyGram")
 		 (:div :class "header"
-		       (:a :href (string "/")
+		       (:a :href "/"
 			   "PyGram"
 			   ))
 		 (:div :class "container"
@@ -149,24 +149,6 @@
 
 {% endblock %}
 ")))
-    #+nil (gen-html `(posts templates posts post_list.html)
-	       (with-page (:title "PyGram")
-		 "
-{% for post in object_list %}
-"
-		 (:strong "{{ post.author.username }}")
-		 
-		 (:br)
-		 (:img :src "{{ post.image.url }}"
-		       :width 400
-		       :height 400)
-		 (:p (:em "{{ post.created }}")
-		     (:br)
-		     "{{ post.description }}")
-		 
-		 "
-{% endfor %}
-"))
      (gen-html `(posts templates posts post_list.html)
 	       (format nil "{% extends 'posts/base.html' %}
 {% block content %}
@@ -240,16 +222,12 @@
 		       )
 		(class PostCreate (CreateView)
 		       (setf model Post
-			     fields (list (string "image")
-					  (string "description")
-					  (string "author"))
-			     success_url (string "/"))
-		       ))
-	       ))
-	    ))
+			     fields (list "image"
+					  "description"
+					  "author")
+			     success_url "/")))))))
      (gen `(pygram urls)
-	  `(
-	    (python (do0
+	  `((python (do0
 		     "#export"
 	       (do0 
 		(imports-from (django.contrib admin)
@@ -260,35 +238,27 @@
 			      )
 		(setf urlpatterns
 		      (+ (list
-			(path (string "admin/")
+			(path "admin/"
 			      admin.site.urls)
-			(path (string "")
+			(path ""
 			      (PostList.as_view)
-			      :name (string "list"))
-			(path (string "new")
+			      :name "list")
+			(path "new"
 			      (PostCreate.as_view)
-			      :name (string "new")))
+			      :name "new"))
 			 (static
 			  settings.MEDIA_URL
-			  :document_root settings.MEDIA_ROOT))))
-	       ))
-	    ))
+			  :document_root settings.MEDIA_ROOT))))))))
      (gen `(posts admin)
 	  `(
 	    (python (do0
 		     "#export"
 	       (do0 
 		(imports-from (django.contrib admin)
-			      (posts.models Post)
-			      )
-		(admin.site.register Post admin.ModelAdmin))
-	       ))
-	    ))))
-
-  (sb-ext:run-program "/usr/bin/sh" `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh")
-			)
-  
-  )
+			      (posts.models Post))
+		(admin.site.register Post admin.ModelAdmin))))))))
+  (sb-ext:run-program "/usr/bin/sh"
+		      `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh")))
 
 
 
