@@ -157,6 +157,17 @@
 				   (path (string "admin/")
 					 admin.site.urls))))
 	       ))
+	    ))
+     (gen `(posts admin)
+	  `(
+	    (python (do0
+		     "#export"
+	       (do0 
+		(imports-from (django.contrib admin)
+			      (posts.models Post)
+			      )
+		(admin.site.register Post admin.ModelAdmin))
+	       ))
 	    ))))
 
   (sb-ext:run-program "/usr/bin/sh" `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh")
