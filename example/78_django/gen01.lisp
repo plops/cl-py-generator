@@ -44,7 +44,7 @@
     (out "requirements.txt"
 	 `(Django
 	   Pillow))
-    (out "setup01.sh"
+    (out "setup01_create_venv.sh"
 	 `("# create virtual environment"
 			     "python3 -m venv new env"
 			     "source env/bin/activate"))
@@ -61,6 +61,11 @@
     (out "setup04_runserver.sh"
 	 `("# start django webserver"
 	   "./manage.py runserver")
+	 )
+    (out "setup05_startapp_posts.sh"
+	 `("# add django application with business logic for creating andd commentiiing on posts"
+	   "./manage.py startapp posts"
+	   "# undo: rm -rf posts")
 	 ))
   
   
