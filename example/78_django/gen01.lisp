@@ -8,7 +8,7 @@
 
 
 
-(progn
+(progn 
   (setf *warn-breaking* nil)
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
