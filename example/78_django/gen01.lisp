@@ -82,7 +82,7 @@
 	  `("# tell django to make migrations"
 	    "./manage.py migrate"
 	    "# undo: rm -rf posts/migrations ")
-	  )))
+	  ))) 
 
   (let ((nb-counter 1))
    (flet ((gen (path code)
