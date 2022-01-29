@@ -7,7 +7,7 @@
 (progn
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
-  (defparameter *example-subdir* "example/77_wxpython")
+  (defparameter *example-subdir* "example/78_django")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -16,11 +16,11 @@
   (defparameter *libs*
     `(;(np numpy)
       ;(cv cv2)
-      (pd pandas)
+      ;(pd pandas)
       ;(xr xarray)
       ;lmfit
       ;rawpy
-      wx
+      ;wx
       ))
   (defun scale (da &key (perc 2) (range 10))
     (let ((d `(- ma mi)))
@@ -35,6 +35,31 @@
     `(print (dot (string ,(format nil "~{~a={}~^\\n~}" rest))
                  (format  ;(- (time.time) start_time)
                   ,@rest))))
+  (with-open-file (s (format nil "~a/source/web/requirements.txt" *path*)
+		     :direction :output
+		     :if-exists :supersede
+		     :if-does-not-exist :create)
+    (format s "~{~a~^~%~}" `(Django
+			     Pillow)))
+  (with-open-file (s (format nil "~a/source/web/setup01.sh" *path*)
+		     :direction :output
+		     :if-exists :supersede
+		     :if-does-not-exist :create)
+    (format s "~{~a~^~%~}" `("# create virtual environment"
+			     "python3 -m venv new env"
+			     "source env/bin/activate")))
+  (with-open-file (s (format nil "~a/source/web/setup02.sh" *path*)
+		     :direction :output
+		     :if-exists :supersede
+		     :if-does-not-exist :create)
+    (format s "~{~a~^~%~}" `("# install dependencies into virtual environment"
+			     "pip install -r requirements.txt")))
+  (with-open-file (s (format nil "~a/source/web/setup03.sh" *path*)
+		     :direction :output
+		     :if-exists :supersede
+		     :if-does-not-exist :create)
+    (format s "~{~a~^~%~}" `("# bootstrap django project"
+			     "django-admin startproject pygram")))
   (let ((nb-file "source/01_basic_gui.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
@@ -172,44 +197,7 @@
 			       ))
 			  (t (break "problem")))))))
 	(print df_status)))
-      (python
-       (do0
-	"#export"
-	(class ImagePanel (wx.Panel)
-	       (def __init__ (self parent image_size)
-		 (dot (super)
-		      (__init__ parent))
-		 (setf img (wx.Image *image_size)
-		       self.image_ctrl (wx.StaticBitmap self
-							:bitmap (wx.Bitmap img)))
-		 (setf browser_btn (wx.Button self :label (string "Browse")))
-		 (do0
-		  (setf main_sizer (wx.BoxSizer wx.VERTICAL))
-		  (main_sizer.Add self.image_ctrl 0 wx.ALL 5)
-		  (main_sizer.Add browser_btn)
-		  (self.SetSizer main_sizer))
-		 (main_sizer.Fit parent)
-		 (self.Layout)
-		 )
-	       )
-	(class MainFrame (wx.Frame)
-	       (def __init__ (self)
-		 (dot (super)
-		      (__init__ None :title (string "image viewer")))
-		 (do0
-		  (setf panel (ImagePanel self
-					  :image_size (list 240 240)))
-		  (self.Show)))
-	       ))
-       )
-      (python
-       (do0
-	"#export"
-	(when (== __name__ (string "__main__"))
-	  (setf app (wx.App :redirect False)
-		frame (MainFrame)
-		)
-	  (app.MainLoop))))))))
+      ))))
 
 
 
