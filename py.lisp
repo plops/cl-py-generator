@@ -45,11 +45,11 @@
 						 :|name| "python3"))
 		     :|nbformat| 4
 		     :|nbformat_minor| 2)
-		  (:metadata (:kernelspec (:display_name "Python 3"
-						 :language "python"
-						 :name "python3"))
-		     :nbformat 4
-		     :nbformat_minor 2)))))
+		  :metadata (:kernelspec (:display_name "Python 3"
+							:language "python"
+							:name "python3"))
+		  :nbformat 4
+		  :nbformat_minor 2))))
     #+nil
     (sb-ext:run-program "/usr/bin/python3" `("-mjson.tool" ,nb-file))
     (sb-ext:run-program "/usr/bin/jq" `("-M" "." ,tmp)

@@ -1,7 +1,19 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "spinneret")
   (ql:quickload "lass")
-  (ql:quickload "cl-py-generator")
+
+  
+  
+  
+  )
+(eval-when (:compile-toplevel :execute :load-toplevel)
+  
+  (ql:quickload "spinneret")
+  
+  
+  )
+
+(eval-when (:compile-toplevel :execute :load-toplevel)
+    (ql:quickload "cl-py-generator")
   )
 ;; NOTE: if lass gives an error, use ACCEPT, this works for me as of 2022-01-29
 (in-package :cl-py-generator)
