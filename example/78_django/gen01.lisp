@@ -3,7 +3,7 @@
   (ql:quickload "lass")
   (ql:quickload "cl-py-generator")
   )
-
+;; NOTE: if lass gives an error, use ACCEPT, this works for me as of 2022-01-29
 (in-package :cl-py-generator)
 
 
@@ -159,6 +159,33 @@
 			 "{% csrf_token %}"
 			 "{{ form.as_p }}"
 			 (:input :type "submit" :value "Post")))))
+     (gen-html `(posts templates posts post_detail.html)
+	       (format nil "{% extends 'posts/base.html' %}
+{% block content %}
+  ~a
+{% endblock %}
+"
+		(spinneret:with-html-string
+		  (:strong "{{ object.author.username }}")
+		  (:br)
+		  (:img :src "{{ object.image.url }}"
+			:width 400
+			:height 400)
+		  (:p (:em "{{ object.created }}")
+		      (:br))
+		  (:ul
+		   "{% for comment in object.comment_set.all %}"
+		   (:li
+		    (:strong "{{ comment.author }}")
+		    (:br)
+		    "{{ comment.text }}")
+		   "{% endfor %}")
+		  (:form :action "{% url 'detail' pk=object.id %}"
+			 :method "POST")
+		  "{% crsf_token %}"
+		  "{{ comment_form.as_p }}"
+		  (:input :type "submit"
+			  :value "Comment"))))
      (gen `(posts models)
 	  `(
 	    (python (do0
@@ -208,8 +235,15 @@
 					  "description"
 					  "author")
 			     success_url "/"))
+		(class CommentForm (forms.Form)
+		       (setf comment (forms.CharField)))
 		(class PostDetail (DetailView)
-		       (setf model Post)))))))
+		       (setf model Post)
+		       (def get_context_data (self *args **kwargs)
+			 (setf context (dot (super)
+					    (get_context_data *args **kwargs))
+			       (aref context "comment_form") (CommentForm))
+			 (return context))))))))
      (gen `(pygram urls)
 	  `((python (do0
 		     "#export"
@@ -218,18 +252,22 @@
 			      (django.urls path)
 			      (django.conf settings)
 			      (django.conf.urls.static static)
-			      (posts.views PostList PostCreate)
+			      (posts.views PostList PostCreate PostDetail)
 			      )
 		(setf urlpatterns
 		      (+ (list
 			(path "admin/"
 			      admin.site.urls)
-			(path ""
-			      (PostList.as_view)
-			      :name "list")
-			(path "new"
-			      (PostCreate.as_view)
-			      :name "new"))
+			,@(loop for e in `((:url "" :class PostList :name list)
+					   (:url "new/" :class PostCreate :name new)
+					   (:url "posts/<pk>/" :class PostDetail :name detail)
+					   )
+				collect
+				(destructuring-bind (&key url class name) e
+				  `(path (string ,url)
+					(dot ,class (as_view))
+					:name (string ,name))))
+			)
 			 (static
 			  settings.MEDIA_URL
 			  :document_root settings.MEDIA_ROOT))))))))
