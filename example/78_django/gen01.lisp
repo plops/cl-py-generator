@@ -135,7 +135,15 @@
 {% for post in object_list %}
 "
 		 (:strong "{{ post.author.username }}")
+		 
 		 (:br)
+		 (:img :src "{{ post.image.url }}"
+		       :width 400
+		       :height 400)
+		 (:p (:em "{{ post.created }}")
+		     (:br)
+		     "{{ post.description }}")
+		 
 		 "
 {% endfor %}
 "))
