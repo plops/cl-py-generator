@@ -1,4 +1,9 @@
-https://www.youtube.com/watch?v=7xahfqVN5ig
-Using Python & Django to Build a Photo Sharing Web App
-Mar 16, 2020
-https://github.com/Fingel/pygram
+- https://www.youtube.com/watch?v=7xahfqVN5ig
+  - Using Python & Django to Build a Photo Sharing Web App
+  - Mar 16, 2020 
+  - https://github.com/Fingel/pygram
+
+- install
+  #+begin_example
+python3 -m pip install --user django pillow nbdev
+  #+end_example

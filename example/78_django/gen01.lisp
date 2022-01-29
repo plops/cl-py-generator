@@ -15,7 +15,8 @@
   (defparameter *example-subdir* "example/78_django")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
   (let ((shell-counter 1))
-   (flet ((out (fn lines &key (count t))
+    (flet ((out (fn lines &key (count t))
+	     
 	    (with-open-file (s (if count
 				   (format nil "~a/source/web/setup~3,'0d_~a" *path* shell-counter fn)
 				   (format nil "~a/source/web/~a" *path* fn))
@@ -103,7 +104,8 @@
 	       :nb-code (append `((python (do0
 					   ,(format nil "# default_exp ~{~a~^/~}" path)
 					   ))) code))
-	       (format t "\\x1b[31m wrote Python \\x1b[0m ~a~%" fn))
+	       (format t "~&~c[31m wrote Python ~c[0m ~a~%"
+		       #\ESC #\ESC fn))
 	    (incf nb-counter))
 	  (gen-html (path code)
 	    (let ((fn (format nil "~a/source/web/~{~a~^/~}" *path* path)))
@@ -114,7 +116,7 @@
 				:if-exists :supersede
 				:if-does-not-exist :create)
 	       (format s "~a" code))
-	      (format t "~c[31m wrote HTML ~c[0m ~a~%" #\ESC #\ESC fn))))
+	      (format t "~&~c[31m wrote HTML ~c[0m ~a~%" #\ESC #\ESC fn))))
      (gen-html `(posts templates posts base.html)
 	       (with-page (:title "PyGram")
 		 (:div :class "header"
