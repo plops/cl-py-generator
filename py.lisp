@@ -420,7 +420,7 @@
 	      ((symbolp code) ;; print variable
 	       (format nil "~a" code))
 	      ((stringp code)
-	       (format t "~&BREAKING CHANGE ~a is printed as string (used to be symbol, please use (symbol <code>) from now on)~%" code)
+	       (format t "~&BREAKING CHANGE ~a is printed as string (used to be symbol, please use (symbol <code>) from now on). I seldomly used this for (\"list\" ...) ~%" code)
 	       ;(substitute #\: #\- )
 	       (format nil "\"~a\"" code))
 	      ((numberp code) ;; print constants
