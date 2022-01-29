@@ -67,27 +67,33 @@
 	   "./manage.py startapp posts"
 	   "# undo: rm -rf posts")
 	 ))
-  
-  
-  (let ((nb-file "source/01_posts_models.ipynb"))
-   (write-notebook
-    :nb-file (format nil "~a/~a" *path* nb-file)
-    :nb-code
-    `((python (do0
-	       "# default_exp posts/models"
-	       ))
-      (python (do0
-	       "#export"
+
+  (let ((nb-counter 1))
+   (flet ((gen (path code)
+	    (write-notebook
+	     :nb-file (format nil "source/~3,'0d_~{~a~^_~}.ipynb" nb-counter path)
+	     :nb-code (append `((python (do0
+		     ,(format nil "# default_exp ~{~a~^/~}" path)
+		     ))) code)
+	     )
+	    (incf nb-counter))
+	  )
+     (gen `(posts models)
+	  `(
+	    (python (do0
+		     "#export"
 	       (do0
 		(imports-from (django.db models)))
 	       ))
-      
-      (python
-       (do0
-	"#export"
-	(class Post (models.Model)
-	      (setf image (models.ImageField)))))
+	    
+	    (python
+	     (do0
+	      "#export"
+	      (class Post (models.Model)
+		     (setf image (models.ImageField)))))
       ))))
+  
+  )
 
 
 
