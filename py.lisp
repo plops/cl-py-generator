@@ -168,6 +168,9 @@
 		     (format s "~&~a~{~&~a~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
+	      (cell (with-output-to-string (s)
+		      (emit `(do0 (comments "export")
+				  ,@(cdr code)))))
 	      (space (with-output-to-string (s)
 		     (format s "~{~a~^ ~}"
 			     (mapcar #'(lambda (x) (emit x)) (cdr code)))))
@@ -362,8 +365,9 @@
                                    (do0
                                     ,@forms)))))
 	      (import-from (destructuring-bind (module &rest rest) (cdr code)
-			     (format nil "from ~a import ~{~a~^, ~}" module
-				     rest)))
+			     (format nil "from ~a import ~{~a~^, ~}"
+				     (emit module)
+				     (mapcar #'emit rest))))
 	      (imports-from (destructuring-bind (&rest module-defs) (cdr code)
 			      (with-output-to-string (s)
 				(loop for e in module-defs

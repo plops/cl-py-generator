@@ -68,3 +68,4 @@
     prevalent are the "#export" statements at the beginning of
     notebook cells and the explicit list conversion of for-generator
     ("list" (for-generator () ...))
+  - also you can use (cell ) instead of writing (do0 (comments "export") ..)

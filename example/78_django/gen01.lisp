@@ -208,16 +208,14 @@
 			  :value "Comment"))))
      (gen `(posts models)
 	  `(
-	    (python (do0
-		     "#export"
+	    (python (cell
 	       (do0 
 		(imports-from (django.db models)
 			      (django.contrib.auth.models User)))
 	       ))
 	    
 	    (python
-	     (do0
-	      "#export"
+	     (cell
 	      (comments "the class is a table and each element is a column in the table")
 	      ,(let ((info `(setf author (models.ForeignKey User
 							    :on_delete models.CASCADE)
@@ -236,7 +234,7 @@
      (gen `(posts views)
 	  `(
 	    (python (do0
-		     "#export"
+		     (comments "export")
 	       (do0 
 		(imports-from ,@(loop for (e f) in `((list ListView)
 						     (edit CreateView)
