@@ -35,33 +35,31 @@
     `(print (dot (string ,(format nil "~{~a={}~^\\n~}" rest))
                  (format  ;(- (time.time) start_time)
                   ,@rest))))
-  (with-open-file (s (format nil "~a/source/web/requirements.txt" *path*)
-		     :direction :output
-		     :if-exists :supersede
-		     :if-does-not-exist :create)
-    (format s "~{~a~^~%~}" `(Django
-			     Pillow)))
-  (with-open-file (s (format nil "~a/source/web/setup01.sh" *path*)
-		     :direction :output
-		     :if-exists :supersede
-		     :if-does-not-exist :create)
-    (format s "~{~a~^~%~}" `("# create virtual environment"
+  (flet ((out (fn lines)
+	   (with-open-file (s (format nil "~a/source/web/~a" *path* fn)
+			 :direction :output
+			 :if-exists :supersede
+			 :if-does-not-exist :create)
+	(format s "~{~a~^~%~}" lines))))
+    (out "requirements.txt"
+	 `(Django
+	   Pillow))
+    (out "setup01.sh"
+	 `("# create virtual environment"
 			     "python3 -m venv new env"
-			     "source env/bin/activate")))
-  (with-open-file (s (format nil "~a/source/web/setup02.sh" *path*)
-		     :direction :output
-		     :if-exists :supersede
-		     :if-does-not-exist :create)
-    (format s "~{~a~^~%~}" `("# install dependencies into virtual environment"
+			     "source env/bin/activate"))
+    (out "setup02.sh"
+	 `("# install dependencies into virtual environment"
 			     "pip install -r requirements.txt"
-			     "# undo: rm -rf env")))
-  (with-open-file (s (format nil "~a/source/web/setup03.sh" *path*)
-		     :direction :output
-		     :if-exists :supersede
-		     :if-does-not-exist :create)
-    (format s "~{~a~^~%~}" `("# bootstrap django project"
+			     "# undo: rm -rf env")
+	 )
+    (out "setup03.sh"
+	 `("# bootstrap django project"
 			     "django-admin startproject pygram ."
-			     "# undo: rm -rf pygram")))
+			     "# undo: rm -rf pygram manage.py")
+	 ))
+  
+  
   (let ((nb-file "source/01_basic_gui.ipynb"))
    (write-notebook
     :nb-file (format nil "~a/~a" *path* nb-file)
