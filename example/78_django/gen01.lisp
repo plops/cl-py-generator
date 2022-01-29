@@ -104,7 +104,20 @@
        (:doctype)
        (:html
 	(:head
-	 (:title ,title))
+	 (:title ,title)
+	 (:style :type "text/css"
+		 (lass:compile-and-write
+ `(body :font-family "sans-serif"
+	)
+ `(.container :width 25% :margin auto)
+ `(.header :patting 15px
+	   :text-align center
+	   :font-size 2em
+	   :background "#f2f2f2"
+	   :margin-bottom 15px)
+ `(.header>a   :color inherit
+	       :text-decoration none)
+ )))
 	(:body ,@body))))
   (let ((nb-counter 1))
    (flet ((gen (path code) 
@@ -124,6 +137,7 @@
 	       (format s "~a" code)))))
      (gen-html `(posts templates posts base.html)
 	       (with-page (:title "PyGram")
+		 
 		 "
 {% for post in object_list %}
 "
@@ -241,15 +255,4 @@
 
 
  
-(lass:compile-and-write
- `(body :font-family "sans-serif"
-	)
- `(.container :width 25% :margin auto)
- `(.header :patting 15px
-	   :text-align center
-	   :font-size 2em
-	   :background "#f2f2f2"
-	   :margin-bottom 15px)
- `(.header>a   :color inherit
-	       :text-decoration none)
- )
+
