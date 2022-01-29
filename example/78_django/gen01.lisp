@@ -1,5 +1,7 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "cl-py-generator"))
+  (ql:quickload "spinneret")
+  (ql:quickload "cl-py-generator")
+  )
 
 (in-package :cl-py-generator)
 
@@ -95,16 +97,32 @@
 	    "# undo: ")
 	  ))) 
 
+  (defmacro with-page ((&key title)
+		       &body body)
+    `(spinneret:with-html
+	 (:doctype)
+       (:html
+	(:head
+	 (:title ,title))
+	(:body ,@body))))
   (let ((nb-counter 1))
    (flet ((gen (path code)
 	    (write-notebook
 	     :nb-file (format nil "source/~3,'0d_~{~a~^_~}.ipynb" nb-counter path)
 	     :nb-code (append `((python (do0
 		     ,(format nil "# default_exp ~{~a~^/~}" path)
-		     ))) code)
-	     )
+		     ))) code))
 	    (incf nb-counter))
-	  )
+	  (gen-html (path code)
+	    (with-open-file (s (format nil "~a/source/web/~a/~{~a~^/~}" *path* path)
+			       :direction :output
+			       :if-exists :supersede
+			       :if-does-not-exist :create)
+	      (format s "~a" code))))
+     (gen-html `(posts templates posts post_list.html)
+	       (with-page (:title "PyGram")
+		 "{% for post in object_list %}"
+		 "{% endfor %}"))
      (gen `(posts models)
 	  `(
 	    (python (do0
@@ -152,10 +170,20 @@
 	       (do0 
 		(imports-from (django.contrib admin)
 			      (django.urls path)
+			      (django.conf settings)
+			      (django.conf.urls.static static)
+			      (posts.views PostList)
 			      )
-		(setf urlpatterns (list
-				   (path (string "admin/")
-					 admin.site.urls))))
+		(setf urlpatterns
+		      (+ (list
+			(path (string "admin/")
+			      admin.site.urls)
+			(path (string "")
+			      (PostList.as_view)
+			      :name (string "list")))
+			 (static
+			  settings.MEDIA_URL
+			  :document_root settings.MEDIA_ROOT))))
 	       ))
 	    ))
      (gen `(posts admin)
