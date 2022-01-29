@@ -1,3 +1,3 @@
 # tell django to make migrations
-./manage.py makemigrations.sh
+./manage.py makemigrations
 # undo: 
