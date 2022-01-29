@@ -87,6 +87,12 @@
 	  `("# look at the tables in the database"
 	    "sqlite3 db.sqlite3 .tables"
 	    "# undo: n.a.")
+	  )
+     (out "manage_createsuperuser.sh"
+	  `("# look at the tables in the database"
+	    "./manage.py createsuperuser"
+	    "echo 'now try to login with your new user at http://127.0.0.1:8000/admin'"
+	    "# undo: ")
 	  ))) 
 
   (let ((nb-counter 1))
