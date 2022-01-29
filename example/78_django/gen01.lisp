@@ -1,21 +1,11 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "lass")
-
-  
-  
-  
-  )
-(eval-when (:compile-toplevel :execute :load-toplevel)
-  
+  ;; NOTE: if lass gives an error, use ACCEPT, this works for me as of 2022-01-29
   (ql:quickload "spinneret")
-  
-  
-  )
+  (ql:quickload "cl-py-generator"))
 
-(eval-when (:compile-toplevel :execute :load-toplevel)
-    (ql:quickload "cl-py-generator")
-  )
-;; NOTE: if lass gives an error, use ACCEPT, this works for me as of 2022-01-29
+
+
 (in-package :cl-py-generator)
 
 
@@ -298,7 +288,8 @@
 			      (posts.models Post))
 		(admin.site.register Post admin.ModelAdmin))))))))
   (sb-ext:run-program "/usr/bin/sh"
-		      `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh")))
+		      `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh"))
+  (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
 
 
 
