@@ -1,5 +1,6 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "spinneret")
+  (ql:quickload "lass")
   (ql:quickload "cl-py-generator")
   )
 
@@ -121,15 +122,25 @@
 				:if-exists :supersede
 				:if-does-not-exist :create)
 	       (format s "~a" code)))))
-     (gen-html `(posts templates posts post_list.html)
-	       #+nil "<!doctype html>
-<html>
-<body>
+     (gen-html `(posts templates posts base.html)
+	       (with-page (:title "PyGram")
+		 "
 {% for post in object_list %}
-<strong>{{ post.author.username }}</strong><br/>
+"
+		 (:strong "{{ post.author.username }}")
+		 
+		 (:br)
+		 (:img :src "{{ post.image.url }}"
+		       :width 400
+		       :height 400)
+		 (:p (:em "{{ post.created }}")
+		     (:br)
+		     "{{ post.description }}")
+		 
+		 "
 {% endfor %}
-</body>
-</html>"
+"))
+     (gen-html `(posts templates posts post_list.html)
 	       (with-page (:title "PyGram")
 		 "
 {% for post in object_list %}
@@ -230,3 +241,15 @@
 
 
  
+(lass:compile-and-write
+ `(body :font-family "sans-serif"
+	)
+ `(.container :width 25% :margin auto)
+ `(.header :patting 15px
+	   :text-align center
+	   :font-size 2em
+	   :background "#f2f2f2"
+	   :margin-bottom 15px)
+ `(.header>a   :color inherit
+	       :text-decoration none)
+ )
