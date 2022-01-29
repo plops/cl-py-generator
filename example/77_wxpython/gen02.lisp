@@ -179,7 +179,9 @@
 	       (def __init__ (self parent image_size)
 		 (dot (super)
 		      (__init__ parent))
+		 (setf self.max_size 240)
 		 (do0
+		
 		  (setf img (wx.Image *image_size)
 			self.image_ctrl (wx.StaticBitmap self
 							 :bitmap (wx.Bitmap img))))
@@ -208,25 +210,25 @@
 		 (with (as (wx.FileDialog None
 					  (string "Choose a file")
 					  :wildcard wildcard
-					  :style wx.ID_OPEN)
+					  :style wx.FD_OPEN)
 			   dialog)
 		       (when (== wx.ID_OK (dialog.ShowModal))
 			 (self.photo_txt.SetValue (dialog.GetPath))
-			 (self.load_image)))))
+			 (self.load_image))))
 
-	(def load_image (self)
-	  (setf filepath (self.photo_txt.GetValue)
-		img (wx.Image filepath wx.BITMAP_TYPE_ANY)
-		W (img.GetWidth)
-		H (img.GetHeight))
-	  (if (< H W)
-	      (setf NewW self.max_size
-		    NewH (/ (* self.max_size H) W))
-	      (setf NewW (/ (* self.max_size W) H)
-		    NewH self.max_size))
-	  (setf img (img.Scale NewW NewH))
-	  (self.image_ctrl.SetBitmap (wx.Bitmap img))
-	  (self.Refresh))
+	       (def load_image (self)
+		 (setf filepath (self.photo_txt.GetValue)
+		       img (wx.Image filepath wx.BITMAP_TYPE_ANY)
+		       W (img.GetWidth)
+		       H (img.GetHeight))
+		 (if (< H W)
+		     (setf NewW self.max_size
+			   NewH (/ (* self.max_size H) W))
+		     (setf NewW (/ (* self.max_size W) H)
+			   NewH self.max_size))
+		 (setf img (img.Scale (int NewW) (int NewH)))
+		 (self.image_ctrl.SetBitmap (wx.Bitmap img))
+		 (self.Refresh)))
 
 	
 	(class MainFrame (wx.Frame)
