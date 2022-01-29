@@ -82,6 +82,11 @@
 	  `("# tell django to make migrations"
 	    "./manage.py migrate"
 	    "# undo: rm -rf posts/migrations ")
+	  )
+     (out "sqlite_tables.sh"
+	  `("# look at the tables in the database"
+	    "sqlite3 db.sqlite3 .tables"
+	    "# undo: n.a.")
 	  ))) 
 
   (let ((nb-counter 1))
