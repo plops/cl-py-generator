@@ -218,10 +218,18 @@
 		     "#export"
 	       (do0 
 		(imports-from (django.views.generic.list ListView)
+			      (django.views.generic.edit CreateView)
 			      (posts.models Post)
 			      )
 		(class PostList (ListView)
 		       (setf model Post)
+		       )
+		(class PostCreate (CreateView)
+		       (setf model Post
+			     fields (list (string "image")
+					  (string "description")
+					  (string "user"))
+			     success_url (string "/"))
 		       ))
 	       ))
 	    ))
@@ -234,7 +242,7 @@
 			      (django.urls path)
 			      (django.conf settings)
 			      (django.conf.urls.static static)
-			      (posts.views PostList)
+			      (posts.views PostList PostCreate)
 			      )
 		(setf urlpatterns
 		      (+ (list
@@ -242,7 +250,10 @@
 			      admin.site.urls)
 			(path (string "")
 			      (PostList.as_view)
-			      :name (string "list")))
+			      :name (string "list"))
+			(path (string "new")
+			      (PostCreate.as_view)
+			      :name (string "new")))
 			 (static
 			  settings.MEDIA_URL
 			  :document_root settings.MEDIA_ROOT))))
