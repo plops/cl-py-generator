@@ -144,24 +144,6 @@
 		       (setf model Post)
 		       ))
 	       ))
-	    
-	    (python
-	     (do0
-	      "#export"
-	      (comments "the class is a table and each element is a column in the table")
-	      ,(let ((info `(setf author (models.ForeignKey User
-							    :on_delete models.CASCADE)
-				  created models.DateTimeField :auto_now_added True
-				  modified models.DateTimeField :auto_now_added True)))
-	       `(do0 (class Post (models.Model)
-			(setf image (models.ImageField)
-			      description (models.TextField))
-			,info
-			)
-		     (class Comment (models.Model)
-			    (setf post (models.ForeignKey Post :on_delete models.CASCADE)
-				  text (models.TextField))
-			    ,info)))))
 	    ))))
 
   (sb-ext:run-program "/usr/bin/sh" `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh")
