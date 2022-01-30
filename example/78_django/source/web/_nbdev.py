@@ -8,12 +8,14 @@ index = {"Post": "001_posts_models.ipynb",
          "PostCreate": "002_posts_views.ipynb",
          "CommentForm": "002_posts_views.ipynb",
          "PostDetail": "002_posts_views.ipynb",
-         "urlpatterns": "003_pygram_urls.ipynb"}
+         "urlpatterns": "003_pygram_urls.ipynb",
+         "browser": "005_tests_functional.ipynb"}
 
 modules = ["posts/models.py",
            "posts/views.py",
            "pygram/urls.py",
-           "posts/admin.py"]
+           "posts/admin.py",
+           "tests/functional.py"]
 
 doc_url = "https://plops.github.io/web/"
 

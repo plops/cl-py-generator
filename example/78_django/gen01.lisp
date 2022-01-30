@@ -276,7 +276,19 @@
 		      (do0 
 		       (imports-from (django.contrib admin)
 				     (posts.models Post))
-		       (admin.site.register Post admin.ModelAdmin))))))))
+		       (admin.site.register Post admin.ModelAdmin))))))
+      (gen `(tests functional)
+	   `((python (cell
+		      (do0
+		       (comments "pip3 install --user selenium"
+				 "https://github.com/mozilla/geckodriver/releases"
+				 "wget https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz"
+				 "tar xaf geckodriver*.tar.gz"
+				 "sudo cp geckodriver /usr/local/bin")
+		       (imports-from (selenium webdriver))
+		       (setf browser (webdriver.Firefox))
+		       (browser.get (string "http://localhost:8000"))
+		       (assert (in (string "PyGram") browser.title)))))))))
   (sb-ext:run-program "/usr/bin/sh"
 		      `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh"))
   (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
