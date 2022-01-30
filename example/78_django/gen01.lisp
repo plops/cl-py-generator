@@ -223,7 +223,7 @@
 						 (string "description")
 						 (string "author"))
 				    success_url (string "/")))
-		       (class CommentForm (forms.Form)
+		       (class CommentForm (forms.Form) 
 			      (setf comment (forms.CharField)))
 		       (class PostDetail (DetailView)
 			      (setf model Post)
