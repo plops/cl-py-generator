@@ -237,6 +237,8 @@
 				      collect
 				      `((dot django views generic ,e) ,f))
 			      (django forms)
+			      (django.shortcuts redirect)
+			      (django.urls reverse)
 			      (posts.models Post Comment)
 			      )
 		(class PostList (ListView)

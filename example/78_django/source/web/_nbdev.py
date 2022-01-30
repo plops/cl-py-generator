@@ -2,9 +2,18 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {}
+index = {"Post": "001_posts_models.ipynb",
+         "Comment": "001_posts_models.ipynb",
+         "PostList": "002_posts_views.ipynb",
+         "PostCreate": "002_posts_views.ipynb",
+         "CommentForm": "002_posts_views.ipynb",
+         "PostDetail": "002_posts_views.ipynb",
+         "urlpatterns": "003_pygram_urls.ipynb"}
 
-modules = []
+modules = ["posts/models.py",
+           "posts/views.py",
+           "pygram/urls.py",
+           "posts/admin.py"]
 
 doc_url = "https://plops.github.io/web/"
 
