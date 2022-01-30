@@ -8,11 +8,7 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "cl-py-generator"))
 
-
-
 (in-package :cl-py-generator)
-
-
 
 (progn 
   (setf *warn-breaking* nil)
