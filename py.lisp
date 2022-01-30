@@ -172,8 +172,9 @@
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
 	      (cell (with-output-to-string (s)
-		      (emit `(do0 (comments "export")
-				  ,@(cdr code)))))
+		      (format s "~a~%"
+			      (emit `(do0 (comments "export")
+					  ,@(cdr code))))))
 	      (space (with-output-to-string (s)
 		     (format s "~{~a~^ ~}"
 			     (mapcar #'(lambda (x) (emit x)) (cdr code)))))

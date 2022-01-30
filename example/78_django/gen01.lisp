@@ -27,7 +27,7 @@
 			       :direction :output
 			       :if-exists :supersede
 			       :if-does-not-exist :create)
-	      (format s "~{~a~^~%~}" lines))
+	      (format s "~{~a~%~}" lines))
 	    (when count
 	      (incf shell-counter))))
      (out "requirements.txt"
@@ -107,7 +107,7 @@
 	       :nb-file fn
 	       :nb-code (append `((python (do0
 					   (comments
-					    ,(format nil " default_exp ~{~a~^/~}" path))
+					    ,(format nil "default_exp ~{~a~^/~}" path))
 					   ))) code))
 	       (format t "~&~c[31m wrote Python ~c[0m ~a~%"
 		       #\ESC #\ESC fn))
@@ -202,7 +202,8 @@
      (gen `(posts models)
 	  `(
 	    (python
-	     (cell
+	     (do0
+	      (comments "export")
 	      (imports-from (django.db models)
 			    (django.contrib.auth.models User))
 	      ))
