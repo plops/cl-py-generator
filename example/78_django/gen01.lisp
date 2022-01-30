@@ -237,7 +237,7 @@
 				      collect
 				      `((dot django views generic ,e) ,f))
 			      (django forms)
-			      (posts.models Post)
+			      (posts.models Post Comment)
 			      )
 		(class PostList (ListView)
 		       (setf model Post)
@@ -260,12 +260,14 @@
 		       (def post (self request *args **kwargs)
 			    (setf comment_form (CommentForm request.POST))
 			    (if (comment_form.is_valid)
+				;; author is the user who made the request
 			      (do0 (setf comment (Comment :author request.user
 						      :post (self.get_object)
 						      :text (dot comment_form
 								 (aref cleaned_data (string "comment")))))
 				   (comment.save))
 			      (do0
+			       ;; bad error handling for now
 			       (raise Exception)))
 			    (return (redirect (reverse (string "detail")
 						       :args (list (dot self
