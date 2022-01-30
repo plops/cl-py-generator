@@ -10,9 +10,6 @@
 
 (in-package :cl-py-generator)
 
-
-
-
 (progn 
   (setf *warn-breaking* nil)
   ;; the following code needs inverted readtable, otherwise symbols
@@ -86,7 +83,8 @@
 	  ))) 
 
    (defmacro with-page ((&key title)
-		       &body body)
+			&body body)
+     "create html page with inline css"
     `(spinneret:with-html-string
        (:doctype)
        (:html
@@ -106,6 +104,16 @@
 				      :text-decoration none)
 		   ))))
 	(:body ,@body))))
+   
+   (defmacro with-template ((&key path base)
+			   &body body)
+     "create html page by extending a base template"
+     `(gen-html ,path
+	       (spinneret:with-html-string
+		 (:raw ,(format nil "{% extends '~a' %}" base))
+		 (:raw "{% block content %}")
+		 ,@body
+		 (:raw "{% endblock %}"))))
   (let ((nb-counter 1))
     (flet ((gen (path code)
 	     "create python file in a directory below source/web"
@@ -136,7 +144,22 @@
 			   "PyGram"))
 		 (:div :class "container"
 		       (:raw "{% block content %}{% endblock %}"))))
-     (gen-html `(posts templates posts post_list.html)
+      (with-template (:path `(posts templates posts post_list.html)
+			    :base posts/base.html)
+	(:a :href "{% url 'new' %}"
+	    (:h1 "Create new post"))
+	(:raw "{% for post in object_list %}")
+	(:strong "{{ post.author.username }}")
+	(:br)
+	(:img :src "{{ post.image.url }}"
+	      :width 400
+	      :height 400)
+	(:p (:em "{{ post.created }}")
+	    (:br)
+	    "{{ post.description }}")
+	(:raw "{% endfor %}"))
+      #+nil 
+      (gen-html `(posts templates posts post_list.html)
 	       (spinneret:with-html-string
 		 (:raw "{% extends 'posts/base.html' %}")
 		 (:raw "{% block content %}")
