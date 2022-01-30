@@ -178,8 +178,11 @@
   ~a
 {% endblock %}
 "
-		       (let ((*html-style* :tree)
-			     (*print-pretty* nil))
+		       (let (;(*html-style* :tree)
+			     (*print-pretty* t)
+			     (*suppress-inserted-spaces* t)
+			     )
+			 ;; html-length controls wrapping
 			 (spinneret:with-html-string
 				 (:strong "{{ object.author.username }}")
 				 (:br)
@@ -197,8 +200,8 @@
 				  "{% endfor %}")
 				 (:form :action "{% url 'detail' pk=object.id %}"
 					:method "POST"
-					"{% crsf_token %}"
-					"{{ comment_form.as_p }}  "
+					"{% crsf_token                                                   %}"
+					"{{ comment_form.as_p                                            }}"
 					(:input :type "submit"
 						:value "Comment"))))))
      (gen `(posts models)

@@ -1,4 +1,17 @@
 {% extends 'posts/base.html' %}
 {% block content %}
-  <strong>{{ object.author.username }}</strong><br><img src="{{ object.image.url }}" width=400 height=400><p><em>{{ object.created }}</em><br><ul>{% for comment in object.comment_set.all %}<li><strong>{{ comment.author }}</strong><br>{{ comment.text }} {% endfor %}</ul><form action="{% url 'detail' pk=object.id %}" method=POST>{% crsf_token %} {{ comment_form.as_p }}  <input type=submit value=Comment></form>
+  <strong>{{ object.author.username }}</strong><br>
+<img src="{{ object.image.url }}" width=400
+     height=400>
+<p><em>{{ object.created }}</em><br>
+<ul>
+ {% for comment in object.comment_set.all %}
+ <li><strong>{{ comment.author }}</strong><br>{{ comment.text }}
+  {% endfor %}
+</ul>
+<form action="{% url 'detail' pk=object.id %}"
+      method=POST>
+ {% crsf_token %} {{ comment_form.as_p }}
+ <input type=submit value=Comment>
+</form>
 {% endblock %}
