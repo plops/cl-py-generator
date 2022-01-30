@@ -3,4 +3,4 @@
 </a>{% for post in object_list %}<strong>{{ post.author.username }}</strong><br>
 <img src="{{ post.image.url }}" width=400
      height=400>
-<p><em>{{ post.created }}</em><br>{{ post.description }}{% endfor %}{% endblock %}
+<p><em>{{ post.created }}</em><br>{{ post.description }}{% endfor %}{% endblock content %}

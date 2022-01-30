@@ -113,7 +113,7 @@
 		 (:raw ,(format nil "{% extends '~a' %}" base))
 		 (:raw "{% block content %}")
 		 ,@body
-		 (:raw "{% endblock %}"))))
+		 (:raw "{% endblock content %}"))))
   (let ((nb-counter 1))
     (flet ((gen (path code)
 	     "create python file in a directory below source/web"
@@ -158,41 +158,20 @@
 	    (:br)
 	    "{{ post.description }}")
 	(:raw "{% endfor %}"))
-      #+nil 
-      (gen-html `(posts templates posts post_list.html)
-	       (spinneret:with-html-string
-		 (:raw "{% extends 'posts/base.html' %}")
-		 (:raw "{% block content %}")
-		 (:a :href "{% url 'new' %}"
-		     (:h1 "Create new post"))
-		 (:raw "{% for post in object_list %}")
-		 (:strong "{{ post.author.username }}")
-		 (:br)
-		 (:img :src "{{ post.image.url }}"
-		       :width 400
-		       :height 400)
-		 (:p (:em "{{ post.created }}")
-		     (:br)
-		     "{{ post.description }}")
-		 (:raw "{% endfor %}")
-		 (:raw "{% endblock %}")))
-     (gen-html `(posts templates posts post_form.html)
-	       (spinneret:with-html-string
-		 (:raw  "{% extends 'posts/base.html' %}")
-		 (:raw "{% block content %}")
-		 (:h1 "Create new post")
+      
+      (with-template (:path `(posts templates posts post_form.html)
+		      :base posts/base.html)
+	(:h1 "Create new post")
 		 (:form :action "{% url 'new' %}"
 			:method "POST"
 			:enctype "multipart/form-data"
 			"{% csrf_token %}"
 			"{{ form.as_p }}"
-			(:input :type "submit" :value "Post"))
-		 (:raw "{% endblock %}")))
-     (gen-html `(posts templates posts post_detail.html)
-	       (spinneret:with-html-string
-		 (:raw  "{% extends 'posts/base.html' %}")
-		 (:raw "{% block content %}")
-		 (:strong "{{ object.author.username }}")
+			(:input :type "submit" :value "Post")))
+
+      (with-template (:path `(posts templates posts post_detail.html)
+		      :base posts/base.html)
+	(:strong "{{ object.author.username }}")
 		 (:br)
 		 (:img :src "{{ object.image.url }}"
 		       :width 400
@@ -211,9 +190,8 @@
 			"{% csrf_token %}" ;; cross site request forgery protection
 			"{{ comment_form.as_p }}"
 			(:input :type "submit"
-				:value "Comment"))
-		 (:raw "{% endblock %}")))
-     (gen `(posts models)
+				:value "Comment")))
+      (gen `(posts models)
 	  `((python
 	     (do0
 	      (comments "export")
