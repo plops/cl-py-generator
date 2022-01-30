@@ -181,39 +181,30 @@
 			 "{{ form.as_p }}"
 			 (:input :type "submit" :value "Post")))))
      (gen-html `(posts templates posts post_detail.html)
-	       (format nil #+nil "{% extends 'posts/base.html' %}
-{% block content %}
-  ~a
-{% endblock %}
-"
-		       "{% extends 'posts/base.html' %}{% block content %}~a{% endblock %}"
-		       (serapeum:string-replace-all
-			"}NEWLINE_"
-			(let ((*print-pretty* nil)
-			      (*tree* nil))			    
-			 (spinneret:with-html-string
-			   (:strong "{{ object.author.username }}")
+	       (format nil
+		       "{% extends 'posts/base.html' %}{% block content %}~a"
+		       (spinneret:with-html-string
+			 (:strong "{{ object.author.username }}")
+			 (:br)
+			 (:img :src "{{ object.image.url }}"
+			       :width 400
+			       :height 400)
+			 (:p (:em "{{ object.created }}")
+			     (:br))
+			 (:ul
+			  "{% for comment in object.comment_set.all %}"
+			  (:li
+			   (:strong "{{ comment.author }}")
 			   (:br)
-			   (:img :src "{{ object.image.url }}"
-				 :width 400
-				 :height 400)
-			   (:p (:em "{{ object.created }}")
-			       (:br))
-			   (:ul
-			    "{% for comment in object.comment_set.all %}"
-			    (:li
-			     (:strong "{{ comment.author }}")
-			     (:br)
-			     "{{ comment.text }}")
-			    "{% endfor %}")
-			   (:form :action "{% url 'detail' pk=object.id %}"
-				  :method "POST"
-				  ;; cross site request forgery protection
-				  "{% csrf_token %}NEWLINE_"
-				  "{{ comment_form.as_p}}NEWLINE_"
-				  (:input :type "submit"
-					  :value "Comment"))))
-			 (format nil "}"))))
+			   "{{ comment.text }}")
+			  "{% endfor %}")
+			 (:form :action "{% url 'detail' pk=object.id %}"
+				:method "POST"
+				"{% csrf_token %}" ;; cross site request forgery protection
+				"{{ comment_form.as_p }}"
+				(:input :type "submit"
+					:value "Comment"))
+			 "{% endblock %}")))
      (gen `(posts models)
 	  `(
 	    (python
@@ -329,3 +320,4 @@
 
  
 
+(spinneret:with-html-string (:raw "etst"))
