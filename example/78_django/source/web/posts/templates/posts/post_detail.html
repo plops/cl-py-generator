@@ -1,6 +1,6 @@
 {% extends 'posts/base.html' %}{% block content %}<strong>{{ object.author.username }}</strong><br>
-<img src="{{ object.image.url }}" width=400
-     height=400>
+<img src="{{ object.image.url }}" width=200
+     height=200>
 <p><em>{{ object.created }}</em><br>
 <ul>
  {% for comment in object.comment_set.all %}

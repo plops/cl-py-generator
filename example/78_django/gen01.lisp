@@ -162,8 +162,8 @@
 	(:strong "{{ object.author.username }}")
 	(:br)
 	(:img :src "{{ object.image.url }}"
-	      :width 400
-	      :height 400)
+	      :width 200
+	      :height 200)
 	(:p (:em "{{ object.created }}")
 	    (:br))
 	(:ul
@@ -263,17 +263,14 @@
 				       admin.site.urls)
 				 ,@(loop for e in `((:url "" :class PostList :name list)
 						    (:url "new/" :class PostCreate :name new)
-						    (:url "posts/<pk>/" :class PostDetail :name detail)
-						    )
+						    (:url "posts/<pk>/" :class PostDetail :name detail))
 					 collect
 					 (destructuring-bind (&key url class name) e
 					   `(path (string ,url)
 						  (dot ,class (as_view))
-						  :name (string ,name))))
-				 )
-				(static
-				 settings.MEDIA_URL
-				 :document_root settings.MEDIA_ROOT))))))))
+						  :name (string ,name)))))
+				(static settings.MEDIA_URL
+					:document_root settings.MEDIA_ROOT))))))))
       (gen `(posts admin)
 	   `((python (cell
 		      (do0 
