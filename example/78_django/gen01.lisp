@@ -266,9 +266,9 @@
 		      (+ (list
 			(path "admin/"
 			      admin.site.urls)
-			,@(loop for e in `((:url (string "") :class PostList :name list)
-					   (:url (string "new/") :class PostCreate :name new)
-					   (:url (string "posts/<pk>/") :class PostDetail :name detail)
+			,@(loop for e in `((:url "" :class PostList :name list)
+					   (:url "new/" :class PostCreate :name new)
+					   (:url "posts/<pk>/" :class PostDetail :name detail)
 					   )
 				collect
 				(destructuring-bind (&key url class name) e
