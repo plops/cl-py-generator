@@ -2,7 +2,7 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (setf (readtable-case *readtable*) :upcase)
   (ql:quickload "lass")
-  
+  (ql:quickload "serapeum")
   (ql:quickload "spinneret"))
 
 (eval-when (:compile-toplevel :execute :load-toplevel)
@@ -178,11 +178,7 @@
   ~a
 {% endblock %}
 "
-		       (let (;(*html-style* :tree)
-			     (*print-pretty* t)
-			     (*suppress-inserted-spaces* t)
-			     )
-			 ;; html-length controls wrapping
+		       (serapeum:string-replace-all "}NEWLINE_"
 			 (spinneret:with-html-string
 				 (:strong "{{ object.author.username }}")
 				 (:br)
@@ -200,10 +196,11 @@
 				  "{% endfor %}")
 				 (:form :action "{% url 'detail' pk=object.id %}"
 					:method "POST"
-					"{% crsf_token                                                   %}"
-					"{{ comment_form.as_p                                            }}"
+					"{% csrf_token %}NEWLINE_"
+					"{{ comment_form.as_p       }}NEWLINE_"
 					(:input :type "submit"
-						:value "Comment"))))))
+						:value "Comment")))
+			 (format nil "}~%"))))
      (gen `(posts models)
 	  `(
 	    (python

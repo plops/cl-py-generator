@@ -11,7 +11,9 @@
 </ul>
 <form action="{% url 'detail' pk=object.id %}"
       method=POST>
- {% crsf_token %} {{ comment_form.as_p }}
+ {% csrf_token %}
+ {{ comment_form.as_p }}
+
  <input type=submit value=Comment>
 </form>
 {% endblock %}
