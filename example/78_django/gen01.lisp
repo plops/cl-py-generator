@@ -178,27 +178,29 @@
   ~a
 {% endblock %}
 "
-		(spinneret:with-html-string
-		  (:strong "{{ object.author.username }}")
-		  (:br)
-		  (:img :src "{{ object.image.url }}"
-			:width 400
-			:height 400)
-		  (:p (:em "{{ object.created }}")
-		      (:br))
-		  (:ul
-		   "{% for comment in object.comment_set.all %}"
-		   (:li
-		    (:strong "{{ comment.author }}")
-		    (:br)
-		    "{{ comment.text }}")
-		   "{% endfor %}")
-		  (:form :action "{% url 'detail' pk=object.id %}"
-			 :method "POST")
-		  "{% crsf_token %}"
-		  "{{ comment_form.as_p }}"
-		  (:input :type "submit"
-			  :value "Comment"))))
+		       (let ((*html-style* :tree)
+			     (*print-pretty* nil))
+			 (spinneret:with-html-string
+				 (:strong "{{ object.author.username }}")
+				 (:br)
+				 (:img :src "{{ object.image.url }}"
+				       :width 400
+				       :height 400)
+				 (:p (:em "{{ object.created }}")
+				     (:br))
+				 (:ul
+				  "{% for comment in object.comment_set.all %}"
+				  (:li
+				   (:strong "{{ comment.author }}")
+				   (:br)
+				   "{{ comment.text }}")
+				  "{% endfor %}")
+				 (:form :action "{% url 'detail' pk=object.id %}"
+					:method "POST"
+					"{% crsf_token %}"
+					"{{ comment_form.as_p }}  "
+					(:input :type "submit"
+						:value "Comment"))))))
      (gen `(posts models)
 	  `(
 	    (python
@@ -254,7 +256,21 @@
 			 (setf context (dot (super)
 					    (get_context_data *args **kwargs))
 			       (aref context (string "comment_form")) (CommentForm))
-			 (return context))))))))
+			 (return context))
+		       (def post (self request *args **kwargs)
+			    (setf comment_form (CommentForm request.POST))
+			    (if (comment_form.is_valid)
+			      (do0 (setf comment (Comment :author request.user
+						      :post (self.get_object)
+						      :text (dot comment_form
+								 (aref cleaned_data (string "comment")))))
+				   (comment.save))
+			      (do0
+			       (raise Exception)))
+			    (return (redirect (reverse (string "detail")
+						       :args (list (dot self
+									(get_object)
+									id))))))))))))
      (gen `(pygram urls)
 	  `((python (cell
 	       (do0 
