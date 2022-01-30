@@ -27,7 +27,7 @@ chmod a+x git-lisp-format
 sudo cp git-lisp-format /usr/local/bin
 
 
-cat <<EOF > /home/martin/stage/cl-py-generator/.git/hooks/pre-commit
+# create following file /home/martin/stage/cl-py-generator/.git/hooks/pre-commit
 #!/bin/bash
 # pre-commit shell script to run git-lisp-format.
 OUTPUT=$(git lisp-format --diff)
@@ -38,7 +38,8 @@ else
     echo "Run git lisp-format, then commit."
     exit 1
 fi
-EOF
+
+# make executable
 chmod a+x /home/martin/stage/cl-py-generator/.git/hooks/pre-commit
 
 # i seem to have to fix $(git lisp-format --diff)
