@@ -3,3 +3,6 @@ https://www.youtube.com/watch?v=-SggWFS15Do
 
 "How to run Python in the browser" - Katie Bell (LCA 2022 Online)
 https://github.com/ethanhs/python-wasm
+
+https://pyodide.org/en/stable/
+ - also numpy
