@@ -10,8 +10,16 @@
 
 (in-package :cl-py-generator)
 
+
+
+
 (progn 
   (setf *warn-breaking* nil)
+  ;; the following code needs inverted readtable, otherwise symbols
+  ;; and filenames may have the wrong case and everything breaks in
+  ;; horrible ways
+  (assert (eq :invert
+	 (readtable-case *readtable*)))
   (defparameter *repo-dir-on-host* "/home/martin/stage/cl-py-generator")
   (defparameter *repo-dir-on-github* "https://github.com/plops/cl-py-generator/tree/master/")
   (defparameter *example-subdir* "example/78_django")
