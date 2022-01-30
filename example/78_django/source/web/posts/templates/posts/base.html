@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang=en>
+ <head>
+  <meta charset=UTF-8>
+  <title>PyGram</title>
+  <style type=text/css>body{
+    font-family: sans-serif;
+}
+
+.container{
+    width: 25%;
+    margin: auto;
+}
+
+.header{
+    patting: 15px;
+    text-align: center;
+    font-size: 2em;
+    background: #f2f2f2;
+    margin-bottom: 15px;
+}</style>
+ </head>
+ <body>
+  <div class=header>
+   <a href="/">PyGram</a>
+  </div>
+  <div class=container>
+    {% block content %}   {% endblock %} 
+  </div>
+ </body>
+</html>
