@@ -25,5 +25,22 @@ curl -s https://raw.githubusercontent.com/llvm-mirror/clang/master/tools/clang-f
 
 chmod a+x git-lisp-format 
 sudo cp git-lisp-format /usr/local/bin
-    
+
+
+cat <<EOF > /home/martin/stage/cl-py-generator/.git/hooks/pre-commit
+#!/bin/bash
+# pre-commit shell script to run git-lisp-format.
+OUTPUT=$(git lisp-format --diff)
+if [ "${OUTPUT}" == "no modified files to format" ] ||
+   [ "${OUTPUT}" == "lisp-format did not modify any files" ];then
+    exit 0
+else
+    echo "Run git lisp-format, then commit."
+    exit 1
+fi
+EOF
+chmod a+x /home/martin/stage/cl-py-generator/.git/hooks/pre-commit
+
+# i seem to have to fix $(git lisp-format --diff)
+# line, not sure why this EOF cat isn't working
 #+end_example
