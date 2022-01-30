@@ -93,18 +93,18 @@
 	(:head
 	 (:title ,title)
 	 (:style :type "text/css"
-		 (lass:compile-and-write
- `(body :font-family "sans-serif"
-	)
- `(.container :width 25% :margin auto)
- `(.header :patting 15px
-	   :text-align center
-	   :font-size 2em
-	   :background "#f2f2f2"
-	   :margin-bottom 15px)
- #+nil`(.header>a   :color inherit
-	       :text-decoration none)
- )))
+		 (:raw
+		  (lass:compile-and-write
+		   `(body :font-family "sans-serif")
+		   `(.container :width 25% :margin auto)
+		   `(.header :patting 15px
+			     :text-align center
+			     :font-size 2em
+			     :background "#f2f2f2"
+			     :margin-bottom 15px)
+		   `(.header>a   :color inherit
+				      :text-decoration none)
+		   ))))
 	(:body ,@body))))
   (let ((nb-counter 1))
     (flet ((gen (path code)
@@ -123,63 +123,48 @@
 	    "create html file in a directory below source/webqq"
 	    (let ((fn (format nil "~a/source/web/~{~a~^/~}" *path* path)))
 	      (ensure-directories-exist (pathname fn))
-	      
-	     (with-open-file (s fn
-				:direction :output
-				:if-exists :supersede
-				:if-does-not-exist :create)
-	       (format s "~a" code))
+	      (with-open-file (s fn
+				 :direction :output
+				 :if-exists :supersede
+				 :if-does-not-exist :create)
+		(format s "~a" code))
 	      (format t "~&~c[31m wrote HTML ~c[0m ~a~%" #\ESC #\ESC fn))))
       (gen-html `(posts templates posts base.html)
 		(with-page (:title "PyGram")
 		 (:div :class "header"
 		       (:a :href "/"
-			   "PyGram"
-			   ))
+			   "PyGram"))
 		 (:div :class "container"
-		       "
-{% block content %}
-"
-		       "
-
-{% endblock %}
-")))
+		       (:raw "{% block content %}{% endblock %}"))))
      (gen-html `(posts templates posts post_list.html)
-	       (format nil "{% extends 'posts/base.html' %}
-{% block content %}
-  ~a
-  {% for post in object_list %}
-  ~a
-  {% endfor %}
-{% endblock %}
-"
-		       (spinneret:with-html-string
-			 (:a :href "{% url 'new' %}"
-			     (:h1 "Create new post")))
-		       (spinneret:with-html-string
-		  (:strong "{{ post.author.username }}")
-		  (:br)
-		  (:img :src "{{ post.image.url }}"
-			:width 400
-			:height 400)
-		  (:p (:em "{{ post.created }}")
-		      (:br)
-		      "{{ post.description }}")
-		  )))
+	       (spinneret:with-html-string
+		 (:raw "{% extends 'posts/base.html' %}")
+		 (:raw "{% block content %}")
+		 (:a :href "{% url 'new' %}"
+		     (:h1 "Create new post"))
+		 (:raw "{% for post in object_list %}")
+		 (:strong "{{ post.author.username }}")
+		 (:br)
+		 (:img :src "{{ post.image.url }}"
+		       :width 400
+		       :height 400)
+		 (:p (:em "{{ post.created }}")
+		     (:br)
+		     "{{ post.description }}")
+		 (:raw "{% endfor %}")
+		 (:raw "{% endblock %}")))
      (gen-html `(posts templates posts post_form.html)
-	       (format nil "{% extends 'posts/base.html' %}
-{% block content %}
-  ~a
-{% endblock %}
-"
-		(spinneret:with-html-string
-		  (:h1 "Create new post")
-		  (:form :action "{% url 'new' %}"
-			 :method "POST"
-			 :enctype "multipart/form-data"
-			 "{% csrf_token %}"
-			 "{{ form.as_p }}"
-			 (:input :type "submit" :value "Post")))))
+	       (spinneret:with-html-string
+		 (:raw  "{% extends 'posts/base.html' %}")
+		 (:raw "{% block content %}")
+		 (:h1 "Create new post")
+		 (:form :action "{% url 'new' %}"
+			:method "POST"
+			:enctype "multipart/form-data"
+			"{% csrf_token %}"
+			"{{ form.as_p }}"
+			(:input :type "submit" :value "Post"))
+		 (:raw "{% endblock %}")))
      (gen-html `(posts templates posts post_detail.html)
 	       (spinneret:with-html-string
 		 (:raw  "{% extends 'posts/base.html' %}")
@@ -206,14 +191,11 @@
 				:value "Comment"))
 		 (:raw "{% endblock %}")))
      (gen `(posts models)
-	  `(
-	    (python
+	  `((python
 	     (do0
 	      (comments "export")
 	      (imports-from (django.db models)
-			    (django.contrib.auth.models User))
-	      ))
-	    
+			    (django.contrib.auth.models User))))
 	    (python
 	     (cell
 	      (comments "the class is a table and each element is a column in the table")
@@ -229,11 +211,9 @@
 		     (class Comment (models.Model)
 			    (setf post (models.ForeignKey Post :on_delete models.CASCADE)
 				  text (models.TextField))
-			    ,info)))))
-	    ))
+			    ,info)))))))
      (gen `(posts views)
-	  `(
-	    (python (cell
+	  `((python (cell
 	       (do0 
 		(imports-from ,@(loop for (e f) in `((list ListView)
 						     (edit CreateView)

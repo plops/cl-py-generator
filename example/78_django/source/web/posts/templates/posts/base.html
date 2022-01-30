@@ -18,14 +18,18 @@
     font-size: 2em;
     background: #f2f2f2;
     margin-bottom: 15px;
+}
+
+.header>a{
+    color: inherit;
+    text-decoration: none;
 }</style>
  </head>
  <body>
   <div class=header>
    <a href="/">PyGram</a>
   </div>
-  <div class=container>
-    {% block content %}   {% endblock %} 
+  <div class=container>{% block content %}{% endblock %}
   </div>
  </body>
 </html>
