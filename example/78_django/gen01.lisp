@@ -284,11 +284,23 @@
 				 "https://github.com/mozilla/geckodriver/releases"
 				 "wget https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz"
 				 "tar xaf geckodriver*.tar.gz"
-				 "sudo cp geckodriver /usr/local/bin")
+				 "sudo cp geckodriver /usr/local/bin"
+				 "follow textbook 2017 Test-Driven Development with Python ")
+		       (imports (unittest))
 		       (imports-from (selenium webdriver))
-		       (setf browser (webdriver.Firefox))
-		       (browser.get (string "http://localhost:8000"))
-		       (assert (in (string "PyGram") browser.title)))))))))
+		       
+		       (class NewVisitorTest (unittest.TestCase)
+			      (def  setUp (self)
+				    (setf self.browser (webdriver.Firefox)))
+			      (def tearDown (self)
+				   (self.browser.quit))
+			      (def test_can_create_post_and_retrieve_it_later (self)
+				   (self.browser.get (string "http://localhost:8000"))
+				   (self.assertIn (string "PyGram") self.browser.title)
+				   (self.fail (string "Finish the test!")))
+			      )
+		       (when (== __name__ (string "__main__"))
+			 (unittest.main :warnings (string "ignore"))))))))))
   (sb-ext:run-program "/usr/bin/sh"
 		      `("/home/martin/stage/cl-py-generator/example/78_django/source/setup01_nbdev.sh"))
   (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
