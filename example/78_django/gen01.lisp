@@ -100,6 +100,7 @@
 	(:body ,@body))))
   (let ((nb-counter 1))
     (flet ((gen (path code)
+	     "create python file in a directory below source/web"
 	     (let ((fn  (format nil "source/~3,'0d_~{~a~^_~}.ipynb" nb-counter path)))
 	       (write-notebook
 	       :nb-file fn
@@ -111,6 +112,7 @@
 		       #\ESC #\ESC fn))
 	    (incf nb-counter))
 	  (gen-html (path code)
+	    "create html file in a directory below source/webqq"
 	    (let ((fn (format nil "~a/source/web/~{~a~^/~}" *path* path)))
 	      (ensure-directories-exist (pathname fn))
 	      
@@ -120,8 +122,8 @@
 				:if-does-not-exist :create)
 	       (format s "~a" code))
 	      (format t "~&~c[31m wrote HTML ~c[0m ~a~%" #\ESC #\ESC fn))))
-     (gen-html `(posts templates posts base.html)
-	       (with-page (:title "PyGram")
+      (gen-html `(posts templates posts base.html)
+		(with-page (:title "PyGram")
 		 (:div :class "header"
 		       (:a :href "/"
 			   "PyGram"
