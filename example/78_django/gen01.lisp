@@ -264,7 +264,7 @@
 			      )
 		(setf urlpatterns
 		      (+ (list
-			(path "admin/"
+			(path (string "admin/")
 			      admin.site.urls)
 			,@(loop for e in `((:url "" :class PostList :name list)
 					   (:url "new/" :class PostCreate :name new)

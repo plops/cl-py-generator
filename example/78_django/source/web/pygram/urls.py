@@ -8,4 +8,4 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from posts.views import PostList, PostCreate, PostDetail
-urlpatterns=(([path(admin/, admin.site.urls), path("", PostList.as_view(), name="list"), path("new/", PostCreate.as_view(), name="new"), path("posts/<pk>/", PostDetail.as_view(), name="detail")])+(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)))
+urlpatterns=(([path("admin/", admin.site.urls), path("", PostList.as_view(), name="list"), path("new/", PostCreate.as_view(), name="new"), path("posts/<pk>/", PostDetail.as_view(), name="detail")])+(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)))
