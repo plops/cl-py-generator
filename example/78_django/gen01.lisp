@@ -1,6 +1,8 @@
+;; NOTE: loading lass with :invert readtable gives an error, use ACCEPT, this works for me as of 2022-01-29
 (eval-when (:compile-toplevel :execute :load-toplevel)
+  (setf (readtable-case *readtable*) :upcase)
   (ql:quickload "lass")
-  ;; NOTE: if lass gives an error, use ACCEPT, this works for me as of 2022-01-29
+  
   (ql:quickload "spinneret"))
 
 (eval-when (:compile-toplevel :execute :load-toplevel)
@@ -242,10 +244,10 @@
 		       )
 		(class PostCreate (CreateView)
 		       (setf model Post
-			     fields (list "image"
-					  "description"
-					  "author")
-			     success_url "/"))
+			     fields (list (string "image")
+					  (string "description")
+					  (string "author"))
+			     success_url (string "/")))
 		(class CommentForm (forms.Form)
 		       (setf comment (forms.CharField)))
 		(class PostDetail (DetailView)
@@ -253,7 +255,7 @@
 		       (def get_context_data (self *args **kwargs)
 			 (setf context (dot (super)
 					    (get_context_data *args **kwargs))
-			       (aref context "comment_form") (CommentForm))
+			       (aref context (string "comment_form")) (CommentForm))
 			 (return context))))))))
      (gen `(pygram urls)
 	  `((python (cell
@@ -268,9 +270,9 @@
 		      (+ (list
 			(path "admin/"
 			      admin.site.urls)
-			,@(loop for e in `((:url "" :class PostList :name list)
-					   (:url "new/" :class PostCreate :name new)
-					   (:url "posts/<pk>/" :class PostDetail :name detail)
+			,@(loop for e in `((:url (string "") :class PostList :name list)
+					   (:url (string "new/") :class PostCreate :name new)
+					   (:url (string "posts/<pk>/") :class PostDetail :name detail)
 					   )
 				collect
 				(destructuring-bind (&key url class name) e

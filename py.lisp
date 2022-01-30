@@ -437,7 +437,7 @@
 	       #+nil (progn
 		       (when *warn-breaking*
 			 (format t "~&BREAKING CHANGE ~a is printed as string (used to be symbol, please use (symbol <code>) from now on). I seldomly used this for (\"list\" ...) ~%" code))
-		       (format nil "\"~a\"" code))
+		       )
 	       (substitute #\: #\- (format nil "\"~a\"" code))
 	       )
 	      ((numberp code) ;; print constants
