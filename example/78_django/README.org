@@ -7,3 +7,23 @@
   #+begin_example
 python3 -m pip install --user django pillow nbdev
   #+end_example
+
+- i think it is time that i only submit properly formatted common lisp
+  code to the repo
+- try emacs-based lisp-format tool as a git-hook
+#+begin_example
+git clone https://github.com/eschulte/lisp-format
+cd lisp-format
+sudo cp lisp-format /usr/local/bin
+
+curl -s https://raw.githubusercontent.com/llvm-mirror/clang/master/tools/clang-format/git-clang-format \
+    |sed \
+    "s/clang-format/lisp-format/g;s/clangFormat/lispFormat/;
+     s/default_extensions =.*\$/default_extensions = ','.join(['lisp','cl','asd','scm','el'])/;
+     /# From clang\/lib\/Frontend\/FrontendOptions.cpp, all lower case/,/])/d" \
+    > git-lisp-format
+
+chmod a+x git-lisp-format 
+sudo cp git-lisp-format /usr/local/bin
+    
+#+end_example
