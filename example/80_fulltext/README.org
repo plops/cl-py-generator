@@ -1,0 +1,2 @@
+- find all pdf files
+- convert to text, add to sqlite3 index
