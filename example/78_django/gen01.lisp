@@ -294,11 +294,12 @@
 				(setf self.browser (webdriver.Firefox)))
 			      (def tearDown (self)
 				(self.browser.quit))
+			      ;; any method starting with test will be
+			      ;; run by the test runner
 			      (def test_can_create_post_and_retrieve_it_later (self)
 				(self.browser.get (string "http://localhost:8000"))
 				(self.assertIn (string "PyGram") self.browser.title)
-				(self.fail (string "Finish the test!")))
-			      )
+				(self.fail (string "Finish the test!"))))
 		       (when (== __name__ (string "__main__"))
 			 (unittest.main :warnings (string "ignore"))))))))))
   (sb-ext:run-program "/usr/bin/sh"
