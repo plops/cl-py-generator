@@ -98,27 +98,37 @@
 						collect
 						(destructuring-bind (&key name type) e
 						  (format nil "~a ~a" name (string-upcase type)))))))
-
+		   (def fn_exists_p (fn)
+		     (cur.execute (rstring3 "SELECT fn FROM docs WHERE fn = :fn ")
+				  (dictionary :fn fn))
+		     (setf row (cur.fetchall))
+		     (return (< 0 (len row))))
 		   (for ((ntuple idx row) (tqdm.tqdm ("list" (df.iterrows))))
-			(setf proc (subprocess.run (list (string "/usr/bin/pdftotext")
-							 row.fn
-							 (string "-"))
-						   :capture_output True))
-					;(proc.wait)
-			(setf txt (proc.stdout.decode (string "utf-8"))
-			      fn (str row.fn)
+			(setf fn (str row.fn)
 			      pdf_bytes row.bytes)
-			(cur.execute (rstring3 ,(format nil "INSERT INTO docs VALUES (~{:~a~^,~})"
-							(loop for e in table-def
-							      collect
-							      (destructuring-bind (&key name type) e
-								name))
-							))
-				     (dict ,@(loop for e in table-def
-						   collect
-						   (destructuring-bind (&key name type) e
-						     `((string ,name) ,name)))))
-			(con.commit))
+			(if (fn_exists_p fn)
+			    (do0
+			     ,(lprint :msg "exists already" :vars `(fn)))
+			    (do0
+			     ;,(lprint :msg "convert to text" :vars `(fn))
+			     (setf proc (subprocess.run (list (string "/usr/bin/pdftotext")
+							      row.fn
+							      (string "-"))
+							:capture_output True))
+					;(proc.wait)
+			     (setf txt (proc.stdout.decode (string "utf-8"))
+				   )
+			     (cur.execute (rstring3 ,(format nil "INSERT OR REPLACE INTO docs VALUES (~{:~a~^,~})"
+							     (loop for e in table-def
+								   collect
+								   (destructuring-bind (&key name type) e
+								     name))
+							     ))
+					  (dict ,@(loop for e in table-def
+							collect
+							(destructuring-bind (&key name type) e
+							  `((string ,name) ,name)))))
+			     (con.commit))))
 		   (cur.close)
 		   (con.close)
 
