@@ -44,7 +44,7 @@
 			 (db sqlite3)
 			 ))
 	       (setf start_time (time.time))))
-	     #-nil 
+	     #-nil
 	     (python
 	      (cell
 	       ,(lprint :msg "find all lisp files")
@@ -53,7 +53,7 @@
 			       (glob (string "**/*.lisp")))))
 	       ,(lprint :msg "numer of lisp files" :vars `((len fns)))
 	       ))
-	     #-nil 
+	     #-nil
 	     (python
 	      (cell
 	       ,(lprint :msg "get sizes of lisp files")
@@ -82,83 +82,83 @@
 					      (dot stat ,(format nil "st_~a" short))))))))
 		(setf df (pd.DataFrame res))
 		(setf sum_file_size_MB (/ (df.bytes.sum)
-					 (* 1024.0 1024)))
+					  (* 1024.0 1024)))
 		,(lprint :msg "size of all lisp files" :vars `(sum_file_size_MB)))))
 	     ,@(let ((table-def `((:name fn :type text)
-				 (:name file_bytes :type integer)
-				 (:name txt :type text)
+				  (:name file_bytes :type integer)
+				  (:name txt :type text)
 					;(:name pdf_data :type blob)
-				 )))
+				  )))
 		 `(
 		   #-nil
 		   (python
-		   (cell
-		    ,(lprint :msg "add lisp files to database")
-		    (setf con (db.connect (string "lisp.db"))
-			  cur (con.cursor))
-		    (comments "this table has a 64bit rowid as key")
-		    (cur.execute (rstring3
-				  ,(format nil "CREATE TABLE IF NOT EXISTS docs (~{~a~^,~})"
-					   (loop for e in table-def
-						 collect
-						 (destructuring-bind (&key name type) e
-						   (format nil "~a ~a" name (string-upcase type)))))))
-		    (cur.execute (rstring3
-				  ,(format nil "CREATE VIRTUAL TABLE fts USING FTS5(fn,txt,content=docs,content_rowid=rowid,tokenize='ascii')"
-					   )))
-		    (cur.execute
-		     (rstring3
-		      "CREATE TRIGGER docs_ai AFTER INSERT ON docs BEGIN
+		    (cell
+		     ,(lprint :msg "add lisp files to database")
+		     (setf con (db.connect (string "lisp.db"))
+			   cur (con.cursor))
+		     (comments "this table has a 64bit rowid as key")
+		     (cur.execute (rstring3
+				   ,(format nil "CREATE TABLE IF NOT EXISTS docs (~{~a~^,~})"
+					    (loop for e in table-def
+						  collect
+						  (destructuring-bind (&key name type) e
+						    (format nil "~a ~a" name (string-upcase type)))))))
+		     (cur.execute (rstring3
+				   ,(format nil "CREATE VIRTUAL TABLE fts USING FTS5(fn,txt,content=docs,content_rowid=rowid,tokenize='ascii')"
+					    )))
+		     (cur.execute
+		      (rstring3
+		       "CREATE TRIGGER docs_ai AFTER INSERT ON docs BEGIN
   INSERT INTO fts(rowid,fn,txt) VALUES (new.rowid,new.fn,new.txt);
 END;"
-		      ))
-		    (cur.execute
-		     (rstring3
-		      "CREATE TRIGGER docs_ad AFTER DELETE ON docs BEGIN
+		       ))
+		     (cur.execute
+		      (rstring3
+		       "CREATE TRIGGER docs_ad AFTER DELETE ON docs BEGIN
   INSERT INTO fts(fts,rowid,fn,txt) VALUES ('delete',old.rowid,old.fn,old.txt);
 END;"
-		      ))
-		    (cur.execute
-		     (rstring3
-		      "CREATE TRIGGER docs_au AFTER UPDATE ON docs BEGIN
+		       ))
+		     (cur.execute
+		      (rstring3
+		       "CREATE TRIGGER docs_au AFTER UPDATE ON docs BEGIN
   INSERT INTO fts(fts,rowid,fn,txt) VALUES ('delete',old.rowid,old.fn,old.txt);
   INSERT INTO fts(rowid,fn,txt) VALUES (new.rowid,new.fn,new.txt);
 END;"
-		      ))
-		    
-		    
-		    
-		    (def fn_exists_p (fn)
-		      (cur.execute (rstring3 "SELECT fn FROM docs WHERE fn = :fn ")
-				   (dictionary :fn fn))
-		      (setf row (cur.fetchall))
-		      (return (< 0 (len row))))
-		    (for ((ntuple idx row) (tqdm.tqdm ("list" (df.iterrows))))
-			 (setf fn (str row.fn)
-			       file_bytes row.bytes)
-			 (if (fn_exists_p fn)
-			     (do0
-			      ,(lprint :msg "exists already" :vars `(fn)))
-			     (do0
-					;,(lprint :msg "convert to text" :vars `(fn))
-			      (with (as (open row.fn (string "r"))
-					f)
-				    (setf txt (f.read)))
-			      
-			      (cur.execute (rstring3 ,(format nil "INSERT OR REPLACE INTO docs VALUES (~{:~a~^,~})"
-							      (loop for e in table-def
-								    collect
-								    (destructuring-bind (&key name type) e
-								      name))
-							      ))
-					   (dict ,@(loop for e in table-def
-							 collect
-							 (destructuring-bind (&key name type) e
-							   `((string ,name) ,name)))))
-			      (con.commit))))
-		    
+		       ))
 
-		    ))
+
+
+		     (def fn_exists_p (fn)
+		       (cur.execute (rstring3 "SELECT fn FROM docs WHERE fn = :fn ")
+				    (dictionary :fn fn))
+		       (setf row (cur.fetchall))
+		       (return (< 0 (len row))))
+		     (for ((ntuple idx row) (tqdm.tqdm ("list" (df.iterrows))))
+			  (setf fn (str row.fn)
+				file_bytes row.bytes)
+			  (if (fn_exists_p fn)
+			      (do0
+			       ,(lprint :msg "exists already" :vars `(fn)))
+			      (do0
+					;,(lprint :msg "convert to text" :vars `(fn))
+			       (with (as (open row.fn (string "r"))
+					 f)
+				     (setf txt (f.read)))
+
+			       (cur.execute (rstring3 ,(format nil "INSERT OR REPLACE INTO docs VALUES (~{:~a~^,~})"
+							       (loop for e in table-def
+								     collect
+								     (destructuring-bind (&key name type) e
+								       name))
+							       ))
+					    (dict ,@(loop for e in table-def
+							  collect
+							  (destructuring-bind (&key name type) e
+							    `((string ,name) ,name)))))
+			       (con.commit))))
+
+
+		     ))
 		   (python
 		    (cell
 		     (def search (pat)
@@ -173,10 +173,10 @@ END;"
 		     (print (search (string "opengl")))
 		     ))
 		   #+nil (python
-		    (cell
-		     (do0 (cur.close)
-			  (con.close)) ))
-		 ))))))
+			  (cell
+			   (do0 (cur.close)
+				(con.close)) ))
+		   ))))))
   (sb-ext:run-program "/usr/bin/sh"
 		      `("/home/martin/stage/cl-py-generator/example/80_fulltext/source/setup01_nbdev.sh"))
   (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
