@@ -1,0 +1,29 @@
+- https://www.youtube.com/watch?v=sgw4cu8hrZM Introduction to
+  Generalized Additive Models with R and mgcv
+
+- https://twitter.com/jeremyphoward/status/1194388187042349056 I've
+  wondered about the total lack of awareness or interest in penalized
+  logistic regression with splines for a couple of decades now. It's
+  such an awesome approach.  Perhaps we need better library support to
+  make it more accessible? Or is it just an education issue?
+
+  2015 Harrell Regression Modeling Strategies With Applications to
+  Linear Models, Logistic and Ordinal Regression and Survival Analysis
+  
+- https://pygam.readthedocs.io/en/latest/notebooks/tour_of_pygam.html#Classification
+  - https://www.linkedin.com/in/charlie-brummitt/
+  - https://www.youtube.com/watch?v=XQ1vk7wEI7c pyGAM: balancing
+    interpretability and predictive power using... - Dani Servén Marín
+    - generalized cross validation to find out how many splines to use
+    - .fit -> .gridsearch choose between 100 parameter settings
+    - histogram smoothing models counts in each bin as poisson
+   
+
+- penalized regression splines 
+  - mgcv r package
+  - simon wood Generalized Additive Models: An Introduction with R
+    
+- https://www.youtube.com/watch?v=sgw4cu8hrZM Introduction to
+  Generalized Additive Models with R and mgcv
+
+
