@@ -25,5 +25,7 @@
     
 - https://www.youtube.com/watch?v=sgw4cu8hrZM Introduction to
   Generalized Additive Models with R and mgcv
-
-
+  - https://youtu.be/sgw4cu8hrZM?t=3658 amazing 2d map of occurrance
+    off bird, no plots :-(
+  - https://youtu.be/sgw4cu8hrZM 2d plots temperature vs time on a map
+    in a bay
