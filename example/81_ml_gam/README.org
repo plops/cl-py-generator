@@ -80,4 +80,26 @@ penalty: b.T D.T inv(B) D b
         knots
       - difference penalty applied directly to parameters
       - easy to setup for even knot spacing
+      - sparsity of basis and penalty particularly useful for MCMC
+        based Bayesian interference
+      - mgcv: s(x,bs="ps",m=c(2,3))
+      - mgcv cyclic: bs="cp"
+      - 5.3.6 SCOP-splines
+        - P-splines for shape cooooonstrained smoothing
+        - monotonically increasing smoother, non-decreasing
+          coefficients b[j]:
+	  - sum-to-zero constraint for  x
+#+begin_example
+b[j] = g[1] + sum(exp(g[i]),i,2,j)
+J = sum( (g[j+1] - g[j])^2, i,2,k-1 )
+#+end_example
+        - spline no longer linear in coefficients but no strong
+          non-linearity
+	- mgcv:
+#+begin_example
+ssp <- s(x,bs='ps',k=k)
+ssp$mono <- 1
+sm <- smoothCon(ssp, data.frame(x))[[1]]
+#+end_example
+	  
     - thin plate regression spliens
