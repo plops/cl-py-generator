@@ -101,5 +101,12 @@ ssp <- s(x,bs='ps',k=k)
 ssp$mono <- 1
 sm <- smoothCon(ssp, data.frame(x))[[1]]
 #+end_example
-	  
+      - 5.4.3 null space penalties
+	- extra penalty for the nullspace (suppress linear behaviour)
+	- mgcv: gam :select
+	  -  replace zero eigenvalue in L of S=U L U.T with somewhat
+            smaller than the smallest positive entry of L
+	    mgcv: bs="cs" or bs="ts" shrinkage bases
     - thin plate regression spliens
+
+      oddengineer.com
