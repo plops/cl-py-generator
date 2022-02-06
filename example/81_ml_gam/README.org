@@ -43,3 +43,32 @@
     - stable O(n) algorithm exists for univariate smoothing with cubic
       splines (hoog, hutchinson 1987)
     - with more covariates computation becomes expensive
+  - 5.2 set k = O(n^(1/9)) to obtain mean square error rate of
+    O(n^(-8/9)) for (penalized) regression splines
+    - with penalization k = O(n^(1/5))
+    - I don't really understand the argument. Apparently, they have no
+      good theory. However, basis dimension only needs to grow slowly
+      with sample size in order to achieve statistical performance
+      asymptotically indistinguishable from that of a full smoothing
+      spline.
+  - 5.3 1d smoothers
+    - cubic penalized regression splines
+#+begin_example
+k knots x[1] .. x[k]
+b[j] = f(x[j])
+d[j] = f''(x[j])
+
+f(x) = a[j](x)b[j] + A[j]b[j+1] + c[j](x)d[j] + C[j](x)d[j+1]  for x[j]<=x<=x[j+1]
+a[j](x) = (x[j+1]-x)/h[j]
+A[j](x) = (x-x[j])/h[j]
+c[j](x) = ((x[j+1]-x)^3/h[j]-h[j]*(x[j+1]-x))/6
+C[j](x) = ((x-x[j])^3/h[j]-h[j]*(x-x[j]))/6
+
+D[i,i]   = 1/h[i]
+D[i,i+1] = -1/h[i] - 1/h[i+1]
+D[i,i+2] = 1/h[i+1]
+B[i,i]   = (h[i] + h[i+1])/3    for i = 1..k-2
+B[i,i+1] = B[i+1,i] = h[i+1]/6  for i = 1..k-3
+#+end_example
+      - cyclic version
+    - thin plate regression spliens
