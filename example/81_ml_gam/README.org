@@ -29,3 +29,17 @@
     off bird, no plots :-(
   - https://youtu.be/sgw4cu8hrZM 2d plots temperature vs time on a map
     in a bay
+
+- https://harvard-iacs.github.io/2020-CS109B/labs/lab02/notebook/
+  - statsmodels
+  - pyGAM
+    - linearGAM on wages dataset, unfortunately no discussion/interpretation
+
+
+* smoothing
+  - 5.1.2 smoothing splines have as many free parameters as there are
+    data to be smoothed
+    - smoothing penalty often suppresses many degrees of freedom
+    - stable O(n) algorithm exists for univariate smoothing with cubic
+      splines (hoog, hutchinson 1987)
+    - with more covariates computation becomes expensive
