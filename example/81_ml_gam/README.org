@@ -134,3 +134,10 @@ sm <- smoothCon(ssp, data.frame(x))[[1]]
 (setf iris.pca (PCA (aref iris "" (slice 1 4)) :scale.unit TRUE :ncp 5))
 (fviz_pca_ind iris.pca :col.ind iris$Species)
    #+end_example
+
+- https://www.youtube.com/watch?v=u-rVXhsFyxo
+  - markdown with R
+#+begin_example
+lm(wage ~ education + poly(age,2),data = Wage)
+#+end_example
+  - orthogonal polynomials

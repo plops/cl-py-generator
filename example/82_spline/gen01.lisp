@@ -33,32 +33,32 @@
 	     (incf nb-counter)))
       (let* ((lam-term `(5e9 316 3.16 ))
 	     (model `(LinearGAM (+ (s 0 :n_splines 20 :lam ,(elt lam-term 0))
-				      (s 1 :n_splines 20 :lam ,(elt lam-term 1))
-				      (f 2 :lam ,(elt lam-term 2)))))
+				   (s 1 :n_splines 20 :lam ,(elt lam-term 1))
+				   (f 2 :lam ,(elt lam-term 2)))))
 	     (search-up 5)
 	     (search-down 5))
-       (gen `(gam)
-	    `((python
-	       (cell
-		(comments "python3 -m pip install --user pygam matplotlib pandas")
-		(imports ((plt matplotlib.pyplot)))
-		(plt.ion)
-		(imports (pathlib
-			  time
-			  tqdm
-			  (pd pandas)
-			  (np numpy)
-			  numpy.random
-			  ))
-		(imports-from (matplotlib.pyplot plot figure scatter gca sca subplots subplots_adjust title xlabel ylabel xlim ylim grid))
-		(setf start_time (time.time))))
-	     
-	      (python
-	       (cell
-		,(lprint :msg "generate dataset")
-		
-		))
-	      )))))
+	(gen `(gam)
+	     `((python
+		(cell
+		 (comments "python3 -m pip install --user pygam matplotlib pandas")
+		 (imports ((plt matplotlib.pyplot)))
+		 (plt.ion)
+		 (imports (pathlib
+			   time
+			   tqdm
+			   (pd pandas)
+			   (np numpy)
+			   numpy.random
+			   ))
+		 (imports-from (matplotlib.pyplot plot figure scatter gca sca subplots subplots_adjust title xlabel ylabel xlim ylim grid))
+		 (setf start_time (time.time))))
+
+	       (python
+		(cell
+		 ,(lprint :msg "generate dataset")
+
+		 ))
+	       )))))
   (sb-ext:run-program "/usr/bin/sh"
 		      `("/home/martin/stage/cl-py-generator/example/82_spline/source/setup01_nbdev.sh"))
   (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
