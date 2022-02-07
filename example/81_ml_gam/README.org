@@ -127,3 +127,10 @@ sm <- smoothCon(ssp, data.frame(x))[[1]]
 (pheatmap (aref iris "" (slice 1 4)) :cluster_rows TRUE :cluster_cols TRUE
  :clustering_method (string "complete"))
 #+end_example
+
+ - PCA
+   #+begin_example
+(library FactoMineR factoextra)
+(setf iris.pca (PCA (aref iris "" (slice 1 4)) :scale.unit TRUE :ncp 5))
+(fviz_pca_ind iris.pca :col.ind iris$Species)
+   #+end_example
