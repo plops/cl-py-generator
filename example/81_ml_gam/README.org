@@ -107,6 +107,23 @@ sm <- smoothCon(ssp, data.frame(x))[[1]]
 	  -  replace zero eigenvalue in L of S=U L U.T with somewhat
             smaller than the smallest positive entry of L
 	    mgcv: bs="cs" or bs="ts" shrinkage bases
-    - thin plate regression spliens
+	    
+    - 5.4 isotropic smoothing
+      - thin plate splines
+	- knot free
+	- high computational cost
+      - thin plate regression splines (TPRS)
+	- truncated thin plate splines	  
+    - 5.5.3 spline on sphere
+      - mgcv: bs="sos"
+    - 5.5.4 soap film smoothing over finite domain
+      - mgcv: s(x,y,bs="so",xt=list(bnd=list(bnd)))
 
-      oddengineer.com
+
+- https://youtu.be/I6FJo8x1wZE?t=1101
+  running basic statistical analysis in r
+#+begin_example
+(library pheatmap)
+(pheatmap (aref iris "" (slice 1 4)) :cluster_rows TRUE :cluster_cols TRUE
+ :clustering_method (string "complete"))
+#+end_example
