@@ -1,0 +1,2 @@
+- https://destevez.net/2022/02/demodulation-of-the-lte-uplink/
+- https://github.com/daniestevez/jupyter_notebooks/blob/master/LTE/LTE%20uplink%20demodulation.ipynb
