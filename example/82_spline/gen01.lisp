@@ -37,10 +37,9 @@
 				   (f 2 :lam ,(elt lam-term 2)))))
 	     (search-up 5)
 	     (search-down 5))
-	(gen `(gam)
+	(gen `(spline)
 	     `((python
 		(cell
-		 (comments "python3 -m pip install --user pygam matplotlib pandas")
 		 (imports ((plt matplotlib.pyplot)))
 		 (plt.ion)
 		 (imports (pathlib
@@ -56,8 +55,110 @@
 	       (python
 		(cell
 		 ,(lprint :msg "generate dataset")
+		 (setf xmi .3
+		       xma 6.7
+		       x (np.linspace xmi xma 120)
+		       y (np.sin x))
+		 (plot x y)
+		 (grid)))
 
-		 ))
+	       ,(flet ()
+		  `(python
+		    (cell
+		     (comments "piecewise linear basis (p. 164)")
+		     (do0 (setf k 12)
+			  (setf sk (np.linspace xmi xma k)
+				hsk (np.diff sk)))
+		     (def tent (x xj j)
+		       (rstring3 "tent function from set defined by knots xj")
+		       (setf dj (* xj 0)
+			     (aref dj j) 1)
+		       (return (np.interp x dj )))
+		     #+nil (def b (j x)
+			     (when (== j 1)
+			       (if (< x (aref sk 2))
+				   (return (/ (- (aref sk 2) x)
+					      (- (aref sk 2) (aref sk 1))))
+				   (return 0.0)))
+			     (when (== j k)
+			       (if (< (aref sk (- k 1)) x )
+				   (return (/ (- x (aref sk (- k 1)))
+					      (- (aref sk k) (aref sk (- k 1)))))
+				   (return 0.0)))
+			     (cond
+			       ((< (aref sk (- j 1))
+				   x
+				   (aref sk j))
+				(return (/ (- x (aref sk (- j 1)))
+					   (- (aref sk j)
+					      (aref sk (- j 1))))))
+			       ((< (aref sk j)
+				   x
+				   (aref sk (+ j 1)))
+				(return (/ (- (aref sk (+ j 1))
+					      x)
+					   (- (aref sk (+ j 1))
+					      (aref sk j)))))
+			       (t (return 0.0))
+			       ))
+		     )))
+
+	       #+nil
+	       ,(flet ((a- (j x)
+			 `(/ (- (aref sk (+ ,j 1))
+				,x)
+			     (aref hsk ,j)))
+		       (a+ (j x)
+			 `(/ (- ,x
+				(aref sk ,j))
+			     (aref hsk ,j)))
+		       (c- (j x)
+			 `(/ (- (/ (** (- (aref sk (+ ,j 1))
+					  ,x)
+				       3)
+				   (aref hsk ,j))
+				(* (aref hsk ,j) (- (aref sk (+ ,j 1))
+						    ,x)))
+			     6))
+		       (c+ (j x)
+			 `(/ (- (/ (** (- ,x
+					  (aref sk ,j))
+				       3)
+				   (aref hsk ,j))
+				(* (aref hsk ,j) (- ,x
+						    (aref sk ,j)
+						    )))
+			     6))
+		       (D (i j)
+			 (cond ((eq i j)
+				`(/ 1.0 (aref hsk ,i)))
+			       ((eq (+ i 1) j)
+				`(- (/ 1.0 (aref hsk ,i))
+				    (/ 1.0 (aref hsk ,(+ i 1)))))
+			       ((eq (+ i 2) j)
+				`(/ 1.0 (aref hsk ,(+ i 1))))
+			       (t 0.0)))
+		       (B (i j)
+			 (cond ((eq i j)
+				`(/ (+ (aref hsk ,i)
+				       (aref hsk ,(+ 1 i)))
+				    3))
+			       ((eq (+ i 1) j)
+				`(/ (aref hsk ,(+ i 1))
+				    6)
+				)
+			       ((eq (+ j 1) j)
+				`(/  (aref hsk ,(+ j 1))
+				     6))
+			       (t 0.0)))
+		       )
+		  (python
+		   (cell
+		    (do0 (setf k 12)
+			 (setf sk (np.linspace xmi xma k)
+			       hsk (np.diff sk)))
+
+		    )))
 	       )))))
   (sb-ext:run-program "/usr/bin/sh"
 		      `("/home/martin/stage/cl-py-generator/example/82_spline/source/setup01_nbdev.sh"))

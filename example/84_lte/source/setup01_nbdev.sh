@@ -1,2 +1,2 @@
-cd /home/martin/stage/cl-py-generator/example/81_ml_gam/source
+cd /home/martin/stage/cl-py-generator/example/84_lte/source
 nbdev_build_lib
