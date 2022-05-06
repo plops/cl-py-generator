@@ -6,8 +6,8 @@
 ;; sudo dnf install python3.9
 ;; python3.9 -m ensurepip
 ;; python3.9 -m pip install --user open3d ;; does not work with python 3.10
-
-
+;; http://www.open3d.org/docs/0.9.0/tutorial/Basic/file_io.html
+;; http://www.open3d.org/docs/0.9.0/tutorial/Basic/pointcloud.html
 (progn
   (assert (eq :invert
 	      (readtable-case *readtable*)))
@@ -51,19 +51,23 @@
 
 	       (python
 		(cell
+		 (setf fn (str (next (dot pathlib
+					  (Path (string "/home/martin/t5/3d/"))
+					  (glob (string "*.ply")))
+				     )))
+		 ,(lprint :vars `(fn))
 		 (setf pcd (dot o3d
 				io
 				(read_point_cloud
-				 (dot pathlib
-				      (Path (string "/home/martin/t5/3d/"))
-				      (glob (string "Untitled_Scan_*.xyz")))
-				 )
-				))
+				 fn
+				 ;; :format (string "xyzrgb")
+				 )))
+		 (o3d.visualization.draw_geometries (list pcd))
 		 ))
-	    )))))
-  #+nil (sb-ext:run-program "/usr/bin/sh"
-		      `("/home/martin/stage/cl-py-generator/example/84_lte/source/setup01_nbdev.sh"))
-  #+nil (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
+	       )))))
+  (sb-ext:run-program "/usr/bin/sh"
+		      `("/home/martin/stage/cl-py-generator/example/85_o3d_pointcloud/source/setup01_nbdev.sh"))
+  (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
 
 
 
