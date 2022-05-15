@@ -8,6 +8,8 @@
 ;; python3.9 -m pip install --user open3d ;; does not work with python 3.10
 ;; http://www.open3d.org/docs/0.9.0/tutorial/Basic/file_io.html
 ;; http://www.open3d.org/docs/0.9.0/tutorial/Basic/pointcloud.html
+
+;; cloudcompare to convert xyzrgb to ply
 (progn
   (assert (eq :invert
 	      (readtable-case *readtable*)))
