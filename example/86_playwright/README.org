@@ -1,0 +1,8 @@
+
+- https://www.youtube.com/watch?v=CK6MWehq7vI
+  - intro playwright in python
+
+- install (32 MB)
+  #+begin_example
+pip3 install --user playwright 
+  #+end_example
