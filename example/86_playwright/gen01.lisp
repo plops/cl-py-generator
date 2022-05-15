@@ -105,7 +105,7 @@
 				   (inner_text)
 				   )))
 			)
-		       ;(page.wait_for_timeout 2000)
+					;(page.wait_for_timeout 2000)
 		       (browser.close))
 		 ))
 	       )))))

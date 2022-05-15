@@ -1,6 +1,6 @@
 | file  | complete | comment  |
 |-------+----------+----------|
-| gen01 |       0% | sync api |
+| gen01 |      20% | sync api |
 
 - https://www.youtube.com/watch?v=CK6MWehq7vI
   - intro playwright in python
