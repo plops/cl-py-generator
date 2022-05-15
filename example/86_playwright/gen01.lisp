@@ -68,11 +68,11 @@
 			(login.click))
 		       (do0
 			(setf user (page.query_selector
-				     (string3 "[id=\"username\"]")))
+				    (string3 "[id=\"username\"]")))
 			(user.type (string "bla")))
 		       (do0
 			(setf pw (page.query_selector
-				     (string3 "[id=\"password\"]")))
+				  (string3 "[id=\"password\"]")))
 			(pw.type (string "bla")))
 		       (dot
 			page
@@ -90,7 +90,22 @@
 			 ("Exception as e"
 			  (print (string "failed"))))
 			(print (logout.inner_text)))
-		       (page.wait_for_timeout 2000)
+		       (do0
+			(setf quotes
+			      (dot
+			       page
+			       (query_selector_all
+				(string3 "[class='quote']"))))
+			(for (q quotes)
+			     (print
+			      (dot q
+				   (query_selector
+				    (string ".text")
+				    )
+				   (inner_text)
+				   )))
+			)
+		       ;(page.wait_for_timeout 2000)
 		       (browser.close))
 		 ))
 	       )))))
