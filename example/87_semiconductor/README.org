@@ -20,4 +20,14 @@ crosstalk_{x,y,z}{x,y,z}
 distortion_{x,y}
 focus_z
 location_{x,y}
+overetch
+illumination_field_nonuniformity
+illumination_pupil_nonuniformity
+
+
 #+end_example
+
+- https://youtu.be/N62qUfMksIQ six sigma control charts
+- https://www.youtube.com/watch?v=qlAd9_IIJDw experimental design in r studio
+  - http://users.stat.umn.edu/~gary/book/fcdae.pdf
+  - levels are the values of the variable that we try

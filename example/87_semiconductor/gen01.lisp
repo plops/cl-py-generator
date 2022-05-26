@@ -95,7 +95,7 @@
 		 (setf kdisk (np.fft.fft2 (* disk 1s0))
 		       kdisk_centered (np.fft.fftshift
 				       kdisk
-				       ;:axes (tuple -2)
+					;:axes (tuple -2)
 				       ))
 		 (px.imshow (np.log (np.abs kdisk_centered))
 			    :aspect (string "equal"))))
@@ -106,7 +106,7 @@
 		       (* kdisk
 			  (np.conj kdisk)))
 		 (setf psf_view (np.fft.fftshift (np.abs psf)
-						 ;:axes (tuple -2)
+					;:axes (tuple -2)
 						 )
 		       psf_view (/ psf_view (np.max psf_view)))
 		 (px.imshow psf_view)
@@ -122,7 +122,7 @@
 		 (comments "compute modulation transfer function")
 		 (setf mtf (np.real (np.fft.fftshift
 				     (np.fft.ifft2 psf
-						    :s disk.shape))))
+						   :s disk.shape))))
 		 (setf mtf (/ mtf (np.max mtf)))
 		 (px.imshow mtf)))
 	       (python
