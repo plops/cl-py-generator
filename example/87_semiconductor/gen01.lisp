@@ -3,6 +3,11 @@
 
 (in-package :cl-py-generator)
 
+;; pip3 install --user plotly cufflinks chart_studio
+;; pip3 install --user plotly --upgrade
+
+;; Plotly Tutorial 2021 https://www.youtube.com/watch?v=GGL6U0k8WYA
+
 (progn
   (assert (eq :invert
 	      (readtable-case *readtable*)))
@@ -38,6 +43,8 @@
 			   time
 			   (pd pandas)
 			   (np numpy)
+			   (py chart_studio.plotly)
+			   (px plotly.express)
 					;tqdm
 					;(o3d open3d)
 			   ))
@@ -46,22 +53,11 @@
 
 	       (python
 		(cell
-		 (setf fn (str (next (dot pathlib
-					  (Path (string "/home/martin/t5/3d/"))
-					  (glob (string "*.ply")))
-				     )))
-		 ,(lprint :vars `(fn))
-		 (setf pcd (dot o3d
-				io
-				(read_point_cloud
-				 fn
-				 ;; :format (string "xyzrgb")
-				 )))
-		 (o3d.visualization.draw_geometries (list pcd))
+		 
 		 ))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
-		      `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
+			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
   (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
 
 
