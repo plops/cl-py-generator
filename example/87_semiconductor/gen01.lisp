@@ -51,7 +51,7 @@
 			   (go plotly.graph_objects)
 			   scipy.signal
 			   (dip diplib)
-					;tqdm
+			   tqdm
 					;(o3d open3d)
 			   ))
 		 "%matplotlib inline"
@@ -115,6 +115,12 @@
 		 (px.imshow psf_view)
 
 		 ))
+	       (python
+		(cell
+		 (comments "show cross-section of psf, 4px approximately 250nm; 1px ~ 62.5nm")
+		 (px.line (aref psf_view
+				(// nx 2)
+				(slice 100 130)))))
 	       (python
 		(cell
 		 (do0
@@ -206,6 +212,7 @@
 			    psf_view
 			    marker
 			    :mode (string "same")))
+		 (setf img (/ img (np.max img)))
 		 (px.imshow img)))
 	       (python
 		(cell
@@ -213,12 +220,31 @@
 		 (setf max_photons_per_pixel 10)
 		 (setf rng (np.random.default_rng)
 		       img_pois (rng.poisson :lam (* max_photons_per_pixel
-						     (/ img (np.max img)))))
+						     img)))
 		 (px.imshow img_pois)))
 	       (python
 		(cell
 		 (comments "use diplib to find shift between marker and noisy image")
-		 (dip.FindShift marker img_pois)))
+		 (setf (ntuple dx dy) (dip.FindShift marker img_pois))
+		 ))
+	       (python
+		(cell
+		 (comments "perform a view repeats with different number of photons")
+		 (setf res (list))
+		 (setf nm_per_px 62.5)
+		 (for (max_phot (list 10 20 30 100 1000 10000))
+		      (for (rep (tqdm.tqdm (range 100)))
+			   (setf 
+			    img_pois (rng.poisson :lam (* max_phot
+							  img)))
+			   (setf (ntuple dx dy) (dip.FindShift marker img_pois))
+			   (res.append
+			    (dictionary :max_phot max_phot
+					:rep rep
+					:dx (* nm_per_px dx)
+					:dy (* nm_per_px dy)))))
+		 (setf df (pd.DataFrame res)))
+		)
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
