@@ -3,7 +3,7 @@
 
 (in-package :cl-py-generator)
 
-;; pip3 install --user plotly cufflinks chart_studio
+;; pip3 install --user plotly cufflinks chart_studio pycairo
 ;; pip3 install --user plotly --upgrade
 
 ;; Plotly Tutorial 2021 https://www.youtube.com/watch?v=GGL6U0k8WYA
@@ -44,6 +44,7 @@
 			   time
 			   (pd pandas)
 			   (np numpy)
+			   cairo
 			   (cf cufflinks)
 			   (py chart_studio.plotly)
 			   (px plotly.express)
@@ -60,7 +61,7 @@
 		 (init_notebook_mode :connected True)
 		 (cf.go_offline)
 		 (setf start_time (time.time))))
-
+	       #+nil
 	       (python
 		(cell
 		 (setf df (pd.DataFrame
@@ -110,7 +111,7 @@
 						 )
 		       psf_view (/ psf_view (np.max psf_view)))
 		 (px.imshow psf_view)
-		 
+
 		 ))
 	       (python
 		(cell
@@ -146,7 +147,45 @@
 	       (python
 		(cell
 		 (comments "draw marker")
-		 
+		 (comments "https://stackoverflow.com/questions/10031580/how-to-write-simple-geometric-shapes-into-numpy-arrays")
+		 (setf data (np.zeros (tuple nx ny 4)
+				      :dtype np.uint8)
+		       surface (cairo.ImageSurface.create_for_data
+				data
+				cairo.FORMAT_ARGB32 ny nx)
+		       cr (cairo.Context surface)
+		       )
+
+		 (do0
+		  (comments "clear with black")
+		  (cr.set_source_rgb 0s0 0s0 0s0)
+		  (cr.paint))
+		 (do0
+		  (comments "https://pycairo.readthedocs.io/en/latest/reference/context.html")
+		  ;; xc yc radius angle1 angle2
+		  (cr.arc  (* .5 nx)
+			  (* .5 ny)
+			   30
+			   0
+			   (* (/ 2s0 3)
+			      (* 2 np.pi)))
+		  (cr.set_line_width 3)
+		  (cr.set_source_rgb 1s0 1s0 1s0)
+		  (cr.stroke)
+		  (do0
+		   (setf rad2 40)
+		   
+		   ,@(let ((n-spokes 3))
+		       (loop for spoke below n-spokes
+			     collect
+			     (let ((ang (+ (/ 1d0 6) (* 2 pi (/ spoke n-spokes)))))
+			      `(do0 ;; x y
+				(cr.move_to (* .5 nx)
+					    (* .5 ny))
+				(cr.line_to (+ (* .5 nx) (* rad2 ,(cos ang)))
+					    (+ (* .5 ny) (* rad2 ,(sin ang))))
+				(cr.stroke)))))))
+		 (px.imshow (aref data ":" ":" 0))
 		 ))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
