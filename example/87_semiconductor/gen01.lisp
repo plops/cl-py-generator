@@ -49,6 +49,7 @@
 			   (py chart_studio.plotly)
 			   (px plotly.express)
 			   (go plotly.graph_objects)
+			   scipy.signal
 					;tqdm
 					;(o3d open3d)
 			   ))
@@ -148,6 +149,7 @@
 		(cell
 		 (comments "draw marker")
 		 (comments "https://stackoverflow.com/questions/10031580/how-to-write-simple-geometric-shapes-into-numpy-arrays")
+		 (comments "looks like x and y are swapped in cairo")
 		 (setf data (np.zeros (tuple nx ny 4)
 				      :dtype np.uint8)
 		       surface (cairo.ImageSurface.create_for_data
@@ -163,30 +165,47 @@
 		 (do0
 		  (comments "https://pycairo.readthedocs.io/en/latest/reference/context.html")
 		  ;; xc yc radius angle1 angle2
-		  (cr.arc  (* .5 nx)
-			  (* .5 ny)
+		  (setf ang1 (/ (* 1 2 np.pi) 6s0)
+			ang2 (+ (* 120 (/ (* 2 np.pi)
+					180))
+			      (/ (* -1 2 np.pi) 6s0)))
+		  (cr.arc  (* .5 ny)
+			   (* .5 nx)
 			   30
-			   0
-			   (* (/ 2s0 3)
-			      (* 2 np.pi)))
-		  (cr.set_line_width 3)
+			   ang1
+			   ang2
+			    )
+		  (cr.set_line_width 5)
 		  (cr.set_source_rgb 1s0 1s0 1s0)
 		  (cr.stroke)
 		  (do0
-		   (setf rad2 40)
-		   
-		   ,@(let ((n-spokes 3))
-		       (loop for spoke below n-spokes
-			     collect
-			     (let ((ang (+ (/ 1d0 6) (* 2 pi (/ spoke n-spokes)))))
-			      `(do0 ;; x y
-				(cr.move_to (* .5 nx)
-					    (* .5 ny))
-				(cr.line_to (+ (* .5 nx) (* rad2 ,(cos ang)))
-					    (+ (* .5 ny) (* rad2 ,(sin ang))))
-				(cr.stroke)))))))
-		 (px.imshow (aref data ":" ":" 0))
+		   (cr.set_line_width 3)
+		   (setf rad2 40
+			 n_spokes 3
+			 )
+		   (for (spoke (range n_spokes))
+			(setf ang (+ (* 2 np.pi (/ -1d0 6))
+				     (/ (* 2 np.pi spoke)
+					n_spokes)))
+			
+			(do0 ;; x y
+			 (cr.move_to (* .5 ny)
+				     (* .5 nx))
+			 (cr.line_to (+ (* .5 ny) (* rad2 (np.cos ang)))
+				     (+ (* .5 nx) (* rad2 (np.sin ang))))
+			 (cr.stroke)))))
+		 (setf marker (aref data ":" ":" 0))
+		 (px.imshow marker)
 		 ))
+
+	       (python
+		(cell
+		 (comments "blur marker with psf")
+		 (setf img (scipy.signal.fftconvolve
+			    psf_view
+			    marker
+			    :mode (string "same")))
+		 (px.imshow img)))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
