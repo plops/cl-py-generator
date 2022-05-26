@@ -71,6 +71,25 @@
 					  (string "D"))))
 		 (df.iplot)
 		 ))
+
+	       (python
+		(cell
+		 
+		 (setf nx 171
+		       ny 233
+		       (ntuple xx yy)
+		       (dot np (aref mgrid
+				     (slice "" nx)
+				     (slice "" ny)))
+		       rr (+ (** (- xx
+				    (* .5 nx))
+				 2)
+			     (** (- yy
+				    (* .5 ny))
+				 2))
+		       disk (< rr (** (* .5 150)
+				      2)))
+		 (px.imshow disk)))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
