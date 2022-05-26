@@ -37,23 +37,39 @@
 	(gen `(locate)
 	     `((python
 		(cell
-		 (imports ((plt matplotlib.pyplot)))
-		 (plt.ion)
+		 #+nil
+		 (do0 (imports ((plt matplotlib.pyplot)))
+		      (plt.ion))
 		 (imports (pathlib
 			   time
 			   (pd pandas)
 			   (np numpy)
+			   (cf cufflinks)
 			   (py chart_studio.plotly)
 			   (px plotly.express)
+			   (go plotly.graph_objects)
 					;tqdm
 					;(o3d open3d)
 			   ))
-		 (imports-from (matplotlib.pyplot plot figure scatter gca sca subplots subplots_adjust title xlabel ylabel xlim ylim grid))
+		 "%matplotlib inline"
+		 #+nil (imports-from (matplotlib.pyplot plot figure scatter gca sca subplots subplots_adjust title xlabel ylabel xlim ylim grid))
+		 (imports-from (plotly.offline download_plotlyjs
+					       init_notebook_mode
+					       plot
+					       iplot))
+		 (init_notebook_mode :connected True)
+		 (cf.go_offline)
 		 (setf start_time (time.time))))
 
 	       (python
 		(cell
-		 
+		 (setf df (pd.DataFrame
+			   (np.random.randn 50 4)
+			   :columns (list (string "A")
+					  (string "B")
+					  (string "C")
+					  (string "D"))))
+		 (df.iplot)
 		 ))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
