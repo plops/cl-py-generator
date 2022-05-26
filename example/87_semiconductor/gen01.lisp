@@ -3,7 +3,7 @@
 
 (in-package :cl-py-generator)
 
-;; pip3 install --user plotly cufflinks chart_studio pycairo
+;; pip3 install --user plotly cufflinks chart_studio pycairo diplib
 ;; pip3 install --user plotly --upgrade
 
 ;; Plotly Tutorial 2021 https://www.youtube.com/watch?v=GGL6U0k8WYA
@@ -50,6 +50,7 @@
 			   (px plotly.express)
 			   (go plotly.graph_objects)
 			   scipy.signal
+			   (dip diplib)
 					;tqdm
 					;(o3d open3d)
 			   ))
@@ -206,6 +207,18 @@
 			    marker
 			    :mode (string "same")))
 		 (px.imshow img)))
+	       (python
+		(cell
+		 (comments "simulate poisson noise")
+		 (setf max_photons_per_pixel 10)
+		 (setf rng (np.random.default_rng)
+		       img_pois (rng.poisson :lam (* max_photons_per_pixel
+						     (/ img (np.max img)))))
+		 (px.imshow img_pois)))
+	       (python
+		(cell
+		 (comments "use diplib to find shift between marker and noisy image")
+		 (dip.FindShift marker img_pois)))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
