@@ -224,8 +224,10 @@
 		 (px.imshow img_pois)))
 	       (python
 		(cell
-		 (comments "use diplib to find shift between marker and noisy image")
-		 (setf (ntuple dx dy) (dip.FindShift marker img_pois))
+		 (comments "use diplib to find shift between blurred marker and noisy image")
+		 (comments "https://qiftp.tudelft.nl/dipref/FindShift.html")
+		 (setf (ntuple dx dy) (dip.FindShift img img_pois))
+		 dx
 		 ))
 	       (python
 		(cell
@@ -234,10 +236,12 @@
 		 (setf nm_per_px 62.5)
 		 (for (max_phot (list 10 20 30 100 1000 10000))
 		      (for (rep (tqdm.tqdm (range 100)))
-			   (setf 
+			   (setf
 			    img_pois (rng.poisson :lam (* max_phot
 							  img)))
-			   (setf (ntuple dx dy) (dip.FindShift marker img_pois))
+			   (comments "normalize image to same values as input")
+			   (setf (ntuple dx dy) (dip.FindShift img (/ img_pois
+								      (np.max img_pois))))
 			   (res.append
 			    (dictionary :max_phot max_phot
 					:rep rep
@@ -245,7 +249,18 @@
 					:dy (* nm_per_px dy)))))
 		 (setf df (pd.DataFrame res)))
 		)
-	       )))))
+	       (python
+		(cell
+		 (setf fig (px.histogram df :x (string "dx")
+				:marginal (string "violin")
+				:color (string "max_phot")))
+		 (fig.update_layout :xaxis_title_text (string "x shift estimate (nm)"))))
+	       (python
+		(cell
+		 (setf fig (px.histogram df :x (string "dy")
+				:marginal (string "violin")
+				:color (string "max_phot")))
+		 (fig.update_layout :xaxis_title_text (string "y shift estimate (nm)")))))))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
   (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
