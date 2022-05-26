@@ -74,7 +74,7 @@
 
 	       (python
 		(cell
-
+		 (comments "render a disk (mccutchen pupil)")
 		 (setf nx 171
 		       ny 233
 		       (ntuple xx yy)
@@ -100,10 +100,25 @@
 			    :aspect (string "equal"))))
 	       (python
 		(cell
-		 (setf mtf (np.fft.irfft2 (* kdisk
-					     (np.conj kdisk))
-					  :s disk.shape))
-		 (px.imshow (np.real mtf))))
+		 (comments "compute modulation transfer function")
+		 (setf mtf (np.real (np.fft.fftshift
+				     (np.fft.irfft2 (* kdisk
+						       (np.conj kdisk))
+						    :s disk.shape))))
+		 (setf mtf (/ mtf (np.max mtf)))
+		 (px.imshow mtf)))
+	       (python
+		(cell
+		 (comments "render mtf as 3d surface")
+		 (setf fig (go.Figure :data (list (go.Surface
+						   :x xx
+						   :y yy
+						   :z mtf))))
+		 (fig.show)
+		 ))
+	       (python
+		(cell
+		 ))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
