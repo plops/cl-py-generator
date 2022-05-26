@@ -100,21 +100,41 @@
 			    :aspect (string "equal"))))
 	       (python
 		(cell
+		 (comments "psf")
+		 (setf psf
+		       (* kdisk
+			  (np.conj kdisk)))
+		 (setf psf_view (np.fft.fftshift (np.abs psf)
+						 :axes (tuple -2))
+		       psf_view (/ psf_view (np.max psf_view)))
+		 (do0
+		  (setf fig (go.Figure :data (list (go.Surface
+						    :z psf_view))))
+		  (fig.update_layout :title (string "psf")
+				     :width 500 :height 500)
+		  (fig.show))
+		 #+nil (px.imshow )))
+	       (python
+		(cell
 		 (comments "compute modulation transfer function")
 		 (setf mtf (np.real (np.fft.fftshift
-				     (np.fft.irfft2 (* kdisk
-						       (np.conj kdisk))
+				     (np.fft.irfft2 psf
 						    :s disk.shape))))
 		 (setf mtf (/ mtf (np.max mtf)))
 		 (px.imshow mtf)))
 	       (python
 		(cell
 		 (comments "render mtf as 3d surface")
-		 (setf fig (go.Figure :data (list (go.Surface
-						   :x xx
-						   :y yy
-						   :z mtf))))
-		 (fig.show)
+		 (do0
+		  (setf fig (go.Figure :data (list (go.Surface
+						    :x xx
+						    :y yy
+						    :z mtf))))
+		  (fig.update_layout :title (string "mtf")
+				     :xaxis_title (string "kx")
+				     :yaxis_title (string "ky")
+				     :width 500 :height 500)
+		  (fig.show))
 		 ))
 	       (python
 		(cell
