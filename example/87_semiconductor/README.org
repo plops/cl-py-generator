@@ -17,13 +17,14 @@
 
 backlash_{x,y,z}
 crosstalk_{x,y,z}{x,y,z}
+encoder_uniformity_{x,y,z}
 distortion_{x,y}
 focus_z
 location_{x,y}
 overetch
 illumination_field_nonuniformity
 illumination_pupil_nonuniformity
-
+rotation
 
 #+end_example
 
