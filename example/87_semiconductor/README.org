@@ -1,2 +1,23 @@
 - https://youtu.be/LHyV_-9JXu4
   Lecture 60 (CHE 323) Extreme Ultraviolet (EUV) Lithography
+- https://youtu.be/QtxGLY_sIVw
+  Bonus Lecture 1, Mask Making Part 1
+  - 23:00 phase shifting mask
+- https://youtu.be/OAXNBKuwNlM
+  Bonus Lecture 2, Mask Making Part 2
+  - long mask write time -> higher requirement to stability of tool
+  - hierarchy principle (include all low order terms in model)
+  - fractional factorial design
+- https://youtu.be/WqomX1NBJJs
+  Lecture 45 (CHE 323) Lithography Mask Illumination
+  - impact of tilted illumination
+
+
+#+begin_example
+
+backlash_{x,y,z}
+crosstalk_{x,y,z}{x,y,z}
+distortion_{x,y}
+focus_z
+location_{x,y}
+#+end_example
