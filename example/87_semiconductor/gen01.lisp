@@ -74,7 +74,7 @@
 
 	       (python
 		(cell
-		 
+
 		 (setf nx 171
 		       ny 233
 		       (ntuple xx yy)
@@ -87,9 +87,15 @@
 			     (** (- yy
 				    (* .5 ny))
 				 2))
-		       disk (< rr (** (* .5 150)
+		       disk (< rr (** (* .5 70)
 				      2)))
 		 (px.imshow disk)))
+	       (python
+		(cell
+		 (setf kdisk (np.fft.fftshift
+			      (np.fft.rfft2 (* disk 1s0))
+			      :axes (tuple -2)))
+		 (px.imshow (np.log (np.abs kdisk)))))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
