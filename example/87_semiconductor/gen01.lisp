@@ -252,14 +252,14 @@
 	       (python
 		(cell
 		 (setf fig (px.histogram df :x (string "dx")
-				:marginal (string "violin")
-				:color (string "max_phot")))
+					 :marginal (string "violin")
+					 :color (string "max_phot")))
 		 (fig.update_layout :xaxis_title_text (string "x shift estimate (nm)"))))
 	       (python
 		(cell
 		 (setf fig (px.histogram df :x (string "dy")
-				:marginal (string "violin")
-				:color (string "max_phot")))
+					 :marginal (string "violin")
+					 :color (string "max_phot")))
 		 (fig.update_layout :xaxis_title_text (string "y shift estimate (nm)")))))))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))

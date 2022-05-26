@@ -15,16 +15,23 @@
 
 #+begin_example
 
-backlash_{x,y,z}
-crosstalk_{x,y,z}{x,y,z}
-encoder_uniformity_{x,y,z}
-distortion_{x,y}
-focus_z
 location_{x,y}
-overetch
-illumination_field_nonuniformity
-illumination_pupil_nonuniformity
-rotation
+
+1.1 backlash_{x,y,z}
+1.2 crosstalk_{x,y,z}{x,y,z}
+1.3 encoder_uniformity_{x,y,z}
+1.4 rotation
+
+2.1 distortion_{x,y}
+2.2 focus_z
+2.3 illumination_field_nonuniformity
+2.4 illumination_pupil_nonuniformity
+
+
+3.1 marker_etch_deviation
+3.2 marker_thickness_deviation
+3.3 marker_index0_deviation_below
+3.3 marker_index1_deviation_below
 
 #+end_example
 
