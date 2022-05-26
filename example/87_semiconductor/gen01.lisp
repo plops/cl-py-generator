@@ -110,13 +110,16 @@
 						 )
 		       psf_view (/ psf_view (np.max psf_view)))
 		 (px.imshow psf_view)
+		 
+		 ))
+	       (python
+		(cell
 		 (do0
 		  (setf fig (go.Figure :data (list (go.Surface
 						    :z psf_view))))
 		  (fig.update_layout :title (string "psf")
 				     :width 500 :height 500)
-		  (fig.show))
-		 ))
+		  (fig.show))))
 	       (python
 		(cell
 		 (comments "compute modulation transfer function")
@@ -142,6 +145,8 @@
 		 ))
 	       (python
 		(cell
+		 (comments "draw marker")
+		 
 		 ))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
