@@ -110,7 +110,7 @@
 		 (setf psf_view (np.fft.fftshift (np.abs psf)
 					;:axes (tuple -2)
 						 )
-		       psf_view (/ psf_view (np.max psf_view)))
+		       psf_view (/ psf_view (np.sum psf_view)))
 		 (px.imshow psf_view)
 
 		 ))
@@ -167,14 +167,14 @@
 		  ;; xc yc radius angle1 angle2
 		  (setf ang1 (/ (* 1 2 np.pi) 6s0)
 			ang2 (+ (* 120 (/ (* 2 np.pi)
-					180))
-			      (/ (* -1 2 np.pi) 6s0)))
+					  180))
+				(/ (* -1 2 np.pi) 6s0)))
 		  (cr.arc  (* .5 ny)
 			   (* .5 nx)
 			   30
 			   ang1
 			   ang2
-			    )
+			   )
 		  (cr.set_line_width 5)
 		  (cr.set_source_rgb 1s0 1s0 1s0)
 		  (cr.stroke)
@@ -184,10 +184,10 @@
 			 n_spokes 3
 			 )
 		   (for (spoke (range n_spokes))
-			(setf ang (+ (* 2 np.pi (/ -1d0 6))
+			(setf ang (+ .2 (* 2 np.pi (/ -1d0 6))
 				     (/ (* 2 np.pi spoke)
 					n_spokes)))
-			
+
 			(do0 ;; x y
 			 (cr.move_to (* .5 ny)
 				     (* .5 nx))
