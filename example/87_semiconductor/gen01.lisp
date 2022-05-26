@@ -92,10 +92,18 @@
 		 (px.imshow disk)))
 	       (python
 		(cell
-		 (setf kdisk (np.fft.fftshift
-			      (np.fft.rfft2 (* disk 1s0))
-			      :axes (tuple -2)))
-		 (px.imshow (np.log (np.abs kdisk)))))
+		 (setf kdisk (np.fft.rfft2 (* disk 1s0))
+		       kdisk_centered (np.fft.fftshift
+				       kdisk
+				       :axes (tuple -2)))
+		 (px.imshow (np.log (np.abs kdisk_centered))
+			    :aspect (string "equal"))))
+	       (python
+		(cell
+		 (setf mtf (np.fft.irfft2 (* kdisk
+					     (np.conj kdisk))
+					  :s disk.shape))
+		 (px.imshow (np.real mtf))))
 	       )))))
   #+nil (sb-ext:run-program "/usr/bin/sh"
 			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
