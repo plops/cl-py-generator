@@ -146,7 +146,19 @@
 			   :sigma  mNO$sigma)) xs)
 
 		   :col (string "red")
-		   :lwd 3)
+		   :lwd 3
+		   :xlab (string "probability")
+		   :ylab (string "dx (nm)"))
+		  (setf u_hi (qNO (- 1 .025)
+				  :mu mNO$mu
+				  :sigma  mNO$sigma))
+		  (setf u_lo (qNO .025
+				  :mu mNO$mu
+				  :sigma  mNO$sigma))
+		  (abline :h u_hi)
+		  (abline :h u_lo)
+		  (title (sprintf (string "95%% uncertainty U=%.3f nm")
+				  (- u_hi u_lo)))
 		  )
 		 ))
 
