@@ -161,14 +161,22 @@
 				  :sigma  mNO$sigma))
 		  (abline :h u_hi)
 		  (abline :h u_lo)
+		  (setf U (* .5 (- u_hi u_lo)))
 		  (setf value_usl_minus_u_hi (- value_usl u_hi)
 			value_lsl_minus_u_lo (- value_lsl u_lo)
+			tol_prod (- (max 0 value_usl_minus_u_hi)
+				    (min 0 value_lsl_minus_u_lo))
 			)
+		  (comments "only measurement systems with Cg>5 are considered capable")
+		  (setf Cg_top (- value_usl value_lsl)
+			Cg_btm (* 2 U) 
+			Cg (/ Cg_top
+			      Cg_btm))
 		  (comments "note: in happy case (uncertainty < tolerance) the left values is negative")
-		  (title (sprintf (string "95%% measurement uncertainty U=%.3f nm\\nproduction tolerance=%.3f nm")
-				  (- u_hi u_lo)
-				  (- (max 0 value_usl_minus_u_hi)
-				     (min 0 value_lsl_minus_u_lo))))
+		  (title (sprintf (string "95%% measurement uncertainty U=%.3f nm\\nproduction tolerance=%.3f nm\\nCg=%.2f")
+				  U
+				  tol_prod
+				  Cg))
 		  )
 		 ))
 
