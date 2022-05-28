@@ -71,7 +71,7 @@
 					;:n.cyc 100
 				     ))
 		 (do0
-		  (commeents "compare empirical cumulative distribution function with the cdf for the gaussian fit")
+		  (comments "compare empirical cumulative distribution function with the cdf for the gaussian fit")
 		  (plot (ecdf dx))
 		  (setf xs (seq -4 4 .01))
 		  (lines

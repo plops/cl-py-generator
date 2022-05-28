@@ -25,6 +25,7 @@
   - http://users.stat.umn.edu/~gary/book/fcdae.pdf
   - levels are the values of the variable that we try
 
+- yoshizawa (ed.): Handbook of optical metrology (chapter 33)
 ** R packages
    - https://cran.r-project.org/web/packages/gamlss/gamlss.pdf reference
    - http://www.gamlss.com/wp-content/uploads/2013/01/gamlss-manual.pdf
