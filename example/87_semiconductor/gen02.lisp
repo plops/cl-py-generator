@@ -31,7 +31,7 @@
 	     (let ((fn  (format nil "source/~3,'0d_~{~a~^_~}.ipynb" nb-counter path)))
 	       (write-notebook
 		:nb-file fn
-		:nb-code (append `((python (do0
+		:nb-code (append `((r (do0
 					    (comments
 					     ,(format nil "default_exp ~{~a~^/~}_~2,'0d" path nb-counter)))))
 				 code))
@@ -45,8 +45,8 @@
 		 (comments "load dependencies and file")
 		 (require gamlss)
 		 (setf location
-			(read.csv
-			 (string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))))
+		       (read.csv
+			(string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))))
 	       (r
 		(cell
 		 (do0
@@ -58,7 +58,7 @@
 		  (setf fit (fitDist dx :k 2
 				     :type (string "realAll")))
 		  (comments "i tried 10 and 10e3 photons, the best distribution fit seems to be normal")
-		  
+
 
 		  )
 		 ))
@@ -69,7 +69,7 @@
 		 (setf mNO (histDist dx (string "NO")
 					;:bins 30
 					;:n.cyc 100
-			   ))
+				     ))
 		 (do0
 		  (commeents "compare empirical cumulative distribution function with the cdf for the gaussian fit")
 		  (plot (ecdf dx))
@@ -85,11 +85,11 @@
 		   :lwd 3))
 		 ))
 	       (r
-		  (cell
-		   (comments "show worm plot")
-		   (wp mNO)))
+		(cell
+		 (comments "show worm plot")
+		 (wp mNO)))
 	       )))))
- )
+  )
 
 
 
