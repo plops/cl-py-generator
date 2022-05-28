@@ -42,59 +42,36 @@
 	(gen `(run_fit)
 	     `((r
 		(cell
-		 (do0
-
-		  (require gamlss)
-		  (setf location
+		 (comments "load dependencies and file")
+		 (require gamlss)
+		 (setf location
 			(read.csv
-			 (string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))
+			 (string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))))
+	       (r
+		(cell
+		 (do0
+		  (comments "look at statistics of localization with 10e3 photons")
 		  (setf dx ($ (aref location
 				    (== location$max_phot 10000)
 				    "")
 			      dx))
 		  (setf fit (fitDist dx :k 2
 				     :type (string "realAll")))
-		  (setf mNO (histDist dx (string "NO")
-					;:bins 30
-					;:n.cyc 100
-				      ))
+		  (comments "i tried 10 and 10e3 photons, the best distribution fit seems to be normal")
+		  
 
-		  (plot (ecdf dx))
-		  (setf xs (seq -4 4 .01))
-		  (lines
-		   xs
-		   ((lambda (y)
-		      (pNO y
-			   :mu mNO$mu
-			   :sigma  mNO$sigma)) xs)
-
-		   :col (string "red")
-		   :lwd 3)
-
-
-		  (wp mNO)
 		  )
 		 ))
-	       )))))
-  #+nil
-  (write-source (format nil "~a/source/run02_fit" *path*)
-		`(do0
 
-		  (require gamlss)
-		  (setf location
-			(read.csv
-			 (string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))
-		  (setf dx ($ (aref location
-				    (== location$max_phot 10000)
-				    "")
-			      dx))
-		  (setf fit (fitDist dx :k 2
-				     :type (string "realAll")))
-		  (setf mNO (histDist dx (string "NO")
+	       (r
+		(cell
+		 (comments "explicitly fit normal distribution, and generate some diagnostic plots")
+		 (setf mNO (histDist dx (string "NO")
 					;:bins 30
 					;:n.cyc 100
-				      ))
-
+			   ))
+		 (do0
+		  (commeents "compare empirical cumulative distribution function with the cdf for the gaussian fit")
 		  (plot (ecdf dx))
 		  (setf xs (seq -4 4 .01))
 		  (lines
@@ -105,11 +82,14 @@
 			   :sigma  mNO$sigma)) xs)
 
 		   :col (string "red")
-		   :lwd 3)
-
-
-		  (wp mNO)
-		  )))
+		   :lwd 3))
+		 ))
+	       (r
+		  (cell
+		   (comments "show worm plot")
+		   (wp mNO)))
+	       )))))
+ )
 
 
 
