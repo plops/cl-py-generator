@@ -56,3 +56,12 @@ location_{x,y}
     - fit distribution
     - predict measurement error from the overlap between tails and
       limits
+
+* install R
+#+begin_example
+sudo dnf install \
+  R-CRAN-gamlss.dist \
+  R-CRAN-gamlss.ggplots \
+  R-CRAN-gamlss \
+  R-CRAN-gamlss.tr 
+#+end_example
