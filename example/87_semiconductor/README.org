@@ -83,5 +83,6 @@ sudo dnf install \
   R-CRAN-gamlss.dist \
   R-CRAN-gamlss.ggplots \
   R-CRAN-gamlss \
-  R-CRAN-gamlss.tr 
+  R-CRAN-gamlss.tr \
+  rstudio-desktop
 #+end_example

@@ -27,10 +27,12 @@
 	(incf show-counter))))
   (write-source (format nil "~a/source/run02_fit" *path*)
 		`(do0
-		  
+
 		  (require gamlss)
-		   
-		   )))
+		  (setf location
+			(read.csv
+			 (string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))
+		  )))
 
 
 
