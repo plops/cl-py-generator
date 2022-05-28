@@ -32,8 +32,8 @@
 	       (write-notebook
 		:nb-file fn
 		:nb-code (append `((r (do0
-					    (comments
-					     ,(format nil "default_exp ~{~a~^/~}_~2,'0d" path nb-counter)))))
+				       (comments
+					,(format nil "default_exp ~{~a~^/~}_~2,'0d" path nb-counter)))))
 				 code))
 	       (format t "~&~c[31m wrote Python ~c[0m ~a~%"
 		       #\ESC #\ESC fn))
@@ -66,20 +66,25 @@
 	       (r
 		(cell (comments "explicitly fit normal distribution, and generate some diagnostic plots")
 		      (setf mNO (histDist dx (string "NO")
+					  :xlab (string "dx (nm)")
 					;:bins 30
 					;:n.cyc 100
 					  ))
 		      ))
-	       
+
 	       (r
 		(cell
-		 (comments "show worm plot")
+		 (comments "show worm plot"
+			   "https://rdrr.io/cran/gamlss/man/wp.html"
+			   "detrended QQ-plot"
+			   "departure from normality is highlighted"
+			   "residual is fitted with cubic polynomial (can be used to identify areas of model violation)")
 		 (wp mNO)))
 
 	       (r
 		(cell
-		 
-		 
+
+
 		 (do0
 
 		  (comments "compare empirical cumulative distribution function with the cdf for the gaussian fit")
@@ -100,39 +105,39 @@
 		   (setf value_nominal 0
 			 value_lsl -1
 			 value_usl 1)
-		   
+
 		   ,@(loop for e in `((:name nominal)
 				      (:name lsl :extra t :fun (lambda (x) (* 100 x)))
 				      (:name usl :extra t :fun (lambda (x) (* 100 (- 1 x)))))
 			   collect
 			   (destructuring-bind (&key name extra fun) e
-			    (let ((val (format nil "value_~a" name))
-				  (area (format nil "area_~a_perc" name)))
-			      `(do0
-				(abline :v ,val
-					:col (string "red"))
-				,(if extra
-				   `(setf ,area (,fun (pNO ,val
-						       :mu mNO$mu
-						       :sigma  mNO$sigma)))
-				   `(comments "no area to compute for nominal"))
-				(text ,val .1 ,(if extra
-						   `(sprintf
-						     (string ,(format nil "~a\\noutside: %.1f%%" name))
-						     ,area)
-						   `(string ,(format nil "~a\\nvalue" name))))))))))
+			     (let ((val (format nil "value_~a" name))
+				   (area (format nil "area_~a_perc" name)))
+			       `(do0
+				 (abline :v ,val
+					 :col (string "red"))
+				 ,(if extra
+				      `(setf ,area (,fun (pNO ,val
+							      :mu mNO$mu
+							      :sigma  mNO$sigma)))
+				      `(comments "no area to compute for nominal"))
+				 (text ,val .1 ,(if extra
+						    `(sprintf
+						      (string ,(format nil "~a\\noutside: %.1f%%" name))
+						      ,area)
+						    `(string ,(format nil "~a\\nvalue" name))))))))))
 		 ))
 
 	       (r
 		(cell
-		 
-		 
+
+
 		 (do0
 
 		  (comments "determine measurement uncertainty with fitted inverses cumulative distribution function")
-		  
+
 		  (setf xs (seq 0 1 .01))
-		  
+
 		  (plot
 		   xs
 		   ((lambda (y)
@@ -144,8 +149,8 @@
 		   :lwd 3)
 		  )
 		 ))
-	       
-	       
+
+
 	       )))))
   )
 
