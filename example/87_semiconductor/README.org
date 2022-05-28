@@ -1,3 +1,11 @@
+* overview code
+  
+| file  | level | comment                                                         |
+|-------+-------+-----------------------------------------------------------------|
+| gen01 |   80% | python code to simulate image formation and marker localization |
+| gen02 |    0% | R code to look at statistics, fit distribution                  |
+
+* references
 - https://youtu.be/LHyV_-9JXu4
   Lecture 60 (CHE 323) Extreme Ultraviolet (EUV) Lithography
 - https://youtu.be/QtxGLY_sIVw
@@ -12,7 +20,13 @@
   Lecture 45 (CHE 323) Lithography Mask Illumination
   - impact of tilted illumination
 
+- https://youtu.be/N62qUfMksIQ six sigma control charts
+- https://www.youtube.com/watch?v=qlAd9_IIJDw experimental design in r studio
+  - http://users.stat.umn.edu/~gary/book/fcdae.pdf
+  - levels are the values of the variable that we try
 
+
+* potential quality performance parameters in microscope
 #+begin_example
 
 location_{x,y}
@@ -21,7 +35,7 @@ location_{x,y}
 1.1 backlash_{x,y,z}
 1.2 crosstalk_{x,y,z}{x,y,z}
 1.3 encoder_uniformity_{x,y,z}
-1.4 rotation
+1.4 stage_rotation
 
 2. optics
 2.1 distortion_{x,y}
@@ -37,11 +51,6 @@ location_{x,y}
 3.4 pellicle_dirty
 
 #+end_example
-
-- https://youtu.be/N62qUfMksIQ six sigma control charts
-- https://www.youtube.com/watch?v=qlAd9_IIJDw experimental design in r studio
-  - http://users.stat.umn.edu/~gary/book/fcdae.pdf
-  - levels are the values of the variable that we try
 
 * example simulation
   - python
