@@ -157,8 +157,10 @@
 				  :sigma  mNO$sigma))
 		  (abline :h u_hi)
 		  (abline :h u_lo)
-		  (title (sprintf (string "95%% uncertainty U=%.3f nm")
-				  (- u_hi u_lo)))
+		  (title (sprintf (string "95%% uncertainty U=%.3f nm, production tolerance=%.3f nm")
+				  (- u_hi u_lo)
+				  (- (max 0 (- value_usl u_hi))
+				     (max 0 (+ value_lsl u_lo)))))
 		  )
 		 ))
 
