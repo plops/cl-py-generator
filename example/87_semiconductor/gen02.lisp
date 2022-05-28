@@ -71,6 +71,10 @@
 					;:n.cyc 100
 					  ))
 		      ))
+	       (r
+		(cell
+		 (comments "note: we could use the std. error of the fit parameters to give compute confidence interval for the measurement uncertainty (and resimulate with more experiments if the fit errors are too high)")
+		 (summary mNO)))
 
 	       (r
 		(cell
@@ -157,10 +161,14 @@
 				  :sigma  mNO$sigma))
 		  (abline :h u_hi)
 		  (abline :h u_lo)
-		  (title (sprintf (string "95%% uncertainty U=%.3f nm, production tolerance=%.3f nm")
+		  (setf value_usl_minus_u_hi (- value_usl u_hi)
+			value_lsl_minus_u_lo (- value_lsl u_lo)
+			)
+		  (comments "note: in happy case (uncertainty < tolerance) the left values is negative")
+		  (title (sprintf (string "95%% measurement uncertainty U=%.3f nm\\nproduction tolerance=%.3f nm")
 				  (- u_hi u_lo)
-				  (- (max 0 (- value_usl u_hi))
-				     (max 0 (+ value_lsl u_lo)))))
+				  (- (max 0 value_usl_minus_u_hi)
+				     (min 0 value_lsl_minus_u_lo))))
 		  )
 		 ))
 
