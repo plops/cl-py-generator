@@ -57,7 +57,18 @@ location_{x,y}
     - predict measurement error from the overlap between tails and
       limits
 
-* install R
+* install Python dependencies
+  #+begin_example
+pip3 install --user plotly cufflinks chart_studio pycairo diplib
+pip3 install --user plotly --upgrade
+  #+end_example
+  - start jupyter lab
+#+begin_example
+cd /home/martin/stage/cl-py-generator/example/87_semiconductor/source
+jupyter-lab
+#+end_example
+
+* install R dependencies
 #+begin_example
 sudo dnf install \
   R-CRAN-gamlss.dist \

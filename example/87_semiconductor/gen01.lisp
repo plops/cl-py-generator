@@ -247,7 +247,8 @@
 					:rep rep
 					:dx (* nm_per_px dx)
 					:dy (* nm_per_px dy)))))
-		 (setf df (pd.DataFrame res)))
+		 (setf df (pd.DataFrame res))
+		 (df.to_csv (string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))
 		)
 	       (python
 		(cell
