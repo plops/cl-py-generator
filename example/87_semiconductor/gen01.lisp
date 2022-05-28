@@ -231,7 +231,7 @@
 		 ))
 	       (python
 		(cell
-		 (comments "perform a view repeats with different number of photons")
+		 (comments "perform a few repeats with different number of photons")
 		 (setf res (list))
 		 (setf nm_per_px 62.5)
 		 (for (max_phot (list 10 20 30 100 1000 10000))
