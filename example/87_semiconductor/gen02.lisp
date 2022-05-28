@@ -32,6 +32,12 @@
 		  (setf location
 			(read.csv
 			 (string "/home/martin/stage/cl-py-generator/example/87_semiconductor/source/dir87_gen01_location.csv")))
+		  (setf dx ($ (aref location
+				      (== location$max_phot 10000)
+				      "")
+			      dx))
+		  (setf fit (fitDist dx :k 2
+				     :type (string "realAll")))
 		  )))
 
 
