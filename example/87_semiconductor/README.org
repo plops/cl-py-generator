@@ -25,7 +25,12 @@
   - http://users.stat.umn.edu/~gary/book/fcdae.pdf
   - levels are the values of the variable that we try
 
-
+** R packages
+   - https://cran.r-project.org/web/packages/gamlss/gamlss.pdf reference
+   - http://www.gamlss.com/wp-content/uploads/2013/01/gamlss-manual.pdf
+   - https://docs.ufpr.br/~taconeli/CE06218/Ex3.pdf
+     - more specific example of fitDist usage
+       
 * potential quality performance parameters in microscope
 #+begin_example
 

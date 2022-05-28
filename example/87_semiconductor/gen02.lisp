@@ -38,7 +38,25 @@
 			      dx))
 		  (setf fit (fitDist dx :k 2
 				     :type (string "realAll")))
+		  (setf mNO (histDist dx (string "NO")
+				      ;:bins 30
+				      ;:n.cyc 100
+				      ))
+		  
 		  (plot (ecdf dx))
+		  (setf xs (seq -4 4 .01))
+		  (lines
+		   xs
+		   ((lambda (y)
+		      (pNO y
+			   :mu mNO$mu
+			   :sigma  mNO$sigma)) xs)
+		   
+		   :col (string "red")
+		   :lwd 3)
+		  
+		  
+		  (wp mNO)
 		  )))
 
 
