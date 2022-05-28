@@ -34,7 +34,7 @@ location_{x,y}
 3.2 marker_thickness_deviation
 3.3 marker_index0_deviation_below
 3.3 marker_index1_deviation_below
-3.4 pelicle_dirty
+3.4 pellicle_dirty
 
 #+end_example
 
@@ -42,3 +42,17 @@ location_{x,y}
 - https://www.youtube.com/watch?v=qlAd9_IIJDw experimental design in r studio
   - http://users.stat.umn.edu/~gary/book/fcdae.pdf
   - levels are the values of the variable that we try
+
+* example simulation
+  - python
+    - draw mask
+    - blur with point spread function
+    - generate poisson noise with different number of max photons per
+      pixel
+    - find shift between noisy image and blurred mask
+    - repeat many times to collect some statistics for different
+      intensities
+  - R
+    - fit distribution
+    - predict measurement error from the overlap between tails and
+      limits
