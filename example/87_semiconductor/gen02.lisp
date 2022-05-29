@@ -92,7 +92,7 @@
 		 (do0
 
 		  (comments "compare empirical cumulative distribution function with the cdf for the gaussian fit")
-		  (plot (ecdf dx))
+		  (plot (ecdf dx) :xlab (string "x (nm)"))
 		  (setf xs (seq -4 4 .01))
 		  (comments "pdf .. prefix=d, cdf .. prefix=p, inverse cdf .. prefix=q")
 		  (lines
@@ -190,47 +190,47 @@
 		 (comments "compute values for all illuminations (max per pixel photon numbers)")
 		 (for (max_phot (unique location$max_phot))
 		      (setf dx ($ (aref location
-				    (== location$max_phot max_phot)
-				    "")
-			      dx))
+					(== location$max_phot max_phot)
+					"")
+				  dx))
 		      (setf mNO (histDist dx (string "NO")
 					  :xlab (string "dx (nm)")
-					
+
 					  ))
 		      (do0
-		   (setf u_hi (qNO (- 1 .025)
-				   :mu mNO$mu
-				   :sigma  mNO$sigma))
-		   (setf u_lo (qNO .025
-				   :mu mNO$mu
-				   :sigma  mNO$sigma))
-		   (do0
-		   (comment "note: in case of an asymmetric distribution U should be computed in a different way.")
-		   (setf U (* .5 (- u_hi u_lo)))
-		   (setf value_usl_minus_u_hi (- value_usl u_hi)
-			 value_lsl_minus_u_lo (- value_lsl u_lo)
-			 tol_prod (- (max 0 value_usl_minus_u_hi)
-				     (min 0 value_lsl_minus_u_lo))
-			 )
-		   (comments "only measurement systems with Cg>5 are considered capable")
-		   (setf Cg_top (- value_usl value_lsl)
-			 Cg_btm (* 2 U)
-			 Cg (/ Cg_top
-			       Cg_btm))
-		   (setf tmp (data.frame :Cg Cg
-					 :tol_prod tol_prod
-					 :U_meas U
-					 :u_hi u_hi
-					 :u_lo u_lo
-					 :usl value_usl
-					 :lsl value_lsl
-					 :mu mNO$mu
-					 :sigma mNO$sigma
-					 :max_phot max_phot)
-			 res (rbind res tmp))
-		   )
-		   )
-		      
+		       (setf u_hi (qNO (- 1 .025)
+				       :mu mNO$mu
+				       :sigma  mNO$sigma))
+		       (setf u_lo (qNO .025
+				       :mu mNO$mu
+				       :sigma  mNO$sigma))
+		       (do0
+			(comment "note: in case of an asymmetric distribution U should be computed in a different way.")
+			(setf U (* .5 (- u_hi u_lo)))
+			(setf value_usl_minus_u_hi (- value_usl u_hi)
+			      value_lsl_minus_u_lo (- value_lsl u_lo)
+			      tol_prod (- (max 0 value_usl_minus_u_hi)
+					  (min 0 value_lsl_minus_u_lo))
+			      )
+			(comments "only measurement systems with Cg>5 are considered capable")
+			(setf Cg_top (- value_usl value_lsl)
+			      Cg_btm (* 2 U)
+			      Cg (/ Cg_top
+				    Cg_btm))
+			(setf tmp (data.frame :Cg Cg
+					      :tol_prod tol_prod
+					      :U_meas U
+					      :u_hi u_hi
+					      :u_lo u_lo
+					      :usl value_usl
+					      :lsl value_lsl
+					      :mu mNO$mu
+					      :sigma mNO$sigma
+					      :max_phot max_phot)
+			      res (rbind res tmp))
+			)
+		       )
+
 		      )))
 	       (r
 		(cell

@@ -124,9 +124,16 @@
 	       (python
 		(cell
 		 (do0
-		  (setf fig (go.Figure :data (list (go.Surface
-						    :z psf_view))))
-		  (fig.update_layout :title (string "psf")
+		  (comments "3d surface of PSF")
+		  (setf rad 10)
+		  (setf fig (go.Figure
+			     :data (list (go.Surface
+					  :z (aref psf_view
+						   (slice (- (// nx 2) rad)
+							  (+ (// nx 2) rad))
+						   (slice (- (// ny 2) rad)
+							  (+ (// ny 2) rad)))))))
+		  (fig.update_layout :title (string "Point Spread Function (zoomed in)")
 				     :width 500 :height 500)
 		  (fig.show))))
 	       (python
@@ -221,7 +228,12 @@
 		 (setf rng (np.random.default_rng)
 		       img_pois (rng.poisson :lam (* max_photons_per_pixel
 						     img)))
-		 (px.imshow img_pois)))
+		 (px.imshow (aref img_pois
+				  (slice 50 120)
+				  (slice 70 140))
+			    :title
+			    (dot (string "max_photons_per_pixel={}")
+				 (format max_photons_per_pixel)))))
 	       (python
 		(cell
 		 (comments "use diplib to find shift between blurred marker and noisy image")
@@ -262,9 +274,10 @@
 					 :marginal (string "violin")
 					 :color (string "max_phot")))
 		 (fig.update_layout :xaxis_title_text (string "y shift estimate (nm)")))))))))
-  #+nil (sb-ext:run-program "/usr/bin/sh"
-			    `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
-  (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC ))
+  #+nil
+  (progn (sb-ext:run-program "/usr/bin/sh"
+			     `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
+	 (format t "~&~c[31m ran nbdev ~c[0m ~%" #\ESC #\ESC )))
 
 
 

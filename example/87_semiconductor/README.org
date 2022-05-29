@@ -3,7 +3,7 @@
 | file  | level | comment                                                         |
 |-------+-------+-----------------------------------------------------------------|
 | gen01 |   80% | python code to simulate image formation and marker localization |
-| gen02 |    0% | R code to look at statistics, fit distribution                  |
+| gen02 |   90% | R code to look at statistics, fit distribution                  |
 
 * references
 - https://youtu.be/LHyV_-9JXu4
