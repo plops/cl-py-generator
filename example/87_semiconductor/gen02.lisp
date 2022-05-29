@@ -235,7 +235,18 @@
 	       (r
 		(cell
 		 (plot :x res$max_phot
-		       :y res$Cg)
+		       :y res$Cg
+		       :lwd 3
+		       :type (string "b")
+		       :cex.lab 1.5
+		       :cex.axis 2
+		       :cex.main 2
+		       :cex.sub 2
+		       :xlab (string "max photons per pixel")
+		       :ylab (string "Cg")
+		       :main (string "measurement capability index")
+		       )
+		 (grid)
 		 ))
 
 
