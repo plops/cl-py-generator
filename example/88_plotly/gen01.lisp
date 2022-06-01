@@ -49,9 +49,9 @@
 			   (py chart_studio.plotly)
 			   (px plotly.express)
 			   (go plotly.graph_objects)
-			   ;scipy.signal
-			   ;(dip diplib)
-			   ;tqdm
+					;scipy.signal
+					;(dip diplib)
+					;tqdm
 					;(o3d open3d)
 			   ))
 		 "%matplotlib inline"
@@ -66,36 +66,36 @@
 	       (python
 		(cell
 		 (setf df_ (pd.read_csv (string "chart.csv")
-				       :delimiter (string ";")))))
+					:delimiter (string ";")))))
 	       (python
 		(cell
 		 (setf rename_dict (dict
-				 ,@(loop for (e f) in
-					 `((time "time")
-					   (rpm "Engine speed: ---")
-					   (valve "Throttle valve position (absolute): ---")
-					   (cool "Coolant temperature: ---")
-					   (airflowrat "Standardised airflow ratio: ---")
-					   (airmass "Air mass, actual value:: ---")
-					   (torque "Engine torque: ---")
-					   (valve1 "Throttle valve position (absolute): ---.1")
-					   (aircleaner "Air cleaner degree of soiling: ---")
-					   (airpressure "Charge air pressure, actual value: ---")
-					   (fuelpressure "Fuel Pressure: ---")
-					   (exhaustmass "Exhaust mass flow of EGR: ---"))
-					 collect
-					 `((string ,f) (string ,e)))))
+				    ,@(loop for (e f) in
+					    `((time "time")
+					      (rpm "Engine speed: ---")
+					      (valve "Throttle valve position (absolute): ---")
+					      (cool "Coolant temperature: ---")
+					      (airflowrat "Standardised airflow ratio: ---")
+					      (airmass "Air mass, actual value:: ---")
+					      (torque "Engine torque: ---")
+					      (valve1 "Throttle valve position (absolute): ---.1")
+					      (aircleaner "Air cleaner degree of soiling: ---")
+					      (airpressure "Charge air pressure, actual value: ---")
+					      (fuelpressure "Fuel Pressure: ---")
+					      (exhaustmass "Exhaust mass flow of EGR: ---"))
+					    collect
+					    `((string ,f) (string ,e)))))
 		 (setf df (dot df_
 			       (rename
 				:columns
 				rename_dict)))))
-	       ,@(loop for e in `((:name rpm :mi 800 :ma 2000) 
+	       ,@(loop for e in `((:name rpm :mi 800 :ma 2000)
 				  (:name valve)
 				  (:name cool)
 				  (:name airflowrat :mi 1 :ma 2)
-				  (:name airmass)
+				  (:name airmass :mi 0 :ma 50)
 				  (:name torque :mi -5 :ma 200)
-				  ;(:name valve1)
+					;(:name valve1)
 				  (:name aircleaner)
 				  (:name airpressure)
 				  (:name fuelpressure :mi 20e3 :ma 100e3)
@@ -108,8 +108,8 @@
 			    (setf fig (px.line df :y (string ,name)))
 			    ,(if (and mi ma)
 				 `(fig.update_layout :yaxis_range (list ,mi ,ma))
-				 `(comments "no extra")))))))))))
-  
+				 `fig))))))))))
+
   #+nil
   (progn (sb-ext:run-program "/usr/bin/sh"
 			     `("/home/martin/stage/cl-py-generator/example/87_semiconductor/source/setup01_nbdev.sh"))
