@@ -81,12 +81,18 @@
 	    (do0
 	     (setf doc (dot App (newDocument (string "bed")))))
 	    (do0
+	     (comments "https://wiki.freecadweb.org/Python_scripting_tutorial/de")
 	     (setf sph_ (Part.makeSphere 10))
-	     (setf sph (doc.addObject (string "Part::Feature")
-				      (string "sph"))
-		   sph.Shape sph_)
-	     (doc.recompute)
+
+	     (do0 
+	      #+nil (do0 (setf sph (doc.addObject (string "Part::Feature")
+					(string "sph"))
+			 sph.Shape sph_)
+			 (doc.recompute))
+	      (setf sph (Part.show sph_)))
 	     sph.Volume
-	     sph.Area))))
+	     sph.Area)
+	    (do0
+	     (comments "https://wiki.freecadweb.org/Topological_data_scripting/de")))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 
