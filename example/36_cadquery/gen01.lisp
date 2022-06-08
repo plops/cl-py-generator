@@ -51,6 +51,7 @@
 					;(cq cadquery)
 			   Arch
 			   Part
+			   Mesh
 			   ))
 					;"from Helpers import show"
 		 (setf
@@ -80,6 +81,8 @@
 
 	    (do0
 	     (setf doc (dot App (newDocument (string "bed")))))
+	    (do0
+	     (setf q (Mesh.insert (string "/home/martin/Downloads/t5insidetri_20_04_38.ply"))))
 	    (do0
 	     (comments "https://wiki.freecadweb.org/Python_scripting_tutorial/de")
 	     (setf cylinder (Part.makeCylinder 3 10
