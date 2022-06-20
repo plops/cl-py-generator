@@ -55,6 +55,14 @@
 		       :nbformat_minor 2)))))
     #+nil
     (sb-ext:run-program "/usr/bin/python3" `("-mjson.tool" ,nb-file))
+    #-sbcl
+    (external-program:run
+     "/usr/bin/jq"
+     `("-M" "." ,tmp)
+     :output nb-file
+     :if-output-exists :supersede
+     )
+    #+sbcl
     (sb-ext:run-program "/usr/bin/jq" `("-M" "." ,tmp)
 			:output nb-file
 			:if-output-exists :supersede)
