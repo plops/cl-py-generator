@@ -33,7 +33,8 @@
 					:source
 					,(loop for p in rest
 					       appending
-					       (let ((tempfn "/dev/shm/cell"))
+					       (let ((tempfn #+sbcl "/dev/shm/cell"
+							     #+ecl (format nil "~a_tmp_cell" nb-file)))
 						 (write-source tempfn p)
 						 (with-open-file (stream (format nil "~a.py" tempfn))
 						   (loop for line = (read-line stream nil)
