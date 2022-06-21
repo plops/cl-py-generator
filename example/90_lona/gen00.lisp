@@ -12,7 +12,7 @@
     (format  nil "~a/stage/cl-py-generator/example/90_lona"
 	     (user-homedir-pathname)
 	     ))
-  (defparameter *code-file* "run_00_justpy")
+  (defparameter *code-file* "run_00_lona")
   (defparameter *source* (format nil "~a/source/" *path*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -25,9 +25,8 @@
 			   ,@rest)))))
   (let* (
 	 (code
-	   `(do0
-	     (imports ((jp justpy)))	     
-	     
+	   `(do0	     
+	     (import time)
 	     (imports-from (datetime datetime))
 	     (imports-from (lona.html HTML H1 Div))
 	     (imports-from (lona LonaApp LonaView))
