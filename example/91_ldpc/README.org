@@ -2,3 +2,9 @@ i want to learn about forward error correction
 
 a ldpc decoder for dvb-s2 sounds interesting:
 https://github.com/phase4ground/DVB-receiver/wiki/Design-Strategies-AC7TD
+https://github.com/phase4ground/DVB-receiver/wiki/Resources-For-Low-Density-Parity-Check-(LDPC)-Work-for-Phase-4-Ground
+
+
+
+
+https://github.com/phase4ground/DVB-receiver/wiki/Design-Strategies-AC7TD
