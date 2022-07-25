@@ -12,3 +12,30 @@ git clone --recursive https://github.com/badgeteam/mch2022-firmware-ice40
 sudo python3 mch2022-tools/webusb_fpga.py mch2022-firmware-ice40/projects/Hello-World/hello_world.bin
 
 #+end_example
+
+- alternatively we can also use udev rules instead of sudo
+- look at the readme
+  https://github.com/badgeteam/mch2022-firmware-ice40 on how to
+  install toolchain
+
+#+begin_example
+wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2022-07-25/oss-cad-suite-linux-x64-20220725.tgz
+
+tar xaf oss-cad-suite-linux-x64-20220725.tgz
+# 1.6GB extracted
+
+source /home/martin/stage/cl-py-generator/example/93_mch22_fpga/oss-cad-suite/environment 
+
+#+end_example
+
+- try to compile some bitstream
+
+  #+begin_example
+cd mch2022-firmware-ice40/projects/Hello-World
+make
+
+sudo python3 \
+/home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+/home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Hello-World/build-tmp/hello-world.bin
+
+  #+end_example
