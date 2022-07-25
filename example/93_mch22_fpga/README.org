@@ -47,9 +47,22 @@ sudo python3 \
   - rgb led current is driven by fpga pins?
   - SB_RGBA_DRV hard macro
 #+begin_example
+cd /home/martin/stage/cl-py-generator/example/93_mch22_fpga
 mkdir doc
 cd doc
 wget  https://www.latticesemi.com/-/media/LatticeSemi/Documents/ApplicationNotes/IK/ICE40LEDDriverUsageGuide.ashx?document_id=50668
+wget https://raw.githubusercontent.com/badgeteam/mch2022-badge-hardware/master/schematic.pdf
 #+end_example
   - 24mA open drain driver constaurrent sink for rgb led
   - embedded pwm ip to drive rgb led
+
+  - try forth examples
+
+ #+begin_example
+ sudo python3 \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Forth/build-tmp/forth.bin
+
+  sudo screen /dev/ttyACM1 115200
+ #+end_example
+  
