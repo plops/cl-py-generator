@@ -39,3 +39,17 @@ sudo python3 \
 /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Hello-World/build-tmp/hello-world.bin
 
   #+end_example
+
+- the fpga uart is routed to /dev/ttyACM1
+- schematic https://github.com/badgeteam/mch2022-badge-hardware/blob/master/schematic.pdf
+- pin constraints
+  https://github.com/badgeteam/mch2022-firmware-ice40/blob/master/projects/_common/data/mch2022-proto4.pcf
+  - rgb led current is driven by fpga pins?
+  - SB_RGBA_DRV hard macro
+#+begin_example
+mkdir doc
+cd doc
+wget  https://www.latticesemi.com/-/media/LatticeSemi/Documents/ApplicationNotes/IK/ICE40LEDDriverUsageGuide.ashx?document_id=50668
+#+end_example
+  - 24mA open drain driver constaurrent sink for rgb led
+  - embedded pwm ip to drive rgb led
