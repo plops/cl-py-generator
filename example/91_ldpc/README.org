@@ -8,3 +8,19 @@ https://github.com/phase4ground/DVB-receiver/wiki/Resources-For-Low-Density-Pari
 
 
 https://github.com/phase4ground/DVB-receiver/wiki/Design-Strategies-AC7TD
+
+
+
+https://docs.xilinx.com/r/en-US/pg256-sdfec-integrated-block/C-Model
+
+The C model has been tested on Linux using GCC 4.4.7 and 4.8.0, and on
+Windows using Visual Studio 2012 and MinGW GCC 4.9.0. MATLAB® R2013a
+has been used.
+
+| file                               | description                                                    |
+|------------------------------------+----------------------------------------------------------------|
+| Standard Header Files              |                                                                |
+| sd_fec_v1_1_bitacc_cmodel.h        | Header file defining the C model API                           |
+| xip_common_bitacc_cmodel.h         | Header file defining standard Xilinx® C model types and macros |
+| Shared Objects                     |                                                                |
+| libIp_sd_fec_v1_1_bitacc_cmodel.so | Model shared object library                                    |

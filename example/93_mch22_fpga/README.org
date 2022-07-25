@@ -1,6 +1,14 @@
+
+
+- badge fpga workshop at mch2022 (2022-07-25)
+- documentation: https://badge.team/docs/badges/mch2022/software-development/fpga/
+
+#+begin_example
 sudo pip3 install pyusb
 
-https://badge.team/docs/badges/mch2022/software-development/fpga/
+
 git clone https://github.com/badgeteam/mch2022-tools/
 git clone --recursive https://github.com/badgeteam/mch2022-firmware-ice40
 sudo python3 mch2022-tools/webusb_fpga.py mch2022-firmware-ice40/projects/Hello-World/hello_world.bin
+
+#+end_example
