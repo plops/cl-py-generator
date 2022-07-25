@@ -64,5 +64,31 @@ wget https://raw.githubusercontent.com/badgeteam/mch2022-badge-hardware/master/s
    /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Forth/build-tmp/forth.bin
 
   sudo screen /dev/ttyACM1 115200
+
+  random .x EECF  ok.
+  random .x C1CE  ok.
+
+  
  #+end_example
   
+- try forth
+  #+begin_example
+  sudo dnf install picocom
+sudo python3 \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/*orth/build-tmp/forth.bin
+
+  #+end_example
+
+
+- try white fading
+  #+begin_example
+sudo python3 \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Fading-White/build-tmp/*.bin
+
+  #+end_example
+
+
+- doom needs fpga bitstream and risc-v binary and the id software
+  datafile with graphics
