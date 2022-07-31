@@ -63,16 +63,53 @@
 		(cell
 					;(imports ((plt matplotlib.pyplot)))
 					;(plt.ion)
-		 (imports (pathlib
+		 (imports (;pathlib
 			   time
-			   (pd pandas)
-			   (np numpy)
+					;(pd pandas)
+					;(np numpy)
 					;tqdm
-
+			   hashlib ;; sha1
+			   hmac
+			   logging
+			   operator
+			   random
+			   socket
+			   ssl
+			   struct
+			   traceback
+			   base64 ;; b64decode b16encode b16decode
+			   os ;; urandom
+			   sys ;; exit
+			   time ;; time
+			   cryptography.hazmat.backends ;; default_backend
+			   cryptography.hazmat.primitives.ciphers ;; Cipher
+			   cryptography.hazmat.primitives.ciphers.algorithms ;; AES
+			   cryptography.hazmat.primitives.ciphers.modes ;; CTR
+			   urllib.request ;; Request urlopen HTTPError
+			   urllib.parse ;; urlparse
+			   
+			   
 			   ))
-		 
-		 (setf start_time (time.time))))
 
+		 		 
+		 ))
+
+	       (python
+		(cell
+		 (setf indexbytes operator.getitem
+		       intlist2bytes bytes
+		       int2byte (operator.methodcaller (string "to_bytes")
+						       1
+						       (string "big")))))
+	       (python
+		(cell
+		 (setf start_time (time.time))))
+	       (python
+		(cell
+		 (dot logging
+		      (basicConfig :format (string "[%(levelname)s] %(filename)s - %(message)s")
+				   :level logging.INFO))
+		 (setf log (logging.getLogger __name__))))
 	       (python
 		(cell
 
