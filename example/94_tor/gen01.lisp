@@ -156,7 +156,18 @@
 					  :headers headers)
 				 response (urllib.request.urlopen
 					   request
-					   :timeout 8)))
+					   :timeout 8))
+			   (for (line response)
+				(setf line (line.decode))
+				(when (line.startwith (string "ntor-onion-key "))
+				  (self.key_ntor (dot line
+						      (aref (split (string "ntor-onion-key"))
+							    1)
+						      (strip)))
+				  (unless (== (aref self.key_ntor -1)
+					      (string "="))
+				    (incf self.key_ntor (string "=")))
+				  break)))
 			 ))
 		 
 		 ))
