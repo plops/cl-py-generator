@@ -49,14 +49,14 @@
 			 collect
 			 (destructuring-bind (&key short long help required action) e
 			   `(parser.add_argument
-			     ,short
-			     ,long
-			     :help ,help
-			     :required ,(if required
-					    "True"
-					    "False")
+			     (string ,short)
+			     (string ,long)
+			     :help (string ,help)
+			     :required (string ,(if required
+					     "True"
+					     "False"))
 			     :action ,(if action
-					  action
+					  `(string ,action)
 					  "None"))))
 		 (setf args (parser.parse_args))))
 	       (python
@@ -112,7 +112,52 @@
 		 (setf log (logging.getLogger __name__))))
 	       (python
 		(cell
+		 (class DirectoryAuthority ()
+			(def __init__ (self &key name ip dir_port tor_port)
+			  ,@(loop for e in `(name ip dir_port tor_port)
+				  collect
+				  `(setf (dot self ,e)
+					 ,e)))
+			(def get_consensus_url (self)
+			  (return (dot (string "http://{}:{}/tor/status-vote/current/consensus")
+				       (format self.ip
+					       self.dir_port))))
+			)
+		 
+		 ))
 
+	       (python
+		(cell
+		 ,(let ((l `(nickname ip dir_port tor_port identity)))
+		  `(class OnionRouter ()
+			 (def __init__ (self &key ,@l)
+			   ,@(loop for e in l
+				   collect
+				   `(setf (dot self ,e)
+					  ,e))
+			   (setf self.flags None
+				 self.key_ntor None
+				 self._forward_digest None
+				 self._backward_digest None
+				 self.encryption_key None
+				 self.decryption_key None))
+			 (def get_descriptor_url (self)
+			   (return (dot (string "http://{}:{}/tor/server/fp/{}")
+					(format self.ip
+						self.dir_port
+						self.identity))))
+			 (def parse_descriptor (self)
+			   (setf headers
+				 (dict
+				  ((string "User-Agent")
+				   (string "Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0"))))
+			   (setf request (urllib.request.Request
+					  :url (self.get_descriptor_url)
+					  :headers headers)
+				 response (urllib.request.urlopen
+					   request
+					   :timeout 8)))
+			 ))
 		 
 		 ))
 	       )))))
