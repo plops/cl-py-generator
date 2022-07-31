@@ -4,8 +4,8 @@
 (in-package :cl-py-generator)
 
 ;; on arch linux inside termux on android phone:
-;; sudo pacman -S jq
-
+;; sudo pacman -S jq jupyterlab
+;; pip3 install --user nbdev ;; not working
 (progn
   (assert (eq :invert
 	      (readtable-case *readtable*)))
@@ -38,9 +38,28 @@
 	       (format t "~&~c[31m wrote Python ~c[0m ~a~%"
 		       #\ESC #\ESC fn))
 	     (incf nb-counter)))
-      (let* ()
+      (let* ((cli-args `((:short "-H" :long "--host" :help "url to reach" :required True)
+			 (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true"))))
 	(gen `(tor)
 	     `((python
+		(cell
+		 (imports (argparse))
+		 (setf parser (argparse.ArgumentParser))
+		 ,@(loop for e in cli-args
+			 collect
+			 (destructuring-bind (&key short long help required action) e
+			   `(parser.add_argument
+			     ,short
+			     ,long
+			     :help ,help
+			     :required ,(if required
+					    "True"
+					    "False")
+			     :action ,(if action
+					  action
+					  "None"))))
+		 (setf args (parser.parse_args))))
+	       (python
 		(cell
 					;(imports ((plt matplotlib.pyplot)))
 					;(plt.ion)
