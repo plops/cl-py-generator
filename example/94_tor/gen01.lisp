@@ -33,7 +33,7 @@
 		:nb-file fn
 		:nb-code (append `((python (do0
 					    (comments
-					     ,(format nil "default_exp ~{~a~^/~}_~2,'0d" path nb-counter)))))
+					     ,(format nil "|default_exp ~{~a~^/~}_~2,'0d" path nb-counter)))))
 				 code))
 	       (format t "~&~c[31m wrote Python ~c[0m ~a~%"
 		       #\ESC #\ESC fn))
