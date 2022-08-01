@@ -184,6 +184,10 @@
 		      (format s "~a~%"
 			      (emit `(do0 (comments "export")
 					  ,@(cdr code))))))
+	      (export (with-output-to-string (s)
+		      (format s "~a~%"
+			      (emit `(do0 (comments "|export")
+					  ,@(cdr code))))))
 	      (space (with-output-to-string (s)
 		     (format s "~{~a~^ ~}"
 			     (mapcar #'(lambda (x) (emit x)) (cdr code)))))

@@ -5,7 +5,7 @@
 
 ;; on arch linux inside termux on android phone:
 ;; sudo pacman -S jq jupyterlab
-;; pip3 install --user nbdev ;; not working
+;; pip3 install --user nbdev ;; not working on android
 (progn
   (assert (eq :invert
 	      (readtable-case *readtable*)))
@@ -43,7 +43,7 @@
 	(gen `(tor)
 	     `(
 	       (python
-		(cell
+		(export
 					;(imports ((plt matplotlib.pyplot)))
 					;(plt.ion)
 		 (imports (;pathlib
@@ -79,23 +79,23 @@
 		 ))
 
 	       (python
-		(cell
+		(export
 		 (setf indexbytes operator.getitem
 		       intlist2bytes bytes
 		       int2byte (operator.methodcaller (string "to_bytes")
 						       1
 						       (string "big")))))
 	       (python
-		(cell
+		(export
 		 (setf start_time (time.time))))
 	       (python
-		(cell
+		(export
 		 (dot logging
 		      (basicConfig :format (string "[%(levelname)s] %(filename)s - %(message)s")
 				   :level logging.INFO))
 		 (setf log (logging.getLogger __name__))))
 	       (python
-		(cell
+		(export
 		 (class DirectoryAuthority ()
 			(def __init__ (self &key name ip dir_port tor_port)
 			  ,@(loop for e in `(name ip dir_port tor_port)
@@ -111,7 +111,7 @@
 		 ))
 
 	       (python
-		(cell
+		(export
 		 ,(let ((l `(nickname ip dir_port tor_port identity)))
 		  `(class OnionRouter ()
 			 (def __init__ (self &key ,@l)
@@ -156,7 +156,7 @@
 		 
 		 ))
 	       (python
-		(cell
+		(export
 		 (class TinyTor ()
 			(def __init__ (self)
 			  (setf self._consensus (Consensus))
@@ -194,7 +194,7 @@
 				  ))))))
 	       
 	       (python
-		(cell
+		(export
 		 (def main ()
 		  (do0
 		 
