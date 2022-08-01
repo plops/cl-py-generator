@@ -14,7 +14,7 @@
   (defparameter *example-subdir* "example/94_tor")
   (defparameter *path* (format nil "~a/~a" *repo-dir-on-host* *example-subdir*) )
   (defun lprint (&key (msg "") vars)
-    `(print (dot (string ,(format nil "{:7.6f} \\033[31m ~a \\033[0m ~{~a={}~^ ~}" msg vars))
+    `(log.debug (dot (string ,(format nil "{:7.6f} \\033[31m ~a \\033[0m ~{~a={}~^ ~}" msg vars))
                  (format
 		  (- (time.time) start_time)
                   ,@vars))))
@@ -41,29 +41,13 @@
       (let* ((cli-args `((:short "-H" :long "--host" :help "url to reach" :required True)
 			 (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true"))))
 	(gen `(tor)
-	     `((python
-		(cell
-		 (imports (argparse))
-		 (setf parser (argparse.ArgumentParser))
-		 ,@(loop for e in cli-args
-			 collect
-			 (destructuring-bind (&key short long help required action) e
-			   `(parser.add_argument
-			     (string ,short)
-			     (string ,long)
-			     :help (string ,help)
-			     :required (string ,(if required
-					     "True"
-					     "False"))
-			     :action ,(if action
-					  `(string ,action)
-					  "None"))))
-		 (setf args (parser.parse_args))))
+	     `(
 	       (python
 		(cell
 					;(imports ((plt matplotlib.pyplot)))
 					;(plt.ion)
 		 (imports (;pathlib
+			   argparse
 			   time
 					;(pd pandas)
 					;(np numpy)
@@ -171,6 +155,82 @@
 			 ))
 		 
 		 ))
+	       (python
+		(cell
+		 (class TinyTor ()
+			(def __init__ (self)
+			  (setf self._consensus (Consensus))
+			  (while True
+				 (try
+				  (do0
+				   (setf directory_authority
+					 (dot
+					  self
+					  _consensus
+					  (get_random_directory_authority)))
+				   (setf consensus_url
+					 (directory_authority.get_consensus_url))
+				   ,(lprint :vars `((directory_authority.name)
+						    consensus_url))
+				   (self._consensus.parse_consensus consensus_url))
+				  ("Excpetion as e"
+				   (log.error (dot  (string "Failed to parse the consensus: {}")
+						    (format e)))
+				   (log.error (string "Retrying with different directory authority ..."))))))
+			(def http_get (self url)
+			  (while True
+				 (try
+				  (do0 (setf guard_relay
+					     (dot self
+						  _consensus
+						  (get_random_guard_relay)))
+				       ,(lprint :vars `(guard_relay.nickname
+							(guard_relay.get_descriptor_url)))
+				       (guard_relay.parse_descriptor)
+				       )
+				  ("Exception as e"
+				   (traceback.print_exc)
+				   (log.info (string "Retrying with a different guard relay...")))
+				  ))))))
+	       
+	       (python
+		(cell
+		 (def main ()
+		  (do0
+		 
+		   (do0 (setf parser (argparse.ArgumentParser))
+			,@(loop for e in cli-args
+				collect
+				(destructuring-bind (&key short long help required action) e
+				  `(parser.add_argument
+				    (string ,short)
+				    (string ,long)
+				    :help (string ,help)
+				    :required (string ,(if required
+							   "True"
+							   "False"))
+				    :action ,(if action
+						 `(string ,action)
+						 "None")))))
+		   
+		   (setf args (parser.parse_args)
+			 )
+		   (setf parsed_host (dot (urlparse args.host)
+					  (geturl))
+			 )
+		   (unless parsed_host
+		     (log.error (string "please specify valid url (--host)."))
+		     (sys.exit 1))
+		   (when args.verbose
+		     (log.setLevel logging.DEBUG))
+		   (setf tor (TinyTor))
+		   
+		   
+
+		   ))))
+
+	       
+	       
 	       )))))
   #+nil (progn
    (sb-ext:run-program "/usr/bin/sh"
