@@ -5,7 +5,7 @@
 
 ;; on arch linux inside termux on android phone:
 ;; sudo pacman -S jq jupyterlab
-;; pip3 install --user nbdev ;; not working on android
+;; pip3 install --user nbdev cryptography ;; nbdev install not working on android
 ;; this is the first example to use nbdev2 syntax
 
 (progn
