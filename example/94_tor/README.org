@@ -4,3 +4,16 @@
 - https://github.com/Marten4n6/TinyTor
 - python pip isnt working in termux / arch linux because of this
   https://github.com/pypa/pip/issues/10887
+
+#+begin_example
+curl -O https://raw.githubusercontent.com/platformdirs/platformdirs/d9eb3c980488121eeb7db51b9c2ed5ded172d719/src/platformdirs/__init__.py
+curl -O https://raw.githubusercontent.com/platformdirs/platformdirs/d9eb3c980488121eeb7db51b9c2ed5ded172d719/src/platformdirs/android.py
+sudo pacman -S python-pip
+pacman -Ql python-platformdirs
+cp /usr/lib/python3.10/site-packages/platformdirs/android.py  android_old
+cp /usr/lib/python3.10/site-packages/platformdirs/__init__.py  __init___old
+sudo cp android.py __init__.py /usr/lib/python3.10/site-packages/platformdirs/
+#+end_example
+
+- unfortunately, this is no fix
+
