@@ -2,3 +2,5 @@
 
 - https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt
 - https://github.com/Marten4n6/TinyTor
+- python pip isnt working in termux / arch linux because of this
+  https://github.com/pypa/pip/issues/10887
