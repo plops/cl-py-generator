@@ -18,9 +18,9 @@ from helium import *
 # %% ../00_upload_shader.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="148ebadf170c1d594ee15ed84170e201497916e8"
+_code_git_version="cfb19026c54d886ce313e5b2dfb6c02ac0c00a52"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time="21:14:44 of Wednesday, 2022-08-17 (GMT+1)"
+_code_generation_time="21:19:17 of Wednesday, 2022-08-17 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -28,12 +28,15 @@ debug=True
 # %% ../00_upload_shader.ipynb 3
 parser=argparse.ArgumentParser()
 parser.add_argument("-p", "--password", help="password", required="True", action=None)
-parser.add_argument("-v", "--verbose", help="enable verbose output", required="True", action="store_true")
+parser.add_argument("-H", "--headless", help="enable headless modex", required="False", action="store_true")
+parser.add_argument("-v", "--verbose", help="enable verbose output", required="False", action="store_true")
 args=parser.parse_args()
 
 
 # %% ../00_upload_shader.ipynb 4
-start_chrome("https://www.shadertoy.com/view/7t3cDs", headless=False)
+if ( debug ):
+    print("{} start chrome args.headless={}".format(((time.time())-(start_time)), args.headless))
+start_chrome("https://www.shadertoy.com/view/7t3cDs", headless=args.headless)
 
 
 # %% ../00_upload_shader.ipynb 5
@@ -62,7 +65,7 @@ write(r"""void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 uv = fragCoord/iResolution.xy;
 
     // Time varying pixel color
-    vec3 col = 0.1+ 0.25*cos(iTime+uv.xyx+vec3(1,2,4));
+    vec3 col = 0.1+ 0.5*cos(iTime+uv.xyx+vec3(1,2,4));
 
     // Output to screen
     fragColor = vec4(col,1.0);
@@ -74,4 +77,10 @@ if ( debug ):
     print("{} compile code ".format(((time.time())-(start_time))))
 click(S("#compileButton"))
 click("Save")
+
+
+# %% ../00_upload_shader.ipynb 8
+if ( debug ):
+    print("{} close browser ".format(((time.time())-(start_time))))
+kill_browser()
 

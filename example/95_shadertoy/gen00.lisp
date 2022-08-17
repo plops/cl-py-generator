@@ -17,8 +17,9 @@
                    (format  (- (time.time) start_time)
                             ,@rest)))))
 
-  (let* ((cli-args `((:short "-p" :long "--password" :help "password" :required True)
-		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required False))))
+  (let* ((cli-args `((:short "-p" :long "--password" :help "password" :required t)
+		     (:short "-H" :long "--headless"  :help "enable headless modex" :action "store_true")
+		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true"))))
     (write-notebook
      :nb-file (format nil "~a/source/00_upload_shader.ipynb" *path*)
      :nb-code
@@ -156,8 +157,9 @@
 
        (python
 	(export
+	 ,(lprint "start chrome" `(args.headless))
 	 (start_chrome (string "https://www.shadertoy.com/view/7t3cDs")
-		       :headless False)))
+		       :headless args.headless)))
        ;;https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
        ;; https://selenium-python-helium.readthedocs.io/_/downloads/en/latest/pdf/
        (python
@@ -170,7 +172,7 @@
 	 (write args.password ;:into (string "Password")
 		)
 	 (click (string "Sign In"))))
-       
+
        (python
 	(export
 	 ,(lprint "clear text")
@@ -192,18 +194,22 @@
     vec2 uv = fragCoord/iResolution.xy;
 
     // Time varying pixel color
-    vec3 col = 0.1+ 0.25*cos(iTime+uv.xyx+vec3(1,2,4));
+    vec3 col = 0.1+ 0.5*cos(iTime+uv.xyx+vec3(1,2,4));
 
     // Output to screen
     fragColor = vec4(col,1.0);
 }"))
 	 ))
-       
+
        (python
 	(export
 	 ,(lprint "compile code")
 	 (click (S (string "#compileButton")))
 	 (click (string "Save"))))
+       (python
+	(export
+	 ,(lprint "close browser")
+	 (kill_browser)))
 
 
        )))
