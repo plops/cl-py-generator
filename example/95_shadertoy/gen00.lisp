@@ -135,9 +135,12 @@
       (export
        (start_chrome (string "https://www.shadertoy.com/view/7t3cDs")
 		     :headless False)))
-
+     ;;https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
      (python
       (export
+       (setf cm (S (string "//div[contains(@class,'CodeMirror')]")))
+       (click cm)
+       (write (string "void mainImage"))
        ))
 
 
