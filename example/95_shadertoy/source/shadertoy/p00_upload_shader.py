@@ -17,9 +17,9 @@ from helium import *
 # %% ../00_upload_shader.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="2b944bad10b28b892248b8c76245d13b9d666896"
+_code_git_version="c6d0ebe7e4c18df52694ce4c91e072347a49e8bb"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time="20:51:25 of Wednesday, 2022-08-17 (GMT+1)"
+_code_generation_time="20:55:52 of Wednesday, 2022-08-17 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -33,5 +33,15 @@ cm=S("//div[contains(@class,'CodeMirror')]")
 click(cm)
 list(map(lambda x: press(ARROW_UP), range(12)))
 list(map(lambda x: press(((SHIFT)+(DELETE))), range(12)))
-write("void mainImage")
+write(r"""void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    // Normalized pixel coordinates (from 0 to 1)
+    vec2 uv = fragCoord/iResolution.xy;
+
+    // Time varying pixel color
+    vec3 col = 0.1+ 0.15*cos(iTime+uv.xyx+vec3(1,2,4));
+
+    // Output to screen
+    fragColor = vec4(col,1.0);
+}""")
 
