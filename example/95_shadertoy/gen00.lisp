@@ -136,10 +136,20 @@
        (start_chrome (string "https://www.shadertoy.com/view/7t3cDs")
 		     :headless False)))
      ;;https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
+     ;; https://selenium-python-helium.readthedocs.io/_/downloads/en/latest/pdf/
      (python
       (export
        (setf cm (S (string "//div[contains(@class,'CodeMirror')]")))
        (click cm)
+       ("list"
+	(map (lambda (x)
+	       (press ARROW_UP))
+	     (range 12)))
+       ("list"
+	(map (lambda (x)
+	       (press (+ SHIFT DELETE)))
+	     (range 12)))
+       
        (write (string "void mainImage"))
        ))
 

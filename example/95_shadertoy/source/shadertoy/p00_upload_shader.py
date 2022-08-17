@@ -17,9 +17,9 @@ from helium import *
 # %% ../00_upload_shader.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="1824bb92e56ad667c80765ae6b4ab7afebc7b005"
+_code_git_version="2b944bad10b28b892248b8c76245d13b9d666896"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time="20:42:38 of Wednesday, 2022-08-17 (GMT+1)"
+_code_generation_time="20:51:25 of Wednesday, 2022-08-17 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -31,5 +31,7 @@ start_chrome("https://www.shadertoy.com/view/7t3cDs", headless=False)
 # %% ../00_upload_shader.ipynb 4
 cm=S("//div[contains(@class,'CodeMirror')]")
 click(cm)
+list(map(lambda x: press(ARROW_UP), range(12)))
+list(map(lambda x: press(((SHIFT)+(DELETE))), range(12)))
 write("void mainImage")
 
