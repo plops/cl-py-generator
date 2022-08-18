@@ -18,6 +18,7 @@
                             ,@rest)))))
 
   (let* ((cli-args `((:short "-p" :long "--password" :help "password" :required t)
+		     (:short "-i" :long "--input" :help "input file" :required t)
 		     (:short "-H" :long "--headless"  :help "enable headless modex" :action "store_true")
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true"))))
     (write-notebook
@@ -188,6 +189,12 @@
 	       (range 12)))
 	 ,(lprint "update the text")
 
+	 (with (as (open args.input)
+		   f)
+	       (setf s (f.read))
+	       )
+	 (write s)
+	 #+nil
 	 (write (rstring3 "void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     // Normalized pixel coordinates (from 0 to 1)
