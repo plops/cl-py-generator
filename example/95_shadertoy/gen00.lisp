@@ -20,6 +20,7 @@
   (let* ((cli-args `((:short "-p" :long "--password" :help "password" :required t)
 		     (:short "-i" :long "--input" :help "input file" :required t)
 		     (:short "-H" :long "--headless"  :help "enable headless modex" :action "store_true" :required nil)
+		     (:short "-k" :long "--kill"  :help "kill browser at the end" :action "store_true" :required nil)
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-notebook
      :nb-file (format nil "~a/source/00_upload_shader.ipynb" *path*)
@@ -146,7 +147,7 @@
 			  (string ,short)
 			  (string ,long)
 			  :help (string ,help)
-			  ;:required
+					;:required
 			  #+nil
 			  (string ,(if required
 				       "True"
@@ -174,10 +175,10 @@
 	 (wait_until (dot (Button (string "Accept"))
 			  exists))
 	 (click (string "Accept"))
-	 
-	 
+
+
 	 ,(lprint "login with password")
-	 
+
 	 (click (string "Sign In"))
 	 (write (string "plops"))
 	 (press TAB)
@@ -195,15 +196,15 @@
 	 ,(lprint "delete")
 	 (press DELETE)
 	 #+nil (do0
-	  ("list"
-	   (map (lambda (x)
-		  (press ARROW_UP))
-		(range 12)))
-	  ("list"
-	   (map (lambda (x)
-		  (press (+ SHIFT DELETE)))
-		(range 12))))
-	 
+		("list"
+		 (map (lambda (x)
+			(press ARROW_UP))
+		      (range 12)))
+		("list"
+		 (map (lambda (x)
+			(press (+ SHIFT DELETE)))
+		      (range 12))))
+
 
 	 ,(lprint "load source from" `(args.input))
 	 (with (as (open args.input)
@@ -231,11 +232,16 @@
 	 ,(lprint "compile code")
 	 (click (S (string "#compileButton")))
 	 ,(lprint "save")
-	 (click (string "Save"))))
+	 (click (string "Save"))
+	 ,(lprint "wait for save to finish")
+	 (wait_until (dot (Button (string "Save"))
+			  exists))))
        (python
 	(export
-	 ,(lprint "close browser")
-	 (kill_browser)))
+	 (when args.kill
+	   (do0
+	    ,(lprint "close browser")
+	    (kill_browser)))))
 
 
        )))
