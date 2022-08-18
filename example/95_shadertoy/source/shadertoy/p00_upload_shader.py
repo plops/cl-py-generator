@@ -18,9 +18,9 @@ from helium import *
 # %% ../00_upload_shader.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="4043e78c1195e64314eb773c69f4b2b6dcfa1310"
+_code_git_version="9d8c0185c9efc5c06d4250b5ae8343d3b1541960"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time="17:49:36 of Thursday, 2022-08-18 (GMT+1)"
+_code_generation_time="18:41:27 of Thursday, 2022-08-18 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -63,10 +63,11 @@ click("Sign In")
 # %% ../00_upload_shader.ipynb 6
 if ( args.verbose ):
     print("{} clear text ".format(((time.time())-(start_time))))
-cm=S("//div[contains(@class,'CodeMirror')]")
+cm=S("//div[contains(@class,'CodeMirror-lines')]")
 click(cm)
 if ( args.verbose ):
     print("{} select all ".format(((time.time())-(start_time))))
+press(ARROW_UP)
 press(((CONTROL)+("a")))
 if ( args.verbose ):
     print("{} delete ".format(((time.time())-(start_time))))

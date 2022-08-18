@@ -169,7 +169,7 @@
 		       :headless args.headless)))
        ;;https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
        ;; https://selenium-python-helium.readthedocs.io/_/downloads/en/latest/pdf/
-       (python 
+       (python
 	(export
 	 ,(lprint "wait for cookie banner")
 	 (wait_until (dot (Button (string "Accept"))
@@ -189,9 +189,11 @@
        (python
 	(export
 	 ,(lprint "clear text")
-	 (setf cm (S (string "//div[contains(@class,'CodeMirror')]")))
+					;(setf cm (S (string "//div[contains(@class,'CodeMirror')]")))
+	 (setf cm (S (string "//div[contains(@class,'CodeMirror-lines')]")))
 	 (click cm)
 	 ,(lprint "select all")
+	 (press ARROW_UP)
 	 (press (+ CONTROL (string "a")))
 	 ,(lprint "delete")
 	 (press DELETE)
