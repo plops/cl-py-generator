@@ -169,7 +169,7 @@
 		       :headless args.headless)))
        ;;https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
        ;; https://selenium-python-helium.readthedocs.io/_/downloads/en/latest/pdf/
-       (python
+       (python 
 	(export
 	 ,(lprint "wait for cookie banner")
 	 (wait_until (dot (Button (string "Accept"))
@@ -229,23 +229,22 @@
 
        (python
 	(export
-	 ,(lprint "compile code")
-	 (click (S (string "#compileButton")))
-	 ,(lprint "save")
-	 (click (string "Save"))
-	 ,(lprint "wait for save to finish")
-	 (wait_until (dot (Button (string "Save"))
-			  exists))))
+	 (do0 ,(lprint "save")
+	      (click (string "Save"))
+	      ,(lprint "wait for save to finish")
+	      (wait_until (dot (Button (string "Save"))
+			       exists)))
+
+	 (do0 ,(lprint "compile code")
+	      (click (S (string "#compileButton"))))
+	 (time.sleep 3)
+	 ))
        (python
 	(export
 	 (when args.kill
 	   (do0
 	    ,(lprint "close browser")
-	    (kill_browser)))))
-
-
-       )))
-  )
+	    (kill_browser)))))))))
 
 
 

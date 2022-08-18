@@ -18,9 +18,9 @@ from helium import *
 # %% ../00_upload_shader.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="5f605373cd928b4deb4b483e8197cf4bbadb536c"
+_code_git_version="4043e78c1195e64314eb773c69f4b2b6dcfa1310"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"
-_code_generation_time="17:04:03 of Thursday, 2022-08-18 (GMT+1)"
+_code_generation_time="17:49:36 of Thursday, 2022-08-18 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -82,14 +82,15 @@ write(s)
 
 # %% ../00_upload_shader.ipynb 7
 if ( args.verbose ):
-    print("{} compile code ".format(((time.time())-(start_time))))
-click(S("#compileButton"))
-if ( args.verbose ):
     print("{} save ".format(((time.time())-(start_time))))
 click("Save")
 if ( args.verbose ):
     print("{} wait for save to finish ".format(((time.time())-(start_time))))
 wait_until(Button("Save").exists)
+if ( args.verbose ):
+    print("{} compile code ".format(((time.time())-(start_time))))
+click(S("#compileButton"))
+time.sleep(3)
 
 
 # %% ../00_upload_shader.ipynb 8
