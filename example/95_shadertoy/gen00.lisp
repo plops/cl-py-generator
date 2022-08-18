@@ -12,15 +12,15 @@
       "Thursday" "Friday" "Saturday"
       "Sunday"))
   (defun lprint (cmd &optional rest)
-    `(when debug
+    `(when args.verbose
        (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}" cmd rest))
                    (format  (- (time.time) start_time)
                             ,@rest)))))
 
   (let* ((cli-args `((:short "-p" :long "--password" :help "password" :required t)
 		     (:short "-i" :long "--input" :help "input file" :required t)
-		     (:short "-H" :long "--headless"  :help "enable headless modex" :action "store_true")
-		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true"))))
+		     (:short "-H" :long "--headless"  :help "enable headless modex" :action "store_true" :required nil)
+		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-notebook
      :nb-file (format nil "~a/source/00_upload_shader.ipynb" *path*)
      :nb-code
@@ -146,9 +146,11 @@
 			  (string ,short)
 			  (string ,long)
 			  :help (string ,help)
-			  :required (string ,(if required
-						 "True"
-						 "False"))
+			  ;:required
+			  #+nil
+			  (string ,(if required
+				       "True"
+				       "False"))
 			  :action ,(if action
 				       `(string ,action)
 				       "None"))))
@@ -158,15 +160,24 @@
 
        (python
 	(export
+	 ,(lprint "" `(args))
 	 ,(lprint "start chrome" `(args.headless))
-	 (start_chrome (string "https://www.shadertoy.com/view/7t3cDs")
+	 (setf url  (string "https://www.shadertoy.com/view/7t3cDs"))
+	 ,(lprint "go to" `(url))
+	 (start_chrome url
 		       :headless args.headless)))
        ;;https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
        ;; https://selenium-python-helium.readthedocs.io/_/downloads/en/latest/pdf/
        (python
 	(export
-	 ,(lprint "login with password")
+	 ,(lprint "wait for cookie banner")
+	 (wait_until (dot (Button (string "Accept"))
+			  exists))
 	 (click (string "Accept"))
+	 
+	 
+	 ,(lprint "login with password")
+	 
 	 (click (string "Sign In"))
 	 (write (string "plops"))
 	 (press TAB)
@@ -179,20 +190,27 @@
 	 ,(lprint "clear text")
 	 (setf cm (S (string "//div[contains(@class,'CodeMirror')]")))
 	 (click cm)
-	 ("list"
-	  (map (lambda (x)
-		 (press ARROW_UP))
-	       (range 12)))
-	 ("list"
-	  (map (lambda (x)
-		 (press (+ SHIFT DELETE)))
-	       (range 12)))
-	 ,(lprint "update the text")
+	 ,(lprint "select all")
+	 (press (+ CONTROL (string "a")))
+	 ,(lprint "delete")
+	 (press DELETE)
+	 #+nil (do0
+	  ("list"
+	   (map (lambda (x)
+		  (press ARROW_UP))
+		(range 12)))
+	  ("list"
+	   (map (lambda (x)
+		  (press (+ SHIFT DELETE)))
+		(range 12))))
+	 
 
+	 ,(lprint "load source from" `(args.input))
 	 (with (as (open args.input)
 		   f)
 	       (setf s (f.read))
 	       )
+	 ,(lprint "update the text" `(s))
 	 (write s)
 	 #+nil
 	 (write (rstring3 "void mainImage( out vec4 fragColor, in vec2 fragCoord )
@@ -212,6 +230,7 @@
 	(export
 	 ,(lprint "compile code")
 	 (click (S (string "#compileButton")))
+	 ,(lprint "save")
 	 (click (string "Save"))))
        (python
 	(export
