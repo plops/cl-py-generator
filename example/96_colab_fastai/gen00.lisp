@@ -25,7 +25,7 @@
      :nb-code
      `((python
 	(export
-	 (format nil "#|default_exp p~a_~a" *idx* notebook-name)))
+	 ,(format nil "#|default_exp p~a_~a" *idx* notebook-name)))
        (python (export
 		(do0
 					;"%matplotlib notebook"
@@ -156,6 +156,14 @@
 				       "None"))))
 
 	      (setf args (parser.parse_args)))))
+
+       (python
+	(export
+	 (setf path (pathlib.Path (string "titanic")))
+	 (unless (path.exists)
+	   (imports (zipfile
+		     kaggle))
+	   )))
 
        ))))
 

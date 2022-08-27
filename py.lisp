@@ -140,7 +140,7 @@
 	  *env-macros* nil))
   (flet ((emit (code &optional (dl 0))
 	   (emit-py :code code :clear-env nil :level (+ dl level))))
-    (format nil "emit-py ~a" level)
+    ;(format nil "emit-py ~a" level)
     (if code
 	(if (listp code)
 	    (case (car code)
@@ -399,7 +399,9 @@
 			    (format nil "import ~a as ~a~%" (second args) (first args))
 			    (format nil "import ~a~%" args))))
 	      (imports (destructuring-bind (args) (cdr code)
-			 (format nil "~{~a~}" (mapcar #'(lambda (x) (emit `(import ,x))) args))))
+			 (format nil "~{~a~}" (append (list (emit `(import ,(first args))))
+						      (mapcar #'(lambda (x) (emit `(indent (import ,x))))
+							      (rest args))))))
 	      (with (destructuring-bind (form &rest body) (cdr code)
 		      (with-output-to-string (s)
 		       (format s "~a~a:~%~a"
