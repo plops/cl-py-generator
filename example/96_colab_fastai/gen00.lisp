@@ -163,6 +163,11 @@
 	 (unless (path.exists)
 	   (imports (zipfile
 		     kaggle))
+	   (dot kaggle
+		api
+		(competition_download_cli (str path)))
+	   (dot zipfile
+		(ZipFile (fstring "{path}.zip")))
 	   )))
 
        ))))

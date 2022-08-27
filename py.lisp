@@ -319,6 +319,7 @@
 	      (symbol (substitute #\: #\- (format nil "~a" (cadr code))))
 	      (string (format nil "\"~a\"" (cadr code)))
 	      (string-b (format nil "b\"~a\"" (cadr code)))
+	      (fstring (format nil "f\"~a\"" (cadr code)))
 	      (string3 (format nil "\"\"\"~a\"\"\"" (cadr code)))
 	      (rstring3 (format nil "r\"\"\"~a\"\"\"" (cadr code)))
 	      (return_ (format nil "return ~a" (emit (caadr code))))
