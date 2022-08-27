@@ -167,8 +167,48 @@
 		api
 		(competition_download_cli (str path)))
 	   (dot zipfile
-		(ZipFile (fstring "{path}.zip")))
+		(ZipFile (fstring "{path}.zip"))
+		(extractall path))
 	   )))
+       (python
+	(export
+	 (imports (torch
+		   (np numpy)
+		   (pd pandas)))
+	 (setf line_char_width
+	       140)
+	 (np.set_print_options :linewidth line_char_width)
+	 (torch.set_print_options :linewidth line_char_width
+				  :sci_mode False
+				  :edgeitems 7)
+	 (pd.set_option (string "display_width")
+			line_char_width)))
+       (python
+	(export
+	 (setf df (pd.read_csv (/ path
+				  (string "train.csv"))))
+	 df)
+	)
+       (python
+	(do0
+	 (dot df
+	      (isna)
+	      (sum))))
+       (python
+	(export
+	 (setf mode (dot df
+			 (mode)
+			 (aref iloc 0)))))
+       (python
+	(export
+	 (dot df
+	      (fillna modes
+		      :inplace True))))
+       (python
+	(do0
+	 (dot df
+	      (isna)
+	      (sum))))
 
        ))))
 
