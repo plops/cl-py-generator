@@ -210,6 +210,19 @@
 	      (isna)
 	      (sum))))
 
+       (python
+	(do0
+	 (dot df
+	      (describe :include (tuple np.number)))))
+       (python
+	(do0
+	 (df.Fare.hist)))
+       (python
+	(export
+	 (setf (aref df (string "LogFare"))
+	       (np.log
+		(+ 1 df.Fare)))))
+
        ))))
 
 
