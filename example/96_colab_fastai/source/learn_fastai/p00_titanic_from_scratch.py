@@ -19,9 +19,9 @@ import argparse
 # %% ../00_titanic_from_scratch.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="dc25f95f025eb1bc3df703b6a2f94876f52bc097"
+_code_git_version="72a90ee7faa5058c18874f34999670777f12efac"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/96_colab_fastai/source/"
-_code_generation_time="23:03:02 of Saturday, 2022-08-27 (GMT+1)"
+_code_generation_time="23:07:29 of Saturday, 2022-08-27 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -62,4 +62,8 @@ mode=df.mode().iloc[0]
 
 # %% ../00_titanic_from_scratch.ipynb 9
 df.fillna(modes, inplace=True)
+
+
+# %% ../00_titanic_from_scratch.ipynb 13
+df["LogFare"]=np.log(((1)+(df.Fare)))
 
