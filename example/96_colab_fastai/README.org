@@ -3,7 +3,13 @@ i want to enter the code on my phone and upload as notebooks to google
 colab.
 
 https://www.thepythoncode.com/article/using-google-drive--api-in-python
+- notebooks can be uploaded too google colab using the google drive api
+- maybe i can transfer notebooks via github
 
 
+|       |   |                                       |
+| gen00 |   | pytorch neuronal network from scratch |
+|       |   |                                       |
 
-
+- reference for gen00:
+  https://github.com/fastai/course22/blob/master/05-linear-model-and-neural-net-from-scratch.ipynb

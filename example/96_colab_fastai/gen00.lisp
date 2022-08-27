@@ -1,12 +1,12 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "cl-py-generator")
-  (ql:quickload "alexandria"))
+  (ql:quickload "cl-py-generator"))
+
 (in-package :cl-py-generator)
 
-;; /usr/bin/pip3 install --user nbdev helium
-
 (progn
-  (defparameter *path* "/home/martin/stage/cl-py-generator/example/95_shadertoy")
+  (defparameter *project* "96_colab_fastai")
+  (defparameter *idx* "00")
+  (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
@@ -17,18 +17,15 @@
                    (format  (- (time.time) start_time)
                             ,@rest)))))
 
-  (let* ((cli-args `((:short "-p" :long "--password" :help "password" :required t)
-		     (:short "-i" :long "--input" :help "input file" :required t)
-		     (:short "-H" :long "--headless"  :help "enable headless modex" :action "store_true" :required nil)
-		     (:short "-k" :long "--kill"  :help "kill browser at the end" :action "store_true" :required nil)
+  (let* ((notebook-name "titanic_from_scratch")
+	 (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-notebook
-     :nb-file (format nil "~a/source/00_upload_shader.ipynb" *path*)
+     :nb-file (format nil "~a/source/~a_~a.ipynb" *path* *idx* notebook-name)
      :nb-code
-     `(
-       (python
+     `((python
 	(export
-	 "#|default_exp p00_upload_shader"))
+	 (format nil "#|default_exp p~a_~a" *idx* notebook-name)))
        (python (export
 		(do0
 					;"%matplotlib notebook"
@@ -48,11 +45,11 @@
 		       ;;(setf font (dict ((string size) (string 6))))
 		       ;; (matplotlib.rc (string "font") **font)
 		       )
-		 (imports (		;os
+		 (imports (	os
 					;sys
 			   time
 					;docopt
-					;pathlib
+					pathlib
 					;(np numpy)
 					;serial
 					;(pd pandas)
@@ -99,13 +96,13 @@
 
 				      )
 
-
-
-		 (imports-from #+nil (matplotlib.pyplot
+		 
+		 #+nil
+		 (imports-from  (matplotlib.pyplot
 				      plot imshow tight_layout xlabel ylabel
 				      title subplot subplot2grid grid
 				      legend figure gcf xlim ylim)
-			       (helium *))
+			  )
 
 		 )
 		))
@@ -118,7 +115,9 @@
 	  (string ,(let ((str (with-output-to-string (s)
 				(sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
 		     (subseq str 0 (1- (length str)))))
-	  _code_repository (string ,(format nil "https://github.com/plops/cl-py-generator/tree/master/example/56_myhdl/source/04_tang_lcd/run_04_lcd.py"))
+	  _code_repository (string ,(format nil
+					    "https://github.com/plops/cl-py-generator/tree/master/example/~a/source/"
+					    *project*))
 	  _code_generation_time
 	  (string ,(multiple-value-bind
 			 (second minute hour date month year day-of-week dst-p tz)
@@ -156,97 +155,9 @@
 				       `(string ,action)
 				       "None"))))
 
-	      (setf args (parser.parse_args)
-		    ))))
+	      (setf args (parser.parse_args)))))
 
-       (python
-	(export
-	 ,(lprint "" `(args))
-	 ,(lprint "start chrome" `(args.headless))
-	 (setf url  (string "https://www.shadertoy.com/view/7t3cDs"))
-	 ,(lprint "go to" `(url))
-	 (start_chrome url
-		       :headless args.headless)))
-       ;;https://github.com/mherrmann/selenium-python-helium/blob/master/docs/cheatsheet.md
-       ;; https://selenium-python-helium.readthedocs.io/_/downloads/en/latest/pdf/
-       (python
-	(export
-	 ,(lprint "wait for cookie banner")
-	 (wait_until (dot (Button (string "Accept"))
-			  exists))
-	 (click (string "Accept"))
-
-
-	 ,(lprint "login with password")
-
-	 (click (string "Sign In"))
-	 (write (string "plops"))
-	 (press TAB)
-	 (write args.password ;:into (string "Password")
-		)
-	 (click (string "Sign In"))))
-
-       (python
-	(export
-	 ,(lprint "clear text")
-					;(setf cm (S (string "//div[contains(@class,'CodeMirror')]")))
-	 (setf cm (S (string "//div[contains(@class,'CodeMirror-lines')]")))
-	 (click cm)
-	 ,(lprint "select all")
-	 (press ARROW_UP)
-	 (press (+ CONTROL (string "a")))
-	 ,(lprint "delete")
-	 (press DELETE)
-	 #+nil (do0
-		("list"
-		 (map (lambda (x)
-			(press ARROW_UP))
-		      (range 12)))
-		("list"
-		 (map (lambda (x)
-			(press (+ SHIFT DELETE)))
-		      (range 12))))
-
-
-	 ,(lprint "load source from" `(args.input))
-	 (with (as (open args.input)
-		   f)
-	       (setf s (f.read))
-	       )
-	 ,(lprint "update the text" `(s))
-	 (write s)
-	 #+nil
-	 (write (rstring3 "void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-    // Normalized pixel coordinates (from 0 to 1)
-    vec2 uv = fragCoord/iResolution.xy;
-
-    // Time varying pixel color
-    vec3 col = 0.1+ 0.5*cos(iTime+uv.xyx+vec3(1,2,4));
-
-    // Output to screen
-    fragColor = vec4(col,1.0);
-}"))
-	 ))
-
-       (python
-	(export
-	 (do0 ,(lprint "save")
-	      (click (string "Save"))
-	      ,(lprint "wait for save to finish")
-	      (wait_until (dot (Button (string "Save"))
-			       exists)))
-
-	 (do0 ,(lprint "compile code")
-	      (click (S (string "#compileButton"))))
-	 (time.sleep 3)
-	 ))
-       (python
-	(export
-	 (when args.kill
-	   (do0
-	    ,(lprint "close browser")
-	    (kill_browser)))))))))
+       ))))
 
 
 
