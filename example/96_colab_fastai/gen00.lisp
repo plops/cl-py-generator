@@ -83,10 +83,10 @@
 					;(mpf mplfinance)
 					;selenium.webdriver ;.FirefoxOptions
 			   argparse
-
+			   torch
 			   ))
 
-
+		 (imports-from (torch tensor))
 		 #+nil  (imports-from (selenium webdriver)
 				      (selenium.webdriver.common.keys Keys)
 				      (selenium.webdriver.support.ui WebDriverWait)
@@ -222,7 +222,17 @@
 	 (setf (aref df (string "LogFare"))
 	       (np.log
 		(+ 1 df.Fare)))))
-
+       (python
+	(export
+	 (setf df (pd.get_dummies
+		   df
+		   :columns (list (string "Sex")
+				  (string "Pclass")
+				  (string "Embarked"))))
+	 df.columns))
+       (python
+	(export
+	 (setf t_dep (tensor df.Survived))))
        ))))
 
 
