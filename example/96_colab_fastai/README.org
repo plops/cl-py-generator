@@ -1,0 +1,9 @@
+in order to go through some of the examples of the fastai course 2022
+i want to enter the code on my phone and upload as notebooks to google
+colab.
+
+https://www.thepythoncode.com/article/using-google-drive--api-in-python
+
+
+
+
