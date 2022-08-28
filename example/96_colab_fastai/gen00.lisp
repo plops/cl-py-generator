@@ -253,7 +253,7 @@
        (python
 	(do0
 	 (comments "look at the three values that are in passenger class. more details about the dataset are here: https://www.kaggle.com/competitions/titanic/data")
-	 (setf pclasses (df.Pclass.unique))
+	 (setf pclasses (sorted (df.Pclass.unique)))
 	 pclasses))
        (python
 	(do0
@@ -275,7 +275,7 @@
 	 (setf added_columns (list ,@(loop for e in
 					   `(Sex_male Sex_female
 						      Pclass_1 Pclass_2 Pclass_3
-						      Embarked_C Embarked_Q ;; fixme: some are missing, can't read them on phone
+						      Embarked_C Embarked_Q Embarked_S
 						      )
 					   collect
 					   `(string ,e))))
@@ -289,7 +289,7 @@
 	(export
 	 (comment "independent variables are all continuous variables of interest and the newly created columns")
 	 (setf indep_columns
-	       (+ (list ,@(loop for e in `(Age SipSp Parch LogFare)
+	       (+ (list ,@(loop for e in `(Age SibSp Parch LogFare)
 				collect
 				`(string ,e)))
 		  added_columns))

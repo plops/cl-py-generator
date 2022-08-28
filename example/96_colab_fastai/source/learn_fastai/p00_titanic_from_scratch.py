@@ -24,9 +24,9 @@ from torch import tensor
 # %% ../00_titanic_from_scratch.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="0110e1d7aebdd94713ef5d3ea8bf1a1739801847"
+_code_git_version="ea196eef18bf35cf38db1b7abce02800517eaa99"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/96_colab_fastai/source/"
-_code_generation_time="20:08:46 of Sunday, 2022-08-28 (GMT+1)"
+_code_generation_time="20:15:18 of Sunday, 2022-08-28 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -100,7 +100,7 @@ t_dep=tensor(df.Survived)
 
 # %% ../00_titanic_from_scratch.ipynb 22
 # independent variables are all continuous variables of interest and the newly created columns
-indep_columns=((["Age", "SipSp", "Parch", "LogFare"])+(added_columns))
+indep_columns=((["Age", "SibSp", "Parch", "LogFare"])+(added_columns))
 t_indep=tensor(df[indep_columns].values, dtype=torch.float)
 t_indep
 
