@@ -24,9 +24,9 @@ from torch import tensor
 # %% ../00_titanic_from_scratch.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="ea196eef18bf35cf38db1b7abce02800517eaa99"
+_code_git_version="2e67ef303ddc9a764e1c6d00f33bb2ee183a6034"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/96_colab_fastai/source/"
-_code_generation_time="20:15:18 of Sunday, 2022-08-28 (GMT+1)"
+_code_generation_time="20:26:10 of Sunday, 2022-08-28 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -137,7 +137,7 @@ def update_coeffs(coeffs=None, learning_rate=None):
     coeffs.sub_(((coeffs.grad)*(learning_rate)))
     coeffs.grad.zero_()
 def init_coeffs():
-    coeffs=((torch.rand(n_coefs))-((0.50    )))
+    coeffs=((torch.rand(n_coeffs))-((0.50    )))
     coeffs.requires_grad_()
     return coeffs
 def one_epoch(coeffs=None, learning_rate=None):

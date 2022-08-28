@@ -305,10 +305,10 @@
 	(do0
 	 (comments "set up linear model. first we calculate manually a single step for the loss of every row in the dataset. we start with a random coefficient in (-.5,.5) for each column of t_indep")
 	 (torch.manual_seed 442)
-	 (setf n_coef (dot t_indep
+	 (setf n_coeffs (dot t_indep
 			   (aref shape 1)))
 	 (setf coeffs (- (dot torch
-			     (rand n_coefs))
+			     (rand n_coeffs))
 			.5))
 	 coeffs))
        (python
@@ -355,7 +355,7 @@
 		   "define the loss as the average error between predictions and the dependent")
 	 (setf loss (dot torch
 			 (abs (- preds
-				 t_deps))
+				 t_dep))
 			 (mean)))
 	 loss))
        (python
@@ -464,7 +464,7 @@
 		 (zero_))))
 	 (def init_coeffs ()
 	   (setf coeffs (- (dot torch
-				(rand n_coefs))
+				(rand n_coeffs))
 			   .5))
 	   (coeffs.requires_grad_)
 	   (return coeffs))
