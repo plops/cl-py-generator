@@ -2,7 +2,8 @@
 
 # %% auto 0
 __all__ = ['start_time', 'debug', 'parser', 'args', 'path', 'line_char_width', 'df', 'mode', 't_dep', 'indep_columns', 't_indep',
-           'trn', 'val', 'trn_indep', 'val_indep', 'trn_dep', 'val_dep', 'calc_preds', 'calc_loss']
+           'trn', 'val', 'trn_indep', 'val_indep', 'trn_dep', 'val_dep', 'calc_preds', 'calc_loss', 'update_coeffs',
+           'init_coeffs', 'one_epoch', 'train_model']
 
 # %% ../00_titanic_from_scratch.ipynb 0
 # |export
@@ -22,9 +23,9 @@ from torch import tensor
 # %% ../00_titanic_from_scratch.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="6c2f9a414e8bda5836211266611729864e5ea993"
+_code_git_version="150916002f96efa6647f2a52761912a0a3051ec5"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/96_colab_fastai/source/"
-_code_generation_time="19:07:01 of Sunday, 2022-08-28 (GMT+1)"
+_code_generation_time="19:26:28 of Sunday, 2022-08-28 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -93,7 +94,7 @@ t_indep
 # %% ../00_titanic_from_scratch.ipynb 28
 # using what we learned in the previous cells create functions to compute predictions and loss
 def calc_preds(coeffs=None, indeps=None):
-    return ((indeps)*(coefs)).sum(axis=1)
+    return ((indeps)*(coeffs)).sum(axis=1)
 def calc_loss(coeffs=None, indeps=None, deps=None):
     preds=calc_preds(coeffs=coeffs, indeps=indeps)
     loss=torch.abs(((preds)-(deps))).mean()
@@ -114,4 +115,31 @@ val_indep=t_indep[val]
 trn_dep=t_dep[trn]
 val_dep=t_dep[val]
 len(trn_indep), len(val_indep)
+
+
+# %% ../00_titanic_from_scratch.ipynb 36
+# create 3 functions for the operations that were introduced in the previous cells
+def update_coeffs(coeffs=None, learning_rate=None):
+    coeffs.sub_(((coeffs.grad)*(learning_rate)))
+    coeffs.grad.zero_()
+def init_coeffs():
+    coeffs=((torch.rand(n_coefs))-((0.50    )))
+    coeffs.requires_grad_()
+    return coeffs
+def one_epoch(coeffs=None, learning_rate=None):
+    loss=calc_loss(coeffs=coeffs, indeps=trn_indep, deps=trn_dep)
+    loss.backward()
+    with torch.no_grad():
+        update_coeffs(coeffs=coeffs, learning_rate=learning_rate)
+    print(f"{loss:.3f}", end="; ")
+
+
+# %% ../00_titanic_from_scratch.ipynb 37
+# now use these functions to train the model
+def train_model(epochs=30, learning_rate=(1.00e-2)):
+    torch.manual_seed(442)
+    coeffs=init_coeffs()
+    for i in range(epochs):
+        one_epoch(coeffs=coeffs, learning_rate=learning_rate)
+    return coeffs
 

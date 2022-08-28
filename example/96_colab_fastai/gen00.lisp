@@ -283,14 +283,14 @@
 	 (torch.manual_seed 442)
 	 (setf n_coef (dot t_indep
 			   (aref shape 1)))
-	 (setf coefs (- (dot torch
+	 (setf coeffs (- (dot torch
 			     (rand n_coefs))
 			.5))
-	 coefs))
+	 coeffs))
        (python
 	(do0
 	 (comments "our predictions are formed by multiplying a row with coefficients and summing them up. we don't need to introduce a bias (or intercept) term by introducing a column containing only ones. Such a 'one' is already present in each row in either the dummy column Sex_male or Sex_female.")
-	 (* t_indep coefs)
+	 (* t_indep coeffs)
 	 ))
        (python
 	(do0
@@ -318,7 +318,7 @@
 	(do0
 	 (comments "create predictions by adding up the rows of the product")
 	 (setf preds  (dot (* t_indep
-			      coefs)
+			      coeffs)
 			   (sum :axis 1)))))
        (python
 	(do0
@@ -340,7 +340,7 @@
 	 (def calc_preds (&key coeffs indeps)
 	   (return
 	     (dot (* indeps
-		     coefs)
+		     coeffs)
 		  (sum :axis 1))))
 	 (def calc_loss (&key coeffs indeps deps)
 	   (setf preds (calc_preds :coeffs coeffs
@@ -387,13 +387,14 @@
 				    :deps t_dep))
 	      (loss.backward)
 	      (with (torch.no_grad)
-		    (dot coeffs
-			 (sub_ 
-			  (* coeffs.grad
-			     .1)))
-		    (dot coeffs
-			 grad
-			 (zero_))
+		    (do0
+		     (dot coeffs
+			  (sub_ 
+			   (* coeffs.grad
+			      .1)))
+		     (dot coeffs
+			  grad
+			  (zero_)))
 		    (print (calc_loss :coeffs coeffs
 				      :indeps t_indep
 				      :deps t_dep)))
@@ -425,6 +426,55 @@
 				      ,f)))))
 	 (ntuple (len trn_indep)
 		 (len val_indep))))
+       (python
+	(export
+	 (comments "create 3 functions for the operations that were introduced in the previous cells")
+	 (def update_coeffs (&key coeffs learning_rate)
+	   (do0
+	    (dot coeffs
+		 (sub_ 
+		  (* coeffs.grad
+		     learning_rate)))
+	    (dot coeffs
+		 grad
+		 (zero_))))
+	 (def init_coeffs ()
+	   (setf coeffs (- (dot torch
+				(rand n_coefs))
+			   .5))
+	   (coeffs.requires_grad_)
+	   (return coeffs))
+	 (def one_epoch (&key coeffs learning_rate)
+	   (do0 (setf loss (calc_loss :coeffs coeffs
+				      :indeps trn_indep
+				      :deps trn_dep))
+	      (loss.backward)
+	      (with (torch.no_grad)
+		    (update_coeffs :coeffs coeffs
+				   :learning_rate learning_rate)
+		    )
+
+		(print (fstring "{loss:.3f}")
+		       :end (string "; "))))))
+
+       (python
+	(export
+	 (comments "now use these functions to train the model")
+	 (def train_model (&key (epochs 30)
+				(learning_rate .01))
+	   (torch.manual_seed 442)
+	   (setf coeffs (init_coeffs)
+		 )
+	   (for (i (range epochs)
+		   )
+		(one_epoch :coeffs coeffs
+			   :learning_rate learning_rate))
+	   (return coeffs))))
+       (python
+	(do0
+	 (comments "try training. the loss should decrease")
+	 (setf coeffs (train_model :epochs 18
+				   :learning_rate .2))))
        
        )))
   (sb-ext:run-program "/usr/bin/ssh"
