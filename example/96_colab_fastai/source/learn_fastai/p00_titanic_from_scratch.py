@@ -23,9 +23,9 @@ from torch import tensor
 # %% ../00_titanic_from_scratch.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="3850538ab76a9daa0dbd6dcc1aeedb4f2dbf2327"
+_code_git_version="cb2afc587df28af8d32df7932b7bd7d81dcaf271"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/96_colab_fastai/source/"
-_code_generation_time="19:40:09 of Sunday, 2022-08-28 (GMT+1)"
+_code_generation_time="19:45:43 of Sunday, 2022-08-28 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -47,7 +47,8 @@ if ( not(path.exists()) ):
 
 # %% ../00_titanic_from_scratch.ipynb 5
 # i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive
-
+import google.colab.drive
+drive.mount("/content/drive")
 
 
 # %% ../00_titanic_from_scratch.ipynb 6
