@@ -405,9 +405,9 @@
 	 (comments "before we can perform training, we have to create a validation dataset"
 		   "we do that in the same way as the fastai library does")
 	 (imports (fastai.data.transforms))
-	 (comments "get training and validation indices")
-	 (setf (ntuple tr
-		       va)
+	 (comments "get training (trn) and validation indices (val)")
+	 (setf (ntuple trn
+		       val)
 	       ((fastai.data.transforms.RandomSplitter
 		 :seed 42
 		 )
@@ -418,14 +418,18 @@
 	 ,@(loop for e in `(indep dep)
 		 collect
 		 `(do0
-		   (loop for f in `(tr va)
+		   ,@(loop for f in `(trn val)
+			   collect
 			 `(setf ,(format nil "~a_~a" f e)
 				(aref ,(format nil "t_~a" e)
 				      ,f)))))
-	 (ntuple (len tr_indep)
-		 (len va_indep))))
+	 (ntuple (len trn_indep)
+		 (len val_indep))))
        
-       ))))
+       )))
+  (sb-ext:run-program "/usr/bin/ssh"
+		      `("c11"
+			"cd ~/arch/home/martin/stage/cl-py-generator/example/96_colab_fastai/source; nbdev_export")))
 
 
 
