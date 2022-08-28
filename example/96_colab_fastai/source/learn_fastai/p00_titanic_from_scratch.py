@@ -11,6 +11,7 @@ __all__ = ['start_time', 'debug', 'parser', 'args', 'path', 'line_char_width', '
 
 
 # %% ../00_titanic_from_scratch.ipynb 1
+# this file is based on https://github.com/fastai/course22/blob/master/05-linear-model-and-neural-net-from-scratch.ipynb
 import os
 import time
 import pathlib
@@ -23,9 +24,9 @@ from torch import tensor
 # %% ../00_titanic_from_scratch.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="0cac3a5d7169d7719f36acb5e2d1b699f2578ebb"
+_code_git_version="8202623afbf17348ff59c29fe590066b5db132ba"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/96_colab_fastai/source/"
-_code_generation_time="20:01:07 of Sunday, 2022-08-28 (GMT+1)"
+_code_generation_time="20:04:58 of Sunday, 2022-08-28 (GMT+1)"
 start_time=time.time()
 debug=True
 

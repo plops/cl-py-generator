@@ -28,6 +28,7 @@
 	 ,(format nil "#|default_exp p~a_~a" *idx* notebook-name)))
        (python (export
 		(do0
+		 (comments "this file is based on https://github.com/fastai/course22/blob/master/05-linear-model-and-neural-net-from-scratch.ipynb")
 					;"%matplotlib notebook"
 		 #+nil(do0
 
