@@ -220,7 +220,7 @@
 	      (sum))))
        (python
 	(export
-	 (setf mode (dot df
+	 (setf modes (dot df
 			 (mode)
 			 (aref iloc 0)))))
        (python
