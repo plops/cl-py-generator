@@ -223,7 +223,22 @@
 	       (np.log
 		(+ 1 df.Fare)))))
        (python
+	(do0
+	 (comments "histogram of logarithm of prices no longer shows the 'long' tail")
+	 (df.LogFare.hist)))
+       (python
+	(do0
+	 (comments "look at the three values that are in passenger class. more details about the dataset are here: https://www.kaggle.com/competitions/titanic/data")
+	 (setf pclasses (df.Pclass.unique))
+	 pclasses))
+       (python
+	(do0
+	 (comments "look at columns with non-numeric values")
+	 (df.describe :include (list object))))
+       (python
 	(export
+	 (comments "replace non-numeric values with numbers by introducing new columns (dummies). The dummy columns will be added to the dataframe df and the 3 original columns are dropped."
+		   "Cabin, Name and Ticket contain too many unique values for this approach to be useful")
 	 (setf df (pd.get_dummies
 		   df
 		   :columns (list (string "Sex")
@@ -231,8 +246,74 @@
 				  (string "Embarked"))))
 	 df.columns))
        (python
+	(do0
+	 (comments "look at the new dummy columns")
+	 (setf added_columns (list ,@(loop for e in
+					   `(Sex_male Sex_female
+						      Pclass_1 Pclass_2 Pclass_3
+						      Embarked_C Embarked_Q ;; fixme: some are missing, can't read them on phone
+						      )
+					   collect
+					   `(string ,e))))
+	 (dot (aref df added_columns)
+	      (head))))
+       (python
 	(export
+	 (comments "create dependent variable as tensor")
 	 (setf t_dep (tensor df.Survived))))
+       (python
+	(export
+	 (comment "independent variables are all continuous variables of interest and the newly created columns")
+	 (setf indep_columns
+	       (+ (list ,@(loop for e in `(Age SipSp Parch LogFare)
+				collect
+				`(string ,e)))
+		  added_columns))
+	 (setf t_indep (tensor (dot (aref df indep_columns)
+				    values)
+			       :dtype torch.float)
+	       )
+	 t_indep))
+       (python
+	(do0
+	 t_indep.shape))
+       (python
+	(do0
+	 (comments "set up linear model. first we calculate manually a single step for the loss of every row in the dataset. we start with a random coefficient in (-.5,.5) for each column of t_indep")
+	 (torch.manual_seed 442)
+	 (setf n_coef (dot t_indep
+			   (aref shape 1)))
+	 (setf coefs (- (dot torch
+			     (rand n_coefs))
+			.5))
+	 coefs))
+       (python
+	(do0
+	 (comments "our predictions are formed by multiplying a row with coefficients and summing them up. we don't need to introduce a bias (or intercept) term by introducing a column containing only ones. Such a 'one' is already present in each row in either the dummy column Sex_male or Sex_female.")
+	 (* t_indep coefs)
+	 ))
+       (python
+	(do0
+	 (comments "we have a potential problem with the first column Age. Its values are bigger in average than the values in other columns"
+		   "we have two options to normalize Age: 1) divide by maximum or 2) subtract mean and divide by std. In the book jeremy howard uses 1). I will try 2)")
+	 (when False
+	  (do0
+	   (comments "method 1)")
+	   (setf (ntuple vals indices)
+		 (t_indep.max :dim 0))
+	   (setf t_indep (/ t_indep
+			    vals))))
+	 (when True
+	  (do0
+	   (comments "method 2)")
+	   (setf (ntuple means indices1)
+		 (t_indep.mean :dim 0))
+	   (setf (ntuple stdts indices2)
+		 (t_indep.std :dim 0))
+	   (setf t_indep (/ (- t_indep
+			       means)
+			    stds))))))
+       
        ))))
 
 
