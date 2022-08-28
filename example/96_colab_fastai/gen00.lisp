@@ -157,6 +157,8 @@
 
 	      (setf args (parser.parse_args)))))
 
+       
+       
        (python
 	(export
 	 (setf path (pathlib.Path (string "titanic")))
@@ -170,6 +172,11 @@
 		(ZipFile (fstring "{path}.zip"))
 		(extractall path))
 	   )))
+
+       (python
+	(export
+	 (comments "i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive")))
+       
        (python
 	(export
 	 (imports (torch
