@@ -23,9 +23,9 @@ from torch import tensor
 # %% ../00_titanic_from_scratch.ipynb 2
 start_time=time.time()
 debug=True
-_code_git_version="cb2afc587df28af8d32df7932b7bd7d81dcaf271"
+_code_git_version="6404f56ed4b0650ae0a073a671ecf4a3ab66d087"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/96_colab_fastai/source/"
-_code_generation_time="19:45:43 of Sunday, 2022-08-28 (GMT+1)"
+_code_generation_time="19:50:31 of Sunday, 2022-08-28 (GMT+1)"
 start_time=time.time()
 debug=True
 
@@ -37,6 +37,19 @@ args=parser.parse_args()
 
 
 # %% ../00_titanic_from_scratch.ipynb 4
+# i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive
+import google.colab.drive
+drive.mount("/content/drive")
+
+
+# %% ../00_titanic_from_scratch.ipynb 5
+path=pathlib.Path("titanic")
+if ( not(path.exists()) ):
+    import zipfile
+    zipfile.ZipFile(f"~/drive/MyDrive/{path}.zip").extractall(path)
+
+
+# %% ../00_titanic_from_scratch.ipynb 6
 path=pathlib.Path("titanic")
 if ( not(path.exists()) ):
     import zipfile
@@ -45,13 +58,7 @@ if ( not(path.exists()) ):
     zipfile.ZipFile(f"{path}.zip").extractall(path)
 
 
-# %% ../00_titanic_from_scratch.ipynb 5
-# i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive
-import google.colab.drive
-drive.mount("/content/drive")
-
-
-# %% ../00_titanic_from_scratch.ipynb 6
+# %% ../00_titanic_from_scratch.ipynb 7
 import torch
 import numpy as np
 import pandas as pd
@@ -61,43 +68,43 @@ torch.set_print_options(linewidth=line_char_width, sci_mode=False, edgeitems=7)
 pd.set_option("display_width", line_char_width)
 
 
-# %% ../00_titanic_from_scratch.ipynb 7
+# %% ../00_titanic_from_scratch.ipynb 8
 df=pd.read_csv(((path)/("train.csv")))
 df
 
 
-# %% ../00_titanic_from_scratch.ipynb 9
+# %% ../00_titanic_from_scratch.ipynb 10
 mode=df.mode().iloc[0]
 
 
-# %% ../00_titanic_from_scratch.ipynb 10
+# %% ../00_titanic_from_scratch.ipynb 11
 df.fillna(modes, inplace=True)
 
 
-# %% ../00_titanic_from_scratch.ipynb 14
+# %% ../00_titanic_from_scratch.ipynb 15
 df["LogFare"]=np.log(((1)+(df.Fare)))
 
 
-# %% ../00_titanic_from_scratch.ipynb 18
+# %% ../00_titanic_from_scratch.ipynb 19
 # replace non-numeric values with numbers by introducing new columns (dummies). The dummy columns will be added to the dataframe df and the 3 original columns are dropped.
 # Cabin, Name and Ticket contain too many unique values for this approach to be useful
 df=pd.get_dummies(df, columns=["Sex", "Pclass", "Embarked"])
 df.columns
 
 
-# %% ../00_titanic_from_scratch.ipynb 20
+# %% ../00_titanic_from_scratch.ipynb 21
 # create dependent variable as tensor
 t_dep=tensor(df.Survived)
 
 
-# %% ../00_titanic_from_scratch.ipynb 21
+# %% ../00_titanic_from_scratch.ipynb 22
 # independent variables are all continuous variables of interest and the newly created columns
 indep_columns=((["Age", "SipSp", "Parch", "LogFare"])+(added_columns))
 t_indep=tensor(df[indep_columns].values, dtype=torch.float)
 t_indep
 
 
-# %% ../00_titanic_from_scratch.ipynb 29
+# %% ../00_titanic_from_scratch.ipynb 30
 # using what we learned in the previous cells create functions to compute predictions and loss
 def calc_preds(coeffs=None, indeps=None):
     return ((indeps)*(coeffs)).sum(axis=1)
@@ -107,7 +114,7 @@ def calc_loss(coeffs=None, indeps=None, deps=None):
     return loss
 
 
-# %% ../00_titanic_from_scratch.ipynb 35
+# %% ../00_titanic_from_scratch.ipynb 36
 # before we can perform training, we have to create a validation dataset
 # we do that in the same way as the fastai library does
 import fastai.data.transforms
@@ -115,7 +122,7 @@ import fastai.data.transforms
 trn, val=(fastai.data.transforms.RandomSplitter(seed=42))((df))
 
 
-# %% ../00_titanic_from_scratch.ipynb 36
+# %% ../00_titanic_from_scratch.ipynb 37
 trn_indep=t_indep[trn]
 val_indep=t_indep[val]
 trn_dep=t_dep[trn]
@@ -123,7 +130,7 @@ val_dep=t_dep[val]
 len(trn_indep), len(val_indep)
 
 
-# %% ../00_titanic_from_scratch.ipynb 37
+# %% ../00_titanic_from_scratch.ipynb 38
 # create 3 functions for the operations that were introduced in the previous cells
 def update_coeffs(coeffs=None, learning_rate=None):
     coeffs.sub_(((coeffs.grad)*(learning_rate)))
@@ -140,7 +147,7 @@ def one_epoch(coeffs=None, learning_rate=None):
     print(f"{loss:.3f}", end="; ")
 
 
-# %% ../00_titanic_from_scratch.ipynb 38
+# %% ../00_titanic_from_scratch.ipynb 39
 # now use these functions to train the model
 def train_model(epochs=30, learning_rate=(1.00e-2)):
     torch.manual_seed(442)

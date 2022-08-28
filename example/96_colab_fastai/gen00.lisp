@@ -158,6 +158,24 @@
 	      (setf args (parser.parse_args)))))
 
        
+       (python
+	(export
+	 (comments "i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive")
+	 (imports (google.colab.drive))
+	 (drive.mount (string "/content/drive"))
+
+	 ))
+
+       (python
+	(export
+	 (setf path (pathlib.Path (string "titanic")))
+	 (unless (path.exists)
+	   (do0
+	    (imports (zipfile))
+	    (dot zipfile
+		 (ZipFile (fstring "~/drive/MyDrive/{path}.zip"))
+		 (extractall path))))
+	 ))
        
        (python
 	(export
@@ -173,13 +191,7 @@
 		(extractall path))
 	   )))
 
-       (python
-	(export
-	 (comments "i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive")
-	 (imports (google.colab.drive))
-	 (drive.mount (string "/content/drive"))
-
-	 ))
+       
        
        (python
 	(export
