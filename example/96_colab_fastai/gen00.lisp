@@ -359,6 +359,71 @@
 	      (requires_grad_))
 	 
 	 ))
+       (python
+	(do0
+	 (comments "compute the loss, pytorch will perform book keeping to compute gradients later")
+	 
+	 loss))
+       (python
+	(do0
+	 (comments "compute gradient")
+	 (loss.backward)
+	 
+	 coeffs.grad
+	 (comments "note that every call of backward() adds the gradients to grad")))
+       (python
+	(do0
+	 (comments "calling the steps a second time will double the values in .grad")
+	 (do0 (setf loss (calc_loss :coeffs coeffs
+				:indeps t_indep
+				    :deps t_dep))
+	      (loss.backward)
+	      coeffs.grad)))
+       (python
+	(do0
+	 (comments "we can now perform a single gradient step. the loss should reduce")
+	 (do0 (setf loss (calc_loss :coeffs coeffs
+				    :indeps t_indep
+				    :deps t_dep))
+	      (loss.backward)
+	      (with (torch.no_grad)
+		    (dot coeffs
+			 (sub_ 
+			  (* coeffs.grad
+			     .1)))
+		    (dot coeffs
+			 grad
+			 (zero_))
+		    (print (calc_loss :coeffs coeffs
+				      :indeps t_indep
+				      :deps t_dep)))
+	      )
+	 (comments "a.sub_(b) subtracts the gradient from coeffs in place (a = a - b) and zero_ clears the gradients")))
+
+       (python
+	(export
+	 (comments "before we can perform training, we have to create a validation dataset"
+		   "we do that in the same way as the fastai library does")
+	 (imports (fastai.data.transforms))
+	 (comments "get training and validation indices")
+	 (setf (ntuple tr
+		       va)
+	       ((fastai.data.transforms.RandomSplitter
+		 :seed 42
+		 )
+		df))
+	 ))
+       (python
+	(export
+	 ,@(loop for e in `(indep dep)
+		 collect
+		 `(do0
+		   (loop for f in `(tr va)
+			 `(setf ,(format nil "~a_~a" f e)
+				(aref ,(format nil "t_~a" e)
+				      ,f)))))
+	 (ntuple (len tr_indep)
+		 (len va_indep))))
        
        ))))
 
