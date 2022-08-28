@@ -295,15 +295,15 @@
        (python
 	(do0
 	 (comments "we have a potential problem with the first column Age. Its values are bigger in average than the values in other columns"
-		   "we have two options to normalize Age: 1) divide by maximum or 2) subtract mean and divide by std. In the book jeremy howard uses 1). I will try 2)")
-	 (when False
+		   "In the lecture Jeremy mentions two options to normalize Age I can think of two more methods: 1) divide by maximum or 2) subtract mean and divide by std 3) subtract median and divide by MAD 4) find lower 2 perscentile and upper 2 percentile increase the value gap by +/- 10% and use this interval to normalize the input values. In the book jeremy uses 1). 1) and 3) differ by how they handle outliers. The maximum will be influenced a lot by outliers. I would like to know if 3) is better than 1) for typical problems. I think that boils down to how big the training dataset is. Once it is big enough there may be always enough outliers to ensure even the maximum is stable.")
+	 (when True
 	  (do0
 	   (comments "method 1)")
 	   (setf (ntuple vals indices)
 		 (t_indep.max :dim 0))
 	   (setf t_indep (/ t_indep
 			    vals))))
-	 (when True
+	 (when False
 	  (do0
 	   (comments "method 2)")
 	   (setf (ntuple means indices1)
@@ -313,6 +313,52 @@
 	   (setf t_indep (/ (- t_indep
 			       means)
 			    stds))))))
+
+       (python
+	(do0
+	 (comments "create predictions by adding up the rows of the product")
+	 (setf preds  (dot (* t_indep
+			      coefs)
+			   (sum :axis 1)))))
+       (python
+	(do0
+	 (comments "look at first few")
+	 (aref preds (slice 10 ""))
+	 (comments "as the coefficents were random these predictions are no good")))
+       (python
+	(do0
+	 (comments "in order to improve the predictions modify the coefficients with gradient descent"
+		   "define the loss as the average error between predictions and the dependent")
+	 (setf loss (dot torch
+			 (abs (- preds
+				 t_deps))
+			 (mean)))
+	 loss))
+       (python
+	(export
+	 (comments "using what we learned in the previous cells create functions to compute predictions and loss")
+	 (def calc_preds (&key coeffs indeps)
+	   (return
+	     (dot (* indeps
+		     coefs)
+		  (sum :axis 1))))
+	 (def calc_loss (&key coeffs indeps deps)
+	   (setf preds (calc_preds :coeffs coeffs
+				   :indeps indeps))
+	   (setf loss (dot torch
+			   (abs (- preds
+				   deps))
+			   (mean)))
+	   (return loss))
+	 ))
+       (python
+	(do0
+	 (comments "perform a single 'epoch' of gradient descent manually"
+		   "tell pytorch that we want to calculate the gradients for the coeffs object. the underscore indicates that the coeffs object will be modified in place")
+	 (dot coeffs
+	      (requires_grad_))
+	 
+	 ))
        
        ))))
 
