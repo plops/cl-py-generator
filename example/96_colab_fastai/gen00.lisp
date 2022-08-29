@@ -160,7 +160,7 @@
 
        
        (python
-	(export
+	(export1
 	 (comments "i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive")
 	 (imports (google.colab.drive))
 	 (google.colab.drive.mount (string "/content/drive"))
@@ -201,11 +201,11 @@
 		   (pd pandas)))
 	 (setf line_char_width
 	       140)
-	 (np.set_print_options :linewidth line_char_width)
-	 (torch.set_print_options :linewidth line_char_width
+	 (np.set_printoptions :linewidth line_char_width)
+	 (torch.set_printoptions :linewidth line_char_width
 				  :sci_mode False
 				  :edgeitems 7)
-	 (pd.set_option (string "display_width")
+	 (pd.set_option (string "display.width")
 			line_char_width)))
        (python
 	(export
@@ -347,7 +347,7 @@
        (python
 	(do0
 	 (comments "look at first few")
-	 (aref preds (slice 10 ""))
+	 (aref preds (slice "" 10))
 	 (comments "as the coefficents were random these predictions are no good")))
        (python
 	(do0
@@ -387,7 +387,9 @@
 	(do0
 	 (comments "compute the loss, pytorch will perform book keeping to compute gradients later")
 	 
-	 loss))
+	 (setf loss (calc_loss :coeffs coeffs
+			       :indeps t_indep
+			       :deps t_dep))))
        (python
 	(do0
 	 (comments "compute gradient")
