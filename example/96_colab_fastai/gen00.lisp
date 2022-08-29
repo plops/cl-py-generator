@@ -501,6 +501,55 @@
 	 (comments "try training. the loss should decrease")
 	 (setf coeffs (train_model :epochs 18
 				   :learning_rate .2))))
+       (python
+	(do0
+	 (def show_coeffs ()
+	   (return (dict
+		    (zip indep_cols
+			 (map
+			  (lambda (x)
+			    (x.item))
+			   (coeffs.requires_grad_ False))))))
+	 (show_coeffs)))
+
+       (python
+	(do0
+	 (comments "the kaggle competition scores accuracy -- the proportion of rows where we correctly predict survival"
+		   "determine accuracy using the validation set"
+		   "first compute the predictions")
+	 (setf preds (calc_preds :coeffs coeffs
+				 :indeps val_indep))
+	 (comments "for passenger with preds > 0.5 our model predicts survival. compare this with the dependent variable")
+	 (setf results (== (val_dep.bool)
+			   (> preds 0.5)))
+	 (aref results (slice "" 16))
+	 ))
+       (python
+	(do0
+	 (comments "compute average accuracy")
+	 (dot results
+	      (float)
+	      (mean))))
+       (python
+	(export
+	 (comments "create a function to compute accuracy")
+	 (def acc (coeffs)
+	   (setf results (== (val_dep.bool)
+			     (> preds 0.5)))
+	   (return (dot results
+			(float)
+			(mean))))
+	 (acc coeffs)
+	 ))
+       (python
+	(do0
+	 (comments "some predictions are >1 and some are <0. We don't want that")
+	 ))
+       (python
+	(do0
+	 (imports (sympy))
+	 (sympy.plot (string "1/(1+exp(-x))")
+		     :xlim (tuple -7 7))))
        
        )))
   (sb-ext:run-program "/usr/bin/ssh"
