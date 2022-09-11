@@ -351,16 +351,52 @@
 
        (python
 	(do0
-	 (setf W (torch.randn (tuple 27 27)))
-	 (@ xenc W)
+	 (do0
+	  (setf g (dot
+		   torch
+		   (Generator)
+		   (manual_seed 2147483647)))
+	  (setf W (torch.randn (tuple 27 27)
+			       :generator g
+			       :requires_grad True)))))
+       (python
+	(do0
+
+	 
+	 
 
 	 (comments "output is 5x27 @ 27x27 = 5x27"
 		   "27 neurons on 5 inputs"
 		   "what is the firing rate of the 27 neurons on everyone of the 5 inputs"
-		   "xenc @ W [3,13] indicates the firing rate of the 13 neuron for input 3. it is a dot-product of the 13th column of W with the input xenc")
+		   "xenc @ W [3,13] indicates the firing rate of the 13 neuron for input 3. it is a dot-product of the 13th column of W with the input xenc"
+		   "we exponentiate the numbers. negative numbers will be 0..1, positive numbers will be >1"
+		   "we will interpret them as something equivalent to count (positive numbers). this is called logits. equivalent to the counts in the N matrix"
+		   "converting logits to probabilities is called softmax")
 
+	 (setf logits (@ xenc W)
+	       counts (dot logits (exp))
+	       probs (/ counts
+			(counts.sum 1 :keepdims True)))
+	 probs
+	 (setf loss
+	       (* -1 (dot
+		 (aref probs
+		       (torch.arange 5)
+		       ys)
+		 (log)
+		 (mean))))
+	 (print (loss.item))
+	 (comments "this is the forward pass")
 	 )
 	)
+       (python
+	(do0
+	 (comments "backward pass"
+		   "clear gradient")
+	 (setf W.grad None)
+	 (loss.backward)
+	 (incf W.data (* -.1 W.grad))
+	 ))
 
        )))
   #+nil
