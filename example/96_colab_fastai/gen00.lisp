@@ -48,9 +48,9 @@
 		       )
 		 (imports (	os
 					;sys
-			   time
+				time
 					;docopt
-					pathlib
+				pathlib
 					;(np numpy)
 					;serial
 					;(pd pandas)
@@ -83,9 +83,9 @@
 					;(np jax.numpy)
 					;(mpf mplfinance)
 					;selenium.webdriver ;.FirefoxOptions
-			   argparse
-			   torch
-			   ))
+				argparse
+				torch
+				))
 
 		 (imports-from (torch tensor))
 		 #+nil  (imports-from (selenium webdriver)
@@ -97,13 +97,13 @@
 
 				      )
 
-		 
+
 		 #+nil
 		 (imports-from  (matplotlib.pyplot
-				      plot imshow tight_layout xlabel ylabel
-				      title subplot subplot2grid grid
-				      legend figure gcf xlim ylim)
-			  )
+				 plot imshow tight_layout xlabel ylabel
+				 title subplot subplot2grid grid
+				 legend figure gcf xlim ylim)
+				)
 
 		 )
 		))
@@ -158,7 +158,7 @@
 
 	      (setf args (parser.parse_args)))))
 
-       
+
        (python
 	(export1
 	 (comments "i want to run this on google colab. annoyingly i can't seem to access the titanic.zip file. it seems to be necessary to supply some kaggle login information in a json file. rather than doing this i downloaded the titanic.zip file into my google drive")
@@ -177,7 +177,7 @@
 		 (ZipFile (fstring "/content/drive/MyDrive/{path}.zip"))
 		 (extractall path))))
 	 ))
-       
+
        (python
 	(export
 	 (setf path (pathlib.Path (string "titanic")))
@@ -192,8 +192,8 @@
 		(extractall path))
 	   )))
 
-       
-       
+
+
        (python
 	(export
 	 (imports (torch
@@ -203,8 +203,8 @@
 	       140)
 	 (np.set_printoptions :linewidth line_char_width)
 	 (torch.set_printoptions :linewidth line_char_width
-				  :sci_mode False
-				  :edgeitems 7)
+				 :sci_mode False
+				 :edgeitems 7)
 	 (pd.set_option (string "display.width")
 			line_char_width)))
        (python
@@ -221,8 +221,8 @@
        (python
 	(export
 	 (setf modes (dot df
-			 (mode)
-			 (aref iloc 0)))))
+			  (mode)
+			  (aref iloc 0)))))
        (python
 	(export
 	 (dot df
@@ -306,10 +306,10 @@
 	 (comments "set up linear model. first we calculate manually a single step for the loss of every row in the dataset. we start with a random coefficient in (-.5,.5) for each column of t_indep")
 	 (torch.manual_seed 442)
 	 (setf n_coeffs (dot t_indep
-			   (aref shape 1)))
+			     (aref shape 1)))
 	 (setf coeffs (- (dot torch
-			     (rand n_coeffs))
-			.5))
+			      (rand n_coeffs))
+			 .5))
 	 coeffs))
        (python
 	(do0
@@ -321,22 +321,22 @@
 	 (comments "we have a potential problem with the first column Age. Its values are bigger in average than the values in other columns"
 		   "In the lecture Jeremy mentions two options to normalize Age I can think of two more methods: 1) divide by maximum or 2) subtract mean and divide by std 3) subtract median and divide by MAD 4) find lower 2 perscentile and upper 2 percentile increase the value gap by +/- 10% and use this interval to normalize the input values. In the book jeremy uses 1). 1) and 3) differ by how they handle outliers. The maximum will be influenced a lot by outliers. I would like to know if 3) is better than 1) for typical problems. I think that boils down to how big the training dataset is. Once it is big enough there may be always enough outliers to ensure even the maximum is stable.")
 	 (when True
-	  (do0
-	   (comments "method 1)")
-	   (setf (ntuple vals indices)
-		 (t_indep.max :dim 0))
-	   (setf t_indep (/ t_indep
-			    vals))))
+	   (do0
+	    (comments "method 1)")
+	    (setf (ntuple vals indices)
+		  (t_indep.max :dim 0))
+	    (setf t_indep (/ t_indep
+			     vals))))
 	 (when False
-	  (do0
-	   (comments "method 2)")
-	   (setf (ntuple means indices1)
-		 (t_indep.mean :dim 0))
-	   (setf (ntuple stdts indices2)
-		 (t_indep.std :dim 0))
-	   (setf t_indep (/ (- t_indep
-			       means)
-			    stds))))))
+	   (do0
+	    (comments "method 2)")
+	    (setf (ntuple means indices1)
+		  (t_indep.mean :dim 0))
+	    (setf (ntuple stdts indices2)
+		  (t_indep.std :dim 0))
+	    (setf t_indep (/ (- t_indep
+				means)
+			     stds))))))
 
        (python
 	(do0
@@ -381,12 +381,12 @@
 		   "tell pytorch that we want to calculate the gradients for the coeffs object. the underscore indicates that the coeffs object will be modified in place")
 	 (dot coeffs
 	      (requires_grad_))
-	 
+
 	 ))
        (python
 	(do0
 	 (comments "compute the loss, pytorch will perform book keeping to compute gradients later")
-	 
+
 	 (setf loss (calc_loss :coeffs coeffs
 			       :indeps t_indep
 			       :deps t_dep))))
@@ -394,14 +394,14 @@
 	(do0
 	 (comments "compute gradient")
 	 (loss.backward)
-	 
+
 	 coeffs.grad
 	 (comments "note that every call of backward() adds the gradients to grad")))
        (python
 	(do0
 	 (comments "calling the steps a second time will double the values in .grad")
 	 (do0 (setf loss (calc_loss :coeffs coeffs
-				:indeps t_indep
+				    :indeps t_indep
 				    :deps t_dep))
 	      (loss.backward)
 	      coeffs.grad)))
@@ -415,7 +415,7 @@
 	      (with (torch.no_grad)
 		    (do0
 		     (dot coeffs
-			  (sub_ 
+			  (sub_
 			   (* coeffs.grad
 			      .1)))
 		     (dot coeffs
@@ -447,9 +447,9 @@
 		 `(do0
 		   ,@(loop for f in `(trn val)
 			   collect
-			 `(setf ,(format nil "~a_~a" f e)
-				(aref ,(format nil "t_~a" e)
-				      ,f)))))
+			   `(setf ,(format nil "~a_~a" f e)
+				  (aref ,(format nil "t_~a" e)
+					,f)))))
 	 (ntuple (len trn_indep)
 		 (len val_indep))))
        (python
@@ -458,7 +458,7 @@
 	 (def update_coeffs (&key coeffs learning_rate)
 	   (do0
 	    (dot coeffs
-		 (sub_ 
+		 (sub_
 		  (* coeffs.grad
 		     learning_rate)))
 	    (dot coeffs
@@ -474,11 +474,11 @@
 	   (do0 (setf loss (calc_loss :coeffs coeffs
 				      :indeps trn_indep
 				      :deps trn_dep))
-	      (loss.backward)
-	      (with (torch.no_grad)
-		    (update_coeffs :coeffs coeffs
-				   :learning_rate learning_rate)
-		    )
+		(loss.backward)
+		(with (torch.no_grad)
+		      (update_coeffs :coeffs coeffs
+				     :learning_rate learning_rate)
+		      )
 
 		(print (fstring "{loss:.3f}")
 		       :end (string "; "))))))
@@ -509,7 +509,7 @@
 			 (map
 			  (lambda (x)
 			    (x.item))
-			   (coeffs.requires_grad_ False))))))
+			  (coeffs.requires_grad_ False))))))
 	 (show_coeffs)))
 
        (python
@@ -538,8 +538,10 @@
 			     (> preds 0.5)))
 	   (return (dot results
 			(float)
-			(mean))))
-	 (acc coeffs)
+			(mean)
+			(item))))
+	 (print (dot (string "{:3.2f}")
+		     (format (acc coeffs))))
 	 ))
        (python
 	(do0
@@ -549,8 +551,50 @@
 	(do0
 	 (imports (sympy))
 	 (sympy.plot (string "1/(1+exp(-x))")
-		     :xlim (tuple -7 7))))
-       
+		     :xlim (tuple -7 7))
+	 (comments "pytorch contains the sigmoid function")))
+       (python
+	(export
+	 (def calc_preds (coeffs indeps)
+	   (return (torch.sigmoid
+		    (dot (* indeps
+			    coeffs)
+			 (sum :axis 1)))))))
+       (python
+	(export
+	 (comments "train a new model now using the updated function to calculate predictions (that will always be in (0,1))")
+	 (setf coeffs (train_model :learning_rate 100))
+
+	 ))
+       (python
+	(do0
+	 (acc coeffs)))
+
+       (python
+	(do0
+	 (show_coeffs)
+	 (comments "older people and males are less likely to survive. first class passengers are more likely to survive.")))
+
+
+       (markdown "## Submitting to Kaggle")
+       (python
+	(do0
+	 (comments "read the test set")
+	 (setf tst_df (pd.read_csv (/ path
+				      (string "test.csv"))))
+	 (comments "clean up one missing Fare, set it to 0")
+	 (setf (aref tst_df (string "Fare"))
+	       (dot tst_df
+		    Fare
+		    (fillna 0)))))
+       (python
+	(do0
+	 (comments "perform the same steps we did for the training set"
+		   )))
+
+
+
+
        )))
   (sb-ext:run-program "/usr/bin/ssh"
 		      `("c11"

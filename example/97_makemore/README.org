@@ -1,4 +1,18 @@
 - https://www.youtube.com/watch?v=PaCmpygFfXo
   The spelled-out intro to language modeling: building makemore
+- https://github.com/karpathy/makemore
+- neural network that creates strings that sound like names but are
+  not names
 
-  
+- install dependencies
+#+begin_example
+pip3 install --user torch
+# 777MB
+#+end_example
+
+- get dataset 30_000 names from a government website
+
+#+begin_example
+cd source
+wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
+#+end_example 
