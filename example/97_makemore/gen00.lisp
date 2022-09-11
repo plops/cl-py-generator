@@ -399,6 +399,7 @@
 	 (setf W.grad None)
 	 (loss.backward)
 	 (incf W.data (* -.1 W.grad))
+	 (comments "gradient descent gives exactly the same model. sampling will be the same as the frequency counter")
 	 ))
 
        )))
