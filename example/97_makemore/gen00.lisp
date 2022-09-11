@@ -94,7 +94,7 @@
 		 #-nil
 		 (imports-from  (matplotlib.pyplot
 				 plot imshow tight_layout xlabel ylabel
-				 title subplot subplot2grid grid
+				 title subplot subplot2grid grid text
 				 legend figure gcf xlim ylim)
 				)
 
@@ -219,6 +219,14 @@
 	 stoi))
        (python
 	(export
+	 (comments "invert lookup")
+	 (setf itos (curly
+		     (for-generator ((ntuple s i)
+				     (stoi.items))
+				    "i:s")
+		     ))))
+       (python
+	(export
 	 (comments "2d array is more convenient")
 	 (setf number_tokens (len stoi))
 	 (setf N (torch.zeros (tuple number_tokens
@@ -236,6 +244,25 @@
        (python
 	(do0
 	 (imshow N)))
+
+       (python
+	(do0
+	 (figure :figsize (tuple 16 16))
+	 (imshow N :cmap (string "Blues"))
+	 (for (i (range 28))
+	      (for (j (range 28))
+		   (setf chstr (+ (aref itos i)
+				  (aref itos j)))
+		   (text j i chstr :ha (string "center")
+			 :va (string "bottom")
+			 :color (string "gray"))
+		   (text j i (dot (aref N i j)
+				  (item))
+			 :ha (string "center")
+			 :va (string "top")
+			 :color (string "gray"))))
+	 (plt.axis (string "off"))
+	 ))
 
        )))
   (sb-ext:run-program "/usr/bin/ssh"
