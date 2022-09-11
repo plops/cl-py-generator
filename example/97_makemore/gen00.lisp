@@ -316,8 +316,11 @@
 		   (print (fstring "{ch1}{ch2}: {prob:.4f} {logprob:.4f}"))))
 	 (print (fstring "{log_likelihood=}"))
 	 (comments "we are intersted in the product of all probabilities. this would be a small number so we look at the log")
+	 (comments "look at negative log_likelihood. the lowest we can get is 0")
 	 (setf nll (* -1 log_likelihood))
 	 (print (fstring "{nll=}"))
+	 (comments "normalized log likelihood is what we use")
+	 (comments "normalized log likelihood of the training model is 2.454")
 	 (print (fstring "{nll/n:.3f}"))
 	 ))
 
