@@ -194,6 +194,12 @@
 		   (setf (aref b bigram)
 			 (+ (b.get bigram 0)
 			    1))))))
+       (python
+	(export
+	 (comments "show statistics sorted by frequency")
+	 (sorted (b.items)
+		 :key (lambda (kv)
+			(* -1  (aref kv 1))))))
 
        )))
   (sb-ext:run-program "/usr/bin/ssh"
