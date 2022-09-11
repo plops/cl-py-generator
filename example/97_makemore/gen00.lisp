@@ -86,7 +86,7 @@
 				argparse
 				torch
 				))
-
+		 "import torch.nn.functional as F"
 		 (imports-from (torch tensor))
 
 
@@ -291,7 +291,8 @@
        (python
 	(do0
 	 (comments "https://pytorch.org/docs/stable/notes/broadcasting.html")
-	 (setf P (N.float)
+	 (comments "adding one for model smoothing (we don't want zeros in the matrix)")
+	 (setf P (dot (+ N 1)  (float))
 	       P (/ P
 		    (P.sum 1 :keepdim True)))
 	 ))
@@ -323,6 +324,35 @@
 	 (comments "normalized log likelihood of the training model is 2.454")
 	 (print (fstring "{nll/n:.3f}"))
 	 ))
+
+       (python
+	(do0
+	 (setf xs (list)
+	       ys (list))
+	 (for (w (aref words (slice "" 1)))
+	      (setf chs (+ (list (string "."))
+			   ("list" w)
+			   (list (string "."))))
+	      (for ((ntuple ch1 ch2)
+		    (zip chs (aref chs (slice 1 ""))))
+		   (setf ix1 (aref stoi ch1)
+			 ix2 (aref stoi ch2))
+		   (print ch1 ch2)
+		   (dot xs (append ix1))
+		   (dot ys (append ix2))))
+	 (setf xs (tensor xs)
+	       ys (tensor ys))
+
+	 (comments "encode integers with one-hot encoding")
+	 (setf xenc (dot (F.one_hot xs :num_classes number_tokens)
+			 (float)))
+	 (imshow xenc)
+	 ))
+
+       (python
+	(do0
+	 (setf W (torch.randn (tuple 27 1)))
+	 (@ xenc W)))
 
        )))
   #+nil
