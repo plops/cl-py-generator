@@ -351,8 +351,16 @@
 
        (python
 	(do0
-	 (setf W (torch.randn (tuple 27 1)))
-	 (@ xenc W)))
+	 (setf W (torch.randn (tuple 27 27)))
+	 (@ xenc W)
+
+	 (comments "output is 5x27 @ 27x27 = 5x27"
+		   "27 neurons on 5 inputs"
+		   "what is the firing rate of the 27 neurons on everyone of the 5 inputs"
+		   "xenc @ W [3,13] indicates the firing rate of the 13 neuron for input 3. it is a dot-product of the 13th column of W with the input xenc")
+
+	 )
+	)
 
        )))
   #+nil
