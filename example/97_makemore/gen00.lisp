@@ -362,8 +362,8 @@
        (python
 	(do0
 
-	 
-	 
+
+
 
 	 (comments "output is 5x27 @ 27x27 = 5x27"
 		   "27 neurons on 5 inputs"
@@ -373,6 +373,9 @@
 		   "we will interpret them as something equivalent to count (positive numbers). this is called logits. equivalent to the counts in the N matrix"
 		   "converting logits to probabilities is called softmax")
 
+	 (comments "the closer values in W the closer the probabilities to equal"
+		   "you can regularize by forcing W to be closer to zero ... W**2 term in loss")
+
 	 (setf logits (@ xenc W)
 	       counts (dot logits (exp))
 	       probs (/ counts
@@ -380,11 +383,11 @@
 	 probs
 	 (setf loss
 	       (* -1 (dot
-		 (aref probs
-		       (torch.arange 5)
-		       ys)
-		 (log)
-		 (mean))))
+		      (aref probs
+			    (torch.arange 5)
+			    ys)
+		      (log)
+		      (mean))))
 	 (print (loss.item))
 	 (comments "this is the forward pass")
 	 )
