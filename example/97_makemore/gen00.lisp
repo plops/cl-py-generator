@@ -181,6 +181,20 @@
 				     (len w)))
 		  )))
 
+       (python
+	(export
+	 (comments "collect statistics for pairs of characters")
+	 (setf b "{}")
+	 (for (w words)
+	      (setf chs (+ (list (string "<S>"))
+			   ("list" w)
+			   (list (string "<E>"))))
+	      (for (bigram
+		    (zip chs (aref chs (slice 1 ""))))
+		   (setf (aref b bigram)
+			 (+ (b.get bigram 0)
+			    1))))))
+
        )))
   (sb-ext:run-program "/usr/bin/ssh"
 		      `("c11"
