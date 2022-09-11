@@ -214,10 +214,10 @@
 					   (enumerate character_set))
 					  "s:i+1")))
 	 #+nil(setf (aref stoi (string "<S>")) 26
-	       (aref stoi (string "<E>")) 27
-	       )
+		    (aref stoi (string "<E>")) 27
+		    )
 	 (setf (aref stoi (string ".")) 0
-	       
+
 	       )
 	 stoi))
        (python
@@ -312,8 +312,10 @@
 			 logprob (torch.log prob))
 		   (incf log_likelihood logprob)
 		   (incf n)
+		   (comments "everything with probability higher than 4% is better than random")
 		   (print (fstring "{ch1}{ch2}: {prob:.4f} {logprob:.4f}"))))
 	 (print (fstring "{log_likelihood=}"))
+	 (comments "we are intersted in the product of all probabilities. this would be a small number so we look at the log")
 	 (setf nll (* -1 log_likelihood))
 	 (print (fstring "{nll=}"))
 	 (print (fstring "{nll/n:.3f}"))
