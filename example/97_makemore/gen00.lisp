@@ -212,9 +212,12 @@
 	(export
 	 (setf stoi (curly (for-generator ((ntuple i s)
 					   (enumerate character_set))
-					  "s:i")))
-	 (setf (aref stoi (string "<S>")) 26
+					  "s:i+1")))
+	 #+nil(setf (aref stoi (string "<S>")) 26
 	       (aref stoi (string "<E>")) 27
+	       )
+	 (setf (aref stoi (string ".")) 0
+	       
 	       )
 	 stoi))
        (python
@@ -233,9 +236,9 @@
 				     number_tokens)
 			      :dtype torch.int32))
 	 (for (w words)
-	      (setf chs (+ (list (string "<S>"))
+	      (setf chs (+ (list (string "."))
 			   ("list" w)
-			   (list (string "<E>"))))
+			   (list (string "."))))
 	      (for ((ntuple ch1 ch2)
 		    (zip chs (aref chs (slice 1 ""))))
 		   (setf ix1 (aref stoi ch1)
@@ -249,8 +252,8 @@
 	(do0
 	 (figure :figsize (tuple 16 16))
 	 (imshow N :cmap (string "Blues"))
-	 (for (i (range 28))
-	      (for (j (range 28))
+	 (for (i (range number_tokens))
+	      (for (j (range number_tokens))
 		   (setf chstr (+ (aref itos i)
 				  (aref itos j)))
 		   (text j i chstr :ha (string "center")
@@ -264,10 +267,61 @@
 	 (plt.axis (string "off"))
 	 ))
 
+       (python
+	(do0
+	 (setf p (dot (aref N 0)
+		      (float))
+	       p (/ p (p.sum)))
+	 p))
+
+       (python
+	(do0
+	 (setf g (dot torch
+		      (Generator)
+		      (manual_seed 2147483647))
+	       p (dot torch (rand 3 :generator g))
+	       p (/ p (p.sum)))))
+       (python
+	(do0
+	 (torch.multinomial p
+			    :num_samples 20
+			    :replacement True
+			    :generator g)))
+
+       (python
+	(do0
+	 (comments "https://pytorch.org/docs/stable/notes/broadcasting.html")
+	 (setf P (N.float)
+	       P (/ P
+		    (P.sum 1 :keepdim True)))
+	 ))
+
+       (python
+	(do0
+	 (setf log_likelihood 0.0
+	       n 0)
+	 (for (w (list (string "andrej")))
+	      (setf chs (+ (list (string "."))
+			   ("list" w)
+			   (list (string "."))))
+	      (for ((ntuple ch1 ch2)
+		    (zip chs (aref chs (slice 1 ""))))
+		   (setf ix1 (aref stoi ch1)
+			 ix2 (aref stoi ch2))
+		   (setf prob (aref P ix1 ix2)
+			 logprob (torch.log prob))
+		   (incf log_likelihood logprob)
+		   (incf n)
+		   (print (fstring "{ch1}{ch2}: {prob:.4f} {logprob:.4f}"))))
+	 (print (fstring "{log_likelihood=}"))
+	 (setf nll (* -1 log_likelihood))
+	 (print (fstring "{nll=}"))
+	 (print (fstring "{nll/n:.3f}"))
+	 ))
+
        )))
+  #+nil
   (sb-ext:run-program "/usr/bin/ssh"
 		      `("c11"
 			"cd ~/arch/home/martin/stage/cl-py-generator/example/97_makemore/source; nbdev_export")))
-
-
 
