@@ -30,7 +30,7 @@
 		(do0
 		 (comments "this file is based on https://github.com/fastai/course22/blob/master/05-linear-model-and-neural-net-from-scratch.ipynb")
 					;"%matplotlib notebook"
-		 #+nil(do0
+		 #-nil(do0
 
 		       (imports (matplotlib))
                                         ;(matplotlib.use (string "QT5Agg"))
@@ -91,7 +91,7 @@
 
 
 
-		 #+nil
+		 #-nil
 		 (imports-from  (matplotlib.pyplot
 				 plot imshow tight_layout xlabel ylabel
 				 title subplot subplot2grid grid
@@ -182,7 +182,7 @@
 		  )))
 
        (python
-	(export
+	(do0
 	 (comments "collect statistics for pairs of characters")
 	 (setf b "{}")
 	 (for (w words)
@@ -200,6 +200,42 @@
 	 (sorted (b.items)
 		 :key (lambda (kv)
 			(* -1  (aref kv 1))))))
+       (python
+	(export
+	 (setf character_set
+	       (sorted ("list"
+			(set
+			 (dot (string "")
+			      (join words))))))
+	 (len character_set)))
+       (python
+	(export
+	 (setf stoi (curly (for-generator ((ntuple i s)
+					   (enumerate character_set))
+					  "s:i")))
+	 (setf (aref stoi (string "<S>")) 26
+	       (aref stoi (string "<E>")) 27
+	       )
+	 stoi))
+       (python
+	(export
+	 (comments "2d array is more convenient")
+	 (setf number_tokens (len stoi))
+	 (setf N (torch.zeros (tuple number_tokens
+				     number_tokens)
+			      :dtype torch.int32))
+	 (for (w words)
+	      (setf chs (+ (list (string "<S>"))
+			   ("list" w)
+			   (list (string "<E>"))))
+	      (for ((ntuple ch1 ch2)
+		    (zip chs (aref chs (slice 1 ""))))
+		   (setf ix1 (aref stoi ch1)
+			 ix2 (aref stoi ch2))
+		   (incf (aref N ix1 ix2))))))
+       (python
+	(do0
+	 (imshow N)))
 
        )))
   (sb-ext:run-program "/usr/bin/ssh"
