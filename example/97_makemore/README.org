@@ -1,0 +1,4 @@
+- https://www.youtube.com/watch?v=PaCmpygFfXo
+  The spelled-out intro to language modeling: building makemore
+
+  
