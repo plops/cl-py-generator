@@ -130,7 +130,7 @@
 	 (setf start_time (time.time)
 	       debug True)))
 
-       
+
 
        (python
 	(export
@@ -169,7 +169,7 @@
        (python
 	(export
 	 (setf chars (sorted ("list" (set (dot (string "")
-					     (join words))))))
+					       (join words))))))
 	 (setf stoi (curly (for-generator ((ntuple i s)
 					   (enumerate chars))
 					  (slice s (+ i 1))))
@@ -178,5 +178,29 @@
 					   (stoi.items))
 					  (slice i s))))
 	 (print itos)))
+       ,@(let ((block-size 3))
+	   `((python
+	      (export
+	       (setf block_size ,block-size
+		     X (list)
+		     Y (list))
+	       (for (w (aref words (slice "" 5)))
+		    (print w)
+		    (setf context (* (list 0)
+				     block_size))
+		    (for (ch (+ w (string ".")))
+			 (setf ix (aref stoi ch))
+			 (X.append context)
+			 (Y.append ix)
+			 (print (dot (string "")
+				     (join (for-generator (i context)
+							  (aref itos i))))
+				(string "--->")
+				(aref itos ix))
+			 (setf context (+ (aref context (slice 1 ""))
+					  (list ix)))))
+	       (setf X (tensor X)
+		     Y (tensor Y))))))
+       
        ))))
 
