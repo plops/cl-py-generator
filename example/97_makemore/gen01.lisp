@@ -178,7 +178,8 @@
 					   (stoi.items))
 					  (slice i s))))
 	 (print itos)))
-       ,@(let ((block-size 3))
+       ,@(let ((block-size 3)
+	       (n27 27))
 	   `((python
 	      (export
 	       (setf block_size ,block-size
@@ -200,7 +201,19 @@
 			 (setf context (+ (aref context (slice 1 ""))
 					  (list ix)))))
 	       (setf X (tensor X)
-		     Y (tensor Y))))))
-       
+		     Y (tensor Y))))
+	     (python
+	      (export
+	       (setf C (torch.randn
+			(tuple ,n27 2)))))
+	     (python
+	      (export
+	       (@
+		(dot (F.one_hot (tensor 5)
+				:num_classes ,n27)
+		     (float))
+		C)
+	       ))))
+
        ))))
 
