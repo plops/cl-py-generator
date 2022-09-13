@@ -28,7 +28,7 @@
 	 ,(format nil "#|default_exp p~a_~a" *idx* notebook-name)))
        (python (export
 		(do0
-		 (comments "this file is based on ")
+		 ;(comments "this file is based on ")
 					;"%matplotlib notebook"
 		 #-nil(do0
 
@@ -178,7 +178,10 @@
 					   (stoi.items))
 					  (slice i s))))
 	 (print itos)))
-       ,@(let ((block-size 3)
+       ,@(let* ((block-size 3)
+		(n2 2)
+		(n100 100) ;; hidden layer
+	       (n6 (* n2 block-size))
 	       (n27 27))
 	   `((python
 	      (export
@@ -205,7 +208,7 @@
 	     (python
 	      (export
 	       (setf C (torch.randn
-			(tuple ,n27 2)))))
+			(tuple ,n27 ,n2)))))
 	     (python
 	      (export
 	       (@
@@ -215,8 +218,40 @@
 		C)
 	       ))
 	     (python
-	      (export
-	       ()))))
+	      (do0
+	       (setf emb (aref C X))
+	       (setf W1 (torch.randn (tuple ,n6 ,n100))
+		     b1 (torch.randn (tuple ,n100)))
+	       (setf W2 (torch.randn (tuple ,n100 ,n27))
+		     b2 (torch.randn (tuple ,n27)))
+	       
+	       ))
+	     (python
+	      (do0
+	       (setf h
+		     (torch.tanh
+		      (+ (@ (dot emb
+				 (view -1 ,n6)) W1)
+			 b1)))))
+	     (python
+	      (do0
+	       (setf logits (+ (@ h W2)
+			       b2)
+		     counts (logits.exp)
+		     prob (/ counts
+			     (counts.sum 1 :keepdims True)))
+	       
+	       ))
+	     (python
+	      (do0
+	       (setf loss
+		     (* -1 
+			(dot (aref prob
+				   (torch.arange 32)
+				   Y)
+			     (log)
+			     (mean))))))
+	     ))
 
        ))))
 
