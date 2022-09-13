@@ -213,7 +213,10 @@
 				:num_classes ,n27)
 		     (float))
 		C)
-	       ))))
+	       ))
+	     (python
+	      (export
+	       ()))))
 
        ))))
 
