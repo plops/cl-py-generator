@@ -286,22 +286,22 @@
 		       b2 (torch.randn (tuple ,n27))))
 		(setf parameters (list C W1 b1 W2 b2))
 		(for (p parameters)
-		    (setf p.requires_grad True))
+		     (setf p.requires_grad True))
 		(do0 (setf n_parameters (sum (for-generator (p parameters)
-							   (p.nelement))))
-		    ,(lprint :vars `(n_parameters)))
+							    (p.nelement))))
+		     ,(lprint :vars `(n_parameters)))
 		)))
 	     (python
 	      (do0
-	       
+
 	       (do0
 		(comments "forward")
 		(setf emb (aref C X))
 		(setf h
-		     (torch.tanh
-		      (+ (@ (dot emb
-				 (view -1 ,n6)) W1)
-			 b1)))
+		      (torch.tanh
+		       (+ (@ (dot emb
+				  (view -1 ,n6)) W1)
+			  b1)))
 		(setf logits (+ (@ h W2)
 				b2))
 		(setf loss (F.cross_entropy logits Y)))
@@ -335,32 +335,32 @@
 
 	     (python
 	      (export
-	       
+
 	       (for (_ (range 10))
-		(do0 
-		 (do0
-		  (comments "forward")
-		  (setf emb (aref C X))
-		  (setf h
-		     (torch.tanh
-		      (+ (@ (dot emb
-				 (view -1 ,n6)) W1)
-			 b1)))
-		  (setf logits (+ (@ h W2)
-				  b2))
-		  (setf loss (F.cross_entropy logits Y))
-		  ,(lprint :vars `((loss.item))))
-		
-		 (do0
-		  (comments "backward pass")
-		  (for (p parameters)
-		       (setf p.grad None))
-		  (loss.backward)
-		  (comments "update")
-		  (for (p parameters)
-		       (incf p.data
-			     (* -.1 p.grad)))
-		  )))
+		    (do0
+		     (do0
+		      (comments "forward")
+		      (setf emb (aref C X))
+		      (setf h
+			    (torch.tanh
+			     (+ (@ (dot emb
+					(view -1 ,n6)) W1)
+				b1)))
+		      (setf logits (+ (@ h W2)
+				      b2))
+		      (setf loss (F.cross_entropy logits Y))
+		      ,(lprint :vars `((loss.item))))
+
+		     (do0
+		      (comments "backward pass")
+		      (for (p parameters)
+			   (setf p.grad None))
+		      (loss.backward)
+		      (comments "update")
+		      (for (p parameters)
+			   (incf p.data
+				 (* -.1 p.grad)))
+		      )))
 	       ))
 	     ))
 
