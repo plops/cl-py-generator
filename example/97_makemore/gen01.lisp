@@ -11,15 +11,19 @@
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
       "Sunday"))
-  (defun lprint (cmd &optional rest)
-    `(when args.verbose
-       (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}" cmd rest))
-                   (format  (- (time.time) start_time)
-                            ,@rest)))))
+  (defun init-lprint ()
+    `(def lprint (args msg)
+       (when args.verbose
+	 (print (dot (string "{} {}")
+                     (format  (- (time.time) start_time)
+                              msg))))))
+  (defun lprint (&key (msg "") vars)
+    `(lprint args (dot (string ,(format nil "~a ~{~a={}~^ ~}" msg vars))
+                  (format ,@vars))))
 
   (let* ((notebook-name "makemore")
 	 (cli-args `(
-		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
+		     (:short "v" :long "verbose" :help "enable verbose output" :action "store_true" :required nil :nb-init True))))
     (write-notebook
      :nb-file (format nil "~a/source/~a_~a.ipynb" *path* *idx* notebook-name)
      :nb-code
@@ -28,7 +32,7 @@
 	 ,(format nil "#|default_exp p~a_~a" *idx* notebook-name)))
        (python (export
 		(do0
-		 ;(comments "this file is based on ")
+					;(comments "this file is based on ")
 					;"%matplotlib notebook"
 		 #-nil(do0
 
@@ -100,6 +104,16 @@
 
 		 )
 		))
+
+       (python
+	(do0
+	 (class Args ()
+		(def __init__ (self)
+		 ,@(loop for e in cli-args
+			 collect
+			 (destructuring-bind (&key short long help required action nb-init) e
+			   `(setf (dot self ,long) ,nb-init)))))
+	 (setf args (Args))))
        (python
 	(export
 	 (setf start_time (time.time)
@@ -128,19 +142,21 @@
 			     (- tz)))))
 
 	 (setf start_time (time.time)
-	       debug True)))
+	       debug True)
+	 ,(init-lprint)))
 
 
+      
 
        (python
 	(export
 	 (do0 (setf parser (argparse.ArgumentParser))
 	      ,@(loop for e in cli-args
 		      collect
-		      (destructuring-bind (&key short long help required action) e
+		      (destructuring-bind (&key short long help required action nb-init) e
 			`(parser.add_argument
-			  (string ,short)
-			  (string ,long)
+			  (string ,(format nil "-~a" short))
+			  (string ,(format nil "--~a" long))
 			  :help (string ,help)
 					;:required
 			  #+nil
@@ -181,8 +197,8 @@
        ,@(let* ((block-size 3)
 		(n2 2)
 		(n100 100) ;; hidden layer
-	       (n6 (* n2 block-size))
-	       (n27 27))
+		(n6 (* n2 block-size))
+		(n27 27))
 	   `((python
 	      (export
 	       (setf block_size ,block-size
@@ -220,11 +236,12 @@
 	     (python
 	      (do0
 	       (setf emb (aref C X))
-	       (setf W1 (torch.randn (tuple ,n6 ,n100))
-		     b1 (torch.randn (tuple ,n100)))
-	       (setf W2 (torch.randn (tuple ,n100 ,n27))
-		     b2 (torch.randn (tuple ,n27)))
-	       
+	       (do0
+		(setf W1 (torch.randn (tuple ,n6 ,n100))
+		      b1 (torch.randn (tuple ,n100)))
+		(setf W2 (torch.randn (tuple ,n100 ,n27))
+		      b2 (torch.randn (tuple ,n27))))
+
 	       ))
 	     (python
 	      (do0
@@ -240,17 +257,50 @@
 		     counts (logits.exp)
 		     prob (/ counts
 			     (counts.sum 1 :keepdims True)))
-	       
+
 	       ))
 	     (python
 	      (do0
+	       (comments "negative log-likelihood loss")
 	       (setf loss
-		     (* -1 
+		     (* -1
 			(dot (aref prob
 				   (torch.arange 32)
 				   Y)
 			     (log)
 			     (mean))))))
+
+	     (python
+	      (export
+	       (setf g (dot torch
+			    (Generator)
+			    (manual_seed 2147483647))
+		     C (torch.randn (tuple ,n27 ,n2)
+				    :generator g)
+		     )
+	       (do0
+		(setf W1 (torch.randn (tuple ,n6 ,n100))
+		      b1 (torch.randn (tuple ,n100)))
+		(setf W2 (torch.randn (tuple ,n100 ,n27))
+		      b2 (torch.randn (tuple ,n27))))
+	       (setf parameters (list C W1 b1 W2 b2))
+	       (setf n_parameters (sum (for-generator (p parameters)
+						      (p.nelement))))
+	       ,(lprint :vars `(n_parameters))
+	       (setf emb (aref C X))
+	       (setf logits (+ (@ h W2)
+			       b2)
+		     counts (logits.exp)
+		     prob (/ counts
+			     (counts.sum 1 :keepdims True)))
+	       (setf loss
+		     (* -1
+			(dot (aref prob
+				   (torch.arange 32)
+				   Y)
+			     (log)
+			     (mean))))
+	       ))
 	     ))
 
        ))))
