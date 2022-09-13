@@ -89,6 +89,7 @@
 					;(np jax.numpy)
 					;(mpf mplfinance)
 					;selenium.webdriver ;.FirefoxOptions
+				tqdm
 				argparse
 				torch
 				))
@@ -102,6 +103,14 @@
 				 plot imshow tight_layout xlabel ylabel
 				 title subplot subplot2grid grid text
 				 legend figure gcf xlim ylim)
+				)
+
+		 (imports-from  (torch
+				 linspace
+				 randn
+				 randint
+				 tanh
+				 )
 				)
 
 		 )
@@ -206,7 +215,8 @@
 	       (setf block_size ,block-size
 		     X (list)
 		     Y (list))
-	       (for (w (aref words (slice "" 5)))
+	       (for (w words ;(aref words (slice "" 5))
+		       )
 		    (print w)
 		    (setf context (* (list 0)
 				     block_size))
@@ -214,7 +224,7 @@
 			 (setf ix (aref stoi ch))
 			 (X.append context)
 			 (Y.append ix)
-			 (print (dot (string "")
+			 #+nil (print (dot (string "")
 				     (join (for-generator (i context)
 							  (aref itos i))))
 				(string "--->")
@@ -334,22 +344,23 @@
 	       ))
 
 	     (python
-	      (export
+	      (do0
+	       (comments "learning loop")
 
 	       (for (_ (range 10))
 		    (do0
 		     (do0
 		      (comments "forward")
-		      (setf emb (aref C X))
-		      (setf h
-			    (torch.tanh
-			     (+ (@ (dot emb
-					(view -1 ,n6)) W1)
-				b1)))
-		      (setf logits (+ (@ h W2)
-				      b2))
-		      (setf loss (F.cross_entropy logits Y))
-		      ,(lprint :vars `((loss.item))))
+		      (do0 (setf emb (aref C X))
+			   (setf h
+				 (torch.tanh
+				  (+ (@ (dot emb
+					     (view -1 ,n6)) W1)
+				     b1)))
+			   (setf logits (+ (@ h W2)
+					   b2))
+			   (setf loss (F.cross_entropy logits Y))
+			   ,(lprint :vars `((loss.item)))))
 
 		     (do0
 		      (comments "backward pass")
@@ -362,6 +373,96 @@
 				 (* -.1 p.grad)))
 		      )))
 	       ))
+
+	     (python
+	      (export
+	       (comments "learn with minibatch")
+	       (for (_ (range 100))
+		    (do0
+		     (do0
+		      (setf ix (torch.randint 0 (aref X.shape 0)
+					      (tuple 32)))
+		      (comments "forward")
+		      (setf emb (aref C (aref X ix)))
+		      (setf h
+			    (torch.tanh
+			     (+ (@ (dot emb
+					(view -1 ,n6)) W1)
+				b1)))
+		      (setf logits (+ (@ h W2)
+				      b2))
+		      (setf loss (F.cross_entropy logits (aref Y ix)))
+		      ,(lprint :vars `((loss.item))))
+
+		     (do0
+		      (comments "backward pass")
+		      (for (p parameters)
+			   (setf p.grad None))
+		      (loss.backward)
+		      (comments "update")
+		      (for (p parameters)
+			   (incf p.data
+				 (* -.1 p.grad)))
+		      )))
+	       (do0 (comments "report loss on entire data set")
+		    (setf emb (aref C X))
+			   (setf h
+				 (torch.tanh
+				  (+ (@ (dot emb
+					     (view -1 ,n6)) W1)
+				     b1)))
+			   (setf logits (+ (@ h W2)
+					   b2))
+			   (setf loss_full (F.cross_entropy logits Y))
+			   ,(lprint :vars `((loss_full.item))))
+	       ))
+
+	     (python
+	      (export
+	       (comments "find a good learning rate, start with a very small lr and increase exponentially")
+	       (setf lre (linspace -3 0 1000)
+		     lre (** 10 lre))
+	       (setf lri (list)
+		     lossi (list))
+	       (for (lr (tqdm.tqdm lre))
+		    (do0
+		     (do0
+		      (setf ix (torch.randint 0 (aref X.shape 0)
+					      (tuple 32)))
+		      (comments "forward")
+		      (setf emb (aref C (aref X ix)))
+		      (setf h
+			    (torch.tanh
+			     (+ (@ (dot emb
+					(view -1 ,n6)) W1)
+				b1)))
+		      (setf logits (+ (@ h W2)
+				      b2))
+		      (setf loss (F.cross_entropy logits (aref Y ix)))
+		     ; ,(lprint :vars `((loss.item)))
+		      )
+
+		     (do0
+		      (comments "backward pass")
+		      (for (p parameters)
+			   (setf p.grad None))
+		      (loss.backward)
+		      (comments "update")
+		      (for (p parameters)
+			   (incf p.data
+				 (* -1 lr p.grad)))
+
+		      (comments "track stats")
+		      (lri.append lr)
+		      (lossi.append (loss.item))
+		      )))
+
+	       ))
+	     (python
+	      (do0
+	       (plot lre lossi
+			    :alpha .4)
+	       (grid)))
 	     ))
 
        ))))
