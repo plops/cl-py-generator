@@ -225,10 +225,10 @@
 			 (X.append context)
 			 (Y.append ix)
 			 #+nil (print (dot (string "")
-				     (join (for-generator (i context)
-							  (aref itos i))))
-				(string "--->")
-				(aref itos ix))
+					   (join (for-generator (i context)
+								(aref itos i))))
+				      (string "--->")
+				      (aref itos ix))
 			 (setf context (+ (aref context (slice 1 ""))
 					  (list ix)))))
 	       (setf X (tensor X)
@@ -377,7 +377,7 @@
 	     (python
 	      (export
 	       (comments "learn with minibatch")
-	       (for (_ (range 100))
+	       (for (_ (range 10_000))
 		    (do0
 		     (do0
 		      (setf ix (torch.randint 0 (aref X.shape 0)
@@ -406,19 +406,19 @@
 		      )))
 	       (do0 (comments "report loss on entire data set")
 		    (setf emb (aref C X))
-			   (setf h
-				 (torch.tanh
-				  (+ (@ (dot emb
-					     (view -1 ,n6)) W1)
-				     b1)))
-			   (setf logits (+ (@ h W2)
-					   b2))
-			   (setf loss_full (F.cross_entropy logits Y))
-			   ,(lprint :vars `((loss_full.item))))
+		    (setf h
+			  (torch.tanh
+			   (+ (@ (dot emb
+				      (view -1 ,n6)) W1)
+			      b1)))
+		    (setf logits (+ (@ h W2)
+				    b2))
+		    (setf loss_full (F.cross_entropy logits Y))
+		    ,(lprint :vars `((loss_full.item))))
 	       ))
 
 	     (python
-	      (export
+	      (do0
 	       (comments "find a good learning rate, start with a very small lr and increase exponentially")
 	       (setf lre (linspace -3 0 1000)
 		     lre (** 10 lre))
@@ -439,7 +439,7 @@
 		      (setf logits (+ (@ h W2)
 				      b2))
 		      (setf loss (F.cross_entropy logits (aref Y ix)))
-		     ; ,(lprint :vars `((loss.item)))
+					; ,(lprint :vars `((loss.item)))
 		      )
 
 		     (do0
@@ -461,7 +461,7 @@
 	     (python
 	      (do0
 	       (plot lre lossi
-			    :alpha .4)
+		     :alpha .4)
 	       (grid)))
 	     ))
 
