@@ -12,14 +12,16 @@
       "Thursday" "Friday" "Saturday"
       "Sunday"))
   (defun init-lprint ()
-    `(def lprint (args msg)
+    `(def lprint (msg args)
        (when args.verbose
 	 (print (dot (string "{} {}")
                      (format  (- (time.time) start_time)
                               msg))))))
-  (defun lprint (&key (msg "") vars)
-    `(lprint args (dot (string ,(format nil "~a ~{~a={}~^ ~}" msg vars))
-                  (format ,@vars))))
+  (defun lprint (&key msg vars)
+    `(lprint (dot (string ,(format nil "~@[~a ~]~{~a={}~^ ~}" msg (mapcar (lambda (x) (emit-py :code x))
+									  vars)))
+                  (format ,@vars))
+	     args))
 
   (let* ((notebook-name "makemore")
 	 (cli-args `(
@@ -109,10 +111,10 @@
 	(do0
 	 (class Args ()
 		(def __init__ (self)
-		 ,@(loop for e in cli-args
-			 collect
-			 (destructuring-bind (&key short long help required action nb-init) e
-			   `(setf (dot self ,long) ,nb-init)))))
+		  ,@(loop for e in cli-args
+			  collect
+			  (destructuring-bind (&key short long help required action nb-init) e
+			    `(setf (dot self ,long) ,nb-init)))))
 	 (setf args (Args))))
        (python
 	(export
@@ -146,7 +148,7 @@
 	 ,(init-lprint)))
 
 
-      
+
 
        (python
 	(export
@@ -222,11 +224,11 @@
 	       (setf X (tensor X)
 		     Y (tensor Y))))
 	     (python
-	      (export
+	      (do0
 	       (setf C (torch.randn
 			(tuple ,n27 ,n2)))))
 	     (python
-	      (export
+	      (do0
 	       (@
 		(dot (F.one_hot (tensor 5)
 				:num_classes ,n27)
@@ -269,37 +271,96 @@
 				   Y)
 			     (log)
 			     (mean))))))
+	     (python
+	      (export
+	       (do0
+		(setf g (dot torch
+			     (Generator)
+			     (manual_seed 2147483647))
+		      C (torch.randn (tuple ,n27 ,n2)
+				     :generator g))
+		(do0
+		 (setf W1 (torch.randn (tuple ,n6 ,n100))
+		       b1 (torch.randn (tuple ,n100)))
+		 (setf W2 (torch.randn (tuple ,n100 ,n27))
+		       b2 (torch.randn (tuple ,n27))))
+		(setf parameters (list C W1 b1 W2 b2))
+		(for (p parameters)
+		    (setf p.requires_grad True))
+		(do0 (setf n_parameters (sum (for-generator (p parameters)
+							   (p.nelement))))
+		    ,(lprint :vars `(n_parameters)))
+		)))
+	     (python
+	      (do0
+	       
+	       (do0
+		(comments "forward")
+		(setf emb (aref C X))
+		(setf h
+		     (torch.tanh
+		      (+ (@ (dot emb
+				 (view -1 ,n6)) W1)
+			 b1)))
+		(setf logits (+ (@ h W2)
+				b2))
+		(setf loss (F.cross_entropy logits Y)))
+	       #+nil
+	       (do0
+		(comments "explicit cross_entropy is not efficient a lot of tensors: ")
+		(comments "positive numbers can overflow logits, offset doesn't influence loss")
+		(setf logits2 (- logits (torch.max logits))
+		      counts (logits2.exp)
+		      prob (/ counts
+			      (counts.sum 1 :keepdims True)))
+		(setf loss
+		      (* -1
+			 (dot (aref prob
+				    (torch.arange 32)
+				    Y)
+			      (log)
+			      (mean)))))
+	       (do0
+		(comments "backward pass")
+		(comments "set gradients to zero")
+		(for (p parameters)
+		     (setf p.grad None))
+		(loss.backward)
+		(comments "update")
+		(for (p parameters)
+		     (incf p.data
+			   (* -.1 p.grad)))
+		)
+	       ))
 
 	     (python
 	      (export
-	       (setf g (dot torch
-			    (Generator)
-			    (manual_seed 2147483647))
-		     C (torch.randn (tuple ,n27 ,n2)
-				    :generator g)
-		     )
-	       (do0
-		(setf W1 (torch.randn (tuple ,n6 ,n100))
-		      b1 (torch.randn (tuple ,n100)))
-		(setf W2 (torch.randn (tuple ,n100 ,n27))
-		      b2 (torch.randn (tuple ,n27))))
-	       (setf parameters (list C W1 b1 W2 b2))
-	       (setf n_parameters (sum (for-generator (p parameters)
-						      (p.nelement))))
-	       ,(lprint :vars `(n_parameters))
-	       (setf emb (aref C X))
-	       (setf logits (+ (@ h W2)
-			       b2)
-		     counts (logits.exp)
-		     prob (/ counts
-			     (counts.sum 1 :keepdims True)))
-	       (setf loss
-		     (* -1
-			(dot (aref prob
-				   (torch.arange 32)
-				   Y)
-			     (log)
-			     (mean))))
+	       
+	       (for (_ (range 10))
+		(do0 
+		 (do0
+		  (comments "forward")
+		  (setf emb (aref C X))
+		  (setf h
+		     (torch.tanh
+		      (+ (@ (dot emb
+				 (view -1 ,n6)) W1)
+			 b1)))
+		  (setf logits (+ (@ h W2)
+				  b2))
+		  (setf loss (F.cross_entropy logits Y))
+		  ,(lprint :vars `((loss.item))))
+		
+		 (do0
+		  (comments "backward pass")
+		  (for (p parameters)
+		       (setf p.grad None))
+		  (loss.backward)
+		  (comments "update")
+		  (for (p parameters)
+		       (incf p.data
+			     (* -.1 p.grad)))
+		  )))
 	       ))
 	     ))
 
