@@ -1,0 +1,10 @@
+- i want to be able to search through all the videos on
+  https://www.youtube.com/c/VincentRacaniello/videos with titles like
+  this: TWiV 908: COVID-19 clinical update #118 with Dr. Daniel
+  Griffin
+
+1. get a list of videos with helium
+2. download the audio only
+3. apply github.com/openai/whisper
+
+- lets see how far i can get
