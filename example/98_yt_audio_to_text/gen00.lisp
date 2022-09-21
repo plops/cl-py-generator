@@ -144,6 +144,16 @@
 	 (comments "store pandas table in csv file")
 	 (setf df (pd.DataFrame res))
 	 (df.to_csv (string "links.csv"))))
+
+       (python
+	(export
+	 (comments "For now I only want videos with names like this:")
+	 (comments "TWiV 908: COVID-19 clinical update #118 with Dr. Daniel Griffin")
+	 (setf df2 (aref df
+			 (df.text.str.contains
+			  (rstring3 "TWiV .*: COVID-19 clinical update .* with Dr. Daniel Griffin"))))
+	 (df2.to_csv (string "links_covid_update.csv"))
+	 ))
        (python
 	(export
 	 (kill_browser)))))))
