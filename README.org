@@ -74,6 +74,25 @@
 | 77 | wxpython              |   10% | some experiments with wx gui                                                                                                                                                            |   |   |
 | 78 | django                |   80% | django is pretty nice. small website in 300 lines. i should learn more about testing                                                                                                    |   |   |
 | 79 | python_wasm           |    1% | run python (with numpy and matplotlib?) in browser                                                                                                                                      |   |   |
+| 80 | fulltext              |       | create sqlite3 index of all pdf files                                                                                                                                                   |   |   |
+| 81 | ml_gam                |       | learn about genrealized adaptive models (R is better for this than python)                                                                                                              |   |   |
+| 82 | spline                |       | generalized adaptive model                                                                                                                                                              |   |   |
+| 83 | stock_fair_value      |       | Estimate the fair value of stocks using this DCF model.                                                                                                                                 |   |   |
+| 84 | lte                   |       | try to understand an article about LTE demodulation (signal processing)                                                                                                                 |   |   |
+| 85 | o3d_pointcloud        |       | visualize 3d scan of the camper bus inside                                                                                                                                              |   |   |
+| 86 | playwright            |       | browser automation                                                                                                                                                                      |   |   |
+| 87 | semiconductor         |       | some experiments on the problems that wafer manufacturers face when localizing markers (when is a measurement capable)                                                                  |   |   |
+| 88 | plotly                |       | plot some charts from the cars ECU that were acquired with obdeleven device                                                                                                             |   |   |
+| 89 | justpy                |       | Web Framework that requires no front-end programming                                                                                                                                    |   |   |
+| 90 | lona                  |       | web application framework                                                                                                                                                               |   |   |
+| 91 | ldpc                  |       | forward error correction                                                                                                                                                                |   |   |
+| 92 | mch22                 |       | read about gas sensor on the badge for the may contain hackers 2022 conference                                                                                                          |   |   |
+| 93 | mch22_fpga            |       | notes for the badge FPGA workshop at MCH 2022                                                                                                                                           |   |   |
+| 94 | tor                   |       | start going through a short python implementation of the TOR protocol                                                                                                                   |   |   |
+| 95 | shadertoy             |       | tool to upload shaders to shadertoy website using helium                                                                                                                                |   |   |
+| 96 | colab_fastai          |       | go through fastai lecture                                                                                                                                                               |   |   |
+| 97 | makemore              |       | go through karpathy's youtube video on neural networks                                                                                                                                  |   |   |
+| 98 | yt_audio_to_text      |       | download dr. griffith covid reports, I want to use OpenAI's whisper speech to text system to create an index                                                                            |   |   |
 
 
 
