@@ -11,13 +11,15 @@
 		     :direction :output
 		     :if-does-not-exist :create
 		     :if-exists :supersede)
+					;(format s "# sudo dnf install parallel~%")
+					;(format s "mkdir data/~%")
     (loop for (idx text location href twiv-nr covid-update-nr)
 	  in (rest *df*)
 	  and e-i from 1
 	  do
 	  (format
 	   s
-	   "youtube-dl -f 251 ~a -o \"~4,'0d_%(title)s-%(id)s.%(ext)s\" ~%"
+	   "youtube-dl -f 251 ~a -o \"data/~4,'0d_%(title)s-%(id)s.%(ext)s\" ~%"
 	   href
 	   (read-from-string covid-update-nr)))
     ))
