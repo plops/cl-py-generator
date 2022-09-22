@@ -160,7 +160,8 @@
 
        (python
 	(do0
-	 (setf df (pd.read_csv (string "links_covid_update.csv")))
+	 (setf df (pd.read_csv (string "links_covid_update.csv")
+			       :index_col 0))
 	 (setf (aref df (list (string "twiv_nr")
 			      (string "covid_update_nr")
 			      ))
