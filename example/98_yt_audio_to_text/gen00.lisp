@@ -65,7 +65,7 @@
 
 					;(np jax.numpy)
 					;(mpf mplfinance)
-					
+
 				argparse
 				)))))
        (python
@@ -101,10 +101,10 @@
        (python
 	(export
 	 (start_firefox
-	  ;:headless True
+					;:headless True
 	  )
-	 
-	 
+
+
 	 ))
        (python
 	(export
@@ -156,5 +156,19 @@
 	 ))
        (python
 	(export
-	 (kill_browser)))))))
+	 (kill_browser)))
+
+       (python
+	(do0
+	 (setf df (pd.read_csv (string "links_covid_update.csv")))
+	 (setf (aref df (list (string "twiv_nr")
+			      (string "covid_update_nr")
+			      ))
+	       ;; TWiV 901: COVID-19 clinical update #115 with Dr. Daniel Griffin
+	       (df.text.str.extract
+		(rstring3 "TWiV\\ (\\d+):\\ COVID-19\\ clinical\\ update\\ #(\\d+)\\ with\\ Dr\\.\\ Daniel\\ Griffin")))
+	 (df.to_csv (string "links_covid_update_parsed.csv"))))
+
+       )
+     )))
 
