@@ -16,3 +16,29 @@
 [martin@localhost source]$ du -hs data
 2.9G	data
 #+end_example
+
+- install whisper on popos 22 (gpu server)
+#+begin_example
+ssh slim
+sudo apt update && sudo apt install ffmpeg
+cd ~/src
+pip install git+https://github.com/openai/whisper.git
+# 776MB torch 1.12.1
+#+end_example
+
+- copy data to server
+#+begin_example
+rsync -av \
+  /home/martin/stage/cl-py-generator/example/98_yt_audio_to_text/source/data \
+  /dev/shm/ 
+#+end_example
+
+- convert speech to text on server
+#+begin_example
+
+ssh slim
+cd /dev/shm/
+whisper data/0124* --model medium 
+
+# on first call downloads 1.42GB
+#+end_example
