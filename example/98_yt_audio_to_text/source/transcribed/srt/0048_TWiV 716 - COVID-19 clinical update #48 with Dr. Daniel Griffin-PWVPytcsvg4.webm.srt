@@ -1,0 +1,2016 @@
+1
+0:00:00,000 --> 0:00:06,880
+This week in virology, the podcast about viruses, the kind that make you sick.
+
+2
+0:00:10,320 --> 0:00:20,720
+From Microbe TV, this is Twiv, this week in virology, episode 716, recorded on February 4,
+
+3
+0:00:20,720 --> 0:00:26,880
+2021. I'm Vincent Rackeniello, and you're listening to the podcast all about viruses
+
+4
+0:00:26,880 --> 0:00:33,840
+joining me today from New York, Daniel Griffin. Hello, everyone. So Daniel,
+
+5
+0:00:33,840 --> 0:00:39,440
+January is over. You said it was going to be the worst January. Did that turn out to be true?
+
+6
+0:00:40,880 --> 0:00:48,000
+It certainly did. The only good thing is it is now over, and we have passed my favorite day of the
+
+7
+0:00:48,000 --> 0:00:56,000
+year, Groundhog Day. So it sort of means at least we could start looking forward to a better spring,
+
+8
+0:00:56,000 --> 0:01:04,240
+but it's been a horrible January. I sometimes feel like we're kind of US-centric, and in the US,
+
+9
+0:01:04,240 --> 0:01:10,240
+I feel like we've kind of crested or we are in the process of cresting a huge wave. The case
+
+10
+0:01:10,240 --> 0:01:16,800
+numbers, I think, are coming down after the holidays, but the deaths, we're seeing the deaths from
+
+11
+0:01:16,800 --> 0:01:22,560
+all those cases still. So still a lot of deaths. There's still a lot of patients in the hospital,
+
+12
+0:01:23,200 --> 0:01:27,360
+but I think we have better days ahead in the US, but I'm going to make sure I hit on this.
+
+13
+0:01:27,360 --> 0:01:31,440
+We can't forget about the rest of the world, because no one's safe until everyone's safe.
+
+14
+0:01:32,640 --> 0:01:40,160
+Let me start with a quotation we have a lot to do today, how very little can be done under the
+
+15
+0:01:40,160 --> 0:01:49,200
+spirit of fear, and that's Florence Nightingale. A couple things I really like, well, a very
+
+16
+0:01:49,200 --> 0:01:58,400
+inspirational woman who really advanced nursing, but a couple of things it brings, I think,
+
+17
+0:01:58,400 --> 0:02:05,360
+makes me think of. One is just how critical the nurses are in taking care of patients,
+
+18
+0:02:05,360 --> 0:02:10,880
+and how critical I think they are in the culture of medicine. They bring a real warmth and a caring
+
+19
+0:02:11,440 --> 0:02:18,000
+to patient care. And just this pointing out that people work better in a cooperative,
+
+20
+0:02:18,000 --> 0:02:24,560
+in a supportive, in a culture of generosity and kindness. And I think in a lot of ways over the
+
+21
+0:02:24,560 --> 0:02:30,720
+last year that has been forgotten, there's been a lot of rigidity and rules, and this is how we're
+
+22
+0:02:30,720 --> 0:02:38,880
+doing it. I know hospitals are struggling financially, but you can't lose sight of we're not there
+
+23
+0:02:38,880 --> 0:02:45,280
+primarily to make a dollar, we're there primarily to take care of people. And the almighty dollar
+
+24
+0:02:45,280 --> 0:02:52,240
+has to come second to a patient's life, patient's care. So, all right, we'll start off with the
+
+25
+0:02:52,240 --> 0:02:57,280
+pre-exposure period with my three rules that actually started to see these echoed a bit in
+
+26
+0:02:57,280 --> 0:03:03,520
+the media, which is great. Never miss an opportunity to vaccinate, never miss an opportunity to test
+
+27
+0:03:04,080 --> 0:03:10,800
+and never waste a precious vaccine dose. So, today I'm going to be talking about mutations,
+
+28
+0:03:10,800 --> 0:03:19,040
+vaccines, and some anticoagulation, very exciting anticoagulation updates. So, active vaccination,
+
+29
+0:03:19,040 --> 0:03:25,600
+in this realm, and it really, it goes into several of the different phases or stages of COVID-19,
+
+30
+0:03:25,600 --> 0:03:32,880
+but I'm going to try to talk a little bit about these in a context that makes sense for
+
+31
+0:03:32,880 --> 0:03:37,600
+clinicians. Like, what are we as clinicians? How do we understand this language and what is going
+
+32
+0:03:37,600 --> 0:03:43,360
+on here? So, I'm going to hit up some important highlights, but just a little background, right?
+
+33
+0:03:43,360 --> 0:03:51,360
+We are on Twiv. This is science heavy, and that is good. This is an RNA virus. So, there's going
+
+34
+0:03:51,360 --> 0:03:58,560
+to be changes to the genetic code being randomly introduced when this virus replicates. An infected
+
+35
+0:03:58,560 --> 0:04:06,480
+person has a large number of replicating virions. So, not every single virus in a person is exactly
+
+36
+0:04:06,480 --> 0:04:12,880
+the same. Sort of a quasi-species people talk about sometimes. I know in the world of HIV.
+
+37
+0:04:14,080 --> 0:04:20,160
+Now, I am going to oversimplify a little, but a change in the genetic code can be silent,
+
+38
+0:04:20,160 --> 0:04:27,920
+or they can actually result in a change in amino acids for which the protein is being coded.
+
+39
+0:04:28,560 --> 0:04:35,520
+I say this is simplified because RNA itself can have some functionality. So, as clinicians,
+
+40
+0:04:35,520 --> 0:04:41,760
+why do we care about mutations? We all enjoy science fiction, but why do we actually care
+
+41
+0:04:41,760 --> 0:04:48,240
+in our day-to-day? One is the specter that changed the genetic code of the virus. A mutation can
+
+42
+0:04:48,240 --> 0:04:54,800
+make the virus more transmissible. We want to give that just a little bit of context. It's not as
+
+43
+0:04:54,800 --> 0:04:59,440
+though the change in the genetic code makes the virus fly through the air more quickly. Nothing
+
+44
+0:04:59,440 --> 0:05:06,720
+like that. But maybe I think as Anthony Fauci said in his first, we'll call it, the Post-Trump
+
+45
+0:05:06,720 --> 0:05:14,160
+Giddy news conference, it could affect the ability of the virus to bind tightly to its target receptor
+
+46
+0:05:14,160 --> 0:05:21,920
+to the ACE2 receptor. So, it might be more transmissible in that it's easier for a smaller exposure
+
+47
+0:05:21,920 --> 0:05:28,480
+to result in an infection. It could potentially change the virulence. It could either make the
+
+48
+0:05:28,480 --> 0:05:36,400
+virus more or less virulent. And then as clinicians, a big one for us is, are these changes going to
+
+49
+0:05:36,400 --> 0:05:42,240
+impact our therapeutics or the immune response? So, is it going to affect, for instance, our drugs,
+
+50
+0:05:42,240 --> 0:05:50,320
+our monoclonal therapies, or our vaccines? So, just to give people a little bit of language here,
+
+51
+0:05:50,320 --> 0:05:57,440
+so the changes we care about are mutations or deletions. These are inevitable, right?
+
+52
+0:05:57,440 --> 0:06:04,000
+Variants are thus expected, but it's really the biologically significant changes that we care
+
+53
+0:06:04,000 --> 0:06:08,880
+about. So, for each variant of concern, we can ask this question about the genetic changes,
+
+54
+0:06:08,880 --> 0:06:14,800
+the mutations, the deletions, potentially even some additions, but we won't really go into that
+
+55
+0:06:14,800 --> 0:06:19,200
+today. But most of the changes, I'm going to, actually all the changes I'm going to talk about
+
+56
+0:06:19,200 --> 0:06:26,240
+today, are going to affect the biology of the spike protein, right? So, just a little bit
+
+57
+0:06:26,240 --> 0:06:30,720
+about the spike protein. I always try to use visuals to get people to think about this,
+
+58
+0:06:30,720 --> 0:06:38,480
+and sometimes my visuals are more of the cartoony, but the spike protein is a protein. It's made up
+
+59
+0:06:38,480 --> 0:06:44,960
+of amino acids, right? Amino acids come together and make a protein. This protein is 1,273 amino acids
+
+60
+0:06:44,960 --> 0:06:54,160
+long. In general, we'll say the Wuhan reference strain, but that spike protein is for clinicians
+
+61
+0:06:54,160 --> 0:07:00,000
+to really kind of put this in your mind in a terminology you can remember on the fly.
+
+62
+0:07:00,000 --> 0:07:04,080
+There's really two important parts of that spike protein that we're going to talk about.
+
+63
+0:07:04,080 --> 0:07:10,560
+The N-terminal domain, the NTD, it's not neglected tropical disease, and the receptor binding domain,
+
+64
+0:07:10,560 --> 0:07:15,920
+the RBD. I'm going to ignore some of the others just for simplicity because there's a lot of
+
+65
+0:07:15,920 --> 0:07:20,880
+complexity here. There's areas where this could be broken down, cleaved proteases, the rest,
+
+66
+0:07:20,880 --> 0:07:29,200
+but just for today, the NTD, the N-terminal domain, and the RBD. I want people to think
+
+67
+0:07:29,200 --> 0:07:33,520
+about this as the analogy of a hand, and we're going to get back into that, the hand and the arm.
+
+68
+0:07:34,560 --> 0:07:38,880
+But just some of the terminology, what are these crazy numbers and letters, right? I know we've
+
+69
+0:07:38,880 --> 0:07:44,240
+been told don't call it the UK strain. Don't call it the South African strain, so people have now
+
+70
+0:07:44,240 --> 0:07:50,480
+thrown in the numbers and said originally isolated in the UK. So I'm going to acknowledge that.
+
+71
+0:07:51,040 --> 0:07:57,120
+So as I mentioned, the spike protein is 1,273 amino acids long. Don't tune out. It's going to be
+
+72
+0:07:57,120 --> 0:08:01,360
+OK. You're going to make it through. This is critical stuff to know. And what are those numbers?
+
+73
+0:08:01,360 --> 0:08:06,240
+The numbers start with the N-terminal domain. That's where one is. And at the far right,
+
+74
+0:08:06,240 --> 0:08:12,240
+think of this in your head. That's going to be 1273. The deletions are going to be the same thing.
+
+75
+0:08:12,240 --> 0:08:17,680
+So when we hear a number, we're talking about a particular amino acid that has changed.
+
+76
+0:08:17,680 --> 0:08:21,520
+So when you talk about, I'm going to give some concrete examples. When you talk about an N
+
+77
+0:08:21,520 --> 0:08:31,040
+501Y, that means we're talking about a change, an amino acid 501, and the N has changed to a Y.
+
+78
+0:08:31,040 --> 0:08:37,760
+Well, what is an N? I mean, an N is a code. Help us, you know, use a one letter code for
+
+79
+0:08:37,760 --> 0:08:45,440
+our amino acid. So an N is an S-bar gene. A T is a tyrosine. And so the N goes to the Y.
+
+80
+0:08:45,440 --> 0:08:49,840
+I have to look those up. I'll be honest. But just let people kind of get a sense here. When you
+
+81
+0:08:49,840 --> 0:08:58,720
+hear an N 501Y, when you hear an E or 84K, that's 484. The E has changed to a K. So we'll talk a
+
+82
+0:08:58,720 --> 0:09:04,160
+little bit about this. If you hear deletion, deletion 69 test 70, that's going to mean those
+
+83
+0:09:04,160 --> 0:09:10,240
+amino acid 6970 were deleted, right? So a little trick here to help people just think,
+
+84
+0:09:10,240 --> 0:09:16,240
+because this is going to become a number soup going forward, right? Every one of those 1273
+
+85
+0:09:16,240 --> 0:09:22,720
+amino acids can change or be deleted. The N terminal domain that goes from about 14 to 306.
+
+86
+0:09:23,280 --> 0:09:28,640
+And the RBD, you could use the palm of my hand analogy, the RBD, the receptor body domain that
+
+87
+0:09:28,640 --> 0:09:36,800
+grabs onto spike is 330 to 528. So 331 to 528 to be exact. So anything that affects the palm of
+
+88
+0:09:36,800 --> 0:09:41,360
+the hand is going to affect the ability of the spike to grab its receptor. And I'm going to say
+
+89
+0:09:41,360 --> 0:09:45,520
+the NTD, think of that as affecting the back of the hand. It's not right in the binding pocket,
+
+90
+0:09:45,520 --> 0:09:51,200
+but it may affect the modality of the binding pocket. So hopefully this allows people to
+
+91
+0:09:51,200 --> 0:09:56,480
+get a little sense. So what are these numbers? What are these letters soup? So let's just talk a
+
+92
+0:09:56,480 --> 0:10:01,840
+little bit about each of the described strains. So today I'm going to talk briefly to where we're
+
+93
+0:10:01,840 --> 0:10:09,600
+going to go to other stuff about the B117 strain, originally described in the UK. The B135 strain
+
+94
+0:10:09,600 --> 0:10:16,640
+described originally in South Africa. The Cal-20C that we're seeing out in California and the B128
+
+95
+0:10:16,640 --> 0:10:23,040
+detected in Brazil, then Japan. Variants, Daniel, variants. And I call them variants or strains.
+
+96
+0:10:23,040 --> 0:10:25,440
+Variants. That's the variants of concern, remember?
+
+97
+0:10:26,320 --> 0:10:31,520
+So let's talk about that. This is great because clinicians, what variant versus strain? What is
+
+98
+0:10:31,520 --> 0:10:36,320
+the difference? And the difference, and this is why this is this weekend virology, and we have
+
+99
+0:10:36,320 --> 0:10:45,360
+Vincent chaperoning. A strain is when we have convincing biological activity change. A variant
+
+100
+0:10:45,360 --> 0:10:50,240
+is when we have a change in the genetic sequence, right? So calling something a strain requires a
+
+101
+0:10:50,240 --> 0:10:57,520
+higher bar. So the B117, I will use variant of concern here, originally described in the UK.
+
+102
+0:10:58,560 --> 0:11:04,400
+It has that D614G that we've been hearing about for a while. It's got a couple deletions,
+
+103
+0:11:04,400 --> 0:11:14,320
+and it has the N501Y, which is suggested to maybe allow that spike to bind better, right?
+
+104
+0:11:15,680 --> 0:11:23,680
+The B135 variant of concern, originally described in South Africa. This has that D614G also,
+
+105
+0:11:23,680 --> 0:11:31,200
+but it's also got the E484K. Now, why do we care about that as clinicians?
+
+106
+0:11:31,200 --> 0:11:36,880
+We care because there is some experimental evidence suggesting that that may affect our
+
+107
+0:11:36,880 --> 0:11:42,240
+monoclonal antibodies, a couple of them, so the BAM-lineva-mab and the IM-deva-mab.
+
+108
+0:11:43,360 --> 0:11:50,880
+There's also a K417N in this variant of concern that we are concerned may decrease the monoclonal
+
+109
+0:11:51,840 --> 0:11:59,360
+Casariva-mab efficacy, and this also has that N501Y, which we think may allow it to bind a
+
+110
+0:11:59,360 --> 0:12:09,600
+little bit better. Cal20C, that's got this L452R, which we also think decreases the efficacy of our
+
+111
+0:12:09,600 --> 0:12:15,360
+BAM-BAM, and also may be associated with decreased plasma effects. So maybe there's some
+
+112
+0:12:16,880 --> 0:12:21,360
+impact upon someone who's been previously infected, and I'm just going to mention the
+
+113
+0:12:21,360 --> 0:12:25,120
+Brazil one last, and then just kind of try to put this all together for people in a way that
+
+114
+0:12:25,120 --> 0:12:34,720
+they can think about it. So the B128 detected in Brazil, then Japan, that has the E484,
+
+115
+0:12:34,720 --> 0:12:41,120
+which we talked about, it has the N501Y. Now, just to put this in people's mind, you're going to
+
+116
+0:12:41,120 --> 0:12:45,120
+hear all these numbers. So one of the things you could do is when you hear the numbers say,
+
+117
+0:12:45,120 --> 0:12:50,160
+okay, is that somewhere in that 331 to 520? Is that affecting the palm of the hand? Might that
+
+118
+0:12:50,160 --> 0:12:56,640
+affect the ability of the spike protein to bind to the receptor? And if it does, this is a sweet
+
+119
+0:12:56,640 --> 0:13:02,720
+spot we think for neutralizing antibodies, so it may potentially impact some of our monoclonals.
+
+120
+0:13:03,600 --> 0:13:09,920
+But I do want to say this guy is not falling. As people may know, I mentioned several times,
+
+121
+0:13:09,920 --> 0:13:16,000
+I'm involved with Eli Lilly and helping get their monoclonal antibodies to folks and trials,
+
+122
+0:13:16,000 --> 0:13:21,440
+also with Regeneron as well. I guess the caveat with that, they don't give me any money, but
+
+123
+0:13:22,640 --> 0:13:28,400
+happier with that. Maybe it would be a conflict of interest if they did. But we follow these
+
+124
+0:13:28,400 --> 0:13:33,600
+because we are concerned, but the other side is they have a lot of monoclonal antibodies in the
+
+125
+0:13:33,600 --> 0:13:39,520
+pipeline. So ones that can cover these. So if you're in an area where you're concerned about
+
+126
+0:13:39,520 --> 0:13:46,320
+bamelinibimab efficacy, Eli Lilly has data as we talked about on a cocktail. There's also the
+
+127
+0:13:46,320 --> 0:13:51,760
+Regeneron cocktail. If you're concerned about the Regeneron cocktail the other way, and then there
+
+128
+0:13:51,760 --> 0:14:01,360
+are other monoclonal antibodies in the pipeline, so to speak. So I envision some point, Vincent
+
+129
+0:14:01,360 --> 0:14:06,240
+in the future, this will be on my board exam where they'll have these up there posted, and I'll
+
+130
+0:14:06,240 --> 0:14:12,960
+have to remember which one just like I have to with the HIV mutations and which drugs I can and
+
+131
+0:14:12,960 --> 0:14:22,640
+can't use. So I'm working on some kind of memory tricks, the Nervous Nelly 501Y. That was the one
+
+132
+0:14:22,640 --> 0:14:29,680
+in the UK. The EEC 484K, am I really worried about that affecting my monoclonal bamelinibimab
+
+133
+0:14:29,680 --> 0:14:37,680
+and imdabimab? That lousy 452, does that affect my bamelinibimab? The kite 417N, so that's the
+
+134
+0:14:37,680 --> 0:14:45,120
+k417N slash t, is that can affect Cassie? So I think as time goes by, we'll get a better sense of
+
+135
+0:14:45,120 --> 0:14:50,240
+where all these come out. But there was a really nice paper out of the David Holab,
+
+136
+0:14:50,240 --> 0:14:58,240
+increased resistance of SARS-CoV-2 variants, B1351 and B117 to antibody neutralization.
+
+137
+0:14:58,240 --> 0:15:06,080
+And a lot of things described here, you have to use more codvalescent plasma, about 11 or 33
+
+138
+0:15:06,080 --> 0:15:13,600
+fold increase for neutralization with codvalescent plasma, about a 6.5 to 8.6 fold increase in
+
+139
+0:15:13,600 --> 0:15:20,160
+vaccine sera. But from a clinical standpoint, I mentioned I don't think the sky is falling.
+
+140
+0:15:20,160 --> 0:15:28,960
+On a positive note, we have various monoclonals that are already FDA-UA, so emergency use
+
+141
+0:15:28,960 --> 0:15:34,320
+authorized out there that we can use. We have others in the pipeline waiting to go
+
+142
+0:15:34,960 --> 0:15:41,120
+hopefully quickly through the FDA if needed. And this is something I think that we can stay
+
+143
+0:15:41,120 --> 0:15:47,600
+ahead of. So I'm not concerned that the sky is falling. So if that decreases our number of
+
+144
+0:15:47,600 --> 0:15:52,320
+Twiv listeners, because I'm not saying the sky is falling and saying stay tuned for exciting news,
+
+145
+0:15:53,040 --> 0:15:57,760
+I just want to be honest and reassuring. As a clinician, I think that we have the tools and
+
+146
+0:15:57,760 --> 0:16:02,240
+the technology to stay ahead of these things. Do you have any comments, Vincent? Do you think
+
+147
+0:16:02,240 --> 0:16:08,000
+the sky is falling or does it seem reasonable? No, I don't. And we've talked about this a lot
+
+148
+0:16:08,400 --> 0:16:15,920
+on Twiv and I don't want to usurp you. Please usurp. I think that the benefit of this is having
+
+149
+0:16:15,920 --> 0:16:25,200
+you as well. So jump in. So originally, the B117 variant, which originated in the UK,
+
+150
+0:16:25,200 --> 0:16:32,240
+originally said, oh, it's 50% more transmissible. But you know what? Since then, it's gone to many
+
+151
+0:16:32,240 --> 0:16:40,560
+other places and it's not doing 50% more transmissible. So it's a lot more subtle. It's a lot more nuanced
+
+152
+0:16:40,560 --> 0:16:46,880
+than just transmission. And I like to think of it as these changes affecting fitness.
+
+153
+0:16:47,520 --> 0:16:53,360
+Fitness is the ability of a virus to get to a new host. And it doesn't just
+
+154
+0:16:53,360 --> 0:17:00,080
+involve going through the air. It involves the amount of virus shed by someone, the ability of
+
+155
+0:17:00,080 --> 0:17:06,640
+the virus to take hold in the host, maybe to evade immune responses, maybe to reproduce better.
+
+156
+0:17:06,640 --> 0:17:11,920
+So I think sometimes these changes give the virus a little edge and it takes off, but it's not
+
+157
+0:17:11,920 --> 0:17:18,720
+really transmitting better. It's just spreading and displacing another virus in the population.
+
+158
+0:17:18,720 --> 0:17:25,840
+So that whole idea doesn't bother me. I think a more realistic concern is the change are the
+
+159
+0:17:25,840 --> 0:17:32,800
+changes that can abrogate monoclonal effectiveness and vaccine effectiveness, as you've talked about.
+
+160
+0:17:32,800 --> 0:17:39,520
+Because if you do your masking and distancing and all that, it doesn't matter, except for the
+
+161
+0:17:39,520 --> 0:17:43,280
+antibody resolving an infection. So that's my take on this.
+
+162
+0:17:43,280 --> 0:17:49,600
+And I think I get questions and I don't know if this will be guitar to throw people out. Oh, my
+
+163
+0:17:49,600 --> 0:17:56,240
+gosh, with these new variants, do they hear they go right through the masks? No, I think a lot of
+
+164
+0:17:56,240 --> 0:18:02,000
+people's perception is when they say, oh, increased transmissibility or increased transmission,
+
+165
+0:18:02,000 --> 0:18:06,640
+they view it as almost like a bullet. And then someone cough their sneezes and these have somehow
+
+166
+0:18:06,640 --> 0:18:13,200
+changed their shape and can penetrate the fibers of your mask. And you now have to use keglar masks.
+
+167
+0:18:13,200 --> 0:18:17,520
+I mean, I think, you know, time will tell, right? I mean, you and I are being recorded.
+
+168
+0:18:17,520 --> 0:18:23,040
+So in March, right, people will go back to these episodes and sort of get a better sense.
+
+169
+0:18:24,000 --> 0:18:30,320
+Well, you know, the 117 variant is in many other countries. And in Scotland,
+
+170
+0:18:30,320 --> 0:18:33,520
+it hasn't taken off in California. It's been there since November.
+
+171
+0:18:33,520 --> 0:18:39,120
+It has not displaced the existing variants. So something else is going on.
+
+172
+0:18:39,120 --> 0:18:43,680
+It's not just about going through those droplets. That's what I want people to understand.
+
+173
+0:18:44,640 --> 0:18:49,760
+Yeah, it's complicated. But I think the great thing is we have the science and the scientists
+
+174
+0:18:49,760 --> 0:18:54,480
+who are on top of this. And so we're going to get out of this. We are not going to have
+
+175
+0:18:54,480 --> 0:19:01,760
+another January like we just had, but Nick five. So in the Lancet, we got safety and efficacy of an
+
+176
+0:19:02,800 --> 0:19:10,560
+R add 26 and an R add five vector based heterologous prime boost COVID-19 vaccine.
+
+177
+0:19:10,560 --> 0:19:14,880
+An interim analysis of randomized controlled phase three trial in Russia.
+
+178
+0:19:15,680 --> 0:19:21,200
+So these were the results that we were waiting for randomized double blind placebo controlled
+
+179
+0:19:21,200 --> 0:19:26,560
+phase three trial in 25 hospitals and polyclinics in Moscow, Russia.
+
+180
+0:19:27,920 --> 0:19:36,800
+And so this vaccine group and of one of 16,501 placebo group was smaller 5,476.
+
+181
+0:19:36,800 --> 0:19:42,240
+And then the numbers don't quite add up because they say 19,866 received two doses
+
+182
+0:19:42,240 --> 0:19:47,200
+of vaccine or placebo. So there was a little bit of a you lose a few folks there between
+
+183
+0:19:47,200 --> 0:19:54,240
+the whole trial and everyone getting that boost. But from 21 days, and this was interesting,
+
+184
+0:19:54,800 --> 0:20:00,160
+from 21 days after the first dose. So that basically started counting the day people came in for
+
+185
+0:20:00,160 --> 0:20:10,160
+their second dose or booster. They saw that 0.1% of the vaccinated got COVID-19. 1.3% in the placebo
+
+186
+0:20:10,160 --> 0:20:15,520
+group, right? These are small numbers, but that gives us an efficacy about 91.6. And they've got
+
+187
+0:20:15,520 --> 0:20:20,880
+another one of these. These will be the curves that I've heard are now on T-shirts, immunity works.
+
+188
+0:20:21,520 --> 0:20:26,400
+We show the placebo group in red and just the number of confirmed COVID-19 just keeps going,
+
+189
+0:20:26,400 --> 0:20:31,680
+keeps going where the vaccine it goes up. And then once they've reached a level of protection,
+
+190
+0:20:31,680 --> 0:20:37,680
+it sort of levels out and stays pretty flat for a while. With the data here, they have actually
+
+191
+0:20:37,680 --> 0:20:42,480
+mentioned that they're going to do a single dose trial, which will be interesting as well.
+
+192
+0:20:42,480 --> 0:20:49,280
+And it's been some discussion on the main this weekend virology about some of the other data.
+
+193
+0:20:50,000 --> 0:20:57,520
+So more exciting news on vaccines. But let me hit a bunch of Q&A questions and answers on vaccines.
+
+194
+0:20:58,080 --> 0:21:01,600
+This is actually, I spend a lot of my time talking to a new Julie, my partner today,
+
+195
+0:21:01,600 --> 0:21:05,520
+and she's saying, what are we going to do when COVID is over? Because we spend so much of our time
+
+196
+0:21:05,520 --> 0:21:10,160
+addressing COVID-related questions and vaccine questions. So if the vaccine still allow
+
+197
+0:21:10,160 --> 0:21:17,760
+for milder symptomatic COVID mainly prevents severe COVID, what about getting a mild case
+
+198
+0:21:17,760 --> 0:21:24,160
+and the risk of developing long COVID? So that's an interesting question. Just to be honest,
+
+199
+0:21:24,160 --> 0:21:30,160
+we do not know. But this is a very interesting question. If a person has been vaccinated,
+
+200
+0:21:30,160 --> 0:21:36,000
+they go ahead and get a mild case of COVID. We are hoping they're less likely to develop the
+
+201
+0:21:36,000 --> 0:21:41,200
+long COVID, but we still don't know. And actually, this is a pretty important question, I would say.
+
+202
+0:21:42,160 --> 0:21:47,360
+As I get into some of the other questions, I will say I'm optimistic about this.
+
+203
+0:21:47,360 --> 0:21:52,880
+It looks like when people do get infected, the limited data we have that they end up with milder
+
+204
+0:21:52,880 --> 0:21:56,880
+symptoms, they end up with a shorter course, they end up with a shorter period of time that
+
+205
+0:21:56,880 --> 0:22:03,440
+they're actually shedding the virus. Or I should say that their RNA PCR positive, they also end up
+
+206
+0:22:03,440 --> 0:22:09,760
+at much lower, usually about two logs lower. So I'm optimistic, but yeah, I think that this is a
+
+207
+0:22:09,760 --> 0:22:15,600
+question that we'll keep our eye on. It sort of goes right into this next one. Any more information
+
+208
+0:22:15,600 --> 0:22:22,560
+on vaccinated people being less able to transmit the virus, right? This gets back to sort of Dixon's
+
+209
+0:22:22,560 --> 0:22:27,040
+idea that he doesn't want a healthcare worker coming and taking care of him, who's not vaccinated
+
+210
+0:22:27,040 --> 0:22:31,920
+because now they're more likely to give him the virus. So I always like to use scenarios,
+
+211
+0:22:31,920 --> 0:22:37,360
+and I get a lot of questions here about scenarios. So we have some adults, right? Over the age of 75,
+
+212
+0:22:37,360 --> 0:22:42,720
+they're about to get their second dose. And they're already starting to ask, well, now that I have
+
+213
+0:22:42,720 --> 0:22:49,120
+my second dose, what can I do? Can I go visit my friends in Florida? They've also been vaccinated.
+
+214
+0:22:49,680 --> 0:22:56,400
+Can I fly to go visit my adult children? What about all the other activities? So
+
+215
+0:22:56,400 --> 0:23:02,800
+just want to bring up some more data we have here. So analysis of PCR positive swabs in the UK
+
+216
+0:23:02,800 --> 0:23:09,840
+population, right? Suggesting that the vaccine may reduce transmission, but we'll get a little bit
+
+217
+0:23:09,840 --> 0:23:15,840
+farther into that because I want to hit on some really sort of specific scenarios. Anything new
+
+218
+0:23:15,840 --> 0:23:22,000
+about people who previously had COVID getting vaccinated, right? And Peter Hotez weighed in on
+
+219
+0:23:22,000 --> 0:23:29,600
+this, but there's some research. We've got some papers out. Robust spike antibody one responses
+
+220
+0:23:29,600 --> 0:23:37,040
+and increased reactogenicity in seropositive individuals after a single dose of SARS-CoV-2 mRNA
+
+221
+0:23:37,040 --> 0:23:41,760
+vaccine. This was out of Mount Sinai. And they actually found, and this is something I think
+
+222
+0:23:41,760 --> 0:23:46,720
+we're starting to see, and now it's nice to have it quantified, they found that getting that first
+
+223
+0:23:46,720 --> 0:23:53,360
+vaccine dose in someone who had COVID before was very similar to that second dose in folks who
+
+224
+0:23:53,360 --> 0:24:00,880
+did not have COVID before. So similar reactogenicity profile, but also what looks like a similar
+
+225
+0:24:00,880 --> 0:24:06,480
+boost in the antibody levels. What we don't know, and we're not going to know quite yet, right,
+
+226
+0:24:06,480 --> 0:24:12,560
+is what's the durability? What are the kinetics of those antibody responses? The other paper,
+
+227
+0:24:12,560 --> 0:24:18,240
+single dose vaccination in healthcare workers previously infected with SARS-CoV-2. This is out
+
+228
+0:24:18,240 --> 0:24:23,280
+of University of Maryland. And they really, really found about the same thing. It looked like
+
+229
+0:24:24,000 --> 0:24:31,040
+that one dose of the mRNA vaccine was giving these elevated antibody titers, similar to sort of the
+
+230
+0:24:31,040 --> 0:24:36,720
+boost we would expect from a second. So we're not encouraging people at this point to only get
+
+231
+0:24:36,720 --> 0:24:42,080
+one shot. We may actually end up at some point having people get even a third shot. Who knows?
+
+232
+0:24:42,880 --> 0:24:49,280
+But this is interesting stuff and is helpful. We're learning more. And I think it does feed to
+
+233
+0:24:49,280 --> 0:24:55,120
+boy, if you've had COVID before that first shot, maybe a bit of a doozy, maybe what most people
+
+234
+0:24:55,120 --> 0:24:59,440
+are getting the second time. I don't know why I still get this question, but is it a good idea to
+
+235
+0:24:59,440 --> 0:25:04,800
+keep millions of vaccine doses in the freezers to make sure that second dose is given right on
+
+236
+0:25:04,800 --> 0:25:10,560
+schedule? Well, unfortunately, I think everyone is aware that millions of doses of vaccines are
+
+237
+0:25:10,560 --> 0:25:16,000
+sitting in freezers and not getting into people's arms here in the US. And despite requests by the
+
+238
+0:25:16,000 --> 0:25:22,640
+White House, by Andy Slavitt, to those vaccines in arms, many large hospital systems have freezers
+
+239
+0:25:22,640 --> 0:25:27,280
+full of doses. Oddly enough, some rules only allow for vaccines to go to sites that have the ability
+
+240
+0:25:27,280 --> 0:25:33,760
+to have those freezers. In my world, you wouldn't be allowed to have vaccines if you had a freezer
+
+241
+0:25:33,760 --> 0:25:39,920
+that could hang on to them for more than those 30 days. Now, the CDC has updated their guidance on
+
+242
+0:25:39,920 --> 0:25:47,360
+COVID mRNA vaccine interim dosing to include a grace period. So you can get it four days earlier
+
+243
+0:25:47,360 --> 0:25:54,720
+than the three or four weeks. And then they serve statement, then out to six weeks, if it is not
+
+244
+0:25:54,720 --> 0:25:59,440
+feasible to adhere to the recommended interval. So they, they'll give the qualified statement
+
+245
+0:25:59,440 --> 0:26:04,480
+just to quote right off. CDC is not advocating for people to delay getting their second dose.
+
+246
+0:26:05,200 --> 0:26:11,600
+But the data from clinical trial supports this range of either four days early or out to six weeks
+
+247
+0:26:11,600 --> 0:26:18,400
+if you need to. So my answer really is in line with the Biden COVID task force that no, it is not
+
+248
+0:26:18,400 --> 0:26:25,600
+a good idea to remove two fifths of the available vaccine doses from potentially giving those people
+
+249
+0:26:25,600 --> 0:26:29,840
+freeze them away just because you want to hedge and are worried that there might be a slight
+
+250
+0:26:29,840 --> 0:26:34,800
+delay of a few in the order of days of getting the second vaccine doses into patients. So
+
+251
+0:26:34,800 --> 0:26:38,160
+I think people have probably heard how we've approached this at pro health. When we get our
+
+252
+0:26:38,160 --> 0:26:44,880
+vaccines, we put them 100% of those and up in arms as soon as possible. So if everyone would do that,
+
+253
+0:26:44,880 --> 0:26:51,200
+I think that this would go much quicker. Is the supply now flowing from Moderna and Pfizer or
+
+254
+0:26:51,200 --> 0:27:00,000
+is it jerky? The supply is flowing. We're getting 200,000 doses a week to New York.
+
+255
+0:27:00,880 --> 0:27:07,600
+Some of the states have to say like our riverside partners, you know, every every week they get a
+
+256
+0:27:07,600 --> 0:27:13,840
+consistent supply because there it's going directly to our to our clinics where we're giving everyone
+
+257
+0:27:13,840 --> 0:27:21,280
+the vaccines. In New York, there's still this hub model where every week you put in as a provider,
+
+258
+0:27:21,280 --> 0:27:26,400
+you know, we would like this many to this many sites. And even though there's a constant flow
+
+259
+0:27:26,400 --> 0:27:34,000
+to the state, that flow is still going to large hospital systems, healthcare systems with lots of
+
+260
+0:27:34,000 --> 0:27:39,360
+freezers. Every time one dose is given, another stuck in the freezer for, you know, three or four
+
+261
+0:27:39,360 --> 0:27:47,680
+weeks later. So yeah, it's flowing. Moderna actually increased by 33%. The amount of vaccine it's
+
+262
+0:27:47,680 --> 0:27:53,360
+sending out, Pfizer is increasing their production. So, you know, the government and the pharmaceutical
+
+263
+0:27:53,360 --> 0:27:58,320
+companies have made it clear there is this is flowing. You know, and if somebody gets their
+
+264
+0:27:58,320 --> 0:28:04,160
+dose delayed by a few days, that's not as much of an issue as, you know, millions of people
+
+265
+0:28:04,160 --> 0:28:09,760
+not getting any vaccine at all here. And I guess this we're tying into the if a second dose of a
+
+266
+0:28:09,760 --> 0:28:14,640
+two dose vaccine is delayed, will it be less protective? Right? Because people, I think there's two
+
+267
+0:28:14,640 --> 0:28:19,200
+two things here. One is person is watching the clock. I want to get that second dose so I can
+
+268
+0:28:19,200 --> 0:28:24,480
+then count the clock to when I'm, you know, at that 100% protection from severe disease. But
+
+269
+0:28:24,480 --> 0:28:30,400
+there's also that concern too, is if it's delayed by a period of time, will that mean that it's less
+
+270
+0:28:30,400 --> 0:28:36,240
+protective? So we are starting to get some data on that. And we had recent data from AstraZeneca
+
+271
+0:28:36,800 --> 0:28:42,720
+with actually interesting up demonstrated improved efficacy with longer intervals between doses
+
+272
+0:28:42,720 --> 0:28:48,320
+with higher antibodies and a broader antibody response with a boost given at 12 weeks,
+
+273
+0:28:48,320 --> 0:28:56,320
+rather than six weeks, vaccine efficacy rising from 54.9% with an interval of less than six weeks
+
+274
+0:28:56,320 --> 0:29:04,560
+to 82.4% when spent when spaced 12 or more weeks apart. So we still recommended hearing to the
+
+275
+0:29:04,560 --> 0:29:10,400
+studied intervals. But you know, this understanding of immunology. Now we're getting data really
+
+276
+0:29:10,400 --> 0:29:14,960
+goes along with what we've learned over many years with vaccine research. So certainly there's a
+
+277
+0:29:14,960 --> 0:29:20,560
+critical minimal interval before the boost to allow the effector cells to mature into memory cells.
+
+278
+0:29:20,560 --> 0:29:26,400
+But a slightly longer interval may be associated with a higher and broader boost of antibodies.
+
+279
+0:29:27,360 --> 0:29:32,160
+And I don't know if we know enough yet as far as T cell responses, whether or not they're
+
+280
+0:29:32,160 --> 0:29:37,600
+enhanced. But I think our basic understanding of immunology would suggest most of the benefit
+
+281
+0:29:37,600 --> 0:29:41,920
+here if you stretch that out a little is going to be antibodies, but definitely not a diminution.
+
+282
+0:29:41,920 --> 0:29:48,960
+Now that I have been vaccinated, can I do the following? So the science is developing here.
+
+283
+0:29:48,960 --> 0:29:53,840
+But let me run through a few scenarios and want to be careful not to get above the science,
+
+284
+0:29:53,840 --> 0:29:59,520
+but also to to be reasonable in what we say. So I'm using my parents as an example. My parents
+
+285
+0:29:59,520 --> 0:30:06,240
+will soon have reached two weeks past their second vaccination. Yesterday my wife helped my mother
+
+286
+0:30:06,240 --> 0:30:11,680
+get to her second vaccination. My dad pretty much can do it all by himself. So the two of them went.
+
+287
+0:30:12,800 --> 0:30:17,440
+And my mother reported a penicillin allergy. So they made her wait for a prolonged period of
+
+288
+0:30:17,440 --> 0:30:21,840
+time because I don't know why, but Rachel was not very crowded. I think they said in the entire
+
+289
+0:30:21,840 --> 0:30:26,560
+time they were there getting vaccinated for people got vaccinated. They were too. There were two others.
+
+290
+0:30:27,120 --> 0:30:32,880
+But my dad wants to start going back to the office. So what was my advice? My mother's. He can't go
+
+291
+0:30:32,880 --> 0:30:37,280
+to the office. He's going to get COVID. He's going to bring it home to me. So we had a couple
+
+292
+0:30:37,280 --> 0:30:42,960
+conversations. One is, as I said to my dad, dad, you have not gone to the office in a year. You
+
+293
+0:30:42,960 --> 0:30:47,760
+in two weeks will be protected. I do not have a problem with you going back to the office.
+
+294
+0:30:48,480 --> 0:30:55,520
+Will he wear a mask? Will he will he be careful? Yes. And my worried he's going to bring it home
+
+295
+0:30:55,520 --> 0:31:00,480
+and my mother will get COVID and die again? No. My mother has also been vaccinated. So
+
+296
+0:31:00,480 --> 0:31:06,400
+let's I think I can answer very clearly here. Two older individuals both over the age of 80.
+
+297
+0:31:06,400 --> 0:31:11,200
+Sorry about that, mom. You look younger and dad, you definitely look younger too. I have no problem
+
+298
+0:31:11,200 --> 0:31:17,520
+as a son, as a physician, being okay with them going back to with my dad going back to the office.
+
+299
+0:31:18,480 --> 0:31:24,640
+Now my mom wants us to come over the house for Sunday dinner indoors after she's been
+
+300
+0:31:24,640 --> 0:31:29,520
+vaccinated for two weeks. Is that all right? Now this is a tough thing. And this gets into what
+
+301
+0:31:29,520 --> 0:31:33,520
+does the science tell us? Are we underselling? Are we overselling the vaccine? My mother
+
+302
+0:31:34,160 --> 0:31:38,720
+will have reached her two weeks past the second dose. My father will reach this two weeks past
+
+303
+0:31:38,720 --> 0:31:44,960
+the second dose. Is it okay for my wife and I? And my oldest daughter will be off of college,
+
+304
+0:31:44,960 --> 0:31:50,160
+but for my other daughter and Barnaby, Eloise and Barnaby to go over for Sunday dinner. We haven't
+
+305
+0:31:50,160 --> 0:31:54,240
+had indoor dinner with them in a long time. Is it okay for the five of us to eat indoors?
+
+306
+0:31:54,960 --> 0:31:59,520
+I'm going to say I think it's okay. I mean, I worry about my mom. I worry about my dad,
+
+307
+0:31:59,520 --> 0:32:04,720
+but they've now been fully vaccinated. My dad's going to and from work, and that's it. He's,
+
+308
+0:32:04,720 --> 0:32:09,840
+you know, he and my mom are not suddenly socializing with big maskless parties. I'm sure it'll be
+
+309
+0:32:09,840 --> 0:32:15,440
+just the two of them watching the Super Bowl this weekend. So yeah, I think it's okay. Until they
+
+310
+0:32:15,440 --> 0:32:20,320
+reach that point, though, I do not go into their house without a mask. And even if I do go in with
+
+311
+0:32:20,320 --> 0:32:26,000
+the mask, I stay for limited periods of time. Now my in-laws, when they are fully vaccinated,
+
+312
+0:32:26,000 --> 0:32:29,360
+they want to start flying around the country, right? They've been, they've been up in Cape
+
+313
+0:32:29,360 --> 0:32:34,960
+Cods, you know, being really careful, staying by themselves. They want to start, they want to fly
+
+314
+0:32:34,960 --> 0:32:39,680
+down to Florida. They want to see their vaccinated friends there. They want to fly out to Utah to
+
+315
+0:32:39,680 --> 0:32:45,760
+see their, their daughter is that safe for them. Yes. And I actually think if they're flying down to
+
+316
+0:32:45,760 --> 0:32:50,800
+Florida, if they're staying at a hotel and they're going to be outdoors with friends in Florida,
+
+317
+0:32:50,800 --> 0:32:56,080
+I actually, I see really minimal risk. I see that being a reasonable risk taking activity.
+
+318
+0:32:56,080 --> 0:33:02,480
+When they go out to see their daughter in, in Utah, we are hoping that the data will pan out. I expect
+
+319
+0:33:02,480 --> 0:33:07,600
+the data to pan out that people who are vaccinated are less likely to transmit to others, but we're
+
+320
+0:33:07,600 --> 0:33:13,840
+still waiting on the science on that. So that then is going to be, you know, is it, is it a risk for
+
+321
+0:33:13,840 --> 0:33:19,200
+the daughter? Is it a risk for the daughter's boyfriend? Daughter has a boyfriend? Is it a risk
+
+322
+0:33:19,200 --> 0:33:26,480
+for the malamute that they have the dog? But for the vaccinated parents by vaccinated in-laws,
+
+323
+0:33:26,480 --> 0:33:30,800
+they're actually going to be much safer. Passive vaccination. We just talked a little bit about
+
+324
+0:33:30,800 --> 0:33:38,720
+the monoclonal. So the, the Eli Lilly product, the Regeneron cocktail, the Eli Lilly cocktail in the
+
+325
+0:33:38,720 --> 0:33:45,440
+past, monoclonal are still being underutilized. But as I mentioned, they're ready to go. They're
+
+326
+0:33:45,440 --> 0:33:50,800
+here to meet the challenge of any changes in the genetic code of the virus. All right. So now
+
+327
+0:33:50,800 --> 0:33:56,800
+this is the bulk, as though we haven't already done the bulk, lots on anticoagulation this week.
+
+328
+0:33:56,800 --> 0:34:01,280
+So I don't want to keep this too long, but let's hit this. This is really critical because now we
+
+329
+0:34:01,280 --> 0:34:05,840
+have new information that is actually changing some of the decisions that I'm making and some of
+
+330
+0:34:05,840 --> 0:34:11,920
+the recommendations I'm making in the hospital. So based on the interim results of more than a
+
+331
+0:34:11,920 --> 0:34:18,480
+thousand patients admitted to the hospital, findings from three large randomized control trials showed
+
+332
+0:34:18,480 --> 0:34:23,840
+that full doses of blood thinners, in addition to being safe, were superior to the doses
+
+333
+0:34:23,840 --> 0:34:30,080
+normally given to prevent blood clots in hospitalized patients with moderately severe COVID-19. So
+
+334
+0:34:30,080 --> 0:34:36,720
+these trials complement the findings announced in December that the routine use of full dose
+
+335
+0:34:36,720 --> 0:34:43,440
+anticoagulation when started in the ICU in critically ill COVID-19 patients was not beneficial and
+
+336
+0:34:43,440 --> 0:34:48,480
+may be harmful. So just to break this down before I go through the weeds, your critically ill patient
+
+337
+0:34:48,480 --> 0:34:55,040
+in the ICU with lots of lines, severely ill, the evidence that we have to date is favoring
+
+338
+0:34:55,040 --> 0:35:00,400
+prophylactic dosing. It doesn't really necessarily go along with what we were thinking, but your
+
+339
+0:35:00,400 --> 0:35:08,320
+floor patient who's maybe laying there in bed who's on oxygen, they actually are at lower risk of
+
+340
+0:35:08,320 --> 0:35:14,000
+bleeding and they actually do better with full dose anticoagulation. So how does this fit in with
+
+341
+0:35:14,000 --> 0:35:19,040
+our guidelines and how do we move forward and what are the actual studies? So the current guidelines
+
+342
+0:35:19,040 --> 0:35:25,040
+from the American Society of Humanology are the ash guideline panel suggests using these were made
+
+343
+0:35:25,040 --> 0:35:30,880
+a while back prophylactic intensity over intermediate or therapeutic intensity anticoagulation in
+
+344
+0:35:30,880 --> 0:35:37,280
+patients with COVID-19 related acute illness who do not have suspected or confirmed VTE.
+
+345
+0:35:38,080 --> 0:35:42,080
+And then we mentioned this is a conditional recommendation based on very low certainty
+
+346
+0:35:42,080 --> 0:35:47,520
+in the evidence about effects. And then added to this, the panel acknowledges that higher
+
+347
+0:35:47,520 --> 0:35:53,200
+intensity anticoagulation may be preferred in patients judged to be at high thrombotic risk
+
+348
+0:35:53,200 --> 0:35:59,040
+and low risk of bleeding. And then we actually add the interim data from these studies will
+
+349
+0:35:59,040 --> 0:36:04,160
+eventually be available in peer reviewed articles, but right now let me run through all the data
+
+350
+0:36:04,160 --> 0:36:10,720
+here. So the three clinical trial platforms spanned five continents, more than 300 hospitals
+
+351
+0:36:11,760 --> 0:36:16,080
+together were able to test whether there was a greater benefit of full doses of blood thinners
+
+352
+0:36:16,720 --> 0:36:22,640
+to moderately ill hospitalized patients with COVID-19 compared to the lower dose typically
+
+353
+0:36:22,640 --> 0:36:28,800
+administered to prevent blood clots in hospitalized patients. So let's go through the studies.
+
+354
+0:36:28,800 --> 0:36:35,680
+We have the ATT ACC. This is the anti-thrombotics inpatient and anti-thrombotic therapy
+
+355
+0:36:35,680 --> 0:36:42,960
+to emulate complications of COVID-19 with 58 sites in Canada, the US, Brazil and Mexico.
+
+356
+0:36:42,960 --> 0:36:50,320
+We have active for a therapeutic anticoagulation accelerating COVID-19 therapeutic interventions
+
+357
+0:36:50,320 --> 0:36:57,760
+and vaccines for, and this was 60 sites in USA in Spain. And we have RamCap,
+
+358
+0:36:57,760 --> 0:37:03,200
+randomized embedded multi-factorial adaptive platform trial for community acquired pneumonia,
+
+359
+0:37:03,200 --> 0:37:12,960
+209 sites, 290 sites. So this is very robust in Canada, the USA, UK, Ireland, EU, Saudi Arabia,
+
+360
+0:37:12,960 --> 0:37:19,600
+Australia, New Zealand, Nepal, India, Pakistan. And this, I have to say this is impressive.
+
+361
+0:37:19,600 --> 0:37:25,520
+There was a collaboration between all these studies and they agreed to create a multi-platform
+
+362
+0:37:25,520 --> 0:37:30,400
+randomized controlled trials with harmonized protocols. So they all agreed to use common
+
+363
+0:37:30,400 --> 0:37:36,640
+primary, common secondary and safety outcomes, and also to have common combined prospective
+
+364
+0:37:36,640 --> 0:37:44,320
+superiority and futility rules. So all the enrollees in all sites had to have signed in symptoms
+
+365
+0:37:44,320 --> 0:37:50,800
+consistent with COVID-19. So this is all symptomatic COVID-19. And then they were randomized within
+
+366
+0:37:50,800 --> 0:37:57,200
+72 hours of admission. And the primary outcome was organ support free days. And then they had
+
+367
+0:37:57,200 --> 0:38:01,600
+several key secondary outcomes. So from the safety, they were looking at major bleeding.
+
+368
+0:38:02,560 --> 0:38:08,400
+From efficacy, they were looking at mortality, intubation, major thrombosis, stroke,
+
+369
+0:38:08,400 --> 0:38:12,480
+am I, length of stay in the ICU and hospital. And then this is critical because I'm going
+
+370
+0:38:12,480 --> 0:38:16,800
+to get back to this. They risk stratified. They thought they were risk stratifying people based
+
+371
+0:38:16,800 --> 0:38:23,120
+upon the D dimer level. So you looked at people with D dimers that were low, less than two times
+
+372
+0:38:23,120 --> 0:38:28,320
+the upper limb abnormal. And then they looked at people that had elevated D dimer, so greater
+
+373
+0:38:28,320 --> 0:38:34,640
+than two times the upper limb abnormal. The reason I want to point this out right here is that this
+
+374
+0:38:34,640 --> 0:38:38,720
+did not impact the recommendations. And I'm going to have to say this several times because people,
+
+375
+0:38:38,720 --> 0:38:43,200
+it's very hard to get away from this. We as clinicians, we love to measure stuff. We love to have
+
+376
+0:38:43,200 --> 0:38:48,800
+something objective to guide us. We think of D dimer as an indication of people developing
+
+377
+0:38:48,800 --> 0:38:54,560
+thrombotic complication. And I just want to point out here, whether the D dimer was low or high,
+
+378
+0:38:54,560 --> 0:39:01,040
+the recommendations still stand. And when you put all this together, the primary outcome
+
+379
+0:39:01,040 --> 0:39:07,040
+of organ free support days favored full dose anticoagulation for moderate COVID-19.
+
+380
+0:39:07,040 --> 0:39:13,520
+As far as secondary outcomes, mortality was lower with full dose anticoagulation for moderate
+
+381
+0:39:13,520 --> 0:39:19,840
+COVID-19. Major bleeding was seen with full dose anticoagulation, but was less than 2%.
+
+382
+0:39:20,640 --> 0:39:26,640
+Thrombotic events were less common with full dose anticoagulation. But to recap the other side,
+
+383
+0:39:26,640 --> 0:39:33,440
+persevere COVID-19, those patients requiring ICU level support. The probability that routine use
+
+384
+0:39:33,440 --> 0:39:40,080
+of therapeutic anticoagulation was inferior was 98.5%, mainly you were seeing major bleeding
+
+385
+0:39:40,080 --> 0:39:47,680
+complications of 3.7% in the ICU patients, which really sort of backfired against us with that
+
+386
+0:39:47,680 --> 0:39:52,240
+full dose anticoagulation. So your floor patients, the science currently suggests full dose.
+
+387
+0:39:53,280 --> 0:39:57,280
+But if you're in the ICU, you want to watch the bleeding complications. I know we're going to
+
+388
+0:39:57,280 --> 0:40:01,520
+probably getting near our limit here, but I sort of want to make sure I discuss guidelines and what
+
+389
+0:40:01,520 --> 0:40:06,160
+they are, because we had a lot of conversation about this the last time at the Ash guideline
+
+390
+0:40:06,160 --> 0:40:12,240
+meeting. And what we were discussing is we, unfortunately, people have not really understood
+
+391
+0:40:12,240 --> 0:40:16,560
+what guidelines were. And guidelines have changed in the time of COVID. And I think a lot of people
+
+392
+0:40:16,560 --> 0:40:21,040
+have been promoted to positions of responsibility with their force to make these decisions,
+
+393
+0:40:21,040 --> 0:40:26,320
+but they themselves never served on a guideline committee before. Maybe they never helped construct
+
+394
+0:40:26,320 --> 0:40:31,920
+guidelines, but now they're sort of putting these in place. And so we talked a little bit
+
+395
+0:40:31,920 --> 0:40:38,720
+about how this was a challenge. So we've already added language, actually, to the Ash website,
+
+396
+0:40:39,680 --> 0:40:45,600
+trying to clarify what a guideline is and how is it expected to be used. These are not rigid
+
+397
+0:40:45,600 --> 0:40:53,200
+rules for patient care. And we do sort of encourage people to individualize their management decisions
+
+398
+0:40:53,200 --> 0:41:00,080
+to tailor them to a specific patient. And we've added an individualized assessment of the patient's
+
+399
+0:41:00,080 --> 0:41:05,600
+risk of thrombosis and bleeding is important when deciding on anticoagulation intensity.
+
+400
+0:41:06,160 --> 0:41:11,760
+Clinicians should weigh the potential benefits and harms based on the most up-to-date available
+
+401
+0:41:11,760 --> 0:41:16,800
+evidence in caring for their patients. So we're trying to communicate that these are
+
+402
+0:41:16,800 --> 0:41:21,840
+only guidelines. They're established to help direct physicians to deliver the best care
+
+403
+0:41:21,840 --> 0:41:27,680
+for their patients. And even though these are living documents updated on a regular basis,
+
+404
+0:41:27,680 --> 0:41:33,600
+by their very nature, they will not be the most up-to-date based upon available evidence.
+
+405
+0:41:34,400 --> 0:41:40,000
+So I'm just going to hit three sort of scenario cases, examples. Case one, just sort of what would
+
+406
+0:41:40,000 --> 0:41:47,360
+we do. This is a police officer in his 40s. His oxygen saturation is 88% on room air. He has no
+
+407
+0:41:47,360 --> 0:41:52,560
+significant medical problems. He's standing up. He's looking out the window. When can I go?
+
+408
+0:41:52,560 --> 0:41:57,360
+He's being treated with remdesivir and steroids. That's an individual I still might stick with
+
+409
+0:41:57,360 --> 0:42:03,760
+just prophylactic dosing, right? He's ambulating. He's low-risk. Case two, we have an OB, 75-year-old
+
+410
+0:42:03,760 --> 0:42:09,760
+man. He's somulin. He's on six liters nasal cannula. He has coronary artery disease, CHF and diabetes.
+
+411
+0:42:10,480 --> 0:42:15,520
+That's a man. Now I'm going to recommend full dose anticoagulation. Case three, a woman. She's an
+
+412
+0:42:15,520 --> 0:42:23,520
+ICU. She's intubated. She's prone. She has low ematocrit. She's on medications to maintain her blood
+
+413
+0:42:23,520 --> 0:42:30,000
+pressure called pressers. She has staphorus, bacteria, multiple IVs. She's got a central line.
+
+414
+0:42:30,720 --> 0:42:35,920
+This is a woman that I'm going to recommend prophylactic dose anticoagulation. So I'm going
+
+415
+0:42:35,920 --> 0:42:41,120
+to sort of make sure I just mentioned the tail phase, but then I'm going to update people on
+
+416
+0:42:41,120 --> 0:42:47,120
+our fundraiser. So as we move into our fundraiser, I'm going to use an analogy from my honorary cousin,
+
+417
+0:42:47,120 --> 0:42:51,360
+Peter Dates, about oxygen masks and airplanes. And you know how they always tell you like when
+
+418
+0:42:51,360 --> 0:42:55,840
+those oxygen masks come down, put them on yourself first. But then the point I'm going to say here
+
+419
+0:42:55,840 --> 0:43:02,160
+is once you have that mask on you, make sure that you put that mask on other people. So
+
+420
+0:43:02,160 --> 0:43:11,280
+throughout the months of February and March, we're going to be making donations to the ASTM
+
+421
+0:43:11,280 --> 0:43:17,920
+and NH. So donations made to parasites of that borders will be matched and doubled by TWB,
+
+422
+0:43:17,920 --> 0:43:23,040
+PWB, and donated to the American Society of Tropical Medicine and Hygiene. And this money
+
+423
+0:43:23,040 --> 0:43:29,760
+is going to include scholarships for women from low-income parts of the world to travel to the
+
+424
+0:43:29,760 --> 0:43:35,360
+annual meeting. So we're going to pledge a, hopefully we're going to get up to a maximum 40,000, but
+
+425
+0:43:35,360 --> 0:43:40,640
+we are going to donate a minimum of $20,000. And part of that is going to go for these
+
+426
+0:43:41,840 --> 0:43:48,720
+scholarship travel awards to basically prioritize females from low-income countries,
+
+427
+0:43:48,720 --> 0:43:54,480
+who otherwise might not be able to attend. So it goes back to where I started. We are not safe
+
+428
+0:43:54,480 --> 0:43:59,280
+until everyone is safe. We're seeing vaccines roll out here in the United States that all may
+
+429
+0:43:59,280 --> 0:44:04,320
+be exciting, but we're not safe until everyone's safe. Let's not forget about the rest of the world.
+
+430
+0:44:04,320 --> 0:44:09,280
+A couple of email for Daniel. If you want to send in a question, Daniel at microbe.tv,
+
+431
+0:44:09,280 --> 0:44:15,600
+the first is from Debbie, who wants to advise a friend on setting daughters back to school in
+
+432
+0:44:15,600 --> 0:44:22,080
+Maryland, where they're living in an underfunded school district, has an incredible plan to bring
+
+433
+0:44:22,080 --> 0:44:28,720
+students back, small cohorts, air filters, distancing dividers at desks, etc. But she says the only
+
+434
+0:44:28,720 --> 0:44:33,840
+thing that's missing is testing. I thought nothing is perfect, but air quality, cohorting,
+
+435
+0:44:33,840 --> 0:44:37,120
+and testing were what I thought of as deal breakers, your thoughts.
+
+436
+0:44:37,120 --> 0:44:43,760
+Yeah, you know, this continues to be, you know, a really frustrating challenge is that people
+
+437
+0:44:43,760 --> 0:44:49,280
+leave testing out. I mean, all these other things cost money too, right? You start smaller class
+
+438
+0:44:49,280 --> 0:44:53,600
+sizes, you start doing all these mitigation strategies, and then they leave testing out.
+
+439
+0:44:53,600 --> 0:44:59,600
+So one of the things, Debbie, I'm going to suggest you do, let's see where you are. You're in
+
+440
+0:44:59,600 --> 0:45:06,480
+Maryland. What I'm going to say is reach out to one of the local provider groups in the area,
+
+441
+0:45:07,040 --> 0:45:10,960
+because a lot of times we've done this at Pro Health New York. We've done this at Riverside.
+
+442
+0:45:10,960 --> 0:45:16,480
+We've created the whole Let's Get Back program is, you know, sometimes the schools just leave
+
+443
+0:45:16,480 --> 0:45:21,280
+this out for some reason. And if they do, there's no reason why parents and teachers organizations
+
+444
+0:45:21,280 --> 0:45:26,400
+can't jump in and we can't create something. In my local town, it's actually one of our
+
+445
+0:45:26,400 --> 0:45:31,280
+Pro Health providers has been working with the school. And it took a long time that they finally
+
+446
+0:45:31,280 --> 0:45:38,080
+introduced testing. And testing is really, I think, part of creating the best possible solution.
+
+447
+0:45:38,800 --> 0:45:42,560
+President Biden has said he really wants to get the teachers back. He really wants to get the
+
+448
+0:45:42,560 --> 0:45:48,320
+kids back and in person. That's fine and all, but we've got to make sure we do everything to make
+
+449
+0:45:48,320 --> 0:45:52,880
+it safe. So this is a safe decision. And I think testing is part of that.
+
+450
+0:45:54,160 --> 0:46:01,680
+Terry in Orlando has a 100 year old mom who got her first dose and is preparing for the second.
+
+451
+0:46:01,680 --> 0:46:07,440
+And Terry wants to know, is there anything that we should do to prepare her? And how long should
+
+452
+0:46:07,440 --> 0:46:10,080
+someone stay with her afterwards to monitor her?
+
+453
+0:46:11,360 --> 0:46:16,240
+Yeah. So, you know, the nice thing about older individuals that I know this was discussed on
+
+454
+0:46:16,240 --> 0:46:22,640
+the last wave, is they either have less side effects, or they just complain less than young
+
+455
+0:46:22,640 --> 0:46:28,400
+people, right? Young people are so horrible. I had to take pain medications. No, I think your
+
+456
+0:46:28,400 --> 0:46:34,320
+healthy 100 year old mom is actually going to do very well. The observation period we recommend
+
+457
+0:46:34,320 --> 0:46:39,920
+is really 15 minutes after the vaccination. No one really needs to stay with your mom. It would be
+
+458
+0:46:39,920 --> 0:46:44,480
+nice if you stayed with your mom. But again, you want to weigh, you know, are you vaccinated? Is
+
+459
+0:46:44,480 --> 0:46:49,520
+there a risk of exposure? But she's getting so close to being out the other side of this.
+
+460
+0:46:50,160 --> 0:46:53,840
+You know, ask her doctor whether it's safe at a 100 year old woman with whatever medical
+
+461
+0:46:53,840 --> 0:47:00,720
+problem she has to use something like ibuprofen or a leave or Tylenol. But no, I think that there's
+
+462
+0:47:00,720 --> 0:47:05,360
+nothing too much that I would worry about here. And she has one more question. Her daughter
+
+463
+0:47:05,360 --> 0:47:11,440
+is breastfeeding. Her 10 month old grandson, is there any chance if she is still breastfeeding when
+
+464
+0:47:11,440 --> 0:47:16,720
+she is vaccinated that any protection will reach the grandson? And how far down the road do you think
+
+465
+0:47:16,720 --> 0:47:22,160
+will be the earliest we expect one year olds to be vaccinated? Yeah, so breastfeeding. And I think
+
+466
+0:47:22,160 --> 0:47:28,480
+I posted my friend Vanessa, one of my coworkers who she is breastfeeding mother who is vaccinated.
+
+467
+0:47:28,480 --> 0:47:33,280
+That's one of the things like breast vaccinating a breastfeeding woman is really vaccinating two
+
+468
+0:47:33,280 --> 0:47:39,120
+people. We anticipate and this has been true for all our other vaccines that when a woman starts
+
+469
+0:47:39,120 --> 0:47:45,600
+making antibodies, those antibodies are then in the breast milk. So if she is vaccinated,
+
+470
+0:47:45,600 --> 0:47:51,920
+once she starts making those robust levels of antibodies, we anticipate that those are being
+
+471
+0:47:51,920 --> 0:47:59,120
+then transmitted to the 10 month old grandson. There are some trials looking at younger individuals.
+
+472
+0:47:59,760 --> 0:48:04,480
+It's probably going to be a while before we look at one year olds. I know there was a question
+
+473
+0:48:04,480 --> 0:48:09,200
+about, okay, so if you have, if you say this is allowable for this, are you allowed to stretch
+
+474
+0:48:09,200 --> 0:48:13,520
+beyond that? So for instance, I'll say that J and J vaccines been given hundreds of thousands
+
+475
+0:48:13,520 --> 0:48:20,000
+of individuals. You know, will it, will it be okay to give those to children? Unfortunately,
+
+476
+0:48:20,000 --> 0:48:25,920
+it may be quite a while before we have any science to guide this. So there may be judgment calls at
+
+477
+0:48:25,920 --> 0:48:30,960
+some point. All right, one more from Carson. You've said that people who recently had COVID
+
+478
+0:48:30,960 --> 0:48:37,040
+should still get vaccinated, but also that anyone who's had monoclonal therapy needs to wait 90 days
+
+479
+0:48:37,040 --> 0:48:41,520
+because the monoclonals could prevent the person from mounting a sufficient immune response to the
+
+480
+0:48:41,520 --> 0:48:46,400
+vaccine. Why isn't that the case for someone who's been infected and presumably develop their own
+
+481
+0:48:46,400 --> 0:48:50,480
+antibodies? Yeah, no, this is this is an excellent question, right? And I'm going to bring two things.
+
+482
+0:48:50,480 --> 0:48:57,520
+So I had a conversation with my partner, Nujali earlier today, a conversation with Fatima Johari,
+
+483
+0:48:57,520 --> 0:49:03,680
+one of the the infectious disease doctors I work with at Plainview about sort of these two topics.
+
+484
+0:49:04,320 --> 0:49:11,600
+And one was it was a husband and wife, and the husband had been vaccinated. And he's
+
+485
+0:49:12,640 --> 0:49:20,880
+well, got just like so many, he got infected before his second second vaccine dose. And
+
+486
+0:49:21,440 --> 0:49:25,600
+you know, he meets criteria for monoclonal antibodies, but he doesn't want to get the monoclonal antibodies
+
+487
+0:49:25,600 --> 0:49:29,680
+because as he explained, it was so hard to get the appointments for the vaccine. If I missed this,
+
+488
+0:49:29,680 --> 0:49:34,080
+I'll never get another one. And you know, try to explain that if he gets the monoclonals,
+
+489
+0:49:34,800 --> 0:49:39,520
+we have we have the impression and actually the evidence that those are going to be in his system
+
+490
+0:49:39,520 --> 0:49:43,680
+for 90 days. So in a sense, instead of waiting for that second dose and another two weeks for the
+
+491
+0:49:43,680 --> 0:49:48,640
+antibodies, so three weeks from now, you know, within an hour, he could instantly have that
+
+492
+0:49:48,640 --> 0:49:52,640
+passive immunity that lasts three months at the end of those three months, then he can go ahead
+
+493
+0:49:52,640 --> 0:49:59,040
+and get his vaccine and get that boost. But what about this? This is this issue. What about someone
+
+494
+0:49:59,040 --> 0:50:04,720
+who's already had an infection? Why not just wait three months just like you did with anybody
+
+495
+0:50:04,720 --> 0:50:09,920
+therapies? And you'll hear different advice on this. This for me gets back to that rule,
+
+496
+0:50:09,920 --> 0:50:15,680
+never miss an opportunity to vaccinate. If someone is ready and willing right now to get vaccinated,
+
+497
+0:50:15,680 --> 0:50:20,800
+and you can give them that protection, which we have well studied, which we're familiar with,
+
+498
+0:50:20,800 --> 0:50:27,120
+which we are learning more and more about the durability. And all the science suggests that it
+
+499
+0:50:27,120 --> 0:50:35,120
+is even better than natural infection. That's why I'm saying there's no need to wait. Three months,
+
+500
+0:50:35,120 --> 0:50:39,040
+maybe that person's lost interest and they decide they don't want to get vaccinated. So you've just
+
+501
+0:50:39,040 --> 0:50:45,360
+lost the opportunity to immunize. And for us all to get out of this, for us to see the death count
+
+502
+0:50:45,360 --> 0:50:48,240
+drop, we want to see as many people vaccinated as possible.
+
+503
+0:50:48,240 --> 0:50:55,680
+That is COVID-19 clinical update number 48 with Dr. Daniel Griffin. Thanks again, Daniel.
+
+504
+0:50:55,680 --> 0:51:25,520
+Oh, my pleasure. Everyone be safe.
+

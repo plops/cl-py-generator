@@ -1,0 +1,432 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 730 recorded on March 11, 2021.
+I'm Vincent Draconiello and you are listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Update number 53. How's everything going, Daniel?
+You know, I will say I still am optimistic here on the ground. Things seem to be going in the right
+direction. I was just just today, one of the one of the Catholic hospitals where I go, you know,
+they have they've closed their COVID unit. They no longer have a COVID unit at that hospital.
+That's one of the other hospitals. The numbers have dropped to maybe 20 percent of where they
+peaked. So numbers are going down in the hospital. Unfortunately, we still have several people in
+the ICU struggling who probably won't make it. And, you know, and one of your shows, I think,
+was Ginger Campbell said that, hey, if you end up in the ICU, it's 5050. If you end up on a ventilator,
+I actually say actually it's much more depressing than that. I was reviewing with some of the ICU
+doctors single digit survival this time. Really, we're doing everything we can to keep people off
+the ventilators. So the people that end up on the ventilators, it really is well under 10 percent
+that are surviving in our experience. And then some of the ones that are just tragic,
+this one woman who's now out of the ICU, just very vacant. I'm not sure there's much cognitive
+function left. So just just a tragedy. So I think her talk about how important palliative care
+decisions are is unfortunately really critical here with COVID. My quotation, it is easy enough to
+vote right and be consistently with the majority. But it is more often more important to be ahead
+of the majority. And this means being willing to cut the first furrow in the ground and stand
+alone for a while, if necessary. And this is by Patsy Make. In 1964, she ran for federal office
+and won a seat in the US House of Representatives was the first woman of color, the first Asian
+American elected to Congress. And I just think that it's a very appropriate quotation. It's easy
+to sort of group together. And I hear a lot of people now is just doing a talk for a group at
+University of Pittsburgh, where people are all agreeing like, Oh, who could have really seen this
+coming? And you know what, we warned about this pandemic for a long time. And we're warning that
+this will not necessarily be the last pandemic if we don't respond differently. So I know everyone's
+all excited and they want to go out there and have their big parties and hug everyone. But
+let's not let this happen again, right? Let's while we're still here, while it's still fresh
+in our mind, let's spend the money now, let's make the decisions now, let's get the changes in
+place. This doesn't happen again. This this has been rotten. This has been horrible. And a lot of
+people have died. So never miss an opportunity to vaccinate, never miss an opportunity to test,
+never waste a vaccine dose. Vaccines are getting better. But I'm actually going to start with
+children and COVID. As we see more adults getting vaccinated, there's a growing push to get the
+kids back into schools, getting ready for summer camp and opening many things up for children.
+The one thing I will say on the ground here is this is not going well for kids. I was talking to
+my buddy, Dr. Jovino, he's one of the only adults who calls me Danny. And you know, he can get away
+with it. But he was saying, you know, we are now seeing its children, growing numbers of children
+getting diagnosed with COVID. Last week, we saw the article in the CDC and MWR estimated SARS-CoV-2
+seroprevalence among persons aged less than 18 years, Mississippi, and it was made through
+September 2020. And they looked at serological tests on blood samples collected between May and
+September 2020, from 1,603 persons aged less than 18. And they found on the serological testing,
+16.3% of these were positive. And they actually suggested that at this prevalence rate,
+over 113,842 of the 698,420 young persons in Mississippi have been infected with SARS-CoV-2
+by mid-September. And of note, there's only been 8,993 confirmed or probable COVID-19 cases reported
+among young persons to the Mississippi State Department of Health. So if you do the math,
+this means that we're only catching about 8% of the COVID-19 infections in this young population,
+meaning that over 90% are going undiagnosed. In the same article, they reference the CDC data,
+suggesting there have been just over 3 million reported COVID-19 cases in the U.S.
+in persons aged less than 18. Now, if this is under diagnosis, instead of 3 million, that would
+put us closer to about 40 million cases in children, even with a prevalence of 16%. It means that
+over 80% of our children are still at risk of COVID-19. And unfortunately, I think we're seeing that
+on the ground here in New York. One of the things, and this was what Dr. Yovino and I were talking
+about is that the parents are quite upset because they're saying we were told that COVID was a very
+mild thing in kids. What's going on? We were told that children are less likely to die.
+They're less likely to hospitalize. They're less likely to have severe COVID.
+I discussed the data coming out of the UK that about 10% of the kids that develop COVID,
+it is not just a mild, short-lived disease, but it lasts. I was just on a call Tuesday evening
+with our pediatricians. Maybe I was just trying to depress myself, but I wanted to ask them and
+say, okay, I see the numbers in the literature. But one of the things that hopefully I add with
+these clinical updates is what are we actually seeing? Let's translate these studies into what
+we're seeing on the ground. And every pediatrician on the call had stories of a growing number of
+young individuals that they're taking care of that are suffering. And just to share a few of these
+stories with everyone, it was a 16-year-old's girl, loves soccer. She got sick with COVID
+two, three months ago. But her family wanted to make sure before she got us, you saw the cardiologist.
+They did echocardiogram. Everything was fine. They said, you've been cleared. We think you're
+fine to play soccer. This is a gal who used to run several miles a day. Her life is all about soccer.
+She tried to play the first game. She was like, I can't run up and down the field.
+So she's not going to play soccer this year. And she's devastated. It was another young woman
+who had a lacrosse scholarship. She she can't play. There was a boy. This really I found quite
+upsetting. He had COVID. And his teacher called the mom and saying, what is up with your son? He
+can't pay attention in class. And she said, yeah, he had COVID a few months back. He cannot maintain
+his attention. He just gets distracted. He can't keep focus. And so I think a lot of what we're
+seeing is the kids, when they're forced either to try to compete athletically, they realize, oh,
+my gosh, I am so much diminished where I used to be, or they're asked to do a cognitive task,
+like pay attention and do well in school. So I worry about this. This is something we're seeing
+in the literature. This is something now the pediatrician shared with me. And even something
+has changed a little bit about the multi inflammatory syndrome. My colleague and friend Jay Berger
+has taken care of a young individual now, who's in the ICU early on 5050 with these individuals
+with the late inflammatory phase ending up in the ICU. Now 90% of them are progressing to the ICU.
+So I'm not sure what to say here other than just, you know, we need to be a little bit honest with
+the parents is that, yeah, your son or daughter may not die or end up in the hospital with COVID.
+They may be at lower risk, but I'm not sure I'm completely comfortable if one of my children
+end up getting COVID and maybe having long term complications testing. We saw the first EUA for
+a T cell COVID test, the T detect COVID test by adaptive biotechnologies. And this is something
+a person can go online, click a few buttons, pay a little more money than most of us would like to,
+and actually get a COVID T cell test. So I'm glad we're seeing more attention being paid to the T
+cells. My PhD was in B cell biology, but much of my clinical practice and research is focused on HIV.
+So T cells have gotten a lot of attention from me over time. You know, a little sad for the T cells
+they were neglected there for about a year, but now they're getting that attention that they've,
+you know, long had because of the HIV epidemic still is ongoing. So this is a $150 test that
+can be done either as an in home or an in lab blood draw. Basically a patient goes on the website,
+they click a bunch of buttons. And then this test reportedly compared to the antibody tests are
+saying this as a greater than 99% specificity, about a 95% sensitivity. And this is detecting
+prior infection with SARS-CoV-2, the virus that causes COVID-19. It's really a fascinating test.
+And I was on a call with the same company talking about a study that we're trying to help them with
+with Lyme disease. And I realized as we were talking, I said, hey, you're the same people with the T
+cell test. This is the same technology. So it gave me a chance to really drill a little bit down.
+And the technology, they actually have a preprint out there describing it, preprint is
+clinical validation of a novel T cell receptor sequencing assay for identification of recent
+or prior SARS-CoV-2 infection. So it's a little bit interesting, but let me just explain to our
+listeners like how this technology works and why I think it's superior to the technology we've
+been using for tuberculosis tests. And throw my disclaimer, they're not paying me any money for
+this, nor do I think they will in the future, but I will explain the technology. Normally,
+to look for T cell reactivity to tuberculosis, we do a three tube assay. The first tube is our
+negative control. And then we actually draw up a tube, which has some proteins that are specific
+to mycobacterium tuberculosis, or I should say, somewhat specific to the mycobacterium
+tuberculosis complex. And then we have a positive control with a mitogen, which is going to stimulate
+the T cells to produce interfering gamma. You shake those up, you mix that all around,
+you have to draw it in the right order. It involves an assay looking at live cells,
+so you need to run this within eight hours. You need to treat these tubes properly. You can't
+freeze them. You can't let them sit too long. And then what you're going to do is do an assay
+that's going to say whether or not you have specific memory T cells that are going to be
+triggered by those proteins and produce the interfering gamma, which is your signature TH1
+cytokine. Immunologists can yell at me if I made that too simple. I think that's reasonable
+description. Now, what this does instead, and it's actually much easier, is you're going to
+be doing PCR. So you're merely going to collect a tube of blood. This tube can be frozen, it can
+be stored. You do a simple DNA extraction followed by a multiplex PCR that amplifies the rearranged
+T cell receptor sequences. And then this PCR product is popped onto an Illumina sequencing
+machine. And a computer algorithm is going to identify whether the sequences that are specific
+for targeting or enriched for targeting of SARS-CoV-2 are enhanced. And they have a specified
+threshold. And there's about 4,000 enhanced sequences that have been identified. So this
+actually is quite a bit easier. You don't have to worry about having a lab on site that can do these
+live cell assays quickly. How are we going to use this test? I think that's the other question.
+I see this personally as potentially something we'll be looking at in those individuals who
+we suspect have long COVID, but either couldn't get a PCR test upfront, or maybe have a negative
+antibody test and we're trying to pick up those individuals. There was a, I know this was covered
+in TWIV-128, but I just want to jump it in here while we're talking about testing. And this was
+the paper SARS-CoV-2 total and subgenomic RNA viral loaded hospitalized patients posted as a
+preprint. Excellent discussion on TWIV-128. It can't be TWIV-120. I'm sure the numbers often mean 728.
+Have we done that many? Have you done that many? And really just confirming that total RNA
+copy number numbers correlate with subgenomic RNA. And then although PCR is very sensitive,
+when people have millions of RNA copies, when they have CT values in the 20s or lower,
+that's probably when people are infectious. And it looks like once those CT values are greater
+than 30, RNA copies are below the level of detection of our rapid antigen test, 50,000, 40,000 person
+is probably no longer infectious. So just nice to get a little more information there.
+Active vaccination, I won't say too much about this, except I am quite intrigued
+that J&J seems to be coming out as the crowd favorite, at least among a lot of my patients.
+And even what I was seeing is a lot of individuals at one of the large healthcare system. About half
+of them have been vaccine hesitant. They seem to be more comfortable with the J&J vaccine.
+Sort of the one and done feeling that it's not this mRNA technology. So
+exciting to see that. And I know I've spent a little time discussing the potential impact of
+vaccination on people with long COVID, passive vaccination, the variants. I hate the variants.
+David Ho emailed me this week, letting me know that at last check, more than a third of the
+sequences at CUMC have the E484K mutation that at least in the lab makes a bamlin of a map and
+in dev a map ineffective. These are, you know, one monoclonal from each of the Eli Lilly and
+the Regeneron cocktails. We've already actually started switching our therapies over on the ground
+here. So we've tried to switch over to the cocktail therapies with the idea that at least in New
+York City, in these regions where we're getting the sequence, about a one and three chance that
+you might be giving a therapy that is not effective. But we also, I got to say, this was the week
+of monoclonals. We got a press release. Eli Lilly and company announced new data from the
+randomized double blind placebo controlled blaze one phase three study demonstrating bamlin of a
+map and a test of a map together significantly reduced COVID-19 related hospitalizations and deaths
+events in the high risk patients recently diagnosed with COVID-19. So go into a little bit more of the
+weeds on this. This phase three included 769 high risk patients. There were 511 got therapy,
+258 got placebo. So it was roughly a two to one match events, meaning either hospitalization or
+death occurred in 0.8% of those receiving the cocktail, 6% receiving placebo, which represented
+87% risk reduction with a p-value of 0.001. So this cocktail bamlin of a map and a test of a map
+together demonstrated statistically significant improvements on key secondary endpoints. There
+were four deaths total in the trial that were attributed to COVID-19. And they all occurred
+in patients getting placebo. Nobody who received the cocktail diet. So that was 0% versus 1.5% in
+placebo. So this is interesting, right? You know, number needed to treat and what kind of reduction
+are we doing here? The pricing in a sense is targeted to this. You say we've got a population
+with about a 10% risk of dying or ending up in the hospital. And we're able to reduce that
+dramatically. We know that if a person ends up in the hospital, you know, they have a significant
+chance of dying, but there's also a significant morbidity and it tends to be very expensive. I
+think we've pegged it at about $40,000 on average for a hospitalization. So they've kind of run
+the numbers on this. Your number needed to treat has a lot to do with which risk group you're
+targeting here. We also heard from Veer, biotech, and GSK. Where are these people coming from?
+I've been sort of watching this in the background, but they released a press release and I thought
+this was funny. They promised to post a preprint on the results of their comet ice study. So this
+is COVID-19 monoclonal antibody efficacy trial intent to care early. What a name. And this trial
+evaluated, this is going to roll right off the tongue, VIR7831. So Veer7831 or that's a little
+hard. You can call it GSK4182136. This is a monoclonal antibody. And this is this is neat,
+actually. It targets a conserved part of the spike protein. And so they studied this as
+monotherapy. I'm going to sort of go into what I mean by that. And they they presented this
+press release interim analysis from 583 patients were enrolled and they demonstrated 85% reduction
+in hospitalization or death, p-value 0.002. So right in that same ballpark. So a little bit
+of notes about this. So this is a very I think a fascinating concept is you find an area on the
+spike protein that cannot change without disrupting the ability of the virus to basically complete
+its biology. So it's a a required sequence, something that cannot be changed, a conserved
+sequence. Interesting enough, this epitope is shared with SARS-CoV-1. It's also an epitope
+that SARS-CoV-1 can't change. A couple other things about this antibody is that they are using
+this is entertaining a proprietary Zen core extend NFC technology that allows for higher
+airway antibody levels and extended half life. So I'm not sure exactly what they're doing to get
+it into the airways better. But by changing the the FC, so think about it, I was holding up my
+hands like Nixon, you know, and the fingertips are the binding part, but down by my hand,
+that's the fragment crystallizable part. You can adjust that and change the half life. So you can
+potentially have an antibody that instead of only lasting three months, you might give this to
+someone and protect them for six months. So they not only have ongoing efficacy trials such as this,
+but they also have prophylaxis trials. Can you get this ahead of time? And I didn't mention the
+variants and I mentioned E484K. And what I was going to say here is I really do not like the
+concept of variants and we keep talking about different parts of the world. I like to put this
+in my mind sort of the way I think about choosing treatment for an individual with HIV. I want to
+know what's the mutation and how does it affect my potential therapy, right? So I hate the E4H4K
+because we have evidence that that decreases the efficacy of the monoclonal bamblinibimab
+and in devimab. Thus, we're switching over to a lot of the cocktails and actually,
+this is because this is a lot of this is going out to our pro health doctors. We've started
+sending our patients to the Catholic ERs to get access to the Regeneron monoclonals,
+the cocktail there. We've also been in talks to try to switch over all our UHG programs to using
+the Eli Lilly cocktail instead of just bamblinibimab. So they'll be getting the bamblinibimab and
+the test of a map because I think we want to stay ahead of this. We don't want to give a therapy.
+We're a third of the time we might be ineffective. Daniel, for HIV, you do genotyping to figure out
+what to treat them with. Do you think that's coming for this? I actually am hoping we can do it
+rapidly enough, right? So I reached out to Yoshi, Steve, and David. I was like,
+so, by the way, can you create an assay for me? Because with HIV, we might start someone on
+treatment. They come back the next week and we have the sequence and then we adjust treatment.
+But we need to know the sequence now, right? And so people may not know this, but this is
+fascinating. Someone with HIV, when I am designing their treatment, I get the sequence of the reverse
+transcriptase, the integrase, and the protease. And I base therapy on knowing the sequence of the
+HIV virus that is dominantly affecting them. And it's fascinating. And I think that when we look at
+monoclonals, there's two approaches. One is we keep regional surveillance and we use cocktails.
+The other would be rapid, maybe it's CRISPR-based, where we can figure out, are those relevant
+mutations prevalent present in that individual and then adjust therapy based upon real-time
+answers. The period of detectable viral replication, the viral symptom phase, another press release,
+right, from Merck. And this was Merck Ridgeback Biotherapeutics, and well, so Ridgeback Biotherapeutics
+and Merck announced preliminary findings from a Phase 2A trial of investigational COVID-19
+therapeutic malnup peer-avir. So this is an oral form of a potent ribonucleoside analog, right?
+So this is an oral antiviral. And they reported the results from a multi-center U.S. Phase 2A study.
+They were looking at 202 non-hospitalized patients. They were giving this within the first seven days
+of confirmed SARS-CoV-2 infection. And the primary efficacy objective was reduction in time
+to viral negativity as measured by RTPCR. And they described results of the secondary endpoint,
+which was reduction in days to negativity of infectious virus isolated in days of pharyngeal
+swabs. And they actually did this by isolation in Bureau cell line culture. So I knew that you
+would like that Vincent actually did some viral culture there. So there were basically some
+in some encouraging data here. So we'll see going forward, we're hoping we can have something like
+an oral effective antiviral as opposed to where we currently sit with, shall I say, a relatively
+ineffective IV antiviral. All right, there were some Ivermectin, effective Ivermectin on time to
+resolution of symptoms among adults with mild COVID-19, a randomized clinical trial published
+in JAMA. Double mind, double blind randomized trial conducted at a single site in Cali, Colombia.
+They enrolled 476 adult patients with mild disease symptoms for seven days or fewer.
+And this was a one-to-one randomization, either receiving Ivermectin, 300 micrograms
+per kilogram per day for five days or placebo. And the primary outcome was timed resolution of
+symptoms within a 21-day period of follow-up. The median time resolution symptoms was 10 days
+in the Ivermectin group compared to 12 days in the placebo group. Hazard ratio resolution of symptoms,
+not really significant here. By day 21, 82% in the Ivermectin group, 79% of the placebo group
+had resolved symptoms. So they concluded in the study that among adults with mild COVID-19,
+a five-day course of Ivermectin, compared with placebo, did not significantly improve the time
+to resolution of symptoms. And they went on to say, the findings do not support the use of
+Ivermectin for treatment of mild COVID-19. There are several issues with the study.
+Apparently, on October 20th, the lead pharmacist observed that there was a labeling error.
+And everyone was receiving Ivermectin. And no one was getting the placebo during this period of time.
+No biological data. Population was very young. There are a lot of ongoing trials. I'm just
+going to leave this as this did not support the use of Ivermectin. I want to spend a little time
+in the future when I get more data on flu voxamine, just because I know a lot of people are discussing
+this. And as we get more data, I'm going to jump in and talk about that. I love the idea of early
+oral options. The tail phase and long COVID. I'm actually going to spend a lot of time. This is a
+longer section than usual. And I know long COVID is not as exciting as the variants.
+But the long COVID population, I feel like I've really become committed to this population.
+And there was a paper. Shane Crotty doesn't like this paper, just as a disclaimer.
+COVID symptoms, symptom clusters and predictors were becoming a long-hauler looking for clarity
+in the haze of the pandemic. And this was posted as a preprint. And the authors described 1,407
+long haulers that had never required hospitalization for COVID-19. And they reported that there were
+certain characteristics that were more likely to be seen in long haulers, such as female sex,
+normal BMI. And these were more likely to become long haulers. And this was interesting.
+They suggested that as many as 32% of the long haulers had an initial infection that was asymptomatic.
+Certainly a lot of limitations here. But as one analyzes this paper, it's interesting.
+I'm not going to hang my hat certainly on 32%. But this is actually something that we're seeing
+in clinical practice, something I've seen in clinical practice, where individuals come in.
+There's no clear acute COVID. As we dig in a little, we get a potential exposure that was
+maybe a few weeks or a month before the onset of these symptoms. And then we get a positive
+antibody test. So I do think, and I would say my clinical practice, I've seen people who I
+certainly feel comfortable diagnosing as long haulers, having long COVID, who did not have a
+symptomatic acute illness. But then later on, started to develop all the classic symptoms,
+loss of smell, loss of taste, the hair may have fallen out, the fatigue, the brain fog.
+And I think it will be interesting too, with the T cell test to see if those people who are
+serology negative have evidence of T cell response. Here's the big thing I am getting. We are all
+getting lots of questions about upcoming gatherings, Passover and Easter. And I actually got one
+text. I thought it was funny. It was a, it was sort of a news article. Well, it was a news article
+in the CDC updated guidelines and the text was, is this real or fake news? Are they really going
+to let people vaccinated get together indoors with people without masks? So I thought it was
+entertaining. And so I'll hit it here. We do, as people probably have heard, this was discussed
+on the last wave. We now have the following recommendations from the CDC where they say,
+fully vaccinated people can visit with other fully vaccinated people indoors without wearing
+mask or physical distancing. Or they can visit with unvaccinated people from a single household
+who are at low risk for severe COVID-19 disease indoors without wearing masks or physical distancing.
+You know, this is really, I think, the part that a lot of people are asking me about.
+And there's certain assumptions here, which I'm going to say I'm not sure how comfortable I am
+with these assumptions. Because what is really someone at low risk for severe COVID-19? You know,
+I brought up with the children. You know, my son is 15. One of my daughters is 18. The other
+daughters 20. And I know there's a certain idea that we'll take the 15 year old who's on the younger
+side. You know, if he got COVID, he loves running. Sports are a really big thing for him.
+If he, you know, he runs a five something minute mile as a freshman in high school,
+if he was not able to do that, that would be a huge blow. So I don't just look at him and say,
+I'm worried about him ending up in the hospital. I'm dying. I'm worried that he might, you know,
+really have long COVID if he might have a negative impact. So, you know, we need to really sort of
+think about these decisions here. So just putting that out there.
+As per the CDC currently authorized vaccines, the US are highly effective. Like what are we
+doing here? They're highly effective at protecting vaccinated people against symptomatic and severe
+COVID-19. And also there tends to be more evidence every day, a growing body of evidence,
+suggesting that fully vaccinated people are less likely to have asymptomatic infection
+and potentially less likely to transmit SARS-CoV-2 to others. So I think that that's at least what
+the CDC puts forward is what is the thinking behind this? So I don't want to give any specific
+advice, you know, on a case-by-case on Twiv, but I certainly do all day over the phone and in person.
+But we often get the questions about, you know, how do we make things safe, right? People are
+going to get together over Easter and pass over much as they did over the Christmas and New York
+holidays. So what are the different factors that can play into your decision? So one,
+being vaccinated, that's the biggest thing I can recommend. If you have access to vaccination,
+go ahead and get vaccinated. The vaccination access is improving dramatically and quickly.
+I hate that we're on a clock here. The other is people who've had prior recent infection in the
+last three months, they seem to be less likely. And that also relates to people who have recently
+received monoclonal. So that's sort of your lowest risk group. The other is group size.
+We know that the smaller the size, the better. So if you can keep these sizes small, you know,
+think about that. We are really getting here to the end of the pandemic. I mean, I've been saying
+that for a little while now, hopefully just a little while. But really, we have turned the corner.
+The numbers are dropping. The percentages are dropping. I think that we're all hearing that,
+hey, by the end of May, everyone who wants access to a vaccine in the United States will probably
+have had that shot. So this is the final lap. Think about that question that I brought up with
+children. I know they may not end up in the hospital. They may not die. They may be at lower risk for
+those. But you know, they are not, you know, I feel bad when those parents come in and say,
+how come no one told me? You know, children can get sick. Children can have long COVID outdoors
+versus indoors. It's a beautiful sunny day here in the New York, tri-state areas we record.
+Outdoors versus indoors. Time outside. We now think we've been saying this for a while. The data
+tends to hold about 20 times safer than indoors outdoors. So much better testing. Don't forget
+about testing, right? Testing is not perfect. But as we saw around Thanksgiving, around Christmas,
+around New Year's, around Hanukkah, if you test and you pick up people who are positive, you can
+pull them out. You can, you know, just these are layers of making things safe. Behaviors, right?
+Alcohol and hugging. I think that's what everyone's looking for too. Drinking alcohol and hugging
+everyone. These are factors that weigh in. Community prevalence. You got to pay attention. I have to
+say right here in Nassau County, where I'm out here recording, we're not doing well. And we're not
+doing well around kids as far as the prevalence levels. So your local community prevalence,
+the community prevalence where the people attending are coming from, that impacts the risk. Health
+status and risk factors for the attendees. You know, that needs to be factored in. If you've got
+someone who's undergoing chemo, do you really want to get together now or do you want to wait
+until prevalence drops and vaccinations more widespread? And then of course the behaviors before
+and after the event. I know a lot of us are exhausted. We're done with this pandemic. We just want to
+quote unquote get back to normal. But if you are thinking about getting together for these
+holidays, another layer of protection is really minimizing your exposures, you know, before the
+event. And then, you know, consider that if this was a potential exposure, how are you going to
+behave after the event? So I'm going to finish there. And then I'm going to say, hey, unless you're
+driving, drop everything you're doing, go to parasiteswithoutporters.com, continue to support
+us. Thank you so much. You know, we are going to continue during February, March and April to
+support the American Society of Tropical Medicine. We are hoping to get up to a donation of $40,000
+to give to them. Because we want to help early career women from low income parts of the world
+come to the fall meeting. Hopefully that's going to be safe and this is going to happen.
+Because there are a lot of inequities. I think everyone has there's been a light shown on the
+inequities in the world. We want to turn that around in the field of global health. And we want
+to give these young women from these parts of the world an opportunity help us make that happen.
+All right, it's time for Ask Dr. Griffin. If you want to ask a question, Daniel at microbe.tv.
+First one is from Douglas, who is an emergency physician in California. He says, you're very
+enthusiastic about the use of monoclonals. But my take is that it's marginally at best
+for preventing significant complications of COVID-19 with the best data showing an NNT of about 20
+to prevent an emergency department visit or hospitalization and larger studies showing
+no clinically relevant outcomes. Is there something I'm missing? I realized the recent press release
+for BAM and Etsy reported a significant hospitalization of death and patients recently diagnosed.
+I would assume they did not find a statistically significant decrease in death alone. Otherwise,
+the press relief would have mentioned it. The IDSA currently does not endorse use of these drugs.
+While I have been working on getting monoclonals for our Medicaid patients primarily on the basis
+of health equity, I'm not sure it's worth the effort and cost $1,275 infusion fee that our
+hospital charges for are uninsured. This perfect timing, thank you for writing in now. I got to
+just present the phase three data. I've been hearing that this phase three data was going to come out,
+and Vincent and I actually were on a call on Sunday with where people from Regeneron were
+saying their phase three data is going to come out. I've been getting a lot of personal communication
+and actually, as the PI on the largest post-EUA BAM on Evan map trial, which now I think is going
+to transform into a Eli Lilly Cocktail trial, we've been seeing really incredible impact.
+Just to give a story on this so people can put it in, we can get some numbers in here.
+My partner, Nujali, got consulted a patient. Day three of illness, their son had the COVID.
+This gentleman comes in dehydrated, hasn't had anything to eat or drink for a couple of days,
+gets IV hydration, not hypoxic, high risk in his 80s, multiple medical conditions.
+Her advice was we got to get this person out of the hospital, out of the ER, let's get them the
+monoclonal cocktail. As we just saw from the phase three data from Eli Lilly, really impressive going
+from a, we'll say it was a six percent people moving forward ending in the hospital to less than
+one percent. If you look at this individual, he probably has probably about 20% chance of ending
+up in the hospital. You reduce that from 20% down to, we'll say a five percent or a four percent,
+that's pretty impressive. What we were seeing out of the mail and now boom, we have this in this
+phase three trial, nobody receiving the cocktails died. We're seeing a big mortality reduction.
+When you look at the cost, that's what they basically, I've said, that's how they're pricing
+the drugs. They're saying if you target a population with a 10 percent likelihood of ending up in the
+hospital and you can drop that by 75 percent, now I'm going to say 85 percent, that makes that
+thousand dollar cost of the monoclonal cocktail makes sense. It actually saves a healthcare system.
+It saves an insurance company. It saves Medicare and Medicaid money versus the hospitalization.
+Also, here we are. This is the most effective therapy that we have. This has a mortality
+reduction, pretty significant. This has a huge impact on progression. If you interact with
+people that have gotten these treatments, instead of being sick for weeks and maybe being chronically
+ill, maybe getting long COVID, 10 to 20 percent of the time, we are seeing that these patients at 36
+hours are, most of them saying, I feel tremendously better if they got this in time. Instead, the
+push from the ER doc for my partner, Anu Jalee, was we got to get this person in the hospital,
+kind of started by Remdesivir. Her response was, hey, it's day three. They're not hypoxic.
+And by the way, Remdesivir, I'm not sure it ever saved anyone's life. I think the data is really
+impressive here. I've been waiting for this to be now. It's out there. I think it's just a matter
+of time before the Regeneron joins, and we get much more use and appreciation of the monoclonals.
+Al is an ID doc in Canada due to the delayed vaccine rollout here from international supply
+restrictions. Our province recently moved to delay the second shot of mRNA vaccines for four months,
+citing UK and Israel data for effectiveness after a single shot. Many frontline workers
+who see COVID patients, including myself, have now had their second shot canceled.
+I'm aware of the UK and Israeli data. I myself feel like we are playing with fire doing this,
+having a large unboosted population. Seems like a good way of developing escape variants,
+as well as not adequately protecting frontline healthcare workers. I'm really curious
+what an outsider's perspective would be on this, as it's very difficult to voice a
+clinician's perspective over very tightly controlled public health messaging.
+Now, Vincent, this is from Canada. Is that right? Did I get that right?
+That's right. That's right.
+Okay, good. Good. I feel comfortable criticizing the Canadians there,
+not very violent people. So I want to make sure it wasn't some nationality that I would get in
+trouble. Yeah, I do not. That's exactly my fear. I worry about selection for variants when you have
+a low level of antibodies. This is like giving someone a half a dose of an antibiotic every
+other day or basically trying to create selection pressure. I know Paul Bines put out an opinion
+piece on this. And I actually, that is a fear I have. So yeah, not excited about that approach.
+Miles writes, my daughter-in-law is pregnant. First time, 11 and a half weeks, does the lower
+react to genicity of J&J vaccine make it safer for her? At what point should she get vaccinated?
+Yes, that's a challenging question I have to say. I'm very careful to say the best vaccine
+is the one that you have access to, because if you say, oh, but I can get J&J in two months,
+that's not great. If you went in and say, hey, I got either one, I could take the J&J,
+I could take the mRNA. There is some suggestion, pregnant women, you really don't want them having
+fevers. So is there certain advantage, the J&J, because of less likelihood of having fever?
+There's two sides to this, let's say, as far as safety experience. We now have had
+millions of people get the mRNA vaccines, tens of thousands of pregnant women. They all seem to
+be doing really well. The J&J platform was used in West Africa, down to as young as four months of
+age. A lot of pregnant women, we have a long experience, sort of afterwards seeing that there
+were no issues. There's really no significant concerns in my mind to any of the vaccines with
+pregnant women. So I think I'm just going to circle right back, as I did here to say,
+a lot, a lot of evidence that these are safe, effective, and the thing you don't want to be
+is unvaccinated during a pandemic, particularly if you're pregnant.
+Last one is from Gary. Can you tell me what it means that Janssen COVID vaccine protects
+85% against severe disease and 100% against hospitalization? I thought severe disease
+meant requires hospitalization. What severe COVID does not require hospitalization?
+So yeah, I think that we need to all use words a little bit better here, a little bit more specific.
+Yeah, it's interesting that we were having a discussion. One of the local hospitals really
+wants to basically shorten the amount of isolation to 10 days from symptom onset, sort of no matter
+what. And I was actually pointing out that the definition by the CDC of severe is someone who
+requires hospitalization and supplemental oxygen, like, no, no, when I say severe, I mean they're
+on a ventilator, which basically means no one's going to end up with any more than 10 days of
+isolation. So if you went through and actually this was done, I think pretty well on Twib,
+I feel like Rich was sort of struggling with this. How are you using these words? And if you have,
+you know, a positive PCR and two symptoms, then I think ultimately what I did is I walked away
+and said, I'm going to forget this confusing terminology and I'm going to ask the really important
+question. Day 28, did anyone end up requiring hospitalization? Did anyone die? And the answer
+was zero in the vaccinated group. So 100% of preventing people from ending up in the hospital,
+100% of people keep them from dying of COVID. And that in my mind, that's that's moderate to
+severe COVID. If you can stay in the outpatient setting, if it's nothing more than the sniffles
+that are fever and you feel crummy, that's success. All right, that is COVID-19 clinical update number
+53 with Dr. Daniel Griffin. Thank you, Daniel. Oh, thank you so much. Everyone take care and be safe.

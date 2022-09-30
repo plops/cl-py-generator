@@ -1,0 +1,308 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 721, recorded on February 18,
+2021. I'm Vincent Racken Yellow, and you're listening to the podcast All About Viruses,
+joining me today from New York, Daniel Griffin. Hello, everyone. This is our update number 50,
+Daniel, almost a year's worth of updates. How about that? Yeah, that's quite something. Yeah,
+I guess 50 is a important number, but let's march through, let's not make this 50 minutes long.
+So, off with my quotation, in nature, nothing exists alone, and that's by Rachel Carson from
+Silent Spring. I just keep using it, bring people back to the fact that we talk a lot about things
+in the US, but we are part of the global community. And if we don't address this virus at a global
+level, it is not going to go well for anyone. We are part of the world. No walls that are going
+to keep this virus out. My three rules never miss an opportunity to vaccinate, never miss an
+opportunity to test, and never waste a vaccine dose. Still pains me when I hear that doses are
+being thrown in the trash because people are worried they'll be legal consequences.
+So, let's go through our stages. So, the pre-exposure period, there's a lot of coverage on the CDC
+guidance on school openings. You know, the CDC, you can go there. There's a lot to read there.
+Couple criticisms people have is there may be not enough focus on ventilation. But for the first
+time, what I am really seeing is a lot of the school opening plans are introducing testing,
+and it looks like there's federal support for testing, testing saves lives.
+And I know early on a bit of controversy about testing and a period of time when some politicians
+were trying to get people not to test. And I am not talking just about at the federal level,
+but we've moved past that. And I think we all now realize, and this has embraced,
+testing saves lives. Don't let the testing numbers go down. We need two million tests a day
+to keep making the progress we're making, to keep an eye on what's going on. So, you got to keep
+testing. Active vaccination, a little bit more out of Israel on the impact of vaccination on
+viral load. And I think this is a little bit better than the data that I discussed last week.
+I was not impressed with a single CT value change. But this was posted as a pre-print,
+decreased SARS-CoV-2 viral load following vaccination. So, it reminds me when I say that.
+And Vincent, maybe you remember, we had a big discussion. Are we going to ever discuss
+preprints? Are we going to wait until things hit the peer review? And I guess we embraced,
+we will be pre-print reviewers and discuss the data critically. But in this study, they looked
+at CT values of positive samples collected 12 to 28 days after vaccination. And they compared
+these to CT values of positive samples taking during the first 11 days following vaccination.
+So, I felt this was apples to apples. And they reported the differences in mean CT values calculated
+for these two time periods. Basically, looked at three different, so they looked at RDRP,
+right? That's the RNA dependent RNA preliminase gene. They looked at the gene E, they looked at
+gene. But just to give you a sense, they were seeing here about a two CT value difference.
+So, decreased from about, or I guess the CT value is increasing, the viral load is decreasing.
+So, I got to keep that in mind here. So, the CT value was increasing by about two from 25
+up to about 27. So, we're looking at an RNA copy number going from about 1.5 million
+down to about 400,000. So, that's going in the right direction. We're trying to build a case,
+and I'm sure this will come up at the end about if you've been vaccinated, are you less like
+to carry a high level of virus and transmit it to others? And I think the data is starting to
+support that story. The period of detectable viral replication, I get a lot of people saying,
+well, Dan, where are the antivirals? And I want to say this is an excellent question.
+We really just have, as far as what we think of small molecules remdesivir, weak evidence,
+minimal impact, maybe shortens our hospital stay by a few days, no compelling mortality data there.
+But monoclonals, growing amounts of data and evidence there suggesting that there's even a
+mortality benefit as well. There is convalescent plasma, but remember the compelling data there
+was on high titer used within the first 72 hours. Had a discussion today at our hospitals. A lot
+of the centers around the country don't titer their convalescent plasma. By the time someone
+shows up in the hospital, they're usually past those first 72 hours. And when you compare apples
+to apples here, if you have a choice to drink convalescent plasma and monoclonals, the data
+is more compelling on monoclonals. So right now, our best antiviral therapeutic is monoclonals.
+But don't miss your window. This is a numbers game. Don't say, oh, you look like you're doing
+well. Let's wait. If you wait, you can miss your window. And one of the nice little bits of news
+here is we just got approval that we're going to be able to start offering monoclonal therapy
+at our urgent care centers throughout the New York tri-state area. So improving access,
+we're going to have the ability through the Catholics to get it in the ERs, through the
+Northwell system to get it in the tents, through the Pro Health, Riverside, and Pro Health Connecticut
+to get urgent care centers. And through United and Research, we're going to keep doing in-home
+infusions and down to 16 minutes per the FDA. I know folks are still taking an hour to get it
+in there, but we have approval now for 16 minutes. Early inflammatory phase, there was another
+interesting paper put up on the Lancet as a preprint. I actually think this is interesting. This
+is a paper that I've already seen is changing people's practice. And this was a vitamin D paper,
+yes, calcifidile treatment and COVID-19 related outcomes by a group in Barcelona. And this followed
+on that pilot study that I discussed on October 4th on that TWIV. So they had done a pilot study.
+Now this was the prospective open label randomized control trial. They had under 1,000, just under
+1,930 participants. And they were randomized to either receive oral calcifidile treatment.
+That was 532 micrograms on day one, 266 on day three, 71530. And they started this right at the
+time of hospital admission. And then the controls were not receiving this. So I sort of jokingly
+said, you know, I think in the past that nobody's going to do a study with a vitamin D deficient
+control arm, but apparently they do that in Spain. And in the intention to treat analysis,
+6.5% of the folks treated with vitamin D died compared to 15% in the control arm, giving us a
+p value of 0.001. So the adjusted results actually showed a reduced mortality about 60%.
+So relative risk 0.40. So what we're starting to see, at least in hospitalized patients,
+if people were not listening to me and fouching a few others, and they're not taking their vitamin
+D and showing up deficient, a lot of folks are actually starting vitamin D when they get admitted.
+But just a few basics here, just to remind people, this study looked at calcifidile
+treatment. But a lot of us in the US are using ergo calciferal and coli calciferal, right? So the
+coli calciferal is that vitamin D3 that we're taking 1,000, 2,000 different recommended
+doses per day. The ergo calciferal is our vitamin D2 that is often weekly. So our D3,
+usually animal origin, so oily fish, egg yolks, meat, your ergo calciferal is going to be from
+certain vegetables. And so things get a little bit complicated for us here because we don't
+quite have the same formulation used in the study. So a lot of us here in the US are just
+using the vitamin D3, the coli calciferal, 4,000 I use per day. But I do want to point out check
+those vitamin D levels. I had a patient today, maybe he listens to much Twiv. His vitamin D level
+was 138 at admission. Normal would be less than 80, sort of a 30 to 80 range. 138, that's too high.
+So he and I actually had to have a talk about not taking so much vitamin D. I'll say in some of
+the hospitals, it's been fairly standard to give people vitamin D, sort of a thought maybe a benefit,
+no significant concern for harm. Some of the hospitals though, this is new. All right,
+we had another study actually on zinc and vitamin C. This was not as positive. This was
+effective high dose zinc and ascorbic acids, that's vitamin C supplementation versus usual care.
+And they were looking on symptom length and reduction among ambulatory patients with SARS-CoV-2
+infection. This was the COVID-A to Z randomized clinical trial, and it was published in JAMA.
+This was only 214 patients. So by the time you break them down, you're looking only about 50
+folks in each group. And they looked at basically the amount of days before they reported a 50%
+reduction in symptoms. So usual care, they're saying about 4.4. The folks who got just zinc
+said 4.9, vitamin C, 3.7, the group that got vitamin C and zinc, 3.4, a lot of overlap here.
+So no real compelling difference. I mentioned this as a small study. And there was the issue
+that the folks who got zinc were reporting metallic taste, dry mouth, gastrointestinal
+intolerance. So the people in the vitamin C group actually, there was differences in the
+amount of nausea, diarrhea, stomach cramps. So small groups doesn't sort of compel us in any way,
+more information there. Another paper on anticoagulation. But here was really the focus. And I think
+this is an important paper. It was demonstrating a mortality benefit to doing anticoagulation versus
+not. Maybe this reminds people of the COVID wars that we discussed about, where we were seeing
+about 30% of the folks not in anticoagulation having major events. So there was a tendency to
+want to use at least prophylactic and a thought of maybe studying prophylactic versus high dose.
+This was actually looking at prophylactic versus none. And there was a 27% decreased risk for 30
+day mortality. So really concluding here that early initiation of anticoagulation compared with
+no anticoagulation was associated with decreased 30 day mortality. They did not see a significant
+increase in the risk of serious bleeding events in this trial. But just to sort of put this in
+the context of our other trials, there's now data to suggest that the optimum dosing for our
+moderate floor patients is going to be full dose, lower risk of bleeding there. In our ICU
+level patients, we're going to back off a little to prophylactic dosing just because we have an
+increased risk of bleeding. This does still leave out a little bit. What do we do with those out
+patients, right? We still don't have as much data as we would like. So that's going to be a lot
+of a judgment call looking at each individual patient. I just want to do a deeper dive into
+the tosyllismab data that I mentioned hot off the press last time. And I want to say this is
+already resulted in the revisions of a lot of hospital guidelines. Tosyllismab has now been
+reintroduced. And this was based upon the recovery data. I'm going to discuss this a bit last time.
+Tosyllismab in patients admitted to hospital with COVID-19 recovery trial. Preliminary results of a
+randomized controlled open label platform trial. So as I mentioned, last time, this study looked
+at over 4,000 patients. And the tosyllismab was given in a weight-based dosing regimen.
+So if you're greater than 90 kilograms, you're going to get 800 milligrams. If you're between
+65 and 90, it'll be 600 milligrams. 400 milligrams. If your weight is greater than 40 K but less than
+65. And then you drop down to an 8 milligram per kilogram if the weight's less than 40.
+And then a second dose in this study was given 12 to 24 hours later. If in the opinion of the
+attending clinician, the patient's condition had not improved. And here we basically saw that there
+was a 14% reduction in 28 day mortality p value less than 0.007. And about a 20% reduction
+in the risk of being intimated there with a p value of 0.01. So this this builds on the REM
+cap data. But I want to sort of be clear on where this fits in. This isn't everybody gets
+tosyllismab. So this is a background of steroids is critical. We have a lot of studies showing
+that if you give the IL-6 receptor inhibitors without a background of steroids, even in the
+recovery trial, there was a trend towards higher mortality. So you don't want to do that. It also
+looks like the benefit we're seeing here is in the early inflammatory phase, right? We have a lot
+of trials showing that if you give an IL-6 receptor blocker, so a tosyllismab to someone week three
+in that secondary infection, that late phase, that that actually may increase infections,
+not provide benefit. So what we're doing here at a lot of our hospitals, I'll say that Catholic
+health systems actually have been our standard approach for some time. But some of the other
+hospitals, they've they've updated. Basically, if a person comes in, they're on oxygen,
+they've been started on steroids, but now they progressed to a high level of oxygen support,
+then tosyllismab is considered secondary infection phase. Again, I was like to point out the timing
+of that is most people with COVID come in without a secondary bacterial infection. But then a lot
+of folks, we see either they stay in the hospital and then week three, they have this, or they go
+out and they come back and then are differential. One of the things that can drive that readmission
+can be a secondary infection. So finding the ferritin procalcitonin ratio that my buddy Lee Shapiro
+has championed to be quite helpful, fairly predictive. If you take the ferritin divided by procalcitonin,
+numbers less than 844 suggestive of bacterial numbers higher than that, particularly up in the
+thousands suggesting your procalcitonin elevation is being driven by the inflammation are multi-system
+inflammatory phase. Actually, you spend a little time on this because we have a little bit more
+data now. So I want to point out again, there is an early inflammatory phase,
+and then there's this later multi-system inflammatory phase. So there's a bimodal inflammatory nature,
+and either for some folks, this is a readmission. As we saw with children, this may be the first
+time it comes to attention. So an update on the multi-inflammatory syndrome of children. The number
+of cases now reported the CDC is keeping track of this is over 2000, and we've had about 30
+confirmed deaths. So the number of, and this is a little bit of different, the number, or I'll
+say the percentage of the pediatric cases that are now coming in requiring ICU support,
+it used to be about 50%. It's now greater than 80%. So I'm not sure I understand exactly what
+the difference is with the severity there. We also understand a little bit of these 2000 cases.
+The peak of this tends to be in the five to nine year old rage, and there now is a nice case
+definition for the multi-system inflammatory syndrome in children. And the first distinction
+is this is someone under the age of 21. If they're over the age 21, it might be in adults, and we
+see that as well. They have to present with fever, laboratory evidence of inflammation,
+evidence of clinically severe illness requiring the hospitalization with multi-system. So greater
+than two organs being involved. This could be cardiac, renal, respiratory, hematologic,
+gastrointestinal, skin, or neurological, and no alternative explanation.
+And then, ideally, from the case definition, you have positive evidence for either current or
+recent SARS-2 COVID infection. So you could be doing your PCR, serology, antigen tests,
+or a good story of a COVID-19 exposure within the four weeks prior to the onset of symptoms.
+And the CDC now has a nice link where people can go. The tail phase, I want to spend a little bit
+time here, just before we got on the air, Vincent and I were chatting about an individual with
+Wong COVID who had what sounded like a very negative encounter. They went to the emergency room,
+tachycardia, swelling in the legs, continuing to suffer from COVID. And the basically we were
+told, hey, this is what your life is going to be like, get used to it. Not acceptable. There are
+a lot of us, I have to say, who are really keeping an eye on Wong COVID, taking care of a growing
+number of patients. And I have a lot of frustration here. As I mentioned here, we've had a lot of
+research on our vaccines. We've had a lot of research on the care of hospitalized patients
+with COVID. We still don't have robust data to guide us in the outpatient management.
+We don't have robust data to guide us in the care of Wong COVID. There's a lot of centers
+that really are set up by, say, rehabilitation specialists. Basically, let's condition these
+people back up. And, you know, as we know with our experience with other chronic illnesses,
+that's not always acceptable. A lot of people have post-exertional malaise. There's a lot of
+stuff going on here. We're still seeing increased infections in these individuals months and months
+after the acute period. Something's going on here. And a lot of us are really actively trying to
+understand this. So those would be out there listening with with Wong COVID. You're not
+forgotten. We're trying to understand and provide better therapies. And one of the things actually
+we're quite interested in is if you get a vaccine, are you less likely to get long COVID? So some
+people I know who are younger think about the vaccines. And they say, well, I'm not going to
+die of COVID at a very low risk of dying of COVID. But I am worried, you know, I might be in my 20s,
+30s, 40s. If I get COVID, I might end up never better. So we're tracking those individuals. We're
+also tracking ever study fired up on this, where we're looking at people that got the monoclonal
+antibodies. Not only is that going to keep people out of the hospital, but is it going to prevent
+people from developing long COVID? So a lot going on here. And then I will close before we go to
+emails by reminding people to go to parasites without borders and help us support the American
+Society for Tropical Medicine and Hygiene. For the months of February and March, we're going to
+donate a minimum of $20,000, hopefully up to $40,000, matching what people send us to help bring
+some early career investigators, scientists, physicians from less developed parts of the world.
+Women, we're going to be sexist here. We're only going to be helping women. But I think that's
+right. I mean, 15% of the leadership in medicine in global health is made up of women. And that's
+just there's an equity issue there. And we want to jump in. We want to make a difference. So help
+us do that. All right, time for some questions for Daniel. If you have some, send them to Daniel
+at microbe.tv. The first is from Chris. The CDC is now saying, if someone has been fully vaccinated
+two weeks after they do not have to quarantine when directly exposed to someone with COVID. Chris
+wants to visit his infant grandson, neither of his parents are vaccinated. It won't be anytime soon.
+If I have to quarantine before I visit, what is the minimum amount of time to ensure a good
+amount of safety? And Chris has been fully vaccinated. Yeah. So Chris, and I alluded to this a little.
+I mean, the the CDC talked about someone who's been exposed, and then saying, hey, we're going
+to treat people who've been fully vaccinated like someone who had a recent infection with COVID.
+And we're going to, we're going to believe, and they are stepping a little in front of the science,
+but the science is starting to get there, that these individuals are less likely to become infected,
+less likely to transmit. We know about a 95% reduction in symptomatic. We don't quite have a solid data
+on the impact of asymptomatic, but now we're starting to see lower viral loads. So I'm going to
+basically give you the information to make the decision here. I don't think quarantine is going
+to be something you need to do. You want to continue to engage in low risk activity. Just treat this
+as this possibility that you could be exposed, could have low level asymptomatic and not be aware
+of it, or you could have pre-symptomatic, right? It's a 95% reduction, not 100%. And don't forget
+about testing. Testing is still another thing. You know, we talk about the Swiss cheese approach,
+multiple layers, right? So you got your vaccine, you get your test, you look at different exposures
+and how to do things safely. But I think that we need to start basically being honest and not
+underselling the vaccines. And the biggest risk for older individuals was that they would get
+COVID and die. But there's been a tremendous burden, a tremendous social isolation. So that
+would be my advice on this. Vaccination is great, but don't forget about testing.
+All right, Javad writes, as a primary care physician who works both in the clinic and
+hospital and his faculty at both the med school and residency, I'm disappointed at the lack of
+guidance there is for COVID management and primary care. There is clear guidance for how to manage
+COVID patients in the hospital based upon a fair amount of research. There's almost nothing for
+primary care doctors. And Javad goes on to talk about monoclonal antibodies, which are underutilized
+in his system at the University of Minnesota, even though we have far more COVID in the community
+than in the hospital, basic questions of whether to use anti coagulation and or aspirin have not
+been answered. Therapeutics that are logistically more feasible are not known. A small study showed
+fluvoxamine could be a game changer in terms of limiting hospitalization, but a larger study is
+in its early stages. What would you recommend in terms of outpatient management? We are doing a
+lot of testing and monitoring, but it would be nice to have better research and guidance as to
+what more can be done. All right, so Javad, you bring up some excellent points. First off,
+say hello to my buddies there at University of Minnesota. It's a fantastic place, by the way,
+except it's cold. I spent a winter visit there in the end of June once, joking about that.
+But no, you are completely right. What the COVID pandemic has really pointed out to us
+is what a poor system we have for rapidly studying outpatient therapies, right? I mean,
+the monoclonals almost didn't make it to market because they were studying them in week three
+ICU patients, right? We really need to change that. We need a robust ability to study
+outpatient therapeutics and to point out, right, 80, 90% of folks with COVID are managed in the
+outpatient setting. So what do we do? There is limited data. So let me go through what there is.
+First thing, it's diagnosed one of the first things. You mentioned monoclonal antibodies.
+That's critical. If the person qualifies, and hopefully this is going to expand as far as access,
+monoclonal antibodies are a game changer. We do not recommend starting steroids in that first week,
+but I'll tell you, in the New York area, a lot of times when you get to week two,
+when people start to drop their SATs below 94, we're starting steroids in the outpatient setting,
+we're actually doing home oxygen and pulse oximeter. We have actually programs where
+we're managing a large number of patients that in other parts of the country probably are in
+the hospital. What about anticoagulation in that context? Is it aspirin? Are we using things like
+the Eliquis or Zerelto? Can you say brand names there? I apologize. So in some situations, yes,
+we do have some limited data on aspirin, providing a benefit as well. But no, you are totally right
+here. I saw the SSRI study, this the flu boxamine study. And that is very interesting. And where's
+the rest of the data there? Where's the data? I think we've sort of joked about of giving people
+vitamin D and seeing if that keeps people out of the hospital. These are inexpensive therapies
+that we would love to have the answers to. And we don't. It's a year later. So I see all this data
+coming out of the UK. What would we do without the UK? We wouldn't know the benefit of steroids.
+And we would know the benefit of when to use tosy. So yeah, we need to do a better job.
+William writes, is it safe to receive COVID vaccine if you are incubating COVID-19 or ill
+with COVID-19? So William, we don't recommend vaccinating people if they're ill with COVID-19.
+Basically, we're treating them with other therapeutics. We're waiting until they get better. And then
+the CDC is saying there's no minimum time to wait. Like once you get over COVID-19,
+don't miss your opportunity to immunize. If you wait three months, like I know some people
+recommend, I feel like you're missing that opportunity. Again, who knows what that person is feeling
+like in three months? Maybe they don't want to get vaccinated then. You've lost that. But we've
+certainly have seen a lot of folks who come in. They don't get tested. They get their COVID shot
+and they were incubating COVID. And I actually a woman I'm taking care of today. And as I expressed
+to her, most of the patients that I've seen, unfortunately, I've seen a lot of folks,
+where they got their COVID shot three or four days later, they're not feeling well. They're
+thinking, you know, this reactogenicity, it's just a little bit rough. And then they get a test and
+they realize, no, I actually was incubating COVID when I got vaccinated. These people, I have to say,
+tend to do quite well. I don't know if it's that we're giving them a nice boost of the spike protein
+response. But when I'm discussed with colleagues, they've shared similar experiences. So we don't
+intentionally vaccinate people who are incubating COVID. I've actually encouraged a lot of the centers,
+particularly with the high rates that we have of testing people when they come in for vaccines,
+if possible, too many situations where, you know, a group comes in and everyone gets vaccinated.
+And one of those people in the group has COVID. And then they find out a day or two later,
+and then we know everyone there got COVID, you know, riding to and from in the car, right?
+So I'm going to encourage people to continue to test.
+All right, one more, Daniel from Stefan, whose mother has had a long difficult problem with COVID
+starting out on Long Island, in fact, and has taken a long time to recover now is in Florida,
+where the doctors say she can be vaccinated, but he's not sure. She's suffering from PTSD,
+has difficulty breathing. And he wants to know, can she get the mRNA vaccine? Should she wait for
+J and J? She's he's heard about people in Europe, frail seniors in Europe passing away after receiving
+the mRNA vaccine. In Florida, he's worried that she's going to get infected if she's not vaccinated.
+So what do you think, Daniel? Yeah, no, these are excellent questions. And I think you lay it out.
+I've certainly seen some fairly frail, older individuals who, you know, I say the difference
+between, you know, you and me with reactogenicity, maybe whether or not we make it to work with
+some individuals, the reactogenicity, maybe whether or not they, you know, continue to survive,
+right? I mean, a lot of people have significant oxygen requirements. They have pretty severe
+disease. I've actually seen a few people get vaccinated actually end up in the hospital for a
+few days, because the reactogenicity put them below that level. So this is not one of those
+where I just sort of say, Oh, go ahead and have her do it. You want to have a conversation because
+this is a risk benefit here. If she gets a second bout of COVID, and we certainly know people get
+reinfected, it's a question of what percent, right? You know, how is she going to do when you
+describe her getting a second infection? So you want to balance that against the reactogenicity.
+The reactogenicity is a couple days of, you know, and in a person who had had prior COVID,
+pretty significant reactogenicity, probably going to have fever, probably going to feel crummy,
+probably going to have a little bit increased breathing. So yeah, no, this is not a straightforward
+decision. And I think this is one of those reasons why I'm not a huge fan of sort of the convention
+center mass vaccination site. This is an individual ideally, as you are bringing up,
+who has this conversation with her physician, with her family. And then if they're going to be a
+progression to get the vaccinations, this is someone you want to keep an eye on.
+Matthew Hospital, my mother was there recently out in Port Jefferson.
+Yeah, Port Jeff, right.
+I'm sure why you went to Florida.
+That is COVID-19 clinical update number 50 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. And everyone, be safe for almost there. Things are getting better.

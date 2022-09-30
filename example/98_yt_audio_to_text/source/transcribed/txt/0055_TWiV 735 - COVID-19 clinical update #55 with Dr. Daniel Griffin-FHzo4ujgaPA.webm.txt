@@ -1,0 +1,375 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 735 recorded on March 25th, 2021.
+I'm Vincent Draconiello, and you're listening to the podcast All About Viruses.
+Joining me today from New York, Daniel Griffin. Hello, everyone. How's it going this week, Daniel?
+We are sitting on this plateau that we seem unable to get off of. As quickly as we vaccinate,
+everything opens back up, so it's a constant battle. And I have to say, that's the good news,
+right? Because around the world, the numbers seem to be increasing. So, here we are a year into
+this, and over a year into this, and we are not where we need to be. But let's be honest,
+I was listening to another podcast that said I was cheating on you, listening to other people's
+podcasts. It's okay. And it was actually Anthony Fauci was talking, it was 1984.
+And he was saying, we have the virus, we know the sequence, I expect to get back to you within
+the year with a cure and a vaccine. And I was like 16 plus 37 years ago. So, this is miraculous,
+right? Then we went in less than a year from a sequence to a vaccine. But it's not miraculous.
+This is science. This is all that, did I say basic science that we spent all this money
+investing in? My quotation, every great dream begins with a dreamer. Always remember, you have
+within you the strength, the patience and the passion to reach for the stars to change the world.
+And that was Harriet Tubman. And I think maybe that's sort of appropriate with what we were
+just saying. This really has been tremendous over the last year to go from identifying that
+some people are dying from a strange illness unidentified to understanding the etiology
+to a really impressive vaccine. We haven't done quite so well in other measures as far as
+therapeutics, but the vaccine has really been quite impressive. So I'll make sure I spend a
+little time talking about that today. But my rules never miss an opportunity to vaccinate,
+never miss an opportunity to test, never waste a vaccine dose. So I'm going to title today's
+episode, school shots and cocktails. I'm not sure how schools fit in with the shots and cocktails,
+but the shots and cocktails I call is the Irish method for ending the pandemic.
+So there have been a few ID society, ID essay, ID society of America updates.
+So I'm going to sort of pepper those in as we get there. But there also were some nice
+reports from the CDC on schools. So in our section, children and COVID, let's start there.
+I mentioned last week that I was not particularly impressed with the Massachusetts study. That was
+the three six foot study. That was not even quite observational. But I did intimate that there was
+good data out there, and that we had the suggestion that we would be getting more of it and the CDC
+delivered on their promise. The MMWR, COVID-19 in primary and secondary school settings,
+during the first semester of school reopening, Florida, August through December 2020.
+So this was a report looking at close to 3 million registered students that were enrolled in approximately
+6,800 public charter and private K through 12 schools range from a small size, maybe 707
+to over 300,000 students per school district. And most of these schools had actually resumed
+in-person instruction sometime during August of 2020, except for those in two of the largest
+school districts. Broward and Miami-Dade, which began remote learning in August, but did not resume
+in-person instruction until October 9th and then November 10th, respectively.
+Statewide, as of September 24th, almost half 45% of registered students received full-time
+in-person instruction. So really, the question here was, how did that go? So to assess the occurrence
+of COVID-19 in the Florida schools after resumption of in-person instruction, the CDC and the Florida
+Department of Health reviewed school-related cases and outbreaks during August through December
+of 2020. And the County Health Department's staff members conducted case investigations
+and contact tracing for all COVID-19 cases. So this was, I have to say, there was a lot of rigor
+here. They were really looking into this and they found that fewer than 1% of registered
+students were identified as having school-related COVID-19. So significant findings were that most
+of the identified cases in this age group were not school exposure-related. And I know I've brought
+this up on some talks. Parents get upset when I suggest that perhaps the children are safer in
+the schools than sometimes they are at home. But it is not apparent in common. It's that your child
+is home all day socially isolated. There's a tendency for the kids then to get together after
+that period of remote learning. One of the comments here is that masks being mandated
+was associated with less transmission. And that was a p-value of less than 0.01. And the other
+thing that was a predictor was community case rates. So once community case rates started to go up,
+this was associated with a higher risk. And that had an even more significant p-value of less than
+0.01. There was another study. And actually, I've been a few, but just to highlight another one,
+low SARS-CoV-2 transmission in elementary schools, Salt Lake County, Utah, December 3, 2020 through
+January 31, 2021. And here, there were very similar findings, including low school associated
+transmission with high mask adherence and classroom seat separation of three feet apart.
+So I know here in, I have to say right here in North Shore of Long Island, our schools are
+getting ready to open up for fall in person next month in April. They're looking at the three feet.
+And as I mentioned, the three feet is something that's really required for getting people back
+to fall in person school. Very few parts of our country have the real estate, the size,
+the space to do six foot spacing. And the data I suggested last time is you get about E percent
+of the benefit at three feet. You get down to 90% reduction by six feet, but you get most of that
+bang for the buck in the first three feet. You couple that with masks, you couple that with
+upgraded ventilation systems. You add testing. And I think that this, again, this is something
+that can be done at low risk. So we're getting more data. This is a science driven recommendation.
+Testing, the CDC updated its guidance on testing. So I know there's been a lot of focus on vaccines.
+And we've forgotten about our poor tests, but there are key points in the updated recommendations.
+So one, they said persons with signs or symptoms of COVID-19 should have diagnostic testing.
+I know there's a tendency to give out the presumptive diagnosis, but we really want to confirm these.
+And so the CDC is really saying, get people tested, document what's going on here.
+Rapid point of care, serial screening can identify asymptomatic cases and helped interrupt SARS-CoV-2
+transmission. They're going to say this is especially important when community risk or
+transmission levels are substantial or high. And this sort of goes into that frequency.
+And rapid results are really critical. What gets us into trouble are these resulting delays. They
+really have in the CDC coming out here really endorsing the use of rapid point of care tests.
+These are being used so by clinicians across the board and then making a judgment. If it's
+positive and it makes sense, great. If it's negative and doesn't make sense, looking at PCR,
+looking at make decisions about isolation, quarantining, etc. The selection and interpretation
+of SARS-CoV-2 tests should be based on the context in which they are being used, including the
+prevalence of SARS-CoV-2 and the population being tested. So testing gets a little sophisticated,
+as we've talked about. There's negative and positive predictive values, which are maybe more
+important than sensitivity and specificity as really sensitivity, specificity need to be
+brought into the context of prevalence, which ultimately tells you when a test is positive or
+negative, how confident can you be in that result? And then this, I think, is really important. I
+get this question quite a lot. So it's nice to get the CDC putting up something on this prior
+receipt of an mRNA COVID-19 vaccine will not affect the results of SARS-CoV-2 viral tests.
+All right, a lot of people ask that. So I've been vaccinated, so can I even look at the test
+results? And yes, you can. You can still count on these. And I will say that there is now about
+$10 billion available for K through 12 schools to expand the coronavirus screening of staff and
+students. And I think this was a quote, but this funding could be used for schools to offer
+rapid antigen tests that generate results in 15 minutes, allowing schools to quickly respond
+when students or staff test positive for the virus. And finally, our article identifying
+optimal COVID-19 testing strategies for schools and businesses, balancing testing frequency,
+individual test technology, and cost was published. It was actually was interesting. It was under
+embargo until about 2 p.m. today. So I couldn't talk about this until, well, a few hours before
+Vincent and I recorded this, but now it's fair game once this gets dropped. But this article is
+an open access article in plus one. And what we're doing is trying to create paradigms,
+some sort of guidance on how people can use testing in the school and actually really any
+opening plan that they might have. I've been getting a lot of questions and really goes back to
+the variant thing. And the question I've got lately is whether a person infected with a variant
+will still have a positive COVID PCR. So I'll cover this here in the testing section. And when I
+when I get this question, I usually say yes, but then I walk through the technology of the tests.
+And I point out that many of the COVID PCR tests, which really should be SARS-CoV-2 PCR tests,
+go to Quest or LabCorp. The Quest PCR primers target nucleic capsid. The LabCorp PCR test says
+one primer set targeting nucleic capsid and another targeting the RNA dependent RNA polymerase
+sequence. Therefore, a change in the sequence of the spike protein should not impact this test.
+In addition to the logic here, this has actually been studied in both Quest and LabCorp have come
+out saying that, yeah, this understanding translates into reality and that these tests
+continue to be sensitive and specific despite changes in the sequence of the spike protein.
+So as I say, the test still gives you a positive result, even if your infection is with a variant,
+but it does not tell you whether this positive result is detecting that you have or do not have
+a variant. And unfortunately, we still are doing very limited amounts of sequencing,
+so we don't quite have the robust surveillance that actually is probably important for monoclonals
+when we get there. Okay, active vaccination. I've got a few questions I get hit with,
+so I'm going to put them out here. Can a person get COVID after the vaccine? The answer is yes,
+but it is much less likely. And when they do, they tend to do much better. We actually have
+some pretty robust data really suggesting that the vaccines are impacting not only symptomatic,
+but also asymptomatic and certainly severe or critical disease. If I had COVID, how long should I
+wait to get my vaccine? The CDC and I, on the same page on this, we recommend no minimal interval.
+As soon as you feel well, go get that vaccine. You don't want to go out during the first 10
+days, right? You're in isolation, but as soon as that isolation ends, as soon as you start feeling
+better, get yourself scheduled, get out there. If I get COVID after my first shot,
+should I still get my second shot? And again, this goes back to the same thing.
+As soon as you feel better, you can go ahead and get that second dose, you know, wait your 10
+days of isolation. So you're not going to the vaccine center, getting everyone sick and infected.
+Most of the sites have a manage my appointment feature online. So you can actually go in and
+push that off a little if you're 10 day isolation, if your symptoms mean that there's going to be
+a little bit of a delay here. If I had long COVID or had COVID before, should I get that second shot
+of the two shot vaccines? This can get a little complicated, but I'm going to say we do recommend
+two shots for everyone. And of note, we're hearing more reports. I'm going to cover one here today,
+that improvement in long COVID often doesn't come until after that second shot. Certainly,
+if someone has a anaphylactic or an autoimmune or a concerning reaction, then whether or not you
+get a second shot should be a decision made in consultation with a specialist. But in general,
+the answer is get that second shot. Do vaccines prevent asymptomatic SARS-CoV-2 infection?
+And I'll say here, although we have good data, vaccines prevent symptomatic and severe COVID.
+That's really going to be ending this pandemic is really going to depend a large part
+on the impact on asymptomatic infection and transmission. As we know that about 50% of the
+transmission is probably done by either pre or asymptomatic individuals. So we are getting more
+information suggesting that it prevents asymptomatic infection as well. All right, we have another
+paper here, impact of COVID-19 vaccine on asymptomatic infection among patients undergoing
+pre procedural COVID-19 molecular screening. This was published in CID and goes right at that
+issue. So these are asymptomatic individuals who are being tested as a pre procedural screen.
+So this group conducted a retrospective cohort study of consecutive asymptomatic adult patients
+and N of 39,156. This was done within a large healthcare system here in the United States.
+They underwent over 48,000 pre procedural SARS-CoV-2 molecular screening tests,
+December 17 through February 8, 2021. They compared individuals who had received at least one dose
+of the mRNA COVID-19 vaccine versus those that had not. And they looked at the relative risk of a
+positive SARS-CoV-2 molecular test among these asymptomatic persons. And then they adjusted the
+relative risk. They found that compared to unvaccinated individuals, the risk of asymptomatic SARS-CoV-2
+detection was lower among those greater than 10 days after the first dose. Their relative risk
+was 0.21. I think this is critical here. This is suggesting an 80, almost an 80% production
+in the risk of an asymptomatic infection, which is interesting. How do we define infection if
+you've got infected, but no symptoms. But also we are seeing, right? As we translate this,
+we have vaccinated millions of individuals, which means an 80% reduction means we are still seeing
+lots of people who are PCR positive after their vaccines. And as I mentioned before,
+the experience we're seeing is they tend to do quite well. And I think the science and experience
+support that. Now, I mentioned briefly on the last twib this observation that we're seeing this. So
+just to sort of give you the real world mixed with what we're seeing in the literature.
+The question of are vaccines safe in patients with long COVID a prospective observational study?
+This was posted as a preprint by group out of the UK. And this is looking at that issue of
+vaccine impact on long COVID. And you can see here, they're really going into this with the
+question of, is it going to be safe? Are they going to be OK? Will there be harm?
+And this group looked at patients that had COVID-19 severe enough to require hospitalization,
+who then went on to develop long COVID. And as I'll talk later, that's a minority.
+Most people with long COVID never were sick enough to end up in the hospital.
+They looked prospectively at 44 vaccinated participants and 22 matched unvaccinated
+participants and assessed them at a medium of 30 median of 32 days post vaccination.
+These were mostly people with severe or highly symptomatic long COVID out about eight months
+after acute infection. And they reported that 23.2% reported an increase in symptom resolution
+versus 15.4% in the unvaccinated with a p-value of 0.035 in just this small sample size. They
+reported no obvious difference in response between mRNA vaccination versus ad no viral vector vaccination.
+So it's nice to actually start to have some science here instead of lots of building anecdotes.
+This is encouraging and does seem in line what we've been hearing from patients,
+a physician or post COVID recovery clinics and support groups, but still a few caveats, right?
+This study only looked at post first dose improvement. So I wouldn't hang my hat on the percent
+reporting improvement. As we're hearing, as I mentioned before, that some do not report
+improvement until after their second dose or farther out with the one dose J and J vaccine.
+This is also a small sample size with really short follow up. So we do not know much about
+the long term as far as the durability of this reported improvement. But this study does support
+the safety of vaccination for people even with severe long COVID. And there is here this
+suggestion of possible benefit AstraZeneca vaccine, the white elephant in the vaccine room.
+We got a press release reporting the results of the AstraZeneca U.S. Phase III trial demonstrating
+statistically significant vaccine efficacy of 79% at preventing symptomatic COVID-19 and 100%
+efficacy at preventing severe disease and hospitalization. A lot of people got really excited.
+Anthony Fauci said this is fantastic, but maybe not. I liken this to someone's getting measured
+and you notice they're standing on their tippy toes. It may be 76% at preventing symptomatic.
+But we heard I think some disturbing news that maybe they had cherry picked. Maybe they had not
+presented the most up to date data. It's a little disturbing because the thing we really care about
+is this vaccine that keeps people from dying from ending up in the hospital. That data has
+continued to be very clear. This other sort of competitive number, you know, what's the number
+for mild disease, whether it's 76, whether it's 79, would have been better if this data had been
+presented better. It's unfortunate here because this is really a great vaccine from a physician
+standpoint. This is easy to use. It can be stored, transported, handled at normal refrigeration
+conditions for out to about six months. It doesn't need any kind of preparation before you administer.
+So it's a much easier vaccine for us. But as we heard, the data safety monitoring board notified
+everyone that this data was not quite the data that we wanted it to be. So I will return to
+the AstraZeneca vaccine when all the information is available for the FDA review and we have a
+chance to go through the data. So just want to sort of remind everyone here, we're not just
+oh, call it a vaccine and we're pro, we're going to be honest. And when something like this happens,
+we're going to share that as I'm doing here now. Passive vaccination. This is the monoclonal antibodies,
+really good uptake of the monoclonal antiviral cocktails. And we continue to see excellent results.
+This is now part of the IDSA guidelines. But what exactly did the guidelines say? They advocate
+for the use of BAM linibimab and the test of a map together in outpatients with mild to moderate
+disease who are at high risk for progression to severe disease and say that CASA ribimab,
+MDivimab, may have a similar clinical benefit, but the data are currently limited. Well, I have
+to say in the days of COVID, the concept of living guidelines is presented with lots of challenges
+as we live in a day of the days of the fire hose of information. And this week, Tuesday,
+March 23rd, Regeneron released the data from their phase three trial as promised. So I feel like
+these guidelines need to be rapidly updated. These results from Regeneron were from a phase
+three randomized control trial looking at treatment in infected non-hospitalized patients,
+4,567 in this trial. They met the primary endpoint of showing that the Regeneron COV,
+so this is the Regeneron cocktail with the CASA ribimab and MDivimab significantly reduced the
+risk of hospitalization or death by 70% with the low dose, 71% with the higher dose compared to
+placebo. And the p-values for high and low dose were either 0.0024 or less than 0.001.
+No safety issues were observed. So I think the data is becoming really, really compelling for
+the impact of this approach, the monoclonal cocktail approach. What was really interesting,
+I have to say in this press release and looking forward to the published data is they actually
+provided a table of neutralization data looking at several variants from different regions of
+the world. They tested key substitutions and actually showed that this therapy based on this
+data would continue to be effective. So we've moved to cocktails, I think as I mentioned across the
+across the country. So vaccine shots and monoclonal cocktails for everyone. The early
+inflammatory phase, we have a little bit of information here. There was a paper aspirin use
+is associated with decreased mechanical ventilation, intensive care unit admission,
+and in hospital mortality in hospitalized patients with coronavirus disease 2019 was published in
+the journal of anesthesia and analgesia. This was a retrospective observational cohort study,
+right? So we got to put that in that context. They looked at COVID-19 patients admitted to
+multiple hospitals in the United States between March and July of 2020. And the authors looked
+back through the medical records, basically identifying who was on aspirin, who wasn't on
+aspirin, and then they tried to adjust. But I want to point out this was not a randomized,
+blinded prospective trial. They ultimately looked at 412 patients, 314, about 76% not getting
+aspirin, 98 patients who are about 24% did get aspirin. And they reported seeing that patients
+getting aspirin were less likely to end up needing to be transferred to the ICU, less likely to
+end up needing mechanical ventilation, and less likely to die well in the hospital. And they did
+not report any significant increase in bleeding complications. So just to put this in context,
+this is not a prospective randomized control trial, but sort of interesting attention on the
+possible role of aspirin. And here again, in this section, the early inflammatory phase,
+the IDSA has updated its guidelines and is now recommending that tosyllism apps should be
+used in hospitalized patients who are sick enough to have progressed severe or critical COVID-19.
+But a note is that this is an add-on to steroid therapy. All right, we actually have a bunch
+today on the long COVID, the post-acute sequelae COVID-19. So there was a really nice review,
+post-acute COVID-19 syndrome that was published in Nature Medicine. And there really was so much
+here that I'm going to actually say people should sit down, read this once, twice, three times.
+They have a really nice box summary of the post-acute COVID-19 issues by Oregon system.
+So they go through all the pulmonary issues, hematological, cardiovascular, neuropsychiatric,
+renal, endocrine, GI dermatologic, and then even have a little section on the Miss C.
+So this is excellent. And I think as we're working with these patients in our long COVID,
+our post-acute COVID recovery centers, this is actually a helpful paper for realizing that
+it actually takes a team to help these individuals. The neurologist might jump in with a lot of the
+severe headaches, which seem vascular, migraine type. Pulmonary is critical, cardiology.
+There's a lot of complexity here. We also saw COVID-19 survivors reports of the timing,
+duration, and health impacts of post-acute sequelae of SARS-CoV-2, P-A-S-C infection was
+posted as a preprint. Now, this was a very interesting paper in that the participants in the study
+are members of long COVID support groups. And I think this represents an exciting development
+whereby citizen scientists are working together with data and other scientists to try to understand
+the challenges, the needs and characteristics of these people suffering from long COVID or
+what's now termed post-acute sequelae of SARS-CoV-2. I mean, very interesting and consistent with my
+experience are the described stages or waves of this post-acute COVID experience. With this early
+wave with neurological and cardiovascular manifestations, then a second wave with skin
+manifestations such as COVID toes, hair loss, and then this final wave of symptoms during which the
+fatigue just continues to be ongoing. So, I think that this is sort of, I think, nice for
+clinicians who are taking care of these patients to see how the patients are describing this
+experience. I think it helps for the patients as well to speak to a clinician that has had the
+ability to sort of understand this. There's a lot of validation for the patients here
+when you can sort of be almost anticipating where they are in this process and what the
+challenges might be at that time. I mean, there certainly are limitations here. I mean,
+one is that this was predominantly white women since the participants come from online support
+groups. There's a certain amount of selection, so this isn't a random sample. But one of the things
+I was going to say, I've heard several times where clinicians look at people with long COVID and
+they say, you know what, these people are doing much better than the average ICU survivor. If I
+was in the ICU and survived, I'd rather have long COVID than something else. And what I like to point
+out here, and this was very clear from the paper, is that 84% of these people who are doing so well
+compared to someone who spent a month in the ICU never were even hospitalized. A lot of these
+individuals started off with a mild or even asymptomatic acute COVID. And here they are
+many, many months later looking a little bit better than someone who was in the ICU for sepsis or
+something else. Also another paper, persistent neurological symptoms and cognitive dysfunction
+in non-hospitalized COVID-19 long haulers. This was published in the Annals of Clinical and
+Translational Neurology. So they reported other results from this was a prospective study of 100
+consecutive patients, SARS-CoV-2 laboratory positive, and then they had a 50 laboratory
+negative control group. And these individuals presented to a neuro COVID-19 clinic.
+So due to early pandemic testing limitations, patients were included. If they were never
+hospitalized for pneumonia or hypoxemia and had neurological symptoms lasting over six weeks.
+So this is sort of a snapshot of those people who never ended up in the hospital but had a
+neurological issue that required attention. And they reported that the main neurological
+manifestations were, I think this will sound familiar to people, brain fog was reported
+81% that feeling that you just can't think clearly. 68% were reporting headaches. And as I've mentioned
+a lot of these headaches actually seem like the intractable vascular migraine severe headaches.
+Numbness tingling, 60%. Disguysia, 59%. And nausea, 55%. Myalgia, 55%. And the overwhelming,
+85% had this ongoing fatigue. And they exhibited impaired quality of life in cognitive and
+fatigue domains. And the patient performed worse attention and working memory cognitive tests
+compared to that control population and a demographically matched US population. So
+I think this points out what's really upsetting to a lot of us just how many of these patients
+are continuing to suffer. So let me close on there, leave a little time for emails. But just
+ask everyone for their continued support. And thank you so much for all the support we're
+continuing to get. We are going to continue to support the American Society for Tropical Medicine
+and Hygiene. And we're going to, it looks like we're going to succeed in being able to donate
+enough money for three travel awards, bringing early career women from low income parts of the
+world to come to the fall annual American Society for Tropical Medicine meeting. So thank you for
+continuing to support our work. Okay, it's time for some email. You can send yours to danielatmicrobe.tv.
+The first is from John Mascola, who is the director of the Vaccine Research Center at NIH.
+John writes, I love Twiv. I listen every week. And as an ID doc that does mostly research,
+I also appreciate the COVID clinical updates. So glad to help out Dr. Dan Griffin regarding
+one question that is in my wheelhouse where he did not know the answer immunogenicity
+of COVID vaccines and older subjects. There are published data showing mRNA is similarly
+immunogenic across age groups. So good news. And John provides a link for that. It'll be in
+the show notes. Thank you, John. I think this is great. I mean, this just sort of reinforces that
+this is not actually just a one man show. I mean, I get a lot of support from my colleagues.
+And I love this. I love getting emails. And you know, you can send them either directly to me
+or this is even better. Send them to, you know, Daniel at Microbe TV. And yeah, this is this
+is great. There's a lot of information. And thank you so much, John, for for sending this in.
+Yeah, if you send them to Daniel at Microbe TV, then many more people will get the answer rather
+than just you. That's better. Yeah, that makes my life easier. Send them to Daniel at microbe.tv.
+So Paul in the University of Manchester in the UK wants to know if you can comment on the
+AstraZeneca vaccine, specifically the clotting issues and wonders if he should be taking aspirin
+around the time of vaccination. Yeah, I mean, so I actually appreciate the fact that you wrote this
+and if you look at the data here, right, it looks like the incidence what 30 and about that many
+million people vaccinated, you know, one in a million, which is actually not higher than we see
+as a background in the population, almost seems lower to be honest. So I think that we've sort
+of come down with not thinking that there's any kind of clotting complication associated with
+the vaccine. But I don't think the AstraZeneca has done such a great job of instilling confidence.
+So I will weigh in and say, I do not think this is an issue. I'm not going to recommend taking
+aspirin around the vaccine. I actually think this vaccine is effective. I think it's safe,
+but it just maybe wasn't quite as effective with a few percentage points off of what they were
+trying to suggest. Anne is treating a patient, a 77 year old patient got her first vaccine on
+March 6th, and then 38 was found unresponsive and finally had a diagnosis of encephalopathy with
+possible seizure. So Anne wants to know what to do. The family is quite apprehensive about the
+patient receiving the second vaccination never has allergic reactions. Only medical intolerance
+is myalgia on statin therapy. I'm inclined to have the patient receive the second vaccination,
+but wondered if you had a different response. So this is a tough one, I have to say. This
+falls into this category where, you know, I think this is going to have to be an individual decision
+where you look at the situation and you're going to have to try to parse out. Do you think this
+encephalitis was a vaccine reaction? You know, we certainly, I think I related the story of this.
+I had a gentleman who developed an autoimmune reaction. Really, it was a really a multi-inflammatory
+type syndrome with his natural COVID infection. And he had issues with his vision to plopia.
+And then when he got his vaccine, he actually seemed to have recurrence and responded very
+quickly to steroids and IVIG. So, you know, we talk about these are agents that have efficacy,
+that have effects on the human body. So I think that this is not going to be a very easy decision.
+So Anne, I'm glad you're making it and not me. But yeah, you're going to, I think you probably
+want to reach out to your local ID, your local allergy immunology. Really, make sure that we're
+giving the best advice here. So this is complicated. All right.
+Last one is from Anthony from Brown University Medical School, who's a family physician,
+encountered a scenario this week, confused about despite the benefit of your teaching.
+I was involved in the care of an elderly woman who lives in the community, but his homebound
+has home health aides. Unfortunately, one of her aides tested positive for SARS-CoV-2 last week.
+On the day that this patient received her second mRNA vaccine, four days later, the patient
+has now tested positive, but is asymptomatic. She clearly meets criteria for eligibility for
+monoclonal antibody based on her age. The conundrum is she's also probably derived some protection
+from developing COVID from her nearly completed vaccine series. And there would be a theoretical
+concern about the passive immunization provided by monoclonal therapy,
+blunting her own immune response. We decided to get her treated, prioritizing short-term gains
+in a patient at risk. What would you say? So I would treat in this case. And let me just run
+through sort of my rule and the thinking. So if someone meets criteria, as we've shared the data,
+these are really impressive tools, the monoclonal cocktails. So you take an individual, and you
+look at this individually, say, OK, this is a person who is high risk for ending up in the hospital.
+If they end up in the hospital, we know that people often don't do very well. The monoclonals are
+really going to reduce that chance of progression. And I actually expect someone who's already had
+the benefit of the vaccination, the benefit of already starting up to have some sort of a T-cell
+response is going to do even better. That's actually I have to say what our experience has been.
+What is really the downside? I'm going to sort of ask that question. So you give the person the
+monoclonals. OK, maybe that second dose of vaccine doesn't work so well. In three months,
+you can probably go ahead and give that second dose again, basically say, OK, I sort of interfered
+with its ability to have efficacy. And for that three months while you're waiting,
+the person has these monoclonal antibodies at a very high level. They're protected. They're
+passively immunized. So basically what you're doing here is you're instantly having this person
+immunized by sending them for monoclonals rather than waiting for whatever days for the staff.
+And so I do not. We don't in any of our programs use prior vaccination as an exclusion criteria.
+If the person ends up getting infected, it's either because it wasn't enough time for them to get
+protection. But as we point out, we might do a study of 40,000 people or 20,000 get it. No one
+ends up in the hospital. But you translate that into the real world where you're starting to give
+this to older individuals. Maybe they have medical problems. Maybe they have an issue
+bouncing that protective response. They end up infected with the virus. I would advise jumping
+in with these really highly effective therapies. That's COVID-19 clinical update number 55 with
+Dr. Daniel Griffin. Thank you, Daniel. Oh, thank you so much. And everyone be safe.

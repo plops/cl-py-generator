@@ -1,0 +1,1356 @@
+1
+0:00:00,000 --> 0:00:06,880
+This week in virology, the podcast about viruses, the kind that make you sick.
+
+2
+0:00:10,240 --> 0:00:21,040
+From Microbe TV, this is Twiv, this week in virology, Episode 733, recorded on March 18, 2021.
+
+3
+0:00:21,680 --> 0:00:27,760
+I'm Vincent Draconiello, and you're listening to the podcast All About Viruses. Joining me
+
+4
+0:00:27,760 --> 0:00:37,360
+today from New York, Daniel Griffin. Hello, everyone. This is clinical update number 54.
+
+5
+0:00:37,360 --> 0:00:43,840
+How's things going, Daniel? You know, I continue to be optimistic. You know, as I was saying the
+
+6
+0:00:43,840 --> 0:00:49,200
+other day, you know, that we've said over time, it's, you know, it's a race, the vaccine against
+
+7
+0:00:49,200 --> 0:00:54,240
+the virus, but, you know, that the governors are doing everything they can to help out the virus,
+
+8
+0:00:54,240 --> 0:01:02,160
+right? So we are doing everything we can to ramp up the vaccinations. And I actually don't have
+
+9
+0:01:02,160 --> 0:01:08,640
+people heard, but there have already been over a hundred million vaccine doses given out in the
+
+10
+0:01:08,640 --> 0:01:14,080
+United States. We haven't quite got to 100 million people fully vaccinated, but we are cranking through
+
+11
+0:01:14,080 --> 0:01:20,160
+the vaccines. I know a lot of our listeners, I don't know what percent at this point, are here
+
+12
+0:01:20,160 --> 0:01:25,280
+on Long Island. Long Island has been a little bit of a vaccine desert, I have to say, but
+
+13
+0:01:25,920 --> 0:01:31,440
+when this drops on Saturday on Friday, three mass vaccination sites will open on Long Island. So
+
+14
+0:01:32,160 --> 0:01:39,200
+exciting stuff for getting getting people a lot more chance to get vaccinated. But I'm sort of
+
+15
+0:01:39,200 --> 0:01:43,760
+jumping into my sit rep before my quote, but that's okay. We'll get to the quotation. We're sort of
+
+16
+0:01:43,760 --> 0:01:49,600
+sitting on this plateau. And as I'll discuss a little bit later, what we're seeing as far as cases,
+
+17
+0:01:49,600 --> 0:01:55,600
+we're seeing a disproportionate number of these in the younger population, so in kids. So we'll
+
+18
+0:01:55,600 --> 0:02:02,160
+make sure we discuss that. But let's start with our quotation. And this is again, Eleanor Roosevelt.
+
+19
+0:02:03,120 --> 0:02:09,600
+Great minds discuss ideas, average minds discuss events, small minds discuss
+
+20
+0:02:09,600 --> 0:02:14,560
+people. And the reason I throw it out there, my whole hope is as we come out of this,
+
+21
+0:02:14,560 --> 0:02:21,200
+that we learn what went wrong. And we learn what to do so that this never happens again.
+
+22
+0:02:21,920 --> 0:02:26,720
+And I know a lot of the discussion is about people who did what wrong. I don't think we
+
+23
+0:02:26,720 --> 0:02:32,800
+learn from that. Those people will probably not be here the next time around. But the lessons
+
+24
+0:02:32,800 --> 0:02:38,560
+will be there. The events will be there. The ideas about how we can do better the next time. So
+
+25
+0:02:38,560 --> 0:02:44,880
+I just want to throw that out there. I really do hope we learn from this. I do hope it doesn't
+
+26
+0:02:44,880 --> 0:02:50,480
+become about just about blame and take the focus off the fact that this was a horrible thing that
+
+27
+0:02:50,480 --> 0:02:55,920
+happened. This still is a horrible thing that is happening. But we can respond better the next time
+
+28
+0:02:55,920 --> 0:03:03,440
+I do hope. So never miss an opportunity to vaccinate. Never miss an opportunity to test and never waste
+
+29
+0:03:03,440 --> 0:03:12,320
+a vaccine dose. So as I mentioned, we're here on this plateau. Our plateau in New York is not
+
+30
+0:03:12,320 --> 0:03:18,080
+as low a plateau as I would like. So we're sort of going against this with our vaccines.
+
+31
+0:03:18,800 --> 0:03:25,360
+But as I mentioned, children and COVID, this has become a very hot topic. And the hottest topic
+
+32
+0:03:25,360 --> 0:03:32,240
+I think this last week is three feet versus six feet. And I know I heard one of the physicians,
+
+33
+0:03:32,240 --> 0:03:38,480
+scientists who was sort of discussing this saying, oh, this is just a distractor. But let me actually
+
+34
+0:03:38,480 --> 0:03:42,960
+go into the weeds in this because I actually want to say that my involvement with schools,
+
+35
+0:03:42,960 --> 0:03:47,520
+camps, different venues to get children sort of back into more of a normal situation.
+
+36
+0:03:48,480 --> 0:03:55,520
+This actually is a critical issue. So what got this all being discussed? And there was a publication
+
+37
+0:03:55,520 --> 0:04:03,120
+Effectiveness of three versus six feet of physical distancing for controlling spread of COVID-19
+
+38
+0:04:03,120 --> 0:04:09,600
+among primary and secondary students and staff, a retrospective statewide cohort study. And this
+
+39
+0:04:09,600 --> 0:04:16,720
+was published in CID. So one of the things I am going to say as I go through this is I do want
+
+40
+0:04:16,720 --> 0:04:23,200
+our listeners as painful as it is to try to actually read this article. Because the headlines,
+
+41
+0:04:23,200 --> 0:04:29,520
+I do not think really match with what's in this article. So let me discuss a little bit about
+
+42
+0:04:30,480 --> 0:04:41,600
+what this article contained. So they reported on 251 eligible school districts. So 537,336
+
+43
+0:04:41,600 --> 0:04:50,480
+students and 99,390 staff who attended in-person instruction during a 16-week period. And they
+
+44
+0:04:50,480 --> 0:04:57,280
+gave us incidence rate ratios with confidence intervals. Now I'm going to focus on the students
+
+45
+0:04:57,280 --> 0:05:03,600
+and not the staff, but there is data there on the staff. So they reported, this is sort of their
+
+46
+0:05:03,600 --> 0:05:10,560
+conclusion, that student case rates were similar in the 242 districts with greater than three feet
+
+47
+0:05:10,560 --> 0:05:17,520
+versus greater than six feet of physical distancing between the students. And they give us an IRR,
+
+48
+0:05:17,520 --> 0:05:26,560
+an incident rate ratio of 0.891 with a really wide confidence interval. And the results were
+
+49
+0:05:26,560 --> 0:05:35,120
+similar after they adjusted for community incidents. That came in 0.904 with, again, a wide confidence
+
+50
+0:05:35,120 --> 0:05:41,840
+interval stretching from 0.6 all the way up to 1.325. And they concluded that they did not see any
+
+51
+0:05:41,840 --> 0:05:50,800
+significant difference in the staff incident rate ratios. And also, as they say here with
+
+52
+0:05:50,800 --> 0:05:55,280
+these wide confidence intervals, they couldn't show that there was any significant benefit to
+
+53
+0:05:55,280 --> 0:06:01,200
+six feet versus three feet. Now let's go a little bit into this, because I think this paper will
+
+54
+0:06:01,200 --> 0:06:06,080
+impact policy. So therefore, I think it's important that we spend a little time understanding how
+
+55
+0:06:06,080 --> 0:06:12,880
+reliable this data is. So first off, this is not any kind of a prospective control trial,
+
+56
+0:06:12,880 --> 0:06:20,720
+but rather was a retrospective analysis of publicly available data derived from case reporting to
+
+57
+0:06:20,720 --> 0:06:28,000
+the Massachusetts Department of Elementary and Secondary Education. And they looked at publicly
+
+58
+0:06:28,000 --> 0:06:33,280
+available district plans. I want to make the point here. This wasn't even an observational study.
+
+59
+0:06:33,280 --> 0:06:37,760
+They actually didn't even go out and observe to see what was going on. They basically looked at
+
+60
+0:06:37,760 --> 0:06:42,080
+what were the published plans. There was no verification what was actually going on.
+
+61
+0:06:42,800 --> 0:06:47,440
+They just looked through the plans, and then they looked at some publicly reported
+
+62
+0:06:47,440 --> 0:06:53,120
+case rates. So they looked and they said, OK, districts that permitted a minimum of greater than
+
+63
+0:06:53,520 --> 0:06:59,600
+three feet in distancing, even if greater distances were preferred, they're going to classify them as
+
+64
+0:06:59,600 --> 0:07:07,120
+the three feet group. Districts that allowed greater than three for some grades, but not all.
+
+65
+0:07:07,120 --> 0:07:12,560
+Those were all classified as greater than three. Now, schools, the only ones that were greater
+
+66
+0:07:12,560 --> 0:07:17,920
+than six schools that open in hybrid learning mode with requirements of greater than six feet
+
+67
+0:07:17,920 --> 0:07:23,840
+in the hybrid model were classified as the greater than six feet physical distancing.
+
+68
+0:07:23,840 --> 0:07:31,280
+Then what they tell us is of these over 500,000 students, they identified 4,226 cases.
+
+69
+0:07:31,280 --> 0:07:37,680
+So of all these students, we are seeing reported positive cases to the Department
+
+70
+0:07:38,720 --> 0:07:42,480
+of Health, based Massachusetts Department of Elementary and Secondary Education
+
+71
+0:07:43,920 --> 0:07:49,440
+that they had a case rate of 0.8%, right? So this is a very small number.
+
+72
+0:07:49,440 --> 0:07:54,160
+A couple of things to also add. The majority of the campuses that did open had less than
+
+73
+0:07:54,160 --> 0:07:59,600
+80% of enrolled students on campus. They do comment on the fact that active surveillance
+
+74
+0:07:59,600 --> 0:08:05,360
+was rare, right? So we have to throw in what we learned from last time that the majority of cases
+
+75
+0:08:06,000 --> 0:08:13,040
+in this age group are missed. They also lumped all the schools together and based their analysis
+
+76
+0:08:13,040 --> 0:08:18,160
+on, as I mentioned, publicly available plans. There was no verification of what was the actual
+
+77
+0:08:18,160 --> 0:08:26,160
+practice. And then what they saw was this rate ratio of 0.9% for six feet over three,
+
+78
+0:08:26,160 --> 0:08:32,800
+but this really wide confidence interval. So I think the tough thing I had with this paper was,
+
+79
+0:08:32,800 --> 0:08:38,080
+this falls into what I say of things that we want to be true or don't want to be true.
+
+80
+0:08:38,800 --> 0:08:42,880
+And I don't think that there was anything here in the data that really gave us clarity on this
+
+81
+0:08:42,880 --> 0:08:50,320
+issue. So what I did want to do was sort of bring people back to, I think, a paper that actually
+
+82
+0:08:50,320 --> 0:08:55,200
+was a little bit better at giving us insight. What I looked at this paper and I said,
+
+83
+0:08:55,200 --> 0:09:00,000
+people now want to say that we need three feet or three feet is fine compared to six feet.
+
+84
+0:09:00,000 --> 0:09:05,920
+And the reason there's so much focus here is that most schools in our country,
+
+85
+0:09:05,920 --> 0:09:11,200
+if six foot separation is required between the students, between the desks, that's going to
+
+86
+0:09:11,200 --> 0:09:17,600
+prevent them from a full in-person opening, a sort of return to this full in-person class.
+
+87
+0:09:18,320 --> 0:09:22,720
+So there really was, I want to say, sorry to the authors of that paper,
+
+88
+0:09:22,720 --> 0:09:28,320
+but there was an excellent paper published in the Lancet back in June. And I think we've spent
+
+89
+0:09:28,320 --> 0:09:33,200
+some time on this before, but I want to sort of bring people back to it. It's amazing that
+
+90
+0:09:33,200 --> 0:09:39,200
+something in June is old news, but physical distancing, face masks, and eye protection to
+
+91
+0:09:39,200 --> 0:09:46,640
+prevent person-to-person transmission of SARS-CoV-2 and COVID-19, a systematic review and meta-analysis,
+
+92
+0:09:46,640 --> 0:09:52,240
+right? So this was back in the Lancet. And the point this paper made, which is really something
+
+93
+0:09:52,240 --> 0:09:57,440
+consistent with what we've learned over the years, is that there's a continuum to risk.
+
+94
+0:09:57,440 --> 0:10:04,160
+There's no invisible barrier at six feet or at three feet. I still remember having a discussion
+
+95
+0:10:04,160 --> 0:10:09,360
+with, I think it was a reporter back in April who really wanted to be within three feet of our
+
+96
+0:10:09,360 --> 0:10:16,720
+friends, and six feet seemed excessive. Now in medicine, we talk about droplets, we talk about
+
+97
+0:10:16,720 --> 0:10:22,400
+aerosols, we've looked at diseases like measles and laryngeal tuberculosis, where really an infected
+
+98
+0:10:22,400 --> 0:10:26,960
+person comes into the office waiting room minutes later, just about every susceptible person is
+
+99
+0:10:26,960 --> 0:10:34,240
+infected. Now influenza, in contrast, where a mask, distance, good ventilation really makes
+
+100
+0:10:34,240 --> 0:10:41,040
+sitting across the room a much lower risk activity, right? And I know there was a lot of time spent,
+
+101
+0:10:41,040 --> 0:10:47,120
+you know, is it airborne? What is an aerosol? You know, and I think we need to be careful of sort
+
+102
+0:10:47,120 --> 0:10:52,960
+of getting mired down in the medical terminology. And I think there were in some quarters, and
+
+103
+0:10:52,960 --> 0:10:58,320
+there still actually continues to be in many quarters, challenges with science communication
+
+104
+0:10:58,320 --> 0:11:04,720
+around this issue. We've talked about larger droplets, which in some situations, in some
+
+105
+0:11:04,720 --> 0:11:08,880
+percent of them will travel more than six feet, so they don't all drop magically.
+
+106
+0:11:10,560 --> 0:11:16,160
+And some some virions, infectious virus particles, to use that as it's supposed to properly be used,
+
+107
+0:11:16,160 --> 0:11:22,320
+I understand, they can actually be in those smaller size droplets. So nothing is black and white
+
+108
+0:11:22,320 --> 0:11:28,080
+here. There are continuums here. But I think this translates into the fact that if you have poor
+
+109
+0:11:28,080 --> 0:11:36,160
+ventilation, the law of averages is such that a small percentage of these smaller size particles
+
+110
+0:11:36,160 --> 0:11:41,680
+that might have virions in them are going to start to build up in a room. So if you go back to this
+
+111
+0:11:41,680 --> 0:11:46,800
+paper, and I'm going to say, you know, not all you're driving, but this was a good read, you can
+
+112
+0:11:46,800 --> 0:11:52,640
+actually really see a beautiful figure where they show that the absolute risk really does drop in
+
+113
+0:11:52,640 --> 0:12:01,360
+that first meter. So that 3.3 feet by about 80%. But then if you get out to about three meters,
+
+114
+0:12:01,360 --> 0:12:06,000
+you're seeing you're getting down to about a 90% reduction. So you can see you get the most
+
+115
+0:12:06,000 --> 0:12:11,680
+bang in that first meter, but you get even more in that second meter. So it's a continuum. We've
+
+116
+0:12:11,680 --> 0:12:17,920
+talked before about how a mask drops our risk by about 80, 85%. We've talked about eye protection
+
+117
+0:12:17,920 --> 0:12:24,800
+being associated with another drop in risk. And I know this study in Lancet didn't really spend
+
+118
+0:12:24,800 --> 0:12:30,720
+much time on proper ventilation, but I think we can add that into the mix. So I think as we hear
+
+119
+0:12:30,720 --> 0:12:38,400
+that the CDC is continuing 3 feet versus considering 3 feet versus 6 feet, what's really being considered
+
+120
+0:12:38,400 --> 0:12:45,840
+is a full plan. If you have masks, if you have 3 feet, if maybe you put up plexiglass barriers,
+
+121
+0:12:45,840 --> 0:12:51,520
+if you upgrade your ventilation system or have open windows, putting also into the equation
+
+122
+0:12:51,520 --> 0:12:58,000
+community prevalence, we do know that schools, we think we know that we don't have a lot of
+
+123
+0:12:58,000 --> 0:13:04,000
+actors surveillance that schools can be opened safely. We also know they can be kept closed and
+
+124
+0:13:04,000 --> 0:13:09,040
+we also know they can be opened unsafely. So I think as we get into this decision, it's important
+
+125
+0:13:09,040 --> 0:13:14,480
+to look at the science and balance our risks. And as we get into our tail end about long COVID,
+
+126
+0:13:14,480 --> 0:13:18,240
+I'm going to be talking a little bit about long COVID in children again,
+
+127
+0:13:18,240 --> 0:13:22,000
+because this is getting more attention and we're getting more stories about what's happening there.
+
+128
+0:13:22,880 --> 0:13:28,880
+All right, let's move into testing. Testing is sort of a short section. I'm sort of
+
+129
+0:13:28,880 --> 0:13:35,520
+a little bit dismayed at the drop in the amount of testing that is going on. If you actually go
+
+130
+0:13:35,520 --> 0:13:40,640
+to these mass vaccination sites and you start asking the volunteers and the people working there,
+
+131
+0:13:40,640 --> 0:13:45,600
+hey, what were you doing before you came and started working here, a lot of them were involved
+
+132
+0:13:45,600 --> 0:13:53,280
+in the mass testing sites. So we're seeing a shift of resources, a shift of focus, a shift of energy
+
+133
+0:13:53,280 --> 0:13:59,920
+from testing to vaccinations. And we still, if you look around, we're at a higher level now than we
+
+134
+0:13:59,920 --> 0:14:04,880
+were during the quote unquote second peak of the summer in a lot of parts of our country. So
+
+135
+0:14:04,880 --> 0:14:10,080
+we really have to continue having testing as part of our approach. And there really was a lot of
+
+136
+0:14:10,080 --> 0:14:14,560
+money in that last plan that just came out to have testing as part of an approach. So
+
+137
+0:14:15,280 --> 0:14:20,000
+there's been a lot of good work done on this. We actually did some like to think it was good work.
+
+138
+0:14:20,000 --> 0:14:25,360
+It's now published. I'll have to tweet that out to everyone. But you can actually look at cases
+
+139
+0:14:25,360 --> 0:14:29,840
+prevented, how much does it cost per case prevented, and particularly if someone else is paying for
+
+140
+0:14:29,840 --> 0:14:33,920
+those testing bills, which is now what's supposed to be happening with this new stimulus bill,
+
+141
+0:14:33,920 --> 0:14:40,320
+we can make testing part of a safe reopening plan. Active vaccination. We actually saw really
+
+142
+0:14:40,320 --> 0:14:46,160
+encouraging data. And this was a big discussion before. If you're going to approach a disease
+
+143
+0:14:46,160 --> 0:14:51,680
+with a double dose vaccination strategy, how many of those people are really going to come back
+
+144
+0:14:51,680 --> 0:14:59,440
+for that second dose. So we saw a bit of information from the CDC and the MMWR COVID-19 vaccine,
+
+145
+0:14:59,440 --> 0:15:05,520
+second dose completion, and interval between first and second doses among vaccinated persons,
+
+146
+0:15:05,520 --> 0:15:16,480
+United States, December 14, 2020, February 14, 2021. And this was impressive. As per the CDC data,
+
+147
+0:15:16,480 --> 0:15:23,680
+only about 3% of individuals are reported as missing that second dose. So this is, I have to
+
+148
+0:15:23,680 --> 0:15:29,360
+say, very encouraging. This may even be, I'm going to venture to say even an overestimation,
+
+149
+0:15:29,360 --> 0:15:33,680
+because we know a lot of individuals, maybe they went down to Florida, got that first dose,
+
+150
+0:15:33,680 --> 0:15:37,760
+and then they came up to Massachusetts to complete their series, is the track and
+
+151
+0:15:37,760 --> 0:15:43,040
+good enough to catch that they really got that second dose. What we're seeing, I think, is a
+
+152
+0:15:43,040 --> 0:15:48,480
+really good uptake of people who get that first dose getting that second dose. So I have to say,
+
+153
+0:15:48,480 --> 0:15:53,520
+this is really encouraging. The other thing I want to throw in here is something that we're
+
+154
+0:15:53,520 --> 0:15:59,360
+getting more and more information about. We're hearing more and more confirmatory experiences
+
+155
+0:15:59,360 --> 0:16:08,320
+of people with long COVID, go ahead, get vaccinated, and actually feel significantly better.
+
+156
+0:16:09,360 --> 0:16:14,080
+This is something I started to notice early and early in January. I was a little bit worried,
+
+157
+0:16:14,080 --> 0:16:18,960
+is this going to hold after that second dose? After the second dose, it's holding, which is
+
+158
+0:16:18,960 --> 0:16:24,480
+pretty impressive. Say, my personal experience is probably about 30 or 40% of my patients.
+
+159
+0:16:24,480 --> 0:16:32,320
+My wife was just asking me, is it still holding? And of course, today, I got a call from one of my
+
+160
+0:16:32,320 --> 0:16:40,960
+patients who works in education, really a lot of difficulties, including, well, really, almost
+
+161
+0:16:40,960 --> 0:16:49,840
+anything. She seems the hair loss, the fatigue, pretty significant cognitive issues, the brain fog,
+
+162
+0:16:49,840 --> 0:16:55,840
+really concerned about her ability to function. Today, the call was just about a rash. And she
+
+163
+0:16:55,840 --> 0:17:01,440
+said, boy, I really am continuing to improve. I'm continuing to feel better. So this is really
+
+164
+0:17:01,440 --> 0:17:08,080
+exciting. We'll get maybe a little bit more ideas into why this is happening. We have a couple
+
+165
+0:17:08,080 --> 0:17:14,320
+theories out there we don't know. But that is definitely exciting to see vaccine as therapeutic.
+
+166
+0:17:14,320 --> 0:17:19,680
+We also have vaccine trials in children, and they're all up, they're getting filled, they're
+
+167
+0:17:19,680 --> 0:17:25,920
+running forward. We actually heard that some of the vaccine trials are looking at going as low as
+
+168
+0:17:25,920 --> 0:17:33,600
+children, as young, as six months of age. And this is fantastic. I think we've talked about,
+
+169
+0:17:33,600 --> 0:17:40,960
+you know, will we ever reach this herd immunity? If we don't have vaccinations in our children,
+
+170
+0:17:40,960 --> 0:17:45,840
+then it's going to be pretty challenging unless Peter Hotez wins over the hearts and minds of
+
+171
+0:17:45,840 --> 0:17:53,360
+every single adult. Passive vaccination. This was an exciting, complicated,
+
+172
+0:17:53,360 --> 0:17:58,480
+challenging last week, I have to say. So this last week, the US Department of Health and Human
+
+173
+0:17:58,480 --> 0:18:05,920
+Services said it would limit distribution of BAM, linibimab, monotherapy, in a few of our states,
+
+174
+0:18:05,920 --> 0:18:12,960
+California, Nevada, Arizona. And this was due to high levels of variants, hate those variants,
+
+175
+0:18:13,600 --> 0:18:20,400
+that contained L452R, right? So they've got a mutation that seems to be impacting the efficacy
+
+176
+0:18:20,400 --> 0:18:28,960
+of BAM linibimab, wanting us to switch over to cocktail treatment. Not only have we started to do
+
+177
+0:18:28,960 --> 0:18:35,440
+that in those three states, but we've switched over almost all our sites, I have to say here in
+
+178
+0:18:35,440 --> 0:18:40,000
+the tri-state area. So by the time this drops on Saturday, I think almost all the sites will
+
+179
+0:18:40,000 --> 0:18:47,920
+successfully switch over. You know, in research, all our home infusion, we are rapidly switching
+
+180
+0:18:47,920 --> 0:18:52,480
+everything over to cocktails. And I think I'll sort of explain, like, why are we doing that?
+
+181
+0:18:52,480 --> 0:18:58,960
+Why not just these three or four states? We do not have the level of surveillance of the genetic
+
+182
+0:18:58,960 --> 0:19:06,640
+sequence of the virus. So it was actually on a call to name Volta, who's my boss, at Optum Labs
+
+183
+0:19:06,640 --> 0:19:11,520
+and Health Group. And she said, Daniel, you know, if your mother was in one of these states that
+
+184
+0:19:11,520 --> 0:19:16,480
+does not have good surveillance, and she got COVID, would you want to give her the monotherapy,
+
+185
+0:19:16,480 --> 0:19:20,640
+or would you want to give her the cocktail? And, you know, so we'll call that the mother test.
+
+186
+0:19:20,640 --> 0:19:25,360
+And the mother test was, no, I would want my mother to get the cocktail. I think everyone
+
+187
+0:19:25,360 --> 0:19:31,120
+should get the cocktail. Clearly, and David Ho sort of heads up about this, we're seeing
+
+188
+0:19:31,760 --> 0:19:36,880
+the sequences in New York City, maybe a third or more. And that's actually from March 10th
+
+189
+0:19:36,880 --> 0:19:42,400
+when he emailed me. We're already having resistance mutations that would suggest a lack of efficacy
+
+190
+0:19:42,400 --> 0:19:49,120
+to bambling of a map. And we're seeing increasing rates around. So it's really a switch over to
+
+191
+0:19:49,120 --> 0:19:54,960
+cocktails. We're going to go even a little more detail here, right, is the ID Society of America
+
+192
+0:19:54,960 --> 0:20:02,320
+has now embraced monoclonal antibody therapy. But what have they embraced? It's very specific.
+
+193
+0:20:02,320 --> 0:20:09,200
+They've embraced therapy with Eli Lilly cocktail, with bamlinivumab and a test of a map based upon
+
+194
+0:20:09,200 --> 0:20:16,320
+those phase three trial results showing 87% reduction in progression, and that impact on
+
+195
+0:20:16,320 --> 0:20:21,120
+mortality as well. So this last week was a challenge, right? Because the Catholic hospitals were the
+
+196
+0:20:21,120 --> 0:20:26,480
+first ones to have cocktails. So we were flooding them. We had some pretty bad experiences with
+
+197
+0:20:26,480 --> 0:20:32,080
+people waiting six, seven hours, sort of a monoclonal antibody line to get the cocktails,
+
+198
+0:20:32,080 --> 0:20:37,040
+because we were not wanting them to get monotherapy with bam bam until everyone had switched over
+
+199
+0:20:37,040 --> 0:20:41,680
+to cocktails. So fortunately, I think we are by the time this drops, we will have made the
+
+200
+0:20:41,680 --> 0:20:47,440
+conversion across all over the place. So sort of tip my hat to everyone, sort of switching and
+
+201
+0:20:47,440 --> 0:20:54,720
+doing what needed to be done to make this happen. All right. And now this is, I'm going to hopefully
+
+202
+0:20:54,720 --> 0:21:00,000
+make this not as long as my other ones. We're going to spend a little bit of time on the tail
+
+203
+0:21:00,000 --> 0:21:06,640
+phase before we go into our fundraiser and answer some emails. So I mentioned recently that things
+
+204
+0:21:06,640 --> 0:21:11,440
+have been getting better and better with vaccination. But one of the things that has not been
+
+205
+0:21:11,440 --> 0:21:18,240
+getting better is we're seeing lots and lots of COVID positive kits. And now what's getting a
+
+206
+0:21:18,240 --> 0:21:23,360
+lot of attention is not just what we heard from the UK in terms of numbers, but we're hearing more
+
+207
+0:21:23,360 --> 0:21:29,520
+and more stories. We're hearing more and more focus on children getting COVID and then not getting
+
+208
+0:21:29,520 --> 0:21:34,480
+better. We don't know the exact percentages. I think I mentioned before, I don't want to hang
+
+209
+0:21:34,480 --> 0:21:41,120
+my hat yet on what percent of children at what age end up with long COVID. But it is clearly
+
+210
+0:21:41,120 --> 0:21:47,280
+more than we want to get long COVID. And the number of stories, the number of experiences
+
+211
+0:21:47,280 --> 0:21:52,000
+that are being shared are growing. So this is going to have to factor into that discussion.
+
+212
+0:21:52,560 --> 0:21:56,800
+I don't want to oversell this. I want to try to basically say this is what the science is.
+
+213
+0:21:57,680 --> 0:22:03,280
+We know that children are at low risk of hospitalization. We know that children at low risk of death.
+
+214
+0:22:03,280 --> 0:22:09,840
+We know that children are at lower risk seemingly for long COVID. But though children are at lower
+
+215
+0:22:09,840 --> 0:22:15,920
+risk, they're not at no risk. So as we learn more and more about this, I think this needs to be
+
+216
+0:22:15,920 --> 0:22:20,560
+part of that decision about letting the kids go back to school, letting the kids get back
+
+217
+0:22:20,560 --> 0:22:25,440
+into all these activities, just realizing that you can't just say, oh, it doesn't matter if a child
+
+218
+0:22:25,440 --> 0:22:31,680
+gets COVID because there can be consequences. So all right, as promised, I didn't keep people
+
+219
+0:22:31,680 --> 0:22:38,160
+too long. But I do want to bring people to sort of my vision that I am concerned about.
+
+220
+0:22:38,160 --> 0:22:42,880
+So I'm going to encourage everyone to go to parasiteswithoutporters.com and help us
+
+221
+0:22:42,880 --> 0:22:47,920
+continue to support the American Society of Tropical Medicine. We're trying to create these
+
+222
+0:22:47,920 --> 0:22:54,320
+scholarships, these annual meeting travel awards, for we're hoping to bring three women
+
+223
+0:22:55,200 --> 0:23:00,480
+from economically challenged parts of the world to the annual meeting, trying to sort of help
+
+224
+0:23:00,480 --> 0:23:05,760
+push them forward. I think it's really critical that we don't leave the rest of the world behind.
+
+225
+0:23:05,760 --> 0:23:12,320
+What I fear is this sort of dystopian vision I have. It's December 4th, it's July 4th.
+
+226
+0:23:12,960 --> 0:23:18,880
+We're celebrating Independence Day in the United States. We have massive numbers of people vaccinated.
+
+227
+0:23:19,440 --> 0:23:24,640
+We're having our small gathering barbecues in the backyard, but still thousands of people
+
+228
+0:23:24,640 --> 0:23:30,800
+are dying per day in many other parts of the world. So as we move, I think at a really good
+
+229
+0:23:30,800 --> 0:23:37,520
+pace here towards vaccinating people here in the United States. I am glad to hear that we already
+
+230
+0:23:37,520 --> 0:23:43,840
+have plans as we vaccinate people here to share those vaccines, to get those vaccines out to the
+
+231
+0:23:43,840 --> 0:23:50,400
+rest of the world. So let's not just worry about ourselves. We're not safe until everyone's safe.
+
+232
+0:23:50,400 --> 0:23:56,960
+Looking forward to understanding Daniel, how vaccinating resolves long COVID. That's a surprise
+
+233
+0:23:56,960 --> 0:24:07,760
+to me. Email for Daniel, Daniel at microbe.tv. Martha, question regarding age and COVID vaccine
+
+234
+0:24:07,760 --> 0:24:12,000
+dose. Does it seem that the elderly might need a larger dose than younger? If so, do you know of
+
+235
+0:24:12,000 --> 0:24:18,160
+any plans to test this? Similarly, should younger people get a smaller dose? My elderly father has
+
+236
+0:24:18,160 --> 0:24:24,560
+been asking about this. We'd love to find out the current thinking. It's always shocked me in
+
+237
+0:24:24,560 --> 0:24:29,840
+medicine. This is the difference between the pediatrician and the adult physician. Once you
+
+238
+0:24:29,840 --> 0:24:37,920
+turn 18, one size fits all. You could be that 75 pound woman. You could be the 320 pound
+
+239
+0:24:39,680 --> 0:24:46,640
+man or woman, I guess. It's really amazing to me that we don't individualize that we haven't
+
+240
+0:24:46,640 --> 0:24:52,320
+studied a lot of our medicines to really adjust. Some of them we have right now that we're using
+
+241
+0:24:52,320 --> 0:24:59,600
+tosyllism for people that escalate. We clearly use a weight-based dosing. For our anticoagulation,
+
+242
+0:24:59,600 --> 0:25:05,520
+we use a weight-based dosing. When we're looking at some of our antibiotics, we're actually looking
+
+243
+0:25:05,520 --> 0:25:09,760
+at how much an individual weighs and we're dosing how many milligrams per kilogram.
+
+244
+0:25:10,400 --> 0:25:14,800
+Most of our vaccines are one size fits all and the idea is we're going to overdose.
+
+245
+0:25:15,360 --> 0:25:20,320
+But then we end up with discussions about vaccines. Oh, they work better in the young.
+
+246
+0:25:20,320 --> 0:25:26,720
+They're less responsive in the older individuals. But we already saw with flu shots, for instance,
+
+247
+0:25:26,720 --> 0:25:33,120
+maybe adjusting the preparation or the amount actually results in more protection.
+
+248
+0:25:33,920 --> 0:25:39,840
+I think that's a lesson we've learned from the influenza vaccine story that it is worth looking
+
+249
+0:25:39,840 --> 0:25:46,960
+at different doses, different formulations, definitely based upon a person's age, but also
+
+250
+0:25:46,960 --> 0:25:53,120
+based maybe upon a person's size if we think about it. And I think that as we're more interested,
+
+251
+0:25:53,120 --> 0:25:58,640
+more exciting of vaccines, I'm hoping we learn more about this. I actually remember one of our
+
+252
+0:25:58,640 --> 0:26:04,240
+discussions when I was having my PhD was about really the difference in the immune system and
+
+253
+0:26:04,240 --> 0:26:12,160
+the vaccine efficacy in children versus the elderly versus people in sort of between the two.
+
+254
+0:26:12,160 --> 0:26:18,240
+And I'm supposed to say elderly or older individuals. But no, I think this is an excellent question,
+
+255
+0:26:18,240 --> 0:26:24,800
+and these are unanswered questions. And if we keep seeing maybe treatment vaccine failures in
+
+256
+0:26:24,800 --> 0:26:30,080
+people who are older, it might make sense to actually use increased doses in those individuals and
+
+257
+0:26:30,080 --> 0:26:35,360
+study that. Walter writes, is there any known downside to any of the anti-sars COVID-2 spike
+
+258
+0:26:35,360 --> 0:26:42,080
+protein vaccines for older kidney patients who do not yet require dialysis? I imagine vaccination
+
+259
+0:26:42,080 --> 0:26:48,240
+produces at least some antibodies against the ACE2 spike protein complex that could engender
+
+260
+0:26:48,240 --> 0:26:53,280
+cross reactivity against ACE2 receptors, the heart kidney and lungs are rich in those.
+
+261
+0:26:53,280 --> 0:26:59,280
+I noticed that kidney patients were not included in the original Pfizer biotech or Moderna vaccine
+
+262
+0:26:59,280 --> 0:27:06,080
+trials and have wondered why. Yeah, they weren't. That's a good observation. They have been clearly
+
+263
+0:27:06,080 --> 0:27:11,360
+included in the millions of people that are now being vaccinated. So we have good experience
+
+264
+0:27:11,360 --> 0:27:16,160
+in this population. They tend to be tolerating the vaccines very well. We're not seeing any
+
+265
+0:27:16,160 --> 0:27:21,280
+safety concerns. So if someone has kidney problems, even if they're on dialysis, we're not seeing
+
+266
+0:27:21,280 --> 0:27:27,760
+concerns. So dialysis, no dialysis. If you've got a place to get that vaccine, go ahead and get that
+
+267
+0:27:27,760 --> 0:27:32,160
+vaccine. All right, one more from Thomas. Our facilities are beginning to revisit policies for
+
+268
+0:27:32,160 --> 0:27:38,480
+pre-operative SARS-CoV-2 testing, as well as reconsidering wait times in our ORs after aerosol
+
+269
+0:27:38,480 --> 0:27:44,240
+generating procedures. For roughly the last year, we've been testing all our elective surgical
+
+270
+0:27:44,240 --> 0:27:49,840
+patients within 72 hours of their procedures and asking them to isolate following their testing
+
+271
+0:27:49,840 --> 0:27:55,200
+until day of surgery to reduce both the risks associated with an infected patient coming to
+
+272
+0:27:55,200 --> 0:28:00,080
+this hospital surgery center and spreading SARS-CoV-2 and more importantly, the risks of increasing
+
+273
+0:28:00,080 --> 0:28:07,200
+complications with a patient to have pre-op COVID-19, perioperative. Additionally, we have had
+
+274
+0:28:07,200 --> 0:28:12,480
+various wait times after both intubation, extubation or other aerosolizing procedures,
+
+275
+0:28:12,480 --> 0:28:18,960
+depending on air exchange rates. Proposals are to one, eliminate pre-op testing in fully vaccinated
+
+276
+0:28:18,960 --> 0:28:24,480
+patients to decrease or eliminate wait times after AGPs of patients are either vaccinated or have
+
+277
+0:28:24,480 --> 0:28:29,680
+tested negative. The latter certainly goes against our current practice. Since all elective cases
+
+278
+0:28:29,680 --> 0:28:33,760
+for the last many months would have had negative pre-op tests and we currently do wait for the
+
+279
+0:28:33,760 --> 0:28:38,640
+requisite number of air exchanges prior to opening the rooms up. The vast majority of the staff has
+
+280
+0:28:38,640 --> 0:28:43,360
+been fully vaccinated since early to mid-February, so risk of serious disease in our staff shouldn't
+
+281
+0:28:43,360 --> 0:28:48,480
+really be the concern. Since some facilities have 14-minute pre and post wait, you can imagine
+
+282
+0:28:48,480 --> 0:28:54,000
+efficiency isn't what it was pre-pandemic. Admittedly, item one goes against your mantra
+
+283
+0:28:54,000 --> 0:28:59,840
+never miss an opportunity to test, but I suspect the risks are at least markedly reduced. Given
+
+284
+0:28:59,840 --> 0:29:05,680
+the current CDC recommendations regarding travel for vaccinated people, it sounds like data still
+
+285
+0:29:05,680 --> 0:29:11,920
+lacking to definitively be say vaccinated individuals can't transmit to other people. Curious if you
+
+286
+0:29:11,920 --> 0:29:16,160
+and your crew have any thoughts on these proposed changes. Do you have any thoughts on if there
+
+287
+0:29:16,160 --> 0:29:24,400
+is an ideal time to schedule a COVID-19 vaccination either before or after a planned elective surgery?
+
+288
+0:29:24,400 --> 0:29:30,240
+We have administrators and high proclaiming patients shouldn't receive a vaccination for 14 days before
+
+289
+0:29:30,240 --> 0:29:35,280
+or after the scheduled surgery. I've heard surgeons proclaim you could get a fever from the vaccine
+
+290
+0:29:35,280 --> 0:29:40,320
+and might mimic a surgical side infection. And similarly, others have worried about side effects
+
+291
+0:29:40,320 --> 0:29:45,280
+mimicking COVID and leading to postponement. I tend to err on the side of never miss an
+
+292
+0:29:45,280 --> 0:29:49,760
+opportunity to vaccinate. So that was a lot there. That was like a that was like a
+
+293
+0:29:49,760 --> 0:29:58,560
+Twip email, right? So let me pick the winners out. Maybe I'll go in reverse order and then I'll
+
+294
+0:29:58,560 --> 0:30:05,760
+like remember as I go. So one of the things that definitely has been an issue is surgeons do not
+
+295
+0:30:05,760 --> 0:30:11,520
+like us vaccinating anywhere around when they might be doing surgery, particularly the cancer
+
+296
+0:30:11,520 --> 0:30:16,720
+surgeons. They're all worried that if we vaccinate particularly with an mRNA vaccine, particularly in
+
+297
+0:30:16,720 --> 0:30:22,320
+the field, let's say you've got a woman who has breast cancer in her left breast and you're going
+
+298
+0:30:22,320 --> 0:30:28,400
+to stick an mRNA shot into the left deltoid and then potentially have the enlarged lymph nodes
+
+299
+0:30:28,400 --> 0:30:33,440
+that we clearly see. That might be an issue when they want to do lymph node dissection,
+
+300
+0:30:33,440 --> 0:30:38,640
+sentinel, lymph node sampling, all these other things. And then that actually is reasonable.
+
+301
+0:30:39,360 --> 0:30:42,480
+And this is complicated, right? So it can be very hard on a
+
+302
+0:30:42,480 --> 0:30:48,560
+Twip to give the full answer. But yeah, there certainly are circumstances where I would defer
+
+303
+0:30:48,560 --> 0:30:53,440
+that vaccine. I know that breaks my rule, but never missed a chance to immunize. Yeah, there
+
+304
+0:30:53,440 --> 0:30:57,920
+are times when you're not missing the opportunity, you're moving that opportunity to a different
+
+305
+0:30:57,920 --> 0:31:03,760
+time. Now we have started in the New York area, giving the J and J vaccine to a lot of patients
+
+306
+0:31:03,760 --> 0:31:09,520
+before they leave. I do not think you need to wait a full 14 days. Much seems to be a much lower
+
+307
+0:31:09,520 --> 0:31:15,520
+incidence of fever and tolerance issues. So in this case, I actually have a patient right now.
+
+308
+0:31:15,520 --> 0:31:22,400
+She's in the hospital. She had a biopsy for her breast cancer. And we're actually going to go
+
+309
+0:31:22,400 --> 0:31:29,760
+ahead and give her the J and J vaccine in the opposite arm before she leaves. And I think that
+
+310
+0:31:29,760 --> 0:31:36,000
+this is going to have to be sort of an individual thought out. But I actually would not want there
+
+311
+0:31:36,000 --> 0:31:41,360
+to be this hard and fast rule for any vaccine. If someone's planning on a hernia operation and
+
+312
+0:31:41,360 --> 0:31:47,040
+they've got a chance to get a vaccine and it's 13, 12, 11 days before, I'm not sure we want to have
+
+313
+0:31:47,760 --> 0:31:51,520
+too many barriers. We want to get those people vaccinated. Because unfortunately,
+
+314
+0:31:51,520 --> 0:31:57,120
+when they come into a healthcare setting, we, sorry to say, have had exposure events.
+
+315
+0:31:57,120 --> 0:32:01,040
+And so I think we want to be careful. We don't want to have rigid rules there.
+
+316
+0:32:01,040 --> 0:32:07,440
+Now, the next is about testing. Hey, we have more and more testing capacity. We have quicker
+
+317
+0:32:07,440 --> 0:32:13,440
+turnaround. Those whole ideas about getting your test 72 hours ahead of time were in large part
+
+318
+0:32:13,440 --> 0:32:20,560
+based upon testing delays. If anything, I think we can ramp this up and have the day before
+
+319
+0:32:21,520 --> 0:32:26,480
+get a test and have results available in time for that surgery. We really do not want people
+
+320
+0:32:26,480 --> 0:32:32,160
+coming in, bringing them into healthcare settings, potentially exposing people who are
+
+321
+0:32:32,160 --> 0:32:36,640
+immunocompromised, who maybe wanted to get vaccinated, but didn't have an opportunity to.
+
+322
+0:32:36,640 --> 0:32:41,760
+I know we're all vaccinated, healthcare workers who wanted to. But a lot of our patients have
+
+323
+0:32:41,760 --> 0:32:45,920
+not been vaccinated. And I think that's going to be an issue for a while either through choice
+
+324
+0:32:45,920 --> 0:32:49,920
+or because they have an issue with an immune system failing. So I think we still have a
+
+325
+0:32:49,920 --> 0:32:56,240
+commitment to try to keep our healthcare settings as safe as possible. It was related a story today.
+
+326
+0:32:56,240 --> 0:33:03,360
+Unfortunately, where one of my good friends, his son had a skiing accident. They went to a hospital
+
+327
+0:33:03,360 --> 0:33:09,680
+near the ski mountain. They wanted to do a CAT scan because they were concerned about head trauma.
+
+328
+0:33:10,640 --> 0:33:14,720
+And the dad asked, well, why is this taking so long? And they said, oh, we just had a person
+
+329
+0:33:14,720 --> 0:33:18,400
+in the CT scanner with COVID. We're just going to give it a few more minutes before we put
+
+330
+0:33:18,400 --> 0:33:23,920
+your son in there. Five days later, the son started feeling poorly. He started feeling poorly.
+
+331
+0:33:23,920 --> 0:33:29,120
+The wife started feeling poorly. That was the only exposure they could really think about was
+
+332
+0:33:29,120 --> 0:33:34,640
+all that time spent in a healthcare setting. So we got to keep those places safe. It's a small
+
+333
+0:33:34,640 --> 0:33:40,800
+price to pay to continue to test to keep these places safe. And not only is a small price to say,
+
+334
+0:33:40,800 --> 0:33:44,400
+I'm going to say it's going to destroy the confidence. People are going to fear going to
+
+335
+0:33:44,400 --> 0:33:50,720
+healthcare settings if we can't keep them safe for them. I think that was most of it.
+
+336
+0:33:50,720 --> 0:33:58,560
+Yeah, I think that's great. All right, that's COVID-19 clinical update number 54 with Dr. Daniel
+
+337
+0:33:58,560 --> 0:34:04,320
+Griffin. Thank you, Daniel. My pleasure is always on everyone. Be safe. We're coming to the end of
+
+338
+0:34:04,320 --> 0:34:09,440
+this. You do not want to get sick now. There's lots of virus out there. We're sitting on a pretty
+
+339
+0:34:09,440 --> 0:34:21,680
+high plateau. Get vaccinated. Don't get COVID. Stay positive, but stay negative.
+

@@ -1,0 +1,360 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicroTV, this is Twiv, this week in virology, episode 710 recorded on January 21, 2021.
+I'm Vincent Racken Yello, and you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Clinical update number 46, Daniel. I have a
+feeling we're going to pass 50. Unfortunately, we are. We will not be through this in four weeks,
+but I am going to be positive today. So let me start off. We have a lot to cover. I want to
+make sure we hit it all. And I know people are busy. You can listen to this at 1.5 or 2x if that
+helps, but two quotations by the same individual. The greatness of a community is most accurately
+measured by the compassionate action of its members. And the other same person, struggle
+is a never-ending process. Freedom is never really won. You earn it and win it every generation.
+And this was by Coretta Scott King, the wife of Martin Luther King. And I bring these up sort
+of as we go forward. You'll see where I get with this, but I think that we've been talking a lot
+about vaccinations, making sure that we are doing this in a compassionate manner. I don't think
+people have tried to not do it that way, but there's been a lot of really difficult issues,
+particularly for seniors, striving long distances, struggling through a really difficult process
+to get appointments, ending up showing up, and there's no vaccines. We'll get into that.
+But I think the others also struggle as a never-ending process. I want to remind people as we get
+through this, as we're like right now, really in really difficult times, we need to be vigilant.
+We need to continue to fight for that situation we are hoping to get to, where we are free from
+this pandemic, so that this never happens again. So I think we want to remember that.
+So my three quotations, my rules, I will call them, never miss an opportunity to vaccinate,
+never miss an opportunity to test, and never miss an opportunity to be nice.
+These are difficult times. People's tempers have been quite a little bit short. If we're
+going to get through the next few months, we have to work together. We have to be collegial,
+we have to communicate. All right, this is where I say if you're on the wrong airplane,
+if you're headed to LA, and that's not your final destination get off, I'm going to talk a lot
+about vaccination. So if you don't want to hear about vaccination, turn it off now, switch,
+go do something else. So as far as active vaccination, I want to say, I try not to talk
+that much about vaccine hesitancy because I feel like that's what's going to be the
+challenge in the future. But I do think it's critical that as physicians, we take responsibility
+for answering questions about vaccinations. I think there has been a brilliant mistake at
+many healthcare systems to think that healthcare workers would not need their questions answered
+about vaccinations. They should know already. And we've seen really a significant difference
+in success based upon people taking the time to educate healthcare workers about vaccines.
+UCSF, well over 80%, when they first said, hey, we've got vaccines, they said, when can I get what?
+Mass General, it was in the mid 70s, pro health, I think I mentioned it was over 90% when the call
+came out who wants to get vaccinated. But we're hearing that some of the large healthcare systems
+here in New York that less than half of their providers and staff are signing up to be vaccinated.
+So just because someone's in healthcare doesn't mean they don't have questions that need to be
+answered. And I think if we don't give the education, if we don't answer the questions and the public
+starts seeing that healthcare providers are not getting vaccinated, that's going to come back to
+haunt us down the road. And now this is sort of an FAQ. I get so many questions about vaccines,
+so I'm going to start hitting them here. Because remember, this is my chance to answer the questions
+for all the curious pro health clinicians and our listening audience. It saves me a ton of
+texts and emails a day. But one of the first questions, are we underselling the benefits of
+the vaccines? So there's a really nice piece in the New York Times, underselling the vaccine
+by David Leonhart. And they quoted our buddy Paul Hotez. If you're an anti-vaxxer and you're still
+tuning in, he's the one that likes to get your messages. He draws a parallel, David does,
+between underselling the vaccines and sort of the early mask wearing we don't quite know yet,
+etc. I don't know if that holds completely true. We try not to get ahead of the science. And I
+know that bothers people, but we as scientists, we as as clinicians, the vaccines appear to be
+really effective. We are really thinking that they're going to have an impact on transmission.
+We don't have the transmission data yet. But I'm going to talk a little about sort of the advice.
+Because yeah, why is everyone saying I still have to wear a mask? We're just saying that now.
+We are hoping we will be able to change. Should a person wait 90 days after acute infection
+before they get that vaccination? Well, what does the CDC as per the CDC, there's no recommended
+minimal interval between infection and vaccination. So some physicians are recommending people wait
+months after infection get vaccinated. But I have to say several people, including Tom Frieden,
+Eleanor Murray up at Boston University. And I'm going to jump in on this too. I am concerned.
+We are concerned that when you tell people to wait 90 days, right now they're all excited.
+They want to get vaccinated. I don't know how they're going to feel in 90 days. You don't want
+to feed the anti-vax movement. There's no science that says you have to wait. Person feels fine.
+They've recovered from their infection. My answer is in line, I'll say with the CDC, which is back.
+Welcome back CDC. You know, never miss an opportunity to vaccinate. If you say wait three months,
+you are missing that opportunity. Let's not do that. I have heard people who previously had
+COVID and then had a bad reaction to the vaccine, right? Sort of feeds into that first one. Should
+people who have had COVID still get vaccinated? And again, the CDC is very clear here on encouraging
+all to get vaccinated. We've definitely seen people have reactogenicity. So significant
+reactions after the vaccine. Some of those people had COVID before. Some of the people did not.
+So only anecdotes. Millions of people have been vaccinated. No clear science to support this
+fear. So when you hear, oh, I had COVID and I had a bad reaction. There's a there's a matching person
+who never had COVID and had a rough reaction. So people who are not vaccinated. We're concerned
+that can get reinfected. We're concerns that just because your first time with COVID wasn't so bad.
+Maybe the second time will be worse. So I've certainly certainly seen people who had COVID
+earlier on. And we've certainly seen many reports of reinfection. So the vaccine protection is better
+than natural exposure. If a person had a severe reaction from the first vaccination, what should
+they expect from the second shot? So in general, and this is what the science suggested when we
+have the early studies. This is what our experience is reinforcing. The first reaction, whatever you
+get, it's usually a little bit more significant the second time. So if they'll kind of achy a
+little tired the first time, you will probably feel a little more achy, a little more tired
+the second time. If that reaction was rather severe, then I think it's reasonable for that person to
+have a conversation with an educated person, a physician, I'm going to say here, who is familiar
+with with this situation. I've done several consultations. And I think this makes sense. I
+mean, a lot of people don't want to be heard of like cattle. They don't want to be marched
+through the Javits Center. Particularly, I'll say older individuals, they may want to sit down.
+They may want to have a conversation with their primary care physician or infectious
+disease specialist, someone familiar with vaccination. People want to talk to their doctors. That's
+fine. And actually, I encourage that. And I think this feeds into what I talked up front about.
+We haven't tried to do this. We haven't tried to be cruel. We haven't tried to make this process
+difficult. But in a lot of ways, it has been difficult. Particularly now, as we've rolled it out to
+older individuals, I describe the situation where my mom, unfortunately, had some challenges.
+And you know, just here she is in a strange situation. She's not with a health care provider,
+she trusts. I described an individual in his 80s who drove two and a half hours to Mount Sinai,
+only to find out that the vaccines have been taken to the Javits Center. We need to do a better job.
+And I think that's about to happen. That's the optimism here. We are about to have a really
+good national plan. And that's what I'm hearing. What about people that had multi-system inflammatory
+issues with COVID? Should they get vaccinated? And I had a very interesting
+individual that I took care of this last weekend. It's actually a physician that I know. And we took
+care of him back in April, when he actually developed what we believe was an autoimmune,
+mediated ataxia. He ended up with steroids IVG then. He actually developed those symptoms
+about 14 days into his acute illness. Back in December, he got his vaccine. And about 14
+days later, he noticed that he was having trouble writing. He noticed his eyes were sort of wandering
+a little bit, noticed a little bit of ataxia. Tried to set him up in the outpatient setting for
+steroids and IVG. Welcome to the world of private insurance. Pre-offs were required.
+He ended up requiring hospitalization to get that therapy. He is feeling better.
+So a person who has severe COVID the first time around or had what we think was an auto
+antibody-mediated issue, that's an individual who should consult with a physician. That makes
+sense. Consult with a physician, come up with a plan. I guess that's a recurring theme. I don't
+think everyone needs to... We saw a little bit of a disaster at Jones Beach, where you had all
+these older individuals sitting for hours in this line of cars, waiting for sort of the hurting
+cattle car approach to vaccination. That's fine for some people, but a lot of other people need a
+different setting for them to have vaccination. A lot of people would probably need something
+where there's a home visit, where someone can come to the home. There's a lot of homebound
+individuals. This is the big one. I get this all the time. I think I get this because people don't
+like my answer and they want to hear a new one. Do I still need to wear a mask if all my friends
+have been vaccinated? Now, this really comes down to the issue as I talked about. We do not have
+the science yet to tell us about transmissibility, but let's run through a couple scenarios.
+I'm going to use my mom again. I think she likes that I talk about her. Here's a woman in her 80s.
+My youngest brother, Ben, he has twins, and he just had a new baby over the last year. My mother
+is dying to go down and see him. When she has gotten her second shot and two weeks go by,
+is it okay for her to go down to visit my younger brother, to hug her grandchildren?
+From her perspective, she's safe. I'm going to say, mom, you can go. Now, my brother has to
+look at the fact that my mom, even though she's vaccinated, she still potentially could get
+transmit to him. But I think we need to start looking at this. A lot of older individuals,
+and I'm going to live forever. They've missed a lot of really important things.
+Do they want to get out of the house? Do they want to hug their kids? Do they want to have that
+at human contact? The vaccine really protects them. They're in the bulletproof car. The rest of
+the people that are not vaccinated still still at risk don't think a vaccinated person is less at
+risk. And that also relates the same to quarantine issues. If someone's been vaccinated, and now
+they're exposed to someone, all the quarantine stuff applies. When I'm so much worried about
+them, it's, again, worried about transmission risk. So if you had a reaction to an mRNA vaccine,
+then is it fine to just go ahead with the J&J vaccine? Because everyone thinks that's about to
+come out and get EUA in the coming weeks. Now, it's not entirely clear that it's safe to
+just go ahead with the J&J. And one of the issues is that we think a lot of the allergic
+reactions are due to PEG, polyethylene glycol 2000. And there's a very similar
+polysorbate that is in the adenoviral vaccine. So there may be some cross reactivity.
+We don't know, just to say we don't know, we do think that the protein vaccine by Novavax
+will sort of be safer because it's not going to have it in there. But one of the things I'm
+going to say, we'll end up talking a lot about J&J. The J&J platform has been given to over 200,000
+people. We are not seeing the significant level of the anaphylactic and allergic reactions we're
+seeing with the mRNA vaccine. So I want to throw that in there. This will be a judgment call.
+Again, you got a bad reaction with the first vaccine. You're going to have to make a decision
+with someone knowledgeable. And you want to probably consider getting that vaccine in a setting
+where you can have a longer observation period and be treated if you have any issue.
+Now, this is going to be sort of an operational in the weeds. We are trying not to throw out
+additional doses. So what happens? And I want to sort of describe this for people.
+We're going to be doing our second round of vaccinations for pro health. We did what we
+were supposed to write. We got our 1,200 vaccines. And we immediately gave all those 1,200 vaccines
+to all our employees, and they're gone. We didn't put any in the freezer. I mean,
+I don't think that surprises any of our listeners, but I am a big fan of vaccines go into people's
+arms, not into freezers. Now, we are going to get our next shipment on Tuesday. It's arriving. And
+this is a change. We actually were told ahead of time yesterday, we actually were told,
+hey, by the way, just to confirm you will be getting your second dose vaccines coming next
+Tuesday. Now, when we did our first vaccines, what we saw several times was that instead of
+there being just 10 doses in the bio, there might be 11. You might actually have a bio with 12 doses.
+So in certain circumstances, instead of doing just 10 people, we did that 11th person. We're
+now hoping now, right, when we get our second 1,200 doses, do we have those extra few doses
+that we gave to people? And again, as the issue, like let's say it's the first night,
+and I worked at one place with that long beach. And I was there for a couple hours and I did 31
+vaccinations, right? So that was three vials. One of the vials had an extra dose. So we got that
+31st person. I am hoping that things work in our favor. We also have 31. But what if we have a
+vial, which has only 10, 10, 10? What do we do with that extra person? We don't want to send
+them away. Do you open another vial? This is where we're talking about coordination. We're actually
+going to set up a call center so that people can say, okay, I don't want to open a new vial
+for one person. But if you drive 15 minutes, our free port site will have a vaccine. So people
+really need to be thinking through the logistics here. We do not want to throw vaccines to the
+trash. And I'm going to quote George Benjamin, the president of the American Public Health
+Association. Principle number one is don't waste the vaccines. I'm very excited. I have to say
+that Dr. Kessler is going to be the head of the Biden Task Force. He's been talking a lot about
+improving the operations of getting vaccines out there. We're expected to have transparency
+on how many doses are produced, where those doses are. And at the end, we really want to
+increase the efficiency. And he uses the analogy of the airplane. I feel like maybe we use that
+here. You know, you find out we've got most of the people in first class boarded. But somebody's
+running 15 minutes late. You start boarding the rest of the airplane. And when that person who
+shows up 15 minutes late, you get them in as well. Let's make things move forward. Let's make this
+efficient. Let's move away from this, you know, threat of punishment when you do things wrong
+to getting those doses in people's arms and the dialect being how can we help.
+All right, that's it for vaccines, active vaccines.
+Now, what about the pre-exposure period, right? Just want to hit a little bit on testing.
+There was a Bynax now antigen test sensitivity for culture positive specimens
+showed a 92.6% and a 78.6% for those symptomatic and asymptomatic. So again, sort of reinforcing
+that people who have a high level of virus, people who are in that infectious period that the antigen
+is actually really a great way of picking those folks up. This was in the MMWR. So it's nice to
+get a little more information. I don't think we have as much information as we would like on
+asymptomatic persons using our testing technology. So great to have a little more information there.
+Now we get up to passive vaccination. So here we are. We're the period of detectable viral
+replication. A person has symptoms. It's week one. What can we do during week one? If the person
+meets criteria, this is when we jump in with our monoclonal antibody therapy. So we heard a little
+bit about bamlinibimab, the Mayo experience greater than 2,000 patients. And then they're
+suggesting an efficacy of 70% and a mortality benefit. But I'm also going to talk a little bit.
+This is an exciting day. We're recording this on the 21st of January. But we actually got a
+little more information from Eli Lilly. And they actually released some data where they were
+looking at giving this antibody, bam, bam, bamlinibimab, to nursing homes. So residents and staff at
+skilled nursing and assisted living facilities. And what they did is this was a study 965 participants
+start off with a baseline negative for SARS-CoV-2 virus. So there were 299 residents. There were
+666 staff. And basically they're following to who gets infected and does anyone die? And they
+actually in this, which right now it's still the press release stage. I'll be excited when I see
+per review. But the residents randomized to bamlinibimab had an 80% lower risk of developing COVID-19.
+The individuals in the placebo group, there were four deaths. There were zero deaths in the
+residents that received the bamlinibimab. And those were four deaths due to COVID. So continuing to
+get more information on the bamlinibimab, we have our trial up and running at United in research.
+We've already been infusing people in home. So we're hoping to get more and more information.
+So people go to United in research. It's the lead study there. They pre-register while they're
+still healthy. And then if an individual develops COVID, the system is activated. And we are giving
+in-home infusions, which ideally is when this therapy and how this therapy should be given.
+All right. The early inflammatory phase, I'm going to hit on vitamin D again.
+Nice article. Vitamin D status is associated with in-hospital mortality and mechanical ventilation,
+a cohort of COVID-19 hospitalized patients. And this was Mayo Clinic proceedings.
+Retrospective observational cohort study. Done it to tertiary academic medical centers in Boston
+and New York. Eligible patients had to be hospitalized. And they basically broke them down into people
+that had very high vitamin D levels, so greater than 30 nanograms per milliliter and people that
+had very low, so say less than 30 nanograms per milliliter. So people that had very high levels,
+9.2% mortality, people that had low levels, 25.3% mortality. So we're actually seeing, again,
+at least when you come in, it's very predictive, actually predictive for need for mechanical ventilation.
+So keep those vitamin D levels up. Again, we do not know. We've seen studies both ways on
+once you get into the hospital, but we're trying to avoid that, trying to keep people out of the
+hospital. Again, we don't know that if you prospectively brought people's levels up, brought it down,
+or if this is more of a marker for something else, but just more information out there on vitamin D.
+Anti-quagulation. I know I talked a little bit last time about the full dose. Anti-quagulation
+was removed from some of the ACTIV trials, but now we actually saw intermediate dose,
+anti-quagulation, aspirin, and in-hospital mortality in COVID-19, a propensity score-matched analysis.
+This came out as a preprint from some researchers and clinicians up at Yale. And we know that
+clotting complications are common. We know that this is a major issue in COVID, and some degree
+of anti-quagulation is standard, but we're still trying to clarify what dose, what agent. Nice to
+see a little data here, more data here on aspirin being thrown into the mix here. And they actually
+were looking, they were comparing intermediate, which is sort of, we'll say, if you're going to use
+low-molecoate heparin, clinicians are listening in now, instead of the once a day, you might go up
+to twice a day. That's our intermediate. We might go up to twice a day for weight-based dosing.
+And this study actually suggested that there was a benefit to intermediate dosing, also a benefit
+to being on aspirin, so sort of using intermediate, slightly higher-dose anti-quagulation, not full
+dose, and anti-aspirate as well. All right, what about IL-6 receptor inhibition? I know it's been
+a while since I've talked about tosyllizumab, but we have some new data out. The REM cap,
+interleukin-6 receptor antagonist in critically ill patients with COVID-19, a preliminary report.
+So this was a randomized embedded multi-factorial adaptive platform trial for community acquired
+pneumonia, so you get your REM-CAP, and adult patients with COVID-19 within 24 hours of
+commencing organ support in an ICU. So we're looking here at timing. We're also looking at a
+background of steroids. So over 93% of these people had a background of steroids. We're going to
+hit on that again. But it wasn't being given to people in late stage. It wasn't given to people
+particularly early. It was given right when we saw an escalation of, I'm going to say,
+the cytokine storm. So the timing was what we've talked about. People were either randomized to
+receive the tosyllizumab or seruleumab, another IL-6 receptor antagonist, or standard of care.
+And the primary outcome was in-hospital mortality. So this is hospital mortality was 28% for people
+that got tosy, 22% for people that got seruleumab, and 36% for controls.
+So this gives us about a 22 to a 38% reduction in mortality, statistically significant.
+So again, the advantages of this trial background, pre-medication with steroids. The tosyllizumab
+is given what most of us have said for a while here is the right stage during the early inflammatory
+stage, people that are progressing. And actually about 30% of the folks got a second dose of tosyllizumab.
+So just to sort of recap here, we now have the impact to trial with a 44% reduction in need
+for mechanical intervention with use of tosy in a background of steroids. The covecta trial
+demonstrating a reduction in hospital duration. And now the REMCAP data showing a rather impressive
+mortality benefit if given after steroids with attention to timing. And now we're waiting for
+the recovery trial. Now on one slash 11, January 11, the recovery trial, independent data monitoring
+committee recommended continuing recruitment to their tosyllizumab treatment arm. So that's
+encouraging. This is going to give us data on about 3000 individuals with a background of steroids
+in COVID in the UK. So at least when they looked over, they were not seeing any reason why they
+should stop. So that will be helpful to really clarify the role and timing of tosyllizumab.
+Okay, the secondary infection phase. Another nice article prevalence of
+co-infection at the time of hospital admission in COVID-19 patients, a multi-center study.
+This is an open form infectious disease. Yes, that is a fine journal reporting they looked at
+over 1000 patients. And at the time of admission, only about 1% had what they felt were bacterial
+respiratory co-infections, reinforcing looking at this disease as far as timing. When people come
+in the door, it is really uncommon, less than 10%, maybe closer to 1%. If there's a bacterial
+process going on, it's the later stage. It's week three when we really start seeing the infections.
+And at that point, we see combination. We see a lot of bacterimias, we see pneumonias,
+we see incidents of fungal. Multi-system inflammatory phase comes sort of at that.
+It's important to keep reinforcing the bi-modal aspect of the inflammatory process. We have
+the early inflammatory, and then we have the late or the multi-system inflammatory phase.
+We haven't been hearing much about this. I don't know if there's so much any more
+new news as much as now we appreciate this. We're addressing it sometimes children,
+sometimes adults. We don't even see them in the hospital. Initially, they come in just
+during this late stage. The tail phase, a number more studies. I actually really appreciate the
+attention here. One of the studies was COVID-19 post acute care study group persistent symptoms
+in patients after acute COVID. That was in JAMA looking at 143 Italian patients hospitalized
+for COVID-19. Eighty-three percent continued to have at least one symptom. Sixty days post
+discharge, right? So reinforcing this isn't you just get better. Another study, COVID-19 symptoms,
+longitudinal evolution and persistent in outpatient settings in the annals of internal medicine.
+This was 669 Swiss patients with positive tests for COVID-19. Mostly outpatients, right? So
+32 percent continued to have at least one symptom at a mean of 43 days after discharge. So even
+your mild folks, even your outpatients, continuing to see symptoms here. So let's want to thank
+everyone for taking the time. We're still doing our fundraiser, still trying to help the P-score
+HIV and AIDS program. So go to parasiteswithoutborders.com, go to donate and help us continue to do what
+we're doing as well as support the P-score. All right, Daniel, a couple questions. I had one
+and you partially answered, but let me just confirm. So if someone is fully vaccinated,
+two doses and they're exposed to someone, you said they should still be quarantined,
+but that is a nine day, not a 14 day quarantine. Is that correct?
+So quarantine versus isolated. So, you know, I try to make the distinction and it really only
+matters in certain states. So, you know, the CDC has made it 10 and 10. They've lined them
+right up. So if you're infected, you wait 10 days. Actually, it was a really nice study showing
+that after nine days, you're really not seeing, they were not able to culture virus, right? So that
+was really good on the isolated for the infected. The quarantine, this has gotten a little bit.
+The CDC said, let's just use the 10 days. They've even talked about a seven day test out,
+where you just you quarantine for seven days. If you're still feeling fine at day seven, you get
+a test. You can end your quarantine early. You could just wait for 10 if you don't want to test
+and just do symptoms. This was analyzed. You will miss about 20%, about 20% of people will
+develop symptoms, or turn positive if you use the seven day test that option.
+What about vaccinated people? Is there a day?
+We're not we don't treat them any differently yet, just because we don't we don't know.
+And it is tough. People are like, come on. I've been vaccinated. What am I doing?
+Yeah, it's not about you. This is about transmission.
+Okay. We just don't know, but we will. We will.
+All right. A couple of email. Tarrin writes, hello, I work at a big academic
+hospital. I'm almost 14 days post second Pfizer vaccine. Our hospital uses Abbott SARS-CoVIG assay.
+A couple of my coworkers have gone to get tested, come back negative. The results specifically
+state they can't be used for vaccine efficacy verification. What can be used for that? Anything?
+So I've been telling people, just don't check your serologies. Just go ahead,
+trust the data, trust the science, trust the protection. Yeah, there is a commercially
+available neutralizing antibody assay. But again, I don't want to encourage you to do that. So yeah,
+just go ahead, get your vaccine, stop doing all the blood work. Let's focus our resources on the
+critical areas. All right. This is from Anthony. I do a live stream with Amy every Wednesday night,
+and he heard it last night. And the topic came up of taking NSAIDs after vaccination to reduce
+discomfort. If memory serves me correctly, someone even suggested taking it and over the
+counter painkiller before vaccination, someone else thought NSAIDs reduced the effectiveness
+of vaccination. What's the correct thing to do for years? I used aspirin to reduce pain so I
+could exercise more than I read that this diminished the exercise effect.
+Yeah, I get this question a lot, actually. And I'm thinking it might be like an anti-vaxxer thing.
+If you feel crummy up to the vaccine, don't take anything. It won't work. They want everyone to
+suffer a little bit more. You know, I got my second dose of vaccine on Tuesday morning.
+And I had a few side effects, right? Like at one point, I opened an email from my partner
+Nujali and I felt a little annoyed for a couple minutes. I'm sure it was the vaccine, not the
+content of the email. And then I had a meeting yesterday. It was supposed to be at four. I thought
+it was at three. So a little bit of a cognitive impact getting confused there. You know, and I
+did. I felt a little achy, actually. I mean, you know, it wasn't big. I took a couple of leave.
+I think that that's fine. I don't think there's any, you know, get Breanne Barker to jump in on this.
+But you know, if you take a couple of leave, take a couple of ad bill, you take NSAIDs. I don't
+think that that's going to prevent your B cells and T cells from doing their job. So
+not a problem from my perspective. All right. One more from Karen, whose mother in November
+contracted COVID-19. She's an assisted living facility, had a hard time, has a lot of comorbidities.
+And at one point, she decided she didn't want to eat anymore, which they took it to determine
+was her, her will not not to live. So they asked that she'd be placed in hospice care rather than
+going to the hospital. So she would like to know a little discussion of hospice or palliative care
+decisions in your clinical updates, Daniel. Sure. Sure. Actually, I appreciate that you bring
+this up. We don't talk about this or a lot or haven't talked about this. But on a daily basis,
+this is part of our our birthday. We try to get a sense of where people are headed, how they're
+going to do. And there certainly are a lot of individuals where early on we realized that
+that their chance of coming out of this in a positive way is low. And actually, you know,
+sort of a little bit of a hats off to Northwell. They actually at Plainview Hospital, where I spend
+a lot of time, they actually recruited and they have a full time palliative care specialist. And
+she and I talk quite a bit just lovely, brilliant woman. I think she speaks more languages than I
+have fingers. And we actually have specialists get involved, have conversations with the family.
+You know, what are the goals of care? What would what would your loved one want?
+Often, and it's wonderful when the loved one can be part of that decision making.
+And yeah, so this is a big part. You really you really want to have this conversation before
+someone gets sick. You want to share your your goals, your your desires with your family. I'm
+started talking to the individuals who might end up getting COVID here, which is a lot of us
+before so that when someone ends up in the hospital, you know, I actually worked with
+intending who was a physicist and he used to refer to this as the fifth vital sign. You know,
+you know, you want to know, you know, on the admission, what would this person want? What are
+their goals of care? And often people who I consult for I will often put my recommendations in,
+but then I'll also put a little tagline about, you know, these should be consistent with goals
+of care. Particularly in the surge conditions, this would come up quite a bit. Does this individual
+really want to be here in the hospital? Or is this an individual? Is this a family context where
+they would prefer to be home? They'd prefer to be in a hospice setting? And I will say, my
+stepsister is a hospice nurse. Hospice is not, ooh, someone's just about to die. It is a it is a
+change in the goals of care. And a lot of times, just to qualify a hospice, you're saying, I think
+they're less likely to live six months. So the mistake people often make when they think about
+palliative care is they wait too long to make these decisions. They wait too long to have these
+conversations. And I appreciate you bringing it up because I think this is critical. This is
+no one wants to talk about this, but everyone should talk about it so that when we get to this
+point, we know what you really want us to be doing. That's COVID-19 clinical update number 46 with
+Dr. Daniel Griffin. Thank you, Daniel. Oh, thank you so much, Vincent. And everyone, be safe.
