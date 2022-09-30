@@ -1,0 +1,398 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv. This week in virology, episode 692, recorded on December 10, 2020.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. How's it going, Daniel?
+Today was a long day. I think it's getting pretty bad, and we'll talk about that. But
+let me start with my quotation. Wise men say, only fools rush in, but I can't help falling
+in love with you. Now, some of our listeners probably know who that is by. That's Elvis Presley.
+What people may not know is that he is referring to the polio vaccine when he wrote that song.
+Are we going to exhumed and revaccinate him with SARS-CoV-2 vaccines now?
+We probably didn't want to do it on this show, but let's do it. I just want to let everyone
+know Elvis is actually still alive, and he's returning for a COVID-19 vaccination next week.
+Well, you can see it here, right? No, I'm joking on that. I wish Elvis was still with us. What a
+tremendous, talented individual he was. But let's start a little bit. I'll get back to why that
+quotation. Why are we not quoting Winston Churchill? Why Elvis Presley? But we will get there. But I
+just sort of bring some people up to date, patient updates. Everyone keeps seeing these numbers,
+but I like to put a face on the numbers. We actually, Vincent and I were together on a call
+about a week ago, actually, this last week. And Shane Crotty was on, and he was talking about
+issues with reinfection. There were a couple of physicians on, and Shane Crotty's data is
+really great and all. But we're seeing reinfection. I think I've talked about that a few times.
+My partner today called me and we discussed it a case. This was a gentleman who was admitted
+originally back in March, had a pretty severe case of COVID. And now they're back in the hospital.
+They're septic. We did a COVID PCR, and it was positive, right? So pretty hard for me to say that,
+wow, what is this? 10 months later, that that's somehow persistent from the March of 2020.
+So we're seeing cases and number of physicians were on the call saying, we're seeing these,
+but we're busy. We're in the trenches. We don't have samples from March and April to do the genetics.
+So this raise a concern. Don't think that just because you had it, you don't have to worry.
+There's a certain percent of people that are getting reinfected. We don't know what percent
+that is, but we'll see as we go forward. Had another gentleman, and this brought me back to
+the Irish patient. I don't know if people remember. People who've been longtime listeners may remember
+the Irish patient, a young man in his 30s. And I felt like it was back to March again, admitted
+another gentleman in his 30s. No past medical history, really sick. Basically did the same things
+that we learned from our Irish patient. The person was so ill that we had to intubate him. We had
+to lay him prone. He's really on maximal vent settings. And we're hoping that he's going to make
+it through this, but really, really sick. People have another sort of myth perception out there.
+Oh, the virus isn't so bad this time. Yeah, it's bad. We're seeing the aftermath of Thanksgiving,
+which for me is kind of tough because now we're admitting families, right? And we admitted a couple
+sisters. One of them died Monday morning. Her sister's still alive, but on a ventilator.
+And today I admitted a mother and she was quite upset because she said, you know what, Dr. Griffin,
+don't worry so much about me. What I'm really worried about is my daughter who's right here
+in the room with me. The daughter went to see her mother-in-law for Thanksgiving. The mother-in-law
+actually fainted on Thanksgiving and then was diagnosed the next day with COVID. They were
+trying to help the mother-in-law. Everyone was trying to do the right thing. People were wearing
+masks. The mother-in-law was wearing a mask. They took the mask off the mother-in-law,
+sort of helped her kind of feel better, got her to the hospital. But that whole event led to her
+getting sick. The mother getting sick, basically the whole family is sick. So,
+I guess I'll move right into the pre-exposure period with this. I try to keep giving people
+the facts so they can make their own decision. You know, it's difficult when people make bad
+decisions. And I see the consequences of that. We're here for you. We're going to take care of
+you. I'm here to educate you to give you the information you need to make the best decisions.
+But just keep these facts in mind when you're thinking about what you're going to do tonight
+is Hanukkah. Coming up soon is going to be Christmas, Kwanzaa, New Year. So, people are making plans
+now. We had over 3,000 people die in the US just yesterday. Things are really bad out there.
+And we're going to get to the fact that the vaccine is really right here on the horizon.
+So, let's try to make some good decisions. Also in the pre-exposure period, let's go
+back to the schools, right? There was a nice article in the CDC MMWR. This was implementing
+mitigation strategies in early care and education settings for prevention of SARS-CoV-2 transmission.
+And you looked at eight states in the period of September through October. And that's the
+time to look, right? I mean, I've seen studies where they talk about infections between like
+April and September. And schools were closed. I don't really know what, you know, what you make
+up stuff with that. But this was a really good article. And, you know, the CDC has been beaten
+up a lot, but there's really some great people. And they're really putting some great information
+out there for us. And this article described the role of mitigation for Head Start programs. And
+people in the US probably know the Head Start, but the rest of the world. This is a really tremendous
+program. There's Head Start and Early Head Start. And these are programs for kids five and under.
+And it promotes early learning, healthy development among children. And what did they do here? So,
+they provided quite a bit of guidance, information on masks, personal protective equipment,
+the physical setup. So, you could do this in a safer situation. Supplies for actually maintaining
+those healthy environments and operations. They even sort of, actually, there was financial aid
+in all this, helping them get additional staff members so that they could have smaller class sizes.
+And when they implemented all these programs, they actually saw very few cases of transmission
+among the children and the staff members. So, just sort of helpful to see, you know,
+we went into this, we didn't know, and we're learning, can we do things that make it safer
+to be in these environments? And I think just more information that we can. I always know that this
+triggers sort of a wedge issue, sending kids to school or not. And so, I always try to make
+the qualification that this tells us that you can do it safely. It doesn't say you are doing it
+safely. So, if you're looking at having kids in in-person learning environments, you can't just do
+it. You can't just make believe it's, you know, 2018 and stick 30 kids, you know, a couple of
+feet away from each other. This was a study showing that you can make it safer with proper
+mitigation, with spacing. And now, we're seeing in a lot of areas, they're really introducing
+testing, actually, becoming a big issue here in the New York area because, as people probably are
+where our rates are really climbing, you know, and I look on the map and I see that where I live,
+I now live in a red area. That doesn't mean we're socialists or communists. It means we've got way
+too much COVID. So, we need to, if we're going to ask those kids to go to school, if we're going to
+ask those teachers to be there and teach our kids, we got to give them the necessary resources,
+the necessary guidance. Can't just, can't just send in those folks. All right, vaccines. You know,
+Vincent pulled me away. It was like, you know, the Super Bowl, I had gone into extra time,
+and then Vincent's like, it's time to record Twiv. So, we'll get what was going on right before I
+jumped in is the FDA was having their EUA meeting and discussing what to do with the Pfizer vaccine.
+I know a lot of people are thinking actually about the time this drops will know, you know,
+the outcome, the final score. And it does look as though there will be an EUA for the Pfizer
+vaccine. And the discussion was just about what will be the definition, what will be the confines
+of that. So, we'll go through a couple of things here. But before we get into vaccines,
+I want to point out we're getting here near the end. You know, we're in the 11th hour. I know
+everyone's exhausted, but I want to tell a story. And hopefully this story is something that maybe
+gives people a little bit of thought about, my gosh, I've got to keep safe because we're almost
+there. So, this is a story that I asked my mother to retell this past week. And it's the story of
+my grandfather's best friend, my mother's godfather, Howard Miller. And this takes place. It's 1945.
+This is a true story. Howard Miller is at the Rhine River in Europe, right? It's World War II.
+He's a captain in the second armored tank division. I don't know if people realize,
+but 1945, that was when World War II finally ended. So World War II had just come to an end in
+European theater. News of the German surrender is spreading across Europe. This day in 1945,
+Howard gets up just like any other day, not knowing that the war is already over. The news has not
+gotten to him yet. He's killed by a sniper after the Germans had already surrendered. So,
+I feel like this is sort of a message for our listeners. The vaccine, by the time this drops,
+the vaccines are here. We're going to start rolling these out. I want people to take a moment
+and realize that Tuesday, November 8, 2020 was our modern V day, our modern vaccination day.
+And really this week, mankind's war against COVID started to end. And vaccinations have started in
+the UK. They're going to be coming here in the US in coming days and weeks. So they're going to
+be spreading around the world. All right, let's go to where we are with the vaccine. The UK started
+to administer the Pfizer vaccine. Canada approved the Pfizer vaccine. And by the time this dropped,
+there will be some sort of an FDA EUA for the vaccine here in the US. Right? As I sort of got
+on this, there was the discussion at the FDA, not about whether or not to give approval,
+but what qualifications to give approval. So was the vaccine going to be just go ahead,
+everyone can have it? Or we'll talk about a couple of the issues that were being discussed.
+One was, will there be a lower age? So, for instance, the first question that was put forth
+was 16 years of age and up. The bulk of scientific evidence supports the safety and efficacy of
+this. But then there were a couple discussions about, well, 16, 17, should we make it 18? Should
+there be something about that lower limit of age? The other was, since the plans are in the US to
+vaccinate high-risk individuals, so healthcare workers, long-term care facility people first.
+Should the EUA be limited to those high-risk groups, allowing more data to be generated before
+it goes out to a wider audience? So, we will hear what sort of the final decision is. But
+little things that we've learned in the last few days here, there was a 92-page brief
+that I actually have to say I enjoyed reading through. And then today was a full day. A lot
+of really hard questions asked advisor, nothing surprising, nothing concerning. A couple things
+we now know. The vaccine is preservative and adjuvant-free. I almost feel like that should
+be on there like advertisements. People are always worried about the vaccines. Is there
+some preservative in there that might cause problems? Are there adjuvants that might cause
+some sort of issue? And historically, we think of vaccines without adjuvants as maybe being
+safer, maybe having less issues. A couple things from the immunology front, the two-dose regimen
+elicited a robust neutralization antibody response. The titers were actually comparable and higher
+actually than individuals who'd recovered from COVID-19. And in addition, I got some questions
+about this the other day, it generated a strong CD4 and CD8 T cell response. There was reduction
+in the risk of getting COVID-19 as early as 10 days after the first dose. There were some common
+reactogenicity reactions. And we're going to touch on what is reactogenicity. But most people
+said, hey, at the injection site, it hurt. Got poked with a needle, was sore there. I'd say
+about half the people, a little bit more felt tired for a day or two. Headache was actually quite
+common. People feeling sort of muscle aches, chills, joint pain fever. Fever was about 14%.
+And one of the things that I mentioned is interesting. I don't know if a lot of people
+realize this, but they actually included adolescents down to the 12 and 17-year-old ages. So we had
+we had data not just on the older individuals. And that was why this was being discussed.
+There actually were adolescents included in the study hundreds of them. So we have data there.
+Want to address some of the fears here that were addressed in the last few days. It was
+noticed when they went through the thousands of people that got the vaccine that there were four
+cases of Bell's palsy in the over 20,000 people that were vaccinated. This is pointed out that's
+actually what we see as a background in the population. So that was not above background.
+So that was not considered in any way to necessarily be associated with the vaccine.
+The other, which is interesting. I don't know if people are following this, but there's this
+idea that if you get the vaccine, then you'll never get pregnant. Actually, it doesn't get
+the vaccinated people when I hadn't got pregnant during this short period of time. So I thought
+that was kind of interesting and reassuring. There's an interesting, and I'm going to talk
+about reactogenicity here. So let's define the word first, and then I'll get more into it. So our
+words for today are going to be reactogenicity, anaphylactic, and anaphylactoid. So reactogenicity
+is basically the evidence you get that your immune system is responding to the vaccine. So that
+might be local redness, soreness at the site of injection. That might be that feeling kind of
+a little crummy. And if our listeners have gotten a shingle shot, this seems to be a very similar
+experience. One of the concerns that people had is, Oh my gosh, if I get the vaccine,
+I'll be out of work for two days. I don't think we're seeing that. That's not what we're seeing,
+but it'll be great to have personal experience where we can talk to people who've gotten it and
+actually say, you know, Francis, Dr. Griffin, were you laying on your back for two days? Because I
+have a very low discomfort tolerance. There was sort of the interesting, you know, several young
+men were claiming that they got such bad chills from the ultra cold vaccine, that they were shaking
+so hard that their teeth were shattering and cracking their teeth. I tried to explain that
+the vaccine is brought up to room temperature before you get it. So that seems entertaining
+more than anything. But the other, and this has come up anaphylactic versus anaphylactoid.
+And so I immediately got a call yesterday morning from one of the allergists in our area.
+And there was a concern, a couple of the people in the UK who got the vaccine had allergic reactions,
+right? And the difference here is between anaphylactic and anaphylactoid. So anaphylactic
+is when you have antibodies, you get something, it triggers this severe reaction. Anaphylactoid
+is more along the lines of what was being described, something where they got Benadryl.
+It was a non-immunoglobulin mediated allergic reaction. There's discussion that here in the
+states, if someone has a history of issues like that, we might suggest taking Benadryl before the
+vaccine. And the way I was talking about that, should there be some kind of qualification
+about people that have a history of anaphylactoid allergic reactions to things,
+maybe just sort of alerting people. So I will move forward from there to what is really on the top
+of people's mind, actually, I have to say. I know in the media, they're talking a lot about
+vaccine hesitancy. But at this point, we're in the less vaccine relative to demand.
+Some point will be into some other concerns. And this is an area where now we're talking about
+equitable distribution. And so who gets the vaccine first? And the world is watching, right? So we
+want to make sure we do this the right way. So I'm going to talk specifically about New York
+States vaccination program, because the way it works, right, is the ultimate decisions are going
+to be based at the New York State Department of Health. And we've been getting updates on this.
+So high-risk healthcare workers, nursing home residents, and staff will be the first New Yorkers
+to receive the vaccine. So what does that mean? So what are high-risk hospital workers? Not everyone
+in the hospital is at the same risk. Emergency room workers, right? Particularly, we'll say
+nurses, non-physicians, right? I think they spend a lot more time. I think anyone has ever interacted
+with the healthcare profession. Your nurse spends a lot more time with you than the doctor.
+So the nurses, the doctors, all the support staff, similar ICU. So all the ICU staff,
+nurses, all the assistants, the pulmonary department staff, and New York State expects
+all high-risk hospital staff. We'll get the vaccine actually within the next week or two,
+right? So we're expecting to get vaccine here in New York next week, if this, well, when the EU
+goes through, which we all expect. And then it's going to follow, right? It's going to go very
+quickly to the long-term and congregative care staff and the residents there. And it's going
+to be interesting, who's giving the vaccine to whom? So the big pharmacy chains have stepped up
+across the nation. So CVS, Walgreens, I realize correction, Dwayne Reed is the drugstore, Dwayne
+Johnson is the rock, but throw that in there. And then it's going to move out to other physicians,
+other staff working in the hospital, and then it'll move out to essential workers, general
+population, et cetera. But this is an interesting, I'm going to tell another little story here
+about who gets first. So I was having a conversation earlier this week with the majority leader of
+one of the legislative bodies here in our great country. It was not Nancy Pelosi. And this gentleman
+was saying to me, well, you know, Dr. Griffith, it's obviously a no-brainer that we got to get
+these vaccines to the hospitals. Because, you know, when you get COVID-19, that's where people go.
+And he told me a story about how a secret service individual, you know, was talking,
+there's a couple of aspects that I think they're really interesting to our listeners. One is
+saying, you know, the secret service person, you know, where in the gloves, where in the mask,
+he's very safe at work. So it isn't that we're thinking that it's a risk for the hospital workers
+being in the hospital, though I think it is. What happened in this case was this individual's
+child got infected, the wife got infected, he got infected. And now a critical person
+is sick and going to the hospital. So we had a little bit of a discussion. I was actually
+surprised. I think our listeners know this, but I pointed out that the majority of people who get
+COVID never actually go to the hospital, that 80, 85% of people we care for in the community.
+So raising the issue that as we look at the critical people that we need to make sure we
+keep them healthy and protected, we've got to be looking at our primary care docs.
+We've got to be looking at the people that work in the urgent care centers.
+And not just the doctors, right? Think about the receptionist who's working there at the
+urgent care or the busy primary care practice. Think about the nurses, the medical assistants.
+Basically saying if we don't protect those people, if we can't keep them healthy enough to take
+care of that 80% that we manage in the outpatient setting, and we leave them with just the ER as a
+place to get care, we're going to drown. So it's a very interesting conversation as we go forward,
+we'll hear more about how this all works. And I'll be talking more about our, we'll say our
+pro-health riverside tri-state vaccine initiative. But once we get past these easy to vaccinate
+people, I think, people working in the hospitals, urgent cares, medical practices, long-term care
+facilities, I say easy. More challenging is we going out to the communities, right?
+When we move from phase one, right, to these high-risk individuals, when we start moving to
+people that are 65 and older, when we start moving to teachers, critical workers, so police,
+firefighters, et cetera, you'll be hearing more about a lot of organizations like ours are jumping
+in, reaching out to the state saying, we'll be a solution. We'll produce high-throughput
+vaccination access sites where people can do drive through like we did back with the H1
+and N1 vaccinations. Let's get as many people vaccinated and protected so we can move forward.
+All right. Now let's move. I'm going to skip a little bit past that incubation period.
+Actually, I won't skip so much. The CDC updated things where they basically said once you've
+been exposed at day seven, if you've got a negative test within 48 hours, you can end that quarantine
+a little bit earlier. We haven't quite embraced that in New York City or New York State, so
+we're still stretching out the full thing, or at least we're recommending. No one's listening.
+We're aware of that. But once you actually go ahead and actually get detectable virus, what do you
+do? Or what do you do if you think that's the case? And the NIH has a nice page now really
+basically pointing out that testing saves lives. So when I was talking about how we're going to roll
+out the vaccines, I was talking to a lot of our urgent cares. Some of our urgent care centers
+are doing over 6,000 COVID tests a day per site. I mean, this is really amazing.
+And if you look at our positivity rate being five or six percent, I'm going to do five percent.
+The math is easier. You're talking about 300 people testing positive at one of these sites,
+each of these sites per day. This was huge when we went into Thanksgiving.
+All of those people testing positive being pulled out and not going to that Thanksgiving dinner.
+Think of all the contagion that you're stopping by identifying people who are positive.
+So this is really critical. And there's really a push. Now, don't just get tested when you have
+symptoms. Testing saves lives. It identifies the spread before it happens. And this is really
+critical in being embraced. And actually, a lot of people, I think it's taken a little bit longer
+than it needed to, but embracing rapid resulting. So what are we doing? This is sort of a four doctors.
+We're doing rapid antigen testing at most of our sites. We do Abbott ID now at some of them as well.
+We often send off a PCR as well. What sometimes happens, right? 6,000 tests. You don't tell everyone
+to sort of quarantine while you're waiting for that PCR. But some of the time that antigen test
+is coming back negative, but the PCR is coming back positive. We're catching some people in that
+ramp up phase. We're catching some people sort of after the fact in the ramp down phase.
+But what we're doing then is basically calling them up. Your PCR came back positive and then
+sort of moving forward with that. So that's going to happen. When you're doing 6,000 tests per site
+per day, a certain number of those negative antigen tests are going to be people that are early
+enough in disease that you're getting a few hours before that antigen test term is positive.
+So the early inflammatory phase. This I touched on a little bit above and just to reiterate,
+it was actually interesting when I was talking to the majority leader. He was shocked when I said
+that 80% of people are managed outside the hospital. They actually challenged me. Where did you come
+up with that number? I was a little surprised, actually. But I think that as someone told me,
+well, 80% of the focus has been on the hospitals. People are not aware of all the people out there.
+When you look at 240,000 people in a single day being diagnosed with COVID,
+they're not all going to the hospital. If anything, we're getting above that 80%. We're getting
+better and better at managing these people outside the hospital. So what are we doing?
+We're still recommending the first week, just symptomatic management. We've eased up. You can
+take your leave, your ibuprofen, your Tylenol to treat those viral symptoms. We are encouraging
+people to wait until the second week to consider steroids. We're limiting steroids to people who
+have issues with their oxygen level dropping. Actually here in New York, we're setting people
+home with post-oximeters, 15, $20. That's a good way for us to then manage them. Just speaking to
+a physician friend of mine who's in that second week where each day we're checking in to see where
+his post-ox is. It's in the high 90s still. As long as it stays in the high 90s, he'll continue
+to take his aspirin a day, try to stay active, stay off the steroids, stay off the antibiotics,
+and just manage them outside the hospital. This is critical because you can't send everyone with
+COVID and a fever to the ERs. You can overwhelm the system and when you do that, no one benefits.
+We did see the formal, peer-reviewed publication of the repurposed antiviral drugs for COVID-19
+interim, WHO, solitary trial results that came out in the New England Journal on the second.
+Again, this is where they looked at remdesivir, hydroxychloroquine, lopinovir, interferon regimens,
+and really did not show any overwhelming compelling evidence for mortality,
+initiation of ventilation, duration of hospital stay. This is an interesting issue because the
+first of those in there was remdesivir, right? A lot of the hospital systems have purchased
+large orders of remdesivir here in the United States. I'm actually seeing people get admitted
+just for remdesivir, even though they're not hypoxic. I think this is a decision people have
+to make. Is the benefit of remdesivir enough that it's worth hospitalizing someone just for that
+therapy? Because originally, the idea is it shortened your hospital stay. Here, I have people
+getting admitted to the hospital without hypoxia just to get the remdesivir. Here, it's creating a
+five-day hospital stay versus shortening a hospital stay. Something to think about there.
+We continue to see secondary infections later on. The multi-inflammatory phase,
+I think I mentioned last time the individual with the Guian Barre. We gave them the intravenous
+immunoglobulin. A few days later, he's squeezing my hands, but then he actually started to get
+flasset again. This continues to be a challenge. I have another gentleman. I'm not sure the
+connection here, but he was a gentleman who had COVID and then at about week four developed an
+expressive aphasia. Really unclear what that is, but the timing is concerning for a connection there.
+A number of papers out there, case reports, suggested a connection. What is expressive aphasia?
+This is a gentleman where I ask him questions. I go for a while until finally I hit an area,
+and he just can't get the words out. He can't tell me. I'll ask him where he works,
+and it comes out gibberish. If I let him just talk on his own, he could talk. It sounds like he's
+fine. Then I say, you work at GBP. What does GBP stand for? When he tries to say GBP, it just comes
+out. I ask him, do you know what GBP stands for? He nods. He knows what. He just can't get it
+expressed. Really a challenge. I'm going to sort of wrap out here with our tail phase,
+but in the tail phase, I want to talk a little bit about challenges we're having with DC planning
+now. The tail phase is very recognized, continues to be a huge problem. Actually, one of the questions
+I just got from this physician colleague was his wife, his son. They're both sick. They're an
+urgent care waiting to get tested. Should he wait? Should they bother getting that test? My advice
+was yes, get that test. We need that objective evidence. But one of the issues that came up
+is currently COVID is considered an acute diagnosis, not a chronic. One of the nurses that I've talked
+about several times is having issues getting disability coverage because they say COVID is an
+acute diagnosis. You had that back in March, April. It's not a chronic disease. If you're going to
+look for any kind of support, you need a chronic diagnosis. It's interesting. This has also become
+an issue for oxygen. We have a number of individuals in the hospital. We're looking at trying to
+discharge them, but oxygen is only paid for if you have a chronic condition requiring oxygen.
+Back in March, April, the early days of the pandemic, the governor stepped in. Executive
+orders basically said everyone has to cover and supply oxygen for COVID. Interesting that we're
+seeing bureaucracy stand in the way of what we recommend as good care. I think the governor listens
+to us, Vincent, so he can maybe jump in and give us some help on that. But before we take emails,
+let me just say we're continuing to our support of the Peace Corps, HIV and AIDS programs.
+Just to point out, we are in the midst of this pandemic. I hope when we get through
+the other side, people don't forget about COVID-19 so that we don't go into this unprepared like we
+did this time. But there's still a huge pandemic going on. We have not really gotten through the
+HIV pandemic. And so go to parasiteswithoutborders.com, help us support them, but also help us continue
+our mission. Daniel, have you seen an uptick in influenza cases yet this season?
+So there are more influenza cases. There is an increase, but it is actually a much lower
+percent of cases, a slower number of cases of influenza this season than we previously. Usually
+now is when we start seeing all these flu admissions. But I think all the things we're doing is keeping
+flu at a lower level. That's great. That's good. This one maybe one silver lining, right?
+Yes. All right, we have some email. Remember everybody you can send an email to Daniel at
+microbe.tv. And we've got a lot, but we'll just do a couple here today. This is from Sean. I'm an
+orthopedic surgeon in New Orleans and have a friend who's an internist who treats COVID patients.
+Yeah, I'm not sure that's what he's supposed to be doing, right? But
+he's on regular zoom call clinical updates. He told me that dexamethasone is no longer
+recommended to treat COVID. This seems to contradict everything I've learned so far about how dex
+is one of the best therapeutics we have. What do you think? Well, I think it's his friend,
+the internist who's taking care of the people. So that's good. That's what we want. As I mentioned,
+80%, 85%, the majority of people with COVID do not need an infectious disease specialist.
+They don't need to go to the hospital. This is something everyone should feel comfortable
+managing the outpatient setting in most cases. We usually, as I point out, we don't give dexameth
+zone to everyone. It isn't like connect the dots. It isn't COVID dexamethasone.
+dexamethasone is reserved for the class for which it was shown to make a difference.
+And these are people who are starting to develop the early inflammatory response.
+It's during the second week. And it's people who are starting to get hypoxic, right? So if you're
+not hypoxic, if your sats are still in the 90s and you're doing well in the outpatient setting,
+or even it's the first week, don't give them steroids. Steroids is something that we should be
+giving to only a select number of individuals. Is the mortality benefit huge? No, the absolute
+benefit is only a couple percent in people with low oxygen requirement, a little bit higher in
+people who are more serious disease. But yeah, it's not for everyone. There's a certain place for it.
+Okay, we have an email from anonymous in Manchester, UK, who is worried about their dad in Australia.
+Her dad had a flu vaccine 30 years ago and developed Guillain-Barre syndrome.
+So anonymous wants to know, is there a reason my dad or anyone like him to worry about any of the
+COVID-19 vaccines or candidates, no longer gets flu shots? And should I worry since I am, you know,
+that's my father. You know, so this has come up quite a bit. And you know, questions about
+the vaccine, should I worry about Guillain-Barre? And actually, I think the flu is a perfect example.
+We look at people who get natural infection with influenza versus people who get the influenza
+vaccine and the incidence of Guillain-Barre is certainly higher with getting natural infection
+from influenza. So sort of an interesting thing in a perfect world, there's no influenza, there's
+no influenza shot and there's less Guillain-Barre. But yeah, I've certainly seen it in natural
+infection with influenza, I've also seen it after a flu shot. But is this going to be an issue for
+people who get the different vaccines for COVID? So far, we're not seeing a signal. Pretty soon,
+we're going to be having millions of people vaccinated. So by the time, you know, it rolls
+out to other individuals, I think there's going to be more data to help us with this.
+The next emails from a nurse in a New York City hospital who's been trying to get pregnant for
+some months and wonders if she should wait until after vaccination, because the vaccines, I think,
+are not being tested in pregnant women. What do you think, Dan?
+Yeah, no, I think that's, yeah, no, excellent. I'm going to say, you know, interfere with your
+family planning decisions here. Tell your husband to curse me if he wants to have a child immediately.
+But as we saw, they excluded pregnant women in the vaccine trials as a nurse in a New York City
+hospital. You're right here in phase 1A, potentially going to get vaccinated in the next few weeks,
+right? And after the 10 days, you'll have some protection. Three weeks later, you get your second
+dose and then you're good to go. We certainly saw people go ahead and get pregnant once they
+had been vaccinated. I think I mentioned there were a dozen women that went ahead and did that
+in the Pfizer trial. So yeah, just, you know, wait, wait a few weeks, you know, and then go ahead.
+That would make sense. You hate to go ahead and, you know, not get vaccinated, you know, when you
+could be really mad or just postponing that pregnancy by a few weeks. So that's my advice,
+but I'm going to leave the ultimate decision up to you and your partner.
+All right, we have the last two are the same question. We have a question from
+the FISA and Katherine, whether immune compromised people can be vaccinated.
+So that's an excellent question. So a lot of people are asking about this. And, you know,
+there's a certain sophistication to mRNA vaccines and concerns about people with autoimmune diseases.
+And when you make the RNA vaccines, right, you're basically taking DNA, you're going over to RNA,
+and some of the products will be double stranded RNA. So they're early vaccines or the early trials
+when they're going through this, they've realized that you were making contaminants of double
+stranded DNA. And you really don't want that, right? That's potentially something we worry
+could trigger autoimmunity. So they do a really careful chromatography process. They purify and
+make sure it's just straight RNA. At least what we're seeing so far, I think it looks like it's
+going to be okay to use in these individuals. It is not a live vaccine. That's good. It has sort
+of less stuff in there. So we're anticipating that this might be a safer approach. And I throw
+that in. Not only am I, at this point, saying like the RNA vaccines, but we have a couple other
+vaccines on the horizon, the Chinese with their inactivated, Sino farm. That's one that was what,
+86% efficacy, they tell us, we'll see the actual data on that. We've got Johnson and Johnson coming
+out either this month or January, actually, so much COVID in the States, Jay and Jay said they
+don't have to have 60,000 people. Looks like they'll probably stop at 40,000, just this so much COVID.
+And then we'll see even more. But yeah, as we go forward, we're not expecting there to be a problem
+here. We like the idea that it's not a, should I say live vaccine, I'll say active replicating
+virus that we're injecting people. This is really just that sticky note with instructions for how
+your immune system should respond. And we are thinking and the data seems to be supporting that
+this will be a safer technology. So right now, if you're say one of these first-line people who
+are going to be vaccinated next week, and you have an immune compromise, are they going to give it
+to you or no? It'll be on a case by case basis. Okay, there's no general rule. Very good. All right,
+that's our 40th from weekly COVID-19 clinical update with Dr. Daniel Griffin. Thanks again, Daniel.
+Oh, thank you so much. Everyone be safe.

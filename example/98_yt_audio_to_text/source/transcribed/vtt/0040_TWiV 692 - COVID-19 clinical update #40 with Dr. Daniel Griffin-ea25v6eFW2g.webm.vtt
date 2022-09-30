@@ -1,0 +1,1196 @@
+WEBVTT
+
+00:00.000 --> 00:06.880
+ This week in virology, the podcast about viruses, the kind that make you sick.
+
+00:10.400 --> 00:20.960
+ From Microbe TV, this is Twiv. This week in virology, episode 692, recorded on December 10, 2020.
+
+00:21.520 --> 00:27.920
+ I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me today
+
+00:27.920 --> 00:35.520
+ from New York, Daniel Griffin. Hello, everyone. How's it going, Daniel?
+
+00:37.200 --> 00:42.320
+ Today was a long day. I think it's getting pretty bad, and we'll talk about that. But
+
+00:43.600 --> 00:53.200
+ let me start with my quotation. Wise men say, only fools rush in, but I can't help falling
+
+00:53.200 --> 00:59.120
+ in love with you. Now, some of our listeners probably know who that is by. That's Elvis Presley.
+
+00:59.920 --> 01:06.560
+ What people may not know is that he is referring to the polio vaccine when he wrote that song.
+
+01:09.040 --> 01:13.440
+ Are we going to exhumed and revaccinate him with SARS-CoV-2 vaccines now?
+
+01:15.680 --> 01:19.040
+ We probably didn't want to do it on this show, but let's do it. I just want to let everyone
+
+01:19.040 --> 01:24.640
+ know Elvis is actually still alive, and he's returning for a COVID-19 vaccination next week.
+
+01:25.680 --> 01:31.520
+ Well, you can see it here, right? No, I'm joking on that. I wish Elvis was still with us. What a
+
+01:31.520 --> 01:37.040
+ tremendous, talented individual he was. But let's start a little bit. I'll get back to why that
+
+01:37.040 --> 01:41.920
+ quotation. Why are we not quoting Winston Churchill? Why Elvis Presley? But we will get there. But I
+
+01:41.920 --> 01:46.320
+ just sort of bring some people up to date, patient updates. Everyone keeps seeing these numbers,
+
+01:46.320 --> 01:54.000
+ but I like to put a face on the numbers. We actually, Vincent and I were together on a call
+
+01:55.120 --> 02:00.560
+ about a week ago, actually, this last week. And Shane Crotty was on, and he was talking about
+
+02:00.560 --> 02:06.960
+ issues with reinfection. There were a couple of physicians on, and Shane Crotty's data is
+
+02:06.960 --> 02:12.560
+ really great and all. But we're seeing reinfection. I think I've talked about that a few times.
+
+02:12.560 --> 02:18.480
+ My partner today called me and we discussed it a case. This was a gentleman who was admitted
+
+02:18.480 --> 02:25.760
+ originally back in March, had a pretty severe case of COVID. And now they're back in the hospital.
+
+02:25.760 --> 02:32.800
+ They're septic. We did a COVID PCR, and it was positive, right? So pretty hard for me to say that,
+
+02:32.800 --> 02:38.160
+ wow, what is this? 10 months later, that that's somehow persistent from the March of 2020.
+
+02:38.160 --> 02:43.840
+ So we're seeing cases and number of physicians were on the call saying, we're seeing these,
+
+02:43.840 --> 02:48.880
+ but we're busy. We're in the trenches. We don't have samples from March and April to do the genetics.
+
+02:49.600 --> 02:53.920
+ So this raise a concern. Don't think that just because you had it, you don't have to worry.
+
+02:53.920 --> 02:58.000
+ There's a certain percent of people that are getting reinfected. We don't know what percent
+
+02:58.000 --> 03:04.720
+ that is, but we'll see as we go forward. Had another gentleman, and this brought me back to
+
+03:04.720 --> 03:09.040
+ the Irish patient. I don't know if people remember. People who've been longtime listeners may remember
+
+03:09.040 --> 03:18.000
+ the Irish patient, a young man in his 30s. And I felt like it was back to March again, admitted
+
+03:18.000 --> 03:25.040
+ another gentleman in his 30s. No past medical history, really sick. Basically did the same things
+
+03:25.040 --> 03:30.880
+ that we learned from our Irish patient. The person was so ill that we had to intubate him. We had
+
+03:30.880 --> 03:37.840
+ to lay him prone. He's really on maximal vent settings. And we're hoping that he's going to make
+
+03:37.840 --> 03:42.960
+ it through this, but really, really sick. People have another sort of myth perception out there.
+
+03:42.960 --> 03:49.600
+ Oh, the virus isn't so bad this time. Yeah, it's bad. We're seeing the aftermath of Thanksgiving,
+
+03:49.600 --> 03:54.720
+ which for me is kind of tough because now we're admitting families, right? And we admitted a couple
+
+03:54.720 --> 04:01.680
+ sisters. One of them died Monday morning. Her sister's still alive, but on a ventilator.
+
+04:02.400 --> 04:08.000
+ And today I admitted a mother and she was quite upset because she said, you know what, Dr. Griffin,
+
+04:08.000 --> 04:12.080
+ don't worry so much about me. What I'm really worried about is my daughter who's right here
+
+04:12.080 --> 04:18.960
+ in the room with me. The daughter went to see her mother-in-law for Thanksgiving. The mother-in-law
+
+04:18.960 --> 04:25.120
+ actually fainted on Thanksgiving and then was diagnosed the next day with COVID. They were
+
+04:25.120 --> 04:28.880
+ trying to help the mother-in-law. Everyone was trying to do the right thing. People were wearing
+
+04:28.880 --> 04:32.240
+ masks. The mother-in-law was wearing a mask. They took the mask off the mother-in-law,
+
+04:32.240 --> 04:37.440
+ sort of helped her kind of feel better, got her to the hospital. But that whole event led to her
+
+04:37.440 --> 04:41.760
+ getting sick. The mother getting sick, basically the whole family is sick. So,
+
+04:44.320 --> 04:48.880
+ I guess I'll move right into the pre-exposure period with this. I try to keep giving people
+
+04:48.880 --> 04:53.520
+ the facts so they can make their own decision. You know, it's difficult when people make bad
+
+04:53.520 --> 04:58.160
+ decisions. And I see the consequences of that. We're here for you. We're going to take care of
+
+04:58.160 --> 05:01.600
+ you. I'm here to educate you to give you the information you need to make the best decisions.
+
+05:02.320 --> 05:06.000
+ But just keep these facts in mind when you're thinking about what you're going to do tonight
+
+05:06.000 --> 05:13.200
+ is Hanukkah. Coming up soon is going to be Christmas, Kwanzaa, New Year. So, people are making plans
+
+05:13.200 --> 05:20.080
+ now. We had over 3,000 people die in the US just yesterday. Things are really bad out there.
+
+05:20.080 --> 05:24.240
+ And we're going to get to the fact that the vaccine is really right here on the horizon.
+
+05:24.240 --> 05:28.960
+ So, let's try to make some good decisions. Also in the pre-exposure period, let's go
+
+05:28.960 --> 05:35.280
+ back to the schools, right? There was a nice article in the CDC MMWR. This was implementing
+
+05:35.280 --> 05:42.000
+ mitigation strategies in early care and education settings for prevention of SARS-CoV-2 transmission.
+
+05:42.000 --> 05:47.280
+ And you looked at eight states in the period of September through October. And that's the
+
+05:47.280 --> 05:50.880
+ time to look, right? I mean, I've seen studies where they talk about infections between like
+
+05:50.880 --> 05:56.160
+ April and September. And schools were closed. I don't really know what, you know, what you make
+
+05:56.160 --> 06:00.880
+ up stuff with that. But this was a really good article. And, you know, the CDC has been beaten
+
+06:00.880 --> 06:04.480
+ up a lot, but there's really some great people. And they're really putting some great information
+
+06:04.480 --> 06:12.320
+ out there for us. And this article described the role of mitigation for Head Start programs. And
+
+06:12.320 --> 06:17.440
+ people in the US probably know the Head Start, but the rest of the world. This is a really tremendous
+
+06:17.440 --> 06:24.240
+ program. There's Head Start and Early Head Start. And these are programs for kids five and under.
+
+06:24.240 --> 06:29.200
+ And it promotes early learning, healthy development among children. And what did they do here? So,
+
+06:29.200 --> 06:35.280
+ they provided quite a bit of guidance, information on masks, personal protective equipment,
+
+06:35.280 --> 06:40.720
+ the physical setup. So, you could do this in a safer situation. Supplies for actually maintaining
+
+06:40.720 --> 06:46.560
+ those healthy environments and operations. They even sort of, actually, there was financial aid
+
+06:47.120 --> 06:52.800
+ in all this, helping them get additional staff members so that they could have smaller class sizes.
+
+06:52.800 --> 06:58.720
+ And when they implemented all these programs, they actually saw very few cases of transmission
+
+06:58.720 --> 07:04.480
+ among the children and the staff members. So, just sort of helpful to see, you know,
+
+07:04.480 --> 07:10.480
+ we went into this, we didn't know, and we're learning, can we do things that make it safer
+
+07:10.480 --> 07:17.360
+ to be in these environments? And I think just more information that we can. I always know that this
+
+07:17.360 --> 07:23.120
+ triggers sort of a wedge issue, sending kids to school or not. And so, I always try to make
+
+07:23.120 --> 07:27.760
+ the qualification that this tells us that you can do it safely. It doesn't say you are doing it
+
+07:27.760 --> 07:33.360
+ safely. So, if you're looking at having kids in in-person learning environments, you can't just do
+
+07:33.360 --> 07:38.160
+ it. You can't just make believe it's, you know, 2018 and stick 30 kids, you know, a couple of
+
+07:38.160 --> 07:43.520
+ feet away from each other. This was a study showing that you can make it safer with proper
+
+07:43.520 --> 07:48.400
+ mitigation, with spacing. And now, we're seeing in a lot of areas, they're really introducing
+
+07:48.960 --> 07:54.240
+ testing, actually, becoming a big issue here in the New York area because, as people probably are
+
+07:54.240 --> 08:00.320
+ where our rates are really climbing, you know, and I look on the map and I see that where I live,
+
+08:00.320 --> 08:05.120
+ I now live in a red area. That doesn't mean we're socialists or communists. It means we've got way
+
+08:05.120 --> 08:11.280
+ too much COVID. So, we need to, if we're going to ask those kids to go to school, if we're going to
+
+08:11.280 --> 08:15.600
+ ask those teachers to be there and teach our kids, we got to give them the necessary resources,
+
+08:15.600 --> 08:23.200
+ the necessary guidance. Can't just, can't just send in those folks. All right, vaccines. You know,
+
+08:23.200 --> 08:27.360
+ Vincent pulled me away. It was like, you know, the Super Bowl, I had gone into extra time,
+
+08:27.360 --> 08:33.600
+ and then Vincent's like, it's time to record Twiv. So, we'll get what was going on right before I
+
+08:33.600 --> 08:40.400
+ jumped in is the FDA was having their EUA meeting and discussing what to do with the Pfizer vaccine.
+
+08:41.120 --> 08:44.800
+ I know a lot of people are thinking actually about the time this drops will know, you know,
+
+08:44.800 --> 08:53.120
+ the outcome, the final score. And it does look as though there will be an EUA for the Pfizer
+
+08:53.120 --> 08:58.400
+ vaccine. And the discussion was just about what will be the definition, what will be the confines
+
+08:58.400 --> 09:03.840
+ of that. So, we'll go through a couple of things here. But before we get into vaccines,
+
+09:04.560 --> 09:09.360
+ I want to point out we're getting here near the end. You know, we're in the 11th hour. I know
+
+09:09.360 --> 09:15.440
+ everyone's exhausted, but I want to tell a story. And hopefully this story is something that maybe
+
+09:15.440 --> 09:20.800
+ gives people a little bit of thought about, my gosh, I've got to keep safe because we're almost
+
+09:20.800 --> 09:27.600
+ there. So, this is a story that I asked my mother to retell this past week. And it's the story of
+
+09:27.600 --> 09:35.920
+ my grandfather's best friend, my mother's godfather, Howard Miller. And this takes place. It's 1945.
+
+09:35.920 --> 09:42.320
+ This is a true story. Howard Miller is at the Rhine River in Europe, right? It's World War II.
+
+09:42.320 --> 09:47.680
+ He's a captain in the second armored tank division. I don't know if people realize,
+
+09:47.680 --> 09:53.840
+ but 1945, that was when World War II finally ended. So World War II had just come to an end in
+
+09:53.840 --> 10:00.720
+ European theater. News of the German surrender is spreading across Europe. This day in 1945,
+
+10:00.720 --> 10:06.560
+ Howard gets up just like any other day, not knowing that the war is already over. The news has not
+
+10:06.560 --> 10:13.120
+ gotten to him yet. He's killed by a sniper after the Germans had already surrendered. So,
+
+10:13.120 --> 10:19.840
+ I feel like this is sort of a message for our listeners. The vaccine, by the time this drops,
+
+10:20.400 --> 10:25.600
+ the vaccines are here. We're going to start rolling these out. I want people to take a moment
+
+10:25.600 --> 10:33.360
+ and realize that Tuesday, November 8, 2020 was our modern V day, our modern vaccination day.
+
+10:34.160 --> 10:39.520
+ And really this week, mankind's war against COVID started to end. And vaccinations have started in
+
+10:39.520 --> 10:45.200
+ the UK. They're going to be coming here in the US in coming days and weeks. So they're going to
+
+10:45.200 --> 10:50.800
+ be spreading around the world. All right, let's go to where we are with the vaccine. The UK started
+
+10:50.800 --> 10:56.960
+ to administer the Pfizer vaccine. Canada approved the Pfizer vaccine. And by the time this dropped,
+
+10:56.960 --> 11:04.000
+ there will be some sort of an FDA EUA for the vaccine here in the US. Right? As I sort of got
+
+11:04.000 --> 11:08.400
+ on this, there was the discussion at the FDA, not about whether or not to give approval,
+
+11:08.400 --> 11:13.600
+ but what qualifications to give approval. So was the vaccine going to be just go ahead,
+
+11:13.600 --> 11:18.320
+ everyone can have it? Or we'll talk about a couple of the issues that were being discussed.
+
+11:18.320 --> 11:24.400
+ One was, will there be a lower age? So, for instance, the first question that was put forth
+
+11:24.960 --> 11:35.360
+ was 16 years of age and up. The bulk of scientific evidence supports the safety and efficacy of
+
+11:35.360 --> 11:42.320
+ this. But then there were a couple discussions about, well, 16, 17, should we make it 18? Should
+
+11:42.320 --> 11:48.720
+ there be something about that lower limit of age? The other was, since the plans are in the US to
+
+11:48.720 --> 11:55.360
+ vaccinate high-risk individuals, so healthcare workers, long-term care facility people first.
+
+11:56.160 --> 12:01.360
+ Should the EUA be limited to those high-risk groups, allowing more data to be generated before
+
+12:01.360 --> 12:07.200
+ it goes out to a wider audience? So, we will hear what sort of the final decision is. But
+
+12:07.200 --> 12:12.000
+ little things that we've learned in the last few days here, there was a 92-page brief
+
+12:12.640 --> 12:17.120
+ that I actually have to say I enjoyed reading through. And then today was a full day. A lot
+
+12:17.120 --> 12:22.080
+ of really hard questions asked advisor, nothing surprising, nothing concerning. A couple things
+
+12:22.080 --> 12:27.280
+ we now know. The vaccine is preservative and adjuvant-free. I almost feel like that should
+
+12:27.280 --> 12:32.240
+ be on there like advertisements. People are always worried about the vaccines. Is there
+
+12:32.240 --> 12:36.400
+ some preservative in there that might cause problems? Are there adjuvants that might cause
+
+12:36.400 --> 12:41.520
+ some sort of issue? And historically, we think of vaccines without adjuvants as maybe being
+
+12:41.520 --> 12:48.880
+ safer, maybe having less issues. A couple things from the immunology front, the two-dose regimen
+
+12:48.880 --> 12:56.640
+ elicited a robust neutralization antibody response. The titers were actually comparable and higher
+
+12:56.640 --> 13:01.040
+ actually than individuals who'd recovered from COVID-19. And in addition, I got some questions
+
+13:01.040 --> 13:09.600
+ about this the other day, it generated a strong CD4 and CD8 T cell response. There was reduction
+
+13:09.600 --> 13:16.720
+ in the risk of getting COVID-19 as early as 10 days after the first dose. There were some common
+
+13:17.760 --> 13:24.800
+ reactogenicity reactions. And we're going to touch on what is reactogenicity. But most people
+
+13:24.800 --> 13:29.600
+ said, hey, at the injection site, it hurt. Got poked with a needle, was sore there. I'd say
+
+13:29.600 --> 13:34.880
+ about half the people, a little bit more felt tired for a day or two. Headache was actually quite
+
+13:34.880 --> 13:41.280
+ common. People feeling sort of muscle aches, chills, joint pain fever. Fever was about 14%.
+
+13:43.120 --> 13:46.880
+ And one of the things that I mentioned is interesting. I don't know if a lot of people
+
+13:46.880 --> 13:54.560
+ realize this, but they actually included adolescents down to the 12 and 17-year-old ages. So we had
+
+13:54.560 --> 13:59.600
+ we had data not just on the older individuals. And that was why this was being discussed.
+
+13:59.600 --> 14:04.720
+ There actually were adolescents included in the study hundreds of them. So we have data there.
+
+14:05.520 --> 14:11.360
+ Want to address some of the fears here that were addressed in the last few days. It was
+
+14:11.360 --> 14:15.680
+ noticed when they went through the thousands of people that got the vaccine that there were four
+
+14:15.680 --> 14:22.720
+ cases of Bell's palsy in the over 20,000 people that were vaccinated. This is pointed out that's
+
+14:22.720 --> 14:27.760
+ actually what we see as a background in the population. So that was not above background.
+
+14:27.760 --> 14:31.280
+ So that was not considered in any way to necessarily be associated with the vaccine.
+
+14:33.600 --> 14:36.880
+ The other, which is interesting. I don't know if people are following this, but there's this
+
+14:36.880 --> 14:40.400
+ idea that if you get the vaccine, then you'll never get pregnant. Actually, it doesn't get
+
+14:40.400 --> 14:44.640
+ the vaccinated people when I hadn't got pregnant during this short period of time. So I thought
+
+14:44.640 --> 14:50.240
+ that was kind of interesting and reassuring. There's an interesting, and I'm going to talk
+
+14:50.240 --> 14:54.880
+ about reactogenicity here. So let's define the word first, and then I'll get more into it. So our
+
+14:54.880 --> 15:02.880
+ words for today are going to be reactogenicity, anaphylactic, and anaphylactoid. So reactogenicity
+
+15:02.880 --> 15:08.800
+ is basically the evidence you get that your immune system is responding to the vaccine. So that
+
+15:08.800 --> 15:13.840
+ might be local redness, soreness at the site of injection. That might be that feeling kind of
+
+15:13.840 --> 15:19.360
+ a little crummy. And if our listeners have gotten a shingle shot, this seems to be a very similar
+
+15:19.360 --> 15:24.960
+ experience. One of the concerns that people had is, Oh my gosh, if I get the vaccine,
+
+15:24.960 --> 15:29.280
+ I'll be out of work for two days. I don't think we're seeing that. That's not what we're seeing,
+
+15:29.280 --> 15:33.120
+ but it'll be great to have personal experience where we can talk to people who've gotten it and
+
+15:33.120 --> 15:37.280
+ actually say, you know, Francis, Dr. Griffin, were you laying on your back for two days? Because I
+
+15:37.280 --> 15:43.040
+ have a very low discomfort tolerance. There was sort of the interesting, you know, several young
+
+15:43.040 --> 15:48.560
+ men were claiming that they got such bad chills from the ultra cold vaccine, that they were shaking
+
+15:48.560 --> 15:52.880
+ so hard that their teeth were shattering and cracking their teeth. I tried to explain that
+
+15:52.880 --> 15:56.880
+ the vaccine is brought up to room temperature before you get it. So that seems entertaining
+
+15:56.880 --> 16:02.640
+ more than anything. But the other, and this has come up anaphylactic versus anaphylactoid.
+
+16:03.280 --> 16:08.240
+ And so I immediately got a call yesterday morning from one of the allergists in our area.
+
+16:09.360 --> 16:14.640
+ And there was a concern, a couple of the people in the UK who got the vaccine had allergic reactions,
+
+16:14.640 --> 16:20.560
+ right? And the difference here is between anaphylactic and anaphylactoid. So anaphylactic
+
+16:20.560 --> 16:26.800
+ is when you have antibodies, you get something, it triggers this severe reaction. Anaphylactoid
+
+16:26.800 --> 16:31.280
+ is more along the lines of what was being described, something where they got Benadryl.
+
+16:31.280 --> 16:37.200
+ It was a non-immunoglobulin mediated allergic reaction. There's discussion that here in the
+
+16:37.200 --> 16:43.520
+ states, if someone has a history of issues like that, we might suggest taking Benadryl before the
+
+16:43.520 --> 16:48.080
+ vaccine. And the way I was talking about that, should there be some kind of qualification
+
+16:48.800 --> 16:53.920
+ about people that have a history of anaphylactoid allergic reactions to things,
+
+16:55.200 --> 17:02.640
+ maybe just sort of alerting people. So I will move forward from there to what is really on the top
+
+17:02.640 --> 17:06.160
+ of people's mind, actually, I have to say. I know in the media, they're talking a lot about
+
+17:06.160 --> 17:12.240
+ vaccine hesitancy. But at this point, we're in the less vaccine relative to demand.
+
+17:12.240 --> 17:17.760
+ Some point will be into some other concerns. And this is an area where now we're talking about
+
+17:17.760 --> 17:23.120
+ equitable distribution. And so who gets the vaccine first? And the world is watching, right? So we
+
+17:23.120 --> 17:29.120
+ want to make sure we do this the right way. So I'm going to talk specifically about New York
+
+17:29.120 --> 17:35.520
+ States vaccination program, because the way it works, right, is the ultimate decisions are going
+
+17:35.520 --> 17:40.720
+ to be based at the New York State Department of Health. And we've been getting updates on this.
+
+17:40.720 --> 17:47.520
+ So high-risk healthcare workers, nursing home residents, and staff will be the first New Yorkers
+
+17:47.520 --> 17:52.960
+ to receive the vaccine. So what does that mean? So what are high-risk hospital workers? Not everyone
+
+17:52.960 --> 17:58.480
+ in the hospital is at the same risk. Emergency room workers, right? Particularly, we'll say
+
+17:58.480 --> 18:03.440
+ nurses, non-physicians, right? I think they spend a lot more time. I think anyone has ever interacted
+
+18:03.440 --> 18:06.800
+ with the healthcare profession. Your nurse spends a lot more time with you than the doctor.
+
+18:06.800 --> 18:15.040
+ So the nurses, the doctors, all the support staff, similar ICU. So all the ICU staff,
+
+18:15.600 --> 18:21.600
+ nurses, all the assistants, the pulmonary department staff, and New York State expects
+
+18:21.600 --> 18:27.040
+ all high-risk hospital staff. We'll get the vaccine actually within the next week or two,
+
+18:27.040 --> 18:32.560
+ right? So we're expecting to get vaccine here in New York next week, if this, well, when the EU
+
+18:32.560 --> 18:38.000
+ goes through, which we all expect. And then it's going to follow, right? It's going to go very
+
+18:38.000 --> 18:45.120
+ quickly to the long-term and congregative care staff and the residents there. And it's going
+
+18:45.120 --> 18:50.800
+ to be interesting, who's giving the vaccine to whom? So the big pharmacy chains have stepped up
+
+18:50.800 --> 18:57.920
+ across the nation. So CVS, Walgreens, I realize correction, Dwayne Reed is the drugstore, Dwayne
+
+18:57.920 --> 19:04.720
+ Johnson is the rock, but throw that in there. And then it's going to move out to other physicians,
+
+19:04.720 --> 19:08.800
+ other staff working in the hospital, and then it'll move out to essential workers, general
+
+19:08.800 --> 19:14.000
+ population, et cetera. But this is an interesting, I'm going to tell another little story here
+
+19:14.000 --> 19:20.880
+ about who gets first. So I was having a conversation earlier this week with the majority leader of
+
+19:20.880 --> 19:28.960
+ one of the legislative bodies here in our great country. It was not Nancy Pelosi. And this gentleman
+
+19:28.960 --> 19:33.680
+ was saying to me, well, you know, Dr. Griffith, it's obviously a no-brainer that we got to get
+
+19:33.680 --> 19:38.640
+ these vaccines to the hospitals. Because, you know, when you get COVID-19, that's where people go.
+
+19:39.520 --> 19:44.400
+ And he told me a story about how a secret service individual, you know, was talking,
+
+19:44.400 --> 19:48.080
+ there's a couple of aspects that I think they're really interesting to our listeners. One is
+
+19:48.080 --> 19:52.400
+ saying, you know, the secret service person, you know, where in the gloves, where in the mask,
+
+19:52.400 --> 19:58.240
+ he's very safe at work. So it isn't that we're thinking that it's a risk for the hospital workers
+
+19:58.240 --> 20:03.920
+ being in the hospital, though I think it is. What happened in this case was this individual's
+
+20:03.920 --> 20:09.680
+ child got infected, the wife got infected, he got infected. And now a critical person
+
+20:10.480 --> 20:14.480
+ is sick and going to the hospital. So we had a little bit of a discussion. I was actually
+
+20:14.480 --> 20:19.760
+ surprised. I think our listeners know this, but I pointed out that the majority of people who get
+
+20:19.760 --> 20:25.680
+ COVID never actually go to the hospital, that 80, 85% of people we care for in the community.
+
+20:25.680 --> 20:30.800
+ So raising the issue that as we look at the critical people that we need to make sure we
+
+20:30.800 --> 20:35.040
+ keep them healthy and protected, we've got to be looking at our primary care docs.
+
+20:35.040 --> 20:38.720
+ We've got to be looking at the people that work in the urgent care centers.
+
+20:38.720 --> 20:42.400
+ And not just the doctors, right? Think about the receptionist who's working there at the
+
+20:42.400 --> 20:47.520
+ urgent care or the busy primary care practice. Think about the nurses, the medical assistants.
+
+20:48.320 --> 20:52.800
+ Basically saying if we don't protect those people, if we can't keep them healthy enough to take
+
+20:52.800 --> 20:58.480
+ care of that 80% that we manage in the outpatient setting, and we leave them with just the ER as a
+
+20:58.480 --> 21:03.200
+ place to get care, we're going to drown. So it's a very interesting conversation as we go forward,
+
+21:03.200 --> 21:10.240
+ we'll hear more about how this all works. And I'll be talking more about our, we'll say our
+
+21:10.240 --> 21:18.640
+ pro-health riverside tri-state vaccine initiative. But once we get past these easy to vaccinate
+
+21:18.640 --> 21:23.440
+ people, I think, people working in the hospitals, urgent cares, medical practices, long-term care
+
+21:23.440 --> 21:28.720
+ facilities, I say easy. More challenging is we going out to the communities, right?
+
+21:29.680 --> 21:35.840
+ When we move from phase one, right, to these high-risk individuals, when we start moving to
+
+21:35.840 --> 21:42.640
+ people that are 65 and older, when we start moving to teachers, critical workers, so police,
+
+21:42.640 --> 21:48.480
+ firefighters, et cetera, you'll be hearing more about a lot of organizations like ours are jumping
+
+21:48.480 --> 21:53.120
+ in, reaching out to the state saying, we'll be a solution. We'll produce high-throughput
+
+21:53.840 --> 21:59.040
+ vaccination access sites where people can do drive through like we did back with the H1
+
+21:59.040 --> 22:04.000
+ and N1 vaccinations. Let's get as many people vaccinated and protected so we can move forward.
+
+22:04.000 --> 22:10.720
+ All right. Now let's move. I'm going to skip a little bit past that incubation period.
+
+22:11.680 --> 22:17.280
+ Actually, I won't skip so much. The CDC updated things where they basically said once you've
+
+22:17.280 --> 22:23.840
+ been exposed at day seven, if you've got a negative test within 48 hours, you can end that quarantine
+
+22:23.840 --> 22:29.680
+ a little bit earlier. We haven't quite embraced that in New York City or New York State, so
+
+22:29.680 --> 22:34.000
+ we're still stretching out the full thing, or at least we're recommending. No one's listening.
+
+22:34.000 --> 22:39.600
+ We're aware of that. But once you actually go ahead and actually get detectable virus, what do you
+
+22:39.600 --> 22:45.520
+ do? Or what do you do if you think that's the case? And the NIH has a nice page now really
+
+22:45.520 --> 22:51.760
+ basically pointing out that testing saves lives. So when I was talking about how we're going to roll
+
+22:51.760 --> 22:56.640
+ out the vaccines, I was talking to a lot of our urgent cares. Some of our urgent care centers
+
+22:56.640 --> 23:02.720
+ are doing over 6,000 COVID tests a day per site. I mean, this is really amazing.
+
+23:03.440 --> 23:07.680
+ And if you look at our positivity rate being five or six percent, I'm going to do five percent.
+
+23:07.680 --> 23:13.760
+ The math is easier. You're talking about 300 people testing positive at one of these sites,
+
+23:13.760 --> 23:18.480
+ each of these sites per day. This was huge when we went into Thanksgiving.
+
+23:18.480 --> 23:23.840
+ All of those people testing positive being pulled out and not going to that Thanksgiving dinner.
+
+23:23.840 --> 23:27.680
+ Think of all the contagion that you're stopping by identifying people who are positive.
+
+23:28.400 --> 23:33.520
+ So this is really critical. And there's really a push. Now, don't just get tested when you have
+
+23:33.520 --> 23:39.920
+ symptoms. Testing saves lives. It identifies the spread before it happens. And this is really
+
+23:39.920 --> 23:44.960
+ critical in being embraced. And actually, a lot of people, I think it's taken a little bit longer
+
+23:44.960 --> 23:51.200
+ than it needed to, but embracing rapid resulting. So what are we doing? This is sort of a four doctors.
+
+23:51.200 --> 23:57.280
+ We're doing rapid antigen testing at most of our sites. We do Abbott ID now at some of them as well.
+
+23:57.280 --> 24:04.640
+ We often send off a PCR as well. What sometimes happens, right? 6,000 tests. You don't tell everyone
+
+24:04.640 --> 24:10.960
+ to sort of quarantine while you're waiting for that PCR. But some of the time that antigen test
+
+24:10.960 --> 24:16.320
+ is coming back negative, but the PCR is coming back positive. We're catching some people in that
+
+24:16.320 --> 24:21.840
+ ramp up phase. We're catching some people sort of after the fact in the ramp down phase.
+
+24:22.800 --> 24:29.360
+ But what we're doing then is basically calling them up. Your PCR came back positive and then
+
+24:29.360 --> 24:34.160
+ sort of moving forward with that. So that's going to happen. When you're doing 6,000 tests per site
+
+24:34.160 --> 24:39.520
+ per day, a certain number of those negative antigen tests are going to be people that are early
+
+24:39.520 --> 24:45.280
+ enough in disease that you're getting a few hours before that antigen test term is positive.
+
+24:45.280 --> 24:53.280
+ So the early inflammatory phase. This I touched on a little bit above and just to reiterate,
+
+24:53.280 --> 24:58.880
+ it was actually interesting when I was talking to the majority leader. He was shocked when I said
+
+24:58.880 --> 25:02.720
+ that 80% of people are managed outside the hospital. They actually challenged me. Where did you come
+
+25:02.720 --> 25:07.600
+ up with that number? I was a little surprised, actually. But I think that as someone told me,
+
+25:07.600 --> 25:14.160
+ well, 80% of the focus has been on the hospitals. People are not aware of all the people out there.
+
+25:14.160 --> 25:22.160
+ When you look at 240,000 people in a single day being diagnosed with COVID,
+
+25:22.160 --> 25:26.480
+ they're not all going to the hospital. If anything, we're getting above that 80%. We're getting
+
+25:26.480 --> 25:31.120
+ better and better at managing these people outside the hospital. So what are we doing?
+
+25:32.000 --> 25:37.120
+ We're still recommending the first week, just symptomatic management. We've eased up. You can
+
+25:37.120 --> 25:43.440
+ take your leave, your ibuprofen, your Tylenol to treat those viral symptoms. We are encouraging
+
+25:43.440 --> 25:49.200
+ people to wait until the second week to consider steroids. We're limiting steroids to people who
+
+25:49.200 --> 25:54.560
+ have issues with their oxygen level dropping. Actually here in New York, we're setting people
+
+25:54.560 --> 26:02.480
+ home with post-oximeters, 15, $20. That's a good way for us to then manage them. Just speaking to
+
+26:02.480 --> 26:07.760
+ a physician friend of mine who's in that second week where each day we're checking in to see where
+
+26:07.760 --> 26:12.640
+ his post-ox is. It's in the high 90s still. As long as it stays in the high 90s, he'll continue
+
+26:12.640 --> 26:18.560
+ to take his aspirin a day, try to stay active, stay off the steroids, stay off the antibiotics,
+
+26:19.360 --> 26:24.400
+ and just manage them outside the hospital. This is critical because you can't send everyone with
+
+26:24.400 --> 26:30.880
+ COVID and a fever to the ERs. You can overwhelm the system and when you do that, no one benefits.
+
+26:32.320 --> 26:39.040
+ We did see the formal, peer-reviewed publication of the repurposed antiviral drugs for COVID-19
+
+26:39.040 --> 26:45.200
+ interim, WHO, solitary trial results that came out in the New England Journal on the second.
+
+26:45.920 --> 26:52.320
+ Again, this is where they looked at remdesivir, hydroxychloroquine, lopinovir, interferon regimens,
+
+26:53.920 --> 27:00.640
+ and really did not show any overwhelming compelling evidence for mortality,
+
+27:00.640 --> 27:05.840
+ initiation of ventilation, duration of hospital stay. This is an interesting issue because the
+
+27:05.840 --> 27:11.600
+ first of those in there was remdesivir, right? A lot of the hospital systems have purchased
+
+27:11.600 --> 27:16.720
+ large orders of remdesivir here in the United States. I'm actually seeing people get admitted
+
+27:16.720 --> 27:21.920
+ just for remdesivir, even though they're not hypoxic. I think this is a decision people have
+
+27:21.920 --> 27:28.160
+ to make. Is the benefit of remdesivir enough that it's worth hospitalizing someone just for that
+
+27:28.160 --> 27:34.240
+ therapy? Because originally, the idea is it shortened your hospital stay. Here, I have people
+
+27:34.240 --> 27:40.400
+ getting admitted to the hospital without hypoxia just to get the remdesivir. Here, it's creating a
+
+27:40.400 --> 27:45.200
+ five-day hospital stay versus shortening a hospital stay. Something to think about there.
+
+27:45.760 --> 27:51.440
+ We continue to see secondary infections later on. The multi-inflammatory phase,
+
+27:51.440 --> 27:57.600
+ I think I mentioned last time the individual with the Guian Barre. We gave them the intravenous
+
+27:57.600 --> 28:03.040
+ immunoglobulin. A few days later, he's squeezing my hands, but then he actually started to get
+
+28:03.040 --> 28:08.240
+ flasset again. This continues to be a challenge. I have another gentleman. I'm not sure the
+
+28:08.240 --> 28:14.160
+ connection here, but he was a gentleman who had COVID and then at about week four developed an
+
+28:14.160 --> 28:20.400
+ expressive aphasia. Really unclear what that is, but the timing is concerning for a connection there.
+
+28:21.360 --> 28:28.720
+ A number of papers out there, case reports, suggested a connection. What is expressive aphasia?
+
+28:28.720 --> 28:34.560
+ This is a gentleman where I ask him questions. I go for a while until finally I hit an area,
+
+28:34.560 --> 28:40.000
+ and he just can't get the words out. He can't tell me. I'll ask him where he works,
+
+28:40.560 --> 28:45.440
+ and it comes out gibberish. If I let him just talk on his own, he could talk. It sounds like he's
+
+28:45.440 --> 28:52.480
+ fine. Then I say, you work at GBP. What does GBP stand for? When he tries to say GBP, it just comes
+
+28:52.480 --> 28:58.320
+ out. I ask him, do you know what GBP stands for? He nods. He knows what. He just can't get it
+
+28:58.320 --> 29:05.680
+ expressed. Really a challenge. I'm going to sort of wrap out here with our tail phase,
+
+29:05.680 --> 29:10.240
+ but in the tail phase, I want to talk a little bit about challenges we're having with DC planning
+
+29:10.240 --> 29:18.320
+ now. The tail phase is very recognized, continues to be a huge problem. Actually, one of the questions
+
+29:18.320 --> 29:23.120
+ I just got from this physician colleague was his wife, his son. They're both sick. They're an
+
+29:23.120 --> 29:28.640
+ urgent care waiting to get tested. Should he wait? Should they bother getting that test? My advice
+
+29:28.640 --> 29:34.480
+ was yes, get that test. We need that objective evidence. But one of the issues that came up
+
+29:34.480 --> 29:41.280
+ is currently COVID is considered an acute diagnosis, not a chronic. One of the nurses that I've talked
+
+29:41.280 --> 29:47.120
+ about several times is having issues getting disability coverage because they say COVID is an
+
+29:47.120 --> 29:52.800
+ acute diagnosis. You had that back in March, April. It's not a chronic disease. If you're going to
+
+29:52.800 --> 29:58.480
+ look for any kind of support, you need a chronic diagnosis. It's interesting. This has also become
+
+29:58.480 --> 30:03.680
+ an issue for oxygen. We have a number of individuals in the hospital. We're looking at trying to
+
+30:03.680 --> 30:09.840
+ discharge them, but oxygen is only paid for if you have a chronic condition requiring oxygen.
+
+30:10.480 --> 30:15.120
+ Back in March, April, the early days of the pandemic, the governor stepped in. Executive
+
+30:15.120 --> 30:22.240
+ orders basically said everyone has to cover and supply oxygen for COVID. Interesting that we're
+
+30:22.240 --> 30:29.440
+ seeing bureaucracy stand in the way of what we recommend as good care. I think the governor listens
+
+30:29.440 --> 30:36.160
+ to us, Vincent, so he can maybe jump in and give us some help on that. But before we take emails,
+
+30:36.160 --> 30:41.360
+ let me just say we're continuing to our support of the Peace Corps, HIV and AIDS programs.
+
+30:41.360 --> 30:46.240
+ Just to point out, we are in the midst of this pandemic. I hope when we get through
+
+30:46.240 --> 30:51.280
+ the other side, people don't forget about COVID-19 so that we don't go into this unprepared like we
+
+30:51.280 --> 30:56.800
+ did this time. But there's still a huge pandemic going on. We have not really gotten through the
+
+30:56.800 --> 31:03.440
+ HIV pandemic. And so go to parasiteswithoutborders.com, help us support them, but also help us continue
+
+31:03.440 --> 31:09.360
+ our mission. Daniel, have you seen an uptick in influenza cases yet this season?
+
+31:09.360 --> 31:17.600
+ So there are more influenza cases. There is an increase, but it is actually a much lower
+
+31:17.600 --> 31:23.680
+ percent of cases, a slower number of cases of influenza this season than we previously. Usually
+
+31:23.680 --> 31:28.880
+ now is when we start seeing all these flu admissions. But I think all the things we're doing is keeping
+
+31:28.880 --> 31:34.240
+ flu at a lower level. That's great. That's good. This one maybe one silver lining, right?
+
+31:34.240 --> 31:41.280
+ Yes. All right, we have some email. Remember everybody you can send an email to Daniel at
+
+31:41.280 --> 31:48.400
+ microbe.tv. And we've got a lot, but we'll just do a couple here today. This is from Sean. I'm an
+
+31:48.400 --> 31:55.200
+ orthopedic surgeon in New Orleans and have a friend who's an internist who treats COVID patients.
+
+31:57.840 --> 32:00.960
+ Yeah, I'm not sure that's what he's supposed to be doing, right? But
+
+32:00.960 --> 32:07.040
+ he's on regular zoom call clinical updates. He told me that dexamethasone is no longer
+
+32:07.040 --> 32:11.440
+ recommended to treat COVID. This seems to contradict everything I've learned so far about how dex
+
+32:11.440 --> 32:16.080
+ is one of the best therapeutics we have. What do you think? Well, I think it's his friend,
+
+32:16.080 --> 32:21.040
+ the internist who's taking care of the people. So that's good. That's what we want. As I mentioned,
+
+32:21.040 --> 32:26.640
+ 80%, 85%, the majority of people with COVID do not need an infectious disease specialist.
+
+32:26.640 --> 32:30.480
+ They don't need to go to the hospital. This is something everyone should feel comfortable
+
+32:30.480 --> 32:36.320
+ managing the outpatient setting in most cases. We usually, as I point out, we don't give dexameth
+
+32:36.320 --> 32:40.800
+ zone to everyone. It isn't like connect the dots. It isn't COVID dexamethasone.
+
+32:40.800 --> 32:46.080
+ dexamethasone is reserved for the class for which it was shown to make a difference.
+
+32:46.080 --> 32:49.840
+ And these are people who are starting to develop the early inflammatory response.
+
+32:49.840 --> 32:56.000
+ It's during the second week. And it's people who are starting to get hypoxic, right? So if you're
+
+32:56.000 --> 33:00.880
+ not hypoxic, if your sats are still in the 90s and you're doing well in the outpatient setting,
+
+33:01.600 --> 33:05.440
+ or even it's the first week, don't give them steroids. Steroids is something that we should be
+
+33:05.440 --> 33:12.160
+ giving to only a select number of individuals. Is the mortality benefit huge? No, the absolute
+
+33:12.160 --> 33:16.720
+ benefit is only a couple percent in people with low oxygen requirement, a little bit higher in
+
+33:16.720 --> 33:24.240
+ people who are more serious disease. But yeah, it's not for everyone. There's a certain place for it.
+
+33:24.240 --> 33:33.840
+ Okay, we have an email from anonymous in Manchester, UK, who is worried about their dad in Australia.
+
+33:34.560 --> 33:39.520
+ Her dad had a flu vaccine 30 years ago and developed Guillain-Barre syndrome.
+
+33:40.640 --> 33:46.880
+ So anonymous wants to know, is there a reason my dad or anyone like him to worry about any of the
+
+33:46.880 --> 33:54.320
+ COVID-19 vaccines or candidates, no longer gets flu shots? And should I worry since I am, you know,
+
+33:54.320 --> 34:02.800
+ that's my father. You know, so this has come up quite a bit. And you know, questions about
+
+34:02.800 --> 34:09.280
+ the vaccine, should I worry about Guillain-Barre? And actually, I think the flu is a perfect example.
+
+34:09.280 --> 34:14.640
+ We look at people who get natural infection with influenza versus people who get the influenza
+
+34:14.640 --> 34:19.200
+ vaccine and the incidence of Guillain-Barre is certainly higher with getting natural infection
+
+34:19.200 --> 34:24.080
+ from influenza. So sort of an interesting thing in a perfect world, there's no influenza, there's
+
+34:24.080 --> 34:30.560
+ no influenza shot and there's less Guillain-Barre. But yeah, I've certainly seen it in natural
+
+34:30.560 --> 34:35.280
+ infection with influenza, I've also seen it after a flu shot. But is this going to be an issue for
+
+34:35.280 --> 34:42.320
+ people who get the different vaccines for COVID? So far, we're not seeing a signal. Pretty soon,
+
+34:42.320 --> 34:47.760
+ we're going to be having millions of people vaccinated. So by the time, you know, it rolls
+
+34:47.760 --> 34:51.040
+ out to other individuals, I think there's going to be more data to help us with this.
+
+34:52.880 --> 34:57.280
+ The next emails from a nurse in a New York City hospital who's been trying to get pregnant for
+
+34:57.280 --> 35:04.400
+ some months and wonders if she should wait until after vaccination, because the vaccines, I think,
+
+35:04.400 --> 35:07.520
+ are not being tested in pregnant women. What do you think, Dan?
+
+35:07.520 --> 35:12.640
+ Yeah, no, I think that's, yeah, no, excellent. I'm going to say, you know, interfere with your
+
+35:12.640 --> 35:17.680
+ family planning decisions here. Tell your husband to curse me if he wants to have a child immediately.
+
+35:18.240 --> 35:24.720
+ But as we saw, they excluded pregnant women in the vaccine trials as a nurse in a New York City
+
+35:24.720 --> 35:32.240
+ hospital. You're right here in phase 1A, potentially going to get vaccinated in the next few weeks,
+
+35:32.240 --> 35:36.640
+ right? And after the 10 days, you'll have some protection. Three weeks later, you get your second
+
+35:36.640 --> 35:41.920
+ dose and then you're good to go. We certainly saw people go ahead and get pregnant once they
+
+35:41.920 --> 35:46.240
+ had been vaccinated. I think I mentioned there were a dozen women that went ahead and did that
+
+35:46.240 --> 35:51.840
+ in the Pfizer trial. So yeah, just, you know, wait, wait a few weeks, you know, and then go ahead.
+
+35:51.840 --> 35:59.120
+ That would make sense. You hate to go ahead and, you know, not get vaccinated, you know, when you
+
+35:59.120 --> 36:03.440
+ could be really mad or just postponing that pregnancy by a few weeks. So that's my advice,
+
+36:03.440 --> 36:06.560
+ but I'm going to leave the ultimate decision up to you and your partner.
+
+36:07.760 --> 36:12.720
+ All right, we have the last two are the same question. We have a question from
+
+36:12.720 --> 36:19.440
+ the FISA and Katherine, whether immune compromised people can be vaccinated.
+
+36:21.120 --> 36:25.520
+ So that's an excellent question. So a lot of people are asking about this. And, you know,
+
+36:25.520 --> 36:31.440
+ there's a certain sophistication to mRNA vaccines and concerns about people with autoimmune diseases.
+
+36:31.440 --> 36:37.440
+ And when you make the RNA vaccines, right, you're basically taking DNA, you're going over to RNA,
+
+36:37.440 --> 36:42.880
+ and some of the products will be double stranded RNA. So they're early vaccines or the early trials
+
+36:42.880 --> 36:46.480
+ when they're going through this, they've realized that you were making contaminants of double
+
+36:46.480 --> 36:50.160
+ stranded DNA. And you really don't want that, right? That's potentially something we worry
+
+36:50.160 --> 36:56.320
+ could trigger autoimmunity. So they do a really careful chromatography process. They purify and
+
+36:56.320 --> 37:02.880
+ make sure it's just straight RNA. At least what we're seeing so far, I think it looks like it's
+
+37:02.880 --> 37:08.640
+ going to be okay to use in these individuals. It is not a live vaccine. That's good. It has sort
+
+37:08.640 --> 37:16.080
+ of less stuff in there. So we're anticipating that this might be a safer approach. And I throw
+
+37:16.080 --> 37:20.640
+ that in. Not only am I, at this point, saying like the RNA vaccines, but we have a couple other
+
+37:20.640 --> 37:26.800
+ vaccines on the horizon, the Chinese with their inactivated, Sino farm. That's one that was what,
+
+37:26.800 --> 37:32.800
+ 86% efficacy, they tell us, we'll see the actual data on that. We've got Johnson and Johnson coming
+
+37:32.800 --> 37:38.560
+ out either this month or January, actually, so much COVID in the States, Jay and Jay said they
+
+37:38.560 --> 37:44.480
+ don't have to have 60,000 people. Looks like they'll probably stop at 40,000, just this so much COVID.
+
+37:44.480 --> 37:48.960
+ And then we'll see even more. But yeah, as we go forward, we're not expecting there to be a problem
+
+37:48.960 --> 37:54.720
+ here. We like the idea that it's not a, should I say live vaccine, I'll say active replicating
+
+37:54.720 --> 37:59.200
+ virus that we're injecting people. This is really just that sticky note with instructions for how
+
+37:59.200 --> 38:03.840
+ your immune system should respond. And we are thinking and the data seems to be supporting that
+
+38:03.840 --> 38:09.200
+ this will be a safer technology. So right now, if you're say one of these first-line people who
+
+38:09.200 --> 38:13.520
+ are going to be vaccinated next week, and you have an immune compromise, are they going to give it
+
+38:13.520 --> 38:21.200
+ to you or no? It'll be on a case by case basis. Okay, there's no general rule. Very good. All right,
+
+38:21.200 --> 38:30.320
+ that's our 40th from weekly COVID-19 clinical update with Dr. Daniel Griffin. Thanks again, Daniel.
+
+38:30.320 --> 38:44.160
+ Oh, thank you so much. Everyone be safe.
+

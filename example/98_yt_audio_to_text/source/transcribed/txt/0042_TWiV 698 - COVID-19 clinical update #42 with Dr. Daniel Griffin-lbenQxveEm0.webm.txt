@@ -1,0 +1,415 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 698, recorded on December 24,
+2020. I'm Vincent Rackeniello, and you're listening to the podcast All About Viruses.
+Joining me today from New York, Daniel Griffin. Hello, everyone.
+I should say the vaccinated Daniel Griffin, right? Yes, yes. I feel very excited and privileged
+for two reasons. One is to get the vaccine, but also the fact that I have had zero side effects.
+But I want to take that with a bit of humility, because some people, as we know,
+some people have had fevers, headaches, soreness, the reactogenicity we talked about.
+I count myself lucky on multiple fronts. When did you get it yesterday?
+Yesterday morning, 915. No soreness, no malaise, no fatigue, no pain at the injection site,
+none of that stuff. Vincent, I went to the pharmacist who gave it to me and I asked,
+was I in the placebo arm? What happened? How come I don't feel anything? No, just a joke.
+Well, you sent me a video. And if you don't mind, we'll insert it in right now so people can see
+it. Does that work? Okay, that's great. People can watch. You're wearing your COVID socks. Yes,
+got my COVID socks. Those are my COVID socks with COVID toes.
+How was that? I didn't even feel a thing. Oh, that's good.
+All right, so we're going to have you monitored for about 15 minutes. I'm going to write the
+time down. They're going to monitor you on the other side. And so Daniel, you have to go back
+in two weeks for a booster, right? So actually, I did the Moderna shot. So it will be four weeks,
+four weeks before I returned. Excellent. Congratulations. Well deserved.
+And people people asked, right? You know, my, you know, what's going on here? You know, Biden and
+Pence got Pfizer, you and Fauci got Moderna. It was what they offered me just. Yeah, it's what
+you can get. Whatever they offer. Someone said, someone said last night, you know, the way I look
+at it, whatever beer is put in front of me, I drink that one. That was one of your Irish friends,
+I take it. Probably, yes. All right. Well, we have a lot to go through today. And I know around
+the holidays, people are going to be busy. So I don't want to want to take too much time. So let's
+go right for it. All right. Start with my quotation. If you judge people, you have no time to love
+them. And that's a mother Teresa quote, which I think is hopefully appropriate for this time of
+year. Now, over the last year, I've quoted Winston Churchill many times, and I'll do that again.
+I've also quoted Ursula K. Le Guin, Taylor Swift, Ruth Bader Ginsburg. And now this is actually
+the second time for mother Teresa. I always try to pick a quotation that sets the tone for what I'm
+going to be speaking about. And actually, many years ago, and it is many, when I was working in
+Kathmandu, Nepal is actually invited to work with Mother Teresa. And in my usual, I was much too busy
+doing other things and missed that opportunity. And she's a complicated woman like many of us. So
+I just thought that that was an appropriate quote for this time of year. So let's go through,
+and also for what I'm about to say, as far as patient updates, I think people are probably aware
+that things are not going well in the United States right now. We've had many days now with
+over 3000 deaths per day. Some of our hospitals have gotten so busy that you've probably heard
+word that there's actually triage of medical care, where there's concerns with that enough
+hospital bed, not enough ICU's patients in the hospital are being encouraged. If they don't look
+like they have a good chance to be put under hospice care, put on morphine, drips, comfort care,
+it's this is not good. This is not what we want to see around the holidays. So it is heartbreaking.
+But there's lots of travel going on right now in the US. And lots of people are actually getting
+together for the holidays. And what I like to point out is that shaming does not actually help.
+Shaming actually increases bad behavior. So people have made plans. People get together. So I think
+our role as physicians is to be helpful. What can we do to help people? And one of the things
+that I keep reinforcing is frequent testing. If someone gets tested, that's not a free pass.
+But if that test is positive, that person is hopefully not going to go to the Christmas dinner
+or the New Year's party. Some people go to that New Year's party anyway. So that's something
+to keep in mind. If people do get sick, we're going to talk about some of these therapies
+as we go forward. But this is a time to have conversations. Talk about what you've learned
+if people have had vaccines. A great time to share your experiences over the holidays. If you're
+going to be communicating or seeing in person ones you love. Talk about monoclonal antibodies,
+other things. I think it's important to have dialogues. We've got to stop, I think, breaking
+up into camps. So schools, not much here. We're actually on Christmas break here in the US.
+And if we can only speed things up, we can get those teachers vaccinated very soon.
+We'll talk a little bit about the change in the hierarchy, the phases. Everyone is now
+in phase one, A, B, or C. So we'll talk about that. And the UK variant, just in time for the holidays.
+And this has been covered quite well. But I thought a story right here would be a Christmas
+story would be appropriate, a holiday story. I was on a FaceTime call with a, I'm going to say
+a friend of mine. It's actually the parents of one of my friends. But I think that I'd become
+friendly with the parents. And we actually have sort of had a connection through the pandemic
+because it was actually in January when it was my friend Gareth's father. Actually, yes, you know,
+what does Dan think about this whole virus thing? And we looked back at the text at the time and
+it was, yeah, I think this guy actually may be falling. I think this is going to be a significant
+issue. So I was talking to him a little bit about what's going on in there in the UK. I see these
+numbers rising. He's like, I don't understand. We're being so careful. You know, when I go to
+the pubs every night, all the windows are open. You know, when I'm when I'm riding on the bus,
+all the windows are open. When I'm on the train, everyone wears a mask except when they're eating
+or drinking, I always try to have something to eat or drink because I don't like wearing the mask.
+And the wife and I, we were planning on going out to Christmas Eve dinner together. But the tables
+in the crowded restaurant, they were all going to be spaced apart and the windows were going to
+be up, but we're going to wear our jackets. We were going to be very safe. And I said, well,
+what did you do today? Well, apparently, bars has decided to shut down the country again tonight
+at midnight. So we all ran out to the supermarkets to get all our shopping done. And it was so nice.
+We got to see everyone. Everyone was out shopping. And so I, I don't think you need a UK variant
+to explain what's going on as far as spread in the UK at the moment. Thank you, Daniel,
+because I have to say, first we had the D614G variant more transmissible. Now we have the UK
+variant supposedly more transmissible and another UK variant supposedly more transmissible. This
+ain't the way viruses work. Something's amiss. And I hope they sort it out. I just.
+But Vincent, as you heard, they're being so careful when they crowd in the pubs for their
+beers, the windows are open. How could the virus spread in such a setting?
+Thank you, Daniel.
+Now, last time I promised I would touch on vitamin D and hypermectin. And I think it's
+important that I comment on this because I don't want to leave a vacuum. Why isn't Dr. Griffin
+talking about these two things? So vitamin D is going to be very straightforward. The last time
+I spoke about this was October 4th. And we had reached a million deaths in the world from COVID
+at that point. I think I'm echoing what, when I think about you said very simply, there's no
+good reason to be vitamin D deficient, right? And we know that particularly in northern
+climbs in the winter, the incidence of vitamin D deficiency goes up. There does appear to be
+a consistent correlation between people who are low in vitamin D and getting infected. There also
+seems to be now several studies suggesting that people with low vitamin D have worse outcomes.
+We haven't shown benefit of giving vitamin D once you've ended up in the hospital. So
+this looks like something you want to you want to be doing ahead of time if it's going to be a
+benefit. So since this is going to drop after Christmas, I there's a rumor that Santa Claus is
+putting vitamin D in my children's stockings. So take your vitamin D. There's there's no reason
+to be deficient in vitamin D. There's no evidence of harm. And you know, maybe there's a benefit
+here, right? We're seeing a number of studies. Now, what about Ivermectin? And I'm going to say,
+this is this is a little bit more complicated. And I get this question quite often because as
+people who listen to this weekend, parasitism are aware that I'm actually a parasitologist
+and prior to the pandemic, I was actually probably one of the few physicians in the US that was
+using Ivermectin on a regular basis. So extensive experience with this medicine prior to COVID-19.
+So what is Ivermectin? And this is, I got to say, a fun story. I mean, in the late 1960s,
+there was a Japanese microbiologist gathering soil samples, growing things up,
+testing them for any, you know, active compounds being produced. And near a golf course in southwest
+Tokyo, he collected some dirt and actually was able to grow a bacterial species, streptomyces
+Avermectilis. And this bacterial species actually produced an active component,
+Avermectin. This was chemically modified to Ivermectin. And there was a collaboration here
+between Satoshi Omora in Japan and William Campbell, who actually has been on, he's been on
+TWIP actually, or TWIP, he's been on TWIP. So he actually received the Nobel Prize for Ivermectin.
+And what is Ivermectin? So it's actually a compound that binds to the glutamate-gated
+chloride ion channels, which are found in inverbate nerve muscle cells. This leads to
+increased permeability of the membranes, hyperpolarization, and eventually death of
+the parasites that we classically use this in. So what's going on with an anti-parasitic agent
+and COVID-19? December 8th, Pierre Corey, he's a pulmonologist, critical care specialist,
+testified before Congress about Ivermectin. And he went through a lot of studies that have
+been done to date. And he's actually part of an organization, the Frontline COVID-19 Critical Care
+Alliance, which was started by Paul Merrick, another critical care specialist. And I have to say,
+I know these physicians actually have emailed, I've co-authored a couple papers with them,
+they're bright academic clinicians, they're who care passionately about their patients,
+they're not quacks, they're not lunatic fringe. These are people who are in the trenches,
+seeing people die in front of them and desperate for a solution. So how did Ivermectin and COVID
+get started? It goes back to actually a paper we discussed on Twiv, early on, right, April,
+the FDA approved drug Ivermectin inhibits the replication of SARS-CoV-2 in vitro.
+And I'll be honest, I felt like that was a dishonest title. It is FDA approved, but not for
+COVID-19, not for inhibiting replication of SARS-CoV-2. So immediately I was flooded with,
+wow, there's an FDA approved drug for SARS-CoV-2. I was like, well, yeah, not really. And there were
+also some concerns about concentrations being used. Could this be actually realized in a human
+host or something about 10,000 times the amount of what we normally would do? So I did not like
+this article. Actually, I felt like it was misleading in the title. But it did start to raise a bunch
+of questions. It got people interested in Ivermectin. And it sort of raised the issue, well, what do we
+think Ivermectin is going to do if they're going to be using it? And I would say you can't eat the
+entire cake and still have it. Is the thought that Ivermectin is an antiviral? Is it anti-inflammatory?
+Is it boosting the immune system, right? Because we want one or the other timing would matter.
+Does it do something entirely different? Are we using this in, I'll say, areas of the world with
+heavy parasite burden? And we're actually treating parasites and maybe that might be born out.
+So back in July, some of my other friends, and these, I'll say even closer friends, hung out with
+these folks, published a paper, COVID-19 and dexamethasone, a potential strategy to avoid steroid-related
+strong alloyties hyper infection. This was published in JAMA. First author was William Stauffer.
+I actually met him in Thailand up near the Burmese border. I was staying at the Queens and Malaria
+station. So he and I hung out there for a few days and swam in the river there. You had to go
+make sure you knew where the king cobra was before you went in. And also, Pat Walker was there. She
+was the prior president of ASTMH. And we spent about three weeks together. This is back in the
+summer of 2016 in Thailand at Cambodia, went to Angarwa. I think she was there when I ran the
+marathon with the princess. And what they actually were raising this concern, and I think our
+Twip listeners will think about this and it will ring some bells. What if this dexamethasone,
+what if the steroids that are now being encouraged to be used in COVID-19 are being used widely
+throughout areas of the world that have parasitic issues, particularly stronger loyties? And our
+Twip listeners, what is stronger loyties? You have to listen to Twip now. Many parts of the world,
+we say 10 to 40% of populations can actually have a chronic infection with this parasite.
+Some areas of the world, I'm going to say Egypt, Bangladesh, parts of Peru, particularly parts
+of Peru with an HDLV, a viral co-infection. They can have rates as high as 70%. So when you start
+giving these people a 10 or a 15, because I've seen longer courses of steroids, you actually,
+we've presented some cases, you are at risk of triggering a strongly hyperinfection. These
+parasites can actually come through the bowel wall. They can lead to a gram-negative sepsis and
+death in many standpoints. So they actually, at that point, were raising the issue, not thinking
+of an antiviral effect, but thinking about a lot of parts of the world, you may have a mortality
+issue from this and the use of steroids that supersedes any benefit you think you're going to get
+from steroids. So when I started hearing and seeing all these ivermectin publications,
+it started actually making me look into this issue. Where are these studies? Peru, Egypt,
+Bangladesh, India. And as some of our listeners may know, particularly with a colleague of mine,
+Dr. Karapati, we've been managing and trying to help assist management of patients remotely in
+parts of the world like this in India, particularly. And it is kind of amazing what goes on.
+Once they heard about steroids, a patient will get 10 days of steroids. They'll get ivermectin
+at one hospital. They won't be doing well. They'll transfer to another hospital. They'll get another
+10 days of steroids. They'll get another five days of remdesivir. So it's actually kind of
+an interesting, complicated issue. And I know these clinicians are seeing these studies come
+out of parts of the world. And there are some small randomized control trials and they're
+a little difficult to sort out. There's a cyclin still in there. There's azithromycin,
+hydroxychloroquine is still being used in these areas. So I think there's potentially an
+interesting story here. My understanding is there's a few studies that will be coming out in in
+January. So I look forward to getting more information. I don't quite understand what's going on here
+right now to be completely honest, which is tough, right? Because having, you know, having said that,
+I mentioned in the US 3000 people are dying a day. If I had an individual from an area of the world
+where there was a high incidence of strong alloys and I was starting steroids, I probably would want
+to check a strong alloys serology. I probably would want to check the stool for larva. I think
+it's worth sort of trying to understand what's going on here. But don't run out and grab your
+veterinary Ivermectin. Don't start taking the medicine that your dog or your cat are supposed
+to be taking. But I think there's a back room here right now. There's clinicians at the bedside.
+They have patients dying in front of them. They're trying to figure out what to do.
+And I think it's important that I at least raise this. And as we get more information,
+I'll return to it. But just to say, Ivermectin is a very broad spectrum anti-parasitic. We use it
+for algo-circiasis. People may know about the river blindness mass drug campaign. We use it for
+strong alloys, eschariasis. We use it for nathostomyces, hookworm, lice, matinelli, scabies. That's
+off-label, by the way. Ucheria bancrofti. There's actually some studies showing it can have an
+effect on malaria. So there's a lot going on here. And I'll be very curious to see what sort of
+pads out. But just to say, these are not fringe physicians. These are passionate bright people
+trying to figure out how to save lives. And I think we need to work together and figure out
+what to do. Can I ask you just quickly? Yeah, go ahead. Is it likely that we're going to have a
+double blind, randomly controlled clinical trial for Ivermectin and COVID-19? Or is it going to
+just be compassionate use right off the bat? You know, so it is FDA approved, which means that,
+you know, if you make a judgment call and want to give this to a patient in the context, you can.
+There are randomized controlled trials that are going on right now. And actually, there's several
+of them that are going on here in the US. So we will have data. And I know that sometimes,
+and we've kind of gone through the different approaches to medicine, I really am swayed by a
+well-done randomized controlled, blinded study. I don't think you could just know what works.
+I think you actually have to do the science. And we're going to be getting this. Vaccines,
+right? So active vaccines. I saw a very curious, I think it was an anti-vax post. I'm not sure,
+actually. And it was where a person was saying, you know, you people with your vaccines, instead
+of a vaccine, couldn't we just expose people to a weakened version of a virus and then let them
+develop an immune response to it? And you know, I was thinking minutes and I'm like,
+don't we call that an attenuated vaccine? Maybe we're just mixing words here. We do.
+So I thought it was interesting. But, you know, big news since we last talked, I think everyone
+is aware, E-way from Moderna. I actually got my Moderna here. But what about prioritization?
+This keeps changing. Who gets the vaccine when? I mean, the first thing that's been in the newspapers,
+and I think this is upsetting to all of us, is how slow the rollout is going. 10 million doses of
+vaccines have been distributed. Only a million have ended up in arms. That's going to take us at
+this rate, like 6.6 million years, now 6.6 years to vaccinate the entire US population.
+The UK, they're doing about 140 k a week. So they're basically going to finish vaccinating their
+country a little bit after the time that they have to start again. So we really got to pick up
+the pace. One of the challenges is right now, we're in phase one A, where we're trying to do
+healthcare personnel. And a lot of the healthcare personnel that I've started with are what are
+considered higher priorities. So ICU, ER, and they're working in visiting hospitals. The vaccines
+have been sent to those busy hospitals. So it's really challenged for these facilities to try to
+vaccinate all their workers. And at the same time, take care of more COVID patients that they've
+ever had before, triaging staff and personnel and resources. So I'm hoping we learned from this.
+Maybe that's not, you know, no chiefs keep throwing stuff on the top of the hospitals during a
+pandemic. Let's see if there's other organizations that can jump in and help. But the prioritization
+changed as of December 20. So let's get everyone up to speed. Phase one A, right? That's we're
+familiar with. That's long term care facility residents and staff that fired up this week. And
+that that looks to be going well, a captive audience, right? So that that is going to be, I think,
+for us in the acute care settings, a game changer. That was what flooded us in the first wave in
+New York back in April. Half of the deaths were in individuals from the long term care facility.
+So if these individuals could be protected and the people that take care of them protected,
+that's huge. The healthcare personnel, I think that's really important from a raw standpoint.
+I think a lot of us have learned how to take care of ourselves. So in the UK, they're not doing it
+the same way in the UK. They're focused on the older individuals. But we've got the older
+individuals here in the US right behind this phase one B, which is now individuals who are 75 and
+older, as well as frontline essential workers. And I'm going to go through what is a frontline
+essential worker? Then we have phase one C, and that's everyone age 65 to 74, or anyone under 65,
+but with a high risk medical problem, and all the other essential workers. What are frontline
+essential workers? And I'm hoping as I go through this list, people are going to say,
+I want to sign up and be one of those for, well, because now they realize that this is a frontline
+essential worker, or two, they think if I'm doing this job, I get vaccinated early. So either way,
+first responders, those are the firefighters, the police. What about the EMTs? The EMTs are
+actually supposed to be in 1A, so they should be being done sooner. Education, right? These are
+the teachers, the support staff for our schools, the daycare people. That's right at the top of
+our frontline essential workers. But we also move into people working in food and agriculture,
+you got to eat, you move into manufacturing, people working in corrections, the postal service,
+people who are transit workers, public transit workers, grocery store workers. So that's about
+30 million people in the considered frontline essential workers. And then in one C, you move
+into the other essential workers, as well as those younger 65 to 74. And that's going to be
+more transportation, logistics, more food service, construction, finance, IT and communication.
+Okay. Actually, we talked about that. I think about our medical practices. If the IT goes down,
+that's a problem. People working in energy, legal, public safety, wastewater.
+So, and then what are those high-risk medical conditions? It's cancer, kidney disease,
+chronic obstructive pulmonary disease, heart conditions, immunocompromise,
+obesity above a certain level. Pregnancy, interesting, is a prioritization in one C,
+sickle cell disease, diabetes. Couple challenges that we have in front of us, right? We're not
+meeting the first challenge of getting the first shot in, but these are two dose vaccines that we
+have in front of us. And the literature that we have from other vaccines is the majority. People
+don't get that second dose. This is critical. We keep reinforcing this. If you only get one dose,
+you may only have about 50% protection. We also don't know how long it lasts. And we're probably
+never going to do great studies on that. So really commit, get that first shot, get that second shot.
+I'm getting lots of vaccine questions. And so just to go through a few of them, still the
+lactation question is about fertility. But going forward, we're going to actually be
+hopefully just posting because the questions continue to flow on what are the different issues.
+I'm going to jump right from active to passive vaccination, which really sort of falls into the
+second stage back to monoclonal therapy. And here, again, it's a difficult issue. It's out there.
+I said with the active vaccines of the ones that are out there, only 10% have actually ended up
+in people's arms with the monoclonals. Only about 20% have ended up in people of the ones that are
+sent out. And it's a couple issues. One is an access problem with physicians, not the patients,
+right? You know, you call your physician, I'm not doing well. You've gotten a test.
+Physicians have been involved or health care providers have been involved. Physicians are either
+not able to understand how to access this. And the access is very easy, I want to say. I'm actually
+going to give you some numbers here. So if you're driving, you could pause, you could rewind.
+And don't crash and try to write this down while you're driving, even if you have a Tesla that
+is supposed to drive for you. And since a lot of this is our weekly information session for
+pro health and Riverside, Optum Tri-State, New York, we have a Long Island bamlinibimab hotline
+where people just dial 516-918-6089. Physician calls gives the history. And often they can get
+access to the medication the same day. Tensor being set up outside of ERs, other settings.
+And nationally to find out about the access in your area, it's 1-855-545-5921.
+This is just for Eli Lilly. But Regeneron is sort of right on the heels there. So I'll have
+to get access to those numbers once those roll out in our area as well. But what's going on here?
+A lot of doctors actually, and this sort of goes back, you know, they're not impressed with the
+data. This is an EUA based upon limited data, right? We just did phase 1 and 2. We thought it was
+really impressive. It rolled right into EUA. And a lot of physicians have said, you know, this is
+not an FDA approved drug. You've looked at it in a few hundred people as impressive as it might be,
+you know, with the Eli Lilly with about a 70 to 75% reduction in progression to requiring medical
+care in the Regeneron being maybe about a 50% with that cocktail. There really is still that
+question of does this stuff really work? So there is plans for a large EUA trial, which I will
+definitely share more about as soon as we get the green light from the FDA. Early inflammatory phase,
+you know, a reminder, I want to say that steroids are not indicated in the first week. They're not
+for everyone. Second week, people with hypoxemia. If we have listeners in parts of the world where
+there are co-infections, strungaloidies, malaria, asterisks, other other things going on, keep that
+in mind. You know, I think as my colleagues published back in July, if you're going to be using high
+dose steroids for any period of time, you've got to be thinking about what else might be going on
+there. This was a big change, right? Well, not that, but what I'm about to say is a big change.
+We're now sort of reinforced in our recommendation of prophylactic dosing of anticoagulations.
+So I think I mentioned before that I'm the infectious disease physician who was
+put up to be on the American Society hematology panel to work on the guidelines for how to use
+anticoagulation in COVID-19. And after much back and forth and going through 100 to 100 papers,
+the ash guideline panel suggested using prophylactic intensity over intermediate
+or therapeutic intensity anticoagulation in patients with COVID-19. That's for both critical
+and floor patients. But then they did say, so that's your baseline. If you're going to have
+an order set, you're going to start people on, let's say it's low venox, that would be your 40
+milligrams of sub-Q once a day would be your prophylactic intensity. You might adjust that
+based on weight if there's extremes variation there. But then saying on a case-by-case basis,
+the panel acknowledges that higher intensity anticoagulation may be preferred in certain patients
+judged to be at a high thrombotic risk and a lower acceptable bleeding risk, right? A couple
+trials, active, and there are actually three trials, where they were looking at prophylactic
+intermediate and therapeutic intensity anticoagulation. And in the patients that were in the intensive
+care unit, these are the ones that we think are at the highest risk of clotting, they actually
+stopped the routine full dose arms because they were actually seeing mortality impact. So basically
+stepping back to, I'll say the guidelines that we've recommended here. But I think this is a
+reminder, right? Because the COVID wars, so to speak, that were described in New York Times,
+there were physicians who were passionate that if you were not putting patients on full dose
+anticoagulation, you were killing them, you were letting them die for science so that you could
+just get your answers. And here, we're finally seeing some data. And I feel like this is
+solid data. This helps us. I think we're moving forward.
+Secondary infection phase. We've talked about this before. This is week three. Things start to go
+in the wrong direction. You want to start looking for, is there a bacterial infection? Are we having
+progression of the inflammatory process? Or are we starting to have a thromboembolic or
+thrombotic complication? Don't just think about bacteria, but also think about fungal issues.
+We see these, or we saw these more when people using anakinra here in the States,
+there certainly are a lot of these in a lot of other parts of the world, like what I described
+in India. In India, we're actually seeing a lot of, not just Canada, but we're actually seeing
+mu core, because people are just getting so many courses of antibiotics and high dose steroids
+that this set is setting them up for severe fungal infection. So look at the context here.
+Be careful with the antibiotics. Don't just keep overdoing it. We're going to lose all our
+antibiotics. And the steroids, you've got away the harms. If you have a 70 pound frail woman,
+maybe you don't even have to use the full six milligrams. You might drop down to four. I
+had a woman today that I put on steroids, but at four milligrams, I may not even go for the full
+10 days. So there is some customization here, the trial, six milligrams times 10 days.
+That isn't necessarily a one size fits all. That was just a study trying to get an answer
+to a specific question. Moving into the end of the segment, I'll say that, but also the tail phase
+and DC planning. I just want everyone to keep in mind that when these folks are clapped out the door,
+for a lot of these individuals, that isn't the end of COVID. There was a little bit of
+attention recently to the fact that if you look at the all-cause mortality, individuals discharged
+with COVID are about six times as likely to not be alive at two months post discharge compared
+to other conditions. About 10% of them will actually get out of the hospital, but then die
+in the next two months. About 15% will bounce right back to the hospital. So it's important.
+Don't just clap these people out and forget about them. They need ongoing care. They need
+monitoring. They need support. So let's finish off here. I'll say our fund raiser, but I'm going
+to sort of spend a little moment here. Our fund raiser, we're now helping to raise money for
+the Peace Corps, HIV and AIDS programs. We're all one year older and what have we done while
+we've been focusing on COVID, HIV, malaria, parasitic diseases, all these neglected diseases
+are really gaining ground. We worry and the estimates are that we may have lost about 10
+years. So this is devastating. So here kind of the end of the year, as we're all thinking
+about all these other things, help us continue to do our work because when we come out of the
+other side of this, there's really going to be a lot of work for us to do.
+Right. Thank you, Daniel. I have a couple of email for you. First one is from Bart,
+who is confused about PCR testing. He writes, I'm reading various articles suggesting that even
+four to five days after infection, note not symptom onset, but infection PCR tests still have
+notoriously poor sensitivity. 67% false negative four days after infection in one study. I'm confused.
+I understood that the onset of symptoms on average occurred for the bulk of patients around that
+time and that the viral load was at its peak just before and after infection symptom onset.
+I think PCR is incredibly sensitive if virus is present. So four or five days after infections,
+most patients should have enough detectable virus in the body. I thought a PCR test should
+be able to pick this up and write result in a positive test. So why are PCR tests reported to
+have such high false negative rates? And more importantly, if you're not exhibiting symptoms,
+when is the best time to get tested to increase the chance that the test will be correctly positive
+if you actually have been infected, please help. So this is well put out. This is not simple.
+And so I'm going to go through this a little bit of terminology here to hit on, but also
+people are going to have to have a graphic visual in their head. So what are the different terms
+here? So there's a point at which a person is exposed. This is the time of exposure.
+If you've been exposed and successfully infected, there is an incubation period,
+and that incubation period can be from two to 14 days. So you are infected. There is
+virus that is replicating. And anytime between two to 14 days, you may or may not get sick.
+50% of people never show symptoms. But let's use the symptomatic person as an example.
+So let's say you're going to be one of those people who takes the full 14 days before you
+get sick. You're going to get sick at day 14. That's about 2% or 3% of individuals will get sick
+in the last couple days of that window. The PCR will stay negative on you all the way out to
+about 2.4 days before symptom onset. So there's a little bit of a confusion here. What is infection
+and what is symptom onset? So the infection is the time that the virus actually gets into
+your cells and starts to replicate. It will stay below the level of detection for often many,
+many days between, I'm going to say here, one to about 12 days. Because if I say you get sick
+on day 14, you're probably starting to get detectable virus by 14. If you get symptoms,
+right at the time that you get symptoms is usually when people have, or typically when a person
+has the highest amount of RNA, and that's the point when a person has the highest likelihood of
+being picked up by one of our testing modalities. Once you get out to about five days post symptom
+onset, the virus has really come down. On the way up, it's about 2.4. On the way down, we think
+it comes down at about five. But then some people will be positive out to nine. A lot of people will
+start to turn PCR negative by day 10. So there's a couple of things going on here. When we talk
+about infection and this feeds into a test does not predict the future. You can be infected.
+You can be in the incubation period for out to 14 days. And at any point in time, a test will
+not predict what's going to happen the next day. In most cases, the virus comes up rather quickly
+within hours to a day. But now we've seen more kinetic studies where some people gradually come
+up over two days. The other is there may actually be an intermittent positivity, where someone's
+positive, negative, positive. We're usually not seeing that till we get down to the lower limit
+of detection. So people that have been sick for five plus days, then we'll often see that. Usually
+if you can get the CT values, the quantitative instead of the qualitative testing, they're going
+to be in the high 30s at that point. Next one is from Carolyn, who writes, it would be great if
+you could comment on very promising results with the SSRI fluvoxamine. It seems to act through the
+sigma one receptor in the ER, unrelated to serotonin reuptake inhibition and may impact cytokine
+secretion and or impact virus replication directly a small outpatient placebo controlled clinical
+trial was published in JAMA. There are more data accumulating and she gives some links.
+Steve Kirsch, who started the COVID Early Treatment Fund has funded some of the work. Thank you.
+Yeah, no, thanks for bringing that up. And I think this is a challenge. I was
+worried that I'm leaving things out. And I certainly, certainly am. There's a list of therapies
+that are being tried in COVID. And I don't know if I'm at a point where I feel like I have anything
+compelling that I can share other than what you did in your email, but we'll be keeping track of
+this. And when when something that I think is sort of ready for prime time is something is moving
+into practice, or when I'm working with physicians that are using these things and I can relate some
+firsthand experience, I will do that as well. All right, our last one is from Char, who writes,
+Dr. Griffin, if you keep missing your vitamin D doses, it's okay to take it weekly. If you choose
+to use 4,000 per day, you could take 28,000 units on Sunday, because it's an oil soluble
+vitamin. If you take it with food that contains some oil or fat, it should all get absorbed.
+Yes, an RCT of vitamin D and COVID would be great. But the paper you shared is compelling,
+and Dr. Sehult shared a reference list on MedCram, December 10. Also, vitamin D itself is very
+inexpensive. So the high cost you're talking about must be the tests and the prescription vitamin D.
+I'm always looking forward to your weekly updates so I can share the information. I want you to
+stay healthy and continue full steam ahead. And Char is an MD internist, mostly retired, but still
+helping where he can in Portland. And Daniel, he gives a number of other paragraphs,
+which I will not read, but you might be of interest experienced from his primary care
+practice with vitamin D. No, I appreciate it. I think I've been mentioned before. I've actually
+been interested in vitamin D for a while. And I love the story of the, I think I related this before,
+of the physician in London who was taking care of the Muslim women wearing burkas,
+they came with gate disturbances, he tied this to vitamin D. And I have gotten better. My vitamin
+D is now I sit it out right next to the toothbrush. So I'm trying to do a better job. I'm a
+pasty guy who spends way too much time indoors. So trying to get my vitamin D. My son Barnaby,
+he drinks like, I don't know, probably a gallon of vitamin D fortified milk a day. He's going to be
+okay. But hey, there still may be some vitamin D in the stockings. All right, that's COVID-19
+clinical update number 42 with Dr. Daniel Griffin. Thanks again, Daniel. Oh, thank you. Everyone,
+be safe.
