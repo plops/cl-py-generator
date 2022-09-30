@@ -52,5 +52,27 @@ Detecting language using up to the first 30 seconds. Use `--language` to specify
 Detected language: English
 [00:00.000 --> 00:07.000]  This Week in Virology, the podcast about viruses, the kind that make you sick.
 [00:10.360 --> 00:15.000]  From Microbe TV, this is TWIV This Week in Virology,
+...
+takes too long for me
+...
+[06:56.360 --> 07:00.760]  And I think this just sort of helps people to get like, how does this move from the news
+^CTraceback (most recent call last):
+  File "/home/martin/.local/bin/whisper", line 8, in <module>
+    sys.exit(cli())
+KeyboardInterrupt
+
+
+real	2m43.113s
+user	2m39.057s
+sys	0m10.081s
+
+  
+#+end_example
+
+- try the smaller model (base should be 8x faster than medium)
+#+begin_example 
+time whisper data/0038* --model base.en | tee 0038.txt
+
+# downloads 138M on first call
 
 #+end_example
