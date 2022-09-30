@@ -30,7 +30,7 @@ pip install git+https://github.com/openai/whisper.git
 #+begin_example
 rsync -av \
   /home/martin/stage/cl-py-generator/example/98_yt_audio_to_text/source/data \
-  /dev/shm/ 
+  slim:/dev/shm/ 
 #+end_example
 
 - convert speech to text on server
@@ -38,7 +38,19 @@ rsync -av \
 
 ssh slim
 cd /dev/shm/
-whisper data/0124* --model medium 
+whisper data/0038* --model medium 
 
 # on first call downloads 1.42GB
+# memory usage in nvidia-smi
+# 62%   74C    P2   172W / 175W |   6070MiB /  8192MiB |
+#+end_example
+
+- conversion is quite slow:
+#+begin_example
+martin@pop-os:/dev/shm$ time whisper data/0038* --model medium 
+Detecting language using up to the first 30 seconds. Use `--language` to specify the language
+Detected language: English
+[00:00.000 --> 00:07.000]  This Week in Virology, the podcast about viruses, the kind that make you sick.
+[00:10.360 --> 00:15.000]  From Microbe TV, this is TWIV This Week in Virology,
+
 #+end_example
