@@ -1,0 +1,434 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicroTV, this is Twiv, this week in virology episode 744 recorded on April 15th, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast All About Viruses.
+Joining me today from New York, Daniel Griffin.
+Hello, everyone.
+This is clinical update number 58.
+Things gotten better since last week, Daniel.
+I'm not going to say that they have, and I will start off with the quotation that is in line with
+that. When things are going well, something will go wrong. When things just can't get any worse,
+they will. Anytime things appear to be going better, you have overlooked something.
+And that is the immortal words of Richard Feynman.
+Excellent. That's perfect for this week, isn't it?
+Yes. Actually, I don't know if people have a chance to read, but he's written a few books.
+One of them surely you must be joking is one of my favorites.
+But, yes, this has been a very tough week.
+Never miss an opportunity to vaccinate, never miss an opportunity to test, never waste a vaccine
+dose. Let me start off with my update. We've got a lot of stuff that happened this last week,
+so we have a lot to cover. But this week there was some attention given to
+lost on the front line, which has been a 12-month investigation by the Guardian,
+Cage, and to track healthcare worker deaths during the pandemic.
+And I found that reading the article, this was titled, 12 months of trauma, more than 3,600
+US health workers died in COVID's first year. It was a very emotional experience for me to read
+this through. I focus on the science, what we can learn from this experience, what we have
+learned about how to treat this horrible disease. But all the work we still need to
+do, and I think to take stock of what we've really been through is upsetting.
+As I ever count, thousands of health care workers that have died over the last year,
+many of these are my colleagues, many of these individuals I've known,
+trained with. There were some key findings that were here in this publication,
+and just a few of them. One, more than half of those who died were younger than 60.
+And I think that is something. The general population, the median age of people who died
+from COVID is in the 70s. But in the healthcare worker population, it was younger. The other
+nurses and support staff died in far higher numbers than physicians. So there's an equity
+issue here, where the physicians were either better able to or better helped to keep themselves
+safe. As I think a lot of people know, if they've ever been in the hospital,
+ever interacted with healthcare, it's the nurses, it's the assistants, it's the age
+who are really in their hands on. And one or the other, twice as many workers,
+healthcare workers died in nursing homes as in the hospitals. And this is something
+particularly sort of sensitive issue for me, because of all the controversies about the nursing
+homes and the fact that a lot of those workers were, I have to say, blamed, you know, say,
+oh, those hardworking healthcare workers brought it into the nursing homes. It's really tragic
+just how many of my colleagues have died through the last year. The last week, I was
+talking with one of my partners and Nuja Lee, who is now the associate chief of the Division
+of Infectious Disease for Pro Health New York. Just about how fondly I remember all the support
+and recognition we received from our communities during these difficult times, you know, the free
+food, the evening vigils, the placards, some of those are still up. Just let everyone know,
+this has really meant a tremendous amount. Things continue to be tough, but I have to say all the
+support has really meant something. So thank you. In addition to all my colleagues that died
+directly from COVID, I suspect many of our listeners are aware of how many. Well, more than one of
+my colleagues, you know, you may even know sort of in local community circles here, just found this
+whole tragedy be too much and actually took their own lives during these dark times. So,
+you know, this continues to be a difficult time. We are on a plateau with far too many people
+getting infected far too many people dying here in the US were on a plateau. But when we look
+beyond our borders and we don't have to look very far, we can see those numbers. We're now seeing
+counted over 5 million new cases a week. And the death toll just keeps climbing. So we are,
+we are nowhere near mission accomplished here. All right. On that happy note, children and COVID
+and masks, I'm going to throw in here. So perhaps I'll be remembered for a few things.
+You know, after this settles down, you know, one of them trying to point out early on the tragedy
+of long COVID and not to dismiss these individuals that this was real. But I think the other is for
+repeatedly my attempts to point out that children, I believe are at lower risk, but they're not at
+no risk. So there was a research letter that was published in JAMA characteristics and disease
+severity of US children and adolescents diagnosed with COVID-19. Now, the authors here were affiliated
+with the COVID-19 response team at the CDC, the Epidemic Intelligence Service Center for Surveillance,
+Epidemiology and Laboratory Sciences, also at the CDC, and the Commissioned Core US Public Health
+Service in Rockland, Maryland. And a couple of things that this article pointed out. One was that
+more than 2 million pediatric COVID-19 cases were reported in the United States, you know, in 2020.
+And they say, although approximately half of pediatric patients with COVID-19 experience mild
+disease, some children require admission to intensive care units or require the use of invasive
+mechanical ventilation. And what they did here is they conducted a cohort study to try to estimate
+just an association between demographic clinical characteristics and severe COVID-19 among hospitalized
+pediatric patients. So we just go through a little bit of what they present to us, but then I'm going
+to give the caveats as well. So they they evaluated a cohort of 20,714 pediatric patients with COVID-19
+pretty evenly split, about 52.9% were girls. The other half males, right? So we have sort of a split
+here. They reported that of these individuals, 11.7% were hospitalized, and of those hospitalized,
+about a third had severe COVID with management in the ICU. So a lot of caveats here. I think that we
+can say a couple things from the study one, and this seems consistent with the experience shared
+among my pediatric colleagues, is that if a person under the age of 18 ends up in the hospital,
+as we saw this cohort, a quarter to a third of them will be taken care of in the ICU.
+One of the things the authors even said is it isn't even necessarily the same level of severity
+we might see an adult that prompts that, but we sort of have a heightened level of concern for our
+younger individuals. One of the things that is tough, I don't think we really have a good sense,
+and I've touched this before, about how many kids with COVID actually go undiagnosed.
+You know, we never find all the asymptomatic kids, and we certainly never find the untested
+symptomatic kids. So I don't think we have a true denominator here. So the one thing I'm going to
+say, and I like to be honest on this, when I see 11.7% of kids that get COVID end up in the hospital,
+I don't think that really is consistent with our experience. I think 11.7% of this cohort
+ended up in the hospital, that is true. But I'm not sure this is representative of the entire
+pediatric cohort. I think if that was actually happening, our pediatric hospitals would not be
+as quiet as they were during the pandemic to date. That may be different in different countries.
+Some positive news on the vaccine front. Don't worry, I'll get to the negative.
+Pfizer, BioNTech, did announce that they are requesting expansion of their E-way to include
+individuals age 12, 13, 14, and 15. And I discussed a week ago when we recorded the last
+wave that this was sort of impending. And once that was announced, the clock would start with a
+minimum of 15 days from the announcement. So we're moving into that. So we're hoping that in
+May, we're going to see Pfizer expanded down to age 12. Also, still in the children in COVID,
+I've been getting a lot of communications about this. I think many people are comfortable with the
+idea that schools can be safely open. But I'm getting a lot of questions about something I brought
+up on the last 12. And this is this seeming disconnect between it's safe for the kids to sit
+three feet apart with masks on. And at the same point, the CDC considering being within less than
+six feet, so at three feet, regardless of masks being an exposure. So where are we with? What are
+the updated as of March 21st, 2021 CDC public health guidance for community related exposure
+definitions and guidance? So as per the CDC, individuals who have had close contact within six feet
+for a total of 15 minutes or more exposed to, and I'm going to pause there for a second, right? So the
+CDC is still using that 15 minutes. I know a lot of times you see the 10 minutes thrown out there,
+but sort of scouring through the CDC website 15 minutes seems to be what the CDC is still
+still putting out there exposed to to whom to a person with COVID-19 who either has symptoms
+or in the period two days before symptom onset until they meet the criteria for discontinuing
+isolation, right? So that is either 10 days or there's the test out ending isolation option.
+Or the other is a person who has tested positive for COVID-19, but it has not had any symptoms. So
+again, you can do the same thing. You're going to use that as your start date and the exposure is
+anytime two days prior to that positive test or until they meet the criteria for ending the
+isolation. So the two issues here, the first one I pointed out, 10 minutes versus 15 minutes,
+the CDC is still using the 15 minutes. But then there was a note, there's a note sort of right
+below this, and it says note this exposure, this is irrespective of whether the person with COVID-19
+or the contact was wearing a mask or whether the contact was wearing respiratory, personal,
+protective equipment, PPA. So wait, do masks work? We were just told, right, that three feet of
+distance with everyone wearing masks in schools is minimal risk. So here comes down to the issue
+is should the CDC update guidance for what is considered a school exposure and what ends up
+triggering quarantine? I will stay one of the schools in our area, not right here in Port
+Washington, one of our local schools has been in contact with the local community of health,
+local department of health, and they've actually sort of updated their local guidance and said,
+no, if we're going to allow these schools to open under these circumstances, if everyone's wearing
+masks, three feet apart with enforced mask wearing, if that's really being held to, we're not considered
+that, can you consider that a trigger for quarantine? So I think this is an important issue.
+If being three feet apart, less than six feet wearing mask indoors at a school should count
+as an exposure, this is actually an interesting issue because for health care workers, we actually
+have slightly different rules, right? For health care workers, there's the idea that we know how
+to properly wear masks, and there is some concern that at least per the CDC up till now,
+that people don't really either know how to wear masks properly, or the masks that they are wearing
+are not proper masks. So I understand the concern, right? The people don't wear their masks properly,
+the masks are a different quality, but I do want to point out, Dr. Fauci, we all see him on TV,
+we see our president, they're not wearing medical masks, they're wearing cloth masks. So I think
+it's critical for messaging that we get on the same page with regard to our masks effective or not,
+but maybe we haven't been doing enough education about how to wear those masks properly. So I'm
+actually going to take a moment here, this will be my public service announcement on how do you wear
+your mask properly? And I'm basically going to be sharing helpful CDC advice on how to improve
+how your mask protects you and others. So I'm going to hit eight points here. So one,
+make sure your mask fits snugly across your face. You should be breathing through your mask and not
+around it, and please cover your nose. In my mind, if your nose is sticking out, you are not actually
+wearing a mask. And I have a couple, you know, for those people watching, I have a couple masks
+here to demonstrate. So I'm going to demonstrate that now. If you're listening, I'll describe it
+for you. I'm going to put a mask on that will fit snugly against my face.
+And I think people who are watching can see this is actually, I want to thank one of our listeners
+who I believe this is handmade in Thailand. It's not important that your mask is completely symmetrical,
+right? It's just important, right? I always get in trouble with that, trying to get my mask
+symmetrical. But it has to fit. You want to use a nose piece if you can. So that's number number
+three. So choose a mask with layers. I'm going to take this off now. You don't want to have just
+one thin piece of fabric. You want to have layers. Also, some of these will actually have the ability
+to put a filter in there. Three, choose a mask with a nose wire to improve the fit and bend that
+wire over your nose to fit close to your face. Four, check your mask to make sure you feel warm
+air coming through the mask, not out the sides, the top or the bottom. Five, if you have facial
+hair, we're not sure how effective masks are. So trim that beard if you can. Consider double
+masking. Consider shaving. Six, do not pull your mask down or out of the way to speak. And I want
+to use this as an example. Again, you'll see, I saw this and I see this all the time. People put
+their mask on and then they want to speak. So they either pull it away from their mouth or they pull
+it down to speak. I think while we may have witnessed one of our elected officials, he needed to cough
+or sneeze. He pulled off his mask, coughed into his hands, sneezed into his hands. I'm not sure
+where he wiped them. But you do not take the mask off to cough or sneeze or talk. You want to have
+it on specifically at those times. Also, don't take it off to yell at the athletes. That's another
+one I see. Also, teachers, you did not take it off to have your students better understand what
+you have to tell them. Seven, do not wear masks with one way valves. They only protect you and
+not others. You are sending a very negative message. Eight, do wash your hands immediately
+after removing a mask. Remember, this is supposed to protect you. So if it's actually protected you,
+it is now potentially dirty. So take it off by the loops and then try to avoid contaminating
+your hands. We also have some do knots from the CDC. Do not wear two disposable masks at the same
+time. So if you're wearing those, those below mask, which are that charged fiber, these have been
+studied one mask at a time not two. And this also applies to the issue of K and 95 or N 95s.
+We are currently recommending not to cover those with a surgical mask. I have to say for my medical
+colleagues, we got quite used to the fact that we were using surgical masks to protect and preserve
+our N 95. So I know some of my colleagues still feel a little bit odd about that. So all right,
+the pre exposure period. On April 13, we saw the article, physical inactivity is associated with
+a higher risk for severe COVID-19 outcomes, a study in 48,440 adult patients. And this was
+published in the British Journal of Sports Medicine. This might be a surprise that exercising might
+have some health benefits. But I'm going to go out on a limb here. And what did these individuals
+find? They found for those individuals who were consistently inactive, that they had a greater
+risk of hospitalization. So these are individuals diagnosed with COVID-19 who were consistently
+inactive. Their odds ratio of hospitalization was 2.26. Their admission to the ICU was 1.73
+increased odds ratio. And their chance of death was 2.49. So almost twice as likely to die,
+if they were diagnosed with COVID-19 ended up in the hospital. So basically, people who are
+consistently inactive have a higher risk, at least per this study. So out on a limb, perhaps people
+should exercise one more reason. Now we need a randomized control trial where half the people
+exercise and the other half serves as the control to really determining if exercise is a good thing.
+But I'm a little worried if we do this as a blind study, are people going to end up hurting
+themselves? So somehow we have to have people exercising, not exercising, not aware of which
+group they're in, and not wearing blindfolds. Testing. I think we're seeing an interesting
+pattern here in our primary care and urgent cares where people are post vaccination. And they have
+what seems like mild symptoms after a good COVID exposure, but yet there are antigen test
+negative. So we may be seeing some of that sort of, you know, effective the vaccine
+sort of below the radar of even getting positive testing. So when we have more information, I'll
+make sure I share that. Active vaccination. Everyone's probably waiting for this.
+I expect all our listeners are familiar with the J&J vaccine pause here in the US. And let me
+just give everyone an update. I had the opportunity to be on the call today, where we got to run down
+on what we know to date. So this is, this is, you know, hot off the press. So there were six
+reports to the vaccine adverse event reporting system between March 19th and April 12th of women
+between the ages of 18 and 48, having a rare clotting complication. So these individuals had
+cavernous sinus thrombosis. This is a clotting of the vein complex inside your brain sort of,
+you know, think about a few inches behind your eyeballs there. And they had platelet counts
+less than 150,000 per millimeter acute. I do want to point out by comparison, we have seen
+zero reports of this cavernous sinus thrombosis with rhombocytopenia in the 182 million doses
+of mRNA vaccines given in the United States. So I know there's a little bit of, oh, this is just
+something. But no, this looks like it is not a problem with the mRNA vaccine. So I want to make
+that really clear on set. For these individuals, it was six to 13 days after vaccination. So this
+sort of follows the timing. That's when we start to see the IgG or the immunoglobulin start to come
+up, not necessarily just IgG. They were all Caucasian females, three out of the sixth were
+three out of the six were obese. So half were obese, half were not. There were no known
+coagulation disorders in this group of six women. Initially, headache was reported in five of the
+six. The last person did not have a headache initially, but a headache soon developed. Their
+initial presentation was backpaid. Now, half of the patients had clotting in other areas. So
+lower extremities, the portal vein, pulmonary artery. And they were able to, and this is going
+to be relevant as we go forward, they're able to test for something in anybody against platelet
+factor four. And of the five that they were able to test, all of these antibody tests were positive.
+One individual died. Two of them recovered and were discharged from the hospital. At the time of
+the report that I got today, half of them were still in the hospital. A couple of conclusions,
+the rate of this CVST does appear to be higher than would be expected for this observation period,
+and in this particular demographic. I will also point out that in the phase three trial,
+there was a 25 year old man who also developed CVST. And he also had positive anti-PF 480 bodies.
+We still have a significant number of individuals that were just recently vaccinated. And so they
+haven't passed through this, say, six to 13 days after vaccination. So we won't reach that until
+April 25th. And at that point, we'll have a true number on what is the number of these
+events that are happening after vaccination. There's a lot of speculation. I think there's
+growing evidence that this may be a similar phenomenon to what we are seeing as a rare issue
+with the AstraZeneca vaccine. And there were a couple publications in the New England Journal
+of Medicine that shed some light on what might be happening there. And by comparison, I'll try to
+get a connection here. So the original article, thrombotic thrombocytopenia after Chaddox 1,
+and COVID-19 vaccination was published. And the authors report that of the 11 original patients,
+nine were women, median age of 36, and a range of 22 to 49 years of age. Beginning
+five to 16 days after vaccination, the patients presented with one or more thrombotic events
+with the exception of one patient who actually presented with a fatal intracranial hemorrhage.
+Of the patients with one or more thrombotic events, nine had cerebral venous thrombosis,
+three had spanknic vein thrombosis, three had pulmonary embolism, four had other thrombosis,
+and of these patients six died, five patients had disseminated intravascular coagulation.
+Now the authors used a standard ELISA to detect these platelet activating antibodies against
+PF4 and a modified PF4 enhanced platelet activation test to detect platelet activating antibodies
+under various reaction conditions. Included in this testing were samples from patients who had blood
+samples referred for investigation of these vaccine-associated thrombotic events with 28
+testing positive on a screen. And so the authors suggest that we refer to this as vaccine-induced
+immune thrombotic thrombocytopenia. So that, the ITT. Same addition, there was a brief report,
+very similar name, thrombosis and thrombocytopenia after Chaddox1 and COVID-19 vaccination.
+And they really came to the same conclusion. So what is going on here? What is this PF4?
+So PF4 is platelet factor 4, or also known as chemokine CXCl4. It's a protein that's found in
+the alpha granules of platelets. And it's involved in the clotting cascade. So we see a very similar
+phenomenon rarely with a medicine we use called heparin. So it's very similar. You may have heard
+the term hit or heparin-induced thrombocytopenia. And what we're seeing here is really a consumption
+of our platelets followed by, well, bleeding in one instance, but in most cases, clotting.
+And we do feel, you know, I have to say, there is a smoking gun here. It looks like there is a
+connection. It looks, and we will see the true numbers right now. We're talking about one in a
+million. AstraZeneca is about one in 600,000. So as we go forward, we'll have to see what the
+numbers are. Now, does it make sense for them to have pause from a scientific point of view? Yes.
+If we are able to pause for another week or so, we will actually have that 13 days after the last
+J&J was given in the US. We'll be able to see if there's any more of these events. And then we
+can revisit this. And on the call today, they actually talked about several options here. One
+was to just put this in context and say, okay, the rate is, let's say, 1,500,000, whatever they
+want to say. There may be the ability to say, this is isolated to individuals under the age of 50.
+This may be isolated to women. So there may may be discussions about what do we do at the vaccine
+relative to restricting or targeting certain populations. So I think it's the right thing to
+do. And I think it's also reassuring to see what a robust adverse event reporting system we had.
+I know I think we had an email where someone asks like, you know, how many people need to die
+before we'll find out about it? I think the answer, as I said, was 1, and that's what it was here.
+We had a connection here. One person has died in the entire country. And this has been stopped
+until we clarify the issue. Now, people will concern we're in the middle of a pandemic here.
+Are we stopping our vaccination efforts? I'm going to give some reassurance to our listeners.
+If you look at the number of vaccines that have been given so far, this makes up a small part
+of the number of vaccines. As I mentioned, we have given almost 200 million doses of the Pfizer
+and the Moderna vaccine. We have given less than 7 million of the J&J vaccine.
+And going forward, if anything, we have a vaccine glut, especially getting sort of
+looks from around the world. What are you doing with all those vaccines? We expect that we will
+have the ability by May 31st to have enough vaccines to fully vaccinate 260 million Americans,
+even without J&J being an option. So this was something that we could really do
+without making any huge sacrifice or impact on our ongoing, really robust vaccination efforts.
+So as we learn more, and I think by next week, we might have a little more information,
+the following week, we should have all the information and know where we're headed with this
+this challenge. Passive vaccination. We actually have some good news here. We are really moving
+forward with monoclonal cocktails. And as well, as about a week ago, the NIH, the National Institute
+of Health, is now recommending that monoclonals are part of the treatment. So they are now part
+of the NIH's COVID-19 treatment guidelines. And so they are saying for a mile to moderate COVID-19,
+who are at risk of worsening disease, they should be treated with monoclonal antibody
+cocktail. So that's a pretty strong statement. So I feel bad. I feel like we fall down on the job
+here sometimes. I have a couple instances happen. I have a gentleman right now in the ICU who will
+probably die. And the situation here, he and his wife were diagnosed. They were offered monoclonals,
+maybe not as persuasively as it should have been. The wife said certainly. Two days later,
+she was fine. Symptoms resolved. The husband is now in the ICU on ventilator, week three. I don't
+think he's going to make it. And that's the second of those stories in just a few weeks here that
+I've experienced where two married couple are offered therapy. The wife, maybe women are smarter
+than men. Just throwing that out there. Say, yes, the men decide they're going to just see how it goes.
+It doesn't always go well. So okay. So what are the news? We've got a few more phase three trial
+results. Phase three treatment trial in recently infected asympto, asymptomatic patients showed
+regenoron coved. And this is Casa ribbon map with imdebemab significantly reduced progression
+to symptomatic COVID-19. So this was another phase three trial. It enrolled 204 individuals
+with any COVID-19 symptoms who tested positive for SARS-CoV-2, but did not have antibodies at
+baseline. And so they were randomized to either receive the regenoron cocktail or placebo. And
+they reported that they reduced the overall risk of progression by 31% with a p-value of 0.038.
+They also go on to report that the total number of weeks that patients experience symptoms which
+decreased by 45% with the cocktail and the viral burden was reduced by more than 90%. So while
+not included in the initial analysis plan, they also found that zero of the patients that got
+the cocktail compared to six placebo patients ended up in the hospital or visited the ER during
+this 29-day efficacy assessment period. And from a safety standpoint, there were no issues.
+We also have a phase three prevention trial. And I think this is huge. It was an article
+recently looking at people with immune compromise saying, what about these people? What they can't
+actually respond well to a vaccine? Is there any way to passively protect them from the virus?
+And so there was a phase three prevention trial showing 81% reduced risk of a symptomatic SARS-CoV-2
+infections with subcutaneous administration of the regenoron cocktail. So this prevention trial
+was a double-blind placebo-controlled trial assessing the effect of the regenoron cocktail
+on uninfected individuals without SARS-CoV-2 antibodies or any symptoms who lived in the same
+household as an individual who tested positive for SARS-CoV-2 within a period of four days prior
+to enrollment. So they enrolled 1,505 individuals, pretty much split one-to-one getting the cocktail
+versus placebo. And then they followed them out. And remember, this is a subcutaneous injection.
+This doesn't have to be IV. It's another way of improving access. They reported 72% protection
+against symptomatic infections in the first week and 93% in subsequent weeks p-values with about
+three zeros each after the decimal. They also reported, and I think this is important,
+an impact on severity of disease. So for those who did go on to get infected,
+on average, the individuals who were treated with the cocktails experienced a symptomatic infection
+and their symptoms resolved in about a week compared to the placebo group who were sick
+on average for three weeks. The infected individuals also cleared the virus faster. So there was a
+significant reduction in the days with a high viral load by 90%. And again, from a safety point
+of view, there were no concerns here. So what's the future with monoclonals? A couple things to
+say here. Is there really this invariant region? And we can just target that if the spike could be
+set forever? Can we make this perfect monoclonal and just sit on our laurels? I'm not sure that
+that's true. I'm not sure that there is a part of the spike protein that does not vary.
+Emailing with David Ho today who does not believe that there's actually a part of the spike that
+cannot, will not change. So I think that this is going to be an ongoing challenge. And I've been
+reaching out and communicating with my colleagues at UnitedHealth Group about how important it is
+that we have regional guidance, regional access to the monoclonal cocktails, the monoclonal therapies
+that work the best in a given region based upon which variants are circulating and what resistance
+patterns they might have to the different monoclonal. So what's the best thing we can do to stay ahead
+of the virus? It's to reduce the opportunity of the virus to replicate and change, which means
+mitigation, means vaccination. Period of detectable viral replication, right? This is when that person
+comes in positive. Just a little touch on here because I'm going to close with some discussion
+of anticoagulation. At this point in time, we're basically saying we have no compelling evidence
+that starting people on aspirin, starting people in anticoagulation is helpful. The first week of
+illness is the time for monitoring and monoclonals. If they have a specific high risk feature, then,
+of course, always use your judgment and the latest clinical data to recommend for your patients.
+Their early inflammatory phase, remember that 94% is what we're worried about. So ideally,
+we've got a lot of pulse oxes out there in the community. Remember, steroids are not during
+the first week. It's during that second week, if needed. And I am going to comment here,
+where are we with anticoagulation? Should they end up in the hospital? We are universally
+recommending anticoagulation. And I'm going to skip here to the tail end because we're running
+long and I apologize. But I just wanted to revisit the post discharge anticoagulation guidelines
+because they have evolved over time. And currently, as per the NIH treatment guidelines,
+prophylaxis after hospital discharge is not recommended for patients with COVID-19.
+There's currently no ash guidelines addressing this issue. There will be, we're working on them.
+But I think the consensus has been, as we look at the data, this population is not necessarily
+at a higher risk of post discharge clotting complications than your general medical patient.
+So use the same post discharge anticoagulation guidance you normally would. Person has cancer.
+Person has a clotting propensity. Person has another indication. Go ahead, use anticoagulation.
+But if they just came in the hospital for their five days of remdesivir,
+for their 10 days of steroids, it may be that offering anticoagulation, the dox, the eliquis,
+the zorrelto that may be doing more harm than good. So all right, I will conclude there.
+And again, I want to thank everyone. We're just a couple of weeks here left in our American
+Society of Tropical Medicine fundraiser. So take a deep breath, go to parasiteswithoutporters.com,
+click that donate button, because we are going to, because they were hoping, I see we are going to
+support the American Society of Tropical Medicine in creating three annual meeting travel awards
+to bring early career women from economically challenged parts of the world to the annual
+meeting this fall really helped do something to push their career forward and undo and address a
+lot of the inequities that are here. So thank you very much again. Time for a couple of
+questions for Daniel. You can send them to Daniel at microbe.tv. The first is from
+Jay. My daughter has celiac disease, irritable bowel lactose intolerance and has migraines.
+We were so happy when she managed to get the J&J vaccine. She suffered only mild chills
+about to switch birth control for one that has no estrogen. But what does one need to be aware of
+for symptoms? Yeah, yeah, that's actually interesting. You know, the, I'm not sure where
+exactly the question is going, but I'll go with it anyway. My daughter actually sent me a graphic
+looking at the risk of clotting complications with different therapies. And one of the things
+in there was birth control, right? Birth control can actually increase a woman's risk
+of having clotting issues. We definitely strongly recommend women on oral contraceptive pills do
+not smoke. Smoking is another issue. You know, if we're concerned here about the J&J complications,
+I will be reassuring. You know, we're looking at this being less than the risk of getting
+struck by lightning, certainly much safer than driving to and from a vaccine appointment.
+But everyone, it looks like either acutely came in with a severe headache or soon thereafter
+developed headache. So we're advising people after the J&J vaccine across the board,
+if you develop a severe headache, if you have trouble breathing, if you have abdominal pain,
+then get evaluated. And we can actually do blood work. We can, we can sort out whether or not this
+is a significant concern. I know we had a ton of individuals, the ERs, over the last couple days,
+you know, worried about these issues. But again, this is very rare. So I really want to
+reinforce that. There's no recommended treatment at this point. We're not recommending putting
+an umbrella on aspirin or anticoagulation with an event as rare as this seems to be.
+We're more likely to do harm than than anything beneficial.
+All right, Mary writes in a recent clinical update, you said if a school plan results in lots of
+potential exposure, then the plan is not a good one. The school needs a better plan.
+I'm a high school teacher. We have been doing cohorted hybrid days in September. We're being
+forced to come back full in person after a few weeks in a few weeks instead of 12 kids in a room
+with six foot distancing will now have 25 to 28 kids in a room with three foot. The CDC guidelines
+say anyone within six feet for more than 15 minutes would be considered a close contact would have
+to quarantine. In that case, a single positive student in six classes throughout the day could
+yield as many as 36 contacts in the building, given the limitations of space in our building
+and the CDC guidelines on close contacts. I don't see how there could be a return to a school plan
+that does not result in a lot of potential exposures. Do you have any advice on this?
+This is an excellent question and I think hits right on what I talked about. A lot of parents
+had this as a disconnect. You just told me that if the children are three feet apart and wearing
+masks, that is not a risky behavior. But yet you're telling me that if the kids are three feet apart
+and someone has COVID, if they're both wearing masks, it doesn't matter. It's an exposure. So
+there really is a disconnect here. So I know some local health departments have worked with the
+school and said, no, this doesn't make any sense. But this is reaching out to the CDC.
+We need this guidance on a national level. I think it's great now that the CDC is here
+sort of back giving us really helpful guidance. And I think it's just a matter of getting the
+guidance updated to be consistent with what we now know. Mask wearing can be successfully
+enforced in the schools. If the kids are wearing masks, if you as a teacher and the kids are wearing
+a mask and you're keeping this separation, this is a very low risk activity. Also go get vaccinated,
+right? That's that's one of the biggest things we can do here. And if you look at our high schools,
+a chunk of the kids, right, or 60 and 17. So the more people you get vaccinated, the better,
+good ventilation systems, three feet is going to give you that 80% reduction. You throw a mask on
+either side of that three feet. Yeah, otherwise, I think your math is exactly what I worry about.
+You know, one child, six different periods, every time they're sitting surrounded by eight
+kids. Next thing you know, everyone's in quarantine. We were only in school for a day.
+One more from Ellen who talks about the discussion we had about pulling back on the
+I am injection for the vaccine. And she has a question, which is what might be the consequences
+of inadvertent IV administration of the vaccine? Someone I know came to me with a concern that
+one of the vaccines he gave did, in fact, go IV, which he believes based on feel of having hit a
+vessel by followed by continuing to inject before his brain and muscles had time to react to this
+unexpected sensation. I realize there's no data, but would appreciate thoughts on what would be
+theoretically expected in this case. The vaccine in question was MRNA. But I suppose in either case,
+we would have the recipe for spike protein, as I call it, within circulation. Would this lead to
+uptake and spike production within the vessels? If so, could this be related to rare clotting
+issues seen with AZ and now J and J? And would it move out of the bloodstream and be used in a
+similar but less localized way than in IM? Your insight is always much appreciated.
+Yes, I am speculating here, but I will share like what my experience. So, you know, I was doing a
+lot of vaccines this last week. We did over 300 last week. We actually did over 100 J and J just
+Friday, right before the pause was triggered. And, you know, I always ask the people before I give
+them a shot, I say, oh, are you a bleeder? And one of my partners, Nujali, who I mentioned earlier,
+she was like, well, why do you do that? And some people, you give them a shot and they bleed.
+The majority of the people we are giving these shots to, when you're done, they don't even need
+a bandaid. They're fine. But a certain percent of them will bleed. Sometimes it prompts them to let
+me know that they're on a blood thinner or something like that. But sometimes you do the shot and
+actually they really start bleeding and you have to apply pressure and put a bandaid, which is not
+consistent with this concept that we have been told that the deltoid, there's no blood vessels
+there. It's very small capillaries. There is some vascularity to a deltoid, particularly in
+someone who's maybe more active, et cetera. So I don't think we're quite clear on what's going on
+here. You know, significant bleeding sometimes in some of these individuals suggesting a larger
+vessel than, you know, we've sort of been led to believe when we talk about the pulling back the
+plunger. But let's move on to the next level. The issues that we're seeing do not appear to be
+that the vaccine is nestled in the blood system. What we're actually seeing is an immune response.
+We're seeing six to 13 days later. We're seeing antibody production. These antibodies are against
+a certain target, PF4, so platelet factor four. I don't necessarily think getting in the circulation
+explains it. If anything, a good robust immune response is what explains this. So I understand
+the concept of pulling back on the plunger, but I'm not sure I would understand the mechanism.
+That's COVID-19 clinical update number 58 with Dr. Daniel Griffin. Thanks again, Daniel.
+Oh, thank you so much, and everyone be safe.

@@ -1,0 +1,1289 @@
+WEBVTT
+
+00:00.000 --> 00:06.880
+ This week in virology, the podcast about viruses, the kind that make you sick.
+
+00:10.400 --> 00:20.640
+ From Microbe TV, this is Twiv, this week in virology, episode 752 recorded on May 6th, 2021.
+
+00:21.280 --> 00:27.200
+ I'm Vincent Draconiello, and you're listening to the podcast All About Viruses. Joining me
+
+00:27.200 --> 00:35.440
+ today from New York, Daniel Griffin. Hello, everyone. This is clinical update number 61, Daniel,
+
+00:35.440 --> 00:41.600
+ and I am going to paraphrase former New York mayor Ed Koch. How are we doing?
+
+00:44.000 --> 00:50.320
+ You know, I actually, I knew Ed Koch quite well. My father actually worked for Ed Koch, so he would
+
+00:50.320 --> 00:54.160
+ often, you know, the mornings would often start with Ed Koch swinging by the apartment.
+
+00:54.160 --> 01:00.160
+ And so, yeah, he was quite a guy. He was a bit of a character. And we will get right into the
+
+01:00.160 --> 01:07.680
+ update on how things are, but let me start with my quotation. Three things shine before the world
+
+01:07.680 --> 01:14.640
+ and cannot be hidden. They are the moon, the sun, and the truth. And now this is a modernization
+
+01:14.640 --> 01:19.760
+ of a saying attributed to the Buddha. And I think the eyes of the world are on India right now,
+
+01:19.760 --> 01:27.200
+ and it's painful to so quickly see that Hegel was correct. And the one thing we learned from
+
+01:27.200 --> 01:32.800
+ history, right, is that we do not learn from history. This is recent history, and so many of
+
+01:32.800 --> 01:39.200
+ the same mistakes are being made there. So many resources are being ported to unproven therapies,
+
+01:40.000 --> 01:47.840
+ shortages of things that do really make a difference, vaccines, oxygen, no significant access if any
+
+01:47.840 --> 01:54.960
+ at all to monoclonal therapy and use of failed non-pharmaceutical interventions. And we're going
+
+01:54.960 --> 02:00.640
+ to talk a little bit about what is a non-pharmaceutical intervention? What is an NPI? But let me start
+
+02:00.640 --> 02:07.520
+ with an update a little bit here in the US, and then we will make sure we keep mentioning what's
+
+02:07.520 --> 02:12.400
+ going on in the world, because it's quite different. One of the first things I've noticed is that the
+
+02:12.400 --> 02:18.000
+ paywalls are starting to go back up. So some of these articles that I don't know if you've noticed
+
+02:18.000 --> 02:21.680
+ that as well, but some of these articles I wanted to read, I had to go through the Columbia
+
+02:22.560 --> 02:28.560
+ access to get the article. So I think that's unfortunate. I think people were getting used to
+
+02:28.560 --> 02:32.560
+ the ability to access information. I think it's critical. Maybe we should start trying to think
+
+02:32.560 --> 02:39.440
+ about ways to keep those paywalls down, create other ways where people can get access to information.
+
+02:39.440 --> 02:45.040
+ When you publish something, you can pay a – and it is – a hefty sum to create an open access,
+
+02:45.040 --> 02:52.720
+ but we need other ways to do that. So a little bit of a change there. We are seeing a dramatic
+
+02:52.720 --> 02:58.880
+ drop in numbers of cases here in the New York area and actually across the country. I'll get
+
+02:58.880 --> 03:03.280
+ into this in a little bit later as we talk about modeling. And the prediction that I think we're
+
+03:03.280 --> 03:09.200
+ on course for an incredibly low number of cases come this July. The rest of the world,
+
+03:09.200 --> 03:14.640
+ if you look at it, they're on the other trajectory. I think they're going to start thinking of that
+
+03:14.640 --> 03:20.720
+ first what people call the wave as nothing more than a swell before the true wave started to spread
+
+03:20.720 --> 03:26.400
+ around the world. And this is tragic. But let's hit each section. So we've got a lot to cover
+
+03:26.400 --> 03:31.600
+ today. Children and COVID, I'm going to return to this in our vaccination section. I talked a
+
+03:31.600 --> 03:37.840
+ little bit last time about the CDC camp guidance. And oh my, the CDC is getting raked over the
+
+03:37.840 --> 03:45.120
+ coals on that. This episode drops on Saturday, but I'm going to be on the Brian Lair show on Friday
+
+03:45.120 --> 03:50.080
+ here on NPR that'll probably be recorded. We'll see how well I feel the questions and criticisms
+
+03:50.080 --> 03:56.240
+ of the guidance live on the year. But then I'm also going to be talking on Tuesday of next week
+
+03:56.240 --> 04:03.120
+ on TV about what we are hoping the day. I'm going to predict the future again here. So next Tuesday
+
+04:03.120 --> 04:09.680
+ we think that the EUA will expand for Pfizer down to 12 year old. And we'll discuss a little bit
+
+04:09.680 --> 04:15.440
+ about what that means. So let's go right into pre-exposure period transmission. And I think this
+
+04:15.440 --> 04:20.640
+ gets back to our initial quotation. We have learned a significant amount regarding transmission. And
+
+04:20.640 --> 04:26.880
+ this is honestly no longer an area clouded in mystery or really just upward debate. We have science
+
+04:26.880 --> 04:34.400
+ here, not just opinion. And to just quote the CDC and the WHO is in the same line with this.
+
+04:34.400 --> 04:41.600
+ COVID-19 mostly most commonly spreads during close contact. COVID-19 can sometimes be spread
+
+04:41.600 --> 04:48.800
+ by airborne transmission. COVID-19 spreads less commonly through contact with contaminated surfaces.
+
+04:48.800 --> 04:56.640
+ So in the MMWR there was an article modeling of future COVID-19 cases, hospitalization and deaths
+
+04:56.640 --> 05:03.360
+ by vaccination rates, and non-pharmaceutical intervention scenarios United States April through
+
+05:03.360 --> 05:10.800
+ September 2021. And this article is doing what Yogi Barrett told us was the hardest thing to do,
+
+05:10.800 --> 05:15.280
+ what is the hardest thing to predict the future. And that's actually what they were doing here.
+
+05:15.280 --> 05:22.800
+ The authors presented predictive models of numbers of cases, hospitalizations and deaths per week
+
+05:23.680 --> 05:29.600
+ based upon different vaccination rates. So either a high or a low vaccination rate and
+
+05:29.600 --> 05:37.760
+ different non-pharmaceutical intervention levels or what they call NPIs. So NPIs are things like
+
+05:37.760 --> 05:42.640
+ wearing masks, physical distancing. I like that they're not saying social but physical distancing.
+
+05:42.640 --> 05:50.000
+ And this was just released May 5th, but these models started their predictions March 27th.
+
+05:50.000 --> 05:55.760
+ You actually got to see a little bit like how have they been doing since the models fired up.
+
+05:56.640 --> 06:04.400
+ And they had numbers dropping from the peak in January to a nadir in April. And then a bit of
+
+06:04.400 --> 06:12.400
+ a rise into May followed by a rather rapid decline to very low levels by July. There were some
+
+06:12.400 --> 06:17.920
+ error bars in these predictions. And there were really sort of four scenario lines that you could
+
+06:17.920 --> 06:24.640
+ follow. So you could either have low or high vaccination rates coupled with low or moderate
+
+06:25.280 --> 06:30.880
+ NPIs, non-pharmaceutical interventions. And yet each of those four scenarios low, low, low,
+
+06:30.880 --> 06:37.280
+ high, high, low, high. And if anything, I have to say the future has turned out to be even better
+
+06:37.280 --> 06:42.560
+ here in the US than they predicted. If you look at the daily deaths, this has been decreasing
+
+06:42.560 --> 06:48.160
+ since that peak in January. So I know there were some sort of, we'll call them pessimists talking
+
+06:48.160 --> 06:54.080
+ about the spring wave. The spring wave has not really materialized. I've been describing it as
+
+06:54.080 --> 07:00.320
+ this spring plateau. If you look at numbers across the country, certainly regional areas,
+
+07:00.320 --> 07:05.360
+ you look at Michigan, there was a second wave in Michigan, just in terms of cases and deaths.
+
+07:05.360 --> 07:10.960
+ But if you look across the country, we are actually experiencing, I will say, their best case scenario.
+
+07:11.680 --> 07:19.040
+ And based upon this, we're actually looking at a really good July ahead of us, as I think a lot
+
+07:19.040 --> 07:25.600
+ of us have been predicting for a while here. So this is the time for masks distancing outdoors
+
+07:25.600 --> 07:31.360
+ versus indoors, limiting group sizes, all these non-pharmaceutical interventions, as we call them,
+
+07:31.360 --> 07:37.360
+ and vaccination, both active. And one day we're hoping you get approval for passive, or I'll say
+
+07:37.360 --> 07:44.000
+ expansion of the EUA for the use of the passive monoclonal antibodies. All right, let's move right
+
+07:44.000 --> 07:49.840
+ into testing, never miss an opportunity to test. We're falling down a little bit, you know,
+
+07:49.840 --> 07:55.760
+ compare our testing rates to the UK, and they are doing much better. They are doing a lot more tests
+
+07:55.760 --> 08:03.600
+ per population than we are. Now, for a while, we've been talking about the way different tests
+
+08:03.600 --> 08:09.520
+ can be used to answer different questions about COVID. And a big disconnect still seems to come
+
+08:09.520 --> 08:16.640
+ in people's understanding of the rapid antigen test versus PCR testing. So the paper performance
+
+08:16.640 --> 08:23.440
+ evaluation of Serial SARS-CoV-2, rapid antigen testing during a nursing home outbreak,
+
+08:23.440 --> 08:30.320
+ was recently published in the Annals of Internal Medicine. The authors reported on a prospective
+
+08:30.320 --> 08:37.280
+ evaluation involving three facility-wide rounds of testing, where paired respiratory specimens
+
+08:37.280 --> 08:44.640
+ were collected to evaluate the performance of the BINEX now, antigen test, compared with virus culture
+
+08:45.200 --> 08:50.960
+ and real-time PCR. So real-time reverse transcription, polymerase chain reaction.
+
+08:50.960 --> 08:58.640
+ Early and late infection were defined using changes in the RT-PCR cycle threshold values
+
+08:58.640 --> 09:06.880
+ and prior test results. And they evaluated 532 paired specimens collected from 234 residents
+
+09:06.880 --> 09:14.880
+ and staff. And the authors reported on the percentage of positive agreements, a little bit of terminology,
+
+09:14.880 --> 09:24.400
+ the PPA, and the percentage of negative agreements, so the PNA, of the BINEX now rapid testing and
+
+09:24.400 --> 09:32.880
+ the RT-PCR with viral culture. They're using viral culture here as really a potential infectiousness
+
+09:32.880 --> 09:39.280
+ measure. Now, what did they find? What about sensitivity for detecting infectious level
+
+09:39.280 --> 09:48.400
+ of SARS-CoV-2? So the BINEX now, PPA, so the percentage of positive agreement with viral culture,
+
+09:48.400 --> 09:55.520
+ used for detection of replication, competent virus, was 95%. I think that's pretty stellar,
+
+09:55.520 --> 10:02.880
+ right? So you're really asking the question, is this person contagious? However, the overall PPA
+
+10:02.880 --> 10:10.880
+ with RT-PCR of antigen tests with RT-PCR was only 69%. So I think this is consistent with what
+
+10:10.880 --> 10:17.600
+ we have been seeing, which is that PCR is perhaps overly sensitive for asking and answering the
+
+10:17.600 --> 10:23.600
+ question of infectiousness. The RT-PCR is great late in the course for picking up those people,
+
+10:23.600 --> 10:29.520
+ past that acute first week, who might now be in that early inflammatory phase. They might be showing
+
+10:29.520 --> 10:35.120
+ up at the hospital. The rapid antigen test at this point may start to turn negative,
+
+10:35.840 --> 10:40.480
+ but we're asking a different question. We're saying, is this need for oxygen
+
+10:40.480 --> 10:47.280
+ due to an acute infection last week? And so the negative antigen tests that they did,
+
+10:47.280 --> 10:53.280
+ where there was a negative antigen test and a positive PCR, those had a mean CT value of 33.2.
+
+10:53.280 --> 10:59.760
+ So an RNA copy numbered down only in the thousand. So I think this really reinforces this model.
+
+10:59.760 --> 11:06.640
+ The rapid antigen tests within 15 minutes is really good at identifying those people who are
+
+11:06.640 --> 11:14.240
+ contagious or infectious, getting them isolated before they spread. PCR is more sensitive, but it
+
+11:14.240 --> 11:23.040
+ asks and answers a different question. So don't think of the PCR as first class and the antigen test
+
+11:23.040 --> 11:29.040
+ is sitting back in coach by the bathroom. The rapid antigen test is a very sensitive,
+
+11:29.600 --> 11:36.160
+ really helpful tool for blocking spread of this virus. Active vaccination never
+
+11:36.160 --> 11:42.480
+ miss an opportunity to vaccinate. In the US, we have shifted from arm searching for vaccines to
+
+11:42.480 --> 11:47.280
+ vaccine searching farms. And we're definitely seeing that we need to do a little better job
+
+11:47.280 --> 11:54.800
+ here of connecting those arms with vaccines. And now this might change for a brief time,
+
+11:54.800 --> 12:00.560
+ because I am hoping that prior to the next wave that we record, we hear that the FDA,
+
+12:00.560 --> 12:08.080
+ like the EU and Canada, will have expanded the Pfizer EOA down to 12 year olds. So 12, 13,
+
+12:08.080 --> 12:15.280
+ 14, 15, we're expecting they will become eligible. We're already hearing that the states are getting
+
+12:15.280 --> 12:19.680
+ ready there. They're expecting this as well. They want to be ready so that that morning,
+
+12:19.680 --> 12:24.640
+ it's usually six a.m. Right? We got up at six a.m. So we can say that they hear that it's
+
+12:25.600 --> 12:31.040
+ expanded, that the states can then say, okay, we're on board with this. And all the pharmacies,
+
+12:31.040 --> 12:35.360
+ all the state sites can be ready to get that Pfizer into people's arms. Because I have to say,
+
+12:35.360 --> 12:40.960
+ a lot of Pfizer vaccine is sitting there. We also heard, this is exciting news, that
+
+12:40.960 --> 12:46.640
+ buy-in tech, right? So it's the Pfizer buy-in tech vaccine. So buy-in tech has a new formulation
+
+12:46.640 --> 12:53.280
+ that should allow them to store the vaccine for up to six months in a normal refrigerator.
+
+12:53.280 --> 12:59.600
+ And they're preparing the data packets for FDA approval on this upgrade to the vaccine.
+
+12:59.600 --> 13:05.120
+ And this will be a huge shift past these thermal shippers with dry ice and all those concerns.
+
+13:05.120 --> 13:09.200
+ Now, what about when we're going to vaccinate kids? Are the kids going to want to get vaccinated?
+
+13:09.200 --> 13:14.000
+ Are the parents going to want to vaccinate them? I was talking a little bit with Jay Burger,
+
+13:14.640 --> 13:19.360
+ the head of Pediatrics for Pro Health New York. And I will mention also an avid
+
+13:19.360 --> 13:26.320
+ Twiv listener about a lot of the conversations he's had with parents about why they would want
+
+13:26.320 --> 13:32.720
+ to protect their children from COVID-19 with vaccination. And there still is this perception
+
+13:32.720 --> 13:37.600
+ that children do not get sick with COVID, or that children do not end up in the hospital with COVID,
+
+13:37.600 --> 13:42.000
+ or that children are not at risk for long-term impacts following a COVID infection.
+
+13:42.560 --> 13:46.960
+ So I just wanted to take a moment here and just sort of get the numbers out here,
+
+13:46.960 --> 13:51.280
+ because this will be a discussion, I think, a lot of physicians, actually a lot of family
+
+13:51.280 --> 13:57.120
+ members will have with other family members. On May 2, the American Academy of Pediatrics
+
+13:57.120 --> 14:03.440
+ reported that for the last week of April, the percentage of cases occurring in children
+
+14:03.440 --> 14:14.720
+ had risen to 22% of the reported cases, or up to 71,649 cases in children under the age of 18,
+
+14:14.720 --> 14:20.880
+ just in the last week of April. Now, I have to say, last year during April, children only made up
+
+14:20.880 --> 14:27.440
+ 3% of all the cases of COVID-19 in the entire country. And actually, there were less overall
+
+14:27.440 --> 14:33.680
+ cases. So this is really a dramatic rise in the number of children that got infected that last
+
+14:33.680 --> 14:37.600
+ week of April. This is really a dramatic rise in the number of children who are currently getting
+
+14:37.600 --> 14:44.560
+ infected with COVID. And I have to say, kudos to the parents out there. We really did a very
+
+14:44.560 --> 14:50.080
+ effective job early on of protecting our kids from getting COVID. This involves school closures,
+
+14:51.200 --> 14:54.960
+ and all the other things we did. But now we're letting the kids get COVID.
+
+14:55.760 --> 15:01.200
+ But I want to say, even doing so much to protect the kids here in the United States,
+
+15:01.200 --> 15:06.720
+ we still had pediatric deaths. We still had hospitalizations. We still have children that
+
+15:06.720 --> 15:12.560
+ developed long COVID, as I've previously mentioned. And this is one of those public health scenarios.
+
+15:12.560 --> 15:18.880
+ When you do a really good job, and the outcomes are good, and I will say only a couple hundred
+
+15:18.880 --> 15:23.280
+ children die, people say, oh, it really doesn't affect children. It must not be a big thing.
+
+15:24.080 --> 15:28.480
+ That's the problem with a public health success, which we have had to date for children.
+
+15:29.440 --> 15:35.600
+ But if we look down what's going on in Brazil, right, we've already had thousands of deaths in
+
+15:35.600 --> 15:41.440
+ children down there, where they are not protecting the kids, over a thousand deaths in babies.
+
+15:41.440 --> 15:46.880
+ And Brazil is not the size of the US. So just use that as a measure of what happens if you
+
+15:46.880 --> 15:51.920
+ don't protect the children like we really did here. Now, let's go into another article on this
+
+15:51.920 --> 15:59.280
+ area. So in JAMA, we saw anybody response to two dose SARS-CoV-2 mRNA vaccine series in
+
+15:59.280 --> 16:04.480
+ solid organ transplant recipients. This is a little bit of a downer, to be honest.
+
+16:05.200 --> 16:09.840
+ The authors looked at transplant recipients, right? So there's a question we know in the studies,
+
+16:09.840 --> 16:14.320
+ only certain people were vaccinated, certain people were excluded. So can the vaccine
+
+16:14.320 --> 16:19.440
+ protect everyone? Can it protect this particularly vulnerable part of the population?
+
+16:19.440 --> 16:25.040
+ And so the authors looked at transplant recipients without prior PCR confirmed COVID-19
+
+16:25.680 --> 16:31.360
+ and they recruited from across the US to participate in this was a prospective cohort study.
+
+16:32.240 --> 16:37.520
+ They looked at those who completed the two dose SARS-CoV-2 mRNA vaccine series
+
+16:37.520 --> 16:44.320
+ between December 16, 2020, right? And March 13, 2021. And they followed them up through April
+
+16:44.320 --> 16:52.800
+ 13, 2021. And they were checking a semi-quantitative anti-spike. So looking at seeing what percent of
+
+16:52.800 --> 16:58.320
+ these folks responded. And the proportion of patients who developed a positive antibody test
+
+16:59.360 --> 17:07.040
+ after the first dose was only 15%. So they're looking at 658 patients, only 15% of them had a
+
+17:07.040 --> 17:12.320
+ measurable antibody level after the first dose. And if they checked after the second,
+
+17:12.320 --> 17:19.360
+ it was only 54%. So only about half of them had a measurable antibody level after the second dose.
+
+17:19.360 --> 17:25.280
+ We don't know what sort of a level of antibody might be a correlate of immunity.
+
+17:25.280 --> 17:30.960
+ So caveat here, but the level of antibody that these people were getting, those 54% who even
+
+17:30.960 --> 17:37.200
+ did test positive was below that of the general population. Now, many of the 12 listeners are
+
+17:37.200 --> 17:42.880
+ pretty sophisticated, right? So they want to know what about the T cells? We're not seeing T cell
+
+17:42.880 --> 17:48.320
+ data in this publication. And unfortunately, the studies of T cell responses are even less
+
+17:48.320 --> 17:53.120
+ encouraging. So we're concerned about these individuals. There's questions about, could we
+
+17:53.120 --> 17:58.320
+ give them a third dose? Maybe we can somehow get that up. Maybe. And some people have probably
+
+17:58.320 --> 18:03.840
+ seen ideas that you combine in mRNA with an antiviral vector. Maybe you can sort of get
+
+18:03.840 --> 18:08.800
+ different augmentation of different parts of the immune system. And that can somehow help these
+
+18:08.800 --> 18:14.480
+ people. But right now, this is potentially that group of people that the EUA expansion of the
+
+18:14.480 --> 18:20.640
+ monoclonal might benefit. If you can't make your own antibodies, maybe we can give you those protective
+
+18:20.640 --> 18:26.720
+ antibodies. So we will see potential expansion into this population in the future.
+
+18:26.720 --> 18:32.240
+ All right. Remember post exposure, a test does not predict the future. There still is that
+
+18:32.240 --> 18:38.000
+ two to 14 day incubation period. But then you go into that next stage, should you get infected,
+
+18:38.000 --> 18:44.320
+ the period of detectable viral replication or the viral symptom phase? Remember, this is the time
+
+18:44.320 --> 18:51.680
+ for monitoring and monoclonals. And I actually should say, and for education, I will tell a little
+
+18:51.680 --> 18:56.800
+ bit, well, a couple of stories here about how this is not going as well as I would like it to be
+
+18:56.800 --> 19:03.760
+ going. So there is an issue with underutilization of monoclonals. So I'm going to share a couple
+
+19:03.760 --> 19:08.720
+ stories here. But the main one that I'm going to start with is a patient of mine that I mentioned
+
+19:08.720 --> 19:15.280
+ before. This was that gentleman in his 50s who was diagnosed with his wife. So the two of them
+
+19:15.280 --> 19:19.760
+ went to an urgent care. They weren't feeling well. This was not a pro health urgent care.
+
+19:19.760 --> 19:27.360
+ The they were diagnosed with with COVID. They both met criteria for access to monoclonals.
+
+19:27.920 --> 19:33.200
+ They were offered therapy. So things going well so far. The wife said, yes, that she wanted to go
+
+19:33.200 --> 19:39.600
+ ahead. 36 hours later, she felt great, right? Got to know her a lot because she was face timing
+
+19:39.600 --> 19:45.120
+ with the husband. The husband did not do well. The husband felt like he would be just fine and
+
+19:45.120 --> 19:51.200
+ wanted to take his chances. The urgent care physician did not maybe advise him strongly enough.
+
+19:52.160 --> 19:59.920
+ He went on to get quite ill, ended up in the hospital, steroids, toe salismab, oxygen,
+
+19:59.920 --> 20:06.160
+ eventually mechanical ventilation. And this Monday, this gentleman in his 50s died leaving
+
+20:06.160 --> 20:12.720
+ behind his widow and his children. I mean, I have to say, like if this man came into a medical setting
+
+20:12.720 --> 20:17.440
+ and he had bacteria in his blood, if he had chest crushing chest pain, we were worried about heart
+
+20:17.440 --> 20:23.920
+ attack. I'm not sure the urgent care physician or any clinician would be as willing to just sort of
+
+20:23.920 --> 20:31.120
+ let him go take his chances. I think we really have to appreciate, you know, what an incredible
+
+20:32.160 --> 20:36.160
+ impact the monoclonal therapy can have on these individuals. And they're sitting on shelves,
+
+20:36.160 --> 20:41.760
+ right? You know, it's a phone call away. We need to make sure this happens. I just had another
+
+20:41.760 --> 20:47.200
+ gentleman I admitted today. This gentleman had a BMI of about 40. He went to some urgent care I had
+
+20:47.200 --> 20:53.360
+ never heard of before, because he felt crummy and wanted to get tested. When he did get a positive
+
+20:53.360 --> 20:58.800
+ test, initially it was a rapid, they said it was positive. They sent off a PCR. They called him.
+
+20:58.800 --> 21:02.480
+ They said, your test is positive. He said, Oh, can I come in? I'd like to talk to someone,
+
+21:02.480 --> 21:08.080
+ find out what to do. They said, Oh, I'm sorry. We don't see positive COVID patients in our
+
+21:08.080 --> 21:12.720
+ facility. We're worried about the risk of infection. He asked what he was supposed to do. They said,
+
+21:12.720 --> 21:16.640
+ remember that piece of paper you received? You should read that isolate for 10 days.
+
+21:16.640 --> 21:22.960
+ He is now he got admitted today on oxygen. He's in the hospital. Again, this is something that
+
+21:22.960 --> 21:27.920
+ could have been prevented with just a phone call, just a little effort early inflammatory phase.
+
+21:27.920 --> 21:32.960
+ So now this is that second week. This is for those folks who didn't get monoclonals or weren't
+
+21:32.960 --> 21:40.880
+ eligible. If room air saturations are less than 94%, that's when we have data that steroids,
+
+21:40.880 --> 21:46.320
+ six milligrams by mouth, one time a day, times 10 days, you can do IV, but you don't necessarily
+
+21:46.320 --> 21:52.160
+ need to, but people can just take that pill. This is associated with not only improved outcomes,
+
+21:52.160 --> 21:58.800
+ but a mortality reduction. This can actually sometimes result in rapid enough improvement
+
+21:58.800 --> 22:04.480
+ that that person's setting 92, 93 might come back up, might not drop into the 80s, might not
+
+22:04.480 --> 22:10.560
+ require hospitalization. This is also that period of time when we use that remdesivir,
+
+22:10.560 --> 22:17.520
+ $3,000 for a five day course, minor impacts. But as I've mentioned, huge expense and no compelling
+
+22:17.520 --> 22:23.520
+ data on mortality, right? So hear about tons of remdesivir being used in India. Remember,
+
+22:23.520 --> 22:28.960
+ that's a $3,000 a course medicine. And let's talk a little bit here in a minute about some
+
+22:28.960 --> 22:35.200
+ alternatives. Anticoagulation for our hospitalized patients improves outcomes and has a mortality
+
+22:35.200 --> 22:40.880
+ benefit. So the ash guideline panel suggests using prophylactic intensity over intermediate
+
+22:40.880 --> 22:47.840
+ intensity or therapeutic intensity, anticoagulation in patients with COVID-19 related critical illness
+
+22:47.840 --> 22:53.760
+ who do not have suspected or confirmed VTE, right? If they've got a clot, it's straightforward. If
+
+22:53.760 --> 23:00.080
+ they don't, you want to get everyone on anticoagulation. But then they go ahead. And I think that this
+
+23:00.080 --> 23:05.920
+ is really important. An individual's assessment of the patient's risk of thrombosis and bleeding
+
+23:05.920 --> 23:11.600
+ is important when deciding on anticoagulation intensity. The panel acknowledges that higher
+
+23:11.600 --> 23:17.760
+ intensity anticoagulation may be preferred in patients judged to be at high thrombotic risk.
+
+23:17.760 --> 23:22.480
+ And low bleeding risk. And that might be where we're saying some of this new data we're waiting
+
+23:22.480 --> 23:29.280
+ for peer review may suggest floor patients on full dose and ICU patients on low dose. But of
+
+23:29.280 --> 23:34.400
+ course, individualized, keep up with the latest data and look at your patient and make that decision.
+
+23:34.400 --> 23:39.760
+ This should be made by the treating clinician, not by some institutional algorithm. And we perhaps
+
+23:39.760 --> 23:45.360
+ do not give as much appreciation as we should that supplemental oxygen is critical. I was talking
+
+23:45.360 --> 23:51.040
+ to some of my colleagues today in the ICU about that. If a patient starts dropping those oxygen
+
+23:51.040 --> 23:57.200
+ saturations into the 80s, we definitely want to look at getting them on oxygen. Oxygen saves life.
+
+23:57.920 --> 24:04.400
+ And we're seeing in India right now what happens if you do not have enough supply of oxygen. And
+
+24:04.400 --> 24:09.520
+ our listeners might remember how close we got last winter in some of the New York hospitals
+
+24:09.520 --> 24:15.760
+ and all the upgrades that the hospitals put in place over the summer to allow us to have high
+
+24:15.760 --> 24:21.200
+ flow oxygen this winter. If we didn't have those upgrades, we would be like, we would have been
+
+24:21.200 --> 24:26.640
+ like India a little while back to deliver the high flow oxygen that we did that kept so many
+
+24:26.640 --> 24:30.880
+ people off ventilators. We did not have that infrastructure in place. And we sort of tipped
+
+24:30.880 --> 24:36.080
+ my hat to the hospital administrators that made the decision to invest that money, right? It was
+
+24:36.080 --> 24:41.520
+ a great return on that as far as money goes, but a great return on that as far as patient care.
+
+24:41.520 --> 24:46.640
+ Other pulmonary support measures such as proning have a proven mortality benefit,
+
+24:46.640 --> 24:50.880
+ but they actually require the providers, particularly the nurses to be involved.
+
+24:50.880 --> 24:56.000
+ If you just ask a patient and struck them to lay on their belly to turn on their side,
+
+24:56.000 --> 25:00.080
+ they usually don't want to. When you're having trouble breathing, that's not what you want to do.
+
+25:00.080 --> 25:06.240
+ So this actually is, I'm going to say, a person-intensive intervention. I can stop by the room. I could
+
+25:06.240 --> 25:10.880
+ talk to the patient, explain how important it is. But this is the nurses telling them over and over.
+
+25:10.880 --> 25:16.000
+ The medical assistants, you got to switch position. You got to do this. You got to do that.
+
+25:16.000 --> 25:19.920
+ This is associated with better outcomes. I want to remind our listeners, right?
+
+25:20.560 --> 25:26.560
+ Antibiotics are not helpful for treating viral infections and particularly combinations of
+
+25:26.560 --> 25:34.880
+ renal or kidney toxic medications such as vancomycin, piprosilentesobactam. These can be harmful in a
+
+25:34.880 --> 25:39.680
+ disease process already associated with a high risk of kidney failure, progression to dialysis
+
+25:39.680 --> 25:44.640
+ or death. You are not helping your potentially harming your patients. It's not safer to put
+
+25:44.640 --> 25:50.960
+ them on these renal toxic antibiotics just in case. Now, what about adding tosyllism app to
+
+25:50.960 --> 25:56.400
+ patients already receiving all these interventions, including steroids? So we have some updates. We
+
+25:56.400 --> 26:02.560
+ have some new data here. After the randomized embedded multi-factorial adaptive platform
+
+26:02.560 --> 26:08.320
+ trial for community acquired pneumonia, which is called remap cap study, we saw a survival
+
+26:08.320 --> 26:13.680
+ benefit in critically ill patients with the use of tosyllism app. And after this, a number of the
+
+26:13.680 --> 26:18.720
+ hospital systems, they stopped blocking its use and they started to allow its use, but they were
+
+26:18.720 --> 26:25.280
+ using a very restrictive algorithm. Only allow certain patients who met a rigid set of criteria
+
+26:25.280 --> 26:31.200
+ oversight by a specific approval person, not even necessarily involved directly in the patient care.
+
+26:32.240 --> 26:35.840
+ Other hospital systems, really just much like restricted antibiotics,
+
+26:35.840 --> 26:41.360
+ ask that a specialist be involved in the case and make that decision. Well, the peer reviewed
+
+26:41.360 --> 26:46.880
+ results of the recovery trial have finally been published. And the recovery trial was looking
+
+26:46.880 --> 26:53.600
+ at the impact of tosyllism app in a broader hospitalized population. This was published in
+
+26:53.600 --> 27:01.520
+ the Lancet. Tosyllism app in patients admitted to hospital with COVID-19 recovery, a randomized
+
+27:01.520 --> 27:08.080
+ controlled open label platform trial. So as sort of this title says, right, let's get it all in the
+
+27:08.080 --> 27:15.840
+ title, this was a randomized controlled open label platform trial. So basically the people
+
+27:15.840 --> 27:19.520
+ that treating clinicians knew whether the person was getting tosyllism app or not,
+
+27:19.520 --> 27:26.160
+ randomized evaluation of COVID-19 therapy recovery, assessing several possible treatments in the UK.
+
+27:26.160 --> 27:31.840
+ Now, this was looking at tosyllism app, what we see published here. And the trial participants
+
+27:31.840 --> 27:39.440
+ with hypoxia, right? So oxygen saturations here, they're using less than 92% evidence of systemic
+
+27:39.440 --> 27:44.800
+ inflammation. So they're using C-reactive protein greater than or equal to 75 milligrams per liter,
+
+27:44.800 --> 27:52.480
+ we're eligible for enrollment in this random assignment in a one-to-one ratio to either the
+
+27:52.480 --> 27:58.400
+ usual standard of care that we've discussed, right? This is going to be anticoagulation, oxygen,
+
+27:58.400 --> 28:06.080
+ steroids, either plus tosyllism app at a weight-based adjustment. So 400 milligrams to 800 milligrams,
+
+28:06.080 --> 28:13.680
+ depending on weight given intravenously or not. And a second dose could be given 12 to 24 hours
+
+28:13.680 --> 28:19.840
+ later if it was felt that the patient's condition had not improved. And the primary outcome was 28
+
+28:19.840 --> 28:26.400
+ day mortality. So I just want to point out, these are not just ICU patients. These are floor patients
+
+28:27.200 --> 28:34.560
+ who are requiring oxygen. This is not people not on oxygen. The people say it's about half of the
+
+28:34.560 --> 28:42.400
+ patients admitted to hospital in the UK would be eligible as per this criteria. So 4,116 adults
+
+28:42.400 --> 28:49.520
+ were included in the assessment of tosyllism app, including the majority, I'll say, receiving
+
+28:49.520 --> 28:58.000
+ systemic corticosteroids, as mentioned. Overall, 31% of the patients allocated to tosyllism app
+
+28:58.000 --> 29:05.520
+ and 35% of the patients allocated to usual care died within 28 days, right? So that was about a
+
+29:05.520 --> 29:13.920
+ 15% reduction in mortality with the addition of tosyllism app to standard of care. Consistent
+
+29:13.920 --> 29:18.960
+ results were seen in all the pre-specified subgroups of patients, including those, the
+
+29:18.960 --> 29:24.880
+ majority receiving systemic corticosteroids. Patients allocated to tosyllism app were more
+
+29:24.880 --> 29:34.240
+ likely to be discharged from the hospital within 28 days, 57% versus 50%. Among those not receiving
+
+29:34.240 --> 29:40.800
+ invasive mechanical ventilation at baseline, patients allocated tosyllism app were less likely
+
+29:40.800 --> 29:48.080
+ to reach the composite endpoint of invasive mechanical ventilation or death, 35% versus 42%,
+
+29:48.080 --> 29:54.400
+ so that was a risk ratio of 0.84. Just to sort of put this all together, right? This is extending
+
+29:54.400 --> 30:01.440
+ the use of tosyllism app beyond just those critically ill patients. Tosyllism app was associated with
+
+30:01.440 --> 30:08.400
+ a 15% reduction in death, looking at all the patients and a 16% reduction in the composite
+
+30:08.400 --> 30:14.000
+ endpoint of mechanical ventilation or death in those not receiving mechanical ventilation at
+
+30:14.000 --> 30:21.360
+ baseline. They reported only three serious adverse events, which all resolved with standard treatment,
+
+30:21.360 --> 30:26.160
+ right? So those were three infections. I like to point out that we can treat infections,
+
+30:26.160 --> 30:32.720
+ but we cannot treat death. When they did an analysis of all the trials today, so there's nine trials
+
+30:32.720 --> 30:38.480
+ to date, they concluded that if you did a meta-analysis basically, including this trial,
+
+30:39.040 --> 30:48.480
+ tosyllism app is associated with a significant 14% reduction in 28-day mortality. So I'm hoping
+
+30:48.480 --> 30:54.560
+ that this trial will do for tosyllism app what the original recovery trial on steroids did for
+
+30:54.560 --> 31:00.880
+ steroids and more patients will have access to this life-saving therapy. Now they also have a
+
+31:00.880 --> 31:06.720
+ pre-planned six-month analysis, so we're also going to find out about the long-term outcomes
+
+31:06.720 --> 31:12.080
+ of these patients. Are we seeing less long COVID? Are we seeing less pulmonary complications,
+
+31:12.080 --> 31:17.200
+ less neurological complications? So that is pre-planned. We're not going to see that for a number
+
+31:17.200 --> 31:21.680
+ of months, but we're going to hopefully have that date as we go into the fall of 2021.
+
+31:21.680 --> 31:28.560
+ Now, what about limitations, right? The study was open-label. It was not blinded placebo
+
+31:28.560 --> 31:34.640
+ that sort of trial, so the participants and the local staff knew who was getting what treatment.
+
+31:34.640 --> 31:40.720
+ Among the 1837 patients assigned to tosyllism app, not all of them actually got the drug,
+
+31:40.720 --> 31:46.720
+ only 84% actually received the drug, so we're sort of an intent to treat analysis here,
+
+31:46.720 --> 31:52.320
+ so the reported results may actually underestimate the true benefit of tosyllism app in reducing
+
+31:52.320 --> 31:58.640
+ death. And then given that patients with COVID-19 often have a prolonged hospital course and may
+
+31:58.640 --> 32:04.960
+ continue to have issues post discharge, 28 days, as mentioned, is not enough. So we're looking
+
+32:04.960 --> 32:11.520
+ forward to the six-month analysis. What's the long-term outcome with tosyllism app versus not
+
+32:11.520 --> 32:17.760
+ getting tosyllism app? I'm going to quote the comment in the issue of the Lancet by Shrupti
+
+32:17.760 --> 32:23.920
+ Gupta and David E. Leif in summary, the recovery trial provides the most definitive evidence thus
+
+32:23.920 --> 32:29.280
+ far to address the controversy over whether tosyllism app should be added to our armamentarium of
+
+32:29.280 --> 32:36.080
+ treatments for severely ill patients with COVID-19. The answer is yes. And I certainly want to make
+
+32:36.080 --> 32:43.120
+ a comment right here on the equity impact, right? Just like monoclonals, this is not an inexpensive
+
+32:43.120 --> 32:50.640
+ off-the-shelf pennies-adose treatment. But let's look at this, as I think I mentioned before,
+
+32:50.640 --> 32:58.480
+ remdesivir at $3,000 a course with not really impressive benefit. No compelling mortality benefit
+
+32:58.480 --> 33:04.400
+ is being used like water over in India. This is a therapy that though the hospitals may charge
+
+33:04.400 --> 33:08.960
+ thousands of dollars for can be acquired for hundreds of dollars per dose. It's a single dose.
+
+33:08.960 --> 33:14.800
+ It's not five days. This is something we should be looking at as far as equity and getting this
+
+33:14.800 --> 33:22.080
+ out to individuals. All right, so I have gone long enough today. I want to finish by reminding
+
+33:22.080 --> 33:28.000
+ people of our fundraiser. So we are now helping support FIMREC Foundation International Medical
+
+33:28.000 --> 33:33.600
+ Relief of Children. And as mentioned, this is an organization that had been funded primarily
+
+33:33.600 --> 33:39.840
+ through young, excited individuals ready to go out there and save the world, ready to volunteer
+
+33:39.840 --> 33:46.160
+ in all these many parts of the world. And because of the pandemic, that has really been
+
+33:46.160 --> 33:51.440
+ interrupted. We know, right? Not a lot of young individuals are able to go to these places to
+
+33:51.440 --> 33:57.760
+ volunteer. That source of support for these clinics has dried up. FIMREC needs your help,
+
+33:57.760 --> 34:03.920
+ needs our help. So please go to parasiteswithoutborders.com. We are going to try to double your money
+
+34:03.920 --> 34:09.760
+ to get up to $40,000 to support FIMREC and really the tremendous work that they do throughout the
+
+34:09.760 --> 34:15.840
+ world. So thank you everyone so far and continue to help us. Time for a few emails for Daniel.
+
+34:15.840 --> 34:22.080
+ If you want to send one, it's Daniel at micro TV. The first is from an anonymous listener who writes,
+
+34:22.080 --> 34:29.360
+ My father was recently diagnosed with plasma blastic lymphoma. He received his first dose of
+
+34:29.360 --> 34:34.320
+ Moderna three weeks before his diagnosis. I know that some people have had a lymphatic
+
+34:34.320 --> 34:40.320
+ response due to the vaccine. My father's hematologist doesn't think the vaccine caused the lymphoma,
+
+34:40.320 --> 34:45.840
+ but mentioned it may have caused it to increase the lymphoma's fast growth. Have a couple of
+
+34:45.840 --> 34:51.840
+ questions. First, how likely do you think my father's hematologist is correct in his belief
+
+34:51.840 --> 34:56.640
+ that the vaccine may have sped the progression of the lymphoma? Let's take that one first.
+
+34:57.680 --> 35:03.680
+ Yeah, so I'm going to say, I don't think he's right. I'm sorry. You know, if you think about the
+
+35:03.680 --> 35:08.880
+ way B cells work and you think about it, lymphoblastic lymphoma. Now, this is going to be B cells that
+
+35:08.880 --> 35:15.680
+ are basically growing out of control. B cells have a certain specificity. So you would have to
+
+35:15.680 --> 35:22.480
+ somehow have the same antigen, like this would have to be a COVID specific, a SARS-CoV-2 specific
+
+35:22.480 --> 35:29.200
+ B cell that was expanding and forming this cancer. The coincidence there is just beyond belief.
+
+35:29.200 --> 35:35.040
+ We're talking about a one in a trillion chance that your vaccine is going to provide the antigen
+
+35:35.040 --> 35:40.560
+ that will trigger the B cell receptor of that cancer. So that does not make sense to me.
+
+35:40.560 --> 35:45.520
+ What we've seen in people get RNA vaccines is sometimes they'll get swollen lymph nodes
+
+35:46.400 --> 35:51.200
+ in the axilla, in the armpit of the area where the vaccine was given. And we've now
+
+35:51.200 --> 35:55.120
+ learned from some studies out of the UK that those individuals with the swollen lymph nodes,
+
+35:55.120 --> 36:01.360
+ these are people that had COVID before. So the vaccine can trigger the lymph nodes to enlarge
+
+36:01.360 --> 36:08.720
+ significantly if they have B cells in there that have seen the spike protein of SARS-CoV-2 before.
+
+36:08.720 --> 36:13.280
+ But I just think the one in a trillion odds here that you're happening to hit the same B cell
+
+36:13.280 --> 36:18.000
+ receptor. I don't think that's a connection there. All right. Question number two, my father didn't
+
+36:18.000 --> 36:23.440
+ get the second Moderna vaccine. He's immunocompromised because of a kidney transplant. He also has
+
+36:23.440 --> 36:28.640
+ diabetes. How much protection from COVID do you think he'll have from just one shot?
+
+36:29.840 --> 36:35.120
+ Wow. I feel like this is a planted question because it is perfect. The paper that we just
+
+36:35.120 --> 36:42.080
+ talked about really would suggest that after one dose, maybe a 15% chance I will even have any
+
+36:42.080 --> 36:48.560
+ level detective antibody. So I'm going to say at this point, it is most likely that your dad does
+
+36:48.560 --> 36:53.840
+ not have much protection. And so this is one of the situations where I would say going ahead
+
+36:53.840 --> 36:59.040
+ with that second vaccine makes sense. And this again, your dad might be a candidate down the
+
+36:59.040 --> 37:05.600
+ road here for an EUA expansion and a passive protection with monoclonal cocktail. All right.
+
+37:05.600 --> 37:10.880
+ I think you answered his remaining question. They weren't planning to give him the second dose,
+
+37:11.920 --> 37:15.840
+ but they're not sure what to do, or should he get a different vaccine?
+
+37:17.280 --> 37:20.240
+ Yeah. I mean, I'd say that's good because there's really two questions in there.
+
+37:20.880 --> 37:25.920
+ One is, as I was sort of suggesting earlier, there's been a discussion lately about trying
+
+37:25.920 --> 37:31.040
+ to combine different vaccines. We're learning about mRNA vaccines in this population.
+
+37:31.040 --> 37:36.560
+ Maybe we can get a better response with the adenoviral vaccines. Maybe we can get a better
+
+37:36.560 --> 37:42.080
+ response by sort of combining to. You definitely got to ask that question. Right now your dad is
+
+37:42.080 --> 37:48.160
+ not protected. We're in a pandemic. We would think that there's some benefit to vaccination.
+
+37:48.160 --> 37:54.800
+ If your dad gets COVID, his chance of dying is actually really high. So yeah, I understand
+
+37:54.800 --> 37:59.280
+ your hesitancy to get that second vaccine. I'm going to say that in general, this is a situation
+
+37:59.280 --> 38:03.760
+ where we usually would recommend going ahead with the second vaccine. All right. Next one is
+
+38:03.760 --> 38:08.560
+ from Barry, who says, I'd really like to hear your views on the role of budessinide and other
+
+38:08.560 --> 38:14.800
+ inhaled corticosteroids in mild COVID. The three or so articles I've reviewed seem to reflect the
+
+38:14.800 --> 38:21.040
+ favorable trend. Many of my colleagues in ambulatory and emergency medicine have prescribed or prescribed
+
+38:21.040 --> 38:26.000
+ budessinide. I'm uncharacteristically supportive as well, even though I generally stay away from
+
+38:26.000 --> 38:33.200
+ the sharp cutting edge of clinical medicine. What do you think Daniel? Yeah, you know, I have to say
+
+38:33.200 --> 38:39.040
+ right. If it was April of 2020, everyone be getting budessinide because there were a few small studies
+
+38:39.040 --> 38:46.880
+ suggesting maybe some benefit. I think we don't know. I think and I think in in May of 2021,
+
+38:46.880 --> 38:51.600
+ I think we can say we don't know. We need to study this. We need to know. And then once we know,
+
+38:51.600 --> 38:56.960
+ we'll be able to recommend. I think it's hopefully time to stop experimenting on our patients and
+
+38:56.960 --> 39:03.680
+ start providing them with science based advice and guidance. And if there's something out there
+
+39:03.680 --> 39:08.560
+ that looks interesting, we need to push and make sure it gets properly studied so we can then offer
+
+39:08.560 --> 39:14.560
+ our patients therapies that actually have proven benefit. All right, stop. Right. My question, my
+
+39:14.560 --> 39:20.080
+ 52 year old boyfriend has hay fever because of pollen. He takes daily antihistamines. He got an
+
+39:20.080 --> 39:25.360
+ opportunity to vaccinate. And of course, following your number one rule received Moderna, I advised
+
+39:25.360 --> 39:30.400
+ him to stop taking the antihistamines to let his immune system be at its best. But after one day,
+
+39:30.400 --> 39:36.000
+ he felt so bad with hay fever that he continued. Was I right to antihistamines interfere with the
+
+39:36.000 --> 39:41.760
+ efficiency of the body's immune system to produce antibodies? You know, not significantly. Let's
+
+39:41.760 --> 39:46.960
+ be honest, when it did these huge trials with 10s, 30,000 people per trial on average, right?
+
+39:47.520 --> 39:52.240
+ You know, people were getting the vaccine, they would take an antihistamine, they take hyperprophen,
+
+39:52.240 --> 39:57.840
+ they take the seed of minifen. I think if anything, there's been this huge concern that our immune
+
+39:57.840 --> 40:07.040
+ system is so incredibly fragile. Our immune system is robust. We get sick all the time, right? Your
+
+40:07.040 --> 40:11.120
+ boyfriend probably fights off the common cold, pollen, antihistamines. Can you imagine that?
+
+40:11.120 --> 40:16.400
+ Some people take antihistamines while they're fighting off influenza. Antihistamines are not
+
+40:16.400 --> 40:22.960
+ going to significantly impair a person's ability to respond to a vaccine. We've been giving vaccines
+
+40:22.960 --> 40:27.760
+ for decades. This has never been an issue. There really is no compelling science. Go ahead,
+
+40:27.760 --> 40:32.320
+ take that antihistamine. Don't suffer. This has been the worst allergy season in history.
+
+40:32.960 --> 40:38.480
+ All right, one more sneak an extra one in from Pablo. Two questions. One, patient at high risk,
+
+40:38.480 --> 40:44.720
+ cerebral palsy, tracheostomy, nonverbal, whose parents are COVID positive. He was not admitted for
+
+40:44.720 --> 40:50.160
+ bacterial tracheitis. According to EUA rules, I cannot use monoclonal because he's COVID negative.
+
+40:50.720 --> 40:56.880
+ But once he becomes positive, he is going to be inpatient and likely hypoxic suggestions.
+
+40:58.400 --> 41:02.800
+ Yeah, so this is tough, right? With the current EUA, we're sort of restricted. I mean, this
+
+41:02.800 --> 41:06.080
+ this would be one of those where we have the data, like you're sort of saying,
+
+41:06.080 --> 41:12.400
+ why can't I give this person monoclonal so that they don't get COVID? So this is probably one
+
+41:12.400 --> 41:18.800
+ person we want to test maybe on a daily basis. Catch them as soon as possible. If you catch someone
+
+41:18.800 --> 41:22.960
+ in the first day or two, give them monoclonals. I think our studies have suggested that earlier,
+
+41:22.960 --> 41:28.000
+ you jump in the better. You can really avoid what here sounds like it could be a horrible outcome.
+
+41:28.720 --> 41:33.280
+ Soon, soon, fingers crossed, we're going to get that EU expansion to use this prophylactic
+
+41:33.280 --> 41:36.320
+ based on really compelling data of the Regeneron cocktail.
+
+41:37.280 --> 41:42.960
+ And patient number 200, Tuximab for autoimmune encephalitis got severe COVID pneumonia one
+
+41:42.960 --> 41:48.400
+ month after the second dose of Moderna after Remdesivir went home, came back a few days later,
+
+41:48.400 --> 41:56.240
+ CT27, no spike IgG. Is he a candidate for preventive monoclonal? Does the EUA allow it?
+
+41:57.520 --> 42:02.960
+ Yes, that's a great question. And actually, I have to say, let's go back to what we know
+
+42:02.960 --> 42:08.000
+ here, because I had a, you know, the CT of 27 is exactly what I recently was dealing with with
+
+42:08.000 --> 42:15.600
+ the patient who has a GPA, who is not able to clear the virus. The woman that I'm taking care of
+
+42:15.600 --> 42:21.280
+ actually was infected in December. Her CT value is still in the 20s, right? So what do you do here?
+
+42:22.320 --> 42:27.120
+ Up at Boston, there was a nice article where they gave convalescent plasma several times.
+
+42:27.120 --> 42:31.840
+ All they did was get the CT to go up a little bit, get the viral load a little down, and basically
+
+42:31.840 --> 42:37.760
+ breed resistant variants with convalescent plasma. So that was not helpful. We're concerned that if
+
+42:37.760 --> 42:43.360
+ you start giving someone who can't mount a good immune response, you know, the cocktail,
+
+42:43.360 --> 42:47.200
+ that you might do that as well. But this might be a little different the patient you're describing.
+
+42:47.200 --> 42:51.440
+ This is a patient who seems to have an isolated impairment of B cell function.
+
+42:51.440 --> 42:56.320
+ Maybe the T cells are still there. So this is a little bit of a gray area.
+
+42:56.320 --> 43:03.120
+ EUA would not allow access. Compassionate use might. But this is going to be a little bit tricky.
+
+43:03.120 --> 43:08.640
+ But we'll sort of see you going forward. Right now you're in the gray, the experimental area.
+
+43:09.600 --> 43:13.840
+ I am not sure, but there certainly is that risk. If you give a person who can't clear the virus
+
+43:13.840 --> 43:20.880
+ themselves, the monoclonal cocktail with persistence that you might breed a resistant variant.
+
+43:20.880 --> 43:27.520
+ But no, this is one of those. But boy, what a challenge. That is COVID-19 clinical update number
+
+43:27.520 --> 43:57.360
+ 61 with Dr. Daniel Griffin. Thank you, Daniel. Oh, thank you so much. And everyone be safe.
+

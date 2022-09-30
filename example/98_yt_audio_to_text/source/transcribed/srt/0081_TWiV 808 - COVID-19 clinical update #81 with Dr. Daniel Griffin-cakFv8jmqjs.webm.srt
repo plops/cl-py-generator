@@ -1,0 +1,1936 @@
+1
+0:00:00,000 --> 0:00:06,880
+This week in virology, the podcast about viruses, the kind that make you sick.
+
+2
+0:00:10,400 --> 0:00:21,040
+From Microbe TV, this is Twiv, this week in virology. Episode 808 recorded on September 23, 2021.
+
+3
+0:00:21,680 --> 0:00:27,680
+I'm Vincent Draconiello, and you're listening to the podcast all about viruses. Joining me today
+
+4
+0:00:27,680 --> 0:00:36,880
+from New York, Daniel Griffin. Hello, everyone. Episode 81, or I should say clinical update,
+
+5
+0:00:36,880 --> 0:00:45,600
+number 81, Daniel. My question for today, when do you think five to 12-year-olds will get vaccinated?
+
+6
+0:00:46,320 --> 0:00:52,800
+You know, that's going to be right in my first section on children and COVID, Vincent.
+
+7
+0:00:52,800 --> 0:00:57,600
+All right. I feel like you've preempted it, but let's get going and we'll get right there.
+
+8
+0:00:57,600 --> 0:01:04,400
+So I will start off with a quotation, no pessimist ever discovered the secret of the stars,
+
+9
+0:01:04,400 --> 0:01:09,600
+or sailed to an uncharted land, or opened a new doorway for the human spirit.
+
+10
+0:01:10,320 --> 0:01:15,920
+And that is Helen Keller. And next to the Helen Keller Institute is just down the road from me,
+
+11
+0:01:15,920 --> 0:01:21,760
+prior to the pandemic, prior to me slipping on a wet surface and tearing the lateral medial
+
+12
+0:01:21,760 --> 0:01:27,600
+meniscus in my left knee, my family and I would all do the Helen Keller fundraiser yearly run. So
+
+13
+0:01:28,320 --> 0:01:33,040
+maybe at some point when I can free up some time in my schedule to fix that knee, I'll be doing that
+
+14
+0:01:33,040 --> 0:01:42,800
+again. But what an inspirational woman. As far as an update, you know, people, it's so regional
+
+15
+0:01:42,800 --> 0:01:48,880
+in our country. It's so regional in the world, right? What's been happening? We are seeing things
+
+16
+0:01:48,880 --> 0:01:55,360
+get a little bit better, particularly here in the New York area. You know, part of what I tell
+
+17
+0:01:55,360 --> 0:02:00,240
+people when they ask me, this is only so many people that can get infected or vaccinated. So
+
+18
+0:02:01,440 --> 0:02:07,280
+there is, you know, there is that. But let's get right into children. So we have some, I'm going to
+
+19
+0:02:07,280 --> 0:02:14,720
+say exciting things on the horizon or that we're hearing here. And I think finally people have
+
+20
+0:02:14,720 --> 0:02:18,640
+come to realize that children are at risk for COVID. I think that's just sort of black
+
+21
+0:02:18,640 --> 0:02:24,000
+and white. That was really a bit of a mistake and it's unfortunate. You know, if we say we're
+
+22
+0:02:24,000 --> 0:02:29,920
+still seeing about a quarter million children a week get infected. We're seeing thousands of
+
+23
+0:02:29,920 --> 0:02:35,120
+children end up in the hospital. We're seeing a number of children die every week here in the
+
+24
+0:02:35,120 --> 0:02:41,520
+U.S. and worldwide that continues. I've talked about resources in the past. Not only can you go
+
+25
+0:02:41,520 --> 0:02:48,560
+to the AAP site, not only can you go to the special CDC pediatric data, I'm going to throw
+
+26
+0:02:48,560 --> 0:02:57,440
+another site at you and this is COVID net and this is at GIS.cdc.gov. And here you can actually
+
+27
+0:02:57,440 --> 0:03:03,040
+break down by age what is going on with regard to different things, particularly hospitalizations.
+
+28
+0:03:03,040 --> 0:03:09,360
+And it's a bit disturbing when you look at the rate of hospitalization per 100,000 broken down by
+
+29
+0:03:09,360 --> 0:03:16,960
+individuals under 18. And the highest is in the zero to four really, really disturbing.
+
+30
+0:03:16,960 --> 0:03:22,640
+The youngest children are being impacted. So we're going to talk about a couple things today
+
+31
+0:03:22,640 --> 0:03:28,960
+about what might be done to help those individuals. And saying that we're going to talk first about
+
+32
+0:03:30,080 --> 0:03:36,960
+children, people aged five to 12. So straight to vaccines for five to 12. So on Monday,
+
+33
+0:03:36,960 --> 0:03:41,920
+September 20th at 6.45 AM, I think everyone, you got to get up at 6.44 and be ready for these
+
+34
+0:03:41,920 --> 0:03:48,160
+headlines. We saw the press release from Pfizer with the headline Pfizer and biotech announced
+
+35
+0:03:48,160 --> 0:03:54,640
+positive top line results from pivotal trial of COVID-19 vaccine in children five to 11 years.
+
+36
+0:03:55,600 --> 0:04:02,880
+And so Pfizer and BioNTech announced results from a phase two, three trial showing a favorable
+
+37
+0:04:02,880 --> 0:04:09,200
+safety profile and robust neutralizing anybody responses in children five to 11 years of age
+
+38
+0:04:09,200 --> 0:04:18,400
+using a two dose regimen of 10 micrograms administered 21 days apart, a smaller dose than the 30
+
+39
+0:04:18,400 --> 0:04:23,200
+micrograms that's currently be used in people 12 and older. So all right, so that's the headline.
+
+40
+0:04:23,200 --> 0:04:28,000
+But what was the what was the data? We don't have it all. It's not peer reviewed. We're going to get
+
+41
+0:04:28,000 --> 0:04:36,880
+more coming. But in this trial, they reported data from 2,268 participants age five to 11 years
+
+42
+0:04:36,880 --> 0:04:42,960
+of age. And they reported that the SARS-CoV-2 neutralizing antibody geometric mean titer
+
+43
+0:04:42,960 --> 0:04:55,360
+was 1,197.6, one month after the first dose in this group compared to 1,146.5 from participants
+
+44
+0:04:55,360 --> 0:05:02,000
+aged 16 to 25 who had gotten the 30 microgram. That was the control group. So really, you're
+
+45
+0:05:02,000 --> 0:05:08,560
+getting about the same confidence interval overlap. Really, the median mean there geometric mean
+
+46
+0:05:08,560 --> 0:05:16,320
+is actually a higher higher. So the point here, and I think we need to talk about this a little,
+
+47
+0:05:16,320 --> 0:05:21,040
+is this is exciting news. You're seeing this robust response. You're seeing that a smaller
+
+48
+0:05:21,040 --> 0:05:27,280
+dose can be used. So don't just go out and use the 30 microgram dose off label. Pfizer is in
+
+49
+0:05:27,280 --> 0:05:34,480
+preparation to go ahead and make these smaller doses. They're going to new production challenges
+
+50
+0:05:34,480 --> 0:05:40,320
+to make this happen. For the United States, the companies expect to include this data in a near
+
+51
+0:05:40,320 --> 0:05:47,520
+term submission for EUA as they continue to accumulate safety and efficacy data.
+
+52
+0:05:48,560 --> 0:05:55,200
+But a couple things, and I'm sure this will be a discussion, this is a 2,268. So we say safety
+
+53
+0:05:55,200 --> 0:06:02,400
+data. That's a small number of individuals. As this rolls out in the first four to eight weeks,
+
+54
+0:06:02,400 --> 0:06:08,880
+we're going to get what we call phase four data where we have post-marketing. So there will be
+
+55
+0:06:08,880 --> 0:06:13,760
+some parents. I'm sure that we'll want to wait a few extra weeks. And this is going to be sort of
+
+56
+0:06:13,760 --> 0:06:19,520
+that balance between what we're seeing now with quarter million individuals here in the US alone
+
+57
+0:06:19,520 --> 0:06:23,440
+getting infected thousands in the hospital. Parents will want to weigh that risk benefit
+
+58
+0:06:23,440 --> 0:06:27,920
+during the first four to eight weeks as we get even more safety data on this age group.
+
+59
+0:06:29,120 --> 0:06:35,600
+Daniel, how do you figure out 10 micrograms? And it's from going from 11 to 12 years,
+
+60
+0:06:36,320 --> 0:06:42,880
+it seems like a sharp cut. How does that work? Yes. No, I still remember, right? Like,
+
+61
+0:06:44,160 --> 0:06:52,960
+Barnaby turned 16. He was going to almost qualify, and then they dropped the EUA for
+
+62
+0:06:52,960 --> 0:06:57,840
+younger ages. So we were looking at Barnaby 15 years at nine months, and he didn't qualify for
+
+63
+0:06:57,840 --> 0:07:06,720
+the vaccine, but magically in three months. And then on the bottom end here, what about those
+
+64
+0:07:06,720 --> 0:07:13,200
+younger children? What about children who are two, three, and four? So your four years, your 11
+
+65
+0:07:13,200 --> 0:07:23,600
+months, maybe you're large for your age. So yeah, these cutoffs are not exact science. So,
+
+66
+0:07:25,200 --> 0:07:31,840
+yeah. But presumably they have some experience on dosing for different ages. And so they use that
+
+67
+0:07:31,840 --> 0:07:37,680
+to calculate 10 micrograms, I suppose, right? Well, you know, with the mRNA vaccines, we don't
+
+68
+0:07:37,680 --> 0:07:42,880
+have quite as much experience as we would like, right? So the amount of mRNA and the Moderna vaccine
+
+69
+0:07:42,880 --> 0:07:48,160
+is three times more. And maybe that will turn out to be relevant in some things that we discussed
+
+70
+0:07:48,160 --> 0:07:56,160
+later. Okay. All right. Now we move to that pre-exposure transmission testing period. I like to say
+
+71
+0:07:56,160 --> 0:08:04,960
+never miss an opportunity to test, to test, and remember, masks are cool. It appears that people
+
+72
+0:08:04,960 --> 0:08:12,960
+are finally catching on. And rapid tests, like monoclonals, are now in short supply. Rapid tests
+
+73
+0:08:12,960 --> 0:08:18,480
+are finally being embraced. And we have over-the-counter tests. But now you're searching everywhere to
+
+74
+0:08:18,480 --> 0:08:24,800
+try to find them, because they're being sold out across the country. So I think this reinforces a
+
+75
+0:08:24,800 --> 0:08:30,320
+message that Vincent, I'm going to thank you for getting Michael Menon to sort of spread this early
+
+76
+0:08:30,320 --> 0:08:36,400
+on, is rapid tests are a really excellent public health tool. And in that two days before symptom
+
+77
+0:08:36,400 --> 0:08:42,560
+onset, in that three to five days afterwards, these are incredibly sensitive and rapid ways
+
+78
+0:08:42,560 --> 0:08:49,760
+of detecting people who are contagious, detecting people who are acutely ill. If you need to repeat
+
+79
+0:08:49,760 --> 0:08:56,000
+that test the next day, we're talking about tests that cost five to $10 here in the US per test,
+
+80
+0:08:56,000 --> 0:09:02,000
+where results are back in 15 minutes versus results that take some areas of the country
+
+81
+0:09:02,000 --> 0:09:07,360
+talking to a colleague in Oregon, where it's about four days in some places to get that result back.
+
+82
+0:09:07,360 --> 0:09:14,880
+Exciting in this area, we heard that part of the $2 billion testing plan from the White House
+
+83
+0:09:14,880 --> 0:09:23,200
+involves buying 647 million over-the-counter rapid tests to help subsidize these, to help get them
+
+84
+0:09:23,200 --> 0:09:29,600
+out so we can actually get those results. All right, active vaccination, never miss an opportunity
+
+85
+0:09:29,600 --> 0:09:36,560
+to vaccinate. And I was listening to a little bit of the United Nations. And vaccination is how
+
+86
+0:09:36,560 --> 0:09:42,400
+this pandemic ends is actually a theme. So I think they've been listening to Twiv. So let's talk a
+
+87
+0:09:42,400 --> 0:09:47,600
+little bit about vaccines, the Jabs that keep you from getting sick. And a couple of things,
+
+88
+0:09:47,600 --> 0:09:53,600
+and the first will be boosters. Friday, September 17th, the FDA advisory panel met,
+
+89
+0:09:53,600 --> 0:09:58,960
+and it was very interesting. I think what was interesting was sort of like the live stream
+
+90
+0:09:58,960 --> 0:10:04,000
+media coverage. You know, here was a discussion, you know, started off with a first vote,
+
+91
+0:10:04,000 --> 0:10:08,880
+moved on to another vote. And the whole time, sort of, I think people were on the edge of their
+
+92
+0:10:08,880 --> 0:10:14,240
+seat waiting for the different updates. And it got messy at times. There were words used that I
+
+93
+0:10:14,240 --> 0:10:21,200
+don't use in my house and that we don't allow our children to use. But I thought it was a really
+
+94
+0:10:21,200 --> 0:10:26,800
+healthy discussion. And a big thing that came out of this was this reassuring. This guy is not
+
+95
+0:10:26,800 --> 0:10:34,080
+falling. There was some certain information that led to some of their recommendations. And then on
+
+96
+0:10:34,080 --> 0:10:43,040
+Wednesday, the 22nd of this September 2021, we heard that following this advisory board discussion
+
+97
+0:10:43,040 --> 0:10:50,240
+and vote that the FDA authorized booster dose of Pfizer biotech COVID-19 vaccine for certain
+
+98
+0:10:50,240 --> 0:10:58,400
+populations. And so the US FDA amended the emergency use authorization, the EUA, for the Pfizer
+
+99
+0:10:58,400 --> 0:11:06,720
+biotech COVID-19 vaccine to allow for a single booster dose to be administered at least six months
+
+100
+0:11:06,720 --> 0:11:11,040
+after the completion of the primary series in these three categories.
+
+101
+0:11:11,040 --> 0:11:18,160
+Individuals 65 years of age are older. Individuals 18 through 64 years of age at high risk of severe
+
+102
+0:11:18,160 --> 0:11:26,080
+COVID-19 and individuals 18 through 64 years of age, whose frequent institutional or occupational
+
+103
+0:11:26,080 --> 0:11:32,160
+exposure to SARS-CoV-2 puts them at high risk of serious complications of COVID-19, including
+
+104
+0:11:32,160 --> 0:11:40,000
+severe COVID-19. And this authorization for clarity only applies to Pfizer biotech COVID-19 vaccine.
+
+105
+0:11:40,000 --> 0:11:45,920
+So I'm going to pull you in on this, Vincent. But what basically came out of this was really a
+
+106
+0:11:45,920 --> 0:11:52,240
+public health decision. It was a risk benefit. It was very clear on Friday from the discussion
+
+107
+0:11:52,240 --> 0:11:57,760
+that all the data that these individuals want is not yet available. It's not yet been available
+
+108
+0:11:57,760 --> 0:12:02,640
+long enough for them to really go through it. So this was one of those public health decisions,
+
+109
+0:12:02,640 --> 0:12:09,280
+where it seemed reasonable and appropriate to extend the EUA. But the initial idea that
+
+110
+0:12:09,280 --> 0:12:16,560
+everyone, 18, 19, 20-year-olds should be getting third doses did not make sense, was not recommended
+
+111
+0:12:16,560 --> 0:12:22,000
+by that advisory committee. In the coming weeks, we're going to learn more. We're going to learn
+
+112
+0:12:22,000 --> 0:12:29,360
+a lot about when and who might get that second shot. We're also going to learn, is this just
+
+113
+0:12:29,360 --> 0:12:36,160
+a Pfizer specific? Is Pfizer now the three and you're done vaccine? Will Pfizer require in the
+
+114
+0:12:36,160 --> 0:12:43,360
+future yearly boosters? And then what is the situation with Moderna and J&J? And don't worry,
+
+115
+0:12:43,360 --> 0:12:47,600
+we have some exciting data on J&J to follow. So Vincent, I don't know if you had any thoughts?
+
+116
+0:12:49,040 --> 0:12:54,400
+So this is just for people who previously received Pfizer, correct?
+
+117
+0:12:54,400 --> 0:12:58,960
+People who previously got two shots of Pfizer and now a third shot.
+
+118
+0:12:58,960 --> 0:13:07,280
+So if you really think the science tells you to have a third shot, you have to make it everybody,
+
+119
+0:13:07,280 --> 0:13:12,560
+not just Pfizer. You have to make it Moderna too, even though they didn't apply for it. So
+
+120
+0:13:13,840 --> 0:13:19,200
+as I've said before, I don't see the data. If I were eligible, I wouldn't take it,
+
+121
+0:13:19,200 --> 0:13:24,400
+because I don't think you need it. And I think that as we discussed last time that paper,
+
+122
+0:13:24,400 --> 0:13:29,200
+that opinion paper in the Lancet really laid it well out, the science doesn't say you need it yet.
+
+123
+0:13:29,200 --> 0:13:33,280
+Yeah. And the science will come. And what we're also going to see, and this also,
+
+124
+0:13:33,280 --> 0:13:39,120
+I think is similar to echo what I talked about early on, is we are now seeing a number of
+
+125
+0:13:39,120 --> 0:13:43,600
+individuals. We already know a number of individuals went ahead and got that third shot. So we're
+
+126
+0:13:43,600 --> 0:13:49,600
+going to see in coming weeks here, a large number of millions of individuals who got Pfizer will
+
+127
+0:13:49,600 --> 0:13:56,240
+now get a third. The suggestion is that the reactogenicity is even lower with that third shot.
+
+128
+0:13:56,240 --> 0:14:01,040
+We'll see more safety signal. We'll get a little more of our data. And then, yeah,
+
+129
+0:14:02,240 --> 0:14:08,000
+recommendations coming soon. Here, I think is a really important thing. I want to discuss
+
+130
+0:14:08,000 --> 0:14:13,360
+vaccines and pregnant women. And I think it's really incumbent on physicians to be
+
+131
+0:14:13,360 --> 0:14:21,200
+very up to date on the data. And I know there's this, I'm going to say false dichotomy out there.
+
+132
+0:14:21,200 --> 0:14:28,720
+The idea that people who are unvaccinated are somehow bad people, anti-vaxxers.
+
+133
+0:14:29,920 --> 0:14:35,760
+And I'm going to talk about the fact that over 80% of pregnant individuals in the United States
+
+134
+0:14:35,760 --> 0:14:41,280
+are not vaccinated. I'm going to talk a little bit about these are actually intelligent
+
+135
+0:14:41,280 --> 0:14:45,840
+individuals who are trying to make the right choice for themselves, for their unborn baby,
+
+136
+0:14:45,840 --> 0:14:52,400
+and talk a little bit about what is the information we have. I think people may remember this initially
+
+137
+0:14:52,400 --> 0:14:59,200
+started off focused on physicians. But I think this is expanded beyond that. But here again,
+
+138
+0:14:59,200 --> 0:15:04,080
+I want to focus on physicians to have this information, but also all of our listeners
+
+139
+0:15:04,080 --> 0:15:10,320
+have the information about COVID vaccines in pregnancy, so that these decisions can be
+
+140
+0:15:10,320 --> 0:15:15,760
+the informed one, the right one for that pregnant woman, the right one for that unborn child. So
+
+141
+0:15:15,760 --> 0:15:20,320
+on clinical update 59, I discussed the New England Journal Medicine article,
+
+142
+0:15:20,320 --> 0:15:26,160
+preliminary findings of mRNA COVID-19 vaccine safety in pregnant persons, where the authors
+
+143
+0:15:26,160 --> 0:15:35,200
+reported on 35,691 v-safe participants, 16 to 54 years of age identified as pregnant and found
+
+144
+0:15:35,200 --> 0:15:43,600
+no safety signals, no fertility issues, no miscarriage issues, etc. So very, very safe. In
+
+145
+0:15:43,600 --> 0:15:49,840
+clinical update number 78, we continued this, this thread, and we discussed the article
+
+146
+0:15:49,840 --> 0:15:55,680
+characteristics and outcomes of women with COVID-19 giving birth at US academic centers during the
+
+147
+0:15:55,680 --> 0:16:02,400
+COVID-19 pandemic. This is the we're moving from safe to are these individuals at higher risk.
+
+148
+0:16:02,400 --> 0:16:09,840
+And this was the study that found that pregnant women, pregnant people with COVID-19, were more
+
+149
+0:16:09,840 --> 0:16:19,120
+likely to have a preterm birth, right? 16.4% versus 11.5%. So a 5% higher risk of a preterm birth,
+
+150
+0:16:19,760 --> 0:16:26,880
+significantly higher rates of ICU admission over five times as likely. The odds of
+
+151
+0:16:26,880 --> 0:16:34,880
+requiring mechanical ventilation, intubation, were increased more than 14-fold and a pregnant
+
+152
+0:16:34,880 --> 0:16:40,720
+woman admitted to the hospital was 15 times more likely to die. So a pregnant woman who gets
+
+153
+0:16:40,720 --> 0:16:47,920
+infected with COVID-19 is at very high risk. And you can imagine that this risk translates into
+
+154
+0:16:47,920 --> 0:16:53,360
+bad outcomes for the unborn child, particularly as you can imagine when that pregnant woman
+
+155
+0:16:53,360 --> 0:17:00,480
+might die. So we've established safety. We've talked about how this is a high risk population,
+
+156
+0:17:00,480 --> 0:17:06,800
+but the safety data continues. The CDC has a special v-safe COVID-19 vaccine
+
+157
+0:17:07,440 --> 0:17:12,880
+pregnancy registry website. They update this regularly. It was updated the last on the 14th
+
+158
+0:17:12,880 --> 0:17:21,760
+of this month. And as of 913, the day before they updated, 158,465 pregnant women were registered
+
+159
+0:17:21,760 --> 0:17:28,080
+in the v-safe after vaccination health checker. And they are reporting there is currently,
+
+160
+0:17:28,080 --> 0:17:33,200
+there's still no evidence that any of the vaccines, including COVID-19 vaccines, cause
+
+161
+0:17:33,200 --> 0:17:40,320
+fertility or any other problems in this population. On the risk side, unfortunately, though,
+
+162
+0:17:40,320 --> 0:17:49,040
+here we have seen over 100,000 pregnant people infected and over 100 of these women have actually
+
+163
+0:17:49,040 --> 0:17:54,880
+died of COVID-19. What about taking it a step further? Not only are pregnant women themselves at
+
+164
+0:17:54,880 --> 0:18:03,040
+risk, not only are these vaccines safe, but is this a chance to protect two people? What happens
+
+165
+0:18:03,040 --> 0:18:08,880
+when that baby is born? And the mother makes that decision to get vaccinated during pregnancy.
+
+166
+0:18:09,600 --> 0:18:13,440
+Because a lot of times, and I understand this discussion, I understand the logic,
+
+167
+0:18:13,440 --> 0:18:16,800
+I'm going to challenge it, the idea of why don't you just wait until you're done with your
+
+168
+0:18:16,800 --> 0:18:21,280
+pregnancy and then get vaccinated. I'm going to discuss here an article where it says,
+
+169
+0:18:21,280 --> 0:18:25,920
+please get vaccinated before you have that child to give that child an extra bit of protection.
+
+170
+0:18:25,920 --> 0:18:31,760
+So this week, the research letter, high antibody levels in cord blood from pregnant women vaccinated
+
+171
+0:18:31,760 --> 0:18:38,320
+against COVID-19 was published in the American Journal of Obstetrics and Gynecology. Here,
+
+172
+0:18:38,320 --> 0:18:44,480
+as I mentioned in the US, only about 16% of pregnant women have been vaccinated despite this
+
+173
+0:18:44,480 --> 0:18:50,400
+really compelling evidence. So here, what they did is they looked at umbilical cord blood.
+
+174
+0:18:50,400 --> 0:18:57,040
+This is a way to assess our babies of women vaccinated while pregnant, being born with
+
+175
+0:18:57,040 --> 0:19:04,800
+that protection, that high level of spike antibodies. And in this study of umbilical cord blood
+
+176
+0:19:04,800 --> 0:19:14,000
+collected from 36 deliveries, 36 neonates, 100% studied were positive for the anti-spike IgG
+
+177
+0:19:14,560 --> 0:19:22,560
+at high titers. Among the 36 samples, 31 were also tested for anti-nuclear capsid. These were
+
+178
+0:19:22,560 --> 0:19:27,360
+all negative. So these are vaccinated women. These are women that were not infected,
+
+179
+0:19:27,360 --> 0:19:32,960
+who because they were vaccinated during pregnancy, were able to pass on that protection to their
+
+180
+0:19:32,960 --> 0:19:38,480
+children where we would expect that protection to last at least four months. So if you're pregnant,
+
+181
+0:19:38,480 --> 0:19:47,680
+get vaccinated, protects you and your child. Now, what about which vaccine is best? I like that
+
+182
+0:19:47,680 --> 0:19:51,680
+now, you know, I've been talking about the t-shirts are going to be on the different teams. I'm on
+
+183
+0:19:51,680 --> 0:19:57,440
+team spike backs or Moderna here. And so you might get a little bias here as I discuss this
+
+184
+0:19:57,440 --> 0:20:04,800
+comparing comparative effectiveness of Moderna, Pfizer, BioNTech, and Janssen, Johnson and Johnson
+
+185
+0:20:04,800 --> 0:20:11,200
+vaccines in preventing COVID-19 hospitalizations among adults without immunocompromising conditions,
+
+186
+0:20:11,200 --> 0:20:18,640
+United States, March to August 2021. This came out as an early release in the MMWR,
+
+187
+0:20:19,360 --> 0:20:25,840
+actually spoke to Saratoy at the Wall Street Journal about this. And this study was looking at
+
+188
+0:20:25,840 --> 0:20:33,040
+vaccine effectiveness against COVID-19 hospitalization. And I feel like whenever you say vaccine
+
+189
+0:20:33,040 --> 0:20:38,720
+effectiveness, you have to add against what? This looked at adults aged greater than 18
+
+190
+0:20:39,680 --> 0:20:47,040
+or older without an immunocompromised condition, immunocompromising condition admitted to 21
+
+191
+0:20:47,040 --> 0:20:54,320
+hospitals within the influenza and other viruses in the acutely ill, the IV network.
+
+192
+0:20:54,320 --> 0:21:01,840
+This is a case control prospective analysis. The case patients were admitted to the hospital
+
+193
+0:21:01,840 --> 0:21:10,320
+with COVID-19, PCR confirmed or an antigen test. The control patients had a viral illness, but they
+
+194
+0:21:10,320 --> 0:21:20,960
+had a negative test. 3,689 patients were included. So we have 1,682 case patients, 2,007 control
+
+195
+0:21:20,960 --> 0:21:31,840
+patients. And what did they report? The overall vaccine efficiency, right? And we're talking about
+
+196
+0:21:31,840 --> 0:21:42,560
+vaccine efficacy for preventing hospitalization. So overall, 2,362 patients were unvaccinated,
+
+197
+0:21:42,560 --> 0:21:49,120
+476 or 12.9 percent were fully vaccinated with one of these vaccines. So remember the numbers
+
+198
+0:21:49,120 --> 0:21:58,000
+there. So 476 were fully vaccinated with the Moderna vaccine. 738 were fully vaccinated with the Pfizer
+
+199
+0:21:58,000 --> 0:22:05,280
+BioNTech vaccine. And 113 were fully vaccinated with the Janssen vaccine as a one dose.
+
+200
+0:22:05,280 --> 0:22:11,120
+The vaccine efficacy against COVID-19 hospitalizations was higher for the Moderna vaccine,
+
+201
+0:22:11,120 --> 0:22:19,680
+they're saying 93%. The Pfizer BioNTech, 88%. And then the vaccine efficacy for both vaccines
+
+202
+0:22:19,680 --> 0:22:24,720
+was higher than the Janssen. I think there's a couple takeaways from here. If you're on team
+
+203
+0:22:24,720 --> 0:22:31,200
+Moderna versus Pfizer, you can claim to have one. Another takeaway is to say that the vaccines
+
+204
+0:22:31,200 --> 0:22:37,040
+continued to have very high efficacy over this period of time. And what were those sort of periods
+
+205
+0:22:37,040 --> 0:22:44,480
+of time? So Moderna, say 93% for the full surveillance period with 93 in the first 120 days,
+
+206
+0:22:44,480 --> 0:22:50,960
+dropping, I'd say dropping to 92, so like dropping from 93 to 92, holding above 90 at
+
+207
+0:22:50,960 --> 0:23:00,000
+greater than 120 days. The full surveillance for Pfizer was 88 starting off at 91. And there is
+
+208
+0:23:00,000 --> 0:23:08,000
+say a drop to 77. But there's wide confidence intervals here, 67 to 84. And then you look at
+
+209
+0:23:08,000 --> 0:23:12,640
+Janssen, and we're going to get to Janssen, Janssen over this period of time in this one study,
+
+210
+0:23:12,640 --> 0:23:19,600
+they're reporting 71% over time. So it's interesting that now, you know, and maybe this helps people
+
+211
+0:23:19,600 --> 0:23:26,720
+get excited about vaccines and people like to have choices. I think you can take this in several
+
+212
+0:23:26,720 --> 0:23:33,840
+ways. But one way you may take it is what about J and J? Maybe J and J is not just one and done.
+
+213
+0:23:33,840 --> 0:23:39,920
+So this next section goes out to all the redheads in the audience. This is and by redheads, I mean
+
+214
+0:23:39,920 --> 0:23:47,520
+people that got J and J vaccine, because my redheaded son got the Pfizer shots. And I don't know,
+
+215
+0:23:47,520 --> 0:23:51,360
+that was an expression that my grandmother, I think I got from my Irish grandmother is the,
+
+216
+0:23:51,360 --> 0:23:57,120
+you know, whenever someone was left out, it was, oh, my poor redheaded stepson, right?
+
+217
+0:23:57,120 --> 0:24:02,560
+I've got to figure out the history of that expression. But we have a bit about J and J.
+
+218
+0:24:03,360 --> 0:24:10,080
+So this starts off with Johnson and Johnson single shot vaccine showed strong and long lasting
+
+219
+0:24:10,080 --> 0:24:16,400
+protection in the real world. This is comes out of a preprint effectiveness of the single dose
+
+220
+0:24:16,400 --> 0:24:27,120
+at 26 Cove to S COVID vaccine. And what was this data, which is posted as a preprint among 390,000
+
+221
+0:24:27,120 --> 0:24:38,000
+507 17 vaccinated and 1.5 24, 153 matched unvaccinated individuals. This is huge, right? About half
+
+222
+0:24:38,000 --> 0:24:42,720
+a million compared to one and a half million matched unvaccinated individuals. They're reporting
+
+223
+0:24:42,720 --> 0:24:51,520
+here in this preprint, vaccine efficacy was 79% for a recognized COVID-19 infection,
+
+224
+0:24:51,520 --> 0:24:59,680
+right? Vaccine efficacy against infection and 81% for a COVID-19 related hospitalization.
+
+225
+0:24:59,680 --> 0:25:06,720
+They reported that this was stable over calendar time. And they also looked at states with a high
+
+226
+0:25:06,720 --> 0:25:16,640
+delta incidence and saw that this was holding for them as well. So when you grab your numbers,
+
+227
+0:25:16,640 --> 0:25:22,240
+I think it's important to see there's points in a line. This looks good. These data were
+
+228
+0:25:22,240 --> 0:25:28,640
+consistent with the phase three ensemble trial, where they were shown that those strong protection
+
+229
+0:25:28,640 --> 0:25:37,280
+against severe critical disease. But what about boosters? Maybe J&J is not the one and done.
+
+230
+0:25:37,280 --> 0:25:42,240
+Maybe J&J is the two and done. So what about a booster shot for folks with J&J?
+
+231
+0:25:43,360 --> 0:25:51,760
+So here, the announcement, and at this point, this is press release level from J&J booster shot at
+
+232
+0:25:51,760 --> 0:26:01,280
+two months. They report provided 94% protection against COVID-19 in the U.S. And this is the phase
+
+233
+0:26:01,280 --> 0:26:09,360
+three ensemble to study, looking at getting another shot of the Johnson and Johnson COVID-19 vaccine
+
+234
+0:26:09,360 --> 0:26:16,000
+56 days after the first. And so they say, and actually I have to say someone asked me this at work,
+
+235
+0:26:16,000 --> 0:26:22,320
+they say 100% protection. The confidence interval is 33 to 100. So that's a wide confidence interval
+
+236
+0:26:22,320 --> 0:26:29,920
+against severe critical COVID-19, at least 14 days post-final vaccination. 75% protection
+
+237
+0:26:29,920 --> 0:26:36,560
+against symptomatic moderate to severe COVID-19. This is looking at a global data set,
+
+238
+0:26:36,560 --> 0:26:45,520
+but confidence intervals 55 to 87, 94% protection against symptomatic moderate to severe COVID-19
+
+239
+0:26:45,520 --> 0:26:51,520
+in the U.S. And again, wide confidence intervals 58 to 100. And then they throw a second little bit
+
+240
+0:26:51,520 --> 0:27:00,880
+of data when a booster was given at six months. So booster shot at six months provided 12-fold
+
+241
+0:27:00,880 --> 0:27:06,640
+increase in antibodies. Here, they're reporting that a booster of J&J, given six months after
+
+242
+0:27:06,640 --> 0:27:13,920
+the single shot, compared to that second, that two months afterwards, gives you this extra 12-fold
+
+243
+0:27:13,920 --> 0:27:20,000
+increase in antibodies. These rises were irrespective of age. So we're getting a little more information.
+
+244
+0:27:20,000 --> 0:27:26,480
+I know people feel like, Oh my gosh, I got the J&J. How come nobody's talking about me? How come?
+
+245
+0:27:26,480 --> 0:27:31,680
+And it's over 10 million people got J&J here in the U.S. alone. So we're getting more data,
+
+246
+0:27:31,680 --> 0:27:37,280
+and I would not be surprised if the J&J becomes the two shots and you're done instead of the one
+
+247
+0:27:37,280 --> 0:27:44,240
+and you're done. Vincent, any thoughts on all that data? So last week, we did a paper which
+
+248
+0:27:45,520 --> 0:27:53,600
+showed lower efficacy for J&J and Rich Condits said, I bet a boost is what J&J needs. There you go.
+
+249
+0:27:54,240 --> 0:27:58,640
+Yeah. All right. Well, he may be right. Yeah, it is interesting. And J&J is a tough vaccine
+
+250
+0:27:58,640 --> 0:28:03,760
+when you look at antibody levels, because if you compare the antibody levels elicited by the
+
+251
+0:28:03,760 --> 0:28:10,160
+mRNA vaccines and the J&J vaccines, it's actually two different worlds. I think you're ending up with
+
+252
+0:28:10,160 --> 0:28:13,760
+geometric means in the thousands for Moderna and Pfizer. You're ending up with geometric
+
+253
+0:28:13,760 --> 0:28:19,120
+mean of less than 100 for J&J. But somehow J&J works. So we're thinking there may be
+
+254
+0:28:20,480 --> 0:28:26,240
+a different cellular aspect to the protection given from J&J, which again comes back to the
+
+255
+0:28:26,240 --> 0:28:31,840
+issue as people talk about boosters. If someone, if there is, turns out there's waiting immunity
+
+256
+0:28:31,840 --> 0:28:38,560
+with the Pfizer vaccine, should that third dose be Pfizer? Should it be J&J? Should it be Moderna?
+
+257
+0:28:39,520 --> 0:28:43,680
+I don't see that data quickly coming because Pfizer is going to study Pfizer. Moderna is going to
+
+258
+0:28:43,680 --> 0:28:48,720
+study Moderna. J&J is going to study J&J. There will only be small bits of information about
+
+259
+0:28:48,720 --> 0:28:55,440
+heterologous or mix and match out there. All right. Passive vaccination. The theme today is,
+
+260
+0:28:55,440 --> 0:29:02,720
+everyone seems to have found out monoclonal are really in demand. Here we're talking about passive
+
+261
+0:29:02,720 --> 0:29:11,200
+vaccination. So pre-exposure. So this or I guess pre-positive viral test. So post-exposure prophylaxis.
+
+262
+0:29:11,200 --> 0:29:17,840
+And the EUA, the emergency use authorization, was expanded for Eli Lilly's cocktail, the BAM
+
+263
+0:29:17,840 --> 0:29:25,280
+line of the map, a test of the map. And now that has an EUA expansion to include post-exposure prophylaxis.
+
+264
+0:29:26,240 --> 0:29:32,160
+People probably need to know a little bit about what I'm talking about here. So these neutralizing
+
+265
+0:29:32,160 --> 0:29:38,720
+antibodies can be used as a cocktail to treat high-risk individuals 12 years of age and older
+
+266
+0:29:38,720 --> 0:29:44,560
+who have either not been fully vaccinated or are not expected to mount an adequate immune
+
+267
+0:29:44,560 --> 0:29:50,640
+response to complete vaccination and have been exposed to someone infected with SARS-CoV-2
+
+268
+0:29:51,520 --> 0:29:56,640
+or who are at high risk of exposure in an institutional setting such as the nursing home or
+
+269
+0:29:56,640 --> 0:30:03,440
+prison. And we talked about how Regeneron Cove also has this indication. So this is that taking
+
+270
+0:30:03,440 --> 0:30:08,640
+that history. Okay, you're here. You're testing positive. Maybe you're here to get your monoclonals.
+
+271
+0:30:08,640 --> 0:30:15,920
+But you have that 78-year-old husband at home with COPD and diabetes and maybe a little more
+
+272
+0:30:15,920 --> 0:30:20,160
+weight than they should have. They can come in. If the test is positive, you treat them.
+
+273
+0:30:20,160 --> 0:30:25,760
+If the test is negative and they're having this exposure, you also treat them. And really excellent
+
+274
+0:30:25,760 --> 0:30:31,360
+data supporting this. But people may be asking, I thought we weren't doing Eli Lilly cocktails
+
+275
+0:30:31,360 --> 0:30:38,480
+anymore. I thought that they stopped using these with that beta variant, with that E484K, Dr. Griffith.
+
+276
+0:30:38,480 --> 0:30:45,920
+I don't know how many people are thinking that. But anyway, the nice thing about the delta variant
+
+277
+0:30:45,920 --> 0:30:51,600
+is that when they have looked at this and they actually have data now in the EUA,
+
+278
+0:30:51,600 --> 0:30:56,800
+authentic SARS-CoV-2 neutralizing data for bamelinibimab and a test of mab together,
+
+279
+0:30:57,680 --> 0:31:04,720
+there is no change in the fold reduction in susceptibility with beta. It was greater than
+
+280
+0:31:04,720 --> 0:31:11,520
+325. So this cocktail does not work against beta. It does work against delta. But do we
+
+281
+0:31:11,520 --> 0:31:16,960
+have now enough data to go ahead and start using this widely as post-exposure prophylaxis?
+
+282
+0:31:16,960 --> 0:31:23,600
+This is the Ugg moment, as people now know. Now that everyone is excited about monoclonals,
+
+283
+0:31:23,600 --> 0:31:31,840
+now that we have over 100,000 new cases a day, we've actually started rationing monoclonals
+
+284
+0:31:31,840 --> 0:31:38,720
+around the country. And there's actually a website, the phe.gov, where you can look and you can
+
+285
+0:31:38,720 --> 0:31:44,480
+actually see how many doses is my state going to get for a particular week. We're only getting
+
+286
+0:31:44,480 --> 0:31:51,600
+about 5,000 doses for all of New York State each week. So really not enough to meet the demand
+
+287
+0:31:51,600 --> 0:31:57,920
+for everyone who can potentially benefit from this. All right, the period of detectable viral
+
+288
+0:31:57,920 --> 0:32:02,960
+replication, that viral symptom phase, as I've been saying for a while, the time for monitoring
+
+289
+0:32:02,960 --> 0:32:09,120
+and monoclonals, not the time for antibiotics, not the time for steroids. We can do harm with
+
+290
+0:32:09,120 --> 0:32:14,800
+steroids. We can do harm and are not being helpful. We give people antibiotics here.
+
+291
+0:32:16,080 --> 0:32:20,080
+But we did get what I thought was an interesting press release from Gilett.
+
+292
+0:32:20,080 --> 0:32:27,920
+And this was Veklori. Anyone know what that is? Remdesivir. I'm going to replace Remdesivir
+
+293
+0:32:27,920 --> 0:32:33,360
+in this press release. Remdesivir significantly reduced risk of hospitalization in high-risk
+
+294
+0:32:33,360 --> 0:32:40,480
+patients with COVID-19. This data is going to be presented in detail at ID Week, which starts next
+
+295
+0:32:40,480 --> 0:32:46,480
+week. I'm going to be doing a presentation. This data is from a Phase 3 randomized double-blind
+
+296
+0:32:46,480 --> 0:32:53,600
+placebo control trial to evaluate the efficacy and safety of a three-day course of Remdesivir
+
+297
+0:32:54,400 --> 0:32:59,600
+for intravenous use for the treatment of COVID-19 in non-hospitalized patients
+
+298
+0:32:59,600 --> 0:33:06,080
+at high risk for disease progression. So this is, let's give Remdesivir, not during that second
+
+299
+0:33:06,080 --> 0:33:12,080
+week when they're being admitted for an early inflammatory process, let's give it in that first
+
+300
+0:33:12,080 --> 0:33:19,840
+week during the viral phase. And in an analysis of 562 participants randomly assigned any one-to-one
+
+301
+0:33:19,840 --> 0:33:26,800
+ratio to receive Remdesivir or placebo, Remdesivir demonstrated a statistically significant
+
+302
+0:33:26,800 --> 0:33:35,040
+87% reduction in risk for the composite primary endpoint of related hospitalization or all-caused
+
+303
+0:33:35,040 --> 0:33:39,280
+death. There were no deaths. So this is really, you know, I'm going to sort of say this is
+
+304
+0:33:39,280 --> 0:33:46,880
+going on to end up in the hospital. So the results show this 81% reduction for the
+
+305
+0:33:46,880 --> 0:33:52,320
+composite secondary endpoint of medical visits at all, or all-caused mortality, but again,
+
+306
+0:33:52,320 --> 0:33:59,440
+there's no mortality in this study. So 87% reduction, 81% reduction, great p-values,
+
+307
+0:33:59,440 --> 0:34:09,440
+p-0.008, p-0.002. Remdesivir early on during those first few days of illness is starting to look
+
+308
+0:34:09,440 --> 0:34:15,680
+like the monoclonal, starting to look like an efficacious intervention. The challenge, of course,
+
+309
+0:34:15,680 --> 0:34:21,120
+is this isn't just you come in and get that one monoclonal infusion. This is a three day. So
+
+310
+0:34:21,120 --> 0:34:28,240
+you got to come day one, day two, day three. So there's going to be a whole issue with operationalizing
+
+311
+0:34:28,240 --> 0:34:35,360
+this. Also, the issue is will the EUA expand? And we are hearing that on the horizon, there may be
+
+312
+0:34:35,360 --> 0:34:42,960
+oral drugs that may make this much easier to actually provide effective oral antivirals.
+
+313
+0:34:44,240 --> 0:34:48,800
+All right. What if you wait to let early inflammatory phase when people get hospitalized,
+
+314
+0:34:48,800 --> 0:34:53,600
+and then you decide to give them remdesivir? I think I've related over time. I've been less
+
+315
+0:34:53,600 --> 0:35:00,000
+than impressed. And there was another publication in the Lancet Infectious Diseases,
+
+316
+0:35:00,000 --> 0:35:04,960
+remdesivir plus standard of care versus standard of care alone for the treatment of patients
+
+317
+0:35:04,960 --> 0:35:12,160
+admitted to hospital with COVID-19. So this is the DISC COVERIG study, that's sort of a catchy
+
+318
+0:35:13,200 --> 0:35:20,960
+title there. This is a phase three randomized controlled open label trial. It's adaptive
+
+319
+0:35:20,960 --> 0:35:26,960
+multi-center. It was conducted in 48 sites in Europe. So France, Belgium, Austria, Portugal,
+
+320
+0:35:26,960 --> 0:35:33,120
+Luxembourg. And there were a number of different agents that were in this trial. So it's a one
+
+321
+0:35:33,120 --> 0:35:40,000
+to one to one to one to one to receive different agents. One of those was the remdesivir.
+
+322
+0:35:40,800 --> 0:35:46,080
+So let's just talk about the remdesivir versus control data. No significant difference in the
+
+323
+0:35:46,080 --> 0:35:54,320
+occurrence of serious adverse events between treatment groups. There were no noted benefit.
+
+324
+0:35:55,040 --> 0:36:00,320
+There were three deaths that were considered related to remdesivir by the investigators,
+
+325
+0:36:00,880 --> 0:36:07,600
+but only one by the sponsors safety team that was a paddle renal syndrome. So really not showing
+
+326
+0:36:07,600 --> 0:36:14,080
+any significant difference here. So we will probably be moving on hopefully to more exciting
+
+327
+0:36:14,080 --> 0:36:19,920
+agents in the coming weeks. But what about anticoagulation? This is when people end up in the
+
+328
+0:36:19,920 --> 0:36:26,400
+hospital. We start the steroids only in individuals in that second week who have oxygen saturations
+
+329
+0:36:26,400 --> 0:36:34,480
+less than 94. We often give remdesivir, but anticoagulation, what dose? So I thought this was a
+
+330
+0:36:34,480 --> 0:36:38,400
+good paper. I'm actually going to tell people to spend a little time looking at this, particularly
+
+331
+0:36:38,400 --> 0:36:44,400
+if you're treating patients, safety and efficacy of different prophylactic anticoagulation dosing
+
+332
+0:36:44,400 --> 0:36:50,800
+regimens in critically and non-critically ill patients with COVID-19, a systematic review and
+
+333
+0:36:50,800 --> 0:36:55,920
+men analysis of randomized control trials. This was published in the European Heart Journal,
+
+334
+0:36:55,920 --> 0:37:01,360
+cardiovascular pharmacology, and the authors searched for randomized control trials,
+
+335
+0:37:01,360 --> 0:37:06,160
+comparing treatment with an escalated dose, so an intermediate or therapeutic dose,
+
+336
+0:37:06,160 --> 0:37:11,440
+versus a standard prophylactic dose, looking at critically and non-critically ill COVID
+
+337
+0:37:11,440 --> 0:37:16,720
+patients that required hospitalization. And these are individuals who weren't on anticoagulation
+
+338
+0:37:16,720 --> 0:37:23,520
+for some other reasons, specifically COVID-related. The primary efficacy endpoint was all caused
+
+339
+0:37:23,520 --> 0:37:29,760
+death, and the primary safety endpoint was major bleeding. Seven randomized control trials were
+
+340
+0:37:29,760 --> 0:37:38,880
+identified. This included 5,154 patients followed for an average of 33 days, and we're comparing
+
+341
+0:37:38,880 --> 0:37:46,240
+standard dose prophylactic anticoagulation versus this escalated dose anticoagulation.
+
+342
+0:37:47,360 --> 0:37:52,800
+And this was not associated with a reduction in all-cause mortality, so when you escalate it
+
+343
+0:37:52,800 --> 0:37:59,920
+to a higher dose, we're talking 17.8 versus 18.6, so you're not getting an extra benefit, but there was
+
+344
+0:38:00,640 --> 0:38:09,040
+an associated increase in major bleeding up to 2.4 percent from 1.4, so a relative risk of 1.73,
+
+345
+0:38:09,760 --> 0:38:20,000
+and that was confidence intervals 1.15 to 2.60. So we do know that if you use higher dose anticoagulation,
+
+346
+0:38:20,000 --> 0:38:26,720
+you will have less clots, but you will also have more bleeds, and overall, you're not getting a
+
+347
+0:38:26,720 --> 0:38:34,800
+statistically significant mortality benefit to doing that. So current recommendations are still
+
+348
+0:38:34,800 --> 0:38:41,040
+prophylactic dosing across the board, but what's nice about this paper is you can actually look
+
+349
+0:38:41,040 --> 0:38:45,360
+through. You can look at the different studies. Again, we're at a point now when I don't think
+
+350
+0:38:45,360 --> 0:38:50,000
+people should be just grabbing one study, even if it's published in the England Journal, you need to
+
+351
+0:38:50,000 --> 0:38:54,160
+look at all the studies when you're trying to come up, and when I sit on the American side of
+
+352
+0:38:54,160 --> 0:39:00,160
+hematology guideline panel, we are looking through dozens, hundreds of studies at this point trying
+
+353
+0:39:00,160 --> 0:39:05,840
+to really come up with what does the science tell us. The science, unfortunately, is still low
+
+354
+0:39:05,840 --> 0:39:12,320
+quality, I will say, and if you look through this study, you're going to see that one of the outliers
+
+355
+0:39:12,320 --> 0:39:21,280
+is actually the REMCAP active for a TTACC paper. And what you have to do is that was a pretty large
+
+356
+0:39:21,280 --> 0:39:29,440
+number of individuals, 2,219, so as the potential to shift biases. But I will suggest people spend
+
+357
+0:39:29,440 --> 0:39:34,880
+a little bit of time reading this, try to get some context on what we know and the decisions
+
+358
+0:39:34,880 --> 0:39:40,720
+to be made about what level of anticoagulation. But I think it just reinforces, you know,
+
+359
+0:39:40,720 --> 0:39:46,800
+an individualized assessment of the patient's risk of thrombosis, and bleeding is important
+
+360
+0:39:46,800 --> 0:39:53,600
+when deciding on anticoagulation intensity. All right, and I'm going to sort of wrap it up here
+
+361
+0:39:53,600 --> 0:39:59,040
+with what I think is a little bit of good news. No one is safe until everyone is safe. This week,
+
+362
+0:39:59,040 --> 0:40:04,960
+the UN is in town here in New York, and we are hearing about a commitment to vaccinate the world.
+
+363
+0:40:04,960 --> 0:40:12,480
+It was announced Wednesday, September 21, 21, that the United States is doubling its purchase
+
+364
+0:40:12,480 --> 0:40:18,800
+of Pfizer COVID-19 shots to share with the world, increasing this up to 1 billion doses,
+
+365
+0:40:19,520 --> 0:40:26,560
+and there is a goal of vaccinating at least 70% of the global population within the next year.
+
+366
+0:40:26,560 --> 0:40:30,480
+So on that note, I'll remind everyone through the months of August, September, October,
+
+367
+0:40:30,480 --> 0:40:36,240
+donations made to parasites without borders will support floating doctors and all the great work
+
+368
+0:40:36,240 --> 0:40:42,080
+they do down in Panama. So go to parasites without borders.com, click donate and help us and help
+
+369
+0:40:42,080 --> 0:40:50,320
+us support them. Time for some email questions for Daniel. You can send yours to Daniel at microbe.tv.
+
+370
+0:40:50,320 --> 0:40:54,960
+Jody writes, my cousin, a health care worker in Michigan, who was pregnant in her third trimester,
+
+371
+0:40:54,960 --> 0:41:01,520
+wrote to ask for thoughts on whether to get a third shot of Pfizer. Her OB is all for it,
+
+372
+0:41:01,520 --> 0:41:06,720
+but she was curious to know whether or not I had encountered any discussion or studies on the matter.
+
+373
+0:41:06,720 --> 0:41:12,720
+I understand that pregnancy is an immunocompromised state and that pregnant women are at increased
+
+374
+0:41:12,720 --> 0:41:17,840
+risk of developing severe symptoms. But I also remember learning that fever during a pregnancy
+
+375
+0:41:17,840 --> 0:41:23,280
+can be harmful to the developing baby, and she could experience fever as a side effect after
+
+376
+0:41:23,280 --> 0:41:28,880
+receiving the shot. Can you shed any light on this issue for us? Yeah, no, this is this is a great
+
+377
+0:41:28,880 --> 0:41:33,520
+question. And and I think that, you know, one of the things about the meeting that was had on
+
+378
+0:41:33,520 --> 0:41:39,520
+Friday and the decision was made this week, is they're not saying don't give boosters. Pfizer
+
+379
+0:41:39,520 --> 0:41:44,080
+is a licensed vaccine. They're saying have this discussion with your provider. And so I'm going
+
+380
+0:41:44,080 --> 0:41:49,760
+to encourage this individual to do that. So I'm going to speak more broadly on this topic. First
+
+381
+0:41:49,760 --> 0:41:55,200
+off, kudos, you're in the 16% of pregnant women that have already gotten your two doses. I think
+
+382
+0:41:55,200 --> 0:42:01,200
+that's fantastic. And that really, you know, the data would really say that that's the wise decision
+
+383
+0:42:01,200 --> 0:42:07,600
+for her and her baby. But the third dose, you know, one of the big things that came out in the studies
+
+384
+0:42:08,160 --> 0:42:13,600
+that were discussed last Friday was that individuals under the age of 40 under the age of 50 really
+
+385
+0:42:13,600 --> 0:42:19,360
+continued to have really excellent protection. There's no compelling data that everyone across
+
+386
+0:42:19,360 --> 0:42:24,160
+the board needs that third dose. We certainly have no compelling data that that third dose
+
+387
+0:42:24,160 --> 0:42:29,360
+needs to be given across the board to pregnant women. So as a general, I will say the science
+
+388
+0:42:29,360 --> 0:42:35,120
+does not necessarily push one to go forward with that third dose during pregnancy. And this would
+
+389
+0:42:35,120 --> 0:42:39,600
+be one of those issues. We really are careful with vaccines. We really want to know the safety
+
+390
+0:42:39,600 --> 0:42:44,720
+profile before we encourage people to do that. And right now we have great safety data on the
+
+391
+0:42:44,720 --> 0:42:52,160
+two shots in pregnancy. We don't have the safety data on giving another dose. So have that conversation
+
+392
+0:42:52,160 --> 0:42:57,840
+with the physician get all the facts make an informed decision. Marcy writes question about masks.
+
+393
+0:42:57,840 --> 0:43:03,120
+Have you seen the singing masks? And what do you think of them for singing in a choir? All vaccinated,
+
+394
+0:43:03,120 --> 0:43:09,440
+standing six feet apart in a very large open room, a church outdoors for part of rehearsal.
+
+395
+0:43:09,440 --> 0:43:17,120
+Would face shields add anything? So I have not I am not familiar with the singing
+
+396
+0:43:17,120 --> 0:43:23,200
+the singing mask. That said, are you familiar with the singing mask? No, I'm not familiar with that.
+
+397
+0:43:23,200 --> 0:43:27,440
+But no, I mean, this is this is a creative it sounds very creative. I don't know what the data
+
+398
+0:43:27,440 --> 0:43:33,760
+is on it, but it'd be interesting to see because yeah, people want to do the activities that they
+
+399
+0:43:33,760 --> 0:43:38,320
+enjoy. Sometimes the singing is just singing because they love singing. I think there's some
+
+400
+0:43:38,320 --> 0:43:44,960
+singers on in the Twiv co-hosts. There's also some people that enjoy playing instruments. I'm a
+
+401
+0:43:44,960 --> 0:43:48,640
+flute player, by the way, because people didn't know that. So I'm trying to figure out how I can
+
+402
+0:43:48,640 --> 0:43:52,640
+play a flute if I have to convert over to something made out of silver or copper. I don't have enough
+
+403
+0:43:52,640 --> 0:43:58,480
+money to buy a silver flute. But so no, this sounds great and interesting. I'll have to look
+
+404
+0:43:58,480 --> 0:44:04,560
+into that. Yeah, they look like masks with an extended front, right, with some kind of structure
+
+405
+0:44:04,560 --> 0:44:09,920
+instead of sitting up against your face. So take a look. Yeah, it might make sense.
+
+406
+0:44:09,920 --> 0:44:14,880
+Mike writes, trying to convince my 23 year old daughter to get vaccinated. She's hesitant.
+
+407
+0:44:15,440 --> 0:44:19,280
+I think this is common in her age group. Not sure I can change your mind. I'm trying to point to
+
+408
+0:44:19,280 --> 0:44:25,040
+some credible large scale data showing the efficacy, which I define as reduction in hospitalization,
+
+409
+0:44:25,040 --> 0:44:31,920
+long COVID and death. The vaccines are all presented as having impressive 90% efficacy numbers.
+
+410
+0:44:31,920 --> 0:44:37,120
+I tried to read the paper you mentioned in number 800, risk factors and disease profile of post
+
+411
+0:44:37,120 --> 0:44:45,040
+vaccination infection in UK users of the COVID symptom study app. They reported 0.5% of the one
+
+412
+0:44:45,040 --> 0:44:50,560
+dose vaccinated subsequently caught COVID 0.2% of the two dose. But I did not see the number
+
+413
+0:44:50,560 --> 0:44:56,160
+of unvaccinated people in these data. Surely the number of cases in the UK unvaccinated population
+
+414
+0:44:56,160 --> 0:45:03,920
+is known over the same period. Yeah, so this is I think a really important conversation that
+
+415
+0:45:03,920 --> 0:45:09,280
+you're having. So keep having that conversation. The first thing to do is ask your daughter,
+
+416
+0:45:09,280 --> 0:45:14,880
+listen, find out what's going on. I've had several conversations and people always apologize.
+
+417
+0:45:14,880 --> 0:45:18,720
+I'm sorry, Dr. Griffin. I have a question. I know you're so busy. I'm never too busy to talk
+
+418
+0:45:18,720 --> 0:45:25,520
+about vaccines. What are the risks? What are people worried about in their early 20s? I was
+
+419
+0:45:25,520 --> 0:45:31,680
+talking to one of our case managers today who has a 25 24 year old daughter. It's a very close
+
+420
+0:45:31,680 --> 0:45:39,360
+2324. Sometimes actually telling stories that have been shared with you or that you've talked
+
+421
+0:45:39,360 --> 0:45:45,920
+to the person individually. And the story was here. Her 24 year old daughter got COVID and is still
+
+422
+0:45:45,920 --> 0:45:50,880
+continuing to have this chest pain that wakes her up from night. We have individuals who have
+
+423
+0:45:50,880 --> 0:45:56,080
+loss of smell. We have individuals when they lose their hair, we have individuals with long
+
+424
+0:45:56,080 --> 0:46:02,480
+COVID and all those issues. Most people in their 20s are in their heads immortal. So they're not
+
+425
+0:46:02,480 --> 0:46:08,800
+going to die. So the risk of death to them is not particularly persuasive. Ending up in the hospital
+
+426
+0:46:08,800 --> 0:46:14,560
+is not really part of their worldview. But a lot of the other things we've learned about COVID
+
+427
+0:46:14,560 --> 0:46:20,960
+is this young group, particularly, it looks like women more than men are at higher risk of a
+
+428
+0:46:20,960 --> 0:46:28,080
+post acute sequelae of COVID lingering long term issues. Teeth have fallen out, hairs fallen out,
+
+429
+0:46:28,080 --> 0:46:33,920
+fatigue, low energy, cognitive dysfunction, which we're now calling it instead of brain fog to
+
+430
+0:46:33,920 --> 0:46:39,360
+recognize just how profound that can be the inability to exercise at the level where they could be
+
+431
+0:46:39,360 --> 0:46:44,080
+for. So I think it's important to share and talk about these. How long will those things last to
+
+432
+0:46:44,080 --> 0:46:48,800
+be completely honest? We only have about two years of data. So you could throw that in there,
+
+433
+0:46:48,800 --> 0:46:55,040
+you may only feel crummy for one or two years, where we know the safety profile of the vaccines,
+
+434
+0:46:55,040 --> 0:47:00,480
+incredibly safe, much lower risk of having any problem by getting vaccinated compared to all
+
+435
+0:47:00,480 --> 0:47:07,520
+we've learned about this horrible virus. Robert writes, Dr. Griffin says he likes to emphasize
+
+436
+0:47:07,520 --> 0:47:12,480
+to people that COVID is not a two week disease. The situation is more complicated than just getting
+
+437
+0:47:12,480 --> 0:47:17,520
+COVID being sick for a couple of weeks and then getting better or not. If this is in fact the case,
+
+438
+0:47:17,520 --> 0:47:23,680
+why is it that long COVID seems to be understood by the medical community as a sequelae to COVID-19?
+
+439
+0:47:23,680 --> 0:47:29,600
+I think Dr. Griffin calls it a subset of packs rather than part of the acute disease process.
+
+440
+0:47:29,600 --> 0:47:35,680
+Is the distinction meaningful or just semantic? Also, we've only had slightly less than two years
+
+441
+0:47:35,680 --> 0:47:43,120
+experienced. This doesn't sound long to me, but then I'm 73. Yes, one day in my 70s, I will have
+
+442
+0:47:43,120 --> 0:47:49,680
+that wisdom and patience that it sounds like you have developed. Yeah, we only have a certain
+
+443
+0:47:49,680 --> 0:47:55,200
+period of time. So what are we talking about? And so when the NIH got together and they tried
+
+444
+0:47:55,200 --> 0:48:01,520
+to defy what was going on, they came up with this term P-A-S-C or past post-acute sequelae of
+
+445
+0:48:01,520 --> 0:48:08,880
+COVID. And what they were realizing and a colleague of mine, Sarah Dottie, published a paper with
+
+446
+0:48:08,880 --> 0:48:15,120
+Ken Cohen and some others at UnitedHealth Group looking at individuals that got COVID. What happened
+
+447
+0:48:15,120 --> 0:48:21,840
+to them over the next year? And we were seeing twice the incidence of new diagnosis of diabetes,
+
+448
+0:48:22,400 --> 0:48:27,040
+fivefold increase risk of stroke, things like that. So we started to realize that there were a
+
+449
+0:48:27,040 --> 0:48:32,560
+lot of sequelae, a lot of things that were happening to these individuals after COVID infection that
+
+450
+0:48:32,560 --> 0:48:37,200
+weren't just what we're being described in these support groups. So it's sort of larger umbrella
+
+451
+0:48:37,200 --> 0:48:42,880
+to understand what's going on. As a subset, we have individuals with this syndrome where they
+
+452
+0:48:42,880 --> 0:48:48,240
+have fatigue, where they have cognitive dysfunction, where they have a chest pain, where they have
+
+453
+0:48:48,960 --> 0:48:52,560
+headaches, nuanced headaches that they've never had before, a number of these other things that
+
+454
+0:48:52,560 --> 0:48:57,840
+we sort of put together. And what we basically, it is meaningful for us as clinicians, but I think
+
+455
+0:48:57,840 --> 0:49:03,680
+it's also meaningful for us living in this society, that there are individuals at four weeks who are
+
+456
+0:49:03,680 --> 0:49:08,000
+not better. There's individuals that eight weeks who are not better. We now have individuals who
+
+457
+0:49:08,000 --> 0:49:14,640
+got sick in March of 2020, who still are not well enough to return to their pre-illness
+
+458
+0:49:14,640 --> 0:49:20,000
+employment. And a lot of our large employers are telling us that's still about 10% of their
+
+459
+0:49:20,000 --> 0:49:26,800
+workforce. So I think this is really important. And I think it is meaningful. Will, at some point,
+
+460
+0:49:26,800 --> 0:49:31,360
+these people get better. Some of them are getting better. That's true. By the time you get about
+
+461
+0:49:31,360 --> 0:49:38,160
+one year out, a significant percent of these people have either improved or gotten better.
+
+462
+0:49:38,160 --> 0:49:43,040
+But unfortunately, there's a residual, a fairly large residual, that have continued to suffer
+
+463
+0:49:43,040 --> 0:49:50,960
+even 12 months, 18 months out. So Robert points out that I said on a recent podcast that there's
+
+464
+0:49:50,960 --> 0:49:57,440
+no long polio, but he says there is post polio, where years after recovering from polio and
+
+465
+0:49:57,440 --> 0:50:04,000
+regaining limb function, you start to lose it again. And so he points out that is what I think of as
+
+466
+0:50:04,000 --> 0:50:10,960
+a sequelae, right? It happens. But it's not really long polio because you don't have a continuous
+
+467
+0:50:10,960 --> 0:50:16,000
+set of symptoms as you do with with COVID. I mean, I know it's a distinction, but I think it's
+
+468
+0:50:16,000 --> 0:50:19,920
+actually clinically different, don't you think? Yeah. And I think that's an important distinction
+
+469
+0:50:20,560 --> 0:50:26,880
+that you make. And I was not that familiar in my training with post polio syndrome until I went
+
+470
+0:50:26,880 --> 0:50:32,640
+out to Colorado. And I was working in an area that had been really hard hit with polio. And so I
+
+471
+0:50:32,640 --> 0:50:38,160
+was taking care of a lot of individuals who were in their 50s, 60s, and older, who were on walkers
+
+472
+0:50:38,160 --> 0:50:42,000
+who basically said they had polio when they were younger, they thought they'd made a complete
+
+473
+0:50:42,000 --> 0:50:48,240
+recovery. But then when they got into their 50s, they had apparently lost enough reserve that they
+
+474
+0:50:48,240 --> 0:50:53,440
+needed a walker, which I'm in my 50s. And so if I was needing a walker in my 50s, I would be
+
+475
+0:50:53,440 --> 0:50:58,400
+quite shocked. So that is one of the things we worry about long term, what's going to happen?
+
+476
+0:50:58,400 --> 0:51:04,800
+We know with COVID now, months 18 months out, what's going to happen two, three, five years.
+
+477
+0:51:04,800 --> 0:51:10,640
+I do not expect it to be anything like the horrors of the post polio syndrome that we saw.
+
+478
+0:51:10,640 --> 0:51:12,960
+But boy, there are plenty of horrors that we're seeing now.
+
+479
+0:51:13,920 --> 0:51:18,800
+For any viral disease, you can often think of long term consequences. For example,
+
+480
+0:51:19,600 --> 0:51:28,080
+West Nile neurological infection, you have cognitive and motor problems. Even mumps can have long
+
+481
+0:51:28,080 --> 0:51:36,560
+term. In some boys, it would sterilize them. But it's not a continuous spectrum. Long COVID,
+
+482
+0:51:36,560 --> 0:51:39,040
+I think is different, because as you say, it just doesn't stop.
+
+483
+0:51:40,400 --> 0:51:48,320
+I would agree. That is COVID-19 clinical update number 81 with Dr. Daniel Griffin. Thank you, Daniel.
+
+484
+0:51:48,320 --> 0:51:59,360
+Oh, thank you, and everyone be safe.
+

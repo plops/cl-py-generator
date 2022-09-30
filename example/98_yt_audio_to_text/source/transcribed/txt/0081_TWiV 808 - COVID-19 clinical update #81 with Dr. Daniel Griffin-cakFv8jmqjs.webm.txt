@@ -1,0 +1,484 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology. Episode 808 recorded on September 23, 2021.
+I'm Vincent Draconiello, and you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Episode 81, or I should say clinical update,
+number 81, Daniel. My question for today, when do you think five to 12-year-olds will get vaccinated?
+You know, that's going to be right in my first section on children and COVID, Vincent.
+All right. I feel like you've preempted it, but let's get going and we'll get right there.
+So I will start off with a quotation, no pessimist ever discovered the secret of the stars,
+or sailed to an uncharted land, or opened a new doorway for the human spirit.
+And that is Helen Keller. And next to the Helen Keller Institute is just down the road from me,
+prior to the pandemic, prior to me slipping on a wet surface and tearing the lateral medial
+meniscus in my left knee, my family and I would all do the Helen Keller fundraiser yearly run. So
+maybe at some point when I can free up some time in my schedule to fix that knee, I'll be doing that
+again. But what an inspirational woman. As far as an update, you know, people, it's so regional
+in our country. It's so regional in the world, right? What's been happening? We are seeing things
+get a little bit better, particularly here in the New York area. You know, part of what I tell
+people when they ask me, this is only so many people that can get infected or vaccinated. So
+there is, you know, there is that. But let's get right into children. So we have some, I'm going to
+say exciting things on the horizon or that we're hearing here. And I think finally people have
+come to realize that children are at risk for COVID. I think that's just sort of black
+and white. That was really a bit of a mistake and it's unfortunate. You know, if we say we're
+still seeing about a quarter million children a week get infected. We're seeing thousands of
+children end up in the hospital. We're seeing a number of children die every week here in the
+U.S. and worldwide that continues. I've talked about resources in the past. Not only can you go
+to the AAP site, not only can you go to the special CDC pediatric data, I'm going to throw
+another site at you and this is COVID net and this is at GIS.cdc.gov. And here you can actually
+break down by age what is going on with regard to different things, particularly hospitalizations.
+And it's a bit disturbing when you look at the rate of hospitalization per 100,000 broken down by
+individuals under 18. And the highest is in the zero to four really, really disturbing.
+The youngest children are being impacted. So we're going to talk about a couple things today
+about what might be done to help those individuals. And saying that we're going to talk first about
+children, people aged five to 12. So straight to vaccines for five to 12. So on Monday,
+September 20th at 6.45 AM, I think everyone, you got to get up at 6.44 and be ready for these
+headlines. We saw the press release from Pfizer with the headline Pfizer and biotech announced
+positive top line results from pivotal trial of COVID-19 vaccine in children five to 11 years.
+And so Pfizer and BioNTech announced results from a phase two, three trial showing a favorable
+safety profile and robust neutralizing anybody responses in children five to 11 years of age
+using a two dose regimen of 10 micrograms administered 21 days apart, a smaller dose than the 30
+micrograms that's currently be used in people 12 and older. So all right, so that's the headline.
+But what was the what was the data? We don't have it all. It's not peer reviewed. We're going to get
+more coming. But in this trial, they reported data from 2,268 participants age five to 11 years
+of age. And they reported that the SARS-CoV-2 neutralizing antibody geometric mean titer
+was 1,197.6, one month after the first dose in this group compared to 1,146.5 from participants
+aged 16 to 25 who had gotten the 30 microgram. That was the control group. So really, you're
+getting about the same confidence interval overlap. Really, the median mean there geometric mean
+is actually a higher higher. So the point here, and I think we need to talk about this a little,
+is this is exciting news. You're seeing this robust response. You're seeing that a smaller
+dose can be used. So don't just go out and use the 30 microgram dose off label. Pfizer is in
+preparation to go ahead and make these smaller doses. They're going to new production challenges
+to make this happen. For the United States, the companies expect to include this data in a near
+term submission for EUA as they continue to accumulate safety and efficacy data.
+But a couple things, and I'm sure this will be a discussion, this is a 2,268. So we say safety
+data. That's a small number of individuals. As this rolls out in the first four to eight weeks,
+we're going to get what we call phase four data where we have post-marketing. So there will be
+some parents. I'm sure that we'll want to wait a few extra weeks. And this is going to be sort of
+that balance between what we're seeing now with quarter million individuals here in the US alone
+getting infected thousands in the hospital. Parents will want to weigh that risk benefit
+during the first four to eight weeks as we get even more safety data on this age group.
+Daniel, how do you figure out 10 micrograms? And it's from going from 11 to 12 years,
+it seems like a sharp cut. How does that work? Yes. No, I still remember, right? Like,
+Barnaby turned 16. He was going to almost qualify, and then they dropped the EUA for
+younger ages. So we were looking at Barnaby 15 years at nine months, and he didn't qualify for
+the vaccine, but magically in three months. And then on the bottom end here, what about those
+younger children? What about children who are two, three, and four? So your four years, your 11
+months, maybe you're large for your age. So yeah, these cutoffs are not exact science. So,
+yeah. But presumably they have some experience on dosing for different ages. And so they use that
+to calculate 10 micrograms, I suppose, right? Well, you know, with the mRNA vaccines, we don't
+have quite as much experience as we would like, right? So the amount of mRNA and the Moderna vaccine
+is three times more. And maybe that will turn out to be relevant in some things that we discussed
+later. Okay. All right. Now we move to that pre-exposure transmission testing period. I like to say
+never miss an opportunity to test, to test, and remember, masks are cool. It appears that people
+are finally catching on. And rapid tests, like monoclonals, are now in short supply. Rapid tests
+are finally being embraced. And we have over-the-counter tests. But now you're searching everywhere to
+try to find them, because they're being sold out across the country. So I think this reinforces a
+message that Vincent, I'm going to thank you for getting Michael Menon to sort of spread this early
+on, is rapid tests are a really excellent public health tool. And in that two days before symptom
+onset, in that three to five days afterwards, these are incredibly sensitive and rapid ways
+of detecting people who are contagious, detecting people who are acutely ill. If you need to repeat
+that test the next day, we're talking about tests that cost five to $10 here in the US per test,
+where results are back in 15 minutes versus results that take some areas of the country
+talking to a colleague in Oregon, where it's about four days in some places to get that result back.
+Exciting in this area, we heard that part of the $2 billion testing plan from the White House
+involves buying 647 million over-the-counter rapid tests to help subsidize these, to help get them
+out so we can actually get those results. All right, active vaccination, never miss an opportunity
+to vaccinate. And I was listening to a little bit of the United Nations. And vaccination is how
+this pandemic ends is actually a theme. So I think they've been listening to Twiv. So let's talk a
+little bit about vaccines, the Jabs that keep you from getting sick. And a couple of things,
+and the first will be boosters. Friday, September 17th, the FDA advisory panel met,
+and it was very interesting. I think what was interesting was sort of like the live stream
+media coverage. You know, here was a discussion, you know, started off with a first vote,
+moved on to another vote. And the whole time, sort of, I think people were on the edge of their
+seat waiting for the different updates. And it got messy at times. There were words used that I
+don't use in my house and that we don't allow our children to use. But I thought it was a really
+healthy discussion. And a big thing that came out of this was this reassuring. This guy is not
+falling. There was some certain information that led to some of their recommendations. And then on
+Wednesday, the 22nd of this September 2021, we heard that following this advisory board discussion
+and vote that the FDA authorized booster dose of Pfizer biotech COVID-19 vaccine for certain
+populations. And so the US FDA amended the emergency use authorization, the EUA, for the Pfizer
+biotech COVID-19 vaccine to allow for a single booster dose to be administered at least six months
+after the completion of the primary series in these three categories.
+Individuals 65 years of age are older. Individuals 18 through 64 years of age at high risk of severe
+COVID-19 and individuals 18 through 64 years of age, whose frequent institutional or occupational
+exposure to SARS-CoV-2 puts them at high risk of serious complications of COVID-19, including
+severe COVID-19. And this authorization for clarity only applies to Pfizer biotech COVID-19 vaccine.
+So I'm going to pull you in on this, Vincent. But what basically came out of this was really a
+public health decision. It was a risk benefit. It was very clear on Friday from the discussion
+that all the data that these individuals want is not yet available. It's not yet been available
+long enough for them to really go through it. So this was one of those public health decisions,
+where it seemed reasonable and appropriate to extend the EUA. But the initial idea that
+everyone, 18, 19, 20-year-olds should be getting third doses did not make sense, was not recommended
+by that advisory committee. In the coming weeks, we're going to learn more. We're going to learn
+a lot about when and who might get that second shot. We're also going to learn, is this just
+a Pfizer specific? Is Pfizer now the three and you're done vaccine? Will Pfizer require in the
+future yearly boosters? And then what is the situation with Moderna and J&J? And don't worry,
+we have some exciting data on J&J to follow. So Vincent, I don't know if you had any thoughts?
+So this is just for people who previously received Pfizer, correct?
+People who previously got two shots of Pfizer and now a third shot.
+So if you really think the science tells you to have a third shot, you have to make it everybody,
+not just Pfizer. You have to make it Moderna too, even though they didn't apply for it. So
+as I've said before, I don't see the data. If I were eligible, I wouldn't take it,
+because I don't think you need it. And I think that as we discussed last time that paper,
+that opinion paper in the Lancet really laid it well out, the science doesn't say you need it yet.
+Yeah. And the science will come. And what we're also going to see, and this also,
+I think is similar to echo what I talked about early on, is we are now seeing a number of
+individuals. We already know a number of individuals went ahead and got that third shot. So we're
+going to see in coming weeks here, a large number of millions of individuals who got Pfizer will
+now get a third. The suggestion is that the reactogenicity is even lower with that third shot.
+We'll see more safety signal. We'll get a little more of our data. And then, yeah,
+recommendations coming soon. Here, I think is a really important thing. I want to discuss
+vaccines and pregnant women. And I think it's really incumbent on physicians to be
+very up to date on the data. And I know there's this, I'm going to say false dichotomy out there.
+The idea that people who are unvaccinated are somehow bad people, anti-vaxxers.
+And I'm going to talk about the fact that over 80% of pregnant individuals in the United States
+are not vaccinated. I'm going to talk a little bit about these are actually intelligent
+individuals who are trying to make the right choice for themselves, for their unborn baby,
+and talk a little bit about what is the information we have. I think people may remember this initially
+started off focused on physicians. But I think this is expanded beyond that. But here again,
+I want to focus on physicians to have this information, but also all of our listeners
+have the information about COVID vaccines in pregnancy, so that these decisions can be
+the informed one, the right one for that pregnant woman, the right one for that unborn child. So
+on clinical update 59, I discussed the New England Journal Medicine article,
+preliminary findings of mRNA COVID-19 vaccine safety in pregnant persons, where the authors
+reported on 35,691 v-safe participants, 16 to 54 years of age identified as pregnant and found
+no safety signals, no fertility issues, no miscarriage issues, etc. So very, very safe. In
+clinical update number 78, we continued this, this thread, and we discussed the article
+characteristics and outcomes of women with COVID-19 giving birth at US academic centers during the
+COVID-19 pandemic. This is the we're moving from safe to are these individuals at higher risk.
+And this was the study that found that pregnant women, pregnant people with COVID-19, were more
+likely to have a preterm birth, right? 16.4% versus 11.5%. So a 5% higher risk of a preterm birth,
+significantly higher rates of ICU admission over five times as likely. The odds of
+requiring mechanical ventilation, intubation, were increased more than 14-fold and a pregnant
+woman admitted to the hospital was 15 times more likely to die. So a pregnant woman who gets
+infected with COVID-19 is at very high risk. And you can imagine that this risk translates into
+bad outcomes for the unborn child, particularly as you can imagine when that pregnant woman
+might die. So we've established safety. We've talked about how this is a high risk population,
+but the safety data continues. The CDC has a special v-safe COVID-19 vaccine
+pregnancy registry website. They update this regularly. It was updated the last on the 14th
+of this month. And as of 913, the day before they updated, 158,465 pregnant women were registered
+in the v-safe after vaccination health checker. And they are reporting there is currently,
+there's still no evidence that any of the vaccines, including COVID-19 vaccines, cause
+fertility or any other problems in this population. On the risk side, unfortunately, though,
+here we have seen over 100,000 pregnant people infected and over 100 of these women have actually
+died of COVID-19. What about taking it a step further? Not only are pregnant women themselves at
+risk, not only are these vaccines safe, but is this a chance to protect two people? What happens
+when that baby is born? And the mother makes that decision to get vaccinated during pregnancy.
+Because a lot of times, and I understand this discussion, I understand the logic,
+I'm going to challenge it, the idea of why don't you just wait until you're done with your
+pregnancy and then get vaccinated. I'm going to discuss here an article where it says,
+please get vaccinated before you have that child to give that child an extra bit of protection.
+So this week, the research letter, high antibody levels in cord blood from pregnant women vaccinated
+against COVID-19 was published in the American Journal of Obstetrics and Gynecology. Here,
+as I mentioned in the US, only about 16% of pregnant women have been vaccinated despite this
+really compelling evidence. So here, what they did is they looked at umbilical cord blood.
+This is a way to assess our babies of women vaccinated while pregnant, being born with
+that protection, that high level of spike antibodies. And in this study of umbilical cord blood
+collected from 36 deliveries, 36 neonates, 100% studied were positive for the anti-spike IgG
+at high titers. Among the 36 samples, 31 were also tested for anti-nuclear capsid. These were
+all negative. So these are vaccinated women. These are women that were not infected,
+who because they were vaccinated during pregnancy, were able to pass on that protection to their
+children where we would expect that protection to last at least four months. So if you're pregnant,
+get vaccinated, protects you and your child. Now, what about which vaccine is best? I like that
+now, you know, I've been talking about the t-shirts are going to be on the different teams. I'm on
+team spike backs or Moderna here. And so you might get a little bias here as I discuss this
+comparing comparative effectiveness of Moderna, Pfizer, BioNTech, and Janssen, Johnson and Johnson
+vaccines in preventing COVID-19 hospitalizations among adults without immunocompromising conditions,
+United States, March to August 2021. This came out as an early release in the MMWR,
+actually spoke to Saratoy at the Wall Street Journal about this. And this study was looking at
+vaccine effectiveness against COVID-19 hospitalization. And I feel like whenever you say vaccine
+effectiveness, you have to add against what? This looked at adults aged greater than 18
+or older without an immunocompromised condition, immunocompromising condition admitted to 21
+hospitals within the influenza and other viruses in the acutely ill, the IV network.
+This is a case control prospective analysis. The case patients were admitted to the hospital
+with COVID-19, PCR confirmed or an antigen test. The control patients had a viral illness, but they
+had a negative test. 3,689 patients were included. So we have 1,682 case patients, 2,007 control
+patients. And what did they report? The overall vaccine efficiency, right? And we're talking about
+vaccine efficacy for preventing hospitalization. So overall, 2,362 patients were unvaccinated,
+476 or 12.9 percent were fully vaccinated with one of these vaccines. So remember the numbers
+there. So 476 were fully vaccinated with the Moderna vaccine. 738 were fully vaccinated with the Pfizer
+BioNTech vaccine. And 113 were fully vaccinated with the Janssen vaccine as a one dose.
+The vaccine efficacy against COVID-19 hospitalizations was higher for the Moderna vaccine,
+they're saying 93%. The Pfizer BioNTech, 88%. And then the vaccine efficacy for both vaccines
+was higher than the Janssen. I think there's a couple takeaways from here. If you're on team
+Moderna versus Pfizer, you can claim to have one. Another takeaway is to say that the vaccines
+continued to have very high efficacy over this period of time. And what were those sort of periods
+of time? So Moderna, say 93% for the full surveillance period with 93 in the first 120 days,
+dropping, I'd say dropping to 92, so like dropping from 93 to 92, holding above 90 at
+greater than 120 days. The full surveillance for Pfizer was 88 starting off at 91. And there is
+say a drop to 77. But there's wide confidence intervals here, 67 to 84. And then you look at
+Janssen, and we're going to get to Janssen, Janssen over this period of time in this one study,
+they're reporting 71% over time. So it's interesting that now, you know, and maybe this helps people
+get excited about vaccines and people like to have choices. I think you can take this in several
+ways. But one way you may take it is what about J and J? Maybe J and J is not just one and done.
+So this next section goes out to all the redheads in the audience. This is and by redheads, I mean
+people that got J and J vaccine, because my redheaded son got the Pfizer shots. And I don't know,
+that was an expression that my grandmother, I think I got from my Irish grandmother is the,
+you know, whenever someone was left out, it was, oh, my poor redheaded stepson, right?
+I've got to figure out the history of that expression. But we have a bit about J and J.
+So this starts off with Johnson and Johnson single shot vaccine showed strong and long lasting
+protection in the real world. This is comes out of a preprint effectiveness of the single dose
+at 26 Cove to S COVID vaccine. And what was this data, which is posted as a preprint among 390,000
+507 17 vaccinated and 1.5 24, 153 matched unvaccinated individuals. This is huge, right? About half
+a million compared to one and a half million matched unvaccinated individuals. They're reporting
+here in this preprint, vaccine efficacy was 79% for a recognized COVID-19 infection,
+right? Vaccine efficacy against infection and 81% for a COVID-19 related hospitalization.
+They reported that this was stable over calendar time. And they also looked at states with a high
+delta incidence and saw that this was holding for them as well. So when you grab your numbers,
+I think it's important to see there's points in a line. This looks good. These data were
+consistent with the phase three ensemble trial, where they were shown that those strong protection
+against severe critical disease. But what about boosters? Maybe J&J is not the one and done.
+Maybe J&J is the two and done. So what about a booster shot for folks with J&J?
+So here, the announcement, and at this point, this is press release level from J&J booster shot at
+two months. They report provided 94% protection against COVID-19 in the U.S. And this is the phase
+three ensemble to study, looking at getting another shot of the Johnson and Johnson COVID-19 vaccine
+56 days after the first. And so they say, and actually I have to say someone asked me this at work,
+they say 100% protection. The confidence interval is 33 to 100. So that's a wide confidence interval
+against severe critical COVID-19, at least 14 days post-final vaccination. 75% protection
+against symptomatic moderate to severe COVID-19. This is looking at a global data set,
+but confidence intervals 55 to 87, 94% protection against symptomatic moderate to severe COVID-19
+in the U.S. And again, wide confidence intervals 58 to 100. And then they throw a second little bit
+of data when a booster was given at six months. So booster shot at six months provided 12-fold
+increase in antibodies. Here, they're reporting that a booster of J&J, given six months after
+the single shot, compared to that second, that two months afterwards, gives you this extra 12-fold
+increase in antibodies. These rises were irrespective of age. So we're getting a little more information.
+I know people feel like, Oh my gosh, I got the J&J. How come nobody's talking about me? How come?
+And it's over 10 million people got J&J here in the U.S. alone. So we're getting more data,
+and I would not be surprised if the J&J becomes the two shots and you're done instead of the one
+and you're done. Vincent, any thoughts on all that data? So last week, we did a paper which
+showed lower efficacy for J&J and Rich Condits said, I bet a boost is what J&J needs. There you go.
+Yeah. All right. Well, he may be right. Yeah, it is interesting. And J&J is a tough vaccine
+when you look at antibody levels, because if you compare the antibody levels elicited by the
+mRNA vaccines and the J&J vaccines, it's actually two different worlds. I think you're ending up with
+geometric means in the thousands for Moderna and Pfizer. You're ending up with geometric
+mean of less than 100 for J&J. But somehow J&J works. So we're thinking there may be
+a different cellular aspect to the protection given from J&J, which again comes back to the
+issue as people talk about boosters. If someone, if there is, turns out there's waiting immunity
+with the Pfizer vaccine, should that third dose be Pfizer? Should it be J&J? Should it be Moderna?
+I don't see that data quickly coming because Pfizer is going to study Pfizer. Moderna is going to
+study Moderna. J&J is going to study J&J. There will only be small bits of information about
+heterologous or mix and match out there. All right. Passive vaccination. The theme today is,
+everyone seems to have found out monoclonal are really in demand. Here we're talking about passive
+vaccination. So pre-exposure. So this or I guess pre-positive viral test. So post-exposure prophylaxis.
+And the EUA, the emergency use authorization, was expanded for Eli Lilly's cocktail, the BAM
+line of the map, a test of the map. And now that has an EUA expansion to include post-exposure prophylaxis.
+People probably need to know a little bit about what I'm talking about here. So these neutralizing
+antibodies can be used as a cocktail to treat high-risk individuals 12 years of age and older
+who have either not been fully vaccinated or are not expected to mount an adequate immune
+response to complete vaccination and have been exposed to someone infected with SARS-CoV-2
+or who are at high risk of exposure in an institutional setting such as the nursing home or
+prison. And we talked about how Regeneron Cove also has this indication. So this is that taking
+that history. Okay, you're here. You're testing positive. Maybe you're here to get your monoclonals.
+But you have that 78-year-old husband at home with COPD and diabetes and maybe a little more
+weight than they should have. They can come in. If the test is positive, you treat them.
+If the test is negative and they're having this exposure, you also treat them. And really excellent
+data supporting this. But people may be asking, I thought we weren't doing Eli Lilly cocktails
+anymore. I thought that they stopped using these with that beta variant, with that E484K, Dr. Griffith.
+I don't know how many people are thinking that. But anyway, the nice thing about the delta variant
+is that when they have looked at this and they actually have data now in the EUA,
+authentic SARS-CoV-2 neutralizing data for bamelinibimab and a test of mab together,
+there is no change in the fold reduction in susceptibility with beta. It was greater than
+325. So this cocktail does not work against beta. It does work against delta. But do we
+have now enough data to go ahead and start using this widely as post-exposure prophylaxis?
+This is the Ugg moment, as people now know. Now that everyone is excited about monoclonals,
+now that we have over 100,000 new cases a day, we've actually started rationing monoclonals
+around the country. And there's actually a website, the phe.gov, where you can look and you can
+actually see how many doses is my state going to get for a particular week. We're only getting
+about 5,000 doses for all of New York State each week. So really not enough to meet the demand
+for everyone who can potentially benefit from this. All right, the period of detectable viral
+replication, that viral symptom phase, as I've been saying for a while, the time for monitoring
+and monoclonals, not the time for antibiotics, not the time for steroids. We can do harm with
+steroids. We can do harm and are not being helpful. We give people antibiotics here.
+But we did get what I thought was an interesting press release from Gilett.
+And this was Veklori. Anyone know what that is? Remdesivir. I'm going to replace Remdesivir
+in this press release. Remdesivir significantly reduced risk of hospitalization in high-risk
+patients with COVID-19. This data is going to be presented in detail at ID Week, which starts next
+week. I'm going to be doing a presentation. This data is from a Phase 3 randomized double-blind
+placebo control trial to evaluate the efficacy and safety of a three-day course of Remdesivir
+for intravenous use for the treatment of COVID-19 in non-hospitalized patients
+at high risk for disease progression. So this is, let's give Remdesivir, not during that second
+week when they're being admitted for an early inflammatory process, let's give it in that first
+week during the viral phase. And in an analysis of 562 participants randomly assigned any one-to-one
+ratio to receive Remdesivir or placebo, Remdesivir demonstrated a statistically significant
+87% reduction in risk for the composite primary endpoint of related hospitalization or all-caused
+death. There were no deaths. So this is really, you know, I'm going to sort of say this is
+going on to end up in the hospital. So the results show this 81% reduction for the
+composite secondary endpoint of medical visits at all, or all-caused mortality, but again,
+there's no mortality in this study. So 87% reduction, 81% reduction, great p-values,
+p-0.008, p-0.002. Remdesivir early on during those first few days of illness is starting to look
+like the monoclonal, starting to look like an efficacious intervention. The challenge, of course,
+is this isn't just you come in and get that one monoclonal infusion. This is a three day. So
+you got to come day one, day two, day three. So there's going to be a whole issue with operationalizing
+this. Also, the issue is will the EUA expand? And we are hearing that on the horizon, there may be
+oral drugs that may make this much easier to actually provide effective oral antivirals.
+All right. What if you wait to let early inflammatory phase when people get hospitalized,
+and then you decide to give them remdesivir? I think I've related over time. I've been less
+than impressed. And there was another publication in the Lancet Infectious Diseases,
+remdesivir plus standard of care versus standard of care alone for the treatment of patients
+admitted to hospital with COVID-19. So this is the DISC COVERIG study, that's sort of a catchy
+title there. This is a phase three randomized controlled open label trial. It's adaptive
+multi-center. It was conducted in 48 sites in Europe. So France, Belgium, Austria, Portugal,
+Luxembourg. And there were a number of different agents that were in this trial. So it's a one
+to one to one to one to one to receive different agents. One of those was the remdesivir.
+So let's just talk about the remdesivir versus control data. No significant difference in the
+occurrence of serious adverse events between treatment groups. There were no noted benefit.
+There were three deaths that were considered related to remdesivir by the investigators,
+but only one by the sponsors safety team that was a paddle renal syndrome. So really not showing
+any significant difference here. So we will probably be moving on hopefully to more exciting
+agents in the coming weeks. But what about anticoagulation? This is when people end up in the
+hospital. We start the steroids only in individuals in that second week who have oxygen saturations
+less than 94. We often give remdesivir, but anticoagulation, what dose? So I thought this was a
+good paper. I'm actually going to tell people to spend a little time looking at this, particularly
+if you're treating patients, safety and efficacy of different prophylactic anticoagulation dosing
+regimens in critically and non-critically ill patients with COVID-19, a systematic review and
+men analysis of randomized control trials. This was published in the European Heart Journal,
+cardiovascular pharmacology, and the authors searched for randomized control trials,
+comparing treatment with an escalated dose, so an intermediate or therapeutic dose,
+versus a standard prophylactic dose, looking at critically and non-critically ill COVID
+patients that required hospitalization. And these are individuals who weren't on anticoagulation
+for some other reasons, specifically COVID-related. The primary efficacy endpoint was all caused
+death, and the primary safety endpoint was major bleeding. Seven randomized control trials were
+identified. This included 5,154 patients followed for an average of 33 days, and we're comparing
+standard dose prophylactic anticoagulation versus this escalated dose anticoagulation.
+And this was not associated with a reduction in all-cause mortality, so when you escalate it
+to a higher dose, we're talking 17.8 versus 18.6, so you're not getting an extra benefit, but there was
+an associated increase in major bleeding up to 2.4 percent from 1.4, so a relative risk of 1.73,
+and that was confidence intervals 1.15 to 2.60. So we do know that if you use higher dose anticoagulation,
+you will have less clots, but you will also have more bleeds, and overall, you're not getting a
+statistically significant mortality benefit to doing that. So current recommendations are still
+prophylactic dosing across the board, but what's nice about this paper is you can actually look
+through. You can look at the different studies. Again, we're at a point now when I don't think
+people should be just grabbing one study, even if it's published in the England Journal, you need to
+look at all the studies when you're trying to come up, and when I sit on the American side of
+hematology guideline panel, we are looking through dozens, hundreds of studies at this point trying
+to really come up with what does the science tell us. The science, unfortunately, is still low
+quality, I will say, and if you look through this study, you're going to see that one of the outliers
+is actually the REMCAP active for a TTACC paper. And what you have to do is that was a pretty large
+number of individuals, 2,219, so as the potential to shift biases. But I will suggest people spend
+a little bit of time reading this, try to get some context on what we know and the decisions
+to be made about what level of anticoagulation. But I think it just reinforces, you know,
+an individualized assessment of the patient's risk of thrombosis, and bleeding is important
+when deciding on anticoagulation intensity. All right, and I'm going to sort of wrap it up here
+with what I think is a little bit of good news. No one is safe until everyone is safe. This week,
+the UN is in town here in New York, and we are hearing about a commitment to vaccinate the world.
+It was announced Wednesday, September 21, 21, that the United States is doubling its purchase
+of Pfizer COVID-19 shots to share with the world, increasing this up to 1 billion doses,
+and there is a goal of vaccinating at least 70% of the global population within the next year.
+So on that note, I'll remind everyone through the months of August, September, October,
+donations made to parasites without borders will support floating doctors and all the great work
+they do down in Panama. So go to parasites without borders.com, click donate and help us and help
+us support them. Time for some email questions for Daniel. You can send yours to Daniel at microbe.tv.
+Jody writes, my cousin, a health care worker in Michigan, who was pregnant in her third trimester,
+wrote to ask for thoughts on whether to get a third shot of Pfizer. Her OB is all for it,
+but she was curious to know whether or not I had encountered any discussion or studies on the matter.
+I understand that pregnancy is an immunocompromised state and that pregnant women are at increased
+risk of developing severe symptoms. But I also remember learning that fever during a pregnancy
+can be harmful to the developing baby, and she could experience fever as a side effect after
+receiving the shot. Can you shed any light on this issue for us? Yeah, no, this is this is a great
+question. And and I think that, you know, one of the things about the meeting that was had on
+Friday and the decision was made this week, is they're not saying don't give boosters. Pfizer
+is a licensed vaccine. They're saying have this discussion with your provider. And so I'm going
+to encourage this individual to do that. So I'm going to speak more broadly on this topic. First
+off, kudos, you're in the 16% of pregnant women that have already gotten your two doses. I think
+that's fantastic. And that really, you know, the data would really say that that's the wise decision
+for her and her baby. But the third dose, you know, one of the big things that came out in the studies
+that were discussed last Friday was that individuals under the age of 40 under the age of 50 really
+continued to have really excellent protection. There's no compelling data that everyone across
+the board needs that third dose. We certainly have no compelling data that that third dose
+needs to be given across the board to pregnant women. So as a general, I will say the science
+does not necessarily push one to go forward with that third dose during pregnancy. And this would
+be one of those issues. We really are careful with vaccines. We really want to know the safety
+profile before we encourage people to do that. And right now we have great safety data on the
+two shots in pregnancy. We don't have the safety data on giving another dose. So have that conversation
+with the physician get all the facts make an informed decision. Marcy writes question about masks.
+Have you seen the singing masks? And what do you think of them for singing in a choir? All vaccinated,
+standing six feet apart in a very large open room, a church outdoors for part of rehearsal.
+Would face shields add anything? So I have not I am not familiar with the singing
+the singing mask. That said, are you familiar with the singing mask? No, I'm not familiar with that.
+But no, I mean, this is this is a creative it sounds very creative. I don't know what the data
+is on it, but it'd be interesting to see because yeah, people want to do the activities that they
+enjoy. Sometimes the singing is just singing because they love singing. I think there's some
+singers on in the Twiv co-hosts. There's also some people that enjoy playing instruments. I'm a
+flute player, by the way, because people didn't know that. So I'm trying to figure out how I can
+play a flute if I have to convert over to something made out of silver or copper. I don't have enough
+money to buy a silver flute. But so no, this sounds great and interesting. I'll have to look
+into that. Yeah, they look like masks with an extended front, right, with some kind of structure
+instead of sitting up against your face. So take a look. Yeah, it might make sense.
+Mike writes, trying to convince my 23 year old daughter to get vaccinated. She's hesitant.
+I think this is common in her age group. Not sure I can change your mind. I'm trying to point to
+some credible large scale data showing the efficacy, which I define as reduction in hospitalization,
+long COVID and death. The vaccines are all presented as having impressive 90% efficacy numbers.
+I tried to read the paper you mentioned in number 800, risk factors and disease profile of post
+vaccination infection in UK users of the COVID symptom study app. They reported 0.5% of the one
+dose vaccinated subsequently caught COVID 0.2% of the two dose. But I did not see the number
+of unvaccinated people in these data. Surely the number of cases in the UK unvaccinated population
+is known over the same period. Yeah, so this is I think a really important conversation that
+you're having. So keep having that conversation. The first thing to do is ask your daughter,
+listen, find out what's going on. I've had several conversations and people always apologize.
+I'm sorry, Dr. Griffin. I have a question. I know you're so busy. I'm never too busy to talk
+about vaccines. What are the risks? What are people worried about in their early 20s? I was
+talking to one of our case managers today who has a 25 24 year old daughter. It's a very close
+2324. Sometimes actually telling stories that have been shared with you or that you've talked
+to the person individually. And the story was here. Her 24 year old daughter got COVID and is still
+continuing to have this chest pain that wakes her up from night. We have individuals who have
+loss of smell. We have individuals when they lose their hair, we have individuals with long
+COVID and all those issues. Most people in their 20s are in their heads immortal. So they're not
+going to die. So the risk of death to them is not particularly persuasive. Ending up in the hospital
+is not really part of their worldview. But a lot of the other things we've learned about COVID
+is this young group, particularly, it looks like women more than men are at higher risk of a
+post acute sequelae of COVID lingering long term issues. Teeth have fallen out, hairs fallen out,
+fatigue, low energy, cognitive dysfunction, which we're now calling it instead of brain fog to
+recognize just how profound that can be the inability to exercise at the level where they could be
+for. So I think it's important to share and talk about these. How long will those things last to
+be completely honest? We only have about two years of data. So you could throw that in there,
+you may only feel crummy for one or two years, where we know the safety profile of the vaccines,
+incredibly safe, much lower risk of having any problem by getting vaccinated compared to all
+we've learned about this horrible virus. Robert writes, Dr. Griffin says he likes to emphasize
+to people that COVID is not a two week disease. The situation is more complicated than just getting
+COVID being sick for a couple of weeks and then getting better or not. If this is in fact the case,
+why is it that long COVID seems to be understood by the medical community as a sequelae to COVID-19?
+I think Dr. Griffin calls it a subset of packs rather than part of the acute disease process.
+Is the distinction meaningful or just semantic? Also, we've only had slightly less than two years
+experienced. This doesn't sound long to me, but then I'm 73. Yes, one day in my 70s, I will have
+that wisdom and patience that it sounds like you have developed. Yeah, we only have a certain
+period of time. So what are we talking about? And so when the NIH got together and they tried
+to defy what was going on, they came up with this term P-A-S-C or past post-acute sequelae of
+COVID. And what they were realizing and a colleague of mine, Sarah Dottie, published a paper with
+Ken Cohen and some others at UnitedHealth Group looking at individuals that got COVID. What happened
+to them over the next year? And we were seeing twice the incidence of new diagnosis of diabetes,
+fivefold increase risk of stroke, things like that. So we started to realize that there were a
+lot of sequelae, a lot of things that were happening to these individuals after COVID infection that
+weren't just what we're being described in these support groups. So it's sort of larger umbrella
+to understand what's going on. As a subset, we have individuals with this syndrome where they
+have fatigue, where they have cognitive dysfunction, where they have a chest pain, where they have
+headaches, nuanced headaches that they've never had before, a number of these other things that
+we sort of put together. And what we basically, it is meaningful for us as clinicians, but I think
+it's also meaningful for us living in this society, that there are individuals at four weeks who are
+not better. There's individuals that eight weeks who are not better. We now have individuals who
+got sick in March of 2020, who still are not well enough to return to their pre-illness
+employment. And a lot of our large employers are telling us that's still about 10% of their
+workforce. So I think this is really important. And I think it is meaningful. Will, at some point,
+these people get better. Some of them are getting better. That's true. By the time you get about
+one year out, a significant percent of these people have either improved or gotten better.
+But unfortunately, there's a residual, a fairly large residual, that have continued to suffer
+even 12 months, 18 months out. So Robert points out that I said on a recent podcast that there's
+no long polio, but he says there is post polio, where years after recovering from polio and
+regaining limb function, you start to lose it again. And so he points out that is what I think of as
+a sequelae, right? It happens. But it's not really long polio because you don't have a continuous
+set of symptoms as you do with with COVID. I mean, I know it's a distinction, but I think it's
+actually clinically different, don't you think? Yeah. And I think that's an important distinction
+that you make. And I was not that familiar in my training with post polio syndrome until I went
+out to Colorado. And I was working in an area that had been really hard hit with polio. And so I
+was taking care of a lot of individuals who were in their 50s, 60s, and older, who were on walkers
+who basically said they had polio when they were younger, they thought they'd made a complete
+recovery. But then when they got into their 50s, they had apparently lost enough reserve that they
+needed a walker, which I'm in my 50s. And so if I was needing a walker in my 50s, I would be
+quite shocked. So that is one of the things we worry about long term, what's going to happen?
+We know with COVID now, months 18 months out, what's going to happen two, three, five years.
+I do not expect it to be anything like the horrors of the post polio syndrome that we saw.
+But boy, there are plenty of horrors that we're seeing now.
+For any viral disease, you can often think of long term consequences. For example,
+West Nile neurological infection, you have cognitive and motor problems. Even mumps can have long
+term. In some boys, it would sterilize them. But it's not a continuous spectrum. Long COVID,
+I think is different, because as you say, it just doesn't stop.
+I would agree. That is COVID-19 clinical update number 81 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you, and everyone be safe.

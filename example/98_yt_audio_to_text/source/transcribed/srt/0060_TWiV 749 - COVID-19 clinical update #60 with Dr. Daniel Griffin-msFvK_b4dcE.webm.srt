@@ -1,0 +1,1552 @@
+1
+0:00:00,000 --> 0:00:06,880
+This week in virology, the podcast about viruses, the kind that make you sick.
+
+2
+0:00:10,400 --> 0:00:22,080
+From Microbe TV, this is Twiv, this week in virology, episode 749 recorded on April 29, 2021.
+
+3
+0:00:22,720 --> 0:00:28,640
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me
+
+4
+0:00:28,640 --> 0:00:36,080
+today from New York, Daniel Griffin. Hello, everyone. How's this week been Daniel?
+
+5
+0:00:37,680 --> 0:00:41,280
+Things are getting a little bit better, to be honest, at least here in New York.
+
+6
+0:00:42,240 --> 0:00:47,360
+It's a little painful when I look at how things are going in the world, but let's get right into
+
+7
+0:00:47,360 --> 0:00:54,080
+it, because our quotation ties this together. There are two kinds of guilt, the kind that
+
+8
+0:00:54,080 --> 0:01:00,240
+drowns you until you're useless, and the kind that fires your soul to purpose. This is by
+
+9
+0:01:00,800 --> 0:01:07,760
+Sabah Tahir, a Pakistani American author. Right into that question, Vincent, that you asked me,
+
+10
+0:01:07,760 --> 0:01:13,040
+how are things going? Here in the United States, and most of the United States, we've really started
+
+11
+0:01:13,040 --> 0:01:19,760
+to come off of that plateau. Numbers are going down. We look at the numbers of patients in the
+
+12
+0:01:19,760 --> 0:01:25,600
+hospitals here in the New York state, and it's about 60 percent lower than it was a month ago,
+
+13
+0:01:25,600 --> 0:01:32,640
+so that's really coming down. It's often several days that I go without a patient with COVID
+
+14
+0:01:32,640 --> 0:01:39,120
+dying, actually. This is really changing the landscape. We are not where we were in April of
+
+15
+0:01:39,120 --> 0:01:46,160
+2020. We're in April of 2021, and it was just announced that July 1, New York City is going to
+
+16
+0:01:46,160 --> 0:01:55,040
+be full open 100 percent across the board. I think that we are seeing that vaccines are not
+
+17
+0:01:55,040 --> 0:01:59,680
+just tooled. They're the nuclear option. They really are our game changer, and we'll be talking
+
+18
+0:01:59,680 --> 0:02:07,040
+a little bit about that today. Things are not going well around the world. Around the world,
+
+19
+0:02:07,040 --> 0:02:13,280
+the cases are rising, the deaths are rising. We are still really in the middle of the pandemic.
+
+20
+0:02:13,280 --> 0:02:19,760
+This is why I sort of use this quotation as exciting as it is here in the US. I know
+
+21
+0:02:19,760 --> 0:02:24,960
+personally I feel a sort of sense of guilt, seeing how much other people are suffering,
+
+22
+0:02:26,160 --> 0:02:30,560
+and not wanting to say, let that make you feel useless. Let's all be asking ourselves,
+
+23
+0:02:30,560 --> 0:02:35,600
+what can we do to reach out now to the rest of the world now that I think we're really on our own
+
+24
+0:02:35,600 --> 0:02:43,760
+path here? Children and COVID. I mentioned, I promised last time that I would spend some time
+
+25
+0:02:44,480 --> 0:02:49,520
+talking about camp guidance, and we now have the CDC updated guidance for operating
+
+26
+0:02:49,520 --> 0:02:59,120
+youth and summer camps during COVID-19. You can Google away CDC, summer camp, and get this
+
+27
+0:02:59,120 --> 0:03:06,640
+really informative resource here. When I was younger, people don't know that I was once younger,
+
+28
+0:03:06,640 --> 0:03:11,840
+I was. My middle daughter, Eloise, actually, I think looks a bit like I did when I was younger,
+
+29
+0:03:11,840 --> 0:03:18,160
+except she's a lot better looking than I ever was. I used to work as a camp counselor at Camp
+
+30
+0:03:18,160 --> 0:03:25,360
+Jabberwocky. This was a camp out on one of the islands off the coast of Massachusetts for children
+
+31
+0:03:25,360 --> 0:03:33,280
+with cerebral palsy, spina bifida, down syndrome, other challenges. I look back on the time that
+
+32
+0:03:33,280 --> 0:03:40,080
+I spent there, and I think if we all take a moment, we realize how important camp is for so many
+
+33
+0:03:40,080 --> 0:03:44,960
+reasons, for so many different individuals, and to take an expression of my dad who says,
+
+34
+0:03:44,960 --> 0:03:50,480
+every vacation you don't take is a vacation you'll never take. Every summer, our kids don't have
+
+35
+0:03:50,480 --> 0:03:56,480
+an opportunity to go to summer camp. That's gone. That summer camp opportunity is gone. I've been
+
+36
+0:03:56,480 --> 0:04:02,400
+doing quite a bit pro bono work. I think I'm starting to push it with my wife. She's starting to say,
+
+37
+0:04:02,400 --> 0:04:08,320
+I need to stop doing so much of that. But I really think that this is a critical area, and so I've
+
+38
+0:04:08,320 --> 0:04:14,400
+been trying to do my part to help with a number of camps get set up for summer. But let's go through
+
+39
+0:04:14,400 --> 0:04:19,760
+what is the CDC telling us, and what can we think about for the summer for our children, for our
+
+40
+0:04:19,760 --> 0:04:26,000
+grandchildren, depending on where we are in life. So the CDC states that fewer children have gotten
+
+41
+0:04:26,000 --> 0:04:31,920
+sick with COVID-19 compared with adults during the pandemic. Children can be infected with the
+
+42
+0:04:31,920 --> 0:04:38,400
+virus that causes COVID-19. That's SARS-CoV-2. They can get sick with COVID-19. They can spread
+
+43
+0:04:38,400 --> 0:04:43,840
+the virus to others, and they can have severe outcomes. Now, I think this is an important
+
+44
+0:04:43,840 --> 0:04:50,240
+starting point. Children are at lower risk, but they are not at no risk. The CDC has a lot of
+
+45
+0:04:50,240 --> 0:04:54,720
+recommendations about how we are keeping our kids safe or how we can keep our kids safe.
+
+46
+0:04:54,720 --> 0:05:01,840
+They recommend that each camp have an emergency operations plan in place to protect the staff,
+
+47
+0:05:02,400 --> 0:05:08,080
+to protect the campers, the families, and then the communities. Remember, these camps operate in
+
+48
+0:05:08,080 --> 0:05:13,200
+areas which are often not as heavily populated as other parts. So if you bring COVID into these
+
+49
+0:05:13,200 --> 0:05:17,200
+areas, you're not just exposing the kids and everyone else, you're exposing the community.
+
+50
+0:05:17,200 --> 0:05:24,320
+There should be some minimum features in these plans. A lot of the camps, I have to say, are getting
+
+51
+0:05:24,320 --> 0:05:29,440
+these plans up. A lot of them are actually fully in place because probably expecting money from
+
+52
+0:05:29,440 --> 0:05:33,280
+the parents at this point. So they want to be able to have meetings. Actually, we had one last night
+
+53
+0:05:33,280 --> 0:05:39,440
+when Tila, well, after eight o'clock. First, we met ahead of time to go over our plans,
+
+54
+0:05:39,440 --> 0:05:44,880
+and then we spent over an hour with the parents answering questions. And so what are the topics
+
+55
+0:05:44,880 --> 0:05:51,280
+that should be in this emergency plan? One, and this is number one, the CDC is saying,
+
+56
+0:05:51,280 --> 0:05:57,840
+number one, strongly encourage vaccination for all eligible people. As I mentioned, this is a
+
+57
+0:05:57,840 --> 0:06:04,800
+game changer. We are seeing that the vaccines are more effective in real life than even we were
+
+58
+0:06:04,800 --> 0:06:12,880
+hoping when we saw the initial exciting studies. The other health screening for symptoms and
+
+59
+0:06:13,440 --> 0:06:19,600
+diagnostic or screening testing. So testing should be a part of the plan. That's number two right
+
+60
+0:06:19,600 --> 0:06:26,800
+after vaccine testing. And maybe we'll get into this a little more, but the government is working
+
+61
+0:06:26,800 --> 0:06:34,800
+with the states and providing testing opportunities for the camps, actually supplying testing in that
+
+62
+0:06:34,800 --> 0:06:41,040
+huge $2 trillion bill that went through, use multiple layers prevention strategies. So
+
+63
+0:06:41,040 --> 0:06:44,960
+we're still going to see masking in certain situations. We're still going to see physical
+
+64
+0:06:44,960 --> 0:06:49,920
+distancing. We're going to see cohorting and cohorting is a nice way to break this down
+
+65
+0:06:49,920 --> 0:06:55,760
+so that if there is an issue, it's not the entire camp. You're keeping it, you're keeping it sort
+
+66
+0:06:55,760 --> 0:07:01,840
+of contained. And then also a focus on the housing arrangements. And, and I think it's great,
+
+67
+0:07:01,840 --> 0:07:07,440
+right up front, improved ventilation. I think we've been trying to talk about the fact that,
+
+68
+0:07:07,440 --> 0:07:12,000
+you know, even though this is a respiratory droplet spread or respiratory virus,
+
+69
+0:07:12,000 --> 0:07:16,960
+if you take an indoor space, if you don't have ventilation, you start building up,
+
+70
+0:07:16,960 --> 0:07:21,840
+you start building up that six feet away is not going to protect you in an area with poor ventilation.
+
+71
+0:07:21,840 --> 0:07:28,000
+Think about kids sleeping together in these cabins with their staff. They also want you to start
+
+72
+0:07:28,000 --> 0:07:34,000
+thinking about the fact that not everyone's risk is the same. So think about campers and staff
+
+73
+0:07:34,000 --> 0:07:41,280
+that might have higher risks. Really a big push to promote outdoors. I kind of like this,
+
+74
+0:07:41,280 --> 0:07:46,400
+spending about 20 years of my life out in Colorado to see that, you know, the CDC now is recommending,
+
+75
+0:07:46,400 --> 0:07:53,360
+you know, promoting outdoor and lower risk activities. So, you know, I know people love
+
+76
+0:07:53,360 --> 0:07:58,800
+that that's singing in the mess hall. Let's get that singing outdoors. Traveling to and from,
+
+77
+0:07:58,800 --> 0:08:03,040
+you want to be thinking about that, you don't want to be creating exposure events on the way
+
+78
+0:08:03,040 --> 0:08:07,920
+to the camp. You also want to think about on the way off cleaning. They mentioned, right,
+
+79
+0:08:07,920 --> 0:08:11,680
+we're getting sort of down here. Remember, cleaning was number one in the olden days,
+
+80
+0:08:11,680 --> 0:08:17,280
+we're realizing this is not, this is something you get by breathing, not necessarily touching,
+
+81
+0:08:17,280 --> 0:08:22,880
+washing those hands. And then they go on to basically go through a lot of other things,
+
+82
+0:08:22,880 --> 0:08:29,520
+including where they finish with, have a plan in case someone gets COVID-19, have a plan
+
+83
+0:08:30,240 --> 0:08:35,440
+in case someone tests positive. And there's two sides, I'm going to say, if you get a positive
+
+84
+0:08:35,440 --> 0:08:40,160
+test, if you're doing a lot of testing, you're going to get false positive. So have a plan,
+
+85
+0:08:40,160 --> 0:08:45,840
+how do I quickly verify to see if this is true? How do I respond to those? So we're getting
+
+86
+0:08:45,840 --> 0:08:51,760
+great guidance here from the CDC on how to do this safely. We will have a layer where the states
+
+87
+0:08:51,760 --> 0:08:56,640
+are going to have individual guidance and actually mandates for how camps are going to operate.
+
+88
+0:08:56,640 --> 0:09:00,800
+They're going to give us specific numbers on if you're cohorting how big of those cohorts
+
+89
+0:09:00,800 --> 0:09:05,920
+allowed to be, what should be the ratio. So I think that's going to help here. But I think the
+
+90
+0:09:05,920 --> 0:09:11,920
+message here is that we can do this safely. Again, just like the schools, it can also be done
+
+91
+0:09:11,920 --> 0:09:18,480
+unsafely. So ask, ask your camp, what are your plans? Are you planning on following CDC guidance?
+
+92
+0:09:18,480 --> 0:09:22,880
+Are you planning on keeping my kids safe? Because as I keep re-array,
+
+93
+0:09:22,880 --> 0:09:28,160
+children are certainly at lower risk, but they're not at no risk. Pre-exposure period,
+
+94
+0:09:28,880 --> 0:09:34,640
+this has been an exciting week. CDC has really been out there this week. And on April 27,
+
+95
+0:09:34,640 --> 0:09:40,640
+the CDC came out with it. When you've been fully vaccinated, how to protect yourself and others
+
+96
+0:09:40,640 --> 0:09:45,280
+guidance. And I'm actually going to be, well, I think by the time this drops, I'll already talked
+
+97
+0:09:45,280 --> 0:09:52,000
+about this on the news, this fear of normal. How do we get back to normal and how can this happen?
+
+98
+0:09:52,800 --> 0:09:59,600
+So what did the CDC have to say? The first, let's define what does it mean as per the CDC
+
+99
+0:09:59,600 --> 0:10:02,960
+to be fully vaccinated? And they're using, just to keep it simple,
+
+100
+0:10:02,960 --> 0:10:08,400
+two weeks. They're saying two weeks after you finish your vaccine. So two weeks after you did
+
+101
+0:10:08,400 --> 0:10:14,720
+that, two dose Moderna Pfizer, two weeks after your J&J. People have probably known, I kind of
+
+102
+0:10:14,720 --> 0:10:20,400
+like four weeks after the J&J, but I won't break rags with the CDC on this one. But this is not
+
+103
+0:10:20,400 --> 0:10:25,600
+the day. This is not the night of your vaccine. Vaccines take a little time. So take that time,
+
+104
+0:10:26,240 --> 0:10:31,840
+let your body build up those T cells, those B cells, that immune protection. And then,
+
+105
+0:10:31,840 --> 0:10:38,320
+what can you do if you're fully vaccinated? As per the CDC, they're saying you can gather indoors
+
+106
+0:10:38,880 --> 0:10:44,240
+with fully vaccinated people without wearing a mask. That's pretty exciting.
+
+107
+0:10:45,440 --> 0:10:51,520
+You can gather indoors with unvaccinated people. And they're saying without masks,
+
+108
+0:10:51,520 --> 0:10:57,360
+they're talking about staying six feet apart. And they're also throwing in here, you want to be
+
+109
+0:10:57,360 --> 0:11:02,400
+careful if there's someone there who has increased risk of severe illness from COVID-19. Then,
+
+110
+0:11:02,400 --> 0:11:07,680
+and I like this part, you can gather or conduct activities outdoors without wearing a mask,
+
+111
+0:11:08,480 --> 0:11:14,560
+except in certain crowded settings and venues. So really doubling down on what we've learned.
+
+112
+0:11:15,280 --> 0:11:21,680
+If you are vaccinated, you are at much lower risk. If you're outdoors, that risk is about 20
+
+113
+0:11:21,680 --> 0:11:29,280
+fold higher than indoors. So we're starting to see things coming back. If you travel in the United
+
+114
+0:11:29,280 --> 0:11:34,960
+States, as per the CDC, you do not need to get tested before or after travel or self quarantine.
+
+115
+0:11:34,960 --> 0:11:40,720
+Remember, this is for the fully vaccinated. They do make some comments about international travel.
+
+116
+0:11:41,440 --> 0:11:46,240
+Really, the US isn't going to put a lot of onus on you. You're going to be needing to look at what
+
+117
+0:11:46,240 --> 0:11:53,440
+international destination you might be traveling to. What should you keep doing for now if you're
+
+118
+0:11:53,440 --> 0:11:59,520
+fully vaccinated, right? I think there was a wonderful beer commercial where the guy is all
+
+119
+0:11:59,520 --> 0:12:04,080
+excited. He's getting his vaccine and then he's going to go to the bar and do all these other
+
+120
+0:12:04,080 --> 0:12:09,440
+things. Well, what do they want you to keep doing? They say you should still protect yourself and
+
+121
+0:12:09,440 --> 0:12:16,400
+others in many situations by wearing a mask that fits snuggly. So let's say you're indoor,
+
+122
+0:12:17,280 --> 0:12:23,520
+public setting. There's a large number of people. There's going to be unvaccinated people,
+
+123
+0:12:23,520 --> 0:12:29,360
+including children, they point out from multiple households. So you're really still you're still
+
+124
+0:12:29,360 --> 0:12:35,120
+going to be wearing your mask in certain circumstances. You're visiting indoors with an unvaccinated
+
+125
+0:12:35,120 --> 0:12:40,720
+individual who's at increased risk. We're saying, boy, vaccination really makes you
+
+126
+0:12:40,720 --> 0:12:46,320
+much lower risk of transmitting to others. It does not make you no risk. And in this case,
+
+127
+0:12:46,320 --> 0:12:53,360
+if the stakes are high, they say you should still be avoiding those indoor, large gatherings. You
+
+128
+0:12:53,360 --> 0:12:58,480
+you don't want to go to that packed facility yet. At some point, maybe that will come.
+
+129
+0:12:58,480 --> 0:13:05,520
+And also, as we know, they still have a mask requirement if you travel. So even if you're fully
+
+130
+0:13:05,520 --> 0:13:10,560
+vaccinated, you're still required to wear a mask when you're on a plane, on a bus, on a train,
+
+131
+0:13:11,360 --> 0:13:18,080
+other other public transportation. They still want you to watch out for symptoms. As we've seen,
+
+132
+0:13:18,080 --> 0:13:24,720
+we do see breakthrough symptoms. Fully vaccinated people can still get COVID-19.
+
+133
+0:13:24,720 --> 0:13:28,800
+So if you have symptoms, you're still going to go. Don't stop testing. You're still going to go
+
+134
+0:13:28,800 --> 0:13:33,200
+get tested. And so I encourage everyone to go to the CDC site really look through this.
+
+135
+0:13:34,080 --> 0:13:38,000
+For some people, it's going to take a little time. I think other people just jump in the deep
+
+136
+0:13:38,000 --> 0:13:44,080
+end of the pool and they're good to go. I for one, I will mention I have a little trepidation. I
+
+137
+0:13:44,080 --> 0:13:49,120
+still have a fear of normal. It's going to take me a little time to ease back into things even
+
+138
+0:13:49,120 --> 0:13:55,120
+though I am fully vaccinated. Transmission. I always like to have a section where I push people's
+
+139
+0:13:55,120 --> 0:14:02,400
+buttons and get some criticism. So this will be it. In many ways, I think going through the camp
+
+140
+0:14:02,400 --> 0:14:08,320
+and the vaccinated guidance really helps us to answer a lot of the questions about transmission.
+
+141
+0:14:08,320 --> 0:14:14,160
+People are not, I think, as focused on the words as they are in really understanding
+
+142
+0:14:14,160 --> 0:14:19,840
+different circumstances and how to behave and how to be safe in those situations.
+
+143
+0:14:20,560 --> 0:14:25,520
+And I actually step out here and say, I think there was a disservice done early on
+
+144
+0:14:25,520 --> 0:14:32,640
+with the whole, is it airborne discussion? And perhaps the immortal words of Roxanne Comse,
+
+145
+0:14:32,640 --> 0:14:36,400
+maybe these will now become immortal. A headline of one of her pieces,
+
+146
+0:14:36,400 --> 0:14:42,160
+they say coronavirus isn't airborne, but it's definitely borne by air. The word airborne means
+
+147
+0:14:42,160 --> 0:14:45,760
+different things to different scientists and that confusion needs to be addressed.
+
+148
+0:14:46,800 --> 0:14:52,960
+Just I always like to sort of bring this back around again. Surfaces are low risk. Remember,
+
+149
+0:14:52,960 --> 0:15:00,240
+lots of hygiene theater, way too much bleach. Maybe one in every 10,000 cases came from surfaces.
+
+150
+0:15:00,880 --> 0:15:08,400
+Outdoors much safer than indoors. About 20-fold safer. Masks are effective for the wearer and
+
+151
+0:15:08,400 --> 0:15:16,080
+those around us. Air exchange is critical for indoor risk. Time matters and it is cumulative
+
+152
+0:15:16,080 --> 0:15:21,280
+for exposures. Vaccines are not just tools, as we're seeing. They are really the nuclear option for
+
+153
+0:15:21,280 --> 0:15:26,080
+ending the pandemic. And once people are fully vaccinated, once we get a larger percentage
+
+154
+0:15:26,080 --> 0:15:31,680
+of our population fully vaccinated, things do change. Things do really change in a positive way.
+
+155
+0:15:31,680 --> 0:15:40,000
+All right, testing. Never miss an opportunity to test. As we talked about the camps, as you saw,
+
+156
+0:15:40,000 --> 0:15:46,560
+number two right after vaccination was testing. So I want to keep reinforcing. We've seen a lot
+
+157
+0:15:46,560 --> 0:15:53,920
+of publications on this. I had one out there with some of my colleagues at UHG. And testing
+
+158
+0:15:53,920 --> 0:16:00,320
+is a critical part of this multi-layered approach to opening camps, schools, businesses, and other
+
+159
+0:16:00,320 --> 0:16:06,400
+venues. We should be doing more not less testing. We are doing less testing, to be honest. The data
+
+160
+0:16:06,400 --> 0:16:12,400
+is really compelling here. And one of the things that is compelling is we want more frequent,
+
+161
+0:16:12,400 --> 0:16:17,600
+so frequent testing. Rapid results. We want to avoid those resulting delays.
+
+162
+0:16:18,480 --> 0:16:26,240
+Test with testing, more is better. All right, active vaccination. This has been a busy area.
+
+163
+0:16:26,240 --> 0:16:31,600
+Never miss an opportunity to vaccinate and never waste a vaccine dose. We're starting to get to
+
+164
+0:16:31,600 --> 0:16:36,640
+the point here in the U.S. It's like throwing away food, right? Don't throw that dose in the
+
+165
+0:16:36,640 --> 0:16:41,520
+trash. Let's get it in someone's arm. We've definitely shifted here in the U.S. And I'm seeing
+
+166
+0:16:41,520 --> 0:16:47,360
+this firsthand from arms searching for vaccines to vaccines searching for arms.
+
+167
+0:16:47,360 --> 0:16:55,120
+Since we last talked, actually, this dropped after the meeting. But what happened with the
+
+168
+0:16:55,120 --> 0:17:02,160
+J&J vaccine? There was a meeting Friday, April 23rd. I asked my partners to cover so I could
+
+169
+0:17:02,160 --> 0:17:07,120
+listen to this. That just raises my geek factor, I guess, that I wanted to listen to this all day.
+
+170
+0:17:08,400 --> 0:17:16,960
+But a summary came out. So we saw published April 27th in the MMWR updated recommendations
+
+171
+0:17:16,960 --> 0:17:22,480
+from the advisory committee on immunization practices for the use of the Janssen Johnson
+
+172
+0:17:22,480 --> 0:17:29,280
+and Johnson COVID-19 vaccine after ports of thrombosis with thrombocytopenia syndrome
+
+173
+0:17:29,280 --> 0:17:36,000
+among vaccine recipients United States April 2021. So in brief, the advisory committee on
+
+174
+0:17:36,000 --> 0:17:42,320
+immunization practices concluded that the risks of resuming Janssen COVID-19 vaccination among
+
+175
+0:17:42,320 --> 0:17:49,360
+persons aged equal to or greater than 18 outweighed the risks and reaffirmed its interim recommendation
+
+176
+0:17:49,360 --> 0:17:56,240
+under the FDA's emergency use authorization, but included a new warning for rare clotting
+
+177
+0:17:56,240 --> 0:18:04,800
+events among women aged 18 to 49 for this thrombosis with thrombocytopenia syndrome or TTS,
+
+178
+0:18:04,800 --> 0:18:09,600
+as we'll be referring to it, or as other people refer to it as VITS vaccine induced
+
+179
+0:18:09,600 --> 0:18:15,760
+thrombosis with thrombocytopenia syndrome. So what did we know? What did we learn from this
+
+180
+0:18:15,760 --> 0:18:23,600
+publication and from the meeting? Nearly 8 million. So 7.98 million doses of the Janssen COVID-19
+
+181
+0:18:23,600 --> 0:18:30,240
+vaccine had been administered in the United States and the vaccine adverse event reporting
+
+182
+0:18:30,240 --> 0:18:39,200
+system. So VAERS received at the end of this prior to this meeting 15 reports of the TTS after
+
+183
+0:18:39,200 --> 0:18:45,840
+vaccinations. With the clots located, I think this is important in the cerebral venous sinuses
+
+184
+0:18:45,840 --> 0:18:52,240
+and other unusual locations, including the portal vein, the splenic vein, and a combination of
+
+185
+0:18:52,240 --> 0:18:59,760
+venous and arterial thrombosis. These 15 reports were confirmed by physician reviewers at the CDC
+
+186
+0:18:59,760 --> 0:19:05,520
+and the FDA. They went through and reviewed this, including having hematologists involved in the
+
+187
+0:19:05,520 --> 0:19:13,760
+review. 13 of the cases occurred among women aged 18 to 49. Two occurred among women aged
+
+188
+0:19:14,720 --> 0:19:20,640
+50 or older. And no cases post authorization reported among men. Remember, there was a man
+
+189
+0:19:20,640 --> 0:19:29,680
+in the trial, but he was not in this 15 person study here. So the TTS reporting rates were
+
+190
+0:19:29,680 --> 0:19:37,280
+7 cases per million. And the Janssen COVID-19 vaccines were administered to the 18 to 49.
+
+191
+0:19:37,280 --> 0:19:43,040
+We had 0.9 per million in the aged greater than 50 years. And then they broke it down into
+
+192
+0:19:43,040 --> 0:19:47,120
+different subgroups, which I'll go through actually. And what I'm going to do here is I'm going to
+
+193
+0:19:47,120 --> 0:19:52,720
+jump to, I'm going to give John hit some credit here. John hit at United Health Group actually
+
+194
+0:19:52,720 --> 0:19:58,640
+made some tables for me. Wasn't really for me there for the whole group, our sort of national
+
+195
+0:19:58,640 --> 0:20:06,160
+vaccine advisory panel. But what were the race? What were the cases of TTS per million vaccinations
+
+196
+0:20:06,160 --> 0:20:13,600
+broken down by age, right? So all age groups, 1.87. If you looked at people under 50, it was 7
+
+197
+0:20:13,600 --> 0:20:19,440
+per million, over 50, it was 0.9. And then you can break it down into other age groups as well.
+
+198
+0:20:20,000 --> 0:20:25,520
+Then there was the other and this came up where there are certain comorbid conditions or maybe
+
+199
+0:20:25,520 --> 0:20:32,800
+certain medications that we should be thinking about. What about obesity? 7 of the 12 had obesity,
+
+200
+0:20:32,800 --> 0:20:42,000
+8 did not. What about oral contraception? 13 were not, hypothyroid to hypertension to
+
+201
+0:20:42,640 --> 0:20:48,240
+no recent pregnancies. Interesting enough, no history of prior clotting disorders in this
+
+202
+0:20:48,240 --> 0:20:54,240
+population. So at the end of the report, and I'm going to sort of even make some comments here,
+
+203
+0:20:54,240 --> 0:20:58,160
+they basically went ahead and they said, okay, we are going to put this back out there.
+
+204
+0:20:58,160 --> 0:21:02,640
+We're going to put a warning on there and we're going to allow this to be a patient decision
+
+205
+0:21:02,640 --> 0:21:07,360
+ultimately. And I have to admit, when I've talked to a lot of physicians about this,
+
+206
+0:21:07,360 --> 0:21:13,280
+not all of them were as excited as I should say I was. And I think this is interesting, right?
+
+207
+0:21:14,080 --> 0:21:20,480
+Physicians like to be the ones who get to make decisions. And so here, we're basically saying
+
+208
+0:21:20,480 --> 0:21:25,920
+no, the patient will get the right certain physicians say I would feel better if we did not use this
+
+209
+0:21:25,920 --> 0:21:32,320
+vaccine in women under the age of 50. And I think that really take it as it is. They are saying
+
+210
+0:21:32,320 --> 0:21:36,960
+that's not the physician's decision. Here are the facts, it's the patient's decision. And we're
+
+211
+0:21:36,960 --> 0:21:41,600
+actually maybe starting to move into a realm where before we said take whatever vaccine you have
+
+212
+0:21:41,600 --> 0:21:46,400
+the opportunity to take. Now we're starting to see patients have preferences based on certain
+
+213
+0:21:46,400 --> 0:21:53,280
+things patient the other day. This was a woman in her 40s. She had a prior history of a pulmonary
+
+214
+0:21:53,280 --> 0:21:58,080
+embolism. We had a discussion and she was suggested to me that she would prefer to do a
+
+215
+0:21:58,080 --> 0:22:04,400
+Moderna over the J and J vaccine. I think that that's completely reasonable. If we're looking at
+
+216
+0:22:04,400 --> 0:22:10,000
+challenges with getting more vaccine uptake, giving people choice, letting them have agency,
+
+217
+0:22:10,000 --> 0:22:14,640
+I think that that's more important than physicians getting to have the final say on everything here.
+
+218
+0:22:14,640 --> 0:22:19,040
+We continue to have our vaccines against the variants race or what I like to call
+
+219
+0:22:19,040 --> 0:22:23,360
+vaccines against the variants of concern as well as behaviors of concern.
+
+220
+0:22:24,240 --> 0:22:29,840
+And we actually got to what I think are encouraging preprints that became available about the New
+
+221
+0:22:29,840 --> 0:22:39,840
+York variant. It's nice that we have our own variant. B1526 SARS-CoV-2 variant identified in New York
+
+222
+0:22:39,840 --> 0:22:46,160
+City neutralized by vaccine elicited and therapeutic monoclonal antibodies. And that
+
+223
+0:22:46,160 --> 0:22:54,480
+was available as a preprint. We also had detection and characterization of the SARS-CoV-2 lineage,
+
+224
+0:22:54,480 --> 0:23:02,240
+B1526 in New York. Now basically both papers demonstrated that vaccine serum showed a little
+
+225
+0:23:02,240 --> 0:23:08,880
+bit of a decrease, but remained at an elevated and protective level. Convalescent plasma did not
+
+226
+0:23:08,880 --> 0:23:14,960
+fare as well. The monoclonal cocktail by Regeneron continued to be effective. I think the take home
+
+227
+0:23:14,960 --> 0:23:22,320
+message here was that the vaccine still work against the variants. Don't count on protection
+
+228
+0:23:22,320 --> 0:23:27,360
+after natural infection quite as much as counting on the protection that we get with vaccination.
+
+229
+0:23:28,560 --> 0:23:33,200
+All right, the period of detectable viral replication, right, you test positive.
+
+230
+0:23:33,200 --> 0:23:41,840
+This is the time for monitoring and monoclonals so far. I think it's important that although this
+
+231
+0:23:41,840 --> 0:23:48,880
+may not impact our daily clinician as physicians, we do pay attention to what's happening around
+
+232
+0:23:48,880 --> 0:23:53,280
+the world. Maybe it will swing back. Maybe it will affect us, but I think it's also important for
+
+233
+0:23:53,280 --> 0:24:01,760
+us to be aware of what's going on. So there was an article, the global case fatality rate of COVID-19
+
+234
+0:24:01,760 --> 0:24:07,760
+has been declining since May 2020 published in the American Society of Tropical Medicine and
+
+235
+0:24:07,760 --> 0:24:15,680
+Hygiene Journal. So what's happening here? So the authors collected daily COVID-19 diagnoses
+
+236
+0:24:15,680 --> 0:24:23,040
+and mortality data from the WHO's daily situation reports and reported that based on this data,
+
+237
+0:24:23,040 --> 0:24:32,080
+the weekly global cumulative COVID-19 reported case fatality rate. So that's that R-CFR. I feel
+
+238
+0:24:32,080 --> 0:24:37,760
+like we're going back when we were first learning about the difference between case fatality rate
+
+239
+0:24:37,760 --> 0:24:44,560
+and reported case fatality rate. So these are cases reported. We have documented that this is
+
+240
+0:24:44,560 --> 0:24:51,360
+COVID-19. What percent of those individuals die? We know that the actual case fatality rate is
+
+241
+0:24:51,360 --> 0:24:58,000
+probably higher, where the actual infection fatality rate is probably higher. But we reached a peak of
+
+242
+0:24:58,000 --> 0:25:07,280
+7.23% in the last week of April, April 22 to 28 in 2020, right? So it's right about a year ago.
+
+243
+0:25:07,280 --> 0:25:15,520
+This was followed by a strong declining trend up until the 53rd week post peak right after this peak.
+
+244
+0:25:15,520 --> 0:25:24,880
+We ended up down at 2.2% in the last week of December 2020. Now why did this happen? And they had a
+
+245
+0:25:24,880 --> 0:25:31,760
+couple suggestions, right? So that's the data. They suggested that part of this was an increased rate
+
+246
+0:25:31,760 --> 0:25:37,280
+of infection in younger individuals, right? We know the younger individuals have a lower case
+
+247
+0:25:37,280 --> 0:25:46,640
+fatality rate. They also looked at a map of regional reported case fatality rates. So Yemen,
+
+248
+0:25:46,640 --> 0:25:51,840
+for instance, where I believe Dixon likes to go salmon fishing, they had a reported case fatality
+
+249
+0:25:51,840 --> 0:26:00,240
+rate of 30% April through December of 2020, while by comparison, the reported case fatality rate
+
+250
+0:26:00,240 --> 0:26:06,480
+overall in the US is 2% for all cases with an outcome. So I recommend people take a look.
+
+251
+0:26:06,480 --> 0:26:10,240
+It's worth looking at the different figures and seeing what's happened over time.
+
+252
+0:26:10,240 --> 0:26:15,280
+I keep saying this is the time for monitoring and monoclonals, but I am hoping that this will
+
+253
+0:26:15,280 --> 0:26:21,440
+change. We keep hearing from Pfizer that by the end of the year, they're promising us an oral
+
+254
+0:26:21,440 --> 0:26:29,280
+COVID pill. Now, what do we know about this? They're talking about a phase one study of a very catchy
+
+255
+0:26:29,280 --> 0:26:38,800
+PF07321332. So what is this? And what do we know? A little background here. So SARS-CoV-2
+
+256
+0:26:39,360 --> 0:26:46,160
+produces two large viral poly proteins. These are really long proteins that are going to need to
+
+257
+0:26:46,160 --> 0:26:55,680
+be chopped up. So PP1A and PP1AB. And these are processed by two virally encoded cysteine proteases.
+
+258
+0:26:55,680 --> 0:27:06,000
+Now, the main protease is also called 3C-like protease. So 3CL protease or 3CL-pro, and there's
+
+259
+0:27:06,000 --> 0:27:13,680
+a papain-like protease. So we initially heard about this product, or targeting this, with an
+
+260
+0:27:13,680 --> 0:27:21,680
+intravenous preparation. It was PF00835231. It'll be a test at the end. This was a pre-print
+
+261
+0:27:21,680 --> 0:27:28,240
+back in February, entitled Discovery of a Novel Inhibitor of Coronavirus 3CL protease
+
+262
+0:27:28,240 --> 0:27:34,000
+for the potential treatment of COVID-19. And now Pfizer is suggesting that they'll have the other
+
+263
+0:27:34,000 --> 0:27:42,160
+catchy PF07321332. On the market by the end of this year, they have started a phase one trial,
+
+264
+0:27:42,160 --> 0:27:49,760
+right? So that's hopefully we're going to have more tools. We also have been hearing from Merck
+
+265
+0:27:49,760 --> 0:27:57,680
+and Ridgeback Biopharmaceuticals that they've been working on malnupiravir. And this is a different
+
+266
+0:27:57,680 --> 0:28:04,880
+way, a different small molecule potential oral pill that can be used as an antiviral. This is a
+
+267
+0:28:04,880 --> 0:28:12,160
+ribonucleoside analog that they have found inhibits replication of multiple RNA viruses. This is
+
+268
+0:28:12,160 --> 0:28:17,920
+something they've been working with for a while. People who are familiar with HIV and age treatment
+
+269
+0:28:17,920 --> 0:28:25,600
+think of this much like AZT, where you're getting one of those building blocks of the RNA. So an A,
+
+270
+0:28:25,600 --> 0:28:31,520
+a C, a G, or a U, we target all these in HIV, and you replace one of these with an analog,
+
+271
+0:28:31,520 --> 0:28:37,920
+which then gets brought in and interferes with the virus replication. As we find out more about
+
+272
+0:28:37,920 --> 0:28:43,120
+this, I will certainly share that information. All right, so let us finish off here with the
+
+273
+0:28:43,120 --> 0:28:49,680
+tail phase long COVID or post COVID. And I think I'm going to call this it is not just about long
+
+274
+0:28:49,680 --> 0:28:56,160
+COVID. So early on, I fought against this narrow view, what people thought about COVID, the you're
+
+275
+0:28:56,160 --> 0:29:01,520
+either going to live or you die. And that's the end of it. Still, still unfortunately here to this
+
+276
+0:29:01,520 --> 0:29:07,040
+day from positions, just sort of this idea that people who are suffering, oh, it's all in their head.
+
+277
+0:29:07,040 --> 0:29:13,760
+But I think people are now appreciating, many more people are appreciating that it can be a lot
+
+278
+0:29:13,760 --> 0:29:20,080
+more than two weeks once COVID gets into your system, so to speak. But there's also an appreciation
+
+279
+0:29:20,080 --> 0:29:24,960
+that maybe there's something more than even just long COVID. I think this is a little discouraging,
+
+280
+0:29:24,960 --> 0:29:33,440
+but in nature, there was the article, high dimensional characterization of post acute sequelae of COVID-19.
+
+281
+0:29:33,440 --> 0:29:40,240
+Now, what is this about? So the authors in this article used the national health care databases
+
+282
+0:29:40,240 --> 0:29:46,320
+of the US departments of Veterans Affairs to systematically and comprehensively identify
+
+283
+0:29:46,320 --> 0:29:53,680
+six month incidents sequelae, including diagnoses, medication use, laboratory abnormalities in
+
+284
+0:29:53,680 --> 0:30:02,560
+30 day survivors of COVID-19. All right, so this is a really robust database. This cohort was five
+
+285
+0:30:02,560 --> 0:30:10,320
+million eight hundred and eight thousand zero one eight participants. And so this, this is a really
+
+286
+0:30:10,320 --> 0:30:17,600
+row bust data set that they were looking at. And within those alive, they were looking at the
+
+287
+0:30:17,600 --> 0:30:27,600
+COVID-19 group selected having a COVID-19 test that was positive before March 1st 2020 and November
+
+288
+0:30:27,600 --> 0:30:35,680
+30 or between I should say between March 1st 2020 and November 30th 2020. So in this large set,
+
+289
+0:30:35,680 --> 0:30:40,640
+they had found almost a hundred thousand individuals. And then they're going to look at these
+
+290
+0:30:40,640 --> 0:30:47,120
+individuals and what did what did they find? So this study identified a significant increase
+
+291
+0:30:47,120 --> 0:30:53,120
+in problems in this population that affected the respiratory system, the nervous system,
+
+292
+0:30:53,120 --> 0:30:59,360
+neurocognitive disorders, mental health disorders, metabolic disorders, cardiovascular disorders,
+
+293
+0:30:59,360 --> 0:31:06,000
+gastrointestinal disorders, malaise, fatigue, musculosceletal pain, anemia. This population
+
+294
+0:31:06,000 --> 0:31:13,360
+had an increased use of many medications, particularly pain medications, opioids, non opioids, antidepressants,
+
+295
+0:31:13,360 --> 0:31:20,960
+anxiolytics, antihypertensives, oral hypoglycemics. And they had evidence of laboratory abnormality,
+
+296
+0:31:20,960 --> 0:31:26,800
+abnormalities in multiple organ systems. So what I think I'm going to just really point out here
+
+297
+0:31:26,800 --> 0:31:32,880
+is that this analysis is suggesting that even people who do not identify or get classified as
+
+298
+0:31:32,880 --> 0:31:38,960
+long COVID, there's really a lot of outcomes in addition that we're seeing are an increased
+
+299
+0:31:38,960 --> 0:31:44,000
+incidence. And this is actually worth looking at this paper, I will say it's available nature.
+
+300
+0:31:44,000 --> 0:31:50,800
+There's actually a gradation, right? So non hospitalized, hospitalized admitted to the ICU,
+
+301
+0:31:50,800 --> 0:31:56,080
+the more severe your COVID, the higher incidence we were seeing of all these different
+
+302
+0:31:56,640 --> 0:32:02,480
+disorders, right? So I think that we're seeing elevation in the non hospitalized as well,
+
+303
+0:32:02,480 --> 0:32:07,520
+but increasing with more severity of disease. So I'm going to finish up on that note. And we
+
+304
+0:32:07,520 --> 0:32:12,480
+are switching when this drops, it will be May 1st. Thank you, everyone who supported the
+
+305
+0:32:12,480 --> 0:32:18,000
+market side of tropical medicine and hygiene. We are now going to support foundation,
+
+306
+0:32:18,000 --> 0:32:22,080
+international medical relief of children. Again, this is going to be a three month campaign.
+
+307
+0:32:23,280 --> 0:32:27,040
+To be honest, they're struggling, right? This is an organization that is supported
+
+308
+0:32:27,840 --> 0:32:33,680
+through volunteers, younger individuals, excited about global health, signing up,
+
+309
+0:32:34,400 --> 0:32:39,360
+contributing, going to all these parts of the world. They need our help. They need your help.
+
+310
+0:32:39,360 --> 0:32:44,960
+So take a moment, go to parasites without borders.com and help us support that. We're
+
+311
+0:32:44,960 --> 0:32:47,920
+going to do the same thing we've done before. We're going to double those donations. We're
+
+312
+0:32:47,920 --> 0:32:52,080
+going to try to get up to $40,000 to support femuric. And we're going to do this over the
+
+313
+0:32:52,080 --> 0:32:57,200
+next three months. So help us. Time for some email for Daniel. If you want to send one,
+
+314
+0:32:57,200 --> 0:33:04,240
+Daniel at microbe.tv. Sarah in Tallahassee writes, are the monoclonal antibody therapies
+
+315
+0:33:04,240 --> 0:33:10,240
+appropriate for patients who have already been vaccinated? So that's a great question. We are
+
+316
+0:33:10,240 --> 0:33:15,120
+certainly giving monoclonals to people that have already been vaccinated, or I should word it.
+
+317
+0:33:15,120 --> 0:33:19,760
+We are not restricting them. We are not taking a person who's vaccinated, not allowing them to
+
+318
+0:33:19,760 --> 0:33:24,240
+have the monoclonals. And there's a couple of reasons here. One, if you think about it,
+
+319
+0:33:24,240 --> 0:33:28,320
+there's usually something going on when a person has a breakthrough infection. And we've certainly
+
+320
+0:33:28,320 --> 0:33:33,840
+seen people that get vaccinated, and then they go ahead and they get exposed. It's really sort of
+
+321
+0:33:33,840 --> 0:33:38,960
+straightforward if they just got the vaccine. But we're seeing people that might be weeks out.
+
+322
+0:33:38,960 --> 0:33:44,800
+Some people, particularly our older members of our society, people with certain immune issues,
+
+323
+0:33:44,800 --> 0:33:49,440
+they may not have the ability to develop that robust immune system. We're going ahead. We're
+
+324
+0:33:49,440 --> 0:33:55,120
+seeing good experiences as we get more numbers. I think we actually closed one of my studies. So
+
+325
+0:33:55,120 --> 0:33:59,760
+hopefully we'll be getting some data out there showing demonstrating what's the efficacy in
+
+326
+0:33:59,760 --> 0:34:04,720
+different populations, including this particular population. All right, we have a letter from Mike,
+
+327
+0:34:04,720 --> 0:34:11,280
+who is an infectious disease physician in Tacoma. In your most recent clinical update, 747,
+
+328
+0:34:11,280 --> 0:34:15,680
+you mentioned in your reply to the retired health and safety professional listeners question,
+
+329
+0:34:16,240 --> 0:34:21,280
+as to why authorities are not recommending N95 respirators to the public, that you would
+
+330
+0:34:21,280 --> 0:34:26,560
+recommend such masks in certain high risk situations or high risk environments. You then
+
+331
+0:34:26,560 --> 0:34:31,520
+relayed your own story of how you recommended to your family members to wear KN95 masks when
+
+332
+0:34:31,520 --> 0:34:37,680
+they flew on an airplane. The listener mentioned that he thought the KN95 Chinese masks available
+
+333
+0:34:37,680 --> 0:34:42,560
+to him locally were likely made of similar materials and of similar quality to the 3M
+
+334
+0:34:43,120 --> 0:34:48,560
+N95s. When they first came out, I was initially confused by the different KN95 designation on
+
+335
+0:34:48,560 --> 0:34:53,200
+the respirators that were advertised from overseas and have been following the US government's evaluation
+
+336
+0:34:53,200 --> 0:34:58,320
+of these masks since the time. Unfortunately, such US government testing has revealed that the
+
+337
+0:34:58,320 --> 0:35:04,480
+overseas KN95 testing standards for such overseas masks have not been rigorously quality control.
+
+338
+0:35:04,480 --> 0:35:12,480
+Many did not reliably come close to 95% filtration efficiency, and Mike provides a CDC link to
+
+339
+0:35:13,120 --> 0:35:18,320
+a report on these masks. Thus, in the interest of being fully transparent to the listener
+
+340
+0:35:18,320 --> 0:35:24,080
+who wrote in and to the public, I would suggest that KN95 respirators may provide you with more
+
+341
+0:35:24,080 --> 0:35:29,200
+protection against SARS-CoV-2 than a cloth smath, but are overall not as quality controlled and
+
+342
+0:35:29,200 --> 0:35:35,280
+would suggest the listener and public consult the above web link for more information.
+
+343
+0:35:35,280 --> 0:35:40,720
+That is excellent. So thank you so much. I always like to point out that this is not really a one-man
+
+344
+0:35:40,720 --> 0:35:46,400
+show, and stuff like this is super helpful. I'm starting to feel like should I have shared one of
+
+345
+0:35:46,400 --> 0:35:52,160
+my KN95s or two of them with my daughter and my wife, but this is really well taken. I think that
+
+346
+0:35:52,160 --> 0:35:57,840
+as we go forward, I'm actually surprised at this point that we don't have better certification.
+
+347
+0:35:57,840 --> 0:36:02,960
+You get a mask and it's got a certain stamp or a certain... We have certifications for organic
+
+348
+0:36:02,960 --> 0:36:08,560
+foods where the certifications to help us with masks, which actually are keeping us safe and
+
+349
+0:36:08,560 --> 0:36:13,120
+saving lives. Excellent point, everyone. I'm glad that this was sent in.
+
+350
+0:36:13,120 --> 0:36:22,160
+We have an email from Vincent, who is also a physician. Two questions. I recently immunized a
+
+351
+0:36:22,160 --> 0:36:28,080
+49-year-old lady who has a history of Parkinson's and an active left septic bursitis with J&J.
+
+352
+0:36:28,080 --> 0:36:34,960
+Should I have left held off due to her bursitis? Or was I right in doing so? Let's take that one
+
+353
+0:36:34,960 --> 0:36:40,320
+first, Daniel. So you did the right thing. Never missed an opportunity to immunize that.
+
+354
+0:36:40,320 --> 0:36:44,800
+I'm hoping you didn't put the immunization in that bursa, right? Maybe you did the other arm that
+
+355
+0:36:44,800 --> 0:36:50,480
+would make a lot of sense. I got a question earlier today and actually it was about every
+
+356
+0:36:50,480 --> 0:36:54,160
+so often we see people. We've got people doing vaccines that maybe have never done them before
+
+357
+0:36:54,160 --> 0:36:57,840
+and they're somehow they get it in the bursa, which is actually usually a challenge, right?
+
+358
+0:36:57,840 --> 0:37:03,680
+Because we're trying to learn to do that for other reasons. But try not to get it in the bursa.
+
+359
+0:37:04,240 --> 0:37:07,840
+Do the other side if someone has bursitis. If they get it in the bursa,
+
+360
+0:37:07,840 --> 0:37:14,000
+probably we're still going to get the protection. I think it would make sense that you will.
+
+361
+0:37:14,800 --> 0:37:19,280
+But no, I don't think something like a bursitis. We really have to be careful not let little
+
+362
+0:37:19,280 --> 0:37:23,840
+things keep us from getting a person vaccinated. So I think you did the right thing. Now,
+
+363
+0:37:24,320 --> 0:37:28,240
+hopefully I laid out the risks with J&J really small.
+
+364
+0:37:28,240 --> 0:37:33,760
+Yeah, and then his next question is about J&J. Is it stand to reason to treat with aspirin prophylactically
+
+365
+0:37:33,760 --> 0:37:38,080
+or just wait it out? Yeah, and I've actually had this conversation with a lot of clinicians.
+
+366
+0:37:38,080 --> 0:37:43,280
+So it really is excellent. It's a good question. If you start doing the risk benefit,
+
+367
+0:37:43,280 --> 0:37:47,440
+and this was interesting, right? I started asking people, so what if you tell someone to take an
+
+368
+0:37:47,440 --> 0:37:52,320
+aspirin every day? 1% of those people will have a GI bleed within the year, right? We didn't pull
+
+369
+0:37:52,320 --> 0:37:59,120
+aspirin off the market when that happened. You are better off doing nothing. First, do no harm.
+
+370
+0:37:59,120 --> 0:38:04,080
+You are more likely to cause problems to someone after a J&J than you're going to
+
+371
+0:38:04,080 --> 0:38:09,120
+provide any help by throwing aspirin or anything at them. So go ahead, get them vaccinated. And
+
+372
+0:38:09,120 --> 0:38:12,640
+then if they have a severe headache, that one in a million will pick it up, we'll treat them
+
+373
+0:38:12,640 --> 0:38:17,840
+properly. All right, one more from Chris in your recent clinical update. You said
+
+374
+0:38:18,400 --> 0:38:23,680
+responsible summer camps should be doing testing because there's funding for it now. I'm on the
+
+375
+0:38:23,680 --> 0:38:29,360
+board of a summer camp. This is good news, but I can't find any information. Can you please
+
+376
+0:38:29,360 --> 0:38:35,600
+point to more information about this? Okay, I'm going to actually, I'm going to say this slowly
+
+377
+0:38:35,600 --> 0:38:41,600
+because we'll be giving this person a bunch of emails, hopefully. I've been working with a woman
+
+378
+0:38:41,600 --> 0:38:49,520
+Phoebe for about the last year, helping promote access to coordination for particularly rapid
+
+379
+0:38:49,520 --> 0:38:56,320
+testing, but testing in general as a solution. And so Phoebe has worked with rapid testing.org,
+
+380
+0:38:56,320 --> 0:39:01,840
+also worked with a lot of different foundations, and actually did a lot to push for funding in
+
+381
+0:39:01,840 --> 0:39:07,680
+these bills. So I can give her a little credit for that. Now I asked Phoebe previously, and she
+
+382
+0:39:07,680 --> 0:39:15,360
+said yes that I could share when people had questions like this. So her email is P-O-L-H-A-V-A
+
+383
+0:39:15,360 --> 0:39:21,040
+at gmail.com. If you're a summer camp, if you're looking for ways to get access to testing,
+
+384
+0:39:21,760 --> 0:39:26,240
+shoot her an email. She's not in this to make any money. I think she must make money as a
+
+385
+0:39:26,240 --> 0:39:31,200
+radiologist or something. She's just there to help doing all these efforts pro bono. So
+
+386
+0:39:32,080 --> 0:39:37,520
+reach out. Let's make sure that that money actually is spent, that that testing keeps our kids safe.
+
+387
+0:39:37,520 --> 0:39:42,720
+That's COVID-19 clinical update number 60 with Dr. Daniel Griffin. Thank you, Daniel.
+
+388
+0:39:42,720 --> 0:39:49,440
+Oh, thank you so much. And everyone, be safe.
+

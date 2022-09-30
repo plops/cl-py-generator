@@ -1,0 +1,401 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 780, recorded on July 15th, 2021.
+I'm Vincent Draconiello, and you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Daniel, this is update number 71. What's going on
+here in New York City? You know, there's a lot of stuff going on and not great stuff going on,
+so I'm going to jump right in with my quotation and then I'm going to give the update because
+things are headed in the wrong direction. Maybe we'll talk a little bit about why.
+So, in questions of science, the authority of a thousand is not worth the humble reasoning
+of a single individual. And that's Galileo, 1632. He was Italian. Wasn't he Italian Vincent?
+He was. And I think revered in his time, right?
+Well, by some, not by everyone. A lot of people thought he was heretical to propose that the
+Earth was round and all of that stuff. Yeah, and the whole thing's not revolving around the Earth
+to move away from an Earth-centric world to view. Yeah, he got death threats, for sure, right?
+Yeah, so maybe some of our colleagues are having similar treatment today.
+I think we're all locked in our towers, right? So, a lot of parallels here.
+But the reason I bring that up is I know, Vincent, you really are a leader in this,
+but I try to do this as well. I want to share what the science says and not just echo what so many
+people are saying. If you say it 10 times, it does not make it any more true. So, what is going on?
+We are seeing an uptick. And you can read the same article with just a different title.
+What is this being driven by? It's being driven by the virus. It's being driven by behavior.
+But we're also seeing some other new developments. I just want to give people a sense. The amount
+of COVID we're seeing across the country is increasing. My buddy, Poe, out at the Everett Clinic in
+Washington, went for quite a while, not seeing much. And we talked on Monday. He was now seeing
+30, 40 a day. I was on the phone earlier today with a friend of mine, Adam Fitterstein,
+who runs our urgent care centers in the New York area, under Bonnie Simmons as his boss.
+And he was saying he went many days without seeing COVID. Now he's seeing 10 or 12 a day.
+There's a little bit of a twist on this. I'm seeing some interesting
+situations. I'm just going to share a couple stories. The first one was a colleague of mine,
+a physician, fully vaccinated, maybe enjoying himself a little bit more than I do.
+Maybe not taking me to any precautions. Ended up starting to feel not well,
+tested positive for COVID. So had a mild outpatient experience with COVID,
+but then actually brought it home to his spouse. And so then his spouse had COVID.
+Also, his spouse was vaccinated. So another it was another mild case. So one vaccinated person
+getting infected, spreading it to another vaccinated person. In this case, both were mild.
+Another story was a dad. And this is actually a friend of mine, not a clinician. He does
+something else for a living. And he started to feel crummy right about July 4th, right? July 4th is
+sort of a target date here. Went and got tested. He was fully vaccinated. And to his surprise,
+he tested positive for COVID. And then his son, who's below the age of 12, started to feel not
+great and also tested positive for COVID. So it's interesting. We have a lot of ideas about early
+on after vaccination, having really high antibody levels, maybe keeping people from getting infected,
+keeping people from transmitting. But now we're starting to get six months out from those early
+vaccinations. Are we starting to see this because of waning antibody levels? Are we starting to see
+this because of changes in behavior, right? So I just want to share those stories just in case
+people have a question. If you're vaccinated, can you get COVID? Yes. If you're vaccinated,
+can you get COVID and spread it to other people? Well, there's just two real life examples
+in addition to the science I've shared in the past. But the majority of infections are
+presumably an unvaccinated people, right? It is completely true. And not only are the infections
+predominantly in unvaccinated individuals, but looking around 99% of the admissions
+are in unvaccinated individuals. So just to repeat that, vaccinations are huge at protecting
+you from serious disease and hospitalizations. 99% of the people that end up in the hospital
+that are dying from COVID over 99% are unvaccinated. So get vaccinated if I haven't mentioned that
+before. I feel like I may have. Now, there's there's a lot of pressure I know to keep up each week
+in terms of what's happening with COVID. I had like a nightmare the other night. I was, you know,
+being asked a question and something new had come out in the last hour and I did not know about it.
+So I woke up in a cold sweat. Yeah, it was not COVID. It was just, you know, I don't know what it is.
+But my hope with these weekly clinical updates is to take some of the pressure off our busy
+clinicians and listeners. And my commitment continues to be that if there's something really
+critical that you need to know, I'm going to make sure that I bring it up in my clinical update.
+And for a deeper dive, I want people to keep listening to Vincent and the crew on the other
+Twiv episodes. It really is important. I think we went into this. Why do I need to know so much
+about viruses? I think that most people have realized that you need to know a lot about viruses.
+And the more we know, hopefully the longer period of time before we have something like this and
+hopefully we'll do better the next time. All right. And I will try to keep this, you know,
+at my 30 minutes. But this was an exciting last week. We got updated school and child care guidance
+from the CDC. This is the much awaited K through 12 school guidance. And I'm going to go through
+that part of this in some detail. And I will, don't worry as I go through this, I'm also going
+to return to the hot button issues because I have realized as I've discussed this, there are some.
+So number one, the CDC has come out. Students benefit from in-person learning and safely
+returning to in-person instruction in the fall 2021 is a priority. And so I've been saying this
+for a long time. A lot of us have been saying this. The CDC is really stepping up and saying
+school is a priority. Number two, right here at the top of the list, vaccination is currently the
+leading public health prevention strategy to end the COVID-19 pandemic. Remember, we're ending the
+pandemic. We have realized we will never get rid of COVID-19. This is going to be part of our life.
+But in the same comment, promoting vaccination can help schools safely return to in-person learning
+as well as extracurricular activities and sports. Now, I know it's a little bit of a hot button
+issue. People have said, you know, the schools need to open. It's number one priority. There
+should be no qualifications. There should be no rules. Just make it happen. We'll get into this
+a little bit more. There are ways to do this safely. And I'm going to go through the science
+behind these recommendations. Next, and this is the hot button issue. Masks should be worn indoors
+by all individuals, age two and older, who are not fully vaccinated. Consistent and correct
+masks used by persons who are not fully vaccinated. People who are not fully vaccinated is especially
+important indoors and in crowded settings when physical distancing cannot be maintained.
+And I'm going to get back to that because not everyone is happy about masks. I don't know if
+people have noticed. The CDC recommends schools maintain at least three feet of physical distance
+between students within classrooms combined with indoor mask wearing by people who are
+not fully vaccinated to reduce transmission risk. This is when it gets a little touchy for some
+people when it is not possible to maintain a physical distance of at least three feet,
+such as when schools cannot fully reopen while maintaining these distances. It is especially
+important to layer multiple other prevention strategies, such as mentioned indoor masking.
+So what they're saying here is if you can't get that three feet, if that's going to prevent you
+from opening, do not prevent it from opening, you got to open, we're going to use a multi-layered
+strategy. You got to get those schools open as the push from the CDC. Screening testing.
+Don't forget testing, screening testing, ventilation, hand washing and respiratory etiquette, staying
+home when sick and getting tested, contact tracing in combination with quarantine and isolation and
+cleaning and disinfection are also important layers of prevention to keep schools safe.
+So remember, these are layers. These are lots of things adding up to achieve that safe environment.
+Students, teachers and staff should stay home when they have signs of any infectious illness
+and be referred to their health care provider for testing and care. This should have seen to me
+like an obvious thing for many years. COVID is bringing this out. You send sick people to a school.
+What do we think is going to happen? Now, this many school served children under the age of 12
+who are not eligible for vaccination at this time. Therefore, this guidance emphasizes
+the implemented layered prevention strategies. COVID-19 prevention strategies remain critical
+to protect people, including students, teachers, staff who are not fully vaccinated, especially
+in areas of moderate to high community transmission levels. And finally, locality should monitor
+community transmission, vaccination coverage, screening testing and occurrence of outbreaks
+to guide decisions on the level of the layered prevention strategies. And this is all available
+to go through even in more detail at the CDC site. But as I mentioned going through this,
+there are a couple hot button issues. So let me talk a little bit about the science
+behind this multilayered approach that includes masks, improved ventilation,
+testing and vaccination in children. And the CDC, in addition to this guidance, they actually
+have a science brief. And this is science brief transmission of SARS-CoV-2 in K through 12 schools
+and early care and education programs. And this was updated July 9th. So this is the CDC's attempt
+to communicate the science that is driving these recommendations. And I do encourage people to
+look at this information. I was having a discussion just yesterday with friend of mine, Dr. Lucy McBride,
+you know, and she was asking like, well, what is the science behind these recommendations?
+So let me go through. What is the science? I mean, the CDC is a science driven organization.
+They're not going with hunches. And these are the four points that they base this on. One,
+children and adolescents can be infected with SARS-CoV-2, can get sick with COVID-19,
+and can spread the virus to others. So those are true. That's not something we can just deny.
+Two, several studies conducted during the COVID-19 pandemic suggested that the incidence rate among
+children and adolescents was lower than among adults. So remember, low, but not no risk. However,
+the lower incidence rates may have been due in part two children when compared to adults,
+having fewer opportunities for exposure. And I do really want to point this out. People say,
+oh, only about 500 children died in the last year. When we had them locked away,
+not able to go to school, not able to engage in all these activities, what happens when you
+start having children with the same exposure opportunities, it's an odd wording, exposure
+opportunities that adults have had. Point number three, although rates of severe outcomes,
+for instance, hospitalization and mortality from COVID-19 among children and adolescents are low,
+youth who belong to some racial and ethnic minority groups are disproportionately affected,
+similar to adults, and COVID-19 deaths among persons aged 5 to 17 years, 120 deaths among,
+let me say that again, 71 COVID-19 deaths among persons aged 5 to 17. We saw 120 deaths among
+those aged 0 to 4. Those were all reported to the National Center for Health Statistics through
+July 7. So just to point out, that was reducing these exposures to the children. We still were
+seeing deaths. The CDC doesn't go into this, but I will point out there's also the issue of long
+COVID. We've now we've focused too narrowly in adults, but also in children on just deaths and
+hospitalization. Think about all the children we've talked about with cardiac manifestations,
+with long COVID, who months after COVID are still not back normal. All right, number four, studies
+of SARS-CoV-2 transmission in schools that consistently implemented layered prevention strategies
+have shown success in limiting transmission in schools. And I'm going to go through a little bit
+of the science here. And I do want to point out there is lots of science behind these recommendations.
+These recommendations are based on about 100 peer-reviewed publications that one can access
+and read on the CDC site. So we've talked about some of these studies before. One was the study
+that we talked about in the end of May. It was a study of 11 school districts in North Carolina
+with in-person learning for at least nine weeks during the fall 2020 semester. And they reported
+minimal school-related transmission, even while community transmission was high.
+Now these schools implemented and strictly adhere to multiple prevention strategies including
+universal mask use, physical distancing. Now breaches and mask use likely explain the few
+instances of in-school spread of SARS-CoV-2. So I want to point this out. This is kind of an
+interesting issue. And I know I've gotten some less than friendly comments from parents. We can
+actually keep children safer in school, give them the social and educational interaction that is
+critical. Compared to if they stay home and they're socially isolated, at some point they're going
+to get together with their friends. They're going to get together in a suburban home, which is a
+high-risk environment. So just really good example here. Another study of elementary schools in Utah.
+Maybe people remember this one. This is where they implemented layered prevention strategies,
+such as mask wearing, cohorting. And they found very low transmission, secondary attack rate
+of less than 1%. I don't think we talked about this one, but the study of the K through 12 schools
+in St. Louis. Again, multi-layered prevention strategies in place. Only 2% of the contacts of
+the COVID-19 cases tested positive for the virus. This was again in a context of very high community
+transmission rates. We have a nice study out of Italy that they reference. They reference a study
+in Swiss schools, a German school. And then they sort of finish off their discussion with a study
+of private schools that reopened for in-person instruction in Chicago with the implementation of
+the layered prevention strategy. And again, minimal in-school transmission. So I do want to point
+out this is evidence-based. The CDC is not being whimsical here. We do want those kids in school.
+And I will just throw one quick scenario, which I encountered today. It was an outdoor learning
+environment. It was school, young kids. And they spent most of the day outside. But then what they
+do is they have snack time indoors. So they all go indoors, unmasked, sit around these tables. And
+one of the kids had COVID. So what do you think happened? And I was like, why can't they just
+have snack time outdoors? Be separated apart. Then there wouldn't have been this exposure. There
+wouldn't be a shutdown of the venue for 10 days. So I want to bring up not only can we keep kids
+safe, but we can also keep them there in school, not in and out of quarantine and isolation.
+All right. Pre-exposure period transmission testing. Never miss an opportunity to test.
+Rates are rising as I pointed out. These rates are going to keep rising into the fall and the
+winter. We need to keep testing. And we had a nice article comparing the diagnostic accuracy
+of point of care, lateral flow antigen testing for SARS-CoV-2 with RT-PCR in primary care. This
+was the REAP-2 study for those that were following this. It was published in the Lancet publication
+E Clinical Medicine. And I think this was well done taking what we know about rapid testing.
+This is a great diagnostic test early in disease in symptomatic individuals. And in this study,
+they looked at 2,562 patients with mild to moderate influenza-like symptoms. That classic
+that we think about with COVID, but we think about with a spectrum of other respiratory diseases.
+You know, fever, malaise, cough. This was a general practice network in an Austrian district.
+They were looking at October 22 to November 30, 2020. And all of these individuals, these
+patients received a clinical assessment, including both a lateral flow rapid test, so an LFT. And then
+all the patients that had suspected COVID-19 also went on to get that RT-PCR testing.
+And they reported in this cohort an overall sensitivity for the rapid antigen test in the
+acute illness of 95.4% with a specificity of 89.1%. They talk about positive predictive value,
+but I'm not going to actually mention that, because as we all know, the sensitivity specificity
+gets coupled with the prevalence, the pretest probability. So I'm going to leave it with that.
+If you have a low pretest probability, if you have a low prevalence in your community,
+that's going to impact the translation of your sensitivity and specificity into positive
+predictive values. But what I will also say, and I thought this was really nice,
+they had information on my favorite value. What is my favorite value? The CT value,
+the cycle threshold values. And they reported what we would expect,
+our listeners are thinking, do you think those people that had positive PCRs but a negative
+rapid, perhaps they had really high CT values and low viral loads? Yes, that was exactly.
+The rapid testing was strongly associated with CT values less than 30, and the duration of
+symptoms being in those first three days. So those first three days, the high level of
+RNA, that's when we're picking these people up. This is when we're picking up people who are
+transmitting the virus or capable of transmitting the virus. And I'm going to throw a little story.
+I think people like our stories. This was a sporting, a recent sporting event where they
+brought people into a cohort. They did all the right things. They tested people, you know, 72
+hours ahead of time. They tested them when they got in. And then day five, someone started to feel
+ill. They tested everyone, one person, that symptomatic person was positive. Another person was PCR
+positive. But in the high thirties, they pulled those two individuals out, and that was the end
+of the spread. So think about different testing, serving different roles. Active vaccination,
+we had a bit going on in this realm. I thought this was going to be quiet, but no,
+the never miss an opportunity to vaccinate and vaccination is how this pandemic ends.
+The FDA updated the J and J vaccine EUA to include Guillain-Barre syndrome. Reports of adverse
+events following use of the Janssen COVID-19 vaccine under emergency authorization suggest an
+increased risk of Guillain-Barre syndrome during the 42 days following vaccination.
+And they're suggesting that this may be a rate of about two to three million to two to three
+per million versus a background rate in the population of about one million. So when last,
+we hear they're looking at about 100 individuals. The nice thing about the media getting this out
+here is now clinicians and patients can report this to VAERS, the vaccine adverse event reporting
+system, and actually got a call yesterday from a neurologist colleague of mine who said, you know,
+I got a call from a patient. Is there a connection here with Guillain-Barre? I just diagnosed this
+individual with Guillain-Barre and about 40 days prior they had gotten their J and J vaccine. So
+this is going to help us make that connection. I do want to point out we're talking about, you
+know, a rate to three per million. So again, as I always like to say, you are making a decision
+between whether you're going to get vaccinated or since COVID is going to be with us, you're going
+to get COVID. We saw Guillain-Barre with COVID. We see Guillain-Barre with COVID at a much higher
+rate than with vaccine parallel here with influenza. We also got some interim immunogenicity and efficacy
+data for the AD26 COVID-2 vaccine. That's the Johnson and Johnson and Johnson and Noviral vector
+vaccine. And the authors evaluated antibody and T cell responses on day 239. That's about eight
+months after a single shot vaccine regimen, but also six months after a two shot regimen where they
+got one shot and they got another. Basically, what they were telling us is they excluded three
+individuals or 10 individuals, 10 individuals, three got excluded. So these are not big numbers
+here. One of the individuals had a breakthrough infection, nice spike in their antibodies because
+that couple others had a big spike in their antibodies turned out they went and got some mRNA vaccines.
+After they excluded those folks, they looked at the remaining and they reported that the spike
+specific interfere on gamma CD8 and CD4 T cell response showed durability and stability over
+this time period, the same with the antibody levels. There also was an interesting comment.
+This is really just a one page or so. There's not as much in here as one would like, but there's
+a lot packed in there. It looked like the neutralizing antibody breadth was expanding over time. So
+that'll be sort of interesting as we get more data on that. So I think this goes along with
+what we've seen. Those germinal centers keep sort of churning along. People have said two to four
+weeks after that vaccine is when you're protected. Well, it looks like that protection continues
+to evolve over some period of time. Now we also had another paper. This was forwarded to me by
+my good friend Dr. Amy Rosenfeld. And the paper was effectiveness of SARS-CoV-2 mRNA vaccines for
+preventing COVID-19 hospitalizations in the United States. This was a pre-print. This was a
+multi-center case control analysis in the U.S. adults hospitalized March 11 through May 5th, 2021.
+And the authors looked at 1,210 participants, median age 58 years. 22.8% were black. 13.8%
+were Hispanic. 20.6 had immunosuppression. The SARS alpha variant, the SARS-CoV-2 alpha variant
+was the most common variant, 59.7% of the sequenced viruses. They reported overall vaccine effectiveness
+for preventing hospitalizations was 86.9. They reported that the vaccine effectiveness in patients
+with immunosuppression was approximately 60%. And for patients with active solid organ or
+hematological malignancies, so solid organ would be, I will say, like a liver cancer, kidney cancer,
+or a hematological malignancy, things like leukemia. The estimated efficacy was still over 50%.
+So I do want to sort of point this out. And now we've seen a lot of these serology studies.
+For me, this was the really interesting part of the study was looking at individuals with
+active cancer, immune suppression. Despite those serology studies, which seem to have said,
+oh, these people, they don't show this immunological evidence, tell them that they should get vaccinated
+but act like they're not vaccinated. We're not seeing hospitals fill with these immunosuppressed
+people. A immunosuppressed person who gets a high antibody level, we don't tell them to rush out to
+a big party. But still, that individual who does not show a positive serology test, we're getting
+growing experience as well as evidence that those serology antibodies do not correlate with
+necessary with immunity. And we are seeing benefit in this population. So all right,
+the period of viral replication, the viral symptom phase, right, the time for monitoring
+and monoclonals, you know, and as I like to say, where you get tested, as ideally, we get your monoclonals.
+We may be moving away from the BAM Linivimab at TESS of a MAB into other cocktails and other
+therapies, but we did get a publication in the New England Journal of Medicine, BAM Linivimab,
+plus a TESS of a MAB in mild or moderate COVID-19. And this was done back before we were seeing a
+lot of the resistant variants. So this was a phase three trial in which ambulatory patients
+with mild or moderate COVID-19, who were at high risk for progression to severe disease,
+were randomly assigned randomly assigned in a one-to-one ratio to receive a single intravenous
+infusion of either this monoclonal antibody combination agent or placebo within three days
+after a laboratory diagnosis of severe acute respiratory syndrome. So SARS-CoV-2 infection,
+COVID-19. So nice and early, where we want to see it, the high-risk population, the primary outcome
+was the overall clinical status of the patients defined as COVID-19-related hospitalization or
+death from any cause by day 29. So a total of over 1,000, it was 1,035 patients underwent
+randomization and received the infusion or placebo. So by T29, 2.1% of the monoclonal
+infuse, the BAM Linivimab, a TESS of a MAB group, had a COVID-19-related hospitalization or death
+as compared to 7% in the placebo group. So a relative risk difference, 70%. So about a 30%
+risk reduction here, nice p-value, 0.001. No deaths occurred in any of the people that got the
+monoclonals. There were 10 deaths in the placebo group. Also a little more data that there was a
+greater reduction from baseline in the viral load, people getting monoclonals versus not.
+So we are, this is, I think, proof of principle of the monoclonals. We are shifting to the right
+monoclonal for the variant that you might have. But I continue to reinforce, this is incredibly
+powerful effective therapy. All right. So more negative data on Ivermectin with the publication
+of Ivermectin for the treatment of COVID-19, a systematic review and meta-analysis of randomized
+controlled trials. This was published in CID, clinical infectious disease. Now I don't want to
+spend too much time in this paper. As the authors point out themselves, based on the review, I'm
+going to quote here, the quality of evidence was low or very low for all outcomes. And their
+comment was that based upon available evidence, Ivermectin should only be used within clinical
+trials. And I have to say, I was a little surprised that this paper was published in CID.
+As the evidence they were looking at was really very low for all of the outcomes.
+And I think if they had sort of gone in the other direction saying we have really low
+poor quality evidence suggesting you should use Ivermectin, I don't think it would have gotten
+published. There is a lot of Ivermectin being used out there. What I take away from this is we
+really need a proper trial, not lots of anecdotes, not lots of small trials. We don't need sites
+with Ivermectin in the URL to go. We also have sort of a word of warning. We have a lot of folks
+out there using veterinary Ivermectin products, random doses, random periods of time, no clear
+timing relative to infection. This just seems like a terrible idea all around. I do think that
+we need really clear guidance on the role of Ivermectin either way. If we have clear,
+well-controlled trials that say Ivermectin provides some benefit in some people at some
+time, that's great. If it comes out the other way, we need to know that because right now this
+is a bit of the Wild West. We have believers, we have non-believers, it's very emotional.
+We need to know if this has a role in the disease. And I think this just sort of, if you like Ivermectin,
+you're angry about this trial. If you're not excited about Ivermectin, this is the,
+you know, I've always said, I don't know if this has, we just don't have the quality data,
+we need to guide us in this issue. All right, I'm going to get right here to the tail phase
+along COVID. And I want to say the CDC seems to have been really busy the last couple of weeks,
+everyone else was celebrating the fourth, the CDC was, you know, mandatory workday.
+On July 12th, there was an update on their post-COVID conditions page and under the
+prevention section, there were two, what I thought were interesting comments. One,
+the best way to prevent post-COVID conditions is by getting vaccinated against COVID-19
+as soon as you can. COVID-19 vaccination is recommended for all people, ages 12 and older,
+including if you had COVID-19 or a post-COVID condition. Now vaccination is not 100%. We certainly
+have seen individuals with breakthrough infections that go on to get long COVID,
+but that is a relatively small number compared to unvaccinated individuals.
+Next number two, although I thought this was interesting, although media articles have reported
+that some people with post-COVID conditions say their symptoms improved after being vaccinated,
+studies are needed to determine the effects of vaccination on post-COVID conditions.
+Then, under what CDC is doing, they state rapid and multi-year studies are underway to further
+investigate post-COVID conditions. These studies will help us better understand post-COVID conditions
+and how to treat patients with these longer-term effects. Now I think this should be reassuring
+to the millions, and it is millions at this point here in the US alone, suffering with post-COVID
+conditions. There was a BBC that I listened to earlier today, really talking about how the UK
+has recognized the post-COVID conditions. The US has recognized the post-COVID conditions,
+but the world is still dismissing this. And just think of all the COVID cases throughout the world
+and all the individuals that are going to suffer as a consequence of that.
+So there's really a commitment here in the United States, I have to say, there's funding,
+there's an organized effort, there are hard-working, brilliant, committed people working on this issue,
+and I am hoping that this science gets accomplished, and we can really help these individuals.
+So before we go to the emails, I want to remind everyone, we're getting near the end of July,
+we're almost at the end of our foundation international medical relief for children fundraiser.
+And along those same lines, this is critical. This is an organization that works throughout
+the world, working in those areas that are still being ravaged by the pandemic. The numbers are
+going up throughout the world. They are not going down. People are getting sick, people are ending
+up in the hospital, people are dying, people are recovering, but then continuing to have long
+COVID symptoms. So this is not over. Help us and help FIMRIC, go to parasiteswithoutborders.com,
+click on the donate button and help us with this work.
+Time for some email questions for Daniel. If you'd like to send one in, the address is
+Daniel at microb.tv. Now, I had one here queued up from D who wants to know what's going on with
+Ivermectin. She has friends who are trying to get it online, prescription and so forth, but I
+think you answered it pretty much, Daniel. So I will publish the letter in the letters part,
+but I think we don't need to address it. So D, I'm sure you got an answer from Daniel just now.
+So George writes, my four-year-old son had a surgically repaired VSD and ASD at six months old. His
+annual checkups have shown normal heart function since then. As you know, he's ineligible for a
+vaccine yet, but as we get closer to an approval for his age group, I wanted to ask whether the
+recent myocarditis risk would give you pause if he were eligible today. It's frequently mentioned
+that those who show symptoms of myocarditis or pericarditis post-vaccine respond well to treatment,
+but it seems to go on set of what that treatment entails and how that applies to those who have
+had congenital heart defects. As you know, they have a lifelong higher risk of endocarditis.
+I'm leaning towards vaccination, but wanted to understand the risks better, especially at this age group.
+And so this is great. And I want to say, I think it's great that you're asking questions.
+There's no problem asking questions about vaccinations. There's no problem wanting to be
+informed when you make this decision. We've moved past sort of the cattle approach of hurting
+people through these giant centers. And particularly now, as we're looking at younger individuals,
+there's a different metric. You look at an 80-year-old getting COVID versus vaccination.
+There's no, there's really nothing. It's very obvious that vaccination is there.
+But let's look at this case. So what we're looking at this point, unfortunately, is COVID is here
+to stay. So your calculation is the risk of vaccination versus the risk of COVID. So focusing
+just on the cardiac issues. I think I mentioned this last time, a friend of mine, Michael Amala,
+Dr. Michael Amala, actually as a cardiologist, went through kind of the risks of heart issues
+with COVID. And it's probably a couple percent is the low bar. Probably at least 2 percent of
+people that could COVID will have some evidence of heart issues. Some of that heart issues will
+continue farther along. If you do more sensitive testing, it might be as high as 50 percent.
+COVID triggers inflammation that affects the heart in a large number of individuals.
+So I see someone like your child that you're describing. And I say, boy, this is not a person
+that you want at risk for COVID. The vaccine is not zero in terms of risk, but the risk there
+is much lower with vaccination than it would be with having COVID. So that's the way I would
+weigh that decision. Protect your child so that they don't get COVID. Take that tiny risk when
+you know potentially it's going to happen with the vaccination. What is that treatment? It's
+ibuprofen. It's a leave. It's about 48 hours of taking it easy, and then the child is better.
+Quite a bit different than so many of the children that we've seen with long-term effects after COVID.
+James writes, dear Dr. Griffin, I'm so grateful for your podcast to the point the 20-something
+year-old son of one of my co-workers tested positive today for COVID-19. He reported symptoms
+yesterday. Should he be given monoclonal therapy or is such therapy reserved for higher risk patients?
+Yeah, this is almost the exact question I was just answering earlier today. It's a
+colleague of mine, had a family member who ended up, and actually, in that case, it was a second
+infection, which just troubles me. With these individuals who are 20 years old, they're considered
+at low risk. Even though the monoclonal antibodies are considered at very low risk safe therapy,
+we still have a limit to the EUA. These are sitting on shelves, but you have to go through and say,
+is this an individual who maybe their BMI is above 25? Actually, and you can Google, I'm going to
+say Google or Search, Internet Search, the Regeneron monoclonal fact sheet, and there's a list.
+But if there's diabetes, if there's any of these things, reach out to a clinician, have them help
+you work through this. If you've got a 20-year-old with a BMI of 26, they would qualify and be
+eligible for monoclonals, and it would make sense. So there's combination here of a risk-benefit
+ratio, but there's also a limited access, because this is still EUA products. These don't have quite
+the experience where we would start extending that off-label.
+And Martin from the UK writes, I'm seeking facts or merely off-the-record opinion as to whether
+Pfizer or other vaccinated asthma patients with occasional recourse to prednisolone run the risk
+of negating the benefits of vaccine effectiveness, or of significantly reducing immunity by
+medicating with low dose prednisolone, say, daily five to 10 eggs for a week or two. I'm assuming
+more typical rescue dosage of prednisolone. 40-migs daily would certainly best be avoided,
+unless the degree of exacerbation presented its own major health risk. Are you aware of any
+research on this topic? Could you venture a generalized opinion? What are the respiratory
+team in your hospital advising such asthma patients to do about oral steroid use during COVID?
+Also, is there a similar vaccine-negating or immunity-lowering risk for inhaler usage,
+where maximum licensed daily-inhaled steroids have been prescribed?
+Okay, so these are great, this great line of questioning. So we do have some data, at least on
+the serologies, right, that if someone gets vaccinated, and this makes sense immunologically,
+we would expect there to be a less robust antibody response. I don't think the steroids are going
+to have as much of an impact on your T-cell response, but we are in general recommending
+if you can stay off of immunosuppressants for a couple weeks before that vaccination.
+Hopefully stay off till you finish the cycle, so try to reduce that if possible.
+Inhaled are definitely going to have a lower systemic level than taken orally,
+so we would think of that as preferable. We do think these individuals are getting protection
+from the vaccines, but what we're trying to do is limit the drug and other effects on the immune
+response. That's COVID-19 clinical update number 71 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you, Vincent. Thank you, everybody, and be safe.

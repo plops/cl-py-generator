@@ -1,0 +1,1382 @@
+WEBVTT
+
+00:00.000 --> 00:04.480
+ This week in virology, the podcast about viruses,
+
+00:04.480 --> 00:07.060
+ the kind that make you sick.
+
+00:07.060 --> 00:10.440
+ ["The Power of Life"]
+
+00:10.440 --> 00:15.640
+ From Microbe TV, this is Twiv, this week in virology.
+
+00:15.640 --> 00:22.640
+ Episode 797, recorded on August 26th, 2021.
+
+00:22.920 --> 00:26.760
+ I'm Vincent Rackeniello, and joining me today
+
+00:26.760 --> 00:29.880
+ from New York, Daniel Griffin.
+
+00:29.880 --> 00:31.680
+ Hello, everyone.
+
+00:31.680 --> 00:33.680
+ Having a good week, Daniel?
+
+00:33.680 --> 00:36.800
+ You know, I am taking a little time off.
+
+00:36.800 --> 00:38.520
+ Spent some time with my parents,
+
+00:38.520 --> 00:40.720
+ which apparently I announced on the Brian Lair Show
+
+00:40.720 --> 00:43.560
+ before telling them I would spend time with them.
+
+00:43.560 --> 00:44.600
+ But it was nice.
+
+00:44.600 --> 00:46.680
+ We're out on the Eastern End of Long Island.
+
+00:46.680 --> 00:48.720
+ I saw whales every day.
+
+00:48.720 --> 00:49.560
+ Wow.
+
+00:49.560 --> 00:51.520
+ Even saw a pod of dolphins at one point.
+
+00:51.520 --> 00:53.040
+ And apparently my reaction was,
+
+00:53.040 --> 00:55.280
+ Barnaby, let's swim really fast so we can swim
+
+00:55.280 --> 00:58.520
+ with the dolphins, but he was a little slow there.
+
+00:58.520 --> 00:59.360
+ That's cool.
+
+00:59.360 --> 01:00.840
+ Yeah.
+
+01:00.840 --> 01:02.360
+ So I want to thank you, Vincent,
+
+01:02.360 --> 01:03.880
+ for being willing to record this
+
+01:03.880 --> 01:07.240
+ in late night here Thursday.
+
+01:07.240 --> 01:11.280
+ And then tomorrow morning, Krakadon, I am off to Virginia.
+
+01:11.280 --> 01:13.800
+ My daughters, Eloise, we're bringing her down.
+
+01:13.800 --> 01:16.400
+ Daisy's already down there, and they're starting
+
+01:16.400 --> 01:18.240
+ fall semester at William and Mary.
+
+01:18.240 --> 01:20.800
+ Oh my gosh, it's that time already.
+
+01:20.800 --> 01:22.280
+ Wow.
+
+01:22.280 --> 01:23.600
+ It is.
+
+01:23.600 --> 01:24.440
+ Oh boy.
+
+01:24.440 --> 01:25.680
+ Right until we got a lot today.
+
+01:25.680 --> 01:28.920
+ I didn't think I would have that much, but boy,
+
+01:28.920 --> 01:31.000
+ let me start with my quotation.
+
+01:31.000 --> 01:34.360
+ When one is young, one venerates and despises
+
+01:34.360 --> 01:37.880
+ without the art of nuances, which constitutes
+
+01:37.880 --> 01:39.480
+ the best gain of life.
+
+01:39.480 --> 01:42.160
+ And it is only fair that one has to pay dearly
+
+01:42.160 --> 01:44.640
+ for having assaulted men in things in this manner
+
+01:44.640 --> 01:46.840
+ with yes and no.
+
+01:46.840 --> 01:48.960
+ And that's from Friedrich Nietzsche,
+
+01:48.960 --> 01:50.480
+ beyond good and evil.
+
+01:51.640 --> 01:52.600
+ I actually loved his.
+
+01:52.600 --> 01:54.760
+ I was a philosopher major, as some of our listeners may
+
+01:54.760 --> 01:58.400
+ or may not know, and I loved reading Nietzsche.
+
+01:58.400 --> 02:00.840
+ That's not really where I went with philosophy,
+
+02:00.840 --> 02:04.320
+ but he has some quotes, wonderful quotations.
+
+02:04.320 --> 02:07.320
+ And I think that nuance needs to be the word
+
+02:07.320 --> 02:09.600
+ of science education.
+
+02:09.600 --> 02:13.000
+ You can't just, everyone wants these false dichotomies
+
+02:13.000 --> 02:17.320
+ and we need to avoid those and really focus on the truth.
+
+02:17.320 --> 02:21.240
+ All right, so how are things going?
+
+02:21.240 --> 02:24.080
+ I like to say a single point does not make a line.
+
+02:24.080 --> 02:27.680
+ And I feel at this point, we are building on knowledge
+
+02:27.680 --> 02:30.360
+ so people can take a deep breath and relax.
+
+02:30.360 --> 02:32.800
+ It's not, you're not gonna wake up tomorrow morning
+
+02:32.800 --> 02:35.400
+ and find something in the news that changes everything.
+
+02:35.400 --> 02:39.240
+ We are slowly moving in a very positive direction.
+
+02:40.240 --> 02:41.720
+ I mentioned the false dichotomies.
+
+02:41.720 --> 02:43.680
+ A few weeks ago, Rich Condit picked a paper
+
+02:43.680 --> 02:47.680
+ about false dichotomies of the COVID-19 pandemic,
+
+02:47.680 --> 02:50.560
+ COVID-19 false dichotomies and a comprehensive review
+
+02:50.560 --> 02:52.320
+ of the evidence regarding public health,
+
+02:52.320 --> 02:56.080
+ COVID-19 symptomatology, SARS-CoV-2 transmission,
+
+02:56.080 --> 02:58.400
+ mask wearing and reinfection.
+
+02:58.400 --> 03:01.240
+ This was published in BMC Infectious Diseases.
+
+03:02.080 --> 03:03.240
+ It's worth a read, right?
+
+03:03.240 --> 03:05.640
+ This will be my reader pick right up front.
+
+03:06.520 --> 03:08.600
+ I know that we've always tried here on Twib
+
+03:08.600 --> 03:10.840
+ to avoid this black and white.
+
+03:10.840 --> 03:13.640
+ People wanna know, is it this, is it that?
+
+03:13.640 --> 03:17.000
+ But the truth is a little more nuanced.
+
+03:17.000 --> 03:19.200
+ And I think at the end of the day,
+
+03:19.200 --> 03:21.560
+ the inaccuracies of the black and white approaches
+
+03:21.560 --> 03:22.840
+ can backfire.
+
+03:22.840 --> 03:25.120
+ And I think people are sharp enough.
+
+03:25.120 --> 03:27.560
+ Definitely our audience is sharp enough
+
+03:27.560 --> 03:29.280
+ to get educated up to the point
+
+03:29.280 --> 03:32.120
+ where they really understand what they need to.
+
+03:32.120 --> 03:35.480
+ So children and COVID,
+
+03:35.480 --> 03:37.160
+ I actually am gonna update my quotation.
+
+03:37.160 --> 03:40.440
+ I'm just gonna say black and white children are at risk
+
+03:40.440 --> 03:42.560
+ if they get COVID.
+
+03:42.560 --> 03:43.960
+ And as I've been saying for a while now,
+
+03:43.960 --> 03:46.360
+ wearing a mask is less dramatic for a child
+
+03:46.360 --> 03:48.320
+ than being hospitalized.
+
+03:48.320 --> 03:52.480
+ When children were protected and did not get COVID,
+
+03:52.480 --> 03:55.320
+ they could not have a lot of the consequences.
+
+03:55.320 --> 03:58.120
+ But now children are getting infected.
+
+03:58.120 --> 04:02.680
+ Was listening to the Andy Slavitt podcast this last week.
+
+04:02.680 --> 04:04.760
+ And when I heard this number, I was shocked.
+
+04:04.760 --> 04:07.320
+ So I actually had to go check it out myself.
+
+04:07.320 --> 04:12.320
+ But 180,175 child COVID-19 cases
+
+04:12.320 --> 04:17.320
+ were reported the past week from A12 to A19.
+
+04:18.160 --> 04:20.080
+ That's here in the U.S.
+
+04:20.080 --> 04:23.320
+ Among states reporting looks,
+
+04:23.320 --> 04:25.320
+ and this was a little disturbing to me.
+
+04:25.320 --> 04:27.320
+ We've sort of been saying your child's chance
+
+04:27.320 --> 04:29.320
+ of ending up in the hospital is about one in 100,
+
+04:29.320 --> 04:30.320
+ about 1%.
+
+04:30.320 --> 04:33.320
+ This is creeped up to about 2.2%.
+
+04:33.320 --> 04:35.320
+ So if a child gets COVID,
+
+04:35.320 --> 04:38.320
+ so COVID child's case about one in 50
+
+04:38.320 --> 04:40.320
+ of ending up in the hospital,
+
+04:40.320 --> 04:43.320
+ that's not what I think we all thought.
+
+04:43.320 --> 04:45.320
+ We're down to only seven states
+
+04:45.320 --> 04:48.320
+ that are able to say they have not had a child die of COVID
+
+04:48.320 --> 04:49.320
+ in their state.
+
+04:51.320 --> 04:53.320
+ And if you look at the deaths,
+
+04:53.320 --> 04:57.320
+ we're about for every 10,000 cases in children,
+
+04:57.320 --> 04:58.320
+ we're seeing a death.
+
+04:58.320 --> 05:03.320
+ So you could just do the math as we approach 200,000 cases a week.
+
+05:03.320 --> 05:07.320
+ We're looking at about 20 children a week dying of COVID.
+
+05:07.320 --> 05:10.320
+ So I think that it's proper to update this and say,
+
+05:10.320 --> 05:12.320
+ children are at risk if they get COVID.
+
+05:12.320 --> 05:15.320
+ Whether or not people want to blame the Delta variant,
+
+05:15.320 --> 05:17.320
+ say this change something or just say,
+
+05:17.320 --> 05:20.320
+ we are actually now seeing children getting infected,
+
+05:20.320 --> 05:21.320
+ it's clear.
+
+05:21.320 --> 05:23.320
+ Children are at risk of death.
+
+05:23.320 --> 05:25.320
+ They're certainly at risk of hospitalization.
+
+05:25.320 --> 05:27.320
+ We're seeing rising numbers.
+
+05:27.320 --> 05:31.320
+ And children certainly can have prolonged or long COVID
+
+05:31.320 --> 05:33.320
+ or post-acute squally of COVID.
+
+05:33.320 --> 05:36.320
+ So I think we've moved to pass that.
+
+05:36.320 --> 05:40.320
+ And as we open schools, we need to think about what do we do
+
+05:40.320 --> 05:41.320
+ to keep our children safe.
+
+05:41.320 --> 05:43.320
+ So all right.
+
+05:43.320 --> 05:47.320
+ Never miss an opportunity to test.
+
+05:47.320 --> 05:50.320
+ We did have another preprint looking at the relationship
+
+05:50.320 --> 05:54.320
+ between viral RNA load, CT values,
+
+05:54.320 --> 05:58.320
+ and infected vaccinated and infected unvaccinated individuals.
+
+05:58.320 --> 06:03.320
+ And this was the biological characteristic of SARS-CoV-2 vaccine
+
+06:03.320 --> 06:06.320
+ breakthrough infections in healthcare workers.
+
+06:06.320 --> 06:10.320
+ These investigators looked at 161 infections
+
+06:10.320 --> 06:13.320
+ and fully vaccinated healthcare workers.
+
+06:13.320 --> 06:15.320
+ The results are still binary,
+
+06:15.320 --> 06:17.320
+ but there's a sort of a sensitivity issue,
+
+06:17.320 --> 06:20.320
+ but it's viral isolation or not.
+
+06:20.320 --> 06:24.320
+ These investigators reported that despite similar CT values,
+
+06:24.320 --> 06:29.320
+ they found a lower probability of infectious virus detection
+
+06:29.320 --> 06:32.320
+ and respiratory samples of vaccinated healthcare workers
+
+06:32.320 --> 06:35.320
+ with infections compared to unvaccinated healthcare workers
+
+06:35.320 --> 06:38.320
+ with primary SARS-CoV-2 infections.
+
+06:38.320 --> 06:42.320
+ They also reported that these vaccinated infected healthcare workers,
+
+06:42.320 --> 06:47.320
+ the CT values decreased through the first three days of illness.
+
+06:47.320 --> 06:51.320
+ These investigators concluded that data support that SARS-CoV-2,
+
+06:51.320 --> 06:57.320
+ infectious virus shedding, is probably lower in vaccinated individuals
+
+06:57.320 --> 07:01.320
+ with infections caused by primarily the delta variant in the study
+
+07:01.320 --> 07:05.320
+ than in unvaccinated individuals with primary infections.
+
+07:05.320 --> 07:10.320
+ They also reported that there were no statistically significant differences
+
+07:10.320 --> 07:13.320
+ in the CT values between healthcare workers immunized
+
+07:13.320 --> 07:16.320
+ with the four different vaccines.
+
+07:16.320 --> 07:20.320
+ I know the J&J folks always feel like we're leaving them out,
+
+07:20.320 --> 07:23.320
+ but here they were seeing parity.
+
+07:23.320 --> 07:28.320
+ Vincent, do you have any comments on this?
+
+07:28.320 --> 07:32.320
+ So it doesn't have the quantitation that I want, right?
+
+07:32.320 --> 07:33.320
+ Yeah.
+
+07:33.320 --> 07:35.320
+ That I want to, that we want, yes.
+
+07:35.320 --> 07:36.320
+ That we want.
+
+07:36.320 --> 07:38.320
+ And that's hard to do.
+
+07:38.320 --> 07:43.320
+ But instead, the paper depends on statistical procedures to draw its conclusions.
+
+07:43.320 --> 07:47.320
+ And if you look at some of the comments on the Med Archive site,
+
+07:47.320 --> 07:52.320
+ I think this paper can be helped by some peer review.
+
+07:52.320 --> 07:53.320
+ Yeah, I think that's fair.
+
+07:53.320 --> 07:57.320
+ I mean, we really, you know, what do we want for our listeners to clarify?
+
+07:57.320 --> 08:02.320
+ We would like to see quantification, not a binary assessment of
+
+08:02.320 --> 08:05.320
+ isolation or not.
+
+08:05.320 --> 08:09.320
+ But, you know, I think that, you know, I think the Singapore study was the most,
+
+08:09.320 --> 08:11.320
+ the Singapore paper was the most reassuring to me.
+
+08:11.320 --> 08:15.320
+ Even if you have similar CT values, it is for a shorter duration.
+
+08:15.320 --> 08:21.320
+ So I think we can at least already say a vaccinated person is a lower risk of getting infected.
+
+08:21.320 --> 08:25.320
+ If they are infected, it's for a shorter period of time that they appear to be infectious.
+
+08:25.320 --> 08:27.320
+ So I am reassured.
+
+08:27.320 --> 08:28.320
+ All right.
+
+08:28.320 --> 08:32.320
+ Another topic that I get asked about actually quite a bit.
+
+08:32.320 --> 08:38.320
+ And we had the original peer reviewed investigation addressing this issue.
+
+08:38.320 --> 08:45.320
+ COVID-19 transmission dynamics among close contacts of index patients with COVID-19,
+
+08:45.320 --> 08:51.320
+ a population based cohort study in Zagieg province, China.
+
+08:51.320 --> 08:54.320
+ This was in JAMA internal medicine.
+
+08:54.320 --> 08:57.320
+ And this is really looking at a contact tracing.
+
+08:57.320 --> 09:00.320
+ And when are we seeing transmission?
+
+09:00.320 --> 09:06.320
+ And this study used a population based cohort of 730 individuals.
+
+09:06.320 --> 09:08.320
+ These were your index patients.
+
+09:08.320 --> 09:16.320
+ They had received a diagnosis of COVID-19 in China between January 8th and July 30th, 2020.
+
+09:16.320 --> 09:21.320
+ And they had a contact tracing surveillance program.
+
+09:21.320 --> 09:24.320
+ So this was actually quite a massive undertaking.
+
+09:24.320 --> 09:33.320
+ Field workers visited 8,852 close contacts of the index patients and evaluated these contacts
+
+09:33.320 --> 09:37.320
+ for COVID-19 through August 2020, right?
+
+09:37.320 --> 09:39.320
+ So you got to follow a little bit afterwards.
+
+09:39.320 --> 09:45.320
+ And then a timeline was constructed to characterize different exposure periods between the index patients
+
+09:45.320 --> 09:46.320
+ and their contacts, right?
+
+09:46.320 --> 09:52.320
+ So we're trying to ask this question based on the study, when are people who are infected,
+
+09:52.320 --> 09:55.320
+ who get infected, when are they transmitting to others?
+
+09:55.320 --> 10:02.320
+ So the primary outcome was the attack rate of COVID-19 defined as a total number of new COVID-19 cases
+
+10:02.320 --> 10:08.320
+ diagnosed among contacts of index patients divided by the total number of exposed contacts.
+
+10:08.320 --> 10:14.320
+ A secondary outcome was asymptomatic clinical presentation among infected contacts.
+
+10:14.320 --> 10:19.320
+ Relative risks were calculated to investigate risk factors for COVID-19 among contacts
+
+10:19.320 --> 10:23.320
+ and asymptomatic clinical presentation among infected contacts.
+
+10:23.320 --> 10:31.320
+ So among these 8,852 close contacts of the 730 index patients,
+
+10:31.320 --> 10:37.320
+ contacts were at highest risk if they were exposed between two days before
+
+10:37.320 --> 10:43.320
+ and three days after the index patient's symptom onset peaking at day zero.
+
+10:43.320 --> 10:48.320
+ Compared with being exposed to an index, asymptomatic index patient,
+
+10:48.320 --> 10:53.320
+ the risk of COVID-19 among contacts was higher when they were exposed to index patients
+
+10:53.320 --> 10:57.320
+ with mild or moderate disease, right?
+
+10:57.320 --> 11:04.320
+ And this was about a 4.3 adjusted relative risk, which I think is actually a couple of things
+
+11:04.320 --> 11:07.320
+ we're getting from this study.
+
+11:07.320 --> 11:11.320
+ One is I think we're really seeing confirmation that two days before,
+
+11:11.320 --> 11:14.320
+ three days after is really this peak risk.
+
+11:14.320 --> 11:18.320
+ We're also, and it may be this makes sense, but this is just one study,
+
+11:18.320 --> 11:23.320
+ that a person with symptoms appear to be more likely to transmit it to someone
+
+11:23.320 --> 11:25.320
+ than an asymptomatic person.
+
+11:25.320 --> 11:28.320
+ But remember that two days before is the pre-symptomatic period.
+
+11:28.320 --> 11:30.320
+ So we sort of add that.
+
+11:30.320 --> 11:35.320
+ But there continues to be this whole discussion about how long do we isolate the infected, right?
+
+11:35.320 --> 11:38.320
+ Quarantine the exposed, isolation infected.
+
+11:38.320 --> 11:43.320
+ And one of the things that people keep asking me is we have data like this.
+
+11:43.320 --> 11:47.320
+ Now we have the Singapore study, people who are vaccinated.
+
+11:47.320 --> 11:51.320
+ If they get a positive PCR test and they're asymptomatic,
+
+11:51.320 --> 11:55.320
+ do they really need to isolate for 10 days from that positive test?
+
+11:55.320 --> 12:01.320
+ So we still need more data, but I could see this evolving over time.
+
+12:01.320 --> 12:03.320
+ So we'll keep an eye on this.
+
+12:03.320 --> 12:05.320
+ Mention, any comments or just.
+
+12:05.320 --> 12:08.320
+ This is an interesting conclusion.
+
+12:08.320 --> 12:13.320
+ They say that if you had an asymptomatic infection,
+
+12:13.320 --> 12:19.320
+ you're more likely to transmit it to someone who's going to get an asymptomatic infection, right?
+
+12:19.320 --> 12:21.320
+ Yeah, I didn't even go there.
+
+12:21.320 --> 12:23.320
+ I ignored that part.
+
+12:23.320 --> 12:26.320
+ I find that difficult to understand, right?
+
+12:26.320 --> 12:28.320
+ Yeah, I didn't go there.
+
+12:28.320 --> 12:34.320
+ And the reason I didn't is what they seem to be suggesting was this idea of inoculum.
+
+12:34.320 --> 12:36.320
+ They had this idea, right?
+
+12:36.320 --> 12:39.320
+ That if you've got a lower inoculum, you might end up with an asymptomatic.
+
+12:39.320 --> 12:40.320
+ Yeah.
+
+12:40.320 --> 12:42.320
+ If you had a higher inoculum, I didn't know if that.
+
+12:42.320 --> 12:44.320
+ So I didn't take that as a takeaway.
+
+12:44.320 --> 12:47.320
+ I thought the two days before, three days after it.
+
+12:47.320 --> 12:48.320
+ Yeah, I think that's strong.
+
+12:48.320 --> 12:50.320
+ Yeah, I agree.
+
+12:50.320 --> 12:51.320
+ All right.
+
+12:51.320 --> 12:56.320
+ Active vaccination never missed an opportunity to vaccinate and vaccination is how this pandemic gets.
+
+12:56.320 --> 13:00.320
+ So Monday, August 23rd, we had the announcement.
+
+13:00.320 --> 13:05.320
+ The U.S. FDA approved the first COVID-19 vaccine.
+
+13:05.320 --> 13:09.320
+ The vaccine has been known as the Pfizer biotech COVID-19 vaccine.
+
+13:09.320 --> 13:13.320
+ And now we'll be marketed as, are we ready?
+
+13:13.320 --> 13:15.320
+ Co-mere-natic.
+
+13:15.320 --> 13:17.320
+ I don't see that.
+
+13:17.320 --> 13:19.320
+ I don't see anyone changing.
+
+13:19.320 --> 13:21.320
+ Who came up with this?
+
+13:21.320 --> 13:22.320
+ No one called me.
+
+13:22.320 --> 13:26.320
+ I remember they used to call me when they were going to name drugs like, you know, Dr. Griffin.
+
+13:26.320 --> 13:29.320
+ Does this make you think of a sports car or a family sedan?
+
+13:29.320 --> 13:34.320
+ You know, and they had all kinds of ideas, but I don't get this.
+
+13:34.320 --> 13:35.320
+ I don't see it working.
+
+13:35.320 --> 13:41.320
+ I don't see my, I don't even seem personally me remembering co-mere-natic.
+
+13:41.320 --> 13:45.320
+ So I think anyway, okay.
+
+13:45.320 --> 13:50.320
+ For prevention of COVID-19 disease, an individual 16 years of age and older, right?
+
+13:50.320 --> 13:53.320
+ So full licensure is what we're seeing.
+
+13:53.320 --> 14:01.320
+ We still have the EUA continues to be available under EUA for individuals 12 through 15 years of age.
+
+14:01.320 --> 14:08.320
+ And they threw in and for the administration of a third dose in certain immunocompromised individuals still under EUA.
+
+14:08.320 --> 14:11.320
+ That's not under the full licensure.
+
+14:11.320 --> 14:18.320
+ Now, we got also the impact of vaccination on hospitalizations continues to be robust.
+
+14:18.320 --> 14:24.320
+ And I'm going to, going to throw some information here from the Peterson Kaiser Family Foundation.
+
+14:24.320 --> 14:34.320
+ 98.3% of people hospitalized with a COVID-19 diagnosis between May and July 2021 were unvaccinated.
+
+14:34.320 --> 14:40.320
+ And this cost us an extra $2.3 billion at a national level in healthcare spending.
+
+14:40.320 --> 14:45.320
+ And the average personal out of pocket cost was $1,300.
+
+14:45.320 --> 14:57.320
+ So just to sort of a couple of things I want to get out here, one is we're at a point now where the majority of people that end up in the hospital are the unvaccinated.
+
+14:57.320 --> 15:02.320
+ It's a huge expense to our country. I mean, this is costing us billions of dollars.
+
+15:02.320 --> 15:14.320
+ But also these people, individuals who take the chance and decide to go unvaccinated, they may end up, you know, instead of a free vaccine paying $1,300 out of pocket.
+
+15:14.320 --> 15:19.320
+ And I know a lot of the Kaiser Foundation people actually listened to our podcast.
+
+15:19.320 --> 15:22.320
+ So I thank you and I appreciate this data.
+
+15:22.320 --> 15:30.320
+ But I want to go in a direction here in a sense to prepare people for what I think we will be seeing in the future.
+
+15:30.320 --> 15:34.320
+ So I don't want people to keep asking like, oh, is this still true?
+
+15:34.320 --> 15:41.320
+ Is it still true that the majority of individuals getting hospitalized are unvaccinated?
+
+15:41.320 --> 15:46.320
+ Because at some point, I hope the majority of people are vaccinated.
+
+15:46.320 --> 15:53.320
+ And thus it should be pretty rare to find an unvaccinated person anywhere, including the hospital, right?
+
+15:53.320 --> 16:05.320
+ If we have vaccinated the majority of our highest risk population, that's the population that even though vaccination is going to reduce that risk, they are the ones that are at risk.
+
+16:05.320 --> 16:15.320
+ So I want to bring up a next article which was in the MMWR where we're looking at an area with very high vaccination coverage in the most vulnerable.
+
+16:15.320 --> 16:27.320
+ And so this was an MMWR early release, SARS-CoV-2 infections and hospitalizations among persons aged greater or equal to 16 years by vaccination status.
+
+16:27.320 --> 16:33.320
+ Los Angeles County, California, May 1 through July 25, 2021.
+
+16:33.320 --> 16:41.320
+ So here are the authors looked at an area with high vaccination rates, as I mentioned, particularly in the highest risk populations.
+
+16:41.320 --> 16:52.320
+ During May 1 to July 25, 2021, among the 43,127 SARS-CoV-2 infections in residents of Los Angeles County,
+
+16:52.320 --> 17:04.320
+ 25% were in fully vaccinated persons, 3.3% were in partially vaccinated persons, and 71.4% were in unvaccinated persons, right?
+
+17:04.320 --> 17:11.320
+ So people might look at this and say, Oh my gosh, we are seeing more infections in fully vaccinated persons, which I expect.
+
+17:11.320 --> 17:14.320
+ And the more we vaccinate, the more we see.
+
+17:14.320 --> 17:16.320
+ But here's the critical.
+
+17:16.320 --> 17:25.320
+ They reported that unvaccinated persons, people, were 4.9 times as likely to get infected.
+
+17:25.320 --> 17:26.320
+ That's interesting.
+
+17:26.320 --> 17:30.320
+ This is this new superpower of vaccine protecting us against infection.
+
+17:30.320 --> 17:37.320
+ But here's the proof of the pudding, 29.2 times as likely to end up in the hospital.
+
+17:37.320 --> 17:39.320
+ So let's round that to 30.
+
+17:39.320 --> 17:47.320
+ One vaccinated person is 30 times as likely as a similar vaccinated person to end up in the hospital.
+
+17:47.320 --> 17:54.320
+ So I think it's critical to realize now that vaccinated people, they still get infected.
+
+17:54.320 --> 17:57.320
+ They still can end up with long COVID.
+
+17:57.320 --> 17:59.320
+ They still could get hospitalized.
+
+17:59.320 --> 18:00.320
+ They still might die.
+
+18:00.320 --> 18:03.320
+ But vaccines greatly reduce that risk.
+
+18:03.320 --> 18:14.320
+ So people to start thinking and don't keep asking for that number, what percentage of the people that you're seeing in the hospital are unvaccinated versus vaccinated because I want that number to change.
+
+18:14.320 --> 18:20.320
+ I want us to continue to vaccinate over a million people a day, which we're doing again here in the US.
+
+18:20.320 --> 18:26.320
+ And I really think we need to focus on getting everyone vaccinated.
+
+18:26.320 --> 18:36.320
+ Now, I've been saying for a while that this pandemic is being driven by people not getting the first two doses, rather than people not getting a third dose.
+
+18:36.320 --> 18:38.320
+ And the whole booster conversation continues.
+
+18:38.320 --> 18:41.320
+ So I'm going to use this as an opportunity to plug.
+
+18:41.320 --> 18:56.320
+ Twiv, 796, the very hungry spike with Paul Venus and Theodora Hatzino.
+
+18:56.320 --> 19:02.320
+ I'm going to work on that, because I have to say I really enjoyed Theodora's comments.
+
+19:02.320 --> 19:12.320
+ But this is a great, really great discussion in depth about the booster issue.
+
+19:12.320 --> 19:17.320
+ So, you know, when you're done listening to me, go listen to Twiv, 796.
+
+19:17.320 --> 19:19.320
+ It is really worth your time.
+
+19:19.320 --> 19:25.320
+ Now, what are the things I will touch on is what is the game plan with boosters?
+
+19:25.320 --> 19:33.320
+ Are we going to try to keep those antibody levels high to try to boost this new superpower of protection against infection?
+
+19:33.320 --> 19:52.320
+ Are we going to try to do this every falls that we go into the winter with our population temporarily boosted, or is instead this a change of our vaccination from a two dose to a three dose vaccine with or without periodic boosts.
+
+19:52.320 --> 20:00.320
+ There was a preprint, a third COVID-19 vaccine shot markedly boost neutralizing antibody potency and breath.
+
+20:00.320 --> 20:08.320
+ This was posted by David host group at Columbia that prestigious university in the upper west side of New York City.
+
+20:08.320 --> 20:18.320
+ The idea is that perhaps we rushed that first boost to quickly get to a level of protection, you know, something we desperately needed in the pandemic.
+
+20:18.320 --> 20:28.320
+ And that if we waited and got a third dose, sort of a second boost, this might give us a broader and more durable level of protection.
+
+20:28.320 --> 20:31.320
+ We certainly can't predict the future.
+
+20:31.320 --> 20:39.320
+ You know, and we are the US is moving forward. It appears with this third dose. But what did they find? This was a heterologous boost.
+
+20:39.320 --> 20:50.320
+ So this was first the M RNA vaccine to doses. And then they got the J and J. So they had no vector. They looked at four healthy individuals.
+
+20:50.320 --> 21:04.320
+ And they did find that this approach boosted anybody titers, and they also reported that the level of neutralizing antibodies against all circulating variants was boosted as well.
+
+21:04.320 --> 21:11.320
+ So this is happening, I guess. Vincent, you have any comments?
+
+21:11.320 --> 21:18.320
+ Well, really what's important is I don't care about the neutralization titer. I want to know protection against disease, right?
+
+21:18.320 --> 21:27.320
+ Yeah. And I think we've talked and it's reassuring. The vaccines are continuing to be really effective, to be honest.
+
+21:27.320 --> 21:34.320
+ This, you know, I was hanging out with my dad, right, last few days, you know, and he's reading the headlines, which I think are misleading.
+
+21:34.320 --> 21:41.320
+ And, you know, and he says, Oh, I just read, Oh, that the vaccines are losing effectiveness. And I said, Dad, actually calm pop.
+
+21:41.320 --> 21:48.320
+ So pop, they're losing effectiveness against what he's like, I don't know what they're supposed to do.
+
+21:48.320 --> 21:58.320
+ I was like, that's the point. And I'm going to annoy you for a minute because I'm going to, we're going to go with that. But yeah, they were studied to protect against disease, death, hospitalizations.
+
+21:58.320 --> 22:06.320
+ This is a new superpower that we've discovered. And now we're saying, Oh, they're not doing the superpower as well anymore. So, all right.
+
+22:06.320 --> 22:13.320
+ That ship has sailed, as they say. But we'll continue with the education. Now, what about the J and J vaccine, right?
+
+22:13.320 --> 22:22.320
+ The poor J and J people. I see a lot of sort of bitterness, people saying, I was told that the best vaccine, which was, which was whatever one you could get.
+
+22:22.320 --> 22:37.320
+ Well, this week, we got a press release from J and J where the company reported interim phase one to a data published in the New England Journal, right?
+
+22:37.320 --> 22:51.320
+ We went over and discussed that. But in anticipation of the need for boosters, the company conducted two phase one to a studies and individuals previously vaccinated with a single shot vaccine.
+
+22:51.320 --> 23:04.320
+ And now they're looking at giving a booster dose or a second dose of the Johnson and Johnson. And they report that 28 days after the primary single dose vaccination.
+
+23:04.320 --> 23:16.320
+ This second shot significantly increases biting anybody responses in the participants. The study is apparently going to be posted on as a preprint.
+
+23:16.320 --> 23:23.320
+ So, as we get that data, I'll look through it and share that certainly.
+
+23:23.320 --> 23:31.320
+ All right, period of detectable viral replication, right? This is when you test positive. This is that viral symptom phase.
+
+23:31.320 --> 23:36.320
+ I like to say the time for monitoring and monoclonals, not the time for antibiotics.
+
+23:36.320 --> 23:39.320
+ And I have some good news on this run.
+
+23:39.320 --> 23:48.320
+ Currently, the Health and Human Services Department, I'm going to start with the bad news. We had only been using about 20 or 30,000 doses a week.
+
+23:48.320 --> 23:59.320
+ When we got to July, we are now we have spiked up to 168,000 doses a week of the Regeneron monoclonal antibody cocktail.
+
+23:59.320 --> 24:05.320
+ And demand for such a VMAB, right? That's the other monoclonal from the GSK.
+
+24:05.320 --> 24:15.320
+ That has increased over 300% over the past month. So people are getting it. People are getting the monoclonals. People are asking for it.
+
+24:15.320 --> 24:18.320
+ Physicians are making sure patients get it.
+
+24:18.320 --> 24:28.320
+ You know, this is the monoclonal antibodies are the most effective antiviral therapy we have for SARS-CoV-2 right now for people with COVID-19.
+
+24:28.320 --> 24:34.320
+ We also got some preliminary results of the NIH sponsored phase three active to trial.
+
+24:34.320 --> 24:42.320
+ And this is another combination of two monoclonals. They looked at over 800 randomized patients.
+
+24:42.320 --> 24:52.320
+ They gave this combination of its RRI 196. Don't worry. This does not roll off the tongue and VRI 198.
+
+24:52.320 --> 25:00.320
+ And they looked at the composite endpoint of hospitalization and death. This was reduced by 78%.
+
+25:00.320 --> 25:08.320
+ They had a p-value of 0.00001. I mean, these are incredibly effective therapies.
+
+25:08.320 --> 25:14.320
+ I would love to see them move from EUA to full licensure, just like those vaccines.
+
+25:14.320 --> 25:19.320
+ But I do have a little pet peeve as well as this is going.
+
+25:19.320 --> 25:26.320
+ You know, we discussed a couple months ago, mid June, the excellent data from the UK recovery trial,
+
+25:26.320 --> 25:32.320
+ where we know that early on when people were given this late in the ICU, it was not helpful, maybe harmful.
+
+25:32.320 --> 25:41.320
+ But if you can give this to individuals early at hospital admission, people that show up but are still antibody negative,
+
+25:41.320 --> 25:45.320
+ there's a 25% reduction in mortality.
+
+25:45.320 --> 25:50.320
+ And actually, if you look through a lot of our trials, that subset always did well.
+
+25:50.320 --> 25:57.320
+ So if you look at people who show up without an antibody response, serology negative, there is a mortality reduction.
+
+25:57.320 --> 26:05.320
+ It's not helpful if the person has already mounted that antibody response. If it's already late, they've been in the ICU on a ventilator for a while.
+
+26:05.320 --> 26:18.320
+ But, you know, if you look at the EUA, the Regeneron COV, so that CASA RIVA MAB is not authorized currently under the EUA for patients who are hospitalized due to COVID-19.
+
+26:18.320 --> 26:24.320
+ So that's a bit of a challenge. And we've actually talked about it among, you know, other infectious disease physicians.
+
+26:24.320 --> 26:30.320
+ You know, here you have a therapy, you have really good data that you can make a difference, that you can reduce mortality,
+
+26:30.320 --> 26:35.320
+ where limited, the EUA is restricting us. So I know people, the FDA listens.
+
+26:35.320 --> 26:40.320
+ So we would like a little bit of liberalness to use this effective therapy.
+
+26:40.320 --> 26:44.320
+ All right, the early inflammatory phase. This is right.
+
+26:44.320 --> 26:50.320
+ Often when people get hospitalized, I think I've talked about what I call the soft admission.
+
+26:50.320 --> 26:55.320
+ Someone comes in with an oxygen saturation of maybe 92%.
+
+26:55.320 --> 27:01.320
+ You know, here in the New York area, a lot of our pro-health urgent cures, we will start them on oral steroids.
+
+27:01.320 --> 27:07.320
+ A lot of these individuals stay above 90 and can avoid that, what I call the five day remdesivir stay.
+
+27:07.320 --> 27:11.320
+ Remember, remdesivir's only benefit was reducing hospitalizations.
+
+27:11.320 --> 27:18.320
+ If you hospitalized someone to give them remdesivir, you've failed to do what remdesivir has been shown to do.
+
+27:18.320 --> 27:27.320
+ And so if we can save that $3,000, you know, drug use, we can save those hospital beds for people who really need them.
+
+27:27.320 --> 27:31.320
+ And not just COVID patients, a lot of individuals that need access to the hospital.
+
+27:31.320 --> 27:35.320
+ So let's try to make some smart decisions there.
+
+27:35.320 --> 27:43.320
+ Another thing that is challenging in this area is we are now experiencing tosyllizumab shortages in many parts of our country.
+
+27:43.320 --> 27:51.320
+ So mixed feelings here, it's tremendous that it's now recognized that patients that have been started on steroids,
+
+27:51.320 --> 28:00.320
+ progress to higher oxygen needs, you can again, seems like a magic number, a 25% mortality reduction by adding tosyllizumab to the right patient at the right time.
+
+28:00.320 --> 28:09.320
+ So obviously this medicine is being used, but we need to really make sure we're giving it to the right people because we are now with the rising number of cases,
+
+28:09.320 --> 28:16.320
+ with the rising number of hospitalizations, rising number of people who are beating this criteria, we're running out of drug.
+
+28:16.320 --> 28:22.320
+ So I am going to jump to the what is going on around the world.
+
+28:22.320 --> 28:25.320
+ No one is safe until everyone is safe.
+
+28:25.320 --> 28:27.320
+ And I'm going to close on this section.
+
+28:27.320 --> 28:33.320
+ My friend Titus Davali, he's a physician in Blantyre.
+
+28:33.320 --> 28:46.320
+ Actually, I met him at an American Society of Tropical Medicine and Hygiene Meeting, actually one that I drove down with Dixit in his Prius and heard all about the hydragenosome or something along them lines.
+
+28:46.320 --> 28:51.320
+ I think I blocked it out so that Dixit can tell me the story again because he loves that story.
+
+28:51.320 --> 29:07.320
+ But Dr. Davali brought to my attention the article dynamics of SARS-CoV-2 exposure in Malawi and blood donors, a retrospective seroprevalence analysis between January 2020 and February 2021.
+
+29:07.320 --> 29:18.320
+ And there's been lots of questions about what's going on as far as COVID in parts of the world where they have limited vaccinations, lots of speculation on what's going on.
+
+29:18.320 --> 29:30.320
+ But here the authors measured the seroprevalence of SARS-CoV-2 antibodies among randomly selected blood donor sera in Malawi from January 2020 to February 2021.
+
+29:30.320 --> 29:36.320
+ So a total of 3586 samples were selected from the blood donor database.
+
+29:36.320 --> 29:45.320
+ The seroprevalence approach is really, I think, you know, a very straightforward way to looking at the pandemic, I think, for most of our listeners.
+
+29:45.320 --> 29:51.320
+ And if you have the time, this is something you can access is, you know, it's posted.
+
+29:51.320 --> 29:53.320
+ So there's no paywall in the way.
+
+29:53.320 --> 30:04.320
+ And if you go to figure one, what they did is they looked at each month and what was the SARS-CoV-2 seroprevalence percentage in the blood donors at each time.
+
+30:04.320 --> 30:19.320
+ And basically, by the time you get to this January, February surge, about half of 49.7 of the samples are zero positive. So you can sort of see this surge over time, you know, with a little bit of delay because it takes time there.
+
+30:19.320 --> 30:24.320
+ Well, I think that's the big challenge ahead of us is vaccinating the world.
+
+30:24.320 --> 30:29.320
+ And I'm going to remind our listeners. First, thank you for all your support.
+
+30:29.320 --> 30:37.320
+ We are going to continue through the months of August, September, October, all of the donations made to parasites without borders will be doubled.
+
+30:37.320 --> 30:41.320
+ We're hoping to get up to $40,000 to support floating doctors.
+
+30:41.320 --> 30:49.320
+ They're starting to do just like femric in person visits to a lot of these areas that they serve.
+
+30:49.320 --> 30:51.320
+ And so thank you for helping us.
+
+30:51.320 --> 31:11.320
+ It's time for some questions for Daniel. You can send yours to Daniel at microbe.tv. Our first is from Marsha, whose 38-year-old son has a condition called seronegative spondyloarthropy, which is related to psorriatic arthritis.
+
+31:11.320 --> 31:25.320
+ He doesn't have skin symptoms. His rheumatologist recently recommended he began taking humira and immunosuppressant drug to help relieve the pain and limitation of mobility.
+
+31:25.320 --> 31:29.320
+ He experiences his feet are especially affected, causing pain and difficulty.
+
+31:29.320 --> 31:38.320
+ Walking, he received two doses of Moderna at the recommended interval, reached the milestone of two weeks beyond the second dose on June 1st.
+
+31:38.320 --> 31:52.320
+ Two questions. Before beginning to take humira, should he could he get an antibody test quantitative if possible to determine his existing level of immunity from his two dose vaccination and to before beginning to take humira?
+
+31:52.320 --> 32:01.320
+ Should he have a third dose of vaccine to boost his existing immunity and wait two more weeks before starting humira?
+
+32:01.320 --> 32:14.320
+ There's a lot in here. For just clarity, this 38-year-old young man has this seronegative spondyloarthopathy, which is spondyloarthopathy.
+
+32:14.320 --> 32:24.320
+ Think of it as an autoimmune disease. Think of it as an issue where the immune system is triggering this disease, and the way they're fighting is they're using an immunosuppressive drug.
+
+32:24.320 --> 32:38.320
+ You've near quite popular that interferes with TNF alpha. This is like, I guess I'll say, inflicts a map of some of those drugs, some of our first biologicals that we used in the 90s quite widely.
+
+32:38.320 --> 32:54.320
+ The concern here is because the immune system is being interfered with, because we are making this gentleman immunosuppressed, is he going to fail to have the same robust response that we would like?
+
+32:54.320 --> 33:08.320
+ Well, the trick says, and I think we've talked a little bit about this, is that measuring the antibodies is not clearly predictive of what's going on, and the TNF alpha is not purely impacting the B cell.
+
+33:08.320 --> 33:18.320
+ So, you know, what is the standard and what is the science? So, this is certainly going to be one of the individuals who will be offered a third dose of vaccine going forward.
+
+33:18.320 --> 33:31.320
+ You do not yet know how much benefit that gives, right? So that science is still being done. We have lots of studies where people have been given a third dose and they measure the antibodies, but we don't know really what that means.
+
+33:31.320 --> 33:42.320
+ One of the questions you have here, sort of a real like on the ground question is, should there be some sort of timing related to the Ymira so actually a physician calling of mine asked me yesterday.
+
+33:42.320 --> 33:55.320
+ Really very similar scenario also on Ymira so same drug, and it was a question of timing relative to the dose of vaccine. And two weeks is actually a period of time that we often recommend.
+
+33:55.320 --> 34:02.320
+ Again, not a lot of science to guide us, really just a sort of understanding of the immune system, trying to separate the immune suppression.
+
+34:02.320 --> 34:12.320
+ But remember this drug lasts for quite a period of time so that two weeks is sort of a question of, you know, what amount of time is a person willing to be off Ymir?
+
+34:12.320 --> 34:19.320
+ My friend who's a physician, he's going to go ahead and miss a full cycle so he's actually going to stay off it for.
+
+34:19.320 --> 34:24.320
+ It's going to be two months right so we're going to skip the one and then he's going to go at eight weeks to the next dose.
+
+34:24.320 --> 34:39.320
+ Next one is from Doug who writes, I notice you usually talk about the importance of infections after vaccination being classified as either just a positive test or the more important hospitalization or death.
+
+34:39.320 --> 34:55.320
+ However, when you've compared the rate of reinfection after natural infection versus the rate of infection after vaccination, you only compared positive tests and did not mention if there's a difference in hospitalization or death are those data available.
+
+34:55.320 --> 35:09.320
+ Yeah, so a lot of people really want to like, you know, sort of head-to-head comparison. What about people that had natural infection? What is their risk, you know, six months, seven months, eight months compared to someone who's been vaccinated?
+
+35:09.320 --> 35:11.320
+ What is their risk of the different outcomes?
+
+35:11.320 --> 35:22.320
+ We don't have any really great head-to-head studies. And if you think about sort of hard to do, right? You kind of need to have a cohort of individuals that have natural infection, a cohort of individuals that are vaccinated.
+
+35:22.320 --> 35:32.320
+ We have great data on the vaccinated individuals, really tremendous data on people with natural infection. What we're seeing is a low risk in the first three months.
+
+35:32.320 --> 35:41.320
+ And they actually tend to do okay till about six or seven months. That's when we're starting to see this increasing rate of reinfection.
+
+35:41.320 --> 35:46.320
+ And, you know, what do the variants do relative to that we'll find as we go forward.
+
+35:46.320 --> 35:58.320
+ I guess what I should say what we do know, and maybe this is the real question, if you had natural infection, should you just, you know, sit back and, you know, trust the protection, or should you get a vaccine?
+
+35:58.320 --> 36:10.320
+ If you go ahead and decide not to get that vaccine and your buddy gets that vaccine, you are more than twice as likely to end up reinfected than a person who decides to get vaccinated.
+
+36:10.320 --> 36:17.320
+ Chris writes the Times is reporting that Pfizer could be given full approval on Monday, which we just said it was.
+
+36:17.320 --> 36:28.320
+ I have seen a lot of discussion on Twitter with conflicting information from people who all have MD in their bio about whether or not it could then be prescribed off label for children.
+
+36:28.320 --> 36:36.320
+ Can you clarify the facts here? And if it is possible to use it off label, how a pediatrician or parent of a kid less than 12 should think about the risks.
+
+36:36.320 --> 36:43.320
+ I do not have kids, but a number of my friends do and they're all worried sick about the fall and going back to school.
+
+36:43.320 --> 36:48.320
+ Yeah, no, this has been quite a discussion in my household, I'll admit.
+
+36:48.320 --> 36:54.320
+ And what is going here? It's not being recommended for under 12.
+
+36:54.320 --> 36:59.320
+ And part of the issue is when we look at the ongoing studies, it's not a safety issue.
+
+36:59.320 --> 37:03.320
+ It's not an efficacy issue. It's an information issue.
+
+37:03.320 --> 37:10.320
+ You know, when you start getting younger, small children are not just small adults. They have a different physiology.
+
+37:10.320 --> 37:15.320
+ They are smaller. They may actually end up benefiting from a dose reduction.
+
+37:15.320 --> 37:18.320
+ They end up with a different dose than what we're using in adults.
+
+37:18.320 --> 37:26.320
+ Those studies are ongoing. The FDA has added so that when we do move forward here, the timing is terrible. I admit that.
+
+37:26.320 --> 37:36.320
+ Now, what if someone, let's say someone is 11 years old and they're going to turn 12 and they're a couple months away, but, you know, they're 100 pounds or 150 pounds.
+
+37:36.320 --> 37:47.320
+ There is a little bit of discretion there right at the edge, but none of us are encouraging like four or five, six year olds to start getting vaccinated just because the license has gone.
+
+37:47.320 --> 37:51.320
+ So, so I think there's going to be a lively discussion here.
+
+37:51.320 --> 38:01.320
+ It is very frustrating as we see a growing number of children getting infected, a growing number of children getting hospitalized as we're seeing a couple of kids, two to three dying a day.
+
+38:01.320 --> 38:11.320
+ This is not great. I understand a lot of people wanting to be able to move forward. We've got to continue to keep those kids safe a little bit longer until we really have the science and knowledge.
+
+38:11.320 --> 38:22.320
+ Even if there is an uncommon side effect, we need to be all ready to recognize it so that it becomes just something minor or something that we can address rather than becoming something more significant.
+
+38:22.320 --> 38:39.320
+ But in reality, Daniel, what's to stop a physician from giving this off label to a kid? Yeah, in all honesty, the majority of therapeutics that we offer to children have never been formally tested do not have in the package insert.
+
+38:39.320 --> 38:43.320
+ So, no, this is actually the way medicine works.
+
+38:43.320 --> 38:58.320
+ One more from Abby. I have two kids for an 18 months. Their pediatrician told me that it would be March before they could be vaccinated. I learned that there's a phase two, three local trial of Moderna vaccine in ages six months to 11 years.
+
+38:58.320 --> 39:10.320
+ With community transmission increasing in our area. I feel that the risk of contracting COVID is higher than the risk of the vaccine, causing a very negative reaction, but it's hard to tell how safe are faced to three trials.
+
+39:10.320 --> 39:18.320
+ I understand they may get the placebo, but other than that, do you have a sense of the likelihood of severe reactions as a parent? Would you enroll your child in one?
+
+39:18.320 --> 39:27.320
+ Yeah, maybe I'll start with the last question. So yes, I would, actually, because we clearly know the impact of COVID. COVID is bad.
+
+39:27.320 --> 39:44.320
+ The vaccines, we've given these to millions, hundreds of millions of individuals, getting down to like 12 year olds. We have ongoing trials looking at younger individuals. If I was looking at having to wait that long, looking at waiting through winter.
+
+39:44.320 --> 40:03.320
+ Yeah, and actually, I've just started to bring this home personally, when, when the vaccines were rolling out and my son Barnaby was too young to be eligible. My wife actually actively investigated enrolling him in a trial so that he could get vaccinated to get that protection potentially 5050 sooner.
+
+40:03.320 --> 40:10.320
+ Right. We'd know if he's placebo or not. But yeah, and that that so I guess I'll throw all that out there.
+
+40:10.320 --> 40:20.320
+ Even now, so I would say the risk of a problem is incredibly low because we have so much more experience, much more experience than we had even when we started the adult trials.
+
+40:20.320 --> 40:27.320
+ That's COVID-19 clinical update number 77 with Dr. Daniel Griffin. Thank you, Daniel.
+
+40:27.320 --> 40:41.320
+ Oh, thank you. And everyone, be safe.
+

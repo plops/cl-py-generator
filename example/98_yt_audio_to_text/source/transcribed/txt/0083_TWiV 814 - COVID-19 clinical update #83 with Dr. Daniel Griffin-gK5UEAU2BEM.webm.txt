@@ -1,0 +1,479 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv. This week in virology, episode 814 recorded on October 7th, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast All About Viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. How's everything, Daniel?
+You know, it's actually all right, you know, right here in the immediate area. Actually,
+if you look around the country, right, things are on the way down. Actually, if you look around
+the world, there's these sort of interesting cycles where things shoot up, and then it goes down,
+and we'll see where we go. But yeah, at the moment, particularly in the immediate area, but
+I was in a call earlier today. Actually, Shane Crotty was on the call. It's funny,
+because like when things come up, you know, people may think I know a lot, but I always, I'm like,
+and can I call in a friend, Shane? Can I call on you? So yeah, but in parts of the country,
+some of my colleagues on the call, it's not so great, right? There's a lot of parts of our
+country where hospitals are still overflowing, where, you know, people just not even COVID, just
+normal medical issues, they can't be seen, they're waiting, it's delaying care.
+Yeah, so we know by no means are we through this storm. Yeah, we have an email about that sort of
+situation in a certain part of the country today. Yeah, certain parts of the country, not so great.
+Well, let me start with my quotation, and then I'm going to actually share what I think is an
+entertaining story, which has a certain, well, that's a certain reason for sharing it. So the
+quotation, there are in fact two things, science and opinion. The former begets knowledge, the latter
+ignorance. And this is by Hippocrates. I just think this is very telling. I'm always a little
+disappointed when some of my colleagues seem to be sort of searching for confirmation bias to
+support their opinion, and not really just trying to move forward and learn. Hopefully, I'm trying
+to keep my opinions to a minimum and share the science so that people can form their own opinions
+based upon that science. Sort of an interesting story I think I'll share and these are dark times
+in many parts of the country. But this was a story that actually, it was the first time I
+laughed at work and well, it's been quite a while. But it was a friend, a colleague of mine who was
+telling me a story, he's embraced monoclonals, he's even though he's a cardiologist. And he's
+like, yeah, I sent this guy for monoclonals. And I was all excited that we got that done. But then
+he left an office, he left a message at the office that he went for the monoclonals. He's doing great
+now, but but he almost died. And it's like, well, my gosh, what happened? You know, it's surprising
+because these monoclonals are so safe. What happened? Well, apparently, this gentleman went for the
+monoclonals during one of these massive rainstorms that we had. And one of the things we do, right,
+we send people like during that first week, they're feverish, they're sick, and they've got to get
+into a car and either go to a tent, or in this case, go to an emergency room, get checked in,
+be there for a number of hours, get the infusion, which he went ahead and did. But as he was leaving,
+it was a torrential downpour. And so this feverish guy gets in his car and drives into an area of
+such degree of flooding that it's actually up to the window level and his car completely stalls.
+He has to actually smash out the window and then climb out the window and swim to where it's
+shallow enough. And then the first person who offers to help him, he lets them know he has
+COVID and they drive away. The police then come and they offer to drive him home until he informs
+them that he has COVID. A little bit of a pause. They call his wife who then picks him up and
+picks him home. So this was his harrowing monoclonal infusion experience. But then as he called my
+colleague, Dr. Savie said, you know, the next evening, he felt like 100%. He felt great, despite
+having COVID, despite having to swim through these freezing water. So good story. Yeah,
+it's a very, very entertaining story. But yeah, this is one of those reasons why it would be nice
+to be doing these in the home, bringing the therapies to these individuals, making it a little,
+a little more accessible. All right. So some important updates, important dates for people
+to put on their calendar. They're on my calendar. October 14 will be a discussion of the Moderna
+booster. Interesting enough, as I found out from my in-laws, everyone's already getting
+them Moderna booster. So I don't know what they're talking about. Apparently, you know,
+boosters for all. So but this will be specifically Moderna is requesting a specific Moderna third
+dose, which would be half the dose of the first two. So we'll hear what the FDA independent advisory
+panel has to say on that. The next October 15th, Jay and Jay is going to be having the FDA
+independent advisory committee discuss a booster for them. And I think we talked about the data
+there, which is actually, I would say rather compelling getting that protection for severe
+disease, hospitalization, up into the 90s, kind of at mRNA level, if you give that second dose. So
+that will be interesting to hear, but we're sort of getting positive signals on a Jay and Jay
+one and you're not done. I guess you need a second now. And also the heterologous
+booster, the mix and match. What if you had one vaccine, can you get another? A lot of people
+say, boy, I got the Pfizer. Can I just get the Moderna as my third dose? My mother actually,
+she was talking to my dad last night. So yeah, your mother, she's already signed up for her third
+dose. She she's going to get a Moderna. I'm like, what? And so I talked to my mother, she was like,
+yeah, they call me back. I had two Pfizers and I want to get a Moderna and they told me I can't do
+that. So we will find out what happens on the 15th. She still she's going to wait a little bit longer
+to get a little more data before she and I make that decision. And then October 26 for a lot of
+people Pfizer vaccine for kids, five to 11. And I'm going to talk a little bit about the fact that
+this is going to be packaged differently, a different dose, actually even a different amount will be
+injected. But we'll get to that as well. All right, so let us start off with children, COVID.
+Children are at risk for COVID. I think that's now clear. And as I like to say, wearing a mask is
+less traumatic for a child than being hospitalized. And we keep hearing about numbers in children,
+but as numbers go down across the country, we had been up to this quarter million number for
+children that's dropping below 200,000. So they're moving in the right direction there per week.
+Hospitalization is getting a little bit of improvement. But again, this is regional where
+we're seeing problems. But one of the things I wanted to talk about is I'll say success and
+maybe when there wasn't success with getting children back out there for in-person activity.
+So we have some data now on how did we do this summer in places where there was good guidance,
+vaccination, masking, et cetera, mitigation measures versus where there wasn't. So we're
+talking about a couple MMWR early releases. The first is multi component strategies to prevent
+SARS-CoV-2 transmission, nine overnight youth summer camps, the United States, June through August 2021.
+So as mentioned, this came out as an MMWR early release. And the authors reported on a total of
+7,173 campers and staff that attended nine US overnight camps that implemented multiple
+prevention strategies, including high vaccination coverage that was greater than 93% among eligible
+persons, pre-arrival and frequent screening testing. That was a total of 38,059 tests
+and additional prevention measures during this time period. There were only nine laboratory
+confirmed COVID-19 cases and no secondary infections detected during this period. So
+as I like to say, we can do this safely. On the other side of the coin, we can also mess this up.
+COVID-19 outbreaks at youth summer camps, Louisiana, June through July 2021, came out also as an MMWR early release.
+And here the authors were describing 28 camp outbreaks. There was a 31-fold increase in confirmed
+camp associated cases compared with the previous summer. And the authors comment that this period
+coincided with underutilization of preventive measures, such as the vaccines, the masking,
+the physical distancing. So you remove those mitigation measures and you can do this poorly.
+All right. Well, with the expansion, the impending, we hope, expansion of COVID vaccines
+down to the 5 and 11-year-old. There's been a lot of discussions about trying to normalize
+the COVID vaccines, trying to get them into pediatrician offices, because a lot of parents
+want to have that discussion with pediatricians, not go to one of these mass vaccination sites.
+Actually, it's coming up a lot. A lot of individuals don't really feel that comfortable going to one
+of these large sites with the security presence. Maybe I have a little bit of this bias. You know,
+if we're lost, my wife will go ask a police officer. I will. If I see a police officer,
+maybe go the other direction, maybe this is by upbringing. You know, I always joke with the
+police officers when I see them. My last name is Griffin, and we try to calculate how many
+griffins were in the front seat as police officers and how many of us were in the vaccine cause and
+trouble. But this vaccine, we are hoping a lot of parents are hoping they will be able to access
+in the pediatrician's office. So just a little bit about what are we expecting on the horizon. So
+the current Pfizer vaccine that we've been giving out has a purple cap. But we are hearing that the
+new caps for the children will be orange caps. These are going to be different vials. They're
+going to be 10 dose vials instead of the five slash six that we were doing before. It's going to be
+a different amount to dilution. This is going to be a 1.3 ml dilution. The injection rather than
+0.3 is going to be a 0.2 injection. These can sit in the ultra cold freezer for six months,
+but you can put them in the refrigerator undiluted for 10 weeks, right? That's two and a half months.
+So that's going to be a great way of getting these in pediatrician's offices, getting those
+sitting there in the refrigerator. We all, as I think sort of embarrassingly say, we have a lot
+of vaccines. We expect to have a lot of these. So we're not going to be, we're not expecting
+people to be quite as stringent with the like, don't waste a dose. It's going to be more of a
+don't miss an opportunity to vaccinate. There's also for the over 12, there's going to be a,
+we hear a new gray top to vial that is already pre-diluted. And this can then sit pre-diluted
+in a refrigerator for 10 weeks undiluted, or actually, let me see if I've got this right,
+already deluded to the consent for 10 weeks. All right. So pre-exposure transmission testing,
+another nice paper looking at the impact of vaccination on transmission. And this is really,
+I think as we've discussed, the community motivation behind vaccination and the pandemic,
+rather than just looking at individual risks. So we saw the pre-print, the impact of SARS-CoV-2
+vaccination on alpha and delta variant transmission. And this study was performed as part of the
+public health surveillance and NHS test and trace program quality assurance. And the authors
+start by providing a little bit of background that the pre-delta, there was evidence that there was
+some impact. And now they're going ahead and looking at the risk going forward. So they,
+they performed a retrospective observational cohort study of contacts of SARS-CoV-2
+infected index cases using contact testing data from England. And in this study,
+37.2% of the contacts tested were PCR positive. They looked at two doses of the
+BioNTech Pfizer or the Chadox as AstraZeneca in the alpha variant index cases. And the reductions
+they were seeing, the adjusted odds ratio 0.18 versus 0.37. So about 82% reduction, about a 63%
+reduction. But then when they looked at the delta variant, the odds ratio is 0.35 and 0.64. So about
+a 65% reduction, about a 36% reduction. So not working quite as well. There was an interesting
+comment. And I think that this is important and maybe plays into as people think about boosters.
+Transmission reductions declined over time since the second vaccination for delta reaching similar
+levels to unvaccinated by 12 weeks for Chadox and attenuating substantially for BioNTech
+162 B2, the Pfizer BioNTech. So protection from vaccination in contacts declined in the three
+months after second vaccination. So sort of this challenge, our vaccines are really great
+at preventing hospitalizations and severe disease. But how long are we going to get this
+impact on infection? How long are we going to get this impact on transmission reductions?
+I've also made several questions about a couple AstraZeneca products.
+The first one is the the the mabs that they have. And these are these long acting antibody
+therapies. So AstraZeneca's AZD7442, very catchy, requests for emergency authorization for COVID-19
+prophylaxis was filed in the US. So these are long acting monoclonals for prevention. And so
+this request was was based mainly on data from the ProVent trial, PROVEND trial, where 5197
+participants in a two to one randomization received this AZD7442, which has two mabs in there. And I'm
+not going to go into which they are because this has become a pronunciation challenge.
+And they compared this to placebo. And the primary analysis was based on 5172 participants
+who did not have SARS COVID-2 infection in baseline in this trial, 77% reduction in
+developing symptomatic COVID compared to placebo. So what's special here, right? And we've already
+talked about how Regen Cove can be used in the EUA and we will go through the details on that
+as a prophylactic. But here, this can be given IV or IM, right, as opposed to sub-Q. It's a little
+nicer to give this IM. This was actually gluteal. So this was given in the tail. There's also a
+longer half-life here. So these antibodies were optimized to have an extended half-life,
+reduced FC receptor and complement C1Q binding. And so they are actually suggesting that this
+can afford up to 12 months of protection following a single administration. So a lot of questions
+I'm getting from my colleagues who take care of individuals who are immune suppressed.
+We'll say cancer patients, patients with autoimmune disease, patients on immunosuppressive
+medications, patients that we do not think are going to get the protection that we would like
+from vaccinations or maybe even have a contraindication to vaccination. This is potentially a way of
+providing passive protection. A little exciting news on the testing front, right? We've sort of
+gone full circle and there's been a lot of folks embracing and really seeing the power of the
+rapid tests, but also the at-home rapid tests. So on the 4th of October, the US FDA issued another
+EUA for the ACON Laboratory's Flowflex COVID-19 home test. Per the manufacturer, they are planning
+and they claim they have the capacity to produce more than 100 million tests per month. They think
+they'll be able to ramp this up to 200 million per month by February 2022. So very exciting because
+right now, as we know, everyone's excited about home tests, but no one can get them. I even tried
+to do this myself. They are in short supply. And also, if you want to understand how to use these,
+because right, you're going to be swabbing yourself the same day the CDC updated their COVID
+self testing page where you can see some really nice infographics about how to stick that Q-tip
+up your nose and get these samples. I presume this is an antigen test, Daniel? Yes.
+Yeah. Is it going to be less than a dollar? Let's see if I have the money. Let's see if I have the
+cost here. I do not know what the cost is going to be, but will it be less than a dollar? The answer is
+no. Will it be maybe $5? Maybe, maybe. There is the potential that the US government will purchase
+a lot of these and then distribute them. So that could be, well, not quite free because we're paying
+our taxes. All right, active vaccination, you know, vaccines, the Jabs that keep you from getting
+sick. And I like to say vaccination is how this pandemic ends. I'm talking about those first doses.
+That's where we get our bag for our buck. In the New England Journal, we saw the peer read
+publication Phase 3, safety and efficacy of the Chad Ox 1 COVID-19 vaccine. And these are the
+finally, we're getting the peer reviewed publication of the ongoing results from the ongoing double
+blind randomized placebo controlled Phase 3 clinical trial, looking at the safety, vaccine
+efficacy, and immunogenicity of two doses of the AstraZeneca Chad Ox as compared with placebo
+in preventing is always important. What are we looking at the onset of symptomatic and severe
+COVID disease 2019 15 days or more after the second dose in adults, including older adults in the
+United States, Chile and Peru. In this trial, a total of 32,451 participants underwent randomization
+in a two to one ratio to receive this vaccine or placebo. So we had 21,635 versus placebo 10,816.
+And the overall vaccine efficacy for preventing symptomatic and severe was 74%. Interesting enough,
+the estimated vaccine efficacy for this endpoint was 83.5% in participants 65 years of age or older.
+They report that this high vaccine efficacy was consistent across a range of demographic
+subgroups. In the fully vaccinated analysis subgroup, they reported no severe or critical
+symptomatic COVID-19 cases. So that's, you know, you got to think about our endpoints. So that's
+a pretty excellent endpoint for looking at severe or critical disease 83.5 for symptomatic. So
+a pretty, pretty impressive data here. On October 4th in the Lancet, we saw another article. Again,
+on vaccines, effectiveness of mRNA, BNT, 162, B2, Pfizer, BioNTech, COVID-19 vaccine up to six months
+and a large integrated health system in the US, a retrospective cohort study. So this is a peer
+reviewed article. This is a retrospective cohort study where they analyzed electronic health
+records of individuals who are members of Kaiser Permanente, South California. They were looking
+at the effectiveness against infections and COVID-19 related hospital admissions for up to six months.
+So this is a, this is a very robust data set, right, by an organization that I'll say does an
+excellent job. 4,920,549 individuals were assessed for eligibility and ultimately 3,436,
+9,957 were included. So for fully vaccinated infections, they report fully vaccinated
+individuals, they report that effectiveness against infections declined from 88% during the first
+month to 47%. So that's effectiveness against infection. So among sequenced infections,
+vaccine efficacy, effectiveness against infections of the Delta variant was high during the forced
+month, 93%. And that went to 53% after four months, effectiveness against other variants,
+the first month, 97%, 67%, at four to five months. But what about vaccine effectiveness
+against hospital admissions for infections with the Delta variant, 93% up to six months.
+So I take away this as very encouraging. I know Pfizer vaccine has been getting a lot of bad press,
+you know, people are a little upset that they get the Pfizer and set of Moderna, but vaccine
+effectiveness against severe disease, right, hospital admissions with the Delta variant,
+93% for up to six months. So I found this rather encouraging.
+What about reinfection? I get a lot of questions about this.
+And so there's a lot of articles out there, but this article, the durability of immunity
+against reinfection by SARS-CoV-2, a comparative evolutionary study was published in the Lancet
+Microbe. So we certainly see reinfections, mainly starting about three months after infection and
+increasing over time. We know that if these folks get vaccinated, they can decrease their risk of
+infection by at least twofold. We're not sure one dose got us there, but two doses did in the MMWR
+publication we talked about. So if prior infection, we know that these individuals can get a benefit
+from vaccination. In this study, the authors looked at antibody data for six human infecting
+coronaviruses, extending from 128 days to 28 years after infection. This is a pretty broad
+study, infection between 1984 and 2020. They use this data to estimate profiles of the typical
+antibody decline and probabilities of reinfection over time under endemic conditions. They estimated
+that reinfection by SARS-CoV-2 under endemic conditions would likely occur between three months
+out to 5.1 years after the peak in the antibody response, suggesting a median of about 16 months.
+They calculated that this protection is less than half the duration revealed for the other
+endemic circulating coronaviruses. So OC43, NL63, 229E, if people have those remembered.
+But what I'm going to say for a deeper dive into the comparison between protection from infection
+versus vaccination, I'm going to recommend people go to 12, 813 discussion with Florian Kramer.
+It's really a popular topic that people are trying to sort out. But just to make it clear,
+we recommend that people who have been previously infected get the benefit of vaccination.
+A popular question now, I don't know if Vincent, if you are aware of this, but I keep getting,
+am I still considered fully vaccinated if I haven't had my booster?
+And straight from the CDC, yes, everyone is considered fully vaccinated two weeks after their
+second COVID vaccine in a two-shot series, or two weeks after a single dose vaccine for the
+J&J Janssen for those folks here in the US. So I've been getting a lot of employers,
+interesting enough, who are now demanding that their employees get a third dose,
+otherwise they're not considered fully vaccinated. But straight from the CDC,
+this is evolving, but at the moment, you're still good. I know we're up to 400,000 people
+getting a booster per day here in the US. So yeah, anyway, all right, passive vaccination.
+I want to remind people, remember monoclonals after high risk exposures and high risk people.
+We talked a little bit about AstraZeneca is applying for this, but we already have post-exposure
+prophylaxis as part of the EUA for Regen Cove. And who are the people that they are recommending
+eligible for post-exposure prophylaxis? These are individuals who are at high risk for progression
+to severe COVID-19, including hospitalization or death. These are folks who are either not
+fully vaccinated or are not expected to mount an adequate immune response to the SARS-CoV-2
+vaccination, right? So individuals with immunocompromising conditions, those on immunosuppressive
+medicines. So you're looking at individuals who have been exposed. But I also want to point out
+they also talk about for individuals in whom repeat dosing is considered because they continue
+to have ongoing exposure. So just a little bit of subtlety there. An individual who is immunosuppressed,
+who is not getting that protection from vaccine, but continues to be exposed over and over.
+The first dose is the 600, 600. But you can actually continue to dose them every four weeks
+with a 300 milligram, 300 milligram. And that can either be by subcutaneous injection. So in this
+sense, then we have to get two instead of four shots, or they can get an intravenous infusion
+every four weeks. For while we were stepping back a little on prophylaxis because of shortages,
+but as the numbers are going down, as we're getting improved access, we're stretching back
+out with the post-exposure prophylaxis. All right, the period of detectable viral replication,
+not the time for antibiotics, and not the time for steroids. We can do harm there.
+This is for a lot of people exciting. The beginning of a new era, Merck and Ridgeback
+announced the planned interim analysis results from the phase three move out trial, looking at
+the use of the oral antiviral. This is a pill, malnupiravir, in the early treatment of at-risk,
+non-hospitalized adult patients with mild to moderate COVID-19. So this was a planned interim
+analysis. They evaluated data from 775 patients who were initially enrolled in the trial, the phase
+three move out trial. And at the time of the decision to stop recruiting, the trial was approaching
+full recruitment, sample size of 1,550 patients with more than 90% of the intended sample size already
+enrolled. When they perform this interim analysis, and I want to point out, this is top line data.
+This is not peer reviewed. We don't have the details that will be coming forward. They reported
+in this study that malnupiravir reduced the risk of hospitalization or death by approximately
+50%. So we had 7.3% versus 14.1%. The little bit of sort of details here,
+in the individuals that received the antiviral, there were zero deaths. In the placebo group,
+there were eight deaths. So we're looking at zero versus 2%. So 2%, the expected mortality,
+zero percent in the folks that got this therapy. What about eligibility and timing? These
+individuals had to have laboratory confirmed COVID-19 with symptom onset within five days
+of study randomization, right? So a little bit longer than we would ideally want, right? Because
+you get randomized at day five may take you another day before you actually get the therapy.
+All the patients had to have at least one risk factor associated with poor disease outcome,
+right? So this is a slightly higher risk group. People did well, very well tolerated
+therapy. There is a recommendation to go ahead and look at possibly getting EUA. So we will find
+as we go forward. But just a little background, right? Because this is going to be one of the
+first drugs here that is being introduced. This is a RNA, dependent RNA polymerase inhibitor,
+right? That's something that we mammals don't have to worry about. There is going to be discussion
+about the safety of this drug. That's why it's going to go through the FDA. But this is really
+the first in this class going forward. We expect there to be another very similar drug. And we also
+expect another drug that we've talked about that's going to target the protease on the horizon. So
+fingers crossed, we're looking about three oral drugs being available by December. But I was
+going to, I was going to Vincent, do you want to make any comments at this point? I sort of thought
+this was an exciting bit of news. I think it's great that we these are in development. My only
+concern, and I'm sure as a physician who treats AIDS patients, Daniel, these will be initially
+used as monotherapy. And I'm just concerned that we're going to get rapid resistance,
+which will render them less useful. What do you think? Yeah. So I hopefully we've learned from
+the HIV. And we've also learned from influenza, right? Is that if you use these drugs all by
+themselves, you run a risk, particularly if they're used widely, which we're thinking they will be
+of inducing resistance. So I've already talked about the concept of maybe using this with maybe
+the protease inhibitor, maybe if we can use two drugs, we can put up a barrier to that resistance.
+So no, I think I think that's key. Anytime we use a drug, we we can end up with resistance. So it may
+be that we want to look at using two drugs that we're not pressuring and driving that.
+I worry particularly if people use this more than just as a five day therapy. What if you have
+a person who's immunosuppressed and you start using it for a longer period of time?
+But don't you have to trial them in combinations to get them approved that way?
+Yeah, we're going to have to do that.
+And this will be two different drug companies, three drug companies all like
+playing nicely working together. But it is interesting with HIV, we're often using
+three drug therapy. That's kind of the triple highly effective antiretroviral therapy,
+where often historically, it was three different companies were producing each
+of the different drugs in the cocktail. All right, timing. So we've got exciting
+stuff because the IDSA meeting was just recently. And so this was data that was presented there,
+and it was risk factor analysis for hospital admission following severe acute respiratory
+syndrome, coronavirus 2, SARS-CoV-2, monoclonal antibody treatment. And this was really looking
+at timing. If we get those monoclonals in earlier, does that give us better bang for our buck?
+So we look at this whole like less, you know, seven to 10 days after symptom onset, 70 to 80%
+reduction. But are we going to get even more reduction if we get them in the first few days?
+So here they're looking at patients that received what they say is early. So within
+days one through five of symptom onset and comparing those to people who received them late,
+six to 12. And so here we were seeing getting the MAB infusion in the first five days resulted
+in a 54% reduction in progression relative to those folks that get them late. So with the monoclonal
+timing matters, I know a lot of centers closed down over the weekend. A bit of a tragedy right
+person that's diagnosed on a Friday evening and they can't get treated until Monday or Tuesday,
+right? So we really need to focus on timing here of the patients that received the monoclonals
+in days one through three, none zero experienced disease progression. So sooner is better.
+We're hoping this translates in the oral antiretrovirals as well. See my antiretroviral slit,
+my world of HIV is coming back. But yeah, we're really hoping sooner can make more of a difference
+than later. All right, everybody, MISC, MISC, and MISC-A, remember those multi-system inflammatory
+syndrome? So we have actually finally got a little bit of guidance on treatment coming out
+in a publication of peer reviewed article, IVIG compared to IVIG plus inflexumab in multi-system
+inflammatory syndrome in children. This was published in pediatrics, the official journal
+of the American Academy of Pediatrics. This was a retrospective cohort study of 72 patients with
+MISC-C and they're looking at IVIG alone versus IVIG plus inflexumab, right? So this is going to
+neutralize the TNF alpha. Basically what I'm going to just nutshell this here, they were looking at
+better outcomes in the children that got remikade, the inflexumab added to their IVIG. They reported
+that patients with MISC-C compared to those with IVIG alone were less likely to require any
+additional therapy, decreased ICU length of stay, decreased development of left ventricular
+cardiac dysfunction, more rapid decline in their C-reactive protein, so following inflammatory markers.
+All right, a couple exciting things here on long COVID. I feel like I'm going a little long today.
+COVID is not just a two-week viral illness for many people. First, as of October 1st, we now have
+an official code for post acute sequelae of COVID-19. This is U09.9 post COVID-19 condition
+unspecified. Going forward, we'll have subsets. Also some exciting data on the impact of vaccination
+on long COVID, the article efficacy of COVID-19 vaccination on the symptoms of patients with
+long COVID, a target trial emulation using data from the COM pair, that's capital P capital R,
+E cohort in France. This was posted on Lancet as a pre-print. So the authors used data from this
+long COVID cohort. This was a cohort in France. Vaccinated patients were matched to unvaccinated
+controls in a one-to-one ratio by using their propensity scores. And they looked at outcomes
+120 days after baseline. They looked at the disease severity. So you have 455 patients in
+the vaccine group, 455 in the control group, and what did they find? They reported that by 120
+days, vaccination was associated with a reduction in long COVID symptoms. They saw double the rate
+of patients in complete remission. They saw a reduced disease impact on patients' lives
+and the proportion of patients with an unacceptable symptom score. So this is encouraging. Remember,
+this is, and we probably will never get a randomized placebo control trial. There's always the concern
+that there was some sort of a placebo effect. Also, people got vaccinated and unvaccinated.
+They're not exactly matched. But this is something that is consistent with our clinical experience,
+where we're treating hundreds, thousands of folks. And we're seeing this report
+encouraging. But what about Beckadysm, right? That's what we scientists care about. We do want
+our patients to get better, but we also like to know what is going on. And just, we're going to
+close with a couple articles on some insights into mechanisms. The peer-reviewed article,
+persistent clotting protein pathology in long COVID, post-acute sequelae of COVID-19, PASK
+is accompanied by increased levels of anti-plasmid. Now, this was published in the Journal
+Cardiovascular Diapatology. This is not a journal I usually read, and I'm not as familiar with some
+of the platelet activation studies that they did. But basically, going through the suggestion here
+was that hypercoagulability, a persistent hypercoagulability was being driven by inflammatory molecules,
+circulating microclots, hyperactivated platelets, issues with the fibrolinic system.
+And then the speculation here, which requires further study, is that with clotting pathologies
+involved, maybe some anti-clotting therapies can have an impact on long COVID. So hopefully,
+this will give us some sense of what to do going forward. COVID toes, right? Remember COVID toes?
+I have special socks with COVID toes. The article Type 1 Interferon Response and
+Vascular Alteration in Chilblain-like lesions during the COVID-19 outbreak was published in the
+British Journal of Dermatology. This was an observational study conducted 9 through 16 April
+2020 at Son-Louis Hospital in Paris, France. 50 patients referred with chilblain-like lesions
+were seen during the period of the COVID-19 pandemic included in this study. They were comparing the
+skin and blood endothelial and immune cell activation in the chilblain-like lesions
+in these COVID folks to seasonal chilblains that were cold-induced sporadic chilblains.
+They reported that they found chilblain-like lesions were characterized in the COVID folks,
+higher IgA tissue deposition, more significant transcriptomic activation of complement and
+angiogenesis factors. They reported systemic immune response associated with IgA anti-neutrophil,
+cytoplasmic antibodies and 73% of patients and elevated Type 1 interferon blood signature
+compared to healthy controls. They found blood biomarkers which they reported related to endothelial
+dysfunction and activation, angiogenesis, endothelial progenitor cell mobilization,
+really supporting in their analysis a role for endothelial dysfunction in the chilblain-like
+lesions. So very, very interesting. This is something that actually I think a lot of the nurses
+noticed early on. They're spending a little more time than the physicians looking at the
+patients, something that was seen in the outpatient setting as well. So just interesting that we're
+starting to get a little science to maybe help us understand. I like to close by saying no one
+is safe until everyone is safe. We are going to continue during the months of August, September
+and October to donations made to parasites without borders, doubled and going to support
+floating doctors with their efforts down in Central America. So drop what you're doing,
+go to parasiteswithoutborders.com, click on donate and help us continue to do our work
+and help us to support this organization. Time for some email questions for Daniel.
+You can send yours to Daniel at microbe.tv. Lisa is a nurse practitioner, a pediatric nurse
+practitioner who writes, I agree, kids are at risk. The decision made by adults responsible for
+protecting them. Sadly, too often put them at higher risk than they need to be. While numbers
+here in Florida are finally beginning to trend down, they remain much too high. We are in the middle
+of a mask debate with a local chiropractor handing out blank, signed medical mask exemptions after
+a very contentious school board meeting in which our county school board instituted a mask mandate
+in defiance of our governor's ban on this. Parents continue to show up in front of our
+schools with signs that making our kid wear masks is child abuse. Parents and children too often
+refuse to abide by our request that they wear masks in our office. And now our new state
+surgeon general who says he is rejecting fear over COVID mania has decided that as long as they
+are feeling well, our school children, many of whom of course are unable to be vaccinated or
+if they are able or not, no longer need the quarantine or test simply because they've been
+exposed to this pesky little virus. I am curious as to your opinion on this brilliant public health
+policy. Yeah, I'm horrified actually just to be frank. I mean, you know, when you see like the
+movies, right, there's always like the physician who can outrank the general, you can't do that
+because of this health issue and somehow in the real world. There's no under that outranking going
+on. Yes, 18 months ago, there was this myth that started to be spread that children were not
+at risk of COVID. Well, children don't get COVID. Well, they're not at risk of COVID. But now that
+we saw children getting exposed to COVID, we saw hundreds of thousands of children getting infected
+per week. We saw thousands of children ending up in the hospital. We see children, multiple
+children dying every week. There really has to be a certain point when you start off with no
+children are at risk of COVID, children can die of COVID, children can get hospitalized with COVID,
+children can develop long COVID with long term disabilities. Yes, this is a horrible thing to
+let happen to our children. And we don't really know what are going to be the long term effects
+of having been infected with this horrible virus. The second is we do know things that work,
+things that reduce our risk. You shouldn't have to choose between education and safety for your
+children. A child shouldn't have to choose between education and safety. We know how to keep our
+children safe. Wearing a mask is something that parents complain a lot more about than children.
+A lot of children actually kind of like the masks with the different designs and maybe it's become
+an accessory. I just really think we have to step back and take this out of the political arena.
+This is not a partisan issue. This is not a political thing. This should not be something that gets
+you reelected. What should get you reelected and what should get you support is protecting our
+children, helping them get educated safely. And we know how to do that. We keep talking about all
+the data behind that. Michelle writes, I'm in a quandary trying to decide what the best option
+for my daughter is. She turns 12 in January. She's 61 inches tall, 150 pounds. So she's the size
+of a small adult. She tends to school in which masks are only optional. Most kids are not wearing
+them. My concern is whether to get my daughter vaccinated in late fall with the children's dose
+or wait until January for the adult dose. Yeah, I mean, I have to say we've talked about this about
+this is perfect, right? Is that person right on the line? There's going to be no judgment. It's
+going to be this is the day it happens. But you know, this is even true with influenza. I have a
+colleague who's a hematology oncologist and he was turning city turned 65 today. So happy birthday
+Bruce. And Bruce went to get his hired dose because they're still using the egg based vaccine at the
+healthcare system. So he wanted to get the over 65 high dose because they're not using the cell
+based flu vaccine. And they said, I'm sorry, you know, it's Friday, your birthday is not until
+Thursday. You can't get it today. You'll have to come back when you turn 65. So it's interesting.
+People are pretty rigid about this stuff. The children all across look to be getting a really
+robust response with the lower dose. I would say don't don't wait. Don't miss an opportunity to
+vaccinate. Don't miss an opportunity to give your child that protection. If it turns out in the
+future, you know, boosters are recommended for, you know, individuals as we get more information
+about correlates of immunity. But yeah, let's I would encourage you to go ahead and when your
+child is eligible, go ahead and get the proper dose for that age. Daniel writes in New South Wales,
+Australia at the moment, there are a number of people in ICU and dying after full vaccination.
+I know this is to be expected. But I feel that discussion of this is avoided and leads my older
+friends, particularly to feel confused and helpless. All the people who have died here post
+vaccine have been in their 80s and 90s. They have also all had other underlying issues.
+But the underlying issues are never reported. My understanding of why this would occur at all
+is that the individual was unable to mount an immune response to the vaccine. Not that the
+vaccine has weakness, but the individual. Is this correct? Are these are there young healthy people
+who make no immune response and are protected for some reason? Is there a specific list of age
+plus underlying conditions that people can look at and clearly understand their level of risk?
+So yes, I actually feel like you're right on with this. We talked about the vaccines reducing
+your risk of death by, I'm going to say 30, right? We'll pick that as a number. You hate to pick one
+study, but that seems to be reasonable. So if you went from your risk, you're 90 years old,
+you're obese, you have diabetes, you have Down syndrome, right? Let's stack them all together.
+If your risk was 60% that you were going to die if you got COVID, well, that you take 60
+divided by 30, you still have a 2%. You still have a one in 50 chance of dying.
+My wife and I were talking yesterday, we're out walking the dogs. And I was saying, Jessica,
+when you get this reduction, so you've got your vaccine, you're now at 95% reduction
+for ending up in hospital, when you started off, you're in your 40s, your ideal body weight,
+you exercise, you have no, you started off with maybe a 1%, and now you're down to
+5% of 1%, incredibly low. So this is that risk reduction. People think, oh my gosh, 95% reduction.
+That means 5% of people are going to end up in the hospital. No, you have to take your baseline risk,
+and this is a reduction below that. So yes, we are going to see a couple people a day here in the
+US, right? Large country who are vaccinated and still end up dying, but we're going to see thousands
+who are unvaccinated end up in the hospital and dying. We're also going to see a certain
+percent of people who are vaccinated end up in the hospital, but that's going to be a 30-fold,
+or a 10-fold reduction in that number. So that's really, you're really hitting right on it.
+This is a reduction in baseline risk. So yeah, who are going to be those people who still end
+up in the hospital? It's going to be predominantly older individuals. It's going to be predominantly
+individuals with a lot of comorbidities. And those people that do die, they're going to be those
+individuals who have the highest risk factors. And finally, Helen is the parent of a 34-year-old
+adult with down. She has had two Pfizer vaccines, wondering if there are any data on how well people
+would down respond to the vaccines. The order is in a day program where everyone's vaccinated,
+but she's still concerned. Yeah, no, that's an excellent question. And I think you hit on one of
+the things that I touched on there. A down syndrome is a significant risk factor for hospitalization
+and death. I think it's about a 10-fold. It was a British medical journal article in September,
+where they were looking at these. Actually, it's a great article, British medical journal. I think
+it was the 17th of September, the article came out, where they were looking at all these different
+factors. Down syndrome was about a 10-fold increase risk of death. So when they talked about populations
+that they felt were at increased risk, when they started talking about the Pfizer booster,
+down syndrome was one of those thrown in there. So yeah, individuals with all these different
+comorbidities, particularly down syndrome are at increased risk. What about response to the
+vaccine? I haven't really seen any really good data looking specifically at individuals with
+the down syndrome response, but put it in that context of the overall risk.
+That's COVID-19 clinical update number 83 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. And be safe. And I say that to all those kids have to go to school without masks.
+Be as safe as you can.

@@ -1,0 +1,490 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 806 recorded on September 16th, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. This is clinical update number 80,
+and I have a question for you at the onset here, Daniel. This is an easy one. In the past
+week, since we've spoken, what are the numbers looking like in the New York area?
+The case numbers, and I think you could say this across the country, if you look at numbers,
+we seem like we've sort of crested a little bit of a hump as far as cases. You look at deaths
+nationally, not great, but again, we sort of talk about that lagging indicator. Here in the New
+York area, and I'll kind of hit on this, we've been seeing only deaths about 40, 44, sort of
+right around 40, low 40s. You can just think of how different that was from deaths back above
+2000 a day in the New York area. So I will say, the hospitals, a few COVID cases in the hospitals,
+in a highly vaccinated population, particularly in Nassau County, where I see a lot of folks,
+vaccines have transformed COVID from an ICU from a hospital disease to a largely outpatient disease.
+I had a call yesterday from a clinician colleague of mine, and he's saying, you know, Dan, I just
+not feeling so great. I think it's just a call. I call my doctor, and he said, oh, it just sounds
+like a common cold. And I'm like, really, like maybe a common cold coronavirus, like SARS-CoV-2,
+after two shots of an mRNA vaccine. He's like, no, no, I talk to the doctor, and he doesn't
+sound like COVID. And I said, you know, according to my good friend, Lisa Santoriello, it's a viral
+disease. You realize that it can present just like a viral disease. The only way to tell whether or
+not what you have is COVID or not is to go get a test. And Vincent, can you guess what that test
+showed? I think it showed he was positive for SARS-CoV-2. Yes. So yes, it was positive, and you know,
+then he went ahead and test his wife, his family, and you know, and it's not going to be coming
+and doing consults with me for a little while till he finishes his isolation for the infected
+period. You know, that's interesting. But so in immunized people, it can present like a common
+cold, which is what the common cold coronas do in a largely immune population, right?
+It's really interesting, you know, and I know we've talked about this from the beginning, right?
+So if you got exposed to SARS-CoV-2 when you were younger, you know, would that, you know, be sort
+of different later in life, you know, sort of, you know, will, is this what will happen? Let's say
+parts of the world that have not been getting vaccines, you know, and what do we do sort of in
+the future? In the future, a lot of young kids, let's say in the first few years of life,
+get infected with SARS-CoV-2. What will sort of the future be there versus what we see now? Because
+I think we talked about with the other, the non-SARS-CoV-2, the common coronaviruses,
+you know, and I want people to quickly think and they name those. By the time you're six years old,
+the majority of us have been infected. So it tends to be in that first like, you know, under five,
+so be interesting to see over time. But, you know, I always like to say too to put that in context,
+vaccines are like sunblock, right? You can't get vaccinated and then lay there on the beach at
+the tropics naked all day, you know, they reduce our chances. And so my colleague is fortunate
+that for him it was a mild case. But unfortunately, you know, when we hear the death numbers,
+a few of those deaths every day, a number of those deaths every day, are in the vaccinated
+who have other risk factors who couldn't mount that robust immune system. All right, let's start
+with my quotation and I don't know if people know I am recording this on Yam Kapoor. And it is,
+it will not be sundown until 701 here in New York. So my son Barnaby has some friends. He calls it
+an intimate gathering daddy. It's just a few of us. It's not a super spreader event. So, you know,
+we were basically figuring out that they were not allowed to eat until 701. And my wife was like,
+but they're boys. I'm like, they can wait. They can wait. So for those of you who, you know,
+I guess listen to this on Saturday, I hope that your fast was a good and gentle one.
+But our quotation from Eli Weisel, the opposite of love is not hate. It's indifference. The opposite
+of art is not ugliness. It's indifference. The opposite of faith is not heresy. It's indifference.
+And the opposite of life is not death. It's indifference. When I graduated medical school,
+Eli Weisel was still alive and actually spoke at Carnegie Hall at our medical school graduation
+from NYU. And maybe as we get a little farther, I might throw in a little bit of the wisdom that
+he shared. You know, at the time it ruffled my feathers, so to speak, in my young arrogant,
+you know, finishing medical school, but really a wise man and a loss that he's no longer with us.
+All right. You know, the update, I gave a little bit of an update right there, but I'm actually
+going to go ahead and introduce a preprint right here in my update because I think it introduces a
+really important concept when we're trying to understand what is going on around us.
+And this was the preprint, the COVID-19 hospitalization metric in the pre and post vaccination eras
+as a measure of pandemic severity, the retrospective nationwide cohort study. Now there was actually,
+I think it was an Atlantic article that discussed this and I spoke to the author before he published
+his piece. But here in this preprint, the author suggests that there may be limitations at just
+looking at hospital numbers if one does not ask for a little more detail or dare I say nuance.
+This was, I think, a really smart, really clever the way these researchers went about trying to
+look at this data. So the investigators used the electronic records from the healthcare system
+of the US Department of Veteran Affairs and looked for March 1, 2020 through June 30, 2021.
+And they included 47,742 admissions. They then identified 38,508 unique patients with laboratory
+confirmed SARS-CoV-2. And then a subset of this, they identified 28,731 that met the criteria for
+moderate to severe COVID-19. Now what does that mean? They defined moderate to severe, I'm going to
+say properly defined, moderate to severe COVID-19 disease, as a person who has a documented
+oxygen saturation of less than 94%. So they were looking at these inpatient hospitalizations,
+they were able to look through and see if they could find that that occurred during the admission.
+And then they really looked at what percentage of these COVID-19 folks that were hospitalized
+actually had this criteria, right? And we've talked about this before. You have to be careful
+with geography. We talked about ICU. And putting someone in the ICU, there's a different threshold,
+I'll say here in the New York Tri-State area, than there was, for instance, at my first job when
+I was working at the VA in Helena, Montana. It was just me. It was the only guy there, the entire
+weekend, 100-bed hospital. People ended up in the ICU for closer observation with a lower threshold.
+I say, you didn't want to know. Are they in the ICU or not? You want to know, like, well,
+why are they in the ICU? Are they in the ICU because it's done all by himself or are they in the ICU
+because they really require that higher level of care? And what they report here is that prior
+to January 2021, right? So prior to when vaccines became available, 64% of folks admitted to the VA
+had that moderate to severe, had a documented saturation less than 94 versus 52%. So it fell
+about 12% in this later period. Most strikingly, if you look at the vaccinated patients,
+only 42.6%. So the minority of the vaccinated admissions had an oxygen saturation less than 94%.
+And only a 15.8% of those admitted vaccinated patients were sick enough that their physicians
+felt it was warranted to administer dexamethasone. So I think this has been sort of taken both ways
+on social media, apparently. Some people say, you're minimizing COVID. But what I think this
+actually is a reinforcement of the efficacy of vaccines like we talked about with my colleague,
+not all COVID-19 hospitalizations are the same. So if an individual gets vaccinated,
+they end up in the hospital, oh, my gosh, they must be so sick. Well, if their oxygen saturation is
+above 94%, they're there just for a 48 hour, you know, quick stay, not much more than observation.
+That is so much different than somebody ending up on high-fellow oxygen ending up in the ICU. So
+again, nuance when we look at those hospitalization rates, we want to really be asking, you know,
+what are we seeing here? Why are people being hospitalized and sort of getting that nuance there?
+But I will say, death is death, right? Despite all the nuance here, if you go ahead and you look at the
+at the world-o-meter dashboard, you know, how are we doing there? And I actually looked, you
+know, we could go and we recorded TWIV clinical update 79 that day over 2000. So 2,107 people had
+died that day. And if you go back to September 9th, you go back about a year ago, that number was
+1,072. So that's twice that number. But then if you look a little bit, again, a little granular,
+if you look at places with high vaccination rates, like here in New York, as Vincent and I were
+discussing, we're seeing about 40 deaths a day, right? If you go to Texas, you can imagine that
+count is much higher. And I just checked right before we recorded this. So yesterday, so not
+September 15th, 2,284 deaths for just one day. This is the issue, right? If you roll, if you
+remove the masks, remove all the non-pharmaceutical interventions, and you still have a large, and we
+still have a chunk of our population that is unvaccinated. Children, COVID, and mental health, right?
+Children are at risk for COVID, wearing a mask is less traumatic for a child than being hospitalized.
+You know, I went ahead and I looked at, and as I've sort of mentioned, the CDC has tracking the
+American Academy of Pediatrics has tracking. We're still seeing just an unacceptable number
+of children being infected here in the US per week. We're still in sort of that quarter million
+a week level. Now, I should say, so I'm part of this COVID kids consortium that was organized by
+Christie Short. She's a virologist down in Australia. I don't know if you mentioned you may know her.
+And this was sort of an interesting international group that Dr. Short put together. And our goal
+here is to provide meaningful data on COVID in children and adolescents, and really to look at
+not only high, but middle, low income countries with all the different quality data challenges
+in different settings. But after this last meeting, I was forwarded a pre-print, which I share with
+Vincent. I share with Amy. I asked a couple of other folks to look at this. And the pre-print
+was biological features of SARS-CoV-2 infection in children. And this pre-print certainly will
+benefit from the peer review process. I mean, there's a couple sort of painful things. They equate
+viral RNA copy number with viral load. I think we've been trying to point out that those are
+not equivalent. They do viral culture. They do assessment of sideopathic effects. They report
+semi-quantitative viral titers. And I thought it was worth a review and I look forward to it
+improving. But you know, some of the interesting things in here, the youngest kids do not have
+lower RNA copy numbers as assessed by RT-PCR. Lower age kids were not less likely to have
+cultural virus. It was really mostly in those first five days after symptom onset that virus
+could be cultured. The anterior nary samples looked like that was fine, right? We've talked about
+that before. So in a lot of ways, it's sort of confirming a lot of things that we've been saying,
+just really dispelling a lot of these early myths. But then maybe a few takeaways. You can in these
+children, particularly if you're going to be doing serial sampling, you can do the anterior
+naries. You do not need to do that beautiful, potentially painful, and traumatizing deep,
+blind, middle-turbinate brain biopsy swab. But again, this sort of supports, I think,
+that we really need to understand what's going on in children. And they're not some special class
+that when exposed does not get the virus. Children can get infected. Children can have
+replication-competent virus at high levels. So this is update 80. So hopefully something
+a little special here. The pre-exposure period, right? This is when we're all worried about
+transmission, exposure, what can we do? And I always say never miss an opportunity to test. And now,
+again, masks are cool. Hopefully people remember that because the CDC updated their mask guidance
+with some really nice graphics. And I have to say, it's still shocking to me that this far into
+the pandemic, people are still wearing masks incorrectly. I find when I walk around, I need
+to ask people, do we need to get you a lighter mask? It seems to be falling down. We need the
+kind with the helium to keep it above your nostrils. So just a little refresher here. And I'm actually,
+when we get to the end here, I'm going to bring out some samples. So maybe this will be the time
+people want to tune into YouTube to see some of the masks. So we talk about masks, but really what
+we're talking about and what the CDC highlights on their updated guidance, go to cdc.gov.
+Types of masks is sort of the end of the URL. And they talk about masks, right? These are designed
+to contain your respiratory droplets and particles. They're really source control. They provide only
+some protection for you, really mainly they're protecting others. I've used the surgeon analogy.
+He's got that. So he doesn't cough, spit, or infect the wound. He's not so much protecting
+himself and the patient. And the other side, respirators, right? We throw them in with masks.
+But these are really designed to protect the wearer from particles. And this is going to be
+something I will go through. They repeatedly in their guidance here, reference, nose wires, right?
+You want this mask to fit you properly. And maybe this is an opportunity. I would say this is
+mainly sort of started off as physicians listening. But every time you see a patient,
+here's your opportunity to teach them how to properly adjust that nose wire so that it fits
+properly. When I show the little props later, you can actually add a nose wire to a lot of masks.
+You can order these iron on. But you really want to make sure this fits properly. And they also
+come in a little bit about facial hair. We almost need Dixon here to show the issue with excessive
+facial hair, not just with masks, but also, you know, scratchy microphone issue. But I'm also
+going to do a little bit of a shout out for an organization. You know, they were talking about
+masks before anyone else was, perhaps. And this is an organization called the American Conference
+of Governmental Industrial Hygienesis, the A-C-G-I-H. And this organization is a 501c3. They've been
+around for over 80 years focusing on the advancement of occupational environmental health. And they
+actually have a really, I thought sort of a nice graphic where you get to add, you know,
+what if people around me are wearing masks? What if I'm wearing masks? What about the different
+masks? Sort of where does that put me from a safe point of view? But with that said, I'm going to
+reach behind me and grab my props vents. And I have several masks behind me. And they're looking
+at this CDC site and they have a page of all the different kinds of facial hair you could have.
+I didn't know. Isn't that great? I mean, you didn't realize all your options. So,
+I don't know if people are going to come away with a better understanding of the impact on
+masks or like new ideas for, you know, personal appearance. So, let me start off with sort of
+the bottom of the heat, my so-called, this is my cloth mask without a nose wire. So, I,
+and you can see I put that on. Maybe there's a little bit of decrease, but there's a lot of
+air coming up around the nose. So, we have our cloth mask. Now, our cloth masks are probably our,
+we'll say, least effective source control, least effective protection, right? So, that's our cloth
+mask. But the cloth mask can actually be improved by adding a nose wire and making sure that the
+mask is fitted better to your face. So, this is our famous Dr. Who. Masks are cool. And you can see
+here, if you're watching on YouTube, that there is this nose wire. You may want to go over to the
+mirror. You want to make sure that nose wire is bent so it goes sort of in and then flares out
+so you get a nice seal at the top. This is one of those examples you can put on your reading
+glasses, for instance. And you shouldn't see much of a fog, right? And as we go later, we'll try
+that again with some other masks. Now we move up, right? Those are truly masks. What is our last
+mask in the heap? And this is our surgical mask. And these are actually a material that actually has
+improved ability to create local source control. Again, it has the nose wire. Bring this up.
+And this is what you'll notice that physicians, that surgeons, that healthcare workers, nurses,
+nurses, a, it's really a lot of folks in the hospital wearing these almost at all times. A
+lot of hospitals, you have to wear them. I say almost at all times because people love to pull
+them off to speak and generate droplets, which, you know, I walk away quickly. And then we move
+from masks to respirators. The first is the KN95. And I know I've talked about this quite a bit.
+And you can see here, this is a KN95. It also has the built in metal. So again, you need to
+shape this can't just pop it on your face. And this actually creates a fairly reasonable
+seal. But again, this is a KN95. This does not necessarily meet US NIOSH standards, right? So
+the National Institute for Occupational Safety and Health. When we've studied these, which are
+actually approved, so the KN95 are sort of approved by, well, not kind of, they are approved by the
+Chinese, they are not quite as effective as the N95s. The N95s, let's hit that. And I have a
+couple here before we move on. So this first one here, and healthcare workers that are using
+N95s, these are actually fitted. We actually get tested. Since I work at several hospitals,
+I get tested everywhere. And you can see there the strap actually broke as I put this on. They're
+not, they're not necessarily designed for multi-use. These fit really close. And you'll actually
+notice that if I put my glasses on, not much fogging, right? And these are actually often
+designed, I'll pull this off, to vent the air away so it doesn't. And we have several options.
+Here's another one, sort of a flat duck bill, the 3M. This is my favorite. The N95s, these are
+actually made up to a highest standard. And now I have to say, to be honest, we have these made
+in the US. Supplies are better. Maybe I should say N95s, they're not just for healthcare workers
+anymore, echoing the serial commercials. But those are our choices. And I think this far into the
+pandemic, it's pretty obvious not only that masks work, but I think it's really critical
+that we understand masks, respirators, how to use them. And if you see a friend,
+or an enemy, or someone in between, not properly wearing that mask, you know, feel free to sort of
+help them. It's like someone with a crooked bow tie. I am sure they want you to help them out.
+And again, in the string of points making a line, we had another MMWR looking at the effectiveness
+of masks. And this was the MMWR report, SARS-CoV-2 transmission to masked and unmasked close
+contacts of university students with COVID-19, St. Louis, Missouri, January through May 2021.
+And just briefly, in this MMWR, they compared only masked exposures with close contacts
+with unmasked exposures, right? So you're exposed to someone who has SARS-CoV-2.
+What happens if you get exposed to someone as a mask or is unmasked? So this is source control.
+That unmasked every one of those unmasked exposures, they found a higher adjusted odds of a positive
+test. Each additional exposure was associated with a 40% increase in odds of a positive test.
+So just people keep asking like, oh, where's the data on masks? Lots of data. There's lots of
+points here in the line. All right, so moving away from masks back to testing, perhaps one of my
+favorite topics, daily testing or contacts of individual with SARS-CoV-2 infection and attendance
+and SARS-CoV-2 transmission in English, secondary schools and colleges, an open label, cluster,
+randomized trial. And I think we may have discussed this in pre-perform, but here it is, peer-reviewed.
+And this is a paper looking at test to stay versus the quarantine approach, right? So you have an
+individual who's had an exposure, you say, oh, you got to stay home for 10 or 14 days, or you say,
+you know what, you can keep coming to school. We're just going to test you every day. How well does
+the test to stay work in this study? So this involved 201 schools in England. They randomly
+assigned 201 schools, and there were 99 in the control group. There were 102 in the intervention
+group. This was a 10-week study from April 19th to May 10th of 2021. And then it continued into a
+pre-appointed stop date, June 27th, 2021, right? Get your 10 weeks. At the end of the day, not
+everyone participated, but 76 control group schools and 86 intervention group schools actively participated.
+There were 59.1 per 100,000 symptomatic PCR confirmed cases in control, 61.8 per 100,000 per week in
+the intervention group. So not a significant difference. So again, demonstrating the ability
+of these rapid lateral flow tests to actually perform very well in a test to stay school program.
+Because I think this is going to be a big issue in the future, right? You know, everyone is worried,
+if we do all these tests, we're going to have all these kids missing school when they don't need
+to. This is a way to say we can test, and then we can actually continue to test, and we can
+get people staying in school, continuing to have those educational opportunities in a safe environment.
+All right. Active vaccination. We're still in that pre-exposure period. Never miss an
+opportunity to vaccinate. Vaccination is how this pandemic ends. And I added a new one. And
+this is sort of, I feel like I'm channeling you, Vincent, vaccines, the jabs that keep you from
+getting sick. And I wanted to talk a little bit about vaccine conversations, right? So back to Eli
+Wiesel. You know, one of the things that he told me, you know, when I was there at Carnegie Hall,
+I'll, you know, full of myself because I just got my MD degree. And he said, you know what,
+I know you guys, you think you know it all, but the first thing I want to impress upon you,
+listen to your patients. And I think that's the big thing. When we have someone who comes in and
+sees us and they have been vaccinated, that's not the time to scold. That's not the time to tell
+them how smart you are and how much you know, that's the time to listen, right? And I think this is
+going to be more important because as we look in the coming weeks, vaccines potentially moving
+into younger ages, the antibactors are going to be on their home turf here, right? They've got all
+their arguments ready to go and they just need to pop, you know, something new in. So listen,
+find out what the concerns are. Let's let's really focus on people who have questions. There's a
+certain crowd, you know, and I think sort of going back to Eli Weisels, which maybe we just
+don't need to engage. We need to spend our time and resources on those people that are interested
+that have questions that are not really there just to anyway. Okay, so now a little bit about
+hybrid immunity. I like this preprint. So this is a preprint, high genetic barrier to escape
+from human polyclonal SARS-CoV-2 neutralizing antibodies posted as a preprint. And here the
+researchers used an HIV-1 pseudotyped variant system with a synthetic poly mutant spike that
+they generated by aggregating variant of concern associated and plasma selected spike mutations
+into a single poly mutant spike protein. Quite a mouthful, right? And actually I have to say this
+was sort of similar to the work that I was doing actually just not too far from Vincent's office
+before the pandemic started. But using this system, they were able to show that 20 naturally
+occurring mutations in SARS-CoV-2 spike were sufficient to confer near complete resistance to
+the polyclonal neutralizing antibodies generated by convalescence and mRNA vaccine recipients, right?
+So you put these 20 mutations in the spike and if you had an infection in the past where you had
+a couple doses of the MNR vaccine, your plasma actually was not able to neutralize this. However,
+and in this discovery, plasma from individuals who'd been infected and then got the mRNA vaccine,
+they were able to neutralize not only SARS-CoV-2 but also diverse other viruses in the same
+coronavirus family. So let's just translate this a little because I think this could be
+quite something. This is first of all, it's about neutralizing antibodies and changes in the spike
+protein, right? So it's not the whole complete picture looking at T cells, which we think are
+less sensitive to changes in spike. The researchers went ahead and they defined these 20 changes in
+the spike protein, ending up this near complete resistance to these neutralizing antibodies.
+And either people had COVID infection or people that got the Pfizer or the Moderna vaccines,
+the co-mariniti or the spike vaccine. They say mutations, but we're really dealing with amino
+acid changes, so the mutations in the genetic code that led to amino acids which changed the
+spike protein. Now they did show this, I think, rather interesting COVID first than two doses of
+mRNA vaccines. But there were really, I thought, I'm going to say four interesting questions and
+I'm hoping the reviewers asked them to address these prior to full publication. What about people
+who were vaccinated and then got an infection? Like I described my colleague, what does the
+antibodies from that individual look like? The next, and I think this is sort of time sensitive,
+what about an individual that gets that booster, right? We're talking about boosters and certain
+individuals getting those. What about someone who got a booster and then got infected? I think
+that's an interesting is that we're sort of weighing now if we give boosters versus exposure. Are we
+risking trouble with boosters? Original antigenic sin or the butterfly effect? So I'm going to leave
+that for a deeper dive with maybe our immune colleagues. And then, of course, what about those
+folks that got the J&J vaccine? So the red-headed stepchildren, they feel left out. What about people
+that got the J&J? How are they doing? And of course, boosters. We can't not mention boosters,
+but that's all I'm going to do here is just mention boosters. There was a very well-written
+and referenced viewpoint piece in the Lancet, considerations in boosting COVID-19 vaccine
+immune responses. And what I'm going to do here is I'm going to suggest that people not only take
+the time to read this brief three-page piece, but also go ahead and listen to TWIV 805.
+I really, Vincent, you guys did a great job of walking through kind of the questions, the issues
+there. The FDA will have actually met prior to this dropping on Saturday. But really, I thought
+this piece outlined a lot of the questions. I mean, the FDA wants their decisions, their
+recommendations to be driven by the science. And I think a lot of those questions about boosters,
+one is, is there really waning immunity that we're concerned about?
+Two, if you give people a booster, is there a benefit? What is the safety profile? Who has the
+best risk benefit should boosters be given out there? We're doing it now to individuals who have
+immune suppression. So, you know, organ transplant recipients, people with that sort of level of
+immune suppression. We know the antibodies go up. We need to know, is it more than that? Is this
+really effective? And we can talk about that. Passive vaccination, right? Just to close out our
+pre-exposure period of time, remember, monoclonals after high-risk exposures in high-risk people.
+But now we move to the period of viral replication. It's gotten through, and now the individual is
+actually infected. And during the viral symptom phase, I say the time for monitoring and monoclonals,
+not the time for antibiotics, and not the time for steroids. And I'm going to hit a little bit
+on steroids after I just sort of bring people up to date on what's going on with monoclonals.
+People have finally fully embraced monoclonals. And now, for the first time, there's concerns
+about shortages, right? We're shipping out 150,000 doses a week. I think we're US governments
+paying about $1,000 a dose. So, I think we're spending about $150 million a week on monoclonals.
+That's a lot of money. And we got an announcement from the US Department of Health and Human Services.
+Let me read this and put it in context. The recent increase in the prevalence of the Delta variant
+of COVID-19 has caused a substantial surge in the utilization of monoclonal antibody drugs.
+It remains the goal of the federal government to ensure continued availability of these drugs
+for current and future patients. As such, HHS is immediately implementing the following changes
+to help promote optimal and equitable use of the available supply of monoclonal antibodies
+while we continue efforts to procure additional products, limiting immediate orders and shipments
+only to administration sites with HHS protect accounts and current utilization reporting
+and reviewing all orders for alignment with utilization. So, what is this? Basically,
+the federal government is jumping in saying we need to make sure that these products are used
+appropriately. We're going to be sending them to sites that are giving us the data so that we
+know what's going on. What is the HHS protect? This is really an ecosystem. This is a secure platform
+for authentication, amalgamation, and sharing of healthcare information. Really looking for
+the ability to keep an eye and make sure that these drugs, which are now becoming
+in limited supply as opposed to sitting on shelves, are really going to the people that need them.
+This is sort of prompt that I think fear, fear about shortages that I hope are exaggerated.
+There was sort of this idea for a while that you don't need to get vaccinated because you can
+always get your monoclonals and now people are a little worried. Maybe I should get my vaccine
+because maybe I can't just get that monoclonal. But the current U.S. administration reported that
+they will buy more than 1.7 million more doses of the monoclonal antibodies. They're going to get
+the bulk 1.4 million from Regeneron. Another 388,000 are coming from Eli Lilly, and perhaps
+we'll hear about even more being purchased from V or GSK. There's even a couple other
+companies out there trying to move for e-way for their products as well. Just to keep this on
+people's radar, I've been bringing this up for a while. I'm waiting for the data to share.
+But we are expecting October and November, December applications for e-way of effective
+oral antivirals. We've got multiple companies working on several products. So some optimism
+there that we're going to have another option. But I want to go back to steroids. This is the
+individual shows up at a primary care office. Maybe they show up at an urgent care. They're in that
+first week. They're in their viral symptom phase. We know some folks. Maybe they're not listening
+to Twiv. They're trying to do the right thing. They throw some steroids, some vitamins, some
+antibiotics at the patient. Well, is that harmless? Is that okay? Well, this was a really nice meta
+analysis, a systemic review, steroid use in non-oxygen requiring steroids use in non-oxygen
+requiring COVID-19 patients a systematic review and meta analysis. So they initially identified
+6,411 studies. They then screened 2,990 after an initial exclusion. And then they finally narrowed
+it down to seven studies, which fit the criteria. So we're ultimately looking at 2,214 non-oxygen
+requiring COVID-19 patients. And I think this is really critical. Overall, odds of progression to
+severe disease among the non-oxygen requiring COVID-19 patients receiving steroids was 5.97.
+So basically by trying to be helpful by giving steroids in that first week, you were increasing
+a patient's odds of progressing to severe disease, 6, almost 6-fold. And you increase their odds of
+death 1.35. So a 35% increase in their chance of death as compared to patients not receiving steroids.
+You also increase the mean duration of fever. You increase the mean duration till viral clearance.
+And if they did end up in the hospital, you increased their length of hospital stay with the median
+of 20.8 days. You know, I've got to say this is just sort of reinforcing. During that first week,
+we don't have a lot. We can offer the monoclonals to a certain subset, but we certainly can harm
+these individuals. They have a really nice figure, figure 4 in this paper, where you can actually
+compare folks that did or didn't get steroids. And you can see the harm that can be done here.
+So again, for the first week, this is the time for monitoring and monoclonals. It is not the time
+for antibiotics. It is not the time for steroids. We can do harm with steroids. We could significantly
+increase a person's chance of ending up in hospital. And we also know, as we talked about,
+with azithromycin, with doxycycline, other antibiotics, these are not helpful and potentially harmful.
+I think we talked about the one doxycycline study, where there was a 5-fold increase in death,
+just given those those antibiotics. So remember, we can harm people during this first week. But then,
+once they progress to that second week, this is when people often get hospitalized,
+we have really good evidence for benefit of steroids, if they have an oxygen saturation
+less than 94%. So that matters and timing really matters with COVID. And we also had a nice review
+of steroids in the hospital setting. And so this was review in adults with severe critical COVID-19,
+corticosteroids reduce mortality versus standard care and analysis with or without the recovery
+trial. So this is seven randomized control trials, one cohort study published in international
+immunopharmacology. And I really like this because I think we've talked a little bit about meta
+analyses. But you have to be careful that your meta analysis is not being swayed too heavily by
+just one study, right? Otherwise, it's really not a meta analysis, it's that one study pushing
+things. And the recovery trial done by the folks in the UK was a large trial. So you want to pull
+that out and say without that, how do we do? So a total of 6771 patients from these eight
+prospective studies, seven randomized control, one prospective cohort were included in this meta
+analysis. And the results showed that corticosteroid therapy at the right time in the right patients
+was associated with lower mortality in severe COVID-19. So an odds ratio of 0.70. So a 30%
+reduction in mortality. Since the proportion of recovery trial was so large, they remove that.
+When you remove that, the odds ratio was 0.65. So a 35% reduction in mortality. So even without
+that study, we're still seeing this 30, 35%. So we're seeing a clear mortality benefit.
+So remember, this is when we're using steroids. It's when we're using remdesivir, pulmonary
+support, anticoagulation, and then only in select patients further immune modulations such as
+tosyllismab or barisitinip. Okay. The tail phase long COVID, sort of an exciting announcement,
+I will say this last week. As we've been saying, COVID is not just a two week viral illness for
+many people. On Wednesday, September 15th, the NIH announced NIH builds large nationwide study
+population of tens of thousands to support research on long term effects of COVID-19.
+So the NIH awarded nearly $470 million to New York University, NYU, Langone Health,
+New York City, which will make multiple subawards to more than 100 researchers at more than 30
+institutions and will serve as the recovery clinical science core. So this combined population
+of research participants from new and existing cohorts called the medical court will comprise
+this recovery cohort. And this funding is being supported by the American Rescue Plan.
+So this is really an attempt. We've seen over the last 18, 20 months, a little longer now.
+A lot of money was spent. A lot of trials were set up. We don't have the data we would like.
+This is really an attempt to say long COVID, it's important, post-acute squelly of COVID.
+This is important. We need to do this right. We need to establish a cohort. We need to make
+sure this is studied properly. We need to be organized when we do this. So yeah, it's taken a
+little longer than a lot of us would hope to get this set up. But I'm really optimistic that we
+are now going to do this correctly. And I will mention NYU, that's my medical school alma mater.
+So I'm sure they will do a great job. All right. Now, what about the rest of the world? No one is
+safe until everyone is safe. So is there really a false dichotomy regarding vaccinating the world?
+Perhaps the most selfish thing we can do is now vaccinate the world. And there's I think an upcoming
+Twib is going to be looking at sort of analysis. What is the best way to use our vaccines?
+But one of the concerns that has been coming up is are we allowing these variants to evolve to
+develop in these areas? So there was a research article, a year of genomic surveillance reveals
+how the SARS-CoV-2 pandemic unfolds in Africa as published in science. And in this article,
+the authors describe the genomic epidemiology of SARS-CoV-2 using a data set of 8,746 genomes
+from 33 African countries and two overseas territories. Really interesting. And I think
+what I'm going to do is I'm going to tell people keep listening to Twib upcoming episodes where we
+get a deeper dive into the variants and what's going on and what is the calculus with vaccines.
+Coming up, we have the UN. I guess they're meeting on Tuesday. And there's going to be a whole
+discussion about how we successfully vaccinate the world. Hopefully, a lot of creative ideas about
+how we get this done. But on that note, I'm going to say throughout the months of August,
+September and October, go to parasiteswithoutboarders.com, donate. Donations made to parasites without
+borders will be doubled up to $40,000 in total support for floating doctors, help them continue to do
+the great work they're doing down there in Panama. Time for some email questions. For Daniel,
+you can send yours to Daniel at microbe.tv. Alison is very concerned about children. She's been
+thinking for a few weeks that the next 12 weeks are going to be full of thousands of children dying
+under 12 years of age. She wants to know, are any of the monoclonal treatments approved or in
+trials for people that young? That is a challenge, right? The same population under 12, that is not
+eligible for vaccination is not eligible for the monoclonals as well. I think if we look at the
+numbers, we're not talking about thousands of children dying. And a couple things I'm going to
+say here, you know, I've always talked about like, you know, we need to care about children. When we
+talk about a pandemic of the unvaccinated, we are talking more and more about children when we say
+that. Schools are opening and people are worried. But I think I've tried to point out several times
+and share some of the science on this is that we can safely have children in these environments.
+It involves several layers of protection. It actually can sometimes even be safer than keeping
+them out of the schools. It involves masking, testing, vaccinating all the people around them
+that can be vaccinated, testing. So there's a lot of ways to do this. We certainly can do it poorly.
+But no, I think we can do this safely. And I think we're waking up. We're sort of being
+reminded, Oh my gosh, this is still, we are still in the middle of a pandemic. And I think we're
+starting to see the numbers go down. So I am optimistic here going forward. And I think I've been sort
+of suggesting that maybe by Halloween, there'll be vaccines for the younger kids. But then again,
+you know, the FDA is getting a lot of pressure and what we really want is an FDA we can trust,
+an FDA that follows the science. So when we do move to less than 12, we want to know what's the
+safe dose? What are the things we should be watching out for? How do we make this as safe and effective
+as possible? And it is really hard, I know, during a pandemic to wait.
+So Jeff is at Koga University and asks about what to do with students who test positive. So
+they have a 96% vaccination rate. But when students test positive, they have to be
+quarantined. And he writes, given the data that shows a rapid decrease in viral RNA, as well as in
+the ability to detect infectious virus and vaccinated individuals following infection,
+it would seem reasonable to decrease the length of isolation time for vaccinated individuals,
+as they would unlikely be able to transmit virus past, say, six days post positive instead of
+10 days. Of course, we're going to continue to follow the New York state guidelines. But wonder
+if it would be reasonable to lobby these agencies for reduced isolation time for vaccinated
+individuals. Would love to hear your thoughts on this issue. Yeah, you know, actually, I've got to
+say you bring up an interesting concept, the idea of lobbying organizations. I always think what
+my natural responses is we need the science. The organizations can respond when we have the
+science. And what we really need is not lobbying, but funding so that these investigations can be
+done. Because right, we have a growing body of evidence that, you know, there's a certain window
+of time when a person is infectious, right, that two days before that three to five days afterwards.
+With an individual who's vaccinated, do they really need isolation of the infected for 10 days?
+Maybe not. But I think what we need is we need the science, and then you bring the science,
+and then the science helps us move forward. And the other, I hope, is the concept of the test
+to stay. So when an individual test positive, maybe that isolation is shorter. But maybe the
+exposures don't need to necessarily stay home quarantining. Maybe they can test to stay.
+And that's something where we're seeing a growing body of evidence to suggest that
+could be safely implemented. Ingrid wants to know should individuals who are vaccinated and test
+positive for COVID take monoclonal antibodies? So, you know, we say we don't we don't look at
+vaccination status when making decisions about monoclonals. But to be honest, right,
+did we study the monoclonal specifically in people who are vaccinated? We use the same
+criteria. If you are considered at a high risk of progressing, whether or not you are vaccinated,
+if you are symptomatic, then we'd recommend monoclonals. If you're completely asymptomatic,
+and that's sort of a point here, completely asymptomatic individuals vaccinated, unvaccinated,
+you need to at least have some symptomatology, and then one high risk or other feature for going
+ahead with monoclonals. But vaccination is in no way an exclusion.
+And finally, Dan is a pediatric pulmonologist who retired in 2016 after 36 years in pediatric
+medicine. I've been an advocate of asthma education in the school and at home since.
+I've been following your updates at Twiv for several months. Appreciate your review of the
+literature. Since the pandemic began, I've been following local data in San Antonio.
+As a private citizen, I have been confused and do not understand why pediatric data are not reported,
+similar to adult data. And Dan goes on to write about his experience with pediatric critical care
+early in his career and how having such data would be important. So he writes,
+the low numbers do not reflect the tragedy at the local level as an asthma or flu. I question
+any death in a child as preventable. I've only filed intermittently. If you've discussed this
+issue before, let me know. But I'd like to know your thoughts on this.
+No, I mean, I think this is great. And I think I've always tried for a while to start off the
+updates with children and COVID and try to steer people towards where those resources are. So
+the American Academy of Pediatrics, the CDC has a special site looking at this. It is interesting
+that you can't just toggle and get this information more readily, like the Hopkins or the World
+Ometer dashboard, just click. I want to specifically look at the age group that I'm focused on here.
+So yeah, I agree. And I think that it's, as I mentioned, from the beginning, it's sort of in
+this odd, touchy subject. And there's also been a lot of, I think, false ideas where people say,
+you know what? Let me look at the data year ago when the kids were locked in basements and they
+were not getting exposed to COVID and boy, there were no hospitalizations. So I think we can safely
+just open the schools without masks and let them all get infected. They'll be fine. Now that they're
+opening the schools and getting infected, we're seeing the kids are not all right. We're seeing
+thousands of hospitalizations per week. We're seeing a couple deaths every day on average.
+That is in no way. Okay. So yeah, I share that we need to need to have this data front and center.
+I mean, right now the conversation is all about boosters. Yeah, that's fine. And all
+let's talk about the people that haven't even had a first shot and who are at risk and getting
+infected. In the interest of time, I've been abbreviating some of these letters, but I encourage
+listeners to go to microbe.tv slash to have you can find all the text of all of them online there.
+They're very useful to read. That's COVID-19 clinical update number 80 with Dr. Daniel Griffin.
+Thank you, Daniel. Oh, thank you. Vincent, you and everyone else be safe.

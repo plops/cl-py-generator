@@ -1,0 +1,432 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicrobeTV, this is Twiv, this week in virology. Episode 787, recorded on July 29, 2021.
+I'm Vincent Racken-Yellow, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. Well, you got the 787, Daniel.
+Okay, in the show notes, right? There's a nice picture of a large aircraft.
+Have you ever flown one of those 787s? I don't think so. Actually, no, I haven't. I've been on
+some of the bigger air buses, but never the 787s. So I flew one. I only flew one once to
+Singapore from San Francisco in December 2019, and it's a very comfortable plane, very nice.
+You were one of those private little suites, right? I was back in the
+coach, but it's an 18-hour flight, so it was a bit rough.
+Wow. Yeah, that's a long flight. A long flight. You take a nap and you wake up,
+and you say, I must be there, and you got another 16 hours to go. Are you wearing a mask, Daniel?
+At the moment, no, but when I, you know, I never stopped wearing masks when I went to the gym,
+or when I went to the grocery store or other places, and we're going to be touching on that.
+So let's get going. All right, start off with my quotation. I would rather have questions that
+can't be answered than answers that can't be questioned. And that's by Richard Feynman,
+so anyone who just listened to Twiv, what, 786? Rich Condit. I give him a little credit to Rich
+Condit, who I think is also a fan of Richard Feynman. And actually, you know, on some
+aside, sometime I'll tell a side story about the connection with Richard Feynman. But
+I think that this is what science is about. Science is about asking questions, trying to get
+answered. There shouldn't be dogma. People shouldn't be afraid to ask questions, to try to discover
+things. Actually, just talking to Dixon de Pomeier earlier today, and I sang a little bit of a rise
+in the hate mail I've been receiving recently. I did an article in the Washington Post where I,
+you know, bemoan that we didn't have better therapies. And of course, I got lots of emails
+about what are you talking about, Dr. Griffin, you know, and then all the less than pleasant
+adjectives, crimes against humanity, other things in all caps about, you know, if only everyone in
+the world had access to Ivermectin and HCQ, we would all be fine. So we'll touch and don't worry,
+I'll make sure I mention Ivermectin, you know, won't let an episode go by without that. But
+what is the big thing that happened this week? The CDC updated their guidance,
+and boy, did this really get a lot of people confused, angry. So let's spend a little time
+going through that. What exactly did they say? What did they post? And then we'll speculate or
+discuss a little bit on what is behind this. So I actually thought this was pretty reasonable
+on the surface. I feel like this should have been something that came out before they dropped
+the mass mandate just to give a little context about like public health, because that's really
+what this is. And what the CDC said posted until vaccination coverage is high and community transmission
+is low, public health practitioners, as well as schools, businesses, institutions, organizations
+need to regularly assess the need for preventive strategies to avoid stress and stressing health
+care capacity, and imperiling adequate care for both COVID-19 and other non-COVID-19
+conditions. Right, I mean, that's just sort of reasonable. And then the CDC recommended five
+critical factors that should inform local decision making. One, you should keep an eye on the level
+of SARS-CoV-2 community transmission. Two, you should keep an eye on your health system capacity.
+Three, you need to keep an eye on COVID-19 vaccination coverage. Four, look at capacity
+for early detection of increases in COVID-19 cases. And number five, you need to be aware of
+which populations are at increased risk for severe outcomes from COVID-19. And I really,
+I'm going to sort of, you know, little criticism to the CDC. It would have been nice to have this
+out front when they said a little while back that they felt like things were at a level where it was
+appropriate to get the masks off. But here's what the CDC went on to say. And this is when
+people got upset. Among strategies to prevent COVID-19, CDC recommends all unvaccinated persons
+wear masks in public indoor settings. Okay, so far, so good. Based on emerging evidence on the
+Delta variant, the CDC also recommends that fully vaccinated persons wear masks in public indoor
+settings in areas of substantial or high transmission. Fully vaccinated persons might consider wearing
+a mask in public indoor settings regardless of transmission level. Or if they or someone in their
+household is immunocompromised, or is it increased risk for severe disease, or if someone in their
+household is unvaccinated, including children aged less than 12. Vincent, do you have any thoughts?
+So yes, I do. They shouldn't have relaxed the masking back in April, because vaccine coverage
+was less than it is now. So I don't see why they have to go back. However, what is it? What
+does the Delta variant have to do? Any different from any other variant? I don't see the vaccines
+prevent severe diseases you have said with any variant. So why this concern about the Delta
+variant? Do they have some data which drives that decision? Yeah, some special super double
+secret information. Do you remember back in December when you and I talked about how everyone in the
+UK and in December, Boris Johnson decided that we could take December off from the pandemic and
+everyone could go to the pubs and the taverns and have a good old time. And then suddenly,
+the Alpha variant came along and changed everything. Yeah, I think the variants are becoming a bit
+of a scapegoat. You know, we saw a huge surge after July 4th. We saw a lot of people indoors
+transmitting. And I think there's a couple things in here that we've talked about, but maybe we
+need to reinforce. One is that unvaccinated people can get infected and transmit to others. I think
+we all know that the other is vaccinated people can get infected and transmit to others, particularly
+symptomatic vaccinated people. And I think we have growing data that the farther we get out from those
+jabs, the higher the risk is for people to get mild symptomatic case of COVID-19 despite vaccination
+and spread it to others. So I am not sure that throwing the Delta variant in here really tells
+us very much. And there is this sort of buzz that there's some PCR data out there, you know, about PCR
+levels being similar, RNA amplification levels being similar. And we're going to talk about that
+when we get to testing. But I think Vincent and I, you were on this, you and I are on the same page.
+You know, what is more significant behavior or a few substitutions in the spike protein?
+I think it's behavior. And yeah, dropping the mass mandate was a little bit premature.
+But we've got to sort of reinforce that, you know, as my mom was saying about a bulletproof vest,
+I don't understand how you think that's going to protect you when your head is sticking out.
+So children, COVID and mental health, right? So where there's a lot of concern, right, about
+vaccinations and the fact that some of our children are not going to be eligible when the school's
+open. And there is significant concern about, you know, what we can do to make those schools
+safer. So I'm going to start off by discussing an MMWR, so Morbidity and Mortality Weekly Report,
+an early release came out. SARS-CoV-2 infections in public school district employees following a
+district-wide vaccination program, Philadelphia County, Pennsylvania, March 21 through April 23,
+2021. And this is this concept that if the school employees, if teachers are all vaccinated,
+does this create a safer environment for the children? You know, will this prevent those
+employees' staff from becoming infected, potentially spreading it to the children?
+So this addressed that question of whether promoting vaccination among school staff members
+could potentially make our schools safer. So the school district of Philadelphia reopened for
+in-school instruction the week of March 21, 2021, right? So this is a number of months back,
+so we're going to see data from the spring. They required weekly testing for SARS-CoV-2,
+the virus that causes COVID-19, for all employees returning to in-school responsibilities.
+The resumption of in-school instruction followed a mass vaccination program
+using the Pfizer-BioNTech 2-dose mRNA vaccine offered under a partnership between the Philadelphia
+Department of Public Health and Children's Hospital of Philadelphia CHOP, to all the 22,808 school
+district of Philadelphia employees. Now, the mandatory, this was a mandatory testing program,
+provided an opportunity to assess the percentage of positive by-necks now, point-of-care antigen
+tests identified among school staff members based upon their self-reported vaccination status.
+So we're going to be able to see vaccinated, non-vaccinated, and what happened as far as
+positive tests. So they found a 95% reduction in the percentage of positive SARS-CoV-2 test results
+among persons who had reported receipt of two doses of the vaccine compared with those who had not
+been vaccinated. So they concluded that vaccination of school staff members is an important,
+potential, important strategy to maximize the safety of indoor person education of K through 12
+students this fall. So I have to say, this is actually pretty interesting, right? This is not
+looking at protection against hospitalization or severe disease. This is looking at the vaccine's
+ability to prevent people from even testing positive. I'm looking at Vincent, to see if he has a
+comment. I think it's kind of contradictory to what we've been hearing lately, right? Out of Israel,
+people are getting infected after vaccination. So I think my view is that the further you get
+out from the second dose, your antibodies level drop, you're more likely to get infected. This
+was probably done early on, and that's why the infection was prevented. But it's a good indicator
+that they could vaccinate everybody in schools, right? Yeah, no. And I actually think that's
+important. I mean, this is the nice thing I think about the TWIV audience is our TWIV audience.
+We are educating up there. We're good with nuance here in this TWIV world. This was, as you point
+out, Vincent, this was done right after vaccination. This is people with the really high antibody
+levels, mucosal surfaces. This is that window, we'll talk about how long that window is in a
+science paper later, where that vaccine not only protects you against severe disease but is giving
+you this herd immunity impact, actually blocking infection and transmission. All right, so let's go,
+you know, kids, it's something I was just reading today. I read the Texas papers. I don't know if
+you read the Houston papers there, the Houston press. But in the Houston press, maybe Rich Condit,
+I don't know, he's down there in Austin, maybe Houston is, you know, close enough. But this was
+in the Houston press, out of all the kids who show up to Texas children's concern that they may have
+COVID, roughly 10% of the children who tested positive required hospitalizations, and roughly
+a third of those ended up requiring critical care. Now, this is concerning on the surface,
+but what exactly does it mean? I want to make a couple comments. You know, when it does point
+out that children can get sick with COVID, children can end up in the hospital. But this is a select
+population, right? These are children who are symptomatic. When a child's brought to the hospital,
+there's usually an impression by the parent or the provider that this is a child with a more
+serious manifestation. Historically, those numbers have been down around 1% or less.
+And so we'll just we'll keep an eye on this. I think I would be shocked and frightened and
+bewildered if really 10% of children end up requiring hospitalization with COVID. I did not think
+SARS-CoV-2 has changed its biology enough to affect that, but we will see. But it is important
+to realize that kids can get COVID, kids can end up in the hospital, kids can end up on ventilators,
+kids can have adverse impacts. Testing, just sort of a brief reminder or primer,
+because we're going to be hearing now about CT values. And I think that's great. The conversation
+is getting a little more sophisticated, but you don't want to have just a little bit of knowledge
+or enough knowledge to make you dangerous. So let's talk a little bit about the really two
+large category of tests that we use. We use PCR or molecular amplification tests.
+These amplify RNA and give us RNA copy numbers when we look at that CT value or
+cycle threshold. This is a test for RNA. It's not actually a viral load. It does not give us
+number of infectious variants. And I think that's really critical, because we're going to talk a
+little bit later on, perhaps, about does an RNA copy number in a vaccinated person mean the same
+thing as an RNA copy number in a person who is unvaccinated, who is not potentially destroying
+or neutralizing those variants. The other test that we use quite often, and hopefully more and more,
+is the antigen test that by next now that we talked about, a couple other ones that BD
+Veratore, Quidel, Sophia, the antigen tests are not looking for RNA. They are looking for proteins,
+and particularly the immunodominant protein, the nucleocapsid proteins. So this requires,
+these tests require that that protein is produced and present in sufficient quantities.
+Now, we know at the front end of infection, we start to see those antigen tests turn positive
+in an unvaccinated person when the RNA copy number gets above 50,000. And then the same sort of number
+as it drops off the tail several days later. But remember, those, that information, and we're
+going to hit some studies here, come from the unvaccinated viral kinetics. So antigen tests
+historically have correlated very well with individuals being infectious. Active vaccination
+never missed an opportunity to vaccinate, and vaccination is how this pandemic ends.
+So I don't know if people remember or know the Harry Met Sally movie, I don't know Vincent if
+that's a favorite of yours. Not a favorite, but I've heard of it. Okay, well, I will recommend
+rewatching it. You know, we all need a little break. But this is a movie with Billy Crystal and
+Meg Ryan. And there's this restaurant scene where Sally, played by Meg Ryan, is ordering,
+and she says to the waiter, waiter, I'll begin with the house salad, but I don't want the regular
+dressing. I'll have the balsamic vinegar and oil, but on the side, and then the salmon with
+the mustard sauce, but I want the mustard sauce on the side. And I remember as a child thinking,
+can you do that? Don't you just take what's on the menu? And I feel like we're seeing with the
+COVID vaccines a bit a little bit of what I'll call the Harry Met Sally phenomenon. We have these
+well studied vaccines, dosing regimens, but people want to order something not on the well
+studied menu. Like maybe I'll just take one of those mRNA vaccine doses. And maybe I want to
+sort of change the interval of what's being done or what's being recommended. So we just had this
+article, original article, effectiveness of COVID-19 vaccines against the B1617.2 Delta variant. So
+you get the different nomenclature there in the New England Journal of Medicine. And the authors
+used a case control design to estimate the effectiveness of vaccination against symptomatic
+disease caused by the Delta variant, comparing this to the alpha variant over the period that the
+Delta variant began circulating. So variants were identified with sequencing of the of the S or
+the spike gene data on all symptomatic sequence cases in England were used to estimate the proportion
+of cases with either variant according to the patient's vaccination status. They found that the
+effectiveness of just that one dose was notably lower among persons with the Delta variant,
+only 30.7 percent with the alpha variant, 48.7 percent. They report the results were pretty
+similar for both vaccines after just that first dose. Now, when you went to two doses of the mRNA,
+Pfizer-BioNTech vaccine, 93.7 percent with the alpha variant, 88 percent with the Delta variant.
+Now, the the Chadox, the AstraZeneca vaccine, the effectiveness of two doses was 74.5 with the
+alpha variant, 67 percent with the Delta variant. So I just want to point out, because I know there's
+a lot of discussion now about maybe we should wait, maybe we should change the interval for that
+second vaccine dose. And I just want to point out that after just that first dose, you're looking at
+only about a 30 percent protection against the Delta variant, which is what is circulating. So
+do you want to sit around there at 30.7 percent protection, hoping that if you wait a few extra
+weeks, you're going to somehow tweak that 88 percent second dose impact a little higher. So
+I'm going to say, don't be sally, just go ahead and get that second dose when recommended.
+Now, we also have, we still keep having questions about the third dose, the booster dose.
+So we had another paper, and this was antibody response after a third dose of the mRNA 1273 SARS
+COV-2 vaccine in kidney transplant recipients with minimal serological response to two doses
+published in JAMA. So that's the Moderna vaccine, the Moderna mRNA vaccine that we're talking about.
+And the findings were very similar to other investigations we've discussed with
+low responders getting some increase in antibody responses with a third dose,
+and about 49 percent of kidney transplant recipients who did not respond having detectable
+antibody levels after two doses did after a third dose in the case of the Moderna mRNA
+vaccine. And I will point out they did not assess the T cell responses. Now this ties into what's
+happening to these people, are they getting sick? What is sort of the story? So in the journal
+Kidney International, unfortunately behind a paywall, the article occurrence of severe COVID-19
+in vaccinated transplant patients was published. And here the authors described 55 solid organ
+transplant recipients, 52 kidney, three simultaneous kidney pancreas, who went on to develop COVID-19
+after receiving two doses of mRNA-based vaccines. So of these 55 patients,
+27 percent required hospitalization for oxygen therapy. It's a little bit higher than we would
+think in our generalized unvaccinated population, right? Of these six were admitted to the ICU three
+ended up dying. They had information on 25 patients with available data on the anti-SARS-CoV-2 antibodies
+between the second dose and the onset of the COVID-19 symptoms. 24, so about half, had negative
+serology. One was positive but had weak antibodies. So just a little bit of information we're getting
+here trying to figure out what to do with this with this group. I will just say, currently,
+we have not started to recommend booster or third doses. But just we are studying this,
+we're trying to get a sense of what might happen in the future. I'm going to call this next paper
+the optimistic one. I think we need a little optimistic paper here. The paper protection afforded
+by the BNT-162B2 and mRNA-1273 COVID-19 vaccines in fully vaccinated cohorts with and without prior
+infection. This was posted as a preprint, right? So we get a lot of questions about this. The
+authors assessed the effect of prior infection in Qatar, QATAR, where the alpha and beta variants
+were dominant during this period of time. And they used two national retrospective matched cohort
+studies, one for the Pfizer biotech vaccine, one for the Moderna mRNA vaccine. They reported that
+the incident rates of infection among the Pfizer vaccinated persons with and without prior infection
+were respectively 1.6 or 11 for 10,000 person weeks. They looked at this in people with the
+Moderna vaccine, 1.5 versus 1.83 per 10,000 person weeks. So they actually found that prior
+infection enhanced protection of those that received the Pfizer vaccinated, but they really
+didn't see a difference here with the Moderna vaccine. It actually saw pretty low rates with
+Moderna vaccinated individuals, whether or not they had pre-existing infection. So sort of interesting.
+Now, hot off the press, Amy just sent me this. And so I sent her back and said, hey, this is
+already on the block to discuss. And this was an article in the journal Science,
+Immune Correlates of Protection by mRNA 1273 vaccine against SARS-CoV-2 in non-human primates,
+right? So this is the Moderna mRNA vaccine. And I liked it, but I just want to change the title.
+If we change the title, I think we're all really good here. This is really immune
+correlates of decreased viral replication. And the authors even have a section heading entitled
+antibody responses correlate with protection against SARS-CoV-2 replication. And the authors
+do demonstrate that the levels of the anti-S antibody and neutralizing activity correlate
+with reduction in viral replication in Bronco alveolar lavages. So that's when you put a tube down,
+you put in saline, you wash it out, you pull it back out, and nasal swabs following SARS-CoV-2
+challenge in vaccinated animals. There's a lot in this paper, but they do also go on to show,
+I think this is interesting, that lower antibody levels were needed for reduction of viral replication
+down in the lower airways compared to the upper airways. They also report a dose-dependent response.
+And this actually correlated with the S-specific T follicular helper cells that activate the B cells
+to secrete IgG, and the canonical cytokine IL-2 was also correlated with dose. So I think this
+sort of goes with the discussion, Vincent, that you and I were having earlier, that high antibody
+levels may have some impact on the ability of the virus to replicate in our airways, particularly
+the upper airways. But this is not really a correlate of protection, it's a correlate of
+reduction in SARS-CoV-2 replication. It's not a real world thing. We want to know in people
+what protects you against severe disease, right? And this doesn't tell us that, unfortunately.
+Yeah, I mean, I think it is, and I'll say, it would be great if we had vaccines that had high
+degrees of sterilizing immunity. If once you were vaccinated, you could not be infected,
+you could not transmit, you would be a dead end if you were exposed. I think that was actually
+discussed on 786-12, that we're not even sure how many of those vaccines really are out there,
+whether or not the HPV or the measles even do that. But yeah, this is going to be a challenge
+if we're looking for, quote-unquote, herd or community immunity, how much can the vaccines
+really play a part in that unless you're getting vaccinated every three months or something along
+those lines. The period of detectable viral replication, what I like to say is the time for
+monitoring and monoclonals, not the time for antibiotics. Remember, this is a virus. We have
+anti-virals. No, not so many great choices here in the COVID world. We have anti-bacterial
+cells that target bacteria. We have anti-parasitic drugs that target parasites. This is a virus.
+So, do we think that antibiotics, anti-bacterial agents will work? Well, a lot of physicians
+seem to feel that, a lot of patients feel that, but we have to have another paper that tells us,
+yes, water is wet, fire is hot, and this was the Lancet respiratory medicine publication
+Doxycycline for community treatment of suspected COVID-19 in people at high risk of adverse outcomes
+in the UK. This is the principal study, a randomized controlled open label adaptive
+platform trial. So, the background here is that Doxycycline is often used for treating COVID-19
+respiratory symptoms in the community, despite an absence of evidence from clinical trials to
+support the issues. And there's a lot of hand waving about it interfering with the virus and
+in vitro assays and having anti-inflammatory immune modulating effects, et cetera.
+So, this data comes from this trial, the principal, and was performed in primary care
+centers in the UK. 2,689 participants were enrolled and randomized. And the authors found
+that in patients with suspected COVID-19 in the community in the UK, who were at high risk of
+adverse outcomes, treatment with Doxycycline was not associated with any clinically meaningful
+reductions in time to recovery, hospital admissions, or deaths related to COVID-19,
+and should not be used in the routine treatment for COVID-19. The whole comment that there were
+780 folks in the Doxycycline group, 978 in the control group. There were five deaths in the
+Doxycycline group, only two in control. So, that's like more than double. I do not think
+that Doxycycline is something we should be using for COVID-19. The science does not support it.
+What do we end up with? An unnecessary intervention and an increase in antibiotic resistance.
+The early inflammatory phase, this is when they show up in the hospital,
+still not much new here. We're still steroids, tosyllizumab, if they progress to our higher
+oxygen need, prophylactic dose anticoagulation in general, adjusted to higher dose in specific
+situations. We are still waiting for more therapies, both in the early viral phase as well as this
+phase. We're hearing it may not be until October and November before we get small molecule inhibitors
+specifically targeting SARS-CoV-2. So, we're still in July, so we still have a little bit more time
+to go. All right, and to the end, the tail phase, the long COVID or the post-cute COVID phase.
+Lately, we've been hearing a lot about the neurological impacts about acute COVID.
+Now, there was an article, The Lancet, Child and Adolescent Health. The peer-reviewed article
+appeared in this journal. Neurological manifestations of SARS-CoV-2, infection in hospitalized children
+adolescents in the UK, a prospective national cohort study, and the authors performed a prospective
+national cohort study in the UK looking at children adolescents, age less than 18, admitted to hospital
+with neurological or psychiatric disorders in whom they considered SARS-CoV-2 infection to be
+relevant to the presentation. They identified 1334 children and adolescents hospitalized with
+COVID-19 and reported a prevalence of 3.8%. Neurological psychiatric disorders following
+hospitalization for COVID-19. So, 3.8% of these adolescents and children that have been hospitalized
+for COVID-19 went on to have neurological or psychiatric disorders. So, that's about 1 in 25.
+The diagnosis included seizures, encephalitis, that's inflammation of the brain,
+Guillain-Barre, acute demyelinating syndromes, Korea, which is these uncontrolled movements,
+psychosis, psychosis, encephalopathy, transient ischemic attack, even one child had a stroke.
+So, you can just imagine how devastating. So, again, I try to give people a balance here between
+the risks of COVID in children, should they require hospitalization versus the risks associated
+with vaccination. So, I think this helps to give us more information around the decision making
+with regard to vaccination and mitigation strategies for children. We're still working to get solid
+numbers, but the risk for children, death is rare, hundreds of children have died of COVID here in
+the US. Hospitalization is uncommon. Thousands have ended up in the hospital. I think in the UK,
+they already have over 1,000 hospitalizations in just July, and long COVID seems to be a
+significant risk. Now, this last article, this could be the last article we hit on.
+This was in the New England Journal of Medicine, COVID-19 breakthrough infections in vaccinated
+healthcare workers. Now, the B word is in the title, so I couldn't leave that out.
+The authors reported on infections in vaccinated healthcare workers, and they looked at 1,497
+fully vaccinated healthcare workers for whom RTPCR data was available. 39 SARS-CoV-2 infections
+was documented in this 1,497 person cohort. They calculate an infection rate of 0.4%,
+less than half a percent. There were a few interesting findings. They reported of
+these individuals, 74% of the case patients had a high RNA level. I'm translating here because
+they call it viral load, but I'm going to say this is a CT value. This is an RNA copy number,
+74% of the individuals had a CT value of less than 30 at some point during their infection.
+However, of these patients, 59, only 59% had a positive, concordant, antigen,
+rapid detection test. I think this is kind of interesting, and I just want our listeners to
+think a little bit about what does a CT value mean. We know the relationship between CT values
+or RNA copy numbers and infectiousness in unvaccinated people, but what does this mean
+in vaccinated individuals? They also reported that neutralizing antibody titers in case patients
+during the peri infection period were lower than those in matched, uninfected controls.
+Not clear if that's a marker for people with other risk issues or if that's actually a causal
+connection. There is a figure three where that correlation, if you look at the figure, it's
+not really that impressed, but I will leave it up to our readers to go ahead and take a look.
+This is not behind a paywall. They did report that most of the breakthrough cases were mild or
+asymptomatic, but here was a bit of why is this in the long COVID section of the people that had
+symptomatic infections post-vaccination? And remember, this was a small amount. This was less than 1%,
+19% of those people that did have a symptomatic case went on to have persistent symptoms for
+greater than six weeks. So I'm sort of put this in context. Getting a symptomatic infection post
+vaccine is very uncommon, but it does happen, but should you get that, it actually looks like a
+pretty similar rate of long COVID in these individuals. So pretty on par with unvaccinated.
+What's going on the rest of the world? I think this is important for us to keep an eye on that.
+We continue to see rising case rates and deaths with much of the world still being a vaccine
+desert. I like to say no one is safe until everyone is safe and we are far from that at this point.
+Whether it's to protect ourselves or through altruism, this pandemic does not end until we
+have widespread access and acceptance of vaccines. So I want to thank everyone who's
+continuing to go to parasites without borders.com clicking on the donate button. This is going to
+drop the last day of July. We're trying to make that $20,000 donation level so that we can give a
+full $40,000 to support Foundation International Medical Relief of Children. They've actually
+started to open up some of their travels to some of their sites. So brighter, brighter days on the
+on the horizon, but this work is going to require funding and support. So please help us support
+femric. Daniel, that last paper is of consequence to the CDC decision on masking, which is based on
+this PCR equivalence between Delta vaccinated and Delta unvaccinated would suggest that that's
+flawed, right? In their case. Yeah, I think that that's really a problem. One is it looks like the
+people who are vaccinated are very like less than 1% risk of even testing positive. And then if they
+do test positive, you can't just use CT values because you're looking at RNA. It's not viral load.
+And I sort of hope that the CDC isn't making that. Can we call it a rookie mistake? You need to
+ask. And I think the fact that we're not picking up antigen that we're not seeing the protein
+production does really suggest that maybe that RNA level is not correlating with infectious
+virus. Yep. And we need a little more data.
+Yep. The other thing, Daniel, I wasn't a call yesterday from Mumbai. And one of the women on the
+call said they have immunized 450 million people in India.
+Wow. That is impressive. Now, compared to the US, that's very impressive.
+We'd be done if we had done that in the US. They, but it's not even half of their population,
+right? But she said, in India, we don't have a problem with people getting vaccinated.
+Interesting. I mean, I think I shared, and this is one of this week in paracetism,
+where I was talking about Ben Lebrot. We were in one of these little communities,
+and we were talking to one of the women, no-bay woman, about the fact that in the United States,
+we actually have people that do not want to vaccinate their children. And she looked at
+us a little confused, and she said, but don't your parents love their children in America?
+Yeah. Indeed, indeed. Okay, time for some email questions for Daniel. You can send yours to
+Daniel at microbe.tv. The first is from Alan, a gastroenterologist in New York.
+If a fully vaccinated patient who was in a high risk group age over 65 or medical comorbidities
+developed an early COVID infection, would you recommend monoclonal antibody with the level of
+the patient's COVID antibody obtained at the time of infection, make a difference in deciding the
+treatment? I realize there may not be any randomized trials for this type of situation. However,
+clinicians frequently have to make decisions in the absence of good data or good studies.
+This is an excellent question, and I'm going to break it down into two parts.
+So let's say this is a person who's been vaccinated. They've not been infected with COVID before.
+They're in that first week, and I'm going to throw the person who's been infected before
+also vaccinated in that first week. We do recommend monoclonal antibody therapy in those
+individuals. Your prior vaccination status does not impact your eligibility or our recommendation
+for monoclonal antibody therapy. Now, I will say, have we repeated the studies with vaccinated
+people to see if we're still getting that 70 to 80% reduction in progression? We have not,
+but we're not excluding people who are vaccinated. The other little twist, so let's say you're not
+sure about the timing, and this person has not been infected with SARS-CoV-2 before,
+you can check a nuclear capsid antibody test to see, are you really catching them early
+before they start producing their own antibodies? Because that really is what we've seen as far as
+the benefit of monoclonals. If you can give people the monoclonals prior to them developing
+their own antibodies, those are the patients that we see the most benefit. And I just
+recently had a case where it was really unclear to me. A person was cognitively not 100%.
+Sounded to me like we were only two or three days in. We did a stat nuclear capsid antibody.
+It was negative, and I went ahead and recommended monoclonals. But no, we have not repeated these
+monoclonal studies in vaccinated people. But if they've broken through, gotten a symptomatic case,
+I think it makes sense not only to reduce the hospitalization and death rate,
+and we're working on data because maybe it's also going to impact their risk of long COVID.
+Linda writes, I wanted to understand the role of at-home,
+rapid antigen tests for the vaccinated person following exposure to a COVID positive vaccinated
+individual. Currently, as I understand New York rules, no quarantine or testing is required for
+the vaccinated person that's been exposed. I find that a tad concerning and wanted to protect my
+family, no one in a high risk category, and friends following such an exposure, and so have been
+wearing a mask at home and limiting my exposures to others for what will be seven days, timing of
+my choice based on my own review of the current debates. I'm not sure what the magic number of
+days should be, particularly as I go on this frolic of my own, since no one is telling me I
+have to do anything other than wear mask indoors. I feel like there's a role for the at-home
+antigen test in this setting and consider doing it at days three, then six. I just really don't
+know what the reasonable approach is following close exposure to a COVID positive vaccinated
+individual. Can you explain if the at-home antigen test plays a useful role in this context?
+Yeah, so this is a fantastic question. We have great listeners, or maybe Vincent just picks
+out the really great listener questions, but so we'll give everyone credit here. But we do know
+that a vaccinated person can develop a symptomatic case of COVID-19 and can transmit to others,
+right? Not only is that well-described, but I've seen several cases myself. Can any
+asymptomatic vaccinated person get enough virus that they're going to transmit to someone else?
+A bit of uncertainty there. We could use some better data. The last study we talked about
+were these individuals who are fully vaccinated got infection. We're talking about 0.2% actually
+had a positive antigen test. We're in sort of, we need a little more information here.
+If it turns out that vaccinated people only transmit, this is sort of case control and tracking
+studies. If they only transmit with symptoms, that's helpful. But I think if you're trying to be on
+the side of extra caution, you are vaccinated, you've had an exposure, you may be pre-symptomatic,
+right? Because you can't get symptomatic. I think that the antigen test is a reasonable
+extra layer. So remember, always looking at layers, looking at people's different risk tolerances,
+and I think it can factor into that. Gabriel writes, a friend of mine suffers from
+Bruton's agamoglobulinemia, and many medical doctors in Ecuador do not recommend any COVID
+vaccine for him. I'm a microbiologist. I've carried out research and immunology, and though I understand
+that he can't produce antibodies, the T cell responses should be fine. I don't see any risks
+of getting vaccinated. I would appreciate your opinion about whether he should receive vaccine,
+what kind of vaccine would be better. So I definitely would encourage vaccination. I think we've tried
+to reinforce several times that there's more than one arm of the immune system. I'd say two,
+that's a little simplistic, but there's the B cell antibody production. We're not going to get
+that with Bruton's agamoglobulinemia, but we should be able to get a protective T cell response.
+And our data, our understanding of immunology suggests that it's that T cell response that
+is really critical in protection against severe disease, hospitalization, and death. So I definitely
+would encourage vaccination. I would say whatever vaccine you can get access to, I would go ahead.
+Don't be picky. Don't be sally. And the last is from Abby, which is really a comment, but we
+should read the Peds New York here. My daughter was 17 in early March 2020 when I brought COVID
+home from the Peds clinic. She had mild illness was a fit rugby player still having GI issues,
+neurological symptoms, tachycardia, fatigue, brain fog, depression, couldn't eat lost 20 pounds.
+We need more parents to learn about long COVID. Many docs are saying it's mild in kids and they
+are just as at fault, not vaccinating their own kids. Millions of kids with this around the world.
+Yeah, you know, Vincent, we keep seeing these sort of scoreboards, dashboards,
+you know, Hopkins world demeanor, and they have number of cases, they have hospitalizations,
+they have deaths. What they are missing is long COVID. And I think that that's a critical number
+as well. So when we see pretty soon, over 100,000 cases a day here in the US, welcome to
+August, I'm predicting, you know, what percent of those individuals are going to continue to be
+ill. And I think that's really an important thing. And so when you look at kids and you say,
+oh, kids, well, we can see the deaths, we can see the hospitalizations, but what about the long
+term, you know, greater than four weeks, greater than 12 weeks of long COVID. And I think stories
+like this parent parents need to hear because parents are not necessarily swayed by scientific
+studies, they're swayed by stories, by people sharing these experiences. So as I sort of brought
+out last time having conversations about vaccines, you know, if your child has suffered, let's
+share these stories because we do not need even one more child suffering with long COVID.
+That's COVID-19 clinical update number 73 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. And everyone, be safe.

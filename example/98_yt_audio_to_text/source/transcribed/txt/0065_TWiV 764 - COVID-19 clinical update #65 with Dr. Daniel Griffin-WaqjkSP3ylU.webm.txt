@@ -1,0 +1,393 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 764, recorded on June 3, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone.
+Well, Daniel, last time I think I asked you when the pandemic would be over. Now I understand Tony
+Fauci says July. How about that? Oh, yeah. I can't, I don't believe it because we're not going to
+hit the level of immunity. What do you think? I worry about that question for several reasons.
+One, I've sort of been, every so often I go on social media. And when that question has been
+bantered about somebody replied back with which pandemic, right, pointing out that the age and
+the age pandemic is going strong. And then there really is, and I think that really goes in line
+with the fact that there's this real narrow focus people might have the pandemic over in New York
+City. Is it over in the United States? Is it over in the world? And well, the HIV AIDS pandemic
+is not over in New York City or nor the world. I do think, and we'll talk about this, that rates
+are going to get pretty darn low in July and August here in the US. But if you look around
+the world, this pandemic is far from over. That's right, absolutely.
+All right, let's start with our quotation. I was thinking of you when I picked out this
+quotation, Vincent. If you set out to be liked, you would be prepared to compromise on anything
+at any time, and you would achieve nothing. And that was Margaret Thatcher. I've just noticed a
+lot of the recent twibs have discussed the viral origins, and I'm sure you're getting
+wonderful, loving emails in response from all the people that agree with you. And even the ones
+that don't, I'm sure it's very civil discourse. Right, you got it.
+So all right, let's things here in the US said, you know, I'm going to say, I'm going to use the
+word pessimism and optimism here. But I always prefer the truth, right? People say, Oh, I just
+want to look on the bright. I want to actually know the truth. And there were a lot of people
+with predictive models about where we were headed and one of the predictive models or the
+pessimistic model. This was June 1st, the article association of simulated COVID-19
+vaccination and non-pharmaceutical interventions with infections, hospitalizations, and mortality.
+That was published in JAMA Network Open. And here the authors report on a number of simulations
+that they were suggesting supported the idea that if we removed mass all these non-pharmaceutical
+interventions while the vaccines were being distributed, before we got to a high level,
+that we would see substantial increases in infections, hospitalizations, deaths, we're not
+seeing that. You know, what we're actually seeing across the country is that we actually have
+continued vaccine update. We're really seeing an exponential drop in cases. And one of the things
+that I've actually talked to people a lot about because people ask me, what did you think
+about when the CDC made that comment about people with full vaccination don't necessarily have to
+wear masks in a lot of situations. And it was interesting to watch because the number of people
+being vaccinated, the number of people scheduling to get vaccinated per day was actually declining.
+And if you actually look at that day, when Dr. Walensky came out with this announcement,
+there actually was an uptick in the number of people going to the vaccine websites to schedule.
+And then Anthony Fauci said, you know, sort of mused that boy, I wonder if this might actually
+be an incentive. And there was another uptick in people visiting. And then the president tweeted,
+and there was another uptick. So, you know, people like carrots, right, the chocolate-covered
+carrot, the hey, you know, I may not believe in those things, but if I get a shot in the arm,
+I'm allowed to take my mask off. All right, whatever. I'm, you know, I'm not that anti-getting
+vaccinated, right? So, what we're seeing, and I think to echo this is on the ground here,
+we are seeing a significant drop in the number of people testing positive. The other day, I think
+Monday, it was in the 300s in the entire state. I did get, you know, an admission this morning
+with a gentleman in his late 50s with the COVID. Unfortunately, there's a perception going with
+the pandemic is ending. And so, this gentleman was seen nine days ago. He's a gentleman in his
+late 50s. He has hypertension. And his doctor said, well, you got the COVID, but don't you worry
+because the COVID's going away. The COVID you have is mild. We're not really seeing hospitalizations
+or deaths anymore. And I want to point out, no, no, the COVID in him is the COVID in him.
+COVID has not evolved into a less virulent pathogen. This person was not offered monoclonal
+was really was offered nothing other than, you know,
+pilot offers fever. Now he's in the hospital. He's on steroids. He's on remdesivir. He's on
+blood thinners. He's on oxygen. So, yeah, though, just because it's getting better all over,
+that individual patient is still at risk of bad outcomes. And we're still seeing hundreds of people
+dying per day. So, as Rosie as we like to paint the picture, people are still dying every day.
+Hundreds of people are still dying here every day in the US. And around the world, the picture
+particularly in lots of areas Southeast Asia, South America, it's really not great. So,
+was he vaccinated? He was not. And I asked him that. And he rolled his eyes and said,
+and I'm regretting that decision. All right. Yeah, you know, if he could go back in time,
+I think he would have, you know, made a different decision. And that's what he told me.
+I did start off. I gave him a hard time, right? Because he's not vaccinating. I said,
+what are you doing? You know, it's like we're in bell bottoms. This is not what you're supposed
+to be doing these days showing up with COVID. And he's, I know. So, hopefully he's going to do well.
+Fingers crossed. We'll provide him with all the care we can. And hopefully then he will discuss
+to other members of his tribe the benefit of vaccine versus the five day hospital stay,
+hopefully five day hospital stay only. All right. Children and COVID, as I like to say,
+children are at low risk, but they're not at no risk. And CDC updated the camp guidance again
+May 28. So what, what is new? Well, far as masks staff and campers who are fully vaccinated do not
+need to wear masks at camp, except where they're required by local legislature. Although fully
+vaccinated people do not need to wear masks, camps can be supportive of staff or campers who choose
+to continue to wear a mask, right? I'm still that guy at the gym wearing a mask. So hopefully people
+continue to support that physical distancing. Again, they're doubling down on this saying,
+you know, people are fully vaccinated, except as indicated, physical distancing is not necessary
+for campers and staff who are fully vaccinated. Hand hygiene respiratory etiquette. Apparently,
+now Vincent, you no longer have to wash your hands or cover your cough now, just joking, looking
+there. You should continue. This is like COVID independent, but you should continue to have health
+promoting behaviors such as hand hygiene, respiratory etiquette. Remember, respiratory etiquette is
+not coughing into your hand and offering it to your neighbor for a firm hand embrace. They do
+weigh in a little bit on cleaning, improving ventilation, maintaining healthy facilities.
+You know, they still want you to continue cleaning, disinfecting, and you know, continue to hammer
+on ventilation recommendations. You know, and if it's a high touch surface, you know, keep
+cleaning. And I think that's good practice over time, but they do say improve, maintain,
+improve ventilation, open those windows, use the air filters, turn on the fans,
+all those things that we've learned can be of benefit. And they do actually weigh in on testing.
+So people who are fully vaccinated do not need to undergo routine COVID-19 screening testing.
+And then they go in just a little more. If a person's fully vaccinated, they're exposed,
+but they don't have symptoms, you do not need to keep testing them or quarantine or isolate them.
+If they get infected, however, so they start showing symptoms, then you go ahead and you test
+them because we do see breakthrough there. I'm wondering if Colombia is going to do away with
+the testing on that, you know, that see you open application pretty soon. So I'm waiting, but I'm
+really waiting to not wait online for the bathroom anymore, because we're only allowed one person at
+a time in the bathrooms. That can be a challenge for for well, well, welcome to what the other
+sex experience for many years, right? It's true. They always set up facilities. So that, yeah,
+okay, we still have distancing and masking requirements here as well. You know, you can't
+have more people in a lab that would not allow six feet of distance. You have to wear masks,
+et cetera. So yeah, did you upload your vaccine card? I did. Yeah, there's no a vaccine requirement
+at Columbia. That's right. Yeah, so testing never missed an opportunity to test, right? We still
+see there being an important role for this in certain context, right? So this is modifying a
+little. But what about serology testing? What about that other test? The FDA has actually
+recommended that we do not check serologies. And there's actually an FDA posting on this. I'm
+going to touch on this a few times because just by the way, physicians are not listening to that
+nor our patients. So we'll get into that issue in different contexts. But what about those rapid
+tests? You know, there's been this idea. And there was an event, I think in Washington that sort of,
+well, a couple of things in Washington that maybe gave rapid antigen testing a bad name or some loss
+of confidence. But there was an article same day, SARS-CoV-2 antigen test screening in an indoor
+mass gathering live music event, a randomized control trial. And this was this article is
+published in the Lancet Infectious Disease. And this was a randomized controlled open labeled trial.
+So people knew they're getting tested to assess the effectiveness of a comprehensive
+preventative intervention for a mass gathering indoor events is a live concert. So testing is
+part of this comprehensive program. And what they did is they did same day screening of attendees
+with an antigen based rapid test. They also face masks adequate air ventilation. And the whole goal
+of this, right, is a lot of a lot of these venues were shut down. And it was really asking the
+question, can we put together this program, which includes testing to allow these events to occur
+in an acceptably safe manner. So these were adults aged 18 to 59 with a negative result. So you were
+tested, you had a negative result. And this was a nasopharyngeal swab collected immediately. And
+then if you were, if you're positive, you got to go home. But if you're negative, then you were
+randomized either to attend the event, or I thought this was, or you get sent home, right? So they
+got to randomize you. So this way, you're actually going to be in that control group to know if
+whatever positivity is relative to this event or not. And then they actually also took these
+specimens. And they did RTPCR. They did cell culture on Vero E6 cells. And what did they do?
+They then eight days after the event, they collected another nasopharyngeal swab. They analyzed this
+by rapid antigen by RTPCR. And they did a transcription mediated amplification test of TMA. So that's
+that's a very sensitive PCR modality. And the primary outcome was the difference in the incidence
+of the RTPCR based confirmed infection at eight days between the control group and those people
+who were sent home. Well, so at baseline, let's say that we had 3% of people in the control group,
+the people who were sent home, and 3% of the people in the experimental group were positive.
+So there was no, no significant difference there. The RTPCR test was positive in one case in each
+group. And the cell viral culture was negative in all cases. And I just want to point out what
+I'm sort of pushing out here is that so even though you had a positive PCR test that you missed
+with that rapid antigen test, there was no viral culture growth. This was below, we think, a level
+of contagiousness. There was no, no contagiousness occurring at this concert. So eight days after the
+event, less than 1% of the individuals in the control arm had a positive antigen or PCR test.
+No one was found to be positive in the intervention group. So basically what they're sort of
+reinforcing here is that this is another way of approaching these large gatherings. And I think
+you couple this with a dropping incidence. And maybe this is why people are in certain ways saying
+we're getting to the end of the pandemic in certain situations. Active vaccination never
+miss an opportunity to vaccinate and vaccines are how this pandemic ends. Moderna has now
+officially applied for the EUA expansion down to age 12. That was on June 1st. So we are expecting
+an approval later this month. So that was announced by Moderna. That's going to help, right? And
+people sort of, do we need, yeah, we need as many cylinders firing as possible. Pfizer is out there,
+Pfizer, if anything, has a little more ease. You know, you can get it out there, can sit in a fridge
+for a month. If you work with other groups, you can somehow deal with the fact that instead of
+ordering 1,000, maybe only order about 600. But Moderna is a little more convenient to be completely
+honest. It's also a little less user issue. I just relate some issues that I've gotten calls about,
+which are frightening, you know, well-named, famous academic centers where they didn't realize
+that that normal saline needed to be added to the concentrated vaccine. And they were actually
+vaccinating people with normal saline all day and then wanted to know what they should do.
+The Moderna, it's pre-mixed. It's in the bottle. It's really, you know, I think very
+idiot-proof. Nothing's completely idiot-proof, but so okay. What about side effects and efficacy? So
+I'm going to talk a little case here about something that's been in the press a little bit and people
+have been asking about what about the issue of myocarditis after vaccination? So people may have
+heard that there was a concern raised initially with Pfizer. Was there an increased risk, increased
+incidence of myocarditis after Pfizer vaccination? Information out of Israel suggesting that maybe
+there was an increased incidence. Pfizer replying with, well, it's really not above background.
+But one of the interesting issues that we saw last year is we actually saw a decline
+in the amount of myocarditis that we were seeing. So we got called on a, you know, somewhat regular
+basis. A adolescent seems to be men more than women. So adolescent males, you know, late teens
+or early 20s. I guess you're not an adolescent, you're 20s, but young men who have a viral illness,
+and then afterwards they'll have a mild inflammation of the heart. So you'll be able to pick this up
+with some blood tests, troponins will rise a little bit. They'll have a discomfort in the left chest.
+We give them ibuprofen, a leave, things like that for a few days, gets better. They tend to do
+very well in general. So this was earlier this week, a gentleman, early 20s, who had gotten his
+J&J vaccine. I thought that was a little twist. Four days before, he had had COVID back in December.
+A lot of folks had COVID back in December. And then four days after the vaccine, he started to develop
+pain on the left side of his chest, rated up into the neck and down the arm. His troponins were
+elevated as were some other inflammatory markers. We treated him with a couple days of ibuprofen.
+The troponins trended down. He started to feel better, and now he's recovering. But it does
+look like there is some sort of connection here. It is a little bit above background.
+Interesting enough, it's not above the background of what we used to see when we had viruses circulating
+freely. And what I described is sort of a typical course. Even what I described is maybe a little
+more severe where he actually get the elevated enzymes. But short-lived, people take the ibuprofen,
+the leave, they have discomfort for a couple days, it resolves. So that is out there. The CDC
+has basically said this is low incidence. It's a low risk. And it's not really something that
+should impact your decisions regarding vaccination. But we'll hit on that a little bit later as well.
+Now, what about efficacy? So on one hand, we're being told not to check serology tests. But then
+we keep seeing articles talking about serology tests. And then we bemoan the fact that certain
+populations seem not to be responding. So this is a publication that came out looking at patients
+with rheumatoid arthritis who are taking a medication called methotrexate, which interferes
+with the immune system. The article was methotrexate, hamper's immunogenicity to BNT162B2 mRNA COVID-19
+vaccine, an immune mediated inflammatory disease. Actually, it was earlier on a call with Shane
+Crotty. So I brought this up and we talked about this a little. So a shout out to Shane Crotty,
+who's hopefully helping us understand some of the immunology in this realm. But this was a paper
+that if you really look at it closely, it tells a slightly different story from the title. So
+they looked at the spike specific SARS-CoV-2 antibody titers from people with immune-mediated
+inflammatory disease. And they found that those were in a range of, people have to write these down,
+but 25 to 737,310. Those on methotrexate, 25 to 694,528. I wasn't impressed by that difference.
+The median was actually lower. So the median, the middle number where people were clustering,
+was a little bit lower for those on methotrexate. But then we get back to the question of what really
+is the cutoff for protection? So was this median difference actually above or below? Is it a question
+of more protection? I was used, Eloise, an example. Was this a 95 versus a 99? Once we're in the 90s,
+I feel like we're pretty good. So the other thing that I thought was really interesting,
+if you look at the data, you can see that twice as many people. So 19% of the people,
+not a methotrexate, had prior infection and then got vaccinated. And we know that skews the data,
+right? We know that people that have prior infection who get vaccinated are going to have
+higher numbers. That was 19.2% versus 8%. So are we sort of getting a skew here? Are we studying
+people who are previously infected and vaccinated versus people uninfected and then vaccinated? So
+I would have much preferred a study on methotrexate or not in people without prior infection.
+Maybe methotrexate or not in people with prior infection versus sort of sticking all those together.
+And then they also looked at T cells as well, again, with the same caveats, but suggesting a
+lower T cell response in individuals on methotrexate. So this is clearly a hot topic right now,
+because there's really people would like to know, particularly, we'll say the
+higher risk populations, people with impaired immune system,
+are transplant patients, are patients with autoimmune diseases, hematological. So those are the blood
+cancers, lymphomas, leukemia, things like that. They would want to know if they got their vaccine,
+if they actually have protection or not. What is happening right now is that a lot of their
+physicians are checking anybody levels. And if those anybody levels do not come back above a
+certain level, they're being told by the physician to act as if they're not vaccinated.
+I don't know if that's true or not. We don't know if that's true or not. As I mentioned,
+we've had studies where you vaccinate transplant patients and then check what percent have
+antibody levels. The one we discussed was about 15 percent after the first, a little less than
+50 percent after the second. People are going and giving these individuals a third shot.
+We do not know if that's required. We do not know what correlates of immunity here. So
+I think we need to know because if we don't know, people are going to continue to do these things
+to sort of try to get out in front of the science to try to help these patients.
+And it is really tough because there's also an equity issue here, right? We're talking about
+people getting thirds when some people in the world haven't even had firsts. So this is a tough
+issue. But the reality here in the US is we now have more vaccines than demand. So some of those
+vaccines each day are going to waste. So do we do we say you guys sign up and instead of it going
+into the trash, it hard-fosme, it goes into one of these individual's arms. Does that make a difference?
+Again, something we really need to study so we know what to do for these individuals.
+The period of detectable viral replication. So I like to say the time for monitoring
+or monoclonals. And then I also want to add where you get your test is where you should get
+your monoclonals. So we're seeing some changes in which monoclonals are recommended in certain
+areas. So the increasing rate of the variants. I'm going to use the old terminology here. P1
+and B351. Should I translate those into our Roman numerals? So that would be the P1 or the gamma
+variant of concern. That would be the 1351. That's the beta. So basically what they're saying is these
+clinically relevant important changes are suggesting that we should be switching over to
+Regeneron instead of the Eli Lilly monoclonal antibody in eight states. And really, there's
+an anticipation that as we see more of these variants, this is why I care about the variants
+to be honest. It impacts therapy. And David Ho a long time ago just said, Dan, just start using
+Regeneron. You don't have to worry about this. And now we have more products on the horizon,
+right? We've got the GSK, which basically now in the in the EUA fact sheet, they actually have
+data on the ability of the different monoclonals to have efficacy with different variants out there.
+So yeah, so this is usually not being made at the bedside. We were talking earlier today with
+a number of physicians. This is being made usually by the pharmacists at some of the infusion centers,
+at some of the hospitals, at some of the regional distribution, basically which monoclonal that
+happens to be on us to make sure that when you send your patient from monoclonals,
+that they're being treated with a monoclonal, which is appropriate for what's going on in
+your regional area. All right, the early inflammatory phase, the the Cole Corona article finally came
+out as a peer reviewed article. So Colchicine for community treated patients with COVID-19
+Cole Corona, a phase three randomized double-blinded adaptive placebo controlled multi-center trial.
+And this was published in the Lancet Respiratory Medicine. And we did cover this before in its
+preprint state. But here it is. This is a phase three randomized double-blind adaptive placebo
+controlled multi-center trial done in Brazil, Canada, Greece, South Africa, Spain, and the USA
+by the Montreal Heart Institute. And the primary efficacy endpoint was the composite of death
+or hospital admission for COVID-19. And cut to the chase, they failed to show any statistically
+significant benefit for Colchicine in the treatment of COVID-19. But there was a significant
+increase in diarrhea. But now the plot does perhaps thicken. If you really start reading
+through the discussion here, they report that due to a lack of reagents, a lot of these cases,
+they were never able to actually test and confirm that it was COVID. So a lot of the cases included
+in the analysis, never got a PCR test was a clinical diagnosis. So the the authors then,
+I'm going to say data mind, right? You're not really supposed to do this. They went through
+in data mind and suggested that if you then only look at people with PCR positivity cases,
+then you could show a benefit to Colchicine. So this, this story may continue. Now I'm going to,
+I've noticed that we've been getting a little bit too long, I'm going to say. So I'm going to go
+right to the tail phase here. So we still have a very limited understanding of mechanisms behind
+much of what we are seeing in this population. And so with the pulmonary issues and neurological
+issues being very common, we did see what I hope is the first in a line of articles giving us a
+little better understanding of what's going on with long COVID. And this was the article
+Small Airways Disease is a post acute sequelae of SARS-CoV-2 infection. This was posted as
+preprint. The authors looked at adults with confirmed COVID-19 who had remained symptomatic
+more than 30 days following the acute onset of symptoms. So symptoms, pulmonary function tests,
+chest computed tomography. So chest CT findings were compared across different severity groups
+to healthy controls. CT images were analyzed measuring regional ground glass opacities.
+And they actually measured regional air trapping. They had a special algorithm for this. They looked
+at 100 patients, 67 of them were ambulatory, had never been hospitalized. And they report
+that the pulmonary function testing revealed restrictive physiology rights, as long as we're
+not expanding, as much as it was restriction there. In the hospitalized at the ICU groups,
+but normal in the ambulatory group. Among the hospitalized and ICU patients,
+the mean percent of the total unclassified as that ground glass opacification was 13.2
+and 28.7%. So 13.2 and hospitalized, 28.7 in the prior ICU patients, respectively.
+And was higher than in the ambulatory ambulatory patients, you're only seeing about 3.7%.
+So they were suggesting here that air trapping, this small airway disease was a significant issue
+in a lot of these individuals. It could be quantified by CT, and it did actually correspond
+to initial severity. So I think that's helpful, right? Because we're starting to try to understand
+what is going on. This is definitely a mixed group of patients here. So what I want to say, too,
+is long COVID has become a major issue for society and actually for employers. So I've been in a
+number of calls in the last couple of weeks here, where a lot of our large employers have realized
+that a chunk consistent with the literature, 10% or more of their individuals who had COVID
+are now having difficulties returning to the workplace in full capacity. And I've been asked
+to help with identifying these past post-acute squalive COVID centers of excellence. This is
+really a challenge, right? We've all heard of centers of excellence. And that is not, that
+should not just be a marketing term. This needs to be a center that can demonstrate
+some sort of excellence, some outcomes that are excellent compared to the other options
+that a patient might have. So we've talked a little bit about what criteria there should be
+here, and I'd love to hear some impact from people here. Because this is, I feel like we're in the
+early days of long COVID, much the way we were in the early days of COVID about a year ago.
+But what works, what benefits people? And we're getting a lot of input from patients on this.
+The CDC is hopefully going to come out with our guidance soon, which we'll discuss. But one of
+the things that seems key is that a multi-disciplinary team is in place. So this gives a patient access
+to pulmonary neurology, psychiatric infectious disease, and other specialists with experience
+treating acute as well as long COVID patients. I sort of shy away here from narrow focused
+programs, which just look at post-ICU, just post-hospital, or just really roll these people into a
+pre-existing or expanded rehabilitation program. It is much more than just post-ICU rehab. We're
+also looking at this. I think it's important that we truly have centers. So you need a critical number
+of patients because we are still as clinicians learning from the patients. This is a dialogue.
+We don't know the answers yet. And so as you interact with a larger volume of patients,
+you can learn quite a bit more. We also want, and this ties directly in,
+centers that can connect patients to clinical trials. We are still learning. And what is the
+plural of anecdote? It is not data. So not only do we feel like we're learning as we treat these
+patients, but we want to get these patients connected in clinical trials. So we can really
+formalize that into real science, real data, so we know how to help these folks. Telemedicine
+capability is really of great benefit for these patients. So we think of that as probably essential
+for some of these centers. And what are those measures of excellence? What are we hoping to
+provide for these patients? One, which is huge for a lot of our patients, they want to be back
+to the ability to perform those things they did before. They want to get back to work. They want
+to get back to that prior function. They want improvement in symptoms. If it's trouble breathing,
+if it's brain fog, if it's headaches, if it's fatigue, they want improvement in symptoms.
+And these centers should actually be providing good patient satisfaction. We want
+centers where this experience is positive because boy, these patients have been through an
+incredibly difficult time with a lot of dismissiveness. All right, well, let me close there before we
+go to emails and thank everyone for continuing to go to parasites without borders.com and please
+do that. Drop whatever you're doing. If you're driving to the side of the road on your smartphone,
+go to parasites without borders and click donate and help us do the work we're doing,
+but also help us continue to support FIMRC Foundation International Medical Relief of Children.
+This is a fantastic group and I will throw in. I know there's been a lot of discussion of cattle
+on the other twibs. I may be one of the only Twib hosts who actually owns cattle. Does anyone
+else own cattle? I have a milk cow and Brian and I also have a heifer, Mary, in Uganda. So I am
+hoping that we can get this pandemic going in the right direction so I can get back there to Uganda
+to the FIMRC clinic there. See my cows, see my friends. So help us with your support.
+Yeah, you have mentioned that a few times. Your cows and Uganda. It's very cool.
+Not cows. They're both cows, right? One's a heifer and one's a cow. Well, one is a cow, right? So
+you got to be what? Over the age of three, you got to have had a baby, you got to be so she's a milk
+cow. That's the mom. And Mary is just a heifer. She's a little over a year old.
+Never had a baby, right? Never had a baby yet. Give her a couple of years, Vincent.
+You bet. Time for some questions. If you'd like to send one in to Daniel, it's Daniel at
+microb.tv. First is from Kevin. My son is 12. We got his first dose the weekend. It was available.
+He's due for the next dose, June 5th. I'm reading in some places that perhaps delaying the second
+dose a few weeks months might lower the myocarditis risk that some kids are experiencing. I assume
+this would violate the never miss a chance to vaccinate credo, but wanted a direct answer from
+someone I have grown to trust on this issue. I'm not considering permanently postponing.
+I just wanted your opinion. Please treat this as you are in my shoes as his father.
+All right, Kevin. So I'm actually pretty much in your shoes. I have a 15 year old son Barnaby.
+He is scheduled for his second dose tomorrow afternoon. And as I mentioned with the myocardis,
+it's incredibly rare. The cases are mild. It's something that we can manage with just a couple
+days of really over-the-counter anti-inflammatory medicine. The risk of continuing to have your
+son my son unvaccinated is significant compared to this risk. So don't go ahead. Don't miss your
+opportunity. Don't delay. You know, once this is in, we've seen data saying that boy, these
+adolescents have really robust protection over time. So hopefully for them, this may be the last
+time this may be years and years of protection. Josh in Toronto writes, our 75 year old mother
+has been diagnosed with plasma cell leukemia, has been hospitalized for observation, started on
+dexamethasone about to begin bortezomib and lenaldomide. She has received one dose of Pfizer in March.
+Second dose has been delayed in Canada till July. Has been offered a second dose now. Is this
+recommended as her immune system is very taxed at present? And will her shot be compromised
+by chemo treatments? Curious about your approach in this scenario? Yeah, so she's on a number of
+medicines, right? So she has what I talked about the blood cancer, a plasma cell leukemia, right?
+I think I threw lymphoma in there, but really your leukemia is your classic blood cancers.
+She started here dexamethasone, the steroids, which we think also interferes with B cell function.
+She's on bortezomib, a proteasome inhibitor. So that's also going to affect our immune cells.
+And she's on lenaldomide. And so yeah, this is basically a whole concoction designed to mess with
+B cells, plasma cells, plasma cells are really differentiated B cells. So when she gets vaccinated
+and you go and you know, like we're not supposed to and check her anybody levels three or four
+weeks later, they may be low. They may still be low right now. We still encourage people to get
+vaccinated. It may be that at some point in the future, as I discussed, this might be a population
+that is eligible either for a third dose, or maybe it's a population that is eligible for
+prophylactic antibodies. The vaccine that she gets, it's not going to be harmful.
+It may be beneficial. We just don't know how beneficial it is. So this would be a context
+where we would say definitely this is a high risk person. I would encourage the vaccination
+benefits would far outweigh the risks. Lee writes, I feel a complication with a prior disease I had
+when I was a child. Mononucleosis Epstein Barr has something to do with why the vaccine made me ill
+for six weeks. Is there any information on this? Anyone I could talk to the vaccine is so new,
+none of the doctors have talked to locally have any idea. The only suggested that the vaccine
+triggered something that was dormant to become active again. It had all the symptoms of mono
+again, plus some other neurological symptoms. Yeah, so I'm happy to I'm happy to help and I'll
+just actually offer, you know, so we have our post COVID care center where we actually have also
+sort of opened up and said, we're willing to talk to people and help people who have vaccine
+reactions. And often I'll jump in and help on issues like this. And again, we don't have great
+science here, but we are starting to get enough experience that hopefully we can offer some help.
+So people could just go ahead and they can call 151642 COVID. And also I do telemedicine
+consults across the country. So they can call 516-656-6500. My staff is killing me because
+I am working very late doing all these telemedicine, but I'm happy to help. This is a tough time.
+And if I can help you navigate post vaccination issues, I'm happy to step in and do that.
+And Jennifer writes, my mother went through breast cancer treatment has been in remission
+five years. However, she was left with peripheral neuropathy affecting her legs. Additionally,
+she had COVID in February. She asked her primary care MD if she should get the COVID vaccine and
+the doctor's answer was, well, I had to get it. So it's up to you. I'm not sure that was the
+most effective response. So my mother looked online for information. Of course, she found lots of
+disinformation. She's hesitant to get the vaccine. She's concerned it will worsen the neuropathy.
+Can you please provide guidance that will enable her to make a proper decision?
+This is one of those situations, and hopefully the physicians are listening, that if you leave
+a vacuum, someone else will fill it, and it won't really be the person you want to fill it.
+And I think that's what we're seeing here. So not really a great answer, doctor.
+This is a priority. I really think, and you look at this individual with this story,
+this is a person, if you get them vaccinated, you may be saving their lives. So you want
+to have this discussion. So here's what I'm going to say. So breast cancer treatment,
+remission for five years, that's that when we say, okay, that's behind us.
+Peripheral neuropathy. We are not seeing any issues here in the story that makes me suggest
+there's any reason to delay. This is an individual where I'm going to say I encourage you to get
+vaccinated. That's COVID-19 clinical update number 65 with Dr. Daniel Griffin. Thank you, Daniel.
+All right, thank you, and everyone be safe.

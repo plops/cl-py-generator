@@ -1,0 +1,532 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicrobeTV, this is Twiv. This week in virology, episode number 800, recorded on September 2nd, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Well, there's no airplane that's 800, but that's a
+pretty good number for this episode. Daniel, congratulations. Yeah, I like 800. I'm happy with
+this. I only wish the clinical update had been 80. We should have timed it, so it's
+clinical update 78, but it's episode 800, so. I don't know. I think we're going to be doing
+this for some time, don't you, Daniel? Yeah, I'm going to do the Anthony Fauci thing where I just
+put my hand in my face and say, Oh, my gosh, it's two years into this. And yeah, you know, you
+started, I think went in the five hundredths, right? Yes, five hundredths. And yeah, I would not be
+surprised if we're not hitting a thousand, you know, and the pandemic is still something we're
+talking about is still trying to get through. I remember your, your, I'm sorry, just one more
+thing. I remember your first clinical reports were from your car in the hospital parking lot,
+remember? I remember that. And then I was like trying to do it in the stairwell, but I was worried
+that there was like a crack under the door and the whole ICU had been turned into a theoretical
+negative pressure. And so yeah, it's quite a ways. But all right, let's jump in. We have a lot to do
+today. And Vincent, you jump in at any point, because I'm going to touch on a few controversial
+things. All right. So I'm expecting a lot, a lot of hate mail. Like to get that. Oh, you must be
+saying Ivermectin, right? Yeah, we're going to talk about Ivermectin.
+So let me return to Winston Churchill. I feel like I'm sort of back in the Winston Churchill
+sort of mood. A fanatic is one who can't change his mind and won't change the subject.
+So we'll figure out who the fanatic is if it's me or if it's, you know, people that I try to talk
+to, you know, I like to keep saying a single point does not make a line. We do keep learning. We do
+keep moving forward. So I think people can take a deep breath. You're not going to wake up tomorrow
+and find out that, you know, everything we've thought to date is completely wrong. But I'm
+going to talk about a number of items right up front. Ivermectin and convalescent plasma.
+So Ivermectin has been in the news a lot lately. And I've actually been getting a lot of calls,
+a lot of questions about it. And, you know, I think early on, I sort of said that this was
+going to happen. And what did I say was going to happen? We are two years into this pandemic.
+And we still do not have really clear data on the role of Ivermectin in COVID-19.
+We certainly do not know what a correct dose or timing might be if someone wants to use this.
+And I am going to say this, you know, the way the media sort of portrays us, I'm going to challenge.
+You know, there are certain individuals that I know who are looking at studies out there.
+And they they are themselves convinced by the data. I am not convinced by the data for Ivermectin
+or is the FDA. But what I think we're all on the same page with is that you should not be using
+your horses, your dogs, animal preparations of Ivermectin. I don't think there's any, you know,
+any physician that I know or respect who would be advocating that. And even the frontline COVID
+critical care alliance, which has been, I'll say, supportive of Ivermectin, they actually came
+out with a statement on August 27th, very clearly stating. This is from them. We support the FDA's
+direction that humans should never take medication formulations meant for animals. We also agree
+that self-dosing of medications without the guidance of a physician is potentially dangerous
+and could cause serious harm. So, you know, please stop stealing your dogs, your horses,
+or your other animals, deworming medication. You know, it did occur to me, do we deworm cats,
+apparently indoor cats don't need to be dewormed. But, you know, you should deworm your dogs.
+But we currently do not have the data to know if there is a role for Ivermectin
+the treatment of COVID-19. And this has created a vacuum. And I think that's what I talked about,
+you know, really about two years ago is Ivermectin is one of the most prescribed and used medications
+for people with COVID. And until we really get clear data, that's going to continue. Just, you know,
+physicians have the ability to use medications off label. People, as we're seeing, have the ability
+to get stuff that they feel that social media is supporting. There are a number of large trials
+trying to address this question, right? So in the US, I've talked about this, we have the ACTIV-6
+trial. There's the COVID-out trial being run by a friend of mine at University of Minnesota,
+the UK, they have the principal trial. There's a lot of trials. You know, this is the way we
+move forward in medicine. Science, it's not nothing mysterious. It's really you in a non-biased way.
+Ask the question, do people do better with or without a certain therapeutic? So if people are
+excited about Ivermectin, and actually did, I emailed Paul Merrick and Pierre Corey, who I know
+know well, and he said, hey, maybe on the front of your website, you can actually add ways for
+patients to connect with clinical trials. That's really, you know, sort of where I'm going to go
+with that. Do you have a comment there, Vincent? So what do you tell people, Daniel, who
+right all the time, well, I took Ivermectin and I got better? You know, this goes back to the
+three most dangerous words, right? You know, in my experience, right? You can't string anecdotes.
+The plot of anecdotes is not data. You know, most people, right, with COVID get better.
+Most people that didn't take Ivermectin get better. Most people that took Ivermectin get better.
+The question is, if you took Ivermectin, did that increase your chance of getting better?
+And there actually is, you know, a problem now, and I'm going to actually, I think I'm going to
+bring up the CDC page. There's a bunch of individuals who have had some really horrible
+experiences with Ivermectin. And there's actually a CDC brief that they sent out sort of an alert
+with actually described cases. There was an adult who drank an injectable Ivermectin formulation
+intended for use and cattle. They presented a hospital to confusion, drowsiness, hallucinations,
+to kypnea, tremors. They ended up being hospitalized. There was another individual who ended up with
+altered mental status after taking Ivermectin tablets of unknown strength purchased on the
+internet. So I think that we have to really be clear here. This is not something, you know,
+if something works, it might have side effects. And so it's really a balance, you know, drink your
+tap water and okay, there's no side effects there, but there's also no efficacy. So yeah,
+you know, and I often get patients who ask me, you know, Dr. Griffin, would you recommend Ivermectin?
+And I think, as people well know, prior to the pandemic, I was one of the few physicians in the
+country with my focus in parasitology using Ivermectin for strong alloydies, for scabies. And we even
+had a case of a gentleman at Yale who got way too much steroids and ended up with the strong
+alloydies hyperinfection. So yeah, Ivermectin has a certain role in certain patients. We have
+yet to have the level of data that I would consider compelling that the FDA would consider
+compelling that whatever side effects are outweighed by any benefit. And convalescent plasma, I'm
+throwing this right in here at the same time. You know, we still have people that are very
+excited about convalescent plasma. And I just really want to say here, the data is in, right? So,
+you know, I don't want to prove me wrong. I've said with Ivermectin, we didn't do the trials,
+we're still waiting for clear guidance. Convalescent plasma, we spent billions of dollars. The data
+is in. And the ID Society of America, the IDSA really has made it clear in their recommendations
+based upon the science of recommendation number eight from the IDSA for COVID treatment. Among
+patients hospitalized with COVID-19, the IDSA guideline panel suggests against COVID-19 convalescent
+plasma in the outpatient setting. Okay, they still say it's reasonable to consider clinical trials,
+but not using it outside. And it doesn't matter to me. This, you know, if you get your, you know,
+your local B-produced artisanal plasma, the data does not support. I mean, I understand the passion.
+People are excited. The data is in. This does not really have a role in the treatment of COVID-19.
+All right. So make sure I get those. What are they? Mail those Daniel at microbe.tv.
+That's right. All right. Children COVID, mental health. Now, children are at risk if they get
+COVID. I think that is now really clear. And I keep saying wearing a mask is less dramatic for
+childhood being hospitalized. I'm going to throw in here, not only children, but pregnant women,
+women who are about to have children. You know, and I've been asked actually to give an update on
+pregnancy and COVID-19. And we certainly have much more data now than I was first asked this
+question live on CNN back in March 2020. When they prepped me, I would be talking about the
+president and testing and then boom. Dr. Griffin, tell us about pregnant women in COVID.
+Said that seems a little bit different than what we were going to discuss. But anyway,
+the article characteristics, oh, I was wearing the same bow tie. So just to bring everyone back
+to that day, I'll mess with it. The article characteristics and outcomes of women with COVID-19
+giving birth at US academic centers during the COVID-19 pandemic was published in as a
+peer reviewed article in JAMA Network Open. And I think it really gives us a solid overview of how
+devastating COVID-19 can be for pregnant women. For some time, we've been encouraging vaccination
+before, during, after pregnancy. And here's a little bit of data. Not only do we know it's safe,
+but what is driving this? What can happen if a pregnant person gets infected with COVID? So
+this was a retrospective cohort study. They looked at 869,079 adult women
+within this cohort, 18,715 of the women had COVID-19. And they found what did they find? The women
+with COVID-19, the pregnant women with COVID-19 were more likely, if they got infected with COVID-19,
+right, to have a preterm birth, right? So the negative impact on the baby, significantly higher
+rates of ICU admission, significant odds of ending up getting intubated, mechanical ventilation,
+that was up by about 14-fold. And they were 15 times as likely to die if they ended up in the
+hospital, right? So these are vaccine preventable tragedies for the mothers and the babies. And
+as per the CDC numbers, we are seeing over a thousand new infections per week in pregnant
+people, right? So these are vaccine preventable tragedies. So pregnant women, they should get
+vaccinated. Don't wait for any particular trimester. The earlier in the pregnancy,
+the better chance that they're going to have the ability to not only protect themselves,
+the unborn child, but also when that child is born, the ability to pass those 80 bodies.
+I also want everyone to suggest people bookmark on their computer. I have a few things that I
+bookmark, you know, where I keep track of what's going on. And one of the things that I bookmark
+is the AAP children and COVID-19 state level data. And this is where they keep track of what's
+happening in children. And we are now seeing thousands of children each week, thousands of
+children each week are being hospitalized for COVID-19. And if you look at that greater than 100,000
+people in the US that are currently in the hospital, paying on which state you look at,
+that's sort of two to four percent of those hospitalized individuals are children.
+So, you know, if not for yourself, get vaccinated and engage in behaviors to protect our children.
+And remember, wearing a mask is less dramatic for a child than being hospitalized. So
+there was, I'm going to throw this in in this section, and it was where they were looking about
+long COVID in children. And I was a little shocked, I guess, confused by the BBC News
+interpretation of this. So let me go through the pre-print that the BBC News was talking about.
+And this was the pre-print long COVID, the physical and mental health of children and non-hospitalized
+young people three months after SARS-CoV-2 infection, a national matched cohort study,
+the clock study. So this is a pre-print under review. This was a cohort study of test positive
+compared to age, sex, and geographically matched test negative children.
+And what they did here is these children completed detailed questionnaires,
+three months post this positive test or post not having a positive test.
+And this is a challenging paper, I'll be honest. You can imagine if you have an adolescent child
+and you start asking them how they feel, there's a lot of background here. So it's really a challenge
+sorting out what might be going on relative to background. There's also the challenge here that
+there's no universally agreed upon definition of long COVID. And I like to say long COVID is really
+a subset of post-acute sequelae of COVID. It's sort of a chronic syndrome where
+past includes things like new diagnosis of diabetes, new diagnosis of stroke, other things in there.
+And it really was one of the tables that I wanted to go through. So if you go through
+this study, and I'm going to encourage people to go ahead and spend some time, hopefully we'll
+post this. But they have a really nice table, table three. And here you can look at the different
+issues. And I did not find this reassuring. So they asked a number of questions. So one of the
+big things we see in long COVID in all ages is this just incredible amount of fatigue. In the
+negative, that was 3.3. Three months out, it was still 22.7% of the children were reporting that.
+Shortness of breath, 1.5 up to 11.6. 20% of them still couldn't smell. And that was rare.
+That was only about one and a half percent in the negative group.
+Headaches, right? 4.8% background. This was 26.3%. At three months after
+acute COVID in these children. Unusually strong muscle pains, right? A lot of people have these
+muscle pains. That was about 1% background. It was 11% in these children at three months.
+So I was not reassured when the BBC said, oh, it's much lower than that 80% we were fearing.
+I was quite concerned when I'm seeing such high prevalence, three months out of symptoms in these
+children. So just to repeat, COVID is a problem in children. They may not die of COVID.
+They may be at lower risk of ending up in the hospital than adults, maybe in the one or two
+percent of them. But boy, this is a large chunk of kids three months out still suffering.
+Transmission, testing, never miss an opportunity to test. Here, there's a bunch of things I feel
+like I'm saying over and over again. There was a preprint here. Actually, it wasn't a preprint.
+It was published in the MMWR. As much as people criticize the CDC, you'll find out I discuss a
+lot of MMWR papers. So kudos to the people at the CDC who keep getting this information out there.
+And this, I thought, was very interesting. It was sort of one of several publications
+along this line that I saw this last week. And this was outbreak associated with SARS-CoV-2-B1617.2,
+the Delta variant, in an elementary school, Marin County, California. And one of the things I really
+liked about this was they showed a seeding map, right? And this is where we have an unvaccinated,
+symptomatic, infected teacher who does what I see all the time, right? When someone wants to talk,
+when they want to generate all those droplets and aerosols, they pull off the mast, right? She
+wants to read to the children. And so she was unmasked reading aloud to the class, the majority
+of the kids got infected. Everyone in the front row, most of the kids in the second row, yeah,
+you really wanted to be in the back. So really, really tough when we talk about, you know,
+masking and vaccination in these settings. All right, well, what about testing, right?
+Think of, I feel like I go through this talk every time, and I do it every week, every week on
+Wednesdays, I do like a COVID clinical update for all our urgent care centers in the tri-state area,
+and about 250, 300 providers tune into these. And, you know, it's still shocking to me that
+this far into the pandemic, there's still so much misinformation about testing. Now, I will say
+that pro New York, Riverside, care amount, pro health, Connecticut, all these parts of Optum
+tri-state have really invested heavily in creating access to COVID-19 tests. And each week, a chunk
+of my week has spent addressing questions. And one of the biggest challenges, understanding what's
+the best test, and whether or not there are certain situations when you may do more than one test.
+So the research letter, validation of an at home, at home, direct antigen rapid test for COVID-19,
+was published in JAMA Network Open. And I know it's been quite a while since we first sort of
+looked at this idea of people having the ability to test themselves at home with rapid tests.
+So this study, I think, really builds on things that we keep talking about. This idea that we
+talked about last week, that the peak of contagiousness and perhaps the majority of all transmission
+from infected individual occurs in the two days prior and the three days following the onset of
+symptoms. So during that period of time when there's a very high level of viral RNA load,
+when there's a very high level of antigen. So here the investigators follow 257 individuals,
+self-collecting nasal swab specimens twice weekly at home during a six-month period.
+The investigators were studying a real-world implementation of this high-frequency testing,
+using an inexpensive at home, self-administered direct antigen rapid test. So the DART,
+D-A-R-T, direct antigen rapid test. And they were then using RTPCR as a comparison.
+Now remember, these are individuals, these are not medical experts, these are just people
+taking swabs and sticking them up their noses. The individual self-collected these during this
+six-month period, the DART sensitivity for that zero to three days was 96.3%. I know a lot of
+people keep talking about antigens being low sensitivity tests. If you're looking for someone
+who is infectious, who is capable of transmission, 96.3% is not low sensitivity in my book.
+Even if you really stretch this out to zero to 12 days after symptom onset, when we're really
+starting to get past the point, there's still we're 78.9% sensitive. So I sort of want to even
+challenge this concept that antigen tests have an issue with sensitivity. They actually have
+great sensitivity if the question is, is this person acutely infected and potentially contagious?
+So this does feed into that experience that don't think the plural of anecdotes is data,
+because you will when a person comes in, if you do this test, you're going to pick up most people
+who are contagious right away within 15 minutes. You're going to be able to pull them out of
+circulation before transmission. But there will be a certain number of people who you're catching
+either prior to becoming contagious, or you're catching after that. And I will certainly say,
+when we're in the hospital, we're looking for a higher sensitivity test, because we're really
+asking the question, did you get infected a week or two ago? Because we're usually seeing them
+when they're showing up during that early inflammatory phase. So one of the things that I say is,
+don't miss an opportunity test. But I guess I'm going to say, don't miss an opportunity to rapidly
+get an answer and intervene. If you want to throw a PCR in as a second test, you know,
+that's going to make sense in certain situations. And also a test does not predict the future,
+right? So you get exposed on Saturday, you have a negative test on Sunday, I would expect that.
+You're not going to really start turning positive until about four days later.
+Okay, another preprint just posted today, hot off the preprint press. And this really helps
+continue along the slides of connecting dots about what happens when a vaccinated person gets
+infected with SARS-CoV-2. And this was longitudinal analysis of SARS-CoV-2 vaccine breakthrough
+infections reveal limited infectious viral shedding and restrict tissue distribution.
+Now, the authors reported on viral dynamics and infectious virus shedding through daily
+longitudinal sampling in a small cohort of adults infected with SARS-CoV-2 at various stages of
+vaccination, right? So not vaccinated, one dose, two doses. This paper is still binary in terms of
+being able to culture virus or not, right? So it doesn't have that quantification that we would
+like. But they did report that vaccinated individuals were less likely to test viral culture positive
+and that the decay of the viral RNA load was more rapid in vaccinated individuals.
+And they also have nice data, again, on antigen tests correlating with the ability to culture
+virus. Really continuing to support that narrative, that antigen tests are a great way to jump in
+and pick up those people during that infectious period when they're capable of transmitting
+virus. And that was in figure one G of this, which I think is worth reading. All right, active
+vaccination, never missed an opportunity to vaccinate. And yes, vaccination is how this
+pandemic ends. This is actually, I would say this is a pearl. I get this question every so often,
+and perhaps our listeners do not realize we have a lot of clinicians that listen. But also,
+maybe we have some people still waiting to get vaccinated or maybe people getting ready to get
+that third dose. COVID vaccinations don't necessarily have to go in the deltoid. You can actually,
+as for the CDC, the anterior lateral thigh can be used. They actually have a nice table,
+a 1.5 inch needle may be used if administering the vaccine in this site in the anterior lateral
+thigh. Sort of encourage people not to stick needles in the behind. You've got nerves,
+blood vessels, the lateral thigh. That's the modern place if you don't want to go into the deltoid.
+All right. And why did my pediatrician always give it in my butt? That was that was old school. I
+have to bet. Actually, you know, it's funny, I was in the Dominican Republic when this came up.
+And in certain parts of the world, people have a lower body mass than in the US. So you actually
+see about 1% of the time in some of these populations, you're causing complications. So maybe you had,
+you know, I don't know, adequate butt tissue there. But yeah, we've tried to, if you look at the
+science on this, it's probably better off to move away from the tail. Okay. Well, we've entered a
+period that I'm going to call the Battle of the Vaccines. I see t-shirts on the horizon,
+you know, the spike backs and the comeritity t-shirts. But people all want to know, you know,
+what is the best vaccine, you know, and what team are you on? And the first, this peer-reviewed
+publication that I will talk about, comparison of SARS-CoV-2 antibody response following vaccination
+with BNT-162B2 and mRNA-1273. So that's the Pfizer or the comeritity and the spike backs or the
+Moderna. And you know, everyone keeps telling us don't look at the antibody titers. But what did
+they do? They looked at the antibody titers. And they're twice as high after the Moderna shot.
+So of course, we all want to get the Moderna shot now. We also had another pre-print. I got
+spike backs, the Moderna, by the way, just saying, comparison of two highly effective mRNA vaccines
+for COVID-19 during periods of alpha and delta variant prevalence. And here, they're actually
+reporting on what they say is effectiveness, now what does that mean, of the mRNA vaccines.
+So what they say here, they look at data from the Mayo Clinic health system,
+this period January to July of 2021. We had different variants, you know, alpha and then delta
+variant. So first, the reassuring data, right? Both vaccines continue to be highly effective
+during this period. Again, SARS-CoV-2 associated hospitalizations. We're looking at 91.6%. We're
+looking at 85%. Even when you go into July, right? Still 81%, still 75%. But then they throw in the
+new superpower comparison, vaccine effectiveness against infection. And here they say 76% for the
+Moderna spike backs, and only 42% for the community Pfizer folks. And then they go ahead. And of
+course, just to make it worse, this is a twofold risk reduction against quote unquote breakthrough
+infection. They speculate on mRNA content. And Vincent, do you have any comments about this?
+Oh, why don't we care about infection? Don't we care just about disease in particular serious
+disease? You know, that's an interesting question. And I'm going to the one thing I will say, right?
+And I think in general, this is a new thing we're asking vaccines to do we're asking about.
+And we're going to get to a study where we look at what if you're vaccinated and you get an
+infection, you don't end up in the hospital. What about your risk of long COVID? Do people who are
+vaccinated get long COVID? So that I'm going to hold on to that thought because I'm going to talk a
+little bit about because that that is going to potentially raise an issue because that is disease,
+right? Long COVID is disease. And are the vaccines protecting against that? All right. So passive
+vaccination, right? We have a developing story here. So passive vaccination is ideally getting
+something a monoclonal and anybody as prophylaxis. So we we got the the ProVent phase three prophylaxis
+trial results. They met their primary endpoint. The data was announced. So this was a trial that
+included 5197 participants in a two to one randomization to receive this AZD7442 to monoclonal
+cocktail or placebo. This is still at the press release stage. They do report that you know,
+most of these individuals had comorbidities, right? So putting them at higher risk. And then
+they report that this combination reduced the risk of developing symptomatic COVID-19
+by 77% compared to placebo. No cases of severe COVID-19 or COVID-19 related deaths in those treated.
+In the placebo arm, there were three cases of severe COVID-19. There were two deaths.
+So I keep keep pushing on and this I've actually seen a number of emails, number of alerts from
+the Catholic health system, which I really applaud. So if my buddies over there are listening,
+it's been added as an order set. We send folks over your high risk individual. You've had an
+exposure. We get these individuals monoclonals prophylactically. Regeneron actually has
+EUA expansion for this. But unfortunately, right, only about a third of eligible patients are getting
+this highly effective therapy. If someone is vaccinated, it doesn't matter. If someone is pregnant,
+actually, as I think we've discussed, that puts them in a high risk category. And they would be
+eligible for this as well. Okay. Now the period of viral replication, but I like to say the time
+for monitoring and monoclonals, not the time for antibiotics. And I've talked previously,
+and I hit on this early on the active six trial, which is a COVID-19 study of repurposed drugs.
+And David Faginbaum was on Twiv 766 talking a little bit about this whole concept of trying to
+find stuff on the shelf that might be potentially helpful. This trial is going to investigate
+Ivermectin, inhaled flu ticazone, and flu voxamine. So what, what is flu voxamine, right? We've all
+heard about Ivermectin, a lot about Ivermectin. We've all heard about steroids like dexamethasone,
+here is an inhaled formulation. But what is flu voxamine? Now, flu voxamine is a I'm going to say
+a Prozac-like drug. It's an SSRI, a selective serotonin reuptake inhibitor. And we recently had
+a preprint. This is the effect of early treatment with flu voxamine on risk of emergency care
+and hospitalization among patients with COVID-19, the together randomized platform clinical trial.
+So we've been waiting for this for a while. This was a placebo or controlled randomized adaptive
+platform trial conducted among symptomatic Brazilian adults, confirmed positive for SARS-CoV-2.
+These were patients with a known risk factor for progression to severe disease. The patients
+were randomly assigned to either flu voxamine, 100 milligrams twice daily for 10 days, or placebo.
+And the primary endpoint was a composite outcome of an emergency room visit for greater than six
+hours of observation, or ending up in the hospital in the 28 days post-randomization,
+which was an intent to treat analysis. Now, a total of 3,238 patients were allocated.
+We ended up with 739 getting flu voxamine. We ended up with 733 in the placebo group. There
+actually were other treatments, and there was an N of 1766 for those. What did they find?
+The proportion of patients with this composite endpoint of observation in the ER for greater
+than six hours or admission to the hospital was lower relative risk 0.71. So about a 29% reduction.
+Most of these outcomes, 88% of them, were hospitalizations. They also looked at viral
+clearance. They didn't see a difference there. They looked at other outcomes, mortality,
+time to death, number of days, ventilated, et cetera. They didn't find anything there. So it
+really was just this really, mainly an outcome on the impact of hospitalizations. This is an
+interesting study, but this is what active six and other trials are going to address. I really
+don't want people to rush out. This is not two years ago where everyone starts rushing out and
+putting someone on a drug just because there's one study. This is helpful. This supports
+including this in active six. So if you find this exciting, Google, go to clinicaltrials.org,
+get your patients connected for active six. Daniel, so of all the things they looked at,
+mortality, time to death, days hospitalized, days ventilated. No change except the time you
+spend in the emergency room. What does that mean? You know, let's look at Remdesivir, right?
+So Remdesivir, $3,000 a course. And all we have is maybe less people spend less time in the hospital,
+right? You know, here is a medication. We're not seeing a mortality benefit. There's no crime
+against humanity here. We don't have to rush to get this to market. Maybe less people end up in
+the hospital. It is a psychiatric drug. So maybe they feel a little bit better. I don't feel like
+they need to go to the hospital. It made me think of digoxin, which apparently if you give people
+digoxin, they're less likely to go to the hospital. But yeah. Okay. So yeah. Okay.
+All right. So we're going to jump to tail. The tail phase, long COVID, post COVID.
+We had the article one year outcomes in hospital survivors with COVID-19, a longitudinal cohort
+study. This was published in the Lancet. This was an ambideirectional study, meaning it's both
+retrospective and prospective phases of the study. COVID-19 survivors who are discharged from this
+particular hospital in Wuhan, China, between January 7th and May 29th of 2020. And we have
+six month and 12 month follow-up visit questionnaires looking at symptoms, health-related quality of
+life questions. These individuals also had a physical examination, a six minute walking test,
+and laboratory tests as well. What they reported that the proportion of patients with at least
+one sequelae symptom was 68% at six months and 49% at 12 months fatigue muscle weakness were the
+most common symptoms. You know, maybe this is why they said in kids that it's better than this.
+So by comparison, maybe that's what they were after. But I have to say, long COVID is continuing
+to be a tragedy. We do a lot of, let's say, consulting with companies who are trying to figure
+out employees that developed acute COVID who now cannot end up back at their pre-COVID
+employment. It's about 10 or 12% at these large companies that use UAC as their insurance.
+This, this is tough, right? You know, even if you could cut that in half, you'd still be five or
+six percent severely affected enough that they can't return to work. One of the things they did
+comment, and I think this is consistent what we've seen before, what's predictive of people who end
+up with long COVID, which I suggest is a subset of PASC, higher risk for women. Higher risk for
+people who receive steroids or had more severe disease, those two may be a little bit intertwined,
+right? If you have more severe disease, you may meet criteria for steroids. Now we have,
+I'm going to say this is positive news, but then you can tell me if it's positive news,
+because this gets back to this issue of do we need to infect, do we need to prevent more than
+hospitalizations and deaths? Do we care about infection? And so this was the paper, risk factors
+and disease profile of post vaccination, SARS-CoV-2 infection in UK users of the COVID-19
+symptom study app, a prospective community-based nested case control study. So actually just COVID,
+not COVID-19, I think we're starting to drop COVID-19, it's sort of the only COVID out there.
+This was a prospective community-based nested case control study, right? So they've got a big
+cohort and they're looking within that. This was self-reported data from this UK-based
+database cohort. Everyone was an adult, so greater than or equal to 18 years of age. This is a
+mobile phone app that they're using, so really kind of clever here. And then they're going to look
+at cases that received a first or a second dose. They're going to look at people that tested
+positive. So what were sort of the takeaway from this? So in addition to all the other benefits of
+vaccination, which just were sort of reinforced in this study, they found that the odds of having
+symptoms for 28 days or more, so long COVID, after post vaccination infection was approximately
+halved by having two vaccine doses. So this result suggests that the risk of long COVID
+is reduced to individuals who have received double vaccination. This is sort of a little bit
+of an issue and I think it's back to that original. I was saying that from our large cohorts,
+maybe 10 or 12% of individuals have such severe long COVID, they can't return to work. It's going
+to be really interesting to tease out how severe is this long COVID because half of 10 or 12%, half
+of those large numbers, if we still have five or 6% of people who get COVID with long COVID,
+providing them from going to work, if you take some of those other numbers that we talked about,
+68% having a symptom at six months, you drop that to 34. These are still big numbers. So
+this does raise the question of considering long COVID as disease. So maybe that gets at my,
+like, do we want to protect, want to protect them against infection completely?
+I think that what we're really, what I'm really trying to say here is I think long COVID falls
+under the disease and one of the things we want to permit. The problem, Daniel, is that this is
+different from every other vaccine because there's no long measles, there's no long polio, right?
+And so if this is true, and I think we need to know more about what variants we're circulating
+and so forth, that could be an issue. I agree. Yeah, no, excellent point. Excellent point.
+All right. So I always like to touch on the world situation, right? No one is safe until
+everyone is safe. And I think on an upcoming episode, I'm going to probably spend a little time
+talking about the Global Vaccine Initiative, discussing GAVI and COVAX, also potentially
+give our listeners a little bit of insight into how they might contribute and be part of that effort.
+But along those lines, reminders to all our listeners throughout the months of August,
+September, October, donations made to PWB are going to support floating doctors.
+And let me share an email I just recently got from Jolie Lebrot of floating doctors,
+just letting folks know what's going on down there. The team in Panama is fairing well and is
+accepting volunteers to begin seeing more patients for primary care. Thankfully, cases in Panama,
+including BOCUS are on the decline, though is in the U.S. misinformation spreads as quickly
+as the virus itself. Right now BOCUS is getting doses in waves. These are the vaccine doses.
+Through the fifth, they will be offering the vaccine in BOCUS Town and on three neighboring
+islands. The more remote communities have yet to receive the vaccine, though some of the communities
+on the mainland closer to cities have been able to access them. Floating doctors is currently working
+hard to educate people about the vaccine and are coordinating with the local ministries of
+health to assist in distribution when they become available. So go to parasites.boarders.com,
+donate so we can help support the separate.
+Yeah, let me go back very briefly to the long COVID. Is it possible that since we don't really
+know how long long COVID is, maybe people who are vaccinated, even though 50% may still get it,
+maybe it's shorter than non-vaccinated long COVID? Yeah, there's a couple things that this study,
+well, there's several things that this study doesn't tell us. And I think it's great that
+we're bouncing back to this. You know, this is a, you know, people using a phone app, right? So
+there's going to be a little bit of selection bias. If you're done with COVID and moving on with
+your life, this may there may be a reporting bias, you're more likely to jump on so that the number
+may be different. The severity may be different. And also, this is this is really a short follow
+up, right? This is 28 days. You're barely there in my mind. I always say that 28 days is sort of
+the early people who are vaccinated. What if we go to two months, three months? I'm still optimistic.
+I mean, the biology, the science suggests to me that we should see protection against this type
+of disease as well. Yeah, okay. Yeah, I agree. All right, time for some questions for Daniel.
+You can send yours to Daniel at microbe.tv. Jeff from California, my wife and I are both
+scientists and we are having a serious scientific disagreement by studying the literature. She has
+decided that one can be infectious without the tests detecting the infection. She's not talking
+about normal false negative rate, but rather, there is a couple of day period before the symptom
+onset where some patients can be infectious, but not shedding enough virus to be detected by the
+standard tests below the detection threshold of the test. I think that regardless of her reading
+around, this is impossible. I suppose this might be slightly possible if somehow the virus is in
+your lungs, but not your nose, but where the test is done. But this seems unlikely to me
+and what happened in a vanishingly small number of cases. So can you help distinguish between her
+reading around and my logic? Thanks. Yeah, I'm going to get in trouble here, right? You know,
+your wife is always right, but some of the things she's thinking perhaps need to evolve a little
+bit. Our tests are incredibly sensitive. And I think I've talked several times about this large
+testing program we have for the movie industry. The test actually, particularly the PCR, turns
+positive prior to a person becoming infectious. So yes, the period when the person is mostly
+contagious, mostly transmitting is two days before symptom onset, three days afterwards,
+but there's a little bit of a tail there to the right. Your PCR turns positive prior to you spray.
+If this wasn't true, our whole screening program would have been a disaster, you know, all the
+content you're enjoying on, you know, Amazon Prime and Netflix wouldn't be there, a Lionsgate,
+et cetera. So no, the tests pick a person up before they become infectious. And actually,
+with the PCR continues to pick you up even after you've passed through that period of time.
+So the antigen tests tend to correlate more with that period of contagiousness,
+high levels of the viral antigen. But I will say the one thing that maybe your wife is right about,
+and maybe she was thinking is none of our tests are 100% sensitive. So you're gonna miss stuff,
+but you're just missing stuff because of failure of the test, not because of a biology.
+Zinta from New York writes, our daughter was born during the pandemic and due to lockdown,
+had limited contact to other children and adults. As a result, she's never been sick with colds or
+other illnesses. She's now 15 months, we would like to enroll her in daycare for socialization
+and learning. However, the increasing rates of COVID and hospitalization and young children is
+alarming as you highlight in 797. I worry that by sending my one year old to daycare, I may be
+dooming her to COVID-19 with unknown consequences. To minimize risks, would you keep infants and
+toddlers out of daycare as long as possible and try to wait for a vaccine, or can risks of infection
+be minimized by going to daycare two or three days a week, or by dropping out if prevalence
+increases above a certain threshold in the community, or is hospitalization still so rare in toddlers
+and infants that we really should not worry about COVID and focus on the benefits of socialization
+at this young age? Okay, so there's a lot, a lot in there to unpack, but I'm gonna focus on,
+I think the main overriding thing is that we've been talking about for a while, we have presented
+several studies on this, is that you can safely get children in schools, you can safely actually
+get children under the age of six in these child care settings. There are certain recommended
+mitigation strategies to make that safe. I think there was actually a recent study where like
+children in school had one third the rate of infection as opposed to the community, right? So
+if you look at some of these mitigation strategies, vaccinating the staff, that's huge, right? That's
+gonna reduce their chance of getting infected, and I think we have a growing body of evidence,
+their chance of spreading it to the others. Regular testing programs, good ventilation,
+kids at this age, they're not wearing masks, I think that's just reasonable. But there are ways
+to do this safely, and I'm gonna say there's ways to do it safely that that outweigh that sort of
+would err on the side of your potentially better off having your child in this setting with all
+the advantages of the social interaction, this can be done safely. Jamie writes, I'm an emergency
+physician and mom of two ages one and two years old working in Albuquerque, New Mexico. You mentioned
+in the last update that the overall risk of hospitalization is two percent for children.
+I was wondering if we have more information about that specifically, what's the breakdown
+by age group? I would imagine under one year old is most likely to require hospitalization,
+but beyond that, what's the median length of stay for these children? What interventions
+are being needed? And what is the rate of children requiring intubation? What comorbidities or
+other factors contribute to risk of hospitalization? And lastly, what is the rate of MISC or do we
+even know? Okay, so this is fantastic, right? This is the kind of questions and knowledge
+that you want your physician to seek. And I talked early on in the children in COVID section that
+the AAP children in COVID-19 state level data page not only does it have like an overview,
+but you can go to the very bottom and you can actually download this extensive PDF with answers
+to a lot of the questions that you're asking about. So yeah, as you can imagine, I've looked
+through this and there really is a gradation, right? The closer you get to being an adult,
+the closer your risks are to those of an adult, the younger you get, the lower those get.
+And then I talked a little bit about, depending on where you look in different states, it might
+be as low as 1.6 of the hospitalizations are children, other states it's 3.6, but they break
+this down into all these different variables, age, state, etc. Thomas writes, my mother suffers
+from a few autoimmune diseases, lupus, sojourn syndrome, anti-phospholipid syndrome. She hasn't
+been vaccinated yet at a fear of thrombosis. Her doctor could say only that she on the one
+hand recommends getting vaccinated, but on the other hand does not recommend it. One problem is
+that depending to which doctor she goes regarding her disease in general, some recommend getting
+anticoagulants, others tell her she can live without them. So she doesn't take anything against
+thrombosis as exercise might be enough and is the more comfortable option. Since I doubt that her
+immunity is around the corner anytime soon, my question is, do I want to get infected with or
+without vaccine protection? What's the best way to go from here for my mother?
+Okay. So there's a lot in there, and there was that one question about a person with lupus. Do
+they benefit being on anticoagulation or not? And there are certain features I'm going to defer
+to the rheumatologist who can sort of sort that out and make that. But what about COVID, right?
+We're saying at this point, your choice is between getting exposed to COVID, having a natural
+infection with all the risks and benefits or the vaccine. I am going to recommend, you know,
+in a situation like this, I would recommend vaccination because the risks of clotting complications
+with COVID are significant. So an individual like this who gets COVID, I would be quite concerned
+20, 30% chance of a venous or arterial clotting complication. We probably would recommend an
+mRNA vaccine in an individual like this. And the other, I want to use this opportunity,
+there was a recent study, and I was going to put it in, but this is even better just to bring it up.
+There are a bunch of people say, I've had lots and lots of allergies. I've had issues with other
+vaccines. I want a letter from my allergist or doctor saying, I don't have to get this vaccine.
+They looked at these individuals and individuals, even with a report of multiple allergies,
+all kinds of other issues, 99% of these individuals tolerate these vaccines.
+The few like the 1% or so tend to have mild issues. So if you've had an issue with this vaccine or
+a component in this vaccine, that's one thing. But if you have autoimmune diseases, if you have
+allergies, if you have the other things, we are still routinely recommending vaccination across
+the board, much safer than getting COVID. All right. And because this is episode 800, one extra email,
+this is a statement that I think we need to make. It's not really a question from Lena,
+who says, I know I'm probably preaching to the choir since most of your listeners are like-minded,
+but I wanted to send this in. She posted it on her Facebook page in hopes it would give
+anti-vaxxers an idea of what life is like for those who are scared. So her child is seven years old.
+He has made it to age seven, only through the help of many doctors, medicines, and the alert,
+and aware adults in his life. He's medically fragile. He doesn't look it, but he is one of
+millions with an invisible illness. He's been in the hospital multiple times, takes multiple
+medications every day. He's at high risk. He's why we're continuing to stay home, mask up, get
+vaccinated, and only allow vaccinated individuals to visit. If you think a vaccine is traumatic,
+imagine watching your child struggle to breathe, gray skinned and blue-lipped. If you think wearing
+a mask is too much, imagine watching doctors and nurses pump your child full of medicines
+to help him breathe. If you think staying home is hard, imagine a doctor telling you that they're
+going to try one more thing, but if it doesn't work, they're going to have to intubate your child
+to give him a break from working so hard to breathe. If you think a cold is no big deal,
+imagine lying behind your child in a hospital bed, watching the number on the oxygen monitor,
+praying it stays above 90 so it doesn't beep and summon the nurse again so you can get five
+minutes of sleep. Imagine that, then imagine it again and again. That's only a fraction of
+what we've endured as a family. Those things are traumatic. They're too much. They're hard.
+They're a big deal. Those things are why we keep him safe. He's not disposable. He's not a burden.
+He's very much loved by everyone. He brings joy to our lives. He deserves to be protected,
+protect him and the millions of people who suffer from invisible illnesses. Happy birthday, JJ.
+Thank you for teaching us so much. Wow. It's a very powerful email. I wish that all the people,
+but I was talking about wife today. The polls have gotten to the point where it's down to only
+about 20% of people are saying they would refuse to get vaccinated and we think half of those people
+may have already been vaccinated. They just don't want to lose membership in the tribe.
+So this vaccine has an anti-vaxx population. It's really shrinking. They're very loud.
+They're very vocal. But I think a lot of people realize that a lot of people are coming.
+This isn't just about you. We live in a community. This is like having a protest
+advocating for drunk driving or something. If you get COVID and you transmit it, you could kill
+someone else and you could end up, we're seeing thousands of kids end up in the hospital each week.
+The majority of those children were infected by someone who's unvaccinated. So that's how the
+unvaccinated. Don't just think about yourself. I think our listeners are on board with this.
+I also think it's a good response to people say, oh, it's traumatic for kids to wear face masks
+in school. As you have said, Daniel, far more traumatic to be in the hospital.
+Yeah. Yeah. That's COVID-19 clinical update number 78 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. And everyone, including you, Vincent, be safe.

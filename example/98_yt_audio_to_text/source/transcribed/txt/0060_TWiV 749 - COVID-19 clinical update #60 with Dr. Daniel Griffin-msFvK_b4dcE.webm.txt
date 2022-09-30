@@ -1,0 +1,388 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 749 recorded on April 29, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. How's this week been Daniel?
+Things are getting a little bit better, to be honest, at least here in New York.
+It's a little painful when I look at how things are going in the world, but let's get right into
+it, because our quotation ties this together. There are two kinds of guilt, the kind that
+drowns you until you're useless, and the kind that fires your soul to purpose. This is by
+Sabah Tahir, a Pakistani American author. Right into that question, Vincent, that you asked me,
+how are things going? Here in the United States, and most of the United States, we've really started
+to come off of that plateau. Numbers are going down. We look at the numbers of patients in the
+hospitals here in the New York state, and it's about 60 percent lower than it was a month ago,
+so that's really coming down. It's often several days that I go without a patient with COVID
+dying, actually. This is really changing the landscape. We are not where we were in April of
+2020. We're in April of 2021, and it was just announced that July 1, New York City is going to
+be full open 100 percent across the board. I think that we are seeing that vaccines are not
+just tooled. They're the nuclear option. They really are our game changer, and we'll be talking
+a little bit about that today. Things are not going well around the world. Around the world,
+the cases are rising, the deaths are rising. We are still really in the middle of the pandemic.
+This is why I sort of use this quotation as exciting as it is here in the US. I know
+personally I feel a sort of sense of guilt, seeing how much other people are suffering,
+and not wanting to say, let that make you feel useless. Let's all be asking ourselves,
+what can we do to reach out now to the rest of the world now that I think we're really on our own
+path here? Children and COVID. I mentioned, I promised last time that I would spend some time
+talking about camp guidance, and we now have the CDC updated guidance for operating
+youth and summer camps during COVID-19. You can Google away CDC, summer camp, and get this
+really informative resource here. When I was younger, people don't know that I was once younger,
+I was. My middle daughter, Eloise, actually, I think looks a bit like I did when I was younger,
+except she's a lot better looking than I ever was. I used to work as a camp counselor at Camp
+Jabberwocky. This was a camp out on one of the islands off the coast of Massachusetts for children
+with cerebral palsy, spina bifida, down syndrome, other challenges. I look back on the time that
+I spent there, and I think if we all take a moment, we realize how important camp is for so many
+reasons, for so many different individuals, and to take an expression of my dad who says,
+every vacation you don't take is a vacation you'll never take. Every summer, our kids don't have
+an opportunity to go to summer camp. That's gone. That summer camp opportunity is gone. I've been
+doing quite a bit pro bono work. I think I'm starting to push it with my wife. She's starting to say,
+I need to stop doing so much of that. But I really think that this is a critical area, and so I've
+been trying to do my part to help with a number of camps get set up for summer. But let's go through
+what is the CDC telling us, and what can we think about for the summer for our children, for our
+grandchildren, depending on where we are in life. So the CDC states that fewer children have gotten
+sick with COVID-19 compared with adults during the pandemic. Children can be infected with the
+virus that causes COVID-19. That's SARS-CoV-2. They can get sick with COVID-19. They can spread
+the virus to others, and they can have severe outcomes. Now, I think this is an important
+starting point. Children are at lower risk, but they are not at no risk. The CDC has a lot of
+recommendations about how we are keeping our kids safe or how we can keep our kids safe.
+They recommend that each camp have an emergency operations plan in place to protect the staff,
+to protect the campers, the families, and then the communities. Remember, these camps operate in
+areas which are often not as heavily populated as other parts. So if you bring COVID into these
+areas, you're not just exposing the kids and everyone else, you're exposing the community.
+There should be some minimum features in these plans. A lot of the camps, I have to say, are getting
+these plans up. A lot of them are actually fully in place because probably expecting money from
+the parents at this point. So they want to be able to have meetings. Actually, we had one last night
+when Tila, well, after eight o'clock. First, we met ahead of time to go over our plans,
+and then we spent over an hour with the parents answering questions. And so what are the topics
+that should be in this emergency plan? One, and this is number one, the CDC is saying,
+number one, strongly encourage vaccination for all eligible people. As I mentioned, this is a
+game changer. We are seeing that the vaccines are more effective in real life than even we were
+hoping when we saw the initial exciting studies. The other health screening for symptoms and
+diagnostic or screening testing. So testing should be a part of the plan. That's number two right
+after vaccine testing. And maybe we'll get into this a little more, but the government is working
+with the states and providing testing opportunities for the camps, actually supplying testing in that
+huge $2 trillion bill that went through, use multiple layers prevention strategies. So
+we're still going to see masking in certain situations. We're still going to see physical
+distancing. We're going to see cohorting and cohorting is a nice way to break this down
+so that if there is an issue, it's not the entire camp. You're keeping it, you're keeping it sort
+of contained. And then also a focus on the housing arrangements. And, and I think it's great,
+right up front, improved ventilation. I think we've been trying to talk about the fact that,
+you know, even though this is a respiratory droplet spread or respiratory virus,
+if you take an indoor space, if you don't have ventilation, you start building up,
+you start building up that six feet away is not going to protect you in an area with poor ventilation.
+Think about kids sleeping together in these cabins with their staff. They also want you to start
+thinking about the fact that not everyone's risk is the same. So think about campers and staff
+that might have higher risks. Really a big push to promote outdoors. I kind of like this,
+spending about 20 years of my life out in Colorado to see that, you know, the CDC now is recommending,
+you know, promoting outdoor and lower risk activities. So, you know, I know people love
+that that's singing in the mess hall. Let's get that singing outdoors. Traveling to and from,
+you want to be thinking about that, you don't want to be creating exposure events on the way
+to the camp. You also want to think about on the way off cleaning. They mentioned, right,
+we're getting sort of down here. Remember, cleaning was number one in the olden days,
+we're realizing this is not, this is something you get by breathing, not necessarily touching,
+washing those hands. And then they go on to basically go through a lot of other things,
+including where they finish with, have a plan in case someone gets COVID-19, have a plan
+in case someone tests positive. And there's two sides, I'm going to say, if you get a positive
+test, if you're doing a lot of testing, you're going to get false positive. So have a plan,
+how do I quickly verify to see if this is true? How do I respond to those? So we're getting
+great guidance here from the CDC on how to do this safely. We will have a layer where the states
+are going to have individual guidance and actually mandates for how camps are going to operate.
+They're going to give us specific numbers on if you're cohorting how big of those cohorts
+allowed to be, what should be the ratio. So I think that's going to help here. But I think the
+message here is that we can do this safely. Again, just like the schools, it can also be done
+unsafely. So ask, ask your camp, what are your plans? Are you planning on following CDC guidance?
+Are you planning on keeping my kids safe? Because as I keep re-array,
+children are certainly at lower risk, but they're not at no risk. Pre-exposure period,
+this has been an exciting week. CDC has really been out there this week. And on April 27,
+the CDC came out with it. When you've been fully vaccinated, how to protect yourself and others
+guidance. And I'm actually going to be, well, I think by the time this drops, I'll already talked
+about this on the news, this fear of normal. How do we get back to normal and how can this happen?
+So what did the CDC have to say? The first, let's define what does it mean as per the CDC
+to be fully vaccinated? And they're using, just to keep it simple,
+two weeks. They're saying two weeks after you finish your vaccine. So two weeks after you did
+that, two dose Moderna Pfizer, two weeks after your J&J. People have probably known, I kind of
+like four weeks after the J&J, but I won't break rags with the CDC on this one. But this is not
+the day. This is not the night of your vaccine. Vaccines take a little time. So take that time,
+let your body build up those T cells, those B cells, that immune protection. And then,
+what can you do if you're fully vaccinated? As per the CDC, they're saying you can gather indoors
+with fully vaccinated people without wearing a mask. That's pretty exciting.
+You can gather indoors with unvaccinated people. And they're saying without masks,
+they're talking about staying six feet apart. And they're also throwing in here, you want to be
+careful if there's someone there who has increased risk of severe illness from COVID-19. Then,
+and I like this part, you can gather or conduct activities outdoors without wearing a mask,
+except in certain crowded settings and venues. So really doubling down on what we've learned.
+If you are vaccinated, you are at much lower risk. If you're outdoors, that risk is about 20
+fold higher than indoors. So we're starting to see things coming back. If you travel in the United
+States, as per the CDC, you do not need to get tested before or after travel or self quarantine.
+Remember, this is for the fully vaccinated. They do make some comments about international travel.
+Really, the US isn't going to put a lot of onus on you. You're going to be needing to look at what
+international destination you might be traveling to. What should you keep doing for now if you're
+fully vaccinated, right? I think there was a wonderful beer commercial where the guy is all
+excited. He's getting his vaccine and then he's going to go to the bar and do all these other
+things. Well, what do they want you to keep doing? They say you should still protect yourself and
+others in many situations by wearing a mask that fits snuggly. So let's say you're indoor,
+public setting. There's a large number of people. There's going to be unvaccinated people,
+including children, they point out from multiple households. So you're really still you're still
+going to be wearing your mask in certain circumstances. You're visiting indoors with an unvaccinated
+individual who's at increased risk. We're saying, boy, vaccination really makes you
+much lower risk of transmitting to others. It does not make you no risk. And in this case,
+if the stakes are high, they say you should still be avoiding those indoor, large gatherings. You
+you don't want to go to that packed facility yet. At some point, maybe that will come.
+And also, as we know, they still have a mask requirement if you travel. So even if you're fully
+vaccinated, you're still required to wear a mask when you're on a plane, on a bus, on a train,
+other other public transportation. They still want you to watch out for symptoms. As we've seen,
+we do see breakthrough symptoms. Fully vaccinated people can still get COVID-19.
+So if you have symptoms, you're still going to go. Don't stop testing. You're still going to go
+get tested. And so I encourage everyone to go to the CDC site really look through this.
+For some people, it's going to take a little time. I think other people just jump in the deep
+end of the pool and they're good to go. I for one, I will mention I have a little trepidation. I
+still have a fear of normal. It's going to take me a little time to ease back into things even
+though I am fully vaccinated. Transmission. I always like to have a section where I push people's
+buttons and get some criticism. So this will be it. In many ways, I think going through the camp
+and the vaccinated guidance really helps us to answer a lot of the questions about transmission.
+People are not, I think, as focused on the words as they are in really understanding
+different circumstances and how to behave and how to be safe in those situations.
+And I actually step out here and say, I think there was a disservice done early on
+with the whole, is it airborne discussion? And perhaps the immortal words of Roxanne Comse,
+maybe these will now become immortal. A headline of one of her pieces,
+they say coronavirus isn't airborne, but it's definitely borne by air. The word airborne means
+different things to different scientists and that confusion needs to be addressed.
+Just I always like to sort of bring this back around again. Surfaces are low risk. Remember,
+lots of hygiene theater, way too much bleach. Maybe one in every 10,000 cases came from surfaces.
+Outdoors much safer than indoors. About 20-fold safer. Masks are effective for the wearer and
+those around us. Air exchange is critical for indoor risk. Time matters and it is cumulative
+for exposures. Vaccines are not just tools, as we're seeing. They are really the nuclear option for
+ending the pandemic. And once people are fully vaccinated, once we get a larger percentage
+of our population fully vaccinated, things do change. Things do really change in a positive way.
+All right, testing. Never miss an opportunity to test. As we talked about the camps, as you saw,
+number two right after vaccination was testing. So I want to keep reinforcing. We've seen a lot
+of publications on this. I had one out there with some of my colleagues at UHG. And testing
+is a critical part of this multi-layered approach to opening camps, schools, businesses, and other
+venues. We should be doing more not less testing. We are doing less testing, to be honest. The data
+is really compelling here. And one of the things that is compelling is we want more frequent,
+so frequent testing. Rapid results. We want to avoid those resulting delays.
+Test with testing, more is better. All right, active vaccination. This has been a busy area.
+Never miss an opportunity to vaccinate and never waste a vaccine dose. We're starting to get to
+the point here in the U.S. It's like throwing away food, right? Don't throw that dose in the
+trash. Let's get it in someone's arm. We've definitely shifted here in the U.S. And I'm seeing
+this firsthand from arms searching for vaccines to vaccines searching for arms.
+Since we last talked, actually, this dropped after the meeting. But what happened with the
+J&J vaccine? There was a meeting Friday, April 23rd. I asked my partners to cover so I could
+listen to this. That just raises my geek factor, I guess, that I wanted to listen to this all day.
+But a summary came out. So we saw published April 27th in the MMWR updated recommendations
+from the advisory committee on immunization practices for the use of the Janssen Johnson
+and Johnson COVID-19 vaccine after ports of thrombosis with thrombocytopenia syndrome
+among vaccine recipients United States April 2021. So in brief, the advisory committee on
+immunization practices concluded that the risks of resuming Janssen COVID-19 vaccination among
+persons aged equal to or greater than 18 outweighed the risks and reaffirmed its interim recommendation
+under the FDA's emergency use authorization, but included a new warning for rare clotting
+events among women aged 18 to 49 for this thrombosis with thrombocytopenia syndrome or TTS,
+as we'll be referring to it, or as other people refer to it as VITS vaccine induced
+thrombosis with thrombocytopenia syndrome. So what did we know? What did we learn from this
+publication and from the meeting? Nearly 8 million. So 7.98 million doses of the Janssen COVID-19
+vaccine had been administered in the United States and the vaccine adverse event reporting
+system. So VAERS received at the end of this prior to this meeting 15 reports of the TTS after
+vaccinations. With the clots located, I think this is important in the cerebral venous sinuses
+and other unusual locations, including the portal vein, the splenic vein, and a combination of
+venous and arterial thrombosis. These 15 reports were confirmed by physician reviewers at the CDC
+and the FDA. They went through and reviewed this, including having hematologists involved in the
+review. 13 of the cases occurred among women aged 18 to 49. Two occurred among women aged
+50 or older. And no cases post authorization reported among men. Remember, there was a man
+in the trial, but he was not in this 15 person study here. So the TTS reporting rates were
+7 cases per million. And the Janssen COVID-19 vaccines were administered to the 18 to 49.
+We had 0.9 per million in the aged greater than 50 years. And then they broke it down into
+different subgroups, which I'll go through actually. And what I'm going to do here is I'm going to
+jump to, I'm going to give John hit some credit here. John hit at United Health Group actually
+made some tables for me. Wasn't really for me there for the whole group, our sort of national
+vaccine advisory panel. But what were the race? What were the cases of TTS per million vaccinations
+broken down by age, right? So all age groups, 1.87. If you looked at people under 50, it was 7
+per million, over 50, it was 0.9. And then you can break it down into other age groups as well.
+Then there was the other and this came up where there are certain comorbid conditions or maybe
+certain medications that we should be thinking about. What about obesity? 7 of the 12 had obesity,
+8 did not. What about oral contraception? 13 were not, hypothyroid to hypertension to
+no recent pregnancies. Interesting enough, no history of prior clotting disorders in this
+population. So at the end of the report, and I'm going to sort of even make some comments here,
+they basically went ahead and they said, okay, we are going to put this back out there.
+We're going to put a warning on there and we're going to allow this to be a patient decision
+ultimately. And I have to admit, when I've talked to a lot of physicians about this,
+not all of them were as excited as I should say I was. And I think this is interesting, right?
+Physicians like to be the ones who get to make decisions. And so here, we're basically saying
+no, the patient will get the right certain physicians say I would feel better if we did not use this
+vaccine in women under the age of 50. And I think that really take it as it is. They are saying
+that's not the physician's decision. Here are the facts, it's the patient's decision. And we're
+actually maybe starting to move into a realm where before we said take whatever vaccine you have
+the opportunity to take. Now we're starting to see patients have preferences based on certain
+things patient the other day. This was a woman in her 40s. She had a prior history of a pulmonary
+embolism. We had a discussion and she was suggested to me that she would prefer to do a
+Moderna over the J and J vaccine. I think that that's completely reasonable. If we're looking at
+challenges with getting more vaccine uptake, giving people choice, letting them have agency,
+I think that that's more important than physicians getting to have the final say on everything here.
+We continue to have our vaccines against the variants race or what I like to call
+vaccines against the variants of concern as well as behaviors of concern.
+And we actually got to what I think are encouraging preprints that became available about the New
+York variant. It's nice that we have our own variant. B1526 SARS-CoV-2 variant identified in New York
+City neutralized by vaccine elicited and therapeutic monoclonal antibodies. And that
+was available as a preprint. We also had detection and characterization of the SARS-CoV-2 lineage,
+B1526 in New York. Now basically both papers demonstrated that vaccine serum showed a little
+bit of a decrease, but remained at an elevated and protective level. Convalescent plasma did not
+fare as well. The monoclonal cocktail by Regeneron continued to be effective. I think the take home
+message here was that the vaccine still work against the variants. Don't count on protection
+after natural infection quite as much as counting on the protection that we get with vaccination.
+All right, the period of detectable viral replication, right, you test positive.
+This is the time for monitoring and monoclonals so far. I think it's important that although this
+may not impact our daily clinician as physicians, we do pay attention to what's happening around
+the world. Maybe it will swing back. Maybe it will affect us, but I think it's also important for
+us to be aware of what's going on. So there was an article, the global case fatality rate of COVID-19
+has been declining since May 2020 published in the American Society of Tropical Medicine and
+Hygiene Journal. So what's happening here? So the authors collected daily COVID-19 diagnoses
+and mortality data from the WHO's daily situation reports and reported that based on this data,
+the weekly global cumulative COVID-19 reported case fatality rate. So that's that R-CFR. I feel
+like we're going back when we were first learning about the difference between case fatality rate
+and reported case fatality rate. So these are cases reported. We have documented that this is
+COVID-19. What percent of those individuals die? We know that the actual case fatality rate is
+probably higher, where the actual infection fatality rate is probably higher. But we reached a peak of
+7.23% in the last week of April, April 22 to 28 in 2020, right? So it's right about a year ago.
+This was followed by a strong declining trend up until the 53rd week post peak right after this peak.
+We ended up down at 2.2% in the last week of December 2020. Now why did this happen? And they had a
+couple suggestions, right? So that's the data. They suggested that part of this was an increased rate
+of infection in younger individuals, right? We know the younger individuals have a lower case
+fatality rate. They also looked at a map of regional reported case fatality rates. So Yemen,
+for instance, where I believe Dixon likes to go salmon fishing, they had a reported case fatality
+rate of 30% April through December of 2020, while by comparison, the reported case fatality rate
+overall in the US is 2% for all cases with an outcome. So I recommend people take a look.
+It's worth looking at the different figures and seeing what's happened over time.
+I keep saying this is the time for monitoring and monoclonals, but I am hoping that this will
+change. We keep hearing from Pfizer that by the end of the year, they're promising us an oral
+COVID pill. Now, what do we know about this? They're talking about a phase one study of a very catchy
+PF07321332. So what is this? And what do we know? A little background here. So SARS-CoV-2
+produces two large viral poly proteins. These are really long proteins that are going to need to
+be chopped up. So PP1A and PP1AB. And these are processed by two virally encoded cysteine proteases.
+Now, the main protease is also called 3C-like protease. So 3CL protease or 3CL-pro, and there's
+a papain-like protease. So we initially heard about this product, or targeting this, with an
+intravenous preparation. It was PF00835231. It'll be a test at the end. This was a pre-print
+back in February, entitled Discovery of a Novel Inhibitor of Coronavirus 3CL protease
+for the potential treatment of COVID-19. And now Pfizer is suggesting that they'll have the other
+catchy PF07321332. On the market by the end of this year, they have started a phase one trial,
+right? So that's hopefully we're going to have more tools. We also have been hearing from Merck
+and Ridgeback Biopharmaceuticals that they've been working on malnupiravir. And this is a different
+way, a different small molecule potential oral pill that can be used as an antiviral. This is a
+ribonucleoside analog that they have found inhibits replication of multiple RNA viruses. This is
+something they've been working with for a while. People who are familiar with HIV and age treatment
+think of this much like AZT, where you're getting one of those building blocks of the RNA. So an A,
+a C, a G, or a U, we target all these in HIV, and you replace one of these with an analog,
+which then gets brought in and interferes with the virus replication. As we find out more about
+this, I will certainly share that information. All right, so let us finish off here with the
+tail phase long COVID or post COVID. And I think I'm going to call this it is not just about long
+COVID. So early on, I fought against this narrow view, what people thought about COVID, the you're
+either going to live or you die. And that's the end of it. Still, still unfortunately here to this
+day from positions, just sort of this idea that people who are suffering, oh, it's all in their head.
+But I think people are now appreciating, many more people are appreciating that it can be a lot
+more than two weeks once COVID gets into your system, so to speak. But there's also an appreciation
+that maybe there's something more than even just long COVID. I think this is a little discouraging,
+but in nature, there was the article, high dimensional characterization of post acute sequelae of COVID-19.
+Now, what is this about? So the authors in this article used the national health care databases
+of the US departments of Veterans Affairs to systematically and comprehensively identify
+six month incidents sequelae, including diagnoses, medication use, laboratory abnormalities in
+30 day survivors of COVID-19. All right, so this is a really robust database. This cohort was five
+million eight hundred and eight thousand zero one eight participants. And so this, this is a really
+row bust data set that they were looking at. And within those alive, they were looking at the
+COVID-19 group selected having a COVID-19 test that was positive before March 1st 2020 and November
+30 or between I should say between March 1st 2020 and November 30th 2020. So in this large set,
+they had found almost a hundred thousand individuals. And then they're going to look at these
+individuals and what did what did they find? So this study identified a significant increase
+in problems in this population that affected the respiratory system, the nervous system,
+neurocognitive disorders, mental health disorders, metabolic disorders, cardiovascular disorders,
+gastrointestinal disorders, malaise, fatigue, musculosceletal pain, anemia. This population
+had an increased use of many medications, particularly pain medications, opioids, non opioids, antidepressants,
+anxiolytics, antihypertensives, oral hypoglycemics. And they had evidence of laboratory abnormality,
+abnormalities in multiple organ systems. So what I think I'm going to just really point out here
+is that this analysis is suggesting that even people who do not identify or get classified as
+long COVID, there's really a lot of outcomes in addition that we're seeing are an increased
+incidence. And this is actually worth looking at this paper, I will say it's available nature.
+There's actually a gradation, right? So non hospitalized, hospitalized admitted to the ICU,
+the more severe your COVID, the higher incidence we were seeing of all these different
+disorders, right? So I think that we're seeing elevation in the non hospitalized as well,
+but increasing with more severity of disease. So I'm going to finish up on that note. And we
+are switching when this drops, it will be May 1st. Thank you, everyone who supported the
+market side of tropical medicine and hygiene. We are now going to support foundation,
+international medical relief of children. Again, this is going to be a three month campaign.
+To be honest, they're struggling, right? This is an organization that is supported
+through volunteers, younger individuals, excited about global health, signing up,
+contributing, going to all these parts of the world. They need our help. They need your help.
+So take a moment, go to parasites without borders.com and help us support that. We're
+going to do the same thing we've done before. We're going to double those donations. We're
+going to try to get up to $40,000 to support femuric. And we're going to do this over the
+next three months. So help us. Time for some email for Daniel. If you want to send one,
+Daniel at microbe.tv. Sarah in Tallahassee writes, are the monoclonal antibody therapies
+appropriate for patients who have already been vaccinated? So that's a great question. We are
+certainly giving monoclonals to people that have already been vaccinated, or I should word it.
+We are not restricting them. We are not taking a person who's vaccinated, not allowing them to
+have the monoclonals. And there's a couple of reasons here. One, if you think about it,
+there's usually something going on when a person has a breakthrough infection. And we've certainly
+seen people that get vaccinated, and then they go ahead and they get exposed. It's really sort of
+straightforward if they just got the vaccine. But we're seeing people that might be weeks out.
+Some people, particularly our older members of our society, people with certain immune issues,
+they may not have the ability to develop that robust immune system. We're going ahead. We're
+seeing good experiences as we get more numbers. I think we actually closed one of my studies. So
+hopefully we'll be getting some data out there showing demonstrating what's the efficacy in
+different populations, including this particular population. All right, we have a letter from Mike,
+who is an infectious disease physician in Tacoma. In your most recent clinical update, 747,
+you mentioned in your reply to the retired health and safety professional listeners question,
+as to why authorities are not recommending N95 respirators to the public, that you would
+recommend such masks in certain high risk situations or high risk environments. You then
+relayed your own story of how you recommended to your family members to wear KN95 masks when
+they flew on an airplane. The listener mentioned that he thought the KN95 Chinese masks available
+to him locally were likely made of similar materials and of similar quality to the 3M
+N95s. When they first came out, I was initially confused by the different KN95 designation on
+the respirators that were advertised from overseas and have been following the US government's evaluation
+of these masks since the time. Unfortunately, such US government testing has revealed that the
+overseas KN95 testing standards for such overseas masks have not been rigorously quality control.
+Many did not reliably come close to 95% filtration efficiency, and Mike provides a CDC link to
+a report on these masks. Thus, in the interest of being fully transparent to the listener
+who wrote in and to the public, I would suggest that KN95 respirators may provide you with more
+protection against SARS-CoV-2 than a cloth smath, but are overall not as quality controlled and
+would suggest the listener and public consult the above web link for more information.
+That is excellent. So thank you so much. I always like to point out that this is not really a one-man
+show, and stuff like this is super helpful. I'm starting to feel like should I have shared one of
+my KN95s or two of them with my daughter and my wife, but this is really well taken. I think that
+as we go forward, I'm actually surprised at this point that we don't have better certification.
+You get a mask and it's got a certain stamp or a certain... We have certifications for organic
+foods where the certifications to help us with masks, which actually are keeping us safe and
+saving lives. Excellent point, everyone. I'm glad that this was sent in.
+We have an email from Vincent, who is also a physician. Two questions. I recently immunized a
+49-year-old lady who has a history of Parkinson's and an active left septic bursitis with J&J.
+Should I have left held off due to her bursitis? Or was I right in doing so? Let's take that one
+first, Daniel. So you did the right thing. Never missed an opportunity to immunize that.
+I'm hoping you didn't put the immunization in that bursa, right? Maybe you did the other arm that
+would make a lot of sense. I got a question earlier today and actually it was about every
+so often we see people. We've got people doing vaccines that maybe have never done them before
+and they're somehow they get it in the bursa, which is actually usually a challenge, right?
+Because we're trying to learn to do that for other reasons. But try not to get it in the bursa.
+Do the other side if someone has bursitis. If they get it in the bursa,
+probably we're still going to get the protection. I think it would make sense that you will.
+But no, I don't think something like a bursitis. We really have to be careful not let little
+things keep us from getting a person vaccinated. So I think you did the right thing. Now,
+hopefully I laid out the risks with J&J really small.
+Yeah, and then his next question is about J&J. Is it stand to reason to treat with aspirin prophylactically
+or just wait it out? Yeah, and I've actually had this conversation with a lot of clinicians.
+So it really is excellent. It's a good question. If you start doing the risk benefit,
+and this was interesting, right? I started asking people, so what if you tell someone to take an
+aspirin every day? 1% of those people will have a GI bleed within the year, right? We didn't pull
+aspirin off the market when that happened. You are better off doing nothing. First, do no harm.
+You are more likely to cause problems to someone after a J&J than you're going to
+provide any help by throwing aspirin or anything at them. So go ahead, get them vaccinated. And
+then if they have a severe headache, that one in a million will pick it up, we'll treat them
+properly. All right, one more from Chris in your recent clinical update. You said
+responsible summer camps should be doing testing because there's funding for it now. I'm on the
+board of a summer camp. This is good news, but I can't find any information. Can you please
+point to more information about this? Okay, I'm going to actually, I'm going to say this slowly
+because we'll be giving this person a bunch of emails, hopefully. I've been working with a woman
+Phoebe for about the last year, helping promote access to coordination for particularly rapid
+testing, but testing in general as a solution. And so Phoebe has worked with rapid testing.org,
+also worked with a lot of different foundations, and actually did a lot to push for funding in
+these bills. So I can give her a little credit for that. Now I asked Phoebe previously, and she
+said yes that I could share when people had questions like this. So her email is P-O-L-H-A-V-A
+at gmail.com. If you're a summer camp, if you're looking for ways to get access to testing,
+shoot her an email. She's not in this to make any money. I think she must make money as a
+radiologist or something. She's just there to help doing all these efforts pro bono. So
+reach out. Let's make sure that that money actually is spent, that that testing keeps our kids safe.
+That's COVID-19 clinical update number 60 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you so much. And everyone, be safe.

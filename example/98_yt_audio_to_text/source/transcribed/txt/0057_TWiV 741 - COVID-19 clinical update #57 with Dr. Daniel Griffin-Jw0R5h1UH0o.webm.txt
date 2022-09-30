@@ -1,0 +1,410 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv. This week in virology, episode 741 recorded on April 8th, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. That's right, Daniel. This is update number 57,
+and how are things going this week? They are a little bit better, but what
+Twiver are you at? What Twiver are we up to Vincent to say there? 741.
+741, okay. I'm looking for the 747, like, because that's the big one with the upper deck.
+Then after that, there's a 777, right? And then the 787. We'll go through all those. Don't worry.
+All right, let me start with my quotation, and then I will give the update on where we are.
+So this is be kind for everyone you meet is fighting a hard battle.
+And this is actually from Philo of Alexandria, 20 BCE to 20 CE. So this goes back away, but I
+think maybe we need to remember. We've come out of this pandemic, and a lot of ways worse,
+a lot of ways divided, hostile. Sometimes I feel like I'm in a Monty Python movie,
+and someone sees their neighbors, they run away because this actually developed what I'm going to
+point. The fear of normal, phone know. A lot of us are pretty traumatized from this last year,
+so I deal if we can all start working together. We are on the same side relative to the virus.
+So my three quotations, as always, never miss an opportunity to vaccinate, never miss an
+opportunity to test, and never waste a vaccine dose. Let's get those vaccines into arms. The
+fridges and freezers do not need the vaccines people do. Where are we right now? What's sort of
+the update? Worldwide, I don't often mention this, but worldwide, let's look, where are we
+looking? The world picture worldwide, the case numbers and deaths are rising. With over a half
+a million new cases per day, it's probably more, but that's what we're hearing, over 10,000 deaths
+per day, again, probably higher. This is certainly not over. What about here in the US? I like to
+think that the experience in Israel is encouraging. They're ahead of us. The experience in the UK
+is encouraging. They're also ahead of us. The US, hopefully we're going to be next in line,
+sort of a beacon of what happens with vaccinations, but we are still on this plateau here in the US.
+Thanks, mainly to a few states. I call you out. Everyone in Michigan, Florida, New York, New Jersey,
+and Pennsylvania, we're still seeing lots of cases, high positivity rates at these places.
+Now, Georgia, oddly enough, is not reporting a lot of cases. They're not in the top 10s
+in terms of cases, but they are in the top three in terms of daily deaths. I say that a little
+tongue in cheek, but there certainly are some issues with not doing enough tests around the
+country, particularly in certain places. You can't hide the deaths. I guess you probably could,
+as we learned, but when you see those deaths, it really suggests that we're not capturing all
+those cases. I did want to point out, isn't the CDC in Georgia? It means you'd be doing a better
+job of testing, tracking, and everything else. Across the US, we have less testing, but we still
+have the same number of new cases each day. I'm not sure that this is as low a plateau as people
+might think. The same number of people are in the hospital across the board, certainly here in
+New York since February. There are fewer deaths per day. It's odd that we're celebrating that we're
+under 1,000, that we're still seeing 600, 800, 800 a day. That's pretty high plateau.
+Things that have changed is the age of the patients in the hospital, and the age of those testing
+positive on average is decreased. That's something that's being reported. That's certainly something
+we're seeing in our, we still do a tremendous amount of testing here in the tri-state area
+at pro health and opt-in tri-state. That's my update, but now let's get into children and COVID.
+This is always a hot topic. We've covered that full in-person learning can be done
+safely. Now, we have guidance from the CDC, but I'm getting lots of questions about how do we
+actually guarantee that this is done safely and not just done? This is interesting.
+So I'm going to throw in, and this is sort of thrown out of phase order, but it's in the children
+topic. We got some updates about the multi-system inflammatory syndrome during the COVID-19 pandemic
+in children. So what I like to point out is that children certainly are at low, lower risk than
+adults, but they are not at no risk. So let's put some context here. So in JAMA pediatrics,
+the article trends in geographic and temporal distribution of US children with multi-system
+inflammatory syndrome during the COVID-19 pandemic was published. This was a cross-sectional study
+of 1,733 patients with multi-system inflammatory syndrome in children. So the miss C.
+And the analysis included patients with illness onset from March 2020 to January 2021 that
+met the miss C case definition. Patients with Miss C predominately presented with
+gastrointestinal symptoms, such as abdominal pain, vomiting and diarrhea, as well as skin rash
+and conjunctival hyperremia. So that's a redness to the eyes, to the whites of the eyes.
+Most patients developed hypotension or shock with about 60% overall being admitted to the
+intensive care unit. And I think I've mentioned that this went from early on being less to 50%
+to later on at being 80, 90%. So sort of evolving numbers. Myocarditis, so inflammation of the heart
+muscle, cardiac dysfunction, and coronary artery dilation. So these are the blood vessels that
+wrap around the heart actually dilating. That was reported in about a third of patients.
+Now, most miss C illness are believed to result from asymptomatic or mild COVID-19.
+I think sort of want to reinforce that asymptomatic or mild COVID-19 upfront.
+With hyper inflammation coinciding with peak antibody production, several weeks after that
+initial SARS-CoV-2 infections. So patients with Miss C were reported to have significantly
+higher titers of the SARS-CoV-2 receptor binding domain IgG-80 bodies compared with
+other patients hospitalized with COVID-19. So just sort of an update. This is out there.
+We're getting more information on it. But let's talk a little bit about the school opening plans.
+I was getting a lot of texts and messages about one of the local school districts that is
+planning an opening. And they started laying out their guidelines, they're going to separate
+the desk by three feet. The children are going to be wearing masks at all times.
+They're actually going to have these plexiglass dividers. So I'm hearing all this, this sounds
+encouraging, upgrading of the ventilation system. But then I had a very interesting quarantine
+outline. And what they were saying was that, okay, we're putting all these things in place.
+But if a child tests positive, anyone within three feet of them, so the desks within three
+of them, they will all be quarantined. And since this school is one where the children go to
+different classrooms, that one sort of index positive case will then affect, I guess you could do the
+math on this, right? Like three in front, three behind and one on each side. So eight kids from
+each class will be quarantined for the required quarantine period. And some of the questions the
+parents were asking, well, if it's safe to be within three feet with all this mitigation,
+then why are these kids going into quarantine? If our kids are going to actually have exposures
+in school, you know, and it's sort of a back and forth. And I think that one of the things that
+may be missing here for a lot of the schools is they're being asked to open, but they don't
+necessarily have the professional guidance to help them put the whole plan together.
+I think this has come up many times. If you do not have an exposure, you do not need to quarantine.
+And if you're setting up a school plan that's going to actually provide exposure opportunities
+for the children, that's not a great school opening plan. So, you know, reach out. If you
+don't have the expertise, if you don't know how to do this, a lot of people don't have expertise.
+I mean, a superintendent, a principal, a teacher, I don't want to be the one, you know, teaching your
+high schoolers or your middle schoolers. You probably don't want to be the one coming up with
+school reopening plans during a pandemic without some communication. So I throw that out there. I
+do think that we can open schools safely, but you have to have the understanding and the science
+to do this. And this ties directly into transmission. And today we're going to talk a lot about
+transmission. So much about COVID-19 has been controversial and either content and even
+contentious. So remember my quotation? We're all in this together. The virus is the enemy,
+not your neighbor. And I guess I shouldn't be surprised. I still remember it was during my
+graduate training when, you know, it almost came to fisticuffs. You know, I was having a dispute with
+with another one of the graduate students about whether or not NF Kappa B activation was essential
+for TH 17 differentiation. Really? Really? That was enough to get like an overheated argument?
+Here, we're actually talking about something that affects people's lives. And, you know,
+this is a scientific question. And I think we need to be level headed when we discuss
+what do we know about this so that we can make appropriate decisions to protect everyone.
+I mean, I think one of the issues, I will say, the issue of transmission was complicated by
+terms of art. There are certain words that we use in science. There's certain words that we use
+even slightly differently in the clinical arena, terms of art, such as airborne. And there are
+common usage of these terms by the general public. So a lot of times we would ask that question,
+you know, is this airborne? I remember a wonderful article. It may not be airborne,
+but it's borne by the air, right? I mean, so there was a lot of confusion, like what is happening
+here? So in the open forum, infectious disease journal, the article SARS-CoV-2 infection among
+healthcare workers, despite the use of surgical masks and physical distancing, the role of airborne
+transmission was published by a group out of Israel. So this was a case study where the authors
+described a single source outbreak of COVID-19 from an asymptomatic patient to nine healthcare
+workers and room contacts in a general pediatric ward, despite meeting the current guidelines for
+PPE and the wearing of surgical masks. Now, due to confirmation bias, I actually worry about this
+article. I think it's going to be embraced by sort of both sides of this controversy right back
+to sides again. So I'm going to take a moment here and we're going to have to learn to be a
+little painful, but we're going to do a little vocabulary here. But I think this is critical.
+This is important. This is how we keep ourselves safe. And I think understanding these terms are
+important. So the first term, respiratory droplets. These are small drops or portions of liquid
+that are in the five to 10 micron range. These are expelled when a person coughs, sneezes,
+sigs, or as we now know, I think is more generally appreciated, talking as well. People always
+think about this. Well, you're not coughing, you're not sneezing. If you're not sick, how are you
+spreading this? Just talking is creating these droplets. That's why a person can be pre-symptomatic
+and still create them. You do not need to be coughing, sneezing. Droplet nuclei or aerosols,
+right? Now, we're talking about a term of art. These are small drops that are less than five
+microns. And due to their small size, they can actually remain airborne for extended periods of
+time and transmit over significant distances. Then we have follomites and these are contaminated
+surfaces. So what about airborne transmission? Now, the CDC points out that this is a specialized
+use word in medicine and public health and is used to describe infections capable of being
+transmitted through exposure to infections, pathogen containing small droplets, and particles
+suspended in the air over long distances that persist in the air for long times.
+And where are we with all this? I just showed you an article, oh my gosh, with an instance of
+airborne transmission, despite masks. So as per the CDC, the principal mode by which people are
+infected with SARS-CoV-2, the virus that causes COVID-19, is through exposure to respiratory
+droplets carrying infectious virus. They do go on to say airborne transmission of SARS-CoV-2
+can occur under special circumstances. And those with a special circumstances that we
+describe. So what are those special circumstances? Enclosed spaces, right? We keep harping on
+indoor versus outdoor. Enclosed spaces within which an infectious person either exposed
+susceptible people at the same time or to which susceptible people were exposed shortly after
+the infectious person had left that space. So that indoor poor air circulation, prolonged exposure
+to respiratory particles. Remember, this is a continuum. There's no plexiglass sort of shield
+at this distinction between the different micron sizes. So shouting, singing, exercising,
+you're actually going to increase the concentration of suspended respiratory droplets in the airspace.
+So prolonged exposure. And then inadequate ventilation, which all this is all tied together,
+or poor handling. So you're allowing a buildup of suspended small respiratory droplets and
+particles. So that's your suburban home without good air exchanges. So I think that we can very
+clearly at this point say that the CDC, the WHO, and the science supports that the principal mode
+here is respiratory droplets. Airborne transmission is rare, but can happen in
+circumstances. And fomites contact. I think the current CDC estimate is that maybe one in every
+10,000 infection was due to surfaces. So just rethink all that bleach and chlorox and everything
+else. So on April, on April 5th, so Monday, April 5th, the CDC published an updated science brief
+addressing fomite transmission. And this was titled SARS-CoV-2 and surface fomite transmission
+for indoor community environments. And I'm sorry to the makers of bleach, but this goes along the
+lines of what we've been discussing. But instead of focusing on the distinction in respiratory
+droplets and aerosols, it focuses on getting COVID-19. So getting that virus and developing
+COVID-19 from surfaces and the summary statement, the principal mode by which people are infected
+with SARS-CoV-2 is through exposure to respiratory droplets. It is possible for people to be infected
+through contact with contaminated surfaces or objects, fomites, but the risk is generally
+considered to be low. So this doesn't mean we're walking around with unclean hands. I still want
+people to wash their hands. But I think there has been a lot of resources put into hygiene theater.
+And they actually conclude in the statement that in most situations, cleaning surfaces using soap
+or detergent and not requiring this disinfection is enough to reduce the risk testing. The journal
+of clinical microbiology published a nice meta analysis performance of saliva, oral pharyngeal
+swabs and nasal swabs for SARS-CoV-2, molecular detection, a systematic review and meta analysis.
+Now, for starters, what is a meta analysis? So in the edited words of Mark Chris Lap,
+Perciflagger's infectious disease, Puskass Fade, this is when you pile a whole bunch of studies
+on top of each other and they suddenly turn into gold. I think Mark will be turning over in his
+grave even though he's still alive. It just has decided to stop Puskassing. So he's only died in a
+certain way. But this was really a high-level summary where they looked through. They found
+1,253 unique citations. They then drilled down to identify 25 saliva studies, 11 nasal swabs,
+6 oral pharyngeal and 4 oral pharyngeal nasal swab studies. So from all the different
+sources, what they were using is nasal pharyngeal swabs of the gold standard and saying if we do
+other methods, how much of the time are we able to pick that up? And so they basically came down with
+the nasal swabs. We're picking up about 82%. The oral pharyngeal, we're picking up about 84%
+and the saliva, we're picking up about 88% of those that were picked up with the nasal pharyngeal
+swabs. They also reported a few things that I found interesting. They reported finding several
+studies that the unsupervised, self-collected nasal swab specimens had higher percent positives
+compared to those collected by healthcare workers. So I was trying to analyze this. Is this that
+healthcare workers are too gentle? Is it that when no one's watching, people are willing to get a
+much better, deeper sample. So you turn away and tell them to go at it. I also thought it was
+interesting. A lot of times we have people hold a mask and they cough and they try to get up this
+deep throat saliva and we tell them you can't eat, you can't drink, you can't brush your teeth.
+That really didn't seem to do much in terms of sensitivity. So maybe it's a little nicer. People
+can show up for their testing with brushed teeth and having some adequate hydration. There were a
+number of limitations though I thought in this study. And my big one, and I think all the listeners
+will guess at it, was where are the CT values? And I think we've learned over the last year that
+nasal pharyngeal swabs are very sensitive, but sometimes maybe are they too sensitive to answer
+certain questions. So if saliva, for instance, is missing these low-level RNA PCR positives,
+weeks after the acute infection, do we really care? Is that really a limitation? Is this really
+relevant if we're testing to avoid transmissions such as might be done for certain sporting programs
+or now we know New York working with Mount Sinai is going to develop this large-scale saliva
+testing availability for opening large venue events. If those people have a few thousand
+bits of RNA, am I concerned as someone going into a venue, particularly as a vaccinated person
+going into a venue, versus someone who has a high positivity, such a large amount of RNA that's
+being picked up by antigen tests and all these others? So I think we have a lot of good testing
+options and we just need to ask what question are we answering or asking when we do these tests?
+Active vaccination. There does seem to be some growing evidence that there may be an actual
+connection between the blood clotting and the platelet disorder and the AstraZeneca vaccine.
+I used a lot of qualifications in there. It still appears that the incidence of this clotting and
+platelet complication is rare and the risk of a COVID complication in most cases is significantly
+higher if you remain unvaccinated. But this is evolving. The Medicines Health Care Products
+Regulatory Agency, that's the MHRA, they regulate medicines, medicinal devices, blood components for
+transfusion in the UK. They recorded 30 cases in 18 million vaccinated individuals. So we're
+looking at a complication rate of one in 600,000, but there have been seven deaths. There may be
+an issue with the age skewing. This may be something that is clustered more in younger individuals.
+And so we're actually certainly seeing some changes where there's a preferential use of this
+vaccine in older individuals and a preferential use of other vaccines in younger individuals.
+So this is an evolving story. And as we learn more, we're going to have to decide what to do
+here with this information. Just an update on the Pfizer EUA expansion, right? Let's get vaccines
+to younger individuals or the option to have vaccines in younger 12, 13, 14, 15. And as far as
+timing, right? We heard about the data. There is a required 15-day notice of intent to submit
+before the FDA performs their review. So Paul Offit, who's a member of the Vaccines and Related
+Biological Products Advisory Committee, just was saying the other day that so far that notice has
+not been given. So, you know, whether it's later this month, I think it's going to be May at the
+earliest that we see a potential e-way expansion down to our kids, 12, 13, 14, and 15. Passive
+vaccination, right? The monoclonals. This seems to be going much better as far as getting these
+off the shelves and to the patients. I think seeing the phase three data, all the help that
+we've gotten from a lot of individuals to get the word out has helped. I have to say, on our last
+tri-state urgent care call, this week the comment was that our whole book and infusion center was
+basically getting fully booked. And we're all questions about how much capacity did we have
+for our in-home infusion program. So people are really getting out and they're getting these
+treatments. And I have to say this is tremendous. When we see these individuals' experience we have
+is they get the infusion. And 36 hours later, they're really reporting sort of that Superman
+feeling. I actually spent some time recently over at one of the Catholic hospitals in our area,
+St. Francis Hospital, speaking with Stefan Moldauer, he's the head of the ER there,
+just making sure we have everything firing as smoothly as we can on all cylinders.
+Now, if I got that expression, correct. But right, we have the ability with monoclonals
+to either go to outpatient infusion centers, to go to certain ERs, to go to certain infusion tents
+that are set up outside of ERs, and to get even in-home infusions. And this seems to all be going
+very smoothly with getting people access to the monoclonal cocktails. Some exciting developments
+before we move forward. Right now, as mentioned, that's great and all, but this is putting an IV in.
+It's a, well, 21 minutes we're allowed to, but a lot of centers are spending a full hour of the
+infusion, plus a post-infusion observation time. V-R-G-S-K, which is trying to get their product
+EUA, is also looking at expanding into an IM, an intra-muscular preparation. So right now,
+they have Comet Peak, which is an ongoing phase two trial. And they're really looking at safety,
+viral kinetics, pharmacodynamics, doing this as an IM, but they're about to fire up Comet tail.
+And this will be a phase three trial, which is going to be starting in the next month or so,
+and will be administering these IM products to high-risk adults, showing hopefully the same benefit
+for reducing hospitalizations and deaths. But you can imagine the improved access. You getting
+something like an EpiPen, where it can be just delivered from your local pharmacy, or maybe it's
+what's brought in by an infusion team, or a home care team, and boom, just right into the muscle.
+We'll talk about whether or not you need to withdraw that plunger when you do that,
+and then going ahead with the treatment. Incubation, post-exposure period. Remember,
+tests do not predict the future. I was on a call last night with a cab. And yeah, you got to keep
+saying that. I use the pregnancy test analogy. Once someone is exposed, there's a period of time
+when they can go on to become positive. If someone gets exposed, they immediately test,
+it's probably going to be negative. But that does not mean that they will not go on and become
+positive in the next two to 14 days. Once they get into that period of detectable viral replication,
+remember our passive monoclonals, our passive vaccination. So time for monoclonals and monitoring,
+no steroids, no antibiotics in that first week. If you do get into that early inflammatory phase,
+second week, if the oxygen saturation is drop below 94, then you think of steroids, oxygen,
+anticoagulation, perhaps from decivir. Most of these folks are not coming in with infections.
+That is a later stage issue. And we got a lot of information. I'm going to say close on this,
+but this is actually a big chunk. We're going to talk what we've learned about
+about tail phase and long COVID. So in the BMJ, we saw the article post COVID syndrome in individuals
+admitted to hospital with COVID-19 retrospective cohort study. So in this observational retrospective
+matched cohort study, they reported on the outcomes with a mean of 140 days for 47,780
+individuals that had been admitted to the NHS hospitals in England for COVID-19 and had been
+discharged alive, right? So these are the individuals that got almost 50,000 that got COVID were in
+the hospital. Nearly one third were readmitted and more than 10% died during this follow-up.
+Those with COVID-19 were diagnosed with major adverse cardiovascular events,
+liver disease, kidney disease, diabetes, after discharge, what were the rates?
+Respectively, 3, 2.8, 1.9, and 1.5 times more. So major cardiovascular, three times more likely,
+liver disease, almost three times more likely, kidney disease, twice as likely,
+diabetes 1.5 times more frequently than in the matched control group. This is a bit of an issue,
+right? I'm looking forward to more data on this, but we also had another study, and I think this
+is getting a lot of attention. And this was in the Lancet Psychiatry Journal, and this paper,
+6-month neurological and psychiatric outcomes in 236,379 survivors of COVID-19, a retrospective
+cohort study using electronic health records. So this is really robust data, right? You know,
+almost a quarter million survivors. So this was a retrospective cohort study and a time to event
+analysis, and they were using data obtained from the tri-NEXS electronic health records. So
+over 81 million patients in this database, and I should say this database exists, right? I think
+we were painfully hearing of some early databases that were figments, but the primary cohort
+comprised 236,379 patients who had a COVID-19 diagnosis, and they had one matched control cohort,
+including patients diagnosed with influenza, other matched cohorts who could have patients
+diagnosed with other respiratory tract infections during the same period. And they reported that
+the estimated incidence of a neurological or psychiatric diagnosis in the following six months
+was 33.6%. So a third of these survivors of COVID-19 hospitalization. If you were admitted to an ICU,
+the estimated incidence was almost 50%, it was 46.4. So this is huge. And now what were these
+neurological diagnoses? Intracranial hemorrhage, ischemic stroke, Parkinson's disease,
+Guillain-Barre, nerve, nerve root, plexus disorders, myel, neural junction, and muscle disease,
+encephalitis, dementia, psychosis, mood and anxiety disorders, substance use disorders,
+and a lot of insomnia. Now I have to say this report is consistent with the work of some
+of my colleagues at UHG. I think they're a little frustrated because their study is still winding
+its way through peer review. But I had the opportunity earlier this week, the pleasure I should say
+of speaking with our pro-health neurology group. I always like to get this is what we see in the
+literature, this is what the studies are showing, what are we seeing in our clinical practice.
+And so several of the neurologists were describing the challenges that we're seeing here in the
+tri-state area. Presentations consisted with small fiber neuropathies with burning sensations,
+and a lot of issues with either new onset headaches or an escalation of headaches from
+intermittent to chronic. So unfortunately a growing number of individuals who maybe had
+an intermittent vascular or migraine disorder, and now they're in constant pain, really challenging
+to treat these individuals. I think this will get a lot of attention because it's quite upsetting,
+I think, to not have your mind working, to be in constant pain, to be suffering.
+I think that's enough bad news, right? It's enough bad news. I'll throw a little bit of good news in
+here, and I think this is some perspective on the good news as well. We've heard a little bit,
+and I've shared a little bit about the potential benefit of vaccination on long COVID. And I've
+been seeing that. A lot of us who take care of a large cohort of patients who are never sick
+enough to get in the hospital, but continue to suffer with the brain fog, the fatigue,
+all these other disorders. We are seeing a large chunk of them report feeling better with vaccination.
+But I reached out to Lawrence Schulman. He's one of our pulmonologists, and talking to him about
+what about people that were sick enough? Now they have pulmonary scarring. Now they have things
+that I just wouldn't really think a vaccination would reverse. In those individuals, a lot of our
+long-term care COVID or post-COVID recovery centers, where they're dealing people who had
+cardiac insults and pulmonary issues, a lot of this, I have to say, unfortunately, there
+was a subset of patients where this is not reversible by vaccination. So still encouraging all these
+individuals to get vaccinated, but it does sort of temper that optimism. There does appear to be
+certain patient populations that are more likely to benefit from vaccinations, but there are certain
+other individuals where a lot of the damage is done, the scarring is there. So I will close by saying,
+thanks again for all the support we've had. This will be our final month, right? April, we are
+supporting the American Society of Tropical Medicine and Hygiene, and part of that support
+will be providing scholarships for early career women investigators from low-income parts of the
+world. So we're excited to do that. We're excited to allow them to attend the fall meeting,
+and then hopefully really give them a boost and do something about
+so many of the inequities that currently exist. All right, time for a few emails for
+Daniel. You can send yours to Daniel at microbe.tv. The first is from Alida in Canada, who's a nurse
+and is curious about you're saying it is a must to aspirate before injecting an IM.
+In Canada, we have not done this for more than 20 years. I started nursing in 2000,
+and I've never aspirated. I've given thousands of vaccines and injections. CDC does not recommend
+aspiration, just my thoughts. No, they're more than just your thoughts. You're right.
+So what is this issue of aspiration pulling back the plunger while doing an IM injection?
+Hopefully I didn't say it's a must. Hopefully I said this is fairly standard,
+still common. Should it be? So what does the CDC say? What does the WHO say? What is the science?
+What is actually recommended and actually is not pulling back perhaps best practice?
+Let's go through this. Thank you for asking this question. As per the CDC, aspiration before
+injection of vaccines or toxoids, pulling back on the syringe plunger after needle insertion,
+but before injection is not necessary because no large blood vessels are present at the
+recommended injection sites. Any process that includes aspiration may be more painful for
+infants. Actually, I think you're timing on when you graduate is appropriate. They reference
+the study back in the 90s, and the WHO does not recommend the plunger pull. So what does the
+science say? I have to say, based on what we know, the need for aspiration prior to administering an
+injection is dependent on certain factors. As a general rule, I'm going to say the science does
+not support that you need to pull back on the plunger. And there's ample evidence suggesting
+that. But what are the couple little caveats, right? It still is fairly standard. A lot of people do
+this. Is there harm? Well, as mentioned in the pediatric population, the original teaching was
+you held negative pressure for five seconds to make sure no blood would come up. That actually
+creates pain. That is painful. It is delaying. Some of us that I think this is interesting.
+What about epinephrine? You say, like, Oh, this is epinephrine. If I got that into a blood vessel,
+my gosh, that that could be quite different than an I am injection of epinephrine.
+Now let's all think about those epipeds, right? Those epipeds you basically put against your lateral
+thigh, you push a button and boom, out comes the needle and out comes the medicine. Things are a
+little different now, I have to say. I have seen people put injections in the deltoid bursa.
+I have seen people completely miss the muscle and put it in the fat. Probably the pulling back
+on the plunger is probably a small issue. What are the big issues getting that needle into the
+muscle using a one inch needle? So you actually get through whatever subcutaneous tissue and into
+it. If you're going to do IV, you definitely, well, I'm going to use the word, definitely.
+You do want to make sure you're in the vessel because a lot of our medicines, if they're
+infiltrating, can actually be caustic and cost tissue damage. But yeah, if you're going to put
+it into a muscle and you know what you're doing and you're actually in the muscle,
+do you really need to pull back? No. Is it better not to pull back? Yeah, probably actually,
+I think best practice would be no. If you're going to give the shots in the deltoid,
+put it in the deltoid, not in the bursa, not in the chubby part of the arm.
+If you're thinking about doing a buttock shot, actually consider moving that to lateral thigh.
+Well, you actually got a lot of emails about that and they were divided between,
+we don't do it and we do it. It was very interesting. So it's one of those situations.
+Well, let's come up, I think, Vincent, because the whole AstraZeneca issue.
+And one of the theories they have there is that maybe, you know, younger people better,
+you know, vascularized muscle. Maybe there are large enough vessels that you're getting it in
+there. It's good to have the science and the current recommendations. We did so far this week,
+213 vaccinations in my office. We're doing another 100 tomorrow afternoon into the evening.
+Have I been pulled back on that plunger every time? No. Have I pulled back ever? No. So I'll
+fast up. Okay. Deepa writes, I have been advised by my most excellent rheumatologist to skip two
+doses of methotrexate after taking any vaccine, including the one for SARS-CoV-2 based on the
+attached publication. This is the first study I'm aware of that carefully evaluated the immune
+response to flu vaccine in RA patients. They randomized to two cohorts, one that skipped
+two doses of methotrexate, one that did not. There is quite a remarkable and significant
+difference in the antibody response elicited in favor of skipping methotrexate.
+Key finding, methotrexate discontinuation for two weeks after vaccination significantly
+increases immunogenicity of a seasonal influenza vaccine in patients with rheumatoid arthritis,
+who had been on a stable dose of methotrexate without significantly altering,
+increasing risk of disease activity. I hope this is helpful to you,
+your patients and listeners of the podcast. Not many people are aware of this study.
+We need more studies like this. No, this is great. So thank you. Actually,
+Deepa, we do need more studies like this. And there's no reason that we can't be getting them,
+right? We are currently vaccinating billions of people by the time we're done here.
+And this is the time. And I know a lot of scientists have talked about, we need a rapid review,
+rapid ability to fire up these studies. And if you think about it, right? These are studies
+that are minimal harm. They're kind of observational studies. Rheumatologists, physicians who are
+using these medications are trying to space these out. Some people sort of almost practice
+preference might be only a week. Some people don't do this. Other people are getting this
+two week. This is data. I think there would be very valuable in helping us just at immunizations
+across the board, right? We do not only influenza vaccines, hopefully every year. But now we do
+COVID vaccines. We have a lot of vaccines. So having really good science-based guidance here
+would be tremendous. All right, one more from Mary Ann who writes, I got my first dose of Pfizer
+March 23 at the time I signed up. Walgreens had a scheduled a second dose four weeks out.
+And my next is scheduled 28 days. And she found out yesterday by the times that Walgreens had
+taken upon themselves to schedule these second doses at their convenience, rather than at the
+tested interval, which should be three weeks, 21 days. And Mary Ann goes on to expressing her
+displeasure with Walgreens and wants to know any advice. Should I be looking at a booster
+sooner than later? Should I ask my doctor for antibody testing? What can I do? I was looking
+forward to getting out of my house again. Now I feel unsure. I figure I'll be wearing a mask
+forever. Okay. So don't be so upset. Yeah, this was interesting, right? Walgreens decided that it
+would be easier for them for their scheduling system to just do four weeks between shots and
+just didn't care whether it was Pfizer or Baderda, which is interesting too, right? Because they're
+shipping those second doses out and then they're sitting on a shelf somewhere for like an extra
+week, right? Not in people's arms. And Walgreens was basically taken a task when this became public
+and told that that that is not what we recommend. You need to be giving those second doses,
+you know, 21 days or sort of four side, four days either side of those 21 days,
+not waiting till 28 days, unless, you know, as we say, extraordinary circumstances.
+So, you know, go ahead, get that second dose when you can get it. Do I think scientifically,
+it makes a difference whether you're getting it at 21 days or 28, you know, in a lot of ways,
+I compare Moderna and Pfizer to Coca-Cola in a CAD versus Coca-Cola in a bottle. You're getting
+the same mRNA. The packaging is a little bit different. You know, the size is a little bit
+different. But the outcome, it's going to quench your thirst. It's going to protect you from COVID
+quite well. So yeah, don't feel like Walgreens creating this difficulty is going to mean that
+you're going to be less protected at the end of the day. So Marianne says, thank you and the
+whole Twif team for being a calm place to find accurate information. You guys get an A plus plus,
+Walgreens gets an F minus. Okay. And on that note, that is COVID-19 clinical update number 57
+with Dr. Daniel Griffin. Thank you, Daniel. All right. Thank you so much. And everyone, be safe.
