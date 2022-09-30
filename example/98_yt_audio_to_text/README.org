@@ -8,3 +8,11 @@
 3. apply github.com/openai/whisper
 
 - lets see how far i can get
+
+- solutions
+  - 1 done
+  - 2
+#+begin_example
+[martin@localhost source]$ du -hs data
+2.9G	data
+#+end_example
