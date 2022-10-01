@@ -125,6 +125,7 @@ done
 
 - copy results from server to repo
 #+begin_example
+
 cd /home/martin/stage/cl-py-generator/example/98_yt_audio_to_text/source/transcribed
 rsync -avz slim:./twiv_text/* .
 
@@ -136,4 +137,15 @@ done
 
 git add */*webm.*
 
+#+end_example
+
+
+* References
+
+- https://news.ycombinator.com/item?id=33035369
+
+  - discussion of transcription websites
+  - also mentions that youtube-dl can obtain subtitles
+#+begin_example
+ youtube-dl has --embed-subs and --convert-subs (currently supported: ass, lrc, srt, vtt)
 #+end_example
