@@ -33,4 +33,26 @@ wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
   have horizontal parts where the gradient disappears during
   backprop. this can lead to 'brain-dead' neurons that don't change in
   the training.
-- to fix this, make sure during initialization that 
+
+- look at histograms of pre-activations and activations
+- also make binary plot (2d image) of saturated activations 
+- to fix this, make sure during initialization that activations don't
+  saturate too much (by scaling the weights and biases correctly)
+
+- deeper networks are less forgiving to these issues with the
+  initialization
+
+- you want unit stddev gaussian noise throughout the network
+- mathematically you want to predict variance of x @ w
+- divide by sqrt of the fan-in w=torch.randn(10,200) /10**.5
+
+- Kaiming He: for relu the factor is (2/10)**.5
+
+- torch.nn.init.kaiming_normal_
+  has argument for non-linearity
+
+- 7 years ago you had to be careful with init, was very fragile
+- meanwhile we have some innovations that help:
+  - residual (connections?)
+  - normalization layers (batch, layer, root?)
+  - better optimizer (armesprob, adam)
