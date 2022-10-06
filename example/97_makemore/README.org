@@ -16,3 +16,21 @@ pip3 install --user torch
 cd source
 wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
 #+end_example 
+
+
+* Part 3
+
+- https://www.youtube.com/watch?v=P6sfmUTpUmc
+- Building makemore Part 3: Activations & Gradients, BatchNorm
+
+- when dealing with logits make sure that after initialization all the
+  outputs are roughly equal in probability. you don't want to init the
+  network to be confidently wrong. this will lead to a high loss and
+  you have a hockey stick learning curve. you waste cycles during
+  training to fix your bad initialization
+
+- leaky relu doesn't make gradients zero. other activation functions
+  have horizontal parts where the gradient disappears during
+  backprop. this can lead to 'brain-dead' neurons that don't change in
+  the training.
+- to fix this, make sure during initialization that 
