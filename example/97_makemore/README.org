@@ -56,3 +56,7 @@ wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
   - residual (connections?)
   - normalization layers (batch, layer, root?)
   - better optimizer (armesprob, adam)
+
+- batch normalization
+  - just take hidden states and normalize them to be gaussian
+  - i'm at 43:30 now
