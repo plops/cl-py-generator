@@ -160,3 +160,5 @@ with torch.no_grad():
     (but can also go into other places)
   - batchnorm can go infront of last layer soft max but then change
     the gamma of the batch norm to make softmax less confident
+  - currently performance is limited by context length (he thinks)
+  - he did not explain why changing a gain affects the learning rate
