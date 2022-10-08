@@ -59,4 +59,19 @@ wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
 
 - batch normalization
   - just take hidden states and normalize them to be gaussian
-  - i'm at 43:30 now
+  - hpreact 32x200
+    - mean dim=0 -> 1x200
+    - std dim=0 -> 1x200
+  - hpreact = (hpreact - mean) / std
+  - bngain 1 x n_hidden, bnbias 1 x 200 (n_hidden=200)
+    - allow gain and bias to vary
+  - no improvement for a shallow net in the example
+  - the added stability comes at a terrible cost:
+    - the parameters not only depend on the examples but also on your
+      choice which samples you combine into batches
+  - Q: can we disable batch normalization after a certain point in
+    training?
+  - The noise is actually an advantage in the training. It acts as a
+    regularizer / data augmentation
+  - People introduced other normalization methods but batch norm works
+    so well that this is difficult.
