@@ -106,7 +106,11 @@ with torch.no_grad():
 
   - Q: why use bnmean_running and bnstd_running to normalize hpreact?
   - possible A: noise helps regularization / data augmentation
-
+  - A by author: Great question, I’ve done this a number of times
+    myself too because I am very uncomfortable with the train test
+    mismatch. I never noticed dramatic and consistent improvement with
+    it though ;(
+    
   - resnet for image classification
     - repeating structure of convnets (without bias): conv1, bn1,
       relu, conv2, bn2, relu ...
