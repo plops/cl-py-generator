@@ -81,9 +81,9 @@ wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
   - after training calibrate batch norm statistics over the entire
     training set
   - in this way the NN can process single inputs
-  - in batch norm paper they use online method to estimate mean and
-    std of the full training set (outside of the gradient based
-    optimization)
+  - in batch norm paper they use online method (exponential moving
+    average) to estimate mean and std of the full training set
+    (outside of the gradient based optimization)
 
 #+begin_example
 
@@ -99,4 +99,51 @@ with torch.no_grad():
 
 #+end_example
   - this is also what the batch normalization layer does in pytorch
-    
+  - small epsilon added to variance (in case the variance of a batch
+    is zero)
+  - if you use batch normalization you don't need a bias in the
+    previous linear (or whatever) layer
+
+  - Q: why use bnmean_running and bnstd_running to normalize hpreact?
+  - possible A: noise helps regularization / data augmentation
+
+  - resnet for image classification
+    - repeating structure of convnets (without bias): conv1, bn1,
+      relu, conv2, bn2, relu ...
+    - bottleneck
+    - norml_layer is BatchNorm2D
+    - relu nonlinearity, for very deep networks relu empiricly works
+      bit better than tanh
+    - and a residual connection that we haven't covered yet
+
+  - pytorch Linear
+    - initialzies with uniform distribution from -sqrt(k) to sqrt(k)
+      with k=1/sqrt(fan_in)
+
+  - pytorch BatchNorm1D
+    - eps=1e-5
+    - momentum=.1 for running mean and std accumulation: m = .9 m + .1
+      mi
+    - if your batch size is large you can use a high momentum (like .1)
+    - if batch size is 32 you may want to use a smaller value
+    - affine = True (not sure why you would want to switch this to
+      false)
+    - track_running_stats=False (if you want to calibrate batchnorm at
+      the end with a second step)
+
+  - activations should not be clamped at +/- 1
+  - gradient distribution should be the same for all layers
+  - 2d parameters (no biases, gammas, betas)
+    show the shape of the weights, mean, std, gradient to data ratio
+    histogram
+  - if gradient is to large vs data then you are in trouble
+    having gradient 1000x  smaller than data is good
+    - what actually should be looked at is the update (lr * gradient)
+      to data (p.data.std()) ratio, those should be 1e-3
+  - in the last layer some values are much larger (10x greater than
+    the others)
+  - that means the last layer is trained faster at the beginning
+  - look at the stats after 1000 steps
+  - things have stabilized a bit
+  - he artificially made last layer low to make the thing less
+    confident or something
