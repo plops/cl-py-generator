@@ -65,6 +65,9 @@ wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
   - hpreact = (hpreact - mean) / std
   - bngain 1 x n_hidden, bnbias 1 x 200 (n_hidden=200)
     - allow gain and bias to vary
+    - note: i only understood later: i think these can take on a
+      different value for each neuron but they must be the same for
+      the entire batch
   - no improvement for a shallow net in the example
   - the added stability comes at a terrible cost:
     - the parameters not only depend on the examples but also on your
@@ -149,5 +152,11 @@ with torch.no_grad():
   - that means the last layer is trained faster at the beginning
   - look at the stats after 1000 steps
   - things have stabilized a bit
-  - he artificially made last layer low to make the thing less
+  - he artificially made last layer low to make the softmax less
     confident or something
+  - at https://youtu.be/P6sfmUTpUmc?t=6343 he shows the effect of a
+    bad initialization (the layer will learn with different rates)
+  - typically place batch norm between linear layer and non-linearity
+    (but can also go into other places)
+  - batchnorm can go infront of last layer soft max but then change
+    the gamma of the batch norm to make softmax less confident
