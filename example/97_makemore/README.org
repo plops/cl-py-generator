@@ -75,3 +75,28 @@ wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
     regularizer / data augmentation
   - People introduced other normalization methods but batch norm works
     so well that this is difficult.
+
+  - there is a difficulty with inference because the NN expects
+    batched input
+  - after training calibrate batch norm statistics over the entire
+    training set
+  - in this way the NN can process single inputs
+  - in batch norm paper they use online method to estimate mean and
+    std of the full training set (outside of the gradient based
+    optimization)
+
+#+begin_example
+
+bmeani
+bstdi
+
+bnmean_running = torch.zeros ( 1 , 200)
+bnstd_running = torch.ones ( 1 , 200)
+
+with torch.no_grad():
+  bmean_running = .999 bmean_running + .001 bmeani
+  bstd_running = .999 bstd_running + .001 bstdi
+
+#+end_example
+  - this is also what the batch normalization layer does in pytorch
+    
