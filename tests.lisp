@@ -38,8 +38,8 @@
 (emit-py :code
 	 `(if (== a b)
 	      (do0 3
-		  (setf 3 34
-			tnt iena))
+		   (setf 3 34
+			 tnt iena))
 	      4))
 
 (emit-py :code

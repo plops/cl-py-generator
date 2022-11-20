@@ -20,9 +20,9 @@
 	   #'(lambda (standard-output)
 	       (let ((*standard-output* standard-output))
 		 (loop for line = (read-line (sb-impl::process-pty *python*) nil 'foo)
-		    until (eq line 'foo)
-		    do
-		      (print line))))
+		       until (eq line 'foo)
+		       do
+		       (print line))))
 	   :name "python-reader"
 	   :arguments (list *standard-output*)))))
 
@@ -30,10 +30,10 @@
   (assert (eq :running (sb-impl::process-%status *python*)))
   (let ((s (sb-impl::process-pty *python*)))
     (write-sequence
-    (cl-py-generator::emit-py  :clear-env t
-			       :code code)
-    s)
-   (terpri s)
-   (force-output s)))
+     (cl-py-generator::emit-py  :clear-env t
+				:code code)
+     s)
+    (terpri s)
+    (force-output s)))
 
 

@@ -1,8 +1,8 @@
-;(ql:quickload "optima")
-;(ql:quickload "alexandria")
+					;(ql:quickload "optima")
+					;(ql:quickload "alexandria")
 (defpackage :cl-py-generator
   (:use :cl
-	;:optima
+					;:optima
 	:alexandria)
   (:export
    #:tuple
