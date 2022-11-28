@@ -1,0 +1,404 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicrobeTV, this is Twiv, this week in virology, episode 747 recorded on April 22, 2021.
+I'm Vincent Racken-Yellow, and you're listening to the podcast All About Viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Well, as you requested, Daniel, you got the 747,
+so you can have the upper deck. Okay, I'm very, I'm very excited. So we are Twiv 747. What
+clinical update number are we up to? This is clinical update number 59. Okay, wow. All right.
+You know, I always have this. It's actually a rear current hope that I will have nothing to
+talk about, but fortunately that hope is yet to come to pass. So let me start with my quotation.
+We have a lot to cover today. Unfortunately, we have not run out of things to talk about.
+And we'll start off with a quotation from Hegel. And I've seen several sort of versions of this,
+but this one I think is sort of straight to the point. And we learn from history that we do not
+learn from history. I think that that's fortunately a little prescient with how we are doing now.
+And I'm hoping that at one point we're going to break from that. So last week, I talked about
+the impact that COVID has had on healthcare workers here in the US. And when I look at what's
+going on around the world, it actually seems like things are pretty good, you know, here in the US
+by comparison. But I was on a call recently with a physician in his 60s, right? Most physicians
+tend to work for quite a number of years into their later years. I think it takes us so much time
+and training to get there. But this gentleman in his 60s told me that he was retiring this spring.
+And it really occurred to me that it seemed like many of my colleagues more than sort of in a
+usual year have been mentioning that they're either have retired or planning on retiring
+in the coming months. And so it was actually a poll I just saw today, so hot off the press.
+And this was a poll done by the Washington Post and the Kaiser Family Foundation,
+Frontline Healthcare Worker Survey. And they actually found that about 30% of healthcare workers
+polled sort of right at this point in time were considering no longer working in healthcare.
+And William Blond wrote a really what I thought was an excellent piece in the Washington Post
+about this titled burned out by the pandemic, three in 10 healthcare workers consider leaving
+the profession. And some of the quotations I found to be actually very emotional and actually sort of
+in line with some of the experiences that my colleagues have shared with me. So I thought I'd
+just start off with this. You feel expendable. You can't help thinking about how this country
+sent us to the front lines with none of the equipment needed for the battle said Sharon
+Griswald, an emergency room doctor in Pennsylvania. Most of us got into this to save lives. But when
+death is blowing around you like a tornado and you can't make it that in any of it, it makes
+your question whether you're making any difference said Megan Brunson, a night shift nurse Dallas.
+So continues to be tough. I saw a lot of discussion about physicians being a bit frustrated feeling
+like, you know, we've done so much and been through through so much. And we ask little things like
+would people wear masks? Would they give us a little more time? And people are not necessarily
+willing to do the little things like wearing a mask and making smarter decisions. So, you know,
+big focus this last week has been on the J&J pause. So I will get back. We'll spend some time on that.
+Children in COVID, there is continued attention to the risk benefit of COVID
+and decisions around children. Summer's approaching and I don't know if our listeners know, but I
+do a lot of advising for for camps for summer programs, schools as well. I really feel like
+there are important decisions to be made here and I'm almost trying to provide information about
+that. So as we go forward, I'm going to make sure we get back to these important decisions.
+Basically, what can we do to make these activities a safe option, safe choice for our parents,
+for our kids, pre exposure period. So here's an article SARS-CoV-2 seropositivity and subsequent
+infection risk in healthy young adults, a prospective study. So this was the Lancet.
+And I think we discussed a little bit about this when it was out in pre-print, but it's no,
+no, out there published. So this analysis was performed as part of the prospective COVID-19
+health action response for Marines study. Charm, this acronym there. It was predominantly looking
+at male US Marine recruits aged 18 to 20. So 92% of these were men, just really at sort of the makeup
+of these US Marine recruits, 8% were women. They enrolled 3,249 participants. And it was a mix.
+Some of them had had COVID before and were seropositive. Some were not. So they looked specifically
+at the 189 seropositive individuals. They went through a whole sort of recruitment like quarantine
+process. They made sure they were negative. They kept them for two weeks in a sort of quarantine,
+with checking PCRs, really wanting to verify that when they entered trading, they were not PCR
+positive. I don't think they were doing this because they were trying to do a study. They
+were doing this because they were trying to prevent an outbreak. But unfortunately, there was an
+outbreak. And among these 189 seropositive participants, young, healthy, mostly males,
+10% of them went ahead to become PCR positive during a six week follow up. So I just want to
+sort of point that out to people, you know, people say, Oh, you're at low risk. Actually,
+here were zero positive young healthy individuals, 10% of them went ahead and actually were re-infected
+during a six week follow up period. This was a lower percentage than the people who were
+seronegative and had never had it before. And they actually go ahead and conclude. And they say,
+although anybody's induced by initial infections are largely protective, they do not guarantee
+effective SARS-CoV-2 neutralization activity or immunity against subsequent infection.
+So my takeaway among this was that, yeah, young fit adults can get re-infected even with positive
+antibody tests. So 10% went right ahead to get re-infected despite having those antibodies.
+Just a little more support as if we don't as if we needed or don't for people to go ahead
+and get infected. I go ahead and get vaccinated, not infected. You know, I see this and I'm hearing
+it, you know, patients now, I just try to ask like, so hey, you know, here we are. It's April.
+You're on the menu to the hospital with COVID. What was the story with the vaccine?
+And I keep hearing, oh, I was told I was supposed to wait. I think maybe back in January, I might
+have had COVID. So I'm waiting. I'm told I'm supposed to wait like, you know, a period of time. So,
+you know, don't wait. Do not miss your opportunity to get vaccinated. Don't go to the doctor and
+follow your antibody levels thinking that that offers some evidence that you're not going to get
+infected. I had an individual recently, you know, to say it's an older individual. They were
+they were infected in January, you know, and here they are back. It's April and they're in the
+hospital. So just just want to want to say that those positive antibody tests are not really a way
+for you to decide not to worry and and to wait to get vaccinated. Transmission. Now people are
+very passionate about this topic and I'm always happy to return here. It gets both love and mostly
+hate mail. What do we call that? That is constructive criticism, which we in science communication
+are supposed to develop a skill at handling. What we have learned and what we discussed last
+with was that the virus is rarely transmitted by surfaces. I think everyone is very comfortable
+with this sort of calculation. The CDC is suggesting that perhaps maybe one in every 10,000 cases
+was due to fomites or surface transmission. I actually think my my favorite, most accurate and
+perhaps least controversial statement by the CDC moves on to COVID-19 is most commonly
+spread during close contact and can also spread by airborne transmission. And this is from the
+CDC page how COVID-19 spreads last updated October 28, 2020. So really nothing new right there, but
+just it has been acknowledged that airborne transmission is a possible way that people can get COVID-19.
+For healthcare settings, it's important for us to understand when airborne transmission could
+occur. And I've tried repeatedly to return to situations outside healthcare settings where we
+are seeing this as an issue. So this is the classic suburban home, where as the CDC points out,
+these transmissions occurred within enclosed spaces that had inadequate ventilation.
+Sometimes the infected person was breathing heavily, for example, while singing or exercising.
+A little more information on masks. We saw a research letter fitted filtration efficiency of
+double masking during the COVID-19 pandemic. This was published in JAMA Internal Medicine
+April 16th. And the authors looked at double masking. They were reporting on fitted filtration
+efficacy, FFE. Now, what is that? They explained and I quote in brief, FFE corresponds to the
+concentration of particles behind the mask expressed as a percentage of the particle concentration in
+a sodium chloride particle enriched chamber measured during a series of repeated movements of the
+torso head and facial muscles as outlined by the occupational safety and health administration
+quantitative fit testing protocol. Yeah, did anyone really get that? Basically, what they're
+doing is they're having people move all around and they're measuring how much gets through the mask,
+sort of a percentage of what's outside and what gets sucked in through the mask. This is actually
+interesting. This is looking at masks protecting you where previously we've discussed a lot about
+masks protecting other people. And as altruistic as I know all our listeners are, a lot of listeners
+are interested in how well do the masks protect us. We are not measuring what gets out into the
+environment, but what gets sucked in through the mask or masks. And they concluded that wearing a
+medical procedure mask underneath a cloth mask provided the best improvement to FFE of all the
+combinations they evaluated. They reported that if you're wearing one of these procedure masks,
+and then you go add a single cloth mask over one of these medical masks, which actually people
+can now buy you can order them. They're these sort of blown weaved masks. You get an additional
+four to 14% protection by putting that over there. But what they point out, and I think I try to
+harp on this as well, it's really fit, not so much material that is really a critical factor in
+masks protecting us. Now, the study had limitations. It was only done on, as they say, one female
+volunteer and two male volunteers with shaven faces. I thought that was interesting. They didn't
+have the comment there about the female volunteer. It's also not the result I wanted, right? I have
+to say, I wear a mask. I hate to have to wear two masks. I would have preferred it if they
+demonstrated that just wearing that procedure mask was great stuff. But that's the problem
+with science. You get the truth, not confirmation of what you want to be the truth.
+I thought I would throw a case in here of a woman that I'm currently taking care of who is
+100 years old. She's in the hospital. And I was asking, what happened? Who went to kindergarten
+and learned that they should share? And she described that she was living in her home.
+She was waiting to get vaccinated because she just hadn't been able to navigate the system.
+And then one of her family members who had COVID came to visit her. This family member visited
+her indoors. She actually said it was about 20 minutes. They were nice and close. They were
+within that six foot zone. Nobody was wearing a mask. And yes, about five days later, she started
+to feel poorly, went on to test positive for COVID. And now she's in the hospital on increasing
+amounts of oxygen, nuanced at atrial fibrillation. She's now developed delirium. So this is the
+story we usually hear, right, is that two people are within a certain period of time. The suburban
+home is really a death trap. And they're not wearing masks. And I'm not quite sure I understand
+why someone who has COVID would be visiting their 100 year old family member testing. Never miss an
+opportunity to test. It's been a long time coming, but we now have access to in-home rapid antigen
+testing, thanks to bynex. Now we have this $25 test available here in the US. Recently,
+is this is something you could order on the computer and have sent to your home in six packs,
+10 packs, 1,000 packs, actually. But they are now coming to a pharmacy near you. They do not
+require physician access. They are not lick a sticks. These are lateral flow antigen tests. They
+involve you swabbing the front of your nose with one of these little Q-tips and then sticking it
+into this prepared card and waiting about 15 minutes. There's a little sort of bar scan code
+there that you use your phone to scan in your computer. And these actually started shipping
+to the major pharmacy chains on April 19. So really going to improve people's access to testing.
+It's still not at the price point that we would all like. We would like the test to be cheaper.
+People have actually gotten pretty comfortable with the nose swab. So I'm not too concerned that
+it needed to switch over to a lick a stick, but we would like it to be less expensive. Because if
+you think about this, this is going to be an equity issue again. You know, for some people,
+$25 to get a test is no big deal. For many of us, $25 a test starts to add up. If it isn't already
+a barrier, just right off the bat. Active vaccination. Here we are. Never miss an opportunity to vaccinate.
+Never waste a vaccine dose. In the US, we have now shifted from arms searching for vaccines to
+vaccines searching for arms. We are approaching in some parts of the country that time where
+really vaccine hesitancy is going to be the next great hurdle. Here in New York, we saw executive
+order 202.102. Now, what is that all about? Effective April 19th, as per this executive order,
+they eliminated the $100,000 civil penalty for failure of a provider to administer their
+allocated COVID-19 vaccine within seven days of receipt. I don't know if people are aware of this,
+but here in New York, if I as a provider were to accept 100 200 vaccines, I had seven days to
+get those into arms. If I did not report and get those into arms within seven days, I could face
+up to a $100,000 civil penalty. You know, I mixed feelings about this. One is it's kind of nice
+not to have that hanging over my head. But I am hoping those vaccines don't end up just sitting
+in refrigerators. I will point out, Moderna, when it arrives, you pop it in the refrigerator. It
+can stay there for 30 days. It shouldn't. Pfizer comes in those thermal shippers, which you can
+reload every five to seven days with dry ice. Once you take them out, they can actually sit in
+the refrigerator for up to five days. We're hoping that extends a little. They're just waiting to
+get approval. But okay. We're not at J&J yet. Stay tuned. We did get an update on the impact of
+vaccinations in the long-term care facility settings from the CDC, MMWR. Post vaccination
+SARS-CoV-2 infections among skilled nursing facility residents and staff member Chicago,
+Illinois, December 2020 through March 2021. And the authors reported here on 7,931
+skilled nursing facility residents and 6,834 staff members that had received two doses of
+COVID-19 vaccination in 75 Chicago-based skilled nursing facilities. In this group,
+they reported, I'm going to use the word only 22 possible breakthrough SARS-CoV-2 infections
+among the fully vaccinated persons greater than 14 days after their second dose of COVID-19
+vaccinations. Two-thirds of these 22 were asymptomatic. A minority of persons with breakthrough
+infections experienced mild to moderate COVID-19 symptoms. Two of the 22 required hospitalization
+and one death that occur. There were no facility associated secondary transmissions
+in this study. So I think this is really encouraging seeing such thousands of people being vaccinated
+and seeing such a small number. But it does, as I like to point out, you are not bullet proof.
+There were two of these individuals that required hospitalization. One person did die from COVID-19.
+We also had an update on mRNA vaccine safety in pregnant women. This is huge. We can now say
+that, yes, these vaccines have been studied in pregnant women. In the New England Journal of
+Medicine on 4 slash 21, we saw the article preliminary findings of mRNA COVID-19 vaccine safety in
+pregnant persons. And the authors reported on 35,691 v-safe participants. 16 to 54 years of age
+identified as pregnant and found no safety signal. So I think this is really critical.
+We're looking now at over 35,000. So this is the same number of total participants in the early
+trials. We are not seeing safety signals. And this adds on to the data that a person who is vaccinated
+during pregnancy can pass on protection to their, at this point, unborn and later born child. So
+I think that that's going to help back to the J&J controversy. A couple of things I have to say
+here. There was an Axios Ipsos poll. And they reported that over 90% of the public is aware of
+the pause. They reported that the 91% awareness level is considered on par with or even a cut above
+awareness of who won the Super Bowl. I tested this this morning in the ICU and we all got it wrong.
+We knew it wasn't the Patriots. One person thought it was the Chiefs. I actually don't know if that's
+true. But I will say they also reported that about 88% of the people that said they were aware of
+this actually felt that the CDC and FDA were doing the responsible thing. Now, when this episode
+becomes available, the emergency meeting of ACIP will take in place. We're recording this on
+Thursday night. So that's hopefully going to happen Friday. And then this will drop Saturday.
+Not as early in the morning as it used to, but I understand that. And we will hear what they
+have to say. And so I won't weigh in. I mean, I guess I'll sort of guess on what they're saying.
+The the hope is that they're going to allow us to continue to use this vaccine that there will
+be a warning. So people are aware of what the what the risks are. Should they choose this as an
+option versus the other vaccines. We're hoping, I'd say as providers, that there isn't any kind
+of restriction that is forced on us, that this is something that we allow patients and providers to
+have a dialogue about. I bring up my daughter Daisy Griffin who's been tweeting about this
+and sort of putting out relative risks of other things. I mean, some of her comments,
+you know, daddy, if I have if I are one of my friends have to drive like an extra hour to get
+one of these other vaccines, I'm not sure that the risk of the vaccine is, you know, really a
+great thing relative to the risk of us being in a car, you know, an hour each way, half an hour each
+way. So we are hoping that we continue to have access because yes, I did say last time that we
+still have plenty of vaccines. But not all the vaccines are used in the same way. When we had the
+J&J shutdown, instead of people being vaccinated on their way out of the hospitals here in the
+New York area, they were basically given a piece of paper with an email address to try to arrange
+their vaccination. We also were using this, you know, kitchen workers people in harder to reach
+populations who really had trouble coming for two sessions. So there's an equity challenge here.
+So we'll see what happens. The Europe, Europe's health regulator, the European Medicines Agency,
+the EMA on Tuesday, April 20 recommended adding a warning about rare blood clots with low blood
+platelet counts to the vaccines product label for J&J and said that they felt the benefits of the
+one-dose shot outweighed its risk. So we'll see what happens here in the US. All right, the incubation
+period, the post exposure, you've been exposed. Remember, tests do not predict the future. There
+is a two to 14-day incubation period, but they can help us detect infection prior to contagion.
+So now that we have more testing, you know, once someone has been exposed, you know, if they're
+doing a $25 test every day, you can quickly detect before they spread to other people. So I think
+cheaper, better access to tests are going to really help us. So do not stop testing. Never miss
+an opportunity to test. We've got to keep doing that. Now, what about the period of detectable viral
+replication? So now you're starting to have symptoms. It's that first week. I like to say this is the
+time for monitoring and monoclonals. So we actually got some interesting evidence here on passive
+vaccination. There was what I think was a very nice article. The article was entitled Real-World
+Experience of BAM, one of a map for COVID-19, a case control study. This was accepted for
+publication in the Journal of Clinical Infectious Diseases. And the authors actually reached out
+to them earlier today. So hopefully they're going to be a little more information. I had
+questions, but they conducted a retrospective case control study across a single healthcare
+system of non-hospitalized patients, aged 18 years or older, with documented positive SARS-CoV-2
+testing, risk factors for severe COVID-19, and referrals for BAM-linevamav, the emergency use
+authorization, right? So this is back when we were doing just BAM-BAM before we had shifted to the
+monoclonals. They looked between November 20 and 2020 and January 19, 2021, at 218 patients that
+received BAM-linevamav, and 185 who were referred, but some things in the way, and they ended up not
+getting drugs. So these were the controls in this study. The 30-day hospitalization rate was
+significantly lower among patients who received BAM-linevamav, 7.3%, versus 20%, relative risk 0.37,
+p-value here of 0.001. So this was a real world reduction of greater than 60% with a very simple,
+well tolerated treatment. If you dig down through this data, I think you may underestimate the impact,
+because if someone has more severe risk factors, there's a little bit more of a push to make sure
+they do go ahead and get that treatment. People at lower risk, so there may have been some impact
+there. But another thing that really caught my attention, the authors comment on something that
+they felt highlighted health inequities. They reported that they found white English-speaking
+patients were more likely to receive therapy. Even though the materials are available in Spanish,
+we are not doing a great job of making sure this therapy is out there. We've been moving,
+as mentioned, past just BAM-BAM. We're now using cocktails and looking at second-generation monoclonals
+and trials that are looking for EUA. I was actually on a call recently with Ben Wiegand,
+and across the country looking at when, it was early mid-March that we switched using cocktails
+across the country. I think we're feeling that that was an excellent decision, none too late,
+not too early, definitely. Now, I also was on another call with,
+well, I'll say, a member of the formerly called Operation Warp Speed. I feel like it's like
+Prince or something. They needed a new name before. But one can take this as a glass half
+full or empty, but over 400,000 monoclonal antibody treatments have been given to date when I was on
+this call, more are already purchased by the US government and waiting to be administered. A couple
+things here. That is small. I look at 400,000, and I say that's enough for about a week of people
+getting infected. The whole IV infusion approach is a barrier, so there are some ongoing studies
+looking at both subcutaneous and intramuscular injections. I think people can envision a world
+where one is diagnosed, whether this is an ER, an urgent care, a primary care office,
+immediately offered an injection right there at point of care with these really impressive
+efficacy points. The early inflammatory phase, so this is if you've gotten through that first
+week, you're entering into that second week. If the room air saturation, so your pulse ox gets
+below 94%. This is when we consider steroids, remdesivir, and a coagulation for hospitalized
+patients. And I wasn't sure where to put this paper, but I thought I would throw it in here.
+There was an interesting, and I will say concerning, paper out of Columbia University,
+published in brain, and it was COVID-19 neuropathology at Columbia University Irving Medical Center
+New York Presbyterian Hospital. And the authors presented the clinical, neuropathological,
+and molecular findings of 41 consecutive patients with SARS-CoV-2 infections who died
+and underwent autopsy in our medical center. So here's the first caveat, right? Remember,
+these people all died. So this may not be what is going on in every person with COVID's brain.
+And so neurological examinations were done of 20 to 30 areas of each brain. And they saw
+hypoxic ischemic changes. So these areas not getting enough oxygen, not getting enough blood
+supply. They saw this in all the brains. They saw large and small infarcts. So think of those as
+strokes. Many of these appeared hemorrhagic, so bleeding into the brain. They also saw activation
+of the microglial cells with microglial nodules and accompanied by neuronephagia, most prominently
+in the brainstem. neuronephagia. So that's our word for today. That's actually the microglial
+cells. So the immune cells in the brain are actually eating your neurons. So really a frightening
+thing to be happening here. They reported that they saw only sparse T lymphocytes,
+so T cells in either perivascular regions or in the brain parencoma. And many of the
+brainses would be expected contained atherosclerosis, so hardening of the arteries of the large arteries,
+arterial sclerosis. But none had any evidence of vasculitis, so inflammation of the blood vessels.
+Now they went on, they examined multiple fresh, frozen, and fixed tissues from 28 brains for
+the presence of viral RNA and protein using a whole bunch of techniques. And anybody's directed
+against the spike in nucleocapsid regions of SARS-CoV-2. The PCR revealed low, very low,
+but detectable viral RNA levels in the majority of the brains. And they performed something called
+RNA scope, which is like an in situ hybridization technique looking, an amino histochemistry. And
+this all failed to detect viral RNA or protein in the brains. Maybe people listen to TWIV 746,
+where there was a whole discussion about how a virus can sometimes get into the brain or not.
+And these authors concluded that these findings suggested that it was really
+not virus getting into the brain. It was really microglial activation,
+these microglial nodules, this neuronal phagia, these immune cells eating nerves,
+that was really causing what was going on and not direct viral infection of the brain
+parenchyma. And there also was probably a synergistic contribution from the hypoxia
+and the ischemia. Now we're going to move on to the tail phase long COVID. So we had a long
+episode last week. So I saved this one for now. Is it a bit of good news to end on? Let's see. So
+in the JAMA network, open the article, mortality among US patients hospitalized with SARS-CoV-2
+infection in 2020 was published. This was a retrospective cohort study, including patients
+who were hospitalized for at least one day at one of over 200 US acute care hospitals
+between March 1 and November 21, 2020. And they reported on 503,409 admitted patients
+and found that in-hospital mortality declined across all age groups during the period evaluated.
+Overall, in-hospital mortality peaked in April of 2020. I think we can remember that horrible
+month where the in-hospital mortality was 19.7 and then decreased significantly to November,
+where it was down to 9.3%, still unacceptably high. Really nice article. Go ahead and I'm going to
+actually say, once you finish this or you're driving or in stop, look at this article. They
+have a really beautiful figure where they show that this trend was apparent for all age groups.
+The older you were, the higher the mortality, thus the greater the decrease. But this was apparent
+across all age groups. So we are doing better at all ages. The mortality that we're seeing is lower
+in hospital. And this is reflected in part because we have younger people. But it also is that we
+are getting better at taking care of these people. At an individual age adjusted, we are decreasing
+the mortality. So I'm going to end on that note before we go to emails. We are nearing the end
+of our fundraiser. Donations made to parasites without borders. Go to parasiteswithoutborders.com.
+We are going to contribute to the American Society of Tropical Medicine and Hygiene. They
+left out hygiene last time. And we never want to leave out hygiene. We are going to, and I think
+we're going to get there to give them $40,000 to support three travel awards, helping women,
+qualified early career investigators working in tropical medicine to attend the annual meeting.
+So help us support these. It's actually women, low income countries coming to this meeting and
+help do what we can to address some of the inequities. Time for a few emails for Daniel.
+If you'd like to send one, send it to Daniel at microbe.tv. First is from Avital, who is a single
+mom with a seven year old daughter, just got her second shot of Moderna. She sends a picture
+of getting the shot with her twiv t-shirt. So that's becoming a thing. People are sending us
+their photos with their twiv t-shirts. Wonderful. Love it. In a couple of weeks, she writes,
+when I'm fully vaccinated, we're going to go fly back home to Montana. My daughter will go to camp.
+The camp is doing all the right things, wearing N95 masks, face shields on the plane. The summer
+camp is outdoors with COVID precautions. However, I know her risk of exposure will be increased.
+In the case of an infection in the child, what would you suggest as far as a course of treatment
+to try and avoid the inflammatory syndrome, which sometimes occurs? Also, do you have any general
+guidance for vaccinated parents with unvaccinated children? All right. So there's a lot there.
+I think you hit several points. I like the fact that you're aware in the KN95s on the airplanes,
+in the airports. And I think we try to point out, as per the CDC, there's a respiratory droplet
+component of transmission. There also can be an airborne component of transmission, particularly
+when you're in these crowded indoor spaces, and you're not aware of how good the ventilation is
+going to be. If a child gets COVID-19 that first week, one of the interesting things,
+this has come up with several times, would they benefit? Would we reduce the risk of them getting
+MISC-C or MISC-C? Is there anything we can do to prevent them to lower that risk? It is a low
+risk. I do want to point that out. But we don't have a lot of great recommendations or proven
+therapies that we can do during that first week. Just like an adult, if they move into that second
+week and start having low oxygen saturations, then we extrapolate. And a lot of clinicians would
+actually consider a sort of weight-based adjusted dose of steroids, oxygen support. And if they
+get into week four, unfortunately, I'm not going to say that we have any great evidence that we
+can prevent that. Part of that is the low risk relative to the risk of us doing anything,
+then there have been treatments that are suggested. The camp, it sounds great that they're doing all
+the right things. I was doing an interview recently where I talked about how do you know that the
+camp is doing the right thing? Testing, right? There is now testing that is being paid for, provided,
+for by the government. So if your child is going to a camp and they have a testing program ahead
+of time to make sure kids don't show up with the virus, and then they have testing programs in
+place once they arrive. I think of that as a marker. These are tests that the camp does not
+have to pay for. Our tax dollars have already paid for these. If the camp is taking advantage
+of that program, I think it shows that they're being proactive taking this seriously. And that's
+probably the best thing you can do for your child. What is the best way to make sure a child does
+not have issues with COVID is to make sure they don't get infected with COVID. And that should
+be a way of keeping them safe. Avital points out that she's heard rumblings of a Pfizer pediatric
+trial being set up in Pittsburgh where she lives. And she's hoping to enroll her daughter in that
+trial. Our next one is from Gordon. Thanks for the good discussion on the use of masks. I'm puzzled
+by the reluctance of authorities, including yourself to recommend the use of N95 respirators.
+If you're trying to protect yourself against a potentially fatal infection, wouldn't it make
+sense to use the highest level of reasonably obtainable protection? I know N95 respirators
+were in short supply in 2020. But I think that's no longer an issue. You can certainly buy them on
+eBay here in La Paz, Mexico. I can purchase a Chinese KN 95 at any pharmacy for $2. The ones I use
+appear to be well made with the same materials you would find in a 3M N95. Is it that old bugaboo?
+We don't have the data to show they are needed or better. Personally, I'm not relying on a cloth
+face mask that meets no mandated quality control or performance standards to protect me. But then
+what do I know? I'm just a retired health and safety professional. Yes, just a retired health
+and safety professional. No, I think you're I think you're on point with this. The data is
+out there. We have a lot of evidence about different masks and their impact upon your safety.
+If you told me, Oh, I'm a person who's immunosuppressed. I'm 92 years old. I'm planning on going to
+a big indoor gathering. Yeah, I would want you wearing an N95 mask. I don't see a problem with
+recommending that at all. If we're talking about physicians working in a setting where we have
+good air exchange, if you're going to be outdoors able to distance yourself, then I'm not sure you
+need to wear the N95. But as I think I mentioned, the woman traveling on an airplane when my wife
+and daughter is actually Eloise. I think this time we're on an airplane at one point. I actually,
+I advise them and they went ahead and listened to me crazy as that sounds. And they were a Ken and
+K N95 the whole time that they were in transit. Once they got to the other side and were outdoors
+off came the mask. My son Barnaby tells me that his mile time is impacted negatively when I have
+them wear a K N95 on the cross country course on the track. But now I think that the data is out
+here. The N95 does offer more protection. And I think as we talk today, if you're going to wear
+one of these surgical masks, it looks like if you throw a cloth mask over it, you can increase
+your protection as well. So we're still in the middle of a pandemic. There are areas in our world
+and even here in this country where the rates are unacceptably high and the risks are unacceptably
+high. So I think the science is out there to say that there are more effective masks that can
+decrease that risk. And Teresa writes, I'm a nurse working in Canada. I was not given the Pfizer
+vaccine because I had an anaphylactic reaction to depot lidocaine injection for frozen shoulder,
+which does contain PEG polyethylene glycol doctors felt it could be a preservative that caused the
+reaction. I was then given the AstraZeneca vaccine and now fall into that category of 55 and under
+questionable about getting the second dose. What can be done for someone like me? Do you feel
+there will be a change in the Pfizer vaccine and removing this ingredient? Now I'm worried I
+won't be able to get any other vaccine. Any ideas? Yeah. So this is this is an excellent question.
+And I think hits that really sort of practical advice here. When they've looked at the AstraZeneca,
+the people who are having their reactions are having them after the first dose. We're not seeing
+that then they go ahead and have them after the second dose if they tolerated the first one.
+So the current recommendations are that if you tolerated the first AstraZeneca dose,
+it is fine to proceed with the second AstraZeneca dose. I'll say that.
+You can't really take the PEG 2000 out of the Pfizer or the Moderna. It's actually part of that
+liposomal packaging. So it's not a preservative in that setting. So if you had an issue with
+the Pfizer, with the Moderna, I think it's reasonable to look at the adenovirus vector vaccines,
+completing your AstraZeneca here, J&J for individuals in other settings. And I think we're
+hoping fingers crossed that we're going to hear about Novavax coming out as well. That's our pure
+protein, sort of our Shingrix technology being applied now to COVID that we're thinking maybe
+another option for people that have had issues with other vaccines. So looking forward to not
+only more and more vaccines in the world, not just here in the US, but also looking at vaccines
+that have different safety profiles may allow people to have a little more selection. And I see
+that as positive for several things. One is that if people have the ability to have a choice,
+if they have that agency, I think it helps a lot. It helps with vaccine hesitancy. People
+who want to be told this is what you got when you sign up, you get what we tell you. People like
+to have some involvement in decision making. So I think that's really positive. And I will say,
+boy, we may have too many vaccines here in the US. We may have a glut. I liked an analogy I heard
+that, yeah, it's fine to put that oxygen mask on yourself first before you help everyone else.
+But don't leave for oxygen mask sitting in your lap. Let's get those oxygen masks on everyone as
+well. That is COVID-19 clinical update number 59 with Dr. Daniel Griffin. Thanks again, Daniel.
+All right. Thank you so much. And everyone, be safe.

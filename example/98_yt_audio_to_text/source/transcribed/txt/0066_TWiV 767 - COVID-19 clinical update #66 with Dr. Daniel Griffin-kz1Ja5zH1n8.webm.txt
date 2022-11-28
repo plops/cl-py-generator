@@ -1,0 +1,379 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, Episode 767, recorded on June 10, 2021.
+I'm Vincent Racken Yello, and you are listening to the podcast all about viruses joining me today
+from New York, Daniel Griffin. Hello, everyone. Well, Daniel, you got another
+wide-body aircraft, 767. That's what I was hoping. So I'm happy with that. You know,
+you got to take what you can. What's the biggest aircraft do we know?
+Is it Alan? We need Alan to be known as the biggest aircraft ever. I don't know. I have no idea.
+When I was a kid, I actually flew as a kid, but I preferred gliders. I always been that like
+sailing gliders. And it's just something amazing about being up there without an engine,
+and then catching the thermals spiraling up. Gliding looks great, but I don't want to do it.
+I'm good. All right, let's start with our quotation. The idea that some lives matter less is the
+root of all that is wrong with the world. And that's Paul Farmer. I don't know if people are
+familiar with Paul Farmer. He's actually the co-founder and chief strategist of Partners in
+Health, which is a pretty significant international nonprofit organization that's existed since the
+1980s, providing health care services, but also involved in research and advocacy.
+And I have to admit, my first exposure to Paul Farmer was reading the book Mountains Beyond
+Mountains by Tracy Kitter. And that's really a must read for. I was going to say for people
+going into global health, but I'm just going to say it's a must read, just a really impressive,
+inspiring individual. And really, my wife and I were actually talking about Paul Farmer the
+other night, just about how he truly lives this message. He really treats every human being
+as if they're the most important person in the world. My wife says that she and I are a little
+too tribal. Our kids come first, and everyone else second. For Paul, I think he treats everyone
+like they're his son, his daughter. So I think as we're going into the next phase, we're going to
+have to realize that the developed nations, the nations with more resources really need to be
+there for everyone. You know, you can't have J&J vaccines expiring while people are still
+dying in many parts of the world without access. So I thought I would start with that as our quotation,
+but let me give an update. Today was a milestone at the two hospitals where I spent my
+morning, earlier part of the day, not a single COVID case, not a single active COVID case in
+either hospital. You know, over at some of the other hospitals, there are still some COVID cases,
+but boy, COVID has fallen off a cliff here in my immediate area. You know, the weather's getting
+better. There's a combination of vaccines and also boy, a bunch of people got infected already.
+So we really have things going in the right direction. And what I'm going to start with is
+actually we have learned a lot. So we have a lot of evidence based recommendations now, which
+really makes my world a lot better. So I was just going to start with sort of the executive
+summary of the ID Society of America's guidelines, just what they're recommending for and against,
+but I'm going to give a little context. So there's there's 19 recommendations, some of them are kind
+of, you know, combinations, so to speak. So recommendation number one, hydroxychloroquine
+against recommendation to hydroxychloroquine plus azithromycin also against not using
+lopinovir azithromycin, not using lopinovir ritonovir. The next recommendation four and five
+dexamethasone, not in the outpatient, but recommended in the inpatient setting if a person has a
+oxygen saturation less than 94%. Recommendation seven for those hospitalized patients with
+progressive severe COVID-19 with elevated markers of systemic inflammation, escalation in that
+oxygen requirement, suggesting the use of toselism map, right, the IL six receptor blocker among
+patients hospitalized with COVID-19 recommending against convalescent plasma. As far as the ambulatory
+patients want to get some more studies on that, but not not just doing it as a standard remdesivir
+falling into that same criteria, the hospitalized patient less than 94%. But if that patient actually
+is more severe, invasive ventilation recommending against it, people actually do worse. So timing
+current theme really matters here and recommending five days, not 10. So five days across the board,
+if you're going to be using remdesivir, again, only in the right patient jumping to femotidine,
+pepsid, you know, those antacids that are going to cure your COVID recommending against
+femotidine, then we get into our monoclonals. And actually now the ID Society of America
+is recommending they've been doing this for a little while, but they are recommending using
+combination monoclonals, such as the BAM, BAM, a testament map in areas with appropriate
+susceptibilities, or the Regeneron Cocktail, Cassie M. Devamap, but not monotherapy with BAM
+LIVAMap. And they haven't quite added the VRGSK monoclonal, which is our third, you know, EUA
+approach. What about barit to sit to nib, right? We haven't really talked too much about that.
+This is actually a therapy that is in there as a recommendation. But as people have probably
+noticed, it really hasn't gotten a lot of uptake, limited evidence that maybe a shortened hospital
+stay by about a day. But it's not something a lot of us are particularly comfortable using,
+but it just, I will give it some mention there. No one's complete without a mention of Ivermectin,
+right? So we are going to return to Ivermectin. But basically they're saying at this point,
+we still need clinical trials. This isn't something that should be used outside of clinical trials,
+we need those clinical trials. But we will get back to Ivermectin. Okay, children and COVID,
+as I like to say, children are at low risk, but they're not at no risk. And I think that's
+reasonable. I think that's accurate. Someone recently suggested to me that now that we're aware that
+every year, over 100 children here in the US die from flu, perhaps now people will be more
+motivated to get their children and themselves vaccinated. I'll never comprehend the lesson
+warm comments I get when I talk about children and and COVID here. But I actually, we are actually
+pointing out some things that maybe people didn't realize. I know early on people said, Oh, we've
+we've been comfortable with 100 children dying every year. I'm not comfortable with 100 children
+dying every year of the flu. And I'm certainly not comfortable with 300 to 500 children having
+died of COVID. You know, I've been working with a lot of schools, summer programs, sporting programs,
+businesses, trying to translate this science into safe mitigation practices, really for
+over a year now. And I do like to reinforce that in all these different settings where I've
+offered free advice, right? Sometimes it wasn't free actually. I think the NHL is supposed to
+send me a paycheck at some point. But we haven't had any we haven't had any transmission. This is
+something that can be done safely. But as I always point out, it's also something that can be done
+unsafely. So more from the CDC MMWR. And this article got quite a bit of press. Hospitalization
+of adolescents age 12 to 17 with laboratory confirmed COVID-19 COVID net 14 states, March 1st,
+2020, April 24, 2021. And this came out as an early release. And the authors reported that COVID-19
+adolescent hospitalization rates peaked at 2.1 per 100,000 in early January. Then we're headed
+in the right direction with this declining to 0.6 in mid March. However, in April 2021,
+the rate more than doubled up to 1.3 per 100,000. Among hospitalized adolescents, nearly one-third
+were admitted to the ICU and 5% required invasive mechanical ventilation. No associated deaths
+were reported during this period of time. A couple of things I want to say about this.
+This is accurate. What they said is true. But doubling from 0.6 per 100,000 up to 1.3 per 100,000,
+the numbers are still low. In my mind, a single preventable death or hospitalization is one too
+many. I already mentioned the comparator to the flu deaths that we see. But this continues
+to be low. And actually, it looks like it's dropping, right? Look at the number of cases.
+It's dropping all across the board. So I think we've learned that the fact that masks and
+social isolation and many other aspects of the pandemic have had a very negative impact on our
+children. So a lot of discussion now and reasonable about moving forward now that the rates are
+very low in a lot of our populations and also that we're rolling out expanding our vaccination
+effort. So I want to say things look good relative to our children. Things look really good relative
+to the summer and next fall. Pre-exposure period transmission. This remains a hot topic.
+I think rightfully so. I recently was emailing a bit with Michael Mena. I think some of our
+listeners know him of the liquor stick and just talking about how, for science communication,
+the concept of aerosol and airborne has been quite difficult. We say, hey, one in 10,000 cases are
+attributable to contact. So oh my gosh, that means COVID is contact transmission. Well,
+it is, but it is usually not in that situation. We've talked about the number of cases that occur
+within the three to six feet in close contact. But we've also clearly discussed that there are
+a number of cases that occur even when you're outside those six feet. And we've talked about
+the role of ventilation improvements where you're clearly beyond that six feet, improving the risk
+reducing the risk of transmission. So hopefully we will get a little better, better language that
+we will have less confusion and controversy and we can really focus on what's important,
+which is keeping people safe and communicating the essential messages on how to do that.
+Why are we talking about Michael Mena? He actually just published another paper.
+And this was out of his group estimating epidemiological dynamics from cross-sectional
+viral load distributions. And this was published in science. And the authors suggest that the
+population distribution of viral loads observed in the form of CT values, right, the cycle threshold
+values that you get from the ECR testing actually changes during a pandemic. And they argue that the
+CT values, even from limited numbers of random samples, can provide estimates of an epidemic's
+trajectory, right? So they're trying to say, this might be a tool we can use.
+Should we see the next pandemic or even in this pandemic? They go on to demonstrate that
+combining data from multiple samples can improve the precision and robustness of this estimation.
+And they looked at CT values from surveillance conducted during the SARS-CoV-2 pandemic
+in a variety of settings. And they offer alternative approaches for real-time estimates
+of the epidemic trajectories for this outbreak management based on these values. What they're
+really trying to suggest is they bring up the observed CT values and the fact that they have
+varied over the course of the pandemic and saying you do not need to invoke fitness changes,
+necessarily genetic changes in the virus. There actually can be a trajectory of the pandemic.
+So this is, I have to say, it is a complicated paper, but it is worth reading. So we'll get it up
+there on our website. And I'm going to suggest again that sharing this information, I think it
+should be a standard part of every PCR report, whether it's positive or negative, but also at
+what level it's positive or negative. The more this information is out there and shared. I think
+we're all smart enough, educated enough that we can handle that information and try to make
+something of it. Active vaccination, never miss an opportunity to vaccinate and vaccines are how
+this pandemic ends. And I'm going to try to throw some stories in here. I was throwing these
+stories where a clinician has maybe not managed to patient as best as they might have. And I do
+that as a way of teaching, sort of bringing out people. So I would never do that. And hopefully
+that sticks in their minds. But I do, I get a lot of communication from a lot of really,
+I'm going to say really, really at really hardworking primary care clinicians across the country
+that are not making these mistakes. So I really apply this has been a really tough 18 months and
+a lot of say a lot of our 12 listeners, a lot of physicians out there are really putting in
+those extra hours and staying up to date. We're still seeing these individuals come in. I just
+grabbed an individual last week. I mentioned that the two hospitals I went to today had no COVID,
+but my partner, Anujali just admitted a woman late 50s diabetic, not vaccinated. She was exposed
+because her dad was ill also in the hospital, sort of missed the window for vaccine, missed the window
+for the monoclonals. So I think that we've got to keep hammering on this. You know, this is a
+the Hail Mary as some people like to say for the unvaccinated. Let's talk about not only vaccines,
+but what about prior infection? So there was a paper incidence of SARS-CoV-2 infection,
+according to baseline antibody status in staff and residents of 100 long-term care
+facilities, Vivaldi, a prospective cohort study. And this was published in the Lancet
+Healthy Longevity Journal. Now, I do not subscribe to this journal for disclosure, but perhaps I should.
+I mean, who does not want healthy longevity? But this was a prospective cohort study of SARS-CoV-2
+infection in staff less than 65 years of age. Interesting enough. And the residents were all
+over age 65. And they looked at 100 long-term care facilities in England between October 1,
+2020 and February 1, 2021. Now that sounds like a lot, right? But at the end of the day,
+they only ended up looking at 682 residents from 86 of the long-term care facilities
+and 1,429 staff members from 97 long-term care facilities, just, you know, who met criterion
+who could be included. At baseline, IgG antibodies to nuclear capsid were detected in 226 of the
+682 residents, so about a third and 408, so 29%, about a third of the 1,429 staff members.
+They then observed that 20% of the 456 residents who are antibody negative and included at baseline
+went on to have a positive PCR test compared with 2% of the 226 residents who were antibody
+positive at baseline. What about the staff? 11% of the staff that were antibody negative at the
+beginning went on to have a positive versus 2% of the staff who were antibody positive at baseline.
+So they give us adjusted hazard ratio for the serology positive residents of 0.15.
+And for staff, 0.39. Now, what were sort of the interesting things about this study?
+One was that this study had to be kind of impacted because we have the rapid rollout of vaccines
+long-term care facilities in England starting December 8th. So mixed in here is single-dose
+vaccine protection in previously infected, and then the data seems a little bit less clear.
+And this is going to bring up what I think is important challenge for us going forward,
+trying to collect data about the impact of natural infection compared to vaccines,
+and also the issue that we're going to come up to. What about variants? So there was a research
+letter that hit you with another right in here in this section, assessment of SARS-CoV-2
+reinfection in Lombardi, Italy. So now we're moving from UK to Italy. And here the authors are
+reporting on the incidence of SARS-CoV-2 primary infection and reinfection among individuals who
+during the first wave of the pandemic in Italy underwent diagnostic PCR testing. And the results
+of this study suggested that patients who had recovered from SARS-CoV-2 COVID-19 had a lower
+risk of reinfection, and there appeared to be a protective effect out to about a year.
+And the authors here did comment that this observation all ended right before we started
+to see the SARS-CoV-2 variants enter Italy. Now there's a study that actually has gotten a
+lot of attention, so we'll spend a little bit of time on this. And this was a preprint,
+so this is not peer reviewed, and it needs some peer review, necessity of COVID-19 vaccination
+in previously infected individuals. So this preprint was a study looking at employees of
+the Cleveland Clinic Health System. Now fortunately from a science standpoint, but unfortunately
+from a public health standpoint, it did not look like there was great success in terms of vaccine
+uptake. The authors reported that the majority of employees that had been previously infected
+did not get vaccinated, and only 59% of the other employees got vaccinated.
+So not a great job of employees getting vaccinated out there at the Cleveland Clinic.
+They also reported that 5% of their employees ended up getting infected with COVID-19 prior
+to the start of this study. So far, not really great stuff for the Cleveland Clinic here.
+What they did is they performed a retrospective cohort study, and what they obtained was a waiver
+of informed consent, so they did not need any of the employees to actually consent for their data
+to be used here. They got a waiver of HIPAA authorization so that these researchers could
+go ahead and access all these employees' personal health information and records.
+And then the authors compared four groups. So you have group one. These are previously infected,
+unvaccinated, previously infected, vaccinated, not previously infected, unvaccinated, and not
+previously infected, vaccinated. And then they followed these individuals over five months.
+And there's a plot. It's a Simon Makuk plot. Looks a lot like those Kaplan-Meyer curves we
+see over time, the rates of infection. And it's sort of striking to the eyes that the only area
+where you're seeing significant rates of new infection are in the not previously infected,
+unvaccinated population. Now, the authors make several allowances. They do comment that their
+results are quite a bit different from a large study out of Denmark looking at, well, actually,
+it was a population of 4 million PCR tested individuals in Denmark study. So that paper,
+assessment of protection against reinfection with SARS-CoV-2 among 4 million PCR tested
+individuals in Denmark in 2020, a population level observational study. The authors commented
+that that study suggested only about an 80.5% reduction and only a 47.1% reduction in those
+over the age of 65. So they comment that their results in this preprint are quite a bit different,
+quite a bit more rosy and encouraging than we saw in that study. Their study also was only a
+five-month follow-up, right? So we sort of have this idea that you don't test people for the first
+three. So a lot of people have asked me about, was it really just a two-month follow-up? So
+you got to look at that in terms of the numbers. And they also comment, I think this is really
+critical all across the board. It is not known how well these results will hold if or when some
+of the newer variants of concern become prominent. So we're getting, we're getting, I think,
+encouraging information, you know, which we expected about a lower risk of being infected
+if you've been infected in the past. But unfortunately, the data we're seeing now is the
+majority of infections now in the US are not with the original variant. They're with the new
+variant. So we are in that world that was discussed here of newer variants. And that's the infections
+we're seeing. It becomes a whole new question. We know the vaccines, we have better and better data
+on vaccine efficacy against variants. We do not have as great data suggesting that people with
+prior infection are going to fare well with the new variants. So I continue to recommend to my
+patients who've been previously infected that they go ahead with the vaccine. Now this is going
+to be a sort of a tricky one here. I didn't realize how complicated this was. But what do we as
+clinicians do now when people come from overseas and they got some sort of vaccine outside the US?
+How do we handle that? Well, fortunately, thanks, the CDC has given us a playbook on how to do this.
+And if you go to the CDC, they have a section where they basically talk about what to do for
+a person who received a COVID-19 vaccine outside the US. And they break this down into really, I'm
+going to say three basic categories. But this is coming up. I get calls from clinicians all the
+time. So I'm going to send them to this 12 and the answers will be here. But let's take a category
+number one. This is a person who has received all the recommended doses of a COVID-19 vaccine
+that is listed for emergency use by the WHO. What do we do? Nothing. We consider them vaccinated.
+This is not just restricted to the FDA. Three that we have. These are any of those vaccines
+on the WHO list, which I will go through scenario number two. The person has not gotten all the doses.
+But they did start on one of these series of what's considered a WHO approved vaccine.
+You go ahead in that case and just offer them to the opportunity to complete one of our FDA
+authorized COVID-19 vaccine series. So let's hit a little scenarios here. Let's say they got a
+Moderna, a Pfizer overseas. You can give them that second Moderna or Pfizer dose here in the US,
+considered completed. What if they got an AstraZeneca overseas? You can then
+give them a two dose of the mRNA or you can give them a J&J. So little subtlety there.
+What if they received a vaccine that you've never heard of that is not on the WHO list? So
+they come and they said, you know what? I got my CO vaccine, inactivated vaccine produced by
+the biotech into India. What do you do? In that case, we just go ahead. We treat them as if they
+were unvaccinated and we just recommend it going ahead with an FDA authorized COVID-19 vaccine series.
+So those are our three scenarios here. A little subtlety. You want to wait at least 28 days after
+that last dose of a vaccine that is not on the WHO list. And what are the current vaccines on
+that list as of May 13th when it was last updated? That's their Pfizer BioNTech, the AstraZeneca,
+the J&J, Moderna, Sinopharm, and Sinovac. Questions? Go to the CDC website. All right.
+The period of detectable viral replication, the viral symptom phase, the time for monitoring
+and monoclonals. And as I like to say, where you get your test is where you should be able to get
+your monoclonals. So we had some exciting news. On June 4th, Regenera announced that the FDA
+authorized lower 1,200 milligram intravenous and subcutaneous dose regen cove. So that's the
+Casa Rivemab and the MDebemab antibody cocktail to treat patients with COVID-19. And it was the
+subcutaneous part that got me the most excited because this means we can really start expanding
+access to these impressive medications. I know a lot of the hospitals are going to sort of stick
+with what they've got. A lot of them, I know in the New York area have switched over to Regeneron.
+But this is potentially a chance for those urgent care, some of those primary care sites
+to go ahead. It was a little bit harder than I wish it was. It is a smaller volume, but it's
+still four shots. But that's a lot less than having to get something out of the freezer,
+set up an IV. So I think that that's great. All right. So I'm going to throw a little story.
+I'll call this missed opportunity. And this is this is a woman that we're currently taking care of.
+I sort of alluded a woman in her late 50s, carrying a little bit of extra weight,
+diabetes, just recently diagnosed with COVID. This is not the woman admitted this morning.
+She was unvaccinated, sort of part of a group of individuals who are also unvaccinated. And that
+was the exposure. At the time of diagnosis, monoclonals were not offered. And I think I told a little bit
+about how this woman ended up doing poorly. So just kind of keep this in mind. She ended up saying,
+like, I don't want to expose my family and ended up in the hospital. Unfortunately, now she's on
+a ventilator. So just keep in mind, if you decide not to get vaccinated, you can still get monoclonals.
+An article, Co-infections, secondary infections, and antimicrobial use in patients hospitalized
+with COVID-19 during the first pandemic wave from the ISA-RIC WHO, CCP UK study. This is a multi-center
+prospective cohort study published in the Lancet Microbe. And I have to say when I read this paper,
+it made me sad. Really what they observed was that 85.2% of patients with COVID ended up receiving.
+They did not require, but they ended up receiving one or more antimicrobials, antibiotics at some
+point during their admission. And there was a lot of use of broad spectrum agents, a lot of use of
+carbapenums, rather than the carbapenum sparing alternative. So really using those top shelf
+restricted antibiotics in the context of a viral illness. All right, Ivermectin, yet another paper
+on Ivermectin. And this one was published in the journal Viruses. And this was effects of a single
+dose of Ivermectin on viral and clinical outcomes in asymptomatic SARS-CoV-2 infected subjects,
+a pilot clinical trial in Lebanon. This was a randomized control trial conducted in 100 asymptomatic
+subjects in Lebanon that had tested positive for SARS-CoV-2, five days after having come in contact
+with a suspected or positive case. So we really had good timing here. This is looking at early
+treatment. The authors reported that at baseline, the two groups had similar viral loads as assessed
+by CT values. So 15.13 versus 14.2. The treatment group received a single dose of Ivermectin. So
+this is a single dose of Ivermectin adjusted by weight. They also received what is the standard
+of care in Lebanon, which is zinc and vitamin C as well. And the authors reported two findings.
+At 72 hours after the regimen was started, the increase in CT values was significantly higher
+in the Ivermectin than the control group. So higher CT values, lower viral load. In the Ivermectin
+group, the CT increased from 15 to 30 compared to the control group where it only went from 14
+to 18.96. Moreover, more subjects in the control group developed symptoms. 6% of the control
+population required hospitalization. Nobody in the Ivermectin treated group required hospitalization.
+So I'm going to, I'm going to muse a little bit on this here. As, and people should listen to the
+Twiv that came right before this big body airplane episode with David Fagan bomb. I mean, David,
+David's great. David's another one of these like Paul, Paul, farmer type guys who just really what,
+what a just amazing story of a man who has done so much with so many challenges. And he's really
+said, listen, Ivermectin is something that we do not know the answer to. We have some studies that
+are positive. We have some studies that are negative. We don't have enough data on Ivermectin where I
+think it's reasonable to say that, oh my gosh, withholding Ivermectin is a crime against humanity,
+a crime against humanity is that we have not done the really good trials that we need to do
+to help us in this realm. So we're all fingers crossed that active six in addition to inhaled
+steroids, fluvoxamine. Maybe Ivermectin will be in there because one of the issues is that people
+are using this widely throughout the world, probably second only to hydroxychloroquine,
+which unfortunately some people are still using and they should stop that. And we need to know
+either way with a really good trial so that clinicians patients can make decisions about
+whether or not this is something that should be included in the treatment.
+All right, early inflammatory phase. Did we talk about aspirin before? Well, aspirin,
+we finally got the recovery data on aspirin. And aspirin does not seem to be making a difference.
+So the aspirin in patients admitted to hospital with COVID-19 recovery, a randomized control
+open label platform trial. This was posted as a preprint. I think all our listeners are familiar
+with the big UK recovery trial. Basically, end of the day, aspirin was not associated with
+reduction in 28 day mortality or in the risk of progressing to invasive mechanical ventilation
+or death. So this is basically 150 milligrams of aspirin once per day versus standard care without
+that and not showing a benefit here. So I'm going to just close quickly with a mention of long COVID.
+We're trying to find what are the centers of excellence. We're trying to establish some
+definitions of what are excellent outcomes. So hopefully we can get patients, unfortunately,
+a growing number of patients into those centers. And we are going to continue to support femuric.
+So May, June and July, all donations made to parasites without borders will be doubled. We're
+hoping to get up to $40,000 to support femuric. So thank you very much. Time for some emails
+for Daniel. If you want to send one in, Daniel at microbe.tv. Patty writes any data and or I would
+like to know your thoughts on the effectiveness of the Pfizer COVID vaccine on patients who receive
+intravenous ocrevis to modulate multiple sclerosis symptoms. Okay, so I've actually gotten a lot
+of questions. Actually, ocrevis is one of the one of the culprits that often triggers people to
+reach out to me. And what is ocrevis for our listeners? So this is a B cell and plasma cell
+depleting therapy. So this targets CD 20. So it's going to get rid of your B cells, your plasma
+cells. Basically, you're going to get rid of those antibody producing cells really more of a B cell,
+right? You're going to lose your CD 20 when you differentiate the plasma cells. But when someone
+gets this, they have very few B cells, they get the vaccine. If you go ahead and check a anti spike
+antibody serology, it's going to be negative. Just just to just to say, the B cells are not
+there to make those antibodies. So you were relying on a T cell response. What about that T cell
+response? I heard there's a T cell test, this T detected by adaptive. The way that that is set
+up, the algorithm they use is good for detecting natural infection. It is not yet calibrated to
+give us a T cell correlate of immunity. So when these individuals, blood testing is not going to
+be helpful. We are concerned, right, that these people have gotten these therapies that they're
+not getting the B cell serology response, we hope that we're just relying on T cells.
+And we do not know the answer to this. There certainly are people out there giving extra doses
+of vaccines. I think we need to study this just like everything else. What we are not seeing,
+and I think this is reassuring, we are not seeing these patients ending up in the hospital, right?
+I'm not seeing patients who got a crevice. I'm not seeing patients on methadrexate. I'm not seeing
+lots of renal transplant or other transplant patients who got vaccinated ending up in the hospital. So
+despite a lack of this serological support, we're not seeing the breakthrough that would be as
+concerning as people might think in these populations. So I'm a bit reassured in these populations.
+I'm also reassured that the level of the virus is going down. But what is the best way to protect
+these individuals? It's for everyone else to get vaccinated. Christie from Seattle writes,
+is it possible for the COVID vaccine Pfizer to cause an allergy such as cat grass, etc.
+To develop a week after my partner got the second shot, he started getting itchy eyes and sneezing
+around our cats that we've had for three years. Obviously, there are plenty of coincidental
+conditions as you've talked about on the show, and there's still consequences far better than
+getting COVID. If possible, why would this happen? Yeah, so this one, you're going to have trouble
+doing much of a search on, right? Because everyone's all worried about the anaphylaxis.
+I am not sure that there's a relationship here. This has been a particularly bad allergy season.
+I have to say I never had allergies before this season. Oh my gosh, I just got COVID shots.
+And maybe it's no, no, I'm joking. I don't think there's a connection here. I just think this
+is a really bad allergy season. The world's in a slightly better place with how much carbon
+mitigation, how much reduction in travel and the rest. We may just be seeing lots of things blooming.
+The cat connection, I'm not sure. Joseph writes, in preparing for reopening a program for seniors,
+I was asked by my wife to review their reopening policy. Their program provides continuing educational
+and recreational programming for seniors. Their program will require COVID vaccination to attend
+the program, the average age of the participants about 80 years old. Given their age, the possible
+high risk medical conditions of these seniors, would you still recommend that the staff and
+participants still mask after vaccination? Yeah, this is a tough one. We've really doubled
+down on boy, those vaccines really make a big difference. But I think that you've got to make
+individual decisions here. If you're over 80, if you have a number of medical problems,
+I think we've talked about people on different medications. That's when if you feel comfortable
+continuing to wear a mask, it is a reasonable thing to do. We're still not through this pandemic.
+We're only learning about the impact of the vaccines on different variants. Everyone is unique,
+as far as their ability to respond to the vaccines, particularly once they get above the age of 80.
+So I see no problem continuing with masks. I point out when I go to the gym, I am a robust
+healthy individual on no medications with no medical problems in my 50s. I still wear a mask.
+I don't think there's a problem with continuing to have extra levels of safety.
+And from Stacy, I'm a psychologist in private practice. I have several patients prescribed
+either atypical antipsychotics or neuroleptic antipsychotic medication for bipolar disorder,
+schizoaffective disorder, borderline personality disorder, and schizophrenia. Their medications
+include lithium, clopazine, olanzapine, lemotrigine. Many have expressed concerns about possible
+negative interactions between the COVID vaccine and their psychiatric medication.
+Several concerns relate to possible toxicity, decrease in efficacy of psychotropics and side
+effects. One patient mentioned a fear about the COVID vaccine causing a drop in white blood cells.
+I would like to know if there is any evidence to suggest patients on psychotropic medication
+should not get vaccinated, and or what resources, research, etc. are available that I can access
+to help assure my folks that all the COVID vaccines are safe and effective for individuals
+with serious mental illness. Yeah, so I'm going to say you can feel very reassured here.
+There's a very robust reporting system, right? Hundreds of millions, over 300 million doses of
+COVID vaccines have been given in the United States. We have a robust reporting system.
+Any of the concerns, you hear about them. You hear about them in the popular press.
+We are really good at watching for these things. We are not seeing any issues in this population,
+not seeing any issues with these medications. If there's an issue, we're going to hear about it.
+Even if it's something as rare and one in 10 or 20,000, boom, we're going to see that come up on our
+adverse reporting systems. I'm going to say very comfortably that this is a safe thing to do.
+Being vaccinated is so much safer than not being vaccinated for these individuals.
+That's COVID-19 clinical update number 66 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you so much, and everyone be safe.

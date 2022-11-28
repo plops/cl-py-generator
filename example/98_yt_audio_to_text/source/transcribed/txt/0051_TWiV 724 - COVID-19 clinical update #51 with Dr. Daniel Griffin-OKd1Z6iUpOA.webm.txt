@@ -1,0 +1,357 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 724, recorded on February 25th, 2021.
+I'm Vincent Rackeniello, and you are listening to the podcast all about viruses.
+Joining me today from New York, Daniel Griffin.
+Hello, everyone. This is clinical update 51, Daniel, moving into the second year. Maybe
+we will not have to go another year, right? You know, I'm hoping we don't, actually, to be honest.
+I mean, we're coming up on some dates that about a year ago. We were just a few days from before
+we identified, or I should say, before we could prove that we had identified the first case of
+community transmission of COVID in New York City. People may remember it was a leap year. It was
+Sunday. I was on a call with all the pro-health clinicians, hundreds of them. We actually have
+about 1,000 in New York alone, and then more, if you look at the whole tri-state area.
+And it was when the call came in, yes, the Westchester patient has tested positive.
+I don't know if people remember that, but he was one of our patients. We were getting concerns
+in November that we were seeing a lot of respiratory illnesses that we could not identify.
+And then this gentleman got quite ill back and forth. We're not able to get him tested
+initially. And then finally, February 29th got the result back. And then he ended up being taken
+care of by some of my colleagues at Columbia, which that was about a year ago. Well, when this
+drops, it'll be right about a year ago that that happened. Let's get going. We have a lot to cover
+today. But let me start off with my quotation. You wouldn't worry so much about what others think
+of you if you realized how seldom they do. And that's Eleanor Roosevelt. I was just
+rereading that and trying to figure out if she meant that they didn't think a lot or they didn't
+think about you a lot or how exactly to interpret that. But what an amazing woman Eleanor
+Roosevelt. But the reason I picked that is that just to shout out to all the people that have been
+will say, speaking truth, keeping us focused on the science and the evidence during this really
+difficult year. And actually, I'll say sort of all the abuse that those people have taken because
+they were willing to stand up and speak the truth. So a shout out to everyone that has done that.
+Vincent, I put you in that crowd. So thank you for suffering the slings and arrows and keeping
+keeping on point. My three quotations, never miss an opportunity to vaccinate, never miss an
+opportunity to test, never waste a vaccine dose. And I guess maybe the last should be, we don't need
+freezers, we need arms. Over half a million people have died here in the US from COVID.
+And I think that's been a very difficult number for a lot of people to grasp. I really enjoyed
+the most recent wave and I think people should listen to it. Really trying to get a human face
+on this. It's not just about numbers. I recently took care of a father and a daughter with COVID.
+They both died. The daughter was significantly younger than I am. So we can't we can't forget
+what a terrible disease COVID is, even as I think we're making progress. Another thing I wanted to
+reinforce and I try to bring this up repeatedly is that COVID is largely an outpatient disease.
+I think we're getting even better at keeping it that way at decreasing the percent of people
+that end up requiring hospitalization. But the majority of COVID encounters
+have been in the outpatient setting. In the New York, tri-state area, it's been urgent
+care centers. It's at primary care centers. I would talk more about outpatient therapies.
+And I try to when I can, if there were more studies helping to guide us. And I think
+a lack of a network to get evidence-based guidance is a failing. And hopefully one that gets corrected
+prior to the next pandemic. I also think there's a lack of appreciation that COVID is mainly
+an outpatient disease when we see the vaccine rollout. And I know I've had some conversations
+with politicians about the fact that I know we focused a lot on frontline hospital personnel.
+But can you imagine if we lost those frontline staff and clinicians in the urgent care centers,
+in the primary care centers that have really been stemming the tide, giving people
+care without them having to go to ERs and hospitals. So I am happy to see the vaccination centers
+finally being set up in zip codes that were hardest hit by the pandemic. So I see that as
+being something positive. And I will say, right along in this area, when we get to monoclonals,
+when they initially were being studied, right, when Steve Katani and I had that conversation with
+Regeneron in early April, we basically said, hey, let's make this happen. And I think it's been
+tremendous as we'll get to some of the recently published data that we have really effective
+antiviral monoclonals that we can use that are really tremendously effective. Also, my other
+disclaimer, I also want to remind our listeners that my goal here is to provide the latest
+evidence-based guidance on COVID-19. And I discuss whatever new data comes out. I also discuss
+data in preprint form. So I'll have a chance to talk about that as we go further. But there
+isn't good new data for me to bring up and discuss, then we just really don't have an opportunity to
+discuss those subjects. So pre-exposure period, New York City is now recommending two masks instead
+of just one. But I'll go a little bit into this. One thing is I'm going to recommend we outlaw
+beards. My wife actually and my daughter Eloise had an experience where, fortunately, my daughter
+Eloise has really severe migraines. And they were in an ER at a hospital where a gentleman was there
+with acute COVID waiting for his bambling of a map to be set up. And he had, you know,
+large face, a large beard. It's very hard to get a tight, proper fit of a mask if you have a beard.
+So sorry about that. I used to have a beard when I was younger. And I have to admit,
+why did I shave off my beard? It was so that the N95 mask would fit better when I was seeing
+tuberculosis patients. So you do want to make sure that you have a mask that fits properly.
+You can wear an K and 95 alone. So if you'd really don't want to go to the double masking,
+which is now being recommended in New York City, you can just get a K and 95. They're actually
+reasonably comfortable. And actually, now it sounds like there's going to be a public
+transportation mask mandate, a little bit more on the masking testing. There was actually a nice
+paper in CID modeling effectiveness of testing strategies to prevent COVID-19 in nursing homes,
+United States 2020. And it's a very interesting paper looking at the potential impact of different
+testing frequency and resulting delays on preventing COVID-19 cases. Can you guess what the conclusion
+was? Frequency is more important than sensitivity. Getting results right away is really critical.
+Those resulting delays have a really negative impact. So very similar to results to what we
+demonstrated for the school testing with frequency being more important than sensitivity. And over
+92% of cases being prevented with daily point of care testing in this study.
+We had some several papers demonstrating that certain approaches can reduce COVID-19
+in this particular nursing home population. So I published a paper along with Scott
+Shimatsu, Ariel Johnson, and Ethan Burke in the February volume 27 number two of the CDC MMWR.
+Hey, that's this month. This was not a modeling, but an actual observation of a 17-fold lower
+case rate, the neighboring facilities with the introduction of testing strategies and other
+measures. That's COVID-19 infection control measures in long-term care facility, Pennsylvania USA.
+I know right now there's a lot going on with the nursing homes, a lot of attention there.
+But I just to point out, we can keep this population safe. Testing appears to be critical as part of
+these plans. And I think, you know, a lot of people say, and maybe I agree with this. I do agree with
+this. You can judge a society by how we treat our most vulnerable. Active vaccination. More
+information here suggesting that people who previously had COVID get a very robust boost with just one
+vaccine dose. There are a couple papers, but the one I thought that was the most compelling was
+robust spike antibody responses and increased reactor genicity in seropositive individuals
+after a single dose of SARS-CoV-2 mRNA vaccine. It was posted as a preprint at a melt Sinai.
+And they reported that the antibody response to the first vaccine dose in individuals with
+pre-existing seropositivity was equal to or actually exceeded the titers found in naive
+individuals after the second dose. They put forth a short report on 109 individuals,
+68, zero negative, 41, zero positive. And the antibody titers with pre-existing seropositivity
+exceeded the median antibody titers in naive individuals after the second vaccine dose by more
+than 10 fold. So there's some complexity here. This is not a recommendation. We're not saying
+people who've been previously infected should only get one dose. The recommendation is still
+for two doses, but just we're getting information here. And we'll look forward to seeing how this
+all pans out. Jay and Jay, very exciting. By the time this drops, we're expecting that they'll be
+EUA for this one and done, add no viral vector-based vaccine. Come next week, we'll have all the data
+presented to the FDA. So I promise to take a deeper dive. We're really going to go into the
+details of what we know. And apparently, there's some rumors that there's some data on reduction
+in asymptomatic cases. So that's going to directly speak to potential for transmission
+and, you know, behaviors that people who are vaccinated and get past that period of time
+might be able to engage in. And along those lines, I'm going to comment on what we call
+what is vaccine alarmism? What is this? And this is this idea that maybe we're underselling
+the vaccine. And a lot of people are saying, well, if I can't change behavior, if it doesn't
+change anything, well, why am I even bothering to do this? And there's been a parallel drawn
+between masks and vaccines. So perhaps people remember, back in March, when there was the
+mask controversy, you know, if masks aren't effective, why did doctors and nurses need them?
+And then later, when there was endorsement of masks, people were kind of upset. So sort of
+maybe some credibility damage there. But I know that people that work in the government
+really have to stick to the party line. And there's a real, let's not get in front of the
+science, let's not oversell, let's not have to walk anything back. But I will say we're getting
+more and more encouraging information. We do live in a community. If you get a vaccination,
+yes, there's really impressive data on your safety. We're learning more and we suspect and the data
+is supporting that you are probably less likely to transmit it to others. But remember, there's a
+lot of people who have not had an opportunity to get vaccinated yet. It's a decent thing to
+continue to wear a mask. And I think I'm probably preaching to the choir based up on who listens to
+Twiff. But in mid January, less than half of the vaccines were in arms. It was actually Andy Slavitt
+was saying it was 46% as of the January 20th. We are now at over 80% of those vaccines are in
+arms. Weekly distributions are up over 60% from mid January. We're hearing prediction of
+increased production and distribution going forward. And actually, as long as everything goes
+smoothly with J and J, we're expecting millions of doses of J and J to be added to the supply as
+early as next week, and then ramp up from there to the period of detectable viral replication or
+that viral symptom phase. As I started off, despite so much focus on hospitals and ICUs,
+80 to 90% of COVID patients never require hospitalization. And the number that end up in the ICU,
+the percentage is really only in the single digits. This is predominantly an outpatient disease.
+This is the ideal time in that first week to jump in and do something. So we discussed the Eli Lilly
+data previously. When it was announced, it's now published in JAMA. And this was the article
+effect of bamlinibimab as monotherapy or in combination with a test of a map on viral load
+in patients with mild to moderate COVID-19, a randomized clinical trial. And really nothing
+surprising, pretty much similar to what we had heard last time. They reported an 84% reduction
+in COVID-19 related hospitalizations or ED visits. And those going on to require hospitalization,
+no escalation ICU in the treatment group. There was a patient who got placebo who ended up in
+the ICU. This is really a game-changing, tremendously powerful therapeutic that we have.
+I know we've been, everyone's been learning a new vocabulary. Maybe it's useful to think of these
+as our monoclonal antivirals. People say, where are the antivirals? This is our most effective
+antiviral. And you're basically, you got to do the numbers. You can't let someone get sick.
+We're having tremendous success. I think I've mentioned our United in research, my COVID-19
+plan, which now has 450,000 people enrolled. The option to get tested in the home, hundreds of
+people are getting bamlinibimab monoclonal infusions in the home. But this is really going to take,
+I think, continued education. If someone is carrying that extra weight, be a migrator than 35
+kidney disease, diabetes, immunosuppressive disease, or immunosuppressive treatment.
+You're 65 or older, or you're 55 with heart disease, lung disease, hypertension,
+or you have a major health issue. You are at high risk. Don't wait till you're sick. Don't
+let that window close. Let's go ahead and make sure we keep people out of the hospital.
+The last night, my wife was actually asking me, she's standing. Are you okay? You look like
+you're not okay. As I told Vincent before the show, my comment, my reply was, you noticed.
+I usually try to keep a positive outward appearance, but no, this is devastating to see all these
+people end up in the hospital and on ventilators. We can keep a large percentage of people out of
+the hospital. If you listen, if you're aware of this, spread the word. Let's make that happen.
+Nonsteroidal anti-inflammatories for COVID. I'll even make sure I jump in on vaccines with that.
+Early on, there was a letter from a concerned pediatrician, a group of pediatricians in France
+about not using ibuprofen or napkin or aspirin and the like in people with COVID. But we now know
+that it is safe to use ibuprofen, napkin, aspirin, Tylenol to help with the myelgis, the headaches,
+the fevers. And there was a nice paper that made it into print, peer reviewed article in the BMJ
+annals of rheumatic diseases, use of nonsteroidal anti-inflammatory drugs and risk of death from
+COVID-19, an open safely cohort analysis based on two cohorts. This was very robust data. They
+looked at over 2.5 million individuals, and they observed no evidence of difference in risk of
+COVID-19 related deaths with NSAID use. So really, really powerful, robust data.
+Another article that I've been getting a lot of questions about, and this was an article posted
+as a preprint that is generated a lot of questions, inhaled butesenite in the treatment of early
+COVID-19 illness, a randomized control trial. So what is butesenite? This is an inhaled steroid.
+This was a randomized open label trial of inhaled butesenite compared to usual care. So the
+physicians are aware, the patients are aware who's getting treatment, who isn't. It was in
+adults within seven days of that first week when we usually are thinking we don't want to expose
+folks to steroids. The primary endpoint was whether or not there was an urgent care visit,
+an emergency department assessment, or hospitalization. The trial was stopped early, and the primary
+outcome occurred in 10 participants and one participant in the usual care, and the bedesenite
+arms respectively. The difference in proportions 0.131. The number needed to treat per this report
+to reduce COVID-19 deterioration was eight. Clinical recovery was one day shorter for their
+report and then bedesenite arm compared to the usual care. So medium seven versus eight. So that
+one day difference there. If your participants randomized to bedesenite had persistent symptoms
+at day 14 versus 28. So I dug through the data a little bit to try to pull out the objective
+measures because a lot of the data you're seeing here was based upon questionnaire responses.
+And remember that doctors and the patients knew whether they got it or not. So the proportion of
+days with oxygen saturations less than 94% during the first 14 days was 19 versus 22.
+Butesenite versus the control arm. During the first 14 days 59 and 58% in the butes
+and control arms at least one day with oxygen sets less than 94%. So not seeing a huge difference
+there. They did look at the the CT values for the SARS-CoV-2 viral loads at day 07 and 14 right
+because we would have concerns that maybe giving steroids would interfere with the body's ability
+to control the virus. They were not seeing differences here. But what I could not find
+was a good breakdown of this large outcome of urgent care, emergency department or hospitalizations
+right. There's a small study and there's a big difference in my mind between whether or not you
+go to an urgent care department whether you end up in the hospital. I'd also like to see a little
+more information on the viral load and a larger end. Yeah, in a small study it's hard to show
+a statistically significant difference. So hard to know if there really was. And then the other
+and this really bothered me about the study is that to be included in the study you didn't actually
+need to have a confirmed diagnosis of COVID-19. You just needed symptoms suggested suggestive of
+COVID-19. So I would certainly like to see a larger study where you actually were confirmed
+that you were looking at folks with COVID-19. So prior larger studies looking at patients with
+chloronic lung disease such as asthma have not seen a signal along these lines. So I put this in
+is it interesting but not standard of care changing. And I really felt that their statement and that
+their study demonstrated that inhaled steroids were equivalent to the efficacy seen following the use
+of COVID-19 vaccines was a bit of a stretch. And I'm not sure that that's going to end up in the
+final peer reviewed publication. So just to mention that there we'll keep an eye and see
+not ready for prime time early inflammatory phase. I wanted to start by raising concern about the
+vitamin D data that we discussed on the last update. The study that we discussed was taken down
+and there's now an investigation into the research. So we'll keep an eye on this as we go forward.
+But I know our longtime listeners are familiar with my personal stance on preprints and how I'm
+not a particularly huge fan of doing that myself. But as you're seeing through this pandemic,
+we've been actually using preprints quite a bit trying to review them. And the reality is these
+have not gone through a peer review process. And this is actually really critical. And I think this
+reinforced by this, even with the peer review process, right? We've had papers that were later
+retracted from journals as prestigious as the Lancet. This was the Lancet preprint server where
+this was pulled from. But it was very interesting to see it started to undergo something of a public
+peer review process. People were commenting. And what they realized here was that the randomization
+was suspect. It wasn't as though patients were getting placebo or vitamin D. People on certain
+wards were getting vitamin D, potentially wards with healthier patients were getting vitamin D,
+wards with less healthy patients were not getting vitamin D. There actually were more deaths than
+escalations to ICU level care, which seemed a little suspect as well. And then right about the
+same time that this got pulled, a peer reviewed paper on vitamin D was published in JAMA effect
+of a single high dose of vitamin D three on hospital lengths of stay in patients with moderate
+to severe COVID-19, a randomized clinical trial. So this was a proper multi center, double blind,
+randomized placebo control trial conducted at two sites in Sao Paulo, Brazil. And the study
+included 240 hospitalized patients with COVID-19 who were moderately to severely ill at the time
+of enrollment. 237 were included in the primary analysis. And we do have baseline 25 hydroxy
+vitamin D levels, which were 20.9 nanograms per milliliter with standard deviation of 9.2.
+So people were coming in on average vitamin D deficient. No significant differences were seen
+in length of stay in hospital mortality admission to the intensive care unit or need for mechanical
+ventilation. The means your vitamin D levels actually were significantly increased.
+They're treating these individuals with a hundred thousand units on admission.
+So they were actually bringing them up to a level of 44.4 nanograms per milliliter.
+And so as they concluded among hospitalized patients with COVID-19, a single high dose of
+vitamin D three compared with placebo did not significantly reduce hospital length of stay.
+The findings did not support the use of high dose vitamin D three for treatment of moderate
+to severe COVID-19. So I'm going to use a Mark Chris slip line here. People listen to the
+podcast. This intervention was safe and showed a non significant association with study outcomes
+or let me translate this into it didn't do squat or to be more specific in a proper peer review
+well-designed study. There was no benefit to vitamin D. So this really brings us back to this
+earlier perspective. There's no benefit to being vitamin D deficient. But again, we don't have
+good data suggesting that starting vitamin D once you end up in the hospital is associated
+with improved outcomes more on remdesivir repurposed antiviral drugs for COVID-19.
+The interim WHO solitary trial results. We again saw little to be excited about with
+remdesivir with more results coming out of this large trial conducted at 405 hospitals in 30
+countries, 11,330 adults underwent randomization, 2,750 were assigned to receive remdesivir. And
+they found remdesivir had little to no effect on hospitalized patients with COVID-19 as indicated
+by overall mortality initiation of ventilation and duration of hospital stay. So at $3,000 per
+five day treatment, it begs the question of how much of this is medical theater at high expense
+rather than any kind of effective intervention. When a local hospital is here, there's still
+admitting patients for a 10 day course as their standard of care. We certainly does not seem
+supported by the current data moving on to the tail phase in the JAMA network open the paper
+sequelae in adults at six months after COVID-19 infection was published. A superior view article
+looked at 177 participants. They were mean age about 48, but a range of 18 to 94, 57% of them
+were women. As far as their initial COVID, and I think this is important, 6% were asymptomatic,
+84.7% were outpatients with mild illness, and only 9% had moderate or severe disease
+requiring hospitalization. The follow up was completed at a median of 169 days,
+and they found that approximately 30% reported persistent symptoms. Remember, these are mostly
+people who did not end up in the hospital. Some of these patients even had initial asymptomatic
+disease. The most common persistent symptom was fatigue, about 14%, loss of smell or taste,
+about 14%, brain fog, about 2%, and a number of other symptoms. Scientists are referring to
+long COVID now. There's a name, the post-acute sequelae of SARS-CoV-2 infection or P-A-S-C,
+and they're actually $1.5 billion has been allocated by the NIH specifically for research on this
+subject. And I thought Ginger Campbell on the last web did a really good job of pointing out
+that there is a sort of a chronic fatigue post-COVID, but there's really a tremendous
+spectrum of disability that patients who have survived COVID are experiencing.
+And I think this gets back to things like the monoclonals. Death is not the only end point to
+be concerned about. If a person ends up intubated, we know that you've basically lost about 10 years
+of cognitive decline. You've lost about 8.5 IQ points. A lot of individuals are having issues
+with exercise tolerance, with going up a flight of stairs. We now actually are hearing
+guidelines for younger athletes before they return to activity, getting full cardiac evaluation,
+because we're having impacts upon sports performance. We're seeing long COVID in younger
+individuals. So we need to start looking at ways of preventing that. So I always like to keep an eye
+on this. The post-acute sequelae of SARS-CoV-2 is not just the fatigue. It's not just the cognitive
+function. It's a really broad. We have people with fibrous scarred lungs. We have people with
+significant impacts on cognitive function. We have the hair loss. We have the cardiac manifestations.
+And around the country, it's springing up all these specialty centers. This is really the second
+pandemic that's really ahead of us. All the people who are hopefully not permanently,
+but at least right now, still suffering the sequelae. So before I finish, and we hit some emails,
+just remind everyone that the months of February and March, February is a short month here,
+donations made to parasites without borders will be matched and doubled and donated to the American
+Society of Tropical Medicine and Hygiene. And what we're trying to do here as part of our
+support is include scholarships to the annual meetings for three women from low-income parts of
+the world, really to help sort of move into the future. Right now, I know a lot of us are focused
+on vaccines and we're focused on ending this pandemic. But let's invest in the future. Let's
+help us invest in these young women, early career scientists, early career global health.
+All right. If you'd like to send an email to Daniel Daniel at microbe.tv. Ross is a
+pharmacist in Minnesota who's indebted to Daniel for having his vaccine clinics very successful.
+He personally preaches the never miss an opportunity to vaccinate and you don't need
+freezers. You need arms and everyone on my team has now been introduced to your podcast. Thank
+you for all you do. I have a question. My neighbor is 59. She's healthy. However, she's had three
+episodes of Bell's palsy looking at the data in the Moderna and Pfizer trials. It appears both
+trials had incidences. However, the rate in both trials was roughly equivalent to what you would
+expect to see in the general population. CDC currently has the following guidance cases of Bell's
+palsy were reported in participants in the mRNA COVID-19 vaccine trials. However, the FDA does not
+consider these to be above the rate expected in the general population. They have not concluded
+these cases were caused by vaccination. Therefore, persons who have previously had Bell's palsy
+may receive an mRNA COVID-19 vaccine. Interpreting this data can be challenging for a small number
+of cases of a rare condition. However, I find it more challenging to assess whether someone
+with a history of Bell's like my neighbor would be more susceptible to another event,
+or which he fall into that general population, 0.02% risk group. She's trying to weigh her
+dueling concerns of potentially having a paralyzed face for life versus being put in a ventilator
+if she were to suffer from a severe case of COVID-19. Two questions I'm hoping you can help me with.
+One, if she were your patient, how would you advise her concerns? Two, with the COVID vaccines
+that we have information on, which might be safest for a person with a history of Bell's
+palsy? I'm glad I'm answering this question in the end of February. Two months of experience,
+millions of people having received the vaccines, and we do have active vaccine surveillance
+adverse event reporting systems out there. We are not seeing a signal. We are not seeing any
+increase in Bell's palsy in people who did not or did get vaccinated. It's the same. I think you
+can very confidently let this individual know that there is no increased risk being seen in
+millions of people being vaccinated. You can pick up those smaller events now that we're
+vaccinating millions of people. Go right ahead. There's no reason not to get the vaccine.
+Which vaccine? The nice thing we have with the Pfizer and Moderna right now is millions of
+people who are vaccinated. We're not seeing a problem. Right now, these are the two vaccines
+with the biggest safety record here in the US with a really robust monitoring system.
+Go right ahead. I would recommend either of the mRNA vaccines for this individual.
+Jan is a registered nurse working a COVID hotline in Wisconsin. Recently, there have been some of
+our primary care physicians telling their patients they need to hold ibuprofen before
+and after they receive the vaccine. I recall you touching on this at least once. You noted
+there is no issue. Has anything changed? Is there any contradiction having a COVID vaccine
+while a patient is on an antibiotic for a bacterial infection assuming their fever
+free and symptoms are improving? Yes, this is a great question and really give me a chance to
+clarify the guidance here. You do not need to pre-medicate. We don't recommend that you do
+pre-medicate. Go in, get your vaccine, see how you do. If that next day, it usually is the next day.
+If that next day, you're feeling crummy. You're feeling washed out. You got my algae. You got
+fever. You got a headache. Even if it's the night after the vaccine, go ahead. You can take ibuprofen.
+You can take napper said and you can take aspirin or Tylenol. There are no concerns. This is what
+the CDC is advising across and welcome back CDC. But no reason to take it ahead of time. We actually
+say don't take it ahead of time. Don't don't hedge your bet. There's no reason for millions of people
+to be pre-medicated. See how you do? Most of us actually do fine. I think I mentioned with my second
+vaccine, I barely noticed. The only was like what? That few minutes of frustration when I open an
+email from my colleague, which I now think was content driven. Mary Ellen writes, my friend had
+been donating convalescent plasma. It was told after he was vaccinated with one of the mRNA vaccines,
+he could no longer donate. Why not? Why are the antibodies generated from the disease considered
+more valuable than the ones generated by vaccine? I understand the vaccine antibodies would be
+only against spike. But if the antibodies protect my friend, why won't they protect patients?
+This is fantastic and allow me to go into the weeds because this is an exciting question.
+We actually suspect that post vaccination serum will actually have higher levels
+of neutralizing antibodies, higher levels of antibodies, just in general. So I don't think
+there's any kind of science here other than the fact that what did we study? We studied convalescent
+plasma after natural infection. So you're sort of stepping out of what was studied. But in parts
+of the world that maybe aren't going to have access to monoclonal therapy in the future,
+we'll be potentially looking at post vaccination serum, post vaccination plasma,
+this hyperimmune globulin as a therapeutic. But I have to say here in the US, most of the data
+is basically saying the next generation, convalescent plasma 2.0, is actually these monoclonals.
+The best data we saw for convalescent plasma in keeping people out of the hospital was that
+study in Brazil, given within 72 hours, high-tighter neutralizing antibody, and only a 50% reduction
+in progression. When you see the most recent data, which I just discussed with the monoclonal
+antibody cocktail from Eli Lilly, 85% reduction in progression being given out to seven to 10 days,
+so even a wider window. So that would be my answer there.
+All right, one more from Mary. I've been told to wait 90 days before vaccination because I was
+given convalescent plasma. Should I wait? This is going to be one of those situations where yes,
+there's a break here. People who receive monoclonal antibodies or people who receive convalescent
+plasma, there's concern that those therapeutics will interfere with the efficacy of the vaccines.
+And that is different from someone who's had natural infection. Natural infection, we say that you
+are unlikely to get reinfected within the next 30, 90 days. So some people are saying there's no
+rush, but that actually speaks to exposure to the original wild-type virus. Now that we're seeing
+increased invariance, now that there's the potential that those variants are being driven by people
+who have waning antibodies, the CDC has said no minimal interval between infection and getting
+your vaccination. So as soon as you feel better, we're encouraging people to get vaccinated.
+That's COVID-19 clinical update number 51 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you so much. And everyone, spring is just a couple months away. Let's be safe. I know
+that the governors and everyone are trying to open things up. But if you could give us another
+month or two just to get to May, that would be great.

@@ -1,0 +1,396 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology. Episode 701 recorded on December 31, 2020.
+I'm Vincent Rackeniello, and you're listening to the podcast All About Viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Daniel, it is our 43rd update from you this year.
+It's the end of 2020. That's it. Good read-ins. Not to you, Vincent, but to 2020. It has been
+what an awful year. It really has. But let's get to it. We got a lot to do today.
+So when this drops, it's actually going to be New Year's Day. So we're recording on New Year's Eve.
+This is going to be dropping, I guess, on New Year's, so the 1st or 2nd January.
+So let's start with our quotation. Should old acquaintance be forgot and never thought upon,
+the flames of love extinguished and fully passed and gone, is thy sweet heart not grown so cold,
+that loving breast of thine, that thou canst never once reflect on old, long,
+zine. And I'll say, old, long, zine, lovely translates as days gone by. So that's that thou
+canst never once reflect on days gone by. So this is by Robert Burns. And for me, this is actually
+sort of a very, very appropriate poem, shall I say, turned into a song because it was actually,
+I was in Scotland. I was in Glasgow in the end of January. And actually, I was there for
+Burns Day where they celebrate the Laureate poet, Robert Burns. And that was right before the Chinese
+New Year, right before the sky did fall. So patient updates. You know, I think that everyone is aware
+of how difficult it has gotten over the last bit of time. And you know, Christmas was really tough
+for me to see, you know, eight families having lost someone on that day. And I guess somewhere
+in my mind, I had this idea that, you know, Christmas is a day when people shouldn't die,
+you know, if there's any sort of greater power than myself in the world, greater power than all
+of us in the world. And so just really traumatic that people continue to die, just, you know,
+record numbers, growing numbers every day. But what I want to do today, and I know that people are,
+people are busy, and I was trying to make this the clinical update for the busy clinician,
+but I know a lot of other people listen. But at a year end, I wanted to do an update on what
+we've learned this last year. And it really has been a credible year, sort of back and forth,
+from really early on in the year, when reports, you know, the risk of coronavirus in the U.S.
+is miniscule, worry about the real and present danger of seasonal flu,
+articles, coronavirus is bad, comparing it to the flu is worse, to shutdowns, the mask wars,
+people threatening to drive pickup trucks into the building if they're, if they're dead,
+did not get 8CQ to threats if we did give 8CQ. And then some very strange stuff about bleach
+and swallowing flashlights and rattlesnake venom. So we have actually learned a lot,
+and let's go through it, really rapid fire. So we'll start off with the pre-exposure period.
+And I'm going to talk a lot, actually, about non-pharmaceutical interventions,
+which actually I spend a lot of time doing. I'm sort of waiting for, I don't know, maybe the
+pharmaceutical bots to be like, Dr. Griffin, why do you talk about so much about non-pharmaceutical
+interventions? Why don't you push our drugs a little bit more? But oh, well, I haven't seen that
+happen yet. So let's go through it. One, we have a really broad appreciation. Not everyone's on
+board, but I'll say a broad appreciation that masks, protect others, and actually they protect
+us as well. And please cover those nose holes, unless you're a, I guess, just a mouth breather.
+Physical distancing, 6 feet or greater helps. Remember, there's no magical wall at 6 feet. I
+think people are getting a little more sophisticated. 6 feet is really what we recommend, 7, 8. It's
+exponential, the decrease. There's nothing magic about 6 feet. And if you lean into 5, 4, you're
+starting to really dramatically increase your risk. If you can back up, that's better.
+Outdoors is safer than indoors. We have a number of studies on this. And it's about a 20-fold
+difference in your risk of getting infected indoors versus outdoors. But it's not absolute,
+right? Air exchange matters. So indoor at someone's house, a suburban home without good ventilation,
+without good air exchange, that's about the highest risk. I bring that up right here around
+the holidays. Limiting the size of gathering reduces risks, right? Each extra person
+is one extra person who could be bringing the virus into your circle. So the fewer people are
+the better. You know, I know this is tough for people that, like hanging out with other people,
+which is pretty much all of us. Washing hands, I'm hoping this is here's stay.
+Hygiene helps. We do know that we overdid it a little bit with surfaces, your risk of getting
+COVID from a surface is really low. We say less than 10% of cases are spread that way. This is really
+person-to-person. You're getting it through the air. You're breathing it in. You're getting
+it on a mucous membranes. Frequent testing, even of asymptomatic people, can save lives. And we're
+seeing more and more data supporting that perspective. Symptom checking helps. But as we now know,
+much spread is done by the asymptomatic or the pre-symptomatic. Not saying you shouldn't
+symptom check, but just saying we need to keep in mind that that person who looks like they're
+doing fine could have the infection. Remember, this is an invisible thing. Being healthy,
+eating right, exercising, not carrying that extra weight, optimizing your medical conditions,
+not walking around vitamin deficient. These may all help decrease your risk of not only getting
+infected, but also surviving if you do get infected. And now we've got good old or, shall I say,
+good modern, highly effective vaccines that we're adding to this pre-exposure period.
+And in the future, when we actually get to it, I'll talk about the idea of using not only the
+active vaccines, but maybe even passive vaccines to try to give people antibodies during high-risk
+periods. So there's some ongoing studies there. Schools. We've learned that we can open schools
+safely, but also that we can do it unsafely to do its safest cost money. We actually have some
+estimates about how much money needs to be spent. If you're going to try to do this in a safer manner,
+the safer openings involve limiting class sizes, physical distancing, wherein those masks,
+proper ventilation, increasing staffing, hygiene stations, and testing. The whole idea of the
+kids taking off their masks to eat in school. That's still an issue for me. I mean, that's
+indoor dining. So if the parents shouldn't be doing that, I'm not sure the kids should.
+Do I put that as a challenge to the schools? I think I've mentioned there's some schools
+here on the South Shore. Did a kids go in the morning, they go home, eat their lunch at home,
+another group is doing it in the afternoon. They're doing sort of a hybrid model with remote learning.
+I worry. January, February, with really these rising rates, the whole idea of having kids take
+their masks off and eat inside the schools, have teachers or higher risk older individuals,
+basically in a closed indoor setting with kids with masks off. So I just throw that out there.
+We've learned a lot about how this virus is spread. Incubation period, right? So now you've
+been exposed and we really have a good sense of what is a high risk exposure. This is your
+within that six feet for 15 minutes or longer. It's cumulative, right? You can't walk away and
+reset the clock. So 15 minutes cumulative. No mask indoors, as mentioned, is higher risk than outdoors.
+Being around a person who actually is in that zone of very high levels of virus. So this is about
+two days about, but the WHO and CDC will contact trace four days prior, but about two days prior
+to symptom onset. And really, in most cases, for about four to five days post symptom onset,
+but that can go out for about as far as 10 days in your mild outpatient cases and as far out as
+20 days in your more severe cases. So keep those in mind. Things have been sort of updated and
+made simpler. So you've been exposed. We're talking about quarantines to 10 days. We're
+also talking about isolation of the infected out to 10 days. So even though we know that
+incubation period is really two to 14 days, there's only a few percent past 10. We're trying to keep
+it simple. We're trying to come up with something that is reasonable enough that people will actually
+follow our guidance. So you get exposed. Anytime the next two to 14 days, you could develop symptoms.
+You could become positive. Remember, half of the cases are going to become positive.
+They're going to have virus. They're going to potentially spread virus. Never have symptoms.
+So we've been learning a lot here. Now, what about this period of detectable viral replication?
+So someone's been exposed. The virus is replicating. It is now replicated to the point that it is
+detectable. A couple of things here that I really want to try out. I'm going to really work hard
+to get the word out. What can we do to keep people out of the hospital? And there is only one
+evidence-based intervention at this point. I'll get some emails on that, but I'm going to say that.
+And this is an EUA access therapy. This is a pharmaceutical. So pharmaceutical companies
+don't have to send me a hate mail anymore. Monoclonal antibody. This is the bamblinibimab
+or the bambam made by Eli Lilly. This is the Regeneron cocktail. Ideally, you give this to
+someone in the first week out to maybe the first 10 days from symptom onset. If you get this to
+people within that period of time, at least the data we have predicts about 75% reduction with the
+bamblinibimab of them progressing to require any medical support. So you take someone who's high
+risk, we'll say 10% or higher chance of ending up in the hospital. They get this infusion. It takes
+an hour. 75% reduction in them ending up in the hospital. And that's key as we know, because people
+end up in the hospital, things don't often go well. We also know that telemedicine, pulse oximetry
+can really help keep track of these people. So when someone has this diagnosis, we know that
+80% and 90% of people can be managed out of the hospital, maybe even a little bit more if we really
+get better access for the monoclonal antibodies out there. And what do we do during that first week?
+The biggest thing is nothing. No antibiotics, no steroids. We can make things worse during that
+first week. We can't really make them better. We want to monitor these people. If you have the
+ability to give them a pulse oximeter, or somehow get them access to a pulse oximeter, if they can
+track, make sure that oxygen saturation stays above 90%, then boom, they hit week to that critical
+week. And then if you have not gotten them access to the monoclonals, or even if you have, then you
+start making that decision about is this someone I can safely manage outpatient. Once you get into
+the second week, if the pulse ox drops below 94%, steroids potentially can play a role. The standard
+would be your dexamethasone, six milligrams, POQ day, times 10 days, prednisone 40 milligrams
+would be an equivalent. And then watch them really closely. Most people are going to do okay.
+Across the board, an aspirin a day is reasonable, but we don't have really clear guidance on the
+best way to protect these people against clots. Your high-risk people will get into this later.
+You might consider other therapies. All right. Right at this point, I'm going to jump into the
+early inflammatory phase. And later on, don't worry, we'll go back and talk about vaccinations,
+active vaccinations. The early inflammatory phase, I started to drift into this with our
+outpatient folks, because remember, and I think this is news to some people, but not to our
+12 listeners, 80 to 90% of patients can be managed outside the hospitals. Some of those
+patients end up in the hospital. You've done all these things. They end up in the hospital.
+What do you do? At the point a person gets admitted, there's a number of labs we currently recommend
+help risk stratify, help manage them. A CBC, a complete blood count with differential,
+a comprehensive metabolic panel, a ferritin, a procalcitonin, a D-dimer, a PTPTT. These are
+our coagulation tests, a C-reactive protein, a triponin, and a chest x-ray at an EKG is reasonable.
+We really don't need a lot of CAT scans, but we do need a few bits of critical information.
+Part of that information is going to come from our labs, but part of it's going to come from
+history. I really want to know, can we pinpoint the date of symptom onset? When did this start?
+Because timing matters. What was the date of your first positive COVID test? This is going to help
+us in management. How are you doing with your oxygen level? Are they above or below 90%?
+If it dropped below 90%, how much oxygen is it taking to keep those saturations greater than 90%?
+Is it nasal cannula? Is it venturing a mask? Is it face mask? And we'll get back to that.
+What about how much weight you're carrying? What is your BMI? Is it greater or less than 30? How's
+that kidney function? How is your estimated GFR creatinine clearance? Is it greater than 30?
+What about those LFTs, that AST and ALT? Are they less than five times upper limit of normal?
+This is going to affect what medicines we're going to consider. What is that
+neutrophil lymphocyte ratio that we get from our complete blood count with differential?
+Really nice paper recently showing that that really helps differentiate how people are going to do
+and particularly dynamic tracking this over time. Nice to have that ferretin
+procalcitonin ratio to help us identify that 10% that subset that has a secondary bacterial
+infection. But remember, it is a subset. Are they at increased risk of clotting or bleeding?
+That lets us make decisions. If someone has a prior history of a GI bleed or they had an
+intracranial bleed, you want to be careful with your anticoagulation there. If the person is obese
+and has a prior history of a pulmonary embolism or deep venous thrombosis, that's also going to
+guide us in management. Now first, what not to do? And I'm actually, I know I'm going to step on
+some toes here, but these are our current recommendations. There are a number of things we are recommending
+not to give to people. Avoid unnecessary antibiotics or antimalarials. No HCQ, no dioxocycline, no azithromycin.
+We do recommend limiting the use of convalescent plasma. There's no compelling benefit there.
+It's a very resource intensive item. And the monoclonal antibody is really the modern convalescent
+plasma. It's got everything we want, but not all the clotting factors. And as we've really learned,
+I think from all this timing matters. Once the person ends up in the hospital, you've missed your
+window. There's really a defined window. Anticoagulation, it's a really, we're learning here. Some people
+are actually doing some, they call them improve scores, really trying to risk stratify to make
+this a little bit more sophisticated. But in general, I'll say prophylactic dose anticoagulation
+is recommended over intermediate or full dose, except on a case-by-case basis. When, as we say,
+one might escalate to full therapeutic dosing if the clotting risk is elevated and the bleeding
+risk is low. And what does that mean? And here we get into the weeds a little. When we talk about
+low molecular weight heparin, prophylactic dosing is anoxoperin, 40 milligrams, sub-Q once a day.
+The person is over a certain body weight, over a certain BMI. We talked about that earlier.
+That might be up to BID. But in a normal BMI individual, the intermediate dosing that comes
+partly out of, I'll say, the OBGYN literature, the 40 milligrams twice a day, that's intermediate
+dosing that's not recommended. And in some cases, as mentioned, we might do full dose, which would be
+the milligram per kilogram twice a day. For the obese patients, that BMI greater than 30,
+as mentioned, you're going up to BID. That's not intermediate. That's prophylactic dosing
+adjusted for body weight, for your dialysis patients. So you need to know that renal function if it's
+less than 50, 15, or they're on dialysis, then we actually consider using heparin with concerns
+about accumulation of metabolites with the low molecular weight heparin. And when we do the heparin,
+it's 5,000 units, sub-Q, and that's going to be every eight or 12 hours. Certain circumstances,
+we might use our direct acting anticoagulants. These are people may be familiar with the
+zorelto or the eliquest, the 10 milligrams once a day, the eliquest 2.5 milligrams twice a day.
+Again, these things are adjusted based upon renal function and other factors. And in some cases,
+people are just using the baby aspirin, 81 milligrams POQ day, sometimes just based upon
+an overall clinical picture. But some people are actually, as I mentioned, calculating the
+improve, so the international medical prevention registry on venous thromboembolism scores. And
+then using these and asking questions about was there a previous clot, issues with paralysis,
+cancer, are you in the ICU? Is there complete immobilization? Is your age over 60? And then
+trying to weigh that against, you know, is there an issue of an ulcer bleeding in the last three
+months? Are the platelets less than 50, right? You're going to want to know about that. Are
+there issues with the liver? Are there central venous catheter? So this is all getting a little
+bit sophisticated. We're learning a little bit more. As we well know, people who are severely ill
+with COVID, maybe 30% of them will have significant clots. But if you put them all on full dose
+anticoagulation, you might have bleeds in about 8%. So you got to balance this, right? We're not
+saying that full dose anticoagulation doesn't prevent the clots. But you may end up with a net
+negative mortality. If you go with full dose on everyone, and that's actually come out of some
+recent data, which have actually removed in the ICU arms, people from looking at full dose.
+We don't know if that applies to people in the general hospital wards, but we are learning,
+and this stuff is being studied, I'm going to say finally. Immune modulation, steroids,
+recommended only after the first week. So remember, it's not COVID steroids. It's COVID,
+second week, hypoxemia, then you consider steroids. And again, you balance it. You want to look at
+the whole picture in a frail, elderly individual. You might consider lower doses. You might consider
+shorter courses in someone who is more severely ill, maybe carrying more weight. You might consider
+a slightly higher dose. And then that 10 days, you're going to use clinical judgment. We talk
+about dexamethasone 6 milligrams, whether it's IV or PO. If they're taken oral medicines,
+make it oral. There's no reason to add more IV medications, and prednisone 40 milligrams
+would be an equivalent. So some degree of flexibility on doses and duration.
+What happened to anakinra, the IL-1 inhibition? What happened to serilla mab,
+cetuximab, telosilizimab, all our IL-6 blockade? You know, I have to say, we're still waiting to
+see any clear compelling mortality benefit here. The literature sort of bore out what we saw
+early on. If you give, and I'll say, toselizimab, in the absence of steroids, people initially get
+better. But then by 28 days, the mortality is the same. So limited use here. We look at this as
+somebody is heading towards a ventilator. Maybe this will be something that temporarily decreases
+their oxygen requirements. But unfortunately, we're not really seeing, say, sort of the early
+the early optimism panned out. Something is going on with IL-6 that impact on fevers and
+hypoxemia in response to IL-6 receptor blockade is interesting. We're still waiting for better
+guidance here. Hypoxemia management. How do we keep that oxygen above 90? And I have to say,
+this is a huge area. This is why people need to be in the hospital by and large.
+The goal is to keep those sets 88, 90% or higher. You don't really need to crank
+them much above that. This gets very sophisticated. And this is actually where our respiratory
+colleagues get involved. You start with nasal cannula. Two liters, four liters, you might get up to
+eight liters, then escalates to something called a venturi mask, not available in all centers,
+but allows us to actually titrate oxygen saturations a little bit. Then we go up to non-rebreather,
+high flow nasal cannula, things non-invasive ventilatory methods like BIPAP, pruning. We have
+good evidence that that makes a difference, even a mortality benefit, because it's helping us keep
+people off the ventilators. This is something even we're doing in the outpatient setting.
+One of my colleagues, Ken, that was on a call with earlier today, was bringing up that this is
+working in the outpatient setting. You've got an individual, you're trying to keep them out of the
+hospital. Maybe they're even on home oxygen. They're laying on their belly. They're sleeping on their
+belly. That actually helps with the ventilation perfusion mismatch. In another note, I'll throw
+out there that probably a lot of us have experienced, but make sure I share this. Often the pulse
+oximeter readings can be inaccurate. If it doesn't make sense to you, consider doing an arterial
+blood gas. Anti-viral therapeutics. Less and less excitement over remdesivir as time goes by,
+I want to be honest. One of the hospitals here has even started to limit the criteria. For a
+while there, anyone who comes in seemed to get remdesivir. It didn't matter if they were hypoxic,
+but now the guidelines were just updated. These were actually, I have to say, nice updated
+guidelines. You actually saw who was involved in the decision-making, very evidence-based guidelines.
+Basically saying remdesivir, if people met the criteria in the one trial that showed benefit,
+so hypoxic within the first 14 days. The kidney function, you had a GFR of greater than 30.
+The LFTs were less than five times upper limit normal. Then it was five days or less. If you
+start the five days and they really are doing better, you don't have to keep them in the hospital
+to keep giving them this medicine. Miscellaneous things. We're still seeing a lot of our patients
+of vitamin C and thiamine and zinc and vitamin D. People did comment last week that I spoke
+about vitamin D for hospitalized patients, but I didn't mention the Spanish study
+effect of calcifidiol therapy and best available therapy versus best available
+therapy on intensive care unit admission and mortality among patients hospitalized with COVID-19,
+a pilot randomized study. I will say, this pilot study did show benefit. There was
+an RCT at a Brazil that failed to show benefit. I'll say, there are studies going forward,
+including the UK-based coronavite trial. I like the name on that, which is actually fully
+enrolled and we'll get data on that unless the pandemic abruptly ends, which it's not doing in
+the UK. We're actually going to get data from that. We'll see. I want to be balanced here.
+One study that says it works. One study that shows it doesn't show effect. I'll be honest
+when I say, as we learn, I'm happy to share that. I'm not weighing on on either side. If a
+patient comes in and their vitamin D deficient and you give them vitamin D, that actually seems
+like it makes a little bit of sense. Is it going to really make a difference? I don't think so.
+I don't know. Maybe it will. I'm just going to basically say, I don't know.
+Again, really limit the use of antibiotics because only about 10% of patients have actual
+bacterial co-infections in the initial presentation. But we go right into the
+secondary infection phase. You get to week two and three. That's when we actually see
+patients start to not do well. They start to require more oxygen. They start to have a change
+in mental status. Maybe the white count goes up. This is when we want to look for not only bacterial
+but fungal infections. We're seeing both. Then this leads right into that multi-inflammatory
+system phase where we see a lot of our clotting issues and we see a number of our other issues.
+There's really no clear division here, but we run into this tail phase and the issue of
+can patients make it out of the hospital. If they are going to make it out of the hospital,
+there's a couple of things I want to say. One is at discharge. We are recommending,
+particularly in our higher risk patients, extended prophylaxis against clots for at least 30 days,
+but then we customize this based upon bleeding risk and risk of clotting.
+Some cases, we're still low molecular weight heparin. We're actually continuing that post
+discharge, particularly our highest risk patients that may be going to skilled nursing facilities.
+A lot of our next level of risk, we're doing the direct acting oral anticoagulants that
+doe acts. There's a relto, the eliquis. As we get to a lower risk, it might just be an aspirin
+once a day. How did these people do? I always come back to the like, we don't want to clap
+these people out and forget them. There was a nice article characterizing long COVID in an
+international cohort, seven months of symptoms and their impact. I was posted on the MedRx
+server, looked at about 4,000 individuals, 50 countries. Only about 8% required hospitalization,
+right? So 90% were outpatient. This is an idea that the outpatients are just fine,
+but I'm going to say this study did not suggest that and I will not suggest that. That's not
+been my experience. The majority of the people here, these are people who are past 28 days and
+still have symptoms. The majority, we're still reporting severe fatigue and cognitive impacts
+greater than six months post diagnosis. This was looking at a survey open to individuals 18 years
+of age and older who experienced symptoms consistent with COVID-19 in order to be able to characterize
+the long COVID symptoms over extended duration. They looked at people and they said, have you had
+symptoms more than 28 days and that's who they were looking at. And the people had to have
+the symptom onset back in December and May. So I'm going to critical question for me,
+is what percent of people who get COVID will go on to have long COVID?
+And there was a nice paper on this, attributes and predictors of long COVID, analysis of
+COVID cases and their symptoms collected by the COVID symptoms study app,
+also posted, and really suggesting about 13% of people will have symptoms that last beyond that
+four weeks that fall into the group that was studied above. So we know a certain percent of
+people end up in the hospital. We know a certain percent of people that die, in our case,
+fatality rate is about 3% right now. But our case morbidity rate, here it's suggesting that
+about 13% of people are continuing to have symptoms past that four weeks. And as we saw,
+if you look at those individuals out at six months, the majority of them are having cognitive,
+they're having fatigue issues. So just to close on this here, in the US right now,
+about 12 million cases, we have an outcome for 12 million cases with 3% mortality,
+worldwide 60 million cases. Again, about 2 million deaths, these are where we actually have an
+outcome. The case fatality rate in the world is about 3%. So that's pretty significant.
+And the morbidity, we know that a lot of people that don't die continue to suffer. So I always
+want to keep pointing that out. These people, we need to understand, we need to learn better.
+We're treating it sort of symptomatically, not really having anything fantastic to offer. So
+we need to learn, we need to help these folks. And I will say thank you for everyone that continues
+to listen. Unfortunately, this is still going to be going on for a while. We're still doing our
+fundraising, try to keep the message out, and also continuing to help support the Peace Corps
+with their HIV and AIDS program. So when you get a moment, go to parasiteswithoutboarders.com
+and help us continue our work. All right, our first question is from Christine,
+who wants to know about the high risk groups for vaccination. Dr. Griffin read off a list,
+less 698, that is derived presumably from a CDC document. However, the document actually
+divides that risk people into two groups. Those who definitely are at risk, those who might be
+at increased risk, the footnote on the CDC page only references the definitely are at risk group.
+So that does that mean everyone else in the might be increased risk is essentially delegated
+to the back of the line in phase two, asking on behalf of my friends with severe asthma,
+my friends with type 1 diabetes, my friends with autoimmune diseases or MS taking immunosuppressants
+and myself, a healthcare worker who has been on medical leave for several months and not getting
+vaccinated with my colleagues, and will likely be resigning until I can better manage my condition
+of POTS, a form of disodenomia, rather than a cardiac condition. So I'm assuming I might
+only fall into an increased risk category because of my chronic flu drug cortisone use rather than
+the cardiac medication. I also take to manage my POTS. Any light you can shed on that.
+Yeah, you know, I have to say, let's be honest, the whole rollout of the vaccines is a bit of a
+disaster. And I think this is where this gets like when when will different groups get access to
+vaccine? You know, when we look across the country, there was a goal that by the end of this month,
+there would be 20 million people vaccinated and maybe it's one or two. So you're saying,
+my gosh, look at all these vaccines. And you know, and who's to blame, right? I mean, I think a lot
+of people have been asking that. The vaccines have been delivered to the states. The vaccines
+are sitting in fridges and freezers until those vaccines end up in arms. They're not doing
+anyone any benefit. And sort of more directly your question, the hierarchy of who gets it when
+keeps changing, right? So initially it was going to be the one a prime, we're going to do all the
+ER the ICU, then we're going to get long term care facility and the rest of the health care
+providers. And now a number of the states have just broken ranks and said, you know what,
+we're just doing everyone over a certain age. And it seems like a number of other states are
+falling into line. So it is really interesting. I was walking the dogs with my wife, and we're
+talking about there's been all this focus on the ethics of equity. You know, there's 20% of the
+vaccines that are being given and 80% sitting in freezers and fridges. The emphasis, all the
+effort and the energy I think right now has to go to getting people vaccinated so that the line
+moves. You know, it doesn't matter if you're, you know, 10th in line and the line is like moving one
+person per hour. I'd rather be 100th in line at a move at a line that's moving, you know, 100 people
+every 12 minutes. So I really have to say, this will be changing, right, that the CDC guidance on
+who's at risk, who's at might be at increased risk and who gets vaccinated when and what the
+states are doing. And here in the US, the state governors are the ones that are making the ultimate
+decisions on who gets vaccinated when these things are going to keep changing. We hear in New York,
+it may change again. Pretty soon everyone will be in phase one and it really will hopefully be a
+question of just churning people through getting everyone vaccinated because there's lots and lots
+of doses out there. I think a big challenge is getting them in people's arms. So everyone can
+have access to the vaccines as soon as possible. Sarah and Tallahassee wants to know, is it safe
+to vaccinate patients with long COVID long haulers or whatever they are calling us unfortunate souls
+these days? Sarah, that's a great question. And in some sort of insight, because I've been watching
+this for a while, because I have a lot of long COVID patients go ahead and use that terminology
+for the moment keeps changing too. And you know, how have they done with other vaccines? So some
+of them got another vaccines over the last say 10 months now. And done fine. I did have one patient
+that got tetanus shot. They said, gosh, I felt like sort of a relapse there for a while and then
+kind of moved forward. So, you know, I've been doing a lot of vaccinations recently. We just got
+the COVID vaccine supply for the pro health doctors on Tuesday. So immediately we ran out and
+basically by the end of the next day, 90% of those vaccines that had arrived were in people's arms.
+And and I did over 80 myself. And I would talk to people as I was doing this. And some of these
+individuals are are individuals that are long COVID or long haulers. And I basically would say,
+you got to let me know I want feedback. I want to hear like now we vaccinated over a million people.
+I want to start getting feedback from how did these individuals do they were they were not
+studied. This was not part of any of the data that was discussed under the EUA reviews.
+So, as I get this data, I'm very excited to to share this and let people know. But when they
+ask, they say, should I get vaccinated? I say, my gosh, look at how how you did with COVID the first
+time. Do you want to risk getting at a second time? And so I'm encouraging these individuals to get
+vaccinated. And we'll see what what the impact is. But at least, you know, so far, right, we've
+been doing a lot of health care providers here in the state so far haven't gotten any negative
+feedback from the long haulers. But boy, if there there's issues, I want to hear. So let me know.
+Our last letter for 2020 is from Sue Ellen, who Daniel may remember from
+Twipp, Sue Ellen from Roswell, Georgia. I was talking to some friends yesterday discussing COVID
+vaccines. One friend says she will not get it does not even get flu vaccine because she's immune
+compromised. She has some hereditary disorder that caused her to have her spleen removed.
+I have at least two other friends I know who are missing their spleens. Well, whether they
+miss them or not, I can't say, but they have had them removed. My question is, what is the impact
+of having no spleen with regard to both COVID and the vaccine? Sounds like one of those prisoners
+dilemma type logic problems. If you don't have a spleen, I would think you're immune compromised,
+which should make you more liable to get severe COVID. So that should mean you should get the
+vaccine. But according to my French, you can't even get the flu vaccine because of her immune
+compromised status. So she figures that COVID vaccine is not for her either. You must have
+patients who have had their spleen's removed. So what is your recommendation with regard to the
+vaccine? Yeah, this I have to say this is a very interesting email and the whole issue about not
+having a spleen. I have to say we consider these individuals who have spleen to be at higher risk
+of bad outcomes with infections, particularly with pathogens that it's a polysaccharide type
+response. So we worry about encapsulated organisms. So we're about homophilus, influenza, pneumococcus,
+and such. So actually, we usually are sticklers, I would say, for getting these individuals vaccinated.
+So I'm not sure why she would be under the impression not. So I'm going to say,
+if you have no spleen, there is a site, there's a CDC, a splenia vaccine site where it basically
+goes through and it gives you a list of a dozen vaccines that are really critical. There's even
+a American Society of Hematology statement position on what to do with the mRNA vaccines,
+if you have no spleen, and we encourage and they encourage people without a spleen to get the mRNA
+vaccine. There's some concern that maybe you will not have as robust a response, but it's only
+theoretical. There's no downside. The only concern is maybe you will respond as well. But let's
+think about what's the issue with the spleen. The spleen is an area where you can have a lot
+of germanol centers, a lot of maturation of B cells, make a lot of really good antibodies.
+There are germanol centers in other places. So I'm going to say that I would recommend
+Sue Allen. Nice to get your remember you well from Twib. But I would recommend actually going
+ahead and getting that vaccine. I would say this is an individual who is at more at risk and
+would potentially get benefit. Well, that is our COVID-19 clinical update number 43 with Dr.
+Daniel Griffin. Daniel, it has been a privilege to have you join Twib this past year. Thanks so
+much and happy new year. Oh, thank you as well. It's been great. I love the opportunity to share
+this information. I hope everyone else enjoys it. And look forward to more updates next year.
+And I'll just I'll close on a little bit of good news. I just found out today that now with the
+excitement of CT values, I can get CT values on Long Island as well as at Columbia. So
+hopefully I'll have some clinical experience to share with everyone in the future.

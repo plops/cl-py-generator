@@ -1,0 +1,1298 @@
+WEBVTT
+
+00:00.000 --> 00:06.880
+ This week in virology, the podcast about viruses, the kind that make you sick.
+
+00:10.320 --> 00:21.280
+ From Microbe TV, this is Twiv, this week in virology, episode 730 recorded on March 11, 2021.
+
+00:21.280 --> 00:28.320
+ I'm Vincent Draconiello and you are listening to the podcast all about viruses. Joining me today
+
+00:28.320 --> 00:37.120
+ from New York, Daniel Griffin. Hello, everyone. Update number 53. How's everything going, Daniel?
+
+00:38.160 --> 00:45.120
+ You know, I will say I still am optimistic here on the ground. Things seem to be going in the right
+
+00:45.120 --> 00:51.920
+ direction. I was just just today, one of the one of the Catholic hospitals where I go, you know,
+
+00:51.920 --> 00:57.680
+ they have they've closed their COVID unit. They no longer have a COVID unit at that hospital.
+
+00:57.680 --> 01:02.880
+ That's one of the other hospitals. The numbers have dropped to maybe 20 percent of where they
+
+01:02.880 --> 01:08.240
+ peaked. So numbers are going down in the hospital. Unfortunately, we still have several people in
+
+01:08.240 --> 01:16.080
+ the ICU struggling who probably won't make it. And, you know, and one of your shows, I think,
+
+01:16.080 --> 01:21.040
+ was Ginger Campbell said that, hey, if you end up in the ICU, it's 5050. If you end up on a ventilator,
+
+01:21.680 --> 01:27.040
+ I actually say actually it's much more depressing than that. I was reviewing with some of the ICU
+
+01:27.040 --> 01:33.040
+ doctors single digit survival this time. Really, we're doing everything we can to keep people off
+
+01:33.040 --> 01:39.280
+ the ventilators. So the people that end up on the ventilators, it really is well under 10 percent
+
+01:39.280 --> 01:44.480
+ that are surviving in our experience. And then some of the ones that are just tragic,
+
+01:44.480 --> 01:50.160
+ this one woman who's now out of the ICU, just very vacant. I'm not sure there's much cognitive
+
+01:50.160 --> 01:56.160
+ function left. So just just a tragedy. So I think her talk about how important palliative care
+
+01:56.160 --> 02:02.720
+ decisions are is unfortunately really critical here with COVID. My quotation, it is easy enough to
+
+02:02.720 --> 02:09.040
+ vote right and be consistently with the majority. But it is more often more important to be ahead
+
+02:09.040 --> 02:14.480
+ of the majority. And this means being willing to cut the first furrow in the ground and stand
+
+02:14.480 --> 02:23.360
+ alone for a while, if necessary. And this is by Patsy Make. In 1964, she ran for federal office
+
+02:23.360 --> 02:28.320
+ and won a seat in the US House of Representatives was the first woman of color, the first Asian
+
+02:28.320 --> 02:37.120
+ American elected to Congress. And I just think that it's a very appropriate quotation. It's easy
+
+02:37.120 --> 02:42.240
+ to sort of group together. And I hear a lot of people now is just doing a talk for a group at
+
+02:42.240 --> 02:46.720
+ University of Pittsburgh, where people are all agreeing like, Oh, who could have really seen this
+
+02:46.720 --> 02:53.680
+ coming? And you know what, we warned about this pandemic for a long time. And we're warning that
+
+02:53.680 --> 02:59.440
+ this will not necessarily be the last pandemic if we don't respond differently. So I know everyone's
+
+02:59.440 --> 03:02.960
+ all excited and they want to go out there and have their big parties and hug everyone. But
+
+03:02.960 --> 03:07.440
+ let's not let this happen again, right? Let's while we're still here, while it's still fresh
+
+03:07.440 --> 03:12.560
+ in our mind, let's spend the money now, let's make the decisions now, let's get the changes in
+
+03:12.560 --> 03:16.960
+ place. This doesn't happen again. This this has been rotten. This has been horrible. And a lot of
+
+03:16.960 --> 03:22.160
+ people have died. So never miss an opportunity to vaccinate, never miss an opportunity to test,
+
+03:22.160 --> 03:28.080
+ never waste a vaccine dose. Vaccines are getting better. But I'm actually going to start with
+
+03:28.080 --> 03:34.800
+ children and COVID. As we see more adults getting vaccinated, there's a growing push to get the
+
+03:34.800 --> 03:40.800
+ kids back into schools, getting ready for summer camp and opening many things up for children.
+
+03:40.800 --> 03:46.400
+ The one thing I will say on the ground here is this is not going well for kids. I was talking to
+
+03:46.400 --> 03:53.440
+ my buddy, Dr. Jovino, he's one of the only adults who calls me Danny. And you know, he can get away
+
+03:53.440 --> 04:01.440
+ with it. But he was saying, you know, we are now seeing its children, growing numbers of children
+
+04:01.440 --> 04:09.120
+ getting diagnosed with COVID. Last week, we saw the article in the CDC and MWR estimated SARS-CoV-2
+
+04:09.120 --> 04:14.720
+ seroprevalence among persons aged less than 18 years, Mississippi, and it was made through
+
+04:14.720 --> 04:21.840
+ September 2020. And they looked at serological tests on blood samples collected between May and
+
+04:21.840 --> 04:29.680
+ September 2020, from 1,603 persons aged less than 18. And they found on the serological testing,
+
+04:29.680 --> 04:36.240
+ 16.3% of these were positive. And they actually suggested that at this prevalence rate,
+
+04:36.240 --> 04:47.680
+ over 113,842 of the 698,420 young persons in Mississippi have been infected with SARS-CoV-2
+
+04:47.680 --> 04:56.560
+ by mid-September. And of note, there's only been 8,993 confirmed or probable COVID-19 cases reported
+
+04:56.560 --> 05:01.440
+ among young persons to the Mississippi State Department of Health. So if you do the math,
+
+05:01.440 --> 05:08.880
+ this means that we're only catching about 8% of the COVID-19 infections in this young population,
+
+05:08.880 --> 05:16.800
+ meaning that over 90% are going undiagnosed. In the same article, they reference the CDC data,
+
+05:16.800 --> 05:24.240
+ suggesting there have been just over 3 million reported COVID-19 cases in the U.S.
+
+05:24.240 --> 05:31.600
+ in persons aged less than 18. Now, if this is under diagnosis, instead of 3 million, that would
+
+05:31.600 --> 05:39.200
+ put us closer to about 40 million cases in children, even with a prevalence of 16%. It means that
+
+05:39.200 --> 05:45.840
+ over 80% of our children are still at risk of COVID-19. And unfortunately, I think we're seeing that
+
+05:45.840 --> 05:50.800
+ on the ground here in New York. One of the things, and this was what Dr. Yovino and I were talking
+
+05:50.800 --> 05:56.880
+ about is that the parents are quite upset because they're saying we were told that COVID was a very
+
+05:56.880 --> 06:02.560
+ mild thing in kids. What's going on? We were told that children are less likely to die.
+
+06:02.560 --> 06:06.080
+ They're less likely to hospitalize. They're less likely to have severe COVID.
+
+06:06.960 --> 06:12.240
+ I discussed the data coming out of the UK that about 10% of the kids that develop COVID,
+
+06:12.240 --> 06:17.680
+ it is not just a mild, short-lived disease, but it lasts. I was just on a call Tuesday evening
+
+06:17.680 --> 06:23.280
+ with our pediatricians. Maybe I was just trying to depress myself, but I wanted to ask them and
+
+06:23.280 --> 06:27.680
+ say, okay, I see the numbers in the literature. But one of the things that hopefully I add with
+
+06:27.680 --> 06:33.360
+ these clinical updates is what are we actually seeing? Let's translate these studies into what
+
+06:33.360 --> 06:39.200
+ we're seeing on the ground. And every pediatrician on the call had stories of a growing number of
+
+06:39.840 --> 06:46.320
+ young individuals that they're taking care of that are suffering. And just to share a few of these
+
+06:46.320 --> 06:54.400
+ stories with everyone, it was a 16-year-old's girl, loves soccer. She got sick with COVID
+
+06:55.600 --> 07:01.280
+ two, three months ago. But her family wanted to make sure before she got us, you saw the cardiologist.
+
+07:01.280 --> 07:06.640
+ They did echocardiogram. Everything was fine. They said, you've been cleared. We think you're
+
+07:06.640 --> 07:12.960
+ fine to play soccer. This is a gal who used to run several miles a day. Her life is all about soccer.
+
+07:12.960 --> 07:16.720
+ She tried to play the first game. She was like, I can't run up and down the field.
+
+07:17.520 --> 07:23.840
+ So she's not going to play soccer this year. And she's devastated. It was another young woman
+
+07:23.840 --> 07:30.640
+ who had a lacrosse scholarship. She she can't play. There was a boy. This really I found quite
+
+07:30.640 --> 07:36.400
+ upsetting. He had COVID. And his teacher called the mom and saying, what is up with your son? He
+
+07:36.400 --> 07:42.400
+ can't pay attention in class. And she said, yeah, he had COVID a few months back. He cannot maintain
+
+07:42.400 --> 07:49.440
+ his attention. He just gets distracted. He can't keep focus. And so I think a lot of what we're
+
+07:49.440 --> 07:56.000
+ seeing is the kids, when they're forced either to try to compete athletically, they realize, oh,
+
+07:56.000 --> 08:01.440
+ my gosh, I am so much diminished where I used to be, or they're asked to do a cognitive task,
+
+08:01.440 --> 08:07.600
+ like pay attention and do well in school. So I worry about this. This is something we're seeing
+
+08:07.600 --> 08:13.120
+ in the literature. This is something now the pediatrician shared with me. And even something
+
+08:13.120 --> 08:18.640
+ has changed a little bit about the multi inflammatory syndrome. My colleague and friend Jay Berger
+
+08:18.640 --> 08:26.400
+ has taken care of a young individual now, who's in the ICU early on 5050 with these individuals
+
+08:26.400 --> 08:32.480
+ with the late inflammatory phase ending up in the ICU. Now 90% of them are progressing to the ICU.
+
+08:32.480 --> 08:37.840
+ So I'm not sure what to say here other than just, you know, we need to be a little bit honest with
+
+08:37.840 --> 08:43.680
+ the parents is that, yeah, your son or daughter may not die or end up in the hospital with COVID.
+
+08:43.680 --> 08:48.400
+ They may be at lower risk, but I'm not sure I'm completely comfortable if one of my children
+
+08:48.400 --> 08:53.920
+ end up getting COVID and maybe having long term complications testing. We saw the first EUA for
+
+08:53.920 --> 09:01.440
+ a T cell COVID test, the T detect COVID test by adaptive biotechnologies. And this is something
+
+09:01.440 --> 09:07.120
+ a person can go online, click a few buttons, pay a little more money than most of us would like to,
+
+09:07.120 --> 09:14.320
+ and actually get a COVID T cell test. So I'm glad we're seeing more attention being paid to the T
+
+09:14.320 --> 09:21.600
+ cells. My PhD was in B cell biology, but much of my clinical practice and research is focused on HIV.
+
+09:21.600 --> 09:26.720
+ So T cells have gotten a lot of attention from me over time. You know, a little sad for the T cells
+
+09:26.720 --> 09:31.120
+ they were neglected there for about a year, but now they're getting that attention that they've,
+
+09:31.680 --> 09:39.760
+ you know, long had because of the HIV epidemic still is ongoing. So this is a $150 test that
+
+09:39.760 --> 09:48.400
+ can be done either as an in home or an in lab blood draw. Basically a patient goes on the website,
+
+09:48.400 --> 09:55.760
+ they click a bunch of buttons. And then this test reportedly compared to the antibody tests are
+
+09:55.760 --> 10:05.120
+ saying this as a greater than 99% specificity, about a 95% sensitivity. And this is detecting
+
+10:05.120 --> 10:11.680
+ prior infection with SARS-CoV-2, the virus that causes COVID-19. It's really a fascinating test.
+
+10:12.480 --> 10:18.080
+ And I was on a call with the same company talking about a study that we're trying to help them with
+
+10:18.080 --> 10:24.560
+ with Lyme disease. And I realized as we were talking, I said, hey, you're the same people with the T
+
+10:24.560 --> 10:30.400
+ cell test. This is the same technology. So it gave me a chance to really drill a little bit down.
+
+10:31.360 --> 10:36.560
+ And the technology, they actually have a preprint out there describing it, preprint is
+
+10:36.560 --> 10:43.760
+ clinical validation of a novel T cell receptor sequencing assay for identification of recent
+
+10:43.760 --> 10:49.280
+ or prior SARS-CoV-2 infection. So it's a little bit interesting, but let me just explain to our
+
+10:49.280 --> 10:56.720
+ listeners like how this technology works and why I think it's superior to the technology we've
+
+10:56.720 --> 11:02.160
+ been using for tuberculosis tests. And throw my disclaimer, they're not paying me any money for
+
+11:02.160 --> 11:07.680
+ this, nor do I think they will in the future, but I will explain the technology. Normally,
+
+11:07.680 --> 11:15.680
+ to look for T cell reactivity to tuberculosis, we do a three tube assay. The first tube is our
+
+11:15.680 --> 11:22.240
+ negative control. And then we actually draw up a tube, which has some proteins that are specific
+
+11:22.240 --> 11:27.040
+ to mycobacterium tuberculosis, or I should say, somewhat specific to the mycobacterium
+
+11:27.040 --> 11:31.760
+ tuberculosis complex. And then we have a positive control with a mitogen, which is going to stimulate
+
+11:31.760 --> 11:37.280
+ the T cells to produce interfering gamma. You shake those up, you mix that all around,
+
+11:37.280 --> 11:41.920
+ you have to draw it in the right order. It involves an assay looking at live cells,
+
+11:41.920 --> 11:46.960
+ so you need to run this within eight hours. You need to treat these tubes properly. You can't
+
+11:46.960 --> 11:51.760
+ freeze them. You can't let them sit too long. And then what you're going to do is do an assay
+
+11:51.760 --> 11:56.960
+ that's going to say whether or not you have specific memory T cells that are going to be
+
+11:56.960 --> 12:02.880
+ triggered by those proteins and produce the interfering gamma, which is your signature TH1
+
+12:02.880 --> 12:09.360
+ cytokine. Immunologists can yell at me if I made that too simple. I think that's reasonable
+
+12:09.360 --> 12:14.320
+ description. Now, what this does instead, and it's actually much easier, is you're going to
+
+12:14.320 --> 12:21.120
+ be doing PCR. So you're merely going to collect a tube of blood. This tube can be frozen, it can
+
+12:21.120 --> 12:28.720
+ be stored. You do a simple DNA extraction followed by a multiplex PCR that amplifies the rearranged
+
+12:28.720 --> 12:34.400
+ T cell receptor sequences. And then this PCR product is popped onto an Illumina sequencing
+
+12:34.400 --> 12:40.960
+ machine. And a computer algorithm is going to identify whether the sequences that are specific
+
+12:40.960 --> 12:49.680
+ for targeting or enriched for targeting of SARS-CoV-2 are enhanced. And they have a specified
+
+12:49.680 --> 12:55.040
+ threshold. And there's about 4,000 enhanced sequences that have been identified. So this
+
+12:55.040 --> 12:59.920
+ actually is quite a bit easier. You don't have to worry about having a lab on site that can do these
+
+12:59.920 --> 13:05.200
+ live cell assays quickly. How are we going to use this test? I think that's the other question.
+
+13:05.920 --> 13:10.960
+ I see this personally as potentially something we'll be looking at in those individuals who
+
+13:11.600 --> 13:18.240
+ we suspect have long COVID, but either couldn't get a PCR test upfront, or maybe have a negative
+
+13:18.240 --> 13:23.760
+ antibody test and we're trying to pick up those individuals. There was a, I know this was covered
+
+13:23.760 --> 13:30.080
+ in TWIV-128, but I just want to jump it in here while we're talking about testing. And this was
+
+13:30.080 --> 13:36.560
+ the paper SARS-CoV-2 total and subgenomic RNA viral loaded hospitalized patients posted as a
+
+13:36.560 --> 13:44.400
+ preprint. Excellent discussion on TWIV-128. It can't be TWIV-120. I'm sure the numbers often mean 728.
+
+13:46.080 --> 13:52.960
+ Have we done that many? Have you done that many? And really just confirming that total RNA
+
+13:52.960 --> 13:59.040
+ copy number numbers correlate with subgenomic RNA. And then although PCR is very sensitive,
+
+14:00.240 --> 14:05.200
+ when people have millions of RNA copies, when they have CT values in the 20s or lower,
+
+14:05.840 --> 14:09.520
+ that's probably when people are infectious. And it looks like once those CT values are greater
+
+14:09.520 --> 14:17.600
+ than 30, RNA copies are below the level of detection of our rapid antigen test, 50,000, 40,000 person
+
+14:17.600 --> 14:22.960
+ is probably no longer infectious. So just nice to get a little more information there.
+
+14:23.920 --> 14:29.920
+ Active vaccination, I won't say too much about this, except I am quite intrigued
+
+14:29.920 --> 14:35.840
+ that J&J seems to be coming out as the crowd favorite, at least among a lot of my patients.
+
+14:36.480 --> 14:42.240
+ And even what I was seeing is a lot of individuals at one of the large healthcare system. About half
+
+14:42.240 --> 14:49.040
+ of them have been vaccine hesitant. They seem to be more comfortable with the J&J vaccine.
+
+14:49.840 --> 14:54.400
+ Sort of the one and done feeling that it's not this mRNA technology. So
+
+14:55.200 --> 15:01.200
+ exciting to see that. And I know I've spent a little time discussing the potential impact of
+
+15:01.200 --> 15:10.000
+ vaccination on people with long COVID, passive vaccination, the variants. I hate the variants.
+
+15:10.000 --> 15:14.720
+ David Ho emailed me this week, letting me know that at last check, more than a third of the
+
+15:14.720 --> 15:25.680
+ sequences at CUMC have the E484K mutation that at least in the lab makes a bamlin of a map and
+
+15:25.680 --> 15:32.960
+ in dev a map ineffective. These are, you know, one monoclonal from each of the Eli Lilly and
+
+15:32.960 --> 15:39.200
+ the Regeneron cocktails. We've already actually started switching our therapies over on the ground
+
+15:39.200 --> 15:43.920
+ here. So we've tried to switch over to the cocktail therapies with the idea that at least in New
+
+15:43.920 --> 15:48.480
+ York City, in these regions where we're getting the sequence, about a one and three chance that
+
+15:48.480 --> 15:55.600
+ you might be giving a therapy that is not effective. But we also, I got to say, this was the week
+
+15:55.600 --> 16:02.800
+ of monoclonals. We got a press release. Eli Lilly and company announced new data from the
+
+16:02.800 --> 16:09.840
+ randomized double blind placebo controlled blaze one phase three study demonstrating bamlin of a
+
+16:09.840 --> 16:16.480
+ map and a test of a map together significantly reduced COVID-19 related hospitalizations and deaths
+
+16:17.360 --> 16:23.920
+ events in the high risk patients recently diagnosed with COVID-19. So go into a little bit more of the
+
+16:23.920 --> 16:34.080
+ weeds on this. This phase three included 769 high risk patients. There were 511 got therapy,
+
+16:34.080 --> 16:39.600
+ 258 got placebo. So it was roughly a two to one match events, meaning either hospitalization or
+
+16:39.600 --> 16:47.040
+ death occurred in 0.8% of those receiving the cocktail, 6% receiving placebo, which represented
+
+16:47.040 --> 16:55.760
+ 87% risk reduction with a p-value of 0.001. So this cocktail bamlin of a map and a test of a map
+
+16:55.760 --> 17:02.240
+ together demonstrated statistically significant improvements on key secondary endpoints. There
+
+17:02.240 --> 17:07.600
+ were four deaths total in the trial that were attributed to COVID-19. And they all occurred
+
+17:07.600 --> 17:16.480
+ in patients getting placebo. Nobody who received the cocktail diet. So that was 0% versus 1.5% in
+
+17:16.480 --> 17:22.880
+ placebo. So this is interesting, right? You know, number needed to treat and what kind of reduction
+
+17:22.880 --> 17:28.560
+ are we doing here? The pricing in a sense is targeted to this. You say we've got a population
+
+17:28.560 --> 17:35.440
+ with about a 10% risk of dying or ending up in the hospital. And we're able to reduce that
+
+17:35.440 --> 17:40.880
+ dramatically. We know that if a person ends up in the hospital, you know, they have a significant
+
+17:40.880 --> 17:45.760
+ chance of dying, but there's also a significant morbidity and it tends to be very expensive. I
+
+17:45.760 --> 17:51.920
+ think we've pegged it at about $40,000 on average for a hospitalization. So they've kind of run
+
+17:51.920 --> 17:58.080
+ the numbers on this. Your number needed to treat has a lot to do with which risk group you're
+
+17:58.080 --> 18:04.320
+ targeting here. We also heard from Veer, biotech, and GSK. Where are these people coming from?
+
+18:05.520 --> 18:11.840
+ I've been sort of watching this in the background, but they released a press release and I thought
+
+18:11.840 --> 18:18.800
+ this was funny. They promised to post a preprint on the results of their comet ice study. So this
+
+18:18.800 --> 18:28.080
+ is COVID-19 monoclonal antibody efficacy trial intent to care early. What a name. And this trial
+
+18:28.080 --> 18:36.080
+ evaluated, this is going to roll right off the tongue, VIR7831. So Veer7831 or that's a little
+
+18:36.080 --> 18:44.560
+ hard. You can call it GSK4182136. This is a monoclonal antibody. And this is this is neat,
+
+18:44.560 --> 18:51.440
+ actually. It targets a conserved part of the spike protein. And so they studied this as
+
+18:51.440 --> 18:57.600
+ monotherapy. I'm going to sort of go into what I mean by that. And they they presented this
+
+18:57.600 --> 19:06.640
+ press release interim analysis from 583 patients were enrolled and they demonstrated 85% reduction
+
+19:06.640 --> 19:14.320
+ in hospitalization or death, p-value 0.002. So right in that same ballpark. So a little bit
+
+19:14.320 --> 19:20.480
+ of notes about this. So this is a very I think a fascinating concept is you find an area on the
+
+19:20.480 --> 19:27.680
+ spike protein that cannot change without disrupting the ability of the virus to basically complete
+
+19:27.680 --> 19:33.040
+ its biology. So it's a a required sequence, something that cannot be changed, a conserved
+
+19:33.040 --> 19:39.280
+ sequence. Interesting enough, this epitope is shared with SARS-CoV-1. It's also an epitope
+
+19:39.280 --> 19:46.880
+ that SARS-CoV-1 can't change. A couple other things about this antibody is that they are using
+
+19:46.880 --> 19:54.080
+ this is entertaining a proprietary Zen core extend NFC technology that allows for higher
+
+19:54.080 --> 19:58.800
+ airway antibody levels and extended half life. So I'm not sure exactly what they're doing to get
+
+19:58.800 --> 20:03.600
+ it into the airways better. But by changing the the FC, so think about it, I was holding up my
+
+20:03.600 --> 20:08.960
+ hands like Nixon, you know, and the fingertips are the binding part, but down by my hand,
+
+20:08.960 --> 20:13.520
+ that's the fragment crystallizable part. You can adjust that and change the half life. So you can
+
+20:13.520 --> 20:18.160
+ potentially have an antibody that instead of only lasting three months, you might give this to
+
+20:18.160 --> 20:25.120
+ someone and protect them for six months. So they not only have ongoing efficacy trials such as this,
+
+20:25.120 --> 20:29.760
+ but they also have prophylaxis trials. Can you get this ahead of time? And I didn't mention the
+
+20:29.760 --> 20:34.800
+ variants and I mentioned E484K. And what I was going to say here is I really do not like the
+
+20:34.800 --> 20:39.520
+ concept of variants and we keep talking about different parts of the world. I like to put this
+
+20:39.520 --> 20:44.800
+ in my mind sort of the way I think about choosing treatment for an individual with HIV. I want to
+
+20:44.800 --> 20:51.520
+ know what's the mutation and how does it affect my potential therapy, right? So I hate the E4H4K
+
+20:52.320 --> 20:58.000
+ because we have evidence that that decreases the efficacy of the monoclonal bamblinibimab
+
+20:58.000 --> 21:03.280
+ and in devimab. Thus, we're switching over to a lot of the cocktails and actually,
+
+21:04.640 --> 21:08.640
+ this is because this is a lot of this is going out to our pro health doctors. We've started
+
+21:08.640 --> 21:15.680
+ sending our patients to the Catholic ERs to get access to the Regeneron monoclonals,
+
+21:16.320 --> 21:21.920
+ the cocktail there. We've also been in talks to try to switch over all our UHG programs to using
+
+21:21.920 --> 21:28.400
+ the Eli Lilly cocktail instead of just bamblinibimab. So they'll be getting the bamblinibimab and
+
+21:28.400 --> 21:33.760
+ the test of a map because I think we want to stay ahead of this. We don't want to give a therapy.
+
+21:33.760 --> 21:41.040
+ We're a third of the time we might be ineffective. Daniel, for HIV, you do genotyping to figure out
+
+21:41.040 --> 21:45.600
+ what to treat them with. Do you think that's coming for this? I actually am hoping we can do it
+
+21:45.600 --> 21:50.160
+ rapidly enough, right? So I reached out to Yoshi, Steve, and David. I was like,
+
+21:50.160 --> 21:55.440
+ so, by the way, can you create an assay for me? Because with HIV, we might start someone on
+
+21:55.440 --> 21:59.600
+ treatment. They come back the next week and we have the sequence and then we adjust treatment.
+
+21:59.600 --> 22:04.160
+ But we need to know the sequence now, right? And so people may not know this, but this is
+
+22:04.160 --> 22:10.240
+ fascinating. Someone with HIV, when I am designing their treatment, I get the sequence of the reverse
+
+22:10.240 --> 22:16.320
+ transcriptase, the integrase, and the protease. And I base therapy on knowing the sequence of the
+
+22:16.320 --> 22:21.280
+ HIV virus that is dominantly affecting them. And it's fascinating. And I think that when we look at
+
+22:21.280 --> 22:26.320
+ monoclonals, there's two approaches. One is we keep regional surveillance and we use cocktails.
+
+22:26.320 --> 22:30.960
+ The other would be rapid, maybe it's CRISPR-based, where we can figure out, are those relevant
+
+22:30.960 --> 22:36.880
+ mutations prevalent present in that individual and then adjust therapy based upon real-time
+
+22:36.880 --> 22:44.160
+ answers. The period of detectable viral replication, the viral symptom phase, another press release,
+
+22:44.160 --> 22:52.640
+ right, from Merck. And this was Merck Ridgeback Biotherapeutics, and well, so Ridgeback Biotherapeutics
+
+22:52.640 --> 22:57.280
+ and Merck announced preliminary findings from a Phase 2A trial of investigational COVID-19
+
+22:57.280 --> 23:05.600
+ therapeutic malnup peer-avir. So this is an oral form of a potent ribonucleoside analog, right?
+
+23:05.600 --> 23:13.520
+ So this is an oral antiviral. And they reported the results from a multi-center U.S. Phase 2A study.
+
+23:13.520 --> 23:20.480
+ They were looking at 202 non-hospitalized patients. They were giving this within the first seven days
+
+23:20.480 --> 23:27.200
+ of confirmed SARS-CoV-2 infection. And the primary efficacy objective was reduction in time
+
+23:27.840 --> 23:35.040
+ to viral negativity as measured by RTPCR. And they described results of the secondary endpoint,
+
+23:35.040 --> 23:42.080
+ which was reduction in days to negativity of infectious virus isolated in days of pharyngeal
+
+23:42.080 --> 23:47.680
+ swabs. And they actually did this by isolation in Bureau cell line culture. So I knew that you
+
+23:47.680 --> 23:53.920
+ would like that Vincent actually did some viral culture there. So there were basically some
+
+23:53.920 --> 23:59.520
+ in some encouraging data here. So we'll see going forward, we're hoping we can have something like
+
+23:59.520 --> 24:07.280
+ an oral effective antiviral as opposed to where we currently sit with, shall I say, a relatively
+
+24:07.280 --> 24:15.680
+ ineffective IV antiviral. All right, there were some Ivermectin, effective Ivermectin on time to
+
+24:15.680 --> 24:20.960
+ resolution of symptoms among adults with mild COVID-19, a randomized clinical trial published
+
+24:20.960 --> 24:28.240
+ in JAMA. Double mind, double blind randomized trial conducted at a single site in Cali, Colombia.
+
+24:28.800 --> 24:35.600
+ They enrolled 476 adult patients with mild disease symptoms for seven days or fewer.
+
+24:36.240 --> 24:41.600
+ And this was a one-to-one randomization, either receiving Ivermectin, 300 micrograms
+
+24:41.600 --> 24:47.840
+ per kilogram per day for five days or placebo. And the primary outcome was timed resolution of
+
+24:47.840 --> 24:55.440
+ symptoms within a 21-day period of follow-up. The median time resolution symptoms was 10 days
+
+24:55.440 --> 25:02.000
+ in the Ivermectin group compared to 12 days in the placebo group. Hazard ratio resolution of symptoms,
+
+25:02.000 --> 25:10.320
+ not really significant here. By day 21, 82% in the Ivermectin group, 79% of the placebo group
+
+25:10.320 --> 25:16.880
+ had resolved symptoms. So they concluded in the study that among adults with mild COVID-19,
+
+25:16.880 --> 25:22.400
+ a five-day course of Ivermectin, compared with placebo, did not significantly improve the time
+
+25:23.040 --> 25:28.880
+ to resolution of symptoms. And they went on to say, the findings do not support the use of
+
+25:28.880 --> 25:36.880
+ Ivermectin for treatment of mild COVID-19. There are several issues with the study.
+
+25:36.880 --> 25:40.960
+ Apparently, on October 20th, the lead pharmacist observed that there was a labeling error.
+
+25:41.680 --> 25:46.080
+ And everyone was receiving Ivermectin. And no one was getting the placebo during this period of time.
+
+25:47.360 --> 25:53.600
+ No biological data. Population was very young. There are a lot of ongoing trials. I'm just
+
+25:53.600 --> 25:58.400
+ going to leave this as this did not support the use of Ivermectin. I want to spend a little time
+
+25:58.400 --> 26:03.120
+ in the future when I get more data on flu voxamine, just because I know a lot of people are discussing
+
+26:03.120 --> 26:09.520
+ this. And as we get more data, I'm going to jump in and talk about that. I love the idea of early
+
+26:09.520 --> 26:15.600
+ oral options. The tail phase and long COVID. I'm actually going to spend a lot of time. This is a
+
+26:15.600 --> 26:21.040
+ longer section than usual. And I know long COVID is not as exciting as the variants.
+
+26:22.320 --> 26:27.040
+ But the long COVID population, I feel like I've really become committed to this population.
+
+26:27.680 --> 26:32.160
+ And there was a paper. Shane Crotty doesn't like this paper, just as a disclaimer.
+
+26:32.160 --> 26:38.880
+ COVID symptoms, symptom clusters and predictors were becoming a long-hauler looking for clarity
+
+26:38.880 --> 26:45.280
+ in the haze of the pandemic. And this was posted as a preprint. And the authors described 1,407
+
+26:45.280 --> 26:52.240
+ long haulers that had never required hospitalization for COVID-19. And they reported that there were
+
+26:52.240 --> 26:58.400
+ certain characteristics that were more likely to be seen in long haulers, such as female sex,
+
+26:58.400 --> 27:06.000
+ normal BMI. And these were more likely to become long haulers. And this was interesting.
+
+27:06.000 --> 27:14.240
+ They suggested that as many as 32% of the long haulers had an initial infection that was asymptomatic.
+
+27:15.040 --> 27:22.320
+ Certainly a lot of limitations here. But as one analyzes this paper, it's interesting.
+
+27:22.320 --> 27:28.160
+ I'm not going to hang my hat certainly on 32%. But this is actually something that we're seeing
+
+27:28.160 --> 27:32.880
+ in clinical practice, something I've seen in clinical practice, where individuals come in.
+
+27:32.880 --> 27:39.360
+ There's no clear acute COVID. As we dig in a little, we get a potential exposure that was
+
+27:39.360 --> 27:45.520
+ maybe a few weeks or a month before the onset of these symptoms. And then we get a positive
+
+27:45.520 --> 27:51.680
+ antibody test. So I do think, and I would say my clinical practice, I've seen people who I
+
+27:51.680 --> 27:59.120
+ certainly feel comfortable diagnosing as long haulers, having long COVID, who did not have a
+
+27:59.120 --> 28:04.080
+ symptomatic acute illness. But then later on, started to develop all the classic symptoms,
+
+28:04.080 --> 28:09.040
+ loss of smell, loss of taste, the hair may have fallen out, the fatigue, the brain fog.
+
+28:09.760 --> 28:14.160
+ And I think it will be interesting too, with the T cell test to see if those people who are
+
+28:14.160 --> 28:21.120
+ serology negative have evidence of T cell response. Here's the big thing I am getting. We are all
+
+28:21.120 --> 28:28.160
+ getting lots of questions about upcoming gatherings, Passover and Easter. And I actually got one
+
+28:28.160 --> 28:33.200
+ text. I thought it was funny. It was a, it was sort of a news article. Well, it was a news article
+
+28:33.200 --> 28:38.320
+ in the CDC updated guidelines and the text was, is this real or fake news? Are they really going
+
+28:38.320 --> 28:43.280
+ to let people vaccinated get together indoors with people without masks? So I thought it was
+
+28:43.280 --> 28:48.240
+ entertaining. And so I'll hit it here. We do, as people probably have heard, this was discussed
+
+28:48.240 --> 28:53.760
+ on the last wave. We now have the following recommendations from the CDC where they say,
+
+28:54.400 --> 28:59.680
+ fully vaccinated people can visit with other fully vaccinated people indoors without wearing
+
+28:59.680 --> 29:07.760
+ mask or physical distancing. Or they can visit with unvaccinated people from a single household
+
+29:07.760 --> 29:14.560
+ who are at low risk for severe COVID-19 disease indoors without wearing masks or physical distancing.
+
+29:14.560 --> 29:18.640
+ You know, this is really, I think, the part that a lot of people are asking me about.
+
+29:18.640 --> 29:23.200
+ And there's certain assumptions here, which I'm going to say I'm not sure how comfortable I am
+
+29:23.200 --> 29:30.160
+ with these assumptions. Because what is really someone at low risk for severe COVID-19? You know,
+
+29:30.160 --> 29:35.840
+ I brought up with the children. You know, my son is 15. One of my daughters is 18. The other
+
+29:35.840 --> 29:40.320
+ daughters 20. And I know there's a certain idea that we'll take the 15 year old who's on the younger
+
+29:40.320 --> 29:46.800
+ side. You know, if he got COVID, he loves running. Sports are a really big thing for him.
+
+29:47.680 --> 29:52.320
+ If he, you know, he runs a five something minute mile as a freshman in high school,
+
+29:52.320 --> 29:58.720
+ if he was not able to do that, that would be a huge blow. So I don't just look at him and say,
+
+29:58.720 --> 30:03.360
+ I'm worried about him ending up in the hospital. I'm dying. I'm worried that he might, you know,
+
+30:03.360 --> 30:08.800
+ really have long COVID if he might have a negative impact. So, you know, we need to really sort of
+
+30:08.800 --> 30:13.040
+ think about these decisions here. So just putting that out there.
+
+30:13.040 --> 30:18.080
+ As per the CDC currently authorized vaccines, the US are highly effective. Like what are we
+
+30:18.080 --> 30:22.800
+ doing here? They're highly effective at protecting vaccinated people against symptomatic and severe
+
+30:22.800 --> 30:30.000
+ COVID-19. And also there tends to be more evidence every day, a growing body of evidence,
+
+30:30.000 --> 30:34.960
+ suggesting that fully vaccinated people are less likely to have asymptomatic infection
+
+30:34.960 --> 30:42.080
+ and potentially less likely to transmit SARS-CoV-2 to others. So I think that that's at least what
+
+30:42.080 --> 30:47.840
+ the CDC puts forward is what is the thinking behind this? So I don't want to give any specific
+
+30:47.840 --> 30:54.880
+ advice, you know, on a case-by-case on Twiv, but I certainly do all day over the phone and in person.
+
+30:55.760 --> 31:01.200
+ But we often get the questions about, you know, how do we make things safe, right? People are
+
+31:01.200 --> 31:06.240
+ going to get together over Easter and pass over much as they did over the Christmas and New York
+
+31:06.240 --> 31:13.360
+ holidays. So what are the different factors that can play into your decision? So one,
+
+31:13.360 --> 31:20.160
+ being vaccinated, that's the biggest thing I can recommend. If you have access to vaccination,
+
+31:20.800 --> 31:26.720
+ go ahead and get vaccinated. The vaccination access is improving dramatically and quickly.
+
+31:26.720 --> 31:32.480
+ I hate that we're on a clock here. The other is people who've had prior recent infection in the
+
+31:32.480 --> 31:38.560
+ last three months, they seem to be less likely. And that also relates to people who have recently
+
+31:38.560 --> 31:44.800
+ received monoclonal. So that's sort of your lowest risk group. The other is group size.
+
+31:45.520 --> 31:51.680
+ We know that the smaller the size, the better. So if you can keep these sizes small, you know,
+
+31:51.680 --> 31:56.400
+ think about that. We are really getting here to the end of the pandemic. I mean, I've been saying
+
+31:56.400 --> 32:00.320
+ that for a little while now, hopefully just a little while. But really, we have turned the corner.
+
+32:00.320 --> 32:04.960
+ The numbers are dropping. The percentages are dropping. I think that we're all hearing that,
+
+32:04.960 --> 32:10.240
+ hey, by the end of May, everyone who wants access to a vaccine in the United States will probably
+
+32:10.240 --> 32:15.360
+ have had that shot. So this is the final lap. Think about that question that I brought up with
+
+32:15.360 --> 32:20.320
+ children. I know they may not end up in the hospital. They may not die. They may be at lower risk for
+
+32:20.320 --> 32:25.360
+ those. But you know, they are not, you know, I feel bad when those parents come in and say,
+
+32:25.360 --> 32:31.840
+ how come no one told me? You know, children can get sick. Children can have long COVID outdoors
+
+32:31.840 --> 32:37.200
+ versus indoors. It's a beautiful sunny day here in the New York, tri-state areas we record.
+
+32:37.920 --> 32:43.840
+ Outdoors versus indoors. Time outside. We now think we've been saying this for a while. The data
+
+32:43.840 --> 32:51.280
+ tends to hold about 20 times safer than indoors outdoors. So much better testing. Don't forget
+
+32:51.280 --> 32:58.320
+ about testing, right? Testing is not perfect. But as we saw around Thanksgiving, around Christmas,
+
+32:58.320 --> 33:04.320
+ around New Year's, around Hanukkah, if you test and you pick up people who are positive, you can
+
+33:04.320 --> 33:09.360
+ pull them out. You can, you know, just these are layers of making things safe. Behaviors, right?
+
+33:09.360 --> 33:13.200
+ Alcohol and hugging. I think that's what everyone's looking for too. Drinking alcohol and hugging
+
+33:13.200 --> 33:18.160
+ everyone. These are factors that weigh in. Community prevalence. You got to pay attention. I have to
+
+33:18.160 --> 33:23.600
+ say right here in Nassau County, where I'm out here recording, we're not doing well. And we're not
+
+33:23.600 --> 33:29.120
+ doing well around kids as far as the prevalence levels. So your local community prevalence,
+
+33:29.120 --> 33:34.960
+ the community prevalence where the people attending are coming from, that impacts the risk. Health
+
+33:34.960 --> 33:41.520
+ status and risk factors for the attendees. You know, that needs to be factored in. If you've got
+
+33:41.520 --> 33:45.680
+ someone who's undergoing chemo, do you really want to get together now or do you want to wait
+
+33:45.680 --> 33:51.520
+ until prevalence drops and vaccinations more widespread? And then of course the behaviors before
+
+33:51.520 --> 33:57.440
+ and after the event. I know a lot of us are exhausted. We're done with this pandemic. We just want to
+
+33:57.440 --> 34:02.000
+ quote unquote get back to normal. But if you are thinking about getting together for these
+
+34:02.000 --> 34:07.520
+ holidays, another layer of protection is really minimizing your exposures, you know, before the
+
+34:07.520 --> 34:12.400
+ event. And then, you know, consider that if this was a potential exposure, how are you going to
+
+34:12.400 --> 34:17.920
+ behave after the event? So I'm going to finish there. And then I'm going to say, hey, unless you're
+
+34:17.920 --> 34:23.280
+ driving, drop everything you're doing, go to parasiteswithoutporters.com, continue to support
+
+34:23.280 --> 34:29.200
+ us. Thank you so much. You know, we are going to continue during February, March and April to
+
+34:29.200 --> 34:35.280
+ support the American Society of Tropical Medicine. We are hoping to get up to a donation of $40,000
+
+34:35.280 --> 34:43.760
+ to give to them. Because we want to help early career women from low income parts of the world
+
+34:43.760 --> 34:47.760
+ come to the fall meeting. Hopefully that's going to be safe and this is going to happen.
+
+34:48.320 --> 34:53.280
+ Because there are a lot of inequities. I think everyone has there's been a light shown on the
+
+34:53.280 --> 34:57.200
+ inequities in the world. We want to turn that around in the field of global health. And we want
+
+34:57.200 --> 35:01.440
+ to give these young women from these parts of the world an opportunity help us make that happen.
+
+35:01.440 --> 35:07.520
+ All right, it's time for Ask Dr. Griffin. If you want to ask a question, Daniel at microbe.tv.
+
+35:08.160 --> 35:14.400
+ First one is from Douglas, who is an emergency physician in California. He says, you're very
+
+35:14.400 --> 35:19.680
+ enthusiastic about the use of monoclonals. But my take is that it's marginally at best
+
+35:19.680 --> 35:25.920
+ for preventing significant complications of COVID-19 with the best data showing an NNT of about 20
+
+35:25.920 --> 35:30.240
+ to prevent an emergency department visit or hospitalization and larger studies showing
+
+35:30.240 --> 35:34.960
+ no clinically relevant outcomes. Is there something I'm missing? I realized the recent press release
+
+35:34.960 --> 35:42.000
+ for BAM and Etsy reported a significant hospitalization of death and patients recently diagnosed.
+
+35:42.000 --> 35:46.880
+ I would assume they did not find a statistically significant decrease in death alone. Otherwise,
+
+35:46.880 --> 35:52.720
+ the press relief would have mentioned it. The IDSA currently does not endorse use of these drugs.
+
+35:52.720 --> 35:57.680
+ While I have been working on getting monoclonals for our Medicaid patients primarily on the basis
+
+35:57.680 --> 36:03.760
+ of health equity, I'm not sure it's worth the effort and cost $1,275 infusion fee that our
+
+36:03.760 --> 36:11.600
+ hospital charges for are uninsured. This perfect timing, thank you for writing in now. I got to
+
+36:11.600 --> 36:16.480
+ just present the phase three data. I've been hearing that this phase three data was going to come out,
+
+36:16.480 --> 36:20.480
+ and Vincent and I actually were on a call on Sunday with where people from Regeneron were
+
+36:20.480 --> 36:25.120
+ saying their phase three data is going to come out. I've been getting a lot of personal communication
+
+36:25.120 --> 36:31.440
+ and actually, as the PI on the largest post-EUA BAM on Evan map trial, which now I think is going
+
+36:31.440 --> 36:38.800
+ to transform into a Eli Lilly Cocktail trial, we've been seeing really incredible impact.
+
+36:38.800 --> 36:43.600
+ Just to give a story on this so people can put it in, we can get some numbers in here.
+
+36:44.480 --> 36:52.000
+ My partner, Nujali, got consulted a patient. Day three of illness, their son had the COVID.
+
+36:52.000 --> 36:58.160
+ This gentleman comes in dehydrated, hasn't had anything to eat or drink for a couple of days,
+
+36:59.040 --> 37:06.000
+ gets IV hydration, not hypoxic, high risk in his 80s, multiple medical conditions.
+
+37:06.640 --> 37:11.920
+ Her advice was we got to get this person out of the hospital, out of the ER, let's get them the
+
+37:11.920 --> 37:20.000
+ monoclonal cocktail. As we just saw from the phase three data from Eli Lilly, really impressive going
+
+37:20.000 --> 37:25.920
+ from a, we'll say it was a six percent people moving forward ending in the hospital to less than
+
+37:25.920 --> 37:32.160
+ one percent. If you look at this individual, he probably has probably about 20% chance of ending
+
+37:32.160 --> 37:39.600
+ up in the hospital. You reduce that from 20% down to, we'll say a five percent or a four percent,
+
+37:39.600 --> 37:45.280
+ that's pretty impressive. What we were seeing out of the mail and now boom, we have this in this
+
+37:45.280 --> 37:52.240
+ phase three trial, nobody receiving the cocktails died. We're seeing a big mortality reduction.
+
+37:52.960 --> 37:56.320
+ When you look at the cost, that's what they basically, I've said, that's how they're pricing
+
+37:56.320 --> 38:00.880
+ the drugs. They're saying if you target a population with a 10 percent likelihood of ending up in the
+
+38:00.880 --> 38:07.200
+ hospital and you can drop that by 75 percent, now I'm going to say 85 percent, that makes that
+
+38:07.200 --> 38:16.080
+ thousand dollar cost of the monoclonal cocktail makes sense. It actually saves a healthcare system.
+
+38:16.080 --> 38:21.680
+ It saves an insurance company. It saves Medicare and Medicaid money versus the hospitalization.
+
+38:21.680 --> 38:27.520
+ Also, here we are. This is the most effective therapy that we have. This has a mortality
+
+38:28.080 --> 38:33.600
+ reduction, pretty significant. This has a huge impact on progression. If you interact with
+
+38:33.600 --> 38:38.320
+ people that have gotten these treatments, instead of being sick for weeks and maybe being chronically
+
+38:38.320 --> 38:43.920
+ ill, maybe getting long COVID, 10 to 20 percent of the time, we are seeing that these patients at 36
+
+38:43.920 --> 38:50.000
+ hours are, most of them saying, I feel tremendously better if they got this in time. Instead, the
+
+38:50.000 --> 38:55.040
+ push from the ER doc for my partner, Anu Jalee, was we got to get this person in the hospital,
+
+38:55.040 --> 39:01.360
+ kind of started by Remdesivir. Her response was, hey, it's day three. They're not hypoxic.
+
+39:01.360 --> 39:09.600
+ And by the way, Remdesivir, I'm not sure it ever saved anyone's life. I think the data is really
+
+39:09.600 --> 39:15.840
+ impressive here. I've been waiting for this to be now. It's out there. I think it's just a matter
+
+39:15.840 --> 39:21.280
+ of time before the Regeneron joins, and we get much more use and appreciation of the monoclonals.
+
+39:21.280 --> 39:26.720
+ Al is an ID doc in Canada due to the delayed vaccine rollout here from international supply
+
+39:26.720 --> 39:31.760
+ restrictions. Our province recently moved to delay the second shot of mRNA vaccines for four months,
+
+39:31.760 --> 39:36.800
+ citing UK and Israel data for effectiveness after a single shot. Many frontline workers
+
+39:36.800 --> 39:41.760
+ who see COVID patients, including myself, have now had their second shot canceled.
+
+39:41.760 --> 39:46.800
+ I'm aware of the UK and Israeli data. I myself feel like we are playing with fire doing this,
+
+39:46.800 --> 39:51.280
+ having a large unboosted population. Seems like a good way of developing escape variants,
+
+39:51.280 --> 39:55.840
+ as well as not adequately protecting frontline healthcare workers. I'm really curious
+
+39:55.840 --> 39:59.920
+ what an outsider's perspective would be on this, as it's very difficult to voice a
+
+39:59.920 --> 40:04.320
+ clinician's perspective over very tightly controlled public health messaging.
+
+40:04.320 --> 40:06.800
+ Now, Vincent, this is from Canada. Is that right? Did I get that right?
+
+40:06.800 --> 40:08.160
+ That's right. That's right.
+
+40:08.160 --> 40:12.320
+ Okay, good. Good. I feel comfortable criticizing the Canadians there,
+
+40:12.320 --> 40:17.360
+ not very violent people. So I want to make sure it wasn't some nationality that I would get in
+
+40:17.360 --> 40:27.040
+ trouble. Yeah, I do not. That's exactly my fear. I worry about selection for variants when you have
+
+40:27.040 --> 40:32.320
+ a low level of antibodies. This is like giving someone a half a dose of an antibiotic every
+
+40:32.320 --> 40:37.840
+ other day or basically trying to create selection pressure. I know Paul Bines put out an opinion
+
+40:37.840 --> 40:43.520
+ piece on this. And I actually, that is a fear I have. So yeah, not excited about that approach.
+
+40:43.520 --> 40:48.080
+ Miles writes, my daughter-in-law is pregnant. First time, 11 and a half weeks, does the lower
+
+40:48.080 --> 40:54.000
+ react to genicity of J&J vaccine make it safer for her? At what point should she get vaccinated?
+
+40:54.000 --> 40:59.200
+ Yes, that's a challenging question I have to say. I'm very careful to say the best vaccine
+
+40:59.200 --> 41:03.600
+ is the one that you have access to, because if you say, oh, but I can get J&J in two months,
+
+41:04.320 --> 41:09.520
+ that's not great. If you went in and say, hey, I got either one, I could take the J&J,
+
+41:09.520 --> 41:15.120
+ I could take the mRNA. There is some suggestion, pregnant women, you really don't want them having
+
+41:15.120 --> 41:22.000
+ fevers. So is there certain advantage, the J&J, because of less likelihood of having fever?
+
+41:22.800 --> 41:28.400
+ There's two sides to this, let's say, as far as safety experience. We now have had
+
+41:28.400 --> 41:34.400
+ millions of people get the mRNA vaccines, tens of thousands of pregnant women. They all seem to
+
+41:34.400 --> 41:41.360
+ be doing really well. The J&J platform was used in West Africa, down to as young as four months of
+
+41:41.360 --> 41:46.560
+ age. A lot of pregnant women, we have a long experience, sort of afterwards seeing that there
+
+41:46.560 --> 41:53.520
+ were no issues. There's really no significant concerns in my mind to any of the vaccines with
+
+41:53.520 --> 41:59.360
+ pregnant women. So I think I'm just going to circle right back, as I did here to say,
+
+41:59.360 --> 42:04.560
+ a lot, a lot of evidence that these are safe, effective, and the thing you don't want to be
+
+42:04.560 --> 42:08.080
+ is unvaccinated during a pandemic, particularly if you're pregnant.
+
+42:09.280 --> 42:14.560
+ Last one is from Gary. Can you tell me what it means that Janssen COVID vaccine protects
+
+42:14.560 --> 42:20.560
+ 85% against severe disease and 100% against hospitalization? I thought severe disease
+
+42:20.560 --> 42:26.160
+ meant requires hospitalization. What severe COVID does not require hospitalization?
+
+42:26.160 --> 42:34.560
+ So yeah, I think that we need to all use words a little bit better here, a little bit more specific.
+
+42:35.760 --> 42:40.560
+ Yeah, it's interesting that we were having a discussion. One of the local hospitals really
+
+42:40.560 --> 42:46.720
+ wants to basically shorten the amount of isolation to 10 days from symptom onset, sort of no matter
+
+42:46.720 --> 42:52.320
+ what. And I was actually pointing out that the definition by the CDC of severe is someone who
+
+42:52.320 --> 42:56.880
+ requires hospitalization and supplemental oxygen, like, no, no, when I say severe, I mean they're
+
+42:56.880 --> 43:01.840
+ on a ventilator, which basically means no one's going to end up with any more than 10 days of
+
+43:01.840 --> 43:08.400
+ isolation. So if you went through and actually this was done, I think pretty well on Twib,
+
+43:08.400 --> 43:13.680
+ I feel like Rich was sort of struggling with this. How are you using these words? And if you have,
+
+43:13.680 --> 43:18.800
+ you know, a positive PCR and two symptoms, then I think ultimately what I did is I walked away
+
+43:18.800 --> 43:22.560
+ and said, I'm going to forget this confusing terminology and I'm going to ask the really important
+
+43:22.560 --> 43:29.200
+ question. Day 28, did anyone end up requiring hospitalization? Did anyone die? And the answer
+
+43:29.200 --> 43:35.200
+ was zero in the vaccinated group. So 100% of preventing people from ending up in the hospital,
+
+43:35.200 --> 43:41.280
+ 100% of people keep them from dying of COVID. And that in my mind, that's that's moderate to
+
+43:41.280 --> 43:47.120
+ severe COVID. If you can stay in the outpatient setting, if it's nothing more than the sniffles
+
+43:47.120 --> 43:53.440
+ that are fever and you feel crummy, that's success. All right, that is COVID-19 clinical update number
+
+43:53.440 --> 44:23.280
+ 53 with Dr. Daniel Griffin. Thank you, Daniel. Oh, thank you so much. Everyone take care and be safe.
+

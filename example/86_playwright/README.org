@@ -1,0 +1,14 @@
+| file  | complete | comment  |
+|-------+----------+----------|
+| gen01 |      20% | sync api |
+
+- https://www.youtube.com/watch?v=CK6MWehq7vI
+  - intro playwright in python
+
+- install (32 MB,  few 100MB for browsers)
+#+begin_example
+pip3 install --user playwright 
+cd /home/martin/stage/cl-py-generator/example/86_playwright/source
+playwright install
+#+end_example
+

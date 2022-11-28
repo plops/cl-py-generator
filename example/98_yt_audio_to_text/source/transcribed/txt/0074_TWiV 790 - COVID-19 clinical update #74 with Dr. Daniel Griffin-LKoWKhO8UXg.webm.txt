@@ -1,0 +1,478 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 790 recorded on August 5th, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. You got another good number, 790, Daniel.
+It's a good number. You feel lucky you're going to get 800, you think?
+You know that? I was actually noticing that that we are driving towards episode 800. It's sort of
+amazing how much content has been produced. Yes, thanks to COVID for sure, otherwise we'd be
+far behind. But speaking of COVID, what are you seeing in your hospital? Do you have a high burden
+of cases? So I would say, no, no, we are seeing some. I mean, we're seeing in all honesty what
+we expected when the vaccines came out. And when we started seeing real world efficacy on them,
+we are certainly seeing an increasing number of people that test positive in the communities
+that show up at our urgent cares. But the number of individuals in the hospital is actually relatively
+low. Just to give perspective, say the Northwell system, 22 bed, 22 hospitals, large healthcare
+system in New York, back during the early peak over 4,000 patients in the hospital at any given
+time. We're maybe 150 in all the hospitals, right? So that puts it sort of low numbers.
+We're certainly seeing them. We're not flooding the ICUs. We're not flooding the floors. But really
+what I think that reflects as we look around the country is a high vaccine uptake in our local
+area, right? So all right. So first, I'm going to start with a correction. I really enjoyed the
+quotation when I heard Rich Condits say it. But it turns out last week's quotation was actually
+not set by Richard Feynman. I actually went back and listened to the interview itself.
+And what did he actually say? If you listen, he said, you see, one thing is I can live with
+doubt and uncertainty and not knowing. I think it's much more interesting to live not knowing
+than to have answers, which might be wrong. So I'm always trying to be a stickler for the truth.
+So I appreciate that being pointed out. Let me start with my quotation this week, which I do
+believe was actually said by this individual. Being defeated is often a temporary condition.
+Giving up is what makes it permanent. And that's by Marilyn Voss-Savant.
+And I think that we are having a tough time across the country, around the world.
+But this is our fight to lose. We can still get ahead of this. We can still make a difference.
+And we have learned a tremendous amount. And we have incredible tools. So
+where are we at the moment? If you follow the dashboards, some of us still check the dashboards
+on a regular basis. I like world-o-meter. I like their curves and their daily counts.
+If you look at August 4th, I think I predicted in last month that we would be over 100,000
+new cases per day. On August 4th, we had 112,279 new cases and 656 deaths just that one day.
+I'm trying to figure out, you know, people have just become numb or there's some kind of emotional
+fatigue. I think a lot of it is this emotional fatigue. People really just want this to be over.
+As my grandmother used to say, if wishes were horses, beggars would ride.
+And wish away, you have to actually act to make this change. The case fatality rate,
+if you look at the millions of people in the United States that have had confirmed COVID-19,
+it's right at 2%. So one in 50 people with confirmed case of COVID here in the US have
+died during the acute period. But as we started our discussion events, and this is quite different
+than the about one in a million risk if a person is vaccinated. So what I like to say is if everyone
+in the country was vaccinated, we'd maybe see three to 400 deaths a year instead of 600 deaths
+a day with our vaccine uptake challenges. Do you think that we will ever get to a point where most
+people are vaccinated in the US? You know, we're already there, right? If you use the word most,
+right? So over 70% of individuals eligible have started the vaccine process. Over 50% of eligible
+individuals are fully vaccinated. You know, there's all this talk about all vaccine hesitancy. But
+I mean, if you start doing the numbers, you realize, you know, it's the tyranny of the minority. I
+mean, the majority of the eligible people are doing their part getting vaccinated,
+helping us get to a point where we can move forward. So I'm actually quite optimistic and,
+you know, some people and I, you know, have a lot of conversations. They're waiting for full
+licensure. They keep saying it's not, it's not fully approved when it is, I will get vaccinated.
+I believe some of them, not all of them. When all of the military personnel are vaccinated,
+you know, after a while, right, people look at this, I was doing a medscape interview the other
+day, that's sort of an educational thing. And I compared this to polio, people like, Oh, you know,
+back when polio, everyone was just rushing to get vaccines. That's not actually true. So
+it took five years to get to over 90% with the polio vaccines once they were fully licensed,
+right? You know, we are at 70% starting the process at seven months. That's pretty good.
+You know, we keep this up three more months. We'll be at 100%. Well, maybe not, but I'm optimistic.
+Okay, good. What about you, Vincent? Are you optimistic?
+No, I think, you know, we were, we were stuck at about half a million doses a day way down from
+over a million, right? And only now because there have been huge upticks in the south,
+in the Midwest, then now it's gone back up to 750,000 a day. So if that continues, that's good,
+right? But it's going to take a while for us. So I'm not optimistic, because I think too many
+people have issues with the vaccine. But I hear that perhaps by Labor Day, we'll have full
+licensure for Pfizer. Is that true? Is that what you're here? That is the circulating rumor. I
+suspect September to be a good month. I suspect that in September, we will have full licensure of
+Pfizer. We'll have expansion down to six and up. And I really think that's going to be helpful,
+because I think a lot of individuals would like access, but they would like access to a licensed
+vaccine. So hopefully FDA will acknowledge this. All right, well, I like to start off with a couple
+stories, just actually two individuals I saw today, who did maybe not get optimal care. And I want
+to point out that I'm actually seeing the majority of patients in our area really get good care.
+So these are kind of the outliers that hopefully are examples for everyone.
+Learning lessons, we'll say. So one was a woman in her 20s. The other was a man in his 30s,
+both unvaccinated. And the woman in her 20s will start with her. She she wasn't feeling well for
+about three days, you know, typical viral syndrome. What was going through the back of her head,
+we can imagine she went to an urgent care where the provider suggested that she get a COVID test.
+She started to cry. She explains to me that she gets very emotional when she's sick. And so the
+provider did not want her to cry. So said, Oh, don't worry, you don't need a COVID test. Go home,
+take some of my broken Tylenol. Well, by the next day, she was starting to feel like maybe that was
+not the best shared decision and went to a different urgent care the next day. This time, she shared
+with me that the provider spent a little more time connected with her, encouraged her to get
+tested. And yes, the test was positive. She had COVID. Now the provider said to her, listen,
+you're in the first week sounds to me pretty good so far. We can treat this symptomatically.
+We're going to follow and see how you do. If you start to have issues during the second week,
+then we might suggest some other things. Little miss on this is this young lady had a BMI of
+greater than 30, right? So it would have been nice for her to get the monoclonals. But instead,
+I met this young lady today in the emergency room, hypoxic. And so she's been admitted to the
+hospital. Second individual of man in his 30s. This we got a little more learning lessons here.
+This individual went also to I remember this because he said what I said was really entertaining.
+He said, you know, I went to a city MD and I thought there'd be MDs there, but there weren't.
+And so he was seen by a non MD, whatever provider level, I'm not sure. But again, he was feeling
+ill. He had decided not to get vaccinated. A decision he was regretting as we spoke.
+And when he was seen, he was about three or four days into his illness. So he was for his viral
+illness has confirmed COVID. He was given steroids and antibiotics. Now, fortunately, as he told me,
+he decided after taking a few of the steroids that he wasn't happy continuing and did not
+continue with the steroids. He did take the antibiotics, which as we know from a lot of evidence is not
+really ideal. But now he's coming in during the second week. And actually, unfortunately,
+in this gentleman, he's actually escalated despite starting steroids to our higher
+amount of oxygen. We had to add to Salismab to his management. He's in the hospital.
+He's passed really that acute window where we consider him decivir. So he's getting
+oxygen steroids, to Salismab, anticoagulation. And we're going to follow. And hopefully,
+this gentleman doesn't progress to mechanical ventilation or death. So again, two sort of
+misses on the monoclonals. And I'm going to keep hammering on the monoclonals because really,
+if you look at the studies, 70 to 80% reduction in people progressing. If they get them in that first
+week, a BMI higher than 25 is really quite widespread in our population. Both these
+individuals have BMI is greater than 30. And if you look at the studies, no deaths in the arms
+that got monoclonals. So even if there is some degree of progression, people tend to do much
+better if you can get things in during that window. All right, children and COVID.
+As I like to say, children may be at low risk, but they are not at no risk. The media, I think,
+has done a good job lately of pointing out that we are seeing rising rates of infections and
+hospitalizations in children. And our listeners are likely aware that more children that get infected
+percentage of these children will end up hospitalized. A percentage of these will go on to develop
+long COVID. The number of cases in children actually doubled last this week compared to the prior
+week to over 70,000 infections in children. And some really heartbreaking stories,
+description of two children that died over the weekend at the Children's Hospital in Memphis,
+Tennessee. One child was so ill that by the time the decision was made to send them to the hospital,
+he actually died en route to the hospital. So just a reminder, children can die from COVID,
+children can end up in the hospital, children can get long COVID. So as we plan for full in-person
+schools, we really need to move past the myths about children based our decisions on the science
+work with the facts. Children may be at lower risk for many of these complications. But they
+are at risk. You know, as Nelson Mandela said, I believe he actually said this, there could be no
+keener revelation of a society sold in the way in which it treats its children. So as we open the
+schools, let's think about the safety, let's think about what we can do to make it safe to get
+education. One of the things that I recently heard, which I agree with, is that wearing a mask is much
+less traumatic for a child than being hospitalized, infecting their loved ones, seeing the loved ones
+get sick or die or developing an illness in them that can last for months or even a lifetime.
+All right, this is going to be sort of the meat of something. I'll say here, the pre-exposure
+period transmission testing never miss an opportunity to test. This is actually a publication that was
+discussed on the last 12, a deep dive into this. And I think I'm going to recommend everyone,
+well, finish listening to me first, but then go back and listen to the last 12. But the publication
+outbreak of SARS-CoV-2 infections, including COVID-19 vaccine breakthrough infections associated with
+large public gatherings, Barnstable County, Massachusetts, July 2021. This came out as an
+early release in the MMWR. I would like if they would stop using the B word. I think spending a
+little time reviewing this in detail is important, because I think that interpretations of this have
+misinterpretations, I will say, have frightened a number of individuals and impacted this perception
+about the role of vaccinated persons in this pandemic. Now, this was a solid group of authors
+affiliated with the Massachusetts Department of Public Health, the CDC COVID-19 response team,
+the Broad Institute, Cambridge, Massachusetts, Barnstable County Department of Health,
+and the Environment, Massachusetts, and the Community Tracing Collaborative Commonwealth
+of Massachusetts. So what was this MMWR report discussing? Well, the author's reported on 469
+cases, right? So this is not a, it's not really a research study. It's a report. It was a report
+on 469 cases of COVID-19 associated with multiple summer events and large public gatherings
+in a town in Barnstable County, Massachusetts during July 2021.
+Now, they did some sequencing on the specimens from 133 of the patients, and they identified the
+Delta variant as responsible for 90% of the cases. The big issue here is a number of the
+individuals were fully vaccinated either with the 2-dose mRNA vaccine or the J&J vaccine,
+vaccine, and had that 14-day period. I'm not going to talk about what percent of the vaccinated
+persons ended up infected. I think that there's sort of a nice deep dive is the more and more
+people who are vaccinated, the more percent of the people who end up with an infection will be
+vaccinated. I think that's sort of a math thing. But I will point out that one of the interpretations
+of this report is that only 1% of the vaccinated individuals required hospitalizations,
+and there were no deaths among the vaccinated people, right? So you could sort of do the math
+on this, right? Unvaccinated, we see about a 20%, and we would expect to see, you know,
+at least one or two deaths, maybe more about that 2% case fatality rate.
+Now, the unvaccinated did not fare as well, and as pointed out, one of the unvaccinated
+individuals, they're 123, so 1%, one of them did die. So, unfortunately, we're seeing that
+unvaccinated people still are at significant risk. Now, what were sort of the details of this?
+Because I think there is some important information here. Persons, the persons that had COVID-19
+in this report, they reported that they had attended densely packed indoor and outdoor events
+at venues that included bars, restaurants, guesthouses, and rental homes. I'm going to
+say so far, so good, not so far, so good. I think we've been told, right? Those are high
+risk venues. So these are vaccinated individuals with a decreased risk of infection, decreased
+risk of death and hospitalization, but they are putting themselves in harm's way. For the people
+that got vaccinated, it had been about three months since they completed their vaccinations,
+a median of 86 days. So as we've discussed repeatedly, we are expected to see a drop
+in the level of the antibodies, a drop in the protection against infection and localized
+mucosal replication with transmission, but continued protection against moderate and severe
+disease, which was demonstrated here. So this is what we saw. No deaths, only a 1% hospitalization
+rate, instead of that 2% deaths and 20% hospitalization rate that we've consistently seen
+in the unvaccinated. But then things get a little bit messy here. They report that they had cycle
+threshold values, so CT values. Now, we have pretty sophisticated listeners here, and they
+actually say when we, when we in this report, when we looked at those CT values, that they didn't
+go to the subtlety, but I think we can hear the RNA copy numbers at the initial testing that they
+had were similar between the vaccinated and unvaccinated individuals. Now, our listeners are
+very familiar, I think with this topic, and we've repeatedly returned to this over the last,
+I'm going to say now 19 months. The CT value, the cycle threshold, is the number of cycles we
+have to run that PCR machine prior to detecting the RNA in the sample, the less RNA, the more
+amplification to get to a level of detection. So the more RNA the sooner the signal is detected.
+Now, we did have information, a correlation between the RNA copy number for the ancestral and
+alpha variants of COVID and contact tracing, as well as some virus culture data, are plaque-forming
+units, PFUs, that's what PFU stands for for the toy listeners. But we still don't have this
+information for the delta variant, and we still don't have this information for the person. So I
+want to, I saw a wonderful sort of a tweet meme where it was the bark from the Simpsons writing
+on the board over and over again, by RNA copy number is not viral load. CT value is not viral load.
+So I don't want anyone to make that, quote unquote, rookie mistake. Those CT values do not
+necessarily tell us that vaccinated persons are carrying, quote unquote, tremendous amounts of
+virus in their noses. They have a high RNA copy number. We're going to get to some data in a moment
+to show that that is actually short-lived relative to an individual who is unvaccinated. And as we've
+discussed with a previous study, we're not sure that this is actual virus, or just a bunch of RNA,
+and that the virus has been neutralized by the immune response. So I think that this, we need
+that science before we jump to scary conclusions. So what are my takeaways from this study? I'm
+going to come away with four. One, persons attending densely packed indoor and outdoor events and
+venues that include bars, restaurants, guesthouses, and rental homes are at risk of infection with
+SARS-CoV-2, the virus that causes COVID-19, even if vaccinated. So just in case people didn't get
+this vaccinated, people can get infected with SARS-CoV-2. Vaccinated persons can transmit.
+This study didn't look at that. They did not look at secondary attack rates from vaccinated
+individuals. So this study did not tell us about any transmission being done by vaccinated
+individuals. So I think that's key. Two, in real-world situation, even months after completing
+vaccination, our current COVID-19 vaccines continued to offer protection against moderate and severe
+disease. In this study, only 1% of these individuals involved in these high-risk behaviors with really
+significant exposure went on to require hospitalization and no deaths. Three, we see again that vaccinated
+persons can get infected. And we know from other studies that vaccinated persons can transmit to
+others. But as I mentioned, this study does not look at secondary attack rates or transmission.
+And I don't think you want to walk away from this with that sort of conclusion or suggestion.
+Four, we need to repeat our case contact studies, our tracing studies, our viral culture studies
+with each new variant, and both vaccinated and unvaccinated persons to understand the kinetics
+and their correlation with shedding of infectious replication-competent virus.
+And I'm actually going to talk a little bit about a study that's starting to move in that
+direction. All right, so I'm going to move forward to our next study. This one I really like
+that suggests that maybe I didn't like the other one so much. This was a free print. And when I
+was listening to TWIV 779, I guess it was, and Brianne was talking about the biological and
+serological kinetics and talking about the red and the green curve. I was yelling at my radio,
+Brianne, it's the Singapore study, it's a Singapore study. And this is the Singapore study, which is
+great. Virological and serological kinetics of SARS-CoV-2 Delta variant, vaccine breakthrough
+infections, a multi-center cohort study. This was posted as a preprint, right? So it's still
+going to go through peer review. We'll still get some more input. But I really like this because
+we're starting to get the important information about the kinetics of the RNA copy number in both
+vaccinated and unvaccinated persons infected with the Delta variant. Now we've heard before,
+and this will challenge us that individuals with the Delta variant have a thousand times more
+virus in their upper airways. This study here where we're seeing kinetics does not support that
+contention. The authors conducted a multi-center retrospective cohort study of patients in Singapore
+and compared the clinical features, biological and serological kinetics. So anti-capsid,
+anti-spikes, surrogate virus neutralization titers between fully vaccinated and unvaccinated
+individuals. A couple of things I will say. One is the odds of severe COVID-19 requiring
+oxygen supplementation was significantly lower following vaccination, about a 93% reduction
+with a p-value of 0.001, no deaths in the vaccinated group. Now the PCR cycle threshold, right,
+CT values, the RNA copy number, was initially similar between vaccinated and unvaccinated
+groups at diagnosis, but decreased much faster in vaccinated individuals. So if you look at the
+levels we're seeing here, we're seeing CT values at about 20 early on, at about day one or two
+of illness. That is a very similar number to what we saw with the other variants. So we're not seeing
+support for this contention that it's a thousand times higher. But then what I think is great,
+and I am going to say people go out there. This is not behind a paywall. Hopefully we'll post
+this up on parasites without borders or COVID weekly updates. But if you look at this idea,
+one, we do not know if this is replication competent infectious virus. We're looking at RNA,
+but that RNA level starts to really fall off the cliff at about day five or six where the
+unvaccinated really it's like a slide where you're not going to get much speed. It just really
+continues to very slowly go down where we're seeing the individuals who are vaccinated really clear
+this RNA. So this would be for me the idea that, okay, that first number may be high,
+but vaccinated individuals, even if you're just looking at RNA levels, are quickly reducing that
+a shorter period of time at these high RNA levels. Really evidence for me that being around vaccinated
+people, even if they're exposed to an infected with SARS-CoV-2 is safer for me as an individual.
+We still need more data. We still need the viral culture data to make sense of what these RNA
+copy numbers mean. We need contact tracing to look more at the secondary attack rate.
+And I want to say the information I've seen so far on Delta does not suggest to me a higher
+secondary attack rate. We may have a shorter replication cycle. So, okay, four days later,
+you've infected those two to three other people. Eight days later, you've injected,
+you've infected another two to three people per two to three people. So it may appear from the
+epidemiology to have a higher reproductive number, but I think that the secondary attack rate so far,
+we're not seeing that this is quote, unquote, as contagious as chickenpox. We're just seeing a
+faster spread. I have to say this is stuff we're working on. And my friend, Dr. Juan Potu,
+up at the Everett Clinic in Washington, is collaborating with the University of Washington
+with their BSL Virology Center. And we're actually going to hopefully get some really good information.
+What do those CT values mean? What do they mean as far as platforming units, viral culture,
+et cetera? Because I think this is really important for those public health recommendations. So,
+I do not think the sky is falling. I still feel much safer around vaccinated individuals.
+All right. Exciting news this week on passive immunization, monoclonal antibodies as post-exposure
+prevention. So the Regeneron, COV, monoclonal antibody cocktail got expansion of their EUA
+to include post-exposure prophylaxis for individuals who are either one, not fully vaccinated,
+or two, are not expected to mount an adequate immune response to complete SARS-CoV-2 vaccination.
+So, for example, a person who has an immunocompromising condition, who's on immunocompromising medications,
+if they come in and say, I was exposed to an individual. I made a mistake. I had an exposure.
+These individuals, if they're considered high-risk for progression, can go ahead and actually be
+treated with the Regeneron, COV-2 cocktail. And they go on and give a little more information.
+I do think that this is really critical. We've been talking a lot. We'll get back to this about
+that third dose, boosters here in the United States when half the world hasn't had firsts.
+We do not know in all honesty what that third dose offers as far as protection for our individuals
+with immune compromising conditions. But we do have really good data about to present it on
+what happens when you post-exposure prophylaxis individuals with the monoclonal. So, I want people
+to think, this is a big changer in treatment, a big expansion. So, what is the science behind
+this expansion? There was a paper. We've talked about this information previously, but now the
+paper subcutaneous regen COV antibody combination to prevent COVID-19 was published in the New
+England Journal of Medicine. And this study, individuals, I say individuals, because they're
+not necessarily patients yet. They haven't been infected. They've just been exposed.
+They were randomly assigned in a one-to-one ratio within 96 hours after a household contact
+received a diagnosis of SARS-CoV-2 infection. And they actually were treated with a subcutaneous
+injection versus placebo. So, again, we don't need to necessarily have that IV. We could do this as
+a subcutaneous. So, increase our access. The primary efficacy endpoint was the development of symptomatic
+SARS-CoV-2 infection through day 28. And what did they find? Well, symptomatic SARS-CoV-2 infection
+developed in 11 of the 753 participants in the treatment group, 1.5%, but in 7.8%
+in the placebo group. So, this was a p-value of 0.01 by weeks 2 to 14, a total of 2 of the 753
+participants in the Regeneron-CoV group, 0.3%, and 27 of the 752 participants in the placebo group,
+3.6, had symptomatic SARS-CoV-2. So, we saw a relative risk reduction of 92.6.
+Among the symptomatic infected participants, the median time to resolution of symptoms was
+two weeks shorter than in the individuals that were treated. And the duration of, I'm going to
+translate high viral load into high RNA levels, greater than 10 to the fourth copies per milliliter
+was shorter, 0.4 versus 1.3, so about a week shorter there. So, that is now out in the New England
+Journal of Medicine. So, a couple of times this last week, I've run into this and sort of been a
+little bit shocked. The quote, unquote, in my experience from the physician saying,
+I haven't really had great experience with those monoclonals, but in my experience,
+the remdesivir has been working really well. Yes.
+So, Daniel, how can they do the control group, isn't that withholding standard of care in the
+control group if you know they're exposed? So, this was actually the study that gave the
+indication. So, prior to this, exposed individuals, there was no treatment option. Now, we know that
+if you're exposed at your high-risk individual, you can go ahead, get this antibody combination,
+and for about three months, have this passive antibody protection. Now, can you do a placebo
+control trial in the future? Actually, the monoclonals, it's a problem they can't.
+It's actually considered that effective, which sort of throws a little bit of a wrench in the
+system. Why are they not FDA approved if they're considered so potent, so valuable, so impactful?
+So, yeah, if the FDA is listening. All right, active vaccination, never miss an opportunity to
+vaccinate. Vaccination is how this pandemic ends. We keep getting more information comparing
+natural infection, induced immunity compared to vaccine-induced protection, and another article,
+neutralizing antibodies against SARS-CoV-2 variants, induced by natural infection or vaccination,
+a systematic review and pooled meta-analysis. So, this is pulling a lot of things together.
+When we pull these 106 articles together, we basically were seeing that the beta, the gamma,
+and delta significantly escaped natural infection-mediated neutralization. Neutralizing antibody
+levels induced by mRNA vaccines were, in general, at least the same level or higher. So, just more
+and more data suggesting that vaccination is really the way to go. Don't take a chance.
+I have certainly seen plenty of reinfections. And it's really at about six months when we start
+to see, at 180 days when we start to see the reinfections rise. But I've seen them as early as
+three months. And once you've had SARS-CoV-2, once you've had COVID-19, you really don't want
+a second infection. All right. So, as I said early on, the viral replication or viral symptom
+phase, what I like to say, the time for monitoring and monoclonal and not the time for antibiotics,
+well, monoclonal are not just for this phase anymore. It can now be moved up to prophylaxis as
+well. But remember, they are out there and we need to keep using them. They shouldn't sit on shelves.
+Okay. The early inflammatory phase, right? This is that time when everyone ends up in the hospital
+and gets the remdesivir. Well, let's talk a little bit about that. To be clear, the data on remdesivir
+has never been very persuasive. And the FDA approval was based on the idea that this drug,
+remdesivir, could reduce hospital stays, not mortality, not morbidity, but that it would reduce
+the amount of time people ended up in the hospital. Well, the article association of remdesivir
+treatment with survival and length of hospital stay among US veterans hospitalized with COVID-19
+really supports what I am seeing, what is being seen across the country, that remdesivir may
+be associated with unnecessary and prolonged hospital stays. So what did we see here? This was
+a cohort study of 2,344 US veterans hospitalized with COVID-19. The investigators reported that
+remdesivir was not associated with improved 30-day survival, but was associated with a
+significant increase in median time to hospital discharge. The findings suggested that routine
+use of remdesivir may be associated with increased use of hospital beds, but not with any improvements.
+So I think this is really relevant in many areas of the country where we hear about rising
+hospitalizations and it's worth asking if all these people are really benefiting from these
+five-day remdesivir stays at $3,000 per course of remdesivir, the huge costs associated with
+hospitalizations, the filling of those hospital beds. So a lot of these individuals, really,
+to be honest, the data would suggest could be treated quite well at home with oxygen
+oral steroids, keeping these beds open for people who really need them, people who are going to
+have an escalation of oxygen requirements, and actually all the other individuals who need the
+services of our acute care facilities. All right, so the tail phase long COVID, we keep getting
+confirmation of the significant risks of developing long COVID. This is a real thing. The article
+post-acute sequelae of SARS-CoV-2 infection and impact on quality of life, one to six months after
+illness and association with initial symptom severity was published in open form infectious
+disease. The authors reported that among 290 patients discharged from an outpatient telemedicine
+program night, so we're starting to get information on individuals who did not require hospitalization.
+39.7%, almost 40% reported persistent symptoms, including fatigue, dyspneion exertion,
+mental fog among others. So fatigue was 20%, dyspnea was 14%,
+mental fog was 13.5%, and 40% of individuals who are treated in this outpatient program
+had symptoms that continued. So long COVID is real. Unfortunately, I'm hearing reports that we may
+have even underestimated the incidents in adolescents and younger children. That will be critical to
+keep an eye on those numbers as we sort of see more children getting infected. All right,
+what's going on in the rest of the world outside the high income in the low and middle income
+countries? As I like to say, no one is safe until everyone is safe, just a little musing
+on third doses versus first doses. As we're seeing, there's already a code here in the US,
+they're kind of getting ready to allow us to give third doses. There's a little bit of a dialogue
+and Jen Psaki was talking about sort of the US perception on this. I do not know the right
+answer, so I'm just going to put this out there. Her presentation was that our ability to give
+third doses here in the US will not necessarily impact our ability to provide first doses in many
+other parts of the world. I think that's really important when we make these decisions to realize
+that there is an equity aspect and there's a science aspect. And now that we have the potential
+to use our monoclonals for those individuals who did not respond to just two doses, I think
+it's important that we balance those in our decisions. So whether that's true or not,
+I think it's important to know whether or not that's true. What's the science behind a third dose,
+Daniel? Yeah, we don't have any. I should say the lack of science behind the third dose.
+Yeah, it would be nice to have that science before we started giving people third doses, so yes.
+Good. Good call, Vincent. So let me close by thanking all our supporters. And I want to say
+thanks to an anonymous donor right there under the wire at the end of last month,
+we were pushed right up to our goal. So we were able to provide full support for FIMRIC.
+We cut them a check for $40,000 to help them with their efforts. They're starting to do
+some overseas, some in-persons traveling, starting to return. And so I was going to wear my rotary
+club international polio bow tie, which I will remember to do. But just the whole point is that
+we can't do this without your support. So thank you for your continued support. And we are now
+moving on starting this month. So August, September, October, all donations made to parasites without
+borders will support floating doctors. So go to parasites without borders.com,
+click the donate button, and help us support all the work that we do, as well as floating doctors.
+Great. Congratulations, FIMRIC. It's wonderful. That is fantastic. Time for some questions for
+Daniel. You can send yours to Daniel at micro.tv. Jason is going to have a catered party in a few
+weeks out on Long Island. Hey, Daniel, maybe you can go. I was waiting for the invite. Is there
+an invite in this email? Wait, let's see how well they do to keep people safe. 130 or so guests,
+we have a handful of unvaccinated. I'm assuming we need masks for them and kids who aren't vaccinated.
+Can they test out of a mask requirement? Would we do a rapid or PCR or both? And how long before the
+party? Well, what we try to talk about, right? Like, let's say I was in charge. I was your
+infection control officer. What would I recommend? The biggest thing I recommend, you've got over
+100 people. This is a large gathering by any sort of criteria. You really want to keep everyone
+outdoors, right? We've got the high holidays, the Jewish holidays coming up in September.
+When I'm asked about that, I always say, let's keep people outdoors. One of the things we say
+about outdoors is part of what's safe about outdoors is that dilution, but also your ability
+to have a little bit of space. So let's kind of keep going with that, you know, state that three
+or four feet apart outdoors, starting to keep things very safe. You can do testing, but remember,
+no test is 100% and tests don't predict the future. So those are important things. If someone had
+a test the day before, if they had a test that morning, the day before might be a more sensitive
+test. But then again, the person, you know, the test doesn't predict the future. They might
+have a point of care test. Again, not every test is 100% sensitive. So as we're learning or as we're
+communicating, as we're trying to reinforce, even vaccinate, people can get infected and spread.
+So those would be my big things. Keep it outdoors, try to keep people spaced apart.
+Mass are great, right? And you got 100, you got over 100 people, someone showing up at your party
+infected with COVID, just with SARS-CoV-2. So, you know, if you don't want any transmission,
+if you've got vulnerable people there, really, you know, encouraging masks is great, staying outdoors
+is great, right? People are going to have drinks. They're going to eat food. So then you sort of
+step aside, I always think of that as a time when my mask is off, is off and I'm not going to be
+face to face with an individual. So remember, layered approaches increase safety. Nothing is 100%
+safe. So balance your risks and risk tolerance. Tom writes, I know guidance from FDA and CDC at
+this point is that boosters are not needed to prevent disease. However, it seems like they could
+prevent infection as a third dose appears to elevate neutralizing antibodies to 100x if you take the
+Pfizer data at face value. While we don't know if neutralizing antibodies are a correlate of
+protection from severe disease, it does seem to correlate with infection based on small data from
+NEJM paper out of Israel. As a father of two young children, I'm finding it hard not to go and
+find a third dose. I'm not worried about myself. Instead, a mild case that allows me to transmit
+Myers to my children. I still may wear masks in areas where I can't verify vaccination status,
+but I am worried this might not be enough. For instance, do we need to go back to the days of
+masking around everyone, not in our immediate family, such as my parents and in-laws? To me,
+I would see, I would like to see boosters who are in an expedition to the vaccines to those less
+than 12, not looking for you to comment on whether I should get a third dose, but rather,
+on how the FDA full approval might change the ability of physicians to prescribe a third dose,
+would full approval allow doctors to write off-label prescriptions based on the needs and risks of
+their patients? Well, I'm sort of glad, Vincent, that you and I hit on this a little bit. I've
+been the first thing we really need is the science. One of the aspects of vaccines,
+which is really not something we have a lot of great evidence for or a lot of vaccines that have
+a trackcard for is preventing infection. Vaccines are really good at preventing illness,
+really good at preventing serious illness. We look at the injectable polio vaccine. Does
+the injectable polio vaccine prevent infection? Vincent, I'll ask you. No. Is it a crummy vaccine?
+No, it's a great vaccine. What we do not know and what people would like to know is, as we've seen,
+it does look like vaccinated people may be less likely to transmit to others. And that's one of
+the things that actually when we talk about, oh, health care workers should get vaccinated. We're
+not worried about protecting the health care workers from getting sick. We're thinking the
+vaccines may somehow protect our patients. Before we start pushing third vaccines, we need the
+science. The science is something we can get. The experiments we can do, the contact tracing we
+can do. And we need to do the studies. If you give individuals a shot at six months, if you give
+them a quote unquote booster, does that really accomplish what we're after? We still need the
+science. And I think that when we look at the amount of money we spend on so many different things,
+we need to spend the money on this. We need to do these studies. We need that information.
+We need to know what do the vaccines do as far as protection against severe disease.
+We also need what they can do relative to transmission and even just infection. Right now,
+we're just sort of guessing. And as you point out, neutralizing antibodies are not a clear, reliable
+correlate of protection. Keel is right. So I'm a primary care doctor here in steamy Jacksonville,
+Florida. We're having a terrible time with SARS-CoV-2 and COVID-19 disease here.
+What, if anything, is the role of UVC light to potentially sterilize the air? If UVC
+room light can be helpful, especially in places where mask mandates are prohibited,
+like our schools, EGAD, or ignored, could UVC light be another mitigating measure expensive,
+probably impractical? And I do wonder about long-term exposure, but at least it's passive.
+What do you know, Daniel? Yeah, it's this painful. I'm so sorry. If they find out that you are
+opening the windows or spending time outdoors or using UVC or any other measure to decrease
+your risk of getting infected, sick, or dying, you may end up in trouble in that state.
+So it's a little crazy to me that, you know, anyway, I'm so back to the science. We actually
+discussed on some of the twibs, and then we actually some pretty good deep dives in some of my
+non-updates looking at UVC. And so this is definitely a modality that has been looked at and may play a
+role. And I think there's also a safety aspect here. Usually not shining these in people, but
+there's specific frequencies that you want to look at. So I won't go too into that. And actually,
+maybe in our show notes, we can put the link to when there was a deep dive and some of the data
+here. But, you know, as we like to say, you know, this is something where if you can do something
+about the quality of the air that can actually decrease your risk. So we've talked about a lot
+of these school studies, when they've done things with improved ventilation, with open windows,
+all these different strategies are part of that multilayered mitigation approach. Just don't tell
+what people why you're doing it. Isn't it crazy that they're preventing you to wear a mask? I mean,
+what are they thinking? Yeah, next thing you know, they're going to outlaw seatbelts because
+it compromises freedom. Don't be no airbags. I'm not sure what they said. Yeah. Good thing they
+can't get near airplanes, right? All right, Jennifer has two questions. First, with Delta,
+do we have to change our masking? Do we need N95, K95s or double masking with a surgical under
+a cloth mask? What are your thoughts on this? Yeah, I mean, let's be really clear about what
+the science is, right? The science is not that you walk past someone on the street. I mean,
+I was on a call yesterday and actually one of the questions was, I heard that it only takes five
+seconds of exposure to get infected with the Delta variant. No, it does not. If you look at the
+secondary attack rate for the alpha and the delta, there's data out of the UK, it actually looks like
+at one point, it was pretty similar. Actually, current data suggests it's a lower secondary
+attack rate with Delta. And these studies are really hard because you have all the non-pharmaceutical
+interventions, right? The masking, the heightened awareness. So we have no compelling data in all
+honesty that the Delta is going to spread, going to get through masks, things that we worry about.
+It does look like it spreads faster. It does look like there's a quicker replication cycle
+from exposure to you being able to spread it to the next person. But I do not think there's any
+biology or any evidence that says you need to change your approaches. I still encourage people
+to think about masks, the surgical mask as source control when you're coughing, sneezing, breathing,
+you're catching in. But as far as you protecting yourself, the KN95s do a better job. So when I walk
+into a room with an individual who has COVID, I wear an N95 mask. When my family or I travel on a
+plane, we all wear the KN95 masks. Physician today walked into one of the rooms with two surgical
+masks thinking that that was really a great way to protect against COVID. It's not. So think about
+using the right mask in the right situation. I mean, I think it's interesting that Delta is the
+symbol for change, but Delta has not changed our non-pharmaceutical interventions still work.
+And Jennifer wants to know if the 15 minutes, six feet recommendations have changed?
+You know, in some places they've been using 10 minutes for a while just to be sort of,
+but that's been for a while. That has not really changed recently. It is interesting. I'll tell
+you in New York State, the exposure is 10 minutes within six feet and they don't care whether it's
+indoor or outdoor, which doesn't really sit with the science. But that's the deal.
+That's COVID-19 clinical update number 74 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. And everyone, be safe.

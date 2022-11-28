@@ -1,0 +1,504 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 716, recorded on February 4,
+2021. I'm Vincent Rackeniello, and you're listening to the podcast all about viruses
+joining me today from New York, Daniel Griffin. Hello, everyone. So Daniel,
+January is over. You said it was going to be the worst January. Did that turn out to be true?
+It certainly did. The only good thing is it is now over, and we have passed my favorite day of the
+year, Groundhog Day. So it sort of means at least we could start looking forward to a better spring,
+but it's been a horrible January. I sometimes feel like we're kind of US-centric, and in the US,
+I feel like we've kind of crested or we are in the process of cresting a huge wave. The case
+numbers, I think, are coming down after the holidays, but the deaths, we're seeing the deaths from
+all those cases still. So still a lot of deaths. There's still a lot of patients in the hospital,
+but I think we have better days ahead in the US, but I'm going to make sure I hit on this.
+We can't forget about the rest of the world, because no one's safe until everyone's safe.
+Let me start with a quotation we have a lot to do today, how very little can be done under the
+spirit of fear, and that's Florence Nightingale. A couple things I really like, well, a very
+inspirational woman who really advanced nursing, but a couple of things it brings, I think,
+makes me think of. One is just how critical the nurses are in taking care of patients,
+and how critical I think they are in the culture of medicine. They bring a real warmth and a caring
+to patient care. And just this pointing out that people work better in a cooperative,
+in a supportive, in a culture of generosity and kindness. And I think in a lot of ways over the
+last year that has been forgotten, there's been a lot of rigidity and rules, and this is how we're
+doing it. I know hospitals are struggling financially, but you can't lose sight of we're not there
+primarily to make a dollar, we're there primarily to take care of people. And the almighty dollar
+has to come second to a patient's life, patient's care. So, all right, we'll start off with the
+pre-exposure period with my three rules that actually started to see these echoed a bit in
+the media, which is great. Never miss an opportunity to vaccinate, never miss an opportunity to test
+and never waste a precious vaccine dose. So, today I'm going to be talking about mutations,
+vaccines, and some anticoagulation, very exciting anticoagulation updates. So, active vaccination,
+in this realm, and it really, it goes into several of the different phases or stages of COVID-19,
+but I'm going to try to talk a little bit about these in a context that makes sense for
+clinicians. Like, what are we as clinicians? How do we understand this language and what is going
+on here? So, I'm going to hit up some important highlights, but just a little background, right?
+We are on Twiv. This is science heavy, and that is good. This is an RNA virus. So, there's going
+to be changes to the genetic code being randomly introduced when this virus replicates. An infected
+person has a large number of replicating virions. So, not every single virus in a person is exactly
+the same. Sort of a quasi-species people talk about sometimes. I know in the world of HIV.
+Now, I am going to oversimplify a little, but a change in the genetic code can be silent,
+or they can actually result in a change in amino acids for which the protein is being coded.
+I say this is simplified because RNA itself can have some functionality. So, as clinicians,
+why do we care about mutations? We all enjoy science fiction, but why do we actually care
+in our day-to-day? One is the specter that changed the genetic code of the virus. A mutation can
+make the virus more transmissible. We want to give that just a little bit of context. It's not as
+though the change in the genetic code makes the virus fly through the air more quickly. Nothing
+like that. But maybe I think as Anthony Fauci said in his first, we'll call it, the Post-Trump
+Giddy news conference, it could affect the ability of the virus to bind tightly to its target receptor
+to the ACE2 receptor. So, it might be more transmissible in that it's easier for a smaller exposure
+to result in an infection. It could potentially change the virulence. It could either make the
+virus more or less virulent. And then as clinicians, a big one for us is, are these changes going to
+impact our therapeutics or the immune response? So, is it going to affect, for instance, our drugs,
+our monoclonal therapies, or our vaccines? So, just to give people a little bit of language here,
+so the changes we care about are mutations or deletions. These are inevitable, right?
+Variants are thus expected, but it's really the biologically significant changes that we care
+about. So, for each variant of concern, we can ask this question about the genetic changes,
+the mutations, the deletions, potentially even some additions, but we won't really go into that
+today. But most of the changes, I'm going to, actually all the changes I'm going to talk about
+today, are going to affect the biology of the spike protein, right? So, just a little bit
+about the spike protein. I always try to use visuals to get people to think about this,
+and sometimes my visuals are more of the cartoony, but the spike protein is a protein. It's made up
+of amino acids, right? Amino acids come together and make a protein. This protein is 1,273 amino acids
+long. In general, we'll say the Wuhan reference strain, but that spike protein is for clinicians
+to really kind of put this in your mind in a terminology you can remember on the fly.
+There's really two important parts of that spike protein that we're going to talk about.
+The N-terminal domain, the NTD, it's not neglected tropical disease, and the receptor binding domain,
+the RBD. I'm going to ignore some of the others just for simplicity because there's a lot of
+complexity here. There's areas where this could be broken down, cleaved proteases, the rest,
+but just for today, the NTD, the N-terminal domain, and the RBD. I want people to think
+about this as the analogy of a hand, and we're going to get back into that, the hand and the arm.
+But just some of the terminology, what are these crazy numbers and letters, right? I know we've
+been told don't call it the UK strain. Don't call it the South African strain, so people have now
+thrown in the numbers and said originally isolated in the UK. So I'm going to acknowledge that.
+So as I mentioned, the spike protein is 1,273 amino acids long. Don't tune out. It's going to be
+OK. You're going to make it through. This is critical stuff to know. And what are those numbers?
+The numbers start with the N-terminal domain. That's where one is. And at the far right,
+think of this in your head. That's going to be 1273. The deletions are going to be the same thing.
+So when we hear a number, we're talking about a particular amino acid that has changed.
+So when you talk about, I'm going to give some concrete examples. When you talk about an N
+501Y, that means we're talking about a change, an amino acid 501, and the N has changed to a Y.
+Well, what is an N? I mean, an N is a code. Help us, you know, use a one letter code for
+our amino acid. So an N is an S-bar gene. A T is a tyrosine. And so the N goes to the Y.
+I have to look those up. I'll be honest. But just let people kind of get a sense here. When you
+hear an N 501Y, when you hear an E or 84K, that's 484. The E has changed to a K. So we'll talk a
+little bit about this. If you hear deletion, deletion 69 test 70, that's going to mean those
+amino acid 6970 were deleted, right? So a little trick here to help people just think,
+because this is going to become a number soup going forward, right? Every one of those 1273
+amino acids can change or be deleted. The N terminal domain that goes from about 14 to 306.
+And the RBD, you could use the palm of my hand analogy, the RBD, the receptor body domain that
+grabs onto spike is 330 to 528. So 331 to 528 to be exact. So anything that affects the palm of
+the hand is going to affect the ability of the spike to grab its receptor. And I'm going to say
+the NTD, think of that as affecting the back of the hand. It's not right in the binding pocket,
+but it may affect the modality of the binding pocket. So hopefully this allows people to
+get a little sense. So what are these numbers? What are these letters soup? So let's just talk a
+little bit about each of the described strains. So today I'm going to talk briefly to where we're
+going to go to other stuff about the B117 strain, originally described in the UK. The B135 strain
+described originally in South Africa. The Cal-20C that we're seeing out in California and the B128
+detected in Brazil, then Japan. Variants, Daniel, variants. And I call them variants or strains.
+Variants. That's the variants of concern, remember?
+So let's talk about that. This is great because clinicians, what variant versus strain? What is
+the difference? And the difference, and this is why this is this weekend virology, and we have
+Vincent chaperoning. A strain is when we have convincing biological activity change. A variant
+is when we have a change in the genetic sequence, right? So calling something a strain requires a
+higher bar. So the B117, I will use variant of concern here, originally described in the UK.
+It has that D614G that we've been hearing about for a while. It's got a couple deletions,
+and it has the N501Y, which is suggested to maybe allow that spike to bind better, right?
+The B135 variant of concern, originally described in South Africa. This has that D614G also,
+but it's also got the E484K. Now, why do we care about that as clinicians?
+We care because there is some experimental evidence suggesting that that may affect our
+monoclonal antibodies, a couple of them, so the BAM-lineva-mab and the IM-deva-mab.
+There's also a K417N in this variant of concern that we are concerned may decrease the monoclonal
+Casariva-mab efficacy, and this also has that N501Y, which we think may allow it to bind a
+little bit better. Cal20C, that's got this L452R, which we also think decreases the efficacy of our
+BAM-BAM, and also may be associated with decreased plasma effects. So maybe there's some
+impact upon someone who's been previously infected, and I'm just going to mention the
+Brazil one last, and then just kind of try to put this all together for people in a way that
+they can think about it. So the B128 detected in Brazil, then Japan, that has the E484,
+which we talked about, it has the N501Y. Now, just to put this in people's mind, you're going to
+hear all these numbers. So one of the things you could do is when you hear the numbers say,
+okay, is that somewhere in that 331 to 520? Is that affecting the palm of the hand? Might that
+affect the ability of the spike protein to bind to the receptor? And if it does, this is a sweet
+spot we think for neutralizing antibodies, so it may potentially impact some of our monoclonals.
+But I do want to say this guy is not falling. As people may know, I mentioned several times,
+I'm involved with Eli Lilly and helping get their monoclonal antibodies to folks and trials,
+also with Regeneron as well. I guess the caveat with that, they don't give me any money, but
+happier with that. Maybe it would be a conflict of interest if they did. But we follow these
+because we are concerned, but the other side is they have a lot of monoclonal antibodies in the
+pipeline. So ones that can cover these. So if you're in an area where you're concerned about
+bamelinibimab efficacy, Eli Lilly has data as we talked about on a cocktail. There's also the
+Regeneron cocktail. If you're concerned about the Regeneron cocktail the other way, and then there
+are other monoclonal antibodies in the pipeline, so to speak. So I envision some point, Vincent
+in the future, this will be on my board exam where they'll have these up there posted, and I'll
+have to remember which one just like I have to with the HIV mutations and which drugs I can and
+can't use. So I'm working on some kind of memory tricks, the Nervous Nelly 501Y. That was the one
+in the UK. The EEC 484K, am I really worried about that affecting my monoclonal bamelinibimab
+and imdabimab? That lousy 452, does that affect my bamelinibimab? The kite 417N, so that's the
+k417N slash t, is that can affect Cassie? So I think as time goes by, we'll get a better sense of
+where all these come out. But there was a really nice paper out of the David Holab,
+increased resistance of SARS-CoV-2 variants, B1351 and B117 to antibody neutralization.
+And a lot of things described here, you have to use more codvalescent plasma, about 11 or 33
+fold increase for neutralization with codvalescent plasma, about a 6.5 to 8.6 fold increase in
+vaccine sera. But from a clinical standpoint, I mentioned I don't think the sky is falling.
+On a positive note, we have various monoclonals that are already FDA-UA, so emergency use
+authorized out there that we can use. We have others in the pipeline waiting to go
+hopefully quickly through the FDA if needed. And this is something I think that we can stay
+ahead of. So I'm not concerned that the sky is falling. So if that decreases our number of
+Twiv listeners, because I'm not saying the sky is falling and saying stay tuned for exciting news,
+I just want to be honest and reassuring. As a clinician, I think that we have the tools and
+the technology to stay ahead of these things. Do you have any comments, Vincent? Do you think
+the sky is falling or does it seem reasonable? No, I don't. And we've talked about this a lot
+on Twiv and I don't want to usurp you. Please usurp. I think that the benefit of this is having
+you as well. So jump in. So originally, the B117 variant, which originated in the UK,
+originally said, oh, it's 50% more transmissible. But you know what? Since then, it's gone to many
+other places and it's not doing 50% more transmissible. So it's a lot more subtle. It's a lot more nuanced
+than just transmission. And I like to think of it as these changes affecting fitness.
+Fitness is the ability of a virus to get to a new host. And it doesn't just
+involve going through the air. It involves the amount of virus shed by someone, the ability of
+the virus to take hold in the host, maybe to evade immune responses, maybe to reproduce better.
+So I think sometimes these changes give the virus a little edge and it takes off, but it's not
+really transmitting better. It's just spreading and displacing another virus in the population.
+So that whole idea doesn't bother me. I think a more realistic concern is the change are the
+changes that can abrogate monoclonal effectiveness and vaccine effectiveness, as you've talked about.
+Because if you do your masking and distancing and all that, it doesn't matter, except for the
+antibody resolving an infection. So that's my take on this.
+And I think I get questions and I don't know if this will be guitar to throw people out. Oh, my
+gosh, with these new variants, do they hear they go right through the masks? No, I think a lot of
+people's perception is when they say, oh, increased transmissibility or increased transmission,
+they view it as almost like a bullet. And then someone cough their sneezes and these have somehow
+changed their shape and can penetrate the fibers of your mask. And you now have to use keglar masks.
+I mean, I think, you know, time will tell, right? I mean, you and I are being recorded.
+So in March, right, people will go back to these episodes and sort of get a better sense.
+Well, you know, the 117 variant is in many other countries. And in Scotland,
+it hasn't taken off in California. It's been there since November.
+It has not displaced the existing variants. So something else is going on.
+It's not just about going through those droplets. That's what I want people to understand.
+Yeah, it's complicated. But I think the great thing is we have the science and the scientists
+who are on top of this. And so we're going to get out of this. We are not going to have
+another January like we just had, but Nick five. So in the Lancet, we got safety and efficacy of an
+R add 26 and an R add five vector based heterologous prime boost COVID-19 vaccine.
+An interim analysis of randomized controlled phase three trial in Russia.
+So these were the results that we were waiting for randomized double blind placebo controlled
+phase three trial in 25 hospitals and polyclinics in Moscow, Russia.
+And so this vaccine group and of one of 16,501 placebo group was smaller 5,476.
+And then the numbers don't quite add up because they say 19,866 received two doses
+of vaccine or placebo. So there was a little bit of a you lose a few folks there between
+the whole trial and everyone getting that boost. But from 21 days, and this was interesting,
+from 21 days after the first dose. So that basically started counting the day people came in for
+their second dose or booster. They saw that 0.1% of the vaccinated got COVID-19. 1.3% in the placebo
+group, right? These are small numbers, but that gives us an efficacy about 91.6. And they've got
+another one of these. These will be the curves that I've heard are now on T-shirts, immunity works.
+We show the placebo group in red and just the number of confirmed COVID-19 just keeps going,
+keeps going where the vaccine it goes up. And then once they've reached a level of protection,
+it sort of levels out and stays pretty flat for a while. With the data here, they have actually
+mentioned that they're going to do a single dose trial, which will be interesting as well.
+And it's been some discussion on the main this weekend virology about some of the other data.
+So more exciting news on vaccines. But let me hit a bunch of Q&A questions and answers on vaccines.
+This is actually, I spend a lot of my time talking to a new Julie, my partner today,
+and she's saying, what are we going to do when COVID is over? Because we spend so much of our time
+addressing COVID-related questions and vaccine questions. So if the vaccine still allow
+for milder symptomatic COVID mainly prevents severe COVID, what about getting a mild case
+and the risk of developing long COVID? So that's an interesting question. Just to be honest,
+we do not know. But this is a very interesting question. If a person has been vaccinated,
+they go ahead and get a mild case of COVID. We are hoping they're less likely to develop the
+long COVID, but we still don't know. And actually, this is a pretty important question, I would say.
+As I get into some of the other questions, I will say I'm optimistic about this.
+It looks like when people do get infected, the limited data we have that they end up with milder
+symptoms, they end up with a shorter course, they end up with a shorter period of time that
+they're actually shedding the virus. Or I should say that their RNA PCR positive, they also end up
+at much lower, usually about two logs lower. So I'm optimistic, but yeah, I think that this is a
+question that we'll keep our eye on. It sort of goes right into this next one. Any more information
+on vaccinated people being less able to transmit the virus, right? This gets back to sort of Dixon's
+idea that he doesn't want a healthcare worker coming and taking care of him, who's not vaccinated
+because now they're more likely to give him the virus. So I always like to use scenarios,
+and I get a lot of questions here about scenarios. So we have some adults, right? Over the age of 75,
+they're about to get their second dose. And they're already starting to ask, well, now that I have
+my second dose, what can I do? Can I go visit my friends in Florida? They've also been vaccinated.
+Can I fly to go visit my adult children? What about all the other activities? So
+just want to bring up some more data we have here. So analysis of PCR positive swabs in the UK
+population, right? Suggesting that the vaccine may reduce transmission, but we'll get a little bit
+farther into that because I want to hit on some really sort of specific scenarios. Anything new
+about people who previously had COVID getting vaccinated, right? And Peter Hotez weighed in on
+this, but there's some research. We've got some papers out. Robust spike antibody one responses
+and increased reactogenicity in seropositive individuals after a single dose of SARS-CoV-2 mRNA
+vaccine. This was out of Mount Sinai. And they actually found, and this is something I think
+we're starting to see, and now it's nice to have it quantified, they found that getting that first
+vaccine dose in someone who had COVID before was very similar to that second dose in folks who
+did not have COVID before. So similar reactogenicity profile, but also what looks like a similar
+boost in the antibody levels. What we don't know, and we're not going to know quite yet, right,
+is what's the durability? What are the kinetics of those antibody responses? The other paper,
+single dose vaccination in healthcare workers previously infected with SARS-CoV-2. This is out
+of University of Maryland. And they really, really found about the same thing. It looked like
+that one dose of the mRNA vaccine was giving these elevated antibody titers, similar to sort of the
+boost we would expect from a second. So we're not encouraging people at this point to only get
+one shot. We may actually end up at some point having people get even a third shot. Who knows?
+But this is interesting stuff and is helpful. We're learning more. And I think it does feed to
+boy, if you've had COVID before that first shot, maybe a bit of a doozy, maybe what most people
+are getting the second time. I don't know why I still get this question, but is it a good idea to
+keep millions of vaccine doses in the freezers to make sure that second dose is given right on
+schedule? Well, unfortunately, I think everyone is aware that millions of doses of vaccines are
+sitting in freezers and not getting into people's arms here in the US. And despite requests by the
+White House, by Andy Slavitt, to those vaccines in arms, many large hospital systems have freezers
+full of doses. Oddly enough, some rules only allow for vaccines to go to sites that have the ability
+to have those freezers. In my world, you wouldn't be allowed to have vaccines if you had a freezer
+that could hang on to them for more than those 30 days. Now, the CDC has updated their guidance on
+COVID mRNA vaccine interim dosing to include a grace period. So you can get it four days earlier
+than the three or four weeks. And then they serve statement, then out to six weeks, if it is not
+feasible to adhere to the recommended interval. So they, they'll give the qualified statement
+just to quote right off. CDC is not advocating for people to delay getting their second dose.
+But the data from clinical trial supports this range of either four days early or out to six weeks
+if you need to. So my answer really is in line with the Biden COVID task force that no, it is not
+a good idea to remove two fifths of the available vaccine doses from potentially giving those people
+freeze them away just because you want to hedge and are worried that there might be a slight
+delay of a few in the order of days of getting the second vaccine doses into patients. So
+I think people have probably heard how we've approached this at pro health. When we get our
+vaccines, we put them 100% of those and up in arms as soon as possible. So if everyone would do that,
+I think that this would go much quicker. Is the supply now flowing from Moderna and Pfizer or
+is it jerky? The supply is flowing. We're getting 200,000 doses a week to New York.
+Some of the states have to say like our riverside partners, you know, every every week they get a
+consistent supply because there it's going directly to our to our clinics where we're giving everyone
+the vaccines. In New York, there's still this hub model where every week you put in as a provider,
+you know, we would like this many to this many sites. And even though there's a constant flow
+to the state, that flow is still going to large hospital systems, healthcare systems with lots of
+freezers. Every time one dose is given, another stuck in the freezer for, you know, three or four
+weeks later. So yeah, it's flowing. Moderna actually increased by 33%. The amount of vaccine it's
+sending out, Pfizer is increasing their production. So, you know, the government and the pharmaceutical
+companies have made it clear there is this is flowing. You know, and if somebody gets their
+dose delayed by a few days, that's not as much of an issue as, you know, millions of people
+not getting any vaccine at all here. And I guess this we're tying into the if a second dose of a
+two dose vaccine is delayed, will it be less protective? Right? Because people, I think there's two
+two things here. One is person is watching the clock. I want to get that second dose so I can
+then count the clock to when I'm, you know, at that 100% protection from severe disease. But
+there's also that concern too, is if it's delayed by a period of time, will that mean that it's less
+protective? So we are starting to get some data on that. And we had recent data from AstraZeneca
+with actually interesting up demonstrated improved efficacy with longer intervals between doses
+with higher antibodies and a broader antibody response with a boost given at 12 weeks,
+rather than six weeks, vaccine efficacy rising from 54.9% with an interval of less than six weeks
+to 82.4% when spent when spaced 12 or more weeks apart. So we still recommended hearing to the
+studied intervals. But you know, this understanding of immunology. Now we're getting data really
+goes along with what we've learned over many years with vaccine research. So certainly there's a
+critical minimal interval before the boost to allow the effector cells to mature into memory cells.
+But a slightly longer interval may be associated with a higher and broader boost of antibodies.
+And I don't know if we know enough yet as far as T cell responses, whether or not they're
+enhanced. But I think our basic understanding of immunology would suggest most of the benefit
+here if you stretch that out a little is going to be antibodies, but definitely not a diminution.
+Now that I have been vaccinated, can I do the following? So the science is developing here.
+But let me run through a few scenarios and want to be careful not to get above the science,
+but also to to be reasonable in what we say. So I'm using my parents as an example. My parents
+will soon have reached two weeks past their second vaccination. Yesterday my wife helped my mother
+get to her second vaccination. My dad pretty much can do it all by himself. So the two of them went.
+And my mother reported a penicillin allergy. So they made her wait for a prolonged period of
+time because I don't know why, but Rachel was not very crowded. I think they said in the entire
+time they were there getting vaccinated for people got vaccinated. They were too. There were two others.
+But my dad wants to start going back to the office. So what was my advice? My mother's. He can't go
+to the office. He's going to get COVID. He's going to bring it home to me. So we had a couple
+conversations. One is, as I said to my dad, dad, you have not gone to the office in a year. You
+in two weeks will be protected. I do not have a problem with you going back to the office.
+Will he wear a mask? Will he will he be careful? Yes. And my worried he's going to bring it home
+and my mother will get COVID and die again? No. My mother has also been vaccinated. So
+let's I think I can answer very clearly here. Two older individuals both over the age of 80.
+Sorry about that, mom. You look younger and dad, you definitely look younger too. I have no problem
+as a son, as a physician, being okay with them going back to with my dad going back to the office.
+Now my mom wants us to come over the house for Sunday dinner indoors after she's been
+vaccinated for two weeks. Is that all right? Now this is a tough thing. And this gets into what
+does the science tell us? Are we underselling? Are we overselling the vaccine? My mother
+will have reached her two weeks past the second dose. My father will reach this two weeks past
+the second dose. Is it okay for my wife and I? And my oldest daughter will be off of college,
+but for my other daughter and Barnaby, Eloise and Barnaby to go over for Sunday dinner. We haven't
+had indoor dinner with them in a long time. Is it okay for the five of us to eat indoors?
+I'm going to say I think it's okay. I mean, I worry about my mom. I worry about my dad,
+but they've now been fully vaccinated. My dad's going to and from work, and that's it. He's,
+you know, he and my mom are not suddenly socializing with big maskless parties. I'm sure it'll be
+just the two of them watching the Super Bowl this weekend. So yeah, I think it's okay. Until they
+reach that point, though, I do not go into their house without a mask. And even if I do go in with
+the mask, I stay for limited periods of time. Now my in-laws, when they are fully vaccinated,
+they want to start flying around the country, right? They've been, they've been up in Cape
+Cods, you know, being really careful, staying by themselves. They want to start, they want to fly
+down to Florida. They want to see their vaccinated friends there. They want to fly out to Utah to
+see their, their daughter is that safe for them. Yes. And I actually think if they're flying down to
+Florida, if they're staying at a hotel and they're going to be outdoors with friends in Florida,
+I actually, I see really minimal risk. I see that being a reasonable risk taking activity.
+When they go out to see their daughter in, in Utah, we are hoping that the data will pan out. I expect
+the data to pan out that people who are vaccinated are less likely to transmit to others, but we're
+still waiting on the science on that. So that then is going to be, you know, is it, is it a risk for
+the daughter? Is it a risk for the daughter's boyfriend? Daughter has a boyfriend? Is it a risk
+for the malamute that they have the dog? But for the vaccinated parents by vaccinated in-laws,
+they're actually going to be much safer. Passive vaccination. We just talked a little bit about
+the monoclonal. So the, the Eli Lilly product, the Regeneron cocktail, the Eli Lilly cocktail in the
+past, monoclonal are still being underutilized. But as I mentioned, they're ready to go. They're
+here to meet the challenge of any changes in the genetic code of the virus. All right. So now
+this is the bulk, as though we haven't already done the bulk, lots on anticoagulation this week.
+So I don't want to keep this too long, but let's hit this. This is really critical because now we
+have new information that is actually changing some of the decisions that I'm making and some of
+the recommendations I'm making in the hospital. So based on the interim results of more than a
+thousand patients admitted to the hospital, findings from three large randomized control trials showed
+that full doses of blood thinners, in addition to being safe, were superior to the doses
+normally given to prevent blood clots in hospitalized patients with moderately severe COVID-19. So
+these trials complement the findings announced in December that the routine use of full dose
+anticoagulation when started in the ICU in critically ill COVID-19 patients was not beneficial and
+may be harmful. So just to break this down before I go through the weeds, your critically ill patient
+in the ICU with lots of lines, severely ill, the evidence that we have to date is favoring
+prophylactic dosing. It doesn't really necessarily go along with what we were thinking, but your
+floor patient who's maybe laying there in bed who's on oxygen, they actually are at lower risk of
+bleeding and they actually do better with full dose anticoagulation. So how does this fit in with
+our guidelines and how do we move forward and what are the actual studies? So the current guidelines
+from the American Society of Humanology are the ash guideline panel suggests using these were made
+a while back prophylactic intensity over intermediate or therapeutic intensity anticoagulation in
+patients with COVID-19 related acute illness who do not have suspected or confirmed VTE.
+And then we mentioned this is a conditional recommendation based on very low certainty
+in the evidence about effects. And then added to this, the panel acknowledges that higher
+intensity anticoagulation may be preferred in patients judged to be at high thrombotic risk
+and low risk of bleeding. And then we actually add the interim data from these studies will
+eventually be available in peer reviewed articles, but right now let me run through all the data
+here. So the three clinical trial platforms spanned five continents, more than 300 hospitals
+together were able to test whether there was a greater benefit of full doses of blood thinners
+to moderately ill hospitalized patients with COVID-19 compared to the lower dose typically
+administered to prevent blood clots in hospitalized patients. So let's go through the studies.
+We have the ATT ACC. This is the anti-thrombotics inpatient and anti-thrombotic therapy
+to emulate complications of COVID-19 with 58 sites in Canada, the US, Brazil and Mexico.
+We have active for a therapeutic anticoagulation accelerating COVID-19 therapeutic interventions
+and vaccines for, and this was 60 sites in USA in Spain. And we have RamCap,
+randomized embedded multi-factorial adaptive platform trial for community acquired pneumonia,
+209 sites, 290 sites. So this is very robust in Canada, the USA, UK, Ireland, EU, Saudi Arabia,
+Australia, New Zealand, Nepal, India, Pakistan. And this, I have to say this is impressive.
+There was a collaboration between all these studies and they agreed to create a multi-platform
+randomized controlled trials with harmonized protocols. So they all agreed to use common
+primary, common secondary and safety outcomes, and also to have common combined prospective
+superiority and futility rules. So all the enrollees in all sites had to have signed in symptoms
+consistent with COVID-19. So this is all symptomatic COVID-19. And then they were randomized within
+72 hours of admission. And the primary outcome was organ support free days. And then they had
+several key secondary outcomes. So from the safety, they were looking at major bleeding.
+From efficacy, they were looking at mortality, intubation, major thrombosis, stroke,
+am I, length of stay in the ICU and hospital. And then this is critical because I'm going
+to get back to this. They risk stratified. They thought they were risk stratifying people based
+upon the D dimer level. So you looked at people with D dimers that were low, less than two times
+the upper limb abnormal. And then they looked at people that had elevated D dimer, so greater
+than two times the upper limb abnormal. The reason I want to point this out right here is that this
+did not impact the recommendations. And I'm going to have to say this several times because people,
+it's very hard to get away from this. We as clinicians, we love to measure stuff. We love to have
+something objective to guide us. We think of D dimer as an indication of people developing
+thrombotic complication. And I just want to point out here, whether the D dimer was low or high,
+the recommendations still stand. And when you put all this together, the primary outcome
+of organ free support days favored full dose anticoagulation for moderate COVID-19.
+As far as secondary outcomes, mortality was lower with full dose anticoagulation for moderate
+COVID-19. Major bleeding was seen with full dose anticoagulation, but was less than 2%.
+Thrombotic events were less common with full dose anticoagulation. But to recap the other side,
+persevere COVID-19, those patients requiring ICU level support. The probability that routine use
+of therapeutic anticoagulation was inferior was 98.5%, mainly you were seeing major bleeding
+complications of 3.7% in the ICU patients, which really sort of backfired against us with that
+full dose anticoagulation. So your floor patients, the science currently suggests full dose.
+But if you're in the ICU, you want to watch the bleeding complications. I know we're going to
+probably getting near our limit here, but I sort of want to make sure I discuss guidelines and what
+they are, because we had a lot of conversation about this the last time at the Ash guideline
+meeting. And what we were discussing is we, unfortunately, people have not really understood
+what guidelines were. And guidelines have changed in the time of COVID. And I think a lot of people
+have been promoted to positions of responsibility with their force to make these decisions,
+but they themselves never served on a guideline committee before. Maybe they never helped construct
+guidelines, but now they're sort of putting these in place. And so we talked a little bit
+about how this was a challenge. So we've already added language, actually, to the Ash website,
+trying to clarify what a guideline is and how is it expected to be used. These are not rigid
+rules for patient care. And we do sort of encourage people to individualize their management decisions
+to tailor them to a specific patient. And we've added an individualized assessment of the patient's
+risk of thrombosis and bleeding is important when deciding on anticoagulation intensity.
+Clinicians should weigh the potential benefits and harms based on the most up-to-date available
+evidence in caring for their patients. So we're trying to communicate that these are
+only guidelines. They're established to help direct physicians to deliver the best care
+for their patients. And even though these are living documents updated on a regular basis,
+by their very nature, they will not be the most up-to-date based upon available evidence.
+So I'm just going to hit three sort of scenario cases, examples. Case one, just sort of what would
+we do. This is a police officer in his 40s. His oxygen saturation is 88% on room air. He has no
+significant medical problems. He's standing up. He's looking out the window. When can I go?
+He's being treated with remdesivir and steroids. That's an individual I still might stick with
+just prophylactic dosing, right? He's ambulating. He's low-risk. Case two, we have an OB, 75-year-old
+man. He's somulin. He's on six liters nasal cannula. He has coronary artery disease, CHF and diabetes.
+That's a man. Now I'm going to recommend full dose anticoagulation. Case three, a woman. She's an
+ICU. She's intubated. She's prone. She has low ematocrit. She's on medications to maintain her blood
+pressure called pressers. She has staphorus, bacteria, multiple IVs. She's got a central line.
+This is a woman that I'm going to recommend prophylactic dose anticoagulation. So I'm going
+to sort of make sure I just mentioned the tail phase, but then I'm going to update people on
+our fundraiser. So as we move into our fundraiser, I'm going to use an analogy from my honorary cousin,
+Peter Dates, about oxygen masks and airplanes. And you know how they always tell you like when
+those oxygen masks come down, put them on yourself first. But then the point I'm going to say here
+is once you have that mask on you, make sure that you put that mask on other people. So
+throughout the months of February and March, we're going to be making donations to the ASTM
+and NH. So donations made to parasites of that borders will be matched and doubled by TWB,
+PWB, and donated to the American Society of Tropical Medicine and Hygiene. And this money
+is going to include scholarships for women from low-income parts of the world to travel to the
+annual meeting. So we're going to pledge a, hopefully we're going to get up to a maximum 40,000, but
+we are going to donate a minimum of $20,000. And part of that is going to go for these
+scholarship travel awards to basically prioritize females from low-income countries,
+who otherwise might not be able to attend. So it goes back to where I started. We are not safe
+until everyone is safe. We're seeing vaccines roll out here in the United States that all may
+be exciting, but we're not safe until everyone's safe. Let's not forget about the rest of the world.
+A couple of email for Daniel. If you want to send in a question, Daniel at microbe.tv,
+the first is from Debbie, who wants to advise a friend on setting daughters back to school in
+Maryland, where they're living in an underfunded school district, has an incredible plan to bring
+students back, small cohorts, air filters, distancing dividers at desks, etc. But she says the only
+thing that's missing is testing. I thought nothing is perfect, but air quality, cohorting,
+and testing were what I thought of as deal breakers, your thoughts.
+Yeah, you know, this continues to be, you know, a really frustrating challenge is that people
+leave testing out. I mean, all these other things cost money too, right? You start smaller class
+sizes, you start doing all these mitigation strategies, and then they leave testing out.
+So one of the things, Debbie, I'm going to suggest you do, let's see where you are. You're in
+Maryland. What I'm going to say is reach out to one of the local provider groups in the area,
+because a lot of times we've done this at Pro Health New York. We've done this at Riverside.
+We've created the whole Let's Get Back program is, you know, sometimes the schools just leave
+this out for some reason. And if they do, there's no reason why parents and teachers organizations
+can't jump in and we can't create something. In my local town, it's actually one of our
+Pro Health providers has been working with the school. And it took a long time that they finally
+introduced testing. And testing is really, I think, part of creating the best possible solution.
+President Biden has said he really wants to get the teachers back. He really wants to get the
+kids back and in person. That's fine and all, but we've got to make sure we do everything to make
+it safe. So this is a safe decision. And I think testing is part of that.
+Terry in Orlando has a 100 year old mom who got her first dose and is preparing for the second.
+And Terry wants to know, is there anything that we should do to prepare her? And how long should
+someone stay with her afterwards to monitor her?
+Yeah. So, you know, the nice thing about older individuals that I know this was discussed on
+the last wave, is they either have less side effects, or they just complain less than young
+people, right? Young people are so horrible. I had to take pain medications. No, I think your
+healthy 100 year old mom is actually going to do very well. The observation period we recommend
+is really 15 minutes after the vaccination. No one really needs to stay with your mom. It would be
+nice if you stayed with your mom. But again, you want to weigh, you know, are you vaccinated? Is
+there a risk of exposure? But she's getting so close to being out the other side of this.
+You know, ask her doctor whether it's safe at a 100 year old woman with whatever medical
+problem she has to use something like ibuprofen or a leave or Tylenol. But no, I think that there's
+nothing too much that I would worry about here. And she has one more question. Her daughter
+is breastfeeding. Her 10 month old grandson, is there any chance if she is still breastfeeding when
+she is vaccinated that any protection will reach the grandson? And how far down the road do you think
+will be the earliest we expect one year olds to be vaccinated? Yeah, so breastfeeding. And I think
+I posted my friend Vanessa, one of my coworkers who she is breastfeeding mother who is vaccinated.
+That's one of the things like breast vaccinating a breastfeeding woman is really vaccinating two
+people. We anticipate and this has been true for all our other vaccines that when a woman starts
+making antibodies, those antibodies are then in the breast milk. So if she is vaccinated,
+once she starts making those robust levels of antibodies, we anticipate that those are being
+then transmitted to the 10 month old grandson. There are some trials looking at younger individuals.
+It's probably going to be a while before we look at one year olds. I know there was a question
+about, okay, so if you have, if you say this is allowable for this, are you allowed to stretch
+beyond that? So for instance, I'll say that J and J vaccines been given hundreds of thousands
+of individuals. You know, will it, will it be okay to give those to children? Unfortunately,
+it may be quite a while before we have any science to guide this. So there may be judgment calls at
+some point. All right, one more from Carson. You've said that people who recently had COVID
+should still get vaccinated, but also that anyone who's had monoclonal therapy needs to wait 90 days
+because the monoclonals could prevent the person from mounting a sufficient immune response to the
+vaccine. Why isn't that the case for someone who's been infected and presumably develop their own
+antibodies? Yeah, no, this is this is an excellent question, right? And I'm going to bring two things.
+So I had a conversation with my partner, Nujali earlier today, a conversation with Fatima Johari,
+one of the the infectious disease doctors I work with at Plainview about sort of these two topics.
+And one was it was a husband and wife, and the husband had been vaccinated. And he's
+well, got just like so many, he got infected before his second second vaccine dose. And
+you know, he meets criteria for monoclonal antibodies, but he doesn't want to get the monoclonal antibodies
+because as he explained, it was so hard to get the appointments for the vaccine. If I missed this,
+I'll never get another one. And you know, try to explain that if he gets the monoclonals,
+we have we have the impression and actually the evidence that those are going to be in his system
+for 90 days. So in a sense, instead of waiting for that second dose and another two weeks for the
+antibodies, so three weeks from now, you know, within an hour, he could instantly have that
+passive immunity that lasts three months at the end of those three months, then he can go ahead
+and get his vaccine and get that boost. But what about this? This is this issue. What about someone
+who's already had an infection? Why not just wait three months just like you did with anybody
+therapies? And you'll hear different advice on this. This for me gets back to that rule,
+never miss an opportunity to vaccinate. If someone is ready and willing right now to get vaccinated,
+and you can give them that protection, which we have well studied, which we're familiar with,
+which we are learning more and more about the durability. And all the science suggests that it
+is even better than natural infection. That's why I'm saying there's no need to wait. Three months,
+maybe that person's lost interest and they decide they don't want to get vaccinated. So you've just
+lost the opportunity to immunize. And for us all to get out of this, for us to see the death count
+drop, we want to see as many people vaccinated as possible.
+That is COVID-19 clinical update number 48 with Dr. Daniel Griffin. Thanks again, Daniel.
+Oh, my pleasure. Everyone be safe.

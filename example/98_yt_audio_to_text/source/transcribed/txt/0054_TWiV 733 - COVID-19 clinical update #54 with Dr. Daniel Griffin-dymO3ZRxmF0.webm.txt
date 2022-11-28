@@ -1,0 +1,339 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, Episode 733, recorded on March 18, 2021.
+I'm Vincent Draconiello, and you're listening to the podcast All About Viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. This is clinical update number 54.
+How's things going, Daniel? You know, I continue to be optimistic. You know, as I was saying the
+other day, you know, that we've said over time, it's, you know, it's a race, the vaccine against
+the virus, but, you know, that the governors are doing everything they can to help out the virus,
+right? So we are doing everything we can to ramp up the vaccinations. And I actually don't have
+people heard, but there have already been over a hundred million vaccine doses given out in the
+United States. We haven't quite got to 100 million people fully vaccinated, but we are cranking through
+the vaccines. I know a lot of our listeners, I don't know what percent at this point, are here
+on Long Island. Long Island has been a little bit of a vaccine desert, I have to say, but
+when this drops on Saturday on Friday, three mass vaccination sites will open on Long Island. So
+exciting stuff for getting getting people a lot more chance to get vaccinated. But I'm sort of
+jumping into my sit rep before my quote, but that's okay. We'll get to the quotation. We're sort of
+sitting on this plateau. And as I'll discuss a little bit later, what we're seeing as far as cases,
+we're seeing a disproportionate number of these in the younger population, so in kids. So we'll
+make sure we discuss that. But let's start with our quotation. And this is again, Eleanor Roosevelt.
+Great minds discuss ideas, average minds discuss events, small minds discuss
+people. And the reason I throw it out there, my whole hope is as we come out of this,
+that we learn what went wrong. And we learn what to do so that this never happens again.
+And I know a lot of the discussion is about people who did what wrong. I don't think we
+learn from that. Those people will probably not be here the next time around. But the lessons
+will be there. The events will be there. The ideas about how we can do better the next time. So
+I just want to throw that out there. I really do hope we learn from this. I do hope it doesn't
+become about just about blame and take the focus off the fact that this was a horrible thing that
+happened. This still is a horrible thing that is happening. But we can respond better the next time
+I do hope. So never miss an opportunity to vaccinate. Never miss an opportunity to test and never waste
+a vaccine dose. So as I mentioned, we're here on this plateau. Our plateau in New York is not
+as low a plateau as I would like. So we're sort of going against this with our vaccines.
+But as I mentioned, children and COVID, this has become a very hot topic. And the hottest topic
+I think this last week is three feet versus six feet. And I know I heard one of the physicians,
+scientists who was sort of discussing this saying, oh, this is just a distractor. But let me actually
+go into the weeds in this because I actually want to say that my involvement with schools,
+camps, different venues to get children sort of back into more of a normal situation.
+This actually is a critical issue. So what got this all being discussed? And there was a publication
+Effectiveness of three versus six feet of physical distancing for controlling spread of COVID-19
+among primary and secondary students and staff, a retrospective statewide cohort study. And this
+was published in CID. So one of the things I am going to say as I go through this is I do want
+our listeners as painful as it is to try to actually read this article. Because the headlines,
+I do not think really match with what's in this article. So let me discuss a little bit about
+what this article contained. So they reported on 251 eligible school districts. So 537,336
+students and 99,390 staff who attended in-person instruction during a 16-week period. And they
+gave us incidence rate ratios with confidence intervals. Now I'm going to focus on the students
+and not the staff, but there is data there on the staff. So they reported, this is sort of their
+conclusion, that student case rates were similar in the 242 districts with greater than three feet
+versus greater than six feet of physical distancing between the students. And they give us an IRR,
+an incident rate ratio of 0.891 with a really wide confidence interval. And the results were
+similar after they adjusted for community incidents. That came in 0.904 with, again, a wide confidence
+interval stretching from 0.6 all the way up to 1.325. And they concluded that they did not see any
+significant difference in the staff incident rate ratios. And also, as they say here with
+these wide confidence intervals, they couldn't show that there was any significant benefit to
+six feet versus three feet. Now let's go a little bit into this, because I think this paper will
+impact policy. So therefore, I think it's important that we spend a little time understanding how
+reliable this data is. So first off, this is not any kind of a prospective control trial,
+but rather was a retrospective analysis of publicly available data derived from case reporting to
+the Massachusetts Department of Elementary and Secondary Education. And they looked at publicly
+available district plans. I want to make the point here. This wasn't even an observational study.
+They actually didn't even go out and observe to see what was going on. They basically looked at
+what were the published plans. There was no verification what was actually going on.
+They just looked through the plans, and then they looked at some publicly reported
+case rates. So they looked and they said, OK, districts that permitted a minimum of greater than
+three feet in distancing, even if greater distances were preferred, they're going to classify them as
+the three feet group. Districts that allowed greater than three for some grades, but not all.
+Those were all classified as greater than three. Now, schools, the only ones that were greater
+than six schools that open in hybrid learning mode with requirements of greater than six feet
+in the hybrid model were classified as the greater than six feet physical distancing.
+Then what they tell us is of these over 500,000 students, they identified 4,226 cases.
+So of all these students, we are seeing reported positive cases to the Department
+of Health, based Massachusetts Department of Elementary and Secondary Education
+that they had a case rate of 0.8%, right? So this is a very small number.
+A couple of things to also add. The majority of the campuses that did open had less than
+80% of enrolled students on campus. They do comment on the fact that active surveillance
+was rare, right? So we have to throw in what we learned from last time that the majority of cases
+in this age group are missed. They also lumped all the schools together and based their analysis
+on, as I mentioned, publicly available plans. There was no verification of what was the actual
+practice. And then what they saw was this rate ratio of 0.9% for six feet over three,
+but this really wide confidence interval. So I think the tough thing I had with this paper was,
+this falls into what I say of things that we want to be true or don't want to be true.
+And I don't think that there was anything here in the data that really gave us clarity on this
+issue. So what I did want to do was sort of bring people back to, I think, a paper that actually
+was a little bit better at giving us insight. What I looked at this paper and I said,
+people now want to say that we need three feet or three feet is fine compared to six feet.
+And the reason there's so much focus here is that most schools in our country,
+if six foot separation is required between the students, between the desks, that's going to
+prevent them from a full in-person opening, a sort of return to this full in-person class.
+So there really was, I want to say, sorry to the authors of that paper,
+but there was an excellent paper published in the Lancet back in June. And I think we've spent
+some time on this before, but I want to sort of bring people back to it. It's amazing that
+something in June is old news, but physical distancing, face masks, and eye protection to
+prevent person-to-person transmission of SARS-CoV-2 and COVID-19, a systematic review and meta-analysis,
+right? So this was back in the Lancet. And the point this paper made, which is really something
+consistent with what we've learned over the years, is that there's a continuum to risk.
+There's no invisible barrier at six feet or at three feet. I still remember having a discussion
+with, I think it was a reporter back in April who really wanted to be within three feet of our
+friends, and six feet seemed excessive. Now in medicine, we talk about droplets, we talk about
+aerosols, we've looked at diseases like measles and laryngeal tuberculosis, where really an infected
+person comes into the office waiting room minutes later, just about every susceptible person is
+infected. Now influenza, in contrast, where a mask, distance, good ventilation really makes
+sitting across the room a much lower risk activity, right? And I know there was a lot of time spent,
+you know, is it airborne? What is an aerosol? You know, and I think we need to be careful of sort
+of getting mired down in the medical terminology. And I think there were in some quarters, and
+there still actually continues to be in many quarters, challenges with science communication
+around this issue. We've talked about larger droplets, which in some situations, in some
+percent of them will travel more than six feet, so they don't all drop magically.
+And some some virions, infectious virus particles, to use that as it's supposed to properly be used,
+I understand, they can actually be in those smaller size droplets. So nothing is black and white
+here. There are continuums here. But I think this translates into the fact that if you have poor
+ventilation, the law of averages is such that a small percentage of these smaller size particles
+that might have virions in them are going to start to build up in a room. So if you go back to this
+paper, and I'm going to say, you know, not all you're driving, but this was a good read, you can
+actually really see a beautiful figure where they show that the absolute risk really does drop in
+that first meter. So that 3.3 feet by about 80%. But then if you get out to about three meters,
+you're seeing you're getting down to about a 90% reduction. So you can see you get the most
+bang in that first meter, but you get even more in that second meter. So it's a continuum. We've
+talked before about how a mask drops our risk by about 80, 85%. We've talked about eye protection
+being associated with another drop in risk. And I know this study in Lancet didn't really spend
+much time on proper ventilation, but I think we can add that into the mix. So I think as we hear
+that the CDC is continuing 3 feet versus considering 3 feet versus 6 feet, what's really being considered
+is a full plan. If you have masks, if you have 3 feet, if maybe you put up plexiglass barriers,
+if you upgrade your ventilation system or have open windows, putting also into the equation
+community prevalence, we do know that schools, we think we know that we don't have a lot of
+actors surveillance that schools can be opened safely. We also know they can be kept closed and
+we also know they can be opened unsafely. So I think as we get into this decision, it's important
+to look at the science and balance our risks. And as we get into our tail end about long COVID,
+I'm going to be talking a little bit about long COVID in children again,
+because this is getting more attention and we're getting more stories about what's happening there.
+All right, let's move into testing. Testing is sort of a short section. I'm sort of
+a little bit dismayed at the drop in the amount of testing that is going on. If you actually go
+to these mass vaccination sites and you start asking the volunteers and the people working there,
+hey, what were you doing before you came and started working here, a lot of them were involved
+in the mass testing sites. So we're seeing a shift of resources, a shift of focus, a shift of energy
+from testing to vaccinations. And we still, if you look around, we're at a higher level now than we
+were during the quote unquote second peak of the summer in a lot of parts of our country. So
+we really have to continue having testing as part of our approach. And there really was a lot of
+money in that last plan that just came out to have testing as part of an approach. So
+there's been a lot of good work done on this. We actually did some like to think it was good work.
+It's now published. I'll have to tweet that out to everyone. But you can actually look at cases
+prevented, how much does it cost per case prevented, and particularly if someone else is paying for
+those testing bills, which is now what's supposed to be happening with this new stimulus bill,
+we can make testing part of a safe reopening plan. Active vaccination. We actually saw really
+encouraging data. And this was a big discussion before. If you're going to approach a disease
+with a double dose vaccination strategy, how many of those people are really going to come back
+for that second dose. So we saw a bit of information from the CDC and the MMWR COVID-19 vaccine,
+second dose completion, and interval between first and second doses among vaccinated persons,
+United States, December 14, 2020, February 14, 2021. And this was impressive. As per the CDC data,
+only about 3% of individuals are reported as missing that second dose. So this is, I have to
+say, very encouraging. This may even be, I'm going to venture to say even an overestimation,
+because we know a lot of individuals, maybe they went down to Florida, got that first dose,
+and then they came up to Massachusetts to complete their series, is the track and
+good enough to catch that they really got that second dose. What we're seeing, I think, is a
+really good uptake of people who get that first dose getting that second dose. So I have to say,
+this is really encouraging. The other thing I want to throw in here is something that we're
+getting more and more information about. We're hearing more and more confirmatory experiences
+of people with long COVID, go ahead, get vaccinated, and actually feel significantly better.
+This is something I started to notice early and early in January. I was a little bit worried,
+is this going to hold after that second dose? After the second dose, it's holding, which is
+pretty impressive. Say, my personal experience is probably about 30 or 40% of my patients.
+My wife was just asking me, is it still holding? And of course, today, I got a call from one of my
+patients who works in education, really a lot of difficulties, including, well, really, almost
+anything. She seems the hair loss, the fatigue, pretty significant cognitive issues, the brain fog,
+really concerned about her ability to function. Today, the call was just about a rash. And she
+said, boy, I really am continuing to improve. I'm continuing to feel better. So this is really
+exciting. We'll get maybe a little bit more ideas into why this is happening. We have a couple
+theories out there we don't know. But that is definitely exciting to see vaccine as therapeutic.
+We also have vaccine trials in children, and they're all up, they're getting filled, they're
+running forward. We actually heard that some of the vaccine trials are looking at going as low as
+children, as young, as six months of age. And this is fantastic. I think we've talked about,
+you know, will we ever reach this herd immunity? If we don't have vaccinations in our children,
+then it's going to be pretty challenging unless Peter Hotez wins over the hearts and minds of
+every single adult. Passive vaccination. This was an exciting, complicated,
+challenging last week, I have to say. So this last week, the US Department of Health and Human
+Services said it would limit distribution of BAM, linibimab, monotherapy, in a few of our states,
+California, Nevada, Arizona. And this was due to high levels of variants, hate those variants,
+that contained L452R, right? So they've got a mutation that seems to be impacting the efficacy
+of BAM linibimab, wanting us to switch over to cocktail treatment. Not only have we started to do
+that in those three states, but we've switched over almost all our sites, I have to say here in
+the tri-state area. So by the time this drops on Saturday, I think almost all the sites will
+successfully switch over. You know, in research, all our home infusion, we are rapidly switching
+everything over to cocktails. And I think I'll sort of explain, like, why are we doing that?
+Why not just these three or four states? We do not have the level of surveillance of the genetic
+sequence of the virus. So it was actually on a call to name Volta, who's my boss, at Optum Labs
+and Health Group. And she said, Daniel, you know, if your mother was in one of these states that
+does not have good surveillance, and she got COVID, would you want to give her the monotherapy,
+or would you want to give her the cocktail? And, you know, so we'll call that the mother test.
+And the mother test was, no, I would want my mother to get the cocktail. I think everyone
+should get the cocktail. Clearly, and David Ho sort of heads up about this, we're seeing
+the sequences in New York City, maybe a third or more. And that's actually from March 10th
+when he emailed me. We're already having resistance mutations that would suggest a lack of efficacy
+to bambling of a map. And we're seeing increasing rates around. So it's really a switch over to
+cocktails. We're going to go even a little more detail here, right, is the ID Society of America
+has now embraced monoclonal antibody therapy. But what have they embraced? It's very specific.
+They've embraced therapy with Eli Lilly cocktail, with bamlinivumab and a test of a map based upon
+those phase three trial results showing 87% reduction in progression, and that impact on
+mortality as well. So this last week was a challenge, right? Because the Catholic hospitals were the
+first ones to have cocktails. So we were flooding them. We had some pretty bad experiences with
+people waiting six, seven hours, sort of a monoclonal antibody line to get the cocktails,
+because we were not wanting them to get monotherapy with bam bam until everyone had switched over
+to cocktails. So fortunately, I think we are by the time this drops, we will have made the
+conversion across all over the place. So sort of tip my hat to everyone, sort of switching and
+doing what needed to be done to make this happen. All right. And now this is, I'm going to hopefully
+make this not as long as my other ones. We're going to spend a little bit of time on the tail
+phase before we go into our fundraiser and answer some emails. So I mentioned recently that things
+have been getting better and better with vaccination. But one of the things that has not been
+getting better is we're seeing lots and lots of COVID positive kits. And now what's getting a
+lot of attention is not just what we heard from the UK in terms of numbers, but we're hearing more
+and more stories. We're hearing more and more focus on children getting COVID and then not getting
+better. We don't know the exact percentages. I think I mentioned before, I don't want to hang
+my hat yet on what percent of children at what age end up with long COVID. But it is clearly
+more than we want to get long COVID. And the number of stories, the number of experiences
+that are being shared are growing. So this is going to have to factor into that discussion.
+I don't want to oversell this. I want to try to basically say this is what the science is.
+We know that children are at low risk of hospitalization. We know that children at low risk of death.
+We know that children are at lower risk seemingly for long COVID. But though children are at lower
+risk, they're not at no risk. So as we learn more and more about this, I think this needs to be
+part of that decision about letting the kids go back to school, letting the kids get back
+into all these activities, just realizing that you can't just say, oh, it doesn't matter if a child
+gets COVID because there can be consequences. So all right, as promised, I didn't keep people
+too long. But I do want to bring people to sort of my vision that I am concerned about.
+So I'm going to encourage everyone to go to parasiteswithoutporters.com and help us
+continue to support the American Society of Tropical Medicine. We're trying to create these
+scholarships, these annual meeting travel awards, for we're hoping to bring three women
+from economically challenged parts of the world to the annual meeting, trying to sort of help
+push them forward. I think it's really critical that we don't leave the rest of the world behind.
+What I fear is this sort of dystopian vision I have. It's December 4th, it's July 4th.
+We're celebrating Independence Day in the United States. We have massive numbers of people vaccinated.
+We're having our small gathering barbecues in the backyard, but still thousands of people
+are dying per day in many other parts of the world. So as we move, I think at a really good
+pace here towards vaccinating people here in the United States. I am glad to hear that we already
+have plans as we vaccinate people here to share those vaccines, to get those vaccines out to the
+rest of the world. So let's not just worry about ourselves. We're not safe until everyone's safe.
+Looking forward to understanding Daniel, how vaccinating resolves long COVID. That's a surprise
+to me. Email for Daniel, Daniel at microbe.tv. Martha, question regarding age and COVID vaccine
+dose. Does it seem that the elderly might need a larger dose than younger? If so, do you know of
+any plans to test this? Similarly, should younger people get a smaller dose? My elderly father has
+been asking about this. We'd love to find out the current thinking. It's always shocked me in
+medicine. This is the difference between the pediatrician and the adult physician. Once you
+turn 18, one size fits all. You could be that 75 pound woman. You could be the 320 pound
+man or woman, I guess. It's really amazing to me that we don't individualize that we haven't
+studied a lot of our medicines to really adjust. Some of them we have right now that we're using
+tosyllism for people that escalate. We clearly use a weight-based dosing. For our anticoagulation,
+we use a weight-based dosing. When we're looking at some of our antibiotics, we're actually looking
+at how much an individual weighs and we're dosing how many milligrams per kilogram.
+Most of our vaccines are one size fits all and the idea is we're going to overdose.
+But then we end up with discussions about vaccines. Oh, they work better in the young.
+They're less responsive in the older individuals. But we already saw with flu shots, for instance,
+maybe adjusting the preparation or the amount actually results in more protection.
+I think that's a lesson we've learned from the influenza vaccine story that it is worth looking
+at different doses, different formulations, definitely based upon a person's age, but also
+based maybe upon a person's size if we think about it. And I think that as we're more interested,
+more exciting of vaccines, I'm hoping we learn more about this. I actually remember one of our
+discussions when I was having my PhD was about really the difference in the immune system and
+the vaccine efficacy in children versus the elderly versus people in sort of between the two.
+And I'm supposed to say elderly or older individuals. But no, I think this is an excellent question,
+and these are unanswered questions. And if we keep seeing maybe treatment vaccine failures in
+people who are older, it might make sense to actually use increased doses in those individuals and
+study that. Walter writes, is there any known downside to any of the anti-sars COVID-2 spike
+protein vaccines for older kidney patients who do not yet require dialysis? I imagine vaccination
+produces at least some antibodies against the ACE2 spike protein complex that could engender
+cross reactivity against ACE2 receptors, the heart kidney and lungs are rich in those.
+I noticed that kidney patients were not included in the original Pfizer biotech or Moderna vaccine
+trials and have wondered why. Yeah, they weren't. That's a good observation. They have been clearly
+included in the millions of people that are now being vaccinated. So we have good experience
+in this population. They tend to be tolerating the vaccines very well. We're not seeing any
+safety concerns. So if someone has kidney problems, even if they're on dialysis, we're not seeing
+concerns. So dialysis, no dialysis. If you've got a place to get that vaccine, go ahead and get that
+vaccine. All right, one more from Thomas. Our facilities are beginning to revisit policies for
+pre-operative SARS-CoV-2 testing, as well as reconsidering wait times in our ORs after aerosol
+generating procedures. For roughly the last year, we've been testing all our elective surgical
+patients within 72 hours of their procedures and asking them to isolate following their testing
+until day of surgery to reduce both the risks associated with an infected patient coming to
+this hospital surgery center and spreading SARS-CoV-2 and more importantly, the risks of increasing
+complications with a patient to have pre-op COVID-19, perioperative. Additionally, we have had
+various wait times after both intubation, extubation or other aerosolizing procedures,
+depending on air exchange rates. Proposals are to one, eliminate pre-op testing in fully vaccinated
+patients to decrease or eliminate wait times after AGPs of patients are either vaccinated or have
+tested negative. The latter certainly goes against our current practice. Since all elective cases
+for the last many months would have had negative pre-op tests and we currently do wait for the
+requisite number of air exchanges prior to opening the rooms up. The vast majority of the staff has
+been fully vaccinated since early to mid-February, so risk of serious disease in our staff shouldn't
+really be the concern. Since some facilities have 14-minute pre and post wait, you can imagine
+efficiency isn't what it was pre-pandemic. Admittedly, item one goes against your mantra
+never miss an opportunity to test, but I suspect the risks are at least markedly reduced. Given
+the current CDC recommendations regarding travel for vaccinated people, it sounds like data still
+lacking to definitively be say vaccinated individuals can't transmit to other people. Curious if you
+and your crew have any thoughts on these proposed changes. Do you have any thoughts on if there
+is an ideal time to schedule a COVID-19 vaccination either before or after a planned elective surgery?
+We have administrators and high proclaiming patients shouldn't receive a vaccination for 14 days before
+or after the scheduled surgery. I've heard surgeons proclaim you could get a fever from the vaccine
+and might mimic a surgical side infection. And similarly, others have worried about side effects
+mimicking COVID and leading to postponement. I tend to err on the side of never miss an
+opportunity to vaccinate. So that was a lot there. That was like a that was like a
+Twip email, right? So let me pick the winners out. Maybe I'll go in reverse order and then I'll
+like remember as I go. So one of the things that definitely has been an issue is surgeons do not
+like us vaccinating anywhere around when they might be doing surgery, particularly the cancer
+surgeons. They're all worried that if we vaccinate particularly with an mRNA vaccine, particularly in
+the field, let's say you've got a woman who has breast cancer in her left breast and you're going
+to stick an mRNA shot into the left deltoid and then potentially have the enlarged lymph nodes
+that we clearly see. That might be an issue when they want to do lymph node dissection,
+sentinel, lymph node sampling, all these other things. And then that actually is reasonable.
+And this is complicated, right? So it can be very hard on a
+Twip to give the full answer. But yeah, there certainly are circumstances where I would defer
+that vaccine. I know that breaks my rule, but never missed a chance to immunize. Yeah, there
+are times when you're not missing the opportunity, you're moving that opportunity to a different
+time. Now we have started in the New York area, giving the J and J vaccine to a lot of patients
+before they leave. I do not think you need to wait a full 14 days. Much seems to be a much lower
+incidence of fever and tolerance issues. So in this case, I actually have a patient right now.
+She's in the hospital. She had a biopsy for her breast cancer. And we're actually going to go
+ahead and give her the J and J vaccine in the opposite arm before she leaves. And I think that
+this is going to have to be sort of an individual thought out. But I actually would not want there
+to be this hard and fast rule for any vaccine. If someone's planning on a hernia operation and
+they've got a chance to get a vaccine and it's 13, 12, 11 days before, I'm not sure we want to have
+too many barriers. We want to get those people vaccinated. Because unfortunately,
+when they come into a healthcare setting, we, sorry to say, have had exposure events.
+And so I think we want to be careful. We don't want to have rigid rules there.
+Now, the next is about testing. Hey, we have more and more testing capacity. We have quicker
+turnaround. Those whole ideas about getting your test 72 hours ahead of time were in large part
+based upon testing delays. If anything, I think we can ramp this up and have the day before
+get a test and have results available in time for that surgery. We really do not want people
+coming in, bringing them into healthcare settings, potentially exposing people who are
+immunocompromised, who maybe wanted to get vaccinated, but didn't have an opportunity to.
+I know we're all vaccinated, healthcare workers who wanted to. But a lot of our patients have
+not been vaccinated. And I think that's going to be an issue for a while either through choice
+or because they have an issue with an immune system failing. So I think we still have a
+commitment to try to keep our healthcare settings as safe as possible. It was related a story today.
+Unfortunately, where one of my good friends, his son had a skiing accident. They went to a hospital
+near the ski mountain. They wanted to do a CAT scan because they were concerned about head trauma.
+And the dad asked, well, why is this taking so long? And they said, oh, we just had a person
+in the CT scanner with COVID. We're just going to give it a few more minutes before we put
+your son in there. Five days later, the son started feeling poorly. He started feeling poorly.
+The wife started feeling poorly. That was the only exposure they could really think about was
+all that time spent in a healthcare setting. So we got to keep those places safe. It's a small
+price to pay to continue to test to keep these places safe. And not only is a small price to say,
+I'm going to say it's going to destroy the confidence. People are going to fear going to
+healthcare settings if we can't keep them safe for them. I think that was most of it.
+Yeah, I think that's great. All right, that's COVID-19 clinical update number 54 with Dr. Daniel
+Griffin. Thank you, Daniel. My pleasure is always on everyone. Be safe. We're coming to the end of
+this. You do not want to get sick now. There's lots of virus out there. We're sitting on a pretty
+high plateau. Get vaccinated. Don't get COVID. Stay positive, but stay negative.

@@ -1,0 +1,357 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv. This week in virology, Episode 778, recorded on July 8, 2021.
+I'm Vincent Raccoon, hello. And you're listening to the podcast all about viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. So I understand that we have a slight uptick in
+cases in the U.S. due to a few states where there are a lot of unvaccinated people.
+Vincent, Vincent, have you left the echo chamber? It's the Delta variants, of course.
+Oh, I forgot. Nothing says nothing to do with a lack of vaccination, a lack of masking,
+nothing to do with human behavior. It's all the virus. We're all doing the right things.
+Got it. Got it. No, I have to say, I think I went through stages of frustration and I've
+sort of come out the other side earlier today. I was listening. It's actually Carl Zimmer,
+right? Talking about how he's welcoming people into the Delta Club. He knew this was coming.
+It would be the end of the world. And Vincent, when you say it's exactly true, you look at a map
+and where people did not get vaccinated, they're getting COVID. But the hospitalizations and deaths
+are not going up, right? I don't understand. No. That is something that I was doing to talk
+yesterday, actually talking about what is the story with the Delta variant? What is this concept
+of transmissibility? And actually, I will tell everyone a little shame that I didn't get with
+777, but I did really enjoy to have 777. And I think it's important because sloppy language,
+I think puts us all at risk because there's this concept, right? I did sort of a thought
+experiment in this talk I did yesterday. I said, what does transmission mean to you?
+And then I had asked some people before the show. And one of them was like, well, I heard
+it's so transmissible that two people were walking in the street and one person walked
+by the other and got COVID. I'm like, let's be honest, they were having an affair. I mean,
+so, you know, and I think then people start, oh, the masks don't even work. Why do I bother?
+The vaccines don't work. Why do I bother? And the reality is, is that, yeah, there is a fitness
+advantage to the Delta variant. That's fine. We keep seeing different variants. And, you know,
+no one ever sort of raised the specter with flus in past years. So I'm not sure why science is be
+damned during times of COVID, but I'm sure we'll get into that. But no, I mean, the vaccines,
+as we'll talk about continue to be very effective. Areas with excellent vaccination coverage have
+low rates, areas like Nevada, Missouri, other areas where they're not getting vaccinated,
+lots of COVID. But we're not seeing, you know, suddenly, if you look at the numbers across the
+country, we're not seeing suddenly that the hospitals are getting full again. It's all regional,
+it all corresponds to poor vaccine uptake. Our quotation will hit right onto this.
+It may be said that natural selection is daily and hourly scrutinizing throughout the world.
+Every variation, even the slightest rejecting that which is bad, preserving and adding up all
+that is good, silently and insensibly working. And that's right out of on the origin of species
+by Charles Darwin. And I would say it's good. You want to quote Charles Darwin right out of his
+writing because there are so many misquotes, Darwin out there. Some of them even etched in
+marble that were never said by Charles Darwin. But now I know that when we do science communication,
+people think that the intelligence level of the genuine population is about fifth grade level or
+such. But I don't think that's true, particularly the Twiv audience. I think people can understand
+survival of the fittest and the concepts that the viruses are competing against
+themselves. And we are just behaving poorly. But okay, children, COVID and mental health,
+as I like to say, children are at low risk, but they are not at no risk.
+A really nice discussion. I think people are realizing COVID is becoming endemic. So really,
+the selection of parent and adolescent is making is what is the risk of vaccination versus what is
+the risk of eventually getting COVID. And really nice conversations having yesterday with a colleague
+of mine, Michael Amala, just about there may be an increased incidence of cardiac inflammation
+after vaccination. This in no way compares to the incredibly high incidence and severity that we see
+when these kids actually get COVID. All right, so let's move to transmission, pre-exposure period
+transmission. Still never miss an opportunity to test. We're falling down quite a bit on this.
+But one of the things I get a lot of questions about, and we had a nice MMWR early release about
+this, is what about these air purifiers? And the early release entitled efficacy of portable air
+cleaners and masking for reducing indoor exposure to simulated exhaled SARS-CoV-2 aerosols,
+United States 2021. Now, I have to say, this sounds like it was a fun project. So let me go
+through what the authors did. The authors reported using a breathing aerosol source simulator to
+mimic a meeting participant, exhaling infectious particles. That was the source. And then there
+were three breathing simulators used to mimic a speaker, two participants exposed to these aerosol
+particles. And interestingly enough, these simulators were actually head forms with
+elastomeric skin from Hanson Robotics used to use to do these experiments. They set them up,
+set to either 15 liters per minute or 28 liters per minute. And then they use these optical particle
+counters to collect aerosol particles. There's a figure in the paper, but I have to say,
+I wanted to see the video. I'm going to have to admit, this must have been cool. And they did
+report that based upon this investigation, using two HEPA air cleaners close to the aerosol source,
+reduced the aerosol exposure of the uninfected participants and speaker by up to 65% and a
+combination of the HEPA air filters and universal masking reduced exposures by up to 90%.
+But there's a few comments. I mean, this is a big topic, but a few comments. First,
+just this was really a simulated basically air cleaning procedure. There's no SARS-CoV-2
+in this paper. This paper actually doesn't really tell us anything about the actual
+transmission of SARS-CoV-2. It just tells us about how you might keep droplet particles aerosols
+out of the air. So I think that's important. When people ask me about the HEPA air cleaners,
+I say sounds great. There's no magic barrier at six feet. So you get in that suburban home
+with poor airflow, you get in that office, you start getting a lot of people in there. And I think
+that it's reasonable to consider these air purifiers, reasonable to open those windows.
+Your wrist does not go to zero when you hit six feet. So this is interesting, but
+realize I've seen a lot of retweets of this, look, we've been saying this forever. I'm not sure
+what you've been saying forever. This just tells you that air filters do filter the air.
+All right. Active vaccination. Never miss an opportunity to vaccinate. And vaccination is how
+this pandemic ends. And we are seeing that across the country. So last week, I talked about the
+preprint serum neutralizing antibody of mRNA 1273 against SARS-CoV-2 variants. That's the Moderna
+vaccine. And this suggested that the Moderna mRNA vaccine produced antibody levels with neutralized
+activity against several SARS-CoV-2 variants, including the Delta variant. I also mentioned
+the data from the UK suggesting the Pfizer BioNTech vaccine 88% effective against symptomatic
+disease from from the Delta variant, then the AstraZeneca about 60%. This week, we had some
+data on the J&J vaccine in the form of the preprint, add 26, COVID-2, S elicited neutralizing
+activity against Delta and other SARS-CoV-2 variants of concern. So similar to the Moderna
+preprint, the authors tested Sierra from recipients who'd gotten a single dose of the J&J. This is
+the J&J vaccine. They tested the Sierra for neutralizing activity against several SARS-CoV-2
+variants. All tested variants demonstrated susceptibility to the induced serum neutralization,
+albeit there was reduction compared to the B1 strain. Most pronounced reduction was observed
+for the beta. That was about 3.6. The gamma, that was 3.4. Now, there was only a 1.6-fold reduction
+observed for the widely spreading Delta variant. A couple comments here. This work was done using
+pseudotyped virus. And again, this is looking at antibodies, right? This is not looking at T cells.
+This is also not giving us real world experience as far as the ability of the J&J vaccine to
+reduce our chance of getting sick, to reduce our chance of getting infected. But I do know,
+I get lots of questions. We got all these people wanting to top off their immunity after J&J
+with an mRNA vaccine. This does not support that. That is not currently recommended. If anything,
+this would give people, I think, maybe a little bit of confidence that even just looking at the
+antibody levels, and we really think that J&J's power is in a T cell response, that we're maybe
+better off from a J&J standpoint with a circulating Delta relative to the gamma or the beta.
+Now, last week, I also discussed effect of vaccination on household transmission of SARS-CoV-2 in England.
+And that was where they reported that vaccination was associated without a 40 to 50% reduction in
+transmission of SARS-CoV-2 in household context. But as Vincent brought up, most of the vaccinated
+index patients in this data set, 93% had only gotten the first dose of vaccine. I know when I
+discuss my wife with this with my wife, her comment was, well, that's useless. Well, remember,
+this was the UK. There had been a significant period of time where people had only gotten one dose.
+So we're hoping that after a second dose that that reduction is even more. So I just want to
+point that out. But we did get a little more information in this realm. The New England Journal
+of Medicine had a paper, prevention and attenuation of COVID-19 with BNT 162B2 and mRNA 1273 vaccines.
+So this is the Pfizer BioNTech and the Moderna vaccine. And I think this paper is also helping
+to build the story that people who get vaccinated not only are protected themselves, but there may
+be an impact on interrupting transmission. So these were a number of participants. They
+excluded participants with laboratory documentation of SARS-CoV-2 infection prior to the start of
+the study. And then they went ahead and conducted a prospective cohort study on 3975 health care
+personnel, first responders and other essential and frontline workers. And they looked from December
+14, 2020 to April 10, 2021. And I mean, I have to say, this is great. The participants completed
+weekly SARS-CoV-2 testing, mid-terminate nasal swabs for qualitative and quantitative PCR testing.
+Now 796 or 20% of these individuals were completely unvaccinated. About 636 had received
+at least one dose. 2543 had gotten two doses. And they report that they detected SARS-CoV-2
+infection in five of those that were fully vaccinated, 11 partially vaccinated, 156 unvaccinated.
+And I remember different denominators down. So I break this down into what percent are we looking
+at. About 0.2% of the fully vaccinated, 1.7% of the partially vaccinated, 20% of the unvaccinated
+got infected. So you're about 100 times less likely to get infected, about a two-log reduction
+in even testing positive after the vaccination. They then went one step further to look at the
+level of the viral mRNA, right? Not actually looking at live or infectious or active virus,
+but looking at viral mRNA. And they also looked at the duration at which you can detect this.
+In the vaccinated, their data showed lower levels of viral RNA and a lower percentage of individuals
+still had detectable viral RNA for greater than one week. So I think this is compelling, right?
+This is data showing that people who are vaccinated are less likely to get infected.
+I always point out that if you can't get infected, you can't spread it to others. Also
+suggesting, as we've seen, that if you do get infected after vaccination, it looks like there's
+less viral RNA. Also looks like that is present detectable for a shorter period of time.
+Now, one of the big things that keeps coming up, right, is what is your sort of altruistic,
+your civic virtue to getting vaccinated. And so I'm going to share a story because I think if
+people think these things through, let me say, yeah, I guess I should get vaccinated. And this was a
+call I got on Thursday evening. And the story was it was a three-year-old. I got the call from the
+grandparents who are physicians. This three-year-old, most of the pandemic isolated in the home,
+now has the opportunity to go off to a daycap. And the mom's excited. She's pregnant, has another
+child under the age of 10 as well. And on Thursday morning, everyone's ready for the
+July 4th exciting weekend. There could be the two sisters, the grandparents, the two grandchildren.
+The three-year-old starts to feel not well. Sort of runny nose, and they get a call that morning
+from the camp. I'm sorry, but the camp counselor that has been taking care of your three-year-old
+just called us to let us know that they have COVID. Unvaccinated camp counselor, the three-year-old
+gets tested, and the three-year-old has COVID. So let's look at the impact of that counselor's
+decision to not get vaccinated and work around children. So that counselor transmitted the virus
+to the three-year-old. We now have a pregnant woman at home with a six-year-old. We have a
+three-year-old who's got COVID, who now can't go back to camp. Finally, had had some social
+interaction. The six-year-old is in quarantine. So the six-year-old can't go to camp.
+The pregnant woman's sister had come out for the four-day weekend to all be together.
+She leaves immediately. The two grandparents leave. What a disaster. So just think about the fact,
+our decisions affect our community. They affect others. If you're going to work around young,
+unvaccinated vulnerable children or other vulnerable populations, your decisions don't just affect
+you. They affect others. And I think this is just sort of a story about how that person's decision
+really had a significant impact. So let's think about that when we make our decisions.
+All right. The period of detectable viral replication, the viral symptom phase,
+the time for monitoring and monoclonals. I like to say where you get your test is
+ideally where you should get your monoclonals. And I have to say, anticipate in the next couple
+months. I'm very optimistic we're going to have some exciting small molecule inhibitor results.
+Sort of an option going into the fall and winter when we will still have COVID-19.
+But some less exciting data on ivermectin with the publication of the paper.
+ivermectin to prevent hospitalization in patients with COVID-19. ivercorre COVID-19,
+a randomized double blind placebo control trial in BMC infectious diseases. So a lot of people
+were waiting for this. This was nicknamed the Corientis trial. This was a randomized double
+blind placebo controlled study conducted in non hospitalized individuals with COVID-19
+in Corientes, Argentina. So patients with SARS-CoV-2, positive nasal swabs were contacted within 48
+hours of that positive test by telephone to invite them to participate. The trial then
+randomized 501 patients between August 19, 2020 and February 22, 2021. The patients were
+randomized to receive ivermectin. It was a weight-based dosing with an N of 250, the placebo N of
+251. This treatment was for two days with this weight-based. The efficacy of ivermectin to prevent
+hospitalizations was evaluated as the primary outcome. The mean age was 42 years and the mean
+time since symptom onset to inclusion was four days, right? So this was actually quite early.
+The primary outcome of hospitalization was met in 5.6 percent of the individuals in the ivermectin
+group, 8.4 percent in the placebo group. The p value on this difference was 0.227. Time to
+hospitalization was not statistically different between the groups. The mean time from study
+enrollment to invasive mechanic, ventilatory support was 5.25 days in the ivermectin, 10 days
+in the placebo group. That actually, interesting enough, was statistically significant. People in
+the ivermectin group, on average, ended up on a mechanical ventilation in about five days versus
+10 days in placebo. That's a p value of 0.019. I know there's a lot of people who are really
+passionate about ivermectin. There's this buzz that's a crime against humanity that not everyone
+is getting ivermectin. But I have to say, so far, we are not seeing the science to support that
+degree of excitement. At this point, still, we're not recommending use of ivermectin outside of
+clinical trials. If anything, I think this also gives us a boundary of how potentially effective
+ivermectin could possibly be if we have a larger powered study. So, put that in context. I'm sure
+I will get some fairly friendly constructive comments. All right, the early inflammatory phase.
+The publication, association between administration of IL-6 antagonist and mortality among patients
+hospitalized for COVID-19, a meta-analysis. And this is out of React, right? So, that is the WHO,
+rapid evidence appraisal for COVID-19 therapies, the React working group. And there's a couple of
+these, right? I think I've shared that I sit on the American Society of Hematology working group
+working group, looking at anticoagulation, a number of individuals sit on this WHO group.
+And what they're doing is they're looking at data that we have. Actually, there's a lot of
+communication even ahead of time with the researchers prior to things being published.
+This paper was published in JAMA and just reinforces the role in select patients of IL-6
+antagonist therapy, right? So, this is tosy, tosyllismat that we've talked about.
+This was a prospective meta-analysis of 27 randomized trials, including 10,930 patients of whom
+2,565 died by 28 days. The 28-day all-course mortality was lower among patients who received
+the IL-6 antagonists compared with those who received usual care or placebo. But I want to break
+down because I think this is really critical and I want our listeners to catch this. The summary
+odds ratio for the Association of IL-6 antagonist treatment with 28-day all-course mortality
+was 0.78, so a 22% reduction with concomitant administration of corticosteroids. It was 1.09,
+so about a 9% increase in mortality if the patients did not get corticosteroids.
+So, I think this really enforces this paradigm now in a lot of our treatment guidelines.
+Patient comes to the hospital. Their oxygen saturation is less than 94%. We start them on
+steroids. They progress to a higher level of oxygen requirement. Then we look at adding the IL-6
+antagonist tosyllismab. If you do not give them steroids, do not give them tosyllismab. This is
+not a treatment for everyone. It's a select group. If they escalate to that higher level of oxygen,
+you have a window of only about 48 hours to jump on board. If you wait to day three,
+we actually see that we make things worse. This should be done with someone who knows these
+fine details. The tail phase long COVID. This, I have to say, was the excitement of my week. I
+really enjoyed seeing this Lancet preprint, the impact of COVID-19 vaccination on symptoms of
+long COVID, an international survey of people with lived experience of long COVID. Now, the authors
+invited patients with long COVID to complete a web-based questionnaire. 900 people were invited
+to participate, and several were excluded for different reasons. So, ultimately, we end up
+analyzing 812 individuals. Following vaccination, 57.9% of participants reported improvement in
+symptoms. 17.9% reported that they felt worse. 22.2% said they were really just about the same.
+And there was considerable individual variation in these responses.
+A larger improvement in symptom severity were seen in those who received the mRNA vaccines
+compared to the adenoviral vector vaccines. So, this is the UK. So, sort of think about that,
+a few comments. Since this was the UK, only 130 of these individuals had received a second dose of
+vaccine. So, here, we're actually seeing a 57.9% of participants reporting improvement after just
+a single dose of vaccine. And I think I've shared that a lot of us have had the experience that we
+pick up more responders with a second dose. This was an online survey, right? So, it recruited
+participants via social media and is not really representative of the entire population of people
+with long COVID. Most of the respondents identified as white. And by most, I mean over 90%.
+Over 80% were female. There was no control group here. I will say that there was a great
+figure two. And I want people to hopefully be linked to on the Parasites Without Borders website,
+right? And you can go to this right after you donate. But there's a great figure two. And figure
+two is nice to look at, well, what is getting better? Because people always ask me that. Is there
+a profile of who gets better? We saw individuals with fatigue, reporting improved fatigue,
+brain fog improved, my algaes improved, shortness of breath improved, insomnia improved,
+chest pain, a lot of these individuals says ongoing chest pain, that improved or resolved,
+gastrointestinal symptoms, maybe underappreciated earlier in the pandemic. A lot of these individuals
+have ongoing reflux, diarrhea, discomfort that improves. The inability to smell interesting
+after seeing improvement after vaccination, the autonomic dysfunction, the pot that we've all
+heard about, even these individuals that have chronic cough, fever, rash or other vascular issues.
+So the authors comment a little bit about the fact that there was no control group. They do
+point out that the majority of patients had been experienced as symptoms for at least nine months
+when they enrolled them. And there was a return to baseline for at least half of the patients
+within one month of vaccination. So there's a nice sort of timing here suggesting that
+for the majority of long COVID patients receiving a vaccination not only offers protection against
+reinfection, but also may potentially improve their symptoms. So all right, I will finish there
+today. And just remind everyone throughout the months of May, June and July, we're in July already.
+I was shocked that we've already gotten there. We are going to continue to take your donations.
+We're going to match them. We're going to continue to help Foundation International Medical Relief
+of Children. And I think one thing that is maybe clear to everyone, as good as things are getting
+in parts of the United States, you look at areas like Sub-Saharan Africa, only about one or two
+percent of those individuals even have access to vaccines. Here are all these discussions in the
+US. Should I get a third dose? Should I top off my J&J? Just remember, so many parts of the world,
+they don't even have access to that first dose. And we want to work with these groups and try to
+help support them so they can get back in these areas, help with the vaccine rollout. And you can
+be part of that. So thank you. Time for some email questions for Daniel. You can send yours to
+Daniel at microbe.tv. Carrie from Southern California has arranged monoclonal antibody treatment for
+over 40 patients in the last two months. But there are still high risk patients who are eligible.
+However, resources in his area have been reprioritized. And the monoclonal infusing clinic is being
+closed with referral of high risk patients to community sites. But the problem is we haven't found
+any. The HHS and Regeneron websites have extensive lists of Regeneron-Covian fusion sites. But every
+one of them in our area have ceased operation. County and state funding appears to be drying up.
+There don't seem to be any alternatives for patients in our community. If you found a similar
+problem in your area, are there any national efforts to allow continued treatment with monoclonals?
+I'm interested in your thoughts. Thanks for all you do. Yeah, I mean, that's disturbing,
+disheartening, I have to say. I was actually just on the phone earlier today with Adam Fitterstein.
+He's the head of our pro-health urgent care. He's just talking, are they having any issues?
+So I always try to keep this on my radar. We're very fortunate. We continue to be very fortunate
+in the New York Tri-State area. Our partners, the Catholic hospitals, you can send an individual
+right over. A few hours later, they're on their way home having already received their monoclonals.
+The large healthcare system northwell is jumping in with their tents as well. We really have good
+access here locally. But what you're saying is actually, I've heard that this is starting to
+be a problem nationally. There's no profit here, right? We live in a capitalist society.
+The number of COVID cases are dropping down. A lot of people are returning to business as usual.
+There isn't this huge demand for monoclonals in many parts of the country. There certainly
+should be in some others. Yeah, this is a problem. I remember in my previous incarnation, I spent
+some time in Washington actually training lobbyists. I can believe that. And one of the things is,
+you've got to create in a capitalist society a model that really makes people encouraged to
+do this. I hate to say that, right? We should all just do this because it's the right thing.
+But these medicines, the Regeneron products are bought by the government. Maybe you can charge
+into infusion, but there really isn't a big market driver to get this done. So they continue to be
+one of our most effective, if not our only most effective during that first week. We're lucky in
+the New York state area. But yeah, this is a problem. And hopefully the word people are listening,
+and we can get this addressed. So Darcy writes about an experience with his first asterism
+zenika jab. He has had a prior history of anaphylaxis to contrast agents used during an MRI scan.
+Initially, he was okay, but had an arrhythmia bad enough to need the emergency room,
+and had had several synths taking me there since each time discharged with no insights.
+While I had a history of palpitations and some arrhythmia is nothing significant for years,
+could be entirely coincidental that it happened within five days of my first jab.
+I'm awaiting a variety of tests to see what might be going on. But in the meantime,
+I kept getting contacted about my second and now overdue AstraZeneca jab. The doc told me not to
+get the second one until I had some cardio investigations, but with the Delta variant and
+pressure from social and familiar sources to be fully vaccinated. I wonder if you can comment on
+your experiences regarding arrhythmias and COVID vaccination, whether a second jab could
+exacerbate arrhythmia symptoms. There's several things here, and this is a great,
+great email, great question. What we are doing in the US, if someone had an issue with one
+vaccination, and here it will be, let's say it was Pfizer, Moderna, those are two dose,
+we might look at switching over to a different vaccine, and it is. It's the mRNA vaccines that
+really have this connection. We're saying it's about one in 100, one in 200,000
+risk of a myocarditis. I don't know if that's what's causing the arrhythmia. I'm not even sure
+it's causal, certainly here. But a lot of this is going to depend where you are in the world.
+If you had an issue with that first AstraZeneca vaccine, do you have the ability to switch to
+a different vaccine to complete this? Can you go ahead and then do a Pfizer 2 dose, which would
+be actually how we would approach that. We would just give, at this point, heterogenous or mix and
+match. That's going to sort of depend where you are. If you do not have a choice, then this is
+going to become that risk benefit of, are you going to risk getting COVID, or are you going to risk
+potentially having arrhythmia cardiac issues after that? That's a tough call, and I see why
+they're saying you should go see a physician, you should see a cardiologist. They can get to the
+root of this. Hopefully, they can even get a sense of whether or not it makes logical sense
+them. This is related. I mean, the five days after, there's that sort of causal suggestion.
+And I have to say, this could be the last sort of is the Delta variant. What is the only good thing
+about the Delta variant is we actually are seeing an uptick in people coming and saying, you know,
+I wasn't going to get vaccinated. But now with everything I'm reading about the Delta variant
+in the media echo chamber, I'm not a huge fan of the end justifies the means. I think we need to
+be honest. But I'm always happy to hear people coming in and getting vaccinated.
+My, my view, Daniel, is that at least people stopped using the word strain. They're using
+variant that. Okay, we'll take what we can, Vince. All right, Ken writes, I've just watched a
+presentation where several medical doctors have hypothesized based on clinical studies
+that long haul COVID is caused by the presence of nonclassical monocytes containing S1 protein
+fragments located on a Neil epithelial cells of blood vessels. These cells apparently engender
+various inflammatory conditions in the vascular system, presenting as common symptoms of long
+COVID. The doctors have also presented evidence from their own practice that the use of statins
+and Ivermectin have benefited patients by presumably shutting down over active monocytes or somehow
+blocking the effect of residual S1. I'm not a doctor or scientist, but I would love to hear
+your thoughts on this hypothesis. Yeah, so I'm going to comment. I hope those physicians didn't
+use the word evidence when they were describing their anecdotes, their clinical anecdotes.
+You know, the way science is supposed to work, and I really am a little troubled by what happened
+during the COVID-19 pandemic is you may make some observations in the clinic. And that's really
+what drives you to say we need to study this. We need to find out if it's true. It is very easy
+to be tricked by our observations, by our selective memory of things. And so normally you would have
+a theory. You might do some basic science to get a sense of whether or not that's true. If that
+seems consistent, then you would look at a small trial to get a sense. Then you would talk to your
+statisticians about how many people do we need to have in this trial? Because you don't willy
+nilly start giving medicines to lots of people. Unfortunately, the last 18 months has been sort
+of the Wild West. I'm hoping we're getting away from influencers, thought leaders, spreading
+Atlantic Dodes. I think we got to get back to science. And what is science? Science is really
+just asking in a way that you can find out the truth. What works? What does it work? And then
+the risk benefit of making different choices and different recommendations for our patients.
+What is it that Mark Chris lip says, the three most dangerous word that a doctor says?
+In my experience. There you go. And I like to say the plural of anecdote is not data.
+That's a good one. That's a good one too. Ken, by the way, said he had long whole COVID in November
+and then it got better after his first dose of Moderna. That's fantastic. No, I mean, we are
+seeing that. I know Akiko up at Yale is working on studying this but having issues recruiting enough
+patients. So we are seeing this. It's nice that we had this UK investigation. Just more support,
+right? And again, this is an issue. We have observations in the clinic. We have to do these
+informal ways to really turn those anecdotes into information. All right, one more from Danielle.
+I think we covered this but Danielle got her first J&J in April and then decided to get a dose of
+Pfizer and listened to your podcast last week about a person who got two more doses of a vaccine
+even after Sputnik. And she wants to know is whether it's safe to go ahead, get the second
+Pfizer dose or whether I would be subjecting my immune system to too much immune stimulation.
+Yeah, I think there's two topics here to touch on. We'll start with the safety issue, right?
+You know, the US as far as recognizing someone is fully vaccinated, there's the list of not only
+EUA, so US FDA, EUA approved, but also now WHO approved vaccines and you look at that list.
+And if you completed the series, you can be considered, recognized, all the rights and
+privileges of being fully vaccinated. But we're certainly, we certainly have seen a lot of
+individuals that didn't meet that criteria and ended up getting a couple more doses of a US FDA
+EUA approved vaccine, even though they already had received some other unrecognized unapproved
+vaccine outside the country. So from a safety point of view, not been formally studied,
+we do now have experience with thousands of individuals who have gone through this. We're
+not seeing any reports in VAERS or anything else. So from a safety standpoint, I'm not concerned,
+but I am concerned about the logic here, right? The JJ is a very effective vaccine for doing what
+we want it to do. I'm not sure you really need to be topping things off with an mRNA series.
+That's COVID-19 clinical update number 70 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you, Vincent. Thank you, everybody, and be safe.

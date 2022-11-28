@@ -1,0 +1,1452 @@
+1
+0:00:00,000 --> 0:00:06,880
+This week in virology, the podcast about viruses, the kind that make you sick.
+
+2
+0:00:10,240 --> 0:00:20,960
+From Microbe TV, this is Twiv, this week in virology, episode 795, recorded on August 19th, 2021.
+
+3
+0:00:21,520 --> 0:00:26,800
+I'm Vincent Rack and Yellow, and you're listening to the podcast all about viruses. Joining me
+
+4
+0:00:26,800 --> 0:00:34,320
+today from New York, Daniel Griffin. Hello, everyone. Hey, Daniel, what do you think about
+
+5
+0:00:34,320 --> 0:00:40,880
+boosters? You going to talk about that today? I'm sure that will come up, but an episode will
+
+6
+0:00:40,880 --> 0:00:46,160
+not go by without discussing that hot topic. Every week, there's a hot topic, right?
+
+7
+0:00:47,120 --> 0:00:51,120
+You know, I keep thinking that there's going to be some point in time when it just settles down,
+
+8
+0:00:51,120 --> 0:00:56,240
+and I have nothing to say, and I look forward to that point in time. We're not there yet.
+
+9
+0:00:56,240 --> 0:01:06,160
+No, but this is update number 76. Yeah, maybe at update 100, we will reach that point.
+
+10
+0:01:07,280 --> 0:01:13,440
+Maybe that's optimism. When we get to clinical update 100, we'll see if I was optimistic or not.
+
+11
+0:01:13,440 --> 0:01:17,440
+All right. All right, well, let's get fired up because we got a lot to do today, and I'll start
+
+12
+0:01:17,440 --> 0:01:25,120
+with my quotation. There is only one sin, and that is theft. When you tell a lie, you steal
+
+13
+0:01:25,120 --> 0:01:29,440
+someone's right to the truth. And I don't know if I'm going to pronounce this correctly, but this
+
+14
+0:01:29,440 --> 0:01:38,000
+is by the author of the kite rudder, Kaleid Hasani. So maybe our writers can let us know if I pronounce
+
+15
+0:01:38,000 --> 0:01:46,320
+that correctly. Actually, I'm a great fan of this man's work, his books, and this has really been
+
+16
+0:01:46,320 --> 0:01:51,200
+a tough, really been a tough week, particularly in Afghanistan seeing what's happening there. So
+
+17
+0:01:52,080 --> 0:01:58,160
+Hart goes out to all those individuals. Now, I'd like to say a single point does not make a line,
+
+18
+0:01:58,160 --> 0:02:05,200
+so I'm going to keep building on the knowledge we have. But people know that here in the U.S.
+
+19
+0:02:05,200 --> 0:02:10,800
+things are not going well in a lot of parts of the country, but let's start off with children.
+
+20
+0:02:10,800 --> 0:02:17,680
+Children may be at low risk, but they are not at no risk, and I've added to this wearing a mask is
+
+21
+0:02:17,680 --> 0:02:23,920
+less traumatic for a child than being hospitalized. I think we're all aware that there's actually
+
+22
+0:02:23,920 --> 0:02:32,320
+been some rather odd behavior around this respiratory contagion and children. And we got the article
+
+23
+0:02:32,880 --> 0:02:38,720
+Association of Age and Pediatric Household Transmission of SARS-CoV-2 Infection published
+
+24
+0:02:38,720 --> 0:02:44,800
+in JAMA Pediatrics addressing some of the questions around children of various ages and
+
+25
+0:02:44,800 --> 0:02:50,560
+transmission. And I must say, when I brought up this study, my wife was like, well, I can tell
+
+26
+0:02:50,560 --> 0:02:57,440
+you what it's going to show. She was right spot on. So this was a cohort study where the authors
+
+27
+0:02:57,440 --> 0:03:06,000
+looked at 6,280 households that had pediatric index cases and of these, well, about a quarter.
+
+28
+0:03:06,000 --> 0:03:13,760
+So 1717 households, 27.3% experienced secondary transmission. So just to give you a sense,
+
+29
+0:03:14,400 --> 0:03:21,120
+this is a household with a child with COVID at about a quarter of them, despite doing whatever
+
+30
+0:03:21,120 --> 0:03:28,560
+precautions still had secondary transmission. So the authors reported that children aged zero
+
+31
+0:03:28,560 --> 0:03:31,600
+to three. So they're going to break this down by different age groups. And this could be the
+
+32
+0:03:31,600 --> 0:03:38,960
+question, who's going to be the highest rate of transmitting? So they're going to use age 14 to
+
+33
+0:03:38,960 --> 0:03:44,720
+17 as our sort of reference, our adolescents 14 to 17. And then we're going to compare
+
+34
+0:03:45,440 --> 0:03:50,320
+different age children to those folks. So looking at the zero to three years,
+
+35
+0:03:50,960 --> 0:03:55,840
+these individuals, the youngest, had the highest odds of transmitting SARS-CoV-2
+
+36
+0:03:55,840 --> 0:04:05,360
+to household context. Their odds ratio relative to the 14 to 17 was 1.43. And this association
+
+37
+0:04:05,360 --> 0:04:11,680
+was similarly observed in sensitivity, looking at secondary cases. And so basically going through
+
+38
+0:04:11,680 --> 0:04:19,440
+the older the kids were, when you got to four to eight, you had a slightly lower, was 1.4,
+
+39
+0:04:19,440 --> 0:04:27,120
+when you got up to the nine to 13, when you got up to these older. So the highest transmission
+
+40
+0:04:27,120 --> 0:04:33,520
+was in the youngest individual. So there's been this odd idea that I think our listeners are
+
+41
+0:04:33,520 --> 0:04:38,160
+probably aware of this odd idea that somehow children can't get COVID and that they can't
+
+42
+0:04:38,160 --> 0:04:47,440
+transmit, can't transmit the virus. So this is just basically letting us know that, yes,
+
+43
+0:04:47,440 --> 0:04:52,080
+if children do get infected, they can transmit it in the household context.
+
+44
+0:04:52,720 --> 0:04:59,360
+Now I'm going to move on to our testing transmission area. And I like to just remind people, I was
+
+45
+0:04:59,360 --> 0:05:04,240
+in the Brian Lair Show a couple days ago. And there was a whole question about rapid antigen
+
+46
+0:05:04,240 --> 0:05:11,520
+testing. Are we done with that? And just another study to remind people of how useful rapid
+
+47
+0:05:11,520 --> 0:05:18,560
+resulting tests can be. And this was the report use of rapid antigen testing for SARS-CoV-2
+
+48
+0:05:18,560 --> 0:05:25,520
+in remote communities, looking at Yukon, Cuskquim, Delta region, Alaska. And they looked at the
+
+49
+0:05:25,520 --> 0:05:34,080
+period of time from September 15, 2020 to March 1, 2021. And here, no surprise, the authors reported
+
+50
+0:05:34,080 --> 0:05:41,200
+that the introduction of rapid point of care antigen testing in this region was followed by
+
+51
+0:05:41,200 --> 0:05:48,080
+more than a threefold reduction in daily SARS-CoV-2 case rates. And this gets back to something
+
+52
+0:05:48,080 --> 0:05:54,240
+we've been talking about for well over a year now. And it's that one of the great things about
+
+53
+0:05:54,240 --> 0:05:59,120
+these point of care antigen tests is you get a result right away. You can quickly remove an
+
+54
+0:05:59,120 --> 0:06:04,400
+infected person from the transmission cycle, where particularly you look at an area like
+
+55
+0:06:04,400 --> 0:06:10,960
+remote Alaska to get a return PCR result can actually take a significant amount of time. And
+
+56
+0:06:10,960 --> 0:06:17,360
+during that time, that individual can continue to transmit the virus. And we still have on our
+
+57
+0:06:17,360 --> 0:06:21,760
+parasites without borders that calculator, where you can look at different sensitivities, different
+
+58
+0:06:21,760 --> 0:06:27,200
+approaches. And one of the things I was talking about is a lot of people have started to say,
+
+59
+0:06:27,200 --> 0:06:32,160
+this is not true, but they do say it, that, oh, these rapid antigen tests, they don't work for the
+
+60
+0:06:32,160 --> 0:06:39,120
+Delta variant. But remember, the Delta variant has some changes in the spike protein, still plenty
+
+61
+0:06:39,120 --> 0:06:43,680
+of nucleocapsid being produced. That's the protein we're picking up with these tests.
+
+62
+0:06:43,680 --> 0:06:50,160
+Are they 100% sensitive? 100% sensitive? No. But are they 80 or 90% sensitive when properly done?
+
+63
+0:06:50,160 --> 0:06:55,760
+Yes. So, you know, four out of five times, you're catching that person right away in 15 minutes.
+
+64
+0:06:55,760 --> 0:07:00,720
+If you're still concerned, you can still send off that secondary test. So it makes a lot of sense.
+
+65
+0:07:00,720 --> 0:07:06,560
+If they're positive, great. You can immediately intervene. If they're negative, and it doesn't
+
+66
+0:07:06,560 --> 0:07:12,640
+make sense, or you want to have a higher sensitivity, you can always add a PCR on top of rapid testing.
+
+67
+0:07:12,640 --> 0:07:17,040
+Now, in the MMWR, I'm sure Vince is going to jump in on this one.
+
+68
+0:07:17,680 --> 0:07:23,840
+Shedding of infectious SARS-CoV-2, despite vaccination when the Delta variant is prevalent,
+
+69
+0:07:23,840 --> 0:07:30,240
+Wisconsin July 2021 was posted as a preprint. Now, it was told to me, and I didn't actually see
+
+70
+0:07:30,240 --> 0:07:36,000
+this initially, but this was sort of tweeted my way that initially this was posted with the B-Wirt,
+
+71
+0:07:36,560 --> 0:07:40,400
+and they updated it because they knew that we would find that B-Wirt offensive,
+
+72
+0:07:40,400 --> 0:07:47,680
+and they decided to use a much more appropriate term, just infectious cases in vaccinated
+
+73
+0:07:47,680 --> 0:07:53,600
+individuals. So I have that on unreliable authority. I probably should have asked one of the authors
+
+74
+0:07:53,600 --> 0:07:59,680
+when I was emailing with him. But in this report, in this preprint using PCR cycle thresholds,
+
+75
+0:07:59,680 --> 0:08:06,640
+CT data, they actually went ahead and they looked at, can we actually culture
+
+76
+0:08:07,520 --> 0:08:13,200
+virus from these individuals? And they report that, yes, in the majority of individuals
+
+77
+0:08:13,920 --> 0:08:20,960
+with CT values less than 25, whether vaccinated or unvaccinated, they were able to actually culture
+
+78
+0:08:20,960 --> 0:08:30,080
+virus. So they did this in Vero cells. They report in Figure 2 that they were able to see
+
+79
+0:08:30,080 --> 0:08:37,200
+cytopathic effects after five days of replication in the Vero E6 TMPR SS2 cells.
+
+80
+0:08:38,720 --> 0:08:43,680
+But we don't get any quantification. And that's really what I was hoping because
+
+81
+0:08:43,680 --> 0:08:49,360
+the really question is, does this add anything? We know that vaccinated people can get infected.
+
+82
+0:08:49,360 --> 0:08:53,920
+We know that vaccinated people can transmit. So we already sort of knew going into this that there
+
+83
+0:08:53,920 --> 0:09:00,080
+had to be replication, competent virus there. The real question is, do those CT values mean
+
+84
+0:09:00,080 --> 0:09:06,160
+the same thing in a vaccinated and unvaccinated person at one point in time? Because we do know
+
+85
+0:09:06,160 --> 0:09:12,080
+that that CT value drops more quickly in vaccinated individuals. So I reached out to Dave O'Connor,
+
+86
+0:09:12,080 --> 0:09:18,160
+who actually was on Twiv 260 with Thomas Friedrich. So I'll call them your colleagues. I don't know
+
+87
+0:09:18,160 --> 0:09:23,840
+if you guys are friends. And I really wanted to know a couple of things. Hopefully we could
+
+88
+0:09:23,840 --> 0:09:29,440
+start using the terminology viral RNA load instead of just viral load, because we don't know if this
+
+89
+0:09:29,440 --> 0:09:36,720
+is virus. We know it's RNA load. But I still really want to know the quantification. So Vincent,
+
+90
+0:09:36,720 --> 0:09:38,720
+I thought you would have comments on this paper.
+
+91
+0:09:39,920 --> 0:09:47,520
+I think this is almost criminal to publish, because as you say, they simply take the
+
+92
+0:09:47,520 --> 0:09:52,320
+nasopharyngeal wash and throw it on cells and culture, and they get infection. There could be
+
+93
+0:09:53,120 --> 0:10:01,040
+one pfu in the vaccine sample and many more in the unvaccinated sample. So the authors say,
+
+94
+0:10:01,600 --> 0:10:06,320
+our data substantiate the idea that vaccinated individuals who become infected with Delta may
+
+95
+0:10:06,320 --> 0:10:12,080
+have the potential to transmit. Actually, it doesn't substantiate it at all. It makes no
+
+96
+0:10:12,080 --> 0:10:17,200
+conclusions possible. And I'm really surprised that they're trying to publish this. And you know,
+
+97
+0:10:17,200 --> 0:10:22,960
+the problem, Daniel, is it's a nuance that the mass media is not going to pick up. And that's a
+
+98
+0:10:22,960 --> 0:10:28,880
+problem. Yeah, I mean, this is the we've entered this different world, right, the world of preprints.
+
+99
+0:10:29,600 --> 0:10:35,360
+And I did reach out to Dave O'Connor. He emailed me back that they are going to actually are in
+
+100
+0:10:35,360 --> 0:10:41,040
+the process of looking at the quantification of the cytopathic effects. And that's really what
+
+101
+0:10:41,040 --> 0:10:45,600
+you need. So this, yeah, by the time it gets published, we'll have that. The only problem in
+
+102
+0:10:45,600 --> 0:10:49,760
+and I agree with you in the preprint world. And I've been sort of glad the media hasn't jumped too
+
+103
+0:10:49,760 --> 0:10:55,840
+much on this. This quickly becomes confirmation of this idea that vaccinated people are driving
+
+104
+0:10:55,840 --> 0:11:01,520
+the pandemic that vaccines are failing. And none of that is true. We are still seeing
+
+105
+0:11:02,160 --> 0:11:05,760
+vaccines are incredibly effective. And we'll get into that as we discuss
+
+106
+0:11:06,320 --> 0:11:11,760
+boosters when we get into active vaccination. So all right, I will return to this paper. I hope
+
+107
+0:11:11,760 --> 0:11:19,040
+when we have some quantification data there, but the sky has not fallen. Well, on the 12th day
+
+108
+0:11:19,040 --> 0:11:28,400
+of August 2021, the FDA said let there be boosters. And so they went ahead. The US FDA amended the
+
+109
+0:11:28,400 --> 0:11:34,720
+emergency use authorization for both the Pfizer by and tech COVID-19 vaccine and the Moderna COVID-19
+
+110
+0:11:34,720 --> 0:11:40,720
+vaccine to allow for an additional dose in certain individuals. Now, what did I like about this
+
+111
+0:11:40,720 --> 0:11:45,600
+announcement? Well, what I liked Vincent and listeners is that when they did this, they threw
+
+112
+0:11:45,600 --> 0:11:49,760
+a line in where they said it is recommended that immunocompromised individuals discuss
+
+113
+0:11:49,760 --> 0:11:54,320
+monoclonal antibody treatment options with their health care provider should they contract or
+
+114
+0:11:54,320 --> 0:12:02,320
+be exposed to COVID-19. So what do we do have great science that an individual who gets infected,
+
+115
+0:12:02,320 --> 0:12:07,680
+who is at high risk if they get the monoclonal antibodies that this really is associated with
+
+116
+0:12:07,680 --> 0:12:14,480
+a reduction in their chance of a bad outcome. But do we know whether or not a third dose of
+
+117
+0:12:14,480 --> 0:12:21,040
+vaccine will give them benefit? And I'm going to say as we move forward, I'm going to return and
+
+118
+0:12:21,040 --> 0:12:26,160
+again say that we are still lacking that data. Yeah, we can get some antibody levels a bit higher,
+
+119
+0:12:26,160 --> 0:12:31,600
+but what does that really translate into? So who are these individuals who are now eligible?
+
+120
+0:12:31,600 --> 0:12:37,040
+And many of the states have already jumped on. And as of Monday, this has been happening in
+
+121
+0:12:37,040 --> 0:12:44,160
+several states. The CDC is recommending that moderately to severe immunocompromised people
+
+122
+0:12:44,960 --> 0:12:50,080
+can receive an additional dose. And this includes, I'm going to give the six categories.
+
+123
+0:12:50,080 --> 0:12:54,800
+One, been receiving active cancer treatment for tumors or cancers of the blood.
+
+124
+0:12:55,360 --> 0:12:59,680
+Two, received an organ transplant and are taking medicine to suppress the immune system.
+
+125
+0:12:59,680 --> 0:13:05,440
+Three, received a stem cell transplant within the last two years, or are taking medicine to
+
+126
+0:13:05,440 --> 0:13:11,920
+suppress the immune system. Four, moderately or severe primary immunodeficiency. Let me give
+
+127
+0:13:11,920 --> 0:13:18,720
+some examples, advanced or untreated HIV, or active treatment with high dose corticosteroids,
+
+128
+0:13:18,720 --> 0:13:25,520
+or other drugs that may suppress your immune system. Now, we do hear that on the 20th of
+
+129
+0:13:25,520 --> 0:13:31,840
+September, that week, booster is going to be rolled out to the entire population that's eligible
+
+130
+0:13:31,840 --> 0:13:37,600
+in the US. But if you look at these six categories, this is actually a very small subset. This is
+
+131
+0:13:37,600 --> 0:13:44,880
+not I'm 65 and overweight. This is not I have multiple medical comorbidities. These are really
+
+132
+0:13:45,920 --> 0:13:50,480
+severely moderately to severely immunocompromised people that have been added now.
+
+133
+0:13:50,480 --> 0:13:57,600
+And then again, the suggestion is that the third week of September, this will roll out to a larger
+
+134
+0:13:57,600 --> 0:14:03,680
+population. And don't worry, I'm going to hit some of the studies that supposedly support this
+
+135
+0:14:03,680 --> 0:14:13,360
+concept. Lots of vaccine mandates on April. So there was a new vaccine mandate for New York State.
+
+136
+0:14:13,360 --> 0:14:20,240
+And this came out on, I say April, but it's actually August 16th. I'm going to update that.
+
+137
+0:14:20,800 --> 0:14:27,760
+All healthcare workers in New York State will be required to be vaccinated by Monday, September 27th.
+
+138
+0:14:27,760 --> 0:14:33,360
+And this will include staff at hospitals, long-term care facilities, nursing homes, adult care,
+
+139
+0:14:33,360 --> 0:14:40,960
+and any other congregate care settings. And there will be certain vaccinations limited for
+
+140
+0:14:40,960 --> 0:14:46,160
+religious and medical reasons. But remember, those medical reasons are incredibly limited.
+
+141
+0:14:46,160 --> 0:14:51,120
+Basically, it's a person who had an adverse reaction to this vaccine, or one of the components of
+
+142
+0:14:51,120 --> 0:14:56,320
+this vaccine. It's not I have lupus. It's not I have high blood pressure. It's not I'm allergic
+
+143
+0:14:56,320 --> 0:15:01,840
+to bees or talcum powder. The medical exceptions are very narrow. So I know there's already a lot
+
+144
+0:15:01,840 --> 0:15:07,760
+of people running out to see if their family doctor will write them a note. Those notes really
+
+145
+0:15:07,760 --> 0:15:13,200
+are not going to mean much unless you have had an anaphylactic serious reaction to a component in
+
+146
+0:15:13,200 --> 0:15:19,040
+these vaccines. What about vaccines and variants? Who's to blame? That's what we like to do as a
+
+147
+0:15:19,040 --> 0:15:26,560
+society. Along the lines of no one is safe until anyone is safe. There was a preprint that I found
+
+148
+0:15:26,560 --> 0:15:32,720
+rather interesting. And this was full vaccination suppresses SARS-CoV-2 delta variant mutation
+
+149
+0:15:32,720 --> 0:15:39,840
+frequency. And it wasn't frequency. So just full vaccination suppresses SARS-CoV-2 delta variant
+
+150
+0:15:39,840 --> 0:15:47,760
+mutation frequency. Now, the authors analyzed SARS-CoV-2 delta variant sequences from Australia,
+
+151
+0:15:47,760 --> 0:15:55,680
+France, Germany, Indonesia, India, Ireland, Israel, Italy, Japan, Mexico, Netherlands, Norway, Portugal,
+
+152
+0:15:55,680 --> 0:16:01,840
+Singapore, Spain, Switzerland, Sweden, Turkey, the US and the UK. There was a lot of data. This
+
+153
+0:16:01,840 --> 0:16:09,600
+all came from the global initiative on sharing all influenza data. So this is the G said G-I-S-A-I-D.
+
+154
+0:16:10,640 --> 0:16:15,840
+And they had a number of different variant sequences. And they did. I don't know if anyone's
+
+155
+0:16:15,840 --> 0:16:24,080
+familiar with the Tahima D test. I lit that up. This was new to me. But really, I thought it was
+
+156
+0:16:24,080 --> 0:16:29,120
+interesting. In Figure 1, they show a mutational frequency on the y-axis. They show the fully
+
+157
+0:16:29,120 --> 0:16:36,000
+vaccinated rate. Really areas with high mutational frequency had low fully vaccinated rates.
+
+158
+0:16:36,000 --> 0:16:42,160
+Areas with low mutational frequency had lower fully vaccinated rates. This makes biological
+
+159
+0:16:42,160 --> 0:16:49,040
+sense. The more you give the virus a chance to replicate, you would expect higher mutational
+
+160
+0:16:49,040 --> 0:16:55,760
+frequencies. But I don't want people to run out and start yelling at the unvaccinated people
+
+161
+0:16:55,760 --> 0:17:01,120
+claiming that they are a menace to society based on this one paper. But it is an interesting
+
+162
+0:17:01,760 --> 0:17:04,640
+report. Vincent's got his hand up. Jump in, Vincent.
+
+163
+0:17:05,760 --> 0:17:10,640
+Actually, an incorrect interpretation. The mutation frequency is not affected,
+
+164
+0:17:10,640 --> 0:17:16,240
+because the mutation frequency of the virus is a constant. What is affected is selection
+
+165
+0:17:16,800 --> 0:17:23,440
+out of that pool of variants of ones with changes, depending on the factors that they
+
+166
+0:17:23,440 --> 0:17:28,880
+look at in this paper, vaccination in this point. It is not correct that vaccination
+
+167
+0:17:28,880 --> 0:17:33,760
+suppresses the mutation frequency. It suppresses the number of changes that you see ending up in
+
+168
+0:17:33,760 --> 0:17:38,400
+spike as a result of selection. Does it make sense? It makes a lot sense, because this is really
+
+169
+0:17:38,400 --> 0:17:44,400
+not looking at the mutational frequency as far as occurring. It is looking at an end product.
+
+170
+0:17:44,400 --> 0:17:49,120
+Exactly. I am sorry to keep in trouble. No, I think that is helpful.
+
+171
+0:17:49,120 --> 0:17:54,640
+Because I have a lot of questions from people. How do the mutation frequency is affected?
+
+172
+0:17:54,640 --> 0:17:56,560
+No, no, no, no, no. It is not.
+
+173
+0:17:57,840 --> 0:18:00,560
+I would like to, maybe we could say this is you get to roll the dice less.
+
+174
+0:18:02,080 --> 0:18:08,800
+Still get against the same number of you. All right. Now, boosters. This is the only reason
+
+175
+0:18:08,800 --> 0:18:13,200
+Vincent is here today. No, no, no. I am here every week for the same reason.
+
+176
+0:18:13,200 --> 0:18:19,440
+So this is the special secret data that we were, we were not allowed to know about,
+
+177
+0:18:19,440 --> 0:18:23,520
+but now it's being shared with us. So there were several, several reports that came out.
+
+178
+0:18:23,520 --> 0:18:29,600
+So one came out in the MMWR, effectiveness of the Pfizer, BioNTech, and Moderna vaccines
+
+179
+0:18:29,600 --> 0:18:34,640
+in preventing SARS-CoV-2 infection among nursing home residents before and during widespread
+
+180
+0:18:34,640 --> 0:18:42,640
+circulation of the SARS-CoV-2 be 1617.2, the Delta variant, National Healthcare Safety Network,
+
+181
+0:18:42,640 --> 0:18:50,000
+March 1 through August 1, 2021. So this is an MMWR early release. And it's interesting,
+
+182
+0:18:50,000 --> 0:18:56,080
+I had a discussion with one of my colleagues about what were MMWRs? What were MMWR early releases
+
+183
+0:18:56,080 --> 0:19:00,640
+before the pandemic? Really, was there many people other than me and my infectious disease
+
+184
+0:19:00,640 --> 0:19:05,200
+colleagues that looked at these? And now they've become primetime. They're sort of being asked to
+
+185
+0:19:05,200 --> 0:19:10,000
+be something they weren't before this. And we'll get into that whole idea of asking something to be
+
+186
+0:19:10,000 --> 0:19:17,040
+something that it was not asked to be before. But in this weekly report, they looked at data
+
+187
+0:19:17,040 --> 0:19:24,000
+that was reported to CMS Centers for Medicaid and Medicare, certified skilled nursing facilities
+
+188
+0:19:24,000 --> 0:19:31,440
+or nursing homes. This was the National Healthcare Safety Network and analyzed to evaluate. And
+
+189
+0:19:31,440 --> 0:19:37,920
+this is interesting, the effectiveness of full vaccination with any of the two currently authorized
+
+190
+0:19:37,920 --> 0:19:46,640
+mRNA COVID-19 vaccines on effectiveness against infection, right? So this is where we're suddenly
+
+191
+0:19:46,640 --> 0:19:55,760
+asking vaccines to do something quite different. And so using 17,470, so I'm going to try that again,
+
+192
+0:19:55,760 --> 0:20:04,160
+17,407 weekly reports from almost 4,000 facilities from the pre-Delta period, adjusted effectiveness
+
+193
+0:20:04,160 --> 0:20:13,840
+against infection for any mRNA vaccine was reported to be 74.7%. They then followed it up with this
+
+194
+0:20:13,840 --> 0:20:22,080
+intermediate period where they reported it was 67.5. And then they looked at 85,593 weekly reports
+
+195
+0:20:22,080 --> 0:20:29,440
+from 14,917 facilities during the period when the Delta variant was becoming prevalent.
+
+196
+0:20:29,440 --> 0:20:35,280
+And here they reported an adjusted effectiveness against infection of 53%.
+
+197
+0:20:35,920 --> 0:20:41,120
+And they say this was similar for Pfizer, BioNTech, and Moderna. So the point I want to make,
+
+198
+0:20:41,120 --> 0:20:45,920
+and I'm Vince and I am sure you will jump in on this. So I'm already prompting you to do that,
+
+199
+0:20:45,920 --> 0:20:50,160
+is I was asked by someone today, said, I was watching a Fox News report and they're saying,
+
+200
+0:20:50,160 --> 0:20:55,600
+oh, these vaccines, look at this. If you had a vaccine that was as crummy as this, what would
+
+201
+0:20:55,600 --> 0:21:01,520
+you do? And I wanted to point out to this gentleman, we are suddenly asking the vaccines to do
+
+202
+0:21:01,520 --> 0:21:07,440
+something that the vaccines were not necessarily designed to do. We designed these vaccines.
+
+203
+0:21:07,440 --> 0:21:13,680
+Vaccines traditionally have protected us against disease, against serious disease ending up in
+
+204
+0:21:13,680 --> 0:21:20,880
+the hospital, dying. Suddenly these vaccines have a new superpower. They are actually protecting
+
+205
+0:21:20,880 --> 0:21:26,720
+people. They are effective against infection. I mean, this is tremendous and continues to be
+
+206
+0:21:26,720 --> 0:21:32,720
+tremendous. So I don't walk away with this being being worried. And now maybe we're saying we want
+
+207
+0:21:32,720 --> 0:21:37,680
+them to do this new superpower even better. And so we're asking if we give a third dose,
+
+208
+0:21:37,680 --> 0:21:42,640
+can we do even better effectiveness against infection? But this is not failure. This is actually
+
+209
+0:21:42,640 --> 0:21:47,280
+vaccines with a new superpower being asked to do even more. So Vincent, I don't know if you had a
+
+210
+0:21:47,280 --> 0:21:51,760
+comment. Well, the problem here is that, as you said, they're looking at infection. And the
+
+211
+0:21:51,760 --> 0:21:56,960
+infection efficacy declines because serum antibody declines after vaccination or infection. It always
+
+212
+0:21:56,960 --> 0:22:01,280
+does. It's not surprising. We just for other vaccines, we never really looked at infection.
+
+213
+0:22:01,280 --> 0:22:07,840
+We just looked at disease. And that's how these vaccines were tested. They do note this analysis
+
+214
+0:22:08,640 --> 0:22:13,360
+assessed VE against infection without being able to distinguish between asymptomatic and
+
+215
+0:22:13,360 --> 0:22:17,760
+symptomatic presentations. Additionally, valuations are needed to understand protection
+
+216
+0:22:17,760 --> 0:22:23,040
+against disease and nursing home residents. That's the key. And I bet it's not declining,
+
+217
+0:22:23,040 --> 0:22:26,640
+as you're probably going to tell us from some other studies that came out in the same issue.
+
+218
+0:22:27,680 --> 0:22:33,360
+Yes. So let's hit this a couple others, which I think are reassuring because there were a couple
+
+219
+0:22:33,360 --> 0:22:40,080
+other releases. So one was new COVID-19 cases and hospitalizations among adults by vaccination
+
+220
+0:22:40,080 --> 0:22:48,000
+status New York May 3rd through July 25, 2021. And so this is looking at real world effect of this,
+
+221
+0:22:48,000 --> 0:22:53,840
+the general population here in New York. And these authors link to information from four
+
+222
+0:22:53,840 --> 0:23:00,960
+large databases to construct a surveillance based cohort of adults age greater than or equal to 18
+
+223
+0:23:00,960 --> 0:23:10,240
+years residing in New York. And they found that new COVID-19 hospitalizations were 0.17 per 100,000
+
+224
+0:23:10,240 --> 0:23:18,800
+person days in the fully vaccinated compared with 2.03 per 100,000 person days among the unvaccinated.
+
+225
+0:23:19,360 --> 0:23:24,800
+And they concluded that the overall age adjusted vaccine effectiveness against hospitalization in
+
+226
+0:23:24,800 --> 0:23:34,640
+New York had remained relatively stable, 91.9 to 95.3%. I mean, so I have to say, this is what the
+
+227
+0:23:34,640 --> 0:23:41,840
+vaccines were designed to do. They continue to be highly effective in preventing hospitalization
+
+228
+0:23:41,840 --> 0:23:47,840
+greater than 90% for fully vaccinated New York residents, even during a period when the prevalence
+
+229
+0:23:47,840 --> 0:23:55,280
+of the Delta variant increased from less than 2% to greater than 80%. And when so many of the
+
+230
+0:23:55,280 --> 0:24:01,280
+non-pharmaceutical prevention strategies, the societal public health restrictions were eased.
+
+231
+0:24:01,280 --> 0:24:06,880
+So getting rid of the mask wearing, cranking those restaurants back up to 100% capacity
+
+232
+0:24:06,880 --> 0:24:09,840
+and the like. And a hand is up for Vincent Rackeniello.
+
+233
+0:24:09,840 --> 0:24:17,520
+And the same period when the hospitalization against hospitalization was steady, the VE against
+
+234
+0:24:17,520 --> 0:24:23,680
+infection went from 90 to 80% of decline. So it just goes to show a decline in preventing infection
+
+235
+0:24:23,680 --> 0:24:28,560
+doesn't matter. They know how to do it in New York state. Maybe you were involved with this
+
+236
+0:24:28,560 --> 0:24:34,960
+because it's done right. Now, along these same reassuring lines, I'm going to give you a third.
+
+237
+0:24:34,960 --> 0:24:40,000
+So hopefully people are going to walk away. Dr. Griffin, you started so for Lauren, but now
+
+238
+0:24:40,000 --> 0:24:45,360
+you're giving us good news, sustained effectiveness of Pfizer, biotech, and Moderna vaccines against
+
+239
+0:24:45,360 --> 0:24:52,240
+COVID-19 associated vaccines among adults. And this is United States March through July 2021.
+
+240
+0:24:52,960 --> 0:24:58,160
+And this is not just in New York, but here the investigators found again, the vaccine
+
+241
+0:24:58,160 --> 0:25:05,120
+effectiveness was 86%, two to 12 weeks after vaccination, 84% at 13 to 24 weeks. Really,
+
+242
+0:25:05,120 --> 0:25:10,800
+the vaccine effectiveness was sustained among groups at risk for severe COVID-19. So a second
+
+243
+0:25:10,800 --> 0:25:14,800
+study looking at a different population continuing to have some really reassuring.
+
+244
+0:25:16,160 --> 0:25:22,160
+So here's the big question. Where's the science? Why are we giving everyone third doses? Are we
+
+245
+0:25:22,160 --> 0:25:27,200
+just going to bump anybody levels? Do we really have evidence that this will translate into
+
+246
+0:25:27,200 --> 0:25:32,160
+real world benefit, keeping people out of hospital, keeping people from dying, keeping people from
+
+247
+0:25:32,160 --> 0:25:37,840
+getting sick, keeping people from ending up with long COVID? That's data we still need.
+
+248
+0:25:37,840 --> 0:25:44,080
+So booster or not, Daniel? You know, you know, Midston, I actually had a sleepless night about
+
+249
+0:25:44,080 --> 0:25:49,120
+this the other day because, you know, it came to me sort of this issue of I say, Oh, Dr. Griffin,
+
+250
+0:25:49,120 --> 0:25:54,000
+you're eligible for a third shot. Do you want one? And there really is this sort of embarrassing
+
+251
+0:25:54,000 --> 0:25:59,040
+equity issue, right? I mean, I feel like I'm at the family table, you know, and Uncle John,
+
+252
+0:25:59,040 --> 0:26:03,600
+you know, just showed up and, you know, and he hasn't gotten a first portion and they want to
+
+253
+0:26:03,600 --> 0:26:09,200
+know if I want to get, you know, thirds. And I actually, I have to say, I feel a bit embarrassed
+
+254
+0:26:10,000 --> 0:26:16,400
+about the global vaccination rollout and this whole concept that without, you know, data,
+
+255
+0:26:16,400 --> 0:26:20,400
+like, well, what benefit are we really getting, particularly when it rolls out of someone I like
+
+256
+0:26:20,400 --> 0:26:25,440
+to think of myself as young and healthy? Do I really need that third shot? I mean, if it's going
+
+257
+0:26:25,440 --> 0:26:30,800
+to go in the trash, if they're like, hey, Dr. Griffin, you know, we had a no show and we're not
+
+258
+0:26:30,800 --> 0:26:35,120
+sure what to do with this. Okay, that's that's a different scenario. But the idea that we're
+
+259
+0:26:35,120 --> 0:26:38,800
+going to keep buying hundreds of millions of vaccines that we're not going to somehow modify
+
+260
+0:26:38,800 --> 0:26:44,400
+our bureaucracy and share, you know, we're in a global pandemic. It's time for the bureaucracy to
+
+261
+0:26:44,400 --> 0:26:49,040
+add and people to be a little more reasonable. So can I ask you, Daniel, though, let's say we
+
+262
+0:26:49,040 --> 0:26:52,880
+did give a third dose. I presume within eight months, the levels of antibodies are going to
+
+263
+0:26:52,880 --> 0:26:56,720
+wane again. So are we going to give a dose every eight months? Is that the plan?
+
+264
+0:26:57,520 --> 0:27:01,920
+That sounds like the current plan. Sounds like where we're headed every eight, you know, maybe we'll
+
+265
+0:27:01,920 --> 0:27:07,600
+do it every six because who can keep track of every eight? But yeah, I don't understand the,
+
+266
+0:27:07,600 --> 0:27:12,640
+you know, and I, you know, to bounce back to Afghanistan. What's the end game? What are we doing?
+
+267
+0:27:12,640 --> 0:27:16,640
+Where are we going with this? Are we going to just keep every six months? And after a while,
+
+268
+0:27:16,640 --> 0:27:21,120
+you're going to have to start wondering what's the safety, you know, profile of we keep doing this
+
+269
+0:27:21,120 --> 0:27:26,240
+every every six months, every eight months, you know, with the influenza vaccine, it doesn't even
+
+270
+0:27:26,240 --> 0:27:30,880
+work well when you have to get everyone back every year for a new shot, right? It's the update is
+
+271
+0:27:30,880 --> 0:27:36,480
+very low. So I think it's a public health problem. Yeah. And from a public health problem, what is
+
+272
+0:27:36,480 --> 0:27:41,440
+fueling this pandemic? Not people failing to get a third shot is people failing to get the first
+
+273
+0:27:41,440 --> 0:27:46,640
+to exactly that. I think we should push to get people vaccinated, not to give those who are
+
+274
+0:27:46,640 --> 0:27:53,920
+already ever vaccinated a third shot. That's crazy. Oh, well, all right. So the period of
+
+275
+0:27:53,920 --> 0:27:58,800
+detectable viral replication, the viral symptom phase, right? This is that that first week for
+
+276
+0:27:58,800 --> 0:28:03,600
+most people. It's when people start to feel crummy. Maybe they had an exposure. What I like to say,
+
+277
+0:28:03,600 --> 0:28:09,120
+the time for monitoring and monoclonal is not the time for antibiotics. You know,
+
+278
+0:28:09,120 --> 0:28:15,040
+we've had a lot of enthusiasm about convalescent plasma. And the article early convalescent plasma
+
+279
+0:28:15,040 --> 0:28:19,920
+for high risk outpatients with COVID-19 was published this week in the New England Journal
+
+280
+0:28:19,920 --> 0:28:27,200
+of Medicine. This is the siren three CPO study. And there were 511 patients enrolled in the trial,
+
+281
+0:28:27,200 --> 0:28:35,040
+257 in the convalescent plasma group, 254 in the placebo group. The median age was 54.
+
+282
+0:28:35,040 --> 0:28:39,920
+The median symptom duration was four days, right? So they're doing it the right way.
+
+283
+0:28:40,720 --> 0:28:47,120
+The mean titer of SARS-CoV-2 neutralizing antibodies was 1 to 641. So high titer
+
+284
+0:28:47,920 --> 0:28:53,840
+neutralizing antibodies given early. Disease progression occurred pretty much the same,
+
+285
+0:28:53,840 --> 0:28:59,360
+about 30% in people in the convalescent plasma group and in the placebo group. Now,
+
+286
+0:28:59,360 --> 0:29:05,760
+five patients in the convalescent plasma group died, only one in the placebo group.
+
+287
+0:29:06,640 --> 0:29:11,520
+Now comes regarding worst illness severity, hospital-free days, really similar in the two groups. So
+
+288
+0:29:12,320 --> 0:29:17,920
+just another study, early administration of high titer convalescent plasma for the treatment of
+
+289
+0:29:17,920 --> 0:29:25,600
+COVID-19 obtained from blood donors who recovered from the coronavirus disease 2019 was not helpful.
+
+290
+0:29:25,600 --> 0:29:32,400
+I sort of want to leave that there. I know there's a lot of enthusiasm. We've done a lot of the
+
+291
+0:29:32,400 --> 0:29:37,760
+science and the science does not support this intervention. Now, I am going to try to keep
+
+292
+0:29:37,760 --> 0:29:42,720
+this short today. We have a few emails. So I'm going to wrap up here just with really a couple
+
+293
+0:29:42,720 --> 0:29:48,320
+concluding thoughts. One is, as I continue to say, and we've bounced into this, no one is safe
+
+294
+0:29:48,320 --> 0:29:54,720
+until everyone is safe. We really need to figure out what's going on with the global vaccination
+
+295
+0:29:54,720 --> 0:30:00,720
+approach because it is falling flat. We are going to continue during the months of August,
+
+296
+0:30:00,720 --> 0:30:08,560
+September and October, to support floating doctors. We're hoping to give them a donation up to $40,000
+
+297
+0:30:08,560 --> 0:30:14,480
+to support their work down in Panama. We were able to get that support out to them, Rick,
+
+298
+0:30:14,480 --> 0:30:21,680
+and got a nice thank you photo from my friends in Uganda, where there is not a lot of vaccines,
+
+299
+0:30:21,680 --> 0:30:27,200
+where there is not a discussion of third doses. And so I want to thank all of our listeners for
+
+300
+0:30:27,200 --> 0:30:32,080
+continuing to support us, continuing to go to parasites without borders to donate, and to help
+
+301
+0:30:32,080 --> 0:30:38,480
+us with this work. Dan, you mentioned the Afghanistan situation. I assume nobody's getting vaccinated
+
+302
+0:30:38,480 --> 0:30:44,800
+there at these days, right? It is a problem. It's a problem. Yeah. People are concerned about
+
+303
+0:30:44,800 --> 0:30:50,320
+getting out, right? Yeah. I mean, it's really a humanitarian disaster we have right now,
+
+304
+0:30:50,320 --> 0:30:56,640
+and vaccinations are certainly not part of that. Yeah. Time for some email questions for Daniel.
+
+305
+0:30:56,640 --> 0:31:03,360
+You can send yours to Daniel at microbe.tv. We have one from Pear, who writes,
+
+306
+0:31:03,360 --> 0:31:08,800
+my daughter is a kidney transplant recipient, has recently been through lymphoma,
+
+307
+0:31:08,800 --> 0:31:15,120
+and barely has any B cells, thanks to retuximab. She's, however, on intravenous Ig therapy,
+
+308
+0:31:15,120 --> 0:31:19,440
+and I'm wondering, would that now confer some level of immunity against COVID? I found a few
+
+309
+0:31:19,440 --> 0:31:25,120
+papers commenting that there are common COVID antibodies in common IVIG, but I haven't been able
+
+310
+0:31:25,120 --> 0:31:30,880
+to find any information about if they confer any level of real life protection. I guess,
+
+311
+0:31:30,880 --> 0:31:36,000
+in an ideal world, she would be a recipient of monoclonal antibodies, but unfortunately,
+
+312
+0:31:36,000 --> 0:31:40,640
+we don't live in the US and they're not available where we live. Yeah. So just to give our listeners
+
+313
+0:31:40,640 --> 0:31:45,120
+maybe a little bit of background. So the whole concept here is this is an individual who cannot
+
+314
+0:31:45,120 --> 0:31:52,240
+make their own immunoglobulins or own antibodies. And so the IVIG treatments periodically, you're
+
+315
+0:31:52,240 --> 0:31:58,800
+giving this individual donated immunoglobulins from other individuals. Now, if those other
+
+316
+0:31:58,800 --> 0:32:03,600
+individuals perhaps have been vaccinated, and we're starting to see this now, that people who are
+
+317
+0:32:03,600 --> 0:32:10,640
+donating IVIG have been vaccinated, and in that IVIG are actually some of these protective antibodies
+
+318
+0:32:10,640 --> 0:32:16,320
+generated by vaccination or maybe prior infection. So that's helpful. I don't think we'll end up
+
+319
+0:32:16,320 --> 0:32:22,640
+doing like large scale studies, but a lot of the mechanism here just makes sense. The next thing
+
+320
+0:32:22,640 --> 0:32:29,280
+that would make the most sense is these are individuals who, if they were in the right setting,
+
+321
+0:32:29,280 --> 0:32:32,960
+could receive monoclonal antibodies. So that's being studied here in the US,
+
+322
+0:32:33,680 --> 0:32:39,040
+that's an expensive option, but IVIG is not cheap. But yeah, I think you're thinking this
+
+323
+0:32:39,040 --> 0:32:46,560
+through properly. Gene from London, by the way, discovered Twiv from your appearance on the Brian
+
+324
+0:32:46,560 --> 0:32:55,200
+Lear podcast, Daniel. So that's great. And she says, I never use the B word or the words viral load,
+
+325
+0:32:55,200 --> 0:33:01,040
+I distinguish infection from disease. So we're teaching them Daniel, that's great.
+
+326
+0:33:02,080 --> 0:33:07,200
+But we did make a mistake. And it's actually my fault. And several people have pointed this out.
+
+327
+0:33:07,200 --> 0:33:12,160
+I'd like to say it's carbon dioxide that we need to measure for indoor air quality
+
+328
+0:33:12,160 --> 0:33:18,080
+relating to COVID. And I had said carbon monoxide, of course, carbon monoxide would also be a serious
+
+329
+0:33:18,080 --> 0:33:23,440
+concern for air quality. I've implemented CO2 monitoring in my office as a proxy for
+
+330
+0:33:23,440 --> 0:33:28,720
+understanding ventilation levels. It's part of our layered mitigations, which include vaccination
+
+331
+0:33:28,720 --> 0:33:35,840
+masking hand and respiratory hygiene, reminding people to stay home if unwell. So that was my
+
+332
+0:33:35,840 --> 0:33:39,280
+mistake. Because you had said, what are those monitors? And I said carbon monoxide and a bunch
+
+333
+0:33:39,280 --> 0:33:44,240
+of people wrote in to say, no, no, no, it's carbon dioxide for that. Yeah, I don't know if you noticed
+
+334
+0:33:44,240 --> 0:33:48,240
+Vincent from there on out, I just kept referring them as the monitors and not correcting it.
+
+335
+0:33:48,240 --> 0:33:52,880
+Because you know, it's what you can correct me. It's no problem. Like how many people.
+
+336
+0:33:54,320 --> 0:34:01,760
+I like what our listeners write in. All right. And the last one is Thomas, who's up in Alberta,
+
+337
+0:34:01,760 --> 0:34:07,120
+Canada. I would like your thoughts on the anticoagulation issue you spoke about in the last
+
+338
+0:34:07,120 --> 0:34:11,200
+clinical update where the one arm of the paper in New England Journal for critically ill patients
+
+339
+0:34:11,200 --> 0:34:17,200
+showed no benefit with therapeutic anticoagulation. But the other arm, which wasn't highlighted in
+
+340
+0:34:17,200 --> 0:34:21,600
+the update of non critically ill patients, which would be a large proportion of hospitalized patients
+
+341
+0:34:21,600 --> 0:34:28,960
+did see benefit with therapeutic doses of LMWH. What is the standard of care for non critical
+
+342
+0:34:28,960 --> 0:34:34,000
+COVID-19 hospitalized patients in your community as it relates to anticoagulation?
+
+343
+0:34:34,880 --> 0:34:40,480
+Certainly. So the LMWH, that's low molecular weight heparid or anoxaparid is kind of the
+
+344
+0:34:40,480 --> 0:34:45,280
+common one that we use. You know, there's there's a balance here. If you do nothing,
+
+345
+0:34:46,000 --> 0:34:52,400
+people who have COVID-19 are at a higher risk of developing clotting complications,
+
+346
+0:34:52,400 --> 0:34:57,520
+both venous and arterial. And I said on the American Society of Hematology,
+
+347
+0:34:57,520 --> 0:35:02,640
+guidelines panel where we keep reviewing all the literature here. So I like to think that our
+
+348
+0:35:02,640 --> 0:35:08,960
+treatment is sort of up with the literature. And the baseline recommendation across across the bat
+
+349
+0:35:08,960 --> 0:35:16,880
+is anyone with COVID-19 who requires hospitalization and the associated immobility is put on prophylactic
+
+350
+0:35:16,880 --> 0:35:24,240
+dosing anticoagulation. If you escalate that, okay, maybe you're going to have a reduction in the
+
+351
+0:35:24,240 --> 0:35:28,960
+amount of clotting complications, but it is looking particularly as this study pointed out in critically
+
+352
+0:35:28,960 --> 0:35:33,360
+ill patients that you're going to increase your risk of major bleeding. Now what is major bleeding?
+
+353
+0:35:33,360 --> 0:35:39,440
+And that's tough. Is it a gastrointestinal bleed with about a 20 to 30% risk of death?
+
+354
+0:35:39,440 --> 0:35:45,280
+Is it an intracranial bleed with the associated neurological impact? Is it a retroperitoneal
+
+355
+0:35:45,280 --> 0:35:50,880
+bleed that we can transfuse through? So that that's really the balance here. So our standard
+
+356
+0:35:50,880 --> 0:35:57,440
+is everyone comes in prophylactic dosing anticoagulation, vigilance to make sure that they don't have a
+
+357
+0:35:57,440 --> 0:36:02,880
+clotting complication. And then sort of a case by case basis considering is there a reason to
+
+358
+0:36:02,880 --> 0:36:07,040
+escalate in this individual? Daniel, what's on your bow tie today? I can't quite see it.
+
+359
+0:36:08,000 --> 0:36:16,160
+So today is Clostridium difficile. Wow. So it's a gram negative. This is that antibiotic
+
+360
+0:36:16,160 --> 0:36:22,560
+associated diarrhea from people using using too many antibiotics. I'm very happy that both
+
+361
+0:36:22,560 --> 0:36:31,200
+ties represent all microbes. Try to be try to be an equal opportunity bow tie pathogen wearer.
+
+362
+0:36:31,200 --> 0:36:37,360
+That's COVID-19 clinical update number 76 with Dr. Daniel Griffin. Thank you, Daniel.
+
+363
+0:36:37,360 --> 0:36:46,960
+Oh, thank you. And everyone, including you Vincent, be safe.
+

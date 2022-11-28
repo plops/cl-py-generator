@@ -1,0 +1,1584 @@
+1
+0:00:00,000 --> 0:00:06,880
+This week in virology, the podcast about viruses, the kind that make you sick.
+
+2
+0:00:10,160 --> 0:00:21,520
+From Microbe TV, this is Twiv, this week in virology. Episode 701 recorded on December 31, 2020.
+
+3
+0:00:21,520 --> 0:00:28,000
+I'm Vincent Rackeniello, and you're listening to the podcast All About Viruses. Joining me today
+
+4
+0:00:28,000 --> 0:00:36,880
+from New York, Daniel Griffin. Hello, everyone. Daniel, it is our 43rd update from you this year.
+
+5
+0:00:36,880 --> 0:00:44,960
+It's the end of 2020. That's it. Good read-ins. Not to you, Vincent, but to 2020. It has been
+
+6
+0:00:45,920 --> 0:00:50,400
+what an awful year. It really has. But let's get to it. We got a lot to do today.
+
+7
+0:00:51,200 --> 0:00:56,080
+So when this drops, it's actually going to be New Year's Day. So we're recording on New Year's Eve.
+
+8
+0:00:56,080 --> 0:01:00,720
+This is going to be dropping, I guess, on New Year's, so the 1st or 2nd January.
+
+9
+0:01:01,360 --> 0:01:08,160
+So let's start with our quotation. Should old acquaintance be forgot and never thought upon,
+
+10
+0:01:08,720 --> 0:01:15,280
+the flames of love extinguished and fully passed and gone, is thy sweet heart not grown so cold,
+
+11
+0:01:16,080 --> 0:01:22,560
+that loving breast of thine, that thou canst never once reflect on old, long,
+
+12
+0:01:22,560 --> 0:01:28,880
+zine. And I'll say, old, long, zine, lovely translates as days gone by. So that's that thou
+
+13
+0:01:28,880 --> 0:01:36,400
+canst never once reflect on days gone by. So this is by Robert Burns. And for me, this is actually
+
+14
+0:01:36,400 --> 0:01:45,280
+sort of a very, very appropriate poem, shall I say, turned into a song because it was actually,
+
+15
+0:01:45,280 --> 0:01:51,360
+I was in Scotland. I was in Glasgow in the end of January. And actually, I was there for
+
+16
+0:01:51,360 --> 0:01:58,800
+Burns Day where they celebrate the Laureate poet, Robert Burns. And that was right before the Chinese
+
+17
+0:01:58,800 --> 0:02:08,880
+New Year, right before the sky did fall. So patient updates. You know, I think that everyone is aware
+
+18
+0:02:08,880 --> 0:02:15,440
+of how difficult it has gotten over the last bit of time. And you know, Christmas was really tough
+
+19
+0:02:15,440 --> 0:02:21,120
+for me to see, you know, eight families having lost someone on that day. And I guess somewhere
+
+20
+0:02:21,120 --> 0:02:26,160
+in my mind, I had this idea that, you know, Christmas is a day when people shouldn't die,
+
+21
+0:02:26,160 --> 0:02:30,480
+you know, if there's any sort of greater power than myself in the world, greater power than all
+
+22
+0:02:30,480 --> 0:02:35,840
+of us in the world. And so just really traumatic that people continue to die, just, you know,
+
+23
+0:02:35,840 --> 0:02:42,800
+record numbers, growing numbers every day. But what I want to do today, and I know that people are,
+
+24
+0:02:42,800 --> 0:02:47,040
+people are busy, and I was trying to make this the clinical update for the busy clinician,
+
+25
+0:02:47,040 --> 0:02:52,000
+but I know a lot of other people listen. But at a year end, I wanted to do an update on what
+
+26
+0:02:52,000 --> 0:03:00,080
+we've learned this last year. And it really has been a credible year, sort of back and forth,
+
+27
+0:03:00,080 --> 0:03:05,280
+from really early on in the year, when reports, you know, the risk of coronavirus in the U.S.
+
+28
+0:03:05,280 --> 0:03:08,960
+is miniscule, worry about the real and present danger of seasonal flu,
+
+29
+0:03:10,000 --> 0:03:16,000
+articles, coronavirus is bad, comparing it to the flu is worse, to shutdowns, the mask wars,
+
+30
+0:03:16,000 --> 0:03:20,080
+people threatening to drive pickup trucks into the building if they're, if they're dead,
+
+31
+0:03:20,080 --> 0:03:26,480
+did not get 8CQ to threats if we did give 8CQ. And then some very strange stuff about bleach
+
+32
+0:03:26,480 --> 0:03:32,240
+and swallowing flashlights and rattlesnake venom. So we have actually learned a lot,
+
+33
+0:03:32,240 --> 0:03:37,760
+and let's go through it, really rapid fire. So we'll start off with the pre-exposure period.
+
+34
+0:03:38,800 --> 0:03:43,040
+And I'm going to talk a lot, actually, about non-pharmaceutical interventions,
+
+35
+0:03:43,040 --> 0:03:47,360
+which actually I spend a lot of time doing. I'm sort of waiting for, I don't know, maybe the
+
+36
+0:03:47,360 --> 0:03:51,840
+pharmaceutical bots to be like, Dr. Griffin, why do you talk about so much about non-pharmaceutical
+
+37
+0:03:51,840 --> 0:03:56,320
+interventions? Why don't you push our drugs a little bit more? But oh, well, I haven't seen that
+
+38
+0:03:56,320 --> 0:04:02,160
+happen yet. So let's go through it. One, we have a really broad appreciation. Not everyone's on
+
+39
+0:04:02,160 --> 0:04:08,560
+board, but I'll say a broad appreciation that masks, protect others, and actually they protect
+
+40
+0:04:08,560 --> 0:04:15,120
+us as well. And please cover those nose holes, unless you're a, I guess, just a mouth breather.
+
+41
+0:04:16,640 --> 0:04:21,840
+Physical distancing, 6 feet or greater helps. Remember, there's no magical wall at 6 feet. I
+
+42
+0:04:21,840 --> 0:04:28,080
+think people are getting a little more sophisticated. 6 feet is really what we recommend, 7, 8. It's
+
+43
+0:04:28,080 --> 0:04:34,640
+exponential, the decrease. There's nothing magic about 6 feet. And if you lean into 5, 4, you're
+
+44
+0:04:34,640 --> 0:04:38,960
+starting to really dramatically increase your risk. If you can back up, that's better.
+
+45
+0:04:39,840 --> 0:04:45,440
+Outdoors is safer than indoors. We have a number of studies on this. And it's about a 20-fold
+
+46
+0:04:45,440 --> 0:04:51,920
+difference in your risk of getting infected indoors versus outdoors. But it's not absolute,
+
+47
+0:04:51,920 --> 0:04:58,880
+right? Air exchange matters. So indoor at someone's house, a suburban home without good ventilation,
+
+48
+0:04:58,880 --> 0:05:04,000
+without good air exchange, that's about the highest risk. I bring that up right here around
+
+49
+0:05:04,000 --> 0:05:11,280
+the holidays. Limiting the size of gathering reduces risks, right? Each extra person
+
+50
+0:05:11,280 --> 0:05:17,040
+is one extra person who could be bringing the virus into your circle. So the fewer people are
+
+51
+0:05:17,040 --> 0:05:22,080
+the better. You know, I know this is tough for people that, like hanging out with other people,
+
+52
+0:05:22,080 --> 0:05:27,040
+which is pretty much all of us. Washing hands, I'm hoping this is here's stay.
+
+53
+0:05:28,240 --> 0:05:32,720
+Hygiene helps. We do know that we overdid it a little bit with surfaces, your risk of getting
+
+54
+0:05:32,720 --> 0:05:39,920
+COVID from a surface is really low. We say less than 10% of cases are spread that way. This is really
+
+55
+0:05:39,920 --> 0:05:44,320
+person-to-person. You're getting it through the air. You're breathing it in. You're getting
+
+56
+0:05:44,320 --> 0:05:50,720
+it on a mucous membranes. Frequent testing, even of asymptomatic people, can save lives. And we're
+
+57
+0:05:50,720 --> 0:05:58,240
+seeing more and more data supporting that perspective. Symptom checking helps. But as we now know,
+
+58
+0:05:58,240 --> 0:06:04,160
+much spread is done by the asymptomatic or the pre-symptomatic. Not saying you shouldn't
+
+59
+0:06:04,160 --> 0:06:08,480
+symptom check, but just saying we need to keep in mind that that person who looks like they're
+
+60
+0:06:08,480 --> 0:06:16,480
+doing fine could have the infection. Remember, this is an invisible thing. Being healthy,
+
+61
+0:06:16,480 --> 0:06:22,000
+eating right, exercising, not carrying that extra weight, optimizing your medical conditions,
+
+62
+0:06:22,800 --> 0:06:28,000
+not walking around vitamin deficient. These may all help decrease your risk of not only getting
+
+63
+0:06:28,000 --> 0:06:35,040
+infected, but also surviving if you do get infected. And now we've got good old or, shall I say,
+
+64
+0:06:35,040 --> 0:06:41,040
+good modern, highly effective vaccines that we're adding to this pre-exposure period.
+
+65
+0:06:41,040 --> 0:06:45,120
+And in the future, when we actually get to it, I'll talk about the idea of using not only the
+
+66
+0:06:45,120 --> 0:06:51,200
+active vaccines, but maybe even passive vaccines to try to give people antibodies during high-risk
+
+67
+0:06:51,200 --> 0:06:56,720
+periods. So there's some ongoing studies there. Schools. We've learned that we can open schools
+
+68
+0:06:56,720 --> 0:07:03,680
+safely, but also that we can do it unsafely to do its safest cost money. We actually have some
+
+69
+0:07:03,680 --> 0:07:09,200
+estimates about how much money needs to be spent. If you're going to try to do this in a safer manner,
+
+70
+0:07:10,000 --> 0:07:15,840
+the safer openings involve limiting class sizes, physical distancing, wherein those masks,
+
+71
+0:07:15,840 --> 0:07:22,800
+proper ventilation, increasing staffing, hygiene stations, and testing. The whole idea of the
+
+72
+0:07:22,800 --> 0:07:27,840
+kids taking off their masks to eat in school. That's still an issue for me. I mean, that's
+
+73
+0:07:27,840 --> 0:07:32,240
+indoor dining. So if the parents shouldn't be doing that, I'm not sure the kids should.
+
+74
+0:07:33,040 --> 0:07:36,400
+Do I put that as a challenge to the schools? I think I've mentioned there's some schools
+
+75
+0:07:36,400 --> 0:07:42,560
+here on the South Shore. Did a kids go in the morning, they go home, eat their lunch at home,
+
+76
+0:07:42,560 --> 0:07:47,120
+another group is doing it in the afternoon. They're doing sort of a hybrid model with remote learning.
+
+77
+0:07:47,120 --> 0:07:53,760
+I worry. January, February, with really these rising rates, the whole idea of having kids take
+
+78
+0:07:53,760 --> 0:08:00,400
+their masks off and eat inside the schools, have teachers or higher risk older individuals,
+
+79
+0:08:02,240 --> 0:08:06,880
+basically in a closed indoor setting with kids with masks off. So I just throw that out there.
+
+80
+0:08:06,880 --> 0:08:12,640
+We've learned a lot about how this virus is spread. Incubation period, right? So now you've
+
+81
+0:08:12,640 --> 0:08:19,360
+been exposed and we really have a good sense of what is a high risk exposure. This is your
+
+82
+0:08:19,360 --> 0:08:25,440
+within that six feet for 15 minutes or longer. It's cumulative, right? You can't walk away and
+
+83
+0:08:25,440 --> 0:08:34,800
+reset the clock. So 15 minutes cumulative. No mask indoors, as mentioned, is higher risk than outdoors.
+
+84
+0:08:36,160 --> 0:08:41,760
+Being around a person who actually is in that zone of very high levels of virus. So this is about
+
+85
+0:08:41,760 --> 0:08:48,000
+two days about, but the WHO and CDC will contact trace four days prior, but about two days prior
+
+86
+0:08:48,000 --> 0:08:53,680
+to symptom onset. And really, in most cases, for about four to five days post symptom onset,
+
+87
+0:08:53,680 --> 0:09:00,000
+but that can go out for about as far as 10 days in your mild outpatient cases and as far out as
+
+88
+0:09:00,000 --> 0:09:06,480
+20 days in your more severe cases. So keep those in mind. Things have been sort of updated and
+
+89
+0:09:06,480 --> 0:09:12,720
+made simpler. So you've been exposed. We're talking about quarantines to 10 days. We're
+
+90
+0:09:12,720 --> 0:09:18,800
+also talking about isolation of the infected out to 10 days. So even though we know that
+
+91
+0:09:18,800 --> 0:09:23,840
+incubation period is really two to 14 days, there's only a few percent past 10. We're trying to keep
+
+92
+0:09:23,840 --> 0:09:28,320
+it simple. We're trying to come up with something that is reasonable enough that people will actually
+
+93
+0:09:28,320 --> 0:09:35,440
+follow our guidance. So you get exposed. Anytime the next two to 14 days, you could develop symptoms.
+
+94
+0:09:35,440 --> 0:09:40,800
+You could become positive. Remember, half of the cases are going to become positive.
+
+95
+0:09:40,800 --> 0:09:44,320
+They're going to have virus. They're going to potentially spread virus. Never have symptoms.
+
+96
+0:09:44,320 --> 0:09:50,800
+So we've been learning a lot here. Now, what about this period of detectable viral replication?
+
+97
+0:09:50,800 --> 0:09:57,360
+So someone's been exposed. The virus is replicating. It is now replicated to the point that it is
+
+98
+0:09:57,360 --> 0:10:01,840
+detectable. A couple of things here that I really want to try out. I'm going to really work hard
+
+99
+0:10:01,840 --> 0:10:08,160
+to get the word out. What can we do to keep people out of the hospital? And there is only one
+
+100
+0:10:08,160 --> 0:10:15,520
+evidence-based intervention at this point. I'll get some emails on that, but I'm going to say that.
+
+101
+0:10:16,320 --> 0:10:22,320
+And this is an EUA access therapy. This is a pharmaceutical. So pharmaceutical companies
+
+102
+0:10:22,320 --> 0:10:28,880
+don't have to send me a hate mail anymore. Monoclonal antibody. This is the bamblinibimab
+
+103
+0:10:28,880 --> 0:10:35,520
+or the bambam made by Eli Lilly. This is the Regeneron cocktail. Ideally, you give this to
+
+104
+0:10:35,520 --> 0:10:42,160
+someone in the first week out to maybe the first 10 days from symptom onset. If you get this to
+
+105
+0:10:42,160 --> 0:10:49,760
+people within that period of time, at least the data we have predicts about 75% reduction with the
+
+106
+0:10:49,760 --> 0:10:55,760
+bamblinibimab of them progressing to require any medical support. So you take someone who's high
+
+107
+0:10:55,760 --> 0:11:01,360
+risk, we'll say 10% or higher chance of ending up in the hospital. They get this infusion. It takes
+
+108
+0:11:01,360 --> 0:11:07,200
+an hour. 75% reduction in them ending up in the hospital. And that's key as we know, because people
+
+109
+0:11:07,200 --> 0:11:15,040
+end up in the hospital, things don't often go well. We also know that telemedicine, pulse oximetry
+
+110
+0:11:15,040 --> 0:11:21,760
+can really help keep track of these people. So when someone has this diagnosis, we know that
+
+111
+0:11:21,760 --> 0:11:27,680
+80% and 90% of people can be managed out of the hospital, maybe even a little bit more if we really
+
+112
+0:11:27,680 --> 0:11:33,760
+get better access for the monoclonal antibodies out there. And what do we do during that first week?
+
+113
+0:11:34,640 --> 0:11:41,440
+The biggest thing is nothing. No antibiotics, no steroids. We can make things worse during that
+
+114
+0:11:41,440 --> 0:11:47,280
+first week. We can't really make them better. We want to monitor these people. If you have the
+
+115
+0:11:47,280 --> 0:11:52,480
+ability to give them a pulse oximeter, or somehow get them access to a pulse oximeter, if they can
+
+116
+0:11:52,480 --> 0:11:58,880
+track, make sure that oxygen saturation stays above 90%, then boom, they hit week to that critical
+
+117
+0:11:58,880 --> 0:12:05,280
+week. And then if you have not gotten them access to the monoclonals, or even if you have, then you
+
+118
+0:12:05,280 --> 0:12:10,800
+start making that decision about is this someone I can safely manage outpatient. Once you get into
+
+119
+0:12:10,800 --> 0:12:19,200
+the second week, if the pulse ox drops below 94%, steroids potentially can play a role. The standard
+
+120
+0:12:19,200 --> 0:12:25,920
+would be your dexamethasone, six milligrams, POQ day, times 10 days, prednisone 40 milligrams
+
+121
+0:12:25,920 --> 0:12:31,120
+would be an equivalent. And then watch them really closely. Most people are going to do okay.
+
+122
+0:12:32,240 --> 0:12:38,880
+Across the board, an aspirin a day is reasonable, but we don't have really clear guidance on the
+
+123
+0:12:38,880 --> 0:12:43,280
+best way to protect these people against clots. Your high-risk people will get into this later.
+
+124
+0:12:43,280 --> 0:12:50,080
+You might consider other therapies. All right. Right at this point, I'm going to jump into the
+
+125
+0:12:50,080 --> 0:12:54,480
+early inflammatory phase. And later on, don't worry, we'll go back and talk about vaccinations,
+
+126
+0:12:54,480 --> 0:13:00,080
+active vaccinations. The early inflammatory phase, I started to drift into this with our
+
+127
+0:13:00,080 --> 0:13:05,200
+outpatient folks, because remember, and I think this is news to some people, but not to our
+
+128
+0:13:05,200 --> 0:13:11,600
+12 listeners, 80 to 90% of patients can be managed outside the hospitals. Some of those
+
+129
+0:13:11,600 --> 0:13:16,000
+patients end up in the hospital. You've done all these things. They end up in the hospital.
+
+130
+0:13:16,000 --> 0:13:21,520
+What do you do? At the point a person gets admitted, there's a number of labs we currently recommend
+
+131
+0:13:21,520 --> 0:13:27,040
+help risk stratify, help manage them. A CBC, a complete blood count with differential,
+
+132
+0:13:27,040 --> 0:13:36,640
+a comprehensive metabolic panel, a ferritin, a procalcitonin, a D-dimer, a PTPTT. These are
+
+133
+0:13:36,640 --> 0:13:43,920
+our coagulation tests, a C-reactive protein, a triponin, and a chest x-ray at an EKG is reasonable.
+
+134
+0:13:43,920 --> 0:13:50,640
+We really don't need a lot of CAT scans, but we do need a few bits of critical information.
+
+135
+0:13:50,640 --> 0:13:54,720
+Part of that information is going to come from our labs, but part of it's going to come from
+
+136
+0:13:54,720 --> 0:14:00,720
+history. I really want to know, can we pinpoint the date of symptom onset? When did this start?
+
+137
+0:14:00,720 --> 0:14:06,480
+Because timing matters. What was the date of your first positive COVID test? This is going to help
+
+138
+0:14:06,480 --> 0:14:12,640
+us in management. How are you doing with your oxygen level? Are they above or below 90%?
+
+139
+0:14:12,640 --> 0:14:18,800
+If it dropped below 90%, how much oxygen is it taking to keep those saturations greater than 90%?
+
+140
+0:14:18,800 --> 0:14:24,320
+Is it nasal cannula? Is it venturing a mask? Is it face mask? And we'll get back to that.
+
+141
+0:14:25,760 --> 0:14:31,360
+What about how much weight you're carrying? What is your BMI? Is it greater or less than 30? How's
+
+142
+0:14:31,360 --> 0:14:37,040
+that kidney function? How is your estimated GFR creatinine clearance? Is it greater than 30?
+
+143
+0:14:37,040 --> 0:14:43,200
+What about those LFTs, that AST and ALT? Are they less than five times upper limit of normal?
+
+144
+0:14:43,200 --> 0:14:47,040
+This is going to affect what medicines we're going to consider. What is that
+
+145
+0:14:47,040 --> 0:14:51,360
+neutrophil lymphocyte ratio that we get from our complete blood count with differential?
+
+146
+0:14:52,160 --> 0:14:57,120
+Really nice paper recently showing that that really helps differentiate how people are going to do
+
+147
+0:14:57,840 --> 0:15:03,120
+and particularly dynamic tracking this over time. Nice to have that ferretin
+
+148
+0:15:03,120 --> 0:15:10,240
+procalcitonin ratio to help us identify that 10% that subset that has a secondary bacterial
+
+149
+0:15:10,240 --> 0:15:15,840
+infection. But remember, it is a subset. Are they at increased risk of clotting or bleeding?
+
+150
+0:15:15,840 --> 0:15:22,800
+That lets us make decisions. If someone has a prior history of a GI bleed or they had an
+
+151
+0:15:22,800 --> 0:15:28,080
+intracranial bleed, you want to be careful with your anticoagulation there. If the person is obese
+
+152
+0:15:28,080 --> 0:15:32,960
+and has a prior history of a pulmonary embolism or deep venous thrombosis, that's also going to
+
+153
+0:15:32,960 --> 0:15:39,600
+guide us in management. Now first, what not to do? And I'm actually, I know I'm going to step on
+
+154
+0:15:39,600 --> 0:15:45,680
+some toes here, but these are our current recommendations. There are a number of things we are recommending
+
+155
+0:15:45,680 --> 0:15:56,400
+not to give to people. Avoid unnecessary antibiotics or antimalarials. No HCQ, no dioxocycline, no azithromycin.
+
+156
+0:15:57,280 --> 0:16:01,680
+We do recommend limiting the use of convalescent plasma. There's no compelling benefit there.
+
+157
+0:16:01,680 --> 0:16:08,160
+It's a very resource intensive item. And the monoclonal antibody is really the modern convalescent
+
+158
+0:16:08,160 --> 0:16:13,200
+plasma. It's got everything we want, but not all the clotting factors. And as we've really learned,
+
+159
+0:16:13,200 --> 0:16:18,080
+I think from all this timing matters. Once the person ends up in the hospital, you've missed your
+
+160
+0:16:18,080 --> 0:16:26,880
+window. There's really a defined window. Anticoagulation, it's a really, we're learning here. Some people
+
+161
+0:16:26,880 --> 0:16:32,640
+are actually doing some, they call them improve scores, really trying to risk stratify to make
+
+162
+0:16:32,640 --> 0:16:39,120
+this a little bit more sophisticated. But in general, I'll say prophylactic dose anticoagulation
+
+163
+0:16:39,120 --> 0:16:46,480
+is recommended over intermediate or full dose, except on a case-by-case basis. When, as we say,
+
+164
+0:16:46,480 --> 0:16:52,160
+one might escalate to full therapeutic dosing if the clotting risk is elevated and the bleeding
+
+165
+0:16:52,160 --> 0:16:57,920
+risk is low. And what does that mean? And here we get into the weeds a little. When we talk about
+
+166
+0:16:57,920 --> 0:17:05,680
+low molecular weight heparin, prophylactic dosing is anoxoperin, 40 milligrams, sub-Q once a day.
+
+167
+0:17:06,240 --> 0:17:10,800
+The person is over a certain body weight, over a certain BMI. We talked about that earlier.
+
+168
+0:17:10,800 --> 0:17:19,200
+That might be up to BID. But in a normal BMI individual, the intermediate dosing that comes
+
+169
+0:17:19,200 --> 0:17:24,160
+partly out of, I'll say, the OBGYN literature, the 40 milligrams twice a day, that's intermediate
+
+170
+0:17:24,160 --> 0:17:30,480
+dosing that's not recommended. And in some cases, as mentioned, we might do full dose, which would be
+
+171
+0:17:30,480 --> 0:17:37,840
+the milligram per kilogram twice a day. For the obese patients, that BMI greater than 30,
+
+172
+0:17:37,840 --> 0:17:42,320
+as mentioned, you're going up to BID. That's not intermediate. That's prophylactic dosing
+
+173
+0:17:42,320 --> 0:17:48,160
+adjusted for body weight, for your dialysis patients. So you need to know that renal function if it's
+
+174
+0:17:48,160 --> 0:17:55,040
+less than 50, 15, or they're on dialysis, then we actually consider using heparin with concerns
+
+175
+0:17:55,040 --> 0:17:59,840
+about accumulation of metabolites with the low molecular weight heparin. And when we do the heparin,
+
+176
+0:17:59,840 --> 0:18:07,680
+it's 5,000 units, sub-Q, and that's going to be every eight or 12 hours. Certain circumstances,
+
+177
+0:18:07,680 --> 0:18:12,560
+we might use our direct acting anticoagulants. These are people may be familiar with the
+
+178
+0:18:12,560 --> 0:18:19,840
+zorelto or the eliquest, the 10 milligrams once a day, the eliquest 2.5 milligrams twice a day.
+
+179
+0:18:20,560 --> 0:18:26,480
+Again, these things are adjusted based upon renal function and other factors. And in some cases,
+
+180
+0:18:26,480 --> 0:18:32,480
+people are just using the baby aspirin, 81 milligrams POQ day, sometimes just based upon
+
+181
+0:18:32,480 --> 0:18:37,440
+an overall clinical picture. But some people are actually, as I mentioned, calculating the
+
+182
+0:18:37,440 --> 0:18:46,160
+improve, so the international medical prevention registry on venous thromboembolism scores. And
+
+183
+0:18:46,160 --> 0:18:52,240
+then using these and asking questions about was there a previous clot, issues with paralysis,
+
+184
+0:18:52,240 --> 0:18:58,000
+cancer, are you in the ICU? Is there complete immobilization? Is your age over 60? And then
+
+185
+0:18:58,000 --> 0:19:03,120
+trying to weigh that against, you know, is there an issue of an ulcer bleeding in the last three
+
+186
+0:19:03,120 --> 0:19:07,920
+months? Are the platelets less than 50, right? You're going to want to know about that. Are
+
+187
+0:19:07,920 --> 0:19:14,480
+there issues with the liver? Are there central venous catheter? So this is all getting a little
+
+188
+0:19:14,480 --> 0:19:20,800
+bit sophisticated. We're learning a little bit more. As we well know, people who are severely ill
+
+189
+0:19:20,800 --> 0:19:26,640
+with COVID, maybe 30% of them will have significant clots. But if you put them all on full dose
+
+190
+0:19:26,640 --> 0:19:31,840
+anticoagulation, you might have bleeds in about 8%. So you got to balance this, right? We're not
+
+191
+0:19:31,840 --> 0:19:37,360
+saying that full dose anticoagulation doesn't prevent the clots. But you may end up with a net
+
+192
+0:19:38,320 --> 0:19:43,440
+negative mortality. If you go with full dose on everyone, and that's actually come out of some
+
+193
+0:19:43,440 --> 0:19:49,760
+recent data, which have actually removed in the ICU arms, people from looking at full dose.
+
+194
+0:19:49,760 --> 0:19:54,080
+We don't know if that applies to people in the general hospital wards, but we are learning,
+
+195
+0:19:54,080 --> 0:20:01,040
+and this stuff is being studied, I'm going to say finally. Immune modulation, steroids,
+
+196
+0:20:01,040 --> 0:20:06,800
+recommended only after the first week. So remember, it's not COVID steroids. It's COVID,
+
+197
+0:20:06,800 --> 0:20:12,800
+second week, hypoxemia, then you consider steroids. And again, you balance it. You want to look at
+
+198
+0:20:12,800 --> 0:20:20,560
+the whole picture in a frail, elderly individual. You might consider lower doses. You might consider
+
+199
+0:20:20,560 --> 0:20:26,640
+shorter courses in someone who is more severely ill, maybe carrying more weight. You might consider
+
+200
+0:20:26,640 --> 0:20:32,240
+a slightly higher dose. And then that 10 days, you're going to use clinical judgment. We talk
+
+201
+0:20:32,240 --> 0:20:38,560
+about dexamethasone 6 milligrams, whether it's IV or PO. If they're taken oral medicines,
+
+202
+0:20:38,560 --> 0:20:44,240
+make it oral. There's no reason to add more IV medications, and prednisone 40 milligrams
+
+203
+0:20:44,240 --> 0:20:48,160
+would be an equivalent. So some degree of flexibility on doses and duration.
+
+204
+0:20:49,200 --> 0:20:53,760
+What happened to anakinra, the IL-1 inhibition? What happened to serilla mab,
+
+205
+0:20:53,760 --> 0:21:02,720
+cetuximab, telosilizimab, all our IL-6 blockade? You know, I have to say, we're still waiting to
+
+206
+0:21:02,720 --> 0:21:09,040
+see any clear compelling mortality benefit here. The literature sort of bore out what we saw
+
+207
+0:21:09,040 --> 0:21:14,400
+early on. If you give, and I'll say, toselizimab, in the absence of steroids, people initially get
+
+208
+0:21:14,400 --> 0:21:21,920
+better. But then by 28 days, the mortality is the same. So limited use here. We look at this as
+
+209
+0:21:21,920 --> 0:21:27,200
+somebody is heading towards a ventilator. Maybe this will be something that temporarily decreases
+
+210
+0:21:27,200 --> 0:21:33,520
+their oxygen requirements. But unfortunately, we're not really seeing, say, sort of the early
+
+211
+0:21:33,520 --> 0:21:40,000
+the early optimism panned out. Something is going on with IL-6 that impact on fevers and
+
+212
+0:21:40,000 --> 0:21:46,080
+hypoxemia in response to IL-6 receptor blockade is interesting. We're still waiting for better
+
+213
+0:21:46,080 --> 0:21:53,120
+guidance here. Hypoxemia management. How do we keep that oxygen above 90? And I have to say,
+
+214
+0:21:53,120 --> 0:21:57,280
+this is a huge area. This is why people need to be in the hospital by and large.
+
+215
+0:21:59,200 --> 0:22:04,160
+The goal is to keep those sets 88, 90% or higher. You don't really need to crank
+
+216
+0:22:04,160 --> 0:22:09,760
+them much above that. This gets very sophisticated. And this is actually where our respiratory
+
+217
+0:22:09,760 --> 0:22:16,160
+colleagues get involved. You start with nasal cannula. Two liters, four liters, you might get up to
+
+218
+0:22:16,160 --> 0:22:21,120
+eight liters, then escalates to something called a venturi mask, not available in all centers,
+
+219
+0:22:21,120 --> 0:22:27,360
+but allows us to actually titrate oxygen saturations a little bit. Then we go up to non-rebreather,
+
+220
+0:22:27,360 --> 0:22:34,640
+high flow nasal cannula, things non-invasive ventilatory methods like BIPAP, pruning. We have
+
+221
+0:22:34,640 --> 0:22:40,000
+good evidence that that makes a difference, even a mortality benefit, because it's helping us keep
+
+222
+0:22:40,000 --> 0:22:44,960
+people off the ventilators. This is something even we're doing in the outpatient setting.
+
+223
+0:22:44,960 --> 0:22:50,080
+One of my colleagues, Ken, that was on a call with earlier today, was bringing up that this is
+
+224
+0:22:50,080 --> 0:22:53,440
+working in the outpatient setting. You've got an individual, you're trying to keep them out of the
+
+225
+0:22:53,440 --> 0:22:59,520
+hospital. Maybe they're even on home oxygen. They're laying on their belly. They're sleeping on their
+
+226
+0:22:59,520 --> 0:23:05,360
+belly. That actually helps with the ventilation perfusion mismatch. In another note, I'll throw
+
+227
+0:23:05,360 --> 0:23:10,320
+out there that probably a lot of us have experienced, but make sure I share this. Often the pulse
+
+228
+0:23:10,320 --> 0:23:18,080
+oximeter readings can be inaccurate. If it doesn't make sense to you, consider doing an arterial
+
+229
+0:23:18,080 --> 0:23:26,560
+blood gas. Anti-viral therapeutics. Less and less excitement over remdesivir as time goes by,
+
+230
+0:23:26,560 --> 0:23:32,080
+I want to be honest. One of the hospitals here has even started to limit the criteria. For a
+
+231
+0:23:32,080 --> 0:23:37,360
+while there, anyone who comes in seemed to get remdesivir. It didn't matter if they were hypoxic,
+
+232
+0:23:37,360 --> 0:23:41,520
+but now the guidelines were just updated. These were actually, I have to say, nice updated
+
+233
+0:23:41,520 --> 0:23:46,400
+guidelines. You actually saw who was involved in the decision-making, very evidence-based guidelines.
+
+234
+0:23:47,040 --> 0:23:53,360
+Basically saying remdesivir, if people met the criteria in the one trial that showed benefit,
+
+235
+0:23:53,360 --> 0:24:00,080
+so hypoxic within the first 14 days. The kidney function, you had a GFR of greater than 30.
+
+236
+0:24:00,720 --> 0:24:06,000
+The LFTs were less than five times upper limit normal. Then it was five days or less. If you
+
+237
+0:24:06,000 --> 0:24:10,320
+start the five days and they really are doing better, you don't have to keep them in the hospital
+
+238
+0:24:10,320 --> 0:24:17,760
+to keep giving them this medicine. Miscellaneous things. We're still seeing a lot of our patients
+
+239
+0:24:17,760 --> 0:24:24,320
+of vitamin C and thiamine and zinc and vitamin D. People did comment last week that I spoke
+
+240
+0:24:24,320 --> 0:24:28,320
+about vitamin D for hospitalized patients, but I didn't mention the Spanish study
+
+241
+0:24:29,600 --> 0:24:34,880
+effect of calcifidiol therapy and best available therapy versus best available
+
+242
+0:24:34,880 --> 0:24:39,920
+therapy on intensive care unit admission and mortality among patients hospitalized with COVID-19,
+
+243
+0:24:39,920 --> 0:24:47,600
+a pilot randomized study. I will say, this pilot study did show benefit. There was
+
+244
+0:24:47,600 --> 0:24:54,000
+an RCT at a Brazil that failed to show benefit. I'll say, there are studies going forward,
+
+245
+0:24:54,000 --> 0:24:59,680
+including the UK-based coronavite trial. I like the name on that, which is actually fully
+
+246
+0:24:59,680 --> 0:25:05,520
+enrolled and we'll get data on that unless the pandemic abruptly ends, which it's not doing in
+
+247
+0:25:05,520 --> 0:25:11,760
+the UK. We're actually going to get data from that. We'll see. I want to be balanced here.
+
+248
+0:25:11,760 --> 0:25:16,960
+One study that says it works. One study that shows it doesn't show effect. I'll be honest
+
+249
+0:25:16,960 --> 0:25:22,320
+when I say, as we learn, I'm happy to share that. I'm not weighing on on either side. If a
+
+250
+0:25:22,320 --> 0:25:26,960
+patient comes in and their vitamin D deficient and you give them vitamin D, that actually seems
+
+251
+0:25:26,960 --> 0:25:31,040
+like it makes a little bit of sense. Is it going to really make a difference? I don't think so.
+
+252
+0:25:31,040 --> 0:25:35,040
+I don't know. Maybe it will. I'm just going to basically say, I don't know.
+
+253
+0:25:36,400 --> 0:25:43,520
+Again, really limit the use of antibiotics because only about 10% of patients have actual
+
+254
+0:25:43,520 --> 0:25:49,440
+bacterial co-infections in the initial presentation. But we go right into the
+
+255
+0:25:49,440 --> 0:25:55,040
+secondary infection phase. You get to week two and three. That's when we actually see
+
+256
+0:25:55,040 --> 0:25:59,440
+patients start to not do well. They start to require more oxygen. They start to have a change
+
+257
+0:25:59,440 --> 0:26:04,800
+in mental status. Maybe the white count goes up. This is when we want to look for not only bacterial
+
+258
+0:26:05,440 --> 0:26:11,040
+but fungal infections. We're seeing both. Then this leads right into that multi-inflammatory
+
+259
+0:26:11,040 --> 0:26:18,160
+system phase where we see a lot of our clotting issues and we see a number of our other issues.
+
+260
+0:26:19,440 --> 0:26:24,480
+There's really no clear division here, but we run into this tail phase and the issue of
+
+261
+0:26:24,480 --> 0:26:28,640
+can patients make it out of the hospital. If they are going to make it out of the hospital,
+
+262
+0:26:28,640 --> 0:26:34,320
+there's a couple of things I want to say. One is at discharge. We are recommending,
+
+263
+0:26:34,320 --> 0:26:42,640
+particularly in our higher risk patients, extended prophylaxis against clots for at least 30 days,
+
+264
+0:26:42,640 --> 0:26:46,640
+but then we customize this based upon bleeding risk and risk of clotting.
+
+265
+0:26:47,600 --> 0:26:51,680
+Some cases, we're still low molecular weight heparin. We're actually continuing that post
+
+266
+0:26:51,680 --> 0:26:56,800
+discharge, particularly our highest risk patients that may be going to skilled nursing facilities.
+
+267
+0:26:57,600 --> 0:27:03,680
+A lot of our next level of risk, we're doing the direct acting oral anticoagulants that
+
+268
+0:27:03,680 --> 0:27:10,400
+doe acts. There's a relto, the eliquis. As we get to a lower risk, it might just be an aspirin
+
+269
+0:27:10,400 --> 0:27:16,400
+once a day. How did these people do? I always come back to the like, we don't want to clap
+
+270
+0:27:16,400 --> 0:27:22,560
+these people out and forget them. There was a nice article characterizing long COVID in an
+
+271
+0:27:22,560 --> 0:27:29,360
+international cohort, seven months of symptoms and their impact. I was posted on the MedRx
+
+272
+0:27:29,360 --> 0:27:36,240
+server, looked at about 4,000 individuals, 50 countries. Only about 8% required hospitalization,
+
+273
+0:27:36,240 --> 0:27:41,920
+right? So 90% were outpatient. This is an idea that the outpatients are just fine,
+
+274
+0:27:41,920 --> 0:27:46,880
+but I'm going to say this study did not suggest that and I will not suggest that. That's not
+
+275
+0:27:46,880 --> 0:27:52,320
+been my experience. The majority of the people here, these are people who are past 28 days and
+
+276
+0:27:52,320 --> 0:27:57,920
+still have symptoms. The majority, we're still reporting severe fatigue and cognitive impacts
+
+277
+0:27:57,920 --> 0:28:04,560
+greater than six months post diagnosis. This was looking at a survey open to individuals 18 years
+
+278
+0:28:04,560 --> 0:28:10,960
+of age and older who experienced symptoms consistent with COVID-19 in order to be able to characterize
+
+279
+0:28:10,960 --> 0:28:16,160
+the long COVID symptoms over extended duration. They looked at people and they said, have you had
+
+280
+0:28:16,160 --> 0:28:21,200
+symptoms more than 28 days and that's who they were looking at. And the people had to have
+
+281
+0:28:21,200 --> 0:28:26,880
+the symptom onset back in December and May. So I'm going to critical question for me,
+
+282
+0:28:26,880 --> 0:28:31,520
+is what percent of people who get COVID will go on to have long COVID?
+
+283
+0:28:32,400 --> 0:28:37,440
+And there was a nice paper on this, attributes and predictors of long COVID, analysis of
+
+284
+0:28:38,000 --> 0:28:42,320
+COVID cases and their symptoms collected by the COVID symptoms study app,
+
+285
+0:28:43,440 --> 0:28:49,600
+also posted, and really suggesting about 13% of people will have symptoms that last beyond that
+
+286
+0:28:49,600 --> 0:28:54,240
+four weeks that fall into the group that was studied above. So we know a certain percent of
+
+287
+0:28:54,240 --> 0:28:59,040
+people end up in the hospital. We know a certain percent of people that die, in our case,
+
+288
+0:28:59,040 --> 0:29:05,280
+fatality rate is about 3% right now. But our case morbidity rate, here it's suggesting that
+
+289
+0:29:05,920 --> 0:29:11,840
+about 13% of people are continuing to have symptoms past that four weeks. And as we saw,
+
+290
+0:29:12,400 --> 0:29:17,200
+if you look at those individuals out at six months, the majority of them are having cognitive,
+
+291
+0:29:17,200 --> 0:29:23,040
+they're having fatigue issues. So just to close on this here, in the US right now,
+
+292
+0:29:23,040 --> 0:29:30,560
+about 12 million cases, we have an outcome for 12 million cases with 3% mortality,
+
+293
+0:29:30,560 --> 0:29:35,840
+worldwide 60 million cases. Again, about 2 million deaths, these are where we actually have an
+
+294
+0:29:35,840 --> 0:29:42,000
+outcome. The case fatality rate in the world is about 3%. So that's pretty significant.
+
+295
+0:29:42,000 --> 0:29:48,320
+And the morbidity, we know that a lot of people that don't die continue to suffer. So I always
+
+296
+0:29:48,320 --> 0:29:53,680
+want to keep pointing that out. These people, we need to understand, we need to learn better.
+
+297
+0:29:53,680 --> 0:29:58,960
+We're treating it sort of symptomatically, not really having anything fantastic to offer. So
+
+298
+0:29:58,960 --> 0:30:04,960
+we need to learn, we need to help these folks. And I will say thank you for everyone that continues
+
+299
+0:30:04,960 --> 0:30:10,640
+to listen. Unfortunately, this is still going to be going on for a while. We're still doing our
+
+300
+0:30:10,640 --> 0:30:15,520
+fundraising, try to keep the message out, and also continuing to help support the Peace Corps
+
+301
+0:30:15,520 --> 0:30:21,040
+with their HIV and AIDS program. So when you get a moment, go to parasiteswithoutboarders.com
+
+302
+0:30:21,040 --> 0:30:26,480
+and help us continue our work. All right, our first question is from Christine,
+
+303
+0:30:26,480 --> 0:30:34,400
+who wants to know about the high risk groups for vaccination. Dr. Griffin read off a list,
+
+304
+0:30:34,400 --> 0:30:40,480
+less 698, that is derived presumably from a CDC document. However, the document actually
+
+305
+0:30:40,480 --> 0:30:45,040
+divides that risk people into two groups. Those who definitely are at risk, those who might be
+
+306
+0:30:45,040 --> 0:30:50,800
+at increased risk, the footnote on the CDC page only references the definitely are at risk group.
+
+307
+0:30:50,800 --> 0:30:55,600
+So that does that mean everyone else in the might be increased risk is essentially delegated
+
+308
+0:30:55,600 --> 0:31:01,520
+to the back of the line in phase two, asking on behalf of my friends with severe asthma,
+
+309
+0:31:01,520 --> 0:31:07,120
+my friends with type 1 diabetes, my friends with autoimmune diseases or MS taking immunosuppressants
+
+310
+0:31:07,120 --> 0:31:11,840
+and myself, a healthcare worker who has been on medical leave for several months and not getting
+
+311
+0:31:11,840 --> 0:31:17,120
+vaccinated with my colleagues, and will likely be resigning until I can better manage my condition
+
+312
+0:31:17,120 --> 0:31:23,600
+of POTS, a form of disodenomia, rather than a cardiac condition. So I'm assuming I might
+
+313
+0:31:23,600 --> 0:31:29,040
+only fall into an increased risk category because of my chronic flu drug cortisone use rather than
+
+314
+0:31:29,040 --> 0:31:35,040
+the cardiac medication. I also take to manage my POTS. Any light you can shed on that.
+
+315
+0:31:35,680 --> 0:31:41,360
+Yeah, you know, I have to say, let's be honest, the whole rollout of the vaccines is a bit of a
+
+316
+0:31:41,360 --> 0:31:46,800
+disaster. And I think this is where this gets like when when will different groups get access to
+
+317
+0:31:46,800 --> 0:31:51,600
+vaccine? You know, when we look across the country, there was a goal that by the end of this month,
+
+318
+0:31:51,600 --> 0:31:56,560
+there would be 20 million people vaccinated and maybe it's one or two. So you're saying,
+
+319
+0:31:56,560 --> 0:32:00,960
+my gosh, look at all these vaccines. And you know, and who's to blame, right? I mean, I think a lot
+
+320
+0:32:00,960 --> 0:32:06,480
+of people have been asking that. The vaccines have been delivered to the states. The vaccines
+
+321
+0:32:06,480 --> 0:32:10,960
+are sitting in fridges and freezers until those vaccines end up in arms. They're not doing
+
+322
+0:32:10,960 --> 0:32:18,960
+anyone any benefit. And sort of more directly your question, the hierarchy of who gets it when
+
+323
+0:32:18,960 --> 0:32:23,040
+keeps changing, right? So initially it was going to be the one a prime, we're going to do all the
+
+324
+0:32:23,040 --> 0:32:27,760
+ER the ICU, then we're going to get long term care facility and the rest of the health care
+
+325
+0:32:27,760 --> 0:32:31,440
+providers. And now a number of the states have just broken ranks and said, you know what,
+
+326
+0:32:31,440 --> 0:32:36,960
+we're just doing everyone over a certain age. And it seems like a number of other states are
+
+327
+0:32:36,960 --> 0:32:43,120
+falling into line. So it is really interesting. I was walking the dogs with my wife, and we're
+
+328
+0:32:43,120 --> 0:32:49,120
+talking about there's been all this focus on the ethics of equity. You know, there's 20% of the
+
+329
+0:32:49,120 --> 0:32:55,040
+vaccines that are being given and 80% sitting in freezers and fridges. The emphasis, all the
+
+330
+0:32:55,040 --> 0:33:00,960
+effort and the energy I think right now has to go to getting people vaccinated so that the line
+
+331
+0:33:00,960 --> 0:33:06,640
+moves. You know, it doesn't matter if you're, you know, 10th in line and the line is like moving one
+
+332
+0:33:06,640 --> 0:33:12,160
+person per hour. I'd rather be 100th in line at a move at a line that's moving, you know, 100 people
+
+333
+0:33:12,160 --> 0:33:18,800
+every 12 minutes. So I really have to say, this will be changing, right, that the CDC guidance on
+
+334
+0:33:18,800 --> 0:33:24,400
+who's at risk, who's at might be at increased risk and who gets vaccinated when and what the
+
+335
+0:33:24,400 --> 0:33:28,640
+states are doing. And here in the US, the state governors are the ones that are making the ultimate
+
+336
+0:33:28,640 --> 0:33:34,160
+decisions on who gets vaccinated when these things are going to keep changing. We hear in New York,
+
+337
+0:33:34,160 --> 0:33:39,360
+it may change again. Pretty soon everyone will be in phase one and it really will hopefully be a
+
+338
+0:33:39,360 --> 0:33:44,080
+question of just churning people through getting everyone vaccinated because there's lots and lots
+
+339
+0:33:44,080 --> 0:33:49,040
+of doses out there. I think a big challenge is getting them in people's arms. So everyone can
+
+340
+0:33:49,040 --> 0:33:55,040
+have access to the vaccines as soon as possible. Sarah and Tallahassee wants to know, is it safe
+
+341
+0:33:55,040 --> 0:34:00,560
+to vaccinate patients with long COVID long haulers or whatever they are calling us unfortunate souls
+
+342
+0:34:00,560 --> 0:34:07,920
+these days? Sarah, that's a great question. And in some sort of insight, because I've been watching
+
+343
+0:34:07,920 --> 0:34:12,160
+this for a while, because I have a lot of long COVID patients go ahead and use that terminology
+
+344
+0:34:12,160 --> 0:34:18,400
+for the moment keeps changing too. And you know, how have they done with other vaccines? So some
+
+345
+0:34:18,400 --> 0:34:25,280
+of them got another vaccines over the last say 10 months now. And done fine. I did have one patient
+
+346
+0:34:25,280 --> 0:34:29,040
+that got tetanus shot. They said, gosh, I felt like sort of a relapse there for a while and then
+
+347
+0:34:29,040 --> 0:34:34,560
+kind of moved forward. So, you know, I've been doing a lot of vaccinations recently. We just got
+
+348
+0:34:35,280 --> 0:34:42,160
+the COVID vaccine supply for the pro health doctors on Tuesday. So immediately we ran out and
+
+349
+0:34:42,160 --> 0:34:47,200
+basically by the end of the next day, 90% of those vaccines that had arrived were in people's arms.
+
+350
+0:34:47,200 --> 0:34:53,440
+And and I did over 80 myself. And I would talk to people as I was doing this. And some of these
+
+351
+0:34:53,440 --> 0:35:00,240
+individuals are are individuals that are long COVID or long haulers. And I basically would say,
+
+352
+0:35:00,240 --> 0:35:05,200
+you got to let me know I want feedback. I want to hear like now we vaccinated over a million people.
+
+353
+0:35:05,200 --> 0:35:08,720
+I want to start getting feedback from how did these individuals do they were they were not
+
+354
+0:35:08,720 --> 0:35:12,880
+studied. This was not part of any of the data that was discussed under the EUA reviews.
+
+355
+0:35:12,880 --> 0:35:19,760
+So, as I get this data, I'm very excited to to share this and let people know. But when they
+
+356
+0:35:19,760 --> 0:35:24,320
+ask, they say, should I get vaccinated? I say, my gosh, look at how how you did with COVID the first
+
+357
+0:35:24,320 --> 0:35:30,000
+time. Do you want to risk getting at a second time? And so I'm encouraging these individuals to get
+
+358
+0:35:30,000 --> 0:35:35,680
+vaccinated. And we'll see what what the impact is. But at least, you know, so far, right, we've
+
+359
+0:35:35,680 --> 0:35:40,480
+been doing a lot of health care providers here in the state so far haven't gotten any negative
+
+360
+0:35:40,480 --> 0:35:44,800
+feedback from the long haulers. But boy, if there there's issues, I want to hear. So let me know.
+
+361
+0:35:46,480 --> 0:35:53,040
+Our last letter for 2020 is from Sue Ellen, who Daniel may remember from
+
+362
+0:35:53,040 --> 0:35:58,880
+Twipp, Sue Ellen from Roswell, Georgia. I was talking to some friends yesterday discussing COVID
+
+363
+0:35:58,880 --> 0:36:03,840
+vaccines. One friend says she will not get it does not even get flu vaccine because she's immune
+
+364
+0:36:03,840 --> 0:36:08,960
+compromised. She has some hereditary disorder that caused her to have her spleen removed.
+
+365
+0:36:08,960 --> 0:36:13,280
+I have at least two other friends I know who are missing their spleens. Well, whether they
+
+366
+0:36:13,280 --> 0:36:18,000
+miss them or not, I can't say, but they have had them removed. My question is, what is the impact
+
+367
+0:36:18,000 --> 0:36:23,280
+of having no spleen with regard to both COVID and the vaccine? Sounds like one of those prisoners
+
+368
+0:36:23,280 --> 0:36:28,000
+dilemma type logic problems. If you don't have a spleen, I would think you're immune compromised,
+
+369
+0:36:28,000 --> 0:36:32,080
+which should make you more liable to get severe COVID. So that should mean you should get the
+
+370
+0:36:32,080 --> 0:36:36,480
+vaccine. But according to my French, you can't even get the flu vaccine because of her immune
+
+371
+0:36:36,480 --> 0:36:41,120
+compromised status. So she figures that COVID vaccine is not for her either. You must have
+
+372
+0:36:41,120 --> 0:36:45,440
+patients who have had their spleen's removed. So what is your recommendation with regard to the
+
+373
+0:36:45,440 --> 0:36:52,800
+vaccine? Yeah, this I have to say this is a very interesting email and the whole issue about not
+
+374
+0:36:52,800 --> 0:36:58,640
+having a spleen. I have to say we consider these individuals who have spleen to be at higher risk
+
+375
+0:36:58,640 --> 0:37:05,680
+of bad outcomes with infections, particularly with pathogens that it's a polysaccharide type
+
+376
+0:37:05,680 --> 0:37:12,080
+response. So we worry about encapsulated organisms. So we're about homophilus, influenza, pneumococcus,
+
+377
+0:37:12,080 --> 0:37:18,560
+and such. So actually, we usually are sticklers, I would say, for getting these individuals vaccinated.
+
+378
+0:37:18,560 --> 0:37:23,040
+So I'm not sure why she would be under the impression not. So I'm going to say,
+
+379
+0:37:23,840 --> 0:37:31,280
+if you have no spleen, there is a site, there's a CDC, a splenia vaccine site where it basically
+
+380
+0:37:31,280 --> 0:37:36,880
+goes through and it gives you a list of a dozen vaccines that are really critical. There's even
+
+381
+0:37:36,880 --> 0:37:43,440
+a American Society of Hematology statement position on what to do with the mRNA vaccines,
+
+382
+0:37:43,440 --> 0:37:50,960
+if you have no spleen, and we encourage and they encourage people without a spleen to get the mRNA
+
+383
+0:37:50,960 --> 0:37:56,560
+vaccine. There's some concern that maybe you will not have as robust a response, but it's only
+
+384
+0:37:56,560 --> 0:38:01,760
+theoretical. There's no downside. The only concern is maybe you will respond as well. But let's
+
+385
+0:38:01,760 --> 0:38:06,080
+think about what's the issue with the spleen. The spleen is an area where you can have a lot
+
+386
+0:38:06,080 --> 0:38:09,920
+of germanol centers, a lot of maturation of B cells, make a lot of really good antibodies.
+
+387
+0:38:10,800 --> 0:38:15,360
+There are germanol centers in other places. So I'm going to say that I would recommend
+
+388
+0:38:15,920 --> 0:38:21,440
+Sue Allen. Nice to get your remember you well from Twib. But I would recommend actually going
+
+389
+0:38:21,440 --> 0:38:25,840
+ahead and getting that vaccine. I would say this is an individual who is at more at risk and
+
+390
+0:38:25,840 --> 0:38:32,800
+would potentially get benefit. Well, that is our COVID-19 clinical update number 43 with Dr.
+
+391
+0:38:32,800 --> 0:38:39,040
+Daniel Griffin. Daniel, it has been a privilege to have you join Twib this past year. Thanks so
+
+392
+0:38:39,040 --> 0:38:44,960
+much and happy new year. Oh, thank you as well. It's been great. I love the opportunity to share
+
+393
+0:38:44,960 --> 0:38:51,280
+this information. I hope everyone else enjoys it. And look forward to more updates next year.
+
+394
+0:38:51,280 --> 0:38:56,000
+And I'll just I'll close on a little bit of good news. I just found out today that now with the
+
+395
+0:38:56,000 --> 0:39:01,840
+excitement of CT values, I can get CT values on Long Island as well as at Columbia. So
+
+396
+0:39:01,840 --> 0:39:23,200
+hopefully I'll have some clinical experience to share with everyone in the future.
+

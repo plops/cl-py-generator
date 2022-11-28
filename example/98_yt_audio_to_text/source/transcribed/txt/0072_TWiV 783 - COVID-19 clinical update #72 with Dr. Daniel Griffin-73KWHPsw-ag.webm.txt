@@ -1,0 +1,433 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicrobeTV, this is Twiv, this week in virology. Episode 783, recorded on June 22, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone.
+Daniel, I noticed that the U.S. vaccination is just approaching 50% for fully vaccinated.
+That doesn't seem like a lot, does it? No, no. That was my Anthony Fauci, you know, where I
+put my hand up and shake my head. So listening to another podcast the other day,
+it's one that Andy Slavitt does. And he was interviewing somebody from Facebook,
+and they were talking about the fact that 65% of the
+miss and disinformation regarding vaccines comes from 12 individuals, 12 individuals.
+And they just pump the stuff out, you know, and they get banned from Twitter, but then they're
+still on Facebook. And yeah, I mean, you know, this active disinformation is killing people.
+And, you know, I was on a call with a United Health Group, sort of the Optum, one of the
+higher groups. And there was a lot of pessimism about, you know, the people that aren't going to
+get vaccinated, just not going to get vaccinated. I don't think that's true. I mean, these individuals
+are still spending an incredible amount of time, millions of dollars to introduce fear,
+to just make stuff up about the vaccines. And one of the comments, I think it was a Kaiser
+survey where they asked people. And four out of five people who are not vaccinated
+believe something about the vaccine. That's not true. They were told something, they were
+misinformed. So yeah, we really have to make a difference here. And a lot of it, you know,
+how do you get someone who's not vaccinated to get vaccinated? Number one is you listen,
+you stop, you take a deep breath, you listen, what are your concerns? You don't ridicule them.
+And a lot of times they've been told something by someone, and it's just not true. And I think
+we need to have patients, we need to have humility, we need to reach out to these individuals.
+Because I think that if they actually knew the facts, a large number of people would come to the
+conclusion that it's not so important to be part of a tribe that you're going to put the lives of
+yourself and your loved ones at risk by choosing to get COVID, as opposed to choosing a much safer
+option, which is the vaccines. What is the motivation of these 12 individuals who spread
+misinformation? You know, I'm speculating, of course, we do know that there's a big sort of
+financial incentive. There's a lot of power that comes along with, you know, stirring up the masses.
+I think it was disturbing to find out, right, what happened in France where scientists were
+actually taking money to sign letters. It's really, you know, at some point you can't have a price,
+your price has to be truth and honesty. And I think these individuals need to look in the mirror and
+ask, like, is that is that blood money worth it? Are you willing to take this money? Because this is
+not honest scientific discussion. This is pure blatant misinformation. It's just wrong.
+Okay. All right.
+I don't know if that's I don't think that's political. I feel like that's just honesty.
+But anyway, so let's let's start off with two quotes from a rather impressive woman.
+And I'm going to give the quotes, then we'll be like our four second pause while people
+see if they can remember who who said these things. The work of today is the history of tomorrow
+and we are its makers. And the second quotation to be inspired is great, but to be an inspiration
+is an honor. Juliet Gordon Lowe. I am impressed. You don't even have daughters.
+So yes, that was Juliet Gordon Lowe, the founder of the Girl Scouts of America.
+I do have a daughter. I do have a daughter.
+You do have a daughter? Yes. And she would, that's why I know.
+Did you see there was a pause there, everyone? It took me so in a moment to remember.
+Yeah, I just listened to you. I was like, wait a second. All right. So yes. Yeah.
+So Juliet Gordon Lowe was the founder of Girl Scouts of America, really a tremendous organization.
+So yeah, and really just a really inspiring woman. And you know, I don't know if people were aware,
+but the Girl Scouts of America actually did a get the vote out. And now I know there's discussions
+about get the vaccine out. Having Girl Scouts try to help with these efforts. I have two daughters.
+I know that right away without a pause. And they both actually went all the way through,
+became sort of these gold star at the end. They did their gold awards. And actually the last,
+actually Eloise's Gold Award was the service dog project and raising a service dog, doing the
+puppy rearing and then doing information sessions about it. So tremendous organization, tremendous
+woman. And I think right now when we look at these individuals that are not vaccinated,
+who is the most influential person? It's your friend. It's your family. So reach out to your
+friends and family. Reach out to people you care about. Have honest, respectful discussions about
+the vaccines. We can make a difference. We can get over this hump. Hundreds of people do not need
+to keep dying every day in the US. Thousands of people do not need to keep dying around the world
+every day. We have safe, incredibly effective vaccines. All right, so let me update on what's
+going on. As people know, the trends are not great. We went from a cruise ship of people dying
+per day in America down to a jumbo jet crashing every day as far as numbers of people dying.
+That's not great. And the numbers are going up. But I will say at least in our local area,
+when we are seeing vaccinated people get infected, it's mild. It's very rare for them to end up in
+the hospital. It's incredibly rare for them to die, right? We're going from a one in 30 chance of
+death in an unvaccinated to a one in a million. And we're going to talk a little bit about kids
+here in a moment. There's a lot of fear still in the media about this. The fear should be
+driving people to vaccination. But once you're vaccinated, that is a very good place to be.
+One of my friends and colleagues actually wrote a paper, maybe a couple papers in the last year,
+Denise Brennan Ryder, she's an Irish Canadian. She's also a mother. And she was sharing with me
+recently just some of the struggles that she's been going through as a mom with issues with
+access to vaccination and concerns that her children have. And I just, we need to sort of
+balance. And as I talk about kids, I always say kids are at low risk, but they're not at no risk.
+But there is a balance here with all the fear. The vaccines continue to work. Even when we hear
+about these new variants, they continue to be very effective at preventing serious disease,
+preventing hospitalization. We would love if they were 100% for our herd immunity aspect.
+But that's only a small part of the story. And that should be sort of balanced with all the
+fear that we see in the media. So just want to sort of start with that. But let's get right
+on to kids. And I'm going to talk about long COVID in kids, because I think this is part of
+the metric, part of the equation that people are not considering. And I actually had a gentleman
+email me directly earlier today. And I really sort of taken him back because his daughter's
+pediatrician, she's an eligible adolescent, the US pediatrician was not really in favor of
+vaccination and had not recommended vaccination. So I was a bit shocked. And I know sometimes
+people say, well, you know, only a few hundred children have died while we shut down everything.
+Only several thousand children ended up in the hospital. But what about kids that got COVID?
+How are they doing two, three months down the road? Is long COVID a significant issue in children?
+So we just saw the study, long-term symptoms after SARS-CoV-2 infection in children and adolescents
+published in JAMA, the Journal of the American Medical Association. And the authors addressed a
+significant issue that we really need to know about when we're looking at return to school this
+fall, right? We have a lot of people saying, eh, get the kids back in school. Not a big issue
+if kids get COVID. I don't want my kid wearing a mask or anyone else. Well, we know about deaths.
+We know about hospitalizations. What about long COVID? So this was a longitudinal cohort study
+investigating SARS-CoV-2 seroprevalence in 55 randomly selected schools in areas in Switzerland.
+And they chose a linguistically and ethnically diverse population of 1.5 million residents in
+both urban and rural settings. So we're getting a nice cross-section here. The investigators
+collected blood for serological analysis and then used questionnaires to assess the symptoms.
+They compared children who tested positive for SARS-CoV-2 with those who tested negative during a
+period October, November 2020. Ultimately, over 1,355 children were included in the analysis.
+And what did they find? They found that the most frequently reported symptoms lasting more than
+12 weeks. I just want to repeat that. 12 weeks, right? So three months after these children had
+been infected with COVID, 3% of them were still reporting that significant fatigue. 2% were still
+reporting difficulty concentrating. Another 2% were reporting an increased need for sleep.
+Now, there are background rates. You know, we assess these symptoms. So just think about asking
+1,000 kids, you know, and there is sort of a background rate. But overall, what they were seeing
+is about 4% of the serology positive children were still having symptoms 3 months later. So that's
+1 in 25 kids who gets COVID is still having issues 3 months later, right? Symptoms consistent with
+long COVID. So I just I want people to think about this when you send kids back to school.
+So let's say you're your child. Let's say you have a daughter like Vincent now remembers and she goes
+to class. And you know, there's 25 kids in the class. And we say, oh, you know what, not a big deal.
+We'll just let them all get COVID. It's not a big deal. One of those 25 kids is still going to be
+sick 3 months later. I have to say as a parent that that's too high for me 1 in 25. So we look at
+the risks of vaccination. You know, we're talking about short lived myocardial cardiac inflammation
+maybe for a couple days that gets better with over the counter medicine rates of maybe 1 in 100,000
+1 in a million things like that versus 1 in 25 being sick for 3 months having problems going to
+school. So I think when people talk about the risks in children, you can't just look at deaths.
+You can't just look at hospitalizations. It's the same as adults. You've got to look at the whole
+picture. And when someone has long COVID, that's that's a disaster. That's a tragedy in my book.
+Now we did get some some good news in the realm of pediatrics. And this was what about those kids
+who had that multi-system inflammatory syndrome. So there was a publication in pediatrics. That's
+the official journal of the American Academy of Pediatrics. Longitudinal outcomes for multi-system
+inflammatory syndrome in children. And the authors reported on all of the 45 children that had been
+admitted to Columbia Presbyterian Hospital. It's like about a block or two from where
+Vincent is sitting right now. And they followed them actually out to four to nine months. And they
+found that basically about a month, a lot of the inflammatory markers were going down. When they
+got far out, only one child was still having persistent mild dysfunction. One had mild mitral
+and tricuspid regurgitation. But in general, the kids were getting better. So I think that is
+that's reassuring. We don't have longer term outcome. But the authors actually concluded
+the majority of children with Miss C. So that's multi-system inflammatory syndrome of children
+present critically ill. But most inflammatory and cardiac manifestations go on to resolve
+in a period of months. So rapidly. So that's nice to know. I know people have always asked
+what happened to these kids. Now, sticking with children here, the American Academy of Pediatrics
+came out with some recent guidance with a statement that got a bit oppressed. Some people
+are unhappy about it. So let me go through the high points of that statement because some people
+are asking how do we take this statement and mesh it with what we're hearing from the CDC
+as we're looking at school opening. So the first part is in line. American Academy of Pediatrics
+is saying all eligible individuals should receive the COVID-19 vaccine. So that pediatrician, I'm
+not sure what professional organization he gets his guidance from. But the American Academy of
+Pediatrics is recommending that we go ahead and vaccinate all the eligible information.
+The other is, and this is the thing that was controversial, all students older than two years
+and all school staff should wear face masks at school unless medical or developmental conditions
+prohibit use. Why? So they do. I think they knew that this would get some feedback. So they go
+ahead and they give us five reasons. So the AAP recommends universal masking in school at this
+time for the following five reasons. One, a significant portion of the student population
+is not eligible for vaccination. So I think that's something. Second, protection of unvaccinated
+students from COVID-19 and to reduce transmission. This is sort of coupled with the fact that we do
+not have a system to monitor the vaccine status among the students, the teachers and staff.
+And I think we've all had that experience. You know, you go into a supermarket in an area where maybe
+50% of the people are vaccinated, but no one's wearing a mask because people who are vaccinated
+don't need to wear a mask. Well, people who are unvaccinated have got the masks off too. So
+they're pointing that out. There's really no good system for knowing who's vaccinated
+and enforcing masks only for the vaccinated unvaccinated. Point three, potential and this ties right in
+potential difficulty in monitoring or enforcing mask policies for those who are not vaccinated.
+The ability of schools, and this is right in the same, to have consistent messaging,
+expectations, enforcement and compliance without needing to try to monitor vaccination status.
+Four, and this is sort of relates to the community, right? The biggest risk for a child is what's
+going on in the community around the school. Schools are often safer than the environment
+around. And so the AAP says the possibility of low vaccination uptake within the surrounding
+school community. And then finally five, and this we'll be touching on as we go further,
+continued concerns for variants that are more easily spread among children, adolescents and
+adults. So they've got their recommendation for face masks at school, and they've got their
+explanation for why they're saying that. All right, now pre-exposer testing, right? So testing
+never miss an opportunity to test. Now I know when I talked about some of the other guidance,
+part of the school reopening guidance is having testing strategies. But I'm excited that we have
+some data now to understand what's going on potentially with transmission with the Delta
+variant. What is going on? Is it spreading faster? What are the kinetics here? What's happening? So
+we got an interesting publication, viral infection and transmission in a large, well-traced outbreak
+caused by the Delta SARS-CoV-2 variant. And this was published by a group that was looking at
+cases in China. Now I've talked a bit about how sloppy the word transmissible is,
+and that when we hear that a certain virus, a certain variant is becoming dominant,
+we really need to understand the mechanism behind this variant's fitness advantage.
+And I think that this paper was a step in the right direction. So did we get any answers? Well,
+the authors investigated data from quarantine subjects in this Delta variant outbreak,
+and compared it to previous 2020 epidemic outbreaks caused by earlier variants.
+So a couple of questions that they tried to address. One is there a shorter reproductive
+time. So let me explain a little bit about what I mean by that. So you get exposed to someone who
+has SARS-CoV-2 infection, who has COVID-19, who is contagious, you have your exposure event.
+Now what is the time from exposure till you test positive or till you test positive and have
+enough virus that you can transmit it to the next individual? So this is the time for infection to
+becoming PCR positive and being able to give the virus to the next person, sort of a nuance of that.
+Now their results showed that the time interval from exposure to first PCR positivity in the
+quarantine population was four days versus six days. So six days was what we saw back in the 2020,
+and now we're seeing four days. So that's an interesting issue, and I'm going to talk a little
+bit about whether our experience meshes with this. The other thing that they saw, and I think this
+needs to be taken in context, that first positive test that they were seeing was a thousand times
+higher as far as the RNA copy number. So what we think we're seeing here is from zero. At day
+four people are already PCR positive, but they're already at a level of virus that makes them
+contagious. Now when we talked about day six turning PCR positive, usually at day six they
+were PCR positive, but at a high CT value, so a high cycle threshold, low level of virus,
+not quite transmitting, so you could pull them out before they spread it to the next person.
+Usually it was day seven that they were contagious. So instead of seven days from exposure to
+spreading to the next person, this may be shortened to only four days. So we're thinking that there
+is a more rapid rise from negative to infectious. People have looked at that thousand times higher,
+and I want to point out that's just looking at the first positive test. That's not the peak.
+We don't have the area under the curve. We did not follow these people every single day to see
+whether there's been a change in the duration at high levels, so the area under the curve,
+the period that they might become infectious. And I've sort of been asking, does this really
+mesh with our experience? And one of the things our listeners may know is we do these large
+screening programs for the movie industry, where we test thousands of people every night
+with the idea that we're going to catch them early when they first get positive,
+and that we've got this day before they become infectious. So someone tests positive on a Wednesday
+night. Usually it's a high CT value. We say, that's great. We grab you, we pull you out. We've been
+doing this for over a year without having any issues. What we're now seeing, unfortunately,
+is we're seeing a lot of people testing positive. The concern is when they test positive that night,
+they may have already been infectious in the latter half of the day. When we're talking to
+our outpatient providers, when someone says, Boy, I felt crummy for about a day. So I decided to
+finally get tested. Now you get them a PCR test. There's a 36 hour resulting delay. You call them
+and you say, John, your test is positive. We got to figure out who you may have exposed.
+When you test those people that they've exposed, those people are already positive,
+and they're already positive at high level. So this data is meshing with our experience.
+And as you can imagine, this really challenges our Tetris, our contact tracing paradigm.
+If by the time you tell someone that they're PCR positive, everyone they've exposed is also
+already PCR positive at a contagious level. It's already sort of spread to the next year,
+and it's kind of a dominoes type phenomenon. So this is one paper. This is meshing with our
+experience, but we need more data to help us with this because this is a problem. If it is a shorter
+incubation time, shorter from time to exposure to spreading, that could explain a lot of what we're
+seeing. It also is really relevant to how we're going to address this.
+If I may jump in, I was hoping that my dramatic pause would get you pulled in Vincent.
+Just two things first. So the shorter serial interval, that's what this is.
+That could account for a more rapid spread, but it doesn't mean the virus is more transmissible
+intrinsically. It just reproduces faster, and therefore can go from one host to another.
+Quicker in, as you said, people are infectious sooner, and that can result in more people being
+infected as a consequence. That's possible. But I would say it's not intrinsic,
+greater transmissibility of the virus. And then I agree we need more data on that.
+The other issue is that PCR, a thousand times, that might not be infectious virus. So I think
+at some point, people need to do infectious virus measurements. We have to stop depending
+on PCR, because I can imagine a variant throws off more MRNAs, and that's going to show up
+positive in the PCR, but it's not infectious virus. So nobody has done that for any of the
+variants yet, and I'm a little bit frustrated at that. Yeah, no, and I share your frustration,
+and I think that this is really, from my point, you can't just use the word transmissibly. You
+always say, what are you talking about? Because if it's a shorter incubation period, so many of
+our rules about when you contact trace, how long a person you say, we need to know the
+kinetics of infectious, viable virus for all the variants. We need to keep doing the research.
+We can't say, oh, we've got this for the, you know, because this is this is a problem.
+And I think also people have probably seen the Olympics when people are, quote, unquote, testing
+positive. What does that mean? Are they having a low level of RNA positivity? They actually have
+viable infectious virus. Do we need to pull Olympic athletes who've been vaccinated or
+young and healthy out for 10 days? Because that's what we did, you know, a year ago.
+Yeah, we need we can't be sloppy with our language because it matters. It affects
+it affects what we do. It affects people. All right, active vaccination. Never miss an
+opportunity to vaccinate vaccination is how this pandemic ends and no one is safe until we're all
+safe. And I know I get a lot of questions actually seem like I got a lot more this week and I'm not
+sure if it's that we're hitting a particular population, but they want to know, you know, if I had a
+COVID-19 before, if I had a natural infection, do I really need to get vaccinated? Maybe I'm just
+okay. And so I'm just going to take a little aside to, you know, I think all the clinicians
+that are getting these questions, I'm going to answer it for all of you. We do have information
+on this topic in three forms. So this is I had COVID-19. Do I need to get vaccinated? So one,
+we have a number of the serology and T cell studies, right? There was that nice paper in
+cell that we discussed back in June, reduced neutralization of SARS-CoV-2-B1617 by vaccine
+and convalescent serum, right? Because people really are now asking about the delta variant.
+You know, and we've talked a little bit about neutralizing antibody convalescent plasma. We
+also had reduced sensitivity of SARS-CoV-2 variant delta to antibody neutralization published in
+nature. And that was just this month. Both papers suggesting convalescent plasma was about four
+times less potent against the delta variant. But if we've discussed many times, we don't really know,
+you know, what that translates into. We really sort of think that T cells are important.
+So we have some information on T cells in the paper, immunological memory to SARS-CoV-2
+assessed for up to eight months after infection. This is by Shane Crotty, an Los Androsetti's
+group. And this was in science. But, you know, here there's a couple things that we saw. And I'm
+going to throw in words like only to sort of emphasize things. Only 70% of individuals possessed
+detectable CD8 positive T cell memory at one month after infection that declined to 50% by
+six to eight months after infection. Not great, but CD4 T cell memory. 93% of subjects had
+detectable SARS-CoV-2 memory at a month after infection. And this remained high for six to eight
+months. So we also see T follicular helper cells being maintained. So we're sort of getting
+mixed here. Now, we did have the preprint also by these same gentleman, low dose mRNA 1273 COVID-19
+vaccine generates durable T cell memory and antibodies enhanced by preexisting cross-reactive T cell
+memory, where they report that spike. CD8 positive T cells were generated in 88% of subjects
+with equivalent percentages of CD8 positive T cell memory responders at six months post
+vaccine. So you're sort of seeing here that there looks like when we're looking at these lab-based
+studies of B cells T cells and serology, vaccines do look like they're a little bit better. And we
+have good data on the efficacy. We also have the reinfection studies. That's sort of when the
+rubber meets the road. And what happens when people have had natural infection and now they're
+exposed again. And I think we discussed before the siren study out of England. And that was SARS-CoV-2
+infection rates of antibody positive compared with antibody negative health care workers in
+England, a large multi-center prospective cohort study siren. And here this was Lancet suggesting
+a median duration effect of seven months at about 83% from prior infection with the same variant,
+right? So sort of raises concerns. And then we have this growing experience. What are we seeing
+as clinicians? And we are seeing our own growing experience of people who were infected early in
+the pandemic. So a year or more ago, now coming in, testing PCR positive, having symptoms and some
+of them not doing well. I think I may have shared the experience of the young woman who had long
+COVID after first infection, did not get a vaccine. And a couple weeks ago, she started to get ill
+again and again had a second infection. And I think now people ask, oh, can you test to see if
+it's a delta variant? Well, it's almost 90% of the sequences we're now seeing across the country are
+delta variants. So I think that, you know, the data may not be as compelling as some of the
+anti vaccinators or the hesitant might want to be. But we have really good compelling data on the
+safety and efficacy of vaccine. So we are across the board recommending that all people get vaccinated
+even if they have prior infection. All right. Now the period of detectable viral replication,
+this is going to be an exciting part. I'm looking for some emails. We had some very
+disturbing news, right? So this is the time for monitoring and monoclonals, not the time for
+antibiotics. But there was a bit of drama because a preprint that had been posted,
+suggesting that a randomized control trial demonstrated a 90% reduction in mortality and
+substantial in Ivermectin treated patients may have been something that never happened. So a London
+medical student named Jack Lawrence was the Woodward and Bernstein in this story, if people
+remember all the president's men. And he was investigating this preprint. And he discovered
+initially that the introductory section of the document appeared to have been almost entirely
+plagiarized and then run through a Thesaurus program. And it appears that the authors,
+they pulled entire paragraphs out of press releases and websites about Ivermectin.
+And then they changed these key words. The data appears to have been completely falsified.
+The tables in the article mathematically impossible. Apparently the study never happened.
+They just invented the study, invented the data, put it out there, really just a case of scientific
+fraud. So this data was part of a lot of these meta-analysis where people were saying,
+Oh, Ivermectin, it looks so promising. It's a crime to humanity that we're not using it when
+there's this study with a 90% mortality reduction. My hope is that all the people that have braced
+Ivermectin and are using it based on this kind of data will rethink their position and embrace
+the importance of honest scientific investigation. So now if someone is passionate about Ivermectin
+and they want to know, don't just make up data, don't just invent a study and put a preprint
+right now. And we've talked a little bit about this active sex, the COVID-19 study of repurposed
+medications is recruiting to properly study Ivermectin, fluvoxamine, and fluticosome. So
+if you're passionate, if you're excited about Ivermectin, you know, either enroll, direct your
+patients this way. We need good science, don't just make up science. All right.
+A little more information on the reliability of point of care rapid testing with the Abbott by
+next now with the publication of multidisciplinary assessment of the Abbott by next now SARS-CoV-2
+point of care antigen test in the context of emerging viral variants and self administration
+was published in nature scientific reports. And I know a lot of people I get, you know, at least
+every day, hey, do our tests still work against the Delta variant. You know, and I've talked a
+little bit about, you know, how it may go from these low level to high levels in hours instead of a
+day plus. And so what the authors here looked at the by next now, they looked at the Quidel
+Sophia to SARS test. They looked at the BD barator. They were all 100% concorded with RTPCR with
+CT values of less than 20. And then they started to lose sensitivity at higher CT values, or we
+translate that into lower RNA levels. So just a reminder, CT stands for cycle threshold. This
+is how many times you've got to run that PCR or that amplification before you get a positive
+signal. The higher the number of cycles, the lower amount of RNA that you started with.
+And as Vincent likes to point out, that's just RNA. That doesn't necessarily tell us about
+infectious virus. All right. And I think there's a correlation more in time than levels. So that's
+important. But what about this? You know, I get calls all the time. You know, is there one rapid
+test better than the other? And there are a lot of publications that come out and it seems like
+every time a publication comes out, I get a question. And just to give some context here,
+there are over 300 COVID-19 tests and collection kits authorized by the FDA. Over 200 molecular
+tests, we have 11 antigen tests. What about this? So the specificity, right? People say,
+Oh, well, not only are they're less sensitive, but they're less specific. If I get a positive
+on an antigen, I don't trust it as much. I'm going to say that if you get a positive test,
+the specificity of antigen tests is generally as high as our nucleic acid amplification tests,
+which means that a positive test on an antigen test is as reliable as a positive test on a PCR.
+There's a lot of experience, right? But just remember your prevalence of the community is
+going to help you interpret whether that positive test makes sensor or not. Now, what about
+sensitivity? Really straightforward. This is related to the amount of antigen that is present.
+If it's the first couple days that one to three days that corresponds with a CT value of less than
+20, as pointed out, we're getting sensitivities. We're getting concordance right up there at about
+100%. Once you get out to day seven, day eight, when that RNA level is dropping, when you're not
+really having much in the way of antigen, these tests are going to turn negative. So they're actually
+helpful when you think about what it's testing for. These are great at picking up that infectious
+period of time. They correspond with the infectious period of time. PCRs can sometimes stay positive
+for weeks for months. All right. And there was a really nice, I'm going to say Cochrane review,
+which they keep updating. Rapid point of care antigen and molecular-based tests for diagnosis
+of SARS-CoV-2. This is a 409-page document. So a nice light read. And it goes through different
+tests, their sensitivity and specificity at different CT levels. And so it's an excellent
+document. So don't let that latest publication shake your Earth, go ahead, look at this accumulation
+of data. Rapid point of care antigen tests have a role. That testing delay is leaving someone
+who's potentially infectious, wandering around, spreading it to others. All right. Another article
+on it describes that water is wet. Smart Chrysoplexus say. This is how antibacterial therapy is not
+helpful for the treatment of a virus. And this is the article effective oral azithromycin versus
+placebo on COVID-19 symptoms in outpatients with SARS-CoV-2 infection, a randomized control trial
+published in JAMA. And I think this is interesting. Some people think that, well, maybe the azithromycin
+will make my patient feel a little bit better. It does not. You're just, you know, inducing
+antibacterial resistance. So they did not see that antibiotics help viral infections.
+All right. We're getting near the end. So long COVID, right? I mentioned last time that post
+acute COVID syndrome. Apparently, when you're on a call with the CDC, they don't like the word.
+They don't like the phrase long COVID. They feel happier when you say packs. But I like long COVID
+because I think it actually points to something within the larger world of packs of post acute
+COVID syndromes. But what about the rest of the world? We talked about the U.S. and the UK.
+So we did see the article post discharge symptoms among hospitalized COVID-19 patients in Nigeria,
+a single center study, published in the American Journal of Tropical Medicine and Hygiene.
+And basically, what they were pointing out is this was a small study, but the majority of their
+discharged patients were actually having symptoms continuing for months after discharge.
+I know a lot of people, you know, were very focused on the U.S., but outside the U.S., things
+continue to be really difficult. There was a nice paper, COVID-19 therapeutics for low and
+middle-income countries, a review of candidate agents with potential for near-term use and impact.
+And this was actually, you know, I think what you would expect. You've got to think about the
+resources in the area relative, you know, injectable tools, expensive therapies are not going to
+be able to play as big a part in this area. And there was actually a nice article,
+COVID-19 in Africa, a lesson in solidarity published in Lancet. Actually, my friend,
+Dr. Titus DiBali from Malawi brought this to my attention. But just pointing out, you can't just
+send vaccines to these countries. The same complexity applies there. You've got to have needles,
+you've got to have syringes, you've got to have trained people, and you actually have
+vaccine hesitancy and an interest in education in these areas, just like you do in the United
+States and Western Europe in many parts of the world. So to get those vaccines into arms
+is going to require a pretty large effort. And I actually made Vincent record this a little
+earlier today, because I'm going to be talking with the Bill and Melinda Gates Foundation COVID-19
+Task Force later to talk a little bit about these challenges. So as I like to say, we are not safe
+until everyone is safe. And to conclude on that note, just a couple weeks left here
+for our campaign to support Foundation International Medical Relief of Children. So go to parasites
+without borders. Before the end of July, we will double your donation. We're going to try to get up
+to a level where we can double that $20,000 and give a full $40,000 to support Foundation
+International Medical Relief of Children's efforts throughout the world.
+Daniel, when I went to our new office this week, I walked in and the lady shouted,
+parasites is here. All right, time for some questions for Daniel. You can send yours to
+Daniel at microbe.tv Kevin writes his favorite public speakers are Barack Obama and Dr. Daniel
+Griffin. All right, he has a question about his grandfather's immunization status in February.
+He got mRNA vaccine four days later tested positive for COVID. Thanks to your advocacy. I got
+him monoclonal therapy infection passed. My grandfather had only mild disease following CDC
+recommendation. He waited three months before getting the second dose of the mRNA vaccine. Last
+time we checked CDC recommendation for someone in the same circumstances does not need to restart
+the vaccine schedule. However, we're a little concerned that perhaps his first dose did not
+prime his immune system as well. What are your thoughts? We'd like to think he's well immunized
+after natural infection and at least one good dose of mRNA vaccine, but we're not completely
+confident. Yeah, so this is a great question. I suspect we're in a good situation here, right?
+There was a period of time at least where the immune system was learning from that first infection
+before the monoclonals jumped in there. That is the current recommendation. There's a science
+and there's an equity side to this, right, where should we be giving third doses to people when
+so much of the world hasn't even had their first dose? So a situation like this, you're
+probably in good shape. What we have sometimes done is if there's doses that might end up in
+the trash because we've had a no show, an individual like this might look at the whole picture and
+try to make a decision there relative to that. But no, this is the recommendation we think that
+this individual is protected, definitely a lot better protected than someone who has had no
+vaccination. Frank writes, why do you not mention the use of daily rapid tests at school as a high
+quality method eliminating COVID without restricting socialization? A dollar per student per day is
+not a burden. If the answer is waiting for FDA approval and high volume manufacturing, we need
+to know that and put more pressure on representatives. No, so, and actually when I've talked about
+schools in camps, rapid testing, actually testing can be a really important part of your multi-layered
+approach to keeping the kids safe. One of the things I will throw out, I think this is important
+as a thought experiment, right? Let's say you've got all these layers of protection, you want it,
+you're looking to try to get those masks off, right? So those kids can be in person in school with
+masks off. Let's say you have a breakdown and in that class of 25 individuals, you miss, right?
+Because the sensitivity of the test, someone comes in on a Monday, it's negative, you test
+Tuesday, they're positive, you realize, okay, if everyone's wearing masks, you may not have had
+an exposure event, you may have actually been able to avoid that, you may be able to move
+forward with only that one person coming out of the school. So you got to sort of balance this
+issue, is wearing masks such a burden that you're willing to take the risk of exposure events and
+all those implications? Or are you okay wearing masks in certain settings? So should there be a
+failure of your layers that you're not pulling everyone out for the quarantine and everything
+that sort of follows from that. And Laura from New Mexico writes, as COVID infections continue
+to rise, is it advisable for a fully vaccinated person who ends up with an infection to get monoclonal
+antibody treatment? I live in a somewhat medically underserved area, keep notes on the recommended
+treatment approaches. Should I need to be an advocate for myself or a loved one? My immediate
+family and the majority of my regular contacts are fully vaccinated, but I want to be prepared
+for the uptick in cases that is starting. Yeah, it is the role of monoclonals is not impacted by
+prior vaccination. So if an individual who has risk factors for progressing to severe disease
+does test positive, go right ahead with the monoclonals. Remember, the vaccines are great,
+but nothing's 100%. We have had a few hundred people, so it's a one in a million chance of dying
+if you get COVID. We've also had some people, I hate to say at least there are reports of individuals
+who got infected after a vaccine and ended up in the hospital or got long COVID. Go ahead,
+get the monoclonals. There's no reason not to, they're sitting on shelves, they're paid for by the
+government. So go ahead. And that's COVID-19 clinical update number 72 with Dr. Daniel Griffin.
+Thank you, Daniel. Oh, thank you. And everyone be safe.

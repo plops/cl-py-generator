@@ -1,0 +1,1472 @@
+WEBVTT
+
+00:00.000 --> 00:06.880
+ This week in virology, the podcast about viruses, the kind that make you sick.
+
+00:10.240 --> 00:20.480
+ From Microbe TV, this is Twiv, this week in virology, episode 806 recorded on September 16th, 2021.
+
+00:21.200 --> 00:26.880
+ I'm Vincent Rackeniello, and you're listening to the podcast all about viruses. Joining me
+
+00:26.880 --> 00:34.400
+ today from New York, Daniel Griffin. Hello, everyone. This is clinical update number 80,
+
+00:35.680 --> 00:43.520
+ and I have a question for you at the onset here, Daniel. This is an easy one. In the past
+
+00:43.520 --> 00:47.520
+ week, since we've spoken, what are the numbers looking like in the New York area?
+
+00:49.600 --> 00:53.440
+ The case numbers, and I think you could say this across the country, if you look at numbers,
+
+00:53.440 --> 00:59.760
+ we seem like we've sort of crested a little bit of a hump as far as cases. You look at deaths
+
+00:59.760 --> 01:07.280
+ nationally, not great, but again, we sort of talk about that lagging indicator. Here in the New
+
+01:07.280 --> 01:14.960
+ York area, and I'll kind of hit on this, we've been seeing only deaths about 40, 44, sort of
+
+01:14.960 --> 01:21.600
+ right around 40, low 40s. You can just think of how different that was from deaths back above
+
+01:21.600 --> 01:29.520
+ 2000 a day in the New York area. So I will say, the hospitals, a few COVID cases in the hospitals,
+
+01:30.160 --> 01:34.560
+ in a highly vaccinated population, particularly in Nassau County, where I see a lot of folks,
+
+01:35.680 --> 01:44.400
+ vaccines have transformed COVID from an ICU from a hospital disease to a largely outpatient disease.
+
+01:44.400 --> 01:51.280
+ I had a call yesterday from a clinician colleague of mine, and he's saying, you know, Dan, I just
+
+01:51.920 --> 01:55.120
+ not feeling so great. I think it's just a call. I call my doctor, and he said, oh, it just sounds
+
+01:55.120 --> 02:01.280
+ like a common cold. And I'm like, really, like maybe a common cold coronavirus, like SARS-CoV-2,
+
+02:01.280 --> 02:06.320
+ after two shots of an mRNA vaccine. He's like, no, no, I talk to the doctor, and he doesn't
+
+02:06.320 --> 02:13.920
+ sound like COVID. And I said, you know, according to my good friend, Lisa Santoriello, it's a viral
+
+02:13.920 --> 02:18.480
+ disease. You realize that it can present just like a viral disease. The only way to tell whether or
+
+02:18.480 --> 02:23.840
+ not what you have is COVID or not is to go get a test. And Vincent, can you guess what that test
+
+02:23.840 --> 02:32.640
+ showed? I think it showed he was positive for SARS-CoV-2. Yes. So yes, it was positive, and you know,
+
+02:32.640 --> 02:38.000
+ then he went ahead and test his wife, his family, and you know, and it's not going to be coming
+
+02:38.000 --> 02:42.240
+ and doing consults with me for a little while till he finishes his isolation for the infected
+
+02:42.240 --> 02:48.560
+ period. You know, that's interesting. But so in immunized people, it can present like a common
+
+02:48.560 --> 02:53.120
+ cold, which is what the common cold coronas do in a largely immune population, right?
+
+02:53.680 --> 02:57.120
+ It's really interesting, you know, and I know we've talked about this from the beginning, right?
+
+02:57.120 --> 03:02.560
+ So if you got exposed to SARS-CoV-2 when you were younger, you know, would that, you know, be sort
+
+03:02.560 --> 03:06.880
+ of different later in life, you know, sort of, you know, will, is this what will happen? Let's say
+
+03:06.880 --> 03:11.440
+ parts of the world that have not been getting vaccines, you know, and what do we do sort of in
+
+03:11.440 --> 03:16.400
+ the future? In the future, a lot of young kids, let's say in the first few years of life,
+
+03:17.040 --> 03:22.960
+ get infected with SARS-CoV-2. What will sort of the future be there versus what we see now? Because
+
+03:22.960 --> 03:28.480
+ I think we talked about with the other, the non-SARS-CoV-2, the common coronaviruses,
+
+03:29.280 --> 03:34.080
+ you know, and I want people to quickly think and they name those. By the time you're six years old,
+
+03:34.080 --> 03:40.320
+ the majority of us have been infected. So it tends to be in that first like, you know, under five,
+
+03:40.320 --> 03:45.040
+ so be interesting to see over time. But, you know, I always like to say too to put that in context,
+
+03:45.040 --> 03:49.360
+ vaccines are like sunblock, right? You can't get vaccinated and then lay there on the beach at
+
+03:49.360 --> 03:54.960
+ the tropics naked all day, you know, they reduce our chances. And so my colleague is fortunate
+
+03:54.960 --> 03:58.720
+ that for him it was a mild case. But unfortunately, you know, when we hear the death numbers,
+
+03:58.720 --> 04:02.560
+ a few of those deaths every day, a number of those deaths every day, are in the vaccinated
+
+04:02.560 --> 04:07.680
+ who have other risk factors who couldn't mount that robust immune system. All right, let's start
+
+04:07.680 --> 04:14.720
+ with my quotation and I don't know if people know I am recording this on Yam Kapoor. And it is,
+
+04:14.720 --> 04:22.720
+ it will not be sundown until 701 here in New York. So my son Barnaby has some friends. He calls it
+
+04:22.720 --> 04:29.120
+ an intimate gathering daddy. It's just a few of us. It's not a super spreader event. So, you know,
+
+04:29.120 --> 04:34.480
+ we were basically figuring out that they were not allowed to eat until 701. And my wife was like,
+
+04:34.480 --> 04:39.600
+ but they're boys. I'm like, they can wait. They can wait. So for those of you who, you know,
+
+04:39.600 --> 04:45.120
+ I guess listen to this on Saturday, I hope that your fast was a good and gentle one.
+
+04:46.640 --> 04:54.720
+ But our quotation from Eli Weisel, the opposite of love is not hate. It's indifference. The opposite
+
+04:54.720 --> 05:01.040
+ of art is not ugliness. It's indifference. The opposite of faith is not heresy. It's indifference.
+
+05:01.040 --> 05:06.960
+ And the opposite of life is not death. It's indifference. When I graduated medical school,
+
+05:06.960 --> 05:13.360
+ Eli Weisel was still alive and actually spoke at Carnegie Hall at our medical school graduation
+
+05:13.360 --> 05:19.040
+ from NYU. And maybe as we get a little farther, I might throw in a little bit of the wisdom that
+
+05:19.040 --> 05:25.200
+ he shared. You know, at the time it ruffled my feathers, so to speak, in my young arrogant,
+
+05:25.200 --> 05:31.120
+ you know, finishing medical school, but really a wise man and a loss that he's no longer with us.
+
+05:31.120 --> 05:38.160
+ All right. You know, the update, I gave a little bit of an update right there, but I'm actually
+
+05:38.160 --> 05:45.120
+ going to go ahead and introduce a preprint right here in my update because I think it introduces a
+
+05:45.120 --> 05:49.280
+ really important concept when we're trying to understand what is going on around us.
+
+05:50.240 --> 05:58.160
+ And this was the preprint, the COVID-19 hospitalization metric in the pre and post vaccination eras
+
+05:58.160 --> 06:05.680
+ as a measure of pandemic severity, the retrospective nationwide cohort study. Now there was actually,
+
+06:05.680 --> 06:12.240
+ I think it was an Atlantic article that discussed this and I spoke to the author before he published
+
+06:12.240 --> 06:19.120
+ his piece. But here in this preprint, the author suggests that there may be limitations at just
+
+06:19.120 --> 06:25.120
+ looking at hospital numbers if one does not ask for a little more detail or dare I say nuance.
+
+06:25.120 --> 06:31.120
+ This was, I think, a really smart, really clever the way these researchers went about trying to
+
+06:31.120 --> 06:36.000
+ look at this data. So the investigators used the electronic records from the healthcare system
+
+06:36.000 --> 06:44.640
+ of the US Department of Veteran Affairs and looked for March 1, 2020 through June 30, 2021.
+
+06:44.640 --> 06:56.800
+ And they included 47,742 admissions. They then identified 38,508 unique patients with laboratory
+
+06:56.800 --> 07:05.520
+ confirmed SARS-CoV-2. And then a subset of this, they identified 28,731 that met the criteria for
+
+07:05.520 --> 07:12.640
+ moderate to severe COVID-19. Now what does that mean? They defined moderate to severe, I'm going to
+
+07:12.640 --> 07:19.760
+ say properly defined, moderate to severe COVID-19 disease, as a person who has a documented
+
+07:19.760 --> 07:26.400
+ oxygen saturation of less than 94%. So they were looking at these inpatient hospitalizations,
+
+07:26.400 --> 07:30.800
+ they were able to look through and see if they could find that that occurred during the admission.
+
+07:31.600 --> 07:36.880
+ And then they really looked at what percentage of these COVID-19 folks that were hospitalized
+
+07:36.880 --> 07:42.640
+ actually had this criteria, right? And we've talked about this before. You have to be careful
+
+07:42.640 --> 07:47.600
+ with geography. We talked about ICU. And putting someone in the ICU, there's a different threshold,
+
+07:47.600 --> 07:52.240
+ I'll say here in the New York Tri-State area, than there was, for instance, at my first job when
+
+07:52.240 --> 07:57.600
+ I was working at the VA in Helena, Montana. It was just me. It was the only guy there, the entire
+
+07:57.600 --> 08:04.880
+ weekend, 100-bed hospital. People ended up in the ICU for closer observation with a lower threshold.
+
+08:04.880 --> 08:07.600
+ I say, you didn't want to know. Are they in the ICU or not? You want to know, like, well,
+
+08:07.600 --> 08:11.600
+ why are they in the ICU? Are they in the ICU because it's done all by himself or are they in the ICU
+
+08:11.600 --> 08:17.920
+ because they really require that higher level of care? And what they report here is that prior
+
+08:17.920 --> 08:26.560
+ to January 2021, right? So prior to when vaccines became available, 64% of folks admitted to the VA
+
+08:27.440 --> 08:34.400
+ had that moderate to severe, had a documented saturation less than 94 versus 52%. So it fell
+
+08:34.400 --> 08:41.520
+ about 12% in this later period. Most strikingly, if you look at the vaccinated patients,
+
+08:41.520 --> 08:49.440
+ only 42.6%. So the minority of the vaccinated admissions had an oxygen saturation less than 94%.
+
+08:50.640 --> 08:58.880
+ And only a 15.8% of those admitted vaccinated patients were sick enough that their physicians
+
+08:58.880 --> 09:06.560
+ felt it was warranted to administer dexamethasone. So I think this has been sort of taken both ways
+
+09:07.280 --> 09:12.960
+ on social media, apparently. Some people say, you're minimizing COVID. But what I think this
+
+09:12.960 --> 09:19.440
+ actually is a reinforcement of the efficacy of vaccines like we talked about with my colleague,
+
+09:19.440 --> 09:25.200
+ not all COVID-19 hospitalizations are the same. So if an individual gets vaccinated,
+
+09:25.200 --> 09:29.760
+ they end up in the hospital, oh, my gosh, they must be so sick. Well, if their oxygen saturation is
+
+09:29.760 --> 09:36.560
+ above 94%, they're there just for a 48 hour, you know, quick stay, not much more than observation.
+
+09:36.560 --> 09:42.240
+ That is so much different than somebody ending up on high-fellow oxygen ending up in the ICU. So
+
+09:43.120 --> 09:48.080
+ again, nuance when we look at those hospitalization rates, we want to really be asking, you know,
+
+09:48.080 --> 09:52.800
+ what are we seeing here? Why are people being hospitalized and sort of getting that nuance there?
+
+09:52.800 --> 10:01.520
+ But I will say, death is death, right? Despite all the nuance here, if you go ahead and you look at the
+
+10:02.080 --> 10:07.760
+ at the world-o-meter dashboard, you know, how are we doing there? And I actually looked, you
+
+10:07.760 --> 10:15.600
+ know, we could go and we recorded TWIV clinical update 79 that day over 2000. So 2,107 people had
+
+10:15.600 --> 10:21.200
+ died that day. And if you go back to September 9th, you go back about a year ago, that number was
+
+10:21.200 --> 10:27.920
+ 1,072. So that's twice that number. But then if you look a little bit, again, a little granular,
+
+10:27.920 --> 10:31.760
+ if you look at places with high vaccination rates, like here in New York, as Vincent and I were
+
+10:31.760 --> 10:38.560
+ discussing, we're seeing about 40 deaths a day, right? If you go to Texas, you can imagine that
+
+10:38.560 --> 10:45.280
+ count is much higher. And I just checked right before we recorded this. So yesterday, so not
+
+10:45.280 --> 10:53.360
+ September 15th, 2,284 deaths for just one day. This is the issue, right? If you roll, if you
+
+10:53.360 --> 10:58.080
+ remove the masks, remove all the non-pharmaceutical interventions, and you still have a large, and we
+
+10:58.080 --> 11:03.440
+ still have a chunk of our population that is unvaccinated. Children, COVID, and mental health, right?
+
+11:03.440 --> 11:08.160
+ Children are at risk for COVID, wearing a mask is less traumatic for a child than being hospitalized.
+
+11:08.160 --> 11:14.800
+ You know, I went ahead and I looked at, and as I've sort of mentioned, the CDC has tracking the
+
+11:14.800 --> 11:21.520
+ American Academy of Pediatrics has tracking. We're still seeing just an unacceptable number
+
+11:21.520 --> 11:28.480
+ of children being infected here in the US per week. We're still in sort of that quarter million
+
+11:28.480 --> 11:34.880
+ a week level. Now, I should say, so I'm part of this COVID kids consortium that was organized by
+
+11:34.880 --> 11:39.440
+ Christie Short. She's a virologist down in Australia. I don't know if you mentioned you may know her.
+
+11:40.080 --> 11:45.520
+ And this was sort of an interesting international group that Dr. Short put together. And our goal
+
+11:45.520 --> 11:50.800
+ here is to provide meaningful data on COVID in children and adolescents, and really to look at
+
+11:50.800 --> 11:57.200
+ not only high, but middle, low income countries with all the different quality data challenges
+
+11:57.200 --> 12:01.760
+ in different settings. But after this last meeting, I was forwarded a pre-print, which I share with
+
+12:01.760 --> 12:07.760
+ Vincent. I share with Amy. I asked a couple of other folks to look at this. And the pre-print
+
+12:07.760 --> 12:15.440
+ was biological features of SARS-CoV-2 infection in children. And this pre-print certainly will
+
+12:15.440 --> 12:20.960
+ benefit from the peer review process. I mean, there's a couple sort of painful things. They equate
+
+12:20.960 --> 12:26.960
+ viral RNA copy number with viral load. I think we've been trying to point out that those are
+
+12:26.960 --> 12:34.160
+ not equivalent. They do viral culture. They do assessment of sideopathic effects. They report
+
+12:34.160 --> 12:40.160
+ semi-quantitative viral titers. And I thought it was worth a review and I look forward to it
+
+12:40.160 --> 12:45.360
+ improving. But you know, some of the interesting things in here, the youngest kids do not have
+
+12:45.360 --> 12:52.160
+ lower RNA copy numbers as assessed by RT-PCR. Lower age kids were not less likely to have
+
+12:52.160 --> 12:57.680
+ cultural virus. It was really mostly in those first five days after symptom onset that virus
+
+12:57.680 --> 13:03.440
+ could be cultured. The anterior nary samples looked like that was fine, right? We've talked about
+
+13:03.440 --> 13:08.160
+ that before. So in a lot of ways, it's sort of confirming a lot of things that we've been saying,
+
+13:08.160 --> 13:14.480
+ just really dispelling a lot of these early myths. But then maybe a few takeaways. You can in these
+
+13:14.480 --> 13:18.240
+ children, particularly if you're going to be doing serial sampling, you can do the anterior
+
+13:18.240 --> 13:24.080
+ naries. You do not need to do that beautiful, potentially painful, and traumatizing deep,
+
+13:24.080 --> 13:31.440
+ blind, middle-turbinate brain biopsy swab. But again, this sort of supports, I think,
+
+13:31.440 --> 13:36.080
+ that we really need to understand what's going on in children. And they're not some special class
+
+13:36.080 --> 13:41.600
+ that when exposed does not get the virus. Children can get infected. Children can have
+
+13:41.600 --> 13:47.520
+ replication-competent virus at high levels. So this is update 80. So hopefully something
+
+13:47.520 --> 13:54.160
+ a little special here. The pre-exposure period, right? This is when we're all worried about
+
+13:54.160 --> 14:01.280
+ transmission, exposure, what can we do? And I always say never miss an opportunity to test. And now,
+
+14:01.280 --> 14:07.680
+ again, masks are cool. Hopefully people remember that because the CDC updated their mask guidance
+
+14:07.680 --> 14:13.040
+ with some really nice graphics. And I have to say, it's still shocking to me that this far into
+
+14:13.040 --> 14:19.440
+ the pandemic, people are still wearing masks incorrectly. I find when I walk around, I need
+
+14:19.440 --> 14:23.520
+ to ask people, do we need to get you a lighter mask? It seems to be falling down. We need the
+
+14:23.520 --> 14:29.840
+ kind with the helium to keep it above your nostrils. So just a little refresher here. And I'm actually,
+
+14:29.840 --> 14:33.360
+ when we get to the end here, I'm going to bring out some samples. So maybe this will be the time
+
+14:33.360 --> 14:38.720
+ people want to tune into YouTube to see some of the masks. So we talk about masks, but really what
+
+14:38.720 --> 14:44.480
+ we're talking about and what the CDC highlights on their updated guidance, go to cdc.gov.
+
+14:45.360 --> 14:51.920
+ Types of masks is sort of the end of the URL. And they talk about masks, right? These are designed
+
+14:51.920 --> 14:57.920
+ to contain your respiratory droplets and particles. They're really source control. They provide only
+
+14:57.920 --> 15:04.320
+ some protection for you, really mainly they're protecting others. I've used the surgeon analogy.
+
+15:04.320 --> 15:08.880
+ He's got that. So he doesn't cough, spit, or infect the wound. He's not so much protecting
+
+15:08.880 --> 15:13.920
+ himself and the patient. And the other side, respirators, right? We throw them in with masks.
+
+15:14.720 --> 15:21.600
+ But these are really designed to protect the wearer from particles. And this is going to be
+
+15:21.600 --> 15:28.960
+ something I will go through. They repeatedly in their guidance here, reference, nose wires, right?
+
+15:28.960 --> 15:34.480
+ You want this mask to fit you properly. And maybe this is an opportunity. I would say this is
+
+15:35.360 --> 15:39.840
+ mainly sort of started off as physicians listening. But every time you see a patient,
+
+15:39.840 --> 15:46.400
+ here's your opportunity to teach them how to properly adjust that nose wire so that it fits
+
+15:46.400 --> 15:51.440
+ properly. When I show the little props later, you can actually add a nose wire to a lot of masks.
+
+15:51.440 --> 15:56.560
+ You can order these iron on. But you really want to make sure this fits properly. And they also
+
+15:56.560 --> 16:02.960
+ come in a little bit about facial hair. We almost need Dixon here to show the issue with excessive
+
+16:02.960 --> 16:08.880
+ facial hair, not just with masks, but also, you know, scratchy microphone issue. But I'm also
+
+16:08.880 --> 16:13.600
+ going to do a little bit of a shout out for an organization. You know, they were talking about
+
+16:13.600 --> 16:19.600
+ masks before anyone else was, perhaps. And this is an organization called the American Conference
+
+16:19.600 --> 16:27.360
+ of Governmental Industrial Hygienesis, the A-C-G-I-H. And this organization is a 501c3. They've been
+
+16:27.360 --> 16:33.440
+ around for over 80 years focusing on the advancement of occupational environmental health. And they
+
+16:33.440 --> 16:37.520
+ actually have a really, I thought sort of a nice graphic where you get to add, you know,
+
+16:37.520 --> 16:42.000
+ what if people around me are wearing masks? What if I'm wearing masks? What about the different
+
+16:42.000 --> 16:47.520
+ masks? Sort of where does that put me from a safe point of view? But with that said, I'm going to
+
+16:47.520 --> 16:53.440
+ reach behind me and grab my props vents. And I have several masks behind me. And they're looking
+
+16:53.440 --> 16:58.720
+ at this CDC site and they have a page of all the different kinds of facial hair you could have.
+
+16:59.280 --> 17:03.760
+ I didn't know. Isn't that great? I mean, you didn't realize all your options. So,
+
+17:03.760 --> 17:07.520
+ I don't know if people are going to come away with a better understanding of the impact on
+
+17:07.520 --> 17:14.880
+ masks or like new ideas for, you know, personal appearance. So, let me start off with sort of
+
+17:14.880 --> 17:21.120
+ the bottom of the heat, my so-called, this is my cloth mask without a nose wire. So, I,
+
+17:22.560 --> 17:26.880
+ and you can see I put that on. Maybe there's a little bit of decrease, but there's a lot of
+
+17:26.880 --> 17:32.560
+ air coming up around the nose. So, we have our cloth mask. Now, our cloth masks are probably our,
+
+17:32.560 --> 17:38.080
+ we'll say, least effective source control, least effective protection, right? So, that's our cloth
+
+17:38.080 --> 17:44.480
+ mask. But the cloth mask can actually be improved by adding a nose wire and making sure that the
+
+17:44.480 --> 17:54.400
+ mask is fitted better to your face. So, this is our famous Dr. Who. Masks are cool. And you can see
+
+17:54.400 --> 17:58.400
+ here, if you're watching on YouTube, that there is this nose wire. You may want to go over to the
+
+17:58.400 --> 18:02.880
+ mirror. You want to make sure that nose wire is bent so it goes sort of in and then flares out
+
+18:02.880 --> 18:07.200
+ so you get a nice seal at the top. This is one of those examples you can put on your reading
+
+18:07.200 --> 18:13.120
+ glasses, for instance. And you shouldn't see much of a fog, right? And as we go later, we'll try
+
+18:13.120 --> 18:20.240
+ that again with some other masks. Now we move up, right? Those are truly masks. What is our last
+
+18:20.240 --> 18:28.640
+ mask in the heap? And this is our surgical mask. And these are actually a material that actually has
+
+18:28.640 --> 18:34.240
+ improved ability to create local source control. Again, it has the nose wire. Bring this up.
+
+18:36.400 --> 18:41.680
+ And this is what you'll notice that physicians, that surgeons, that healthcare workers, nurses,
+
+18:41.680 --> 18:46.080
+ nurses, a, it's really a lot of folks in the hospital wearing these almost at all times. A
+
+18:46.080 --> 18:50.400
+ lot of hospitals, you have to wear them. I say almost at all times because people love to pull
+
+18:50.400 --> 18:56.800
+ them off to speak and generate droplets, which, you know, I walk away quickly. And then we move
+
+18:56.800 --> 19:06.320
+ from masks to respirators. The first is the KN95. And I know I've talked about this quite a bit.
+
+19:06.320 --> 19:16.880
+ And you can see here, this is a KN95. It also has the built in metal. So again, you need to
+
+19:16.880 --> 19:22.160
+ shape this can't just pop it on your face. And this actually creates a fairly reasonable
+
+19:23.440 --> 19:30.720
+ seal. But again, this is a KN95. This does not necessarily meet US NIOSH standards, right? So
+
+19:30.720 --> 19:37.360
+ the National Institute for Occupational Safety and Health. When we've studied these, which are
+
+19:37.360 --> 19:42.560
+ actually approved, so the KN95 are sort of approved by, well, not kind of, they are approved by the
+
+19:42.560 --> 19:52.240
+ Chinese, they are not quite as effective as the N95s. The N95s, let's hit that. And I have a
+
+19:52.240 --> 19:58.160
+ couple here before we move on. So this first one here, and healthcare workers that are using
+
+19:58.160 --> 20:03.360
+ N95s, these are actually fitted. We actually get tested. Since I work at several hospitals,
+
+20:03.360 --> 20:12.960
+ I get tested everywhere. And you can see there the strap actually broke as I put this on. They're
+
+20:12.960 --> 20:18.480
+ not, they're not necessarily designed for multi-use. These fit really close. And you'll actually
+
+20:18.480 --> 20:25.040
+ notice that if I put my glasses on, not much fogging, right? And these are actually often
+
+20:25.040 --> 20:31.840
+ designed, I'll pull this off, to vent the air away so it doesn't. And we have several options.
+
+20:31.840 --> 20:38.960
+ Here's another one, sort of a flat duck bill, the 3M. This is my favorite. The N95s, these are
+
+20:38.960 --> 20:44.080
+ actually made up to a highest standard. And now I have to say, to be honest, we have these made
+
+20:44.080 --> 20:49.200
+ in the US. Supplies are better. Maybe I should say N95s, they're not just for healthcare workers
+
+20:49.200 --> 20:54.560
+ anymore, echoing the serial commercials. But those are our choices. And I think this far into the
+
+20:54.560 --> 21:00.720
+ pandemic, it's pretty obvious not only that masks work, but I think it's really critical
+
+21:00.720 --> 21:05.920
+ that we understand masks, respirators, how to use them. And if you see a friend,
+
+21:06.800 --> 21:11.760
+ or an enemy, or someone in between, not properly wearing that mask, you know, feel free to sort of
+
+21:11.760 --> 21:16.400
+ help them. It's like someone with a crooked bow tie. I am sure they want you to help them out.
+
+21:16.400 --> 21:25.920
+ And again, in the string of points making a line, we had another MMWR looking at the effectiveness
+
+21:25.920 --> 21:33.600
+ of masks. And this was the MMWR report, SARS-CoV-2 transmission to masked and unmasked close
+
+21:33.600 --> 21:40.880
+ contacts of university students with COVID-19, St. Louis, Missouri, January through May 2021.
+
+21:40.880 --> 21:47.920
+ And just briefly, in this MMWR, they compared only masked exposures with close contacts
+
+21:47.920 --> 21:53.200
+ with unmasked exposures, right? So you're exposed to someone who has SARS-CoV-2.
+
+21:55.680 --> 22:00.720
+ What happens if you get exposed to someone as a mask or is unmasked? So this is source control.
+
+22:01.440 --> 22:08.720
+ That unmasked every one of those unmasked exposures, they found a higher adjusted odds of a positive
+
+22:08.720 --> 22:14.960
+ test. Each additional exposure was associated with a 40% increase in odds of a positive test.
+
+22:14.960 --> 22:20.640
+ So just people keep asking like, oh, where's the data on masks? Lots of data. There's lots of
+
+22:20.640 --> 22:27.440
+ points here in the line. All right, so moving away from masks back to testing, perhaps one of my
+
+22:27.440 --> 22:34.640
+ favorite topics, daily testing or contacts of individual with SARS-CoV-2 infection and attendance
+
+22:34.640 --> 22:41.360
+ and SARS-CoV-2 transmission in English, secondary schools and colleges, an open label, cluster,
+
+22:41.360 --> 22:47.600
+ randomized trial. And I think we may have discussed this in pre-perform, but here it is, peer-reviewed.
+
+22:48.400 --> 22:54.880
+ And this is a paper looking at test to stay versus the quarantine approach, right? So you have an
+
+22:54.880 --> 23:00.880
+ individual who's had an exposure, you say, oh, you got to stay home for 10 or 14 days, or you say,
+
+23:00.880 --> 23:05.840
+ you know what, you can keep coming to school. We're just going to test you every day. How well does
+
+23:05.840 --> 23:12.720
+ the test to stay work in this study? So this involved 201 schools in England. They randomly
+
+23:12.720 --> 23:20.960
+ assigned 201 schools, and there were 99 in the control group. There were 102 in the intervention
+
+23:20.960 --> 23:28.960
+ group. This was a 10-week study from April 19th to May 10th of 2021. And then it continued into a
+
+23:28.960 --> 23:36.000
+ pre-appointed stop date, June 27th, 2021, right? Get your 10 weeks. At the end of the day, not
+
+23:36.000 --> 23:43.360
+ everyone participated, but 76 control group schools and 86 intervention group schools actively participated.
+
+23:44.720 --> 23:54.400
+ There were 59.1 per 100,000 symptomatic PCR confirmed cases in control, 61.8 per 100,000 per week in
+
+23:54.400 --> 23:59.840
+ the intervention group. So not a significant difference. So again, demonstrating the ability
+
+23:59.840 --> 24:07.520
+ of these rapid lateral flow tests to actually perform very well in a test to stay school program.
+
+24:07.520 --> 24:11.280
+ Because I think this is going to be a big issue in the future, right? You know, everyone is worried,
+
+24:11.280 --> 24:15.200
+ if we do all these tests, we're going to have all these kids missing school when they don't need
+
+24:15.200 --> 24:21.680
+ to. This is a way to say we can test, and then we can actually continue to test, and we can
+
+24:21.680 --> 24:28.240
+ get people staying in school, continuing to have those educational opportunities in a safe environment.
+
+24:29.280 --> 24:36.160
+ All right. Active vaccination. We're still in that pre-exposure period. Never miss an
+
+24:36.160 --> 24:40.400
+ opportunity to vaccinate. Vaccination is how this pandemic ends. And I added a new one. And
+
+24:40.400 --> 24:44.880
+ this is sort of, I feel like I'm channeling you, Vincent, vaccines, the jabs that keep you from
+
+24:44.880 --> 24:53.920
+ getting sick. And I wanted to talk a little bit about vaccine conversations, right? So back to Eli
+
+24:53.920 --> 24:59.200
+ Wiesel. You know, one of the things that he told me, you know, when I was there at Carnegie Hall,
+
+24:59.200 --> 25:04.480
+ I'll, you know, full of myself because I just got my MD degree. And he said, you know what,
+
+25:04.480 --> 25:09.120
+ I know you guys, you think you know it all, but the first thing I want to impress upon you,
+
+25:09.760 --> 25:14.160
+ listen to your patients. And I think that's the big thing. When we have someone who comes in and
+
+25:14.160 --> 25:18.800
+ sees us and they have been vaccinated, that's not the time to scold. That's not the time to tell
+
+25:18.800 --> 25:23.680
+ them how smart you are and how much you know, that's the time to listen, right? And I think this is
+
+25:23.680 --> 25:28.880
+ going to be more important because as we look in the coming weeks, vaccines potentially moving
+
+25:28.880 --> 25:34.480
+ into younger ages, the antibactors are going to be on their home turf here, right? They've got all
+
+25:34.480 --> 25:41.040
+ their arguments ready to go and they just need to pop, you know, something new in. So listen,
+
+25:41.040 --> 25:46.960
+ find out what the concerns are. Let's let's really focus on people who have questions. There's a
+
+25:46.960 --> 25:52.480
+ certain crowd, you know, and I think sort of going back to Eli Weisels, which maybe we just
+
+25:52.480 --> 25:57.040
+ don't need to engage. We need to spend our time and resources on those people that are interested
+
+25:57.040 --> 26:02.960
+ that have questions that are not really there just to anyway. Okay, so now a little bit about
+
+26:02.960 --> 26:08.560
+ hybrid immunity. I like this preprint. So this is a preprint, high genetic barrier to escape
+
+26:08.560 --> 26:16.240
+ from human polyclonal SARS-CoV-2 neutralizing antibodies posted as a preprint. And here the
+
+26:16.240 --> 26:24.000
+ researchers used an HIV-1 pseudotyped variant system with a synthetic poly mutant spike that
+
+26:24.000 --> 26:30.080
+ they generated by aggregating variant of concern associated and plasma selected spike mutations
+
+26:30.080 --> 26:36.720
+ into a single poly mutant spike protein. Quite a mouthful, right? And actually I have to say this
+
+26:36.720 --> 26:42.000
+ was sort of similar to the work that I was doing actually just not too far from Vincent's office
+
+26:42.000 --> 26:47.920
+ before the pandemic started. But using this system, they were able to show that 20 naturally
+
+26:47.920 --> 26:54.480
+ occurring mutations in SARS-CoV-2 spike were sufficient to confer near complete resistance to
+
+26:54.480 --> 27:01.360
+ the polyclonal neutralizing antibodies generated by convalescence and mRNA vaccine recipients, right?
+
+27:01.360 --> 27:07.680
+ So you put these 20 mutations in the spike and if you had an infection in the past where you had
+
+27:07.680 --> 27:15.680
+ a couple doses of the MNR vaccine, your plasma actually was not able to neutralize this. However,
+
+27:16.640 --> 27:22.720
+ and in this discovery, plasma from individuals who'd been infected and then got the mRNA vaccine,
+
+27:23.600 --> 27:29.920
+ they were able to neutralize not only SARS-CoV-2 but also diverse other viruses in the same
+
+27:29.920 --> 27:34.960
+ coronavirus family. So let's just translate this a little because I think this could be
+
+27:34.960 --> 27:40.960
+ quite something. This is first of all, it's about neutralizing antibodies and changes in the spike
+
+27:40.960 --> 27:45.680
+ protein, right? So it's not the whole complete picture looking at T cells, which we think are
+
+27:45.680 --> 27:52.480
+ less sensitive to changes in spike. The researchers went ahead and they defined these 20 changes in
+
+27:52.480 --> 27:58.160
+ the spike protein, ending up this near complete resistance to these neutralizing antibodies.
+
+27:58.160 --> 28:04.480
+ And either people had COVID infection or people that got the Pfizer or the Moderna vaccines,
+
+28:04.480 --> 28:10.320
+ the co-mariniti or the spike vaccine. They say mutations, but we're really dealing with amino
+
+28:10.320 --> 28:15.440
+ acid changes, so the mutations in the genetic code that led to amino acids which changed the
+
+28:15.440 --> 28:22.880
+ spike protein. Now they did show this, I think, rather interesting COVID first than two doses of
+
+28:22.880 --> 28:28.880
+ mRNA vaccines. But there were really, I thought, I'm going to say four interesting questions and
+
+28:28.880 --> 28:34.400
+ I'm hoping the reviewers asked them to address these prior to full publication. What about people
+
+28:34.400 --> 28:41.600
+ who were vaccinated and then got an infection? Like I described my colleague, what does the
+
+28:42.480 --> 28:47.280
+ antibodies from that individual look like? The next, and I think this is sort of time sensitive,
+
+28:47.280 --> 28:51.440
+ what about an individual that gets that booster, right? We're talking about boosters and certain
+
+28:51.440 --> 28:57.360
+ individuals getting those. What about someone who got a booster and then got infected? I think
+
+28:57.360 --> 29:02.960
+ that's an interesting is that we're sort of weighing now if we give boosters versus exposure. Are we
+
+29:02.960 --> 29:09.600
+ risking trouble with boosters? Original antigenic sin or the butterfly effect? So I'm going to leave
+
+29:09.600 --> 29:14.640
+ that for a deeper dive with maybe our immune colleagues. And then, of course, what about those
+
+29:14.640 --> 29:22.240
+ folks that got the J&J vaccine? So the red-headed stepchildren, they feel left out. What about people
+
+29:22.240 --> 29:29.200
+ that got the J&J? How are they doing? And of course, boosters. We can't not mention boosters,
+
+29:29.200 --> 29:33.520
+ but that's all I'm going to do here is just mention boosters. There was a very well-written
+
+29:33.520 --> 29:39.200
+ and referenced viewpoint piece in the Lancet, considerations in boosting COVID-19 vaccine
+
+29:39.200 --> 29:44.640
+ immune responses. And what I'm going to do here is I'm going to suggest that people not only take
+
+29:44.640 --> 29:50.800
+ the time to read this brief three-page piece, but also go ahead and listen to TWIV 805.
+
+29:51.520 --> 29:56.720
+ I really, Vincent, you guys did a great job of walking through kind of the questions, the issues
+
+29:56.720 --> 30:03.920
+ there. The FDA will have actually met prior to this dropping on Saturday. But really, I thought
+
+30:03.920 --> 30:09.840
+ this piece outlined a lot of the questions. I mean, the FDA wants their decisions, their
+
+30:09.840 --> 30:14.880
+ recommendations to be driven by the science. And I think a lot of those questions about boosters,
+
+30:16.240 --> 30:19.440
+ one is, is there really waning immunity that we're concerned about?
+
+30:20.000 --> 30:27.440
+ Two, if you give people a booster, is there a benefit? What is the safety profile? Who has the
+
+30:27.440 --> 30:34.400
+ best risk benefit should boosters be given out there? We're doing it now to individuals who have
+
+30:34.400 --> 30:39.600
+ immune suppression. So, you know, organ transplant recipients, people with that sort of level of
+
+30:39.600 --> 30:46.720
+ immune suppression. We know the antibodies go up. We need to know, is it more than that? Is this
+
+30:46.720 --> 30:52.880
+ really effective? And we can talk about that. Passive vaccination, right? Just to close out our
+
+30:52.880 --> 31:00.400
+ pre-exposure period of time, remember, monoclonals after high-risk exposures in high-risk people.
+
+31:01.440 --> 31:08.080
+ But now we move to the period of viral replication. It's gotten through, and now the individual is
+
+31:08.080 --> 31:15.120
+ actually infected. And during the viral symptom phase, I say the time for monitoring and monoclonals,
+
+31:15.120 --> 31:20.240
+ not the time for antibiotics, and not the time for steroids. And I'm going to hit a little bit
+
+31:20.240 --> 31:24.160
+ on steroids after I just sort of bring people up to date on what's going on with monoclonals.
+
+31:25.440 --> 31:30.160
+ People have finally fully embraced monoclonals. And now, for the first time, there's concerns
+
+31:30.160 --> 31:37.840
+ about shortages, right? We're shipping out 150,000 doses a week. I think we're US governments
+
+31:37.840 --> 31:43.040
+ paying about $1,000 a dose. So, I think we're spending about $150 million a week on monoclonals.
+
+31:43.040 --> 31:48.720
+ That's a lot of money. And we got an announcement from the US Department of Health and Human Services.
+
+31:48.720 --> 31:54.240
+ Let me read this and put it in context. The recent increase in the prevalence of the Delta variant
+
+31:54.240 --> 32:00.400
+ of COVID-19 has caused a substantial surge in the utilization of monoclonal antibody drugs.
+
+32:00.400 --> 32:04.400
+ It remains the goal of the federal government to ensure continued availability of these drugs
+
+32:04.400 --> 32:10.800
+ for current and future patients. As such, HHS is immediately implementing the following changes
+
+32:10.800 --> 32:16.320
+ to help promote optimal and equitable use of the available supply of monoclonal antibodies
+
+32:16.320 --> 32:21.680
+ while we continue efforts to procure additional products, limiting immediate orders and shipments
+
+32:21.680 --> 32:27.600
+ only to administration sites with HHS protect accounts and current utilization reporting
+
+32:27.600 --> 32:33.120
+ and reviewing all orders for alignment with utilization. So, what is this? Basically,
+
+32:33.120 --> 32:39.680
+ the federal government is jumping in saying we need to make sure that these products are used
+
+32:39.680 --> 32:44.640
+ appropriately. We're going to be sending them to sites that are giving us the data so that we
+
+32:44.640 --> 32:54.160
+ know what's going on. What is the HHS protect? This is really an ecosystem. This is a secure platform
+
+32:54.160 --> 33:01.840
+ for authentication, amalgamation, and sharing of healthcare information. Really looking for
+
+33:01.840 --> 33:07.520
+ the ability to keep an eye and make sure that these drugs, which are now becoming
+
+33:08.160 --> 33:12.720
+ in limited supply as opposed to sitting on shelves, are really going to the people that need them.
+
+33:12.720 --> 33:18.080
+ This is sort of prompt that I think fear, fear about shortages that I hope are exaggerated.
+
+33:18.800 --> 33:22.480
+ There was sort of this idea for a while that you don't need to get vaccinated because you can
+
+33:22.480 --> 33:26.000
+ always get your monoclonals and now people are a little worried. Maybe I should get my vaccine
+
+33:26.000 --> 33:32.080
+ because maybe I can't just get that monoclonal. But the current U.S. administration reported that
+
+33:32.080 --> 33:38.400
+ they will buy more than 1.7 million more doses of the monoclonal antibodies. They're going to get
+
+33:38.400 --> 33:45.440
+ the bulk 1.4 million from Regeneron. Another 388,000 are coming from Eli Lilly, and perhaps
+
+33:45.440 --> 33:51.440
+ we'll hear about even more being purchased from V or GSK. There's even a couple other
+
+33:51.440 --> 33:59.600
+ companies out there trying to move for e-way for their products as well. Just to keep this on
+
+33:59.600 --> 34:03.520
+ people's radar, I've been bringing this up for a while. I'm waiting for the data to share.
+
+34:03.520 --> 34:10.960
+ But we are expecting October and November, December applications for e-way of effective
+
+34:10.960 --> 34:15.920
+ oral antivirals. We've got multiple companies working on several products. So some optimism
+
+34:15.920 --> 34:21.440
+ there that we're going to have another option. But I want to go back to steroids. This is the
+
+34:21.440 --> 34:25.920
+ individual shows up at a primary care office. Maybe they show up at an urgent care. They're in that
+
+34:25.920 --> 34:31.520
+ first week. They're in their viral symptom phase. We know some folks. Maybe they're not listening
+
+34:31.520 --> 34:36.880
+ to Twiv. They're trying to do the right thing. They throw some steroids, some vitamins, some
+
+34:36.880 --> 34:44.480
+ antibiotics at the patient. Well, is that harmless? Is that okay? Well, this was a really nice meta
+
+34:44.480 --> 34:51.280
+ analysis, a systemic review, steroid use in non-oxygen requiring steroids use in non-oxygen
+
+34:51.280 --> 34:57.920
+ requiring COVID-19 patients a systematic review and meta analysis. So they initially identified
+
+34:57.920 --> 35:07.040
+ 6,411 studies. They then screened 2,990 after an initial exclusion. And then they finally narrowed
+
+35:07.040 --> 35:15.840
+ it down to seven studies, which fit the criteria. So we're ultimately looking at 2,214 non-oxygen
+
+35:15.840 --> 35:22.640
+ requiring COVID-19 patients. And I think this is really critical. Overall, odds of progression to
+
+35:22.640 --> 35:31.520
+ severe disease among the non-oxygen requiring COVID-19 patients receiving steroids was 5.97.
+
+35:32.080 --> 35:38.160
+ So basically by trying to be helpful by giving steroids in that first week, you were increasing
+
+35:38.160 --> 35:45.040
+ a patient's odds of progressing to severe disease, 6, almost 6-fold. And you increase their odds of
+
+35:45.040 --> 35:53.440
+ death 1.35. So a 35% increase in their chance of death as compared to patients not receiving steroids.
+
+35:53.440 --> 36:00.080
+ You also increase the mean duration of fever. You increase the mean duration till viral clearance.
+
+36:00.080 --> 36:05.280
+ And if they did end up in the hospital, you increased their length of hospital stay with the median
+
+36:05.280 --> 36:13.520
+ of 20.8 days. You know, I've got to say this is just sort of reinforcing. During that first week,
+
+36:13.520 --> 36:19.440
+ we don't have a lot. We can offer the monoclonals to a certain subset, but we certainly can harm
+
+36:19.440 --> 36:27.440
+ these individuals. They have a really nice figure, figure 4 in this paper, where you can actually
+
+36:27.440 --> 36:33.040
+ compare folks that did or didn't get steroids. And you can see the harm that can be done here.
+
+36:33.840 --> 36:38.960
+ So again, for the first week, this is the time for monitoring and monoclonals. It is not the time
+
+36:38.960 --> 36:44.960
+ for antibiotics. It is not the time for steroids. We can do harm with steroids. We could significantly
+
+36:44.960 --> 36:49.520
+ increase a person's chance of ending up in hospital. And we also know, as we talked about,
+
+36:49.520 --> 36:55.600
+ with azithromycin, with doxycycline, other antibiotics, these are not helpful and potentially harmful.
+
+36:55.600 --> 37:00.320
+ I think we talked about the one doxycycline study, where there was a 5-fold increase in death,
+
+37:00.320 --> 37:06.720
+ just given those those antibiotics. So remember, we can harm people during this first week. But then,
+
+37:06.720 --> 37:11.760
+ once they progress to that second week, this is when people often get hospitalized,
+
+37:11.760 --> 37:16.960
+ we have really good evidence for benefit of steroids, if they have an oxygen saturation
+
+37:16.960 --> 37:25.360
+ less than 94%. So that matters and timing really matters with COVID. And we also had a nice review
+
+37:25.360 --> 37:32.000
+ of steroids in the hospital setting. And so this was review in adults with severe critical COVID-19,
+
+37:32.000 --> 37:38.240
+ corticosteroids reduce mortality versus standard care and analysis with or without the recovery
+
+37:38.240 --> 37:44.480
+ trial. So this is seven randomized control trials, one cohort study published in international
+
+37:44.480 --> 37:49.440
+ immunopharmacology. And I really like this because I think we've talked a little bit about meta
+
+37:49.440 --> 37:54.880
+ analyses. But you have to be careful that your meta analysis is not being swayed too heavily by
+
+37:54.880 --> 37:59.360
+ just one study, right? Otherwise, it's really not a meta analysis, it's that one study pushing
+
+37:59.360 --> 38:05.600
+ things. And the recovery trial done by the folks in the UK was a large trial. So you want to pull
+
+38:05.600 --> 38:13.040
+ that out and say without that, how do we do? So a total of 6771 patients from these eight
+
+38:13.040 --> 38:18.400
+ prospective studies, seven randomized control, one prospective cohort were included in this meta
+
+38:18.400 --> 38:24.480
+ analysis. And the results showed that corticosteroid therapy at the right time in the right patients
+
+38:24.480 --> 38:32.000
+ was associated with lower mortality in severe COVID-19. So an odds ratio of 0.70. So a 30%
+
+38:32.000 --> 38:38.480
+ reduction in mortality. Since the proportion of recovery trial was so large, they remove that.
+
+38:38.480 --> 38:45.840
+ When you remove that, the odds ratio was 0.65. So a 35% reduction in mortality. So even without
+
+38:45.840 --> 38:51.280
+ that study, we're still seeing this 30, 35%. So we're seeing a clear mortality benefit.
+
+38:51.280 --> 38:57.360
+ So remember, this is when we're using steroids. It's when we're using remdesivir, pulmonary
+
+38:57.360 --> 39:04.080
+ support, anticoagulation, and then only in select patients further immune modulations such as
+
+39:04.080 --> 39:12.480
+ tosyllismab or barisitinip. Okay. The tail phase long COVID, sort of an exciting announcement,
+
+39:12.480 --> 39:18.960
+ I will say this last week. As we've been saying, COVID is not just a two week viral illness for
+
+39:18.960 --> 39:28.560
+ many people. On Wednesday, September 15th, the NIH announced NIH builds large nationwide study
+
+39:28.560 --> 39:33.920
+ population of tens of thousands to support research on long term effects of COVID-19.
+
+39:33.920 --> 39:40.960
+ So the NIH awarded nearly $470 million to New York University, NYU, Langone Health,
+
+39:41.760 --> 39:47.440
+ New York City, which will make multiple subawards to more than 100 researchers at more than 30
+
+39:47.440 --> 39:53.360
+ institutions and will serve as the recovery clinical science core. So this combined population
+
+39:53.360 --> 39:58.560
+ of research participants from new and existing cohorts called the medical court will comprise
+
+39:58.560 --> 40:03.760
+ this recovery cohort. And this funding is being supported by the American Rescue Plan.
+
+40:03.760 --> 40:09.040
+ So this is really an attempt. We've seen over the last 18, 20 months, a little longer now.
+
+40:09.920 --> 40:15.040
+ A lot of money was spent. A lot of trials were set up. We don't have the data we would like.
+
+40:15.040 --> 40:20.560
+ This is really an attempt to say long COVID, it's important, post-acute squelly of COVID.
+
+40:20.560 --> 40:25.680
+ This is important. We need to do this right. We need to establish a cohort. We need to make
+
+40:25.680 --> 40:31.680
+ sure this is studied properly. We need to be organized when we do this. So yeah, it's taken a
+
+40:31.680 --> 40:36.800
+ little longer than a lot of us would hope to get this set up. But I'm really optimistic that we
+
+40:36.800 --> 40:42.720
+ are now going to do this correctly. And I will mention NYU, that's my medical school alma mater.
+
+40:42.720 --> 40:50.640
+ So I'm sure they will do a great job. All right. Now, what about the rest of the world? No one is
+
+40:50.640 --> 40:56.480
+ safe until everyone is safe. So is there really a false dichotomy regarding vaccinating the world?
+
+40:56.480 --> 41:02.080
+ Perhaps the most selfish thing we can do is now vaccinate the world. And there's I think an upcoming
+
+41:03.360 --> 41:07.920
+ Twib is going to be looking at sort of analysis. What is the best way to use our vaccines?
+
+41:07.920 --> 41:16.480
+ But one of the concerns that has been coming up is are we allowing these variants to evolve to
+
+41:16.480 --> 41:21.840
+ develop in these areas? So there was a research article, a year of genomic surveillance reveals
+
+41:21.840 --> 41:27.360
+ how the SARS-CoV-2 pandemic unfolds in Africa as published in science. And in this article,
+
+41:27.360 --> 41:36.640
+ the authors describe the genomic epidemiology of SARS-CoV-2 using a data set of 8,746 genomes
+
+41:36.640 --> 41:43.760
+ from 33 African countries and two overseas territories. Really interesting. And I think
+
+41:43.760 --> 41:48.960
+ what I'm going to do is I'm going to tell people keep listening to Twib upcoming episodes where we
+
+41:48.960 --> 41:55.440
+ get a deeper dive into the variants and what's going on and what is the calculus with vaccines.
+
+41:56.480 --> 42:00.960
+ Coming up, we have the UN. I guess they're meeting on Tuesday. And there's going to be a whole
+
+42:00.960 --> 42:05.760
+ discussion about how we successfully vaccinate the world. Hopefully, a lot of creative ideas about
+
+42:05.760 --> 42:10.000
+ how we get this done. But on that note, I'm going to say throughout the months of August,
+
+42:10.000 --> 42:16.480
+ September and October, go to parasiteswithoutboarders.com, donate. Donations made to parasites without
+
+42:16.480 --> 42:25.040
+ borders will be doubled up to $40,000 in total support for floating doctors, help them continue to do
+
+42:25.040 --> 42:30.560
+ the great work they're doing down there in Panama. Time for some email questions. For Daniel,
+
+42:30.560 --> 42:39.280
+ you can send yours to Daniel at microbe.tv. Alison is very concerned about children. She's been
+
+42:39.280 --> 42:45.040
+ thinking for a few weeks that the next 12 weeks are going to be full of thousands of children dying
+
+42:45.840 --> 42:49.920
+ under 12 years of age. She wants to know, are any of the monoclonal treatments approved or in
+
+42:49.920 --> 42:59.200
+ trials for people that young? That is a challenge, right? The same population under 12, that is not
+
+42:59.200 --> 43:05.200
+ eligible for vaccination is not eligible for the monoclonals as well. I think if we look at the
+
+43:05.200 --> 43:09.520
+ numbers, we're not talking about thousands of children dying. And a couple things I'm going to
+
+43:09.520 --> 43:14.480
+ say here, you know, I've always talked about like, you know, we need to care about children. When we
+
+43:14.480 --> 43:19.520
+ talk about a pandemic of the unvaccinated, we are talking more and more about children when we say
+
+43:19.520 --> 43:24.640
+ that. Schools are opening and people are worried. But I think I've tried to point out several times
+
+43:24.640 --> 43:30.960
+ and share some of the science on this is that we can safely have children in these environments.
+
+43:30.960 --> 43:36.080
+ It involves several layers of protection. It actually can sometimes even be safer than keeping
+
+43:36.080 --> 43:42.080
+ them out of the schools. It involves masking, testing, vaccinating all the people around them
+
+43:42.080 --> 43:48.080
+ that can be vaccinated, testing. So there's a lot of ways to do this. We certainly can do it poorly.
+
+43:48.640 --> 43:52.640
+ But no, I think we can do this safely. And I think we're waking up. We're sort of being
+
+43:52.640 --> 43:57.200
+ reminded, Oh my gosh, this is still, we are still in the middle of a pandemic. And I think we're
+
+43:57.200 --> 44:04.320
+ starting to see the numbers go down. So I am optimistic here going forward. And I think I've been sort
+
+44:04.320 --> 44:10.400
+ of suggesting that maybe by Halloween, there'll be vaccines for the younger kids. But then again,
+
+44:10.400 --> 44:14.880
+ you know, the FDA is getting a lot of pressure and what we really want is an FDA we can trust,
+
+44:14.880 --> 44:20.640
+ an FDA that follows the science. So when we do move to less than 12, we want to know what's the
+
+44:20.640 --> 44:26.880
+ safe dose? What are the things we should be watching out for? How do we make this as safe and effective
+
+44:26.880 --> 44:30.880
+ as possible? And it is really hard, I know, during a pandemic to wait.
+
+44:32.880 --> 44:39.600
+ So Jeff is at Koga University and asks about what to do with students who test positive. So
+
+44:39.600 --> 44:43.840
+ they have a 96% vaccination rate. But when students test positive, they have to be
+
+44:43.840 --> 44:49.120
+ quarantined. And he writes, given the data that shows a rapid decrease in viral RNA, as well as in
+
+44:49.120 --> 44:53.360
+ the ability to detect infectious virus and vaccinated individuals following infection,
+
+44:53.360 --> 44:58.400
+ it would seem reasonable to decrease the length of isolation time for vaccinated individuals,
+
+44:58.960 --> 45:04.240
+ as they would unlikely be able to transmit virus past, say, six days post positive instead of
+
+45:04.240 --> 45:08.720
+ 10 days. Of course, we're going to continue to follow the New York state guidelines. But wonder
+
+45:08.720 --> 45:13.520
+ if it would be reasonable to lobby these agencies for reduced isolation time for vaccinated
+
+45:13.520 --> 45:18.960
+ individuals. Would love to hear your thoughts on this issue. Yeah, you know, actually, I've got to
+
+45:18.960 --> 45:25.120
+ say you bring up an interesting concept, the idea of lobbying organizations. I always think what
+
+45:25.120 --> 45:29.680
+ my natural responses is we need the science. The organizations can respond when we have the
+
+45:29.680 --> 45:34.800
+ science. And what we really need is not lobbying, but funding so that these investigations can be
+
+45:34.800 --> 45:39.200
+ done. Because right, we have a growing body of evidence that, you know, there's a certain window
+
+45:39.200 --> 45:44.720
+ of time when a person is infectious, right, that two days before that three to five days afterwards.
+
+45:45.360 --> 45:50.720
+ With an individual who's vaccinated, do they really need isolation of the infected for 10 days?
+
+45:50.720 --> 45:55.600
+ Maybe not. But I think what we need is we need the science, and then you bring the science,
+
+45:55.600 --> 46:00.880
+ and then the science helps us move forward. And the other, I hope, is the concept of the test
+
+46:00.880 --> 46:06.640
+ to stay. So when an individual test positive, maybe that isolation is shorter. But maybe the
+
+46:06.640 --> 46:11.920
+ exposures don't need to necessarily stay home quarantining. Maybe they can test to stay.
+
+46:12.560 --> 46:15.760
+ And that's something where we're seeing a growing body of evidence to suggest that
+
+46:15.760 --> 46:21.680
+ could be safely implemented. Ingrid wants to know should individuals who are vaccinated and test
+
+46:21.680 --> 46:28.160
+ positive for COVID take monoclonal antibodies? So, you know, we say we don't we don't look at
+
+46:28.160 --> 46:31.920
+ vaccination status when making decisions about monoclonals. But to be honest, right,
+
+46:31.920 --> 46:36.480
+ did we study the monoclonal specifically in people who are vaccinated? We use the same
+
+46:36.480 --> 46:41.200
+ criteria. If you are considered at a high risk of progressing, whether or not you are vaccinated,
+
+46:41.200 --> 46:46.640
+ if you are symptomatic, then we'd recommend monoclonals. If you're completely asymptomatic,
+
+46:46.640 --> 46:51.920
+ and that's sort of a point here, completely asymptomatic individuals vaccinated, unvaccinated,
+
+46:51.920 --> 46:56.960
+ you need to at least have some symptomatology, and then one high risk or other feature for going
+
+46:56.960 --> 46:59.840
+ ahead with monoclonals. But vaccination is in no way an exclusion.
+
+46:59.840 --> 47:09.200
+ And finally, Dan is a pediatric pulmonologist who retired in 2016 after 36 years in pediatric
+
+47:09.200 --> 47:14.000
+ medicine. I've been an advocate of asthma education in the school and at home since.
+
+47:14.000 --> 47:17.760
+ I've been following your updates at Twiv for several months. Appreciate your review of the
+
+47:17.760 --> 47:23.120
+ literature. Since the pandemic began, I've been following local data in San Antonio.
+
+47:23.120 --> 47:29.040
+ As a private citizen, I have been confused and do not understand why pediatric data are not reported,
+
+47:29.040 --> 47:38.160
+ similar to adult data. And Dan goes on to write about his experience with pediatric critical care
+
+47:38.160 --> 47:44.720
+ early in his career and how having such data would be important. So he writes,
+
+47:46.240 --> 47:51.440
+ the low numbers do not reflect the tragedy at the local level as an asthma or flu. I question
+
+47:51.440 --> 47:55.600
+ any death in a child as preventable. I've only filed intermittently. If you've discussed this
+
+47:55.600 --> 47:59.040
+ issue before, let me know. But I'd like to know your thoughts on this.
+
+47:59.680 --> 48:06.560
+ No, I mean, I think this is great. And I think I've always tried for a while to start off the
+
+48:06.560 --> 48:11.680
+ updates with children and COVID and try to steer people towards where those resources are. So
+
+48:11.680 --> 48:17.920
+ the American Academy of Pediatrics, the CDC has a special site looking at this. It is interesting
+
+48:17.920 --> 48:22.960
+ that you can't just toggle and get this information more readily, like the Hopkins or the World
+
+48:22.960 --> 48:28.560
+ Ometer dashboard, just click. I want to specifically look at the age group that I'm focused on here.
+
+48:28.560 --> 48:33.680
+ So yeah, I agree. And I think that it's, as I mentioned, from the beginning, it's sort of in
+
+48:33.680 --> 48:39.360
+ this odd, touchy subject. And there's also been a lot of, I think, false ideas where people say,
+
+48:39.360 --> 48:43.280
+ you know what? Let me look at the data year ago when the kids were locked in basements and they
+
+48:43.280 --> 48:47.440
+ were not getting exposed to COVID and boy, there were no hospitalizations. So I think we can safely
+
+48:47.440 --> 48:52.160
+ just open the schools without masks and let them all get infected. They'll be fine. Now that they're
+
+48:52.160 --> 48:56.000
+ opening the schools and getting infected, we're seeing the kids are not all right. We're seeing
+
+48:56.000 --> 49:00.640
+ thousands of hospitalizations per week. We're seeing a couple deaths every day on average.
+
+49:01.360 --> 49:06.960
+ That is in no way. Okay. So yeah, I share that we need to need to have this data front and center.
+
+49:06.960 --> 49:11.120
+ I mean, right now the conversation is all about boosters. Yeah, that's fine. And all
+
+49:11.120 --> 49:15.440
+ let's talk about the people that haven't even had a first shot and who are at risk and getting
+
+49:15.440 --> 49:20.160
+ infected. In the interest of time, I've been abbreviating some of these letters, but I encourage
+
+49:20.160 --> 49:26.800
+ listeners to go to microbe.tv slash to have you can find all the text of all of them online there.
+
+49:26.800 --> 49:34.160
+ They're very useful to read. That's COVID-19 clinical update number 80 with Dr. Daniel Griffin.
+
+49:34.160 --> 49:52.160
+ Thank you, Daniel. Oh, thank you. Vincent, you and everyone else be safe.
+

@@ -1,0 +1,430 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicrobeTV, this is Twiv. This week in virology, episode 803 recorded on September 9th, 2021.
+I'm Vincent Dracken-Yellow, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. How's the week been, Daniel?
+You know, it's a little truncated. Here in New York, we had a long weekend. I guess, well,
+most of the country had a long weekend. It was Labor Day, right? Monday was Labor Day,
+and I celebrated Labor Day by not laboring. I'll let other people labor. So it's nice to
+have a little. I did a lot of sailing, so that was very nice. Time with the family. All right,
+but we got lots to cover of. I keep looking to that point when we have less to cover. We're not
+there yet. So let me start with my quotation. Life is a long lesson in humility, and that's by James
+M. Barrie. I think Peter Pan maybe was something that he created, so. But it seemed appropriate,
+because I think science is clearly an arena where this is very much true. And I think it's fair to
+say science is a lifelong lesson in humility. That's why we do science because we don't know the
+answers. So science is really, I like to say, a journey of discovery, not a path to confirmation.
+If we know all the answers, we would not have to do the experiments or the trials.
+This episode is going to drop on 9-11, so I just want to just sort of take a moment there.
+You know, I grew up in New York, so that was really sort of a difficult day for a lot of us.
+All right, let's get into a number of papers here. The quotation I start with
+really is something that has been addressed. I've seen a number of papers recently,
+and one of them, actually a couple of them, I think are in open forum infectious diseases.
+And the first overlooked shortcomings of observational studies of interventions in
+coronavirus disease 2019, an illustrated review for the clinician, right? And so, you know,
+these updates, I don't know if our listeners remember, they really started off theoretically
+as a clinician update. So I like to keep that focus, but I think we have non-clinicians that
+listen, right? But let me just read the abstract here, because over the last two years, this has
+been a rapid education, re-education for a lot of clinicians when something gets published.
+It gets thrown out there as a pre-print, it gets interpreted in the media,
+and a lot of clinicians are trying to decide what to do based, unfortunately, on a lot of
+observational studies that may not have been done that well. So let me just read the abstract here.
+The rapid spread of severe acute respiratory syndrome, coronavirus, to infection across the globe,
+triggered an unprecedented increase in research activities that resulted in an astronomical
+publication output of observational studies. However, most studies fail to apply fully the
+necessary methodological techniques that systematically deal with different biases and confounding,
+which not only limits their scientific merit, but may result in harm through misleading
+information. And, you know, I am going to highly recommend that all clinicians take the time to
+read this. I think this is really critical. And it's only an eight-page paper. It's not
+terrible to read. You know, our goal is discovering what's true as clinicians. You know, when you go
+see the clinician, you want them to tell you what's true, not just what they're excited about.
+And, unfortunately, as we've seen over the last two years, there's been a lot of poorly
+done studies that actually got people excited about stuff that turned out not to make a difference,
+right? And they talk in this paper about several of these issues. So one, treatment selection bias.
+Maybe we remember that vitamin D study that we all got excited about. And then some savvy people
+in Spain realized that they were giving vitamin D to the people in the healthier, less acute wards,
+but not giving it to people with severe disease and more issues. And so, yeah, young, healthy people
+do better. So was it really the vitamin D? And that was not helpful if anything that was misleading.
+Then there's survivor bias, right? You know, you decide you're going to enroll someone in a
+treatment. And they have to live long enough to get the treatment. So there's sort of this immortal
+period introduced. So it's important that we understand that. And then there's these competing
+risks, like if our endpoint is discharged from the hospital, what happens afterwards have we
+excluded them, not follow them into discharge. So there's really, I think this is really great.
+There is a role for observational studies, but this paper just reinforces how important it is
+designing, conducting, and then really, I'm going to say the integrity of publishing
+helpful, reliable information. Because if you get something out there, and it supports something
+because of one of these biases or poor study design, that's not helpful. It's more than not
+helpful. It's actually can be harmful. The other paper that I enjoyed this last week,
+got all this extra time, right? So I could read critical review of the scientific evidence and
+recommendations in COVID-19 management guidelines. This is really enlightening. I get to see some
+of this as I'm involved in the care of patients at multiple health systems, also involved in the
+outpatient setting. And I talked to our providers across the tri-state area. Well, I tend to look
+to professional societies or government resources like the IDSA, the NIH, American Society Hematology,
+or the CDC. This paper gives a good description of the landscape. There are actually hundreds of
+different recommendations out there. Only about half of the ones out there really have any assessment
+of the supporting evidence. And there's actually quite a bit of discrepancies between different
+guidelines. And I actually think this speaks to this vacuum created by a lack of well-designed
+randomized controlled trials. It also might speak to an issue with who creates these guidelines,
+right? Each hospital health care system physician group out there creating their own treatment
+guidelines in this void. I mean, I might, like for instance, there are guidelines for treatment
+at Columbia University, or recommended by a professional society. But then I go to a certain
+hospital, oh, we don't do that here. So this is a challenge, and I think this is another area.
+But I shouldn't complain, right? I have colleagues in rural parts of the American West, and they're
+probably listening and saying, Dr. Griffin, you don't need to complain, we have it worse.
+And I won't even go into the details. You can just use your imagination, but you can imagine some
+of the guidelines in certain areas of the world and our country. All right, let's get right into
+children, COVID and mental health. As I've been saying for quite a while, children are at lower
+risk, but they are not at no risk. And I think everyone is really waking up to this. Wearing a
+mask is less dramatic for a child than being hospitalized. And I'm going to add a new one.
+Children should not have to choose between health and education. So I've talked a lot about the
+American Academy of Pediatrics, which has a COVID tracking. The CDC also has a data tracking page,
+specifically looking at pediatric data. So you can look at this, and it's just it's outstanding.
+We're over over a quarter million children were infected with COVID in the last week.
+Hospitalizations are going up. Just anyone who is still sort of in this idea that for children,
+COVID is not a problem. The heads in the sand, the information is out there. Yes, two years ago,
+18 months ago, when our I was give moms the credit, and I think I should in most cases,
+when the moms were keeping the kids safe, despite what people were saying, if a kid does not get
+exposed to COVID-19, if they don't get infected with COVID-19, it's not a problem. But now children,
+enormous number of children, I think we're over 6 million children have been infected with COVID
+in this country. So we did get some data from the post MMWR, two really informative publications,
+trends in COVID-19 cases, emergency department visits, and hospital admissions among children
+and adolescents aged 0 to 17 years. This is United States August 2020 to August 2021.
+And so here the CDC analyzed COVID-19 cases, ED visits with a COVID-19 diagnosis, hospital admissions,
+and overall COVID-19 ED visits and hospital admissions increased since June 2021 in children
+and adolescents. The rate per 100,000 persons of COVID-19 admissions in August 2021 in the
+quartile of states with the lowest vaccination rate was almost four times higher than the quartile
+with the highest vaccination coverage, right? Think about, most of these kids are not eligible,
+so a lot of the impact here we're seeing is adults getting vaccinated and the benefit that
+can provide. We also saw second publication hospitalizations associated with COVID-19 among
+children and adolescents. COVID-19 states March 1, 2020 to August 14, 2021. Here they reported
+that the weekly COVID-19 associated hospitalization rates among children and adolescents rose nearly
+five-fold during late June to mid-August 2021. The proportions of hospitalized children and
+adolescents with severe disease was similar before. And during this period of Delta predominance,
+hospitalization rates were 10 times higher among the unvaccinated than among the fully
+adolescent, fully vaccinated adolescents. So that's looking at the vaccine eligible group.
+So I think just important information that we have here, it's great that this is being tracked.
+This is important when parents are making decisions, when adolescents are involved in
+shared decision-making about vaccines. Yeah, I'm not sure why people are so sensitive.
+Whenever I talk about children and COVID, I'm just sharing the information. So pre-exposure
+period transmission testing never miss an opportunity to test. I just did a keynote talk earlier today
+about testing. And usually this is the area where I'm trying to reinforce antigen testing,
+talking about PCR detection, talking about how actually antigen tests maybe have been compared
+against the wrong gold standard. Maybe if you compare those antigen tests against viral culture,
+against contact tracing, against transmission. I think I'm going to say that antigen tests used
+during that two days before, three to five days after symptom, during the period of time we see
+transmission, even at home antigen tests were in the high 90s. So they are not an issue with lack
+of sensitivity during that period. Once a person is past that period stage, once the viral RNA is low
+and the viral antigen gets to a very low level, yes, the antigen test will turn negative,
+use the right test at the right time to ask the right question. But today I'm going to talk
+about serology. We had a couple interesting studies looking at serology. It's going to be
+serology positivity. One is the U.S., the other Kenya, both published in JAMA. So the first one
+estimated U.S. infection and vaccine-induced SARS-CoV-2 seroprevalence based on blood donations
+July 2020 to May 2021. So this is a repeated cross-sectional study that included 1,443,519
+blood donation specimens from a catchment area representing 74% of the U.S. population.
+They reported that general population increased. This is really what's sort of the money here.
+83.3% had a combined infection or vaccine-induced antibodies. It's actually pretty high, I have to
+say. The authors looked at both spike and nucleocapsid antibodies, nucleocapsid being associated
+with infection, spike being from either. This is a very high number. I think there's a couple
+things to point out. People that donate blood are not necessarily representative of everyone.
+But there was, I'll say, a little bit of a disturbing feature here. If you looked at this,
+the infection-induced seroprevalence was consistently highest in Hispanic,
+non-Hispanic Black individuals. The Caucasians are getting their immunity from vaccination.
+Other populations are getting it disproportionately from infection.
+Now, the second article, so here, most people in this first study are getting their positivity,
+their immunity from vaccination. I think we're up to 75% of the U.S. population has gotten the
+first dose. 75% of eligible. Remember, we still have a large chunk of our population, the children
+that are not eligible. The second article was a situation where there was limited access to
+vaccines. And this was prevalence of SARS-CoV-2 antibodies from a national sero surveillance
+of Kenyan blood donors, January through March 2021. And in this article, the authors report
+about seroprevolence in Kenya. This is a surveillance study looking at blood donors,
+aged 16 to 64, slightly different age demographic in Kenya. We don't have as many folks over the
+age of 65. The national prevalence of SARS-CoV-2 antibodies was estimated at various points in time,
+basically getting to sort of the end, the crude seroprevalence had gotten to as high as 44.2.
+And this is actually in line with what we're seeing in a lot of other areas. But remember,
+this is dominantly coming from exposure from infection. The Kenya COVID-19 vaccine program
+only began in March of 2021. So a little bit, and there were only up to 2% of the population
+by July 2021. So most of that is from infection. All right, active vaccination. There's always
+news on this front. Never miss an opportunity to vaccinate vaccination is how this pandemic ends.
+Wednesday, September 1st, right, Madhiran announced its completed submission for full approval
+of its mRNA vaccine. So we're hoping we're going to see that coming up on the horizon.
+Why does this matter, right? It actually seems like it does when I talk to my patients. I was
+talking to an unvaccinated woman earlier this week. And she was not vaccinated. And she said
+she was not interested in getting vaccinated until she heard about this new licensed vaccine called
+comarinate. And she's very excited to get comarinate as soon as that is available.
+So I think once we have the ability for people to get spike-vax,
+I was talking to one of the nurses today and asked, you know, what would you choose the comarinity
+or the spike-vax? I choose Spike Lee. Okay. So I think this stuff matters, actually. People seem
+to care. And the other thing, right? I mean, I was not going to include, how can you not talk
+about boosters? That's all anyone wants to talk about. So what about the data from Israel to
+boosters? So this is my plug for Shane Crotty. I listened to the Shane Crotty episode. Shane
+Crotty is actually one of the people that I reach out to when I've got an immunology question.
+He's brilliant. He's actually an individual, the WHO, and a lot of other people turn to when they
+really want to know what the science shows. And if you go to the Twiv episode right before this,
+it's great because everyone's asking him questions. And Shane Crotty is so good. He basically
+this is what the science says. He doesn't get ahead of the science. You don't get Shane Crotty's
+opinion. You get this is what the science is telling us. So if people really want a deep dive,
+you know, spend that. I think he's on for about the first hour, but then stay for the rest of the
+show. But that that is really great. But what what created all this fuss? And I'm just going to spend
+a moment on this. The preprint correlation of SARS-CoV-2 breakthrough infections to time from
+vaccine preliminary study was put up as a preprint. Now, a number of statisticians, mathematicians
+have got a chance to really look at this. And some of the other data you can bring down from the
+Israeli dashboards of public accessible data. And yesterday, I got to listen to a really great
+analysis of this data presented by one of my colleagues, Ephraim Castillo. He's one of the
+senior VPs at Optum with whom I work. And he really explained all about how this data was not
+originally correctly analyzed, explained a bit about Simpson's paradox, where if you don't break
+it down and look at the data correctly, it can be concerning. But he went ahead and broke down
+the data by a number of narrower age bands. And really looked at, okay, if you look at a place
+like Israel, if you look at the population, say 90+, over 90% are vaccinated. Actually,
+over 70, if you look at people over the age of 70, really, if you go to people 60 and up,
+the majority over 90% are vaccinated, right? These people, you've greatly reduced their risk,
+but they're still the high risk of ending. And if you go through each, what is the efficacy we're
+seeing for prevention of severe disease, you're seeing in the oldest population an 82-fold reduction
+in risk in efficacy versus severe disease of over 90%. And you sort of march all the way down. You
+actually get to the youngest individuals under 30, and you're looking at close to 100% in the 30
+to 39, 96.8%. So properly analyzed, I continue to not be concerned by this data.
+Shane Crotty talked a little bit about, you know, are we concerned about infection?
+Is there a potential that that's going to be tied in with transmission potential for long
+COVID? We'll have to see. But I think this is just when you look at it correctly, there's no reason
+for panic. The booster study, the booster decisions will be addressed, but you don't need to run out.
+I get questions every day. Should I run out? If we're going to follow the science, the science
+is not pushing us. All right, passive vaccination. I'm almost delighted how much my colleagues have
+taken advantage of the prophylactic indication for monoclonals. So let me just reinforce this here.
+So a bit back, the Regeneron cocktail, Regeneron Cove, was given an expansion of its EUA for post
+exposure prophylaxis. So the US FDA issued an EUA of all these three letter acronyms, TLA's,
+to permit the emergency use of Regeneron Cove for post exposure prophylaxis in individuals
+who are at high risk for progression to severe COVID-19. And who are these individuals? So one,
+not fully vaccinated, or they were vaccinated, but you have doubts about their ability to
+mount an adequate immune response, an individual who is on immunosuppressive medications,
+or, as they say, at high risk of exposure to an individual infected because of occurrence in a,
+let's say, a nursing home or an institutional setting such as a prison. So I've actually added
+this as part of my history of present illness. Once I get through with the patient, I say,
+all right, this is great. Now we have a plan for what we're going to do for you, but let's talk
+about everyone else that you may have exposed who is either exposed and might benefit for
+prophylaxis or is already infected and might benefit from early treatment. You know, I have to say
+this has really been tremendous in the tri-state area. We are seeing a low number of our pro-health
+and our optometri-state folks end up in the hospital because we are doing, I say, a tremendous amount
+of getting these individuals in for the monoclonals, keeping them out of the hospital. And a lot of
+the health systems have really helped support access, you know, tip my hat again to the Catholic
+hospitals, really jumped in and helped us with this. All right, I'm going to jump right to the
+early inflammatory phase, right? So we did have an update, an update from the American Society of
+Hematology, living guidelines on the use of anticoagulation for thrombo-prophylaxis
+in patients with COVID-19. And this was an update on the use of anticoagulation in critically ill
+patients. Full disclosure, I'm one of the authors on this. But this was a recommendation
+regarding patients in the hospital who are requiring critical care. So these are either patients in
+ICU, but it's not geographic. So it's patients who require that level of support, really in favor
+of prophylactic intensity anticoagulation here. So this is that issue that a patient in the ICU,
+though at increased risk of clotting from COVID-19. And we know that COVID-19 patients have an
+increased risk. We felt reviewing the available literature that the risk of bleeding and associated
+mortality was in favor of prophylactic intensity in that setting. So what's sort of the standard
+right here? A patient ends up in the hospital, right? They're usually there because they're
+hypoxic. The rubair oxygen level is below 94%. Somehow they've either not been vaccinated,
+where they've missed the monoclonals or that small percent of people that progress. The
+standard is to start anticoagulation. Here's a little more guidance on dosing. The remdesivir,
+the dexamethasone. But what if they progress, right? We've talked about patients that are
+requiring more oxygen support. We've talked about tosyllizumab in the past. But what if there's a
+shortage of tosyllizumab as we're seeing in many parts of the country? Are there other options?
+Well, there is another option that is in the guidelines, but let's talk about a publication
+in the Lancet that just came out. This was in the Lancet Respiratory Medicine, efficacy and
+safety of barisatinib for the treatment of hospitalized patients with COVID-19. This is the
+cold barrier study. This was a randomized double-blind parallel group placebo-controlled phase 3 trial.
+So this is, as I like to say, the much-awaited results of the cold barrier study. So as, you know,
+really in the title, this was a phase 3 double-blind randomized placebo-controlled trial.
+Participants were enrolled from 101 centers across 12 countries in Asia, Europe, North America,
+South America. Hospitalized adults with COVID-19 received standard of care,
+were randomized one-to-one to either receive once daily barisatinib for milligrams or matched
+placebo for up to 14 days. The standard of care included corticosteroids such as dexamethasone,
+antivirals, remdesivir. They reported the 28-day, all-cause mortality was 8%
+for the 62 folks in the barisatinib and 13% for the 100 in the placebo group,
+reporting a 38.2% relative reduction in mortality. There's a one additional death was prevented
+per 20 treated, so a 20 number needed to treat to prevent one death. The 60-day, all-cause mortality
+was 10% for barisatinib, 15% for placebo. The frequencies of serious adverse events were similar
+between the two groups. So what is this drug, Dr. Griffin? Barisatinib is a Janus kinase
+inhibitor. It interferes with the jack stat signaling pathway, and the thought is this is
+actually reducing cytokine, particularly IL-6 production. Thus, the idea we were concerned,
+using tosyllizumab and IL-6 receptor blocker without steroids because the IL-6 levels would
+shoot up. Here, you're using this agent that actually reduces IL-6 production. In some other
+studies, if you're unable to use steroids, this is still something that you could potentially use.
+And actually, I'll say this is something that the IDSA has in their recommendations,
+where they're saying, among hospitalized patients who are progressing, elevated
+inflammatory markers, this is something you can consider, and also something you can consider
+in a patient for whom steroids cannot be given for whatever reason. Long COVID, and I think it's
+become really clear, but I'm going to add this to my list of pithy quotations. COVID is not just a
+two-week viral illness for many people. I'm going to know early on, we had a lot of people
+saying, you know, with COVID, either live or you die, you know, in this perception that it was two
+weeks. But in the MMWR, the article, long-term symptoms among adults tested for SARS-CoV-2,
+United States January 2020 to April 2021. This is hot off the press today, as we're recording.
+And in this report, the authors administered a nationwide internet survey to 698 U.S. adults,
+aged greater or equal to 18 years of age with a positive SARS-CoV-2 test. And they compared them
+to 2,437 with a negative test. 2,750 had never been tested. And they reported for those with a
+positive test, 65.9% had symptoms persisting for greater than four weeks. Now, the usual suspects,
+fatigue, change in smell or taste, shortness of breath, cough, headache. But I'll say the same
+challenges that we talked about previously in the adolescent study. There's a lot of background.
+Now, we're seeing this above background. But a lot of challenges in sorting that out.
+But I will say, this is another point in the line, you know, that long COVID is a real thing.
+And a significant percent of people are not just better after two weeks. Now, there was also a
+preprint posted severe COVID-19 is associated with sustained biochemical disturbances and
+prolonged symptomatology, a retrospective, retrospective single center cohort study.
+This is a paper that's up as a preprint, but it's submitted to the Journal of Critical
+Medicine. So it'll go through peer review. I'm one of the authors, right? So it's not
+talking a couple of my publications this time or preprint postings. And this really describes a
+cohort of 168 patients with severe COVID-19 previously hospitalized and describes how in this cohort
+they have sustained biochemical disturbances, elevated ferritin,
+de-dimer, elevated neutrophil lymphocyte ratio. So it's nice to start having some objective data.
+There's been a lot of ideas about what drives long COVID discussion about viral persistence,
+continued antigenic stimuli. There's always been a lot of thought that this is something with the
+immune system. So it's just nice to have some objective, maybe some breadcrumbs here to start
+to understand and hopefully be able to help these individuals. What about low and middle
+income countries and COVID? No one is safe until everyone is safe. I've been having this discussion
+quite a bit that it is the right thing to do. It is the selfish thing to do to immunize the world.
+Where are all these variants coming from that's keeping everyone awake at night? And we heard from
+the White House COVID advisor, Jeffrey Zietz, that the US plans to invest $3 billion in the
+vaccine supply chain as it continues to work to position itself as a leading supplier of vaccines
+for the world. I heard some interesting musings by Anthony Fauci about maybe using the PEPFAR network
+to help with vaccines. But then we just heard that COVAX, a global program to distribute COVID-19
+vaccines, cut its 2021 forecast for available doses by one quarter. And there was what I thought
+was an interesting disturbing New York Times article by Benjamin Mueller and Daniel E. Slotnick.
+Let me quote, in its latest projection, the global immunization program known as COVAX
+said that it expected to have a total of only, I'm throwing in only 1.4 billion doses available by
+the end of 2021. In June, the program had said that it expected to have access to 1.9 billion doses
+this year. Experts have said 11 billion doses are needed to slow the spread of the virus.
+So just to give people perspective, as of now, less than half of a percent of all the doses
+have been administered in low income countries. So this is not great. So and maybe with that,
+I will just go into a reminder. During the months of August, September and October,
+please go to parasiteswithoutboarders.com, go to donate. We are going to continue to support
+floating doctors who are grouped down in Panama. And as we discussed last week,
+they're going to be working with the Ministry. They're going to be getting vaccines out there
+really help us because COVID, the COVID pandemic is a global pandemic. And if we don't treat it as
+such, we're all at risk. Time for some email questions for Daniel. You can send yours to Daniel
+at microbe.tv. John writes, I'm 71. Due to colon cancer, I've lost my spleen, pancreas, half of
+one lung and a couple of feet of colon. My health is not great, but my diabetes and blood pressure
+are well controlled. I received my second dose of Moderna vaccine in February. Is there a test that
+I can request that will show the condition of my immune system? As of now, I don't feel at all
+convinced that the vaccine has or will work for me as well as intended. The third dose is available
+or soon will be. I will get one if only for additional protection against infection. And yes,
+I do understand the difference between infection and disease. I really don't want the infection.
+I'm fairly certain that the disease would knock me off my perch. I would really appreciate any
+information on available tests that would help me to understand my position. Okay.
+So good, good. And I appreciate that you added the sophistication at the end because I think
+that sophistication is required. We do not have any great tests for telling how well does the
+vaccine work against preventing disease, right, ending up in the hospital death. There is, I'll say
+some information supporting the idea that there's a certain correlate between antibody levels and
+infection. But I'm going to say that sort of with trepidation, you know, that this is growing,
+we're learning about this, you know, I'm going to leave it sort of there. We do not have that
+test, I think that you want, you want to go ahead and have a test and have that security.
+There's certain ideas that certain levels of antibodies above a certain threshold might be
+associated with a lower risk of infection. What am I going to advise you to do? So, you know,
+you would probably be an individual as you describe who would qualify for that third shot.
+We do not know exactly what that results in, right? We're still waiting for the science as
+far as efficacy because you don't want to know what happens to my antibodies. You want to know
+what happens to my risk of infection, what happens to my risk of disease. The second thing, you want
+to continue to act cautiously. You do not want to have a run-in until we have antivirals, until we
+have some other things that are that we can offer. And I mean effective antivirals, not remdesivir,
+hopefully a product by Merck or Pfizer that comes out in the next couple months. So continue to
+wear masks, continue to make smart decisions. Hopefully individuals like you will have more to offer.
+Debbie writes, I'm an internist who has been educating the physicians in our medium-sized
+primary care practice since the beginning of the pandemic. As I look to the future of this
+virus becoming endemic, I'm trying to think how to frame this and what measures to follow.
+It occurs to me that hospital strain, and that's not strain of virus, by the way. That's strain on
+the hospital is one of the most important things to follow. In my home state of Texas, our non-medical
+governor has decided 15% of beds being occupied by COVID patients was a measure of distress.
+I can follow this number on the Johns Hopkins website from my state.
+Locally, it's harder to follow. It seems that hospital strain numbers are not universally
+agreed upon and also seem to change. Hospitals are used to growing capacity during surges and
+emergencies. Is there any agreed upon and standardized measure of hospital strain,
+and if so, any reliable website for looking at it? I'm also following the percent positive rate
+only as an indication of adequacy of testing and then looking at cases per 100,000
+per seven days on the CDC website or globalepidemics.org. Additionally, home testing or very easily
+accessible testing is going to have to be a much bigger part of the solution moving forward.
+$20 for two tests is too expensive. Here in Texas, it's hard to find home tests.
+Scheduled tests are two days out and turnaround times are increasing.
+A lot in that email. Talking first about hospital occupancy and how that correlates
+with how much a hospital can handle. That's really the number. What is the percent of beds?
+What's the hospital capacity? What's the percent of filled beds? The other is actually looking at
+ICU, what percent of the beds? In New York, they actually have good sites that you can go to
+keep track of that. That's one of the things. Remember, it's not just about COVID. You break
+your leg. You're in a car accident. You need chemotherapy. There's a myriad of other reasons
+why people end up going to hospital. If those beds are all full of COVID, that's a problem.
+That does strain the system. There is a certain ability to deal with increased capacity surges.
+We see this a lot of times with influenza, respiratory season. That's helpful.
+Testing, yes. As you went through, that was a very sophisticated analysis. If you're in the UK,
+you go to a website, and next thing you know, you've got free testing. Here in the US,
+$10, $11 per test, that does not encourage people to get tested. If anything, it's pennywise pound
+foolish. It is incredibly expensive when someone ends up in the hospital with COVID. It is a lot
+cheaper to prevent that. Jamie writes, I am a primary care clinician, a family nurse practitioner
+of 19 years with a doctor in translational research. Two clinical questions. One, we're in California
+and have vaccine mandates for our public employee sectors. I had my first patient asking for a
+medical excuse from the mandate, which as of now can be religious or medical. This 30 something
+patient is currently undergoing infertility treatments and wants to wait until after she is
+either pregnant or gives birth to get the vaccine. Ask me to put in writing that there are no risks
+to pregnancy or fertility treatments, which of course I cannot do. I discussed with her the risks
+of COVID while being pregnant and asked her to talk to her reproductive health provider and
+come back in two weeks prior to the mandate's effective date so we can make a determination
+while I do more research. I wanted to talk to our fellow clinicians and have an office-wide
+approach knowing that the only real C.I. to vaccination is allergy to vaccine ingredients.
+This person is in a forward-facing public law enforcement position. What would be your guidance
+for this case as well as to guide policy protocols knowing there's always some flexibility for
+clinicians when we issue protocols here. Yeah, so this is a great question, right? Because
+this has been coming up and the patients are angry, right? And the way our healthcare system works.
+Like, well, I'm going to find a doctor who or clinician, a provider, basically someone who's
+going to sign this. And as this emailer, as you write in, there really are only these two exceptions,
+either you have an anaphylactic issue, anaphylactic reaction to this vaccine. You have had an
+anaphylactic reaction to that first dose you got, or you have an anaphylactic issue with one of
+the components. Well, you're going to have to look at the mRNA, that's going to be the PEG 2000.
+Look at J&J, you'll have to see if there's an issue there. But in general, there are very few
+individuals, even individuals that have had other allergic issues, most of them can successfully be
+vaccinated. What you're being asked is really the wrong question, guaranteeing this person
+along healthy life and successful infertility treatments. None of us can do that. The vaccines
+are not without risks. You know, this is like them asking for some sort of guarantee that that seat
+belt will not cause sternal bruising if they get into an accident. Now, I think what this person
+is requesting of you is not reasonable. So what we've tried to do as organizations is just put
+in writing, these are the exceptions. And there was a recent call for Northwest, it was an email
+that went out by David Battnelli, a really superior clinician and leader. And he basically said to
+all the Northwell physicians, these are the exceptions. If you're giving exceptions,
+if you're making up reasons for medical exceptions, that's not okay. And that really sounds what
+this person is saying. They're saying, please give me a medical exception while I go through
+these fertility treatments. That is not in the list of exceptions.
+All right. Question number two, more personal on July 4th, my 45 year old otherwise healthy
+husband developed chest pain, brought him to the ER. He had elevated D dimer, multiple RPE on CTA,
+nodule and the thyroid currently being worked up. He had received a J&J vaccine 10 weeks prior
+to this incident and had been feeling fatigued, reported to VAERS and they followed up right
+away, but we don't know and may never know if this was a causative factor. So the question is,
+should he opt for one of the mRNA injections instead of another J&J?
+So sort of hearing this story, it's hard for me to know if there's any connection. It does not
+sound in any way compelling for there to be a connection here. But this is that gray of medicine
+where we always work where there's no reason not to use an mRNA vaccine in the future.
+And I think that's a reasonable choice. But there's nothing you're telling me here that connects
+the dots for me and makes me worry that this is J&J related.
+All right. One more from Lynn. Just listen to an Andy Slavitt podcast with Johns Hopkins
+epidemiologist Jennifer Newzo, very worthwhile discussion of post-vaccination infection.
+A note that I don't use the word breakthrough. There was some discussion as well about boosters
+and my impression was that global vaccine equity plays too small a role in the booster decision,
+but that's not where my two questions for you lie. After the interview was over Slavitt opined
+on several COVID related matters. He did a good job explaining waning, neutralizing antibodies
+and memory T cells responding to viral attack. He then went on to say that the memory B cell
+and T cell response is slower to appear. And that could lead to symptoms and disease
+before full immune response kicks in. His argument for boosters is that those antibodies that appear
+directly after a boost will afford more protection against symptoms and disease. If you're dead set
+against symptoms, then a booster is your thing. Is this correct? To his credit, Slavitt gives a
+very well articulated discussion on the pros and cons politically and medically of boosters.
+He feels that boosters, the immunocompromised, vulnerable elderly and healthcare workers in the
+U.S. is fair. Boosting everyone else before the rest of the world has vaccine access is not.
+All right, let's do that one first. Okay, so first I'm going to say, Jennifer Newzo,
+she's fantastic, right? And everything Jennifer says, I remember, I actually listened to that
+podcast. And everything Jennifer says, I'm going to, I'm going to sort of thumbs up. She really gives
+an ex expert scientific basis to what she has to say. Now I love Andy. Andy actually is an
+old Optum executive, right? So he did a great job helping with the vaccine rollout. But I worry
+about Andy is he's very articulate. He's very charismatic. He's very persuasive. He's not a doctor.
+And so I often feel like he oversteps, right? So, you know, it's actually interesting if you
+go back and listen to sort of his older podcasts and watches it evolves. Yeah, so I actually listen
+to his podcast. He does a great job. But everything Andy says, take it with a grain of salt. He's a
+great logistics guy. He's the guy you call if you want help, maybe using PEPFAR to get those
+vaccines out there. But if you want good science, if you want good medical advice,
+listen to his guests. So I would say if you have can only listen to one podcast, listen to
+Twiv, not Slavitt. Yes. All right. Second question, Slavitt said that smarter people
+than he are pushing for the J and J vaccinated to get an mRNA vaccine. Where's the data that
+supports this? And would it be one dose or two? Yeah, I remember when he made that comment and,
+you know, sort of say, he talked to a whole bunch of really smart people. And yeah, you know,
+again, Andy Slavitt, he's charismatic. He's a great public speaker. But yeah, take it with
+grain of salt. There's no science that supports that recommendation. I don't know who these smart
+people are. By the way, Lynn has written into Twiv. She is the retired molecular biologist from
+Western Massachusetts and grandmother to the epitope obsessed grandson. Oh, I love that.
+Isn't that great? That's COVID-19 clinical update number 79 with Dr. Daniel Griffin.
+Thank you, Daniel. Oh, thank you. And everyone, including events in BC.

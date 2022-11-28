@@ -1,0 +1,392 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv. This week in virology, episode 770, recorded on June 17, 2021.
+I'm Vincent Rackenjello, and you're listening to the podcast all about viruses.
+Joining me today from New York, Daniel Griffin. Hello, everyone.
+Now, 770 is not a plane, isn't Daniel, right? But I like that number. It's a nice, easy to
+remember, 770. We'll have to see, do I end up hitting 777? Boy, would that be lucky.
+Yeah, that's the big one. I've flown, I flew one of those to Singapore once,
+it's amazing plane. It really quiet. No, I miss that. I miss traveling. I miss
+getting to all these places. I miss my friends in Panama in Uganda.
+Yeah, you miss your cows in Uganda, right? Yes, I do. I'm worried they're not going to
+recognize me. And the next time I go in there, instead of getting like nuzzled by Brian,
+he might get a horn or something. Yeah, they won't remember you. Yeah, you got to go back.
+Maybe next year, you'll be able to go, right? I'm hoping. I'm going to be heading to Ghana in
+January, and I hope to be able to figure out a time to get to Uganda. But I have to say,
+my friend Titus, who's in Blantire, Malawi, is actually saying things are not so great down
+there. They're starting to see what for them is a third surge. So tough times.
+Not a lot of vaccination in Africa, right? No, and actually that's what I'm hearing,
+is they're having issues with they were allocated certain amounts, and now they're
+getting less than even they were allocated, which are already small amounts to begin with.
+So it's tough times for my friends there. Well, maybe we can give them our Novavax stockpile,
+right? I hope so, actually. Yeah, I think that would be great. All right, well, we've got a lot
+to cover today. I remember a few weeks ago, my dad was asking me, really? Is there something new
+every week about COVID? And actually, I was on the local news channel on Monday morning
+with Elizabeth Heshigan. And actually, she told me at the end, she said she has never gotten
+more questions during an appearance than she got during the time I was on. So people have
+lots of questions about COVID. So let's start answering them. So let me start with our quotation.
+The worst thing we can do right now would be to mistake progress for victory.
+And that is our own Andy Slavitt. Andy Slavitt is actually known as the fixer, I say our own,
+because he was one of our executives at Optum for a while out in Minnesota. And he was really
+instrumental, I think, in a very successful vaccine rollout. But he's actually now going to be a
+competing podcaster, Vincent. In the bubble is his podcast. I listened to it regularly,
+and I will shout out. It's great. Good stuff. All right, let me give a little bit of an update.
+Case rates and deaths are down across the country, getting lower here in New York. We've gotten
+over 70% vaccination coverage in New York, not quite as good as 80% up in Vermont,
+but still some hotspots. I think everyone is aware of this. And at the risk of controversial,
+this tends to correspond with low vaccination rates. Maybe people think there's causality there.
+And worldwide, again, it really seems like the same situation. We're seeing numbers come down,
+but again, certain areas and again, seems to be corresponding with areas with low access to
+vaccinations or low vaccine uptake. We're also seeing another variant, the Delta variant.
+And this has been sort of interesting. One of the things that was suggested, and we'll hit a
+little bit on this, is that maybe this is a little bit harder to distinguish from other viral infections.
+Maybe there's a slight difference in clinical presentation, and we'll hit, it's actually the
+Scots in the UK is actually an app, the Zoe app in the UK, where when they're looking at symptom
+reporting, it looks like they're seeing more sore throats, more runny noses, less of the
+classic presentation. Now, I do a call every week with our urgent care docs. I'm sure some of them
+are listening. And among our adult populations, I don't think there's enough of the Delta variant
+out there that they've really noticed much difference. But last night, it was on a call with Jay
+Berger, the head of our large pediatric group. And they're actually still seeing COVID cases
+every week. And he was actually saying, in that population, it's always presented with more of a
+sore throat, runny nose. So I don't know if it's so much a variant presenting clinically differently,
+or if it's just that people are now seeing it in a younger age group, which for I'll say for the
+whole pandemic has always presented in a way really difficult to distinguish. And this is a
+question I remember like a year plus ago is actually Dr. Mench, one of the medical directors at a
+hospital. And he was going through asking all kinds of questions about, well, how can we tell
+whether or not it's COVID versus something else? And I was like, you know what, Dr. Mench,
+there is one test. It's called the PCR. And I think we're still there. So a lot of attention
+back to the early days of the pandemic, which I hope will position us better for the next
+zoonotic pandemic. You know, and a lot of this is when when did when did COVID-19 get
+into our country? So one of the publications antibodies to SARS-CoV-2 in all of us research
+program participants January 2 through March 18, 2020. And this really builds on other work,
+including David Hose, serology surveys here in New York City, Washington Heights, Columbia.
+And these authors used serum obtained as part of the all of us research program.
+This is an observational cohort study that beginning in May 2018 enrolled diverse adults
+greater than 18 years of age in the United States from study site locations in all 50 states,
+with a goal of enrolling at least a million participants. So relying on serology testing,
+these authors reported that they found positive serology for SARS-CoV-2 as early as January 7th
+from Illinois, January 8th from Massachusetts, February 3rd from Wisconsin, February 15th from
+Pennsylvania, March 6th in Mississippi. And this is really consistent with the paper published
+back in the fall serology testing of US blood donations to identify severe acute
+respiratory syndrome, coronavirus 2, SARS-CoV-2, reactive antibodies, December 2019 through January
+2020 and CID. And that actually they have reported in that paper on SARS-CoV-2 reactive antibodies
+saying they had detected them in 106 blood donations from California, Oregon, and Washington
+as early as 13 through 16 December 2019. And among donations occurring in early January in
+Connecticut, Iowa, Massachusetts, Michigan, Rhode Island, and Wisconsin. So I think this
+really goes back, right? I mean, this keeps coming up. They keep talking about the identification
+of this in Wuhan, China. And I hate to say when they identified it in Wuhan, China in December,
+it was already here in our country, it looks like. So maybe we should take off our hat and say,
+thank you for picking up that something was going on because we had it here in our country already.
+There actually was a frontline special, PBS frontline special, the virus, what went wrong.
+And you can actually hear the story there. And this was made about a year ago about how here we
+were in the United States, seeing lots of patients with unexplained respiratory infections.
+We were seeing them in community. We were seeing people dying in the hospitals.
+We had suspicions that something was going on. We were desperate to be able to sort this out,
+but we had no access to testing. We weren't really able to confirm it and tell us the story here
+about how it's actually that Westchester patient that we finally were able to get a test result
+on February 29th. But he had been sick for a while. And we sort of later realized, boy,
+there were thousands of people that already had COVID-19 here in New York by the time we identified
+that gentleman in the end of February. Children in COVID, children are at low risk, but they are
+not at no risk. And I know people remember my old mantra, let us open the schools if we need to
+close the bars. That's fine. So more on children in COVID. And this will be a little bit of an
+overlap from, I guess, 769-12, which covered a little bit new information on the article.
+This article I'll be talking about incidents of multi-system inflammatory syndrome in children.
+Among U.S. persons infected with SARS-CoV-2. This paper was published in JAMA Network Open,
+but there's really nice discussion on 769. Not only just about this issue, but maybe a little
+deeper dive into maybe some ideas about gut-tight junctions and super antigens. But this article
+was really a look at the incidence of multi-system inflammatory syndrome in children. So Miss C,
+in those under 21, should they get COVID? So they looked at data from Connecticut,
+Georgia, Massachusetts, Michigan, New Jersey, New York. They excluded New York City,
+Pennsylvania. And the data analysis was conducted from August to December 2020. And they actually
+reported an incidence of 31.6 persons per 100,000 SARS-CoV-2 infections in persons younger than 21.
+So this is about one in every 3,000 children who got COVID ended up with Miss C. They did point
+out that the Miss C incidence among black persons, Hispanics, and Latino persons was approximately
+nine times higher than among Caucasians, about three times higher among Asian Pacific Islanders.
+And so I'll suggest this perhaps a lower risk, right? Because as we've discussed before,
+many cases in children do go undiagnosed. I just want to add that caveat. But we're starting to
+get a, I think, information here, because parents are trying to decide, should I just wait and let
+my child get COVID versus the risk that might be associated with vaccinations? So just putting
+that in context. Another paper, and this is going to help us with myocarditis discussions,
+this paper was prevalence of clinical and subclinical myocarditis in competitive
+athletes with recent SARS-CoV-2 infection results from the Big 10 COVID-19 cardiac
+registry, right? So this is our university athletes. We'd heard a little bit about this in preprint,
+but now this was published in JAMA cardiology. And I think this can give us some perspective,
+as concerns are raised about potential risks of heart inflammation or myocarditis post-vaccination.
+So the authors here report on a cohort study of 1,597 U.S. competitive collegiate athletes
+undergoing comprehensive cardiovascular testing and the prevalence of clinical myocarditis based
+on a symptom screening strategy was 0.31%. If they went ahead and screened with magnetic
+resonance imaging, it actually was as high as 2.3%. So this gives us a 1 in 300 chance of
+symptomatic myocarditis and about a 1 in 43 chance with sensitive screening should
+individual in this age group get COVID. So as I say, this is perhaps a lower risk,
+because right as we discussed right above, some cases go undiagnosed, so got to have that caveat.
+But I think this gives us perspective to concerns about the post-vaccination myocarditis risk,
+of which there are a few hundred cases under investigation. They tend to be mild limited to a
+few days versus what we see with the virus here, which has actually resulted in long-term impacts.
+We actually know a lot of athletes who actually were not able to actually compete because of the
+severity of a post-COVID infection myocarditis. So I think this is just more information
+for people to have in the mix when they're making decisions about vaccination. I'm talking my
+wife a little bit about the sort of discouraging fact that we're still seeing thousands of COVID
+cases every day. Most experts are predicting an increase come fall and winter. So you compare
+the risk potential risks associated with vaccination versus the real risks of getting COVID and the
+complications that we know about from that. But then balancing the risk and perspectives,
+what about the impact of the pandemic on mental health issues here in our adolescents? The
+article emergency department visits for suspected suicide attempts among persons age 12 to 25 years
+before and during the COVID-19 pandemic United States January 2019 through May 2021. Now this
+came out as an early release in the CDC MMWR and the authors reported that in May 2020,
+during the COVID-19 pandemic ED visits for suspected suicide attempts began to increase
+among adolescents age 12 to 17, especially girls. And during February 21 to March 2021,
+suspected suicide attempt ED visits were 50.6% higher among girls age 12 to 17 than during the
+same period in 2019 prior to the pandemic. And I really think that if you look at
+figure one in this paper, it's very sobering as one can see the weekly ER visits for female
+adolescents with suspected suicide attempts rising to over 1000 per week. Now the authors
+acknowledge several limitations. First, you know, my first tendency is feel guilty that we
+caused this through physical distancing, including a lack of connectedness to schools,
+teachers and peers, barriers to mental health treatment, increases in substance use and anxiety
+about family health and economic problems, which I think we all experienced. These are all risk
+factors just for suicide. But we also have seen that the average ED visits for mental health
+concerns and suspected child abuse, neglect, risk factors for suicide attempts also increased
+in 2020. The authors, you know, acknowledge that there could be alternative explanations here.
+But I've talked a bit with our urgent care physicians. And I think a lot of us, a lot of
+people have suggested that both this was very evident that there was a significant impact on
+mental health that we didn't really need a publication like this. But others have actually
+suggested that there's even a bigger problem than we see here. So many visits to urgent care
+centers with cutting and other results of mental health challenges in our children,
+children struggling in school, parents frustrated and struggling with often very unhealthy parent
+child and even parent dynamics. So I was talking to my friend, Dr. Lucy McBride, sort of a,
+I think, a bright light in this spot over the last year, just about how we really need to do
+better. Alright, pre-exposure period transmission. This was an interesting correspondence in the
+Lancet. SARS-CoV-2 Delta, VOC in Scotland, demographics, risk of hospital admission and vaccine
+effectiveness. Now, the authors use the word strain a bun. So I'm going to replace that with
+the word variant. They report that on May 19, 2021, the Delta variant of concern for 4 million
+known as the Indian VOC or B1.617.2 became the dominant variant of SARS-CoV-2 in Scotland.
+I wonder how long it's been like prints, how long we have to, you know,
+4 million known as throw in there. But the alpha variant of concern had been dominant previously.
+I'm not going to give the AKA there. But this was rapidly replaced. A few interesting findings.
+So the Delta variant of concern in Scotland was found mainly in younger, more affluent groups.
+Interesting. I'm sure about the affluent part of that. Risk of COVID-19 hospital admission was
+approximately doubled in those with the Delta VOC when compared to the alpha VOC. Both the Oxford,
+AstraZeneca, and the Pfizer by intact COVID-19 vaccines were effective in reducing the
+risk of SARS-CoV-2 infection and COVID-19 hospitalization in people with the Delta VOC.
+So interesting publication there. All right. Testing never missed an opportunity to test.
+This has become a challenging arena and really dealing with false positives,
+particularly on asymptomatic screening. So we've done this a few times,
+and I'm hoping that clear minds prevail. We get some clinical judgment allowed in terms of
+interpretation for our camp, school, and summer programs. So this is the concept of a positive
+predictive value and a negative predictive value. So the big message here is that when we get to
+a prevalence below 1%, that's where we are in most parts of the country, the majority of those
+positive tests are going to be false positives. We're forced in a lot of jurisdictions to still
+count any test as positive and follow the rigmarole that follows from that. But we're hoping that
+if someone is low-risk, it's screening. You do a secondary confirmatory test that is negative.
+We'd love to have just a little bit of flexibility here to use some clinical judgment. But that
+is actually what I'm spending a lot of time with. Meetings going through, because there will be.
+You do hundreds of tests. You're going to get some positives, and the majority of those are going
+to be false positives. All right, active vaccination. Never miss an opportunity to vaccinate. Vaccines
+are how this pandemic ends. We heard from Novavax. This was covered on 769. The Novavax COVID-19
+vaccine demonstrated 90% overall efficacy and 100% protection against moderate and severe disease
+in prevent-19 phase 3 trial. Press release, so we don't have a full peer-reviewed pre-print. But
+this is a recombinant nanoparticle protein-based COVID-19 vaccine that uses technology similar to
+the current shingles vaccine, shingrix, pertussis, hepatitis B. This, in all honesty, people ask
+for, oh, I want a traditional vaccine in many ways. This is. A little bit about the trial,
+the catchy name, right? Vincent did a good job of that. Provent stands for the pre-fusion protein
+subunit vaccine efficacy Novax trial. This was a two-to-one randomized placebo-controlled
+observer-blinded study to evaluate the safety efficacy immunogenicity of this
+adjuvanted vaccine in 29,960 participants, 18 years of age and older in 119 locations in the
+United States, Mexico, compared with placebo. 70, seven cases were observed, 63 of placebo,
+14 in the vaccine group. So remember, this is two-to-one. So you can sort of think of that 63 versus
+seven, you know, or 126 versus 14, just to understand why the numbers are what they are.
+All cases observed in the vaccine group were mild. 10 moderate cases and four severe cases
+were observed all in the placebo group, yielding a vaccine efficacy of 100% against moderate or
+severe disease. It's all very positive. Safety data was actually quite positive. And at least
+what I have heard is that the people that got the vaccine versus the people that did not get the
+vaccine, the degree of reactogenicity was minor enough that people had a tough time telling. So
+that will be quite nice if we have a vaccine with a little less reactogenicity. I think it'll be
+nice. I'm sure we'll have people wondering if they didn't get placebo in the future. They're
+getting used to a nice big reaction. Now they did give us a little bit of information about
+variants, but I'm going to sort of leave it there. Another potential great tool for us to have that
+looks like it's also efficacious against the variants. All right, pregnant women and vaccination.
+It's always a hot topic. CDC MMWR again with COVID-19 vaccination coverage among pregnant women
+during pregnancy. That was sort of redundant, but okay. Eight integrated healthcare organizations
+U.S. December 14, 2020 through May 8, 2021. And so data from the vaccine safety data link,
+so VSD, a collaboration between CDC and multiple integrated health systems was analyzed to assess
+those that received greater than one dose or first or second dose of Pfizer BioNTech or Moderna or
+single dose of J&J. And basically went through and the really the high point I'm going to say,
+they looked at a total of one thousand three one thousand thirty five one hundred and thirty
+five thousand yes one hundred and thirty five thousand nine hundred and sixty eight pregnant
+women, and they identified no safety concerns. All right, we got more real world data on our
+monoclonals. And I like to say the first week, right, the viral symptom phase, the time for
+monitoring and monoclonals, and also where you get your test is ideally where you get your monoclonals.
+So real world data on bamlin of a map, the article early monoclonal antibody administration
+can reduce both hospitalizations and mortality in high-risk outpatients with COVID-19. This was
+published in in CID out of UC San Diego at La Jolla. The authors performed a retrospective
+review of medical records of patients referred to their clinic from 11 120 to 2 2021 and identified
+617 patients at high risk who were offered monoclonal antibodies 175 received them 442 did not.
+The monoclonal antibody group was older, more men, more comorbidities, higher risk score,
+but despite that there was a significant reduction in hospitalizations in the monoclonal antibody
+group versus control 1.7% versus 24%. No COVID-19 related deaths in the monoclonal antibody group,
+there were 12 among the controls, which really breaks your heart, right? All these people were
+offered monoclonals, a number refused, a dozen of those died as a consequence of that decision.
+So I think it's really important for clinicians and patients to realize that particularly in
+those unvaccinated monoclonals are a really powerful tool. But now things get a little bit
+complicated. This is a twist and I think everyone who is used to everything I've said about monoclonals
+and how timing really matters, this is a little nuanced because now we're going to talk about
+a subset of hospitalized patients that may actually benefit that do benefit from monoclonal. So we
+heard about data from the UK recovery trial. And I have to say, I was very excited about this,
+you know, this is stopping people in the hall at the hospital, we got to talk about this.
+And this was, we got a press release from Regeneron, Regeneron Cove. So this is the
+Casa Veribimab and the MDivimab phase three recovery trial meets primary outcome,
+improving survival in hospitalized COVID-19 patients lacking an immune response to SARS-CoV-2.
+So the primary outcome was all cause mortality in hospitalized zero negative patients. They
+received Regeneron Cove 8000 milligrams versus just usual state of care. And this reduced all
+cause mortality by 20% in zero negative patients compared to usual care alone. So 24% of the folks
+in the Regeneron COVID arm died versus 30% in the usual care by day 28.
+So this is really an important point, right? This is not saying, oh wow, now it works in
+hospitalized patients. This is saying that if you give it to people who end up in the hospital,
+who missed that first window, remember that first window, nobody died. Here, you still had 24%
+of the patients dying. But that was a 20% reduction. When you combine the larger seropositive group,
+there was no longer a significant impact. So this is already something where they are looking
+for expansion of the EUA. So if a patient shows up in the hospital, maybe their oxygen saturation
+is 92, 93, someone might think we need to admit them for a remdesivir or something else. If they
+are seronegative, it looks like there still is a benefit in that subgroup to getting Regeneron
+cocktail therapy. The median hospital stay was four days shorter, 13 versus 17 in those that
+got the cocktail when we're looking at their seronegative group. I'll read there. They had
+that quoted summary and this is the takeaway. The recovery trial has shown that in patients who
+had not made their own antibodies against SARS-CoV-2 treated with Regeneron-CoV antibodies,
+dramatically reduced their risk of dying or being on a ventilator and also shortened how many days
+they remained in the hospital. So I think that this is practice changing. But I still will say,
+if you can get it in in that first week before they end up in the hospital, we are not seeing
+people dying in our trials. We're here a quarter of these people died, but that was less than the
+people who do not receive therapy. Long COVID, post COVID, I feel like we're still in a bit of limbo
+here, still very limited in what we can offer patients. But we did this week get some guidance
+from the CDC. It's both honest, accurate and a start. So let's wrap up today before we get to
+emails with some of the key points from the CDC interim guidance on post-acute sequelae of COVID.
+So key points, the term post-COVID conditions is an umbrella term for the wide range of physical
+and mental health consequences experienced by some patients that are present four or more weeks
+after SARS-CoV-2 infection, including by patients who had initial mild or asymptomatic acute infection.
+Two, based on current information, many post-COVID conditions can be managed by primary care
+providers with the incorporation of patient-centered approaches to optimize the quality of life and
+function in affected patients, right? So they're saying here a lot of these people can be managed
+by their primary conditions. They do not need to be referred to specialty centers.
+The third, and I think this is really important, objective laboratory or imaging finding should
+not be used as the only measure or assessment of a patient's well-being. Lack of laboratory or
+imaging abnormalities does not invalidate the existence, severity or important of a patient's
+symptoms or conditions. I have to admit that particularly one hits close to home. I lately had
+a woman who was severely cognitively impaired and the disability decision was basically,
+there's no objective lab or imaging abnormalities, so we're going to drop her claim and not continue
+to cover her. So I think it's really important that this is recognized. Health care professionals
+and patients are encouraged to set achievable goals through shared decision-making and to
+approach treatment by focusing on specific symptoms. So for example, if they have a headache or
+conditions such as dysautonomia, a comprehensive management plan focusing on improving physical,
+mental and social well-being may be helpful for some patients, but then just the honesty at the
+end. Understanding of post-COVID conditions remains incomplete and guidance for health care
+professionals will likely change over time as the evidence evolves and I'm going to say as we
+understand better what is going on and how to help these individuals. We do actually have quite a
+bit of a challenge. I'm actually in a meeting almost every day trying to look at how to address
+this issue, but we do have challenges because in part it's hard to identify these individuals. We
+don't necessarily have a diagnosis code, so we can't look through claims and say, oh, how many people
+are, you know, suffering from long COVID, but I wasn't a meeting earlier this week hearing that
+there may be a new code. This U09.9 might become active in October and that might allow a physician
+to identify this is a person who not just has a new diagnosis after COVID, but may have this post
+acute sequelae of COVID syndrome that we're all growing familiar with, the brain fog, the fatigue,
+the other disabilities. I will finish there, but then again, thank everyone for your continued
+support. I've noticed lately a lot of people are going to Patreon. It's just sort of setting up for
+a monthly contribution, which thank you so much. We're continuing through May, June, and July.
+Donations made to parasites without borders will be doubled up to a total contribution of $40,000
+to Foundation International Medical Relief of Children. This is really a tremendous organization
+that's out there helping people in the world struggling. We really want to support them because
+we are not safe until everyone is safe. Time for some email questions for Daniel. If you have one,
+you can send it to Daniel at microb.tv. Mark writes, wondering if you have seen any cases of PAM as a
+vascular stage sequelae of SARS-CoV-2 infection in your practice. PAM. So who knows what PAM is,
+paracetral acute middle maculopathy. So this is actually an issue where you have ischemia
+to part of the eye. So you have retinal capillary ischemia. And a lot of those patients, this is
+well-described, unfortunately, post-COVID. We know that COVID is not just a pulmonary disease. It's a
+vascular disease. There's clotting abnormalities. And so these patients are actually being managed
+by our ophthalmologist at this point. But yeah, this is a quite a challenge and I think just more
+evidence of that COVID is a disease that affects the entire body. So yeah, we actually recently,
+it was actually Tuesday night, we went through, we have a COVID recovery clinic here. We set up
+here at ProHealth. A lot of institutions have set them up. And a lot of what we do at that intake
+is connect patients with specialists that are committed to helping them. So when a person is
+seen with this presentation, we connect them with one of our ophthalmologists.
+Hi, I'm writes with most indoor spaces, rapidly moving to masks optional. What do I need to do
+to best keep my seven-year-old safe? Is his mask enough to protect him, at least for short
+exposures? What about longer, like synagogue services, should we just be keeping him away
+from all public indoor places other than school for the rest of the year until he can get vaccinated?
+So this is an excellent question. I know a lot of people have, you hit on several points in your
+question. And one of them, I think a big issue, is a lot of people have not been going to church
+synagogue mosque over the last year, or I guess wickin' outdoor circles and I'm gonna leave out
+the pagans right there. But you know, there is a risk that has to do with how much virus is in
+your community. And so what we're seeing in a lot of communities is an incredibly low
+prevalence incidence. And so let's take my immediate area where our test positivity rate is less
+than half a percent. These are places where you can start looking around high vaccination rates,
+low incidence of virus. You can start doing a risk calculation. There are other parts of the
+country where I'm gonna give really the opposite advice, low vaccination, still seeing lots of
+infection. So you're gonna have to balance that risk here. The mask really protects us when other
+people wear them. There is some protection you get from wearing it yourself. I sort of think of it
+as the 80-20 rule. You're getting about 20% of that. By you wearing it, you get about 80% if
+everyone else is wearing them. The other is really, as I brought up, vaccination if you're in a place
+where people are vaccinated. And again, it's gonna be a sort of threshold risk tolerance.
+I actually went to the gym yesterday and I took off my mask for the first time. It felt really
+uncomfortable. If I had young children, I think this is really important. Parents need to know
+sort of the risks, need to make decisions they're comfortable with. There's a few months left. We
+think we're gonna be in September having the ability to vaccinate younger individuals. Parents
+should have that as an option. Should they choose it? Come September. So you got to sort of weigh that.
+Alina writes, a question regarding a B cell depleted patient with multiple sclerosis in her
+40s, last infusion of retuximab, February 2021. First dose of Pfizer April, second dose three weeks
+later. In May, some B cells detectable less than 0.5%. Because of a former medication,
+there's a T cell deficiency. T cell responses are going to be tested anyway, as well as lymphopenia.
+She was tested for antibodies three weeks after the second vaccine dose. They were none at all
+detectable. Another round of shots is going to be administered July, hopefully in time before the
+next round of retuximab will be needed. Surgery because of a precancerous disease is at the moment
+being postponed until after vaccination, but has to happen in full this year at the latest.
+Question, what's to be done if the second round of vaccines does not build an immune response?
+Could monoclonals be a temporary solution for her for prevention of COVID in high risk settings
+like during hospitalization, where masking is not possible? Here in Germany, monoclonals are
+not licensed to prevent the use. So there happens to be the practical problem of how to get hold of
+them, even as the patient is willing to pay for all medication import transportation. Any ideas
+are highly appreciated. This is a great question. We brought up several tests before. There are
+millions of patients here in the United States. There are millions and millions of individuals
+throughout the world in very similar situations where they've received the vaccine. They don't
+have detectable antibodies. It's hard to do the T cell test outside of a research setting,
+to be honest. The adaptive T detect is the algorithm for analysis is set up to detect natural
+infection, not great for telling us, are you immune? Do you have a T cell shield, so to speak?
+The double vaccination people are definitely doing, sort of hear that kind of in there.
+A lot of people are giving even at least a third dose. This is all sort of outside. It's
+being actively studied at the moment. COVID is different, I got to say. If a person,
+I was just going over needle stick injuries yesterday with our frontline physicians. We
+tend to say, oh boy, if you were vaccinated and if you have negative serology, then people actually
+get immunoglobulin to protect them after acute. There are some studies. Actually,
+Regeneron published a preventive study. It makes sense. A lot of the monoclonal antibody
+manufacturers are looking at that. Different monoclonal antibodies have different half-lives,
+so it makes sense. There is some data to support that. A lot of it here in the US,
+I'll be able to share when that is part of the EUA for another indication.
+Once something is licensed, as our listeners may know, a physician could choose to use it off-label.
+Germany's going to be a particular different challenge, but that is sort of what we think is
+on the horizon for individuals that can't make their own antibodies. Potentially, we can give them
+those antibodies. And finally, from Jonathan, I'm an internal medicine hospitalist who's getting
+revenge against COVID by administering vaccines. I've been heartened to see our clinics here in
+San Diego fill up with young adolescents for Pfizer vaccine. However, I'm getting questions
+from parents about myocarditis in this population after the vaccine appears that the risk may be
+increased. It appears most cases are mild. However, it often helps to discuss these kinds of things
+in context. What is the underlying rate of myocarditis in this population? What is the relative risk
+of COVID infection versus myocarditis? What are long-term effects or serious outcome percentages
+in kids who get this inflammatory state? I can see a parent supportive of vaccination say, hmm,
+prevalence of virus where we live now is very low. So why risk having my kid get this vaccine-related
+condition? Yeah, no, so this is an excellent question. Hopefully, we've hit on some of the
+topics today. And I always frame this for parents that it's really a decision about vaccination
+versus getting COVID, right? Things are a little quiet here. We expect to be a little quiet over
+the summer. We are expecting to see increases in the fall of the winter. So as my wife says,
+boy, with what we're doing, if you don't get vaccinated, it's just a question of when you or
+your child get COVID. So that's how I try to weigh it. I say, well, if your child gets COVID,
+I think we put the numbers out there. There's about a one in 46 chance that they're going to end up
+with myocarditis from the infection itself based upon the athlete study. A lot of those cases will
+be a symptom. Actually, you won't even know that. We know that some of those cases have been
+severe enough that these athletes have been unable to perform, unable to participate in sports.
+So we know about the long, well, already the longer-term effects of natural infection.
+But what about vaccination? We've done millions of vaccinations in our country. There are a few
+hundred cases of myocarditis under investigation. The vast majority of those have really lasted
+for a day or two. They've gotten better with over-the-counter medications. They've resolved
+the children have done well. I understand the argument, oh, my gosh, but who knows long-term?
+Well, I think we know enough long-term. If you only had a very mild case that
+resolved in 48 hours or less, there's really minimal expectation that that's going to do
+serious harm to the heart. But boy, if you let your child go ahead and get infected with COVID,
+myocarditis is just one of the risks that you would be concerned about.
+That's COVID-19 clinical update number 67 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you so much. And everyone, be safe.

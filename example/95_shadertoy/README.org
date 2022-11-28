@@ -1,0 +1,3 @@
+i want to edit shaders for shader toy in emacs
+
+log into shader toy with helium and change the shader on the website

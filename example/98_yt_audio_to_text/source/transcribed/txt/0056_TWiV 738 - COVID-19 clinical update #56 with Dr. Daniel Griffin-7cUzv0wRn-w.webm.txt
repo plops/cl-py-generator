@@ -1,0 +1,427 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv.
+This week in virology, episode 738 recorded on April 1st, 2021.
+I'm Vincent Draconiello and you're listening to the podcast all about viruses.
+Joining me today from New York, Daniel Griffin.
+Hello, everyone.
+This is update number 56.
+What is the situation this week, Daniel?
+Um, you know, it's not good.
+Um, and, um, I'm going to go, let me just go right into that.
+And then I'll give my quotation.
+You know, so I have to say I'm getting tired.
+This has really been a tough year and it's disappointing.
+You know, we've been asking people just give us a little more time.
+Um, and Dr. J Varma, he's a senior advisor for public health at City Hall here in New York.
+Um, and I'm going to quote him.
+He said, the term I've been using is high plateau.
+Um, you know, and I think that's what this is.
+We're on this high plateau.
+The numbers are not going down.
+If anything, the numbers of new cases are climbing, a number of deaths are sitting
+at a very unacceptable high.
+Um, this, this is not good.
+Um, we, we are going to get through this.
+Um, in the United States, um, with vaccines, um, but at, I think, an unacceptable number
+of, um, of loss and unacceptable number of people sick and, uh, dead and, uh, I'm going
+to say, um, disabled after this.
+So, so not, not good.
+It's, I have to say, if you're not frustrated, if you're not upset, you're not paying attention.
+Um, all right.
+Let's go with our quotation on that wonderful positive note.
+Um, we have two lives, the one we've learned with and the one we live
+after that.
+And that's by, um, Bernard Malamut.
+Um, and I had hoped that at this point, uh, we would be past that learning stage and we would
+be moving into, um, sort of addressing this with more wisdom.
+But, um, as we're seeing people are, well, I understand I'm exhausted too.
+Um, we're tired of, uh, not hugging the ones we love, not, not doing the things we like to do.
+We're so close.
+And I have to say, um, there's been a lot of predictions, um, of the surge in the, in the fall
+and winter, which we saw, um, a little bit of a rise here in the spring, which we are now seeing,
+um, and then expecting to end up, um, in a much better place this summer.
+Um, but that's the US.
+That's for a US centric.
+I, I don't want to be so US centric.
+Um, and I'll point out the rest of the world, um, is not on the way down.
+The rest of the world, Europe even, um, is on the way up.
+So, uh, things are not looking good.
+We really need to move faster with the vaccines.
+Um, and people probably heard we had a little bit of a setback there this week.
+One of the things, um, you know, as I go through each week, I'm always trying to, uh,
+give all the new information.
+Um, but I also want to sort of always counter, you know, what people are seeing, um, you know,
+in the press, in the media with what I'm actually seeing on the ground.
+Um, and also I feel like it's important that I keep reinforcing, um, the current
+treatment approaches because I keep seeing, uh, people, um, not addressing COVID-19 based
+upon what we've learned over the, yes, last year.
+I sometimes feel like I'm, um, back in March of last year when I see, you know,
+someone show up at one of the, say, one of the non-pro-health urgent cares,
+and they get a Z-pack and, uh, and a whole bunch of steroids on the second day of illness.
+Um, so let's, let's kind of go through this.
+So, um, my section, Children and COVID, people go sort of both ways on this.
+I am glad that, um, I think I'm getting attention on this.
+I'm pointing out that, that Children are at low risk, but that they're not at no risk.
+Um, but I wanted to give some, um, perspective to this.
+I, I do try to say that it's not just about who died.
+It's not just about who ended up in the hospital, um, but let's talk about that.
+Um, Children have died here in the US from COVID-19, um, and I actually went before, um,
+doing this update, uh, to the most current CDC, um, numbers.
+Um, and I, I still remember when I first started talking about this and I was saying, listen,
+it's, it's March, um, no child under the age of seven has died of COVID.
+Um, well, that's not true anymore.
+So if you look at zero to four years in the US, over a hundred Children have died.
+Um, if you go to the next five to 17 years, over 200 have died.
+And when you go a little bit higher, so this is the 18 to 29, you know, and I have an 18-year-old,
+I have a 20-year-old over 2000 have died according to the CDC.
+Um, and that's just confirmed.
+That's just in the US.
+I want to point out, um, those are the numbers.
+Um, and that's what we're working with.
+And, um, you know, that, that's far too many deaths here in the US already.
+And what we're seeing now with the positive cases is we're seeing a shift into the younger
+population.
+We're seeing, um, as I mentioned, um, with the MISC, um, a higher percent of these
+individuals are, um, ending up in the ICU.
+One of my colleagues just reached out to me saying where they are 3% of the hospital
+admissions are now Children under the age of 18.
+This is, this is not good, but now a little bit of positive news.
+We heard a nice little, uh, press release, um, that Pfizer, um, has been testing its, um,
+vaccine on younger, um, individuals.
+And we heard some, uh, data on the 12 to 15-year-old population.
+Um, and this was, this was very impressive in participants age 12 to 15 years old.
+The Pfizer BioNTech vaccine demonstrated a hundred percent efficacy and robust antibody responses.
+Um, actually exceeding the antibody responses of older individuals, the 16 to 25-year-old,
+um, population.
+And it was very well tolerated.
+And they plan to submit, um, both to the FDA and the European, uh,
+medicines agency for expansion of their EUA.
+Um, they also provided updates on the fact that they are looking at, uh,
+children, uh, down to as young as six months of age, so the six months to 11-year-old.
+Um, so just to go into just a little bit of weeds, um, this was a press release.
+This is not, um, a peer-reviewed publication.
+Um, but in this study, they looked at 2,260 adolescents in this 15, in this 12 to 15 years
+of age in the United States, and they observed 18 cases of COVID in the placebo group, zero
+in the vaccinated group.
+So this is that 100% efficacy against infection.
+Um, they also reported this robust antibody responses.
+So, um, this data will be submitted for peer review publication.
+And we have that, um, I will be certain to circle back to it, uh, testing.
+Um, you know, I want to keep trying to reinforce testing is a major pillar of the current
+strategy, um, to defeat COVID-19.
+And, uh, one of the major employers city group has actually set up this three times a week
+in home testing for its employees.
+Um, they're using this $5 per test, um, approach.
+Um, it's a rapid self-administered antigen test.
+It's applied by the ANOVA medical group.
+Um, and this is one of those, um, lateral flows or those pregnancy type tests that people
+might be familiar with, but instead of peeing on it, right?
+You're going to swab your nose and you put it in a little bit of fluid and then it runs out.
+Um, so actually, uh, this is not just the US as actually speaking to a, uh, friend of mine
+and, uh, their colleague in London got their three month kit.
+So this is a real commitment there to try to, um, use testing, um, coupled with vaccinations,
+coupled with mitigation, everything we could do to, uh, to get on top of this.
+Um, the FDA also granted EUA, uh, to an at home, um, over-the-counter molecular nucleic
+acid amplification test.
+This is called the Q COVID-19.
+Um, and this is, uh, I'd say kind of a cute little test.
+Um, you get this whole kit with a, uh, single use test cartridge.
+Um, and this, uh, sample, sample one, basically you're going to swab up your nose.
+Um, you're going to put it in this cartridge.
+And then that cartridge is going to go in the Q cartridge reader, um, provided separately.
+I felt like I'm like back in the 80s with batteries being supplied separately.
+Hopefully the reusable batteries are going to, you know, come with this.
+But it's really a battery operated, um, home testing kit.
+And this, um, gives you results in about 20 minutes.
+So the way they sort of market this is you're going to swab your nose while you're getting
+ready in the morning.
+Go take your shower, brush your teeth, do whatever, come back, make sure your test is
+negative before you, uh, go to work or school or any social activities.
+And according to the FDA evaluation, the test correctly identified 96% of the positive samples
+from individuals that had symptoms.
+And I thought this was a little interesting.
+A hundred percent of the positive samples from individuals without symptoms.
+So really a very sensitive test for both symptomatic and as we're talking here,
+asymptomatic screening, uh, for a return to workplace also, I think it's exciting week for
+testing the Amazon real-time RTPCR tests for detecting SARS-CoV-2 also got EUA.
+And so the very similar, the Amazon COVID-19 test collection kit includes, um,
+a nasal swab, uh, collection, uh, tube, biohazard bag, um, instructions and a sample drop off.
+So this is not all being done in the home.
+This is really a home collection kit, which is then being sent, um, out to a lab.
+Um, also wanted to give an update on our T detect T cell test by adaptive, right?
+Uh, this is that test that a physician doesn't order.
+So actually the patient will go online, um, they'll type in T dash detect,
+and it will pop up the adaptive website where the patient themselves goes through,
+answers a bunch of questions, um, gets a blood test, um, which tells whether or
+not they're T cells, whether you have memory T cells, um, evident of a prior COVID-19 infection.
+And the hope, um, that I discussed before is that those, um, individuals who could not get a PCR
+test upfront, who maybe are now serology negative can get this test.
+Um, but then comes the question that I've gotten from individuals.
+What about, um, someone who's got a vaccine?
+Um, and as I mentioned, there are thousands of T cell, um, epitopes that we see, um,
+that target, um, the spike protein, but there's also TCRs that target other proteins.
+Imagine that there's other proteins.
+I hope everyone enjoyed that sort of my, if you listen to the rest of Twiv,
+you hear our obsession with the spike protein.
+And they're actually looking at modifying the algorithm.
+So we will be in the future able to tell whether this is a T cell response purely targeted
+at spike or whether this also targeting of other, some of the other proteins will be able to use
+this also to distinguish vaccination versus vaccination with prior natural infections.
+And we'll spend too much time on this.
+There's been a lot in the press about some overcharging of some of the New York City, um,
+uh, hospitals with regards to testing, $3,000 per test.
+I think this is unfortunate and it undermines confidence in testing.
+So, um, I'm glad that this is being brought to light.
+This really needs to be corrected.
+Um, the CARES Act was supposed to guarantee that individuals could,
+at no financial risk, go get tested, find out if they have COVID-19 before they spread it to others.
+So, um, I hope this all is, is addressed.
+All right, active vaccination, um, you know, I know I started off with some negativity,
+but here's some really positive news, um, more data from the CDC MMWR.
+And this is all about real world vaccine efficacy.
+So, we had the interim estimates of vaccine effectiveness of the BNT162B2,
+an mRNA 1273 COVID-19 vaccines,
+in preventing SARS-CoV-2 infection among healthcare personnel,
+first responders, and other essential and frontline workers,
+eight US locations, uh, December 2020 to March 2021.
+Um, so really this is how well did those RNA vaccines actually work in the real world?
+Um, and in this early release publication, um, they prospectively followed 3,950 healthcare personnel,
+first responders, another essential and frontline workers, um, that completed weekly SARS-CoV testing
+for 13, um, consecutive weeks.
+And under real world conditions, mRNA vaccine effectiveness of full immunization,
+so greater than 14 days after second dose was 90% against SARS-CoV-2 infections,
+um, regardless of symptom status, um, and just with partial immunization.
+So, um, this greater than 14 days after first dose, we were already at 80%.
+So, we're seeing a growing amount of real world evidence regarding the safety and effectiveness
+of vaccines.
+We also had an initial report of decreased SARS-CoV-2 viral load after inoculation with BNT,
+162 B2 vaccine, um, and this was published in Nature Medicine, um, the authors here presented
+data that the previously was out as a preprint describing that in those that had a positive test,
+despite vaccination, the viral loads were about, um, four times lower.
+Um, so there was an abrupt change at 12 days after vaccinations that went from an average
+CT value of 25 up to 27. So remember this, the higher the CT means it takes more cycles to pick
+up the RNA. Um, and so the 25 to 27 was for the RNA dependent RNA polymerase primers.
+And this roughly translates, right? This, this wasn't set specifically, but about 600,000,
+um, down to 150,000, um, ending use of NAT detectable units are RNA copy numbers.
+Um, so even a little more encouraging than that initial data that was posted on GitHub that we
+discussed back in February. There also were several letters. This was like the week of, uh,
+real world experience of in the New England Journal, um, such as BNT, 162 B2 mRNA COVID-19
+vaccine effectiveness among healthcare workers, early evidence of the effect of SARS-CoV-2 vaccine
+at one medical center and SARS-CoV-2 infection after vaccination in healthcare workers in California.
+Um, and basically we're seeing consistently that the vaccines have excellent efficacy
+at preventing severe disease, symptomatic disease, asymptomatic disease. Um, and even in these post
+vaccination infections, the viral load appears to be substantially lower, suggesting a major
+impact on interrupting transmission. Well, what about lessons learned from the vaccine rollout?
+So I've suggested before that instead of focusing on who did what wrong, we should focus on what was
+done and how we can learn should this not be the last pandemic. So a big part of the vaccination
+issues was the logistics getting of vaccines into arms. Um, so there was actually a really nice
+piece in Politico on March 29th, exploring this issue entitled Biden administration remakes vaccine
+strategy after mass vaccination sites fizzle. Um, and really just to cut to the chase on this.
+Um, once they sort of went to the, say, the traditional approaches, they, they let the
+backs, um, the pharmacies start vaccinating. We've really seen an escalation in our ability to do
+an incredible number of millions of vaccinations per day. So, um, their comment was that, um,
+they're moving towards this, um, towards this approach. I wanted to finish this section with
+my question of where's Elvis? Um, I was just in a talk this week where there was a, there was an
+update on, um, the polio vaccination experience that was kind of trickling and wrong with an
+uptake of about 0.6%. Um, and then along comes Elvis and he gets his vaccination. Um, six months
+later, the uptake was up to 80%. So, um, I don't, I don't think we're quite there yet at that
+greater than 80%, but I'm hoping that we can all work together to get there. All right, passive
+vaccination. Um, you know, I, I like to talk about, um, variants of concern in this section,
+because my biggest concern, um, is the impact on monoclonal therapies. Um, and I, I like to feel
+that if we were, if we were doing a better job with our behaviors of concern, we would be, um,
+in a little less, less trouble here. And we actually have a, um, whole bunch of studies going on
+where we're trying to update our, um, our sequencing. So, we have a better sense of where we are with
+these, with these issues. Um, and along these lines, we actually got a little more, um,
+information in the monoclonal arena. Um, I discussed the data for GSK and VIR biotechnology. Um,
+and they've actually gone ahead and filed an application to US regulators for EUA for their
+antibody. Um, this was based on the data that I previously discussed where they demonstrated an
+85% reduction in hospitalizations for deaths. Um, when their therapy was given in the first
+seven to 10 days of COVID-19 infection. Um, now this monoclonal therapy, as I mentioned,
+it targets an invariant region of the spike protein. Um, so it isn't something that we're
+quite as concerned, um, that the virus will mutate away from as far as efficacy. It also has an
+extended half life, uh, may last for up to a year. So we may have broader applications here,
+because as we're learning, not everyone can mount a really good response to the vaccines.
+Not everyone wants to, um, mount a really good response to the vaccines. Um, so this gives us
+one more potential, um, therapy to use not only for, um, acute infections, but potentially for the
+prophylaxis opportunity. Um, I got a monoclonal vaccine question here that I thought was entertaining,
+but I would share it's informative. Um, so it was one of our pro health internists,
+Brooke Keene, um, had this question. Um, and this is, this is coming up more and more. So one of
+their patients, 66 years old overweight, high BMI, um, and it's seven weeks after the second dose of
+the Pfizer COVID vaccine. They end up exposed to COVID, um, a few days later. Um, and I should say
+because, uh, Vincent's exposed to SARS-CoV-2, a person who has COVID-19. Um, and a few days later,
+this patient starts to develop respiratory symptoms, gets tested and is, um, has a positive test for
+SARS-CoV-2. Um, and due to his age and comorbidities, he's actually treated with monoclonal
+antibody, um, therapy. Now he's completely fine at this point. And I have to say, this is an
+interesting question. Does he go ahead? Does he need a boost? Does he need to be re-vaccinated?
+And this is an area that I think is sort of more of our subtleties, right? For some reason, um,
+we do see people who get fully vaccinated who then go on to get infected, right? I mean,
+our therapies, our trials were not a hundred percent. Um, so in cases where monoclonals are
+given less than two weeks after the second dose, um, you know, and we're seeing this,
+I do recommend re-vaccinating, but here the interval is a little bit longer, right? Because
+you're waiting for that person to, um, recover and you're waiting that three months. But my advice
+in this case was to actually go ahead, um, wait that three months, um, and then evaluate this by
+getting anybody levels. And actually, um, that point, hopefully we'll have more information about, um,
+giving a third dose or in the case of J and J, maybe a booster dose, uh, to individuals who get
+infected, um, despite vaccination, um, the incubation pre-exposure period. Um, I, and you keep reminding
+people that tests do not predict the future. There still is this two to 14 day incubation period.
+Um, even when we do that early test out option, we're still 20, 30% of people are
+becoming symptomatic or becoming, uh, PCR positive after that seven days, right? So we want to,
+we want to be careful here. Um, I'll say at least here in the New York, particularly the Nassau
+County area, we're about a 5% positivity rate. We are, we are actually above rates where we were
+in the, the surge of last summer. This is that critical period of detectable viral replication,
+the viral symptom phase. Um, this is when I keep shaking my head when I hear the stories of the
+experiences that my patients who get admitted, um, have had at some of the care centers. Remember,
+the first seven to 10 days that viral symptom phase, this is the time for monoclonals and
+monitoring. This is not the time for steroids. This is not the time for antibiotics. Once you
+get into that early inflammatory phase, hopefully all our patients that qualify have gotten monoclonals,
+but you get into the early inflammatory phase, your patient is monitoring their oxygen level at
+home with a pulse oximeter. If the oxygen saturation drops below 94% at rest, then it's time for
+steroids. I noticed a lot of people are giving these med roll dose packs, which is really just a
+five day course of steroids. Um, we studied dexamethasone, six milligrams, P O Q day times 10 days.
+An equivalent would be prednisone, 40 milligrams, P O Q day times 10 days. Um, I'm going to recommend
+we stick, um, as much as we can with what we was, we, we studied. Um, I think the 10 days made sense.
+That's why it was studied that way. Um, so let's try to try to do that. It's cheaper than the
+med roll dose back by the way. Um, and there are millions of people that are still going to need
+this therapy in the coming months. Unfortunately, um, oxygen. Um, that's when we start licking it
+oxygen. That's when we start licking it. Anticoagulation. That's when we consider remdesivir. I like to
+point out the secondary infection phase is not until week three. So this first admission,
+it is very rare for them to end up benefiting from antibiotics. Um, but some of the recent data we
+saw is the majority of people with COVID-19 admitted in this country. I was publication in IDSA,
+receive a course of antibiotics. Um, so I think, um, this is not going to bode well if that's how
+we're approaching this viral disease with overuse of antibiotics. So our next, um, Armageddon will
+be antibiotic resistant infections. The multi system inflammatory phase, as I mentioned,
+a trend towards more severity, more ICU level care for our kids. Um, this is where you really
+have to be careful. You want to have a clear diagnosis and then steroids, IVIG supportive care. Um,
+and then the, the tail phase long COVID. Um, and I'm going to say the best treatment we have so far
+for long COVID appears to be vaccination. Um, I, I got a, I got a, uh, it's actually a text the
+other day from, um, one of my colleagues, Justin Aaron at Columbia. And I thought this was very
+entertaining. We're seeing now, um, multiple reports of an increased likelihood of a person
+getting better reporting improvement in symptoms with long COVID after vaccination.
+Um, and it's with all the vaccines now. Initially we saw it with the mRNA vaccines, but we're seeing
+it with AstraZeneca and some other countries. We're seeing it with J&J right here in this country.
+Um, I was on the Brian Lares there show and one of the J&J, uh, recipients who had, uh,
+resolved symptoms called in very enjoyable. Um, but Justin Aaron was relating an individual
+who had gone many months without the ability to smell or taste and now, um, was complaining of a,
+of a super sense of smell. Um, and I don't think that, um, a vaccine gives you super smell powers.
+I just think this individual had forgotten how smelly the world is. Um, and that was complaining
+about going into rooms and being overpowered by the amount of perfume. Um, I have to say,
+people are using a little bit more perfume than before. Maybe because everyone's wearing masks
+and they're trying to overdo it. And here's someone who now got his sense of smell back. So,
+it's encouraging to see these people getting better. There's a real drive for these people with
+long COVID to, um, want to get an opportunity to get vaccinated. Um, and we're seeing fortunately
+across the country a dropping in the age for eligibility and increase in the supply for the
+vaccine. So, um, I think I'm going to end here on what is more of a positive note than I started.
+But we're still not quite there. Um, and I do want to say we're very US centric, I think,
+because here we have vaccines here. Things are getting better. Um, but a lot of the world is
+struggling. Um, this isn't just Asia. This isn't just sub Saharan Africa. This isn't just South
+America. Um, this is Europe. This is many places throughout the world. Um, and I'm going to say,
+as I conclude, um, thank you so much for all the support today. Um, and continue to go to
+parasites without borders.com and support us because we are committed that we are going to give, um,
+forty thousand dollars to American Society of Tropical Medicine and hygiene, um, to support
+scholarships for early career women from low income countries, uh, to attend this fall meeting,
+the American Society of Tropical Medicine, who otherwise would not be able to attend.
+All right. It's time for some, uh, email. If you want to send Daniel a question, it's Daniel at
+microbe.tv and Christian sent a link to a preprint describing, uh, some of the initial
+thrombotic events associated with, uh, AstraZeneca vaccination. And I wondered, Daniel, if you had
+any thoughts on the nature of those events and what that means? Sure. You know, it's a challenge.
+I'm doing a, I'm going to talk later this week for the G six PD community. Um, and they're quite
+concerned about, you know, is there one vaccine that might be safer for people with certain
+comorbidities, certain people with, you know, red cell disorders? Um, and I have to say it's
+really, it's really tough. Cause as we talked about this, um, the, this is one of those where they
+said the preponderance of scientific evidence does not support a connection between these
+clocks and vaccination. Uh, the rate is that, which is seen, um, you know, background rates.
+So we don't know, but despite that, um, despite it only being about a one in a million phenomenon,
+which is what we see in the unvaccinated population. Um, there's a lot of names. There's a lot of
+descriptions. There's sort of a timing, right? This is happening seven to 14 days after.
+Um, so I sort of leave it there. I, I do not know if this vaccine is causing these phenomenon.
+I don't know if this is just something, you know, when you give 30 million vaccines, you see 30
+events. Um, you know, we talked about, um, I was like to talk about the dog bite thing, you know,
+people who didn't get vaccinated were more likely to get bitten by dogs. I do not think vaccinations
+prevent you from getting bitten by dogs. Um, so I do not know. Um, and it'll be interesting to
+explore, um, 30 cases is very hard to give you enough evidence to really make a connection or
+understand this phenomenon well. Daniel and Denmark, they recommend pulling the syringe back to make
+sure you're not in a blood vessel. Is that important to do? Yeah, we do that everywhere.
+So actually, um, when I, when I posted my getting my vaccination, it was, uh, the pharmacist was
+doing it. I think she maybe she was nervous because she was on camera. Um, but that's what you're
+supposed to do to make sure you're in the muscle and not in a blood vessel. You, you put it in,
+you draw back a little on the syringe, make sure there's no blood coming back and then you give
+your IM injection. So, um, actually we recommend that everywhere. So I know actually that was
+specifically the idea that, oh, because if it goes in the blood, maybe that's what triggered
+those 30 events. I, I don't think there's a connection there, but yeah, you want to properly
+give an IM. Okay. Okay. All right. Emma writes, my mom is on multiple rheumatoid arthritis
+medications. And she lists a bunch that suppress her T cells received first Moderna vaccine a few
+weeks ago. She did talk to the rheumatologist before vaccination. They did not suggest any
+changes to her medication. Now she found out that the American college of rheumatology
+recommends stopping a bat test sept one week prior to an one week after the first dose,
+but continuing the medication for the second dose. Do you think she will have a strong immune
+response to the second dose, even if her first may have been dampened by the RA medication or
+would stopping a bad test step to one week before and after the second dose be the best option?
+Okay. Well, that's a good sophisticated question. So a bad set is actually a drug we use for
+treatment of a lot of autoimmune diseases, ones where we think there's a T cell issue.
+And basically you're targeting something called CTLA4, which is a co-stimulatory molecule.
+So the question here, right, is we've all learned that it's not just about B cells. It's not just
+about antibodies. We want to see a nice robust T cell response. And here is an individual who
+actually is on a drug that is interfering with appropriate T cell response. So one of the first
+things I always like want people to think about is the pharmacokinetics of this therapy. So you
+give a therapy and a lot of people, I think maybe they learned this with tosyllizumab,
+you give that therapy and it doesn't just work for one day. There's a certain, you know, at half
+life, a period before elimination. And the period, the half life of elimination for this drug is
+about two weeks, which is actually interesting when you think about gaps between them. So ideally,
+you want to have as much of a gap as you can, but you're balancing this against not treating
+the disease. So this is what we're doing a lot of times. We're sort of, you know, I guess
+on the fly making these recommendations and we're saying, if you can space this out great,
+we definitely recommend people with immunosuppressive conditions. Go ahead and get vaccinated. We are
+concerned that they may not get as robust a response as we would like. Yeah, the more you
+can space it away from those vaccines, the better. Just think about it. If you space it two weeks
+away, you've only gotten down to about half the therapeutic level. So that's, I'm going to sort
+of leave this with this is going to have to be a judgment call. The more you can space these
+therapies away from either the first or the second shot, the better. So Kim writes, I have two little
+ones, two and a half years, 12 months in daycare, three days a week, there have been cases,
+though not in their classrooms. It's scary as heck nonetheless. I'm wondering if clinicians will
+recommend routine antibody testing for youth at some point. There was a toddler in the center who
+had MISC, he's out of the hospital and home. There was an exposure, but never tested positive.
+No one can be sure that daycare is where the exposure happened, but timing of MISC was five
+weeks after the classroom was quarantined. It's a nerve-racking time to be apparent. I'm hopeful
+that the Moderna youth trials will go well. I don't know how I'm going to mentally take another
+year of this anxiety. Yeah, I know it's tough. The biggest thing here is when can we get our
+younger individuals vaccinated, right? So we're saying we're going to have enough vaccines for all
+our 16 and up by the end of May. We anticipate by the time we get it to June. I'm going to try
+to be honest. I'm not going to do the underpromise overdeliver. I'm going to do the honest. We hope
+by June, we have an extension of the EUA to allow us to get down to our 12-year-olds, right? So 12,
+13, 14, 15, in addition to 16 and up. So June, we can really offer vaccinations to that population
+June and July. But as we know, we are ongoing trials getting us all the way down to six months.
+That's going to be critical. Really, what's more important than antibody testing in most situations
+is trying to detect the virus, trying to test as many people. And there really is a big effort
+and a lot of finance behind this to more rapid testing in addition to PCR testing. The more tests
+you do, the more likely you're going to pick things up. But yeah, unfortunately, with the MIS-C,
+as this boy out here, a lot of times we don't even catch that acute infection in kids.
+They start getting sick and we realize it's MIS-C because we pick up the antibody tests.
+One more from Ellen. I have a friend in Paris just short of 65 years old had COVID last March.
+March 3 this year was diagnosed again this time with the UK variant. On March 21,
+three weeks after diagnosis, our TPCR symptomatic still. Her antibodies were tested
+were almost non-existent. She'll be getting the vaccine shortly, AstraZeneca, and I advised her to
+have them tested again three weeks after the second dose. If she still has few or no antibodies,
+would she be a good candidate for monoclonal antibodies? She's concerned long-term that
+without antibodies, she will be liable to reinfection forever. Should she get trusted for T cells,
+although from what I understand from SET-T, they will not protect her from infection.
+Actually, they're very sophisticated. Those are interesting ideas. We have the idea that
+the antibodies prevent you from getting infected, that the T cell is very quickly clear. I think
+the kinetics, people may not know the kinetics. I was joking about those people. They know how
+long a red cell lasts, but they don't know how long a T cell lasts. They don't know how long
+it takes for the T cell response to fire up. The T cell response we know from the T to text
+studies from the adaptive group, about day three to four, you have T cells ramping up. So, they ramp
+up pretty quickly. We don't know how much the protection from the vaccines come from T cells,
+or how much comes from antibodies. But going forward, I would envision there being certain
+individuals, particularly we talked about the person on a bad effect, where maybe they're going
+to have an issue with their immune response, particularly a person who's maybe on rituxan,
+a therapy that interferes with B cells. In addition to vaccination, maybe these people
+are going to get a monoclonal cocktail or a beer GSK variant, non-shifting targeting monoclonal
+once a year. So, yeah, I don't think we know yet, but I think these are excellent questions
+that are being looked at. And some people, if the prevalence stays as high as it is,
+may still need something beyond just the vaccination. The hope is that we get so many people vaccinated
+that a chance of exposure becomes minimal. But that will take, as was mentioned,
+not only getting all the adults vaccinated, not only getting the adolescents vaccinated,
+but getting the kids vaccinated as well. That's COVID-19 clinical update number 56 with Dr. Daniel
+Griffin. Thank you, Daniel. Thank you so much. And everyone, be safe. We still have a rough
+April ahead of us here. And I know Easter, this is going to drop on Saturday, right before Easter.
+Be safe. Keep those group sizes down.

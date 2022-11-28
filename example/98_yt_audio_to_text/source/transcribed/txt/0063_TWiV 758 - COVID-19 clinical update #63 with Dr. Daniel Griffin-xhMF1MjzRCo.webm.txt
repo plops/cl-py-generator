@@ -1,0 +1,435 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 758 recorded on May 20, 2021.
+I'm Vincent Rack in yellow, and you are listening to the podcast all about viruses.
+Joining me today from New York, Daniel Griffin.
+Hello, everyone. Daniel, this is clinical update number 63. How will we know when the pandemic's
+over, Daniel? That's a great question. When will it shift from being a pandemic to just,
+hey, there's still COVID-19 around and it's become less of a pandemic?
+And maybe, Vincent, maybe you're the person to answer that question, because what was the point
+when polio ceased to be a pandemic and started to be just something we were trying to get rid of?
+Now, polio was around before we had this word pandemic, so we never got the call in a pandemic.
+But Daniel, would you say we're still in the middle of an HIV AIDS pandemic?
+Yeah, and I try to make that point. I've been offered a couple of people have reached out and
+said, oh, would you like to write a book? And I am working on a book that Chuck Knersch connected
+me with about sort of what happened with the vaccines and what was the rollout like.
+But the whole idea about writing a book about, oh, we've survived the pandemic or I have no other
+people have written these books. And it reminded me of a movie, and it was surviving the pandemic,
+and it was about HIV. And I remember talking to my buddy, Joe McGowan, I was like, I don't understand.
+It's not over. There are over 30 million people infected with HIV. We see another 50,000 new
+infections every year in the US. We see, you know, half a million to a million people every year
+dying of HIV. Explain to me how we're not still in the midst of that pandemic.
+That's right. So yeah, Daniel, before you start, what's on your bow tie today?
+You know, it kind of looks like a coronavirus, doesn't it? Yeah, it's very nice with the
+little coronas there. So all right. Yeah, our listeners may not know this, but it was about
+every one of my bow ties is an infectious disease. And whenever I appear on Friday, it's always a
+sexually transmitted infectious disease. And when you take care of patients, do you wear these
+infectious bow ties? I do, I do. Very good. And I started doing it in part as a teaching thing
+for the residents and medical students. So that was always, I actually, my socks match. I won't
+show those now, but they match the pathogen. So maybe I'm wearing like one with little red
+snappers. So there's supposed to cue them that it's tuberculosis. I have an anthrax. I have
+several others. Great. Love it.
+All right, let's jump right in with my quotation. We are drowning in information,
+but starved for knowledge. And that's by John Nasebitt. And I think this is so relevant,
+because it's really this fire hose of information. We're seeing it all around COVID, but this is
+just the modern world. And we're always struggling to make sense of what does all this information
+mean? How do we actually get from information to knowledge? So hopefully we play a part in doing
+that. Let me start with the updates. How are things? Things are really much better here in the US
+here in New York. One of our local hospitals I discharged to I think is at least for the moment,
+this will be no COVID patients left in the hospital after this gentleman goes home. He's
+probably home already with his wife and twins. So that's very exciting. Other big hospitals
+in our area down to single digit numbers of COVID cases. My partner, New Julie, just admitted
+someone today with COVID. And as you can imagine, this is a woman who did not get her vaccine,
+you know, diabetic who really should have been taking that opportunity. So that's what we're
+seeing now. We're seeing younger individuals. We're seeing people who did not take the opportunity
+to get vaccinated. But the numbers really, you know, exponentially seem to be going down.
+I continue to have that optimism that we're going to be in a really great place across the
+country in July. There certainly are areas with poor vaccine uptake. And you know, you worry about
+those areas starting to see a rise when people get back indoors either because it got so gosh darn
+hot, they're in for air conditioning or when it gets cold again and people are indoors for the warmth.
+Around the world, right? I'm sort of parallel with the HIV. We are in no way at the end of this
+pandemic. And until we are more generous until we're able to get everyone in the world vaccinated,
+we are not safe joking today about first world problems where people complain about their chairs
+not as comfortable as they would like. There's plenty of places in the world without chairs,
+right? And I think that's the vaccine story at this point. I will say as we get into this,
+we certainly have evolving recommendations, have people's heads a little bit spinning. But that's
+actually what we wanted. We wanted to learn. We are not where we were a year ago. A year ago,
+we did not know much. We actually know a tremendous amount now. And as we learn more,
+as the science comes in, then we can actually revise what people are being told to do.
+What we know is safe. What we know is not safe. So we'll go through that. But I'm going to
+start with my children and COVID. This is always the crowd pleaser or not.
+Paul Offit appeared on the podcast Track the Vax with Serena Marshall. That's another one of
+the podcasts that I enjoy listening to. I actually was on, I was a guest on the 13th episode of Track
+the Vax. And Serena is wonderful. I miss that it wasn't as raw, I think as Twiv is, because at one
+point, she asked me a question. And I replied, and she just started laughing to the point where
+she had to actually stop the recording. And she edited that out. I thought that was great. But
+not all my jokes are bad. So this episode with Paul Offit was the May 18th episode. I'm giving
+a little plug for them called Next Up in Line for COVID Vaccines Kids. And it was really a great,
+great discussion between Serena and Paul. And Paul Offit brought up the fact really that I
+try to reinforce on a regular basis that yes, kids are actually at some risk. It's not huge,
+it certainly is lower. But the reason we're recommending vaccination to adolescents at this
+point is not for the greater good. It's actually to protect them. It's like putting a seatbelt on
+them, putting a helmet on them. And let me quote Paul Offit what he said during that discussion.
+You have at least 300 children who've died from this infection and estimates are it could be as
+high as 500. He's talking about just right here in the United States. He also pointed out that we
+did a really great job. I like to reinforce this initially of protecting our children early in
+the pandemic with only 2.4% of those total infections in the early months being in children.
+Now things are changing. Now children account for 24% of the infections. My colleagues, as I
+mentioned, are admitting adolescents to ICUs, number of articles and releases about the shift
+into younger ages. I'm also going to add here that per CDC, the number of confirmed multi-system
+inflammatory syndrome cases in children. So that's that Miss C is approaching 4,000.
+And there are many more that are still under investigation, including about 500 just right
+here in New York State. I don't want to blow that out of proportion because I like to say
+children are at low risk. They're not at no risk. But there are things we can do to keep these kids
+safe. It has been really difficult for a lot of these children. Actually, I will say for us parents
+to have schools closed, to have a lot of these other social and other opportunities closed. But
+there was another MMWR publication hot off the press today as we're recording this. Characteristics
+of COVID-19 cases and outbreaks at childcare facilities, District of Columbia, July through
+December 2020. And here the authors were reporting on 469 childcare facilities in the District of
+Columbia. As far as facility associated outbreaks, they occurred in 5.8% of the facilities. The other
+flip of that is you could say over 94% of the facilities had no outbreaks. The childcare facilities
+in D.C. were able to adhere to many of the recommended prevention measures and reporting
+requirements. And basically they did a good job. The kids were able to be in these settings and
+they reported that really similar to what had been observed in other studies. The rise in the
+COVID-19 cases and outbreaks correlated with level of community spread. So I think that's
+really a positive message here. We can get these kids out in these settings. We can do it safely.
+We've learned how to do that. We now have the lowest positive test rates across this country,
+actually ever. Early on when we started testing, I remember New York, like 80% of the tests were
+coming back positive. In a recent article that I tweeted out, I should tell people just follow my
+Twitter at Daniel Griffin MD because I try to get a lot of these articles out there. But really
+showing how a lack of testing plagued us early on. Now we are doing a lot of testing and you know
+you're doing enough testing or you're doing a lot of testing when you're getting a positivity rate
+of down in the 1% or 2% nationally. So really going in the right direction here for improving
+the risk for our children. I should probably tell this story here. I always try to be careful
+when I talk about risk and I talk about no risk. My wife asked me yesterday, she was going to give
+Barnaby a sandwich with a Swiss cheese, turkey and mayo and it had been an insulated thing and
+there was a blue iced thing in there. But now the blue iced thing was no longer cold. So she
+wasn't enough. It was still okay for Barnaby to put in a new blue ice pack. And I had not
+taken off my work hat. So I said, oh, that seems like a very low risk decision going ahead and
+letting you have that. My wife's response was, I don't want a low risk. I want no risk for our
+son Barnaby. I was like, no, it's fine. We can eat that's how it will be fine. So I know we want
+absolutes. But even when it comes to sandwiches, we don't have absolutes. All right, pre exposure
+transmission. On Friday, May 14th, the article interim estimates of vaccine effectiveness of Pfizer,
+BioNTech and Moderna COVID-19 vaccines among healthcare personnel, 33 US sites January through
+March 2021. Right. So this is this is hot off the press. This became available as an early release.
+And on the last tweet of clinical update, Vincent had asked mainly to address questions from our
+audience about how we knew about safety and efficacy of vaccines beyond the initial large
+RCTs, right? We were talking about the latest adolescent trials, only 2,000 people in there. But
+what are they doing over time? So I brought up theirs. But here, this is one of these
+trials that continues to give us information after those RCTs. So here the authors report on a
+case control study of mRNA COVID-19 vaccine efficacy, V E with HCP healthcare personnel,
+being enrolled at these 33 sites across the United States. So these were healthcare personnel
+with the potential for exposure to SARS-CoV-2 through direct patient contact or for, you know,
+indirect exposure. So think about these are these are people who are exposed, right? So you're
+getting an exposure here. They had they had case patients, they had control participants.
+And these were being identified through routine employee testing performed onsite
+through their occupational health practices. They went ahead and the healthcare personnel with a
+positive SARS-CoV-2 PCR or antigen based test result. And at least one COVID-19 like illness
+were enrolled as the cases. And then we had the negatives being those who did not have a PCR.
+You know, it didn't matter if these people had symptoms, right? If they had something else going
+on as long as they did not have COVID. And as of March 18, 2021, 623 case patients, 1,220 controls
+were enrolled. And they gave us an effectiveness estimate of a complete 2 dose regimen of these
+vaccines at 94%, which is really actually consistent with the clinical trials. And I should say
+surprising, right? We were not expecting, you know, the real world is usually not as good as what we
+see. But what are the limitations here? So first, testing for SARS-CoV-2 infection among healthcare
+providers was based on occupational health practices at each facility. And, you know,
+vaccinated people may have actually been less likely to go for testing, possibly underestimating
+the efficacy. They, you know, thinking, hey, I've been vaccinated, I'm not as worried about a
+little bit of sniffles here. So that is one issue. And the authors comment on this as well.
+Second, again, limited sample size. You know, we love our tens, our 20s, our 30,000. So this
+was not as big as sample size. And third, right? It's not clear that you can generalize this to
+the entire US population, right? So different races, different ethnic groups age, right? We've
+certainly started to get a sense that the vaccine has different efficacy based upon age, good data
+starting to support that. And fourth, the healthcare personnel with a known past SARS-CoV-2 infection
+were excluded, right? We're vaccinating those individuals, giving them protection.
+So again, are those people going to get better or worse protection than people who did not have
+that exposure prior to vaccination? We think that they may actually be even more protected. So
+that 94%, another reason why maybe even underestimation. So now this was actually the data that came out
+the day after our last Twiv and the headline, making comments by the current CDC director about
+vaccines and masking. So I certainly have gotten a lot of questions. So I'm going to spend a little
+bit of time discussing that sort of in this context. So what was that all about? So I think
+there were several points that was based on. And I think the CDC director has been really clear
+that the recommendations were science driven. And what is that science? Well, one of the bits of
+science that has just been building, and this was another brick in that wall, is that vaccines
+can be incredibly powerful at protecting a vaccinated person, right? So the person vaccinated,
+as long as they have an intact immune system, as long as they come out of response, they can
+have a tremendous amount of infection. I will be talking about people that can't get that.
+The second, and this I think is an important point, growing evidence that an asymptomatic
+vaccinated person is at very low risk for transmitting to others, right? Incredibly low
+chance that they're even going to turn PCR positive. And then we have data suggesting that if they're
+asymptomatic and PCR positive, that is at such a low level that it may actually be below level of
+transmission. So that was the second part. What are the other caveats I think that need to be put
+into this whole situation? 4% of people in the US have impaired immune systems due to disease
+or medications. So that's about 10 million people that are unable to protect themselves
+with active vaccination, right? So they are relying on the kindness, the decision to get
+vaccinated, the masking, the non pharmaceutical and the vaccine mitigation measures. The other
+is what about children 11 and under who do not have access to the vaccination and the protection
+that this could offer? That's another 50 million people here, right? Who are at risk if someone is
+unvaccinated, infected with SARS-CoV-2 and walking around? The other point that people are bringing
+up and I think is relevant is children 12 to 15 just got access. So millions of these kids who
+have not had time to get that second shot, not had time to get to that full protection.
+And so many, many, rightfully so in the US worry that unvaccinated people will be dishonest
+and take their masks off around vulnerable people and infect them giving them COVID. So
+I think there's a lot going on here. The only state that I'm aware of with any sort of a real
+robust verification system is New York here with our Excelsior Pass, which is already being used
+and already planned for use for sporting events to verify that you get to sit in that vaccinated
+section, et cetera. So remember, the CDC is not the police. They are a public health agency and
+this is the science. The policing, that's going to be someone else's job.
+Now, one of the things that comes up in this context is people who say, well, I don't know if
+I need to get a vaccine because I already had the COVID. I should be fine. So what about that?
+How much protection against reinfection do you get with prior infection? And boy, have we come
+far in a year, right? A year ago, there was the whole discussion is reinfection even a thing.
+Well, I think we've moved past that. And now really the question is, what rate are we seeing
+this? If you've been infected, what percent does that protect you relative to vaccination,
+for instance? And I've always been shocked that there's a group of people out there who would
+who would somehow prefer natural infection to a vaccine. I'm seeing a lady now who got chicken
+pox, right, instead of a vaccine. And she has this recurrent zoster all over her face. She actually
+have to wear a mask. She keeps having issues trying to get employment because at job interviews,
+this is an issue. Polio, right? I think Vincent right up your alley. If you could get a polio
+vaccine or just take that chance of maybe a little bit of paralysis for the rest of your life. I
+always shocked here. But here's some data. And this was the study Risk of SARS-CoV-2
+reinfection in a university student population published in CID, Clinical Infectious Disease.
+And they reported on a retrospective analysis of 2021 students with prior infection and 14,080
+students without previous infection. So these were age 17 to 24. And they reported an 84% lower risk
+of infection compared to the unvaccinated students over a study period of four months.
+So I just want to give a comparator here. Remember, this is an age group with almost 100%
+protection with vaccination. And here only an 84% reduction with prior infection. And this is
+just in that window just the four months. So my takeaway here is we saw dozens of reinfections
+in these young adults in this short period. Prior infection is not vaccination testing.
+Never miss an opportunity to test. We are back into the realm. I want to remind everyone of the
+indeterminate test. We now have rates that are dropping back so low that we are back to those
+issues of what is the positive predictive value and what is the negative predictive
+value of a test. And if our listeners remember that far back, but I'm glad that we're circling
+back to there. This is the situation where I'll start with sort of the high numbers.
+Back when we had a disease prevalence of 30%. If you used a test that was 80% sensitive,
+99% specific, right? We're thinking of like PCR, some of our antigen tests here.
+If a person had a positive test, 97% of the time that was truly positive. Only 3% of the time was
+that false. If it was negative, your negative predictive value is up in the 90s as well.
+But what happens when we drop to where we are now? What if the disease prevalence is down at 1%
+using that same test? If it's negative, okay, it is negative with even higher certainty than we
+had to begin with. But what if it is positive? The false positive rate now is going to exceed
+50%. It's going to be at 55%. So now it's becoming really important at a lot of our testing sites
+to have that second test ready to go. So if you get a positive, or what I will say,
+an indeterminate initial result, you want to be ready to employ a second test to determine if
+that's really a true positive. And this is also going to be a little bit of communication with
+each state's Department of Health. Do they want that indeterminate reported? How are you allowed
+to respond? All right, active vaccination never miss an opportunity to vaccinate.
+And I will call this perhaps patience is a good thing. And so we saw the preprint results of a
+study looking at extended interval boosting of the Pfizer, BioNTech vaccine entitled
+extended interval, BNT162B2 vaccination enhances peak antibody generation in older people. And
+can you guess what they saw? Well, yes, this is the secret of a well crafted title. It's all right
+there. The authors reported on 175 people over the age of 80 and found a peak antibody response
+that was 3.5 fold higher with an extended interval of 11 to 12 weeks versus the standard
+three weeks, right? So 3.5 times higher by just waiting that extra point. And I think this makes
+sense, right? We did our studies at three weeks at four weeks, you know, because as I tell my
+daughter, Eloise, 95% is good enough. We don't need 98, you know, these older individuals where
+maybe we don't have as robust responses we might like, also start thinking about those people with
+immunocompromise where there were issues, maybe an extended interval, even we'll talk in the future
+about some of these heterologous or mix and match boosting approaches. For a population,
+we may be getting where we need to be, right? Because I think it was quoted on the last
+twiv, a little bit of discussion there with Kathy and Alan and Rich and the gang about
+if someone gets vaccinated, we're only seeing your chance of dying only. And I think I'm going to
+use the word only here is one in 500,000 people. And that includes all these people who come back
+with a negative antibody test, come back with a low tight or anybody test after vaccines.
+The vaccines are incredibly effective. I don't know if we need 3.5 higher, but at least it says
+that if there is a weight, depending on your vaccination strategy, you're not getting lower
+antibodies, you're actually getting significantly higher. Three, the period of detectable viral
+replication, the viral symptom phase, as I like to say, the time for monitoring and monoclonals.
+And remember, NSAIDs are fine for symptom relief. I'm going to sort of combine pull-in passive
+vaccination and the early inflammatory phase here together. And part of it, I'm going to bring up
+the issue that timing matters. So what am I talking about here? So we finally saw the peer-reviewed
+results of the recovery trial results on convalescent plasma in patients admitted to hospital
+in the Lancet. So as people may know, I feel like that's a little bit late, right? We're waiting
+until the early inflammatory phase. We're not getting convalescent plasma in during that first
+week. Well, let's see what we saw here. The title was convalescent plasma in patients admitted to
+hospital with COVID-19 recovery, a randomized controlled open-label platform trial. And at this
+point, our listeners are perhaps familiar with their recovery trial out of the UK. And just what
+are those letters stand for? This is a randomized controlled open-label platform trial, randomized
+evaluation of COVID-19 therapy, looking really at several possible treatments in patients with
+COVID-19 in the UK. The trial is still underway at 177 NHS hospitals from across the UK.
+And this is the trial that introduced steroids at the right time, in the right patients,
+at the right dose as the standard of care. We also got some significant results from
+recovery on the potential harm and lack of benefit of HCQ. And most recently, the compelling data
+demonstrating the mortality benefits and other benefits of adding tosyllism app to steroids
+for the treatment of COVID at the right time in the right patient. And this paper describes
+the results of patients who are randomly assigned one to one to receive either usual care or usual
+care plus high-tighter convalescent plasma. The primary outcome was 28-day mortality,
+and it was analyzed on an intent to treat basis. So between May 28th, 2020 and January 15th, 2021,
+11,558 individuals were assigned to either the convalescent plasma group or the usual care group.
+And what did they find? They reported no significant difference in 28-day mortality between the two
+groups, 24% versus 24%. The 28-day mortality rate was similar in all pre-specified subgroups of
+patients. No significant effect on the proportion of patients discharged from the hospital within
+28 days, again, 66% in the convalescent plasma, 66% in the usual care. Among those not uninvasive
+mechanical ventilation at randomization, again, no significant difference in the proportion of
+patients, meaning the composite endpoint, a progression to invasive mechanical ventilation
+or death. So in summary, this was a robust, well-powered study using high-tighter convalescent plasma
+early after admission. So they were getting it in within, it was a median of two days after admission.
+No benefit was observed. If anything, I feel like I'm quoting Mark Chrislep,
+a non-statistically significant trend toward a 20% higher rate of mechanical ventilation if you
+look closely at Figure 2. So that means that, yeah, there was a trend there, but they did not actually
+find benefit anywhere. There was a little bit of a suggestion that maybe if you had a larger study,
+you would have started to see harm, actually. They also did a meta-analysis of the 10 major trials
+to date. And I will say here, again, the totality of data putting all these trials together did not
+support a benefit to convalescent plasma for hospitalized patients. Now, the authors did comment
+that recovery only included patients admitted to hospital. So this trial doesn't really address
+whether or not there's maybe a narrow window early in disease where convalescent plasma might
+provide some benefit. And that question has not yet been robustly tested in a sufficiently
+large randomized control trial. And they actually did reference a trial that we've discussed here,
+which was the New England Journal trial. This was early high Titer Plasmotherapy to prevent
+severe COVID-19 in older adults. And that was that small study with 80 patients in a geriatric
+unit in Argentina who got plasma within 72 hours. And there there was a report of some benefit on
+disease progression. So just sort of putting, I will say, the hospitalized patients really robust
+data from this trial, as well as a meta-analysis of 10 other trials, really a labor-intensive
+approach. And we're not seeing data here to support it. But is there something that's sort of similar
+that can be given during that first seven to 10 days? What about those monoclonal cocktails?
+So we got another press release. This was actually presented at a conference. But what was the
+press release? This was from Regeneron. Phase 3 data that was also presented at the American
+thoracic Society 2021 meeting. Regen Kove. So this is the Casariva Mab with
+MDivumab, reduced risk of hospitalization or death by 70% in non-hospitalized COVID-19 patients.
+So this was a phase three randomized double-blind placebo control trial, evaluating the Regeneron
+cocktail in 4,567 high-risk patients with COVID-19. And they studied two doses, right? The currently
+authorized 2,400 milligram dose and a 1,200 milligram dose, so half the dose. And they evaluated all
+these patients for efficacy. They all had one of the risk factors, right, to include them in this
+study. And the Regeneron Kove cocktail met its primary and all secondary endpoints with similar
+efficacy for both doses. And they saw this for 1,200 milligrams or 2,400 milligrams. So
+70% and 71% reduced risk of hospitalization or death through day 29 compared to placebo for
+both doses. A four-day shorter time to symptom resolution and reduced viral load. And that had
+a p-value of 0.0001 for both. Great safety data, as mentioned, there's thousands of individuals.
+One person had an anaphylactic reaction that resolved with therapy. A little bit more on monoclonal.
+So this was again another exciting week. Updated and expanded emergency use authorization for
+the monoclonal cocktails, now including more medical conditions. And the BMI has been dropped
+down to only being greater than 25. So just to give a sense of what that means. So for a man
+who is my height, 5 foot 10, I would only need to weigh 175 pounds or more to be allowed to
+squeeze in under BMI alone. So this is really expanding down to many of us, except maybe those
+really fit athletic people like my son, Barnaby, who keeps getting new personal records in the mile.
+But we also had, and I think this is critical to updated info on efficacy relative to different
+variants. So this is what worries me about the variants is the impact on monoclonal therapy.
+So in these new updated FDA EUA documents, there are a couple tables. There's a table looking at
+the variant substitutions and their impact on the Eli Lilly cocktail with the B117. No change
+in susceptibility. But when we get into the B1351, originally described in South Africa,
+we are seeing a 215 fold reduction in susceptibility. When we look at the P1, say originally described
+in Brazil, we are seeing greater than 46. Remember, both of these have very similar
+key substitutions. So the K417N or T, the E484K and the N501Y. And then the B1427 and the B1429,
+originally described in California, that have the L452R about a ninefold reduction. And the B1526,
+that's New York City's, that also has the E44K, that's about a 31 fold reduction in susceptibility.
+So in contrast, the Regeneron cocktail did not show any fold reduction in susceptibility
+for any of these key substitutions or for any of these variants. So it now becomes, I'll say,
+pretty critical when you're deciding which monoclonal cocktail to use to have a sense of what variants
+are prevalent in your area. Because you may be having reduced benefit to your therapy,
+if you're giving it to a patient who has one of these key substitutions.
+Still in this section, remember, this is that early inflammatory phase.
+So if those oxygen saturations drop below 94, that's when we have data that steroids,
+dexamethasone, 6 milligrams a day for 10 days, improves outcomes, is associated with a mortality
+benefit. Be careful with higher or longer doses, remdesivir, minor impact at huge expense,
+still recommending anticoagulation for our hospitalized patients. At least prophylactic dose is
+associated with improved outcomes, mortality benefit. We still really need better studies in this space.
+Oxygen and pulmonary support, as we're seeing in India, so critical to have that ability to
+deliver oxygen. Antibiotics, not helpful for treating viral infections and can be harmful.
+As we mentioned, tosyllizumab can be added to steroids in a certain subset of patients,
+appears to have a mortality benefit if used appropriately early in patients not responding to
+steroids. And all right, we're going to get into our tail phase of our discussion, our long COVID
+part. We have, finally, I have the paper, I say, finally, because this was preprint. Now it's
+published in BMJ. I spent some time going through this. The paper is risk of clinical sequelae
+after the acute phase of SARS-CoV-2 infection, retrospective cohort study. And this was in the
+BMJ. And this was generated really from a huge data set of 266,586 individuals with SARS-CoV-2
+infection aged 18 to 65. So I sort of encourage you, we're looking at a younger group of patients
+here than some of the other studies. And at minimum, right, I'm hoping Vincent will post this on
+parasites without borders for people to link into. But I encourage listeners to go there and to
+at minimum look at figure two in this paper. There's a few takeaways from this paper.
+One of them is that 14% of adults aged less than or equal to 65 who were infected with
+SARS-CoV-2 had at least one new type of clinical sequelae that required medical care
+after the acute phase of the illness, right? So we're seeing about 14% here in the under 65.
+The people at higher risk were those people that had been in the hospital.
+Just to shout out to some of the authors, actually a couple of these authors are friends of mine.
+I work with them at United Health Group, Sarah Daugherty. We've been working on a bunch of long
+COVID stuff and Ken Cohen. We published a paper a little while back together. But let's just hit a
+little bit about why am I telling you to look at figure two. One of the really difficult things
+is that people who get acute COVID can end up with a number of other clinical sequelae at
+significantly higher levels. And what are those? Not surprising, interstitial lung disease,
+the hazard ratio for that is greater than 7.5. This is really troubling. And I know I come back
+to this a lot, but encephalopathy. This is about a hazard ratio of greater than six. And this is
+really difficult. You see a lot of really high functioning individuals who now are having difficulty
+on so many levels and actually being told, oh, it's all in your head, et cetera. Well, I guess it's
+all inside the skull. Yes, it is damage and impact on the brain. We're also seeing cardiomyopathy.
+And that's about three has ratio about three. We're seeing heart failure. We're seeing arrhythmias.
+We're seeing memory difficulty amnesia. We're seeing these people being more than twice as
+likely to develop a stroke, peripheral neuropathy. A lot of these are small fiber issues affecting
+gut motility and other things. So really a tough space. And a lot of people are trying to jump in
+and understand. And we're looking forward to the CDC guidance on this. And I guess I should say,
+we're still waiting for that really good data on people with long COVID and the impact of vaccines.
+So I'll say a friend and colleague of mine, Akiko Iwasaki up at Yale. She's actually come on Fridays
+to our Steve Goff weekly lab meetings. So I got to know her then. And she has a long COVID study.
+So people can just email covidrecovery at Yale.edu. If you have long COVID and you're thinking about
+getting a vaccine, that's a great way to connect. And then we can start getting some really good data.
+We continue to see this. I say anecdotally, which, you know, the plural of anecdote is not data.
+It's anecdotes. And so we really want to get this quantified. We want to get a sense of who gets
+better or the timing, et cetera. So all right, I'm going to close there. And I'm going to say,
+thank you everyone for your incredibly generous support going to parasites without borders
+and helping us support femric and all the great work Foundation International Medical
+Relief of Children continues to do throughout the world. These are tough times and no one safe
+until everyone is safe. Time for some questions for Daniel. You can send yours to Daniel at microbe.tv.
+Patricia writes, one topic I have not seen anywhere is drug metabolism. I seem to be a poor metabolizer
+of drugs. I've been like this my life. Even Asper cream can put me to sleep night quill. I'm out for
+24 hours. These are just two examples. At age 58, I feel getting vaccinated is important, but I
+don't dare try because of how I always react to drugs. If I can handle any, it's a child's dosage
+at best. Can you point me to more info on this? I can't seem to find any discussion on this topic
+as it relates to vaccine. Or if you know the answer to whether it would be safe for me to get
+vaccinated, that would be helpful too. Okay. Well, I'm going to encourage you to get vaccinated
+first off. But let me explain what I know. Usually I tell people, oh, these are vaccines. They're
+not something that gets metabolized. But there is a little bit of detail here. And I'll go into
+what do we know about this? People who are on particular medications that are metabolized by
+the liver so that hepatic cytochrome SIP 450 system. We actually can see sometimes, and we think it's
+cytokine induced, right? You get your vaccine, there's that reactogenicity. Sometimes if anything,
+it can increase the metabolism of certain medications. And we want to know about stuff like this,
+right? If somebody's on Warfarin, okay, no interaction there. Some other medications,
+what actually is happening here is improving the metabolism. It's speeding up to metabolism of
+certain medications. Most of the studies in this area have not suggested that it's
+of significant or clinical relevance. But yeah, there is a little bit of a subtle issue here.
+But if you're a poor metabolizer, well, temporarily, you're going to be a slightly better metabolizer.
+Victoria writes, I'm the parent of the 13 year old daughter who has down syndrome.
+My family has been careful during the year working in schooling from home, reducing our risk. But
+this has come at great cost to our 13 year old schooling and social development because remote
+school has been pretty much miserable and ineffective for her. So my household awaits with great
+anticipation. The news that we can have our door to vaccinate when Pfizer is authorized,
+but I can't help wonder, will the vaccine be sufficiently effective for people with
+down syndrome? Or is it likely that my family should expect that the vaccine will not offer our
+daughter substantial protection? I suspect there's scant empirical evidence. But what might you
+predict based on your knowledge of the immune system of folks with trisomy 21?
+Yeah, no, this, this is a great question. And we are starting to expand from just the, oh,
+how does this group of 30,000 people respond to looking at some of these other populations?
+And we discussed the last time about people with transplant, people with other immune issues.
+Now, a couple of things I'm going to say, I'm going to say I am actually quite optimistic
+from what we know about these vaccines and what we know about the immune system,
+that an individual down syndrome will get excellent. I'm going to say excellent. And
+adolescent with with down syndrome should get excellent response. We saw in the trial
+of adolescents 100% protection against even a positive PCR test with Pfizer. And that's pretty
+amazing. Let's say that you drop that down to 90%. That's still really impressive. And if it's not
+a negative PCR test, is it going to at least be, should there be a positive PCR is lower level?
+So I actually, I would optimistically say I would go ahead, I would get that vaccine.
+The efficacy looks really impressive. So even if it's a little bit reduced in
+some with down syndrome, because of the issues there, we have a lot of margin of reduction here.
+Mike in South Jersey writes, the day after receiving the second dose of Pfizer vaccine,
+I developed an irregular heartbeat. I have had symptoms the past six days,
+which tend to be worse at rest. I have yet to determine if I also have myocarditis after going
+to my primary care physician and cardiologist. I was surprised to learn that this is becoming
+more and more common. Can you please discuss this issue? Do you have any idea what might be causing
+it? I'm a 42 year old male who exercises regularly and eats healthy.
+Yeah, so I think this is great. I want to try to put this in context.
+Right now, we're getting to the point where what the majority of Americans have gotten,
+at least majority of adult Americans have gotten at least one dose of vaccine.
+So it's almost like in the history of every patient, like when their vaccines were done.
+So it's pretty soon going to be uncommon that someone was not vaccinated. So do we see myocarditis?
+Yes. Do we see myocarditis at a higher rate in people that are vaccinated? I'm not sure that's
+true. I'm speaking to one of my cardiologist colleagues today about some basically things
+that are noticing. One was the issue, oh, this individual had low platelets. And so in their
+mind, they had made a connection. This is being actively looked into, particularly with the Pfizer
+vaccine, for instance, do people who get the Pfizer vaccine have a higher incidence of really
+anything, particularly myocarditis, arrhythmias. So far, we're not seeing that looking at the vaccine
+reporting system, looking at all this robust tracking. We still see what we see. People get
+vaccinated. They get bitten by dogs. They get bitten by cats. They get in car crashes. They
+have arrhythmias. They basically, all the things that we see, we still see. And it's not clear
+that the myocarditis, the arrhythmias, are actually at a higher level. So certainly that
+doctor will say, boy, of the last so many people I saw, 60% of them had been vaccinated. But you
+know what? 60% of all people have been vaccinated. So it's sort of tricky to actually look at what
+you're seeing and then really use a robust system to determine whether or not there's any causal
+link here. That is COVID-19 clinical update number 63 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you so much. And everyone be safe.

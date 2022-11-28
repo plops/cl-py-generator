@@ -1,0 +1,460 @@
+This week in virology, the podcast about viruses,
+the kind that make you sick.
+["The Power of Life"]
+From Microbe TV, this is Twiv, this week in virology.
+Episode 797, recorded on August 26th, 2021.
+I'm Vincent Rackeniello, and joining me today
+from New York, Daniel Griffin.
+Hello, everyone.
+Having a good week, Daniel?
+You know, I am taking a little time off.
+Spent some time with my parents,
+which apparently I announced on the Brian Lair Show
+before telling them I would spend time with them.
+But it was nice.
+We're out on the Eastern End of Long Island.
+I saw whales every day.
+Wow.
+Even saw a pod of dolphins at one point.
+And apparently my reaction was,
+Barnaby, let's swim really fast so we can swim
+with the dolphins, but he was a little slow there.
+That's cool.
+Yeah.
+So I want to thank you, Vincent,
+for being willing to record this
+in late night here Thursday.
+And then tomorrow morning, Krakadon, I am off to Virginia.
+My daughters, Eloise, we're bringing her down.
+Daisy's already down there, and they're starting
+fall semester at William and Mary.
+Oh my gosh, it's that time already.
+Wow.
+It is.
+Oh boy.
+Right until we got a lot today.
+I didn't think I would have that much, but boy,
+let me start with my quotation.
+When one is young, one venerates and despises
+without the art of nuances, which constitutes
+the best gain of life.
+And it is only fair that one has to pay dearly
+for having assaulted men in things in this manner
+with yes and no.
+And that's from Friedrich Nietzsche,
+beyond good and evil.
+I actually loved his.
+I was a philosopher major, as some of our listeners may
+or may not know, and I loved reading Nietzsche.
+That's not really where I went with philosophy,
+but he has some quotes, wonderful quotations.
+And I think that nuance needs to be the word
+of science education.
+You can't just, everyone wants these false dichotomies
+and we need to avoid those and really focus on the truth.
+All right, so how are things going?
+I like to say a single point does not make a line.
+And I feel at this point, we are building on knowledge
+so people can take a deep breath and relax.
+It's not, you're not gonna wake up tomorrow morning
+and find something in the news that changes everything.
+We are slowly moving in a very positive direction.
+I mentioned the false dichotomies.
+A few weeks ago, Rich Condit picked a paper
+about false dichotomies of the COVID-19 pandemic,
+COVID-19 false dichotomies and a comprehensive review
+of the evidence regarding public health,
+COVID-19 symptomatology, SARS-CoV-2 transmission,
+mask wearing and reinfection.
+This was published in BMC Infectious Diseases.
+It's worth a read, right?
+This will be my reader pick right up front.
+I know that we've always tried here on Twib
+to avoid this black and white.
+People wanna know, is it this, is it that?
+But the truth is a little more nuanced.
+And I think at the end of the day,
+the inaccuracies of the black and white approaches
+can backfire.
+And I think people are sharp enough.
+Definitely our audience is sharp enough
+to get educated up to the point
+where they really understand what they need to.
+So children and COVID,
+I actually am gonna update my quotation.
+I'm just gonna say black and white children are at risk
+if they get COVID.
+And as I've been saying for a while now,
+wearing a mask is less dramatic for a child
+than being hospitalized.
+When children were protected and did not get COVID,
+they could not have a lot of the consequences.
+But now children are getting infected.
+Was listening to the Andy Slavitt podcast this last week.
+And when I heard this number, I was shocked.
+So I actually had to go check it out myself.
+But 180,175 child COVID-19 cases
+were reported the past week from A12 to A19.
+That's here in the U.S.
+Among states reporting looks,
+and this was a little disturbing to me.
+We've sort of been saying your child's chance
+of ending up in the hospital is about one in 100,
+about 1%.
+This is creeped up to about 2.2%.
+So if a child gets COVID,
+so COVID child's case about one in 50
+of ending up in the hospital,
+that's not what I think we all thought.
+We're down to only seven states
+that are able to say they have not had a child die of COVID
+in their state.
+And if you look at the deaths,
+we're about for every 10,000 cases in children,
+we're seeing a death.
+So you could just do the math as we approach 200,000 cases a week.
+We're looking at about 20 children a week dying of COVID.
+So I think that it's proper to update this and say,
+children are at risk if they get COVID.
+Whether or not people want to blame the Delta variant,
+say this change something or just say,
+we are actually now seeing children getting infected,
+it's clear.
+Children are at risk of death.
+They're certainly at risk of hospitalization.
+We're seeing rising numbers.
+And children certainly can have prolonged or long COVID
+or post-acute squally of COVID.
+So I think we've moved to pass that.
+And as we open schools, we need to think about what do we do
+to keep our children safe.
+So all right.
+Never miss an opportunity to test.
+We did have another preprint looking at the relationship
+between viral RNA load, CT values,
+and infected vaccinated and infected unvaccinated individuals.
+And this was the biological characteristic of SARS-CoV-2 vaccine
+breakthrough infections in healthcare workers.
+These investigators looked at 161 infections
+and fully vaccinated healthcare workers.
+The results are still binary,
+but there's a sort of a sensitivity issue,
+but it's viral isolation or not.
+These investigators reported that despite similar CT values,
+they found a lower probability of infectious virus detection
+and respiratory samples of vaccinated healthcare workers
+with infections compared to unvaccinated healthcare workers
+with primary SARS-CoV-2 infections.
+They also reported that these vaccinated infected healthcare workers,
+the CT values decreased through the first three days of illness.
+These investigators concluded that data support that SARS-CoV-2,
+infectious virus shedding, is probably lower in vaccinated individuals
+with infections caused by primarily the delta variant in the study
+than in unvaccinated individuals with primary infections.
+They also reported that there were no statistically significant differences
+in the CT values between healthcare workers immunized
+with the four different vaccines.
+I know the J&J folks always feel like we're leaving them out,
+but here they were seeing parity.
+Vincent, do you have any comments on this?
+So it doesn't have the quantitation that I want, right?
+Yeah.
+That I want to, that we want, yes.
+That we want.
+And that's hard to do.
+But instead, the paper depends on statistical procedures to draw its conclusions.
+And if you look at some of the comments on the Med Archive site,
+I think this paper can be helped by some peer review.
+Yeah, I think that's fair.
+I mean, we really, you know, what do we want for our listeners to clarify?
+We would like to see quantification, not a binary assessment of
+isolation or not.
+But, you know, I think that, you know, I think the Singapore study was the most,
+the Singapore paper was the most reassuring to me.
+Even if you have similar CT values, it is for a shorter duration.
+So I think we can at least already say a vaccinated person is a lower risk of getting infected.
+If they are infected, it's for a shorter period of time that they appear to be infectious.
+So I am reassured.
+All right.
+Another topic that I get asked about actually quite a bit.
+And we had the original peer reviewed investigation addressing this issue.
+COVID-19 transmission dynamics among close contacts of index patients with COVID-19,
+a population based cohort study in Zagieg province, China.
+This was in JAMA internal medicine.
+And this is really looking at a contact tracing.
+And when are we seeing transmission?
+And this study used a population based cohort of 730 individuals.
+These were your index patients.
+They had received a diagnosis of COVID-19 in China between January 8th and July 30th, 2020.
+And they had a contact tracing surveillance program.
+So this was actually quite a massive undertaking.
+Field workers visited 8,852 close contacts of the index patients and evaluated these contacts
+for COVID-19 through August 2020, right?
+So you got to follow a little bit afterwards.
+And then a timeline was constructed to characterize different exposure periods between the index patients
+and their contacts, right?
+So we're trying to ask this question based on the study, when are people who are infected,
+who get infected, when are they transmitting to others?
+So the primary outcome was the attack rate of COVID-19 defined as a total number of new COVID-19 cases
+diagnosed among contacts of index patients divided by the total number of exposed contacts.
+A secondary outcome was asymptomatic clinical presentation among infected contacts.
+Relative risks were calculated to investigate risk factors for COVID-19 among contacts
+and asymptomatic clinical presentation among infected contacts.
+So among these 8,852 close contacts of the 730 index patients,
+contacts were at highest risk if they were exposed between two days before
+and three days after the index patient's symptom onset peaking at day zero.
+Compared with being exposed to an index, asymptomatic index patient,
+the risk of COVID-19 among contacts was higher when they were exposed to index patients
+with mild or moderate disease, right?
+And this was about a 4.3 adjusted relative risk, which I think is actually a couple of things
+we're getting from this study.
+One is I think we're really seeing confirmation that two days before,
+three days after is really this peak risk.
+We're also, and it may be this makes sense, but this is just one study,
+that a person with symptoms appear to be more likely to transmit it to someone
+than an asymptomatic person.
+But remember that two days before is the pre-symptomatic period.
+So we sort of add that.
+But there continues to be this whole discussion about how long do we isolate the infected, right?
+Quarantine the exposed, isolation infected.
+And one of the things that people keep asking me is we have data like this.
+Now we have the Singapore study, people who are vaccinated.
+If they get a positive PCR test and they're asymptomatic,
+do they really need to isolate for 10 days from that positive test?
+So we still need more data, but I could see this evolving over time.
+So we'll keep an eye on this.
+Mention, any comments or just.
+This is an interesting conclusion.
+They say that if you had an asymptomatic infection,
+you're more likely to transmit it to someone who's going to get an asymptomatic infection, right?
+Yeah, I didn't even go there.
+I ignored that part.
+I find that difficult to understand, right?
+Yeah, I didn't go there.
+And the reason I didn't is what they seem to be suggesting was this idea of inoculum.
+They had this idea, right?
+That if you've got a lower inoculum, you might end up with an asymptomatic.
+Yeah.
+If you had a higher inoculum, I didn't know if that.
+So I didn't take that as a takeaway.
+I thought the two days before, three days after it.
+Yeah, I think that's strong.
+Yeah, I agree.
+All right.
+Active vaccination never missed an opportunity to vaccinate and vaccination is how this pandemic gets.
+So Monday, August 23rd, we had the announcement.
+The U.S. FDA approved the first COVID-19 vaccine.
+The vaccine has been known as the Pfizer biotech COVID-19 vaccine.
+And now we'll be marketed as, are we ready?
+Co-mere-natic.
+I don't see that.
+I don't see anyone changing.
+Who came up with this?
+No one called me.
+I remember they used to call me when they were going to name drugs like, you know, Dr. Griffin.
+Does this make you think of a sports car or a family sedan?
+You know, and they had all kinds of ideas, but I don't get this.
+I don't see it working.
+I don't see my, I don't even seem personally me remembering co-mere-natic.
+So I think anyway, okay.
+For prevention of COVID-19 disease, an individual 16 years of age and older, right?
+So full licensure is what we're seeing.
+We still have the EUA continues to be available under EUA for individuals 12 through 15 years of age.
+And they threw in and for the administration of a third dose in certain immunocompromised individuals still under EUA.
+That's not under the full licensure.
+Now, we got also the impact of vaccination on hospitalizations continues to be robust.
+And I'm going to, going to throw some information here from the Peterson Kaiser Family Foundation.
+98.3% of people hospitalized with a COVID-19 diagnosis between May and July 2021 were unvaccinated.
+And this cost us an extra $2.3 billion at a national level in healthcare spending.
+And the average personal out of pocket cost was $1,300.
+So just to sort of a couple of things I want to get out here, one is we're at a point now where the majority of people that end up in the hospital are the unvaccinated.
+It's a huge expense to our country. I mean, this is costing us billions of dollars.
+But also these people, individuals who take the chance and decide to go unvaccinated, they may end up, you know, instead of a free vaccine paying $1,300 out of pocket.
+And I know a lot of the Kaiser Foundation people actually listened to our podcast.
+So I thank you and I appreciate this data.
+But I want to go in a direction here in a sense to prepare people for what I think we will be seeing in the future.
+So I don't want people to keep asking like, oh, is this still true?
+Is it still true that the majority of individuals getting hospitalized are unvaccinated?
+Because at some point, I hope the majority of people are vaccinated.
+And thus it should be pretty rare to find an unvaccinated person anywhere, including the hospital, right?
+If we have vaccinated the majority of our highest risk population, that's the population that even though vaccination is going to reduce that risk, they are the ones that are at risk.
+So I want to bring up a next article which was in the MMWR where we're looking at an area with very high vaccination coverage in the most vulnerable.
+And so this was an MMWR early release, SARS-CoV-2 infections and hospitalizations among persons aged greater or equal to 16 years by vaccination status.
+Los Angeles County, California, May 1 through July 25, 2021.
+So here are the authors looked at an area with high vaccination rates, as I mentioned, particularly in the highest risk populations.
+During May 1 to July 25, 2021, among the 43,127 SARS-CoV-2 infections in residents of Los Angeles County,
+25% were in fully vaccinated persons, 3.3% were in partially vaccinated persons, and 71.4% were in unvaccinated persons, right?
+So people might look at this and say, Oh my gosh, we are seeing more infections in fully vaccinated persons, which I expect.
+And the more we vaccinate, the more we see.
+But here's the critical.
+They reported that unvaccinated persons, people, were 4.9 times as likely to get infected.
+That's interesting.
+This is this new superpower of vaccine protecting us against infection.
+But here's the proof of the pudding, 29.2 times as likely to end up in the hospital.
+So let's round that to 30.
+One vaccinated person is 30 times as likely as a similar vaccinated person to end up in the hospital.
+So I think it's critical to realize now that vaccinated people, they still get infected.
+They still can end up with long COVID.
+They still could get hospitalized.
+They still might die.
+But vaccines greatly reduce that risk.
+So people to start thinking and don't keep asking for that number, what percentage of the people that you're seeing in the hospital are unvaccinated versus vaccinated because I want that number to change.
+I want us to continue to vaccinate over a million people a day, which we're doing again here in the US.
+And I really think we need to focus on getting everyone vaccinated.
+Now, I've been saying for a while that this pandemic is being driven by people not getting the first two doses, rather than people not getting a third dose.
+And the whole booster conversation continues.
+So I'm going to use this as an opportunity to plug.
+Twiv, 796, the very hungry spike with Paul Venus and Theodora Hatzino.
+I'm going to work on that, because I have to say I really enjoyed Theodora's comments.
+But this is a great, really great discussion in depth about the booster issue.
+So, you know, when you're done listening to me, go listen to Twiv, 796.
+It is really worth your time.
+Now, what are the things I will touch on is what is the game plan with boosters?
+Are we going to try to keep those antibody levels high to try to boost this new superpower of protection against infection?
+Are we going to try to do this every falls that we go into the winter with our population temporarily boosted, or is instead this a change of our vaccination from a two dose to a three dose vaccine with or without periodic boosts.
+There was a preprint, a third COVID-19 vaccine shot markedly boost neutralizing antibody potency and breath.
+This was posted by David host group at Columbia that prestigious university in the upper west side of New York City.
+The idea is that perhaps we rushed that first boost to quickly get to a level of protection, you know, something we desperately needed in the pandemic.
+And that if we waited and got a third dose, sort of a second boost, this might give us a broader and more durable level of protection.
+We certainly can't predict the future.
+You know, and we are the US is moving forward. It appears with this third dose. But what did they find? This was a heterologous boost.
+So this was first the M RNA vaccine to doses. And then they got the J and J. So they had no vector. They looked at four healthy individuals.
+And they did find that this approach boosted anybody titers, and they also reported that the level of neutralizing antibodies against all circulating variants was boosted as well.
+So this is happening, I guess. Vincent, you have any comments?
+Well, really what's important is I don't care about the neutralization titer. I want to know protection against disease, right?
+Yeah. And I think we've talked and it's reassuring. The vaccines are continuing to be really effective, to be honest.
+This, you know, I was hanging out with my dad, right, last few days, you know, and he's reading the headlines, which I think are misleading.
+And, you know, and he says, Oh, I just read, Oh, that the vaccines are losing effectiveness. And I said, Dad, actually calm pop.
+So pop, they're losing effectiveness against what he's like, I don't know what they're supposed to do.
+I was like, that's the point. And I'm going to annoy you for a minute because I'm going to, we're going to go with that. But yeah, they were studied to protect against disease, death, hospitalizations.
+This is a new superpower that we've discovered. And now we're saying, Oh, they're not doing the superpower as well anymore. So, all right.
+That ship has sailed, as they say. But we'll continue with the education. Now, what about the J and J vaccine, right?
+The poor J and J people. I see a lot of sort of bitterness, people saying, I was told that the best vaccine, which was, which was whatever one you could get.
+Well, this week, we got a press release from J and J where the company reported interim phase one to a data published in the New England Journal, right?
+We went over and discussed that. But in anticipation of the need for boosters, the company conducted two phase one to a studies and individuals previously vaccinated with a single shot vaccine.
+And now they're looking at giving a booster dose or a second dose of the Johnson and Johnson. And they report that 28 days after the primary single dose vaccination.
+This second shot significantly increases biting anybody responses in the participants. The study is apparently going to be posted on as a preprint.
+So, as we get that data, I'll look through it and share that certainly.
+All right, period of detectable viral replication, right? This is when you test positive. This is that viral symptom phase.
+I like to say the time for monitoring and monoclonals, not the time for antibiotics.
+And I have some good news on this run.
+Currently, the Health and Human Services Department, I'm going to start with the bad news. We had only been using about 20 or 30,000 doses a week.
+When we got to July, we are now we have spiked up to 168,000 doses a week of the Regeneron monoclonal antibody cocktail.
+And demand for such a VMAB, right? That's the other monoclonal from the GSK.
+That has increased over 300% over the past month. So people are getting it. People are getting the monoclonals. People are asking for it.
+Physicians are making sure patients get it.
+You know, this is the monoclonal antibodies are the most effective antiviral therapy we have for SARS-CoV-2 right now for people with COVID-19.
+We also got some preliminary results of the NIH sponsored phase three active to trial.
+And this is another combination of two monoclonals. They looked at over 800 randomized patients.
+They gave this combination of its RRI 196. Don't worry. This does not roll off the tongue and VRI 198.
+And they looked at the composite endpoint of hospitalization and death. This was reduced by 78%.
+They had a p-value of 0.00001. I mean, these are incredibly effective therapies.
+I would love to see them move from EUA to full licensure, just like those vaccines.
+But I do have a little pet peeve as well as this is going.
+You know, we discussed a couple months ago, mid June, the excellent data from the UK recovery trial,
+where we know that early on when people were given this late in the ICU, it was not helpful, maybe harmful.
+But if you can give this to individuals early at hospital admission, people that show up but are still antibody negative,
+there's a 25% reduction in mortality.
+And actually, if you look through a lot of our trials, that subset always did well.
+So if you look at people who show up without an antibody response, serology negative, there is a mortality reduction.
+It's not helpful if the person has already mounted that antibody response. If it's already late, they've been in the ICU on a ventilator for a while.
+But, you know, if you look at the EUA, the Regeneron COV, so that CASA RIVA MAB is not authorized currently under the EUA for patients who are hospitalized due to COVID-19.
+So that's a bit of a challenge. And we've actually talked about it among, you know, other infectious disease physicians.
+You know, here you have a therapy, you have really good data that you can make a difference, that you can reduce mortality,
+where limited, the EUA is restricting us. So I know people, the FDA listens.
+So we would like a little bit of liberalness to use this effective therapy.
+All right, the early inflammatory phase. This is right.
+Often when people get hospitalized, I think I've talked about what I call the soft admission.
+Someone comes in with an oxygen saturation of maybe 92%.
+You know, here in the New York area, a lot of our pro-health urgent cures, we will start them on oral steroids.
+A lot of these individuals stay above 90 and can avoid that, what I call the five day remdesivir stay.
+Remember, remdesivir's only benefit was reducing hospitalizations.
+If you hospitalized someone to give them remdesivir, you've failed to do what remdesivir has been shown to do.
+And so if we can save that $3,000, you know, drug use, we can save those hospital beds for people who really need them.
+And not just COVID patients, a lot of individuals that need access to the hospital.
+So let's try to make some smart decisions there.
+Another thing that is challenging in this area is we are now experiencing tosyllizumab shortages in many parts of our country.
+So mixed feelings here, it's tremendous that it's now recognized that patients that have been started on steroids,
+progress to higher oxygen needs, you can again, seems like a magic number, a 25% mortality reduction by adding tosyllizumab to the right patient at the right time.
+So obviously this medicine is being used, but we need to really make sure we're giving it to the right people because we are now with the rising number of cases,
+with the rising number of hospitalizations, rising number of people who are beating this criteria, we're running out of drug.
+So I am going to jump to the what is going on around the world.
+No one is safe until everyone is safe.
+And I'm going to close on this section.
+My friend Titus Davali, he's a physician in Blantyre.
+Actually, I met him at an American Society of Tropical Medicine and Hygiene Meeting, actually one that I drove down with Dixit in his Prius and heard all about the hydragenosome or something along them lines.
+I think I blocked it out so that Dixit can tell me the story again because he loves that story.
+But Dr. Davali brought to my attention the article dynamics of SARS-CoV-2 exposure in Malawi and blood donors, a retrospective seroprevalence analysis between January 2020 and February 2021.
+And there's been lots of questions about what's going on as far as COVID in parts of the world where they have limited vaccinations, lots of speculation on what's going on.
+But here the authors measured the seroprevalence of SARS-CoV-2 antibodies among randomly selected blood donor sera in Malawi from January 2020 to February 2021.
+So a total of 3586 samples were selected from the blood donor database.
+The seroprevalence approach is really, I think, you know, a very straightforward way to looking at the pandemic, I think, for most of our listeners.
+And if you have the time, this is something you can access is, you know, it's posted.
+So there's no paywall in the way.
+And if you go to figure one, what they did is they looked at each month and what was the SARS-CoV-2 seroprevalence percentage in the blood donors at each time.
+And basically, by the time you get to this January, February surge, about half of 49.7 of the samples are zero positive. So you can sort of see this surge over time, you know, with a little bit of delay because it takes time there.
+Well, I think that's the big challenge ahead of us is vaccinating the world.
+And I'm going to remind our listeners. First, thank you for all your support.
+We are going to continue through the months of August, September, October, all of the donations made to parasites without borders will be doubled.
+We're hoping to get up to $40,000 to support floating doctors.
+They're starting to do just like femric in person visits to a lot of these areas that they serve.
+And so thank you for helping us.
+It's time for some questions for Daniel. You can send yours to Daniel at microbe.tv. Our first is from Marsha, whose 38-year-old son has a condition called seronegative spondyloarthropy, which is related to psorriatic arthritis.
+He doesn't have skin symptoms. His rheumatologist recently recommended he began taking humira and immunosuppressant drug to help relieve the pain and limitation of mobility.
+He experiences his feet are especially affected, causing pain and difficulty.
+Walking, he received two doses of Moderna at the recommended interval, reached the milestone of two weeks beyond the second dose on June 1st.
+Two questions. Before beginning to take humira, should he could he get an antibody test quantitative if possible to determine his existing level of immunity from his two dose vaccination and to before beginning to take humira?
+Should he have a third dose of vaccine to boost his existing immunity and wait two more weeks before starting humira?
+There's a lot in here. For just clarity, this 38-year-old young man has this seronegative spondyloarthopathy, which is spondyloarthopathy.
+Think of it as an autoimmune disease. Think of it as an issue where the immune system is triggering this disease, and the way they're fighting is they're using an immunosuppressive drug.
+You've near quite popular that interferes with TNF alpha. This is like, I guess I'll say, inflicts a map of some of those drugs, some of our first biologicals that we used in the 90s quite widely.
+The concern here is because the immune system is being interfered with, because we are making this gentleman immunosuppressed, is he going to fail to have the same robust response that we would like?
+Well, the trick says, and I think we've talked a little bit about this, is that measuring the antibodies is not clearly predictive of what's going on, and the TNF alpha is not purely impacting the B cell.
+So, you know, what is the standard and what is the science? So, this is certainly going to be one of the individuals who will be offered a third dose of vaccine going forward.
+You do not yet know how much benefit that gives, right? So that science is still being done. We have lots of studies where people have been given a third dose and they measure the antibodies, but we don't know really what that means.
+One of the questions you have here, sort of a real like on the ground question is, should there be some sort of timing related to the Ymira so actually a physician calling of mine asked me yesterday.
+Really very similar scenario also on Ymira so same drug, and it was a question of timing relative to the dose of vaccine. And two weeks is actually a period of time that we often recommend.
+Again, not a lot of science to guide us, really just a sort of understanding of the immune system, trying to separate the immune suppression.
+But remember this drug lasts for quite a period of time so that two weeks is sort of a question of, you know, what amount of time is a person willing to be off Ymir?
+My friend who's a physician, he's going to go ahead and miss a full cycle so he's actually going to stay off it for.
+It's going to be two months right so we're going to skip the one and then he's going to go at eight weeks to the next dose.
+Next one is from Doug who writes, I notice you usually talk about the importance of infections after vaccination being classified as either just a positive test or the more important hospitalization or death.
+However, when you've compared the rate of reinfection after natural infection versus the rate of infection after vaccination, you only compared positive tests and did not mention if there's a difference in hospitalization or death are those data available.
+Yeah, so a lot of people really want to like, you know, sort of head-to-head comparison. What about people that had natural infection? What is their risk, you know, six months, seven months, eight months compared to someone who's been vaccinated?
+What is their risk of the different outcomes?
+We don't have any really great head-to-head studies. And if you think about sort of hard to do, right? You kind of need to have a cohort of individuals that have natural infection, a cohort of individuals that are vaccinated.
+We have great data on the vaccinated individuals, really tremendous data on people with natural infection. What we're seeing is a low risk in the first three months.
+And they actually tend to do okay till about six or seven months. That's when we're starting to see this increasing rate of reinfection.
+And, you know, what do the variants do relative to that we'll find as we go forward.
+I guess what I should say what we do know, and maybe this is the real question, if you had natural infection, should you just, you know, sit back and, you know, trust the protection, or should you get a vaccine?
+If you go ahead and decide not to get that vaccine and your buddy gets that vaccine, you are more than twice as likely to end up reinfected than a person who decides to get vaccinated.
+Chris writes the Times is reporting that Pfizer could be given full approval on Monday, which we just said it was.
+I have seen a lot of discussion on Twitter with conflicting information from people who all have MD in their bio about whether or not it could then be prescribed off label for children.
+Can you clarify the facts here? And if it is possible to use it off label, how a pediatrician or parent of a kid less than 12 should think about the risks.
+I do not have kids, but a number of my friends do and they're all worried sick about the fall and going back to school.
+Yeah, no, this has been quite a discussion in my household, I'll admit.
+And what is going here? It's not being recommended for under 12.
+And part of the issue is when we look at the ongoing studies, it's not a safety issue.
+It's not an efficacy issue. It's an information issue.
+You know, when you start getting younger, small children are not just small adults. They have a different physiology.
+They are smaller. They may actually end up benefiting from a dose reduction.
+They end up with a different dose than what we're using in adults.
+Those studies are ongoing. The FDA has added so that when we do move forward here, the timing is terrible. I admit that.
+Now, what if someone, let's say someone is 11 years old and they're going to turn 12 and they're a couple months away, but, you know, they're 100 pounds or 150 pounds.
+There is a little bit of discretion there right at the edge, but none of us are encouraging like four or five, six year olds to start getting vaccinated just because the license has gone.
+So, so I think there's going to be a lively discussion here.
+It is very frustrating as we see a growing number of children getting infected, a growing number of children getting hospitalized as we're seeing a couple of kids, two to three dying a day.
+This is not great. I understand a lot of people wanting to be able to move forward. We've got to continue to keep those kids safe a little bit longer until we really have the science and knowledge.
+Even if there is an uncommon side effect, we need to be all ready to recognize it so that it becomes just something minor or something that we can address rather than becoming something more significant.
+But in reality, Daniel, what's to stop a physician from giving this off label to a kid? Yeah, in all honesty, the majority of therapeutics that we offer to children have never been formally tested do not have in the package insert.
+So, no, this is actually the way medicine works.
+One more from Abby. I have two kids for an 18 months. Their pediatrician told me that it would be March before they could be vaccinated. I learned that there's a phase two, three local trial of Moderna vaccine in ages six months to 11 years.
+With community transmission increasing in our area. I feel that the risk of contracting COVID is higher than the risk of the vaccine, causing a very negative reaction, but it's hard to tell how safe are faced to three trials.
+I understand they may get the placebo, but other than that, do you have a sense of the likelihood of severe reactions as a parent? Would you enroll your child in one?
+Yeah, maybe I'll start with the last question. So yes, I would, actually, because we clearly know the impact of COVID. COVID is bad.
+The vaccines, we've given these to millions, hundreds of millions of individuals, getting down to like 12 year olds. We have ongoing trials looking at younger individuals. If I was looking at having to wait that long, looking at waiting through winter.
+Yeah, and actually, I've just started to bring this home personally, when, when the vaccines were rolling out and my son Barnaby was too young to be eligible. My wife actually actively investigated enrolling him in a trial so that he could get vaccinated to get that protection potentially 5050 sooner.
+Right. We'd know if he's placebo or not. But yeah, and that that so I guess I'll throw all that out there.
+Even now, so I would say the risk of a problem is incredibly low because we have so much more experience, much more experience than we had even when we started the adult trials.
+That's COVID-19 clinical update number 77 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. And everyone, be safe.

@@ -1,0 +1,7 @@
+- https://gist.github.com/prateekmalhotra/431ebfa2d3168f7b7dbe7a86f17e3f2f
+  - Estimate the fair value of stocks using this DCF model.
+    https://www.buffettsbooks.com/how-to-invest-in-stocks/advanced-course/lesson-35/. Also,
+    added a formula to understand how much growth is priced-in (Page
+    295, The Intelligent Investor).
+- https://www.youtube.com/watch?v=nHnEU6ZZ0QE&t=37s
+- https://prateekmalhotra.me/dcf-basic/

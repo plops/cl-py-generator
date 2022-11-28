@@ -1,0 +1,269 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 719 recorded on February 11,
+2021. I'm Vincent Racken Yello, and you're listening to the podcast all about viruses.
+Joining me today from New York, Daniel Griffin. Hello, everyone. All right, we're a week later.
+Is it any better, Daniel? You know, I am going to say yes. I'm going to say I'm
+apparently I'm going to be on the news tonight at 7.30, after we finish Twiv. And I am going to say
+then, you know, this will be dropped Saturday. So people won't know that I'm going to say
+that we've really come over our crest. I mean, we were looking at over 300,000 new cases a day.
+We crested over 5,000 deaths per day. And now we've dropped down to less than 200,000 cases
+per day. And our deaths are actually getting down in the 2000s again, which is, you know,
+horrible to say that that's better than where we were. And what's the reason for this downturn,
+do we know? I think there's several things going on, Vincent. I think one of them is that,
+you know, if you become infected, when you're infecting 300,000 people a day, you're taking
+300,000 people who are probably not going to get reinfected in the next three or four months or so.
+We're also ramping up vaccines, you know, over a million people are being vaccinated a day.
+The other thing is we got past Christmas, New Year's, we got past all those big holiday times. So,
+you know, and I understand it was a really bad Super Bowl. So hopefully we won't see much of a
+surge after that. Okay, we've got a lot to cover today. And actually, I'm going to say
+exciting new news, hot off the press we'll talk about today. But let me start off with my quotation.
+And this is a quotation from the Great Gatsby by F Scott Fitzgerald, one of my favorite books.
+People may not know, but I live in East Ag and I look across at West Ag where Gatsby was when he
+Gatsby believed in the green light, the orgasmic future that year by year recedes before us.
+It eluded us then, but that's no matter. Tomorrow we will run faster, stretch out our arms farther,
+and then one fine morning. So we beat on boats against the current, born ceaselessly into the past,
+born back ceaselessly into the past. So all right, never miss an opportunity to vaccinate,
+never miss an opportunity to test, never waste a vaccine dose. I hope everyone survived last
+week's discussion of the variants. And yes, it was simplified. I left out the trimmers and
+fear and cleavage sites and pre and post fusion confirmation changes. But my hope is that this
+primer will help as we go forward. You know, I was thinking today, as I went in and one of my
+patients had not made it through the night, how lucky we were when we talked about the Irish
+patient that we got to follow his drama through not knowing how it was going to go and then see
+him end up back home in Colorado. But unfortunately, that is not the outcome that all my patients
+are experiencing. All right, the pre exposure period. So my stages paper is now published. It's
+out there. I don't know if the full it's going to be open access to the full paper will be available
+soon. But we're going to stick with these stages, the pre exposure period. So now two masks at a
+time are being recommended or discussed by the CDC. In the MMWR, there was maximizing fit for
+cloth and medical procedure mass to improve performance and reduce SARS-CoV-2 transmission
+and exposure 2021 in the MMWR. Testing, I want to say I have growing concerns about the reduction
+in testing. I was looking at the COVID tracking project and they had reported that if there was
+a significant drop in testing, I was able to confirm this in other sources. On January 18th,
+the seven day average of daily new tests reached an all time high of over 2 million. Just to kind
+of give people perspective, January 18th, one slash 20 was the Biden inauguration. That number
+has now fallen well below that 2 million number. And that 2 million number is actually what our
+public health experts consider an important threshold for allowing us to identify most of
+the people with symptoms really to prevent them from spreading it to other individuals.
+You know, in New York here locally, the 15th of January is when we reached our peak with 324,671
+tests done in a single day. We're now seeing half that number, less than 200,000
+really about 150,000 done per day. So we're really dropping. It was about a year ago that Michael
+Mina started championing the idea of the home saliva, rapid saliva test, the liquor sticks,
+a dollar or less. He was a guest on Twiv back in 640, Twiv 640 back in July.
+Now there are several at home collection COVID tests. Most of them are male back offs. They're not
+really doing the full thing. But back in December, a loom. This is an Australian based company
+received an EUA for their 15 minute rapid in home antigen test. And recently, the White House
+announced that the Department of Defense has committed $230.8 million to help a loom increase
+its production of these at home tests. As per the loom CEO, Sean Parsons, we certainly would
+like to see this priced in the $30 range. But he admits it will definitely start at more than
+that $30 per test. That's a lot of money. So really not quite where I would like to see it be.
+Active vaccination, I'm going to call this the good, the bad and the ugly. The ugly is all the
+equity with access. The bad as we've really created a system that made access to vaccination,
+very complicated, frustrating. And by its very nature, easier for wealthy, healthy and more
+educated to access. The good though is that it does look like this is about to turn around
+and improve at least for the US. I'm hoping the rest of the world after that. But the CDC has a
+COVID-19 vaccine data tracker. And actually, we're really seeing the number ramp up of vaccines
+per day. It's over a million per day. Here in New York, we are below average. We're bottom
+dwellers. We're in the bottom half. Alaska is doing the best. Nevada is doing the worst.
+Based upon percent of doses received and then being administered, we have places like North
+Dakota, where 95% of the doses end up administered. In New York, we're down. Only about 70% of the
+doses delivered are administered, about 30% of them. So about a third of them end up sitting in
+freezers. But we expect this to turn around soon. Just give people, you know, it is February on the
+26th, J&J is going to be going for EUA. And we are hoping that by April, the supply outstrips
+demand. Moderna has ramped up its production and deliveries. Pfizer has reported a doubling of
+its production per month by having its production time through increased efficiencies. A nice
+story about that USA today this last week. I do want to share some concerning developments if
+people are not watching what's happening down in Manasse, Brazil. And this was a situation where
+the first wave of the virus ran rampant. Really, there was a decision made. And what ended up
+happening was it ran through. About 5% or 6% of the population died. It was mostly the older,
+the more vulnerable. By October 2020, there's a nice Lancet article on this called resurgence
+of COVID-19 in the NOSF Brazil, despite high seroprevalence. And as they report in the Lancet,
+by October 2020, 76% of the population that was still alive was deemed infected, previously
+infected based on serological testing. But now we're seeing an increase. We're seeing a second wave.
+This time, the hospitalization rate is 2.5 times what we saw with the first wave. We're seeing a
+20% higher per day mortality than happened the first time. And the surge is so large that hospitals
+have run out of oxygen. And patients on ventilators who need extraction debris are literally suffocating
+in hospital beds. So not much of an endorsement for this, you know, Great Barrington. Let's try
+to achieve herd immunity with natural infection. I'm going to get to the next question. Still in
+the vaccine section, does vaccination impact transmission? And we just this week, there was
+an update from the CDC where they actually do couch this. So I will comment, but they say vaccinated
+persons with an exposure to someone with suspected or confirmed COVID-19 are not required to quarantine
+if they meet the following criteria, right? So this is a change. If they're fully vaccinated,
+so they passed two weeks following the receipt of that second dose in a two dose series. But they're
+also kind of getting ready. They're saying we're greater than two weeks following receipt of one
+dose of a single dose vaccine. I think they're thinking J and J might get approved. They're within
+three months of the receipt of the last dose in the series. And they're remaining asymptomatic.
+And that's up on the CDC website. And they actually they they catch this and they explain they say,
+okay, although the risk of SARS-CoV-2 transmission from vaccinated persons to others is still uncertain,
+vaccination has been demonstrated to prevent symptomatic COVID-19.
+Symptomatic and pre-symptomatic transmission is thought to have a greater role in transmission
+than purely a symptomatic transmission. And additionally, individual and societal benefits
+of avoiding unnecessary quarantine may outweigh the potential but unknown risk of transmission
+and facilitate the direction of public health resources to persons at highest risk
+for transmitting SARS-CoV-2 to others. So this is a bit of a change. This is a bit of an update.
+I kept hearing about transmission evidence out of Israel. And on the 8th, the paper,
+initial real world evidence for lower viral load of individuals who have been vaccinated by
+BNT162b2 became available on GitHub. So two things. Well, the BNT162b2, that's the Pfizer vaccine.
+And what is GitHub? This is actually interesting. This was a website originally set up for developers
+and companies to share and maintain software. I actually used it when I was writing one of our
+textbooks. It's sort of a way to share files, but sort of interesting. Another way for things to
+just get out there. And what they reported here, and I don't want to spend too much time on this,
+because they report that there was a drop in the average CT values when they looked at people
+over a certain age with a 75% vaccination penetrance versus people at a lower age with a lower vaccination
+penetrance. But they actually should have, I think, called this statistically significant,
+because what they really came out to was instead of about a 26.5, they were seeing CT values of
+about 27.5. So only one CT value difference. So instead of an average RNA copy number of
+800,000, they're seeing an RNA copy number of 400,000 on average. So still in a level where
+we think there's transmission. So I think this is a complicated issue, or we'll learn more about it.
+All right, still in this pre-exposure period, we continue to recommend that people exercise,
+no reason to go into a COVID exposure vitamin deficient. There actually was a paper in the
+Lancet, Diabetes and Endocrinology, entitled Vitamin D and COVID-19, Why the Controversy.
+And I guess I'm all along lines with this. I don't think anyone is going to propose that we do a
+study where you have half the group vitamin D deficient and the other replete. I think across
+the board, there is no reason to be vitamin D deficient. So I think that that can just be closed. Take
+your vitamin D, don't be vitamin D deficient, exercise, don't put on extra pounds, those pandemic
+pounds, be careful, try to be as healthy as you can. Passive vaccination. This was exciting,
+another exciting week. Lily's bamlinibamab, administered with atessa bamab, received FDA
+EUA for COVID-19. So this is now Eli Lilly has a cocktail as well, and it gets even more exciting.
+If you give just bamlinibamab, instead of an hour, you can infuse it over 16 minutes. If you do the
+cocktail, 21 minutes. So this is really going to improve access. As a treatment reminder,
+it's really critical that you get this in during the first seven to 10 days was another study
+out there where really if you give if you give monoclonal's late, if you wait till someone's
+already, you know, in the ICU till it's late in that second week, if you miss that front window,
+you don't do anyone any help. We've been actually infusing a lot of people through the united
+in research study. And this has been great to give people access to monoclonal therapy in the
+comfort of their own home through infusions. We get into our early inflammatory phase,
+and maybe just as a reminder, still remdesivir still being used in hospitalized patients with
+oxygen saturations less than 94%. A little broader with regard to not limiting it based upon renal
+function steroids. Again, second week oxygen saturations less than 94. We discussed last time
+updated data on anticoagulation. A number of studies that were showing that in ICU, critically ill
+patients that prophylactic dosing anticoagulation was associated with the best outcomes. But in
+your moderately ill floor patients, that full dose anticoagulation was associated with the best outcomes.
+But some exciting new news on tocelism map. I've been waiting for this for quite a while,
+actually. And this is the recovery data. So just put on a preprint tocelism map in patients admitted
+to hospital with COVID-19 recovery trial, preliminary results of a randomized controlled open label
+platform trial. This is a preprint. But I got a chance to look through this. This study looked
+at over 4000 adults, and the patients were allocated to receive tocelism map either as a single dose
+or a second dose. And actually, there's a weight based adjustment. So as high as 800 milligrams,
+or down to 400 milligrams based upon various weights, you can look up and, you know,
+find the dose for your patient. But a lot of times you'll use this flat 400. This was an adjusted,
+just like in REM cap, patients allocated to tocelism map were more likely to be discharged from the
+patient from the hospital alive within 28 days. So 54% versus 47% with a rate ratio of 1.23 p-value
+of 0.0001. Among those not receiving invasive mechanical ventilation, less likely to end up
+on a mechanical ventilator or die. So 33 versus 38. And again, p-value of 0.0005. So let me translate
+this. These patients had a background of steroids. And if tosy was given with a background of steroids,
+there was a 14% reduction in 28 day mortality with a p-value of less than 0.007. And almost a 20%
+reduction in the risk of requiring intubation with a p-value of 0.01. So this builds on the REM cap data,
+starting to get a sense of when and in what context and how to use tosy in a manner that is
+associated with, I think, really clear, well-designed trial data supporting a mortality benefit as
+well as a better outcome, not ending up on a mechanical ventilator. Secondary infection phase,
+you know, I always tell people remember your fungal and your bacterial infections. This is a later
+part of the disease. Most people coming in are not infected, but there was another nice article
+in open form infectious disease, bacterial super infections among persons with coronavirus disease
+2019, a comprehensive review of data from postmortem studies. So these are people who ended up
+dying, right? So it's not just looking at everyone, it's looking at the people that actually died
+from COVID-19. And I think interesting here is which pathogens did you see people die from? So
+asinidobacter balmani, staphylococcus aureus, right? I think we've talked about that before,
+pseudomonas aruginosa, and Klebsiella pneumoniae. So long super infections were the causes of death
+in about 16%. And so we're seeing these infections, but remember, we're also seeing some fungal
+infections, seeing a few cryptococcal infections, just sort of to remember it's not just aspergillus
+and candidemia. I also want to put a plug in here for TWIP. After we record this, we're going to
+record TWIP. And we're going to have our mystery case. And I don't want to give away the answer,
+but I may say that this may be a situation where Ivermectin saves the day. So just a teaser,
+listen to this week in parasitism. Okay, the multi-system inflammatory phase. This is a
+reminder, and we keep seeing this a couple of times today, people are being clapped out of the
+hospital. This is a bi-modal disease. People come in during that early inflammatory phase.
+We treat them, they're often doing better. But remember, 10 to 15% of those folks are either
+going to die in the next 30 days or get readmitted. So a lot of times they get better. And then they
+have this second late inflammatory, this multi-system inflammatory phase. And so don't just clap them
+out, make sure they have good close follow up, and make sure you're ready to jump in at that
+point as well. The tail phase, this sort of actually overlaps the post hospital plan. So we want to be
+thinking about what the appropriate anti-quagulation recommendations will be. And actually, we're
+going to meet at Ash and try to come up with some evidence-based guidance there based upon what
+people are doing, what the studies are. But I also want to talk a little bit about treatment
+here. I still find it frustrating. I'm sure a lot of our listeners who have long COVID
+find it frustrating that we still don't have a lot of really good data-driven interventions
+to help with long COVID. We take care of a lot of COVID patients, long COVID patients here in
+New York at Pro Health. But we're trying to consolidate our COVID care, actually. So we can
+really learn from each other, learn from patients. So I think one of the big things I just want to
+throw in here before we close is that people who have long COVID, who are having problems
+exercising, have problems going upstairs. There's a subset that has a significant
+post-exertional malaise issue. These aren't people who can just buck up and gradually
+increase their exercise. These are people who need to be treated differently. So you really
+want to screen for that in your guidance of what these people are going to be doing.
+So let me close with our fundraiser before we hit emails. And I want to say thank you,
+everyone, who's already gone to parasiteswithoutborders.com and started to contribute. Because
+through the months of February and March, donations made to parasites without borders will be matched
+and doubled by TWB and donated to the American Society of Tropical Medicine and Hygiene,
+including scholarships for their annual meeting travel awards. And I'm going to focus on that.
+We are going to try to raise money and bring women, early career women, from low-income parts of the
+world to the annual American Society of Tropical Medicine and Hygiene meeting, really help them
+invest in these young women. And hopefully, instead of 15% of the leadership in so much of
+science being old white men, we can actually increase the diversity and the opportunity.
+So help us do that, help us make a difference. Our first email is from Dagfin, who's writing from
+Oslo, Norway, where it's minus nine Celsius. A question regarding a group of patients frequently
+overlooked drug-addicted patients who Dagfin works with, according to their national service,
+they are a Norway for not a single case among these patients have been reported. And he sees
+similar reports from other countries. Do you have any idea why this group of patients who are
+usually very susceptible to infection seems to be nearly unaffected by SARS-CoV-2 virus?
+Yeah, I have to say that that is an interesting observation. And though I haven't seen a lot of
+data here, that actually goes along with my experience. We, as infectious disease physicians,
+interact with and take care of a lot of intravenous drug users, develop a lot of
+bloodstream infections, endocarditis, things like that. Unfortunately, what we have seen in the
+United States is a significant increase in the amount of drug abuse deaths due to drug-associated
+overdoses. But no, my experience has actually been in Lises. We are not seeing a lot of those
+individuals. I don't know if it's a younger demographic. You would think that their comorbidities and
+the other problems would put them at higher risk for COVID. But no, that actually is in line and
+very interesting observation. Laura writes, are there any data about different vaccines ability
+to prevent long COVID? Laura is in vaccine priority group two, seems likely by the time she's vaccinated,
+multiple vaccines will be given to you ways. The messaging I've heard in the news is if you're
+offered a vaccine, take it. However, I'm fortunate to be in a demographic where hospitalization and
+death are extremely unlikely. So my primary concern has been long COVID as a healthy 40-year-old woman
+with autoimmune disease. Since studies have shown that even a relatively mild case of COVID can lead
+to long COVID, it seems to me I would want to choose the vaccine that has the highest
+efficacy of preventing disease of any severity. Yeah, no, that's an excellent point, right? And
+I think you could sort of do the math on this. You would say, okay, so let's take the mRNA vaccines,
+95% reduction in symptomatic disease. We're not really seeing long COVID in people who suddenly
+develop symptoms and then find out through serology they were asymptomatically infected.
+Clearly, the majority, if not all, of people who developed long COVID had some degree of
+symptomatic COVID. It isn't necessarily that you need to be severe enough to be in the hospital,
+so preventing severe disease is not necessarily enough. Preventing symptomatic disease seems to be
+something we want to do. We are hoping that people who've been vaccinated are less likely to develop
+long COVID. And I was actually speaking to one of my colleagues today for Tima Johari,
+people who have gotten even a single dose of vaccine when they get COVID, this unfortunately
+has happened, they tended to quite well. So I'm very optimistic that the vaccines across the
+board are going to reduce the risk of long COVID. At this point, we don't know, and we're still
+going to keep an eye on this. Millions of people are being vaccinated, but I see your point,
+the J&J, what if we say, oh, it's less effective at preventing mild disease? Are those people with
+mild disease who got a JJ vaccine? Are they going to be at a significant risk of going on
+to long COVID? We certainly don't know. But that I think is an important thing for us to keep an eye
+on. Aviva wants to know about Passover coming up in a month and a half. They will have
+six adults and three kids. The adults will all be vaccinated, the kids not,
+and they want to know, is it safe? We can test the kids, we can keep them home from school,
+we can test them again. There's a debate in this family as to whether this is safe to do. We value
+your input. Okay, no, I mean, I am going to have the same situation. I don't know if people notice
+or know this, but I will be celebrating Passover. The current plan is my dad's birthday
+corresponds with the first Sator, the first night. And so our plan, my mother, is going to be fully
+vaccinated. My father will be fully vaccinated. I will be fully vaccinated. And then my wife,
+myself and our children. So that's going to be seven of us together. You know, I will recommend
+that everyone gets tested. Preferably, you know, the morning, right, it's going to be a Saturday
+is the first night, I believe. Hopefully I got that right. You know, everyone gets tested before.
+My parents, I actually say, hey, they've been vaccinated. I'm not particularly worried about
+them. It's more the risk, you know, my wife is not going to be vaccinated by them. My children
+will not be vaccinated by then. I think this is one of the things once people have been vaccinated,
+you don't want to undersell and say you can't change things. I actually think that a year ago,
+when my parents were not vaccinated, we did not have Passover with them. This year with them
+being vaccinated, I actually think we're going to go ahead. And I think that that is a reasonable
+risk, but nothing's 100% safe. So you want to consider all this. If my wife, for instance, had
+health issues, she had, you know, problems with her immune system, I might rethink that. So you
+want to you want to make this an individual decision for everyone. One more from Eugene in Atlanta.
+What are your thoughts on getting mRNA vaccine people being immunosuppressed with diseases such
+as crone and treated with drugs like stelara? I would imagine not to miss the opportunity of
+getting the vaccine, then perhaps resuming the drugs sometime after the second vaccine dose.
+Yeah, that is routinely what we're doing. We're still recommending the vaccination. We're not sure
+that it will be as effective in these individuals as it would be in someone who has an intact immune
+system who's not an immunosuppressant. And this might actually be the population of
+communicating with one of the oncologists today, patients who are on certain drugs that interfere
+with B cell and other immune function. This might be a situation we actually do do one of these
+semi quantitative anti spike serology tests. But no, we're recommending that people get
+vaccinated. We're just a little concerned. They may not get as robust a protection.
+That's COVID-19 clinical update number 49 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you so much. And everyone be safe. It's so close to the spring. We're going to make it.

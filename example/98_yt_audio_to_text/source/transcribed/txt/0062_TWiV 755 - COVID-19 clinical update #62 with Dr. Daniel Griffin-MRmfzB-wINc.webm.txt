@@ -1,0 +1,399 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 755, recorded on May 13, 2021.
+I'm Vincent Rackeniello, and you're listening to the podcast All About Viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. How's it going this week, Daniel?
+It's mixed, right? Numbers are getting better in New York, right? We finally, the other day,
+got below less than 2,000 people in hospital, which is quite, you know, imagine, at one point,
+we had more than that dying per day, right? Now we're less than 2,000 in hospital.
+So it's amazing the way our benchmark is changing. We're still seeing 20, 30, 40 people dying a day,
+but that's not 2,000. Still had another one of my patients die last night, so we're still losing
+people. Still, I mean, people die of COVID here. But I think people are seeing there's a change.
+I mean, a lot of the hospitals are pointing out 99% of the people that are getting admitted
+now are people that never got a vaccine. So that's what we're seeing. We're seeing people who would
+rather take their chances not do well, right? This is the lottery that you lose. But let me start
+off with our quotation, and then we'll go right into this. And I'm going to start with a quotation
+from Nelson Mandela. There is no keener revelation of a society's soul than the way it treats its
+children. So we're going to be talking actually quite a bit about children today. There's been a
+lot of news about kids and masks. We'll try to hit on everything. And a lot of stuff is hot off the
+press, right? So I was listening, I was listening to the latest Twiv right before this. I do listen
+to all the other Twiv and Twix episodes, by the way. So there's some comment. If Daniel's listening,
+I'm always listening, right? Like Dauchy on the couch or something. But let's start off with,
+we won't get right to the hot news. We'll start with some background on May 6th,
+Moderna reported. Phase two, three teen cove study of mRNA 1273 and adolescents.
+The phase two, three study of mRNA 1273 and adolescents ages 12 to 17 completed enrollment
+in the US. We got initial analysis here of 3235 participants, randomized two to one. And we're
+seeing here vaccine efficacy of 96% in the zero negative participants who received at least one
+injection, right? So the analysis included 12 cases starting 14 days after the first dose
+and based on the CDC definition of COVID-19, which requires one COVID-19 symptom paired with a
+nasopharyngeal swab or saliva sample positive for SARS-CoV-2 by RT-PCR. So just a little bit
+more about this, right? Just to give this is the Moderna sort of balance to the data that
+we're going to talk about with Pfizer, so we're going to talk about what Pfizer is now doing.
+But in the study, the median duration for follow-up in this analysis was 35 days following the second
+dose. The vaccine, the Moderna vaccine was very well tolerated in these adolescents.
+Majority of the, say, adverse events were mild, moderate, no serious safety concerns. So what
+are these things? Some side pain, right? It hurts to get poked with a needle. People did reconfirm
+that. Fire is hot. They did also report headache, fatigue, muscle pain. There was some chills. So
+the company reported that they're going to continue to collect the data here.
+We can look forward to the Moderna vaccine in the future, also requesting expansion down
+to cover adolescents if the rest of the data is in line with what we're seeing here.
+What about kids younger? What about down to six months? There's also the kid cove study
+of the Moderna vaccine in younger children. This is ongoing, and this actually is down to
+six months of age. So this will cover those six months of age up to 11 years. That's ongoing.
+Just to predict the future, you know, and this probably will not be Moderna first. It'll be
+Pfizer, Moderna, et cetera. We're thinking we're not going to be expanding down to these younger
+ages until probably September. But we'll see as we go forward with that.
+Daniel, can I ask you? The numbers are very small. And we puzzled about that on Twiv.
+Why are they so low for the adolescent studies?
+Yeah. You know, there's a couple ways to look at this. One is we're just sort of slightly moving
+moving the bar here. So normally we think of vaccine studies as being about 30,000 people,
+minimum duration of two months. And so we've had now millions of people 16, 17, 18, just right
+above here. So you're just sort of moving that down a little bit. And you're basically saying,
+is there any sort of a different signal here? So this really builds on the 30 thought. You
+couldn't do this by itself. You couldn't say, oh, I'm just going to do a, in this case, 3,235
+participant study and get a vaccine licensed based on that. So it's really, this is data building
+on the other data. And actually, no, that's, I'm glad you bring up because I get this question
+all the time, parents say, like, but it's only like 3000 here, 2000 here, while I talk about 5,000
+people in these studies so far. We're actually talking about millions of people. And we're just
+moving moving that bar a little bit. You know, what is physiologically the difference between a 16
+year old and a 15 year old, probably, as we're seeing not not very much, except boy,
+this looks like an age when we get a really robust immune response. Is that good, Benson?
+Try to see if there's more questions. Yeah, so I mean, you say millions, but the trial was,
+you know, tens of thousands. So are we, are we following people who are being vaccinated in some
+way? Yeah, so there's, there's two main ways that we're following people who've been vaccinated,
+right? And I think Pfizer actually is the vaccine that has the most doses out there. Well, over 100
+million here in the US alone. And there's two ways we follow that. So one is the VAERS, which is
+sort of a passive anyone can report. But there's also active, we call phase four, where we continue
+to follow a large cohort of these people who've been vaccinated. So it's a combination. The VAERS
+is the broadest, right? And as we saw, even something as rare as with the clotting with JJ,
+something that, you know, is maybe one in a million or so, maybe one in 100,000, we can pick that up.
+So we have actually a tremendous amount of safety data in, you know, in the age group just right
+above 15. So 16, 17, 18. Okay, great. Thank you. Transmission. You know, as I like to say,
+COVID-19, most commonly spreads during close contact. COVID-19 can sometimes be spread by
+airborne transmission. People seem very excited that that's been added. CD COVID-19 spreads less
+commonly through contact with contaminated surfaces, right? And that was where it said maybe one in
+every 10,000 case is due to contact. So we've really moved a lot away from the hygiene theater.
+So this last week, I have to say the whole outdoor transmission topic heated up. This is a moving
+target. And many are actually taking issue. I'm going to say appropriately. So with this number
+that's being bandied about of less than 10%. Now, now, I for a while have quoted that your risk
+of getting COVID outdoors versus indoor is about 20 times less likely outdoors, right? So when
+that put us more down around less than 5%. Now, I want to say there isn't necessarily new science
+here that everyone's getting sort of excited about. It's really rather a reaction to the updated CDC
+camp guidance where masking outdoors is recommended as a baseline with certain exceptions. And we
+talked about this CDC guidance that was updated by the CDC on April 24th. And what did they say?
+What got sort of a strong reaction is they said all people in camp facilities should wear masks
+at all times with exceptions. All right. So what are those exceptions? And we talked about this.
+It could be the exceptions could be certain people or certain settings or activities.
+Certain people, they said, children to and younger, a person with a disability who cannot safely
+wear or remove a mask if necessary. Anyone who has trouble breathing is unconscious, right? So we're
+we're saying certain people are exempted from this, but also certain settings and activities,
+right? And so what are those? Eating, drinking, swimming, napping involved in activities that
+could make your mask wet during high intensity activities where a mask would create difficulties
+breathing. And now add to this vaccinated, right? So that that's going to bring us back to outdoor
+transmission. But before we jump into that, breaking news, right here on Twiv. I don't know if you
+heard this, Vincent, but today, Dr. Wilensky at the CDC announced in Thursday the day that we're
+recording this episode that people fully vaccinated against COVID-19 do not need to wear masks or
+practice social distancing indoors or outdoors, except under certain circumstances.
+This was then echoed by Anthony Fauci. Now, there certainly are special considerations
+if a person cannot mount an effective immune response to the vaccine. I was meeting with a
+gentleman on Tuesday, 89 years old. He has an immunodeficiency where he has to get
+intravenous immunoglobulins on a regular basis. He has some ongoing viral issues. Yeah, that's
+not a man who's going to go to the ball game with his mask off or be in a large indoor setting
+with his mask off. So this is certainly great news for people that have a healthy immune system,
+people who can mount a proper response to the vaccines. I think that this is reasonable.
+I think it's responsible. I think the science is now here and clear on just how incredible
+protection a person gets when they're vaccinated. And I think this is going to challenge some of
+the comments and concerns about quote unquote herd immunity or community immunity.
+If you're vaccinated, right, we learn things that masks reduce risk by 80%. Maybe being outdoors
+reduces risk by 95%. Your risk of ending up in the hospital or dying of COVID is reduced even more
+most dramatically by vaccination. And I think that the science is now here. And I think as people,
+you know, beat up the CDC a little, the CDC gives us evidence-based, reliable guidance.
+And we've been thinking the science has been mounting. It's finally here and the CDC did not
+wait and they stepped forward and endorsed these recommendations. But let's get back to outdoor
+transmission. You know, as I said, this is not something new, but let's go through what the data
+is when we hear this less than 10%. So back in November, there was a systematic review
+published in the Journal of Infectious Diseases, outdoor transmission of SARS-CoV-2 and other
+respiratory viruses, a systematic review. So these authors conducted a systematic review
+of peer-reviewed papers indexed in PubMed, M-based and Web of Science, and freeprints
+in Europe PMC through 12 August 2020 that described cases of human transmission of SARS-CoV-2.
+Reports of other respiratory virus transmission were included for reference. Now,
+I think it's getting nice when I listen to the other twibs that were getting back to
+peer-reviewed literature. So hopefully in the future, all of these analysis will only include
+peer-reviewed, properly-fetted research. But the authors here reported that based on five
+identified studies, they found a low proportion of SARS-CoV-2 infections occurred outdoors. And
+they say less than 10%. And then here's where you get that number. The odds of indoor transmission
+were very high compared to outdoors 18.7 times, right? And they give a confidence interval to that.
+So that's that I say 20, and I'm rounding 18.7 up to 20. Now, I will say, though, if you don't
+just read the results, but if you actually go through this whole article, and this will be posted,
+I think on parasites without borders so that you can actually do this and start looking at the
+tables, you'll actually see there's two really large studies in this analysis. One that involved
+10,926 cases and another that involved 7,322. And in those two large studies, the number was
+actually less than 1%. So it is true that the risk is less than 10%, but based on the two
+large studies that were included, it was less than one. Now, there was a small study with 103
+work-related cases. In that study, they suggested maybe 5%. So I think it's important to look through
+the data here. Yes, it is less than 10%. It may actually be less than 1%. So if you're outdoors,
+you've probably reduced your risk by at least 95%. People get vaccinated as we're seeing really
+goes down even farther. And that's what we're hearing from the CDC. So effective is vaccination
+that it is even more effective than wearing a mask and being outdoors and protecting you.
+So I think the evidence is really compelling that being vaccinated and outdoors without masks
+is really low risk all around. And as the CDC is saying, boy, if you're vaccinated,
+maybe being indoors is fine too. Now that vaccine eligibility has dropped to age 12,
+this is really going to leave us a small donut hole for the summer going into this, right? The
+kids age three to 11, you combine testing, drops in community prevalence, all the many exceptions
+that are sort of built into when the masks can come off. I think we're really headed in a positive
+direction here testing. Never miss an opportunity to test. There's been a little discussion,
+and we're seeing it in our urgent care and primary care centers. People are embracing those tests
+at home. I wish the price point was better. I mean, it would be wonderful if there was some way of,
+you know, instead of these wide ranges that you're seeing, you know, if they were a dollar a test.
+They look like they're about 1250 a test. Some people are charging 35 a test. I guess if you buy
+them in bulk at 1000 at a time, you can get that, you know, lower price point. But we're actually
+getting, you know, parents are now doing this at home. Their child wakes up, doesn't feel well.
+They wake up, don't feel well. They do the test. Sometimes that test is positive. They come in for
+advice for guidance. So I just think the access to tests is fantastic. But boy, get vaccinated,
+and then you won't have to worry quite as much. All right, active vaccination. Never miss an
+opportunity to vaccinate. This is the big news that I think everyone's waiting for. This week was
+the FDA expansion of the EUA for Pfizer down to age 12. On Monday evening, May 10th, 6 p.m.
+The FDA announced that they had expanded the emergency use authorization for the Pfizer
+BioNTech COVID-19 vaccine for the prevention of coronavirus disease 2019 COVID-19 caused by severe
+acute respiratory syndrome coronavirus to SARS-CoV-2 to include adolescents 12 through 15 years of age.
+I was very happy about the timing because I was going to peer on TV. I did appear on TV the
+following morning at Tuesday AM, and I was going to discuss this expansion. So it was really good
+timing that they squeezed that in there for me. Now, what did the FDA have to say about this decision?
+And they actually said, so March 2020, March 1st, 2020 through April 30, 2021, approximately 1.5
+million COVID-19 cases in individuals 11 to 17 years of age had been reported to the Centers for
+Disease Control. The FDA has determined that Pfizer BioNTech COVID-19 vaccine has met the
+statutory criteria to amend the EUA and that the known and potential benefits of this vaccine
+in individuals 12 years of age and older outweigh the known and potential risks supporting the
+vaccine's use in this population. So we discussed the data on a prior TWIV. We discussed some data
+today on Moderna, but in the past we discussed this study with over 2,000 participants. So the
+available safety data to support the EUA and adolescents down to 12 included 2,260 participants
+aged 12 through 15 enrolled in an ongoing, so it's ongoing to keep looking at these kids
+randomized placebo control clinical trial in the United States. Of these 1,131 adolescents
+who received the vaccine, they were followed for a minimum, right? It's got to do at least two
+months, which they did. And in this analysis among participants without evidence of prior
+infection with SARS-CoV-2, no cases of COVID-19 occurred, so 0, 100% protection.
+Now, on Wednesday, the ACIP voted unanimously. I don't know why I still get emotional about this,
+but I do. I mean, this was a huge, you know, actually brought a tear to my eye when I heard
+not only the votes coming in, but the comments afterwards. But the committee unanimously voted
+to recommend the Pfizer vaccine for adolescents 12 to 15, and there were really several important
+comments. And it was really interesting to hear some of the comments post-vote. Now,
+Aporva Mandavili at the New York Times did a really nice job of capturing the comments,
+which I appreciate it. I was driving while I was listening, and I was trying to decide,
+should I pull over and jot these things down? So, fortunately, they were actually put in print.
+Grace, Dr. Grace Lee, a member of the committee and professor of pediatrics at Stanford University
+commented that, sometimes we lose the importance of children and adolescents in the midst of pandemic.
+There's such a focus on older adults in particular. Dr. Maldonado reinforced that
+children may be at lower risk, but they are not at no risk. And she pointed out,
+while children's risk of severe illness is low, compared with that of adults,
+the coronavirus has infected more than 1.5 million children, sent more than 13,000 children
+to hospitals more than our hospitals for flu and an average year, according to the data collected
+by the CDC. There was a comment that it is currently, COVID-19, is currently one of the top 10 causes
+of death in children since the pandemic began. And remember, this is with full lockdown, with
+virtual schools, with in the last year, camps and all these other activities shut down.
+I think it's really important to remember that these numbers were what we observed with a rather
+draconian lockdown with school closures, virtual learning, masks, everything else, things that,
+I remember last February, some of our health experts saying, this will never happen in America.
+Well, it happened in America. And despite that, we still had this impact.
+Another little bit of good news. I think this is great news that we're going to be expanding
+this opportunity to get vaccinated down. I'll let everyone know, my 15-year-old son, Barnaby,
+is scheduled Friday evening. So when this drops, he'll already have had his first vaccines. I'll
+be able to give some updates, maybe we'll even post a picture if he's willing to check with my wife
+first. But we learned about temperature stability. That's always a challenge with a lot of these
+vaccines, particularly, right? We think about the Pfizer with these thermal shippers.
+And we heard from Pfizer that they actually have an updated formulation, which may allow six months
+in the fridge. Well, Moderna is always right there with them. And they recently announced
+ongoing development data related to the current formulation that could support a three-month
+refrigerated shelf life for the vaccine, and also alternative formats to facilitate easier
+distribution to doctors' offices and other smaller settings. And I think this is critical,
+and I've talked a little bit about this, is some people are happy to go to these sort of large
+vaccination sites, the state-run sites. That's where Barnaby's going. But a lot of people want to
+have that conversation with their physician, particularly a lot of parents want to have the
+conversation with the pediatrician. What they've done here in New York State, and I think it's
+really ingenious, is the Pfizer vaccines come with over 1,000 in this thermal shipper.
+Not every pediatrician office is ready to accept 1,000 vaccines, and all the commitments of getting
+them out. So there's sort of a cooperative that they've arranged, where several pediatrician groups
+can work together to each accept a certain number of the vaccines. They get popped in a fridge,
+you got five days, so basically, you're Monday through Friday to get those vaccines into arms.
+So there'll be a little bit of flexibility and thinking outside the box to get this done so that
+we get to that next level of people who want to have a conversation, want to ask questions.
+I'm going to move to the viral symptom phase, right? The time for monitoring and monoclonals.
+And we have some data on NSAIDs. So things like ibuprofen, napkin, and we have some reassuring data
+on the ability to safely use the non-steroidal anti-inflammatory drugs, such as ibuprofen,
+napkin, in COVID-19. And actually, I'd say this is huge. This may not seem huge, but
+when a person is suffering through that viral symptomatic phase of COVID, or even starting to
+move into the early inflammatory, it can be miserable. And it is amazing what an Aleve
+anaperson, a couple ibuprofen can do, particularly the evening when that person is trying to get
+some rest. So early on, people may remember, there was a little bit of concern as a letter sent.
+But this article in the Lancet Rheumatology, non-steroidal anti-inflammatory drug use and
+outcomes of COVID-19 in the ISA-RIC clinical characterization protocol UK cohort, a matched
+prospective cohort study. And so the authors reported on the results of this prospective
+multicenter cohort study that included patients admitted to hospital with a confirmatory or highly
+suspected SARS-CoV-2 infection between January 17th and August 10th, 2020. The primary outcome
+was in hospital mortality. And secondary outcomes were disease severity at presentation, admission
+to critical care, receipt of invasive ventilation, receipt of non-invasive ventilatory support,
+use of supplementary oxygen, acute kidney injury. And now what did they find?
+So this was a pretty robust study. They enrolled 78,674 patients across 255 health care facilities
+in England, Scotland, and Wales where there be dragons. In this cohort, 4,211 patients were
+recorded as taking systemic incense before admission to hospital. And they report that the
+NSAID use was not associated with worse in hospital mortality, not associated with critical care
+admission, not associated with the requirement for invasive ventilation, requirement for non-invasive
+ventilation, requirement for oxygen, or kidney injury. So basically NSAID use is safe in COVID-19.
+Passive vaccination. It actually looks like we're moving closer to full approval or licensure
+here as the data is such that recently the FDA said that the data is currently so compelling
+that they no longer agree with conducting placebo controlled trials here in the United States.
+Basically, this is considered the standard of care and something that should be offered to
+patients. A little bit of a challenge for the intramuscular, subcutaneous, and other monoclonal
+antibody therapies that are trying to come to market, try to get their trials. We also have
+ongoing trials looking at using these agents to protect contacts and high risk individuals
+unable to produce their own antibodies. So things are moving with monoclonals. Actually,
+it was at the gym today wearing a mask. I don't know if I need to anymore. This was before Dr.
+Walensky made the pronouncement. We'll have to see when the rules change, but actually seeing
+an advertisement on the television. So pretty exciting stuff that the information is getting out
+there. We need to use these more. Now early inflammatory phase, if room air saturations are
+less than 94%. That's when we have data that steroids dexamethasone from the recovery trial,
+six milligrams once a day for 10 days improves outcomes and saves life. There are certain
+situations where people are actually using little higher doses a little bit longer.
+But here's where I want to throw in a little bit of caution here. People following the news about
+India have probably heard about the black fungus or what is more properly called rhino-cerebral
+mucor mycosis. And there was a nice case series published in the journal of laryngeology and
+otology. And this was post coronavirus disease mucor mycosis, a deadly addition to the pandemic
+spectrum. And I don't know if people are familiar with this. I actually have seen a number of cases
+of this in my career and actually a number of cases when I was spending time in India.
+Here the authors describe 23 cases and the association with diabetes overzealous use of steroids,
+use of broad spectrum antibiotics, I'll add to treat a viral disease, and perhaps unclean oxygen
+delivery devices. They have some great images in this article disturbing images. They're not
+the actual looking and seeing in the open mouth of a patient that black s car, which is the fungus
+eating away. But if you do, if you look inside the mouth, and I mentioned I spent some time in
+Tamil Nadu where I saw some cases in the Indian population of this where you look inside the mouth
+and on the roof of the mouth, there's this black s car where the fungus is basically eating away
+the person's face and oral cavity. It's truly horrific. And I've even seen where it progresses
+and eats away the eye. But this is really a caution. This is a viral disease. They do not need these
+broad spectrum antibiotics. This steroids has somewhat of a benefit, but you do not keep these
+patients on steroids for three weeks. You don't give steroids and let the glucosees go really high.
+So where we're seeing a lot of this in India, this is really, we'll say iatrogenic, which means
+we're causing this. So we need to be a little bit careful here, please. Remdesivir has some
+minor impact at huge expense, I like to say. Anticoagulation for hospitalized patients.
+The science strongly recommends against HCQ at this point. I apologize, but that's where we are.
+There was a paper published in Nature Communications, mortality outcomes with hydroxychloroquine
+and chloroquine in COVID-19 from an international collaborative meta-analysis of randomized trials.
+And here the authors presented a meta-analysis of ongoing completed or discontinued randomized
+control trials on hydroxychloroquine or chloroquine treatment for any COVID-19 patients.
+They reported on all-cause mortality, and they looked at publications, preprints. They even
+reached out to the investigators to get more information if needed. Looking through 63 trials
+were potentially eligible for inclusion. They include 14 unpublished trials with 1,308 patients,
+14 publications, preprints with 9,011 patients. They included the recovery and the WHO solidarity
+trials, which included 4,716 and 1,853 patients. Basically, just to say, the combined odds ratio
+on all-cause mortality for hydroxychloroquine was 1.11 for chloroquine, 1.77. Basically,
+they were reporting that treatment with hydroxychloroquine was associated with
+increased mortality. So it looks like HCQ is associated with a 10% increase in mortality.
+I think we need to move past that. Oxygen and pulmonary support, antibiotics are not helpful for
+treating viral infections. And as I mentioned, the experience here can increase the risk of
+kidney failure, progression to dialysis, death, and increase the risk of opportunistic infections,
+which can harm or actually, in some cases, kill our patients. We mentioned last time some data,
+tosyllismab added to steroids can improve outcomes and have a mortality benefit. Consider this
+early in patients not reporting, not responding to steroids. It's not something you want to wait
+to do. And this is something which has now actually been added to the ID society guidelines.
+Tail phase long COVID post-COVID. So our listeners may have heard that Dr. John Brooks,
+the chief medical officer for the CDC is COVID-19 responses. Let it be known that there will be
+forthcoming guidance from the CDC on how healthcare providers can identify long COVID
+and manage long COVID. And there will likely be a specific ICD-10 code, a diagnosed code
+for long COVID. And I was asked for some input on the sky and said it really looks like they're
+doing a great job recognizing that not all patients have access to testing during the acute phase
+or test positive by serology when they come to medical attention. I expect that this guidance
+will likely focus on the multidisciplinary team approach that many of our centers are finding so
+critical for meeting the needs of these patients. I also think it's really nice that this is kind
+of a new model. They're reaching out to some of these support groups. They're trying to get input
+from patients. I know survivor core has been asked to basically input on this. So I really think that
+this is going to be incredibly helpful for sharing the knowledge serving as an educational resource
+for all the many clinicians who are really stepping up and helping take care of these patients.
+Now I will finish by mentioning our fundraiser. So if you're not driving,
+stop what you're doing. Go to parasiteswithoutporters.com and help us support
+Foundation International Medical Relief of Children. This is an organization with sites
+throughout the world and the patients they care for are struggling. The young volunteers who
+usually go out to these sites, the financial support that they usually have to do all this
+tremendous work. It's not there. And if you look at these places, they have a couple of sites in
+India. They have sites in Sub-Saharan Africa, sites in South America. They have sites in so many of
+these places that are being so hard hit with COVID. Please help us support them so that we can
+really go beyond our borders and help address these global issues. All right, time for some
+questions for Daniel. You can send yours to Daniel at microbe.tv. First is from Pete.
+I have just sent money to a friend in India for oxygen, $500 for a cylinder,
+$204 a fill that would probably help two people. I'm thinking monoclonal, monoclonals would be a
+better option. Any idea how much and how to get them there? Yeah, so these are challenges. That's
+amazing that that amount of money is being taken for cylinders and these other things. And really
+frustrating that there was not better preparation for what's going on in India right now. I was
+actually told by someone, I work with actually a lot of Indian clinicians and that Remdesivir,
+for instance, was negotiated. So at least Remdesivir is only about $15 or $20 a dose in India. So
+that's better than $3,000 for a course here in the United States. But access to the monoclonals
+is difficult. There actually is a bit of a black market where the monoclonals, I don't know how
+they're actually being initially procured, but they seem to be being sent over to India. So
+I'm not going to endorse the black market. But yeah, when you start looking at these price points,
+when someone's paying that amount of money for oxygen, then some of these other costs just
+don't seem quite as high. So if anything, I think this just highlights what a tragedy is going on
+over there. David writes, universities are starting to implement vaccine mandates for
+their students. Since a lot of students come from overseas, the question keeps coming up,
+what do we do about students vaccinated with non FDA approved vaccines, AstraZeneca,
+Cinevax button, Covax and et cetera, revaccinate them seems kind of extreme given the existing
+manufacturing shortages, except non FDA approved vaccines in the context of a mandate or just
+some of them. Is there formal guidance? Obviously, there has to be a line drawn somewhere, but I'm
+not sure who draws this line. Yeah, I've actually seen that the CDC is starting to put together a
+guidance here. And what they are saying basically is if it's us FDA approved vaccines, all right,
+that counts. But then you get into something like what about AstraZeneca. So that's the current
+guidance. The current guidance, if somebody has vaccines that are FDA approved, considers effective,
+then that can be considered as adequately fully vaccinated, the same criteria two weeks after
+the last shot in the series. But so far, the rules are if a person got vaccines that our FDA
+has not fully reviewed, has not fully endorsed or licensed or given an EUA, right, we're in the
+world of EUAs, then we actually have to go ahead and revaccinate. And I think this is tough because
+I'm going to say in the next sentence, we have an abundance of vaccines here in the United States,
+we have the capability to do that. That's a little bit of an embarrassment, right, when
+we're talking about places like India, where those vaccines would make a huge difference.
+And what is the cheapest way to keep someone from dying from COVID-19, it's to vaccinate them.
+Tiffany writes, I have a co-worker who has gout. She had a terrible flare up about a week after
+getting her first vaccination. Is there any chance these events are connected? Her doctor told her
+they probably are, but it seems weird to me. She found this article on podiatry today,
+connecting gout attacks to vaccinations. I was just wondering what you think,
+I don't want any more reasons for people not to get vaccinated if they aren't based on fact.
+Yeah, so it would not surprise me, right? We often, well, as an infectious disease doctor,
+we often see inflammatory triggers related to gout flares, right? And you can imagine how
+bad that gout flare would be if you actually had COVID. And I've certainly seen patients who
+come in with COVID. I've certainly seen patients that come in with pneumonia, urate tract infections.
+You know, the gout is something that is driven by an inflammatory process,
+and something like a vaccine potentially could trigger that. It very easily treated, right?
+You treat it with ibuprofen or a leaf or a cultucine, right? We have many, many therapeutics for this.
+And I think that we need to be honest, right? And this was something mentioned on the last
+twist with is people get vaccines, they might have joint pain, they might have muscle pain.
+It might be more than just that 24 hours. A colleague of mine actually had really bad
+vertigo world spinning for several days after a vaccine. So there can be side effects. Why are
+we recommending these products with these horrible side effects? It's because you know,
+what's really horrible? Getting COVID-19. What's really horrible is dying of COVID-19. What's
+really horrible is having a breathing to put down into your trachea because you've got COVID-19
+and didn't get vaccinated. So we always talk about the risk benefits, boy, the risk and harmful
+potentialities of not being vaccinated. That's why we're vaccinating everyone.
+Lindsey writes, is there any evidence that people with a previous history of autoimmune platelet
+disorders like immune or thrombotic thrombocytopenic perpera are at increased risk of CVST from an
+adenovirus-vectored SARS-CoV-2 vaccine? Or if given one of those vaccines, should someone with such
+a history be monitored for signs of CVST more closely than someone who didn't?
+Yeah, you know, that's a great question, right? Because we sort of had this knee-jerk reaction
+that, well, boy, if you've had a problem like that in the past, that, oh, you're someone who
+should be at higher risk, we would think what has been shocking, right? We continue to track this,
+right? We continue to see the rare CVST associated with JJ. I'm going to say that. I think there's
+a connection there. I think we're all comfortable saying that rare as it continues to be.
+But we are interesting enough not seeing this connection, not seeing it occur in people with
+prior disorders, as you've described, even though that would have been the population we would think
+about seeing it in. So no, this group is not at any higher risk. This continues to be incredibly
+rare because it is so rare. Any intervention we might do is more likely to do harm than just watch
+for waiting. All right, the last one, Daniel, we read on Twiv and we thought actually you should
+answer it because we didn't have an answer. This is from Haley, who is a 26-year-old healthy
+woman who got a Pfizer vaccine, both doses, got a lot of side effects, and many of them
+lasting a long time. She now has daily headaches, muscle and joint pain, can't exercise. Her doctors
+don't know what to do. She's regretting, having gotten the vaccine. She says, please help.
+Yeah, I mean, I think this echoes what I was saying before, is that for not everyone, is it just,
+oh, I felt bad for 24 hours, or I was sort of fortunate. I barely noticed that I was getting
+my vaccination. Some individuals, like is being described here, can have risk or joint pain.
+They can have muscle pain, and sometimes that can last for several weeks. We're usually recommending
+that people take non-steroidal anti-inflammatory medicines for these, and this tends to last weeks.
+We are not seeing so far, right, that this turns into anything long-term. I understand that the
+frustration and the regret here. But if you are having difficulty, I mean, that's why we set up a
+lot of these centers to try to help people. And as I think a lot of our listeners know,
+I'm always happy to answer questions and to potentially step in and help in a situation like
+this. So have your doctors reach out, and I'm happy to hopefully help guide you through this process.
+That's COVID-19 clinical update number 62 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you so much. And everyone, be safe.

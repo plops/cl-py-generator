@@ -19,32 +19,32 @@
       "Thursday" "Friday" "Saturday"
       "Sunday"))
 
-     
+
   (let* (
-	 
+
 	 (code
 	  `(do0
 	    (do0 "# %% imports"
-		 
+
 		 (imports (		;os
-			   ;sys
-			   ;time
+					;sys
+					;time
 					;docopt
-			   ;pathlib
-			   ;(np numpy)
-			   ;serial
-			   ;(pd pandas)
-			   ;(xr xarray)
-			   ;(xrp xarray.plot)
+					;pathlib
+					;(np numpy)
+					;serial
+					;(pd pandas)
+					;(xr xarray)
+					;(xrp xarray.plot)
 					;skimage.restoration
 					;(u astropy.units)
 					; EP_SerialIO
-			   ;scipy.ndimage
-			   ;scipy.optimize
+					;scipy.ndimage
+					;scipy.optimize
 					;nfft
-			   ;sklearn
-			   ;sklearn.linear_model
-			   ;itertools
+					;sklearn
+					;sklearn.linear_model
+					;itertools
 					;datetime
 
 			   (cq cadquery)))
@@ -95,9 +95,9 @@
 			       cbore_hole_dia
 			       cbore_dia
 			       cbore_depth)
-			      
+
 			      ))
-		 
+
 		 (show r (tuple 204 204 204 0.0))))))
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
 

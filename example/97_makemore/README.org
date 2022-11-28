@@ -1,0 +1,164 @@
+- https://www.youtube.com/watch?v=PaCmpygFfXo
+  The spelled-out intro to language modeling: building makemore
+- https://github.com/karpathy/makemore
+- neural network that creates strings that sound like names but are
+  not names
+
+- install dependencies
+#+begin_example
+pip3 install --user torch
+# 777MB
+#+end_example
+
+- get dataset 30_000 names from a government website
+
+#+begin_example
+cd source
+wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt
+#+end_example 
+
+
+* Part 3
+
+- https://www.youtube.com/watch?v=P6sfmUTpUmc
+- Building makemore Part 3: Activations & Gradients, BatchNorm
+
+- when dealing with logits make sure that after initialization all the
+  outputs are roughly equal in probability. you don't want to init the
+  network to be confidently wrong. this will lead to a high loss and
+  you have a hockey stick learning curve. you waste cycles during
+  training to fix your bad initialization
+
+- leaky relu doesn't make gradients zero. other activation functions
+  have horizontal parts where the gradient disappears during
+  backprop. this can lead to 'brain-dead' neurons that don't change in
+  the training.
+
+- look at histograms of pre-activations and activations
+- also make binary plot (2d image) of saturated activations 
+- to fix this, make sure during initialization that activations don't
+  saturate too much (by scaling the weights and biases correctly)
+
+- deeper networks are less forgiving to these issues with the
+  initialization
+
+- you want unit stddev gaussian noise throughout the network
+- mathematically you want to predict variance of x @ w
+- divide by sqrt of the fan-in w=torch.randn(10,200) /10**.5
+
+- Kaiming He: for relu the factor is (2/10)**.5
+
+- torch.nn.init.kaiming_normal_
+  has argument for non-linearity
+
+- 7 years ago you had to be careful with init, was very fragile
+- meanwhile we have some innovations that help:
+  - residual (connections?)
+  - normalization layers (batch, layer, root?)
+  - better optimizer (armesprob, adam)
+
+- batch normalization
+  - just take hidden states and normalize them to be gaussian
+  - hpreact 32x200
+    - mean dim=0 -> 1x200
+    - std dim=0 -> 1x200
+  - hpreact = (hpreact - mean) / std
+  - bngain 1 x n_hidden, bnbias 1 x 200 (n_hidden=200)
+    - allow gain and bias to vary
+    - note: i only understood later: i think these can take on a
+      different value for each neuron but they must be the same for
+      the entire batch
+  - no improvement for a shallow net in the example
+  - the added stability comes at a terrible cost:
+    - the parameters not only depend on the examples but also on your
+      choice which samples you combine into batches
+  - Q: can we disable batch normalization after a certain point in
+    training?
+  - The noise is actually an advantage in the training. It acts as a
+    regularizer / data augmentation
+  - People introduced other normalization methods but batch norm works
+    so well that this is difficult.
+
+  - there is a difficulty with inference because the NN expects
+    batched input
+  - after training calibrate batch norm statistics over the entire
+    training set
+  - in this way the NN can process single inputs
+  - in batch norm paper they use online method (exponential moving
+    average) to estimate mean and std of the full training set
+    (outside of the gradient based optimization)
+
+#+begin_example
+
+bmeani
+bstdi
+
+bnmean_running = torch.zeros ( 1 , 200)
+bnstd_running = torch.ones ( 1 , 200)
+
+with torch.no_grad():
+  bmean_running = .999 bmean_running + .001 bmeani
+  bstd_running = .999 bstd_running + .001 bstdi
+
+#+end_example
+  - this is also what the batch normalization layer does in pytorch
+  - small epsilon added to variance (in case the variance of a batch
+    is zero)
+  - if you use batch normalization you don't need a bias in the
+    previous linear (or whatever) layer
+
+  - Q: why use bnmean_running and bnstd_running to normalize hpreact?
+  - possible A: noise helps regularization / data augmentation
+  - A by author: Great question, I’ve done this a number of times
+    myself too because I am very uncomfortable with the train test
+    mismatch. I never noticed dramatic and consistent improvement with
+    it though ;(
+    
+  - resnet for image classification
+    - repeating structure of convnets (without bias): conv1, bn1,
+      relu, conv2, bn2, relu ...
+    - bottleneck
+    - norml_layer is BatchNorm2D
+    - relu nonlinearity, for very deep networks relu empiricly works
+      bit better than tanh
+    - and a residual connection that we haven't covered yet
+
+  - pytorch Linear
+    - initialzies with uniform distribution from -sqrt(k) to sqrt(k)
+      with k=1/sqrt(fan_in)
+
+  - pytorch BatchNorm1D
+    - eps=1e-5
+    - momentum=.1 for running mean and std accumulation: m = .9 m + .1
+      mi
+    - if your batch size is large you can use a high momentum (like .1)
+    - if batch size is 32 you may want to use a smaller value
+    - affine = True (not sure why you would want to switch this to
+      false)
+    - track_running_stats=False (if you want to calibrate batchnorm at
+      the end with a second step)
+
+  - activations should not be clamped at +/- 1
+  - gradient distribution should be the same for all layers
+  - 2d parameters (no biases, gammas, betas)
+    show the shape of the weights, mean, std, gradient to data ratio
+    histogram
+  - if gradient is to large vs data then you are in trouble
+    having gradient 1000x  smaller than data is good
+    - what actually should be looked at is the update (lr * gradient)
+      to data (p.data.std()) ratio, those should be 1e-3
+  - in the last layer some values are much larger (10x greater than
+    the others)
+  - that means the last layer is trained faster at the beginning
+  - look at the stats after 1000 steps
+  - things have stabilized a bit
+  - he artificially made last layer low to make the softmax less
+    confident or something
+  - at https://youtu.be/P6sfmUTpUmc?t=6343 he shows the effect of a
+    bad initialization (the layer will learn with different rates)
+  - typically place batch norm between linear layer and non-linearity
+    (but can also go into other places)
+  - batchnorm can go infront of last layer soft max but then change
+    the gamma of the batch norm to make softmax less confident
+  - currently performance is limited by context length (he thinks)
+  - he did not explain why changing a gain affects the learning rate

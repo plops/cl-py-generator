@@ -1,0 +1,324 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From MicrobeTV, this is Twiv. This week in virology, episode 704, recorded on January 7th, 2021.
+I'm Vincent Drackeniello, and you're listening to the podcast All About Viruses. Joining me today
+from New York, Daniel Griffin. Hello, everyone. Clinical update, 44, the first for 2021, Daniel.
+It is. It is. And I'm hoping that this is a better year. I was just going to say, Daniel,
+is this going to be a better year? Yes, it will be. Well, let me put it this way.
+Is it starting off in a better way? No, no, it is not. You know, it's sort of arbitrary,
+right that, you know, 2020 ended on a specific date, but the pandemic doesn't respect that.
+So yeah, I mean, so let me start with my quotation, and then we'll get right back to how bad things
+are. And maybe when I, as I read this, people recognize it. I will respect the hard one,
+hard one scientific gains of those physicians in whose steps I walk and gladly share such
+knowledge as is mine with those who are to follow. I will apply for the benefit of the sick,
+all measures that are required, avoiding those twin traps of overtreatment and therapeutic
+nihilism. I will remember that there is art to medicine, as well as science, and that warmth,
+sympathy, and understanding may outweigh the surgeon's knife or the chemist's drug.
+I will not be ashamed to say, I know not, nor will I fail to call in my colleagues when the
+skills of another are needed for a patient's recovery. I know what that is, and I'm not a doctor.
+And what is that? It's a Hippocratic oath. It is. Now, this is the modern version, and this was
+actually written in 1964 by Louis lasagna, the academic dean of the School of Medicine at Tuft.
+So it's updated. If people ever go back and read the original, it's a little interesting.
+It's not what we think of. So I wanted to throw that out there.
+Your background has changed a bit. I see some viral flowers, right?
+Yes. So this is actually a gift over, I guess, this shoulder, right? I'm backwards,
+so this shoulder. Let's see if I can see the show typing.
+Well, I'm trying to. But over my shoulder is a bouquet of pathogens.
+Wow. And this was actually created by my wife's youngest sister, Genevieve.
+And it's got there's the coronavirus that perhaps people recognize in there. There's HIV,
+there's syphilis, there's tuberculosis. We've got hercinia pestis. This is a whole bunch in there.
+I like it. I like it.
+Yeah, people are always wondering how I put the books up there, but I think the books have
+all fallen, right? They've all fallen off. It's a good thing. It's a good change for the new year,
+Daniel. Yeah, they're all on the floor.
+All right. So people probably know that things are tough.
+And it's really hard for us to take care of patients and provide the same level of care
+when numbers rise. The latest reports, I think people have probably heard, reminded me of a
+conversation that actually was rich, rich. And Alan, we're reaching out with words of advice,
+things to do. When we were running out of oxygen in New York, I don't know if people
+remember that. And I know Northwell has been in the press negative stuff lately.
+But one of the things that they did at some of our local hospitals is they really upgraded
+the oxygen system. So we have a lot of oxygen supply capacity that we did not have a year ago.
+And a lot of things that were happening a year ago, we were running out of oxygen. We were actually
+wheeling in mobile tanks to some of the rooms to keep up with the demands. We actually got to
+one point when we were discussing, we were going to reach out to the aviation industry,
+out to the airports. What can we do to get more oxygen? So right now, at least in New York,
+in some of the hospitals where I'm working, people thought ahead. And they actually, they put in
+the money, they upgraded the oxygen. And we're able to keep a lot of people off of ventilators,
+where we'll keep people's oxygen at a good level by doing a lot of high flow oxygen delivery
+techniques that we couldn't do before. But this requires a lot of attention. I sort of mentioned
+the art of medicine. There was a woman the other day, and the nurse was calling out,
+I need a doctor. And I went in and it was an older woman. It's actually one of the other
+infectious disease doctors, Dr. Fatima Johari was taking care of her and excellence. Nice to have
+the help of such high quality colleagues. But this woman had had the BIPAPON, which is somewhat
+suffocating. And she's an older woman and she's frightened and she feels ill and she's alone
+because of the isolation of the COVID. And it really was a question of me sitting there,
+holding her hand, getting her to take deep breaths, getting her to relax, getting her to
+allow the oxygen to stay on. We still need to do that. These are human beings. You can't just
+check off a box and walk out of the room and have systems and things take care of them. They
+need people at the bedside. So as the numbers rise, not only how are you supposed to hold the hand
+of a frightened woman with requiring oxygen and this claustrophobic feeling device
+when you've got so many other people. And as we're seeing sort of the horrors of LA,
+where they're telling the ambulances, conserve your oxygen. Because if the person requires too
+much oxygen, let's sort of triage. Don't bring them here. It's really, I have to say, kind of,
+well, it is very troubling just to say that. Numbers are bad here. One of the things that I
+point out, one thing that really was devastating in the first wave here in New York, about 50% of
+the deaths, about half of the people coming into the hospitals were coming in from nursing homes
+from group homes. We published on this. A lot of people have really, how do you keep those people
+safe? A lot of them died during the first wave. We're not really seeing those in the first wave.
+We had about say about 80 when we maxed out 80 community dwelling people with COVID. We're now
+up to about 90 or 100 community dwelling at one of the hospitals where I was actually this morning.
+So we're seeing more of the community, but we're not seeing those nursing home
+individuals. We're starting to get vaccinated or keep them safe. There's testing other measures.
+We're not sending infected infectious people into those settings. So, yeah, I think we, well,
+we're going to probably pass 4,000 deaths per day this month, but we were pretty darn close
+yesterday. We'll see what the numbers are today. So things are not going well.
+Now, why did I start off with the Hippocratic oath? It's because I wanted to sort of bring us
+back to I think the paradigms I talked about, the evidence, the vehemence, the eloquence,
+the diffidence, the nervousness, and then the evidence-based medicine. But I also want to
+throw a second thing in that I think people will maybe sort of think about and maybe they started
+to already get this flavor as I talk. There's actually two splits that I'm going to say in practice
+style. One is derived from Hippocratic philosophy, but as you'll, as you may have noticed, it was
+not in the oath. And this is the first do no harm, the premium known nocere. And that's really this
+idea of don't do something unless you know it's going to make a difference. And there's a second
+style that I want to be respectful of, which is if we think something can help, let's go ahead and
+try it. Now, I'll say in calmer times, the less is more that do not treat your patients with
+untested therapeutics has been more of a common approach. It's definitely been more of the academic
+approach. This is the philosophy behind having an FDA restricting the use of prescription medications
+to highly trained licensed professionals. You certainly wouldn't take anything off the bench,
+no concoction, no nothing that you think would work and then put it into a patient without doing
+safety and other trials. But there's a gray area, a lot of the medicines that we use, we've been
+using for many, many years, but never really actually doing those randomized control trials
+that we sort of have required or said are the gold standard. And I clearly, right, I clearly am,
+you know, of the school where I respect the randomized control trials. But I just wanted to
+point out there's there's two different styles here. I learned from actually watching both
+styles. There certainly are a lot of individuals that try things at the bedside and I watched that
+and learned from it. And sometimes this actually leads to us going ahead and doing those randomized
+control trials. So all right, just wanted to throw that out as we started, because we have some we
+have some new information. And I'm going to jump into the lot of vaccination arms here.
+So one thing I want to talk about is passive vaccination. And what are the two types of
+passive vaccination that we know about? Well, I'm going to get to monoclonal antibodies,
+but we had a study out of Argentina funded by the Gates Foundation, early high titer plasma
+therapy to prevent severe COVID-19 in older adults. This was just published in the New England Journal
+of Medicine. And I want to say this, this was done the way I think going back to March, April,
+convalescent plasma should have been studied. What they did is they actually,
+they took convalescent plasma, they identified convalescent plasma that had high titer neutralizing
+antibodies, and they gave it early. They gave it within the first 72 hours. So this was a randomized
+double blind placebo control trial of convalescent plasma with high IgG tighters neutralizing
+antibodies against severe acute respiratory syndrome, coronavirus two, SARS-CoV-2, in older
+adults given within 72 hours of the onset of COVID-19 symptoms. So they're still in that first week,
+they're in that critical viral replication window. 160 patients underwent randomization.
+A severe disease developed 16%. People that convalescent plasma, 31% in people that got placebo.
+So a relative risk reduction, basically about by half, about 50%. And they didn't see any
+significant adverse events, which makes sense. You're giving this to healthy outpatient people
+that have not gone into the second, the inflammatory phase. So I think this finally builds on trends
+that we saw on a lot of other trials. The idea that high tighters neutralizing antibodies given
+in the appropriate window, not giving it late, all the issues that we saw there. So hopefully,
+this is going to guide people who are looking at using convalescent plasma. And many parts of
+the world, the monoclonal's I'm about to talk about, may not be available. We talk about convalescent
+plasma being a resource intensive therapy, but it's not quite as expensive as the monoclonal
+antibodies. So let's go into the next, the next passive vaccination area. And I have some, I'll say
+really, I think, positive developments here. So bam, linibomav, that's really the monoclonal
+antibody that we're being used the most. That's the Eli Lilly product, the Regeneron product,
+also has EUA, doesn't quite got as much attention. But the Mayo Clinic, which is treated over 2000
+patients, and Houston Methodist, which is treated over 1000, they're doing about 70 patients a day
+there, they shared their experience, right? So a lot of clinicians were concerned about monoclonals
+got EUA with just looking at 100, 200 folks, a little over 200 folks in those, each of those trials.
+And so people were saying, you know, how can you, how can you really go ahead and make this
+standard of care without more experience? So now we've had thousands of people, a post EUA
+experience, not in a formal trial. And here the reports were very similar safety profile,
+actually went over this with the people at Eli Lilly about a week ago. And that's what
+we're seeing at the Mayo in Houston, and about a 70% reduction in people progressing to require
+any hospital level care, any oxygen, any ER visits. So I look at this, I say, this is pretty impressive.
+Here is a therapy, you know, steroids, what 2% mortality benefit. Here's a therapy that if you
+give this to people in the first week of illness, sort of earlier, the better, a 75% reduction in
+those people going on to require any medical care, keeping these people out of the hospital.
+And the Mayo people actually suggested that they were starting to see evidence of decreased
+mortality, and actually suggesting that will this will eventually lead to a peer reviewed
+publication. So I think that's exciting. And I'll sort of throw in here, you know,
+the issue that we've seen across the board, it's just like the vaccines, only 20, 30% of the doses
+are getting to people, the rest of them are sitting there. We just opened up our United in
+research. So I'm going to be doing a it actually be a trial. So 7,500 individuals will get BAM
+linibimab, and we'll actually get more data. So really understand the timing, the safety profile,
+and the efficacy of these therapeutics. So find out, you know, and look into this more and make
+sure that this is something that if you feel like it's appropriate for your patients, you know how
+to access the programs. All right, the early inflammatory phase, right? I've sort of skipped
+right over the vaccines, but let me let me throw it in here before we get there. I mean, the whole
+idea, right, is to keep people from even getting to this point. And the vaccine rollout has been
+incredibly frustrating. I think that people have heard about this. You know, only 20 to 30% of
+the vaccines that have been distributed have gotten in people's arms. It's having a conversation
+with today about, you know, the latest sort of, I guess, instead of asking how can we help, it's,
+we will punish you if you don't do a better job. I'm not sure that's helpful. We shared some of
+the experience about when pro health received the vaccines, how basically by the end of the next
+day, 90% of those were in people's arms. But I have to say, this was not easy. We were told that
+eventually we were getting vaccines. The vaccines arrived. That's how I knew they were coming. No
+one picked up a phone the day before to say they're in the mail. They'll be there tomorrow. They're
+being shipped. I mean, I'm sure that will occurred. But it was really it was Tuesday, 1200 vaccines
+just showed up. And then we were basically trying to get those in arms. You know, it was the week
+after Christmas. A lot of people are on vacation. It's a challenge. You know, I think we need to
+do a better job. We've really cut the departments of health out of the equation here. And this is
+what they do. They were ready. They were ramped up and ready to go. So we need to do a better job
+there. I'm just going to sort of leave that. But you know, if people are listening, you know,
+we we all want to do a better job. The hospitals are not, you know, failing to vaccinate on purpose.
+You know, instead of governors reaching out and saying we're going to find you, why don't they
+reach out and say, how can we help make this happen? Are there HIPAA issues? Is there red tape in the
+way? Are there, do you need, you know, issues you need help getting, you know, IT stuff uploaded?
+What do you need? Let's make it happen. Because I'm sure there's some IT workers and other folks
+out there who are ready to help just. So I'm sort of my request changed the paradigm if you can.
+And maybe all our listeners can help push that forward. The early inflammatory phase,
+I mentioned before, we're running out of oxygen. What do we have? Well, we do have remdesivir.
+And a little subtle change here. I don't think any of us have gotten more and more excited about
+efficacy. But there have been several studies now saying like you don't really have to worry
+about renal function. This is being given to people with end stage real disease, people on
+dialysis. It looks like it's safe in people with renal disease. It looks like it's tolerated in
+people that have pretty significant LFT abnormalities up to 10 times upper limit of normal.
+So at this point, I'm not saying we have any more efficacy data. I'm just saying that we can we
+no longer have to not give it if there's a renal function issue or LFT issues. The other, and you
+know, I'm going to tell people they should listen to a TWIB 703 Vincent. Because I think you did a
+great job. The group did a great job. I was going to spend a little time talking about CT values,
+and I'm just going to talk a little bit about CT values. Not all our hospitals, as I mentioned,
+have access to this. Some of the machines don't give CT values. They just you know, you could
+save a little money and buy a yes or no machine. But there were some interesting studies that
+came out that were talked about. And one of the things is that someone comes in and timing again
+matters. We're not looking at peak level of virus. We're saying seven days out, we're saying the time
+at which someone de-compensates and someone shows up at the hospital if the people have a very high
+level of virus at that point. And they have yet to mount an antibody response when they're sick
+enough to require hospitalization. Those people are much more likely to die. And we're looking at
+a patient today in the ICU who I do not expect to survive. You know, who came in with the PCR
+positive. You know, it was into the second week, antibodies had not developed yet. These are people
+that are not doing well. How does that help us clinically? I don't know if it does. I mean,
+some of the things we've seen is that people that are going to do poorly tend to de-compensate
+earlier. So some of my discussions were, well, it makes sense. The virus is still high because
+they're coming in earlier. You come in at day 14. I expect a lower viral level. I also expect
+there to be enough time for the antibodies to develop. So we'll learn more about that. But
+this is potentially now that we're talking about CT values, something that's going to help us
+on the tail end. You know, I do a lot of consulting enough. People know about this for the entertainment
+industry and sports. And I had always been a zero tolerance. But now with CT values, we actually
+had a discussion that if that if both CT values, right, because there's often two primers, that's
+if both CT values are greater than 34, and the person has been well for more than, we'll say,
+20 days to be conservative. I really think that that may actually be reasonable for us to start
+looking at, well, at least for me to start loosening up my zero tolerance for some of those settings.
+Secondary infection phase, you know, there was a there was a morning conference,
+Tuesday morning conference at Columbia. And first, it was the pulmonologist. Then it was the
+infectious disease physicians. And they were doing some case reports. And it was a discussion
+about invasive pulmonary infections. So aspergillosis, that's one of our molds that we worry about.
+And it's interesting. I've seen several studies and I always hate when they throw in, you know,
+the word the judgmental word low or high. And there was a recent publication occurrence of
+invasive pulmonary fungal infections in severe COVID-19 patients admitted to the ICU. And they
+said we have seen very few only 4.8% of our patients have a fungal infection. Well, one in 20, I'm not
+sure I would say very few other series have suggested higher. We have not seen that many in
+the hospitals where I have worked, we have seen some. But this just when you're in that secondary
+infection phase, just not only we worried about bacterial infections, not only we've seen more
+and more multi drug resistant bacterial infections. So you put them on what we thought was broad
+spectrum antibiotics. And actually it's ineffective because of the rising rates from the antibiotic
+overuse. But you also have to be thinking about fungal infections as well. So discussion about
+sending off the fun to tell the Aspergillus galactamanin serum test as well as BAL
+specimens to try to sort all this out. Got a very interesting call today, which hopefully I'll get
+more development on going forward, but an individual at one of our local hospitals,
+who sounds like he is being admitted with a multi system inflammatory syndrome in an adult
+gentleman in his late 30s. I'm also concerned that this person may actually have a stronger
+ladies hyper infection as well. So we'll get some interesting things there. But that's just
+something that we see often people leave the hospital, and then they come back in week three
+or four with just, you know, sky high ferritins, D dimers, massive amounts of inflammation.
+And the challenge to sort out is this someone that you treat with IVIG and steroids,
+or is this someone who has a massive infection? So there's sort of this overlap here. You want
+to try to somehow make a really tough decision here. And we're working with the CDC and the
+physicians there. So hopefully that'll end up with a positive outcome in this young gentleman.
+The other thing that I want to close on is to talk about long COVID. And I make sure I always
+talk about this. I've been doing that since I think about April. And there was a there was
+a recent study cognitive deficits in people who have recovered from COVID-19 relative to controls.
+And this looked at over 84,000 individuals. So what I really enjoyed about this is the fact that
+you were able to see that the severity of disease was predictive of the severity of the cognitive
+deficits, people who were sick enough that they ended up on a ventilator. The cognitive impact
+in them was basically equivalent of about being 10 years older, having an IQ drop of about 8.5.
+But on specific testing, you were seeing cognitive deficits, even in people that had mild
+outpatient disease, not quite as severe. So the severity of your disease, whether or not you have
+significant respiratory symptoms early on, significant amount of oxygen support, whether or not you're
+ventilated. So the sicker you are, not only the higher likelihood you have of getting long-term
+cognitive deficits, but also predictive of more severe cognitive deficits, a little more data on
+the loss of taste and smell. We're actually seeing about 86% of people by six months are
+getting their taste and smell back. That means about 14, 15% of people six months out still are
+chewing on cardboard. So we'll end it there. I want to try to keep it a little short today.
+And ask you to continue to come to parasites without borders and help us support the P-score,
+their HIV and AIDS programs. I just want to point out, we're immersed in COVID, we're drowning in
+COVID, but when we come out the other side of this, we have so many other issues and we're hoping to
+be here to help educate and support all these other causes. All right, Dan, three quick questions.
+One is from Dr. O'Brien who writes about your update on the use of Bambam. In the first week to
+lower the incidence of hospitalization, when I reached out to our local hospital officials,
+they seem to be limiting this treatment to very high-risk patients. Could you give us further
+information about the specific criteria for emergency use of this drug? My staff members seem
+quite sick at home, but do not meet the criteria set forth by the hospital. It seems to me that
+Bambam might be beneficial in a much wider group of patients sick with COVID-19.
+Yeah, so I shared this. This is like the vaccines. We've made it so hard to access things that no
+one gets them, so they sit there on the shelf. Some of the hospitals, I'll say in Minnesota,
+for instance, the experience I had there was that they're basically trying to give out as much
+per day as is coming in, so it's not just sitting there. So they will first target the people that
+are highest-risk, so that would be people who have a 10% or higher likelihood of ending up in the
+hospital. So this would be individuals who are 65 and older, 55 plus a certain list of comorbidities.
+There is a Bambalinibimab FDA-FACT sheet, which is available online to look at. I glance at it,
+because the third category is very complicated. It's any of the following, and it's a long list
+of severe diseases, which significantly increase your chance of ending up in the hospital.
+So they go through that triage. I think it makes sense. I mean, this is a therapy that
+the reason it has E-way for the 10% or higher risk of hospitalization is that's where it makes
+sense. But it would seem to me, rather than letting it sit on the shelf, it is probably
+beneficial in people beyond that group. And I've actually seen people outside of that group get
+it very quickly bounce back quicker than we would expect with the natural history.
+But then again, you know, as I started off with my evidence-based medicine,
+that population was not specifically studied. So you're stretching it a little bit,
+but it tends to be a very safe therapy. As we move forward with more studies,
+hopefully the use of this will expand. All right. The next email is from
+Allen, who writes about his wife who has severe asthma. And some years ago, in preparation for
+a chest x-ray, she was given intravenous iodine contrast, and she went into anaphylactic shock.
+And they had no idea that she was allergic to this contrast agent. So he asks, how are we
+supposed to know if we were allergic to any of the ingredients in the vaccine? If there are a
+bunch of compounds that we have no clue about, more specifically, are any also found in iodine
+contrast? Yeah. So this is an excellent question. When the MMWR just came out with a recent
+report on the side effects seen with the vaccines and reported about 1 in 100,000 people are having
+an anaphylactic reaction. So that means 11.1 people and the first million that got vaccines.
+These people were treated with beta drill, some of them received epinephrine, and then all recovered.
+So this is not a vaccine that has zero risks. It is an effective agent. So there is this.
+But who had those reactions? The initial recommendation, the current recommendation is someone who's had
+a prior significant vaccine reaction, and that would be an anaphylactic reaction to a vaccine.
+Someone you'd have heightened concerned about. It's not a food allergy. It's not an iodine
+allergy. I'm doing a talk for an allergy group next week. There is a paper that came out that was
+actually published by a group out of Harvard looking at PEG 2000, polyethylene glycol. The idea is
+that maybe what is triggering these immune reactions, these anaphylactic reactions, and there is some
+investigation into trying to figure out if there's some way to do maybe skin testing to figure out
+who that 1 in 100,000 person is. I have to say the way I weigh in on this is the recommendation
+is all the sites giving vaccine vaccinations should have a vaccination reaction kit,
+which involves beta drill. The epinephrine, which was to have enough for three people
+at each site, also intravenous formulations of the anhistamine as well as the oral and
+femotidine, so intravenous other, sort of H2 blockers, and the ability basically to get
+someone to a higher level of care as needed. We're talking about a million people vaccinated
+10 reactions. It's actually quite uncommon, but you need to be ready for those because again,
+if you have this reaction, you have this reaction. Our last question is from Laura who writes about
+her 66-year-old mother who was recently updating her advanced medical directive and included a
+note saying if she were to contract COVID-19, she does not want to be placed on a ventilator,
+as she believes she would be unlikely to survive and regain the ability to live a full
+independent life. I did a quick search to see if I could find any literature on long-term
+outcomes for COVID-19 patients on ventilators and have found one study considering whether
+patients would survive to discharge but no other endpoints. I'd appreciate your insights on longer-term
+outcomes for ventilated patients, either from the literature or if research on the subject has not
+been published, your impressions from your own patient population. Yeah, so our own patient
+experiences were actually published. Early on, you saw data out of New York Presbyterian, so
+Columbia, you saw data out of NYU, you saw data experienced at Northwell, so the different hospitals
+where I see patients. The initial experience was that people who ended up on the ventilator,
+the early experience was the last single-digit survival that they got up to 15% survival,
+but consistently people who went up on ventilators have a very poor prognosis. They have a limited
+chance of surviving, so it continues to be as much as possible to try to keep people off the
+ventilators. Our experience, which I think is consistent with the literature, is once you get
+on the ventilator, you're probably not going to survive. I say probably, but again, each individual
+case, so people make these advanced directives, but you want to look at the whole picture. What's
+the age in the individual? What are the comorbidities? Now we've talked a little bit about the ability
+to look at viral levels and antibodies and inflammatory markers and neutrophil lymphocyte ratios,
+so you can even make this more customized to an individual. That's potentially another way
+to nuance it to look and talk to your mom's health care provider about specifically for her,
+which is really what it is. At this age, maybe this is one of the people that would survive and
+come off the ventilator, so you want to have those discussions to make sure that, as we say,
+your goals of care are consistent with the treatments. Daniel, if you do survive after a ventilator,
+do you have any long-term issues? In most cases, I think we're seeing yes. As I discussed today,
+high incidence of about a 10-point IQ hit on average, you're seeing long-term disability.
+People who survive, and I think this is really important for pillage matter,
+just surviving COVID doesn't mean you bounce back to 100%. A lot of times, it means now you're going
+to have significant mortality. That's COVID-19, clinical update number 44 with Dr. Daniel Griffin.
+Thanks, Daniel. Oh, thank you so much. Thank you, everyone. If you can push,
+help us get those vaccines into arms. Thank you so much.

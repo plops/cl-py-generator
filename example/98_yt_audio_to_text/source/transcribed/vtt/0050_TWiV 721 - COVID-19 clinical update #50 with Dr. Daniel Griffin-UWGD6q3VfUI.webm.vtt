@@ -1,0 +1,926 @@
+WEBVTT
+
+00:00.000 --> 00:06.880
+ This week in virology, the podcast about viruses, the kind that make you sick.
+
+00:10.400 --> 00:19.920
+ From Microbe TV, this is Twiv, this week in virology, episode 721, recorded on February 18,
+
+00:19.920 --> 00:26.640
+ 2021. I'm Vincent Racken Yellow, and you're listening to the podcast All About Viruses,
+
+00:26.640 --> 00:34.880
+ joining me today from New York, Daniel Griffin. Hello, everyone. This is our update number 50,
+
+00:34.880 --> 00:40.800
+ Daniel, almost a year's worth of updates. How about that? Yeah, that's quite something. Yeah,
+
+00:40.800 --> 00:47.520
+ I guess 50 is a important number, but let's march through, let's not make this 50 minutes long.
+
+00:47.520 --> 00:56.960
+ So, off with my quotation, in nature, nothing exists alone, and that's by Rachel Carson from
+
+00:56.960 --> 01:03.920
+ Silent Spring. I just keep using it, bring people back to the fact that we talk a lot about things
+
+01:03.920 --> 01:11.680
+ in the US, but we are part of the global community. And if we don't address this virus at a global
+
+01:11.680 --> 01:17.760
+ level, it is not going to go well for anyone. We are part of the world. No walls that are going
+
+01:17.760 --> 01:25.360
+ to keep this virus out. My three rules never miss an opportunity to vaccinate, never miss an
+
+01:25.360 --> 01:30.880
+ opportunity to test, and never waste a vaccine dose. Still pains me when I hear that doses are
+
+01:30.880 --> 01:35.280
+ being thrown in the trash because people are worried they'll be legal consequences.
+
+01:35.280 --> 01:41.520
+ So, let's go through our stages. So, the pre-exposure period, there's a lot of coverage on the CDC
+
+01:41.520 --> 01:46.720
+ guidance on school openings. You know, the CDC, you can go there. There's a lot to read there.
+
+01:47.280 --> 01:54.080
+ Couple criticisms people have is there may be not enough focus on ventilation. But for the first
+
+01:54.080 --> 01:59.200
+ time, what I am really seeing is a lot of the school opening plans are introducing testing,
+
+01:59.200 --> 02:03.920
+ and it looks like there's federal support for testing, testing saves lives.
+
+02:03.920 --> 02:10.240
+ And I know early on a bit of controversy about testing and a period of time when some politicians
+
+02:10.240 --> 02:14.960
+ were trying to get people not to test. And I am not talking just about at the federal level,
+
+02:14.960 --> 02:19.360
+ but we've moved past that. And I think we all now realize, and this has embraced,
+
+02:19.360 --> 02:25.440
+ testing saves lives. Don't let the testing numbers go down. We need two million tests a day
+
+02:26.080 --> 02:31.280
+ to keep making the progress we're making, to keep an eye on what's going on. So, you got to keep
+
+02:31.280 --> 02:37.280
+ testing. Active vaccination, a little bit more out of Israel on the impact of vaccination on
+
+02:37.280 --> 02:42.400
+ viral load. And I think this is a little bit better than the data that I discussed last week.
+
+02:42.400 --> 02:47.920
+ I was not impressed with a single CT value change. But this was posted as a pre-print,
+
+02:47.920 --> 02:54.080
+ decreased SARS-CoV-2 viral load following vaccination. So, it reminds me when I say that.
+
+02:54.080 --> 02:57.280
+ And Vincent, maybe you remember, we had a big discussion. Are we going to ever discuss
+
+02:57.280 --> 03:02.400
+ preprints? Are we going to wait until things hit the peer review? And I guess we embraced,
+
+03:02.400 --> 03:09.600
+ we will be pre-print reviewers and discuss the data critically. But in this study, they looked
+
+03:09.600 --> 03:16.720
+ at CT values of positive samples collected 12 to 28 days after vaccination. And they compared
+
+03:16.720 --> 03:22.320
+ these to CT values of positive samples taking during the first 11 days following vaccination.
+
+03:22.320 --> 03:29.760
+ So, I felt this was apples to apples. And they reported the differences in mean CT values calculated
+
+03:29.760 --> 03:36.400
+ for these two time periods. Basically, looked at three different, so they looked at RDRP,
+
+03:36.400 --> 03:43.840
+ right? That's the RNA dependent RNA preliminase gene. They looked at the gene E, they looked at
+
+03:43.840 --> 03:49.360
+ gene. But just to give you a sense, they were seeing here about a two CT value difference.
+
+03:49.360 --> 03:55.840
+ So, decreased from about, or I guess the CT value is increasing, the viral load is decreasing.
+
+03:55.840 --> 04:01.520
+ So, I got to keep that in mind here. So, the CT value was increasing by about two from 25
+
+04:01.520 --> 04:07.760
+ up to about 27. So, we're looking at an RNA copy number going from about 1.5 million
+
+04:07.760 --> 04:13.760
+ down to about 400,000. So, that's going in the right direction. We're trying to build a case,
+
+04:13.760 --> 04:19.280
+ and I'm sure this will come up at the end about if you've been vaccinated, are you less like
+
+04:19.280 --> 04:24.800
+ to carry a high level of virus and transmit it to others? And I think the data is starting to
+
+04:24.800 --> 04:30.560
+ support that story. The period of detectable viral replication, I get a lot of people saying,
+
+04:30.560 --> 04:35.360
+ well, Dan, where are the antivirals? And I want to say this is an excellent question.
+
+04:35.920 --> 04:40.960
+ We really just have, as far as what we think of small molecules remdesivir, weak evidence,
+
+04:40.960 --> 04:47.360
+ minimal impact, maybe shortens our hospital stay by a few days, no compelling mortality data there.
+
+04:47.360 --> 04:53.520
+ But monoclonals, growing amounts of data and evidence there suggesting that there's even a
+
+04:53.520 --> 04:59.280
+ mortality benefit as well. There is convalescent plasma, but remember the compelling data there
+
+04:59.280 --> 05:05.120
+ was on high titer used within the first 72 hours. Had a discussion today at our hospitals. A lot
+
+05:05.120 --> 05:10.080
+ of the centers around the country don't titer their convalescent plasma. By the time someone
+
+05:10.080 --> 05:14.640
+ shows up in the hospital, they're usually past those first 72 hours. And when you compare apples
+
+05:14.640 --> 05:18.800
+ to apples here, if you have a choice to drink convalescent plasma and monoclonals, the data
+
+05:18.800 --> 05:25.680
+ is more compelling on monoclonals. So right now, our best antiviral therapeutic is monoclonals.
+
+05:26.240 --> 05:30.720
+ But don't miss your window. This is a numbers game. Don't say, oh, you look like you're doing
+
+05:30.720 --> 05:36.560
+ well. Let's wait. If you wait, you can miss your window. And one of the nice little bits of news
+
+05:36.560 --> 05:41.440
+ here is we just got approval that we're going to be able to start offering monoclonal therapy
+
+05:41.440 --> 05:47.120
+ at our urgent care centers throughout the New York tri-state area. So improving access,
+
+05:47.760 --> 05:51.280
+ we're going to have the ability through the Catholics to get it in the ERs, through the
+
+05:51.280 --> 05:57.120
+ Northwell system to get it in the tents, through the Pro Health, Riverside, and Pro Health Connecticut
+
+05:57.120 --> 06:01.920
+ to get urgent care centers. And through United and Research, we're going to keep doing in-home
+
+06:01.920 --> 06:08.560
+ infusions and down to 16 minutes per the FDA. I know folks are still taking an hour to get it
+
+06:08.560 --> 06:13.840
+ in there, but we have approval now for 16 minutes. Early inflammatory phase, there was another
+
+06:13.840 --> 06:18.080
+ interesting paper put up on the Lancet as a preprint. I actually think this is interesting. This
+
+06:18.080 --> 06:25.200
+ is a paper that I've already seen is changing people's practice. And this was a vitamin D paper,
+
+06:25.200 --> 06:32.080
+ yes, calcifidile treatment and COVID-19 related outcomes by a group in Barcelona. And this followed
+
+06:32.080 --> 06:39.040
+ on that pilot study that I discussed on October 4th on that TWIV. So they had done a pilot study.
+
+06:39.040 --> 06:44.960
+ Now this was the prospective open label randomized control trial. They had under 1,000, just under
+
+06:44.960 --> 06:51.840
+ 1,930 participants. And they were randomized to either receive oral calcifidile treatment.
+
+06:52.560 --> 07:01.520
+ That was 532 micrograms on day one, 266 on day three, 71530. And they started this right at the
+
+07:01.520 --> 07:06.880
+ time of hospital admission. And then the controls were not receiving this. So I sort of jokingly
+
+07:06.880 --> 07:11.600
+ said, you know, I think in the past that nobody's going to do a study with a vitamin D deficient
+
+07:11.600 --> 07:16.640
+ control arm, but apparently they do that in Spain. And in the intention to treat analysis,
+
+07:17.520 --> 07:25.360
+ 6.5% of the folks treated with vitamin D died compared to 15% in the control arm, giving us a
+
+07:25.360 --> 07:33.360
+ p value of 0.001. So the adjusted results actually showed a reduced mortality about 60%.
+
+07:34.240 --> 07:41.120
+ So relative risk 0.40. So what we're starting to see, at least in hospitalized patients,
+
+07:41.120 --> 07:45.440
+ if people were not listening to me and fouching a few others, and they're not taking their vitamin
+
+07:45.440 --> 07:51.600
+ D and showing up deficient, a lot of folks are actually starting vitamin D when they get admitted.
+
+07:51.600 --> 07:58.240
+ But just a few basics here, just to remind people, this study looked at calcifidile
+
+07:58.880 --> 08:04.800
+ treatment. But a lot of us in the US are using ergo calciferal and coli calciferal, right? So the
+
+08:04.800 --> 08:10.320
+ coli calciferal is that vitamin D3 that we're taking 1,000, 2,000 different recommended
+
+08:10.320 --> 08:18.000
+ doses per day. The ergo calciferal is our vitamin D2 that is often weekly. So our D3,
+
+08:18.000 --> 08:24.560
+ usually animal origin, so oily fish, egg yolks, meat, your ergo calciferal is going to be from
+
+08:24.560 --> 08:31.120
+ certain vegetables. And so things get a little bit complicated for us here because we don't
+
+08:31.120 --> 08:35.680
+ quite have the same formulation used in the study. So a lot of us here in the US are just
+
+08:35.680 --> 08:41.760
+ using the vitamin D3, the coli calciferal, 4,000 I use per day. But I do want to point out check
+
+08:41.760 --> 08:47.280
+ those vitamin D levels. I had a patient today, maybe he listens to much Twiv. His vitamin D level
+
+08:47.280 --> 08:55.280
+ was 138 at admission. Normal would be less than 80, sort of a 30 to 80 range. 138, that's too high.
+
+08:55.280 --> 09:00.240
+ So he and I actually had to have a talk about not taking so much vitamin D. I'll say in some of
+
+09:00.240 --> 09:05.280
+ the hospitals, it's been fairly standard to give people vitamin D, sort of a thought maybe a benefit,
+
+09:05.280 --> 09:09.920
+ no significant concern for harm. Some of the hospitals though, this is new. All right,
+
+09:09.920 --> 09:18.400
+ we had another study actually on zinc and vitamin C. This was not as positive. This was
+
+09:18.400 --> 09:25.280
+ effective high dose zinc and ascorbic acids, that's vitamin C supplementation versus usual care.
+
+09:25.280 --> 09:30.880
+ And they were looking on symptom length and reduction among ambulatory patients with SARS-CoV-2
+
+09:30.880 --> 09:36.960
+ infection. This was the COVID-A to Z randomized clinical trial, and it was published in JAMA.
+
+09:36.960 --> 09:42.880
+ This was only 214 patients. So by the time you break them down, you're looking only about 50
+
+09:42.880 --> 09:50.320
+ folks in each group. And they looked at basically the amount of days before they reported a 50%
+
+09:50.320 --> 09:56.880
+ reduction in symptoms. So usual care, they're saying about 4.4. The folks who got just zinc
+
+09:56.880 --> 10:04.320
+ said 4.9, vitamin C, 3.7, the group that got vitamin C and zinc, 3.4, a lot of overlap here.
+
+10:04.320 --> 10:09.920
+ So no real compelling difference. I mentioned this as a small study. And there was the issue
+
+10:09.920 --> 10:16.400
+ that the folks who got zinc were reporting metallic taste, dry mouth, gastrointestinal
+
+10:16.400 --> 10:21.920
+ intolerance. So the people in the vitamin C group actually, there was differences in the
+
+10:21.920 --> 10:27.440
+ amount of nausea, diarrhea, stomach cramps. So small groups doesn't sort of compel us in any way,
+
+10:27.440 --> 10:33.440
+ more information there. Another paper on anticoagulation. But here was really the focus. And I think
+
+10:33.440 --> 10:39.920
+ this is an important paper. It was demonstrating a mortality benefit to doing anticoagulation versus
+
+10:39.920 --> 10:45.520
+ not. Maybe this reminds people of the COVID wars that we discussed about, where we were seeing
+
+10:45.520 --> 10:51.680
+ about 30% of the folks not in anticoagulation having major events. So there was a tendency to
+
+10:51.680 --> 10:56.080
+ want to use at least prophylactic and a thought of maybe studying prophylactic versus high dose.
+
+10:56.080 --> 11:04.160
+ This was actually looking at prophylactic versus none. And there was a 27% decreased risk for 30
+
+11:04.160 --> 11:11.600
+ day mortality. So really concluding here that early initiation of anticoagulation compared with
+
+11:11.600 --> 11:17.760
+ no anticoagulation was associated with decreased 30 day mortality. They did not see a significant
+
+11:17.760 --> 11:22.240
+ increase in the risk of serious bleeding events in this trial. But just to sort of put this in
+
+11:22.240 --> 11:28.560
+ the context of our other trials, there's now data to suggest that the optimum dosing for our
+
+11:28.560 --> 11:35.600
+ moderate floor patients is going to be full dose, lower risk of bleeding there. In our ICU
+
+11:35.600 --> 11:39.600
+ level patients, we're going to back off a little to prophylactic dosing just because we have an
+
+11:39.600 --> 11:44.960
+ increased risk of bleeding. This does still leave out a little bit. What do we do with those out
+
+11:44.960 --> 11:48.960
+ patients, right? We still don't have as much data as we would like. So that's going to be a lot
+
+11:48.960 --> 11:53.280
+ of a judgment call looking at each individual patient. I just want to do a deeper dive into
+
+11:53.280 --> 11:59.360
+ the tosyllismab data that I mentioned hot off the press last time. And I want to say this is
+
+11:59.360 --> 12:06.080
+ already resulted in the revisions of a lot of hospital guidelines. Tosyllismab has now been
+
+12:06.080 --> 12:13.280
+ reintroduced. And this was based upon the recovery data. I'm going to discuss this a bit last time.
+
+12:13.280 --> 12:19.680
+ Tosyllismab in patients admitted to hospital with COVID-19 recovery trial. Preliminary results of a
+
+12:19.680 --> 12:25.600
+ randomized controlled open label platform trial. So as I mentioned, last time, this study looked
+
+12:25.600 --> 12:32.720
+ at over 4,000 patients. And the tosyllismab was given in a weight-based dosing regimen.
+
+12:33.360 --> 12:38.240
+ So if you're greater than 90 kilograms, you're going to get 800 milligrams. If you're between
+
+12:38.240 --> 12:45.440
+ 65 and 90, it'll be 600 milligrams. 400 milligrams. If your weight is greater than 40 K but less than
+
+12:45.440 --> 12:50.880
+ 65. And then you drop down to an 8 milligram per kilogram if the weight's less than 40.
+
+12:51.440 --> 12:56.800
+ And then a second dose in this study was given 12 to 24 hours later. If in the opinion of the
+
+12:56.800 --> 13:03.360
+ attending clinician, the patient's condition had not improved. And here we basically saw that there
+
+13:03.360 --> 13:13.440
+ was a 14% reduction in 28 day mortality p value less than 0.007. And about a 20% reduction
+
+13:13.440 --> 13:18.960
+ in the risk of being intimated there with a p value of 0.01. So this this builds on the REM
+
+13:18.960 --> 13:24.720
+ cap data. But I want to sort of be clear on where this fits in. This isn't everybody gets
+
+13:24.720 --> 13:30.960
+ tosyllismab. So this is a background of steroids is critical. We have a lot of studies showing
+
+13:30.960 --> 13:36.880
+ that if you give the IL-6 receptor inhibitors without a background of steroids, even in the
+
+13:36.880 --> 13:42.000
+ recovery trial, there was a trend towards higher mortality. So you don't want to do that. It also
+
+13:42.000 --> 13:46.880
+ looks like the benefit we're seeing here is in the early inflammatory phase, right? We have a lot
+
+13:46.880 --> 13:53.280
+ of trials showing that if you give an IL-6 receptor blocker, so a tosyllismab to someone week three
+
+13:53.280 --> 13:58.480
+ in that secondary infection, that late phase, that that actually may increase infections,
+
+13:58.480 --> 14:04.000
+ not provide benefit. So what we're doing here at a lot of our hospitals, I'll say that Catholic
+
+14:04.000 --> 14:08.320
+ health systems actually have been our standard approach for some time. But some of the other
+
+14:08.320 --> 14:14.160
+ hospitals, they've they've updated. Basically, if a person comes in, they're on oxygen,
+
+14:14.160 --> 14:18.400
+ they've been started on steroids, but now they progressed to a high level of oxygen support,
+
+14:18.400 --> 14:25.200
+ then tosyllismab is considered secondary infection phase. Again, I was like to point out the timing
+
+14:25.200 --> 14:30.400
+ of that is most people with COVID come in without a secondary bacterial infection. But then a lot
+
+14:30.400 --> 14:35.360
+ of folks, we see either they stay in the hospital and then week three, they have this, or they go
+
+14:35.360 --> 14:39.600
+ out and they come back and then are differential. One of the things that can drive that readmission
+
+14:39.600 --> 14:47.440
+ can be a secondary infection. So finding the ferritin procalcitonin ratio that my buddy Lee Shapiro
+
+14:47.440 --> 14:53.680
+ has championed to be quite helpful, fairly predictive. If you take the ferritin divided by procalcitonin,
+
+14:53.680 --> 14:59.120
+ numbers less than 844 suggestive of bacterial numbers higher than that, particularly up in the
+
+14:59.120 --> 15:05.760
+ thousands suggesting your procalcitonin elevation is being driven by the inflammation are multi-system
+
+15:05.760 --> 15:10.320
+ inflammatory phase. Actually, you spend a little time on this because we have a little bit more
+
+15:10.320 --> 15:15.680
+ data now. So I want to point out again, there is an early inflammatory phase,
+
+15:15.680 --> 15:21.680
+ and then there's this later multi-system inflammatory phase. So there's a bimodal inflammatory nature,
+
+15:21.680 --> 15:27.840
+ and either for some folks, this is a readmission. As we saw with children, this may be the first
+
+15:27.840 --> 15:34.960
+ time it comes to attention. So an update on the multi-inflammatory syndrome of children. The number
+
+15:34.960 --> 15:41.360
+ of cases now reported the CDC is keeping track of this is over 2000, and we've had about 30
+
+15:41.360 --> 15:47.520
+ confirmed deaths. So the number of, and this is a little bit of different, the number, or I'll
+
+15:47.520 --> 15:53.840
+ say the percentage of the pediatric cases that are now coming in requiring ICU support,
+
+15:53.840 --> 15:59.440
+ it used to be about 50%. It's now greater than 80%. So I'm not sure I understand exactly what
+
+15:59.440 --> 16:05.520
+ the difference is with the severity there. We also understand a little bit of these 2000 cases.
+
+16:05.520 --> 16:10.800
+ The peak of this tends to be in the five to nine year old rage, and there now is a nice case
+
+16:10.800 --> 16:16.320
+ definition for the multi-system inflammatory syndrome in children. And the first distinction
+
+16:16.320 --> 16:22.480
+ is this is someone under the age of 21. If they're over the age 21, it might be in adults, and we
+
+16:22.480 --> 16:27.040
+ see that as well. They have to present with fever, laboratory evidence of inflammation,
+
+16:27.680 --> 16:33.280
+ evidence of clinically severe illness requiring the hospitalization with multi-system. So greater
+
+16:33.280 --> 16:38.800
+ than two organs being involved. This could be cardiac, renal, respiratory, hematologic,
+
+16:38.800 --> 16:45.120
+ gastrointestinal, skin, or neurological, and no alternative explanation.
+
+16:45.120 --> 16:51.680
+ And then, ideally, from the case definition, you have positive evidence for either current or
+
+16:51.680 --> 16:57.120
+ recent SARS-2 COVID infection. So you could be doing your PCR, serology, antigen tests,
+
+16:57.760 --> 17:02.720
+ or a good story of a COVID-19 exposure within the four weeks prior to the onset of symptoms.
+
+17:02.720 --> 17:07.840
+ And the CDC now has a nice link where people can go. The tail phase, I want to spend a little bit
+
+17:07.840 --> 17:14.400
+ time here, just before we got on the air, Vincent and I were chatting about an individual with
+
+17:14.400 --> 17:21.120
+ Wong COVID who had what sounded like a very negative encounter. They went to the emergency room,
+
+17:21.120 --> 17:26.160
+ tachycardia, swelling in the legs, continuing to suffer from COVID. And the basically we were
+
+17:26.160 --> 17:33.120
+ told, hey, this is what your life is going to be like, get used to it. Not acceptable. There are
+
+17:33.120 --> 17:39.120
+ a lot of us, I have to say, who are really keeping an eye on Wong COVID, taking care of a growing
+
+17:39.120 --> 17:46.000
+ number of patients. And I have a lot of frustration here. As I mentioned here, we've had a lot of
+
+17:46.000 --> 17:51.360
+ research on our vaccines. We've had a lot of research on the care of hospitalized patients
+
+17:51.360 --> 17:56.960
+ with COVID. We still don't have robust data to guide us in the outpatient management.
+
+17:56.960 --> 18:01.920
+ We don't have robust data to guide us in the care of Wong COVID. There's a lot of centers
+
+18:01.920 --> 18:06.480
+ that really are set up by, say, rehabilitation specialists. Basically, let's condition these
+
+18:06.480 --> 18:11.920
+ people back up. And, you know, as we know with our experience with other chronic illnesses,
+
+18:11.920 --> 18:16.880
+ that's not always acceptable. A lot of people have post-exertional malaise. There's a lot of
+
+18:16.880 --> 18:22.320
+ stuff going on here. We're still seeing increased infections in these individuals months and months
+
+18:22.320 --> 18:27.520
+ after the acute period. Something's going on here. And a lot of us are really actively trying to
+
+18:27.520 --> 18:33.280
+ understand this. So those would be out there listening with with Wong COVID. You're not
+
+18:33.280 --> 18:37.680
+ forgotten. We're trying to understand and provide better therapies. And one of the things actually
+
+18:37.680 --> 18:45.280
+ we're quite interested in is if you get a vaccine, are you less likely to get long COVID? So some
+
+18:45.280 --> 18:49.280
+ people I know who are younger think about the vaccines. And they say, well, I'm not going to
+
+18:49.280 --> 18:54.640
+ die of COVID at a very low risk of dying of COVID. But I am worried, you know, I might be in my 20s,
+
+18:54.640 --> 19:00.800
+ 30s, 40s. If I get COVID, I might end up never better. So we're tracking those individuals. We're
+
+19:00.800 --> 19:05.760
+ also tracking ever study fired up on this, where we're looking at people that got the monoclonal
+
+19:05.760 --> 19:10.720
+ antibodies. Not only is that going to keep people out of the hospital, but is it going to prevent
+
+19:10.720 --> 19:17.280
+ people from developing long COVID? So a lot going on here. And then I will close before we go to
+
+19:17.280 --> 19:23.280
+ emails by reminding people to go to parasites without borders and help us support the American
+
+19:23.280 --> 19:28.560
+ Society for Tropical Medicine and Hygiene. For the months of February and March, we're going to
+
+19:28.560 --> 19:35.360
+ donate a minimum of $20,000, hopefully up to $40,000, matching what people send us to help bring
+
+19:35.360 --> 19:41.680
+ some early career investigators, scientists, physicians from less developed parts of the world.
+
+19:41.680 --> 19:46.080
+ Women, we're going to be sexist here. We're only going to be helping women. But I think that's
+
+19:46.080 --> 19:54.240
+ right. I mean, 15% of the leadership in medicine in global health is made up of women. And that's
+
+19:54.240 --> 19:59.200
+ just there's an equity issue there. And we want to jump in. We want to make a difference. So help
+
+19:59.200 --> 20:04.720
+ us do that. All right, time for some questions for Daniel. If you have some, send them to Daniel
+
+20:04.720 --> 20:11.680
+ at microbe.tv. The first is from Chris. The CDC is now saying, if someone has been fully vaccinated
+
+20:11.680 --> 20:18.240
+ two weeks after they do not have to quarantine when directly exposed to someone with COVID. Chris
+
+20:18.240 --> 20:24.480
+ wants to visit his infant grandson, neither of his parents are vaccinated. It won't be anytime soon.
+
+20:25.120 --> 20:29.680
+ If I have to quarantine before I visit, what is the minimum amount of time to ensure a good
+
+20:29.680 --> 20:35.120
+ amount of safety? And Chris has been fully vaccinated. Yeah. So Chris, and I alluded to this a little.
+
+20:35.120 --> 20:40.240
+ I mean, the the CDC talked about someone who's been exposed, and then saying, hey, we're going
+
+20:40.240 --> 20:44.480
+ to treat people who've been fully vaccinated like someone who had a recent infection with COVID.
+
+20:44.480 --> 20:49.280
+ And we're going to, we're going to believe, and they are stepping a little in front of the science,
+
+20:49.280 --> 20:54.720
+ but the science is starting to get there, that these individuals are less likely to become infected,
+
+20:54.720 --> 21:02.400
+ less likely to transmit. We know about a 95% reduction in symptomatic. We don't quite have a solid data
+
+21:02.400 --> 21:09.280
+ on the impact of asymptomatic, but now we're starting to see lower viral loads. So I'm going to
+
+21:09.280 --> 21:13.680
+ basically give you the information to make the decision here. I don't think quarantine is going
+
+21:13.680 --> 21:20.560
+ to be something you need to do. You want to continue to engage in low risk activity. Just treat this
+
+21:20.560 --> 21:26.080
+ as this possibility that you could be exposed, could have low level asymptomatic and not be aware
+
+21:26.080 --> 21:31.840
+ of it, or you could have pre-symptomatic, right? It's a 95% reduction, not 100%. And don't forget
+
+21:31.840 --> 21:37.360
+ about testing. Testing is still another thing. You know, we talk about the Swiss cheese approach,
+
+21:37.360 --> 21:45.280
+ multiple layers, right? So you got your vaccine, you get your test, you look at different exposures
+
+21:45.280 --> 21:51.680
+ and how to do things safely. But I think that we need to start basically being honest and not
+
+21:51.680 --> 21:57.600
+ underselling the vaccines. And the biggest risk for older individuals was that they would get
+
+21:57.600 --> 22:03.840
+ COVID and die. But there's been a tremendous burden, a tremendous social isolation. So that
+
+22:03.840 --> 22:08.240
+ would be my advice on this. Vaccination is great, but don't forget about testing.
+
+22:08.240 --> 22:13.040
+ All right, Javad writes, as a primary care physician who works both in the clinic and
+
+22:13.040 --> 22:17.200
+ hospital and his faculty at both the med school and residency, I'm disappointed at the lack of
+
+22:17.200 --> 22:23.360
+ guidance there is for COVID management and primary care. There is clear guidance for how to manage
+
+22:23.360 --> 22:29.040
+ COVID patients in the hospital based upon a fair amount of research. There's almost nothing for
+
+22:29.040 --> 22:35.680
+ primary care doctors. And Javad goes on to talk about monoclonal antibodies, which are underutilized
+
+22:36.480 --> 22:43.120
+ in his system at the University of Minnesota, even though we have far more COVID in the community
+
+22:43.120 --> 22:48.000
+ than in the hospital, basic questions of whether to use anti coagulation and or aspirin have not
+
+22:48.000 --> 22:53.760
+ been answered. Therapeutics that are logistically more feasible are not known. A small study showed
+
+22:53.760 --> 22:59.760
+ fluvoxamine could be a game changer in terms of limiting hospitalization, but a larger study is
+
+22:59.760 --> 23:05.440
+ in its early stages. What would you recommend in terms of outpatient management? We are doing a
+
+23:05.440 --> 23:10.240
+ lot of testing and monitoring, but it would be nice to have better research and guidance as to
+
+23:10.240 --> 23:15.200
+ what more can be done. All right, so Javad, you bring up some excellent points. First off,
+
+23:15.200 --> 23:20.960
+ say hello to my buddies there at University of Minnesota. It's a fantastic place, by the way,
+
+23:20.960 --> 23:28.560
+ except it's cold. I spent a winter visit there in the end of June once, joking about that.
+
+23:29.360 --> 23:34.560
+ But no, you are completely right. What the COVID pandemic has really pointed out to us
+
+23:34.560 --> 23:41.760
+ is what a poor system we have for rapidly studying outpatient therapies, right? I mean,
+
+23:41.760 --> 23:46.160
+ the monoclonals almost didn't make it to market because they were studying them in week three
+
+23:46.160 --> 23:51.920
+ ICU patients, right? We really need to change that. We need a robust ability to study
+
+23:52.640 --> 23:59.040
+ outpatient therapeutics and to point out, right, 80, 90% of folks with COVID are managed in the
+
+23:59.040 --> 24:05.280
+ outpatient setting. So what do we do? There is limited data. So let me go through what there is.
+
+24:05.280 --> 24:09.040
+ First thing, it's diagnosed one of the first things. You mentioned monoclonal antibodies.
+
+24:09.040 --> 24:15.280
+ That's critical. If the person qualifies, and hopefully this is going to expand as far as access,
+
+24:15.280 --> 24:21.680
+ monoclonal antibodies are a game changer. We do not recommend starting steroids in that first week,
+
+24:22.320 --> 24:25.440
+ but I'll tell you, in the New York area, a lot of times when you get to week two,
+
+24:25.440 --> 24:30.800
+ when people start to drop their SATs below 94, we're starting steroids in the outpatient setting,
+
+24:30.800 --> 24:35.680
+ we're actually doing home oxygen and pulse oximeter. We have actually programs where
+
+24:35.680 --> 24:39.760
+ we're managing a large number of patients that in other parts of the country probably are in
+
+24:39.760 --> 24:46.960
+ the hospital. What about anticoagulation in that context? Is it aspirin? Are we using things like
+
+24:46.960 --> 24:53.920
+ the Eliquis or Zerelto? Can you say brand names there? I apologize. So in some situations, yes,
+
+24:53.920 --> 25:00.560
+ we do have some limited data on aspirin, providing a benefit as well. But no, you are totally right
+
+25:00.560 --> 25:07.920
+ here. I saw the SSRI study, this the flu boxamine study. And that is very interesting. And where's
+
+25:07.920 --> 25:12.720
+ the rest of the data there? Where's the data? I think we've sort of joked about of giving people
+
+25:12.720 --> 25:18.320
+ vitamin D and seeing if that keeps people out of the hospital. These are inexpensive therapies
+
+25:18.320 --> 25:23.920
+ that we would love to have the answers to. And we don't. It's a year later. So I see all this data
+
+25:23.920 --> 25:28.880
+ coming out of the UK. What would we do without the UK? We wouldn't know the benefit of steroids.
+
+25:28.880 --> 25:34.720
+ And we would know the benefit of when to use tosy. So yeah, we need to do a better job.
+
+25:34.720 --> 25:41.200
+ William writes, is it safe to receive COVID vaccine if you are incubating COVID-19 or ill
+
+25:41.200 --> 25:47.520
+ with COVID-19? So William, we don't recommend vaccinating people if they're ill with COVID-19.
+
+25:48.480 --> 25:53.040
+ Basically, we're treating them with other therapeutics. We're waiting until they get better. And then
+
+25:54.000 --> 25:58.320
+ the CDC is saying there's no minimum time to wait. Like once you get over COVID-19,
+
+25:58.320 --> 26:02.160
+ don't miss your opportunity to immunize. If you wait three months, like I know some people
+
+26:02.160 --> 26:05.920
+ recommend, I feel like you're missing that opportunity. Again, who knows what that person is feeling
+
+26:05.920 --> 26:10.720
+ like in three months? Maybe they don't want to get vaccinated then. You've lost that. But we've
+
+26:10.720 --> 26:15.920
+ certainly have seen a lot of folks who come in. They don't get tested. They get their COVID shot
+
+26:15.920 --> 26:23.600
+ and they were incubating COVID. And I actually a woman I'm taking care of today. And as I expressed
+
+26:23.600 --> 26:27.360
+ to her, most of the patients that I've seen, unfortunately, I've seen a lot of folks,
+
+26:27.360 --> 26:31.360
+ where they got their COVID shot three or four days later, they're not feeling well. They're
+
+26:31.360 --> 26:35.680
+ thinking, you know, this reactogenicity, it's just a little bit rough. And then they get a test and
+
+26:35.680 --> 26:41.360
+ they realize, no, I actually was incubating COVID when I got vaccinated. These people, I have to say,
+
+26:41.360 --> 26:46.720
+ tend to do quite well. I don't know if it's that we're giving them a nice boost of the spike protein
+
+26:46.720 --> 26:51.760
+ response. But when I'm discussed with colleagues, they've shared similar experiences. So we don't
+
+26:51.760 --> 26:58.000
+ intentionally vaccinate people who are incubating COVID. I've actually encouraged a lot of the centers,
+
+26:58.000 --> 27:02.480
+ particularly with the high rates that we have of testing people when they come in for vaccines,
+
+27:02.480 --> 27:09.360
+ if possible, too many situations where, you know, a group comes in and everyone gets vaccinated.
+
+27:09.360 --> 27:13.840
+ And one of those people in the group has COVID. And then they find out a day or two later,
+
+27:13.840 --> 27:18.320
+ and then we know everyone there got COVID, you know, riding to and from in the car, right?
+
+27:19.040 --> 27:22.400
+ So I'm going to encourage people to continue to test.
+
+27:22.400 --> 27:28.560
+ All right, one more, Daniel from Stefan, whose mother has had a long difficult problem with COVID
+
+27:29.520 --> 27:35.600
+ starting out on Long Island, in fact, and has taken a long time to recover now is in Florida,
+
+27:35.600 --> 27:41.920
+ where the doctors say she can be vaccinated, but he's not sure. She's suffering from PTSD,
+
+27:41.920 --> 27:47.680
+ has difficulty breathing. And he wants to know, can she get the mRNA vaccine? Should she wait for
+
+27:47.680 --> 27:54.960
+ J and J? She's he's heard about people in Europe, frail seniors in Europe passing away after receiving
+
+27:54.960 --> 28:01.920
+ the mRNA vaccine. In Florida, he's worried that she's going to get infected if she's not vaccinated.
+
+28:02.560 --> 28:07.280
+ So what do you think, Daniel? Yeah, no, these are excellent questions. And I think you lay it out.
+
+28:07.920 --> 28:15.360
+ I've certainly seen some fairly frail, older individuals who, you know, I say the difference
+
+28:15.360 --> 28:20.400
+ between, you know, you and me with reactogenicity, maybe whether or not we make it to work with
+
+28:20.400 --> 28:25.360
+ some individuals, the reactogenicity, maybe whether or not they, you know, continue to survive,
+
+28:25.360 --> 28:30.640
+ right? I mean, a lot of people have significant oxygen requirements. They have pretty severe
+
+28:30.640 --> 28:34.560
+ disease. I've actually seen a few people get vaccinated actually end up in the hospital for a
+
+28:34.560 --> 28:39.760
+ few days, because the reactogenicity put them below that level. So this is not one of those
+
+28:39.760 --> 28:44.000
+ where I just sort of say, Oh, go ahead and have her do it. You want to have a conversation because
+
+28:44.000 --> 28:49.200
+ this is a risk benefit here. If she gets a second bout of COVID, and we certainly know people get
+
+28:49.200 --> 28:54.960
+ reinfected, it's a question of what percent, right? You know, how is she going to do when you
+
+28:54.960 --> 29:00.240
+ describe her getting a second infection? So you want to balance that against the reactogenicity.
+
+29:00.240 --> 29:06.080
+ The reactogenicity is a couple days of, you know, and in a person who had had prior COVID,
+
+29:06.640 --> 29:11.120
+ pretty significant reactogenicity, probably going to have fever, probably going to feel crummy,
+
+29:11.120 --> 29:17.600
+ probably going to have a little bit increased breathing. So yeah, no, this is not a straightforward
+
+29:17.600 --> 29:23.120
+ decision. And I think this is one of those reasons why I'm not a huge fan of sort of the convention
+
+29:23.120 --> 29:28.240
+ center mass vaccination site. This is an individual ideally, as you are bringing up,
+
+29:28.240 --> 29:33.840
+ who has this conversation with her physician, with her family. And then if they're going to be a
+
+29:33.840 --> 29:37.840
+ progression to get the vaccinations, this is someone you want to keep an eye on.
+
+29:37.840 --> 29:41.600
+ Matthew Hospital, my mother was there recently out in Port Jefferson.
+
+29:41.600 --> 29:42.640
+ Yeah, Port Jeff, right.
+
+29:42.640 --> 29:44.000
+ I'm sure why you went to Florida.
+
+29:44.000 --> 29:49.840
+ That is COVID-19 clinical update number 50 with Dr. Daniel Griffin. Thank you, Daniel.
+
+29:49.840 --> 30:08.160
+ Oh, thank you. And everyone, be safe for almost there. Things are getting better.
+

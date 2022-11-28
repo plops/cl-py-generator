@@ -1,0 +1,435 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology. Episode 695, recorded on December 17, 2020.
+I'm Vincent Rack and Yellow, and you're listening to the podcast All About Viruses.
+Joining me today from New York, Daniel Griffin. Hello, everyone.
+Historic Week, Daniel. It is actually, and this time the voting was a little bit quicker,
+but I'll get to that. But yeah, let's start because I've got a lot to say,
+and we want to keep this under 30 minutes for all the busy folks that want a quick update.
+So my quotation, at this historic moment, Shirley, not one of us is too busy, too young, or too old to play a part.
+And that was actually King George VI, the father of Elizabeth II.
+And he was actually speaking about D-Day. And I think this is appropriate, right? We are now
+launching massive vaccination campaigns. And this is going to take a lot of effort,
+a lot of coordination, and a lot of people are going to need to be involved to make sure that
+this actually goes from manufacturing to actually people's arms. So start a little bit with some
+patient updates. I think everyone realizes that the projected post-Thanksgiving rise is what we're
+seeing. We're setting records, numbers of people who are getting sick, numbers of people who are
+dying per day. It's quickly approaching 4,000. It's well over 3500. And I'm not in the best of
+moods when my patients die. And I had earlier this week, gentlemen, no medical problems in his
+30s who died, just had another gentleman died today. I have a teenager in the ICU who I don't
+think she's going to make it. So this is a horrible disease. Each one of these people who dies is
+someone that people love, that people care about. The vaccine is here. I just heard about an ICU
+nurse who just got diagnosed today. And I mean, the vaccines are here. So I know it's Christmas.
+I know everyone's hoping to get together. But I'm going to be the Grinch, right? And I'm going to
+say please, you know, postpone Christmas. Can we do that? I just want people to be safe.
+Yeah. I mean, I try not to be judgy, but when I see this many people dying and you know,
+I see families, they got together. They were doing nothing wrong. This is not a moral issue.
+This is just, it's really dangerous. So all right, let's go to the pre-exposure period.
+And I always like to touch on testing and a little shout out here to Rachel, the special
+assistant to the NH director of COVID-19 Diagnostics. She let me know that they appreciate the updates,
+you know, because for them, it's nice to get some feedback what's happening on the ground. So
+happy to hear that. And I'm going to give some feedbacks here and feedback. Yeah, no plural on
+that. Just feedback. This is an update, the FDA updated its FAQs on testing. And I was communicating
+a little with one of the New York Times reporters who may drop a story on this, but I told her that
+she has until Saturday morning when this episode drops. But actually, the FDA basically went ahead
+and said, okay, these tests are not approved. These PCR tests are not approved for quantitative,
+saying the quantity of virus. But go ahead, you can share those CT values with clinicians.
+And there's a bunch of caveats in there. But for me, as a practicing clinician, this is exciting.
+This is a helpful update. And there's a number of qualifications. And I think those qualifications
+are appropriate. So what are the things that sort of gives some background here? We use a
+measurement of the amount of virus of the viral load, so to speak. We look at these cycle threshold
+values when we manage a number of viral diseases. So CMB, cytomegalovirus, we use it for HIV, the
+virus that causes AIDS, we use it for hepatitis. And we're used to some degree of variability.
+We're actually careful to say, like, oh, are these, we're treading something over time,
+is that being done in the same lab, because there can be some interlab variability.
+But there's also an extra bit of variability here, right? We're used to doing blood tests,
+and someone draws a certain amount of blood, and a certain amount of blood is then put on the
+machine. But here, we're actually doing swabs. And those swabs could be taken from different
+sites. It could be one of those deep brain biopsy swabs, where it's really pushed in there,
+and it's twirled around, sort of a blind procedure. And it could be left in there for a proper,
+you know, 15 seconds, appropriate number of twists, where it could be sort of in and back out.
+It could be taken from the front, sort of just inside the nose, 15 seconds each side,
+making sure you get a good sample, or not, right? It's operator-dependent. It could be actually a
+swab from the mouth, or even the back of the throat. So the collection can actually affect
+these things. And we know a few things. We know that you tend to get the highest amount of virus,
+if you swab deep in that middle-terminate swab, the NP swab that we started with. If you do the
+front of the nose, it comes up about three cycles later, right? So about a 10-fold difference.
+If you do it in the mouth, it's actually about 10 cycles different. So, you know, there's a lot
+of caveats, and we're going to have to do a little bit here to make sure we interpret that. But at
+the ends of the spectrum, I think we can make sense of this. You know, if you get the report
+that that CT value is less than 24, that you're translating that into millions of RNA copy numbers,
+you're probably dealing with someone in that height of infection. You're probably dealing
+with someone who's very infectious. This is someone rush home. Don't pass go. Don't go get
+those groceries. You can order them. And at the other end of the spectrum, let's say it comes up
+37, 38, so past 36. And then we want to ask a few more questions. Was it collected properly?
+Where was it from? Because here we want to calculate, is this, you know, due to poor sample procurement,
+or is it actually really that they're kind of either the tail end of illness or right in the
+beginning? So, you know, the ends of the spectrum, I think we can really work with this. You know,
+there's going to be gray areas in the middle. It comes up at about 30. That might be a little
+harder to interpret. But for us as clinicians, this is helpful. I had a case, well, I have a case,
+gentleman, a gentleman from Nigeria, right? One of the few people who actually appreciates
+that I own cows, right? So I showed him a couple of cows, and then he wanted to know how many
+wives I had so. And he had actually been sick really for several weeks, right? Two plus weeks.
+And, you know, first he tried azithromycin, and then he tried bactrum, and then he wasn't
+getting better and ended up in the hospital. And, you know, his first test was negative. But it
+just didn't seem right. It really seemed like this was a viral syndrome. We tested again. This
+time it was positive. So my suspicion, right, is that it's right sort of on the edge here of
+detection probably high 30. So, you know, being able to get a CT value in a context like that,
+that's actually helpful. So, oh, and by the way, just one wife.
+The CT values are going to be available for all nucleic acid tests. So not, and this is actually
+an excellent question, Vincent, not all the machines actually allow you to get those values.
+It's actually cheaper to buy a machine that just gives you a yes or no, basically just at the end
+of, we'll say 40 cycles says yes or no. The more sophisticated machines, right? Apparently,
+the ones that the Broad Institute or the ones that Fauci is using those actually give you CTs
+all the time. I hate to say we call them this gentleman, the machine that the assay was run on
+did not have access to the CT values. But again, it sort of shows you, you know, it would be great
+spend that little bit of extra money and give us something that helps us in sort of figuring this
+out. So as I mentioned, we've tried to move a little bit away from those deep NP swabs,
+the brain biopsies, but still in some settings, we're doing those NP swabs, you know, particularly
+with kids, we like to do it in the anterior inaries, particularly if you're going to be doing repeat
+testing, because, you know, the blind procedure, we've had issues with triggering migraines, with
+bleeding trauma, things like that. But actually some pretty exciting stuff here. We've really
+moved ahead with access to rapid testing. And I don't know if I mentioned last time, but some
+of our sites are doing over 6,000 tests a day. And what's, you know, when you start seeing, oh,
+five, six percent or tests are positive, we're picking up hundreds of infected people per
+site. And then we're actually getting them from spreading it to other people. So that's really
+tremendous. I have to say, I'm excited to see this happening. I mean, testing saves lives.
+As far as what tests do we have access to, the BD varitor is in reasonably good supply. We can
+get reagents, we can get access to that. We have quite a bit of the Abbott ID now machines, but I
+have to say I've talked to a lot of my colleagues who, you know, those are back ordered. It's hard
+to get those now. There's such demand. There's also some, you know, other tests that people are
+hearing about. The Abbott by neck by next now, right? That's supposed to be this $5 test. The
+government has heavily invested in that. So most of us in the say the private sector are not getting
+access to that. But now an approved at home over the counter test, no prescription needed. And I
+think that's fantastic. I don't think a doctor needs to be standing between you and your ability
+to get a COVID test. And this is by a lume. And it's a rapid antigen test. And it actually has the
+ability has like this Bluetooth connection. And it's really kind of neat. So people, you know,
+if you're not driving after this, just go ahead and Google E L L U M E COVID test. And for,
+they say $30, you're going to be able to walk into your local pharmacy. You'll, you'll get this a
+little kid. There's a video, right? So you're going to use, you need a smartphone, you know,
+but you provide that. So you go on your smartphone, you watch a little video, it shows you how to do
+this. There's a little sterile nasal swab, you're going to swab your nose. They actually say in the
+kit, it's going to be an NP. They're actually going to expect you to put that back in there. So that's
+going to be interesting to see how tolerated that is. There's a little droppers and processing fluid.
+It connects via Bluetooth to your phone. And it walks you through it and in about 15 minutes,
+you get an answer. So we're now sort of increasing the number of options and making it cheaper for
+testing in the, in the home. We talked before about the Lucia, a little battery powered molecular test.
+Now we have this hopefully soon to be available $30 over the counter antigen test. And there's
+actually some talk about the, the binacs now being an at home option as well. So we're moving in
+the right direction. We're not quite there at the price point. A lot of us are looking at, but this
+is, I think it's exciting stuff. Schools, I always got to talk about schools. Really a nice piece
+in the CDC MMWR. And this was titled estimating resource resource costs for implementation of
+CDC's recommended COVID-19 mitigation strategies in pre kindergarten through grade 12 public schools,
+United States 2020 to 21 school year. And they actually, it was really interesting. They went
+through, and you know, to point out, this is not free. If you're going to say we're going to,
+we're going to open our schools, we're going to send kids to the schools. You can't just do it
+like it's 2019. You've got to do it like we're in the middle of a pandemic if you're even going
+to consider this. And they actually went through and they found and made estimates. You need to
+invest an average of $55 per student, sort of minimum. But then it goes up to about $440,
+you know, with increased staffing, shields, mass hand sanitizer wipes, the pulse oximeters,
+signage. So there's a lot involved. This is not just you say, oh, we're sending kids back to school,
+we hear it's safe. If you're thinking about doing it, there's there are ways to approach this challenge,
+but it takes money, it takes a plan. So I always try to reinforce the point that in-person schooling
+is a goal, but you can't just jump there. You get there with education, you get there with resources,
+and you know, and financial assistance, right? We dumped a lot of money, I would say into the
+stock market. If we think we're going to send kids to school, if we think we're going to ask
+teachers to go there, then we're going to actually have to have to put the money in. And I think
+this was good analysis of schools can really understand what those costs should be. And hopefully,
+we'll say policymakers can make the decisions to make this happen, because, you know, you look
+at $440 per student, and you think about that enabling to, you know, parents to work, enabling
+that child to get the benefits of education, I'll sort of leave it there. All right, vitamin D and
+Ivermectin seems a lot to people want me to discuss this. So here's what I'm going to say.
+I'm doing a better job of remembering to take my vitamin D. And if this podcast goes viral and
+we get above 20,000 YouTube views, I promise to discuss Ivermectin next week. But we got way
+too much other stuff for today. And why do we have too much other stuff vaccines? This has been an
+exciting week for vaccines. Last week at Long Island Jewish Hospital, this is where I did my
+training, also where I see a lot of patients. The first person, an ICU nurse, received the Pfizer
+vaccine. And this was exciting, right? I mean, I think I was, you know, I'm always critical,
+right? And so I'm looking and the fact that it's an ICU nurse and not a physician, I thought that
+was pretty cool. The fact that physician was giving the vaccine seemed a little odd, because I'm not
+sure we know how to do that. That's actually nurses are much better at that. So, but somehow
+that doctor did well and the nurse claimed it didn't hurt. So we'll take your word for that.
+And there was there was the tall Irishman, Michael Dowling, the head of Northwell was there. And
+yeah, that was nice that, you know, there there's the Irish there. So, you know, we always sort of
+the side of history. So that was exciting. Were you there, Daniel? Did you go?
+No, no, you know, I actually was busy taking care of patients.
+Okay. You know, and I did make the comment like, yeah, this is great that you've got the
+media appearance. But come on, let's start pushing out the vaccine. It's here. Let's get it into
+arms. Last week was all about Pfizer. And this week, the focus changes to Moderna. And so what do we
+do about what do we know about Moderna? And as people may remember, last week, when Vincent
+wanted to start Twiv, I was like, I can't. I'm watching. It's the vote. And so I did watch it again
+today. You know, I guess I'm a, you know, if people listen to Twiv, they should have been tuned in.
+If you want to hear a bunch of really smart nerds talk about stuff, it was great. I was loving it.
+And they really, these are brilliant scientists. These are, you know, and it's not just scientists
+and people looking at, you know, the whole equity aspect, etc. And what do we know? We got efficacy
+data out of this. And it's right about, you know, the same as Pfizer. It's right about 95%
+for preventing people from getting disease. Talk a little bit about what I mean. And they
+really said it looked like it's close to 100% at preventing severe COVID-19. So I'm going to go a
+little bit into that. People also are always interested in the immunological data, I guess I'll
+say some T cell responses. So we know that we're getting great antibody responses. But they also
+commented that the CD4 positive T-rays T cell responses were strongly biased as we wanted
+towards TH1 cytokines, minimal TH2 cytokine expression. And so this is reassuring, right? Because this
+is our way to predict the future. We're going to have any issues, vaccine induced disease.
+As far as reactogenicity, hopefully our listeners remember this. This is not a side effect. This is,
+I got the vaccine. And this is, you know, evidence that my immune system is working and evidence
+that I can feel when people poke me with a needle. So it's pretty similar. The majority of people
+said, yeah, it hurt when they stuck it into my, to my deltoid, unlike the nurse who claimed
+the doctor poked her with minimal pain. You know, it's funny. The majority people,
+the two days afterwards said they feel tired. Well, it's not funny, Dr. Griffin. What was funny
+is that actually, if you ask the placebo people somewhere between a third and a half said, yeah,
+I feel tired. So just to say, I haven't gotten my vaccine yet and I feel tired. So fatigue was
+very common, but only lasting usually a day or two. Headache was reported, muscle pain,
+some joint pain, some chills, and then a minority of people had fever. But again,
+this was more after the second dose than the first dose. And interesting enough, the older you are,
+the less you complain, the less reported side effects. And this seemed very similar when I went
+through the numbers with Pfizer. What came up a bit in the discussion today was the issue of
+Bell's palsy, right? There were a few cases of this in the Pfizer study. There were three cases of
+this in the mode RNA vaccine group and one in the controls. And there was a whole discussion
+about whether is that really background? Can we really say that with confidence? So that's
+something that will be being monitored. Another part of the discussion that was quite interesting
+and this will be addressed going forward was the issue about correlates of immunity. So what
+they're hoping the Moderna vaccine trial will do is actually give us the ability to do blood
+test to tell, do we have to worry about someone getting infected again? Also, it may help us with
+timing about re-vaccination. And it was a slightly different discussion than Pfizer because
+really this trial is being financed by the US government, right? This is very much under
+Operation Warp Speed. So several times they'd say, well, we are paying for this trial. So this
+is what we would like. Very interesting. But here are our vocabulary for today. So we have three
+words I want people to learn about infection, disease, and severe disease. So I'm going to throw
+in, we got a little bit of information about infection. I think this is important because
+this is going to tie in with transmission. So the end point was not whether or not people got
+infected. The secondary endpoint was not whether or not people got infected. It was whether or not
+they get disease or whether or not it was severe disease. So what's infection? Can you get infection
+without getting disease? And this is I think an important point. Our 12 listeners probably know
+this, but it's good to sort of go through. So you've got the elevator response ready to go.
+Sometimes a pathogen, a virus in this case, can actually infect us, use the same wording,
+can actually go and start replicating. But we don't know it. We have no symptoms. We have no
+fever. We have no headache. We are infected asymptomatically. The concern there is that if that
+happens, if the vaccine does not prevent that, you could have people getting infected, walking
+around feeling fine. They've got the virus replicating in their nasopharynx. They might wipe their nose,
+they might talk, they might potentially transmit it and they feel fine. They're coming to work.
+So there actually was a little bit of suggestion. Some data here was discussed on the last 12,
+if people want to listen to that, that there may actually be a protection against infection.
+And that's ideal if we're ever going to look at herd immunity. The second is disease. This is
+you get sick, right? This is a subset of infected. You have the virus doing its thing and you either
+have a sign or a symptom. Either you have a sign such as a measurable temperature, an abnormal chest
+x-ray, or you have a symptom. You feel bad. You've got a cough. And then severe disease in COVID
+really means that your oxygen level drops that you require hospitalization. And so in this study,
+we saw some preliminary suggestion that there may be a decrease in infection. We saw some really
+compelling evidence of about a 95% reduction in disease. And we saw what looks like close to 100%
+protection against severe disease. So this is exciting. And they actually talked about moving
+forward. They're planning. They talked about this at the beginning today. They're planning a
+transmission study with the mode RNA vaccine this fall at university campuses, which I thought was
+really interesting. So they're going to take a campus. These will be individuals who maybe have
+not been vaccinated yet. And they're going to have half of them get vaccinated. Half of them
+not get vaccinated. We blind it all the rest. And they're going to do really close contact tracing.
+And they're also going to do repeated swaps looking at levels of virus. So very important
+questions when we talk about herd immunity. Because if a vaccine protects you against disease,
+but not infection, if it doesn't knock down levels and interrupt transmission,
+then we really have to step back. We talk about herd immunity.
+Daniel, what was the percentage in the prevention of asymptomatic infection? You didn't give us that.
+You gave us the disease. I know. I believe it was 67%. Is that correct? Am I remembering that?
+Yeah. So it's not great, right? So a lot of people are still going to not be protected from
+infection, right? Yeah. And I think actually, I'm glad you, you know, so 67%. That's a problem.
+Because if if it's only 67% and it's a binary system, is that enough to get us herd immunity,
+right? If you say, OK, 100% of the population agrees to get vaccinated. I'm not sure what planet
+that occurs on. And it's 67% effective at blocking infection. That's like right at the edge of
+giving us herd immunity. You drop down to 90% and you're probably below herd immunity. So this
+is a problem. And I think maybe sort of, you know, and the transmission research is so important,
+because infection is one thing. But let's say you get infected, but it's at such a low level
+you can't transmit. That's OK. And so I think that's what we'll get. Hopefully this fall.
+No, it's actually people probably wanted to know that 67. So thank you.
+All right. So we're getting lots of questions, right? The vaccines are out there. First question
+I always get is Dr. Griffin, which is better. Is it Pfizer or Moderna? And we were joking about
+this because, you know, saying, well, you know, it's kind of like the Android phone versus the,
+you know, Apple iPhone, which one I get. I said, kind of like the Moderna, right? I think it's got
+sort of nicer packaging, you know, the way Apple does that thing. And I said, but you know, to be
+honest, if someone called me right now and said, Hey, Dr. Griffin, we've got your Pfizer
+dose come running down. And I was like, yeah, probably just go get it. And so, and of course,
+that day, like I got the call like, Hey, you know, Dr. Griffin, you want to schedule your Pfizer
+vaccine as a guest. So I think the data is pretty compelling. You know, they're very, very similar
+as far as efficacy as far as safety. So I, I think when you get your golden ticket, as we say,
+the doctors are nurses and staff are getting their vaccines. I go ahead, take the opportunity
+to get the vaccine. What about pregnant or breastfeeding? And this is, you know, this is an
+E way. It's not a fully FDA approved vaccine. So I don't think we should be fighting with
+anti-vaxxers. And the anti-vaxxers shouldn't be fighting with anyone at this point. We have not
+tested this vaccine technology in pregnant or breastfeeding women, you know, humans, or even
+animals for that for that matter. So it's unknown. There's there's no mechanism to think this is
+an issue. There's no signal to think this is an issue. As we talked about last time,
+the, the scientific advisory board and the FDA has made it really clear. This is a woman's decision.
+This is not a man's decision. It's not the FDA's decision. The information is there,
+and women have the ability to make this choice. And as we move forward, we're going to learn more.
+So if you're, you know, if you're an ICU nurse and you're, you're involved in people getting
+intubated and you're in high risk, or maybe you work in an ER or an urgent care, you may decide
+I want to, I want to go right now. And, or you may decide, you know, hey, I'm, I'm doing more
+administrative stuff. I have limited patient contact. You may decide you want to wait a little bit. So
+again, we, that's, that's what we have. And people are, I think it's important that we respect
+people's decisions here. What about autoimmune disease? We have seen no signal suggesting there's
+a problem here. So again, the encouragement is, it seems, you know, that, that the scientific
+evidence and totality favors vaccinating, getting vaccinated. What if I previously got infected?
+I'm going to talk about that a little bit, but I think it was very clear in the discussion
+today by the independent scientific advisory board. I just sort of to quote, is we know people get
+reinfected. We sometimes see the reinfection is worse than the primary infection.
+We actually had people get a mild case and then die the second time. So the encouragement was
+that you should go ahead and get vaccinated. We have no, no correlates of immunity. There's no
+blood tests that we can do right now to tell you you're going to be okay. What about distribution?
+I was asked about this. Right now we still don't have as much product as demand. But that's going
+to, we expect to quickly change, particularly, it sounds like we'll have six million doses of
+Moderna or mode RNA vaccine coming out next week and other three million of Pfizer will ship.
+And so I think that I think pretty soon we're going to get to the point where we can meet that
+demand. And there's really a lot of people, as I mentioned, all hands on deck to try to make this
+happen. As there have been some reports, I think three allergic reactions to the Pfizer vaccine.
+Can you illuminate? Yeah. So the one in the US, I think that got a little bit of press as they
+gave it to an individual up in Alaska, right? And there were a couple in the UK that early on.
+So there is that that warning that we say that if you have had a previous
+anaphylactic reaction to a vaccine, you should speak to your physician,
+consider premedication, don't just sort of run in there and get the vaccine. And I think that's
+the important. It is a previous severe reaction to a vaccine. It's not egg allergy. It's not,
+I have issues with pollen. It's not peanuts. It's not an antibiotic issue. It's just, you know,
+and that's the question. Have you had a previous severe reaction to a vaccine? If the answer is no,
+you can move ahead. After you get a vaccine, you shouldn't you be observed for 15 minutes to make
+sure nothing happens? Yeah, they've actually extended it in a lot of the places here to 30
+minutes. But the recommendation is observation for a minimum of 15 minutes. And as we learn more,
+we'll see. But yeah, that's recommended. The two shots, right? So the Pfizer-BioNTech is a 0.3 milliliter
+shot, given 21 days apart, you get a second shot. So it's two shots. Interesting thing people have
+probably heard about is, Oh my gosh, there's more doses in that vial than we knew. So I'll
+talk a little bit about that. I was asked one of our pharmacists who's been actually reconstituting
+this today. And these vials, when you actually thought of there's about 0.2 milliliters of
+liquid in there about 0.2, right? So there's a certain amount of the product in there,
+and there's a certain amount of volume that that comes up. You add 1.8 milliliters,
+you can do the math. That gives you about two milliliters. They're always slightly overfilled.
+So you say, well, I'm going to do the math in my head here, Dr. Griffin, 0.3 times 5, 1.5,
+that leaves half a milliliter of fluid in every vial or so. And that's what was actually noticed.
+So Pfizer was alerted. Pfizer said, listen, we're not going to give any specific recommendation,
+but your hospital might make a decision about this. And what a lot of the hospitals have done,
+and the health care system where I'm working, has actually said they will draw an extra dose
+out of that vial, if possible, if there's an extra 0.3 in there, which there always is.
+And sometimes there's even another dose in there, because we say about 0.2. So sometimes it's
+about 2.1 at the end. But they do say, don't draw a little bit out of 1, a little bit out of another
+worried about cross-contamination infection risks. But that's the mystery there. The Moderna is
+actually a slightly larger volume. And we've always talked about from a nursing point. We have to
+be careful that people are just sort of straight with how much they draw. So the Moderna is 0.5 ml,
+so it's a little bit larger amount that goes in. Again, two shots, about 28 days apart. And then I
+guess just to wrap that off, Pfizer is being sent around in those cool thermal shippers.
+They monitor until they arrive and then switches over, someone else monitors it. So they can
+actually be kept in those thermal shippers. So we're not going to necessarily need everyone in
+the world to have an ultra cold. Moderna can be shipped around at negative 20 and then kept in
+a fridge. We think it's going to be for about a month. So good stuff there on excess and getting
+it around. All right, incubation period. I want to make sure I hit this. Remember, a test does not
+predict the future. Just on the phone again with a dad who said, you know, his one son got sick,
+tested positive, isolated for his 10 days. You know, he and the other boys had a test a couple
+days after the first son tested positive. So, you know, his comment was, we should be all good to
+go. And it's like, actually, your last contact was, you know, 10 days ago. So you're still within
+the 14 day quarantine. That test a couple days after your son got sick, that doesn't quite work.
+Naturally, a CDC has said you can finish that quarantine at day seven with a negative test
+within 40 hours. New York State's still sticking with its 14 day quarantine. And I have to say,
+we're being really strict. I got, you know, another call from the NHL with it was this,
+this, you know, question about, you know, do they have to be PCR negative? Or can we switch over
+to this 10 days 21 days? And I know if people are familiar with this, but in youth hockey,
+something about the dynamic of the ice makes it the highest risk situation for transmission
+of virus from one person to another in a sporting context. So still sticking with a
+really strict no tolerance policy for professional hockey. So expect another great season next year.
+Period of detectable viral replication. Here I'm going to talk about the other type of vaccination,
+passive vaccination, right? And this is the type of vaccine that the president, Ben Carson,
+Chris Christie, Rudy Giuliani, and now many, many other people are getting. And I'm now starting
+to see a significant number of people who go for this. Some of them end up in the hospital,
+right? This is not 100%. First person I saw was a gentleman, right? Got it on day four,
+two days later, felt great. Another gentleman got it on day nine. Didn't really notice much,
+ended up in the hospital. But we're seeing a lot of people get this. The earlier they get it seems
+to be consistent with what we knew from before. The suggestion is, if you get these monoconal
+antibodies within the first week, there's about a 70% reduction in progressing to hospitalization.
+The U.S. government is actually distributing 65,000 doses every week. But only about 20% of
+them are getting used. So there's a problem here. Hopefully people are listening to this.
+Let's get the word out. So the BAM linibimab, the BAM BAM, is really widely available. But
+people don't know about it, actually, to the point where even people that don't qualify
+are actually getting it through a lottery system because the hospitals are sitting
+with these vials not being used. So Eli Lilly has a place. You could actually go to the Eli Lilly
+page. And there's numbers. And actually here in New York, I get lots of calls. I send them the
+hotline. There's a hotline you call. I just had another patient today, actually a fellow clinician,
+elderly gentleman or senior gentleman. I don't know if elderly is the right word, but an older adult above 65.
+And he was being arranged to get the BAM linibimab in fusion today. So this is one of those tools.
+This does have some data behind it. And as people may know, I'm working on a trial, a post-EUA
+trial to really get solid data. This is still EUA based on phase one, too. We're hoping to get
+more solid data to move forward with this. What about reinfection? So I wanted to ask this question.
+I wanted to say, OK, so what about reinfection? And what I wanted to really be curious about,
+do people get reinfected and potentially shed it to others? So we now have a lot of cases
+in the literature of really well-documented reinfection. So what I wanted two things.
+I wanted them to be young. I wanted them to be in their 20s with no medical problems.
+And two, I wanted them to be health care workers. So I wanted them to be in a situation where,
+potentially, they got it. They got it again. And they also, you're ready. My last was,
+I wanted CT values. I wanted to know, did they have enough virus that I would be concerned that
+they would transmit? So I found a nice article by Gupta V et al, asymptomatic reinfection in
+two health care workers from India with genetically distinct SARS-CoV-2. One was a 25-year-old man,
+PCR positive 5th of May, 2020. CT value at the time 36, right? So a few thousand bits of RNA when
+he's initially diagnosed. They isolate him. They wait till his PCR is negative. They get him back
+at work. August 17th. Now he's got a positive PCR with a CT value of 16.6. So that would be
+millions and millions of RNA copy numbers. So something we would think that we'd be worried
+about for transmission. Other 28-year-old woman found PCR positive also back in May. CT value
+at that point in the 20s. She did the institution. She became PCR negative. September 5th. CT value
+of 16.9. So again, very high levels of RNA. So this raises the couple issues that we got back
+to with our vocabulary. This was an issue of reinfection. They were asymptomatic. So there was no disease.
+There was no severe disease. But they had really high levels suggesting potential
+for transmission in these settings. Early inflammatory phase. I want to reinforce the timing of steroids.
+I got to call the other day. It was like, Dad, the steroids here to be doing really well for our
+patients in the hospital. I got a person who just got COVID. Should I call in a script for steroids?
+Steroids are the second week. They're in select individuals who are hypoxic, who are starting to
+develop more significant disease. They're not for everyone. It's not COVID steroids. It's just
+select people. It's a select dose. A little judgment here. Secondary infection phase.
+We talked a little bit about the ferritin procalcitonin ratio. But I want to point out that the timing
+seems to me to be the most helpful. I just had a woman today. Procalcitonin was less than 0.05.
+The FPR, the ferritin procalcitonin ratio, was super high, suggesting not bacterial.
+But she had staph aureus in the blood. Why can't it went up? She wasn't looking right.
+So I still find that you want to be vigilant. You want to understand the phases of disease.
+And when something starts to change, think about the complications that happen in that phase of
+disease. The tail phase, which often ends up with the long COVID, I was actually speaking with a nurse
+this week. It's really tough. We're seeing individuals who are now six, seven, eight months out,
+really getting pretty far out from initial disease, still suffering. And some of the employers are
+starting to get tired and say, hey, what's going on here? And I think we talked about this a little
+last time. There really isn't a great chronic diagnosis here. It puts these people in a really
+tough situation. But it's very clear. COVID is not just binary. You can get sick. You can die.
+You could get sick. You could not die. And you might have prolonged suffering. You might have
+prolonged disability. So I want to leave it there. I want to thank everyone for all the hard work
+everyone's doing. Hang in there. Keep doing it. And for everybody who's been coming to parasites
+with that borders.com and helping us. That's fantastic. Thank you. We're continuing to help the
+P scores HIV and AIDS programs. Because remember, that virus has not gone away. All right, Daniel,
+a couple of quick questions. First one is Ellen from Johns Hopkins, assuming one has been vaccinated
+and then becomes infected with SARS-CoV-2. One, do we know the degree to which that person's virus
+shedding is infectious? And two, can that person become a long hauler? Oh, that was fantastic.
+Because that hits right into what we were talking about. We don't know yet. And we're going to get
+this data. This is actually the planned transmission studies that we heard about. They're going to
+be taking individuals and vaccinating, comparing them to non-vaccinated individuals. And they're
+actually going to be doing quantitative viral load testing and coupled with transmission
+contact tracing. So we're going to get answers to this. We don't know yet. And I think this is
+really critical. A lot of people I saw this early on in the pandemic, they get the COVID.
+They'd say, oh, I'm fine. The mask would be off. They would feel like they had some special
+invisible magic shield. We don't know. The vaccine may protect you from infection. We've seen
+evidence for that. It seems very compelling that it infects you from disease and severe disease.
+But we don't know. You could very well get infected. You could have high enough viral
+level that you could then infect your loved ones of your patients. So until we know that,
+you got to keep washing your hands. You got to keep wearing your mask. You got to keep acting
+like we're in the middle of a pandemic. All right. So Alan asked about allergic reactions after
+vaccination. We already covered that. So we can skip that. And then Dr. Hasanane says,
+can someone like President Trump who received monoclonal antibodies get the vaccine now?
+Or will he have antibodies that may neutralize the spike protein once formed?
+Yeah. So we think that that's a concern. And we're actually recommending that people wait
+90 days. And that's based upon, we'll say, the half-life of the monoclonal
+bammative about by Eli Lilly is 21 days. So we're waiting for that to get low enough.
+Because otherwise, the concern is you get the vaccine and you actually will not get the benefit
+of vaccination. The half-life is pretty similar for the cocktail from Regeneron. The GSK product
+hasn't made it to market yet. That doesn't even longer half-life. So that may really
+prevent you from getting active vaccination for some time. But the current recommendation is to
+wait 90 days. One more from Nicholas as a health care worker myself on the front lines every day
+who has suffered from COVID-19. What are the recommendations for vaccination? Should I move
+myself to the back of the list since I may have antibodies? Are there any concerns for
+someone to get the vaccine after having suffered from COVID-19?
+Yeah. So there's two questions here that I'll sort of tease out. One is there's no risk that
+we're aware of that a person is going to get the vaccine and have a problem because they had
+COVID before, right? And Pfizer had a number of people who had been previously infected,
+get vaccinated, the chat-ox study, the Oxford AstraZeneca also had a similar where people were
+fine to get the vaccine. The other is a prioritization issue. Should I get this? Should I wait and let
+all my colleagues get it first? The hospital's health care systems, this is a monumental challenge
+to get everyone vaccinated. I've basically been telling people if they call your number,
+if your golden ticket comes up and it's time to get vaccinated, go ahead, get vaccinated.
+Try to get all the health care workers at least their first dose this month. So just go ahead,
+keep the logistics flowing. Make sure you jump in the lifeboat before we run out type thing.
+So don't wait. Just go ahead, get vaccinated. I'm encouraging people to do that.
+That's COVID-19 clinical update number 41 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. Everyone, take care and be safe.

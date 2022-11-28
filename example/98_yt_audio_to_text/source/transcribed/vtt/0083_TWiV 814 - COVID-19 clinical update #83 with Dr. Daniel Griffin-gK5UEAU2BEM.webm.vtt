@@ -1,0 +1,1439 @@
+WEBVTT
+
+00:00.000 --> 00:06.960
+ This week in virology, the podcast about viruses, the kind that make you sick.
+
+00:11.040 --> 00:21.440
+ From Microbe TV, this is Twiv. This week in virology, episode 814 recorded on October 7th, 2021.
+
+00:21.440 --> 00:27.920
+ I'm Vincent Rackeniello, and you're listening to the podcast All About Viruses. Joining me
+
+00:27.920 --> 00:34.960
+ today from New York, Daniel Griffin. Hello, everyone. How's everything, Daniel?
+
+00:36.240 --> 00:42.240
+ You know, it's actually all right, you know, right here in the immediate area. Actually,
+
+00:42.240 --> 00:46.320
+ if you look around the country, right, things are on the way down. Actually, if you look around
+
+00:46.320 --> 00:52.000
+ the world, there's these sort of interesting cycles where things shoot up, and then it goes down,
+
+00:52.000 --> 00:58.080
+ and we'll see where we go. But yeah, at the moment, particularly in the immediate area, but
+
+00:58.080 --> 01:02.800
+ I was in a call earlier today. Actually, Shane Crotty was on the call. It's funny,
+
+01:02.800 --> 01:07.840
+ because like when things come up, you know, people may think I know a lot, but I always, I'm like,
+
+01:07.840 --> 01:14.080
+ and can I call in a friend, Shane? Can I call on you? So yeah, but in parts of the country,
+
+01:14.080 --> 01:18.640
+ some of my colleagues on the call, it's not so great, right? There's a lot of parts of our
+
+01:18.640 --> 01:25.040
+ country where hospitals are still overflowing, where, you know, people just not even COVID, just
+
+01:25.040 --> 01:29.840
+ normal medical issues, they can't be seen, they're waiting, it's delaying care.
+
+01:30.800 --> 01:38.000
+ Yeah, so we know by no means are we through this storm. Yeah, we have an email about that sort of
+
+01:38.000 --> 01:43.360
+ situation in a certain part of the country today. Yeah, certain parts of the country, not so great.
+
+01:43.360 --> 01:48.080
+ Well, let me start with my quotation, and then I'm going to actually share what I think is an
+
+01:48.080 --> 01:54.400
+ entertaining story, which has a certain, well, that's a certain reason for sharing it. So the
+
+01:54.400 --> 02:02.480
+ quotation, there are in fact two things, science and opinion. The former begets knowledge, the latter
+
+02:02.480 --> 02:08.720
+ ignorance. And this is by Hippocrates. I just think this is very telling. I'm always a little
+
+02:08.720 --> 02:13.920
+ disappointed when some of my colleagues seem to be sort of searching for confirmation bias to
+
+02:13.920 --> 02:20.320
+ support their opinion, and not really just trying to move forward and learn. Hopefully, I'm trying
+
+02:20.320 --> 02:27.120
+ to keep my opinions to a minimum and share the science so that people can form their own opinions
+
+02:27.120 --> 02:33.520
+ based upon that science. Sort of an interesting story I think I'll share and these are dark times
+
+02:33.520 --> 02:36.960
+ in many parts of the country. But this was a story that actually, it was the first time I
+
+02:36.960 --> 02:43.040
+ laughed at work and well, it's been quite a while. But it was a friend, a colleague of mine who was
+
+02:43.040 --> 02:48.800
+ telling me a story, he's embraced monoclonals, he's even though he's a cardiologist. And he's
+
+02:48.800 --> 02:54.480
+ like, yeah, I sent this guy for monoclonals. And I was all excited that we got that done. But then
+
+02:54.480 --> 02:59.200
+ he left an office, he left a message at the office that he went for the monoclonals. He's doing great
+
+02:59.200 --> 03:04.240
+ now, but but he almost died. And it's like, well, my gosh, what happened? You know, it's surprising
+
+03:04.240 --> 03:09.840
+ because these monoclonals are so safe. What happened? Well, apparently, this gentleman went for the
+
+03:09.840 --> 03:16.240
+ monoclonals during one of these massive rainstorms that we had. And one of the things we do, right,
+
+03:16.240 --> 03:20.720
+ we send people like during that first week, they're feverish, they're sick, and they've got to get
+
+03:20.720 --> 03:26.400
+ into a car and either go to a tent, or in this case, go to an emergency room, get checked in,
+
+03:26.400 --> 03:31.840
+ be there for a number of hours, get the infusion, which he went ahead and did. But as he was leaving,
+
+03:31.840 --> 03:39.360
+ it was a torrential downpour. And so this feverish guy gets in his car and drives into an area of
+
+03:39.360 --> 03:45.200
+ such degree of flooding that it's actually up to the window level and his car completely stalls.
+
+03:45.200 --> 03:51.440
+ He has to actually smash out the window and then climb out the window and swim to where it's
+
+03:51.440 --> 03:57.680
+ shallow enough. And then the first person who offers to help him, he lets them know he has
+
+03:57.680 --> 04:04.480
+ COVID and they drive away. The police then come and they offer to drive him home until he informs
+
+04:04.480 --> 04:09.440
+ them that he has COVID. A little bit of a pause. They call his wife who then picks him up and
+
+04:09.440 --> 04:18.640
+ picks him home. So this was his harrowing monoclonal infusion experience. But then as he called my
+
+04:18.640 --> 04:26.960
+ colleague, Dr. Savie said, you know, the next evening, he felt like 100%. He felt great, despite
+
+04:26.960 --> 04:34.480
+ having COVID, despite having to swim through these freezing water. So good story. Yeah,
+
+04:34.480 --> 04:39.200
+ it's a very, very entertaining story. But yeah, this is one of those reasons why it would be nice
+
+04:39.200 --> 04:44.400
+ to be doing these in the home, bringing the therapies to these individuals, making it a little,
+
+04:44.400 --> 04:50.800
+ a little more accessible. All right. So some important updates, important dates for people
+
+04:50.800 --> 04:57.840
+ to put on their calendar. They're on my calendar. October 14 will be a discussion of the Moderna
+
+04:57.840 --> 05:02.720
+ booster. Interesting enough, as I found out from my in-laws, everyone's already getting
+
+05:02.720 --> 05:07.520
+ them Moderna booster. So I don't know what they're talking about. Apparently, you know,
+
+05:07.520 --> 05:16.400
+ boosters for all. So but this will be specifically Moderna is requesting a specific Moderna third
+
+05:16.400 --> 05:23.120
+ dose, which would be half the dose of the first two. So we'll hear what the FDA independent advisory
+
+05:23.120 --> 05:31.440
+ panel has to say on that. The next October 15th, Jay and Jay is going to be having the FDA
+
+05:31.440 --> 05:35.920
+ independent advisory committee discuss a booster for them. And I think we talked about the data
+
+05:35.920 --> 05:43.200
+ there, which is actually, I would say rather compelling getting that protection for severe
+
+05:43.200 --> 05:49.200
+ disease, hospitalization, up into the 90s, kind of at mRNA level, if you give that second dose. So
+
+05:49.200 --> 05:54.560
+ that will be interesting to hear, but we're sort of getting positive signals on a Jay and Jay
+
+05:55.840 --> 06:00.560
+ one and you're not done. I guess you need a second now. And also the heterologous
+
+06:00.560 --> 06:07.360
+ booster, the mix and match. What if you had one vaccine, can you get another? A lot of people
+
+06:07.360 --> 06:12.320
+ say, boy, I got the Pfizer. Can I just get the Moderna as my third dose? My mother actually,
+
+06:12.320 --> 06:16.000
+ she was talking to my dad last night. So yeah, your mother, she's already signed up for her third
+
+06:16.000 --> 06:20.400
+ dose. She she's going to get a Moderna. I'm like, what? And so I talked to my mother, she was like,
+
+06:20.400 --> 06:25.680
+ yeah, they call me back. I had two Pfizers and I want to get a Moderna and they told me I can't do
+
+06:25.680 --> 06:32.400
+ that. So we will find out what happens on the 15th. She still she's going to wait a little bit longer
+
+06:32.400 --> 06:39.120
+ to get a little more data before she and I make that decision. And then October 26 for a lot of
+
+06:39.120 --> 06:46.800
+ people Pfizer vaccine for kids, five to 11. And I'm going to talk a little bit about the fact that
+
+06:46.800 --> 06:51.920
+ this is going to be packaged differently, a different dose, actually even a different amount will be
+
+06:51.920 --> 06:57.920
+ injected. But we'll get to that as well. All right, so let us start off with children, COVID.
+
+06:58.560 --> 07:04.960
+ Children are at risk for COVID. I think that's now clear. And as I like to say, wearing a mask is
+
+07:04.960 --> 07:10.800
+ less traumatic for a child than being hospitalized. And we keep hearing about numbers in children,
+
+07:10.800 --> 07:16.480
+ but as numbers go down across the country, we had been up to this quarter million number for
+
+07:16.480 --> 07:22.640
+ children that's dropping below 200,000. So they're moving in the right direction there per week.
+
+07:23.360 --> 07:27.680
+ Hospitalization is getting a little bit of improvement. But again, this is regional where
+
+07:27.680 --> 07:32.880
+ we're seeing problems. But one of the things I wanted to talk about is I'll say success and
+
+07:32.880 --> 07:38.480
+ maybe when there wasn't success with getting children back out there for in-person activity.
+
+07:38.480 --> 07:45.360
+ So we have some data now on how did we do this summer in places where there was good guidance,
+
+07:45.360 --> 07:50.240
+ vaccination, masking, et cetera, mitigation measures versus where there wasn't. So we're
+
+07:50.240 --> 07:56.720
+ talking about a couple MMWR early releases. The first is multi component strategies to prevent
+
+07:56.720 --> 08:03.840
+ SARS-CoV-2 transmission, nine overnight youth summer camps, the United States, June through August 2021.
+
+08:04.400 --> 08:10.400
+ So as mentioned, this came out as an MMWR early release. And the authors reported on a total of
+
+08:10.400 --> 08:18.960
+ 7,173 campers and staff that attended nine US overnight camps that implemented multiple
+
+08:18.960 --> 08:25.520
+ prevention strategies, including high vaccination coverage that was greater than 93% among eligible
+
+08:25.520 --> 08:33.040
+ persons, pre-arrival and frequent screening testing. That was a total of 38,059 tests
+
+08:33.760 --> 08:38.960
+ and additional prevention measures during this time period. There were only nine laboratory
+
+08:38.960 --> 08:44.800
+ confirmed COVID-19 cases and no secondary infections detected during this period. So
+
+08:45.440 --> 08:53.520
+ as I like to say, we can do this safely. On the other side of the coin, we can also mess this up.
+
+08:53.520 --> 09:04.320
+ COVID-19 outbreaks at youth summer camps, Louisiana, June through July 2021, came out also as an MMWR early release.
+
+09:04.320 --> 09:12.560
+ And here the authors were describing 28 camp outbreaks. There was a 31-fold increase in confirmed
+
+09:12.560 --> 09:18.880
+ camp associated cases compared with the previous summer. And the authors comment that this period
+
+09:18.880 --> 09:24.160
+ coincided with underutilization of preventive measures, such as the vaccines, the masking,
+
+09:24.160 --> 09:31.920
+ the physical distancing. So you remove those mitigation measures and you can do this poorly.
+
+09:33.840 --> 09:39.040
+ All right. Well, with the expansion, the impending, we hope, expansion of COVID vaccines
+
+09:39.840 --> 09:45.120
+ down to the 5 and 11-year-old. There's been a lot of discussions about trying to normalize
+
+09:45.120 --> 09:50.560
+ the COVID vaccines, trying to get them into pediatrician offices, because a lot of parents
+
+09:50.560 --> 09:55.360
+ want to have that discussion with pediatricians, not go to one of these mass vaccination sites.
+
+09:55.360 --> 10:00.400
+ Actually, it's coming up a lot. A lot of individuals don't really feel that comfortable going to one
+
+10:00.400 --> 10:07.520
+ of these large sites with the security presence. Maybe I have a little bit of this bias. You know,
+
+10:07.520 --> 10:11.520
+ if we're lost, my wife will go ask a police officer. I will. If I see a police officer,
+
+10:11.520 --> 10:16.480
+ maybe go the other direction, maybe this is by upbringing. You know, I always joke with the
+
+10:16.480 --> 10:20.480
+ police officers when I see them. My last name is Griffin, and we try to calculate how many
+
+10:20.480 --> 10:24.480
+ griffins were in the front seat as police officers and how many of us were in the vaccine cause and
+
+10:24.480 --> 10:31.440
+ trouble. But this vaccine, we are hoping a lot of parents are hoping they will be able to access
+
+10:31.440 --> 10:37.200
+ in the pediatrician's office. So just a little bit about what are we expecting on the horizon. So
+
+10:37.200 --> 10:46.080
+ the current Pfizer vaccine that we've been giving out has a purple cap. But we are hearing that the
+
+10:46.080 --> 10:52.240
+ new caps for the children will be orange caps. These are going to be different vials. They're
+
+10:52.240 --> 10:58.080
+ going to be 10 dose vials instead of the five slash six that we were doing before. It's going to be
+
+10:58.080 --> 11:05.920
+ a different amount to dilution. This is going to be a 1.3 ml dilution. The injection rather than
+
+11:05.920 --> 11:14.320
+ 0.3 is going to be a 0.2 injection. These can sit in the ultra cold freezer for six months,
+
+11:14.320 --> 11:20.560
+ but you can put them in the refrigerator undiluted for 10 weeks, right? That's two and a half months.
+
+11:20.560 --> 11:24.880
+ So that's going to be a great way of getting these in pediatrician's offices, getting those
+
+11:24.880 --> 11:30.240
+ sitting there in the refrigerator. We all, as I think sort of embarrassingly say, we have a lot
+
+11:30.240 --> 11:34.880
+ of vaccines. We expect to have a lot of these. So we're not going to be, we're not expecting
+
+11:34.880 --> 11:38.960
+ people to be quite as stringent with the like, don't waste a dose. It's going to be more of a
+
+11:38.960 --> 11:44.320
+ don't miss an opportunity to vaccinate. There's also for the over 12, there's going to be a,
+
+11:44.320 --> 11:51.600
+ we hear a new gray top to vial that is already pre-diluted. And this can then sit pre-diluted
+
+11:51.600 --> 11:57.200
+ in a refrigerator for 10 weeks undiluted, or actually, let me see if I've got this right,
+
+11:57.200 --> 12:04.320
+ already deluded to the consent for 10 weeks. All right. So pre-exposure transmission testing,
+
+12:04.320 --> 12:10.720
+ another nice paper looking at the impact of vaccination on transmission. And this is really,
+
+12:10.720 --> 12:16.000
+ I think as we've discussed, the community motivation behind vaccination and the pandemic,
+
+12:16.000 --> 12:21.840
+ rather than just looking at individual risks. So we saw the pre-print, the impact of SARS-CoV-2
+
+12:21.840 --> 12:28.640
+ vaccination on alpha and delta variant transmission. And this study was performed as part of the
+
+12:28.640 --> 12:35.200
+ public health surveillance and NHS test and trace program quality assurance. And the authors
+
+12:35.920 --> 12:41.040
+ start by providing a little bit of background that the pre-delta, there was evidence that there was
+
+12:41.040 --> 12:46.640
+ some impact. And now they're going ahead and looking at the risk going forward. So they,
+
+12:46.640 --> 12:53.200
+ they performed a retrospective observational cohort study of contacts of SARS-CoV-2
+
+12:53.200 --> 13:00.640
+ infected index cases using contact testing data from England. And in this study,
+
+13:01.680 --> 13:09.120
+ 37.2% of the contacts tested were PCR positive. They looked at two doses of the
+
+13:09.120 --> 13:18.320
+ BioNTech Pfizer or the Chadox as AstraZeneca in the alpha variant index cases. And the reductions
+
+13:18.320 --> 13:29.040
+ they were seeing, the adjusted odds ratio 0.18 versus 0.37. So about 82% reduction, about a 63%
+
+13:29.040 --> 13:37.680
+ reduction. But then when they looked at the delta variant, the odds ratio is 0.35 and 0.64. So about
+
+13:37.680 --> 13:44.400
+ a 65% reduction, about a 36% reduction. So not working quite as well. There was an interesting
+
+13:44.400 --> 13:49.840
+ comment. And I think that this is important and maybe plays into as people think about boosters.
+
+13:50.640 --> 13:57.520
+ Transmission reductions declined over time since the second vaccination for delta reaching similar
+
+13:57.520 --> 14:03.440
+ levels to unvaccinated by 12 weeks for Chadox and attenuating substantially for BioNTech
+
+14:03.440 --> 14:10.080
+ 162 B2, the Pfizer BioNTech. So protection from vaccination in contacts declined in the three
+
+14:10.080 --> 14:15.840
+ months after second vaccination. So sort of this challenge, our vaccines are really great
+
+14:16.560 --> 14:21.760
+ at preventing hospitalizations and severe disease. But how long are we going to get this
+
+14:21.760 --> 14:27.040
+ impact on infection? How long are we going to get this impact on transmission reductions?
+
+14:27.040 --> 14:35.040
+ I've also made several questions about a couple AstraZeneca products.
+
+14:35.760 --> 14:43.920
+ The first one is the the the mabs that they have. And these are these long acting antibody
+
+14:43.920 --> 14:54.240
+ therapies. So AstraZeneca's AZD7442, very catchy, requests for emergency authorization for COVID-19
+
+14:54.240 --> 15:00.640
+ prophylaxis was filed in the US. So these are long acting monoclonals for prevention. And so
+
+15:00.640 --> 15:09.840
+ this request was was based mainly on data from the ProVent trial, PROVEND trial, where 5197
+
+15:09.840 --> 15:19.200
+ participants in a two to one randomization received this AZD7442, which has two mabs in there. And I'm
+
+15:19.200 --> 15:23.120
+ not going to go into which they are because this has become a pronunciation challenge.
+
+15:23.120 --> 15:31.280
+ And they compared this to placebo. And the primary analysis was based on 5172 participants
+
+15:31.280 --> 15:38.880
+ who did not have SARS COVID-2 infection in baseline in this trial, 77% reduction in
+
+15:38.880 --> 15:45.520
+ developing symptomatic COVID compared to placebo. So what's special here, right? And we've already
+
+15:45.520 --> 15:51.280
+ talked about how Regen Cove can be used in the EUA and we will go through the details on that
+
+15:51.280 --> 15:59.280
+ as a prophylactic. But here, this can be given IV or IM, right, as opposed to sub-Q. It's a little
+
+15:59.280 --> 16:05.760
+ nicer to give this IM. This was actually gluteal. So this was given in the tail. There's also a
+
+16:05.760 --> 16:11.520
+ longer half-life here. So these antibodies were optimized to have an extended half-life,
+
+16:11.520 --> 16:18.720
+ reduced FC receptor and complement C1Q binding. And so they are actually suggesting that this
+
+16:18.720 --> 16:25.760
+ can afford up to 12 months of protection following a single administration. So a lot of questions
+
+16:25.760 --> 16:29.840
+ I'm getting from my colleagues who take care of individuals who are immune suppressed.
+
+16:30.640 --> 16:35.120
+ We'll say cancer patients, patients with autoimmune disease, patients on immunosuppressive
+
+16:35.120 --> 16:39.280
+ medications, patients that we do not think are going to get the protection that we would like
+
+16:39.280 --> 16:45.920
+ from vaccinations or maybe even have a contraindication to vaccination. This is potentially a way of
+
+16:45.920 --> 16:54.720
+ providing passive protection. A little exciting news on the testing front, right? We've sort of
+
+16:54.720 --> 16:59.680
+ gone full circle and there's been a lot of folks embracing and really seeing the power of the
+
+16:59.680 --> 17:07.120
+ rapid tests, but also the at-home rapid tests. So on the 4th of October, the US FDA issued another
+
+17:07.120 --> 17:16.720
+ EUA for the ACON Laboratory's Flowflex COVID-19 home test. Per the manufacturer, they are planning
+
+17:16.720 --> 17:22.720
+ and they claim they have the capacity to produce more than 100 million tests per month. They think
+
+17:22.720 --> 17:30.720
+ they'll be able to ramp this up to 200 million per month by February 2022. So very exciting because
+
+17:30.720 --> 17:34.960
+ right now, as we know, everyone's excited about home tests, but no one can get them. I even tried
+
+17:34.960 --> 17:40.960
+ to do this myself. They are in short supply. And also, if you want to understand how to use these,
+
+17:40.960 --> 17:46.560
+ because right, you're going to be swabbing yourself the same day the CDC updated their COVID
+
+17:47.360 --> 17:53.040
+ self testing page where you can see some really nice infographics about how to stick that Q-tip
+
+17:53.040 --> 17:59.440
+ up your nose and get these samples. I presume this is an antigen test, Daniel? Yes.
+
+17:59.440 --> 18:09.200
+ Yeah. Is it going to be less than a dollar? Let's see if I have the money. Let's see if I have the
+
+18:09.200 --> 18:15.040
+ cost here. I do not know what the cost is going to be, but will it be less than a dollar? The answer is
+
+18:15.040 --> 18:25.360
+ no. Will it be maybe $5? Maybe, maybe. There is the potential that the US government will purchase
+
+18:25.360 --> 18:31.360
+ a lot of these and then distribute them. So that could be, well, not quite free because we're paying
+
+18:31.360 --> 18:38.000
+ our taxes. All right, active vaccination, you know, vaccines, the Jabs that keep you from getting
+
+18:38.000 --> 18:43.360
+ sick. And I like to say vaccination is how this pandemic ends. I'm talking about those first doses.
+
+18:43.360 --> 18:47.600
+ That's where we get our bag for our buck. In the New England Journal, we saw the peer read
+
+18:47.600 --> 18:57.120
+ publication Phase 3, safety and efficacy of the Chad Ox 1 COVID-19 vaccine. And these are the
+
+18:57.120 --> 19:03.120
+ finally, we're getting the peer reviewed publication of the ongoing results from the ongoing double
+
+19:03.120 --> 19:09.120
+ blind randomized placebo controlled Phase 3 clinical trial, looking at the safety, vaccine
+
+19:09.120 --> 19:16.400
+ efficacy, and immunogenicity of two doses of the AstraZeneca Chad Ox as compared with placebo
+
+19:16.400 --> 19:21.440
+ in preventing is always important. What are we looking at the onset of symptomatic and severe
+
+19:21.440 --> 19:28.480
+ COVID disease 2019 15 days or more after the second dose in adults, including older adults in the
+
+19:28.480 --> 19:38.240
+ United States, Chile and Peru. In this trial, a total of 32,451 participants underwent randomization
+
+19:38.240 --> 19:48.240
+ in a two to one ratio to receive this vaccine or placebo. So we had 21,635 versus placebo 10,816.
+
+19:48.240 --> 19:57.200
+ And the overall vaccine efficacy for preventing symptomatic and severe was 74%. Interesting enough,
+
+19:57.200 --> 20:05.920
+ the estimated vaccine efficacy for this endpoint was 83.5% in participants 65 years of age or older.
+
+20:05.920 --> 20:11.840
+ They report that this high vaccine efficacy was consistent across a range of demographic
+
+20:11.840 --> 20:19.120
+ subgroups. In the fully vaccinated analysis subgroup, they reported no severe or critical
+
+20:19.120 --> 20:24.640
+ symptomatic COVID-19 cases. So that's, you know, you got to think about our endpoints. So that's
+
+20:24.640 --> 20:32.160
+ a pretty excellent endpoint for looking at severe or critical disease 83.5 for symptomatic. So
+
+20:32.160 --> 20:42.720
+ a pretty, pretty impressive data here. On October 4th in the Lancet, we saw another article. Again,
+
+20:42.720 --> 20:51.120
+ on vaccines, effectiveness of mRNA, BNT, 162, B2, Pfizer, BioNTech, COVID-19 vaccine up to six months
+
+20:51.120 --> 20:56.880
+ and a large integrated health system in the US, a retrospective cohort study. So this is a peer
+
+20:56.880 --> 21:02.240
+ reviewed article. This is a retrospective cohort study where they analyzed electronic health
+
+21:02.240 --> 21:09.520
+ records of individuals who are members of Kaiser Permanente, South California. They were looking
+
+21:09.520 --> 21:17.200
+ at the effectiveness against infections and COVID-19 related hospital admissions for up to six months.
+
+21:17.200 --> 21:23.040
+ So this is a, this is a very robust data set, right, by an organization that I'll say does an
+
+21:23.040 --> 21:34.560
+ excellent job. 4,920,549 individuals were assessed for eligibility and ultimately 3,436,
+
+21:35.120 --> 21:43.120
+ 9,957 were included. So for fully vaccinated infections, they report fully vaccinated
+
+21:43.120 --> 21:49.840
+ individuals, they report that effectiveness against infections declined from 88% during the first
+
+21:49.840 --> 21:56.880
+ month to 47%. So that's effectiveness against infection. So among sequenced infections,
+
+21:56.880 --> 22:02.320
+ vaccine efficacy, effectiveness against infections of the Delta variant was high during the forced
+
+22:02.320 --> 22:10.000
+ month, 93%. And that went to 53% after four months, effectiveness against other variants,
+
+22:10.000 --> 22:17.360
+ the first month, 97%, 67%, at four to five months. But what about vaccine effectiveness
+
+22:17.360 --> 22:24.320
+ against hospital admissions for infections with the Delta variant, 93% up to six months.
+
+22:25.280 --> 22:31.280
+ So I take away this as very encouraging. I know Pfizer vaccine has been getting a lot of bad press,
+
+22:32.080 --> 22:36.560
+ you know, people are a little upset that they get the Pfizer and set of Moderna, but vaccine
+
+22:36.560 --> 22:41.440
+ effectiveness against severe disease, right, hospital admissions with the Delta variant,
+
+22:41.440 --> 22:45.840
+ 93% for up to six months. So I found this rather encouraging.
+
+22:45.840 --> 22:50.400
+ What about reinfection? I get a lot of questions about this.
+
+22:51.200 --> 22:56.080
+ And so there's a lot of articles out there, but this article, the durability of immunity
+
+22:56.080 --> 23:02.000
+ against reinfection by SARS-CoV-2, a comparative evolutionary study was published in the Lancet
+
+23:02.000 --> 23:07.440
+ Microbe. So we certainly see reinfections, mainly starting about three months after infection and
+
+23:07.440 --> 23:14.720
+ increasing over time. We know that if these folks get vaccinated, they can decrease their risk of
+
+23:14.720 --> 23:22.640
+ infection by at least twofold. We're not sure one dose got us there, but two doses did in the MMWR
+
+23:22.640 --> 23:27.760
+ publication we talked about. So if prior infection, we know that these individuals can get a benefit
+
+23:27.760 --> 23:34.480
+ from vaccination. In this study, the authors looked at antibody data for six human infecting
+
+23:34.480 --> 23:42.320
+ coronaviruses, extending from 128 days to 28 years after infection. This is a pretty broad
+
+23:42.320 --> 23:50.800
+ study, infection between 1984 and 2020. They use this data to estimate profiles of the typical
+
+23:50.800 --> 23:57.760
+ antibody decline and probabilities of reinfection over time under endemic conditions. They estimated
+
+23:57.760 --> 24:04.720
+ that reinfection by SARS-CoV-2 under endemic conditions would likely occur between three months
+
+24:04.720 --> 24:12.560
+ out to 5.1 years after the peak in the antibody response, suggesting a median of about 16 months.
+
+24:13.520 --> 24:18.240
+ They calculated that this protection is less than half the duration revealed for the other
+
+24:18.240 --> 24:27.040
+ endemic circulating coronaviruses. So OC43, NL63, 229E, if people have those remembered.
+
+24:27.040 --> 24:32.080
+ But what I'm going to say for a deeper dive into the comparison between protection from infection
+
+24:32.080 --> 24:39.120
+ versus vaccination, I'm going to recommend people go to 12, 813 discussion with Florian Kramer.
+
+24:40.320 --> 24:47.200
+ It's really a popular topic that people are trying to sort out. But just to make it clear,
+
+24:47.200 --> 24:53.040
+ we recommend that people who have been previously infected get the benefit of vaccination.
+
+24:54.240 --> 24:59.040
+ A popular question now, I don't know if Vincent, if you are aware of this, but I keep getting,
+
+24:59.040 --> 25:02.960
+ am I still considered fully vaccinated if I haven't had my booster?
+
+25:04.240 --> 25:09.520
+ And straight from the CDC, yes, everyone is considered fully vaccinated two weeks after their
+
+25:09.520 --> 25:16.320
+ second COVID vaccine in a two-shot series, or two weeks after a single dose vaccine for the
+
+25:16.320 --> 25:21.520
+ J&J Janssen for those folks here in the US. So I've been getting a lot of employers,
+
+25:21.520 --> 25:27.440
+ interesting enough, who are now demanding that their employees get a third dose,
+
+25:27.440 --> 25:31.040
+ otherwise they're not considered fully vaccinated. But straight from the CDC,
+
+25:31.040 --> 25:37.040
+ this is evolving, but at the moment, you're still good. I know we're up to 400,000 people
+
+25:37.040 --> 25:44.560
+ getting a booster per day here in the US. So yeah, anyway, all right, passive vaccination.
+
+25:44.560 --> 25:49.920
+ I want to remind people, remember monoclonals after high risk exposures and high risk people.
+
+25:49.920 --> 25:56.800
+ We talked a little bit about AstraZeneca is applying for this, but we already have post-exposure
+
+25:56.800 --> 26:04.560
+ prophylaxis as part of the EUA for Regen Cove. And who are the people that they are recommending
+
+26:05.120 --> 26:11.040
+ eligible for post-exposure prophylaxis? These are individuals who are at high risk for progression
+
+26:11.040 --> 26:16.080
+ to severe COVID-19, including hospitalization or death. These are folks who are either not
+
+26:16.080 --> 26:22.960
+ fully vaccinated or are not expected to mount an adequate immune response to the SARS-CoV-2
+
+26:22.960 --> 26:28.720
+ vaccination, right? So individuals with immunocompromising conditions, those on immunosuppressive
+
+26:28.720 --> 26:35.360
+ medicines. So you're looking at individuals who have been exposed. But I also want to point out
+
+26:35.360 --> 26:41.680
+ they also talk about for individuals in whom repeat dosing is considered because they continue
+
+26:41.680 --> 26:49.600
+ to have ongoing exposure. So just a little bit of subtlety there. An individual who is immunosuppressed,
+
+26:49.600 --> 26:54.720
+ who is not getting that protection from vaccine, but continues to be exposed over and over.
+
+26:55.360 --> 27:01.600
+ The first dose is the 600, 600. But you can actually continue to dose them every four weeks
+
+27:02.400 --> 27:08.880
+ with a 300 milligram, 300 milligram. And that can either be by subcutaneous injection. So in this
+
+27:08.880 --> 27:13.440
+ sense, then we have to get two instead of four shots, or they can get an intravenous infusion
+
+27:13.440 --> 27:19.920
+ every four weeks. For while we were stepping back a little on prophylaxis because of shortages,
+
+27:19.920 --> 27:24.960
+ but as the numbers are going down, as we're getting improved access, we're stretching back
+
+27:24.960 --> 27:31.920
+ out with the post-exposure prophylaxis. All right, the period of detectable viral replication,
+
+27:31.920 --> 27:35.840
+ not the time for antibiotics, and not the time for steroids. We can do harm there.
+
+27:36.960 --> 27:41.520
+ This is for a lot of people exciting. The beginning of a new era, Merck and Ridgeback
+
+27:41.520 --> 27:46.880
+ announced the planned interim analysis results from the phase three move out trial, looking at
+
+27:46.880 --> 27:54.640
+ the use of the oral antiviral. This is a pill, malnupiravir, in the early treatment of at-risk,
+
+27:54.640 --> 28:01.760
+ non-hospitalized adult patients with mild to moderate COVID-19. So this was a planned interim
+
+28:01.760 --> 28:09.120
+ analysis. They evaluated data from 775 patients who were initially enrolled in the trial, the phase
+
+28:09.120 --> 28:15.600
+ three move out trial. And at the time of the decision to stop recruiting, the trial was approaching
+
+28:15.600 --> 28:23.120
+ full recruitment, sample size of 1,550 patients with more than 90% of the intended sample size already
+
+28:23.120 --> 28:28.960
+ enrolled. When they perform this interim analysis, and I want to point out, this is top line data.
+
+28:28.960 --> 28:33.520
+ This is not peer reviewed. We don't have the details that will be coming forward. They reported
+
+28:33.520 --> 28:41.680
+ in this study that malnupiravir reduced the risk of hospitalization or death by approximately
+
+28:41.680 --> 28:52.400
+ 50%. So we had 7.3% versus 14.1%. The little bit of sort of details here,
+
+28:52.400 --> 28:58.400
+ in the individuals that received the antiviral, there were zero deaths. In the placebo group,
+
+28:58.400 --> 29:04.000
+ there were eight deaths. So we're looking at zero versus 2%. So 2%, the expected mortality,
+
+29:04.000 --> 29:10.800
+ zero percent in the folks that got this therapy. What about eligibility and timing? These
+
+29:10.800 --> 29:17.120
+ individuals had to have laboratory confirmed COVID-19 with symptom onset within five days
+
+29:17.120 --> 29:22.480
+ of study randomization, right? So a little bit longer than we would ideally want, right? Because
+
+29:22.480 --> 29:27.600
+ you get randomized at day five may take you another day before you actually get the therapy.
+
+29:27.600 --> 29:32.320
+ All the patients had to have at least one risk factor associated with poor disease outcome,
+
+29:32.320 --> 29:39.760
+ right? So this is a slightly higher risk group. People did well, very well tolerated
+
+29:40.560 --> 29:48.400
+ therapy. There is a recommendation to go ahead and look at possibly getting EUA. So we will find
+
+29:48.960 --> 29:52.560
+ as we go forward. But just a little background, right? Because this is going to be one of the
+
+29:52.560 --> 30:00.720
+ first drugs here that is being introduced. This is a RNA, dependent RNA polymerase inhibitor,
+
+30:00.720 --> 30:07.040
+ right? That's something that we mammals don't have to worry about. There is going to be discussion
+
+30:07.040 --> 30:11.840
+ about the safety of this drug. That's why it's going to go through the FDA. But this is really
+
+30:11.840 --> 30:19.040
+ the first in this class going forward. We expect there to be another very similar drug. And we also
+
+30:19.040 --> 30:25.200
+ expect another drug that we've talked about that's going to target the protease on the horizon. So
+
+30:25.200 --> 30:30.240
+ fingers crossed, we're looking about three oral drugs being available by December. But I was
+
+30:30.240 --> 30:33.360
+ going to, I was going to Vincent, do you want to make any comments at this point? I sort of thought
+
+30:33.360 --> 30:39.760
+ this was an exciting bit of news. I think it's great that we these are in development. My only
+
+30:39.760 --> 30:46.800
+ concern, and I'm sure as a physician who treats AIDS patients, Daniel, these will be initially
+
+30:46.800 --> 30:51.040
+ used as monotherapy. And I'm just concerned that we're going to get rapid resistance,
+
+30:51.040 --> 30:56.320
+ which will render them less useful. What do you think? Yeah. So I hopefully we've learned from
+
+30:56.320 --> 31:02.960
+ the HIV. And we've also learned from influenza, right? Is that if you use these drugs all by
+
+31:02.960 --> 31:07.600
+ themselves, you run a risk, particularly if they're used widely, which we're thinking they will be
+
+31:07.600 --> 31:14.320
+ of inducing resistance. So I've already talked about the concept of maybe using this with maybe
+
+31:14.320 --> 31:20.240
+ the protease inhibitor, maybe if we can use two drugs, we can put up a barrier to that resistance.
+
+31:20.240 --> 31:27.120
+ So no, I think I think that's key. Anytime we use a drug, we we can end up with resistance. So it may
+
+31:27.120 --> 31:31.360
+ be that we want to look at using two drugs that we're not pressuring and driving that.
+
+31:32.640 --> 31:36.640
+ I worry particularly if people use this more than just as a five day therapy. What if you have
+
+31:36.640 --> 31:39.920
+ a person who's immunosuppressed and you start using it for a longer period of time?
+
+31:39.920 --> 31:45.200
+ But don't you have to trial them in combinations to get them approved that way?
+
+31:45.200 --> 31:46.240
+ Yeah, we're going to have to do that.
+
+31:48.160 --> 31:53.200
+ And this will be two different drug companies, three drug companies all like
+
+31:53.200 --> 31:58.160
+ playing nicely working together. But it is interesting with HIV, we're often using
+
+31:59.520 --> 32:04.080
+ three drug therapy. That's kind of the triple highly effective antiretroviral therapy,
+
+32:04.800 --> 32:09.280
+ where often historically, it was three different companies were producing each
+
+32:09.280 --> 32:15.840
+ of the different drugs in the cocktail. All right, timing. So we've got exciting
+
+32:15.840 --> 32:22.320
+ stuff because the IDSA meeting was just recently. And so this was data that was presented there,
+
+32:22.320 --> 32:27.360
+ and it was risk factor analysis for hospital admission following severe acute respiratory
+
+32:27.360 --> 32:34.080
+ syndrome, coronavirus 2, SARS-CoV-2, monoclonal antibody treatment. And this was really looking
+
+32:34.080 --> 32:40.320
+ at timing. If we get those monoclonals in earlier, does that give us better bang for our buck?
+
+32:40.320 --> 32:45.680
+ So we look at this whole like less, you know, seven to 10 days after symptom onset, 70 to 80%
+
+32:45.680 --> 32:50.640
+ reduction. But are we going to get even more reduction if we get them in the first few days?
+
+32:50.640 --> 32:54.880
+ So here they're looking at patients that received what they say is early. So within
+
+32:54.880 --> 33:00.480
+ days one through five of symptom onset and comparing those to people who received them late,
+
+33:00.480 --> 33:07.680
+ six to 12. And so here we were seeing getting the MAB infusion in the first five days resulted
+
+33:07.680 --> 33:16.560
+ in a 54% reduction in progression relative to those folks that get them late. So with the monoclonal
+
+33:16.560 --> 33:22.240
+ timing matters, I know a lot of centers closed down over the weekend. A bit of a tragedy right
+
+33:22.240 --> 33:27.520
+ person that's diagnosed on a Friday evening and they can't get treated until Monday or Tuesday,
+
+33:27.520 --> 33:34.400
+ right? So we really need to focus on timing here of the patients that received the monoclonals
+
+33:34.400 --> 33:40.960
+ in days one through three, none zero experienced disease progression. So sooner is better.
+
+33:40.960 --> 33:47.440
+ We're hoping this translates in the oral antiretrovirals as well. See my antiretroviral slit,
+
+33:47.440 --> 33:52.800
+ my world of HIV is coming back. But yeah, we're really hoping sooner can make more of a difference
+
+33:52.800 --> 34:02.720
+ than later. All right, everybody, MISC, MISC, and MISC-A, remember those multi-system inflammatory
+
+34:02.720 --> 34:08.800
+ syndrome? So we have actually finally got a little bit of guidance on treatment coming out
+
+34:08.800 --> 34:16.960
+ in a publication of peer reviewed article, IVIG compared to IVIG plus inflexumab in multi-system
+
+34:16.960 --> 34:22.080
+ inflammatory syndrome in children. This was published in pediatrics, the official journal
+
+34:22.080 --> 34:28.720
+ of the American Academy of Pediatrics. This was a retrospective cohort study of 72 patients with
+
+34:28.720 --> 34:35.920
+ MISC-C and they're looking at IVIG alone versus IVIG plus inflexumab, right? So this is going to
+
+34:35.920 --> 34:42.320
+ neutralize the TNF alpha. Basically what I'm going to just nutshell this here, they were looking at
+
+34:42.320 --> 34:50.800
+ better outcomes in the children that got remikade, the inflexumab added to their IVIG. They reported
+
+34:50.800 --> 34:56.480
+ that patients with MISC-C compared to those with IVIG alone were less likely to require any
+
+34:56.480 --> 35:03.040
+ additional therapy, decreased ICU length of stay, decreased development of left ventricular
+
+35:03.040 --> 35:09.200
+ cardiac dysfunction, more rapid decline in their C-reactive protein, so following inflammatory markers.
+
+35:10.400 --> 35:14.880
+ All right, a couple exciting things here on long COVID. I feel like I'm going a little long today.
+
+35:14.880 --> 35:22.320
+ COVID is not just a two-week viral illness for many people. First, as of October 1st, we now have
+
+35:22.320 --> 35:32.240
+ an official code for post acute sequelae of COVID-19. This is U09.9 post COVID-19 condition
+
+35:32.240 --> 35:40.720
+ unspecified. Going forward, we'll have subsets. Also some exciting data on the impact of vaccination
+
+35:40.720 --> 35:47.520
+ on long COVID, the article efficacy of COVID-19 vaccination on the symptoms of patients with
+
+35:47.520 --> 35:56.000
+ long COVID, a target trial emulation using data from the COM pair, that's capital P capital R,
+
+35:56.000 --> 36:03.440
+ E cohort in France. This was posted on Lancet as a pre-print. So the authors used data from this
+
+36:03.440 --> 36:10.880
+ long COVID cohort. This was a cohort in France. Vaccinated patients were matched to unvaccinated
+
+36:10.880 --> 36:17.280
+ controls in a one-to-one ratio by using their propensity scores. And they looked at outcomes
+
+36:17.280 --> 36:24.720
+ 120 days after baseline. They looked at the disease severity. So you have 455 patients in
+
+36:24.720 --> 36:32.560
+ the vaccine group, 455 in the control group, and what did they find? They reported that by 120
+
+36:32.560 --> 36:39.120
+ days, vaccination was associated with a reduction in long COVID symptoms. They saw double the rate
+
+36:39.120 --> 36:45.920
+ of patients in complete remission. They saw a reduced disease impact on patients' lives
+
+36:45.920 --> 36:51.920
+ and the proportion of patients with an unacceptable symptom score. So this is encouraging. Remember,
+
+36:51.920 --> 36:58.240
+ this is, and we probably will never get a randomized placebo control trial. There's always the concern
+
+36:58.240 --> 37:03.200
+ that there was some sort of a placebo effect. Also, people got vaccinated and unvaccinated.
+
+37:03.200 --> 37:09.280
+ They're not exactly matched. But this is something that is consistent with our clinical experience,
+
+37:10.000 --> 37:14.560
+ where we're treating hundreds, thousands of folks. And we're seeing this report
+
+37:15.920 --> 37:22.560
+ encouraging. But what about Beckadysm, right? That's what we scientists care about. We do want
+
+37:22.560 --> 37:27.280
+ our patients to get better, but we also like to know what is going on. And just, we're going to
+
+37:27.280 --> 37:33.360
+ close with a couple articles on some insights into mechanisms. The peer-reviewed article,
+
+37:33.360 --> 37:39.360
+ persistent clotting protein pathology in long COVID, post-acute sequelae of COVID-19, PASK
+
+37:40.160 --> 37:45.360
+ is accompanied by increased levels of anti-plasmid. Now, this was published in the Journal
+
+37:45.360 --> 37:51.520
+ Cardiovascular Diapatology. This is not a journal I usually read, and I'm not as familiar with some
+
+37:51.520 --> 37:58.000
+ of the platelet activation studies that they did. But basically, going through the suggestion here
+
+37:58.000 --> 38:05.440
+ was that hypercoagulability, a persistent hypercoagulability was being driven by inflammatory molecules,
+
+38:05.440 --> 38:12.080
+ circulating microclots, hyperactivated platelets, issues with the fibrolinic system.
+
+38:13.120 --> 38:18.320
+ And then the speculation here, which requires further study, is that with clotting pathologies
+
+38:18.320 --> 38:24.080
+ involved, maybe some anti-clotting therapies can have an impact on long COVID. So hopefully,
+
+38:24.080 --> 38:31.280
+ this will give us some sense of what to do going forward. COVID toes, right? Remember COVID toes?
+
+38:31.280 --> 38:36.560
+ I have special socks with COVID toes. The article Type 1 Interferon Response and
+
+38:36.560 --> 38:42.960
+ Vascular Alteration in Chilblain-like lesions during the COVID-19 outbreak was published in the
+
+38:42.960 --> 38:49.920
+ British Journal of Dermatology. This was an observational study conducted 9 through 16 April
+
+38:49.920 --> 38:58.880
+ 2020 at Son-Louis Hospital in Paris, France. 50 patients referred with chilblain-like lesions
+
+38:58.880 --> 39:05.600
+ were seen during the period of the COVID-19 pandemic included in this study. They were comparing the
+
+39:05.600 --> 39:11.200
+ skin and blood endothelial and immune cell activation in the chilblain-like lesions
+
+39:11.200 --> 39:18.640
+ in these COVID folks to seasonal chilblains that were cold-induced sporadic chilblains.
+
+39:18.640 --> 39:24.560
+ They reported that they found chilblain-like lesions were characterized in the COVID folks,
+
+39:24.560 --> 39:31.120
+ higher IgA tissue deposition, more significant transcriptomic activation of complement and
+
+39:31.120 --> 39:38.640
+ angiogenesis factors. They reported systemic immune response associated with IgA anti-neutrophil,
+
+39:38.640 --> 39:45.280
+ cytoplasmic antibodies and 73% of patients and elevated Type 1 interferon blood signature
+
+39:45.920 --> 39:52.960
+ compared to healthy controls. They found blood biomarkers which they reported related to endothelial
+
+39:52.960 --> 39:59.520
+ dysfunction and activation, angiogenesis, endothelial progenitor cell mobilization,
+
+40:00.160 --> 40:05.760
+ really supporting in their analysis a role for endothelial dysfunction in the chilblain-like
+
+40:05.760 --> 40:12.320
+ lesions. So very, very interesting. This is something that actually I think a lot of the nurses
+
+40:12.320 --> 40:16.960
+ noticed early on. They're spending a little more time than the physicians looking at the
+
+40:16.960 --> 40:22.080
+ patients, something that was seen in the outpatient setting as well. So just interesting that we're
+
+40:22.080 --> 40:27.120
+ starting to get a little science to maybe help us understand. I like to close by saying no one
+
+40:27.120 --> 40:31.920
+ is safe until everyone is safe. We are going to continue during the months of August, September
+
+40:31.920 --> 40:38.400
+ and October to donations made to parasites without borders, doubled and going to support
+
+40:38.400 --> 40:42.560
+ floating doctors with their efforts down in Central America. So drop what you're doing,
+
+40:42.560 --> 40:48.160
+ go to parasiteswithoutborders.com, click on donate and help us continue to do our work
+
+40:48.160 --> 40:53.680
+ and help us to support this organization. Time for some email questions for Daniel.
+
+40:53.680 --> 41:00.240
+ You can send yours to Daniel at microbe.tv. Lisa is a nurse practitioner, a pediatric nurse
+
+41:00.240 --> 41:06.080
+ practitioner who writes, I agree, kids are at risk. The decision made by adults responsible for
+
+41:06.080 --> 41:10.400
+ protecting them. Sadly, too often put them at higher risk than they need to be. While numbers
+
+41:10.400 --> 41:15.600
+ here in Florida are finally beginning to trend down, they remain much too high. We are in the middle
+
+41:15.600 --> 41:23.920
+ of a mask debate with a local chiropractor handing out blank, signed medical mask exemptions after
+
+41:23.920 --> 41:29.200
+ a very contentious school board meeting in which our county school board instituted a mask mandate
+
+41:29.200 --> 41:35.040
+ in defiance of our governor's ban on this. Parents continue to show up in front of our
+
+41:35.040 --> 41:41.440
+ schools with signs that making our kid wear masks is child abuse. Parents and children too often
+
+41:41.440 --> 41:47.760
+ refuse to abide by our request that they wear masks in our office. And now our new state
+
+41:47.760 --> 41:54.960
+ surgeon general who says he is rejecting fear over COVID mania has decided that as long as they
+
+41:54.960 --> 41:58.960
+ are feeling well, our school children, many of whom of course are unable to be vaccinated or
+
+41:58.960 --> 42:04.160
+ if they are able or not, no longer need the quarantine or test simply because they've been
+
+42:04.160 --> 42:11.120
+ exposed to this pesky little virus. I am curious as to your opinion on this brilliant public health
+
+42:11.120 --> 42:18.160
+ policy. Yeah, I'm horrified actually just to be frank. I mean, you know, when you see like the
+
+42:18.160 --> 42:22.880
+ movies, right, there's always like the physician who can outrank the general, you can't do that
+
+42:22.880 --> 42:29.520
+ because of this health issue and somehow in the real world. There's no under that outranking going
+
+42:29.520 --> 42:36.320
+ on. Yes, 18 months ago, there was this myth that started to be spread that children were not
+
+42:36.320 --> 42:41.280
+ at risk of COVID. Well, children don't get COVID. Well, they're not at risk of COVID. But now that
+
+42:41.280 --> 42:47.200
+ we saw children getting exposed to COVID, we saw hundreds of thousands of children getting infected
+
+42:47.200 --> 42:52.160
+ per week. We saw thousands of children ending up in the hospital. We see children, multiple
+
+42:52.160 --> 42:57.200
+ children dying every week. There really has to be a certain point when you start off with no
+
+42:57.200 --> 43:02.960
+ children are at risk of COVID, children can die of COVID, children can get hospitalized with COVID,
+
+43:02.960 --> 43:10.400
+ children can develop long COVID with long term disabilities. Yes, this is a horrible thing to
+
+43:10.400 --> 43:14.640
+ let happen to our children. And we don't really know what are going to be the long term effects
+
+43:14.640 --> 43:20.720
+ of having been infected with this horrible virus. The second is we do know things that work,
+
+43:20.720 --> 43:25.600
+ things that reduce our risk. You shouldn't have to choose between education and safety for your
+
+43:25.600 --> 43:29.760
+ children. A child shouldn't have to choose between education and safety. We know how to keep our
+
+43:29.760 --> 43:35.040
+ children safe. Wearing a mask is something that parents complain a lot more about than children.
+
+43:35.600 --> 43:39.920
+ A lot of children actually kind of like the masks with the different designs and maybe it's become
+
+43:39.920 --> 43:46.800
+ an accessory. I just really think we have to step back and take this out of the political arena.
+
+43:46.800 --> 43:51.360
+ This is not a partisan issue. This is not a political thing. This should not be something that gets
+
+43:51.360 --> 43:57.200
+ you reelected. What should get you reelected and what should get you support is protecting our
+
+43:57.200 --> 44:01.520
+ children, helping them get educated safely. And we know how to do that. We keep talking about all
+
+44:01.520 --> 44:07.120
+ the data behind that. Michelle writes, I'm in a quandary trying to decide what the best option
+
+44:07.120 --> 44:12.960
+ for my daughter is. She turns 12 in January. She's 61 inches tall, 150 pounds. So she's the size
+
+44:12.960 --> 44:18.160
+ of a small adult. She tends to school in which masks are only optional. Most kids are not wearing
+
+44:18.160 --> 44:23.200
+ them. My concern is whether to get my daughter vaccinated in late fall with the children's dose
+
+44:23.200 --> 44:30.720
+ or wait until January for the adult dose. Yeah, I mean, I have to say we've talked about this about
+
+44:30.720 --> 44:34.560
+ this is perfect, right? Is that person right on the line? There's going to be no judgment. It's
+
+44:34.560 --> 44:38.720
+ going to be this is the day it happens. But you know, this is even true with influenza. I have a
+
+44:38.720 --> 44:45.120
+ colleague who's a hematology oncologist and he was turning city turned 65 today. So happy birthday
+
+44:45.120 --> 44:51.920
+ Bruce. And Bruce went to get his hired dose because they're still using the egg based vaccine at the
+
+44:51.920 --> 44:57.600
+ healthcare system. So he wanted to get the over 65 high dose because they're not using the cell
+
+44:57.600 --> 45:02.880
+ based flu vaccine. And they said, I'm sorry, you know, it's Friday, your birthday is not until
+
+45:02.880 --> 45:10.240
+ Thursday. You can't get it today. You'll have to come back when you turn 65. So it's interesting.
+
+45:10.240 --> 45:15.520
+ People are pretty rigid about this stuff. The children all across look to be getting a really
+
+45:15.520 --> 45:21.280
+ robust response with the lower dose. I would say don't don't wait. Don't miss an opportunity to
+
+45:21.280 --> 45:26.640
+ vaccinate. Don't miss an opportunity to give your child that protection. If it turns out in the
+
+45:26.640 --> 45:33.600
+ future, you know, boosters are recommended for, you know, individuals as we get more information
+
+45:33.600 --> 45:39.520
+ about correlates of immunity. But yeah, let's I would encourage you to go ahead and when your
+
+45:39.520 --> 45:48.080
+ child is eligible, go ahead and get the proper dose for that age. Daniel writes in New South Wales,
+
+45:48.080 --> 45:53.040
+ Australia at the moment, there are a number of people in ICU and dying after full vaccination.
+
+45:53.040 --> 45:58.080
+ I know this is to be expected. But I feel that discussion of this is avoided and leads my older
+
+45:58.080 --> 46:02.560
+ friends, particularly to feel confused and helpless. All the people who have died here post
+
+46:02.560 --> 46:08.640
+ vaccine have been in their 80s and 90s. They have also all had other underlying issues.
+
+46:08.640 --> 46:13.520
+ But the underlying issues are never reported. My understanding of why this would occur at all
+
+46:13.520 --> 46:18.800
+ is that the individual was unable to mount an immune response to the vaccine. Not that the
+
+46:18.800 --> 46:25.360
+ vaccine has weakness, but the individual. Is this correct? Are these are there young healthy people
+
+46:25.360 --> 46:31.520
+ who make no immune response and are protected for some reason? Is there a specific list of age
+
+46:31.520 --> 46:36.880
+ plus underlying conditions that people can look at and clearly understand their level of risk?
+
+46:38.720 --> 46:44.400
+ So yes, I actually feel like you're right on with this. We talked about the vaccines reducing
+
+46:44.400 --> 46:49.360
+ your risk of death by, I'm going to say 30, right? We'll pick that as a number. You hate to pick one
+
+46:49.360 --> 46:54.880
+ study, but that seems to be reasonable. So if you went from your risk, you're 90 years old,
+
+46:54.880 --> 46:59.120
+ you're obese, you have diabetes, you have Down syndrome, right? Let's stack them all together.
+
+46:59.120 --> 47:06.080
+ If your risk was 60% that you were going to die if you got COVID, well, that you take 60
+
+47:06.080 --> 47:10.240
+ divided by 30, you still have a 2%. You still have a one in 50 chance of dying.
+
+47:10.240 --> 47:16.880
+ My wife and I were talking yesterday, we're out walking the dogs. And I was saying, Jessica,
+
+47:16.880 --> 47:23.440
+ when you get this reduction, so you've got your vaccine, you're now at 95% reduction
+
+47:23.440 --> 47:28.480
+ for ending up in hospital, when you started off, you're in your 40s, your ideal body weight,
+
+47:28.480 --> 47:32.800
+ you exercise, you have no, you started off with maybe a 1%, and now you're down to
+
+47:32.800 --> 47:42.960
+ 5% of 1%, incredibly low. So this is that risk reduction. People think, oh my gosh, 95% reduction.
+
+47:42.960 --> 47:47.760
+ That means 5% of people are going to end up in the hospital. No, you have to take your baseline risk,
+
+47:47.760 --> 47:53.360
+ and this is a reduction below that. So yes, we are going to see a couple people a day here in the
+
+47:53.360 --> 47:58.960
+ US, right? Large country who are vaccinated and still end up dying, but we're going to see thousands
+
+47:58.960 --> 48:02.960
+ who are unvaccinated end up in the hospital and dying. We're also going to see a certain
+
+48:02.960 --> 48:07.840
+ percent of people who are vaccinated end up in the hospital, but that's going to be a 30-fold,
+
+48:07.840 --> 48:14.160
+ or a 10-fold reduction in that number. So that's really, you're really hitting right on it.
+
+48:14.160 --> 48:19.200
+ This is a reduction in baseline risk. So yeah, who are going to be those people who still end
+
+48:19.200 --> 48:23.120
+ up in the hospital? It's going to be predominantly older individuals. It's going to be predominantly
+
+48:23.120 --> 48:28.320
+ individuals with a lot of comorbidities. And those people that do die, they're going to be those
+
+48:28.320 --> 48:36.160
+ individuals who have the highest risk factors. And finally, Helen is the parent of a 34-year-old
+
+48:36.160 --> 48:42.720
+ adult with down. She has had two Pfizer vaccines, wondering if there are any data on how well people
+
+48:42.720 --> 48:48.160
+ would down respond to the vaccines. The order is in a day program where everyone's vaccinated,
+
+48:48.160 --> 48:53.600
+ but she's still concerned. Yeah, no, that's an excellent question. And I think you hit on one of
+
+48:53.600 --> 48:59.120
+ the things that I touched on there. A down syndrome is a significant risk factor for hospitalization
+
+48:59.120 --> 49:03.920
+ and death. I think it's about a 10-fold. It was a British medical journal article in September,
+
+49:03.920 --> 49:07.920
+ where they were looking at these. Actually, it's a great article, British medical journal. I think
+
+49:07.920 --> 49:12.240
+ it was the 17th of September, the article came out, where they were looking at all these different
+
+49:12.240 --> 49:17.840
+ factors. Down syndrome was about a 10-fold increase risk of death. So when they talked about populations
+
+49:17.840 --> 49:22.400
+ that they felt were at increased risk, when they started talking about the Pfizer booster,
+
+49:22.400 --> 49:28.000
+ down syndrome was one of those thrown in there. So yeah, individuals with all these different
+
+49:28.000 --> 49:32.720
+ comorbidities, particularly down syndrome are at increased risk. What about response to the
+
+49:32.720 --> 49:38.160
+ vaccine? I haven't really seen any really good data looking specifically at individuals with
+
+49:38.160 --> 49:41.920
+ the down syndrome response, but put it in that context of the overall risk.
+
+49:43.440 --> 49:49.040
+ That's COVID-19 clinical update number 83 with Dr. Daniel Griffin. Thank you, Daniel.
+
+49:49.040 --> 49:54.240
+ Oh, thank you. And be safe. And I say that to all those kids have to go to school without masks.
+
+49:54.240 --> 50:19.680
+ Be as safe as you can.
+

@@ -1,0 +1,363 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv, this week in virology, episode 795, recorded on August 19th, 2021.
+I'm Vincent Rack and Yellow, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. Hey, Daniel, what do you think about
+boosters? You going to talk about that today? I'm sure that will come up, but an episode will
+not go by without discussing that hot topic. Every week, there's a hot topic, right?
+You know, I keep thinking that there's going to be some point in time when it just settles down,
+and I have nothing to say, and I look forward to that point in time. We're not there yet.
+No, but this is update number 76. Yeah, maybe at update 100, we will reach that point.
+Maybe that's optimism. When we get to clinical update 100, we'll see if I was optimistic or not.
+All right. All right, well, let's get fired up because we got a lot to do today, and I'll start
+with my quotation. There is only one sin, and that is theft. When you tell a lie, you steal
+someone's right to the truth. And I don't know if I'm going to pronounce this correctly, but this
+is by the author of the kite rudder, Kaleid Hasani. So maybe our writers can let us know if I pronounce
+that correctly. Actually, I'm a great fan of this man's work, his books, and this has really been
+a tough, really been a tough week, particularly in Afghanistan seeing what's happening there. So
+Hart goes out to all those individuals. Now, I'd like to say a single point does not make a line,
+so I'm going to keep building on the knowledge we have. But people know that here in the U.S.
+things are not going well in a lot of parts of the country, but let's start off with children.
+Children may be at low risk, but they are not at no risk, and I've added to this wearing a mask is
+less traumatic for a child than being hospitalized. I think we're all aware that there's actually
+been some rather odd behavior around this respiratory contagion and children. And we got the article
+Association of Age and Pediatric Household Transmission of SARS-CoV-2 Infection published
+in JAMA Pediatrics addressing some of the questions around children of various ages and
+transmission. And I must say, when I brought up this study, my wife was like, well, I can tell
+you what it's going to show. She was right spot on. So this was a cohort study where the authors
+looked at 6,280 households that had pediatric index cases and of these, well, about a quarter.
+So 1717 households, 27.3% experienced secondary transmission. So just to give you a sense,
+this is a household with a child with COVID at about a quarter of them, despite doing whatever
+precautions still had secondary transmission. So the authors reported that children aged zero
+to three. So they're going to break this down by different age groups. And this could be the
+question, who's going to be the highest rate of transmitting? So they're going to use age 14 to
+17 as our sort of reference, our adolescents 14 to 17. And then we're going to compare
+different age children to those folks. So looking at the zero to three years,
+these individuals, the youngest, had the highest odds of transmitting SARS-CoV-2
+to household context. Their odds ratio relative to the 14 to 17 was 1.43. And this association
+was similarly observed in sensitivity, looking at secondary cases. And so basically going through
+the older the kids were, when you got to four to eight, you had a slightly lower, was 1.4,
+when you got up to the nine to 13, when you got up to these older. So the highest transmission
+was in the youngest individual. So there's been this odd idea that I think our listeners are
+probably aware of this odd idea that somehow children can't get COVID and that they can't
+transmit, can't transmit the virus. So this is just basically letting us know that, yes,
+if children do get infected, they can transmit it in the household context.
+Now I'm going to move on to our testing transmission area. And I like to just remind people, I was
+in the Brian Lair Show a couple days ago. And there was a whole question about rapid antigen
+testing. Are we done with that? And just another study to remind people of how useful rapid
+resulting tests can be. And this was the report use of rapid antigen testing for SARS-CoV-2
+in remote communities, looking at Yukon, Cuskquim, Delta region, Alaska. And they looked at the
+period of time from September 15, 2020 to March 1, 2021. And here, no surprise, the authors reported
+that the introduction of rapid point of care antigen testing in this region was followed by
+more than a threefold reduction in daily SARS-CoV-2 case rates. And this gets back to something
+we've been talking about for well over a year now. And it's that one of the great things about
+these point of care antigen tests is you get a result right away. You can quickly remove an
+infected person from the transmission cycle, where particularly you look at an area like
+remote Alaska to get a return PCR result can actually take a significant amount of time. And
+during that time, that individual can continue to transmit the virus. And we still have on our
+parasites without borders that calculator, where you can look at different sensitivities, different
+approaches. And one of the things I was talking about is a lot of people have started to say,
+this is not true, but they do say it, that, oh, these rapid antigen tests, they don't work for the
+Delta variant. But remember, the Delta variant has some changes in the spike protein, still plenty
+of nucleocapsid being produced. That's the protein we're picking up with these tests.
+Are they 100% sensitive? 100% sensitive? No. But are they 80 or 90% sensitive when properly done?
+Yes. So, you know, four out of five times, you're catching that person right away in 15 minutes.
+If you're still concerned, you can still send off that secondary test. So it makes a lot of sense.
+If they're positive, great. You can immediately intervene. If they're negative, and it doesn't
+make sense, or you want to have a higher sensitivity, you can always add a PCR on top of rapid testing.
+Now, in the MMWR, I'm sure Vince is going to jump in on this one.
+Shedding of infectious SARS-CoV-2, despite vaccination when the Delta variant is prevalent,
+Wisconsin July 2021 was posted as a preprint. Now, it was told to me, and I didn't actually see
+this initially, but this was sort of tweeted my way that initially this was posted with the B-Wirt,
+and they updated it because they knew that we would find that B-Wirt offensive,
+and they decided to use a much more appropriate term, just infectious cases in vaccinated
+individuals. So I have that on unreliable authority. I probably should have asked one of the authors
+when I was emailing with him. But in this report, in this preprint using PCR cycle thresholds,
+CT data, they actually went ahead and they looked at, can we actually culture
+virus from these individuals? And they report that, yes, in the majority of individuals
+with CT values less than 25, whether vaccinated or unvaccinated, they were able to actually culture
+virus. So they did this in Vero cells. They report in Figure 2 that they were able to see
+cytopathic effects after five days of replication in the Vero E6 TMPR SS2 cells.
+But we don't get any quantification. And that's really what I was hoping because
+the really question is, does this add anything? We know that vaccinated people can get infected.
+We know that vaccinated people can transmit. So we already sort of knew going into this that there
+had to be replication, competent virus there. The real question is, do those CT values mean
+the same thing in a vaccinated and unvaccinated person at one point in time? Because we do know
+that that CT value drops more quickly in vaccinated individuals. So I reached out to Dave O'Connor,
+who actually was on Twiv 260 with Thomas Friedrich. So I'll call them your colleagues. I don't know
+if you guys are friends. And I really wanted to know a couple of things. Hopefully we could
+start using the terminology viral RNA load instead of just viral load, because we don't know if this
+is virus. We know it's RNA load. But I still really want to know the quantification. So Vincent,
+I thought you would have comments on this paper.
+I think this is almost criminal to publish, because as you say, they simply take the
+nasopharyngeal wash and throw it on cells and culture, and they get infection. There could be
+one pfu in the vaccine sample and many more in the unvaccinated sample. So the authors say,
+our data substantiate the idea that vaccinated individuals who become infected with Delta may
+have the potential to transmit. Actually, it doesn't substantiate it at all. It makes no
+conclusions possible. And I'm really surprised that they're trying to publish this. And you know,
+the problem, Daniel, is it's a nuance that the mass media is not going to pick up. And that's a
+problem. Yeah, I mean, this is the we've entered this different world, right, the world of preprints.
+And I did reach out to Dave O'Connor. He emailed me back that they are going to actually are in
+the process of looking at the quantification of the cytopathic effects. And that's really what
+you need. So this, yeah, by the time it gets published, we'll have that. The only problem in
+and I agree with you in the preprint world. And I've been sort of glad the media hasn't jumped too
+much on this. This quickly becomes confirmation of this idea that vaccinated people are driving
+the pandemic that vaccines are failing. And none of that is true. We are still seeing
+vaccines are incredibly effective. And we'll get into that as we discuss
+boosters when we get into active vaccination. So all right, I will return to this paper. I hope
+when we have some quantification data there, but the sky has not fallen. Well, on the 12th day
+of August 2021, the FDA said let there be boosters. And so they went ahead. The US FDA amended the
+emergency use authorization for both the Pfizer by and tech COVID-19 vaccine and the Moderna COVID-19
+vaccine to allow for an additional dose in certain individuals. Now, what did I like about this
+announcement? Well, what I liked Vincent and listeners is that when they did this, they threw
+a line in where they said it is recommended that immunocompromised individuals discuss
+monoclonal antibody treatment options with their health care provider should they contract or
+be exposed to COVID-19. So what do we do have great science that an individual who gets infected,
+who is at high risk if they get the monoclonal antibodies that this really is associated with
+a reduction in their chance of a bad outcome. But do we know whether or not a third dose of
+vaccine will give them benefit? And I'm going to say as we move forward, I'm going to return and
+again say that we are still lacking that data. Yeah, we can get some antibody levels a bit higher,
+but what does that really translate into? So who are these individuals who are now eligible?
+And many of the states have already jumped on. And as of Monday, this has been happening in
+several states. The CDC is recommending that moderately to severe immunocompromised people
+can receive an additional dose. And this includes, I'm going to give the six categories.
+One, been receiving active cancer treatment for tumors or cancers of the blood.
+Two, received an organ transplant and are taking medicine to suppress the immune system.
+Three, received a stem cell transplant within the last two years, or are taking medicine to
+suppress the immune system. Four, moderately or severe primary immunodeficiency. Let me give
+some examples, advanced or untreated HIV, or active treatment with high dose corticosteroids,
+or other drugs that may suppress your immune system. Now, we do hear that on the 20th of
+September, that week, booster is going to be rolled out to the entire population that's eligible
+in the US. But if you look at these six categories, this is actually a very small subset. This is
+not I'm 65 and overweight. This is not I have multiple medical comorbidities. These are really
+severely moderately to severely immunocompromised people that have been added now.
+And then again, the suggestion is that the third week of September, this will roll out to a larger
+population. And don't worry, I'm going to hit some of the studies that supposedly support this
+concept. Lots of vaccine mandates on April. So there was a new vaccine mandate for New York State.
+And this came out on, I say April, but it's actually August 16th. I'm going to update that.
+All healthcare workers in New York State will be required to be vaccinated by Monday, September 27th.
+And this will include staff at hospitals, long-term care facilities, nursing homes, adult care,
+and any other congregate care settings. And there will be certain vaccinations limited for
+religious and medical reasons. But remember, those medical reasons are incredibly limited.
+Basically, it's a person who had an adverse reaction to this vaccine, or one of the components of
+this vaccine. It's not I have lupus. It's not I have high blood pressure. It's not I'm allergic
+to bees or talcum powder. The medical exceptions are very narrow. So I know there's already a lot
+of people running out to see if their family doctor will write them a note. Those notes really
+are not going to mean much unless you have had an anaphylactic serious reaction to a component in
+these vaccines. What about vaccines and variants? Who's to blame? That's what we like to do as a
+society. Along the lines of no one is safe until anyone is safe. There was a preprint that I found
+rather interesting. And this was full vaccination suppresses SARS-CoV-2 delta variant mutation
+frequency. And it wasn't frequency. So just full vaccination suppresses SARS-CoV-2 delta variant
+mutation frequency. Now, the authors analyzed SARS-CoV-2 delta variant sequences from Australia,
+France, Germany, Indonesia, India, Ireland, Israel, Italy, Japan, Mexico, Netherlands, Norway, Portugal,
+Singapore, Spain, Switzerland, Sweden, Turkey, the US and the UK. There was a lot of data. This
+all came from the global initiative on sharing all influenza data. So this is the G said G-I-S-A-I-D.
+And they had a number of different variant sequences. And they did. I don't know if anyone's
+familiar with the Tahima D test. I lit that up. This was new to me. But really, I thought it was
+interesting. In Figure 1, they show a mutational frequency on the y-axis. They show the fully
+vaccinated rate. Really areas with high mutational frequency had low fully vaccinated rates.
+Areas with low mutational frequency had lower fully vaccinated rates. This makes biological
+sense. The more you give the virus a chance to replicate, you would expect higher mutational
+frequencies. But I don't want people to run out and start yelling at the unvaccinated people
+claiming that they are a menace to society based on this one paper. But it is an interesting
+report. Vincent's got his hand up. Jump in, Vincent.
+Actually, an incorrect interpretation. The mutation frequency is not affected,
+because the mutation frequency of the virus is a constant. What is affected is selection
+out of that pool of variants of ones with changes, depending on the factors that they
+look at in this paper, vaccination in this point. It is not correct that vaccination
+suppresses the mutation frequency. It suppresses the number of changes that you see ending up in
+spike as a result of selection. Does it make sense? It makes a lot sense, because this is really
+not looking at the mutational frequency as far as occurring. It is looking at an end product.
+Exactly. I am sorry to keep in trouble. No, I think that is helpful.
+Because I have a lot of questions from people. How do the mutation frequency is affected?
+No, no, no, no, no. It is not.
+I would like to, maybe we could say this is you get to roll the dice less.
+Still get against the same number of you. All right. Now, boosters. This is the only reason
+Vincent is here today. No, no, no. I am here every week for the same reason.
+So this is the special secret data that we were, we were not allowed to know about,
+but now it's being shared with us. So there were several, several reports that came out.
+So one came out in the MMWR, effectiveness of the Pfizer, BioNTech, and Moderna vaccines
+in preventing SARS-CoV-2 infection among nursing home residents before and during widespread
+circulation of the SARS-CoV-2 be 1617.2, the Delta variant, National Healthcare Safety Network,
+March 1 through August 1, 2021. So this is an MMWR early release. And it's interesting,
+I had a discussion with one of my colleagues about what were MMWRs? What were MMWR early releases
+before the pandemic? Really, was there many people other than me and my infectious disease
+colleagues that looked at these? And now they've become primetime. They're sort of being asked to
+be something they weren't before this. And we'll get into that whole idea of asking something to be
+something that it was not asked to be before. But in this weekly report, they looked at data
+that was reported to CMS Centers for Medicaid and Medicare, certified skilled nursing facilities
+or nursing homes. This was the National Healthcare Safety Network and analyzed to evaluate. And
+this is interesting, the effectiveness of full vaccination with any of the two currently authorized
+mRNA COVID-19 vaccines on effectiveness against infection, right? So this is where we're suddenly
+asking vaccines to do something quite different. And so using 17,470, so I'm going to try that again,
+17,407 weekly reports from almost 4,000 facilities from the pre-Delta period, adjusted effectiveness
+against infection for any mRNA vaccine was reported to be 74.7%. They then followed it up with this
+intermediate period where they reported it was 67.5. And then they looked at 85,593 weekly reports
+from 14,917 facilities during the period when the Delta variant was becoming prevalent.
+And here they reported an adjusted effectiveness against infection of 53%.
+And they say this was similar for Pfizer, BioNTech, and Moderna. So the point I want to make,
+and I'm Vince and I am sure you will jump in on this. So I'm already prompting you to do that,
+is I was asked by someone today, said, I was watching a Fox News report and they're saying,
+oh, these vaccines, look at this. If you had a vaccine that was as crummy as this, what would
+you do? And I wanted to point out to this gentleman, we are suddenly asking the vaccines to do
+something that the vaccines were not necessarily designed to do. We designed these vaccines.
+Vaccines traditionally have protected us against disease, against serious disease ending up in
+the hospital, dying. Suddenly these vaccines have a new superpower. They are actually protecting
+people. They are effective against infection. I mean, this is tremendous and continues to be
+tremendous. So I don't walk away with this being being worried. And now maybe we're saying we want
+them to do this new superpower even better. And so we're asking if we give a third dose,
+can we do even better effectiveness against infection? But this is not failure. This is actually
+vaccines with a new superpower being asked to do even more. So Vincent, I don't know if you had a
+comment. Well, the problem here is that, as you said, they're looking at infection. And the
+infection efficacy declines because serum antibody declines after vaccination or infection. It always
+does. It's not surprising. We just for other vaccines, we never really looked at infection.
+We just looked at disease. And that's how these vaccines were tested. They do note this analysis
+assessed VE against infection without being able to distinguish between asymptomatic and
+symptomatic presentations. Additionally, valuations are needed to understand protection
+against disease and nursing home residents. That's the key. And I bet it's not declining,
+as you're probably going to tell us from some other studies that came out in the same issue.
+Yes. So let's hit this a couple others, which I think are reassuring because there were a couple
+other releases. So one was new COVID-19 cases and hospitalizations among adults by vaccination
+status New York May 3rd through July 25, 2021. And so this is looking at real world effect of this,
+the general population here in New York. And these authors link to information from four
+large databases to construct a surveillance based cohort of adults age greater than or equal to 18
+years residing in New York. And they found that new COVID-19 hospitalizations were 0.17 per 100,000
+person days in the fully vaccinated compared with 2.03 per 100,000 person days among the unvaccinated.
+And they concluded that the overall age adjusted vaccine effectiveness against hospitalization in
+New York had remained relatively stable, 91.9 to 95.3%. I mean, so I have to say, this is what the
+vaccines were designed to do. They continue to be highly effective in preventing hospitalization
+greater than 90% for fully vaccinated New York residents, even during a period when the prevalence
+of the Delta variant increased from less than 2% to greater than 80%. And when so many of the
+non-pharmaceutical prevention strategies, the societal public health restrictions were eased.
+So getting rid of the mask wearing, cranking those restaurants back up to 100% capacity
+and the like. And a hand is up for Vincent Rackeniello.
+And the same period when the hospitalization against hospitalization was steady, the VE against
+infection went from 90 to 80% of decline. So it just goes to show a decline in preventing infection
+doesn't matter. They know how to do it in New York state. Maybe you were involved with this
+because it's done right. Now, along these same reassuring lines, I'm going to give you a third.
+So hopefully people are going to walk away. Dr. Griffin, you started so for Lauren, but now
+you're giving us good news, sustained effectiveness of Pfizer, biotech, and Moderna vaccines against
+COVID-19 associated vaccines among adults. And this is United States March through July 2021.
+And this is not just in New York, but here the investigators found again, the vaccine
+effectiveness was 86%, two to 12 weeks after vaccination, 84% at 13 to 24 weeks. Really,
+the vaccine effectiveness was sustained among groups at risk for severe COVID-19. So a second
+study looking at a different population continuing to have some really reassuring.
+So here's the big question. Where's the science? Why are we giving everyone third doses? Are we
+just going to bump anybody levels? Do we really have evidence that this will translate into
+real world benefit, keeping people out of hospital, keeping people from dying, keeping people from
+getting sick, keeping people from ending up with long COVID? That's data we still need.
+So booster or not, Daniel? You know, you know, Midston, I actually had a sleepless night about
+this the other day because, you know, it came to me sort of this issue of I say, Oh, Dr. Griffin,
+you're eligible for a third shot. Do you want one? And there really is this sort of embarrassing
+equity issue, right? I mean, I feel like I'm at the family table, you know, and Uncle John,
+you know, just showed up and, you know, and he hasn't gotten a first portion and they want to
+know if I want to get, you know, thirds. And I actually, I have to say, I feel a bit embarrassed
+about the global vaccination rollout and this whole concept that without, you know, data,
+like, well, what benefit are we really getting, particularly when it rolls out of someone I like
+to think of myself as young and healthy? Do I really need that third shot? I mean, if it's going
+to go in the trash, if they're like, hey, Dr. Griffin, you know, we had a no show and we're not
+sure what to do with this. Okay, that's that's a different scenario. But the idea that we're
+going to keep buying hundreds of millions of vaccines that we're not going to somehow modify
+our bureaucracy and share, you know, we're in a global pandemic. It's time for the bureaucracy to
+add and people to be a little more reasonable. So can I ask you, Daniel, though, let's say we
+did give a third dose. I presume within eight months, the levels of antibodies are going to
+wane again. So are we going to give a dose every eight months? Is that the plan?
+That sounds like the current plan. Sounds like where we're headed every eight, you know, maybe we'll
+do it every six because who can keep track of every eight? But yeah, I don't understand the,
+you know, and I, you know, to bounce back to Afghanistan. What's the end game? What are we doing?
+Where are we going with this? Are we going to just keep every six months? And after a while,
+you're going to have to start wondering what's the safety, you know, profile of we keep doing this
+every every six months, every eight months, you know, with the influenza vaccine, it doesn't even
+work well when you have to get everyone back every year for a new shot, right? It's the update is
+very low. So I think it's a public health problem. Yeah. And from a public health problem, what is
+fueling this pandemic? Not people failing to get a third shot is people failing to get the first
+to exactly that. I think we should push to get people vaccinated, not to give those who are
+already ever vaccinated a third shot. That's crazy. Oh, well, all right. So the period of
+detectable viral replication, the viral symptom phase, right? This is that that first week for
+most people. It's when people start to feel crummy. Maybe they had an exposure. What I like to say,
+the time for monitoring and monoclonal is not the time for antibiotics. You know,
+we've had a lot of enthusiasm about convalescent plasma. And the article early convalescent plasma
+for high risk outpatients with COVID-19 was published this week in the New England Journal
+of Medicine. This is the siren three CPO study. And there were 511 patients enrolled in the trial,
+257 in the convalescent plasma group, 254 in the placebo group. The median age was 54.
+The median symptom duration was four days, right? So they're doing it the right way.
+The mean titer of SARS-CoV-2 neutralizing antibodies was 1 to 641. So high titer
+neutralizing antibodies given early. Disease progression occurred pretty much the same,
+about 30% in people in the convalescent plasma group and in the placebo group. Now,
+five patients in the convalescent plasma group died, only one in the placebo group.
+Now comes regarding worst illness severity, hospital-free days, really similar in the two groups. So
+just another study, early administration of high titer convalescent plasma for the treatment of
+COVID-19 obtained from blood donors who recovered from the coronavirus disease 2019 was not helpful.
+I sort of want to leave that there. I know there's a lot of enthusiasm. We've done a lot of the
+science and the science does not support this intervention. Now, I am going to try to keep
+this short today. We have a few emails. So I'm going to wrap up here just with really a couple
+concluding thoughts. One is, as I continue to say, and we've bounced into this, no one is safe
+until everyone is safe. We really need to figure out what's going on with the global vaccination
+approach because it is falling flat. We are going to continue during the months of August,
+September and October, to support floating doctors. We're hoping to give them a donation up to $40,000
+to support their work down in Panama. We were able to get that support out to them, Rick,
+and got a nice thank you photo from my friends in Uganda, where there is not a lot of vaccines,
+where there is not a discussion of third doses. And so I want to thank all of our listeners for
+continuing to support us, continuing to go to parasites without borders to donate, and to help
+us with this work. Dan, you mentioned the Afghanistan situation. I assume nobody's getting vaccinated
+there at these days, right? It is a problem. It's a problem. Yeah. People are concerned about
+getting out, right? Yeah. I mean, it's really a humanitarian disaster we have right now,
+and vaccinations are certainly not part of that. Yeah. Time for some email questions for Daniel.
+You can send yours to Daniel at microbe.tv. We have one from Pear, who writes,
+my daughter is a kidney transplant recipient, has recently been through lymphoma,
+and barely has any B cells, thanks to retuximab. She's, however, on intravenous Ig therapy,
+and I'm wondering, would that now confer some level of immunity against COVID? I found a few
+papers commenting that there are common COVID antibodies in common IVIG, but I haven't been able
+to find any information about if they confer any level of real life protection. I guess,
+in an ideal world, she would be a recipient of monoclonal antibodies, but unfortunately,
+we don't live in the US and they're not available where we live. Yeah. So just to give our listeners
+maybe a little bit of background. So the whole concept here is this is an individual who cannot
+make their own immunoglobulins or own antibodies. And so the IVIG treatments periodically, you're
+giving this individual donated immunoglobulins from other individuals. Now, if those other
+individuals perhaps have been vaccinated, and we're starting to see this now, that people who are
+donating IVIG have been vaccinated, and in that IVIG are actually some of these protective antibodies
+generated by vaccination or maybe prior infection. So that's helpful. I don't think we'll end up
+doing like large scale studies, but a lot of the mechanism here just makes sense. The next thing
+that would make the most sense is these are individuals who, if they were in the right setting,
+could receive monoclonal antibodies. So that's being studied here in the US,
+that's an expensive option, but IVIG is not cheap. But yeah, I think you're thinking this
+through properly. Gene from London, by the way, discovered Twiv from your appearance on the Brian
+Lear podcast, Daniel. So that's great. And she says, I never use the B word or the words viral load,
+I distinguish infection from disease. So we're teaching them Daniel, that's great.
+But we did make a mistake. And it's actually my fault. And several people have pointed this out.
+I'd like to say it's carbon dioxide that we need to measure for indoor air quality
+relating to COVID. And I had said carbon monoxide, of course, carbon monoxide would also be a serious
+concern for air quality. I've implemented CO2 monitoring in my office as a proxy for
+understanding ventilation levels. It's part of our layered mitigations, which include vaccination
+masking hand and respiratory hygiene, reminding people to stay home if unwell. So that was my
+mistake. Because you had said, what are those monitors? And I said carbon monoxide and a bunch
+of people wrote in to say, no, no, no, it's carbon dioxide for that. Yeah, I don't know if you noticed
+Vincent from there on out, I just kept referring them as the monitors and not correcting it.
+Because you know, it's what you can correct me. It's no problem. Like how many people.
+I like what our listeners write in. All right. And the last one is Thomas, who's up in Alberta,
+Canada. I would like your thoughts on the anticoagulation issue you spoke about in the last
+clinical update where the one arm of the paper in New England Journal for critically ill patients
+showed no benefit with therapeutic anticoagulation. But the other arm, which wasn't highlighted in
+the update of non critically ill patients, which would be a large proportion of hospitalized patients
+did see benefit with therapeutic doses of LMWH. What is the standard of care for non critical
+COVID-19 hospitalized patients in your community as it relates to anticoagulation?
+Certainly. So the LMWH, that's low molecular weight heparid or anoxaparid is kind of the
+common one that we use. You know, there's there's a balance here. If you do nothing,
+people who have COVID-19 are at a higher risk of developing clotting complications,
+both venous and arterial. And I said on the American Society of Hematology,
+guidelines panel where we keep reviewing all the literature here. So I like to think that our
+treatment is sort of up with the literature. And the baseline recommendation across across the bat
+is anyone with COVID-19 who requires hospitalization and the associated immobility is put on prophylactic
+dosing anticoagulation. If you escalate that, okay, maybe you're going to have a reduction in the
+amount of clotting complications, but it is looking particularly as this study pointed out in critically
+ill patients that you're going to increase your risk of major bleeding. Now what is major bleeding?
+And that's tough. Is it a gastrointestinal bleed with about a 20 to 30% risk of death?
+Is it an intracranial bleed with the associated neurological impact? Is it a retroperitoneal
+bleed that we can transfuse through? So that that's really the balance here. So our standard
+is everyone comes in prophylactic dosing anticoagulation, vigilance to make sure that they don't have a
+clotting complication. And then sort of a case by case basis considering is there a reason to
+escalate in this individual? Daniel, what's on your bow tie today? I can't quite see it.
+So today is Clostridium difficile. Wow. So it's a gram negative. This is that antibiotic
+associated diarrhea from people using using too many antibiotics. I'm very happy that both
+ties represent all microbes. Try to be try to be an equal opportunity bow tie pathogen wearer.
+That's COVID-19 clinical update number 76 with Dr. Daniel Griffin. Thank you, Daniel.
+Oh, thank you. And everyone, including you Vincent, be safe.

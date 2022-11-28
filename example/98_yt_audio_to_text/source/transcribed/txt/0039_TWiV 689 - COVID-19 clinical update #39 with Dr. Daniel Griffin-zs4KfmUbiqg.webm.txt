@@ -1,0 +1,393 @@
+This week in virology, the podcast about viruses, the kind that make you sick.
+From Microbe TV, this is Twiv. This week in virology, Episode 689 recorded on December 3, 2020.
+I'm Vincent Racken Yello, and you're listening to the podcast all about viruses. Joining me
+today from New York, Daniel Griffin. Hello, everyone. Vincent, do I say hello everyone or
+hello everybody? I think I alternate, right? I don't think it matters whatever you feel like
+on a given night. Yeah. All right, so let me start. I was emailing with my buddy, Peter Hotez,
+earlier today. And he was on the recent, what was it, stick to the Vax? I think that was a
+pun on stick to the Vax maybe. Peter Hotez, I'm going to, I'm going to put a disclaimer right up
+front. So, you know, this is similar to what you might hear when you get on an airplane. And they
+say, you know, this flight is headed to San Francisco. So if that is not your final destination,
+you might want to get off now. Right. And, you know, it may seem a while ago, but you know,
+when we started these, it was actually, I had come to Vincent, our listeners may not know this
+backstory. But we were trying to keep all the, all the physicians here in the New York Tri-State
+area updated on, you know, what we were learning, what was happening. And Vincent very generously
+sort of offered this forum as a chance for us to sort of once a week share that knowledge.
+So these updates started back in March. And it was all about, you know, what we were learning
+about COVID, the therapeutics, what we were seeing firsthand as practicing clinicians.
+So, you know, it's really what we're here to share is the truth of what we're seeing. There's
+no real agenda here. We're not trying to grow any audience. At some point, maybe Vincent will
+kick me off if, you know, no one wants to listen to me anymore. But this has been, I think,
+a tremendous service. So I want to thank Vincent for that. But I will say this is, there's no warm
+soup here. I'm not here to make these difficult times easier. I'm just here to basically share
+what's going on, what we're learning, the cold, hard truth. Oddly enough, I think some anti-vaxxers,
+I've been told the word trolls is applicable here at times. But, you know, for the next 30
+minutes, we're not going to talk about anti-vaxx theories. So if you tuned in accidentally to the
+wrong podcast, this might be time to jump off the next 30 minutes, you're never going to get them
+back. So, you know, spend them well. Okay. Now that I have made my disclaimer, my quotation,
+one ought never to turn one's back on a threatened danger, but to try to run away from it. If you
+do that, you will double the danger. But if you meet it promptly and without flinching, you will
+reduce the danger by half. And can people guess who that's, that's Winston again. I like Winston
+Churchill. Now, these are, these are dark times already. People keep saying, oh, we've got a dark
+winter ahead of us. But you know, there are over 100,000 Americans in the hospital right now with
+COVID-19. And, you know, yesterday, the numbers were almost 3000 today, we have over 3000 people
+who died here in the US of COVID-19. We've reached capacity at the hospitals here in New York.
+You know, I got a alert from one of the hospitals yesterday, you know, we have, you know,
+numbers of people stuck here in the ER because there's no open beds. The ICUs are overflowing
+into the other areas. This is not a great sign. I mean, we are not even seeing the post Thanksgiving
+search. So just want people to sort of think about when they're making their decisions. We are as
+bad right now as it has ever gotten. More people died today than have ever died in a single day
+from COVID-19 here in the States. More people are in the hospital right now with COVID-19 than ever.
+So really think about that. All right, let's move through our phases, our pre-exposure period.
+A little update here for our clinicians. I got a lot of questions about this. New York has now
+recommended broader use of eye protection. And I know we've talked a little bit about the science
+behind this. You know, it takes a little while for the recommendations to catch up with the
+science, but New York State Department of Health now strongly recommends universal use of eye
+protection by healthcare personnel for all patient interactions. And this is in addition to the
+face masks. And I got an email sort of asking about this and it was entertaining. So it was a whole
+loop. You know, it was a number of clinicians in a clinic and one of them emailed me saying,
+you know, we only do well visits. We don't let people come in if they're sick and not sure if
+this really applies to me. And so I responded back and said, you think they're well visits.
+But you know, what percent of those people are pre-symptomatic or asymptomatic? And that's
+really the thing. If you get a call the next day and they say, you know what, I wasn't feeling 100%
+when I saw you. And today I just got a test. And you were not wearing your eye protection.
+That's a potential exposure. So, you know, this is really moving into a universal precautions
+approach, at least for the foreseeable future here. You know, for front facing healthcare workers,
+we'll talk about why there is a finite period of time that we're going to need to be practicing
+this really high level of caution. But universal recommendation here in New York when clinicians
+are interacting. And I extend this to all staff. When you're within that six feet, when you're
+going to potentially be at risk, protect your mouth, protect your nose and protect your eyes.
+People are still taking zinc, vitamin D, vitamin C. This all seems fine. And there was a nice
+article in nature, analysis of vitamin D levels among asymptomatic and critically ill COVID-19
+patients. And it's correlation with inflammatory markers. But you know, I'm going to sort of push
+out here again, say we really need to do some randomized control trials. I mean, we currently
+in the US spend over a billion dollars a year, over a billion dollars a year on vitamin D supplements
+and testing. That's a lot of money. It would be nice to know, like, you know, is that being,
+is that well spent money? So, you know, if it's not, then you could give a little bit of that,
+you know, Vincent in the lab. So, you know, or support micro TV. But no, it's, it's important.
+You know, we do a lot of, we do a lot of studies looking at, you know, small molecule inhibitors,
+pharmaceutical agents. Vitamin D is something a lot of people take for a lot of different
+reasons. It would make sense to really understand its role in COVID-19. I also want to talk about
+testing here, right? This is hopefully the pre-exposure period. Hopefully you haven't been
+exposed yet. And we really ramped up testing over the last couple weeks here. I was doing in
+one of those, I call them the microphone bokeh interviews this morning. You know,
+you've got a whole bunch of microphones and, you know, you're not sure who you're talking to,
+but you look at the, the sea of cameras. And we were talking about what we've done with
+rapid testing in the last few weeks. You know, and I was there with Bonnie Simmons. She's the
+head of our Tri-State Urgent Cares. She's my buddy, Adam Fitterstein's boss. And she just, you know,
+she always wonders, again, you know, ever I call you pick up the phone, I'm like,
+Bonnie, you're kind of a hero of mine. You know, you really allowed us to make this happen,
+all this rapid testing. And what we saw right before Thanksgiving is a lot of people were going
+and getting tested. A lot of people with asymptomatic and presymptomatic infections were being picked
+up, diagnosed, sort of pulled out, contact tracing, and then those people were being picked out. And
+I really think, you know, we were, we were saving lives here. We were detecting people
+before they went to those gatherings. We were picking up who else was infected that they were
+interacting with. And so this is really, really taken on and people are realizing the utility.
+You know, two days before symptoms, five days of symptoms, the rapid test gives you a result in
+about 15 minutes has really been tremendous. This is free, right? This is something that we,
+you know, as a society are picking up. This is not something we charged people for.
+And I was there this morning. It was quite cold. And there were two lines of cars, you know,
+and just sort of going around the quarter. And these were all people that were basically driving
+up, getting swab, they would then drive on. And by the time they got to work, school, home,
+they would be alerted by the results and basically told like, you know, if you just got to work,
+stay in your car, turn around, go home. Or otherwise, all right, you're clear and can move forward. So
+so much more helpful than, you know, finding out in four or five days after you've exposed
+people that oh, by the way, when you went to that Thanksgiving dinner, when you went to work, when
+you went to school, you were shedding fire really embracing this. And a lot of people are moving
+in this direction. Now vaccines. All right. I'll call this better than vitamin D, right? If you
+have a choice, a good vaccine or vitamin D, I'm going with the vaccine. I might also, at some
+point remember to take some of that vitamin D that's still sitting on the shelf in my medicine
+cabinet, only growing in value, I'm sure. So we got more information. And it's always amazing as I
+was like, how is this really only the last week? It always seems like old news, but we got more
+information on the Moderna vaccine. And Moderna has now applied for EUA for their vaccine. And some
+of this was covered in the previous 12. So listen for more in depth there. But what do we as clinicians
+are going to bullet point this? Moderna reported a vaccine efficacy of about 94.1%. And if you
+looked at the secondary endpoint, severe disease, 100%, no one who received the Moderna vaccine ended
+up requiring an ER visit or hospital care. It also was reported that the vaccine was well tolerated.
+There were no serious safety concerns. And I'll sort of make the point here, the difference
+between reactogenicity and severe adverse effects. You get the vaccine, feel a little under the
+weather for a day or two. Shane Crotty has been tweeting out. I've been retweeting this. It's
+the rock, Dwayne Reed, the rock. And he goes to the gym. And he's really sore the next day. That's
+kind of what it's like. That's the reactogenicity. That's your immune system learning. And then
+you move forward, but no serious safety concerns. And now we have about 70,000 people that have
+been vaccinated. We've got months of this. So we've exceeded two months of median follow-up
+post vaccination as required by the US FDA for the EUA. So we'll be seeing that reviewed on the 17th.
+That's the other bullet point. Thursday, December 17th, the Moderna vaccine is scheduled to be
+reviewed. What do we know so far? This primary analysis that we got is an update 196 cases,
+of which 185 cases of COVID-19 were observed in the placebo group. Only 11 cases in the vaccinated
+group. And then as mentioned, all the severe cases were in people that had not gotten vaccinated.
+Someone died. And that was another person who did not get vaccinated. So pretty impressive. So
+between Pfizer and Moderna projections are that we should have enough vaccine for approximately 40
+million doses by the end of this month. We expect to start vaccinating people this month.
+70 million doses per month starting in January of projection as we will have the ability to
+vaccinate 100 million Americans by the end of February. Pfizer Ultra cold vaccine did just get
+approval in the UK. So people probably have heard about that. So I'm just going to hit a couple
+important dates for our clinicians to keep an eye on. One already passed December 1st, the ACIP.
+This is the advisory committee on vaccines. And this was a little bit different, right?
+Normally this committee meets after a vaccine is licensed, and then they give advice on who should
+get it. So this is a little bit of a twist. They met and they said, so when a vaccine gets
+an EUA, we're going to give some preemptive recommendations on who should be prioritized.
+And my wife really liked this because initially they had, we're going to have phase one and two
+and sort of down the line. So what they did is they created phase one A, B, and C. This is
+the way a whole bunch of people are in phase one. So I thought that was clever. And what they did
+basically is nothing that surprised anyone. They said, hey, we're going to do healthcare workers
+right up front. And then we're going to sort of move down the line. We'll be moving into educators
+and firefighters and police officers and people in food and sort of really like critical people.
+And then we're going to move into phase one C. And that's the 65 and over. So I'm going to talk
+a little bit about one. I think people will actually see the vaccine. So December 10th,
+that's a week from the time we're recording this. The FDA will review the Pfizer vaccine.
+December 17th, the FDA will review the Moderna vaccine. And just to talk a little bit about the
+numbers, front facing healthcare workers, this is phase one a healthcare personnel. And this
+includes like, you know, EMTs, EMS, and also that it's going to move right into the long term care
+facility residents. You too, right? This is all. What's that? Are you included in that?
+In the long term care facility resident or the health care health care?
+I am actually. Yeah. I'm actually, you know, I think I was talking with people I work with and
+may have I think I may have seen more COVID patients or had more exposure to COVID patients
+than anyone else I know. So yeah, I have a lot of exposure. You know, I go see people in the ER,
+see people in the ICU, I see people, you know, out in the urgent care settings as well in the
+clinics. So yeah, if you can get exposed to COVID, I make it my business. So Daniel,
+are you going to feel somewhat relieved that you have a vaccine?
+Tremendously, tremendously relieved, actually. You know, and this I'm going to answer that
+question. I keep skirting, right? People keep saying, Dan, you know, are you going to get the
+vaccine and when, you know, and I heard Barack Obama, he's like, can I get the vaccine as soon as it's
+ready? You know, and I think that's the thing. A week from today, when we're recording this on
+Thursday, so a week from today, the FDA is going to have the review of the Pfizer vaccine. All the
+information is going to be out. One of the people on our vaccine committee is going to be tasked
+with, you know, listening to all the questions, reviewing all the data. So hopefully when we
+record next time, I'll have all the information to go ahead and say, yes, I feel like this is safe
+where ready to go. Or if something comes up, I'll let people know otherwise. But yeah, I anticipate
+a little more than a week after this drops. I'll be getting in line for my vaccine and planning on
+I'll stream that live on YouTube or something. Get someone to tape it on your iPhone, record it
+on your iPhone, we can splice it in here. Okay, yeah, because I think I think that that will help
+people. You know, you want to see someone, you know, I was talking to my mom earlier today,
+I answered it no one other than the truth. And she's like, yes, well aware of that.
+So yeah, I'm going to get the vaccine if I feel like it's safe and effective. And I think that
+that will sort of help get the message out there. But I don't think it's safe and effective. I'm
+going to I'm going to wait until I feel confident. So hopefully that'll help our listeners. So yeah,
+phase one A is going to start in December, we are all ramped up and ready to go. Then we move into
+phase one B and that's all the essential workers I mentioned. So education, food and agriculture,
+police, firefighters, correctional officers, transportation, that's going to start in January.
+And then phase one C, that's 65 and over. That's sort of our high risk. That's going to be January
+moving into February. So this is really happening pretty quick. So this is good stuff. Once we once
+we move into March, that's when we're really moving into wider distribution. And children,
+people wonder about children has been tested on children yet. But Pfizer has announced that
+they're going to be starting to test in the 12 to 18 year old population. They're going to have
+3000 people in that initial venture, I should say, Moderna has also said they're going to be moving
+their vaccine into that population as well. So we're going to have important information on can
+we use this vaccine in younger individuals. 18 is kind of arbitrary, right? I'm not sure how
+immunology and the right to vote somehow peg that 18. And I was worried when they raised a drinking
+age to 21 that that would somehow but now I mean, I'm really arbitrary there. So I did want to talk
+a little bit actually about this whole ultra cold thing with Pfizer, right? And we always talk about
+vaccine hesitancy. And we're talking about the patients being hesitant. But unfortunately, I think
+because of some issues with communication here, we've had vaccine hesitancy on the part of
+clinics, physicians, healthcare organizations saying, you know, I just don't want to have to
+deal with Pfizer and this ultra cold. And I don't want to buy these deep freezers.
+Or the other side is you have all these people spending really a lot of money
+buying these, you know, these freezers. So I'll talk a little bit about this. So I'm on this
+National Vaccine Initiative Committee. And actually, Wednesday, so yesterday, I was in a meeting
+with basically our whole group and Pfizer's medical director. This is, I believe, Catherine
+Jansen is her name, really bright woman. After the after the conversation, I talked to John
+hit who's like our senior person. And he was actually saying, you know, I guess when you have a lot
+of money, you can hire really good people. So I was impressed by that. But they've really
+figured this stuff out. It's pretty amazing. They've got these thermal shippers, which really are
+a little bit larger than we'll say like five personal pizza boxes. So it's really five personal
+pizza boxes. Each personal pizza box has about 200 miles, actually, 195 miles, five doses per
+mile. And they're in this box surrounded by dry ice. We'll talk a little about dry ice.
+And basically send this out. So five, you know, you could say 195 times five. So about 1000 doses
+in this thermal shipper. And that thermal shipper itself is basically a deep freezer. You know,
+you repack it with dry ice every few days, everything is in there. You don't have to buy one of these
+deep freezers. It's small enough that it fits under a desk. They even spend, they even send you these
+special thermal gloves. I asked about that on the call. I'm like, how am I going to touch those,
+you know, negative 70 degree things? Because I remember, you know, going into the deep freeze,
+you know, and you pull it out and you get freezer burn on your fingers. So they send goggles,
+they send special gloves, you grab as many vials as you want, let them come up to room temperature,
+add some saline, inverted a few times, and then fill your syringes. So it's really,
+really user friendly, really something that can get out there. And it's actually something not
+only that I think we're going to do here in the US, but there's already plans to use the same
+technology throughout Sub-Saharan Africa, you know, low middle income countries as well. So
+really no issues here. Everyone should start getting signed up, registered so they can make
+this happen. You get your first dose with Pfizer, three weeks later, you get your second dose,
+and within five days, you are at these wonderful levels of protection that we've all heard about.
+Just want to sort of let people know that this whole cold storage, ultra cold stuff,
+it's really not an issue. Pfizer's worked this out. And so there'll be a little details adjusted
+at sort of the endpoint once the FDA comes and says, this is exactly the way we want you to do
+it. How many times can you recharge that thermal freezer with your, you know, with your, what kind
+of ice is that? Dry ice. And I promised I would mention dry ice. And I'm going to make a video
+this weekend on homemade drugs, because everyone's like, Oh my gosh, we're going to run out of dry
+ice. And it's really easy to make. And you know, don't try this at home. People will listen and do
+that when I say that. But you know, you can really just take one of those CO2 fire extinguishers
+and a cloth bag and either tape it or have a really good glove and you blast into the bag and
+presto, you have dry ice. So I'll be, I'll be blasting that on Twitter this weekend. But
+yeah, we're not going to run out of dry ice. It's easy to make dry ice. We've got lots of CO2.
+We're good to go. Apparently, there was a CO2 shortage in England a couple of years back. You
+know, they couldn't make beer or something. So nothing to worry about. All right, let's move
+into our incubation post exposure period. That little changes here, right? The CDC updated its
+guidance. And they basically said, this makes sense. I've been talking about this for a little
+while, but now it's official. You know, when we used to say you got exposed, now you got to
+quarantine for 14 days, my wife, her famous, that's excessive. So yeah, she's right. Nobody did that.
+So now what they've said is what you can do is at the end of seven days, get a test.
+If the test is negative, then you can move forward. So that was just updated December 2nd.
+And this does not need to be a PCR. They don't specify that you can go ahead and get your rapid
+test 15 minutes later, you find out you're good to go, you move forward. So I say that's, that's
+really positive. All right, now we move into the viral symptom phase. Now, unfortunately,
+you have you have not missed the bullet. You've actually got infected. You're starting to have
+symptoms, just some monoclonal antibody updates. You know, people, people have not really forgotten
+about the monoclonal antibodies. There still tends to be a tremendous demand. And actually,
+when this when this episode drops on Saturday, there'll be some stuff in the news about Eli
+Lilly and my involvement with them. So tell people to watch the news and we'll talk more about this
+next week. But I did want to add a little bit of a discussion. I was listening to TWIV 688.
+And there was a whole discussion about subcutaneous versus intradermal and the half life of the
+antibodies. You know, it reminded me of of rabies when the when the woman who wrote in was talking
+about injecting herself in the belly and all these different things. So just a couple of things to
+talk about. So intradermal, if anyone ever had their their skin test for tuberculosis,
+that's where you put the needle just a little under the skin and you raise a little blab,
+that's intradermal. That's in the skin. Subcutaneous is sort of down in the fat layer,
+but above the muscle. So you're not getting into the muscle, you're, you know, you pull a nice chunk
+of fat. It's easy to do on me, particularly because I don't go to the gym anymore. But, you know,
+one day it'll be harder, hopefully. You know, the rest of my life is so hard. Why is my belly so soft?
+But you grab a nice chunk and you put the injection in there. The reason we're studying monoclonal
+antibodies in the subcutaneous is you don't have to go to a clinic. You don't have to go to a hospital.
+Anyone can grab a nice chunk and inject in the way they do with Proleia, for instance, some of our
+other medicines. So we're studying that as well. Why do you do four different sites? It's a question
+of volume at this point. It's just sort of a large volume. What about half-life? The half-life
+is different with the different antibody preparations. So the Eli Lilly, the BAM BAM, the BAM Linibin
+map, half-life is about 21 days. They get a really high dose. 21 days, it's about half of that.
+The half-life is a little bit longer with the Regeneron antibodies. And I think I mentioned
+GSK has made a stock modification, so there anybody has an even longer half-life. So
+next thing I guess I'll mention is that this is passive immunity. So when you give someone this
+infusion or you do the subcutaneous injection, then you're not going to see an immune response.
+You're not going to see lymph nodes. You're not going to see soreness at the site.
+About 2% of the time people get a little bit itchy. So that's why we sort of observed them.
+Get a little bit itchy. We give them Benadryl has been an issue to date. So
+making some progress there. The early inflammatory phase. People should go back and listen to
+immune 39, a Tonka truck full of salt. And they have a discussion right at about 57 minutes about
+the cytokine storm. And the whole early inflammatory response is really a sophisticated, complicated
+thing. And it reminded me of a book and a movie based on the same book, Smilla Sense of Snow,
+written by the Danish author Peter Hogue. And the main character is a Greenlander.
+And she presents this idea that a lot of people have heard where the Inuit have multiple words
+for snow. I think in this book, it's 23. The myth is that there are 50. And I think it's sort of
+an interesting discussion when we're talking about this early inflammatory phase and we talk
+about cytokine storms. Really, there's a lot of complexity here. And I think that you get the
+immunologist response. It's very complicated. But from a therapeutic point of view,
+we're still limited in what we do here. We still use steroids during this period. We still do
+oxygen. We still do medications to prevent people against cloth. So a lot of supportive care.
+Secondary infection phase. We're actually, I think I mentioned last time, but we're starting to see
+more issues here with resistant organisms because of sort of overuse of antibiotics early on. So
+let's really be careful sort of a reminder there to all our clinicians. If you see these people in
+the urgent care, you see people in the outpatient setting, what do you do? You might get them hooked
+up with a pulse oximeter. You might monitor them. You want to make that decision. Do they need to
+come in the hospital? You might consider aspirin, things like that. But no antibiotics is a viral
+illness. You want to be really careful. If you're giving more than 10% of your COVID patients
+antibiotics, you're overdoing it. Most patients can be managed at home without antibiotics
+with really not hospitalization in most cases. But if they do need to be in the hospital, if they
+get to this late phase, this is when we start seeing those infections. The multi-system
+inflammatory phase, it was like a deja vu back to April today. I don't know if that works right,
+but anyway, early on in April, we talked a bit about the Irish patients. I don't know if our
+listeners who are with us still remember that. Our Irish patient had an episode at one point
+where things seem to be going along really well. I'm thinking this is great. We come in and he's
+completely paralyzed. If our listeners remember that. Same thing happened over the last two days
+with one of my patients in the ICU. They're getting to the end of week four. We're starting to talk
+about discharge planning, getting this person set up with rehab, and completely paralyzed.
+And again, this is this Guillain-Barre syndrome that we see as part of this multi-system inflammatory
+phase. So that individual has been started on IVIG. It's a 5D treatment that we use.
+And the motor comes right back. So sort of a frightening thing. But I think now that we
+understand it, this sort of shows the difference in managing patients. Back we first saw this in
+April, we did not know what was going on. What's happening, this person was doing so well, suddenly
+they're paralyzed. And they're on a ventilator because they can't breathe on their own. But now
+we understand where this fits in. The tail phase, I'm going to finish off here because we've got a
+few emails. And my goal is to keep this all under 30 minutes. And I'm going to suggest that we
+create some kind of survey to decide what to call this tail phase. Now it's been recognized. Is it
+long COVID? Is it long haul trucker COVID? Is it long term COVID? Is it long lasting COVID?
+Is it post COVID? And actually, I'll let our listeners know that we're recording this on
+Thursday. But there is a large semi multi hour conference going on today Thursday and Friday,
+where a lot of clinicians, a lot of researchers are all having an NIH sponsored discussion,
+trying to better understand not only what's going on here, but how to put together research
+projects to try to get a better understanding of how to take care of some of these folks.
+So I'll stop there before we hit emails and just remind everyone that we have we have finished our
+microbe TV fundraiser, which went very well. I'm happy to say we're going to be able to
+generously support microbe TV, which is great. But we're we're now supporting the peace course,
+HIV and AIDS programs. Just remember that the other virus is still responsible for a lot of
+suffering and death throughout the world. So encourage people to go to parasites without borders.com.
+So we can do our matching support for the months of December and January.
+All right. So last time we made a new email address for Daniel Daniel at microbe.tv so you can send
+the emails there. And I, I save him the trouble of getting them. Actually, they come to me,
+but they're still for Daniel and we have a bunch. So let's do a couple.
+All right, I'm going to lump the first two together. Both Joy and Dennis are worried about
+long term COVID. They wanted, you know, they say they both have it. And what can be done? Are there
+any therapeutics in sight? And I've gotten this question many times, Daniel. So what can you tell
+us? Yeah, I mean, that was I think really encouraging about what what is going on today. What's going
+on tomorrow is that it is recognized that this is a phenomenon. It is recognized that these people
+are suffering and that we need to really bring science to bear. This can't be just, oh, try some
+mana histamine, see if the melatonin helps you sleep. We need to really get these people together.
+So a couple of things I will say is at United in research, I've mentioned that website before,
+we are going to basically create a COVID positive community. And we are going to basically give
+people a way to go on the web to register a citizen scientist and to basically participate in the
+different trials and the different approaches to how do we understand what's going on with people
+who continue to suffer from COVID. And we're going to be following serologies. There'll be
+questionnaires. There'll be all kinds of biomarker analysis. So it's going to be a lot of individuals
+looking at this. I will say at this point, we still have sort of primitive where we focus on
+symptoms, but this is going to be moving hopefully to better therapeutics. But there are thousands
+and hundreds of thousands of individuals suffering with this post COVID syndrome.
+And we're committed to finding answers. All right. Next one is from Chaim who lives in
+Washington, D.C. And he says, my kid's school is doing almost everything right, distancing,
+mask wearing, you know, no moving around, no testing, unfortunate. He says there's no testing
+as in addition to practical issues, they seem to be worried about moral hazard. Anyway, new cases
+are spiking here in D.C. We are now cresting the record set at the peak in May. Mayor has tightened
+some restrictions, but indoor dining still permitted. So I think things are going to get worse. His
+question, is there a point at which we should be pulling our son out of school? Obviously, I don't
+expect an exact threshold, but conceptually, does it make sense that at some point the background
+might get high enough to overwhelm the in school precautions? Or are the safety measures enough
+that we don't have to worry about community spread outside the school? Yeah, you know, I've always
+get questions about the schools. And I think that this is important. I'm going to be doing another
+talk for one of the schools this Sunday. And I think Shane Crotty is going to be like going
+before me, actually, so my buddy Shane Crotty. The science is mounting. The evidence is that you
+can make schools a safe place. That doesn't mean everyone's making it a safe place, but you can do
+it. So as you describe, if they put all these proper mitigation measures in place, if they,
+you know, keep the kids separated, if they wear masks, and watch that they're not indoor dining
+at school. And I really commend my son, who's always horrified that, you know, they sit too close
+when people eat. And that is true, Barnaby, you should be horrified like I am. We can make schools
+safe. The interesting thing is not only have I been weighing in and giving advice and sort of
+commenting on schools in the New York area, but actually throughout the country, my first involvement
+in schools was actually in March in Texas. And I still remember the conversation. So this was the
+superintendent of one of the largest school districts in Texas. And, you know, he asked me,
+and I've known him for a while. So he said, you know, Dan, you know, what do you think? Should we
+close the schools? And I said, you know what, you can either close them now, or you can wait until
+it's too late. And that was back. We didn't understand back in March, we didn't know that we could
+make schools a safe place. So this is a different scenario. And I don't think it's like, Oh, just
+in New York, you have resources can make the schools safe. I've talked to schools throughout
+the country, we can make schools safe in Idaho, in Texas, in Montana, in California, in Colorado.
+And and that's that's one of the things. So so I'll go ahead and say, I'm not sure closing schools
+makes a lot of sense, even here in New York City, where real estate and space is actually quite tough.
+The New York City mayor wants to open the schools again, and wants to do it in a way that they
+think is safe, because there are clear harms to closing the schools. And the teachers, you know,
+I'm thinking about teachers here too, they can be made safe. If if we do what we know works,
+if we don't give the masks, if we don't put measures in place, if we don't have the distancing,
+that's a problem. The other thing that is right around the corner, right, the rainbow at the end
+of this dark tunnel is right after we do the healthcare workers, we're going to start vaccinating
+the teachers. So in the in the coming months, the teachers are going to be safe as well. And I
+think that's really going to help us with opening schools. All right, one more from Paul, who is in
+Manchester UK. He sends a link to a BBC article about lung damage and wants to hear Dr. Griffin's
+thoughts. This is an article about a new scanning mechanism that has identified lung damage months
+after the initial infection. I think about this. Yeah, you know, I actually appreciate that you
+bring this up, Paul. You know, if anything, I think people underestimate the damage, the morbidity
+of COVID-19, you know, some less than wise people have sort of said, Oh, COVID either, you know,
+you get it and either live or you die. Yeah, no, most people who get COVID don't just live or die.
+A lot of the people that don't die are really negatively impacted. And we see the people with
+the long haul, the tale of COVID. But there's also a lot of individuals who were physically
+active and they find themselves compromised. We've had several several serious athletes who find
+that, you know, they went from running six, seven miles a day to having trouble going up the flight
+of stairs. We're appreciating that there can be for a lot of individuals much more lung damage
+than was initially appreciated. We're also recognizing heart damage as well. So I think these studies
+are really important to let people know that you really want to not get COVID. Because yeah,
+you may survive, you may come out the other side, you may be able to tell everyone how great you're
+doing. But let's see you try to run a mile after you've had COVID. It may not go so well. So
+let's really for the next few months until, and I guess this reminds me of my other movie as we'll
+sort of finish here soon. This was, I watched Greyhound. It always takes about a week because I
+watch in like seven minute increments. But this is a World War II and it's a shipping convoy and
+they've they've left the safety of air cover of the US. And now they're heading towards air cover
+over in England. You know, and they're how many hours till we're back in air cover. And that's
+where we are right now. It's only weeks and months till we've got the air cover of the vaccine. So,
+you know, let's just be safe. Let's zigzag. Let's let's avoid those crowds. Let's wear those masks.
+Let's wash our hands so we can get back to the air cover of the vaccine and the pre COVID world.
+All right. That's our COVID-19 clinical update number 39 from Dr. Daniel Griffin. Thank you, Daniel.
+Oh, pleasure. It's always and everyone be safe.

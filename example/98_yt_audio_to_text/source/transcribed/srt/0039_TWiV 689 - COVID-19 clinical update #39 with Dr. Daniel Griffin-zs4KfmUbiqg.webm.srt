@@ -1,0 +1,1572 @@
+1
+0:00:00,000 --> 0:00:06,880
+This week in virology, the podcast about viruses, the kind that make you sick.
+
+2
+0:00:10,400 --> 0:00:20,960
+From Microbe TV, this is Twiv. This week in virology, Episode 689 recorded on December 3, 2020.
+
+3
+0:00:20,960 --> 0:00:27,040
+I'm Vincent Racken Yello, and you're listening to the podcast all about viruses. Joining me
+
+4
+0:00:27,040 --> 0:00:34,720
+today from New York, Daniel Griffin. Hello, everyone. Vincent, do I say hello everyone or
+
+5
+0:00:34,720 --> 0:00:38,800
+hello everybody? I think I alternate, right? I don't think it matters whatever you feel like
+
+6
+0:00:38,800 --> 0:00:44,720
+on a given night. Yeah. All right, so let me start. I was emailing with my buddy, Peter Hotez,
+
+7
+0:00:44,720 --> 0:00:52,160
+earlier today. And he was on the recent, what was it, stick to the Vax? I think that was a
+
+8
+0:00:52,160 --> 0:00:57,840
+pun on stick to the Vax maybe. Peter Hotez, I'm going to, I'm going to put a disclaimer right up
+
+9
+0:00:57,840 --> 0:01:02,880
+front. So, you know, this is similar to what you might hear when you get on an airplane. And they
+
+10
+0:01:02,880 --> 0:01:07,520
+say, you know, this flight is headed to San Francisco. So if that is not your final destination,
+
+11
+0:01:07,520 --> 0:01:13,600
+you might want to get off now. Right. And, you know, it may seem a while ago, but you know,
+
+12
+0:01:13,600 --> 0:01:18,080
+when we started these, it was actually, I had come to Vincent, our listeners may not know this
+
+13
+0:01:18,080 --> 0:01:23,920
+backstory. But we were trying to keep all the, all the physicians here in the New York Tri-State
+
+14
+0:01:23,920 --> 0:01:29,200
+area updated on, you know, what we were learning, what was happening. And Vincent very generously
+
+15
+0:01:29,200 --> 0:01:33,760
+sort of offered this forum as a chance for us to sort of once a week share that knowledge.
+
+16
+0:01:34,720 --> 0:01:40,240
+So these updates started back in March. And it was all about, you know, what we were learning
+
+17
+0:01:40,240 --> 0:01:44,720
+about COVID, the therapeutics, what we were seeing firsthand as practicing clinicians.
+
+18
+0:01:44,720 --> 0:01:50,080
+So, you know, it's really what we're here to share is the truth of what we're seeing. There's
+
+19
+0:01:50,080 --> 0:01:54,560
+no real agenda here. We're not trying to grow any audience. At some point, maybe Vincent will
+
+20
+0:01:54,560 --> 0:01:59,040
+kick me off if, you know, no one wants to listen to me anymore. But this has been, I think,
+
+21
+0:01:59,040 --> 0:02:03,680
+a tremendous service. So I want to thank Vincent for that. But I will say this is, there's no warm
+
+22
+0:02:03,680 --> 0:02:08,480
+soup here. I'm not here to make these difficult times easier. I'm just here to basically share
+
+23
+0:02:08,480 --> 0:02:14,080
+what's going on, what we're learning, the cold, hard truth. Oddly enough, I think some anti-vaxxers,
+
+24
+0:02:14,080 --> 0:02:19,280
+I've been told the word trolls is applicable here at times. But, you know, for the next 30
+
+25
+0:02:19,280 --> 0:02:27,040
+minutes, we're not going to talk about anti-vaxx theories. So if you tuned in accidentally to the
+
+26
+0:02:27,040 --> 0:02:32,080
+wrong podcast, this might be time to jump off the next 30 minutes, you're never going to get them
+
+27
+0:02:32,080 --> 0:02:39,440
+back. So, you know, spend them well. Okay. Now that I have made my disclaimer, my quotation,
+
+28
+0:02:39,440 --> 0:02:46,880
+one ought never to turn one's back on a threatened danger, but to try to run away from it. If you
+
+29
+0:02:46,880 --> 0:02:51,920
+do that, you will double the danger. But if you meet it promptly and without flinching, you will
+
+30
+0:02:51,920 --> 0:02:59,200
+reduce the danger by half. And can people guess who that's, that's Winston again. I like Winston
+
+31
+0:02:59,200 --> 0:03:05,040
+Churchill. Now, these are, these are dark times already. People keep saying, oh, we've got a dark
+
+32
+0:03:05,040 --> 0:03:09,680
+winter ahead of us. But you know, there are over 100,000 Americans in the hospital right now with
+
+33
+0:03:09,680 --> 0:03:18,080
+COVID-19. And, you know, yesterday, the numbers were almost 3000 today, we have over 3000 people
+
+34
+0:03:18,080 --> 0:03:23,920
+who died here in the US of COVID-19. We've reached capacity at the hospitals here in New York.
+
+35
+0:03:25,040 --> 0:03:28,640
+You know, I got a alert from one of the hospitals yesterday, you know, we have, you know,
+
+36
+0:03:29,360 --> 0:03:34,560
+numbers of people stuck here in the ER because there's no open beds. The ICUs are overflowing
+
+37
+0:03:34,560 --> 0:03:40,880
+into the other areas. This is not a great sign. I mean, we are not even seeing the post Thanksgiving
+
+38
+0:03:40,880 --> 0:03:47,360
+search. So just want people to sort of think about when they're making their decisions. We are as
+
+39
+0:03:47,360 --> 0:03:52,400
+bad right now as it has ever gotten. More people died today than have ever died in a single day
+
+40
+0:03:52,400 --> 0:03:58,080
+from COVID-19 here in the States. More people are in the hospital right now with COVID-19 than ever.
+
+41
+0:03:58,080 --> 0:04:05,040
+So really think about that. All right, let's move through our phases, our pre-exposure period.
+
+42
+0:04:05,840 --> 0:04:11,280
+A little update here for our clinicians. I got a lot of questions about this. New York has now
+
+43
+0:04:11,280 --> 0:04:16,640
+recommended broader use of eye protection. And I know we've talked a little bit about the science
+
+44
+0:04:16,640 --> 0:04:20,800
+behind this. You know, it takes a little while for the recommendations to catch up with the
+
+45
+0:04:20,800 --> 0:04:25,840
+science, but New York State Department of Health now strongly recommends universal use of eye
+
+46
+0:04:25,840 --> 0:04:31,120
+protection by healthcare personnel for all patient interactions. And this is in addition to the
+
+47
+0:04:31,120 --> 0:04:36,560
+face masks. And I got an email sort of asking about this and it was entertaining. So it was a whole
+
+48
+0:04:36,560 --> 0:04:41,440
+loop. You know, it was a number of clinicians in a clinic and one of them emailed me saying,
+
+49
+0:04:41,440 --> 0:04:45,520
+you know, we only do well visits. We don't let people come in if they're sick and not sure if
+
+50
+0:04:45,520 --> 0:04:51,200
+this really applies to me. And so I responded back and said, you think they're well visits.
+
+51
+0:04:51,200 --> 0:04:56,320
+But you know, what percent of those people are pre-symptomatic or asymptomatic? And that's
+
+52
+0:04:56,320 --> 0:05:00,720
+really the thing. If you get a call the next day and they say, you know what, I wasn't feeling 100%
+
+53
+0:05:00,720 --> 0:05:04,880
+when I saw you. And today I just got a test. And you were not wearing your eye protection.
+
+54
+0:05:05,920 --> 0:05:11,440
+That's a potential exposure. So, you know, this is really moving into a universal precautions
+
+55
+0:05:11,440 --> 0:05:17,840
+approach, at least for the foreseeable future here. You know, for front facing healthcare workers,
+
+56
+0:05:17,840 --> 0:05:23,120
+we'll talk about why there is a finite period of time that we're going to need to be practicing
+
+57
+0:05:23,120 --> 0:05:29,040
+this really high level of caution. But universal recommendation here in New York when clinicians
+
+58
+0:05:29,040 --> 0:05:34,400
+are interacting. And I extend this to all staff. When you're within that six feet, when you're
+
+59
+0:05:34,400 --> 0:05:40,160
+going to potentially be at risk, protect your mouth, protect your nose and protect your eyes.
+
+60
+0:05:41,600 --> 0:05:47,360
+People are still taking zinc, vitamin D, vitamin C. This all seems fine. And there was a nice
+
+61
+0:05:47,360 --> 0:05:54,640
+article in nature, analysis of vitamin D levels among asymptomatic and critically ill COVID-19
+
+62
+0:05:54,640 --> 0:06:00,400
+patients. And it's correlation with inflammatory markers. But you know, I'm going to sort of push
+
+63
+0:06:00,400 --> 0:06:05,360
+out here again, say we really need to do some randomized control trials. I mean, we currently
+
+64
+0:06:05,360 --> 0:06:12,080
+in the US spend over a billion dollars a year, over a billion dollars a year on vitamin D supplements
+
+65
+0:06:12,080 --> 0:06:17,920
+and testing. That's a lot of money. It would be nice to know, like, you know, is that being,
+
+66
+0:06:17,920 --> 0:06:23,440
+is that well spent money? So, you know, if it's not, then you could give a little bit of that,
+
+67
+0:06:23,440 --> 0:06:29,280
+you know, Vincent in the lab. So, you know, or support micro TV. But no, it's, it's important.
+
+68
+0:06:29,280 --> 0:06:33,200
+You know, we do a lot of, we do a lot of studies looking at, you know, small molecule inhibitors,
+
+69
+0:06:33,200 --> 0:06:37,360
+pharmaceutical agents. Vitamin D is something a lot of people take for a lot of different
+
+70
+0:06:37,360 --> 0:06:44,400
+reasons. It would make sense to really understand its role in COVID-19. I also want to talk about
+
+71
+0:06:44,400 --> 0:06:48,880
+testing here, right? This is hopefully the pre-exposure period. Hopefully you haven't been
+
+72
+0:06:48,880 --> 0:06:54,000
+exposed yet. And we really ramped up testing over the last couple weeks here. I was doing in
+
+73
+0:06:54,960 --> 0:06:59,520
+one of those, I call them the microphone bokeh interviews this morning. You know,
+
+74
+0:06:59,520 --> 0:07:03,040
+you've got a whole bunch of microphones and, you know, you're not sure who you're talking to,
+
+75
+0:07:03,040 --> 0:07:08,560
+but you look at the, the sea of cameras. And we were talking about what we've done with
+
+76
+0:07:09,440 --> 0:07:14,400
+rapid testing in the last few weeks. You know, and I was there with Bonnie Simmons. She's the
+
+77
+0:07:14,400 --> 0:07:20,320
+head of our Tri-State Urgent Cares. She's my buddy, Adam Fitterstein's boss. And she just, you know,
+
+78
+0:07:20,320 --> 0:07:22,960
+she always wonders, again, you know, ever I call you pick up the phone, I'm like,
+
+79
+0:07:22,960 --> 0:07:27,680
+Bonnie, you're kind of a hero of mine. You know, you really allowed us to make this happen,
+
+80
+0:07:27,680 --> 0:07:33,920
+all this rapid testing. And what we saw right before Thanksgiving is a lot of people were going
+
+81
+0:07:33,920 --> 0:07:39,520
+and getting tested. A lot of people with asymptomatic and presymptomatic infections were being picked
+
+82
+0:07:39,520 --> 0:07:45,120
+up, diagnosed, sort of pulled out, contact tracing, and then those people were being picked out. And
+
+83
+0:07:45,120 --> 0:07:48,800
+I really think, you know, we were, we were saving lives here. We were detecting people
+
+84
+0:07:48,800 --> 0:07:53,200
+before they went to those gatherings. We were picking up who else was infected that they were
+
+85
+0:07:53,200 --> 0:07:59,440
+interacting with. And so this is really, really taken on and people are realizing the utility.
+
+86
+0:08:00,000 --> 0:08:05,680
+You know, two days before symptoms, five days of symptoms, the rapid test gives you a result in
+
+87
+0:08:05,680 --> 0:08:11,360
+about 15 minutes has really been tremendous. This is free, right? This is something that we,
+
+88
+0:08:11,360 --> 0:08:15,120
+you know, as a society are picking up. This is not something we charged people for.
+
+89
+0:08:15,760 --> 0:08:20,160
+And I was there this morning. It was quite cold. And there were two lines of cars, you know,
+
+90
+0:08:20,160 --> 0:08:24,000
+and just sort of going around the quarter. And these were all people that were basically driving
+
+91
+0:08:24,000 --> 0:08:29,120
+up, getting swab, they would then drive on. And by the time they got to work, school, home,
+
+92
+0:08:30,000 --> 0:08:33,840
+they would be alerted by the results and basically told like, you know, if you just got to work,
+
+93
+0:08:33,840 --> 0:08:39,280
+stay in your car, turn around, go home. Or otherwise, all right, you're clear and can move forward. So
+
+94
+0:08:40,400 --> 0:08:45,280
+so much more helpful than, you know, finding out in four or five days after you've exposed
+
+95
+0:08:45,280 --> 0:08:50,160
+people that oh, by the way, when you went to that Thanksgiving dinner, when you went to work, when
+
+96
+0:08:50,160 --> 0:08:54,240
+you went to school, you were shedding fire really embracing this. And a lot of people are moving
+
+97
+0:08:54,240 --> 0:09:02,000
+in this direction. Now vaccines. All right. I'll call this better than vitamin D, right? If you
+
+98
+0:09:02,000 --> 0:09:06,480
+have a choice, a good vaccine or vitamin D, I'm going with the vaccine. I might also, at some
+
+99
+0:09:06,480 --> 0:09:10,720
+point remember to take some of that vitamin D that's still sitting on the shelf in my medicine
+
+100
+0:09:10,720 --> 0:09:17,600
+cabinet, only growing in value, I'm sure. So we got more information. And it's always amazing as I
+
+101
+0:09:17,600 --> 0:09:22,880
+was like, how is this really only the last week? It always seems like old news, but we got more
+
+102
+0:09:22,880 --> 0:09:29,120
+information on the Moderna vaccine. And Moderna has now applied for EUA for their vaccine. And some
+
+103
+0:09:29,120 --> 0:09:34,160
+of this was covered in the previous 12. So listen for more in depth there. But what do we as clinicians
+
+104
+0:09:34,160 --> 0:09:43,520
+are going to bullet point this? Moderna reported a vaccine efficacy of about 94.1%. And if you
+
+105
+0:09:43,520 --> 0:09:49,680
+looked at the secondary endpoint, severe disease, 100%, no one who received the Moderna vaccine ended
+
+106
+0:09:49,680 --> 0:09:57,600
+up requiring an ER visit or hospital care. It also was reported that the vaccine was well tolerated.
+
+107
+0:09:57,600 --> 0:10:02,560
+There were no serious safety concerns. And I'll sort of make the point here, the difference
+
+108
+0:10:02,560 --> 0:10:08,640
+between reactogenicity and severe adverse effects. You get the vaccine, feel a little under the
+
+109
+0:10:08,640 --> 0:10:14,720
+weather for a day or two. Shane Crotty has been tweeting out. I've been retweeting this. It's
+
+110
+0:10:14,720 --> 0:10:18,880
+the rock, Dwayne Reed, the rock. And he goes to the gym. And he's really sore the next day. That's
+
+111
+0:10:18,880 --> 0:10:24,640
+kind of what it's like. That's the reactogenicity. That's your immune system learning. And then
+
+112
+0:10:24,640 --> 0:10:29,360
+you move forward, but no serious safety concerns. And now we have about 70,000 people that have
+
+113
+0:10:29,360 --> 0:10:35,600
+been vaccinated. We've got months of this. So we've exceeded two months of median follow-up
+
+114
+0:10:35,600 --> 0:10:43,040
+post vaccination as required by the US FDA for the EUA. So we'll be seeing that reviewed on the 17th.
+
+115
+0:10:43,040 --> 0:10:48,560
+That's the other bullet point. Thursday, December 17th, the Moderna vaccine is scheduled to be
+
+116
+0:10:48,560 --> 0:10:57,120
+reviewed. What do we know so far? This primary analysis that we got is an update 196 cases,
+
+117
+0:10:57,120 --> 0:11:06,080
+of which 185 cases of COVID-19 were observed in the placebo group. Only 11 cases in the vaccinated
+
+118
+0:11:06,080 --> 0:11:13,200
+group. And then as mentioned, all the severe cases were in people that had not gotten vaccinated.
+
+119
+0:11:14,080 --> 0:11:19,760
+Someone died. And that was another person who did not get vaccinated. So pretty impressive. So
+
+120
+0:11:19,760 --> 0:11:25,280
+between Pfizer and Moderna projections are that we should have enough vaccine for approximately 40
+
+121
+0:11:25,280 --> 0:11:31,120
+million doses by the end of this month. We expect to start vaccinating people this month.
+
+122
+0:11:32,400 --> 0:11:37,920
+70 million doses per month starting in January of projection as we will have the ability to
+
+123
+0:11:37,920 --> 0:11:44,240
+vaccinate 100 million Americans by the end of February. Pfizer Ultra cold vaccine did just get
+
+124
+0:11:44,240 --> 0:11:49,120
+approval in the UK. So people probably have heard about that. So I'm just going to hit a couple
+
+125
+0:11:49,120 --> 0:11:56,400
+important dates for our clinicians to keep an eye on. One already passed December 1st, the ACIP.
+
+126
+0:11:56,400 --> 0:12:00,800
+This is the advisory committee on vaccines. And this was a little bit different, right?
+
+127
+0:12:00,800 --> 0:12:06,160
+Normally this committee meets after a vaccine is licensed, and then they give advice on who should
+
+128
+0:12:06,160 --> 0:12:11,040
+get it. So this is a little bit of a twist. They met and they said, so when a vaccine gets
+
+129
+0:12:11,040 --> 0:12:16,480
+an EUA, we're going to give some preemptive recommendations on who should be prioritized.
+
+130
+0:12:16,480 --> 0:12:21,920
+And my wife really liked this because initially they had, we're going to have phase one and two
+
+131
+0:12:21,920 --> 0:12:27,680
+and sort of down the line. So what they did is they created phase one A, B, and C. This is
+
+132
+0:12:27,680 --> 0:12:35,280
+the way a whole bunch of people are in phase one. So I thought that was clever. And what they did
+
+133
+0:12:35,280 --> 0:12:39,440
+basically is nothing that surprised anyone. They said, hey, we're going to do healthcare workers
+
+134
+0:12:39,440 --> 0:12:45,760
+right up front. And then we're going to sort of move down the line. We'll be moving into educators
+
+135
+0:12:45,760 --> 0:12:52,560
+and firefighters and police officers and people in food and sort of really like critical people.
+
+136
+0:12:52,560 --> 0:12:58,160
+And then we're going to move into phase one C. And that's the 65 and over. So I'm going to talk
+
+137
+0:12:58,160 --> 0:13:02,080
+a little bit about one. I think people will actually see the vaccine. So December 10th,
+
+138
+0:13:02,080 --> 0:13:07,120
+that's a week from the time we're recording this. The FDA will review the Pfizer vaccine.
+
+139
+0:13:07,840 --> 0:13:14,320
+December 17th, the FDA will review the Moderna vaccine. And just to talk a little bit about the
+
+140
+0:13:14,320 --> 0:13:20,560
+numbers, front facing healthcare workers, this is phase one a healthcare personnel. And this
+
+141
+0:13:20,560 --> 0:13:26,560
+includes like, you know, EMTs, EMS, and also that it's going to move right into the long term care
+
+142
+0:13:26,560 --> 0:13:31,600
+facility residents. You too, right? This is all. What's that? Are you included in that?
+
+143
+0:13:32,800 --> 0:13:36,480
+In the long term care facility resident or the health care health care?
+
+144
+0:13:36,480 --> 0:13:45,600
+I am actually. Yeah. I'm actually, you know, I think I was talking with people I work with and
+
+145
+0:13:45,600 --> 0:13:50,880
+may have I think I may have seen more COVID patients or had more exposure to COVID patients
+
+146
+0:13:50,880 --> 0:13:56,400
+than anyone else I know. So yeah, I have a lot of exposure. You know, I go see people in the ER,
+
+147
+0:13:56,400 --> 0:14:01,200
+see people in the ICU, I see people, you know, out in the urgent care settings as well in the
+
+148
+0:14:01,200 --> 0:14:07,360
+clinics. So yeah, if you can get exposed to COVID, I make it my business. So Daniel,
+
+149
+0:14:07,360 --> 0:14:11,520
+are you going to feel somewhat relieved that you have a vaccine?
+
+150
+0:14:13,120 --> 0:14:17,920
+Tremendously, tremendously relieved, actually. You know, and this I'm going to answer that
+
+151
+0:14:17,920 --> 0:14:20,560
+question. I keep skirting, right? People keep saying, Dan, you know, are you going to get the
+
+152
+0:14:20,560 --> 0:14:25,280
+vaccine and when, you know, and I heard Barack Obama, he's like, can I get the vaccine as soon as it's
+
+153
+0:14:25,280 --> 0:14:29,680
+ready? You know, and I think that's the thing. A week from today, when we're recording this on
+
+154
+0:14:29,680 --> 0:14:34,240
+Thursday, so a week from today, the FDA is going to have the review of the Pfizer vaccine. All the
+
+155
+0:14:34,240 --> 0:14:38,800
+information is going to be out. One of the people on our vaccine committee is going to be tasked
+
+156
+0:14:38,800 --> 0:14:43,920
+with, you know, listening to all the questions, reviewing all the data. So hopefully when we
+
+157
+0:14:43,920 --> 0:14:49,120
+record next time, I'll have all the information to go ahead and say, yes, I feel like this is safe
+
+158
+0:14:49,120 --> 0:14:54,320
+where ready to go. Or if something comes up, I'll let people know otherwise. But yeah, I anticipate
+
+159
+0:14:54,320 --> 0:15:00,880
+a little more than a week after this drops. I'll be getting in line for my vaccine and planning on
+
+160
+0:15:01,440 --> 0:15:06,800
+I'll stream that live on YouTube or something. Get someone to tape it on your iPhone, record it
+
+161
+0:15:06,800 --> 0:15:12,400
+on your iPhone, we can splice it in here. Okay, yeah, because I think I think that that will help
+
+162
+0:15:12,400 --> 0:15:16,320
+people. You know, you want to see someone, you know, I was talking to my mom earlier today,
+
+163
+0:15:16,320 --> 0:15:20,240
+I answered it no one other than the truth. And she's like, yes, well aware of that.
+
+164
+0:15:20,240 --> 0:15:27,040
+So yeah, I'm going to get the vaccine if I feel like it's safe and effective. And I think that
+
+165
+0:15:27,040 --> 0:15:30,320
+that will sort of help get the message out there. But I don't think it's safe and effective. I'm
+
+166
+0:15:30,320 --> 0:15:36,800
+going to I'm going to wait until I feel confident. So hopefully that'll help our listeners. So yeah,
+
+167
+0:15:36,800 --> 0:15:42,720
+phase one A is going to start in December, we are all ramped up and ready to go. Then we move into
+
+168
+0:15:42,720 --> 0:15:48,480
+phase one B and that's all the essential workers I mentioned. So education, food and agriculture,
+
+169
+0:15:48,480 --> 0:15:53,520
+police, firefighters, correctional officers, transportation, that's going to start in January.
+
+170
+0:15:53,520 --> 0:15:58,320
+And then phase one C, that's 65 and over. That's sort of our high risk. That's going to be January
+
+171
+0:15:58,320 --> 0:16:05,520
+moving into February. So this is really happening pretty quick. So this is good stuff. Once we once
+
+172
+0:16:05,520 --> 0:16:10,560
+we move into March, that's when we're really moving into wider distribution. And children,
+
+173
+0:16:10,560 --> 0:16:15,120
+people wonder about children has been tested on children yet. But Pfizer has announced that
+
+174
+0:16:15,120 --> 0:16:20,160
+they're going to be starting to test in the 12 to 18 year old population. They're going to have
+
+175
+0:16:20,160 --> 0:16:27,200
+3000 people in that initial venture, I should say, Moderna has also said they're going to be moving
+
+176
+0:16:27,200 --> 0:16:31,760
+their vaccine into that population as well. So we're going to have important information on can
+
+177
+0:16:31,760 --> 0:16:37,840
+we use this vaccine in younger individuals. 18 is kind of arbitrary, right? I'm not sure how
+
+178
+0:16:37,840 --> 0:16:44,080
+immunology and the right to vote somehow peg that 18. And I was worried when they raised a drinking
+
+179
+0:16:44,080 --> 0:16:50,000
+age to 21 that that would somehow but now I mean, I'm really arbitrary there. So I did want to talk
+
+180
+0:16:50,000 --> 0:16:56,640
+a little bit actually about this whole ultra cold thing with Pfizer, right? And we always talk about
+
+181
+0:16:56,640 --> 0:17:01,920
+vaccine hesitancy. And we're talking about the patients being hesitant. But unfortunately, I think
+
+182
+0:17:01,920 --> 0:17:06,880
+because of some issues with communication here, we've had vaccine hesitancy on the part of
+
+183
+0:17:06,880 --> 0:17:11,120
+clinics, physicians, healthcare organizations saying, you know, I just don't want to have to
+
+184
+0:17:11,120 --> 0:17:15,360
+deal with Pfizer and this ultra cold. And I don't want to buy these deep freezers.
+
+185
+0:17:15,360 --> 0:17:19,280
+Or the other side is you have all these people spending really a lot of money
+
+186
+0:17:19,280 --> 0:17:24,880
+buying these, you know, these freezers. So I'll talk a little bit about this. So I'm on this
+
+187
+0:17:24,880 --> 0:17:32,320
+National Vaccine Initiative Committee. And actually, Wednesday, so yesterday, I was in a meeting
+
+188
+0:17:32,320 --> 0:17:38,640
+with basically our whole group and Pfizer's medical director. This is, I believe, Catherine
+
+189
+0:17:38,640 --> 0:17:45,120
+Jansen is her name, really bright woman. After the after the conversation, I talked to John
+
+190
+0:17:45,120 --> 0:17:51,520
+hit who's like our senior person. And he was actually saying, you know, I guess when you have a lot
+
+191
+0:17:51,520 --> 0:17:58,560
+of money, you can hire really good people. So I was impressed by that. But they've really
+
+192
+0:17:58,560 --> 0:18:03,920
+figured this stuff out. It's pretty amazing. They've got these thermal shippers, which really are
+
+193
+0:18:03,920 --> 0:18:09,200
+a little bit larger than we'll say like five personal pizza boxes. So it's really five personal
+
+194
+0:18:09,200 --> 0:18:15,600
+pizza boxes. Each personal pizza box has about 200 miles, actually, 195 miles, five doses per
+
+195
+0:18:15,600 --> 0:18:21,440
+mile. And they're in this box surrounded by dry ice. We'll talk a little about dry ice.
+
+196
+0:18:22,240 --> 0:18:30,320
+And basically send this out. So five, you know, you could say 195 times five. So about 1000 doses
+
+197
+0:18:30,320 --> 0:18:35,520
+in this thermal shipper. And that thermal shipper itself is basically a deep freezer. You know,
+
+198
+0:18:35,520 --> 0:18:40,080
+you repack it with dry ice every few days, everything is in there. You don't have to buy one of these
+
+199
+0:18:40,080 --> 0:18:45,520
+deep freezers. It's small enough that it fits under a desk. They even spend, they even send you these
+
+200
+0:18:45,520 --> 0:18:49,440
+special thermal gloves. I asked about that on the call. I'm like, how am I going to touch those,
+
+201
+0:18:49,440 --> 0:18:54,000
+you know, negative 70 degree things? Because I remember, you know, going into the deep freeze,
+
+202
+0:18:54,000 --> 0:18:58,720
+you know, and you pull it out and you get freezer burn on your fingers. So they send goggles,
+
+203
+0:18:58,720 --> 0:19:03,760
+they send special gloves, you grab as many vials as you want, let them come up to room temperature,
+
+204
+0:19:04,400 --> 0:19:09,760
+add some saline, inverted a few times, and then fill your syringes. So it's really,
+
+205
+0:19:10,320 --> 0:19:15,440
+really user friendly, really something that can get out there. And it's actually something not
+
+206
+0:19:15,440 --> 0:19:18,720
+only that I think we're going to do here in the US, but there's already plans to use the same
+
+207
+0:19:18,720 --> 0:19:23,520
+technology throughout Sub-Saharan Africa, you know, low middle income countries as well. So
+
+208
+0:19:23,520 --> 0:19:30,000
+really no issues here. Everyone should start getting signed up, registered so they can make
+
+209
+0:19:30,000 --> 0:19:35,760
+this happen. You get your first dose with Pfizer, three weeks later, you get your second dose,
+
+210
+0:19:35,760 --> 0:19:40,720
+and within five days, you are at these wonderful levels of protection that we've all heard about.
+
+211
+0:19:40,720 --> 0:19:45,120
+Just want to sort of let people know that this whole cold storage, ultra cold stuff,
+
+212
+0:19:45,120 --> 0:19:50,640
+it's really not an issue. Pfizer's worked this out. And so there'll be a little details adjusted
+
+213
+0:19:50,640 --> 0:19:55,040
+at sort of the endpoint once the FDA comes and says, this is exactly the way we want you to do
+
+214
+0:19:55,040 --> 0:19:59,840
+it. How many times can you recharge that thermal freezer with your, you know, with your, what kind
+
+215
+0:19:59,840 --> 0:20:06,560
+of ice is that? Dry ice. And I promised I would mention dry ice. And I'm going to make a video
+
+216
+0:20:06,560 --> 0:20:11,520
+this weekend on homemade drugs, because everyone's like, Oh my gosh, we're going to run out of dry
+
+217
+0:20:11,520 --> 0:20:17,520
+ice. And it's really easy to make. And you know, don't try this at home. People will listen and do
+
+218
+0:20:17,520 --> 0:20:22,320
+that when I say that. But you know, you can really just take one of those CO2 fire extinguishers
+
+219
+0:20:22,320 --> 0:20:27,440
+and a cloth bag and either tape it or have a really good glove and you blast into the bag and
+
+220
+0:20:27,440 --> 0:20:32,480
+presto, you have dry ice. So I'll be, I'll be blasting that on Twitter this weekend. But
+
+221
+0:20:32,480 --> 0:20:37,120
+yeah, we're not going to run out of dry ice. It's easy to make dry ice. We've got lots of CO2.
+
+222
+0:20:37,120 --> 0:20:42,480
+We're good to go. Apparently, there was a CO2 shortage in England a couple of years back. You
+
+223
+0:20:42,480 --> 0:20:47,200
+know, they couldn't make beer or something. So nothing to worry about. All right, let's move
+
+224
+0:20:47,200 --> 0:20:54,240
+into our incubation post exposure period. That little changes here, right? The CDC updated its
+
+225
+0:20:54,240 --> 0:20:59,520
+guidance. And they basically said, this makes sense. I've been talking about this for a little
+
+226
+0:20:59,520 --> 0:21:04,240
+while, but now it's official. You know, when we used to say you got exposed, now you got to
+
+227
+0:21:04,240 --> 0:21:10,640
+quarantine for 14 days, my wife, her famous, that's excessive. So yeah, she's right. Nobody did that.
+
+228
+0:21:10,640 --> 0:21:16,160
+So now what they've said is what you can do is at the end of seven days, get a test.
+
+229
+0:21:16,160 --> 0:21:21,520
+If the test is negative, then you can move forward. So that was just updated December 2nd.
+
+230
+0:21:22,480 --> 0:21:26,880
+And this does not need to be a PCR. They don't specify that you can go ahead and get your rapid
+
+231
+0:21:26,880 --> 0:21:32,720
+test 15 minutes later, you find out you're good to go, you move forward. So I say that's, that's
+
+232
+0:21:32,720 --> 0:21:38,720
+really positive. All right, now we move into the viral symptom phase. Now, unfortunately,
+
+233
+0:21:38,720 --> 0:21:42,800
+you have you have not missed the bullet. You've actually got infected. You're starting to have
+
+234
+0:21:42,800 --> 0:21:51,280
+symptoms, just some monoclonal antibody updates. You know, people, people have not really forgotten
+
+235
+0:21:51,280 --> 0:21:57,600
+about the monoclonal antibodies. There still tends to be a tremendous demand. And actually,
+
+236
+0:21:57,600 --> 0:22:03,680
+when this when this episode drops on Saturday, there'll be some stuff in the news about Eli
+
+237
+0:22:03,680 --> 0:22:08,560
+Lilly and my involvement with them. So tell people to watch the news and we'll talk more about this
+
+238
+0:22:08,560 --> 0:22:13,680
+next week. But I did want to add a little bit of a discussion. I was listening to TWIV 688.
+
+239
+0:22:14,560 --> 0:22:19,040
+And there was a whole discussion about subcutaneous versus intradermal and the half life of the
+
+240
+0:22:19,040 --> 0:22:25,680
+antibodies. You know, it reminded me of of rabies when the when the woman who wrote in was talking
+
+241
+0:22:25,680 --> 0:22:30,320
+about injecting herself in the belly and all these different things. So just a couple of things to
+
+242
+0:22:30,320 --> 0:22:35,280
+talk about. So intradermal, if anyone ever had their their skin test for tuberculosis,
+
+243
+0:22:35,280 --> 0:22:39,120
+that's where you put the needle just a little under the skin and you raise a little blab,
+
+244
+0:22:39,120 --> 0:22:45,120
+that's intradermal. That's in the skin. Subcutaneous is sort of down in the fat layer,
+
+245
+0:22:45,120 --> 0:22:49,360
+but above the muscle. So you're not getting into the muscle, you're, you know, you pull a nice chunk
+
+246
+0:22:49,360 --> 0:22:54,320
+of fat. It's easy to do on me, particularly because I don't go to the gym anymore. But, you know,
+
+247
+0:22:54,320 --> 0:23:00,640
+one day it'll be harder, hopefully. You know, the rest of my life is so hard. Why is my belly so soft?
+
+248
+0:23:00,640 --> 0:23:06,400
+But you grab a nice chunk and you put the injection in there. The reason we're studying monoclonal
+
+249
+0:23:06,400 --> 0:23:11,200
+antibodies in the subcutaneous is you don't have to go to a clinic. You don't have to go to a hospital.
+
+250
+0:23:11,200 --> 0:23:16,320
+Anyone can grab a nice chunk and inject in the way they do with Proleia, for instance, some of our
+
+251
+0:23:16,320 --> 0:23:21,600
+other medicines. So we're studying that as well. Why do you do four different sites? It's a question
+
+252
+0:23:21,600 --> 0:23:27,680
+of volume at this point. It's just sort of a large volume. What about half-life? The half-life
+
+253
+0:23:27,680 --> 0:23:33,920
+is different with the different antibody preparations. So the Eli Lilly, the BAM BAM, the BAM Linibin
+
+254
+0:23:33,920 --> 0:23:38,960
+map, half-life is about 21 days. They get a really high dose. 21 days, it's about half of that.
+
+255
+0:23:40,240 --> 0:23:45,520
+The half-life is a little bit longer with the Regeneron antibodies. And I think I mentioned
+
+256
+0:23:45,520 --> 0:23:50,480
+GSK has made a stock modification, so there anybody has an even longer half-life. So
+
+257
+0:23:51,280 --> 0:23:56,000
+next thing I guess I'll mention is that this is passive immunity. So when you give someone this
+
+258
+0:23:56,000 --> 0:24:02,480
+infusion or you do the subcutaneous injection, then you're not going to see an immune response.
+
+259
+0:24:02,480 --> 0:24:06,240
+You're not going to see lymph nodes. You're not going to see soreness at the site.
+
+260
+0:24:06,240 --> 0:24:11,120
+About 2% of the time people get a little bit itchy. So that's why we sort of observed them.
+
+261
+0:24:11,120 --> 0:24:14,480
+Get a little bit itchy. We give them Benadryl has been an issue to date. So
+
+262
+0:24:15,600 --> 0:24:23,040
+making some progress there. The early inflammatory phase. People should go back and listen to
+
+263
+0:24:23,040 --> 0:24:29,920
+immune 39, a Tonka truck full of salt. And they have a discussion right at about 57 minutes about
+
+264
+0:24:29,920 --> 0:24:38,160
+the cytokine storm. And the whole early inflammatory response is really a sophisticated, complicated
+
+265
+0:24:38,160 --> 0:24:45,200
+thing. And it reminded me of a book and a movie based on the same book, Smilla Sense of Snow,
+
+266
+0:24:45,200 --> 0:24:50,560
+written by the Danish author Peter Hogue. And the main character is a Greenlander.
+
+267
+0:24:50,560 --> 0:24:55,520
+And she presents this idea that a lot of people have heard where the Inuit have multiple words
+
+268
+0:24:55,520 --> 0:25:01,360
+for snow. I think in this book, it's 23. The myth is that there are 50. And I think it's sort of
+
+269
+0:25:01,360 --> 0:25:05,360
+an interesting discussion when we're talking about this early inflammatory phase and we talk
+
+270
+0:25:05,360 --> 0:25:13,360
+about cytokine storms. Really, there's a lot of complexity here. And I think that you get the
+
+271
+0:25:13,360 --> 0:25:18,160
+immunologist response. It's very complicated. But from a therapeutic point of view,
+
+272
+0:25:18,160 --> 0:25:24,160
+we're still limited in what we do here. We still use steroids during this period. We still do
+
+273
+0:25:24,160 --> 0:25:30,240
+oxygen. We still do medications to prevent people against cloth. So a lot of supportive care.
+
+274
+0:25:31,120 --> 0:25:36,160
+Secondary infection phase. We're actually, I think I mentioned last time, but we're starting to see
+
+275
+0:25:36,160 --> 0:25:42,000
+more issues here with resistant organisms because of sort of overuse of antibiotics early on. So
+
+276
+0:25:42,000 --> 0:25:46,880
+let's really be careful sort of a reminder there to all our clinicians. If you see these people in
+
+277
+0:25:46,880 --> 0:25:53,120
+the urgent care, you see people in the outpatient setting, what do you do? You might get them hooked
+
+278
+0:25:53,120 --> 0:25:57,840
+up with a pulse oximeter. You might monitor them. You want to make that decision. Do they need to
+
+279
+0:25:57,840 --> 0:26:03,840
+come in the hospital? You might consider aspirin, things like that. But no antibiotics is a viral
+
+280
+0:26:03,840 --> 0:26:08,880
+illness. You want to be really careful. If you're giving more than 10% of your COVID patients
+
+281
+0:26:08,880 --> 0:26:14,240
+antibiotics, you're overdoing it. Most patients can be managed at home without antibiotics
+
+282
+0:26:14,240 --> 0:26:20,320
+with really not hospitalization in most cases. But if they do need to be in the hospital, if they
+
+283
+0:26:20,320 --> 0:26:25,600
+get to this late phase, this is when we start seeing those infections. The multi-system
+
+284
+0:26:25,600 --> 0:26:31,360
+inflammatory phase, it was like a deja vu back to April today. I don't know if that works right,
+
+285
+0:26:31,360 --> 0:26:39,520
+but anyway, early on in April, we talked a bit about the Irish patients. I don't know if our
+
+286
+0:26:39,520 --> 0:26:44,960
+listeners who are with us still remember that. Our Irish patient had an episode at one point
+
+287
+0:26:44,960 --> 0:26:49,760
+where things seem to be going along really well. I'm thinking this is great. We come in and he's
+
+288
+0:26:49,760 --> 0:26:55,760
+completely paralyzed. If our listeners remember that. Same thing happened over the last two days
+
+289
+0:26:55,760 --> 0:27:01,120
+with one of my patients in the ICU. They're getting to the end of week four. We're starting to talk
+
+290
+0:27:01,120 --> 0:27:07,440
+about discharge planning, getting this person set up with rehab, and completely paralyzed.
+
+291
+0:27:07,440 --> 0:27:12,800
+And again, this is this Guillain-Barre syndrome that we see as part of this multi-system inflammatory
+
+292
+0:27:12,800 --> 0:27:18,400
+phase. So that individual has been started on IVIG. It's a 5D treatment that we use.
+
+293
+0:27:19,280 --> 0:27:25,280
+And the motor comes right back. So sort of a frightening thing. But I think now that we
+
+294
+0:27:25,280 --> 0:27:29,920
+understand it, this sort of shows the difference in managing patients. Back we first saw this in
+
+295
+0:27:29,920 --> 0:27:34,160
+April, we did not know what was going on. What's happening, this person was doing so well, suddenly
+
+296
+0:27:34,160 --> 0:27:38,720
+they're paralyzed. And they're on a ventilator because they can't breathe on their own. But now
+
+297
+0:27:38,720 --> 0:27:44,800
+we understand where this fits in. The tail phase, I'm going to finish off here because we've got a
+
+298
+0:27:44,800 --> 0:27:50,080
+few emails. And my goal is to keep this all under 30 minutes. And I'm going to suggest that we
+
+299
+0:27:50,080 --> 0:27:55,760
+create some kind of survey to decide what to call this tail phase. Now it's been recognized. Is it
+
+300
+0:27:55,760 --> 0:28:02,080
+long COVID? Is it long haul trucker COVID? Is it long term COVID? Is it long lasting COVID?
+
+301
+0:28:02,080 --> 0:28:07,200
+Is it post COVID? And actually, I'll let our listeners know that we're recording this on
+
+302
+0:28:07,200 --> 0:28:15,360
+Thursday. But there is a large semi multi hour conference going on today Thursday and Friday,
+
+303
+0:28:15,360 --> 0:28:20,960
+where a lot of clinicians, a lot of researchers are all having an NIH sponsored discussion,
+
+304
+0:28:20,960 --> 0:28:26,160
+trying to better understand not only what's going on here, but how to put together research
+
+305
+0:28:26,160 --> 0:28:29,840
+projects to try to get a better understanding of how to take care of some of these folks.
+
+306
+0:28:29,840 --> 0:28:36,560
+So I'll stop there before we hit emails and just remind everyone that we have we have finished our
+
+307
+0:28:36,560 --> 0:28:43,760
+microbe TV fundraiser, which went very well. I'm happy to say we're going to be able to
+
+308
+0:28:43,760 --> 0:28:49,760
+generously support microbe TV, which is great. But we're we're now supporting the peace course,
+
+309
+0:28:49,760 --> 0:28:56,640
+HIV and AIDS programs. Just remember that the other virus is still responsible for a lot of
+
+310
+0:28:56,640 --> 0:29:00,880
+suffering and death throughout the world. So encourage people to go to parasites without borders.com.
+
+311
+0:29:00,880 --> 0:29:05,360
+So we can do our matching support for the months of December and January.
+
+312
+0:29:06,080 --> 0:29:12,480
+All right. So last time we made a new email address for Daniel Daniel at microbe.tv so you can send
+
+313
+0:29:13,520 --> 0:29:18,480
+the emails there. And I, I save him the trouble of getting them. Actually, they come to me,
+
+314
+0:29:18,480 --> 0:29:22,480
+but they're still for Daniel and we have a bunch. So let's do a couple.
+
+315
+0:29:22,480 --> 0:29:29,200
+All right, I'm going to lump the first two together. Both Joy and Dennis are worried about
+
+316
+0:29:29,200 --> 0:29:35,600
+long term COVID. They wanted, you know, they say they both have it. And what can be done? Are there
+
+317
+0:29:35,600 --> 0:29:42,800
+any therapeutics in sight? And I've gotten this question many times, Daniel. So what can you tell
+
+318
+0:29:42,800 --> 0:29:48,560
+us? Yeah, I mean, that was I think really encouraging about what what is going on today. What's going
+
+319
+0:29:48,560 --> 0:29:53,600
+on tomorrow is that it is recognized that this is a phenomenon. It is recognized that these people
+
+320
+0:29:53,600 --> 0:29:59,360
+are suffering and that we need to really bring science to bear. This can't be just, oh, try some
+
+321
+0:29:59,360 --> 0:30:04,480
+mana histamine, see if the melatonin helps you sleep. We need to really get these people together.
+
+322
+0:30:04,480 --> 0:30:10,400
+So a couple of things I will say is at United in research, I've mentioned that website before,
+
+323
+0:30:11,040 --> 0:30:17,920
+we are going to basically create a COVID positive community. And we are going to basically give
+
+324
+0:30:17,920 --> 0:30:24,880
+people a way to go on the web to register a citizen scientist and to basically participate in the
+
+325
+0:30:24,880 --> 0:30:30,720
+different trials and the different approaches to how do we understand what's going on with people
+
+326
+0:30:30,720 --> 0:30:35,760
+who continue to suffer from COVID. And we're going to be following serologies. There'll be
+
+327
+0:30:35,760 --> 0:30:40,880
+questionnaires. There'll be all kinds of biomarker analysis. So it's going to be a lot of individuals
+
+328
+0:30:40,880 --> 0:30:45,440
+looking at this. I will say at this point, we still have sort of primitive where we focus on
+
+329
+0:30:45,440 --> 0:30:51,680
+symptoms, but this is going to be moving hopefully to better therapeutics. But there are thousands
+
+330
+0:30:51,680 --> 0:30:58,400
+and hundreds of thousands of individuals suffering with this post COVID syndrome.
+
+331
+0:30:58,400 --> 0:31:04,720
+And we're committed to finding answers. All right. Next one is from Chaim who lives in
+
+332
+0:31:04,720 --> 0:31:09,600
+Washington, D.C. And he says, my kid's school is doing almost everything right, distancing,
+
+333
+0:31:09,600 --> 0:31:14,960
+mask wearing, you know, no moving around, no testing, unfortunate. He says there's no testing
+
+334
+0:31:14,960 --> 0:31:22,080
+as in addition to practical issues, they seem to be worried about moral hazard. Anyway, new cases
+
+335
+0:31:22,080 --> 0:31:26,960
+are spiking here in D.C. We are now cresting the record set at the peak in May. Mayor has tightened
+
+336
+0:31:26,960 --> 0:31:32,880
+some restrictions, but indoor dining still permitted. So I think things are going to get worse. His
+
+337
+0:31:32,880 --> 0:31:37,760
+question, is there a point at which we should be pulling our son out of school? Obviously, I don't
+
+338
+0:31:37,760 --> 0:31:42,880
+expect an exact threshold, but conceptually, does it make sense that at some point the background
+
+339
+0:31:42,880 --> 0:31:48,560
+might get high enough to overwhelm the in school precautions? Or are the safety measures enough
+
+340
+0:31:48,560 --> 0:31:53,840
+that we don't have to worry about community spread outside the school? Yeah, you know, I've always
+
+341
+0:31:53,840 --> 0:31:57,840
+get questions about the schools. And I think that this is important. I'm going to be doing another
+
+342
+0:31:57,840 --> 0:32:02,160
+talk for one of the schools this Sunday. And I think Shane Crotty is going to be like going
+
+343
+0:32:02,160 --> 0:32:10,640
+before me, actually, so my buddy Shane Crotty. The science is mounting. The evidence is that you
+
+344
+0:32:10,640 --> 0:32:15,440
+can make schools a safe place. That doesn't mean everyone's making it a safe place, but you can do
+
+345
+0:32:15,440 --> 0:32:21,280
+it. So as you describe, if they put all these proper mitigation measures in place, if they,
+
+346
+0:32:21,280 --> 0:32:26,480
+you know, keep the kids separated, if they wear masks, and watch that they're not indoor dining
+
+347
+0:32:26,480 --> 0:32:32,880
+at school. And I really commend my son, who's always horrified that, you know, they sit too close
+
+348
+0:32:32,880 --> 0:32:38,800
+when people eat. And that is true, Barnaby, you should be horrified like I am. We can make schools
+
+349
+0:32:38,800 --> 0:32:44,240
+safe. The interesting thing is not only have I been weighing in and giving advice and sort of
+
+350
+0:32:44,240 --> 0:32:49,680
+commenting on schools in the New York area, but actually throughout the country, my first involvement
+
+351
+0:32:49,680 --> 0:32:57,360
+in schools was actually in March in Texas. And I still remember the conversation. So this was the
+
+352
+0:32:57,360 --> 0:33:03,200
+superintendent of one of the largest school districts in Texas. And, you know, he asked me,
+
+353
+0:33:03,200 --> 0:33:09,280
+and I've known him for a while. So he said, you know, Dan, you know, what do you think? Should we
+
+354
+0:33:09,280 --> 0:33:14,720
+close the schools? And I said, you know what, you can either close them now, or you can wait until
+
+355
+0:33:14,720 --> 0:33:19,600
+it's too late. And that was back. We didn't understand back in March, we didn't know that we could
+
+356
+0:33:19,600 --> 0:33:24,400
+make schools a safe place. So this is a different scenario. And I don't think it's like, Oh, just
+
+357
+0:33:24,400 --> 0:33:28,640
+in New York, you have resources can make the schools safe. I've talked to schools throughout
+
+358
+0:33:28,640 --> 0:33:35,680
+the country, we can make schools safe in Idaho, in Texas, in Montana, in California, in Colorado.
+
+359
+0:33:36,880 --> 0:33:41,920
+And and that's that's one of the things. So so I'll go ahead and say, I'm not sure closing schools
+
+360
+0:33:41,920 --> 0:33:47,120
+makes a lot of sense, even here in New York City, where real estate and space is actually quite tough.
+
+361
+0:33:48,320 --> 0:33:53,520
+The New York City mayor wants to open the schools again, and wants to do it in a way that they
+
+362
+0:33:53,520 --> 0:33:58,880
+think is safe, because there are clear harms to closing the schools. And the teachers, you know,
+
+363
+0:33:58,880 --> 0:34:04,960
+I'm thinking about teachers here too, they can be made safe. If if we do what we know works,
+
+364
+0:34:05,600 --> 0:34:09,920
+if we don't give the masks, if we don't put measures in place, if we don't have the distancing,
+
+365
+0:34:09,920 --> 0:34:14,480
+that's a problem. The other thing that is right around the corner, right, the rainbow at the end
+
+366
+0:34:14,480 --> 0:34:19,760
+of this dark tunnel is right after we do the healthcare workers, we're going to start vaccinating
+
+367
+0:34:19,760 --> 0:34:25,280
+the teachers. So in the in the coming months, the teachers are going to be safe as well. And I
+
+368
+0:34:25,280 --> 0:34:29,600
+think that's really going to help us with opening schools. All right, one more from Paul, who is in
+
+369
+0:34:29,600 --> 0:34:37,840
+Manchester UK. He sends a link to a BBC article about lung damage and wants to hear Dr. Griffin's
+
+370
+0:34:37,840 --> 0:34:44,320
+thoughts. This is an article about a new scanning mechanism that has identified lung damage months
+
+371
+0:34:44,320 --> 0:34:52,240
+after the initial infection. I think about this. Yeah, you know, I actually appreciate that you
+
+372
+0:34:52,240 --> 0:35:00,000
+bring this up, Paul. You know, if anything, I think people underestimate the damage, the morbidity
+
+373
+0:35:00,000 --> 0:35:05,200
+of COVID-19, you know, some less than wise people have sort of said, Oh, COVID either, you know,
+
+374
+0:35:05,200 --> 0:35:13,280
+you get it and either live or you die. Yeah, no, most people who get COVID don't just live or die.
+
+375
+0:35:13,280 --> 0:35:18,880
+A lot of the people that don't die are really negatively impacted. And we see the people with
+
+376
+0:35:18,880 --> 0:35:25,600
+the long haul, the tale of COVID. But there's also a lot of individuals who were physically
+
+377
+0:35:25,600 --> 0:35:31,360
+active and they find themselves compromised. We've had several several serious athletes who find
+
+378
+0:35:31,360 --> 0:35:35,120
+that, you know, they went from running six, seven miles a day to having trouble going up the flight
+
+379
+0:35:35,120 --> 0:35:40,320
+of stairs. We're appreciating that there can be for a lot of individuals much more lung damage
+
+380
+0:35:40,320 --> 0:35:46,720
+than was initially appreciated. We're also recognizing heart damage as well. So I think these studies
+
+381
+0:35:46,720 --> 0:35:52,400
+are really important to let people know that you really want to not get COVID. Because yeah,
+
+382
+0:35:52,400 --> 0:35:56,480
+you may survive, you may come out the other side, you may be able to tell everyone how great you're
+
+383
+0:35:56,480 --> 0:36:01,760
+doing. But let's see you try to run a mile after you've had COVID. It may not go so well. So
+
+384
+0:36:02,720 --> 0:36:08,800
+let's really for the next few months until, and I guess this reminds me of my other movie as we'll
+
+385
+0:36:08,800 --> 0:36:13,440
+sort of finish here soon. This was, I watched Greyhound. It always takes about a week because I
+
+386
+0:36:13,440 --> 0:36:19,280
+watch in like seven minute increments. But this is a World War II and it's a shipping convoy and
+
+387
+0:36:19,280 --> 0:36:24,320
+they've they've left the safety of air cover of the US. And now they're heading towards air cover
+
+388
+0:36:24,320 --> 0:36:28,880
+over in England. You know, and they're how many hours till we're back in air cover. And that's
+
+389
+0:36:28,880 --> 0:36:34,960
+where we are right now. It's only weeks and months till we've got the air cover of the vaccine. So,
+
+390
+0:36:34,960 --> 0:36:39,840
+you know, let's just be safe. Let's zigzag. Let's let's avoid those crowds. Let's wear those masks.
+
+391
+0:36:39,840 --> 0:36:46,560
+Let's wash our hands so we can get back to the air cover of the vaccine and the pre COVID world.
+
+392
+0:36:47,920 --> 0:36:55,360
+All right. That's our COVID-19 clinical update number 39 from Dr. Daniel Griffin. Thank you, Daniel.
+
+393
+0:36:55,360 --> 0:37:10,240
+Oh, pleasure. It's always and everyone be safe.
+

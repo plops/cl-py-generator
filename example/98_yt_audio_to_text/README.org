@@ -1,0 +1,151 @@
+* Contents
+| file       | level of completion | comment                                                             | output                        |
+|------------+---------------------+---------------------------------------------------------------------+-------------------------------|
+| gen00      |                 90% | use python/selenium/helium to get all links from youtube            | links_covid_update_parsed.csv |
+| gen01      |                 90% | create a shell script that downloads the audio files                | data/01243_TWiV*.webm         |
+| README.org |                 90% | search for TRANSCRIPTION for the loop that transcribes webm to text | transcribed/{srt,txt,vtt}     |
+|            |                     |                                                                     |                               |
+
+
+* Description / Work log
+- i want to be able to search through all the videos on
+  https://www.youtube.com/c/VincentRacaniello/videos with titles like
+  this: TWiV 908: COVID-19 clinical update #118 with Dr. Daniel
+  Griffin
+
+1. get a list of videos with helium
+2. download the audio only
+3. apply github.com/openai/whisper
+
+- lets see how far i can get
+
+- solutions
+  - 1 done
+  - 2
+#+begin_example
+[martin@localhost source]$ du -hs data
+2.9G	data
+#+end_example
+
+- install whisper on popos 22 (gpu server)
+#+begin_example
+ssh slim
+sudo apt update && sudo apt install ffmpeg
+cd ~/src
+pip install git+https://github.com/openai/whisper.git
+# 776MB torch 1.12.1
+#+end_example
+
+- copy data to server
+#+begin_example
+rsync -av \
+  /home/martin/stage/cl-py-generator/example/98_yt_audio_to_text/source/data \
+  slim:/dev/shm/ 
+#+end_example
+
+- convert speech to text on server
+#+begin_example
+
+ssh slim
+cd /dev/shm/
+whisper data/0038* --model medium 
+
+# on first call downloads 1.42GB
+# memory usage in nvidia-smi
+# 62%   74C    P2   172W / 175W |   6070MiB /  8192MiB |
+#+end_example
+
+- conversion is quite slow:
+#+begin_example
+martin@pop-os:/dev/shm$ time whisper data/0038* --model medium 
+Detecting language using up to the first 30 seconds. Use `--language` to specify the language
+Detected language: English
+[00:00.000 --> 00:07.000]  This Week in Virology, the podcast about viruses, the kind that make you sick.
+[00:10.360 --> 00:15.000]  From Microbe TV, this is TWIV This Week in Virology,
+...
+takes too long for me
+...
+[06:56.360 --> 07:00.760]  And I think this just sort of helps people to get like, how does this move from the news
+^CTraceback (most recent call last):
+  File "/home/martin/.local/bin/whisper", line 8, in <module>
+    sys.exit(cli())
+KeyboardInterrupt
+
+
+real	2m43.113s
+user	2m39.057s
+sys	0m10.081s
+
+  
+#+end_example
+
+- try the smaller model (base should be 8x faster than medium)
+#+begin_example 
+time whisper data/0038* --model base.en | tee 0038.txt
+
+# downloads 138M on first call
+
+#+end_example
+
+- the base.en model takes 1m50s to convert 35min of speech into text on my hardware
+#+begin_example
+artin@pop-os:/dev/shm$ time whisper data/0038* --model base.en | tee 0038.txt
+/home/martin/.local/lib/python3.10/site-packages/whisper/transcribe.py:282: UserWarning: base.en is an English-only model but receipted 'None'; using English instead.
+  warnings.warn(f"{model_name} is an English-only model but receipted '{args['language']}'; using English instead.")
+100%|███████████████████████████████████████| 139M/139M [00:09<00:00, 15.0MiB/s]
+[00:00.000 --> 00:06.880]  This week in virology, the podcast about viruses, the kind that make you sick.
+[00:10.320 --> 00:21.760]  From Microbe TV, this is Twiv. This week in virology, Episode 686, recorded on November 27th, 2020.
+
+...
+
+[33:54.000 --> 34:00.000]  You can find me at virology.blog. You've been listening to this week in virology. Thanks for
+[34:00.000 --> 34:19.840]  joining us. We'll be back soon. Another Twiv is viral.
+
+real	1m50.759s
+user	1m45.028s
+sys	0m3.475s
+
+
+#+end_example
+
+
+- TRANSCRIPTION convert all the files
+#+begin_example
+mkdir ~/twiv_text
+cd ~/twiv_text
+tmux
+
+for i in /dev/shm/data/*.webm;
+do
+  echo "WWWWWWWWWWWWWW    "$i
+  whisper "$i" --model base.en --task transcribe --language en
+done
+
+#+end_example
+
+- copy results from server to repo
+#+begin_example
+
+cd /home/martin/stage/cl-py-generator/example/98_yt_audio_to_text/source/transcribed
+rsync -avz slim:./twiv_text/* .
+
+for i in {srt,vtt,txt}
+do
+  mkdir $i
+  mv *".$i" $i 
+done
+
+git add */*webm.*
+
+#+end_example
+
+
+* References
+
+- https://news.ycombinator.com/item?id=33035369
+
+  - discussion of transcription websites
+  - also mentions that youtube-dl can obtain subtitles
+#+begin_example
+ youtube-dl has --embed-subs and --convert-subs (currently supported: ass, lrc, srt, vtt)
+#+end_example

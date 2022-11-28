@@ -1,0 +1,1136 @@
+WEBVTT
+
+00:00.000 --> 00:06.880
+ This week in virology, the podcast about viruses, the kind that make you sick.
+
+00:10.240 --> 00:20.720
+ From Microbe TV, this is Twiv, this week in virology, Episode 772, recorded on June 24, 2021.
+
+00:20.720 --> 00:25.920
+ I'm Vincent Rackeniello, and you're listening to the podcast all about viruses.
+
+00:25.920 --> 00:29.120
+ Joining me today from New York, Daniel Griffin.
+
+00:29.120 --> 00:38.720
+ Hello, everyone. This is number 68, Daniel. And, you know, over a year of updates, it seems to me
+
+00:38.720 --> 00:44.960
+ that at least here in the US, things are getting better. You know, they certainly are, particularly
+
+00:44.960 --> 00:51.440
+ in many parts of the US. We still have our regional pockets, a little shout out to Missouri, right,
+
+00:51.440 --> 01:00.000
+ where the positivity rate is over 6%. So, but areas, I'll say, I was on a call earlier this week where
+
+01:00.000 --> 01:04.640
+ we were talking about can we start doing nebulizers, things like that, you know, with a little bit
+
+01:04.640 --> 01:11.040
+ more flexibility. So, nebulizers, if people are not familiar, is where maybe an individual comes in,
+
+01:11.040 --> 01:17.040
+ they're having trouble breathing. And we actually use a device called a nebulizer, which creates
+
+01:17.040 --> 01:24.640
+ small particles, right, that can be inhaled that have maybe bronco dilators, medicines that will
+
+01:24.640 --> 01:28.880
+ open up the airways, help them breathe better. Maybe they're having an asthma attack or a
+
+01:29.680 --> 01:35.040
+ COPD exacerbation. And we've been hesitant to use those, but we actually were saying, boy,
+
+01:35.040 --> 01:40.560
+ if a person's vaccinated, if your prevalence is, you know, your test positivity rate is under 1%,
+
+01:41.680 --> 01:45.680
+ you could start thinking about being a little bit more flexible. I mean, we've always done that
+
+01:45.680 --> 01:50.080
+ when it's been really severe at an emergency. And one of the people on the call said, that's
+
+01:50.080 --> 01:56.240
+ pretty strict under 1%, and I was proud to say here in New York, our test positivity rate is under
+
+01:56.240 --> 02:01.520
+ 1%, and we are doing a lot of testing. But that's not true everywhere as we sort of bring up.
+
+02:02.720 --> 02:07.280
+ All right, so let's start with our quotation, and then let's get right into the thick of it. So,
+
+02:07.840 --> 02:14.080
+ the quotation, prejudice is a burden that confuses the past, threatens the future,
+
+02:14.080 --> 02:21.280
+ and renders the present inaccessible. And that's by Maya Angelou. And I like that because I think
+
+02:21.280 --> 02:27.440
+ that I feel like we all need to keep being reminded that we don't want, we don't want confirmation
+
+02:27.440 --> 02:32.560
+ bias. We don't want to go into something thinking we know what the truth is. We want to have our
+
+02:32.560 --> 02:37.680
+ eyes open so that we can actually continue to learn and move forward. Not everything that we
+
+02:37.680 --> 02:42.240
+ thought we knew a year ago has turned out to be true. And not everything we thought a year ago
+
+02:42.240 --> 02:48.720
+ that was untrue. That's turned out to be such. So, I think we still need to keep learning. We still
+
+02:48.720 --> 02:53.520
+ have so much to learn, and we'll get into that as we go forward. But the update really hits home
+
+02:53.520 --> 03:00.080
+ with Vincent, your first question, which was how are things going? And I'd say this is sort of a
+
+03:00.080 --> 03:07.440
+ tough day, a tough week on several levels. I don't know if our listeners know, but one of my cows,
+
+03:07.440 --> 03:14.080
+ my cow, I suppose, and my heifer actually died in Uganda. There was a viral disease. The
+
+03:14.080 --> 03:19.280
+ hoof and mouth disease was sweeping through Eastern Uganda, which periodically happens. And so my
+
+03:20.000 --> 03:28.000
+ cow died, which is tragic. I mean, tragic because you care about your animals, but also this was a
+
+03:28.000 --> 03:34.000
+ cow that was providing seven liters of milk a day to help feed people. And it was even economically.
+
+03:34.000 --> 03:39.840
+ This is part of the income that was helping to support Mary, my little heifer, who is only about
+
+03:39.840 --> 03:46.640
+ a year old. So that's difficult, right? For those of us, we talk about how difficult the pandemic
+
+03:46.640 --> 03:51.440
+ has been. We couldn't go to that bar. We couldn't see that movie. We were trapped in our houses. But
+
+03:52.000 --> 03:57.520
+ just really to bring home people in Uganda, where the virus is surging again, and there's a vaccine
+
+03:57.520 --> 04:04.880
+ shortage, this is about not having food. This is about going to bed hungry. Here, though, in the US,
+
+04:04.880 --> 04:10.560
+ right? Today, I was covering three of the hospitals, and my other partner was covering the other
+
+04:10.560 --> 04:17.040
+ three, just two of us covering these six hospitals, because one of my partners, Dr. Anujali, was off
+
+04:17.040 --> 04:23.760
+ attending the funeral of her brother's wife. And this, I think, was tragic. Anujis, sister-in-law,
+
+04:23.760 --> 04:29.360
+ was in her early 50s. She did not want to get vaccinated because she had learned through social
+
+04:29.360 --> 04:36.320
+ media that there were microchips in the vaccines. She went ahead, she got infected. Little over a
+
+04:36.320 --> 04:42.800
+ week later, she ended up in the hospital, intubated, died, leaving behind a husband and her teenage
+
+04:42.800 --> 04:50.480
+ children. This is just tragic. I think when people make up stuff like these microchips and
+
+04:50.480 --> 04:57.920
+ all these other crazy things, there's no science there. This is not a scientific debate. It's just
+
+04:57.920 --> 05:04.000
+ untrue. And that has repercussions. And someone's got to explain to these teenage children that they
+
+05:04.000 --> 05:11.760
+ no longer have a mom. So, as mentioned, we started our country as a patchwork with different ideas
+
+05:11.760 --> 05:17.440
+ about and different vaccination rates. Areas with high vaccination rates tend to be the areas with
+
+05:17.440 --> 05:23.520
+ low COVID. Areas with low vaccination rates tend to be the areas where we're seeing high COVID rates
+
+05:23.520 --> 05:27.840
+ and hospitalizations and deaths. What we're also seeing, and I'm sort of putting this in right
+
+05:27.840 --> 05:32.720
+ before the children, but we'll get into this, is that we're actually seeing all those common
+
+05:32.720 --> 05:38.960
+ winter viruses packed into June. So, now that everyone's taking off their masks, everyone's
+
+05:38.960 --> 05:44.880
+ celebrating, everyone's getting all the kids together and such, the CDC actually had to issue
+
+05:44.880 --> 05:51.600
+ an alert regarding a rapid rise in RSV, respiratory syncytial virus, particularly in the south.
+
+05:52.240 --> 06:00.800
+ But we're also seeing spikes in para-inchluenza, common coronavirus, particularly OC43.
+
+06:01.920 --> 06:08.080
+ I actually had recently a question from actually a clinician, which sort of shocked me. And they
+
+06:08.080 --> 06:12.880
+ were asking whether or not I thought the COVID vaccines were causing these people to develop
+
+06:12.880 --> 06:18.320
+ upper respiratory infections. And there is, I have to say, no way that a COVID vaccination
+
+06:18.320 --> 06:24.880
+ will give you para-influenza virus or RSV. So, no, this is behavioral. And I think a lot of
+
+06:24.880 --> 06:30.640
+ times we like to try to blame something else. But no, these viruses are now spreading. We're seeing
+
+06:30.640 --> 06:36.880
+ a lot of this. And in New York, we're not seeing much COVID-19, but we are seeing a lot of these
+
+06:36.880 --> 06:44.080
+ ERIs. So, important for people to realize that. Children and COVID, children are at low risk,
+
+06:44.080 --> 06:50.320
+ but they're not at no risk. So, never miss an opportunity to test. I'm going to jump right
+
+06:50.320 --> 06:54.960
+ forward here. I don't think this will shock anyone, but it's going to tie right into the
+
+06:54.960 --> 07:00.240
+ kids again. And this was the article assessing the association between social gatherings and
+
+07:00.240 --> 07:07.440
+ COVID-19 risk using birthdays. And this was published in Java Internal Medicine. And this was a cross
+
+07:07.440 --> 07:14.640
+ sectional study using administrative healthcare data on 2.9 million households from the first
+
+07:14.640 --> 07:20.640
+ 45 weeks of 2020. And they found that among households in the top decile of the country,
+
+07:20.640 --> 07:26.480
+ as far as COVID-19 prevalence, those with birthdays had more diagnoses of COVID-19
+
+07:26.480 --> 07:32.880
+ compared with households that it had not had a birthday in the two weeks after that birthday was
+
+07:32.880 --> 07:39.280
+ held. Now, what I will say here is this really was significant in areas where there was a high
+
+07:39.280 --> 07:44.880
+ incidence of COVID, right? If there's a high incidence of COVID and you have a birthday party,
+
+07:44.880 --> 07:50.960
+ that's what's going to spread. If COVID incidence is low, they did not see this. And here, and I
+
+07:50.960 --> 07:54.560
+ think this is a perfect example here in New York, when people are having birthdays and other
+
+07:54.560 --> 08:00.480
+ celebrations, it's the common coronaviruses. It's RSV. It's the rhinoenteroviruses. It's the
+
+08:00.480 --> 08:04.640
+ the other common colds that are spreading. And I think that this is critical, right? As people
+
+08:04.640 --> 08:10.960
+ are making decisions, this really prevalence issue is important as you're making decisions
+
+08:10.960 --> 08:15.920
+ about what to do. And the other thing that is coming up here, and I'm going to sort of a subtlety
+
+08:15.920 --> 08:22.240
+ and nuance here, is that we're back in the times of low prevalence and poor positive
+
+08:22.240 --> 08:28.720
+ predictive value in many parts of our country. So this, people maybe remember that word orthogonal
+
+08:28.720 --> 08:36.240
+ for orthogonal testing. So if an individual comes in, maybe it's a screening, they're asymptomatic,
+
+08:36.240 --> 08:42.640
+ they need a negative test for some reason, it comes back positive. If your prevalence is less
+
+08:42.640 --> 08:48.640
+ than 1%, that's probably false positive. From a medical scientific point of view, you can repeat
+
+08:48.640 --> 08:55.520
+ that to clarify the picture. But most jurisdictions, the Department of Health is still operating
+
+08:55.520 --> 09:01.040
+ under the, and I hate these words, abundance of caution. You still need to treat that positive
+
+09:01.040 --> 09:04.960
+ as a positive. So if that individual is going to be heading off the camp, they've got to wait
+
+09:04.960 --> 09:11.920
+ those 10 days of isolation. So we'll see where that goes going forward. Active vaccination,
+
+09:11.920 --> 09:17.360
+ never miss an opportunity to vaccinate. And as I still believe vaccines are how this pandemic ends,
+
+09:17.360 --> 09:23.920
+ this comes up all the time. So I will touch on it. Maybe this is, I guess, more of interest to
+
+09:23.920 --> 09:28.960
+ physicians, more of interest to people with immune suppression, but I think it's of interest to
+
+09:28.960 --> 09:37.040
+ everyone. Another article was published, safety and immunogenicity of a third dose of SARS-CoV-2
+
+09:37.040 --> 09:43.440
+ vaccine in solid organ transplant recipients, a case series published in the Annals of Internal
+
+09:43.440 --> 09:49.040
+ Medicine. So a little background with which our regular listeners are probably familiar.
+
+09:50.080 --> 09:57.360
+ The antibody response after two doses of an M RNA vaccine against SARS-CoV-2 is excellent
+
+09:57.360 --> 10:03.280
+ in the general population, but can be markedly attenuated or even undetectable in transplant
+
+10:03.280 --> 10:10.160
+ recipients. So here, the authors reported on 30 patients that received a third dose of vaccine
+
+10:10.160 --> 10:19.920
+ in 22 patients. Maintenance immunosuppression included cachrolymus or cyclosporin plus mycofenolate.
+
+10:20.960 --> 10:28.320
+ In addition, corticosteroids were used for 24 patients, ceralymus for one, bilatosept for one,
+
+10:28.880 --> 10:36.320
+ the median time between transplantation and initial vaccination was 4.5 years. So what did they find?
+
+10:36.320 --> 10:42.800
+ Well, before they received their third dose of vaccine, 24 of the 30 patients had negative
+
+10:42.800 --> 10:49.280
+ antibody titers and six had low positive antibody titers. So remember, this is a case series that
+
+10:49.280 --> 10:56.400
+ we're looking at. The patients received the third dose of vaccine a median of 67 days
+
+10:57.200 --> 11:05.200
+ after the second dose of that initial vaccine series. So 15 patients received the J&J, the Johnson
+
+11:05.200 --> 11:12.960
+ and Johnson Janssen, nine received Moderna, six received Pfizer, BioNTech. And what did they find?
+
+11:13.760 --> 11:19.120
+ Repeated antibody testing a median of 14 days after the third dose, in this case,
+
+11:19.120 --> 11:25.360
+ a vaccine revealed that of the six patients with low positive antibody titers before the third dose
+
+11:25.360 --> 11:32.160
+ all had high positive antibody titers after the third dose. In contrast, the 24 patients
+
+11:32.160 --> 11:39.200
+ with negative antibody titers before the third dose, 25% went on to have high positive titers.
+
+11:40.080 --> 11:46.960
+ 8% had low positive titers, and the remainder, so 67% just remained negative.
+
+11:46.960 --> 11:52.080
+ This is interesting, and I agree with the author's comments. There were certain limitations here.
+
+11:52.080 --> 11:58.640
+ I mean, limitations of the study, obvious right off, was this was a small and heterogeneous
+
+11:58.640 --> 12:05.120
+ convenient sample, and there were no assays for neutralizing antibody, no specific B cell memory,
+
+12:05.120 --> 12:11.520
+ or T cell response assays. This is interesting. We still need additional trials to determine
+
+12:11.520 --> 12:16.000
+ whether booster doses to prevent COVID-19 in transphine patients is warranted.
+
+12:16.000 --> 12:21.920
+ And of course, in my mind, the biggest thing here is we do not have a correlate of immunity
+
+12:21.920 --> 12:27.760
+ in the antibody test, right? So we keep asking this question, what does it mean if you are vaccinated
+
+12:27.760 --> 12:33.200
+ and your antibody test is negative? And we still, across the board, say, in general,
+
+12:33.200 --> 12:38.240
+ don't rush out and get your serology test after vaccination. These vaccinations are incredibly
+
+12:38.240 --> 12:43.760
+ effective. The conversation I was having with one of the oncologists today is we're not seeing all
+
+12:43.760 --> 12:50.160
+ these transplant patients, all these people with hematological malignancies who've been
+
+12:50.160 --> 12:55.520
+ vaccinated ending up in the hospital. So we're actually getting an experience that supports the
+
+12:55.520 --> 13:01.120
+ efficacy of these vaccines. Another article, and I think this sort of goes into the same area,
+
+13:01.120 --> 13:06.800
+ on natural infection and protection against reinfection. I have a few comments on this,
+
+13:06.800 --> 13:14.080
+ but the article is reinfection with SARS-CoV-2 in patients undergoing serial laboratory testing.
+
+13:14.080 --> 13:22.560
+ This was published in CID. Here, the authors analyzed 9,119 patients with SARS-CoV-2 infection
+
+13:22.560 --> 13:28.320
+ who received serial tests in total of 62 healthcare facilities in the United States
+
+13:28.320 --> 13:37.520
+ between December 1, 2019 to November 13, 2020. They identified reinfection in 0.7%
+
+13:38.720 --> 13:46.400
+ during an average mean of 116 days or about four months, and there were two deaths associated
+
+13:46.400 --> 13:54.640
+ with reinfections. So the reinfections were associated with a 3.2% mortality. A great discussion
+
+13:54.640 --> 14:00.640
+ here where they compare their data to the 1.8% reinfection rate seen in the UK siren study,
+
+14:01.360 --> 14:06.080
+ and that had been published in SARS-CoV-2 infection rates of antibody positive,
+
+14:06.080 --> 14:11.680
+ compared with antibody negative healthcare workers in England, a large multi-center prospective cohort
+
+14:11.680 --> 14:17.840
+ study siren that had been published in Lancet back in April. So I did find it interesting that
+
+14:17.840 --> 14:22.240
+ the infection fatality rate was higher than most of us think, right? Most of us are thinking,
+
+14:22.240 --> 14:27.440
+ well, if you get reinfected, it'll be more mild, but an infection fatality rate of over 3%.
+
+14:29.040 --> 14:35.760
+ In this case, a couple of people died in this small cohort. We would not only expect with
+
+14:35.760 --> 14:40.080
+ improved therapeutics and close monitoring, right? These people are being closely monitored and
+
+14:40.080 --> 14:45.840
+ picked up early. I would not have expected to see deaths in people who've been previously infected,
+
+14:45.840 --> 14:53.360
+ and vaccines are available. I know the authors use the word only, but my interpretation is that
+
+14:53.360 --> 14:57.360
+ in about four to five months after infection, we're already seeing reinfections, we're already
+
+14:57.360 --> 15:04.480
+ seeing deaths. I think the data has continued to support that vaccines are a little bit better
+
+15:04.480 --> 15:10.640
+ than just natural infection. All right, the period of detectable viral replication,
+
+15:10.640 --> 15:14.800
+ the viral symptom phase, what I like to say, the time for monitoring and monoclonals,
+
+15:15.520 --> 15:19.200
+ and I like to add where you get your test is where you should get your monoclonals.
+
+15:20.080 --> 15:26.320
+ I have a couple things here before we hit monoclonals. So the first is what about antibiotics, right?
+
+15:26.320 --> 15:32.720
+ We all know a significant amount of antibacterial therapeutics have been given for this viral disease.
+
+15:32.720 --> 15:42.800
+ So the article, efficacy and safety of Zithromycin in COVID-19 patients, a systematic review and met
+
+15:42.800 --> 15:48.640
+ analysis of randomized clinical trials was published in reviews of medical virology. Now,
+
+15:48.640 --> 15:58.560
+ the authors analysis included seven studies with 8,822 patients. The use of a Zithromycin, that is
+
+15:58.560 --> 16:05.120
+ an antibacterial antibiotic, the Z-pack, which is quite popular here in the US, was not associated
+
+16:05.120 --> 16:11.280
+ with an impact on mortality in COVID-19 patients. The use of a Zithromycin was not
+
+16:11.280 --> 16:16.640
+ associated with an impact on need for invasive mechanical ventilation or length of stay.
+
+16:17.440 --> 16:23.440
+ The results in this rather large study showed that a Zithromycin as routine therapy in COVID-19
+
+16:23.440 --> 16:30.000
+ patients is not justified due to a lack of efficacy and potential risk of bacterial resistance.
+
+16:30.000 --> 16:34.000
+ I thought it was interesting because I looked through the comments and one of the comments was
+
+16:34.000 --> 16:37.280
+ someone said, you know, we already know this and this doesn't add much to the literature.
+
+16:37.840 --> 16:43.120
+ But unfortunately, as I pointed out, 88% of people with COVID have ended up getting
+
+16:43.120 --> 16:49.920
+ antibiotic. So unfortunately, no, people seem not to know this. I recently had a conversation
+
+16:49.920 --> 16:54.320
+ with someone taking care of a patient in India and the comment was, you know, we really had nothing
+
+16:54.320 --> 17:00.480
+ to give them except for antibiotics. They said, what do you mean except for antibiotics? They're
+
+17:00.480 --> 17:05.520
+ like, well, we didn't have oxygen. We didn't have steroids. All we had on hand was antibiotics and
+
+17:05.520 --> 17:10.480
+ we wanted to give them something. Don't give them antibiotics. That is not giving them something.
+
+17:10.480 --> 17:15.360
+ That's not helpful. That's like giving them HCQ, hydroxychloroquine. You're going to do harm.
+
+17:15.360 --> 17:20.320
+ You are not being helpful. This concept that only a minority of patients admitted with COVID
+
+17:20.320 --> 17:26.800
+ have a secondary bacterial infection. We had another article, characterization of bacterial
+
+17:26.800 --> 17:33.600
+ and fungal infections in hospitalized patients with coronavirus disease 2019 and factors associated
+
+17:33.600 --> 17:40.240
+ with healthcare associated infections. This was published in open forum infectious diseases.
+
+17:40.240 --> 17:45.840
+ And whenever I read a good article, I always remember Steve Goff giving me a hard time asking me if
+
+17:45.840 --> 17:51.520
+ that was a real journal. So I want to point out, if Steve is listening, that this was published by
+
+17:51.520 --> 17:58.960
+ the Columbia infectious disease physicians. They're at this prestigious university, Columbia University.
+
+17:58.960 --> 18:04.560
+ They're in New York City, Magda, Sobiesik. The head of our department was among the authors.
+
+18:04.560 --> 18:10.720
+ I was actually presenting to the group this morning. So if anyone's listening, I'm reading and
+
+18:10.720 --> 18:17.040
+ highlighting your article. My colleagues evaluated adult patients diagnosed with COVID-19 between
+
+18:17.760 --> 18:25.040
+ the 2nd of March and the 31st of May 2020 that had been hospitalized for greater than 24 hours.
+
+18:25.760 --> 18:33.440
+ They included a total of over 3,000 patients, community associated co-infections when they were
+
+18:33.440 --> 18:40.480
+ admitted or identified in only 6% of patients. And this is an important point. This is during
+
+18:40.480 --> 18:47.760
+ that acute inflammatory phase. This is when they're ending up in the hospital. 94% did not have an
+
+18:47.760 --> 18:55.120
+ acute bacterial infection that would benefit from antibacterial therapy. Later on, and we've
+
+18:55.120 --> 19:01.440
+ talked about this before, if you continue in the hospital, you can go on to develop a healthcare
+
+19:01.440 --> 19:07.760
+ associated infection. This is usually in week 2 or 3 of your hospital stay. They did see that
+
+19:07.760 --> 19:16.240
+ in 12% of these patients. Most of those infections were gram negative bacteria, but also about 20%
+
+19:16.240 --> 19:22.880
+ were due to fungi. And then as time went on, they were actually seeing more drug-resistant
+
+19:22.880 --> 19:29.680
+ organisms causing these. Monoclonals can't leave monoclonals out. There's always a little more data.
+
+19:29.680 --> 19:36.320
+ The article effect of monoclonal antibody treatment on clinical outcomes in ambulatory patients with
+
+19:36.320 --> 19:43.440
+ COVID-19, also an open form infectious disease. The authors reported when they compared rates of
+
+19:43.440 --> 19:49.200
+ emergency department visits or hospitalizations among ambulatory COVID-19 patients treated with
+
+19:49.200 --> 19:58.240
+ monoclonal antibody. That was an N equals 305 versus untreated. That was 6,354. That treatment was
+
+19:58.240 --> 20:06.320
+ associated with decreased encounters within 30 days. So odds ratio of 0.23. So about a 77%
+
+20:06.320 --> 20:12.960
+ reduction. So just we keep hitting on this. The most effective thing we can do, if we have missed
+
+20:12.960 --> 20:18.160
+ that opportunity to get someone vaccinated, is treatment with monoclonals. And as we mentioned
+
+20:18.160 --> 20:23.600
+ last time, if they show up at the hospital and they're still serology negative, meaning they do
+
+20:23.600 --> 20:29.520
+ not yet have detectable antibodies, there may still be some benefit, not this dramatic benefit
+
+20:29.520 --> 20:34.560
+ we're seeing in that first week, but still a little bit in some patients. Early inflammatory
+
+20:34.560 --> 20:42.240
+ phase, we did get a press release from Gilead. And this was Gilead's remdesivir. I've actually
+
+20:42.240 --> 20:48.400
+ replaced their brand name with remdesivir all throughout this, but associated with a reduction
+
+20:48.400 --> 20:54.640
+ in mortality rate in hospitalized patients with COVID-19 across three analyses of large
+
+20:54.640 --> 21:01.280
+ retrospective real world data sets. So real world evidence from nearly 100,000 hospitalized
+
+21:01.280 --> 21:06.560
+ patients provides clinical insights on the use of remdesivir for the treatment of COVID-19.
+
+21:07.520 --> 21:11.840
+ Now this was data was presented at World Microbe Forum. Vincent, I don't know if you were at
+
+21:11.840 --> 21:18.720
+ if you attended World Microbe Forum. He's shaking head no. Okay. Well, at that
+
+21:20.080 --> 21:29.040
+ forum, they presented three real world data analysis that included 98,654 patients hospitalized
+
+21:29.040 --> 21:35.120
+ with COVID-19. So let's let's run through the three trials. So one was the double pine placebo
+
+21:35.120 --> 21:44.000
+ controlled adaptive COVID-19 treatment trial. So that's ACTT1. And this was looking at hospitalized
+
+21:44.000 --> 21:54.000
+ patients with COVID-19. There was a trend toward reduced mortality, 11% versus 15%. And the remdesivir
+
+21:54.000 --> 22:00.800
+ treated patients. So that was an N of 541 compared with the placebo N equals 521. Now in the overall
+
+22:00.800 --> 22:06.320
+ study population, a trend means this was not statistically significant looking at over 1,000
+
+22:06.320 --> 22:12.960
+ treated patients. But then they went and did a post hoc analysis. And in this post hoc analysis,
+
+22:12.960 --> 22:19.360
+ remember this data mining, as I like to say, patients requiring low flow oxygen at baseline
+
+22:19.360 --> 22:26.240
+ achieved a 70% reduction in mortality that they did claim was statistically significant.
+
+22:26.240 --> 22:32.080
+ The difference in mortality in the other subgroups was not statistically significant.
+
+22:32.080 --> 22:37.680
+ I think this plays into our practice, right? We are not giving remdesivir and not
+
+22:38.240 --> 22:44.000
+ recommending remdesivir for people who come in without the requirement of low flow oxygen.
+
+22:44.000 --> 22:47.360
+ And we already have some data we were concerned about there once they progress,
+
+22:47.360 --> 22:51.280
+ once they end up in the ICU or a ventilator that maybe they do worse.
+
+22:51.280 --> 22:58.240
+ Then we have the real world retrospective comparative analysis from the premier healthcare
+
+22:58.240 --> 23:03.360
+ database. This looked at mortality and hospitalized patients who were treated with remdesivir.
+
+23:03.360 --> 23:11.760
+ Bigger numbers here, N equals 28,855 versus matched patients who were not treated. Those were the
+
+23:11.760 --> 23:21.120
+ N of 16,687. And this looked between August and November of 2020. So the analysis included
+
+23:21.120 --> 23:26.400
+ adult hospitalized patients treated within the first two days. Patients were matched on
+
+23:26.400 --> 23:32.800
+ baseline level of oxygenation. And they all stayed in the hospital for a minimum of three days.
+
+23:32.800 --> 23:38.720
+ The primary endpoint was time to death. And in this large analysis, they report that they saw a
+
+23:38.720 --> 23:45.760
+ significantly lower risk of mortality in patients that got remdesivir versus those that not across
+
+23:45.760 --> 23:50.160
+ all severity levels, right? So people coming in with low amounts of oxygen, higher amounts of
+
+23:50.160 --> 23:58.000
+ oxygen, et cetera. And finally, they referred in this press release to the simple severe study,
+
+23:58.000 --> 24:03.760
+ which is a randomized open label, multi-center phase three study and hospitalized adult patients
+
+24:03.760 --> 24:10.480
+ with severe COVID-19, oxygen saturation less than 94% on room air, or receiving supplemental
+
+24:10.480 --> 24:16.720
+ oxygen and radiological evidence of pneumonia. As the primary objective of the study, five-day
+
+24:16.720 --> 24:21.120
+ and 10-day dosing durations of remdesivir, they did not include a standard of care
+
+24:21.120 --> 24:26.560
+ comparator arm when they initially set this up. But then ahead, the retrospective real-world
+
+24:26.560 --> 24:32.320
+ analysis that was presented at the WMF compared mortality outcomes of hospitalized patients who
+
+24:32.320 --> 24:39.040
+ received remdesivir in the open label extension phase, right? So they continued this study into
+
+24:39.040 --> 24:48.960
+ an open label extension phase. Here we had in that an N of 1,974, and then they created a propensity
+
+24:48.960 --> 24:57.120
+ score weighted comparator arm. Patients not treated with remdesivir was an N of 1,426.
+
+24:57.120 --> 25:04.080
+ The primary endpoint was time to all cause death, and the analysis found that in the overall population,
+
+25:04.080 --> 25:08.960
+ treatment with remdesivir was associated with a statistically significant mortality risk,
+
+25:08.960 --> 25:14.320
+ at 28 days versus those not treated, again, regardless of the baseline oxygen requirement.
+
+25:14.320 --> 25:18.800
+ So getting just a little bit, I'm starting to feel a little bit better about all the
+
+25:18.800 --> 25:25.440
+ money and resources we're putting on remdesivir, but these are huge numbers needed to show a
+
+25:25.440 --> 25:35.360
+ significant impact. So do you use remdesivir on your patient? So we still do, and there's really
+
+25:35.360 --> 25:42.720
+ a window in a sense of when we consider it, and so this is not giving it to every patient who walks
+
+25:42.720 --> 25:48.400
+ in the door, only patients who have an oxygen requirement or are oxygen saturation less than
+
+25:48.400 --> 25:53.680
+ 94% in room air, and then not giving it to people with advanced disease who require mechanical
+
+25:53.680 --> 25:58.640
+ ventilation. But in that little window, we are doing five days of treatment. And I guess I'll
+
+25:58.640 --> 26:02.160
+ throw in the caveat, Vincent, if that person is getting better, we're not keeping him in the
+
+26:02.160 --> 26:06.320
+ hospital for that extra day for day five. If they're getting better, we let them go,
+
+26:07.200 --> 26:13.360
+ again, not feeling like that extra day in the hospital is worth getting an extra one or two days
+
+26:13.360 --> 26:17.120
+ of remdesivir. But at the same time, you're probably giving them monoclonals, right?
+
+26:17.840 --> 26:22.880
+ Well, so that's the challenge, right? So again, it's all back to our timing. If they show up
+
+26:22.880 --> 26:27.840
+ within the first seven to 10 days, we're giving them monoclonals and a 70%, 80% reduction in them
+
+26:27.840 --> 26:33.360
+ even coming to the hospital. If they do come to the hospital, the data would now say if they
+
+26:33.360 --> 26:38.160
+ show up and there's still serology negative have yet to mount an antibody response, monoclonals are
+
+26:38.160 --> 26:44.320
+ still potentially of some benefit. But that's the group that we're looking at at remdesivir.
+
+26:44.320 --> 26:48.080
+ So it's after the first week, we're getting into the second week, they're starting to get some
+
+26:48.080 --> 26:52.000
+ degree of hypoxemia. That's when we're giving them remdesivir. Got it.
+
+26:52.800 --> 26:56.160
+ It is interesting, right? Because you would think we'd want to give it during that first week.
+
+26:56.160 --> 27:01.760
+ Yes. You know, right? It's an antiviral. Let's give it when they have. But interesting enough,
+
+27:01.760 --> 27:07.440
+ we have not been able to show. And I think it's because we don't know in that group, right? 97%
+
+27:07.440 --> 27:12.880
+ of people are going to survive probably 80% or not even going to progress to need the hospital.
+
+27:12.880 --> 27:17.600
+ So you end up treating so many people who probably don't need exposure to remdesivir.
+
+27:17.600 --> 27:22.000
+ So now I'm going to jump to the long phase, long COVID. I'm going to try to keep these
+
+27:22.000 --> 27:25.920
+ down to 30 minutes. People have been letting me know we've been getting a little long.
+
+27:26.960 --> 27:30.880
+ And then maybe that's okay. Here we are at long COVID. But a couple things I want to say at the
+
+27:30.880 --> 27:35.760
+ end. And this is really important. If you're a clinician, pause it here, get yourself a pen and
+
+27:35.760 --> 27:42.480
+ some paper, be ready to go back to this. It's really critical for us as far as long COVID to
+
+27:42.480 --> 27:49.040
+ know who has it. And this, as silly as it seems, we need to have this coded so that people can look
+
+27:49.040 --> 27:54.720
+ through and see, hey, we're starting to see a lot of people with long COVID. So what have we heard?
+
+27:54.720 --> 28:02.080
+ I talked a little bit about this last time is we got some guidance from the CDC. So we have a code
+
+28:02.080 --> 28:10.640
+ on the horizon. This is U09.9 post COVID-19 condition code, not yet available in the US,
+
+28:10.640 --> 28:17.040
+ but we expect it to be available in October 2021. In the meantime, when you see someone
+
+28:17.040 --> 28:23.280
+ more than four weeks after acute COVID, they're still continuing to suffer. The CDC is recommending
+
+28:23.280 --> 28:31.360
+ we use the code B 94.8 sequelae of other specified infectious and parasitic diseases.
+
+28:32.400 --> 28:37.440
+ We really need to start tracking who are these people? Where are they? What resources do they need?
+
+28:38.160 --> 28:44.400
+ This is really a huge issue. It's a huge issue for the millions of people that are still suffering.
+
+28:44.400 --> 28:49.520
+ It's a huge issue for the employers. It's a huge issue for us as a society. So it's really
+
+28:49.520 --> 28:53.760
+ important that we're able to identify who these people are so that we can connect them with the
+
+28:53.760 --> 29:00.480
+ resources they need. And one of the resources they need is research. And so I do want to offer a
+
+29:00.480 --> 29:06.240
+ bit of hope to all these individuals suffering with long COVID. It's unfortunate that this is
+
+29:06.240 --> 29:11.200
+ impacting so many people, but the other side of that is it is impacting so many people. This
+
+29:11.200 --> 29:18.000
+ cannot and will not be ignored. There's a tremendous amount of research and medical attention being
+
+29:18.000 --> 29:25.040
+ put on this topic. So I'm really optimistic in the coming months. We'll be sort of shifting
+
+29:25.040 --> 29:30.480
+ some of our discussion away from vaccinations and monoclonals to what are the therapeutics
+
+29:30.480 --> 29:35.440
+ for these individuals who got COVID before we could prevent it or even who got COVID after we
+
+29:35.440 --> 29:41.280
+ could prevent it and are still suffering from long COVID. So before we hit emails, I will say
+
+29:42.080 --> 29:48.000
+ please take a moment. Through the months of May, June and July, we are continuing to
+
+29:48.960 --> 29:54.320
+ help support Foundation International Medical Relief of Children. They operate throughout the
+
+29:54.320 --> 30:02.960
+ world, South America, the Pacific, India, Africa. These places are really having a tough time.
+
+30:02.960 --> 30:07.600
+ You know, when you're planning that big celebration, maybe take a moment and send a few
+
+30:07.600 --> 30:12.080
+ dollars to parasites without borders so we can continue to help.
+
+30:13.360 --> 30:18.400
+ Daniel, what happened to the observation in the long COVID patients that vaccination
+
+30:18.400 --> 30:25.680
+ seemed to help some of them? So we are still seeing that in about 40% of patients. I should
+
+30:25.680 --> 30:33.920
+ mention that they are doing a study up at Yale, COVIDRecovery, at Yale.edu. I'm waiting for a
+
+30:33.920 --> 30:38.000
+ little bit more science, but we just keep seeing this clinically. We're seeing not quite half,
+
+30:38.000 --> 30:44.080
+ but a little less than half of patients who have the brain fog, the loss of smell, the fatigue.
+
+30:44.080 --> 30:48.080
+ You know, if you have pulmonary scarring, if you've had heart damage, if you had a stroke,
+
+30:48.080 --> 30:52.640
+ the vaccine isn't going to is going to undo the permanent damage. But it continues to be
+
+30:52.640 --> 30:57.280
+ encouraging seeing patients that have had this. I guess the next question, I think about the
+
+30:57.280 --> 31:03.120
+ renal transplant, the people that, you know, 25% got better with the first dose. We get up to 40%
+
+31:03.120 --> 31:08.160
+ with the second dose. Do we give them a third dose? I'm looking forward to studies on that.
+
+31:08.160 --> 31:13.920
+ And also, this will be an interesting population to look at, do antivirals work in these people?
+
+31:13.920 --> 31:18.960
+ Is this being driven by viral persistence? Or is it a pure immunological issue? So
+
+31:18.960 --> 31:21.760
+ I'm looking forward to some more insights into this.
+
+31:22.400 --> 31:28.160
+ Time for some email questions. If you'd like to send one to Daniel, it's Daniel at microbe.tv.
+
+31:28.880 --> 31:33.840
+ Jenny writes, I got J&J vaccine back in March. Recently, I heard on the news that J&J vaccine
+
+31:33.840 --> 31:39.360
+ is less effective against Delta variant than any two dose vaccines. I'm wondering if I should
+
+31:39.360 --> 31:44.160
+ consider getting a second dose Pfizer Moderna to increase my protection against Delta variant from
+
+31:44.160 --> 31:51.440
+ 60 to 80%. So that's, I have to say, that's a great question. And a lot of people are asking it.
+
+31:52.800 --> 31:55.280
+ The party line, I'm going to give you the party line first, but then we'll go into the
+
+31:55.280 --> 32:01.200
+ week. So the party line is all of these vaccines are incredibly effective. Even should you get
+
+32:01.200 --> 32:06.720
+ COVID after vaccination, it goes from being a severe life threatening disease to maybe the
+
+32:06.720 --> 32:12.960
+ sniffle, something mild in most cases. The subtleties would be, if you said, oh, but I'm 80 years old,
+
+32:12.960 --> 32:17.600
+ and I have multiple comorbidities, and I'm homebound and I don't have a good care network,
+
+32:17.600 --> 32:22.160
+ then you start thinking about it. But in general, the vaccines are all incredibly
+
+32:22.160 --> 32:27.440
+ effective. We're not recommending that someone who is vaccinated with J&J go ahead and get an
+
+32:27.440 --> 32:32.880
+ mRNA vaccine. David writes, I'm especially vulnerable to COVID as the result of age
+
+32:32.880 --> 32:37.600
+ in a number of underlying conditions that was vaccinated in February was beginning to feel
+
+32:37.600 --> 32:42.880
+ freer in what I could do until I read a newspaper article reporting on a study finding that even
+
+32:42.880 --> 32:47.440
+ low doses of prednisone could dramatically reduce antibody production from the vaccine.
+
+32:47.440 --> 32:53.440
+ I was taking five migs of prednisone at the time. I was vaccinated for an autoimmune lung disease.
+
+32:53.440 --> 32:58.000
+ I took the antibody test and the result was that there were no detectable antibodies.
+
+32:58.000 --> 33:03.040
+ My doctor informs me that I probably still have some protection through other mechanisms,
+
+33:03.040 --> 33:07.520
+ but there's no way of knowing if this is the case or how significant the other protections are.
+
+33:07.520 --> 33:11.680
+ Dr. prescribing prednisone has told me I could stop it temporarily to get
+
+33:11.680 --> 33:16.160
+ re-vaccinated. If I do this and then resume the prednisone, are the antibodies likely to be
+
+33:16.160 --> 33:19.920
+ suppressed? Is there any way of measuring what degree of protection I have absent
+
+33:19.920 --> 33:25.680
+ measurable antibodies? Any advice for me? We keep hitting on this with the literature,
+
+33:25.680 --> 33:30.480
+ and I keep bringing up these articles because people really care. We have a majority of our adult
+
+33:30.480 --> 33:36.080
+ population now vaccinated, and people want to know did it work. A lot of our other vaccines have
+
+33:36.080 --> 33:41.600
+ titis B. Even though we don't think it's the antibodies that give you the protection, we think of it as a correlate.
+
+33:41.600 --> 33:45.680
+ You can measure that. A lot of people are asking these questions. A couple of things I'll say
+
+33:45.680 --> 33:50.000
+ they're encouraging. One is five milligrams of prednisone is actually quite a low dose
+
+33:50.880 --> 33:56.480
+ compared to what we're seeing in other populations. As I mentioned my discussion with the oncologist,
+
+33:56.480 --> 34:01.600
+ we are not seeing a lot of individuals like you end up coming in as vaccine breakthroughs that
+
+34:01.600 --> 34:08.240
+ end up in the hospital. We do think that the vaccines continue to be quite effective.
+
+34:08.240 --> 34:12.880
+ Now, what about your doctor's strategy that he's bringing up? Stopping the prednisone for a
+
+34:12.880 --> 34:18.080
+ period of time, let's say two or three weeks, getting vaccinated. This is something we did a lot of
+
+34:18.080 --> 34:24.000
+ times upfront as if we could. We would stop immunosuppressive medicines. We would have a person get vaccinated,
+
+34:24.000 --> 34:28.400
+ and then once they had finished the series, then they would potentially be resumed.
+
+34:28.400 --> 34:34.560
+ I think that's a reasonable strategy, but again, it gets back to this issue. The vaccines are
+
+34:34.560 --> 34:41.280
+ incredibly effective. We are not seeing individuals like you end up in the hospital. So maybe we're
+
+34:41.280 --> 34:46.160
+ still underselling the vaccines across the board. The incidence is going down. The prevalence is
+
+34:46.160 --> 34:51.600
+ going down. This is getting to be a safer time. At least for the next couple months, you have some
+
+34:51.600 --> 34:56.640
+ time to think about this. If we start seeing rates go up or let's say you live in an area with a
+
+34:56.640 --> 34:59.440
+ high prevalence, that's going to be a slightly different metric.
+
+35:00.480 --> 35:06.240
+ Finally, Mark writes, I'm a clinician and past clinical researcher who's been involved with
+
+35:06.240 --> 35:11.920
+ chronic fatigue syndrome since the mid-80s. I've seen and helped manage around 5-6,000 people with
+
+35:11.920 --> 35:17.760
+ CFS all the way from near permanently bedbound patients to impaired Olympic athletes in both
+
+35:17.760 --> 35:23.920
+ inpatient and outpatient settings. The story of many long COVID patients is, to me, indistinguishable
+
+35:23.920 --> 35:30.640
+ from my post-IBV, post-Dangy, and post-Rosse river viral cases here in Australia. In many of these,
+
+35:30.640 --> 35:37.360
+ a specific viral IgM remains raised, and abnormalities of tick lymphocytes keep supporting a hypothesis
+
+35:37.360 --> 35:42.720
+ of persistent immune failure to bring the infection to an end. The few COVID-19 patients with persistent
+
+35:42.720 --> 35:47.040
+ symptoms I have seen show the same immunology changes, although I know that this is a very
+
+35:47.040 --> 35:52.560
+ small sample and likely selection bias. We'd have very few cases in Australia so far,
+
+35:52.560 --> 35:56.560
+ but that will change with opening of our borders and our low vaccination rates.
+
+35:56.560 --> 36:02.320
+ My question is, could long COVID be a specific instance of CFS? No diagnostic tests, a wide range
+
+36:02.320 --> 36:07.920
+ of symptoms and disability? No clear mechanism identified a lack of disease, classification,
+
+36:07.920 --> 36:13.680
+ impairing care? You raised dysautonomia as one component, and this is especially common in
+
+36:13.680 --> 36:19.440
+ young people with CFS. Treatment for postural orthostatic tachycardia syndrome POTS is well
+
+36:19.440 --> 36:25.040
+ established and does provide considerable reduction of disability for many while we await deeper
+
+36:25.040 --> 36:31.120
+ understanding of these conditions. Cheers from Australia. So these are actually really excellent
+
+36:31.120 --> 36:37.040
+ points all across the board, and there certainly are similarities in this population. One of the
+
+36:37.040 --> 36:45.360
+ things we learned from the CFS population was that a subset, if you try to just exercise them
+
+36:45.360 --> 36:49.760
+ up, so to speak, rehabilitate them treated as an issue of deconditioning. You actually can make
+
+36:49.760 --> 36:56.160
+ them worse. So we see a very similar pattern in a subset of these patients. The POTS, the
+
+36:56.160 --> 37:02.720
+ dysautonomia, there actually are a lot of similarities between these populations. That might be good,
+
+37:02.720 --> 37:09.280
+ it might be bad. One of the troubles we realize is that there was a lot of research at one point
+
+37:09.280 --> 37:16.400
+ looking at CFS, trying to figure out what was going on, trying to introduce helpful therapies,
+
+37:16.400 --> 37:20.640
+ and we did not make a lot of headway. So I know some people are looking at this and saying,
+
+37:20.640 --> 37:27.040
+ oh my gosh, is this the next CFS. But here's the big difference when I have those conversations,
+
+37:27.040 --> 37:31.680
+ is people got this all at the same time. I'm actually hoping it's the other way,
+
+37:31.680 --> 37:36.880
+ is that now, since we had a large number of people get infected at the same time, we all sort of know
+
+37:36.880 --> 37:43.520
+ when the onset was, that we're going to get insights into long COVID that can allow us to go back to
+
+37:43.520 --> 37:48.800
+ the chronic fatigue syndrome patients. I do suspect there at least are certain patients that have
+
+37:48.800 --> 37:54.320
+ similar mechanisms underlying this. I was going to throw chicken guñas, another one of those post
+
+37:54.320 --> 38:01.120
+ viral syndromes that we see. So yeah, I continue to be optimistic, but I think everything you said
+
+38:01.120 --> 38:08.960
+ there was really insightful. That's COVID-19 clinical update number 68 with Dr. Daniel Griffin.
+
+38:08.960 --> 38:38.800
+ Thank you, Daniel. Thank you, Vincent. Thank you, everyone, and be safe.
+

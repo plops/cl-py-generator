@@ -1,0 +1,94 @@
+
+
+- badge fpga workshop at mch2022 (2022-07-25)
+- documentation: https://badge.team/docs/badges/mch2022/software-development/fpga/
+
+#+begin_example
+sudo pip3 install pyusb
+
+
+git clone https://github.com/badgeteam/mch2022-tools/
+git clone --recursive https://github.com/badgeteam/mch2022-firmware-ice40
+sudo python3 mch2022-tools/webusb_fpga.py mch2022-firmware-ice40/projects/Hello-World/hello_world.bin
+
+#+end_example
+
+- alternatively we can also use udev rules instead of sudo
+- look at the readme
+  https://github.com/badgeteam/mch2022-firmware-ice40 on how to
+  install toolchain
+
+#+begin_example
+wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2022-07-25/oss-cad-suite-linux-x64-20220725.tgz
+
+tar xaf oss-cad-suite-linux-x64-20220725.tgz
+# 1.6GB extracted
+
+source /home/martin/stage/cl-py-generator/example/93_mch22_fpga/oss-cad-suite/environment 
+
+#+end_example
+
+- try to compile some bitstream
+
+  #+begin_example
+cd mch2022-firmware-ice40/projects/Hello-World
+make
+
+sudo python3 \
+/home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+/home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Hello-World/build-tmp/hello-world.bin
+
+  #+end_example
+
+- the fpga uart is routed to /dev/ttyACM1
+- schematic https://github.com/badgeteam/mch2022-badge-hardware/blob/master/schematic.pdf
+- pin constraints
+  https://github.com/badgeteam/mch2022-firmware-ice40/blob/master/projects/_common/data/mch2022-proto4.pcf
+  - rgb led current is driven by fpga pins?
+  - SB_RGBA_DRV hard macro
+#+begin_example
+cd /home/martin/stage/cl-py-generator/example/93_mch22_fpga
+mkdir doc
+cd doc
+wget  https://www.latticesemi.com/-/media/LatticeSemi/Documents/ApplicationNotes/IK/ICE40LEDDriverUsageGuide.ashx?document_id=50668
+wget https://raw.githubusercontent.com/badgeteam/mch2022-badge-hardware/master/schematic.pdf
+#+end_example
+  - 24mA open drain driver constaurrent sink for rgb led
+  - embedded pwm ip to drive rgb led
+
+  - try forth examples
+
+ #+begin_example
+ sudo python3 \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Forth/build-tmp/forth.bin
+
+  sudo screen /dev/ttyACM1 115200
+
+  random .x EECF  ok.
+  random .x C1CE  ok.
+
+  
+ #+end_example
+  
+- try forth
+  #+begin_example
+  sudo dnf install picocom
+sudo python3 \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/*orth/build-tmp/forth.bin
+
+  #+end_example
+
+
+- try white fading
+  #+begin_example
+sudo python3 \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-tools/webusb_fpga.py \
+   /home/martin/stage/cl-py-generator/example/93_mch22_fpga/mch2022-firmware-ice40/projects/Fading-White/build-tmp/*.bin
+
+  #+end_example
+
+
+- doom needs fpga bitstream and risc-v binary and the id software
+  datafile with graphics
