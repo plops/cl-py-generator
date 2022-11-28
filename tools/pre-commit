@@ -1,0 +1,10 @@
+#!/bin/bash
+# pre-commit shell script to run git-lisp-format.
+OUTPUT=$(git lisp-format --diff)
+if [ "${OUTPUT}" == "no modified files to format" ] ||
+   [ "${OUTPUT}" == "lisp-format did not modify any files" ];then
+    exit 0
+else
+    echo "Run git lisp-format, then commit."
+    exit 1
+fi

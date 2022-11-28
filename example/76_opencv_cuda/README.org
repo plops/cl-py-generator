@@ -1,9 +1,30 @@
+<<<<<<< HEAD
 # install dependencies for cl-py-generator on popos
 sudo apt install jq
 pip install --user black nbdev
 
 # install opencv on popos
 https://gist.github.com/raulqf/f42c718a658cddc16f9df07ecc627be7
+=======
+|       |                                                                                       |
+| gen01 | try example code for camera calibration with the images that come with opencv release |
+| gen02 | display checkerboard with charuco indices, fullscreen, shift in x and y               |
+| gen03 | load dng files and detect markers                                                     |
+| gen04 | load png files and detect markers                                                     |
+| gen05 | copy of gen02, give the algorithm a chance for error correction in markers            |
+| gen06 | copy of gen04, load data of 05 checkerboard                                           |
+|       |                                                                                       |
+- install dependencies for cl-py-generator on popos
+#+begin_example
+sudo apt install jq
+pip install --user black nbdev
+
+#+end_example
+
+- install opencv on popos
+- https://gist.github.com/raulqf/f42c718a658cddc16f9df07ecc627be7
+#+begin_example
+>>>>>>> 769798e8f26ac2d0e15b22b75e16181b557d2d9b
 sudo apt install system76-cudnn-11.2
 sudo apt install libavcodec-dev libavformat-dev libswscale-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libxvidcore-dev x264 libx264-dev libfaac-dev libmp3lame-dev libtheora-dev libfaac-dev libmp3lame-dev libvorbis-dev libopencore-amrnb-dev libopencore-amrwb-dev libxine2-dev libv4l-dev v4l-utils  libgtk-3-dev python3-dev python3-pip
 https://codeload.github.com/opencv/opencv_contrib/tar.gz/refs/tags/4.5.5
@@ -69,15 +90,24 @@ sudo ldconfig
 sudo cp -r ~/.virtualenvs/cv/lib/python3.9/site-packages/cv2 /usr/local/lib/python3.9/dist-packages
 sudo nano /usr/local/lib/python3.9/dist-packages/cv2/config-3.9.py 
 
+<<<<<<< HEAD
 
 
 # how to run it:
 
+=======
+#+end_example
+
+
+- how to run it:
+#+begin_example
+>>>>>>> 769798e8f26ac2d0e15b22b75e16181b557d2d9b
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 source /usr/local/bin/virtualenvwrapper.sh
 mkvirtualenv cv -p python3
 
+<<<<<<< HEAD
 
 # install some more python requirements into the virtual env
 pip install pandas jupyter
@@ -87,3 +117,396 @@ https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html
 
 
 sudo apt install sbcl
+=======
+#+end_example
+
+
+- install some more python requirements into the virtual env
+#+begin_example
+pip install pandas jupyter
+https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html
+sudo apt install sbcl
+#+end_example
+
+- references
+  #+begin_example
+(*) .. particularly interesting
+
+https://longervision.github.io/2017/03/12/ComputerVision/OpenCV/opencv-external-posture-estimation-ArUco-board/
+https://longervision.github.io/2017/03/13/ComputerVision/OpenCV/opencv-external-posture-estimation-ChArUco-board/
+https://github.com/kyle-bersani/opencv-examples/tree/master/CalibrationByCharucoBoard
+https://docs.opencv.org/4.5.5/ python below c++ definitions
+https://github.com/opencv/opencv/issues/15992 good discussion of the shortcomings of opencvs distortion model
+  - dlr manual
+    - pinhole model is only valid beyond 30times the focal length (may be too conservative)
+    - tilted checkerboard better for focal length estimation
+    - orthogonal images are beneficial for distortion parameter estimation
+      - distortion can often be neglected for consumer cameras
+    
+
+aruco paper (2014)
+ - 10.1016/j.patcog.2014.01.005
+ - markers selected by random process
+ - considering:
+   - number of transitions
+   - hamming distance to other markers
+   - correctly identify marker rotation (marker self-distance)
+   - the final dictionary has a value tau that is the minimum hamming distance between any two markers
+ - detection algorithm:
+   - local threshold (fast alternative to canny)
+   - contour extraction (suzuki abe 10.1016/0734-189X(85)90016-7)
+     - defines hierarchical relationships among borders
+     - differentiates outer boundary and hole boundary
+     - nice video demonstration
+       - https://www.youtube.com/watch?v=_aTC-Rc4Io0
+         - detect blue marker
+  - polygonal approximation (douglas peucker)
+       - only keep 4-vertex polygons
+       - https://www.youtube.com/watch?v=IG3UkAqHnQI
+         - approximate contours with polygon
+  - undo perspective projection by computing homography matrix
+  - extract internal code square
+  - optimal threshold for bimodal image (otsu)
+  - divide into grid, sample bits
+  - marker identification and error correction
+    - 4 identifiers (one for each possible rotation)
+    - lookup in dictionary using sorted balanced binary tree
+    - errors of at most (tau-1)/2 bits can be corrected
+    - complexity of error correction is O(4 * len(dictionary))
+    - reported as aruco_dict.maxCorrectionBits
+    - ? how about charucoboards, do they allow more corrections with the knowledge of neighboring markers?
+    - linear regression of marker side pixels to refine corners
+
+https://www.frontiersin.org/articles/10.3389/fbinf.2021.740342/full differential renderer to predict pose and protein structure (on localization microscopy images)
+  - SMLM reconstruction is a z-projection of the structure being imaged (with unknown rotation and translation)
+    - ? is the size of the fluorescent marker a limitation, what if can't go into the structure
+  - differentiable renderer for SMLM point clouds (parameters: x,y, 3 angles, sigma)
+  - images that are close in appearance usually close in pose
+  - CEP152/HsSAS-6 complex
+    - ? cryo-em or x-ray structure as ground truth?
+  - https://github.com/OniDaito/Holly
+    - nice animations, makes it a bit clearer
+  
+https://www.edwardrosten.com/work/woodford_2020_large.pdf
+  - ceres solver .. for large scale bundle adjustment
+    - (*) http://ceres-solver.org/automatic_derivatives.html C++ Jet type (auto-differentiation)
+    - A simple (well behaved) differentiable interpolation is the Cubic Hermite Spline.
+    - very good documentation
+    - (*) hessian, handling of manifolds (LocalParameterization, rank deficient Jacobian)
+  - 2016 drap inverse radial lens distortions
+  - https://www2.imm.dtu.dk/pubdb/edoc/imm3215.pdf non-linear least squares lectures
+  - colmap for initial camera parameters https://colmap.github.io/tutorial.html
+  - image pyramid to improve convergence
+
+
+
+https://jax-cosmo.readthedocs.io/en/latest/notebooks/jax-cosmo-intro.html
+  - library for cosmology
+  - has cubic interpolation with jax
+     - discussion: https://github.com/DifferentiableUniverseInitiative/jax_cosmo/issues/29
+     - (*) standalone interoplator https://github.com/DifferentiableUniverseInitiative/jax_cosmo/blob/master/jax_cosmo/scipy/interpolate.py
+  - discussion Fisher/covariance https://jax-cosmo.readthedocs.io/en/latest/notebooks/jax-cosmo-intro.html
+  
+https://github.com/CosmoStat/mccd
+  - non-parametric MCCD PSF modelling
+  - generate a PSF model based on stars observations in the field of view
+  -  Once trained, the MCCD PSF model can then recover the PSF at any position in the field of view.
+  - allows to output interpolated PSFs with a specific centroid.
+  -    RBF interpolation for the global part.
+
+- book learning opencv 3 (2017)
+  - representation of rotation as vector 3, length is angle, direction is rotation axis
+  - findHomography
+    - default method minimizes reprojection error of all points, not robust in presence of noise
+    - ransac computes homography for subset of points
+      - split input into inliers and outliers
+      - robust even with many outliers but needs ransacReprojThreshold [px]
+    - lmeds (least median of squares) minimizes median error
+      - only robust with few outliers
+    - rho
+      - weighted ransac
+      - faster than ransac with many outliers
+    - new methods https://opencv.org/evaluating-opencvs-new-ransacs/
+      - usac
+  - parameter count
+    - K frames
+    - N corners
+    - K frames provide 2NK constaints
+    - 4 instrinsic (fx,fy,cx,cy, ignoring distortion), 6K extrinsic
+    - for solution we need 2NK >= 6K+4; (N-3)K >= 2
+    - K > 1 because one frame only gives 4 corners worth of information
+  - zhang's method
+    - B matrix
+    - svd of R matrix, force diagonal from singular values to identity matrix to force R into a confirming rotation matrix
+    - 5 element distortion parameters is for fisheye lenses
+    - 8 element form is used with CALIB_RATIONAL_MODEL to be used for high-precision calibration of exotic lenses
+    - flags can hold some parameters fixed
+  - solve for extrinsics only
+    - solvePnP or solvePnPRansac
+    - can use supplied tvec and rvec as guess (useExtrinsicGuess)
+  - object coordinates to camera coordinates
+    T = origin_object - origin_camera
+    Pc = R (Po-T)
+
+https://github.com/midjji
+  - owner: Mikael Persson (Linkoeping University)
+  - https://github.com/midjji/mlib
+    - use qt for reentrant plotting from any thread
+  - https://github.com/midjji/pnp
+    - wrapper for PNP solver
+    - use to avoid Opencv Epnp
+
+https://github.com/eyalroz
+  - owner: Eyal Rozenberg (Technion, Amsterdam)
+  - https://github.com/eyalroz/cuda-api-wrappers
+    - (*) aims for clarity
+  - https://github.com/eyalroz/cuda-kat
+    - lane_id_within_warp() -> grid_info::lane::id() -> gi::lane::id()
+#+end_example
+
+- effect of rerun interpolateCornersCharuco with camera_matrix
+  - parameter estimates get significantly better with second run
+  - p1 and p2 are very small and have a large error
+    
+#+begin_example
+
+initial run without calibration matrix:
+[[3.33813936e+03 0.00000000e+00 2.02592410e+03]
+ [0.00000000e+00 3.33161083e+03 1.43129440e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 0.05813558 -0.27489655  0.00122293  0.00043494  0.33002359]]
+fx = 3338±30 (0.8%)
+fy = 3332±30 (0.8%)
+cx = 2026±20 (0.8%)
+cy = 1431±10 (0.9%)
+k1 = 0.05814±0.03 (44.1%)
+k2 = -0.2749±0.1 (42.4%)
+p1 = 0.001223±0.001 (85.9%)
+p2 = 0.0004349±0.001 (314.4%)
+k3 = 0.33±0.2 (47.7%)
+
+second run with calibration matrix:
+[[3.33663347e+03 0.00000000e+00 2.01379456e+03]
+ [0.00000000e+00 3.33351529e+03 1.43825066e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 4.93929447e-02 -2.45669103e-01 -1.72340343e-04  3.63847437e-04
+   3.20684943e-01]]
+fx = 3337±2 (0.1%)
+fy = 3334±2 (0.1%)
+cx = 2014±1 (0.1%)
+cy = 1438±1 (0.1%)
+k1 = 0.04939±0.002 (3.8%)
+k2 = -0.2457±0.009 (3.5%)
+p1 = -0.0001723±0.00008 (45.9%)
+p2 = 0.0003638±0.0001 (28.5%)
+k3 = 0.3207±0.01 (3.6%)
+
+third run with calibration matrix:
+[[3.34438314e+03 0.00000000e+00 2.00814791e+03]
+ [0.00000000e+00 3.34155111e+03 1.44073207e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 4.98065710e-02 -2.46706924e-01 -1.58321116e-04  3.24710129e-04
+   3.21518961e-01]]
+fx = 3344±2 (0.1%)
+fy = 3342±2 (0.1%)
+cx = 2008±1 (0.1%)
+cy = 1441±0.9 (0.1%)
+k1 = 0.04981±0.002 (3.7%)
+k2 = -0.2467±0.008 (3.4%)
+p1 = -0.0001583±0.00008 (48.8%)
+p2 = 0.0003247±0.0001 (31.2%)
+k3 = 0.3215±0.01 (3.6%)
+
+#+end_example
+
+- in addition add camera_matrix and distortion_params to detectMarkers in second run
+  - results don't get better
+  - camera_matrix for interpolateCornersCharuco is responsible for most improvement
+  
+#+begin_example
+first run:
+[[3.33813936e+03 0.00000000e+00 2.02592410e+03]
+ [0.00000000e+00 3.33161083e+03 1.43129440e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 0.05813558 -0.27489655  0.00122293  0.00043494  0.33002359]]
+fx = 3338±30 (0.8%)
+fy = 3332±30 (0.8%)
+cx = 2026±20 (0.8%)
+cy = 1431±10 (0.9%)
+k1 = 0.05814±0.03 (44.1%)
+k2 = -0.2749±0.1 (42.4%)
+p1 = 0.001223±0.001 (85.9%)
+p2 = 0.0004349±0.001 (314.4%)
+k3 = 0.33±0.2 (47.7%)
+
+second run:
+[[3.33663347e+03 0.00000000e+00 2.01379456e+03]
+ [0.00000000e+00 3.33351529e+03 1.43825066e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 4.93929447e-02 -2.45669103e-01 -1.72340343e-04  3.63847437e-04
+   3.20684943e-01]]
+fx = 3337±2 (0.1%)
+fy = 3334±2 (0.1%)
+cx = 2014±1 (0.1%)
+cy = 1438±1 (0.1%)
+k1 = 0.04939±0.002 (3.8%)
+k2 = -0.2457±0.009 (3.5%)
+p1 = -0.0001723±0.00008 (45.9%)
+p2 = 0.0003638±0.0001 (28.5%)
+k3 = 0.3207±0.01 (3.6%)
+
+third run:
+[[3.34438314e+03 0.00000000e+00 2.00814791e+03]
+ [0.00000000e+00 3.34155111e+03 1.44073207e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 4.98065710e-02 -2.46706924e-01 -1.58321116e-04  3.24710129e-04
+   3.21518961e-01]]
+fx = 3344±2 (0.1%)
+fy = 3342±2 (0.1%)
+cx = 2008±1 (0.1%)
+cy = 1441±0.9 (0.1%)
+k1 = 0.04981±0.002 (3.7%)
+k2 = -0.2467±0.008 (3.4%)
+p1 = -0.0001583±0.00008 (48.8%)
+p2 = 0.0003247±0.0001 (31.2%)
+k3 = 0.3215±0.01 (3.6%)
+
+#+end_example
+
+- image dimensions are 4032 x 3024 pixels, 36 frames
+  - image center x = 2016
+  - image center y = 1512
+  - deviation of optical axis from image center x = 8
+  -           ...                               y = 71
+
+
+- ideas to get better input data
+  - acquire dark image, bright image, positive checkerboard, inverted
+    checkerboard
+  - fix use constant threshold to detect corners
+  - refine subpixel corners with cornerSubPix with tighter termination criteria
+    - selectAndRefineChessboardCorners seems to do this
+      - called by interpolateCornersCharuco
+      - termination criteria DetectorParameters cornerRefinementMinAccuracy
+
+- turn off p1 and p2, set fx=fy
+  - k_i change a bit, their fit error stays the same
+#+begin_example
+first run:
+[[3.30898874e+03 0.00000000e+00 2.02780437e+03]
+ [0.00000000e+00 3.30898874e+03 1.41634567e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 0.05778674 -0.25666367  0.          0.          0.29667679]]
+fx = 3309±0 (0.0%)
+fy = 3309±30 (0.8%)
+cx = 2028±10 (0.5%)
+cy = 1416±10 (0.8%)
+k1 = 0.05779±0.02 (43.2%)
+k2 = -0.2567±0.1 (43.1%)
+p1 = 0±0 (nan%)
+p2 = 0±0 (nan%)
+k3 = 0.2967±0.1 (49.2%)
+
+second run:
+[[3.32645404e+03 0.00000000e+00 2.01442461e+03]
+ [0.00000000e+00 3.32645404e+03 1.42877735e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 0.04879936 -0.23527042  0.          0.          0.30069382]]
+fx = 3326±0 (0.0%)
+fy = 3326±2 (0.1%)
+cx = 2014±0.7 (0.0%)
+cy = 1429±0.8 (0.1%)
+k1 = 0.0488±0.002 (3.9%)
+k2 = -0.2353±0.009 (3.6%)
+p1 = 0±0 (nan%)
+p2 = 0±0 (nan%)
+k3 = 0.3007±0.01 (3.8%)
+
+third run:
+[[3.33598510e+03 0.00000000e+00 2.00793054e+03]
+ [0.00000000e+00 3.33598510e+03 1.43599481e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 0.05041033 -0.24279901  0.          0.          0.31135727]]
+fx = 3336±0 (0.0%)
+fy = 3336±2 (0.1%)
+cx = 2008±0.7 (0.0%)
+cy = 1436±0.7 (0.1%)
+k1 = 0.05041±0.002 (3.7%)
+k2 = -0.2428±0.008 (3.5%)
+p1 = 0±0 (nan%)
+p2 = 0±0 (nan%)
+k3 = 0.3114±0.01 (3.6%)
+
+#+end_example
+
+- the distortion function should be monotonic https://github.com/opencv/opencv/issues/15992
+  - this solution is probably wrong
+
+- try to fit model without distortion
+#+begin_example
+first run:
+[[3.31741820e+03 0.00000000e+00 2.02679341e+03]
+ [0.00000000e+00 3.31741820e+03 1.41815655e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[0. 0. 0. 0. 0.]]
+fx = 3317±0 (0.0%)
+fy = 3317±30 (0.8%)
+cx = 2027±10 (0.5%)
+cy = 1418±10 (0.7%)
+k1 = 0±0 (nan%)
+k2 = 0±0 (nan%)
+p1 = 0±0 (nan%)
+p2 = 0±0 (nan%)
+k3 = 0±0 (nan%)
+
+second run:
+[[3.34094993e+03 0.00000000e+00 2.01314833e+03]
+ [0.00000000e+00 3.34094993e+03 1.43053436e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[0. 0. 0. 0. 0.]]
+fx = 3341±0 (0.0%)
+fy = 3341±2 (0.1%)
+cx = 2013±0.8 (0.0%)
+cy = 1431±0.8 (0.1%)
+
+third run:
+fx = 3352±0 (0.0%)
+fy = 3352±2 (0.1%)
+cx = 2006±0.7 (0.0%)
+cy = 1438±0.8 (0.1%)
+#+end_example
+
+- use k1 and k2 only
+#+begin_example
+first run:
+[[3.31662488e+03 0.00000000e+00 2.02586317e+03]
+ [0.00000000e+00 3.31662488e+03 1.41668904e+03]
+ [0.00000000e+00 0.00000000e+00 1.00000000e+00]]
+[[ 0.01100668 -0.03532424  0.          0.          0.        ]]
+fx = 3317±0 (0.0%)
+fy = 3317±30 (0.8%)
+cx = 2026±10 (0.5%)
+cy = 1417±10 (0.8%)
+k1 = 0.01101±0.01 (88.6%)
+k2 = -0.03532±0.02 (55.4%)
+p1 = 0±0 (nan%)
+p2 = 0±0 (nan%)
+k3 = 0±0 (nan%)
+
+second run:
+fx = 3.34E+3±0 (0.0%)
+fy = 3.34E+3±2 (0.1%)
+cx = 2012±0.8 (0.0%)
+cy = 1428±0.8 (0.1%)
+k1 = 0.002595±0.0008 (29.4%)
+k2 = -0.01388±0.002 (11.2%)
+
+third run:
+fx = 3.35E+3±0 (0.0%)
+fy = 3.35E+3±2 (0.1%)
+cx = 2006±0.7 (0.0%)
+cy = 1435±0.8 (0.1%)
+k1 = 0.00337±0.0007 (22.2%)
+k2 = -0.0155±0.002 (9.9%)
+#+end_example
+>>>>>>> 769798e8f26ac2d0e15b22b75e16181b557d2d9b

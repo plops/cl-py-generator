@@ -1,0 +1,143 @@
+- https://www.youtube.com/watch?v=sgw4cu8hrZM Introduction to
+  Generalized Additive Models with R and mgcv
+
+- https://twitter.com/jeremyphoward/status/1194388187042349056 I've
+  wondered about the total lack of awareness or interest in penalized
+  logistic regression with splines for a couple of decades now. It's
+  such an awesome approach.  Perhaps we need better library support to
+  make it more accessible? Or is it just an education issue?
+
+  2015 Harrell Regression Modeling Strategies With Applications to
+  Linear Models, Logistic and Ordinal Regression and Survival Analysis
+  
+- https://pygam.readthedocs.io/en/latest/notebooks/tour_of_pygam.html#Classification
+  - https://www.linkedin.com/in/charlie-brummitt/
+  - https://www.youtube.com/watch?v=XQ1vk7wEI7c pyGAM: balancing
+    interpretability and predictive power using... - Dani Servén Marín
+    - generalized cross validation to find out how many splines to use
+    - .fit -> .gridsearch choose between 100 parameter settings
+    - histogram smoothing models counts in each bin as poisson
+   
+
+- penalized regression splines 
+  - mgcv r package
+  - simon wood Generalized Additive Models: An Introduction with R
+    
+- https://www.youtube.com/watch?v=sgw4cu8hrZM Introduction to
+  Generalized Additive Models with R and mgcv
+  - https://youtu.be/sgw4cu8hrZM?t=3658 amazing 2d map of occurrance
+    off bird, no plots :-(
+  - https://youtu.be/sgw4cu8hrZM 2d plots temperature vs time on a map
+    in a bay
+
+- https://harvard-iacs.github.io/2020-CS109B/labs/lab02/notebook/
+  - statsmodels
+  - pyGAM
+    - linearGAM on wages dataset, unfortunately no discussion/interpretation
+
+
+* smoothing
+  - 5.1.2 smoothing splines have as many free parameters as there are
+    data to be smoothed
+    - smoothing penalty often suppresses many degrees of freedom
+    - stable O(n) algorithm exists for univariate smoothing with cubic
+      splines (hoog, hutchinson 1987)
+    - with more covariates computation becomes expensive
+  - 5.2 set k = O(n^(1/9)) to obtain mean square error rate of
+    O(n^(-8/9)) for (penalized) regression splines
+    - with penalization k = O(n^(1/5))
+    - I don't really understand the argument. Apparently, they have no
+      good theory. However, basis dimension only needs to grow slowly
+      with sample size in order to achieve statistical performance
+      asymptotically indistinguishable from that of a full smoothing
+      spline.
+  - 5.3 1d smoothers
+    - cubic penalized regression splines (bs='cr')
+#+begin_example
+k knots x[1] .. x[k]
+b[j] = f(x[j])      .. beta
+d[j] = f''(x[j])    .. delta
+
+f(x) = a[j](x)b[j] + A[j]b[j+1] + c[j](x)d[j] + C[j](x)d[j+1]  for x[j]<=x<=x[j+1]
+a[j](x) = (x[j+1]-x)/h[j]
+A[j](x) = (x-x[j])/h[j]
+c[j](x) = ((x[j+1]-x)^3/h[j]-h[j]*(x[j+1]-x))/6
+C[j](x) = ((x-x[j])^3/h[j]-h[j]*(x-x[j]))/6
+
+D[i,i]   = 1/h[i]
+D[i,i+1] = -1/h[i] - 1/h[i+1]
+D[i,i+2] = 1/h[i+1]
+B[i,i]   = (h[i] + h[i+1])/3    for i = 1..k-2
+B[i,i+1] = B[i+1,i] = h[i+1]/6  for i = 1..k-3
+
+f(x) = sum(basis[i](x) b[i],i,1,k)
+
+penalty: b.T D.T inv(B) D b
+#+end_example
+      - cyclic version (bs='cc')
+    - P-splines
+      - B-splines basis non-zero over invertvals between m+3 adjacent
+        knots
+      - difference penalty applied directly to parameters
+      - easy to setup for even knot spacing
+      - sparsity of basis and penalty particularly useful for MCMC
+        based Bayesian interference
+      - mgcv: s(x,bs="ps",m=c(2,3))
+      - mgcv cyclic: bs="cp"
+      - 5.3.6 SCOP-splines
+        - P-splines for shape cooooonstrained smoothing
+        - monotonically increasing smoother, non-decreasing
+          coefficients b[j]:
+	  - sum-to-zero constraint for  x
+#+begin_example
+b[j] = g[1] + sum(exp(g[i]),i,2,j)
+J = sum( (g[j+1] - g[j])^2, i,2,k-1 )
+#+end_example
+        - spline no longer linear in coefficients but no strong
+          non-linearity
+	- mgcv:
+#+begin_example
+ssp <- s(x,bs='ps',k=k)
+ssp$mono <- 1
+sm <- smoothCon(ssp, data.frame(x))[[1]]
+#+end_example
+      - 5.4.3 null space penalties
+	- extra penalty for the nullspace (suppress linear behaviour)
+	- mgcv: gam :select
+	  -  replace zero eigenvalue in L of S=U L U.T with somewhat
+            smaller than the smallest positive entry of L
+	    mgcv: bs="cs" or bs="ts" shrinkage bases
+	    
+    - 5.4 isotropic smoothing
+      - thin plate splines
+	- knot free
+	- high computational cost
+      - thin plate regression splines (TPRS)
+	- truncated thin plate splines	  
+    - 5.5.3 spline on sphere
+      - mgcv: bs="sos"
+    - 5.5.4 soap film smoothing over finite domain
+      - mgcv: s(x,y,bs="so",xt=list(bnd=list(bnd)))
+
+
+- https://youtu.be/I6FJo8x1wZE?t=1101
+  running basic statistical analysis in r
+#+begin_example
+(library pheatmap)
+(pheatmap (aref iris "" (slice 1 4)) :cluster_rows TRUE :cluster_cols TRUE
+ :clustering_method (string "complete"))
+#+end_example
+
+ - PCA
+   #+begin_example
+(library FactoMineR factoextra)
+(setf iris.pca (PCA (aref iris "" (slice 1 4)) :scale.unit TRUE :ncp 5))
+(fviz_pca_ind iris.pca :col.ind iris$Species)
+   #+end_example
+
+- https://www.youtube.com/watch?v=u-rVXhsFyxo
+  - markdown with R
+#+begin_example
+lm(wage ~ education + poly(age,2),data = Wage)
+#+end_example
+  - orthogonal polynomials

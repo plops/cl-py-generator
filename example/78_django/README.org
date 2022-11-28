@@ -1,0 +1,47 @@
+- https://www.youtube.com/watch?v=7xahfqVN5ig
+  - Using Python & Django to Build a Photo Sharing Web App
+  - Mar 16, 2020 
+  - https://github.com/Fingel/pygram
+  - tunnel from outside world `ngrok http 8000` 
+- install
+  #+begin_example
+python3 -m pip install --user django pillow nbdev
+  #+end_example
+
+- i think it is time that i only submit properly formatted common lisp
+  code to the repo
+- try emacs-based lisp-format tool as a git-hook
+#+begin_example
+git clone https://github.com/eschulte/lisp-format
+cd lisp-format
+sudo cp lisp-format /usr/local/bin
+
+curl -s https://raw.githubusercontent.com/llvm-mirror/clang/master/tools/clang-format/git-clang-format \
+    |sed \
+    "s/clang-format/lisp-format/g;s/clangFormat/lispFormat/;
+     s/default_extensions =.*\$/default_extensions = ','.join(['lisp','cl','asd','scm','el'])/;
+     /# From clang\/lib\/Frontend\/FrontendOptions.cpp, all lower case/,/])/d" \
+    > git-lisp-format
+
+chmod a+x git-lisp-format 
+sudo cp git-lisp-format /usr/local/bin
+
+
+# create following file /home/martin/stage/cl-py-generator/.git/hooks/pre-commit
+#!/bin/bash
+# pre-commit shell script to run git-lisp-format.
+OUTPUT=$(git lisp-format --diff)
+if [ "${OUTPUT}" == "no modified files to format" ] ||
+   [ "${OUTPUT}" == "lisp-format did not modify any files" ];then
+    exit 0
+else
+    echo "Run git lisp-format, then commit."
+    exit 1
+fi
+
+# make executable
+chmod a+x /home/martin/stage/cl-py-generator/.git/hooks/pre-commit
+
+# i seem to have to fix $(git lisp-format --diff)
+# line, not sure why this EOF cat isn't working
+#+end_example

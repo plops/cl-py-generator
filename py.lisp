@@ -4,6 +4,7 @@
 (in-package :cl-py-generator)
 (setf (readtable-case *readtable*) :invert)
 
+(defparameter *warn-breaking* t)
 (defparameter *file-hashes* (make-hash-table))
 
 (defun write-notebook (&key nb-file nb-code)
@@ -13,7 +14,8 @@
 				:if-does-not-exist :create)
       (format s "~a~%"
 	      (jonathan:to-json
-	       `(:|cells|
+	       `(;; :cells
+		 :|cells|
 		  ,(loop for e in nb-code
 			 collect
 			 (destructuring-bind (name &rest rest) e
@@ -40,10 +42,17 @@
 							 (format nil "~a~c" line #\Newline)))))))
 			     )))
 		  :|metadata| (:|kernelspec| (:|display_name| "Python 3"
-					       :|language| "python"
-					      :|name| "python3"))
-		 :|nbformat| 4
-		  :|nbformat_minor| 2))))
+						     :|language| "python"
+						     :|name| "python3"))
+		  :|nbformat| 4
+		  :|nbformat_minor| 2
+
+		  #+nil
+		  (:metadata (:kernelspec (:display_name "Python 3"
+							     :language "python"
+							     :name "python3"))
+		       :nbformat 4
+		       :nbformat_minor 2)))))
     #+nil
     (sb-ext:run-program "/usr/bin/python3" `("-mjson.tool" ,nb-file))
     (sb-ext:run-program "/usr/bin/jq" `("-M" "." ,tmp)
@@ -74,7 +83,7 @@
        #+nil
        (sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
        #+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
-       
+       #+nil
        (progn
 	 ;; python3 -m pip install --user black
 	 ;; should i use --fast option?xs
@@ -162,6 +171,10 @@
 		     (format s "~&~a~{~&~a~}"
 			     (emit (cadr code))
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
+	      (cell (with-output-to-string (s)
+		      (format s "~a~%"
+			      (emit `(do0 (comments "export")
+					  ,@(cdr code))))))
 	      (space (with-output-to-string (s)
 		     (format s "~{~a~^ ~}"
 			     (mapcar #'(lambda (x) (emit x)) (cdr code)))))
@@ -286,6 +299,7 @@
 	      (comment (format nil "# ~a~%" (cadr code)))
 	      (comments (let ((args (cdr code)))
 			  (format nil "~{# ~a~%~}" args)))
+	      (symbol (substitute #\: #\- (format nil "~a" (cadr code))))
 	      (string (format nil "\"~a\"" (cadr code)))
 	      (string-b (format nil "b\"~a\"" (cadr code)))
 	      (string3 (format nil "\"\"\"~a\"\"\"" (cadr code)))
@@ -355,8 +369,9 @@
                                    (do0
                                     ,@forms)))))
 	      (import-from (destructuring-bind (module &rest rest) (cdr code)
-			     (format nil "from ~a import ~{~a~^, ~}" module
-				     rest)))
+			     (format nil "from ~a import ~{~a~^, ~}"
+				     (emit module)
+				     (mapcar #'emit rest))))
 	      (imports-from (destructuring-bind (&rest module-defs) (cdr code)
 			      (with-output-to-string (s)
 				(loop for e in module-defs
@@ -419,7 +434,12 @@
 	      ((symbolp code) ;; print variable
 	       (format nil "~a" code))
 	      ((stringp code)
-		(substitute #\: #\- (format nil "~a" code)))
+	       #+nil (progn
+		       (when *warn-breaking*
+			 (format t "~&BREAKING CHANGE ~a is printed as string (used to be symbol, please use (symbol <code>) from now on). I seldomly used this for (\"list\" ...) ~%" code))
+		       )
+	       (substitute #\: #\- (format nil "~a" code))
+	       )
 	      ((numberp code) ;; print constants
 	       (cond ((integerp code) (format str "~a" code))
 		     ((floatp code)
