@@ -106,7 +106,7 @@
 	  
 	  )
 	 (do0
-	  (start_chrome ;:headless True
+	  (start_chrome :headless True
 	   ))
 	 (do0
 	  (go_to url))
