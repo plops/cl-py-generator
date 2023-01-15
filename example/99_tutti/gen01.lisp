@@ -106,7 +106,7 @@
 	  
 	  )
 	 (do0
-	  (start_chrome :headless True
+	  (start_chrome; :headless True
 	   ))
 	 (do0
 	  (go_to url))
@@ -120,14 +120,56 @@
 		       :timeout_secs 30))
 	  ("Exception as e"
 	   (print e)
-	   (setf png (dot (string "tutti_{}.png")
-			  (format (dot (datetime.datetime.now)
-				       (strftime (string "%Y%m%d_%H_%M_%S"))))))
-	   (dot (get_driver)
-		(save_screenshot png))
-	   ,(lprint "store screenshot" `(png))
-	   (kill_browser)
-	   (exit)))
+	   (try 
+	    (do0
+	     (wait_until (dot (Button (string "Verify you are human"))
+			      exists))
+	     (click (string "Verify you are human"))
+	     
+	     (wait_until (dot (Text (string "Ihre Privatsphäre ist uns wichtig"))
+			      exists)
+			 :timeout_secs 30)
+	     (wait_until (dot (Button (string "Akzeptieren"))
+			      exists)
+			 :timeout_secs 30))
+	    ("Exception as e"
+	     (print e)
+	     (try 
+	    (do0
+	     
+	     (click (string "Verify you are human"))
+	     
+	     (wait_until (dot (Text (string "Ihre Privatsphäre ist uns wichtig"))
+			      exists)
+			 :timeout_secs 30)
+	     (wait_until (dot (Button (string "Akzeptieren"))
+			      exists)
+			 :timeout_secs 30))
+	    ("Exception as e"
+	     (print e)
+	     (try 
+	    (do0
+	     
+	     (click (string "Verify you are human"))
+	     
+	     (wait_until (dot (Text (string "Ihre Privatsphäre ist uns wichtig"))
+			      exists)
+			 :timeout_secs 30)
+	     (wait_until (dot (Button (string "Akzeptieren"))
+			      exists)
+			 :timeout_secs 30))
+	    ("Exception as e"
+	     (print e)
+	     (do0
+	      (setf png (dot (string "tutti_{}.png")
+			     (format (dot (datetime.datetime.now)
+					  (strftime (string "%Y%m%d_%H_%M_%S"))))))
+	      (dot (get_driver)
+		   (save_screenshot png))
+	      ,(lprint "store screenshot" `(png))
+	      (kill_browser)
+	      (exit))))))))
+	   ))
 	 
 	 (click (string "Akzeptieren"))
 	 
