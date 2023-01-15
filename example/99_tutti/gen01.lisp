@@ -110,12 +110,24 @@
 	   ))
 	 (do0
 	  (go_to url))
-	 (wait_until (dot (Text (string "Ihre Privatsphäre ist uns wichtig"))
-			  exists)
-		     :timeout_secs 30)
-	 (wait_until (dot (Button (string "Akzeptieren"))
-			  exists)
-		     :timeout_secs 30)
+	 (try
+	  (do0
+	   (wait_until (dot (Text (string "Ihre Privatsphäre ist uns wichtig"))
+			    exists)
+		       :timeout_secs 30)
+	   (wait_until (dot (Button (string "Akzeptieren"))
+			    exists)
+		       :timeout_secs 30))
+	  ("Exception as e"
+	   (print e)
+	   (setf png (dot (string "tutti_{}.png")
+			  (format (dot (datetime.datetime.now)
+				       (strftime (string "%Y%m%d_%H_%M_%S"))))))
+	   (dot (get_driver)
+		(save_screenshot png))
+	   ,(lprint "store screenshot" `(png))
+	   (kill_browser)
+	   (exit)))
 	 
 	 (click (string "Akzeptieren"))
 	 
@@ -160,9 +172,12 @@
 				      :price price
 				      :address_date address_date)))
 	 (setf df (pd.DataFrame res))
-	 (df.to_csv (dot (string "tutti_{}.csv")
-			 (format (dot (datetime.datetime.now)
-				      (strftime (string "%Y%m%d_%H_%M_%S"))))))
+	 (do0
+	  (setf csv (dot (string "tutti_{}.csv")
+			  (format (dot (datetime.datetime.now)
+				       (strftime (string "%Y%m%d_%H_%M_%S"))))))
+	  (df.to_csv csv)
+	  ,(lprint "store" `(csv)))
 	 (kill_browser)
 	 #+ni (do0 
 	       (setf prices (find_all (S (string ".css-13qotfz"))))
