@@ -39,8 +39,8 @@
 					;docopt
 			;pathlib
 					;(np numpy)
-					;serial
-			(pd pandas)
+			serial
+			;(pd pandas)
 					;(xr xarray)
 					;(xrp xarray.plot)
 					;skimage.restoration
@@ -97,6 +97,22 @@
 			     month
 			     date
 			     (- tz)))))
+
+	 (do0
+	  (comments "https://www.winsen-sensor.com/d/files/PDF/Infrared%20Gas%20Sensor/NDIR%20CO2%20SENSOR/MH-Z19%20CO2%20Ver1.0.pdf")
+	  (comments "sudo apt install python3-serial")
+	  (setf ser (serial.Serial (string "/dev/ttyUSB0")
+				   9600))
+
+	  (while True
+		 (setf data (ser.read 9))
+		 (when (and (== "0xff"
+				(aref data 0))
+			    (== "0x86"
+				(aref data 1)))
+		   (setf co2 (+ (* 256 (aref data 2))
+				(aref data 3)))
+		   ,(lprint :vars `(co2)))))
 
 	 ))))
 
