@@ -104,7 +104,9 @@
 	  (setf ser (serial.Serial (string "/dev/ttyUSB0")
 				   9600))
 
+	  
 	  (while True
+		 (ser.write (string-b "\\xff\\x01\\x86\\x00\\x00\\x00\\x00\\x00\\x79"))
 		 (setf data (ser.read 9))
 		 (when (and (== "0xff"
 				(aref data 0))
@@ -112,7 +114,8 @@
 				(aref data 1)))
 		   (setf co2 (+ (* 256 (aref data 2))
 				(aref data 3)))
-		   ,(lprint :vars `(co2)))))
+		   ,(lprint :vars `(co2)))
+		 (time.sleep .5)))
 
 	 ))))
 
