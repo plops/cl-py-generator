@@ -60,3 +60,16 @@ cd /home/martin/src/my_fancy_app_name/cmake-build-debug
 ninja
 
 ```
+
+## Hardware info
+
+https://badge.team/docs/badges/mch2022/hardware/pinout/
+https://github.com/espressif/esp-idf/issues/6939 uarts available
+
+https://user-images.githubusercontent.com/46353439/116225897-a443dd80-a752-11eb-9437-65b6f20e8e69.png pin layout esp32-wover
+
+https://www.esp32.com/viewtopic.php?t=3569 pin multiplexing on esp32
+
+https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/gpio.html
+
+https://badge.team/docs/badges/mch2022/software-development/esp-idf/esp_idf_getting_started/ building template app
