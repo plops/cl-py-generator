@@ -40,3 +40,12 @@ uart_param_config(UART_NUM_1,&config);
 uart_set_pin(UART_NUM_1,GPIO_NUM_4,GPIO_NUM_0,UART_PIN_NO_CHANGE,UART_PIN_NO_CHANGE);
 
 ```
+
+# Example program for MCH22 ESP32
+
+my_fancy_app_name 1.7GB after build
+
+```
+https://github.com/badgeteam/mch2022-template-app
+
+```
