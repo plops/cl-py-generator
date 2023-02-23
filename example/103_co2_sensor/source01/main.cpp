@@ -1,3 +1,4 @@
+extern "C" {
 #include "esp_system.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
@@ -11,12 +12,33 @@
 #include "soc/rtc_cntl_reg.h"
 #include "wifi_connect.h"
 #include "wifi_connection.h"
+#include <esp_log.h>
 
-void disp_flush() { ili9341_write(get_ili9341(), buf.buf); }
+static const char *TAG = "mch2022-co2-app";
+static pax_buf_t buf;
+xQueueHandle buttonQueue;
+
+void disp_flush() {
+  ili9341_write(get_ili9341(), static_cast<const uint8_t *>(buf.buf));
+}
 
 void exit_to_launcher() {
   REG_WRITE(RTC_CNTL_STORE0_REG, 0);
   esp_restart();
+}
+
+void uart_init() {
+  auto BUF_SIZE = 1024;
+  auto config = uart_config_t({.baud_rate = 9600,
+                               .data_bits = UART_DATA_8_BITS,
+                               .parity = UART_PARITY_DISABLE,
+                               .stop_bits = UART_STOP_BITS_1,
+                               .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+                               .source_clk = UART_SCLK_APB});
+  uart_driver_install(UART_NUM_1, (BUF_SIZE * 2), 0, 0, nullptr, 0);
+  uart_param_config(UART_NUM_1, &config);
+  uart_set_pin(UART_NUM_1, GPIO_NUM_4, GPIO_NUM_0, UART_PIN_NO_CHANGE,
+               UART_PIN_NO_CHANGE);
 }
 
 void app_main() {
@@ -28,6 +50,7 @@ void app_main() {
   pax_buf_init(&buf, nullptr, 320, 240, PAX_BUF_16_565RGB);
   nvs_flash_init();
   wifi_init();
+  uart_init();
   while (1) {
     auto hue = ((esp_random()) & (255));
     auto sat = 255;
@@ -48,3 +71,4 @@ void app_main() {
     }
   }
 }
+};

@@ -19,35 +19,35 @@
     (merge-pathnames #P"main.cpp"
 		     *source-dir*))
    `(do0
-     
 
-     
+
+
 
      (space
       "extern \"C\" "
-      (progn 
+      (progn
 
 	(do0
-      (include hardware.h
-	       pax_gfx.h
-	       pax_codecs.h
-	       ili9341.h
-	       freertos/FreeRTOS.h
-	       freertos/queue.h
-	       esp_system.h
-	       nvs.h
-	       nvs_flash.h
-	       wifi_connect.h
-	       wifi_connection.h
-	       soc/rtc.h
-	       soc/rtc_cntl_reg.h)
+	 (include hardware.h
+		  pax_gfx.h
+		  pax_codecs.h
+		  ili9341.h
+		  freertos/FreeRTOS.h
+		  freertos/queue.h
+		  esp_system.h
+		  nvs.h
+		  nvs_flash.h
+		  wifi_connect.h
+		  wifi_connection.h
+		  soc/rtc.h
+		  soc/rtc_cntl_reg.h)
 
-      (include<> esp_log.h))
-	
+	 (include<> esp_log.h))
+
 	(do0 "static const char*TAG = \"mch2022-co2-app\";"
 	     "static pax_buf_t buf;"
 	     "xQueueHandle buttonQueue;")
-	
+
 	(defun disp_flush ()
 	  (ili9341_write (get_ili9341)
 					; buf.buf
@@ -58,15 +58,36 @@
 	  (REG_WRITE RTC_CNTL_STORE0_REG 0)
 	  (esp_restart))
 
+	(defun uart_init ()
+	  (let ((BUF_SIZE 1024)
+		(config (uart_config_t
+			 (designated-initializer
+			  :baud_rate 9600
+			  :data_bits UART_DATA_8_BITS
+			  :parity UART_PARITY_DISABLE
+			  :stop_bits UART_STOP_BITS_1
+			  :flow_ctrl UART_HW_FLOWCTRL_DISABLE
+			  :source_clk UART_SCLK_APB))))
+	    (uart_driver_install UART_NUM_1 (* BUF_SIZE 2)
+				 0 0 nullptr 0)
+	    (uart_param_config UART_NUM_1 &config)
+	    (uart_set_pin UART_NUM_1
+			  GPIO_NUM_4
+			  GPIO_NUM_0
+			  UART_PIN_NO_CHANGE
+			  UART_PIN_NO_CHANGE)))
+	
 	(defun app_main ()
 	  (ESP_LOGI TAG (string "welcome to the template app"))
 	  (bsp_init)
+	  
 	  (bsp_rp2040_init)
 	  (setf buttonQueue (-> (get_rp2040)
 				queue))
 	  (pax_buf_init &buf nullptr 320 240 PAX_BUF_16_565RGB)
 	  (nvs_flash_init)
 	  (wifi_init)
+	  (uart_init)
 	  (while 1
 		 (let ((hue (and (esp_random)
 				 255
