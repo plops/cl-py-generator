@@ -1,7 +1,7 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-	   (ql:quickload "cl-cpp-generator2")
-	   (ql:quickload "cl-ppcre")
-	   (ql:quickload "cl-change-case"))
+  (ql:quickload "cl-cpp-generator2")
+  (ql:quickload "cl-ppcre")
+  (ql:quickload "cl-change-case"))
 
 (in-package :cl-cpp-generator2)
 
@@ -11,63 +11,80 @@
 				   'cl-py-generator
 				   *source-dir*))
   (ensure-directories-exist *full-source-dir*)
-  
-  
+
+
   (write-source
    (asdf:system-relative-pathname
     'cl-py-generator
     (merge-pathnames #P"main.cpp"
 		     *source-dir*))
    `(do0
-     
-     (include<> chrono
-		iostream
-		array
-		cmath)
-     ,(let* ((n (*
-		 (expt 2 (- 10 0))
-		 (expt 2 (- 10 0))))
-	     (nmax (*
-		    (expt 2 (- 10 0))
-		    (expt 2 (- 10 0))))
-	     (iter (floor
-		    (* nmax 10000)
-		    n)))
-	`(do0
-	  (space constexpr int64_t (setf N ,n))
-	  (space constexpr int64_t (setf ITER ,iter))))
-     (defun main (argc argv)
-       (declare (type int argc)
-		(type char** argv)
-		(values int))
-      
-       (let ((array ("std::array<int,N>")))
-	 (dotimes (i N)
-	   (setf (aref array i) i))
-	 (let ((sum (int32_t 0))
-	       (start (std--chrono--high_resolution_clock--now)))
-	   (dotimes (j ITER)
-	     (dotimes (i N)
-	       (incf sum (aref array i))))
-	   (let ((end (std--chrono--high_resolution_clock--now))
-		 (elapsed (- end start)))
-	     (<< std--cout
-		 (string "time per iteration and element: ")
-		 (/ (elapsed.count)
-		    (static_cast<double> (* N ITER)))
-		 (string " ns")
-		 std--endl
-		 )
-	     (<< std--cout
-		 (string "sum: ")
-		 sum
-		 (string " N: ")
-		 N
-		 std--endl
-		 ))
-	   ))
-       (return 0))))
-  )
+     (include hardware.h
+	      pax_gfx.h
+	      pax_codecs.h
+	      ili9341.h
+	      freertos/FreeRTOS.h
+	      freertos/queue.h
+	      esp_system.h
+	      nvs.h
+	      nvs_flash.h
+	      wifi_connect.h
+	      wifi_connection.h
+	      soc/rtc.h
+	      soc/rtc_cntl_reg.h)
+
+     (defun disp_flush ()
+       (ili9341_write (get_ili9341)
+		      buf.buf))
+
+     (defun exit_to_launcher ()
+       (REG_WRITE RTC_CNTL_STORE0_REG 0)
+       (esp_restart))
+
+     (defun app_main ()
+       (ESP_LOGI TAG (string "welcome to the template app"))
+       (bsp_init)
+       (bsp_rp2040_init)
+       (setf buttonQueue (-> (get_rp2040)
+			     queue))
+       (pax_buf_init &buf nullptr 320 240 PAX_BUF_16_565RGB)
+       (nvs_flash_init)
+       (wifi_init)
+       (while 1
+	 (let ((hue (and (esp_random)
+			 255
+			 ))
+	       (sat 255)
+	       (bright 255)
+	       (col (pax_col_hsv hue
+				 sat bright))
+	       )
+	   (pax_background &buf col)
+	   (let ((text (string "hello martin"))
+		 (font pax_font_saira_condensed)
+		 (dims (pax_text_size font
+				      font->default_size
+				      text)))
+	     (pax_draw_text &buf
+			    (hex #xff000000)
+			    font
+			    font->default_size
+			    (/ (- buf.width
+				  dims.x)
+			       2.0)
+			    (/ (- buf.height
+				  dims.y)
+			       2.0)
+			    text)
+	     (disp_flush)
+	     (let ((message (rp2040_input_message_t)))
+	       (xQueueReceive buttonQueue
+			      &message
+			      portMAX_DELAY)
+	       (when (logand (== RP2040_INPUT_BUTTON_HOME
+				 message.input)
+			     message.state)
+		 (exit_to_launcher))))))))))
 
 
-  
+

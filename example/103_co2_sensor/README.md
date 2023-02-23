@@ -1,4 +1,7 @@
 
+|	|	||	
+|  gen00 | python code to read sensor from pc |
+| gen01 |  c++ code to run on esp32
 # USB-UART converter
 
 I can read the sensor using a USB converter.
