@@ -104,8 +104,21 @@
 	  (uart_init)
 
 	  (progn
-	    (let ((command (string "INFO")))
-	      (uart_write_bytes CO2_UART command 4)))
+	    ,(let ((l `(#xff #x01 #x86 0 0 0 0 0 #x79)))
+	     `(let ((command (curly ,@(loop for e in l
+					     collect
+					     `(hex ,e))))
+		    (response)
+		    )
+		(declare (type (array "unsigned char" ,(length l)) command response))
+		(uart_write_bytes CO2_UART command ,(length l))
+		(let ((l (uart_read_bytes CO2_UART response ,(length l)
+					  100)))
+		  (when (== 9 l)
+		    (when (logand (== #xff (aref response 0))
+				  (== #x86 (aref response 1)))
+		      (let ((co2 (+ (* 256 (aref data 2))
+				    (aref data 3)))))))))))
 	  
 	  (while 1
 		 (let ((hue (and (esp_random)

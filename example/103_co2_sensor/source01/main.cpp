@@ -57,8 +57,15 @@ void app_main() {
   wifi_init();
   uart_init();
   {
-    auto command = "INFO";
-    uart_write_bytes(CO2_UART, command, 4);
+    unsigned char command[9] = {0xFF, 0x1, 0x86, 0x0, 0x0, 0x0, 0x0, 0x0, 0x79};
+    unsigned char response[9];
+    uart_write_bytes(CO2_UART, command, 9);
+    auto l = uart_read_bytes(CO2_UART, response, 9, 100);
+    if (9 == l) {
+      if (((255 == response[0]) && (134 == response[1]))) {
+        auto co2 = ((256 * data[2]) + data[3]);
+      }
+    }
   }
   while (1) {
     auto hue = ((esp_random()) & (255));
