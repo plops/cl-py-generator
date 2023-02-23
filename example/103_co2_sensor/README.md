@@ -52,3 +52,11 @@ my_fancy_app_name 1.7GB after build
 https://github.com/badgeteam/mch2022-template-app
 
 ```
+
+```
+export IDF_PATH=~/src/my_fancy_app_name/esp-idf/
+source /home/martin/src/my_fancy_app_name/esp-idf/export.sh
+cd /home/martin/src/my_fancy_app_name/cmake-build-debug
+ninja
+
+```
