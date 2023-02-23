@@ -1,4 +1,5 @@
 extern "C" {
+#include "driver/uart.h"
 #include "esp_system.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
@@ -27,18 +28,22 @@ void exit_to_launcher() {
   esp_restart();
 }
 
+#define CO2_UART UART_NUM_2
+#define BUF_SIZE 100
+
 void uart_init() {
-  auto BUF_SIZE = 1024;
+  if (uart_is_driver_installed(CO2_UART)) {
+    return;
+  }
+  uart_set_pin(CO2_UART, 4, 5, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+  uart_driver_install(CO2_UART, (BUF_SIZE * 2), 0, 0, nullptr, 0);
   auto config = uart_config_t({.baud_rate = 9600,
                                .data_bits = UART_DATA_8_BITS,
                                .parity = UART_PARITY_DISABLE,
                                .stop_bits = UART_STOP_BITS_1,
                                .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
                                .source_clk = UART_SCLK_APB});
-  uart_driver_install(UART_NUM_1, (BUF_SIZE * 2), 0, 0, nullptr, 0);
-  uart_param_config(UART_NUM_1, &config);
-  uart_set_pin(UART_NUM_1, GPIO_NUM_4, GPIO_NUM_0, UART_PIN_NO_CHANGE,
-               UART_PIN_NO_CHANGE);
+  ESP_ERROR_CHECK(uart_param_config(CO2_UART, &config));
 }
 
 void app_main() {
@@ -51,6 +56,10 @@ void app_main() {
   nvs_flash_init();
   wifi_init();
   uart_init();
+  {
+    auto command = "INFO";
+    uart_write_bytes(CO2_UART, command, 4);
+  }
   while (1) {
     auto hue = ((esp_random()) & (255));
     auto sat = 255;

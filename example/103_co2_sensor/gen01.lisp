@@ -40,9 +40,14 @@
 		  wifi_connect.h
 		  wifi_connection.h
 		  soc/rtc.h
-		  soc/rtc_cntl_reg.h)
+		  soc/rtc_cntl_reg.h
+
+		  driver/uart.h		  )
 
 	 (include<> esp_log.h))
+	;; here they define another uart, uart0:
+	;; ../components/mch2022-rp2040/rp2040bl.c
+
 
 	(do0 "static const char*TAG = \"mch2022-co2-app\";"
 	     "static pax_buf_t buf;"
@@ -58,8 +63,22 @@
 	  (REG_WRITE RTC_CNTL_STORE0_REG 0)
 	  (esp_restart))
 
+	"#define CO2_UART UART_NUM_2"
+	"#define BUF_SIZE 100"
+
+	;;../esp-idf/docs/en/api-reference/peripherals/uart.rst
+	
 	(defun uart_init ()
-	  (let ((BUF_SIZE 1024)
+
+	  (when (uart_is_driver_installed CO2_UART)
+	    (return))
+	  (uart_set_pin CO2_UART
+			  4 5 
+			  UART_PIN_NO_CHANGE
+			  UART_PIN_NO_CHANGE)
+	  (uart_driver_install CO2_UART (* BUF_SIZE 2)
+			       0 0 nullptr 0)
+	  (let (
 		(config (uart_config_t
 			 (designated-initializer
 			  :baud_rate 9600
@@ -68,14 +87,9 @@
 			  :stop_bits UART_STOP_BITS_1
 			  :flow_ctrl UART_HW_FLOWCTRL_DISABLE
 			  :source_clk UART_SCLK_APB))))
-	    (uart_driver_install UART_NUM_1 (* BUF_SIZE 2)
-				 0 0 nullptr 0)
-	    (uart_param_config UART_NUM_1 &config)
-	    (uart_set_pin UART_NUM_1
-			  GPIO_NUM_4
-			  GPIO_NUM_0
-			  UART_PIN_NO_CHANGE
-			  UART_PIN_NO_CHANGE)))
+	    
+	    (ESP_ERROR_CHECK (uart_param_config CO2_UART &config))
+	    ))
 	
 	(defun app_main ()
 	  (ESP_LOGI TAG (string "welcome to the template app"))
@@ -88,6 +102,11 @@
 	  (nvs_flash_init)
 	  (wifi_init)
 	  (uart_init)
+
+	  (progn
+	    (let ((command (string "INFO")))
+	      (uart_write_bytes CO2_UART command 4)))
+	  
 	  (while 1
 		 (let ((hue (and (esp_random)
 				 255
