@@ -117,8 +117,8 @@
 		  (when (== 9 l)
 		    (when (logand (== #xff (aref response 0))
 				  (== #x86 (aref response 1)))
-		      (let ((co2 (+ (* 256 (aref data 2))
-				    (aref data 3)))))))))))
+		      (let ((co2 (+ (* 256 (aref response 2))
+				    (aref response 3)))))))))))
 	  
 	  (while 1
 		 (let ((hue (and (esp_random)

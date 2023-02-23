@@ -63,7 +63,7 @@ void app_main() {
     auto l = uart_read_bytes(CO2_UART, response, 9, 100);
     if (9 == l) {
       if (((255 == response[0]) && (134 == response[1]))) {
-        auto co2 = ((256 * data[2]) + data[3]);
+        auto co2 = ((256 * response[2]) + response[3]);
       }
     }
   }
