@@ -160,7 +160,7 @@
 	  (esp_restart))
 
 	"#define CO2_UART UART_NUM_1"
-	"#define BUF_SIZE 100"
+	"#define BUF_SIZE (9*4)"
 
 	;;../esp-idf/docs/en/api-reference/peripherals/uart.rst
 	
@@ -183,8 +183,10 @@
 			39 ;; rx
 			UART_PIN_NO_CHANGE
 			UART_PIN_NO_CHANGE)
-	  (uart_driver_install CO2_UART (* BUF_SIZE 2)
-			       0 0 nullptr 0)
+	  (uart_driver_install CO2_UART
+			       BUF_SIZE ;; rx
+			       BUF_SIZE ;; tx
+			       0 nullptr 0)
 	  (let (
 		(config (uart_config_t
 			 (designated-initializer
