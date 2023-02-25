@@ -103,7 +103,7 @@ void uart_init() {
   if (uart_is_driver_installed(CO2_UART)) {
     return;
   }
-  uart_set_pin(CO2_UART, 4, 5, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+  uart_set_pin(CO2_UART, 27, 39, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
   uart_driver_install(CO2_UART, (BUF_SIZE * 2), 0, 0, nullptr, 0);
   auto config = uart_config_t({.baud_rate = 9600,
                                .data_bits = UART_DATA_8_BITS,
