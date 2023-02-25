@@ -158,7 +158,8 @@
 	  (when (uart_is_driver_installed CO2_UART)
 	    (return))
 	  (uart_set_pin CO2_UART
-			27 39 
+			27 ;; tx
+			39 ;; rx
 			UART_PIN_NO_CHANGE
 			UART_PIN_NO_CHANGE)
 	  (uart_driver_install CO2_UART (* BUF_SIZE 2)

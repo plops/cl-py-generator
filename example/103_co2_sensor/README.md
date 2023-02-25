@@ -88,9 +88,9 @@ https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022
 .|GPIO02 | pin24  | SD card data 0 |  45.3k to gnd, 10k to PWR_SDCARD
 .|GPIO14 | pin13| SD clock | 10k to PWR_SDCARD 
 .|GPIO15 | pin23 | SD command | 45.3k to gnd, 10k to PWR_SDCARD
-Y|GPIO27| pin12 | SPI chip select fpga
+Y|GPIO27| pin12 | SPI chip select fpga (tx)
 .|GPIO35 | pin7| SPI MISO fpga
-Y|GPIO39 | pin5 |	   Interrupt fpga
+Y|GPIO39 | pin5 |	   Interrupt fpga | GPIO_NUM >= 34 can only be input (so this must be rx)
 
 
 I think the SDCard pins are good because I don't even have one. They
