@@ -302,7 +302,7 @@
 		     (let ((message (rp2040_input_message_t)))
 		       (xQueueReceive buttonQueue
 				      &message
-				      1000 ;portMAX_DELAY
+				      20 ;portMAX_DELAY
 				      )
 
 		       (when (logand (== RP2040_INPUT_BUTTON_HOME
