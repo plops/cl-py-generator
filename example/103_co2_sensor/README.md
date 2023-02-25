@@ -78,7 +78,7 @@ https://badge.team/docs/badges/mch2022/software-development/esp-idf/esp_idf_gett
 https://badge.team/docs/badges/mch2022/hardware/pinout/ mch22 badge pinout
 https://github.com/badgeteam/mch2022-badge-hardware/blob/master/schematic.pdf schematic of mch22
 
-looks like the badge website just disappeared. it is on the internet archive:
+looks like the badge website just disappeared. it is on the internet archive (waybackmachine):
 
 https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022/software-development/
 
@@ -137,4 +137,21 @@ This works.
 wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/core.h
 wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/format.h
 wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/format-inl.h
+```
+
+
+### Serial monitor
+
+```
+make monitor
+```
+or
+
+```
+source "$(IDF_PATH)/export.sh" && idf.py monitor -p $(PORT)
+```
+or
+
+```
+/home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python /home/martin/src/my_fancy_app_name/esp-idf/tools/idf_monitor.py -p /dev/ttyACM0 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 3 /home/martin/src/my_fancy_app_name/build/main.elf -m '/home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python' '/home/martin/src/my_fancy_app_name/esp-idf/tools/idf.py'
 ```

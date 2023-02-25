@@ -7,7 +7,15 @@
 
 (progn
   (defparameter *source-dir* #P"example/103_co2_sensor/source01/")
-  (defparameter *full-source-dir* (asdf:system-relative-pathname
+  (defparameter *day-names*
+    '("Monday" "Tuesday" "Wednesday"
+      "Thursday" "Friday" "Saturday"
+      "Sunday"))
+
+
+  (defparameter *full-source-dir*
+    "/home/martin/src/my_fancy_app_name/main/"
+    #+nil (asdf:system-relative-pathname
 				   'cl-py-generator
 				   *source-dir*))
   (ensure-directories-exist *full-source-dir*)
@@ -120,10 +128,10 @@
 		  freertos/FreeRTOS.h
 		  freertos/queue.h
 		  esp_system.h
-		  nvs.h
-		  nvs_flash.h
-		  wifi_connect.h
-		  wifi_connection.h
+		  ;nvs.h
+		  ;nvs_flash.h
+		  ;wifi_connect.h
+		  ;wifi_connection.h
 		  soc/rtc.h
 		  soc/rtc_cntl_reg.h
 
@@ -154,7 +162,7 @@
 	;;../esp-idf/docs/en/api-reference/peripherals/uart.rst
 	
 	(defun uart_init ()
-
+	  (ESP_LOGE TAG (string "initialize uart"))
 	  (when (uart_is_driver_installed CO2_UART)
 	    (return))
 	  (uart_set_pin CO2_UART
@@ -181,6 +189,7 @@
 	
 	(defun measureCO2 ()
 	  (progn
+	    (ESP_LOGE TAG (string "measure co2"))
 	    ,(let ((l `(#xff #x01 #x86 0 0 0 0 0 #x79)))
 	       `(let ((command (curly ,@(loop for e in l
 					      collect
@@ -205,7 +214,9 @@
 		(sat 255)
 		(bright 255)
 		(col (pax_col_hsv hue
-				  sat bright)))
+				  sat bright))
+		)
+	    
 	    (dotimes (i (- (fifo.size) 1)
 			)
 	      (pax_draw_line buf col i
@@ -222,8 +233,8 @@
 	  (setf buttonQueue (-> (get_rp2040)
 				queue))
 	  (pax_buf_init &buf nullptr 320 240 PAX_BUF_16_565RGB)
-	  (nvs_flash_init)
-	  (wifi_init)
+	  ;(nvs_flash_init)
+	  ;(wifi_init)
 	  (uart_init)
 
 	  
@@ -239,8 +250,20 @@
 					 sat bright))
 		       )
 		   (pax_background &buf col)
-		   (let ((val (aref fifo (- (fifo.size) 1)))
-			 (text_ ,(sprint :vars `(val)))
+		   (let (;(val (aref fifo (- (fifo.size) 1)))
+			 (text_ ,(sprint :msg (multiple-value-bind
+                           (second minute hour date month year day-of-week dst-p tz)
+                         (get-decoded-time)
+                       (declare (ignorable dst-p))
+                       (format nil "~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
+                               hour
+                               minute
+                               second
+                               (nth day-of-week *day-names*)
+                               year
+                               month
+                               date
+                               (- tz)))))
 			 (text (text_.c_str))
 			 (font pax_font_saira_condensed)
 			 (dims (pax_text_size font

@@ -73,14 +73,10 @@ extern "C" {
 #include "freertos/queue.h"
 #include "hardware.h"
 #include "ili9341.h"
-#include "nvs.h"
-#include "nvs_flash.h"
 #include "pax_codecs.h"
 #include "pax_gfx.h"
 #include "soc/rtc.h"
 #include "soc/rtc_cntl_reg.h"
-#include "wifi_connect.h"
-#include "wifi_connection.h"
 #include <esp_log.h>
 
 static const char *TAG = "mch2022-co2-app";
@@ -100,6 +96,7 @@ void exit_to_launcher() {
 #define BUF_SIZE 100
 
 void uart_init() {
+  ESP_LOGE(TAG, "initialize uart");
   if (uart_is_driver_installed(CO2_UART)) {
     return;
   }
@@ -116,6 +113,7 @@ void uart_init() {
 
 void measureCO2() {
   {
+    ESP_LOGE(TAG, "measure co2");
     unsigned char command[9] = {0xFF, 0x1, 0x86, 0x0, 0x0, 0x0, 0x0, 0x0, 0x79};
     unsigned char response[9];
     uart_write_bytes(CO2_UART, command, 9);
@@ -149,8 +147,6 @@ void app_main() {
   buttonQueue = get_rp2040()->queue;
 
   pax_buf_init(&buf, nullptr, 320, 240, PAX_BUF_16_565RGB);
-  nvs_flash_init();
-  wifi_init();
   uart_init();
   while (1) {
     measureCO2();
@@ -159,8 +155,7 @@ void app_main() {
     auto bright = 255;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto val = fifo[((fifo.size()) - (1))];
-    auto text_ = fmt::format("  val='{}'\n", val);
+    auto text_ = fmt::format("23:25:56 of Saturday, 2023-02-25 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_saira_condensed;
     auto dims = pax_text_size(font, font->default_size, text);
