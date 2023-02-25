@@ -160,7 +160,7 @@
 	  (esp_restart))
 
 	"#define CO2_UART UART_NUM_1"
-	"#define BUF_SIZE 64"
+	"#define BUF_SIZE UART_FIFO_LEN" ;; 128
 
 	;;../esp-idf/docs/en/api-reference/peripherals/uart.rst
 	
@@ -178,15 +178,24 @@
 		     `(unless (== ESP_OK (gpio_set_direction ,gpio ,mode))
 			(ESP_LOGE TAG (string ,(format nil "error initializing gpio ~a" gpio)))))))
 	  
-	  (uart_set_pin CO2_UART
-			27 ;; tx
-			39 ;; rx
-			UART_PIN_NO_CHANGE
-			UART_PIN_NO_CHANGE)
-	  (uart_driver_install CO2_UART
-			       BUF_SIZE ;; rx
-			       0 ;BUF_SIZE ;; tx
-			       0 nullptr 0)
+	 (unless (== ESP_OK (uart_set_pin CO2_UART
+				 27 ;; tx
+				 39 ;; rx
+				 UART_PIN_NO_CHANGE
+				 UART_PIN_NO_CHANGE))
+
+			  (ESP_LOGE TAG (string "error: uart_set_pin 27 39")))
+	  (unless (== ESP_OK
+		   (uart_driver_install CO2_UART
+					200 ;BUF_SIZE ;; rx
+					0	 ;BUF_SIZE ;; tx
+					0	 ;; queue length
+ 					nullptr	 ;; queue out
+					0	 ;; interrupt
+					)
+		   )
+	    (ESP_LOGE TAG (string "error: uart_driver_install"))
+	    )
 	  (let (
 		(config (uart_config_t
 			 (designated-initializer
@@ -198,7 +207,8 @@
 			  ;:rx_flow_ctrl_thresh 0
 			  :source_clk UART_SCLK_APB))))
 	    
-	    (ESP_ERROR_CHECK (uart_param_config CO2_UART &config))
+	    (unless (== ESP_OK (uart_param_config CO2_UART &config))
+	       (ESP_LOGE TAG (string "error: uart_param_config")))
 	    ))
 
 	
@@ -243,7 +253,7 @@
 	  )
 	
 	(defun drawCO2 (buf )
-	  (declare (type "pax_buf_t*" buf))
+	  (declare (type "pax_buf_t*" buf)) 
 	  (let ((hue 12)
 		(sat 255)
 		(bright 255)
