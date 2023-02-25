@@ -78,6 +78,11 @@ https://badge.team/docs/badges/mch2022/software-development/esp-idf/esp_idf_gett
 https://badge.team/docs/badges/mch2022/hardware/pinout/ mch22 badge pinout
 https://github.com/badgeteam/mch2022-badge-hardware/blob/master/schematic.pdf schematic of mch22
 
+looks like the badge website just disappeared. it is on the internet archive:
+
+https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022/software-development/
+
+
 ### Which pins could I use for uart
 
 .|GPIO02 | pin24  | SD card data 0 |  45.3k to gnd, 10k to PWR_SDCARD
