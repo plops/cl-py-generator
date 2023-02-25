@@ -137,7 +137,7 @@
 		  ;wifi_connection.h
 		  soc/rtc.h
 		  soc/rtc_cntl_reg.h
-
+		  ;gpio_types.h
 		  driver/uart.h		  )
 
 	 (include<> esp_log.h))
@@ -159,7 +159,7 @@
 	  (REG_WRITE RTC_CNTL_STORE0_REG 0)
 	  (esp_restart))
 
-	"#define CO2_UART UART_NUM_2"
+	"#define CO2_UART UART_NUM_1"
 	"#define BUF_SIZE 100"
 
 	;;../esp-idf/docs/en/api-reference/peripherals/uart.rst
@@ -168,6 +168,16 @@
 	  (ESP_LOGE TAG (string "initialize uart"))
 	  (when (uart_is_driver_installed CO2_UART)
 	    (return))
+
+	  #+nil (do0 (comments "i think uart_set_pin will configure the ports (and also check that they are valid)")
+	   ,@(loop for e in `((:gpio 27 :mode GPIO_MODE_OUTPUT)
+			      (:gpio 39 :mode GPIO_MODE_INPUT)
+			      )
+		   collect
+		   (destructuring-bind (&key gpio mode) e
+		     `(unless (== ESP_OK (gpio_set_direction ,gpio ,mode))
+			(ESP_LOGE TAG (string ,(format nil "error initializing gpio ~a" gpio)))))))
+	  
 	  (uart_set_pin CO2_UART
 			27 ;; tx
 			39 ;; rx
@@ -207,6 +217,8 @@
 				    (== #x86 (aref response 1)))
 			(let ((co2 (+ (* 256 (aref response 2))
 				      (aref response 3))))
+			  (ESP_LOGE TAG (string "%s") (dot ,(sprint  :vars `(co2))
+						(c_str)))
 			  (when (< N_FIFO (fifo.size))
 			    (fifo.pop_back))
 			  (fifo.push_front co2)))))))))
