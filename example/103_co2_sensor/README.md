@@ -106,6 +106,26 @@ Use `sudo make install` to install the software ion the badge
 cd ~/src/my_fancy_app_name/b
 source ~/src/my_fancy_app_name/esp-idf/export.sh 
 
+
+
+```
+
+
+If I run this, then I get a long text "Flashing attempt detected"
+```
+
 /home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python esp-idf/components/esptool_py/esptool/esptool.py -p /dev/ttyACM0 -b 460800 --before default_reset --after hard_reset --chip esp32  write_flash --flash_mode dio --flash_size detect --flash_freq 80m 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0xf000 build/phy_init_data.bin 0x10000 build/main.bin
 
 ```
+
+It says I should install the app using webusb_push.py tool.
+
+In the Makefile it is called like this:
+
+```
+cd /home/martin/src/my_fancy_app_name/
+sudo python3 tools/webusb_push.py "Template App" build/main.bin --run
+
+```
+
+This works.
