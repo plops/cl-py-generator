@@ -271,7 +271,7 @@
 	
 	(defun app_main ()
 	  (ESP_LOGI TAG (string "welcome to the template app"))
-	  (bsp_init)
+	  (bsp_init) 
 	  
 	  (bsp_rp2040_init)
 	  (setf buttonQueue (-> (get_rp2040)
