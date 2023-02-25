@@ -298,12 +298,13 @@
 				       2.0)
 				    text)
 		     (disp_flush)
-		     (ESP_LOGE TAG (string "display flushed"))
+		     
 		     (let ((message (rp2040_input_message_t)))
 		       (xQueueReceive buttonQueue
 				      &message
-				      portMAX_DELAY)
-		       (ESP_LOGE TAG (string "received message"))
+				      1000 ;portMAX_DELAY
+				      )
+
 		       (when (logand (== RP2040_INPUT_BUTTON_HOME
 					 message.input)
 				     message.state)
