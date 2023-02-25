@@ -160,4 +160,4 @@ or
 ```
 
 
-- note that the sensor needs more than 3.3v as power supply
+- note that the sensor needs more than 3.3v as power supply 
