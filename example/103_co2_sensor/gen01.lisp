@@ -268,7 +268,8 @@
                                date
                                (- tz)))))
 			 (text (text_.c_str))
-			 (font pax_font_saira_condensed)
+			 (font pax_font_sky ;saira_condensed
+			       )
 			 (dims (pax_text_size font
 					      font->default_size
 					      text)))
