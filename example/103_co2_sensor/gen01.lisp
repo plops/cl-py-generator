@@ -53,7 +53,8 @@
      (defun ransac_line_fit (data m b)
        (declare (type "std::deque<Point2D>&" data)
 		(type double& m b))
-       (let ((rd (std--random_device))
+       "std::random_device rd;"
+       (let (
 	     (gen (std--mt19937 (rd)))
 	     (distrib (std--uniform_int_distribution<> 0 (- (data.size)
 							    1)))
@@ -166,6 +167,7 @@
 			  :parity UART_PARITY_DISABLE
 			  :stop_bits UART_STOP_BITS_1
 			  :flow_ctrl UART_HW_FLOWCTRL_DISABLE
+			  :rx_flow_ctrl_thresh 0
 			  :source_clk UART_SCLK_APB))))
 	    
 	    (ESP_ERROR_CHECK (uart_param_config CO2_UART &config))

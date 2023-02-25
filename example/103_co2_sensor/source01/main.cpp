@@ -18,7 +18,7 @@ double distance(Point2D p, double m, double b) {
 }
 
 void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
-  auto rd = std::random_device();
+  std::random_device rd;
   auto gen = std::mt19937(rd());
   auto distrib = std::uniform_int_distribution<>(0, ((data.size()) - (1)));
   auto best_inliers = std::vector<Point2D>();
@@ -108,6 +108,7 @@ void uart_init() {
                                .parity = UART_PARITY_DISABLE,
                                .stop_bits = UART_STOP_BITS_1,
                                .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+                               .rx_flow_ctrl_thresh = 0,
                                .source_clk = UART_SCLK_APB});
   ESP_ERROR_CHECK(uart_param_config(CO2_UART, &config));
 }
