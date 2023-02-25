@@ -249,7 +249,7 @@
 	    (when (< 239s0 res)
 	      (setf res 239s0))
 	    (return res))
-	   
+	   ;; note: i think  to and bottom are inverted on screen
 	  )
 	
 	(defun drawCO2 (buf )
