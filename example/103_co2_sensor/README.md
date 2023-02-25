@@ -93,6 +93,9 @@ Y|GPIO27| pin12 | SPI chip select fpga (tx)
 Y|GPIO39 | pin5 |	   Interrupt fpga | GPIO_NUM >= 34 can only be input (so this must be rx)
 
 
+- the brown cable should go to tx on the sensor
+
+
 I think the SDCard pins are good because I don't even have one. They
 do all have a 10k resister to PWR_SDCARD, though. And one is even
 connected to gnd and PWR_SDCARD.

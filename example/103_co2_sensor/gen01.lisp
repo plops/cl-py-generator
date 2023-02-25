@@ -40,7 +40,7 @@
 
      
 
-     ,@(loop for e in `((N_FIFO 240)
+     ,@(loop for e in `((N_FIFO 320)
 			    (RANSAC_MAX_ITERATIONS 100)
 			    (RANSAC_INLIER_THRESHOLD 0.1 :type float)
 			    (RANSAC_MIN_INLIERS 50))
@@ -223,8 +223,25 @@
 			    (fifo.pop_back))
 			  (fifo.push_front co2)))))))))
 
+	(defun scaleHeight (v)
+	  (declare (type float v)
+		   (values float))
+	  (comments "v is in the range 400 .. 5000"
+		    "map to 0 .. 239")
+	  (let ((mi 400s0)
+		(ma 5000s0)
+		(res (* 239s0 (/ (- v mi)
+				 (- ma mi)))))
+	    (when (< res 0s0)
+	      (setf res 0s0))
+	    (when (< 239s0 res)
+	      (setf res 239s0))
+	    (return res))
+	  
+	  )
+	
 	(defun drawCO2 (buf )
-	  (declare (type "pax_buf_t*" buf)) 
+	  (declare (type "pax_buf_t*" buf)) x1
 	  (let ((hue 12)
 		(sat 255)
 		(bright 255)
@@ -232,12 +249,12 @@
 				  sat bright))
 		)
 	    
-	    (dotimes (i (- (fifo.size) 1)
-			)
+	    (dotimes (i (- (fifo.size) 1))
+	      
 	      (pax_draw_line buf col i
-			     (aref fifo i)
+			     (scaleHeight (aref fifo i))
 			     (+ i 1)
-			     (aref fifo (+ i 1)))))
+			     (scaleHeight (aref fifo (+ i 1))))))
 	  )
 	
 	(defun app_main ()
@@ -256,7 +273,8 @@
 	  
 	  (while 1
 		 (measureCO2)
-		 (let ((hue (and (esp_random)
+		 (let ((hue 129 #+nil
+			    (and (esp_random)
 				 255
 				 ))
 		       (sat 255)
