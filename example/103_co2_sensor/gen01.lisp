@@ -243,7 +243,7 @@
 	  )
 	
 	(defun drawCO2 (buf )
-	  (declare (type "pax_buf_t*" buf)) x1
+	  (declare (type "pax_buf_t*" buf))
 	  (let ((hue 12)
 		(sat 255)
 		(bright 255)
