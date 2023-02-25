@@ -73,3 +73,20 @@ https://www.esp32.com/viewtopic.php?t=3569 pin multiplexing on esp32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/gpio.html
 
 https://badge.team/docs/badges/mch2022/software-development/esp-idf/esp_idf_getting_started/ building template app
+
+
+https://badge.team/docs/badges/mch2022/hardware/pinout/ mch22 badge pinout
+https://github.com/badgeteam/mch2022-badge-hardware/blob/master/schematic.pdf schematic of mch22
+
+### Which pins could I use for uart
+
+GPIO02 | pin24  | SD card data 0 |  45.3k to gnd, 10k to PWR_SDCARD
+GPIO14 | pin13| SD clock | 10k to PWR_SDCARD 
+GPIO15 | pin23 | SD command | 45.3k to gnd, 10k to PWR_SDCARD
+GPIO27| pin12 | SPI chip select fpga
+GPIO35 | SPI MISO fpga
+GPIO39 | Interrupt fpga
+
+
+I think the SDCard pins are good because I don't even have one. They
+do all have a 10k resister to PWR_SDCARD, though.x

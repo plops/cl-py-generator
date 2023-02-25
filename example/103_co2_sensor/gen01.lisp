@@ -20,8 +20,11 @@
 		     *source-dir*))
    `(do0
 
+     (include<> deque)
 
+     "enum { N_FIFO = 240, };"
 
+     "std::deque<unsigned short> fifo(N_FIFO,0);"
 
      (space
       "extern \"C\" "
@@ -90,6 +93,42 @@
 	    
 	    (ESP_ERROR_CHECK (uart_param_config CO2_UART &config))
 	    ))
+
+	
+	(defun measureCO2 ()
+	   (progn
+	     ,(let ((l `(#xff #x01 #x86 0 0 0 0 0 #x79)))
+		`(let ((command (curly ,@(loop for e in l
+					       collect
+					       `(hex ,e))))
+		       (response))
+		   (declare (type (array "unsigned char" ,(length l)) command response))
+		   (uart_write_bytes CO2_UART command ,(length l))
+		   (let ((l (uart_read_bytes CO2_UART response ,(length l)
+					     100)))
+		     (when (== 9 l)
+		       (when (logand (== #xff (aref response 0))
+				     (== #x86 (aref response 1)))
+			 (let ((co2 (+ (* 256 (aref response 2))
+				       (aref response 3))))
+			   (when (< N_FIFO (fifo.size))
+			     (fifo.pop_back))
+			   (fifo.push_front co2)))))))))
+
+	(defun drawCO2 (buf )
+	  (declare (type "pax_buf_t*" buf))
+	  (let ((hue 12)
+		(sat 255)
+		(bright 255)
+		(col (pax_col_hsv hue
+				  sat bright)))
+	   (dotimes (i (- (fifo.size) 1)
+		       )
+	     (pax_draw_line buf col i
+			    (aref fifo i)
+			    (+ i 1)
+			    (aref fifo (+ i 1)))))
+	  )
 	
 	(defun app_main ()
 	  (ESP_LOGI TAG (string "welcome to the template app"))
@@ -103,24 +142,10 @@
 	  (wifi_init)
 	  (uart_init)
 
-	  (progn
-	    ,(let ((l `(#xff #x01 #x86 0 0 0 0 0 #x79)))
-	     `(let ((command (curly ,@(loop for e in l
-					     collect
-					     `(hex ,e))))
-		    (response)
-		    )
-		(declare (type (array "unsigned char" ,(length l)) command response))
-		(uart_write_bytes CO2_UART command ,(length l))
-		(let ((l (uart_read_bytes CO2_UART response ,(length l)
-					  100)))
-		  (when (== 9 l)
-		    (when (logand (== #xff (aref response 0))
-				  (== #x86 (aref response 1)))
-		      (let ((co2 (+ (* 256 (aref response 2))
-				    (aref response 3)))))))))))
+	  
 	  
 	  (while 1
+		 (measureCO2)
 		 (let ((hue (and (esp_random)
 				 255
 				 ))
@@ -135,6 +160,7 @@
 			 (dims (pax_text_size font
 					      font->default_size
 					      text)))
+		     (drawCO2 &buf)
 		     (pax_draw_text &buf
 				    (hex #xff000000)
 				    font

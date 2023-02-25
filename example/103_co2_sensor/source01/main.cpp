@@ -1,3 +1,8 @@
+#include <deque>
+enum {
+  N_FIFO = 240,
+};
+std::deque<unsigned short> fifo(N_FIFO, 0);
 extern "C" {
 #include "driver/uart.h"
 #include "esp_system.h"
@@ -46,6 +51,34 @@ void uart_init() {
   ESP_ERROR_CHECK(uart_param_config(CO2_UART, &config));
 }
 
+void measureCO2() {
+  {
+    unsigned char command[9] = {0xFF, 0x1, 0x86, 0x0, 0x0, 0x0, 0x0, 0x0, 0x79};
+    unsigned char response[9];
+    uart_write_bytes(CO2_UART, command, 9);
+    auto l = uart_read_bytes(CO2_UART, response, 9, 100);
+    if (9 == l) {
+      if (((255 == response[0]) && (134 == response[1]))) {
+        auto co2 = ((256 * response[2]) + response[3]);
+        if (N_FIFO < fifo.size()) {
+          fifo.pop_back();
+        }
+        fifo.push_front(co2);
+      }
+    }
+  }
+}
+
+void drawCO2(pax_buf_t *buf) {
+  auto hue = 12;
+  auto sat = 255;
+  auto bright = 255;
+  auto col = pax_col_hsv(hue, sat, bright);
+  for (auto i = 0; i < ((fifo.size()) - (1)); i += 1) {
+    pax_draw_line(buf, col, i, fifo[i], (i + 1), fifo[(i + 1)]);
+  }
+}
+
 void app_main() {
   ESP_LOGI(TAG, "welcome to the template app");
   bsp_init();
@@ -56,18 +89,8 @@ void app_main() {
   nvs_flash_init();
   wifi_init();
   uart_init();
-  {
-    unsigned char command[9] = {0xFF, 0x1, 0x86, 0x0, 0x0, 0x0, 0x0, 0x0, 0x79};
-    unsigned char response[9];
-    uart_write_bytes(CO2_UART, command, 9);
-    auto l = uart_read_bytes(CO2_UART, response, 9, 100);
-    if (9 == l) {
-      if (((255 == response[0]) && (134 == response[1]))) {
-        auto co2 = ((256 * response[2]) + response[3]);
-      }
-    }
-  }
   while (1) {
+    measureCO2();
     auto hue = ((esp_random()) & (255));
     auto sat = 255;
     auto bright = 255;
@@ -76,6 +99,7 @@ void app_main() {
     auto text = "hello martin";
     auto font = pax_font_saira_condensed;
     auto dims = pax_text_size(font, font->default_size, text);
+    drawCO2(&buf);
     pax_draw_text(&buf, 0xFF000000, font, font->default_size,
                   ((((buf.width) - (dims.x))) / ((2.0f))),
                   ((((buf.height) - (dims.y))) / ((2.0f))), text);
