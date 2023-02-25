@@ -155,7 +155,7 @@ void app_main() {
     auto bright = 255;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("23:25:56 of Saturday, 2023-02-25 (GMT+1)\n");
+    auto text_ = fmt::format("23:27:25 of Saturday, 2023-02-25 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_saira_condensed;
     auto dims = pax_text_size(font, font->default_size, text);
