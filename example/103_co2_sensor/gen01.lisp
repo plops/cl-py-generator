@@ -249,7 +249,7 @@
 	    (when (< 239s0 res)
 	      (setf res 239s0))
 	    (return res))
-	  
+	   
 	  )
 	
 	(defun drawCO2 (buf )
