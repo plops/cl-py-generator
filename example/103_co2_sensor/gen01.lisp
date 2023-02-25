@@ -224,7 +224,7 @@
 			  (fifo.push_front co2)))))))))
 
 	(defun drawCO2 (buf )
-	  (declare (type "pax_buf_t*" buf))
+	  (declare (type "pax_buf_t*" buf)) 
 	  (let ((hue 12)
 		(sat 255)
 		(bright 255)
