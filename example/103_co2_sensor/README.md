@@ -129,3 +129,12 @@ sudo python3 tools/webusb_push.py "Template App" build/main.bin --run
 ```
 
 This works.
+
+
+### Use fmt
+
+```
+wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/core.h
+wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/format.h
+wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/format-inl.h
+```

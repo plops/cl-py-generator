@@ -1,3 +1,5 @@
+#define FMT_HEADER_ONLY
+#include "core.h"
 #include <cmath>
 #include <deque>
 #include <random>
@@ -157,7 +159,9 @@ void app_main() {
     auto bright = 255;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text = "hello martin";
+    auto val = fifo[((fifo.size()) - (1))];
+    auto text_ = fmt::format("  val='{}'\n", val);
+    auto text = text_.c_str();
     auto font = pax_font_saira_condensed;
     auto dims = pax_text_size(font, font->default_size, text);
     drawCO2(&buf);

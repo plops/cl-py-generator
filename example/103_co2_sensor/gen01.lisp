@@ -11,7 +11,7 @@
 				   'cl-py-generator
 				   *source-dir*))
   (ensure-directories-exist *full-source-dir*)
-
+  (load "util.lisp")
 
   (write-source
    (asdf:system-relative-pathname
@@ -19,11 +19,15 @@
     (merge-pathnames #P"main.cpp"
 		     *source-dir*))
    `(do0
-
+     "#define FMT_HEADER_ONLY"
      (include<> deque
 		random
 		vector
 		cmath)
+
+     (include "core.h")
+
+     
 
      ,@(loop for e in `((N_FIFO 240)
 			    (RANSAC_MAX_ITERATIONS 100)
@@ -234,7 +238,9 @@
 					 sat bright))
 		       )
 		   (pax_background &buf col)
-		   (let ((text (string "hello martin"))
+		   (let ((val (aref fifo (- (fifo.size) 1)))
+			 (text_ ,(sprint :vars `(val)))
+			 (text (text_.c_str))
 			 (font pax_font_saira_condensed)
 			 (dims (pax_text_size font
 					      font->default_size
