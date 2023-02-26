@@ -1,5 +1,25 @@
 # Reading out an optical CO2 Sensor
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Reading out an optical CO2 Sensor](#reading-out-an-optical-co2-sensor)
+    - [Repository Contents](#repository-contents)
+    - [Introduction](#introduction)
+    - [USB-UART converter](#usb-uart-converter)
+    - [MCH22 Badge](#mch22-badge)
+        - [UART Connections](#uart-connections)
+        - [Example program for MCH22 ESP32](#example-program-for-mch22-esp32)
+        - [Hardware info](#hardware-info)
+        - [Which pins could I use for UART](#which-pins-could-i-use-for-uart)
+        - [How to build and install the ESP32 template software](#how-to-build-and-install-the-esp32-template-software)
+        - [Use fmt](#use-fmt)
+        - [Serial monitor](#serial-monitor)
+        - [Notes concerning the power supply](#notes-concerning-the-power-supply)
+
+<!-- markdown-toc end -->
+
+
 ## Repository Contents ##
 
 | file  | comment                               |   |
