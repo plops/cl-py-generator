@@ -320,30 +320,55 @@
 		 (comments "compute when a value of 1200ppm is reached")
 		 (let ((x0 (/ (- 1200d0 b)
 			      m)))
-		   (when (< time_ma x0)
-		     (comments "if predicted intersection time is in the future, print it")
-		     (let ((time_value (static_cast<int> x0))
-			   (hours (int (/ time_value 3600)))
-			   (minutes (int (/ (% time_value 3600) 60)))
-			   (seconds (% time_value 60))
-			   (text_ (fmt--format (string "air room at {:02d}:{:02d}:{:02d}")
-					       hours minutes seconds))
-			   (text (text_.c_str))
-			   (font pax_font_sky)
-			   (dims (pax_text_size font
-						font->default_size
-						text)))
-		 		     
-		       (pax_draw_text buf
-				    
-				      (hex #xffffffff) ; white
-				      font
-				      font->default_size
-				      20
-				      140
-				      text)
-		     
-		       ))))
+		   (if (< time_ma x0)
+		       (do0 (comments "if predicted intersection time is in the future, print it")
+			    (let ((time_value (static_cast<int> (- x0 time_ma)))
+				  (hours (int (/ time_value 3600)))
+				  (minutes (int (/ (% time_value 3600) 60)))
+				  (seconds (% time_value 60))
+				  (text_ (fmt--format (string "air room in (h:m:s) {:02d}:{:02d}:{:02d}")
+						      hours minutes seconds))
+				  (text (text_.c_str))
+				  (font pax_font_sky)
+				  (dims (pax_text_size font
+						       font->default_size
+						       text)))
+		 	      
+			      (pax_draw_text buf
+					     
+					     (hex #xffffffff) ; white
+					     font
+					     font->default_size
+					     20
+					     140
+					     text)
+			      
+			      ))
+		       (do0 (comments "if predicted intersection time is in the past, then predict when airing should stop")
+			    (let ((x0 (/ (- 500d0 b)
+					 m))
+				  (time_value (static_cast<int> (- x0 time_ma)))
+				  (hours (int (/ time_value 3600)))
+				  (minutes (int (/ (% time_value 3600) 60)))
+				  (seconds (% time_value 60))
+				  (text_ (fmt--format (string "air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}")
+						      hours minutes seconds))
+				  (text (text_.c_str))
+				  (font pax_font_sky)
+				  (dims (pax_text_size font
+						       font->default_size
+						       text)))
+		 	      
+			      (pax_draw_text buf
+					     
+					     (hex #xffffffff) ; white
+					     font
+					     font->default_size
+					     20
+					     140
+					     text)
+			      
+			      )))))
 
 		)
 
