@@ -103,9 +103,9 @@ https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022
 - the brown cable should go to tx on the sensor
 
 
-I think the SDCard pins are good because I don't even have one. They
-do all have a 10k resister to PWR_SDCARD, though. And one is even
-connected to gnd and PWR_SDCARD.
+I think the SDCard pins are good because I don't even have a
+card. They do all have a 10k resister to PWR_SDCARD, though. And one
+is even connected to gnd and PWR_SDCARD.
 
 So maybe I can get away with the FPGA links. Hopefully, they are not
 used.
@@ -115,27 +115,13 @@ Use `sudo make install` to install the software ion the badge
 ```
 cd ~/src/my_fancy_app_name/b
 source ~/src/my_fancy_app_name/esp-idf/export.sh 
-
-
-
 ```
 
-
-If I run this, then I get a long text "Flashing attempt detected"
-```
-
-/home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python esp-idf/components/esptool_py/esptool/esptool.py -p /dev/ttyACM0 -b 460800 --before default_reset --after hard_reset --chip esp32  write_flash --flash_mode dio --flash_size detect --flash_freq 80m 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0xf000 build/phy_init_data.bin 0x10000 build/main.bin
-
-```
-
-It says I should install the app using webusb_push.py tool.
-
-In the Makefile it is called like this:
+In the Makefile a tool to flash the binary to the badge is called like this:
 
 ```
 cd /home/martin/src/my_fancy_app_name/
 sudo python3 tools/webusb_push.py "Template App" build/main.bin --run
-
 ```
 
 This works.
@@ -158,7 +144,7 @@ make monitor
 or
 
 ```
-source "$(IDF_PATH)/export.sh" && idf.py monitor -p $(PORT)
+source "$(IDF_PATH)/export.sh" && idf.py monitor -p /dev/ttyACM0
 ```
 or
 
