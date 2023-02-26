@@ -164,3 +164,7 @@ or
 - vin of sensor to the vin pin that is next to the usb connector i
 - need to disconnect to start board though. maybe i will also need to
 - use the ground from there
+
+- looks like the sensor keeps working when usb is unplugged and a
+  battery is connected. not sure if the values are correct,
+  though. the measuerement values seem to increase

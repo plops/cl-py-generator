@@ -335,8 +335,8 @@
 			    (and (esp_random)
 				 255
 				 ))
-		       (sat 255)
-		       (bright 255)
+		       (sat 0)
+		       (bright 0)
 		       (col (pax_col_hsv hue
 					 sat bright))
 		       )
@@ -366,7 +366,8 @@
 		     
 		     
 		     (pax_draw_text &buf
-				    (hex #xff000000)
+					; (hex #xff000000) ; black
+				    (hex #xffffffff) ; white
 				    font
 				    font->default_size
 				    (/ (- buf.width
@@ -381,7 +382,7 @@
 		       (let ((now (dot (aref fifo 0) x))
 			     (nowtext_ ,(sprint :vars `(now))))
 			(pax_draw_text &buf
-				       (hex #xff000000)
+				       (hex #xffffffff) ; white
 				       font
 				       font->default_size
 				       20
@@ -397,7 +398,7 @@
 						  text)))
 			 
 			 (pax_draw_text &buf
-				       (hex #xff000000)
+					(hex #xffffffff) ; white
 				       font
 				       font->default_size
 				       (/ (- buf.width
@@ -412,7 +413,7 @@
 		     (let ((message (rp2040_input_message_t)))
 		       (xQueueReceive buttonQueue
 				      &message
-				      20 ;portMAX_DELAY
+				      100 ;portMAX_DELAY
 				      )
 
 		       (when (logand (== RP2040_INPUT_BUTTON_HOME
