@@ -87,15 +87,19 @@ int main(int argc, char **argv) {
   auto b0 = (23.);
   fmt::print("  m0='{}'  b0='{}'\n", m0, b0);
   for (auto i = 0; i < N_FIFO; i += 1) {
-    auto x = (0.3 * i);
+    auto x = (1.0 * i);
     auto y = (b0 + (m0 * x));
     auto p = Point2D({.x = x, .y = y});
-    if (N_FIFO < fifo.size()) {
+    if (((N_FIFO) - (1)) < fifo.size()) {
       fifo.pop_back();
     }
     fifo.push_front(p);
   }
 
+  for (auto i = 0; i < fifo.size(); i += 1) {
+    fmt::print("  i='{}'  fifo[i].x='{}'  fifo[i].y='{}'\n", i, fifo[i].x,
+               fifo[i].y);
+  }
   auto m = (0.);
   auto b = (0.);
   ransac_line_fit(fifo, m, b);
