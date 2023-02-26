@@ -280,3 +280,14 @@ brick was effective. However, it's essential to note that no
 additional battery should be connected to the badge. If the charge
 controller on the badge thinks the battery is full, it won't request
 any power from the USB port.
+
+## Algorithm
+
+I want to assume CO2 concentration increases linearly and predict when
+the concentration will reach 1200 ppm and the room should be aired.
+
+### Ransac
+
+
+https://www.youtube.com/watch?v=Cu1f6vpEilg
+RANSAC - Random Sample Consensus (Cyrill Stachniss)
