@@ -271,7 +271,9 @@ badge to get the badge booted. Maybe I still have a ground issue.
 
 While the system does keep working when the USB is unplugged and a
 battery is connected, the values eventually reach 5000. I believe this
-is due to the failure of VIN of the sensor dropping below 3.8 volts.
+is due to the failure of VIN of the sensor dropping below 3.8
+volts. Maybe the light source emits no light anymore and the sensor
+thinks the CO2 absorption is very high.
 
 To solve this issue, I found that running the system with a USB power
 brick was effective. However, it's essential to note that no
