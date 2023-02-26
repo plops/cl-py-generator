@@ -183,11 +183,26 @@ This works.
 
 ### Use fmt
 
+The fmtlib library is a useful tool that I use to write log output in
+my projects. One of the benefits of using fmtlib is that it allows me
+to easily print objects without having to worry about the data
+type. This makes it a valuable asset for debugging and
+troubleshooting.
+
+To use fmtlib, I downloaded the required header files from the
+official fmtlib GitHub repository. This can be done by running the
+following commands in the terminal:
+
+
 ```
 wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/core.h
 wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/format.h
 wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/format-inl.h
 ```
+
+Once downloaded, I included the necessary header files in my project
+repository and began using the fmtlib formatting syntax to write log
+output. This has helped to simplify my code and make it more readable.
 
 
 ### Serial monitor
