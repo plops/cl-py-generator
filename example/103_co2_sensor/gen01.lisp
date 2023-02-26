@@ -326,7 +326,7 @@
 			   (hours (int (/ time_value 3600)))
 			   (minutes (int (/ (% time_value 3600) 60)))
 			   (seconds (% time_value 60))
-			   (text_ (fmt--format (string "{:02d}:{:02d}:{:02d}")
+			   (text_ (fmt--format (string "air room at {:02d}:{:02d}:{:02d}")
 					       hours minutes seconds))
 			   (text (text_.c_str))
 			   (font pax_font_sky)
@@ -339,10 +339,8 @@
 				      (hex #xffffffff) ; white
 				      font
 				      font->default_size
-				      80
-				      (/ (- buf->height
-					    dims.y)
-					 2.0)
+				      20
+				      140
 				      text)
 		     
 		       ))))
