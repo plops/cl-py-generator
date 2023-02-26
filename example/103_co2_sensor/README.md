@@ -88,6 +88,21 @@ https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022
 
 
 ### Which pins could I use for uart
+
+The mch22 badge documentation doesn't mention any uarts for me to
+use. While fpga, rp2040 and esp32 are connected with uarts, these
+channels are used during normal operation (for programming and
+logging).
+
+
+The ESP32 contains 3 uarts, of which one is configured. The others can
+be configured to run at almost any pin. There are however constraints
+because:
+- not all pins can be configured for input and output
+- not all pins are routed to the pins of the wrover-e board (that
+  holds the esp32 inside a shielding)
+- most (all?) of the wrover-e board pins are connected to something on
+  the mch22 badge
 	
 | use | gpio   | pin   | function                  | comment                          | decision    |
 |-----|--------|-------|---------------------------|----------------------------------|-------------|
@@ -103,12 +118,18 @@ https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022
 - the brown cable should go to tx on the sensor
 
 
-I think the SDCard pins are good because I don't even have a
-card. They do all have a 10k resister to PWR_SDCARD, though. And one
-is even connected to gnd and PWR_SDCARD.
+I think the SDCard pins are good candidates for my uart connection
+because I don't even have a card. They do all have a 10k resister to
+PWR_SDCARD, though. And one is even connected to gnd and PWR_SDCARD.
 
 So maybe I can get away with the FPGA links. Hopefully, they are not
 used.
+
+- Note: I configure GPIO27 and GPIO39 with the second UART. This seems
+  to work.
+
+
+### How to build and install the ESP32 template software
 
 Use `sudo make install` to install the software ion the badge
 
