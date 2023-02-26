@@ -93,7 +93,7 @@
 		      (when (< (distance p m b)
 			       RANSAC_INLIER_THRESHOLD)
 			(inliers.push_back p)))
-	     (when (< RANSAC_MIN_INLIERS
+	     (when (< RANSAC_MIN_INLIERS 
 		      (inliers.size))
 	       (let ((sum_x 0d0)
 		     (sum_y 0d0))
