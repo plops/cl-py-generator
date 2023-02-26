@@ -331,10 +331,11 @@
 		     (progn
 		       (let ((val (aref fifo 0))
 			     (text_ ,(sprint :vars `(val)))
+			     (font pax_font_saira_condensed)
 			     (text (text_.c_str))
-			    (dims (pax_text_size font
-						 font->default_size
-						 text)))
+			     (dims (pax_text_size font
+						  font->default_size
+						  text)))
 			(pax_draw_text &buf
 				       (hex #xff000000)
 				       font
@@ -342,7 +343,7 @@
 				       (/ (- buf.width
 					  dims.x)
 					  2.0)
-				       100
+				       200
 				       text
 				       )))
 		     
