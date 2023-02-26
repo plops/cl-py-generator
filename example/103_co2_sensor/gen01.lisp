@@ -69,6 +69,8 @@
      (defun ransac_line_fit (data m b)
        (declare (type "std::deque<Point2D>&" data)
 		(type double& m b))
+       (when (< (fifo.size) 2)
+	 (return))
        "std::random_device rd;"
        (let (
 	     (gen (std--mt19937 (rd)))
@@ -289,7 +291,28 @@
 				(scaleTime a.x)
 				(scaleHeight a.y)
 				(scaleTime b.x)
-				(scaleHeight b.y))))))
+				(scaleHeight b.y))))
+
+	      (progn
+		(let ((m 0d0)
+		      (b 0d0)
+		      (hue 202)
+		      (sat 255)
+		      (bright 255)
+		      (col (pax_col_hsv hue
+					sat bright))
+		      )
+		  (ransac_line_fit fifo
+				   m b)
+		  (pax_draw_line buf col
+				(scaleTime time_mi)
+				(scaleHeight (+ b (* m time_mi)))
+				(scaleTime time_ma)
+				(scaleHeight (+ b (* m time_ma)))
+				)
+		  ))
+
+	      ))
 	  )
 	
 	(defun app_main ()
@@ -339,6 +362,9 @@
 					      font->default_size
 					      text)))
 		     (drawCO2 &buf)
+
+		     
+		     
 		     (pax_draw_text &buf
 				    (hex #xff000000)
 				    font
