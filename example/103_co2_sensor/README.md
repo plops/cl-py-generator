@@ -1,3 +1,6 @@
+# Reading out an optical CO2 Sensor
+
+## Repository Contents ##
 
 | file  | comment                               |   |
 |-------|---------------------------------------|---|
@@ -5,7 +8,10 @@
 | gen01 | c++ code to run on esp32              |   |
 | gen02 | c++ code to develop linear ransac fit |   |
 
-# Introduction
+
+
+
+## Introduction ##
 
 It's useful to read CO2 levels for a variety of reasons, such as
 monitoring indoor air quality, ensuring proper ventilation in
@@ -44,14 +50,14 @@ thought, as I didn't immediately find pins that I could use for UART,
 and the power supply was a challenge. I document my approach here.
 
 
-# USB-UART converter
+## USB-UART converter ##
 
 The USB-UART converter allows the user to read sensor data from a PC.
 The code in source00 shows how to do this in a few lines of Python.
 
-# MCH22 Badge
+## MCH22 Badge ##
 
-## UART Connections
+### UART Connections ###
 
 The MCH22 has a battery, display, storage, and wifi, but no available
 UARTs to connect the sensor. The UART connection between RP2040 and
@@ -81,7 +87,7 @@ uart_set_pin(UART_NUM_1,GPIO_NUM_4,GPIO_NUM_0,UART_PIN_NO_CHANGE,UART_PIN_NO_CHA
 
 ```
 
-# Example program for MCH22 ESP32
+### Example program for MCH22 ESP32 ###
 
 I used an example program as a starting point. The example program for
 MCH22 ESP32 is named `my_fancy_app_name` and has a size of 1.7GB after
@@ -99,7 +105,7 @@ ninja
 
 ```
 
-## Hardware info
+### Hardware info ###
 
 Here are some resources for hardware information related to the MCH22 Badge and the ESP32:
 
@@ -114,7 +120,7 @@ In case the last link is not accessible anymore, it is available on
 the waybackmachine: https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022/software-development/
 
 
-### Which pins could I use for UART
+### Which pins could I use for UART ###
 
 The MCH22 Badge contains the FPGA, RP2040, and ESP32 and they are all
 connected via UART during normal operation (for programming and
@@ -162,7 +168,7 @@ snippet provided in the previous section.
 
 
 
-### How to build and install the ESP32 template software
+### How to build and install the ESP32 template software ###
 
 Use `sudo make install` to install the software ion the badge
 
@@ -181,7 +187,7 @@ sudo python3 tools/webusb_push.py "Template App" build/main.bin --run
 This works.
 
 
-### Use fmt
+### Use fmt ###
 
 The fmtlib library is a useful tool that I use to write log output in
 my projects. One of the benefits of using fmtlib is that it allows me
@@ -205,7 +211,7 @@ repository and began using the fmtlib formatting syntax to write log
 output. This has helped to simplify my code and make it more readable.
 
 
-### Serial monitor
+### Serial monitor ###
 
 The serial monitor is an essential tool for reading log messages from
 the ESP32 firmware. During initialization of components of the badge,
@@ -233,7 +239,7 @@ or
 Using the serial monitor, you can monitor the ESP32 firmware's log
 messages and ensure that everything is functioning as expected.
 
-### Notes concerning the power supply
+### Notes concerning the power supply ###
 
 
 When working with the CO2 sensor, it's important to note that it needs
