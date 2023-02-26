@@ -242,8 +242,9 @@
 		    "map to 0 .. 239")
 	  (let ((mi 400s0)
 		(ma 5000s0)
-		(res (* 239s0 (/ (- v mi)
-				 (- ma mi)))))
+		(res (* 239s0 (- 1s0
+				 (/ (- v mi)
+				  (- ma mi))))))
 	    (when (< res 0s0)
 	      (setf res 0s0))
 	    (when (< 239s0 res)
@@ -327,6 +328,24 @@
 					  dims.y)
 				       2.0)
 				    text)
+		     (progn
+		       (let ((val (aref fifo (- (fifo.size) 1)))
+			     (text_ ,(sprint :vars `(val)))
+			     (text (text_.c_str))
+			    (dims (pax_text_size font
+						 font->default_size
+						 text)))
+			(pax_draw_text &buf
+				       (hex #xff000000)
+				       font
+				       font->default_size
+				       (/ (- buf.width
+					  dims.x)
+					  2.0)
+				       100
+				       text
+				       )))
+		     
 		     (disp_flush)
 		     
 		     (let ((message (rp2040_input_message_t)))
