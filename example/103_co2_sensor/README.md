@@ -165,6 +165,11 @@ or
 - need to disconnect to start board though. maybe i will also need to
 - use the ground from there
 
-- looks like the sensor keeps working when usb is unplugged and a
-  battery is connected. not sure if the values are correct,
-  though. the measuerement values seem to increase
+- while the system keeps working when usb is unplugged and a battery
+  is connected, the values will eventually go to 5000. i think this is
+  a failure when vin of the sensor drops below 3.8v.
+
+- i can run the system with a usb power brick. however, it is
+  important that no additional battery is connected to the badge. i
+  think if the charge controller on the badge thinks the battery is
+  full, it will not request any power from the usb port.
