@@ -48,12 +48,13 @@
 	     (destructuring-bind (name val &key (type 'int)) e
 	       (format nil "const ~a ~a = ~a;" type name val)))
      
-     "std::deque<unsigned short> fifo(N_FIFO,0);"
-
-
      (defstruct0 Point2D
-       (x double)
+	 (x double)
        (y double))
+     "std::deque<Point2D> fifo(N_FIFO,{0.0,0.0});"
+
+
+     
 
      (defun distance (p m b)
        (declare (type Point2D p)
@@ -138,7 +139,8 @@
 		  soc/rtc.h
 		  soc/rtc_cntl_reg.h
 		  ;gpio_types.h
-		  driver/uart.h		  )
+		  driver/uart.h
+		  sys/time.h)
 
 	 (include<> esp_log.h))
 	;; here they define another uart, uart0:
@@ -233,8 +235,15 @@
 						(c_str)))
 			  (when (< N_FIFO (fifo.size))
 			    (fifo.pop_back))
-			  (fifo.push_front co2)))))))))
+			  (let ((tv_now (timeval )))
+			    (gettimeofday &tv_now nullptr)
+			   (let ((time_us (+ tv_now.tv_sec (* 1e-6 tv_now.tv_usec)))
+				 (p (Point2D (designated-initializer :x time_us
+								     :y (static_cast<double> co2)))))
+			     (fifo.push_front p)))))))))))
 
+       
+	
 	(defun scaleHeight (v)
 	  (declare (type float v)
 		   (values float))
@@ -254,20 +263,33 @@
 	  )
 	
 	(defun drawCO2 (buf )
-	  (declare (type "pax_buf_t*" buf)) 
+	  (declare (type "pax_buf_t*" buf))
+	  (when (< (fifo.size) 2)
+	    (return))
 	  (let ((hue 12)
 		(sat 255)
 		(bright 255)
 		(col (pax_col_hsv hue
 				  sat bright))
 		)
-	    
-	    (dotimes (i (- (fifo.size) 1))
-	      
-	      (pax_draw_line buf col i
-			     (scaleHeight (aref fifo i))
-			     (+ i 1)
-			     (scaleHeight (aref fifo (+ i 1))))))
+	    (let ((time_ma (dot (aref fifo 0) x))
+		  (time_mi (dot (aref fifo (- (dot fifo (size)) 1))
+				x))
+		  (time_delta (- time_ma time_mi))
+		  (scaleTime (lambda (x)
+			       (declare (type float x)
+					(capture "&")
+					(values float))
+			       (return (* 319s0 (/ (- x time_mi )
+						 time_delta))))))
+	     (dotimes (i (- (fifo.size) 1))
+	       (let ((a (aref fifo i))
+		     (b (aref fifo (+ i 1))))
+		 (pax_draw_line buf col
+				(scaleTime a.x)
+				(scaleHeight a.y)
+				(scaleTime b.x)
+				(scaleHeight b.y))))))
 	  )
 	
 	(defun app_main ()
@@ -328,15 +350,27 @@
 					  dims.y)
 				       2.0)
 				    text)
+		     
 		     (progn
-		       (let ((val (aref fifo 0))
-			     (text_ ,(sprint :vars `(val)))
+		       (let ((now (dot (aref fifo 0) x))
+			     (nowtext_ ,(sprint :vars `(now))))
+			(pax_draw_text &buf
+				       (hex #xff000000)
+				       font
+				       font->default_size
+				       20
+				       180
+				       (nowtext_.c_str)))
+		       (let (
+			     (co2 (dot (aref fifo 0) y))
+			     (text_ ,(sprint :vars `(co2)))
 			     (font pax_font_saira_condensed)
 			     (text (text_.c_str))
 			     (dims (pax_text_size font
 						  font->default_size
 						  text)))
-			(pax_draw_text &buf
+			 
+			 (pax_draw_text &buf
 				       (hex #xff000000)
 				       font
 				       font->default_size
