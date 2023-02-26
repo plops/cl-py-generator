@@ -5,6 +5,44 @@
 | gen01 | c++ code to run on esp32              |   |
 | gen02 | c++ code to develop linear ransac fit |   |
 
+# Introduction
+
+It's useful to read CO2 levels for a variety of reasons, such as
+monitoring indoor air quality, ensuring proper ventilation in
+buildings, and measuring the effectiveness of carbon capture and
+storage systems. There are different types of CO2 sensors available in
+the market, including those that measure absorption. These sensors are
+good because they are only sensitive to CO2, making them more
+specific. One example of a good candidate is the MH-Z19B sensor.
+
+However, it's worth noting that another class of sensors that are
+sometimes marketed for CO2 detection actually detect volatile organic
+compounds. These sensors use adsorption or absorption of the gas in a
+sensitive surface of a semiconductor and perform electrical
+measurements, and while they are cheaper than optical sensors, they
+have much less specificity.
+
+When it comes to purchasing CO2 sensors, it can be challenging to
+determine which sensor is used in fully finished CO2 modules with
+batteries and displays on websites like AliExpress. I opted to buy
+standalone sensors instead, like the MH-Z19B, and attach them to a
+device of my choice.
+
+Initially I tried to read the sensor using a USB-to-UART converter
+that allowed me to measure with a laptop, but ultimately I want a
+standalone device.
+
+I have a badge left from MCH22 and decided to attach the sensor to
+it. It has display, battery, USB- and Wifi connectivity, storage,
+several microprocessors and even some sensors from Bosch (BNO055,
+BME680).  The BE680 is a Gas sensor measuring relative humidity,
+barometric pressure, ambient temperature and gas (VOC).
+
+
+However, connecting the new sensor was more difficult than I first
+thought, as I didn't immediately find pins that I could use for UART,
+and the power supply was a challenge. I document my approach here.
+
 
 # USB-UART converter
 
@@ -188,3 +226,4 @@ or
   important that no additional battery is connected to the badge. i
   think if the charge controller on the badge thinks the battery is
   full, it will not request any power from the usb port.
+a
