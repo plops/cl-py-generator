@@ -130,6 +130,7 @@
 		(values int))
        (let ((m0 .1d0)
 	     (b0 23d0))
+	 ,(lprint :vars `(m0 b0))
 	 (dotimes (i N_FIFO)
 	   (let ((x (* .3 i))
 		 (y (+ b0 (* m0 x)))

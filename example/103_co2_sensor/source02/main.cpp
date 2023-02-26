@@ -74,6 +74,7 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
 int main(int argc, char **argv) {
   auto m0 = (0.100000000000000000000000000000);
   auto b0 = (23.);
+  fmt::print("  m0='{}'  b0='{}'\n", m0, b0);
   for (auto i = 0; i < N_FIFO; i += 1) {
     auto x = (0.3 * i);
     auto y = (b0 + (m0 * x));
