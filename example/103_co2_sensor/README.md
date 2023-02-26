@@ -152,6 +152,7 @@ or
 /home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python /home/martin/src/my_fancy_app_name/esp-idf/tools/idf_monitor.py -p /dev/ttyACM0 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 3 /home/martin/src/my_fancy_app_name/build/main.elf -m '/home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python' '/home/martin/src/my_fancy_app_name/esp-idf/tools/idf.py'
 ```
 
+### Notes concerning the power supply
 
 - note that the sensor needs more than 3.3v as power supply i attached
 - vin of sensor to the vin pin that is next to the usb connector i
