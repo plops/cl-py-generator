@@ -7,8 +7,8 @@
 
 (progn
   (defparameter *source-dir*
-     "/home/martin/src/my_fancy_app_name/main/"
-    ;#P"example/103_co2_sensor/source01/"
+    ; "/home/martin/src/my_fancy_app_name/main/"
+    #P"example/103_co2_sensor/source01/"
     )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -17,10 +17,11 @@
 
 
   (defparameter *full-source-dir*
-    "/home/martin/src/my_fancy_app_name/main/"
-    #+nil (asdf:system-relative-pathname
-				   'cl-py-generator
-				   *source-dir*))
+    ;"/home/martin/src/my_fancy_app_name/main/"
+    #-nil
+    (asdf:system-relative-pathname
+     'cl-py-generator
+     *source-dir*))
   (ensure-directories-exist *full-source-dir*)
   (load "util.lisp")
 

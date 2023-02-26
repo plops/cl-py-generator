@@ -202,16 +202,32 @@ void drawCO2(pax_buf_t *buf) {
     auto x0 = (((((1.20e+3)) - (b))) / (m));
     if (time_ma < x0) {
       // if predicted intersection time is in the future, print it
-      auto time_value = static_cast<int>(x0);
+      auto time_value = static_cast<int>(((x0) - (time_ma)));
       auto hours = int(((time_value) / (3600)));
       auto minutes = int(((time_value % 3600) / (60)));
       auto seconds = time_value % 60;
-      auto text_ = fmt::format("{:02d}:{:02d}:{:02d}", hours, minutes, seconds);
+      auto text_ = fmt::format("air room in (h:m:s) {:02d}:{:02d}:{:02d}",
+                               hours, minutes, seconds);
       auto text = text_.c_str();
       auto font = pax_font_sky;
       auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size, 80,
-                    ((((buf.height) - (dims.y))) / ((2.0f))), text);
+      pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 140, text);
+
+    } else {
+      // if predicted intersection time is in the past, then predict when airing
+      // should stop
+      auto x0 = (((((5.00e+2)) - (b))) / (m));
+      auto time_value = static_cast<int>(((x0) - (time_ma)));
+      auto hours = int(((time_value) / (3600)));
+      auto minutes = int(((time_value % 3600) / (60)));
+      auto seconds = time_value % 60;
+      auto text_ =
+          fmt::format("air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}",
+                      hours, minutes, seconds);
+      auto text = text_.c_str();
+      auto font = pax_font_sky;
+      auto dims = pax_text_size(font, font->default_size, text);
+      pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 140, text);
     }
   }
 }
@@ -231,7 +247,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("11:15:57 of Sunday, 2023-02-26 (GMT+1)\n");
+    auto text_ = fmt::format("13:48:04 of Sunday, 2023-02-26 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
