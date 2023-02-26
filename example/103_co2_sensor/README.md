@@ -160,4 +160,7 @@ or
 ```
 
 
-- note that the sensor needs more than 3.3v as power supply 
+- note that the sensor needs more than 3.3v as power supply i attached
+- vin of sensor to the vin pin that is next to the usb connector i
+- need to disconnect to start board though. maybe i will also need to
+- use the ground from there

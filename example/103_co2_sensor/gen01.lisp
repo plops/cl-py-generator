@@ -296,7 +296,7 @@
 					 sat bright))
 		       )
 		   (pax_background &buf col)
-		   (let (;(val (aref fifo (- (fifo.size) 1)))
+		   (let (
 			 (text_ ,(sprint :msg (multiple-value-bind
                            (second minute hour date month year day-of-week dst-p tz)
                          (get-decoded-time)
@@ -329,7 +329,7 @@
 				       2.0)
 				    text)
 		     (progn
-		       (let ((val (aref fifo (- (fifo.size) 1)))
+		       (let ((val (aref fifo 0))
 			     (text_ ,(sprint :vars `(val)))
 			     (text (text_.c_str))
 			    (dims (pax_text_size font
