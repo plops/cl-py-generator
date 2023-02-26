@@ -7,8 +7,8 @@
 
 (progn
   (defparameter *source-dir*
-    ; "/home/martin/src/my_fancy_app_name/main/"
-    #P"example/103_co2_sensor/source01/"
+     "/home/martin/src/my_fancy_app_name/main/"
+    ;#P"example/103_co2_sensor/source01/"
     )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -17,8 +17,8 @@
 
 
   (defparameter *full-source-dir*
-    ;"/home/martin/src/my_fancy_app_name/main/"
-    #-nil
+    "/home/martin/src/my_fancy_app_name/main/"
+    #+nil
     (asdf:system-relative-pathname
      'cl-py-generator
      *source-dir*))
@@ -40,7 +40,7 @@
      (include "core.h")
 
 
-     ,@(let ((n-fifo (* 10 320)))
+     ,@(let ((n-fifo (* 2 320)))
 	 (loop for e in `((N_FIFO ,n-fifo)
 			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
