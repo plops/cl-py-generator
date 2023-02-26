@@ -4,8 +4,8 @@
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 320;
-const int RANSAC_MAX_ITERATIONS = 100;
+const int N_FIFO = 12;
+const int RANSAC_MAX_ITERATIONS = 12;
 const float RANSAC_INLIER_THRESHOLD = 0.1;
 const int RANSAC_MIN_INLIERS = 50;
 struct Point2D {
@@ -17,6 +17,8 @@ typedef struct Point2D Point2D;
 std::deque<Point2D> fifo(N_FIFO, {0.0, 0.0});
 
 double distance(Point2D p, double m, double b) {
+  // division normalizes distance, so that it is independent of the slope of the
+  // line
   return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
 }
 
@@ -31,8 +33,14 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
   auto best_m = (0.);
   auto best_b = (0.);
   for (auto i = 0; i < RANSAC_MAX_ITERATIONS; i += 1) {
+    // line model needs two points, so randomly select two points and compute
+    // model parameters
+
     auto idx1 = distrib(gen);
     auto idx2 = distrib(gen);
+    while (idx1 == idx2) {
+      idx1 = distrib(gen);
+    }
     auto p1 = data[idx1];
     auto p2 = data[idx2];
     auto m = ((((p2.y) - (p1.y))) / (((p2.x) - (p1.x))));
@@ -43,6 +51,9 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
         inliers.push_back(p);
       }
     };
+    fmt::print("  idx1='{}'  idx2='{}'  data.size()='{}'  inliers.size()='{}'  "
+               "m='{}'  b='{}'\n",
+               idx1, idx2, data.size(), inliers.size(), m, b);
     if (RANSAC_MIN_INLIERS < inliers.size()) {
       auto sum_x = (0.);
       auto sum_y = (0.);

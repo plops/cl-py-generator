@@ -41,8 +41,8 @@
 
      
 
-     ,@(loop for e in `((N_FIFO 320)
-			    (RANSAC_MAX_ITERATIONS 100)
+     ,@(loop for e in `((N_FIFO 12)
+			    (RANSAC_MAX_ITERATIONS 12)
 			    (RANSAC_INLIER_THRESHOLD 0.1 :type float)
 			    (RANSAC_MIN_INLIERS 50))
 	     collect
@@ -61,10 +61,12 @@
        (declare (type Point2D p)
 		(type double m b)
 		(values double))
-       (return (/ (abs (- p.y
-			  (+ (* m p.x)
-			     b)))
-		  (sqrt (+ 1 (* m m))))))
+       (do0
+	(comments "division normalizes distance, so that it is independent of the slope of the line ")
+	(return (/ (abs (- p.y
+			   (+ (* m p.x)
+			      b)))
+		   (sqrt (+ 1 (* m m)))))))
 
 
      (defun ransac_line_fit (data m b)
@@ -81,44 +83,49 @@
 	     (best_m 0d0)
 	     (best_b 0d0))
 	 (dotimes (i RANSAC_MAX_ITERATIONS)
+	   (comments "line model needs two points, so randomly select two points and compute model parameters")
 	   (let ((idx1 (distrib gen))
-		 (idx2 (distrib gen))
-		 (p1 (aref data idx1))
-		 (p2 (aref data idx2))
-		 (m (/ (- p2.y p1.y)
-		       (- p2.x p1.x)))
-		 (b (- p1.y
-		       (* m p1.x)))
-		 (inliers (std--vector<Point2D>)))
-	     (foreach (p data)
-		      (when (< (distance p m b)
-			       RANSAC_INLIER_THRESHOLD)
-			(inliers.push_back p)))
-	     (when (< RANSAC_MIN_INLIERS 
-		      (inliers.size))
-	       (let ((sum_x 0d0)
-		     (sum_y 0d0))
-		 (foreach (p inliers)
-			  (incf sum_x p.x)
-			  (incf sum_y p.y))
-		 (let ((avg_x (/ sum_x (inliers.size)))
-		       (avg_y (/ sum_y (inliers.size)))
-		       (var_x 0d0)
-		       (cov_xy 0d0))
+		  (idx2 (distrib gen))
+		  )
+	     (while (== idx1 idx2)
+		    (setf idx1 (distrib gen)))
+	     (let ((p1 (aref data idx1))
+		   (p2 (aref data idx2))
+		   (m (/ (- p2.y p1.y)
+			 (- p2.x p1.x)))
+		   (b (- p1.y
+			 (* m p1.x)))
+		   (inliers (std--vector<Point2D>)))
+	       (foreach (p data)
+			(when (< (distance p m b)
+				 RANSAC_INLIER_THRESHOLD)
+			  (inliers.push_back p)))
+	       ,(lprint :vars `(idx1 idx2 (data.size) (inliers.size) m b))
+	       (when (< RANSAC_MIN_INLIERS 
+			(inliers.size))
+		 (let ((sum_x 0d0)
+		       (sum_y 0d0))
 		   (foreach (p inliers)
-			    (incf var_x (* (- p.x avg_x)
-					   (- p.x avg_x)))
+			    (incf sum_x p.x)
+			    (incf sum_y p.y))
+		   (let ((avg_x (/ sum_x (inliers.size)))
+			 (avg_y (/ sum_y (inliers.size)))
+			 (var_x 0d0)
+			 (cov_xy 0d0))
+		     (foreach (p inliers)
+			      (incf var_x (* (- p.x avg_x)
+					     (- p.x avg_x)))
 
-			    (incf cov_xy (* (- p.x avg_x)
-					    (- p.y avg_y))))
-		   (let ((m (/ cov_xy var_x))
-			 (b (- avg_y (* m avg_x))))
-		     (when (< (best_inliers.size)
-			      (inliers.size))
-		       (setf best_inliers inliers
-			     best_m m
-			     best_b b))))))
-	     ))
+			      (incf cov_xy (* (- p.x avg_x)
+					      (- p.y avg_y))))
+		     (let ((m (/ cov_xy var_x))
+			   (b (- avg_y (* m avg_x))))
+		       (when (< (best_inliers.size)
+				(inliers.size))
+			 (setf best_inliers inliers
+			       best_m m
+			       best_b b))))))
+	       )))
 	 (setf m best_m
 	       b best_b)
 	 ))
@@ -144,6 +151,5 @@
      
 
      )))
-
 
 
