@@ -266,7 +266,9 @@ When working with the CO2 sensor, it's important to note that it needs
 more than 3.3 volts as a power supply. To solve this, I attached the
 VIN of the sensor to the VIN pin located next to the USB connector on
 the MCH22 board. However, I did need to disconnect the sensor from the
-badge to get the badge booted. Maybe I still have a ground issue.
+badge to get the badge booted. I am now using the ground pin next to
+the prototyping area. Perhaps that is not the same net as the ground
+on the pin next to the USB connector.
 
 
 While the system does keep working when the USB is unplugged and a
