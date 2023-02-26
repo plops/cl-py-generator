@@ -192,6 +192,15 @@ wget https://raw.githubusercontent.com/fmtlib/fmt/master/include/fmt/format-inl.
 
 ### Serial monitor
 
+The serial monitor is an essential tool for reading log messages from
+the ESP32 firmware. During initialization of components of the badge,
+such as uart or wifi, the serial monitor provides valuable information
+to ensure proper configuration. It can also help identify
+configuration errors of the uart, e.g. I set the RX buffer too small
+at some point.
+
+To open the serial monitor, use the following commands:
+
 ```
 make monitor
 ```
@@ -205,6 +214,9 @@ or
 ```
 /home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python /home/martin/src/my_fancy_app_name/esp-idf/tools/idf_monitor.py -p /dev/ttyACM0 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 3 /home/martin/src/my_fancy_app_name/build/main.elf -m '/home/martin/.espressif/python_env/idf4.4_py3.10_env/bin/python' '/home/martin/src/my_fancy_app_name/esp-idf/tools/idf.py'
 ```
+
+Using the serial monitor, you can monitor the ESP32 firmware's log
+messages and ensure that everything is functioning as expected.
 
 ### Notes concerning the power supply
 
