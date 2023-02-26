@@ -334,13 +334,13 @@
 						font->default_size
 						text)))
 		 		     
-		       (pax_draw_text &buf
+		       (pax_draw_text buf
 				    
 				      (hex #xffffffff) ; white
 				      font
 				      font->default_size
 				      80
-				      (/ (- buf.height
+				      (/ (- buf->height
 					    dims.y)
 					 2.0)
 				      text)
