@@ -166,7 +166,7 @@ Here is a table of available pins and their potential use:
 |     | GPIO14 | pin13 | SD clock                  | 10k to PWR_SDCARD                |             |
 |     | GPIO15 | pin23 | SD command                | 45.3k to gnd, 10k to PWR_SDCARD  |             |
 | Y   | GPIO27 | pin12 | SPI chip select fpga (tx) |                                  | could be tx |
-|     | GPIO35 | pin7  | SPI MISO fpga             | maybe connected to lcd as well?  | could be tx |
+|     | GPIO35 | pin7  | SPI MISO fpga             | maybe connected to LCD as well?  | could be tx |
 | Y   | GPIO39 | pin5  | Interrupt fpga            | GPIO_NUM >= 34 can only be input | must be rx  |
 
 
