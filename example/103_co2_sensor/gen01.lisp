@@ -38,15 +38,16 @@
 
      (include "core.h")
 
-     
 
-     ,@(loop for e in `((N_FIFO 320)
-			    (RANSAC_MAX_ITERATIONS 100)
-			    (RANSAC_INLIER_THRESHOLD 0.1 :type float)
-			    (RANSAC_MIN_INLIERS 50))
-	     collect
-	     (destructuring-bind (name val &key (type 'int)) e
-	       (format nil "const ~a ~a = ~a;" type name val)))
+     ,@(let ((n-fifo 12))
+	 (loop for e in `((N_FIFO ,n-fifo)
+			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
+			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
+			  (RANSAC_MIN_INLIERS ,(floor (* .1 n-fifo))))
+		collect
+		(destructuring-bind (name val &key (type 'int)) e
+		  (format nil "const ~a ~a = ~a;" type name val))))
+     
      
      (defstruct0 Point2D
 	 (x double)
@@ -235,7 +236,7 @@
 				      (aref response 3))))
 			  (ESP_LOGE TAG (string "%s") (dot ,(sprint  :vars `(co2))
 						(c_str)))
-			  (when (< N_FIFO (fifo.size))
+			  (when (< (- N_FIFO 1) (fifo.size))
 			    (fifo.pop_back))
 			  (let ((tv_now (timeval )))
 			    (gettimeofday &tv_now nullptr)
@@ -310,7 +311,40 @@
 				(scaleTime time_ma)
 				(scaleHeight (+ b (* m time_ma)))
 				)
-		  ))
+		  )
+
+		(do0
+		 (comments "compute when a value of 1200ppm is reached")
+		 (let ((x0 (/ (- 1200d0 b)
+			      m)))
+		   (when (< time_ma x0)
+		     (comments "if predicted intersection time is in the future, print it")
+		     (let ((time_value (static_cast<int> x0))
+			   (hours (int (/ time_value 3600)))
+			   (minutes (int (/ (% time_value 3600) 60)))
+			   (seconds (% time_value 60))
+			   (text_ (fmt--format (string "{:02d}:{:02d}:{:02d}")
+					       hours minutes seconds))
+			   (text (text_.c_str))
+			   (font pax_font_sky)
+			   (dims (pax_text_size font
+						font->default_size
+						text)))
+		 		     
+		       (pax_draw_text &buf
+				    
+				      (hex #xffffffff) ; white
+				      font
+				      font->default_size
+				      80
+				      (/ (- buf.height
+					    dims.y)
+					 2.0)
+				      text)
+		     
+		       ))))
+
+		)
 
 	      ))
 	  )

@@ -41,13 +41,14 @@
 
      
 
-     ,@(loop for e in `((N_FIFO 12)
-			    (RANSAC_MAX_ITERATIONS 12)
-			    (RANSAC_INLIER_THRESHOLD 0.1 :type float)
-			    (RANSAC_MIN_INLIERS 50))
-	     collect
-	     (destructuring-bind (name val &key (type 'int)) e
-	       (format nil "const ~a ~a = ~a;" type name val)))
+     ,@(let ((n-fifo 12))
+	 (loop for e in `((N_FIFO ,n-fifo)
+			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
+			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
+			  (RANSAC_MIN_INLIERS ,(floor (* .1 n-fifo))))
+		collect
+		(destructuring-bind (name val &key (type 'int)) e
+		  (format nil "const ~a ~a = ~a;" type name val))))
      
      (defstruct0 Point2D
 	 (x double)
@@ -100,7 +101,7 @@
 			(when (< (distance p m b)
 				 RANSAC_INLIER_THRESHOLD)
 			  (inliers.push_back p)))
-	       ,(lprint :vars `(idx1 idx2 (data.size) (inliers.size) m b))
+	       ;,(lprint :vars `(idx1 idx2 (data.size) (inliers.size) m b))
 	       (when (< RANSAC_MIN_INLIERS 
 			(inliers.size))
 		 (let ((sum_x 0d0)
@@ -120,6 +121,7 @@
 					      (- p.y avg_y))))
 		     (let ((m (/ cov_xy var_x))
 			   (b (- avg_y (* m avg_x))))
+		       ,(lprint :msg "stat" :vars `(m b))
 		       (when (< (best_inliers.size)
 				(inliers.size))
 			 (setf best_inliers inliers

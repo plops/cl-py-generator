@@ -4,10 +4,10 @@
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 320;
-const int RANSAC_MAX_ITERATIONS = 100;
+const int N_FIFO = 12;
+const int RANSAC_MAX_ITERATIONS = 12;
 const float RANSAC_INLIER_THRESHOLD = 0.1;
-const int RANSAC_MIN_INLIERS = 50;
+const int RANSAC_MIN_INLIERS = 1;
 struct Point2D {
   double x;
   double y;
@@ -134,7 +134,7 @@ void measureCO2() {
       if (((255 == response[0]) && (134 == response[1]))) {
         auto co2 = ((256 * response[2]) + response[3]);
         ESP_LOGE(TAG, "%s", fmt::format("  co2='{}'\n", co2).c_str());
-        if (N_FIFO < fifo.size()) {
+        if (((N_FIFO) - (1)) < fifo.size()) {
           fifo.pop_back();
         }
         auto tv_now = timeval();
@@ -194,6 +194,22 @@ void drawCO2(pax_buf_t *buf) {
     pax_draw_line(buf, col, scaleTime(time_mi),
                   scaleHeight((b + (m * time_mi))), scaleTime(time_ma),
                   scaleHeight((b + (m * time_ma))));
+
+    // compute when a value of 1200ppm is reached
+    auto x0 = (((((1.20e+3)) - (b))) / (m));
+    if (time_ma < x0) {
+      // if predicted intersection time is in the future, print it
+      auto time_value = static_cast<int>(x0);
+      auto hours = int(((time_value) / (3600)));
+      auto minutes = int(((time_value % 3600) / (60)));
+      auto seconds = time_value % 60;
+      auto text_ = fmt::format("{:02d}:{:02d}:{:02d}", hours, minutes, seconds);
+      auto text = text_.c_str();
+      auto font = pax_font_sky;
+      auto dims = pax_text_size(font, font->default_size, text);
+      pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size, 80,
+                    ((((buf.height) - (dims.y))) / ((2.0f))), text);
+    }
   }
 }
 
@@ -212,7 +228,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("07:38:50 of Sunday, 2023-02-26 (GMT+1)\n");
+    auto text_ = fmt::format("11:13:59 of Sunday, 2023-02-26 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);

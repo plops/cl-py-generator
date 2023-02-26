@@ -7,7 +7,7 @@
 const int N_FIFO = 12;
 const int RANSAC_MAX_ITERATIONS = 12;
 const float RANSAC_INLIER_THRESHOLD = 0.1;
-const int RANSAC_MIN_INLIERS = 50;
+const int RANSAC_MIN_INLIERS = 1;
 struct Point2D {
   double x;
   double y;
@@ -51,9 +51,6 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
         inliers.push_back(p);
       }
     };
-    fmt::print("  idx1='{}'  idx2='{}'  data.size()='{}'  inliers.size()='{}'  "
-               "m='{}'  b='{}'\n",
-               idx1, idx2, data.size(), inliers.size(), m, b);
     if (RANSAC_MIN_INLIERS < inliers.size()) {
       auto sum_x = (0.);
       auto sum_y = (0.);
@@ -71,6 +68,7 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
       };
       auto m = ((cov_xy) / (var_x));
       auto b = ((avg_y) - ((m * avg_x)));
+      fmt::print("stat  m='{}'  b='{}'\n", m, b);
       if (best_inliers.size() < inliers.size()) {
         best_inliers = inliers;
         best_m = m;
