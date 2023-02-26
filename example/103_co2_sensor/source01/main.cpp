@@ -4,10 +4,10 @@
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 12;
-const int RANSAC_MAX_ITERATIONS = 12;
+const int N_FIFO = 3200;
+const int RANSAC_MAX_ITERATIONS = 3200;
 const float RANSAC_INLIER_THRESHOLD = 0.1;
-const int RANSAC_MIN_INLIERS = 1;
+const int RANSAC_MIN_INLIERS = 320;
 struct Point2D {
   double x;
   double y;
@@ -33,6 +33,9 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
   for (auto i = 0; i < RANSAC_MAX_ITERATIONS; i += 1) {
     auto idx1 = distrib(gen);
     auto idx2 = distrib(gen);
+    while (idx1 == idx2) {
+      idx1 = distrib(gen);
+    }
     auto p1 = data[idx1];
     auto p2 = data[idx2];
     auto m = ((((p2.y) - (p1.y))) / (((p2.x) - (p1.x))));
@@ -228,7 +231,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("11:13:59 of Sunday, 2023-02-26 (GMT+1)\n");
+    auto text_ = fmt::format("11:15:57 of Sunday, 2023-02-26 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
