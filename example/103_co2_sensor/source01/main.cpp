@@ -4,22 +4,26 @@
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 240;
+const int N_FIFO = 320;
 const int RANSAC_MAX_ITERATIONS = 100;
 const float RANSAC_INLIER_THRESHOLD = 0.1;
 const int RANSAC_MIN_INLIERS = 50;
-std::deque<unsigned short> fifo(N_FIFO, 0);
 struct Point2D {
   double x;
   double y;
 };
 typedef struct Point2D Point2D;
 
+std::deque<Point2D> fifo(N_FIFO, {0.0, 0.0});
+
 double distance(Point2D p, double m, double b) {
   return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
 }
 
 void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
+  if (fifo.size() < 2) {
+    return;
+  }
   std::random_device rd;
   auto gen = std::mt19937(rd());
   auto distrib = std::uniform_int_distribution<>(0, ((data.size()) - (1)));
@@ -77,6 +81,7 @@ extern "C" {
 #include "pax_gfx.h"
 #include "soc/rtc.h"
 #include "soc/rtc_cntl_reg.h"
+#include "sys/time.h"
 #include <esp_log.h>
 
 static const char *TAG = "mch2022-co2-app";
@@ -92,23 +97,30 @@ void exit_to_launcher() {
   esp_restart();
 }
 
-#define CO2_UART UART_NUM_2
-#define BUF_SIZE 100
+#define CO2_UART UART_NUM_1
+#define BUF_SIZE UART_FIFO_LEN
 
 void uart_init() {
   ESP_LOGE(TAG, "initialize uart");
   if (uart_is_driver_installed(CO2_UART)) {
     return;
   }
-  uart_set_pin(CO2_UART, 27, 39, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-  uart_driver_install(CO2_UART, (BUF_SIZE * 2), 0, 0, nullptr, 0);
+  if (!(ESP_OK == uart_set_pin(CO2_UART, 27, 39, UART_PIN_NO_CHANGE,
+                               UART_PIN_NO_CHANGE))) {
+    ESP_LOGE(TAG, "error: uart_set_pin 27 39");
+  }
+  if (!(ESP_OK == uart_driver_install(CO2_UART, 200, 0, 0, nullptr, 0))) {
+    ESP_LOGE(TAG, "error: uart_driver_install");
+  }
   auto config = uart_config_t({.baud_rate = 9600,
                                .data_bits = UART_DATA_8_BITS,
                                .parity = UART_PARITY_DISABLE,
                                .stop_bits = UART_STOP_BITS_1,
                                .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
                                .source_clk = UART_SCLK_APB});
-  ESP_ERROR_CHECK(uart_param_config(CO2_UART, &config));
+  if (!(ESP_OK == uart_param_config(CO2_UART, &config))) {
+    ESP_LOGE(TAG, "error: uart_param_config");
+  }
 }
 
 void measureCO2() {
@@ -121,22 +133,67 @@ void measureCO2() {
     if (9 == l) {
       if (((255 == response[0]) && (134 == response[1]))) {
         auto co2 = ((256 * response[2]) + response[3]);
+        ESP_LOGE(TAG, "%s", fmt::format("  co2='{}'\n", co2).c_str());
         if (N_FIFO < fifo.size()) {
           fifo.pop_back();
         }
-        fifo.push_front(co2);
+        auto tv_now = timeval();
+        gettimeofday(&tv_now, nullptr);
+        auto time_us = (tv_now.tv_sec + ((1.00e-6f) * tv_now.tv_usec));
+        auto p = Point2D({.x = time_us, .y = static_cast<double>(co2)});
+        fifo.push_front(p);
       }
     }
   }
 }
 
+float scaleHeight(float v) {
+  // v is in the range 400 .. 5000
+  // map to 0 .. 239
+
+  auto mi = (4.00e+2f);
+  auto ma = (5.00e+3f);
+  auto res = (239.0 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+  if (res < (0.f)) {
+    res = (0.f);
+  }
+  if ((239.f) < res) {
+    res = (239.f);
+  }
+  return res;
+}
+
 void drawCO2(pax_buf_t *buf) {
+  if (fifo.size() < 2) {
+    return;
+  }
   auto hue = 12;
   auto sat = 255;
   auto bright = 255;
   auto col = pax_col_hsv(hue, sat, bright);
+  auto time_ma = fifo[0].x;
+  auto time_mi = fifo[((fifo.size()) - (1))].x;
+  auto time_delta = ((time_ma) - (time_mi));
+  auto scaleTime = [&](float x) -> float {
+    return (319.0 * ((((x) - (time_mi))) / (time_delta)));
+  };
   for (auto i = 0; i < ((fifo.size()) - (1)); i += 1) {
-    pax_draw_line(buf, col, i, fifo[i], (i + 1), fifo[(i + 1)]);
+    auto a = fifo[i];
+    auto b = fifo[(i + 1)];
+    pax_draw_line(buf, col, scaleTime(a.x), scaleHeight(a.y), scaleTime(b.x),
+                  scaleHeight(b.y));
+  }
+  {
+    auto m = (0.);
+    auto b = (0.);
+    auto hue = 202;
+    auto sat = 255;
+    auto bright = 255;
+    auto col = pax_col_hsv(hue, sat, bright);
+    ransac_line_fit(fifo, m, b);
+    pax_draw_line(buf, col, scaleTime(time_mi),
+                  scaleHeight((b + (m * time_mi))), scaleTime(time_ma),
+                  scaleHeight((b + (m * time_ma))));
   }
 }
 
@@ -150,22 +207,36 @@ void app_main() {
   uart_init();
   while (1) {
     measureCO2();
-    auto hue = ((esp_random()) & (255));
-    auto sat = 255;
-    auto bright = 255;
+    auto hue = 129;
+    auto sat = 0;
+    auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("23:27:25 of Saturday, 2023-02-25 (GMT+1)\n");
+    auto text_ = fmt::format("07:38:50 of Sunday, 2023-02-26 (GMT+1)\n");
     auto text = text_.c_str();
-    auto font = pax_font_saira_condensed;
+    auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
     drawCO2(&buf);
-    pax_draw_text(&buf, 0xFF000000, font, font->default_size,
+    pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size,
                   ((((buf.width) - (dims.x))) / ((2.0f))),
                   ((((buf.height) - (dims.y))) / ((2.0f))), text);
+    {
+      auto now = fifo[0].x;
+      auto nowtext_ = fmt::format("  now='{}'\n", now);
+      pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size, 20, 180,
+                    nowtext_.c_str());
+
+      auto co2 = fifo[0].y;
+      auto text_ = fmt::format("  co2='{}'\n", co2);
+      auto font = pax_font_saira_condensed;
+      auto text = text_.c_str();
+      auto dims = pax_text_size(font, font->default_size, text);
+      pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size,
+                    ((((buf.width) - (dims.x))) / ((2.0f))), 200, text);
+    }
     disp_flush();
     auto message = rp2040_input_message_t();
-    xQueueReceive(buttonQueue, &message, portMAX_DELAY);
+    xQueueReceive(buttonQueue, &message, 100);
     if (((RP2040_INPUT_BUTTON_HOME == message.input) && (message.state))) {
       exit_to_launcher();
     }
