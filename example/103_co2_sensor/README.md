@@ -36,8 +36,8 @@ I have a badge left from MCH22 and decided to attach the sensor to
 it. It has display, battery, USB- and Wifi connectivity, storage,
 several microprocessors and even some sensors from Bosch (BNO055,
 BME680).  The BE680 is a Gas sensor measuring relative humidity,
-barometric pressure, ambient temperature and gas (VOC).
-
+barometric pressure, ambient temperature and gas (VOC). The specific
+CO2 sensor would make a great addition to this sensor board.
 
 However, connecting the new sensor was more difficult than I first
 thought, as I didn't immediately find pins that I could use for UART,
