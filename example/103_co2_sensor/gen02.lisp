@@ -143,7 +143,9 @@
 		 (y (+ b0 (* m0 x)))
 		 (p (Point2D (designated-initializer :x x
 						     :y y))))
-	     (fifo.push_back p))))
+	     (when (< N_FIFO (fifo.size))
+	       (fifo.pop_back))
+	     (fifo.push_front p))))
        (let ((m 0d0)
 	     (b 0d0))
 	 (ransac_line_fit fifo m b)

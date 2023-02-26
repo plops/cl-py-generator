@@ -90,7 +90,10 @@ int main(int argc, char **argv) {
     auto x = (0.3 * i);
     auto y = (b0 + (m0 * x));
     auto p = Point2D({.x = x, .y = y});
-    fifo.push_back(p);
+    if (N_FIFO < fifo.size()) {
+      fifo.pop_back();
+    }
+    fifo.push_front(p);
   }
 
   auto m = (0.);
