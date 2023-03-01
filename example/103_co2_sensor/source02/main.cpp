@@ -15,6 +15,15 @@ struct Point2D {
 typedef struct Point2D Point2D;
 
 std::deque<Point2D> fifo(N_FIFO, {0.0, 0.0});
+class Line {
+public:
+  Line(double m, double b) : m_(m), b_(b) {}
+  Point2D point(double x) { return {x, ((m_ * x) + b_)}; }
+
+private:
+  double m_;
+  double b_;
+};
 
 double distance(Point2D p, double m, double b) {
   // division normalizes distance, so that it is independent of the slope of the
@@ -68,7 +77,6 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
       };
       auto m = ((cov_xy) / (var_x));
       auto b = ((avg_y) - ((m * avg_x)));
-      fmt::print("stat  m='{}'  b='{}'\n", m, b);
       if (best_inliers.size() < inliers.size()) {
         best_inliers = inliers;
         best_m = m;
@@ -81,25 +89,28 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
 }
 
 int main(int argc, char **argv) {
-  auto m0 = (0.100000000000000000000000000000);
-  auto b0 = (23.);
-  fmt::print("  m0='{}'  b0='{}'\n", m0, b0);
+  auto m0 = (1.0);
+  auto b0 = (2.0);
+  auto noise_stddev = (0.100000000000000000000000000000);
+  std::default_random_engine generator;
+  std::normal_distribution<double> distribution(0.0, noise_stddev);
   for (auto i = 0; i < N_FIFO; i += 1) {
-    auto x = (1.0 * i);
-    auto y = (b0 + (m0 * x));
-    auto p = Point2D({.x = x, .y = y});
+    auto x = (((1.0 * i)) / (N_FIFO));
+    auto p = Line(m0, b0).point(x);
+    p.y += distribution(generator);
     if (((N_FIFO) - (1)) < fifo.size()) {
       fifo.pop_back();
     }
     fifo.push_front(p);
   }
 
-  for (auto i = 0; i < fifo.size(); i += 1) {
-    fmt::print("  i='{}'  fifo[i].x='{}'  fifo[i].y='{}'\n", i, fifo[i].x,
-               fifo[i].y);
-  }
   auto m = (0.);
   auto b = (0.);
   ransac_line_fit(fifo, m, b);
-  fmt::print("  m='{}'  b='{}'\n", m, b);
+  for (auto i = 0; i < fifo.size(); i += 1) {
+    auto x = fifo[i].x;
+    auto p = Line(m0, b0).point(x);
+    fmt::print("{:4.5f} {:4.5f} {:4.5f} {:4.5f}\n", x, fifo[i].y,
+               Line(m, b).point(x).y, p.y);
+  }
 }

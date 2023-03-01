@@ -56,6 +56,21 @@
      "std::deque<Point2D> fifo(N_FIFO,{0.0,0.0});"
 
 
+     (defclass+ Line ()
+       "public:"
+       (defmethod Line (m b)
+	 (declare (type double m b)
+		  (construct (m_ m) (b_ b))
+		  (values :constructor))
+	 )
+       (defmethod point (x)
+	 (declare (type double x)
+		  (values Point2D))
+	 (return (curly x (+ (* m_ x)
+			     b_))))
+       "private:"
+       "double m_;"
+       "double b_;")
      
 
      (defun distance (p m b)
@@ -121,7 +136,7 @@
 					      (- p.y avg_y))))
 		     (let ((m (/ cov_xy var_x))
 			   (b (- avg_y (* m avg_x))))
-		       ,(lprint :msg "stat" :vars `(m b))
+		       ;,(lprint :msg "stat" :vars `(m b))
 		       (when (< (best_inliers.size)
 				(inliers.size))
 			 (setf best_inliers inliers
@@ -137,25 +152,45 @@
        (declare (type int argc)
 		(type char** argv)
 		(values int))
-       (let ((m0 .1d0)
-	     (b0 23d0))
-	 ,(lprint :vars `(m0 b0))
+       (let ((m0 1.0d0)
+	     (b0 2.0d0)
+	     (noise_stddev .1d0))
+	 ;,(lprint :vars `(m0 b0))
+	 "std::default_random_engine generator;"
+	 "std::normal_distribution<double> distribution(0.0,noise_stddev);"
 	 (dotimes (i N_FIFO)
-	   (let ((x (* 1.0 i))
-		 (y (+ b0 (* m0 x)))
-		 (p (Point2D (designated-initializer :x x
-						     :y y))))
+	   (let ((x (/ (* 1.0 i) N_FIFO))
+		 (p (dot (Line m0 b0)
+			 (point x)))
+		 )
+	     (incf p.y (distribution generator))
 	     (when (< (- N_FIFO 1) (fifo.size))
 	       (fifo.pop_back))
 	     (fifo.push_front p))))
-       (dotimes (i (fifo.size))
+       #+nil (dotimes (i (fifo.size))
 		,(lprint :vars `(i
 				 (dot (aref fifo i) x)
 				 (dot (aref fifo i) y))))
        (let ((m 0d0)
 	     (b 0d0))
 	 (ransac_line_fit fifo m b)
-	 ,(lprint :vars `(m b))))
+					;,(lprint :vars `(m b))
+	 (do0
+	  (dotimes (i (fifo.size))
+	    (let ((x (dot (aref fifo i) x))
+		  (p (dot (Line m0 b0)
+			  (point x))))
+	     (fmt--print
+	      (string ,(format nil "~{~a~^ ~}\\n"
+			       (loop for i below 4 collect "{:4.5f}")))
+	      x
+	      (dot (aref fifo i) y)
+	      (dot (Line m b)
+		   (point x)
+		   y)
+	      (dot p y)
+	      ))))
+	 ))
      
 
      )))
