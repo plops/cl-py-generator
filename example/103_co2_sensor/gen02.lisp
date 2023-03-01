@@ -176,11 +176,18 @@
 	 (ransac_line_fit fifo m b)
 					;,(lprint :vars `(m b))
 	 (do0
+	  (fmt--print
+	      (string ,(format nil "~{~a~^ ~}\\n"
+			       (loop for i below 4 collect "{:7s}")))
+	      (string "x")
+	      (string "y0")
+	      (string "y1")
+	      (string "y2"))
 	  (dotimes (i (fifo.size))
 	    (let ((x (dot (aref fifo i) x))
 		  (p (dot (Line m0 b0)
 			  (point x))))
-	     (fmt--print
+	      (fmt--print
 	      (string ,(format nil "~{~a~^ ~}\\n"
 			       (loop for i below 4 collect "{:4.5f}")))
 	      x
@@ -196,3 +203,4 @@
      )))
 
 
+`

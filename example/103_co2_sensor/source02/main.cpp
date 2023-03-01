@@ -107,6 +107,7 @@ int main(int argc, char **argv) {
   auto m = (0.);
   auto b = (0.);
   ransac_line_fit(fifo, m, b);
+  fmt::print("{:7s} {:7s} {:7s} {:7s}\n", "x", "y0", "y1", "y2");
   for (auto i = 0; i < fifo.size(); i += 1) {
     auto x = fifo[i].x;
     auto p = Line(m0, b0).point(x);
