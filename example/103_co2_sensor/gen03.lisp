@@ -198,6 +198,7 @@
 	    ,@(loop for e in `(Y0 Y1 Y2)
 		    collect
 		    `(plt--named_plot (string ,e) X ,e))
+	    (plt--show)
 	    )))))))
 
 

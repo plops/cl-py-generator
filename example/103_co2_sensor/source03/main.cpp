@@ -126,4 +126,5 @@ int main(int argc, char **argv) {
   plt::named_plot("Y0", X, Y0);
   plt::named_plot("Y1", X, Y1);
   plt::named_plot("Y2", X, Y2);
+  plt::show();
 }
