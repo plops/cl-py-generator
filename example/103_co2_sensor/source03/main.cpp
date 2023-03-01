@@ -1,10 +1,12 @@
 #define FMT_HEADER_ONLY
 #include "core.h"
+#include "matplotlibcpp.h"
 #include <chrono>
 #include <cmath>
 #include <deque>
 #include <random>
 #include <vector>
+namespace plt = matplotlibcpp;
 const int N_FIFO = 240;
 const int RANSAC_MAX_ITERATIONS = 240;
 const float RANSAC_INLIER_THRESHOLD = 0.1;
@@ -109,11 +111,19 @@ int main(int argc, char **argv) {
   auto m = (0.);
   auto b = (0.);
   ransac_line_fit(fifo, m, b);
-  fmt::print("{:7s} {:7s} {:7s} {:7s}\n", "x", "y0", "y1", "y2");
+  auto X = std::vector<double>();
+  auto Y0 = std::vector<double>();
+  auto Y1 = std::vector<double>();
+  auto Y2 = std::vector<double>();
   for (auto i = 0; i < fifo.size(); i += 1) {
     auto x = fifo[i].x;
     auto p = Line(m0, b0).point(x);
-    fmt::print("{:4.5f} {:4.5f} {:4.5f} {:4.5f}\n", x, fifo[i].y,
-               Line(m, b).point(x).y, p.y);
+    X.push_back(x);
+    Y0.push_back(fifo[i].y);
+    Y1.push_back(Line(m, b).point(x).y);
+    Y2.push_back(p.y);
   }
+  plt::named_plot("Y0", X, Y0);
+  plt::named_plot("Y1", X, Y1);
+  plt::named_plot("Y2", X, Y2);
 }

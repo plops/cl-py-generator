@@ -6,10 +6,12 @@
 
 (in-package :cl-cpp-generator2)
 
+
+;; wget https://raw.githubusercontent.com/lava/matplotlib-cpp/master/matplotlibcpp.h
 (progn
   (defparameter *source-dir*
-    ; "/home/martin/src/my_fancy_app_name/main/"
-    #P"example/103_co2_sensor/source02/"
+					; "/home/martin/src/my_fancy_app_name/main/"
+    #P"example/103_co2_sensor/source03/"
     )
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -18,10 +20,10 @@
 
 
   (defparameter *full-source-dir*
-    ;"/home/martin/src/my_fancy_app_name/main/"
+					;"/home/martin/src/my_fancy_app_name/main/"
     #-nil (asdf:system-relative-pathname
-				   'cl-py-generator
-				   *source-dir*))
+	   'cl-py-generator
+	   *source-dir*))
   (ensure-directories-exist *full-source-dir*)
   (load "util.lisp")
 
@@ -38,18 +40,20 @@
 		chrono
 		cmath)
 
-     (include "core.h")
+    ; "#define WITHOUT_NUMPY"
+     (include "core.h"
+	      "matplotlibcpp.h")
 
-     
+     "namespace plt = matplotlibcpp;"
 
      ,@(let ((n-fifo 240))
 	 (loop for e in `((N_FIFO ,n-fifo)
 			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
 			  (RANSAC_MIN_INLIERS ,(floor (* .1 n-fifo))))
-		collect
-		(destructuring-bind (name val &key (type 'int)) e
-		  (format nil "const ~a ~a = ~a;" type name val))))
+	       collect
+	       (destructuring-bind (name val &key (type 'int)) e
+		 (format nil "const ~a ~a = ~a;" type name val))))
      
      (defstruct0 Point2D
 	 (x double)
@@ -102,8 +106,8 @@
 	 (dotimes (i RANSAC_MAX_ITERATIONS)
 	   (comments "line model needs two points, so randomly select two points and compute model parameters")
 	   (let ((idx1 (distrib gen))
-		  (idx2 (distrib gen))
-		  )
+		 (idx2 (distrib gen))
+		 )
 	     (while (== idx1 idx2)
 		    (setf idx1 (distrib gen)))
 	     (let ((p1 (aref data idx1))
@@ -117,7 +121,7 @@
 			(when (< (distance p m b)
 				 RANSAC_INLIER_THRESHOLD)
 			  (inliers.push_back p)))
-	       ;,(lprint :vars `(idx1 idx2 (data.size) (inliers.size) m b))
+					;,(lprint :vars `(idx1 idx2 (data.size) (inliers.size) m b))
 	       (when (< RANSAC_MIN_INLIERS 
 			(inliers.size))
 		 (let ((sum_x 0d0)
@@ -137,7 +141,7 @@
 					      (- p.y avg_y))))
 		     (let ((m (/ cov_xy var_x))
 			   (b (- avg_y (* m avg_x))))
-		       ;,(lprint :msg "stat" :vars `(m b))
+					;,(lprint :msg "stat" :vars `(m b))
 		       (when (< (best_inliers.size)
 				(inliers.size))
 			 (setf best_inliers inliers
@@ -149,7 +153,7 @@
 	 ))
 
      (defun main
-       (argc argv)
+	 (argc argv)
        (declare (type int argc)
 		(type char** argv)
 		(values int))
@@ -160,7 +164,7 @@
 	 (let ((seed (dot (std--chrono--system_clock--now)
 			  (time_since_epoch)
 			  (count))))
-	  "std::default_random_engine generator(seed);")
+	   "std::default_random_engine generator(seed);")
 	 "std::normal_distribution<double> distribution(0.0,noise_stddev);"
 	 (dotimes (i N_FIFO)
 	   (let ((x (/ (* 1.0 i) N_FIFO))
@@ -171,40 +175,30 @@
 	     (when (< (- N_FIFO 1) (fifo.size))
 	       (fifo.pop_back))
 	     (fifo.push_front p))))
-       #+nil (dotimes (i (fifo.size))
-		,(lprint :vars `(i
-				 (dot (aref fifo i) x)
-				 (dot (aref fifo i) y))))
+       
        (let ((m 0d0)
 	     (b 0d0))
 	 (ransac_line_fit fifo m b)
 					;,(lprint :vars `(m b))
 	 (do0
-	  (fmt--print
-	      (string ,(format nil "~{~a~^ ~}\\n"
-			       (loop for i below 4 collect "{:7s}")))
-	      (string "x")
-	      (string "y0")
-	      (string "y1")
-	      (string "y2"))
-	  (dotimes (i (fifo.size))
-	    (let ((x (dot (aref fifo i) x))
-		  (p (dot (Line m0 b0)
-			  (point x))))
-	      (fmt--print
-	      (string ,(format nil "~{~a~^ ~}\\n"
-			       (loop for i below 4 collect "{:4.5f}")))
-	      x
-	      (dot (aref fifo i) y)
-	      (dot (Line m b)
-		   (point x)
-		   y)
-	      (dot p y)
-	      ))))
-	 ))
-     
-
-     )))
+	  (let ((X (std--vector<double>))
+		(Y0 (std--vector<double>))
+		(Y1 (std--vector<double>))
+		(Y2 (std--vector<double>)))
+	    (dotimes (i (fifo.size))
+	      (let ((x (dot (aref fifo i) x))
+		    (p (dot (Line m0 b0)
+			    (point x))))
+		(X.push_back x)
+		(Y0.push_back (dot (aref fifo i) y))
+		(Y1.push_back (dot (Line m b)
+				   (point x)
+				   y))
+		(Y2.push_back (dot p y))))
+	    ,@(loop for e in `(Y0 Y1 Y2)
+		    collect
+		    `(plt--named_plot (string ,e) X ,e))
+	    )))))))
 
 
 
