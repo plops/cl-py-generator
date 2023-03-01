@@ -9,7 +9,7 @@
 namespace plt = matplotlibcpp;
 const int N_FIFO = 240;
 const int RANSAC_MAX_ITERATIONS = 240;
-const float RANSAC_INLIER_THRESHOLD = 0.1;
+const float RANSAC_INLIER_THRESHOLD = 0.04;
 const int RANSAC_MIN_INLIERS = 24;
 struct Point2D {
   double x;
