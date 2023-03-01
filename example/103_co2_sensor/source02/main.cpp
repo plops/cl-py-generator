@@ -1,13 +1,14 @@
 #define FMT_HEADER_ONLY
 #include "core.h"
+#include <chrono>
 #include <cmath>
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 12;
-const int RANSAC_MAX_ITERATIONS = 12;
+const int N_FIFO = 240;
+const int RANSAC_MAX_ITERATIONS = 240;
 const float RANSAC_INLIER_THRESHOLD = 0.1;
-const int RANSAC_MIN_INLIERS = 1;
+const int RANSAC_MIN_INLIERS = 24;
 struct Point2D {
   double x;
   double y;
@@ -92,7 +93,8 @@ int main(int argc, char **argv) {
   auto m0 = (1.0);
   auto b0 = (2.0);
   auto noise_stddev = (0.100000000000000000000000000000);
-  std::default_random_engine generator;
+  auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::default_random_engine generator(seed);
   std::normal_distribution<double> distribution(0.0, noise_stddev);
   for (auto i = 0; i < N_FIFO; i += 1) {
     auto x = (((1.0 * i)) / (N_FIFO));

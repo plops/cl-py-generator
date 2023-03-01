@@ -35,13 +35,14 @@
      (include<> deque
 		random
 		vector
+		chrono
 		cmath)
 
      (include "core.h")
 
      
 
-     ,@(let ((n-fifo 12))
+     ,@(let ((n-fifo 240))
 	 (loop for e in `((N_FIFO ,n-fifo)
 			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
@@ -155,8 +156,11 @@
        (let ((m0 1.0d0)
 	     (b0 2.0d0)
 	     (noise_stddev .1d0))
-	 ;,(lprint :vars `(m0 b0))
-	 "std::default_random_engine generator;"
+					;,(lprint :vars `(m0 b0))
+	 (let ((seed (dot (std--chrono--system_clock--now)
+			  (time_since_epoch)
+			  (count))))
+	  "std::default_random_engine generator(seed);")
 	 "std::normal_distribution<double> distribution(0.0,noise_stddev);"
 	 (dotimes (i N_FIFO)
 	   (let ((x (/ (* 1.0 i) N_FIFO))
@@ -203,4 +207,4 @@
      )))
 
 
-`
+

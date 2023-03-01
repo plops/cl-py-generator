@@ -4,6 +4,7 @@ set title "Plot of y0, y1, and y2 versus x"
 set xlabel "x"
 set ylabel "y"
 set datafile separator ' ' # set the separator to space
+set yrange [1.5:3.5]
 
 do for [i=1:1000] { # repeat 1000 times or until interrupted
     system("./my_exe > gp_data.tmp")
