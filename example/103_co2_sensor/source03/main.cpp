@@ -98,33 +98,37 @@ int main(int argc, char **argv) {
   auto seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::default_random_engine generator(seed);
   std::normal_distribution<double> distribution(0.0, noise_stddev);
-  for (auto i = 0; i < N_FIFO; i += 1) {
-    auto x = (((1.0 * i)) / (N_FIFO));
+
+  auto count = 0;
+  while (true) {
+    count++;
+    auto x = (((1.0 * count)) / (N_FIFO));
     auto p = Line(m0, b0).point(x);
     p.y += distribution(generator);
     if (((N_FIFO) - (1)) < fifo.size()) {
       fifo.pop_back();
     }
     fifo.push_front(p);
-  }
 
-  auto m = (0.);
-  auto b = (0.);
-  ransac_line_fit(fifo, m, b);
-  auto X = std::vector<double>();
-  auto Y0 = std::vector<double>();
-  auto Y1 = std::vector<double>();
-  auto Y2 = std::vector<double>();
-  for (auto i = 0; i < fifo.size(); i += 1) {
-    auto x = fifo[i].x;
-    auto p = Line(m0, b0).point(x);
-    X.push_back(x);
-    Y0.push_back(fifo[i].y);
-    Y1.push_back(Line(m, b).point(x).y);
-    Y2.push_back(p.y);
+    auto m = (0.);
+    auto b = (0.);
+    ransac_line_fit(fifo, m, b);
+    auto X = std::vector<double>();
+    auto Y0 = std::vector<double>();
+    auto Y1 = std::vector<double>();
+    auto Y2 = std::vector<double>();
+    for (auto i = 0; i < fifo.size(); i += 1) {
+      auto x = fifo[i].x;
+      auto p = Line(m0, b0).point(x);
+      X.push_back(x);
+      Y0.push_back(fifo[i].y);
+      Y1.push_back(Line(m, b).point(x).y);
+      Y2.push_back(p.y);
+    }
+    plt::clf();
+    plt::named_plot("Y0", X, Y0);
+    plt::named_plot("Y1", X, Y1);
+    plt::named_plot("Y2", X, Y2);
+    plt::pause((1.00e-2f));
   }
-  plt::named_plot("Y0", X, Y0);
-  plt::named_plot("Y1", X, Y1);
-  plt::named_plot("Y2", X, Y2);
-  plt::show();
 }
