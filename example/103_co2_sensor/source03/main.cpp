@@ -34,7 +34,8 @@ double distance(Point2D p, double m, double b) {
   return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
 }
 
-void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
+void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b,
+                     std::vector<Point2D> &inliers) {
   if (fifo.size() < 2) {
     return;
   }
@@ -89,6 +90,7 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
   }
   m = best_m;
   b = best_b;
+  inliers = best_inliers;
 }
 
 int main(int argc, char **argv) {
@@ -112,8 +114,11 @@ int main(int argc, char **argv) {
 
     auto m = (0.);
     auto b = (0.);
-    ransac_line_fit(fifo, m, b);
+    auto inliers = std::vector<Point2D>();
+    ransac_line_fit(fifo, m, b, inliers);
     auto X = std::vector<double>();
+    auto X3 = std::vector<double>();
+    auto Y3 = std::vector<double>();
     auto Y0 = std::vector<double>();
     auto Y1 = std::vector<double>();
     auto Y2 = std::vector<double>();
@@ -125,10 +130,15 @@ int main(int argc, char **argv) {
       Y1.push_back(Line(m, b).point(x).y);
       Y2.push_back(p.y);
     }
+    for (auto &p : inliers) {
+      X3.push_back(p.x);
+      Y3.push_back(p.y);
+    };
     plt::clf();
     plt::named_plot("Y0", X, Y0);
     plt::named_plot("Y1", X, Y1);
     plt::named_plot("Y2", X, Y2);
+    plt::scatter(X3, Y3, (10.f), {{"color", "r"}});
     plt::pause((1.00e-2f));
   }
 }

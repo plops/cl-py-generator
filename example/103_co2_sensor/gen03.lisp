@@ -90,9 +90,10 @@
 		   (sqrt (+ 1 (* m m)))))))
 
 
-     (defun ransac_line_fit (data m b)
+     (defun ransac_line_fit (data m b inliers)
        (declare (type "std::deque<Point2D>&" data)
-		(type double& m b))
+		(type double& m b)
+		(type "std::vector<Point2D>&" inliers))
        (when (< (fifo.size) 2)
 	 (return))
        "std::random_device rd;"
@@ -149,7 +150,8 @@
 			       best_b b))))))
 	       )))
 	 (setf m best_m
-	       b best_b)
+	       b best_b
+	       inliers best_inliers)
 	 ))
 
      (defun main
@@ -182,11 +184,14 @@
 		   (fifo.push_front p)))
 	       
 		(let ((m 0d0)
-		      (b 0d0))
-		  (ransac_line_fit fifo m b)
+		      (b 0d0)
+		      (inliers ("std::vector<Point2D>")))
+		  (ransac_line_fit fifo m b inliers)
 					;,(lprint :vars `(m b))
 		  (do0
 		   (let ((X (std--vector<double>))
+			 (X3 (std--vector<double>))
+			 (Y3 (std--vector<double>))
 			 (Y0 (std--vector<double>))
 			 (Y1 (std--vector<double>))
 			 (Y2 (std--vector<double>)))
@@ -199,12 +204,17 @@
 			 (Y1.push_back (dot (Line m b)
 					    (point x)
 					    y))
-			 (Y2.push_back (dot p y))))
+			 (Y2.push_back (dot p y))
+			 ))
+		     (foreach (p inliers)
+			      (X3.push_back p.x)
+			      (Y3.push_back p.y))
 		     (do0
 		      (plt--clf)
 		      ,@(loop for e in `(Y0 Y1 Y2)
 			      collect
 			      `(plt--named_plot (string ,e) X ,e))
+		      (plt--scatter X3 Y3 10.0 (curly (curly (string "color") (string "r"))))
 		      ;;(plt--show)
 		      (plt--pause .01))
 		     ))))))))))
