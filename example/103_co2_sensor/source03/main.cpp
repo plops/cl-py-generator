@@ -135,9 +135,9 @@ int main(int argc, char **argv) {
       Y3.push_back(p.y);
     };
     plt::clf();
-    plt::named_plot("Y0", X, Y0);
     plt::named_plot("Y1", X, Y1);
     plt::named_plot("Y2", X, Y2);
+    plt::scatter(X, Y0, (10.f), {{"color", "k"}});
     plt::scatter(X3, Y3, (10.f), {{"color", "r"}});
     plt::pause((1.00e-2f));
   }

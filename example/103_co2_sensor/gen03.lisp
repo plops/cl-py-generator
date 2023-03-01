@@ -211,9 +211,10 @@
 			      (Y3.push_back p.y))
 		     (do0
 		      (plt--clf)
-		      ,@(loop for e in `(Y0 Y1 Y2)
+		      ,@(loop for e in `( Y1 Y2)
 			      collect
 			      `(plt--named_plot (string ,e) X ,e))
+		      (plt--scatter X Y0 10.0 (curly (curly (string "color") (string "k"))))
 		      (plt--scatter X3 Y3 10.0 (curly (curly (string "color") (string "r"))))
 		      ;;(plt--show)
 		      (plt--pause .01))
