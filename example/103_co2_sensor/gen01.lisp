@@ -35,12 +35,13 @@
      (include<> deque
 		random
 		vector
+		algorithm
 		cmath)
 
      (include "core.h")
 
 
-     ,@(let ((n-fifo 320))
+     ,@(let ((n-fifo (floor 320 2)))
 	 (loop for e in `((N_FIFO ,n-fifo)
 			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
@@ -252,7 +253,7 @@
 			     (fifo.push_front p)))))))))))
 
        
-	
+	#+Nil
 	(defun scaleHeight (v)
 	  (declare (type float v)
 		   (values float))
@@ -285,45 +286,84 @@
 		  (time_mi (dot (aref fifo (- (dot fifo (size)) 1))
 				x))
 		  (time_delta (- time_ma time_mi))
-		  (scaleTime (lambda (x)
+		  		  (scaleTime (lambda (x)
 			       (declare (type float x)
 					(capture "&")
 					(values float))
 			       (return (* 319s0 (/ (- x time_mi )
-						 time_delta))))))
-	     (dotimes (i (- (fifo.size) 1))
+						   time_delta)))))
+		  (min_max_y (std--minmax_element (fifo.begin)
+						  (fifo.end)
+						  (lambda (p1 p2)
+						    (declare (type "const Point2D&" p1 p2))
+						    (return (< p1.y p2.y))
+						    )))
+		  (min_y min_max_y.first->y)
+		  (max_y min_max_y.second->y)
+		  (scaleHeight (lambda
+				(v)
+				(declare (type float v)
+					 (capture "&")
+					 (values float))
+				(comments "v is in the range 400 .. 5000"
+					  "map to 0 .. 239")
+				(let ((mi 400s0)
+				      (ma (? (< max_y 1200s0) 1200s0 5000s0))
+				      (res (* 239s0 (- 1s0
+						       (/ (- v mi)
+							  (- ma mi))))))
+				  (when (< res 0s0)
+				    (setf res 0s0))
+				  (when (< 239s0 res)
+				    (setf res 239s0))
+				  (return res))
+	   ;; note: i think  to and bottom are inverted on screen 
+	  )))
+	      #+nil (dotimes (i (- (fifo.size) 1))
 	       (let ((a (aref fifo i))
 		     (b (aref fifo (+ i 1))))
+		 (comments "draw measurements as line segments")
 		 (pax_draw_line buf col
 				(scaleTime a.x)
 				(scaleHeight a.y)
 				(scaleTime b.x)
 				(scaleHeight b.y))))
+	      (for-range (p fifo)
+	       (comments "draw measurements as points")
+	       (dotimes (i 3)
+		 (dotimes (j 3)
+		   (pax_set_pixel buf
+				  (pax_col_hsv 149 180 200)
+				  (+ i -1 (scaleTime p.x))
+				  (+ j -1 (scaleHeight p.y))))))
 
 	      (progn
 		(let ((m 0d0)
 		      (b 0d0)
 		      (inliers ("std::vector<Point2D>"))
-		      (hue 202)
+		      (hue 128)
 		      (sat 255)
-		      (bright 255)
+		      (bright 200)
 		      (col (pax_col_hsv hue
 					sat bright))
 		      )
 		  (ransac_line_fit fifo
 				   m b inliers)
-		  
+		  (comments "draw the fit as line")
 		  (pax_draw_line buf col
 				(scaleTime time_mi)
 				(scaleHeight (+ b (* m time_mi)))
 				(scaleTime time_ma)
 				(scaleHeight (+ b (* m time_ma)))
 				)
+		  (comments "draw inliers as points")
 		  (for-range (p inliers)
-			     (pax_set_pixel buf
-					    (pax_col_hsv 0 255 255)
-					    p.x
-					    p.y))
+			     (dotimes (i 3)
+			       (dotimes (j 3)
+				 (pax_set_pixel buf
+						(pax_col_hsv 0 255 255)
+						(+ i -1 (scaleTime p.x))
+						(+ j -1 (scaleHeight p.y))))))
 		  )
 
 		(do0
@@ -483,7 +523,7 @@
 		     (let ((message (rp2040_input_message_t)))
 		       (xQueueReceive buttonQueue
 				      &message
-				      20 ;portMAX_DELAY
+				      10 ;portMAX_DELAY
 				      )
 
 		       (when (logand (== RP2040_INPUT_BUTTON_HOME
