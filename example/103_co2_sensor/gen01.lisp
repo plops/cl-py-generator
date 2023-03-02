@@ -45,7 +45,7 @@
 	 (loop for e in `((N_FIFO ,n-fifo)
 			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
-			  (RANSAC_MIN_INLIERS ,(floor (* .1 n-fifo))))
+			  (RANSAC_MIN_INLIERS ,(floor (* .03 n-fifo))))
 		collect
 		(destructuring-bind (name val &key (type 'int)) e
 		  (format nil "const ~a ~a = ~a;" type name val))))
@@ -372,8 +372,8 @@
 			      m)))
 
 		   (progn
-		    (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} x0={:4.2f}")
-					      m b x0))
+		     (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f} x0={:4.2f}")
+					      m b time_mi time_ma x0))
 			  (text (text_.c_str))
 			  (font pax_font_sky)
 			  (dims (pax_text_size font
@@ -510,7 +510,10 @@
 		     
 		     (progn
 		       (let ((now (dot (aref fifo 0) x))
-			     (nowtext_ ,(sprint :vars `(now))))
+			     (nowtext_ (fmt--format (string "now={:3.6f}")
+						    now)
+				       ;,(sprint :vars `(now))
+				       ))
 			(pax_draw_text &buf
 				       (hex #xffffffff) ; white
 				       font
