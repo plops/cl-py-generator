@@ -370,6 +370,26 @@
 		 (comments "compute when a value of 1200ppm is reached")
 		 (let ((x0 (/ (- 1200d0 b)
 			      m)))
+
+		   (progn
+		    (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} x0={:4.2f}")
+					      m b x0))
+			  (text (text_.c_str))
+			  (font pax_font_sky)
+			  (dims (pax_text_size font
+					       font->default_size
+					       text)))
+		      (pax_draw_text buf
+				     (hex #xffffffff) ; white
+				     font
+				     font->default_size
+				     20
+				     80
+				     text)
+			      
+			      )
+		    )
+		   
 		   (if (< time_ma x0)
 		       (do0 (comments "if predicted intersection time is in the future, print it")
 			    (let ((time_value (static_cast<int> (- x0 time_ma)))
