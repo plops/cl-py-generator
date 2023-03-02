@@ -44,7 +44,7 @@
      ,@(let ((n-fifo (floor 320 2)))
 	 (loop for e in `((N_FIFO ,n-fifo)
 			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
-			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
+			  (RANSAC_INLIER_THRESHOLD 0.2 :type float)
 			  (RANSAC_MIN_INLIERS ,(floor (* .03 n-fifo))))
 		collect
 		(destructuring-bind (name val &key (type 'int)) e
