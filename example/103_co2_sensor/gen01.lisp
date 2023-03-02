@@ -40,7 +40,7 @@
      (include "core.h")
 
 
-     ,@(let ((n-fifo (* 2 320)))
+     ,@(let ((n-fifo 320))
 	 (loop for e in `((N_FIFO ,n-fifo)
 			  (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			  (RANSAC_INLIER_THRESHOLD 0.1 :type float)
@@ -68,8 +68,9 @@
 		  (sqrt (+ 1 (* m m))))))
 
 
-     (defun ransac_line_fit (data m b)
+     (defun ransac_line_fit (data m b inliers)
        (declare (type "std::deque<Point2D>&" data)
+		(type "std::vector<Point2D>&" inliers)
 		(type double& m b))
        (when (< (fifo.size) 2)
 	 (return))
@@ -124,7 +125,8 @@
 			       best_b b))))))
 	       )))
 	 (setf m best_m
-	       b best_b)
+	       b best_b
+	       inliers best_inliers)
 	 ))
      
      (space
@@ -301,6 +303,7 @@
 	      (progn
 		(let ((m 0d0)
 		      (b 0d0)
+		      (inliers ("std::vector<Point2D>"))
 		      (hue 202)
 		      (sat 255)
 		      (bright 255)
@@ -308,13 +311,19 @@
 					sat bright))
 		      )
 		  (ransac_line_fit fifo
-				   m b)
+				   m b inliers)
+		  
 		  (pax_draw_line buf col
 				(scaleTime time_mi)
 				(scaleHeight (+ b (* m time_mi)))
 				(scaleTime time_ma)
 				(scaleHeight (+ b (* m time_ma)))
 				)
+		  (for-range (p inliers)
+			     (pax_set_pixel buf
+					    (pax_col_hsv 0 255 255)
+					    p.x
+					    p.y))
 		  )
 
 		(do0
@@ -474,7 +483,7 @@
 		     (let ((message (rp2040_input_message_t)))
 		       (xQueueReceive buttonQueue
 				      &message
-				      100 ;portMAX_DELAY
+				      20 ;portMAX_DELAY
 				      )
 
 		       (when (logand (== RP2040_INPUT_BUTTON_HOME
