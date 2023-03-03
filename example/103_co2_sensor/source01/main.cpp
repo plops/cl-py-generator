@@ -1,26 +1,38 @@
 #define FMT_HEADER_ONLY
 #include "core.h"
+#include <algorithm>
 #include <cmath>
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 3200;
-const int RANSAC_MAX_ITERATIONS = 3200;
-const float RANSAC_INLIER_THRESHOLD = 0.1;
-const int RANSAC_MIN_INLIERS = 320;
+const int N_FIFO = 320;
+const int RANSAC_MAX_ITERATIONS = 320;
+const float RANSAC_INLIER_THRESHOLD = 5.0;
+const int RANSAC_MIN_INLIERS = 9;
 struct Point2D {
   double x;
   double y;
 };
 typedef struct Point2D Point2D;
 
+struct PointBME {
+  double x;
+  double temperature;
+  double humidity;
+  double pressure;
+  double gas_resistance;
+};
+typedef struct PointBME PointBME;
+
 std::deque<Point2D> fifo(N_FIFO, {0.0, 0.0});
+std::deque<PointBME> fifoBME(N_FIFO, {0.0, 0.0, 0.0, 0.0, 0.0});
 
 double distance(Point2D p, double m, double b) {
   return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
 }
 
-void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
+void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b,
+                     std::vector<Point2D> &inliers) {
   if (fifo.size() < 2) {
     return;
   }
@@ -72,8 +84,10 @@ void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b) {
   }
   m = best_m;
   b = best_b;
+  inliers = best_inliers;
 }
 extern "C" {
+#include "bme680.h"
 #include "driver/uart.h"
 #include "esp_system.h"
 #include "freertos/FreeRTOS.h"
@@ -126,6 +140,45 @@ void uart_init() {
   }
 }
 
+void measureBME() {
+  {
+    ESP_LOGE(TAG, "measure BME");
+    auto temperature = (0.);
+    auto humidity = (0.);
+    auto pressure = (0.);
+    auto gas_resistance = (0.);
+    auto bme = get_bme680();
+    auto s = bme680_status_t();
+    bme680_set_mode(get_bme680(), BME680_MEAS_FORCED);
+    bme680_get_status(bme, &s);
+    bme680_get_temperature(bme, &temperature);
+    bme680_get_humidity(bme, &humidity, temperature);
+    bme680_get_pressure(bme, &pressure, temperature);
+
+    ESP_LOGE(
+        TAG, "%s",
+        fmt::format("  bme==nullptr='{}'  temperature='{}'  humidity='{}'  "
+                    "pressure='{}'  s.new_data='{}'  s.gas_measuring='{}'  "
+                    "s.measuring='{}'  s.gas_measuring_index='{}'  "
+                    "s.gas_valid='{}'  s.heater_stable='{}'\n",
+                    bme == nullptr, temperature, humidity, pressure, s.new_data,
+                    s.gas_measuring, s.measuring, s.gas_measuring_index,
+                    s.gas_valid, s.heater_stable)
+            .c_str());
+    if (((N_FIFO) - (1)) < fifo.size()) {
+      fifoBME.pop_back();
+    }
+    auto tv_now = timeval();
+    gettimeofday(&tv_now, nullptr);
+    auto time_us = (tv_now.tv_sec + ((1.00e-6f) * tv_now.tv_usec));
+    auto p = PointBME({.x = time_us,
+                       .temperature = temperature,
+                       .humidity = humidity,
+                       .pressure = pressure});
+    fifoBME.push_front(p);
+  }
+}
+
 void measureCO2() {
   {
     ESP_LOGE(TAG, "measure co2");
@@ -150,20 +203,139 @@ void measureCO2() {
   }
 }
 
-float scaleHeight(float v) {
-  // v is in the range 400 .. 5000
-  // map to 0 .. 239
+void drawBME_temperature(pax_buf_t *buf) {
+  auto time_ma = fifoBME[0].x;
+  auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
+  auto time_delta = ((time_ma) - (time_mi));
+  auto scaleTime = [&](float x) -> float {
+    auto res = (318.0 * ((((x) - (time_mi))) / (time_delta)));
+    if (res < (1.0f)) {
+      res = (1.0f);
+    }
+    if ((318.f) < res) {
+      res = (318.f);
+    }
+    return res;
+  };
+  auto min_max_y =
+      std::minmax_element(fifoBME.begin(), fifoBME.end(),
+                          [](const PointBME &p1, const PointBME &p2) {
+                            return p1.temperature < p2.temperature;
+                          });
+  auto min_y = min_max_y.first->temperature;
+  auto max_y = min_max_y.second->temperature;
+  auto scaleHeight = [&](float v) -> float {
+    auto mi = min_y;
+    auto ma = max_y;
+    auto res = (238.0 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    if (res < (1.0f)) {
+      res = (1.0f);
+    }
+    if ((238.f) < res) {
+      res = (238.f);
+    }
+    return res;
+  };
+  for (auto p : fifoBME) {
+    // draw measurements as points
 
-  auto mi = (4.00e+2f);
-  auto ma = (5.00e+3f);
-  auto res = (239.0 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
-  if (res < (0.f)) {
-    res = (0.f);
+    for (auto i = 0; i < 3; i += 1) {
+      for (auto j = 0; j < 3; j += 1) {
+        pax_set_pixel(buf, pax_col_hsv(30, 180, 200), (i + -1 + scaleTime(p.x)),
+                      (j + -1 + scaleHeight(p.temperature)));
+      }
+    }
   }
-  if ((239.f) < res) {
-    res = (239.f);
+}
+
+void drawBME_humidity(pax_buf_t *buf) {
+  auto time_ma = fifoBME[0].x;
+  auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
+  auto time_delta = ((time_ma) - (time_mi));
+  auto scaleTime = [&](float x) -> float {
+    auto res = (318.0 * ((((x) - (time_mi))) / (time_delta)));
+    if (res < (1.0f)) {
+      res = (1.0f);
+    }
+    if ((318.f) < res) {
+      res = (318.f);
+    }
+    return res;
+  };
+  auto min_max_y =
+      std::minmax_element(fifoBME.begin(), fifoBME.end(),
+                          [](const PointBME &p1, const PointBME &p2) {
+                            return p1.humidity < p2.humidity;
+                          });
+  auto min_y = min_max_y.first->humidity;
+  auto max_y = min_max_y.second->humidity;
+  auto scaleHeight = [&](float v) -> float {
+    auto mi = min_y;
+    auto ma = max_y;
+    auto res = (238.0 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    if (res < (1.0f)) {
+      res = (1.0f);
+    }
+    if ((238.f) < res) {
+      res = (238.f);
+    }
+    return res;
+  };
+  for (auto p : fifoBME) {
+    // draw measurements as points
+
+    for (auto i = 0; i < 3; i += 1) {
+      for (auto j = 0; j < 3; j += 1) {
+        pax_set_pixel(buf, pax_col_hsv(60, 180, 200), (i + -1 + scaleTime(p.x)),
+                      (j + -1 + scaleHeight(p.humidity)));
+      }
+    }
   }
-  return res;
+}
+
+void drawBME_pressure(pax_buf_t *buf) {
+  auto time_ma = fifoBME[0].x;
+  auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
+  auto time_delta = ((time_ma) - (time_mi));
+  auto scaleTime = [&](float x) -> float {
+    auto res = (318.0 * ((((x) - (time_mi))) / (time_delta)));
+    if (res < (1.0f)) {
+      res = (1.0f);
+    }
+    if ((318.f) < res) {
+      res = (318.f);
+    }
+    return res;
+  };
+  auto min_max_y =
+      std::minmax_element(fifoBME.begin(), fifoBME.end(),
+                          [](const PointBME &p1, const PointBME &p2) {
+                            return p1.pressure < p2.pressure;
+                          });
+  auto min_y = min_max_y.first->pressure;
+  auto max_y = min_max_y.second->pressure;
+  auto scaleHeight = [&](float v) -> float {
+    auto mi = min_y;
+    auto ma = max_y;
+    auto res = (238.0 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    if (res < (1.0f)) {
+      res = (1.0f);
+    }
+    if ((238.f) < res) {
+      res = (238.f);
+    }
+    return res;
+  };
+  for (auto p : fifoBME) {
+    // draw measurements as points
+
+    for (auto i = 0; i < 3; i += 1) {
+      for (auto j = 0; j < 3; j += 1) {
+        pax_set_pixel(buf, pax_col_hsv(80, 180, 200), (i + -1 + scaleTime(p.x)),
+                      (j + -1 + scaleHeight(p.pressure)));
+      }
+    }
+  }
 }
 
 void drawCO2(pax_buf_t *buf) {
@@ -180,26 +352,78 @@ void drawCO2(pax_buf_t *buf) {
   auto scaleTime = [&](float x) -> float {
     return (319.0 * ((((x) - (time_mi))) / (time_delta)));
   };
-  for (auto i = 0; i < ((fifo.size()) - (1)); i += 1) {
-    auto a = fifo[i];
-    auto b = fifo[(i + 1)];
-    pax_draw_line(buf, col, scaleTime(a.x), scaleHeight(a.y), scaleTime(b.x),
-                  scaleHeight(b.y));
+  auto min_max_y = std::minmax_element(
+      fifo.begin(), fifo.end(),
+      [](const Point2D &p1, const Point2D &p2) { return p1.y < p2.y; });
+  auto min_y = min_max_y.first->y;
+  auto max_y = min_max_y.second->y;
+  auto scaleHeight = [&](float v) -> float {
+    // v is in the range 400 .. 5000
+    // map to 0 .. 239
+
+    auto mi = (4.00e+2f);
+    auto ma = (max_y < 1200.0) ? ((1.20e+3f)) : ((5.00e+3f));
+    auto res = (239.0 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    if (res < (0.f)) {
+      res = (0.f);
+    }
+    if ((239.f) < res) {
+      res = (239.f);
+    }
+    return res;
+  };
+  for (auto p : fifo) {
+    // draw measurements as points
+
+    for (auto i = 0; i < 3; i += 1) {
+      for (auto j = 0; j < 3; j += 1) {
+        pax_set_pixel(buf, pax_col_hsv(149, 180, 200),
+                      (i + -1 + scaleTime(p.x)), (j + -1 + scaleHeight(p.y)));
+      }
+    }
   }
   {
     auto m = (0.);
     auto b = (0.);
-    auto hue = 202;
+    auto inliers = std::vector<Point2D>();
+    auto hue = 128;
     auto sat = 255;
-    auto bright = 255;
+    auto bright = 200;
     auto col = pax_col_hsv(hue, sat, bright);
-    ransac_line_fit(fifo, m, b);
+    ransac_line_fit(fifo, m, b, inliers);
+    // draw the fit as line
     pax_draw_line(buf, col, scaleTime(time_mi),
                   scaleHeight((b + (m * time_mi))), scaleTime(time_ma),
                   scaleHeight((b + (m * time_ma))));
+    // draw inliers as points
+    for (auto p : inliers) {
+      for (auto i = 0; i < 3; i += 1) {
+        for (auto j = 0; j < 3; j += 1) {
+          pax_set_pixel(buf, pax_col_hsv(0, 255, 255),
+                        (i + -1 + scaleTime(p.x)), (j + -1 + scaleHeight(p.y)));
+        }
+      }
+    }
 
     // compute when a value of 1200ppm is reached
     auto x0 = (((((1.20e+3)) - (b))) / (m));
+    auto x0l = (((((5.00e+2)) - (b))) / (m));
+    {
+      auto text_ = fmt::format("m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}", m,
+                               b, time_mi, time_ma);
+      auto text = text_.c_str();
+      auto font = pax_font_sky;
+      auto dims = pax_text_size(font, font->default_size, text);
+      pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 80, text);
+
+      {
+        auto text_ = fmt::format("x0={:4.2f} x0l={:4.2f}", x0, x0l);
+        auto text = text_.c_str();
+        auto font = pax_font_sky;
+        auto dims = pax_text_size(font, font->default_size, text);
+        pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 60, text);
+      }
+    }
     if (time_ma < x0) {
       // if predicted intersection time is in the future, print it
       auto time_value = static_cast<int>(((x0) - (time_ma)));
@@ -240,38 +464,51 @@ void app_main() {
 
   pax_buf_init(&buf, nullptr, 320, 240, PAX_BUF_16_565RGB);
   uart_init();
+  bsp_bme680_init();
+  bme680_set_mode(get_bme680(), BME680_MEAS_FORCED);
+  bme680_set_oversampling(get_bme680(), BME680_OVERSAMPLING_X2,
+                          BME680_OVERSAMPLING_X2, BME680_OVERSAMPLING_X2);
   while (1) {
     measureCO2();
+    measureBME();
     auto hue = 129;
     auto sat = 0;
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("13:48:04 of Sunday, 2023-02-26 (GMT+1)\n");
+    auto text_ = fmt::format("20:01:13 of Friday, 2023-03-03 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
     drawCO2(&buf);
+    drawBME_temperature(&buf);
+    drawBME_humidity(&buf);
+    drawBME_pressure(&buf);
     pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size,
                   ((((buf.width) - (dims.x))) / ((2.0f))),
                   ((((buf.height) - (dims.y))) / ((2.0f))), text);
     {
       auto now = fifo[0].x;
-      auto nowtext_ = fmt::format("  now='{}'\n", now);
+      auto nowtext_ = fmt::format("now={:6.1f}", now);
       pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size, 20, 180,
                     nowtext_.c_str());
 
       auto co2 = fifo[0].y;
-      auto text_ = fmt::format("  co2='{}'\n", co2);
-      auto font = pax_font_saira_condensed;
+      auto temperature = fifoBME[0].temperature;
+      auto humidity = fifoBME[0].humidity;
+      auto pressure = fifoBME[0].pressure;
+      auto gas_resistance = fifoBME[0].gas_resistance;
+      auto text_ =
+          fmt::format("co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f}", co2,
+                      temperature, humidity, ((pressure) / ((1.00e+3))));
+      auto font = pax_font_sky;
       auto text = text_.c_str();
       auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size,
-                    ((((buf.width) - (dims.x))) / ((2.0f))), 200, text);
+      pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size, 10, 200, text);
     }
     disp_flush();
     auto message = rp2040_input_message_t();
-    xQueueReceive(buttonQueue, &message, 100);
+    xQueueReceive(buttonQueue, &message, 10);
     if (((RP2040_INPUT_BUTTON_HOME == message.input) && (message.state))) {
       exit_to_launcher();
     }
