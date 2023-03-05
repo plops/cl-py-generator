@@ -413,7 +413,7 @@
 					 (/ (- buf->width
 					       dims.x)
 					    2.0)
-					 (+ 10 (* .5 (+ ,graph-ymin
+					 (+ -10 (* .5 (+ ,graph-ymin
 						   ,graph-ymax)))
 					 text
 					 )))
@@ -531,7 +531,7 @@
 					 (/ (- buf->width
 					       dims.x)
 					    2.0)
-					 (+ 10 (* .5 (+ ,graph-ymin
+					 (+ -10 (* .5 (+ ,graph-ymin
 						   ,graph-ymax)))
 					 text
 					 )))
