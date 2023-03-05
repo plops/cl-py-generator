@@ -5,8 +5,8 @@
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 32;
-const int RANSAC_MAX_ITERATIONS = 32;
+const int N_FIFO = 320;
+const int RANSAC_MAX_ITERATIONS = 320;
 const float RANSAC_INLIER_THRESHOLD = 5.0;
 const int RANSAC_MIN_INLIERS = 2;
 struct Point2D {
@@ -229,7 +229,8 @@ void drawBME_temperature(pax_buf_t *buf) {
   auto scaleHeight = [&](float v) -> float {
     auto mi = min_y;
     auto ma = max_y;
-    auto res = (119 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    auto res =
+        (61.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (61.f)) {
       res = (61.f);
     }
@@ -285,7 +286,8 @@ void drawBME_humidity(pax_buf_t *buf) {
   auto scaleHeight = [&](float v) -> float {
     auto mi = min_y;
     auto ma = max_y;
-    auto res = (179 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    auto res =
+        (121.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (121.f)) {
       res = (121.f);
     }
@@ -340,7 +342,8 @@ void drawBME_pressure(pax_buf_t *buf) {
   auto scaleHeight = [&](float v) -> float {
     auto mi = min_y;
     auto ma = max_y;
-    auto res = (239 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    auto res =
+        (181.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (181.f)) {
       res = (181.f);
     }
@@ -404,7 +407,7 @@ void drawCO2(pax_buf_t *buf) {
 
     auto mi = (4.00e+2f);
     auto ma = (max_y < 1200.0) ? ((1.20e+3f)) : ((5.00e+3f));
-    auto res = (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi)))))));
+    auto res = (1.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (1.0f)) {
       res = (1.0f);
     }
@@ -465,14 +468,16 @@ void drawCO2(pax_buf_t *buf) {
       auto text = text_.c_str();
       auto font = pax_font_sky;
       auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 80, text);
+      pax_draw_text(buf, pax_col_hsv(160, 128, 128), font, font->default_size,
+                    20, 80, text);
 
       {
         auto text_ = fmt::format("x0={:4.2f} x0l={:4.2f}", x0, x0l);
         auto text = text_.c_str();
         auto font = pax_font_sky;
         auto dims = pax_text_size(font, font->default_size, text);
-        pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 60, text);
+        pax_draw_text(buf, pax_col_hsv(130, 128, 128), font, font->default_size,
+                      20, 60, text);
       }
     }
     if (time_ma < x0) {
@@ -486,7 +491,8 @@ void drawCO2(pax_buf_t *buf) {
       auto text = text_.c_str();
       auto font = pax_font_sky;
       auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 140, text);
+      pax_draw_text(buf, pax_col_hsv(30, 128, 128), font, font->default_size,
+                    20, 140, text);
 
     } else {
       // if predicted intersection time is in the past, then predict when airing
@@ -502,7 +508,8 @@ void drawCO2(pax_buf_t *buf) {
       auto text = text_.c_str();
       auto font = pax_font_sky;
       auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size, 20, 140, text);
+      pax_draw_text(buf, pax_col_hsv(90, 128, 128), font, font->default_size,
+                    20, 140, text);
     }
   }
 }
@@ -527,11 +534,10 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("21:14:14 of Sunday, 2023-03-05 (GMT+1)\n");
+    auto text_ = fmt::format("build 21:35:31 of Sunday, 2023-03-05 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
-    drawCO2(&buf);
     drawBME_temperature(&buf);
     drawBME_humidity(&buf);
     drawBME_pressure(&buf);
@@ -544,6 +550,7 @@ void app_main() {
       pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size, 20, 180,
                     nowtext_.c_str());
     }
+    drawCO2(&buf);
     disp_flush();
     auto message = rp2040_input_message_t();
     xQueueReceive(buttonQueue, &message, 2);

@@ -6,11 +6,11 @@
 (in-package :cl-cpp-generator2)
 
 (progn
-  #-nil
+  #+nil
   (progn
    (defparameter *source-dir*       "/home/martin/src/my_fancy_app_name/main/")
    (defparameter *full-source-dir*  "/home/martin/src/my_fancy_app_name/main/"))
-  #+nil
+  #-nil
   (progn
    (defparameter *source-dir* #P"example/103_co2_sensor/source01/")
    (defparameter *full-source-dir* (asdf:system-relative-pathname
