@@ -386,9 +386,10 @@
 				       
 					       (let ((mi min_y)
 						     (ma max_y)
-						     (res (* ,graph-ymax (- 1s0
-									    (/ (- v mi)
-									       (- ma mi))))))
+						     (res (+ ,graph-ymin
+							     (* ,graph-ymax0 (- 1s0
+									      (/ (- v mi)
+										 (- ma mi)))))))
 						 (do0 (when (< res ,graph-ymin)
 							(setf res ,graph-ymin))
 						      (when (< ,graph-ymax res)
@@ -483,10 +484,11 @@
 						"map to 0 .. 239")
 				      (let ((mi 400s0)
 					    (ma (? (< max_y 1200s0) 1200s0 5000s0))
-					    (res (* ,graph-ymax
-						    (- 1s0
-						       (/ (- v mi)
-							  (- ma mi))))))
+					    (res (+ ,graph-ymin
+						    (* ,graph-ymax
+						     (- 1s0
+							(/ (- v mi)
+							   (- ma mi)))))))
 					(when (< res ,graph-ymin)
 					  (setf res ,graph-ymin))
 					(when (< ,graph-ymax res)
@@ -743,7 +745,7 @@
 			  (dims (pax_text_size font
 					       font->default_size
 					       text)))
-		      (drawCO2 &buf)
+		      
 		     
 		      ,@(loop for e in `(temperature
 					 humidity
@@ -818,6 +820,8 @@
 					 200
 					 text
 					 )))
+
+		      (drawCO2 &buf)
 		     
 		      (disp_flush)
 		     
