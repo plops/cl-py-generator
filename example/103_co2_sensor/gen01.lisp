@@ -6,11 +6,11 @@
 (in-package :cl-cpp-generator2)
 
 (progn
-  #+nil
+  #-nil
   (progn
    (defparameter *source-dir*       "/home/martin/src/my_fancy_app_name/main/")
    (defparameter *full-source-dir*  "/home/martin/src/my_fancy_app_name/main/"))
-  #-nil
+  #+nil
   (progn
    (defparameter *source-dir* #P"example/103_co2_sensor/source01/")
    (defparameter *full-source-dir* (asdf:system-relative-pathname
@@ -28,9 +28,15 @@
   (load "util.lisp")
 
   (let ((l-data
-	  `((:name temperature :hue 50 :short-name T :unit "°C" :fmt "{:2.2f}")
-	    (:name humidity :hue 80 :short-name H :unit "%" :fmt "{:2.1f}")
-	    (:name pressure :hue 240 :short-name p :unit "mbar" :scale 1s-2 :fmt "{:4.2f}")
+	  `((:name temperature :hue 150 ; 
+		   
+	     :short-name T :unit "°C" :fmt "{:2.2f}")
+	    (:name humidity :hue 80 ; green
+	     :short-name H :unit "%" :fmt "{:2.1f}"
+		   )
+	    (:name pressure :hue 240 ;red
+	     :short-name p :unit "mbar" :scale 1s-2 :fmt "{:4.2f}"
+		   )
 					;(:name gas_resistance :hue 100)
 	    )))
    (write-source
@@ -49,11 +55,12 @@
       (include "core.h")
 
 
-      ,@(let ((n-fifo (floor 320 1)))
+      ,@(let ((n-fifo (floor 320 10)))
 	  (loop for e in `((N_FIFO ,n-fifo)
 			   (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			   (RANSAC_INLIER_THRESHOLD 5.0 :type float)
-			   (RANSAC_MIN_INLIERS ,(floor (* .03 n-fifo))))
+			   (RANSAC_MIN_INLIERS 2 ;,(floor (* .03 n-fifo))
+					       ))
 		collect
 		(destructuring-bind (name val &key (type 'int)) e
 		  (format nil "const ~a ~a = ~a;" type name val))))
@@ -69,8 +76,8 @@
 	(pressure double)
 	;(gas_resistance double)
 	)
-      "std::deque<Point2D> fifo(N_FIFO,{0.0,0.0});"
-      "std::deque<PointBME> fifoBME(N_FIFO,{0.0,0.0,0.0,0.0});"
+      "std::deque<Point2D> fifo; " ;(N_FIFO,{0.0,0.0});
+      "std::deque<PointBME> fifoBME; " ;(N_FIFO,{0.0,0.0,0.0,0.0});
 
 
      
@@ -815,7 +822,7 @@
 		      (let ((message (rp2040_input_message_t)))
 			(xQueueReceive buttonQueue
 				       &message
-				       10 ;portMAX_DELAY
+				       2 ;10 ;portMAX_DELAY
 				       )
 
 			(when (logand (== RP2040_INPUT_BUTTON_HOME

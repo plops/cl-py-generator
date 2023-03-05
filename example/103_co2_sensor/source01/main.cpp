@@ -5,10 +5,10 @@
 #include <deque>
 #include <random>
 #include <vector>
-const int N_FIFO = 320;
-const int RANSAC_MAX_ITERATIONS = 320;
+const int N_FIFO = 32;
+const int RANSAC_MAX_ITERATIONS = 32;
 const float RANSAC_INLIER_THRESHOLD = 5.0;
-const int RANSAC_MIN_INLIERS = 9;
+const int RANSAC_MIN_INLIERS = 2;
 struct Point2D {
   double x;
   double y;
@@ -23,8 +23,8 @@ struct PointBME {
 };
 typedef struct PointBME PointBME;
 
-std::deque<Point2D> fifo(N_FIFO, {0.0, 0.0});
-std::deque<PointBME> fifoBME(N_FIFO, {0.0, 0.0, 0.0, 0.0});
+std::deque<Point2D> fifo;
+std::deque<PointBME> fifoBME;
 
 double distance(Point2D p, double m, double b) {
   return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
@@ -253,7 +253,8 @@ void drawBME_temperature(pax_buf_t *buf) {
 
     for (auto i = 0; i < 3; i += 1) {
       for (auto j = 0; j < 3; j += 1) {
-        pax_set_pixel(buf, pax_col_hsv(50, 180, 200), (i + -1 + scaleTime(p.x)),
+        pax_set_pixel(buf, pax_col_hsv(150, 180, 200),
+                      (i + -1 + scaleTime(p.x)),
                       (j + -1 + scaleHeight(p.temperature)));
       }
     }
@@ -526,7 +527,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("21:04:43 of Sunday, 2023-03-05 (GMT+1)\n");
+    auto text_ = fmt::format("21:14:14 of Sunday, 2023-03-05 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
@@ -545,7 +546,7 @@ void app_main() {
     }
     disp_flush();
     auto message = rp2040_input_message_t();
-    xQueueReceive(buttonQueue, &message, 10);
+    xQueueReceive(buttonQueue, &message, 2);
     if (((RP2040_INPUT_BUTTON_HOME == message.input) && (message.state))) {
       exit_to_launcher();
     }
