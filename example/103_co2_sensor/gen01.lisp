@@ -6,16 +6,17 @@
 (in-package :cl-cpp-generator2)
 
 (progn
-  (defparameter *source-dir*
-    "/home/martin/src/my_fancy_app_name/main/"
-    ;#P"example/103_co2_sensor/source01/"
-    )
-  (defparameter *full-source-dir*
-    "/home/martin/src/my_fancy_app_name/main/"
-    #+nil
-    (asdf:system-relative-pathname
-     'cl-py-generator
-     *source-dir*))
+  #+nil
+  (progn
+   (defparameter *source-dir*       "/home/martin/src/my_fancy_app_name/main/")
+   (defparameter *full-source-dir*  "/home/martin/src/my_fancy_app_name/main/"))
+  #-nil
+  (progn
+   (defparameter *source-dir* #P"example/103_co2_sensor/source01/")
+   (defparameter *full-source-dir* (asdf:system-relative-pathname
+				    'cl-py-generator
+				    *source-dir*)))
+  
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
