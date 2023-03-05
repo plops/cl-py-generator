@@ -730,7 +730,7 @@
 						     (second minute hour date month year day-of-week dst-p tz)
 						   (get-decoded-time)
 						 (declare (ignorable dst-p))
-						 (format nil "~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
+						 (format nil "build ~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
 							 hour
 							 minute
 							 second
