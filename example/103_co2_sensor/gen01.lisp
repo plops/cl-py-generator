@@ -55,7 +55,7 @@
       (include "core.h")
 
 
-      ,@(let ((n-fifo (floor 320 10)))
+      ,@(let ((n-fifo (floor 320 1)))
 	  (loop for e in `((N_FIFO ,n-fifo)
 			   (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			   (RANSAC_INLIER_THRESHOLD 5.0 :type float)
@@ -601,7 +601,8 @@
 						     font->default_size
 						     text)))
 			    (pax_draw_text buf
-					   (hex #xffffffff) ; white
+					   (pax_col_hsv 160 128 128)
+					   ;(hex #xffffffff) ; white
 					   font
 					   font->default_size
 					   20
@@ -618,7 +619,8 @@
 						       font->default_size
 						       text)))
 			      (pax_draw_text buf
-					     (hex #xffffffff) ; white
+					     (pax_col_hsv 130 128 128)
+					     ;(hex #xffffffff) ; white
 					     font
 					     font->default_size
 					     20
@@ -643,8 +645,8 @@
 							    text)))
 		 	      
 				   (pax_draw_text buf
-					     
-						  (hex #xffffffff) ; white
+						  (pax_col_hsv 30 128 128)
+						  ; (hex #xffffffff) ; white
 						  font
 						  font->default_size
 						  20
@@ -668,8 +670,8 @@
 							    text)))
 		 	      
 				   (pax_draw_text buf
-					     
-						  (hex #xffffffff) ; white
+						  (pax_col_hsv 90 128 128)
+						  ;(hex #xffffffff) ; white
 						  font
 						  font->default_size
 						  20
