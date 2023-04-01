@@ -32,7 +32,8 @@
        (do0
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
 	 (do0
-	  (comment "sudo pacman -S python-opencv rocm-opencl-runtime python-mss")
+	  (comment "sudo pacman -S python-opencv rocm-opencl-runtime python-mss"
+		   "python3 -m pip install --user mediapipe")
 	  (imports (;	os
 					;sys
 			time
@@ -102,16 +103,16 @@
 	 (do0
 	  ,(lprint :vars `((cv.ocl.haveOpenCL)))
 	  (setf loop_time (time.time))
-	  (setf clahe (cv.createCLAHE :clipLimit 2.0
-				      :tileGridSize (tuple 8 8)))
+	  (setf clahe (cv.createCLAHE :clipLimit 7.0
+				      :tileGridSize (tuple 12 12)))
 	  (with (as (mss.mss)
 		    sct)
 		(while True
 		       (do0
-			(setf img (np.array (sct.grab (dictionary :top 40
+			(setf img (np.array (sct.grab (dictionary :top 160
 								  :left 0
-								  :width 800
-								  :height 640)))
+								  :width 1000
+								  :height 740)))
 			      )
 			#+nil
 			(setf imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
@@ -129,10 +130,16 @@
 				   imgr
 				   )
 			(do0
-			 (setf fps (/ 1 (- (time.time)
-					   loop_time)))
+			 (setf delta (- (time.time)
+					   loop_time))
+			 (setf target_period (/ 1 60.0))
+			 (when (< delta target_period)
+			   (time.sleep (- target_period delta)))
+			 (setf fps (/ 1 delta)
+			       fps_wait (/ 1 (- (time.time)
+					    loop_time)))
 			 (setf loop_time (time.time))
-			 ,(lprint :vars `(fps)))
+			 ,(lprint :vars `(fps fps_wait)))
 			(when (== (ord (string "q"))
 				  (cv.waitKey 1))
 			  (cv.destroyAllWindows)
