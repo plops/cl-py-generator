@@ -32,7 +32,7 @@
        (do0
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
 	 (do0
-	  
+	  (comment "sudo pacman -S python-opencv rocm-opencl-runtime python-mss")
 	  (imports (;	os
 					;sys
 			time
@@ -53,7 +53,7 @@
 					;sklearn.linear_model
 					;itertools
 					;datetime
-					; (np numpy)
+					 (np numpy)
 					(cv cv2)
 					;(mp mediapipe)
 					;jax
@@ -66,6 +66,7 @@
 					;io.StringIO
 					;bs4
 					;requests
+					mss
 			
 					;(np jax.numpy)
 					;(mpf mplfinance)
@@ -99,5 +100,29 @@
 			     date
 			     (- tz)))))
 	 (do0
-	  ,(lprint :vars `((cv.ocl.haveOpenCL))))))))
+	  ,(lprint :vars `((cv.ocl.haveOpenCL)))
+	  (setf loop_time (time.time))
+	  (setf clahe (cv.createCLAHE :clipLimit 2.0
+				      :tileGridSize (tuple 8 8)))
+	  (with (as (mss.mss)
+		    sct)
+		(while True
+		       (do0
+			(setf img (np.array (sct.grab (dictionary :top 40
+								  :left 0
+								  :width 800
+								  :height 640)))
+			      imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
+						cv.COLOR_RGB2GRAY))
+			(cv.imshow (string "screen")
+				   (clahe.apply imgr))
+			(do0
+			 (setf fps (/ 1 (- (time.time)
+					   loop_time)))
+			 (setf loop_time (time.time))
+			 ,(lprint :vars `(fps)))
+			(when (== (ord (string "q"))
+				  (cv.waitKey 1))
+			  (cv.destroyAllWindows)
+			  break)))))))))
 
