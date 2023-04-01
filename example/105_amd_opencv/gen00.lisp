@@ -112,10 +112,22 @@
 								  :left 0
 								  :width 800
 								  :height 640)))
-			      imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
+			      )
+			#+nil
+			(setf imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
 						cv.COLOR_RGB2GRAY))
+			(setf lab (cv.cvtColor img 
+						cv.COLOR_RGB2LAB)
+			      lab_planes (cv.split lab)
+			      lclahe
+			      (clahe.apply (aref lab_planes 0))
+			      lab (cv.merge (list lclahe 
+						  (aref lab_planes 1)
+						  (aref lab_planes 2)))
+			      imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
 			(cv.imshow (string "screen")
-				   (clahe.apply imgr))
+				   imgr
+				   )
 			(do0
 			 (setf fps (/ 1 (- (time.time)
 					   loop_time)))
