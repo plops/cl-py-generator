@@ -2,7 +2,7 @@
 | file  | comment                                                      |
 |-------|--------------------------------------------------------------|
 | gen00 | capture screenshot, perform clahe and display (runs at 60Hz) |
-| gen01 | clahe as in gen00 but also mediapipe                         |
+| gen01 | clahe as in gen00 but also mediapipe object detector         |
 |       |                                                              |
 
 
@@ -52,7 +52,7 @@ wget https://storage.googleapis.com/mediapipe-tasks/object_detector/efficientdet
 ## Power consumption
 
 |                    | package P/W | Graphics / W | Core / W |
-| youtube            | 3.5         | 0.6          | 1        |
+| youtube only       | 3.5         | 0.6          | 1        |
 | yt+clahe           | 13.2        | 0.6          | 9        |
 | yt+mediapipe+clahe | 30.6        | 0.6          | 22       |
 |                    |             |              |          |

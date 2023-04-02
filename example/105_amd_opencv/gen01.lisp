@@ -185,7 +185,7 @@
 	 (do0
 	  ,(lprint :vars `((cv.ocl.haveOpenCL)))
 	  (setf loop_time (time.time))
-	  (setf clahe (cv.createCLAHE :clipLimit 7.0
+	  (setf clahe (cv.createCLAHE :clipLimit 15.0
 				      :tileGridSize (tuple 12 12)))
 	  (with (as (ObjectDetector.create_from_options options)
 		    detector)

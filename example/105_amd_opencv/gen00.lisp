@@ -121,11 +121,11 @@
 		       (do0
 			(incf count)
 			      
-			(setf img (np.array (sct.grab (dictionary :top 160
-								  :left 0
-								  :width 1000
-								  :height 740)))
-			      )
+			(setf img
+			      (np.array (sct.grab (dictionary :top 160
+							      :left 0
+							      :width (// 1920 2)
+							      :height (// 1080 2)))))
 			
 			#+nil
 			(setf imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
@@ -145,10 +145,11 @@
 			(do0
 			 (setf delta (- (time.time)
 					loop_time))
-			 (setf target_period (/ 1 60.0))
+			 (setf target_period (- (/ 1 60.0)
+						.0001))
 			 (when (< delta target_period)
-			   (time.sleep (- (- target_period delta)
-					  .0001)))
+			   (time.sleep (- target_period delta)
+				       ))
 			 (setf fps (/ 1 delta)
 			       fps_wait (/ 1 (- (time.time)
 						loop_time)))

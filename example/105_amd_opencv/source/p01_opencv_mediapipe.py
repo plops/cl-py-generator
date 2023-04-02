@@ -9,9 +9,9 @@ import mediapipe.tasks
 import mediapipe.tasks.python
 start_time=time.time()
 debug=True
-_code_git_version="0f3bbb92fa2039c217d7479028dfa8f2cae3bb12"
+_code_git_version="eb9657d970d6d5e734ec4ea64a9209136d8c70bd"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
-_code_generation_time="12:50:37 of Sunday, 2023-04-02 (GMT+1)"
+_code_generation_time="13:00:20 of Sunday, 2023-04-02 (GMT+1)"
 model_path="/home/martin/Downloads/efficientdet_lite0_uint8.tflite"
 BaseOptions=mp.tasks.BaseOptions
 DetectionResult=mp.tasks.components.containers.DetectionResult
@@ -50,7 +50,7 @@ def visualize(image, detection_result)->np.ndarray:
     return image
 print("{} nil cv.ocl.haveOpenCL()={}".format(((time.time())-(start_time)), cv.ocl.haveOpenCL()))
 loop_time=time.time()
-clahe=cv.createCLAHE(clipLimit=(7.0    ), tileGridSize=(12,12,))
+clahe=cv.createCLAHE(clipLimit=(15.    ), tileGridSize=(12,12,))
 with ObjectDetector.create_from_options(options) as detector:
     with mss.mss() as sct:
         loop_start=time.time()
