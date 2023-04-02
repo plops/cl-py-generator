@@ -113,6 +113,74 @@ entry return-values contains a list of return values. currently supports type, v
 	  (push e new-body)))
     (values (reverse new-body) env)))
 
+(defun parse-defun (code emit )
+  ;; defun function-name lambda-list [declaration*] form*
+  (destructuring-bind (name lambda-list &rest body) (cdr code)
+    (multiple-value-bind (body env) (consume-declare body)
+      (multiple-value-bind (req-param opt-param res-param
+			    key-param other-key-p
+			    aux-param key-exist-p)
+	  (parse-ordinary-lambda-list lambda-list)
+	(declare (ignorable req-param opt-param res-param
+			    key-param other-key-p aux-param key-exist-p))
+	(with-output-to-string (s)
+	  (format s "def ~a~a~@[->~a~]:~%"
+		  name
+		  ;; 8 positional parameters, followed by key parameters
+		  (funcall emit `(paren
+				  ;; positional
+				  ,@(loop for p in req-param collect
+							     (format nil "~a~@[: ~a~]"
+								     
+								     p
+								     (let ((type (gethash p env)))
+								       (when type
+									(funcall emit type))
+								       )))
+				  ;; key parameters
+				  ;; http://www.crategus.com/books/alexandria/pages/alexandria.0.dev_fun_parse-ordinary-lambda-list.html
+				  ;; default arguments with type hints in python: def foo(opts: dict = {}):
+				  ;; https://stackoverflow.com/questions/38727520/how-do-i-add-default-parameters-to-functions-when-using-type-hinting
+				  ,@(loop for ((keyword-name name) init supplied-p) in key-param
+					  collect
+					  (progn
+					    (format nil "~a ~a ~@[~a~]"
+						    (let ((type (gethash name env)))
+						      (if type
+							  (funcall emit type)
+							  (break "can't find type for keyword parameter ~a in defun"
+								 name)))
+						    name
+						    
+						    (when header-only ;; only in class definition
+						      (format nil "= ~a" (funcall emit init))))))
+				  ))
+		  #+nil (emit `(paren
+				,@(append (mapcar #'emit req-param)
+					  (loop for e in key-param collect
+								   (destructuring-bind ((keyword-name name) init suppliedp)
+								       e
+								     (declare (ignorable keyword-name suppliedp))
+								     (if init
+									 `(= ,name ,init)
+									 `(= ,name "None")))))))
+		  ;; return value
+		  (let ((r (gethash 'return-values env)))
+		    (if (< 1 (length r))
+			(progn
+			  ;; https://stackoverflow.com/questions/40181344/how-to-annotate-types-of-multiple-return-values
+			  ;; python 3.9 supports tuple[bool, str],  previous version Tuple[bool, str]
+			  (break "multiple return values unsupported: ~a"
+				 r))
+			(if (car r)
+			    (case (car r)
+			      (:constructor "") ;; (values :constructor) will not print anything
+			      (t (car r)))
+			    nil ;"void"
+			    ))))
+	  (format s "~a" (funcall emit `(do ,@body))))))))
+
+
 (defun write-source (name code &optional (dir (user-homedir-pathname))
 				 ignore-hash)
   (let* ((fn (merge-pathnames (format nil "~a.py" name)
@@ -254,25 +322,26 @@ entry return-values contains a list of return values. currently supports type, v
 				    (if (cdr body)
 					(break "body ~a should have only one entry" body)
 					(emit (car body))))))))
-	      (def (destructuring-bind (name lambda-list &rest body) (cdr code)
-		     (multiple-value-bind (req-param opt-param res-param
-						     key-param other-key-p aux-param key-exist-p)
-			 (parse-ordinary-lambda-list lambda-list)
-		       (declare (ignorable req-param opt-param res-param
-					   key-param other-key-p aux-param key-exist-p))
-		       (with-output-to-string (s)
-			 (format s "def ~a~a:~%"
-				 name
-				 (emit `(paren
-					 ,@(append (mapcar #'emit req-param)
-						   (loop for e in key-param collect
-							 (destructuring-bind ((keyword-name name) init suppliedp)
-							     e
-							   (declare (ignorable keyword-name suppliedp))
-							   (if init
-							       `(= ,name ,init)
-							       `(= ,name "None"))))))))
-			 (format s "~a" (emit `(do ,@body)))))))
+	      (def (parse-defun code #'emit)
+	       #+nil (destructuring-bind (name lambda-list &rest body) (cdr code)
+		 (multiple-value-bind (req-param opt-param res-param
+				       key-param other-key-p aux-param key-exist-p)
+		     (parse-ordinary-lambda-list lambda-list)
+		   (declare (ignorable req-param opt-param res-param
+				       key-param other-key-p aux-param key-exist-p))
+		   (with-output-to-string (s)
+		     (format s "def ~a~a:~%"
+			     name
+			     (emit `(paren
+				     ,@(append (mapcar #'emit req-param)
+					       (loop for e in key-param collect
+									(destructuring-bind ((keyword-name name) init suppliedp)
+									    e
+									  (declare (ignorable keyword-name suppliedp))
+									  (if init
+									      `(= ,name ,init)
+									      `(= ,name "None"))))))))
+		     (format s "~a" (emit `(do ,@body)))))))
 	      (= (destructuring-bind (a b) (cdr code)
 		   (format nil "~a=~a" (emit a) (emit b))))
 	      (in (destructuring-bind (a b) (cdr code)

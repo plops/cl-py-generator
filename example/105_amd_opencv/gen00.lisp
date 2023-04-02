@@ -105,6 +105,10 @@
 			     date
 			     (- tz)))))
 	 (do0
+
+	  (def bla (a b)
+	    (return (+ a b)))
+	  
 	  (setf model_path (string "/home/martin/Downloads/efficientdet_lite0_uint8.tflite"))
 	  ,@(loop for e in `((base-options mp.tasks )
 			     (detection-result mp.tasks.components.containers)
@@ -129,6 +133,8 @@
 			 :running_mode VisionRunningMode.LIVE_STREAM			 :max_results 5
 			 :result_callback print_result)))
 
+
+	 
 	 (do0
 	  ,(lprint :vars `((cv.ocl.haveOpenCL)))
 	  (setf loop_time (time.time))
@@ -136,52 +142,52 @@
 				      :tileGridSize (tuple 12 12)))
 	  (with (as (ObjectDetector.create_from_options options)
 		    detector)
-	   (with (as (mss.mss)
-		     sct)
-		 (setf loop_start (time.time))
-		 (while True
-			(do0
+		(with (as (mss.mss)
+			  sct)
+		      (setf loop_start (time.time))
+		      (while True
+			     (do0
 		
-			 (setf img (np.array (sct.grab (dictionary :top 160
-								   :left 0
-								   :width 1000
-								   :height 740)))
-			       )
-			 (setf mp_image (mp.Image :image_format mp.ImageFormat.SRGB
-						  :data img))
-			 (setf timestamp_ms (int (* 1000 (- (time.time)
-							loop_start))))
-			 (detector.detect_async mp_image timestamp_ms)
-			 #+nil
-			 (setf imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
-						 cv.COLOR_RGB2GRAY))
-			 (setf lab (cv.cvtColor img 
-						cv.COLOR_RGB2LAB)
-			       lab_planes (cv.split lab)
-			       lclahe
-			       (clahe.apply (aref lab_planes 0))
-			       lab (cv.merge (list lclahe 
-						   (aref lab_planes 1)
-						   (aref lab_planes 2)))
-			       imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
-			 (cv.imshow (string "screen")
-				    imgr
+			      (setf img (np.array (sct.grab (dictionary :top 160
+									:left 0
+									:width 1000
+									:height 740)))
 				    )
-			 (do0
-			  (setf delta (- (time.time)
-					 loop_time))
-			  (setf target_period (/ 1 60.0))
-			  (when (< delta target_period)
-			    (time.sleep (- (- target_period delta)
-					   .0001)))
-			  (setf fps (/ 1 delta)
-				fps_wait (/ 1 (- (time.time)
-						 loop_time)))
-			  (setf loop_time (time.time))
-			  (when (== 0 (% timestamp_ms 2000))
-			    ,(lprint :vars `(fps fps_wait))))
-			 (when (== (ord (string "q"))
-				   (cv.waitKey 1))
-			   (cv.destroyAllWindows)
-			   break))))))))))
+			      (setf mp_image (mp.Image :image_format mp.ImageFormat.SRGB
+						       :data img))
+			      (setf timestamp_ms (int (* 1000 (- (time.time)
+								 loop_start))))
+			      (detector.detect_async mp_image timestamp_ms)
+			      #+nil
+			      (setf imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
+						      cv.COLOR_RGB2GRAY))
+			      (setf lab (cv.cvtColor img 
+						     cv.COLOR_RGB2LAB)
+				    lab_planes (cv.split lab)
+				    lclahe
+				    (clahe.apply (aref lab_planes 0))
+				    lab (cv.merge (list lclahe 
+							(aref lab_planes 1)
+							(aref lab_planes 2)))
+				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
+			      (cv.imshow (string "screen")
+					 imgr
+					 )
+			      (do0
+			       (setf delta (- (time.time)
+					      loop_time))
+			       (setf target_period (/ 1 60.0))
+			       (when (< delta target_period)
+				 (time.sleep (- (- target_period delta)
+						.0001)))
+			       (setf fps (/ 1 delta)
+				     fps_wait (/ 1 (- (time.time)
+						      loop_time)))
+			       (setf loop_time (time.time))
+			       (when (== 0 (% timestamp_ms 2000))
+				 ,(lprint :vars `(fps fps_wait))))
+			      (when (== (ord (string "q"))
+					(cv.waitKey 1))
+				(cv.destroyAllWindows)
+				break))))))))))
 
