@@ -117,13 +117,20 @@
 		   `(setf ,(cl-change-case:pascal-case (format nil "~a" var))
 			  (dot ,pre
 			       ,(cl-change-case:pascal-case (format nil "~a" name))))))
-	  
-	  (def print_result (result output_image timestamp_ms )
-	    (declare (type DetectionResult result)
-		     (type mp.Image output_image)
-		     (type int timestamp_ms))
-	    ,(lprint :msg "result"	; :vars `((timestamp_ms))
-		     ))
+	  (do0
+	   (setf annotated_image None
+		 gResult None)
+	   (def print_result (result output_image timestamp_ms )
+	     (declare (type DetectionResult result)
+		      (type mp.Image output_image)
+		      (type int timestamp_ms))
+	     ,(lprint :msg "result"	; :vars `((timestamp_ms))
+		      )
+	     "global annotated_image"
+	     "global gResult"
+	     (setf gResult result)
+	     (setf annotated_image (np.copy  (output_image.numpy_view))))
+	   )
 	  (setf options (ObjectDetectorOptions
 			 :base_options
 			 (BaseOptions :model_asset_path model_path
@@ -131,7 +138,48 @@
 			 :running_mode VisionRunningMode.LIVE_STREAM			 :max_results 5
 			 :result_callback print_result)))
 
-
+	 (def visualize (image detection_result)
+	   (declare (values np.ndarray))
+	   (comments "https://colab.research.google.com/github/googlesamples/mediapipe/blob/main/examples/object_detection/python/object_detector.ipynb#scrollTo=H4aPO-hvbw3r&uniqifier=1")
+	   (setf TEXT_COLOR (tuple 255 0 0)
+		 MARGIN 10 ;; px
+		 ROW_SIZE 10 ;; px
+		 FONT_SIZE 1
+		 FONT_THICKNESS 1)
+	   (when detection_result
+	     (for (d detection_result.detections)
+		  (setf bbox d.bounding_box
+			start_point (ntuple bbox.origin_x
+					    bbox.origin_y)
+			end_point (ntuple (+ bbox.origin_x
+					     bbox.width)
+					  (+ bbox.origin_y
+					     bbox.height)))
+		  (cv.rectangle image
+				start_point
+				end_point
+				TEXT_COLOR 3)
+		  (setf category (aref d.categories 0)
+			category_name category.category_name
+			probability (round category.score
+					   2)
+			result_text (dot (string "{} ({})")
+					 (format category_name
+						 probability))
+			text_location (ntuple
+				       (+ MARGIN bbox.origin_x)
+				       (+ MARGIN ROW_SIZE
+					  bbox.origin_y)))
+		  (cv.putText image
+			      result_text
+			      text_location
+			      cv.FONT_HERSHEY_PLAIN
+			      FONT_SIZE
+			      TEXT_COLOR
+			      FONT_THICKNESS)
+		  ))
+	   (return image)
+	   )
 	 
 	 (do0
 	  ,(lprint :vars `((cv.ocl.haveOpenCL)))
@@ -155,7 +203,8 @@
 						       :data img))
 			      (setf timestamp_ms (int (* 1000 (- (time.time)
 								 loop_start))))
-			      (detector.detect_async mp_image timestamp_ms)
+			      (detector.detect_async mp_image
+						     timestamp_ms)
 			      #+nil
 			      (setf imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
 						      cv.COLOR_RGB2GRAY))
@@ -168,16 +217,38 @@
 							(aref lab_planes 1)
 							(aref lab_planes 2)))
 				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
-			      (cv.imshow (string "screen")
-					 imgr
-					 )
+			      (if (is annotated_image None)
+				  (do0
+				   
+				   (cv.imshow (string "screen")
+					      imgr
+					      ))
+				  (do0
+				   (setf lab (cv.cvtColor img 
+						     cv.COLOR_RGB2LAB)
+				    lab_planes (cv.split lab)
+				    lclahe
+				    (clahe.apply (aref lab_planes 0))
+				    lab (cv.merge (list lclahe 
+							(aref lab_planes 1)
+							(aref lab_planes 2)))
+				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
+				   (visualize imgr gResult)
+				   (cv.imshow (string "screen")
+						   imgr)
+				   (setf gResult None)
+				   #+nil
+				   (do0 (cv.imshow (string "screen")
+						   annotated_image)
+					(setf annotated_image None))))
 			      (do0
 			       (setf delta (- (time.time)
 					      loop_time))
-			       (setf target_period (/ 1 60.0))
+			       (setf target_period (- (/ 1 60.0)
+						      .0001))
 			       (when (< delta target_period)
-				 (time.sleep (- (- target_period delta)
-						.0001)))
+				 (time.sleep (- target_period delta)
+						))
 			       (setf fps (/ 1 delta)
 				     fps_wait (/ 1 (- (time.time)
 						      loop_time)))

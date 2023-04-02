@@ -9,21 +9,44 @@ import mediapipe.tasks
 import mediapipe.tasks.python
 start_time=time.time()
 debug=True
-_code_git_version="51ce60f8f14f03ac2b4ad5444d6ab5567258dde9"
+_code_git_version="0a55f673a1b9d58b9bc6f3c257b73f41b213cc20"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
-_code_generation_time="11:27:28 of Sunday, 2023-04-02 (GMT+1)"
+_code_generation_time="12:35:07 of Sunday, 2023-04-02 (GMT+1)"
 model_path="/home/martin/Downloads/efficientdet_lite0_uint8.tflite"
 BaseOptions=mp.tasks.BaseOptions
 DetectionResult=mp.tasks.components.containers.DetectionResult
 ObjectDetector=mp.tasks.vision.ObjectDetector
 ObjectDetectorOptions=mp.tasks.vision.ObjectDetectorOptions
 VisionRunningMode=mp.tasks.vision.RunningMode
+annotated_image=None
 gResult=None
 def print_result(result: DetectionResult, output_image: mp.Image, timestamp_ms: int):
     print("{} result ".format(((time.time())-(start_time))))
+    global annotated_image
     global gResult
     gResult=result
+    annotated_image=np.copy(output_image.numpy_view())
 options=ObjectDetectorOptions(base_options=BaseOptions(model_asset_path=model_path), running_mode=VisionRunningMode.LIVE_STREAM, max_results=5, result_callback=print_result)
+def visualize(image, detection_result)->np.ndarray:
+    # https://colab.research.google.com/github/googlesamples/mediapipe/blob/main/examples/object_detection/python/object_detector.ipynb#scrollTo=H4aPO-hvbw3r&uniqifier=1
+    TEXT_COLOR=(255,0,0,)
+    MARGIN=10
+    ROW_SIZE=10
+    FONT_SIZE=1
+    FONT_THICKNESS=1
+    if ( detection_result ):
+        for d in detection_result.detections:
+            bbox=d.bounding_box
+            start_point=bbox.origin_x, bbox.origin_y
+            end_point=((bbox.origin_x)+(bbox.width)), ((bbox.origin_y)+(bbox.height))
+            cv.rectangle(image, start_point, end_point, TEXT_COLOR, 3)
+            category=d.categories[0]
+            category_name=category.category_name
+            probability=round(category.score, 2)
+            result_text="{} ({})".format(category_name, probability)
+            text_location=((MARGIN)+(bbox.origin_x)), ((MARGIN)+(ROW_SIZE)+(bbox.origin_y))
+            cv.putText(image, result_text, text_location, cv.FONT_HERSHEY_PLAIN, FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+    return image
 print("{} nil cv.ocl.haveOpenCL()={}".format(((time.time())-(start_time)), cv.ocl.haveOpenCL()))
 loop_time=time.time()
 clahe=cv.createCLAHE(clipLimit=(7.0    ), tileGridSize=(12,12,))
@@ -40,11 +63,21 @@ with ObjectDetector.create_from_options(options) as detector:
             lclahe=clahe.apply(lab_planes[0])
             lab=cv.merge([lclahe, lab_planes[1], lab_planes[2]])
             imgr=cv.cvtColor(lab, cv.COLOR_LAB2RGB)
-            cv.imshow("screen", imgr)
+            if ( (annotated_image is None) ):
+                cv.imshow("screen", imgr)
+            else:
+                lab=cv.cvtColor(img, cv.COLOR_RGB2LAB)
+                lab_planes=cv.split(lab)
+                lclahe=clahe.apply(lab_planes[0])
+                lab=cv.merge([lclahe, lab_planes[1], lab_planes[2]])
+                imgr=cv.cvtColor(lab, cv.COLOR_LAB2RGB)
+                visualize(imgr, gResult)
+                cv.imshow("screen", imgr)
+                gResult=None
             delta=((time.time())-(loop_time))
-            target_period=((1)/((60.    )))
+            target_period=((((1)/((60.    ))))-((1.00e-4)))
             if ( ((delta)<(target_period)) ):
-                time.sleep(((((target_period)-(delta)))-((1.00e-4))))
+                time.sleep(((target_period)-(delta)))
             fps=((1)/(delta))
             fps_wait=((1)/(((time.time())-(loop_time))))
             loop_time=time.time()
