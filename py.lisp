@@ -135,12 +135,15 @@ entry return-values contains a list of return values. currently supports type, v
 								     p
 								     (let ((type (gethash p env)))
 								       (when type
-									(funcall emit type))
+									 (funcall emit type))
 								       )))
 				  ;; key parameters
 				  ;; http://www.crategus.com/books/alexandria/pages/alexandria.0.dev_fun_parse-ordinary-lambda-list.html
 				  ;; default arguments with type hints in python: def foo(opts: dict = {}):
 				  ;; https://stackoverflow.com/questions/38727520/how-do-i-add-default-parameters-to-functions-when-using-type-hinting
+
+				  ;; FIXME: i don't use these often. i will have to come back to this code once i have an example in python that requires default parameters
+				  
 				  ,@(loop for ((keyword-name name) init supplied-p) in key-param
 					  collect
 					  (progn
@@ -176,7 +179,7 @@ entry return-values contains a list of return values. currently supports type, v
 			    (case (car r)
 			      (:constructor "") ;; (values :constructor) will not print anything
 			      (t (car r)))
-			    nil ;"void"
+			    nil		;"void"
 			    ))))
 	  (format s "~a" (funcall emit `(do ,@body))))))))
 

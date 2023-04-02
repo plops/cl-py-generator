@@ -6,7 +6,7 @@
 
 (progn
   (defparameter *project* "105_amd_opencv")
-  (defparameter *idx* "00")
+  (defparameter *idx* "01")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -24,7 +24,7 @@
 
   
   
-  (let* ((notebook-name "opencv_cl")
+  (let* ((notebook-name "opencv_mediapipe")
 	 #+nil (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-source
@@ -105,9 +105,6 @@
 			     date
 			     (- tz)))))
 	 (do0
-
-	  (def bla (a b)
-	    (return (+ a b)))
 	  
 	  (setf model_path (string "/home/martin/Downloads/efficientdet_lite0_uint8.tflite"))
 	  ,@(loop for e in `((base-options mp.tasks )
@@ -120,12 +117,14 @@
 		   `(setf ,(cl-change-case:pascal-case (format nil "~a" var))
 			  (dot ,pre
 			       ,(cl-change-case:pascal-case (format nil "~a" name))))))
+	  (setf gResult None)
 	  (def print_result (result output_image timestamp_ms )
 	    (declare (type DetectionResult result)
 		     (type mp.Image output_image)
 		     (type int timestamp_ms))
 	    ,(lprint :msg "result"	; :vars `((timestamp_ms))
-		     ))
+		     )
+	    (setf gResult result))
 	  (setf options (ObjectDetectorOptions
 			 :base_options
 			 (BaseOptions :model_asset_path model_path

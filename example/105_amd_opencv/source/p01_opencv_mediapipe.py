@@ -9,17 +9,19 @@ import mediapipe.tasks
 import mediapipe.tasks.python
 start_time=time.time()
 debug=True
-_code_git_version="7b9887235098506d40e28d638bfbc421c64ea30b"
+_code_git_version="5ac1d876333aa6242db8475ba611f702db23bc1c"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
-_code_generation_time="11:18:37 of Sunday, 2023-04-02 (GMT+1)"
+_code_generation_time="11:25:28 of Sunday, 2023-04-02 (GMT+1)"
 model_path="/home/martin/Downloads/efficientdet_lite0_uint8.tflite"
 BaseOptions=mp.tasks.BaseOptions
 DetectionResult=mp.tasks.components.containers.DetectionResult
 ObjectDetector=mp.tasks.vision.ObjectDetector
 ObjectDetectorOptions=mp.tasks.vision.ObjectDetectorOptions
 VisionRunningMode=mp.tasks.vision.RunningMode
+gResult=None
 def print_result(result: DetectionResult, output_image: mp.Image, timestamp_ms: int):
     print("{} result ".format(((time.time())-(start_time))))
+    gResult=result
 options=ObjectDetectorOptions(base_options=BaseOptions(model_asset_path=model_path), running_mode=VisionRunningMode.LIVE_STREAM, max_results=5, result_callback=print_result)
 print("{} nil cv.ocl.haveOpenCL()={}".format(((time.time())-(start_time)), cv.ocl.haveOpenCL()))
 loop_time=time.time()
