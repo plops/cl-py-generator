@@ -1,3 +1,11 @@
+
+| file  | comment                                                      |
+|-------|--------------------------------------------------------------|
+| gen00 | capture screenshot, perform clahe and display (runs at 60Hz) |
+| gen01 | clahe as in gen00 but also mediapipe                         |
+|       |                                                              |
+
+
 - pip installed mediapipe 0.9.2.1
 - i am not sure where the correct website is
 - https://mediapipe.dev/
@@ -21,3 +29,5 @@ wget https://storage.googleapis.com/mediapipe-tasks/object_detector/efficientdet
   timestamp_ms as an identitifier to the API and results are returned
   with a callback (or skipped if the last frame hasn't been processed
   yet)
+
+
