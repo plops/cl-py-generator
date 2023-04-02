@@ -210,7 +210,7 @@ void drawBME_temperature(pax_buf_t *buf) {
   auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
   auto time_delta = ((time_ma) - (time_mi));
   auto scaleTime = [&](float x) -> float {
-    auto res = (318.0 * ((((x) - (time_mi))) / (time_delta)));
+    auto res = ((318.f) * ((((x) - (time_mi))) / (time_delta)));
     if (res < (1.0f)) {
       res = (1.0f);
     }
@@ -230,7 +230,7 @@ void drawBME_temperature(pax_buf_t *buf) {
     auto mi = min_y;
     auto ma = max_y;
     auto res =
-        (61.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
+        ((61.f) + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (61.f)) {
       res = (61.f);
     }
@@ -241,13 +241,13 @@ void drawBME_temperature(pax_buf_t *buf) {
   };
   // write latest measurement
   auto temperature = fifoBME[0].temperature;
-  auto text_ = fmt::format("T={:2.2f}°C", (1.0 * temperature));
+  auto text_ = fmt::format("T={:2.2f}°C", ((1.0f) * temperature));
   auto font = pax_font_saira_condensed;
   auto text = text_.c_str();
   auto dims = pax_text_size(font, font->default_size, text);
   pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
                 ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * (61.0 + 119))), text);
+                (-10 + ((0.50f) * ((61.f) + 119))), text);
 
   for (auto p : fifoBME) {
     // draw measurements as points
@@ -267,7 +267,7 @@ void drawBME_humidity(pax_buf_t *buf) {
   auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
   auto time_delta = ((time_ma) - (time_mi));
   auto scaleTime = [&](float x) -> float {
-    auto res = (318.0 * ((((x) - (time_mi))) / (time_delta)));
+    auto res = ((318.f) * ((((x) - (time_mi))) / (time_delta)));
     if (res < (1.0f)) {
       res = (1.0f);
     }
@@ -287,7 +287,7 @@ void drawBME_humidity(pax_buf_t *buf) {
     auto mi = min_y;
     auto ma = max_y;
     auto res =
-        (121.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
+        ((121.f) + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (121.f)) {
       res = (121.f);
     }
@@ -298,13 +298,13 @@ void drawBME_humidity(pax_buf_t *buf) {
   };
   // write latest measurement
   auto humidity = fifoBME[0].humidity;
-  auto text_ = fmt::format("H={:2.1f}%", (1.0 * humidity));
+  auto text_ = fmt::format("H={:2.1f}%", ((1.0f) * humidity));
   auto font = pax_font_saira_condensed;
   auto text = text_.c_str();
   auto dims = pax_text_size(font, font->default_size, text);
   pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
                 ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * (121.0 + 179))), text);
+                (-10 + ((0.50f) * ((121.f) + 179))), text);
 
   for (auto p : fifoBME) {
     // draw measurements as points
@@ -323,7 +323,7 @@ void drawBME_pressure(pax_buf_t *buf) {
   auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
   auto time_delta = ((time_ma) - (time_mi));
   auto scaleTime = [&](float x) -> float {
-    auto res = (318.0 * ((((x) - (time_mi))) / (time_delta)));
+    auto res = ((318.f) * ((((x) - (time_mi))) / (time_delta)));
     if (res < (1.0f)) {
       res = (1.0f);
     }
@@ -343,7 +343,7 @@ void drawBME_pressure(pax_buf_t *buf) {
     auto mi = min_y;
     auto ma = max_y;
     auto res =
-        (181.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
+        ((181.f) + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (181.f)) {
       res = (181.f);
     }
@@ -354,13 +354,13 @@ void drawBME_pressure(pax_buf_t *buf) {
   };
   // write latest measurement
   auto pressure = fifoBME[0].pressure;
-  auto text_ = fmt::format("p={:4.2f}mbar", (0.01 * pressure));
+  auto text_ = fmt::format("p={:4.2f}mbar", ((1.00e-2f) * pressure));
   auto font = pax_font_saira_condensed;
   auto text = text_.c_str();
   auto dims = pax_text_size(font, font->default_size, text);
   pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
                 ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * (181.0 + 239))), text);
+                (-10 + ((0.50f) * ((181.f) + 239))), text);
 
   for (auto p : fifoBME) {
     // draw measurements as points
@@ -387,7 +387,7 @@ void drawCO2(pax_buf_t *buf) {
   auto time_mi = fifo[((fifo.size()) - (1))].x;
   auto time_delta = ((time_ma) - (time_mi));
   auto scaleTime = [&](float x) -> float {
-    auto res = (318.0 * ((((x) - (time_mi))) / (time_delta)));
+    auto res = ((318.f) * ((((x) - (time_mi))) / (time_delta)));
     if (res < (1.0f)) {
       res = (1.0f);
     }
@@ -406,8 +406,9 @@ void drawCO2(pax_buf_t *buf) {
     // map to 0 .. 239
 
     auto mi = (4.00e+2f);
-    auto ma = (max_y < 1200.0) ? ((1.20e+3f)) : ((5.00e+3f));
-    auto res = (1.0 + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
+    auto ma = (max_y < (1.20e+3f)) ? ((1.20e+3f)) : ((5.00e+3f));
+    auto res =
+        ((1.0f) + (59 * (((1.0f)) - (((((v) - (mi))) / (((ma) - (mi))))))));
     if (res < (1.0f)) {
       res = (1.0f);
     }
@@ -424,7 +425,7 @@ void drawCO2(pax_buf_t *buf) {
   auto dims = pax_text_size(font, font->default_size, text);
   pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
                 ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * (1.0 + 59))), text);
+                (-10 + ((0.50f) * ((1.0f) + 59))), text);
 
   for (auto p : fifo) {
     // draw measurements as points
@@ -534,7 +535,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("build 21:35:31 of Sunday, 2023-03-05 (GMT+1)\n");
+    auto text_ = fmt::format("build 22:25:25 of Sunday, 2023-04-02 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);

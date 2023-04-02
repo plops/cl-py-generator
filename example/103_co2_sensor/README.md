@@ -141,7 +141,9 @@ then navigate to the cmake-build-debug directory and run ninja:
 ```
 export IDF_PATH=~/src/my_fancy_app_name/esp-idf/
 source /home/martin/src/my_fancy_app_name/esp-idf/export.sh
+mkdir /home/martin/src/my_fancy_app_name/cmake-build-debug
 cd /home/martin/src/my_fancy_app_name/cmake-build-debug
+cmake .. -G Ninja
 ninja
 
 ```
