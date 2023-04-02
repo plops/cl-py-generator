@@ -163,16 +163,16 @@
 	  (include hardware.h
 		   pax_gfx.h
 		   pax_codecs.h
-		   ili9341.h
-		   freertos/FreeRTOS.h
-		   freertos/queue.h
+		 ;  ili9341.h
+		   ; freertos/FreeRTOS.h
+		   ; freertos/queue.h
 		   esp_system.h
 					;nvs.h
 					;nvs_flash.h
 					;wifi_connect.h
 					;wifi_connection.h
-		   soc/rtc.h
-		   soc/rtc_cntl_reg.h
+		   ; soc/rtc.h
+		    soc/rtc_cntl_reg.h
 		   bme680.h
 					;gpio_types.h
 		   driver/uart.h

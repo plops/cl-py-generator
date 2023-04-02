@@ -93,13 +93,9 @@ extern "C" {
 #include "bme680.h"
 #include "driver/uart.h"
 #include "esp_system.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/queue.h"
 #include "hardware.h"
-#include "ili9341.h"
 #include "pax_codecs.h"
 #include "pax_gfx.h"
-#include "soc/rtc.h"
 #include "soc/rtc_cntl_reg.h"
 #include "sys/time.h"
 #include <esp_log.h>
@@ -535,7 +531,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("build 22:25:25 of Sunday, 2023-04-02 (GMT+1)\n");
+    auto text_ = fmt::format("build 22:39:09 of Sunday, 2023-04-02 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
