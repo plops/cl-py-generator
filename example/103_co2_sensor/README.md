@@ -324,6 +324,10 @@ RANSAC - Random Sample Consensus (Cyrill Stachniss)
 ## Wifi
 
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html
-- i want station mode to connect to an access point
-- my phone tether seems to be wpa3-personal. i think only esp32s2
-  supports that, not the esp32 that i have
+- i want station mode to connect to an access point with wpa2
+- repo with example code https://github.com/espressif/esp-idf/tree/51772f4fb5c/examples/wifi
+
+- nice: there is a fine timing measurement, that can locate
+  devices. but the access point has to support ftm responder mode
+  - the example gives an avg raw RTT of 49.218ns. but it doesn't say
+    anything about the measurement error.
