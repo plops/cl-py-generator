@@ -49,3 +49,10 @@ wget https://storage.googleapis.com/mediapipe-tasks/object_detector/efficientdet
   yet)
 
 
+## Power consumption
+
+|                    | package P/W | Graphics / W | Core / W |
+| youtube            | 3.5         | 0.6          | 1        |
+| yt+clahe           | 13.2        | 0.6          | 9        |
+| yt+mediapipe+clahe | 30.6        | 0.6          | 22       |
+|                    |             |              |          |
