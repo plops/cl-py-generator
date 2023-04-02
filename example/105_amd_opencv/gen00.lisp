@@ -117,7 +117,10 @@
 			  (dot ,pre
 			       ,(cl-change-case:pascal-case (format nil "~a" name))))))
 	  (def print_result (result output_image timestamp_ms )
-	    ,(lprint :msg "result" ; :vars `((timestamp_ms))
+	    (declare (type DetectionResult result)
+		     (type mp.Image output_image)
+		     (type int timestamp_ms))
+	    ,(lprint :msg "result"	; :vars `((timestamp_ms))
 		     ))
 	  (setf options (ObjectDetectorOptions
 			 :base_options

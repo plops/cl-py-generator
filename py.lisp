@@ -69,6 +69,50 @@
 			:if-output-exists :supersede)
     (delete-file tmp)))
 
+(defun consume-declare (body)
+  "take a list of instructions from body, parse type declarations,
+return the body without them and a hash table with an environment. the
+entry return-values contains a list of return values. currently supports type, values"
+  (let ((env (make-hash-table))
+	(looking-p t)
+	(new-body nil))
+    (loop for e in body do
+      (if looking-p
+	  (if (listp e)
+	      (if (eq (car e) 'declare)
+		  (loop for declaration in (cdr e) do
+		    (when (eq (first declaration) 'type)
+		      (destructuring-bind (symb type &rest vars) declaration
+			(declare (ignorable symb))
+			(loop for var in vars do
+			  (setf (gethash var env) type))))
+		    (when (eq (first declaration) 'capture)
+		      (destructuring-bind (symb &rest vars) declaration
+			(declare (ignorable symb))
+			(loop for var in vars do
+			  (push var captures))))
+
+		    
+		    (when (eq (first declaration) 'values)
+		      (destructuring-bind (symb &rest types-opt) declaration
+			(declare (ignorable symb))
+			;; if no values specified parse-defun will emit void
+			;; if (values :constructor) then nothing will be emitted
+			(let ((types nil))
+			  ;; only collect types until occurrance of &optional
+			  (loop for type in types-opt do
+			    (unless (eq #\& (aref (format nil "~a" type) 0))
+			      (push type types)))
+			  (setf (gethash 'return-values env) (reverse types))))))
+		  (progn
+		    (push e new-body)
+		    (setf looking-p nil)))
+	      (progn
+		(setf looking-p nil)
+		(push e new-body)))
+	  (push e new-body)))
+    (values (reverse new-body) env)))
+
 (defun write-source (name code &optional (dir (user-homedir-pathname))
 				 ignore-hash)
   (let* ((fn (merge-pathnames (format nil "~a.py" name)

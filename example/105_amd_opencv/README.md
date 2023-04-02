@@ -19,4 +19,5 @@ wget https://storage.googleapis.com/mediapipe-tasks/object_detector/efficientdet
   image, video and live stream input data type. i think i want to use
   live stream. this adds a monotonically increasing integer
   timestamp_ms as an identitifier to the API and results are returned
-  with a callback (or skipped)
+  with a callback (or skipped if the last frame hasn't been processed
+  yet)
