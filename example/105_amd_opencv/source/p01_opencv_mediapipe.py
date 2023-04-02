@@ -9,9 +9,9 @@ import mediapipe.tasks
 import mediapipe.tasks.python
 start_time=time.time()
 debug=True
-_code_git_version="0a55f673a1b9d58b9bc6f3c257b73f41b213cc20"
+_code_git_version="0f3bbb92fa2039c217d7479028dfa8f2cae3bb12"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
-_code_generation_time="12:35:07 of Sunday, 2023-04-02 (GMT+1)"
+_code_generation_time="12:50:37 of Sunday, 2023-04-02 (GMT+1)"
 model_path="/home/martin/Downloads/efficientdet_lite0_uint8.tflite"
 BaseOptions=mp.tasks.BaseOptions
 DetectionResult=mp.tasks.components.containers.DetectionResult
@@ -20,6 +20,7 @@ ObjectDetectorOptions=mp.tasks.vision.ObjectDetectorOptions
 VisionRunningMode=mp.tasks.vision.RunningMode
 annotated_image=None
 gResult=None
+oldResult=None
 def print_result(result: DetectionResult, output_image: mp.Image, timestamp_ms: int):
     print("{} result ".format(((time.time())-(start_time))))
     global annotated_image
@@ -64,16 +65,13 @@ with ObjectDetector.create_from_options(options) as detector:
             lab=cv.merge([lclahe, lab_planes[1], lab_planes[2]])
             imgr=cv.cvtColor(lab, cv.COLOR_LAB2RGB)
             if ( (annotated_image is None) ):
-                cv.imshow("screen", imgr)
+                if ( not((oldResult is None)) ):
+                    visualize(imgr, oldResult)
             else:
-                lab=cv.cvtColor(img, cv.COLOR_RGB2LAB)
-                lab_planes=cv.split(lab)
-                lclahe=clahe.apply(lab_planes[0])
-                lab=cv.merge([lclahe, lab_planes[1], lab_planes[2]])
-                imgr=cv.cvtColor(lab, cv.COLOR_LAB2RGB)
                 visualize(imgr, gResult)
-                cv.imshow("screen", imgr)
+                oldResult=gResult
                 gResult=None
+            cv.imshow("screen", imgr)
             delta=((time.time())-(loop_time))
             target_period=((((1)/((60.    ))))-((1.00e-4)))
             if ( ((delta)<(target_period)) ):

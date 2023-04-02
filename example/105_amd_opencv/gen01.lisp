@@ -119,7 +119,8 @@
 			       ,(cl-change-case:pascal-case (format nil "~a" name))))))
 	  (do0
 	   (setf annotated_image None
-		 gResult None)
+		 gResult None
+		 oldResult None)
 	   (def print_result (result output_image timestamp_ms )
 	     (declare (type DetectionResult result)
 		      (type mp.Image output_image)
@@ -219,28 +220,20 @@
 				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
 			      (if (is annotated_image None)
 				  (do0
-				   
-				   (cv.imshow (string "screen")
-					      imgr
-					      ))
+				   (unless (is oldResult None)
+				     (visualize imgr oldResult)))
 				  (do0
-				   (setf lab (cv.cvtColor img 
-						     cv.COLOR_RGB2LAB)
-				    lab_planes (cv.split lab)
-				    lclahe
-				    (clahe.apply (aref lab_planes 0))
-				    lab (cv.merge (list lclahe 
-							(aref lab_planes 1)
-							(aref lab_planes 2)))
-				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
+				   
 				   (visualize imgr gResult)
-				   (cv.imshow (string "screen")
-						   imgr)
-				   (setf gResult None)
-				   #+nil
-				   (do0 (cv.imshow (string "screen")
-						   annotated_image)
-					(setf annotated_image None))))
+				   (setf oldResult gResult
+					 gResult None)
+				   ))
+
+			      (cv.imshow (string "screen")
+						  imgr
+						  )
+
+			      
 			      (do0
 			       (setf delta (- (time.time)
 					      loop_time))
@@ -248,7 +241,7 @@
 						      .0001))
 			       (when (< delta target_period)
 				 (time.sleep (- target_period delta)
-						))
+					     ))
 			       (setf fps (/ 1 delta)
 				     fps_wait (/ 1 (- (time.time)
 						      loop_time)))
