@@ -319,3 +319,11 @@ the concentration will reach 1200 ppm and the room should be aired.
 
 https://www.youtube.com/watch?v=Cu1f6vpEilg
 RANSAC - Random Sample Consensus (Cyrill Stachniss)
+
+
+## Wifi
+
+https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html
+- i want station mode to connect to an access point
+- my phone tether seems to be wpa3-personal. i think only esp32s2
+  supports that, not the esp32 that i have
