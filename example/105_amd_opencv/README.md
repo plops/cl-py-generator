@@ -9,3 +9,7 @@
   https://developers.google.com/mediapipe/solutions/vision/object_detector#get_started
 - python guide: https://developers.google.com/mediapipe/solutions/vision/object_detector/python
 - python code: https://colab.research.google.com/github/googlesamples/mediapipe/blob/main/examples/object_detection/python/object_detector.ipynb
+- model download: https://developers.google.com/mediapipe/solutions/vision/object_detector/index#models
+```
+wget https://storage.googleapis.com/mediapipe-tasks/object_detector/efficientdet_lite0_uint8.tflite
+```
