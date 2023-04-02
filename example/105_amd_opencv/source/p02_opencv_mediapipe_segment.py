@@ -9,9 +9,9 @@ import mediapipe.tasks
 import mediapipe.tasks.python
 start_time=time.time()
 debug=True
-_code_git_version="835ed1c289c828c06bc9e9c8fc577f04ab9b0908"
+_code_git_version="fe5991e8e673fa16f0e56b68c53696b9568f1977"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
-_code_generation_time="19:29:18 of Sunday, 2023-04-02 (GMT+1)"
+_code_generation_time="19:38:22 of Sunday, 2023-04-02 (GMT+1)"
 model_path="/home/martin/Downloads/deeplabv3.tflite"
 BaseOptions=mp.tasks.BaseOptions
 ImageSegmenter=mp.tasks.vision.ImageSegmenter
@@ -32,7 +32,7 @@ def view(category, imgr):
     cv.imshow("screen", imgr)
 print("{} nil cv.ocl.haveOpenCL()={}".format(((time.time())-(start_time)), cv.ocl.haveOpenCL()))
 loop_time=time.time()
-clahe=cv.createCLAHE(clipLimit=(15.    ), tileGridSize=(12,12,))
+clahe=cv.createCLAHE(clipLimit=(15.    ), tileGridSize=(32,18,))
 with ImageSegmenter.create_from_options(options) as segmenter:
     with mss.mss() as sct:
         loop_start=time.time()

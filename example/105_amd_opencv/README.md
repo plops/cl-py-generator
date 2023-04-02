@@ -3,6 +3,7 @@
 |-------|--------------------------------------------------------------|
 | gen00 | capture screenshot, perform clahe and display (runs at 60Hz) |
 | gen01 | clahe as in gen00 but also mediapipe object detector         |
+| gen02 | clahe and media pipe image segmentation                      |
 |       |                                                              |
 
 
@@ -51,9 +52,23 @@ wget https://storage.googleapis.com/mediapipe-tasks/object_detector/efficientdet
 
 ## Power consumption
 
-|                    | package P/W | Graphics / W | Core / W |
-|--------------------|-------------|--------------|----------|
-| youtube only       | 3.5         | 0.6          | 1        |
-| yt+clahe           | 13.2        | 0.6          | 9        |
-| yt+mediapipe+clahe | 30.6        | 0.6          | 22       |
-|                    |             |              |          |
+|                        | package P/W | Graphics / W | Core / W |
+|------------------------|-------------|--------------|----------|
+| youtube only           | 3.5         | 0.6          | 1        |
+| yt+clahe               | 13.2        | 0.6          | 9        |
+| yt+mediapipe_obj+clahe | 30.6        | 0.6          | 22       |
+|                        |             |              |          |
+
+
+## image segmentation
+
+- get the recommended model (2.7MB)
+
+```
+wget https://storage.googleapis.com/mediapipe-tasks/image_segmenter/deeplabv3.tflite
+```
+- model distinguishes background, person, cat, dog, potted plant
+- more details on the model: https://www.tensorflow.org/lite/examples/segmentation/overview
+
+- code example: https://github.com/googlesamples/mediapipe/tree/main/examples/image_segmentation/python
+- guide: https://developers.google.com/mediapipe/solutions/vision/image_segmenter/python

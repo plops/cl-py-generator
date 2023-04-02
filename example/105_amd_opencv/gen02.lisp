@@ -6,7 +6,7 @@
 
 (progn
   (defparameter *project* "105_amd_opencv")
-  (defparameter *idx* "01")
+  (defparameter *idx* "02")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -24,7 +24,7 @@
 
   
   
-  (let* ((notebook-name "opencv_mediapipe")
+  (let* ((notebook-name "opencv_mediapipe_segment")
 	 #+nil (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-source
@@ -106,11 +106,10 @@
 			     (- tz)))))
 	 (do0
 	  
-	  (setf model_path (string "/home/martin/Downloads/efficientdet_lite0_uint8.tflite"))
+	  (setf model_path (string "/home/martin/Downloads/deeplabv3.tflite"))
 	  ,@(loop for e in `((base-options mp.tasks )
-			     (detection-result mp.tasks.components.containers)
-			     (object-detector mp.tasks.vision)
-			     (object-detector-options mp.tasks.vision)
+			     (image-segmenter mp.tasks.vision)
+			     (image-segmenter-options mp.tasks.vision)
 			     (vision-running-mode mp.tasks.vision running-mode))
 		  collect
 		  (destructuring-bind (var pre &optional (name var)) e
@@ -118,77 +117,67 @@
 			  (dot ,pre
 			       ,(cl-change-case:pascal-case (format nil "~a" name))))))
 	  (do0
-	   (setf annotated_image None
+	   (setf
+	    
 		 gResult None
 		 oldResult None)
 	   (def print_result (result output_image timestamp_ms )
-	     (declare (type DetectionResult result)
+	     (declare (type "list[mp.Image]" result)
 		      (type mp.Image output_image)
 		      (type int timestamp_ms))
-	     ,(lprint :msg "result"	; :vars `((timestamp_ms))
+	     ,(lprint :msg "result"
+		      :vars `((len result))
 		      )
-	     "global annotated_image"
-	     "global gResult"
-	     (setf gResult result)
-	     (setf annotated_image (np.copy  (output_image.numpy_view))))
+	     (do0
+	      
+	      "global gResult"
+	      (setf gResult result)
+	      ))
 	   )
-	  (setf options (ObjectDetectorOptions
+	  (comments "output can be category .. single uint8 for every pixel"
+		    "or confidence_mask .. several float images with range [0,1]")
+	  (setf options (ImageSegmenterOptions
 			 :base_options
-			 (BaseOptions :model_asset_path model_path
-				      )
-			 :running_mode VisionRunningMode.LIVE_STREAM			 :max_results 5
+			 (BaseOptions :model_asset_path model_path)
+			 :running_mode VisionRunningMode.LIVE_STREAM
+			 :output_type ImageSegmenterOptions.OutputType.CATEGORY_MASK
 			 :result_callback print_result)))
 
-	 (def visualize (image detection_result)
-	   (declare (values np.ndarray))
-	   (comments "https://colab.research.google.com/github/googlesamples/mediapipe/blob/main/examples/object_detection/python/object_detector.ipynb#scrollTo=H4aPO-hvbw3r&uniqifier=1")
-	   (setf TEXT_COLOR (tuple 255 0 0)
-		 MARGIN 10 ;; px
-		 ROW_SIZE 10 ;; px
-		 FONT_SIZE 1
-		 FONT_THICKNESS 1)
-	   (when detection_result
-	     (for (d detection_result.detections)
-		  (setf bbox d.bounding_box
-			start_point (ntuple bbox.origin_x
-					    bbox.origin_y)
-			end_point (ntuple (+ bbox.origin_x
-					     bbox.width)
-					  (+ bbox.origin_y
-					     bbox.height)))
-		  (cv.rectangle image
-				start_point
-				end_point
-				TEXT_COLOR 3)
-		  (setf category (aref d.categories 0)
-			category_name category.category_name
-			probability (round category.score
-					   2)
-			result_text (dot (string "{} ({})")
-					 (format category_name
-						 probability))
-			text_location (ntuple
-				       (+ MARGIN bbox.origin_x)
-				       (+ MARGIN ROW_SIZE
-					  bbox.origin_y)))
-		  (cv.putText image
-			      result_text
-			      text_location
-			      cv.FONT_HERSHEY_PLAIN
-			      FONT_SIZE
-			      TEXT_COLOR
-			      FONT_THICKNESS)
-		  ))
-	   (return image)
-	   )
-	 
+	 (do0
+	  #+cat
+	  (setf category_color (np.random.randint 0 255
+						  :size (tuple (+ 255 1)
+							       3)
+						  :dtype np.uint8))
+	  (def view (category imgr)
+	    #+cat (setf category_image (aref category_color category))
+	    #-cat
+	    (do0 (setf category_edges (cv.Canny :image category
+				   :threshold1 10
+				       :threshold2 1))
+		 )
+	    (setf (aref imgr (!= category_edges 0))
+		  (list 0 0 255))
+	    #+nil 
+	    (do0 (setf alpha .5)
+		 (setf merged_image (cv.addWeighted imgr
+						    alpha
+						    #-cat (np.array (list category_edges
+									  category_edges
+									  category_edges))
+						    #+cat category_image
+						    (- 1 alpha)
+						    0)))
+	    (cv.imshow (string "screen")
+		       imgr)
+	    ))
 	 (do0
 	  ,(lprint :vars `((cv.ocl.haveOpenCL)))
 	  (setf loop_time (time.time))
 	  (setf clahe (cv.createCLAHE :clipLimit 15.0
-				      :tileGridSize (tuple 12 12)))
-	  (with (as (ObjectDetector.create_from_options options)
-		    detector)
+				      :tileGridSize (tuple 32 18)))
+	  (with (as (ImageSegmenter.create_from_options options)
+		    segmenter)
 		(with (as (mss.mss)
 			  sct)
 		      (setf loop_start (time.time))
@@ -197,15 +186,15 @@
 		
 			      (setf img (np.array (sct.grab (dictionary :top 160
 									:left 0
-									:width 1000
-									:height 740)))
+									:width (// 1920 2)
+									:height (// 1080 2))))
 				    )
 			      (setf mp_image (mp.Image :image_format mp.ImageFormat.SRGB
 						       :data img))
 			      (setf timestamp_ms (int (* 1000 (- (time.time)
 								 loop_start))))
-			      (detector.detect_async mp_image
-						     timestamp_ms)
+			      (segmenter.segment_async mp_image
+						       timestamp_ms)
 			      #+nil
 			      (setf imgr (cv.cvtColor img ;cv.COLOR_RGB2BGR
 						      cv.COLOR_RGB2GRAY))
@@ -218,20 +207,22 @@
 							(aref lab_planes 1)
 							(aref lab_planes 2)))
 				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
-			      (if (is annotated_image None)
+			      (if (is gResult None)
 				  (do0
-				   (unless (is oldResult None)
-				     (visualize imgr oldResult)))
+				   (if (is oldResult None)
+				       (cv.imshow (string "screen")
+						  imgr)
+				       (view (dot (aref oldResult 0)
+						  (numpy_view))
+					     imgr)))
 				  (do0
+				   (view (dot (aref gResult 0)
+					      (numpy_view))
+					 imgr)
 				   
-				   (visualize imgr gResult)
 				   (setf oldResult gResult
-					 gResult None)
-				   ))
-
-			      (cv.imshow (string "screen")
-						  imgr
-						  )
+					 gResult None)))
+			      
 
 			      
 			      (do0

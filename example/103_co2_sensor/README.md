@@ -112,9 +112,30 @@ uart_set_pin(UART_NUM_1,GPIO_NUM_4,GPIO_NUM_0,UART_PIN_NO_CHANGE,UART_PIN_NO_CHA
 I used an example program as a starting point. The example program for
 MCH22 ESP32 is named `my_fancy_app_name` and has a size of 1.7GB after
 build. The source code is available at
-https://github.com/badgeteam/mch2022-template-app. To build the
-program, set the IDF_PATH and source the export script, then navigate
-to the cmake-build-debug directory and run ninja:
+https://github.com/badgeteam/mch2022-template-app.
+
+This repository contains the ESP32 as subrepos. Download like so:
+```
+cd ~/src
+git clone --recursive \
+ https://github.com/badgeteam/mch2022-template-app \
+ my_fancy_app_name
+```
+
+The directory will have a size of 1.5GB, when the clone command is
+finished.
+
+Install the SDK:
+
+```
+cd ~/src/my_fancy_app_name
+cd esp-idf
+./install.sh
+```
+
+
+To build the program, set the IDF_PATH and source the export script,
+then navigate to the cmake-build-debug directory and run ninja:
 
 
 ```
@@ -137,7 +158,8 @@ Here are some resources for hardware information related to the MCH22 Badge and 
     Building a template app for MCH22 ESP32: https://badge.team/docs/badges/mch2022/software-development/esp-idf/esp_idf_getting_started/
 
 In case the last link is not accessible anymore, it is available on
-the waybackmachine: https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022/software-development/
+the waybackmachine:
+https://web.archive.org/web/20221208223643/http://badge.team/docs/badges/mch2022/software-development/
 
 
 ### Which pins could I use for UART ###
@@ -146,7 +168,7 @@ The MCH22 Badge contains the FPGA, RP2040, and ESP32 and they are all
 connected via UART during normal operation (for programming and
 logging).
 
-However, the badge's documentatoin doesn't mention any UARTs that can
+However, the badge's documentation doesn't mention any UARTs that can
 be used by a user to connect a sensor. There are other UARTs available
 on the ESP32 that can be used for our sensor. The ESP32 has three
 UARTs, of which only one is configured in the badge firmware. The
@@ -170,7 +192,8 @@ Here is a table of available pins and their potential use:
 | Y   | GPIO39 | pin5  | Interrupt fpga            | GPIO_NUM >= 34 can only be input | must be rx  |
 
 
-Note (to self) that the brown cable should go to the TX pin on the sensor.
+Note (to self) that the brown cable should go to the TX pin on the
+sensor.
 
 
 
@@ -197,7 +220,8 @@ cd ~/src/my_fancy_app_name/b
 source ~/src/my_fancy_app_name/esp-idf/export.sh 
 ```
 
-In the Makefile a tool to flash the binary to the badge is called like this:
+In the Makefile a tool to flash the binary to the badge is called like
+this:
 
 ```
 cd /home/martin/src/my_fancy_app_name/
