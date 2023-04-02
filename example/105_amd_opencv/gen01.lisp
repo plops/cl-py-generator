@@ -117,15 +117,13 @@
 		   `(setf ,(cl-change-case:pascal-case (format nil "~a" var))
 			  (dot ,pre
 			       ,(cl-change-case:pascal-case (format nil "~a" name))))))
-	  (setf gResult None)
+	  
 	  (def print_result (result output_image timestamp_ms )
 	    (declare (type DetectionResult result)
 		     (type mp.Image output_image)
 		     (type int timestamp_ms))
 	    ,(lprint :msg "result"	; :vars `((timestamp_ms))
-		     )
-	    "global gResult"
-	    (setf gResult result))
+		     ))
 	  (setf options (ObjectDetectorOptions
 			 :base_options
 			 (BaseOptions :model_asset_path model_path

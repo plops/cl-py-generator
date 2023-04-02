@@ -6,6 +6,24 @@
 |       |                                                              |
 
 
+# Introduction
+
+
+This project utilizes the Mediapipe library to perform a range of
+image and video processing tasks, including capturing screenshots,
+applying the CLAHE algorithm, and performing object detection. The
+CLAHE algorithm is particularly useful for enhancing the contrast in
+very dark scenes, which can be common in modern movies. Currently, the
+project captures the video stream playing in the browser and processes
+it using the Mediapipe library, resulting in a more readable video in
+a separate window. While this approach currently does not allow for
+full-screen viewing, future iterations may incorporate two monitors or
+a virtual X window server to achieve this. In the future, the project
+aims to expand its use of the Mediapipe library to include human and
+facial detection, as well as actor tracking and expression analysis.
+
+# Dev Log
+
 - pip installed mediapipe 0.9.2.1
 - i am not sure where the correct website is
 - https://mediapipe.dev/
