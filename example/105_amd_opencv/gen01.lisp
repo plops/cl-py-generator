@@ -124,6 +124,7 @@
 		     (type int timestamp_ms))
 	    ,(lprint :msg "result"	; :vars `((timestamp_ms))
 		     )
+	    "global gResult"
 	    (setf gResult result))
 	  (setf options (ObjectDetectorOptions
 			 :base_options
