@@ -25,6 +25,60 @@ typedef struct PointBME PointBME;
 
 std::deque<Point2D> fifo;
 std::deque<PointBME> fifoBME;
+extern "C" {
+#include "esp_wifi.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/event_groups.h"
+#include "freertos/task.h"
+#include "nvs_flash.h"
+static EventGroupHandle_t s_wifi_event_group;
+// event group should allow two different events
+// 1) we are connected to access point with an ip
+// 2) we failed to connect after a maximum amount of retries
+
+static int s_retry_num = 0;
+};
+enum {
+  WIFI_CONNECTED_BIT = BIT0,
+  WIFI_FAIL_BIT = BIT1,
+  EXAMPLE_ESP_MAXIMUM_RETRY = 7
+};
+
+void event_handler(void *arg, esp_event_base_t event_base, int32_t event_id,
+                   void *event_data) {
+  if (((WIFI_EVENT == event_base) && (WIFI_EVENT_STA_START == event_id))) {
+    esp_wifi_connect();
+  } else {
+    if (((WIFI_EVENT == event_base) &&
+         (WIFI_EVENT_STA_DISCONNECTED == event_id))) {
+      if (s_retry_num < EXAMPLE_ESP_MAXIMUM_RETRY) {
+        esp_wifi_connect();
+        s_retry_num++;
+        fmt::print("retry to connect to the access point\n");
+
+      } else {
+        xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
+      }
+      fmt::print("connection to the access point failed\n");
+
+    } else {
+      if (((IP_EVENT == event_base) && (IP_EVENT_STA_GOT_IP == event_id))) {
+        auto event = static_cast<ip_event_got_ip_t *>(event_data);
+        fmt::print("got ip:  IP2STR(&event->ip_info.ip)='{}'\n",
+                   IP2STR(&event->ip_info.ip));
+        s_retry_num = 0;
+
+        xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
+      }
+    }
+  }
+}
+
+void wifi_init_sta() {
+  s_wifi_event_group = xEventGroupCreate();
+
+  ESP_ERROR_CHECK(esp_netif_init());
+}
 
 double distance(Point2D p, double m, double b) {
   return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
@@ -512,7 +566,17 @@ void drawCO2(pax_buf_t *buf) {
 }
 
 void app_main() {
-  ESP_LOGI(TAG, "welcome to the template app");
+  ESP_LOGE(TAG, "welcome to the template app");
+  auto ret = nvs_flash_init();
+  if (((ESP_ERR_NVS_NO_FREE_PAGES == ret) ||
+       (ESP_ERR_NVS_NEW_VERSION_FOUND == ret))) {
+    ESP_ERROR_CHECK(nvs_flash_erase());
+    ret = nvs_flash_init();
+  }
+  ESP_ERROR_CHECK(ret);
+  ESP_LOGE(TAG, "esp wifi mode sta");
+  wifi_init_sta();
+
   bsp_init();
   bsp_rp2040_init();
   buttonQueue = get_rp2040()->queue;
@@ -531,7 +595,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("build 22:39:09 of Sunday, 2023-04-02 (GMT+1)\n");
+    auto text_ = fmt::format("build 21:07:35 of Monday, 2023-04-03 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
