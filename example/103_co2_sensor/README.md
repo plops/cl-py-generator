@@ -466,3 +466,5 @@ void app_main(void)
 
 
 ```
+https://www.youtube.com/watch?v=_dRrarmQiAM
+youtube video explaining how to set up wifi on esp32

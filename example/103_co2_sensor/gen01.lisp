@@ -167,7 +167,20 @@
 		    &event_handler
 		    nullptr
 		    &instance_got_ip))
-		  (let ((wifi_config (wifi_config_t)))))
+		  (let ((wifi_config
+			  (space wifi_config_t
+				 (designated-initializer
+				  sta
+				  (designated-initializer
+				   ssid (string "mi")
+				   password (string "secret")
+				   threshold (designated-initializer authmode
+								     WIFI_AUTH_WPA2_PSK
+								     ; ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD
+								     )
+				   ;sae_pwe_h2e ESP_WIFI_SAE_MODE
+				   ;sae_h2e_identifier EXAMPLE_H2E_IDENTIFIER
+				   )))))))
 		))))
 
        (defun distance (p m b)

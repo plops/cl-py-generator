@@ -89,7 +89,10 @@ void wifi_init_sta() {
   ESP_ERROR_CHECK(esp_event_handler_instance_register(
       IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, nullptr,
       &instance_got_ip));
-  auto wifi_config = wifi_config_t();
+  auto wifi_config =
+      wifi_config_t{.sta = {.ssid = "mi",
+                            .password = "secret",
+                            .threshold = {.authmode = WIFI_AUTH_WPA2_PSK}}};
 }
 
 double distance(Point2D p, double m, double b) {
@@ -607,7 +610,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("build 21:22:47 of Tuesday, 2023-04-04 (GMT+1)\n");
+    auto text_ = fmt::format("build 22:14:15 of Tuesday, 2023-04-04 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
