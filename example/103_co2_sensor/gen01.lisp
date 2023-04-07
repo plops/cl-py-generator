@@ -167,20 +167,42 @@
 		    &event_handler
 		    nullptr
 		    &instance_got_ip))
-		  (let ((wifi_config
-			  (space wifi_config_t
-				 (designated-initializer
-				  sta
-				  (designated-initializer
-				   ssid (string "mi")
-				   password (string "secret")
-				   threshold (designated-initializer authmode
-								     WIFI_AUTH_WPA2_PSK
-								     ; ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD
-								     )
-				   ;sae_pwe_h2e ESP_WIFI_SAE_MODE
-				   ;sae_h2e_identifier EXAMPLE_H2E_IDENTIFIER
-				   )))))))
+		  (let ((wifi_config "{}"
+			 #+nil  (designated-initializer
+			   sta
+			   (designated-initializer
+			    ssid (string "mi")
+			    password (string "secret")
+			    threshold (designated-initializer authmode
+							      WIFI_AUTH_WPA2_PSK
+					; ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD
+							      )
+			    #+nil (pmf_config (designated-initializer
+					 capable true
+					 required false))
+					;sae_pwe_h2e ESP_WIFI_SAE_MODE
+					;sae_h2e_identifier EXAMPLE_H2E_IDENTIFIER
+			    ))))
+		    (declare (type wifi_config_t wifi_config))
+		    ,@(loop for e in `((:key ssid :value (string "mi") :copy t)
+					   (:key password :value (string "secret") :copy t)
+					   (:key threshold.authmode :value WIFI_AUTH_WPA2_PSK)
+					   )
+			    collect
+			    (destructuring-bind (&key key value copy) e
+			     (if copy
+				 (let ((str (format nil "~a_str" key)))
+				  
+				   `(do0 ;let ((,str ,value))
+				      ;(declare (type "const char*" ,str))
+				      #+nil (std--memcpy  (dot wifi_config sta ,key)
+						    ,str
+						    (std--strlen ,str))
+				      (std--memcpy  (dot wifi_config sta ,key)
+						    ,value
+						    ,(length (second value)))))
+				 `(setf (dot wifi_config sta ,key)
+					,value))))))
 		))))
 
        (defun distance (p m b)
