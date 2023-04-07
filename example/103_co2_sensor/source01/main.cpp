@@ -31,6 +31,7 @@ extern "C" {
 #include "freertos/event_groups.h"
 #include "freertos/task.h"
 #include "nvs_flash.h"
+#include "secret.h"
 static EventGroupHandle_t s_wifi_event_group;
 // event group should allow two different events
 // 1) we are connected to access point with an ip
@@ -90,9 +91,35 @@ void wifi_init_sta() {
       IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, nullptr,
       &instance_got_ip));
   wifi_config_t wifi_config = {};
-  std::memcpy(wifi_config.sta.ssid, "mi", 2);
-  std::memcpy(wifi_config.sta.password, "secret", 6);
+  const char *ssid_str = "mi";
+  std::memcpy(wifi_config.sta.ssid, ssid_str, std::strlen(ssid_str));
+  const char *password_str = WIFI_SECRET;
+  std::memcpy(wifi_config.sta.password, password_str,
+              std::strlen(password_str));
   wifi_config.sta.threshold.authmode = WIFI_AUTH_WPA2_PSK;
+
+  wifi_config.sta.pmf_cfg.capable = true;
+
+  wifi_config.sta.pmf_cfg.required = false;
+
+  ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+  ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
+  ESP_ERROR_CHECK(esp_wifi_start());
+  fmt::print("wait until connection is established or connection failed "
+             "s_retry_num times  s_retry_num='{}'\n",
+             s_retry_num);
+  auto bits = xEventGroupWaitBits(s_wifi_event_group,
+                                  ((WIFI_CONNECTED_BIT) | (WIFI_FAIL_BIT)),
+                                  pdFALSE, pdFALSE, portMAX_DELAY);
+  if (((WIFI_CONNECTED_BIT) & (bits))) {
+    fmt::print("connected to ap\n");
+  } else {
+    if (((WIFI_FAIL_BIT) & (bits))) {
+      fmt::print("connection to ap failed\n");
+    } else {
+      fmt::print("unexpected event\n");
+    }
+  }
 }
 
 double distance(Point2D p, double m, double b) {
@@ -610,7 +637,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("build 08:27:01 of Friday, 2023-04-07 (GMT+1)\n");
+    auto text_ = fmt::format("build 08:46:36 of Friday, 2023-04-07 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);

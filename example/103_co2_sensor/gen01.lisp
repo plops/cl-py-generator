@@ -94,6 +94,7 @@
 			      "freertos/FreeRTOS.h"
 			      "freertos/task.h"
 			      "freertos/event_groups.h")
+		     (include "secret.h")
 		     (space static EventGroupHandle_t s_wifi_event_group)
 		     (comments "event group should allow two different events"
 			       "1) we are connected to access point with an ip"
@@ -167,42 +168,47 @@
 		    &event_handler
 		    nullptr
 		    &instance_got_ip))
-		  (let ((wifi_config "{}"
-			 #+nil  (designated-initializer
-			   sta
-			   (designated-initializer
-			    ssid (string "mi")
-			    password (string "secret")
-			    threshold (designated-initializer authmode
-							      WIFI_AUTH_WPA2_PSK
-					; ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD
-							      )
-			    #+nil (pmf_config (designated-initializer
-					 capable true
-					 required false))
-					;sae_pwe_h2e ESP_WIFI_SAE_MODE
-					;sae_h2e_identifier EXAMPLE_H2E_IDENTIFIER
-			    ))))
+		  (let ((wifi_config "{}"))
 		    (declare (type wifi_config_t wifi_config))
 		    ,@(loop for e in `((:key ssid :value (string "mi") :copy t)
-					   (:key password :value (string "secret") :copy t)
-					   (:key threshold.authmode :value WIFI_AUTH_WPA2_PSK)
-					   )
+				       (:key password :value WIFI_SECRET :copy t)
+				       (:key threshold.authmode :value WIFI_AUTH_WPA2_PSK)
+				       (:key pmf_cfg.capable :value true)
+				       (:key pmf_cfg.required :value false))
 			    collect
 			    (destructuring-bind (&key key value copy) e
 			     (if copy
 				 (let ((str (format nil "~a_str" key)))
 				  
-				   `(do0 ;let ((,str ,value))
-				      ;(declare (type "const char*" ,str))
-				      #+nil (std--memcpy  (dot wifi_config sta ,key)
-						    ,str
-						    (std--strlen ,str))
+				   `(let ((,str ,value))
+				      (declare (type "const char*" ,str))
 				      (std--memcpy  (dot wifi_config sta ,key)
-						    ,value
-						    ,(length (second value)))))
+						    ,str
+						    (std--strlen ,str))))
 				 `(setf (dot wifi_config sta ,key)
-					,value))))))
+					,value)))))
+		  (ESP_ERROR_CHECK (esp_wifi_set_mode WIFI_MODE_STA))
+		  (ESP_ERROR_CHECK (esp_wifi_set_config WIFI_IF_STA &wifi_config))
+		  (ESP_ERROR_CHECK (esp_wifi_start))
+		  ;(ESP_LOGI TAG (string "wifi_init_sta finished"))
+		  ,(lprint :msg "wait until connection is established or connection failed s_retry_num times"
+			   :vars `(s_retry_num))
+		  (let ((bits (xEventGroupWaitBits
+			       s_wifi_event_group
+			       (or WIFI_CONNECTED_BIT
+				   WIFI_FAIL_BIT)
+			       pdFALSE
+			       pdFALSE
+			       portMAX_DELAY)))
+		    (if (and WIFI_CONNECTED_BIT
+			     bits)
+			,(lprint :msg "connected to ap")
+			(if (and WIFI_FAIL_BIT
+			     bits)
+			    ,(lprint :msg "connection to ap failed")
+			    ,(lprint :msg "unexpected event")))
+
+		    ))
 		))))
 
        (defun distance (p m b)

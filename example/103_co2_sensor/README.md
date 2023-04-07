@@ -468,3 +468,8 @@ void app_main(void)
 ```
 https://www.youtube.com/watch?v=_dRrarmQiAM
 youtube video explaining how to set up wifi on esp32
+
+- the video has better code. the code chunk shown above is probably too old
+
+- the esp-idf repo contains
+  examples/wifi/getting_started/station/main/station_example_main.c
