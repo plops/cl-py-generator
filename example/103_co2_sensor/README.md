@@ -442,8 +442,10 @@ void wifi_init_sta(void)
     }
 
     /* The event will not be processed after unregister */
-    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, instance_got_ip));
-    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP,
+		instance_got_ip));
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID,
+		instance_any_id));
     vEventGroupDelete(s_wifi_event_group);
 }
 
@@ -474,3 +476,5 @@ youtube video explaining how to set up wifi on esp32
 - wifi fine timing measurement is interesting. i'm not sure yet, if
   the esp32 supports it. the esp-idf docu mentions only esp32-s2 and
   esp32-c3
+  - https://www.youtube.com/watch?v=6By78JkCUoo
+  - precision 1m .. 2m

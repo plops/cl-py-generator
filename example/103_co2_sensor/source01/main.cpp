@@ -120,6 +120,11 @@ void wifi_init_sta() {
       fmt::print("unexpected event\n");
     }
   }
+  ESP_ERROR_CHECK(esp_event_handler_instance_unregister(
+      IP_EVENT, IP_EVENT_STA_GOT_IP, instance_got_ip));
+  ESP_ERROR_CHECK(esp_event_handler_instance_unregister(
+      WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
+  vEventGroupDelete(s_wifi_event_group);
 }
 
 double distance(Point2D p, double m, double b) {
@@ -637,7 +642,8 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ = fmt::format("build 08:46:36 of Friday, 2023-04-07 (GMT+1)\n");
+    auto text_ =
+        fmt::format("build 00:45:37 of Saturday, 2023-04-08 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);

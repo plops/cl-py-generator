@@ -208,7 +208,18 @@
 			    ,(lprint :msg "connection to ap failed")
 			    ,(lprint :msg "unexpected event")))
 
-		    ))
+		    )
+		  (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
+				    IP_EVENT
+				    IP_EVENT_STA_GOT_IP
+				    instance_got_ip
+				    ))
+		  (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
+				    WIFI_EVENT
+				    ESP_EVENT_ANY_ID
+				    instance_any_id
+				    ))
+		  (vEventGroupDelete s_wifi_event_group))
 		))))
 
        (defun distance (p m b)
