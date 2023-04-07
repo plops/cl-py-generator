@@ -472,4 +472,5 @@ youtube video explaining how to set up wifi on esp32
   examples/wifi/getting_started/station/main/station_example_main.c
 
 - wifi fine timing measurement is interesting. i'm not sure yet, if
-  the esp32 supports it
+  the esp32 supports it. the esp-idf docu mentions only esp32-s2 and
+  esp32-c3
