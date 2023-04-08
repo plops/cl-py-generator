@@ -494,5 +494,16 @@ protoc --plugin=protoc-gen-nanopb=\
 ~/nanopb/generator/protoc-gen-nanopb \
 --nanopb_out=. temp.proto
 ```
+  - code to send data
+```
+void sendTemp(pb_TempEvent e)
+{
+	uint8 buffer[128]
+	stream = pb_ostream_from_buffer(buffer, ....
+	if !pb_encode(&stream,pb_TempEvent_fields,&e)
+	  throw("failed to encode")
+    client.write(buffer,stream.bytes_written)
+}
+```
   - visualizes with influxdb and graphana
   - optional mqtt 
