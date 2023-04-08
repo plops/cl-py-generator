@@ -494,6 +494,18 @@ protoc --plugin=protoc-gen-nanopb=\
 ~/nanopb/generator/protoc-gen-nanopb \
 --nanopb_out=. temp.proto
 ```
+  - interface definition language
+```
+syntax = "proto2";
+package pb;
+message TempEvent {
+  require int32 deviceId = 1;
+  require int32 eventId = 2;
+  require float humidity = 3;
+  require float tempCel = 4;
+  require float heatIdxCel = 5;
+}
+```
   - code to send data
 ```
 void sendTemp(pb_TempEvent e)
