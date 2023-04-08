@@ -226,7 +226,7 @@
 		  (vEventGroupDelete s_wifi_event_group))
 		))
 
-	    (defun connect_tcp_server ()
+	    (defun connect_to_tcp_server ()
 	      (declare (values esp_err_t))
 	      (let ((port 12345)
 		    (ip_address (string "localhost"))
@@ -240,7 +240,10 @@
 				   )
 			     (inet_pton AF_INET ip_address &addr.sin_addr)
 			     (return addr))))
-		    (sock (socket AF_INET SOCK_STREAM 0)))
+		    (domain AF_INET)
+		    (type SOCK_STREAM)
+		    (protocol 0)
+		    (sock (socket domain type protocol)))
 		(when (< sock 0)
 		  ,(lprint :msg "failed to create socket")
 		  (return -1))
@@ -874,7 +877,7 @@
 	       (ESP_ERROR_CHECK ret)
 	       (ESP_LOGE TAG (string "esp wifi mode sta"))
 	       (wifi_init_sta)
-	       (connect_tcp_server) ))
+	       (connect_to_tcp_server) ))
 
 	    (bsp_init) 
 	  
