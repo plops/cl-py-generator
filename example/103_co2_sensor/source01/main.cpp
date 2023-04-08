@@ -131,7 +131,7 @@ void wifi_init_sta() {
 
 esp_err_t connect_to_tcp_server() {
   auto port = 12345;
-  auto ip_address = "localhost";
+  auto ip_address = "192.168.120.122";
   auto addr = ([port, ip_address]() -> sockaddr_in {
     sockaddr_in addr{};
     addr.sin_family = AF_INET;
@@ -154,6 +154,20 @@ esp_err_t connect_to_tcp_server() {
     close(sock);
     return -2;
   }
+  fmt::print("connected to tcp server\n");
+  constexpr auto buffer_size = 1024;
+  auto read_buffer = std::array<char, buffer_size>{};
+  auto r = read(sock, read_buffer.data(), ((read_buffer.size()) - (1)));
+  if (r < 0) {
+    fmt::print("failed to read data from socket\n");
+    close(sock);
+    return -3;
+  }
+  read_buffer[r] = '\0';
+
+  fmt::print("received data from server  read_buffer.data()='{}'\n",
+             read_buffer.data());
+
   return 0;
 }
 
@@ -674,7 +688,7 @@ void app_main() {
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
     auto text_ =
-        fmt::format("build 11:01:45 of Saturday, 2023-04-08 (GMT+1)\n");
+        fmt::format("build 11:19:13 of Saturday, 2023-04-08 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
