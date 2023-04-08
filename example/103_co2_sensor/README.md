@@ -465,9 +465,13 @@ void app_main(void)
 
 
 ```
-https://www.youtube.com/watch?v=_dRrarmQiAM
-youtube video explaining how to set up wifi on esp32
-
+- https://www.youtube.com/watch?v=_dRrarmQiAM
+  - youtube video explaining how to set up wifi on esp32
+  - code from video:
+    https://github.com/lowlevellearning/esp32-wifi/blob/main/main/wifi-connection.c
+  - connects to ap and then to tcp server
+  
+  
 - the video has better code. the code chunk shown above is probably too old
 
 - the esp-idf repo contains
