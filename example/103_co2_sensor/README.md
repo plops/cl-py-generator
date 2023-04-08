@@ -263,7 +263,7 @@ The serial monitor is an essential tool for reading log messages from
 the ESP32 firmware. During initialization of components of the badge,
 such as uart or wifi, the serial monitor provides valuable information
 to ensure proper configuration. It can also help identify
-configuration errors of the uart, e.g. I set the RX buffer too small
+configuration errors of the uart, e.g. I set the RX buffer too small 
 at some point.
 
 To open the serial monitor, use the following commands:
