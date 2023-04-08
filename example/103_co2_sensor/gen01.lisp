@@ -246,7 +246,7 @@
 		  (return -1))
 		(when (!= 0 (connect sock
 				     ("reinterpret_cast<const sockaddr*>" &addr)
-				     (sizeof addr)))
+				     (sizeof addr))) 
 		  ,(lprint :msg "failed to connect to socket"
 			   )
 		  (close sock)
