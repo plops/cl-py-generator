@@ -15,7 +15,7 @@
     (defparameter *full-source-dir*  "/home/martin/src/my_fancy_app_name/main/"))
   #-nil
   (progn
-    (defparameter *source-dir* #P"example/103_co2_sensor/source01/")
+    (defparameter *source-dir* #P"example/103_co2_sensor/source04/")
     (defparameter *full-source-dir* (asdf:system-relative-pathname
 				     'cl-py-generator
 				     *source-dir*)))

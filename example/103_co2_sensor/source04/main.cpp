@@ -688,7 +688,7 @@ void app_main() {
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
     auto text_ =
-        fmt::format("build 11:19:13 of Saturday, 2023-04-08 (GMT+1)\n");
+        fmt::format("build 20:55:32 of Saturday, 2023-04-08 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);

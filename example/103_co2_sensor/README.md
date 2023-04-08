@@ -28,7 +28,7 @@
 | gen01 | c++ code to run on esp32              |   |
 | gen02 | c++ code to develop linear ransac fit |   |
 | gen03 | c++ code to check continuous update   |   |
-
+| gen04 | split 01 into several files           |   |
 
 
 ## Introduction ##
@@ -523,4 +523,10 @@ void sendTemp(pb_TempEvent e)
   - extensible middleware authN, authZ, ...
   - grpc can help implementing real time interactivity
   - example: speach transcription on a raspberry pi
+
+  - latest version of nanopb:
+    https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.7-linux-x86.tar.gz
+  - repo: https://github.com/nanopb/nanopb
   
+- the only repo on github that mentions grpc and esp32
+    https://github.com/nanopb/nanopb
