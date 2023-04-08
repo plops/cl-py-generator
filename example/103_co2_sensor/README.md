@@ -487,3 +487,12 @@ void app_main(void)
   - Efficient IoT with Protocol Buffers and gRPC - Vladimir Vivien,
     {code} (Beginner Skill Level)
     https://www.youtube.com/watch?v=c9z_o5lu0dI
+  - uses esp8266 with tls
+  - nanopb will generate ansi c with a small footprint
+```
+protoc --plugin=protoc-gen-nanopb=\
+~/nanopb/generator/protoc-gen-nanopb \
+--nanopb_out=. temp.proto
+```
+  - visualizes with influxdb and graphana
+  - optional mqtt 
