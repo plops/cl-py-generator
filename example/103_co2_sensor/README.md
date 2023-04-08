@@ -519,3 +519,8 @@ void sendTemp(pb_TempEvent e)
 ```
   - visualizes with influxdb and graphana
   - optional mqtt 
+  - grpc https://youtu.be/c9z_o5lu0dI?t=949
+  - extensible middleware authN, authZ, ...
+  - grpc can help implementing real time interactivity
+  - example: speach transcription on a raspberry pi
+  
