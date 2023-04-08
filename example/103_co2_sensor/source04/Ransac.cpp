@@ -72,10 +72,10 @@ void Ransac::ransac_line_fit(std::deque<Point2D> &data, double &m, double &b,
   b = best_b;
   inliers = best_inliers;
 }
-double Ransac::GetM() { return m_m; }
-double Ransac::GetB() { return m_b; }
+double Ransac::GetM() const { return m_m; }
+double Ransac::GetB() const { return m_b; }
 std::vector<Point2D> Ransac::GetInliers() { return m_inliers; }
 Ransac::Ransac(std::deque<Point2D> data)
-    : m_data(data), m_inliers(std::vector<Point2D>()) {
+    : m_data(data) {
   ransac_line_fit(m_data, m_m, m_b, m_inliers);
 }

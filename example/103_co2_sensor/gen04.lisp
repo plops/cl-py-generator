@@ -515,7 +515,7 @@
 	
 	  (defun uart_init ()
 	    (ESP_LOGE TAG (string "initialize uart"))
-	    (when (uart_is_driver_installed CO2_UART)
+	    (when (uart_is_driver_installed CO2_UART) 
 	      (return))
 
 	    #+nil (do0 (comments "i think uart_set_pin will configure the ports (and also check that they are valid)")
