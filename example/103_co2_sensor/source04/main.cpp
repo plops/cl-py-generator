@@ -1,5 +1,7 @@
-#include <TcpConnection.h>
-#include <Wifi.h>
+#include "DataTypes.h"
+#include "Ransac.h"
+#include "TcpConnection.h"
+#include "Wifi.h"
 #include <algorithm>
 #include <cmath>
 #include <deque>
@@ -8,89 +10,8 @@
 #define FMT_HEADER_ONLY
 #include "core.h"
 const int N_FIFO = 320;
-const int RANSAC_MAX_ITERATIONS = 320;
-const float RANSAC_INLIER_THRESHOLD = 5.0;
-const int RANSAC_MIN_INLIERS = 2;
-struct Point2D {
-  double x;
-  double y;
-};
-typedef struct Point2D Point2D;
-
-struct PointBME {
-  double x;
-  double temperature;
-  double humidity;
-  double pressure;
-};
-typedef struct PointBME PointBME;
-
 std::deque<Point2D> fifo;
 std::deque<PointBME> fifoBME;
-
-double distance(Point2D p, double m, double b) {
-  return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
-}
-
-void ransac_line_fit(std::deque<Point2D> &data, double &m, double &b,
-                     std::vector<Point2D> &inliers) {
-  if (fifo.size() < 2) {
-    return;
-  }
-  std::random_device rd;
-  // distrib0 must be one of the 5 most recent datapoints. i am not interested
-  // in fit's of the older data
-
-  auto gen = std::mt19937(rd());
-  auto distrib0 = std::uniform_int_distribution<>(0, 5);
-  auto distrib = std::uniform_int_distribution<>(0, ((data.size()) - (1)));
-  auto best_inliers = std::vector<Point2D>();
-  auto best_m = (0.);
-  auto best_b = (0.);
-  for (auto i = 0; i < RANSAC_MAX_ITERATIONS; i += 1) {
-    auto idx1 = distrib(gen);
-    auto idx2 = distrib0(gen);
-    while (idx1 == idx2) {
-      idx1 = distrib(gen);
-    }
-    auto p1 = data[idx1];
-    auto p2 = data[idx2];
-    auto m = ((((p2.y) - (p1.y))) / (((p2.x) - (p1.x))));
-    auto b = ((p1.y) - ((m * p1.x)));
-    auto inliers = std::vector<Point2D>();
-    for (auto &p : data) {
-      if (distance(p, m, b) < RANSAC_INLIER_THRESHOLD) {
-        inliers.push_back(p);
-      }
-    };
-    if (RANSAC_MIN_INLIERS < inliers.size()) {
-      auto sum_x = (0.);
-      auto sum_y = (0.);
-      for (auto &p : inliers) {
-        sum_x += p.x;
-        sum_y += p.y;
-      };
-      auto avg_x = ((sum_x) / (inliers.size()));
-      auto avg_y = ((sum_y) / (inliers.size()));
-      auto var_x = (0.);
-      auto cov_xy = (0.);
-      for (auto &p : inliers) {
-        var_x += (((p.x) - (avg_x)) * ((p.x) - (avg_x)));
-        cov_xy += (((p.x) - (avg_x)) * ((p.y) - (avg_y)));
-      };
-      auto m = ((cov_xy) / (var_x));
-      auto b = ((avg_y) - ((m * avg_x)));
-      if (best_inliers.size() < inliers.size()) {
-        best_inliers = inliers;
-        best_m = m;
-        best_b = b;
-      }
-    }
-  }
-  m = best_m;
-  b = best_b;
-  inliers = best_inliers;
-}
 extern "C" {
 #include "bme680.h"
 #include "driver/uart.h"
@@ -437,14 +358,14 @@ void drawCO2(pax_buf_t *buf) {
     }
   }
   {
-    auto m = (0.);
-    auto b = (0.);
-    auto inliers = std::vector<Point2D>();
+    auto ransac = Ransac(fifo);
+    auto m = ransac.GetM();
+    auto b = ransac.GetB();
+    auto inliers = ransac.GetInliers();
     auto hue = 128;
     auto sat = 255;
     auto bright = 200;
     auto col = pax_col_hsv(hue, sat, bright);
-    ransac_line_fit(fifo, m, b, inliers);
     // draw the fit as line
     pax_draw_line(buf, col, scaleTime(time_mi),
                   scaleHeight((b + (m * time_mi))), scaleTime(time_ma),
@@ -545,8 +466,7 @@ void app_main() {
     auto bright = 0;
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
-    auto text_ =
-        fmt::format("build 21:35:23 of Saturday, 2023-04-08 (GMT+1)\n");
+    auto text_ = fmt::format("build 00:05:28 of Sunday, 2023-04-09 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);

@@ -19,18 +19,14 @@
     (defparameter *full-source-dir* (asdf:system-relative-pathname
 				     'cl-py-generator
 				     *source-dir*)))
-  
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
       "Sunday"))
-
-
-  
   (ensure-directories-exist *full-source-dir*)
   (load "util.lisp")
-
-  (let ((l-data
+  (let ((n-fifo (floor 320 1))
+	(l-data
 	  `((:name temperature :hue 150 ; 
 		   
 		   :short-name T :unit "°C" :fmt "{:2.2f}")
@@ -55,10 +51,7 @@
 			(include freertos/FreeRTOS.h
 				 freertos/task.h
 				 freertos/event_groups.h
-				 esp_wifi.h
-			 )
-					
-			)
+				 esp_wifi.h))
      :implementation-preamble
      `(do0
        (space "extern \"C\" "
@@ -216,90 +209,223 @@
 	       (vEventGroupDelete s_wifi_event_group)))))))))
 
     (let ((name `TcpConnection))
-    (write-class
-     :dir (asdf:system-relative-pathname
-	   'cl-py-generator
-	   *source-dir*)
-     :name name
-     :headers `()
-     :header-preamble `(do0
-			
-					
-			)
-     :implementation-preamble
+      (write-class
+       :dir (asdf:system-relative-pathname
+	     'cl-py-generator
+	     *source-dir*)
+       :name name
+       :headers `()
+       :header-preamble `(do0
+			  )
+       :implementation-preamble
+       `(do0
+	 (space "extern \"C\" "
+		(progn
+		  (include  "esp_wifi.h"
+			    "esp_netif_types.h"
+			    "nvs_flash.h"
+			    "freertos/FreeRTOS.h"
+			    "freertos/task.h"
+			    "freertos/event_groups.h"
+			    )
+		  (include lwip/sockets.h)
+		  (include<> arpa/inet.h)))
+	 (do0
+	  "#define FMT_HEADER_ONLY"
+	  (include "core.h")))
+       :code `(do0
+	       (defclass ,name ()	 
+		 "public:"
+		 (defmethod ,name ()
+		   (declare
+		    (construct
+		     )
+		    (explicit)	    
+		    (values :constructor))
+		   (do0
+		    (let ((port 12345)
+			  (ip_address (string "192.168.120.122"))
+			  (addr ((lambda ()
+				   (declare (constexpr)
+					    (capture port ip_address)
+					    (values sockaddr_in))
+				   "sockaddr_in addr{};"
+				   (setf addr.sin_family AF_INET
+					 addr.sin_port (htons port)
+					 )
+				   (inet_pton AF_INET ip_address &addr.sin_addr)
+				   (return addr))))
+			  (domain AF_INET)
+			  (type SOCK_STREAM)
+			  (protocol 0)
+			  (sock (socket domain type protocol)))
+		      (when (< sock 0)
+			,(lprint :msg "failed to create socket"))
+		      (when (!= 0 (connect sock
+					   ("reinterpret_cast<const sockaddr*>" &addr)
+					   (sizeof addr))) 
+			,(lprint :msg "failed to connect to socket"))
+		      ,(lprint :msg "connected to tcp server")
+		      (let ((buffer_size 1024)
+			    (read_buffer "std::array<char,buffer_size>{}"))
+			(declare (type "constexpr auto" buffer_size))
+			(let ((r (read sock
+				       (read_buffer.data)
+				       (- (read_buffer.size)
+					  1))))
+			  (when (< r 0)
+			    ,(lprint :msg "failed to read data from socket"))
+			  (setf (aref read_buffer r)
+				(char "\\0"))
+			  ,(lprint :msg "received data from server"
+				   :vars `((read_buffer.data))))))))))))
+
+    (let ((name `Ransac))
+      (write-class
+       :dir (asdf:system-relative-pathname
+	     'cl-py-generator
+	     *source-dir*)
+       :name name
+       :headers `()
+       :header-preamble `(do0
+			  (include DataTypes.h)
+			  (include<> deque
+		  random
+		  vector
+		  algorithm
+		  cmath))
+       :implementation-preamble
+       `(do0
+	 (include<> deque
+		  random
+		  vector
+		  algorithm
+		  cmath)
+	 (do0
+	  "#define FMT_HEADER_ONLY"
+	  (include "core.h"))
+	 ,@(loop for e in `(;(N_FIFO ,n-fifo)
+			    (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
+			    (RANSAC_INLIER_THRESHOLD 5.0 :type float)
+			    (RANSAC_MIN_INLIERS 2))
+	       collect
+	       (destructuring-bind (name val &key (type 'int)) e
+		 (format nil "const ~a ~a = ~a;" type name val))))
+       :code `(do0
+	       (defclass ,name ()
+		 "private:"
+		 (defmethod distance (p m b)
+		   (declare (type Point2D p)
+			    (type double m b)
+			    (values double))
+		   (return (/ (abs (- p.y
+				      (+ (* m p.x)
+					 b)))
+			      (sqrt (+ 1 (* m m))))))
+		 (defmethod ransac_line_fit (data m b inliers)
+		   (declare (type "std::deque<Point2D>&" data)
+			    (type "std::vector<Point2D>&" inliers)
+			    (type double& m b))
+		   
+		   (when (< (data.size) 2)
+		     (return))
+		   "std::random_device rd;"
+		   (comments "distrib0 must be one of the 5 most recent datapoints. i am not interested in fit's of the older data")
+		   (let ((gen (std--mt19937 (rd)))
+			 (distrib0 (std--uniform_int_distribution<> 0 5))
+			 (distrib (std--uniform_int_distribution<> 0 (- (data.size)
+									1)))
+			 (best_inliers (std--vector<Point2D>))
+			 (best_m 0d0)
+			 (best_b 0d0))
+		     (dotimes (i RANSAC_MAX_ITERATIONS)
+		       (let ((idx1 (distrib gen))
+			     (idx2 (distrib0 gen)))
+			 (while (== idx1 idx2)
+				(setf idx1 (distrib gen)))
+			 (let ((p1 (aref data idx1))
+			       (p2 (aref data idx2))
+			       (m (/ (- p2.y p1.y)
+				     (- p2.x p1.x)))
+			       (b (- p1.y
+				     (* m p1.x)))
+			       (inliers (std--vector<Point2D>)))
+			   (foreach (p data)
+				    (when (< (distance p m b)
+					     RANSAC_INLIER_THRESHOLD)
+				      (inliers.push_back p)))
+			   (when (< RANSAC_MIN_INLIERS 
+				    (inliers.size))
+			     (let ((sum_x 0d0)
+				   (sum_y 0d0))
+			       (foreach (p inliers)
+					(incf sum_x p.x)
+					(incf sum_y p.y))
+			       (let ((avg_x (/ sum_x (inliers.size)))
+				     (avg_y (/ sum_y (inliers.size)))
+				     (var_x 0d0)
+				     (cov_xy 0d0))
+				 (foreach (p inliers)
+					  (incf var_x (* (- p.x avg_x)
+							 (- p.x avg_x)))
+
+					  (incf cov_xy (* (- p.x avg_x)
+							  (- p.y avg_y))))
+				 (let ((m (/ cov_xy var_x))
+				       (b (- avg_y (* m avg_x))))
+				   (when (< (best_inliers.size)
+					    (inliers.size))
+				     (setf best_inliers inliers
+					   best_m m
+					   best_b b))))))
+			   )))
+		     (setf m best_m
+			   b best_b
+			   inliers best_inliers)))
+		 (space "std::vector<Point2D>" m_inliers)
+		 (space "std::deque<Point2D>" m_data)
+		 (space double m_m)
+		 (space double m_b)
+		 "public:"
+		 (defmethod GetM ()
+		   (declare 
+			    (values double))
+		   (return m_m))
+		 (defmethod GetB ()
+		   (declare (values double))
+		   (return m_b))
+		 (defmethod GetInliers ()
+		   (declare (values "std::vector<Point2D>"))
+		   (return m_inliers))
+		 (defmethod ,name (data)
+		   (declare
+		    (type "std::deque<Point2D>" data)
+		    (construct
+		     (m_data data)
+		     (m_inliers (std--vector<Point2D>)))
+		    (explicit)
+		    
+		    (values :constructor))
+		   (ransac_line_fit m_data m_m m_b m_inliers))))))
+
+
+    (write-source
+     (asdf:system-relative-pathname
+      'cl-py-generator
+      (merge-pathnames #P"DataTypes.h"
+		       *source-dir*))
      `(do0
-       (space "extern \"C\" "
-	      (progn
-		(include  "esp_wifi.h"
-			  "esp_netif_types.h"
-			  "nvs_flash.h"
-			  "freertos/FreeRTOS.h"
-			  "freertos/task.h"
-			  "freertos/event_groups.h"
-			 )
-		(include lwip/sockets.h)
-		(include<> arpa/inet.h
-			   ) ;; inet_ntoa
-		
-		
-		))
-       (do0
-	"#define FMT_HEADER_ONLY"
-	(include "core.h")))
-     :code `(do0
-	     (defclass ,name ()
-	      
-	       "public:"
-	       (defmethod ,name ()
-		 (declare
-		  (construct
-			     )
-		  (explicit)
-		  
-		  (values :constructor))
-
-		  (do0
-		   (let ((port 12345)
-			 (ip_address (string "192.168.120.122"))
-			 (addr ((lambda ()
-				  (declare (constexpr)
-					   (capture port ip_address)
-					   (values sockaddr_in))
-			   "sockaddr_in addr{};"
-			   (setf addr.sin_family AF_INET
-				 addr.sin_port (htons port)
-				 )
-			   (inet_pton AF_INET ip_address &addr.sin_addr)
-			   (return addr))))
-			 (domain AF_INET)
-			 (type SOCK_STREAM)
-			 (protocol 0)
-			 (sock (socket domain type protocol)))
-		     (when (< sock 0)
-		       ,(lprint :msg "failed to create socket")
-		       )
-		     (when (!= 0 (connect sock
-				   ("reinterpret_cast<const sockaddr*>" &addr)
-				   (sizeof addr))) 
-		       ,(lprint :msg "failed to connect to socket"))
-	      ,(lprint :msg "connected to tcp server")
-	      (let ((buffer_size 1024)
-		    (read_buffer "std::array<char,buffer_size>{}"))
-		(declare (type "constexpr auto" buffer_size))
-		(let ((r (read sock
-			       (read_buffer.data)
-			       (- (read_buffer.size)
-				  1))))
-		  (when (< r 0)
-		    ,(lprint :msg "failed to read data from socket"))
-		  (setf (aref read_buffer r)
-			(char "\\0"))
-		  ,(lprint :msg "received data from server"
-			   :vars `((read_buffer.data)))))))
-	)))))
-
-
-    
+       "#pragma once"
+       (defstruct0 Point2D
+	   (x double)
+	 (y double))
+	    (defstruct0 PointBME
+		(x double)
+	      (temperature double)
+	      (humidity double)
+	      (pressure double)
+					;(gas_resistance double)
+	      )))
 
     
     (write-source
@@ -314,114 +440,27 @@
 		  vector
 		  algorithm
 		  cmath)
-       (include<> Wifi.h
-		  TcpConnection.h)
-       
+       (include   Wifi.h
+		  TcpConnection.h
+		  DataTypes.h
+		  Ransac.h)
        (do0
 	"#define FMT_HEADER_ONLY"
 	(include "core.h"))
 
 
-       ,@(let ((n-fifo (floor 320 1)))
-	   (loop for e in `((N_FIFO ,n-fifo)
-			    (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
-			    (RANSAC_INLIER_THRESHOLD 5.0 :type float)
-			    (RANSAC_MIN_INLIERS 2 ;,(floor (* .03 n-fifo))
-						))
-		 collect
-		 (destructuring-bind (name val &key (type 'int)) e
-		   (format nil "const ~a ~a = ~a;" type name val))))
-     
-     
-       (defstruct0 Point2D
-	   (x double)
-	 (y double))
-       (defstruct0 PointBME
-	   (x double)
-	 (temperature double)
-	 (humidity double)
-	 (pressure double)
-					;(gas_resistance double)
-	 )
+       ,@(loop for e in `((N_FIFO ,n-fifo)
+			  ;(RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
+					;(RANSAC_INLIER_THRESHOLD 5.0 :type float)
+			  ;(RANSAC_MIN_INLIERS 2)
+			  )
+	       collect
+	       (destructuring-bind (name val &key (type 'int)) e
+		 (format nil "const ~a ~a = ~a;" type name val)))
+       
        "std::deque<Point2D> fifo; "	;(N_FIFO,{0.0,0.0});
        "std::deque<PointBME> fifoBME; " ;(N_FIFO,{0.0,0.0,0.0,0.0});
 
-
-       
-
-       (defun distance (p m b)
-	 (declare (type Point2D p)
-		  (type double m b)
-		  (values double))
-	 (return (/ (abs (- p.y
-			    (+ (* m p.x)
-			       b)))
-		    (sqrt (+ 1 (* m m))))))
-
-
-       (defun ransac_line_fit (data m b inliers)
-	 (declare (type "std::deque<Point2D>&" data)
-		  (type "std::vector<Point2D>&" inliers)
-		  (type double& m b))
-	 (when (< (fifo.size) 2)
-	   (return))
-	 "std::random_device rd;"
-	 (comments "distrib0 must be one of the 5 most recent datapoints. i am not interested in fit's of the older data")
-	 (let (
-	       (gen (std--mt19937 (rd)))
-	       (distrib0 (std--uniform_int_distribution<> 0 5))
-	       (distrib (std--uniform_int_distribution<> 0 (- (data.size)
-							      1)))
-	       (best_inliers (std--vector<Point2D>))
-	       (best_m 0d0)
-	       (best_b 0d0))
-	   (dotimes (i RANSAC_MAX_ITERATIONS)
-	     (let ((idx1 (distrib gen))
-		   (idx2 (distrib0 gen))
-		   )
-	       (while (== idx1 idx2)
-		      (setf idx1 (distrib gen)))
-	       (let ((p1 (aref data idx1))
-		     (p2 (aref data idx2))
-		     (m (/ (- p2.y p1.y)
-			   (- p2.x p1.x)))
-		     (b (- p1.y
-			   (* m p1.x)))
-		     (inliers (std--vector<Point2D>)))
-		 (foreach (p data)
-			  (when (< (distance p m b)
-				   RANSAC_INLIER_THRESHOLD)
-			    (inliers.push_back p)))
-		 (when (< RANSAC_MIN_INLIERS 
-			  (inliers.size))
-		   (let ((sum_x 0d0)
-			 (sum_y 0d0))
-		     (foreach (p inliers)
-			      (incf sum_x p.x)
-			      (incf sum_y p.y))
-		     (let ((avg_x (/ sum_x (inliers.size)))
-			   (avg_y (/ sum_y (inliers.size)))
-			   (var_x 0d0)
-			   (cov_xy 0d0))
-		       (foreach (p inliers)
-				(incf var_x (* (- p.x avg_x)
-					       (- p.x avg_x)))
-
-				(incf cov_xy (* (- p.x avg_x)
-						(- p.y avg_y))))
-		       (let ((m (/ cov_xy var_x))
-			     (b (- avg_y (* m avg_x))))
-			 (when (< (best_inliers.size)
-				  (inliers.size))
-			   (setf best_inliers inliers
-				 best_m m
-				 best_b b))))))
-		 )))
-	   (setf m best_m
-		 b best_b
-		 inliers best_inliers)
-	   ))
-     
        (space
 	"extern \"C\" "
 	(progn
@@ -828,17 +867,21 @@
 						  (+ j -1 (scaleHeight p.y))))))
 
 		    (progn
-		      (let ((m 0d0)
-			    (b 0d0)
-			    (inliers ("std::vector<Point2D>"))
+		      (let ((ransac (Ransac fifo))
+			    (m (ransac.GetM) ; 0d0
+			       )
+			    (b (ransac.GetB) ;0d0
+			       )
+			    (inliers (ransac.GetInliers)
+				     ;("std::vector<Point2D>")
+				     )
 			    (hue 128)
 			    (sat 255)
 			    (bright 200)
 			    (col (pax_col_hsv hue
 					      sat bright))
 			    )
-			(ransac_line_fit fifo
-					 m b inliers)
+			
 			(comments "draw the fit as line")
 			(pax_draw_line buf col
 				       (scaleTime time_mi)
@@ -950,14 +993,7 @@
 						   font->default_size
 						   20
 						   140
-						   text)
-			      
-				    )))))
-
-		      )
-
-		    ))
-		))
+						   text)))))))))))
 	
 	  (defun app_main ()
 	    (ESP_LOGE TAG (string "welcome to the template app"))
@@ -970,8 +1006,8 @@
 		 (setf ret (nvs_flash_init)))
 	       (ESP_ERROR_CHECK ret)
 	       (ESP_LOGE TAG (string "esp wifi mode sta"))
-	       "Wifi wifi;" ;(wifi_init_sta)
-	       "TcpConnection tcp;"	    ; (connect_to_tcp_server)
+	       "Wifi wifi;"		;(wifi_init_sta)
+	       "TcpConnection tcp;"	; (connect_to_tcp_server)
 	       ))
 
 	    (bsp_init) 

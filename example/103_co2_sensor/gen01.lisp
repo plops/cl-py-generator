@@ -287,7 +287,7 @@
 	 (declare (type "std::deque<Point2D>&" data)
 		  (type "std::vector<Point2D>&" inliers)
 		  (type double& m b))
-	 (when (< (fifo.size) 2)
+	 (when (< (data.size) 2)
 	   (return))
 	 "std::random_device rd;"
 	 (comments "distrib0 must be one of the 5 most recent datapoints. i am not interested in fit's of the older data")

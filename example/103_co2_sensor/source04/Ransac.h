@@ -1,7 +1,12 @@
 #ifndef RANSAC_H
 #define RANSAC_H
 
-
+#include "DataTypes.h"
+#include <deque>
+#include <random>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 
 class Ransac  {
         private:

@@ -6,14 +6,16 @@
 #include <vector>
 #define FMT_HEADER_ONLY
 #include "core.h"
-
+const int RANSAC_MAX_ITERATIONS = 320;
+const float RANSAC_INLIER_THRESHOLD = 5.0;
+const int RANSAC_MIN_INLIERS = 2;
 #include "Ransac.h"
 double Ransac::distance(Point2D p, double m, double b) {
   return ((abs(((p.y) - (((m * p.x) + b))))) / (sqrt((1 + (m * m)))));
 }
 void Ransac::ransac_line_fit(std::deque<Point2D> &data, double &m, double &b,
                              std::vector<Point2D> &inliers) {
-  if (fifo.size() < 2) {
+  if (data.size() < 2) {
     return;
   }
   std::random_device rd;
