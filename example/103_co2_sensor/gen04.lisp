@@ -42,6 +42,260 @@
 	     )
 					;(:name gas_resistance :hue 100)
 	    )))
+    (let ((name `Wifi)
+	  ;(members `((:name retry-attempts :type int :default 0)))
+	  )
+    (write-class
+     :dir (asdf:system-relative-pathname
+	   'cl-py-generator
+	   *source-dir*)
+     :name name
+     :headers `()
+     :header-preamble `(do0
+			(include freertos/FreeRTOS.h
+				 freertos/task.h
+				 freertos/event_groups.h
+			 )
+					
+			)
+     :implementation-preamble
+     `(do0
+       (space "extern \"C\" "
+	      (progn
+		(include "esp_wifi.h"
+					;"esp_netif_types.h"
+			 "nvs_flash.h"
+			 "freertos/FreeRTOS.h"
+			 "freertos/task.h"
+			 "freertos/event_groups.h"
+			 )
+		(include lwip/sockets.h)
+		(include<> arpa/inet.h
+			   ) ;; inet_ntoa
+		(include "secret.h")
+		
+		(comments "event group should allow two different events"
+			  "1) we are connected to access point with an ip"
+			  "2) we failed to connect after a maximum amount of retries")
+		)))
+     :code `(do0
+	     (defclass ,name ()
+	       "private:"
+	       (space enum "{"
+		(comma
+		 (= WIFI_CONNECTED_BIT BIT0)
+		 (= WIFI_FAIL_BIT BIT1)
+		 (= EXAMPLE_ESP_MAXIMUM_RETRY 7))
+		"}")
+	       (space static int s_retry_num)
+	       (space static EventGroupHandle_t s_wifi_event_group)
+	       (defmethod event_handler (arg
+					 event_base
+					 event_id
+					 event_data)
+		 (declare (type void* arg event_data)
+			  (type esp_event_base_t event_base)
+			  (type int32_t event_id)
+			  (static))
+		 (if (logand (== WIFI_EVENT
+				 event_base)
+			     (== WIFI_EVENT_STA_START
+				 event_id))
+		     (esp_wifi_connect)
+		     (if (logand (== WIFI_EVENT event_base)
+				 (== WIFI_EVENT_STA_DISCONNECTED event_id))
+			 (do0
+			  (if (< s_retry_num EXAMPLE_ESP_MAXIMUM_RETRY)
+			      (do0
+			       (esp_wifi_connect)
+			       (incf s_retry_num)
+			       ,(lprint :msg
+					"retry to connect to the access point"))
+			      (xEventGroupSetBits s_wifi_event_group
+						  WIFI_FAIL_BIT))
+			  ,(lprint :msg "connection to the access point failed"))
+			 (when (logand (== IP_EVENT event_base)
+				       (== IP_EVENT_STA_GOT_IP event_id))
+			   (let ((event (static_cast<ip_event_got_ip_t*> event_data)))
+
+			     ,(lprint :msg "got ip:"
+				      :vars `(
+					      (IP2STR &event->ip_info.ip)))
+			     (setf s_retry_num 0)
+			     (xEventGroupSetBits
+			      s_wifi_event_group
+			      WIFI_CONNECTED_BIT))))))
+	       "public:"
+	       (defmethod ,name ()
+		 (declare
+		  (construct (s_retry_num 0)
+			     )
+		  (explicit)
+		  ;(noexcept)
+		  (values :constructor))
+		 (do0
+	   (setf s_wifi_event_group (xEventGroupCreate))
+	   (ESP_ERROR_CHECK (esp_netif_init))
+	   (ESP_ERROR_CHECK (esp_event_loop_create_default))
+	   (esp_netif_create_default_wifi_sta)
+	   (let ((cfg (space wifi_init_config_t (WIFI_INIT_CONFIG_DEFAULT))))
+	     (ESP_ERROR_CHECK (esp_wifi_init &cfg))
+	     (let ((instance_any_id (esp_event_handler_instance_t))
+		   (instance_got_ip (esp_event_handler_instance_t)))
+	       (ESP_ERROR_CHECK
+		(esp_event_handler_instance_register
+		 WIFI_EVENT
+		 ESP_EVENT_ANY_ID
+		 &event_handler
+		 nullptr
+		 &instance_any_id))
+	       (ESP_ERROR_CHECK
+		(esp_event_handler_instance_register
+		 IP_EVENT
+		 IP_EVENT_STA_GOT_IP
+		 &event_handler
+		 nullptr
+		 &instance_got_ip))
+	       (let ((wifi_config "{}"))
+		 (declare (type wifi_config_t wifi_config))
+		 ,@(loop for e in `((:key ssid :value (string "mi") :copy t)
+				    (:key password :value WIFI_SECRET :copy t)
+				    (:key threshold.authmode :value WIFI_AUTH_WPA2_PSK)
+				    (:key pmf_cfg.capable :value true)
+				    (:key pmf_cfg.required :value false))
+			 collect
+			 (destructuring-bind (&key key value copy) e
+			   (if copy
+			       (let ((str (format nil "~a_str" key)))
+				  
+				 `(let ((,str ,value))
+				    (declare (type "const char*" ,str))
+				    (std--memcpy  (dot wifi_config sta ,key)
+						  ,str
+						  (std--strlen ,str))))
+			       `(setf (dot wifi_config sta ,key)
+				      ,value)))))
+	       (ESP_ERROR_CHECK (esp_wifi_set_mode WIFI_MODE_STA))
+	       (ESP_ERROR_CHECK (esp_wifi_set_config WIFI_IF_STA &wifi_config))
+	       (ESP_ERROR_CHECK (esp_wifi_start))
+					;(ESP_LOGI TAG (string "wifi_init_sta finished"))
+	       ,(lprint :msg "wait until connection is established or connection failed s_retry_num times"
+			:vars `(s_retry_num))
+	       (let ((bits (xEventGroupWaitBits
+			    s_wifi_event_group
+			    (or WIFI_CONNECTED_BIT
+				WIFI_FAIL_BIT)
+			    pdFALSE
+			    pdFALSE
+			    portMAX_DELAY)))
+		 (if (and WIFI_CONNECTED_BIT
+			  bits)
+		     ,(lprint :msg "connected to ap")
+		     (if (and WIFI_FAIL_BIT
+			      bits)
+			 ,(lprint :msg "connection to ap failed")
+			 ,(lprint :msg "unexpected event")))
+
+		 )
+	       (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
+				 IP_EVENT
+				 IP_EVENT_STA_GOT_IP
+				 instance_got_ip
+				 ))
+	       (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
+				 WIFI_EVENT
+				 ESP_EVENT_ANY_ID
+				 instance_any_id
+				 ))
+	       (vEventGroupDelete s_wifi_event_group)))))))))
+
+    (let ((name `TcpConnection))
+    (write-class
+     :dir (asdf:system-relative-pathname
+	   'cl-py-generator
+	   *source-dir*)
+     :name name
+     :headers `()
+     :header-preamble `(do0
+			
+					
+			)
+     :implementation-preamble
+     `(do0
+       (space "extern \"C\" "
+	      (progn
+		(include "esp_wifi.h"
+					;"esp_netif_types.h"
+			 "nvs_flash.h"
+			 "freertos/FreeRTOS.h"
+			 "freertos/task.h"
+			 "freertos/event_groups.h"
+			 )
+		(include lwip/sockets.h)
+		(include<> arpa/inet.h
+			   ) ;; inet_ntoa
+		(include "secret.h")
+		
+		(comments "event group should allow two different events"
+			  "1) we are connected to access point with an ip"
+			  "2) we failed to connect after a maximum amount of retries")
+		)))
+     :code `(do0
+	     (defclass ,name ()
+	      
+	       "public:"
+	       (defmethod ,name ()
+		 (declare
+		  (construct (s_retry_num 0)
+			     )
+		  (explicit)
+		  
+		  (values :constructor))
+
+		  (do0
+		   (let ((port 12345)
+			 (ip_address (string "192.168.120.122"))
+			 (addr ((lambda ()
+				  (declare (constexpr)
+					   (capture port ip_address)
+					   (values sockaddr_in))
+			   "sockaddr_in addr{};"
+			   (setf addr.sin_family AF_INET
+				 addr.sin_port (htons port)
+				 )
+			   (inet_pton AF_INET ip_address &addr.sin_addr)
+			   (return addr))))
+			 (domain AF_INET)
+			 (type SOCK_STREAM)
+			 (protocol 0)
+			 (sock (socket domain type protocol)))
+		     (when (< sock 0)
+		       ,(lprint :msg "failed to create socket")
+		       )
+		     (when (!= 0 (connect sock
+				   ("reinterpret_cast<const sockaddr*>" &addr)
+				   (sizeof addr))) 
+		       ,(lprint :msg "failed to connect to socket"))
+	      ,(lprint :msg "connected to tcp server")
+	      (let ((buffer_size 1024)
+		    (read_buffer "std::array<char,buffer_size>{}"))
+		(declare (type "constexpr auto" buffer_size))
+		(let ((r (read sock
+			       (read_buffer.data)
+			       (- (read_buffer.size)
+				  1))))
+		  (when (< r 0)
+		    ,(lprint :msg "failed to read data from socket"))
+		  (setf (aref read_buffer r)
+			(char "\\0"))
+		  ,(lprint :msg "received data from server"
+			   :vars `((read_buffer.data)))))))
+	)))))
+
+
+    
+
+    
     (write-source
      (asdf:system-relative-pathname
       'cl-py-generator
@@ -83,195 +337,7 @@
        "std::deque<PointBME> fifoBME; " ;(N_FIFO,{0.0,0.0,0.0,0.0});
 
 
-     (do0
-	   #-nowifi
-	   (do0
-	    (space "extern \"C\" "
-		   (progn
-		     (include "esp_wifi.h"
-			      ;"esp_netif_types.h"
-			      "nvs_flash.h"
-			      "freertos/FreeRTOS.h"
-			      "freertos/task.h"
-			      "freertos/event_groups.h"
-			      )
-		     (include lwip/sockets.h)
-		     (include<> arpa/inet.h
-				) ;; inet_ntoa
-		     (include "secret.h")
-		     (space static EventGroupHandle_t s_wifi_event_group)
-		     (comments "event group should allow two different events"
-			       "1) we are connected to access point with an ip"
-			       "2) we failed to connect after a maximum amount of retries")
-		     
-		     ;(space static const char* (setf TAG (string "wifi station")))
-		     (space static int (setf s_retry_num 0))))
-	    
-	    (space enum "{"
-		   (comma
-		    (= WIFI_CONNECTED_BIT BIT0)
-		    (= WIFI_FAIL_BIT BIT1)
-		    (= EXAMPLE_ESP_MAXIMUM_RETRY 7))
-		   "}")
-	    (defun event_handler (arg
-				  event_base
-				  event_id
-				  event_data)
-	      (declare (type void* arg event_data)
-		       (type esp_event_base_t event_base)
-		       (type int32_t event_id)
-		       (static))
-	      (if (logand (== WIFI_EVENT
-			      event_base)
-			  (== WIFI_EVENT_STA_START
-			      event_id))
-		  (esp_wifi_connect)
-		  (if (logand (== WIFI_EVENT event_base)
-			      (== WIFI_EVENT_STA_DISCONNECTED event_id))
-		      (do0
-		       (if (< s_retry_num EXAMPLE_ESP_MAXIMUM_RETRY)
-			   (do0
-			    (esp_wifi_connect)
-			    (incf s_retry_num)
-			    ,(lprint :msg
-				      "retry to connect to the access point"))
-			   (xEventGroupSetBits s_wifi_event_group
-					       WIFI_FAIL_BIT))
-		       ,(lprint :msg "connection to the access point failed"))
-		      (when (logand (== IP_EVENT event_base)
-				    (== IP_EVENT_STA_GOT_IP event_id))
-			(let ((event (static_cast<ip_event_got_ip_t*> event_data)))
-
-			  ,(lprint :msg "got ip:"
-				   :vars `(
-					   (IP2STR &event->ip_info.ip)))
-			  (setf s_retry_num 0)
-			  (xEventGroupSetBits
-			   s_wifi_event_group
-			   WIFI_CONNECTED_BIT))))))
-	    (defun wifi_init_sta ()
-	      (setf s_wifi_event_group (xEventGroupCreate))
-	      (ESP_ERROR_CHECK (esp_netif_init))
-	      (ESP_ERROR_CHECK (esp_event_loop_create_default))
-	      (esp_netif_create_default_wifi_sta)
-	      (let ((cfg (space wifi_init_config_t (WIFI_INIT_CONFIG_DEFAULT))))
-		(ESP_ERROR_CHECK (esp_wifi_init &cfg))
-		(let ((instance_any_id (esp_event_handler_instance_t))
-		      (instance_got_ip (esp_event_handler_instance_t)))
-		  (ESP_ERROR_CHECK
-		   (esp_event_handler_instance_register
-		    WIFI_EVENT
-		    ESP_EVENT_ANY_ID
-		    &event_handler
-		    nullptr
-		    &instance_any_id))
-		  (ESP_ERROR_CHECK
-		   (esp_event_handler_instance_register
-		    IP_EVENT
-		    IP_EVENT_STA_GOT_IP
-		    &event_handler
-		    nullptr
-		    &instance_got_ip))
-		  (let ((wifi_config "{}"))
-		    (declare (type wifi_config_t wifi_config))
-		    ,@(loop for e in `((:key ssid :value (string "mi") :copy t)
-				       (:key password :value WIFI_SECRET :copy t)
-				       (:key threshold.authmode :value WIFI_AUTH_WPA2_PSK)
-				       (:key pmf_cfg.capable :value true)
-				       (:key pmf_cfg.required :value false))
-			    collect
-			    (destructuring-bind (&key key value copy) e
-			     (if copy
-				 (let ((str (format nil "~a_str" key)))
-				  
-				   `(let ((,str ,value))
-				      (declare (type "const char*" ,str))
-				      (std--memcpy  (dot wifi_config sta ,key)
-						    ,str
-						    (std--strlen ,str))))
-				 `(setf (dot wifi_config sta ,key)
-					,value)))))
-		  (ESP_ERROR_CHECK (esp_wifi_set_mode WIFI_MODE_STA))
-		  (ESP_ERROR_CHECK (esp_wifi_set_config WIFI_IF_STA &wifi_config))
-		  (ESP_ERROR_CHECK (esp_wifi_start))
-		  ;(ESP_LOGI TAG (string "wifi_init_sta finished"))
-		  ,(lprint :msg "wait until connection is established or connection failed s_retry_num times"
-			   :vars `(s_retry_num))
-		  (let ((bits (xEventGroupWaitBits
-			       s_wifi_event_group
-			       (or WIFI_CONNECTED_BIT
-				   WIFI_FAIL_BIT)
-			       pdFALSE
-			       pdFALSE
-			       portMAX_DELAY)))
-		    (if (and WIFI_CONNECTED_BIT
-			     bits)
-			,(lprint :msg "connected to ap")
-			(if (and WIFI_FAIL_BIT
-			     bits)
-			    ,(lprint :msg "connection to ap failed")
-			    ,(lprint :msg "unexpected event")))
-
-		    )
-		  (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
-				    IP_EVENT
-				    IP_EVENT_STA_GOT_IP
-				    instance_got_ip
-				    ))
-		  (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
-				    WIFI_EVENT
-				    ESP_EVENT_ANY_ID
-				    instance_any_id
-				    ))
-		  (vEventGroupDelete s_wifi_event_group))
-		))
-
-	    (defun connect_to_tcp_server ()
-	      (declare (values esp_err_t))
-	      (let ((port 12345)
-		    (ip_address (string "192.168.120.122"))
-		    (addr ((lambda ()
-			     (declare (constexpr)
-				      (capture port ip_address)
-				      (values sockaddr_in))
-			     "sockaddr_in addr{};"
-			     (setf addr.sin_family AF_INET
-				   addr.sin_port (htons port)
-				   )
-			     (inet_pton AF_INET ip_address &addr.sin_addr)
-			     (return addr))))
-		    (domain AF_INET)
-		    (type SOCK_STREAM)
-		    (protocol 0)
-		    (sock (socket domain type protocol)))
-		(when (< sock 0)
-		  ,(lprint :msg "failed to create socket")
-		  (return -1))
-		(when (!= 0 (connect sock
-				     ("reinterpret_cast<const sockaddr*>" &addr)
-				     (sizeof addr))) 
-		  ,(lprint :msg "failed to connect to socket"
-			   )
-		  (close sock)
-		  (return -2))
-		,(lprint :msg "connected to tcp server")
-		(let ((buffer_size 1024)
-		      (read_buffer "std::array<char,buffer_size>{}")
-		      )
-		  (declare (type "constexpr auto" buffer_size))
-		  (let ((r (read sock
-				 (read_buffer.data)
-				 (- (read_buffer.size)
-				    1))))
-		    (when (< r 0)
-		      ,(lprint :msg "failed to read data from socket")
-		      (close sock)
-		      (return -3))
-		    (setf (aref read_buffer r)
-			  (char "\\0"))
-		    ,(lprint :msg "received data from server"
-			     :vars `((read_buffer.data)))))
-		(return 0)))))
+       
 
        (defun distance (p m b)
 	 (declare (type Point2D p)
