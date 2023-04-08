@@ -1,19 +1,19 @@
 // no preamble
 extern "C" {
+#include "esp_netif_types.h"
 #include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/event_groups.h"
 #include "freertos/task.h"
 #include "lwip/sockets.h"
 #include "nvs_flash.h"
-#include "secret.h"
 #include <arpa/inet.h>
-// event group should allow two different events
-// 1) we are connected to access point with an ip
-// 2) we failed to connect after a maximum amount of retries
 };
+#define FMT_HEADER_ONLY
+#include "core.h"
+
 #include "TcpConnection.h"
-TcpConnection::TcpConnection() : s_retry_num(0) {
+TcpConnection::TcpConnection() {
   auto port = 12345;
   auto ip_address = "192.168.120.122";
   auto addr = ([port, ip_address]() -> sockaddr_in {

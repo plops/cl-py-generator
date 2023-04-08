@@ -55,6 +55,7 @@
 			(include freertos/FreeRTOS.h
 				 freertos/task.h
 				 freertos/event_groups.h
+				 esp_wifi.h
 			 )
 					
 			)
@@ -77,7 +78,10 @@
 		(comments "event group should allow two different events"
 			  "1) we are connected to access point with an ip"
 			  "2) we failed to connect after a maximum amount of retries")
-		)))
+		))
+       (do0
+	"#define FMT_HEADER_ONLY"
+	(include "core.h")))
      :code `(do0
 	     (defclass ,name ()
 	       "private:"
@@ -87,8 +91,8 @@
 		 (= WIFI_FAIL_BIT BIT1)
 		 (= EXAMPLE_ESP_MAXIMUM_RETRY 7))
 		"}")
-	       (space static int s_retry_num)
-	       (space static EventGroupHandle_t s_wifi_event_group)
+	       (space int s_retry_num)
+	       (space EventGroupHandle_t s_wifi_event_group)
 	       (defmethod event_handler (arg
 					 event_base
 					 event_id
@@ -96,7 +100,9 @@
 		 (declare (type void* arg event_data)
 			  (type esp_event_base_t event_base)
 			  (type int32_t event_id)
-			  (static))
+					;(static)
+			  ;(values esp_event_handler_t)
+			  )
 		 (if (logand (== WIFI_EVENT
 				 event_base)
 			     (== WIFI_EVENT_STA_START
@@ -146,14 +152,14 @@
 		(esp_event_handler_instance_register
 		 WIFI_EVENT
 		 ESP_EVENT_ANY_ID
-		 &event_handler
+		 (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
 		 nullptr
 		 &instance_any_id))
 	       (ESP_ERROR_CHECK
 		(esp_event_handler_instance_register
 		 IP_EVENT
 		 IP_EVENT_STA_GOT_IP
-		 &event_handler
+		  (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
 		 nullptr
 		 &instance_got_ip))
 	       (let ((wifi_config "{}"))
@@ -224,29 +230,29 @@
      `(do0
        (space "extern \"C\" "
 	      (progn
-		(include "esp_wifi.h"
-					;"esp_netif_types.h"
-			 "nvs_flash.h"
-			 "freertos/FreeRTOS.h"
-			 "freertos/task.h"
-			 "freertos/event_groups.h"
+		(include  "esp_wifi.h"
+			  "esp_netif_types.h"
+			  "nvs_flash.h"
+			  "freertos/FreeRTOS.h"
+			  "freertos/task.h"
+			  "freertos/event_groups.h"
 			 )
 		(include lwip/sockets.h)
 		(include<> arpa/inet.h
 			   ) ;; inet_ntoa
-		(include "secret.h")
 		
-		(comments "event group should allow two different events"
-			  "1) we are connected to access point with an ip"
-			  "2) we failed to connect after a maximum amount of retries")
-		)))
+		
+		))
+       (do0
+	"#define FMT_HEADER_ONLY"
+	(include "core.h")))
      :code `(do0
 	     (defclass ,name ()
 	      
 	       "public:"
 	       (defmethod ,name ()
 		 (declare
-		  (construct (s_retry_num 0)
+		  (construct
 			     )
 		  (explicit)
 		  
@@ -302,14 +308,18 @@
       (merge-pathnames #P"main.cpp"
 		       *source-dir*))
      `(do0
-       "#define FMT_HEADER_ONLY"
+       
        (include<> deque
 		  random
 		  vector
 		  algorithm
 		  cmath)
-
-       (include "core.h")
+       (include<> Wifi.h
+		  TcpConnection.h)
+       
+       (do0
+	"#define FMT_HEADER_ONLY"
+	(include "core.h"))
 
 
        ,@(let ((n-fifo (floor 320 1)))
@@ -434,6 +444,7 @@
 					;gpio_types.h
 		    driver/uart.h
 		    sys/time.h)
+	   (include nvs_flash.h)
 
 	   (include<> esp_log.h)
 
@@ -959,8 +970,9 @@
 		 (setf ret (nvs_flash_init)))
 	       (ESP_ERROR_CHECK ret)
 	       (ESP_LOGE TAG (string "esp wifi mode sta"))
-	       (wifi_init_sta)
-	       (connect_to_tcp_server) ))
+	       "Wifi wifi;" ;(wifi_init_sta)
+	       "TcpConnection tcp;"	    ; (connect_to_tcp_server)
+	       ))
 
 	    (bsp_init) 
 	  

@@ -1,10 +1,12 @@
-#define FMT_HEADER_ONLY
-#include "core.h"
+#include <TcpConnection.h>
+#include <Wifi.h>
 #include <algorithm>
 #include <cmath>
 #include <deque>
 #include <random>
 #include <vector>
+#define FMT_HEADER_ONLY
+#include "core.h"
 const int N_FIFO = 320;
 const int RANSAC_MAX_ITERATIONS = 320;
 const float RANSAC_INLIER_THRESHOLD = 5.0;
@@ -94,6 +96,7 @@ extern "C" {
 #include "driver/uart.h"
 #include "esp_system.h"
 #include "hardware.h"
+#include "nvs_flash.h"
 #include "pax_codecs.h"
 #include "pax_gfx.h"
 #include "soc/rtc_cntl_reg.h"
@@ -521,8 +524,8 @@ void app_main() {
   }
   ESP_ERROR_CHECK(ret);
   ESP_LOGE(TAG, "esp wifi mode sta");
-  wifi_init_sta();
-  connect_to_tcp_server();
+  Wifi wifi;
+  TcpConnection tcp;
 
   bsp_init();
   bsp_rp2040_init();
@@ -543,7 +546,7 @@ void app_main() {
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
     auto text_ =
-        fmt::format("build 21:19:10 of Saturday, 2023-04-08 (GMT+1)\n");
+        fmt::format("build 21:35:23 of Saturday, 2023-04-08 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
