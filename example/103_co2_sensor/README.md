@@ -482,3 +482,8 @@ void app_main(void)
   esp32-c3
   - https://www.youtube.com/watch?v=6By78JkCUoo
   - precision 1m .. 2m
+  
+- grpc on microcontrollers
+  - Efficient IoT with Protocol Buffers and gRPC - Vladimir Vivien,
+    {code} (Beginner Skill Level)
+    https://www.youtube.com/watch?v=c9z_o5lu0dI
