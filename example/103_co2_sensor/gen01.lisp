@@ -93,7 +93,11 @@
 			      "nvs_flash.h"
 			      "freertos/FreeRTOS.h"
 			      "freertos/task.h"
-			      "freertos/event_groups.h")
+			      "freertos/event_groups.h"
+			      )
+		     (include lwip/sockets.h)
+		     (include<> arpa/inet.h
+				) ;; inet_ntoa
 		     (include "secret.h")
 		     (space static EventGroupHandle_t s_wifi_event_group)
 		     (comments "event group should allow two different events"
@@ -220,7 +224,34 @@
 				    instance_any_id
 				    ))
 		  (vEventGroupDelete s_wifi_event_group))
-		))))
+		))
+
+	    (defun connect_tcp_server ()
+	      (declare (values esp_err_t))
+	      (let ((port 12345)
+		    (ip_address (string "localhost"))
+		    (addr ((lambda ()
+			     (declare (constexpr)
+				      (capture port ip_address)
+				      (values sockaddr_in))
+			     "sockaddr_in addr{};"
+			     (setf addr.sin_family AF_INET
+				   addr.sin_port (htons port)
+				   )
+			     (inet_pton AF_INET ip_address &addr.sin_addr)
+			     (return addr))))
+		    (sock (socket AF_INET SOCK_STREAM 0)))
+		(when (< sock 0)
+		  ,(lprint :msg "failed to create socket")
+		  (return -1))
+		(when (!= 0 (connect sock
+				     ("reinterpret_cast<const sockaddr*>" &addr)
+				     (sizeof addr)))
+		  ,(lprint :msg "failed to connect to socket"
+			   )
+		  (close sock)
+		  (return -2))
+		(return 0)))))
 
        (defun distance (p m b)
 	 (declare (type Point2D p)
@@ -842,7 +873,8 @@
 		 (setf ret (nvs_flash_init)))
 	       (ESP_ERROR_CHECK ret)
 	       (ESP_LOGE TAG (string "esp wifi mode sta"))
-	       (wifi_init_sta)))
+	       (wifi_init_sta)
+	       (connect_tcp_server) ))
 
 	    (bsp_init) 
 	  

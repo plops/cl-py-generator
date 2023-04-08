@@ -30,8 +30,10 @@ extern "C" {
 #include "freertos/FreeRTOS.h"
 #include "freertos/event_groups.h"
 #include "freertos/task.h"
+#include "lwip/sockets.h"
 #include "nvs_flash.h"
 #include "secret.h"
+#include <arpa/inet.h>
 static EventGroupHandle_t s_wifi_event_group;
 // event group should allow two different events
 // 1) we are connected to access point with an ip
@@ -125,6 +127,31 @@ void wifi_init_sta() {
   ESP_ERROR_CHECK(esp_event_handler_instance_unregister(
       WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
   vEventGroupDelete(s_wifi_event_group);
+}
+
+esp_err_t connect_tcp_server() {
+  auto port = 12345;
+  auto ip_address = "localhost";
+  auto addr = ([port, ip_address]() -> sockaddr_in {
+    sockaddr_in addr{};
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+
+    inet_pton(AF_INET, ip_address, &addr.sin_addr);
+    return addr;
+  })();
+  auto sock = socket(AF_INET, SOCK_STREAM, 0);
+  if (sock < 0) {
+    fmt::print("failed to create socket\n");
+    return -1;
+  }
+  if ((0) != (connect(sock, reinterpret_cast<const sockaddr *>(&addr),
+                      sizeof(addr)))) {
+    fmt::print("failed to connect to socket\n");
+    close(sock);
+    return -2;
+  }
+  return 0;
 }
 
 double distance(Point2D p, double m, double b) {
@@ -623,6 +650,7 @@ void app_main() {
   ESP_ERROR_CHECK(ret);
   ESP_LOGE(TAG, "esp wifi mode sta");
   wifi_init_sta();
+  connect_tcp_server();
 
   bsp_init();
   bsp_rp2040_init();
@@ -643,7 +671,7 @@ void app_main() {
     auto col = pax_col_hsv(hue, sat, bright);
     pax_background(&buf, col);
     auto text_ =
-        fmt::format("build 00:45:37 of Saturday, 2023-04-08 (GMT+1)\n");
+        fmt::format("build 10:48:01 of Saturday, 2023-04-08 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
