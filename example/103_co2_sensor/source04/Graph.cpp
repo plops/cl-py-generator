@@ -5,7 +5,7 @@
 #include <deque>
 
 #include "Graph.h"
-void Graph::CarbonDioxide() {
+void Graph::carbon_dioxide() {
   if (m_fifo.size() < 2) {
     return;
   }

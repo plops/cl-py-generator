@@ -822,7 +822,7 @@
 		  (graph-ymin 1s0)
 		  (graph-ymax (- pitch-y 1)))
 	     
-	     `(defmethod CarbonDioxide ()
+	     `(defmethod carbon_dioxide ()
 		
 		(when (< (m_fifo.size) 2)
 		  (return))
@@ -1314,7 +1314,7 @@
 							now)
 					   20 180)))
 
-		   (graph.CarbonDioxide)
+		   (graph.carbon_dioxide)
 		   
 		   (display.flush)
 		   
