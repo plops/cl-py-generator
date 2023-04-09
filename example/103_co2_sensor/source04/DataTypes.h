@@ -1,4 +1,5 @@
 #pragma once
+const int N_FIFO = 320;
 struct Point2D {
   double x;
   double y;

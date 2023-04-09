@@ -5,6 +5,7 @@ idf_component_register(
         "TcpConnection.cpp"
 	"Ransac.cpp"
 	"Display.cpp"
-    INCLUDE_DIRS
+	"Uart.cpp"
+   INCLUDE_DIRS
         "." "include"
 )

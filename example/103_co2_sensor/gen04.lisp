@@ -416,6 +416,15 @@
 		       *source-dir*))
      `(do0
        "#pragma once"
+      ; (space extern const char* TAG)
+       ,@(loop for e in `((N_FIFO ,n-fifo)
+					;(RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
+					;(RANSAC_INLIER_THRESHOLD 5.0 :type float)
+					;(RANSAC_MIN_INLIERS 2)
+			  )
+	       collect
+	       (destructuring-bind (name val &key (type 'int)) e
+		 (format nil "const ~a ~a = ~a;" type name val)))
        (defstruct0 Point2D
 	   (x double)
 	 (y double))
@@ -546,6 +555,125 @@
 				  #-nil
 				  ("static_cast<const uint8_t*>" buf.buf))))
 	       )))
+
+
+    (let ((name `Uart))
+      (write-class
+       :dir (asdf:system-relative-pathname
+	     'cl-py-generator
+	     *source-dir*)
+       :name name
+       :headers `()
+       :header-preamble `(do0
+			  (include DataTypes.h)
+			  (include<> deque)
+			   (space "extern \"C\" "
+	      (progn
+		(do0
+		 (include driver/uart.h))))
+			  )
+       :implementation-preamble
+       `(do0
+	 (do0
+	  "#define FMT_HEADER_ONLY"
+	  (include "core.h")
+	  (space "extern \"C\" "
+	      (progn
+		(do0
+		 (include<> esp_log.h)
+		 (include driver/uart.h))))
+	  
+	  ))
+       :code `(do0
+	       (defclass ,name ()	 
+		 "private:"
+		 "static constexpr char*TAG = \"mch2022-co2-uart\";"
+		 (space static constexpr uart_port_t (= CO2_UART UART_NUM_1))
+		 (space static constexpr size_t (=
+						 BUF_SIZE UART_FIFO_LEN))
+		 "public:"
+		 (defmethod measureCO2 (fifo)
+		   (declare (type "std::deque<Point2D>&" fifo))
+		   (progn
+		     (ESP_LOGE TAG (string "measure co2"))
+		     ,(let ((l `(#xff #x01 #x86 0 0 0 0 0 #x79)))
+			`(let ((command (curly ,@(loop for e in l
+						       collect
+						       `(hex ,e))))
+			       (response))
+			   (declare (type (array "unsigned char" ,(length l)) command response))
+			   (uart_write_bytes CO2_UART command ,(length l))
+			   (let ((l (uart_read_bytes CO2_UART response ,(length l)
+						     100)))
+			     (when (== 9 l)
+			       (when (logand (== #xff (aref response 0))
+					     (== #x86 (aref response 1)))
+				 (let ((co2 (+ (* 256 (aref response 2))
+					       (aref response 3))))
+				   (ESP_LOGE TAG (string "%s") (dot ,(sprint  :vars `(co2))
+								    (c_str)))
+				   (when (< (- N_FIFO 1) (fifo.size))
+				     (fifo.pop_back))
+				   (let ((tv_now (timeval )))
+				     (gettimeofday &tv_now nullptr)
+				     (let ((time_us (+ tv_now.tv_sec (* 1e-6 tv_now.tv_usec)))
+					   (p (Point2D (designated-initializer :x time_us
+									       :y (static_cast<double> co2)))))
+				       (fifo.push_front p)))))))))))
+		 (defmethod ,name ()
+		   (declare
+		    (construct
+		     )
+		    (explicit)	    
+		    (values :constructor))
+		   (do0
+		    (ESP_LOGE TAG (string "initialize uart"))
+		    (when (uart_is_driver_installed CO2_UART) 
+		      (return))
+
+		    #+nil (do0 (comments "i think uart_set_pin will configure the ports (and also check that they are valid)")
+			       ,@(loop for e in `((:gpio 27 :mode GPIO_MODE_OUTPUT)
+						  (:gpio 39 :mode GPIO_MODE_INPUT)
+						  )
+				       collect
+				       (destructuring-bind (&key gpio mode) e
+					 `(unless (== ESP_OK (gpio_set_direction ,gpio ,mode))
+					    (ESP_LOGE TAG (string ,(format nil "error initializing gpio ~a" gpio)))))))
+	  
+		    (unless (== ESP_OK (uart_set_pin CO2_UART
+						     27 ;; tx
+						     39 ;; rx
+						     UART_PIN_NO_CHANGE
+						     UART_PIN_NO_CHANGE))
+
+		      (ESP_LOGE TAG (string "error: uart_set_pin 27 39")))
+		    (unless (== ESP_OK
+				(uart_driver_install CO2_UART
+						     200 ;BUF_SIZE ;; rx
+						     0 ;BUF_SIZE ;; tx
+						     0 ;; queue length
+ 						     nullptr ;; queue out
+						     0 ;; interrupt
+						     )
+				)
+		      (ESP_LOGE TAG (string "error: uart_driver_install"))
+		      )
+		    (let (
+			  (config (uart_config_t
+				   (designated-initializer
+				    :baud_rate 9600
+				    :data_bits UART_DATA_8_BITS
+				    :parity UART_PARITY_DISABLE
+				    :stop_bits UART_STOP_BITS_1
+				    :flow_ctrl UART_HW_FLOWCTRL_DISABLE
+					;:rx_flow_ctrl_thresh 0
+				    :source_clk UART_SCLK_APB))))
+	    
+		      (unless (== ESP_OK (uart_param_config CO2_UART &config))
+			(ESP_LOGE TAG (string "error: uart_param_config")))
+		      ))
+		   ))
+	       )))
     
     
     (write-source
@@ -561,6 +689,7 @@
 		  algorithm
 		  cmath)
        (include   Wifi.h
+		  Uart.h
 		  Display.h
 		  TcpConnection.h
 		  DataTypes.h
@@ -570,14 +699,7 @@
 	(include "core.h"))
 
 
-       ,@(loop for e in `((N_FIFO ,n-fifo)
-					;(RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
-					;(RANSAC_INLIER_THRESHOLD 5.0 :type float)
-					;(RANSAC_MIN_INLIERS 2)
-			  )
-	       collect
-	       (destructuring-bind (name val &key (type 'int)) e
-		 (format nil "const ~a ~a = ~a;" type name val)))
+       
        
        "std::deque<Point2D> fifo; "	;(N_FIFO,{0.0,0.0});
        "std::deque<PointBME> fifoBME; " ;(N_FIFO,{0.0,0.0,0.0,0.0});
@@ -625,57 +747,12 @@
 	    (REG_WRITE RTC_CNTL_STORE0_REG 0)
 	    (esp_restart))
 
-	  "#define CO2_UART UART_NUM_1"
-	  "#define BUF_SIZE UART_FIFO_LEN" ;; 128
+	  ;"#define CO2_UART UART_NUM_1"
+	  ;"#define BUF_SIZE UART_FIFO_LEN" ;; 128
 
 	  ;;../esp-idf/docs/en/api-reference/peripherals/uart.rst
 	
-	  (defun uart_init ()
-	    (ESP_LOGE TAG (string "initialize uart"))
-	    (when (uart_is_driver_installed CO2_UART) 
-	      (return))
-
-	    #+nil (do0 (comments "i think uart_set_pin will configure the ports (and also check that they are valid)")
-		       ,@(loop for e in `((:gpio 27 :mode GPIO_MODE_OUTPUT)
-					  (:gpio 39 :mode GPIO_MODE_INPUT)
-					  )
-			       collect
-			       (destructuring-bind (&key gpio mode) e
-				 `(unless (== ESP_OK (gpio_set_direction ,gpio ,mode))
-				    (ESP_LOGE TAG (string ,(format nil "error initializing gpio ~a" gpio)))))))
 	  
-	    (unless (== ESP_OK (uart_set_pin CO2_UART
-					     27 ;; tx
-					     39 ;; rx
-					     UART_PIN_NO_CHANGE
-					     UART_PIN_NO_CHANGE))
-
-	      (ESP_LOGE TAG (string "error: uart_set_pin 27 39")))
-	    (unless (== ESP_OK
-			(uart_driver_install CO2_UART
-					     200     ;BUF_SIZE ;; rx
-					     0	     ;BUF_SIZE ;; tx
-					     0	     ;; queue length
- 					     nullptr ;; queue out
-					     0	     ;; interrupt
-					     )
-			)
-	      (ESP_LOGE TAG (string "error: uart_driver_install"))
-	      )
-	    (let (
-		  (config (uart_config_t
-			   (designated-initializer
-			    :baud_rate 9600
-			    :data_bits UART_DATA_8_BITS
-			    :parity UART_PARITY_DISABLE
-			    :stop_bits UART_STOP_BITS_1
-			    :flow_ctrl UART_HW_FLOWCTRL_DISABLE
-					;:rx_flow_ctrl_thresh 0
-			    :source_clk UART_SCLK_APB))))
-	    
-	      (unless (== ESP_OK (uart_param_config CO2_UART &config))
-		(ESP_LOGE TAG (string "error: uart_param_config")))
-	      ))
 
 	  (defun measureBME ()
 	    (progn
@@ -723,33 +800,7 @@
 		  (fifoBME.push_front p)))))
 	
 	
-	  (defun measureCO2 ()
-	    (progn
-	      (ESP_LOGE TAG (string "measure co2"))
-	      ,(let ((l `(#xff #x01 #x86 0 0 0 0 0 #x79)))
-		 `(let ((command (curly ,@(loop for e in l
-						collect
-						`(hex ,e))))
-			(response))
-		    (declare (type (array "unsigned char" ,(length l)) command response))
-		    (uart_write_bytes CO2_UART command ,(length l))
-		    (let ((l (uart_read_bytes CO2_UART response ,(length l)
-					      100)))
-		      (when (== 9 l)
-			(when (logand (== #xff (aref response 0))
-				      (== #x86 (aref response 1)))
-			  (let ((co2 (+ (* 256 (aref response 2))
-					(aref response 3))))
-			    (ESP_LOGE TAG (string "%s") (dot ,(sprint  :vars `(co2))
-							     (c_str)))
-			    (when (< (- N_FIFO 1) (fifo.size))
-			      (fifo.pop_back))
-			    (let ((tv_now (timeval )))
-			      (gettimeofday &tv_now nullptr)
-			      (let ((time_us (+ tv_now.tv_sec (* 1e-6 tv_now.tv_usec)))
-				    (p (Point2D (designated-initializer :x time_us
-									:y (static_cast<double> co2)))))
-				(fifo.push_front p)))))))))))
+	  
 
        
 	  #+Nil
@@ -782,7 +833,7 @@
 			  (graph-ymax (+ graph-ymax0 (* e-i pitch-y))))
 		      (destructuring-bind (&key name hue short-name unit fmt (scale 1s0)) e
 			`(defun ,(format nil "drawBME_~a" name)
-			     (display ;buf
+			     (display	;buf
 			      )
 			   (declare (type "pax_buf_t*" buf)
 				    (type "Display&" display))
@@ -848,7 +899,7 @@
 				 text_
 				 -1
 				 (+ -10 (* .5 (+ ,graph-ymin
-							       ,graph-ymax)))
+						 ,graph-ymax)))
 				 )
 				#+nil
 				(pax_draw_text buf
@@ -868,14 +919,14 @@
 					(dotimes (i 3)
 					  (dotimes (j 3)
 					    (display.set_pixel (+ i -1 (scaleTime p.x))
-							   (+ j -1 (scaleHeight (dot p ,name)))
+							       (+ j -1 (scaleHeight (dot p ,name)))
 
-							   ,hue 180 200)
+							       ,hue 180 200)
 					    #+nil (pax_set_pixel buf
-							   (pax_col_hsv ,hue 180 200)
-							   (+ i -1 (scaleTime p.x))
-							   (+ j -1 (scaleHeight (dot p ,name)))
-							   ))))
+								 (pax_col_hsv ,hue 180 200)
+								 (+ i -1 (scaleTime p.x))
+								 (+ j -1 (scaleHeight (dot p ,name)))
+								 ))))
 			     ))))))
 
 	  ,(let* ((pitch-y (floor 240 4))
@@ -883,7 +934,7 @@
 		  (graph-ymin 1s0)
 		  (graph-ymax (- pitch-y 1)))
 	     
-	     `(defun drawCO2 (display ;buf
+	     `(defun drawCO2 (display	;buf
 			      )
 		(declare (type "pax_buf_t*" buf)
 			 (type Display& display))
@@ -978,18 +1029,18 @@
 						text)))
 
 		       (display.large_text text_ -1 (+ -10 (* .5 (+ ,graph-ymin
-						      ,graph-ymax))))
+								    ,graph-ymax))))
 		       #+nil (pax_draw_text buf
-				      (hex #xffffffff) ; white
-				      font
-				      font->default_size
-				      (/ (- buf->width
-					    dims.x)
-					 2.0)
-				      (+ -10 (* .5 (+ ,graph-ymin
-						      ,graph-ymax)))
-				      text
-				      )))
+					    (hex #xffffffff) ; white
+					    font
+					    font->default_size
+					    (/ (- buf->width
+						  dims.x)
+					       2.0)
+					    (+ -10 (* .5 (+ ,graph-ymin
+							    ,graph-ymax)))
+					    text
+					    )))
 		   
 		    (for-range (p fifo)
 			       (comments "draw measurements as points")
@@ -1001,10 +1052,10 @@
 				    149 180 200
 				    )
 				   #+nil (pax_set_pixel buf
-						  (pax_col_hsv 149 180 200)
-						  (+ i -1 (scaleTime p.x))
-						  (+ j -1 (scaleHeight p.y))
-						  ))))
+							(pax_col_hsv 149 180 200)
+							(+ i -1 (scaleTime p.x))
+							(+ j -1 (scaleHeight p.y))
+							))))
 
 		    (progn
 		      (let ((ransac (Ransac fifo))
@@ -1025,25 +1076,25 @@
 			(comments "draw the fit as line")
 			
 			(display.line (scaleTime time_mi)
-				       (scaleHeight (+ b (* m time_mi)))
-				       (scaleTime time_ma)
-				       (scaleHeight (+ b (* m time_ma)))
-				       188 255 200)
+				      (scaleHeight (+ b (* m time_mi)))
+				      (scaleTime time_ma)
+				      (scaleHeight (+ b (* m time_ma)))
+				      188 255 200)
 			#+nil (pax_draw_line buf col
-				       (scaleTime time_mi)
-				       (scaleHeight (+ b (* m time_mi)))
-				       (scaleTime time_ma)
-				       (scaleHeight (+ b (* m time_ma)))
-				       )
+					     (scaleTime time_mi)
+					     (scaleHeight (+ b (* m time_mi)))
+					     (scaleTime time_ma)
+					     (scaleHeight (+ b (* m time_ma)))
+					     )
 			(comments "draw inliers as points")
 			(for-range (p inliers)
 				   (dotimes (i 3)
 				     (dotimes (j 3)
 				       (display.set_pixel
 					(+ i -1 (scaleTime p.x))
-						      (+ j -1 (scaleHeight p.y))
-						      0 255 255
-						      )
+					(+ j -1 (scaleHeight p.y))
+					0 255 255
+					)
 				       #+nil
 				       (pax_set_pixel buf
 						      (pax_col_hsv 0 255 255)
@@ -1066,31 +1117,31 @@
 			 (progn
 			   (display.small_text
 			    (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
-						     m b time_mi time_ma )
+					 m b time_mi time_ma )
 			    20 80
 			    160 128 128
 			    )
 			   #+nil (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
-						     m b time_mi time_ma ))
-				 (text (text_.c_str))
-				 (font pax_font_sky)
-				 (dims (pax_text_size font
-						      font->default_size
-						      text)))
-			     (pax_draw_text buf
-					    (pax_col_hsv 160 128 128)
+							   m b time_mi time_ma ))
+				       (text (text_.c_str))
+				       (font pax_font_sky)
+				       (dims (pax_text_size font
+							    font->default_size
+							    text)))
+				   (pax_draw_text buf
+						  (pax_col_hsv 160 128 128)
 					;(hex #xffffffff) ; white
-					    font
-					    font->default_size
-					    20
-					    80
-					    text)
+						  font
+						  font->default_size
+						  20
+						  80
+						  text)
 			      
-			     )
+				   )
 			   (progn
 			     (display.small_text
 			      (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
-						       x0 x0l)
+					   x0 x0l)
 			      20 60 130 128 128)
 			     #+nil
 			     (let ((text_ (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
@@ -1197,9 +1248,9 @@
 					;(nvs_flash_init)
 					;(wifi_init)
 	  
-	  
-	    (uart_init)
-
+	  (space Uart uart)
+	    #+nil(uart_init)
+	    
 	    (bsp_bme680_init)
 	    (bme680_set_mode (get_bme680) BME680_MEAS_FORCED)
 	    (bme680_set_oversampling (get_bme680)
@@ -1210,7 +1261,7 @@
 	  
 	  
 	    (while 1
-		   (measureCO2)
+		   (uart.measureCO2 fifo)
 
 		   (measureBME)
 		 
@@ -1245,7 +1296,7 @@
 		     (let ((now (dot (aref fifo 0) x))
 			   #+nil (nowtext_ 
 					;,(sprint :vars `(now))
-			     ))
+				   ))
 		       (display.small_text (fmt--format (string "now={:6.1f}")
 							now)
 					   20 180)
@@ -1295,7 +1346,7 @@
 					    text
 					    )))
 
-		   (drawCO2 display ;&buf
+		   (drawCO2 display	;&buf
 			    )
 		   
 		   (display.flush)
@@ -1303,7 +1354,7 @@
 		   (let ((message (rp2040_input_message_t)))
 		     (xQueueReceive buttonQueue
 				    &message
-				    2 ;10 ;portMAX_DELAY
+				    2	;10 ;portMAX_DELAY
 				    )
 
 		     (when (logand (== RP2040_INPUT_BUTTON_HOME
