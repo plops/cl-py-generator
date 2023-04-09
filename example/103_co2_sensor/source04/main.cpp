@@ -1,4 +1,5 @@
 #include "DataTypes.h"
+#include "Display.h"
 #include "Ransac.h"
 #include "TcpConnection.h"
 #include "Wifi.h"
@@ -25,12 +26,7 @@ extern "C" {
 #include <esp_log.h>
 
 static const char *TAG = "mch2022-co2-app";
-static pax_buf_t buf;
 xQueueHandle buttonQueue;
-
-void disp_flush() {
-  ili9341_write(get_ili9341(), static_cast<const uint8_t *>(buf.buf));
-}
 
 void exit_to_launcher() {
   REG_WRITE(RTC_CNTL_STORE0_REG, 0);
@@ -452,7 +448,7 @@ void app_main() {
   bsp_rp2040_init();
   buttonQueue = get_rp2040()->queue;
 
-  pax_buf_init(&buf, nullptr, 320, 240, PAX_BUF_16_565RGB);
+  Display display;
   uart_init();
   bsp_bme680_init();
   bme680_set_mode(get_bme680(), BME680_MEAS_FORCED);
@@ -461,12 +457,8 @@ void app_main() {
   while (1) {
     measureCO2();
     measureBME();
-    auto hue = 129;
-    auto sat = 0;
-    auto bright = 0;
-    auto col = pax_col_hsv(hue, sat, bright);
-    pax_background(&buf, col);
-    auto text_ = fmt::format("build 00:06:15 of Sunday, 2023-04-09 (GMT+1)\n");
+    display.background(129, 0, 0);
+    auto text_ = fmt::format("build 09:32:29 of Sunday, 2023-04-09 (GMT+1)\n");
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
@@ -483,7 +475,7 @@ void app_main() {
                     nowtext_.c_str());
     }
     drawCO2(&buf);
-    disp_flush();
+    display.flush();
     auto message = rp2040_input_message_t();
     xQueueReceive(buttonQueue, &message, 2);
     if (((RP2040_INPUT_BUTTON_HOME == message.input) && (message.state))) {
