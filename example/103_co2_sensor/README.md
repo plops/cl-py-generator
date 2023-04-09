@@ -542,3 +542,5 @@ void sendTemp(pb_TempEvent e)
     pre-built framework, build flags and many more).
  - PlatformIO is written in pure Python and doesn't depend on any
    additional libraries/tools from an operation system.
+ - PlatformIO: All you need to know in 10 Minutes
+   https://www.youtube.com/watch?v=PYSy_PLjytQ
