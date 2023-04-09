@@ -458,21 +458,19 @@ void app_main() {
     measureCO2();
     measureBME();
     display.background(129, 0, 0);
-    auto text_ = fmt::format("build 09:32:29 of Sunday, 2023-04-09 (GMT+1)\n");
+    auto text_;
     auto text = text_.c_str();
     auto font = pax_font_sky;
     auto dims = pax_text_size(font, font->default_size, text);
-    drawBME_temperature(&buf);
-    drawBME_humidity(&buf);
-    drawBME_pressure(&buf);
-    pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size,
-                  ((((buf.width) - (dims.x))) / ((2.0f))),
-                  ((((buf.height) - (dims.y))) / ((2.0f))), text);
+    drawBME_temperature(display);
+    drawBME_humidity(display);
+    drawBME_pressure(display);
+    display.small_text(
+        fmt::format("build 09:45:51 of Sunday, 2023-04-09 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
-      auto nowtext_ = fmt::format("now={:6.1f}", now);
-      pax_draw_text(&buf, 0xFFFFFFFF, font, font->default_size, 20, 180,
-                    nowtext_.c_str());
+      auto nowtext_;
+      display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
     }
     drawCO2(&buf);
     display.flush();
