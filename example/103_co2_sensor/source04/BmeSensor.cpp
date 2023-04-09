@@ -1,6 +1,11 @@
 // no preamble
 #define FMT_HEADER_ONLY
 #include "core.h"
+extern "C" {
+#include <bme680.h>
+#include <esp_log.h>
+#include <hardware.h>
+};
 
 #include "BmeSensor.h"
 void BmeSensor::measureBME(std::deque<PointBME> &fifoBME,

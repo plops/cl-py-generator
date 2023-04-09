@@ -674,6 +674,106 @@
 		      ))
 		   ))
 	       )))
+
+    (let ((name `BmeSensor))
+      (write-class
+       :dir (asdf:system-relative-pathname
+	     'cl-py-generator
+	     *source-dir*)
+       :name name
+       :headers `()
+       :header-preamble `(do0
+			  (include DataTypes.h)
+			  (include<> deque)
+			   (space "extern \"C\" "
+				  (progn
+				    (do0
+				    
+				     (include bme680.h)
+				     ))))
+       :implementation-preamble
+       `(do0
+	 (do0
+	  "#define FMT_HEADER_ONLY"
+	  (include "core.h")
+	  (space "extern \"C\" "
+	      (progn
+		(do0
+		 (include<> esp_log.h
+			    bme680.h
+			    hardware.h)
+		 )))))
+       :code `(do0
+	       (defclass ,name ()	 
+		 "private:"
+		 "static constexpr char*TAG = \"mch2022-co2-bme\";"
+		 
+		 "public:"
+		 (defmethod measureBME (fifoBME fifo)
+		   (declare (type "std::deque<PointBME>&" fifoBME)
+			    (type "std::deque<Point2D>&" fifo))
+		   (do0
+		    (progn
+		      (ESP_LOGE TAG (string "measure BME"))
+		      (let ((temperature 0d0)
+			    (humidity 0d0)
+			    (pressure 0d0)
+					;(gas_resistance 0d0)
+			    (bme (get_bme680))
+			    (s (bme680_status_t)))
+			(bme680_set_mode (get_bme680) BME680_MEAS_FORCED)
+			(bme680_get_status bme &s)
+			(bme680_get_temperature bme 
+						&temperature)
+			(bme680_get_humidity bme
+					     &humidity
+					     temperature)
+			(bme680_get_pressure bme
+					     &pressure
+					     temperature)
+			#+nil (bme680_get_gas_resistance bme
+							 &gas_resistance
+							 temperature))
+
+		      (ESP_LOGE TAG (string "%s")
+				(dot ,(sprint  :vars `((== bme nullptr)
+						       temperature humidity pressure ;gas_resistance
+						       s.new_data
+						       s.gas_measuring
+						       s.measuring
+						       s.gas_measuring_index
+						       s.gas_valid
+						       s.heater_stable))
+				     (c_str)))
+		      
+		      (when (< (- N_FIFO 1) (fifo.size))
+			(fifoBME.pop_back))
+		      (let ((tv_now (timeval )))
+			(gettimeofday &tv_now nullptr)
+			(let ((time_us (+ tv_now.tv_sec (* 1e-6 tv_now.tv_usec)))
+			      (p (PointBME (designated-initializer :x time_us
+								   :temperature temperature
+								   :humidity humidity
+								   :pressure pressure
+					;:gas_resistance gas_resistance
+								   ))))
+			  (fifoBME.push_front p)))))
+		   )
+		 (defmethod ,name ()
+		   (declare
+		    (construct
+		     )
+		    (explicit)	    
+		    (values :constructor))
+		   (do0 (bsp_bme680_init)
+		 (bme680_set_mode (get_bme680) BME680_MEAS_FORCED)
+		 (bme680_set_oversampling (get_bme680)
+					  BME680_OVERSAMPLING_X2
+					  BME680_OVERSAMPLING_X2
+					  BME680_OVERSAMPLING_X2
+					  ))
+		   ))
+	       )))
     
     
     (write-source
@@ -689,6 +789,7 @@
 		  algorithm
 		  cmath)
        (include   Wifi.h
+		  BmeSensor.h
 		  Uart.h
 		  Display.h
 		  TcpConnection.h
@@ -724,7 +825,7 @@
 					;wifi_connection.h
 					; soc/rtc.h
 		    soc/rtc_cntl_reg.h
-		    bme680.h
+		    
 					;gpio_types.h
 		    driver/uart.h
 		    sys/time.h)
@@ -747,57 +848,14 @@
 	    (REG_WRITE RTC_CNTL_STORE0_REG 0)
 	    (esp_restart))
 
-	  ;"#define CO2_UART UART_NUM_1"
-	  ;"#define BUF_SIZE UART_FIFO_LEN" ;; 128
+					;"#define CO2_UART UART_NUM_1"
+					;"#define BUF_SIZE UART_FIFO_LEN" ;; 128
 
 	  ;;../esp-idf/docs/en/api-reference/peripherals/uart.rst
 	
 	  
 
-	  (defun measureBME ()
-	    (progn
-	      (ESP_LOGE TAG (string "measure BME"))
-	      (let ((temperature 0d0)
-		    (humidity 0d0)
-		    (pressure 0d0)
-					;(gas_resistance 0d0)
-		    (bme (get_bme680))
-		    (s (bme680_status_t)))
-		(bme680_set_mode (get_bme680) BME680_MEAS_FORCED)
-		(bme680_get_status bme &s)
-		(bme680_get_temperature bme 
-					&temperature)
-		(bme680_get_humidity bme
-				     &humidity
-				     temperature)
-		(bme680_get_pressure bme
-				     &pressure
-				     temperature)
-		#+nil (bme680_get_gas_resistance bme
-						 &gas_resistance
-						 temperature))
-
-	      (ESP_LOGE TAG (string "%s") (dot ,(sprint  :vars `((== bme nullptr) temperature humidity pressure ;gas_resistance
-								 s.new_data
-								 s.gas_measuring
-								 s.measuring
-								 s.gas_measuring_index
-								 s.gas_valid
-								 s.heater_stable))
-					       (c_str)))
-	    
-	      (when (< (- N_FIFO 1) (fifo.size))
-		(fifoBME.pop_back))
-	      (let ((tv_now (timeval )))
-		(gettimeofday &tv_now nullptr)
-		(let ((time_us (+ tv_now.tv_sec (* 1e-6 tv_now.tv_usec)))
-		      (p (PointBME (designated-initializer :x time_us
-							   :temperature temperature
-							   :humidity humidity
-							   :pressure pressure
-					;:gas_resistance gas_resistance
-							   ))))
-		  (fifoBME.push_front p)))))
+	  
 	
 	
 	  
@@ -1248,22 +1306,17 @@
 					;(nvs_flash_init)
 					;(wifi_init)
 	  
-	  (space Uart uart)
+	    (space Uart uart)
 	    #+nil(uart_init)
+
+	    (space BmeSensor bme)
 	    
-	    (bsp_bme680_init)
-	    (bme680_set_mode (get_bme680) BME680_MEAS_FORCED)
-	    (bme680_set_oversampling (get_bme680)
-				     BME680_OVERSAMPLING_X2
-				     BME680_OVERSAMPLING_X2
-				     BME680_OVERSAMPLING_X2
-				     )
 	  
 	  
 	    (while 1
 		   (uart.measureCO2 fifo)
 
-		   (measureBME)
+		   (bme.measureBME fifoBME fifo)
 		 
 		   (display.background 129 0 0)
 
