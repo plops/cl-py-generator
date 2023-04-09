@@ -11,6 +11,7 @@ class Graph  {
         std::deque<Point2D>& m_fifo; 
         std::deque<PointBME>& m_fifoBME; 
         public:
+        void CarbonDioxide ()       ;  
         void temperature ()       ;  
         void humidity ()       ;  
         void pressure ()       ;  

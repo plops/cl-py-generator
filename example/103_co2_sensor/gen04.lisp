@@ -796,7 +796,8 @@
        `(do0
 	 (do0
 	  "#define FMT_HEADER_ONLY"
-	  (include "core.h")
+	  (include core.h
+		   Ransac.h)
 	  (include<> deque)
 	  #+nil
 	  (space "extern \"C\" "
@@ -815,89 +816,335 @@
 
 		 
 		 "public:"
-		 ,@(let* ((pitch-y (floor 240 4))
-		   (graph-xmax 318s0)
-		   (graph-ymin0 1s0)
-		   (graph-ymax0 (- pitch-y 1))) 
-	      (loop for e in l-data 
-		    and e-i from 1
-		    collect
-		    (let ((graph-ymin (+ graph-ymin0 (* e-i pitch-y)))
-			  (graph-ymax (+ graph-ymax0 (* e-i pitch-y))))
-		      (destructuring-bind (&key name hue short-name unit fmt (scale 1s0)) e
-			`(defmethod ,(format nil "~a" name)
-			     (
-			      )
-			   (declare (type "pax_buf_t*" buf)
-				    (type "Display&" display))
-			   (let ((time_ma (dot (aref m_fifoBME 0) x))
-				 (time_mi (dot (aref m_fifoBME (- (dot m_fifoBME (size)) 1))
-					       x))
-				 (time_delta (- time_ma time_mi))
-				 (scaleTime (lambda (x)
-					      (declare (type float x)
-						       (capture "&")
-						       (values float))
-					      (let ((res (* ,graph-xmax (/ (- x time_mi )
-									   time_delta))))
-						(do0 (when (< res 1s0)
-						       (setf res 1s0))
-						     (when (< ,graph-xmax res)
-						       (setf res ,graph-xmax)))
-						(return res))))
-				 (min_max_y (std--minmax_element (m_fifoBME.begin)
-								 (m_fifoBME.end)
-								 (lambda (p1 p2)
-								   (declare (type "const PointBME&" p1 p2))
-								   (return (< (dot p1 ,name) (dot p2 ,name)))
-								   )))
-				 (min_y (-> min_max_y.first ,name))
-				 (max_y (-> min_max_y.second ,name))
-				 (scaleHeight (lambda (v)
-						(declare (type float v)
-							 (capture "&")
-							 (values float))
-				       
-						(let ((mi min_y)
-						      (ma max_y)
-						      (res (+ ,graph-ymin
-							      (* ,graph-ymax0 (- 1s0
-										 (/ (- v mi)
-										    (- ma mi)))))))
-						  (do0 (when (< res ,graph-ymin)
-							 (setf res ,graph-ymin))
-						       (when (< ,graph-ymax res)
-							 (setf res ,graph-ymax)))
-						  (return res)))))
-			     (do0
-			      (comments "write latest measurement")
-			      (let (
+
+		 ,(let* ((pitch-y (floor 240 4))
+		  (graph-xmax 318s0)
+		  (graph-ymin 1s0)
+		  (graph-ymax (- pitch-y 1)))
+	     
+	     `(defmethod CarbonDioxide ()
+		
+		(when (< (m_fifo.size) 2)
+		  (return))
+		(let ((hue 12)
+		      (sat 255)
+		      (bright 255)
+		      (col (pax_col_hsv hue
+					sat bright))
+		      )
+		  (let ((time_ma (dot (aref m_fifo 0) x))
+			(time_mi (dot (aref m_fifo (- (dot m_fifo (size)) 1))
+				      x))
+			(time_delta (- time_ma time_mi))
+			(scaleTime (lambda (x)
+				     (declare (type float x)
+					      (capture "&")
+					      (values float))
+				     (let ((res (* ,graph-xmax (/ (- x time_mi )
+								  time_delta))))
+				       (do0 (when (< res 1s0)
+					      (setf res 1s0))
+					    (when (< ,graph-xmax res)
+					      (setf res ,graph-xmax)))
+				       (return res))))
+			(min_max_y (std--minmax_element (m_fifo.begin)
+							(m_fifo.end)
+							(lambda (p1 p2)
+							  (declare (type "const Point2D&" p1 p2))
+							  (return (< p1.y p2.y))
+							  )))
+			(min_y min_max_y.first->y)
+			(max_y min_max_y.second->y)
+			(scaleHeight (lambda
+					 (v)
+				       (declare (type float v)
+						(capture "&")
+						(values float))
+				       (comments "v is in the range 400 .. 5000"
+						 "map to 0 .. 239")
+				       (let ((mi 400s0)
+					     (ma (? (< max_y 1200s0) 1200s0 5000s0))
+					     (res (+ ,graph-ymin
+						     (* ,graph-ymax
+							(- 1s0
+							   (/ (- v mi)
+							      (- ma mi)))))))
+					 (when (< res ,graph-ymin)
+					   (setf res ,graph-ymin))
+					 (when (< ,graph-ymax res)
+					   (setf res ,graph-ymax))
+					 (return res))
+				       ;; note: i think  to and bottom are inverted on screen 
+				       )))
+		    (do0
+		     (comments "write latest measurement")
+		     (let (
+			   (co2 (dot (aref m_fifo 0) y))
+			     )
+
+		       (m_display.large_text (fmt--format
+				   (string 
+				    "CO2={:4.0f}ppm"
+				    )
+				   co2)
+					   -1 (+ -10 (* .5 (+ ,graph-ymin
+							      ,graph-ymax))))
+		       ))
+		   
+		    (for-range (p m_fifo)
+			       (comments "draw measurements as points")
+			       (dotimes (i 3)
+				 (dotimes (j 3)
+				   (m_display.set_pixel
+				    (+ i -1 (scaleTime p.x))
+				    (+ j -1 (scaleHeight p.y))
+				    149 180 200
+				    ))))
+
+		    (progn
+		      (let ((ransac (Ransac m_fifo))
+			    (m (ransac.GetM) ; 0d0
+			       )
+			    (b (ransac.GetB) ;0d0
+			       )
+			    (inliers (ransac.GetInliers)
+					;("std::vector<Point2D>")
+				     )
+			    (hue 128)
+			    (sat 255)
+			    (bright 200)
+			    (col (pax_col_hsv hue
+					      sat bright))
+			    )
+			
+			(comments "draw the fit as line")
+			
+			(m_display.line (scaleTime time_mi)
+				      (scaleHeight (+ b (* m time_mi)))
+				      (scaleTime time_ma)
+				      (scaleHeight (+ b (* m time_ma)))
+				      188 255 200)
+			#+nil (pax_draw_line buf col
+					     (scaleTime time_mi)
+					     (scaleHeight (+ b (* m time_mi)))
+					     (scaleTime time_ma)
+					     (scaleHeight (+ b (* m time_ma)))
+					     )
+			(comments "draw inliers as points")
+			(for-range (p inliers)
+				   (dotimes (i 3)
+				     (dotimes (j 3)
+				       (m_display.set_pixel
+					(+ i -1 (scaleTime p.x))
+					(+ j -1 (scaleHeight p.y))
+					0 255 255
+					)
+				       #+nil
+				       (pax_set_pixel buf
+						      (pax_col_hsv 0 255 255)
+						      (+ i -1 (scaleTime p.x))
+						      (+ j -1 (scaleHeight p.y))
+						      ))))
+			)
+
+		     
+		     
+
+		      (do0
+		       (comments "compute when a value of 1200ppm is reached")
+		       (let ((x0 (/ (- 1200d0 b)
+				    m))
+			     (x0l (/ (- 500d0 b)
+				     m)))
+
+			 
+			 (progn
+			   (m_display.small_text
+			    (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
+					 m b time_mi time_ma )
+			    20 80
+			    160 128 128
+			    )
+			   #+nil (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
+							   m b time_mi time_ma ))
+				       (text (text_.c_str))
+				       (font pax_font_sky)
+				       (dims (pax_text_size font
+							    font->default_size
+							    text)))
+				   (pax_draw_text buf
+						  (pax_col_hsv 160 128 128)
+					;(hex #xffffffff) ; white
+						  font
+						  font->default_size
+						  20
+						  80
+						  text)
 			      
-				    (,name (dot (aref m_fifoBME 0) ,name))
+				   )
+			   (progn
+			     (m_display.small_text
+			      (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
+					   x0 x0l)
+			      20 60 130 128 128)
+			     #+nil
+			     (let ((text_ (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
+						       x0 x0l))
+				   (text (text_.c_str))
+				   (font pax_font_sky)
+				   (dims (pax_text_size font
+							font->default_size
+							text)))
+			       (pax_draw_text buf
+					      (pax_col_hsv 130 128 128)
+					;(hex #xffffffff) ; white
+					      font
+					      font->default_size
+					      20
+					      60
+					      text)
+			      
+			       ))
+			   )
+		   
+			 (if (< time_ma x0)
+			     (do0 (comments "if predicted intersection time is in the future, print it")
+				  (let ((time_value (static_cast<int> (- x0 time_ma)))
+					(hours (int (/ time_value 3600)))
+					(minutes (int (/ (% time_value 3600) 60)))
+					(seconds (% time_value 60))
+					(text_ (fmt--format (string "air room in (h:m:s) {:02d}:{:02d}:{:02d}")
+							    hours minutes seconds))
+					(text (text_.c_str))
+					(font pax_font_sky)
+					(dims (pax_text_size font
+							     font->default_size
+							     text)))
+				    (m_display.small_text
+				     text_
+				     20 140
+				     30 128 128)
+		 		    #+nil
+				    (pax_draw_text buf
+						   (pax_col_hsv 30 128 128)
+					; (hex #xffffffff) ; white
+						   font
+						   font->default_size
+						   20
+						   140
+						   text)
+			      
+				    ))
+			     (do0 (comments "if predicted intersection time is in the past, then predict when airing should stop")
+				  (let ((x0 (/ (- 500d0 b)
+					       m))
+					(time_value (static_cast<int> (- x0 time_ma)))
+					(hours (int (/ time_value 3600)))
+					(minutes (int (/ (% time_value 3600) 60)))
+					(seconds (% time_value 60))
+					(text_ (fmt--format (string "air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}")
+							    hours minutes seconds))
+					(text (text_.c_str))
+					(font pax_font_sky)
+					(dims (pax_text_size font
+							     font->default_size
+							     text)))
+
+				    (m_display.small_text
+				     text_
+				     20 140
+				     90 128 128)
+				    #+nil
+				    (pax_draw_text buf
+						   (pax_col_hsv 90 128 128)
+					;(hex #xffffffff) ; white
+						   font
+						   font->default_size
+						   20
+						   140
+						   text)))))))))))
+		 
+		 ,@(let* ((pitch-y (floor 240 4))
+			  (graph-xmax 318s0)
+			  (graph-ymin0 1s0)
+			  (graph-ymax0 (- pitch-y 1))) 
+		     (loop for e in l-data 
+			   and e-i from 1
+			   collect
+			   (let ((graph-ymin (+ graph-ymin0 (* e-i pitch-y)))
+				 (graph-ymax (+ graph-ymax0 (* e-i pitch-y))))
+			     (destructuring-bind (&key name hue short-name unit fmt (scale 1s0)) e
+			       `(defmethod ,(format nil "~a" name)
+				    (
+				     )
+				  (let ((time_ma (dot (aref m_fifoBME 0) x))
+					(time_mi (dot (aref m_fifoBME (- (dot m_fifoBME (size)) 1))
+						      x))
+					(time_delta (- time_ma time_mi))
+					(scaleTime (lambda (x)
+						     (declare (type float x)
+							      (capture "&")
+							      (values float))
+						     (let ((res (* ,graph-xmax (/ (- x time_mi )
+										  time_delta))))
+						       (do0 (when (< res 1s0)
+							      (setf res 1s0))
+							    (when (< ,graph-xmax res)
+							      (setf res ,graph-xmax)))
+						       (return res))))
+					(min_max_y (std--minmax_element (m_fifoBME.begin)
+									(m_fifoBME.end)
+									(lambda (p1 p2)
+									  (declare (type "const PointBME&" p1 p2))
+									  (return (< (dot p1 ,name) (dot p2 ,name)))
+									  )))
+					(min_y (-> min_max_y.first ,name))
+					(max_y (-> min_max_y.second ,name))
+					(scaleHeight (lambda (v)
+						       (declare (type float v)
+								(capture "&")
+								(values float))
+				       
+						       (let ((mi min_y)
+							     (ma max_y)
+							     (res (+ ,graph-ymin
+								     (* ,graph-ymax0 (- 1s0
+											(/ (- v mi)
+											   (- ma mi)))))))
+							 (do0 (when (< res ,graph-ymin)
+								(setf res ,graph-ymin))
+							      (when (< ,graph-ymax res)
+								(setf res ,graph-ymax)))
+							 (return res)))))
+				    (do0
+				     (comments "write latest measurement")
+				     (let (
+			      
+					   (,name (dot (aref m_fifoBME 0) ,name))
 			     
 			    
-				    )
-				(m_display.large_text
-				 (fmt--format
-					    (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
-					     ,(format nil "~a=~a~a" short-name fmt unit)
-					     )
-					    (* ,scale ,name))
-				 -1
-				 (+ -10 (* .5 (+ ,graph-ymin
-						 ,graph-ymax)))
-				 )
-			))
+					   )
+				       (m_display.large_text
+					(fmt--format
+					 (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
+					  ,(format nil "~a=~a~a" short-name fmt unit)
+					  )
+					 (* ,scale ,name))
+					-1
+					(+ -10 (* .5 (+ ,graph-ymin
+							,graph-ymax)))
+					)
+				       ))
 		    
-			     (for-range (p m_fifoBME)
-					(comments "draw measurements as points")
-					(dotimes (i 3)
-					  (dotimes (j 3)
-					    (m_display.set_pixel (+ i -1 (scaleTime p.x))
-							       (+ j -1 (scaleHeight (dot p ,name)))
+				    (for-range (p m_fifoBME)
+					       (comments "draw measurements as points")
+					       (dotimes (i 3)
+						 (dotimes (j 3)
+						   (m_display.set_pixel (+ i -1 (scaleTime p.x))
+									(+ j -1 (scaleHeight (dot p ,name)))
 
-							       ,hue 180 200))))
-			     ))))))
+									,hue 180 200))))
+				    ))))))
 		 (defmethod ,name (display fifo fifoBME)
 		   (declare
 		    (type Display& display)
@@ -996,322 +1243,6 @@
 
 	  
 	
-	
-	  
-
-       
-	  #+Nil
-	  (defun scaleHeight (v)
-	    (declare (type float v)
-		     (values float))
-	    (comments "v is in the range 400 .. 5000"
-		      "map to 0 .. 239")
-	    (let ((mi 400s0)
-		  (ma 5000s0)
-		  (res (* 239s0 (- 1s0
-				   (/ (- v mi)
-				      (- ma mi))))))
-	      (when (< res 0s0)
-		(setf res 0s0))
-	      (when (< 239s0 res)
-		(setf res 239s0))
-	      (return res))
-	    ;; note: i think  to and bottom are inverted on screen 
-	    )
-
-	  
-
-	  ,(let* ((pitch-y (floor 240 4))
-		  (graph-xmax 318s0)
-		  (graph-ymin 1s0)
-		  (graph-ymax (- pitch-y 1)))
-	     
-	     `(defun drawCO2 (display	;buf
-			      )
-		(declare (type "pax_buf_t*" buf)
-			 (type Display& display))
-		(when (< (fifo.size) 2)
-		  (return))
-		(let ((hue 12)
-		      (sat 255)
-		      (bright 255)
-		      (col (pax_col_hsv hue
-					sat bright))
-		      )
-		  (let ((time_ma (dot (aref fifo 0) x))
-			(time_mi (dot (aref fifo (- (dot fifo (size)) 1))
-				      x))
-			(time_delta (- time_ma time_mi))
-			(scaleTime (lambda (x)
-				     (declare (type float x)
-					      (capture "&")
-					      (values float))
-				     (let ((res (* ,graph-xmax (/ (- x time_mi )
-								  time_delta))))
-				       (do0 (when (< res 1s0)
-					      (setf res 1s0))
-					    (when (< ,graph-xmax res)
-					      (setf res ,graph-xmax)))
-				       (return res))))
-			(min_max_y (std--minmax_element (fifo.begin)
-							(fifo.end)
-							(lambda (p1 p2)
-							  (declare (type "const Point2D&" p1 p2))
-							  (return (< p1.y p2.y))
-							  )))
-			(min_y min_max_y.first->y)
-			(max_y min_max_y.second->y)
-			(scaleHeight (lambda
-					 (v)
-				       (declare (type float v)
-						(capture "&")
-						(values float))
-				       (comments "v is in the range 400 .. 5000"
-						 "map to 0 .. 239")
-				       (let ((mi 400s0)
-					     (ma (? (< max_y 1200s0) 1200s0 5000s0))
-					     (res (+ ,graph-ymin
-						     (* ,graph-ymax
-							(- 1s0
-							   (/ (- v mi)
-							      (- ma mi)))))))
-					 (when (< res ,graph-ymin)
-					   (setf res ,graph-ymin))
-					 (when (< ,graph-ymax res)
-					   (setf res ,graph-ymax))
-					 (return res))
-				       ;; note: i think  to and bottom are inverted on screen 
-				       )))
-		    #+nil (dotimes (i (- (fifo.size) 1))
-			    (let ((a (aref fifo i))
-				  (b (aref fifo (+ i 1))))
-			      (comments "draw measurements as line segments")
-			      (pax_draw_line buf col
-					     (scaleTime a.x)
-					     (scaleHeight a.y)
-					     (scaleTime b.x)
-					     (scaleHeight b.y))))
-		    (do0
-		     (comments "write latest measurement")
-		     (let (
-			   (co2 (dot (aref fifo 0) y))
-			   #+nil ,@(loop for e in `(temperature
-						    humidity
-						    pressure
-						    gas_resistance)
-					 collect
-					 `(,e (dot (aref fifoBME 0) ,e)))
-			     
-			   (text_ (fmt--format
-				   (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
-				    "CO2={:4.0f}ppm"
-				    )
-				   co2
-					;temperature
-					; humidity
-					; (/ pressure 1d3)
-					;(/ gas_resistance 1d6)
-				   ))
-			   (font	;pax_font_sky
-			     pax_font_saira_condensed
-			     )
-			   (text (text_.c_str))
-			   (dims (pax_text_size font
-						font->default_size
-						text)))
-
-		       (display.large_text text_ -1 (+ -10 (* .5 (+ ,graph-ymin
-								    ,graph-ymax))))
-		       #+nil (pax_draw_text buf
-					    (hex #xffffffff) ; white
-					    font
-					    font->default_size
-					    (/ (- buf->width
-						  dims.x)
-					       2.0)
-					    (+ -10 (* .5 (+ ,graph-ymin
-							    ,graph-ymax)))
-					    text
-					    )))
-		   
-		    (for-range (p fifo)
-			       (comments "draw measurements as points")
-			       (dotimes (i 3)
-				 (dotimes (j 3)
-				   (display.set_pixel
-				    (+ i -1 (scaleTime p.x))
-				    (+ j -1 (scaleHeight p.y))
-				    149 180 200
-				    )
-				   #+nil (pax_set_pixel buf
-							(pax_col_hsv 149 180 200)
-							(+ i -1 (scaleTime p.x))
-							(+ j -1 (scaleHeight p.y))
-							))))
-
-		    (progn
-		      (let ((ransac (Ransac fifo))
-			    (m (ransac.GetM) ; 0d0
-			       )
-			    (b (ransac.GetB) ;0d0
-			       )
-			    (inliers (ransac.GetInliers)
-					;("std::vector<Point2D>")
-				     )
-			    (hue 128)
-			    (sat 255)
-			    (bright 200)
-			    (col (pax_col_hsv hue
-					      sat bright))
-			    )
-			
-			(comments "draw the fit as line")
-			
-			(display.line (scaleTime time_mi)
-				      (scaleHeight (+ b (* m time_mi)))
-				      (scaleTime time_ma)
-				      (scaleHeight (+ b (* m time_ma)))
-				      188 255 200)
-			#+nil (pax_draw_line buf col
-					     (scaleTime time_mi)
-					     (scaleHeight (+ b (* m time_mi)))
-					     (scaleTime time_ma)
-					     (scaleHeight (+ b (* m time_ma)))
-					     )
-			(comments "draw inliers as points")
-			(for-range (p inliers)
-				   (dotimes (i 3)
-				     (dotimes (j 3)
-				       (display.set_pixel
-					(+ i -1 (scaleTime p.x))
-					(+ j -1 (scaleHeight p.y))
-					0 255 255
-					)
-				       #+nil
-				       (pax_set_pixel buf
-						      (pax_col_hsv 0 255 255)
-						      (+ i -1 (scaleTime p.x))
-						      (+ j -1 (scaleHeight p.y))
-						      ))))
-			)
-
-		     
-		     
-
-		      (do0
-		       (comments "compute when a value of 1200ppm is reached")
-		       (let ((x0 (/ (- 1200d0 b)
-				    m))
-			     (x0l (/ (- 500d0 b)
-				     m)))
-
-			 
-			 (progn
-			   (display.small_text
-			    (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
-					 m b time_mi time_ma )
-			    20 80
-			    160 128 128
-			    )
-			   #+nil (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
-							   m b time_mi time_ma ))
-				       (text (text_.c_str))
-				       (font pax_font_sky)
-				       (dims (pax_text_size font
-							    font->default_size
-							    text)))
-				   (pax_draw_text buf
-						  (pax_col_hsv 160 128 128)
-					;(hex #xffffffff) ; white
-						  font
-						  font->default_size
-						  20
-						  80
-						  text)
-			      
-				   )
-			   (progn
-			     (display.small_text
-			      (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
-					   x0 x0l)
-			      20 60 130 128 128)
-			     #+nil
-			     (let ((text_ (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
-						       x0 x0l))
-				   (text (text_.c_str))
-				   (font pax_font_sky)
-				   (dims (pax_text_size font
-							font->default_size
-							text)))
-			       (pax_draw_text buf
-					      (pax_col_hsv 130 128 128)
-					;(hex #xffffffff) ; white
-					      font
-					      font->default_size
-					      20
-					      60
-					      text)
-			      
-			       ))
-			   )
-		   
-			 (if (< time_ma x0)
-			     (do0 (comments "if predicted intersection time is in the future, print it")
-				  (let ((time_value (static_cast<int> (- x0 time_ma)))
-					(hours (int (/ time_value 3600)))
-					(minutes (int (/ (% time_value 3600) 60)))
-					(seconds (% time_value 60))
-					(text_ (fmt--format (string "air room in (h:m:s) {:02d}:{:02d}:{:02d}")
-							    hours minutes seconds))
-					(text (text_.c_str))
-					(font pax_font_sky)
-					(dims (pax_text_size font
-							     font->default_size
-							     text)))
-				    (display.small_text
-				     text_
-				     20 140
-				     30 128 128)
-		 		    #+nil
-				    (pax_draw_text buf
-						   (pax_col_hsv 30 128 128)
-					; (hex #xffffffff) ; white
-						   font
-						   font->default_size
-						   20
-						   140
-						   text)
-			      
-				    ))
-			     (do0 (comments "if predicted intersection time is in the past, then predict when airing should stop")
-				  (let ((x0 (/ (- 500d0 b)
-					       m))
-					(time_value (static_cast<int> (- x0 time_ma)))
-					(hours (int (/ time_value 3600)))
-					(minutes (int (/ (% time_value 3600) 60)))
-					(seconds (% time_value 60))
-					(text_ (fmt--format (string "air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}")
-							    hours minutes seconds))
-					(text (text_.c_str))
-					(font pax_font_sky)
-					(dims (pax_text_size font
-							     font->default_size
-							     text)))
-
-				    (display.small_text
-				     text_
-				     20 140
-				     90 128 128)
-				    #+nil
-				    (pax_draw_text buf
-						   (pax_col_hsv 90 128 128)
-					;(hex #xffffffff) ; white
-						   font
-						   font->default_size
-						   20
-						   140
-						   text)))))))))))
-	
 	  (defun app_main ()
 	    (ESP_LOGE TAG (string "welcome to the template app"))
 	    #-nowifi
@@ -1337,13 +1268,8 @@
 
 	    (space Display display)
 	    (space Graph (graph display fifo fifoBME))
-	    
-					;(nvs_flash_init)
-					;(wifi_init)
-	  
+	    	  
 	    (space Uart uart)
-	    #+nil(uart_init)
-
 	    (space BmeSensor bme)
 	    
 	  
@@ -1380,61 +1306,12 @@
 							       (- tz)))))
 		   
 		   (progn
-		     (let ((now (dot (aref fifo 0) x))
-			   #+nil (nowtext_ 
-					;,(sprint :vars `(now))
-				   ))
+		     (let ((now (dot (aref fifo 0) x)))
 		       (display.small_text (fmt--format (string "now={:6.1f}")
 							now)
-					   20 180)
-		       #+nil (pax_draw_text &buf
-					    (hex #xffffffff) ; white
-					    font
-					    font->default_size
-					    20
-					    180
-					    (nowtext_.c_str)))
-		     #+nil (let (
-				 (co2 (dot (aref fifo 0) y))
-				 ,@(loop for e in `(temperature
-						    humidity
-						    pressure
-						    gas_resistance)
-					 collect
-					 `(,e (dot (aref fifoBME 0) ,e)))
-				 
-				 (text_ (fmt--format
-					 (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
-					  "co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f}"
-					  )
-					 co2
-					 temperature
-					 humidity
-					 (/ pressure 1d3)
-					;(/ gas_resistance 1d6)
-					 ))
-				 (font pax_font_sky
-					;pax_font_saira_condensed
-				       )
-				 (text (text_.c_str))
-				 (dims (pax_text_size font
-						      font->default_size
-						      text)))
-			     
-			     (pax_draw_text &buf
-					    (hex #xffffffff) ; white
-					    font
-					    font->default_size
-					    10
-					    #+nil (/ (- buf.width
-							dims.x)
-						     2.0)
-					    200
-					    text
-					    )))
+					   20 180)))
 
-		   (drawCO2 display	;&buf
-			    )
+		   (graph.CarbonDioxide)
 		   
 		   (display.flush)
 		   
