@@ -774,6 +774,167 @@
 					  ))
 		   ))
 	       )))
+
+    (let ((name `Graph))
+      (write-class
+       :dir (asdf:system-relative-pathname
+	     'cl-py-generator
+	     *source-dir*)
+       :name name
+       :headers `()
+       :header-preamble `(do0
+			  (include DataTypes.h
+				   Display.h)
+			  (include<> deque)
+			  #+nil (space "extern \"C\" "
+				  (progn
+				    (do0
+				    
+				     (include bme680.h)
+				     ))))
+       :implementation-preamble
+       `(do0
+	 (do0
+	  "#define FMT_HEADER_ONLY"
+	  (include "core.h")
+	  (include<> deque)
+	  #+nil
+	  (space "extern \"C\" "
+		 (progn
+		   (do0
+		    (include<> esp_log.h
+			       bme680.h
+			       hardware.h)
+		    )))))
+       :code `(do0
+	       (defclass ,name ()	 
+		 "private:"
+		 "Display& m_display;"
+		  "std::deque<Point2D>& m_fifo; "
+		  "std::deque<PointBME>& m_fifoBME; "
+
+		 
+		 "public:"
+		 ,@(let* ((pitch-y (floor 240 4))
+		   (graph-xmax 318s0)
+		   (graph-ymin0 1s0)
+		   (graph-ymax0 (- pitch-y 1))) 
+	      (loop for e in l-data 
+		    and e-i from 1
+		    collect
+		    (let ((graph-ymin (+ graph-ymin0 (* e-i pitch-y)))
+			  (graph-ymax (+ graph-ymax0 (* e-i pitch-y))))
+		      (destructuring-bind (&key name hue short-name unit fmt (scale 1s0)) e
+			`(defmethod ,(format nil "~a" name)
+			     (
+			      )
+			   (declare (type "pax_buf_t*" buf)
+				    (type "Display&" display))
+			   (let ((time_ma (dot (aref m_fifoBME 0) x))
+				 (time_mi (dot (aref m_fifoBME (- (dot m_fifoBME (size)) 1))
+					       x))
+				 (time_delta (- time_ma time_mi))
+				 (scaleTime (lambda (x)
+					      (declare (type float x)
+						       (capture "&")
+						       (values float))
+					      (let ((res (* ,graph-xmax (/ (- x time_mi )
+									   time_delta))))
+						(do0 (when (< res 1s0)
+						       (setf res 1s0))
+						     (when (< ,graph-xmax res)
+						       (setf res ,graph-xmax)))
+						(return res))))
+				 (min_max_y (std--minmax_element (m_fifoBME.begin)
+								 (m_fifoBME.end)
+								 (lambda (p1 p2)
+								   (declare (type "const PointBME&" p1 p2))
+								   (return (< (dot p1 ,name) (dot p2 ,name)))
+								   )))
+				 (min_y (-> min_max_y.first ,name))
+				 (max_y (-> min_max_y.second ,name))
+				 (scaleHeight (lambda (v)
+						(declare (type float v)
+							 (capture "&")
+							 (values float))
+				       
+						(let ((mi min_y)
+						      (ma max_y)
+						      (res (+ ,graph-ymin
+							      (* ,graph-ymax0 (- 1s0
+										 (/ (- v mi)
+										    (- ma mi)))))))
+						  (do0 (when (< res ,graph-ymin)
+							 (setf res ,graph-ymin))
+						       (when (< ,graph-ymax res)
+							 (setf res ,graph-ymax)))
+						  (return res)))))
+			     (do0
+			      (comments "write latest measurement")
+			      (let (
+			      
+				    (,name (dot (aref m_fifoBME 0) ,name))
+			     
+				    (text_ (fmt--format
+					    (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
+					     ,(format nil "~a=~a~a" short-name fmt unit)
+					     )
+					    (* ,scale ,name)))
+			    
+				    (font ;pax_font_sky
+				      pax_font_saira_condensed
+				      )
+				    (text (text_.c_str))
+				    (dims (pax_text_size font
+							 font->default_size
+							 text)))
+				(m_display.small_text
+				 text_
+				 -1
+				 (+ -10 (* .5 (+ ,graph-ymin
+						 ,graph-ymax)))
+				 )
+				#+nil
+				(pax_draw_text buf
+					       (hex #xffffffff) ; white
+					       font
+					       font->default_size
+					       (/ (- buf->width
+						     dims.x)
+						  2.0)
+					       (+ -10 (* .5 (+ ,graph-ymin
+							       ,graph-ymax)))
+					       text
+					       )))
+		    
+			     (for-range (p m_fifoBME)
+					(comments "draw measurements as points")
+					(dotimes (i 3)
+					  (dotimes (j 3)
+					    (m_display.set_pixel (+ i -1 (scaleTime p.x))
+							       (+ j -1 (scaleHeight (dot p ,name)))
+
+							       ,hue 180 200)
+					    #+nil (pax_set_pixel buf
+								 (pax_col_hsv ,hue 180 200)
+								 (+ i -1 (scaleTime p.x))
+								 (+ j -1 (scaleHeight (dot p ,name)))
+								 ))))
+			     ))))))
+		 (defmethod ,name (display fifo fifoBME)
+		   (declare
+		    (type Display& display)
+		    (type "std::deque<Point2D>&" fifo)
+		    (type "std::deque<PointBME>&" fifoBME)
+		    (construct (m_display display)
+			       (m_fifo fifo)
+			       (m_fifoBME fifoBME)
+			       )
+		    (explicit)	    
+		    (values :constructor))
+		   
+		   ))
+	       )))
     
     
     (write-source
@@ -789,6 +950,7 @@
 		  algorithm
 		  cmath)
        (include   Wifi.h
+		  Graph.h
 		  BmeSensor.h
 		  Uart.h
 		  Display.h
@@ -880,112 +1042,7 @@
 	    ;; note: i think  to and bottom are inverted on screen 
 	    )
 
-	  ,@(let* ((pitch-y (floor 240 4))
-		   (graph-xmax 318s0)
-		   (graph-ymin0 1s0)
-		   (graph-ymax0 (- pitch-y 1))) 
-	      (loop for e in l-data 
-		    and e-i from 1
-		    collect
-		    (let ((graph-ymin (+ graph-ymin0 (* e-i pitch-y)))
-			  (graph-ymax (+ graph-ymax0 (* e-i pitch-y))))
-		      (destructuring-bind (&key name hue short-name unit fmt (scale 1s0)) e
-			`(defun ,(format nil "drawBME_~a" name)
-			     (display	;buf
-			      )
-			   (declare (type "pax_buf_t*" buf)
-				    (type "Display&" display))
-			   (let ((time_ma (dot (aref fifoBME 0) x))
-				 (time_mi (dot (aref fifoBME (- (dot fifoBME (size)) 1))
-					       x))
-				 (time_delta (- time_ma time_mi))
-				 (scaleTime (lambda (x)
-					      (declare (type float x)
-						       (capture "&")
-						       (values float))
-					      (let ((res (* ,graph-xmax (/ (- x time_mi )
-									   time_delta))))
-						(do0 (when (< res 1s0)
-						       (setf res 1s0))
-						     (when (< ,graph-xmax res)
-						       (setf res ,graph-xmax)))
-						(return res))))
-				 (min_max_y (std--minmax_element (fifoBME.begin)
-								 (fifoBME.end)
-								 (lambda (p1 p2)
-								   (declare (type "const PointBME&" p1 p2))
-								   (return (< (dot p1 ,name) (dot p2 ,name)))
-								   )))
-				 (min_y (-> min_max_y.first ,name))
-				 (max_y (-> min_max_y.second ,name))
-				 (scaleHeight (lambda (v)
-						(declare (type float v)
-							 (capture "&")
-							 (values float))
-				       
-						(let ((mi min_y)
-						      (ma max_y)
-						      (res (+ ,graph-ymin
-							      (* ,graph-ymax0 (- 1s0
-										 (/ (- v mi)
-										    (- ma mi)))))))
-						  (do0 (when (< res ,graph-ymin)
-							 (setf res ,graph-ymin))
-						       (when (< ,graph-ymax res)
-							 (setf res ,graph-ymax)))
-						  (return res)))))
-			     (do0
-			      (comments "write latest measurement")
-			      (let (
-			      
-				    (,name (dot (aref fifoBME 0) ,name))
-			     
-				    (text_ (fmt--format
-					    (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
-					     ,(format nil "~a=~a~a" short-name fmt unit)
-					     )
-					    (* ,scale ,name)))
-			    
-				    (font ;pax_font_sky
-				      pax_font_saira_condensed
-				      )
-				    (text (text_.c_str))
-				    (dims (pax_text_size font
-							 font->default_size
-							 text)))
-				(display.small_text
-				 text_
-				 -1
-				 (+ -10 (* .5 (+ ,graph-ymin
-						 ,graph-ymax)))
-				 )
-				#+nil
-				(pax_draw_text buf
-					       (hex #xffffffff) ; white
-					       font
-					       font->default_size
-					       (/ (- buf->width
-						     dims.x)
-						  2.0)
-					       (+ -10 (* .5 (+ ,graph-ymin
-							       ,graph-ymax)))
-					       text
-					       )))
-		    
-			     (for-range (p fifoBME)
-					(comments "draw measurements as points")
-					(dotimes (i 3)
-					  (dotimes (j 3)
-					    (display.set_pixel (+ i -1 (scaleTime p.x))
-							       (+ j -1 (scaleHeight (dot p ,name)))
-
-							       ,hue 180 200)
-					    #+nil (pax_set_pixel buf
-								 (pax_col_hsv ,hue 180 200)
-								 (+ i -1 (scaleTime p.x))
-								 (+ j -1 (scaleHeight (dot p ,name)))
-								 ))))
-			     ))))))
+	  
 
 	  ,(let* ((pitch-y (floor 240 4))
 		  (graph-xmax 318s0)
@@ -1302,6 +1359,7 @@
 				  queue))
 
 	    (space Display display)
+	    (space Graph (graph display fifo fifoBME))
 	    
 					;(nvs_flash_init)
 					;(wifi_init)
@@ -1327,8 +1385,7 @@
 					;gas_resistance
 				      )
 			   collect
-			   `(,(format nil "drawBME_~a" e)
-			     display))
+			   `(dot graph (,(format nil "~a" e))))
 		   
 
 		   (display.small_text ,(sprint :msg (multiple-value-bind

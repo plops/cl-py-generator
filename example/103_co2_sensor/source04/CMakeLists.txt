@@ -7,6 +7,7 @@ idf_component_register(
 	"Display.cpp"
 	"Uart.cpp"
 	"BmeSensor.cpp"
+	"Graph.cpp"
    INCLUDE_DIRS
         "." "include"
 )
