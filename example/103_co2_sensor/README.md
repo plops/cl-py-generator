@@ -530,3 +530,13 @@ void sendTemp(pb_TempEvent e)
   
 - the only repo on github that mentions grpc and esp32
     https://github.com/nanopb/nanopb
+
+- platformio
+  - esp32 example
+    https://github.com/nanopb/nanopb/blob/master/examples/platformio/platformio.ini
+  - PlatformIO allows developer to compile the same code with
+    different development platforms using the Only One Command
+    platformio run. This happens due to Project Configuration File
+    (platformio.ini) where you can setup different environments with
+    specific options (platform type, firmware uploading settings,
+    pre-built framework, build flags and many more).
