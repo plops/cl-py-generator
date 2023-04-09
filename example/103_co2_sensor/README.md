@@ -540,3 +540,5 @@ void sendTemp(pb_TempEvent e)
     (platformio.ini) where you can setup different environments with
     specific options (platform type, firmware uploading settings,
     pre-built framework, build flags and many more).
+ - PlatformIO is written in pure Python and doesn't depend on any
+   additional libraries/tools from an operation system.
