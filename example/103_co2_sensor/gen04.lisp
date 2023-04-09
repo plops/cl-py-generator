@@ -1169,10 +1169,11 @@
      `(do0
        
        (include<> deque
-		  random
-		  vector
-		  algorithm
-		  cmath)
+		;  random
+		 ; vector
+		 ; algorithm
+		  ;cmath
+		  )
        (include   Wifi.h
 		  Graph.h
 		  BmeSensor.h
@@ -1180,7 +1181,8 @@
 		  Display.h
 		  TcpConnection.h
 		  DataTypes.h
-		  Ransac.h)
+		  ;Ransac.h
+		  )
        (do0
 	"#define FMT_HEADER_ONLY"
 	(include "core.h"))
@@ -1199,12 +1201,12 @@
 
 	  (do0
 	   (include hardware.h
-		    pax_gfx.h
-		    pax_codecs.h
+		    ;pax_gfx.h
+		    ;pax_codecs.h
 					;  ili9341.h
 					; freertos/FreeRTOS.h
 					; freertos/queue.h
-		    esp_system.h
+		   ; esp_system.h
 					;nvs.h
 					;nvs_flash.h
 					;wifi_connect.h
@@ -1213,8 +1215,9 @@
 		    soc/rtc_cntl_reg.h
 		    
 					;gpio_types.h
-		    driver/uart.h
-		    sys/time.h)
+		    ;driver/uart.h
+		  ;  sys/time.h
+		    )
 	   (include nvs_flash.h)
 
 	   (include<> esp_log.h)

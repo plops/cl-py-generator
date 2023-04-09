@@ -2,28 +2,18 @@
 #include "DataTypes.h"
 #include "Display.h"
 #include "Graph.h"
-#include "Ransac.h"
 #include "TcpConnection.h"
 #include "Uart.h"
 #include "Wifi.h"
-#include <algorithm>
-#include <cmath>
 #include <deque>
-#include <random>
-#include <vector>
 #define FMT_HEADER_ONLY
 #include "core.h"
 std::deque<Point2D> fifo;
 std::deque<PointBME> fifoBME;
 extern "C" {
-#include "driver/uart.h"
-#include "esp_system.h"
 #include "hardware.h"
 #include "nvs_flash.h"
-#include "pax_codecs.h"
-#include "pax_gfx.h"
 #include "soc/rtc_cntl_reg.h"
-#include "sys/time.h"
 #include <esp_log.h>
 
 static const char *TAG = "mch2022-co2-app";
@@ -63,7 +53,7 @@ void app_main() {
     graph.humidity();
     graph.pressure();
     display.small_text(
-        fmt::format("build 11:16:33 of Sunday, 2023-04-09 (GMT+1)\n"));
+        fmt::format("build 11:22:09 of Sunday, 2023-04-09 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
