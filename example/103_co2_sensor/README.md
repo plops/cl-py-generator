@@ -544,3 +544,6 @@ void sendTemp(pb_TempEvent e)
    additional libraries/tools from an operation system.
  - PlatformIO: All you need to know in 10 Minutes
    https://www.youtube.com/watch?v=PYSy_PLjytQ
+   - quite opinionated
+   - arduino and esp example (az delivery)
+   - esp-idf (if you hate your life) 
