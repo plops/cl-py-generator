@@ -1,3 +1,4 @@
+#include "BmeSensor.h"
 #include "DataTypes.h"
 #include "Display.h"
 #include "Ransac.h"
@@ -14,7 +15,6 @@
 std::deque<Point2D> fifo;
 std::deque<PointBME> fifoBME;
 extern "C" {
-#include "bme680.h"
 #include "driver/uart.h"
 #include "esp_system.h"
 #include "hardware.h"
@@ -31,44 +31,6 @@ xQueueHandle buttonQueue;
 void exit_to_launcher() {
   REG_WRITE(RTC_CNTL_STORE0_REG, 0);
   esp_restart();
-}
-
-void measureBME() {
-  {
-    ESP_LOGE(TAG, "measure BME");
-    auto temperature = (0.);
-    auto humidity = (0.);
-    auto pressure = (0.);
-    auto bme = get_bme680();
-    auto s = bme680_status_t();
-    bme680_set_mode(get_bme680(), BME680_MEAS_FORCED);
-    bme680_get_status(bme, &s);
-    bme680_get_temperature(bme, &temperature);
-    bme680_get_humidity(bme, &humidity, temperature);
-    bme680_get_pressure(bme, &pressure, temperature);
-
-    ESP_LOGE(
-        TAG, "%s",
-        fmt::format("  bme==nullptr='{}'  temperature='{}'  humidity='{}'  "
-                    "pressure='{}'  s.new_data='{}'  s.gas_measuring='{}'  "
-                    "s.measuring='{}'  s.gas_measuring_index='{}'  "
-                    "s.gas_valid='{}'  s.heater_stable='{}'\n",
-                    bme == nullptr, temperature, humidity, pressure, s.new_data,
-                    s.gas_measuring, s.measuring, s.gas_measuring_index,
-                    s.gas_valid, s.heater_stable)
-            .c_str());
-    if (((N_FIFO) - (1)) < fifo.size()) {
-      fifoBME.pop_back();
-    }
-    auto tv_now = timeval();
-    gettimeofday(&tv_now, nullptr);
-    auto time_us = (tv_now.tv_sec + ((1.00e-6f) * tv_now.tv_usec));
-    auto p = PointBME({.x = time_us,
-                       .temperature = temperature,
-                       .humidity = humidity,
-                       .pressure = pressure});
-    fifoBME.push_front(p);
-  }
 }
 
 void drawBME_temperature(Display &display) {
@@ -380,19 +342,16 @@ void app_main() {
 
   Display display;
   Uart uart;
-  bsp_bme680_init();
-  bme680_set_mode(get_bme680(), BME680_MEAS_FORCED);
-  bme680_set_oversampling(get_bme680(), BME680_OVERSAMPLING_X2,
-                          BME680_OVERSAMPLING_X2, BME680_OVERSAMPLING_X2);
+  BmeSensor bme;
   while (1) {
     uart.measureCO2(fifo);
-    measureBME();
+    bme.measureBME();
     display.background(129, 0, 0);
     drawBME_temperature(display);
     drawBME_humidity(display);
     drawBME_pressure(display);
     display.small_text(
-        fmt::format("build 10:40:41 of Sunday, 2023-04-09 (GMT+1)\n"));
+        fmt::format("build 10:52:47 of Sunday, 2023-04-09 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
