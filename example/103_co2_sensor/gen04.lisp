@@ -875,37 +875,19 @@
 			      
 				    (,name (dot (aref m_fifoBME 0) ,name))
 			     
-				    (text_ (fmt--format
+			    
+				    )
+				(m_display.large_text
+				 (fmt--format
 					    (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
 					     ,(format nil "~a=~a~a" short-name fmt unit)
 					     )
-					    (* ,scale ,name)))
-			    
-				    (font ;pax_font_sky
-				      pax_font_saira_condensed
-				      )
-				    (text (text_.c_str))
-				    (dims (pax_text_size font
-							 font->default_size
-							 text)))
-				(m_display.small_text
-				 text_
+					    (* ,scale ,name))
 				 -1
 				 (+ -10 (* .5 (+ ,graph-ymin
 						 ,graph-ymax)))
 				 )
-				#+nil
-				(pax_draw_text buf
-					       (hex #xffffffff) ; white
-					       font
-					       font->default_size
-					       (/ (- buf->width
-						     dims.x)
-						  2.0)
-					       (+ -10 (* .5 (+ ,graph-ymin
-							       ,graph-ymax)))
-					       text
-					       )))
+			))
 		    
 			     (for-range (p m_fifoBME)
 					(comments "draw measurements as points")
@@ -914,12 +896,7 @@
 					    (m_display.set_pixel (+ i -1 (scaleTime p.x))
 							       (+ j -1 (scaleHeight (dot p ,name)))
 
-							       ,hue 180 200)
-					    #+nil (pax_set_pixel buf
-								 (pax_col_hsv ,hue 180 200)
-								 (+ i -1 (scaleTime p.x))
-								 (+ j -1 (scaleHeight (dot p ,name)))
-								 ))))
+							       ,hue 180 200))))
 			     ))))))
 		 (defmethod ,name (display fifo fifoBME)
 		   (declare

@@ -40,11 +40,8 @@ void Graph::temperature() {
   };
   // write latest measurement
   auto temperature = m_fifoBME[0].temperature;
-  auto text_ = fmt::format("T={:2.2f}°C", ((1.0f) * temperature));
-  auto font = pax_font_saira_condensed;
-  auto text = text_.c_str();
-  auto dims = pax_text_size(font, font->default_size, text);
-  m_display.small_text(text_, -1, (-10 + ((0.50f) * ((61.f) + 119))));
+  m_display.large_text(fmt::format("T={:2.2f}°C", ((1.0f) * temperature)), -1,
+                       (-10 + ((0.50f) * ((61.f) + 119))));
 
   for (auto p : m_fifoBME) {
     // draw measurements as points
@@ -94,11 +91,8 @@ void Graph::humidity() {
   };
   // write latest measurement
   auto humidity = m_fifoBME[0].humidity;
-  auto text_ = fmt::format("H={:2.1f}%", ((1.0f) * humidity));
-  auto font = pax_font_saira_condensed;
-  auto text = text_.c_str();
-  auto dims = pax_text_size(font, font->default_size, text);
-  m_display.small_text(text_, -1, (-10 + ((0.50f) * ((121.f) + 179))));
+  m_display.large_text(fmt::format("H={:2.1f}%", ((1.0f) * humidity)), -1,
+                       (-10 + ((0.50f) * ((121.f) + 179))));
 
   for (auto p : m_fifoBME) {
     // draw measurements as points
@@ -147,11 +141,8 @@ void Graph::pressure() {
   };
   // write latest measurement
   auto pressure = m_fifoBME[0].pressure;
-  auto text_ = fmt::format("p={:4.2f}mbar", ((1.00e-2f) * pressure));
-  auto font = pax_font_saira_condensed;
-  auto text = text_.c_str();
-  auto dims = pax_text_size(font, font->default_size, text);
-  m_display.small_text(text_, -1, (-10 + ((0.50f) * ((181.f) + 239))));
+  m_display.large_text(fmt::format("p={:4.2f}mbar", ((1.00e-2f) * pressure)),
+                       -1, (-10 + ((0.50f) * ((181.f) + 239))));
 
   for (auto p : m_fifoBME) {
     // draw measurements as points
