@@ -121,7 +121,7 @@ void measureCO2() {
   }
 }
 
-void drawBME_temperature(pax_buf_t *buf) {
+void drawBME_temperature(Display &display) {
   auto time_ma = fifoBME[0].x;
   auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
   auto time_delta = ((time_ma) - (time_mi));
@@ -161,24 +161,21 @@ void drawBME_temperature(pax_buf_t *buf) {
   auto font = pax_font_saira_condensed;
   auto text = text_.c_str();
   auto dims = pax_text_size(font, font->default_size, text);
-  pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
-                ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * ((61.f) + 119))), text);
+  display.small_text(text_, -1, (-10 + ((0.50f) * ((61.f) + 119))));
 
   for (auto p : fifoBME) {
     // draw measurements as points
 
     for (auto i = 0; i < 3; i += 1) {
       for (auto j = 0; j < 3; j += 1) {
-        pax_set_pixel(buf, pax_col_hsv(150, 180, 200),
-                      (i + -1 + scaleTime(p.x)),
-                      (j + -1 + scaleHeight(p.temperature)));
+        display.set_pixel((i + -1 + scaleTime(p.x)),
+                          (j + -1 + scaleHeight(p.temperature)), 150, 180, 200);
       }
     }
   }
 }
 
-void drawBME_humidity(pax_buf_t *buf) {
+void drawBME_humidity(Display &display) {
   auto time_ma = fifoBME[0].x;
   auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
   auto time_delta = ((time_ma) - (time_mi));
@@ -218,23 +215,21 @@ void drawBME_humidity(pax_buf_t *buf) {
   auto font = pax_font_saira_condensed;
   auto text = text_.c_str();
   auto dims = pax_text_size(font, font->default_size, text);
-  pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
-                ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * ((121.f) + 179))), text);
+  display.small_text(text_, -1, (-10 + ((0.50f) * ((121.f) + 179))));
 
   for (auto p : fifoBME) {
     // draw measurements as points
 
     for (auto i = 0; i < 3; i += 1) {
       for (auto j = 0; j < 3; j += 1) {
-        pax_set_pixel(buf, pax_col_hsv(80, 180, 200), (i + -1 + scaleTime(p.x)),
-                      (j + -1 + scaleHeight(p.humidity)));
+        display.set_pixel((i + -1 + scaleTime(p.x)),
+                          (j + -1 + scaleHeight(p.humidity)), 80, 180, 200);
       }
     }
   }
 }
 
-void drawBME_pressure(pax_buf_t *buf) {
+void drawBME_pressure(Display &display) {
   auto time_ma = fifoBME[0].x;
   auto time_mi = fifoBME[((fifoBME.size()) - (1))].x;
   auto time_delta = ((time_ma) - (time_mi));
@@ -274,24 +269,21 @@ void drawBME_pressure(pax_buf_t *buf) {
   auto font = pax_font_saira_condensed;
   auto text = text_.c_str();
   auto dims = pax_text_size(font, font->default_size, text);
-  pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
-                ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * ((181.f) + 239))), text);
+  display.small_text(text_, -1, (-10 + ((0.50f) * ((181.f) + 239))));
 
   for (auto p : fifoBME) {
     // draw measurements as points
 
     for (auto i = 0; i < 3; i += 1) {
       for (auto j = 0; j < 3; j += 1) {
-        pax_set_pixel(buf, pax_col_hsv(240, 180, 200),
-                      (i + -1 + scaleTime(p.x)),
-                      (j + -1 + scaleHeight(p.pressure)));
+        display.set_pixel((i + -1 + scaleTime(p.x)),
+                          (j + -1 + scaleHeight(p.pressure)), 240, 180, 200);
       }
     }
   }
 }
 
-void drawCO2(pax_buf_t *buf) {
+void drawCO2(Display &display) {
   if (fifo.size() < 2) {
     return;
   }
@@ -339,17 +331,15 @@ void drawCO2(pax_buf_t *buf) {
   auto font = pax_font_saira_condensed;
   auto text = text_.c_str();
   auto dims = pax_text_size(font, font->default_size, text);
-  pax_draw_text(buf, 0xFFFFFFFF, font, font->default_size,
-                ((((buf->width) - (dims.x))) / ((2.0f))),
-                (-10 + ((0.50f) * ((1.0f) + 59))), text);
+  display.large_text(text_, -1, (-10 + ((0.50f) * ((1.0f) + 59))));
 
   for (auto p : fifo) {
     // draw measurements as points
 
     for (auto i = 0; i < 3; i += 1) {
       for (auto j = 0; j < 3; j += 1) {
-        pax_set_pixel(buf, pax_col_hsv(149, 180, 200),
-                      (i + -1 + scaleTime(p.x)), (j + -1 + scaleHeight(p.y)));
+        display.set_pixel((i + -1 + scaleTime(p.x)),
+                          (j + -1 + scaleHeight(p.y)), 149, 180, 200);
       }
     }
   }
@@ -363,15 +353,15 @@ void drawCO2(pax_buf_t *buf) {
     auto bright = 200;
     auto col = pax_col_hsv(hue, sat, bright);
     // draw the fit as line
-    pax_draw_line(buf, col, scaleTime(time_mi),
-                  scaleHeight((b + (m * time_mi))), scaleTime(time_ma),
-                  scaleHeight((b + (m * time_ma))));
+    display.line(scaleTime(time_mi), scaleHeight((b + (m * time_mi))),
+                 scaleTime(time_ma), scaleHeight((b + (m * time_ma))), 188, 255,
+                 200);
     // draw inliers as points
     for (auto p : inliers) {
       for (auto i = 0; i < 3; i += 1) {
         for (auto j = 0; j < 3; j += 1) {
-          pax_set_pixel(buf, pax_col_hsv(0, 255, 255),
-                        (i + -1 + scaleTime(p.x)), (j + -1 + scaleHeight(p.y)));
+          display.set_pixel((i + -1 + scaleTime(p.x)),
+                            (j + -1 + scaleHeight(p.y)), 0, 255, 255);
         }
       }
     }
@@ -380,21 +370,13 @@ void drawCO2(pax_buf_t *buf) {
     auto x0 = (((((1.20e+3)) - (b))) / (m));
     auto x0l = (((((5.00e+2)) - (b))) / (m));
     {
-      auto text_ = fmt::format("m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}", m,
-                               b, time_mi, time_ma);
-      auto text = text_.c_str();
-      auto font = pax_font_sky;
-      auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(buf, pax_col_hsv(160, 128, 128), font, font->default_size,
-                    20, 80, text);
-
+      display.small_text(
+          fmt::format("m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}", m, b,
+                      time_mi, time_ma),
+          20, 80, 160, 128, 128);
       {
-        auto text_ = fmt::format("x0={:4.2f} x0l={:4.2f}", x0, x0l);
-        auto text = text_.c_str();
-        auto font = pax_font_sky;
-        auto dims = pax_text_size(font, font->default_size, text);
-        pax_draw_text(buf, pax_col_hsv(130, 128, 128), font, font->default_size,
-                      20, 60, text);
+        display.small_text(fmt::format("x0={:4.2f} x0l={:4.2f}", x0, x0l), 20,
+                           60, 130, 128, 128);
       }
     }
     if (time_ma < x0) {
@@ -408,8 +390,7 @@ void drawCO2(pax_buf_t *buf) {
       auto text = text_.c_str();
       auto font = pax_font_sky;
       auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(buf, pax_col_hsv(30, 128, 128), font, font->default_size,
-                    20, 140, text);
+      display.small_text(text_, 20, 140, 30, 128, 128);
 
     } else {
       // if predicted intersection time is in the past, then predict when airing
@@ -425,8 +406,7 @@ void drawCO2(pax_buf_t *buf) {
       auto text = text_.c_str();
       auto font = pax_font_sky;
       auto dims = pax_text_size(font, font->default_size, text);
-      pax_draw_text(buf, pax_col_hsv(90, 128, 128), font, font->default_size,
-                    20, 140, text);
+      display.small_text(text_, 20, 140, 90, 128, 128);
     }
   }
 }
@@ -458,21 +438,16 @@ void app_main() {
     measureCO2();
     measureBME();
     display.background(129, 0, 0);
-    auto text_;
-    auto text = text_.c_str();
-    auto font = pax_font_sky;
-    auto dims = pax_text_size(font, font->default_size, text);
     drawBME_temperature(display);
     drawBME_humidity(display);
     drawBME_pressure(display);
     display.small_text(
-        fmt::format("build 09:45:51 of Sunday, 2023-04-09 (GMT+1)\n"));
+        fmt::format("build 10:04:51 of Sunday, 2023-04-09 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
-      auto nowtext_;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
     }
-    drawCO2(&buf);
+    drawCO2(display);
     display.flush();
     auto message = rp2040_input_message_t();
     xQueueReceive(buttonQueue, &message, 2);

@@ -497,22 +497,27 @@
 				  (pax_col_hsv hue sat bright)
 				  x y)
 		   )
-		 (defmethod small_text (text &key (x "-1.0f") (y "-1.0f") (h 128) (s 255) (v 255))
-		   (declare (type std--string text)
+		 (defmethod line (x0 y0 x1 y1 h s v)
+			  (declare (type float x0 y0 x1 y1)
+				   (type uint8_t h s v))
+			  (pax_draw_line &buf (pax_col_hsv h s v)
+				       x0 y0 x1 y1))
+		 (defmethod small_text (str &key (x "-1.0f") (y "-1.0f") (h 128) (s 255) (v 255))
+		   (declare (type std--string str)
 			    (type uint8_t h s v)
 			    (type float x y))
-		   (text text pax_font_sky x y h s v))
-		 (defmethod large_text (text &key (x "-1.0f") (y "-1.0f") (h 128) (s 255) (v 255))
-		   (declare (type std--string text)
+		   (text str pax_font_sky x y h s v))
+		 (defmethod large_text (str &key (x "-1.0f") (y "-1.0f") (h 128) (s 255) (v 255))
+		   (declare (type std--string str)
 			    (type uint8_t h s v)
 			    (type float x y))
-		   (text text pax_font_saira_condensed x y h s v))
-		 (defmethod text (text font x y h s v)
-		   (declare (type std--string text)
+		   (text str pax_font_saira_condensed x y h s v))
+		 (defmethod text (str font x y h s v)
+		   (declare (type std--string str)
 			    (type uint8_t h s v)
 			    (type float x y)
-			    (type pax_font_t* font))
-		   (let ((text_ (text.c_str))
+			    (type "const pax_font_t*" font))
+		   (let ((text_ (str.c_str))
 					;(font pax_font_sky)
 			 (dims (pax_text_size font
 					      font->default_size
@@ -528,7 +533,7 @@
 		       (setf x_ x))
 		     (when (< 0 y)
 		       (setf y_ y))
-		     (pax_draw_text buf
+		     (pax_draw_text &buf
 				    (pax_col_hsv h s v)
 				    font
 				    font->default_size
@@ -777,8 +782,10 @@
 			  (graph-ymax (+ graph-ymax0 (* e-i pitch-y))))
 		      (destructuring-bind (&key name hue short-name unit fmt (scale 1s0)) e
 			`(defun ,(format nil "drawBME_~a" name)
-			     (buf)
-			   (declare (type "pax_buf_t*" buf))
+			     (display ;buf
+			      )
+			   (declare (type "pax_buf_t*" buf)
+				    (type "Display&" display))
 			   (let ((time_ma (dot (aref fifoBME 0) x))
 				 (time_mi (dot (aref fifoBME (- (dot fifoBME (size)) 1))
 					       x))
@@ -837,7 +844,13 @@
 				    (dims (pax_text_size font
 							 font->default_size
 							 text)))
-			 
+				(display.small_text
+				 text_
+				 -1
+				 (+ -10 (* .5 (+ ,graph-ymin
+							       ,graph-ymax)))
+				 )
+				#+nil
 				(pax_draw_text buf
 					       (hex #xffffffff) ; white
 					       font
@@ -854,11 +867,15 @@
 					(comments "draw measurements as points")
 					(dotimes (i 3)
 					  (dotimes (j 3)
-					    
-					    (pax_set_pixel buf
+					    (display.set_pixel (+ i -1 (scaleTime p.x))
+							   (+ j -1 (scaleHeight (dot p ,name)))
+
+							   ,hue 180 200)
+					    #+nil (pax_set_pixel buf
 							   (pax_col_hsv ,hue 180 200)
 							   (+ i -1 (scaleTime p.x))
-							   (+ j -1 (scaleHeight (dot p ,name)))))))
+							   (+ j -1 (scaleHeight (dot p ,name)))
+							   ))))
 			     ))))))
 
 	  ,(let* ((pitch-y (floor 240 4))
@@ -866,8 +883,10 @@
 		  (graph-ymin 1s0)
 		  (graph-ymax (- pitch-y 1)))
 	     
-	     `(defun drawCO2 (buf )
-		(declare (type "pax_buf_t*" buf))
+	     `(defun drawCO2 (display ;buf
+			      )
+		(declare (type "pax_buf_t*" buf)
+			 (type Display& display))
 		(when (< (fifo.size) 2)
 		  (return))
 		(let ((hue 12)
@@ -957,8 +976,10 @@
 			   (dims (pax_text_size font
 						font->default_size
 						text)))
-			 
-		       (pax_draw_text buf
+
+		       (display.large_text text_ -1 (+ -10 (* .5 (+ ,graph-ymin
+						      ,graph-ymax))))
+		       #+nil (pax_draw_text buf
 				      (hex #xffffffff) ; white
 				      font
 				      font->default_size
@@ -974,10 +995,16 @@
 			       (comments "draw measurements as points")
 			       (dotimes (i 3)
 				 (dotimes (j 3)
-				   (pax_set_pixel buf
+				   (display.set_pixel
+				    (+ i -1 (scaleTime p.x))
+				    (+ j -1 (scaleHeight p.y))
+				    149 180 200
+				    )
+				   #+nil (pax_set_pixel buf
 						  (pax_col_hsv 149 180 200)
 						  (+ i -1 (scaleTime p.x))
-						  (+ j -1 (scaleHeight p.y))))))
+						  (+ j -1 (scaleHeight p.y))
+						  ))))
 
 		    (progn
 		      (let ((ransac (Ransac fifo))
@@ -996,7 +1023,13 @@
 			    )
 			
 			(comments "draw the fit as line")
-			(pax_draw_line buf col
+			
+			(display.line (scaleTime time_mi)
+				       (scaleHeight (+ b (* m time_mi)))
+				       (scaleTime time_ma)
+				       (scaleHeight (+ b (* m time_ma)))
+				       188 255 200)
+			#+nil (pax_draw_line buf col
 				       (scaleTime time_mi)
 				       (scaleHeight (+ b (* m time_mi)))
 				       (scaleTime time_ma)
@@ -1006,10 +1039,17 @@
 			(for-range (p inliers)
 				   (dotimes (i 3)
 				     (dotimes (j 3)
+				       (display.set_pixel
+					(+ i -1 (scaleTime p.x))
+						      (+ j -1 (scaleHeight p.y))
+						      0 255 255
+						      )
+				       #+nil
 				       (pax_set_pixel buf
 						      (pax_col_hsv 0 255 255)
 						      (+ i -1 (scaleTime p.x))
-						      (+ j -1 (scaleHeight p.y))))))
+						      (+ j -1 (scaleHeight p.y))
+						      ))))
 			)
 
 		     
@@ -1024,7 +1064,13 @@
 
 			 
 			 (progn
-			   (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
+			   (display.small_text
+			    (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
+						     m b time_mi time_ma )
+			    20 80
+			    160 128 128
+			    )
+			   #+nil (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
 						     m b time_mi time_ma ))
 				 (text (text_.c_str))
 				 (font pax_font_sky)
@@ -1042,6 +1088,11 @@
 			      
 			     )
 			   (progn
+			     (display.small_text
+			      (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
+						       x0 x0l)
+			      20 60 130 128 128)
+			     #+nil
 			     (let ((text_ (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
 						       x0 x0l))
 				   (text (text_.c_str))
@@ -1074,7 +1125,11 @@
 					(dims (pax_text_size font
 							     font->default_size
 							     text)))
-		 	      
+				    (display.small_text
+				     text_
+				     20 140
+				     30 128 128)
+		 		    #+nil
 				    (pax_draw_text buf
 						   (pax_col_hsv 30 128 128)
 					; (hex #xffffffff) ; white
@@ -1099,7 +1154,12 @@
 					(dims (pax_text_size font
 							     font->default_size
 							     text)))
-		 	      
+
+				    (display.small_text
+				     text_
+				     20 140
+				     90 128 128)
+				    #+nil
 				    (pax_draw_text buf
 						   (pax_col_hsv 90 128 128)
 					;(hex #xffffffff) ; white
@@ -1157,116 +1217,99 @@
 		   (display.background 129 0 0)
 
 		   
-		   (let (
-			 (text_ ,(sprint :msg (multiple-value-bind
-						    (second minute hour date month year day-of-week dst-p tz)
-						  (get-decoded-time)
-						(declare (ignorable dst-p))
-						(format nil "build ~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
-							hour
-							minute
-							second
-							(nth day-of-week *day-names*)
-							year
-							month
-							date
-							(- tz)))))
-			 (text (text_.c_str))
-			 (font pax_font_sky ;saira_condensed
-			       )
-			 (dims (pax_text_size font
-					      font->default_size
-					      text)))
-		     
-		     
-		     ,@(loop for e in `(temperature
-					humidity
-					pressure
+		   ,@(loop for e in `(temperature
+				      humidity
+				      pressure
 					;gas_resistance
-					)
-			     collect
-			     `(,(format nil "drawBME_~a" e)
-			       &buf))
-		     
-		     (pax_draw_text &buf
-					; (hex #xff000000) ; black
-				    (hex #xffffffff) ; white
-				    font
-				    font->default_size
-				    (/ (- buf.width
-					  dims.x)
-				       2.0)
-				    (/ (- buf.height
-					  dims.y)
-				       2.0)
-				    text)
-		     
-		     (progn
-		       (let ((now (dot (aref fifo 0) x))
-			     (nowtext_ (fmt--format (string "now={:6.1f}")
-						    now)
-					;,(sprint :vars `(now))
-				       ))
-			 (pax_draw_text &buf
-					(hex #xffffffff) ; white
-					font
-					font->default_size
-					20
-					180
-					(nowtext_.c_str)))
-		       #+nil (let (
-				   (co2 (dot (aref fifo 0) y))
-				   ,@(loop for e in `(temperature
-						      humidity
-						      pressure
-						      gas_resistance)
-					   collect
-					   `(,e (dot (aref fifoBME 0) ,e)))
-				   
-				   (text_ (fmt--format
-					   (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
-					    "co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f}"
-					    )
-					   co2
-					   temperature
-					   humidity
-					   (/ pressure 1d3)
-					;(/ gas_resistance 1d6)
-					   ))
-				   (font pax_font_sky
-					;pax_font_saira_condensed
-					 )
-				   (text (text_.c_str))
-				   (dims (pax_text_size font
-							font->default_size
-							text)))
-			       
-			       (pax_draw_text &buf
-					      (hex #xffffffff) ; white
-					      font
-					      font->default_size
-					      10
-					      #+nil (/ (- buf.width
-							  dims.x)
-						       2.0)
-					      200
-					      text
-					      )))
-
-		     (drawCO2 &buf)
-		     
-		     (display.flush)
-		     
-		     (let ((message (rp2040_input_message_t)))
-		       (xQueueReceive buttonQueue
-				      &message
-				      2 ;10 ;portMAX_DELAY
 				      )
+			   collect
+			   `(,(format nil "drawBME_~a" e)
+			     display))
+		   
 
-		       (when (logand (== RP2040_INPUT_BUTTON_HOME
-					 message.input)
-				     message.state)
-			 (exit_to_launcher))))))))))))
+		   (display.small_text ,(sprint :msg (multiple-value-bind
+							   (second minute hour date month year day-of-week dst-p tz)
+							 (get-decoded-time)
+						       (declare (ignorable dst-p))
+						       (format nil "build ~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
+							       hour
+							       minute
+							       second
+							       (nth day-of-week *day-names*)
+							       year
+							       month
+							       date
+							       (- tz)))))
+		   
+		   (progn
+		     (let ((now (dot (aref fifo 0) x))
+			   #+nil (nowtext_ 
+					;,(sprint :vars `(now))
+			     ))
+		       (display.small_text (fmt--format (string "now={:6.1f}")
+							now)
+					   20 180)
+		       #+nil (pax_draw_text &buf
+					    (hex #xffffffff) ; white
+					    font
+					    font->default_size
+					    20
+					    180
+					    (nowtext_.c_str)))
+		     #+nil (let (
+				 (co2 (dot (aref fifo 0) y))
+				 ,@(loop for e in `(temperature
+						    humidity
+						    pressure
+						    gas_resistance)
+					 collect
+					 `(,e (dot (aref fifoBME 0) ,e)))
+				 
+				 (text_ (fmt--format
+					 (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
+					  "co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f}"
+					  )
+					 co2
+					 temperature
+					 humidity
+					 (/ pressure 1d3)
+					;(/ gas_resistance 1d6)
+					 ))
+				 (font pax_font_sky
+					;pax_font_saira_condensed
+				       )
+				 (text (text_.c_str))
+				 (dims (pax_text_size font
+						      font->default_size
+						      text)))
+			     
+			     (pax_draw_text &buf
+					    (hex #xffffffff) ; white
+					    font
+					    font->default_size
+					    10
+					    #+nil (/ (- buf.width
+							dims.x)
+						     2.0)
+					    200
+					    text
+					    )))
+
+		   (drawCO2 display ;&buf
+			    )
+		   
+		   (display.flush)
+		   
+		   (let ((message (rp2040_input_message_t)))
+		     (xQueueReceive buttonQueue
+				    &message
+				    2 ;10 ;portMAX_DELAY
+				    )
+
+		     (when (logand (== RP2040_INPUT_BUTTON_HOME
+				       message.input)
+				   message.state)
+		       (exit_to_launcher)))))))))))
 
 
 

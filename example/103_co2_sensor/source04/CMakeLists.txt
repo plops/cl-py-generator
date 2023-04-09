@@ -4,6 +4,7 @@ idf_component_register(
 	"Wifi.cpp"
         "TcpConnection.cpp"
 	"Ransac.cpp"
+	"Display.cpp"
     INCLUDE_DIRS
         "." "include"
 )
