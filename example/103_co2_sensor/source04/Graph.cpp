@@ -88,16 +88,12 @@ void Graph::carbon_dioxide() {
     // compute when a value of 1200ppm is reached
     auto x0 = (((((1.20e+3)) - (b))) / (m));
     auto x0l = (((((5.00e+2)) - (b))) / (m));
-    {
-      m_display.small_text(
-          fmt::format("m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}", m, b,
-                      time_mi, time_ma),
-          20, 80, 160, 128, 128);
-      {
-        m_display.small_text(fmt::format("x0={:4.2f} x0l={:4.2f}", x0, x0l), 20,
-                             60, 130, 128, 128);
-      }
-    }
+    m_display.small_text(
+        fmt::format("m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}", m, b,
+                    time_mi, time_ma),
+        20, 80, 160, 128, 128);
+    m_display.small_text(fmt::format("x0={:4.2f} x0l={:4.2f}", x0, x0l), 20, 60,
+                         130, 128, 128);
     if (time_ma < x0) {
       // if predicted intersection time is in the future, print it
       auto time_value = static_cast<int>(((x0) - (time_ma)));
@@ -106,9 +102,6 @@ void Graph::carbon_dioxide() {
       auto seconds = time_value % 60;
       auto text_ = fmt::format("air room in (h:m:s) {:02d}:{:02d}:{:02d}",
                                hours, minutes, seconds);
-      auto text = text_.c_str();
-      auto font = pax_font_sky;
-      auto dims = pax_text_size(font, font->default_size, text);
       m_display.small_text(text_, 20, 140, 30, 128, 128);
 
     } else {
@@ -122,9 +115,6 @@ void Graph::carbon_dioxide() {
       auto text_ =
           fmt::format("air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}",
                       hours, minutes, seconds);
-      auto text = text_.c_str();
-      auto font = pax_font_sky;
-      auto dims = pax_text_size(font, font->default_size, text);
       m_display.small_text(text_, 20, 140, 90, 128, 128);
     }
   }

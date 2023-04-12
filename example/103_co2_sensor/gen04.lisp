@@ -527,7 +527,6 @@
 			    (type float x y)
 			    (type "const pax_font_t*" font))
 		   (let ((text_ (str.c_str))
-					;(font pax_font_sky)
 			 (dims (pax_text_size font
 					      font->default_size
 					      text_))
@@ -631,15 +630,6 @@
 		    (when (uart_is_driver_installed CO2_UART) 
 		      (return))
 
-		    #+nil (do0 (comments "i think uart_set_pin will configure the ports (and also check that they are valid)")
-			       ,@(loop for e in `((:gpio 27 :mode GPIO_MODE_OUTPUT)
-						  (:gpio 39 :mode GPIO_MODE_INPUT)
-						  )
-				       collect
-				       (destructuring-bind (&key gpio mode) e
-					 `(unless (== ESP_OK (gpio_set_direction ,gpio ,mode))
-					    (ESP_LOGE TAG (string ,(format nil "error initializing gpio ~a" gpio)))))))
-	  
 		    (unless (== ESP_OK (uart_set_pin CO2_UART
 						     27 ;; tx
 						     39 ;; rx
@@ -670,10 +660,7 @@
 				    :source_clk UART_SCLK_APB))))
 	    
 		      (unless (== ESP_OK (uart_param_config CO2_UART &config))
-			(ESP_LOGE TAG (string "error: uart_param_config")))
-		      ))
-		   ))
-	       )))
+			(ESP_LOGE TAG (string "error: uart_param_config"))))))))))
 
     (let ((name `BmeSensor))
       (write-class
@@ -757,12 +744,10 @@
 								   :pressure pressure
 					;:gas_resistance gas_resistance
 								   ))))
-			  (fifoBME.push_front p)))))
-		   )
+			  (fifoBME.push_front p))))))
 		 (defmethod ,name ()
 		   (declare
-		    (construct
-		     )
+		    (construct)
 		    (explicit)	    
 		    (values :constructor))
 		   (do0 (bsp_bme680_init)
@@ -888,8 +873,7 @@
 				    )
 				   co2)
 					   -1 (+ -10 (* .5 (+ ,graph-ymin
-							      ,graph-ymax))))
-		       ))
+							      ,graph-ymax))))))
 		   
 		    (for-range (p m_fifo)
 			       (comments "draw measurements as points")
@@ -903,19 +887,14 @@
 
 		    (progn
 		      (let ((ransac (Ransac m_fifo))
-			    (m (ransac.GetM) ; 0d0
-			       )
-			    (b (ransac.GetB) ;0d0
-			       )
-			    (inliers (ransac.GetInliers)
-					;("std::vector<Point2D>")
-				     )
+			    (m (ransac.GetM))
+			    (b (ransac.GetB))
+			    (inliers (ransac.GetInliers))
 			    (hue 128)
 			    (sat 255)
 			    (bright 200)
 			    (col (pax_col_hsv hue
-					      sat bright))
-			    )
+					      sat bright)))
 			
 			(comments "draw the fit as line")
 			
@@ -924,12 +903,6 @@
 				      (scaleTime time_ma)
 				      (scaleHeight (+ b (* m time_ma)))
 				      188 255 200)
-			#+nil (pax_draw_line buf col
-					     (scaleTime time_mi)
-					     (scaleHeight (+ b (* m time_mi)))
-					     (scaleTime time_ma)
-					     (scaleHeight (+ b (* m time_ma)))
-					     )
 			(comments "draw inliers as points")
 			(for-range (p inliers)
 				   (dotimes (i 3)
@@ -937,15 +910,7 @@
 				       (m_display.set_pixel
 					(+ i -1 (scaleTime p.x))
 					(+ j -1 (scaleHeight p.y))
-					0 255 255
-					)
-				       #+nil
-				       (pax_set_pixel buf
-						      (pax_col_hsv 0 255 255)
-						      (+ i -1 (scaleTime p.x))
-						      (+ j -1 (scaleHeight p.y))
-						      ))))
-			)
+					0 255 255)))))
 
 		     
 		     
@@ -958,54 +923,16 @@
 				     m)))
 
 			 
-			 (progn
-			   (m_display.small_text
-			    (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
-					 m b time_mi time_ma )
-			    20 80
-			    160 128 128
-			    )
-			   #+nil (let ((text_ (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
-							   m b time_mi time_ma ))
-				       (text (text_.c_str))
-				       (font pax_font_sky)
-				       (dims (pax_text_size font
-							    font->default_size
-							    text)))
-				   (pax_draw_text buf
-						  (pax_col_hsv 160 128 128)
-					;(hex #xffffffff) ; white
-						  font
-						  font->default_size
-						  20
-						  80
-						  text)
-			      
-				   )
-			   (progn
-			     (m_display.small_text
-			      (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
-					   x0 x0l)
-			      20 60 130 128 128)
-			     #+nil
-			     (let ((text_ (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
-						       x0 x0l))
-				   (text (text_.c_str))
-				   (font pax_font_sky)
-				   (dims (pax_text_size font
-							font->default_size
-							text)))
-			       (pax_draw_text buf
-					      (pax_col_hsv 130 128 128)
-					;(hex #xffffffff) ; white
-					      font
-					      font->default_size
-					      20
-					      60
-					      text)
-			      
-			       ))
-			   )
+			 (m_display.small_text
+			  (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
+				       m b time_mi time_ma )
+			  20 80
+			  160 128 128
+			  )
+			 (m_display.small_text
+			  (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
+				       x0 x0l)
+			  20 60 130 128 128)
 		   
 			 (if (< time_ma x0)
 			     (do0 (comments "if predicted intersection time is in the future, print it")
@@ -1015,26 +942,11 @@
 					(seconds (% time_value 60))
 					(text_ (fmt--format (string "air room in (h:m:s) {:02d}:{:02d}:{:02d}")
 							    hours minutes seconds))
-					(text (text_.c_str))
-					(font pax_font_sky)
-					(dims (pax_text_size font
-							     font->default_size
-							     text)))
+					)
 				    (m_display.small_text
 				     text_
 				     20 140
-				     30 128 128)
-		 		    #+nil
-				    (pax_draw_text buf
-						   (pax_col_hsv 30 128 128)
-					; (hex #xffffffff) ; white
-						   font
-						   font->default_size
-						   20
-						   140
-						   text)
-			      
-				    ))
+				     30 128 128)))
 			     (do0 (comments "if predicted intersection time is in the past, then predict when airing should stop")
 				  (let ((x0 (/ (- 500d0 b)
 					       m))
@@ -1044,25 +956,12 @@
 					(seconds (% time_value 60))
 					(text_ (fmt--format (string "air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}")
 							    hours minutes seconds))
-					(text (text_.c_str))
-					(font pax_font_sky)
-					(dims (pax_text_size font
-							     font->default_size
-							     text)))
+					)
 
 				    (m_display.small_text
 				     text_
 				     20 140
-				     90 128 128)
-				    #+nil
-				    (pax_draw_text buf
-						   (pax_col_hsv 90 128 128)
-					;(hex #xffffffff) ; white
-						   font
-						   font->default_size
-						   20
-						   140
-						   text)))))))))))
+				     90 128 128)))))))))))
 		 
 		 ,@(let* ((pitch-y (floor 240 4))
 			  (graph-xmax 318s0)
@@ -1118,25 +1017,16 @@
 							 (return res)))))
 				    (do0
 				     (comments "write latest measurement")
-				     (let (
-			      
-					   (,name (dot (aref m_fifoBME 0) ,name))
-			     
-			    
-					   )
+				     (let ((,name (dot (aref m_fifoBME 0) ,name)))
 				       (m_display.large_text
 					(fmt--format
 					 (string ;"co2={:4.0f} T={:2.1f} H={:2.1f}% p={:4.2f} R={:3.3f}"
-					  ,(format nil "~a=~a~a" short-name fmt unit)
-					  )
+					  ,(format nil "~a=~a~a" short-name fmt unit))
 					 (* ,scale ,name))
 					-1
 					(+ -10 (* .5 (+ ,graph-ymin
-							,graph-ymax)))
-					)
-				       ))
-		    
-				    (for-range (p m_fifoBME)
+							,graph-ymax))))))
+		    		    (for-range (p m_fifoBME)
 					       (comments "draw measurements as points")
 					       (dotimes (i 3)
 						 (dotimes (j 3)
