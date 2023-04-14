@@ -4,7 +4,7 @@
 | gen00 | capture screenshot, perform clahe and display (runs at 60Hz) |
 | gen01 | clahe as in gen00 but also mediapipe object detector         |
 | gen02 | clahe and media pipe image segmentation                      |
-|       |                                                              |
+| gen03 | clahe and media pipe pose                                                             |
 
 
 # Introduction

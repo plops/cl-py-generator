@@ -16,6 +16,9 @@
         - [Use fmt](#use-fmt)
         - [Serial monitor](#serial-monitor)
         - [Notes concerning the power supply](#notes-concerning-the-power-supply)
+    - [Algorithm](#algorithm)
+        - [Ransac](#ransac)
+    - [Wifi](#wifi)
 
 <!-- markdown-toc end -->
 
@@ -462,9 +465,8 @@ void app_main(void)
     ESP_LOGI(TAG, "ESP_WIFI_MODE_STA");
     wifi_init_sta();
 }
-
-
 ```
+
 - https://www.youtube.com/watch?v=_dRrarmQiAM
   - youtube video explaining how to set up wifi on esp32
   - code from video:
