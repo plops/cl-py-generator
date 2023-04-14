@@ -30,6 +30,7 @@
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
+       "#!/usr/bin/python"
        (do0
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
 	 (do0
@@ -116,11 +117,11 @@
 	  (setf clahe (cv.createCLAHE :clipLimit 15.0
 				      :tileGridSize (tuple 32 18)))
 	  (with (as (mp_pose.Pose
-		     ;:static_image_mode False
-		     ;:model_complexity 2
+		     :static_image_mode False
+		     :model_complexity 0
 		     ;:enable_segmentation False
-		     :min_detection_confidence .5
-		     :min_tracking_confidence .5)
+		     :min_detection_confidence .15
+		     :min_tracking_confidence .15)
 		    pose)
 		(comments "https://github.com/google/mediapipe/blob/master/docs/solutions/pose.md")
 		(with (as (mss.mss)
