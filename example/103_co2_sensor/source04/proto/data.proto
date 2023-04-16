@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "nanopb.proto";
+
+message Packet {
+  fixed32 length = 1;
+  bytes payload = 2 [(nanopb).max_size = 9600];
+}
+
+message DataRequest {
+  uint64 count = 1;
+  int64 start_index = 2;
+}
+
+message DataResponse {
+  uint64 index = 1;
+  uint64 datetime = 2;
+  float pressure = 3;
+  float humidity = 4;
+  float temperature = 5;
+  float co2_concentration = 6;
+}
