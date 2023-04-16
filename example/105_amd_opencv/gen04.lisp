@@ -118,9 +118,13 @@
 				      :tileGridSize (tuple 32 18)))
 	  (setf drawing_spec (mp_drawing.DrawingSpec :thickness 1
 						     :circle_radius 1))
+
+	  #+nil (setf gpu_options (mp.GpuAccelerationOptions :enable True
+						       :device_id 0))
 	  (with (as (mp_face_mesh.FaceMesh
 		     :static_image_mode  False
 		     :max_num_faces 1
+		     ;:gpu_options gpu_options
 		     :refine_landmarks True
 		     :min_detection_confidence .15
 		     :min_tracking_confidence .15)
@@ -157,16 +161,16 @@
 							(aref lab_planes 2)))
 				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
 			      (when results.multi_face_landmarks
-			       (for (face_landmarks results.multi_face_landmarks)
-				    ,@(loop for e in
-					    `((:connections FACEMESH_TESSELATION :spec get_default_face_mesh_tesselation_style)
-					      (:connections FACEMESH_CONTOURS :spec get_default_face_mesh_contours_style)
-					      (:connections FACEMESH_IRISES :spec get_default_face_mesh_iris_connections_style)
-					      )
-					    collect
-					    (destructuring-bind (&key connections spec) e
+				(for (face_landmarks results.multi_face_landmarks)
+				     ,@(loop for e in
+					     `((:connections FACEMESH_TESSELATION :spec get_default_face_mesh_tesselation_style)
+					       (:connections FACEMESH_CONTOURS :spec get_default_face_mesh_contours_style)
+					       (:connections FACEMESH_IRISES :spec get_default_face_mesh_iris_connections_style)
+					       )
+					     collect
+					     (destructuring-bind (&key connections spec) e
 						
-						`(mp_drawing.draw_landmarks
+					       `(mp_drawing.draw_landmarks
 						 :image imgr
 						 :landmark_list face_landmarks
 						 :landmark_drawing_spec None
@@ -174,7 +178,7 @@
 						 :connection_drawing_spec
 						 (dot 
 						  mp_drawing_styles (,spec)))))
-				   ))
+				     ))
 			      (cv.imshow (string "screen")
 					 imgr) 
 			

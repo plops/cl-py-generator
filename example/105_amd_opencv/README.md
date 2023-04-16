@@ -85,3 +85,7 @@ https://www.youtube.com/watch?v=hCJIU0pOl5g
 # face mesh
 
 https://www.youtube.com/watch?v=vE3IKPnztek Extracting Faces with MediaPipe in Python
+
+# Mediapipe python GPU support
+- python doesn't seem to come with gpu support:
+https://github.com/google/mediapipe/issues/3106

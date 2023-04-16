@@ -8,9 +8,9 @@ import mss
 import mediapipe as mp
 start_time=time.time()
 debug=True
-_code_git_version="f07e43b0e3efce8d10a99f2481d4caf99b254bb6"
+_code_git_version="82e6432ae1954d4b9052235500c4482b984632b4"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
-_code_generation_time="10:20:10 of Sunday, 2023-04-16 (GMT+1)"
+_code_generation_time="14:05:30 of Sunday, 2023-04-16 (GMT+1)"
 print("{} nil cv.ocl.haveOpenCL()={}".format(((time.time())-(start_time)), cv.ocl.haveOpenCL()))
 loop_time=time.time()
 mp_drawing=mp.solutions.drawing_utils
@@ -18,7 +18,8 @@ mp_drawing_styles=mp.solutions.drawing_styles
 mp_face_mesh=mp.solutions.face_mesh
 clahe=cv.createCLAHE(clipLimit=(15.    ), tileGridSize=(32,18,))
 drawing_spec=mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
-with mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, refine_landmarks=True, min_detection_confidence=(0.150    ), min_tracking_confidence=(0.150    )) as face_mesh:
+gpu_options=mp.GpuAccelerationOptions(enable=True, device_id=0)
+with mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, gpu_options=gpu_options, refine_landmarks=True, min_detection_confidence=(0.150    ), min_tracking_confidence=(0.150    )) as face_mesh:
     # https://github.com/google/mediapipe/blob/master/docs/solutions/face_mesh.md
 # select the attention model using refine_landmarks option to home improve accuracy around lips, eyes and irises
     with mss.mss() as sct:
