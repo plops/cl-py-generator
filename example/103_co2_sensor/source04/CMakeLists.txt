@@ -1,3 +1,5 @@
+
+
 idf_component_register(
     SRCS
         "main.cpp"
@@ -8,6 +10,8 @@ idf_component_register(
 	"Uart.cpp"
 	"BmeSensor.cpp"
 	"Graph.cpp"
+	"data.pb.c"
+
    INCLUDE_DIRS
         "." "include"
 )
