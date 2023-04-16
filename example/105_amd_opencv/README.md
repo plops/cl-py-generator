@@ -80,3 +80,8 @@ https://stackabuse.com/real-time-pose-estimation-from-video-in-python-with-yolov
 
 - mediapipe is often better than yolo (for single person without occlusion)
 https://www.youtube.com/watch?v=hCJIU0pOl5g
+
+
+# face mesh
+
+https://www.youtube.com/watch?v=vE3IKPnztek Extracting Faces with MediaPipe in Python
