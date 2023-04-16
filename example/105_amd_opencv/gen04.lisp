@@ -176,7 +176,7 @@
 						  mp_drawing_styles (,spec)))))
 				   ))
 			      (cv.imshow (string "screen")
-					 imgr)
+					 imgr) 
 			
 			
 			      (do0
