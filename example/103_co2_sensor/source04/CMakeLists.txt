@@ -13,5 +13,7 @@ idf_component_register(
 	"data.pb.c"
 
    INCLUDE_DIRS
-        "." "include"
+        "."
+	"include"
+	"/home/martin/src/nanopb/"
 )
