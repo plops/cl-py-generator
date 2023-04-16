@@ -6,7 +6,7 @@
 
 (progn
   (defparameter *project* "105_amd_opencv")
-  (defparameter *idx* "03")
+  (defparameter *idx* "04")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -24,7 +24,7 @@
 
   
   
-  (let* ((notebook-name "opencv_mediapipe_pose")
+  (let* ((notebook-name "opencv_mediapipe_face")
 	 #+nil (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-source
@@ -112,18 +112,21 @@
 	  (setf loop_time (time.time))
 	  (setf mp_drawing mp.solutions.drawing_utils
 		mp_drawing_styles mp.solutions.drawing_styles
-		mp_pose mp.solutions.pose
+		mp_face_mesh mp.solutions.face_mesh
 		)
 	  (setf clahe (cv.createCLAHE :clipLimit 15.0
 				      :tileGridSize (tuple 32 18)))
-	  (with (as (mp_pose.Pose
+	  (setf drawing_spec (mp_drawing.DrawingSpec :thickness 1
+						     :circle_radius 1))
+	  (with (as (mp_face_mesh.FaceMesh
 		     :static_image_mode  False
-		     :model_complexity 1pfp
-		     ;:enable_segmentation False
+		     :max_num_faces 1
+		     :refine_landmarks True
 		     :min_detection_confidence .15
 		     :min_tracking_confidence .15)
-		    pose)
-		(comments "https://github.com/google/mediapipe/blob/master/docs/solutions/pose.md")
+		    face_mesh)
+		(comments "https://github.com/google/mediapipe/blob/master/docs/solutions/face_mesh.md"
+			  "select the attention model using refine_landmarks option to home improve accuracy around lips, eyes and irises")
 		(with (as (mss.mss)
 			  sct)
 		      (setf loop_start (time.time))
@@ -135,8 +138,7 @@
 									:width (// 1920 2)
 									:height (// 1080 2))))
 				    )
-			      (setf mp_image (mp.Image :image_format mp.ImageFormat.SRGB
-						       :data img))
+			      
 			
 			      (setf timestamp_ms (int (* 1000 (- (time.time)
 								 loop_start))))
@@ -144,7 +146,7 @@
 			
 			      (setf imgr (cv.cvtColor img 
 						      cv.COLOR_BGR2RGB))
-			      (setf pose_results (pose.process imgr))
+			      (setf results (face_mesh.process imgr))
 			      (setf lab (cv.cvtColor img 
 						     cv.COLOR_RGB2LAB)
 				    lab_planes (cv.split lab)
@@ -154,23 +156,25 @@
 							(aref lab_planes 1)
 							(aref lab_planes 2)))
 				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
-			      (when pose_results.pose_landmarks
-				(mp_drawing.draw_landmarks
-				 imgr
-				 pose_results.pose_landmarks
-				 mp_pose.POSE_CONNECTIONS
-				 :landmark_drawing_spec
-				 (
-				  mp_drawing_styles.get_default_pose_landmarks_style))
-				#+nil (for (human pose_results.pose_landmarks)
-					   (for (landmark human.landmark)
-						(setf x (int (* landmark.x (aref image.shape 1))))
-						(setf y (int (* landmark.y (aref image.shape 0))))
-						(cv.circle imgr
-							   (tuple x y)
-							   5
-							   (tuple 0 255 0)
-							   -1))))
+			      (when results.multi_face_landmarks
+			       (for (face_landmarks results.multi_face_landmarks)
+				    ,@(loop for e in
+					    `((:connections FACEMESH_TESSELATION :spec get_default_face_mesh_tesselation_style)
+					      (:connections FACEMESH_CONTOURS :spec get_default_face_mesh_contours_style)
+					      (:connections FACEMESH_IRISES :spec get_default_face_mesh_iris_connections_style)
+					      )
+					    collect
+					    (destructuring-bind (&key connections spec) e
+						
+						`(mp_drawing.draw_landmarks
+						 :image imgr
+						 :landmark_list face_landmarks
+						 :landmark_drawing_spec None
+						 :connections (dot mp_face_mesh ,connections)
+						 :connection_drawing_spec
+						 (dot 
+						  mp_drawing_styles (,spec)))))
+				   ))
 			      (cv.imshow (string "screen")
 					 imgr)
 			

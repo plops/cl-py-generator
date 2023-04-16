@@ -117,8 +117,8 @@
 	  (setf clahe (cv.createCLAHE :clipLimit 15.0
 				      :tileGridSize (tuple 32 18)))
 	  (with (as (mp_pose.Pose
-		     :static_image_mode False
-		     :model_complexity 0
+		     :static_image_mode  False
+		     :model_complexity 1
 		     ;:enable_segmentation False
 		     :min_detection_confidence .15
 		     :min_tracking_confidence .15)

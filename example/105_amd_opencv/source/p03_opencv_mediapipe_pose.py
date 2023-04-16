@@ -8,16 +8,16 @@ import mss
 import mediapipe as mp
 start_time=time.time()
 debug=True
-_code_git_version="d4be7d78df1910bb3d7c4ef4ca49726f196287e1"
+_code_git_version="1a0be4a54a79037222a2f74d69363eecbd59c76d"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
-_code_generation_time="23:03:56 of Friday, 2023-04-14 (GMT+1)"
+_code_generation_time="23:40:12 of Friday, 2023-04-14 (GMT+1)"
 print("{} nil cv.ocl.haveOpenCL()={}".format(((time.time())-(start_time)), cv.ocl.haveOpenCL()))
 loop_time=time.time()
 mp_drawing=mp.solutions.drawing_utils
 mp_drawing_styles=mp.solutions.drawing_styles
 mp_pose=mp.solutions.pose
 clahe=cv.createCLAHE(clipLimit=(15.    ), tileGridSize=(32,18,))
-with mp_pose.Pose(static_image_mode=False, model_complexity=0, min_detection_confidence=(0.150    ), min_tracking_confidence=(0.150    )) as pose:
+with mp_pose.Pose(static_image_mode=False, model_complexity=1, min_detection_confidence=(0.150    ), min_tracking_confidence=(0.150    )) as pose:
     # https://github.com/google/mediapipe/blob/master/docs/solutions/pose.md
     with mss.mss() as sct:
         loop_start=time.time()
