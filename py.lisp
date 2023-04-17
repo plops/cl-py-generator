@@ -151,12 +151,11 @@ entry return-values contains a list of return values. currently supports type, v
 						    (let ((type (gethash name env)))
 						      (if type
 							  (funcall emit type)
-							  (break "can't find type for keyword parameter ~a in defun"
-								 name)))
+							  "" ;; can't find type for keyword parameter
+							  ))
 						    name
 						    
-						    (when header-only ;; only in class definition
-						      (format nil "= ~a" (funcall emit init))))))
+						    (format nil "= ~a" (funcall emit init)))))
 				  ))
 		  #+nil (emit `(paren
 				,@(append (mapcar #'emit req-param)
