@@ -25,20 +25,20 @@ void BmeSensor::measureBME(std::deque<PointBME> &fifoBME,
 
     ESP_LOGE(
         TAG, "%s",
-        fmt::format("  bme==nullptr='{}'  temperature='{}'  humidity='{}'  "
+        fmt::format("  (bme)==(nullptr)='{}'  temperature='{}'  humidity='{}'  "
                     "pressure='{}'  s.new_data='{}'  s.gas_measuring='{}'  "
                     "s.measuring='{}'  s.gas_measuring_index='{}'  "
                     "s.gas_valid='{}'  s.heater_stable='{}'\n",
-                    bme == nullptr, temperature, humidity, pressure, s.new_data,
-                    s.gas_measuring, s.measuring, s.gas_measuring_index,
-                    s.gas_valid, s.heater_stable)
+                    (bme) == (nullptr), temperature, humidity, pressure,
+                    s.new_data, s.gas_measuring, s.measuring,
+                    s.gas_measuring_index, s.gas_valid, s.heater_stable)
             .c_str());
-    if (((N_FIFO) - (1)) < fifo.size()) {
+    if (((((N_FIFO) - (1))) < (fifo.size()))) {
       fifoBME.pop_back();
     }
     auto tv_now = timeval();
     gettimeofday(&tv_now, nullptr);
-    auto time_us = (tv_now.tv_sec + ((1.00e-6f) * tv_now.tv_usec));
+    auto time_us = ((tv_now.tv_sec) + ((((1.00e-6f)) * (tv_now.tv_usec))));
     auto p = PointBME({.x = time_us,
                        .temperature = temperature,
                        .humidity = humidity,

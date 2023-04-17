@@ -18,14 +18,15 @@ extern "C" {
 #include "Wifi.h"
 void Wifi::event_handler(void *arg, esp_event_base_t event_base,
                          int32_t event_id, void *event_data) {
-  if (((WIFI_EVENT == event_base) && (WIFI_EVENT_STA_START == event_id))) {
+  if (((((WIFI_EVENT) == (event_base)) &&
+        ((WIFI_EVENT_STA_START) == (event_id))))) {
     esp_wifi_connect();
   } else {
-    if (((WIFI_EVENT == event_base) &&
-         (WIFI_EVENT_STA_DISCONNECTED == event_id))) {
-      if (s_retry_num < EXAMPLE_ESP_MAXIMUM_RETRY) {
+    if (((((WIFI_EVENT) == (event_base)) &&
+          ((WIFI_EVENT_STA_DISCONNECTED) == (event_id))))) {
+      if (((s_retry_num) < (EXAMPLE_ESP_MAXIMUM_RETRY))) {
         esp_wifi_connect();
-        s_retry_num++;
+        (s_retry_num)++;
         fmt::print("retry to connect to the access point\n");
 
       } else {
@@ -34,7 +35,8 @@ void Wifi::event_handler(void *arg, esp_event_base_t event_base,
       fmt::print("connection to the access point failed\n");
 
     } else {
-      if (((IP_EVENT == event_base) && (IP_EVENT_STA_GOT_IP == event_id))) {
+      if (((((IP_EVENT) == (event_base)) &&
+            ((IP_EVENT_STA_GOT_IP) == (event_id))))) {
         auto event = static_cast<ip_event_got_ip_t *>(event_data);
         fmt::print("got ip:  IP2STR(&event->ip_info.ip)='{}'\n",
                    IP2STR(&event->ip_info.ip));
@@ -84,10 +86,10 @@ Wifi::Wifi() : s_retry_num(0) {
   auto bits = xEventGroupWaitBits(s_wifi_event_group,
                                   ((WIFI_CONNECTED_BIT) | (WIFI_FAIL_BIT)),
                                   pdFALSE, pdFALSE, portMAX_DELAY);
-  if (((WIFI_CONNECTED_BIT) & (bits))) {
+  if ((((WIFI_CONNECTED_BIT) & (bits)))) {
     fmt::print("connected to ap\n");
   } else {
-    if (((WIFI_FAIL_BIT) & (bits))) {
+    if ((((WIFI_FAIL_BIT) & (bits)))) {
       fmt::print("connection to ap failed\n");
     } else {
       fmt::print("unexpected event\n");

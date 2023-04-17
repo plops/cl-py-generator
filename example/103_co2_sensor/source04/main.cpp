@@ -27,8 +27,8 @@ void exit_to_launcher() {
 void app_main() {
   ESP_LOGE(TAG, "welcome to the template app");
   auto ret = nvs_flash_init();
-  if (((ESP_ERR_NVS_NO_FREE_PAGES == ret) ||
-       (ESP_ERR_NVS_NEW_VERSION_FOUND == ret))) {
+  if (((((ESP_ERR_NVS_NO_FREE_PAGES) == (ret)) ||
+        ((ESP_ERR_NVS_NEW_VERSION_FOUND) == (ret))))) {
     ESP_ERROR_CHECK(nvs_flash_erase());
     ret = nvs_flash_init();
   }
@@ -53,7 +53,7 @@ void app_main() {
     graph.humidity();
     graph.pressure();
     display.small_text(
-        fmt::format("build 20:51:48 of Thursday, 2023-04-13 (GMT+1)\n"));
+        fmt::format("build 00:08:14 of Tuesday, 2023-04-18 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
@@ -62,7 +62,8 @@ void app_main() {
     display.flush();
     auto message = rp2040_input_message_t();
     xQueueReceive(buttonQueue, &message, 2);
-    if (((RP2040_INPUT_BUTTON_HOME == message.input) && (message.state))) {
+    if (((((RP2040_INPUT_BUTTON_HOME) == (message.input)) &&
+          (message.state)))) {
       exit_to_launcher();
     }
   }

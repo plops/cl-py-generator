@@ -215,8 +215,19 @@
 	     *source-dir*)
        :name name
        :headers `()
-       :header-preamble `(do0
-			  )
+       :header-preamble
+       `(do0
+	 (include<> pb.h)
+	 #+nil
+	 (space "extern \"C\" "
+		(progn
+		  
+		  (include<>
+		  
+		   pb.h
+		   )
+		  ))
+	 )
        :implementation-preamble
        `(do0
 	 (space "extern \"C\" "
@@ -227,7 +238,18 @@
 			    "freertos/FreeRTOS.h"
 			    "freertos/task.h"
 			    "freertos/event_groups.h"
+
+			    data.pb.h
 			    )
+		  (include<>
+		   sys/socket.h
+		   sys/types.h
+		   netinet/in.h
+		   arpa/inet.h
+		   unistd.h
+		   ;pb.h
+		   pb_encode.h
+		   pb_decode.h)
 		  (include lwip/sockets.h)
 		  (include<> arpa/inet.h)))
 	 (do0
@@ -236,13 +258,115 @@
        :code `(do0
 	       (defclass ,name ()	 
 		 "public:"
+		 
+		 (defmethod read_callback (stream buf count)
+		   (declare (type pb_istream_t* stream)
+			    (type uint8_t* buf)
+			    (type size_t count)
+			    (values bool))
+		   (let ((fd (reinterpret_cast<intptr_t> stream->state))))
+		   (when (== 0 count)
+		     (return true))
+		   
+		   (comments "operation should block until full request is satisfied. may still return less than requested (upon signal, error or disconnect)")
+		   (let ((result (recv fd buf count MSG_WAITALL)))
+		     ,(lprint :msg "read_callback" :vars `(count result))
+		     
+		     (dotimes (i count)
+		       (fmt--print (string "{:02x} ")
+				   (aref buf i))
+		       #+nil ,(lprint :msg "r" :vars `(i (aref buf i))))
+		     (fmt--print (string "\\n"))
+		     (when (== 0 result)	      
+		       (comments "EOF")
+		       (setf stream->bytes_left 0))
+		     (return (== count result))))
+
+		 (defmethod write_callback (stream buf count)
+		   (declare (type pb_ostream_t* stream)
+			    (type "const pb_byte_t*" buf)
+			    (type size_t count)
+			    (values bool))
+		   (let ((fd (reinterpret_cast<intptr_t> stream->state))))
+		   #+nil (dotimes (i count)
+		     ,(lprint :msg "w" :vars `(i (aref buf i))))
+		   (return (== count
+			       (send fd buf count 0))))
+
+		 (defmethod pb_istream_from_socket (fd)
+		   (declare (type int fd)
+			    (values pb_istream_t))
+		   (let (
+			 (stream (pb_istream_t (designated-initializer :callback TcpConnection--read_callback
+								       :state (reinterpret_cast<void*>
+									       (static_cast<intptr_t>
+										fd))
+								       :bytes_left SIZE_MAX))))
+	    (return stream)))
+		 (defmethod pb_ostream_from_socket (fd)
+		   (declare (type int fd)
+			    (values pb_ostream_t))
+		   (let (
+			 (stream (pb_ostream_t
+				  (designated-initializer
+				   :callback TcpConnection--write_callback
+				   :state (reinterpret_cast<void*>
+					   (static_cast<intptr_t>
+					    fd))
+				   :max_size SIZE_MAX
+				   :bytes_written 0))))
+		     (return stream)))
+
+		 (defmethod talk ()
+		   (let ((s (socket AF_INET
+				    SOCK_STREAM
+				    0))
+			 (server_addr (sockaddr_in (designated-initializer
+						    :sin_family AF_INET
+						    :sin_port (htons 1234)
+						    ))))
+		     (inet_pton AF_INET
+				(string "127.0.0.1")
+				&server_addr.sin_addr)
+		     (when (connect s (reinterpret_cast<sockaddr*>
+				       &server_addr)
+				    (sizeof server_addr))
+		       ,(lprint :msg "error connecting"))
+		     ,(lprint :msg "send measurement values in a DataResponse message")
+		     
+		     (let ((omsg (DataResponse (designated-initializer
+						:index 7
+						:datetime 1234
+						:pressure 1023.3
+						
+						:humidity 32.12
+						:temperature 5.6
+						:co2_concentration 531.0) ))
+			   (output (pb_ostream_from_socket s)))
+		       (unless (pb_encode &output
+					  DataResponse_fields
+					  &omsg)
+			 ,(lprint :msg "error encoding"))
+		       
+		       )
+		     (do0
+		      ,(lprint :msg "close the output stream of the socket, so that the server receives a FIN packet")
+		      (shutdown s SHUT_WR))
+		     ,(lprint :msg "read DataRequest")
+		     (let ((imsg (DataRequest "{}"))
+			   (input (pb_istream_from_socket s)))
+		       (unless (pb_decode &input DataRequest_fields &imsg)
+			 ,(lprint :msg "error decoding"))
+		       ,(lprint :vars `(imsg.count
+					imsg.start_index)))))
+		 
 		 (defmethod ,name ()
 		   (declare
 		    (construct
 		     )
 		    (explicit)	    
 		    (values :constructor))
-		   (do0
+		   #+nil (do0
 		    (let ((port 12345)
 			  (ip_address (string "192.168.120.122"))
 			  (addr ((lambda ()

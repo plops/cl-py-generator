@@ -563,7 +563,9 @@ void sendTemp(pb_TempEvent e)
   sends the response and closes its write channel and thereby the
   entire connection.
 
-- i want to implement the client functionality from
+- i want to implement the client functionality in gen04 from
   cl-cpp-generator2/example/121_nanopb/gen04.lisp to run on the esp32
+  - Wifi class can stay
+  - modify TcpConnection to support nanopb protobuf messages
   
 - the server code could be python (121/03) or C++ (121/01)

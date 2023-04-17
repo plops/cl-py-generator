@@ -35,10 +35,10 @@ void Display::text(std::string str, const pax_font_t *font, float x, float y,
   auto x_ = ((((buf.width) - (dims.x))) / ((2.0f)));
   auto y_ = ((((buf.height) - (dims.y))) / ((2.0f)));
   // center coordinate if x or y < 0
-  if (0 < x) {
+  if (((0) < (x))) {
     x_ = x;
   }
-  if (0 < y) {
+  if (((0) < (y))) {
     y_ = y;
   }
   pax_draw_text(&buf, pax_col_hsv(h, s, v), font, font->default_size, x_, y_,
