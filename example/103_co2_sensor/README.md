@@ -548,4 +548,22 @@ void sendTemp(pb_TempEvent e)
    https://www.youtube.com/watch?v=PYSy_PLjytQ
    - quite opinionated
    - arduino and esp example (az delivery)
-   - esp-idf (if you hate your life) 
+   - esp-idf (if you hate your life)
+   
+# Protobuf network protocol
+
+
+- the proto file is converted to C using protoc and nanopb. there is
+  also a dependency on the nanopb header file
+  
+- i didn't want to encode and decode packet lengths into the tcp
+  stream. instead i define that every request from the client to the
+  server must end by closing the connection (client's write
+  channel). upon receiving the fin packet the server sends an ack,
+  sends the response and closes its write channel and thereby the
+  entire connection.
+
+- i want to implement the client functionality from
+  cl-cpp-generator2/example/121_nanopb/gen04.lisp to run on the esp32
+  
+- the server code could be python (121/03) or C++ (121/01)
