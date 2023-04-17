@@ -49,18 +49,27 @@ bool TcpConnection::write_callback(pb_ostream_t *stream, const pb_byte_t *buf,
   return (count) == (send(fd, buf, count, 0));
 }
 pb_istream_t TcpConnection::pb_istream_from_socket(int fd) {
-  auto stream = pb_istream_t(
-      {.callback = TcpConnection::read_callback,
-       .state = reinterpret_cast<void *>(static_cast<intptr_t>(fd)),
-       .bytes_left = SIZE_MAX});
+  // note: the designated initializer syntax requires C++20
+
+  auto stream = pb_istream_t();
+  stream.callback = &TcpConnection::read_callback;
+
+  stream.state = reinterpret_cast<void *>(static_cast<intptr_t>(fd));
+
+  stream.bytes_left = SIZE_MAX;
+
   return stream;
 }
 pb_ostream_t TcpConnection::pb_ostream_from_socket(int fd) {
-  auto stream = pb_ostream_t(
-      {.callback = TcpConnection::write_callback,
-       .state = reinterpret_cast<void *>(static_cast<intptr_t>(fd)),
-       .max_size = SIZE_MAX,
-       .bytes_written = 0});
+  auto stream = pb_ostream_t();
+  stream.callback = &TcpConnection::write_callback;
+
+  stream.state = reinterpret_cast<void *>(static_cast<intptr_t>(fd));
+
+  stream.max_size = SIZE_MAX;
+
+  stream.bytes_written = 0;
+
   return stream;
 }
 void TcpConnection::talk() {

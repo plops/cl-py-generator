@@ -263,6 +263,7 @@
 		   (declare (type pb_istream_t* stream)
 			    (type uint8_t* buf)
 			    (type size_t count)
+			    (static)
 			    (values bool))
 		   (let ((fd (reinterpret_cast<intptr_t> stream->state))))
 		   (when (== 0 count)
@@ -286,6 +287,7 @@
 		   (declare (type pb_ostream_t* stream)
 			    (type "const pb_byte_t*" buf)
 			    (type size_t count)
+			    (static)
 			    (values bool))
 		   (let ((fd (reinterpret_cast<intptr_t> stream->state))))
 		   #+nil (dotimes (i count)
@@ -293,29 +295,40 @@
 		   (return (== count
 			       (send fd buf count 0))))
 
-		 (defmethod pb_istream_from_socket (fd)
-		   (declare (type int fd)
-			    (values pb_istream_t))
-		   (let (
-			 (stream (pb_istream_t (designated-initializer :callback TcpConnection--read_callback
-								       :state (reinterpret_cast<void*>
-									       (static_cast<intptr_t>
-										fd))
-								       :bytes_left SIZE_MAX))))
-	    (return stream)))
-		 (defmethod pb_ostream_from_socket (fd)
-		   (declare (type int fd)
-			    (values pb_ostream_t))
-		   (let (
-			 (stream (pb_ostream_t
-				  (designated-initializer
-				   :callback TcpConnection--write_callback
-				   :state (reinterpret_cast<void*>
-					   (static_cast<intptr_t>
-					    fd))
-				   :max_size SIZE_MAX
-				   :bytes_written 0))))
-		     (return stream)))
+		 ,@(flet ((init (def)
+			   (destructuring-bind (&key name contents) def
+			     `(do0
+			       ,@(loop for (key val) in contents
+				     collect
+				     `(setf (dot ,name ,key)
+					    ,val))))))
+		    `(
+		     (defmethod pb_istream_from_socket (fd)
+		       (declare (type int fd)
+				
+				(values pb_istream_t))
+		       (comments "note: the designated initializer syntax requires C++20")
+		       (let ((stream (pb_istream_t )))
+			 ,(init `(:name stream
+				  :contents ((callback &TcpConnection--read_callback)
+					     (state (reinterpret_cast<void*>
+						     (static_cast<intptr_t>
+						      fd)))
+					     (bytes_left SIZE_MAX))))
+			 (return stream)))
+		     (defmethod pb_ostream_from_socket (fd)
+		       (declare (type int fd)
+				
+				(values pb_ostream_t))
+		       (let ((stream (pb_ostream_t)))
+			 ,(init `(:name stream
+				  :contents ((callback &TcpConnection--write_callback)
+					     (state (reinterpret_cast<void*>
+						     (static_cast<intptr_t>
+						      fd)))
+					     (max_size SIZE_MAX)
+					     (bytes_written 0))))
+			 (return stream)))))
 
 		 (defmethod talk ()
 		   (let ((s (socket AF_INET
