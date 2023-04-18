@@ -14,6 +14,7 @@ extern "C" {
 #include <pb_encode.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <time.h>
 #include <unistd.h>
 };
 #define FMT_HEADER_ONLY
@@ -72,7 +73,8 @@ pb_ostream_t TcpConnection::pb_ostream_from_socket(int fd) {
 
   return stream;
 }
-void TcpConnection::talk() {
+void TcpConnection::send_data(float pressure, float humidity, float temperature,
+                              float co2_concentration) {
   auto s = socket(AF_INET, SOCK_STREAM, 0);
   auto server_addr =
       sockaddr_in({.sin_family = AF_INET, .sin_port = htons(1234)});
@@ -82,16 +84,21 @@ void TcpConnection::talk() {
     fmt::print("error connecting\n");
   }
   fmt::print("send measurement values in a DataResponse message\n");
-  auto omsg = DataResponse({.index = 7,
-                            .datetime = 1234,
-                            .pressure = (1023.30f),
-                            .humidity = (32.120f),
-                            .temperature = (5.60f),
-                            .co2_concentration = (531.f)});
+  auto now = time_t();
+  static uint64_t count = 0;
+  time(&now);
+  auto omsg = DataResponse({.index = count,
+                            .datetime = now,
+                            .pressure = pressure,
+                            .humidity = humidity,
+                            .temperature = temperature,
+                            .co2_concentration = co2_concentration});
   auto output = pb_ostream_from_socket(s);
+  (count)++;
   if ((!(pb_encode(&output, DataResponse_fields, &omsg)))) {
     fmt::print("error encoding\n");
   }
+
   fmt::print("close the output stream of the socket, so that the server "
              "receives a FIN packet\n");
   shutdown(s, SHUT_WR);

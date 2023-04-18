@@ -9,7 +9,7 @@ class TcpConnection  {
         static bool write_callback (pb_ostream_t* stream, const pb_byte_t* buf, size_t count)       ;  
         pb_istream_t pb_istream_from_socket (int fd)       ;  
         pb_ostream_t pb_ostream_from_socket (int fd)       ;  
-        void talk ()       ;  
+        void send_data (float pressure, float humidity, float temperature, float co2_concentration)       ;  
         explicit  TcpConnection ()       ;  
 };
 

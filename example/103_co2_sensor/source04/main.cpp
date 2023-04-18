@@ -48,12 +48,17 @@ void app_main() {
   while (1) {
     uart.measureCO2(fifo);
     bme.measureBME(fifoBME, fifo);
+    auto co2_val = fifo.front();
+    auto bme_val = fifoBME.front();
+    tcp.send_data(bme_val.pressure, bme_val.humidity, bme_val.temperature,
+                  co2_val.y);
+
     display.background(129, 0, 0);
     graph.temperature();
     graph.humidity();
     graph.pressure();
     display.small_text(
-        fmt::format("build 00:30:07 of Tuesday, 2023-04-18 (GMT+1)\n"));
+        fmt::format("build 21:47:28 of Tuesday, 2023-04-18 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);

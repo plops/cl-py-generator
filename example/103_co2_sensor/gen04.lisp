@@ -248,6 +248,7 @@
 		   arpa/inet.h
 		   unistd.h
 		   ;pb.h
+		   time.h
 		   pb_encode.h
 		   pb_decode.h)
 		  (include lwip/sockets.h)
@@ -330,7 +331,8 @@
 					     (bytes_written 0))))
 			 (return stream)))))
 
-		 (defmethod talk ()
+		 (defmethod send_data (pressure humidity temperature co2_concentration)
+		   (declare (type float pressure humidity temperature co2_concentration))
 		   (let ((s (socket AF_INET
 				    SOCK_STREAM
 				    0))
@@ -346,22 +348,27 @@
 				    (sizeof server_addr))
 		       ,(lprint :msg "error connecting"))
 		     ,(lprint :msg "send measurement values in a DataResponse message")
-		     
-		     (let ((omsg (DataResponse (designated-initializer
-						:index 7
-						:datetime 1234
-						:pressure 1023.3
+		     (let ((now (time_t))
+			   (count 0))
+		       (declare (type "static uint64_t" count))
+		       (time &now)
+		       (let (
+			     (omsg (DataResponse (designated-initializer
+						  :index count
+						  :datetime now
+						  :pressure pressure
 						
-						:humidity 32.12
-						:temperature 5.6
-						:co2_concentration 531.0) ))
-			   (output (pb_ostream_from_socket s)))
-		       (unless (pb_encode &output
-					  DataResponse_fields
-					  &omsg)
-			 ,(lprint :msg "error encoding"))
+						  :humidity humidity
+						  :temperature temperature
+						  :co2_concentration co2_concentration) ))
+			     (output (pb_ostream_from_socket s)))
+			 (incf count)
+			 (unless (pb_encode &output
+					    DataResponse_fields
+					    &omsg)
+			   ,(lprint :msg "error encoding"))
 		       
-		       )
+			 ))
 		     (do0
 		      ,(lprint :msg "close the output stream of the socket, so that the server receives a FIN packet")
 		      (shutdown s SHUT_WR))
@@ -1308,7 +1315,16 @@
 		   (uart.measureCO2 fifo)
 
 		   (bme.measureBME fifoBME fifo)
-		 
+
+		   (let ((co2_val (dot fifo (front)))
+			 (bme_val (dot fifoBME (front))))
+		     
+		     (dot tcp
+			  (send_data bme_val.pressure
+				     bme_val.humidity
+				     bme_val.temperature
+				     co2_val.y)))
+		   
 		   (display.background 129 0 0)
 
 		   

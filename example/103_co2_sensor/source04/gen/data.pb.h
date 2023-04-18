@@ -23,7 +23,7 @@ typedef struct _DataRequest {
 
 typedef struct _DataResponse {
     uint64_t index;
-    uint64_t datetime;
+    int64_t datetime;
     float pressure;
     float humidity;
     float temperature;
@@ -70,7 +70,7 @@ X(a, STATIC,   SINGULAR, INT64,    start_index,       2)
 
 #define DataResponse_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT64,   index,             1) \
-X(a, STATIC,   SINGULAR, UINT64,   datetime,          2) \
+X(a, STATIC,   SINGULAR, INT64,    datetime,          2) \
 X(a, STATIC,   SINGULAR, FLOAT,    pressure,          3) \
 X(a, STATIC,   SINGULAR, FLOAT,    humidity,          4) \
 X(a, STATIC,   SINGULAR, FLOAT,    temperature,       5) \

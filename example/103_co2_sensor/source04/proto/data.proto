@@ -14,7 +14,7 @@ message DataRequest {
 
 message DataResponse {
   uint64 index = 1;
-  uint64 datetime = 2;
+  int64 datetime = 2;
   float pressure = 3;
   float humidity = 4;
   float temperature = 5;

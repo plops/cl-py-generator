@@ -13,6 +13,9 @@ idf_component_register(
 	"BmeSensor.cpp"
 	"Graph.cpp"
 	"data.pb.c"
+		/home/martin/src/nanopb/pb_decode.c	
+			/home/martin/src/nanopb/pb_encode.c	
+				/home/martin/src/nanopb/pb_common.c
 
    INCLUDE_DIRS
         "."
