@@ -19,6 +19,7 @@
     - [Algorithm](#algorithm)
         - [Ransac](#ransac)
     - [Wifi](#wifi)
+- [Protobuf network protocol](#protobuf-network-protocol)
 
 <!-- markdown-toc end -->
 
@@ -553,19 +554,31 @@ void sendTemp(pb_TempEvent e)
 # Protobuf network protocol
 
 
-- the proto file is converted to C using protoc and nanopb. there is
-  also a dependency on the nanopb header file
-  
-- i didn't want to encode and decode packet lengths into the tcp
-  stream. instead i define that every request from the client to the
-  server must end by closing the connection (client's write
-  channel). upon receiving the fin packet the server sends an ack,
-  sends the response and closes its write channel and thereby the
-  entire connection.
+This project uses the Protocol Buffers (Protobuf) network protocol for
+efficient data serialization between a client and a server. The
+implementation uses the following libraries and tools:
 
-- i want to implement the client functionality in gen04 from
-  cl-cpp-generator2/example/121_nanopb/gen04.lisp to run on the esp32
-  - Wifi class can stay
-  - modify TcpConnection to support nanopb protobuf messages
-  
-- the server code could be python (121/03) or C++ (121/01)
+    The .proto file is converted to C using protoc and nanopb.
+    The project has a dependency on the nanopb header files.
+
+## Connection Handling
+
+In order to avoid encoding and decoding packet lengths into the TCP
+stream, the following approach is used:
+
+    Every request from the client to the server must end by closing the connection (client's write channel).
+    Upon receiving the FIN packet, the server sends an ACK, sends the response, and closes its write channel, thereby closing the entire connection.
+
+## Client Implementation
+
+The client functionality is implemented in the gen04 file, located at
+cl-cpp-generator2/example/121_nanopb/gen04.lisp, and is designed to
+run on the ESP32 platform. Some modifications are required:
+
+    The Wifi class can be kept as is.
+    The TcpConnection class should be modified to support nanopb Protobuf messages.
+
+## Server Implementation
+
+The server code can be implemented using either Python (refer to
+dir121/gen03) or C++ (refer to dir121/gen01).
