@@ -77,8 +77,8 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
                               float co2_concentration) {
   auto s = socket(AF_INET, SOCK_STREAM, 0);
   auto server_addr =
-      sockaddr_in({.sin_family = AF_INET, .sin_port = htons(1234)});
-  inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr);
+      sockaddr_in({.sin_family = AF_INET, .sin_port = htons(12345)});
+  inet_pton(AF_INET, "192.168.120.122", &server_addr.sin_addr);
   if ((connect(s, reinterpret_cast<sockaddr *>(&server_addr),
                sizeof(server_addr)))) {
     fmt::print("error connecting\n");

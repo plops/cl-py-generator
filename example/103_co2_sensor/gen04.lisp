@@ -338,10 +338,10 @@
 				    0))
 			 (server_addr (sockaddr_in (designated-initializer
 						    :sin_family AF_INET
-						    :sin_port (htons 1234)
+						    :sin_port (htons 12345)
 						    ))))
 		     (inet_pton AF_INET
-				(string "127.0.0.1")
+				(string "192.168.120.122")
 				&server_addr.sin_addr)
 		     (when (connect s (reinterpret_cast<sockaddr*>
 				       &server_addr)
