@@ -272,6 +272,9 @@
 		   
 		   (comments "operation should block until full request is satisfied. may still return less than requested (upon signal, error or disconnect)")
 		   (let ((result (recv fd buf count MSG_WAITALL)))
+		     (when (< result 0)
+		       ,(lprint :msg "recv failed"
+				:vars `((strerror errno))))
 		     ,(lprint :msg "read_callback" :vars `(count result))
 		     
 		     (dotimes (i count)
@@ -293,8 +296,12 @@
 		   (let ((fd (reinterpret_cast<intptr_t> stream->state))))
 		   #+nil (dotimes (i count)
 		     ,(lprint :msg "w" :vars `(i (aref buf i))))
-		   (return (== count
-			       (send fd buf count 0))))
+		   (let ((res (send fd buf count 0)))
+		     (when (< res 0)
+		       ,(lprint :msg "send failed"
+				:vars `((strerror errno))))
+		     (return (== count
+				 res))))
 
 		 ,@(flet ((init (def)
 			   (destructuring-bind (&key name contents) def
@@ -310,11 +317,11 @@
 				 )
 			(let ((timeout (timeval)))
 			  (setf timeout.tv_sec (static_cast<int> timeout_seconds)
-				timeout.tv_usec (stati_cast<int> (* 1000000
+				timeout.tv_usec (static_cast<int> (* 1000000
 								    (- timeout_seconds
 								       timeout.tv_sec))))
-			  (setsockopt fd SOL_SOCKET SO_RCVTIME0 &timeout (sizeof timeout))
-			  (setsockopt fd SOL_SOCKET SO_SNDTIME0 &timeout (sizeof timeout))))
+			  (setsockopt fd SOL_SOCKET SO_RCVTIMEO &timeout (sizeof timeout))
+			  (setsockopt fd SOL_SOCKET SO_SNDTIMEO &timeout (sizeof timeout))))
 		      (defmethod pb_istream_from_socket (fd)
 			(declare (type int fd)
 				
@@ -356,10 +363,12 @@
 		     (inet_pton AF_INET
 				(string "192.168.2.122")
 				&server_addr.sin_addr)
-		     (when (connect s (reinterpret_cast<sockaddr*>
-				       &server_addr)
-				    (sizeof server_addr))
-		       ,(lprint :msg "error connecting"))
+		     (when (< (connect s (reinterpret_cast<sockaddr*>
+					&server_addr)
+				       (sizeof server_addr))
+			      0)
+		       ,(lprint :msg "error connecting"
+				:vars `((strerror errno))))
 		     ,(lprint :msg "send measurement values in a DataResponse message")
 		     (let ((now (time_t))
 			   (count 0))

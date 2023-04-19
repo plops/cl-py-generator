@@ -32,6 +32,9 @@ bool TcpConnection::read_callback(pb_istream_t *stream, uint8_t *buf,
   // less than requested (upon signal, error or disconnect)
 
   auto result = recv(fd, buf, count, MSG_WAITALL);
+  if (((result) < (0))) {
+    fmt::print("recv failed  strerror(errno)='{}'\n", strerror(errno));
+  }
   fmt::print("read_callback  count='{}'  result='{}'\n", count, result);
   for (auto i = 0; (i) < (count); (i) += (1)) {
     fmt::print("{:02x} ", buf[i]);
@@ -47,16 +50,20 @@ bool TcpConnection::write_callback(pb_ostream_t *stream, const pb_byte_t *buf,
                                    size_t count) {
   auto fd = reinterpret_cast<intptr_t>(stream->state);
 
-  return (count) == (send(fd, buf, count, 0));
+  auto res = send(fd, buf, count, 0);
+  if (((res) < (0))) {
+    fmt::print("send failed  strerror(errno)='{}'\n", strerror(errno));
+  }
+  return (count) == (res);
 }
 void TcpConnection::set_socket_timeout(int fd, float timeout_seconds) {
   auto timeout = timeval();
   timeout.tv_sec = static_cast<int>(timeout_seconds);
   timeout.tv_usec =
-      stati_cast<int>(((1000000) * (((timeout_seconds) - (timeout.tv_sec)))));
+      static_cast<int>(((1000000) * (((timeout_seconds) - (timeout.tv_sec)))));
 
-  setsockopt(fd, SOL_SOCKET, SO_RCVTIME0, &timeout, sizeof(timeout));
-  setsockopt(fd, SOL_SOCKET, SO_SNDTIME0, &timeout, sizeof(timeout));
+  setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+  setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
 }
 pb_istream_t TcpConnection::pb_istream_from_socket(int fd) {
   // note: the designated initializer syntax requires C++20
@@ -89,9 +96,9 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
       sockaddr_in({.sin_family = AF_INET, .sin_port = htons(12345)});
   set_socket_timeout(s, (2.0f));
   inet_pton(AF_INET, "192.168.2.122", &server_addr.sin_addr);
-  if ((connect(s, reinterpret_cast<sockaddr *>(&server_addr),
-               sizeof(server_addr)))) {
-    fmt::print("error connecting\n");
+  if (((connect(s, reinterpret_cast<sockaddr *>(&server_addr),
+                sizeof(server_addr))) < (0))) {
+    fmt::print("error connecting  strerror(errno)='{}'\n", strerror(errno));
   }
   fmt::print("send measurement values in a DataResponse message\n");
   auto now = time_t();
