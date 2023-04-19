@@ -49,6 +49,15 @@ bool TcpConnection::write_callback(pb_ostream_t *stream, const pb_byte_t *buf,
 
   return (count) == (send(fd, buf, count, 0));
 }
+void TcpConnection::set_socket_timeout(int fd, float timeout_seconds) {
+  auto timeout = timeval();
+  timeout.tv_sec = static_cast<int>(timeout_seconds);
+  timeout.tv_usec =
+      stati_cast<int>(((1000000) * (((timeout_seconds) - (timeout.tv_sec)))));
+
+  setsockopt(fd, SOL_SOCKET, SO_RCVTIME0, &timeout, sizeof(timeout));
+  setsockopt(fd, SOL_SOCKET, SO_SNDTIME0, &timeout, sizeof(timeout));
+}
 pb_istream_t TcpConnection::pb_istream_from_socket(int fd) {
   // note: the designated initializer syntax requires C++20
 
@@ -78,7 +87,8 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
   auto s = socket(AF_INET, SOCK_STREAM, 0);
   auto server_addr =
       sockaddr_in({.sin_family = AF_INET, .sin_port = htons(12345)});
-  inet_pton(AF_INET, "192.168.120.122", &server_addr.sin_addr);
+  set_socket_timeout(s, (2.0f));
+  inet_pton(AF_INET, "192.168.2.122", &server_addr.sin_addr);
   if ((connect(s, reinterpret_cast<sockaddr *>(&server_addr),
                sizeof(server_addr)))) {
     fmt::print("error connecting\n");

@@ -304,19 +304,31 @@
 				     `(setf (dot ,name ,key)
 					    ,val))))))
 		    `(
-		     (defmethod pb_istream_from_socket (fd)
-		       (declare (type int fd)
+		      (defmethod set_socket_timeout (fd timeout_seconds)
+			(declare (type int fd)
+				 (type float timeout_seconds)
+				 )
+			(let ((timeout (timeval)))
+			  (setf timeout.tv_sec (static_cast<int> timeout_seconds)
+				timeout.tv_usec (stati_cast<int> (* 1000000
+								    (- timeout_seconds
+								       timeout.tv_sec))))
+			  (setsockopt fd SOL_SOCKET SO_RCVTIME0 &timeout (sizeof timeout))
+			  (setsockopt fd SOL_SOCKET SO_SNDTIME0 &timeout (sizeof timeout))))
+		      (defmethod pb_istream_from_socket (fd)
+			(declare (type int fd)
 				
-				(values pb_istream_t))
-		       (comments "note: the designated initializer syntax requires C++20")
-		       (let ((stream (pb_istream_t )))
-			 ,(init `(:name stream
-				  :contents ((callback &TcpConnection--read_callback)
-					     (state (reinterpret_cast<void*>
-						     (static_cast<intptr_t>
-						      fd)))
-					     (bytes_left SIZE_MAX))))
-			 (return stream)))
+				 (values pb_istream_t))
+			
+			(comments "note: the designated initializer syntax requires C++20")
+			(let ((stream (pb_istream_t )))
+			  ,(init `(:name stream
+				   :contents ((callback &TcpConnection--read_callback)
+					      (state (reinterpret_cast<void*>
+						      (static_cast<intptr_t>
+						       fd)))
+					      (bytes_left SIZE_MAX))))
+			  (return stream)))
 		     (defmethod pb_ostream_from_socket (fd)
 		       (declare (type int fd)
 				
@@ -340,8 +352,9 @@
 						    :sin_family AF_INET
 						    :sin_port (htons 12345)
 						    ))))
+		     (set_socket_timeout s 2s0)
 		     (inet_pton AF_INET
-				(string "192.168.120.122")
+				(string "192.168.2.122")
 				&server_addr.sin_addr)
 		     (when (connect s (reinterpret_cast<sockaddr*>
 				       &server_addr)
