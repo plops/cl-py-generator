@@ -3,9 +3,9 @@ import time
 import numpy as np
 start_time=time.time()
 debug=True
-_code_git_version="38d874c73920c43822c427e6cb2bdc6ce104c3a3"
+_code_git_version="fe3342f0a6244db71e585d67179e4c782a7c67e7"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/106_sar/source/"
-_code_generation_time="22:17:13 of Thursday, 2023-04-20 (GMT+1)"
+_code_generation_time="22:23:37 of Thursday, 2023-04-20 (GMT+1)"
 # speed of light (m/s)
 c=(3.0e+8)
 # center frequency (Hz)
@@ -50,7 +50,7 @@ for scatter_idx in range(scatter_points.shape[0]):
     delay_samples=np.round(((time_delays[:,scatter_idx])*(sample_rate))).astype(int)
     for idx, delay in enumerate(delay_samples):
         if ( ((((0)<=(delay))) and (((delay)<(len(transmitted_signal))))) ):
-            received_signal[idx] += ((np.exp(((1j)*(2)*(np.pi)*(doppler_shifts[idx,scatter_idx])*(t_chirp))))*(transmitted_signal[np.newaxis,((0:len(transmitted_signal))-(delay))]))
+            received_signal[idx] += ((np.exp(((1j)*(2)*(np.pi)*(doppler_shifts[idx,scatter_idx])*(t_chirp))))*(transmitted_signal[delay:]))
 # noise_level (amplitude)
 noise_level=(1.00e-5)
 # received_signal (-)

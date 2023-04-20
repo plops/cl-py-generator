@@ -171,9 +171,13 @@
 			  (* (np.exp (* 1j 2 np.pi
 					(aref doppler_shifts idx scatter_idx)
 					t_chirp))
-			     (aref transmitted_signal np.newaxis
-				   (- (slice 0 (len transmitted_signal))
-				      delay)))))))
+			     (aref transmitted_signal
+				   (slice delay "")
+				   ;np.newaxis
+				   #+nil (- "0:len(transmitted_signal)"
+				      delay)
+				   #+nil (- (slice 0 (len transmitted_signal))
+					    delay)))))))
 
 	,(doc
 	  `(;(:name :val :unit :help)
