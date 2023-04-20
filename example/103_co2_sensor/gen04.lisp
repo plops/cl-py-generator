@@ -5,9 +5,6 @@
 
 (in-package :cl-cpp-generator2)
 
-;; features:
-;; nowifi .. do not generate code for wifi
-
 (progn
   #+nil
   (progn
@@ -1304,7 +1301,7 @@
 	
 	  (defun app_main ()
 	    (ESP_LOGE TAG (string "welcome to the template app"))
-	    #-nowifi
+	    #+nowifi
 	    (do0
 	     (let ((ret (nvs_flash_init)))
 	       (when (logior (== ESP_ERR_NVS_NO_FREE_PAGES ret)
@@ -1338,6 +1335,7 @@
 
 		   (bme.measureBME fifoBME fifo)
 
+		   #-nowifi
 		   (let ((co2_val (dot fifo (front)))
 			 (bme_val (dot fifoBME (front))))
 		     

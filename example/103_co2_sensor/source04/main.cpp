@@ -26,17 +26,6 @@ void exit_to_launcher() {
 
 void app_main() {
   ESP_LOGE(TAG, "welcome to the template app");
-  auto ret = nvs_flash_init();
-  if (((((ESP_ERR_NVS_NO_FREE_PAGES) == (ret)) ||
-        ((ESP_ERR_NVS_NEW_VERSION_FOUND) == (ret))))) {
-    ESP_ERROR_CHECK(nvs_flash_erase());
-    ret = nvs_flash_init();
-  }
-  ESP_ERROR_CHECK(ret);
-  ESP_LOGE(TAG, "esp wifi mode sta");
-  Wifi wifi;
-  TcpConnection tcp;
-
   bsp_init();
   bsp_rp2040_init();
   buttonQueue = get_rp2040()->queue;
@@ -48,17 +37,12 @@ void app_main() {
   while (1) {
     uart.measureCO2(fifo);
     bme.measureBME(fifoBME, fifo);
-    auto co2_val = fifo.front();
-    auto bme_val = fifoBME.front();
-    tcp.send_data(bme_val.pressure, bme_val.humidity, bme_val.temperature,
-                  co2_val.y);
-
     display.background(129, 0, 0);
     graph.temperature();
     graph.humidity();
     graph.pressure();
     display.small_text(
-        fmt::format("build 22:24:29 of Wednesday, 2023-04-19 (GMT+1)\n"));
+        fmt::format("build 00:49:06 of Friday, 2023-04-21 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
