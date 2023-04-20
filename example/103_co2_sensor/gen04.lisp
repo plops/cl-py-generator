@@ -5,6 +5,10 @@
 
 (in-package :cl-cpp-generator2)
 
+;; features:
+;; nowifi  .. disable wifi
+
+
 (progn
   #+nil
   (progn
@@ -36,174 +40,183 @@
 					;(:name gas_resistance :hue 100)
 	    )))
     (let ((name `Wifi)
-	  ;(members `((:name retry-attempts :type int :default 0)))
+					;(members `((:name retry-attempts :type int :default 0)))
 	  )
-    (write-class
-     :dir (asdf:system-relative-pathname
-	   'cl-py-generator
-	   *source-dir*)
-     :name name
-     :headers `()
-     :header-preamble `(do0
-			(include freertos/FreeRTOS.h
-				 freertos/task.h
-				 freertos/event_groups.h
-				 esp_wifi.h))
-     :implementation-preamble
-     `(do0
-       (space "extern \"C\" "
-	      (progn
-		(include "esp_wifi.h"
+      (write-class
+       :dir (asdf:system-relative-pathname
+	     'cl-py-generator
+	     *source-dir*)
+       :name name
+       :headers `()
+       :header-preamble `(do0
+			  (include freertos/FreeRTOS.h
+				   freertos/task.h
+				   freertos/event_groups.h
+				   esp_wifi.h))
+       :implementation-preamble
+       `(do0
+	 (space "extern \"C\" "
+		(progn
+		  (include "esp_wifi.h"
 					;"esp_netif_types.h"
-			 "nvs_flash.h"
-			 "freertos/FreeRTOS.h"
-			 "freertos/task.h"
-			 "freertos/event_groups.h"
-			 )
-		(include lwip/sockets.h)
-		(include<> arpa/inet.h
-			   ) ;; inet_ntoa
-		(include "secret.h")
+			   "nvs_flash.h"
+			   "freertos/FreeRTOS.h"
+			   "freertos/task.h"
+			   "freertos/event_groups.h"
+			   )
+		  (include lwip/sockets.h)
+		  (include<> arpa/inet.h
+			     ) ;; inet_ntoa
+		  (include "secret.h")
 		
-		(comments "event group should allow two different events"
-			  "1) we are connected to access point with an ip"
-			  "2) we failed to connect after a maximum amount of retries")
-		))
-       (do0
-	"#define FMT_HEADER_ONLY"
-	(include "core.h")))
-     :code `(do0
-	     (defclass ,name ()
-	       "private:"
-	       (space enum "{"
-		(comma
-		 (= WIFI_CONNECTED_BIT BIT0)
-		 (= WIFI_FAIL_BIT BIT1)
-		 (= EXAMPLE_ESP_MAXIMUM_RETRY 7))
-		"}")
-	       (space int s_retry_num)
-	       (space EventGroupHandle_t s_wifi_event_group)
-	       (defmethod event_handler (arg
-					 event_base
-					 event_id
-					 event_data)
-		 (declare (type void* arg event_data)
-			  (type esp_event_base_t event_base)
-			  (type int32_t event_id)
+		  (comments "event group should allow two different events"
+			    "1) we are connected to access point with an ip"
+			    "2) we failed to connect after a maximum amount of retries")
+		  ))
+	 (do0
+	  "#define FMT_HEADER_ONLY"
+	  (include "core.h")))
+       :code `(do0
+	       (defclass ,name ()
+		 "private:"
+		 (space enum "{"
+		  (comma
+		   (= WIFI_CONNECTED_BIT BIT0)
+		   (= WIFI_FAIL_BIT BIT1)
+		   (= EXAMPLE_ESP_MAXIMUM_RETRY 7))
+		  "}")
+		 (space int s_retry_num)
+		 (space EventGroupHandle_t s_wifi_event_group)
+		 (defmethod event_handler (arg
+					   event_base
+					   event_id
+					   event_data)
+		   (declare (type void* arg event_data)
+			    (type esp_event_base_t event_base)
+			    (type int32_t event_id)
 					;(static)
-			  ;(values esp_event_handler_t)
-			  )
-		 (if (logand (== WIFI_EVENT
-				 event_base)
-			     (== WIFI_EVENT_STA_START
-				 event_id))
-		     (esp_wifi_connect)
-		     (if (logand (== WIFI_EVENT event_base)
-				 (== WIFI_EVENT_STA_DISCONNECTED event_id))
-			 (do0
-			  (if (< s_retry_num EXAMPLE_ESP_MAXIMUM_RETRY)
-			      (do0
-			       (esp_wifi_connect)
-			       (incf s_retry_num)
-			       ,(lprint :msg
-					"retry to connect to the access point"))
-			      (xEventGroupSetBits s_wifi_event_group
-						  WIFI_FAIL_BIT))
-			  ,(lprint :msg "connection to the access point failed"))
-			 (when (logand (== IP_EVENT event_base)
-				       (== IP_EVENT_STA_GOT_IP event_id))
-			   (let ((event (static_cast<ip_event_got_ip_t*> event_data)))
+					;(values esp_event_handler_t)
+			    )
+		   ,(lprint :msg "Wifi::event_handler"
+			    :vars `(event_id
+				    event_base))
+		   (if (logand (== WIFI_EVENT
+				   event_base)
+			       (== WIFI_EVENT_STA_START
+				   event_id))
+		       (do0
+			,(lprint :msg "wifi_connect")
+			(esp_wifi_connect))
+		       
+		       (if (logand (== WIFI_EVENT event_base)
+				   (== WIFI_EVENT_STA_DISCONNECTED event_id))
+			   (do0
+			    (if (< s_retry_num EXAMPLE_ESP_MAXIMUM_RETRY)
+				(do0
+				 ,(lprint :msg "wifi_connect")
+				 (esp_wifi_connect)
+				 
+				 (incf s_retry_num)
+				 ,(lprint :msg
+					  "retry to connect to the access point"
+					  :vars `(s_retry_num)))
+				(xEventGroupSetBits s_wifi_event_group
+						    WIFI_FAIL_BIT))
+			    ,(lprint :msg "connection to the access point failed"))
+			   (when (logand (== IP_EVENT event_base)
+					 (== IP_EVENT_STA_GOT_IP event_id))
+			     (let ((event (static_cast<ip_event_got_ip_t*> event_data)))
 
-			     ,(lprint :msg "got ip:"
-				      :vars `(
-					      (IP2STR &event->ip_info.ip)))
-			     (setf s_retry_num 0)
-			     (xEventGroupSetBits
-			      s_wifi_event_group
-			      WIFI_CONNECTED_BIT))))))
-	       "public:"
-	       (defmethod ,name ()
-		 (declare
-		  (construct (s_retry_num 0)
-			     )
-		  (explicit)
-		  ;(noexcept)
-		  (values :constructor))
-		 (do0
-	   (setf s_wifi_event_group (xEventGroupCreate))
-	   (ESP_ERROR_CHECK (esp_netif_init))
-	   (ESP_ERROR_CHECK (esp_event_loop_create_default))
-	   (esp_netif_create_default_wifi_sta)
-	   (let ((cfg (space wifi_init_config_t (WIFI_INIT_CONFIG_DEFAULT))))
-	     (ESP_ERROR_CHECK (esp_wifi_init &cfg))
-	     (let ((instance_any_id (esp_event_handler_instance_t))
-		   (instance_got_ip (esp_event_handler_instance_t)))
-	       (ESP_ERROR_CHECK
-		(esp_event_handler_instance_register
-		 WIFI_EVENT
-		 ESP_EVENT_ANY_ID
-		 (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
-		 nullptr
-		 &instance_any_id))
-	       (ESP_ERROR_CHECK
-		(esp_event_handler_instance_register
-		 IP_EVENT
-		 IP_EVENT_STA_GOT_IP
-		  (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
-		 nullptr
-		 &instance_got_ip))
-	       (let ((wifi_config "{}"))
-		 (declare (type wifi_config_t wifi_config))
-		 ,@(loop for e in `((:key ssid :value (string "mi") :copy t)
-				    (:key password :value WIFI_SECRET :copy t)
-				    (:key threshold.authmode :value WIFI_AUTH_WPA2_PSK)
-				    (:key pmf_cfg.capable :value true)
-				    (:key pmf_cfg.required :value false))
-			 collect
-			 (destructuring-bind (&key key value copy) e
-			   (if copy
-			       (let ((str (format nil "~a_str" key)))
+			       ,(lprint :msg "got ip:"
+					:vars `(
+						(IP2STR &event->ip_info.ip)))
+			       (setf s_retry_num 0)
+			       (xEventGroupSetBits
+				s_wifi_event_group
+				WIFI_CONNECTED_BIT))))))
+		 "public:"
+		 (defmethod ,name ()
+		   (declare
+		    (construct (s_retry_num 0)
+			       )
+		    (explicit)
+					;(noexcept)
+		    (values :constructor))
+		   (do0
+		    (setf s_wifi_event_group (xEventGroupCreate))
+		    (ESP_ERROR_CHECK (esp_netif_init))
+		    (ESP_ERROR_CHECK (esp_event_loop_create_default))
+		    (esp_netif_create_default_wifi_sta)
+		    (let ((cfg (space wifi_init_config_t (WIFI_INIT_CONFIG_DEFAULT))))
+		      (ESP_ERROR_CHECK (esp_wifi_init &cfg))
+		      (let ((instance_any_id (esp_event_handler_instance_t))
+			    (instance_got_ip (esp_event_handler_instance_t)))
+			(ESP_ERROR_CHECK
+			 (esp_event_handler_instance_register
+			  WIFI_EVENT
+			  ESP_EVENT_ANY_ID
+			  (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
+			  nullptr
+			  &instance_any_id))
+			(ESP_ERROR_CHECK
+			 (esp_event_handler_instance_register
+			  IP_EVENT
+			  IP_EVENT_STA_GOT_IP
+			  (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
+			  nullptr
+			  &instance_got_ip))
+			(let ((wifi_config "{}"))
+			  (declare (type wifi_config_t wifi_config))
+			  ,@(loop for e in `((:key ssid :value (string "mi") :copy t)
+					     (:key password :value WIFI_SECRET :copy t)
+					     (:key threshold.authmode :value WIFI_AUTH_WPA2_PSK)
+					     (:key pmf_cfg.capable :value true)
+					     (:key pmf_cfg.required :value false))
+				  collect
+				  (destructuring-bind (&key key value copy) e
+				    (if copy
+					(let ((str (format nil "~a_str" key)))
 				  
-				 `(let ((,str ,value))
-				    (declare (type "const char*" ,str))
-				    (std--memcpy  (dot wifi_config sta ,key)
-						  ,str
-						  (std--strlen ,str))))
-			       `(setf (dot wifi_config sta ,key)
-				      ,value)))))
-	       (ESP_ERROR_CHECK (esp_wifi_set_mode WIFI_MODE_STA))
-	       (ESP_ERROR_CHECK (esp_wifi_set_config WIFI_IF_STA &wifi_config))
-	       (ESP_ERROR_CHECK (esp_wifi_start))
+					  `(let ((,str ,value))
+					     (declare (type "const char*" ,str))
+					     (std--memcpy  (dot wifi_config sta ,key)
+							   ,str
+							   (std--strlen ,str))))
+					`(setf (dot wifi_config sta ,key)
+					       ,value)))))
+			(ESP_ERROR_CHECK (esp_wifi_set_mode WIFI_MODE_STA))
+			(ESP_ERROR_CHECK (esp_wifi_set_config WIFI_IF_STA &wifi_config))
+			(ESP_ERROR_CHECK (esp_wifi_start))
 					;(ESP_LOGI TAG (string "wifi_init_sta finished"))
-	       ,(lprint :msg "wait until connection is established or connection failed s_retry_num times"
-			:vars `(s_retry_num))
-	       (let ((bits (xEventGroupWaitBits
-			    s_wifi_event_group
-			    (or WIFI_CONNECTED_BIT
-				WIFI_FAIL_BIT)
-			    pdFALSE
-			    pdFALSE
-			    portMAX_DELAY)))
-		 (if (and WIFI_CONNECTED_BIT
-			  bits)
-		     ,(lprint :msg "connected to ap")
-		     (if (and WIFI_FAIL_BIT
-			      bits)
-			 ,(lprint :msg "connection to ap failed")
-			 ,(lprint :msg "unexpected event")))
+			,(lprint :msg "wait until connection is established or connection failed s_retry_num times"
+				 :vars `(s_retry_num))
+			(let ((bits (xEventGroupWaitBits
+				     s_wifi_event_group
+				     (or WIFI_CONNECTED_BIT
+					 WIFI_FAIL_BIT)
+				     pdFALSE
+				     pdFALSE
+				     portMAX_DELAY)))
+			  (if (and WIFI_CONNECTED_BIT
+				   bits)
+			      ,(lprint :msg "connected to ap")
+			      (if (and WIFI_FAIL_BIT
+				       bits)
+				  ,(lprint :msg "connection to ap failed")
+				  ,(lprint :msg "unexpected event")))
 
-		 )
-	       (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
-				 IP_EVENT
-				 IP_EVENT_STA_GOT_IP
-				 instance_got_ip
-				 ))
-	       (ESP_ERROR_CHECK (esp_event_handler_instance_unregister
-				 WIFI_EVENT
-				 ESP_EVENT_ANY_ID
-				 instance_any_id
-				 ))
-	       (vEventGroupDelete s_wifi_event_group)))))))))
+			  )
+			(ESP_ERROR_CHECK (esp_event_handler_instance_unregister
+					  IP_EVENT
+					  IP_EVENT_STA_GOT_IP
+					  instance_got_ip
+					  ))
+			(ESP_ERROR_CHECK (esp_event_handler_instance_unregister
+					  WIFI_EVENT
+					  ESP_EVENT_ANY_ID
+					  instance_any_id
+					  ))
+			(vEventGroupDelete s_wifi_event_group)))))))))
 
     (let ((name `TcpConnection))
       (write-class
@@ -244,7 +257,7 @@
 		   netinet/in.h
 		   arpa/inet.h
 		   unistd.h
-		   ;pb.h
+					;pb.h
 		   time.h
 		   pb_encode.h
 		   pb_decode.h)
@@ -292,7 +305,7 @@
 			    (values bool))
 		   (let ((fd (reinterpret_cast<intptr_t> stream->state))))
 		   #+nil (dotimes (i count)
-		     ,(lprint :msg "w" :vars `(i (aref buf i))))
+			   ,(lprint :msg "w" :vars `(i (aref buf i))))
 		   (let ((res (send fd buf count 0)))
 		     (when (< res 0)
 		       ,(lprint :msg "send failed"
@@ -301,51 +314,51 @@
 				 res))))
 
 		 ,@(flet ((init (def)
-			   (destructuring-bind (&key name contents) def
-			     `(do0
-			       ,@(loop for (key val) in contents
-				     collect
-				     `(setf (dot ,name ,key)
-					    ,val))))))
-		    `(
-		      (defmethod set_socket_timeout (fd timeout_seconds)
-			(declare (type int fd)
-				 (type float timeout_seconds)
-				 )
-			(let ((timeout (timeval)))
-			  (setf timeout.tv_sec (static_cast<int> timeout_seconds)
-				timeout.tv_usec (static_cast<int> (* 1000000
-								    (- timeout_seconds
-								       timeout.tv_sec))))
-			  (setsockopt fd SOL_SOCKET SO_RCVTIMEO &timeout (sizeof timeout))
-			  (setsockopt fd SOL_SOCKET SO_SNDTIMEO &timeout (sizeof timeout))))
-		      (defmethod pb_istream_from_socket (fd)
-			(declare (type int fd)
+			    (destructuring-bind (&key name contents) def
+			      `(do0
+				,@(loop for (key val) in contents
+					collect
+					`(setf (dot ,name ,key)
+					       ,val))))))
+		     `(
+		       (defmethod set_socket_timeout (fd timeout_seconds)
+			 (declare (type int fd)
+				  (type float timeout_seconds)
+				  )
+			 (let ((timeout (timeval)))
+			   (setf timeout.tv_sec (static_cast<int> timeout_seconds)
+				 timeout.tv_usec (static_cast<int> (* 1000000
+								      (- timeout_seconds
+									 timeout.tv_sec))))
+			   (setsockopt fd SOL_SOCKET SO_RCVTIMEO &timeout (sizeof timeout))
+			   (setsockopt fd SOL_SOCKET SO_SNDTIMEO &timeout (sizeof timeout))))
+		       (defmethod pb_istream_from_socket (fd)
+			 (declare (type int fd)
 				
-				 (values pb_istream_t))
+				  (values pb_istream_t))
 			
-			(comments "note: the designated initializer syntax requires C++20")
-			(let ((stream (pb_istream_t )))
-			  ,(init `(:name stream
-				   :contents ((callback &TcpConnection--read_callback)
-					      (state (reinterpret_cast<void*>
-						      (static_cast<intptr_t>
-						       fd)))
-					      (bytes_left SIZE_MAX))))
-			  (return stream)))
-		     (defmethod pb_ostream_from_socket (fd)
-		       (declare (type int fd)
+			 (comments "note: the designated initializer syntax requires C++20")
+			 (let ((stream (pb_istream_t )))
+			   ,(init `(:name stream
+				    :contents ((callback &TcpConnection--read_callback)
+					       (state (reinterpret_cast<void*>
+						       (static_cast<intptr_t>
+							fd)))
+					       (bytes_left SIZE_MAX))))
+			   (return stream)))
+		       (defmethod pb_ostream_from_socket (fd)
+			 (declare (type int fd)
 				
-				(values pb_ostream_t))
-		       (let ((stream (pb_ostream_t)))
-			 ,(init `(:name stream
-				  :contents ((callback &TcpConnection--write_callback)
-					     (state (reinterpret_cast<void*>
-						     (static_cast<intptr_t>
-						      fd)))
-					     (max_size SIZE_MAX)
-					     (bytes_written 0))))
-			 (return stream)))))
+				  (values pb_ostream_t))
+			 (let ((stream (pb_ostream_t)))
+			   ,(init `(:name stream
+				    :contents ((callback &TcpConnection--write_callback)
+					       (state (reinterpret_cast<void*>
+						       (static_cast<intptr_t>
+							fd)))
+					       (max_size SIZE_MAX)
+					       (bytes_written 0))))
+			   (return stream)))))
 
 		 (defmethod send_data (pressure humidity temperature co2_concentration)
 		   (declare (type float pressure humidity temperature co2_concentration))
@@ -361,7 +374,7 @@
 				(string "192.168.2.122")
 				&server_addr.sin_addr)
 		     (when (< (connect s (reinterpret_cast<sockaddr*>
-					&server_addr)
+					  &server_addr)
 				       (sizeof server_addr))
 			      0)
 		       ,(lprint :msg "error connecting"
@@ -406,42 +419,42 @@
 		    (explicit)	    
 		    (values :constructor))
 		   #+nil (do0
-		    (let ((port 12345)
-			  (ip_address (string "192.168.120.122"))
-			  (addr ((lambda ()
-				   (declare (constexpr)
-					    (capture port ip_address)
-					    (values sockaddr_in))
-				   "sockaddr_in addr{};"
-				   (setf addr.sin_family AF_INET
-					 addr.sin_port (htons port)
-					 )
-				   (inet_pton AF_INET ip_address &addr.sin_addr)
-				   (return addr))))
-			  (domain AF_INET)
-			  (type SOCK_STREAM)
-			  (protocol 0)
-			  (sock (socket domain type protocol)))
-		      (when (< sock 0)
-			,(lprint :msg "failed to create socket"))
-		      (when (!= 0 (connect sock
-					   ("reinterpret_cast<const sockaddr*>" &addr)
-					   (sizeof addr))) 
-			,(lprint :msg "failed to connect to socket"))
-		      ,(lprint :msg "connected to tcp server")
-		      (let ((buffer_size 1024)
-			    (read_buffer "std::array<char,buffer_size>{}"))
-			(declare (type "constexpr auto" buffer_size))
-			(let ((r (read sock
-				       (read_buffer.data)
-				       (- (read_buffer.size)
-					  1))))
-			  (when (< r 0)
-			    ,(lprint :msg "failed to read data from socket"))
-			  (setf (aref read_buffer r)
-				(char "\\0"))
-			  ,(lprint :msg "received data from server"
-				   :vars `((read_buffer.data))))))))))))
+			  (let ((port 12345)
+				(ip_address (string "192.168.120.122"))
+				(addr ((lambda ()
+					 (declare (constexpr)
+						  (capture port ip_address)
+						  (values sockaddr_in))
+					 "sockaddr_in addr{};"
+					 (setf addr.sin_family AF_INET
+					       addr.sin_port (htons port)
+					       )
+					 (inet_pton AF_INET ip_address &addr.sin_addr)
+					 (return addr))))
+				(domain AF_INET)
+				(type SOCK_STREAM)
+				(protocol 0)
+				(sock (socket domain type protocol)))
+			    (when (< sock 0)
+			      ,(lprint :msg "failed to create socket"))
+			    (when (!= 0 (connect sock
+						 ("reinterpret_cast<const sockaddr*>" &addr)
+						 (sizeof addr))) 
+			      ,(lprint :msg "failed to connect to socket"))
+			    ,(lprint :msg "connected to tcp server")
+			    (let ((buffer_size 1024)
+				  (read_buffer "std::array<char,buffer_size>{}"))
+			      (declare (type "constexpr auto" buffer_size))
+			      (let ((r (read sock
+					     (read_buffer.data)
+					     (- (read_buffer.size)
+						1))))
+				(when (< r 0)
+				  ,(lprint :msg "failed to read data from socket"))
+				(setf (aref read_buffer r)
+				      (char "\\0"))
+				,(lprint :msg "received data from server"
+					 :vars `((read_buffer.data))))))))))))
 
     (let ((name `Ransac))
       (write-class
@@ -453,27 +466,27 @@
        :header-preamble `(do0
 			  (include DataTypes.h)
 			  (include<> deque
-		  random
-		  vector
-		  algorithm
-		  cmath))
+				     random
+				     vector
+				     algorithm
+				     cmath))
        :implementation-preamble
        `(do0
 	 (include<> deque
-		  random
-		  vector
-		  algorithm
-		  cmath)
+		    random
+		    vector
+		    algorithm
+		    cmath)
 	 (do0
 	  "#define FMT_HEADER_ONLY"
 	  (include "core.h"))
-	 ,@(loop for e in `(;(N_FIFO ,n-fifo)
+	 ,@(loop for e in `(		;(N_FIFO ,n-fifo)
 			    (RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 			    (RANSAC_INLIER_THRESHOLD 5.0 :type float)
 			    (RANSAC_MIN_INLIERS 2))
-	       collect
-	       (destructuring-bind (name val &key (type 'int)) e
-		 (format nil "const ~a ~a = ~a;" type name val))))
+		 collect
+		 (destructuring-bind (name val &key (type 'int)) e
+		   (format nil "const ~a ~a = ~a;" type name val))))
        :code `(do0
 	       (defclass ,name ()
 		 "private:"
@@ -552,7 +565,7 @@
 		 "public:"
 		 (defmethod GetM ()
 		   (declare 
-			    (values double))
+		    (values double))
 		   (return m_m))
 		 (defmethod GetB ()
 		   (declare (values double))
@@ -579,7 +592,7 @@
 		       *source-dir*))
      `(do0
        "#pragma once"
-      ; (space extern const char* TAG)
+					; (space extern const char* TAG)
        ,@(loop for e in `((N_FIFO ,n-fifo)
 					;(RANSAC_MAX_ITERATIONS ,(max n-fifo 12))
 					;(RANSAC_INLIER_THRESHOLD 5.0 :type float)
@@ -591,13 +604,13 @@
        (defstruct0 Point2D
 	   (x double)
 	 (y double))
-	    (defstruct0 PointBME
-		(x double)
-	      (temperature double)
-	      (humidity double)
-	      (pressure double)
+       (defstruct0 PointBME
+	   (x double)
+	 (temperature double)
+	 (humidity double)
+	 (pressure double)
 					;(gas_resistance double)
-	      )))
+	 )))
 
 
 
@@ -628,23 +641,23 @@
 	  "#define FMT_HEADER_ONLY"
 	  (include "core.h"))
 	 (space "extern \"C\" "
-	      (progn
-		(do0
-	   (include hardware.h
-		    pax_gfx.h
-		    pax_codecs.h
+		(progn
+		  (do0
+		   (include hardware.h
+			    pax_gfx.h
+			    pax_codecs.h
 					;  ili9341.h
 					; freertos/FreeRTOS.h
 					; freertos/queue.h
-		    esp_system.h
-		    ;soc/rtc_cntl_reg.h
+			    esp_system.h
+					;soc/rtc_cntl_reg.h
 		   
 		    
-		    ;sys/time.h
-		    )
+					;sys/time.h
+			    )
 	   
 
-	   ))))
+		   ))))
        :code `(do0
 	       (defclass ,name ()	 
 		 "private:"
@@ -670,10 +683,10 @@
 				  x y)
 		   )
 		 (defmethod line (x0 y0 x1 y1 h s v)
-			  (declare (type float x0 y0 x1 y1)
-				   (type uint8_t h s v))
-			  (pax_draw_line &buf (pax_col_hsv h s v)
-				       x0 y0 x1 y1))
+		   (declare (type float x0 y0 x1 y1)
+			    (type uint8_t h s v))
+		   (pax_draw_line &buf (pax_col_hsv h s v)
+				  x0 y0 x1 y1))
 		 (defmethod small_text (str &key (x "-1.0f") (y "-1.0f") (h 128) (s 255) (v 255))
 		   (declare (type std--string str)
 			    (type uint8_t h s v)
@@ -729,10 +742,10 @@
        :header-preamble `(do0
 			  (include DataTypes.h)
 			  (include<> deque)
-			   (space "extern \"C\" "
-	      (progn
-		(do0
-		 (include driver/uart.h))))
+			  (space "extern \"C\" "
+				 (progn
+				   (do0
+				    (include driver/uart.h))))
 			  )
        :implementation-preamble
        `(do0
@@ -740,10 +753,10 @@
 	  "#define FMT_HEADER_ONLY"
 	  (include "core.h")
 	  (space "extern \"C\" "
-	      (progn
-		(do0
-		 (include<> esp_log.h)
-		 (include driver/uart.h))))
+		 (progn
+		   (do0
+		    (include<> esp_log.h)
+		    (include driver/uart.h))))
 	  
 	  ))
        :code `(do0
@@ -835,24 +848,24 @@
        :header-preamble `(do0
 			  (include DataTypes.h)
 			  (include<> deque)
-			   (space "extern \"C\" "
-				  (progn
-				    (do0
+			  (space "extern \"C\" "
+				 (progn
+				   (do0
 				    
-				     (include bme680.h)
-				     ))))
+				    (include bme680.h)
+				    ))))
        :implementation-preamble
        `(do0
 	 (do0
 	  "#define FMT_HEADER_ONLY"
 	  (include "core.h")
 	  (space "extern \"C\" "
-	      (progn
-		(do0
-		 (include<> esp_log.h
-			    bme680.h
-			    hardware.h)
-		 )))))
+		 (progn
+		   (do0
+		    (include<> esp_log.h
+			       bme680.h
+			       hardware.h)
+		    )))))
        :code `(do0
 	       (defclass ,name ()	 
 		 "private:"
@@ -914,12 +927,12 @@
 		    (explicit)	    
 		    (values :constructor))
 		   (do0 (bsp_bme680_init)
-		 (bme680_set_mode (get_bme680) BME680_MEAS_FORCED)
-		 (bme680_set_oversampling (get_bme680)
-					  BME680_OVERSAMPLING_X2
-					  BME680_OVERSAMPLING_X2
-					  BME680_OVERSAMPLING_X2
-					  ))
+			(bme680_set_mode (get_bme680) BME680_MEAS_FORCED)
+			(bme680_set_oversampling (get_bme680)
+						 BME680_OVERSAMPLING_X2
+						 BME680_OVERSAMPLING_X2
+						 BME680_OVERSAMPLING_X2
+						 ))
 		   ))
 	       )))
 
@@ -935,11 +948,11 @@
 				   Display.h)
 			  (include<> deque)
 			  #+nil (space "extern \"C\" "
-				  (progn
-				    (do0
+				       (progn
+					 (do0
 				    
-				     (include bme680.h)
-				     ))))
+					  (include bme680.h)
+					  ))))
        :implementation-preamble
        `(do0
 	 (do0
@@ -959,172 +972,172 @@
 	       (defclass ,name ()	 
 		 "private:"
 		 "Display& m_display;"
-		  "std::deque<Point2D>& m_fifo; "
-		  "std::deque<PointBME>& m_fifoBME; "
+		 "std::deque<Point2D>& m_fifo; "
+		 "std::deque<PointBME>& m_fifoBME; "
 
 		 
 		 "public:"
 
 		 ,(let* ((pitch-y (floor 240 4))
-		  (graph-xmax 318s0)
-		  (graph-ymin 1s0)
-		  (graph-ymax (- pitch-y 1)))
+			 (graph-xmax 318s0)
+			 (graph-ymin 1s0)
+			 (graph-ymax (- pitch-y 1)))
 	     
-	     `(defmethod carbon_dioxide ()
+		    `(defmethod carbon_dioxide ()
 		
-		(when (< (m_fifo.size) 2)
-		  (return))
-		(let ((hue 12)
-		      (sat 255)
-		      (bright 255)
-		      (col (pax_col_hsv hue
-					sat bright))
-		      )
-		  (let ((time_ma (dot (aref m_fifo 0) x))
-			(time_mi (dot (aref m_fifo (- (dot m_fifo (size)) 1))
-				      x))
-			(time_delta (- time_ma time_mi))
-			(scaleTime (lambda (x)
-				     (declare (type float x)
-					      (capture "&")
-					      (values float))
-				     (let ((res (* ,graph-xmax (/ (- x time_mi )
-								  time_delta))))
-				       (do0 (when (< res 1s0)
-					      (setf res 1s0))
-					    (when (< ,graph-xmax res)
-					      (setf res ,graph-xmax)))
-				       (return res))))
-			(min_max_y (std--minmax_element (m_fifo.begin)
-							(m_fifo.end)
-							(lambda (p1 p2)
-							  (declare (type "const Point2D&" p1 p2))
-							  (return (< p1.y p2.y))
-							  )))
-			(min_y min_max_y.first->y)
-			(max_y min_max_y.second->y)
-			(scaleHeight (lambda
-					 (v)
-				       (declare (type float v)
-						(capture "&")
-						(values float))
-				       (comments "v is in the range 400 .. 5000"
-						 "map to 0 .. 239")
-				       (let ((mi 400s0)
-					     (ma (? (< max_y 1200s0) 1200s0 5000s0))
-					     (res (+ ,graph-ymin
-						     (* ,graph-ymax
-							(- 1s0
-							   (/ (- v mi)
-							      (- ma mi)))))))
-					 (when (< res ,graph-ymin)
-					   (setf res ,graph-ymin))
-					 (when (< ,graph-ymax res)
-					   (setf res ,graph-ymax))
-					 (return res))
-				       ;; note: i think  to and bottom are inverted on screen 
-				       )))
-		    (do0
-		     (comments "write latest measurement")
-		     (let (
-			   (co2 (dot (aref m_fifo 0) y))
+		       (when (< (m_fifo.size) 2)
+			 (return))
+		       (let ((hue 12)
+			     (sat 255)
+			     (bright 255)
+			     (col (pax_col_hsv hue
+					       sat bright))
 			     )
+			 (let ((time_ma (dot (aref m_fifo 0) x))
+			       (time_mi (dot (aref m_fifo (- (dot m_fifo (size)) 1))
+					     x))
+			       (time_delta (- time_ma time_mi))
+			       (scaleTime (lambda (x)
+					    (declare (type float x)
+						     (capture "&")
+						     (values float))
+					    (let ((res (* ,graph-xmax (/ (- x time_mi )
+									 time_delta))))
+					      (do0 (when (< res 1s0)
+						     (setf res 1s0))
+						   (when (< ,graph-xmax res)
+						     (setf res ,graph-xmax)))
+					      (return res))))
+			       (min_max_y (std--minmax_element (m_fifo.begin)
+							       (m_fifo.end)
+							       (lambda (p1 p2)
+								 (declare (type "const Point2D&" p1 p2))
+								 (return (< p1.y p2.y))
+								 )))
+			       (min_y min_max_y.first->y)
+			       (max_y min_max_y.second->y)
+			       (scaleHeight (lambda
+						(v)
+					      (declare (type float v)
+						       (capture "&")
+						       (values float))
+					      (comments "v is in the range 400 .. 5000"
+							"map to 0 .. 239")
+					      (let ((mi 400s0)
+						    (ma (? (< max_y 1200s0) 1200s0 5000s0))
+						    (res (+ ,graph-ymin
+							    (* ,graph-ymax
+							       (- 1s0
+								  (/ (- v mi)
+								     (- ma mi)))))))
+						(when (< res ,graph-ymin)
+						  (setf res ,graph-ymin))
+						(when (< ,graph-ymax res)
+						  (setf res ,graph-ymax))
+						(return res))
+					      ;; note: i think  to and bottom are inverted on screen 
+					      )))
+			   (do0
+			    (comments "write latest measurement")
+			    (let (
+				  (co2 (dot (aref m_fifo 0) y))
+				  )
 
-		       (m_display.large_text (fmt--format
-				   (string 
-				    "CO2={:4.0f}ppm"
-				    )
-				   co2)
-					   -1 (+ -10 (* .5 (+ ,graph-ymin
-							      ,graph-ymax))))))
+			      (m_display.large_text (fmt--format
+						     (string 
+						      "CO2={:4.0f}ppm"
+						      )
+						     co2)
+						    -1 (+ -10 (* .5 (+ ,graph-ymin
+								       ,graph-ymax))))))
 		   
-		    (for-range (p m_fifo)
-			       (comments "draw measurements as points")
-			       (dotimes (i 3)
-				 (dotimes (j 3)
-				   (m_display.set_pixel
-				    (+ i -1 (scaleTime p.x))
-				    (+ j -1 (scaleHeight p.y))
-				    149 180 200
-				    ))))
+			   (for-range (p m_fifo)
+				      (comments "draw measurements as points")
+				      (dotimes (i 3)
+					(dotimes (j 3)
+					  (m_display.set_pixel
+					   (+ i -1 (scaleTime p.x))
+					   (+ j -1 (scaleHeight p.y))
+					   149 180 200
+					   ))))
 
-		    (progn
-		      (let ((ransac (Ransac m_fifo))
-			    (m (ransac.GetM))
-			    (b (ransac.GetB))
-			    (inliers (ransac.GetInliers))
-			    (hue 128)
-			    (sat 255)
-			    (bright 200)
-			    (col (pax_col_hsv hue
-					      sat bright)))
+			   (progn
+			     (let ((ransac (Ransac m_fifo))
+				   (m (ransac.GetM))
+				   (b (ransac.GetB))
+				   (inliers (ransac.GetInliers))
+				   (hue 128)
+				   (sat 255)
+				   (bright 200)
+				   (col (pax_col_hsv hue
+						     sat bright)))
 			
-			(comments "draw the fit as line")
+			       (comments "draw the fit as line")
 			
-			(m_display.line (scaleTime time_mi)
-				      (scaleHeight (+ b (* m time_mi)))
-				      (scaleTime time_ma)
-				      (scaleHeight (+ b (* m time_ma)))
-				      188 255 200)
-			(comments "draw inliers as points")
-			(for-range (p inliers)
-				   (dotimes (i 3)
-				     (dotimes (j 3)
-				       (m_display.set_pixel
-					(+ i -1 (scaleTime p.x))
-					(+ j -1 (scaleHeight p.y))
-					0 255 255)))))
+			       (m_display.line (scaleTime time_mi)
+					       (scaleHeight (+ b (* m time_mi)))
+					       (scaleTime time_ma)
+					       (scaleHeight (+ b (* m time_ma)))
+					       188 255 200)
+			       (comments "draw inliers as points")
+			       (for-range (p inliers)
+					  (dotimes (i 3)
+					    (dotimes (j 3)
+					      (m_display.set_pixel
+					       (+ i -1 (scaleTime p.x))
+					       (+ j -1 (scaleHeight p.y))
+					       0 255 255)))))
 
 		     
 		     
 
-		      (do0
-		       (comments "compute when a value of 1200ppm is reached")
-		       (let ((x0 (/ (- 1200d0 b)
-				    m))
-			     (x0l (/ (- 500d0 b)
-				     m)))
+			     (do0
+			      (comments "compute when a value of 1200ppm is reached")
+			      (let ((x0 (/ (- 1200d0 b)
+					   m))
+				    (x0l (/ (- 500d0 b)
+					    m)))
 
 			 
-			 (m_display.small_text
-			  (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
-				       m b time_mi time_ma )
-			  20 80
-			  160 128 128
-			  )
-			 (m_display.small_text
-			  (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
-				       x0 x0l)
-			  20 60 130 128 128)
+				(m_display.small_text
+				 (fmt--format (string "m={:3.4f} b={:4.2f} xmi={:4.2f} xma={:4.2f}")
+					      m b time_mi time_ma )
+				 20 80
+				 160 128 128
+				 )
+				(m_display.small_text
+				 (fmt--format (string "x0={:4.2f} x0l={:4.2f}")
+					      x0 x0l)
+				 20 60 130 128 128)
 		   
-			 (if (< time_ma x0)
-			     (do0 (comments "if predicted intersection time is in the future, print it")
-				  (let ((time_value (static_cast<int> (- x0 time_ma)))
-					(hours (int (/ time_value 3600)))
-					(minutes (int (/ (% time_value 3600) 60)))
-					(seconds (% time_value 60))
-					(text_ (fmt--format (string "air room in (h:m:s) {:02d}:{:02d}:{:02d}")
-							    hours minutes seconds))
-					)
-				    (m_display.small_text
-				     text_
-				     20 140
-				     30 128 128)))
-			     (do0 (comments "if predicted intersection time is in the past, then predict when airing should stop")
-				  (let ((x0 (/ (- 500d0 b)
-					       m))
-					(time_value (static_cast<int> (- x0 time_ma)))
-					(hours (int (/ time_value 3600)))
-					(minutes (int (/ (% time_value 3600) 60)))
-					(seconds (% time_value 60))
-					(text_ (fmt--format (string "air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}")
-							    hours minutes seconds))
-					)
+				(if (< time_ma x0)
+				    (do0 (comments "if predicted intersection time is in the future, print it")
+					 (let ((time_value (static_cast<int> (- x0 time_ma)))
+					       (hours (int (/ time_value 3600)))
+					       (minutes (int (/ (% time_value 3600) 60)))
+					       (seconds (% time_value 60))
+					       (text_ (fmt--format (string "air room in (h:m:s) {:02d}:{:02d}:{:02d}")
+								   hours minutes seconds))
+					       )
+					   (m_display.small_text
+					    text_
+					    20 140
+					    30 128 128)))
+				    (do0 (comments "if predicted intersection time is in the past, then predict when airing should stop")
+					 (let ((x0 (/ (- 500d0 b)
+						      m))
+					       (time_value (static_cast<int> (- x0 time_ma)))
+					       (hours (int (/ time_value 3600)))
+					       (minutes (int (/ (% time_value 3600) 60)))
+					       (seconds (% time_value 60))
+					       (text_ (fmt--format (string "air of room should stop in (h:m:s) {:02d}:{:02d}:{:02d}")
+								   hours minutes seconds))
+					       )
 
-				    (m_display.small_text
-				     text_
-				     20 140
-				     90 128 128)))))))))))
+					   (m_display.small_text
+					    text_
+					    20 140
+					    90 128 128)))))))))))
 		 
 		 ,@(let* ((pitch-y (floor 240 4))
 			  (graph-xmax 318s0)
@@ -1222,10 +1235,10 @@
      `(do0
        
        (include<> deque
-		;  random
-		 ; vector
-		 ; algorithm
-		  ;cmath
+					;  random
+					; vector
+					; algorithm
+					;cmath
 		  )
        (include   Wifi.h
 		  Graph.h
@@ -1234,7 +1247,7 @@
 		  Display.h
 		  TcpConnection.h
 		  DataTypes.h
-		  ;Ransac.h
+					;Ransac.h
 		  )
        (do0
 	"#define FMT_HEADER_ONLY"
@@ -1254,12 +1267,12 @@
 
 	  (do0
 	   (include hardware.h
-		    ;pax_gfx.h
-		    ;pax_codecs.h
+					;pax_gfx.h
+					;pax_codecs.h
 					;  ili9341.h
 					; freertos/FreeRTOS.h
 					; freertos/queue.h
-		   ; esp_system.h
+					; esp_system.h
 					;nvs.h
 					;nvs_flash.h
 					;wifi_connect.h
@@ -1268,8 +1281,8 @@
 		    soc/rtc_cntl_reg.h
 		    
 					;gpio_types.h
-		    ;driver/uart.h
-		  ;  sys/time.h
+					;driver/uart.h
+					;  sys/time.h
 		    )
 	   (include nvs_flash.h)
 
@@ -1301,7 +1314,7 @@
 	
 	  (defun app_main ()
 	    (ESP_LOGE TAG (string "welcome to the template app"))
-	    #+nowifi
+	    #-nowifi
 	    (do0
 	     (let ((ret (nvs_flash_init)))
 	       (when (logior (== ESP_ERR_NVS_NO_FREE_PAGES ret)

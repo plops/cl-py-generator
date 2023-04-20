@@ -18,16 +18,22 @@ extern "C" {
 #include "Wifi.h"
 void Wifi::event_handler(void *arg, esp_event_base_t event_base,
                          int32_t event_id, void *event_data) {
+  fmt::print("Wifi::event_handler  event_id='{}'  event_base='{}'\n", event_id,
+             event_base);
   if (((((WIFI_EVENT) == (event_base)) &&
         ((WIFI_EVENT_STA_START) == (event_id))))) {
+    fmt::print("wifi_connect\n");
     esp_wifi_connect();
+
   } else {
     if (((((WIFI_EVENT) == (event_base)) &&
           ((WIFI_EVENT_STA_DISCONNECTED) == (event_id))))) {
       if (((s_retry_num) < (EXAMPLE_ESP_MAXIMUM_RETRY))) {
+        fmt::print("wifi_connect\n");
         esp_wifi_connect();
         (s_retry_num)++;
-        fmt::print("retry to connect to the access point\n");
+        fmt::print("retry to connect to the access point  s_retry_num='{}'\n",
+                   s_retry_num);
 
       } else {
         xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
