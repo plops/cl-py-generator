@@ -5,9 +5,9 @@
 (in-package :cl-py-generator)
 
 (progn
-  (defparameter *project* "121_nanopb")
-  (defparameter *idx* "03")
-  (defparameter *path* (format nil "/home/martin/stage/cl-cpp-generator2/example/~a" *project*))
+  (defparameter *project* "103_co2_sensor")
+  (defparameter *idx* "05")
+  (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
@@ -28,13 +28,16 @@
 	 #+nil (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-source
-     (format nil "~a/source01/p~a_~a" *path* *idx* notebook-name)
+     (format nil "~a/source04/p~a_~a" *path* *idx* notebook-name)
      `(do0
        (do0
+	"#!/bin/python"
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
 	 (do0
 	  (comment "pip3 install --user protobuf"
-		   "cd /home/martin/stage/cl-cpp-generator2/example/121_nanopb/source01; protoc --proto_path=. --python_out=. data.proto")
+		   "cd /home/martin/stage/cl-py-generator/example/103_co2_sensor/source04;"
+		   "protoc --proto_path=proto --proto_path=/home/martin/src/nanopb/generator/proto/ --python_out=. nanopb.proto"
+		   "protoc --proto_path=proto --proto_path=/home/martin/src/nanopb/generator/proto/ --python_out=. proto/data.proto")
 	  (imports (;	os
 					;sys
 		    time
@@ -112,9 +115,9 @@
 				     socket.SOCK_STREAM)
 		      s)
 		  (s.bind (tuple (string "localhost")
-				 1234))
+				 12345))
 		  (s.listen)
-		  ,(lprint :msg "listening on localhost:1234")
+		  ,(lprint :msg "listening on localhost:12345")
 		  (while True
 			 (setf (ntuple conn addr) (s.accept))
 			 (with conn

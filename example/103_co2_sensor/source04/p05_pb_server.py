@@ -1,3 +1,4 @@
+#!/bin/python
 #|default_exp p05_pb_server
 # pip3 install --user protobuf
 import time
@@ -6,9 +7,9 @@ import struct
 from data_pb2 import Packet, DataRequest, DataResponse
 start_time=time.time()
 debug=True
-_code_git_version="90498e128be9d3f93fdc3d7ea5c0118b231d80d4"
+_code_git_version="d50b133f2dd85de9981613ef3ea75087d872ddf3"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/103_co2_sensor/source/"
-_code_generation_time="08:38:15 of Friday, 2023-04-21 (GMT+1)"
+_code_generation_time="08:39:01 of Friday, 2023-04-21 (GMT+1)"
 def listen():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(("localhost",12345,))
