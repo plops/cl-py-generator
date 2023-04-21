@@ -7,9 +7,9 @@ import struct
 from data_pb2 import Packet, DataRequest, DataResponse
 start_time=time.time()
 debug=True
-_code_git_version="ee451503b5ef4421baf7c96cad246fa22e09f1c2"
+_code_git_version="9e91ed59e4661ccf564d1fdd2533fe8f4711790f"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/103_co2_sensor/source/"
-_code_generation_time="00:10:17 of Saturday, 2023-04-22 (GMT+1)"
+_code_generation_time="00:26:11 of Saturday, 2023-04-22 (GMT+1)"
 def listen():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(("192.168.2.122",12345,))
