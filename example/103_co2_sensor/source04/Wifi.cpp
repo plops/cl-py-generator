@@ -6,14 +6,17 @@ extern "C" {
 #include "freertos/task.h"
 #include "lwip/sockets.h"
 #include "nvs_flash.h"
-#include "secret.h"
 #include <arpa/inet.h>
+};
+#include "secret.h"
+#define FMT_HEADER_ONLY
+#include "Wifi.h"
+#include "core.h"
+int Wifi::s_retry_num = 0;
+EventGroupHandle_t Wifi::s_wifi_event_group = nullptr;
 // event group should allow two different events
 // 1) we are connected to access point with an ip
 // 2) we failed to connect after a maximum amount of retries
-};
-#define FMT_HEADER_ONLY
-#include "core.h"
 
 #include "Wifi.h"
 void Wifi::event_handler(void *arg, esp_event_base_t event_base,
@@ -53,7 +56,9 @@ void Wifi::event_handler(void *arg, esp_event_base_t event_base,
     }
   }
 }
-Wifi::Wifi() : s_retry_num(0) {
+Wifi::Wifi() {
+  s_retry_num = 0;
+
   s_wifi_event_group = xEventGroupCreate();
 
   ESP_ERROR_CHECK(esp_netif_init());
@@ -64,12 +69,10 @@ Wifi::Wifi() : s_retry_num(0) {
   auto instance_any_id = esp_event_handler_instance_t();
   auto instance_got_ip = esp_event_handler_instance_t();
   ESP_ERROR_CHECK(esp_event_handler_instance_register(
-      WIFI_EVENT, ESP_EVENT_ANY_ID,
-      reinterpret_cast<esp_event_handler_t>(&Wifi::event_handler), nullptr,
+      WIFI_EVENT, ESP_EVENT_ANY_ID, &Wifi::event_handler, nullptr,
       &instance_any_id));
   ESP_ERROR_CHECK(esp_event_handler_instance_register(
-      IP_EVENT, IP_EVENT_STA_GOT_IP,
-      reinterpret_cast<esp_event_handler_t>(&Wifi::event_handler), nullptr,
+      IP_EVENT, IP_EVENT_STA_GOT_IP, &Wifi::event_handler, nullptr,
       &instance_got_ip));
   wifi_config_t wifi_config = {};
   const char *ssid_str = "mi";

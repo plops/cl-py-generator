@@ -9,9 +9,9 @@
 class Wifi  {
         private:
         enum { WIFI_CONNECTED_BIT=BIT0, WIFI_FAIL_BIT=BIT1, EXAMPLE_ESP_MAXIMUM_RETRY=7 };
-        int s_retry_num;
-        EventGroupHandle_t s_wifi_event_group;
-        void event_handler (void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)       ;  
+        static int s_retry_num;
+        static EventGroupHandle_t s_wifi_event_group;
+        static void event_handler (void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)       ;  
         public:
         explicit  Wifi ()       ;  
 };

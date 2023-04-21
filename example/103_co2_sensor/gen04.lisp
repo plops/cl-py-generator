@@ -67,15 +67,25 @@
 		  (include lwip/sockets.h)
 		  (include<> arpa/inet.h
 			     ) ;; inet_ntoa
-		  (include "secret.h")
+		  
+		  
 		
-		  (comments "event group should allow two different events"
-			    "1) we are connected to access point with an ip"
-			    "2) we failed to connect after a maximum amount of retries")
+		  
+
+		  
 		  ))
+	 (include "secret.h")
 	 (do0
 	  "#define FMT_HEADER_ONLY"
-	  (include "core.h")))
+	  (include "core.h"))
+	 (do0
+		   (include "Wifi.h")
+		   "int Wifi::s_retry_num = 0;"
+		       "EventGroupHandle_t Wifi::s_wifi_event_group = nullptr;")
+	 (comments "event group should allow two different events"
+			    "1) we are connected to access point with an ip"
+			    "2) we failed to connect after a maximum amount of retries")
+	 )
        :code `(do0
 	       (defclass ,name ()
 		 "private:"
@@ -85,8 +95,8 @@
 		   (= WIFI_FAIL_BIT BIT1)
 		   (= EXAMPLE_ESP_MAXIMUM_RETRY 7))
 		  "}")
-		 (space int s_retry_num)
-		 (space EventGroupHandle_t s_wifi_event_group)
+		 (space static int s_retry_num )
+		 (space static EventGroupHandle_t s_wifi_event_group)
 		 (defmethod event_handler (arg
 					   event_base
 					   event_id
@@ -94,7 +104,7 @@
 		   (declare (type void* arg event_data)
 			    (type esp_event_base_t event_base)
 			    (type int32_t event_id)
-					;(static)
+			    (static)
 					;(values esp_event_handler_t)
 			    )
 		   ,(lprint :msg "Wifi::event_handler"
@@ -137,12 +147,13 @@
 		 "public:"
 		 (defmethod ,name ()
 		   (declare
-		    (construct (s_retry_num 0)
+		    (construct ; (s_retry_num 0)
 			       )
 		    (explicit)
 					;(noexcept)
 		    (values :constructor))
 		   (do0
+		    (setf s_retry_num 0)
 		    (setf s_wifi_event_group (xEventGroupCreate))
 		    (ESP_ERROR_CHECK (esp_netif_init))
 		    (ESP_ERROR_CHECK (esp_event_loop_create_default))
@@ -155,6 +166,8 @@
 			 (esp_event_handler_instance_register
 			  WIFI_EVENT
 			  ESP_EVENT_ANY_ID
+			  &Wifi--event_handler
+			  #+nil
 			  (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
 			  nullptr
 			  &instance_any_id))
@@ -162,6 +175,7 @@
 			 (esp_event_handler_instance_register
 			  IP_EVENT
 			  IP_EVENT_STA_GOT_IP
+			  &Wifi--event_handler #+nil
 			  (reinterpret_cast<esp_event_handler_t> &Wifi--event_handler)
 			  nullptr
 			  &instance_got_ip))
@@ -1319,7 +1333,9 @@
 	     (let ((ret (nvs_flash_init)))
 	       (when (logior (== ESP_ERR_NVS_NO_FREE_PAGES ret)
 			     (== ESP_ERR_NVS_NEW_VERSION_FOUND ret))
+		 ,(lprint :msg "perform nvs_flash_erase")
 		 (ESP_ERROR_CHECK (nvs_flash_erase))
+		 ,(lprint :msg "perform nvs_flash_init")
 		 (setf ret (nvs_flash_init)))
 	       (ESP_ERROR_CHECK ret)
 	       (ESP_LOGE TAG (string "esp wifi mode sta"))

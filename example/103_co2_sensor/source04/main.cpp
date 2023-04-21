@@ -29,7 +29,9 @@ void app_main() {
   auto ret = nvs_flash_init();
   if (((((ESP_ERR_NVS_NO_FREE_PAGES) == (ret)) ||
         ((ESP_ERR_NVS_NEW_VERSION_FOUND) == (ret))))) {
+    fmt::print("perform nvs_flash_erase\n");
     ESP_ERROR_CHECK(nvs_flash_erase());
+    fmt::print("perform nvs_flash_init\n");
     ret = nvs_flash_init();
   }
   ESP_ERROR_CHECK(ret);
@@ -58,7 +60,7 @@ void app_main() {
     graph.humidity();
     graph.pressure();
     display.small_text(
-        fmt::format("build 01:16:48 of Friday, 2023-04-21 (GMT+1)\n"));
+        fmt::format("build 08:22:48 of Friday, 2023-04-21 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
