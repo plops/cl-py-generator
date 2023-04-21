@@ -121,29 +121,30 @@
 		  (while True
 			 (setf (ntuple conn addr) (s.accept))
 			 (with conn
-			       ,(lprint :msg "connection" :vars `(addr))
-			       ,(lprint :msg "wait for DataResponse message")
+			       ;,(lprint :msg "connection" :vars `(addr))
+			       ;,(lprint :msg "wait for DataResponse message")
 			       (setf data (conn.recv 1024))
 			       (setf buf data)
 			       
 			       (while data
 				      (setf data (conn.recv 1024))
 				      (incf buf data))
-			       ,(lprint :msg "finished reading" :vars `(buf))
+			       ;,(lprint :msg "finished reading" :vars `(buf))
 			       (setf imsg (DataResponse))
 			       
-			       ,(lprint :vars `((dot imsg
+			       #+nil,(lprint :vars `((dot imsg
 				    (ParseFromString buf))))
 			       ,(lprint :vars `(,@(loop for e in `(index datetime pressure humidity temperature
 									 co2_concentration)
 							collect
 							`(dot imsg ,e))))
-			       ,(lprint :msg "send DataRequest message")
+			       ;,(lprint :msg "send DataRequest message")
 			       (setf omsg (dot (DataRequest :start_index 123
 							    :count 42) 
 					       (SerializeToString)))
 			       (conn.sendall omsg)
-			       ,(lprint :msg "connection closed"))))
+			       ;,(lprint :msg "connection closed")
+			       )))
 	    )
 	  (listen)
 	  
