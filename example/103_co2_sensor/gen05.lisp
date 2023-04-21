@@ -20,7 +20,8 @@
 					      (emit-py :code x))
 					    vars)))
                    (format  (- (time.time) start_time)
-                            ,@vars)))))
+                            ,@vars))
+	      :flush True)))
 
   
   
@@ -132,8 +133,11 @@
 			       ;,(lprint :msg "finished reading" :vars `(buf))
 			       (setf imsg (DataResponse))
 			       
-			       #+nil,(lprint :vars `((dot imsg
-				    (ParseFromString buf))))
+			       #+nil
+			       ,(lprint :vars `((dot imsg
+						     (ParseFromString buf))))
+			       (dot imsg
+						     (ParseFromString buf))
 			       ,(lprint :vars `(,@(loop for e in `(index datetime pressure humidity temperature
 									 co2_concentration)
 							collect
