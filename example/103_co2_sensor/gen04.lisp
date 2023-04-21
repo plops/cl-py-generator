@@ -88,7 +88,7 @@
 	 )
        :code `(do0
 	       (defclass ,name ()
-		 "private:"
+		 "private:" 
 		 (space enum "{"
 		  (comma
 		   (= WIFI_CONNECTED_BIT BIT0)
