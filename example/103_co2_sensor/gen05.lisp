@@ -42,7 +42,7 @@
 					;sys
 		    time
 		    socket
-		    struct
+		    struct 
 					;docopt
 			;pathlib
 					;(np numpy)
