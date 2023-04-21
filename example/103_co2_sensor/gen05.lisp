@@ -114,7 +114,7 @@
 	    (with (as (socket.socket socket.AF_INET
 				     socket.SOCK_STREAM)
 		      s)
-		  (s.bind (tuple (string "localhost")
+		  (s.bind (tuple (string "192.168.2.122")
 				 12345))
 		  (s.listen)
 		  ,(lprint :msg "listening on localhost:12345")

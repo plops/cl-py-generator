@@ -383,6 +383,10 @@
 						    :sin_family AF_INET
 						    :sin_port (htons 12345)
 						    ))))
+		     (when (< s 0)
+		       ,(lprint :msg "error creating socket"
+				:vars `((strerror errno)))
+		       (return))
 		     (set_socket_timeout s 2s0)
 		     (inet_pton AF_INET
 				(string "192.168.2.122")
@@ -392,7 +396,10 @@
 				       (sizeof server_addr))
 			      0)
 		       ,(lprint :msg "error connecting"
-				:vars `((strerror errno))))
+				:vars `((strerror errno)))
+		       (close s)
+		       (return)
+		       )
 		     ,(lprint :msg "send measurement values in a DataResponse message")
 		     (let ((now (time_t))
 			   (count 0))
@@ -412,7 +419,8 @@
 			 (unless (pb_encode &output
 					    DataResponse_fields
 					    &omsg)
-			   ,(lprint :msg "error encoding"))
+			   ,(lprint :msg "error encoding")
+			   )
 		       
 			 ))
 		     (do0
@@ -424,7 +432,8 @@
 		       (unless (pb_decode &input DataRequest_fields &imsg)
 			 ,(lprint :msg "error decoding"))
 		       ,(lprint :vars `(imsg.count
-					imsg.start_index)))))
+					imsg.start_index)))
+		     (close s)))
 		 
 		 (defmethod ,name ()
 		   (declare

@@ -94,11 +94,18 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
   auto s = socket(AF_INET, SOCK_STREAM, 0);
   auto server_addr =
       sockaddr_in({.sin_family = AF_INET, .sin_port = htons(12345)});
+  if (((s) < (0))) {
+    fmt::print("error creating socket  strerror(errno)='{}'\n",
+               strerror(errno));
+    return;
+  }
   set_socket_timeout(s, (2.0f));
   inet_pton(AF_INET, "192.168.2.122", &server_addr.sin_addr);
   if (((connect(s, reinterpret_cast<sockaddr *>(&server_addr),
                 sizeof(server_addr))) < (0))) {
     fmt::print("error connecting  strerror(errno)='{}'\n", strerror(errno));
+    close(s);
+    return;
   }
   fmt::print("send measurement values in a DataResponse message\n");
   auto now = time_t();
@@ -127,5 +134,6 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
   }
   fmt::print("  imsg.count='{}'  imsg.start_index='{}'\n", imsg.count,
              imsg.start_index);
+  close(s);
 }
 TcpConnection::TcpConnection() {}
