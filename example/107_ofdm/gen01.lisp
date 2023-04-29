@@ -80,7 +80,7 @@
 			
 					;(np jax.numpy)
 					;(mpf mplfinance)
-
+		  (fft scipy.fftpack)
 					;argparse
 					;torch
 					;(mp mediapipe)
@@ -114,6 +114,72 @@
 
 
        (do0
+
+	(class OFDMTransmitter ()
+	       (def __init__ (self n_subcarriers data_size)
+		 (setf self.n_subcarriers n_subcarriers
+		       self.data_size data_size))
+	       (def _generate_random_data (self)
+		 (setf data (np.random.randint 0 2
+					       (tuple self.n_subcarriers
+						      self.data_size)))
+		 (return (- (* 2 data) 1)))
+	       (def _ifft (self data)
+		 (return (fft.ifft data :axis 0)))
+	       (def _create_schmidl_cox_training_sequence (self)
+		 (setf random_symbols (self._generate_random_data)
+		       training_sequence (np.vstack
+					  (tuple (aref random_symbols ":" 0)
+						 (aref random_symbols ":" 0))))
+		 (return training_sequence))
+	       (def modulate (self)
+		 (setf data_symbols (self._generate_random_data)
+		       ifft_data (self._ifft data_symbols)
+		       training_sequence (self._create_schmidl_cox_training_sequence)
+		       ofdm_frame (np.hstack (tuple training_sequence
+						    ifft_data))
+		       serialized_data (np.reshape ofdm_frame
+						   (* self.n_subcarriers
+						      (+ 2 self.data_size))))
+		 (return serialized_data)))
+
+	(class OFDMReceiver ()
+	       (def __init__ (self n_subcarriers data_size)
+		 (setf self.n_subcarriers n_subcarriers
+		       self.data_size data_size))
+	       (def _fft (self data)
+		 (return (fft.fft data :axis 0)))
+	       (def _schmidl_cox_time_sync (self received_signal)
+		 (setf half_len self.n_subcarriers
+		       R (np.zeros (- received_signal.size
+				      (* 2 half_len))))
+		 (for (i (range R.size))
+		      (setf first_half (aref received_signal (slice i (+ i half_len)))
+			    second_half (aref received_signal (slice (+ i half_len)
+								     (+ i (* 2 half_len))))
+			    (aref R i) (np.abs (/
+						(** (np.sum (* (np.conj first_half)
+							       second_half))
+						    2)
+						(np.sum (* (** (np.abs first_half) 2)
+							   (** (np.abs second_half) 2))))
+					       )))
+		 (setf frame_start (np.argmax R))
+		 (return frame_start))
+	       (def _schmidl_cox_frequency_sync (self received_signal frame_start)
+		 (setf half_len self.n_subcarriers
+		       first_half (aref received_signal (slice frame_start
+							       (+ frame_start half_len)))
+		       second_half (aref received_signal (slice (+ frame_start half_len)
+								(+ frame_start (* 2 half_len))
+							       ))
+		       angle_sum (np.angle (np.sum (* (np.conj first_half)
+						      second_half)))
+		       cfo_est (/ -angle_sum
+				  (* 2 np.pi half_len)))
+		 (return cfo_est))
+	       (def demodulate (self received_signal)
+		 (setf frame_start (self._schmidl_cox_time_sync received))))
 
 	  
 	)))))
