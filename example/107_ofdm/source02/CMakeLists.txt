@@ -9,12 +9,17 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(FFTW3 REQUIRED)
 
 # Define the executable
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME}
+ main.cpp
+ OfdmTransmitter.cpp
+ )
 
 # Set compiler flags for debug build
-set(DEBUG_FLAGS "-g3 -Wall -Wextra -Wconversion -Wdouble-promotion -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion -fsanitize=undefined -fsanitize-trap=undefined -fsanitize=address")
 
-target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:${DEBUG_FLAGS}>")
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    add_compile_options(-g3 -Wall -Wextra -Wconversion -Wdouble-promotion -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion -fsanitize=undefined -fsanitize-trap=undefined -fsanitize=address)
+endif()
+
 
 # Link the libraries
 target_link_libraries(${PROJECT_NAME} fftw3)

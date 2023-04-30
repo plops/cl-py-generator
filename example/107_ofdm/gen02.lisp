@@ -31,7 +31,12 @@
 		       *source-dir*))
      `(do0
        "#pragma once"
-       ,@(loop for e in `((:name PI :value #.pi :type double)
+       (include<> cstddef
+		  complex)
+       ,@(loop for e in `((:name PI :value ;3.14159265358979323846
+				 ,(format nil "~3,12f" pi)
+				 :type double
+				 )
 			  (:name FFT_SIZE :value 64 :type size_t)
 			  (:name CP_SIZE :value 16 :type size_t)
 			  (:name SYMBOLS :value 10 :type size_t))
@@ -51,7 +56,8 @@
        :name name
        :headers `()
        :header-preamble `(do0
-			  (include OfdmConstants.h))
+			  (include OfdmConstants.h)
+			  (include<> vector))
        :implementation-preamble
        `(do0
 	 
@@ -104,14 +110,93 @@
 			 (setf (aref in i)
 			       (aref data (+ i (* symbol FFT_SIZE)))))
 		       (do0 (fftw_execute fftPlan)
-			    (std--copy out (+ out FFT_SIZE)
+			    (std--copy (out.data) (+ (out.data) FFT_SIZE)
 				       (+ (ifftData.begin)
 					  (* symbol FFT_SIZE)))))
+		     (comments "insert cyclic prefix and preamble"
+			       )
+		     (let ((transmittedData (std--vector<Cplx> (+ (* SYMBOLS (+ FFT_SIZE
+									      CP_SIZE))
+								  (* 2 (+ FFT_SIZE
+									  CP_SIZE))))))
+		       (std--copy (preamble.begin)
+				  (preamble.end)
+				  (transmittedData.begin))
+		       (dotimes (symbol SYMBOLS)
+			 (std--copy (+ (ifftData.begin)
+				       (* symbol FFT_SIZE))
+				    (+ (ifftData.begin)
+				       (* symbol FFT_SIZE)
+				       CP_SIZE)
+				    (+ (transmittedData.begin)
+				       (* 2 (+ FFT_SIZE
+					       CP_SIZE))
+				       (* symbol (+ FFT_SIZE
+						    CP_SIZE))))
+			 (std--copy (+ (ifftData.begin)
+				       (* symbol FFT_SIZE)
+				       CP_SIZE)
+				    (+ (ifftData.begin)
+				       (* (+ 1 symbol) FFT_SIZE)
+				       )
+				    (+ (transmittedData.begin)
+				       (* 2 (+ FFT_SIZE
+					       CP_SIZE))
+				       (* symbol (+ FFT_SIZE
+						    CP_SIZE))
+				       CP_SIZE)))
+		       (fftw_destroy_plan fftPlan)
+		       (return transmittedData))
 		     ))
 		 "private:"
 		 (defmethod generatePreamble ()
 		     (declare 
-			      (values "std::vector<Cplx>"))))
+			      (values "std::vector<Cplx>"))
+		   (let ((preamble (std--vector<Cplx> (* 2 (+ FFT_SIZE CP_SIZE))))
+			 (random_symbols (std--vector<Cplx> (/ FFT_SIZE 2)))
+			 (generator (std--default_random_engine))
+			 (distribution (std--uniform_real_distribution<double> -1 1))
+			 )
+		     (dotimes (i (/ FFT_SIZE 2))
+		       (setf (aref random_symbols i)
+			     (Cplx (distribution generator)
+				   (distribution generator))))
+
+		     (let (
+			 ;; fixme: do i need to allocate this with a fftw3 function?
+			 (in ("std::array<Cplx,FFT_SIZE>"))
+			 (out ("std::array<Cplx,FFT_SIZE>"))
+			 (ifftPlan (fftw_plan_dft_1d FFT_SIZE
+						    (reinterpret_cast<fftw_complex*>
+						     (in.data))
+						    (reinterpret_cast<fftw_complex*>
+						     (out.data))
+						    FFTW_BACKWARD
+						    FFTW_ESTIMATE)))
+		       (dotimes (i (/ FFT_SIZE 2))
+			 (setf (aref in i) (aref random_symbols i)
+			       (aref in (+ i (/ FFT_SIZE
+						2)))
+			       (std--conj (aref random_symbols i))))
+		       (fftw_execute ifftPlan)
+		       (comments "Add cyclic prefix and copy repeated preambels")
+		       (std--copy (+ (out.data) FFT_SIZE -CP_SIZE)
+				  (+ (out.data) FFT_SIZE)
+				  (preamble.begin))
+		       (std--copy (out.data)
+				  (+ (out.data) FFT_SIZE)
+				  (+ (preamble.begin)
+				     CP_SIZE))
+		       (std--copy (preamble.begin)
+				  (+ (preamble.begin)
+				     FFT_SIZE
+				     CP_SIZE)
+				  (+ (preamble.begin)
+				     FFT_SIZE
+				     CP_SIZE))
+		       (fftw_destroy_plan ifftPlan)
+		       (return preamble)
+		     ))))
 	       )))
     
     (write-source
@@ -121,13 +206,13 @@
 		       *source-dir*))
      `(do0
        
-       (include<> deque
-					;  random
-					; vector
+       (include<> random
+		  vector
 					; algorithm
 					;cmath
 		  )
-       (include   OfdmTransmitter.h)
+       (include   OfdmTransmitter.h
+		  )
        (do0
 	"#define FMT_HEADER_ONLY"
 	(include "core.h"))
@@ -137,7 +222,17 @@
        (defun main (argc argv)
 	 (declare (type int argc)
 		  (type char** argv)
-		  (values int)))
+		  (values int))
+	 (let ((data (std--vector<Cplx> (* FFT_SIZE SYMBOLS)))
+	       (generator (std--default_random_engine))
+	       (distribution (std--uniform_real_distribution<double> "-1.0"
+								     "1.0")))
+	   (dotimes (i (* FFT_SIZE SYMBOLS))
+	     (setf (aref data i)
+		   (Cplx (distribution generator)
+			 (distribution generator))))
+	   (let ((transmitter (OfdmTransmitter))
+		 (transmittedData (transmitter.transmit data))))))
        
        ))))
 
