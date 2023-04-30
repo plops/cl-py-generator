@@ -7,7 +7,7 @@
 class OfdmReceiver  {
         public:
         explicit  OfdmReceiver ()       ;  
-        std::vector<Cplx> receive (const std::vector<Cplx>& receivedData)       ;  
+        static std::vector<Cplx> receive (const std::vector<Cplx>& receivedData)       ;  
         private:
         static size_t schmidlCoxSynchronization (const std::vector<Cplx>& receivedData)       ;  
 };

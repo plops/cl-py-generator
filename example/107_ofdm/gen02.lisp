@@ -258,7 +258,7 @@
 						    FFTW_FORWARD
 						    FFTW_ESTIMATE))
 			 (fftData (std--vector<Cplx> (* FFT_SIZE SYMBOLS))))
-		     
+		     ,(lprint :vars `(start_index))
 		     (dotimes (symbol SYMBOLS)
 		       (std--copy (+ (receivedData.begin)
 				     start_index

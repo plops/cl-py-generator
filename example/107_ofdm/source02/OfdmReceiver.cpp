@@ -22,6 +22,7 @@ std::vector<Cplx> OfdmReceiver::receive(const std::vector<Cplx> &receivedData) {
                        reinterpret_cast<fftw_complex *>(out.data()),
                        FFTW_FORWARD, FFTW_ESTIMATE);
   auto fftData = std::vector<Cplx>(((FFT_SIZE) * (SYMBOLS)));
+  fmt::print("  start_index='{}'\n", start_index);
   for (auto symbol = 0; (symbol) < (SYMBOLS); (symbol) += (1)) {
     std::copy(((receivedData.begin()) + (start_index) +
                (((symbol) * (((FFT_SIZE) + (CP_SIZE))))) + (CP_SIZE)),
