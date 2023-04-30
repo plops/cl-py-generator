@@ -94,8 +94,9 @@ pb_ostream_t TcpConnection::pb_ostream_from_socket(int fd) {
 void TcpConnection::send_data(float pressure, float humidity, float temperature,
                               float co2_concentration) {
   auto s = socket(AF_INET, SOCK_STREAM, 0);
+  auto port = u16_t(12345);
   auto server_addr =
-      sockaddr_in({.sin_family = AF_INET, .sin_port = htons(12345)});
+      sockaddr_in({.sin_family = AF_INET, .sin_port = htons(port)});
   if (((s) < (0))) {
     fmt::print("error creating socket  strerror(errno)='{}'\n",
                strerror(errno));
@@ -116,6 +117,8 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
       client_ip_str.substr(0, ((client_ip_str.rfind('.')) + (1)));
   auto server_ip = ((server_ip_base) + ("122"));
   inet_pton(AF_INET, server_ip.c_str(), &server_addr.sin_addr);
+  fmt::print("connect to  client_ip_str='{}'  server_ip='{}'  port='{}'\n",
+             client_ip_str, server_ip, port);
 
   if (((connect(s, reinterpret_cast<sockaddr *>(&server_addr),
                 sizeof(server_addr))) < (0))) {

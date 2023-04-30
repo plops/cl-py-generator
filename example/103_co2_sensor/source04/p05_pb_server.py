@@ -7,14 +7,16 @@ import struct
 from data_pb2 import Packet, DataRequest, DataResponse
 start_time=time.time()
 debug=True
-_code_git_version="9e91ed59e4661ccf564d1fdd2533fe8f4711790f"
+_code_git_version="b6b0afaf75d64dac1a914a6eeeb7af646e9dd226"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/103_co2_sensor/source/"
-_code_generation_time="00:26:11 of Saturday, 2023-04-22 (GMT+1)"
+_code_generation_time="00:22:46 of Monday, 2023-05-01 (GMT+1)"
 def listen():
+    server="192.168.100.122"
+    port=12345
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(("192.168.2.122",12345,))
+        s.bind((server,port,))
         s.listen()
-        print("{} listening on localhost:12345 ".format(((time.time())-(start_time))), flush=True)
+        print("{} listening on  server={} port={}".format(((time.time())-(start_time)), server, port), flush=True)
         while (True):
             conn, addr=s.accept()
             with conn:

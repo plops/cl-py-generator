@@ -112,42 +112,49 @@
 			     (- tz)))))
 	 (do0
 	  (def listen ()
+	    (setf server (string ;"localhost"
+					;"192.168.2.122"
+					 "192.168.100.122"
+					 )
+		  port 12345)
+	    
 	    (with (as (socket.socket socket.AF_INET
 				     socket.SOCK_STREAM)
 		      s)
-		  (s.bind (tuple (string "192.168.2.122")
-				 12345))
+		  (s.bind (tuple server
+				 port))
 		  (s.listen)
-		  ,(lprint :msg "listening on localhost:12345")
+		  ,(lprint :msg "listening on "
+			   :vars `(server port))
 		  (while True
 			 (setf (ntuple conn addr) (s.accept))
 			 (with conn
-			       ;,(lprint :msg "connection" :vars `(addr))
-			       ;,(lprint :msg "wait for DataResponse message")
+					;,(lprint :msg "connection" :vars `(addr))
+					;,(lprint :msg "wait for DataResponse message")
 			       (setf data (conn.recv 1024))
 			       (setf buf data)
 			       
 			       (while data
 				      (setf data (conn.recv 1024))
 				      (incf buf data))
-			       ;,(lprint :msg "finished reading" :vars `(buf))
+					;,(lprint :msg "finished reading" :vars `(buf))
 			       (setf imsg (DataResponse))
 			       
 			       #+nil
 			       ,(lprint :vars `((dot imsg
 						     (ParseFromString buf))))
 			       (dot imsg
-						     (ParseFromString buf))
+				    (ParseFromString buf))
 			       ,(lprint :vars `(,@(loop for e in `(index datetime pressure humidity temperature
 									 co2_concentration)
 							collect
 							`(dot imsg ,e))))
-			       ;,(lprint :msg "send DataRequest message")
+					;,(lprint :msg "send DataRequest message")
 			       (setf omsg (dot (DataRequest :start_index 123
 							    :count 42) 
 					       (SerializeToString)))
 			       (conn.sendall omsg)
-			       ;,(lprint :msg "connection closed")
+					;,(lprint :msg "connection closed")
 			       )))
 	    )
 	  (listen)

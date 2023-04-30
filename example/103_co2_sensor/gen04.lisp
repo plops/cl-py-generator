@@ -382,9 +382,10 @@
 		   (let ((s (socket AF_INET
 				    SOCK_STREAM
 				    0))
+			 (port (u16_t 12345))
 			 (server_addr (sockaddr_in (designated-initializer
 						    :sin_family AF_INET
-						    :sin_port (htons 12345)
+						    :sin_port (htons port)
 						    ))))
 		     (when (< s 0)
 		       ,(lprint :msg "error creating socket"
@@ -410,7 +411,9 @@
 					     (string "122"))))
 			  (inet_pton AF_INET
 				     (server_ip.c_str) ;(string "192.168.2.122")
-				     &server_addr.sin_addr))))
+				     &server_addr.sin_addr)
+			   ,(lprint :msg "connect to"
+				    :vars `(client_ip_str server_ip port)))))
 		     (when (< (connect s (reinterpret_cast<sockaddr*>
 					  &server_addr)
 				       (sizeof server_addr))
