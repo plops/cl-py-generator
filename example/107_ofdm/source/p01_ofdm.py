@@ -9,9 +9,9 @@ import numpy as np
 import scipy.fftpack as fft
 start_time=time.time()
 debug=True
-_code_git_version="e7f6ad2d5f8c11f09244e2e2e44ef69ee6bd7b60"
+_code_git_version="a4732e8cbcb127826cce4cf3bffd4c580dfc0d03"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/107_ofdm/source/"
-_code_generation_time="15:50:42 of Sunday, 2023-04-30 (GMT+1)"
+_code_generation_time="15:53:17 of Sunday, 2023-04-30 (GMT+1)"
 class OFDMTransmitter():
     def __init__(self, n_subcarriers, data_size):
         self.n_subcarriers=n_subcarriers
@@ -27,6 +27,9 @@ class OFDMTransmitter():
         return training_sequence
     def modulate(self):
         data_symbols=self._generate_random_data()
+        fig=figure()
+        imshow(data_symbols)
+        plt.show()
         ifft_data=self._ifft(data_symbols)
         training_sequence=self._create_schmidl_cox_training_sequence()
         ofdm_frame=np.hstack((training_sequence,ifft_data,))

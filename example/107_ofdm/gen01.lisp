@@ -156,17 +156,22 @@
 					      T))
 		 (return training_sequence))
 	       (def modulate (self)
-		 (setf data_symbols (self._generate_random_data)
-		       ifft_data (self._ifft data_symbols)
-		       training_sequence (self._create_schmidl_cox_training_sequence)
-		       ofdm_frame (np.hstack (tuple training_sequence
-						    ifft_data))
-		       serialized_data
-		       (dot ofdm_frame
-			    (flatten))
-		       #+nil (np.reshape ofdm_frame
-					 (* self.n_subcarriers
-					    (+ 2 self.data_size))))
+		 (setf  data_symbols (self._generate_random_data))
+		 (do0
+		  (setf fig (figure))
+		  (imshow data_symbols)
+		  (plt.show))
+		 (setf 
+		  ifft_data (self._ifft data_symbols)
+		  training_sequence (self._create_schmidl_cox_training_sequence)
+		  ofdm_frame (np.hstack (tuple training_sequence
+					       ifft_data))
+		  serialized_data
+		  (dot ofdm_frame
+		       (flatten))
+		  #+nil (np.reshape ofdm_frame
+				    (* self.n_subcarriers
+				       (+ 2 self.data_size))))
 		 (return serialized_data)))
 
 	(class OFDMReceiver ()
