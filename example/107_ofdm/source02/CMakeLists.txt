@@ -12,6 +12,7 @@ find_package(FFTW3 REQUIRED)
 add_executable(${PROJECT_NAME}
  main.cpp
  OfdmTransmitter.cpp
+ OfdmReceiver.cpp
  )
 
 # Set compiler flags for debug build

@@ -47,7 +47,7 @@
        (space using (= Cplx std--complex<double>))
        )) 
     (let ((name `OfdmTransmitter)
-					;(members `((:name retry-attempts :type int :default 0)))
+					
 	  )
       (write-class
        :dir (asdf:system-relative-pathname
@@ -198,6 +198,121 @@
 		       (return preamble)
 		     ))))
 	       )))
+
+    (let ((name `OfdmReceiver)
+					
+	  )
+      (write-class
+       :dir (asdf:system-relative-pathname
+	     'cl-py-generator
+	     *source-dir*)
+       :name name
+       :headers `()
+       :header-preamble `(do0
+			  (include OfdmConstants.h)
+			  (include<> vector))
+       :implementation-preamble
+       `(do0
+	 
+
+	 (do0
+	  "#define FMT_HEADER_ONLY"
+	  (include "core.h"))
+	 (include<>
+	  iostream
+	  vector
+	  complex
+	  cmath
+	  algorithm
+	  random
+	  chrono
+	  cassert
+	  array
+	  fftw3.h)
+	 
+	 )
+       :code `(do0
+	       (defclass ,name ()
+		 "public:"
+		 (defmethod ,name ()
+		   (declare
+		    (construct		; (s_retry_num 0)
+		     )
+		    (explicit)
+					;(noexcept)
+		    (values :constructor))
+		 )
+		 (defmethod receive (receivedData)
+		   (declare (type "const std::vector<Cplx>&" receivedData)
+			    (values "std::vector<Cplx>"))
+		   
+		   (let ((start_index (schmidlCoxSynchronization receivedData))
+			 ;; fixme: do i need to allocate this with a fftw3 function?
+			 (in ("std::array<Cplx,FFT_SIZE>"))
+			 (out ("std::array<Cplx,FFT_SIZE>"))
+			 (fftPlan (fftw_plan_dft_1d FFT_SIZE
+						    (reinterpret_cast<fftw_complex*>
+						     (in.data))
+						    (reinterpret_cast<fftw_complex*>
+						     (out.data))
+						    FFTW_FORWARD
+						    FFTW_ESTIMATE))
+			 (fftData (std--vector<Cplx> (* FFT_SIZE SYMBOLS))))
+		     
+		     (dotimes (symbol SYMBOLS)
+		       (std--copy (+ (receivedData.begin)
+				     start_index
+				     (* symbol (+ FFT_SIZE
+						  CP_SIZE))
+				     CP_SIZE)
+				  (+ (receivedData.begin)
+				     start_index
+				     (* (+ 1 symbol) (+ FFT_SIZE
+						    CP_SIZE)))
+				  (in.data))
+		       (do0 (fftw_execute fftPlan)
+			    (std--copy (out.data) (+ (out.data) FFT_SIZE)
+				       (+ (fftData.begin)
+					  (* symbol FFT_SIZE)))))
+		     (fftw_destroy_plan fftPlan)
+		     (return fftData)
+		     ))
+		 "private:"
+		 (defmethod schmidlCoxSynchronization (receivedData)
+		   (declare (type "const std::vector<Cplx>&" receivedData)
+			    (values "size_t"))
+		   
+		   (let ((R (std--vector<double> (+ FFT_SIZE CP_SIZE)
+						 "0.0"))
+			 (M (std--vector<double> (+ FFT_SIZE CP_SIZE)
+						 "0.0"))
+			 (P (double "0.0"))
+			 
+			 )
+		     (dotimes (i (+ FFT_SIZE CP_SIZE))
+		       (setf (aref R i)
+			     (std--abs (* (aref receivedData (+ i FFT_SIZE CP_SIZE))
+					  (std--conj (aref receivedData i)))))
+		       (setf (aref M i)
+			     (+
+			      (std--norm (aref receivedData (+ i FFT_SIZE CP_SIZE))
+					 )
+			      (std--norm (aref receivedData i))))
+		       (incf P (aref M i))
+		       )
+		     (let ((max_metric (double "-1.0"))
+			     (start_index (size_t 0)))
+		       (dotimes (i (+ FFT_SIZE
+				      CP_SIZE))
+			 (let ((metric (/ (aref R i)
+					  (/ (aref M i)
+					     P))))
+			   (when (< max_metric
+				    metric)
+			     (setf max_metric metric
+				   start_index i))))
+		       (return start_index)))))
+	       )))
     
     (write-source
      (asdf:system-relative-pathname
@@ -212,7 +327,7 @@
 					;cmath
 		  )
        (include   OfdmTransmitter.h
-		  )
+		  OfdmReceiver.h)
        (do0
 	"#define FMT_HEADER_ONLY"
 	(include "core.h"))
@@ -232,7 +347,18 @@
 		   (Cplx (distribution generator)
 			 (distribution generator))))
 	   (let ((transmitter (OfdmTransmitter))
-		 (transmittedData (transmitter.transmit data))))))
+		 (transmittedData (transmitter.transmit data))
+		 (receiver (OfdmReceiver))
+		 (receivedData (receiver.receive transmittedData)))
+	     (let ((err (double "0.0")))
+	       (dotimes (i (* SYMBOLS FFT_SIZE))
+		 (incf err (std--norm (- (aref data i)
+					 (aref receivedData i)))))
+	       (setf err (std--sqrt (/ err
+				       (* FFT_SIZE
+					  SYMBOLS))))
+	       ,(lprint :vars `(err))
+	       (return 0)))))
        
        ))))
 
