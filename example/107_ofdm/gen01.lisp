@@ -249,13 +249,19 @@
 	 (setf fig (figure))
 	 (imshow (np.abs ofdm_frame))
 	 (plt.show))
-	#+nil(do0
+	(do0
 	      (setf received_signal ofdm_data
 		    )
 	      (setf ofdm_rx (OFDMReceiver n_subcarriers
 					  data_size)
 		    demodulated_data (ofdm_rx.demodulate received_signal))
 	      ,(lprint :vars `(demodulated_data)))
+
+	(do0
+	 (setf fig (figure))
+	 (imshow (np.asb demodulated_data)
+		 )
+	 (plt.show))
 
 	  
 	)))))
