@@ -1,3 +1,4 @@
+#include "OfdmReceiver.h"
 #include "OfdmTransmitter.h"
 #include <random>
 #include <vector>
@@ -13,4 +14,14 @@ int main(int argc, char **argv) {
   }
   auto transmitter = OfdmTransmitter();
   auto transmittedData = transmitter.transmit(data);
+  auto receiver = OfdmReceiver();
+  auto receivedData = receiver.receive(transmittedData);
+  auto err = double(0.0);
+  for (auto i = 0; (i) < (((SYMBOLS) * (FFT_SIZE))); (i) += (1)) {
+    (err) += (std::norm(((data[i]) - (receivedData[i]))));
+  }
+  err = std::sqrt(((err) / (((FFT_SIZE) * (SYMBOLS)))));
+
+  fmt::print("  err='{}'\n", err);
+  return 0;
 }
