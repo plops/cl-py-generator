@@ -257,6 +257,7 @@
 	 (space "extern \"C\" "
 		(progn
 		  (include  "esp_wifi.h"
+			    "esp_netif.h"
 			    "esp_netif_types.h"
 			    "nvs_flash.h"
 			    "freertos/FreeRTOS.h"
@@ -393,27 +394,38 @@
 		       (return))
 		     (set_socket_timeout s 2s0)
 		     (comments "i use the esp32 in a wifi network that is provided by a phone. the ip address of the clients can sometimes change. it seems that the server keeps the last part (122), though. so in order to get the server ip i will first look at the esp32 ip and replace the last number with 122. ")
-		     (let ((client_addr (sockaddr_in))
+		     #+nil (let ((client_addr (sockaddr_in))
 			   (client_addr_len (sizeof client_addr)))
-		       (getsockname s (reinterpret_cast<sockaddr*> &client_addr)
-				    &client_addr_len)
-		       (let ((client_ip ("std::array<char,INET_ADDRSTRLEN>")))
+			 (do0
+			(getsockname s (reinterpret_cast<sockaddr*> &client_addr)
+				     &client_addr_len)
+			(let ((client_ip ("std::array<char,INET_ADDRSTRLEN>"))
+			      )
+			  (inet_ntop AF_INET
+				     &client_addr.sin_addr
+				     (client_ip.data)
+				     INET_ADDRSTRLEN))))
+		     (let ((*netif (esp_netif_get_handle_from_ifkey (string "WIFI_STA_DEF")))
+			   (ip_info (esp_netif_ip_info_t)))
+		       (esp_netif_get_ip_info netif &ip_info)
+		       (let ((client_ip ("std::array<char,INET_ADDRSTRLEN>"))
+			     )
 			 (inet_ntop AF_INET
-				    &client_addr.sin_addr
-				    (client_ip.data)
-				    INET_ADDRSTRLEN)
+				     &ip_info.ip
+				     (client_ip.data)
+				     INET_ADDRSTRLEN)
 			 (let ((client_ip_str (std--string (client_ip.data)))
 			       (server_ip_base (dot client_ip_str
 						    (substr 0
-							   (+ (client_ip_str.rfind (char "."))
-							      1))))
+							    (+ (client_ip_str.rfind (char "."))
+							       1))))
 			       (server_ip (+ server_ip_base
-					     (string "122"))))
-			  (inet_pton AF_INET
-				     (server_ip.c_str) ;(string "192.168.2.122")
-				     &server_addr.sin_addr)
-			   ,(lprint :msg "connect to"
-				    :vars `(client_ip_str server_ip port)))))
+					     (string "122")))))
+			 (inet_pton AF_INET
+				    (server_ip.c_str) ;(string "192.168.2.122")
+				    &server_addr.sin_addr)
+			 ,(lprint :msg "connect to"
+				  :vars `(client_ip_str server_ip port))))
 		     (when (< (connect s (reinterpret_cast<sockaddr*>
 					  &server_addr)
 				       (sizeof server_addr))

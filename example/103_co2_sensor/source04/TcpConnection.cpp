@@ -1,6 +1,7 @@
 // no preamble
 extern "C" {
 #include "data.pb.h"
+#include "esp_netif.h"
 #include "esp_netif_types.h"
 #include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
@@ -107,11 +108,11 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
   // address of the clients can sometimes change. it seems that the server keeps
   // the last part (122), though. so in order to get the server ip i will first
   // look at the esp32 ip and replace the last number with 122.
-  auto client_addr = sockaddr_in();
-  auto client_addr_len = sizeof(client_addr);
-  getsockname(s, reinterpret_cast<sockaddr *>(&client_addr), &client_addr_len);
+  auto *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+  auto ip_info = esp_netif_ip_info_t();
+  esp_netif_get_ip_info(netif, &ip_info);
   auto client_ip = std::array<char, INET_ADDRSTRLEN>();
-  inet_ntop(AF_INET, &client_addr.sin_addr, client_ip.data(), INET_ADDRSTRLEN);
+  inet_ntop(AF_INET, &ip_info.ip, client_ip.data(), INET_ADDRSTRLEN);
   auto client_ip_str = std::string(client_ip.data());
   auto server_ip_base =
       client_ip_str.substr(0, ((client_ip_str.rfind('.')) + (1)));

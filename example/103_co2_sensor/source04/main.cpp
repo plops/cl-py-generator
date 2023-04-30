@@ -60,7 +60,7 @@ void app_main() {
     graph.humidity();
     graph.pressure();
     display.small_text(
-        fmt::format("build 00:30:05 of Monday, 2023-05-01 (GMT+1)\n"));
+        fmt::format("build 00:38:13 of Monday, 2023-05-01 (GMT+1)\n"));
     {
       auto now = fifo[0].x;
       display.small_text(fmt::format("now={:6.1f}", now), 20, 180);
