@@ -229,8 +229,15 @@
 		 )
 	(do0
 	 (setf fig (figure))
-	 (plot (np.real ofdm_data))
-	 (plot (np.imag ofdm_data)))
+	 ,@(loop for e in `(real imag abs)
+		 collect
+		 
+		 `(plot (dot np (,e ofdm_data))
+		       :label (string ,e)))
+	
+	 (plot (np.angle ofdm_data) :alpha .3 )
+	 (legend)
+	 (plt.show))
 	#+nil(do0
 	      (setf received_signal ofdm_data
 		    )
