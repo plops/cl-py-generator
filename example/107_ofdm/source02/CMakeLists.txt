@@ -16,6 +16,7 @@ add_executable(${PROJECT_NAME}
  )
 
 # Set compiler flags for debug build
+# https://news.ycombinator.com/item?id=35758898
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     add_compile_options(-g3 -Wall -Wextra -Wconversion -Wdouble-promotion -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion -fsanitize=undefined -fsanitize-trap=undefined -fsanitize=address)
