@@ -17,11 +17,17 @@ int main(int argc, char **argv) {
   auto receiver = OfdmReceiver();
   auto receivedData = receiver.receive(transmittedData);
   auto err = double(0.0);
+  auto avgPower = double(0.0);
   for (auto i = 0; (i) < (((SYMBOLS) * (FFT_SIZE))); (i) += (1)) {
     (err) += (std::norm(((data[i]) - (receivedData[i]))));
+    (avgPower) += (std::norm(data[i]));
   }
-  err = std::sqrt(((err) / (((FFT_SIZE) * (SYMBOLS)))));
+  err = ((err) / (((FFT_SIZE) * (SYMBOLS))));
 
-  fmt::print("  err='{}'\n", err);
+  avgPower = ((avgPower) / (((FFT_SIZE) * (SYMBOLS))));
+
+  auto mse = std::sqrt(err);
+  auto nmse = ((err) / (avgPower));
+  fmt::print("  mse='{}'  nmse='{}'\n", mse, nmse);
   return 0;
 }

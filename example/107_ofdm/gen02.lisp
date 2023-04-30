@@ -350,14 +350,22 @@
 		 (transmittedData (transmitter.transmit data))
 		 (receiver (OfdmReceiver))
 		 (receivedData (receiver.receive transmittedData)))
-	     (let ((err (double "0.0")))
+	     (let ((err (double "0.0"))
+		   (avgPower (double "0.0")))
 	       (dotimes (i (* SYMBOLS FFT_SIZE))
 		 (incf err (std--norm (- (aref data i)
-					 (aref receivedData i)))))
-	       (setf err (std--sqrt (/ err
-				       (* FFT_SIZE
-					  SYMBOLS))))
-	       ,(lprint :vars `(err))
+					 (aref receivedData i))))
+		 (incf avgPower (std--norm (aref data i))))
+	       (setf err (/ err
+			    (* FFT_SIZE
+			       SYMBOLS)))
+	       (setf avgPower (/ avgPower
+				 (* FFT_SIZE
+				    SYMBOLS)))
+	       ;; normalized mean squared error
+	       (let ((mse (std--sqrt err))
+		     (nmse (/ err avgPower)))
+		 ,(lprint :vars `(mse nmse)))
 	       (return 0)))))
        
        ))))
