@@ -169,7 +169,7 @@
 					       ifft_data))
 		  serialized_data
 		  (dot ofdm_frame
-		       (flatten))
+		      T (flatten))
 		  #+nil (np.reshape ofdm_frame
 				    (* self.n_subcarriers
 				       (+ 2 self.data_size))))
