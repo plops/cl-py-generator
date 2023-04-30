@@ -43,6 +43,27 @@
 	)
        (do0
 	(comments "python3 -m pip install --user scipy")
+	(do0
+
+		       (imports (matplotlib))
+                                        ;(matplotlib.use (string "QT5Agg"))
+					;"from matplotlib.backends.backend_qt5agg import (FigureCanvas, NavigationToolbar2QT as NavigationToolbar)"
+					;"from matplotlib.figure import Figure"
+		       (imports ((plt matplotlib.pyplot)
+					;  (animation matplotlib.animation)
+					;(xrp xarray.plot)
+				 ))
+
+		       ;(plt.ion)
+		       (plt.ioff)
+		       ;;(setf font (dict ((string size) (string 6))))
+		       ;; (matplotlib.rc (string "font") **font)
+		       )
+	(imports-from  (matplotlib.pyplot
+				 plot imshow tight_layout xlabel ylabel
+				 title subplot subplot2grid grid text
+				 legend figure gcf xlim ylim)
+				)
 	(imports (			;	os
 					;sys
 		  time
@@ -204,13 +225,19 @@
 	      ofdm_tx (OFDMTransmitter n_subcarriers
 				       data_size)
 	      ofdm_data (ofdm_tx.modulate))
-	,(lprint :vars `(ofdm_data))
-	(setf received_signal ofdm_data
-	      )
-	(setf ofdm_rx (OFDMReceiver n_subcarriers
-				    data_size)
-	      demodulated_data (ofdm_rx.demodulate received_signal))
-	,(lprint :vars `(demodulated_data))
+	,(lprint :vars `(ofdm_data)
+		 )
+	(do0
+	 (setf fig (figure))
+	 (plot (np.real ofdm_data))
+	 (plot (np.imag ofdm_data)))
+	#+nil(do0
+	      (setf received_signal ofdm_data
+		    )
+	      (setf ofdm_rx (OFDMReceiver n_subcarriers
+					  data_size)
+		    demodulated_data (ofdm_rx.demodulate received_signal))
+	      ,(lprint :vars `(demodulated_data)))
 
 	  
 	)))))

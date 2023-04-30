@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 # python3 -m pip install --user scipy
+import matplotlib
+import matplotlib.pyplot as plt
+plt.ioff()
+from matplotlib.pyplot import plot, imshow, tight_layout, xlabel, ylabel, title, subplot, subplot2grid, grid, text, legend, figure, gcf, xlim, ylim
 import time
 import numpy as np
 import scipy.fftpack as fft
 start_time=time.time()
 debug=True
-_code_git_version="1dd0388dd5d9892ac507a2f6d4879abbe4bcca0b"
+_code_git_version="178d4e1b874eee7ae2b6b110562e49a1ffca35a7"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/107_ofdm/source/"
-_code_generation_time="11:02:18 of Sunday, 2023-04-30 (GMT+1)"
+_code_generation_time="15:47:21 of Sunday, 2023-04-30 (GMT+1)"
 class OFDMTransmitter():
     def __init__(self, n_subcarriers, data_size):
         self.n_subcarriers=n_subcarriers
@@ -62,7 +66,6 @@ data_size=100
 ofdm_tx=OFDMTransmitter(n_subcarriers, data_size)
 ofdm_data=ofdm_tx.modulate()
 print("{} nil ofdm_data={}".format(((time.time())-(start_time)), ofdm_data))
-received_signal=ofdm_data
-ofdm_rx=OFDMReceiver(n_subcarriers, data_size)
-demodulated_data=ofdm_rx.demodulate(received_signal)
-print("{} nil demodulated_data={}".format(((time.time())-(start_time)), demodulated_data))
+fig=figure()
+plot(np.real(ofdm_data))
+plot(np.imag(ofdm_data))
