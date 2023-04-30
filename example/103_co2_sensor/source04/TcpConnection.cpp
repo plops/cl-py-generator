@@ -17,6 +17,7 @@ extern "C" {
 #include <time.h>
 #include <unistd.h>
 };
+#include <array>
 #define FMT_HEADER_ONLY
 #include "core.h"
 
@@ -59,8 +60,9 @@ bool TcpConnection::write_callback(pb_ostream_t *stream, const pb_byte_t *buf,
 void TcpConnection::set_socket_timeout(int fd, float timeout_seconds) {
   auto timeout = timeval();
   timeout.tv_sec = static_cast<int>(timeout_seconds);
-  timeout.tv_usec =
-      static_cast<int>(((1000000) * (((timeout_seconds) - (timeout.tv_sec)))));
+  timeout.tv_usec = static_cast<int>(
+      ((1000000) *
+       (((timeout_seconds) - (static_cast<float>(timeout.tv_sec))))));
 
   setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
   setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
@@ -100,7 +102,21 @@ void TcpConnection::send_data(float pressure, float humidity, float temperature,
     return;
   }
   set_socket_timeout(s, (2.0f));
-  inet_pton(AF_INET, "192.168.2.122", &server_addr.sin_addr);
+  // i use the esp32 in a wifi network that is provided by a phone. the ip
+  // address of the clients can sometimes change. it seems that the server keeps
+  // the last part (122), though. so in order to get the server ip i will first
+  // look at the esp32 ip and replace the last number with 122.
+  auto client_addr = sockaddr_in();
+  auto client_addr_len = sizeof(client_addr);
+  getsockname(s, reinterpret_cast<sockaddr *>(&client_addr), &client_addr_len);
+  auto client_ip = std::array<char, INET_ADDRSTRLEN>();
+  inet_ntop(AF_INET, &client_addr.sin_addr, client_ip.data(), INET_ADDRSTRLEN);
+  auto client_ip_str = std::string(client_ip.data());
+  auto server_ip_base =
+      client_ip_str.substr(0, ((client_ip_str.rfind('.')) + (1)));
+  auto server_ip = ((server_ip_base) + ("122"));
+  inet_pton(AF_INET, server_ip.c_str(), &server_addr.sin_addr);
+
   if (((connect(s, reinterpret_cast<sockaddr *>(&server_addr),
                 sizeof(server_addr))) < (0))) {
     fmt::print("error connecting  strerror(errno)='{}'\n", strerror(errno));

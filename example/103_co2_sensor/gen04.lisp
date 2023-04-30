@@ -274,9 +274,12 @@
 					;pb.h
 		   time.h
 		   pb_encode.h
-		   pb_decode.h)
+		   pb_decode.h
+		   
+		   )
 		  (include lwip/sockets.h)
 		  (include<> arpa/inet.h)))
+	 (include<> array)
 	 (do0
 	  "#define FMT_HEADER_ONLY"
 	  (include "core.h")))
@@ -343,7 +346,7 @@
 			   (setf timeout.tv_sec (static_cast<int> timeout_seconds)
 				 timeout.tv_usec (static_cast<int> (* 1000000
 								      (- timeout_seconds
-									 timeout.tv_sec))))
+									 (static_cast<float> timeout.tv_sec)))))
 			   (setsockopt fd SOL_SOCKET SO_RCVTIMEO &timeout (sizeof timeout))
 			   (setsockopt fd SOL_SOCKET SO_SNDTIMEO &timeout (sizeof timeout))))
 		       (defmethod pb_istream_from_socket (fd)
@@ -388,9 +391,26 @@
 				:vars `((strerror errno)))
 		       (return))
 		     (set_socket_timeout s 2s0)
-		     (inet_pton AF_INET
-				(string "192.168.2.122")
-				&server_addr.sin_addr)
+		     (comments "i use the esp32 in a wifi network that is provided by a phone. the ip address of the clients can sometimes change. it seems that the server keeps the last part (122), though. so in order to get the server ip i will first look at the esp32 ip and replace the last number with 122. ")
+		     (let ((client_addr (sockaddr_in))
+			   (client_addr_len (sizeof client_addr)))
+		       (getsockname s (reinterpret_cast<sockaddr*> &client_addr)
+				    &client_addr_len)
+		       (let ((client_ip ("std::array<char,INET_ADDRSTRLEN>")))
+			 (inet_ntop AF_INET
+				    &client_addr.sin_addr
+				    (client_ip.data)
+				    INET_ADDRSTRLEN)
+			 (let ((client_ip_str (std--string (client_ip.data)))
+			       (server_ip_base (dot client_ip_str
+						    (substr 0
+							   (+ (client_ip_str.rfind (char "."))
+							      1))))
+			       (server_ip (+ server_ip_base
+					     (string "122"))))
+			  (inet_pton AF_INET
+				     (server_ip.c_str) ;(string "192.168.2.122")
+				     &server_addr.sin_addr))))
 		     (when (< (connect s (reinterpret_cast<sockaddr*>
 					  &server_addr)
 				       (sizeof server_addr))
