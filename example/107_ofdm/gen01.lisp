@@ -156,6 +156,7 @@
 					      T))
 		 (return training_sequence))
 	       (def modulate (self)
+		 "global data_symbols, ifft_data, ofdm_frame"
 		 (setf  data_symbols (self._generate_random_data))
 		 (do0
 		  (setf fig (figure))
@@ -242,6 +243,11 @@
 	
 	 (plot (np.angle ofdm_data) :alpha .3 )
 	 (legend)
+	 (plt.show))
+
+	(do0
+	 (setf fig (figure))
+	 (imshow (np.abs ofdm_frame))
 	 (plt.show))
 	#+nil(do0
 	      (setf received_signal ofdm_data
