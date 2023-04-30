@@ -246,7 +246,8 @@
 		   (declare (type "const std::vector<Cplx>&" receivedData)
 			    (values "std::vector<Cplx>"))
 		   
-		   (let ((start_index (schmidlCoxSynchronization receivedData))
+		   (let ((start_index   (schmidlCoxSynchronization receivedData)
+				      )
 			 ;; fixme: do i need to allocate this with a fftw3 function?
 			 (in ("std::array<Cplx,FFT_SIZE>"))
 			 (out ("std::array<Cplx,FFT_SIZE>"))

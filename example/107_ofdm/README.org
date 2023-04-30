@@ -5,3 +5,6 @@
 | gen01 | python |
 | gen02 | c++    |
 |       |        |
+
+- youtube tutorial on ofdm
+https://www.youtube.com/watch?v=F6B4Kyj2rLw&list=PLx7-Q20A1VYIvtMUWX3yd_sQGbQx1qPGP
