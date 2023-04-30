@@ -9,9 +9,9 @@ import numpy as np
 import scipy.fftpack as fft
 start_time=time.time()
 debug=True
-_code_git_version="4c67b7d7dafff7b4a7afa76bedfec628c91674b3"
+_code_git_version="adb2b1749ed2dd5bbed501fc2db50ad45cbad2bf"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/107_ofdm/source/"
-_code_generation_time="16:04:59 of Sunday, 2023-04-30 (GMT+1)"
+_code_generation_time="16:05:23 of Sunday, 2023-04-30 (GMT+1)"
 class OFDMTransmitter():
     def __init__(self, n_subcarriers, data_size):
         self.n_subcarriers=n_subcarriers
@@ -85,5 +85,5 @@ ofdm_rx=OFDMReceiver(n_subcarriers, data_size)
 demodulated_data=ofdm_rx.demodulate(received_signal)
 print("{} nil demodulated_data={}".format(((time.time())-(start_time)), demodulated_data))
 fig=figure()
-imshow(np.asb(demodulated_data))
+imshow(np.abs(demodulated_data))
 plt.show()

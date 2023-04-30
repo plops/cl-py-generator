@@ -259,7 +259,7 @@
 
 	(do0
 	 (setf fig (figure))
-	 (imshow (np.asb demodulated_data)
+	 (imshow (np.abs demodulated_data)
 		 )
 	 (plt.show))
 
