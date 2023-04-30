@@ -38,11 +38,11 @@
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
-       "#!/usr/bin/python"
+       "#!/usr/bin/env python3"
        (do0
 	)
        (do0
-	
+	(comments "python3 -m pip install --user scipy")
 	(imports (			;	os
 					;sys
 		  time
@@ -127,10 +127,12 @@
 	       (def _ifft (self data)
 		 (return (fft.ifft data :axis 0)))
 	       (def _create_schmidl_cox_training_sequence (self)
-		 (setf random_symbols (self._generate_random_data)
-		       training_sequence (np.vstack
-					  (tuple (aref random_symbols ":" 0)
-						 (aref random_symbols ":" 0))))
+		 (setf random_symbols (aref (self._generate_random_data)
+					    ":" 0)
+		       training_sequence (dot (np.vstack
+					       (tuple random_symbols
+						      random_symbols))
+					      T))
 		 (return training_sequence))
 	       (def modulate (self)
 		 (setf data_symbols (self._generate_random_data)
@@ -138,9 +140,12 @@
 		       training_sequence (self._create_schmidl_cox_training_sequence)
 		       ofdm_frame (np.hstack (tuple training_sequence
 						    ifft_data))
-		       serialized_data (np.reshape ofdm_frame
-						   (* self.n_subcarriers
-						      (+ 2 self.data_size))))
+		       serialized_data
+		       (dot ofdm_frame
+			    (flatten))
+		       #+nil (np.reshape ofdm_frame
+					 (* self.n_subcarriers
+					    (+ 2 self.data_size))))
 		 (return serialized_data)))
 
 	(class OFDMReceiver ()
@@ -179,7 +184,33 @@
 				  (* 2 np.pi half_len)))
 		 (return cfo_est))
 	       (def demodulate (self received_signal)
-		 (setf frame_start (self._schmidl_cox_time_sync received))))
+		 (setf frame_start (self._schmidl_cox_time_sync received_signal)
+		       cfo_est (self._schmidl_cox_frequency_sync received_signal
+								 frame_start)
+		       received_signal (* (np.exp (* -1j 2 np.pi cfo_est
+						     (np.arange received_signal.size)))
+					  received_signal)
+		       ofdm_data (aref (np.reshape (aref received_signal (slice frame_start ""))
+					      (tuple self.n_subcarriers
+						     -1))
+				       ":"
+				       (slice "" (+ 2 self.data_size)))
+		       fft_data (self._fft ofdm_data))
+		 
+		 (return fft_data)))
+
+	(setf n_subcarriers 64
+	      data_size 100
+	      ofdm_tx (OFDMTransmitter n_subcarriers
+				       data_size)
+	      ofdm_data (ofdm_tx.modulate))
+	,(lprint :vars `(ofdm_data))
+	(setf received_signal ofdm_data
+	      )
+	(setf ofdm_rx (OFDMReceiver n_subcarriers
+				    data_size)
+	      demodulated_data (ofdm_rx.demodulate received_signal))
+	,(lprint :vars `(demodulated_data))
 
 	  
 	)))))
