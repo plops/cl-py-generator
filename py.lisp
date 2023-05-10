@@ -141,20 +141,20 @@ entry return-values contains a list of return values. currently supports type, v
 				  ;; http://www.crategus.com/books/alexandria/pages/alexandria.0.dev_fun_parse-ordinary-lambda-list.html
 				  ;; default arguments with type hints in python: def foo(opts: dict = {}):
 				  ;; https://stackoverflow.com/questions/38727520/how-do-i-add-default-parameters-to-functions-when-using-type-hinting
-
-				  ;; FIXME: i don't use these often. i will have to come back to this code once i have an example in python that requires default parameters
+				  ;; syntax of keyword arguments with type hint
+				  ;; <var>: <type> = <default-value>
 				  
 				  ,@(loop for ((keyword-name name) init supplied-p) in key-param
 					  collect
 					  (progn
-					    (format nil "~a ~a ~@[~a~]"
+					    (format nil "~a~a ~@[~a~]"
+						    
+						    name
 						    (let ((type (gethash name env)))
 						      (if type
-							  (funcall emit type)
+							  (format nil ": ~a" (funcall emit type))
 							  "" ;; can't find type for keyword parameter
 							  ))
-						    name
-						    
 						    (format nil "= ~a" (funcall emit init)))))
 				  ))
 		  #+nil (emit `(paren
