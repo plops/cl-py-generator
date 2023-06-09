@@ -109,6 +109,8 @@
 					;argparse
 					;torch
 		  (mp mediapipe)
+		  mss
+		  (cv cv2)
 		  
 		  )))
        (imports-from (mediapipe.tasks python)
@@ -145,8 +147,8 @@
 	      VisionRunningMode mp.tasks.vision.RunningMode)
 
 	(def print_result (result output_image timestamp_ms)
-	  (declare (type "List[Image]" result)
-		   (type Image output_image)
+	  (declare (type "list[mp.Image]" result)
+		   (type mp.Image output_image)
 		   (type int timestamp_ms))
 	  (print (dot (string "segmented mask size: {}")
 		      (format (len result)))))
@@ -154,16 +156,24 @@
 	(setf options (ImageSegmenterOptions
 		       :base_options (BaseOptions
 				      :model_asset_path (string "selfie_multiclass_256x256.tflite")
-				      :running_mode VisionRunningMode.VIDEO
-				      :output_category_mask True)))
+				      ;:running_mode VisionRunningMode.LIVE_STREAM
+				      :output_category_mask True
+				      :result_callback (lambda ()
+							 ,(lprint :msg "result")))))
 	(with (as (ImageSegmenter.create_from_options options)
 		  segmenter)
-	      (setf mp_image (mp.Image
-			      :image_format mp.ImageFormat.SRGB
-			      :data numpy_frame_from_opencv))
-	      (segmenter.segment_async
-	       mp_image
-	       frame_timestamp_ms)))
+	      (with (as (mss.mss) sct)
+	       (do0
+		(setf img (np.array (sct.grab
+				     (dictionary :top 160
+						 :left 0
+						 :width ,(/ 1920 2)
+						 :height ,(/ 1080 2)))))
+		(setf mp_image (mp.Image
+				:image_format mp.ImageFormat.SRGB
+				:data img))
+		(segmenter.segment_async
+		 mp_image)))))
 
        
        ))))
