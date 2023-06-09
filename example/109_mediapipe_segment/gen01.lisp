@@ -42,9 +42,12 @@
        (do0
 	)
        (do0
-	(comments "python3 -m pip install --user mediapipe")
+	(comments "python3 -m pip install --user mediapipe"
+		  "wget https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite"
+		  "16 MB download")
+	#+nil
 	(do0
-	 #+nil
+	 
 	 (imports (matplotlib))
                                         ;(matplotlib.use (string "QT5Agg"))
 					;"from matplotlib.backends.backend_qt5agg import (FigureCanvas, NavigationToolbar2QT as NavigationToolbar)"
@@ -67,7 +70,7 @@
 		       )
 	(imports (			;	os
 					;sys
-					; time
+		  time
 					;docopt
 					;pathlib
 					;(np numpy)
