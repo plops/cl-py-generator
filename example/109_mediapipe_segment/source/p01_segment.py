@@ -3,6 +3,7 @@
 # wget https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite
 # 16 MB download
 import time
+import numpy as np
 import mediapipe as mp
 import mss
 import cv2 as cv
@@ -10,9 +11,9 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 start_time=time.time()
 debug=True
-_code_git_version="793da2a1b7f70cd0827f9ca88035b3bc9dbdbee0"
+_code_git_version="115a3d4ef9abb292510dc33161e02c9eb905a442"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/109_mediapipe_segment/source/"
-_code_generation_time="22:57:57 of Friday, 2023-06-09 (GMT+1)"
+_code_generation_time="23:08:15 of Friday, 2023-06-09 (GMT+1)"
 BaseOptions=mp.tasks.BaseOptions
 ImageSegmenter=mp.tasks.vision.ImageSegmenter
 ImageSegmenterOptions=mp.tasks.vision.ImageSegmenterOptions

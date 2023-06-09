@@ -73,7 +73,7 @@
 		  time
 					;docopt
 					;pathlib
-					;(np numpy)
+					(np numpy)
 					;serial
 					;(pd pandas)
 					;(xr xarray)
