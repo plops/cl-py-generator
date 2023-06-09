@@ -138,5 +138,33 @@
 			   date
 			   (- tz)))))
 
+       (do0
+	(setf BaseOptions mp.tasks.BaseOptions
+	      ImageSegmenter mp.tasks.vision.ImageSegmenter
+	      ImageSegmenterOptions mp.tasks.vision.ImageSegmenterOptions
+	      VisionRunningMode mp.tasks.vision.RunningMode)
+
+	(def print_result (result output_image timestamp_ms)
+	  (declare (type "List[Image]" result)
+		   (type Image output_image)
+		   (type int timestamp_ms))
+	  (print (dot (string "segmented mask size: {}")
+		      (format (len result)))))
+
+	(setf options (ImageSegmenterOptions
+		       :base_options (BaseOptions
+				      :model_asset_path (string "selfie_multiclass_256x256.tflite")
+				      :running_mode VisionRunningMode.VIDEO
+				      :output_category_mask True)))
+	(with (as (ImageSegmenter.create_from_options options)
+		  segmenter)
+	      (setf mp_image (mp.Image
+			      :image_format mp.ImageFormat.SRGB
+			      :data numpy_frame_from_opencv))
+	      (segmenter.segment_async
+	       mp_image
+	       frame_timestamp_ms)))
+
+       
        ))))
 
