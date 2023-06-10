@@ -153,10 +153,26 @@
 	  (print (dot (string "segmented mask size: {}")
 		      (format (len result)))))
 
+	(do0
+	 (setf DESIRED_HEIGHT 256
+	       DESIRED_WIDTH 256)
+	 (def resize (image)
+	   (setf (ntuple h w)
+		 (aref image.shape (slice "" 2)))
+	   (if (< h w)
+	       (setf img (cv2.resize image
+				     (tuple DESIRED_WIDTH
+					    (math.floor (/ h (/ w DESIRED_WIDTH))))))
+	       (setf img (cv2.resize image
+				     (tuple (math.floor (/ w (/ h DESIRED_HEIGHT)))
+					    DESIRED_HEIGHT)
+				     )))))
+	
+
 	(setf options (ImageSegmenterOptions
 		       :base_options (BaseOptions
 				      :model_asset_path (string "selfie_multiclass_256x256.tflite")
-				      ;:running_mode VisionRunningMode.LIVE_STREAM
+					;:running_mode VisionRunningMode.LIVE_STREAM
 				      :output_category_mask True
 				      :result_callback (lambda ()
 							 ,(lprint :msg "result")))))
@@ -172,7 +188,7 @@
 		(setf mp_image (mp.Image
 				:image_format mp.ImageFormat.SRGB
 				:data img))
-		(segmenter.segment_async
+		(segmenter.segment
 		 mp_image)))))
 
        
