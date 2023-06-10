@@ -101,14 +101,15 @@
 					;io.StringIO
 					;bs4
 					;requests
-					;mss
+					
+					math
 			
 					;(np jax.numpy)
 					;(mpf mplfinance)
 					;(fft scipy.fftpack)
 					;argparse
 					;torch
-		  (mp mediapipe)
+					(mp mediapipe)
 		  mss
 		  (cv cv2)
 		  
@@ -160,10 +161,10 @@
 	   (setf (ntuple h w)
 		 (aref image.shape (slice "" 2)))
 	   (if (< h w)
-	       (setf img (cv2.resize image
+	       (setf img (cv.resize image
 				     (tuple DESIRED_WIDTH
 					    (math.floor (/ h (/ w DESIRED_WIDTH))))))
-	       (setf img (cv2.resize image
+	       (setf img (cv.resize image
 				     (tuple (math.floor (/ w (/ h DESIRED_HEIGHT)))
 					    DESIRED_HEIGHT)
 				     )))))
@@ -173,23 +174,30 @@
 		       :base_options (BaseOptions
 				      :model_asset_path (string "selfie_multiclass_256x256.tflite")
 					;:running_mode VisionRunningMode.LIVE_STREAM
-				      :output_category_mask True
-				      :result_callback (lambda ()
-							 ,(lprint :msg "result")))))
+				      ;:output_category_mask True
+				      ;:result_callback
+				      #+nil (lambda ()
+					,(lprint :msg "result")))))
 	(with (as (ImageSegmenter.create_from_options options)
 		  segmenter)
 	      (with (as (mss.mss) sct)
 	       (do0
-		(setf img (np.array (sct.grab
+		(setf grb (sct.grab
 				     (dictionary :top 160
 						 :left 0
 						 :width ,(/ 1920 2)
-						 :height ,(/ 1080 2)))))
+						 :height ,(/ 1080 2))))
+		(setf img (np.array grb.pixels))
 		(setf mp_image (mp.Image
 				:image_format mp.ImageFormat.SRGB
 				:data img))
-		(segmenter.segment
-		 mp_image)))))
+		(setf segmentation_result (segmenter.segment
+					   mp_image))
+		(setf category_mask segmentation_result.category_mask)
+		,(lprint :msg "result"
+			 :vars `((aref segmentation_result 0)))
+		;(cv.imshow (string "bla") category_mask)
+		))))
 
        
        ))))
