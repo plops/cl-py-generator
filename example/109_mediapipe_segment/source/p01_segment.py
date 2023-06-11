@@ -12,9 +12,9 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 start_time=time.time()
 debug=True
-_code_git_version="6d78d2089a17e64fe3c5c8bf7135fca4429d846e"
+_code_git_version="28edf8016c186245b3bb1f74acc55124bc6b4260"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/109_mediapipe_segment/source/"
-_code_generation_time="09:32:26 of Saturday, 2023-06-10 (GMT+1)"
+_code_generation_time="18:03:50 of Sunday, 2023-06-11 (GMT+1)"
 BaseOptions=mp.tasks.BaseOptions
 ImageSegmenter=mp.tasks.vision.ImageSegmenter
 ImageSegmenterOptions=mp.tasks.vision.ImageSegmenterOptions
@@ -29,11 +29,7 @@ def resize(image):
         img=cv.resize(image, (DESIRED_WIDTH,math.floor(((h)/(((w)/(DESIRED_WIDTH))))),))
     else:
         img=cv.resize(image, (math.floor(((w)/(((h)/(DESIRED_HEIGHT))))),DESIRED_HEIGHT,))
-
-bo = mp.tasks.BaseOptions()
-
-options=ImageSegmenterOptions(base_options=BaseOptions(model_asset_path="selfie_multiclass_256x256.tflite"
-                                                    ))
+options=ImageSegmenterOptions(base_options=BaseOptions(model_asset_path="selfie_multiclass_256x256.tflite", running_mode=VisionRunningMode.LIVE_STREAM))
 with ImageSegmenter.create_from_options(options) as segmenter:
     with mss.mss() as sct:
         grb=sct.grab(dict(top=160, left=0, width=960, height=540))

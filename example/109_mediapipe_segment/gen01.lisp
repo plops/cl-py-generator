@@ -173,11 +173,15 @@
 	(setf options (ImageSegmenterOptions
 		       :base_options (BaseOptions
 				      :model_asset_path (string "selfie_multiclass_256x256.tflite")
-					;:running_mode VisionRunningMode.LIVE_STREAM
-				      ;:output_category_mask True
-				      ;:result_callback
+				      
+					:running_mode VisionRunningMode.LIVE_STREAM
+					;:output_category_mask True
+				       ; :output_confidence_masks False
+				      ;:display_names_locale en
+				      
+					;:result_callback
 				      #+nil (lambda ()
-					,(lprint :msg "result")))))
+					      ,(lprint :msg "result")))))
 	(with (as (ImageSegmenter.create_from_options options)
 		  segmenter)
 	      (with (as (mss.mss) sct)
