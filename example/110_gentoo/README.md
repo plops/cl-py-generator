@@ -71,7 +71,7 @@ eselect kernel set 1
 cd /usr/src/linux
 make localmodconfig
 cp .config /usr/src/linux-config
-genkernel --kernel-config=/usr/src/linux-config --microcode=amd all
+genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm all
 
 
 ```
