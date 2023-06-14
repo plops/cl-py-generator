@@ -20,6 +20,11 @@ LC_MESSAGES=C.utf8
 MAKEOPTS="-j7"
 USE="X"
 VIDEO_CARDS="radeon"
+FEATURES="buildpkg"
+PKGDIR="/var/cache/binpkgs"
+BINPKG_FORMAT="gpkg"
+BINPKG_COMPRESS="zstd"
+BINPKG_COMPRESS_FLAG_ZSTD="-T0"
 EOF
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
@@ -71,8 +76,9 @@ eselect kernel set 1
 cd /usr/src/linux
 make localmodconfig
 cp .config /usr/src/linux-config
-genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm all
+genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm --luks all
 
+emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
 ```
 
