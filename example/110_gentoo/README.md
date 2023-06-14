@@ -25,6 +25,7 @@ PKGDIR="/var/cache/binpkgs"
 BINPKG_FORMAT="gpkg"
 BINPKG_COMPRESS="zstd"
 BINPKG_COMPRESS_FLAG_ZSTD="-T0"
+L10N="en-GB"
 EOF
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
@@ -77,6 +78,48 @@ cd /usr/src/linux
 make localmodconfig
 cp .config /usr/src/linux-config
 genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm --luks all
+
+cat << EOF > /etc/portage/package.use/package.use
+www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
+www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
+x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
+app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo -dbus -dynamic-loading -games -gfile -gif -gpm -gsettings -gtk -gui -gzip-el -harfbuzz -imagemagick -jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
+x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
+net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
+net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
+net-misc/dhcp client ipv6 -server ssl -ldap -selinux -vim-syntax
+dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -selinux -subversion -test tk -xinet
+sci-libs/nlopt -cxx -guile -octave python -test
+dev-python/numpy lapack -test
+sci-libs/openblas openmp -dynamic -eselect-ldso -index-64bit pthread -relapack -test
+media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java -jpeg -jpeg2k -lapack -lto opencl -opencvapps -openexr -opengl -png -qt5 -tesseract -testprograms -threads -tiff v4l -vaapi -vtk -webp -xine
+dev-python/matplotlib -cairo -debug -doc -examples -excel -gtk3 -latex -qt5 -test -tk -webagg -wxwidgets
+dev-python/pandas X -doc -full-support -minimal -test
+dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -build -debug -examples -hardened -libedit -lto -pgo -test tk -valgrind -verify-sig
+dev-python/pillow jpeg zlib -debug -examples -imagequant -jpeg2k -lcms -test -tiff tk -truetype webp -xcb
+media-gfx/imagemagick X bzip2 cxx openmp png zlib -corefonts -djvu -fftw -fontconfig -fpx -graphviz -hdri -heif -jbig jpeg -jpeg2k jpegxl -lcms -lqr -lzma -opencl -openexr -pango -perl -postscript -q8 -q32 -raw -static-libs -svg -test tiff -truetype webp -wmf -xml -zip
+virtual/imagemagick-tools jpeg -perl -png -svg tiff
+EOF
+
+
+emerge -av matplotlib
+
+# eselect blas set openblas
+# eselect lapack set openblas
+
+emerge -av dev-vcs/git
+
+emerge -av xorg-server firefox \
+dwm xterm \
+emacs sbcl slime \
+magit paredit \
+bluez iwd dhcp \
+dev-vcs/git \
+dev-python/pip \
+numpy scipy scikit-learn nlopt matplotlib opencv python \
+
+#emerge -av firefox
+emerge -av chromium
 
 emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
