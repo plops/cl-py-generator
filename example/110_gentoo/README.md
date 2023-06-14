@@ -78,7 +78,7 @@ make localmodconfig
 cp .config /usr/src/linux-config
 genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm --luks all
 
-emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
+emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
 ```
 
