@@ -102,7 +102,7 @@ dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -build -de
 dev-python/pillow jpeg zlib -debug -examples -imagequant -jpeg2k -lcms -test -tiff tk -truetype webp -xcb
 media-gfx/imagemagick X bzip2 cxx openmp png zlib -corefonts -djvu -fftw -fontconfig -fpx -graphviz -hdri -heif -jbig jpeg -jpeg2k jpegxl -lcms -lqr -lzma -opencl -openexr -pango -perl -postscript -q8 -q32 -raw -static-libs -svg -test tiff -truetype webp -wmf -xml -zip
 virtual/imagemagick-tools jpeg -perl -png -svg tiff
-dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly -parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
+dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
 
 EOF
@@ -121,6 +121,7 @@ dev-vcs/git \
 dev-python/pip \
 numpy scipy scikit-learn nlopt matplotlib opencv python 
 
+#12GB for rust, 6.6GB for firefox
 
 emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
