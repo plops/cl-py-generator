@@ -47,6 +47,24 @@ emerge --depclean
 emerge --ask=n app-portage/cpuid2cpuflags
 echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
 
+ln -sf ../usr/share/zoneinfo/Europe/Zurich /etc/localtime
+
+cat <<EOF > /etc/locale.gen
+en_US ISO-8859-1
+en_US.UTF-8 UTF-8
+EOF
+locale-gen
+eselect locale set C.UTF8
+
+env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
+
+cat <<EOF > /etc/portage/package.license
+sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
+EOF
+
+emerge --ask=n sys-kernel/linux-firmware
+
+
 ```
 
 
