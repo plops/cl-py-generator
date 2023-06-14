@@ -79,6 +79,10 @@ make localmodconfig
 cp .config /usr/src/linux-config
 genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm --luks all
 
+cat << EOF > /etc/portage/package.accept_keywords/00_dotnet
+virtual/dotnet-sdk ~amd64
+EOF
+
 cat << EOF > /etc/portage/package.use/package.use
 www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
 www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
