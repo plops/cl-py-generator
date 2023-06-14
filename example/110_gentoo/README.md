@@ -26,6 +26,7 @@ BINPKG_FORMAT="gpkg"
 BINPKG_COMPRESS="zstd"
 BINPKG_COMPRESS_FLAG_ZSTD="-T0"
 L10N="en-GB"
+LLVM_TARGETS="X86 AMDGPU"
 EOF
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
@@ -79,15 +80,13 @@ make localmodconfig
 cp .config /usr/src/linux-config
 genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm --luks all
 
-cat << EOF > /etc/portage/package.accept_keywords/00_dotnet
-virtual/dotnet-sdk ~amd64
-EOF
+
 
 cat << EOF > /etc/portage/package.use/package.use
 www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
 www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
-app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo -dbus -dynamic-loading -games -gfile -gif -gpm -gsettings -gtk -gui -gzip-el -harfbuzz -imagemagick -jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
+app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo -dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk -gui -gzip-el -harfbuzz -imagemagick -jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
 x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
 net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
 net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
@@ -103,15 +102,15 @@ dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -build -de
 dev-python/pillow jpeg zlib -debug -examples -imagequant -jpeg2k -lcms -test -tiff tk -truetype webp -xcb
 media-gfx/imagemagick X bzip2 cxx openmp png zlib -corefonts -djvu -fftw -fontconfig -fpx -graphviz -hdri -heif -jbig jpeg -jpeg2k jpegxl -lcms -lqr -lzma -opencl -openexr -pango -perl -postscript -q8 -q32 -raw -static-libs -svg -test tiff -truetype webp -wmf -xml -zip
 virtual/imagemagick-tools jpeg -perl -png -svg tiff
+dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly -parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
+media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
+
 EOF
 
 
-emerge -av matplotlib
 
 # eselect blas set openblas
 # eselect lapack set openblas
-
-emerge -av dev-vcs/git
 
 emerge -av xorg-server firefox \
 dwm xterm \
@@ -120,10 +119,8 @@ magit paredit \
 bluez iwd dhcp \
 dev-vcs/git \
 dev-python/pip \
-numpy scipy scikit-learn nlopt matplotlib opencv python \
+numpy scipy scikit-learn nlopt matplotlib opencv python 
 
-#emerge -av firefox
-emerge -av chromium
 
 emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
