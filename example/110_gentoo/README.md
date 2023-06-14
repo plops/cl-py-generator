@@ -63,7 +63,8 @@ sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
 EOF
 
 emerge --ask=n sys-kernel/linux-firmware
-
+rm /bin/cpio
+emerge sys-kernel/genkernel
 
 ```
 
