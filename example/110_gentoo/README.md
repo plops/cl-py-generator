@@ -63,8 +63,16 @@ sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
 EOF
 
 emerge --ask=n sys-kernel/linux-firmware
-rm /bin/cpio
+# rm /bin/cpio # what is up with that?
 emerge sys-kernel/genkernel
+
+emerge sys-kernel/gentoo-sources
+eselect kernel set 1
+cd /usr/src/linux
+make localmodconfig
+cp .config /usr/src/linux-config
+genkernel --kernel-config=/usr/src/linux-config --microcode=amd all
+
 
 ```
 
