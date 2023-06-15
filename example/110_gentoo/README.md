@@ -108,7 +108,6 @@ media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsam
 EOF
 
 
-
 # eselect blas set openblas
 # eselect lapack set openblas
 
@@ -121,8 +120,17 @@ dev-vcs/git \
 dev-python/pip \
 numpy scipy scikit-learn nlopt matplotlib opencv python 
 
-#12GB for rust, 6.6GB for firefox
+emerge -av xorg-server firefox \
+dwm xterm \
+sbcl  \
+magit  \
+bluez  \
+dev-vcs/git \
+dev-python/pip \
+numpy scipy scikit-learn nlopt matplotlib opencv python 
 
+#12GB for rust, 6.6GB for firefox
+emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
 ```
