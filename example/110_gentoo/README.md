@@ -104,6 +104,7 @@ media-gfx/imagemagick X bzip2 cxx openmp png zlib -corefonts -djvu -fftw -fontco
 virtual/imagemagick-tools jpeg -perl -png -svg tiff
 dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
+media-libs/libaom -examples -doc -test
 
 EOF
 
@@ -111,7 +112,10 @@ EOF
 # eselect blas set openblas
 # eselect lapack set openblas
 
+# emerge -av --fetchonly # downloads all source packages without compilation
+
 emerge -av xorg-server firefox \
+gentoolkit \
 dwm xterm \
 emacs sbcl slime \
 magit paredit \
@@ -120,14 +124,6 @@ dev-vcs/git \
 dev-python/pip \
 numpy scipy scikit-learn nlopt matplotlib opencv python 
 
-emerge -av xorg-server firefox \
-dwm xterm \
-sbcl  \
-magit  \
-bluez  \
-dev-vcs/git \
-dev-python/pip \
-numpy scipy scikit-learn nlopt matplotlib opencv python 
 
 #12GB for rust, 6.6GB for firefox
 emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
@@ -154,3 +150,12 @@ emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 CPU_FLAGS_X86: aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3
 
 ```
+
+# dwm
+
+
+ * Your configuration for x11-wm/dwm-6.3 has been saved in 
+ * "/etc/portage/savedconfig/x11-wm/dwm-6.3" for your editing pleasure.
+ * You can edit these files by hand and remerge this package with
+ * USE=savedconfig to customise the configuration.
+ * You can rename this file/directory to one of the following for
