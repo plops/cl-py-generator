@@ -115,7 +115,7 @@ EOF
 # emerge -av --fetchonly # downloads all source packages without compilation
 
 emerge -av xorg-server firefox \
-gentoolkit \
+gentoolkit eix \
 dwm xterm \
 emacs sbcl slime \
 magit paredit \
@@ -124,6 +124,9 @@ dev-vcs/git \
 dev-python/pip \
 numpy scipy scikit-learn nlopt matplotlib opencv python 
 
+eix-update
+# only install what isn't already there
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 #12GB for rust, 6.6GB for firefox
 emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
