@@ -27,7 +27,7 @@ BINPKG_COMPRESS="zstd"
 BINPKG_COMPRESS_FLAG_ZSTD="-T0"
 L10N="en-GB"
 LLVM_TARGETS="X86 AMDGPU"
-EOF
+EOF 
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 mount --types proc /proc /mnt/gentoo/proc
