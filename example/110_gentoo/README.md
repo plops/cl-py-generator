@@ -10,14 +10,14 @@ sudo tar xpvf ../stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 # 1.2GB extracted
 
 cd /mnt/gentoo
-cat <<EOF > etc/portage/make.conf
+cat << EOF > etc/portage/make.conf
 COMMON_FLAGS="-march=native -fomit-frame-pointer -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
 LC_MESSAGES=C.utf8
-MAKEOPTS="-j7"
+MAKEOPTS="-j2"
 USE="X"
 VIDEO_CARDS="radeon"
 FEATURES="buildpkg"
@@ -27,7 +27,7 @@ BINPKG_COMPRESS="zstd"
 BINPKG_COMPRESS_FLAG_ZSTD="-T0"
 L10N="en-GB"
 LLVM_TARGETS="X86 AMDGPU"
-EOF 
+EOF
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 mount --types proc /proc /mnt/gentoo/proc
@@ -162,3 +162,69 @@ CPU_FLAGS_X86: aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse ss
  * You can edit these files by hand and remerge this package with
  * USE=savedconfig to customise the configuration.
  * You can rename this file/directory to one of the following for
+
+# install to usb disk
+
+```
+fdisk /dev/sda
+d
+n 1
+
++256M
+n
+
+
+w
+mkfs.vfat -F 32 /dev/sda1
+mkfs.ext4 /dev/sda2
+
+mkdir /media/boot
+mkdir /media/root
+mount /dev/sda1 /media/boot
+mount /dev/sda2 /media/root
+
+cp -ar /mnt/gentoo/{bin,dev,etc,home,lib,lib64,media,mnt,opt,proc,root,run,sbin,sys,tmp} /media/root
+mkdir -p /media/root/var/cache
+cp -ar /mnt/gentoo/var/{db,empty,lib,lock,log,run,spool,tmp} /media/root/var
+cp -ar /mnt/gentoo/var/cache/{edb,eix,fontconfig,genkernel,ldconfig,man,revdep-rebuild} /media/root/var/cache
+mkdir -p /media/root/usr/src/
+cp -ar /mnt/gentoo/usr/{bin,include,lib,lib64,libexec,local,sbin,share,x86_64-pc-linux-gnu} /media/root/usr/
+cp -ar /mnt/gentoo/usr/src/linux-config /media/root/usr/src/
+cp -ar /mnt/genoot/boot/* /media/boot/
+```
+
+- create a squashfs
+https://github.com/plougher/squashfs-tools/blob/master/USAGE-4.6
+
+```
+pacman -S squashfs-tools
+
+time \
+mksquashfs \
+/mnt/gentoo/ \
+/home/martin/gentoo.squashfs \
+-comp zstd \
+-Xcompression-level 1 \
+-info \
+-progress \
+-wildcards \
+-e \
+usr/src/linux-6.1.31-gentoo \
+var/cache/binpkgs \
+var/cache/distfiles
+
+```
+- runtime of squashfs 56sec
+
+```
+Exportable Squashfs 4.0 filesystem, zstd compressed, data block size 131072
+        compressed data, compressed metadata, compressed fragments,
+        compressed xattrs, compressed ids
+        duplicates are removed
+Filesystem size 2036756.07 Kbytes (1989.02 Mbytes)
+        36.86% of uncompressed filesystem size (5525563.52 Kbytes)
+		
+[root@archlinux 110_gentoo]# ls -trhl /home/martin/gentoo.squashfs 
+-rw-r--r-- 1 root root 2.0G Jun 19 20:54 /home/martin/gentoo.squashfs
+
+```
