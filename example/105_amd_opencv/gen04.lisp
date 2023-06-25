@@ -74,7 +74,7 @@
 					;(np jax.numpy)
 					;(mpf mplfinance)
 
-					;argparse
+					argparse
 					;torch
 					(mp mediapipe)
 					
@@ -106,6 +106,17 @@
 			     (- tz)))))
 
 
+	 (do0
+	  (setf parser (argparse.ArgumentParser
+			:description (string "Scale the output window")))
+	  (parser.add_argument (string "-s")
+			       (string "--scale")
+			       :type int
+			       :choices (list 1 2 3 4)
+			       :default 1
+			       :help (string "Scale factor for the output window"))
+	  (setf args (parser.parse_args)
+		scale args.scale))
 	 
 	 (do0
 	  ,(lprint :vars `((cv.ocl.haveOpenCL)))
@@ -120,11 +131,11 @@
 						     :circle_radius 1))
 
 	  #+nil (setf gpu_options (mp.GpuAccelerationOptions :enable True
-						       :device_id 0))
+							     :device_id 0))
 	  (with (as (mp_face_mesh.FaceMesh
 		     :static_image_mode  False
 		     :max_num_faces 1
-		     ;:gpu_options gpu_options
+					;:gpu_options gpu_options
 		     :refine_landmarks True
 		     :min_detection_confidence .15
 		     :min_tracking_confidence .15)
@@ -160,6 +171,7 @@
 							(aref lab_planes 1)
 							(aref lab_planes 2)))
 				    imgr (cv.cvtColor lab cv.COLOR_LAB2RGB))
+			      (setf imgr (cv.resize imgr None :fx scale :fy scale))
 			      (when results.multi_face_landmarks
 				(for (face_landmarks results.multi_face_landmarks)
 				     ,@(loop for e in
