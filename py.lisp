@@ -432,7 +432,12 @@ entry return-values contains a list of return values. currently supports type, v
 		    (format nil "(~{(~a)~^ or ~})" (mapcar #'emit args))))
 	      (comment (format nil "# ~a~%" (cadr code)))
 	      (comments (let ((args (cdr code)))
-			  (format nil "~{# ~a~%~}" args)))
+			  (format nil "~{# ~a~%~}" (mapcar @'(lambda (arg)
+							      (cl-ppcre:regex-replace-all
+							       "\\n"
+							       arg
+							       (format nil "~%# ")))
+							   args))))
 	      (symbol (substitute #\: #\- (format nil "~a" (cadr code))))
 	      (string (format nil "\"~a\"" (cadr code)))
 	      (string-b (format nil "b\"~a\"" (cadr code)))

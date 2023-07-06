@@ -228,3 +228,30 @@ Filesystem size 2036756.07 Kbytes (1989.02 Mbytes)
 -rw-r--r-- 1 root root 2.0G Jun 19 20:54 /home/martin/gentoo.squashfs
 
 ```
+
+# install grub
+
+mount /dev/sda3 /mnt/gentoo
+
+cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+mount --types proc /proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
+mount --make-rslave /mnt/gentoo/dev
+mount --bind /run /mnt/gentoo/run
+mount --make-slave /mnt/gentoo/run 
+mount /dev/sda4 /mnt/gentoo/boot/efi
+
+chroot /mnt/gentoo /bin/bash 
+source /etc/profile 
+export PS1="(chroot) ${PS1}"
+
+
+emerge --ask --verbose sys-boot/grub
+
+#grub-install /dev/sda
+grub-install --target=x86_64-efi --efi-directory=/boot/efi
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
