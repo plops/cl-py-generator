@@ -2,6 +2,7 @@ import numpy as np
 from scipy.sparse import lil_matrix, csc_matrix
 from scipy.sparse.linalg import spsolve
 import matplotlib.pyplot as plt
+import matplotlib
 
 # Define geometry
 nodes = np.array([[0, 0], [1, 0], [0.5, np.sqrt(3)/2]])
@@ -9,7 +10,7 @@ elements = np.array([[0, 1], [1, 2], [2, 0]])
 
 # Material properties
 E = 210000  # Young's modulus in N/mm^2
-A = 10  # cross-sectional area in mm^2
+A = 1  # cross-sectional area in mm^2
 
 # Define global stiffness matrix
 K = lil_matrix((2*len(nodes), 2*len(nodes)))
@@ -55,8 +56,25 @@ for i in range(len(nodes)):
     print(f"Node {i}: displacement = {u[2*i:2*i+2]}")
 
 # Plot deformed shape
+#deformed_nodes = nodes + u.reshape(-1, 2)
+#plt.triplot(nodes[:, 0], nodes[:, 1], elements, label='Original')
+#plt.triplot(deformed_nodes[:, 0], deformed_nodes[:, 1], elements, label='Deformed')
+#plt.legend()
+#plt.show()
+
+
+# Plot deformed shape
 deformed_nodes = nodes + u.reshape(-1, 2)
-plt.triplot(nodes[:, 0], nodes[:, 1], elements, label='Original')
-plt.triplot(deformed_nodes[:, 0], deformed_nodes[:, 1], elements, label='Deformed')
-plt.legend()
+
+for element in elements:
+    # Original shape
+    plt.plot(*nodes[element].T, 'b-', label='Original')
+    # Deformed shape
+    plt.plot(*deformed_nodes[element].T, 'r-', label='Deformed')
+
+# Because each line gets its own label, we'll fix that here
+handles, labels = plt.gca().get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+plt.legend(by_label.values(), by_label.keys())
+
 plt.show()
