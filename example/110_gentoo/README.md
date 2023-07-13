@@ -9,7 +9,23 @@ cd gentoo
 sudo tar xpvf ../stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 # 1.2GB extracted
 
+
+
 cd /mnt/gentoo
+
+# create /etc/portage/env directory if it doesn't exist
+mkdir -p etc/portage/env
+
+# create /etc/portage/env/rustenv and add MAKEOPTS
+echo "MAKEOPTS=\"-j1\"" > etc/portage/env/rustenv
+
+# add dev-lang/rust to /etc/portage/package.env
+echo "dev-lang/rust rustenv" >> etc/portage/package.env
+
+
+#EMERGE_DEFAULT_OPTS="--jobs 4 --load-average 8"
+#MAKEOPTS="-j2"
+
 cat << EOF > etc/portage/make.conf
 COMMON_FLAGS="-march=native -fomit-frame-pointer -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
@@ -17,7 +33,7 @@ CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
 LC_MESSAGES=C.utf8
-MAKEOPTS="-j2"
+MAKEOPTS="-j12"
 USE="X"
 VIDEO_CARDS="radeon"
 FEATURES="buildpkg"
