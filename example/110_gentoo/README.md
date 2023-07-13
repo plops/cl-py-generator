@@ -17,7 +17,8 @@ cd /mnt/gentoo
 mkdir -p etc/portage/env
 
 # create /etc/portage/env/rustenv and add MAKEOPTS
-echo "MAKEOPTS=\"-j1\"" > etc/portage/env/rustenv
+# rust needs 4GB per process
+echo "MAKEOPTS=\"-j3\"" > etc/portage/env/rustenv
 
 # add dev-lang/rust to /etc/portage/package.env
 echo "dev-lang/rust rustenv" >> etc/portage/package.env
