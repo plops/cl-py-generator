@@ -93,6 +93,10 @@ emerge sys-kernel/genkernel
 emerge sys-kernel/gentoo-sources
 eselect kernel set 1
 cd /usr/src/linux
+# make sure all the devices (wifi, bluetooth, usb...) are connected and
+# running in the host system. i used arch. initially i forgot to attach
+# my external ssd to the usb port and then the resulting kernel couldn't
+# boot from it
 make localmodconfig
 cp .config /usr/src/linux-config
 genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm --luks all
