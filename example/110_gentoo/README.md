@@ -133,6 +133,7 @@ virtual/imagemagick-tools jpeg -perl -png -svg tiff
 dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
 media-libs/libaom -examples -doc -test
+sys-kernel/dracut -selinux -test
 
 EOF
 
@@ -230,10 +231,9 @@ pacman -S squashfs-tools
 time \
 mksquashfs \
 /mnt/gentoo/ \
-/home/martin/gentoo.squashfs \
+/home/martin/gentoo_20230714.squashfs \
 -comp zstd \
 -Xcompression-level 1 \
--info \
 -progress \
 -wildcards \
 -e \
@@ -319,11 +319,29 @@ linux   /vmlinuz-6.1.31-gentoo-x86_64 root=/dev/sda3 ro rd.shell
 
 # configure initramfs with dracut
 ```
-dracut -m "kernel-modules base rootfs-block " --kver=6.1.31-gentoo-x86_64 --filesystems "squashfs vfat overlay" --force
+dracut -m "kernel-modules base rootfs-block " --kver=6.1.38-gentoo-x86_64 --filesystems "squashfs vfat overlay" --force
 ```
 
 # umount gentoo system
 
 ```
 mount|grep /mnt/gentoo|cut -d  " " -f3|tac|xargs -n1 umount
+```
+
+# update existing boot partition 
+
+i have created a gentoo system in /mnt/gentoo. i also have an external
+harddisk that already contains an older version. it is mounted as
+/media. show how to use rsync to copy /mnt/gentoo to /media. files
+which have not changed shall not be overwritten. make sure that xattrs
+and userid's stay are not different between the two disks
+
+- make sure you are out of all chroots and no extra filesystems are
+  mounted
+- use rsync to only copy changes
+
+```
+mount /dev/sda3 /media
+rsync -avhHAX --progress --numeric-ids /mnt/gentoo/ /media/
+
 ```
