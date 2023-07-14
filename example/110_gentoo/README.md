@@ -248,6 +248,23 @@ Filesystem size 2036756.07 Kbytes (1989.02 Mbytes)
 
 # install grub
 
+- make sure the following kernel modules exist: squashfs, overlay,
+  vfat
+- also we need to have support for /dev/sda3 and /dev/nvme...,
+  dependening on what disk we use
+
+- check output of blkid
+- modify /etc/fstab
+```
+UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 / ext4 noatime 0 1
+UUID=F63D-5318 /boot vfat noauto,noatime 1 2
+
+/dev/sda1               /boot           ext4            noauto,noatime  1 2
+/dev/sda3               /               ext4            noatime         0 1
+```
+
+
+```
 mount /dev/sda3 /mnt/gentoo
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
@@ -271,4 +288,27 @@ emerge --ask --verbose sys-boot/grub
 grub-install --target=x86_64-efi --efi-directory=/boot/efi
 
 grub-mkconfig -o /boot/grub/grub.cfg
+```
 
+- the kernel boot line should look like this:
+```
+linux   /vmlinuz-6.1.31-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro rd.shell
+
+```
+- the flag rd.shell tells initrd to go into shell if a root disk is not found
+- alternatively write
+```
+linux   /vmlinuz-6.1.31-gentoo-x86_64 root=/dev/sda3 ro rd.shell
+
+```
+
+# configure initramfs with dracut
+```
+dracut -m "kernel-modules base rootfs-block " --kver=6.1.31-gentoo-x86_64 --filesystems "squashfs vfat overlay" --force
+```
+
+# umount gentoo system
+
+```
+mount|grep /mnt/gentoo|cut -d  " " -f3|tac|xargs -n1 umount
+```
