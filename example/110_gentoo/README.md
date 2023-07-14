@@ -1,6 +1,13 @@
 # script to install gentoo into a chroot
 
+- this file documents the process of creating a rather minimal gentoo
+  on a laptop that has been booted with another linux
+  distribution. the initial linux distribution is helpful because we
+  can use its general kernel to identify which kernel modules are used
+  in this particular system (and which ones aren't)
+
 - i am running this on an arch linux 
+
 
 ```
 wget https://bouncer.gentoo.org/fetch/root/all/releases/amd64/autobuilds/20230611T170207Z/stage3-amd64-nomultilib-systemd-mergedusr-20230611T170207Z.tar.xz
@@ -197,7 +204,7 @@ n
 
 w
 mkfs.vfat -F 32 /dev/sda1
-mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/sda3
 
 mkdir /media/boot
 mkdir /media/root
@@ -230,7 +237,7 @@ mksquashfs \
 -progress \
 -wildcards \
 -e \
-usr/src/linux-6.1.31-gentoo \
+usr/src/linux* \
 var/cache/binpkgs \
 var/cache/distfiles
 
@@ -250,18 +257,22 @@ Filesystem size 2036756.07 Kbytes (1989.02 Mbytes)
 
 ```
 
+
 # install grub
 
 - make sure the following kernel modules exist: squashfs, overlay,
-  vfat
+  loop, vfat. you may also compile those into the kernel, then you
+  might be able to boot without initrd
 - also we need to have support for /dev/sda3 and /dev/nvme...,
   dependening on what disk we use
 
 - check output of blkid
 - modify /etc/fstab
 ```
+cat << EOF > etc/fstab
 UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 / ext4 noatime 0 1
 UUID=F63D-5318 /boot vfat noauto,noatime 1 2
+EOF
 
 /dev/sda1               /boot           ext4            noauto,noatime  1 2
 /dev/sda3               /               ext4            noatime         0 1
