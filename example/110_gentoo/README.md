@@ -239,6 +239,21 @@ git clone https://git.suckless.org/slstatus
 
 cp slstatus_config.h /mnt/gentoo/home/martin/src/slstatus
 
+cd /mnt/gentoo/home/martin
+curl -O https://beta.quicklisp.org/quicklisp.lisp
+sbcl --load quicklisp.lisp
+(quicklisp-quickstart:install)
+(ql:add-to-init-file)
+(ql:quickload "quicklisp-slime-helper")
+
+cat << EOF > /home/martin/.emacs
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
+EOF
+
+ln -s /home/martin/stage/cl-py-generator/ /home/martin/quicklisp/local-projects/
+
+
 
 # only install what isn't already there
 emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
