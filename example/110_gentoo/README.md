@@ -403,7 +403,12 @@ dev/pts \
 dev/shm \
 dev/hugepages \
 dev/mqueue \
-home/martin/.cache
+home/martin/.cache \
+home/martin/Downloads \
+home/martin/.config \
+home/martin/.mozilla \
+home/martin/src \
+var/log/journal 
 
 
 
