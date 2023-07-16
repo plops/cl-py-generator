@@ -227,19 +227,22 @@ https://github.com/plougher/squashfs-tools/blob/master/USAGE-4.6
 
 ```
 pacman -S squashfs-tools
-
 time \
 mksquashfs \
-/mnt/gentoo/ \
-/home/martin/gentoo_20230714.squashfs \
+/mnt/gentoo \
+/home/martin/gentoo_20230716.squashfs \
 -comp zstd \
+-xattrs \
+-not-reproducible \
 -Xcompression-level 1 \
 -progress \
+-mem 7G \
 -wildcards \
 -e \
 usr/src/linux* \
 var/cache/binpkgs \
 var/cache/distfiles
+
 
 ```
 - runtime of squashfs 56sec
