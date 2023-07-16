@@ -17,6 +17,7 @@
 - sbcl
 - external usb harddisk
 - python: pandas, numpy, opencv, lmfit
+- charge battery at most to 80% (requires tlp)
 
 ### can support (nice to have)
 - nvme harddiskø
@@ -132,6 +133,7 @@ net-wireless/iwgtk  ~amd64
 sys-kernel/gentoo-sources ~amd64
 sys-kernel/linux-headers ~amd64
 sys-power/tlp ~amd64
+dev-python/lmfit ~amd64
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -172,6 +174,10 @@ net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem 
 
 EOF
 
+# charge battery at most to 80%
+cat /etc/tlp.conf|grep CHARGE_TH
+START_CHARGE_THRESH_BAT0=75
+STOP_CHARGE_THRESH_BAT0=80
 
 # eselect blas set openblas
 # eselect lapack set openblas
