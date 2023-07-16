@@ -465,3 +465,30 @@ mount /dev/sda3 /media
 rsync -avhHAX --progress --numeric-ids /mnt/gentoo/ /media/
 
 ```
+
+
+# binary tor shim
+
+- https://forums.gentoo.org/viewtopic-p-8683928.html?sid=01daca293e043d753608059b2cc00982
+
+```
+
+cat << EOF > /dev/shm/shim.c 
+#include <stdlib.h>
+void gdk_wayland_display_get_wl_compositor() { abort(); }
+void gdk_wayland_device_get_wl_pointer() { abort(); }
+void gdk_wayland_window_get_wl_surface() { abort(); }
+void gdk_wayland_display_get_wl_display() { abort(); }
+EOF
+
+cc -shared -o /dev/shm/shim.so /dev/shm/shim.c
+
+	
+cd /dev/shm/tor* &&
+sed '/LD_PRELOAD/!s,Exec[^=]*=,&env LD_PRELOAD=/dev/shm/shim.so ,' start-tor-browser.desktop >tmp &&
+mv tmp start-tor-browser.desktop &&
+./start-tor-browser.desktop 
+
+
+
+```
