@@ -63,7 +63,7 @@ FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
 LC_MESSAGES=C.utf8
 MAKEOPTS="-j12"
-USE="X"
+USE="X vaapi"
 VIDEO_CARDS="radeon"
 FEATURES="buildpkg"
 PKGDIR="/var/cache/binpkgs"
@@ -179,10 +179,17 @@ net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem 
 dev-python/lmfit -test
 dev-python/tqdm -examples -test
 x11-wm/dwm savedconfig -xinerama
-dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
-dev-libs/dbus-glib -debug -static-libs -test
 media-video/mpv X alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc -openal -opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools vaapi -vdpau -vulkan -wayland -zimg
 
+# tor firefox binary requires libdbus-glib 
+dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
+dev-libs/dbus-glib -debug -static-libs -test
+
+
+# google chrome binary needs libcups
+net-print/cups-filters -foomatic -postscript -dbus -exif -jpeg -ldap -pclm -pdf -perl -png -test -tiff -zeroconf
+net-print/cups -X -acl -pam -ssl -systemd -dbus -debug -kerberos -openssl -selinux -static-libs -test -usb -xinetd -zeroconf
+app-text/poppler cxx -introspection jpeg -jpeg2k lcms utils -boost -cairo -cjk -curl -debug -doc -nss -png -qt5 -test -tiff -verify-sig
 
 EOF
 
