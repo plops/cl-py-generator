@@ -64,7 +64,7 @@ FFLAGS="${COMMON_FLAGS}"
 LC_MESSAGES=C.utf8
 MAKEOPTS="-j12"
 USE="X vaapi"
-VIDEO_CARDS="radeon"
+VIDEO_CARDS="radeon radeonsi amdgpu"
 FEATURES="buildpkg"
 PKGDIR="/var/cache/binpkgs"
 BINPKG_FORMAT="gpkg"
@@ -464,6 +464,7 @@ dev/shm \
 dev/hugepages \
 dev/mqueue \
 home/martin/.cache \
+home/martin/.b \
 home/martin/Downloads \
 home/martin/.config \
 home/martin/.mozilla \
