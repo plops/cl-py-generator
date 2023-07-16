@@ -254,6 +254,20 @@ rd.luks=0 rd.lvm=0 rd.md=0 rd.dm=0
            This turns off every automatic assembly of LVM, MD raids, DM
            raids and crypto LUKS.
 
+
+the objective is
+           to locate your root volume and create a symlink /dev/root
+           which points to the file system.
+
+        5. Next, make a symbolic link to the unlocked root volume
+
+                   # ln -s /dev/mapper/luks-$UUID /dev/root
+
+            6. With the root volume available, you may continue booting
+               the system by exiting the dracut shell
+
+                   # exit
+
 ```
 
 
