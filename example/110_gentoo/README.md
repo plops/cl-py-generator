@@ -480,7 +480,7 @@ $OUTFILE \
 -not-reproducible \
 -Xcompression-level 1 \
 -progress \
--mem 11G \
+-mem 10G \
 -wildcards \
 -e \
 usr/src/linux* \
