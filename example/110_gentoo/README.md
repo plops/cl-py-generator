@@ -207,7 +207,7 @@ numpy scipy scikit-learn nlopt matplotlib opencv python
 
 eix-update
 # only install what isn't already there
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 
 emacs /etc/portage/savedconfig/x11-wm/dwm-6.4
