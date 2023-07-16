@@ -179,7 +179,7 @@ dev-python/lmfit -test
 dev-python/tqdm -examples -test
 x11-wm/dwm savedconfig -xinerama
 dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
-
+dev-libs/dbus-glib -debug -static-libs -test
 EOF
 
 # charge battery at most to 80%
@@ -204,7 +204,7 @@ numpy scipy scikit-learn nlopt matplotlib opencv python
 
 eix-update
 # only install what isn't already there
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 
 emacs /etc/portage/savedconfig/x11-wm/dwm-6.4
