@@ -181,6 +181,8 @@ dev-python/tqdm -examples -test
 x11-wm/dwm savedconfig -xinerama
 media-video/mpv X alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc -openal -opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools vaapi -vdpau -vulkan -wayland -zimg
 
+sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd 
+
 # tor firefox binary requires libdbus-glib 
 dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
 dev-libs/dbus-glib -debug -static-libs -test
@@ -230,7 +232,7 @@ cp slstatus_config.h /mnt/gentoo/home/martin/src/slstatus
 
 
 # only install what isn't already there
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 
 emacs /etc/portage/savedconfig/x11-wm/dwm-6.4
@@ -361,10 +363,17 @@ https://github.com/plougher/squashfs-tools/blob/master/USAGE-4.6
 
 ```
 pacman -S squashfs-tools
+
+export INDIR=/mnt/gentoo
+export OUTFILE=/home/martin/gentoo_20230716.squashfs
+
+
+export INDIR=/
+export OUTFILE=/gentoo_20230716b.squashfs
 time \
 mksquashfs \
-/mnt/gentoo \
-/home/martin/gentoo_20230716.squashfs \
+$INDIR \
+$OUTFILE \
 -comp zstd \
 -xattrs \
 -not-reproducible \
@@ -386,6 +395,8 @@ dev/pts \
 dev/shm \
 dev/hugepages \
 dev/mqueue 
+
+
 
 ```
 - runtime of squashfs 56sec
