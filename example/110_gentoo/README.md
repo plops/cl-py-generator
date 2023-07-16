@@ -19,6 +19,8 @@
 - python: pandas, numpy, opencv, lmfit, tqdm
 - charge battery at most to 80% (requires tlp)
 
+- rust is slowing the whole compilation down. so perhaps install firefox-bin and rust-bin
+
 ### can support (nice to have)
 - nvme harddiskø
 - wifi rtw_8852be (requires kernel > 6.3.12)
@@ -174,6 +176,7 @@ media-sound/pulseaudio-daemon X alsa alsa-plugin asyncns gdbm glib orc ssl syste
 net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth -doc -dundee -examples -tools -upower
 dev-python/lmfit -test
 dev-python/tqdm -examples -test
+x11-wm/dwm savedconfig -xinerama
 
 EOF
 
@@ -199,7 +202,10 @@ numpy scipy scikit-learn nlopt matplotlib opencv python
 
 eix-update
 # only install what isn't already there
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+
+
+emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world 
 
 #12GB for rust, 6.6GB for firefox
 emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
