@@ -194,6 +194,14 @@ net-print/cups-filters -foomatic -postscript -dbus -exif -jpeg -ldap -pclm -pdf 
 net-print/cups -X -acl -pam -ssl -systemd -dbus -debug -kerberos -openssl -selinux -static-libs -test -usb -xinetd -zeroconf
 app-text/poppler cxx -introspection jpeg -jpeg2k lcms utils -boost -cairo -cjk -curl -debug -doc -nss -png -qt5 -test -tiff -verify-sig
 
+
+# qdirstat
+dev-qt/qtcore systemd -debug -icu -old-kernel -test
+dev-qt/qtgui X libinput png udev -accessibility dbus -debug -egl -eglfs -evdev -gles2-only -ibus jpeg -linuxfb -test -tslib -tuio -vnc -vulkan -wayland
+dev-qt/qtwidgets X png dbus -debug -gles2-only -gtk -test
+sys-apps/qdirstat
+
+
 EOF
 
 # charge battery at most to 80%
@@ -394,7 +402,8 @@ run \
 dev/pts \
 dev/shm \
 dev/hugepages \
-dev/mqueue 
+dev/mqueue \
+home/martin/.cache
 
 
 
