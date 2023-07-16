@@ -180,12 +180,15 @@ dev-python/tqdm -examples -test
 x11-wm/dwm savedconfig -xinerama
 dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
 dev-libs/dbus-glib -debug -static-libs -test
+media-video/mpv X -alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc -openal -opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -vaapi -vdpau -vulkan -wayland -zimg
+
+
 EOF
 
 # charge battery at most to 80%
 cat /etc/tlp.conf|grep CHARGE_TH
 START_CHARGE_THRESH_BAT0=75
-STOP_CHARGE_THRESH_BAT0=80
+STOP_CHARGE_THRESH_BAT0=1
 
 # eselect blas set openblas
 # eselect lapack set openblas
