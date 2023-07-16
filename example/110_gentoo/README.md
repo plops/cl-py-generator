@@ -16,7 +16,7 @@
 - bluetooth headphones
 - sbcl
 - external usb harddisk
-- python: pandas, numpy, opencv, lmfit
+- python: pandas, numpy, opencv, lmfit, tqdm
 - charge battery at most to 80% (requires tlp)
 
 ### can support (nice to have)
@@ -24,7 +24,6 @@
 - wifi rtw_8852be (requires kernel > 6.3.12)
 - webcam
 - bluetooth network tether with android
-
 
 ## install instructions
 
@@ -134,6 +133,8 @@ sys-kernel/gentoo-sources ~amd64
 sys-kernel/linux-headers ~amd64
 sys-power/tlp ~amd64
 dev-python/lmfit ~amd64
+dev-python/asteval ~amd64
+dev-python/uncertainties ~amd64
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -171,6 +172,8 @@ net-wireless/blueman nls network -policykit pulseaudio
 media-libs/libpulse X asyncns glib systemd dbus -doc -gtk -selinux -test -valgrind
 media-sound/pulseaudio-daemon X alsa alsa-plugin asyncns gdbm glib orc ssl systemd udev webrtc-aec -aptx bluetooth dbus -elogind -equalizer -fftw -gstreamer -jack -ldac -lirc ofono-headset -oss -selinux -sox -system-wide -tcpd -test -valgrind -zeroconf
 net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth -doc -dundee -examples -tools -upower
+dev-python/lmfit -test
+dev-python/tqdm -examples -test
 
 EOF
 
@@ -284,8 +287,15 @@ usr/src/linux* \
 var/cache/binpkgs \
 var/cache/distfiles \
 gentoo*squashfs \
-usr/share/genkernel/distfiles
-
+usr/share/genkernel/distfiles \
+tmp \
+proc \
+sys \
+run \
+dev/pts \
+dev/shm \
+dev/hugepages \
+dev/mqueue 
 
 ```
 - runtime of squashfs 56sec
