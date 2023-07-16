@@ -367,6 +367,23 @@ the objective is
 
 ```
 
+# gpu power levels
+
+- https://wiki.gentoo.org/wiki/AMDGPU
+
+```
+archlinux / # cat /sys/class/drm/card0/device/pp_dpm_sclk
+0: 200Mhz 
+1: 400Mhz *
+2: 1800Mhz 
+
+archlinux / # cat /sys/class/drm/card0/device/pp_dpm_mclk
+0: 400Mhz 
+1: 800Mhz 
+2: 1200Mhz *
+3: 1333Mhz 
+
+```
 
 # what does march native mean on amd laptop?
 
