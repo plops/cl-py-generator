@@ -11,12 +11,15 @@
 ## requirements
 
 ### must support
+- ideapad 3 15ABA7
 - usb tether with android device
 - bluetooth headphones
 - sbcl
+- external usb harddisk
 - python: pandas, numpy, opencv, lmfit
 
 ### can support (nice to have)
+- nvme harddiskø
 - wifi rtw_8852be (requires kernel > 6.3.12)
 - webcam
 - bluetooth network tether with android
