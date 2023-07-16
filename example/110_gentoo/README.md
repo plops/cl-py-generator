@@ -466,30 +466,31 @@ $OUTFILE \
 -not-reproducible \
 -Xcompression-level 1 \
 -progress \
--mem 7G \
+-mem 10G \
 -wildcards \
 -e \
 usr/src/linux* \
-var/cache/binpkgs \
-var/cache/distfiles \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
 gentoo*squashfs \
-usr/share/genkernel/distfiles \
-tmp \
-proc \
-sys \
-run \
-dev/pts \
-dev/shm \
-dev/hugepages \
-dev/mqueue \
-home/martin/.cache \
+usr/share/genkernel/distfiles/* \
+proc/* \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
 home/martin/.b \
-home/martin/Downloads \
-home/martin/.config \
-home/martin/.mozilla \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
 home/martin/src \
-var/log/journal \
-var/cache/genkernel  
+var/log/journal/* \
+var/cache/genkernel/* \
+tmp/*
 
 
 
