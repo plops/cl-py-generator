@@ -215,6 +215,20 @@ dev-python/pip \
 numpy scipy scikit-learn nlopt matplotlib opencv python 
 
 eix-update
+
+cp config-6.3.12-gentoo-x86_64 /usr/src/linux/.config
+cp dwm-6.4 /etc/portage/savedconfig/x11-wm/dwm-6.4
+
+
+useradd martin
+cd /mnt/gentoo/home/martin
+mkdir -p src
+cd src
+git clone https://git.suckless.org/slstatus
+
+cp slstatus_config.h /mnt/gentoo/home/martin/src/slstatus
+
+
 # only install what isn't already there
 emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
