@@ -205,6 +205,11 @@ eix-update
 emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 
+emacs /etc/portage/savedconfig/x11-wm/dwm-6.4
+#define MODKEY Mod4Mask
+static const char *termcmd[]  = { "xterm", NULL };
+
+
 emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world 
 
 #12GB for rust, 6.6GB for firefox
