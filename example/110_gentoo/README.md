@@ -408,7 +408,8 @@ home/martin/Downloads \
 home/martin/.config \
 home/martin/.mozilla \
 home/martin/src \
-var/log/journal 
+var/log/journal \
+var/cache/genkernel  
 
 
 
