@@ -8,6 +8,21 @@
 
 - i am running this on an arch linux 
 
+## requirements
+
+### must support
+- usb tether with android device
+- bluetooth headphones
+- sbcl
+- python: pandas, numpy, opencv, lmfit
+
+### can support (nice to have)
+- wifi rtw_8852be (requires kernel > 6.3.12)
+- webcam
+- bluetooth network tether with android
+
+
+## install instructions
 
 ```
 wget https://bouncer.gentoo.org/fetch/root/all/releases/amd64/autobuilds/20230611T170207Z/stage3-amd64-nomultilib-systemd-mergedusr-20230611T170207Z.tar.xz
@@ -108,7 +123,18 @@ make localmodconfig
 cp .config /usr/src/linux-config
 genkernel --kernel-config=/usr/src/linux-config --microcode=amd --lvm --luks all
 
+cat << EOF > /etc/portage/package.accept_keywords/package.accept_keywords
+virtual/dotnet-sdk ~amd64
+net-wireless/iwgtk  ~amd64
+sys-kernel/gentoo-sources ~amd64
+sys-kernel/linux-headers ~amd64
+sys-power/tlp ~amd64
+EOF
 
+cat << EOF > /etc/portage/package.mask/package.mask
+>=sys-kernel/gentoo-sources-6.3.13
+>=sys-kernel/linux-headers-6.3.13
+EOF
 
 cat << EOF > /etc/portage/package.use/package.use
 www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
@@ -134,6 +160,12 @@ dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly parallel-c
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
 media-libs/libaom -examples -doc -test
 sys-kernel/dracut -selinux -test
+media-sound/pulseaudio glib bluetooth -daemon -jack ofono-headset
+media-libs/libcanberra gtk3 sound udev alsa pulseaudio
+net-wireless/blueman nls network -policykit pulseaudio
+media-libs/libpulse X asyncns glib systemd dbus -doc -gtk -selinux -test -valgrind
+media-sound/pulseaudio-daemon X alsa alsa-plugin asyncns gdbm glib orc ssl systemd udev webrtc-aec -aptx bluetooth dbus -elogind -equalizer -fftw -gstreamer -jack -ldac -lirc ofono-headset -oss -selinux -sox -system-wide -tcpd -test -valgrind -zeroconf
+net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth -doc -dundee -examples -tools -upower
 
 EOF
 
