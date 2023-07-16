@@ -262,12 +262,19 @@ cat << EOF > /home/martin/.emacs
 (eval-after-load "vc" '(remove-hook 'find-file-hooks 'vc-find-file-hook))
 (setq vc-handled-backends nil)
 (custom-set-variables
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   (quote
+    (ido-hacks eval-in-repl)))
+ '(show-paren-mode t)
+ '(tool-bar-mode nil)
+ '(ido-mode t)
+ ;'(transient-mark-mode nil)
+ )
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode +1)
-(tool-bar-mode -1)
-(show-paren-mode 1)
+;(show-paren-mode 1)
 (global-set-key (kbd "<f4>") 'magit-status)
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 (require 'slime-autoloads)
@@ -281,6 +288,10 @@ cat << EOF > /home/martin/.emacs
 (add-hook 'lisp-mode-hook
 		  '(lambda ()
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
+
+(custom-set-faces
+ '(default ((t (:family "fixed" :foundry "misc" :slant normal :weight normal :height 98 :width semi-condensed)))))
+
 
 EOF
 
