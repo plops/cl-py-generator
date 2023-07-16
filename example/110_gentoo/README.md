@@ -226,7 +226,7 @@ https://unix.stackexchange.com/questions/235145/how-to-boot-using-a-squashfs-ima
 {   cd /tmp; cat >fstab
     mkdir -p sfs/sfs sfs/usb
     dracut  -i fstab /etc/fstab     \
-            -i sfs sfs              \
+            -i sfs sfs              \ # i think only one include is allowed
             --add-drivers overlay   \
             --add-drivers squashfs  \
             initramfs.img 
@@ -242,7 +242,20 @@ upperdir=/sfs/usb/persist,\
 workdir=/sfs/usb/tmp
 
 
+lsinitrd
+
+dracut --print-cmdline
+
+--include -i (can only be given once)
+--install -I
+
+rd.luks=0 rd.lvm=0 rd.md=0 rd.dm=0
+
+           This turns off every automatic assembly of LVM, MD raids, DM
+           raids and crypto LUKS.
+
 ```
+
 
 # what does march native mean on amd laptop?
 
