@@ -26,6 +26,7 @@
 - wifi rtw_8852be. at time of writing 6.1 is gentoo stable and has no support. i fix kernel to 6.3.12, because i don't want to recompile kernel every week. 
 - webcam
 - bluetooth network tether with android
+- rootfs on squashfs
 
 ## install instructions
 
@@ -217,7 +218,31 @@ emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources
 emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
 ```
+# boot from squashfs
 
+https://unix.stackexchange.com/questions/235145/how-to-boot-using-a-squashfs-image-as-rootfs
+
+```
+{   cd /tmp; cat >fstab
+    mkdir -p sfs/sfs sfs/usb
+    dracut  -i fstab /etc/fstab     \
+            -i sfs sfs              \
+            --add-drivers overlay   \
+            --add-drivers squashfs  \
+            initramfs.img 
+}   <<"" #FSTAB
+    UUID={USB-UUID}     /sfs/usb    $usbfs      defaults    0 0
+    /sfs/usb/img.sfs    /sfs/sfs    squashfs    defaults    0 0
+
+root=overlay \
+rootfstype=overlay \
+rootflags=\
+lowerdir=/sfs/sfs,\
+upperdir=/sfs/usb/persist,\
+workdir=/sfs/usb/tmp
+
+
+```
 
 # what does march native mean on amd laptop?
 
