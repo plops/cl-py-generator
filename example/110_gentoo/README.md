@@ -178,6 +178,7 @@ net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem 
 dev-python/lmfit -test
 dev-python/tqdm -examples -test
 x11-wm/dwm savedconfig -xinerama
+dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
 
 EOF
 
