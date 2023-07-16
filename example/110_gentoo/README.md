@@ -247,8 +247,41 @@ sbcl --load quicklisp.lisp
 (ql:quickload "quicklisp-slime-helper")
 
 cat << EOF > /home/martin/.emacs
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(unless (package-installed-p 'ido-hacks)
+  (package-refresh-contents)
+  (package-install 'ido-hacks))
+(unless (package-installed-p 'eval-in-repl)
+  (package-refresh-contents)
+  (package-install 'eval-in-repl))
+(require 'ido-hacks)
+(ido-hacks-mode)
+(eval-after-load "vc" '(remove-hook 'find-file-hooks 'vc-find-file-hook))
+(setq vc-handled-backends nil)
+(custom-set-variables
+ '(inhibit-startup-screen t))
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode +1)
+(tool-bar-mode -1)
+(show-paren-mode 1)
+(global-set-key (kbd "<f4>") 'magit-status)
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
+(require 'slime-autoloads)
+(slime-setup '(slime-fancy))
+(defun cliki:start-slime ()
+  (unless (slime-connected-p)
+    (save-excursion (slime))))
+(add-hook 'slime-mode-hook 'cliki:start-slime)
 (setq inferior-lisp-program "sbcl")
+(require 'eval-in-repl-slime)
+(add-hook 'lisp-mode-hook
+		  '(lambda ()
+		     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
+
 EOF
 
 ln -s /home/martin/stage/cl-py-generator/ /home/martin/quicklisp/local-projects/
