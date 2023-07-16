@@ -23,7 +23,7 @@
 
 ### can support (nice to have)
 - nvme harddiskø
-- wifi rtw_8852be (requires kernel > 6.3.12)
+- wifi rtw_8852be. at time of writing 6.1 is gentoo stable and has no support. i fix kernel to 6.3.12, because i don't want to recompile kernel every week. 
 - webcam
 - bluetooth network tether with android
 
