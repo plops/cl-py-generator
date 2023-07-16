@@ -138,6 +138,8 @@ sys-power/tlp ~amd64
 dev-python/lmfit ~amd64
 dev-python/asteval ~amd64
 dev-python/uncertainties ~amd64
+app-misc/radeontop ~amd64
+
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -300,7 +302,7 @@ ln -s /home/martin/stage/cl-py-generator/ /home/martin/quicklisp/local-projects/
 
 
 # only install what isn't already there
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools radeontop; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 
 emacs /etc/portage/savedconfig/x11-wm/dwm-6.4
