@@ -187,6 +187,7 @@ dev-libs/dbus-glib -debug -static-libs -test
 
 
 # google chrome binary needs libcups, rpm2targz can be used to extract the rpm with the binary
+# watching video with google chrome uses 4 or 5W, while firefox consumes 12W
 net-print/cups-filters -foomatic -postscript -dbus -exif -jpeg -ldap -pclm -pdf -perl -png -test -tiff -zeroconf
 net-print/cups -X -acl -pam -ssl -systemd -dbus -debug -kerberos -openssl -selinux -static-libs -test -usb -xinetd -zeroconf
 app-text/poppler cxx -introspection jpeg -jpeg2k lcms utils -boost -cairo -cjk -curl -debug -doc -nss -png -qt5 -test -tiff -verify-sig
