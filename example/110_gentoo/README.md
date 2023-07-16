@@ -241,7 +241,9 @@ mksquashfs \
 -e \
 usr/src/linux* \
 var/cache/binpkgs \
-var/cache/distfiles
+var/cache/distfiles \
+gentoo*squashfs \
+usr/share/genkernel/distfiles
 
 
 ```
