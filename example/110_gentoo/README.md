@@ -600,6 +600,8 @@ cp /dev/shm/init init_dracut
 find /usr/lib/dracut/modules.d/
 # maybe i can use hook pre-pivot to mount squashfs and set up overlay
 
+ root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.dir=/ rd.live.squashimg=gentoo_20230716b.squashfs rd.live.ram=1 rd.live.overlay=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.overlay.overlayfs=1 rd.shell 
+
 dracut \
   -i init_dracut /init \
   -m "kernel-modules base rootfs-block " \
@@ -608,6 +610,24 @@ dracut \
   --force
   
 ```
+Here's an explanation of each of the options you listed:
+
+- `root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826`: This sets the root file system for the booting process. The value is specified as a UUID (Universally Unique Identifier), which is a way to uniquely identify a filesystem independent of its location.
+
+- `rd.live.dir=/`: This is a dracut live option, specifying the base directory where live image content is located.
+
+- `rd.live.squashimg=gentoo_20230716b.squashfs`: This tells dracut where the SquashFS image file (a compressed read-only file system for Linux) is located for live boot. In this case, the SquashFS image file is named `gentoo_20230716b.squashfs`.
+
+- `rd.live.ram=1`: Another dracut live option, this forces the live image to be copied into RAM before being mounted. This is useful for freeing up the boot medium after the system has started.
+
+- `rd.live.overlay=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826`: This specifies the UUID of the device to use as an overlay device for persistent data storage during a live session.
+
+- `rd.live.overlay.overlayfs=1`: This specifies the use of overlayfs as the mechanism to provide a writable root file system on a read-only medium. Overlayfs allows the combination of two directories (an upper and a lower directory) and presents them as a single merged directory.
+
+- `rd.shell`: This provides a shell in the initramfs environment in case dracut fails to locate or mount the root filesystem, or if the `rootfs` block device is not clean. It can also be helpful for debugging purposes.
+
+These options are used to modify the way dracut and the Linux kernel handle the booting process, particularly for live systems. Please note that options starting with `rd.live` are specific to the dracut live module.
+
 
 # umount gentoo system
 
