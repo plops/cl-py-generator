@@ -600,12 +600,12 @@ cp /dev/shm/init init_dracut
 find /usr/lib/dracut/modules.d/
 # maybe i can use hook pre-pivot to mount squashfs and set up overlay
 
- root=live:UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.dir=/ rd.live.squashimg=gentoo_20230716b.squashfs rd.live.ram=1 rd.live.overlay=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.overlay.overlayfs=1 rd.shell 
+ root=live:UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.dir=/ rd.live.squashimg=gentoo_20230716b.squashfs rd.live.ram=1 rd.live.overlay=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.overlay.overlayfs=1 rd.shell rd.debug
 
 crypt
 
 dracut \
-  -m " kernel-modules base rootfs-block livenet rescue dm dmsquash-live lvm ssh-client fs-lib img-lib " \
+  -m " kernel-modules base rootfs-block livenet rescue dm dmsquash-live lvm ssh-client fs-lib img-lib debug " \
   --filesystems " squashfs vfat overlay " \
   --kver=6.3.12-gentoo-x86_64 \
   --force
