@@ -196,7 +196,7 @@ dev-libs/dbus-glib -debug -static-libs -test
 net-print/cups-filters -foomatic -postscript -dbus -exif -jpeg -ldap -pclm -pdf -perl -png -test -tiff -zeroconf
 net-print/cups -X -acl -pam -ssl -systemd -dbus -debug -kerberos -openssl -selinux -static-libs -test -usb -xinetd -zeroconf
 app-text/poppler cxx -introspection jpeg -jpeg2k lcms utils -boost -cairo -cjk -curl -debug -doc -nss -png -qt5 -test -tiff -verify-sig
-
+sys-fs/lvm2 readline systemd udev lvm -sanlock -selinux -static -static-libs -thin -valgrind
 
 # qdirstat
 dev-qt/qtcore systemd -debug -icu -old-kernel -test
@@ -302,7 +302,7 @@ ln -s /home/martin/stage/cl-py-generator/ /home/martin/quicklisp/local-projects/
 
 
 # only install what isn't already there
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools radeontop; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools radeontop sys-fs/lvm2; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 
 emacs /etc/portage/savedconfig/x11-wm/dwm-6.4
@@ -600,11 +600,17 @@ cp /dev/shm/init init_dracut
 find /usr/lib/dracut/modules.d/
 # maybe i can use hook pre-pivot to mount squashfs and set up overlay
 
- root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.dir=/ rd.live.squashimg=gentoo_20230716b.squashfs rd.live.ram=1 rd.live.overlay=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.overlay.overlayfs=1 rd.shell 
+ root=live:UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.dir=/ rd.live.squashimg=gentoo_20230716b.squashfs rd.live.ram=1 rd.live.overlay=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.overlay.overlayfs=1 rd.shell 
 
 dracut \
   -i init_dracut /init \
   -m "kernel-modules base rootfs-block " \
+  --filesystems "squashfs vfat overlay" \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force
+
+dracut \
+  -m "kernel-modules base rootfs-block livenet squash overlay-root" \
   --filesystems "squashfs vfat overlay" \
   --kver=6.3.12-gentoo-x86_64 \
   --force
@@ -628,6 +634,13 @@ Here's an explanation of each of the options you listed:
 
 These options are used to modify the way dracut and the Linux kernel handle the booting process, particularly for live systems. Please note that options starting with `rd.live` are specific to the dracut live module.
 
+
+Add a custom entry to /etc/default/grub
+```
+grub-install --target=x86_64-efi --efi-directory=/boot/efi
+
+grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 # umount gentoo system
 
