@@ -19,6 +19,10 @@
 - python: pandas, numpy, opencv, lmfit, tqdm
 - charge battery at most to 80% (requires tlp)
 
+- compile vfat, ext4, squashfs, loop, BLK_DEV_NVME, scsi into the
+  kernel (not as module). this makes the system more resilent because
+  i can boot without initramfs
+
 - rust is slowing the whole compilation down. so perhaps install firefox-bin and rust-bin
 
 ### can support (nice to have)
