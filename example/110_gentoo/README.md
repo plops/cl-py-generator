@@ -603,14 +603,7 @@ find /usr/lib/dracut/modules.d/
  root=live:UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.dir=/ rd.live.squashimg=gentoo_20230716b.squashfs rd.live.ram=1 rd.live.overlay=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 rd.live.overlay.overlayfs=1 rd.shell 
 
 dracut \
-  -i init_dracut /init \
-  -m "kernel-modules base rootfs-block " \
-  --filesystems "squashfs vfat overlay" \
-  --kver=6.3.12-gentoo-x86_64 \
-  --force
-
-dracut \
-  -m "kernel-modules base rootfs-block livenet squash overlay-root" \
+  -m "kernel-modules base rootfs-block livenet squash " \
   --filesystems "squashfs vfat overlay" \
   --kver=6.3.12-gentoo-x86_64 \
   --force
