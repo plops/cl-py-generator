@@ -605,7 +605,7 @@ find /usr/lib/dracut/modules.d/
 crypt
 
 dracut \
-  -m " kernel-modules base rootfs-block livenet rescue dm dmsquash-live lvm ssh-client fs-lib img-lib debug " \
+  -m " kernel-modules base rootfs-block livenet rescue dm dmsquash-live lvm ssh-client fs-lib img-lib " \
   --filesystems " squashfs vfat overlay " \
   --kver=6.3.12-gentoo-x86_64 \
   --force
