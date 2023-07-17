@@ -317,71 +317,6 @@ emerge -uDN @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources
 emerge @world --buildpkg --buildpkg-exclude "virtual/* sys-kernel/*-sources"
 
 ```
-# boot from squashfs
-
-https://unix.stackexchange.com/questions/235145/how-to-boot-using-a-squashfs-image-as-rootfs
-
-```
-{   cd /tmp; cat >fstab
-    mkdir -p sfs/sfs sfs/usb
-    dracut  -i fstab /etc/fstab     \
-            -i sfs sfs              \ # i think only one include is allowed
-            --add-drivers overlay   \
-            --add-drivers squashfs  \
-            initramfs.img 
-}   <<"" #FSTAB
-    UUID={USB-UUID}     /sfs/usb    $usbfs      defaults    0 0
-    /sfs/usb/img.sfs    /sfs/sfs    squashfs    defaults    0 0
-
-root=overlay \
-rootfstype=overlay \
-rootflags=\
-lowerdir=/sfs/sfs,\
-upperdir=/sfs/usb/persist,\
-workdir=/sfs/usb/tmp
-
-
-lsinitrd
-
-dracut --print-cmdline
-
---include -i (can only be given once)
---install -I
-
-rd.luks=0 rd.lvm=0 rd.md=0 rd.dm=0
-
-           This turns off every automatic assembly of LVM, MD raids, DM
-           raids and crypto LUKS.
-
-
-the objective is
-           to locate your root volume and create a symlink /dev/root
-           which points to the file system.
-
-        5. Next, make a symbolic link to the unlocked root volume
-
-                   # ln -s /dev/mapper/luks-$UUID /dev/root
-
-            6. With the root volume available, you may continue booting
-               the system by exiting the dracut shell
-
-                   # exit
-
-```
-
-# mount squashfs from dracut initramfs 
-
-```
-umount /sysroot
-mkdir /mnt
-mkdir /squash
-mount /dev/nvme0n1p3 /mnt
-mount /mnt/gentoo_20230716b.squashfs /squash
-mkdir -p /mnt/persistent/lower
-mkdir -p /mnt/persistent/work
-mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work /sysroot
-
-```
 
 # gpu power levels
 
@@ -585,10 +520,89 @@ linux   /vmlinuz-6.1.31-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3
 linux   /vmlinuz-6.1.31-gentoo-x86_64 root=/dev/sda3 ro rd.shell
 
 ```
+# boot from squashfs
+
+https://unix.stackexchange.com/questions/235145/how-to-boot-using-a-squashfs-image-as-rootfs
+
+```
+{   cd /tmp; cat >fstab
+    mkdir -p sfs/sfs sfs/usb
+    dracut  -i fstab /etc/fstab     \
+            -i sfs sfs              \ # i think only one include is allowed
+            --add-drivers overlay   \
+            --add-drivers squashfs  \
+            initramfs.img 
+}   <<"" #FSTAB
+    UUID={USB-UUID}     /sfs/usb    $usbfs      defaults    0 0
+    /sfs/usb/img.sfs    /sfs/sfs    squashfs    defaults    0 0
+
+root=overlay \
+rootfstype=overlay \
+rootflags=\
+lowerdir=/sfs/sfs,\
+upperdir=/sfs/usb/persist,\
+workdir=/sfs/usb/tmp
+
+
+lsinitrd
+
+dracut --print-cmdline
+
+--include -i (can only be given once)
+--install -I
+
+rd.luks=0 rd.lvm=0 rd.md=0 rd.dm=0
+
+           This turns off every automatic assembly of LVM, MD raids, DM
+           raids and crypto LUKS.
+
+
+the objective is
+           to locate your root volume and create a symlink /dev/root
+           which points to the file system.
+
+        5. Next, make a symbolic link to the unlocked root volume
+
+                   # ln -s /dev/mapper/luks-$UUID /dev/root
+
+            6. With the root volume available, you may continue booting
+               the system by exiting the dracut shell
+
+                   # exit
+
+```
+
+# mount squashfs from dracut initramfs 
+
+```
+umount /sysroot
+mkdir /mnt
+mkdir /squash
+mount /dev/nvme0n1p3 /mnt
+mount /mnt/gentoo_20230716b.squashfs /squash
+mkdir -p /mnt/persistent/lower
+mkdir -p /mnt/persistent/work
+mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work /sysroot
+
+```
 
 # configure initramfs with dracut
 ```
-dracut -m "kernel-modules base rootfs-block " --kver=6.1.38-gentoo-x86_64 --filesystems "squashfs vfat overlay" --force
+# get old init
+cd /dev/shm/
+lsinitrd --unpack
+cp /dev/shm/init init_dracut
+
+
+
+
+dracut \
+  -i init_dracut /init \
+  -m "kernel-modules base rootfs-block " \
+  --filesystems "squashfs vfat overlay" \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force
+  
 ```
 
 # umount gentoo system
