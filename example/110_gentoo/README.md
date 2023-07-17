@@ -587,14 +587,18 @@ mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,work
 ```
 
 # configure initramfs with dracut
+
+https://man7.org/linux/man-pages/man7/dracut.cmdline.7.html
+booting live images
 ```
 # get old init
 cd /dev/shm/
 lsinitrd --unpack
 cp /dev/shm/init init_dracut
 
-
-
+# man dracut.modules
+find /usr/lib/dracut/modules.d/
+# maybe i can use hook pre-pivot to mount squashfs and set up overlay
 
 dracut \
   -i init_dracut /init \
