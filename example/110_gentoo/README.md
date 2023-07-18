@@ -407,7 +407,7 @@ pacman -S squashfs-tools
 export INDIR=/mnt/gentoo
 export OUTFILE=/home/martin/gentoo_20230716.squashfs
 
--Xcompression-level 1 \
+
 
 export INDIR=/
 export OUTFILE=/gentoo_20230716b.squashfs
@@ -418,6 +418,7 @@ $OUTFILE \
 -comp zstd \
 -xattrs \
 -not-reproducible \
+-Xcompression-level 1 \
 -progress \
 -mem 10G \
 -wildcards \
