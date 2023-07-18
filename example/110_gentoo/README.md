@@ -408,6 +408,7 @@ export INDIR=/mnt/gentoo
 export OUTFILE=/home/martin/gentoo_20230716.squashfs
 
 
+
 export INDIR=/
 export OUTFILE=/gentoo_20230716b.squashfs
 time \
@@ -443,7 +444,9 @@ home/martin/.mozilla/* \
 home/martin/src \
 var/log/journal/* \
 var/cache/genkernel/* \
-tmp/*
+tmp/* \
+persistent
+
 
 
 
@@ -618,91 +621,9 @@ dracut \
   /boot/initramfs_live-6.3.12-gentoo-x86_64.img
 
 
-cat << EOF > /dev/shm/init_raw
-#!/bin/sh
-NEWROOT="/sysroot"
-[ -d $NEWROOT ] || mkdir -p -m 0755 $NEWROOT
-
-OLDPATH=$PATH
-PATH=/usr/sbin:/usr/bin:/sbin:/bin
-export PATH
-
-# mount some important things
-if [ ! -d /proc/self ]; then
-    if ! mount -t proc -o nosuid,noexec,nodev proc /proc > /dev/null; then
-        echo "Cannot mount proc on /proc! Compile the kernel with CONFIG_PROC_FS!"
-        exit 1
-    fi
-fi
-
-if [ ! -d /sys/kernel ]; then
-    if ! mount -t sysfs -o nosuid,noexec,nodev sysfs /sys > /dev/null; then
-        echo "Cannot mount sysfs on /sys! Compile the kernel with CONFIG_SYSFS!"
-        exit 1
-    fi
-fi
-
-if ! ismounted /dev; then
-    mount -t devtmpfs -o mode=0755,noexec,nosuid,strictatime devtmpfs /dev > /dev/null
-fi
-
-if ! ismounted /dev; then
-    echo "Cannot mount devtmpfs on /dev! Compile the kernel with CONFIG_DEVTMPFS!"
-    exit 1
-fi
-
-# prepare the /dev directory
-[ ! -h /dev/fd ] && ln -s /proc/self/fd /dev/fd > /dev/null 2>&1
-[ ! -h /dev/stdin ] && ln -s /proc/self/fd/0 /dev/stdin > /dev/null 2>&1
-[ ! -h /dev/stdout ] && ln -s /proc/self/fd/1 /dev/stdout > /dev/null 2>&1
-[ ! -h /dev/stderr ] && ln -s /proc/self/fd/2 /dev/stderr > /dev/null 2>&1
-
-if ! ismounted /dev/pts; then
-    mkdir -m 0755 -p /dev/pts
-    mount -t devpts -o gid=5,mode=620,noexec,nosuid devpts /dev/pts > /dev/null
-fi
-
-if ! ismounted /dev/shm; then
-    mkdir -m 0755 -p /dev/shm
-    mount -t tmpfs -o mode=1777,noexec,nosuid,nodev,strictatime tmpfs /dev/shm > /dev/null
-fi
-
-if ! ismounted /run; then
-    mkdir -m 0755 -p /newrun
-    if ! str_starts "$(readlink -f /bin/sh)" "/run/"; then
-        mount -t tmpfs -o mode=0755,noexec,nosuid,nodev,strictatime tmpfs /newrun > /dev/null
-    else
-        # the initramfs binaries are located in /run, so don't mount it with noexec
-        mount -t tmpfs -o mode=0755,nosuid,nodev,strictatime tmpfs /newrun > /dev/null
-    fi
-    cp -a /run/* /newrun > /dev/null 2>&1
-    mount --move /newrun /run
-    rm -fr -- /newrun
-fi
-
-
-mkdir /mnt
-mkdir /squash
-mount /dev/nvme0n1p3 /mnt
-mount /mnt/gentoo_20230716b.squashfs /squash
-mkdir -p /mnt/persistent/lower
-mkdir -p /mnt/persistent/work
-
-mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work $NEWROOT
-mount --types proc /proc $NEWROOT/proc
-mount --rbind /sys $NEWROOT/sys
-mount --make-rslave $NEWROOT/sys
-mount --rbind /dev $NEWROOT/dev
-mount --make-rslave $NEWROOT/dev
-mount --bind /run $NEWROOT/run
-mount --make-slave $NEWROOT/run 
-exec switch_root $NEWROOT /sbin/init
-EOF
-
-cd /usr/lib/dracut/modules.d/99base
-mv init.sh init_orig.sh
-cp /dev/shm/init_raw  init.sh
-chmod a+x init.sh
+# mv /usr/lib/dracut/modules.d/99base/init.sh /usr/lib/dracut/modules.d/99base/init_orig.sh
+cp init_dracut.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
 dracut \
   -m " kernel-modules base rootfs-block " \
