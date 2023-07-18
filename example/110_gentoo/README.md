@@ -702,6 +702,7 @@ EOF
 cd /usr/lib/dracut/modules.d/99base
 mv init.sh init_orig.sh
 cp /dev/shm/init_raw  init.sh
+chmod a+x init.sh
 
 dracut \
   -m " kernel-modules base rootfs-block " \
