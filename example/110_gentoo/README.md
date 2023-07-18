@@ -699,8 +699,11 @@ mount --make-slave $NEWROOT/run
 exec switch_root $NEWROOT /sbin/init
 EOF
 
+cd /usr/lib/dracut/modules.d/99base
+mv init.sh init_orig.sh
+cp /dev/shm/init_raw  init.sh
+
 dracut \
-  -i /dev/shm/init_raw /init \
   -m " kernel-modules base rootfs-block " \
   --filesystems " squashfs vfat overlay " \
   --kver=6.3.12-gentoo-x86_64 \
