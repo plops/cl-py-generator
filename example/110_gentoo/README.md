@@ -116,6 +116,7 @@ env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 
 cat <<EOF > /etc/portage/package.license
 sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
+net-wireless/sdrplay *
 EOF
 
 emerge --ask=n sys-kernel/linux-firmware
@@ -143,6 +144,14 @@ dev-python/lmfit ~amd64
 dev-python/asteval ~amd64
 dev-python/uncertainties ~amd64
 app-misc/radeontop ~amd64
+
+dev-dotnet/dotnet-sdk-bin ~amd64
+net-wireless/sdrplay ~amd64 
+net-wireless/soapysdr ~amd64
+net-wireless/soapysdrplay ~amd64
+ net-wireless/soapyplutosdr ~amd64
+net-libs/libad9361-iio ~amd64
+
 
 EOF
 
@@ -208,6 +217,10 @@ dev-qt/qtgui X libinput png udev -accessibility dbus -debug -egl -eglfs -evdev -
 dev-qt/qtwidgets X png dbus -debug -gles2-only -gtk -test
 sys-apps/qdirstat
 
+net-wireless/soapysdr -bladerf -hackrf plutosdr python -rtlsdr -uhd
+
+x11-libs/wxGTK X lzma spell -curl -debug -doc -gstreamer -keyring libnotify opengl -pch -sdl -test -tiff -wayland -webkit
+dev-libs/libpcre2 bzip2 jit pcre16 pcre32 readline unicode zlib -libedit -split-usr -static-libs
 
 EOF
 
@@ -306,7 +319,7 @@ ln -s /home/martin/stage/cl-py-generator/ /home/martin/quicklisp/local-projects/
 
 
 # only install what isn't already there
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib redshift opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools radeontop sys-fs/lvm2 nvme-cli hdparm cryptsetup dev-python/mss; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib redshift opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools radeontop sys-fs/lvm2 nvme-cli hdparm cryptsetup dev-python/mss soapysdr wxGTK; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 
 emacs /etc/portage/savedconfig/x11-wm/dwm-6.4
