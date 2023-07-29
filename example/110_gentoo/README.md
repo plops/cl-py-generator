@@ -762,6 +762,8 @@ emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slim
 
 emerge -ac
 
+# it removes llvm-15 and related clang, it also removes the 6.1.42 kernel sources that i masked
+
 #
 revdep-rebuild
 
