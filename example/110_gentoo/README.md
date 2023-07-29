@@ -727,3 +727,37 @@ mv tmp start-tor-browser.desktop &&
 # next
 
 - install cryptsetup, dev-python/mss
+
+
+# update 2023-07-29
+
+## base system
+
+- boot from ssd (not squashfs)
+```
+eix-sync
+
+# go through this file and update /etc/portage files
+
+emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world 
+
+# install a few things that I decided to add meanwhile. notably cryptsetup, mss, soapysdr and mc
+# only packages that don't exist yet, will be added by the following command:
+
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib redshift opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools radeontop sys-fs/lvm2 nvme-cli hdparm cryptsetup dev-python/mss soapysdr app-misc/mc ; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+
+# I will not install wxGTK at this time
+
+# try to get rid of the two slots of llvm
+
+emerge -ac
+```
+
+## /home
+
+- i did some changes to the home directory in the overlay directory
+- these should be taken into the new squashfs
+- some config files (.emacs, .xinitrc, some scripts)
+- quicklisp/ installation
+- stage/ directory with git repositories
+- clion installation
