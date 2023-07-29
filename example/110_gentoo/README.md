@@ -863,10 +863,10 @@ tmp/* \
 mnt/ \
 persistent
 
-Filesystem size 2442952.70 Kbytes (2385.70 Mbytes)
-        37.46% of uncompressed filesystem size (6521888.95 Kbytes)
+Filesystem size 2195231.74 Kbytes (2143.78 Mbytes)
+        35.16% of uncompressed filesystem size (6242681.04 Kbytes)
 
-33 sec
+20 sec
 
 # it is not filtering out proc (one directory of a process that
 # probably starts later than the wildcard expansion )
