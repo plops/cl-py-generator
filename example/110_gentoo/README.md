@@ -149,15 +149,17 @@ dev-dotnet/dotnet-sdk-bin ~amd64
 net-wireless/sdrplay ~amd64 
 net-wireless/soapysdr ~amd64
 net-wireless/soapysdrplay ~amd64
- net-wireless/soapyplutosdr ~amd64
+net-wireless/soapyplutosdr ~amd64
 net-libs/libad9361-iio ~amd64
-
+net-libs/libiio ~amd64
 
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
 >=sys-kernel/gentoo-sources-6.3.13
 >=sys-kernel/linux-headers-6.3.13
+<sys-kernel/gentoo-sources-6.3.12
+<=sys-kernel/linux-headers-6.2
 EOF
 
 cat << EOF > /etc/portage/package.use/package.use
@@ -737,6 +739,10 @@ mv tmp start-tor-browser.desktop &&
 ```
 eix-sync
 
+# config file '/etc/portage/savedconfig/sys-kernel/linux-firmware-20230515' needs updating.
+# maybe i have to rebuild the kernel?
+dispatch-conf 
+
 # go through this file and update /etc/portage files
 
 emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world 
@@ -748,13 +754,18 @@ emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world
 # install a few things that I decided to add meanwhile. notably cryptsetup, mss, soapysdr and mc
 # only packages that don't exist yet, will be added by the following command:
 
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib redshift opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv mksquashfs-tools radeontop sys-fs/lvm2 nvme-cli hdparm cryptsetup dev-python/mss soapysdr app-misc/mc ; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib redshift opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv squashfs-tools radeontop sys-fs/lvm2 nvme-cli hdparm cryptsetup dev-python/mss soapysdr app-misc/mc ; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 # I will not install wxGTK at this time
 
 # try to get rid of the two slots of llvm
 
 emerge -ac
+
+
+# delete old binary packages
+eclean packages
+
 ```
 
 ## /home
