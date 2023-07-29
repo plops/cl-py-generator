@@ -751,10 +751,10 @@ emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world
 # but for wifi hardware i must use >= 6.3.12
 # maybe i have to mask lower versions as well
 
-# install a few things that I decided to add meanwhile. notably cryptsetup, mss, soapysdr and mc
+# install a few things that I decided to add meanwhile. notably cryptsetup, mss, soapysdrplay (unfortunately not free software, binary only! note to self: never buy hardware before checking software first) and mc
 # only packages that don't exist yet, will be added by the following command:
 
-emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib redshift opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv squashfs-tools radeontop sys-fs/lvm2 nvme-cli hdparm cryptsetup dev-python/mss soapysdr app-misc/mc ; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
+emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slime magit paredit bluez iwd dhcp dev-vcs/git dev-python/pip numpy scipy scikit-learn nlopt matplotlib redshift opencv python lmfit tqdm ofono pulseaudio-daemon pulseaudio blueman dracut iwgtk glib dbus-glib mpv squashfs-tools radeontop sys-fs/lvm2 nvme-cli hdparm cryptsetup dev-python/mss soapysdr app-misc/mc soapysdrplay ; do eix -I "$pkg" >/dev/null || echo "$pkg"; done)
 
 # I will not install wxGTK at this time
 
@@ -762,9 +762,15 @@ emerge -av $(for pkg in xorg-server firefox gentoolkit dwm xterm emacs sbcl slim
 
 emerge -ac
 
+#
+revdep-rebuild
 
 # delete old binary packages
 eclean packages
+# delete old sources
+eclean distfiles
+
+
 
 ```
 
