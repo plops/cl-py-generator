@@ -874,6 +874,7 @@ Filesystem size 2195231.74 Kbytes (2143.78 Mbytes)
 
 - use proc (not proc/*) and place the OUTFILE in an ignored directory
   so that the file isn't read after the wildcard expansion
+- /usr/lib/firmware is 892MB, this surely can be reduced
 
 ## change overlay partition
 
