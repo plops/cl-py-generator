@@ -760,7 +760,10 @@ emerge -ac
 - some config files (.emacs, .xinitrc, some scripts)
 - quicklisp/ installation
 - stage/ directory with git repositories
+
+### not to be added into squashfs:
 - clion installation
+- llama 2
 
 ## change overlay partition
 
