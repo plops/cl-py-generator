@@ -741,6 +741,10 @@ eix-sync
 
 emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world 
 
+# this downloads and installs gentoo-sources-6.1.42
+# but for wifi hardware i must use >= 6.3.12
+# maybe i have to mask lower versions as well
+
 # install a few things that I decided to add meanwhile. notably cryptsetup, mss, soapysdr and mc
 # only packages that don't exist yet, will be added by the following command:
 
