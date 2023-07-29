@@ -767,10 +767,12 @@ emerge -ac
 #
 revdep-rebuild
 
-# delete old binary packages
+# system is consistent
+
+# delete old binary packages (35 files, 1.2GB)
 eclean packages
-# delete old sources
-eclean distfiles
+# delete old sources (12 files, 404MB)
+eclean distfiles 
 
 
 
