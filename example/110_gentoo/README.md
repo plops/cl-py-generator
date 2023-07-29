@@ -761,3 +761,11 @@ emerge -ac
 - quicklisp/ installation
 - stage/ directory with git repositories
 - clion installation
+
+## change overlay partition
+
+- sharing a 50GB partition with the original system, my home directory
+  and the persistent overlay turns out to be insufficient
+
+- make a new partition to use as overlay
+- make appropriate changes to initramfs
