@@ -777,6 +777,91 @@ eclean distfiles
 
 
 ```
+### the new packages
+
+```
+
+sys-kernel/linux-firmware/linux-firmware-20230625_p20230724-1.gpkg.tar
+app-crypt/libmd/libmd-1.1.0-1.gpkg.tar
+media-libs/alsa-ucm-conf/alsa-ucm-conf-1.2.9-1.gpkg.tar
+dev-python/ensurepip-setuptools/ensurepip-setuptools-68.0.0-1.gpkg.tar
+media-libs/libpng/libpng-1.6.40-1.gpkg.tar
+dev-libs/libassuan/libassuan-2.5.6-1.gpkg.tar
+media-libs/tiff/tiff-4.5.1-1.gpkg.tar
+sys-apps/sandbox/sandbox-2.37-1.gpkg.tar
+dev-libs/libpcre2/libpcre2-10.42-r1-1.gpkg.tar
+dev-libs/openssl/openssl-3.0.9-r2-1.gpkg.tar
+dev-perl/Sub-Name/Sub-Name-0.270.0-1.gpkg.tar
+dev-perl/Pod-Parser/Pod-Parser-1.660.0-1.gpkg.tar
+dev-perl/YAML-Tiny/YAML-Tiny-1.740.0-1.gpkg.tar
+dev-perl/Module-Build/Module-Build-0.423.400-1.gpkg.tar
+dev-perl/IO-Socket-INET6/IO-Socket-INET6-2.730.0-1.gpkg.tar
+dev-perl/Net-HTTP/Net-HTTP-6.230.0-1.gpkg.tar
+dev-perl/HTML-Parser/HTML-Parser-3.810.0-1.gpkg.tar
+dev-lisp/asdf/asdf-3.3.5-r1-1.gpkg.tar
+sys-apps/acl/acl-2.3.1-r2-1.gpkg.tar
+sys-apps/coreutils/coreutils-9.3-r3-1.gpkg.tar
+sys-apps/systemd/systemd-253.6-1.gpkg.tar
+net-libs/gnutls/gnutls-3.8.0-1.gpkg.tar
+media-libs/flac/flac-1.4.3-1.gpkg.tar
+sys-devel/automake/automake-1.16.5-r1-1.gpkg.tar
+dev-python/pyparsing/pyparsing-3.1.0-1.gpkg.tar
+dev-python/pathspec/pathspec-0.11.1-1.gpkg.tar
+media-libs/alsa-lib/alsa-lib-1.2.9-1.gpkg.tar
+dev-libs/libuv/libuv-1.46.0-1.gpkg.tar
+dev-util/strace/strace-6.3-1.gpkg.tar
+app-portage/eix/eix-0.36.7-1.gpkg.tar
+dev-lisp/sbcl/sbcl-2.3.5-1.gpkg.tar
+media-libs/openal/openal-1.23.1-r1-1.gpkg.tar
+net-misc/openssh/openssh-9.3_p2-1.gpkg.tar
+sys-apps/dbus/dbus-1.15.6-1.gpkg.tar
+x11-drivers/xf86-video-amdgpu/xf86-video-amdgpu-23.0.0-1.gpkg.tar
+dev-python/contourpy/contourpy-1.1.0-1.gpkg.tar
+app-editors/emacs/emacs-28.2-r9-1.gpkg.tar
+dev-python/editables/editables-0.3-1.gpkg.tar
+dev-python/calver/calver-2022.06.26-1.gpkg.tar
+dev-python/pluggy/pluggy-1.2.0-1.gpkg.tar
+dev-python/trove-classifiers/trove-classifiers-2023.5.24-1.gpkg.tar
+dev-python/fonttools/fonttools-4.40.0-1.gpkg.tar
+dev-python/asteval/asteval-0.9.31-1.gpkg.tar
+dev-python/hatchling/hatchling-1.18.0-1.gpkg.tar
+dev-python/urllib3/urllib3-2.0.3-1.gpkg.tar
+dev-python/pycairo/pycairo-1.24.0-1.gpkg.tar
+dev-libs/libksba/libksba-1.6.4-1.gpkg.tar
+media-libs/gstreamer/gstreamer-1.20.6-1.gpkg.tar
+sys-kernel/gentoo-sources/gentoo-sources-6.1.42-1.gpkg.tar
+dev-lang/vala/vala-0.56.8-1.gpkg.tar
+media-libs/gst-plugins-base/gst-plugins-base-1.20.6-1.gpkg.tar
+sys-kernel/genkernel/genkernel-4.3.5-1.gpkg.tar
+media-video/ffmpeg/ffmpeg-4.4.4-r3-1.gpkg.tar
+media-video/mpv/mpv-0.35.1-r2-1.gpkg.tar
+acct-group/avahi/avahi-0-r2-1.gpkg.tar
+app-crypt/argon2/argon2-20190702-r1-1.gpkg.tar
+sys-apps/hdparm/hdparm-9.65-1.gpkg.tar
+dev-libs/json-c/json-c-0.16-r1-1.gpkg.tar
+acct-user/avahi/avahi-0-r2-1.gpkg.tar
+dev-libs/libdaemon/libdaemon-0.14-r4-1.gpkg.tar
+app-doc/xmltoman/xmltoman-0.6-1.gpkg.tar
+dev-python/mss/mss-9.0.1-1.gpkg.tar
+dev-libs/libpcre/libpcre-8.45-r1-1.gpkg.tar
+net-dns/avahi/avahi-0.8-r7-1.gpkg.tar
+sys-libs/libnvme/libnvme-1.4-1.gpkg.tar
+sys-fs/cryptsetup/cryptsetup-2.6.1-1.gpkg.tar
+net-libs/libiio/libiio-0.24-1.gpkg.tar
+sys-libs/slang/slang-2.3.2-1.gpkg.tar
+sys-apps/nvme-cli/nvme-cli-2.4-r2-1.gpkg.tar
+net-libs/libad9361-iio/libad9361-iio-0.2-r1-1.gpkg.tar
+app-misc/mc/mc-4.8.29-1.gpkg.tar
+net-wireless/soapysdr/soapysdr-0.8.1-1.gpkg.tar
+net-wireless/soapyplutosdr/soapyplutosdr-0.2.1-1.gpkg.tar
+net-wireless/sdrplay/sdrplay-3.07.1-1.gpkg.tar
+net-wireless/soapysdrplay/soapysdrplay-20220120-1.gpkg.tar
+media-video/mpv/mpv-0.35.1-r2-2.gpkg.tar
+
+
+```
+
+
 
 ## /home
 
@@ -917,3 +1002,4 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 }
 
 ```
+
