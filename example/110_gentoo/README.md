@@ -197,7 +197,7 @@ net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem 
 dev-python/lmfit -test
 dev-python/tqdm -examples -test
 x11-wm/dwm savedconfig -xinerama
-media-video/mpv X alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc openal -opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools vaapi -vdpau -vulkan -wayland -zimg
+media-video/mpv X alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc openal opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools vaapi -vdpau -vulkan -wayland -zimg
 
 sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd 
 
@@ -784,11 +784,28 @@ eclean distfiles
 - these should be taken into the new squashfs
 - some config files (.emacs, .xinitrc, some scripts)
 - quicklisp/ installation
+```
+sbcl
+(ql:update-client) # no change
+(ql:update-dist "quicklisp") # no change
+
+# build swank
+emacs
+M-x slime
+
+# delete old swank
+rm -rf ~/.cache/common-lisp/sbcl-2.2.9-linux-x64/
+
+```
 - stage/ directory with git repositories
+- src/rysen-monitor (i think that did not change)
+- src/slstatus	 (i think that did not change)
+- indeed the two last ones didn't change
 
 ### not to be added into squashfs:
-- clion installation
+- clion installation, and sonarlint
 - llama 2
+- pythonai (a python environment i used to convert the llama 2 network to int4)
 
 ## change overlay partition
 
