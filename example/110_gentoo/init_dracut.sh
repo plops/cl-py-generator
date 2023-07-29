@@ -267,14 +267,17 @@ source_hook cleanup
 echo "Martin's init script"
 
 mkdir /mnt
+mkdir /mnt5
 mkdir /squash
 umount /dev/nvme0n1p1
 umount /dev/nvme0n1p3
+umount /dev/nvme0n1p5
 mount -t ext4 /dev/nvme0n1p3 /mnt
-mount /mnt/gentoo_20230716b.squashfs /squash
-mkdir -p /mnt/persistent/lower
-mkdir -p /mnt/persistent/work
-mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work /sysroot 
+mount -t ext4 /dev/nvme0n1p5 /mnt5
+mount /mnt/gentoo_20230729.squashfs /squash
+mkdir -p /mnt5/persistent/lower
+mkdir -p /mnt5/persistent/work
+mount -t overlay overlay -o upperdir=/mnt5/persistent/lower,lowerdir=/squash,workdir=/mnt5/persistent/work /sysroot 
 #mount --types proc /proc /proc
 #mount --rbind /sys /sys
 #mount --make-rslave /sys
