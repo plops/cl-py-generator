@@ -807,6 +807,66 @@ rm -rf ~/.cache/common-lisp/sbcl-2.2.9-linux-x64/
 - llama 2
 - pythonai (a python environment i used to convert the llama 2 network to int4)
 
+## update kernel
+
+```
+# i think this adds the new rtw89/rtw8852b_fw.bin file
+# i'm not sure if it actually is different
+cd /usr/src/linux
+make -j12
+make modules_install
+make install
+```
+
+## create squashfs
+
+```
+
+export INDIR=/
+export OUTFILE=/gentoo_20230729.squashfs
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 1 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+proc/* \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.b \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+tmp/* \
+mnt/ \
+persistent
+
+Filesystem size 2442952.70 Kbytes (2385.70 Mbytes)
+        37.46% of uncompressed filesystem size (6521888.95 Kbytes)
+
+33 sec
+```
+
 ## change overlay partition
 
 - sharing a 50GB partition with the original system, my home directory
