@@ -865,6 +865,8 @@ Filesystem size 2442952.70 Kbytes (2385.70 Mbytes)
         37.46% of uncompressed filesystem size (6521888.95 Kbytes)
 
 33 sec
+
+# it is not filtering out proc
 ```
 
 ## change overlay partition
