@@ -823,7 +823,7 @@ make install
 ```
 
 export INDIR=/
-export OUTFILE=/gentoo_20230729.squashfs
+export OUTFILE=/mnt/gentoo_20230729.squashfs
 time \
 mksquashfs \
 $INDIR \
@@ -841,7 +841,8 @@ var/cache/binpkgs/* \
 var/cache/distfiles/* \
 gentoo*squashfs \
 usr/share/genkernel/distfiles/* \
-proc/* \
+boot/* \
+proc \
 sys/* \
 run/* \
 dev/pts/* \
@@ -850,7 +851,8 @@ dev/hugepages/* \
 dev/mqueue/* \
 home/martin/.cache/mozilla \
 home/martin/.cache/google-chrome \
-home/martin/.b \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
 home/martin/Downloads/* \
 home/martin/.config/* \
 home/martin/.mozilla/* \
@@ -866,8 +868,12 @@ Filesystem size 2442952.70 Kbytes (2385.70 Mbytes)
 
 33 sec
 
-# it is not filtering out proc
-```
+# it is not filtering out proc (one directory of a process that
+# probably starts later than the wildcard expansion )
+ ```
+
+- use proc (not proc/*) and place the OUTFILE in an ignored directory
+  so that the file isn't read after the wildcard expansion
 
 ## change overlay partition
 
