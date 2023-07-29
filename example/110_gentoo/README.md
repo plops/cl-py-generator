@@ -883,3 +883,37 @@ Filesystem size 2195231.74 Kbytes (2143.78 Mbytes)
 
 - make a new partition to use as overlay
 - make appropriate changes to initramfs
+
+
+## rebuild initramfs
+
+```
+
+cp init_dracut.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20230729_squash-6.3.12-gentoo-x86_64.img
+
+# new entry in 
+# grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init
+	initrd	/initramfs20230729_squash-6.3.12-gentoo-x86_64.img
+}
+
+```
