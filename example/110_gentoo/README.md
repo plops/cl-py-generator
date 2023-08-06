@@ -1008,4 +1008,4 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 
 # Proposed changes
 
-- add mold (81MB installed), ccache (7MB installed)
+- add mold (81MB installed), ccache (7MB installed), include-what-you-use (18.5MB)
