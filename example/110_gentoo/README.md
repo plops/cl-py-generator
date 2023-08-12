@@ -1073,51 +1073,80 @@ threat models.
 
 ## Implementation
 
-### Prepare the encrypted partition
+### Preparing the Encrypted Partition
 
 ```
 sudo su
 fdisk /dev/nvme0n1
-# look what partition we can use
-# i decided to use p4
+
+# Determine the available partitions.
+# For this guide, we'll use partition p4.
 
 cryptsetup luksFormat --key-size 512 /dev/nvme0n1p4
 
-# if the disk ever gets corrupted we may be able to recover the data with a copy of the luks header
-# before running this command make sure that this header will not be stored on an
-# unencrypted storage device that may be present when the laptop gets lost or stolen
-# so turn off swap with `swapoff` and only write into /dev/shm/ 
-
-# cryptsetup luksHeaderBackup /dev/nvme0n1p4 --header-backup-file /dev/shm/crypt_headers.img
-
-# the filesize of crypt_headers.img is 16MB
-
+# Set up the encryption:
 
 cryptsetup luksOpen /dev/nvme0n1p4 vg
 mkfs.ext4 -L rootfs /dev/mapper/vg
 
+# Now, copy the squashfs file to the encrypted disk:
 
-# copy squashfs to encrypted disk
 mount /dev/nvme0n1p3 /mnt3/
 mount /dev/mapper/vg /media/
 cp -r /mnt3/gentoo_20230729.squashfs /media/
 
 ```
 
-### Initramfs configuration
+Important Note: If the disk ever gets corrupted, data recovery might
+be possible using a backup of the LUKS header. However, before
+creating a backup, ensure that the header will not be stored on an
+unencrypted storage device, especially when there's a risk of losing
+the laptop. As a precaution, turn off swap using the swapoff command
+and save the backup in /dev/shm/. The resulting backup file
+crypt_headers.img will have a size of 16MB.
+
+```
+ cryptsetup luksHeaderBackup /dev/nvme0n1p4 --header-backup-file /dev/shm/crypt_headers.img
 
 ```
 
+
+### Configuring Initramfs 
+
+```
+# Replace the initramfs configuration script:
+
 cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
 chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+# Generate the initramfs image. Note that crypt and dm modules are included:
 
 dracut \
   -m " kernel-modules base rootfs-block crypt dm " \
   --filesystems " squashfs vfat overlay " \
   --kver=6.3.12-gentoo-x86_64 \
   --force \
-  /boot/initramfs20230729_squash-6.3.12-gentoo-x86_64.img
+  /boot/initramfs20230729_squash_crypt-6.3.12-gentoo-x86_64.img
 
+# Please make sure that /boot is mounted /dev/nvme0n1p1 using `mount|grep boot`
+# /dev/nvme0n1p1 on /boot type vfat
+
+# Lastly, add a new entry in grub.cfg:
+# sudo emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20230729 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init
+	initrd	/initramfs20230729_squash_crypt-6.3.12-gentoo-x86_64.img
+}
 
 
 ```
