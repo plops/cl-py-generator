@@ -1049,13 +1049,23 @@ potential solution to this challenge.
    - Concluding the aforementioned processes, the initramfs will
      transition the rootfs over to the overlayfs.
 
-By implementing this encrypted hard drive proposal, we aim to bolster
-security, ensuring data integrity and confidentiality, even in adverse
-situations.
+## Limitations & Considerations:
 
-Note that an attacker with access to the hardware may install a
-hardware key logger or modify the unencrypted kernel or initramfs to
-capture the users password. They may also freeze and remove RAM of the
-running system and access the encrypted data in this way. Such
-sophisticated attacks are explicitly outside of the scope of thread
-models we want to protect against.
+It is essential to recognize potential vulnerabilities, even with
+encryption:
+
+- **Hardware Attacks**: An attacker with physical access to the
+  hardware could potentially install a hardware key logger or alter
+  the unencrypted kernel or initramfs to capture the user's password.
+
+- **RAM Exploitation**: Technically advanced attackers might freeze
+  and remove the RAM from a running system to access encrypted data.
+
+However, it's worth noting that our security measures are not designed
+to counter such sophisticated attacks. These specific threat models
+lie outside the scope of the protection we intend to offer through
+this proposal.
+
+By implementing this encrypted hard drive proposal, we aim to bolster
+security, ensuring data integrity and confidentiality against common
+threat models.
