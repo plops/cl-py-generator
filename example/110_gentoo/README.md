@@ -1102,6 +1102,17 @@ mkfs.ext4 -L rootfs /dev/mapper/vg
 ### Initramfs configuration
 
 ```
-add_dracutmodules+=" crypt dm rootfs-block "
+
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20230729_squash-6.3.12-gentoo-x86_64.img
+
+
 
 ```
