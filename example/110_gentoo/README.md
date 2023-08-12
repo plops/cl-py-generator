@@ -1097,6 +1097,11 @@ cryptsetup luksOpen /dev/nvme0n1p4 vg
 mkfs.ext4 -L rootfs /dev/mapper/vg
 
 
+# copy squashfs to encrypted disk
+mount /dev/nvme0n1p3 /mnt3/
+mount /dev/mapper/vg /media/
+cp -r /mnt3/gentoo_20230729.squashfs /media/
+
 ```
 
 ### Initramfs configuration
