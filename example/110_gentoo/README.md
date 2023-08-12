@@ -1010,3 +1010,30 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 
 - add mold (81MB installed), ccache (7MB installed), include-what-you-use (18.5MB)
 - add liquid-dsp (1.7MB)
+
+
+Revise the following text for inclusion into a technical document:
+
+# Proposal for an encrypted hard drive
+
+- saving passwords for websites and cookies on persistant storage make
+  a browser more convenient to use. 
+- if the laptop is lost or stolenon the train, then we don't want the
+  finder to easily use our online credentials. disk encryption can
+  take care of that.
+
+
+- Gentoo disk encryption is documented here:
+  https://wiki.gentoo.org/wiki/Full_Disk_Encryption_From_Scratch_Simplified
+
+- create a partition on nvme that is encrypted with luks
+- the grub partition, kernel and initramfs may stay unencrypted
+  (decrypting a partition from grub is possible but cumbersome and
+  problematic when things go wrong).
+- the encrypted partition contains an ext4 filesystem, which contains
+  the squashfs file as well as the upperdir for an overlayfs
+- at every boot the initramfs asks the user for the password and
+  copies the squashfs file into ram. it configures the overlayfs to
+  read from the squashfs (in RAM) and write changes into the ext4
+  system on the encrypted LUKS partition. finally the initramfs
+  switches the rootfs into the overlayfs.
