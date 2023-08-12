@@ -1012,28 +1012,50 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 - add liquid-dsp (1.7MB)
 
 
-Revise the following text for inclusion into a technical document:
+# Encrypted Hard Drive Implementation Proposal
 
-# Proposal for an encrypted hard drive
+## Overview:
+Storing website passwords and cookies on persistent storage enhances
+browser convenience. However, in the event that a laptop is misplaced
+or stolen, it is crucial to ensure unauthorized individuals cannot
+easily access stored online credentials. Disk encryption is a
+potential solution to this challenge.
 
-- saving passwords for websites and cookies on persistant storage make
-  a browser more convenient to use. 
-- if the laptop is lost or stolenon the train, then we don't want the
-  finder to easily use our online credentials. disk encryption can
-  take care of that.
+## Proposal Details:
 
+1. **Reference**: Comprehensive documentation on Gentoo disk
+   encryption can be found at the following link:
+  [Gentoo Full Disk Encryption Guide](https://wiki.gentoo.org/wiki/Full_Disk_Encryption_From_Scratch_Simplified)
 
-- Gentoo disk encryption is documented here:
-  https://wiki.gentoo.org/wiki/Full_Disk_Encryption_From_Scratch_Simplified
+2. **Encryption Process**:
+   - Set up an encrypted partition on the NVMe drive using LUKS (Linux
+     Unified Key Setup).
+   - Retain the grub partition, kernel, and initramfs in an
+     unencrypted state. Although it's technically possible to decrypt
+     a partition from grub, the process is notably intricate and can
+     become problematic in case of errors.
+   - The encrypted partition will house an ext4 filesystem. This
+     filesystem will contain both the squashfs file and the upper
+     directory for an overlayfs.
 
-- create a partition on nvme that is encrypted with luks
-- the grub partition, kernel and initramfs may stay unencrypted
-  (decrypting a partition from grub is possible but cumbersome and
-  problematic when things go wrong).
-- the encrypted partition contains an ext4 filesystem, which contains
-  the squashfs file as well as the upperdir for an overlayfs
-- at every boot the initramfs asks the user for the password and
-  copies the squashfs file into ram. it configures the overlayfs to
-  read from the squashfs (in RAM) and write changes into the ext4
-  system on the encrypted LUKS partition. finally the initramfs
-  switches the rootfs into the overlayfs.
+3. **Boot Process**:
+   - Upon every boot, the initramfs will prompt the user to input the
+     password.
+   - Post-authentication, the initramfs will copy the squashfs file
+     into RAM. Following this, the overlayfs is configured to:
+     - Read from the squashfs (which is located in RAM).
+     - Write any changes to the ext4 system within the encrypted LUKS
+       partition.
+   - Concluding the aforementioned processes, the initramfs will
+     transition the rootfs over to the overlayfs.
+
+By implementing this encrypted hard drive proposal, we aim to bolster
+security, ensuring data integrity and confidentiality, even in adverse
+situations.
+
+Note that an attacker with access to the hardware may install a
+hardware key logger or modify the unencrypted kernel or initramfs to
+capture the users password. They may also freeze and remove RAM of the
+running system and access the encrypted data in this way. Such
+sophisticated attacks are explicitly outside of the scope of thread
+models we want to protect against.
