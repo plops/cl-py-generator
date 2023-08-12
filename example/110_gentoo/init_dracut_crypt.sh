@@ -264,29 +264,35 @@ make_trace_mem "hook cleanup" '1:shortmem' '2+:mem' '3+:slab'
 getarg 'rd.break=cleanup' -d 'rdbreak=cleanup' && emergency_shell -n cleanup "Break cleanup"
 source_hook cleanup
 
-echo "Martin's init script"
 
-mkdir /mnt
-mkdir /mnt5
-mkdir /squash
+echo "Martin's init script for encrypted rootfs"
+
+# Create necessary directories
+mkdir -p /mnt /squash
+
+# Unmount potential pre-mounted partitions
 umount /dev/nvme0n1p1
 umount /dev/nvme0n1p3
 umount /dev/nvme0n1p5
-mount -t ext4 /dev/nvme0n1p3 /mnt
-mount -t ext4 /dev/nvme0n1p5 /mnt5
-mount /mnt/gentoo_20230729.squashfs /squash
-mkdir -p /mnt5/persistent/lower
-mkdir -p /mnt5/persistent/work
-mount -t overlay overlay -o upperdir=/mnt5/persistent/lower,lowerdir=/squash,workdir=/mnt5/persistent/work /sysroot 
-#mount --types proc /proc /proc
-#mount --rbind /sys /sys
-#mount --make-rslave /sys
-#mount --rbind /dev /dev
-#mount --make-rslave /dev
-#mount --bind /run /run
-#mount --make-slave /run 
-#exec switch_root  /sbin/init
 
+# Decrypt the LUKS encrypted partition
+cryptsetup luksOpen /dev/nvme0n1p4 vg
+
+# If you use lvm you might need to activate all known volume groups
+# vgchange -ay
+
+# Mount the ext4 filesystems
+mount -t ext4 /dev/mapper/vg /mnt
+
+# Mount the squashfs
+mount /mnt/gentoo_20230729.squashfs /squash
+
+# Set up directories for overlayfs
+mkdir -p /mnt/persistent/lower
+mkdir -p /mnt/persistent/work
+
+# Mount overlayfs
+mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work /sysroot 
 
 
 # By the time we get here, the root filesystem should be mounted.
