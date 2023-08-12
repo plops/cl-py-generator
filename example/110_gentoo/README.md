@@ -1016,10 +1016,11 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 
 ## Overview:
 Storing website passwords and cookies on persistent storage enhances
-browser convenience. However, in the event that a laptop is misplaced
-or stolen, it is crucial to ensure unauthorized individuals cannot
-easily access stored online credentials. Disk encryption is a
-potential solution to this challenge.
+convenience of the webbrowser and Linux system. However, in the event
+that a laptop is misplaced or stolen, it is crucial to ensure
+unauthorized individuals cannot easily access stored online
+credentials. Disk encryption is a potential solution to this
+challenge.
 
 ## Proposal Details:
 
@@ -1069,3 +1070,38 @@ this proposal.
 By implementing this encrypted hard drive proposal, we aim to bolster
 security, ensuring data integrity and confidentiality against common
 threat models.
+
+## Implementation
+
+### Prepare the encrypted partition
+
+```
+sudo su
+fdisk /dev/nvme0n1
+# look what partition we can use
+# i decided to use p4
+
+cryptsetup luksFormat --key-size 512 /dev/nvme0n1p4
+
+# if the disk ever gets corrupted we may be able to recover the data with a copy of the luks header
+# before running this command make sure that this header will not be stored on an
+# unencrypted storage device that may be present when the laptop gets lost or stolen
+# so turn off swap with `swapoff` and only write into /dev/shm/ 
+
+# cryptsetup luksHeaderBackup /dev/nvme0n1p4 --header-backup-file /dev/shm/crypt_headers.img
+
+# the filesize of crypt_headers.img is 16MB
+
+
+cryptsetup luksOpen /dev/nvme0n1p4 vg
+mkfs.ext4 -L rootfs /dev/mapper/vg
+
+
+```
+
+### Initramfs configuration
+
+```
+add_dracutmodules+=" crypt dm rootfs-block "
+
+```
