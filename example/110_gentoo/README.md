@@ -1109,6 +1109,41 @@ sudo systemctl list-timers
 ```
 
 
+The `tlp.log` file provides detailed insights into various hardware
+and system performance metrics. An excerpt from such a log might look
+like:
+
+
+```
++++ AMD Radeon Graphics
+/sys/class/drm/card0/device/power_dpm_force_performance_level     = auto
+
++++ Wireless
+hci0(btusb)                   : bluetooth, connected
+wlan0(rtw89_8852be)           : wifi, connected, power management = off
+
+
+  SMART info:
+    Critical Warning:                   0x00
+    Temperature:                        47 Celsius
+    Available Spare:                    100%
+    Available Spare Threshold:          10%
+
+/sys/class/power_supply/BAT0/energy_full                    =  36700 m
+/sys/class/power_supply/BAT0/energy_now                     =  26780 m
+/sys/class/power_supply/BAT0/power_now                      =  28148 m
+/sys/class/power_supply/BAT0/status                         = Charging
+
+Charge                                                      =   73.0 [%]
+
+```
+
+The `tlp.log` file captures a lot of different data, making it really
+useful for checking system details or fixing issues. We record all
+this information because even if we're not sure what we'll need,
+having everything saved means we're prepared for any situation in the
+future.
+
 # Encrypted Hard Drive Implementation Proposal
 
 ## Overview:
