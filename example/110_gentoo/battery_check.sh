@@ -1,5 +1,9 @@
 #!/bin/bash
 
+export DISPLAY=:0
+export XAUTHORITY=/home/martin/.Xauthority
+
+
 # Path to the battery capacity file
 BATTERY_PATH="/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:27/PNP0C09:00/PNP0C0A:00/power_supply/BAT0/capacity"
 
