@@ -1065,6 +1065,50 @@ sudo systemctl enable --now battery_check.timer
 
 ```
 
+# Collect System Statistics
+
+The following procedure outlines the creation and management of a
+systemd service and timer to periodically gather system statistics
+using tlp-stat. The service will log these statistics every minute,
+ensuring that the most recent system data is readily available for
+diagnostics or analysis.
+
+```
+cat << EOF > /etc/systemd/system/tlp-stat-logger.service
+[Unit]
+Description=Log tlp-stat output
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "echo 'datetime: \$(date "+%%Y-%%m-%%d %%H:%%M:%%S")' >> /var/log/tlp.log && tlp-stat >> /var/log/tlp.log"
+EOF
+
+
+cat << EOF > /etc/systemd/system/tlp-stat-logger.timer
+[Unit]
+Description=Run tlp-stat-logger every minute
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=timers.target
+EOF
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable tlp-stat-logger.timer
+sudo systemctl start tlp-stat-logger.timer
+
+# check active timers
+
+sudo systemctl list-timers
+
+
+```
+
+
 # Encrypted Hard Drive Implementation Proposal
 
 ## Overview:
