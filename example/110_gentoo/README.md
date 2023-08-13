@@ -1010,6 +1010,7 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 
 - add mold (81MB installed), ccache (7MB installed), include-what-you-use (18.5MB)
 - add liquid-dsp (1.7MB)
+- add glfw (0.6MB)
 
 
 # Encrypted Hard Drive Implementation Proposal
