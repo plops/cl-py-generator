@@ -1080,7 +1080,7 @@ Description=Log tlp-stat output
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c "echo 'datetime: \$(date "+%%Y-%%m-%%d %%H:%%M:%%S")' >> /var/log/tlp.log && tlp-stat >> /var/log/tlp.log"
+ExecStart=/bin/sh -c "echo -n 'datetime: ' >> /var/log/tlp.log; date +%Y-%m-%d_%H:%M:%S >> /var/log/tlp.log && tlp-stat >> /var/log/tlp.log"
 EOF
 
 
