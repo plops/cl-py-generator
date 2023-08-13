@@ -1011,7 +1011,59 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 - add mold (81MB installed), ccache (7MB installed), include-what-you-use (18.5MB)
 - add liquid-dsp (1.7MB)
 - add glfw (0.6MB)
+- add fftw sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
 
+
+## Battery Low Warning
+
+### Objective
+
+Implement a warning system that alerts the user with a sound and
+changes the desktop background when the battery charge drops below
+20%.
+
+### Dependencies
+
+- *sox* - For generating and playing the warning beep.
+- *xsetroot* - To change the desktop background color.
+
+- add sox and xsetroot to warn when battery needs to be recharged 
+```
+media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack
+```
+
+- Install the script and configure systemd service with timer.
+
+```
+sudo cp battery_check.sh /usr/bin
+sudo chmod +x /usr/bin/battery_check.sh
+
+
+cat << EOF > /etc/systemd/system/battery_check.service
+[Unit]
+Description=Check Battery Status
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/battery_check.sh
+EOF
+
+cat << EOF > /etc/systemd/system/battery_check.timer
+[Unit]
+Description=Run battery_check.service every minute
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=timers.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now battery_check.timer
+
+```
 
 # Encrypted Hard Drive Implementation Proposal
 

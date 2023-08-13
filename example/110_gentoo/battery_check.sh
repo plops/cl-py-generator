@@ -8,8 +8,9 @@ BATTERY_PERCENT=$(cat $BATTERY_PATH)
 
 # Check if battery percentage is less than or equal to 20
 if [ "$BATTERY_PERCENT" -le 20 ]; then
-    # Beep for alert
-    beep
+    # Play a Star Trek-like communicator beep (two frequencies)
+    play -n synth 0.15 sin 1000 vol 0.5 : newfile : synth 0.15 sin 1400 vol 0.5
+
     # Change background to solid red
     xsetroot -solid red
 else
