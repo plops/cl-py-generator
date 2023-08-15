@@ -1282,3 +1282,26 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist crypt ssd ' --class gent
 
 
 ```
+
+# Encrypted partition with btrfs
+
+```
+# build btrfs tools
+emerge btrfs-progs
+# compile btrfs kernel module
+make modules_install
+depmod -a
+modprobe btrfs
+
+```
+
+- https://gist.github.com/MaxXor/ba1665f47d56c24018a943bb114640d7
+
+```
+cryptsetup luksFormat -v -c aes-xts-plain64 -h sha512 --key-size 512 /dev/nvme0n1p5
+
+cryptsetup luksOpen /dev/nvme0n1p5 p5
+mkfs.btrfs /dev/mapper/p5
+mount -t btrfs -o defaults,noatime,compress=zstd /dev/mapper/p5 /mnt5
+
+```
