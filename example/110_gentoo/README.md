@@ -1012,7 +1012,7 @@ menuentry 'Gentoo GNU/Linux 20230729 ram squash persist ssd' --class gentoo --cl
 - add liquid-dsp (1.7MB)
 - add glfw (0.6MB)
 - add fftw sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
-
+- add btrfs-progs and kernel driver
 
 ## Battery Low Warning
 
