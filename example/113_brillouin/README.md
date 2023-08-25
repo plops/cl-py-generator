@@ -29,3 +29,9 @@
 
 - brillouin resonance has linewidth of 30MHz. this is related to the
   phonon lifetime in silica. the line has a lorentzian shape.
+
+
+- https://youtu.be/GEOAt2QolHA?t=1322 at a certain input power the
+  billouin threshold is crossed (and more than 1%) is reflected. above
+  this threshold increasing the input power does not increase the
+  transmitted power.
