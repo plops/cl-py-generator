@@ -179,3 +179,120 @@ Beugnot, here's the revised list of bullet points:
     measurements of acoustic decay time in silica fibers (11ns) and
     PCF (6ns), noting that it's interesting but not brought to a
     definitive conclusion.
+
+
+- next video
+
+Revise my list of bullet points of the contents of this video: 
+https://youtu.be/vzKPZDvvmDs
+
+
+- increasing wirediameter has higher Brillouin frequency shift https://youtu.be/vzKPZDvvmDs?t=306
+
+- interesting method for distributed brillouin sensing:
+  phase-correlation https://youtu.be/vzKPZDvvmDs?t=863
+
+  - pump and signal are pseudo-random phase modulated
+
+  - this is used to get a high spatial resolution (10mm) inside a
+    taper with a length < 10m
+
+  - measure at two different polarisations
+
+- simulated brillouin spectrum along taper https://youtu.be/vzKPZDvvmDs?t=1162
+
+- how to measure diameter of taper https://youtu.be/vzKPZDvvmDs?t=1296
+
+  - use brillouin scattering!
+
+  - 780nm vs 800nm https://youtu.be/vzKPZDvvmDs?t=1441
+
+  - simulate brillouin spectrum for diameter variation
+
+  - only works for diameter < 3um
+
+
+- taper in ethanol for second harmonic generation
+
+- brillouin lasers in chalcogenide or silicon nitride waveguides
+
+
+
+It appears that the video titled "Stimulated Brillouin scattering in
+optical fibers: from fundamentals to applications (2)" by Jean-Charles
+Beugnot has disabled subtitles, so I'm unable to access the transcript
+to verify the content. However, based on the information you provided,
+here's the revised list of bullet points:
+
+- *Brillouin Frequency Shift with Wire Diameter* : Increasing the wire diameter results in a higher Brillouin frequency shift. https://youtu.be/vzKPZDvvmDs?t=306
+
+- *Distributed Brillouin Sensing Using Phase-Correlation* :
+  - An interesting method for distributed Brillouin sensing is introduced using phase-correlation. https://youtu.be/vzKPZDvvmDs?t=863
+  - The pump and signal are pseudo-random phase modulated.
+  - This technique is used to achieve high spatial resolution (10mm) inside a taper with a length of less than 10m.
+  - Measurements are taken at two different polarizations.
+
+- *Simulated Brillouin Spectrum Along Taper* : The video presents a simulated Brillouin spectrum along the taper. https://youtu.be/vzKPZDvvmDs?t=1162
+
+- *Measuring Diameter of Taper Using Brillouin Scattering* :
+  - The video explains how to measure the diameter of a taper using Brillouin scattering. https://youtu.be/vzKPZDvvmDs?t=1296
+  - It compares 780nm vs 800nm. https://youtu.be/vzKPZDvvmDs?t=1441
+  - The video also includes a simulation of the Brillouin spectrum for diameter variation.
+  - This method only works for diameters less than 3um.
+
+- *Taper in Ethanol for Second Harmonic Generation* : The video discusses using a taper in ethanol for second harmonic generation.
+
+- *Brillouin Lasers in Chalcogenide or Silicon Nitride Waveguides* : The video concludes with a mention of work related to Brillouin lasers in chalcogenide or silicon nitride waveguides.
+
+
+
+Please note that without access to the video transcript, I'm relying on the information you provided. If you have any specific requests for further details or adjustments, please let me know!
+
+
+Revise my list of bullet points of the contents of this video: 
+https://youtu.be/utJXfmOOwXI
+
+- fabrication of freestanding waveguide on a photonics platform with
+  gain and phase modulators: https://youtu.be/utJXfmOOwXI?t=263
+
+- measurement of stimulated brillouin scattering using cross-phase
+  modulation scheme https://youtu.be/utJXfmOOwXI?t=273
+
+  - pump is amplidude modulated (carrier and two sidebands)
+
+  - injected with weak probe
+
+  - cross-phase modulation from the strongly amplified pump leads to
+    modulation of probe at the output of the waveguides
+
+  - bandpass removes the pump
+
+  - fiber bragg grating with 2.5GHz bandwidth removes the higher
+    sideband (anti-stokes) from the probe, this converts phase
+    modulation in the probe into intensity modulation that can be
+    measured with photodiode
+
+  - vector network analyzer RF output is fed into intensity modulator
+
+  - they observe fano resonance from interferance of narrow band sbs
+    and wide-band kerr-nonlinearity
+
+  - each fano-resonance corresponds to a different mechanical mode in
+    the rib waveguide
+
+
+
+
+- *Introduction to Stimulated Brillouin Scattering (SBS)* : A brief introduction to SBS, a nonlinear interaction between optical photons and acoustic phonons in a photonic waveguide, is provided. The video explains the dispersion diagram and the conditions for forward SBS.
+
+- *Fabrication of Freestanding Waveguide on a Photonics Platform* : The video discusses the fabrication of freestanding waveguides on an active silicon photonics platform, IMEC's iSiP50G, with gain and phase modulators. This enables advanced on-chip applications and commercialization. [Watch segment](https://youtu.be/utJXfmOOwXI?t=263)
+
+- *Design of Brillouin Active Waveguides* : Two different kinds of rib waveguides, FC and SKT, are designed. The waveguides differ in edge depth, and the silicon waveguides are suspended to achieve good acoustic mode confinement.
+
+- *Measurement of Stimulated Brillouin Scattering Using Cross-Phase Modulation Scheme* :
+  - The pump is amplitude modulated (carrier and two sidebands) and injected with a weak probe. [Watch segment](https://youtu.be/utJXfmOOwXI?t=273)
+  - Cross-phase modulation from the strongly amplified pump leads to modulation of the probe at the output of the waveguides.
+  - A bandpass removes the pump, and a fiber Bragg grating with 2.5GHz bandwidth removes the higher sideband (anti-stokes) from the probe, converting phase modulation into intensity modulation.
+  - A vector network analyzer RF output is fed into an intensity modulator.
+  - Fano resonance is observed from interference of narrow-band SBS and wide-band Kerr nonlinearity.
+  - Each Fano-resonance corresponds to a different mechanical mode in the rib waveguide.
