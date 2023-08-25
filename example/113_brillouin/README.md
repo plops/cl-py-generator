@@ -15,6 +15,10 @@
 - it is not necessary to have a counterpropagating signal, the
   compression wave can also build up from noise.
 
+- for telecommunication brillouin scattering limits the maximum power
+  that can be carried. a fiber with 20dB/km attenuation can only carry
+  35mW
+
 
 
 - forward scattering is not a shear mode with low frequency shift
