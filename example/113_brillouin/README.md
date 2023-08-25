@@ -23,3 +23,5 @@
 
 
 
+- brillouin resonance has linewidth of 30MHz. this is related to the
+  phonon lifetime in silica. the line has a lorentzian shape.
