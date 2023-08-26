@@ -46,3 +46,10 @@ https://vp208.alertir.com/afw/files/press/hexagon/202307257916-1.pdf
 - **Net Debt**: Increased to 3,864.4 MEUR.
 - **Interest Coverage Ratio**: Dropped to 9.2 times.
 
+
+
+### Specific
+
+ The Manufacturing Intelligence division did record 11% organic
+ growth, driven by increased demand across both hardware and software
+ (Page 4).
