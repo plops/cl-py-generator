@@ -1,0 +1,25 @@
+Make a bullet list summary of this video
+https://www.youtube.com/watch?v=80bIUggRJf4
+
+
+*Video Summary: The KV Cache: Memory Usage in Transformers*
+
+- *Introduction*
+  - Discusses the memory limitations of Transformer models, especially during text generation.
+
+- *Review of Self-Attention*
+  - Explains the self-attention mechanism in Transformers.
+  - Highlights how query, key, and value vectors are generated.
+
+- *How the KV Cache Works*
+  - Introduces the concept of the KV (Key-Value) cache.
+  - Explains that the KV cache stores previous context to avoid redundant calculations.
+
+- *Memory Usage and Example*
+  - Provides an equation for calculating the memory usage of the KV cache.
+  - Gives an example with a 30 billion parameter model, showing that the KV cache can take up to 180 GB.
+
+- *Latency Considerations*
+  - Discusses the latency difference between processing the prompt and subsequent tokens due to the KV cache.
+
+The video provides an in-depth look at the KV cache, a crucial component that significantly impacts the memory usage and efficiency of Transformer models. It explains how the KV cache works, its role in self-attention, and its implications for memory usage and latency.
