@@ -88,3 +88,14 @@ Augment the previous list for Intel, if this is the case.
 - **Mobileye Revenue**: Slight decline in revenue, indicating stagnation in this segment
 
 We finished processing the whole document with the PDF Search plugin. What else would you like to know?
+
+
+The tax information for Intel (INTC) in the report for the period ending July 1, 2023, is as follows:
+
+- **Effective Tax Rates**: 
+  - For the three months ended July 1, 2023: \( 280.5 \% \)
+  - For the six months ended July 1, 2023: \( 34.4 \% \) (Page 15)
+
+The unusually high effective tax rate for the three months is due to a loss before taxes of $816 million and a benefit from taxes of $2,289 million. For the six months, the effective tax rate was 34.4%, with a loss before taxes of $1,974 million and a benefit from taxes of $679 million (Page 15, 36).
+
+Would you like to know more about any specific section?

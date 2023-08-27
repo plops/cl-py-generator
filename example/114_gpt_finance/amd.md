@@ -34,3 +34,11 @@ https://ir.amd.com/sec-filings/content/0000002488-23-000139/0000002488-23-000139
 - Operating income is negative, indicating operational inefficiencies or high costs.
 - Negative cash flows in operating, investing, and financing activities.
 - Relatively low earnings per share.
+
+The tax information for AMD in the report for the period ending July 1, 2023, is as follows:
+
+- **Effective Tax Rates**: 
+  - For the three months ended July 1, 2023: \( (511.4) \% \)
+  - For the six months ended July 1, 2023: \( 8.0 \% \) (Page 19, 27)
+
+The negative effective tax rate for the three months is due to the company recording an income tax benefit of $23 million, largely because the pre-tax income was close to break-even for the period. For the six months, the effective tax rate was 8.0%, with an income tax benefit of $10 million (Page 19, 27).

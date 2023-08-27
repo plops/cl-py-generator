@@ -41,3 +41,12 @@ The document is quite extensive, and this is a partial summary. Would you like t
 3. **Operating Expenses**: While not necessarily a bad sign, operating expenses did increase by 6% QoQ and 10% YoY, which could impact future profitability if not managed well.
 
 [Source: NVIDIA Corporation Form 8-K Report](https://d18rn0p25nwr6d.cloudfront.net/CIK-0001045810/82a484ae-0f3f-4c5f-9d9d-a5a31de409dc.pdf)
+
+The tax information for NVIDIA in the report for the period ending July 30, 2023, is as follows:
+
+- **GAAP Effective Tax Rate**: 11.4%
+- **Non-GAAP Effective Tax Rate**: 14.6% (Page 18)
+
+These rates reflect tax benefits from foreign-derived intangible income deduction, stock-based compensation, and the U.S. federal research tax credit.
+
+Is there anything else you'd like to know?
