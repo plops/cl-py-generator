@@ -1305,3 +1305,7 @@ mkfs.btrfs /dev/mapper/p5
 mount -t btrfs -o defaults,noatime,compress=zstd /dev/mapper/p5 /mnt5
 
 ```
+
+# next
+
+- need support for sdcard (mmc_block and sdhci)

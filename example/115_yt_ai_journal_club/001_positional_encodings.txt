@@ -2,30 +2,30 @@ Make a bullet list summary of this video
 https://www.youtube.com/watch?v=o29P0Kpobz0
 
 
-### Video Summary: Rotary Positional Embeddings: Combining Absolute and Relative
+*Video Summary: Rotary Positional Embeddings: Combining Absolute and Relative*
 
-- **Introduction**
+- *Introduction*
   - Discusses the importance of positional embeddings in Transformer models.
   
-- **Absolute Positional Embeddings**
+- *Absolute Positional Embeddings*
   - Explains how absolute positional embeddings work.
   - Highlights limitations like fixed sequence length and lack of relative context.
   
-- **Relative Positional Embeddings**
+- *Relative Positional Embeddings*
   - Introduces the concept of relative positional embeddings.
   - Discusses the computational challenges and inefficiencies.
   
-- **Rotary Positional Embeddings (RoPE)**
+- *Rotary Positional Embeddings (RoPE)*
   - Combines the advantages of both absolute and relative embeddings.
   - Uses rotation to encode position, preserving relative distances.
   
-- **Matrix Formulation**
+- *Matrix Formulation*
   - Explains the mathematical formulation behind RoPE.
   
-- **Implementation**
+- *Implementation*
   - Shows how RoPE can be implemented efficiently in PyTorch.
   
-- **Experiments and Conclusion**
+- *Experiments and Conclusion*
   - Shares results of experiments showing RoPE's effectiveness and efficiency compared to other methods.
 
 The video provides a comprehensive overview of Rotary Positional Embeddings, a new method that combines the strengths of both absolute and relative positional embeddings. It delves into the mathematical details and practical implementation, concluding with experimental results that validate its effectiveness.
