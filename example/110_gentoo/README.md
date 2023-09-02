@@ -1333,6 +1333,9 @@ archlinux /home/martin # swapon /dev/nvme0n1p2
 
 ```
 
+- compiling firefox takes too long (also its dependencies nodejs and
+  librsvg). i think it would be an improvement to install the binary
+
 
 - i have installed the following extra packages while running on
   overlayfs (on nvme0n1p4):
