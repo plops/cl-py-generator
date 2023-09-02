@@ -1322,6 +1322,16 @@ emerge --depclean
 ```
 - 163 packages need to be updated
 
+- during the last package (firefox) the laptop became very sluggish
+  and i had to reboot. i still want to compile firefox with -j12. so i
+  turned on swap
+```
+archlinux /home/martin # mkswap /dev/nvme0n1p2
+Setting up swapspace version 1, size = 18 GiB (19327348736 bytes)
+no label, UUID=c8f97a2d-3dd9-4d87-bc6c-40cb7d75d34b
+archlinux /home/martin # swapon /dev/nvme0n1p2
+
+```
 
 
 - i have installed the following extra packages while running on
@@ -1376,7 +1386,14 @@ net-libs/grpc ~amd64
 cd /usr/src/linux
 sudo make menuconfig
 
-btrfs is already configured as a module
+# btrfs is already configured as a module
+# just install the kernel and module
+make modules_install
+make install
+
+# maybe i will have to update the initramfs. but i don't know how to
+# do that anymore for the kernel that boots directly from the disk
+
 ```
 
 
