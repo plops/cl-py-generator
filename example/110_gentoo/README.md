@@ -1309,3 +1309,91 @@ mount -t btrfs -o defaults,noatime,compress=zstd /dev/mapper/p5 /mnt5
 # next
 
 - need support for sdcard (mmc_block and sdhci)
+
+
+# update 2023-09-02
+
+- start system from nvme0n1p3 (instead of squashfs)
+- eix-sync
+
+```
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+emerge --depclean
+```
+- 163 packages need to be updated
+
+
+
+- i have installed the following extra packages while running on
+  overlayfs (on nvme0n1p4):
+
+```
+sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
+
+media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack# required by net-analyzer/wireshark-4.0.6::gentoo[minizip]
+# required by wireshark (argument)
+>=sys-libs/zlib-1.2.13-r1 minizip
+# required by x11-misc/xdg-utils-1.1.3_p20210805-r1::gentoo
+# required by net-analyzer/wireshark-4.0.6::gentoo[gui]
+# required by wireshark (argument)
+>=app-text/xmlto-0.0.28-r10 text
+# required by app-text/evince-44.2::gentoo
+# required by evince (argument)
+>=app-text/poppler-23.05.0 cairo
+# required by gnome-base/gnome-keyring-42.1-r2::gentoo
+# required by virtual/secret-service-0::gentoo
+# required by app-crypt/libsecret-0.20.5-r3::gentoo
+>=app-crypt/gcr-3.41.1-r2:0 gtk
+app-text/mupdf X drm javascript ssl opengl# required by media-gfx/gimp-2.10.34-r1::gentoo
+# required by gimp (argument)
+>=media-libs/gegl-0.4.44 cairo
+net-misc/tigervnc drm nls -opengl -server viewer -dri3 -gnutls -java -xinerama
+
+net-libs/liquid-dsp ~amd64
+sys-fs/duf ~amd64
+
+dev-python/grpcio ~amd64
+dev-python/grpcio-tools ~amd64dev-libs/protobuf ~amd64
+net-libs/grpc ~amd64
+
+```
+
+- i also added some files and have to save the browser config. copy
+  this data to encrypted partition p4 or p5 and copy into overlayfs on
+  first boot from squashfs. don't forget network script in /
+
+- in this update cycle i want to add:
+  - fftw mupdf tigervnc (viewer only) duf liquid-dsp grpc grpcio grpcio-tools feh glfw fdupes
+  - btrfs kernel module and btrfs-progs
+  
+- add mold (81MB installed), ccache (7MB installed), include-what-you-use (18.5MB)
+- add liquid-dsp (1.7MB)
+- add glfw (0.6MB)
+- add fftw sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
+
+
+```
+cd /usr/src/linux
+sudo make menuconfig
+
+btrfs is already configured as a module
+```
+
+
+- i don't think i need gimp wireshark evince openjdk bazel fltk fuse zeromq go svn bazel
+
+
+```
+
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20230902_squash_crypt-6.3.12-gentoo-x86_64.img
+
+
+```
