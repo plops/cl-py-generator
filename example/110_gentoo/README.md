@@ -1832,6 +1832,7 @@ mount -t ext4 /dev/mapper/vg /mnt
 mount /mnt/gentoo_20230903.squashfs /squash
 ```
 
+
 ```
 cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
 chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
@@ -1843,5 +1844,88 @@ dracut \
   --force \
   /boot/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
 
+
+```
+
+- we will have to place a new squashfs into /mnt4
+
+
+```
+
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_20230903.squashfs
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 1 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+persistent
+
+# 36sec
+Filesystem size 2259640.29 Kbytes (2206.68 Mbytes)
+        35.33% of uncompressed filesystem size (6395377.19 Kbytes)
+Unrecognised xattr prefix system.posix_acl_access
+
+# the new squashfs is 100MB larger than the old one
+ls -ltrh /mnt4/*.squashfs
+-rw-r--r-- 1 root root 2.1G Aug 12 21:42 /mnt4/gentoo_20230729.squashfs
+-rw-r--r-- 1 root root 2.2G Sep  3 10:25 /mnt4/gentoo_20230903.squashfs
+
+
+```
+
+- check grub config, add the new entry
+
+```
+ emacs /boot/grub/grub.cfg
+
+
+menuentry 'Gentoo GNU/Linux 20230903 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
+}
 
 ```
