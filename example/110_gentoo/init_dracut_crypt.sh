@@ -285,7 +285,7 @@ cryptsetup luksOpen /dev/nvme0n1p4 vg
 mount -t ext4 /dev/mapper/vg /mnt
 
 # Mount the squashfs
-mount /mnt/gentoo_20230729.squashfs /squash
+mount /mnt/gentoo_20230903.squashfs /squash
 
 # Set up directories for overlayfs
 mkdir -p /mnt/persistent/lower

@@ -1823,6 +1823,15 @@ mv persistent persistent_backup_on20230903
 - make sure the important directories are readable
 
 
+- modify filename for squashfs in init_dracut_crypt.sh
+```
+# Mount the ext4 filesystems
+mount -t ext4 /dev/mapper/vg /mnt
+
+# Mount the squashfs
+mount /mnt/gentoo_20230903.squashfs /squash
+```
+
 ```
 cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
 chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
@@ -1832,7 +1841,7 @@ dracut \
   --filesystems " squashfs vfat overlay " \
   --kver=6.3.12-gentoo-x86_64 \
   --force \
-  /boot/initramfs20230902_squash_crypt-6.3.12-gentoo-x86_64.img
+  /boot/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
 
 
 ```
