@@ -1792,6 +1792,33 @@ find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s
 2023-09-03 09:47:20.1577371450 +0200 btrfs-progs-6.3.3-1.gpkg.tar size=1177600
 ```
 
+- backup persistent storage
+```
+cryptsetup luksOpen /dev/nvme0n1p4 p4
+cryptsetup luksOpen /dev/nvme0n1p5 p5
+mount /dev/mapper/p4 /mnt4
+mount /dev/mapper/p5 /mnt5
+
+rsync -avhHAX --progress --numeric-ids /mnt4/persistent/lower/ /mnt5/persistent_backupon20230903
+
+#    -a : Archive mode. This tells rsync to copy all files, including directories, links, special files, and ACLs.
+#    v : Verbose. This tells rsync to print more information about the transfer.
+#    h : Human-readable. This tells rsync to print sizes in human-readable format.
+#    H : Hard links. This tells rsync to preserve hard links.
+#    A : Acls. This tells rsync to preserve ACLs.
+#    X : Exclude extended attributes. This tells rsync to exclude extended attributes.
+#    --progress : Show progress during transfer.
+#    --numeric-ids : Don't map uid/gid values by user/group name. This tells rsync to transfer the numeric IDs of the users and groups instead of their names.
+
+# bit slow, try with less logging
+
+rsync -ahHAX --numeric-ids /mnt4/persistent/lower/ /mnt5/persistent_backupon20230903
+# this is 62GB and there isn't enough space on mnt5
+
+```
+- clion and bazel stuff can probably go
+- make sure the important directories are readable
+
 
 ```
 cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
