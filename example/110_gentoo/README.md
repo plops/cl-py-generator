@@ -1924,6 +1924,8 @@ menuentry 'Gentoo GNU/Linux 20230903 ram squash persist crypt ssd ' --class gent
 	insmod fat
 	search --no-floppy --fs-uuid --set=root F63D-5318
 	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
 	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
 	initrd	/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
 }
