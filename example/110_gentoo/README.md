@@ -1983,6 +1983,8 @@ sudo modprobe ryzen_smu
 - i forgot to install grpc (i think)
   - also duf liquid-dsp grpc grpcio grpcio-tools feh fdupes
 
+
+## Build gRPC
 - manually install grpc
   https://github.com/grpc/grpc/blob/v1.57.0/src/cpp/README.md
 - they say one should not install grpc system wide
@@ -1996,10 +1998,11 @@ sudo modprobe ryzen_smu
 git clone -b v1.57.0 https://github.com/grpc/grpc
 cd grpc
 git submodule update --init
+# uses 1.6GB 
 mkdir -p cmake/build
 cd cmake/build
 cmake ../.. -G Ninja \
-      -DCMAKE_INSTALL_PATH=/home/martin/grpc \
+      -DCMAKE_INSTALL_PREFIX=/home/martin/grpc \
       -DBUILD_SHARED_LIBS=ON           \
       -DgRPC_INSTALL=ON                \
       -DCMAKE_BUILD_TYPE=Release       \
@@ -2009,7 +2012,8 @@ cmake ../.. -G Ninja \
       -DgRPC_RE2_PROVIDER=module      \
       -DgRPC_SSL_PROVIDER=package      \
       -DgRPC_ZLIB_PROVIDER=package
-ninja
+time ninja
+# 2353 steps
 ```
 
 - not installed: emerge abseil-cpp c-ares protobuf dev-libs/re2
