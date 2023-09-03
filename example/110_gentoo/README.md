@@ -1977,6 +1977,7 @@ sudo modprobe ryzen_smu
 - also i'm not sure if all the attributes are maintained
 - i think the dates are okay
 
+- copy .ssh folder
 
 ## Forgotten
 - i forgot to check if quicklisp has updates
