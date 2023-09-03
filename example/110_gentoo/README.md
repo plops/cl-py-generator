@@ -1955,4 +1955,5 @@ martin@archlinux ~/Downloads/chrome $ ldd chrome
 ```
 sudo emerge -av nss nspr
 ```
+- ublock o, sponsor
 - i forgot to check if quicklisp has updates
