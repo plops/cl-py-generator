@@ -1934,7 +1934,7 @@ menuentry 'Gentoo GNU/Linux 20230903 ram squash persist crypt ssd ' --class gent
 
 ## After update
 
-- download new: chrome clion sonarlint
+- download new: chrome clion sonarlint protocol_buffers markdown ideolog 
 - move (required) files from /mnt4/backup/lower/home/ into /home
 
 - some libraries that are needed for google-chrome were deleted
