@@ -1956,7 +1956,8 @@ martin@archlinux ~/Downloads/chrome $ ldd chrome
 sudo emerge -av nss nspr
 ```
 - ublock o, sponsor
-- i forgot to check if quicklisp has updates
+
+
 
 - recompile ryzen kernel module
 ```
@@ -1975,3 +1976,44 @@ sudo modprobe ryzen_smu
 - takes quite long and it complained about two files
 - also i'm not sure if all the attributes are maintained
 - i think the dates are okay
+
+
+## Forgotten
+- i forgot to check if quicklisp has updates
+- i forgot to install grpc (i think)
+  - also duf liquid-dsp grpc grpcio grpcio-tools feh fdupes
+
+- manually install grpc
+  https://github.com/grpc/grpc/blob/v1.57.0/src/cpp/README.md
+- they say one should not install grpc system wide
+
+- https://github.com/grpc/grpc/blob/v1.57.0/BUILDING.md
+
+- this file is good it also explains cross-compilation using
+  `-DCMAKE_TOOLCHAIN_FILE=path/to/file`
+  
+```
+git clone -b v1.57.0 https://github.com/grpc/grpc
+cd grpc
+git submodule update --init
+mkdir -p cmake/build
+cd cmake/build
+cmake ../.. -G Ninja \
+      -DCMAKE_INSTALL_PATH=/home/martin/grpc \
+      -DBUILD_SHARED_LIBS=ON           \
+      -DgRPC_INSTALL=ON                \
+      -DCMAKE_BUILD_TYPE=Release       \
+      -DgRPC_ABSL_PROVIDER=module     \
+      -DgRPC_CARES_PROVIDER=module    \
+      -DgRPC_PROTOBUF_PROVIDER=module \
+      -DgRPC_RE2_PROVIDER=module      \
+      -DgRPC_SSL_PROVIDER=package      \
+      -DgRPC_ZLIB_PROVIDER=package
+ninja
+```
+
+- not installed: emerge abseil-cpp c-ares protobuf dev-libs/re2
+- installed: openssl zlib
+
+- here is an example of how to build the dependencies as modules:
+  https://github.com/grpc/grpc/blob/v1.57.0/test/distrib/cpp/run_distrib_test_cmake_module_install.sh
