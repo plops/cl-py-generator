@@ -1813,7 +1813,10 @@ rsync -avhHAX --progress --numeric-ids /mnt4/persistent/lower/ /mnt5/persistent_
 # bit slow, try with less logging
 
 rsync -ahHAX --numeric-ids /mnt4/persistent/lower/ /mnt5/persistent_backupon20230903
-# this is 62GB and there isn't enough space on mnt5
+# this is 62GB and there isn't enough space on mnt5 (only 25GB)
+
+cd /mnt4
+mv persistent persistent_backup_on20230903
 
 ```
 - clion and bazel stuff can probably go
