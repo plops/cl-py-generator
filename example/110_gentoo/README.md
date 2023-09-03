@@ -1335,6 +1335,23 @@ archlinux /home/martin # swapon /dev/nvme0n1p2
 - compiling firefox takes too long (also its dependencies nodejs and
   librsvg). i think it would be an improvement to install the binary
 
+- while compilations are running, we can check the kernel and modules
+
+```
+cd /usr/src/linux
+sudo make menuconfig
+
+# btrfs is already configured as a module
+# just install the kernel and module
+make modules_install
+make install
+
+# maybe i will have to update the initramfs. but i don't know how to
+# do that anymore for the kernel that boots directly from the disk
+
+```
+
+
 - 4 config files in /etc need updating 
 - /etc/sudoers has been misconfigured, would be unfortunate if this change goes into squashfs
 - use the following to revert change
@@ -1354,10 +1371,12 @@ eclean-dist
 #  [  449.9 M ] Total space from 62 files were freed in the packages directory
 eclean-pkg
 # nothing
+revdep-rebuild
+# system is consistent
 ```
 
 - list the new binpkgs, also show and sort by modification time. up to
-  5 were compiled simultaneously, so from the modification times I
+  6 were compiled simultaneously, so from the modification times I
   can't derive the compile times.
 
 ```
@@ -1567,6 +1586,7 @@ net-libs/grpc ~amd64
 
 ```
 
+
 - i also added some files and have to save the browser config. copy
   this data to encrypted partition p4 or p5 and copy into overlayfs on
   first boot from squashfs. don't forget network script in /
@@ -1578,29 +1598,202 @@ net-libs/grpc ~amd64
 - add mold (81MB installed), ccache (7MB installed), include-what-you-use (18.5MB)
 - add liquid-dsp (1.7MB)
 - add glfw (0.6MB)
-- add fftw sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
-
-
-```
-cd /usr/src/linux
-sudo make menuconfig
-
-# btrfs is already configured as a module
-# just install the kernel and module
-make modules_install
-make install
-
-# maybe i will have to update the initramfs. but i don't know how to
-# do that anymore for the kernel that boots directly from the disk
-
-```
-
-
+- add fftw sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus (was already present)
+- replace firefox with firefox-bin
 - i don't think i need gimp wireshark evince openjdk bazel fltk fuse zeromq go svn bazel
+- modify portage config (note: that I recreate the entire config plus updates here):
+
+```
+cat << EOF > /etc/portage/package.accept_keywords/package.accept_keywords
+virtual/dotnet-sdk ~amd64
+net-wireless/iwgtk  ~amd64
+sys-kernel/gentoo-sources ~amd64
+sys-kernel/linux-headers ~amd64
+sys-power/tlp ~amd64
+dev-python/lmfit ~amd64
+dev-python/asteval ~amd64
+dev-python/uncertainties ~amd64
+app-misc/radeontop ~amd64
+
+dev-dotnet/dotnet-sdk-bin ~amd64
+net-wireless/sdrplay ~amd64 
+net-wireless/soapysdr ~amd64
+net-wireless/soapysdrplay ~amd64
+net-wireless/soapyplutosdr ~amd64
+net-libs/libad9361-iio ~amd64
+net-libs/libiio ~amd64
+
+net-libs/liquid-dsp ~amd64
+sys-fs/duf ~amd64
+
+dev-python/grpcio ~amd64
+dev-python/grpcio-tools ~amd64dev-libs/protobuf ~amd64
+net-libs/grpc ~amd64
+EOF
+
+
+cat << EOF > /etc/portage/package.use/package.use
+#www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
+# gmp-autoupdate .. Allow Gecko Media Plugins (binary blobs) to be automatically downloaded and kept up-to-date in user profiles
+# this affects gmpopenh264 and widewinecdm
+# i don't think i need that
+# dns-over-https has been disabled by default (avoid going through cloudflare, can be enabled in preferences)
+# app.normandy.enabled = false by default (mozilla can push changes to settings or install add-ons remotely)
+www-client/firefox-bin alsa ffmpeg -gmp-autoupdate pulseaudio -selinux -wayland
+www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
+x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
+app-emacs/emacs-common -games gui
+app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick -jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
+x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
+net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
+net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
+net-misc/dhcp client ipv6 -server ssl -ldap -selinux -vim-syntax
+dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -selinux -subversion -test tk -xinet
+sci-libs/nlopt -cxx -guile -octave python -test
+dev-python/numpy lapack -test
+sci-libs/openblas openmp -dynamic -eselect-ldso -index-64bit pthread -relapack -test
+ media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threads vaapi zlib alsa -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -kvazaar -ladspa -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -mmal -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -opus -oss -pic pulseaudio -qsv -rav1e -rubberband -samba -sdl -snappy -sndio -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp -x264 -x265 -xvid -zeromq -zimg -zvbi
+media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java -jpeg -jpeg2k -lapack -lto opencl -opencvapps -openexr -opengl -png -qt5 -tesseract -testprograms -threads -tiff v4l -vaapi -vtk -webp -xine
+dev-python/matplotlib -cairo -debug -doc -examples -excel -gtk3 -latex -qt5 -test -tk -webagg -wxwidgets
+dev-python/pandas X -doc -full-support -minimal -test
+dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -build -debug -examples -hardened -libedit -lto -pgo -test tk -valgrind -verify-sig
+dev-python/pillow jpeg zlib -debug -examples -imagequant -jpeg2k -lcms -test -tiff tk -truetype webp -xcb
+media-gfx/imagemagick X bzip2 cxx openmp png zlib -corefonts -djvu -fftw -fontconfig -fpx -graphviz -hdri -heif -jbig jpeg -jpeg2k jpegxl -lcms -lqr -lzma -opencl -openexr -pango -perl -postscript -q8 -q32 -raw -static-libs -svg -test tiff -truetype webp -wmf -xml -zip
+virtual/imagemagick-tools jpeg -perl -png -svg tiff
+dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
+media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
+media-libs/libaom -examples -doc -test
+sys-kernel/dracut -selinux -test
+media-sound/pulseaudio glib bluetooth -daemon -jack ofono-headset
+media-libs/libcanberra gtk3 sound udev alsa pulseaudio
+net-wireless/blueman nls network -policykit pulseaudio
+media-libs/libpulse X asyncns glib systemd dbus -doc -gtk -selinux -test -valgrind
+media-sound/pulseaudio-daemon X alsa alsa-plugin asyncns gdbm glib orc ssl systemd udev webrtc-aec -aptx bluetooth dbus -elogind -equalizer -fftw -gstreamer -jack -ldac -lirc ofono-headset -oss -selinux -sox -system-wide -tcpd -test -valgrind -zeroconf
+net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth -doc -dundee -examples -tools -upower
+dev-python/lmfit -test
+dev-python/tqdm -examples -test
+x11-wm/dwm savedconfig -xinerama
+media-video/mpv X alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc openal opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools vaapi -vdpau -vulkan -wayland -zimg
+
+sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd 
+
+# tor firefox binary requires libdbus-glib 
+dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
+dev-libs/dbus-glib -debug -static-libs -test
+
+
+# google chrome binary needs libcups, rpm2targz can be used to extract the rpm with the binary
+# watching video with google chrome uses 4 or 5W, while firefox consumes 12W
+net-print/cups-filters -foomatic -postscript -dbus -exif -jpeg -ldap -pclm -pdf -perl -png -test -tiff -zeroconf
+net-print/cups -X -acl -pam -ssl -systemd -dbus -debug -kerberos -openssl -selinux -static-libs -test -usb -xinetd -zeroconf
+app-text/poppler cxx -introspection jpeg -jpeg2k lcms utils -boost -cairo -cjk -curl -debug -doc -nss -png -qt5 -test -tiff -verify-sig
+sys-fs/lvm2 readline systemd udev lvm -sanlock -selinux -static -static-libs -thin -valgrind
+
+# qdirstat
+dev-qt/qtcore systemd -debug -icu -old-kernel -test
+dev-qt/qtgui X libinput png udev -accessibility dbus -debug -egl -eglfs -evdev -gles2-only -ibus jpeg -linuxfb -test -tslib -tuio -vnc -vulkan -wayland
+dev-qt/qtwidgets X png dbus -debug -gles2-only -gtk -test
+sys-apps/qdirstat
+
+net-wireless/soapysdr -bladerf -hackrf plutosdr python -rtlsdr -uhd
+
+x11-libs/wxGTK X lzma spell -curl -debug -doc -gstreamer -keyring libnotify opengl -pch -sdl -test -tiff -wayland -webkit
+dev-libs/libpcre2 bzip2 jit pcre16 pcre32 readline unicode zlib -libedit -split-usr -static-libs
+
+sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
+media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack
+# opengl requires javascript:
+app-text/mupdf X drm javascript ssl opengl
+net-misc/tigervnc drm nls -opengl -server viewer -dri3 -gnutls -java -xinerama
+
+EOF
+
 
 
 ```
 
+- install these new packages:
+
+```
+emerge -av --jobs=6 --load-average=10  glfw mold ccache include-what-you-use liquid-dsp mupdf btrfs-progs firefox-bin sox tigervnc
+```
+- this pulls in 36 new packages
+```
+equery depends librsvg
+# emacs gtk imagemagick freetype ffmpeg cairo gtk+
+# looks like i can't get rid of rust easily
+emerge --deselect www-client/firefox
+emerge --ask --depclean
+# gone without replacement: firefox nss zip cbindgen nodejs nspr icu
+# updated: autoconf dav1d
+eclean-dist
+#  [  186.1 M ] Total space from 60 files were freed in the distfiles directory
+eclean-pkg
+# already clean
+```
+
+- check news
+```
+eselect news read
+# 2022-11-19-lvm2-default-USE-flags
+```
+
+- this seems to explain why my old gentoo broke a long time ago. i
+  will have to add +lvm to sys-fs/lvm2. or USE="lvm"
+
+- by default they remvoed lvm2 components and only provide device-mapper functionality
+
+- i tried 3 times and was never able to find a fix.
+
+- something about pipewire vs pulseaudio
+- xorg can be started as normal user but user has to logind provider
+  like elogind or systemd
+- something about genkernel filenames
+
+
+```
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n
+
+2023-09-03 09:37:04.0711178870 +0200 gsm-1.0.22_p1-1.gpkg.tar size=71680
+2023-09-03 09:37:17.4577110960 +0200 alabaster-0.7.13-1.gpkg.tar size=61440
+2023-09-03 09:38:56.1071697620 +0200 imagesize-1.4.1-1.gpkg.tar size=61440
+2023-09-03 09:39:08.8171000170 +0200 jbig2dec-0.19-1.gpkg.tar size=102400
+2023-09-03 09:39:09.0037656590 +0200 snowballstemmer-2.2.0-r1-1.gpkg.tar size=389120
+2023-09-03 09:39:12.1804148940 +0200 gumbo-0.10.1-1.gpkg.tar size=194560
+2023-09-03 09:39:28.4069925190 +0200 Babel-2.12.1-1.gpkg.tar size=9594880
+2023-09-03 09:39:40.8035911600 +0200 fftw-3.3.10-1.gpkg.tar size=4167680
+2023-09-03 09:39:55.7801756430 +0200 openjpeg-2.5.0-r5-1.gpkg.tar size=337920
+2023-09-03 09:39:56.0968405720 +0200 shadowman-3-1.gpkg.tar size=20480
+2023-09-03 09:40:02.2501401390 +0200 mujs-1.3.3-1.gpkg.tar size=256000
+2023-09-03 09:40:14.8967374090 +0200 mimalloc-2.1.2-1.gpkg.tar size=122880
+2023-09-03 09:40:21.2700357690 +0200 glu-9.0.3-1.gpkg.tar size=215040
+2023-09-03 09:40:22.2333638160 +0200 jpeg-100-r1-1.gpkg.tar size=30720
+2023-09-03 09:40:22.3766963630 +0200 glfw-3.3.8-1.gpkg.tar size=174080
+2023-09-03 09:41:00.9031516180 +0200 glu-9.0-r2-1.gpkg.tar size=30720
+2023-09-03 09:41:06.0264568370 +0200 liquid-dsp-1.6.0-1.gpkg.tar size=491520
+2023-09-03 09:41:09.7231032190 +0200 ccache-4.8.2-1.gpkg.tar size=1320960
+2023-09-03 09:41:25.6763490090 +0200 include-what-you-use-0.20-1.gpkg.tar size=1894400
+2023-09-03 09:41:45.6795725760 +0200 firefox-bin-117.0-1.gpkg.tar size=85248000
+2023-09-03 09:41:54.0628599060 +0200 freeglut-3.4.0-1.gpkg.tar size=215040
+2023-09-03 09:41:54.3528583150 +0200 fltk-1.3.5-r4-1.gpkg.tar size=1208320
+2023-09-03 09:42:00.7128234150 +0200 sox-14.4.2_p20210509-r2-1.gpkg.tar size=409600
+2023-09-03 09:42:38.9192804260 +0200 hwloc-2.9.1-1.gpkg.tar size=2764800
+2023-09-03 09:43:13.0890929210 +0200 tigervnc-1.13.1-r3-1.gpkg.tar size=460800
+2023-09-03 09:43:15.0157490150 +0200 tbb-2021.9.0-1.gpkg.tar size=491520
+2023-09-03 09:43:20.3823862330 +0200 sphinxcontrib-applehelp-1.0.4-1.gpkg.tar size=71680
+2023-09-03 09:43:34.4023092990 +0200 mupdf-1.22.0-1.gpkg.tar size=34048000
+2023-09-03 09:44:00.0221687110 +0200 sphinxcontrib-devhelp-1.0.2-r1-1.gpkg.tar size=61440
+2023-09-03 09:44:56.1351941280 +0200 sphinxcontrib-jsmath-1.0.1-r3-1.gpkg.tar size=51200
+2023-09-03 09:45:45.2549245860 +0200 mold-2.0.0-r1-1.gpkg.tar size=3522560
+2023-09-03 09:46:00.6815066000 +0200 sphinxcontrib-htmlhelp-2.0.1-1.gpkg.tar size=81920
+2023-09-03 09:46:14.6347633650 +0200 sphinxcontrib-serializinghtml-1.1.5-r1-1.gpkg.tar size=71680
+2023-09-03 09:46:28.4080211190 +0200 sphinxcontrib-qthelp-1.0.3-r2-1.gpkg.tar size=71680
+2023-09-03 09:46:45.7745924870 +0200 sphinx-7.0.1-1.gpkg.tar size=3112960
+2023-09-03 09:47:20.1577371450 +0200 btrfs-progs-6.3.3-1.gpkg.tar size=1177600
+```
+
+
+```
 cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
 chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
