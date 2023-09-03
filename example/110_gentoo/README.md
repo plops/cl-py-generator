@@ -2014,6 +2014,8 @@ cmake ../.. -G Ninja \
       -DgRPC_ZLIB_PROVIDER=package
 time ninja
 # 2353 steps
+ninja install
+# 51MB
 ```
 
 - not installed: emerge abseil-cpp c-ares protobuf dev-libs/re2
