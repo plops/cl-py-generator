@@ -1931,3 +1931,28 @@ menuentry 'Gentoo GNU/Linux 20230903 ram squash persist crypt ssd ' --class gent
 }
 
 ```
+
+## After update
+
+- download new: chrome clion sonarlint
+- move (required) files from /mnt4/backup/lower/home/ into /home
+
+- some libraries that are needed for google-chrome were deleted
+```
+martin@archlinux ~/Downloads/chrome $ ldd chrome
+        linux-vdso.so.1 (0x00007fff31dbb000)
+        libdl.so.2 => /usr/lib64/libdl.so.2 (0x00007f89bb140000)
+        libpthread.so.0 => /usr/lib64/libpthread.so.0 (0x00007f89bb13b000)
+        libgobject-2.0.so.0 => /usr/lib64/libgobject-2.0.so.0 (0x00007f89bb0cb000)
+        libglib-2.0.so.0 => /usr/lib64/libglib-2.0.so.0 (0x00007f89baf49000)
+        libnss3.so => not found
+        libnssutil3.so => not found
+        libsmime3.so => not found
+        libnspr4.so => not found
+```
+- maybe next time just install google chrome bin from gentoo (if available)?
+- for now this works:
+```
+sudo emerge -av nss nspr
+```
+- i forgot to check if quicklisp has updates
