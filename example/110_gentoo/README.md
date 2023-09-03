@@ -1318,7 +1318,6 @@ mount -t btrfs -o defaults,noatime,compress=zstd /dev/mapper/p5 /mnt5
 
 ```
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
-emerge --depclean
 ```
 - 163 packages need to be updated
 
@@ -1336,6 +1335,203 @@ archlinux /home/martin # swapon /dev/nvme0n1p2
 - compiling firefox takes too long (also its dependencies nodejs and
   librsvg). i think it would be an improvement to install the binary
 
+- 4 config files in /etc need updating 
+- /etc/sudoers has been misconfigured, would be unfortunate if this change goes into squashfs
+- use the following to revert change
+```
+export EDITOR=emacs
+visudo /etc/sudoers
+```
+- remove backup files that emacs creates. they seem to disturb portage (it tries to read them)
+```
+ rm /etc/portage/package.mask/#package.mask#
+```
+
+```
+emerge --depclean
+# libssh removed
+eclean-dist
+#  [  449.9 M ] Total space from 62 files were freed in the packages directory
+eclean-pkg
+# nothing
+```
+
+- list the new binpkgs, also show and sort by modification time. up to
+  5 were compiled simultaneously, so from the modification times I
+  can't derive the compile times.
+
+```
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %p size=%s\n"|sort -n
+# don't show the entire path, just the filename:
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+```
+
+```
+2023-09-02 22:32:49.3177042130 +0200 baselayout-2.14-1.gpkg.tar size=61440
+2023-09-02 22:33:01.0643064210 +0200 hwdata-0.372-1.gpkg.tar size=2109440
+2023-09-02 22:34:46.3737285410 +0200 linux-firmware-20230804-1.gpkg.tar size=377477120
+2023-09-02 22:36:10.5599332400 +0200 b2-4.10.1-1.gpkg.tar size=552960
+2023-09-02 22:36:22.9665318270 +0200 ensurepip-pip-23.2.1-1.gpkg.tar size=2068480
+2023-09-02 22:36:51.3530427240 +0200 ethtool-6.4-1.gpkg.tar size=266240
+2023-09-02 22:38:39.1957842760 +0200 mpfr-4.2.0_p12-1.gpkg.tar size=491520
+2023-09-02 22:38:56.8190209030 +0200 libpng-1.6.40-r1-1.gpkg.tar size=409600
+2023-09-02 22:39:08.5122900700 +0200 iw-5.19-1.gpkg.tar size=133120
+2023-09-02 22:41:38.4548006020 +0200 perl-5.38.0-r1-1.gpkg.tar size=15882240
+2023-09-02 22:42:05.3046532640 +0200 libxcrypt-4.4.36-1.gpkg.tar size=174080
+2023-09-02 22:42:16.6879241330 +0200 perl-ExtUtils-MakeMaker-7.700.0-1.gpkg.tar size=20480
+2023-09-02 22:42:29.0678561980 +0200 perl-Exporter-5.770.0-r1-1.gpkg.tar size=20480
+2023-09-02 22:42:40.0677958370 +0200 perl-Carp-1.540.0-1.gpkg.tar size=20480
+2023-09-02 22:42:51.9310640710 +0200 perl-Encode-3.190.0-1.gpkg.tar size=20480
+2023-09-02 22:43:02.8643374090 +0200 perl-File-Spec-3.880.0-1.gpkg.tar size=20480
+2023-09-02 22:43:13.8742769920 +0200 perl-Scalar-List-Utils-1.630.0-1.gpkg.tar size=20480
+2023-09-02 22:43:34.7208292650 +0200 perl-Data-Dumper-2.188.0-1.gpkg.tar size=20480
+2023-09-02 22:43:45.5407698910 +0200 perl-MIME-Base64-3.160.100_rc-1.gpkg.tar size=20480
+2023-09-02 22:43:57.2607055780 +0200 perl-Time-Local-1.300.0-r2-2.gpkg.tar size=20480
+2023-09-02 22:44:54.0537272630 +0200 perl-IO-1.520.0-1.gpkg.tar size=20480
+2023-09-02 22:45:04.7670018080 +0200 perl-Module-Metadata-1.0.37-r3-1.gpkg.tar size=20480
+2023-09-02 22:45:18.6169258070 +0200 perl-Test-Harness-3.440.0-r1-1.gpkg.tar size=20480
+2023-09-02 22:45:29.4968661040 +0200 perl-XSLoader-0.320.0-1.gpkg.tar size=20480
+2023-09-02 22:45:41.2801347770 +0200 perl-Compress-Raw-Bzip2-2.204.1_rc-1.gpkg.tar size=20480
+2023-09-02 22:45:52.1967415400 +0200 perl-Getopt-Long-2.540.0-1.gpkg.tar size=20480
+2023-09-02 22:46:03.2133477530 +0200 perl-parent-0.241.0-1.gpkg.tar size=20480
+2023-09-02 22:46:15.3632810810 +0200 HTML-Tagset-3.200.0-r2-2.gpkg.tar size=40960
+2023-09-02 22:46:29.3965374080 +0200 Socket6-0.290.0-2.gpkg.tar size=51200
+2023-09-02 22:46:42.6997977400 +0200 Text-CharWidth-0.40.0-r2-1.gpkg.tar size=40960
+2023-09-02 22:46:55.6930597740 +0200 TimeDate-2.330.0-r1-2.gpkg.tar size=51200
+2023-09-02 22:47:08.8229877240 +0200 File-Temp-0.231.100-1.gpkg.tar size=71680
+2023-09-02 22:47:20.3362578790 +0200 perl-CPAN-Meta-Requirements-2.140.0-r9-2.gpkg.tar size=20480
+2023-09-02 22:47:31.5961960900 +0200 perl-CPAN-Meta-YAML-0.18.0-r9-1.gpkg.tar size=20480
+2023-09-02 22:47:43.4561310100 +0200 perl-ExtUtils-Manifest-1.730.0-r2-1.gpkg.tar size=20480
+2023-09-02 22:47:54.0527395280 +0200 perl-Parse-CPAN-Meta-2.150.10-r7-1.gpkg.tar size=20480
+2023-09-02 22:48:04.4860156090 +0200 perl-Perl-OSType-1.10.0-r7-1.gpkg.tar size=20480
+2023-09-02 22:48:15.0359577170 +0200 perl-Text-ParseWords-3.310.0-r1-1.gpkg.tar size=20480
+2023-09-02 22:48:25.5025669490 +0200 perl-version-0.992.900-r1-1.gpkg.tar size=20480
+2023-09-02 22:48:38.1524975330 +0200 Regexp-IPv6-0.30.0-r2-1.gpkg.tar size=30720
+2023-09-02 22:48:47.2457809670 +0200 perl-JSON-PP-4.160.0-r1-1.gpkg.tar size=20480
+2023-09-02 22:48:58.0257218130 +0200 perl-CPAN-2.360.0-1.gpkg.tar size=20480
+2023-09-02 22:49:08.5523307160 +0200 perl-ExtUtils-CBuilder-0.280.238-1.gpkg.tar size=20480
+2023-09-02 22:49:19.5122705730 +0200 perl-ExtUtils-Install-2.220.0-1.gpkg.tar size=20480
+2023-09-02 22:49:31.2388728910 +0200 perl-ExtUtils-ParseXS-3.510.0-1.gpkg.tar size=20480
+2023-09-02 22:49:42.4821445280 +0200 perl-podlators-5.10.0-1.gpkg.tar size=20480
+2023-09-02 22:49:53.8687487110 +0200 perl-IO-Socket-IP-0.410.100_rc-1.gpkg.tar size=20480
+2023-09-02 22:50:06.6953449920 +0200 perl-Digest-MD5-2.580.100_rc-1.gpkg.tar size=20480
+2023-09-02 22:50:19.3819420420 +0200 HTTP-Date-6.60.0-1.gpkg.tar size=40960
+2023-09-02 22:50:32.9085344820 +0200 Encode-Locale-1.50.0-r1-2.gpkg.tar size=40960
+2023-09-02 22:50:45.6551312020 +0200 LWP-MediaTypes-6.40.0-2.gpkg.tar size=51200
+2023-09-02 22:50:57.1784013020 +0200 perl-File-Temp-0.231.100-1.gpkg.tar size=20480
+2023-09-02 22:51:10.0649972550 +0200 Clone-0.460.0-2.gpkg.tar size=40960
+2023-09-02 22:51:22.7882607700 +0200 IO-HTML-1.4.0-2.gpkg.tar size=40960
+2023-09-02 22:53:22.7576024440 +0200 passwdqc-2.0.3-1.gpkg.tar size=112640
+2023-09-02 22:53:37.9508524060 +0200 IO-HTML-1.4.0-3.gpkg.tar size=40960
+2023-09-02 22:53:38.6975149750 +0200 MIME-Charset-1.13.1-2.gpkg.tar size=51200
+2023-09-02 22:53:51.0974469310 +0200 Pod-Parser-1.660.0-2.gpkg.tar size=102400
+2023-09-02 22:53:51.2741126280 +0200 Sub-Name-0.270.0-2.gpkg.tar size=40960
+2023-09-02 22:53:51.5041113660 +0200 TermReadKey-2.380.0-r1-1.gpkg.tar size=51200
+2023-09-02 22:53:54.4440952330 +0200 Net-SSLeay-1.920.0-r1-2.gpkg.tar size=286720
+2023-09-02 22:54:01.3240574800 +0200 Text-WrapI18N-0.60.0-r2-1.gpkg.tar size=30720
+2023-09-02 22:54:10.0106764790 +0200 YAML-Tiny-1.740.0-2.gpkg.tar size=51200
+2023-09-02 22:54:31.0605609690 +0200 File-Listing-6.160.0-1.gpkg.tar size=40960
+2023-09-02 22:54:38.5605198130 +0200 libudev-251-r1-1.gpkg.tar size=30720
+2023-09-02 22:54:53.6937701040 +0200 perl-CPAN-Meta-2.150.10-r7-1.gpkg.tar size=20480
+2023-09-02 22:55:02.7903868530 +0200 Devel-CheckLib-1.160.0-2.gpkg.tar size=40960
+2023-09-02 22:55:26.1535919820 +0200 Module-Build-0.423.400-2.gpkg.tar size=204800
+2023-09-02 22:55:26.6969223340 +0200 Try-Tiny-0.310.0-2.gpkg.tar size=40960
+2023-09-02 22:55:29.8869048290 +0200 perl-Compress-Raw-Zlib-2.204.1_rc-1.gpkg.tar size=20480
+2023-09-02 22:55:35.1302093900 +0200 perl-libnet-3.150.0-1.gpkg.tar size=20480
+2023-09-02 22:55:35.7402060430 +0200 Unicode-LineBreak-2019.1.0-1.gpkg.tar size=122880
+2023-09-02 22:55:56.1500940450 +0200 compat-29.1.4.2-1.gpkg.tar size=143360
+2023-09-02 22:57:03.0197271010 +0200 python-3.11.5-1.gpkg.tar size=28221440
+2023-09-02 22:57:31.4529044090 +0200 IO-Socket-INET6-2.730.0-2.gpkg.tar size=40960
+2023-09-02 22:57:39.4028607840 +0200 SGMLSpm-1.1-r2-1.gpkg.tar size=51200
+2023-09-02 22:57:40.3095224750 +0200 URI-5.190.0-r1-1.gpkg.tar size=81920
+2023-09-02 22:57:53.4561170010 +0200 perl-IO-Compress-2.204.0-1.gpkg.tar size=20480
+2023-09-02 22:57:55.8727704060 +0200 Locale-gettext-1.70.0-r1-1.gpkg.tar size=40960
+2023-09-02 22:58:12.3260134530 +0200 WWW-RobotRules-6.20.0-r2-2.gpkg.tar size=40960
+2023-09-02 22:58:21.3292973820 +0200 HTTP-Message-6.440.0-2.gpkg.tar size=81920
+2023-09-02 22:58:34.8658897670 +0200 libarchive-3.7.1-1.gpkg.tar size=624640
+2023-09-02 22:58:49.1024783110 +0200 HTML-Parser-3.810.0-2.gpkg.tar size=102400
+2023-09-02 22:58:50.7458026270 +0200 HTTP-Cookies-6.100.0-2.gpkg.tar size=51200
+2023-09-02 22:59:04.2057287660 +0200 HTTP-Negotiate-6.10.0-r2-2.gpkg.tar size=40960
+2023-09-02 22:59:33.0222373040 +0200 curl-8.1.2-1.gpkg.tar size=1484800
+2023-09-02 23:01:33.3415770580 +0200 arpack-3.8.0-r1-1.gpkg.tar size=153600
+2023-09-02 23:01:50.5714825100 +0200 opensp-1.5.2-r10-1.gpkg.tar size=1218560
+2023-09-02 23:02:21.2746473610 +0200 icu-73.2-1.gpkg.tar size=15165440
+2023-09-02 23:02:36.7978955110 +0200 strace-6.3-2.gpkg.tar size=1249280
+2023-09-02 23:02:46.8278404720 +0200 cmake-3.26.5-r2-1.gpkg.tar size=17326080
+2023-09-02 23:03:06.9710632710 +0200 glib-utils-2.76.4-1.gpkg.tar size=61440
+2023-09-02 23:03:41.8142054040 +0200 more-itertools-10.1.0-1.gpkg.tar size=174080
+2023-09-02 23:28:59.4158776460 +0200 nodejs-20.5.1-1.gpkg.tar size=18421760
+2023-09-02 23:29:25.4824012740 +0200 platformdirs-3.10.0-1.gpkg.tar size=81920
+2023-09-02 23:29:44.0822992080 +0200 pyparsing-3.0.9-1.gpkg.tar size=358400
+2023-09-02 23:29:58.9755508160 +0200 typing-extensions-4.7.1-1.gpkg.tar size=122880
+2023-09-02 23:30:16.3221222940 +0200 editables-0.5-1.gpkg.tar size=51200
+2023-09-02 23:30:32.3587009610 +0200 pathspec-0.11.2-1.gpkg.tar size=102400
+2023-09-02 23:31:00.7618784330 +0200 gpgme-1.21.0-1.gpkg.tar size=870400
+2023-09-02 23:32:27.7447344530 +0200 qpdf-11.5.0-1.gpkg.tar size=6184960
+2023-09-02 23:32:28.3947308860 +0200 portage-utils-0.96.1-1.gpkg.tar size=215040
+2023-09-02 23:32:59.2045618180 +0200 wheel-0.41.1-1.gpkg.tar size=112640
+2023-09-02 23:32:59.9645576480 +0200 magit-3.3.0-r4-1.gpkg.tar size=788480
+2023-09-02 23:33:14.1378132060 +0200 po4a-0.66-1.gpkg.tar size=942080
+2023-09-02 23:33:36.6776895200 +0200 jaraco-text-3.11.1-r1-1.gpkg.tar size=61440
+2023-09-02 23:33:56.5842469500 +0200 lcms-2.15-1.gpkg.tar size=286720
+2023-09-02 23:34:07.3675211110 +0200 libnvme-1.5-1.gpkg.tar size=245760
+2023-09-02 23:34:30.3373950650 +0200 tar-1.35-1.gpkg.tar size=1054720
+2023-09-02 23:35:09.6505126700 +0200 nvme-cli-2.5-1.gpkg.tar size=798720
+2023-09-02 23:35:20.2204546680 +0200 debianutils-5.8-1.gpkg.tar size=51200
+2023-09-02 23:35:20.4704532960 +0200 poppler-23.08.0-1.gpkg.tar size=2078720
+2023-09-02 23:35:40.8470081470 +0200 Mozilla-CA-20999999-r1-2.gpkg.tar size=30720
+2023-09-02 23:35:51.8436144710 +0200 setuptools-68.0.0-r1-1.gpkg.tar size=1320960
+2023-09-02 23:36:07.4735287020 +0200 IO-Socket-SSL-2.83.0-2.gpkg.tar size=215040
+2023-09-02 23:36:49.4199651900 +0200 docutils-0.20.1-r1-1.gpkg.tar size=3031040
+2023-09-02 23:37:06.8965359550 +0200 cython-0.29.36-1.gpkg.tar size=3225600
+2023-09-02 23:37:25.5897667100 +0200 Net-HTTP-6.230.0-2.gpkg.tar size=51200
+2023-09-02 23:37:36.5063734730 +0200 charset-normalizer-3.2.0-1.gpkg.tar size=153600
+2023-09-02 23:37:38.4630294020 +0200 gdbus-codegen-2.76.4-1.gpkg.tar size=174080
+2023-09-02 23:37:52.3096200870 +0200 pybind11-2.11.1-1.gpkg.tar size=266240
+2023-09-02 23:37:53.0462827110 +0200 pillow-10.0.0-1.gpkg.tar size=1003520
+2023-09-02 23:38:25.7794364230 +0200 trove-classifiers-2023.7.6-1.gpkg.tar size=61440
+2023-09-02 23:38:48.1759801900 +0200 psutil-5.9.5-1.gpkg.tar size=737280
+2023-09-02 23:38:58.4325905740 +0200 meson-python-0.13.2-r1-1.gpkg.tar size=122880
+2023-09-02 23:39:11.5525185790 +0200 pip-23.2.1-1.gpkg.tar size=4474880
+2023-09-02 23:39:24.4257812710 +0200 fonttools-4.42.0-1.gpkg.tar size=3799040
+2023-09-02 23:39:38.1390393530 +0200 lxml-4.9.3-r1-1.gpkg.tar size=1638400
+2023-09-02 23:39:57.1856015030 +0200 loky-3.4.1-1.gpkg.tar size=174080
+2023-09-02 23:40:07.3855455310 +0200 urllib3-2.0.4-1.gpkg.tar size=337920
+2023-09-02 23:41:25.1117856790 +0200 numpy-1.25.2-1.gpkg.tar size=10219520
+2023-09-02 23:41:57.6649403790 +0200 joblib-1.3.1-1.gpkg.tar size=573440
+2023-09-02 23:42:09.3415429710 +0200 portage-3.0.49-r2-1.gpkg.tar size=3645440
+2023-09-02 23:42:30.3180945300 +0200 perl-cleaner-2.31-1.gpkg.tar size=30720
+2023-09-02 23:43:18.2944979290 +0200 iproute2-6.4.0-1.gpkg.tar size=1300480
+2023-09-02 23:43:30.5544306530 +0200 genkernel-4.3.6-1.gpkg.tar size=188364800
+2023-09-02 23:44:51.4539867210 +0200 elfutils-0.189-r1-1.gpkg.tar size=1105920
+2023-09-02 23:46:37.6134041770 +0200 sudo-1.9.14_p2-1.gpkg.tar size=2099200
+2023-09-02 23:49:35.6657604570 +0200 scipy-1.11.1-1.gpkg.tar size=28999680
+2023-09-02 23:50:00.9122885850 +0200 grub-2.06-r7-3.gpkg.tar size=17530880
+2023-09-02 23:50:19.9521841050 +0200 libwww-perl-6.600.0-r1-2.gpkg.tar size=163840
+2023-09-02 23:50:39.2420782520 +0200 XML-Parser-2.460.0-r2-2.gpkg.tar size=184320
+2023-09-02 23:51:02.9719480360 +0200 LWP-Protocol-https-6.110.0-1.gpkg.tar size=30720
+2023-09-02 23:52:39.2180865570 +0200 mesa-23.1.6-1.gpkg.tar size=9113600
+2023-09-02 23:53:11.7879078320 +0200 libepoxy-1.5.10-r2-1.gpkg.tar size=522240
+2023-09-02 23:53:37.2511014370 +0200 glib-2.76.4-1.gpkg.tar size=3901440
+2023-09-02 23:54:12.0709103660 +0200 xorg-server-21.1.8-r2-1.gpkg.tar size=3532800
+2023-09-02 23:54:56.6873322020 +0200 xterm-383-1.gpkg.tar size=675840
+2023-09-02 23:55:15.5105622440 +0200 libiio-0.25-1.gpkg.tar size=194560
+2023-09-02 23:55:26.4205023760 +0200 bluez-5.68-1.gpkg.tar size=1474560
+2023-09-02 23:55:47.5603863720 +0200 harfbuzz-8.0.1-1.gpkg.tar size=3389440
+2023-09-02 23:57:21.8898687440 +0200 imagemagick-7.1.1.6-r1-1.gpkg.tar size=9246720
+2023-09-02 23:57:33.1064738600 +0200 qtcore-5.15.10-r1-1.gpkg.tar size=8069120
+2023-09-02 23:57:55.4196847510 +0200 libad9361-iio-0.3-1.gpkg.tar size=112640
+2023-09-02 23:58:36.1627945090 +0200 mpv-0.36.0-r1-1.gpkg.tar size=2140160
+2023-09-02 23:59:25.6058565260 +0200 soapysdr-0.8.1-2.gpkg.tar size=952320
+2023-09-03 00:00:44.1787586950 +0200 matplotlib-3.7.2-1.gpkg.tar size=33546240
+2023-09-03 00:05:41.8171254200 +0200 qtgui-5.15.10-r1-1.gpkg.tar size=5212160
+2023-09-03 00:11:57.6650629740 +0200 soapyplutosdr-0.2.1-2.gpkg.tar size=81920
+2023-09-03 00:12:16.8982907660 +0200 librsvg-2.56.3-1.gpkg.tar size=4126720
+2023-09-03 00:16:04.1337104910 +0200 qtwidgets-5.15.10-r2-1.gpkg.tar size=3471360
+2023-09-03 00:16:05.5137029180 +0200 gtkmm-3.24.8-1.gpkg.tar size=2488320
+2023-09-03 00:16:38.4735220530 +0200 gtk-4.10.5-1.gpkg.tar size=13465600
+2023-09-03 02:21:29.2761406470 +0200 firefox-102.15.0-1.gpkg.tar size=74403840
+```
 
 - i have installed the following extra packages while running on
   overlayfs (on nvme0n1p4):
