@@ -1970,3 +1970,7 @@ sudo depmod -a
 sudo modprobe ryzen_smu
 
 ```
+
+- maybe next time don't try to move folder with mc
+- takes quite long and it complained about two files
+- also i'm not sure if all the attributes are maintained
