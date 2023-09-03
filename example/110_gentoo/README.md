@@ -1957,3 +1957,16 @@ sudo emerge -av nss nspr
 ```
 - ublock o, sponsor
 - i forgot to check if quicklisp has updates
+
+- recompile ryzen kernel module
+```
+cd ~/src/ryzen_monitor/ryzen_smu
+sudo mkdir /mnt3
+sudo mount /dev/nvme0n1p3 /mnt3
+sudo ln -s /mnt3/usr/src/linux-6.3.12-gentoo /usr/src/linux-6.3.12-gentoo
+make
+sudo cp ryzen_smu.ko /lib/modules/6.3.12-gentoo-x86_64/kernel/
+sudo depmod -a
+sudo modprobe ryzen_smu
+
+```
