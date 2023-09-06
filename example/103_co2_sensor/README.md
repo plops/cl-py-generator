@@ -148,6 +148,9 @@ cd esp-idf
 ./install.sh
 ```
 
+This downloads the compiler
+xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz.
+
 
 To build the program, set the IDF_PATH and source the export script,
 then navigate to the cmake-build-debug directory and run ninja:
