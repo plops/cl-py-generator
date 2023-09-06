@@ -134,7 +134,7 @@ https://stackoverflow.com/questions/2144406/how-to-make-shallow-git-submodules
 requires 800MB after checkout.
 
 ```
-git clone --recursive --shallow-submodules \
+git clone --depth=1 --recursive --shallow-submodules \
  https://github.com/badgeteam/mch2022-template-app \
  my_fancy_app_name
 ```
