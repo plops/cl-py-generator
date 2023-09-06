@@ -131,7 +131,7 @@ finished.
 
 Checking out shallow submodules as described here:
 https://stackoverflow.com/questions/2144406/how-to-make-shallow-git-submodules
-requires 800MB after checkout.
+requires 660MB after checkout.
 
 ```
 git clone --depth=1 --recursive --shallow-submodules \
