@@ -152,7 +152,7 @@ cd esp-idf
 ./install.sh
 ```
 
-- on gentoo i run into this problem:
+- on gentoo and archlinux i run into this problem:
 ```
       Error compiling Cython file:
       ------------------------------------------------------------
