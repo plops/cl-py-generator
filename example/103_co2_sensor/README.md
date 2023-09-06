@@ -152,6 +152,22 @@ cd esp-idf
 ./install.sh
 ```
 
+- on gentoo i run into this problem:
+```
+      Error compiling Cython file:
+      ------------------------------------------------------------
+      ...
+              if events & ~(libev.EV__IOFDSET | libev.EV_READ | libev.EV_WRITE):
+                  raise ValueError('illegal event mask: %r' % events)
+              # All the vfd_functions are no-ops on POSIX
+              cdef int vfd = libev.vfd_open(fd)
+              libev.ev_io_init(&self._watcher, <void *>gevent_callback_io, vfd, events)
+              self.__watcher = <libev.ev_watcher*>&self._watcher
+                               ^
+      ------------------------------------------------------------
+
+```
+
 This downloads the compiler
 xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz.
 
