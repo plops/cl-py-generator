@@ -1,5 +1,5 @@
 name: Build ESP32 Project 103/04
-
+# this is not yet working
 on:
   push:
     branches:
@@ -22,6 +22,7 @@ jobs:
       with:
         esp_idf_version: v4.4  # or the version you need
         target: esp32
+	command: "echo 'Setup complete'"  # Override the default build command
 
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
