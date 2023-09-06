@@ -129,6 +129,16 @@ git clone --recursive \
 The directory will have a size of 1.5GB, when the clone command is
 finished.
 
+Checking out shallow submodules as described here:
+https://stackoverflow.com/questions/2144406/how-to-make-shallow-git-submodules
+requires 800MB after checkout.
+
+```
+git clone --recursive --shallow-submodules \
+ https://github.com/badgeteam/mch2022-template-app \
+ my_fancy_app_name
+```
+
 Install the SDK:
 
 ```
