@@ -142,6 +142,10 @@ git clone --depth=1 --recursive --shallow-submodules \
 
 Install the SDK:
 
+Note that this requires virtualenv `sudo emerge -av
+dev-python/virtualenv`.
+
+
 ```
 cd ~/src/my_fancy_app_name
 cd esp-idf
