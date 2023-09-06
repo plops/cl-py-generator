@@ -24,8 +24,16 @@ jobs:
         target: esp32
 	command: "echo 'Setup complete'"  # Override the default build command
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+#   - name: Setup ESP-IDF
+#      run: |
+#        git clone --recursive https://github.com/espressif/esp-idf.git
+#        cd esp-idf
+#        ./install.sh
+#        source ./export.sh
+
+
+#    - name: Setup tmate session
+#      uses: mxschmitt/action-tmate@v3
 
     - name: Build Project
       run: |
