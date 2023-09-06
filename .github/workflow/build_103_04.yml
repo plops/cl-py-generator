@@ -1,0 +1,38 @@
+name: Build ESP32 Project 103/04
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'example/103_co2_sensor/source04/**'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup ESP-IDF
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: v4.4  # or the version you need
+        target: esp32
+
+#    - name: Setup tmate session
+#      uses: mxschmitt/action-tmate@v3
+
+    - name: Build Project
+      run: |
+        cd example/103_co2_sensor/source04
+        idf.py build
+
+#    - name: Upload build artifact
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: imgui_grpc_artifact
+#        path: build/imgui_grpc
