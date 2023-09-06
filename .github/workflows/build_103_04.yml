@@ -23,8 +23,8 @@ jobs:
         esp_idf_version: v4.4  # or the version you need
         target: esp32
 
-#    - name: Setup tmate session
-#      uses: mxschmitt/action-tmate@v3
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
 
     - name: Build Project
       run: |
