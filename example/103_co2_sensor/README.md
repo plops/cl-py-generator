@@ -131,7 +131,8 @@ finished.
 
 Checking out shallow submodules as described here:
 https://stackoverflow.com/questions/2144406/how-to-make-shallow-git-submodules
-requires 660MB after checkout.
+requires 660MB after checkout. Compresses to 274MB tar.gz in 22sec on
+single core of Intel Xeon Processor (Skylake, IBRS).
 
 ```
 git clone --depth=1 --recursive --shallow-submodules \
