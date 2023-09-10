@@ -6,7 +6,9 @@ https://github.com/Azure-Samples/openai/blob/main/Basic_Samples/Chat/basic_chatc
 ```
 python -m venv ~/llm_env
 . ~/llm_env/bin/activate
-pip install langchain openai
+pip install langchain[llms] openai
+
+# this installs 620MB torch-2.0.1 (why?)
 
 ```
 
