@@ -102,5 +102,13 @@
 			     date
 			     (- tz)))))
 
+
+	 (do0
+	  (comments " https://python.langchain.com/docs/integrations/llms/azure_openai "
+		    " you can authenticate to Azure OpenAI using API Key or Azure Active Directory "
+		    " to develop locally install Azure CLI run `az login`")
+	  (setf (aref os.environ (string "OPEN_API_TYPE")) (string "azure") )
+	  )
+
 	))))
 
