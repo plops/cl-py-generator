@@ -131,7 +131,9 @@
 	 (comments "How to get cookies"
 		   "Developer Tools (right-click -> Inspect)"
 		   "Application tab -> Storage -> Cookies "
-		   "https://stackoverflow.com/questions/48869775/how-can-we-use-local-chromes-cookies-to-login-using-selenium")
+		   "https://stackoverflow.com/questions/48869775/how-can-we-use-local-chromes-cookies-to-login-using-selenium"
+		   "how to use youtube api https://youtu.be/m0RWSHdS77E"
+		   "https://developers.google.com/youtube/v3")
 	 #+nil 
 	 (do0
 	  (for (i (range 10))
