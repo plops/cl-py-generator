@@ -75,6 +75,8 @@
 
 					;argparse
 			langchain
+			langchain.chat_models
+			langchain.schema
 			)))
 	 
 	 (setf start_time (time.time)
@@ -109,6 +111,16 @@
 		    " to develop locally install Azure CLI run `az login`")
 	  (setf (aref os.environ (string "OPEN_API_TYPE")) (string "azure") )
 	  )
+
+	 (do0
+	  (setf chat (langchain.chat_models.ChatOpenAI :temperature 1))
+	  (setf user_input (input (string "Ask me a question:")))
+
+	  (setf messages (list (SystemMessage :contents (string "You are an angry assistant"))
+			       (HumanMessage :content user_input)))
+
+	  (print (dot (chat messages)
+		      content)))
 
 	))))
 

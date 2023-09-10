@@ -1,6 +1,6 @@
 
 - https://www.youtube.com/watch?v=jfJbaJHnnP0 LangChain for beginners | full code
-
+- https://github.com/RGGH/LangChain-Course
 ```
 python -m venv ~/llm_env
 . ~/llm_env/bin/activate
@@ -33,6 +33,14 @@ https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=comma
 ```
 echo export AZURE_OPENAI_KEY="REPLACE_WITH_YOUR_KEY_VALUE_HERE" >> /etc/environment && source /etc/environment
 echo export AZURE_OPENAI_ENDPOINT="REPLACE_WITH_YOUR_ENDPOINT_HERE" >> /etc/environment && source /etc/environment
+export OPENAI_API_KEY="..."
+```
+- /etc/environment is used for something else in gentoo
+- i will use ~/llm_environment.sh
+```
+source ~/llm_environment.sh 
+. ~/llm_env/bin/activate
+
 ```
 
 
