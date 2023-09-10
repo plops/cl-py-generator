@@ -10,7 +10,7 @@ pip install langchain[llms] openai
 
 # this installs 620MB torch-2.0.1 (why?)
 # 560MB of cuda runtime? i don't have nvidia hw
-
+# finally llm_env is 4.6GB
 ```
 
 ```
