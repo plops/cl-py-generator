@@ -34,6 +34,12 @@ https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=comma
 echo export AZURE_OPENAI_KEY="REPLACE_WITH_YOUR_KEY_VALUE_HERE" >> /etc/environment && source /etc/environment
 echo export AZURE_OPENAI_ENDPOINT="REPLACE_WITH_YOUR_ENDPOINT_HERE" >> /etc/environment && source /etc/environment
 export OPENAI_API_KEY="..."
+
+export OPENAI_API_TYPE=azure
+export OPENAI_API_VERSION=2023-05-15
+export OPENAI_API_BASE=https://<resource-name>.openai.azure.com
+export OPENAI_API_KEY="<key-as-hexadecimal-string>"
+
 ```
 - /etc/environment is used for something else in gentoo
 - i will use ~/llm_environment.sh

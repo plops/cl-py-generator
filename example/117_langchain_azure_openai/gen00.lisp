@@ -77,6 +77,8 @@
 			langchain
 			langchain.chat_models
 			langchain.schema
+			langchain.llms
+			openai
 			)))
 	 
 	 (setf start_time (time.time)
@@ -104,20 +106,20 @@
 			     date
 			     (- tz)))))
 
-
 	 (do0
-	  (comments " https://python.langchain.com/docs/integrations/llms/azure_openai "
-		    " you can authenticate to Azure OpenAI using API Key or Azure Active Directory "
-		    " to develop locally install Azure CLI run `az login`")
-	  (setf (aref os.environ (string "OPEN_API_TYPE")) (string "azure") )
-	  )
+	  (setf response (openai.Completion.create :engine (string "gpt-35")
+						   :prompt (string "This is a test")
+						   :max_tokens 5))
+	  ;langchain.llms
+	)
 
+	 #+nil
 	 (do0
 	  (setf chat (langchain.chat_models.ChatOpenAI :temperature 1))
 	  (setf user_input (input (string "Ask me a question: ")))
 
 	  (setf messages (list ;(langchain.schema.SystemMessage :contents (string "You are an angry assistant"))
-			       (langchain.schema.HumanMessage :content user_input)))
+			  (langchain.schema.HumanMessage :content user_input)))
 
 	  (print (dot (chat messages)
 		      content)))
