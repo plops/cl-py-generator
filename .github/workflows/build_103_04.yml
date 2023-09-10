@@ -1,12 +1,13 @@
 name: Build ESP32 Project 103/04
 # this is not yet working
+
+
 on:
   push:
-    branches:
-      - master
+    branches: [ "master" ]
     paths:
       - 'example/103_co2_sensor/source04/**'
-
+      
   workflow_dispatch:
 
 jobs:
