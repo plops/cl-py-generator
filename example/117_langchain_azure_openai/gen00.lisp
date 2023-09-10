@@ -118,6 +118,9 @@
 	 (do0
 	  (setf llm (langchain.llms.AzureOpenAI :deployment_name (string "gpt-35")
 						:model_name (string "gpt-35-turbo"))))
+
+	 (llm (string "Tell me a joke"))
+	 #+nil
 	 
 	 (do0
 	  (setf chat (langchain.chat_models.ChatOpenAI :temperature 1))
