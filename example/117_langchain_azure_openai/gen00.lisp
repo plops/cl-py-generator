@@ -78,7 +78,7 @@
 			langchain.chat_models
 			langchain.schema
 			langchain.llms
-			;openai
+			openai
 			)))
 	  
 	 (setf start_time (time.time)
@@ -113,13 +113,25 @@
 						   :max_tokens 5))
 					
 	  )
+	 (setf chatgpt_model_name (string "gpt35")
+	       openai.api_type (string "azure")
+	       openai.api_key (os.getenv (string "OPENAI_API_KEY"))
+	       openai.api_base (os.getenv (string "OPENAI_API_BASE"))
+	       openai.api_version (os.getenv (string "OPENAI_API_VERSION")))
 
-
+	 (setf response (openai.ChatCompletion.create :engine chatgpt_model_name
+						      :messages (list (dictionary :role (string "system")
+										  :content (string "You are an angry assistent."))
+								      (dictionary :role (string "user")
+										  :content (string "Who won the world series in 2020.")))))
+	 (print response)
+	 
+	 #+nil 
 	 (do0
 	  (setf llm (langchain.llms.AzureOpenAI :deployment_name (string "gpt-35")
-						:model_name (string "gpt-35-turbo"))))
+						:model_name (string "gpt-35-turbo")))
 
-	 (llm (string "Tell me a joke"))
+	  (llm (string "Tell me a joke")))
 	 #+nil
 	 
 	 (do0
