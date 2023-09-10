@@ -139,8 +139,9 @@
 	  (llm (string "Tell me a joke")))
 	 #-nil
 	 (do0
+	  (comments "this works")
 	  (setf chat (langchain.chat_models.AzureChatOpenAI
-		      ;:engine chatgpt_deployment_name
+		      :deployment_name chatgpt_deployment_name
 		      :model_name chatgpt_model_name
 		      :temperature 1))
 	  (setf user_input (input (string "Ask me a question: ")))
