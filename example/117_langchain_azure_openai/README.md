@@ -34,3 +34,15 @@ https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=comma
 echo export AZURE_OPENAI_KEY="REPLACE_WITH_YOUR_KEY_VALUE_HERE" >> /etc/environment && source /etc/environment
 echo export AZURE_OPENAI_ENDPOINT="REPLACE_WITH_YOUR_ENDPOINT_HERE" >> /etc/environment && source /etc/environment
 ```
+
+
+```
+
+with get_openai_callback() as cb
+
+cb.total_tokens
+cb.prompt_tokens
+cb.completion_tokens
+cb.total_cost
+
+```
