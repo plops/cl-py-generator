@@ -21,7 +21,7 @@ https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=comma
 
 - api key, endpoint, deployment name. all of these can be obtained
   from inside Azure AI Studio (oai.azure.com/portal)
-- i called my deployments gpt-35, gpt-35-16k, gpt-4 or gpt-4-32k
+- i called my deployments gpt-35, gpt-35-16k, gpt-4, gpt-4-32k, gpt4, gpt35, gpt4_32k
 - to see api key and endpoint go to settings (gear icon) -> Resource
 - Endpoint: https://<resource-name>.openai.azure.com/
 - Key: 5929bf3.... (only one key is shown, note: this is not even part of a real key)
