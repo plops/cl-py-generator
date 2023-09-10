@@ -80,7 +80,7 @@
 			langchain.llms
 			openai
 			)))
-	 
+	  
 	 (setf start_time (time.time)
 	       debug True)
 	 (setf
