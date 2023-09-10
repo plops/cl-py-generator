@@ -113,7 +113,7 @@
 						   :max_tokens 5))
 					
 	  )
-	 (setf chatgpt_model_name (string "gpt35")
+	 (setf chatgpt_model_name (string "gpt-35")
 	       openai.api_type (string "azure")
 	       openai.api_key (os.getenv (string "OPENAI_API_KEY"))
 	       openai.api_base (os.getenv (string "OPENAI_API_BASE"))
