@@ -78,7 +78,7 @@
 			langchain.chat_models
 			langchain.schema
 			langchain.llms
-			openai
+			;openai
 			)))
 	  
 	 (setf start_time (time.time)
@@ -106,14 +106,19 @@
 			     date
 			     (- tz)))))
 
+	 #+nil
 	 (do0
 	  (setf response (openai.Completion.create :engine (string "gpt-35")
 						   :prompt (string "This is a test")
 						   :max_tokens 5))
-	  ;langchain.llms
-	)
+					
+	  )
 
-	 #+nil
+
+	 (do0
+	  (setf llm (langchain.llms.AzureOpenAI :deployment_name (string "gpt-35")
+						:model_name (string "gpt-35-turbo"))))
+	 
 	 (do0
 	  (setf chat (langchain.chat_models.ChatOpenAI :temperature 1))
 	  (setf user_input (input (string "Ask me a question: ")))
