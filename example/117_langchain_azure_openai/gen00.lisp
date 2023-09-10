@@ -114,9 +114,9 @@
 
 	 (do0
 	  (setf chat (langchain.chat_models.ChatOpenAI :temperature 1))
-	  (setf user_input (input (string "Ask me a question:")))
+	  (setf user_input (input (string "Ask me a question: ")))
 
-	  (setf messages (list (langchain.schema.SystemMessage :contents (string "You are an angry assistant"))
+	  (setf messages (list ;(langchain.schema.SystemMessage :contents (string "You are an angry assistant"))
 			       (langchain.schema.HumanMessage :content user_input)))
 
 	  (print (dot (chat messages)
