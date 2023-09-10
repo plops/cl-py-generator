@@ -1,7 +1,6 @@
 name: Build ESP32 Project 103/04
 # this is not yet working
 
-
 on:
   push:
     branches: [ "master" ]
@@ -17,13 +16,14 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
 # takes 1min30sec:
-    - name: Setup ESP-IDF
-      uses: espressif/esp-idf-ci-action@v1
-      with:
-        esp_idf_version: v4.4  # or the version you need
-        target: esp32
-	command: "echo 'Setup complete'"  # Override the default build command
+#    - name: Setup ESP-IDF
+#      uses: espressif/esp-idf-ci-action@v1
+#      with:
+#        esp_idf_version: v4.4  # or the version you need
+#        target: esp32
+#	command: "echo 'Setup complete'"  # Override the default build command
 
 #   - name: Setup ESP-IDF
 #      run: |
@@ -31,7 +31,6 @@ jobs:
 #        cd esp-idf
 #        ./install.sh
 #        source ./export.sh
-
 
 #    - name: Setup tmate session
 #      uses: mxschmitt/action-tmate@v3
