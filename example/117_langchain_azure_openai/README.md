@@ -24,7 +24,7 @@ https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=comma
 - i called my deployments gpt-35, or gpt-35-16k
 - to see api key and endpoint go to settings (gear icon) -> Resource
 - Endpoint: https://<resource-name>.openai.azure.com/
-- Key: 5929bf3.... (only one key is shown)
+- Key: 5929bf3.... (only one key is shown, note: this is not even part of a real key)
 
 - if i go to portal.azure.com, click on the resource and `Keys and
   Endpoints` then i see two keys, KEY 1 is the one that is shown in
