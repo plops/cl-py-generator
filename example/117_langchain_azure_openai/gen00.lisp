@@ -55,7 +55,7 @@
 					;sklearn
 					;sklearn.linear_model
 					;itertools
-			datetime
+					;datetime
 					; (np numpy)
 					;(cv cv2)
 					;(mp mediapipe)
@@ -74,7 +74,7 @@
 					;(mpf mplfinance)
 
 					;argparse
-			langchain
+			;langchain
 			langchain.chat_models
 			langchain.schema
 			langchain.llms
@@ -121,22 +121,28 @@
 	       openai.api_version (os.getenv (string "OPENAI_API_VERSION")))
 
 	 #+nil
-	 (do0 (setf response (openai.ChatCompletion.create :engine chatgpt_deployment_name
-							   :messages (list (dictionary :role (string "system")
-										       :content (string "You are an angry assistent."))
-									   (dictionary :role (string "user")
-										       :content (string "Who won the world series in 2020.")))))
+	 (do0
+	  (comments "this works")
+	  (setf response (openai.ChatCompletion.create :engine chatgpt_deployment_name
+						       :messages (list (dictionary :role (string "system")
+										   :content (string "You are an angry assistant."))
+								       (dictionary :role (string "user")
+										   :content (string "Who won the world series in 2020.")))))
 	      (print response))
 	 
+	 #+nil
 	 (do0
+	  (comments "openai.error.InvalidRequestError: The completion operation does not work with the specified model, gpt-35-turbo. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993.")
 	  (setf llm (langchain.llms.AzureOpenAI :deployment_name chatgpt_deployment_name
 						:model_name chatgpt_model_name))
 
 	  (llm (string "Tell me a joke")))
-	 #+nil
-	 
+	 #-nil
 	 (do0
-	  (setf chat (langchain.chat_models.ChatOpenAI :temperature 1))
+	  (setf chat (langchain.chat_models.AzureChatOpenAI
+		      ;:engine chatgpt_deployment_name
+		      :model_name chatgpt_model_name
+		      :temperature 1))
 	  (setf user_input (input (string "Ask me a question: ")))
 
 	  (setf messages (list ;(langchain.schema.SystemMessage :contents (string "You are an angry assistant"))
