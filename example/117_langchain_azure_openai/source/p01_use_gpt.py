@@ -13,12 +13,12 @@ from qdrant_client.http import models
 from qdrant_client.http.models import CollectionStatus
 from qdrant_client.models import PointStruct, Distance, VectorParams
 from sentence_transformers import SentenceTransformer
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="a3740b2a4e9a4c54923100fe0fe7d51404641208"
+_code_git_version="6ba197978737238a2563ec99a315893d8d43ef00"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="19:35:32 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="19:46:00 of Tuesday, 2023-09-12 (GMT+1)"
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
 openai.api_type="azure"
@@ -35,13 +35,27 @@ vectors=[]
 batch_size=512
 batch=[]
 model=SentenceTransformer("msmarco-MiniLM-L-6-v3")
-client=QdrantClient(host="localhost", port=6333, prefer_grpc=false)
+client=QdrantClient(host="localhost", port=6333, prefer_grpc=False)
 def make_collection(client, collection_name: str):
     client.recreate_collection(collection_name=COLLECTION_NAME, vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE))
 def make_chunks(input_text: str):
     text_splitter=RecursiveCharacterTextSplitter(separators="\n", chunk_size=1000, chunk_overlap=20, length_function=len)
     with open(input_text) as f:
-        alice=f.create()
+        alice=f.read()
     chunks=text_splitter.create_documents([alice])
     return chunks
 texts=make_chunks(TEXTS[0])
+def gen_vectors(texts, model, batch, batch_size, vectors):
+    for part in tqdm(texts):
+        batch.append(part.page_content)
+        if ( ((batch_size)<=(len(batch))) ):
+            vectors.append(model.encode(batch))
+            batch=[]
+    if ( ((0)<(len(batch))) ):
+        vectors.append(model.encode(batch))
+        batch=[]
+    vectors=np.concatenate(vectors)
+    payload=list([item for item in texts])
+    vectors=[v.to_list() for v in vectors]
+    return vectors, payload
+fin_vectors, fin_payload=gen_vectors(texts=texts, model=model, batch=batch, batch_size=batch_size, vectors=vectors)

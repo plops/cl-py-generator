@@ -89,7 +89,8 @@
 		      (qdrant_client.http.models CollectionStatus)
 		      (qdrant_client.models PointStruct Distance VectorParams)
 		      (sentence_transformers SentenceTransformer)
-		      (tqdm.notebook tqdm)))
+		      (tqdm ;.notebook
+		       tqdm)))
 	  
 	 (setf start_time (time.time)
 	       debug True)
@@ -138,7 +139,7 @@
 	 (setf model (SentenceTransformer (string "msmarco-MiniLM-L-6-v3"))
 	       client (QdrantClient :host (string "localhost")
 				    :port 6333
-				    :prefer_grpc false))
+				    :prefer_grpc False))
 
 	 (def make_collection (client collection_name)
 	   (declare (type str collection_name))
@@ -154,11 +155,35 @@
 							       :chunk_overlap 20
 							       :length_function len))
 	   (with (as (open input_text) f)
-		 (setf alice (f.create)))
+		 (setf alice (f.read)))
 	   (setf chunks (text_splitter.create_documents (list alice)))
 	   (return chunks))
 
-	 (setf texts (make_chunks (aref TEXTS 0)))
+	 (setf texts (make_chunks (aref TEXTS 0))) ;; len 170
+
+	 (def gen_vectors (texts model batch batch_size vectors)
+	   (for (part (tqdm texts))
+		(batch.append part.page_content)
+		(when (<= batch_size (len batch))
+		  (vectors.append (model.encode batch))
+		  (setf batch (list))))
+	   (when (< 0 (len batch))
+	     (vectors.append (model.encode batch))
+	     (setf batch (list)))
+	   (setf vectors (np.concatenate vectors))
+	   (setf payload ("list"
+			  (list (for-generator (item texts)
+					       item))))
+	   (setf vectors (list (for-generator (v vectors)
+					      (v.to_list))))
+	   (return (ntuple vectors payload)))
+	 (setf (ntuple fin_vectors
+		       fin_payload)
+	       (gen_vectors :texts texts
+			    :model model
+			    :batch batch
+			    :batch_size batch_size
+			    :vectors vectors))
 	 
 	 #+nil
 	 (do0
