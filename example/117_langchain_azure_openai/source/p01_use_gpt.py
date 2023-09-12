@@ -1,6 +1,6 @@
 #|default_exp p01_use_gpt
 # python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh;
-# pip install qdrant-client langchain[llms] openai
+# pip install qdrant-client langchain[llms] openai sentence-transformers
 # deactivate
 import os
 import time
@@ -16,9 +16,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm.notebook import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="29a4b8941ed72671e987a4f0b48ab510017f1871"
+_code_git_version="a3740b2a4e9a4c54923100fe0fe7d51404641208"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="19:34:49 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="19:35:32 of Tuesday, 2023-09-12 (GMT+1)"
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
 openai.api_type="azure"

@@ -33,7 +33,7 @@
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
        
        (comments "python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh;"
-		 "pip install qdrant-client langchain[llms] openai"
+		 "pip install qdrant-client langchain[llms] openai sentence-transformers"
 		 "deactivate")
        (do0
 	  
