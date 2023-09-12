@@ -72,3 +72,11 @@ cb.completion_tokens
 cb.total_cost
 
 ```
+# List packages in virtual env
+
+```
+pip freeze --local
+aiohttp==3.8.5
+aiosignal==1.3.1
+
+```
