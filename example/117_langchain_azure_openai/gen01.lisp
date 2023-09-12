@@ -5,7 +5,7 @@
 
 (progn
   (defparameter *project* "117_langchain_azure_openai")
-  (defparameter *idx* "00")
+  (defparameter *idx* "01")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -26,7 +26,7 @@
   (let* ((notebook-name "use_gpt")
 	 #+nil (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
-    (write-source
+     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
        (do0
@@ -43,7 +43,7 @@
 					;pathlib
 					;(np numpy)
 					;serial
-			;(pd pandas)
+					;(pd pandas)
 					;(xr xarray)
 					;(xrp xarray.plot)
 					;skimage.restoration
@@ -74,12 +74,21 @@
 					;(mpf mplfinance)
 
 					;argparse
-			;langchain
-			langchain.chat_models
-			langchain.schema
-			langchain.llms
+					;langchain
+					;langchain.chat_models
+					; langchain.schema
+			; langchain.llms
 			openai
-			)))
+			))
+	(imports-from (langchain.vectorstores Qdrant)
+		      (langchain.embeddings HuggingFaceEmbeddings)
+		      (langchain.text_splitter RecursiveCharacterTextSplitter)
+		      (qdrant_client QdrantClient)
+		      (qdrant_client.http models)
+		      (qdrant_client.http.models CollectionStatus)
+		      (qdrant_client.models PointStruct Distance VectorParams)
+		      (sentence_transformers SentenceTransformer)
+		      (tqdm.notebook tqdm)))
 	  
 	 (setf start_time (time.time)
 	       debug True)
@@ -106,13 +115,7 @@
 			     date
 			     (- tz)))))
 
-	 #+nil
-	 (do0
-	  (setf response (openai.Completion.create :engine (string "gpt-35")
-						   :prompt (string "This is a test")
-						   :max_tokens 5))
-					
-	  )
+	 
 	 (setf chatgpt_deployment_name (string "gpt-35")
 	       chatgpt_model_name (string "gpt-35-turbo")
 	       openai.api_type (string "azure")
@@ -120,24 +123,29 @@
 	       openai.api_base (os.getenv (string "OPENAI_API_BASE"))
 	       openai.api_version (os.getenv (string "OPENAI_API_VERSION")))
 
-	 #+nil
-	 (do0
-	  (comments "this works")
-	  (setf response (openai.ChatCompletion.create :engine chatgpt_deployment_name
-						       :messages (list (dictionary :role (string "system")
-										   :content (string "You are an angry assistant."))
-								       (dictionary :role (string "user")
-										   :content (string "Who won the world series in 2020.")))))
-	      (print response))
+	 (comments "cd ~/src; git clone --depth 1 https://github.com/RGGH/LangChain-Course")
+	 (comments "cd ~/Downloads ; wget https://github.com/qdrant/qdrant/releases/download/v1.5.1/qdrant-x86_64-unknown-linux-gnu.tar.gz")
+	 (comments "mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz")
+	 (comments "cd ~/Downloads/q; ./qdrant")
+	 (setf COLLECTION_NAME (string "aiw")
+	       TEXTS (list (string "/home/martin/src/LangChain-Course/lc5_indexes/text/aiw.txt"))
+	       vectors (list)
+	       batch_size 512
+	       batch (list))
+
+	 (setf model (SentenceTransformer (string "msmarco-MiniLM-L-6-v3"))
+	       client (QdrantClient :host (string "localhost")
+				    :port 6333
+				    :prefer_grpc false))
+
+	 (def make_collection (client collection_name)
+	   (declare (type str collection_name))
+	   (client.recreate_collection
+	    :collection_name COLLECTION_NAME
+	    :vectors_config (models.VectorParams :size 384
+						 :distance models.Distance.COSINE)))
 	 
 	 #+nil
-	 (do0
-	  (comments "openai.error.InvalidRequestError: The completion operation does not work with the specified model, gpt-35-turbo. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993.")
-	  (setf llm (langchain.llms.AzureOpenAI :deployment_name chatgpt_deployment_name
-						:model_name chatgpt_model_name))
-
-	  (llm (string "Tell me a joke")))
-	 #-nil
 	 (do0
 	  (comments "this works")
 	  (setf chat (langchain.chat_models.AzureChatOpenAI

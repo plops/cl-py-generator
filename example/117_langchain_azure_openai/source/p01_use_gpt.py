@@ -18,7 +18,7 @@ start_time=time.time()
 debug=True
 _code_git_version="95abd7c622a12d2a82b316ecaa129bf90130eef3"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="19:27:18 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="19:27:35 of Tuesday, 2023-09-12 (GMT+1)"
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
 openai.api_type="azure"
@@ -38,8 +38,3 @@ model=SentenceTransformer("msmarco-MiniLM-L-6-v3")
 client=QdrantClient(host="localhost", port=6333, prefer_grpc=false)
 def make_collection(client, collection_name: str):
     client.recreate_collection(collection_name=COLLECTION_NAME, vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE))
-# this works
-chat=langchain.chat_models.AzureChatOpenAI(deployment_name=chatgpt_deployment_name, model_name=chatgpt_model_name, temperature=1)
-user_input=input("Ask me a question: ")
-messages=[langchain.schema.HumanMessage(content=user_input)]
-print(chat(messages).content)
