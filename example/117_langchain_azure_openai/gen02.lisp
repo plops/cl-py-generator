@@ -149,7 +149,7 @@
 	 (setf qa (RetrievalQA.from_chain_type :llm llm
 					       :chain_type (string "stuff")
 					       :retriever retriever))
-	 (setf question (string "What is the cause of long covid?"))
+	 (setf question (string "How does a COVID infection typically progress?"))
 	 (setf answer (qa.run question))
 	 (print answer)))))
 
@@ -161,3 +161,4 @@
 ;; What is the cause of long covid?
 ;; The cause of long COVID, also known as post-COVID syndrome, is not fully understood. However, it is believed to be a result of the damage caused by the initial COVID-19 infection. Long COVID can affect various organs and systems in the body, including the lungs, heart, and nervous system. It is important to note that more research is needed to fully understand the underlying mechanisms of long COVID.
 
+;; How does a COVID infection typically progress?

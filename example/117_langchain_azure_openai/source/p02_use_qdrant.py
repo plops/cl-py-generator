@@ -15,9 +15,9 @@ from langchain.chains import RetrievalQA
 from qdrant_client import QdrantClient
 start_time=time.time()
 debug=True
-_code_git_version="590507fd0096d3975a2ab9f2e0c2d69f6cf7e549"
+_code_git_version="965dde76e3e09e284dcd91bf0fabeb1e5560f167"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="00:23:13 of Wednesday, 2023-09-13 (GMT+1)"
+_code_generation_time="00:30:03 of Wednesday, 2023-09-13 (GMT+1)"
 langchain.debug=True
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
@@ -32,6 +32,6 @@ COLLECTION_NAME="aiw"
 qdrant=Qdrant(client=client, collection_name=COLLECTION_NAME, embeddings=embeddings, metadata_payload_key="payload")
 retriever=qdrant.as_retriever()
 qa=RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
-question="What is the cause of long covid?"
+question="How does a COVID infection typically progress?"
 answer=qa.run(question)
 print(answer)
