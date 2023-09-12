@@ -42,7 +42,7 @@
 			time
 					;docopt
 					;pathlib
-					;(np numpy)
+			(np numpy)
 					;serial
 					;(pd pandas)
 					;(xr xarray)
@@ -175,7 +175,7 @@
 			  (list (for-generator (item texts)
 					       item))))
 	   (setf vectors (list (for-generator (v vectors)
-					      (v.to_list))))
+					      (v.tolist))))
 	   (return (ntuple vectors payload)))
 	 (setf (ntuple fin_vectors
 		       fin_payload)
@@ -184,6 +184,22 @@
 			    :batch batch
 			    :batch_size batch_size
 			    :vectors vectors))
+
+	 (def upsert_to_qdrant (fin_vectors fin_payload)
+	   (setf collection_info (client.get_collection
+				  :collection_name COLLECTION_NAME))
+	   (client.upsert
+	    :collection_name COLLECTION_NAME
+	    :points (list (for-generator ((ntuple idx vector)
+					  (enumerate fin_vectors))
+					 (PointStruct :id (+ collection_info.vectors_count
+							     idx)
+						      :vector vector
+						      :payload (aref fin_payload idx))))))
+
+	 (make_collection client COLLECTION_NAME)
+	 (upsert_to_qdrant fin_vectors
+			   fin_payload)
 	 
 	 #+nil
 	 (do0
