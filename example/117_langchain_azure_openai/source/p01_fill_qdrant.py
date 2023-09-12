@@ -58,3 +58,5 @@ def upsert_to_qdrant(fin_vectors, fin_payload):
     client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=fin_payload[idx].to_json()) for idx, vector in enumerate(fin_vectors)])
 make_collection(client, COLLECTION_NAME)
 upsert_to_qdrant(fin_vectors, fin_payload)
+
+from langchain.chat_models import ChatOpenAI
