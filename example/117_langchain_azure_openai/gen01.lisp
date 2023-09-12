@@ -171,7 +171,7 @@
 					  (make_chunks text))))
 
 	 (def gen_vectors (texts model batch batch_size vectors)
-	   (for (part (tqdm texts))
+	   (for (part texts)
 		(batch.append part.page_content)
 		(when (<= batch_size (len batch))
 		  (vectors.append (model.encode batch))
@@ -213,8 +213,10 @@
 			     :batch batch
 			     :batch_size batch_size
 			     :vectors vectors))
-	  (upsert_to_qdrant fin_vectors
-			    fin_payload))
+	  (when (and (< 0 (len fin_payload))
+		     (== (len fin_vectors) (len fin_payload)))
+	    (upsert_to_qdrant fin_vectors
+			      fin_payload)))
 	 
 	 #+nil
 	 (do0

@@ -17,9 +17,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="142ddb57c9a232c165100054087b97846d89a2e6"
+_code_git_version="60ff9fe9305e998b52d4421d991bcdf188c41f48"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="23:29:55 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="23:35:14 of Tuesday, 2023-09-12 (GMT+1)"
 # cd ~/src; git clone --depth 1 https://github.com/RGGH/LangChain-Course
 # cd ~/Downloads ; wget https://github.com/qdrant/qdrant/releases/download/v1.5.1/qdrant-x86_64-unknown-linux-gnu.tar.gz
 # mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz
@@ -42,7 +42,7 @@ def make_chunks(input_text: str):
     return chunks
 texts=[make_chunks(text) for text in TEXTS]
 def gen_vectors(texts, model, batch, batch_size, vectors):
-    for part in tqdm(texts):
+    for part in texts:
         batch.append(part.page_content)
         if ( ((batch_size)<=(len(batch))) ):
             vectors.append(model.encode(batch))
@@ -60,4 +60,5 @@ def upsert_to_qdrant(fin_vectors, fin_payload):
 make_collection(client, COLLECTION_NAME)
 for text in tqdm(texts):
     fin_vectors, fin_payload=gen_vectors(texts=text, model=model, batch=batch, batch_size=batch_size, vectors=vectors)
-    upsert_to_qdrant(fin_vectors, fin_payload)
+    if ( ((((0)<(len(fin_payload)))) and (((len(fin_vectors))==(len(fin_payload))))) ):
+        upsert_to_qdrant(fin_vectors, fin_payload)
