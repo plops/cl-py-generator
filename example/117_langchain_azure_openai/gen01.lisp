@@ -95,7 +95,7 @@
 	       debug True)
 	 (setf
 	  _code_git_version
-	  (string ,(let ((str (with-output-to-string (s)
+	  (string ,(let ((str (with-output-to-string (s) 
 				(sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
 		     (subseq str 0 (1- (length str)))))
 	  _code_repository (string ,(format nil
