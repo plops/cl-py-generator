@@ -17,9 +17,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="793c630a1277af23460b1f6829e0884562f1a13a"
+_code_git_version="43cdb7446bfceb4c142bd3c34c682370a8c880c1"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="19:54:03 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="21:18:43 of Tuesday, 2023-09-12 (GMT+1)"
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
 openai.api_type="azure"
@@ -62,6 +62,6 @@ def gen_vectors(texts, model, batch, batch_size, vectors):
 fin_vectors, fin_payload=gen_vectors(texts=texts, model=model, batch=batch, batch_size=batch_size, vectors=vectors)
 def upsert_to_qdrant(fin_vectors, fin_payload):
     collection_info=client.get_collection(collection_name=COLLECTION_NAME)
-    client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=fin_payload[idx]) for idx, vector in enumerate(fin_vectors)])
+    client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=fin_payload[idx].to_json()) for idx, vector in enumerate(fin_vectors)])
 make_collection(client, COLLECTION_NAME)
 upsert_to_qdrant(fin_vectors, fin_payload)

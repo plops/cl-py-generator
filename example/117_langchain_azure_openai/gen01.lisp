@@ -195,8 +195,10 @@
 					 (PointStruct :id (+ collection_info.vectors_count
 							     idx)
 						      :vector vector
-						      :payload (aref fin_payload idx))))))
-
+						      :payload
+						      (dot (aref fin_payload idx)
+							   (to_json)))))))
+	 
 	 (make_collection client COLLECTION_NAME)
 	 (upsert_to_qdrant fin_vectors
 			   fin_payload)
