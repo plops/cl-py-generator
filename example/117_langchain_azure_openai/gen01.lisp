@@ -31,8 +31,9 @@
      `(do0
        (do0
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
-       (comments "python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh; pip install langchain"
-		 ""
+       
+       (comments "python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh;"
+		 "pip install qdrant-client langchain[llms] openai"
 		 "deactivate")
        (do0
 	  
@@ -124,6 +125,7 @@
 	       openai.api_version (os.getenv (string "OPENAI_API_VERSION")))
 
 	 (comments "cd ~/src; git clone --depth 1 https://github.com/RGGH/LangChain-Course")
+	 
 	 (comments "cd ~/Downloads ; wget https://github.com/qdrant/qdrant/releases/download/v1.5.1/qdrant-x86_64-unknown-linux-gnu.tar.gz")
 	 (comments "mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz")
 	 (comments "cd ~/Downloads/q; ./qdrant")
@@ -144,6 +146,19 @@
 	    :collection_name COLLECTION_NAME
 	    :vectors_config (models.VectorParams :size 384
 						 :distance models.Distance.COSINE)))
+
+	 (def make_chunks (input_text )
+	   (declare (type str input_text))
+	   (setf text_splitter (RecursiveCharacterTextSplitter :separators (string "\\n")
+							       :chunk_size 1000
+							       :chunk_overlap 20
+							       :length_function len))
+	   (with (as (open input_text) f)
+		 (setf alice (f.create)))
+	   (setf chunks (text_splitter.create_documents (list alice)))
+	   (return chunks))
+
+	 (setf texts (make_chunks (aref TEXTS 0)))
 	 
 	 #+nil
 	 (do0

@@ -1,6 +1,6 @@
 #|default_exp p01_use_gpt
-# python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh; pip install langchain
-# 
+# python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh;
+# pip install qdrant-client langchain[llms] openai
 # deactivate
 import os
 import time
@@ -16,9 +16,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm.notebook import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="95abd7c622a12d2a82b316ecaa129bf90130eef3"
+_code_git_version="29a4b8941ed72671e987a4f0b48ab510017f1871"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="19:27:35 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="19:34:49 of Tuesday, 2023-09-12 (GMT+1)"
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
 openai.api_type="azure"
@@ -38,3 +38,10 @@ model=SentenceTransformer("msmarco-MiniLM-L-6-v3")
 client=QdrantClient(host="localhost", port=6333, prefer_grpc=false)
 def make_collection(client, collection_name: str):
     client.recreate_collection(collection_name=COLLECTION_NAME, vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE))
+def make_chunks(input_text: str):
+    text_splitter=RecursiveCharacterTextSplitter(separators="\n", chunk_size=1000, chunk_overlap=20, length_function=len)
+    with open(input_text) as f:
+        alice=f.create()
+    chunks=text_splitter.create_documents([alice])
+    return chunks
+texts=make_chunks(TEXTS[0])
