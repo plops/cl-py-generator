@@ -15,9 +15,9 @@ from langchain.chains import RetrievalQA
 from qdrant_client import QdrantClient
 start_time=time.time()
 debug=True
-_code_git_version="b14b86a907a19c83d19b66669c9f94e4539b2328"
+_code_git_version="142ddb57c9a232c165100054087b97846d89a2e6"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="21:55:48 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="23:16:15 of Tuesday, 2023-09-12 (GMT+1)"
 langchain.debug=True
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
@@ -32,6 +32,6 @@ COLLECTION_NAME="aiw"
 qdrant=Qdrant(client=client, collection_name=COLLECTION_NAME, embeddings=embeddings, metadata_payload_key="payload")
 retriever=qdrant.as_retriever()
 qa=RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
-question="What does Alice drink?"
+question="How many friends does Alice have?"
 answer=qa.run(question)
 print(answer)

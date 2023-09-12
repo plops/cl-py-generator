@@ -149,7 +149,9 @@
 	 (setf qa (RetrievalQA.from_chain_type :llm llm
 					       :chain_type (string "stuff")
 					       :retriever retriever))
-	 (setf question (string "What does Alice drink?"))
+	 (setf question (string "How many friends does Alice have?"))
 	 (setf answer (qa.run question))
 	 (print answer)))))
 
+;; How many people are killed by the queen?
+;; ValueError: Azure has not provided the response due to a content filter being triggered

@@ -4,6 +4,7 @@
 # deactivate
 import os
 import time
+import pathlib
 import numpy as np
 from langchain.vectorstores import Qdrant
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -16,15 +17,15 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="88e45080b923333be23f1a8d04f66c9049ef01c0"
+_code_git_version="142ddb57c9a232c165100054087b97846d89a2e6"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="22:43:51 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="23:29:55 of Tuesday, 2023-09-12 (GMT+1)"
 # cd ~/src; git clone --depth 1 https://github.com/RGGH/LangChain-Course
 # cd ~/Downloads ; wget https://github.com/qdrant/qdrant/releases/download/v1.5.1/qdrant-x86_64-unknown-linux-gnu.tar.gz
 # mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz
 # cd ~/Downloads/q; ./qdrant
 COLLECTION_NAME="aiw"
-TEXTS=["/home/martin/src/LangChain-Course/lc5_indexes/text/aiw.txt"]
+TEXTS=list(pathlib.Path("../../98_yt_audio_to_text/source/transcribed/vtt").glob("*.vtt"))
 vectors=[]
 batch_size=512
 batch=[]
@@ -39,7 +40,7 @@ def make_chunks(input_text: str):
         alice=f.read()
     chunks=text_splitter.create_documents([alice])
     return chunks
-texts=make_chunks(TEXTS[0])
+texts=[make_chunks(text) for text in TEXTS]
 def gen_vectors(texts, model, batch, batch_size, vectors):
     for part in tqdm(texts):
         batch.append(part.page_content)
@@ -53,9 +54,10 @@ def gen_vectors(texts, model, batch, batch_size, vectors):
     payload=list([item for item in texts])
     vectors=[v.tolist() for v in vectors]
     return vectors, payload
-fin_vectors, fin_payload=gen_vectors(texts=texts, model=model, batch=batch, batch_size=batch_size, vectors=vectors)
 def upsert_to_qdrant(fin_vectors, fin_payload):
     collection_info=client.get_collection(collection_name=COLLECTION_NAME)
-    client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=dict(payload=fin_payload[idx].page_content)) for idx, vector in enumerate(fin_vectors)])
+    client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=dict(page_content=fin_payload[idx].page_content)) for idx, vector in enumerate(fin_vectors)])
 make_collection(client, COLLECTION_NAME)
-upsert_to_qdrant(fin_vectors, fin_payload)
+for text in tqdm(texts):
+    fin_vectors, fin_payload=gen_vectors(texts=text, model=model, batch=batch, batch_size=batch_size, vectors=vectors)
+    upsert_to_qdrant(fin_vectors, fin_payload)

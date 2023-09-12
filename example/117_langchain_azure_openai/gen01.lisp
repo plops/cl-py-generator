@@ -41,7 +41,7 @@
 					;sys
 			time
 					;docopt
-					;pathlib
+			pathlib
 			(np numpy)
 					;serial
 					;(pd pandas)
@@ -131,7 +131,11 @@
 	 (comments "mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz")
 	 (comments "cd ~/Downloads/q; ./qdrant")
 	 (setf COLLECTION_NAME (string "aiw")
-	       TEXTS (list (string "/home/martin/src/LangChain-Course/lc5_indexes/text/aiw.txt"))
+	       TEXTS
+	       ("list"
+		(dot pathlib (Path (string "../../98_yt_audio_to_text/source/transcribed/vtt"))
+		     (glob (string "*.vtt"))))
+	       #+nil (list (string "/home/martin/src/LangChain-Course/lc5_indexes/text/aiw.txt"))
 	       vectors (list)
 	       batch_size 512
 	       batch (list))
@@ -161,7 +165,10 @@
 	   (setf chunks (text_splitter.create_documents (list alice)))
 	   (return chunks))
 
-	 (setf texts (make_chunks (aref TEXTS 0))) ;; len 170
+	 ;(setf texts (make_chunks (aref TEXTS 0))) ;; len 170
+
+	 (setf texts (list (for-generator (text TEXTS)
+					  (make_chunks text))))
 
 	 (def gen_vectors (texts model batch batch_size vectors)
 	   (for (part (tqdm texts))
@@ -179,13 +186,7 @@
 	   (setf vectors (list (for-generator (v vectors)
 					      (v.tolist))))
 	   (return (ntuple vectors payload)))
-	 (setf (ntuple fin_vectors
-		       fin_payload)
-	       (gen_vectors :texts texts
-			    :model model
-			    :batch batch
-			    :batch_size batch_size
-			    :vectors vectors))
+	 
 
 	 (def upsert_to_qdrant (fin_vectors fin_payload)
 	   (setf collection_info (client.get_collection
@@ -199,13 +200,21 @@
 						      :vector vector
 						      :payload
 						      (dictionary
-						       :payload
+						       :page_content
 						       (dot (aref fin_payload idx)
 							    page_content)))))))
 	 
 	 (make_collection client COLLECTION_NAME)
-	 (upsert_to_qdrant fin_vectors
-			   fin_payload)
+	 (for (text (tqdm  texts))
+	  (setf (ntuple fin_vectors
+			fin_payload)
+		(gen_vectors :texts text
+			     :model model
+			     :batch batch
+			     :batch_size batch_size
+			     :vectors vectors))
+	  (upsert_to_qdrant fin_vectors
+			    fin_payload))
 	 
 	 #+nil
 	 (do0
