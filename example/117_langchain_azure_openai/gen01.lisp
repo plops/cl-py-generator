@@ -23,7 +23,7 @@
 
   
   
-  (let* ((notebook-name "use_gpt")
+  (let* ((notebook-name "fill_qdrant")
 	 #+nil (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
      (write-source
@@ -79,7 +79,7 @@
 					;langchain.chat_models
 					; langchain.schema
 			; langchain.llms
-			openai
+			;openai
 			))
 	(imports-from (langchain.vectorstores Qdrant)
 		      (langchain.embeddings HuggingFaceEmbeddings)
@@ -117,7 +117,7 @@
 			     date
 			     (- tz)))))
 
-	 
+	 #+nil
 	 (setf chatgpt_deployment_name (string "gpt-35")
 	       chatgpt_model_name (string "gpt-35-turbo")
 	       openai.api_type (string "azure")

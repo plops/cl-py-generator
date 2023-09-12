@@ -1,11 +1,10 @@
-#|default_exp p01_use_gpt
+#|default_exp p01_fill_qdrant
 # python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh;
 # pip install qdrant-client langchain[llms] openai sentence-transformers
 # deactivate
 import os
 import time
 import numpy as np
-import openai
 from langchain.vectorstores import Qdrant
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -17,15 +16,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="43cdb7446bfceb4c142bd3c34c682370a8c880c1"
+_code_git_version="5d79efa2a15f2455f5d900c082232b0dafa81066"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="21:18:43 of Tuesday, 2023-09-12 (GMT+1)"
-chatgpt_deployment_name="gpt-35"
-chatgpt_model_name="gpt-35-turbo"
-openai.api_type="azure"
-openai.api_key=os.getenv("OPENAI_API_KEY")
-openai.api_base=os.getenv("OPENAI_API_BASE")
-openai.api_version=os.getenv("OPENAI_API_VERSION")
+_code_generation_time="21:22:53 of Tuesday, 2023-09-12 (GMT+1)"
 # cd ~/src; git clone --depth 1 https://github.com/RGGH/LangChain-Course
 # cd ~/Downloads ; wget https://github.com/qdrant/qdrant/releases/download/v1.5.1/qdrant-x86_64-unknown-linux-gnu.tar.gz
 # mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz

@@ -1,8 +1,9 @@
-| file  | level | content        |
-|-------|-------|----------------|
-| gen00 | 30%   | simple example |
-| gen01 |       | index          |
-|       |       |                |
+| file  | level | content         |
+|-------|-------|-----------------|
+| gen00 | 30%   | simple example  |
+| gen01 |       | fill index      |
+| gen02 |       | search in index |
+|       |       |                 |
 
 - general introduction to langchain
 - https://www.youtube.com/watch?v=jfJbaJHnnP0 LangChain for beginners | full code
