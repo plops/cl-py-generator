@@ -16,9 +16,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="b14b86a907a19c83d19b66669c9f94e4539b2328"
+_code_git_version="88e45080b923333be23f1a8d04f66c9049ef01c0"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="22:00:09 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="22:43:51 of Tuesday, 2023-09-12 (GMT+1)"
 # cd ~/src; git clone --depth 1 https://github.com/RGGH/LangChain-Course
 # cd ~/Downloads ; wget https://github.com/qdrant/qdrant/releases/download/v1.5.1/qdrant-x86_64-unknown-linux-gnu.tar.gz
 # mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz
@@ -56,6 +56,6 @@ def gen_vectors(texts, model, batch, batch_size, vectors):
 fin_vectors, fin_payload=gen_vectors(texts=texts, model=model, batch=batch, batch_size=batch_size, vectors=vectors)
 def upsert_to_qdrant(fin_vectors, fin_payload):
     collection_info=client.get_collection(collection_name=COLLECTION_NAME)
-    client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=fin_payload[idx].to_json()) for idx, vector in enumerate(fin_vectors)])
+    client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=dict(payload=fin_payload[idx].page_content)) for idx, vector in enumerate(fin_vectors)])
 make_collection(client, COLLECTION_NAME)
 upsert_to_qdrant(fin_vectors, fin_payload)

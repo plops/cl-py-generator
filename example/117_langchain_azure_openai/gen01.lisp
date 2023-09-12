@@ -198,8 +198,10 @@
 							     idx)
 						      :vector vector
 						      :payload
-						      (dot (aref fin_payload idx)
-							   (to_json)))))))
+						      (dictionary
+						       :payload
+						       (dot (aref fin_payload idx)
+							    page_content)))))))
 	 
 	 (make_collection client COLLECTION_NAME)
 	 (upsert_to_qdrant fin_vectors

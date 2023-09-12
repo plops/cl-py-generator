@@ -8,6 +8,7 @@
 - general introduction to langchain
 - https://www.youtube.com/watch?v=jfJbaJHnnP0 LangChain for beginners | full code
 - https://github.com/RGGH/LangChain-Course
+- https://python.langchain.com/docs/integrations/vectorstores/qdrant
 - how to use openai with azure:
 https://github.com/Azure-Samples/openai/blob/main/Basic_Samples/Chat/basic_chatcompletions_example_sdk.ipynb
 ```
