@@ -29,7 +29,7 @@ openai-0.28.0
 ```
 https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-python
 ```
-
+ 
 - api key, endpoint, deployment name. all of these can be obtained
   from inside Azure AI Studio (oai.azure.com/portal)
 - i called my deployments gpt-35, gpt-35-16k, gpt-4, gpt-4-32k, gpt4, gpt35, gpt4_32k
