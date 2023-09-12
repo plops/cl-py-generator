@@ -31,7 +31,7 @@
      `(do0
        (do0
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
-       (comments "python -m venv ~/llm_env; . ~/llm_env/bin/activate; pip install langchain"
+       (comments "python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh; pip install langchain"
 		 ""
 		 "deactivate")
        (do0
