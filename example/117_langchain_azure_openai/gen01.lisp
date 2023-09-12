@@ -136,8 +136,10 @@
 	       batch_size 512
 	       batch (list))
 
-	 (setf model (SentenceTransformer (string "msmarco-MiniLM-L-6-v3"))
-	       client (QdrantClient :host (string "localhost")
+	 
+	 (setf model (SentenceTransformer (string "msmarco-MiniLM-L-6-v3")))
+	 (comments "grpc port is 6334 by default")
+	 (setf client (QdrantClient :host (string "localhost")
 				    :port 6333
 				    :prefer_grpc False))
 

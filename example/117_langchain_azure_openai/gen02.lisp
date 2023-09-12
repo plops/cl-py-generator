@@ -138,10 +138,7 @@
 	 
 	 
 	 (setf COLLECTION_NAME (string "aiw")
-	       TEXTS (list (string "/home/martin/src/LangChain-Course/lc5_indexes/text/aiw.txt"))
-	       vectors (list)
-	       batch_size 512
-	       batch (list))
+	       )
 
 	 (setf qdrant (Qdrant :client client
 			      :collection_name COLLECTION_NAME

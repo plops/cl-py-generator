@@ -15,9 +15,9 @@ from langchain.chains import RetrievalQA
 from qdrant_client import QdrantClient
 start_time=time.time()
 debug=True
-_code_git_version="b1f4f2f337fb0e556423633511cd81e981e9e942"
+_code_git_version="b14b86a907a19c83d19b66669c9f94e4539b2328"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="21:30:01 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="21:55:48 of Tuesday, 2023-09-12 (GMT+1)"
 langchain.debug=True
 chatgpt_deployment_name="gpt-35"
 chatgpt_model_name="gpt-35-turbo"
@@ -29,10 +29,6 @@ llm=AzureChatOpenAI(temperature=0, model_name=chatgpt_model_name, deployment_nam
 embeddings=HuggingFaceEmbeddings(model_name="sentence-transformers/msmarco-MiniLM-L-6-v3")
 client=QdrantClient(host="localhost", port=6333, prefer_grpc=False)
 COLLECTION_NAME="aiw"
-TEXTS=["/home/martin/src/LangChain-Course/lc5_indexes/text/aiw.txt"]
-vectors=[]
-batch_size=512
-batch=[]
 qdrant=Qdrant(client=client, collection_name=COLLECTION_NAME, embeddings=embeddings, metadata_payload_key="payload")
 retriever=qdrant.as_retriever()
 qa=RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)

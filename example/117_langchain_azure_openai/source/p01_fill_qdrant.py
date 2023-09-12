@@ -16,9 +16,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 start_time=time.time()
 debug=True
-_code_git_version="5d79efa2a15f2455f5d900c082232b0dafa81066"
+_code_git_version="b14b86a907a19c83d19b66669c9f94e4539b2328"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/117_langchain_azure_openai/source/"
-_code_generation_time="21:22:53 of Tuesday, 2023-09-12 (GMT+1)"
+_code_generation_time="22:00:09 of Tuesday, 2023-09-12 (GMT+1)"
 # cd ~/src; git clone --depth 1 https://github.com/RGGH/LangChain-Course
 # cd ~/Downloads ; wget https://github.com/qdrant/qdrant/releases/download/v1.5.1/qdrant-x86_64-unknown-linux-gnu.tar.gz
 # mkdir q; cd q; tar xaf ../q/qdrant*.tar.gz
@@ -29,6 +29,7 @@ vectors=[]
 batch_size=512
 batch=[]
 model=SentenceTransformer("msmarco-MiniLM-L-6-v3")
+# grpc port is 6334 by default
 client=QdrantClient(host="localhost", port=6333, prefer_grpc=False)
 def make_collection(client, collection_name: str):
     client.recreate_collection(collection_name=COLLECTION_NAME, vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE))
@@ -58,5 +59,3 @@ def upsert_to_qdrant(fin_vectors, fin_payload):
     client.upsert(collection_name=COLLECTION_NAME, points=[PointStruct(id=((collection_info.vectors_count)+(idx)), vector=vector, payload=fin_payload[idx].to_json()) for idx, vector in enumerate(fin_vectors)])
 make_collection(client, COLLECTION_NAME)
 upsert_to_qdrant(fin_vectors, fin_payload)
-
-from langchain.chat_models import ChatOpenAI
