@@ -149,7 +149,7 @@
 	 (setf qa (RetrievalQA.from_chain_type :llm llm
 					       :chain_type (string "stuff")
 					       :retriever retriever))
-	 (setf question (string "How many friends does Alice have?"))
+	 (setf question (string "What is the cause of long covid?"))
 	 (setf answer (qa.run question))
 	 (print answer)))))
 
