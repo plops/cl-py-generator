@@ -2029,8 +2029,37 @@ ninja install
 
 ## Proposed updates
 
+- add grpc
 - add tmux
+- i installed texlive (but i don't think i'll need that always)
 - add rocm
+
+```
+1694748431.3609125970 /var/cache/binpkgs/dev-libs/re2/re2-0.2022.12.01-1.gpkg.tar 317440
+1694748441.1241923550 /var/cache/binpkgs/dev-libs/xxhash/xxhash-0.8.1-1.gpkg.tar 112640
+1694748465.2307267380 /var/cache/binpkgs/dev-cpp/abseil-cpp/abseil-cpp-20220623.1-1.gpkg.tar 1679360
+1694748743.0025358130 /var/cache/binpkgs/net-libs/grpc/grpc-1.52.1-1.gpkg.tar 12_892_160
+
+1694812658.1767854940 /var/cache/binpkgs/app-misc/tmux/tmux-3.3a-r1-1.gpkg.tar 501_760
+
+1694815270.8391153170 /var/cache/binpkgs/dev-util/rocm-smi/rocm-smi-5.4.2-1.gpkg.tar 1_361_920
+1694815770.2497081610 /var/cache/binpkgs/app-editors/vim-core/vim-core-9.0.1503-1.gpkg.tar 9830400
+1694815791.6362574700 /var/cache/binpkgs/sys-process/numactl/numactl-2.0.16-1.gpkg.tar 112640
+1694815803.3795263630 /var/cache/binpkgs/dev-libs/roct-thunk-interface/roct-thunk-interface-5.4.3-1.gpkg.tar 133120
+1694817697.1624676640 /var/cache/binpkgs/sys-devel/llvm/llvm-15.0.7-r3-1.gpkg.tar 84_551_680
+1694817710.8890590060 /var/cache/binpkgs/sys-devel/llvm-toolchain-symlinks/llvm-toolchain-symlinks-15-r1-1.gpkg.tar 20480
+1694817749.0821827570 /var/cache/binpkgs/sys-libs/compiler-rt/compiler-rt-15.0.7-1.gpkg.tar 92_160
+1694818127.9901035200 /var/cache/binpkgs/sys-libs/compiler-rt-sanitizers/compiler-rt-sanitizers-15.0.7-1.gpkg.tar 4_229_120
+1694818137.9467155500 /var/cache/binpkgs/sys-devel/clang-runtime/clang-runtime-15.0.7-1.gpkg.tar 30720
+1694818234.7528509980 /var/cache/binpkgs/sys-devel/lld/lld-16.0.6-1.gpkg.tar 3_481_600
+1694818244.6694632480 /var/cache/binpkgs/sys-devel/lld-toolchain-symlinks/lld-toolchain-symlinks-16-r2-1.gpkg.tar 20480
+1694842429.6509723210 /var/cache/binpkgs/sys-devel/clang/clang-15.0.7-r3-1.gpkg.tar 91_996_160
+1694842444.3875581220 /var/cache/binpkgs/sys-devel/clang-toolchain-symlinks/clang-toolchain-symlinks-15-r2-1.gpkg.tar 20480
+1694842804.2889165160 /var/cache/binpkgs/dev-libs/rocm-device-libs/rocm-device-libs-5.4.3-1.gpkg.tar 655_360
+1694842850.9053273770 /var/cache/binpkgs/dev-libs/rocr-runtime/rocr-runtime-5.4.3-r1-1.gpkg.tar 839_680
+1694842863.0152609250 /var/cache/binpkgs/dev-util/rocminfo/rocminfo-5.4.3-1.gpkg.tar 61_440
+
+```
 
 ### ROCM
 
