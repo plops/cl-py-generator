@@ -1,0 +1,168 @@
+
+
+======================= ROCm System Management Interface =======================
+========================= Version of System Component ==========================
+Driver version: 6.3.12-gentoo-x86_64
+================================================================================
+====================================== ID ======================================
+GPU[0]		: GPU ID: 0x15e7
+================================================================================
+================================== Unique ID ===================================
+GPU[0]		: Unique ID: N/A
+================================================================================
+==================================== VBIOS =====================================
+GPU[0]		: VBIOS version: 113-BARCELO-003
+================================================================================
+================================= Temperature ==================================
+GPU[0]		: Temperature (Sensor edge) (C): 47.0
+================================================================================
+========================== Current clock frequencies ===========================
+GPU[0]		: fclk clock level: 2: (1200Mhz)
+GPU[0]		: mclk clock level: 2: (1200Mhz)
+GPU[0]		: sclk clock level: 2: (1800Mhz)
+GPU[0]		: socclk clock level: 4: (678Mhz)
+================================================================================
+============================== Current Fan Metric ==============================
+GPU[0]		: Unable to detect fan speed for GPU 0
+================================================================================
+============================ Show Performance Level ============================
+GPU[0]		: Performance Level: auto
+================================================================================
+=============================== OverDrive Level ================================
+GPU[0]		: GPU OverDrive value (%): 0
+================================================================================
+=============================== OverDrive Level ================================
+GPU[0]		: GPU Memory OverDrive value (%): 0
+================================================================================
+================================== Power Cap ===================================
+GPU[0]		: Not supported on the given system
+GPU[0]		: Max Graphics Package Power Unsupported
+================================================================================
+============================= Show Power Profiles ==============================
+GPU[0]		: 1. Available power profile (#1 of 7): CUSTOM
+GPU[0]		: 2. Available power profile (#2 of 7): VIDEO*
+GPU[0]		: 3. Available power profile (#4 of 7): COMPUTE
+GPU[0]		: 4. Available power profile (#5 of 7): VR
+================================================================================
+============================== Power Consumption ===============================
+Not supported on the given system
+GPU[0]		: Average Graphics Package Power (W): 13.0
+================================================================================
+========================= Supported clock frequencies ==========================
+GPU[0]		: Supported dcefclk frequencies on GPU0
+GPU[0]		: 0: 400Mhz
+GPU[0]		: 1: 464Mhz
+GPU[0]		: 2: 514Mhz
+GPU[0]		: 3: 576Mhz
+GPU[0]		: 4: 626Mhz *
+GPU[0]		: 5: 685Mhz
+GPU[0]		: 6: 757Mhz
+GPU[0]		: 7: 847Mhz
+GPU[0]		: 
+GPU[0]		: Supported fclk frequencies on GPU0
+GPU[0]		: 0: 400Mhz
+GPU[0]		: 1: 800Mhz
+GPU[0]		: 2: 1200Mhz *
+GPU[0]		: 3: 1333Mhz
+GPU[0]		: 
+GPU[0]		: Supported mclk frequencies on GPU0
+GPU[0]		: 0: 400Mhz
+GPU[0]		: 1: 800Mhz
+GPU[0]		: 2: 1200Mhz *
+GPU[0]		: 3: 1333Mhz
+GPU[0]		: 
+GPU[0]		: Supported sclk frequencies on GPU0
+GPU[0]		: 0: 200Mhz
+GPU[0]		: 1: 700Mhz
+GPU[0]		: 2: 1800Mhz *
+GPU[0]		: 
+GPU[0]		: Supported socclk frequencies on GPU0
+GPU[0]		: 0: 400Mhz
+GPU[0]		: 1: 445Mhz
+GPU[0]		: 2: 520Mhz
+GPU[0]		: 3: 600Mhz
+GPU[0]		: 4: 678Mhz *
+GPU[0]		: 5: 780Mhz
+GPU[0]		: 6: 866Mhz
+GPU[0]		: 7: 975Mhz
+GPU[0]		: 
+--------------------------------------------------------------------------------
+================================================================================
+============================== % time GPU is busy ==============================
+GPU[0]		: GPU use (%): 0
+================================================================================
+============================== Current Memory Use ==============================
+GPU[0]		: Not supported on the given system
+GPU[0]		: Memory Activity: N/A
+================================================================================
+================================ Memory Vendor =================================
+GPU[0]		: GPU memory vendor: unknown
+================================================================================
+============================= PCIe Replay Counter ==============================
+GPU[0]		: PCIe Replay Count: 0
+================================================================================
+================================ Serial Number =================================
+GPU[0]		: Serial Number: N/A
+================================================================================
+================================ KFD Processes =================================
+No KFD PIDs currently running
+================================================================================
+============================= GPUs Indexed by PID ==============================
+No KFD PIDs currently running
+================================================================================
+================== GPU Memory clock frequencies and voltages ===================
+GPU[0]		: Requested function is not implemented on this setup
+================================================================================
+=============================== Current voltage ================================
+GPU[0]		: Voltage (mV): 1362
+================================================================================
+================================== PCI Bus ID ==================================
+GPU[0]		: PCI Bus: 0000:04:00.0
+================================================================================
+============================= Firmware Information =============================
+GPU[0]		: ASD firmware version: 	0x2100009f
+GPU[0]		: CE firmware version: 		79
+GPU[0]		: DMCU firmware version: 	0
+GPU[0]		: MC firmware version: 		0
+GPU[0]		: ME firmware version: 		166
+GPU[0]		: MEC firmware version: 	464
+GPU[0]		: MEC2 firmware version: 	464
+GPU[0]		: PFP firmware version: 	194
+GPU[0]		: RLC firmware version: 	60
+GPU[0]		: RLC SRLC firmware version: 	1
+GPU[0]		: RLC SRLG firmware version: 	1
+GPU[0]		: RLC SRLS firmware version: 	1
+GPU[0]		: SDMA firmware version: 	40
+GPU[0]		: SDMA2 firmware version: 	0
+GPU[0]		: SMC firmware version: 	00.64.64.00
+GPU[0]		: SOS firmware version: 	0x00000000
+GPU[0]		: TA RAS firmware version: 	00.00.00.00
+GPU[0]		: TA XGMI firmware version: 	00.00.00.00
+GPU[0]		: UVD firmware version: 	0x00000000
+GPU[0]		: VCE firmware version: 	0x00000000
+GPU[0]		: VCN firmware version: 	0x06114000
+================================================================================
+================================= Product Info =================================
+GPU[0]		: Card series: 		Barcelo
+GPU[0]		: Card model: 		Radeon R9 M275
+GPU[0]		: Card vendor: 		Advanced Micro Devices, Inc. [AMD/ATI]
+GPU[0]		: Card SKU: 		BARCEL
+================================================================================
+================================== Pages Info ==================================
+GPU[0]		: Not supported on the given system
+============================ Show Valid sclk Range =============================
+GPU[0]		: Requested function is not implemented on this setup
+================================================================================
+============================ Show Valid mclk Range =============================
+GPU[0]		: Requested function is not implemented on this setup
+================================================================================
+=========================== Show Valid voltage Range ===========================
+GPU[0]		: Requested function is not implemented on this setup
+================================================================================
+============================= Voltage Curve Points =============================
+GPU[0]		: Requested function is not implemented on this setup
+================================================================================
+=============================== Consumed Energy ================================
+GPU[0]		: Not supported on the given system
+================================================================================
+============================= End of ROCm SMI Log ==============================
