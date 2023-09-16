@@ -2093,12 +2093,19 @@ sudo emerge -av rocminfo rocm-smi
 cat <<EOF > TestOffload.cpp
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 int main() {
     const int N = 1024;
-    std::vector<float> a(N, 1.0f);
-    std::vector<float> b(N, 2.0f);
-    std::vector<float> c(N, 0.0f);
+    float *a = new float[N];
+    float *b = new float[N];
+    float *c = new float[N];
+
+    // Initialize
+    for (int i = 0; i < N; ++i) {
+        a[i] = 1.0f;
+        b[i] = 2.0f;
+    }
 
     // Offloading to GPU
     #pragma omp target map(to: a[0:N], b[0:N]) map(from: c[0:N])
@@ -2109,20 +2116,30 @@ int main() {
 
     // Verification
     for (int i = 0; i < N; ++i) {
-        if (c[i] != 3.0f) {
-            std::cout << "Verification failed at index " << i << "\n";
+        if (std::fabs(c[i] - 3.0f) > 1e-6) {
+            std::cout << "Verification failed at index " << i << std::endl;
+            delete[] a;
+            delete[] b;
+            delete[] c;
             return 1;
         }
     }
 
-    std::cout << "Verification passed\n";
+    std::cout << "Verification passed" << std::endl;
+
+    delete[] a;
+    delete[] b;
+    delete[] c;
     return 0;
 }
 EOF
-clang -fno-stack-protector -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa --rocm-path=/usr --rocm-device-lib-path=/usr/lib/amdgcn/bitcode TestOffload.cpp -o TestOffload
+clang -fno-stack-protector -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa \
+  --rocm-path=/usr --rocm-device-lib-path=/usr/lib/amdgcn/bitcode TestOffload.cpp -o TestOffload -lstdc++
+./TestOffload 
+# Verification passed
 
 ```
-
+- Intro to GPU Programming with the OpenMP API (OpenMP Webinar) https://www.youtube.com/watch?v=uVcvecgdW7g
 
 - paralution looks interesting: https://www.paralution.com/downloads/paralution-um.pdf
 
