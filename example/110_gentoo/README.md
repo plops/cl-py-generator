@@ -2083,4 +2083,47 @@ sudo emerge -av rocminfo rocm-smi
 ```
 
 
+``` 
+# in package.use
+*/* AMDGPU_TARGETS: gfx90c -gfx908 -gfx90a -gfx1030 -gfx1031
+```
+
+- test offloading
+```
+cat <<EOF > TestOffload.cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    const int N = 1024;
+    std::vector<float> a(N, 1.0f);
+    std::vector<float> b(N, 2.0f);
+    std::vector<float> c(N, 0.0f);
+
+    // Offloading to GPU
+    #pragma omp target map(to: a[0:N], b[0:N]) map(from: c[0:N])
+    #pragma omp parallel for
+    for (int i = 0; i < N; ++i) {
+        c[i] = a[i] + b[i];
+    }
+
+    // Verification
+    for (int i = 0; i < N; ++i) {
+        if (c[i] != 3.0f) {
+            std::cout << "Verification failed at index " << i << "\n";
+            return 1;
+        }
+    }
+
+    std::cout << "Verification passed\n";
+    return 0;
+}
+EOF
+clang -fno-stack-protector -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa --rocm-path=/usr --rocm-device-lib-path=/usr/lib/amdgcn/bitcode TestOffload.cpp -o TestOffload
+
+```
+
+
 - paralution looks interesting: https://www.paralution.com/downloads/paralution-um.pdf
+
+
