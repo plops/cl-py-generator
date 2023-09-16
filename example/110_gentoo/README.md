@@ -2024,3 +2024,23 @@ ninja install
 
 - here is an example of how to build the dependencies as modules:
   https://github.com/grpc/grpc/blob/v1.57.0/test/distrib/cpp/run_distrib_test_cmake_module_install.sh
+
+
+
+## Proposed updates
+
+- add tmux
+- add rocm
+
+### ROCM
+
+```
+dev-util/rocm-smi ~amd64
+dev-libs/roct-thunk-interface ~amd64
+dev-libs/rocm-device-libs ~amd64
+```
+
+```
+sudo emerge -av rocminfo rocm-smi
+```
+- installs clang 15
