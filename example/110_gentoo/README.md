@@ -2073,3 +2073,14 @@ dev-libs/rocm-device-libs ~amd64
 sudo emerge -av rocminfo rocm-smi
 ```
 - installs clang 15
+
+- AMDGPU is present in LLVM_TARGET
+- openmp USE is enabled for clang-runtime
+- libomp requires offload
+```
+[ebuild   R    ] sys-devel/clang-runtime-16.0.6:16::gentoo  USE="compiler-rt openmp sanitize -libcxx" 0 KiB
+[ebuild   R    ] sys-libs/libomp-16.0.6:0/16::gentoo  USE="-debug -gdb-plugin -hwloc -offload -ompt -test -verify-sig" LLVM_TARGETS="(-AMDGPU) -NVPTX" PYTHON_SINGLE_TARGET="python3_11 -python3_10 (-python3_12)" 0 KiB
+```
+
+
+- paralution looks interesting: https://www.paralution.com/downloads/paralution-um.pdf
