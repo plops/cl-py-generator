@@ -22,5 +22,7 @@
 - sinc related to the width of the device is convolved with every
   delta function of the grating 
 
+- why does the term $cos m \pi$ occur outside the sum of m?
+
 - frame interval between adjacent orders: 0.21 us +/- 0.03 us (stddev)
 - corresponds to 4.8Mfps 
