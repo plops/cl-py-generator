@@ -136,7 +136,7 @@ Abstract— A fully integrated 3-D ultrasonic fingerprint sensoron-a-chip is pre
 - [1] Tang, Hao-Yen, et al. "3-D ultrasonic fingerprint
   sensor-on-a-chip." IEEE Journal of Solid-State Circuits 51.11
   (2016): 2522-2533. https://ieeexplore.ieee.org/abstract/document/7579196
-- [2] https://ieeexplore.ieee.org/abstract/document/7579196
+- [2] https://s3.i-micronews.com/uploads/2019/07/SP19465-YOLE_Qualcomm-3D-Sonic-Sensor-Fingerprint_Sample.pdf
 - [3] https://youtu.be/JeTm5sd8ktg?t=143
 
 # Final Post:
