@@ -1641,7 +1641,6 @@ cat << EOF > /etc/portage/package.use/package.use
 # dns-over-https has been disabled by default (avoid going through cloudflare, can be enabled in preferences)
 # app.normandy.enabled = false by default (mozilla can push changes to settings or install add-ons remotely)
 www-client/firefox-bin alsa ffmpeg -gmp-autoupdate pulseaudio -selinux -wayland
-dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
 www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 app-emacs/emacs-common -games gui
@@ -2174,4 +2173,131 @@ EOF
 
 ```
 emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonly
+```
+
+- i decided not to add rocm yet
+- i add tmux, rust-bin, grpc, sdl2
+
+- when gcc is installed abort emerge and run this:
+```
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+```
+
+```
+cat << EOF > /etc/portage/package.accept_keywords/package.accept_keywords
+virtual/dotnet-sdk ~amd64
+net-wireless/iwgtk  ~amd64
+sys-kernel/gentoo-sources ~amd64
+sys-kernel/linux-headers ~amd64
+sys-power/tlp ~amd64
+dev-python/lmfit ~amd64
+dev-python/asteval ~amd64
+dev-python/uncertainties ~amd64
+app-misc/radeontop ~amd64
+
+dev-dotnet/dotnet-sdk-bin ~amd64
+net-wireless/sdrplay ~amd64 
+net-wireless/soapysdr ~amd64
+net-wireless/soapysdrplay ~amd64
+net-wireless/soapyplutosdr ~amd64
+net-libs/libad9361-iio ~amd64
+net-libs/libiio ~amd64
+
+net-libs/liquid-dsp ~amd64
+sys-fs/duf ~amd64
+
+dev-python/grpcio ~amd64
+dev-python/grpcio-tools ~amd64
+dev-libs/protobuf ~amd64
+net-libs/grpc ~amd64
+
+dev-cpp/abseil-cpp ~amd64
+EOF
+
+
+cat << EOF > /etc/portage/package.use/package.use
+#www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
+# gmp-autoupdate .. Allow Gecko Media Plugins (binary blobs) to be automatically downloaded and kept up-to-date in user profiles
+# this affects gmpopenh264 and widewinecdm
+# i don't think i need that
+# dns-over-https has been disabled by default (avoid going through cloudflare, can be enabled in preferences)
+# app.normandy.enabled = false by default (mozilla can push changes to settings or install add-ons remotely)
+www-client/firefox-bin alsa ffmpeg -gmp-autoupdate pulseaudio -selinux -wayland
+dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
+www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
+x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
+app-emacs/emacs-common -games gui
+app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick -jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
+x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
+net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
+net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
+net-misc/dhcp client ipv6 -server ssl -ldap -selinux -vim-syntax
+dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -selinux -subversion -test tk -xinet
+sci-libs/nlopt -cxx -guile -octave python -test
+dev-python/numpy lapack -test
+sci-libs/openblas openmp -dynamic -eselect-ldso -index-64bit pthread -relapack -test
+ media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threads vaapi zlib alsa -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -kvazaar -ladspa -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -mmal -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -opus -oss -pic pulseaudio -qsv -rav1e -rubberband -samba -sdl -snappy -sndio -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp -x264 -x265 -xvid -zeromq -zimg -zvbi
+media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java -jpeg -jpeg2k -lapack -lto opencl -opencvapps -openexr -opengl -png -qt5 -tesseract -testprograms -threads -tiff v4l -vaapi -vtk -webp -xine
+dev-python/matplotlib -cairo -debug -doc -examples -excel -gtk3 -latex -qt5 -test -tk -webagg -wxwidgets
+dev-python/pandas X -doc -full-support -minimal -test
+dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -build -debug -examples -hardened -libedit -lto -pgo -test tk -valgrind -verify-sig
+dev-python/pillow jpeg zlib -debug -examples -imagequant -jpeg2k -lcms -test -tiff tk -truetype webp -xcb
+media-gfx/imagemagick X bzip2 cxx openmp png zlib -corefonts -djvu -fftw -fontconfig -fpx -graphviz -hdri -heif -jbig jpeg -jpeg2k jpegxl -lcms -lqr -lzma -opencl -openexr -pango -perl -postscript -q8 -q32 -raw -static-libs -svg -test tiff -truetype webp -wmf -xml -zip
+virtual/imagemagick-tools jpeg -perl -png -svg tiff
+dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
+media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
+media-libs/libaom -examples -doc -test
+sys-kernel/dracut -selinux -test
+media-sound/pulseaudio glib bluetooth -daemon -jack ofono-headset
+media-libs/libcanberra gtk3 sound udev alsa pulseaudio
+net-wireless/blueman nls network -policykit pulseaudio
+media-libs/libpulse X asyncns glib systemd dbus -doc -gtk -selinux -test -valgrind
+media-sound/pulseaudio-daemon X alsa alsa-plugin asyncns gdbm glib orc ssl systemd udev webrtc-aec -aptx bluetooth dbus -elogind -equalizer -fftw -gstreamer -jack -ldac -lirc ofono-headset -oss -selinux -sox -system-wide -tcpd -test -valgrind -zeroconf
+net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth -doc -dundee -examples -tools -upower
+dev-python/lmfit -test
+dev-python/tqdm -examples -test
+x11-wm/dwm savedconfig -xinerama
+media-video/mpv X alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc openal opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools vaapi -vdpau -vulkan -wayland -zimg
+
+sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd 
+
+# tor firefox binary requires libdbus-glib 
+dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
+dev-libs/dbus-glib -debug -static-libs -test
+
+
+# google chrome binary needs libcups, rpm2targz can be used to extract the rpm with the binary
+# watching video with google chrome uses 4 or 5W, while firefox consumes 12W
+net-print/cups-filters -foomatic -postscript -dbus -exif -jpeg -ldap -pclm -pdf -perl -png -test -tiff -zeroconf
+net-print/cups -X -acl -pam -ssl -systemd -dbus -debug -kerberos -openssl -selinux -static-libs -test -usb -xinetd -zeroconf
+app-text/poppler cxx -introspection jpeg -jpeg2k lcms utils -boost -cairo -cjk -curl -debug -doc -nss -png -qt5 -test -tiff -verify-sig
+sys-fs/lvm2 readline systemd udev lvm -sanlock -selinux -static -static-libs -thin -valgrind
+
+# qdirstat
+dev-qt/qtcore systemd -debug -icu -old-kernel -test
+dev-qt/qtgui X libinput png udev -accessibility dbus -debug -egl -eglfs -evdev -gles2-only -ibus jpeg -linuxfb -test -tslib -tuio -vnc -vulkan -wayland
+dev-qt/qtwidgets X png dbus -debug -gles2-only -gtk -test
+sys-apps/qdirstat
+
+net-wireless/soapysdr -bladerf -hackrf plutosdr python -rtlsdr -uhd
+
+x11-libs/wxGTK X lzma spell -curl -debug -doc -gstreamer -keyring libnotify opengl -pch -sdl -test -tiff -wayland -webkit
+dev-libs/libpcre2 bzip2 jit pcre16 pcre32 readline unicode zlib -libedit -split-usr -static-libs
+
+sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
+media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack
+# opengl requires javascript:
+app-text/mupdf X drm javascript ssl opengl
+net-misc/tigervnc drm nls -opengl -server viewer -dri3 -gnutls -java -xinerama
+
+app-misc/tmux systemd -debug -selinux -utempter -vim-syntax
+net-libs/grpc -doc -examples -test
+app-misc/fdupes ncurses
+media-gfx/feh -curl -debug -exif inotify -test -xinerama
+media-libs/libsdl2 X -joystick sound threads udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx4 -gles1 -gles2 -haptic -ibus -jack -kms -libsamplerate -nas opengl -oss -pipewire pulseaudio -sndio -static-libs -vulkan -wayland -xscreensaver
+
+EOF
+
+
+
 ```
