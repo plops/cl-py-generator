@@ -1582,7 +1582,8 @@ net-libs/liquid-dsp ~amd64
 sys-fs/duf ~amd64
 
 dev-python/grpcio ~amd64
-dev-python/grpcio-tools ~amd64dev-libs/protobuf ~amd64
+dev-python/grpcio-tools ~amd64
+dev-libs/protobuf ~amd64
 net-libs/grpc ~amd64
 
 ```
@@ -1628,7 +1629,8 @@ net-libs/liquid-dsp ~amd64
 sys-fs/duf ~amd64
 
 dev-python/grpcio ~amd64
-dev-python/grpcio-tools ~amd64dev-libs/protobuf ~amd64
+dev-python/grpcio-tools ~amd64
+dev-libs/protobuf ~amd64
 net-libs/grpc ~amd64
 EOF
 
@@ -2169,17 +2171,21 @@ EOF
 
 ```
 emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonly
+CXXFLAGS="-std=c++14" emerge -av opencv
 ```
 
 - i decided not to add rocm yet
 - i add tmux, rust-bin, grpc, feh, fdupes, sdl2, tkdiff
+- i can't get opencv compiled
 
 - when gcc is installed abort emerge and run this:
 ```
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
  
 emerge --jobs=6 --load-average=10  --ask --verbose tmux  net-libs/grpc app-misc/fdupes media-gfx/feh media-libs/libsdl2 tkdiff
+emerge --ask --verbose --depclean opencv
 revdep-rebuild
+
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
 emerge --depclean
 eclean-dist
@@ -2240,7 +2246,7 @@ sci-libs/nlopt -cxx -guile -octave python -test
 dev-python/numpy lapack -test
 sci-libs/openblas openmp -dynamic -eselect-ldso -index-64bit pthread -relapack -test
  media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threads vaapi zlib alsa -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -kvazaar -ladspa -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -mmal -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -opus -oss -pic pulseaudio -qsv -rav1e -rubberband -samba -sdl -snappy -sndio -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp -x264 -x265 -xvid -zeromq -zimg -zvbi
-media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java -jpeg -jpeg2k -lapack -lto opencl -opencvapps -openexr -opengl -png -qt5 -tesseract -testprograms -threads -tiff v4l -vaapi -vtk -webp -xine
+# media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java jpeg -jpeg2k lapack -lto -opencl -opencvapps -openexr opengl png qt5 -tesseract -testprograms threads -tiff v4l vaapi -vtk -webp -xine
 dev-python/matplotlib -cairo -debug -doc -examples -excel -gtk3 -latex -qt5 -test -tk -webagg -wxwidgets
 dev-python/pandas X -doc -full-support -minimal -test
 dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -build -debug -examples -hardened -libedit -lto -pgo -test tk -valgrind -verify-sig
@@ -2298,7 +2304,7 @@ net-libs/grpc -doc -examples -test
 app-misc/fdupes ncurses
 media-gfx/feh -curl -debug -exif inotify -test -xinerama
 media-libs/libsdl2 X -joystick sound threads udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx4 -gles1 -gles2 -haptic -ibus -jack -kms -libsamplerate -nas opengl -oss -pipewire pulseaudio -sndio -static-libs -vulkan -wayland -xscreensaver
-
+net-print/cups -X -acl -dbus -debug -kerberos -openssl -pam -selinux ssl -static-libs -systemd -test -usb -xinetd -zeroconf
 EOF
 
 
@@ -2306,3 +2312,115 @@ EOF
 ```
 
 - dispatch-conf want to mess up /etc/sudoers and /etc/tlp.conf
+
+
+```
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+
+2023-09-30 17:09:10.0848416250 +0200 commonlisp-0-r1-1.gpkg.tar size=20480
+2023-09-30 17:57:38.7455471720 +0200 rust-bin-1.71.1-1.gpkg.tar size=167843840
+2023-09-30 18:16:00.3128357130 +0200 rust-bin-1.71.1-2.gpkg.tar size=167843840
+2023-09-30 18:16:13.7860951130 +0200 rust-1.71.1-1.gpkg.tar size=30720
+2023-09-30 18:20:25.5280470260 +0200 gnuconfig-20230731-1.gpkg.tar size=51200
+2023-09-30 18:20:38.4413094980 +0200 hwdata-0.373-1.gpkg.tar size=2119680
+2023-09-30 18:21:00.1978567770 +0200 libpaper-2.1.0-1.gpkg.tar size=51200
+2023-09-30 18:21:11.5611277550 +0200 ensurepip-setuptools-68.1.2-1.gpkg.tar size=737280
+2023-09-30 18:22:03.6541752300 +0200 linux-firmware-20230919-1.gpkg.tar size=404080640
+2023-09-30 18:22:31.2740236680 +0200 libpcre-8.45-r2-1.gpkg.tar size=901120
+2023-09-30 18:23:21.4970814050 +0200 slang-2.3.3-1.gpkg.tar size=1024000
+2023-09-30 18:23:47.4336057460 +0200 gzip-1.13-1.gpkg.tar size=184320
+2023-09-30 18:24:11.6334729510 +0200 kbd-2.6.1-1.gpkg.tar size=1392640
+2023-09-30 18:24:30.6800351000 +0200 emacs-common-1.9-1.gpkg.tar size=102400
+2023-09-30 18:26:33.1726962620 +0200 openssl-3.0.10-1.gpkg.tar size=6727680
+2023-09-30 18:26:52.7159223530 +0200 perl-Module-Load-0.360.0-r3-1.gpkg.tar size=20480
+2023-09-30 18:27:04.2325258230 +0200 URI-5.210.0-1.gpkg.tar size=92160
+2023-09-30 18:27:19.3491095380 +0200 Mozilla-PublicSuffix-1.0.6-1.gpkg.tar size=71680
+2023-09-30 18:27:30.6957139410 +0200 HTTP-CookieJar-0.14.0-1.gpkg.tar size=40960
+2023-09-30 18:27:42.6189818460 +0200 Compress-Raw-Zlib-2.206.0-1.gpkg.tar size=81920
+2023-09-30 18:27:52.5655939310 +0200 perl-Compress-Raw-Zlib-2.206.0-1.gpkg.tar size=20480
+2023-09-30 18:28:06.7555160640 +0200 libwww-perl-6.720.0-r1-1.gpkg.tar size=163840
+2023-09-30 18:28:22.4020968710 +0200 eselect-1.4.26-1.gpkg.tar size=102400
+2023-09-30 18:28:53.5352593630 +0200 libxml2-2.11.5-1.gpkg.tar size=1443840
+2023-09-30 18:29:10.1718347370 +0200 gpep517-15-1.gpkg.tar size=61440
+2023-09-30 18:29:51.4216083810 +0200 gmp-6.3.0-1.gpkg.tar size=1095680
+2023-09-30 18:30:07.6948524160 +0200 pyparsing-3.1.1-1.gpkg.tar size=378880
+2023-09-30 18:30:32.0113856470 +0200 mpfr-4.2.1-1.gpkg.tar size=491520
+2023-09-30 18:30:47.6546331390 +0200 jaraco-functools-3.9.0-1.gpkg.tar size=61440
+2023-09-30 18:31:05.0712042330 +0200 wheel-0.41.2-1.gpkg.tar size=112640
+2023-09-30 18:31:20.4711197270 +0200 nspektr-0.5.0-1.gpkg.tar size=51200
+2023-09-30 18:31:40.8443412630 +0200 libksba-1.6.4-r1-1.gpkg.tar size=194560
+2023-09-30 19:03:31.1805250620 +0200 gcc-13.2.1_p20230826-1.gpkg.tar size=89047040
+2023-09-30 19:04:14.1402893230 +0200 libgcrypt-1.10.2-1.gpkg.tar size=860160
+2023-09-30 19:04:42.1634688800 +0200 file-5.45-r1-1.gpkg.tar size=1044480
+2023-09-30 19:05:06.2333367980 +0200 freetype-2.13.2-1.gpkg.tar size=716800
+2023-09-30 19:05:36.7565026370 +0200 tcl-8.6.13-r1-1.gpkg.tar size=3102720
+2023-09-30 19:06:30.6495402350 +0200 curl-8.2.1-1.gpkg.tar size=1505280
+2023-09-30 19:06:53.2527495350 +0200 mpg123-1.31.3-r1-1.gpkg.tar size=450560
+2023-09-30 19:07:29.0425531400 +0200 elfutils-0.189-r4-1.gpkg.tar size=1105920
+2023-09-30 19:07:56.4957358260 +0200 libsndfile-1.2.2-1.gpkg.tar size=389120
+2023-09-30 19:08:16.2522940790 +0200 libjpeg-turbo-3.0.0-1.gpkg.tar size=696320
+2023-09-30 19:11:06.3280274640 +0200 mold-2.1.0-1.gpkg.tar size=3911680
+2023-09-30 19:11:44.0911535750 +0200 libwebp-1.3.1_p20230908-1.gpkg.tar size=542720
+2023-09-30 19:12:02.1843876220 +0200 threadpoolctl-3.2.0-1.gpkg.tar size=81920
+2023-09-30 19:12:21.7076138230 +0200 setuptools-68.1.2-1.gpkg.tar size=1269760
+2023-09-30 19:12:47.9474698330 +0200 meson-1.2.1-r1-1.gpkg.tar size=2662400
+2023-09-30 19:13:15.2473200270 +0200 pygments-2.16.1-1.gpkg.tar size=2795520
+2023-09-30 19:13:34.3472152170 +0200 trove-classifiers-2023.8.7-1.gpkg.tar size=61440
+2023-09-30 19:13:52.7671141390 +0200 joblib-1.3.2-1.gpkg.tar size=573440
+2023-09-30 19:16:36.6362149160 +0200 mesa-23.1.8-1.gpkg.tar size=9113600
+2023-09-30 19:16:54.4827836500 +0200 pluggy-1.3.0-1.gpkg.tar size=92160
+2023-09-30 19:17:30.5825855550 +0200 fonttools-4.42.1-1.gpkg.tar size=3799040
+2023-09-30 19:17:56.1257787210 +0200 kiwisolver-1.4.5-1.gpkg.tar size=204800
+2023-09-30 19:18:13.4923500900 +0200 tqdm-4.66.1-1.gpkg.tar size=225280
+2023-09-30 19:24:09.1003987090 +0200 scipy-1.11.2-1.gpkg.tar size=29009920
+2023-09-30 19:24:30.5936141000 +0200 sphinxcontrib-applehelp-1.0.7-1.gpkg.tar size=71680
+2023-09-30 19:24:47.2168562140 +0200 sphinxcontrib-devhelp-1.0.5-1.gpkg.tar size=61440
+2023-09-30 19:25:02.8934368560 +0200 sphinxcontrib-htmlhelp-2.0.4-1.gpkg.tar size=71680
+2023-09-30 19:25:18.6900168400 +0200 sphinxcontrib-serializinghtml-1.1.9-1.gpkg.tar size=71680
+2023-09-30 19:32:20.0043715670 +0200 systemd-253.11-1.gpkg.tar size=9461760
+2023-09-30 19:32:51.6108647950 +0200 fontconfig-2.14.2-r3-1.gpkg.tar size=819200
+2023-09-30 19:33:16.9673923190 +0200 tk-8.6.13-1.gpkg.tar size=2447360
+2023-09-30 19:33:37.6039457430 +0200 tlp-1.6.0-1.gpkg.tar size=122880
+2023-09-30 19:33:38.1706093010 +0200 libnvme-1.5-r2-1.gpkg.tar size=245760
+2023-09-30 19:34:26.1703459050 +0200 lvm2-2.03.21-r1-1.gpkg.tar size=2836480
+2023-09-30 19:34:27.3170062790 +0200 abseil-cpp-20230802.0-1.gpkg.tar size=1986560
+2023-09-30 19:34:27.8136702200 +0200 man-pages-6.05.01-1.gpkg.tar size=3184640
+2023-09-30 19:34:43.6169168340 +0200 dracut-059-r3-1.gpkg.tar size=450560
+2023-09-30 19:35:10.2167708690 +0200 portage-3.0.51-1.gpkg.tar size=3778560
+2023-09-30 19:35:33.7633083250 +0200 emacs-29.1-r1-1.gpkg.tar size=48015360
+2023-09-30 19:36:24.9530274240 +0200 editor-0-r6-1.gpkg.tar size=20480
+2023-09-30 19:37:29.5560062520 +0200 xmlto-0.0.28-r11-1.gpkg.tar size=71680
+2023-09-30 19:38:20.1390620140 +0200 protobuf-23.3-r2-1.gpkg.tar size=3860480
+2023-09-30 19:40:24.3083806410 +0200 qtcore-5.15.10-r2-1.gpkg.tar size=8069120
+2023-09-30 19:40:38.5083027200 +0200 imagemagick-7.1.1.11-1.gpkg.tar size=9000960
+2023-09-30 19:41:19.2580791080 +0200 sphinxcontrib-serializinghtml-1.1.9-2.gpkg.tar size=71680
+2023-09-30 19:43:29.7806962050 +0200 matplotlib-3.8.0-1.gpkg.tar size=33935360
+2023-09-30 19:44:33.8803444620 +0200 ffmpeg-6.0-r6-1.gpkg.tar size=10096640
+2023-09-30 19:45:32.9233538000 +0200 qtgui-5.15.10-r2-1.gpkg.tar size=5212160
+2023-09-30 19:46:18.3397712460 +0200 grub-2.06-r8-1.gpkg.tar size=17530880
+2023-09-30 19:52:47.4176362020 +0200 xxhash-0.8.1-1.gpkg.tar size=112640
+2023-09-30 19:52:47.6809680900 +0200 re2-0.2022.12.01-1.gpkg.tar size=317440
+2023-09-30 19:52:49.2409595300 +0200 fdupes-2.2.1-1.gpkg.tar size=71680
+2023-09-30 19:53:04.3008768900 +0200 imlib2-1.9.1-r1-1.gpkg.tar size=614400
+2023-09-30 19:53:29.2740731840 +0200 feh-3.10-1.gpkg.tar size=204800
+2023-09-30 19:53:37.5340278580 +0200 tmux-3.3a-r1-1.gpkg.tar size=501760
+2023-09-30 19:53:46.3606460890 +0200 abseil-cpp-20230125.3-r1-1.gpkg.tar size=1925120
+2023-09-30 19:54:36.3670383480 +0200 libsdl2-2.28.3-1.gpkg.tar size=1157120
+2023-09-30 19:55:41.1366829280 +0200 protobuf-23.3-r2-2.gpkg.tar size=3860480
+2023-09-30 20:01:48.7279991240 +0200 grpc-1.57.0-r1-1.gpkg.tar size=14940160
+2023-09-30 20:04:38.1937358560 +0200 tkdiff-5.5.2-1.gpkg.tar size=296960
+2023-09-30 20:13:28.4441594690 +0200 tigervnc-1.13.1-r3-2.gpkg.tar size=460800
+2023-09-30 20:13:54.0273524160 +0200 mpv-0.36.0-r1-2.gpkg.tar size=2140160
+2023-09-30 20:13:57.9906640010 +0200 firefox-bin-118.0.1-1.gpkg.tar size=87572480
+2023-09-30 20:15:14.1935791740 +0200 sphinxcontrib-qthelp-1.0.6-1.gpkg.tar size=71680
+2023-09-30 20:16:10.6432694100 +0200 sudo-1.9.14_p3-1.gpkg.tar size=2099200
+2023-09-30 20:17:07.1062929050 +0200 qtwidgets-5.15.10-r3-1.gpkg.tar size=3471360
+2023-09-30 20:33:52.5707754730 +0200 qttest-5.15.10-1.gpkg.tar size=256000
+2023-09-30 20:34:28.9639091010 +0200 qtconcurrent-5.15.10-1.gpkg.tar size=71680
+2023-09-30 20:35:14.0703282480 +0200 qtopengl-5.15.10-1.gpkg.tar size=235520
+2023-09-30 21:17:28.7364194040 +0200 cups-2.4.7-1.gpkg.tar size=5949440
+2023-09-30 22:21:56.9951925410 +0200 sphinx-7.1.2-1.gpkg.tar size=3215360
+
+
+
+```
