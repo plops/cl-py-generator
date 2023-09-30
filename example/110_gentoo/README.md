@@ -2568,6 +2568,16 @@ menuentry 'Gentoo GNU/Linux 20230930 ram squash persist crypt ssd ' --class gent
 ## After update
 
 - i deleted linux directories (usr, var, opt..) in /mnt4/persistent/lower
-- i kept my user folder this time
+- i kept my user home directory on the persistent partition this time
 - download new or update: chrome clion sonarlint protocol_buffers markdown ideolog 
-- move (required) files from /mnt4/backup/lower/home/ into /home
+
+- chrome doesn't start anymore. next time i have to make sure that nss is put back in
+```
+sudo emerge -av nss nspr
+```
+- note that nss is an 83MB download
+- download chrome rpm (104MB), rpm2tar
+```
+sudo ln -s /home/martin/Downloads/chrome/google-chrome /usr/bin/
+
+```
