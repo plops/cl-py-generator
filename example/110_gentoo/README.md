@@ -2515,8 +2515,6 @@ archlinux /home/martin # ls -ltr /mnt4/*.squashfs
 -rw-r--r-- 1 root root 2247917568 Aug 12 21:42 /mnt4/gentoo_20230729.squashfs
 -rw-r--r-- 1 root root 2313875456 Sep  3 10:25 /mnt4/gentoo_20230903.squashfs
 -rw-r--r-- 1 root root 1911578624 Sep 30 23:06 /mnt4/gentoo_20230930.squashfs
-
-
 ```
 - large files are LLVM. in particular /opt/rust-bin comes with its own copy of llvm.
 - i should probably remove rust-bin
@@ -2526,6 +2524,23 @@ archlinux /home/martin # ls -ltr /mnt4/*.squashfs
 - /usr/lib/firmware contains lots of small files (that i probably never use)
 - /var/tmp/portage/media-libs/opencv-4.7.0 is a temporary build
   directory and should most certainly not be present
+
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
+
+```
+
+
 
 - check grub config, add the new entry
 
