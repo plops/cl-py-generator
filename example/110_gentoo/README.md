@@ -2444,3 +2444,109 @@ M-x slime
 (ql:quickload "cl-change-case")
 
 ```
+
+
+
+```
+emerge --ask --unmerge virtual/rust dev-lang/rust-bin
+eselect gcc set 2
+source /etc/profile 
+emerge --ask --oneshot --usepkg=n sys-devel/libtool
+
+emerge --depclean
+eclean-dist
+eclean-pkg
+
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_20230930.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 1 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
+persistent
+
+# 49sec
+Filesystem size 1866772.87 Kbytes (1823.02 Mbytes)
+        33.83% of uncompressed filesystem size (5517829.14 Kbytes)
+old:
+Filesystem size 2259640.29 Kbytes (2206.68 Mbytes)
+        35.33% of uncompressed filesystem size (6395377.19 Kbytes)
+
+# the new squashfs is 400MB smaller than the older one
+archlinux /home/martin # ls -ltr /mnt4/*.squashfs
+-rw-r--r-- 1 root root 2247917568 Aug 12 21:42 /mnt4/gentoo_20230729.squashfs
+-rw-r--r-- 1 root root 2313875456 Sep  3 10:25 /mnt4/gentoo_20230903.squashfs
+-rw-r--r-- 1 root root 1911578624 Sep 30 23:06 /mnt4/gentoo_20230930.squashfs
+
+
+```
+- large files are LLVM. in particular /opt/rust-bin comes with its own copy of llvm.
+- i should probably remove rust-bin
+- libmupdf is 47MB
+- gcc 13 and 12 have both 140MB binary folder
+  - maybe i should have called `eselect gcc set 2`
+- /usr/lib/firmware contains lots of small files (that i probably never use)
+- /var/tmp/portage/media-libs/opencv-4.7.0 is a temporary build
+  directory and should most certainly not be present
+
+- check grub config, add the new entry
+
+```
+ emacs /boot/grub/grub.cfg
+
+
+menuentry 'Gentoo GNU/Linux 20230903 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
+}
+
+```
