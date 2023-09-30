@@ -160,6 +160,7 @@ cat << EOF > /etc/portage/package.mask/package.mask
 >=sys-kernel/linux-headers-6.3.13
 <sys-kernel/gentoo-sources-6.3.12
 <=sys-kernel/linux-headers-6.2
+dev-lang/rust
 EOF
 
 cat << EOF > /etc/portage/package.use/package.use
@@ -1640,6 +1641,7 @@ cat << EOF > /etc/portage/package.use/package.use
 # dns-over-https has been disabled by default (avoid going through cloudflare, can be enabled in preferences)
 # app.normandy.enabled = false by default (mozilla can push changes to settings or install add-ons remotely)
 www-client/firefox-bin alsa ffmpeg -gmp-autoupdate pulseaudio -selinux -wayland
+dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
 www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 app-emacs/emacs-common -games gui
@@ -2144,3 +2146,32 @@ clang -fno-stack-protector -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-
 - paralution looks interesting: https://www.paralution.com/downloads/paralution-um.pdf
 
 
+# Update 2023-09-30
+
+```
+emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonly
+
+```
+
+- try to replace rust with rust-bin
+https://wiki.gentoo.org/wiki/User:Vazhnov/Knowledge_Base:replace_rust_with_rust-bin
+```
+emerge --ask --unmerge dev-lang/rust
+emerge --ask --oneshot virtual/rust dev-lang/rust-bin
+```
+
+- forbid installing rust in the future
+
+```
+cat << EOF > /etc/portage/package.mask/package.mask
+>=sys-kernel/gentoo-sources-6.3.13
+>=sys-kernel/linux-headers-6.3.13
+<sys-kernel/gentoo-sources-6.3.12
+<=sys-kernel/linux-headers-6.2
+dev-lang/rust
+EOF
+```
+
+```
+emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonly
+```
