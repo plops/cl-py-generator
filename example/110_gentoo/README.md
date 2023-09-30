@@ -2536,7 +2536,7 @@ dracut \
   --filesystems " squashfs vfat overlay " \
   --kver=6.3.12-gentoo-x86_64 \
   --force \
-  /boot/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
+  /boot/initramfs20230930_squash_crypt-6.3.12-gentoo-x86_64.img
 
 ```
 
@@ -2548,7 +2548,7 @@ dracut \
  emacs /boot/grub/grub.cfg
 
 
-menuentry 'Gentoo GNU/Linux 20230903 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+menuentry 'Gentoo GNU/Linux 20230930 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
 	load_video
 	if [ "x$grub_platform" = xefi ]; then
 		set gfxpayload=keep
@@ -2561,7 +2561,13 @@ menuentry 'Gentoo GNU/Linux 20230903 ram squash persist crypt ssd ' --class gent
 # the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
 # the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
 	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
-	initrd	/initramfs20230903_squash_crypt-6.3.12-gentoo-x86_64.img
+	initrd	/initramfs20230930_squash_crypt-6.3.12-gentoo-x86_64.img
 }
 
 ```
+## After update
+
+- i deleted linux directories (usr, var, opt..) in /mnt4/persistent/lower
+- i kept my user folder this time
+- download new or update: chrome clion sonarlint protocol_buffers markdown ideolog 
+- move (required) files from /mnt4/backup/lower/home/ into /home
