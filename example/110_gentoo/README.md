@@ -2424,3 +2424,23 @@ find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s
 
 
 ```
+
+- update lisp
+
+```
+sbcl
+(ql:update-client) 
+(ql:update-dist "quicklisp")
+# no change
+# client 2021-02-13
+# quicklisp 2023-06-18
+
+# build swank
+emacs
+M-x slime
+(ql:quickload "cl-cpp-generator2")
+(ql:quickload "cl-py-generator")
+(ql:quickload "cl-unicode")
+(ql:quickload "cl-change-case")
+
+```
