@@ -2176,11 +2176,14 @@ emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonl
 ```
 
 - i decided not to add rocm yet
-- i add tmux, rust-bin, grpc, sdl2
+- i add tmux, rust-bin, grpc, feh, fdupes, sdl2
 
 - when gcc is installed abort emerge and run this:
 ```
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+
+emerge --jobs=6 --load-average=10  --ask --verbose tmux grpc net-libs/grpc app-misc/fdupes media-gfx/feh media-libs/libsdl2
+
 ```
 
 ```
