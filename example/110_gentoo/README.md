@@ -2185,7 +2185,7 @@ emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --wi
 emerge --jobs=6 --load-average=10  --ask --verbose tmux grpc net-libs/grpc app-misc/fdupes media-gfx/feh media-libs/libsdl2
 
 ```
-
+ 
 ```
 cat << EOF > /etc/portage/package.accept_keywords/package.accept_keywords
 virtual/dotnet-sdk ~amd64
