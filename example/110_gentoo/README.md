@@ -2147,10 +2147,6 @@ clang -fno-stack-protector -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-
 
 # Update 2023-09-30
 
-```
-emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonly
-
-```
 
 - try to replace rust with rust-bin
 https://wiki.gentoo.org/wiki/User:Vazhnov/Knowledge_Base:replace_rust_with_rust-bin
@@ -2176,14 +2172,18 @@ emerge --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonl
 ```
 
 - i decided not to add rocm yet
-- i add tmux, rust-bin, grpc, feh, fdupes, sdl2
+- i add tmux, rust-bin, grpc, feh, fdupes, sdl2, tkdiff
 
 - when gcc is installed abort emerge and run this:
 ```
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
-
-emerge --jobs=6 --load-average=10  --ask --verbose tmux grpc net-libs/grpc app-misc/fdupes media-gfx/feh media-libs/libsdl2
-
+ 
+emerge --jobs=6 --load-average=10  --ask --verbose tmux  net-libs/grpc app-misc/fdupes media-gfx/feh media-libs/libsdl2 tkdiff
+revdep-rebuild
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+emerge --depclean
+eclean-dist
+eclean-pkg
 ```
  
 ```
@@ -2304,3 +2304,5 @@ EOF
 
 
 ```
+
+- dispatch-conf want to mess up /etc/sudoers and /etc/tlp.conf
