@@ -2599,7 +2599,17 @@ ln -s /usr/lib/gcc/x86_64-pc-linux-gnu/13/libgcc_s.so.1 /usr/lib64/
 sudo emerge -av nss nspr
 eix-sync
 emerge --jobs=12 --load-average=13 -e @world
+ldconfig
 ```
+
+- it looks like ldconfig was the only thing that was needed to prevent
+  these errors:
+
+```
+/opt/firefox/firefox-bin: error while loading shared libraries: libstdc++.so.6: cannot open shared object file: No such file or directory
+
+```
+
 - 750 packages
 - compile kernel (with gcc 13)
 
