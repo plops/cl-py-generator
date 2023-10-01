@@ -2578,7 +2578,12 @@ menuentry 'Gentoo GNU/Linux 20230930 ram squash persist crypt ssd ' --class gent
 sudo emerge -av nss nspr
 ```
 
-- ERROR:root:code for hash blake2b was not found.
+- ERROR:root:code for hash blake2b was not found. Failed to create
+  binpkg file
+  
+- lots of errors: /opt/firefox/firefox-bin: error while loading shared
+  libraries: libstdc++.so.6: cannot open shared object file: No such
+  file or directory
 
 
 ```
