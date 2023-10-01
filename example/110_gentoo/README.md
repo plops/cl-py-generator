@@ -2574,6 +2574,12 @@ menuentry 'Gentoo GNU/Linux 20230930 ram squash persist crypt ssd ' --class gent
 - chrome doesn't start anymore. next time i have to make sure that nss
   is put back in (note: initially i didn't boot from new squashfs,
   ignore that)
+```
+sudo emerge -av nss nspr
+```
+
+- ERROR:root:code for hash blake2b was not found.
+
 
 ```
 sudo ln -s /home/martin/Downloads/chrome/google-chrome /usr/bin/
