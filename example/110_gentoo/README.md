@@ -2624,7 +2624,7 @@ make install
 emerge --depclean
 eclean-dist # 20MB
 eclean-pkg  # clean already
-find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n  
 2023-10-01 11:25:48.1309301130 +0200 autoconf-2.71-r6-2.gpkg.tar size=860160
 ..
 2023-10-01 16:40:51.8705301840 +0200 clang-runtime-16.0.6-2.gpkg.tar size=30720
