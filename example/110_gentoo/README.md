@@ -2571,13 +2571,12 @@ menuentry 'Gentoo GNU/Linux 20230930 ram squash persist crypt ssd ' --class gent
 - i kept my user home directory on the persistent partition this time
 - download new or update: chrome clion sonarlint protocol_buffers markdown ideolog 
 
-- chrome doesn't start anymore. next time i have to make sure that nss is put back in
-```
-sudo emerge -av nss nspr
-```
-- note that nss is an 83MB download
-- download chrome rpm (104MB), rpm2tar
+- chrome doesn't start anymore. next time i have to make sure that nss
+  is put back in (note: initially i didn't boot from new squashfs,
+  ignore that)
+
 ```
 sudo ln -s /home/martin/Downloads/chrome/google-chrome /usr/bin/
+ln -s /usr/lib/gcc/x86_64-pc-linux-gnu/13/libgcc_s.so.1 /usr/lib64/
 
 ```
