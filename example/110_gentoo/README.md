@@ -2503,18 +2503,19 @@ mnt5/ \
 usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
 persistent
 
-# 49sec
+# 38sec
+Filesystem size 2035980.92 Kbytes (1988.26 Mbytes)
+        33.70% of uncompressed filesystem size (6040918.82 Kbytes)
+# slightly bigger than previous build
 Filesystem size 1866772.87 Kbytes (1823.02 Mbytes)
         33.83% of uncompressed filesystem size (5517829.14 Kbytes)
-old:
-Filesystem size 2259640.29 Kbytes (2206.68 Mbytes)
-        35.33% of uncompressed filesystem size (6395377.19 Kbytes)
 
-# the new squashfs is 400MB smaller than the older one
-archlinux /home/martin # ls -ltr /mnt4/*.squashfs
--rw-r--r-- 1 root root 2247917568 Aug 12 21:42 /mnt4/gentoo_20230729.squashfs
--rw-r--r-- 1 root root 2313875456 Sep  3 10:25 /mnt4/gentoo_20230903.squashfs
--rw-r--r-- 1 root root 1911578624 Sep 30 23:06 /mnt4/gentoo_20230930.squashfs
+
+# the new squashfs is 200MB smaller than the older one
+ls -ltrh /mnt4/*.squashfs
+-rw-r--r-- 1 root root 2.2G Sep  3 10:25 /mnt4/gentoo_20230903.squashfs
+-rw-r--r-- 1 root root 2.0G Oct  1 17:02 /mnt4/gentoo_20230930.squashfs
+
 ```
 - large files are LLVM. in particular /opt/rust-bin comes with its own copy of llvm.
 - i should probably remove rust-bin
@@ -2545,8 +2546,7 @@ dracut \
 - check grub config, add the new entry
 
 ```
- emacs /boot/grub/grub.cfg
-
+emacs /boot/grub/grub.cfg
 
 menuentry 'Gentoo GNU/Linux 20230930 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
 	load_video
@@ -2581,3 +2581,46 @@ sudo emerge -av nss nspr
 sudo ln -s /home/martin/Downloads/chrome/google-chrome /usr/bin/
 
 ```
+- the ryzen monitor isn't working
+
+## Rebuild world 2023-10-01
+
+```
+sudo emerge -av nss nspr
+eix-sync
+emerge --jobs=12 --load-average=13 -e @world
+```
+- 750 packages
+- compile kernel (with gcc 13)
+
+```
+cd /usr/src/linux
+make -j12
+make modules_install
+make install
+```
+
+```
+emerge --depclean
+eclean-dist # 20MB
+eclean-pkg  # clean already
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+2023-10-01 11:25:48.1309301130 +0200 autoconf-2.71-r6-2.gpkg.tar size=860160
+..
+2023-10-01 16:40:51.8705301840 +0200 clang-runtime-16.0.6-2.gpkg.tar size=30720
+2023-10-01 16:41:28.2336639770 +0200 include-what-you-use-0.20-2.gpkg.tar size=1873920
+```
+- ryzen module
+
+```
+
+cd ~/src/ryzen_monitor/ryzen_smu
+make
+sudo cp ryzen_smu.ko /lib/modules/6.3.12-gentoo-x86_64/kernel/
+sudo depmod -a
+sudo modprobe ryzen_smu
+
+```
+
+- create new dracut
+- create new squashfs
