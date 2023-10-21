@@ -2644,3 +2644,21 @@ sudo modprobe ryzen_smu
 
 - create new dracut
 - create new squashfs
+
+# Try to install opencl runtime
+
+- https://wiki.gentoo.org/wiki/OpenCL
+
+```
+accept_keywords:
+
+dev-libs/rocm-opencl-runtime ~amd64
+dev-libs/rocr-runtime ~amd64
+dev-libs/rocm-comgr ~amd64
+dev-libs/rocm-device-libs ~amd64
+dev-util/rocm-cmake ~amd64
+dev-libs/roct-thunk-interface ~amd64
+
+sudo emerge -av rocm-opencl-runtime
+
+```
