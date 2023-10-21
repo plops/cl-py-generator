@@ -2658,7 +2658,8 @@ dev-libs/rocm-comgr ~amd64
 dev-libs/rocm-device-libs ~amd64
 dev-util/rocm-cmake ~amd64
 dev-libs/roct-thunk-interface ~amd64
+sci-libs/clblast ~amd64
 
-sudo emerge -av rocm-opencl-runtime
+sudo emerge -av rocm-opencl-runtime sci-libs/clblast
 
 ```
