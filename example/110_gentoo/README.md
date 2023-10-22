@@ -2659,7 +2659,11 @@ dev-libs/rocm-device-libs ~amd64
 dev-util/rocm-cmake ~amd64
 dev-libs/roct-thunk-interface ~amd64
 sci-libs/clblast ~amd64
+dev-util/rocminfo ~amd64
 
-sudo emerge -av rocm-opencl-runtime sci-libs/clblast
+sudo emerge -av rocm-opencl-runtime sci-libs/clblast rocminfo
 
 ```
+# Lenovo legion fan speed
+- https://gpo.zugaina.org/sys-firmware/lenovolegionlinux
+- gentoo ebuild https://gpo.zugaina.org/sys-firmware/lenovolegionlinux
