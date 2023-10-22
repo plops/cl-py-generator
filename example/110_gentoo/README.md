@@ -2666,5 +2666,9 @@ sudo emerge -av rocm-opencl-runtime sci-libs/clblast rocminfo
 ```
 # Lenovo  fan speed
 - https://github.com/torvalds/linux/blob/0ec5a38bf8499f403f81cb81a0e3a60887d1993c/drivers/platform/x86/ideapad-laptop.c
-- https://gpo.zugaina.org/sys-firmware/lenovolegionlinux
-- gentoo ebuild https://gpo.zugaina.org/sys-firmware/lenovolegionlinux
+
+
+- periodic full power
+```
+echo 1 > /sys/devices/pci0000:00/0000:00:14.3/PNP0C09:00/VPC2004:00/fan_mode
+```
