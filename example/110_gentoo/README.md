@@ -2674,3 +2674,11 @@ echo 1 > /sys/devices/pci0000:00/0000:00:14.3/PNP0C09:00/VPC2004:00/fan_mode
 ```
 
 - apparently 0 sets it back to auto
+
+
+# Get NVME temperature
+
+```
+ sudo nvme smart-log /dev/nvme0n1 | grep temperature
+temperature                             : 50 °C (323 K)
+```
