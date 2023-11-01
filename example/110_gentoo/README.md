@@ -2698,7 +2698,14 @@ temperature                             : 50 °C (323 K)
 eix-sync
 dispatch-conf
 # make sure locale.gen stays as it is
-
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
 emerge -av x11-misc/xclip
-emerge -av rocm-opencl-runtime sci-libs/clblast rocminfo
+emerge --depclean
+revdep-rebuild
+
+```
+
+- rocm pulls in clang 17, so i don't think i want to install this now:
+```
+# emerge -av rocm-opencl-runtime sci-libs/clblast rocminfo
 ```
