@@ -2804,7 +2804,7 @@ $OUTFILE \
 -comp zstd \
 -xattrs \
 -not-reproducible \
--Xcompression-level 1 \
+-Xcompression-level 6 \
 -progress \
 -mem 10G \
 -wildcards \
@@ -2839,10 +2839,12 @@ mnt4/ \
 mnt5/ \
 usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
 persistent
-# 34sec
+# 34sec with compression level 1
 #Filesystem size 2040829.95 Kbytes (1993.00 Mbytes)
 #        33.66% of uncompressed filesystem size (6062643.23 Kbytes)
 # 10MB bigger than last time
+
+# with compressino level 6
 ```
 
 ```
@@ -2886,6 +2888,13 @@ menuentry 'Gentoo GNU/Linux 20231101 ram squash persist crypt ssd ' --class gent
 ## After update
 
 - i deleted linux directories (usr, var, opt..) in /mnt4/persistent/lower
-- i kept my user home directory on the persistent partition this time
+- delete:
+```
+cd /mnt4/persistent/lower
+rm -rf usr var opt etc
+cd home/martin
+rm -rf .cache/torch Downloads/chrome Downloads/chrome_old .gradle .android .espressif .arduino15 grpc scraper_env
+```
+- i kept my the remainder of user home directory on the persistent partition this time
 - download new or update: chrome clion sonarlint protocol_buffers markdown ideolog 
 
