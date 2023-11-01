@@ -153,6 +153,15 @@ net-wireless/soapyplutosdr ~amd64
 net-libs/libad9361-iio ~amd64
 net-libs/libiio ~amd64
 
+dev-libs/rocm-opencl-runtime ~amd64
+dev-libs/rocr-runtime ~amd64
+dev-libs/rocm-comgr ~amd64
+dev-libs/rocm-device-libs ~amd64
+dev-util/rocm-cmake ~amd64
+dev-libs/roct-thunk-interface ~amd64
+sci-libs/clblast ~amd64
+dev-util/rocminfo ~amd64
+
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -2681,4 +2690,15 @@ echo 1 > /sys/devices/pci0000:00/0000:00:14.3/PNP0C09:00/VPC2004:00/fan_mode
 ```
  sudo nvme smart-log /dev/nvme0n1 | grep temperature
 temperature                             : 50 °C (323 K)
+```
+
+# 2023-11-01
+
+```
+eix-sync
+dispatch-conf
+# make sure locale.gen stays as it is
+
+emerge -av x11-misc/xclip
+emerge -av rocm-opencl-runtime sci-libs/clblast rocminfo
 ```
