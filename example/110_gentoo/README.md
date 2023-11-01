@@ -256,7 +256,9 @@ magit paredit \
 bluez iwd dhcp \
 dev-vcs/git \
 dev-python/pip \
-numpy scipy scikit-learn nlopt matplotlib opencv python 
+numpy scipy scikit-learn nlopt matplotlib opencv python \
+x11-misc/xclip \
+nss nspr 
 
 eix-update
 
@@ -2688,7 +2690,7 @@ echo 1 > /sys/devices/pci0000:00/0000:00:14.3/PNP0C09:00/VPC2004:00/fan_mode
 # Get NVME temperature
 
 ```
- sudo nvme smart-log /dev/nvme0n1 | grep temperature
+sudo nvme smart-log /dev/nvme0n1 | grep temperature
 temperature                             : 50 °C (323 K)
 ```
 
@@ -2699,12 +2701,14 @@ eix-sync
 dispatch-conf
 # make sure locale.gen stays as it is
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
-emerge -av x11-misc/xclip
+emerge -av x11-misc/xclip nss nspr
 ```
 
-- rocm pulls in clang 17, so i don't think i want to install this now:
+- rocm pulls in clang 17, so i don't think i want to install this now.
+- i also had bullet installed, but i don't think i need that anymore
 ```
 # emerge -av rocm-opencl-runtime sci-libs/clblast rocminfo
+# package.use: sci-physics/bullet openmp threads -doc double-precision examples extras tbb -test
 ```
 
 ```
@@ -2783,6 +2787,105 @@ find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s
 2023-11-01 08:47:53.1381436130 +0100 poppler-23.09.0-1.gpkg.tar size=2068480
 2023-11-01 08:47:53.4548085420 +0100 magit-3.3.0.50_p20230912-1.gpkg.tar size=870400
 2023-11-01 08:48:14.3813603750 +0100 json-c-0.17-1.gpkg.tar size=245760
+2023-11-01 09:21:14.1938295940 +0100 nspr-4.35-r2-4.gpkg.tar size=266240
+2023-11-01 09:21:40.5670182060 +0100 nss-3.91-3.gpkg.tar size=3307520
 
 
 ```
+
+```
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_20231101.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 1 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
+persistent
+# 34sec
+#Filesystem size 2040829.95 Kbytes (1993.00 Mbytes)
+#        33.66% of uncompressed filesystem size (6062643.23 Kbytes)
+# 10MB bigger than last time
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20231101_squash_crypt-6.3.12-gentoo-x86_64.img
+
+```
+
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20231101 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20231101_squash_crypt-6.3.12-gentoo-x86_64.img
+}
+
+```
+## After update
+
+- i deleted linux directories (usr, var, opt..) in /mnt4/persistent/lower
+- i kept my user home directory on the persistent partition this time
+- download new or update: chrome clion sonarlint protocol_buffers markdown ideolog 
+
