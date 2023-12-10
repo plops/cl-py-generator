@@ -8,9 +8,9 @@ import toml
 from bardapi import BardCookies
 start_time=time.time()
 debug=True
-_code_git_version="d2f317e592cea0dc32eb851749b2590b419f8dab"
+_code_git_version="8e29c746ccaeea65fcf0c8050e6fb7258c9c6ba6"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/122_bard/source/"
-_code_generation_time="11:08:23 of Sunday, 2023-12-10 (GMT+1)"
+_code_generation_time="11:22:17 of Sunday, 2023-12-10 (GMT+1)"
 # either set cookies here or read them from env.toml file
 config_path="env.toml"
 if ( os.path.exists(config_path) ):
@@ -22,4 +22,8 @@ else:
     print("Warning: No .env file found. Please provide API cookies manually.")
     cookies={("__Secure-1PSID"):("stub"),("__Secure-1PSIDCC"):("stub"),("__Secure-1PAPISID"):("stub")}
 bard=BardCookies(cookie_dict=cookies)
-print(bard.get_answer("Tell me a joke.")["content"])
+with open("transcript", "r") as f:
+    text=f.read()
+request=(("Summarize as bullet list: ```")+(text)+("```"))
+print("{} request request={}".format(((time.time())-(start_time)), request))
+print(bard.get_answer(request)["content"])

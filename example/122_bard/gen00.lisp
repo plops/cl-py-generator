@@ -129,7 +129,16 @@
 			       (string "stub"))))))
 	  
 	  (setf bard (BardCookies :cookie_dict cookies))
-	  (print (aref  (bard.get_answer (string "Tell me a joke."))
+	  (with (as (open (string "transcript")
+			  (string "r"))
+		    f)
+		(setf text (f.read)))
+	  (setf request (+ (string "Summarize as bullet list: ```")
+			    text
+			    (string "```")))
+	  ,(lprint "request" `(request))
+	  (print (aref  (bard.get_answer
+			 request)
 			(string "content"))))
 
 	 ;; input: What model are you using?

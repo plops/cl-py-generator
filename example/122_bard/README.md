@@ -55,3 +55,31 @@ __Secure-1PAPISID = "Xx..."
 
 For security reasons, avoid committing the `env.toml` file to GitHub.
 
+
+# Comparison Bard and GPT4
+
+## Summarize as bullet list 
+
+I give a video transcript and ask for a summary
+
+### Bard:
+```
+The video explains how to convert a video into densepose video. The steps are:
+1. Download the code from the GitHub repository.
+2. Install the requirements.
+3. Download the models.
+4. Run the command `python convert.py`.
+5. Provide the input video path and output video path.
+6. The conversion process will start and take a few minutes.
+7. The output video will be created in the same directory.
+
+```
+
+### GPT4:
+```
+The video is about converting an input video into a dense pose video using Detectron 2 and DensPose.
+The presenter provides a GitHub repository link for downloading the code and instructions for installation.
+The process involves downloading and installing requirements, downloading the models, and running a Python script to convert the input video.
+The presenter encourages contributions to the repository and mentions potential inefficiencies in the code.
+Viewers are advised to seek help in the comments section if they encounter any issues during the process.
+```
