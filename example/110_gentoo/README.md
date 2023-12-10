@@ -153,6 +153,15 @@ net-wireless/soapyplutosdr ~amd64
 net-libs/libad9361-iio ~amd64
 net-libs/libiio ~amd64
 
+dev-libs/rocm-opencl-runtime ~amd64
+dev-libs/rocr-runtime ~amd64
+dev-libs/rocm-comgr ~amd64
+dev-libs/rocm-device-libs ~amd64
+dev-util/rocm-cmake ~amd64
+dev-libs/roct-thunk-interface ~amd64
+sci-libs/clblast ~amd64
+dev-util/rocminfo ~amd64
+
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -247,7 +256,9 @@ magit paredit \
 bluez iwd dhcp \
 dev-vcs/git \
 dev-python/pip \
-numpy scipy scikit-learn nlopt matplotlib opencv python 
+numpy scipy scikit-learn nlopt matplotlib opencv python \
+x11-misc/xclip \
+nss nspr 
 
 eix-update
 
@@ -2679,6 +2690,211 @@ echo 1 > /sys/devices/pci0000:00/0000:00:14.3/PNP0C09:00/VPC2004:00/fan_mode
 # Get NVME temperature
 
 ```
- sudo nvme smart-log /dev/nvme0n1 | grep temperature
+sudo nvme smart-log /dev/nvme0n1 | grep temperature
 temperature                             : 50 °C (323 K)
 ```
+
+# Update 2023-11-01
+
+```
+eix-sync
+dispatch-conf
+# make sure locale.gen stays as it is
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+emerge -av x11-misc/xclip nss nspr
+```
+
+- rocm pulls in clang 17, so i don't think i want to install this now.
+- i also had bullet installed, but i don't think i need that anymore
+```
+# emerge -av rocm-opencl-runtime sci-libs/clblast rocminfo
+# package.use: sci-physics/bullet openmp threads -doc double-precision examples extras tbb -test
+```
+
+```
+emerge --depclean # nothing 
+revdep-rebuild # nothing
+eclean-dist # 182M
+eclean-pkg # 306M
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+```
+
+```
+2023-11-01 08:21:22.4335391860 +0100 glibc-2.37-r7-1.gpkg.tar size=15790080
+2023-11-01 08:21:43.7100890990 +0100 hwdata-0.374-1.gpkg.tar size=2129920
+2023-11-01 08:21:55.0833600220 +0100 ensurepip-setuptools-68.2.2-1.gpkg.tar size=737280
+2023-11-01 08:22:01.7566567360 +0100 llvm-common-16.0.6-4.gpkg.tar size=30720
+2023-11-01 08:22:23.0198733890 +0100 hdparm-9.65-r1-1.gpkg.tar size=133120
+2023-11-01 08:22:30.0065017170 +0100 python-exec-2.4.10-3.gpkg.tar size=40960
+2023-11-01 08:22:34.4864771330 +0100 xxhash-0.8.2-1.gpkg.tar size=133120
+2023-11-01 08:22:58.4796788050 +0100 ethtool-6.5-1.gpkg.tar size=266240
+2023-11-01 08:23:09.3429525260 +0100 xclip-0.13-1.gpkg.tar size=51200
+2023-11-01 08:23:13.0895986340 +0100 sandbox-2.38-1.gpkg.tar size=184320
+2023-11-01 08:25:27.6721934520 +0100 openssl-3.0.11-1.gpkg.tar size=6727680
+2023-11-01 08:25:53.4387187260 +0100 eselect-1.4.27-1.gpkg.tar size=102400
+2023-11-01 08:26:06.1853154470 +0100 clang-common-16.0.6-r2-3.gpkg.tar size=30720
+2023-11-01 08:26:26.0318732070 +0100 rust-1.71.1-r1-1.gpkg.tar size=30720
+2023-11-01 08:26:43.6851096690 +0100 gpgme-1.22.0-1.gpkg.tar size=716800
+2023-11-01 08:27:01.4316789520 +0100 transient-0.4.3-1.gpkg.tar size=163840
+2023-11-01 08:27:02.1483416860 +0100 with-editor-3.3.2-1.gpkg.tar size=51200
+2023-11-01 08:27:22.5182299070 +0100 libidn2-2.3.4-r1-1.gpkg.tar size=245760
+2023-11-01 08:27:38.2181437550 +0100 typing-extensions-4.8.0-1.gpkg.tar size=112640
+2023-11-01 08:27:58.2780336770 +0100 iproute2-6.5.0-1.gpkg.tar size=1310720
+2023-11-01 08:28:10.2413013630 +0100 file-5.45-r3-1.gpkg.tar size=1044480
+2023-11-01 08:28:35.5011627510 +0100 font-util-1.4.1-1.gpkg.tar size=81920
+2023-11-01 08:28:53.1210660620 +0100 xcb-proto-1.16.0-1.gpkg.tar size=204800
+2023-11-01 08:29:08.0909839160 +0100 nasm-2.16.01-r1-1.gpkg.tar size=583680
+2023-11-01 08:29:35.5474999160 +0100 sqlite-3.43.2-1.gpkg.tar size=1740800
+2023-11-01 08:30:05.0440047220 +0100 libxcb-1.16-1.gpkg.tar size=604160
+2023-11-01 08:30:25.2938936020 +0100 compose-tables-1.8.7-1.gpkg.tar size=163840
+2023-11-01 08:30:57.4470504970 +0100 libX11-1.8.7-1.gpkg.tar size=972800
+2023-11-01 08:31:23.3035752770 +0100 setuptools-68.2.2-1.gpkg.tar size=1269760
+2023-11-01 08:31:23.4435745090 +0100 libglvnd-1.7.0-1.gpkg.tar size=542720
+2023-11-01 08:31:23.8335723690 +0100 libdrm-2.4.116-1.gpkg.tar size=276480
+2023-11-01 08:32:55.7930677460 +0100 cython-3.0.2-r1-1.gpkg.tar size=4608000
+2023-11-01 08:33:13.3196382370 +0100 setuptools-scm-8.0.4-1.gpkg.tar size=143360
+2023-11-01 08:33:30.0295465420 +0100 trove-classifiers-2023.9.19-1.gpkg.tar size=61440
+2023-11-01 08:33:50.2861020520 +0100 pytz-2023.3_p1-1.gpkg.tar size=102400
+2023-11-01 08:33:51.4760955220 +0100 meson-python-0.14.0-1.gpkg.tar size=122880
+2023-11-01 08:33:52.9427541400 +0100 urllib3-2.0.6-1.gpkg.tar size=337920
+2023-11-01 08:34:12.4193139300 +0100 pillow-10.0.1-1.gpkg.tar size=1003520
+2023-11-01 08:34:36.7058473260 +0100 gemato-20.5-1.gpkg.tar size=174080
+2023-11-01 08:36:36.1451919090 +0100 numpy-1.26.1-1.gpkg.tar size=10588160
+2023-11-01 08:37:06.8116902950 +0100 libudev-251-r2-1.gpkg.tar size=30720
+2023-11-01 08:37:15.9383068800 +0100 sphinx-7.2.6-1.gpkg.tar size=3246080
+2023-11-01 08:37:29.4648993200 +0100 contourpy-1.1.1-1.gpkg.tar size=337920
+2023-11-01 08:39:35.7708728890 +0100 systemd-254.5-1.gpkg.tar size=9922560
+2023-11-01 08:39:51.6041193390 +0100 udev-217-r7-1.gpkg.tar size=20480
+2023-11-01 08:40:20.5072940670 +0100 libinput-1.24.0-1.gpkg.tar size=378880
+2023-11-01 08:40:37.7271995740 +0100 dracut-059-r4-1.gpkg.tar size=450560
+2023-11-01 08:40:40.8038493580 +0100 libXpm-3.5.17-1.gpkg.tar size=112640
+2023-11-01 08:41:08.3236983440 +0100 btrfs-progs-6.5.2-1.gpkg.tar size=1198080
+2023-11-01 08:41:33.0435626950 +0100 openssh-9.4_p1-r1-1.gpkg.tar size=1607680
+2023-11-01 08:42:14.4633354060 +0100 xorg-server-21.1.9-1.gpkg.tar size=3543040
+2023-11-01 08:42:34.4065593020 +0100 harfbuzz-8.2.0-1.gpkg.tar size=3450880
+2023-11-01 08:43:39.5128687010 +0100 cups-2.4.7-r1-1.gpkg.tar size=5939200
+2023-11-01 08:44:16.1160011770 +0100 ffmpeg-6.0-r9-1.gpkg.tar size=10096640
+2023-11-01 08:44:38.2158799050 +0100 grub-2.06-r9-1.gpkg.tar size=17530880
+2023-11-01 08:45:02.0857489200 +0100 xf86-video-amdgpu-23.0.0-3.gpkg.tar size=174080
+2023-11-01 08:45:17.5056643050 +0100 firefox-bin-119.0-r2-1.gpkg.tar size=88156160
+2023-11-01 08:45:17.8256625490 +0100 nghttp2-1.57.0-1.gpkg.tar size=225280
+2023-11-01 08:46:03.7354106210 +0100 xf86-video-ati-22.0.0-3.gpkg.tar size=471040
+2023-11-01 08:46:17.4053356080 +0100 xterm-384-1.gpkg.tar size=675840
+2023-11-01 08:46:51.7484804850 +0100 curl-8.4.0-1.gpkg.tar size=1556480
+2023-11-01 08:47:29.3149410080 +0100 xf86-input-libinput-1.4.0-1.gpkg.tar size=81920
+2023-11-01 08:47:46.6381792810 +0100 brotli-1.1.0-1.gpkg.tar size=501760
+2023-11-01 08:47:46.9081778000 +0100 smartmontools-7.4-1.gpkg.tar size=778240
+2023-11-01 08:47:53.1381436130 +0100 poppler-23.09.0-1.gpkg.tar size=2068480
+2023-11-01 08:47:53.4548085420 +0100 magit-3.3.0.50_p20230912-1.gpkg.tar size=870400
+2023-11-01 08:48:14.3813603750 +0100 json-c-0.17-1.gpkg.tar size=245760
+2023-11-01 09:21:14.1938295940 +0100 nspr-4.35-r2-4.gpkg.tar size=266240
+2023-11-01 09:21:40.5670182060 +0100 nss-3.91-3.gpkg.tar size=3307520
+
+
+```
+
+```
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_20231101.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
+persistent
+# 34sec with compression level 1
+#Filesystem size 2040829.95 Kbytes (1993.00 Mbytes)
+#        33.66% of uncompressed filesystem size (6062643.23 Kbytes)
+# 10MB bigger than last time
+
+# with compressino level 6
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20231101_squash_crypt-6.3.12-gentoo-x86_64.img
+
+```
+
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20231101 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20231101_squash_crypt-6.3.12-gentoo-x86_64.img
+}
+
+```
+## After update
+
+- i deleted linux directories (usr, var, opt..) in /mnt4/persistent/lower
+- delete:
+```
+cd /mnt4/persistent/lower
+rm -rf usr var opt etc
+cd home/martin
+rm -rf .cache/torch Downloads/chrome Downloads/chrome_old .gradle .android .espressif .arduino15 grpc scraper_env
+```
+- i kept my the remainder of user home directory on the persistent partition this time
+- download new or update: chrome clion sonarlint protocol_buffers markdown ideolog 
+
