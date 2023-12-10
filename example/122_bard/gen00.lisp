@@ -4,7 +4,7 @@
 (in-package :cl-py-generator)
 
 (progn
-  (defparameter *project* "117_langchain_azure_openai")
+  (defparameter *project* "122_bard")
   (defparameter *idx* "00")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
@@ -23,7 +23,7 @@
 
   
   
-  (let* ((notebook-name "use_gpt")
+  (let* ((notebook-name "use_bard")
 	 #+nil (cli-args `(
 		     (:short "-v" :long "--verbose" :help "enable verbose output" :action "store_true" :required nil))))
     (write-source
@@ -31,7 +31,7 @@
      `(do0
        (do0
 	,(format nil "#|default_exp p~a_~a" *idx* notebook-name))
-       (comments "python -m venv ~/llm_env; . ~/llm_env/bin/activate; source ~/llm_environment.sh; pip install langchain"
+       (comments "python -m venv ~/bardapi_env; . ~/bardapi_env/bin/activate; pip install bardapi toml"
 		 ""
 		 "deactivate")
        (do0
@@ -74,15 +74,14 @@
 					;(mpf mplfinance)
 
 					;argparse
-			;langchain
-			langchain.chat_models
-			langchain.schema
-			langchain.llms
-			openai
+			toml
+			
+					
 			)))
+       (imports-from (bardapi BardCookies))
 	  
-	 (setf start_time (time.time)
-	       debug True)
+       (setf start_time (time.time)
+	     debug True)
 	 (setf
 	  _code_git_version
 	  (string ,(let ((str (with-output-to-string (s)
@@ -106,51 +105,39 @@
 			     date
 			     (- tz)))))
 
-	 #+nil
 	 (do0
-	  (setf response (openai.Completion.create :engine (string "gpt-35")
-						   :prompt (string "This is a test")
-						   :max_tokens 5))
-					
-	  )
-	 (setf chatgpt_deployment_name (string "gpt-35")
-	       chatgpt_model_name (string "gpt-35-turbo")
-	       openai.api_type (string "azure")
-	       openai.api_key (os.getenv (string "OPENAI_API_KEY"))
-	       openai.api_base (os.getenv (string "OPENAI_API_BASE"))
-	       openai.api_version (os.getenv (string "OPENAI_API_VERSION")))
+	  (comments "either set cookies here or read them from env.toml file")
+	  (setf config_path (string "env.toml"))
+	  (if (os.path.exists config_path)
+	      (do0
+		   (with (as (open config_path
+				   (string "r"))
+			     f)
+			 (setf data (toml.load f)))
+		   (setf cookies (aref data (string "cookies")))
+		   ,(lprint "Read cookies from config file"
+			    `(config_path cookies))
+		   )
+	      (do0
+	       (print (string "Warning: No .env file found. Please provide API cookies manually."))
+	       (setf cookies (dict
+			      ((string "__Secure-1PSID")
+			       (string "stub"))
+			      ((string "__Secure-1PSIDCC")
+			       (string "stub"))
+			      ((string "__Secure-1PAPISID")
+			       (string "stub"))))))
+	  
+	  (setf bard (BardCookies :cookie_dict cookies))
+	  (print (aref  (bard.get_answer (string "Tell me a joke."))
+			(string "content"))))
 
-	 #+nil
-	 (do0
-	  (comments "this works")
-	  (setf response (openai.ChatCompletion.create :engine chatgpt_deployment_name
-						       :messages (list (dictionary :role (string "system")
-										   :content (string "You are an angry assistant."))
-								       (dictionary :role (string "user")
-										   :content (string "Who won the world series in 2020.")))))
-	      (print response))
-	 
-	 #+nil
-	 (do0
-	  (comments "openai.error.InvalidRequestError: The completion operation does not work with the specified model, gpt-35-turbo. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993.")
-	  (setf llm (langchain.llms.AzureOpenAI :deployment_name chatgpt_deployment_name
-						:model_name chatgpt_model_name))
-
-	  (llm (string "Tell me a joke")))
-	 #-nil
-	 (do0
-	  (comments "this works")
-	  (setf chat (langchain.chat_models.AzureChatOpenAI
-		      :deployment_name chatgpt_deployment_name
-		      :model_name chatgpt_model_name
-		      :temperature 1))
-	  (setf user_input (input (string "Ask me a question: ")))
-
-	  (setf messages (list ;(langchain.schema.SystemMessage :contents (string "You are an angry assistant"))
-			  (langchain.schema.HumanMessage :content user_input)))
-
-	  (print (dot (chat messages)
-		      content)))
+	 ;; input: What model are you using?
+	 ;; output: I'm using the Gemini language model. It's a large
+	 ;; language model chatbot developed by Google AI, trained on
+	 ;; a massive dataset of text and code. It can generate text,
+	 ;; translate languages, write different kinds of creative
+	 ;; content, and answer your questions in an informative way.
 
 	))))
 
