@@ -133,7 +133,73 @@
 			  (string "r"))
 		    f)
 		(setf text (f.read)))
-	  (setf request (+ (string "Summarize as bullet list: ```")
+	  (setf request (+
+			 (string "I will ask you to summarize the transcript of a video. Here is an example transcript:
+```
+0:00
+hey guys previously on this channel I
+0:01
+have uploaded a video about the magic
+0:03
+anime repository So based on that
+0:05
+repository you have to provide the input
+0:06
+of the image and a den poose sequence
+0:09
+video motion sequence video and in
+0:11
+return you going to get uh the motion
+0:13
+sequence applied to the input image PR
+0:16
+that project was really good you can try
+0:18
+this watching this video so in that
+0:20
+video uh the problem was I got few
+0:22
+comments regarding asking how to create
+0:25
+this dense POS video how to create the
+0:27
+custom Den POS video I was using a
+0:29
+pre-downloaded pre- provided D post
+0:31
+video so in this video I'm going to tell
+0:33
+you how to convert your input video into
+0:35
+a dense post video by using DET
+0:37
+detectron 2 of Facebook research and
+0:40
+again D post so let's start the video so
+0:43
+all agenda of this video would be after
+0:46
+this video you would be able to convert
+0:48
+the input video into the output video
+0:50
+which will be the dens POS video based
+0:52
+on the input normal sequence for
+0:54
+starting up in the description of this
+0:56
+video you going to get a GitHub
+0:58
+repository link just click on that link
+```
+A summary could look like:
+```
+- The video is about converting an input video into a dense pose video using Detectron 2 and DensPose.
+- The presenter provides a GitHub repository link for downloading the code and instructions for installation.
+```
+")
+			 (string "Summarize as bullet list: ```")
 			    text
 			    (string "```")))
 	  ,(lprint "request" `(request))

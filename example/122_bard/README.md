@@ -83,3 +83,17 @@ The process involves downloading and installing requirements, downloading the mo
 The presenter encourages contributions to the repository and mentions potential inefficiencies in the code.
 Viewers are advised to seek help in the comments section if they encounter any issues during the process.
 ```
+
+
+### Bard with one example:
+
+```
+- Download the One Click DensePose code from the GitHub repository link.
+- Install the requirements by running the provided command.
+- Download the models by running the provided shell script command.
+- Run the conversion script by providing the input video path and output path.
+- The conversion process will take a few minutes depending on your laptop's performance.
+- If you are interested in stopping the conversion process, you can hit control+C.
+- The output video will be saved in the same directory with the name "out.mp4".
+
+```
