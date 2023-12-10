@@ -97,3 +97,9 @@ Viewers are advised to seek help in the comments section if they encounter any i
 - The output video will be saved in the same directory with the name "out.mp4".
 
 ```
+
+# Python interface for OpenAI API
+
+https://github.com/lablab-ai/openai-chat-endpoint-boilerplate
+
+- even with the free openai account  i was able to create an api key
