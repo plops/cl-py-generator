@@ -3182,6 +3182,15 @@ menuentry 'Gentoo GNU/Linux 20231217 ram squash persist crypt ssd ' --class gent
 
 ```
 
-# I deleted etc usr var in /mnt4/persistent the home directory i
-# mostly kept as it is. i deleted an old version of clion but none of
-# the dot-directories
+- I deleted etc usr var in /mnt4/persistent. the home directory i
+  mostly kept as it is. i deleted an old version of clion but none of
+  the dot-directories
+
+## update chrome
+
+- download the stable version
+```
+wget -c https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chrome-linux64.zip
+wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chromedriver-linux64.zip
+
+```
