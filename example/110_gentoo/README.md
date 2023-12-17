@@ -2918,3 +2918,23 @@ emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --wi
   in the future
 
 - 129 packages will be updated
+
+- ninja didn't want to overwrite /usr/bin/ninja, i installed it again
+
+```
+dispatch-conf # wants to mess up sudoers
+emerge --depclean
+```
+
+```
+ dev-python/calver
+    selected: 2022.06.26 
+   protected: none 
+     omitted: none 
+
+ sys-devel/binutils
+    selected: 2.40-r5 
+   protected: none 
+     omitted: 2.41-r2 
+
+```
