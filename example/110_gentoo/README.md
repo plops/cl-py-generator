@@ -3181,3 +3181,7 @@ menuentry 'Gentoo GNU/Linux 20231217 ram squash persist crypt ssd ' --class gent
 }
 
 ```
+
+# I deleted etc usr var in /mnt4/persistent the home directory i
+# mostly kept as it is. i deleted an old version of clion but none of
+# the dot-directories
