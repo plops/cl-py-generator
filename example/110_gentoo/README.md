@@ -2898,3 +2898,6 @@ rm -rf .cache/torch Downloads/chrome Downloads/chrome_old .gradle .android .espr
 - i kept my the remainder of user home directory on the persistent partition this time
 - download new or update: chrome clion sonarlint protocol_buffers markdown ideolog 
 
+# Issues 2023-12-17
+
+- i might want to include chromedriver in the next update
