@@ -35,7 +35,14 @@
        (comments "python -m venv ~/bardapi_env; . ~/bardapi_env/bin/activate; pip install pyChatGPT toml"
 		 ""
 		 "deactivate")
+       (comments
+	"echo \"www-apps/chromedriver-bin ~amd64\"  >> /etc/portage/package.accept_keywords/package.accept_keywords"
+	"echo \"www-apps/chromedriver-bin *\"  >> /etc/portage/package.license"
+	"echo \"www-client/google-chrome *\"  >> /etc/portage/package.license"
+	
+	"sudo emerge -av chromedriver-bin")
        (comments "https://github.com/terry3041/pyChatGPT")
+       (comments "this library installs selenium and it will open a browser")
        (comments "env.toml contains this:"
 		 "[cookies]"
 		 "session_token = \" ... \" ")
@@ -123,7 +130,7 @@
 	       ))
 	  (setf api (ChatGPT (aref cookies (string "session_token"))
 			     :verbose True))
-	  (setf resp (api.send_message (string "tell me a joke")))
-	  ,(lprint :vars `((aref resp (string "message"))))
+	  (setf response (api.send_message (string "tell me a joke")))
+	  ,(lprint :vars `(response))
 	  )))))
 

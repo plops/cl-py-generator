@@ -13,9 +13,9 @@ import toml
 from pyChatGPT import ChatGPT
 start_time=time.time()
 debug=True
-_code_git_version="3be0f1259742785e5d20fbebefbe833f007b3f84"
+_code_git_version="75d87cea30200bf0d57682aef14089fef09e2e15"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/124_openai_inofficial/source/"
-_code_generation_time="09:52:48 of Sunday, 2023-12-17 (GMT+1)"
+_code_generation_time="09:54:22 of Sunday, 2023-12-17 (GMT+1)"
 # either set cookies here or read them from env.toml file
 config_path="env.toml"
 if ( os.path.exists(config_path) ):
@@ -25,5 +25,5 @@ if ( os.path.exists(config_path) ):
 else:
     print("Warning: No env.toml file found.")
 api=ChatGPT(cookies["session_token"], verbose=True)
-resp=api.send_message("tell me a joke")
-print("{} vars resp["message"]={}".format(((time.time())-(start_time)), resp["message"]))
+response=api.send_message("tell me a joke")
+print("{} vars response={}".format(((time.time())-(start_time)), response))
