@@ -3189,8 +3189,11 @@ menuentry 'Gentoo GNU/Linux 20231217 ram squash persist crypt ssd ' --class gent
 ## update chrome
 
 - download the stable version
+- the following chrome is only for testing (selenium)
 ```
 wget -c https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chrome-linux64.zip
 wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chromedriver-linux64.zip
 
 ```
+
+- the normal version i download as rpm and convert to tar with rpm2tar ...
