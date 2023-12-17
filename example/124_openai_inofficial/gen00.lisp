@@ -35,17 +35,6 @@
        (comments "python -m venv ~/bardapi_env; . ~/bardapi_env/bin/activate; pip install pyChatGPT toml"
 		 ""
 		 "deactivate")
-       (comments
-	"echo \"www-apps/chromedriver-bin ~amd64\"  >> /etc/portage/package.accept_keywords/package.accept_keywords"
-	"echo \"www-apps/chromedriver-bin *\"  >> /etc/portage/package.license"
-	"echo \"www-client/google-chrome *\"  >> /etc/portage/package.license"
-	
-	"sudo emerge -av chromedriver-bin")
-       ;; i have chrome 119
-       ;; https://chromedriver.chromium.org/home
-       ;; wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chrome-linux64.zip
-       ;; 143 MB (!)
-       ;; Chromedriver and Chrome browser versions should match, and if they don't the driver will error.
        
        (comments "https://github.com/terry3041/pyChatGPT")
        (comments "this library installs selenium and it will open a browser")
@@ -137,6 +126,14 @@
 	  (setf api (ChatGPT (aref cookies (string "session_token"))
 			     :verbose True))
 	  (setf response (api.send_message (string "tell me a joke")))
+
+	  ;; pressing enter (old method in send_message) doesn't submit the request
+
+	  ;; we have to press a button
+	  ;; button = self.driver.find_element(By.CSS_SELECTOR, "[data-testid='send-button']")
+          ;; button.click()
+
+	  ;; we can't get the response
 	  ,(lprint :vars `(response))
 	  )))))
 
