@@ -161,7 +161,7 @@ dev-util/rocm-cmake ~amd64
 dev-libs/roct-thunk-interface ~amd64
 sci-libs/clblast ~amd64
 dev-util/rocminfo ~amd64
-
+dev-util/cmake ~amd64
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -2901,3 +2901,20 @@ rm -rf .cache/torch Downloads/chrome Downloads/chrome_old .gradle .android .espr
 # Issues 2023-12-17
 
 - i might want to include chromedriver in the next update
+- i think i typically download chrome (and not build it with gentoo, so it might be best to just install the appropriate chromedriver for that download version of chrome)
+
+# Update 2023-12-17
+
+```
+eix-sync
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+```
+
+- i want cmake 3.28, by default it will install 3.27.7. modify
+  package.accept_keywords accordingly (see up at cat << EOF >
+  /etc/portage/package.accept...)
+
+- i also installed unrar last time. but i don't think i will need that
+  in the future
+
+- 129 packages will be updated
