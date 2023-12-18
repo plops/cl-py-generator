@@ -165,6 +165,7 @@ dev-util/cmake ~amd64
 net-libs/liquid-dsp ~amd64
 sci-libs/scikit-learn ~amd64
 dev-python/pythran ~amd64
+dev-cpp/xsimd ~amd64
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
