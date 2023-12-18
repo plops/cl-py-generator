@@ -3213,4 +3213,4 @@ emerge --jobs=12 --load-average=13 -e @world
 ```
 
 - issue with scikit-learn and liquid-dsp
-- 766 packages
+- 769 packages
