@@ -3197,3 +3197,15 @@ wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/l
 ```
 
 - the normal version i download as rpm and convert to tar with rpm2tar ...
+
+
+## Rebuild world 2023-12-18
+
+```
+eix-sync
+emerge --jobs=12 --load-average=13 -e @world
+
+```
+
+- issue with scikit-learn and liquid-dsp
+- 766 packages
