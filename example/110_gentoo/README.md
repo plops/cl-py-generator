@@ -162,6 +162,8 @@ dev-libs/roct-thunk-interface ~amd64
 sci-libs/clblast ~amd64
 dev-util/rocminfo ~amd64
 dev-util/cmake ~amd64
+net-libs/liquid-dsp ~amd64
+sci-libs/scikit-learn ~amd64
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -3203,6 +3205,7 @@ wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/l
 
 ```
 eix-sync
+emerge --jobs=12 --load-average=13 --fetchonly -e @world
 emerge --jobs=12 --load-average=13 -e @world
 
 ```
