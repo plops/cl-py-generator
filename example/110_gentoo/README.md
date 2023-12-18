@@ -3214,3 +3214,123 @@ emerge --jobs=12 --load-average=13 -e @world
 
 - issue with scikit-learn and liquid-dsp
 - 769 packages
+
+```
+emerge --depclean
+revdep-rebuild
+eclean-dist
+eclean-pkg
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+
+```
+
+```
+2023-12-17 21:22:22.1316014510 +0100 nss-3.91-4.gpkg.tar size=3307520
+2023-12-18 08:34:32.8019104270 +0100 libintl-0-r2-3.gpkg.tar size=30720
+2023-12-18 08:34:32.9085765090 +0100 gnuconfig-20230731-4.gpkg.tar size=51200
+2023-12-18 08:34:36.7652220120 +0100 libiconv-0-r2-3.gpkg.tar size=30720
+...
+2023-12-18 13:12:34.4870372380 +0100 clang-runtime-16.0.6-3.gpkg.tar size=30720
+2023-12-18 13:13:04.0000000000 +0100 Packages size=2483125
+2023-12-18 13:13:04.0968747560 +0100 include-what-you-use-0.20-3.gpkg.tar size=1873920
+
+```
+```
+sudo emerge -av xrandr
+```
+
+- complete build took 4h45min
+
+```
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_20231218.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
+persistent
+
+```
+
+```
+Filesystem size 1979134.07 Kbytes (1932.75 Mbytes)
+        30.58% of uncompressed filesystem size (6472722.79 Kbytes)
+
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20231218_squash_crypt-6.3.12-gentoo-x86_64.img
+
+```
+
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20231218 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20231218_squash_crypt-6.3.12-gentoo-x86_64.img
+}
+
+```
