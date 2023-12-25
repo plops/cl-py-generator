@@ -42,7 +42,7 @@
        (do0
 	)
        (do0
-	(comments "python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install --user mediapipe"
+	(comments "python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install mediapipe mss"
 		  "wget https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite"
 		  "16 MB download")
 	#+nil
@@ -142,66 +142,14 @@
 			   (- tz)))))
 
        (do0
-	(setf BaseOptions mp.tasks.BaseOptions
-	      ImageSegmenter mp.tasks.vision.ImageSegmenter
-	      ImageSegmenterOptions mp.tasks.vision.ImageSegmenterOptions
-	      VisionRunningMode mp.tasks.vision.RunningMode)
-
-	(def print_result (result output_image timestamp_ms)
-	  (declare (type "list[mp.Image]" result)
-		   (type mp.Image output_image)
-		   (type int timestamp_ms))
-	  (print (dot (string "segmented mask size: {}")
-		      (format (len result)))))
-
-	(do0
-	 (setf DESIRED_HEIGHT 256
-	       DESIRED_WIDTH 256)
-	 (def resize (image)
-	   (setf (ntuple h w)
-		 (aref image.shape (slice "" 2)))
-	   (if (< h w)
-	       (setf img (cv.resize image
-				     (tuple DESIRED_WIDTH
-					    (math.floor (/ h (/ w DESIRED_WIDTH))))))
-	       (setf img (cv.resize image
-				     (tuple (math.floor (/ w (/ h DESIRED_HEIGHT)))
-					    DESIRED_HEIGHT)
-				     )))))
-	
-
-	(setf options (ImageSegmenterOptions
-		       :base_options (BaseOptions
-				      :model_asset_path (string "selfie_multiclass_256x256.tflite")
-				      
-					:running_mode VisionRunningMode.LIVE_STREAM
-					;:output_category_mask True
-				       ; :output_confidence_masks False
-				      ;:display_names_locale en
-				      
-					;:result_callback
-				      #+nil (lambda ()
-					      ,(lprint :msg "result")))))
-	(with (as (ImageSegmenter.create_from_options options)
-		  segmenter)
-	      (with (as (mss.mss) sct)
-	       (do0
-		(setf grb (sct.grab
-				     (dictionary :top 160
-						 :left 0
-						 :width ,(/ 1920 2)
-						 :height ,(/ 1080 2))))
-		(setf img (np.array grb.pixels))
-		(setf mp_image (mp.Image
-				:image_format mp.ImageFormat.SRGB
-				:data img))
-		(setf segmentation_result (segmenter.segment
-					   mp_image))
-		(setf category_mask segmentation_result.category_mask)
-		,(lprint :msg "result"
-			 :vars `((aref segmentation_result 0)))
-		;(cv.imshow (string "bla") category_mask)
-		))))
+	(setf roi (dictionary
+		   :top 100
+		   :left 100
+		   :width 640
+		   :height 480))
+	(setf base_options (python.BaseOptions
+			    :model_aasset_path (string "deeplabv3.tflite")))
+	)
 
        
        ))))

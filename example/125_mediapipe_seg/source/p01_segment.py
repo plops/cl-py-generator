@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install --user mediapipe
+# python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install mediapipe mss
 # wget https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite
 # 16 MB download
 import time
@@ -12,29 +12,8 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 start_time=time.time()
 debug=True
-_code_git_version="e6518d5ae38c2216f0333e1ad5ead99910f25790"
+_code_git_version="aed7593e5862919772ceafdc2ed4205aa76ebcee"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/125_mediapipe_seg/source/"
-_code_generation_time="02:31:07 of Monday, 2023-12-25 (GMT+1)"
-BaseOptions=mp.tasks.BaseOptions
-ImageSegmenter=mp.tasks.vision.ImageSegmenter
-ImageSegmenterOptions=mp.tasks.vision.ImageSegmenterOptions
-VisionRunningMode=mp.tasks.vision.RunningMode
-def print_result(result: list[mp.Image], output_image: mp.Image, timestamp_ms: int):
-    print("segmented mask size: {}".format(len(result)))
-DESIRED_HEIGHT=256
-DESIRED_WIDTH=256
-def resize(image):
-    h, w=image.shape[:2]
-    if ( ((h)<(w)) ):
-        img=cv.resize(image, (DESIRED_WIDTH,math.floor(((h)/(((w)/(DESIRED_WIDTH))))),))
-    else:
-        img=cv.resize(image, (math.floor(((w)/(((h)/(DESIRED_HEIGHT))))),DESIRED_HEIGHT,))
-options=ImageSegmenterOptions(base_options=BaseOptions(model_asset_path="selfie_multiclass_256x256.tflite", running_mode=VisionRunningMode.LIVE_STREAM))
-with ImageSegmenter.create_from_options(options) as segmenter:
-    with mss.mss() as sct:
-        grb=sct.grab(dict(top=160, left=0, width=960, height=540))
-        img=np.array(grb.pixels)
-        mp_image=mp.Image(image_format=mp.ImageFormat.SRGB, data=img)
-        segmentation_result=segmenter.segment(mp_image)
-        category_mask=segmentation_result.category_mask
-        print("{} result segmentation_result[0]={}".format(((time.time())-(start_time)), segmentation_result[0]))
+_code_generation_time="02:34:19 of Monday, 2023-12-25 (GMT+1)"
+roi=dict(top=100, left=100, width=640, height=480)
+base_options=python.BaseOptions(model_aasset_path="deeplabv3.tflite")
