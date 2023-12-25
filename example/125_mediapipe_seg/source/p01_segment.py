@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install  mediapipe
+# python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install --user mediapipe
 # wget https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite
 # 16 MB download
 import time
@@ -12,9 +12,9 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 start_time=time.time()
 debug=True
-_code_git_version="346276ef1d2c2af1018a7485c5f366e91890c020"
+_code_git_version="e6518d5ae38c2216f0333e1ad5ead99910f25790"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/125_mediapipe_seg/source/"
-_code_generation_time="02:29:21 of Monday, 2023-12-25 (GMT+1)"
+_code_generation_time="02:31:07 of Monday, 2023-12-25 (GMT+1)"
 BaseOptions=mp.tasks.BaseOptions
 ImageSegmenter=mp.tasks.vision.ImageSegmenter
 ImageSegmenterOptions=mp.tasks.vision.ImageSegmenterOptions
