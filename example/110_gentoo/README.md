@@ -3334,3 +3334,142 @@ menuentry 'Gentoo GNU/Linux 20231218 ram squash persist crypt ssd ' --class gent
 }
 
 ```
+
+# Update 2024-01-14
+
+```
+eix-sync
+dispatch-conf
+# make sure locale.gen stays as it is
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+eclean-dist
+eclean-pkg
+revdep-rebuild # nothing
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+
+```
+
+
+```
+  2140  2024-01-14 00:59:07.6754200530 +0100 xmltoman-0.6-1.gpkg.tar size=20480
+  2141  2024-01-14 00:59:09.1787451370 +0100 xmltoman-0.6-2.gpkg.tar size=20480
+  2142  2024-01-14 00:59:10.6820702210 +0100 xmltoman-0.6-3.gpkg.tar size=20480
+  2143  2024-01-14 00:59:12.1953952500 +0100 ninja-1.11.1-r2-1.gpkg.tar size=225280
+  2144  2024-01-14 00:59:13.7387201140 +0100 ninja-1.11.1-r3-1.gpkg.tar size=225280
+  2145  2024-01-14 00:59:15.2520451430 +0100 ninja-1.11.1-r3-2.gpkg.tar size=225280
+  2146  2024-01-14 00:59:16.7687034880 +0100 ninja-1.11.1-r3-3.gpkg.tar size=225280
+,,,
+  2512  2024-01-14 07:33:00.4824029520 +0100 gtk+-3.24.39-1.gpkg.tar size=11673600
+  2513  2024-01-14 07:58:40.7472841640 +0100 adwaita-icon-theme-45.0-1.gpkg.tar size=2099200
+  2514  2024-01-14 07:58:44.4739303800 +0100 clang-17.0.6-1.gpkg.tar size=101068800
+  2515  2024-01-14 07:59:06.3071439050 +0100 clang-toolchain-symlinks-17-1.gpkg.tar size=20480
+  2516  2024-01-14 07:59:15.8404249250 +0100 libnotify-0.8.3-1.gpkg.tar size=81920
+  2517  2024-01-14 07:59:54.7202115740 +0100 firefox-bin-121.0.1-r1-1.gpkg.tar size=89671680
+  2518  2024-01-14 08:00:25.4267097410 +0100 compiler-rt-17.0.6-1.gpkg.tar size=92160
+  2519  2024-01-14 08:00:42.6766150830 +0100 gtk-4.12.4-1.gpkg.tar size=13731840
+  2520  2024-01-14 08:07:22.8677523890 +0100 compiler-rt-sanitizers-17.0.6-1.gpkg.tar size=4618240
+  2521  2024-01-14 08:07:33.1676958680 +0100 clang-runtime-17.0.6-1.gpkg.tar size=30720
+```
+
+
+```
+cryptsetup luksOpen /dev/nvme0n1p4 p4
+cryptsetup luksOpen /dev/nvme0n1p5 p5
+mount /dev/mapper/p4 /mnt4
+mount /dev/mapper/p5 /mnt5
+```
+
+```
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_20240114.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
+persistent
+
+```
+
+- quite a lot larger then before. is this because llvm was updated?
+- i think next i should update kernel and then rebuild world
+```
+Filesystem size 2179491.07 Kbytes (2128.41 Mbytes)
+        29.59% of uncompressed filesystem size (7365737.88 Kbytes)
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.3.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20240114_squash_crypt-6.3.12-gentoo-x86_64.img
+
+```
+
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20240114 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.3.12-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20240114_squash_crypt-6.3.12-gentoo-x86_64.img
+}
+
+```
