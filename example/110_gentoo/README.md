@@ -3493,5 +3493,29 @@ dispatch-conf
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
 emerge sys-kernel/gentoo-sources
 eselect kernel set 1
+cd /usr/src/linux
+make oldconfig
+make -j 12
+make -j 12 modules
+make modules_install install
+emacs /boot/grub/grub.cfg
+menuentry 'Gentoo GNU/Linux 6.6.12' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.12-gentoo-x86_64 ...'
+	linux	/vmlinuz-6.6.12-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+	echo	'Loading initial ramdisk ...'
+	initrd	/initramfs-6.6.12-gentoo-x86_64.img
+}
+```
 
+
+```
+dracut: *** Creating initramfs image file '/usr/src/linux-6.6.12-gentoo/arch/x86/boot/initrd' done ***
 ```
