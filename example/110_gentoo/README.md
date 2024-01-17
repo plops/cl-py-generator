@@ -2177,8 +2177,16 @@ emerge --ask --oneshot virtual/rust dev-lang/rust-bin
 ```
 cat << EOF > /etc/portage/package.mask/package.mask
 >=sys-kernel/gentoo-sources-6.3.13
->=sys-kernel/linux-headers-6.3.13
 <sys-kernel/gentoo-sources-6.3.12
+>=sys-kernel/linux-headers-6.3.13
+<=sys-kernel/linux-headers-6.2
+dev-lang/rust
+EOF
+
+cat << EOF > /etc/portage/package.mask/package.mask
+>=sys-kernel/gentoo-sources-6.6.13
+<sys-kernel/gentoo-sources-6.6.11
+>=sys-kernel/linux-headers-6.6.14
 <=sys-kernel/linux-headers-6.2
 dev-lang/rust
 EOF
@@ -3471,5 +3479,19 @@ menuentry 'Gentoo GNU/Linux 20240114 ram squash persist crypt ssd ' --class gent
 	linux	/vmlinuz-6.3.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
 	initrd	/initramfs20240114_squash_crypt-6.3.12-gentoo-x86_64.img
 }
+
+```
+
+* Update 2024-01-17
+
+- update kernel from 6.3.12 to 6.6.12
+- modify package mask
+
+```
+eix-sync
+dispatch-conf
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+emerge sys-kernel/gentoo-sources
+eselect kernel set 1
 
 ```
