@@ -3496,7 +3496,6 @@ eselect kernel set 1
 cd /usr/src/linux
 make oldconfig
 make -j 12
-make -j 12 modules
 make modules_install install
 emacs /boot/grub/grub.cfg
 menuentry 'Gentoo GNU/Linux 6.6.12' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
@@ -3518,4 +3517,8 @@ menuentry 'Gentoo GNU/Linux 6.6.12' --class gentoo --class gnu-linux --class gnu
 
 ```
 dracut: *** Creating initramfs image file '/usr/src/linux-6.6.12-gentoo/arch/x86/boot/initrd' done ***
+```
+
+```
+emerge -e @world
 ```
