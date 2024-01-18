@@ -68,7 +68,7 @@ FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
 LC_MESSAGES=C.utf8
 MAKEOPTS="-j12"
-USE="X vaapi"
+USE="X vaapi -doc -cups"
 VIDEO_CARDS="radeon radeonsi amdgpu"
 FEATURES="buildpkg"
 PKGDIR="/var/cache/binpkgs"
@@ -3537,5 +3537,111 @@ dev-util/include-what-you-use-0.20 (sys-devel/llvm:16)
 
 ```
 emerge --deselect dev-util/include-what-you-use
+emerge --deselect mold
 emerge -a --depclean
+```
+
+```
+ cryptsetup luksOpen /dev/nvme0n1p4 p4
+ mount /dev/mapper/p4 /mnt4
+```
+
+- create new image
+
+```
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_20240118.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/src \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x} \
+persistent
+
+```
+
+- 200MB less compressed and 1GB less uncompressed
+
+```
+Filesystem size 2054328.17 Kbytes (2006.18 Mbytes)
+        32.45% of uncompressed filesystem size (6331291.08 Kbytes)
+
+```
+
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.6.12-gentoo-x86_64 \
+  --force \
+  /boot/initramfs20240118_squash_crypt-6.6.12-gentoo-x86_64.img
+
+```
+
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20240118 6.6.12 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.12-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.6.12-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20240118_squash_crypt-6.6.12-gentoo-x86_64.img
+}
+
 ```
