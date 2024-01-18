@@ -61,6 +61,7 @@ echo "dev-lang/rust rustenv" >> etc/portage/package.env
 
 cat << EOF > etc/portage/make.conf
 COMMON_FLAGS="-march=native -fomit-frame-pointer -O2 -pipe"
+CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
@@ -3533,3 +3534,8 @@ dev-util/include-what-you-use-0.20 (sys-devel/llvm:16)
 ```
 
 - looks like iwyu has to go
+
+```
+emerge --deselect dev-util/include-what-you-use
+emerge -a --depclean
+```
