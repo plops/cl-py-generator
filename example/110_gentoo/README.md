@@ -3645,3 +3645,12 @@ menuentry 'Gentoo GNU/Linux 20240118 6.6.12 ram squash persist crypt ssd ' --cla
 }
 
 ```
+
+- need new build of ryzen module
+```
+mkdir /mnt3
+mount /dev/nvme0n1p3 /mnt3
+/home/martin/src/ryzen_monitor/ryzen_smu
+ln -s /mnt3/usr/src/linux-6.6.12-gentoo  /usr/src/linux-6.6.12-gentoo
+rm /usr/src/linux-6.6.12-gentoo
+```
