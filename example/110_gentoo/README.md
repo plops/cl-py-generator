@@ -3522,3 +3522,14 @@ dracut: *** Creating initramfs image file '/usr/src/linux-6.6.12-gentoo/arch/x86
 ```
 emerge -e @world
 ```
+
+- why llvm 16 and 17 are installed?
+
+```
+$ equery d llvm
+ * These packages depend on llvm:
+dev-util/include-what-you-use-0.20 (sys-devel/llvm:16)
+...
+```
+
+- looks like iwyu has to go
