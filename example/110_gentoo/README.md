@@ -3654,3 +3654,25 @@ mount /dev/nvme0n1p3 /mnt3
 ln -s /mnt3/usr/src/linux-6.6.12-gentoo  /usr/src/linux-6.6.12-gentoo
 rm /usr/src/linux-6.6.12-gentoo
 ```
+- bluetooth not always working for audio. i had success starting
+  bluetoothctl, executing remove <mac> and then powercycling the
+  headset. after 20s or so i see messages in bluetoothctl, the headset
+  connects and plays audio (eventually)
+
+- compile vulkan
+```
+mesa vulkan
+mpv vaapi vulkan
+vulkan-tools
+
+```
+
+
+# prepare next update
+
+- install halide
+
+```
+git clone https://github.com/halide/Halide/
+cmake -G Ninja -DTARGET_VULKAN=ON -DCMAKE_BUILD_TYPE=Release -DLLVM_DIR=/usr/lib/llvm/17/lib64/cmake/llvm
+```
