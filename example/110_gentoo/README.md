@@ -3682,6 +3682,8 @@ https://forums.gentoo.org/viewtopic-p-8772699.html?sid=d0ffa9c8b8c2041e1d23d4c0d
 
 - i can't figure out how to disable the other architectures and they seem quite adamant that this might break things (if you change it retroactively). so i guess i build all archs now
 
+- this looks interesting https://github.com/KomputeProject/kompute
+
 - install halide
 
 
