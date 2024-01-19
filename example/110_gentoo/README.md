@@ -3670,9 +3670,25 @@ vulkan-tools
 
 # prepare next update
 
+- install clang
+```
+LLVM_TARGETS="-AArch64 AMDGPU -ARM -AVR -BPF -Hexagon -Lanai -LoongArch -MSP430 -Mips -NVPTX -PowerPC -RISCV -Sparc -SystemZ -VE -WebAssembly X86 -XCore -ARC -CSKY -DirectX -M68k -SPIRV -Xtensa"
+```
+
+- the profile turns on all targets for llvm and clang. 
+https://forums.gentoo.org/viewtopic-p-8772699.html?sid=d0ffa9c8b8c2041e1d23d4c0d50ed239
+
+- they say it is because rust might need it.
+
+- i can't figure out how to disable the other architectures and they seem quite adamant that this might break things (if you change it retroactively). so i guess i build all archs now
+
 - install halide
+
+
 
 ```
 git clone https://github.com/halide/Halide/
 cmake -G Ninja -DTARGET_VULKAN=ON -DCMAKE_BUILD_TYPE=Release -DLLVM_DIR=/usr/lib/llvm/17/lib64/cmake/llvm
+
+cmake --build build --config Release
 ```
