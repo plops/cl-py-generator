@@ -178,7 +178,15 @@ dev-lang/rust
 EOF
 
 cat << EOF > /etc/portage/package.use/package.use
-www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
+
+#www-client/firefox -clang -gmp-autoupdate -openh264 system-av1 system-harfbuzz system-icu system-jpeg system-libevent -system-libvpx -system-webp -dbus -debug -eme-free -geckodriver -hardened -hwaccel -jack -libproxy -lto -pgo pulseaudio -screencast -selinux -sndio -system-png -system-python-libs -wayland -wifi
+# gmp-autoupdate .. Allow Gecko Media Plugins (binary blobs) to be automatically downloaded and kept up-to-date in user profiles
+# this affects gmpopenh264 and widewinecdm
+# i don't think i need that
+# dns-over-https has been disabled by default (avoid going through cloudflare, can be enabled in preferences)
+# app.normandy.enabled = false by default (mozilla can push changes to settings or install add-ons remotely)
+www-client/firefox-bin alsa ffmpeg -gmp-autoupdate pulseaudio -selinux -wayland
+dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
 www-client/chromium X -hangouts -official -pic -proprietary-codecs suid system-harfbuzz system-icu system-png -component-build -cups -custom-cflags -debug -gtk4 -headless -kerberos -libcxx -lto -pax-kernel -pgo -pulseaudio -qt5 -screencast -selinux -system-av1 -system-ffmpeg -vaapi -wayland -widevine
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 app-emacs/emacs-common -games gui
@@ -192,7 +200,7 @@ sci-libs/nlopt -cxx -guile -octave python -test
 dev-python/numpy lapack -test
 sci-libs/openblas openmp -dynamic -eselect-ldso -index-64bit pthread -relapack -test
  media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threads vaapi zlib alsa -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -kvazaar -ladspa -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -mmal -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -opus -oss -pic pulseaudio -qsv -rav1e -rubberband -samba -sdl -snappy -sndio -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp -x264 -x265 -xvid -zeromq -zimg -zvbi
-media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java -jpeg -jpeg2k -lapack -lto opencl -opencvapps -openexr -opengl -png -qt5 -tesseract -testprograms -threads -tiff v4l -vaapi -vtk -webp -xine
+# media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java jpeg -jpeg2k lapack -lto -opencl -opencvapps -openexr opengl png qt5 -tesseract -testprograms threads -tiff v4l vaapi -vtk -webp -xine
 dev-python/matplotlib -cairo -debug -doc -examples -excel -gtk3 -latex -qt5 -test -tk -webagg -wxwidgets
 dev-python/pandas X -doc -full-support -minimal -test
 dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -build -debug -examples -hardened -libedit -lto -pgo -test tk -valgrind -verify-sig
@@ -212,7 +220,6 @@ net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem 
 dev-python/lmfit -test
 dev-python/tqdm -examples -test
 x11-wm/dwm savedconfig -xinerama
-media-video/mpv X alsa cli -drm -egl -iconv libmpv -libplacebo -lua -uchardet -xv zlib -aqua -archive -bluray -cdda -coreaudio -debug -dvb -dvd -gamepad -jack -javascript -jpeg -lcms -libcaca -mmal -nvenc openal opengl -pipewire pulseaudio -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools vaapi -vdpau -vulkan -wayland -zimg
 
 sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd 
 
@@ -240,6 +247,20 @@ x11-libs/wxGTK X lzma spell -curl -debug -doc -gstreamer -keyring libnotify open
 dev-libs/libpcre2 bzip2 jit pcre16 pcre32 readline unicode zlib -libedit -split-usr -static-libs
 
 sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
+media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack
+# opengl requires javascript:
+app-text/mupdf X drm javascript ssl opengl
+net-misc/tigervnc drm nls -opengl -server viewer -dri3 -gnutls -java -xinerama
+
+app-misc/tmux systemd -debug -selinux -utempter -vim-syntax
+net-libs/grpc -doc -examples -test
+app-misc/fdupes ncurses
+media-gfx/feh -curl -debug -exif inotify -test -xinerama
+media-libs/libsdl2 X -joystick sound threads udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx4 -gles1 -gles2 -haptic -ibus -jack -kms -libsamplerate -nas opengl -oss -pipewire pulseaudio -sndio -static-libs -vulkan -wayland -xscreensaver
+net-print/cups -X -acl -dbus -debug -kerberos -openssl -pam -selinux ssl -static-libs -systemd -test -usb -xinetd -zeroconf
+media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
+
+media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug -drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet -vdpau vulkan -wayland -xv -zimg
 
 EOF
 
@@ -3693,4 +3714,21 @@ git clone https://github.com/halide/Halide/
 cmake -G Ninja -DTARGET_VULKAN=ON -DCMAKE_BUILD_TYPE=Release -DLLVM_DIR=/usr/lib/llvm/17/lib64/cmake/llvm
 
 cmake --build build --config Release
+```
+
+# Update 2024-01-20
+
+- modify make.conf for -j4 (just in case, j12 doesn't seem to work)
+
+```
+ sudo emerge -av clang
+```
+
+```
+media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
+
+media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug -drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet -vdpau vulkan -wayland -xv -zimg
+
+sudo emerge -av mesa mpv vulkan-tools
+
 ```
