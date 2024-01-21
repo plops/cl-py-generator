@@ -3703,18 +3703,8 @@ https://forums.gentoo.org/viewtopic-p-8772699.html?sid=d0ffa9c8b8c2041e1d23d4c0d
 
 - i can't figure out how to disable the other architectures and they seem quite adamant that this might break things (if you change it retroactively). so i guess i build all archs now
 
-- this looks interesting https://github.com/KomputeProject/kompute
-
-- install halide
 
 
-
-```
-git clone https://github.com/halide/Halide/
-cmake -G Ninja -DTARGET_VULKAN=ON -DCMAKE_BUILD_TYPE=Release -DLLVM_DIR=/usr/lib/llvm/17/lib64/cmake/llvm
-
-cmake --build build --config Release
-```
 
 # Update 2024-01-20
 
@@ -3846,3 +3836,21 @@ menuentry 'Gentoo GNU/Linux 20240120 6.6.12 ram squash persist crypt ssd ' --cla
 }
 
 ```
+
+# Try to install halide
+
+- this looks interesting https://github.com/KomputeProject/kompute
+
+- install halide
+
+
+
+```
+git clone https://github.com/halide/Halide/
+cmake -G Ninja -DTARGET_VULKAN=ON -DCMAKE_BUILD_TYPE=Release -DLLVM_DIR=/usr/lib/llvm/17/lib64/cmake/llvm -DHalide_SHARED_LLVM=YES ..
+
+cmake --build build --config Release
+ctest -C Release
+```
+
+- needs lld (maybe only for webassembly backend?)

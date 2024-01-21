@@ -32,11 +32,11 @@
 		  (comments ,(format nil "~a (~a)" help unit))
 		  (setf ,name ,val))))))
   
-  (let* ((notebook-name "segment")
-	 (cli-args `((:short "-c" :long "--chunk_size" :type int :default 500
+  (let* ((notebook-name "split")
+	 (cli-args `((:short "c" :long "chunk_size" :type int :default 500
 		      :help "Approximate number of words per chunk")
-		     (:short "-p" :long "--prompt" :type str
-		      :default "Summarize the following video transcript as a bullet list."
+		     (:short "p" :long "prompt" :type str
+		      :default (string "Summarize the following video transcript as a bullet list.")
 		      :help "The prompt to be prepended to the output file(s)."))))
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
@@ -45,8 +45,7 @@
        (do0
 	)
        (do0
-	(comments "python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install mediapipe mss"
-		  "pip install --user tiktoken"
+	(comments "python -m venv ~/gpt_env; . ~/gpt_env/bin/activate; python -m pip install tiktoken"
 		  )
 	#+nil
 	(do0
@@ -115,7 +114,7 @@
 					;(mp mediapipe)
 					;mss
 		  ;(cv cv2)
-		  tiktoken
+		  ;tiktoken
 		  )))
        
        (setf start_time (time.time)
