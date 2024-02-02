@@ -1,0 +1,46 @@
+ python3 /usr/local/bin/split_transcript.py -c 2400 -p "Summarize the following video transcript as a bullet list. Prepend each bullet point with starting timestamp. Don't show the ending timestamp. Also split the summary into sections and create section titles (a section title should convey the content and may not include a number). A title like \"Finalizing and Testing the App\" shall be written like so: *Finalizing and Testing the App*. A bullet shall be written like so: - 01:32 text of bullet. Note that the timestamp is just at the beginning and not fat.b" 1
+
+python3 /usr/local/bin/split_transcript.py --chunk_size 2400 --prompt "Summarize the following video transcript asitle should convey the content and may not include a number)." 1
+
+python3 /usr/local/bin/split_transcript.py --chunk_size 2400 --prompt "Summarize the following video transcript as a bullet list. Prepend each bullet point with starting timestamp. Don't show the ending timestamp. Also split the summary into sections and create section titles (a section title should convey the content and may not include a number). A title shall be written like so: *this is a title*. A bullet shall be written like so: - 01:32 text of bullet. Note that the timestamp is just at the beginning and not fat." 1
+
+
+python3 /usr/local/bin/split_transcript.py --chunk_size 2400 --prompt "Summarize the following video transcript as a bullet list.  Also split the summary into sections and create section titles (a section title should convey the content and may not include a number). Please translate the summary from English to German. Make the translation sound as natural as possible and pay attention to nuance. Prepend each bullet point with starting timestamp. Don't show the ending timestamp." 2
+
+python3 /usr/local/bin/split_transcript.py --chunk_size 2600 --prompt "Summarize the following video transcript as a bullet list.  Also split the summary into sections and create section titles (a section title should convey the content and may not include a number). Please translate the summary from English to simplified Chinese. Make the translation sound as natural as possible and pay attention to nuance. Prepend each bullet point with starting timestamp. Don't show the ending timestamp." 3
+
+
+The following bullet list is the summary of part of a video transcript:
+
+
+The transcript follows.
+Extract the starting timestamp from the transcript and prepend to each
+corresponding bullet point of the summary:
+
+*Summary of top comments* (as of 2024-01-14, with 91k views, 6.7k likes, 1048 comments)
+
+Create a second (higher) level of chapter titles to structure the following list better:
+
+
+Create chapter list from the following summary.
+It will look like:
+
+- 0:00 Introduction to Space-Based Solar Power
+- 0:42 Interview with Dr. Oner Tulc
+
+Here is the summary:
+
+*Summary*
+
+
+Disclaimer: I used gpt4-1106 to summarize the video transcript.  This
+method may make mistakes in recognizing words and it can't distinguish
+between speakers.
+
+I created the transcript with whisper base model.
+
+Please translate the user message from {src} to {tgt}. Make the translation sound as natural as possible and pay attention to nuance.
+
+Summarize the following top youtube comments as a bullet list. I don't care about the user names. If two comments mention the same topic, merge into one bullet point. Sort bullet points by importance.
+
+
