@@ -8,7 +8,16 @@
 (defparameter *file-hashes* (make-hash-table))
 
 (defun write-notebook (&key nb-file nb-code)
-  "write python jupyter notebook"
+	"Writes a notebook to a file.
+
+    The notebook is written in JSON format and formatted using the jq tool.
+    
+	Args:
+		nb-file (string): The path to the notebook file.
+		nb-code (string): The code to be written to the notebook.
+
+	Returns:
+		None"
   (let ((tmp (format nil "~a.tmp" nb-file)))
     (with-output-to-file (s tmp :if-exists :supersede
 			    :if-does-not-exist :create)
@@ -70,9 +79,16 @@
     (delete-file tmp)))
 
 (defun consume-declare (body)
-  "take a list of instructions from body, parse type declarations,
-return the body without them and a hash table with an environment. the
-entry return-values contains a list of return values. currently supports type, values"
+  "Take a list of instructions from `body`, parse type declarations,
+return the `body` without them and a hash table with an environment. The
+entry `return-values` contains a list of return values. Currently supports `type`, `values`.
+
+Parameters:
+- `body` (list): The list of instructions to process.
+
+Returns:
+- `new-body` (list): The modified `body` without type declarations.
+- `env` (hash-table): The hash table representing the environment with captured variables and return values."
   (let ((env (make-hash-table))
 	(looking-p t)
 	(new-body nil))
@@ -114,7 +130,18 @@ entry return-values contains a list of return values. currently supports type, v
     (values (reverse new-body) env)))
 
 (defun parse-defun (code emit )
-  ;; defun function-name lambda-list [declaration*] form*
+  "Parse a defun expression and generate Python code.
+    
+    This function parses a DEFUN s-expression form and emits Python code. Optionally, it can insert type hints for parameters and the return value.
+
+  Args:
+    code: The defun expression to parse.
+    emit: The function used to emit Python code for forms in the function block.
+
+  Returns:
+    The generated Python code as a string.
+
+  Supported grammar: defun function-name lambda-list [declaration*] form*"
   (destructuring-bind (name lambda-list &rest body) (cdr code)
     (multiple-value-bind (body env) (consume-declare body)
       (multiple-value-bind (req-param opt-param res-param
@@ -184,70 +211,87 @@ entry return-values contains a list of return values. currently supports type, v
 
 
 (defun write-source (name code &optional (dir (user-homedir-pathname))
-				 ignore-hash)
-  (let* ((fn (merge-pathnames (format nil "~a.py" name)
-			      dir))
-	 (code-str (emit-py
-		    :clear-env t
-		    :code code))
-	 (fn-hash (sxhash fn))
-	 (code-hash (sxhash code-str)))
-    (multiple-value-bind (old-code-hash exists) (gethash fn-hash *file-hashes*)
-      (when (or (not exists) ignore-hash (/= code-hash old-code-hash))
-	;; store the sxhash of the c source in the hash table
-	;; *file-hashes* with the key formed by the sxhash of the full
-	;; pathname
-	(setf (gethash fn-hash *file-hashes*) code-hash)
-	(with-open-file (s fn
-			   :direction :output
-			   :if-exists :supersede
-			   :if-does-not-exist :create)
-	  (write-sequence code-str s))
-	#+nil
-	(sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
-	#+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
-	#+nil
-	(progn
-	  ;; python3 -m pip install --user black
-	  ;; should i use --fast option?xs
-	  (sb-ext:run-program "/home/martin/.local/bin/black"
-			      (list "--fast"
-				    (namestring  fn))))))))
+								 ignore-hash)
+		"Writes the Python source code to a file.
+
+		Args:
+				name (string): The name of the file.
+				code (s-expr): The Python source code.
+				dir (pathname): The directory where the file will be saved. Defaults to the user's home directory.
+				ignore-hash (boolean): If true, ignores the hash check and always writes the code to the file.
+
+		Returns:
+				None"
+
+	(let* ((fn (merge-pathnames (format nil "~a.py" name)
+									dir))
+				 (code-str (emit-py
+										:clear-env t
+										:code code))
+				 (fn-hash (sxhash fn))
+				 (code-hash (sxhash code-str)))
+		(multiple-value-bind (old-code-hash exists) (gethash fn-hash *file-hashes*)
+			(when (or (not exists) ignore-hash (/= code-hash old-code-hash))
+				;; store the sxhash of the c source in the hash table
+				;; *file-hashes* with the key formed by the sxhash of the full
+				;; pathname
+				(setf (gethash fn-hash *file-hashes*) code-hash)
+				(with-open-file (s fn
+									 :direction :output
+									 :if-exists :supersede
+									 :if-does-not-exist :create)
+					(write-sequence code-str s))
+				#+nil
+				(sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
+				#+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
+				#+nil
+				(progn
+					;; python3 -m pip install --user black
+					;; should i use --fast option?xs
+					(sb-ext:run-program "/home/martin/.local/bin/black"
+							(list "--fast"
+										(namestring  fn))))))))
 
 (defun print-sufficient-digits-f64 (f)
-  "print a double floating point number as a string with a given nr. of                                                                                       x
-  digits. parse it again and increase nr. of digits until the same bit
-  pattern."
+	"Prints a double floating point number as a string with a given number of digits.
+	 Parses the string representation and increases the number of digits until the same bit pattern is obtained.
 
-  (let* ((a f)
-         (digits 1)
-         (b (- a 1)))
-    (unless (= a 0)
-      (loop while (< 1d-12
-		     (/ (abs (- a b))
-			(abs a))
-		     ) do
-            (setf b (read-from-string (format nil "~,vG" digits a)))
-            (incf digits)
-	    ))
-    (substitute #\e #\d (format nil "~,vG" digits a))))
+	 Args:
+		 f: The double floating point number to be printed.
+
+	 Returns:
+		 The string representation of the number with sufficient digits."
+	(let* ((a f)
+				 (digits 1)
+				 (b (- a 1)))
+		(unless (= a 0)
+			(loop while (< 1d-12
+										 (/ (abs (- a b))
+												(abs a)))
+						do
+						(setf b (read-from-string (format nil "~,vG" digits a)))
+						(incf digits)))
+		(substitute #\e #\d (format nil "~,vG" digits a))))
 
 
 					;(print-sufficient-digits-f64 1d0)
 
 
-(defparameter *env-functions* nil)
+(defparameter *env-functions* nil "docstring")
 (defparameter *env-macros* nil)
 
-#+nil
-(defun dotry (code)
-  `(try (do0
-	 ,code)
-	("Exception as exc"
-	 ,(lprint `(exc))
-	 pass)))
 
 (defun emit-py (&key code (str nil) (clear-env nil) (level 0))
+	"Emit Python code based on the given parameters.
+
+	Args:
+		code (s-expr): The code to emit.
+		str: A string to emit into.
+		clear-env: Whether to clear the environment.
+		level: The indentation level.
+
+	Returns:
+		The emitted Python code as a string."
 					;(format t "emit ~a ~a~%" level code)
   (when clear-env
     (setf *env-functions* nil
@@ -257,6 +301,8 @@ entry return-values contains a list of return values. currently supports type, v
 					;(format nil "emit-py ~a" level)
     (if code
 	(if (listp code)
+            
+                
 	    (case (car code)
 	      (tuple (let ((args (cdr code)))
 		       (format nil "(~{~a,~})" (mapcar #'emit args))))
