@@ -3903,6 +3903,7 @@ ctest -C Release
 
 # Update 2024-02-18
 
+- i don't think i want to have halide and rocm in the image
 - download 100 packages
 ```
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonly
