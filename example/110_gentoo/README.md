@@ -260,6 +260,7 @@ media-libs/libsdl2 X -joystick sound threads udev video -alsa -aqua -custom-cfla
 net-print/cups -X -acl -dbus -debug -kerberos -openssl -pam -selinux ssl -static-libs -systemd -test -usb -xinetd -zeroconf
 media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
 
+
 media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug -drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet -vdpau vulkan -wayland -xv -zimg
 
 EOF
@@ -1669,6 +1670,50 @@ dev-python/grpcio ~amd64
 dev-python/grpcio-tools ~amd64
 dev-libs/protobuf ~amd64
 net-libs/grpc ~amd64
+
+
+# dev-build/rocm-cmake ~amd64
+# dev-libs/rccl ~amd64
+# dev-libs/rocm-comgr ~amd64
+# dev-libs/rocm-device-libs ~amd64
+# dev-libs/rocm-opencl-runtime ~amd64
+# dev-util/rocm-smi ~amd64
+# dev-util/rocm_bandwidth_test ~amd64
+# dev-util/rocminfo ~amd64
+# dev-perl/URI-Encode ~amd64
+# dev-util/hip ~amd64
+# dev-util/hipcc ~amd64
+
+# # emerge -avp sci-libs/pytorch --autounmask=y --autounmask-unrestricted-atoms=y --autounmask-keep-masks=y
+# sci-libs/pytorch ~amd64
+# sci-libs/caffe2 ~amd64
+# dev-libs/cpuinfo ~amd64
+# dev-libs/pthreadpool ~amd64
+# sci-libs/onnx ~amd64
+# sci-libs/foxi ~amd64
+# dev-libs/psimd ~amd64
+# dev-libs/FP16 ~amd64
+# dev-libs/FXdiv ~amd64
+# dev-libs/pocketfft ~amd64
+# sci-libs/kineto ~amd64
+# dev-python/Opcodes
+# dev-libs/dynolog
+# dev-python/PeachPy
+
+# sci-libs/hipBLAS ~amd64
+# sci-libs/hipFFT ~amd64
+# sci-libs/hipRAND ~amd64
+# sci-libs/hipSPARSE ~amd64
+# sci-libs/rocBLAS ~amd64
+# sci-libs/rocFFT ~amd64
+# sci-libs/rocPRIM ~amd64
+# sci-libs/rocSOLVER ~amd64
+
+# sci-libs/rocSPARSE ~amd64
+# dev-util/Tensile ~amd64
+# sci-libs/rocRAND ~amd64
+
+# dev-util/lcov ~amd64
 EOF
 
 
@@ -3854,3 +3899,11 @@ ctest -C Release
 ```
 
 - needs lld (maybe only for webassembly backend?)
+
+
+# Update 2024-02-18
+
+- download 100 packages
+```
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world --fetchonly
+```
