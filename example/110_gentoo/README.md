@@ -3923,6 +3923,17 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi
 find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n
 ```
 
+- note: when trying to reboot grub failed with this error:
+```
+error: symbol `grub_is_shim_lock_enabled` not found.
+```
+- the cause for this is that the new grubx64.efi file was installed in /boot/EFI/EFI/gentoo and grub tried to load the file from last year. i just copied the new file into /boot/EFI/gentoo/grubx64.efi. i have not but i shall  delete /boot/EFI/EFI/gentoo/grubx64.efi 
+```
+$ find /boot/EFI/ -type f
+/boot/EFI/gentoo/grubx64.efi
+/boot/EFI/EFI/gentoo/grubx64.efi
+```
+
 - looks like the update took 2 hours
 ```
 2024-02-18 16:23:01.6323503540 +0100 b2-4.10.1-1.gpkg.tar size=552960
