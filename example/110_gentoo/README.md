@@ -4187,3 +4187,35 @@ sys     186m33.941s
 - no make file in kernel directory. it is actually quite empty.
 - perhaps i should switch to 6.6.17. it is listed as long-term on kernel.org
 
+```
+eselect kernel set 1
+cd /usr/src/linux
+make oldconfig
+make -j12
+make install modules_install
+```
+
+```
+real    11m25.799s
+user    89m32.173s
+sys     8m39.992s
+
+```
+
+```
+menuentry 'Gentoo GNU/Linux 6.6.17' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.17-gentoo-x86_64 ...'
+	linux	/vmlinuz-6.6.17-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+	echo	'Loading initial ramdisk (for 6.3.12) ...'
+	initrd	/initramfs-6.3.12-gentoo-x86_64.img
+}
+
+```
