@@ -170,9 +170,9 @@ dev-cpp/xsimd ~amd64
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
->=sys-kernel/gentoo-sources-6.3.13
->=sys-kernel/linux-headers-6.3.13
-<sys-kernel/gentoo-sources-6.3.12
+>=sys-kernel/gentoo-sources-6.6.18
+<=sys-kernel/gentoo-sources-6.6.16
+>=sys-kernel/linux-headers-6.6.19
 <=sys-kernel/linux-headers-6.2
 dev-lang/rust
 EOF
@@ -4178,10 +4178,12 @@ eix-sync
 emerge -e @world
 ```
 
-- no make file in kernel directory.
-
 ```
 real    408m56.099s
 user    1503m28.130s
 sys     186m33.941s
 ```
+
+- no make file in kernel directory. it is actually quite empty.
+- perhaps i should switch to 6.6.17. it is listed as long-term on kernel.org
+
