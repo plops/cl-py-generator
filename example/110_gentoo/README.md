@@ -4198,6 +4198,7 @@ make menuconfig
 
 make -j12
 make install modules_install
+
 ```
 
 ```
@@ -4224,3 +4225,4 @@ menuentry 'Gentoo GNU/Linux 6.6.17' --class gentoo --class gnu-linux --class gnu
 }
 
 ```
+- compile ryzen monitor modul
