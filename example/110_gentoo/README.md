@@ -4191,6 +4191,11 @@ sys     186m33.941s
 eselect kernel set 1
 cd /usr/src/linux
 make oldconfig
+
+make menuconfig
+ *   CONFIG_IP_NF_NAT:   is not set when it should be.
+ *   CONFIG_IP_NF_TARGET_MASQUERADE:     is not set when it should be.
+
 make -j12
 make install modules_install
 ```
