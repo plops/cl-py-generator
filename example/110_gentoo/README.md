@@ -4168,3 +4168,20 @@ menuentry 'Gentoo GNU/Linux 20240218 6.6.12 ram squash persist crypt ssd ' --cla
 }
 
 ```
+
+# Update 2024-02-19
+
+- boot 6.6.12 with 6.3.12 initramfs (only way to get this kernel with unencrypted fs for now)
+
+```
+eix-sync
+emerge -e @world
+```
+
+- no make file in kernel directory.
+
+```
+real    408m56.099s
+user    1503m28.130s
+sys     186m33.941s
+```
