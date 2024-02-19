@@ -4213,7 +4213,7 @@ menuentry 'Gentoo GNU/Linux 6.6.17' --class gentoo --class gnu-linux --class gnu
 	insmod fat
 	search --no-floppy --fs-uuid --set=root F63D-5318
 	echo	'Loading Linux 6.6.17-gentoo-x86_64 ...'
-	linux	/vmlinuz-6.6.17-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+	linux	/kernel-6.6.17-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
 	echo	'Loading initial ramdisk (for 6.3.12) ...'
 	initrd	/initramfs-6.3.12-gentoo-x86_64.img
 }
