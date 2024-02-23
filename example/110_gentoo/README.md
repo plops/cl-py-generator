@@ -4379,3 +4379,10 @@ menuentry 'Gentoo GNU/Linux 20240219 6.6.17 ram squash persist crypt ssd ' --cla
 
 ```
 
+
+
+# Proposal
+
+- i might want usbmon and whatever is needed to debug usb with wireshark
+
+https://wiki.wireshark.org/CaptureSetup/USB
