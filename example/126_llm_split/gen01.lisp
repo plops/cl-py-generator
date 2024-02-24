@@ -202,6 +202,10 @@
 				       `(string ,action)
 				       "None"))))
 
-	      (setf args (parser.parse_args))))
+	      (setf args (parser.parse_args))
+	      (split_document args.input_file
+			      args.chunk_size
+			      args.prompt
+			      )))
        ))))
 

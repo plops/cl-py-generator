@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-# python -m venv ~/mediapipe_env; . ~/mediapipe_env/bin/activate; python -m pip install mediapipe mss
-# pip install --user tiktoken
+# python -m venv ~/gpt_env; . ~/gpt_env/bin/activate; python -m pip install tiktoken
 import time
 import argparse
 start_time=time.time()
 debug=True
-_code_git_version="67e225d33bdab8773edabbb17b2b7e0f19f9f58e"
+_code_git_version="8a64427865ac79ee2473a11a79c4b999b3ad567e"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/126_llm_split/source/"
-_code_generation_time="09:03:42 of Sunday, 2024-01-21 (GMT+1)"
+_code_generation_time="15:14:05 of Saturday, 2024-02-24 (GMT+1)"
 def split_document(input_file, chunk_size, prompt):
     """given an input file split it into several files with at most chunk_size words each. prepend with prompt. replace newlines with space."""
     with open(input_file, "r") as f:
@@ -37,3 +36,4 @@ if ( ((__name__)==("__main__")) ):
     parser.add_argument("-c", "--chunk_size", help="Approximate number of words per chunk", default=500, type=int, action=None)
     parser.add_argument("-p", "--prompt", help="The prompt to be prepended to the output file(s).", default="Summarize the following video transcript as a bullet list.", type=str, action=None)
     args=parser.parse_args()
+    split_document(args.input_file, args.chunk_size, args.prompt)
