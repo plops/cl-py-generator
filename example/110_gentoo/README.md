@@ -167,6 +167,7 @@ net-libs/liquid-dsp ~amd64
 sci-libs/scikit-learn ~amd64
 dev-python/pythran ~amd64
 dev-cpp/xsimd ~amd64
+media-video/obs-studio ~amd64
 EOF
 
 cat << EOF > /etc/portage/package.mask/package.mask
@@ -199,7 +200,7 @@ dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -c
 sci-libs/nlopt -cxx -guile -octave python -test
 dev-python/numpy lapack -test
 sci-libs/openblas openmp -dynamic -eselect-ldso -index-64bit pthread -relapack -test
- media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threads vaapi zlib alsa -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -kvazaar -ladspa -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -mmal -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -opus -oss -pic pulseaudio -qsv -rav1e -rubberband -samba -sdl -snappy -sndio -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp -x264 -x265 -xvid -zeromq -zimg -zvbi
+ media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threads vaapi zlib alsa -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -kvazaar -ladspa -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -mmal -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl opus -oss -pic pulseaudio -qsv -rav1e -rubberband -samba -sdl -snappy -sndio -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp x264 -x265 -xvid -zeromq -zimg -zvbi
 # media-libs/opencv eigen features2d openmp python -contrib -contribcvv -contribdnn -contribfreetype -contribhdf -contribovis -contribsfm -contribxfeatures2d -cuda -debug -dnnsamples -download -examples ffmpeg -gdal -gflags -glog -gphoto2 gstreamer -gtk3 -ieee1394 -java jpeg -jpeg2k lapack -lto -opencl -opencvapps -openexr opengl png qt5 -tesseract -testprograms threads -tiff v4l vaapi -vtk -webp -xine
 dev-python/matplotlib -cairo -debug -doc -examples -excel -gtk3 -latex -qt5 -test -tk -webagg -wxwidgets
 dev-python/pandas X -doc -full-support -minimal -test
@@ -237,7 +238,7 @@ sys-fs/lvm2 readline systemd udev lvm -sanlock -selinux -static -static-libs -th
 
 # qdirstat
 dev-qt/qtcore systemd -debug -icu -old-kernel -test
-dev-qt/qtgui X libinput png udev -accessibility dbus -debug -egl -eglfs -evdev -gles2-only -ibus jpeg -linuxfb -test -tslib -tuio -vnc -vulkan -wayland
+dev-qt/qtgui X libinput png udev -accessibility dbus -debug -egl -eglfs -evdev -gles2-only -ibus jpeg -linuxfb -test -tslib -tuio -vnc vulkan -wayland
 dev-qt/qtwidgets X png dbus -debug -gles2-only -gtk -test
 sys-apps/qdirstat
 
@@ -249,7 +250,7 @@ dev-libs/libpcre2 bzip2 jit pcre16 pcre32 readline unicode zlib -libedit -split-
 sci-libs/fftw -fortran openmp -doc -mpi -test threads -zbus
 media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack
 # opengl requires javascript:
-app-text/mupdf X drm javascript ssl opengl
+app-text/mupdf X drm -javascript ssl -opengl
 net-misc/tigervnc drm nls -opengl -server viewer -dri3 -gnutls -java -xinerama
 
 app-misc/tmux systemd -debug -selinux -utempter -vim-syntax
@@ -262,6 +263,18 @@ media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -
 
 
 media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug -drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet -vdpau vulkan -wayland -xv -zimg
+
+# wireshark pulls in a lot of qt stuff
+net-analyzer/wireshark capinfos captype dftest dumpcap editcap filecaps gui mergecap minizip netlink pcap plugins randpkt randpktdump reordercap sharkd ssl text2pcap tshark udpdump zlib zstd -androiddump -bcg729 -brotli -ciscodump -doc -dpauxmon http2 -ilbc -kerberos -libxml2 -lua -lz4 -maxminddb -opus qt6 -sbc -sdjournal -selinux -smi -snappy -spandsp -sshdump -test -tfshark -verify-sig -wifi
+dev-libs/boehm-gc large threads  cxx -static-libs
+app-text/xmlto text -latex
+dev-qt/qtmultimedia X ffmpeg -vaapi -alsa -eglfs -gstreamer -opengl -pulseaudio -qml -test -v4l -vulkan
+sys-libs/zlib minizip -static-libs -verify-sig
+dev-qt/qtbase X concurrent dbus gui libinput network nls -opengl sql sqlite ssl udev -vulkan widgets xml -accessibility -brotli -cups -eglfs -evdev -gles2-only -gssapi -gtk -icu -libproxy -mysql -oci8 -odbc -postgres -sctp -test -tslib -wayland -zstd
+dev-qt/qttools assistant linguist widgets clang designer distancefieldgenerator -gles2-only -opengl -pixeltool -qdbus -qdoc qml -qtattributionsscanner -qtdiag -qtplugininfo -test -vulkan -zstd
+dev-qt/qtdeclarative jit widgets -debug -gles2-only -localstorage -test -vulkan
+
+media-video/obs-studio alsa ssl -browser -decklink -fdk -jack -lua -mpegts -nvenc -pipewire pulseaudio -python -qsv -speex -test -truetype v4l -vlc -wayland -websocket
 
 EOF
 
@@ -4386,3 +4399,46 @@ menuentry 'Gentoo GNU/Linux 20240219 6.6.17 ram squash persist crypt ssd ' --cla
 - i might want usbmon and whatever is needed to debug usb with wireshark
 
 https://wiki.wireshark.org/CaptureSetup/USB
+
+## Update 2024-02-24
+
+- add usbmon to kernel
+- add obs-studio (requires qt6), wireshark (use also qt6), mupdf without opengl and javascript
+- update
+
+```
+* Messages for package media-sound/pulseaudio-daemon-16.99.1:
+
+ * You have enabled bluetooth USE flag for pulseaudio. Daemon will now handle
+ * bluetooth Headset (HSP HS and HSP AG) and Handsfree (HFP HF) profiles using
+ * native headset backend by default. This can be selectively disabled
+ * via runtime configuration arguments to module-bluetooth-discover
+ * in /etc/pulse/default.pa
+ * To disable HFP HF append enable_native_hfp_hf=false
+ * To disable HSP HS append enable_native_hsp_hs=false
+ * To disable HSP AG append headset=auto or headset=ofono
+ * (note this does NOT require enabling USE ofono)
+ * 
+ * You have enabled both native and ofono headset profiles. The runtime decision
+ * which to use is done via the 'headset' argument of module-bluetooth-discover.
+ * 
+ * Pulseaudio autospawn by client library is no longer enabled when systemd is available.
+ * It's recommended to start pulseaudio via its systemd user units:
+ * 
+ *   systemctl --user enable pulseaudio.service pulseaudio.socket
+ * 
+ * Root user can change system default configuration for all users:
+ * 
+ *   systemctl --global enable pulseaudio.service pulseaudio.socket
+ * 
+ * If you would like to enable autospawn by client library, edit autospawn flag in /etc/pulse/client.conf like this:
+ * 
+ *   autospawn = yes
+ * 
+ * The change from autospawn to user units will take effect after restarting.
+ * 
+ * PulseAudio can be enhanced by installing the following:
+ *   sys-auth/rtkit for restricted realtime capabilities via D-Bus
+
+
+```
