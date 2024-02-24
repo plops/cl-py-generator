@@ -271,7 +271,7 @@ app-text/xmlto text -latex
 dev-qt/qtmultimedia X ffmpeg -vaapi -alsa -eglfs -gstreamer -opengl -pulseaudio -qml -test -v4l -vulkan
 sys-libs/zlib minizip -static-libs -verify-sig
 dev-qt/qtbase X concurrent dbus gui libinput network nls -opengl sql sqlite ssl udev -vulkan widgets xml -accessibility -brotli -cups -eglfs -evdev -gles2-only -gssapi -gtk -icu -libproxy -mysql -oci8 -odbc -postgres -sctp -test -tslib -wayland -zstd
-dev-qt/qttools assistant linguist widgets clang designer distancefieldgenerator -gles2-only -opengl -pixeltool -qdbus -qdoc qml -qtattributionsscanner -qtdiag -qtplugininfo -test -vulkan -zstd
+#dev-qt/qttools assistant linguist widgets -clang -designer -distancefieldgenerator -gles2-only -opengl -pixeltool -qdbus -qdoc -qml -qtattributionsscanner -qtdiag -qtplugininfo -test -vulkan -zstd
 dev-qt/qtdeclarative jit widgets -debug -gles2-only -localstorage -test -vulkan
 
 media-video/obs-studio alsa ssl -browser -decklink -fdk -jack -lua -mpegts -nvenc -pipewire pulseaudio -python -qsv -speex -test -truetype v4l -vlc -wayland -websocket
@@ -4440,5 +4440,205 @@ https://wiki.wireshark.org/CaptureSetup/USB
  * PulseAudio can be enhanced by installing the following:
  *   sys-auth/rtkit for restricted realtime capabilities via D-Bus
 
+
+```
+
+- qml (qtdeclarative) installs 400MB. perhaps i can get rid of it?
+  yes, the depclean removed it again
+
+```
+emerge --depclean
+eclean-dist
+eclean-pkg
+revdep-rebuild 
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+
+```
+
+```
+2024-02-24 10:54:12.1546436930 +0100 ensurepip-pip-24.0-1.gpkg.tar size=2088960
+2024-02-24 11:00:51.3824529520 +0100 python-3.11.8_p1-1.gpkg.tar size=28313600
+2024-02-24 11:01:04.8223792010 +0100 linux-firmware-20240220-r1-1.gpkg.tar size=471306240
+2024-02-24 11:01:45.4521562480 +0100 packaging-23.2-r1-1.gpkg.tar size=174080
+2024-02-24 11:02:10.6320180740 +0100 meson-1.3.1-r1-1.gpkg.tar size=2723840
+2024-02-24 11:04:20.3779727670 +0100 systemd-255.3-r1-1.gpkg.tar size=10260480
+2024-02-24 11:06:07.3773856140 +0100 python-3.12.2_p1-1.gpkg.tar size=29163520
+2024-02-24 11:06:59.7670981280 +0100 webrtc-audio-processing-1.3-r3-1.gpkg.tar size=1228800
+2024-02-24 11:07:04.1004076820 +0100 gumbo-0.12.1-1.gpkg.tar size=194560
+2024-02-24 11:07:04.1004076820 +0100 libpsl-0.21.5-1.gpkg.tar size=112640
+2024-02-24 11:07:11.9736978110 +0100 pip-24.0-1.gpkg.tar size=4546560
+2024-02-24 11:07:47.4401698580 +0100 libuv-1.48.0-1.gpkg.tar size=204800
+2024-02-24 11:08:15.2566838830 +0100 soapyplutosdr-0.2.2-1.gpkg.tar size=81920
+2024-02-24 11:08:27.3332842800 +0100 pythran-0.15.0-r1-1.gpkg.tar size=1218560
+2024-02-24 11:08:32.2032575560 +0100 libpulse-16.99.1-1.gpkg.tar size=1024000
+2024-02-24 11:08:41.2765411000 +0100 mupdf-1.23.3-r1-4.gpkg.tar size=34007040
+2024-02-24 11:09:14.8130237370 +0100 pulseaudio-daemon-16.99.1-1.gpkg.tar size=1177600
+2024-02-24 11:09:47.2461790950 +0100 firefox-bin-123.0-1.gpkg.tar size=92487680
+2024-02-24 11:17:50.6868595740 +0100 pcap-0-r1-1.gpkg.tar size=20480
+2024-02-24 11:18:10.3434183760 +0100 boehm-gc-8.2.4-1.gpkg.tar size=399360
+2024-02-24 11:18:31.7633008350 +0100 zlib-1.3-r4-4.gpkg.tar size=225280
+2024-02-24 11:18:49.2898713260 +0100 xprop-1.2.6-1.gpkg.tar size=71680
+2024-02-24 11:19:00.5531428530 +0100 perl-File-Path-2.180.0-r2-1.gpkg.tar size=20480
+2024-02-24 11:19:30.5396449700 +0100 w3m-0.5.3_p20230121-1.gpkg.tar size=1290240
+2024-02-24 11:20:39.0959354380 +0100 qtnetwork-5.15.12-r1-1.gpkg.tar size=870400
+2024-02-24 11:21:18.7857176420 +0100 qtconcurrent-5.15.12-1.gpkg.tar size=71680
+2024-02-24 11:21:59.3154952370 +0100 qtxml-5.15.12-1.gpkg.tar size=174080
+2024-02-24 11:22:43.2419208600 +0100 qttest-5.15.12-1.gpkg.tar size=256000
+2024-02-24 11:22:56.5918476030 +0100 IPC-System-Simple-1.300.0-1.gpkg.tar size=51200
+2024-02-24 11:23:08.1084510730 +0100 w3m-1-1.gpkg.tar size=20480
+2024-02-24 11:23:20.5850492750 +0100 File-BaseDir-0.90.0-1.gpkg.tar size=40960
+2024-02-24 11:23:43.3815908470 +0100 linguist-tools-5.15.12-1.gpkg.tar size=491520
+2024-02-24 11:23:56.1448541430 +0100 File-DesktopEntry-0.220.0-r1-1.gpkg.tar size=40960
+2024-02-24 11:24:09.0747831900 +0100 File-MimeInfo-0.330.0-1.gpkg.tar size=61440
+2024-02-24 11:26:48.8272398900 +0100 qtgui-5.15.12-r2-4.gpkg.tar size=5068800
+2024-02-24 11:27:35.0603195220 +0100 qtmultimedia-5.15.12-1.gpkg.tar size=450560
+2024-02-24 11:28:20.6434027210 +0100 qtprintsupport-5.15.12-1.gpkg.tar size=225280
+2024-02-24 11:33:16.9817765800 +0100 qtdeclarative-5.15.12-1.gpkg.tar size=8192000
+2024-02-24 11:33:38.9616559660 +0100 libpcap-1.10.4-1.gpkg.tar size=348160
+2024-02-24 11:33:57.8482189940 +0100 xmlto-0.0.28-r11-8.gpkg.tar size=71680
+2024-02-24 11:34:16.0814522740 +0100 xdg-utils-1.1.3_p20210805-r1-1.gpkg.tar size=102400
+2024-02-24 11:37:18.5504509850 +0100 wireshark-4.0.11-1.gpkg.tar size=33464320
+2024-02-24 12:56:38.7809961400 +0100 jansson-2.14-r1-1.gpkg.tar size=71680
+2024-02-24 12:57:19.8541040870 +0100 x264-0.0.20231114-r1-1.gpkg.tar size=860160
+2024-02-24 12:57:43.6773066920 +0100 rnnoise-0.4.1_p20210122-r1-1.gpkg.tar size=133120
+2024-02-24 12:58:19.1637786280 +0100 libv4l-1.22.1-2.gpkg.tar size=215040
+2024-02-24 12:58:37.5236778790 +0100 xcb-util-cursor-0.1.5-1.gpkg.tar size=61440
+2024-02-24 12:59:16.3734646930 +0100 mupdf-1.23.3-r1-5.gpkg.tar size=33853440
+2024-02-24 12:59:34.2466999480 +0100 mbedtls-2.28.7-1.gpkg.tar size=839680
+2024-02-24 13:07:30.9474174120 +0100 qtbase-6.6.2-1.gpkg.tar size=18298880
+2024-02-24 13:08:09.6472050490 +0100 qtshadertools-6.6.2-1.gpkg.tar size=2140160
+2024-02-24 13:08:30.5837568270 +0100 qt5compat-6.6.2-1.gpkg.tar size=655360
+2024-02-24 13:22:26.9991670420 +0100 qtdeclarative-6.6.2-1.gpkg.tar size=33423360
+2024-02-24 13:22:55.3690113640 +0100 qtsvg-6.6.2-1.gpkg.tar size=296960
+2024-02-24 13:26:30.0611665860 +0100 mupdf-1.23.3-r1-6.gpkg.tar size=33853440
+2024-02-24 13:27:56.0040283120 +0100 qttools-6.6.2-1.gpkg.tar size=2887680
+2024-02-24 13:29:32.6534979530 +0100 ffmpeg-6.0.1-r2-4.gpkg.tar size=10127360
+2024-02-24 13:30:46.2964271750 +0100 qtmultimedia-6.6.2-1.gpkg.tar size=3072000
+2024-02-24 13:32:07.5559812680 +0100 obs-studio-30.0.2-1.gpkg.tar size=6543360
+2024-02-24 13:36:11.3446434900 +0100 wireshark-4.0.11-2.gpkg.tar size=34027520
+2024-02-24 13:40:21.8399355770 +0100 cmake-3.27.9-1.gpkg.tar size=17971200
+2024-02-24 13:40:42.5064888380 +0100 qttranslations-6.6.2-1.gpkg.tar size=2529280
+
+```
+
+
+- create new image
+
+```
+export TODAY=20240224
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+lib/modules/6.6.12-gentoo-x86_64 \
+usr/lib/modules/6.3.12-gentoo-x86_64 \
+usr/lib/modules/6.6.12-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/stage \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
+persistent \
+initramfs-with-squashfs.img
+
+```
+
+- a lot bigger
+
+```
+# old:
+# Filesystem size 2166673.71 Kbytes (2115.89 Mbytes)
+
+# new:
+Filesystem size 2363738.04 Kbytes (2308.34 Mbytes)
+        33.90% of uncompressed filesystem size (6972349.94 Kbytes)
+
+```
+
+- i don't think i should put the stage repos in, in particular because there is a 100 MB gentoo build log in there
+- exclude /opt/rust-bin*, /usr/lib/modules/..., nvidia firmware
+- this really shaved off a lot from the image:
+
+```
+Filesystem size 1768582.55 Kbytes (1727.13 Mbytes)
+        30.33% of uncompressed filesystem size (5831387.82 Kbytes)
+real    0m59.446s
+user    10m20.119s
+sys     0m9.701s
+
+```
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.6.17-gentoo-x86_64 \
+  --force \
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.17-gentoo-x86_64.img"
+
+```
+
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20240224 6.6.17 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.17-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/kernel-6.6.17-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20240224_squash_crypt-6.6.17-gentoo-x86_64.img
+}
 
 ```
