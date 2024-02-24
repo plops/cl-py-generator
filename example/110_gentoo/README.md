@@ -4580,30 +4580,19 @@ initramfs-with-squashfs.img
 
 ```
 
-- a lot bigger
+- a bit bigger (80MB compressed):
 
 ```
 # old:
-# Filesystem size 2166673.71 Kbytes (2115.89 Mbytes)
-
-# new:
-Filesystem size 2363738.04 Kbytes (2308.34 Mbytes)
-        33.90% of uncompressed filesystem size (6972349.94 Kbytes)
-
-```
-
-- i don't think i should put the stage repos in, in particular because there is a 100 MB gentoo build log in there
-- exclude /opt/rust-bin*, /usr/lib/modules/..., nvidia firmware
-- this really shaved off a lot from the image:
-
-```
 Filesystem size 1768582.55 Kbytes (1727.13 Mbytes)
         30.33% of uncompressed filesystem size (5831387.82 Kbytes)
 real    0m59.446s
-user    10m20.119s
-sys     0m9.701s
-
+# new:
+Filesystem size 1849509.25 Kbytes (1806.16 Mbytes)
+        30.03% of uncompressed filesystem size (6158277.84 Kbytes)
+real    1m7.399s	
 ```
+
 ```
 emacs init_dracut_crypt.sh
 cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
