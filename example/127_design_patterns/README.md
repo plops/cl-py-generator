@@ -168,3 +168,20 @@ interaction between the objects involved in the Builder design
 pattern, highlighting the role of the Director in coordinating the
 construction process and the ConcreteBuilder in creating specific
 parts of the final product.
+
+
+## Structured vs. Unstructured Code
+
+This section explores the differences between structured and
+unstructured code through visual representations.  The benefits of
+organized code are discussed, including improved readability,
+maintainability, and communication between code components. The goal
+is to help developers create well-defined coding patterns.
+
+* **Organized code:** Simpler patterns, easier to understand.
+* **Unorganized code:** Overlapping components create complexity.
+* **Structured code promotes:** Efficient communication within the codebase. 
+* **Organized code facilitates:**  Clear patterns and relationships.
+* **This course emphasizes:**  Best practices for structured, organized coding. 
+* **Optional UML lecture:** Refresher for those interested. 
+
