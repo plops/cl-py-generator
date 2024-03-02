@@ -919,3 +919,34 @@ resolve the issue.
 
 3. **Reclassify:** Change `Penguin` to inherit from `NonFlyingBird`.
 
+Here's a breakdown of your explanation, aiming for clarity and highlighting the benefits of refactoring:
+
+## Refactoring for the Interface Segregation Principle (ISP): Specializing Devices
+
+This tutorial demonstrates how to improve code design using the
+Interface Segregation Principle (ISP). We'll refactor a large
+interface (`IMultifunctionalDevice`) to illustrate the benefits.
+
+**The Problem**
+
+* **Original Code:**
+   * A single `IMultifunctionalDevice` interface mandates methods for
+     printing, scanning, copying, and faxing.
+   * Classes like `Printer` and `Scanner` must implement all methods,
+     even if irrelevant to their functionality.
+
+* **ISP Violation:** This forces unnecessary dependencies, making the
+  code less flexible, harder to understand, and harder to maintain.
+
+**The Solution: Refactoring**
+
+1. **Create Specialized Interfaces:**
+    * `IPrinter` (with a `print()` method)
+    * `IScanner` (with a `scan()` method)
+    * `ICopier` (with a `copy()` method)
+    * `IFax` (with a `fax()` method)
+
+2. **Targeted Implementation:**
+    *  Classes now implement only the relevant interfaces (e.g.,
+       `Printer` implements `IPrinter`).
+
