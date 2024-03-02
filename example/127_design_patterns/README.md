@@ -503,32 +503,33 @@ print(f"Rectangle Perimeter: {rectangle.perimeter()}")
    
 #### Corresponding Class Diagram in PlantUML  
    
+   
 ```plantuml  
 @startuml  
-   
+  
 abstract class Shape {  
   {abstract} +area(): float  
   {abstract} +perimeter(): float  
 }  
-   
+  
 class Circle {  
   -radius: float  
-  +area(): float  
-  +perimeter(): float  
+  +<<override>> area(): float  
+  +<<override>> perimeter(): float  
 }  
-   
+  
 class Rectangle {  
   -length: float  
   -width: float  
-  +area(): float  
-  +perimeter(): float  
+  +<<override>> area(): float  
+  +<<override>> perimeter(): float  
 }  
-   
+  
 Shape <|-- Circle  
 Shape <|-- Rectangle  
-   
+  
 @enduml  
-```  
+```
    
 This PlantUML code represents an abstract class `Shape` with abstract
 methods `area()` and `perimeter()`. Concrete classes `Circle` and
