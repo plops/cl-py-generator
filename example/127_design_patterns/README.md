@@ -185,3 +185,112 @@ is to help developers create well-defined coding patterns.
 * **This course emphasizes:**  Best practices for structured, organized coding. 
 * **Optional UML lecture:** Refresher for those interested. 
 
+## Preparing Visual Studio Code for Python
+
+This section provides a step-by-step guide on configuring Visual
+Studio Code for Python development. It covers installing the Python
+extension, creating a virtual environment (venv), and using the
+package manager (pip). The emphasis is on setting up a structured
+environment for running the course's coding examples.
+
+**Bullet List Summary**
+
+* **Assumptions:** Python (>= 3.7) and Visual Studio Code are already
+  installed.
+* **Python Extension:** Install the Microsoft Python extension for VS
+  Code.
+* **Virtual Environments (venv):** Create project-specific
+  environments to manage dependencies.
+```
+python -m venv stage/project01/venv
+```
+* **Package Management (pip):** Use pip to install required Python
+  libraries.
+* **Object-Oriented Focus:** The course primarily uses object-oriented
+  Python concepts
+* **Environment Setup Demo:** The video demonstrates the configuration
+  process.
+  - Open Terminal in VSCode and run `python -m venv ./venv`
+  - Then run `pip install numpy` in that environment
+
+## UML for Structure and Behavior
+
+This section provides a refresher on Unified Modeling Language (UML),
+focusing on class diagrams and sequence diagrams. Class diagrams
+visualize the structural relationships between objects, while sequence
+diagrams illustrate how objects interact with each other over
+time. These tools help understand both the composition and the
+behavior of design patterns.
+
+* **UML Purpose:** Visualizing object-oriented design structure and
+  behaviors.
+* **Class Diagrams:**
+    * Capture class attributes, operations (methods), and visibility.
+    * Model relationships like generalization (inheritance),
+      association, and aggregation.
+    * Show dependencies between classes.
+* **Sequence Diagrams:**
+    * Show how objects interact through message exchanges.
+    * Demonstrate the flow of logic and method calls within a system.
+
+## PlantUML class diagram
+
+The PlantUML representation will include the abstract class `Shape`
+with its attributes and operations, the classes that inherit from
+`Shape` (`Triangle`, `Circle`, `Rectangle`), and a `Cylinder` class
+that is an example of aggregation. Additionally, I'll depict a package
+to group these classes and a `Calculator` class to show a dependency
+relationship with `Shape`.
+   
+```plantuml  
+@startuml  
+   
+' Define abstract class Shape  
+abstract class Shape {  
+    +color : String  
+    +location : String  
+    +getArea() : double  
+    +getColor() : String  
+    +getLocation() : String  
+}  
+   
+' Define classes inheriting from Shape  
+class Triangle extends Shape {  
+}  
+   
+class Circle extends Shape {  
+}  
+   
+class Rectangle extends Shape {  
+}  
+   
+' Define Cylinder class with aggregation of Shape elements  
+class Cylinder extends Shape {  
+    +elements : Shape[3]  
+}  
+   
+' Add a note to Cylinder to explain aggregation  
+note right of Cylinder : Cylinder aggregates\nthree Shapes to form its structure  
+   
+' Define Calculator class showing dependency with Shape  
+class Calculator {  
+}  
+
+' Aggregation relationship with specific multiplicity  
+Cylinder o-- "3..3" Shape : elements  
+
+Shape ..> Calculator : << uses >>  
+@enduml  
+```  
+   
+This PlantUML script captures the core elements and relationships you described:  
+   
+- The abstract class `Shape` with its attributes (`color`, `location`) and operations (`getArea()`, `getColor()`, `getLocation()`), all marked as public (`+`).  
+- The inheritance (generalization) relationship where `Triangle`, `Circle`, and `Rectangle` inherit from `Shape`.  
+- The `Cylinder` class as an example of aggregation, containing a fixed-size array of `Shape` objects (`elements`).  
+- The `Calculator` class showing a dependency relationship with `Shape`, indicating that `Shape` uses `Calculator`.  
+- A package named "ShapesPackage" encapsulates all the classes, emphasizing their logical grouping.  
+   
+Remember, the actual visualization of this diagram requires a PlantUML
+environment or compatible tool to parse and render the diagram from
+the script provided.
