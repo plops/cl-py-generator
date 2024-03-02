@@ -233,7 +233,7 @@ behavior of design patterns.
     * Show how objects interact through message exchanges.
     * Demonstrate the flow of logic and method calls within a system.
 
-## PlantUML class diagram
+## PlantUML class diagram of Shapes
 
 The PlantUML representation will include the abstract class `Shape`
 with its attributes and operations, the classes that inherit from
@@ -294,3 +294,81 @@ This PlantUML script captures the core elements and relationships you described:
 Remember, the actual visualization of this diagram requires a PlantUML
 environment or compatible tool to parse and render the diagram from
 the script provided.
+
+
+## PlantUML class diagram of a house
+
+Here is a description of a house as a PlantUML class diagram:
+   
+```plantuml  
+@startuml  
+   
+' Define interface  
+interface Room {  
+}  
+   
+' Define abstract class  
+abstract class Room {  
+}  
+   
+' Generalizations of Room  
+class Bathroom {  
+}  
+   
+class LivingRoom {  
+}  
+   
+class Bedroom {  
+}  
+   
+' Relationships between abstract class Room and its specializations  
+Room <|-down- Bathroom  
+Room <|-down- LivingRoom  
+Room <|-down- Bedroom  
+   
+' Define House class with associations  
+class House {  
+    - Garage garage  
+    - Door[] doors  
+    - Window[] windows  
+    - Pool pool  
+    - Bathroom[] bathrooms  
+    - LivingRoom livingRoom  
+    - Bedroom[] bedrooms  
+}  
+   
+' Aggregations and compositions  
+House "1" *-- "3" Bathroom : contains  
+House "1" *-- "1" LivingRoom : contains  
+House "1" *-- "5" Bedroom : contains  
+House "1" *-- "2" Door : contains  
+House "1" *-- "10" Window : contains  
+House "1" *-- "1" Garage : contains  
+House "1" o-- "1" Pool : has  
+   
+' Dependency to ElectricalGrid  
+class ElectricalGrid {  
+}  
+   
+House ..> ElectricalGrid : uses  
+   
+@enduml  
+```  
+   
+This diagram includes:  
+- The interface `Room` and an abstract class also named `Room`, but in
+  an actual implementation, they should not have the exact same
+  name. This is just based on your description. Normally, you would
+  name them differently to avoid confusion.
+- Generalizations of the abstract class `Room` into `Bathroom`,
+  `LivingRoom`, and `Bedroom`.
+- A `House` class that has various associations with other classes,
+  including a composition relationship (black diamond) with
+  `Bathroom`, `LivingRoom`, `Bedroom`, `Door`, `Window`, and
+  `Garage`. It also has an aggregation relationship (white diamond)
+  with `Pool`, indicating the pool can exist independently of the
+  `House`.
+- A dependency relationship from `House` to `ElectricalGrid`,
+  indicating that the house uses the electrical grid but does not own
+  it.
+   
