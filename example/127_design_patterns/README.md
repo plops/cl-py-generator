@@ -128,7 +128,7 @@ provides an abstract interface for creating parts of a `Product`, and
 the `ConcreteBuilder` implements these steps to return the final
 product.
 
-## Example Sequence Diagram in PlantUML
+### Example Sequence Diagram in PlantUML
 
 To create a sequence diagram that captures the interaction flow, we
 can use PlantUML to visualize the steps. Here's how the sequence
@@ -233,7 +233,7 @@ behavior of design patterns.
     * Show how objects interact through message exchanges.
     * Demonstrate the flow of logic and method calls within a system.
 
-## PlantUML class diagram of Shapes
+### PlantUML class diagram of Shapes
 
 The PlantUML representation will include the abstract class `Shape`
 with its attributes and operations, the classes that inherit from
@@ -296,7 +296,7 @@ environment or compatible tool to parse and render the diagram from
 the script provided.
 
 
-## PlantUML class diagram of a house
+### PlantUML class diagram of a house
 
 Here is a description of a house as a PlantUML class diagram:
    
@@ -372,7 +372,7 @@ This diagram includes:
   indicating that the house uses the electrical grid but does not own
   it.
    
-## Visualizing Cylinder Area Calculation with PlantUML
+### Visualizing Cylinder Area Calculation with PlantUML
    
 PlantUML excels in illustrating complex interactions within
 object-oriented systems. A compelling example of this is modeling the
@@ -424,4 +424,24 @@ This diagram concisely demonstrates:
 Through this visualization, PlantUML provides a clear depiction of the
 sequence and control flow in the area calculation process, making it
 an invaluable tool for understanding and documenting system behaviors.
+
+## Python and Object-Oriented Programming: A Refresher
+
+This section provides a review of core object-oriented programming
+(OOP) concepts in Python. Topics include classes and objects,
+encapsulation, inheritance (including interfaces and abstract
+classes). The section also offers a look at how these concepts are
+represented in UML diagrams.
+
+* **Classes and Objects:** Classes act as blueprints for creating
+  objects that hold data and operations (methods).
+* **Encapsulation:** Classes bundle data and corresponding methods,
+  promoting organization and managing complexity.
+* **Inheritance:** Enables creating new classes (derived classes) that
+  inherit properties and behaviors from a base class, promoting code
+  reusability.
+* **Interface Contracts and Abstract Classes:** Essential tools for
+  defining expected behaviors and enforcing design structure.
+* **UML in Python OOP:** Visualizing class relationships and
+  interactions with UML diagrams aids in understanding code.
 
