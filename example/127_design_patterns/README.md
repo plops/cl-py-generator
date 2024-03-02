@@ -981,3 +981,95 @@ with abstractions to illustrate the principle in practice.
    * Modify `NotificationService` to accept any `IMessageService` in
      its constructor.
 
+## The Singleton Design Pattern: Ensuring a Single Instance
+
+This lesson introduces the Singleton design pattern, a creational
+pattern used to restrict a class to having only one instance while
+providing global access. We'll discuss use cases, motivations, and
+important implementation considerations.
+
+* **Definition:** The Singleton pattern guarantees a class has only
+  one instance and provides a global point of access to it.
+* **Uses Cases:** Suitable for controlling access to shared resources:
+    * Loggers
+    * Caching mechanisms
+    * Database connections
+    * Configuration managers
+* **Motivation (from Gang of Four):** Some classes should have exactly
+  one instance for system-wide consistency.
+
+**When to Use (and When NOT to Use)**
+
+* **Use:** When controlled access to a shared resource is essential.
+* **Avoid:**  
+    * Overuse can lead to the equivalent of global variables,
+      hindering code readability and maintainability.
+    * If your singleton violates the Single Responsibility Principle
+      (SRP), reconsider its design.
+
+**Design Considerations**
+
+* **Lazy vs. Eager Construction:**
+    * Lazy: Create the instance only when first needed (saves memory)
+    * Eager: Create the instance immediately (useful for resources
+      that need to be immediately available).
+* **Thread Safety:** In multi-threaded environments, ensure the
+  creation process is thread-safe to prevent multiple instances from
+  being created simultaneously.
+
+
+## Implementing the Singleton Pattern in Python
+
+This tutorial explores different ways to implement the Singleton
+design pattern in Python, progressing from a classic Gang of Four
+approach to a more Pythonic metaclass-based solution. We'll discuss
+the trade-offs of each method and how to achieve both lazy and eager
+instantiation.
+
+* **Singleton Pattern:** Ensures a class has only one instance
+  globally.
+* **Python Considerations:**
+    * No true constructors, but the `__new__` and `__init__` methods
+      provide similar functionality.
+    * No strict 'static' keyword, but class-level variables/methods
+      act similarly.
+    * Metaclasses offer elegant control over class creation.
+
+**Implementation Approaches**
+
+1. **Classic Gang of Four**
+   * **Pros:** Familiar to those coming from other OO languages.
+   * **Cons:** Not the most Pythonic approach; overridden `__init__`
+     to block the normal constructor feels a bit indirect.
+   * **Mechanism:** 
+       * Private `__init__` (simulated)
+       * Static `get_instance()` for controlled creation
+   * **Instantiation:** Lazy
+
+2. **Simple Pythonic Singleton**
+   * **Pros:** More directly leverages Python's object creation
+     mechanism.
+   * **Cons:** Might feel less "controlled" if coming from a stricter
+     OO background.
+   * **Mechanism:**
+      * Overridden `__new__` to manage instance creation.
+   * **Instantiation:** Lazy
+
+3. **Metaclass-Based Singleton**
+   * **Pros:** Most elegant and flexible Pythonic solution.
+   * **Cons:** Requires some understanding of metaclasses.
+   * **Mechanism:**
+     * Custom metaclass with overridden `__call__` 
+     * Can use `__new__` and `__init__` for fine-grained control.
+   * **Instantiation:** Supports both lazy and eager scenarios.
+
+**Metaclasses in Depth**
+
+* **`__new__(cls)`:** A static method invoked *before* `__init__` to
+  create the object instance.
+* **`__init__(self)`:** An instance method responsible for
+  initializing the object's attributes.
+* **`__call__(cls)`:** A special method allowing instances of the
+  metaclass (which are classes themselves) to be called like
+  functions, influencing how instances of those classes are created.
+
