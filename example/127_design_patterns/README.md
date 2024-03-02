@@ -498,6 +498,8 @@ print(f"Circle Perimeter: {circle.perimeter()}")
 print(f"Rectangle Area: {rectangle.area()}")  
 print(f"Rectangle Perimeter: {rectangle.perimeter()}")  
 ```  
+
+
    
 #### Corresponding Class Diagram in PlantUML  
    
@@ -535,3 +537,39 @@ notation `<|--` signifies inheritance. The `-` before a class member
 indicates it is private, and the `+` indicates it is public. The
 `{abstract}` keyword is used to denote abstract methods within the
 abstract class.
+
+
+#### Using the Interface in Python code
+
+To illustrate how to use the interface with type hints, we'll create a
+function that accepts a `Shape` object and prints out its area and
+perimeter, utilizing the Python type hinting system. This function,
+`print_shape_info`, will demonstrate how to enforce that only objects
+adhering to the `Shape` interface can be passed to it.
+   
+   
+```python  
+def print_shape_info(shape: Shape) -> None:  
+    """Prints the area and perimeter of a shape."""  
+    print(f"Area: {shape.area()}")  
+    print(f"Perimeter: {shape.perimeter()}")  
+   
+# Example usage  
+circle = Circle(5)  
+rectangle = Rectangle(10, 5)  
+   
+print_shape_info(circle)  
+print_shape_info(rectangle)  
+```  
+
+This example defines the `print_shape_info` function with a type hint
+that explicitly requires an argument of type `Shape`. This enforces at
+the code level that the function can only accept objects that are
+instances of `Shape` or its subclasses, thereby utilizing the `Shape`
+interface. The function then calls the `.area()` and `.perimeter()`
+methods on the provided `shape` object, showcasing polymorphism.
+
+By using type hints this way, developers can create more readable,
+maintainable, and self-documenting code. It clarifies the intention of
+the function and ensures that the correct type of object is passed to
+it, catching potential errors early in the development process.
