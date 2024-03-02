@@ -825,6 +825,69 @@ build software that is:
 * **Flexible:** Adaptable to new requirements and changes.
 * **Robust:** Less prone to errors and unexpected side-effects.
 
+##
+
+Here's a breakdown of your explanation, emphasizing the core concepts and the benefits of the refactoring:
+
+## Refactoring for the Single Responsibility Principle (SRP) – A To-Do List Example
+
+This tutorial demonstrates how to improve code maintainability and
+clarity by applying the Single Responsibility Principle (SRP).  We'll
+refactor a `ToDoList` class that violates the SRP, resulting in a
+cleaner design.
+
+**The Problem:**
+
+* **Original Code:** 
+   * A single `ToDoList` class handles task management, user input, and task display.  
+
+* **SRP Violation:**  Multiple responsibilities within one class lead to:
+    * **Complexity:** Harder to understand and change.
+    * **Lack of Flexibility:** Changes to one aspect of the to-do list
+      (e.g., how tasks are displayed) could unintentionally impact
+      other areas.
+
+**The Solution: Refactoring**
+
+1. **Identify Responsibilities:** Break down the original class based
+   on its core functions:
+    * **Task Management:** Adding, deleting, and storing tasks.
+    * **Task Display:**  Presenting the tasks to the user.
+    * **User Input:** Handling user commands to add or remove tasks.
+
+2. **Create Specialized Classes:**
+    * `TaskManager`: Focused on task management.
+    * `TaskPresenter`: Dedicated to displaying tasks.
+    * `TaskInput`: Handles gathering user input for actions.
+
+## Refactoring for the Open/Closed Principle (OCP) – Calculating Shape Areas
+
+This tutorial demonstrates how to apply the Open/Closed Principle
+(OCP) to make code more flexible and extensible. We'll refactor a
+shape area calculator to illustrate the benefits of this approach.
+
+**The Problem**
+
+* **Original Code:**
+    * `AreaCalculator` class uses conditional statements (`if/else`)
+      to determine shape type and calculate area accordingly.
+* **OCP Violation:** Adding new shapes requires direct modification of
+  the `AreaCalculator` class, making the code rigid.
+
+**The Solution: Refactoring**
+
+1. **Introduce Abstraction:** Create an abstract `Shape` class with an
+   abstract `area()` method.
+
+2. **Specialize:**
+    * `Circle` and `Rectangle` classes inherit from `Shape`, providing
+      their specific `area()` implementations.
+
+3. **Delegate:** The `AreaCalculator` class now simply calls the
+   `area()` method of the provided `Shape` object, relying on the
+   contract defined in the abstract class.
+
+
 ## Understanding the Liskov Substitution Principle (LSP) with a Bird Example
 
 This tutorial explores the Liskov Substitution Principle (LSP), a key
