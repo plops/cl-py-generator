@@ -825,32 +825,34 @@ build software that is:
 * **Flexible:** Adaptable to new requirements and changes.
 * **Robust:** Less prone to errors and unexpected side-effects.
 
-## The SOLID Principles: Building Blocks of Robust Object-Oriented Design
+## Understanding the Liskov Substitution Principle (LSP) with a Bird Example
 
-This presentation introduces the SOLID principles, a set of guidelines
-that promote the creation of flexible, maintainable, and scalable
-object-oriented software systems. We'll explore each principle with
-examples to understand their importance in practical design.
+This tutorial explores the Liskov Substitution Principle (LSP), a key
+SOLID principle, through a simple example. We'll see how incorrect
+inheritance can violate the LSP and how strategic refactoring can
+resolve the issue.
 
-**SOLID Principles Overview**
+**The Problem**
 
-* **S - Single Responsibility Principle:** A class should have one, and only one, reason to change (i.e., one core responsibility). **Example:** A class dedicated to logging, not one that handles both logging and data validation.
-* **O - Open/Closed Principle:** Classes should be open for extension (adding new functionality) but closed for modification (avoiding changes to existing code). **Example:** Creating a `ScientificCalculator` that inherits from a base `Calculator` instead of modifying the original.
-* **L - Liskov Substitution Principle:** Subclasses should be substitutable for their base classes without breaking  the system's behavior. **Example:**  A code snippet calculating the total area of shapes should work seamlessly whether the shapes are triangles, circles, or new shapes we add later.  
-* **I - Interface Segregation Principle:** Design smaller, more specific interfaces rather than large, general-purpose ones. **Example:** Creating separate `IDBLog` and `IFileLog` interfaces instead of a monolithic `ILog` interface.
-* **D - Dependency Inversion Principle:**  Depend on abstractions (e.g., interfaces) rather than concrete implementations. **Example:** A `BookService` depending on an `INumberGenerator` interface, not a specific implementation like `ISBNGenerator`.
+* **Original Code:**
+    * A `Bird` class with a `fly()` method.
+    * A `Penguin` subclass inheriting from `Bird` and overriding
+      `fly()`, indicating that penguins cannot fly.
 
-**Key Takeaways**
+* **LSP Violation:** The `Penguin` class breaks the expected behavior
+  of a `Bird`. Substituting a `Penguin` for a `Bird` in code expecting
+  flight would cause unexpected results or errors.
 
-* **SOLID principles help you create software that is:**
-    * **Maintainable:** Easier to understand, fix, and extend.
-    * **Flexible:** Adapts easily to new requirements.
-    * **Robust:** Less error-prone and resistant to the ripple effects of changes.
+**The Solution: Refactoring**
 
-**In This Course...**
+1. **Introduce Abstraction:** Create an abstract `Bird` class (or make
+   it an interface) leaving the `fly()` method undefined.
 
-* We'll delve into common design patterns and see how they embody SOLID principles.
-* We'll examine patterns in an architectural context, understanding their broader impact.
-* We'll apply these patterns practically within a project.
+2. **Specialize:**
+    * Create a `FlyingBird` subclass inheriting from `Bird`,
+      implementing the `fly()` method.
+    * Create a `NonFlyingBird` subclass inheriting from `Bird`, with a
+      `fly()` method indicating inability to fly.
 
-**Let's get started!** 
+3. **Reclassify:** Change `Penguin` to inherit from `NonFlyingBird`.
+
