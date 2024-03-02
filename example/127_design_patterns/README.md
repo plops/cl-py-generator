@@ -1053,6 +1053,38 @@ instantiation.
   metaclass (which are classes themselves) to be called like
   functions, influencing how instances of those classes are created.
 
+
+## Python Singletons with Metaclasses: Lazy vs. Eager Instantiation
+
+This tutorial explores how metaclasses provide elegant control over
+singleton creation in Python.  We'll cover both lazy and eager
+instantiation scenarios, emphasizing the benefits of each approach.
+
+**Metaclasses: The Key to Flexible Singletons**
+
+* **What is a metaclass?** A class whose instances are other
+  classes. It defines the behavior and creation process of those
+  classes.
+* **Why use metaclasses for singletons?** 
+   * Clean separation of the singleton logic from the classes
+     themsleves.
+   * Ability to create multiple different singletons using the same
+     metaclass base.
+   * Precise control over instantiation timing (lazy vs. eager).
+
+**Implementation: Lazy Instantiation**
+
+* **Metaclass `__call__(cls)` method:**
+    * Checks if an  instance of  `cls` already exists.
+    * If not, creates the instance and stores it.
+    * Returns the stored instance.
+
+**Benefits of Lazy Instantiation:**
+
+* **Conserves memory:** The instance is created only when first
+
+needed.
+
 ```python
 class SingletonMeta(type):  
     """A metaclass that creates a Singleton base class when called."""  
@@ -1086,3 +1118,70 @@ if __name__ == "__main__":
   
     # Both variables contain the same instance.  
 ```
+
+**Eager Instantiation: Preloading for Speed**
+
+* **Metaclass `__init__(cls)` method:**
+    * Creates the instance of `cls` immediately when the metaclass
+      itself is loaded.
+  * **Use Case:** When the singleton needs to be ready instantly and
+    frequent access is expected (e.g., preloading cached data).
+
+
+Here's a revised explanation, focusing on the core concepts of thread safety in singletons and providing a clear, easily understandable code example:
+
+## Making Singletons Thread-Safe in Python
+
+This tutorial explains how to ensure your Python singletons remain
+reliable in multi-threaded environments.  We'll discuss race
+conditions, locking mechanisms, and provide a thread-safe singleton
+implementation.
+
+**Thread Safety: Why It Matters**
+
+* **Race Conditions:** In multi-threaded code, if multiple threads try
+  to create or access the singleton instance simultaneously,
+  unpredictable results can occur due to uncontrolled timing.
+* **Critical Section:** The part of code where the singleton's data
+  could be inconsistently modified by multiple threads. Our goal is to
+  allow only one thread at a time to execute this section.
+
+**Protecting Singletons with Locks**
+
+1. **The Lock:** A mechanism to grant exclusive access to the critical
+   section.
+2. **Before the Critical Section:**  A thread must `acquire()` the lock.
+3. **Inside the Critical Section:** Only one thread holding the lock
+   can proceed. Other threads wait.
+4. **After the Critical Section:** The thread `release()`s the lock,
+   allowing the next waiting thread to proceed.
+
+**Thread-Safe Singleton Code Example**
+
+```python
+import threading
+
+class ThreadSafeSingleton:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls):
+        with cls._lock:  # Acquire the lock
+            if not cls._instance:
+                cls._instance = super().__new__(cls)
+        return cls._instance
+
+# Usage (remains the same)
+s1 = ThreadSafeSingleton()
+s2 = ThreadSafeSingleton()  
+```
+
+**Explanation**
+
+* **`_lock = threading.Lock()`:**  A class-level lock object.
+* **`with cls._lock:`:** Ensures the lock is acquired before the
+  critical instance creation code, and automatically released
+  afterward.
+* **`if not cls._instance:`:** Inside the locked block, we safely
+  check if the instance exists and create it if needed.
+
