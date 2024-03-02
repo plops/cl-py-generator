@@ -825,3 +825,32 @@ build software that is:
 * **Flexible:** Adaptable to new requirements and changes.
 * **Robust:** Less prone to errors and unexpected side-effects.
 
+## The SOLID Principles: Building Blocks of Robust Object-Oriented Design
+
+This presentation introduces the SOLID principles, a set of guidelines
+that promote the creation of flexible, maintainable, and scalable
+object-oriented software systems. We'll explore each principle with
+examples to understand their importance in practical design.
+
+**SOLID Principles Overview**
+
+* **S - Single Responsibility Principle:** A class should have one, and only one, reason to change (i.e., one core responsibility). **Example:** A class dedicated to logging, not one that handles both logging and data validation.
+* **O - Open/Closed Principle:** Classes should be open for extension (adding new functionality) but closed for modification (avoiding changes to existing code). **Example:** Creating a `ScientificCalculator` that inherits from a base `Calculator` instead of modifying the original.
+* **L - Liskov Substitution Principle:** Subclasses should be substitutable for their base classes without breaking  the system's behavior. **Example:**  A code snippet calculating the total area of shapes should work seamlessly whether the shapes are triangles, circles, or new shapes we add later.  
+* **I - Interface Segregation Principle:** Design smaller, more specific interfaces rather than large, general-purpose ones. **Example:** Creating separate `IDBLog` and `IFileLog` interfaces instead of a monolithic `ILog` interface.
+* **D - Dependency Inversion Principle:**  Depend on abstractions (e.g., interfaces) rather than concrete implementations. **Example:** A `BookService` depending on an `INumberGenerator` interface, not a specific implementation like `ISBNGenerator`.
+
+**Key Takeaways**
+
+* **SOLID principles help you create software that is:**
+    * **Maintainable:** Easier to understand, fix, and extend.
+    * **Flexible:** Adapts easily to new requirements.
+    * **Robust:** Less error-prone and resistant to the ripple effects of changes.
+
+**In This Course...**
+
+* We'll delve into common design patterns and see how they embody SOLID principles.
+* We'll examine patterns in an architectural context, understanding their broader impact.
+* We'll apply these patterns practically within a project.
+
+**Let's get started!** 
