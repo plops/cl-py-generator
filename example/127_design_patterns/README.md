@@ -608,14 +608,20 @@ allows us to create complex objects from simpler components.
 **Key Points:**
 
 * **Object Aggregation:**
-   *  A relationship between classes where one class contains a reference to another class as a member.
-   *  The contained class acts as an integral component of the larger object.
+   *  A relationship between classes where one class contains a
+      reference to another class as a member.
+   *  The contained class acts as an integral component of the larger
+      object.
 * **Benefits of Aggregation:**
-   *  Promotes code reusability and modularity by combining separate classes.
-   *  Enables creation of complex objects with rich relationships. 
+   *  Promotes code reusability and modularity by combining separate
+      classes.
+   *  Enables creation of complex objects with rich relationships.
 * **Example:**
-   * **Author Class:**  Represents an author with attributes like name and birth year.
-   * **Book Class:**  Represents a book with its own attributes (e.g., title, publication year) and holds a reference to an Author object.  
+   * **Author Class:** Represents an author with attributes like name
+     and birth year.
+   * **Book Class:** Represents a book with its own attributes (e.g.,
+     title, publication year) and holds a reference to an Author
+     object.
 
 - two practical examples
 
@@ -631,32 +637,43 @@ provide unique implementations while maintaining a common structure.
 
 * **Abstract Classes:**
     * Define a blueprint for derived classes.
-    * Contain abstract methods that **must** be implemented in derived classes.
+    * Contain abstract methods that **must** be implemented in derived
+      classes.
     * Use the `ABC` module and `@abstractmethod` decorator in Python.
 * **Inheritance:**
-    *  Enables new classes to inherit properties and behaviors from existing classes.
-    * Promotes code reusability and establishes hierarchical relationships.
+    *  Enables new classes to inherit properties and behaviors from
+       existing classes.
+    * Promotes code reusability and establishes hierarchical
+      relationships.
 * **Method Overriding:**
-    *  Allows derived classes to provide specialized implementations of inherited methods, offering customization.
+    *  Allows derived classes to provide specialized implementations
+       of inherited methods, offering customization.
 * **Using `super()`:**
-    * Accesses inherited methods or properties from within a derived class.
+    * Accesses inherited methods or properties from within a derived
+      class.
 
 **Example Explanation:**
 
 1. **Base Class (`Animal`)**
    * Contains abstract methods `sound()` and `description()`.
-   * The `description()` method has a default implementation that leverages the `self.__class__.__name__`  to dynamically access the class name of derived classes.
+   * The `description()` method has a default implementation that
+     leverages the `self.__class__.__name__` to dynamically access the
+     class name of derived classes.
 
 2. **Derived Classes (`Dog` and `Cat`)**
    * Inherit from `Animal`.
    * Provide concrete implementations for the `sound()` method.
-   * Can choose to use the default `description()` from `Animal` or override it.
+   * Can choose to use the default `description()` from `Animal` or
+     override it.
 
 **Key Takeaways:**
 
-* Abstract classes enforce a contract that derived classes must follow.
-* Even abstract methods can have default implementations, providing flexibility to derived classes.
-* Method overriding offers powerful customization options within an inheritance hierarchy. 
+* Abstract classes enforce a contract that derived classes must
+  follow.
+* Even abstract methods can have default implementations, providing
+  flexibility to derived classes.
+* Method overriding offers powerful customization options within an
+  inheritance hierarchy.
 
 - another handson example
 
@@ -668,30 +685,46 @@ demonstrating how to control data access and modification within a
 class to maintain consistency and prevent invalid states. We'll use a
 `BankAccount` example to illustrate these principles.
 
-* **Encapsulation:** 
-    * The practice of bundling data and the methods that operate on that data within a single unit (a class).
+* **Encapsulation:**
+    * The practice of bundling data and the methods that operate on
+      that data within a single unit (a class).
     * Promotes data integrity and code maintainability.
 * **Data Hiding:**
-    *  Protected attributes (prefixed with `_`) discourage direct access but are still technically accessible.
-    *  Private attributes (prefixed with `__`) provide stronger protection through name mangling. 
+    *  Protected attributes (prefixed with `_`) discourage direct
+       access but are still technically accessible.
+    *  Private attributes (prefixed with `__`) provide stronger
+       protection through name mangling.
 * **Getters and Setters:**
-    *  Methods that provide controlled access to private or protected attributes.
-    *  Allow for the implementation of preconditions and postconditions to validate data before and after modification.
+    *  Methods that provide controlled access to private or protected
+       attributes.
+    *  Allow for the implementation of preconditions and
+       postconditions to validate data before and after modification.
 * **Importance of Preconditions**
-   *  Constraints placed on methods to prevent invalid data from being entered into the object.
-   *  In the `BankAccount` example, preconditions ensure the balance remains non-negative and withdrawals don't exceed available funds.  
+   *  Constraints placed on methods to prevent invalid data from being
+      entered into the object.
+   *  In the `BankAccount` example, preconditions ensure the balance
+      remains non-negative and withdrawals don't exceed available
+      funds.
 
 **Example Explanation (`BankAccount` class):**
 
-* **Private and Protected Attributes:**  Emphasize the difference in accessibility.
-* **Preconditions in Setters and Modification Methods:**  Highlight how `deposit` and `withdrawal` enforce rules for valid transactions.
-* **Controlled Access:**  Underscore the benefits of encapsulation by demonstrating how the class, not external code, safeguards the integrity of its data.
+* **Private and Protected Attributes:** Emphasize the difference in
+  accessibility.
+* **Preconditions in Setters and Modification Methods:** Highlight how
+  `deposit` and `withdrawal` enforce rules for valid transactions.
+* **Controlled Access:** Underscore the benefits of encapsulation by
+  demonstrating how the class, not external code, safeguards the
+  integrity of its data.
 
 **Key Takeaway**
 
-Encapsulation is fundamental to object-oriented programming as it empowers you to design robust classes that maintain their own internal consistency. This leads to more reliable and maintainable software systems.
+Encapsulation is fundamental to object-oriented programming as it
+empowers you to design robust classes that maintain their own internal
+consistency. This leads to more reliable and maintainable software
+systems.
 
-Here's a breakdown of your explanation, ready for presentation as a lesson or blog post:
+Here's a breakdown of your explanation, ready for presentation as a
+lesson or blog post:
 
 ## Interface Contracts in Python: Defining Structures for Code Flexibility
 
@@ -702,29 +735,41 @@ form blueprints that derived classes must implement.
 
 * **Interface Contracts:**
     * A set of abstract methods defined within an abstract base class.
-    * Derived classes **must** implement the methods defined in the contract. 
-    * Ensures that any object derived from the interface will possess the specified methods.
-* **Abstract Base Classes (ABCs):** 
-    * Use the `ABC` module and the `@abstractmethod` decorator to define abstract classes and methods in Python.
+    * Derived classes **must** implement the methods defined in the
+      contract.
+    * Ensures that any object derived from the interface will possess
+      the specified methods.
+* **Abstract Base Classes (ABCs):**
+    * Use the `ABC` module and the `@abstractmethod` decorator to
+      define abstract classes and methods in Python.
 * **Benefits of Interface Contracts:**
-    *  **Flexibility:** Code can interact with different derived classes through a common interface, without needing to know their specific implementations.
-    * **Reusability:**  Enables creation of generic code that can work with any class that adheres to the interface contract.
+    *  **Flexibility:** Code can interact with different derived
+       classes through a common interface, without needing to know
+       their specific implementations.
+    * **Reusability:** Enables creation of generic code that can work
+      with any class that adheres to the interface contract.
 
 **Example Explanation**
 
 1. **Defining the Contract (Abstract Base Class):**
    * Create a class extending `ABC`.
-   * Define abstract methods using the `@abstractmethod` decorator (e.g., `my_method()`).
+   * Define abstract methods using the `@abstractmethod` decorator
+     (e.g., `my_method()`).
 
 2. **Implementing the Contract (Derived Classes):**
    * Create classes that inherit from the abstract base class.
-   * **Must** provide concrete implementations for all abstract methods defined in the interface.
+   * **Must** provide concrete implementations for all abstract
+     methods defined in the interface.
 
 3. **Using the Interface:**
    * Create instances of derived classes.
-   * Call methods defined in the interface contract. Different derived classes can provide unique implementations.
+   * Call methods defined in the interface contract. Different derived
+     classes can provide unique implementations.
 
-**Key Takeaway:** Interface contracts are a powerful tool in object-oriented programming that enable you to design software systems where components can interact seamlessly, even if their specific implementations vary.
+**Key Takeaway:** Interface contracts are a powerful tool in
+object-oriented programming that enable you to design software systems
+where components can interact seamlessly, even if their specific
+implementations vary.
 
 
 - this lecture is too slow, i will have to skip a few sections
@@ -738,32 +783,43 @@ to create robust and adaptable systems.
 
 
 * **Loose Coupling**
-    * **Definition:** Minimizing the dependencies between components, so changes to one have minimal impact on others.
+    * **Definition:** Minimizing the dependencies between components,
+      so changes to one have minimal impact on others.
     * **Benefits:**
         * Increased flexibility and maintainability.
         * Easier to test components in isolation.
-    * **Visual Example:** Show the contrasting diagrams of tightly-coupled vs. loosely-coupled systems.
+    * **Visual Example:** Show the contrasting diagrams of
+      tightly-coupled vs. loosely-coupled systems.
 
 * **Separation of Concerns**
-    * **Definition:**  Organizing software into distinct tiers based on functionality (e.g., presentation, business logic, data access).
+    * **Definition:** Organizing software into distinct tiers based on
+      functionality (e.g., presentation, business logic, data access).
     * **Benefits:**
         * Improved modularity and code organization.
-        * Promotes independent development and testing of layers. 
+        * Promotes independent development and testing of layers.
 
 * **Law of Demeter (Principle of Least Knowledge)**
-    * **Definition:**  Objects should only interact with their immediate "friends," and not with "strangers."
+    * **Definition:** Objects should only interact with their
+      immediate "friends," and not with "strangers."
     * **Benefits:**
          * Reduces coupling and complexity.
-         * Makes code more maintainable and less prone to ripple effects from changes.
+         * Makes code more maintainable and less prone to ripple
+           effects from changes.
 
 * **SOLID Principles**
-    * **S - Single Responsibility Principle:** A class should have one and only one reason to change.
-    * **O - Open/Closed Principle:** Classes should be open for extension, but closed for modification.
-    * **L - Liskov Substitution Principle:**  Subclasses should be substitutable for their base classes.
-    * **I - Interface Segregation Principle:**  Clients should not be forced to depend upon methods they don't use.
-    * **D - Dependency Inversion Principle:**  Depend on abstractions, not on concretions.
+    * **S - Single Responsibility Principle:** A class should have one
+      and only one reason to change.
+    * **O - Open/Closed Principle:** Classes should be open for
+      extension, but closed for modification.
+    * **L - Liskov Substitution Principle:** Subclasses should be
+      substitutable for their base classes.
+    * **I - Interface Segregation Principle:** Clients should not be
+      forced to depend upon methods they don't use.
+    * **D - Dependency Inversion Principle:** Depend on abstractions,
+      not on concretions.
 
-**Key Takeaway:** Applying these principles thoughtfully helps you build software that is:
+**Key Takeaway:** Applying these principles thoughtfully helps you
+build software that is:
 
 * **Maintainable:** Easier to understand, modify, and test.
 * **Flexible:** Adaptable to new requirements and changes.
