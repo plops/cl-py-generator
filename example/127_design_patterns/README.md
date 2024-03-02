@@ -574,3 +574,29 @@ By using type hints this way, developers can create more readable,
 maintainable, and self-documenting code. It clarifies the intention of
 the function and ensures that the correct type of object is passed to
 it, catching potential errors early in the development process.
+
+## Understanding Object-Oriented Programming (OOP) with Python Examples
+
+This section provides a hands-on explanation of object-oriented
+programming (OOP) concepts in Python. It uses clear examples to
+demonstrate classes, inheritance, constructors, instance methods, and
+method overriding. You'll solidify your understanding of OOP
+fundamentals.
+
+**Key Points:**
+
+* **Classes and Objects:**
+    * Classes are blueprints for creating objects.
+    * Objects are instances of a class, holding data and behavior.
+* **Constructors (`__init__`)**:
+    * Constructors are special methods that initialize objects when
+      they are created.
+* **Instance Methods:**
+    * Methods define behavior associated with objects.  
+* **Inheritance:**
+    *  Allows creation of new classes (derived classes) that inherit
+       properties and behaviors from existing classes (base classes).
+* **Method Overriding:**
+   *  Allows derived classes to provide specialized implementations of
+      inherited methods.
+
