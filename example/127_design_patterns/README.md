@@ -84,3 +84,87 @@ approach.
 * **Divide and Conquer:** UML's ability to represent individual
   patterns supports a focused, step-by-step learning process.
 
+
+### Example Class Diagram in PlantUML
+   
+```plantuml  
+@startuml  
+   
+class Director {  
+}  
+   
+abstract class Builder {  
+  buildPartA()  
+  buildPartB()  
+  getProduct()  
+}  
+   
+class ConcreteBuilder {  
+  buildPartA()  
+  buildPartB()  
+  getProduct()  
+}  
+   
+class Product {  
+}  
+   
+Director o-- "1..*" Builder : aggregates  
+Builder <|-- ConcreteBuilder : extends  
+ConcreteBuilder ..> Product : creates  
+   
+@enduml  
+```  
+   
+This PlantUML code snippet represents a class diagram for a basic Builder design pattern, reflecting the relationships and elements you described:  
+   
+- The `Director` class aggregates one or more `Builder` instances, indicated by the "1..*" multiplicity.  
+- The `Builder` class is marked as abstract, showcasing that it's meant to be a base class for more specific builders (like `ConcreteBuilder`).  
+- The `ConcreteBuilder` class, which extends the `Builder` class, is capable of creating a `Product`.  
+- The relationship between `ConcreteBuilder` and `Product` is marked with a dotted line to indicate the creation process.  
+   
+This diagram captures the essence of the Builder design pattern, where
+the `Director` controls the construction process, the `Builder`
+provides an abstract interface for creating parts of a `Product`, and
+the `ConcreteBuilder` implements these steps to return the final
+product.
+
+## Example Sequence Diagram in PlantUML
+
+To create a sequence diagram that captures the interaction flow, we
+can use PlantUML to visualize the steps. Here's how the sequence
+diagram can be represented in PlantUML code, based on your
+description:
+   
+```plantuml  
+@startuml  
+   
+participant Client  
+participant "ConcreteBuilder" as Builder  
+participant Director  
+participant Product  
+   
+Client -> Builder : creates specific\nnew ConcreteBuilder  
+Client -> Director : creates Director\ninitialized with ConcreteBuilder  
+Client -> Director : construct()  
+Director -> Builder : buildPartA()  
+Director -> Builder : buildPartB()  
+Director -> Builder : buildPartC()  
+Builder -> Product : delivers the product  
+Product --> Client : return product  
+   
+@enduml  
+```  
+   
+This PlantUML sequence diagram outlines the following interactions:
+   
+1. The **Client** creates a new instance of **ConcreteBuilder**.  
+2. The **Client** then creates a **Director**, initializing it with the **ConcreteBuilder**.  
+3. The **Client** calls the **construct()** method on the **Director**.  
+4. The **Director**, coordinating the construction process, communicates with the **ConcreteBuilder** to build different parts of the product (Part A, Part B, Part C).  
+5. Finally, the **ConcreteBuilder** delivers the constructed **Product** back to the **Client**.  
+   
+This diagram visually represents the flow of information and
+interaction between the objects involved in the Builder design
+pattern, highlighting the role of the Director in coordinating the
+construction process and the ConcreteBuilder in creating specific
+parts of the final product.

@@ -265,6 +265,7 @@ media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -
 media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug -drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet -vdpau vulkan -wayland -xv -zimg
 
 # wireshark pulls in a lot of qt stuff
+net-libs/libpcap-1.10.4::gentoo  USE="-bluetooth -dbus -netlink -rdma -remote -static-libs -test -usb -verify-sig -yydebug"
 net-analyzer/wireshark capinfos captype dftest dumpcap editcap filecaps gui mergecap minizip netlink pcap plugins randpkt randpktdump reordercap sharkd ssl text2pcap tshark udpdump zlib zstd -androiddump -bcg729 -brotli -ciscodump -doc -dpauxmon http2 -ilbc -kerberos -libxml2 -lua -lz4 -maxminddb -opus qt6 -sbc -sdjournal -selinux -smi -snappy -spandsp -sshdump -test -tfshark -verify-sig -wifi
 dev-libs/boehm-gc large threads  cxx -static-libs
 app-text/xmlto text -latex
@@ -4630,4 +4631,11 @@ menuentry 'Gentoo GNU/Linux 20240224 6.6.17 ram squash persist crypt ssd ' --cla
 	initrd	/initramfs20240224_squash_crypt-6.6.17-gentoo-x86_64.img
 }
 
+```
+
+## note:
+
+- i forgot to enable usb in pcap
+```
+net-libs/libpcap-1.10.4::gentoo  USE="-bluetooth -dbus -netlink -rdma -remote -static-libs -test -usb -verify-sig -yydebug"
 ```
