@@ -372,3 +372,56 @@ This diagram includes:
   indicating that the house uses the electrical grid but does not own
   it.
    
+## Visualizing Cylinder Area Calculation with PlantUML
+   
+PlantUML excels in illustrating complex interactions within
+object-oriented systems. A compelling example of this is modeling the
+process of calculating a cylinder's area, involving interactions among
+a `User`, a `Cylinder`, and various `Shape` objects.
+   
+The sequence diagram below, created in PlantUML, outlines the
+methodology for computing the area. It starts with a user's request
+and progresses through the cylinder's internal operations,
+highlighting the control flow between the cylinder and its shapes.
+   
+```plantuml  
+@startuml  
+participant User  
+participant Cylinder  
+participant Shape  
+   
+User -> Cylinder : getArea()  
+activate Cylinder  
+   
+Cylinder -> Cylinder : initialize areaSum to 0  
+   
+loop for each Shape  
+    Cylinder -> Shape : getArea()  
+    deactivate Cylinder  
+    activate Shape  
+    Shape --> Cylinder : return area  
+    deactivate Shape  
+    activate Cylinder  
+    Cylinder -> Cylinder : areaSum += area  
+end  
+   
+Cylinder --> User : return areaSum  
+deactivate Cylinder  
+@enduml  
+```  
+   
+This diagram concisely demonstrates:  
+   
+- The initial request from the `User` to the `Cylinder` to calculate
+  the area.
+- The `Cylinder` iterating over its contained `Shape` objects,
+  requesting each one's area.
+- The temporary deactivation of the `Cylinder` while each `Shape`
+  calculates its area, showcasing the shift in control.
+- The aggregation of each `Shape`'s area into a total `areaSum`, which
+  is eventually returned to the `User`.
+   
+Through this visualization, PlantUML provides a clear depiction of the
+sequence and control flow in the area calculation process, making it
+an invaluable tool for understanding and documenting system behaviors.
+
