@@ -1035,27 +1035,7 @@ instantiation.
       act similarly.
     * Metaclasses offer elegant control over class creation.
 
-**Implementation Approaches**
-
-1. **Classic Gang of Four**
-   * **Pros:** Familiar to those coming from other OO languages.
-   * **Cons:** Not the most Pythonic approach; overridden `__init__`
-     to block the normal constructor feels a bit indirect.
-   * **Mechanism:** 
-       * Private `__init__` (simulated)
-       * Static `get_instance()` for controlled creation
-   * **Instantiation:** Lazy
-
-2. **Simple Pythonic Singleton**
-   * **Pros:** More directly leverages Python's object creation
-     mechanism.
-   * **Cons:** Might feel less "controlled" if coming from a stricter
-     OO background.
-   * **Mechanism:**
-      * Overridden `__new__` to manage instance creation.
-   * **Instantiation:** Lazy
-
-3. **Metaclass-Based Singleton**
+### **Metaclass-Based Singleton**
    * **Pros:** Most elegant and flexible Pythonic solution.
    * **Cons:** Requires some understanding of metaclasses.
    * **Mechanism:**
@@ -1073,3 +1053,36 @@ instantiation.
   metaclass (which are classes themselves) to be called like
   functions, influencing how instances of those classes are created.
 
+```python
+class SingletonMeta(type):  
+    """A metaclass that creates a Singleton base class when called."""  
+    _instances = {}  
+  
+    def __call__(cls, *args, **kwargs):  
+        """Possible changes to the value of the `__init__` argument do not affect  
+        the returned instance."""  
+        if cls not in cls._instances:  
+            # Call the superclass (__call__ on `type`) to actually create an instance.  
+            instance = super().__call__(*args, **kwargs)  
+            cls._instances[cls] = instance  
+        return cls._instances[cls]  
+  
+class Singleton(metaclass=SingletonMeta):  
+    def __init__(self, value=None):  
+        self.value = value  
+  
+    def some_business_logic(self):  
+        # Implementation of some functionality  
+        pass  
+  
+# Usage  
+if __name__ == "__main__":  
+    singleton1 = Singleton("Data for Singleton")  
+    singleton2 = Singleton("Another piece of data")  
+      
+    print(singleton1.value)  # Output: Data for Singleton  
+    print(singleton2.value)  # Output: Data for Singleton  
+    print(singleton1 is singleton2)  # Output: True  
+  
+    # Both variables contain the same instance.  
+```
