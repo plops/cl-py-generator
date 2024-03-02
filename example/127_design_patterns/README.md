@@ -950,3 +950,34 @@ interface (`IMultifunctionalDevice`) to illustrate the benefits.
     *  Classes now implement only the relevant interfaces (e.g.,
        `Printer` implements `IPrinter`).
 
+Absolutely! Here's how I'd organize your explanation into a format suitable for a tutorial or blog post:
+
+## The Dependency Inversion Principle (DIP) in Action: Refactoring for Flexibility
+
+This tutorial explores the Dependency Inversion Principle (DIP) and
+demonstrates how it improves code maintainability and adaptability.
+We'll refactor a notification system, replacing concrete dependencies
+with abstractions to illustrate the principle in practice.
+
+**The Problem**
+
+* **Original Code:**
+    * The `NotificationService` depends directly on `EmailService` and
+      `SMSService` implementations.
+* **DIP Violation:** This creates tight coupling, making it difficult to: 
+    * Change how notifications are sent.
+    * Introduce new notification types (e.g., push notifications).
+
+**The Solution: Refactoring**
+
+1. **Introduce an Abstraction:**
+    * Create an `IMessageService` interface with a `send()` method.
+
+2. **Derive from the Interface:**
+    * Update `EmailService` and `SMSService` to implement
+      `IMessageService`.
+
+3. **Invert the Dependency:**
+   * Modify `NotificationService` to accept any `IMessageService` in
+     its constructor.
+
