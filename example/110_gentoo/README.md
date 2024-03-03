@@ -4644,4 +4644,13 @@ net-libs/libpcap-1.10.4::gentoo  USE="-bluetooth -dbus -netlink -rdma -remote -s
 # proposal:
 
 
-- add this boot parameter amd_pstate=active https://news.ycombinator.com/item?id=39582116
+- add this boot parameter amd_pstate=active
+  https://news.ycombinator.com/item?id=39582116
+
+- https://www.reddit.com/r/linux_gaming/comments/13by61l/amd_pstateactive/
+
+
+```
+>> The amd_pstate_epp sets the governor to powersave by default (there is a performance one too but for whatever reason my kernel parameter to set the default governor to performance no longer works),
+Best to leave it on powersave and then set the EPP profile (energy_performance_preference in sysfs) to performanc.
+```
