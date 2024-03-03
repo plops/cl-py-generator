@@ -1128,8 +1128,6 @@ if __name__ == "__main__":
     frequent access is expected (e.g., preloading cached data).
 
 
-Here's a revised explanation, focusing on the core concepts of thread safety in singletons and providing a clear, easily understandable code example:
-
 ## Making Singletons Thread-Safe in Python
 
 This tutorial explains how to ensure your Python singletons remain

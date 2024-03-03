@@ -4639,3 +4639,9 @@ menuentry 'Gentoo GNU/Linux 20240224 6.6.17 ram squash persist crypt ssd ' --cla
 ```
 net-libs/libpcap-1.10.4::gentoo  USE="-bluetooth -dbus -netlink -rdma -remote -static-libs -test -usb -verify-sig -yydebug"
 ```
+
+
+# proposal:
+
+
+- add this boot parameter amd_pstate=active https://news.ycombinator.com/item?id=39582116
