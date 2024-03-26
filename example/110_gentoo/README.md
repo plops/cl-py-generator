@@ -164,7 +164,7 @@ sci-libs/clblast ~amd64
 dev-util/rocminfo ~amd64
 dev-util/cmake ~amd64
 net-libs/liquid-dsp ~amd64
-sci-libs/scikit-learn ~amd64
+dev-python/scikit-learn ~amd64
 dev-python/pythran ~amd64
 dev-cpp/xsimd ~amd64
 media-video/obs-studio ~amd64
@@ -265,7 +265,7 @@ media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -
 media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug -drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet -vdpau vulkan -wayland -xv -zimg
 
 # wireshark pulls in a lot of qt stuff
-net-libs/libpcap-1.10.4::gentoo  USE="-bluetooth -dbus -netlink -rdma -remote -static-libs -test -usb -verify-sig -yydebug"
+net-libs/libpcap -bluetooth -dbus -netlink -rdma -remote -static-libs -test usb -verify-sig -yydebug
 net-analyzer/wireshark capinfos captype dftest dumpcap editcap filecaps gui mergecap minizip netlink pcap plugins randpkt randpktdump reordercap sharkd ssl text2pcap tshark udpdump zlib zstd -androiddump -bcg729 -brotli -ciscodump -doc -dpauxmon http2 -ilbc -kerberos -libxml2 -lua -lz4 -maxminddb -opus qt6 -sbc -sdjournal -selinux -smi -snappy -spandsp -sshdump -test -tfshark -verify-sig -wifi
 dev-libs/boehm-gc large threads  cxx -static-libs
 app-text/xmlto text -latex
@@ -4645,3 +4645,309 @@ net-libs/libpcap-1.10.4::gentoo  USE="-bluetooth -dbus -netlink -rdma -remote -s
 
 
 - add this boot parameter amd_pstate=active https://news.ycombinator.com/item?id=39582116
+
+# update 2024-03-26
+
+- add usb use to pcap
+
+```
+eix-sync
+dispatch-config
+
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+emerge --depclean
+revdep-rebuild
+eclean-dist
+eclean-pkg
+```
+
+```
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+
+```
+
+```
+2024-03-26 08:09:20.8261874680 +0100 scikit-learn-1.3.2-r1-1.gpkg.tar size=13352960
+2024-03-26 08:09:23.8195043760 +0100 scikit-learn-1.3.2-r1-2.gpkg.tar size=13352960
+2024-03-26 08:09:26.8094879690 +0100 scikit-learn-1.3.2-r1-3.gpkg.tar size=13352960
+2024-03-26 08:09:29.7994715610 +0100 scikit-learn-1.3.2-r1-4.gpkg.tar size=13352960
+2024-03-26 08:12:08.5286005440 +0100 root-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:12:08.7919324320 +0100 man-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:12.5285785940 +0100 adm-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:18.5585455050 +0100 wheel-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:23.0251876610 +0100 kmem-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:23.6351843140 +0100 tty-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:30.7918117090 +0100 utmp-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:35.5584522190 +0100 audio-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:36.0817826800 +0100 dialout-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:36.1417823510 +0100 cdrom-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:45.9317286290 +0100 disk-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:45.9450618900 +0100 input-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:54.1383502630 +0100 kvm-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:59.3516549880 +0100 lp-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:12:59.8283190390 +0100 render-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:06.4182828770 +0100 sgx-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:13:07.0882792010 +0100 users-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:13:07.4382772800 +0100 tape-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:17.3915559950 +0100 video-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:22.8648592940 +0100 systemd-journal-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:22.9148590200 +0100 usb-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:29.8914874030 +0100 messagebus-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:29.9248205530 +0100 systemd-timesync-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:37.2547803300 +0100 systemd-resolve-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:38.1347755010 +0100 systemd-oom-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:13:46.2580642580 +0100 systemd-network-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:46.9147273220 +0100 systemd-coredump-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:53.4780246390 +0100 systemd-journal-remote-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:13:53.6446903910 +0100 nobody-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:14:00.6113188290 +0100 avahi-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:14:06.2479545650 +0100 libffi-3.4.4-r4-1.gpkg.tar size=194560
+2024-03-26 08:14:06.9512840390 +0100 netdev-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:14:10.6445971050 +0100 dhcp-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:14:20.8312078740 +0100 sshd-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:14:20.8478744490 +0100 mail-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:14:32.7044760530 +0100 nullmail-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:14:37.8477811630 +0100 portage-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:14:45.2344072960 +0100 ensurepip-setuptools-69.1.1-1.gpkg.tar size=747520
+2024-03-26 08:14:49.8310487380 +0100 libaio-0.3.113-r1-1.gpkg.tar size=51200
+2024-03-26 08:15:01.4943180700 +0100 scdoc-1.11.3-1.gpkg.tar size=40960
+2024-03-26 08:15:02.2776471050 +0100 pkgconf-2.1.1-4.gpkg.tar size=112640
+2024-03-26 08:15:09.0709431610 +0100 c-ares-1.26.0-1.gpkg.tar size=286720
+2024-03-26 08:15:09.8609388250 +0100 ell-0.62-1.gpkg.tar size=307200
+2024-03-26 08:15:20.0608828540 +0100 lpadmin-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:15:29.5041643680 +0100 avahi-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:15:30.4274926340 +0100 timezone-data-2024a-r1-1.gpkg.tar size=368640
+2024-03-26 08:15:41.9107629540 +0100 dhcp-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:15:42.5374261820 +0100 nullmail-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:15:48.1240621920 +0100 linux-firmware-20240312-1.gpkg.tar size=473415680
+2024-03-26 08:15:59.9206641250 +0100 bzip2-1.0.8-r5-1.gpkg.tar size=317440
+2024-03-26 08:16:07.3272901490 +0100 pkgconfig-3-1.gpkg.tar size=20480
+2024-03-26 08:16:43.6304242700 +0100 readline-8.1_p2-r2-1.gpkg.tar size=1126400
+2024-03-26 08:20:06.9759750890 +0100 root-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:07.9359698210 +0100 systemd-journal-remote-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:14.0426029780 +0100 systemd-coredump-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:14.6659328910 +0100 systemd-network-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:21.4458956860 +0100 systemd-oom-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:20:22.3625573230 +0100 systemd-resolve-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:30.4291797240 +0100 systemd-timesync-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:30.9025104600 +0100 messagebus-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:37.2624755600 +0100 man-1-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:37.2691421900 +0100 portage-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:20:43.7824397820 +0100 sshd-0-r3-1.gpkg.tar size=20480
+2024-03-26 08:21:48.6087507180 +0100 nobody-0-r2-1.gpkg.tar size=20480
+2024-03-26 08:22:01.4786800950 +0100 getuto-1.10.2-1.gpkg.tar size=20480
+2024-03-26 08:22:46.0651020960 +0100 rust-bin-1.75.0-1.gpkg.tar size=159754240
+2024-03-26 08:24:32.1711865110 +0100 perl-5.38.2-r2-1.gpkg.tar size=15861760
+2024-03-26 08:24:50.8910837870 +0100 rust-1.75.0-1.gpkg.tar size=30720
+2024-03-26 08:25:08.6443197000 +0100 ExtUtils-CChecker-0.110.0-1.gpkg.tar size=40960
+2024-03-26 08:25:30.1908681310 +0100 qdirstat-1.9-1.gpkg.tar size=829440
+2024-03-26 08:25:35.2475070500 +0100 XS-Parse-Keyword-0.380.0-1.gpkg.tar size=81920
+2024-03-26 08:25:49.9640929600 +0100 Syntax-Keyword-Try-0.280.0-1.gpkg.tar size=61440
+2024-03-26 08:28:01.8900356900 +0100 openssl-3.0.13-1.gpkg.tar size=6758400
+2024-03-26 08:28:27.0865640920 +0100 luit-20240102-1.gpkg.tar size=61440
+2024-03-26 08:28:38.0231707450 +0100 man-pages-6.06-1.gpkg.tar size=3256320
+2024-03-26 08:28:42.9264771720 +0100 ca-certificates-20230311.3.97-1.gpkg.tar size=184320
+2024-03-26 08:29:12.3296491570 +0100 dhcp-4.4.3_p1-r5-1.gpkg.tar size=1751040
+2024-03-26 08:29:41.5994885400 +0100 typing-extensions-4.10.0-1.gpkg.tar size=122880
+2024-03-26 08:29:58.7927275260 +0100 urllib3-2.2.1-1.gpkg.tar size=327680
+2024-03-26 08:30:14.9526388500 +0100 trove-classifiers-2024.3.3-1.gpkg.tar size=61440
+2024-03-26 08:30:31.8292129070 +0100 pyparsing-3.1.2-1.gpkg.tar size=378880
+2024-03-26 08:30:39.3225051210 +0100 setuptools-69.1.1-1.gpkg.tar size=1269760
+2024-03-26 08:31:04.9290312740 +0100 meson-1.3.2-1.gpkg.tar size=2734080
+2024-03-26 08:32:08.1786841950 +0100 cython-3.0.9-1.gpkg.tar size=4648960
+2024-03-26 08:32:28.7952377290 +0100 python-dateutil-2.9.0_p0-1.gpkg.tar size=409600
+2024-03-26 08:32:33.5718781840 +0100 tqdm-4.66.2-1.gpkg.tar size=225280
+2024-03-26 08:32:33.9852092490 +0100 pooch-1.8.1-1.gpkg.tar size=194560
+2024-03-26 08:32:34.4885398210 +0100 asteval-0.9.32-1.gpkg.tar size=102400
+2024-03-26 08:32:44.8318163960 +0100 psutil-5.9.8-1.gpkg.tar size=737280
+2024-03-26 08:32:49.0884597040 +0100 pycairo-1.26.0-1.gpkg.tar size=174080
+2024-03-26 08:33:13.3083267990 +0100 threadpoolctl-3.3.0-1.gpkg.tar size=92160
+2024-03-26 08:33:46.1448132770 +0100 fonttools-4.49.0-1.gpkg.tar size=4075520
+2024-03-26 08:34:09.8480165410 +0100 lxml-5.1.0-1.gpkg.tar size=1730560
+2024-03-26 08:34:20.0446272540 +0100 numpy-1.26.4-1.gpkg.tar size=10045440
+2024-03-26 08:35:28.0075876440 +0100 po4a-0.69-1.gpkg.tar size=1024000
+2024-03-26 08:36:17.6106487830 +0100 pam-1.5.3-r1-1.gpkg.tar size=542720
+2024-03-26 08:36:35.2972183960 +0100 libcap-2.69-r1-1.gpkg.tar size=133120
+2024-03-26 08:37:02.3904030570 +0100 xz-utils-5.6.1-1.gpkg.tar size=563200
+2024-03-26 08:37:23.2136221240 +0100 zstd-1.5.5-r1-1.gpkg.tar size=604160
+2024-03-26 08:37:37.8835416230 +0100 elt-patches-20240213-1.gpkg.tar size=71680
+2024-03-26 08:37:56.3601069010 +0100 attr-2.5.2-r1-1.gpkg.tar size=102400
+2024-03-26 08:38:19.0533157060 +0100 libpcre2-10.42-r2-1.gpkg.tar size=1218560
+2024-03-26 08:39:02.2297454450 +0100 util-linux-2.39.3-r2-1.gpkg.tar size=5099520
+2024-03-26 08:39:21.8096380010 +0100 acl-2.3.2-r1-1.gpkg.tar size=184320
+2024-03-26 08:39:52.4961362770 +0100 e2fsprogs-1.47.0-r3-1.gpkg.tar size=1525760
+2024-03-26 08:40:28.8426034950 +0100 libarchive-3.7.2-r2-1.gpkg.tar size=624640
+2024-03-26 08:40:56.0657874420 +0100 dbus-1.15.8-1.gpkg.tar size=665600
+2024-03-26 09:06:33.6340167860 +0100 gcc-13.2.1_p20240210-1.gpkg.tar size=88780800
+2024-03-26 09:07:55.8235657750 +0100 coreutils-9.4-r1-1.gpkg.tar size=4167680
+2024-03-26 09:08:12.0301435090 +0100 pambase-20240128-1.gpkg.tar size=40960
+2024-03-26 09:08:33.7066912270 +0100 make-4.4.1-r1-9.gpkg.tar size=634880
+2024-03-26 09:08:53.3465834540 +0100 iputils-20240117-1.gpkg.tar size=143360
+2024-03-26 09:09:13.1998078430 +0100 libtool-2.4.7-r3-1.gpkg.tar size=757760
+2024-03-26 09:09:38.0963378920 +0100 libpng-1.6.43-1.gpkg.tar size=409600
+2024-03-26 09:09:59.5595534470 +0100 xkeyboard-config-2.41-1.gpkg.tar size=1269760
+2024-03-26 09:09:59.8062187600 +0100 libinput-1.25.0-1.gpkg.tar size=389120
+2024-03-26 09:10:07.6495090540 +0100 libtirpc-1.3.4-r2-1.gpkg.tar size=204800
+2024-03-26 09:10:36.6626831790 +0100 libksba-1.6.6-1.gpkg.tar size=194560
+2024-03-26 09:10:56.2159092150 +0100 ethtool-6.7-1.gpkg.tar size=266240
+2024-03-26 09:11:04.0358663030 +0100 libnvme-1.8-1.gpkg.tar size=266240
+2024-03-26 09:11:09.8025013260 +0100 libXext-1.3.6-1.gpkg.tar size=102400
+2024-03-26 09:11:26.7090752180 +0100 btrfs-progs-6.7.1-1.gpkg.tar size=1228800
+2024-03-26 09:12:52.8452692170 +0100 grub-2.12-r2-1.gpkg.tar size=18012160
+2024-03-26 09:13:30.3083969740 +0100 file-5.45-r4-1.gpkg.tar size=1044480
+2024-03-26 09:14:01.5148923970 +0100 iptables-1.8.10-1.gpkg.tar size=358400
+2024-03-26 09:14:34.5847109280 +0100 curl-8.6.0-r1-1.gpkg.tar size=1392640
+2024-03-26 09:15:17.9711395140 +0100 sqlite-3.45.1-r1-1.gpkg.tar size=1781760
+2024-03-26 09:15:39.0510238390 +0100 libpciaccess-0.18-1.gpkg.tar size=71680
+2024-03-26 09:15:43.6143321310 +0100 xprop-1.2.7-1.gpkg.tar size=71680
+2024-03-26 09:15:51.8742868050 +0100 libxkbfile-1.1.3-1.gpkg.tar size=122880
+2024-03-26 09:16:04.5508839100 +0100 bluez-5.72-1.gpkg.tar size=1648640
+2024-03-26 09:16:09.5308565830 +0100 libpcre-8.45-r3-1.gpkg.tar size=901120
+2024-03-26 09:16:30.8040731800 +0100 iwd-2.14-1.gpkg.tar size=552960
+2024-03-26 09:16:48.7039749550 +0100 eix-0.36.7-r1-1.gpkg.tar size=911360
+2024-03-26 09:16:49.6439697970 +0100 nvme-cli-2.8-1.gpkg.tar size=860160
+2024-03-26 09:16:57.9372576220 +0100 strace-6.7-1.gpkg.tar size=1269760
+2024-03-26 09:17:03.3572278800 +0100 dracut-060_pre20240104-r4-1.gpkg.tar size=460800
+2024-03-26 09:17:11.7738483610 +0100 genkernel-4.3.10-4.gpkg.tar size=188375040
+2024-03-26 09:18:42.6466830340 +0100 openssh-9.6_p1-r3-1.gpkg.tar size=1536000
+2024-03-26 09:19:22.7864627690 +0100 cmake-3.28.3-4.gpkg.tar size=18227200
+2024-03-26 09:20:22.7428004290 +0100 gnupg-2.4.4-r1-1.gpkg.tar size=3952640
+2024-03-26 09:20:48.3126601160 +0100 xkbcomp-1.4.7-1.gpkg.tar size=153600
+2024-03-26 09:21:06.5558933400 +0100 xdg-utils-1.1.3_p20210805-r2-1.gpkg.tar size=102400
+2024-03-26 09:21:20.3658175590 +0100 pillow-10.2.0-r1-1.gpkg.tar size=1044480
+2024-03-26 09:22:02.9155840690 +0100 mupdf-1.23.7-r1-1.gpkg.tar size=33853440
+2024-03-26 09:22:52.8253101920 +0100 slang-2.3.3-r1-1.gpkg.tar size=983040
+2024-03-26 09:23:27.0117892630 +0100 lapack-3.12.0-r1-1.gpkg.tar size=2437120
+2024-03-26 09:23:51.4949882460 +0100 emacs-29.3-1.gpkg.tar size=48066560
+2024-03-26 09:24:21.8148218670 +0100 mesa-23.3.6-1.gpkg.tar size=13527040
+2024-03-26 09:31:21.5158521130 +0100 qtbase-6.6.2-r1-1.gpkg.tar size=18298880
+2024-03-26 09:31:49.2257000570 +0100 gklib-5.1.1_p20230327-r1-1.gpkg.tar size=153600
+2024-03-26 09:32:36.0254432460 +0100 smartmontools-7.4-r1-1.gpkg.tar size=778240
+2024-03-26 09:33:29.7284818870 +0100 libpulse-17.0-1.gpkg.tar size=1024000
+2024-03-26 09:33:41.0017533590 +0100 git-2.43.2-1.gpkg.tar size=15185920
+2024-03-26 09:33:43.3417405180 +0100 libjxl-0.10.2-1.gpkg.tar size=2816000
+2024-03-26 09:34:24.5548476970 +0100 qttools-6.6.2-2.gpkg.tar size=2979840
+2024-03-26 09:35:17.1512257440 +0100 metis-5.2.1-r2-1.gpkg.tar size=522240
+2024-03-26 09:35:49.3110492680 +0100 matplotlib-3.8.3-1.gpkg.tar size=33935360
+2024-03-26 09:36:08.9109417150 +0100 pulseaudio-daemon-17.0-r1-1.gpkg.tar size=1187840
+2024-03-26 09:37:28.5971711080 +0100 ffmpeg-6.0.1-r4-1.gpkg.tar size=10127360
+2024-03-26 09:37:36.2837955940 +0100 imagemagick-7.1.1.25-4.gpkg.tar size=9379840
+2024-03-26 09:39:03.1133191220 +0100 firefox-bin-124.0.1-1.gpkg.tar size=93440000
+2024-03-26 09:39:09.0232866910 +0100 obs-studio-30.1.0-1.gpkg.tar size=6758400
+2024-03-26 09:39:40.3197816200 +0100 slime-2.29.1-1.gpkg.tar size=921600
+2024-03-26 12:00:02.9968959620 +0100 libpcap-1.10.4-2.gpkg.tar size=358400
+
+```
+
+
+
+- create new image
+
+```
+export TODAY=20240326
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+lib/modules/6.6.12-gentoo-x86_64 \
+usr/lib/modules/6.3.12-gentoo-x86_64 \
+usr/lib/modules/6.6.12-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/stage \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
+persistent \
+initramfs-with-squashfs.img
+
+```
+
+- a bit bigger (5MB compressed):
+
+```
+# old:
+Filesystem size 1849509.25 Kbytes (1806.16 Mbytes)
+        30.03% of uncompressed filesystem size (6158277.84 Kbytes)
+real    1m7.399s	
+# new:
+Filesystem size 1855391.59 Kbytes (1811.91 Mbytes)
+        30.00% of uncompressed filesystem size (6185094.38 Kbytes)
+real    1m10.935s
+
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.6.17-gentoo-x86_64 \
+  --force \
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.17-gentoo-x86_64.img"
+
+```
+
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20240326 6.6.17 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.17-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/kernel-6.6.17-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off  amd_pstate=active
+	initrd	/initramfs20240326_squash_crypt-6.6.17-gentoo-x86_64.img
+}
+
+```
