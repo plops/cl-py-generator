@@ -77,6 +77,7 @@ BINPKG_COMPRESS="zstd"
 BINPKG_COMPRESS_FLAG_ZSTD="-T0"
 L10N="en-GB"
 LLVM_TARGETS="X86 AMDGPU"
+INPUT_DEVICES="libinput evdev synaptics"
 EOF
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
