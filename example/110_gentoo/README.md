@@ -4967,3 +4967,7 @@ menuentry 'Gentoo GNU/Linux 20240326 6.6.17 ram squash persist crypt ssd ' --cla
 
 - x11 usb mouse input not working
 - sudo usermod -aG input martin
+
+```
+sci-libs/armadillo arpack blas -doc -examples lapack -mkl superlu -test
+```
