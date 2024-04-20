@@ -110,3 +110,4 @@
   
 
  
+- another project quite similar that i first saw in 2024-04-20: https://waxc.netlify.app/ https://news.ycombinator.com/item?id=40094959

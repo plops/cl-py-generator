@@ -43,7 +43,7 @@
      `(do0
        "#!/usr/bin/env python3"
        (comments "https://youtu.be/1RcORri2ZJg?t=418")
-       "!pip install -q git+https://github.com/google-deepmind/gemma.git "
+       (comments "!pip install -q git+https://github.com/google-deepmind/gemma.git ")
        (imports (os
 		 time
 		 kagglehub
