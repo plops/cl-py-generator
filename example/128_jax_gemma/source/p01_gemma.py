@@ -1,27 +1,32 @@
 #!/usr/bin/env python3
 # https://youtu.be/1RcORri2ZJg?t=418
+!pip install -q git+https://github.com/google-deepmind/gemma.git 
 import os
+import time
 import kagglehub
 import gemma
+import gemma.params
+import gemma.transformer
+import gemma.sampler
 import sentencepiece as spm
 from google.colab import userdata
 start_time=time.time()
 debug=True
-_code_git_version="877ef9bc61d8034114b45e128b9e9fa20c53a521"
+_code_git_version="f5d544d9e51c9eea6c0933a4bb37b27afc93547c"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/128_jax_gemma/source/"
-_code_generation_time="13:36:10 of Saturday, 2024-04-20 (GMT+1)"
-os.environ["KAGGLE_USERNAME"]=userdata.get("KAGGLE_USERNAME")
-os.environ["KAGGLE_KEY"]=userdata.get("KAGGLE_KEY")
+_code_generation_time="15:44:09 of Saturday, 2024-04-20 (GMT+1)"
+kagglehub.login()
 # Enable GPU in Colab: Click on Edit > Notebook settings > Select T4 GPU
-# !pip install -q git+https://github.com/google-deepmind/gemma.git 
 # gemma-2b-it is 3.7Gb in size
 GEMMA_VARIANT="2b-it"
 GEMMA_PATH=kagglehub.model_download(f"google/gemma/flax/{GEMMA_VARIANT}")
+# in addition to logging in with an api key into kaggle, i also had to manually submit a consent form on the kaggle website before i was able to download the gemma data
 print("{} nil GEMMA_PATH={}".format(((time.time())-(start_time)), GEMMA_PATH))
 # specify tokenizer model file and checkpoint
 CKPT_PATH=os.path.join(GEMMA_PATH, GEMMA_VARIANT)
 TOKENIZER_PATH=os.path.join(GEMMA_PATH, "tokenizer.model")
-print("{} nil CKPT_PATH={} TOKENIZER_PATH={}".format(((time.time())-(start_time)), CKPT_PATH, TOKENIZER_PATH))
+print("{} nil CKPT_PATH={}".format(((time.time())-(start_time)), CKPT_PATH))
+print("{} nil TOKENIZER_PATH={}".format(((time.time())-(start_time)), TOKENIZER_PATH))
 params=gemma.params.load_and_format_params(CKPT_PATH)
 # load tokenizer
 vocab=spm.SentencePieceProcessor()

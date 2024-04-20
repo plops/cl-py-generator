@@ -43,10 +43,14 @@
      `(do0
        "#!/usr/bin/env python3"
        (comments "https://youtu.be/1RcORri2ZJg?t=418")
-
+       "!pip install -q git+https://github.com/google-deepmind/gemma.git "
        (imports (os
+		 time
 		 kagglehub
 		 gemma
+		 gemma.params
+		 gemma.transformer
+		 gemma.sampler
 		 (spm sentencepiece)))
        (imports-from (google.colab userdata))
        ;"from gemma import params as params_lib"
@@ -77,26 +81,31 @@
 			   (- tz)))))
 
 
+       #+Nil
        ,@(loop for e in `(KAGGLE_USERNAME
 			  KAGGLE_KEY)
 	       collect
 	       `(setf (aref os.environ (string ,e))
 		      (userdata.get (string ,e))))
+       
+       (kagglehub.login)
 
        (comments "Enable GPU in Colab: Click on Edit > Notebook settings > Select T4 GPU")
 
-       (comments "!pip install -q git+https://github.com/google-deepmind/gemma.git ")
+       
 
        (comments "gemma-2b-it is 3.7Gb in size")
        (setf GEMMA_VARIANT (string "2b-it"))
        (setf GEMMA_PATH (kagglehub.model_download (fstring "google/gemma/flax/{GEMMA_VARIANT}")))
+       (comments "in addition to logging in with an api key into kaggle, i also had to manually submit a consent form on the kaggle website before i was able to download the gemma data")
        ,(lprint :vars `(GEMMA_PATH))
 
        (comments "specify tokenizer model file and checkpoint")
 
        (setf CKPT_PATH (os.path.join GEMMA_PATH GEMMA_VARIANT)
 	     TOKENIZER_PATH (os.path.join GEMMA_PATH (string "tokenizer.model")))
-       ,(lprint :vars `(CKPT_PATH TOKENIZER_PATH))
+       ,(lprint :vars `(CKPT_PATH ))
+       ,(lprint :vars `(TOKENIZER_PATH))
 
 
        (setf params (gemma.params.load_and_format_params CKPT_PATH))
