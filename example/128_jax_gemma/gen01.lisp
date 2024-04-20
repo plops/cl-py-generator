@@ -44,7 +44,8 @@
        "#!/usr/bin/env python3"
        (comments "https://youtu.be/1RcORri2ZJg?t=418")
 
-       (import (os))
+       (imports (os
+		 kagglehub))
        (imports-from (google.colab userdata))
        
        (setf start_time (time.time)
@@ -72,6 +73,21 @@
 			   date
 			   (- tz)))))
 
+
+       ,@(loop for e in `(KAGGLE_USERNAME
+			  KAGGLE_KEY)
+	       collect
+	       `(setf (aref os.environ (string ,e))
+		      (userdata.get (string ,e))))
+
+       (comments "Enable GPU in Colab: Click on Edit > Notebook settings > Select T4 GPU")
+
+       (comments "!pip install -q git+https://github.com/google-deepmind/gemma.git ")
+
+       (comments "gemma-2b-it is 3.7Gb in size")
+       (setf GEMMA_VARIANT (string "2b-it"))
+       (setf GEMMA_PATH (kagglehub.model_download (fstring "google/gemma/flax/{GEMMA_VARIANT}")))
+       
 
        ))))
 

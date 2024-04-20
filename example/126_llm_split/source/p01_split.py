@@ -4,9 +4,9 @@ import time
 import argparse
 start_time=time.time()
 debug=True
-_code_git_version="8a64427865ac79ee2473a11a79c4b999b3ad567e"
+_code_git_version="1bea3f457ab060a8afa7e323032d0ee48da2522c"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/126_llm_split/source/"
-_code_generation_time="15:14:05 of Saturday, 2024-02-24 (GMT+1)"
+_code_generation_time="13:20:10 of Saturday, 2024-04-20 (GMT+1)"
 def split_document(input_file, chunk_size, prompt):
     """given an input file split it into several files with at most chunk_size words each. prepend with prompt. replace newlines with space."""
     with open(input_file, "r") as f:
