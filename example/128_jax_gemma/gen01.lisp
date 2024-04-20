@@ -45,8 +45,11 @@
        (comments "https://youtu.be/1RcORri2ZJg?t=418")
 
        (imports (os
-		 kagglehub))
+		 kagglehub
+		 gemma
+		 (spm sentencepiece)))
        (imports-from (google.colab userdata))
+       ;"from gemma import params as params_lib"
        
        (setf start_time (time.time)
 	     debug True)
@@ -87,7 +90,43 @@
        (comments "gemma-2b-it is 3.7Gb in size")
        (setf GEMMA_VARIANT (string "2b-it"))
        (setf GEMMA_PATH (kagglehub.model_download (fstring "google/gemma/flax/{GEMMA_VARIANT}")))
-       
+       ,(lprint :vars `(GEMMA_PATH))
 
-       ))))
+       (comments "specify tokenizer model file and checkpoint")
+
+       (setf CKPT_PATH (os.path.join GEMMA_PATH GEMMA_VARIANT)
+	     TOKENIZER_PATH (os.path.join GEMMA_PATH (string "tokenizer.model")))
+       ,(lprint :vars `(CKPT_PATH TOKENIZER_PATH))
+
+
+       (setf params (gemma.params.load_and_format_params CKPT_PATH))
+
+       (comments "load tokenizer")
+       (setf vocab (spm.SentencePieceProcessor))
+       (vocab.Load TOKENIZER_PATH)
+
+       (setf transformer_config (gemma.transformer.TransformerConfig.from_params
+				 :params params
+				 :cache_size 1024))
+       (setf transformer (gemma.transformer.Transformer transformer_config))
+
+       (comments "create sampler")
+
+       (setf sampler (gemma.sampler.Sampler
+		      :transformer transformer
+		      :vocab vocab
+		      :params (aref params (string "transformer"))))
+
+       (comments "write prompt in input_batch and perform inference. total_generation_steps is limited to 100 here to preserve host memory")
+
+       (setf prompt (list (string "\\n# What is the meaning of life?")))
+       (setf reply (sampler :input_strings prompt
+			    :total_generation_steps 100))
+       ,(lprint :vars `(reply.text))
+       )
+
+     
+
+     
+     )))
 
