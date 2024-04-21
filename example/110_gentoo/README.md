@@ -277,7 +277,7 @@ dev-qt/qtbase X concurrent dbus gui libinput network nls -opengl sql sqlite ssl 
 dev-qt/qtdeclarative jit widgets -debug -gles2-only -localstorage -test -vulkan
 
 media-video/obs-studio alsa ssl -browser -decklink -fdk -jack -lua -mpegts -nvenc -pipewire pulseaudio -python -qsv -speex -test -truetype v4l -vlc -wayland -websocket
-
+sci-libs/armadillo arpack blas -doc -examples lapack -mkl superlu -test
 EOF
 
 # charge battery at most to 80%
@@ -4970,4 +4970,232 @@ menuentry 'Gentoo GNU/Linux 20240326 6.6.17 ram squash persist crypt ssd ' --cla
 
 ```
 sci-libs/armadillo arpack blas -doc -examples lapack -mkl superlu -test
+```
+# update 2024-04-21
+```
+eix-sync
+(ql:update-dist "quicklisp") # no change
+(ql:update-client) # no change
+sbcl --eval "(map nil 'ql-dist:clean (ql-dist:all-dists))"
+```
+- note: i actually had the backdoored xz-utils version installed
+- add armadillo
+
+```
+dispatch-conf
+
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+sudo emerge -av armadillo
+emerge --depclean
+revdep-rebuild
+eclean-dist #425Mb 58 files
+eclean-pkg #1G 63 files
+```
+
+```
+find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
+
+
+2024-04-21 00:43:06.9034268590 +0200 linux-headers-6.6-r1-1.gpkg.tar size=1699840
+2024-04-21 00:46:30.9723070420 +0200 glibc-2.38-r12-1.gpkg.tar size=15861760
+2024-04-21 00:46:49.8022037140 +0200 ensurepip-setuptools-69.2.0-1.gpkg.tar size=747520
+2024-04-21 00:47:11.4820847470 +0200 clang-common-17.0.6-r5-1.gpkg.tar size=40960
+2024-04-21 00:49:17.1613950880 +0200 openssl-3.0.13-r2-1.gpkg.tar size=6758400
+2024-04-21 00:50:30.1643278220 +0200 linux-firmware-20240410-1.gpkg.tar size=473917440
+2024-04-21 00:51:20.9073827050 +0200 libxcrypt-4.4.36-r3-1.gpkg.tar size=163840
+2024-04-21 00:51:49.3638932180 +0200 xz-utils-5.4.2-1.gpkg.tar size=542720
+2024-04-21 00:52:05.5571376920 +0200 elt-patches-20240315-1.gpkg.tar size=71680
+2024-04-21 00:52:52.2402148550 +0200 util-linux-2.39.3-r7-1.gpkg.tar size=5099520
+2024-04-21 00:53:13.7567634500 +0200 libseccomp-2.5.5-r1-1.gpkg.tar size=153600
+2024-04-21 00:53:55.8398658550 +0200 libtool-2.4.7-r4-1.gpkg.tar size=757760
+2024-04-21 00:54:17.8064119810 +0200 libXdmcp-1.1.5-1.gpkg.tar size=61440
+2024-04-21 00:56:04.9258241690 +0200 python-3.12.3-1.gpkg.tar size=29317120
+2024-04-21 00:56:44.4589405670 +0200 libxcb-1.16.1-1.gpkg.tar size=604160
+2024-04-21 00:57:11.2821267090 +0200 at-spi2-core-2.50.2-1.gpkg.tar size=788480
+2024-04-21 00:58:09.3284748500 +0200 libunistring-1.2-1.gpkg.tar size=737280
+2024-04-21 00:58:29.8016958370 +0200 pax-utils-1.3.7-4.gpkg.tar size=133120
+2024-04-21 00:58:33.4883422740 +0200 less-643-r2-1.gpkg.tar size=184320
+2024-04-21 00:59:04.9715028450 +0200 libfontenc-1.1.8-1.gpkg.tar size=61440
+2024-04-21 00:59:31.7913556720 +0200 glibmm-2.66.7-1.gpkg.tar size=1761280
+2024-04-21 00:59:42.8812948170 +0200 pixman-0.43.4-1.gpkg.tar size=593920
+2024-04-21 00:59:48.0412665020 +0200 vala-common-0.56.16-1.gpkg.tar size=20480
+2024-04-21 00:59:53.5079031710 +0200 opus-1.5.1-r1-1.gpkg.tar size=4526080
+2024-04-21 00:59:59.6812026280 +0200 iceauth-1.0.10-1.gpkg.tar size=61440
+2024-04-21 01:00:22.8744086900 +0200 nss-3.99-1.gpkg.tar size=3399680
+2024-04-21 01:00:27.0177192870 +0200 mkfontscale-1.2.3-1.gpkg.tar size=71680
+2024-04-21 01:00:31.9410256040 +0200 iso-codes-4.16.0-1.gpkg.tar size=5488640
+2024-04-21 01:00:32.1176913010 +0200 imlib2-1.11.0-1.gpkg.tar size=624640
+2024-04-21 01:01:04.7741787670 +0200 xauth-1.1.3-1.gpkg.tar size=81920
+2024-04-21 01:01:08.7408236670 +0200 libXcursor-1.2.2-1.gpkg.tar size=81920
+2024-04-21 01:01:08.7774901330 +0200 encodings-1.1.0-1.gpkg.tar size=655360
+2024-04-21 01:01:12.4141368440 +0200 libXaw-1.0.16-1.gpkg.tar size=307200
+2024-04-21 01:01:30.9107020110 +0200 rust-1.75.0-r1-1.gpkg.tar size=30720
+2024-04-21 01:01:38.8806582770 +0200 packaging-24.0-1.gpkg.tar size=174080
+2024-04-21 01:02:01.7771993000 +0200 xmessage-1.0.7-1.gpkg.tar size=51200
+2024-04-21 01:02:22.8770835150 +0200 pango-1.52.1-1.gpkg.tar size=1300480
+2024-04-21 01:02:29.9570446640 +0200 libarchive-3.7.2-r3-1.gpkg.tar size=624640
+2024-04-21 01:02:46.2836217400 +0200 typing-extensions-4.11.0-1.gpkg.tar size=122880
+2024-04-21 01:03:02.0635351480 +0200 jaraco-context-5.1.0-1.gpkg.tar size=51200
+2024-04-21 01:03:18.2801128270 +0200 idna-3.7-1.gpkg.tar size=194560
+2024-04-21 01:03:35.1066871590 +0200 trove-classifiers-2024.3.25-1.gpkg.tar size=61440
+2024-04-21 01:03:50.8666006770 +0200 wheel-0.43.0-1.gpkg.tar size=112640
+2024-04-21 01:04:08.9598347250 +0200 gtk-update-icon-cache-3.24.40-1.gpkg.tar size=122880
+2024-04-21 01:04:13.9031409320 +0200 hatchling-1.22.5-r1-1.gpkg.tar size=256000
+2024-04-21 01:04:21.6997648150 +0200 libplacebo-6.338.2-4.gpkg.tar size=624640
+2024-04-21 01:04:42.2229855290 +0200 setuptools-69.2.0-r1-1.gpkg.tar size=1269760
+2024-04-21 01:05:45.2893061220 +0200 cython-3.0.10-1.gpkg.tar size=4638720
+2024-04-21 01:06:05.9225262320 +0200 dill-0.3.8-1.gpkg.tar size=327680
+2024-04-21 01:06:14.7724776680 +0200 pillow-10.3.0-1.gpkg.tar size=1064960
+2024-04-21 01:06:36.7723569450 +0200 lxml-5.2.1-1.gpkg.tar size=1628160
+2024-04-21 01:06:55.2589221680 +0200 threadpoolctl-3.4.0-1.gpkg.tar size=92160
+2024-04-21 01:07:03.4322106510 +0200 lmfit-1.3.1-1.gpkg.tar size=307200
+2024-04-21 01:07:39.1420146950 +0200 fonttools-4.51.0-1.gpkg.tar size=4085760
+2024-04-21 01:08:20.6151204470 +0200 libXaw3d-1.6.6-1.gpkg.tar size=256000
+2024-04-21 01:08:57.8282495750 +0200 vala-0.56.16-1.gpkg.tar size=3399680
+2024-04-21 01:10:13.2278358240 +0200 ffmpeg-6.1.1-r5-1.gpkg.tar size=10352640
+2024-04-21 01:10:44.8276624220 +0200 mesa-24.0.4-1.gpkg.tar size=13813760
+2024-04-21 01:11:39.0240316890 +0200 grub-2.12-r4-1.gpkg.tar size=18012160
+2024-04-21 01:13:08.6968729470 +0200 nghttp2-1.61.0-1.gpkg.tar size=225280
+2024-04-21 01:13:23.3467925570 +0200 xorg-server-21.1.13-1.gpkg.tar size=3553280
+2024-04-21 01:15:21.8328090370 +0200 matplotlib-3.8.4-1.gpkg.tar size=33873920
+2024-04-21 01:15:22.8461368100 +0200 gtk+-3.24.41-1.gpkg.tar size=12636160
+2024-04-21 01:16:38.9757190530 +0200 scikit-learn-1.4.2-1.gpkg.tar size=13701120
+2024-04-21 01:16:54.9022983240 +0200 qtcore-5.15.13-1.gpkg.tar size=8089600
+2024-04-21 01:17:38.9720564930 +0200 xf86-input-libinput-1.4.0-8.gpkg.tar size=81920
+2024-04-21 01:18:47.4716806050 +0200 firefox-bin-125.0.1-1.gpkg.tar size=93706240
+2024-04-21 01:20:17.3511873960 +0200 qtdbus-5.15.13-1.gpkg.tar size=450560
+2024-04-21 01:20:18.5078477160 +0200 gtkmm-3.24.9-1.gpkg.tar size=2457600
+2024-04-21 01:20:32.1977725930 +0200 emacs-29.3-r1-1.gpkg.tar size=48076800
+2024-04-21 01:20:45.4010334740 +0200 gtk-4.12.5-1.gpkg.tar size=14233600
+2024-04-21 01:20:49.6810099880 +0200 curl-8.7.1-r1-1.gpkg.tar size=1402880
+2024-04-21 01:21:34.1907657430 +0200 xf86-video-amdgpu-23.0.0-10.gpkg.tar size=174080
+2024-04-21 01:21:46.2940326600 +0200 gentoolkit-0.6.5-1.gpkg.tar size=3532800
+2024-04-21 01:22:01.7606144550 +0200 xf86-video-ati-22.0.0-10.gpkg.tar size=471040
+2024-04-21 01:25:05.9929368230 +0200 qtgui-5.15.13-1.gpkg.tar size=5068800
+2024-04-21 01:29:33.3281365020 +0200 qtbase-6.7.0-r1-1.gpkg.tar size=19005440
+2024-04-21 01:31:41.5907660010 +0200 qttools-6.7.0-1.gpkg.tar size=3102720
+2024-04-21 01:31:41.7407651780 +0200 qtwidgets-5.15.13-1.gpkg.tar size=3471360
+2024-04-21 01:32:06.0706316690 +0200 qttranslations-6.7.0-1.gpkg.tar size=2529280
+2024-04-21 01:32:47.6937365980 +0200 qt5compat-6.7.0-1.gpkg.tar size=645120
+2024-04-21 01:32:55.0170297450 +0200 qtsvg-6.7.0-1.gpkg.tar size=348160
+2024-04-21 01:32:55.2370285380 +0200 qtshadertools-6.7.0-1.gpkg.tar size=2242560
+2024-04-21 01:34:53.2063811880 +0200 qtmultimedia-6.7.0-1.gpkg.tar size=3082240
+2024-04-21 01:35:05.9763111130 +0200 obs-studio-30.1.1-1.gpkg.tar size=6768640
+2024-04-21 09:19:31.0800695080 +0200 superlu-5.3.0-1.gpkg.tar size=225280
+2024-04-21 09:19:48.8233054760 +0200 armadillo-12.4.0-r1-1.gpkg.tar size=645120
+
+```
+- cleanup /mnt4/persistent
+  - package.use had libpcap with bluetooth support. i don't think i need that
+
+- create new image
+
+```
+export TODAY=20240421
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+lib/modules/6.6.12-gentoo-x86_64 \
+usr/lib/modules/6.3.12-gentoo-x86_64 \
+usr/lib/modules/6.6.12-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/stage \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
+persistent \
+initramfs-with-squashfs.img
+
+```
+
+- a bit bigger (12MB compressed):
+
+```
+# old:
+Filesystem size 1855391.59 Kbytes (1811.91 Mbytes)
+        30.00% of uncompressed filesystem size (6185094.38 Kbytes)
+real    1m10.935s
+# new:
+Filesystem size 1868857.18 Kbytes (1825.06 Mbytes)
+        30.02% of uncompressed filesystem size (6224371.91 Kbytes)
+real    1m12.648s
+
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.6.17-gentoo-x86_64 \
+  --force \
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.17-gentoo-x86_64.img"
+
+```
+- in first attempt TODAY, was empty. so i have an initramfs file without timestamp
+- but i copied it to the correct name
+
+
+- check grub config, add the new entry
+
+```
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20240421 6.6.17 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.17-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/kernel-6.6.17-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off  amd_pstate=active
+	initrd	/initramfs20240421_squash_crypt-6.6.17-gentoo-x86_64.img
+}
+
 ```
