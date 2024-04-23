@@ -33,13 +33,21 @@
 	 		       
 	 (l-coef `((:name coeff_matrix :value (1 0 0
 						 0 1 0
-						 0 0 1) :vary True :dim (3 3) ; :mi 0 :ma 1
+						 0 0 1) :vary True :dim (3 3) ; :mi 0 :ma 300
 						 )
 		   (:name offsets :value (0 128 128) :dim (3) :vary False ;:mi -100 :ma 100
 			  )
-		   ;(:name gains :value (1 1 1) :dim (3) :mi 0 :ma 3)
-		   (:name gamma :value (2.2) :dim (1) :mi .1 :ma 3 ; :vary False
-			  ))))
+		   #+nil (:name gains :value (1 1 1) :dim (3) :mi 0 :ma 3 :vary False
+			  )
+		   (:name gamma_bgr :value (1) :dim (1) :mi .1 :ma 3  :vary False
+			  )
+		   
+		   #+nil((:name offsets_y :value (0 0 0) :dim (3) :vary False ;:mi -100 :ma 100
+			   )
+		    (:name gains_y :value (1 1 1) :dim (3) :vary False ; True :mi .01 :ma 30s0
+			   )
+		    (:name gamma_y :value (1 1 1) :dim (3) :mi .1 :ma 3  :vary False
+			   )))))
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
@@ -81,7 +89,7 @@
        #+nil (do0 (setf bgr (cv.Mat (list (list (list 10 120 13)))))
 	    (cv.cvtColor bgr cv.COLOR_BGR2YCrCb))
        " "
-       (def bgr_to_ycbcr_model (bgr ,@(let ((count 0))
+       (def bgr_to_ycrcb_model (bgr ,@(let ((count 0))
 					 (loop for e in l-coef
 					       appending
 					       (destructuring-bind (&key name value dim (vary 'True) mi ma) e
@@ -91,7 +99,7 @@
 							   (intern (string-upcase (format nil "~a~a" name count)))
 							 (incf count)))
 						 ))))
-	 (string3 "Model for BGR to YCbCr color transformation with adjustable parameters.
+	 (string3 "Model for BGR to Ycrcb color transformation with adjustable parameters.
 
   Args:
     bgr: A numpy array of shape (3,) representing B, G, R values.
@@ -123,30 +131,36 @@
 					     (reshape (tuple ,@dim))))
 			 (incf count inc))))))
 	 (setf bgr_gamma (np.power (/ bgr 255s0)
-				   (/ 1s0 gamma)))
-	 #+nil (setf ycbcr (+ (* (np.dot  bgr_gamma coeff_matrix.T) gains )
+				   (/ 1s0 gamma_bgr)))
+	 #+nil (setf ycrcb (+ (* (np.dot bgr_gamma coeff_matrix.T) gains )
 			offsets))
-	 (setf ycbcr (+ (np.dot  bgr_gamma coeff_matrix.T)
+	  (setf ycrcb (+ (np.dot  bgr_gamma coeff_matrix.T)
 			offsets))
-	 (return ycbcr))
+	 #+noil (setf ycrcb
+	       (+ offsets_y (* gains_y 255s0
+			       (np.power (/ ycrcb 255s0)
+					 (/ 1s0 gamma_y)))))
+	 
+	 
+	 (return ycrcb))
        " "
        
 
        (do0
 	" "
-	(setf num_colors 100)
+	(setf num_colors 1000)
 	(setf bgr_colors (np.random.randint 0 256 :size (tuple num_colors 3)))
 	(setf res (list))
 	(for (bgr bgr_colors)
-	     (setf ycbcr (aref (cv.cvtColor (np.uint8 (list (list bgr)))
+	     (setf ycrcb (aref (cv.cvtColor (np.uint8 (list (list bgr)))
 				       cv.COLOR_BGR2YCrCb)
 			       0 0))
 	     (res.append (dictionary :B (aref bgr 0)
 				     :G (aref bgr 1)
 				     :R (aref bgr 2)
-				     :Y (aref ycbcr 0)
-				     :Cb (aref ycbcr 1)
-				     :Cr (aref ycbcr 2)
+				     :Y (aref ycrcb 0)
+				     :Cr (aref ycrcb 1)
+				     :Cb (aref ycrcb 2)
 				     
 				     )))
 	" "
@@ -154,15 +168,15 @@
 	(setf df (pd.DataFrame res))
 
 	(do0 
-	    ; def fit_bgr_to_ycbcr (df)
-	    (string3 "Fits the BGR to YCbCr model to data using lmfit.
+	    ; def fit_bgr_to_ycrcb (df)
+	    (string3 "Fits the BGR to Ycrcb model to data using lmfit.
 
   Args:
     df: A pandas DataFrame with columns 'B', 'G', 'R', 'Y', 'Cb', 'Cr'.
 
   Returns:
     An lmfit ModelResult object containing the fitted parameters.")
-	 (setf model (lmfit.Model bgr_to_ycbcr_model)
+	 (setf model (lmfit.Model bgr_to_ycrcb_model)
 	       params (lmfit.Parameters)
 	       #+nil
 	       (model.make_params
@@ -196,7 +210,7 @@
 	 ;(return result)
 	 )
 
-	;(setf result (fit_bgr_to_ycbcr df))
+	;(setf result (fit_bgr_to_ycrcb df))
 	(print (result.fit_report)))
 
        
