@@ -33,10 +33,10 @@
 	 		       
 	 (l-coef `((:name coeff_matrix :value (1 0 0
 						 0 1 0
-						 0 0 1) :vary True :dim (3 3))
-		   (:name offsets :value (0 0 0) :dim (3))
-		   (:name gains :value (1 1 1) :dim (3))
-		   (:name gamma :value (2.2) :dim (1)))))
+						 0 0 1) :vary True :dim (3 3) :mi 0 :ma 1)
+		   (:name offsets :value (0 0 0) :dim (3) :mi -100 :ma 100)
+		   (:name gains :value (1 1 1) :dim (3) :mi 0 :ma 3)
+		   (:name gamma :value (2.2) :dim (1) :mi .1 :ma 3))))
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
@@ -81,7 +81,7 @@
        (def bgr_to_ycbcr_model (bgr ,@(let ((count 0))
 					 (loop for e in l-coef
 					       appending
-					       (destructuring-bind (&key name value dim (vary 'True)) e
+					       (destructuring-bind (&key name value dim (vary 'True) mi ma) e
 						 (loop for v in value
 						       collect
 						       (prog1
@@ -103,7 +103,7 @@
 	 (setf params (np.array (list ,@(let ((count 0))
 					 (loop for e in l-coef
 					       appending
-					       (destructuring-bind (&key name value dim (vary 'True)) e
+					       (destructuring-bind (&key name value dim (vary 'True) mi ma) e
 						 (loop for v in value
 						       collect
 						       (prog1
@@ -113,7 +113,7 @@
 	 ,@(let ((count 0))
 	     (loop for e in l-coef
 		   collect
-		   (destructuring-bind (&key name value dim (vary 'True)) e
+		   (destructuring-bind (&key name value dim (vary 'True) mi ma) e
 		     (let ((inc (length value)))
 		       (prog1
 			   `(setf ,name (dot (aref params (slice ,count ,(+ count inc)))
@@ -121,7 +121,7 @@
 			 (incf count inc))))))
 	 (setf bgr_gamma (np.power (/ bgr 255s0)
 				   (/ 1s0 gamma)))
-	 (setf ycbcr (+ (* (np.dot coeff_matrix bgr_gamma) gains )
+	 (setf ycbcr (+ (* (np.dot  bgr_gamma coeff_matrix.T) gains )
 			offsets))
 	 (return ycbcr))
        " "
@@ -158,21 +158,36 @@
   Returns:
     An lmfit ModelResult object containing the fitted parameters.")
 	 (setf model (lmfit.Model bgr_to_ycbcr_model)
-	       params (model.make_params
-		       :coeff_matrix (np.identity 3)
-		       :offsets (np.zeros 3)
-		       :gains (np.ones 3)
-		       :gamma "2.2"
-		       )
-	       result (model.fit (dot (aref df (list (string "Y")
-						  (string "Cb")
-						  (string "Cr")))
+	       params (lmfit.Parameters)
+	       #+nil
+	       (model.make_params
+		:coeff_matrix (np.identity 3)
+		:offsets (np.zeros 3)
+		:gains (np.ones 3)
+		:gamma "2.2"
+		)
+	       )
+	 ,@(let ((count 0))
+	     (loop for e in l-coef
+		  appending
+		   (destructuring-bind (&key name value dim (vary 'True) mi ma) e
+		     (loop for v in value
+			   collect
+			   (prog1
+			       `(params.add
+				 (string ,(format nil "~a~a" name count))
+				 :value ,v :min ,(if mi mi '-np.inf) :max ,(if ma ma 'np.inf))
+			     (incf count)))
+		     )))
+	 (setf result (model.fit (dot (aref df (list (string "Y")
+						     (string "Cb")
+						     (string "Cr")))
 				      values)
 				 params
 				 :bgr (dot (aref df (list (string "B")
-						  (string "G")
-						  (string "R")))
-				      values)))
+							  (string "G")
+							  (string "R")))
+					   values)))
 	 ;(return result)
 	 )
 
