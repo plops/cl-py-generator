@@ -67,8 +67,8 @@
 			   date
 			   (- tz)))))
 
-       (setf bgr (np.array (list 10 120 13)))
-       (cv.cvtColor bgr cv.COLOR_BGR2YCrCb)
+       #+nil (do0 (setf bgr (cv.Mat (list (list (list 10 120 13)))))
+	    (cv.cvtColor bgr cv.COLOR_BGR2YCrCb))
 
        (def bgr_to_ycbcr_model (bgr coeff_matrix offsets gains gamma)
 	 (string3 "Model for BGR to YCbCr color transformation with adjustable parameters.
@@ -114,6 +114,27 @@
 						  (string "R")))
 				      values)))
 	 (return result))
+
+       (do0
+	(setf num_colors 100)
+	(setf bgr_colors (np.random.randint 0 256 :size (tuple num_colors 3)))
+	(setf res (list))
+	(for (bgr bgr_colors)
+	     (setf ycbcr (aref (cv.cvtColor (np.uint8 (list (list bgr)))
+				       cv.COLOR_BGR2YCrCb)
+			       0 0))
+	     (res.append (dictionary :B (aref bgr 0)
+				     :G (aref bgr 1)
+				     :R (aref bgr 2)
+				     :Y (aref ycbcr 0)
+				     :Cb (aref ycbcr 1)
+				     :Cr (aref ycbcr 2)
+				     
+				     )))
+	
+	(setf df (pd.DataFrame res))
+	(setf result (fit_bgr_to_ycbcr df))
+	(print (result.fit_report)))
 
        
        ))))
