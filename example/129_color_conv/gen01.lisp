@@ -33,10 +33,12 @@
 	 		       
 	 (l-coef `((:name coeff_matrix :value (1 0 0
 						 0 1 0
-						 0 0 1) :vary True :dim (3 3) :mi 0 :ma 1)
-		   (:name offsets :value (0 0 0) :dim (3) :mi -100 :ma 100)
-		   (:name gains :value (1 1 1) :dim (3) :mi 0 :ma 3)
-		   (:name gamma :value (2.2) :dim (1) :mi .1 :ma 3))))
+						 0 0 1) :vary True :dim (3 3) ; :mi 0 :ma 1
+						 )
+		   (:name offsets :value (0 0 0) :dim (3) ;:mi -100 :ma 100
+			  )
+		   ;(:name gains :value (1 1 1) :dim (3) :mi 0 :ma 3)
+		   (:name gamma :value (2.2) :dim (1) :mi .1 :ma 3 :vary False))))
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
@@ -121,7 +123,9 @@
 			 (incf count inc))))))
 	 (setf bgr_gamma (np.power (/ bgr 255s0)
 				   (/ 1s0 gamma)))
-	 (setf ycbcr (+ (* (np.dot  bgr_gamma coeff_matrix.T) gains )
+	 #+nil (setf ycbcr (+ (* (np.dot  bgr_gamma coeff_matrix.T) gains )
+			offsets))
+	 (setf ycbcr (+ (np.dot  bgr_gamma coeff_matrix.T)
 			offsets))
 	 (return ycbcr))
        " "
@@ -176,7 +180,7 @@
 			   (prog1
 			       `(params.add
 				 (string ,(format nil "~a~a" name count))
-				 :value ,v :min ,(if mi mi '-np.inf) :max ,(if ma ma 'np.inf))
+				 :value ,v :vary ,vary :min ,(if mi mi '-np.inf) :max ,(if ma ma 'np.inf))
 			     (incf count)))
 		     )))
 	 (setf result (model.fit (dot (aref df (list (string "Y")
