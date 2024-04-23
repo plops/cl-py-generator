@@ -35,10 +35,11 @@
 						 0 1 0
 						 0 0 1) :vary True :dim (3 3) ; :mi 0 :ma 1
 						 )
-		   (:name offsets :value (0 0 0) :dim (3) ;:mi -100 :ma 100
+		   (:name offsets :value (0 128 128) :dim (3) :vary False ;:mi -100 :ma 100
 			  )
 		   ;(:name gains :value (1 1 1) :dim (3) :mi 0 :ma 3)
-		   (:name gamma :value (2.2) :dim (1) :mi .1 :ma 3 :vary False))))
+		   (:name gamma :value (2.2) :dim (1) :mi .1 :ma 3 ; :vary False
+			  ))))
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
