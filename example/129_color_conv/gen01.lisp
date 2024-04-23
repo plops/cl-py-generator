@@ -32,7 +32,7 @@
 		  (comments ,(format nil "~a (~a)" help unit))
 		  (setf ,name ,val))))))
   
-  (let* ((notebook-name "gemma")
+  (let* ((notebook-name "conv")
 	 (cli-args `(#+nil (:short "c" :long "chunk_size" :type int :default 500
 		      :help "Approximate number of words per chunk")
 		     #+nil (:short "p" :long "prompt" :type str
