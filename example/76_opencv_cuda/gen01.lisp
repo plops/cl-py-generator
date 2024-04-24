@@ -176,16 +176,12 @@
 	"#export"
 	(comments "https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html")
 	(setf fns ("list"
-<<<<<<< HEAD
-		   (dot (pathlib.Path (string "/home/martin/src/opencv-4.5.5/samples/data/"))
-			(glob (string "left*.jpg")))))
-	(display fns)
-=======
 		   (dot (pathlib.Path (string "data/"
 					      #+nil "/home/martin/src/opencv-4.5.5/samples/data/"))
 			(glob (string "left*.jpg")))))
 	(print fns)
->>>>>>> 769798e8f26ac2d0e15b22b75e16181b557d2d9b
+
+	
 
 	)
        )
@@ -240,11 +236,7 @@
 	       (aref gray.shape (slice "" "" -1))
 	       None None
 	       ))
-<<<<<<< HEAD
-	(display mtx)))
-=======
 	(print mtx)))
->>>>>>> 769798e8f26ac2d0e15b22b75e16181b557d2d9b
 
       (python
        (do0
@@ -256,11 +248,8 @@
 					    dist
 					    (list w h)
 					    1 (list w h)))
-<<<<<<< HEAD
-	(display new_mtx)))
-=======
 	(print new_mtx)))
->>>>>>> 769798e8f26ac2d0e15b22b75e16181b557d2d9b
+
 
       (python
        (do0
@@ -271,13 +260,9 @@
 			(slice x (+ x w))))
 	(do0
 	 (cv.imshow (string "dst") dst)
-<<<<<<< HEAD
-	 (cv.waitKey 5000)
-	 (cv.destroyAllWindows))))
-=======
 	 (do0 (cv.waitKey 5000)
 	      (cv.destroyAllWindows)))))
->>>>>>> 769798e8f26ac2d0e15b22b75e16181b557d2d9b
+
 
       (python
        (do0

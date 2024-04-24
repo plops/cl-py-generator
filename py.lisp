@@ -2,11 +2,6 @@
 					;(ql:quickload "alexandria")
 
 (in-package :cl-py-generator)
-(setf (readtable-case *readtable*) :invert)
-
-(defparameter *warn-breaking* t)
-(defparameter *file-hashes* (make-hash-table))
-
 (defun write-notebook (&key nb-file nb-code)
 	"Writes a notebook to a file.
 
@@ -24,7 +19,7 @@
       (format s "~a~%"
 	      (jonathan:to-json
 	       `( :cells
-					;:|cells|
+		  ;:|cells|
 		  ,(loop for e in nb-code
 			 collect
 			 (destructuring-bind (name &rest rest) e
@@ -77,6 +72,13 @@
 			:output nb-file
 			:if-output-exists :supersede)
     (delete-file tmp)))
+
+(setf (readtable-case *readtable*) :invert)
+
+(defparameter *warn-breaking* t)
+(defparameter *file-hashes* (make-hash-table))
+
+
 
 (defun consume-declare (body)
   "Take a list of instructions from `body`, parse type declarations,
