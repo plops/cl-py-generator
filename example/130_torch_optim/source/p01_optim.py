@@ -29,9 +29,12 @@ model=ImageModel()
 initial_yuv=model(rgb_data)
 target_yuv=((initial_yuv)+(((torch.randn_like(initial_yuv))*((0.10    )))))
 def objective(params):
-    # update model parameters
-    for name, param in params.items():
-        setattr(model, name, param)
+    # update model parameters from individual lmfit parameters
+    model.rgb_to_srgb_matrix=torch.tensor([[params[f"rgb_to_srgb_matrix_{i}{j}"] for j in range(3)] for i in range(3)])
+    model.brightness=params["brightness"]
+    model.offset=torch.tensor([params[f"offset_{i}"] for i in range(3)])
+    model.hue_angle=params["hue_angle"]
+    model.gamma=params["gamma"]
     for param in model.parameters():
         param.requires_grad=True
     yuv_predicted=model(rgb_data)

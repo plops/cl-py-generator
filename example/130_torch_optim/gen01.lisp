@@ -133,10 +133,29 @@
 	    (setf target_yuv (+ initial_yuv (* (torch.randn_like initial_yuv) .1)))
 
 	    (def objective (params)
-	      (comments "update model parameters")
-	      (for ((ntuple name param)
-		    (params.items))
-		   (setattr model name param))
+	      (comments "update model parameters from individual lmfit parameters")
+	      ,@(loop for e in l-model
+			     collect
+			     (destructuring-bind (&key name torch dim) e
+			       (cond 
+				 ((equal dim `(1))
+				  `(setf (dot model ,name)
+					 (aref params (string ,name))))
+				 ((equal dim `(3))
+				  `(setf (dot model ,name)
+					 (torch.tensor (list (for-generator
+							      (i (range 3))
+							      (aref params (fstring ,(format nil "~a_{i}" name))))))))
+				 ((equal dim `(3 3))
+				  `(setf (dot model ,name)
+					 (torch.tensor
+					  (list (for-generator
+						 (i (range 3))
+						 (list (for-generator
+							(j (range 3))
+							(aref params (fstring ,(format nil "~a_{i}{j}" name))))))))))
+				 (t (break (string "unhandled condition")))))
+			     )
 	      (for (param (model.parameters))
 		   (setf param.requires_grad True))
 	      (setf yuv_predicted (model rgb_data))
