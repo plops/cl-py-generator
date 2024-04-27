@@ -54,11 +54,12 @@
        "#!/usr/bin/env python3"
        (comments "python -m venv ~/pytorch_env"
 		 ". ~/pytorch_env/bin/activate"
-		 "pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu11")
+		 "pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu11"
+		 "pip install lmfit")
        (imports (os
 		 time
 		 torch
-		 (pd pandas)
+		 ;(pd pandas)
 		 lmfit))
 
        #+nil(do0
@@ -111,7 +112,7 @@
 					(torch.pow x (/ 1s0 self.gamma))
 					(* x self.brightness)
 					(+ x self.offset)
-					(torch.matmul x rgb_to_yuv_matrix)
+					(torch.matmul x self.rgb_to_yuv_matrix)
 					(torch.matmul x (torch.tensor (list (list 1 0 0)
 									    (list 0 (torch.cos self.hue_angle) (* -1 (torch.sin self.hue_angle)))
 									    (list 0 (torch.sin self.hue_angle) (torch.cos self.hue_angle))
@@ -170,11 +171,35 @@
 							    (numpy))))))
 	      (for (param (model.parameters))
 		   (setf param.requires_grad False))
-	      (return (ntuple loss grads)))
+	      (return loss ;(ntuple loss grads)
+		      ))
 	    (do0
 	     (comments "define lmfit parameters")
-	     (setf params (lmfit.Parameters))
-	     )))
+	     (setf params (lmfit.Parameters)
+		   )
+	     ,@(loop for e in l-model
+			     collect
+			     (destructuring-bind (&key name torch dim) e
+			       (cond 
+				 ((equal dim `(3 3))
+				  `(for (i (range 3))
+					(for (j (range 3))
+					     (params.add (fstring ,(format nil "~a_{i}{j}" name))
+							 :value (dot model (aref ,name i j) (item) )))))
+				 ((equal dim `(3))
+				  `(for (i (range 3))
+					(params.add (fstring ,name)
+						    :value (dot model (aref ,name i) (item) ))))
+				 ((equal dim `(1))
+				  `(params.add (string ,name)
+					       :value (dot model ,name (item) )))))
+			     )
+	     )
+	    (do0
+	     (comments "run optimization with gradient information")
+	     (setf result (lmfit.minimize objective params ; :method (string "leastsq")
+							   ;:jac True
+					  )))))
        
        ))))
 

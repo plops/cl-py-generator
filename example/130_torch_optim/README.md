@@ -7,3 +7,6 @@ dataframe with rgb values and corresponding yuv values. lmfit shall
 call the model and gradient to find the original parameters of the
 model using optimization.
 use MSE loss between predicted and target YUV
+
+
+i think torch doesn't work well together with lmfit

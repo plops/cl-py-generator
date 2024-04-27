@@ -2,10 +2,10 @@
 # python -m venv ~/pytorch_env
 # . ~/pytorch_env/bin/activate
 # pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu11
+# pip install lmfit
 import os
 import time
 import torch
-import pandas as pd
 import lmfit
 class ImageModel(torch.nn.Module):
     def __init__(self):
@@ -21,7 +21,7 @@ class ImageModel(torch.nn.Module):
         x=torch.pow(x, (((1.0    ))/(self.gamma)))
         x=((x)*(self.brightness))
         x=((x)+(self.offset))
-        x=torch.matmul(x, rgb_to_yuv_matrix)
+        x=torch.matmul(x, self.rgb_to_yuv_matrix)
         x=torch.matmul(x, torch.tensor([[1, 0, 0], [0, torch.cos(self.hue_angle), ((-1)*(torch.sin(self.hue_angle)))], [0, torch.sin(self.hue_angle), torch.cos(self.hue_angle)]]))
         return x
 rgb_data=torch.rand(100, 3)
@@ -43,6 +43,16 @@ def objective(params):
     grads={name: param.grad.detach().numpy() for name, parm in model.named_parameters()}
     for param in model.parameters():
         param.requires_grad=False
-    return loss, grads
+    return loss
 # define lmfit parameters
 params=lmfit.Parameters()
+for i in range(3):
+    for j in range(3):
+        params.add(f"rgb_to_srgb_matrix_{i}{j}", value=model.rgb_to_srgb_matrix[i,j].item())
+params.add("brightness", value=model.brightness.item())
+for i in range(3):
+    params.add(f"offset", value=model.offset[i].item())
+params.add("hue_angle", value=model.hue_angle.item())
+params.add("gamma", value=model.gamma.item())
+# run optimization with gradient information
+result=lmfit.minimize(objective, params)
