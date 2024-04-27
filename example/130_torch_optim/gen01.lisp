@@ -86,42 +86,76 @@
 			    month
 			    date
 			    (- tz))))))
+       ,(let ((l-model `((:name rgb_to_srgb_matrix :torch (eye 3) :dim (3 3))
+			 (:name brightness :torch (tensor 1s0) :dim (1))
+			 (:name offset :torch (zeros 3) :dim (3))
+			 (:name hue_angle :torch (tensor 0s0) :dim (1))
+			 (:name gamma :torch (tensor 2.2s0) :dim (1)))))
+	  `(do0
+	    (class ImageModel (torch.nn.Module)
+		   (def __init__ (self)
+		     (dot (super ImageModel self)
+			  (__init__))
+		     ,@(loop for e in l-model
+			     collect
+			     (destructuring-bind (&key name torch dim) e
+			      `(setf (dot self ,name)
+				     (dot torch nn (Parameter (dot torch ,torch)))))
+			     )
+		     (setf self.rgb_to_yuv_matrix (torch.tensor
+						   (list (list  0.299 0.587 0.114)
+							 (list -0.14713 -0.28886 0.436)
+							 (list  0.615 -.51499 -.10001)))))
+		   (def forward (self x)
+		     ,@(loop for e in `((torch.matmul x self.rgb_to_srgb_matrix)
+					(torch.pow x (/ 1s0 self.gamma))
+					(* x self.brightness)
+					(+ x self.offset)
+					(torch.matmul x rgb_to_yuv_matrix)
+					(torch.matmul x (torch.tensor (list (list 1 0 0)
+									    (list 0 (torch.cos self.hue_angle) (* -1 (torch.sin self.hue_angle)))
+									    (list 0 (torch.sin self.hue_angle) (torch.cos self.hue_angle))
+									    ))))
+			     collect
+			     `(setf x ,e)
+			     )
+		     #+nil (do0
+			    (comments "apply rotation only to U and V")
+			    (setf (aref x ":" (slice 1 ""))
+				  (torch.matmul (aref x ":" (slice 1 "")))))
+		     (return x)))
 
-       (class ImageModel (torch.nn.Module)
-	      (def __init__ (self)
-		(dot (super ImageModel self)
-		     (__init__))
-		,@(loop for (e f) in `((rgb_to_srgb_matrix (eye 3))
-				       (brightness (tensor 1s0))
-				       (offset (zeros 3))
-				       (hue_angle (tensor 0s0))
-				       (gamma 2.2s0))
-			collect
-			`(setf (dot self ,e)
-			       (dot torch nn (Parameter (dot torch ,f))))
-			)
-		(setf self.rgb_to_yuv_matrix (torch.tensor
-					      (list (list  0.299 0.587 0.114)
-						    (list -0.14713 -0.28886 0.436)
-						    (list  0.615 -.51499 -.10001)))))
-	      (def forward (self x)
-		,@(loop for e in `((torch.matmul x self.rgb_to_srgb_matrix)
-				   (torch.pow x (/ 1s0 self.gamma))
-				   (* x self.brightness)
-				   (+ x self.offset)
-				   (torch.matmul x rgb_to_yuv_matrix)
-				   (torch.matmul x (torch.tensor (list (list 1 0 0)
-								       (list 0 (torch.cos self.hue_angle) (* -1 (torch.sin self.hue_angle)))
-								       (list 0 (torch.sin self.hue_angle) (torch.cos self.hue_angle))
-								       ))))
-			collect
-			`(setf x ,e)
-			)
-		#+nil (do0
-		 (comments "apply rotation only to U and V")
-		 (setf (aref x ":" (slice 1 ""))
-		       (torch.matmul (aref x ":" (slice 1 "")))))
-		(return x)))
+	    (setf rgb_data (torch.rand 100 3))
+
+	    (setf model (ImageModel))
+
+	    (setf initial_yuv (model rgb_data))
+	    (setf target_yuv (+ initial_yuv (* (torch.randn_like initial_yuv) .1)))
+
+	    (def objective (params)
+	      (comments "update model parameters")
+	      (for ((ntuple name param)
+		    (params.items))
+		   (setattr model name param))
+	      (for (param (model.parameters))
+		   (setf param.requires_grad True))
+	      (setf yuv_predicted (model rgb_data))
+	      (setf loss (torch.nn.functional_mse_loss yuv_predicted target_yuv))
+	      (loss.backward)
+	      (setf grads (curly (for-generator ((ntuple name parm)
+						 (model.named_parameters))
+						(space "name:"
+						       (dot param
+							    grad
+							    (detach)
+							    (numpy))))))
+	      (for (param (model.parameters))
+		   (setf param.requires_grad False))
+	      (return (ntuple loss grads)))
+	    (do0
+	     (comments "define lmfit parameters")
+	     (setf params (lmfit.Parameters))
+	     )))
        
        ))))
 
