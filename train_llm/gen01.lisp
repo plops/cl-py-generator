@@ -44,7 +44,7 @@
 		 (pd pandas)
 		 ))
 
-       #+nil(do0
+       #-nil(do0
 	(setf start_time (time.time)
 	      debug True)
 	(setf
@@ -105,22 +105,44 @@
 		    (setf folder f.parent)
 		    (comments "count the number of python files")
 		    (setf py_files ("list" (folder.rglob (string "*.py"))))
+		    (setf ipynb_files ("list" (folder.rglob (string "*.ipynb"))))
 		    (setf n_py (len py_files))
+		    (setf n_ipynb (len ipynb_files))
 		    (gen_files1.append (dictionary :file f
 						   :folder folder
 						   :n_py n_py
+						   :n_ipynb n_ipynb
 						   :py_files py_files
+						   :ipynb_files ipynb_files
+						   :short (fstring "{folder.stem}/{f.stem}")
 						   )))
 	       (setf g1 (pd.DataFrame gen_files1)))
-	      ;;folder_counts = g1.groupby('folder').size()  # Count per folder
-	      ;;g1 = g1.merge(folder_counts.rename('n'), left_on='folder', right_index=True)
+	      
 
 	      (do0
 	       (comments "count number of python-generating lisp files in this directory")
 	       (setf folder_counts (dot g1 (groupby (string "folder"))
 					(size)))
 	       (setf g1 (g1.merge (folder_counts.rename (string "n_lisp")) :left_on (string "folder")
-				  :right_index True)))
+									   :right_index True)))
+
+
+	      (do0
+	       (comments "find folder with one python-generating .lisp input and no .py file. that should be generated, then")
+	       (setf g20 (dot (aref g1 (& (== g1.n_lisp 1)
+					  (== g1.n_py 0)
+					  (!= g1.n_ipynb 1)))
+			      (sort_values :by (string "short"))))
+	       ,(lprint :msg "the following folders need python file"
+			:vars `(g20.short))
+	       )
+
+	      #+nil
+	      (do0
+	       (comments "find folder with one python-generating .lisp input and one .py file")
+	       (setf g2 (aref g1 (& (== g1.n_lisp 1)
+				    (== g1.n_py 1))))
+	       )
 
 	      #+nil
 	      (for ((ntuple idx row) (g1.iterrows))
