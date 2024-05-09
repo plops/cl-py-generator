@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+import os
+import time
+import pathlib
+import re
+import sys
+import pandas as pd
+directory=pathlib.Path("/home/martin/stage/cl-py-generator")
+training_data=[]
+for f in ((directory)/("example")).rglob("gen*.lisp"):
+    # exclude C++ generating files
+    content=f.read_text()
+    if ( re.search(r"""\(ql:quickload "cl-py-generator"\)""", content) ):
+        print(f"(string Info 0: Skip python generator {f}.)")
+        continue
+    # genXX.lisp -> sourceXX
+    output_dir=((f.parent)/("source{}".format(f.stem[3:5])))
+    if ( output_dir.exists() ):
+        output_files=((list(output_dir.rglob("*.py"))))
+        if ( ((0)<(len(output_files))) ):
+            print(f"Info 1: Found match {f} {len(output_files)}.")
+            lisp_content=f.read_text()
+            text_input="Convert the following C++ code into s-expressions: \n"
+            for output_file in output_files:
+                text_input += f"// {output_file}\n{output_file.read_text()}\n\n"
+            training_data.append(dict(path=f"{f.parent.stem}/{f.stem}", text_input=text_input, output=lisp_content))
+        else:
+            print(f"Warning 1: No matches in output directory for {f}.")
+            continue
+    else:
+        content=f.read_text()
+        match=re.search(r"""\(defparameter \*source-dir\* .*\"(.*)\"\)""", content)
+        if ( match ):
+            output_dir=((directory)/(match.group(1)))
+            output_files=((list(output_dir.rglob("*.py"))))
+            if ( ((0)<(len(output_files))) ):
+                print(f"Info 2: Found match {f} {len(output_files)}.")
+                lisp_content=f.read_text()
+                text_input="Convert the following C++ code into s-expressions: \n"
+                for output_file in output_files:
+                    text_input += f"// {output_file}\n{output_file.read_text()}\n\n"
+                training_data.append(dict(path=f"{f.parent.stem}/{f.stem}", text_input=text_input, output=lisp_content))
+            else:
+                print(f"Warning 2: Not enough files for {f} in {output_dir} gp1={match.group(1)}.")
+                print(f"Warning 4: match={match} ls {output_dir}={output_files}.")
+                continue
+        else:
+            print(f"Warning 3: Could not determine output directory for {f}.")
+            continue
+df=pd.DataFrame(training_data)
+df["text_input_len"]=df.text_input.str.len()
+df["output_len"]=df.output.str.len()
+df1=df[((((df.text_input_len)<(40000))) & (((df.output_len)<(5000))))]
+df1=df1.sort_values(by="path")
+df1.to_csv("training_data.csv", index=False)
