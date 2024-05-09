@@ -100,7 +100,7 @@
 		     (when (re.search (rstring3 "\\(ql:quickload \"cl-cpp-generator2\"\\)"
 						)
 				      content)
-		       (print (fstring "Info 0: Skip C++ generator {f}."))
+		       (print (fstring "Info 0: Skip C++ generator {f.parent.stem}/{f.stem}."))
 		       continue))
 		    (setf folder f.parent)
 		    (comments "count the number of python files")
@@ -137,9 +137,9 @@
 			:vars `(g20.short))
 	       )
 
-	      #+nil
+	      
 	      (do0
-	       (comments "find folder with one python-generating .lisp input and one .py file")
+	       (comments "find folder with one python-generating .lisp input and one .py file") ;; 51 rows
 	       (setf g2 (aref g1 (& (== g1.n_lisp 1)
 				    (== g1.n_py 1))))
 	       )
