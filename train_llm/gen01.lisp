@@ -103,15 +103,31 @@
 		       (print (fstring "Info 0: Skip C++ generator {f.parent.stem}/{f.stem}."))
 		       continue))
 		    (setf folder f.parent)
-		    (comments "count the number of python files")
-		    (setf py_files ("list" (folder.rglob (string "*.py"))))
-		    (setf ipynb_files ("list" (folder.rglob (string "*.ipynb"))))
-		    (setf n_py (len py_files))
-		    (setf n_ipynb (len ipynb_files))
+		    (do0
+		     (comments "count the number of python files. and also the characters (in column len_py)")
+		     (setf py_files ("list" (folder.rglob (string "*.py"))))
+		     (do0 (setf len_py 0)
+			  (for (p py_files)
+			       (incf len_py (len (p.read_text)))))
+		     (setf n_py (len py_files)))
+		    (do0
+		     (comments "same stats for notebooks")
+		     (setf ipynb_files ("list" (folder.rglob (string "*.ipynb"))))
+		     (do0 (setf len_ipynb 0)
+			  (for (p ipynb_files)
+			       (incf len_ipynb (len (p.read_text)))))
+		     
+		     (setf n_ipynb (len ipynb_files)))
+		    (do0
+		     (comments "count characters in lisp file")
+		     (setf len_lisp (len (f.read_text))))
 		    (gen_files1.append (dictionary :file f
+						   :len_lisp len_lisp
 						   :folder folder
 						   :n_py n_py
+						   :len_py len_py
 						   :n_ipynb n_ipynb
+						   :len_ipynb len_ipynb
 						   :py_files py_files
 						   :ipynb_files ipynb_files
 						   :short (fstring "{folder.stem}/{f.stem}")
@@ -141,7 +157,10 @@
 	      (do0
 	       (comments "find folder with one python-generating .lisp input and one .py file") ;; 51 rows
 	       (setf g2 (aref g1 (& (== g1.n_lisp 1)
-				    (== g1.n_py 1))))
+				    (== g1.n_py 1)
+				    (< g1.len_py 40000)
+				    (< g1.len_lisp 5000))))
+	       ;; character limit leaves 27 examples out of 51
 	       )
 
 	      #+nil
