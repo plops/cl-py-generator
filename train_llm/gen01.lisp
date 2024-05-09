@@ -156,10 +156,16 @@
 	      
 	      (do0
 	       (comments "find folder with one python-generating .lisp input and one .py file") ;; 51 rows
-	       (setf g2 (aref g1 (& (== g1.n_lisp 1)
+	       (setf g2all (aref g1 (& (== g1.n_lisp 1)
 				    (== g1.n_py 1)
-				    (< g1.len_py 40000)
-				    (< g1.len_lisp 5000))))
+				    )))
+	       (print (dot g2all (aref (sort_values :by (string "len_lisp"))
+				       (list (string "short")
+					     (string "len_lisp")
+					     (string "len_py")))))
+	       (setf g2 (aref g2all (&
+				     (< g1.len_py 40000)
+				     (< g1.len_lisp 5000))))
 	       ;; character limit leaves 27 examples out of 51
 	       )
 
