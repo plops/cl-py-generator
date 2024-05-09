@@ -6,9 +6,9 @@ import re
 import pandas as pd
 start_time=time.time()
 debug=True
-_code_git_version="3cba260f2e4459a044e7ae3a56f32886992f4ade"
+_code_git_version="b020e7b37e2ea6ef913163e0a3bd5a66b95eac1d"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/train_llm/source/"
-_code_generation_time="00:29:02 of Friday, 2024-05-10 (GMT+1)"
+_code_generation_time="00:32:33 of Friday, 2024-05-10 (GMT+1)"
 directory=pathlib.Path("/home/martin/stage/cl-py-generator")
 training_data=[]
 gen_files0=list(((directory)/("example")).rglob("gen*.lisp"))
@@ -46,5 +46,5 @@ print("{} the following folders need python file g20.short={}".format(((time.tim
 # find folder with one python-generating .lisp input and one .py file
 g2all=g1[((((g1.n_lisp)==(1))) & (((g1.n_py)==(1))))]
 print(g2all.sort_values(by="len_lisp")[["short", "len_lisp", "len_py"]])
-g2=g2all[((((g1.len_py)<(((1)*(40000))))) & (((g1.len_lisp)<(((1)*(5000))))))]
+g2=g2all[((((g1.len_py)<(((4)*(40000))))) & (((g1.len_lisp)<(((1)*(5000))))))]
 g2.to_csv("/dev/shm/python_to_sexpr.csv")
