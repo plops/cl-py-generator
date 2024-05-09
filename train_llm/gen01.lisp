@@ -169,12 +169,13 @@
 					     (string "len_lisp")
 					     (string "len_py")))))
 	       (setf g2 (aref g2all (&
-				     (< g1.len_py 40000)
-				     (< g1.len_lisp 5000))))
+				     (< g1.len_py (* 1 40000))
+				     (< g1.len_lisp (* 1 5000)))))
 	       ;; character limit leaves 27 examples out of 51
 	       (g2.to_csv (string "/dev/shm/python_to_sexpr.csv"))
 	       )
 
+	      
 	      #+nil
 	      (for ((ntuple idx row) (g1.iterrows))
 		   
