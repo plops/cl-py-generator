@@ -106,9 +106,12 @@
 		    (do0
 		     (comments "count the number of python files. and also the characters (in column len_py)")
 		     (setf py_files ("list" (folder.rglob (string "*.py"))))
-		     (do0 (setf len_py 0)
+		     (setf text_py (string "Create s-expressions that corresponds to the following Python code: "))
+		     (do0
 			  (for (p py_files)
-			       (incf len_py (len (p.read_text)))))
+			       (incf text_py (p.read_text))
+			       ))
+		     (setf len_py (len text_py))
 		     (setf n_py (len py_files)))
 		    (do0
 		     (comments "same stats for notebooks")
@@ -122,10 +125,12 @@
 		     (comments "count characters in lisp file")
 		     (setf len_lisp (len (f.read_text))))
 		    (gen_files1.append (dictionary :file f
+						   :text_lisp (f.read_text)
 						   :len_lisp len_lisp
 						   :folder folder
 						   :n_py n_py
 						   :len_py len_py
+						   :text_py text_py
 						   :n_ipynb n_ipynb
 						   :len_ipynb len_ipynb
 						   :py_files py_files
@@ -167,6 +172,7 @@
 				     (< g1.len_py 40000)
 				     (< g1.len_lisp 5000))))
 	       ;; character limit leaves 27 examples out of 51
+	       (g2.to_csv (string "/dev/shm/python_to_sexpr.csv"))
 	       )
 
 	      #+nil

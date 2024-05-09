@@ -6,9 +6,9 @@ import re
 import pandas as pd
 start_time=time.time()
 debug=True
-_code_git_version="154b15a3b6735ab6cc37e8442ee8479474e38f95"
+_code_git_version="9a102c77734dd74fea6e9f8bf33dc2002efd5d7e"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/train_llm/source/"
-_code_generation_time="23:50:05 of Thursday, 2024-05-09 (GMT+1)"
+_code_generation_time="23:59:24 of Thursday, 2024-05-09 (GMT+1)"
 directory=pathlib.Path("/home/martin/stage/cl-py-generator")
 training_data=[]
 gen_files0=list(((directory)/("example")).rglob("gen*.lisp"))
@@ -22,9 +22,10 @@ for f in gen_files0:
     folder=f.parent
     # count the number of python files. and also the characters (in column len_py)
     py_files=list(folder.rglob("*.py"))
-    len_py=0
+    text_py="Create s-expressions that corresponds to the following Python code: "
     for p in py_files:
-        len_py += len(p.read_text())
+        text_py += p.read_text()
+    len_py=len(text_py)
     n_py=len(py_files)
     # same stats for notebooks
     ipynb_files=list(folder.rglob("*.ipynb"))
@@ -34,7 +35,7 @@ for f in gen_files0:
     n_ipynb=len(ipynb_files)
     # count characters in lisp file
     len_lisp=len(f.read_text())
-    gen_files1.append(dict(file=f, len_lisp=len_lisp, folder=folder, n_py=n_py, len_py=len_py, n_ipynb=n_ipynb, len_ipynb=len_ipynb, py_files=py_files, ipynb_files=ipynb_files, short=f"{folder.stem}/{f.stem}"))
+    gen_files1.append(dict(file=f, text_lisp=f.read_text(), len_lisp=len_lisp, folder=folder, n_py=n_py, len_py=len_py, text_py=text_py, n_ipynb=n_ipynb, len_ipynb=len_ipynb, py_files=py_files, ipynb_files=ipynb_files, short=f"{folder.stem}/{f.stem}"))
 g1=pd.DataFrame(gen_files1)
 # count number of python-generating lisp files in this directory
 folder_counts=g1.groupby("folder").size()
@@ -46,3 +47,4 @@ print("{} the following folders need python file g20.short={}".format(((time.tim
 g2all=g1[((((g1.n_lisp)==(1))) & (((g1.n_py)==(1))))]
 print(g2all.sort_values(by="len_lisp")[["short", "len_lisp", "len_py"]])
 g2=g2all[((((g1.len_py)<(40000))) & (((g1.len_lisp)<(5000))))]
+g2.to_csv("/dev/shm/python_to_sexpr.csv")
