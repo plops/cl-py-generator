@@ -38,13 +38,10 @@
       
        (imports (os
 		 time
-		 ;json
 		 pathlib
 		 re
-		 sys
-		 ;torch
+		 ;sys
 		 (pd pandas)
-		 ;lmfit
 		 ))
 
        #+nil(do0
@@ -82,7 +79,7 @@
 	   (flet ((add ()
 		    `(do0
 				  (setf lisp_content (f.read_text)
-					text_input (string "Convert the following C++ code into s-expressions: \\n"))
+					text_input (string "Convert the following Python code into s-expressions: \\n"))
 				  (for (output_file output_files)
 				       (incf text_input (fstring "// {output_file}\\n{output_file.read_text()}\\n\\n")))
 				  (training_data.append
@@ -91,16 +88,50 @@
 				    :text_input text_input
 				    :output lisp_content)))))
 	    `(do0
-	      (for (f (dot (/ directory (string "example")) (rglob (string "gen*.lisp"))))
 
-		   (do0
-		    (comments "exclude C++ generating files")
-		    (setf content (f.read_text))
-		    (when (re.search (rstring3 "\\(ql:quickload \"cl-py-generator\"\\)"
-					       )
-				     content)
-		      (print (fstring (string "Info 0: Skip python generator {f}.")))
-		      continue))
+	      (setf gen_files0 ("list" (dot (/ directory (string "example")) (rglob (string "gen*.lisp")))))
+
+	      (do0
+	       (setf gen_files1 (list))
+	       (for (f gen_files0)
+		    (do0
+		     (comments "exclude C++ generating files")
+		     (setf content (f.read_text))
+		     (when (re.search (rstring3 "\\(ql:quickload \"cl-cpp-generator2\"\\)"
+						)
+				      content)
+		       (print (fstring "Info 0: Skip C++ generator {f}."))
+		       continue))
+		    (setf folder f.parent)
+		    (comments "count the number of python files")
+		    (setf py_files ("list" (folder.rglob (string "*.py"))))
+		    (setf n_py (len py_files))
+		    (gen_files1.append (dictionary :file f
+						   :folder folder
+						   :n_py n_py
+						   :py_files py_files
+						   )))
+	       (setf g1 (pd.DataFrame gen_files1)))
+	      ;;folder_counts = g1.groupby('folder').size()  # Count per folder
+	      ;;g1 = g1.merge(folder_counts.rename('n'), left_on='folder', right_index=True)
+
+	      (do0
+	       (comments "count number of python-generating lisp files in this directory")
+	       (setf folder_counts (dot g1 (groupby (string "folder"))
+					(size)))
+	       (setf g1 (g1.merge (folder_counts.rename (string "n_lisp")) :left_on (string "folder")
+				  :right_index True)))
+
+	      #+nil
+	      (for ((ntuple idx row) (g1.iterrows))
+		   
+		   (setf n (len (aref g1 (== g1.folder row.folder))))
+		   (setf (dot (aref g1.iloc idx) n) n))
+
+	      #+nil
+	      (for ((ntuple idx row) (g1.iterrows))
+		   (setf f (aref row (string "file")))
+		   
 		   (comments "genXX.lisp -> sourceXX")
 		   (setf output_dir (/ f.parent (dot (string "source{}")
 						     (format (aref f.stem (slice 3 5))))))
@@ -140,28 +171,20 @@
 			     (print (fstring "Warning 3: Could not determine output directory for {f}."))
 			     continue)))))
 
+	      #+nil
 	      (do0 (setf df (pd.DataFrame training_data))
 		   ,@(loop for e in `(text_input output)
 			   collect
 			   `(setf (aref df (string ,(format nil "~a_len" e)))
 				  (dot df ,e str (len))))
-		   ;; df has 142 rows
+		   
 		   (setf df1 (aref df (& (< df.text_input_len 40000)
 					 (< df.output_len 5000))))
 		   (setf df1 (df1.sort_values :by (string "path")))
-		   ;; only 25 rows fulfill this criterion (180kB)
+		   
 		   (df1.to_csv (string "training_data.csv")
 			       :index False))
-	      ;; i started training with the small examples (180kB) and it finished in less than a minute
-	      ;; loss went from 700 to 100 but not stable yet
-
-	      ;; second training: i added a prompt "Convert the following C++ code to s-expressions:"
-	      ;; 25 examples, 29 epochs, learning rate .1, batch 4
-	      ;; went from 800 to 100 and seems kind of stable
-	      #+nil (with (as (open (string "training_data.json")
-				    (string "w"))
-			      f)
-			  (json.dump training_data f :indent 2))))))
+	      ))))
        
        
        )))
