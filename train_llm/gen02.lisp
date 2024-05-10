@@ -600,36 +600,45 @@
 		  ))))
 
 	  (loop for e in codes
-		   and e-i from 0
-		   do
-		      (destructuring-bind (&key name code) e
-			(if (listp code)
-			    (cond
-			      ((eq (first code) 'do0)
-			       (write-source (format nil "/dev/shm/~3,'0d" e-i)
-					     code))
-			      ((eq (caar code) 'python)
-				;; this used to be a notebook, containing:
-			       #+nil ((python (export "<string>"))
-				      (python (export (do0 ...)))
-				      (python (do0 ...))
-				      ...)
-			       (write-source (format nil "/dev/shm/~3,'0d" e-i)
-					     `(do0
-					       ,@(loop for python-sexpr in code
-						       collect
-						       (cond ((eq 'export (car (second python-sexpr)))
-							      (second (second python-sexpr)))
-							     ((eq 'do0 (car (second python-sexpr)))
-							      (second python-sexpr))
-							     (t
-							      (break "unsupported notebooks structure. i want (python (export ...: ~a" python-sexpr))))))
-			       
-			       )
-			      (t (break "strange"))
-			      )
-			    (break "code should be a list starting with (do0 ... or (python ...")
-			    ))))       
+		and e-i from 0
+		do
+		   (destructuring-bind (&key name code) e
+		     (let* ((fn (format nil "/dev/shm/~3,'0d" e-i))
+			    (fn-lisp (format nil "/dev/shm/~3,'0d.lisp" e-i))
+			    (code-to-emit (if (listp code)
+					      (cond
+						((eq (first code) 'do0)
+						 code)
+						((eq (caar code) 'python)
+						 ;; this used to be a notebook, containing:
+						 #+nil ((python (export "<string>"))
+							(python (export (do0 ...)))
+							(python (do0 ...))
+							...)
+						 `(do0
+						   ,@(loop for python-sexpr in code
+							   collect
+							   (cond ((eq 'export (car (second python-sexpr)))
+								  (second (second python-sexpr)))
+								 ((eq 'do0 (car (second python-sexpr)))
+								  (second python-sexpr))
+								 (t
+								  (break "unsupported notebooks structure. i want (python (export ...: ~a" python-sexpr)))))
+						 
+						 )
+						(t (break "strange"))
+						)
+					      (break "code should be a list starting with (do0 ... or (python ...")
+					      )))
+		       (write-source fn code-to-emit)
+		       
+		       (with-output-to-file (s fn-lisp 
+						       :if-exists :supersede
+						       :if-does-not-exist :create
+						       )
+			 (format s "~s" code-to-emit)
+			 )
+		       (sb-ext:run-program "/usr/bin/black" (list fn))))))       
        
        )))
 
