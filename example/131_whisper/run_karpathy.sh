@@ -19,7 +19,7 @@ for video in "${video_data[@]}"; do
     video_title=$(echo "$video" | cut -d' ' -f2-)
 
     # Run the script with video ID and title as arguments
-    ./transcript.sh "$video_id" "$video_title"
+    ./transcribe.sh "$video_id" "$video_title"
 done
 
     
