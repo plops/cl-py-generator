@@ -1,5 +1,14 @@
-NAME=vWdN2lD-vDo
+NAME=$1
 
+# VMj-3S1tku0 The spelled-out intro to neural networks and backpropagation: 1.5M views 1 year ago
+# PaCmpygFfXo The spelled-out intro to language modeling: building makemore 584K views 1 year ago
+# TCH_1BHY58I Makemore Part 2: MLP: 273K views 1 year ago  273k views
+# P6sfmUTpUmc Makemore Part 3: Activations, BatchNorm      243k views
+# q8SA3rM6ckI Makemore Part 4: Backprop                    169k views
+# t3YJ5hKiMQ0 Makemore Part 5: WaveNet                     155k views
+# kCc8FmEb1nY GPT from scratch                             4.2M views
+# zduSFxRajkE GPT Tokenizer                                464k views
+ 
 # Afrikaans, Arabic, Armenian, Azerbaijani, Belarusian, Bosnian, Bulgarian, Catalan, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Kannada, Kazakh, Korean, Latvian, Lithuanian, Macedonian, Malay, Marathi, Maori, Nepali, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swahili, Swedish, Tagalog, Tamil, Thai, Turkish, Ukrainian, Urdu, Vietnamese, and Welsh
 
 LANG=english
