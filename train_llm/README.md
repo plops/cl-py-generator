@@ -155,3 +155,15 @@ Model output:
 
   (defun calc-day (&optional (date (string ,(format0 nil "d_m_﻿
 ```
+
+# Second attempt
+
+- in gen02 i started curating the lisp code a bit more. i planned to
+  explicitly copy the examples here.
+- however, this will be very messy once all the examples are in the
+  file
+- and more importantly i currently don't have a solution to pretty
+  print the lisp code. i tried (format s "~s" code) but this looses my
+  ,(lprint) macros, which makes the s-expressions rather messy.
+
+- so for now i stop this attempt
