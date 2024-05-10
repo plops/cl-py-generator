@@ -1,4 +1,5 @@
 NAME=$1
+END_NAME=$1_$2
 
 # VMj-3S1tku0 The spelled-out intro to neural networks and backpropagation: 1.5M views 1 year ago
 # PaCmpygFfXo The spelled-out intro to language modeling: building makemore 584K views 1 year ago
@@ -26,6 +27,6 @@ ffmpeg -y -i $NAME.webm -ar 16000 -ac 1 -c:a pcm_s16le $ODIR/output.wav
 # GPU usage:
 # | 65%   85C    P2             136W / 140W |   4918MiB / 16376Mi
 
-echo -e 'Summarize the following video transcript as a bullet list. Prepend each bullet point with the starting timestamp. Do not show the end timestamps. Split the summary into sections and create section titles:\n```\n' > $NAME.md 
-awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' $LANG.txt.srt >> $NAME.md
-echo -e '```\nShow the english summary.' >> $NAME.md
+echo -e 'Summarize the following video transcript as a bullet list. Prepend each bullet point with the starting timestamp. Do not show the end timestamps. Split the summary into sections and create section titles:\n```\n' > $END_NAME.md 
+awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' $LANG.txt.srt >> $END_NAME.md
+echo -e '```\nShow the english summary.' >> $END_NAME.md
