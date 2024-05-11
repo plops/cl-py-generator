@@ -219,8 +219,9 @@
 	 (setf itos (curly (for-generator ((ntuple s i)
 					   (stoi.items))
 					  (slice i s))))
-	 ,(lprint :msg "mapping from integer to character" :vars `(itos))))
-
+	 (setf vocab_size (len itos))
+	 ,(lprint :msg "mapping from integer to character" :vars `(itos vocab_size)))
+)
        (python
 	(export
 	 (comments "shuffle up the words")
@@ -440,7 +441,7 @@ Returns:
         ")
 		  (setf self.out (torch.tanh x))
 		  (return self.out))
-		(def paramters (self)
+		(def parameters (self)
 		  (string3 "Get the parameters of the layer.
 
         The tanh function does not have any parameters, so this method returns an empty list.
