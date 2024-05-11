@@ -271,6 +271,7 @@ The context is updated by removing the first element and appending the integer i
 		      (comments ,comment)
 		      (setf (ntuple ,x ,y) (build_dataset (aref words ,slice)))))))
 	 ))
+
        (python
 	(do0
 	 (for ((ntuple x y)
@@ -286,7 +287,8 @@ The context is updated by removing the first element and appending the integer i
        (python
 	(export
 	 (class Linear ()
-		(string3 "A class representing a linear layer in a neural network. It computes a matrix multiplication in the forward pass.
+		(string3 "A class representing a linear layer in a neural network. It computes a
+matrix multiplication in the forward pass.
 
     Args:
         fan_in (int): The number of input features.
@@ -296,8 +298,10 @@ The context is updated by removing the first element and appending the integer i
 		(def __init__ (self fan_in fan_out &key (bias True))
 		  (string3 " Initialize the linear layer with weights and bias.
 
-        The weights are initialized using Kaiming initialization, which is a method of initializing neural networks to 
-        help ensure the signal from the input data does not vanish or explode as it is propagated through the network.
+        The weights are initialized using Kaiming initialization,
+        which is a method of initializing neural networks to help
+        ensure the signal from the input data does not vanish or
+        explode as it is propagated through the network.
 
         Args:
             fan_in (int): The number of input features.
@@ -337,9 +341,21 @@ The context is updated by removing the first element and appending the integer i
 	 (class BatchNorm1d ()
 		(string3 "    A class representing a 1-dimensional batch normalization layer.
 
-    Batch normalization is a technique for improving the speed, performance, and stability of neural networks. 
-    It normalizes the input features across the mini-batch dimension, i.e., for each feature, it subtracts the mean 
-    and divides by the standard deviation, where both statistics are computed over the mini-batch.
+    Batch normalization is a technique for improving the speed,
+    performance, and stability of neural networks.  It normalizes the
+    input features across the mini-batch dimension, i.e., for each
+    feature, it subtracts the mean and divides by the standard
+    deviation, where both statistics are computed over the mini-batch.
+    
+
+    Note: The BatchNorm1d layer has different behaviors during
+    training and inference.  It's crucial to set the correct
+    mode (training or inference) to avoid unexpected results or bugs.
+
+    Note: In BatchNorm1d, the batch dimension serves a specific
+    purpose beyond efficiency.  It couples computations across batch
+    elements to control activation statistics, which is integral to
+    its functionality.
 
     Args:
         dim (int): The number of features in the input.
@@ -374,7 +390,7 @@ The context is updated by removing the first element and appending the integer i
 		      (setf xmean (x.mean 0 :keepdim True)
 			    xvar (x.var 0 :keepdim True))
 		      (setf xmean self.running_mean
-			    xvar self.runnning_var)
+			    xvar self.running_var)
 		      )
 		  (comments "Normalize to unit variance")
 		  (setf xhat (/ (- x xmean)
@@ -426,6 +442,10 @@ Returns:
         Returns:
             list: An empty list.")
 		  (return (list))))))
+
+       (python
+	(export
+	 ))
 
        ))))
 
