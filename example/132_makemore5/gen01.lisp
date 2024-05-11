@@ -286,7 +286,7 @@ The context is updated by removing the first element and appending the integer i
        (python
 	(export
 	 (class Linear ()
-		(string3 "A class representing a linear layer in a neural network.
+		(string3 "A class representing a linear layer in a neural network. It computes a matrix multiplication in the forward pass.
 
     Args:
         fan_in (int): The number of input features.
@@ -332,7 +332,49 @@ The context is updated by removing the first element and appending the integer i
 		  (return (+ (list self.weight)
 			     (paren (? (is self.bias None)
 				       (list)
-				       (list self.bias)))))))))
+				       (list self.bias)))))))
+
+	 (class BatchNorm1d ()
+		(string3 "A class representing ")
+		(def __init__ (self dim &key (eps 1s-5) (momentum .1))
+		  (string3 " Initialize the ")
+		  (setf self.eps eps
+			self.momentum momentum
+			self.training True)
+		  (comments "parameters (trained with backprop)")
+		  (setf self.gamma (torch.ones dim)
+			self.beta (torch.zeros dim))
+		  (comments "bufferst (trained with a running 'momentum update')")
+		  (setf self.running_mean (torch.zeros dim)
+			self.running_var (torch.ones dim)))
+		(def __call__ (self x)
+		  (string3 "Forward pass through the layer.")
+		  (if self.training
+		      (setf xmean (x.mean 0 :keepdim True)
+			    xvar (x.var 0 :keepdim True))
+		      (setf xmean self.running_mean
+			    xvar self.runnning_var)
+		      )
+		  (setf xhat (/ (- x xmean)
+				(torch.sqrt (+ xvar self.eps))))
+		  (setf self.out (+ (* self.gamma
+				       xhat)
+				    self.beta))
+		  (comments "update the buffers")
+		  (when self.training
+		    (with (torch.no_grad)
+			  (setf self.running_mean
+				(+ (* (- 1 self.momentum)
+				      self.running_mean)
+				   (* self.momentum xmean)))
+			  (setf self.running_var
+				(+ (* (- 1 self.momentum)
+				      self.running_var)
+				   (* self.momentum xvar)))))
+		  (return self.out))
+		(def parameters (self)
+		  (string3 "Get the parameters of the layer.")
+		  (return (list self.gamma self.beta))))))
 
        ))))
 
