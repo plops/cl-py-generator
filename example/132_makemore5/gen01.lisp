@@ -335,20 +335,41 @@ The context is updated by removing the first element and appending the integer i
 				       (list self.bias)))))))
 
 	 (class BatchNorm1d ()
-		(string3 "A class representing ")
+		(string3 "    A class representing a 1-dimensional batch normalization layer.
+
+    Batch normalization is a technique for improving the speed, performance, and stability of neural networks. 
+    It normalizes the input features across the mini-batch dimension, i.e., for each feature, it subtracts the mean 
+    and divides by the standard deviation, where both statistics are computed over the mini-batch.
+
+    Args:
+        dim (int): The number of features in the input.
+        eps (float, optional): A small number added to the denominator for numerical stability. Defaults to 1e-5.
+        momentum (float, optional): The momentum factor for the running mean and variance computation. Defaults to 0.1")
 		(def __init__ (self dim &key (eps 1s-5) (momentum .1))
-		  (string3 " Initialize the ")
+		  (string3 " Initialize the batch normalization layer with parameters and buffers.
+
+        Args:
+            dim (int): The number of features in the input.
+            eps (float, optional): A small number added to the denominator for numerical stability. Defaults to 1e-5.
+            momentum (float, optional): The momentum factor for the running mean and variance computation. Defaults to 0.1.
+        ")
 		  (setf self.eps eps
 			self.momentum momentum
 			self.training True)
-		  (comments "parameters (trained with backprop)")
+		  (comments "Parameters (trained with backpropagation)")
 		  (setf self.gamma (torch.ones dim)
 			self.beta (torch.zeros dim))
-		  (comments "bufferst (trained with a running 'momentum update')")
+		  (comments "Buffers (updated with a running 'momentum update')")
 		  (setf self.running_mean (torch.zeros dim)
 			self.running_var (torch.ones dim)))
 		(def __call__ (self x)
-		  (string3 "Forward pass through the layer.")
+		  (string3 "Forward pass through the layer.
+
+        Args:
+            x (Tensor): The input tensor.
+
+        Returns:
+            Tensor: The output tensor.")
 		  (if self.training
 		      (setf xmean (x.mean 0 :keepdim True)
 			    xvar (x.var 0 :keepdim True))
@@ -360,7 +381,7 @@ The context is updated by removing the first element and appending the integer i
 		  (setf self.out (+ (* self.gamma
 				       xhat)
 				    self.beta))
-		  (comments "update the buffers")
+		  (comments "Update the buffers")
 		  (when self.training
 		    (with (torch.no_grad)
 			  (setf self.running_mean
@@ -373,7 +394,9 @@ The context is updated by removing the first element and appending the integer i
 				   (* self.momentum xvar)))))
 		  (return self.out))
 		(def parameters (self)
-		  (string3 "Get the parameters of the layer.")
+		  (string3 "Get the parameters of the layer.
+Returns:
+            list: A list containing the gamma and beta tensors.")
 		  (return (list self.gamma self.beta))))))
 
        ))))
