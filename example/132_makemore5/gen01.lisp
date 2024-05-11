@@ -376,8 +376,10 @@ The context is updated by removing the first element and appending the integer i
 		      (setf xmean self.running_mean
 			    xvar self.runnning_var)
 		      )
+		  (comments "Normalize to unit variance")
 		  (setf xhat (/ (- x xmean)
 				(torch.sqrt (+ xvar self.eps))))
+		  
 		  (setf self.out (+ (* self.gamma
 				       xhat)
 				    self.beta))
@@ -397,7 +399,33 @@ The context is updated by removing the first element and appending the integer i
 		  (string3 "Get the parameters of the layer.
 Returns:
             list: A list containing the gamma and beta tensors.")
-		  (return (list self.gamma self.beta))))))
+		  (return (list self.gamma self.beta))))
+
+	 (class Tanh ()
+		(string3
+		 "A class representing the hyperbolic tangent activation function.
+
+    The hyperbolic tangent function, or tanh, is a function that squashes its input into the range between -1 and 1.
+    It is commonly used as an activation function in neural networks.")
+		(def __call__ (self x)
+		  (string3 "Apply the tanh function to the input tensor.
+
+        Args:
+            x (Tensor): The input tensor.
+
+        Returns:
+            Tensor: The output tensor, where the tanh function has been applied element-wise.
+        ")
+		  (setf self.out (torch.tanh x))
+		  (return self.out))
+		(def paramters (self)
+		  (string3 "Get the parameters of the layer.
+
+        The tanh function does not have any parameters, so this method returns an empty list.
+
+        Returns:
+            list: An empty list.")
+		  (return (list))))))
 
        ))))
 
