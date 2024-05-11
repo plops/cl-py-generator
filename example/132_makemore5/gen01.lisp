@@ -351,11 +351,12 @@ matrix multiplication in the forward pass.
     Note: The BatchNorm1d layer has different behaviors during
     training and inference.  It's crucial to set the correct
     mode (training or inference) to avoid unexpected results or bugs.
+    There is state in this layer and state is (usually) harmful.
 
     Note: In BatchNorm1d, the batch dimension serves a specific
     purpose beyond efficiency.  It couples computations across batch
     elements to control activation statistics, which is integral to
-    its functionality.
+    its functionality. 
 
     Args:
         dim (int): The number of features in the input.
