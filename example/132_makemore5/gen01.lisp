@@ -556,6 +556,13 @@ table C and the parameters of all the layers in the MLP.")
 
        (python
 	(export
+	 (comments "average 1000 values into one")
+	 (plt.plot (dot torch (tensor lossi)
+			(view -1 1000)
+			(mean 1)))))
+
+       (python
+	(export
 	 (comments "Put layers into eval mode (needed for batchnorm especially)")
 	 (for (layer layers)
 	      (setf layer.training False))))
@@ -592,14 +599,16 @@ not perform any updates.
 
        (python
 	(export
+	 (comments "Generate 20 words using the trained model")
 	 (for (_ (range 20))
+	      (comments "List to store the generated characters")
 	      (setf out (list)
 		    )
-	      (comments "initialize context with all end character '.'")
+	      (comments "Initialize context with all end character '.' represented by 0")
 	      (setf context (* (list 0)
 			       block_size))
 	      (while True
-		     (comments "Forward pass the neural net")
+		     (comments "Forward pass through the the neural net")
 		     (comments "1 block_size n_embed")
 		     (setf emb (aref C (torch.tensor (list context))))
 		     (setf x (emb.view (aref emb.shape 0)
@@ -607,21 +616,28 @@ not perform any updates.
 		     (for (layer layers)
 			  (setf x (layer x)))
 		     (setf logits x)
+		     (comments "Compute the softmax probabilities from the output logits")
 		     (setf probs (F.softmax logits :dim 1))
-		     (comments "sample from the distribution")
+		     (comments "Sample the character from the softmax distribution")
 		     (setf ix (dot torch (multinomial probs
 						      :num_samples 1)
 				   (item))
-			   context (+ (aref context (slice 1 ""))
+			   )
+		     (comments "Update the context by removing the first character and appending the sampled character")
+		     (setf context (+ (aref context (slice 1 ""))
 				      (list ix)))
+		     (comments "Add the sampled character to the output list")
 		     (out.append ix)
-		     (comments "break if we sample the special '.' token")
+		     (comments "Break the loop if we sample the special '.' token represented by 0")
 		     (when (== ix 0)
 		       break))
 	      (comments "Decode and print the generated word")
 	      (print (dot (string "")
 			  (join (for-generator (i out)
-					       (aref itos i))))))))))))
+					       (aref itos i))))))))
+      (python
+       (export
+	(comments "the video explains from 11:36 how to make the code simpler by introducing additional abstraction layers. https://youtu.be/t3YJ5hKiMQ0?t=696")))))))
 
  
  
