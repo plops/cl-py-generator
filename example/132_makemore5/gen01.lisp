@@ -588,7 +588,40 @@ not perform any updates.
 	   ,(lprint :vars `(split (loss.item))))
 	 (comments "Evaluate and print the loss for the training and validation splits")
 	 (split_loss (string "train"))
-	 (split_loss (string "val"))))))))
+	 (split_loss (string "val"))))
+
+       (python
+	(export
+	 (for (_ (range 20))
+	      (setf out (list)
+		    )
+	      (comments "initialize context with all end character '.'")
+	      (setf context (* (list 0)
+			       block_size))
+	      (while True
+		     (comments "Forward pass the neural net")
+		     (comments "1 block_size n_embed")
+		     (setf emb (aref C (torch.tensor (list context))))
+		     (setf x (emb.view (aref emb.shape 0)
+				       -1))
+		     (for (layer layers)
+			  (setf x (layer x)))
+		     (setf logits x)
+		     (setf probs (F.softmax logits :dim 1))
+		     (comments "sample from the distribution")
+		     (setf ix (dot torch (multinomial probs
+						      :num_samples 1)
+				   (item))
+			   context (+ (aref context (slice 1 ""))
+				      (list ix)))
+		     (out.append ix)
+		     (comments "break if we sample the special '.' token")
+		     (when (== ix 0)
+		       break))
+	      (comments "Decode and print the generated word")
+	      (print (dot (string "")
+			  (join (for-generator (i out)
+					       (aref itos i))))))))))))
 
  
  
