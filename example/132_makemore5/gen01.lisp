@@ -203,11 +203,15 @@
 	 (comments "build the vocabulary of characters and mappings to/from integers")
 	 (setf chars (sorted ("list" (set (dot (string "")
 					       (join words))))))
+	 (comments "Create a mapping from character to integer (stoi)"
+		   "Start from 1 because 0 is reserved for the end character '.'")
 	 (setf stoi (curly (for-generator ((ntuple i s)
 					   (enumerate chars))
 					  (slice s (+ i 1))))
 	       (aref stoi (string ".")) 0
-	       itos (curly (for-generator ((ntuple s i)
+	       )
+	 (comments "Create a mapping from integer to character (itos)")
+	 (setf itos (curly (for-generator ((ntuple s i)
 					   (stoi.items))
 					  (slice i s))))
 	 ,(lprint :msg "mapping from integer to character" :vars `(itos))))
@@ -224,27 +228,36 @@
 	 (comments "block_size .. context length of how many characters do we take to predict the next one")
 	 (setf block_size 3)
 	 (def build_dataset (words)
-	   (string3 "Builds a dataset for training a model using the given list of words.
+	   (string3 "This function builds a dataset for training a model using the given list of words.
+    It creates a context of a certain block size for each character in the words and uses this to predict the next character.
 
     Args:
-        words (list): A list of words.
+        words (list): A list of words to be used for creating the dataset.
 
     Returns:
-        tuple: A tuple containing the input tensor (X) and the target tensor (Y).")
+        tuple: A tuple containing the input tensor (X) and the target tensor (Y). X is the tensor representing the context for each character, and Y is the tensor representing the characters themselves.")
 	   (setf X (list)
 		 Y (list))
 	   (for (w words)
 		(setf context (* (list 0) block_size))
 		(for (ch (+ w (string ".")))
+
+		     (comments "The character ch is converted to an integer index ix using the stoi function.")
 		     (setf ix (stoi ch))
+		     (comments "The current context is appended to X, and the integer index ix is appended to Y.
+
+The context is updated by removing the first element and appending the integer index ix at the end. This means that the context always contains the integer indices of the last block_size characters.")
 		     (X.append context)
 		     (Y.append ix)
 		     (setf context (+ (aref context (slice 1 ""))
 				      (list ix)))))
 	   (setf X (torch.tensor X)
-		 Y (torch.tensor Y))
+		 Y (torch.tensor Y)
+		 )
+	   (comments "Each element in Y is the character that should be predicted given the corresponding context in X.")
 	   ,(lprint :vars `(X.shape Y.shape))
 	   (return (ntuple X Y)))
+	 (comments "Use 80% for training, 10% for validation and 10% for testing. We use the following indices to perform the split.")
 	 (setf n1 (int (* .8 (len words)))
 	       n2 (int (* .9 (len words))))
 	 ,@(loop for e in `((:name tr :slice (slice "" n1) :comment "80%")
