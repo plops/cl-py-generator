@@ -23,7 +23,7 @@
                   (format ,@vars))
 	     args))
 
-  (let* ((notebook-name "makemore")
+  (let* ((notebook-name "makemore5")
 	 (cli-args `(
 		     (:short "v" :long "verbose" :help "enable verbose output" :action "store_true" :required nil :nb-init True))))
     (write-notebook
@@ -57,6 +57,7 @@
 				time
 					;docopt
 				pathlib
+				random
 					;(np numpy)
 					;serial
 					;(pd pandas)
@@ -180,22 +181,26 @@
 
 	      (setf args (parser.parse_args)))))
 
-       (markdown "multi layer perceptron https://www.youtube.com/watch?v=TCH_1BHY58I "
-		 "reference bengio 2003 neural probabilistic language model")
+       
        (python
-	(export "!wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt"))
+	"!wget https://raw.githubusercontent.com/karpathy/makemore/master/names.txt")
        (python
 	(export
+	 (comments "read in all the words")
 	 (setf words (dot
 		      (open (string "names.txt")
 			    (string "r"))
 		      (read)
 		      (splitlines)
 		      ))
+	 ,(lprint :vars `((len words)
+			 (max (for-generator (w words)
+					     (len w)))))
 	 (aref words (slice "" 10)))
 	)
        (python
 	(export
+	 (comments "build the vocabulary of characters and mappings to/from integers")
 	 (setf chars (sorted ("list" (set (dot (string "")
 					       (join words))))))
 	 (setf stoi (curly (for-generator ((ntuple i s)
@@ -205,7 +210,54 @@
 	       itos (curly (for-generator ((ntuple s i)
 					   (stoi.items))
 					  (slice i s))))
-	 (print itos)))
+	 ,(lprint :msg "mapping from integer to character" :vars `(itos))))
+
+       (python
+	(export
+	 (comments "shuffle up the words")
+	 (random.seed 42)
+	 (random.shuffle words)))
+
+       (python
+	(export
+	 (comments "build the dataset")
+	 (comments "block_size .. context length of how many characters do we take to predict the next one")
+	 (setf block_size 3)
+	 (def build_dataset (words)
+	   (string3 "Builds a dataset for training a model using the given list of words.
+
+    Args:
+        words (list): A list of words.
+
+    Returns:
+        tuple: A tuple containing the input tensor (X) and the target tensor (Y).")
+	   (setf X (list)
+		 Y (list))
+	   (for (w words)
+		(setf context (* (list 0) block_size))
+		(for (ch (+ w (string ".")))
+		     (setf ix (stoi ch))
+		     (X.append context)
+		     (Y.append ix)
+		     (setf context (+ (aref context (slice 1 ""))
+				      (list ix)))))
+	   (setf X (torch.tensor X)
+		 Y (torch.tensor Y))
+	   ,(lprint :vars `(X.shape Y.shape))
+	   (return (ntuple X Y)))
+	 (setf n1 (int (* .8 (len words)))
+	       n2 (int (* .9 (len words))))
+	 ,@(loop for e in `((:name tr :slice (slice "" n1) :comment "80%")
+			    (:name dev :slice (slice n1 "" n2) :comment "10%")
+			    (:name te :slice (slice n2 "") :comment "10%"))
+		 collect
+		 (destructuring-bind (&key name slice comment) e
+		   (let ((x (format nil "X~a" name))
+			 (y (format nil "Y~a" name)))
+		    `(do0
+		      (comments ,comment)
+		      (setf (ntuple ,x ,y) (build_dataset (aref words ,slice)))))))
+	 ))
        ,@(let* ((block-size 3)
 		(n2 2)
 		(n100 100) ;; hidden layer
@@ -216,7 +268,7 @@
 	       (setf block_size ,block-size
 		     X (list)
 		     Y (list))
-	       (for (w words ;(aref words (slice "" 5))
+	       (for (w words		;(aref words (slice "" 5))
 		       )
 		    (print w)
 		    (setf context (* (list 0)
