@@ -549,6 +549,45 @@ table C and the parameters of all the layers in the MLP.")
 		,(lprint :vars `(progress (loss.item))))
 	      (comments "Append the logarithm of the loss to the list")
 	      (lossi.append (dot loss (log10) (item)))
-	      )))))))
+	      )))
+       (python
+	(export
+	 (plt.plot lossi)))
+
+       (python
+	(export
+	 (comments "Put layers into eval mode (needed for batchnorm especially)")
+	 (for (layer layers)
+	      (setf layer.training False))))
+       (python
+	(export
+	 (comments "Evaluate the loss for a given data split (train, validation, or
+test). This function is decorated with @torch.no_grad() to disable
+gradient tracking in PyTorch, as we only want to evaluate the loss and
+not perform any updates.
+")
+	 (@torch.no_grad)
+	 (def split_loss (split)
+	   (comments "Select the appropriate data based on the provided split")
+	   (setf (ntuple x y)
+		 (aref (dictionary :train (tuple Xtr Ytr)
+				   :val (tuple Xdev Ydev)
+				   :test (tuple Xte Yte))
+		       split))
+	   (comments "(N, block_size, n_embed)")
+	   (setf emb (aref C x))
+	   (comments "Reshape embedded data into (N, block_size*n_embed)")
+	   (setf x (emb.view (aref emb.shape 0)
+			     -1))
+	   (comments "Pass the reshaped data through each layer of the model")
+	   (for (layer layers)
+		(setf x (layer x)))
+	   (comments "Compute cross-entropy loss between model's output and the target data")
+	   (setf loss (F.cross_entropy x y))
+	   (comments "Print the loss for the current split")
+	   ,(lprint :vars `(split (loss.item))))
+	 (comments "Evaluate and print the loss for the training and validation splits")
+	 (split_loss (string "train"))
+	 (split_loss (string "val"))))))))
 
  
