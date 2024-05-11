@@ -551,3 +551,4 @@ table C and the parameters of all the layers in the MLP.")
 	      (lossi.append (dot loss (log10) (item)))
 	      )))))))
 
+ 
