@@ -446,7 +446,52 @@ Returns:
 
        (python
 	(export
+	 (comments "Seed rng for reproducibility")
+	 (torch.manual_seed 42)
 	 ))
+       (python
+	(export
+	 (comments "The dimensionality of the character embedding vectors.")
+	 (setf n_embed 10)
+	 (comments "The number of neurons in the hidden layer of the MLP")
+	 (setf n_hidden 200)
+
+	 (comments "Create the embedding table C:"
+		   "C is a matrix where each row represents a character in the vocabulary,"
+		   "and each column represents a dimension in the embedding space.")
+	 (setf C (torch.randn (tuple vocab_size n_embed)))
+	 (comments "Define the list of layers
+The MLP consists of a linear layer, a batch normalization layer, a
+tanh activation function, and another linear layer. The output of the
+MLP is a probability distribution over the vocabulary.")
+	 (setf layers
+	       (list (Linear (* n_embed block_size)
+			     n_hidden
+			     :bias False)
+		     (BatchNorm1d n_hidden)
+		     (Tanh)
+		     (Linear n_hidden vocab_size)))
+
+	 (comments "Make the last layer less confident. This is done by scaling down the
+weights of the last layer. This can help for the network to be initially overconfidently wrong.")
+	 (with (torch.no_grad)
+	       (setf (dot (aref layers -1)
+			  weight)
+		     (* .1s0 (dot (aref layers -1)
+				  weight))))
+	 (comments "Gather all the parameters of the model: This includes the embedding
+table C and the parameters of all the layers in the MLP.")
+	 (setf parameters
+	       (+ (list C)
+		  (list (for-generator (p (layer.parameters))
+			 (for-generator (layer layers)
+					p)))))
+
+	 ,(lprint :msg "Number of parameters in total"
+		  :vars `((sum (for-generator (p parameters)
+					      (p.nelement)))))
+	 (for (p parameters)
+	      (setf p.requires_grad True))))
 
        ))))
 
