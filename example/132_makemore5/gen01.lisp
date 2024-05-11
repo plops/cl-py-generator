@@ -118,6 +118,11 @@
 		))
 
        (python
+	(export
+	 (comments "Based on a youtube video that explains this notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part5_cnn1.ipynb")
+	 )
+	)
+       (python
 	(do0
 	 (class Args ()
 		(def __init__ (self)
