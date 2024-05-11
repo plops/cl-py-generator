@@ -243,7 +243,7 @@
 		(for (ch (+ w (string ".")))
 
 		     (comments "The character ch is converted to an integer index ix using the stoi function.")
-		     (setf ix (stoi ch))
+		     (setf ix (aref stoi ch))
 		     (comments "The current context is appended to X, and the integer index ix is appended to Y.
 
 The context is updated by removing the first element and appending the integer index ix at the end. This means that the context always contains the integer indices of the last block_size characters.")
@@ -260,9 +260,9 @@ The context is updated by removing the first element and appending the integer i
 	 (comments "Use 80% for training, 10% for validation and 10% for testing. We use the following indices to perform the split.")
 	 (setf n1 (int (* .8 (len words)))
 	       n2 (int (* .9 (len words))))
-	 ,@(loop for e in `((:name tr :slice (slice "" n1) :comment "80%")
-			    (:name dev :slice (slice n1 "" n2) :comment "10%")
-			    (:name te :slice (slice n2 "") :comment "10%"))
+	 ,@(loop for e in `((:name tr :slice (slice "" n1) :comment "Training 80%")
+			    (:name dev :slice (slice n1  n2) :comment "Validation 10%")
+			    (:name te :slice (slice n2 "") :comment "Test 10%"))
 		 collect
 		 (destructuring-bind (&key name slice comment) e
 		   (let ((x (format nil "X~a" name))
@@ -271,265 +271,68 @@ The context is updated by removing the first element and appending the integer i
 		      (comments ,comment)
 		      (setf (ntuple ,x ,y) (build_dataset (aref words ,slice)))))))
 	 ))
-       ,@(let* ((block-size 3)
-		(n2 2)
-		(n100 100) ;; hidden layer
-		(n6 (* n2 block-size))
-		(n27 27))
-	   `((python
-	      (export
-	       (setf block_size ,block-size
-		     X (list)
-		     Y (list))
-	       (for (w words		;(aref words (slice "" 5))
-		       )
-		    (print w)
-		    (setf context (* (list 0)
-				     block_size))
-		    (for (ch (+ w (string ".")))
-			 (setf ix (aref stoi ch))
-			 (X.append context)
-			 (Y.append ix)
-			 #+nil (print (dot (string "")
-					   (join (for-generator (i context)
-								(aref itos i))))
-				      (string "--->")
-				      (aref itos ix))
-			 (setf context (+ (aref context (slice 1 ""))
-					  (list ix)))))
-	       (setf X (tensor X)
-		     Y (tensor Y))))
-	     (python
-	      (do0
-	       (setf C (torch.randn
-			(tuple ,n27 ,n2)))))
-	     (python
-	      (do0
-	       (@
-		(dot (F.one_hot (tensor 5)
-				:num_classes ,n27)
-		     (float))
-		C)
-	       ))
-	     (python
-	      (do0
-	       (setf emb (aref C X))
-	       (do0
-		(setf W1 (torch.randn (tuple ,n6 ,n100))
-		      b1 (torch.randn (tuple ,n100)))
-		(setf W2 (torch.randn (tuple ,n100 ,n27))
-		      b2 (torch.randn (tuple ,n27))))
+       (python
+	(do0
+	 (for ((ntuple x y)
+	       (zip (aref Xtr (slice "" 20))
+		    (aref Ytr (slice "" 20))))
+	      (print (dot (string "")
+			  (join (paren (for-generator (ix x)
+						      (aref itos (ix.item))))
+				))
+		     (string "-->")
+		     (aref itos (y.item))))
+	 ))
+       (python
+	(export
+	 (class Linear ()
+		(string3 "A class representing a linear layer in a neural network.
 
-	       ))
-	     (python
-	      (do0
-	       (setf h
-		     (torch.tanh
-		      (+ (@ (dot emb
-				 (view -1 ,n6)) W1)
-			 b1)))))
-	     (python
-	      (do0
-	       (setf logits (+ (@ h W2)
-			       b2)
-		     counts (logits.exp)
-		     prob (/ counts
-			     (counts.sum 1 :keepdims True)))
+    Args:
+        fan_in (int): The number of input features.
+        fan_out (int): The number of output features.
+        bias (bool, optional): Whether to include a bias term. Defaults to True.
+")
+		(def __init__ (self fan_in fan_out &key (bias True))
+		  (string3 " Initialize the linear layer with weights and bias.
 
-	       ))
-	     (python
-	      (do0
-	       (comments "negative log-likelihood loss")
-	       (setf loss
-		     (* -1
-			(dot (aref prob
-				   (torch.arange 32)
-				   Y)
-			     (log)
-			     (mean))))))
-	     (python
-	      (export
-	       (do0
-		(setf g (dot torch
-			     (Generator)
-			     (manual_seed 2147483647))
-		      C (torch.randn (tuple ,n27 ,n2)
-				     :generator g))
-		(do0
-		 (setf W1 (torch.randn (tuple ,n6 ,n100))
-		       b1 (torch.randn (tuple ,n100)))
-		 (setf W2 (torch.randn (tuple ,n100 ,n27))
-		       b2 (torch.randn (tuple ,n27))))
-		(setf parameters (list C W1 b1 W2 b2))
-		(for (p parameters)
-		     (setf p.requires_grad True))
-		(do0 (setf n_parameters (sum (for-generator (p parameters)
-							    (p.nelement))))
-		     ,(lprint :vars `(n_parameters)))
-		)))
-	     (python
-	      (do0
+        The weights are initialized using Kaiming initialization, which is a method of initializing neural networks to 
+        help ensure the signal from the input data does not vanish or explode as it is propagated through the network.
 
-	       (do0
-		(comments "forward")
-		(setf emb (aref C X))
-		(setf h
-		      (torch.tanh
-		       (+ (@ (dot emb
-				  (view -1 ,n6)) W1)
-			  b1)))
-		(setf logits (+ (@ h W2)
-				b2))
-		(setf loss (F.cross_entropy logits Y)))
-	       #+nil
-	       (do0
-		(comments "explicit cross_entropy is not efficient a lot of tensors: ")
-		(comments "positive numbers can overflow logits, offset doesn't influence loss")
-		(setf logits2 (- logits (torch.max logits))
-		      counts (logits2.exp)
-		      prob (/ counts
-			      (counts.sum 1 :keepdims True)))
-		(setf loss
-		      (* -1
-			 (dot (aref prob
-				    (torch.arange 32)
-				    Y)
-			      (log)
-			      (mean)))))
-	       (do0
-		(comments "backward pass")
-		(comments "set gradients to zero")
-		(for (p parameters)
-		     (setf p.grad None))
-		(loss.backward)
-		(comments "update")
-		(for (p parameters)
-		     (incf p.data
-			   (* -.1 p.grad)))
-		)
-	       ))
+        Args:
+            fan_in (int): The number of input features.
+            fan_out (int): The number of output features.
+            bias (bool, optional): Whether to include a bias term. Defaults to True.
+        ")
+		  (comments "note: Kaiming init")
+		  (setf self.weight (/ (torch.randn (tuple fan_in
+							   fan_out))
+				       (** fan_in .5)))
+		  (setf self.bias (? bias
+				     (torch.zeros fan_out)
+				     None)))
+		(def __call__ (self x)
+		  (string3 "Forward pass through the layer.
 
-	     (python
-	      (do0
-	       (comments "learning loop")
+        Args:
+            x (Tensor): The input tensor.
 
-	       (for (_ (range 10))
-		    (do0
-		     (do0
-		      (comments "forward")
-		      (do0 (setf emb (aref C X))
-			   (setf h
-				 (torch.tanh
-				  (+ (@ (dot emb
-					     (view -1 ,n6)) W1)
-				     b1)))
-			   (setf logits (+ (@ h W2)
-					   b2))
-			   (setf loss (F.cross_entropy logits Y))
-			   ,(lprint :vars `((loss.item)))))
+        Returns:
+            Tensor: The output tensor.")
+		  (setf self.out (@ x self.weight))
+		  (unless (is self.bias None)
+		    (incf self.out self.bias))
+		  (return self.out))
+		(def parameters (self)
+		  (string3 "Get the parameters of the layer.
 
-		     (do0
-		      (comments "backward pass")
-		      (for (p parameters)
-			   (setf p.grad None))
-		      (loss.backward)
-		      (comments "update")
-		      (for (p parameters)
-			   (incf p.data
-				 (* -.1 p.grad)))
-		      )))
-	       ))
-
-	     (python
-	      (export
-	       (comments "learn with minibatch")
-	       (for (_ (range 10_000))
-		    (do0
-		     (do0
-		      (setf ix (torch.randint 0 (aref X.shape 0)
-					      (tuple 32)))
-		      (comments "forward")
-		      (setf emb (aref C (aref X ix)))
-		      (setf h
-			    (torch.tanh
-			     (+ (@ (dot emb
-					(view -1 ,n6)) W1)
-				b1)))
-		      (setf logits (+ (@ h W2)
-				      b2))
-		      (setf loss (F.cross_entropy logits (aref Y ix)))
-		      ,(lprint :vars `((loss.item))))
-
-		     (do0
-		      (comments "backward pass")
-		      (for (p parameters)
-			   (setf p.grad None))
-		      (loss.backward)
-		      (comments "update")
-		      (for (p parameters)
-			   (incf p.data
-				 (* -.1 p.grad)))
-		      )))
-	       (do0 (comments "report loss on entire data set")
-		    (setf emb (aref C X))
-		    (setf h
-			  (torch.tanh
-			   (+ (@ (dot emb
-				      (view -1 ,n6)) W1)
-			      b1)))
-		    (setf logits (+ (@ h W2)
-				    b2))
-		    (setf loss_full (F.cross_entropy logits Y))
-		    ,(lprint :vars `((loss_full.item))))
-	       ))
-
-	     (python
-	      (do0
-	       (comments "find a good learning rate, start with a very small lr and increase exponentially")
-	       (setf lre (linspace -3 0 1000)
-		     lre (** 10 lre))
-	       (setf lri (list)
-		     lossi (list))
-	       (for (lr (tqdm.tqdm lre))
-		    (do0
-		     (do0
-		      (setf ix (torch.randint 0 (aref X.shape 0)
-					      (tuple 32)))
-		      (comments "forward")
-		      (setf emb (aref C (aref X ix)))
-		      (setf h
-			    (torch.tanh
-			     (+ (@ (dot emb
-					(view -1 ,n6)) W1)
-				b1)))
-		      (setf logits (+ (@ h W2)
-				      b2))
-		      (setf loss (F.cross_entropy logits (aref Y ix)))
-					; ,(lprint :vars `((loss.item)))
-		      )
-
-		     (do0
-		      (comments "backward pass")
-		      (for (p parameters)
-			   (setf p.grad None))
-		      (loss.backward)
-		      (comments "update")
-		      (for (p parameters)
-			   (incf p.data
-				 (* -1 lr p.grad)))
-
-		      (comments "track stats")
-		      (lri.append lr)
-		      (lossi.append (loss.item))
-		      )))
-
-	       ))
-	     (python
-	      (do0
-	       (plot lre lossi
-		     :alpha .4)
-	       (grid)))
-	     ))
+        Returns:
+            list: A list containing the weight tensor and, if it exists, the bias tensor.
+        ")
+		  (return (+ (list self.weight)
+			     (paren (? (is self.bias None)
+				       (list)
+				       (list self.bias)))))))))
 
        ))))
 
