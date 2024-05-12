@@ -1,6 +1,7 @@
 |       |                                                                                |
-| gen01 | cpu training of NN that generates names                                        |
+| gen01 | cpu training of NN that generates names (single hidden layer)                  |
 | gen02 | modules for embedding and flattening as shown in the video from 11:36 to 18:00 |
+| gen03 | switch architecture to wavenet-like (video discusses this from 19:00)          |
 |       |                                                                                |
 
 
