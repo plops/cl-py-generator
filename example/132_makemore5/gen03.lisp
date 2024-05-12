@@ -233,7 +233,7 @@
 	(export
 	 (comments "build the dataset")
 	 (comments "block_size .. context length of how many characters do we take to predict the next one")
-	 (setf block_size 3)
+	 (setf block_size 8)
 	 (def build_dataset (words)
 	   (string3 "This function builds a dataset for training a model using the given list of words.
     It creates a context of a certain block size for each character in the words and uses this to predict the next character.
@@ -572,13 +572,15 @@ MLP is a probability distribution over the vocabulary.")
 	 (comments "Make the last layer less confident. This is done by scaling down the
 weights of the last layer. This can help for the network to be initially overconfidently wrong.")
 	 (with (torch.no_grad)
-	       (setf (dot (aref layers -1)
+	       (setf (dot model
+			  (aref layers -1)
 			  weight)
-		     (* .1s0 (dot (aref layers -1)
+		     (* .1s0 (dot model
+				  (aref layers -1)
 				  weight))))
 	 (comments "Gather all the parameters of the model: This includes the embedding
 table C and the parameters of all the layers in the MLP.")
-	 (setf parameters model.parameters)
+	 (setf parameters (model.parameters))
 
 	 ,(lprint :msg "Number of parameters in total"
 		  :vars `((sum (for-generator (p parameters)
@@ -593,9 +595,18 @@ table C and the parameters of all the layers in the MLP.")
 	       Xb (aref Xtr ix)
 	       Yb (aref Ytr ix)
 	       logits (model Xb))
+	 (comments "Print the shape of the input batch")
 	 (print Xb.shape)
+	 (comments "Print the input batch")
 	 Xb
 	 ))
+       (python
+	(do0
+	 (comments "Print overview of the architecture and output dimensions at each stage")
+	 (for (layer model.layers)
+	      (print (dot layer __class__ __name__)
+		     (string ":")
+		     (tuple layer.out.shape)))))
        (python
 	(export
 	 (comments "Maximum number of training steps")
