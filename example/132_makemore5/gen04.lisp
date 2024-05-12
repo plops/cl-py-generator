@@ -101,6 +101,7 @@
 				tqdm
 				argparse
 				torch
+				(optim torch.optim)
 				(nn torch.nn)
 				))
 		 "import torch.nn.functional as F"
