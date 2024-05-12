@@ -566,7 +566,7 @@ MLP is a probability distribution over the vocabulary.")
 				  (Linear (* n_embed 2)
 					  n_hidden
 					  :bias False)
-				  (BatchNorm1d n_hidden)
+				  (BatchNorm1d n_hidden) 
 
 				  (FlattenConsecutive 2)
 				  (Linear (* n_hidden 2)
