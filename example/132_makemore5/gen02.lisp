@@ -641,7 +641,8 @@ table C and the parameters of all the layers in the MLP.")
        (python
 	(export
 	 (comments "Put layers into eval mode (needed for batchnorm especially)")
-	 (for (layer layers)
+	 (for (layer model.layers)
+	      ;; FIXME: naughty direct access of class attributes
 	      (setf layer.training False))))
        (python
 	(export
@@ -658,25 +659,21 @@ not perform any updates.
 				   :val (tuple Xdev Ydev)
 				   :test (tuple Xte Yte))
 		       split))
-	   (comments "(N, block_size, n_embed)")
-	   (setf emb (aref C x))
-	   (comments "Reshape embedded data into (N, block_size*n_embed)")
-	   (setf x (emb.view (aref emb.shape 0)
-			     -1))
-	   (comments "Pass the reshaped data through each layer of the model")
-	   (for (layer layers)
-		(setf x (layer x)))
+	   (setf logits (model x))
 	   (comments "Compute cross-entropy loss between model's output and the target data")
-	   (setf loss (F.cross_entropy x y))
+	   (setf loss (F.cross_entropy logits y))
 	   (comments "Print the loss for the current split")
 	   ,(lprint :vars `(split (loss.item))))
-	 (comments "Evaluate and print the loss for the training and validation splits")
+	 (comments "Evaluate and print the loss for the training and validation splits. If
+training loss is much smaller than validation loss then we overfitted
+the network for the task. In this case performance could be improved
+by scaling up the network.")
 	 (split_loss (string "train"))
 	 (split_loss (string "val"))))
 
        (python
 	(export
-	 (comments "Generate 20 words using the trained model")
+	 (comments "Generate 20 words using the trained model (sample from model)")
 	 (for (_ (range 20))
 	      (comments "List to store the generated characters")
 	      (setf out (list)
@@ -686,13 +683,8 @@ not perform any updates.
 			       block_size))
 	      (while True
 		     (comments "Forward pass through the the neural net")
-		     (comments "1 block_size n_embed")
-		     (setf emb (aref C (torch.tensor (list context))))
-		     (setf x (emb.view (aref emb.shape 0)
-				       -1))
-		     (for (layer layers)
-			  (setf x (layer x)))
-		     (setf logits x)
+
+		     (setf logits (model (torch.tensor (list context))))
 		     (comments "Compute the softmax probabilities from the output logits")
 		     (setf probs (F.softmax logits :dim 1))
 		     (comments "Sample the character from the softmax distribution")
