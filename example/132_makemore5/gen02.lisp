@@ -544,11 +544,7 @@ Returns:
 	 (setf n_embed 10)
 	 (comments "The number of neurons in the hidden layer of the MLP")
 	 (setf n_hidden 200)
-
-	 (comments "Create the embedding table C:"
-		   "C is a matrix where each row represents a character in the vocabulary,"
-		   "and each column represents a dimension in the embedding space.")
-	 
+	 	 
 	 (comments "Define the list of layers
 The MLP consists of a linear layer, a batch normalization layer, a
 tanh activation function, and another linear layer. The output of the
@@ -705,8 +701,7 @@ by scaling up the network.")
 			  (join (for-generator (i out)
 					       (aref itos i))))))))
       (python
-       (export
-	(comments "the video explains from 11:36 to 18:00 how to make the code simpler by introducing additional abstraction layers. https://youtu.be/t3YJ5hKiMQ0?t=696")))))))
+       (export))))))
 
  
  
