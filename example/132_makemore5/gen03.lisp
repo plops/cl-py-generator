@@ -272,8 +272,8 @@ The context is updated by removing the first element and appending the integer i
 		     (setf context (+ (aref context (slice 1 ""))
 				      (list ix)))))
 	   
-	   (setf X (dot (torch.tensor X) (to device))
-		 Y (dot (torch.tensor Y) (to device))
+	   (setf X (dot (torch.tensor X) (to :dtype torch.uint8 :device device))
+		 Y (dot (torch.tensor Y) (to :dtype torch.uint8 :device device))
 		 )
 	   (comments "Each element in Y is the character that should be predicted given the corresponding context in X.")
 	   ,(lprint :vars `(X.shape Y.shape))
