@@ -23,6 +23,14 @@
                   (format ,@vars))
 	     args))
 
+  (defun make-to (storage)
+		  `(def to (self device)
+		     ,@(loop for e in storage
+			     collect
+			     `(unless (is (dot self ,e)
+					  None)
+				(setf (dot self ,e data)
+				      (dot self ,e data (to device)))))))
   (let* ((notebook-name "makemore5_wavenet")
 	 (cli-args `(
 		     (:short "v" :long "verbose" :help "enable verbose output" :action "store_true" :required nil :nb-init True))))
@@ -200,8 +208,8 @@
 		      (splitlines)
 		      ))
 	 ,(lprint :vars `((len words)
-			 (max (for-generator (w words)
-					     (len w)))))
+			  (max (for-generator (w words)
+					      (len w)))))
 	 (aref words (slice "" 10)))
 	)
        (python
@@ -222,7 +230,7 @@
 					  (slice i s))))
 	 (setf vocab_size (len itos))
 	 ,(lprint :msg "mapping from integer to character" :vars `(itos vocab_size)))
-)
+	)
        (python
 	(export
 	 (comments "shuffle up the words")
@@ -274,9 +282,9 @@ The context is updated by removing the first element and appending the integer i
 		 (destructuring-bind (&key name slice comment) e
 		   (let ((x (format nil "X~a" name))
 			 (y (format nil "Y~a" name)))
-		    `(do0
-		      (comments ,comment)
-		      (setf (ntuple ,x ,y) (build_dataset (aref words ,slice)))))))
+		     `(do0
+		       (comments ,comment)
+		       (setf (ntuple ,x ,y) (build_dataset (aref words ,slice)))))))
 	 ))
 
        (python
@@ -343,9 +351,12 @@ matrix multiplication in the forward pass.
 		  (return (+ (list self.weight)
 			     (paren (? (is self.bias None)
 				       (list)
-				       (list self.bias)))))))
+				       (list self.bias))))))
+		,(make-to `(weight bias))
+		)
 
 	 (class BatchNorm1d ()
+		
 		(string3 "    A class representing a 1-dimensional batch normalization layer.
 
     Batch normalization is a technique for improving the speed,
@@ -386,6 +397,7 @@ matrix multiplication in the forward pass.
 		  (comments "Buffers (updated with a running 'momentum update')")
 		  (setf self.running_mean (torch.zeros dim)
 			self.running_var (torch.ones dim)))
+		,(make-to `(gamma beta running_mean running_var))
 		(def __call__ (self x)
 		  (string3 "Forward pass through the layer.
 
@@ -476,6 +488,7 @@ Returns:
 		(def __init__ (self num_embeddings embedding_dim)
 		  (comments "Initialize the embedding weights with random values")
 		  (setf self.weight (torch.randn (tuple num_embeddings embedding_dim)) ))
+		,(make-to `(weight))
 		(def __call__ (self IX)
 		  (string3 "Perform the forward pass of the embedding layer.
         
@@ -500,6 +513,7 @@ Returns:
 		(def __init__ (self n)
 		  
 		  (setf self.n n))
+		
 		(def __call__ (self x)
 		  (string3 "Apply the flattening operation to the input tensor.
         
@@ -532,6 +546,8 @@ Returns:
 		(def __init__ (self layers)
 		  (comments "Initialize the sequence with the provided layers")
 		  (setf self.layers layers))
+		
+
 		(def __call__ (self x)
 		  (string3 "Apply the sequence of transformations to the input data.
         
@@ -553,7 +569,7 @@ Returns:
 		  (return (list (for-generator (p (layer.parameters))
 					       (for-generator
 						(layer self.layers)
-							      p)))))
+						p)))))
 		(def to (self device)
 		  (string3 "Move the parameters of all the layers in the sequence to the specified device.
 
@@ -561,9 +577,11 @@ Returns:
             device (torch.device): The device to move the parameters to.
         ")
 		  (for (layer self.layers)
-		       (for (param (layer.parameters))
-			    (setf param.data
-				  (param.data.to device))))))))
+		       (when (hasattr layer (string "to"))
+			 (layer.to device))
+		       #+nil (for (param (layer.parameters))
+				  (setf param.data
+					(param.data.to device))))))))
 
        (python
 	(export
@@ -582,29 +600,29 @@ The MLP consists of a linear layer, a batch normalization layer, a
 tanh activation function, and another linear layer. The output of the
 MLP is a probability distribution over the vocabulary.")
 	 (setf model (Sequential
-				 (list
-				  (Embedding vocab_size n_embed)
+		      (list
+		       (Embedding vocab_size n_embed)
 
-				  (FlattenConsecutive 2)
-				  (Linear (* n_embed 2)
-					  n_hidden
-					  :bias False)
-				  (BatchNorm1d n_hidden) 
+		       (FlattenConsecutive 2)
+		       (Linear (* n_embed 2)
+			       n_hidden
+			       :bias False)
+		       (BatchNorm1d n_hidden) 
 
-				  (FlattenConsecutive 2)
-				  (Linear (* n_hidden 2)
-					  n_hidden
-					  :bias False)
-				  (BatchNorm1d n_hidden)
+		       (FlattenConsecutive 2)
+		       (Linear (* n_hidden 2)
+			       n_hidden
+			       :bias False)
+		       (BatchNorm1d n_hidden)
 
-				  (FlattenConsecutive 2)
-				  (Linear (* n_hidden 2)
-					  n_hidden
-					  :bias False)
-				  (BatchNorm1d n_hidden)
+		       (FlattenConsecutive 2)
+		       (Linear (* n_hidden 2)
+			       n_hidden
+			       :bias False)
+		       (BatchNorm1d n_hidden)
 
-				  (Tanh)
-				  (Linear n_hidden vocab_size))))
+		       (Tanh)
+		       (Linear n_hidden vocab_size))))
 	 (setf device (torch.device (? (torch.cuda.is_available)
 				       (string "cuda")
 				       (string "cpu"))))
@@ -778,8 +796,8 @@ by scaling up the network.")
 	      (print (dot (string "")
 			  (join (for-generator (i out)
 					       (aref itos i))))))))
-      (python
-       (export))))))
+       (python
+	(export))))))
 
  
  
