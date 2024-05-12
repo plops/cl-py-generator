@@ -401,7 +401,7 @@ matrix multiplication in the forward pass.
 			self.momentum momentum
 			self.training True)
 		  (comments "Parameters (trained with backpropagation)")
-		  (comments "After initialization the batchnorm gives each neuron a normal distributed activation (mean 0, std 1). These two parameters allow the optimizer to move the activation to whatever is best for our examples.")
+		  (comments "After initialization the batchnorm gives each neuron a normal distributed activation (mean 0, std 1). These two parameters allow the optimizer to move the activation to whatever is best for our examples (see https://youtu.be/P6sfmUTpUmc?t=2830 ).")
 		  (comments "gamma scalaes xhat and beta is an offset")
 		  (setf self.gamma (torch.ones dim)
 			self.beta (torch.zeros dim))
