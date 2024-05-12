@@ -241,8 +241,9 @@
 	(export
 	 (comments "build the dataset")
 	 (comments "block_size .. context length of how many characters do we take to predict the next one")
-	 (do0 (setf device (torch.device (? (torch.cuda.is_available)
-					(string "cuda")
+	 (do0 (setf device (torch.device (string "cpu")
+					 #+nil(? (torch.cuda.is_available)
+					    (string "cuda")
 					    (string "cpu"))))
 	      (print device))
 
@@ -689,7 +690,7 @@ table C and the parameters of all the layers in the MLP.")
 	 (comments "List to store the loss values")
 	 (setf lossi (list))
 	 (comments "A4000 GPU: 937 it/s 3:18"
-		   "TR7955 CPU (16 cores): ")
+		   "TR7955 CPU (16 cores): 403 it/s 8:16 ")
 	 (comments "Start the training loop")
 	 (for (i (tqdm.tqdm (range max_steps)))
 	      (comments "Construct a minibatch. Xb holds input data, Yb the corresponding target data")
