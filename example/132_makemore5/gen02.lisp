@@ -496,7 +496,42 @@ Returns:
 		  (return self.out))
 		(def parameters (self)
 		  (string3 "As the flattening operation does not have any parameters, this method returns an empty list.")
-		  (return (list))))))
+		  (return (list))))
+
+	 (comments "Sequential is explained here: https://youtu.be/t3YJ5hKiMQ0?t=815")
+	 (class Sequential ()
+		(string3
+		 "A class representing a sequential container in a neural network.
+    Modules will be added to it in the order they are passed in the constructor.
+    Essentially, it allows us to specify a sequence of transformations that our input data will go through.
+
+    Args:
+        layers (list): A list of layers that make up the sequence.")
+		(def __init__ (self layers)
+		  (comments "Initialize the sequence with the provided layers")
+		  (setf self.layers layers))
+		(def __call__ (self x)
+		  (string3 "Apply the sequence of transformations to the input data.
+        
+        Args:
+            x (Tensor): The input data.
+        
+        Returns:
+            Tensor: The output of the sequence of transformations.")
+		  (for (layer self.layers)
+		       (setf x (layer x)))
+		  (setf self.out x)
+		  (return self.out))
+		(def parameters (self)
+		  (string3 "Get the parameters of all the layers in the sequence.
+        
+        Returns:
+            list: A list containing the parameters of all the layers in the sequence.
+        ")
+		  (return (list (for-generator (p (layer.parameters))
+					       (for-generator
+						(layer self.layers)
+							      p))))))))
 
        (python
 	(export
@@ -595,7 +630,7 @@ table C and the parameters of all the layers in the MLP.")
 		,(lprint :vars `(progress (loss.item))))
 	      (comments "Append the logarithm of the loss to the list")
 	      (lossi.append (dot loss (log10) (item)))
-	      break
+	      
 	      )))
        (python
 	(export
