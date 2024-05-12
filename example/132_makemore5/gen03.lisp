@@ -241,6 +241,11 @@
 	(export
 	 (comments "build the dataset")
 	 (comments "block_size .. context length of how many characters do we take to predict the next one")
+	 (do0 (setf device (torch.device (? (torch.cuda.is_available)
+					(string "cuda")
+					    (string "cpu"))))
+	      (print device))
+
 	 (setf block_size 8)
 	 (def build_dataset (words)
 	   (string3 "This function builds a dataset for training a model using the given list of words.
@@ -266,8 +271,9 @@ The context is updated by removing the first element and appending the integer i
 		     (Y.append ix)
 		     (setf context (+ (aref context (slice 1 ""))
 				      (list ix)))))
-	   (setf X (torch.tensor X)
-		 Y (torch.tensor Y)
+	   
+	   (setf X (dot (torch.tensor X) (to device))
+		 Y (dot (torch.tensor Y) (to device))
 		 )
 	   (comments "Each element in Y is the character that should be predicted given the corresponding context in X.")
 	   ,(lprint :vars `(X.shape Y.shape))
@@ -623,10 +629,7 @@ MLP is a probability distribution over the vocabulary.")
 
 		       (Tanh)
 		       (Linear n_hidden vocab_size))))
-	 (setf device (torch.device (? (torch.cuda.is_available)
-				       (string "cuda")
-				       (string "cpu"))))
-	 (print device)
+	 
 	 (model.to device)
 
 	 (comments "Make the last layer less confident. This is done by scaling down the
@@ -684,7 +687,7 @@ table C and the parameters of all the layers in the MLP.")
 	 (comments "List to store the loss values")
 	 (setf lossi (list))
 	 (comments "Start the training loop")
-	 (for (i (range max_steps))
+	 (for (i (tqdm.tqdm (range max_steps)))
 	      (comments "Construct a minibatch. Xb holds input data, Yb the corresponding target data")
 	      (setf ix (torch.randint 0
 				      (aref Xtr.shape 0)
