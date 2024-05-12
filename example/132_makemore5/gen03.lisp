@@ -602,10 +602,12 @@ Returns:
 	 (comments "The dimensionality of the character embedding vectors.")
 	 (setf n_embed 10)
 	 (comments "The number of neurons in the hidden layer of the MLP")
-	 (setf n_hidden0 (* 4 68))
+	 (setf n_hidden0 (* 1
+			    68))
 	 (setf n_hidden1 (* 2 68))
-	 (setf n_hidden2 68)
-	 	 
+	 (setf n_hidden2 (* 4 68))
+	 	 ;; 4 2 1 2.075
+	 ;; 1 2 4 2.05
 	 (comments "Define the list of layers
 The MLP consists of a linear layer, a batch normalization layer, a
 tanh activation function, and another linear layer. The output of the
