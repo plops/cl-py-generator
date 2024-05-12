@@ -241,8 +241,8 @@
 	(export
 	 (comments "build the dataset")
 	 (comments "block_size .. context length of how many characters do we take to predict the next one")
-	 (do0 (setf device (torch.device (string "cpu")
-					 #+nil(? (torch.cuda.is_available)
+	 (do0 (setf device (torch.device #+nil(string "cpu")
+					 #-nil(? (torch.cuda.is_available)
 					    (string "cuda")
 					    (string "cpu"))))
 	      (print device))
@@ -602,7 +602,9 @@ Returns:
 	 (comments "The dimensionality of the character embedding vectors.")
 	 (setf n_embed 10)
 	 (comments "The number of neurons in the hidden layer of the MLP")
-	 (setf n_hidden 68)
+	 (setf n_hidden0 (* 4 68))
+	 (setf n_hidden1 (* 2 68))
+	 (setf n_hidden2 68)
 	 	 
 	 (comments "Define the list of layers
 The MLP consists of a linear layer, a batch normalization layer, a
@@ -614,24 +616,24 @@ MLP is a probability distribution over the vocabulary.")
 
 		       (FlattenConsecutive 2)
 		       (Linear (* n_embed 2)
-			       n_hidden
+			       n_hidden0
 			       :bias False)
-		       (BatchNorm1d n_hidden) 
+		       (BatchNorm1d n_hidden0) 
 
 		       (FlattenConsecutive 2)
-		       (Linear (* n_hidden 2)
-			       n_hidden
+		       (Linear (* n_hidden0 2)
+			       n_hidden1
 			       :bias False)
-		       (BatchNorm1d n_hidden)
+		       (BatchNorm1d n_hidden1)
 
 		       (FlattenConsecutive 2)
-		       (Linear (* n_hidden 2)
-			       n_hidden
+		       (Linear (* n_hidden1 2)
+			       n_hidden2
 			       :bias False)
-		       (BatchNorm1d n_hidden)
+		       (BatchNorm1d n_hidden2)
 
 		       (Tanh)
-		       (Linear n_hidden vocab_size))))
+		       (Linear n_hidden2 vocab_size))))
 	 
 	 (model.to device)
 
