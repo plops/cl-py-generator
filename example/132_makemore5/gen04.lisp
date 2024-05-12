@@ -438,7 +438,7 @@ table C and the parameters of all the layers in the MLP.")
 	 (setf lossi (list))
 	 (setf lr .1)
 
-	 (setf optimizer (optim.SGD (model.paramters)
+	 (setf optimizer (optim.SGD (model.parameters)
 				    :lr lr))
 	 (comments "Start the training loop")
 	 (for (i (tqdm.tqdm (range max_steps)))
