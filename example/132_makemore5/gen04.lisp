@@ -377,12 +377,11 @@ MLP is a probability distribution over the vocabulary.")
 	 (comments "Make the last layer less confident. This is done by scaling down the
 weights of the last layer. This can help for the network to be initially overconfidently wrong.")
 	 (with (torch.no_grad)
-	       (setf (dot (aref  model -1)
-			  ;(aref layers -1)
-			  weight)
-		     (* .1s0 (dot model
-				  (aref layers -1)
-				  weight))))
+	       ;; i must use the *= operator here, setf is not working
+	       (space (dot (aref  model -1)
+			   weight)
+		      *= .1s0
+		     ))
 	 (comments "Gather all the parameters of the model: This includes the embedding
 table C and the parameters of all the layers in the MLP.")
 	 (setf parameters (model.parameters))
