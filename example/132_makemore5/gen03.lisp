@@ -272,8 +272,10 @@ The context is updated by removing the first element and appending the integer i
 		     (setf context (+ (aref context (slice 1 ""))
 				      (list ix)))))
 	   
-	   (setf X (dot (torch.tensor X) (to :dtype torch.uint8 :device device))
-		 Y (dot (torch.tensor Y) (to :dtype torch.uint8 :device device))
+	   (setf X (dot (torch.tensor X) (to ;:dtype torch.uint8
+					     :device device))
+		 Y (dot (torch.tensor Y) (to ;:dtype torch.uint8
+					     :device device))
 		 )
 	   (comments "Each element in Y is the character that should be predicted given the corresponding context in X.")
 	   ,(lprint :vars `(X.shape Y.shape))
@@ -683,9 +685,11 @@ table C and the parameters of all the layers in the MLP.")
 	 (setf max_steps 200_000
 	       )
 	 (comments "Size of the minibatches")
-	 (setf batch_size 32)
+	 (setf batch_size 256)
 	 (comments "List to store the loss values")
 	 (setf lossi (list))
+	 (comments "A4000 GPU: 937 it/s 3:18"
+		   "TR7955 CPU (16 cores): ")
 	 (comments "Start the training loop")
 	 (for (i (tqdm.tqdm (range max_steps)))
 	      (comments "Construct a minibatch. Xb holds input data, Yb the corresponding target data")
