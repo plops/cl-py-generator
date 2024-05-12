@@ -309,7 +309,24 @@ The context is updated by removing the first element and appending the integer i
 		     (string "-->")
 		     (aref itos (y.item))))
 	 ))
-       
+
+       (python
+	(export
+	 (class FlattenConsecutive (nn.Module)
+		(def __init__ (self n)
+		  (dot (super FlattenConsecutive
+			      self)
+		       (__init__))
+		  (setf self.n n))
+		(def forward (self x)
+		  (setf (ntuple B TT C) x.shape)
+		  (setf x (x.view B
+				  (// TT self.n)
+				  (* C self.n)))
+		  (when (== (aref x.shape 1) 1)
+		    (setf x (x.squeeze 1)))
+		  (return x)))
+	 ))
 
        (python
 	(export
@@ -332,29 +349,28 @@ The MLP consists of a linear layer, a batch normalization layer, a
 tanh activation function, and another linear layer. The output of the
 MLP is a probability distribution over the vocabulary.")
 	 (setf model (nn.Sequential
-		      (list
-		       (nn.Embedding vocab_size n_embed)
+		      (nn.Embedding vocab_size n_embed)
 
-		       (nn.FlattenConsecutive 2)
-		       (nn.Linear (* n_embed 2)
-			       n_hidden0
-			       :bias False)
-		       (nn.BatchNorm1d n_hidden0) 
+		      (FlattenConsecutive 2)
+		      (nn.Linear (* n_embed 2)
+				 n_hidden0
+				 :bias False)
+		      (nn.BatchNorm1d n_hidden0) 
 
-		       (nn.FlattenConsecutive 2)
-		       (nn.Linear (* n_hidden0 2)
-			       n_hidden1
-			       :bias False)
-		       (nn.BatchNorm1d n_hidden1)
+		      (FlattenConsecutive 2)
+		      (nn.Linear (* n_hidden0 2)
+				 n_hidden1
+				 :bias False)
+		      (nn.BatchNorm1d n_hidden1)
 
-		       (nn.FlattenConsecutive 2)
-		       (nn.Linear (* n_hidden1 2)
-			       n_hidden2
-			       :bias False)
-		       (nn.BatchNorm1d n_hidden2)
+		      (FlattenConsecutive 2)
+		      (nn.Linear (* n_hidden1 2)
+				 n_hidden2
+				 :bias False)
+		      (nn.BatchNorm1d n_hidden2)
 
-		       (nn.Tanh)
-		       (nn.Linear n_hidden2 vocab_size))))
+		      (nn.Tanh)
+		      (nn.Linear n_hidden2 vocab_size)))
 	 
 	 (setf model (model.to device))
 
