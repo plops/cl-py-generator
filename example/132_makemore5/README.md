@@ -1,5 +1,7 @@
-|       |   |
-| gen01 |  cpu training of  |
+|       |                                                                                |
+| gen01 | cpu training of NN that generates names                                        |
+| gen02 | modules for embedding and flattening as shown in the video from 11:36 to 18:00 |
+|       |                                                                                |
 
 
 # Youtube video

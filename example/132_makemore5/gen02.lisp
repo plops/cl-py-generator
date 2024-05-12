@@ -5,7 +5,7 @@
 
 (progn
   (defparameter *project* "132_makemore5")
-  (defparameter *idx* "01")
+  (defparameter *idx* "02")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -23,7 +23,7 @@
                   (format ,@vars))
 	     args))
 
-  (let* ((notebook-name "makemore5")
+  (let* ((notebook-name "makemore5_more_modules")
 	 (cli-args `(
 		     (:short "v" :long "verbose" :help "enable verbose output" :action "store_true" :required nil :nb-init True))))
     (write-notebook
@@ -119,7 +119,8 @@
 
        (python
 	(export
-	 (comments "Based on a youtube video that explains this notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part5_cnn1.ipynb")
+	 (comments "This code trains a network with 20k parameters that generates character sequences that look like names.")
+	 (comments "Based on the youtube video https://youtu.be/t3YJ5hKiMQ0 11:36 to 18:00 that explains this notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part5_cnn1.ipynb")
 	 )
 	)
        (python
@@ -448,6 +449,46 @@ Returns:
 
         Returns:
             list: An empty list.")
+		  (return (list))))
+
+
+	 (class Embedding ()
+		(string3
+		 "A class representing an embedding layer in a neural network.
+    This layer transforms integer indices to dense vectors of fixed size.
+    
+    Args:
+        num_embeddings (int): Size of the dictionary of embeddings.
+        embedding_dim (int): The size of each embedding vector.") 
+		(def __init__ (self num_embeddings embedding_dim)
+		  (comments "Initialize the embedding weights with random values")
+		  (setf self.weight (torch.randn (tuple num_embeddings embedding_dim)) ))
+		(def __call__ (self IX)
+		  (string3 "Perform the forward pass of the embedding layer.
+        
+        Args:
+            IX (Tensor): A tensor containing the indices to be looked up.
+        
+        Returns:
+            Tensor: The corresponding embedding vectors.")
+		  (setf out (aref self.weight IX))
+		  (return self.out))
+		(def parameters (self)
+		  (string3 "Get the parameters of the embedding layer.
+        
+        Returns:
+            list: A list containing the embedding weights.")
+		  (return (list self.weight))))
+
+	 (class Embedding ()
+		(string3
+		 "A class representing ")
+		(def __call__ (self x)
+		  (string3 "Apply the ")
+		  (setf self.out (torch.tanh x))
+		  (return self.out))
+		(def parameters (self)
+		  (string3 "Get the ")
 		  (return (list))))))
 
        (python
