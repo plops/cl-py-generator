@@ -553,7 +553,17 @@ Returns:
 		  (return (list (for-generator (p (layer.parameters))
 					       (for-generator
 						(layer self.layers)
-							      p))))))))
+							      p)))))
+		(def to (self device)
+		  (string3 "Move the parameters of all the layers in the sequence to the specified device.
+
+        Args:
+            device (torch.device): The device to move the parameters to.
+        ")
+		  (for (layer self.layers)
+		       (for (param (layer.parameters))
+			    (setf param.data
+				  (param.data.to device))))))))
 
        (python
 	(export
@@ -595,6 +605,11 @@ MLP is a probability distribution over the vocabulary.")
 
 				  (Tanh)
 				  (Linear n_hidden vocab_size))))
+	 (setf device (torch.device (? (torch.cuda.is_available)
+				       (string "cuda")
+				       (string "cpu"))))
+	 (print device)
+	 (model.to device)
 
 	 (comments "Make the last layer less confident. This is done by scaling down the
 weights of the last layer. This can help for the network to be initially overconfidently wrong.")
@@ -634,6 +649,13 @@ table C and the parameters of all the layers in the MLP.")
 	      (print (dot layer __class__ __name__)
 		     (string ":")
 		     (tuple layer.out.shape)))))
+       (python
+	(do0
+	 (comments "The batchnorm result should have only one non-unit dimension:")
+	 (dot model
+	      (aref layers 3)
+	      running_mean
+	      shape)))
        (python
 	(export
 	 (comments "Maximum number of training steps")
@@ -681,9 +703,7 @@ table C and the parameters of all the layers in the MLP.")
 	      (lossi.append (dot loss (log10) (item)))
 	      
 	      )))
-       (python
-	(export
-	 (plt.plot lossi)))
+       
 
        (python
 	(export
