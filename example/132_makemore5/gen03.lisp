@@ -126,7 +126,7 @@
 		))
 
        (python
-	(export
+	(export 
 	 (comments "This code trains a network with 20k parameters that generates character sequences that look like names.")
 	 (comments "Based on the youtube video https://youtu.be/t3YJ5hKiMQ0 31:40 that explains this notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part5_cnn1.ipynb")
 	 )
