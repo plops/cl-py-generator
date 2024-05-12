@@ -119,7 +119,8 @@
 
        (python
 	(export
-	 (comments "Based on a youtube video that explains this notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part5_cnn1.ipynb")
+	 (comments "This code trains a network with 20k parameters that generates character sequences that look like names.")
+	 (comments "Based on the youtube video https://youtu.be/t3YJ5hKiMQ0 0:00 to 11:36 that explains this notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part5_cnn1.ipynb")
 	 )
 	)
        (python
@@ -637,7 +638,7 @@ not perform any updates.
 					       (aref itos i))))))))
       (python
        (export
-	(comments "the video explains from 11:36 how to make the code simpler by introducing additional abstraction layers. https://youtu.be/t3YJ5hKiMQ0?t=696")))))))
+	(comments "the video explains from 11:36 to 18:00 how to make the code simpler by introducing additional abstraction layers. https://youtu.be/t3YJ5hKiMQ0?t=696")))))))
 
  
  

@@ -1,3 +1,7 @@
+|       |   |
+| gen01 |  cpu training of  |
+
+
 # Youtube video
 
 - i go through the following video:
