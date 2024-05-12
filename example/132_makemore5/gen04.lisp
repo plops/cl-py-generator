@@ -5,7 +5,7 @@
 
 (progn
   (defparameter *project* "132_makemore5")
-  (defparameter *idx* "03")
+  (defparameter *idx* "04")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -31,7 +31,7 @@
 					  None)
 				(setf (dot self ,e data)
 				      (dot self ,e data (to device)))))))
-  (let* ((notebook-name "makemore5_wavenet")
+  (let* ((notebook-name "makemore5_torch")
 	 (cli-args `(
 		     (:short "v" :long "verbose" :help "enable verbose output" :action "store_true" :required nil :nb-init True))))
     (write-notebook
@@ -101,6 +101,7 @@
 				tqdm
 				argparse
 				torch
+				(nn torch.nn)
 				))
 		 "import torch.nn.functional as F"
 		 (imports-from (torch tensor))
@@ -308,291 +309,7 @@ The context is updated by removing the first element and appending the integer i
 		     (string "-->")
 		     (aref itos (y.item))))
 	 ))
-       (python
-	(export
-	 (class Linear ()
-		(string3 "A class representing a linear layer in a neural network. It computes a
-matrix multiplication in the forward pass.
-
-    Args:
-        fan_in (int): The number of input features.
-        fan_out (int): The number of output features.
-        bias (bool, optional): Whether to include a bias term. Defaults to True.
-")
-		(def __init__ (self fan_in fan_out &key (bias True))
-		  (string3 " Initialize the linear layer with weights and bias.
-
-        The weights are initialized using Kaiming initialization,
-        which is a method of initializing neural networks to help
-        ensure the signal from the input data does not vanish or
-        explode as it is propagated through the network.
-
-        Args:
-            fan_in (int): The number of input features.
-            fan_out (int): The number of output features.
-            bias (bool, optional): Whether to include a bias term. Defaults to True.
-        ")
-		  (comments "note: Kaiming init")
-		  (setf self.weight (/ (torch.randn (tuple fan_in
-							   fan_out))
-				       (** fan_in .5)))
-		  (setf self.bias (? bias
-				     (torch.zeros fan_out)
-				     None)))
-		(def __call__ (self x)
-		  (string3 "Forward pass through the layer.
-
-        Args:
-            x (Tensor): The input tensor.
-
-        Returns:
-            Tensor: The output tensor.")
-		  (setf self.out (@ x self.weight))
-		  (unless (is self.bias None)
-		    (incf self.out self.bias))
-		  (return self.out))
-		(def parameters (self)
-		  (string3 "Get the parameters of the layer.
-
-        Returns:
-            list: A list containing the weight tensor and, if it exists, the bias tensor.
-        ")
-		  (return (+ (list self.weight)
-			     (paren (? (is self.bias None)
-				       (list)
-				       (list self.bias))))))
-		,(make-to `(weight bias))
-		)
-
-	 (class BatchNorm1d ()
-		
-		(string3 "    A class representing a 1-dimensional batch normalization layer.
-
-    Batch normalization is a technique for improving the speed,
-    performance, and stability of neural networks.  It normalizes the
-    input features across the mini-batch dimension, i.e., for each
-    feature, it subtracts the mean and divides by the standard
-    deviation, where both statistics are computed over the mini-batch.
-    
-
-    Note: The BatchNorm1d layer has different behaviors during
-    training and inference.  It's crucial to set the correct
-    mode (training or inference) to avoid unexpected results or bugs.
-    There is state in this layer and state is (usually) harmful.
-
-    Note: In BatchNorm1d, the batch dimension serves a specific
-    purpose beyond efficiency.  It couples computations across batch
-    elements to control activation statistics, which is integral to
-    its functionality. 
-
-    Args:
-        dim (int): The number of features in the input.
-        eps (float, optional): A small number added to the denominator for numerical stability. Defaults to 1e-5.
-        momentum (float, optional): The momentum factor for the running mean and variance computation. Defaults to 0.1")
-		(def __init__ (self dim &key (eps 1s-5) (momentum .1))
-		  (string3 " Initialize the batch normalization layer with parameters and buffers.
-
-        Args:
-            dim (int): The number of features in the input.
-            eps (float, optional): A small number added to the denominator for numerical stability. Defaults to 1e-5.
-            momentum (float, optional): The momentum factor for the running mean and variance computation. Defaults to 0.1.
-        ")
-		  (setf self.eps eps
-			self.momentum momentum
-			self.training True)
-		  (comments "Parameters (trained with backpropagation)")
-		  (comments "After initialization the batchnorm gives each neuron a normal distributed activation (mean 0, std 1). These two parameters allow the optimizer to move the activation to whatever is best for our examples (see https://youtu.be/P6sfmUTpUmc?t=2830 ).")
-		  (comments "gamma scalaes xhat and beta is an offset")
-		  (setf self.gamma (torch.ones dim)
-			self.beta (torch.zeros dim))
-		  (comments "Buffers (updated with a running 'momentum update')")
-		  (setf self.running_mean (torch.zeros dim)
-			self.running_var (torch.ones dim)))
-		,(make-to `(gamma beta running_mean running_var))
-		(def __call__ (self x)
-		  (string3 "Forward pass through the layer.
-
- If the model is in training mode, the mean and variance are computed
- from 'x'.  The dimension(s) along which these statistics are computed
- depend on the number of dimensions of 'x': if 'x' is 2D, the
- statistics are computed along the 0th dimension; if 'x' is 3D, they
- are computed along the 0th and 1st dimensions.
-
-
-        Args:
-            x (Tensor): The input tensor.
-
-        Returns:
-            Tensor: The output tensor.")
-		  (if self.training
-		      (do0
-		       (cond
-			 ((== 2 x.ndim)
-			  (setf dim 0))
-			 ((== 3 x.ndim)
-			  (setf dim (tuple 0 1))))
-		       (setf xmean (x.mean dim :keepdim True)
-			     xvar (x.var dim :keepdim True)))
-		      (setf xmean self.running_mean
-			    xvar self.running_var)
-		      )
-		  (comments "Normalize to unit variance")
-		  (setf xhat (/ (- x xmean)
-				(torch.sqrt (+ xvar self.eps))))
-		  
-		  (setf self.out (+ (* self.gamma
-				       xhat)
-				    self.beta))
-		  (comments "Update the buffers")
-		  (when self.training
-		    (with (torch.no_grad)
-			  (setf self.running_mean
-				(+ (* (- 1 self.momentum)
-				      self.running_mean)
-				   (* self.momentum xmean)))
-			  (setf self.running_var
-				(+ (* (- 1 self.momentum)
-				      self.running_var)
-				   (* self.momentum xvar)))))
-		  (return self.out))
-		(def parameters (self)
-		  (string3 "Get the parameters of the layer.
-Returns:
-            list: A list containing the gamma and beta tensors.")
-		  (return (list self.gamma self.beta))))
-
-	 (class Tanh ()
-		(string3
-		 "A class representing the hyperbolic tangent activation function.
-
-    The hyperbolic tangent function, or tanh, is a function that squashes its input into the range between -1 and 1.
-    It is commonly used as an activation function in neural networks.")
-		(def __call__ (self x)
-		  (string3 "Apply the tanh function to the input tensor.
-
-        Args:
-            x (Tensor): The input tensor.
-
-        Returns:
-            Tensor: The output tensor, where the tanh function has been applied element-wise.
-        ")
-		  (setf self.out (torch.tanh x))
-		  (return self.out))
-		(def parameters (self)
-		  (string3 "Get the parameters of the layer.
-
-        The tanh function does not have any parameters, so this method returns an empty list.
-
-        Returns:
-            list: An empty list.")
-		  (return (list))))
-
-
-	 (class Embedding ()
-		(string3
-		 "A class representing an embedding layer in a neural network.
-    This layer transforms integer indices to dense vectors of fixed size.
-    
-    Args:
-        num_embeddings (int): Size of the dictionary of embeddings.
-        embedding_dim (int): The size of each embedding vector.") 
-		(def __init__ (self num_embeddings embedding_dim)
-		  (comments "Initialize the embedding weights with random values")
-		  (setf self.weight (torch.randn (tuple num_embeddings embedding_dim)) ))
-		,(make-to `(weight))
-		(def __call__ (self IX)
-		  (string3 "Perform the forward pass of the embedding layer.
-        
-        Args:
-            IX (Tensor): A tensor containing the indices to be looked up.
-        
-        Returns:
-            Tensor: The corresponding embedding vectors.")
-		  (setf self.out (aref self.weight IX))
-		  (return self.out))
-		(def parameters (self)
-		  (string3 "Get the parameters of the embedding layer.
-        
-        Returns:
-            list: A list containing the embedding weights.")
-		  (return (list self.weight))))
-
-	 (class FlattenConsecutive ()
-		(string3
-		 "A class representing the flattening operation in a neural network.
-    This operation reshapes the input tensor to a 2D tensor with shape (batch_size, -1).")
-		(def __init__ (self n)
-		  
-		  (setf self.n n))
-		
-		(def __call__ (self x)
-		  (string3 "Apply the flattening operation to the input tensor.
-        
-        Args:
-            x (Tensor): The input tensor.
-        
-        Returns:
-            Tensor: The flattened tensor.")
-		  (comments "B .. batch size, TT .. number of characters, C .. embedding of a single character")
-		  (setf (ntuple B TT C) x.shape)
-		  (setf x (x.view B (// TT self.n) (* C self.n)))
-		  (when (== 1 (aref x.shape 1))
-		    (comments "Squeeze out first dimension if it is one")
-		    (setf x (x.squeeze 1)))
-		  (setf self.out x)
-		  (return self.out))
-		(def parameters (self)
-		  (string3 "As the flattening operation does not have any parameters, this method returns an empty list.")
-		  (return (list))))
-
-	 (comments "Sequential is explained here: https://youtu.be/t3YJ5hKiMQ0?t=815")
-	 (class Sequential ()
-		(string3
-		 "A class representing a sequential container in a neural network.
-    Modules will be added to it in the order they are passed in the constructor.
-    Essentially, it allows us to specify a sequence of transformations that our input data will go through.
-
-    Args:
-        layers (list): A list of layers that make up the sequence.")
-		(def __init__ (self layers)
-		  (comments "Initialize the sequence with the provided layers")
-		  (setf self.layers layers))
-		
-
-		(def __call__ (self x)
-		  (string3 "Apply the sequence of transformations to the input data.
-        
-        Args:
-            x (Tensor): The input data.
-        
-        Returns:
-            Tensor: The output of the sequence of transformations.")
-		  (for (layer self.layers)
-		       (setf x (layer x)))
-		  (setf self.out x)
-		  (return self.out))
-		(def parameters (self)
-		  (string3 "Get the parameters of all the layers in the sequence.
-        
-        Returns:
-            list: A list containing the parameters of all the layers in the sequence.
-        ")
-		  (return (list (for-generator (p (layer.parameters))
-					       (for-generator
-						(layer self.layers)
-						p)))))
-		(def to (self device)
-		  (string3 "Move the parameters of all the layers in the sequence to the specified device.
-
-        Args:
-            device (torch.device): The device to move the parameters to.
-        ")
-		  (for (layer self.layers)
-		       (when (hasattr layer (string "to"))
-			 (layer.to device))
-		       #+nil (for (param (layer.parameters))
-				  (setf param.data
-					(param.data.to device))))))))
+       
 
        (python
 	(export
@@ -614,38 +331,38 @@ Returns:
 The MLP consists of a linear layer, a batch normalization layer, a
 tanh activation function, and another linear layer. The output of the
 MLP is a probability distribution over the vocabulary.")
-	 (setf model (Sequential
+	 (setf model (nn.Sequential
 		      (list
-		       (Embedding vocab_size n_embed)
+		       (nn.Embedding vocab_size n_embed)
 
-		       (FlattenConsecutive 2)
-		       (Linear (* n_embed 2)
+		       (nn.FlattenConsecutive 2)
+		       (nn.Linear (* n_embed 2)
 			       n_hidden0
 			       :bias False)
-		       (BatchNorm1d n_hidden0) 
+		       (nn.BatchNorm1d n_hidden0) 
 
-		       (FlattenConsecutive 2)
-		       (Linear (* n_hidden0 2)
+		       (nn.FlattenConsecutive 2)
+		       (nn.Linear (* n_hidden0 2)
 			       n_hidden1
 			       :bias False)
-		       (BatchNorm1d n_hidden1)
+		       (nn.BatchNorm1d n_hidden1)
 
-		       (FlattenConsecutive 2)
-		       (Linear (* n_hidden1 2)
+		       (nn.FlattenConsecutive 2)
+		       (nn.Linear (* n_hidden1 2)
 			       n_hidden2
 			       :bias False)
-		       (BatchNorm1d n_hidden2)
+		       (nn.BatchNorm1d n_hidden2)
 
-		       (Tanh)
-		       (Linear n_hidden2 vocab_size))))
+		       (nn.Tanh)
+		       (nn.Linear n_hidden2 vocab_size))))
 	 
-	 (model.to device)
+	 (setf model (model.to device))
 
 	 (comments "Make the last layer less confident. This is done by scaling down the
 weights of the last layer. This can help for the network to be initially overconfidently wrong.")
 	 (with (torch.no_grad)
-	       (setf (dot model
-			  (aref layers -1)
+	       (setf (dot (aref  model -1)
+			  ;(aref layers -1)
 			  weight)
 		     (* .1s0 (dot model
 				  (aref layers -1)
@@ -688,6 +405,14 @@ table C and the parameters of all the layers in the MLP.")
 	      shape)))
        (python
 	(export
+	 (comments "Register forward hook for each module")
+	 (setf self.hooks "{}")
+	 (for ((ntuple name module)
+	       (model.named_modules))
+	      (setf (aref hooks name)
+		    (module.register_forward_hook self hook_fn)))))
+       (python
+	(export
 	 (comments "Maximum number of training steps")
 	 (setf max_steps 200_000
 	       )
@@ -695,8 +420,10 @@ table C and the parameters of all the layers in the MLP.")
 	 (setf batch_size 256)
 	 (comments "List to store the loss values")
 	 (setf lossi (list))
-	 (comments "A4000 GPU: 937 it/s 3:18"
-		   "TR7955 CPU (16 cores): 403 it/s 8:16 ")
+	 (setf lr .1)
+
+	 (setf optimizer (optim.SGD (model.paramters)
+				    :lr lr))
 	 (comments "Start the training loop")
 	 (for (i (tqdm.tqdm (range max_steps)))
 	      (comments "Construct a minibatch. Xb holds input data, Yb the corresponding target data")
@@ -712,17 +439,25 @@ table C and the parameters of all the layers in the MLP.")
 	      (setf loss (F.cross_entropy logits Yb))
 
 	      (comments "Backward pass")
-	      (for (p parameters)
+	      #+nil (for (p parameters)
 		   (comments "Clear the gradient for each parameter")
 		   (setf p.grad None))
+	      (optimizer.zero_grad)
 	      (comments "Compute the gradient of the loss with respect to the parameters")
 	      (loss.backward)
+	      
 
 	      (comments "Update the parameters using simple SGD with step learning rate decay")
-	      (setf lr (? (< i 150_000)
-			  .1s0
-			  .01s0))
-
+	      (optimizer.step)
+	      #+nil (setf lr (? (< i 150_000)
+				.1s0
+				.01s0))
+	      (when (<= 150_000 i)
+		(for (p optimizer.param_groups)
+		     (setf (aref p (string "lr")
+				 )
+			   1s-2)))
+	      #+nil
 	      (for (p parameters)
 		   (comments "Update the parameter using its gradient")
 		   (incf p.data (* -lr p.grad)))
