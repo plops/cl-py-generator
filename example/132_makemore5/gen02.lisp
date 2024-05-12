@@ -480,15 +480,22 @@ Returns:
             list: A list containing the embedding weights.")
 		  (return (list self.weight))))
 
-	 (class Embedding ()
+	 (class Flatten ()
 		(string3
-		 "A class representing ")
+		 "A class representing the flattening operation in a neural network.
+    This operation reshapes the input tensor to a 2D tensor with shape (batch_size, -1).")
 		(def __call__ (self x)
-		  (string3 "Apply the ")
-		  (setf self.out (torch.tanh x))
+		  (string3 "Apply the flattening operation to the input tensor.
+        
+        Args:
+            x (Tensor): The input tensor.
+        
+        Returns:
+            Tensor: The flattened tensor.")
+		  (setf self.out (x.view (aref x.shape 0) -1))
 		  (return self.out))
 		(def parameters (self)
-		  (string3 "Get the ")
+		  (string3 "As the flattening operation does not have any parameters, this method returns an empty list.")
 		  (return (list))))))
 
        (python
