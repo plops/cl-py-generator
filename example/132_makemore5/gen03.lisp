@@ -389,14 +389,27 @@ matrix multiplication in the forward pass.
 		(def __call__ (self x)
 		  (string3 "Forward pass through the layer.
 
+ If the model is in training mode, the mean and variance are computed
+ from 'x'.  The dimension(s) along which these statistics are computed
+ depend on the number of dimensions of 'x': if 'x' is 2D, the
+ statistics are computed along the 0th dimension; if 'x' is 3D, they
+ are computed along the 0th and 1st dimensions.
+
+
         Args:
             x (Tensor): The input tensor.
 
         Returns:
             Tensor: The output tensor.")
 		  (if self.training
-		      (setf xmean (x.mean 0 :keepdim True)
-			    xvar (x.var 0 :keepdim True))
+		      (do0
+		       (cond
+			 ((== 2 x.ndim)
+			  (setf dim 0))
+			 ((== 3 x.ndim)
+			  (setf dim (tuple 0 1))))
+		       (setf xmean (x.mean dim :keepdim True)
+			     xvar (x.var dim :keepdim True)))
 		      (setf xmean self.running_mean
 			    xvar self.running_var)
 		      )
