@@ -553,16 +553,16 @@ Returns:
 The MLP consists of a linear layer, a batch normalization layer, a
 tanh activation function, and another linear layer. The output of the
 MLP is a probability distribution over the vocabulary.")
-	 (setf layers
-	       (list
-		(Embedding vocab_size n_embed)
-		(Flatten)
-		(Linear (* n_embed block_size)
-			n_hidden
-			:bias False)
-		     (BatchNorm1d n_hidden)
-		     (Tanh)
-		     (Linear n_hidden vocab_size)))
+	 (setf model (Sequential
+				 (list
+				  (Embedding vocab_size n_embed)
+				  (Flatten)
+				  (Linear (* n_embed block_size)
+					  n_hidden
+					  :bias False)
+				  (BatchNorm1d n_hidden)
+				  (Tanh)
+				  (Linear n_hidden vocab_size))))
 
 	 (comments "Make the last layer less confident. This is done by scaling down the
 weights of the last layer. This can help for the network to be initially overconfidently wrong.")
@@ -573,10 +573,7 @@ weights of the last layer. This can help for the network to be initially overcon
 				  weight))))
 	 (comments "Gather all the parameters of the model: This includes the embedding
 table C and the parameters of all the layers in the MLP.")
-	 (setf parameters
-	       (list (for-generator (p (layer.parameters))
-				    (for-generator (layer layers)
-						   p))))
+	 (setf parameters model.parameters)
 
 	 ,(lprint :msg "Number of parameters in total"
 		  :vars `((sum (for-generator (p parameters)
@@ -602,11 +599,9 @@ table C and the parameters of all the layers in the MLP.")
 		    Yb (aref Ytr ix))
 	      (comments "Forward pass")
 	      (comments "Pass the data through each layer")
-	      (setf x Xb)
-	      (for (layer layers)
-		   (setf x (layer x)))
+	      (setf logits (model Xb))
 	      (comments "Compute the loss (cross entropy)")
-	      (setf loss (F.cross_entropy x Yb))
+	      (setf loss (F.cross_entropy logits Yb))
 
 	      (comments "Backward pass")
 	      (for (p parameters)
