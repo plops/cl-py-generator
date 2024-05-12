@@ -471,7 +471,7 @@ Returns:
         
         Returns:
             Tensor: The corresponding embedding vectors.")
-		  (setf out (aref self.weight IX))
+		  (setf self.out (aref self.weight IX))
 		  (return self.out))
 		(def parameters (self)
 		  (string3 "Get the parameters of the embedding layer.
@@ -513,15 +513,18 @@ Returns:
 	 (comments "Create the embedding table C:"
 		   "C is a matrix where each row represents a character in the vocabulary,"
 		   "and each column represents a dimension in the embedding space.")
-	 (setf C (torch.randn (tuple vocab_size n_embed)))
+	 
 	 (comments "Define the list of layers
 The MLP consists of a linear layer, a batch normalization layer, a
 tanh activation function, and another linear layer. The output of the
 MLP is a probability distribution over the vocabulary.")
 	 (setf layers
-	       (list (Linear (* n_embed block_size)
-			     n_hidden
-			     :bias False)
+	       (list
+		(Embedding vocab_size n_embed)
+		(Flatten)
+		(Linear (* n_embed block_size)
+			n_hidden
+			:bias False)
 		     (BatchNorm1d n_hidden)
 		     (Tanh)
 		     (Linear n_hidden vocab_size)))
@@ -536,10 +539,9 @@ weights of the last layer. This can help for the network to be initially overcon
 	 (comments "Gather all the parameters of the model: This includes the embedding
 table C and the parameters of all the layers in the MLP.")
 	 (setf parameters
-	       (+ (list C)
-		  (list (for-generator (p (layer.parameters))
-			 (for-generator (layer layers)
-					p)))))
+	       (list (for-generator (p (layer.parameters))
+				    (for-generator (layer layers)
+						   p))))
 
 	 ,(lprint :msg "Number of parameters in total"
 		  :vars `((sum (for-generator (p parameters)
@@ -564,12 +566,8 @@ table C and the parameters of all the layers in the MLP.")
 		    Xb (aref Xtr ix)
 		    Yb (aref Ytr ix))
 	      (comments "Forward pass")
-	      (comments "Embed the input data into vectors")
-	      (setf emb (aref C Xb))
-	      (comments "Reshape the embedded data")
-	      (setf x (emb.view (aref emb.shape 0)
-				-1))
 	      (comments "Pass the data through each layer")
+	      (setf x Xb)
 	      (for (layer layers)
 		   (setf x (layer x)))
 	      (comments "Compute the loss (cross entropy)")
@@ -597,6 +595,7 @@ table C and the parameters of all the layers in the MLP.")
 		,(lprint :vars `(progress (loss.item))))
 	      (comments "Append the logarithm of the loss to the list")
 	      (lossi.append (dot loss (log10) (item)))
+	      break
 	      )))
        (python
 	(export
