@@ -60,50 +60,22 @@
 		       ;;(setf font (dict ((string size) (string 6))))
 		       ;; (matplotlib.rc (string "font") **font)
 		       )
-		 (imports (	os
-					;sys
-				time
-					;docopt
-				pathlib
-				random
-					;(np numpy)
-					;serial
-					;(pd pandas)
-					;(xr xarray)
-					;(xrp xarray.plot)
-					;skimage.restoration
-					;(u astropy.units)
-					; EP_SerialIO
-					;scipy.ndimage
-					;   scipy.optimize
-					;nfft
-					;sklearn
-					;sklearn.linear_model
-					;itertools
-					;datetime
-					; (np numpy)
-					;(cv cv2)
-					;(mp mediapipe)
-					;jax
-					; jax.random
-					;jax.config
-					; copy
-					;re
-					;json
-					; csv
-					;io.StringIO
-					;bs4
-					;requests
-
-					;(np jax.numpy)
-					;(mpf mplfinance)
-					;selenium.webdriver ;.FirefoxOptions
-				tqdm
-				argparse
-				torch
-				))
-		 "import torch.nn.functional as F"
-		 (imports-from (torch tensor))
+		 (imports (os
+			   time
+			   pathlib
+			   random
+			   tqdm
+			   argparse
+			   jax
+			   (jnp jax.numpy)
+			   (np numpy)
+			   optax
+			   ))
+		 
+		 "from flax import linen as nn"
+		 (imports-from (jax.nn softmax))
+		 (imports-from (flax.nn softmax))
+		 (imports-from (flax.training train_state))
 
 
 
@@ -112,14 +84,6 @@
 				 plot imshow tight_layout xlabel ylabel
 				 title subplot subplot2grid grid text
 				 legend figure gcf xlim ylim)
-				)
-
-		 (imports-from  (torch
-				 linspace
-				 randn
-				 randint
-				 tanh
-				 )
 				)
 
 		 )
