@@ -256,7 +256,7 @@ The context is updated by removing the first element and appending the integer i
 	 (setf key (jax.random.PRNGKey 42))
 	 (setf (ntuple key subkey)
 	       (random.split key))
-	 (setf rand_ixs (random.permutations subkey
+	 (setf rand_ixs (random.permutation subkey
 					     (jnp.arange (len words))
 					     :independent True))
 	 
@@ -272,7 +272,7 @@ The context is updated by removing the first element and appending the integer i
 			 (y (format nil "Y~a" name)))
 		     `(do0
 		       (comments ,comment)
-		       (setf (ntuple ,x ,y) (build_dataset (aref words (aref rand_ixs ,slice))))))))
+		       (setf (ntuple ,x ,y) (build_dataset (aref (np.array words) (aref rand_ixs ,slice))))))))
 	 ))
 
        (python
