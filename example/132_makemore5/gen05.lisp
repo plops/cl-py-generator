@@ -63,7 +63,7 @@
 		 (imports (os
 			   time
 			   pathlib
-			   random
+			   ;random
 			   tqdm
 			   argparse
 			   jax
@@ -73,8 +73,9 @@
 			   ))
 		 
 		 "from flax import linen as nn"
-		 (imports-from (jax.nn softmax))
-		 (imports-from (flax.nn softmax))
+		 ;(imports-from (jax.nn softmax))
+		 (imports-from (jax random))
+		 (imports-from (flax.linen softmax))
 		 (imports-from (flax.training train_state))
 
 
@@ -195,23 +196,32 @@
 	 (setf vocab_size (len itos))
 	 ,(lprint :msg "mapping from integer to character" :vars `(itos vocab_size)))
 	)
+       
+
        (python
 	(export
-	 (comments "shuffle up the words")
-	 (random.seed 42)
-	 (random.shuffle words)))
+	 (setf train_config
+	       (dictionary :vocab_size vocab_size
+			   :block_size 8
+			   :n_embed 10
+			   :n_hidden0 68
+			   :n_hidden1 68
+			   :n_hidden2 68
+			   :learning_rate .1s0
+			   :decay_rate 1s-2
+			   :decay_step 150_000
+			   :dtype jnp.bfloat16))))
 
+       
+       
        (python
 	(export
 	 (comments "build the dataset")
 	 (comments "block_size .. context length of how many characters do we take to predict the next one")
-	 (do0 (setf device (torch.device #+nil(string "cpu")
-					 #-nil(? (torch.cuda.is_available)
-					    (string "cuda")
-					    (string "cpu"))))
-	      (print device))
+	 
 
-	 (setf block_size 8)
+	 (setf block_size (aref train_config (string "block_size")))
+	 
 	 (def build_dataset (words)
 	   (string3 "This function builds a dataset for training a model using the given list of words.
     It creates a context of a certain block size for each character in the words and uses this to predict the next character.
@@ -220,7 +230,7 @@
         words (list): A list of words to be used for creating the dataset.
 
     Returns:
-        tuple: A tuple containing the input tensor (X) and the target tensor (Y). X is the tensor representing the context for each character, and Y is the tensor representing the characters themselves.")
+        tuple: A tuple containing the input tensor (jax array) (X) and the target tensor (Y). X is the tensor representing the context for each character, and Y is the tensor representing the characters themselves.")
 	   (setf X (list)
 		 Y (list))
 	   (for (w words)
@@ -237,14 +247,19 @@ The context is updated by removing the first element and appending the integer i
 		     (setf context (+ (aref context (slice 1 ""))
 				      (list ix)))))
 	   
-	   (setf X (dot (torch.tensor X) (to ;:dtype torch.uint8
-					     :device device))
-		 Y (dot (torch.tensor Y) (to ;:dtype torch.uint8
-					     :device device))
-		 )
+	   (setf X (jnp.array X)
+		 Y (jnp.array Y))
 	   (comments "Each element in Y is the character that should be predicted given the corresponding context in X.")
 	   ,(lprint :vars `(X.shape Y.shape))
 	   (return (ntuple X Y)))
+
+	 (setf key (jax.random.PRNGKey 42))
+	 (setf (ntuple key subkey)
+	       (random.split key))
+	 (setf rand_ixs (random.permutations subkey
+					     (jnp.arange (len words))
+					     :independent True))
+	 
 	 (comments "Use 80% for training, 10% for validation and 10% for testing. We use the following indices to perform the split.")
 	 (setf n1 (int (* .8 (len words)))
 	       n2 (int (* .9 (len words))))
@@ -257,7 +272,7 @@ The context is updated by removing the first element and appending the integer i
 			 (y (format nil "Y~a" name)))
 		     `(do0
 		       (comments ,comment)
-		       (setf (ntuple ,x ,y) (build_dataset (aref words ,slice)))))))
+		       (setf (ntuple ,x ,y) (build_dataset (aref words (aref rand_ixs ,slice))))))))
 	 ))
 
        (python
