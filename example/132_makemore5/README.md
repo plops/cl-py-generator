@@ -6,6 +6,12 @@
 | gen04 | convert 03 to pytorch, i want to plot activations with hooks     (i can't figure pytorch out, first i will try to learn flax/jax) |
 |       |                                                                                                                                   |
 
+# install dependencies with micrconda
+
+```
+microconda activate
+microconda install optax flax -c conda-forge
+```
 
 # Youtube video
 
