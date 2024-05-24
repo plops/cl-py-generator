@@ -27,3 +27,4 @@ Array([[1.6666666, 2.6666667, 3.6666667],
 # Reference
 
 https://arxiv.org/pdf/2002.08871
+https://news.ycombinator.com/item?id=22393790
