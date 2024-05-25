@@ -66,3 +66,17 @@ agum:~/projects/kubler-images$ kubler build mytest/figlet -i
 ```
 
 - the flag `-v` says `»[✘]»[portage]» Signature check failed`
+
+```
+gpg --keyserver keys.gentoo.org --recv-keys E1D6ABB63BFCFB4BA02FDF1CEC590EEAC9189250
+
+```
+
+- this import doesn't work
+- apparently i can skip the key check with flag `-s`, i don't like it
+  but this is what i'll do
+
+```
+kubler build mytest/figlet -i -v -s
+
+```
