@@ -80,3 +80,6 @@ gpg --keyserver keys.gentoo.org --recv-keys E1D6ABB63BFCFB4BA02FDF1CEC590EEAC918
 kubler build mytest/figlet -i -v -s
 
 ```
+
+- emerge is quite slow. looks like it is not taking advantage of all
+  the cores
