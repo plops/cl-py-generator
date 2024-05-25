@@ -64,3 +64,5 @@ agum:~/projects/kubler-images$ kubler build mytest/figlet -i
 
 # why am i not in the interactive build container?
 ```
+
+- the flag `-v` says `»[✘]»[portage]» Signature check failed`
