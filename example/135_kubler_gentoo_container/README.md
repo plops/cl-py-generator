@@ -60,6 +60,7 @@ agum:~/projects/kubler-images$ kubler build mytest/figlet -i
 »»» required builders:   kubler/bob-musl kubler/bob
 »»» build sequence:      kubler/busybox kubler/glibc kubler/s6 kubler/openssl kubler/bash
 »[✔]»[init]» done.
-»[⠼]»[portage]» download portage snapshot [ 14M ]
+»[⠼]»[portage]» download portage snapshot [ 45M ]
 
+# why am i not in the interactive build container?
 ```
