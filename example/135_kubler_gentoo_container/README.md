@@ -136,6 +136,11 @@ docker run -it --rm mytest/figlet figlet foo
 |  _| (_) | (_) |
 |_|  \___/ \___/ 
                  
-
+kiel@agum:~/projects/kubler-images$ docker images 
+REPOSITORY                                              TAG                IMAGE ID       CREATED             SIZE
+mytest/bob-figlet                                       20240525           76fc81f071a2   2 minutes ago       1.97GB
+mytest/bob-figlet                                       latest             76fc81f071a2   2 minutes ago       1.97GB
+mytest/figlet                                           20240525           ed13cf1111df   2 minutes ago       50.6MB
+mytest/figlet                                           latest             ed13cf1111df   2 minutes ago       50.6MB
 ```
 
