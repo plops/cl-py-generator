@@ -149,5 +149,18 @@ mytest/figlet                                           latest             ed13c
 
 ```
  time kubler build  kubler/graph-easy 
+2m57s
+
+fails with
+!!! All ebuilds that could satisfy ">=x11-libs/pango-1.12" have been masked.
+!!! One of the following masked packages is required to complete your request:
+- x11-libs/pango-1.52.2::gentoo (masked by: package.mask, ~amd64 keyword)
+
+```
+
+- if i could get graph-easy to build. the following should work
+
+```
+kubler dep-graph -b kubler/nginx mytest
 
 ```
