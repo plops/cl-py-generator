@@ -172,3 +172,4 @@ kubler dep-graph -b kubler/nginx mytest
 https://github.com/edannenberg/kubler?tab=readme-ov-file
 https://www.elttam.com/blog/kubler/#content
 https://youtu.be/bbC6HXUUjjg
+https://wiki.gentoo.org/wiki/Kubler
