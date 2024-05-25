@@ -143,4 +143,11 @@ mytest/bob-figlet                                       latest             76fc8
 mytest/figlet                                           20240525           ed13cf1111df   2 minutes ago       50.6MB
 mytest/figlet                                           latest             ed13cf1111df   2 minutes ago       50.6MB
 ```
+- the image starting with bob- is the build container
 
+## dependency graph
+
+```
+ time kubler build  kubler/graph-easy 
+
+```
