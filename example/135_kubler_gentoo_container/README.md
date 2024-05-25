@@ -4,6 +4,8 @@
 mkdir ~/tools
 cd ~/tools
 curl -L https://github.com/edannenberg/kubler/archive/master.tar.gz | tar xz
+
+# run the following or add to ~/.bashrc
 export PATH=$PATH:~/tools/kubler-master/bin
 source ~/tools/kubler-master/lib/kubler-completion.bash 
 
@@ -14,7 +16,7 @@ source ~/tools/kubler-master/lib/kubler-completion.bash
 
 
 sudo usermod -aG docker $USER
-
+# log $USER out and log back in 
 ```
 
 
