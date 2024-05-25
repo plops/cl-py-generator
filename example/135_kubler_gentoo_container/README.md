@@ -83,3 +83,59 @@ kubler build mytest/figlet -i -v -s
 
 - emerge is quite slow. looks like it is not taking advantage of all
   the cores
+
+```
+kubler-bob-bash / # eix figlet
+* app-misc/figlet
+     Available versions:  2.2.5-r1 **9999*l
+     Homepage:            http://www.figlet.org/
+     Description:         program for making large letters out of ordinary text
+
+```
+
+```
+nano /config/build.sh
+
+_packages="app-misc/figlet"
+
+nano /etc/portage/make.conf
+
+MAKEOPTS="-j32"
+
+kubler-build-root # 6.5sec
+
+exit
+
+emacs  mytest/images/figlet/build-test.sh
+
+#!/usr/bin/env sh
+set -eo pipefail
+
+# check figlet version string
+figlet -v | grep -A 2 'FIGlet Copyright' || exit 1
+	
+time kubler build mytest/figlet -nF
+
+```
+
+```
+agum:~/projects/kubler-images$ time kubler build mytest/figlet --no-deps --force-full-image-build
+»[✔]»[mytest/figlet]» done.
+
+real    0m4.021s
+
+```
+
+```
+docker run -it --rm mytest/figlet figlet foo
+
+@agum:~/projects/kubler-images$ docker run -it --rm mytest/figlet figlet foo
+  __             
+ / _| ___   ___  
+| |_ / _ \ / _ \ 
+|  _| (_) | (_) |
+|_|  \___/ \___/ 
+                 
+
+```
+
