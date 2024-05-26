@@ -229,6 +229,11 @@ docker run -it --rm mytest/lmfit python
 import numpy
 ```
 
+```
+ImportError: scipy is not installed.
+scikit-learn requires scipy >= 1.6.0.
+
+```
 
 
 # create an image with x11
