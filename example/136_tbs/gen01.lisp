@@ -38,6 +38,9 @@
 		     (:short "b" :long "browser-path" :type str
 		      :default (string "/")
 		      :help "Path to browser.")
+		     (:short "D" :long "download-path" :type str
+		      :default (string "/dev/shm/")
+		      :help "Path where to store downloads.")
 		     (:short "g" :long "geckodriver" :type str
 		      :default (string "geckodriver")
 		      :help "Path to browser.")
@@ -180,13 +183,18 @@
 			      (string "geckodriver"))
 			  (shutil.which (string "geckodriver"))
 			  args.geckodriver))
-	      (with (as (TorBrowserDriver args.browser_path
+	      (do0 ;with
+	       #+nil(as 
+		driver)
+	       (setf driver (TorBrowserDriver args.browser_path
 					  :socks_port args.socks_port
 					  :control_port args.control_port
 					  :executable_path gd
-					  :tbb_logfile_path (string "/dev/shm/ttb.log"))
-			driver)
-		    ,(lprint :vars `((driver.get_cookies)))
-		    (driver.get args.url))))
+					  :tbb_logfile_path (string "/dev/shm/ttb.log")))
+	       ;,(lprint :vars `((driver.get_cookies)))
+	       (setf (aref driver.capabilities (string "se:downloadsEnabled"))
+		     True)
+	       (driver.download_file args.url
+				     args.download_path))))
        ))))
 
