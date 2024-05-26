@@ -15,11 +15,13 @@ mv geckodriver venv/bin # easiest way to get geckodriver into PATH
 ```
 
 - in order for the the python script to work, start tor browser with
-  the flag `-marionette`:q
+  the flag `-marionette`:
   
 ```
 tor-browser $ ./start-tor-browser.desktop -marionette
 ```
+
+- the python script can visit sites but it can't download files to diskccy
 
 # References
 
