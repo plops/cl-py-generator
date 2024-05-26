@@ -39,57 +39,49 @@ rm -rf ~/tools/kubler-master
 rm -rf ~/.kubler
 ```
 
-# try kubler
+# Kubler Usage Guide
 
-```
+## Building an Image containing the Figlet Tool
+
+To build an image containing the Figlet tool, follow these steps:
+
+```bash
 cd ~/projects
 kubler new namespace mytest
+# Select `multi` when prompted
 
-# multi
 cd kubler-images
 kubler update
 kubler new image mytest/figlet
-# kubler-bash
-# bt
-
-# 
+# Select `kubler-bash` for the parent image and `bt` for testing when prompted
 
 kubler build mytest/figlet -i
-
 ```
 
-
-```
-agum:~/projects/kubler-images$ kubler build mytest/figlet -i
-»»»»»[init]» generate build graph for interactive build of mytest/figlet
-»»» required engines:    docker
-»»» required stage3:     stage3-amd64-musl-hardened stage3-amd64-hardened-nomultilib-openrc
-»»» required builders:   kubler/bob-musl kubler/bob
-»»» build sequence:      kubler/busybox kubler/glibc kubler/s6 kubler/openssl kubler/bash
-»[✔]»[init]» done.
-»[⠼]»[portage]» download portage snapshot [ 45M ]
-
-# why am i not in the interactive build container?
-```
-
-- the flag `-v` says `»[✘]»[portage]» Signature check failed`
+## Troubleshooting Signature Check Issues
+If you encounter a signature check issue while using Kubler on Ubuntu 24.04 (amd64), you can try importing the keys manually:
 
 ```
 gpg --keyserver keys.gentoo.org --recv-keys E1D6ABB63BFCFB4BA02FDF1CEC590EEAC9189250
-
 ```
-
-- this import doesn't work
-- apparently i can skip the key check with flag `-s`, i don't like it
-  but this is what i'll do
+￼
+If the import doesn't work, you can skip the signature check with the -s flag, although this is not recommended:
 
 ```
 kubler build mytest/figlet -i -v -s
-
 ```
 
-- emerge is quite slow. looks like it is not taking advantage of all
-  the cores
+## Optimizing Emerge Performance
+
+If you notice that the `emerge` process is slow, consider increasing the number of jobs to utilize more cores for the compilation of individual packages. This can be done by adding `BOB_MAKEOPTS='-j32'` to your `kubler.conf` file. 
+
+Please note, however, that not all packages have enough files to fully utilize 32 cores. 
+
+For CPUs with a high number of cores, an alternative and potentially faster approach would be to allow `emerge` to compile multiple packages in parallel. This can be achieved by setting `MAKEOPTS='--jobs 8 --load-average 32'` in your `kubler.conf` file.
+
+## Building and Testing the Figlet Tool
+
+- After the image has been built, you will be inside the build container for figlet (kubler/bob-bash). You can verify this by running the `eix figlet` command:
 
 ```
 kubler-bob-bash / # eix figlet
@@ -97,8 +89,12 @@ kubler-bob-bash / # eix figlet
      Available versions:  2.2.5-r1 **9999*l
      Homepage:            http://www.figlet.org/
      Description:         program for making large letters out of ordinary text
-
 ```
+
+Inside this build container, you can use typical Gentoo tools like eix and emerge -av to investigate dependencies and use flags of the packages you want to install.
+
+Once you have determined what you want to install, you can modify the build.sh file inside the container and start the build. Alternatively, you can edit the build.sh file outside of the container.
+
 
 ```
 nano /config/build.sh
@@ -112,7 +108,11 @@ MAKEOPTS="-j32"
 kubler-build-root # 6.5sec
 
 exit
+```
 
+To test the build, edit the build-test.sh file and add the following content:
+
+```
 emacs  mytest/images/figlet/build-test.sh
 
 #!/usr/bin/env sh
@@ -121,18 +121,22 @@ set -eo pipefail
 # check figlet version string
 figlet -v | grep -A 2 'FIGlet Copyright' || exit 1
 	
-time kubler build mytest/figlet -nF
 
 ```
+Finally, build the image and time the process:
+```
+time kubler build mytest/figlet -nF
+```
+Here is the output:
 
 ```
 agum:~/projects/kubler-images$ time kubler build mytest/figlet --no-deps --force-full-image-build
 »[✔]»[mytest/figlet]» done.
 
 real    0m4.021s
-
 ```
 
+You can then run the new container in docker:
 ```
 docker run -it --rm mytest/figlet figlet foo
 
@@ -142,7 +146,9 @@ docker run -it --rm mytest/figlet figlet foo
 | |_ / _ \ / _ \ 
 |  _| (_) | (_) |
 |_|  \___/ \___/ 
-                 
+```
+Lets have a look at some of the containers that this process produced:
+```
 kiel@agum:~/projects/kubler-images$ docker images 
 REPOSITORY                                              TAG                IMAGE ID       CREATED             SIZE
 mytest/bob-figlet                                       20240525           76fc81f071a2   2 minutes ago       1.97GB
@@ -150,7 +156,7 @@ mytest/bob-figlet                                       latest             76fc8
 mytest/figlet                                           20240525           ed13cf1111df   2 minutes ago       50.6MB
 mytest/figlet                                           latest             ed13cf1111df   2 minutes ago       50.6MB
 ```
-- the image starting with bob- is the build container
+The image starting with `bob-` is the build container
 
 ## dependency graph
 
