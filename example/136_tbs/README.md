@@ -14,7 +14,12 @@ rm geckodriver*.tar.gz
 mv geckodriver venv/bin # easiest way to get geckodriver into PATH
 ```
 
-- the python script isn't working. no idea what is the problem
+- in order for the the python script to work, start tor browser with
+  the flag `-marionette`:q
+  
+```
+tor-browser $ ./start-tor-browser.desktop -marionette
+```
 
 # References
 
