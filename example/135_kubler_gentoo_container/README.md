@@ -1,36 +1,43 @@
-# installation
-- from https://github.com/edannenberg/kubler?tab=readme-ov-file
-```
+# Installation
+1. Download the Kubler master archive from [GitHub](https://github.com/edannenberg/kubler?tab=readme-ov-file) and extract it to a directory in your home folder:
+
+```bash
 mkdir ~/tools
 cd ~/tools
 curl -L https://github.com/edannenberg/kubler/archive/master.tar.gz | tar xz
-
-# run the following or add to ~/.bashrc
-export PATH=$PATH:~/tools/kubler-master/bin
-source ~/tools/kubler-master/lib/kubler-completion.bash 
-
-# configuration will be read  from /etc/kubler.conf
-# or kubler-master/kubler.conf 
-
-# data dir is ~/.kubler by default. this will hold downloads or custom scripts
-
-
-sudo usermod -aG docker $USER
-# log $USER out and log back in 
 ```
 
+Add the Kubler binary to your PATH. You can do this for the current session with the following command, or add it to your ~/.bashrc file to make it permanent:
 
-# remove kubler
-
-```
+```bash
 export PATH=$PATH:~/tools/kubler-master/bin
 source ~/tools/kubler-master/lib/kubler-completion.bash 
+```
 
+Kubler will read its configuration from /etc/kubler.conf or kubler-master/kubler.conf.
+
+By default, Kubler uses ~/.kubler as its data directory. This is where it will store downloads and custom scripts.
+
+# Uninstall Kubler
+
+To uninstall Kubler, you need to remove the Kubler directory and clean up the environment variables. Follow these steps:
+
+```bash
+# Clean up Kubler's data
 kubler clean -N
+
+# Remove the Kubler binary from your PATH
+export PATH=$(echo $PATH | sed -e 's,:?~/tools/kubler-master/bin,,g')
+
+# Unload Kubler bash completion
+unalias kubler 2>/dev/null
+
+# Remove the Kubler directory
 rm -rf ~/tools/kubler-master
+
+# Remove Kubler's data directory
 rm -rf ~/.kubler
 ```
-
 
 # try kubler
 
@@ -165,11 +172,52 @@ kubler dep-graph -b kubler/nginx mytest
 
 ```
 
+# create an image with x11
+
+```
+cd ~/project_ram
+kubler new namespace gentooram
+# multi
+
+git init /home/kiel/project_ram/kubler-images/gentooram
+
+kiel@agum:~/project_ram/kubler-images/gentooram$ git add .gitignore README.md kubler.conf 
+kiel@agum:~/project_ram/kubler-images/gentooram$ git commit -m "initial commit"
+
+»[!]» To create images in the new namespace run:
+»»»
+»»» $ cd /home/kiel/project_ram/kubler-images
+    $ kubler new image gentooram/<image_name>
+
+kiel@agum:~/project_ram/kubler-images$ kubler new image gentooram/x11
+»»»
+»»» <enter> to accept default value
+»»»
+»»» Extend an existing Kubler managed image? Fully qualified image id (i.e. kubler/busybox) or scratch
+»[?]» Parent Image (scratch): kubler/bash
+»»»
+»»» Add test template(s)? Possible choices:
+»»»   hc  - Add a stub for Docker's HEALTH-CHECK, recommended for images that run daemons
+»»»   bt  - Add a stub for a custom build-test.sh script, a good choice if HEALTH-CHECK is not suitable
+»»»   yes - Add stubs for both test types
+»»»   no  - Fck it, we'll do it live!
+»[?]» Tests (hc): bt
+»»»
+»[✔]» Successfully created new image at /home/kiel/project_ram/kubler-images/gentooram/images/x11
+»»»
+
+emacs gentooram/kubler.conf
+BOB_MAKEOPTS='-j32'
+
+
+time kubler build gentooram/x11 -s
+```
+
+- i want to have systemd instead of openrc. don't know yet how to configure this
 
 # References
 
-
-https://github.com/edannenberg/kubler?tab=readme-ov-file
-https://www.elttam.com/blog/kubler/#content
-https://youtu.be/bbC6HXUUjjg
-https://wiki.gentoo.org/wiki/Kubler
+1. [Kubler on GitHub](https://github.com/edannenberg/kubler?tab=readme-ov-file)
+2. [Elttam Blog on Kubler](https://www.elttam.com/blog/kubler/#content)
+3. [Kubler YouTube Video](https://youtu.be/bbC6HXUUjjg)
+4. [Kubler on Gentoo Wiki](https://wiki.gentoo.org/wiki/Kubler)
