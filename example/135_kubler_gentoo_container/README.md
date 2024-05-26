@@ -211,8 +211,7 @@ _packages="dev-python/scipy dev-python/lmfit dev-python/pandas dev-python/tqdm d
     update_keywords 'dev-python/uncertainties' '+~amd64'
 # inf finish_rootfs_build
 # numpy needs fortran library
-    cp -rp "${DISTRIBUTION_DIR}/usr/lib64/libgfortran*" "${_EMERGE_ROOT}/usr/lib64"
-
+    cp -rp "${DISTRIBUTION_DIR}/usr/lib/gcc/x86_64-pc-linux-gnu/13/libgfortran"*".so"* "${_EMERGE_ROOT}/usr/lib64"
 
 ```
 
@@ -235,13 +234,59 @@ scikit-learn requires scipy >= 1.6.0.
 
 ```
 
-i tried several times to run `kubler build mytest/lmfit -v`. everytime it fails after building 100 packages. 
-i think a better approach is to enter the builder image with `kubler build mytest/lmfit -i` and running kubler-build-root there.
+Attempts to run `kubler build mytest/lmfit -v` have consistently failed after building 100 packages. In an attempt to find a workaround I entered the builder image using `kubler build mytest/lmfit -i` and then execute kubler-build-root within it.
 
-artifacts from previous build attempts seem to be present in /backup-rootfs of the builder image
+Artifacts from previous build attempts can be found in the /backup-rootfs directory of the builder image.
 
-compiled binary packages are in /packages
-tar files with the source code are in /distfiles
+Compiled binary packages are stored in the /packages directory. This allows for repeated calls to `kubler build mytest/lmfit` without the need to rebuild packages that have already been compiled.
+
+Source code tar files are located in the /distfiles directory.
+
+Successful build of scikit-learn was achieved by explicitly building it with `emerge -av scipy` followed by `emerge -av scikit-learn` in the build image. Following this, the kubler-build-root script executed successfully. This might suggest that scipy and scikit-learn should be added to the `configure_builder` function in the `build.sh` script, but further investigation is needed.
+
+# Explanation of kubler-build-root
+
+[Note: I asked gemini 1.5 pro how kubler-build-root works after pasting the entire kubler repo into the prompt.]
+
+`kubler-build-root` is the heart of Kubler's Docker build engine and the script responsible for the "heavy lifting" during the first phase of image creation. Let's break down its actions step-by-step:
+
+**Inside the Build Container:**
+
+1. **Environment Setup:**
+   - Sources `/etc/profile` to load system-wide environment variables and settings.
+   - Determines the correct `emerge` binary to use based on the target architecture (`CHOST`).
+   - Sets up important paths like:
+      - `_EMERGE_ROOT`: The custom root directory where packages will be installed.
+      - `_CONFIG`: The mounted image directory from the host.
+      - `_ROOTFS_BACKUP`: A directory to store backup files and build artifacts.
+
+2. **Configuration from `build.sh`:**
+   - Sources the `build.sh` file from the mounted image directory (`/config/build.sh`). This is where you define the packages to install (`_packages`) and customize the build process using hooks.
+   - Executes the `configure_builder()` hook, if defined. This allows you to install packages specific to the build container itself (e.g., development tools or additional libraries).
+
+3. **Preparing for Portage:**
+   - Sets the `ROOT` environment variable to point to `_EMERGE_ROOT`, telling Portage to install packages there.
+   - Executes the `configure_rootfs_build()` hook, if defined. This hook is for configuring Portage before installing the main packages (e.g., updating USE flags, adding patches).
+
+4. **Package Installation:**
+   - Generates a `package.installed` file, listing the packages about to be installed. This helps with dependency management for child images.
+   - Runs `emerge` to install the packages specified in `_packages` into the `_EMERGE_ROOT` directory.
+
+5. **Post-Installation:**
+   - Executes the `finish_rootfs_build()` hook, if defined. Use this hook for tasks like cleanup, configuration tweaks inside the `_EMERGE_ROOT`, or manual software installation.
+
+6. **Artifact Creation:**
+   - Creates a `rootfs.tar` archive of the `_EMERGE_ROOT` directory.
+   - Generates `PACKAGES.md` documentation, listing all installed packages and their versions.
+
+7. **Cleanup:**
+   - Removes temporary files and directories, leaving behind a clean image directory on the host with the `rootfs.tar` and `PACKAGES.md`.
+
+**The Big Picture:**
+
+`kubler-build-root` leverages the flexibility of Gentoo's Portage to install a precise set of packages and their dependencies in a controlled environment.  By setting the `ROOT` environment variable, it avoids interfering with the build container's base system while creating a custom root filesystem tailored to your image's needs. The various hooks in `build.sh` provide points for customization, giving you fine-grained control over the build process.
+
+In essence, `kubler-build-root` does the hard work of preparing the image's filesystem, leaving Docker's `build` command to simply layer it into a container image in the second phase. This approach combines the power of Gentoo's package management with the convenience of Docker, allowing you to build small, efficient, and highly customized images. 
 
 
 # create an image with x11
