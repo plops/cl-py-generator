@@ -38,6 +38,9 @@
 		     (:short "b" :long "browser-path" :type str
 		      :default (string "/")
 		      :help "Path to browser.")
+		     (:short "g" :long "geckodriver" :type str
+		      :default (string "geckodriver")
+		      :help "Path to browser.")
 		     (:short "u" :long "url" :type str
 		      :default (string "http://news.ycombinator.com/")
 		      :help "URL to scrape."))))
@@ -73,6 +76,7 @@
 	(imports (			;	os
 					;sys
 		  time
+		  shutil
 					;docopt
 					;pathlib
 					; (np numpy)
@@ -172,9 +176,17 @@
 				       "None"))))
 
 	      (setf args (parser.parse_args))
-	      (with (as (TorBrowserDriver args.browser_path :socks_port args.socks_port
-					  :control_port args.control_port)
+	      (setf gd (? (== args.geckodriver
+			      (string "geckodriver"))
+			  (shutil.which (string "geckodriver"))
+			  args.geckodriver))
+	      (with (as (TorBrowserDriver args.browser_path
+					  :socks_port args.socks_port
+					  :control_port args.control_port
+					  :executable_path gd
+					  :tbb_logfile_path (string "/dev/shm/ttb.log"))
 			driver)
+		    ,(lprint :vars `((driver.get_cookies)))
 		    (driver.get args.url))))
        ))))
 
