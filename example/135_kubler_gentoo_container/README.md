@@ -77,7 +77,7 @@ If you notice that the `emerge` process is slow, consider increasing the number 
 
 Please note, however, that not all packages have enough files to fully utilize 32 cores. 
 
-For CPUs with a high number of cores, an alternative and potentially faster approach would be to allow `emerge` to compile multiple packages simultaneously. This can be achieved by setting `MAKEOPTS='--jobs 24 --load-average 32'` in your `kubler.conf` file.
+For CPUs with a high number of cores, an alternative and potentially faster approach would be to allow `emerge` to compile multiple packages simultaneously. This can be achieved by setting `S='--jobs 24 --load-average 32'MAKEOPT` in your `kubler.conf` file.
 
 This setting is particularly effective for compiling a large number of small packages, such as Python or Perl libraries. However, for larger packages like Rust, LLVM, or GCC, compiling with 24 jobs in parallel may consume all your memory. Unfortunately, there isn't a one-size-fits-all `MAKEOPTS` setting that is optimal for all scenarios.
 
@@ -198,7 +198,7 @@ To allow the inclusion of some packages that are not fully stable yet, modify th
 
 Here are my modifications of `mytest/images/lmfit/build.sh`
 ```
-_packages="dev-python/lmfit dev-python/pandas dev-python/tqdm dev-python/numpy dev-python/scikit-learn dev-python/xarray dev-python/matplotlib"
+_packages="dev-python/scipy dev-python/lmfit dev-python/pandas dev-python/tqdm dev-python/numpy dev-python/scikit-learn dev-python/xarray dev-python/matplotlib"
 
 # in configure_rootfs_build
 # dependencies of matplotlib:
@@ -234,6 +234,14 @@ ImportError: scipy is not installed.
 scikit-learn requires scipy >= 1.6.0.
 
 ```
+
+i tried several times to run `kubler build mytest/lmfit -v`. everytime it fails after building 100 packages. 
+i think a better approach is to enter the builder image with `kubler build mytest/lmfit -i` and running kubler-build-root there.
+
+artifacts from previous build attempts seem to be present in /backup-rootfs of the builder image
+
+compiled binary packages are in /packages
+tar files with the source code are in /distfiles
 
 
 # create an image with x11
