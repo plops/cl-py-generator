@@ -77,7 +77,9 @@ If you notice that the `emerge` process is slow, consider increasing the number 
 
 Please note, however, that not all packages have enough files to fully utilize 32 cores. 
 
-For CPUs with a high number of cores, an alternative and potentially faster approach would be to allow `emerge` to compile multiple packages in parallel. This can be achieved by setting `MAKEOPTS='--jobs 8 --load-average 32'` in your `kubler.conf` file.
+For CPUs with a high number of cores, an alternative and potentially faster approach would be to allow `emerge` to compile multiple packages simultaneously. This can be achieved by setting `MAKEOPTS='--jobs 24 --load-average 32'` in your `kubler.conf` file.
+
+This setting is particularly effective for compiling a large number of small packages, such as Python or Perl libraries. However, for larger packages like Rust, LLVM, or GCC, compiling with 24 jobs in parallel may consume all your memory. Unfortunately, there isn't a one-size-fits-all `MAKEOPTS` setting that is optimal for all scenarios.
 
 ## Building and Testing the Figlet Tool
 
@@ -177,6 +179,58 @@ fails with
 kubler dep-graph -b kubler/nginx mytest
 
 ```
+
+# Create an image with some Python libraries
+
+- i like to use lmfit for data processing with python, lets create an image
+
+```
+kubler new image mytest/lmfit
+```
+
+- base this image on `kubler/python3` and select `bt` for testing 
+
+- start the `kubler/bob-python3` builder image with 
+```
+kubler build mytest/lmfit -i
+```
+
+- i know i want scikit, zarr, tqdm, pandas, numpy, xarray. i use `emerge --search scikit` to find the full name
+
+- zarr is not yet in gentoo's portage so it won't be in the image for now
+
+- when i try to perform the emerge using the kubler command to build the image shown below i found that a few keywords are required to allow some packages that are not fully stable yet.
+
+- modify `mytest/images/lmfit/build.sh`
+```
+_packages="dev-python/lmfit dev-python/pandas dev-python/tqdm dev-python/numpy dev-python/scikit-learn dev-python/xarray dev-python/matplotlib"
+
+# in configure_rootfs_build
+    update_use   'dev-python/pillow' '+webp'
+
+    update_keywords 'dev-python/lmfit' '+~amd64'
+    update_keywords 'dev-python/asteval' '+~amd64'
+    update_keywords 'dev-python/uncertainties' '+~amd64'
+
+```
+
+- run the build of the lmfit image
+```
+kubler build mytest/lmfit -v
+```
+
+- run the new container
+```
+docker run -it --rm mytest/lmfit python
+import numpy
+```
+
+```
+
+ImportError: libgfortran.so.5: cannot open shared object file: No such file or directory
+```
+
+
 
 # create an image with x11
 
