@@ -95,6 +95,8 @@ kubler-bob-bash / # eix figlet
 
 Inside this build container, you can use typical Gentoo tools like eix and emerge -av to investigate dependencies and use flags of the packages you want to install.
 
+Kubler itself suggests to use `history | cut -c 8-` to collect the commands you performed here.
+
 Once you have determined what you want to install, you can modify the build.sh file inside the container and start the build. Alternatively, you can edit the build.sh file outside of the container.
 
 
@@ -182,52 +184,49 @@ kubler dep-graph -b kubler/nginx mytest
 
 # Create an image with some Python libraries
 
-- i like to use lmfit for data processing with python, lets create an image
+Here we create a Docker image with several Python libraries using the Kubler tool.
 
-```
-kubler new image mytest/lmfit
-```
+The first step is to create a new image named "mytest/lmfit" using the command `kubler new image mytest/lmfit`. When asked enter "kubler/python3" as base image and select "bt" for testing.
 
-- base this image on `kubler/python3` and select `bt` for testing 
+Next, start the "kubler/bob-python3" builder image using the command `kubler build mytest/lmfit -i`.
 
-- start the `kubler/bob-python3` builder image with 
-```
-kubler build mytest/lmfit -i
-```
+Specify the Python libraries that should be included in the image: lmfit, pandas, tqdm, numpy, scikit-learn, xarray, and matplotlib. Obtain the full package names using the command `emerge --search scikit`.
 
-- i know i want scikit, zarr, tqdm, pandas, numpy, xarray. i use `emerge --search scikit` to find the full name
+Note that the "zarr" library is not yet available in Gentoo's portage, so it won't be included in the image for now.
 
-- zarr is not yet in gentoo's portage so it won't be in the image for now
+To allow the inclusion of some packages that are not fully stable yet, modify the "build.sh" file in the "mytest/images/lmfit" directory. Use the "update_keywords" function to add the required keywords for the "lmfit", "asteval", and "uncertainties" packages.
 
-- when i try to perform the emerge using the kubler command to build the image shown below i found that a few keywords are required to allow some packages that are not fully stable yet.
-
-- modify `mytest/images/lmfit/build.sh`
+Here are my modifications of `mytest/images/lmfit/build.sh`
 ```
 _packages="dev-python/lmfit dev-python/pandas dev-python/tqdm dev-python/numpy dev-python/scikit-learn dev-python/xarray dev-python/matplotlib"
 
 # in configure_rootfs_build
+# dependencies of matplotlib:
     update_use   'dev-python/pillow' '+webp'
-
+    update_use   'media-gfx/imagemagick' '+jpeg' '+tiff'
+    update_use   'virtual/imagemagick-tools' '+jpeg' '+tiff'
+# this is needed for lmfit:
     update_keywords 'dev-python/lmfit' '+~amd64'
     update_keywords 'dev-python/asteval' '+~amd64'
     update_keywords 'dev-python/uncertainties' '+~amd64'
+# inf finish_rootfs_build
+# numpy needs fortran library
+    cp -rp "${DISTRIBUTION_DIR}/usr/lib64/libgfortran*" "${_EMERGE_ROOT}/usr/lib64"
+
 
 ```
 
-- run the build of the lmfit image
+Build the image using the command
 ```
+cd ~/projects/kubler-images
 kubler build mytest/lmfit -v
 ```
 
-- run the new container
+Finally, run a new container using the "mytest/lmfit" image, and execute a Python script inside the container. However, an error occurs indicating that the "libgfortran.so.5" shared object file is missing.
+
 ```
 docker run -it --rm mytest/lmfit python
 import numpy
-```
-
-```
-
-ImportError: libgfortran.so.5: cannot open shared object file: No such file or directory
 ```
 
 
