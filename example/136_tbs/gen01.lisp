@@ -5,7 +5,7 @@
 (in-package :cl-py-generator)
 
 (progn
-  (defparameter *project* "126_llm_split")
+  (defparameter *project* "136_tbs")
   (defparameter *idx* "01")
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
@@ -21,8 +21,6 @@
 					    vars)))
                    (format  (- (time.time) start_time)
                             ,@vars)))))
-
-  
   (defun doc (def)
     `(do0
       ,@(loop for e in def
@@ -32,21 +30,23 @@
 		  (comments ,(format nil "~a (~a)" help unit))
 		  (setf ,name ,val))))))
   
-  (let* ((notebook-name "split")
-	 (cli-args `((:short "c" :long "chunk_size" :type int :default 500
-		      :help "Approximate number of words per chunk")
-		     (:short "p" :long "prompt" :type str
-		      :default (string "Summarize the following video transcript as a bullet list.")
-		      :help "The prompt to be prepended to the output file(s)."))))
+  (let* ((notebook-name "scrape")
+	 (cli-args `((:short "s" :long "socks_port" :type int :default 9150
+		      :help "SOCKS port.")
+		     (:short "c" :long "control_port" :type int :default 9151
+		      :help "Control port.")
+		     (:short "b" :long "browser-path" :type str
+		      :default (string "/")
+		      :help "Path to browser.")
+		     (:short "u" :long "url" :type str
+		      :default (string "http://news.ycombinator.com/")
+		      :help "URL to scrape."))))
     (write-source
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
        "#!/usr/bin/env python3"
+       
        (do0
-	)
-       (do0
-	(comments "python -m venv ~/gpt_env; . ~/gpt_env/bin/activate; python -m pip install tiktoken"
-		  )
 	#+nil
 	(do0
 	 
@@ -116,6 +116,8 @@
 		  ;(cv cv2)
 		  ;tiktoken
 		  )))
+
+       (imports-from (tbselenium.tbdriver TorBrowserDriver))
        
        (setf start_time (time.time)
 	     debug True)
@@ -141,45 +143,12 @@
 			   month
 			   date
 			   (- tz)))))
-       (def split_document (input_file chunk_size prompt)
-	 (string3 "given an input file split it into several files with at most chunk_size words each. prepend with prompt. replace newlines with space.")
-	 (with (as (open input_file (string "r"))
-		   f)
-	       (setf text (f.read)))
-	 (setf words (text.split)
-	       chunks (list)
-	       current_chunk (list))
-	 (setf word_count 0)
-	 (for (word words)
-	      (current_chunk.append word)
-	      (incf word_count)
-	      (when (<= chunk_size word_count)
-		(chunks.append (dot (string " ")
-				    (join current_chunk)))
-		(setf current_chunk (list))
-		(setf word_count 0)))
-	 (when current_chunk
-	   (chunks.append (dot (string " ")
-			       (join current_chunk))))
-	 (for ((ntuple i chunk)
-	       (enumerate chunks))
-	      (setf output_file
-		    (dot (string "{}.{}")
-			 (format (aref (input_file.split (string ".")) 0)
-				 (dot (str (+ i 1))
-				      (zfill 2)))))
-	      (with (as (open output_file (string "w"))
-			f)
-		    (f.write (+ prompt (string "\\n```\\n")))
-		    (f.write chunk)
-		    (f.write (string "\\n```"))))
-	 )
 
-       (when (== __name__ (string "__main__"))
-	 (do0 (setf parser (argparse.ArgumentParser :description (string "Split a document into chunks. I use this to make summaries with chatgpt4")))
-	      (parser.add_argument (string "input_file")
-				   :type str
-				   :help (string "The input text file to split."))
+       
+
+       (do0 ;when (== __name__ (string "__main__"))
+	 (do0 (setf parser (argparse.ArgumentParser :description (string "Scrape url.")))
+	      
 	      ,@(loop for e in cli-args
 		      collect
 		      (destructuring-bind (&key short long help type default required action nb-init) e
@@ -196,16 +165,16 @@
 					default
 					"None")
 			  :type ,(if type
-					type
-					"None")
+				     type
+				     "None")
 			  :action ,(if action
 				       `(string ,action)
 				       "None"))))
 
 	      (setf args (parser.parse_args))
-	      (split_document args.input_file
-			      args.chunk_size
-			      args.prompt
-			      )))
+	      (with (as (TorBrowserDriver args.browser_path :socks_port args.socks_port
+					  :control_port args.control_port)
+			driver)
+		    (driver.get args.url))))
        ))))
 
