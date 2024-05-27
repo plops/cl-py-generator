@@ -3,13 +3,12 @@ import os
 import time
 import shutil
 import argparse
-import keyboard
 from tbselenium.tbdriver import TorBrowserDriver
 start_time=time.time()
 debug=True
-_code_git_version="aa569b9313a90c92660dd7eb5d1e445a2a009935"
+_code_git_version="8ea29d2d0fe72389538bcdd5c12f158db5fc1729"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/136_tbs/source/"
-_code_generation_time="00:41:02 of Tuesday, 2024-05-28 (GMT+1)"
+_code_generation_time="00:47:00 of Tuesday, 2024-05-28 (GMT+1)"
 parser=argparse.ArgumentParser(description="Scrape url.")
 parser.add_argument("-s", "--socks_port", help="SOCKS port.", default=9150, type=int, action=None)
 parser.add_argument("-c", "--control_port", help="Control port.", default=9151, type=int, action=None)
@@ -20,7 +19,6 @@ parser.add_argument("-u", "--url", help="URL to scrape.", default="http://news.y
 args=parser.parse_args()
 gd=(shutil.which("geckodriver")) if (((args.geckodriver)==("geckodriver"))) else (args.geckodriver)
 driver=TorBrowserDriver(args.browser_path, socks_port=args.socks_port, control_port=args.control_port, executable_path=gd, tbb_logfile_path="/dev/shm/ttb.log")
-rev
 print("{} download args.url={}".format(((time.time())-(start_time)), args.url))
 # Large files may cause a timeout after 300s, resulting in a selenium.common.exceptions.TimeoutException.
 # To handle this, we catch the exception and wait for the download to complete by monitoring the downloads directory.

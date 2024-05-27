@@ -117,7 +117,7 @@
 					;(mpf mplfinance)
 					;(fft scipy.fftpack)
 		  argparse
-		  keyboard
+		 ; keyboard
 					;torch
 					;(mp mediapipe)
 					;mss
@@ -195,7 +195,7 @@
 	       ;,(lprint :vars `((driver.get_cookies)))
 	       #+nil (setf (aref driver.capabilities (string "se:downloadsEnabled"))
 		     True)
-rev	       ,(lprint :msg "download" :vars `(args.url))
+	       ,(lprint :msg "download" :vars `(args.url))
 
 	       (comments "Large files may cause a timeout after 300s, resulting in a selenium.common.exceptions.TimeoutException.
 To handle this, we catch the exception and wait for the download to complete by monitoring the downloads directory.
