@@ -5,7 +5,7 @@
 cd 136_tbs
 python -m venv venv
 . venv/bin/activate
-pip install tbselenium
+pip install tbselenium keyboard
 
 # install geckodriver
 wget https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-v0.34.0-linux64.tar.gz

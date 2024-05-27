@@ -117,6 +117,7 @@
 					;(mpf mplfinance)
 					;(fft scipy.fftpack)
 		  argparse
+		  keyboard
 					;torch
 					;(mp mediapipe)
 					;mss
@@ -192,9 +193,13 @@
 					  :executable_path gd
 					  :tbb_logfile_path (string "/dev/shm/ttb.log")))
 	       ;,(lprint :vars `((driver.get_cookies)))
-	       (setf (aref driver.capabilities (string "se:downloadsEnabled"))
+	       #+nil (setf (aref driver.capabilities (string "se:downloadsEnabled"))
 		     True)
-	       (driver.download_file args.url
-				     args.download_path))))
+	       ,(lprint :msg "download" :vars `(args.url))
+	       (driver.get args.url)
+
+	       ;; saveLinkAsFilenameTimeout 4
+	       ,(lprint :msg "press enter")
+	       (keyboard.press_and_release (string "enter")))))
        ))))
 
