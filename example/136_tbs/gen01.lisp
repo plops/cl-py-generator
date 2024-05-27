@@ -76,7 +76,7 @@
 			title subplot subplot2grid grid text
 			legend figure gcf xlim ylim)
 		       )
-	(imports (			;	os
+	(imports (				os
 					;sys
 		  time
 		  shutil
@@ -195,11 +195,36 @@
 	       ;,(lprint :vars `((driver.get_cookies)))
 	       #+nil (setf (aref driver.capabilities (string "se:downloadsEnabled"))
 		     True)
-	       ,(lprint :msg "download" :vars `(args.url))
-	       (driver.get args.url)
+rev	       ,(lprint :msg "download" :vars `(args.url))
 
-	       ;; saveLinkAsFilenameTimeout 4
-	       ,(lprint :msg "press enter")
-	       (keyboard.press_and_release (string "enter")))))
+	       (comments "Large files may cause a timeout after 300s, resulting in a selenium.common.exceptions.TimeoutException.
+To handle this, we catch the exception and wait for the download to complete by monitoring the downloads directory.
+During the download, the browser creates a temporary file with the same stem as the downloaded file. This filename may also contain arbitrary characters behind the stem and ends with the extension .part.
+Once the download is complete, the temporary file is renamed to the final filename.
+The script waits until this renaming process is complete before terminating.")
+	       (try
+		(driver.get args.url)
+		("Exception as e"
+		 ,(lprint :vars `(e))
+		 ,(lprint :msg "waiting for download to finish")
+		 (setf file_stem (dot
+				  args
+				  url
+				  (aref (split (string "/"))
+					-1)
+				  (aref (split (string "."))
+					0)))
+		 ,(lprint :vars `(file_stem))
+		 (while True
+			(if (any
+			     (list
+			      (for-generator (f (os.listdir
+						 args.download_path))
+					     (and (in file_stem f)
+						  (f.endswith (string ".part"))))))
+			    (time.sleep 1)
+			    break))))
+
+	    )))
        ))))
 
