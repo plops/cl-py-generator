@@ -29,3 +29,6 @@ https://github.com/mozilla/geckodriver/
 
 - thorough library to control firefox that contains download and downloads
 https://github.com/david-dick/firefox-marionette/blob/master/lib/Firefox/Marionette.pm
+
+- how to get state of download by looking at about:downloads
+https://stackoverflow.com/questions/35891393/how-to-get-file-download-complete-status-using-selenium-web-driver-c-sharp
