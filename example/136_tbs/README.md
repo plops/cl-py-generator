@@ -26,3 +26,6 @@ tor-browser $ ./start-tor-browser.desktop -marionette
 # References
 
 https://github.com/mozilla/geckodriver/
+
+- thorough library to control firefox that contains download and downloads
+https://github.com/david-dick/firefox-marionette/blob/master/lib/Firefox/Marionette.pm
