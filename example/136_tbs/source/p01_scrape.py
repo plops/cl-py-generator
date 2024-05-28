@@ -6,13 +6,14 @@ import argparse
 from tbselenium.tbdriver import TorBrowserDriver
 start_time=time.time()
 debug=True
-_code_git_version="8ea29d2d0fe72389538bcdd5c12f158db5fc1729"
+_code_git_version="3cad65c1028242e9aac2e0f5a3236d3fbff17667"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/136_tbs/source/"
-_code_generation_time="00:47:00 of Tuesday, 2024-05-28 (GMT+1)"
+_code_generation_time="08:22:35 of Tuesday, 2024-05-28 (GMT+1)"
 parser=argparse.ArgumentParser(description="Scrape url.")
 parser.add_argument("-s", "--socks_port", help="SOCKS port.", default=9150, type=int, action=None)
 parser.add_argument("-c", "--control_port", help="Control port.", default=9151, type=int, action=None)
 parser.add_argument("-b", "--browser-path", help="Path to browser.", default="/", type=str, action=None)
+parser.add_argument("-T", "--temp-download-path", help="Path where to store downloads.", default="/dev/shm/tor-browser/Browser/Downloads/", type=str, action=None)
 parser.add_argument("-D", "--download-path", help="Path where to store downloads.", default="/dev/shm/", type=str, action=None)
 parser.add_argument("-g", "--geckodriver", help="Path to browser.", default="geckodriver", type=str, action=None)
 parser.add_argument("-u", "--url", help="URL to scrape.", default="http://news.ycombinator.com/", type=str, action=None)
@@ -30,10 +31,15 @@ try:
 except Exception as e:
     print("{} nil e={}".format(((time.time())-(start_time)), e))
     print("{} waiting for download to finish ".format(((time.time())-(start_time))))
+    # FIXME: handle aborted download
     file_stem=args.url.split("/")[-1].split(".")[0]
     print("{} nil file_stem={}".format(((time.time())-(start_time)), file_stem))
     while (True):
-        if ( any([(((file_stem in f)) and (f.endswith(".part"))) for f in os.listdir(args.download_path)]) ):
+        if ( any([(((file_stem in f)) and (f.endswith(".part"))) for f in os.listdir(args.temp_download_path)]) ):
             time.sleep(1)
         else:
+            for f in os.listdir(args.temp_download_path):
+                if ( (file_stem in f) ):
+                    shutil.mvoe(((args.temp_download_path)+(f)), ((args.download_path)+(f)))
+                    break
             break

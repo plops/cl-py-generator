@@ -38,6 +38,10 @@
 		     (:short "b" :long "browser-path" :type str
 		      :default (string "/")
 		      :help "Path to browser.")
+		     
+		     (:short "T" :long "temp-download-path" :type str
+		      :default (string "/dev/shm/tor-browser/Browser/Downloads/")
+		      :help "Path where to store downloads.")
 		     (:short "D" :long "download-path" :type str
 		      :default (string "/dev/shm/")
 		      :help "Path where to store downloads.")
@@ -207,6 +211,7 @@ The script waits until this renaming process is complete before terminating.")
 		("Exception as e"
 		 ,(lprint :vars `(e))
 		 ,(lprint :msg "waiting for download to finish")
+		 (comments "FIXME: handle aborted download")
 		 (setf file_stem (dot
 				  args
 				  url
@@ -219,11 +224,18 @@ The script waits until this renaming process is complete before terminating.")
 			(if (any
 			     (list
 			      (for-generator (f (os.listdir
-						 args.download_path))
+						 args.temp_download_path))
 					     (and (in file_stem f)
 						  (f.endswith (string ".part"))))))
 			    (time.sleep 1)
-			    break))))
+			    (do0
+			     (for (f (os.listdir
+				      args.temp_download_path))
+				  (when (in file_stem f)
+				    (shutil.mvoe (+ args.temp_download_path f)
+						 (+ args.download_path f))
+				    break))
+			     break)))))
 
 	    )))
        ))))
