@@ -129,8 +129,9 @@
 		  ;tiktoken
 		  )))
 
+
        (imports-from (tbselenium.tbdriver TorBrowserDriver))
-       
+       "from helium import *"
        (setf start_time (time.time)
 	     debug True)
        (setf
@@ -196,9 +197,10 @@
 					  :control_port args.control_port
 					  :executable_path gd
 					  :tbb_logfile_path (string "/dev/shm/ttb.log")))
-	       ;,(lprint :vars `((driver.get_cookies)))
+	       (set_driver driver)
+					;,(lprint :vars `((driver.get_cookies)))
 	       #+nil (setf (aref driver.capabilities (string "se:downloadsEnabled"))
-		     True)
+			   True)
 	       ,(lprint :msg "download" :vars `(args.url))
 
 	       (comments "Large files may cause a timeout after 300s, resulting in a selenium.common.exceptions.TimeoutException.
