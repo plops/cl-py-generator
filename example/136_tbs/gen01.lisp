@@ -232,7 +232,7 @@ The script waits until this renaming process is complete before terminating.")
 			     (for (f (os.listdir
 				      args.temp_download_path))
 				  (when (in file_stem f)
-				    (shutil.mvoe (+ args.temp_download_path f)
+				    (shutil.move (+ args.temp_download_path f)
 						 (+ args.download_path f))
 				    break))
 			     break)))))

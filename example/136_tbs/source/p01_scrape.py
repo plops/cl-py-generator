@@ -6,9 +6,9 @@ import argparse
 from tbselenium.tbdriver import TorBrowserDriver
 start_time=time.time()
 debug=True
-_code_git_version="3cad65c1028242e9aac2e0f5a3236d3fbff17667"
+_code_git_version="b123395099df6864d52bbc6e5e24315c2f7857bc"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/136_tbs/source/"
-_code_generation_time="08:22:35 of Tuesday, 2024-05-28 (GMT+1)"
+_code_generation_time="07:40:57 of Thursday, 2024-05-30 (GMT+1)"
 parser=argparse.ArgumentParser(description="Scrape url.")
 parser.add_argument("-s", "--socks_port", help="SOCKS port.", default=9150, type=int, action=None)
 parser.add_argument("-c", "--control_port", help="Control port.", default=9151, type=int, action=None)
@@ -40,6 +40,6 @@ except Exception as e:
         else:
             for f in os.listdir(args.temp_download_path):
                 if ( (file_stem in f) ):
-                    shutil.mvoe(((args.temp_download_path)+(f)), ((args.download_path)+(f)))
+                    shutil.move(((args.temp_download_path)+(f)), ((args.download_path)+(f)))
                     break
             break
