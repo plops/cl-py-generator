@@ -274,7 +274,7 @@ umount /dev/nvme0n1p3
 umount /dev/nvme0n1p5
 mount -t ext4 /dev/nvme0n1p3 /mnt
 mount -t ext4 /dev/nvme0n1p5 /mnt5
-mount /mnt/gentoo_20230930.squashfs /squash
+mount /mnt/gentoo_20240615.squashfs /squash
 mkdir -p /mnt5/persistent/lower
 mkdir -p /mnt5/persistent/work
 mount -t overlay overlay -o upperdir=/mnt5/persistent/lower,lowerdir=/squash,workdir=/mnt5/persistent/work /sysroot 
