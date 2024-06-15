@@ -5365,6 +5365,7 @@ eclean-pkg # nothing
 
 find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s\n"|sort -n 
 
+/etc/portage/savedconfig/x11-dwm/dwm-6.5 needs editing (previous version was 6.4)
 ```
 
 ```
@@ -5380,7 +5381,7 @@ find /var/cache/binpkgs/ -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS %Tz %f size=%s
 - create new image
 
 ```
-export TODAY=20240224
+export TODAY=20240615
 export INDIR=/
 export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
 rm $OUTFILE
