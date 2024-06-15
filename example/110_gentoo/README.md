@@ -5329,6 +5329,7 @@ If the CHOST has NOT changed, skip to step 13 (env-update). Otherwise,
 
 14. Re-emerge libtool:
    emerge --ask --oneshot libtool
+reboot
 
 15. Just for safety, delete the contents of your binary package cache at 
     ${PKGDIR} again:
@@ -5336,6 +5337,7 @@ If the CHOST has NOT changed, skip to step 13 (env-update). Otherwise,
 
 16. Rebuild world:
    emerge --ask --emptytree @world
+   emerge --jobs=6 --load-average=10 --ask --emptytree @world 
 
 [1] https://wiki.gentoo.org/wiki/Project:Toolchain/23.0_profile_transition
 [2] https://wiki.gentoo.org/wiki/Project:Toolchain/23.0_profile_timeline
