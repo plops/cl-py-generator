@@ -5514,8 +5514,8 @@ menuentry 'Gentoo GNU/Linux 20240616 6.6.30 ram squash persist crypt ssd ' --cla
 	echo	'Loading Linux 6.6.30-gentoo-x86_64 ...'
 # the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
 # the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
-	linux	/vmlinuz-6.6.30-gentoo root=/dev/nvme0n1p3 init=/init mitigations=off
-	initrd	/initramfs20240616_squash_crypt-6.6.30-gentoo.img
+	linux	/vmlinuz-6.6.30-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20240616_squash_crypt-6.6.30-gentoo-x86_64.img
 }
 
 menuentry 'Gentoo GNU/Linux 6.6.30 from disk' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
@@ -5528,7 +5528,7 @@ menuentry 'Gentoo GNU/Linux 6.6.30 from disk' --class gentoo --class gnu-linux -
 	insmod fat
 	search --no-floppy --fs-uuid --set=root F63D-5318
 	echo	'Loading Linux 6.6.30-gentoo ...'
-	linux	/vmlinuz-6.6.30-gentoo root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+	linux	/vmlinuz-6.6.30-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
 }
 
 
@@ -5593,7 +5593,11 @@ initramfs-with-squashfs.img
 
 ```
 
+```
+Filesystem size 1835228.57 Kbytes (1792.22 Mbytes)
+        29.81% of uncompressed filesystem size (6156208.55 Kbytes)
 
+```
 
 ```
 emacs init_dracut_crypt.sh
@@ -5603,8 +5607,8 @@ chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 dracut \
   -m " kernel-modules base rootfs-block crypt dm " \
   --filesystems " squashfs vfat overlay " \
-  --kver=6.6.30-gentoo \
+  --kver=6.6.30-gentoo-x86_64 \
   --force \
-  "/boot/initramfs"$TODAY"_squash_crypt-6.6.30-gentoo.img"
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.30-gentoo-x86_64.img"
 
 ```
