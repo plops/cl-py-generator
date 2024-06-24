@@ -492,4 +492,69 @@ Instead of fixing the number of simulations beforehand, use an iterative approac
 - **Parallelization:** If your simulations are computationally expensive, consider parallelizing the simulation and fitting process within each iteration to speed up the optimization. 
 - **Adaptive Increments:** You could potentially make the increment for `num_simulations` adaptive, increasing it by larger steps initially and then refining with smaller steps as the variance decreases.
 
-By incorporating variance analysis into your diameter optimization, you can make the process more robust and ensure that your final RMSE estimate, and consequently, your optimal disk diameter, are based on a sufficiently large and reliable set of simulations.
+By incorporating variance analysis into your diameter optimization,
+you can make the process more robust and ensure that your final RMSE
+estimate, and consequently, your optimal disk diameter, are based on a
+sufficiently large and reliable set of simulations.
+
+
+
+## Question:
+User: what is the correct optimizer to use if the gray values of the
+image are poisson distributed? least squares can be used for normal
+distributed noise.
+
+## Answer:
+
+You're right, using ordinary least squares (OLS) might not be the most
+appropriate choice when your image data follows a Poisson
+distribution. OLS assumes normally distributed errors, which doesn't
+hold true for Poisson data, especially at low signal levels where the
+Poisson distribution becomes skewed.
+
+Here are more suitable optimizers for handling Poisson-distributed image data:
+
+**1. Poisson Loss Function (Maximum Likelihood Estimation)**
+
+The most statistically principled approach is to use a loss function that directly models the Poisson noise. This is equivalent to performing Maximum Likelihood Estimation (MLE).
+
+* **Mathematical Formulation:**  For Poisson distributed data, the negative log-likelihood (which you want to minimize) is:
+
+   ```
+   Loss = sum(y_pred - y_true * log(y_pred)) 
+   ```
+   where:
+     - `y_true` are your observed pixel values (counts)
+     - `y_pred` are the predicted pixel values from your star spot model
+
+* **Implementation:**
+    - **`scipy.optimize` (Python):** You can use the general-purpose optimizers in `scipy.optimize` (e.g., `minimize`) and pass in a custom loss function that calculates the Poisson negative log-likelihood.
+    - **GLM with Poisson Family (R):** In R, Generalized Linear Models (GLMs) are ideal. Use `glm(..., family = poisson())`.
+    - **Other Libraries:** Many optimization and statistical modeling libraries have built-in support for Poisson regression or MLE with Poisson data. 
+
+**2. Weighted Least Squares**
+
+If you want to stay within the framework of least squares, you can use *weighted least squares (WLS)* to account for the unequal variances of the Poisson distribution.
+
+* **Weighting Scheme:** In WLS, you assign weights to each data point inversely proportional to its variance. For Poisson data, the variance is equal to the mean. Since you don't know the true mean, you can approximate it with the observed counts: 
+
+   ```
+   weights = 1 / y_true 
+   ```
+   (Be careful with zero counts; add a small constant to avoid division by zero).
+
+* **Implementation:**
+    - **`curve_fit` (Python):** The `curve_fit` function in `scipy.optimize` allows you to provide weights.
+    - **`lm` (R):** Use the `weights` argument in the `lm()` function. 
+
+**Which Method to Choose:**
+
+- **Poisson Loss Function (MLE):**
+    - **Pros:** Statistically most appropriate for Poisson data, provides more accurate confidence intervals and statistical tests.
+    - **Cons:** Might be slightly more complex to implement than WLS.
+
+- **Weighted Least Squares:**
+    - **Pros:** Simpler to implement, often computationally faster than full MLE.
+    - **Cons:**  Might provide less accurate results than MLE, especially for low count values.
+
+**In summary**, using a Poisson loss function (MLE) is generally recommended for optimal accuracy when dealing with Poisson-distributed image data. However, weighted least squares can be a good alternative if you need a simpler or faster approach. 
