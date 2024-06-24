@@ -5487,3 +5487,128 @@ menuentry 'Gentoo GNU/Linux 20240615 6.6.17 ram squash persist crypt ssd ' --cla
 }
 
 ```
+
+# update 2024-06-16
+
+- update kernel from 6.6.17 to 6.6.30
+
+```
+# modify portage gentoo-sources and linux-headers (not in ~amd64 accept keywords anymore)
+emerge sys-kernel/gentoo-sources
+eselect kernel set 2
+cd /usr/src/linux
+make oldconfig
+make -j 12
+make modules_install install
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20240616 6.6.30 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.30-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.6.30-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20240616_squash_crypt-6.6.30-gentoo-x86_64.img
+}
+
+menuentry 'Gentoo GNU/Linux 6.6.30 from disk' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.30-gentoo ...'
+	linux	/vmlinuz-6.6.30-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+}
+
+
+```
+
+
+```
+export TODAY=20240616
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+lib/modules/6.6.12-gentoo-x86_64 \
+lib/modules/6.6.17-gentoo-x86_64 \
+usr/lib/modules/6.3.12-gentoo-x86_64 \
+usr/lib/modules/6.6.12-gentoo-x86_64 \
+usr/lib/modules/6.6.17-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/stage \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
+persistent \
+initramfs-with-squashfs.img
+
+```
+
+```
+Filesystem size 1835228.57 Kbytes (1792.22 Mbytes)
+        29.81% of uncompressed filesystem size (6156208.55 Kbytes)
+
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.6.30-gentoo-x86_64 \
+  --force \
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.30-gentoo-x86_64.img"
+
+```
