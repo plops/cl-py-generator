@@ -2,6 +2,7 @@ import numpy as np
 from scipy.optimize import curve_fit, least_squares
 from lmfit import minimize, Parameters, report_fit
 import matplotlib.pyplot as plt
+plt.ion()
 
 # Define Gaussian and Parabolic PSF models
 def gaussian_psf(xy, x0, y0, A, sigma):
@@ -46,6 +47,9 @@ def fit_psf(image, psf_model, footprint_shape='disk', footprint_size=5):
     return popt, pcov
 
 # Example usage:
-image = generate_star_image(gaussian_psf, 'gaussian', x0=25, y0=25, A=100, sigma=2)
+image = generate_star_image(gaussian_psf, 'gaussian', x0=25.2, y0=25, A=100, sigma=2)
+
+plt.imshow(image, origin='lower')
+
 popt, pcov = fit_psf(image, gaussian_psf)
 print("Fitted center:", popt[:2])
