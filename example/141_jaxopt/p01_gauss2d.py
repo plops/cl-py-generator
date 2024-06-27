@@ -55,7 +55,7 @@ x = jnp.linspace(-5, 5, 100)
 y = jnp.linspace(-5, 5, 100)
 x, y = jnp.meshgrid(x, y)
 params_true = jnp.array([189.0, 1.2, 2.3, 1.0, 3.0])
-data = create_image(params_true, x, y)
+data = create_image(params_true, x, y) 
 
 # initial guess for the parameters as jax array
 
