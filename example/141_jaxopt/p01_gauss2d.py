@@ -39,11 +39,10 @@ def create_image(params, x, y):
 # maxiter (int): Maximum number of iterations to perform. Depending on the method each iteration may use several function evaluations.
 
 
-# create the model function for the optimization, it shall return
-# a 1d array with the residuals
+# create the model function for the optimization, it shall return a scalar
 
 def model_fun(params, x, y, data):
-    return jnp.ravel(model(params, x, y) - data)
+    return jnp.sum((model(params, x, y) - data) ** 2)
 
 # this function undoes the ravel operation in model_fun
 
