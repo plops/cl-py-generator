@@ -55,12 +55,12 @@ def model_fun_reshape(params, x, y, data):
 x = jnp.linspace(-5, 5, 100)
 y = jnp.linspace(-5, 5, 100)
 x, y = jnp.meshgrid(x, y)
-data = create_image([180.0, 1.0, 0.0, 3.0, 3.0], x, y)
+params_true = jnp.array([189.0, 1.2, 2.3, 1.0, 3.0])
+data = create_image(params_true, x, y)
 
-# initial guess for the parameters
+# initial guess for the parameters as jax array
 
-params0 = [100.0, 0.0, 0.0, 1.0, 0.0]
-
+params0 = jnp.array([100.0, 0.0, 0.0, 1.0, 0.0])
 # optimize the parameters
 
 result = jax.scipy.optimize.minimize(
