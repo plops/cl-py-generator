@@ -71,3 +71,23 @@ result = jax.scipy.optimize.minimize(
 # print the optimized parameters
 
 print(result.x)
+
+
+# 1. Jacobian Calculation (for amplitude A)
+# `jax.jacfwd` calculates the forward-mode Jacobian 
+# (more efficient for sensitivity to many inputs)
+
+get_amplitude_sensitivity = jax.jacfwd(model_fun, argnums=3)  # Sensitivity w.r.t. data
+
+
+
+# 3. Calculate and Visualize the Sensitivity
+
+sensitivity_map = get_amplitude_sensitivity(result.x, x, y, data)
+sensitivity_map = sensitivity_map.reshape(data.shape) # Reshape to image dimensions
+
+# --- (Visualization code using matplotlib - add your own) ---
+import matplotlib.pyplot as plt
+plt.imshow(data, cmap='gray') 
+plt.imshow(sensitivity_map, cmap='hot', alpha=0.5) # Overlay sensitivity as a heatmap
+plt.show()
