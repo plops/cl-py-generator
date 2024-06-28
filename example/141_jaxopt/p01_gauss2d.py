@@ -77,6 +77,8 @@ print(result.x)
 # `jax.jacfwd` calculates the forward-mode Jacobian 
 # (more efficient for sensitivity to many inputs)
 
+# argnums (int | Sequence[int]) – Optional, integer or sequence of integers. Specifies which positional argument(s) to differentiate with respect to (default 0).
+
 get_amplitude_sensitivity = jax.jacfwd(model_fun, argnums=3)  # Sensitivity w.r.t. data
 
 
