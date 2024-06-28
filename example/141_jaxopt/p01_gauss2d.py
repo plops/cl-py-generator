@@ -93,3 +93,73 @@ import matplotlib.pyplot as plt
 plt.imshow(data, cmap='gray') 
 plt.imshow(sensitivity_map, cmap='hot', alpha=0.5) # Overlay sensitivity as a heatmap
 plt.show()
+
+
+
+# Explanation:
+# Jaxopt GradientDescent: We use Jaxopt's GradientDescent solver for the optimization. This solver has built-in implicit differentiation capabilities.
+# jax.jacfwd on gd.run: We now compute the Jacobian of the gd.run function, which represents the entire optimization process. This gives us the sensitivity of the fitted parameters to the input data.
+# Visualization: We iterate through the sensitivity maps for each parameter and visualize them as heatmaps, similar to your previous examples.
+# Key Points:
+# Differentiable Minimizer: GradientDescent from Jaxopt is a differentiable minimizer, allowing us to differentiate through the optimization.
+# argnums=3: We are computing the sensitivity with respect to the data argument in gd.run.
+# Interpretation: The heatmaps show how each pixel influences the fitted values of each parameter.
+# This example demonstrates how Jaxopt enables you to go beyond analyzing model sensitivity and directly analyze the sensitivity of the parameters obtained through optimization. This is a more powerful technique that gives you deeper insights into how your fitting process is affected by the input data.
+
+import jax
+import jax.numpy as jnp
+from jaxopt import GradientDescent
+from jaxopt import objective
+import matplotlib.pyplot as plt
+
+# Model and Image Creation (same as before)
+
+def model(params, x, y):
+    A, cx, cy, sigma, o = params
+    return A * jnp.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * sigma ** 2)) + o
+
+
+def create_image(params, x, y):
+    A, cx, cy, sigma, o = params
+    return model(params, x, y) + jax.random.normal(jax.random.PRNGKey(0), x.shape) * 0.1
+
+
+# --- Objective Function ---
+
+def model_fun(params, x, y, data):
+    return jnp.mean((model(params, x, y) - data) ** 2)  # Using jnp.mean for better scaling
+
+
+# --- Optimization with Jaxopt ---
+
+# 1. Create a GradientDescent solver
+gd = GradientDescent(fun=model_fun, maxiter=1000)
+
+# 2. Data and Initial Parameters (same as before)
+x = jnp.linspace(-5, 5, 100)
+y = jnp.linspace(-5, 5, 100)
+x, y = jnp.meshgrid(x, y)
+params_true = jnp.array([189.0, 1.2, 2.3, 1.0, 3.0])
+data = create_image(params_true, x, y)
+params0 = jnp.array([100.0, 0.0, 0.0, 1.0, 0.0])
+
+# 3. Run the Optimization
+fitted_params, state = gd.run(init_params=params0, x=x, y=y, data=data)
+
+print("Fitted parameters:", fitted_params)
+
+# --- Sensitivity Analysis of Fitted Parameters ---
+
+# 1. Jacobian Calculation
+get_param_sensitivity = jax.jacfwd(gd.run, argnums=3) # Sensitivity w.r.t. data
+
+# 2. Calculate Sensitivities
+sensitivity_map = get_param_sensitivity(params0, x, y, data)[0] # Get sensitivity of the output params
+
+# 3. Visualize Sensitivity for Each Parameter
+for i, param_name in enumerate(["A", "cx", "cy", "sigma", "o"]):
+    plt.figure()
+    plt.title(f"Sensitivity of {param_name}")
+    plt.imshow(data, cmap='gray') 
+    plt.imshow(sensitivity_map[i].reshape(data.shape), cmap='hot', alpha=0.5)
+    plt.show()
