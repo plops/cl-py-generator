@@ -5758,3 +5758,4 @@ dracut \
   "/boot/initramfs"$TODAY"_squash_crypt-6.6.38-gentoo-x86_64.img"
 
 ```
+- reboot into 6.6.38 from disk and build the ryzen monitor module
