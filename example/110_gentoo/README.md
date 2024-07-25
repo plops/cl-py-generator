@@ -940,6 +940,7 @@ M-x slime
 # delete old swank
 rm -rf ~/.cache/common-lisp/sbcl-2.2.9-linux-x64/
 
+
 ```
 - stage/ directory with git repositories
 - src/rysen-monitor (i think that did not change)
@@ -5639,6 +5640,10 @@ make -j12
 make modules_install
 make install
 cp /boot/vmlinuz /boot/vmlinuz-6.6.38-gentoo-x86_64
+
+update emacs packages # (2)
+
+# i tried updating slime, didn't help
 
 emacs /boot/grub/grub.cfg
 
