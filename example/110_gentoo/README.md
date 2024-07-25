@@ -5612,3 +5612,16 @@ dracut \
   "/boot/initramfs"$TODAY"_squash_crypt-6.6.30-gentoo-x86_64.img"
 
 ```
+# update 2024-07-25
+```
+eix-sync
+
+
+dispatch-conf
+
+emerge --deselect grpc
+emerge --deselect lmfit
+
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+
+```
