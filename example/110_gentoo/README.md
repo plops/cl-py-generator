@@ -5623,5 +5623,17 @@ emerge --deselect grpc
 emerge --deselect lmfit
 
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+emerge --depclean
+# clang is now 18
+# kernel 6.6.38 instead of 6.6.30
+# python 3.12.3-r1 instead of python 3.11.8_p1
+# protobuf, re2, asteval, lmfit, grpc gone
 
+
+eselect kernel list
+eselect kernel set 2 # set 6.6.38
+cd /usr/src/linux
+cp ../linux-6.6.30/.config .
+make menuconfig
+make -j12
 ```
