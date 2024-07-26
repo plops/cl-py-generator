@@ -940,6 +940,7 @@ M-x slime
 # delete old swank
 rm -rf ~/.cache/common-lisp/sbcl-2.2.9-linux-x64/
 
+
 ```
 - stage/ directory with git repositories
 - src/rysen-monitor (i think that did not change)
@@ -5612,3 +5613,149 @@ dracut \
   "/boot/initramfs"$TODAY"_squash_crypt-6.6.30-gentoo-x86_64.img"
 
 ```
+# update 2024-07-25
+```
+eix-sync
+
+
+dispatch-conf
+
+emerge --deselect grpc
+emerge --deselect lmfit
+
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+emerge --depclean
+# clang is now 18
+# kernel 6.6.38 instead of 6.6.30
+# python 3.12.3-r1 instead of python 3.11.8_p1
+# protobuf, re2, asteval, lmfit, grpc gone
+revdev-rebuild # nothing
+
+eselect kernel list
+eselect kernel set 2 # set 6.6.38
+cd /usr/src/linux
+cp ../linux-6.6.30/.config .
+make menuconfig
+make -j12
+make modules_install
+make install
+cp /boot/vmlinuz /boot/vmlinuz-6.6.38-gentoo-x86_64
+
+update emacs packages # (2)
+
+# i tried updating slime, didn't help
+
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20240727 6.6.38 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.38-gentoo-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.6.38-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20240727_squash_crypt-6.6.38-gentoo-x86_64.img
+}
+
+menuentry 'Gentoo GNU/Linux 6.6.38 from disk' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.38-gentoo ...'
+	linux	/vmlinuz-6.6.38-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+}
+
+export TODAY=20240727
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 6 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+lib/modules/6.6.12-gentoo-x86_64 \
+lib/modules/6.6.17-gentoo-x86_64 \
+lib/modules/6.6.30-gentoo-x86_64 \
+usr/lib/modules/6.3.12-gentoo-x86_64 \
+usr/lib/modules/6.6.12-gentoo-x86_64 \
+usr/lib/modules/6.6.17-gentoo-x86_64 \
+usr/lib/modules/6.6.30-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/stage \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
+persistent \
+initramfs-with-squashfs.img
+
+
+```
+
+- 50Mb smaller than before (compressed)
+```
+Filesystem size 1797389.54 Kbytes (1755.26 Mbytes)
+        30.32% of uncompressed filesystem size (5927673.71 Kbytes)
+
+```
+
+```
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.6.38-gentoo-x86_64 \
+  --force \
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.38-gentoo-x86_64.img"
+
+```
+- reboot into 6.6.38 from disk and build the ryzen monitor module
