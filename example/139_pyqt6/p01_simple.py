@@ -12,7 +12,7 @@ class Window(QWidget):
         #self.setWindowIcon(QIcon('icon.png'))
         self.setFixedSize(800, 600)
         self.setStyleSheet('background-color: lightblue;')
-        self.setWindowOpacity(0.4)
+        self.setWindowOpacity(0.4 )
 
 app = QApplication(sys.argv)
 
