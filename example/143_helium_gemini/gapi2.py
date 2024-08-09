@@ -21,11 +21,13 @@ with open("/home/martin/api_key.txt") as f:
 # if no -f argument is given read prompt2 from stdin
 # if -C is given, compress the post request
 # if -P is given, use the pro model
+# if -v is given, print verbose output
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-f", "--file", help="file to read")
 argparser.add_argument("-C", "--compress", help="compress the post request", action="store_true")
 argparser.add_argument("-P", "--pro", help="use the pro model", action="store_true")
+argparser.add_argument("-v", "--verbose", help="print verbose output", action="store_true")
 args = argparser.parse_args()
 if args.file:
     with open(args.file) as f:
@@ -41,7 +43,7 @@ else:
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + api_key
 
 data = {"contents": [{"parts": [{"text": prompt + prompt2}]}]}
-datafq = json.dumps(data)
+data = json.dumps(data)
 # compress the post request
 if args.compress:
     headers = {"Content-Type": "application/json", "Accept-Encoding": "gzip", "Content-Encoding": "gzip"}
@@ -54,9 +56,12 @@ response = requests.post(url, headers=headers,
                          data=data, proxies=proxies)
 
 if response.status_code == 200:
-    #print(response.json())
     summary = response.json()['candidates'][0]['content']['parts'][0]['text']
-    print(summary)
+    input_tokens = rensponse.json()['usageMetadata']['promptTokenCount']
+    output_tokens = response.json()['usageMetadata']['candidatesTokenCount']
+    if args.verbose:
+        print(response)
+        print(summary)
 else:
     print(f"Error: {response.status_code}")
     print(response.text)
@@ -70,7 +75,11 @@ response2 = requests.post(url, headers=headers,
 
 if response2.status_code == 200:
     summary2 = response2.json()['candidates'][0]['content']['parts'][0]['text']
-    print(summary2)
+    input_tokens2 = response2.json()['usageMetadata']['promptTokenCount']
+    output_tokens2 = response2.json()['usageMetadata']['candidatesTokenCount']
+    if args.verbose:
+        print(response2)
+        print(summary2)
 else:
     print(f"Error: {response2.status_code}")
     print(response2.text)
@@ -86,3 +95,14 @@ if args.pro:
     print("I used Google Gemini 1.5 Pro to summarize the transcript.")
 else:
     print("I used Google Gemini 1.5 Flash to summarize the transcript.")
+
+# this is for <= 128k tokens
+price_input_token_usd_per_mio = 0.075
+price_output_token_usd_per_mio = 0.3
+
+cost_input = (input_tokens+input_tokens2) / 1_000_000 * price_input_token_usd_per_mio
+cost_output = (output_tokens+output_tokens2) / 1_000_000 * price_output_token_usd_per_mio
+print(f"Cost: ${cost_input+cost_output:.2f}")
+
+print(f"Input tokens: {input_tokens+input_tokens2}")
+print(f"Output tokens: {output_tokens+output_tokens2}")
