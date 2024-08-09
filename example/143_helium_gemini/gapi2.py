@@ -41,7 +41,7 @@ else:
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + api_key
 
 data = {"contents": [{"parts": [{"text": prompt + prompt2}]}]}
-data = json.dumps(data)
+datafq = json.dumps(data)
 # compress the post request
 if args.compress:
     headers = {"Content-Type": "application/json", "Accept-Encoding": "gzip", "Content-Encoding": "gzip"}
@@ -75,3 +75,14 @@ else:
     print(f"Error: {response2.status_code}")
     print(response2.text)
     sys.exit(1)
+
+# replace '**' with '*' in summary2
+
+summary2 = summary2.replace("**", "*")
+
+print("*Summary*")
+print(summary2)
+if args.pro:
+    print("I used Google Gemini 1.5 Pro to summarize the transcript.")
+else:
+    print("I used Google Gemini 1.5 Flash to summarize the transcript.")
