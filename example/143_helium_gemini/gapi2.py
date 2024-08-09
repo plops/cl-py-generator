@@ -6,6 +6,7 @@ import json
 import sys
 import time
 import datetime
+import os
 
 
 LOG_FILE_PATH = "logfile.log"
@@ -44,6 +45,7 @@ with open("/home/martin/api_key.txt") as f:
 # command line arguments:
 # -f <file> read file into prompt2 variable
 # if no -f argument is given read prompt2 from stdin
+# alternatively you can use -y DmgqT9CQSf8 to download the youtube video transcript with that id
 # if -C is given, compress the post request
 # if -P is given, use the pro model
 # if -v is given, print verbose output
@@ -53,14 +55,28 @@ argparser.add_argument("-f", "--file", help="file to read")
 argparser.add_argument("-C", "--compress", help="compress the post request", action="store_true")
 argparser.add_argument("-P", "--pro", help="use the pro model", action="store_true")
 argparser.add_argument("-v", "--verbose", help="print verbose output", action="store_true")
+argparser.add_argument("-y", "--youtube", help="download youtube video transcript with that id")
 args = argparser.parse_args()
+
+
+start = time.time()
+
 if args.file:
     with open(args.file) as f:
         prompt2 = f.read()
+elif args.youtube:
+    # execute the following program: yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o <id> <id>
+    os.system(f"yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o {args.youtube} {args.youtube}")
+    # now use awk to clean up the srt file (make timestamps less verbose)
+    # awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' <id>.en.srt > <id>.txt
+    os.system("""awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' """ + args.youtube + ".en.srt > " + args.youtube + ".txt")
+    # and read the output file that is named <id>.en.srt into prompt2
+    with open(f"{args.youtube}.txt") as f:
+        prompt2 = f.read()
+    
 else:
     prompt2 = input("Enter prompt2: ")
 
-start = time.time()
 
 prompt = "I don't want to watch the video. Create a self-contained bullet list summary from the following transcript that I can understand without watching the video. "
 
@@ -123,28 +139,38 @@ else:
 
 summary2 = summary2.replace("**", "*")
 
-print("*Summary*")
-print(summary2)
-if args.pro:
-    print("I used Google Gemini 1.5 Pro to summarize the transcript.")
-else:
-    print("I used Google Gemini 1.5 Flash to summarize the transcript.")
+# Create the filename with datetime and ID
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+filename = f"/home/martin/gemini/{timestamp}_{args.youtube}.md"
 
-# this is for <= 128k tokens
-if args.pro:
-    price_input_token_usd_per_mio = 3.5
-    price_output_token_usd_per_mio = 10.5
-else:
-    price_input_token_usd_per_mio = 0.075
-    price_output_token_usd_per_mio = 0.3
+# Function to write to both stdout and file
+def print_and_write(text, file_handle):
+    print(text)
+    file_handle.write(text + "\n")
 
-end = time.time()
+# Open the file for writing
+with open(filename, "w") as f:
+    print_and_write("*Summary*", f)
+    print_and_write(summary2, f)  # Assuming 'summary2' holds the summary text
+    if args.pro:
+        print_and_write("I used Google Gemini 1.5 Pro to summarize the transcript.", f)
+    else:
+        print_and_write("I used Google Gemini 1.5 Flash to summarize the transcript.", f)
 
-cost_input = (input_tokens+input_tokens2) / 1_000_000 * price_input_token_usd_per_mio
-cost_output = (output_tokens+output_tokens2) / 1_000_000 * price_output_token_usd_per_mio
-print(f"Cost (if I didn't use the free tier): ${cost_input+cost_output:.4f}")
-print(f"Time: {end-start:.2f} seconds")
-print(f"Input tokens: {input_tokens+input_tokens2}")
-print(f"Output tokens: {output_tokens+output_tokens2}")
+    # this is for <= 128k tokens
+    if args.pro:
+        price_input_token_usd_per_mio = 3.5
+        price_output_token_usd_per_mio = 10.5
+    else:
+        price_input_token_usd_per_mio = 0.075
+        price_output_token_usd_per_mio = 0.3
+    end = time.time()
+    cost_input = (input_tokens+input_tokens2) / 1_000_000 * price_input_token_usd_per_mio
+    cost_output = (output_tokens+output_tokens2) / 1_000_000 * price_output_token_usd_per_mio
 
-# googles free tier quota was exhausted after 5 summaries
+    print_and_write(f"Cost (if I didn't use the free tier): ${cost_input+cost_output:.4f}", f)
+    print_and_write(f"Time: {end-start:.2f} seconds", f)
+    if expected_tokens > 32_000:
+        print_and_write("I added a 60 second delay to prevent a rate limit of the free tier.", f)
+    print_and_write(f"Input tokens: {input_tokens+input_tokens2}", f)
+    print_and_write(f"Output tokens: {output_tokens+output_tokens2}", f)
