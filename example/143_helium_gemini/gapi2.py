@@ -65,12 +65,15 @@ if args.file:
     with open(args.file) as f:
         prompt2 = f.read()
 elif args.youtube:
-    # execute the following program: yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o <id> <id>
-    os.system(f"yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o {args.youtube} {args.youtube}")
-    # now use awk to clean up the srt file (make timestamps less verbose)
-    # awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' <id>.en.srt > <id>.txt
-    os.system("""awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' """ + args.youtube + ".en.srt > " + args.youtube + ".txt")
-    # and read the output file that is named <id>.en.srt into prompt2
+    # don't run the following two commands if {args.youtube}.txt already exists
+    if not os.path.exists(f"{args.youtube}.txt"):
+        # download the youtube video transcript with that id
+        # yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o <id> <id>
+        os.system(f"yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o {args.youtube} {args.youtube}")
+        # now use awk to clean up the srt file (make timestamps less verbose)
+        # awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' <id>.en.srt > <id>.txt
+        os.system("""awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' """ + args.youtube + ".en.srt > " + args.youtube + ".txt")
+
     with open(f"{args.youtube}.txt") as f:
         prompt2 = f.read()
     
@@ -94,7 +97,9 @@ if args.compress:
 else:
     headers = {"Content-Type": "application/json"}
 
-log_request()
+if args.pro:
+    log_request()
+
 response = requests.post(url, headers=headers,
                          data=data, proxies=proxies)
 
@@ -110,15 +115,27 @@ else:
     print(response.text)
     sys.exit(1)
 
+rate_limit_mitigation = 0
 expected_tokens = 2*(input_tokens+output_tokens)
-if expected_tokens > 32_000:
-    print(f"Warning: expected tokens {expected_tokens} exceeds 32k limit")
-    print("Wait 1 min to prevent rate limit")
-    time.sleep(60)
+if args.pro:
+    if expected_tokens > 32_000:
+        print(f"Warning: expected tokens {expected_tokens} exceeds 32k limit")
+        print("Wait 1 min to prevent rate limit")
+        rate_limit_mitigation = 60
+        time.sleep(rate_limit_mitigation)
+else:
+    if expected_tokens > 1_000_000:
+        print(f"Warning: expected tokens {expected_tokens} exceeds 1e6 limit")
+        print("Wait 1 min to prevent rate limit")
+        rate_limit_mitigation = 60
+        time.sleep(rate_limit_mitigation)
+
 
 prompt3 = f"Add starting (not stopping) timestamp to each bullet point in the following summary: {summary}\nThe full transcript is: {prompt2}"
 
-log_request()
+if args.pro:
+    log_request()
+
 response2 = requests.post(url, headers=headers,
                             data=json.dumps({"contents": [{"parts": [{"text": prompt3}]}]}),
                             proxies=proxies)
@@ -170,7 +187,7 @@ with open(filename, "w") as f:
 
     print_and_write(f"Cost (if I didn't use the free tier): ${cost_input+cost_output:.4f}", f)
     print_and_write(f"Time: {end-start:.2f} seconds", f)
-    if expected_tokens > 32_000:
+    if rate_limit_mitigation > 0:
         print_and_write("I added a 60 second delay to prevent a rate limit of the free tier.", f)
     print_and_write(f"Input tokens: {input_tokens+input_tokens2}", f)
     print_and_write(f"Output tokens: {output_tokens+output_tokens2}", f)
