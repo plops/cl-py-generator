@@ -4,6 +4,7 @@ import argparse
 import zlib
 import json
 import sys
+import time
 
 # Set up the proxy settings
 proxies = {
@@ -35,6 +36,8 @@ if args.file:
 else:
     prompt2 = input("Enter prompt2: ")
 
+start = time.time()
+
 prompt = "I don't want to watch the video. Create a self-contained bullet list summary from the following transcript that I can understand without watching the video. "
 
 if args.pro:
@@ -57,7 +60,7 @@ response = requests.post(url, headers=headers,
 
 if response.status_code == 200:
     summary = response.json()['candidates'][0]['content']['parts'][0]['text']
-    input_tokens = rensponse.json()['usageMetadata']['promptTokenCount']
+    input_tokens = response.json()['usageMetadata']['promptTokenCount']
     output_tokens = response.json()['usageMetadata']['candidatesTokenCount']
     if args.verbose:
         print(response)
@@ -97,12 +100,20 @@ else:
     print("I used Google Gemini 1.5 Flash to summarize the transcript.")
 
 # this is for <= 128k tokens
-price_input_token_usd_per_mio = 0.075
-price_output_token_usd_per_mio = 0.3
+if args.pro:
+    price_input_token_usd_per_mio = 3.5
+    price_output_token_usd_per_mio = 10.5
+else:
+    price_input_token_usd_per_mio = 0.075
+    price_output_token_usd_per_mio = 0.3
+
+end = time.time()
 
 cost_input = (input_tokens+input_tokens2) / 1_000_000 * price_input_token_usd_per_mio
 cost_output = (output_tokens+output_tokens2) / 1_000_000 * price_output_token_usd_per_mio
-print(f"Cost: ${cost_input+cost_output:.2f}")
-
+print(f"Cost (if I didn't use the free tier): ${cost_input+cost_output:.4f}")
+print(f"Time: {end-start:.2f} seconds")
 print(f"Input tokens: {input_tokens+input_tokens2}")
 print(f"Output tokens: {output_tokens+output_tokens2}")
+
+# googles free tier quota was exhausted after 5 summaries
