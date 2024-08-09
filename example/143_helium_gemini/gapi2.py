@@ -5,6 +5,30 @@ import zlib
 import json
 import sys
 import time
+import datetime
+
+
+LOG_FILE_PATH = "logfile.log"
+
+def log_request():
+    with open(LOG_FILE_PATH, "a") as log_file:
+        log_file.write(f"{datetime.datetime.now()}\n")
+
+def count_requests_today():
+    today = datetime.date.today()
+    count = 0
+    try:
+        with open(LOG_FILE_PATH, "r") as log_file:
+            for line in log_file:
+                timestamp = datetime.datetime.fromisoformat(line.strip())
+                if timestamp.date() == today:
+                    count += 1
+    except FileNotFoundError:
+        print("Log file does not exist. No requests have been logged.")
+    return count
+
+# Example usage
+print(f"Requests today: {count_requests_today()}")
 
 # Set up the proxy settings
 proxies = {
@@ -54,7 +78,7 @@ if args.compress:
 else:
     headers = {"Content-Type": "application/json"}
 
-
+log_request()
 response = requests.post(url, headers=headers,
                          data=data, proxies=proxies)
 
@@ -70,8 +94,15 @@ else:
     print(response.text)
     sys.exit(1)
 
+expected_tokens = 2*(input_tokens+output_tokens)
+if expected_tokens > 32_000:
+    print(f"Warning: expected tokens {expected_tokens} exceeds 32k limit")
+    print("Wait 1 min to prevent rate limit")
+    time.sleep(60)
+
 prompt3 = f"Add starting (not stopping) timestamp to each bullet point in the following summary: {summary}\nThe full transcript is: {prompt2}"
 
+log_request()
 response2 = requests.post(url, headers=headers,
                             data=json.dumps({"contents": [{"parts": [{"text": prompt3}]}]}),
                             proxies=proxies)
