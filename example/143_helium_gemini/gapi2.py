@@ -20,10 +20,12 @@ with open("/home/martin/api_key.txt") as f:
 # -f <file> read file into prompt2 variable
 # if no -f argument is given read prompt2 from stdin
 # if -C is given, compress the post request
+# if -P is given, use the pro model
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-f", "--file", help="file to read")
 argparser.add_argument("-C", "--compress", help="compress the post request", action="store_true")
+argparser.add_argument("-P", "--pro", help="use the pro model", action="store_true")
 args = argparser.parse_args()
 if args.file:
     with open(args.file) as f:
@@ -33,8 +35,10 @@ else:
 
 prompt = "I don't want to watch the video. Create a self-contained bullet list summary from the following transcript that I can understand without watching the video. "
 
-url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + api_key
-#url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=" + api_key
+if args.pro:
+    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=" + api_key
+else:
+    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + api_key
 
 data = {"contents": [{"parts": [{"text": prompt + prompt2}]}]}
 data = json.dumps(data)
