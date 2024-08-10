@@ -180,6 +180,10 @@ else:
 
 summary2 = summary2.replace("**", "*")
 
+# replace '*:' with ':*' in summary2
+
+summary2 = summary2.replace("*:", ":*")
+
 # Create the filename with datetime and ID
 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 filename = f"/home/martin/gemini/{timestamp}_{args.youtube}.md"
