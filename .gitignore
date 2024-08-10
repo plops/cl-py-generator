@@ -1,1 +1,10 @@
 *~
+\#*\#
+**/venv/*
+**/.idea/*
+**/.vscode/*
+**/*_env/*
+*.vtt
+*.en.srt
+*.tar.gz
+example/143_helium_gemini/data/*

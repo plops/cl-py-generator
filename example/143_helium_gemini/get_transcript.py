@@ -9,6 +9,9 @@ import argparse
 # I tried the api explorer using my own videos with transcript and always get a 403 error
 # So maybe i still misunderstand the youtube api
 
+# https://pypi.org/project/youtube-transcript-api/ uses undocumented parts of the youtube api,
+# so it might be against the youtube terms of service just as yt-dlp
+
 def get_video_transcript(api_key, video_id):
     """Downloads the transcript of a YouTube video using the YouTube Data API v3 (REST).
 
