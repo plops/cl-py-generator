@@ -2,6 +2,10 @@
 # micromamba activate
 # pip install google-generativeai PySocks
 
+# Note: installing the google-generativeai package crashes my tiny VM with 340MB of RAM
+# Also I can't figure out how to route the traffic through the proxy. So for now I use
+# the REST API.
+
 # export http_proxy="socks4://localhost:8080"; export https_proxy="socks4://localhost:8080"
 
 import google.generativeai as genai

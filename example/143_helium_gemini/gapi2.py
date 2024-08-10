@@ -69,6 +69,8 @@ elif args.youtube:
     if not os.path.exists(f"{args.youtube}.txt"):
         # download the youtube video transcript with that id
         # yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o <id> <id>
+        # yt-dlp might be violating youtube's terms of service (I'm not sure if it does for downloading subtitles)
+        # I will try to use the youtube API instead
         os.system(f"yt-dlp --write-auto-sub --convert-subs=srt -k --skip-download -o {args.youtube} {args.youtube}")
         # now use awk to clean up the srt file (make timestamps less verbose)
         # awk -F ' --> ' '/^[0-9]+$/{next} NF==2{gsub(",[0-9]+", "", $1); print $1} NF==1' <id>.en.srt > <id>.txt
