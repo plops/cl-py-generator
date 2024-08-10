@@ -85,12 +85,25 @@ else:
 
 prompt = "I don't want to watch the video. Create a self-contained bullet list summary from the following transcript that I can understand without watching the video. "
 
+# Documentation of the REST API:
+# https://ai.google.dev/api/generate-content#text_gen_text_only_prompt-SHELL
+
 if args.pro:
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=" + api_key
 else:
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + api_key
 
-data = {"contents": [{"parts": [{"text": prompt + prompt2}]}]}
+if args.verbose:
+    # write prompt+prompt2 to a file
+    with open("prompt.txt", "w") as f:
+        f.write(prompt + prompt2)
+
+# HARM_CATEGORY_HATE_SPEECH, HARM_CATEGORY_SEXUALLY_EXPLICIT, 
+# HARM_CATEGORY_DANGEROUS_CONTENT, HARM_CATEGORY_HARASSMENT
+
+data = {"contents": [{"parts": [{"text": prompt + prompt2}]}],
+        "generationConfig": {"temperature": 2.0},
+        "safetySettings": [{"category": "HARM_CATEGORY_DANGEROUS_CONTENT","threshold": "BLOCK_NONE"}]}
 data = json.dumps(data)
 # compress the post request
 if args.compress:
@@ -102,10 +115,17 @@ else:
 if args.pro:
     log_request()
 
+if args.verbose:
+    # Note: this will print the API key
+    print("Sending request to", url)
+
 response = requests.post(url, headers=headers,
                          data=data, proxies=proxies)
 
 if response.status_code == 200:
+    if args.verbose:
+        print("Response received")
+        print(response.text)
     summary = response.json()['candidates'][0]['content']['parts'][0]['text']
     input_tokens = response.json()['usageMetadata']['promptTokenCount']
     output_tokens = response.json()['usageMetadata']['candidatesTokenCount']
@@ -138,6 +158,8 @@ prompt3 = f"Add starting (not stopping) timestamp to each bullet point in the fo
 if args.pro:
     log_request()
 
+if args.verbose:
+    print("Sending request2 to", url)
 response2 = requests.post(url, headers=headers,
                             data=json.dumps({"contents": [{"parts": [{"text": prompt3}]}]}),
                             proxies=proxies)
