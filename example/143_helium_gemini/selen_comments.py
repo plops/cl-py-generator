@@ -8,7 +8,11 @@ from helium import *
 from selenium.webdriver import ChromeOptions
 import argparse
 import time
+import tqdm
+import pandas as pd
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+
 import re
 url = "https://myactivity.google.com/page?page=youtube_comments"
 
@@ -23,12 +27,12 @@ driver = start_chrome(url, headless=False, options=options)
 
 scroll_down(1000)
 
-while True:
-    try:
-        scroll_down(num_pixels=10000)
-        time.sleep(1)  # Wait for the page to load
-    except:
-        break  # No more comments to load
+# while True:
+#     try:
+#         scroll_down(num_pixels=10000)
+#         time.sleep(1)  # Wait for the page to load
+#     except:
+#         break  # No more comments to load
 
 
 
@@ -40,7 +44,6 @@ while True:
 
 # pip install beautifulsoup4
 
-from bs4 import BeautifulSoup
 
 
 src = 'Google - My Activity.html' 
@@ -61,37 +64,74 @@ for link in links:
     href = link.get('href')
     if href and '&lc=' in href:
         print(href)
-        clinks.append(href)
+        clinks.append(dict(title=link.text, href= href))
 
-href = clinks[200]
+elem = clinks[200]
+href = clinks[200]['href']
 
+print(f"Processing {elem['title']} with link {elem['href']}")
+href = elem['href']
+d = dict(title=elem['title'], href=elem['href'])
 # Get the link
 response = driver.get(href)
+# Wait for Download button to appear
+wait_until(Text("Download").exists)
+
 # scroll down so that the comments are loaded
-scroll_down(num_pixels=10000)
+# this is with 50% zoom
+scroll_down(num_pixels=1500)
+time.sleep(.2)
+scroll_up(num_pixels=500)
+# Wait for text that contains "wolpumba" to appear
+wait_until(Text("@wolpumba4099").exists)
 
-# The second like button is for my comment
+res = []
+for elem in tqdm.tqdm(clinks):
+    try:
+        print(f"Processing {elem['title']} with link {elem['href']}")
+        href = elem['href']
+        d = dict(title=elem['title'], 
+                 href=elem['href'])
+        # Get the link
+        response = driver.get(href)
+        # scroll down so that the comments are loaded
+        scroll_down(num_pixels=3000)
+        # Wait for text that contains "wolpumba" to appear
+        wait_until(Text("wolpumba").exists)
 
-second_like = find_all(Button("Like"))[1]
+        # The second like button is for my comment
 
-# <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-s yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--override-small-size-icon" aria-pressed="false" aria-label="Like this comment along with 6 other people" title="" style="">...</button>
+        second_like = find_all(Button("Like"))[1]
 
-# I want the number from the aria-label attribute
+        # <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-s yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--override-small-size-icon" aria-pressed="false" aria-label="Like this comment along with 6 other people" title="" style="">...</button>
 
-label = second_like.web_element.get_attribute('aria-label')
+        # I want the number from the aria-label attribute
 
-# 'Like this comment along with 6 other people'
+        label = second_like.web_element.get_attribute('aria-label')
 
-# I want the number 6
+        # 'Like this comment along with 6 other people'
 
-number_of_likes = label.split(' ')[-3]
+        # I want the number 6
 
+        number_of_likes = label.split(' ')[-3]
+        d['number_of_likes'] = number_of_likes
 
-# The parent of the like button is the comment get the outer html of the parent
-outer = second_like.web_element.find_element(By.XPATH,'../../../../../../../..').get_attribute('outerHTML')
+        # The parent of the like button is the comment get the outer html of the parent
+        outer = second_like.web_element.find_element(By.XPATH,'../../../../../../../..').get_attribute('outerHTML')
 
-# print any number followed by " replies" in the outer html
+        # print any number followed by " replies" in the outer html
 
-replies = re.findall(r'(\d+) replies', outer)
+        replies = re.findall(r'(\d+) replies', outer)
 
-number_of_replies = replies[0]
+        number_of_replies = replies[0]
+
+        d['number_of_replies'] = number_of_replies
+        res.append(d)
+    except Exception as e:
+        # print the exception and the line number of the exception
+        print(e)
+
+        res.append(d)
+
+df = pd.DataFrame(res)
+df.to_csv('comments.csv', index=False)
