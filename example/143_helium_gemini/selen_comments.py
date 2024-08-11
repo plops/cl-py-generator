@@ -22,6 +22,9 @@ url = "https://myactivity.google.com/page?page=youtube_comments"
 options = ChromeOptions()
 options.add_argument("user-data-dir=/home/martin/.config/google-chrome/")
 
+# maybe this prevents automatically playing each video
+# --autoplay-policy=user-required
+
 # this fails for me if another chrome is running
 driver = start_chrome(url, headless=False, options=options)
 
@@ -66,38 +69,44 @@ for link in links:
         print(href)
         clinks.append(dict(title=link.text, href= href))
 
-elem = clinks[200]
-href = clinks[200]['href']
+# elem = clinks[200]
+# href = clinks[200]['href']
 
-print(f"Processing {elem['title']} with link {elem['href']}")
-href = elem['href']
-d = dict(title=elem['title'], href=elem['href'])
-# Get the link
-response = driver.get(href)
-# Wait for Download button to appear
-wait_until(Text("Download").exists)
+# print(f"Processing {elem['title']} with link {elem['href']}")
+# href = elem['href']
+# d = dict(title=elem['title'], href=elem['href'])
+# # Get the link
+# response = driver.get(href)
+# # Wait for Download button to appear
+# wait_until(Text("Download").exists)
 
-# scroll down so that the comments are loaded
-# this is with 50% zoom
-scroll_down(num_pixels=1500)
-time.sleep(.2)
-scroll_up(num_pixels=500)
-# Wait for text that contains "wolpumba" to appear
-wait_until(Text("@wolpumba4099").exists)
+# # scroll down so that the comments are loaded
+# # this is with 50% zoom
+# scroll_down(num_pixels=1500)
+# time.sleep(.2)
+# scroll_up(num_pixels=500)
+# # Wait for text that contains "wolpumba" to appear
+# wait_until(Text("@wolpumba4099").exists)
 
 res = []
 for elem in tqdm.tqdm(clinks):
     try:
         print(f"Processing {elem['title']} with link {elem['href']}")
         href = elem['href']
-        d = dict(title=elem['title'], 
-                 href=elem['href'])
+        d = dict(title=elem['title'], href=elem['href'])
         # Get the link
         response = driver.get(href)
+        # Wait for Download button to appear
+        wait_until(Text("Download").exists)
+
         # scroll down so that the comments are loaded
-        scroll_down(num_pixels=3000)
+        # this seems to work with 50% zoom
+        # i set the zoom to 25%, then the comments are loaded automatically without scrolling (i think)
+        scroll_down(num_pixels=1500)
+        time.sleep(.2)
+        scroll_up(num_pixels=500)
         # Wait for text that contains "wolpumba" to appear
-        wait_until(Text("wolpumba").exists)
+        wait_until(Text("@wolpumba4099").exists)
 
         # The second like button is for my comment
 

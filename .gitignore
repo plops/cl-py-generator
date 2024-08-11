@@ -8,3 +8,5 @@
 *.en.srt
 *.tar.gz
 example/143_helium_gemini/data/*
+example/143_helium_gemini/Goog*/*
+
