@@ -150,6 +150,9 @@ df['number_of_replies2'] = pd.to_numeric(df.number_of_replies)
 
 # [1856 rows x 6 columns]
 
+# after deduplication maybe only 1570 comments
+
+# in the most liked comments i typically forgot to mention that i used ai to generate the text
 
 # >>> df.sort_values(by='number_of_likes2',ascending=False).iloc[0:30]
 #                                                   title                                               href number_of_likes number_of_replies  number_of_likes2  number_of_replies2
