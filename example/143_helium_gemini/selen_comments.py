@@ -148,23 +148,68 @@ df.to_csv('comments.csv', index=False)
 df['number_of_likes2'] = pd.to_numeric(df.number_of_likes)
 df['number_of_replies2'] = pd.to_numeric(df.number_of_replies)
 
-# >>> df.sort_values(by='number_of_replies',ascending=False)
-#                                                   title                                               href number_of_likes number_of_replies  number_of_likes2  number_of_replies2
-# 524               Beyond the Noise #37: Measles is back  https://www.youtube.com/watch?v=Ee7irrt6v9c&lc...               7                 7               7.0                 7.0
-# 1554  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
-# 365                   Das russische Momentum ist zurück  https://www.youtube.com/watch?v=XnZ5WsQTE88&lc...             118                 7             118.0                 7.0
-# 1523  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
-# 1519  The Massive Molniya Satellites - How The Sovie...  https://www.youtube.com/watch?v=Nmhf2VK3xBE&lc...             176                 6             176.0                 6.0
-# ...                                                 ...                                                ...             ...               ...               ...                 ...
-
 # [1856 rows x 6 columns]
-# >>> df.sort_values(by='number_of_likes',ascending=False)
+
+
+# >>> df.sort_values(by='number_of_likes2',ascending=False).iloc[0:30]
 #                                                   title                                               href number_of_likes number_of_replies  number_of_likes2  number_of_replies2
+# 1819  X-ray timelapse of fluid movement in plants, s...  https://www.youtube.com/watch?v=j-FHbHoiwNk&lc...             505                18             505.0                18.0
+# 1643  Pushing a "legal" Mini Solar System to its LIMIT!  https://www.youtube.com/watch?v=KEru5cODA-M&lc...             445                20             445.0                20.0
+# 1519  The Massive Molniya Satellites - How The Sovie...  https://www.youtube.com/watch?v=Nmhf2VK3xBE&lc...             176                 6             176.0                 6.0
+# 1575  The Best Unintentional ASMR Medical Exam EVER ...  https://www.youtube.com/watch?v=8Y6eo-LHWo8&lc...             166                 5             166.0                 5.0
+# 1573                A Hackers' Guide to Language Models  https://www.youtube.com/watch?v=jkrNMKz9pWU&lc...             140                 4             140.0                 4.0
+# 365                   Das russische Momentum ist zurück  https://www.youtube.com/watch?v=XnZ5WsQTE88&lc...             118                 7             118.0                 7.0
+# 1333  Die ukrainische Offensive ist gescheitert - Wa...  https://www.youtube.com/watch?v=WoP1i9ZzwOs&lc...             117                 3             117.0                 3.0
+# 624   The Great Misinterpretation: How Palestinians ...  https://www.youtube.com/watch?v=QlK2mfYYm4U&lc...             101                12             101.0                12.0
+# 1345    Colossal sea monster unearthed in UK - BBC News  https://www.youtube.com/watch?v=PDMIFXW5QB0&lc...             100                21             100.0                21.0
+# 1343    Colossal sea monster unearthed in UK - BBC News  https://www.youtube.com/watch?v=PDMIFXW5QB0&lc...             100                21             100.0                21.0
+# 1342    Colossal sea monster unearthed in UK - BBC News  https://www.youtube.com/watch?v=PDMIFXW5QB0&lc...             100                21             100.0                21.0
 # 1596  The heat may not kill you, but the global food...  https://www.youtube.com/watch?v=kQkyouPOrD4&lc...              94                 3              94.0                 3.0
 # 1349   🔴LIVE - DR DISRESPECT - WARZONE 3 - NUKE ATTEMPT  https://www.youtube.com/watch?v=ipM2VgLoEPc&lc...              90                 3              90.0                 3.0
-# 438                                 Platonic Hypothesis  https://www.youtube.com/watch?v=Q9DCL_m_haw&lc...               9               NaN               9.0                 NaN
-# 202          Is the Kar98 STILL GOOD After Season 4.5??  https://www.youtube.com/watch?v=meG6a2NFJes&lc...               9               NaN               9.0                 NaN
-# 849   TNP #47 - SHF 100CP 20GHz Broadband GaAs FET A...  https://www.youtube.com/watch?v=nz43MzAaJWI&lc...               9               NaN               9.0                 NaN
-# ...                                                 ...                                                ...             ...               ...               ...                 ...
+# 1309  LDM #356: Teardown of two Russian missile sensors  https://www.youtube.com/watch?v=Ac2ioGwfsbI&lc...              78                 3              78.0                 3.0
+# 1804                             Handheld DNA eraser?!?  https://www.youtube.com/watch?v=EXBAdajRuYw&lc...              72                 5              72.0                 5.0
+# 631   Chef Wang shares: "Spicy Stir-fried Beef" & "S...  https://www.youtube.com/watch?v=fFUieUu3eE4&lc...              68                 5              68.0                 5.0
+# 420   Sodium-ion batteries in the USA. Beating China...  https://www.youtube.com/watch?v=UmW2D_At1PY&lc...              60               NaN              60.0                 NaN
+# 1554  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
+# 1523  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
+# 1668              Beating the UV step!! - Cubane Ep. 16  https://www.youtube.com/watch?v=GOZ-me235Mo&lc...              57                 5              57.0                 5.0
+# 1502  Gideon Levy: Israel has no clue what it’s doin...  https://www.youtube.com/watch?v=lGg9QPdkfcs&lc...              55               NaN              55.0                 NaN
+# 149   Scalable MatMul-free Language Modeling (Paper ...  https://www.youtube.com/watch?v=B45FlSQ8ITo&lc...              51                 2              51.0                 2.0
+# 1578                  3 Ways to Make Sulfur Dioxide Gas  https://www.youtube.com/watch?v=2AFKlLSwUZ4&lc...              47                 5              47.0                 5.0
+# 1267  Antikythera Fragment #11  World’s First Precis...  https://www.youtube.com/watch?v=4pK3O43Jddg&lc...              46                 3              46.0                 3.0
+# 1271  Antikythera Fragment #11  World’s First Precis...  https://www.youtube.com/watch?v=4pK3O43Jddg&lc...              46                 3              46.0                 3.0
+# 1614                     AI Reads Minds of 29 Patients!  https://www.youtube.com/watch?v=qcfC53c3tSc&lc...              37                 3              37.0                 3.0
 
-# [1856 rows x 6 columns]
+
+# >>> df.sort_values(by='number_of_replies2',ascending=False).iloc[0:30]
+#                                                   title                                               href number_of_likes number_of_replies  number_of_likes2  number_of_replies2
+# 1342    Colossal sea monster unearthed in UK - BBC News  https://www.youtube.com/watch?v=PDMIFXW5QB0&lc...             100                21             100.0                21.0
+# 1343    Colossal sea monster unearthed in UK - BBC News  https://www.youtube.com/watch?v=PDMIFXW5QB0&lc...             100                21             100.0                21.0
+# 1345    Colossal sea monster unearthed in UK - BBC News  https://www.youtube.com/watch?v=PDMIFXW5QB0&lc...             100                21             100.0                21.0
+# 1643  Pushing a "legal" Mini Solar System to its LIMIT!  https://www.youtube.com/watch?v=KEru5cODA-M&lc...             445                20             445.0                20.0
+# 1819  X-ray timelapse of fluid movement in plants, s...  https://www.youtube.com/watch?v=j-FHbHoiwNk&lc...             505                18             505.0                18.0
+# 624   The Great Misinterpretation: How Palestinians ...  https://www.youtube.com/watch?v=QlK2mfYYm4U&lc...             101                12             101.0                12.0
+# 1644  My New Linear Actuators are SO MUCH BETTER! | ...  https://www.youtube.com/watch?v=bQl6gj_6oa8&lc...              17                10              17.0                10.0
+# 1554  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
+# 1523  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
+# 524               Beyond the Noise #37: Measles is back  https://www.youtube.com/watch?v=Ee7irrt6v9c&lc...               7                 7               7.0                 7.0
+# 365                   Das russische Momentum ist zurück  https://www.youtube.com/watch?v=XnZ5WsQTE88&lc...             118                 7             118.0                 7.0
+# 569               Metal Casting a Hook with a Microwave  https://www.youtube.com/watch?v=hlMfovJ8BvQ&lc...               6                 6               6.0                 6.0
+# 1285     How Chips That Power AI Work | WSJ Tech Behind  https://www.youtube.com/watch?v=njyZR0Ceke0&lc...              16                 6              16.0                 6.0
+# 1519  The Massive Molniya Satellites - How The Sovie...  https://www.youtube.com/watch?v=Nmhf2VK3xBE&lc...             176                 6             176.0                 6.0
+# 341              xLSTM: Extended Long Short-Term Memory  https://www.youtube.com/watch?v=0OaEv1a5jUM&lc...              26                 6              26.0                 6.0
+# 347              xLSTM: Extended Long Short-Term Memory  https://www.youtube.com/watch?v=0OaEv1a5jUM&lc...              26                 6              26.0                 6.0
+# 496   (483) ESP32 precision GPS receiver (incl. RTK-...  https://www.youtube.com/watch?v=Oc1LBFDj2MA&lc...              18                 6              18.0                 6.0
+# 631   Chef Wang shares: "Spicy Stir-fried Beef" & "S...  https://www.youtube.com/watch?v=fFUieUu3eE4&lc...              68                 5              68.0                 5.0
+# 370   Nuclear War Expert: 72 Minutes To Wipe Out 60%...  https://www.youtube.com/watch?v=asmaLnhaFiY&lc...              20                 5              20.0                 5.0
+# 422   Nuclear War Expert: 72 Minutes To Wipe Out 60%...  https://www.youtube.com/watch?v=asmaLnhaFiY&lc...              20                 5              20.0                 5.0
+# 1512                 Pumpkin Implosion at 600ft Deep???  https://www.youtube.com/watch?v=VDAzu0SHhgs&lc...              22                 5              22.0                 5.0
+# 1521                 Pumpkin Implosion at 600ft Deep???  https://www.youtube.com/watch?v=VDAzu0SHhgs&lc...              22                 5              22.0                 5.0
+# 1110  Restoring a Rare 1970s Heuer - The Ultimate Wa...  https://www.youtube.com/watch?v=BIbYg4ik-9Y&lc...               1                 5               1.0                 5.0
+# 386   From 0 to Production - The Modern React Tutori...  https://www.youtube.com/watch?v=d5x0JCZbAJs&lc...               2                 5               2.0                 5.0
+# 1108  Restoring a Rare 1970s Heuer - The Ultimate Wa...  https://www.youtube.com/watch?v=BIbYg4ik-9Y&lc...               1                 5               1.0                 5.0
+# 1107  Restoring a Rare 1970s Heuer - The Ultimate Wa...  https://www.youtube.com/watch?v=BIbYg4ik-9Y&lc...               1                 5               1.0                 5.0
+# 366   Nuclear War Expert: 72 Minutes To Wipe Out 60%...  https://www.youtube.com/watch?v=asmaLnhaFiY&lc...              20                 5              20.0                 5.0
+# 1621                Make Potassium Chlorate from Bleach  https://www.youtube.com/watch?v=4Kq9r5vFoQU&lc...              29                 5              29.0                 5.0
+# 1804                             Handheld DNA eraser?!?  https://www.youtube.com/watch?v=EXBAdajRuYw&lc...              72                 5              72.0                 5.0
+# 242   From 0 to Production - The Modern React Tutori...  https://www.youtube.com/watch?v=d5x0JCZbAJs&lc...               2                 5               2.0                 5.0
