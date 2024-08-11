@@ -115,9 +115,6 @@ else:
 if args.pro:
     log_request()
 
-if args.verbose:
-    # Note: this will print the API key
-    print("Sending request to", url)
 
 response = requests.post(url, headers=headers,
                          data=data, proxies=proxies)
@@ -158,8 +155,6 @@ prompt3 = f"Add starting (not stopping) timestamp to each bullet point in the fo
 if args.pro:
     log_request()
 
-if args.verbose:
-    print("Sending request2 to", url)
 response2 = requests.post(url, headers=headers,
                             data=json.dumps({"contents": [{"parts": [{"text": prompt3}]}]}),
                             proxies=proxies)
