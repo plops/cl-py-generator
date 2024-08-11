@@ -144,3 +144,27 @@ for elem in tqdm.tqdm(clinks):
 
 df = pd.DataFrame(res)
 df.to_csv('comments.csv', index=False)
+
+df['number_of_likes2'] = pd.to_numeric(df.number_of_likes)
+df['number_of_replies2'] = pd.to_numeric(df.number_of_replies)
+
+# >>> df.sort_values(by='number_of_replies',ascending=False)
+#                                                   title                                               href number_of_likes number_of_replies  number_of_likes2  number_of_replies2
+# 524               Beyond the Noise #37: Measles is back  https://www.youtube.com/watch?v=Ee7irrt6v9c&lc...               7                 7               7.0                 7.0
+# 1554  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
+# 365                   Das russische Momentum ist zurück  https://www.youtube.com/watch?v=XnZ5WsQTE88&lc...             118                 7             118.0                 7.0
+# 1523  How has NO ONE thought of this BEFORE? - WC3 -...  https://www.youtube.com/watch?v=sw894lgzvgE&lc...              59                 7              59.0                 7.0
+# 1519  The Massive Molniya Satellites - How The Sovie...  https://www.youtube.com/watch?v=Nmhf2VK3xBE&lc...             176                 6             176.0                 6.0
+# ...                                                 ...                                                ...             ...               ...               ...                 ...
+
+# [1856 rows x 6 columns]
+# >>> df.sort_values(by='number_of_likes',ascending=False)
+#                                                   title                                               href number_of_likes number_of_replies  number_of_likes2  number_of_replies2
+# 1596  The heat may not kill you, but the global food...  https://www.youtube.com/watch?v=kQkyouPOrD4&lc...              94                 3              94.0                 3.0
+# 1349   🔴LIVE - DR DISRESPECT - WARZONE 3 - NUKE ATTEMPT  https://www.youtube.com/watch?v=ipM2VgLoEPc&lc...              90                 3              90.0                 3.0
+# 438                                 Platonic Hypothesis  https://www.youtube.com/watch?v=Q9DCL_m_haw&lc...               9               NaN               9.0                 NaN
+# 202          Is the Kar98 STILL GOOD After Season 4.5??  https://www.youtube.com/watch?v=meG6a2NFJes&lc...               9               NaN               9.0                 NaN
+# 849   TNP #47 - SHF 100CP 20GHz Broadband GaAs FET A...  https://www.youtube.com/watch?v=nz43MzAaJWI&lc...               9               NaN               9.0                 NaN
+# ...                                                 ...                                                ...             ...               ...               ...                 ...
+
+# [1856 rows x 6 columns]
