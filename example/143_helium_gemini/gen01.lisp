@@ -38,12 +38,12 @@
        "#!/usr/bin/env python3"
 	"# pip install -U google-generativeai"
            ; M-S-Enter in alive to execute top-level expression
-        
-       (do0
+       
 		(imports (os
            	(genai google.generativeai))
-           ))
-           
+           )
+		(imports-from (fasthtml.common *))
+               
         (genai.configure :api_key (os.environ (string "API_KEY")))
 
        
