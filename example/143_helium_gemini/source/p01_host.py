@@ -11,8 +11,14 @@ with open("api_key.txt") as f:
     api_key=f.read().strip()
 genai.configure(api_key=api_key)
  
+def render(summary):
+    if ( summary.summary_done ):
+        return Div(Pre(summary.timestamps), id=sid, hx_post=f"/generations/{id}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
+    else:
+        return Div(Pre(summary.summary), id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
+ 
 # open website
-app, rt=fast_app(live=True)
+app, rt, summaries, summary=fast_app("summaries.db", live=True, render=render, id=int, model=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, cost=float, pk="id")
 # create a folder with current datetime gens_<datetime>/
 generations=[]
 dt_now=datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -70,10 +76,12 @@ def generate_and_save(prompt, id, model):
         for chunk in response:
             print(chunk)
             f.write(chunk.text)
-        if ( response.done ):
+        if ( response._done ):
             f.write(f"\nSummarized with {model}")
             f.write(f"\nInput tokens: {response.usage_metadata.prompt_token_count}")
             f.write(f"\nOutput tokens: {response.usage_metadata.candidates_token_count}")
+        else:
+            f.write("Warning: Did not finish!")
     os.rename(pre_file, md_file)
  
 serve(port=5002)

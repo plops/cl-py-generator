@@ -53,9 +53,41 @@
        (genai.configure :api_key api_key)
 
        " "
+       (def render (summary)
+	 (if summary.summary_done
+	     (return (Div (Pre summary.timestamps)
+			  :id sid
+			  :hx_post (fstring "/generations/{id}")
+			  :hx_trigger (? summary.timestamps_done
+					 (string "")
+					 (string "every 1s"))
+			  :hx_swap (string "outerHTML")))
+	     (return (Div (Pre summary.summary)
+			  :id sid
+			  :hx_post (fstring "/generations/{id}")
+			  :hx_trigger (string "every 1s")
+			  :hx_swap (string "outerHTML")))
+	     ))
+       
+       " "
        (comments "open website")
-       (setf (ntuple app rt)
-	     (fast_app :live True))
+       (setf (ntuple app rt summaries summary)
+	     (fast_app (string "summaries.db")
+		       :live True
+		       :render render
+		       :id int
+		       :model str
+		       :summary str
+		       :summary_done bool
+		       :summary_input_tokens int
+		       :summary_output_tokens int
+		       :timestamps str
+		       :timestamps_done bool
+		       :timestamps_input_tokens int
+		       :timestamps_output_tokens int
+		       :cost float
+		       :pk (string "id")
+		       ))
 
        (comments "create a folder with current datetime gens_<datetime>/")
        (setf generations (list)
@@ -164,10 +196,13 @@
 	       (for (chunk response)
 		    (print chunk)
 		    (f.write chunk.text))
-	       (when response.done
-		 (f.write (fstring "\\nSummarized with {model}"))
-		 (f.write (fstring "\\nInput tokens: {response.usage_metadata.prompt_token_count}"))
-		 (f.write (fstring "\\nOutput tokens: {response.usage_metadata.candidates_token_count}")))
+	       (if response._done
+		 (do0
+		  (f.write (fstring "\\nSummarized with {model}"))
+		  (f.write (fstring "\\nInput tokens: {response.usage_metadata.prompt_token_count}"))
+		  (f.write (fstring "\\nOutput tokens: {response.usage_metadata.candidates_token_count}"))
+		  )
+		 (f.write (string "Warning: Did not finish!")))
 	       )
 	 (os.rename pre_file md_file)
 	 
