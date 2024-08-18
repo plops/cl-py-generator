@@ -98,9 +98,15 @@
        (comments "A pending preview keeps polling this route until we return the summary")
        (def generation_preview (id)
 	 (setf sid (fstring "gen-{id}"))
-	 (if (os.path.exists (fstring "{folder}/{id}.md"))
-	     (return (Div (Pre (string "summary_pre")
-			       :id sid)))
+	 (setf filename (fstring "{folder}/{id}.md"))
+	 (if (os.path.exists filename)
+	     (do0
+	      (comments "Load potentially partial response from the file")
+	      (with (as (open filename)
+			f)
+		    (setf summary_pre (f.read)))
+	      (return (Div (Pre summary_pre
+				:id sid))))
 	     (return (Div (string "Generating ...")
 			  :id sid
 			  :hx_post (fstring "/generations/{id}")

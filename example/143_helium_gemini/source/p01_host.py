@@ -30,8 +30,12 @@ def get():
 # A pending preview keeps polling this route until we return the summary
 def generation_preview(id):
     sid=f"gen-{id}"
-    if ( os.path.exists(f"{folder}/{id}.md") ):
-        return Div(Pre("summary_pre", id=sid))
+    filename=f"{folder}/{id}.md"
+    if ( os.path.exists(filename) ):
+        # Load potentially partial response from the file
+        with open(filename) as f:
+            summary_pre=f.read()
+        return Div(Pre(summary_pre, id=sid))
     else:
         return Div("Generating ...", id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
  
