@@ -18,7 +18,7 @@ def render(summary):
         return Div(Pre(summary.summary), id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
  
 # open website
-app, rt, summaries, summary=fast_app("summaries.db", live=True, render=render, id=int, model=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, cost=float, pk="id")
+app, rt, summaries, summary=fast_app(db_file="summaries.db", live=True, render=render, id=int, model=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, cost=float, pk="id")
 # create a folder with current datetime gens_<datetime>/
 generations=[]
 dt_now=datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -28,7 +28,7 @@ os.makedirs(folder, exist_ok=True)
 @rt("/")
 def get():
     transcript=Textarea(placeholder="Paste YouTube transcript here", name="transcript")
-    model=Select(Option("gemini-1.5-pro-exp-0801"), Option("gemini-1.5-flash-latest"), name="model")
+    model=Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-exp-0801"), name="model")
     form=Form(Group(transcript, model, Button("Send Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     return Title("Video Transcript Summarizer"), Main(H1("Summarizer Demo"), form, gen_list, cls="container")
@@ -60,7 +60,8 @@ def post(transcript: str, model: str):
     words=transcript.split()
     if ( ((20_000)<(len(words))) ):
         return Div("Error: Transcript exceeds 20,000 words. Please shorten it.", id="summary")
-    id=len(generations)
+    id=summaries().db.get_last_rowid()
+    print(f"got last id: {id}")
     generate_and_save(transcript, id, model)
     generations.append(transcript)
     return generation_preview(id)
@@ -72,11 +73,15 @@ def generate_and_save(prompt, id, model):
     # consecutively append output to {folder}/{id}.pre and finally move from .pre to .md file
     pre_file=f"{folder}/{id}.pre"
     md_file=f"{folder}/{id}.md"
+    s=summaries()[id]
     with open(pre_file, "w") as f:
+        s["summary"]=""
         for chunk in response:
             print(chunk)
+            s["summary"]=((s["summary"])+(chunk.text))
             f.write(chunk.text)
         if ( response._done ):
+            s["summary_done"]=True
             f.write(f"\nSummarized with {model}")
             f.write(f"\nInput tokens: {response.usage_metadata.prompt_token_count}")
             f.write(f"\nOutput tokens: {response.usage_metadata.candidates_token_count}")

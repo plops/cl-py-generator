@@ -72,7 +72,7 @@
        " "
        (comments "open website")
        (setf (ntuple app rt summaries summary)
-	     (fast_app (string "summaries.db")
+	     (fast_app :db_file (string "summaries.db")
 		       :live True
 		       :render render
 		       :id int
@@ -105,8 +105,9 @@
        (def get ()
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
 				    :name (string "transcript"))
-	       model (Select (Option (string "gemini-1.5-pro-exp-0801"))
-			     (Option (string "gemini-1.5-flash-latest"))
+	       model (Select (Option (string "gemini-1.5-flash-latest"))
+			     (Option (string "gemini-1.5-pro-exp-0801"))
+			     
 			     :name (string "model")))
 	 (setf form (Form
                      (Group
@@ -174,7 +175,8 @@
 	 (when (< 20_000 (len words))
 	   (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it.")
 			:id (string "summary"))))
-	 (setf id (len generations))
+	 (setf id (dot (summaries) db (get_last_rowid)))
+	 (print (fstring "got last id: {id}"))
 	 (generate_and_save transcript id model)
 	 (generations.append transcript)
 	 
@@ -190,19 +192,28 @@
 	 (comments "consecutively append output to {folder}/{id}.pre and finally move from .pre to .md file")
 	 (setf pre_file (fstring "{folder}/{id}.pre"))
 	 (setf md_file (fstring "{folder}/{id}.md"))
+	 (setf s (aref (summaries) id))
 	 (with (as (open pre_file
 			 (string "w"))
 		   f)
+	       (setf (aref s (string "summary"))
+		      (string ""))
 	       (for (chunk response)
 		    (print chunk)
+		    (setf (aref s (string "summary"))
+			  (+ (aref s (string "summary"))
+			     chunk.text))
 		    (f.write chunk.text))
 	       (if response._done
-		 (do0
-		  (f.write (fstring "\\nSummarized with {model}"))
-		  (f.write (fstring "\\nInput tokens: {response.usage_metadata.prompt_token_count}"))
-		  (f.write (fstring "\\nOutput tokens: {response.usage_metadata.candidates_token_count}"))
-		  )
-		 (f.write (string "Warning: Did not finish!")))
+		   
+		   (do0
+		    (setf (aref s (string "summary_done"))
+			  True)
+		    (f.write (fstring "\\nSummarized with {model}"))
+		    (f.write (fstring "\\nInput tokens: {response.usage_metadata.prompt_token_count}"))
+		    (f.write (fstring "\\nOutput tokens: {response.usage_metadata.candidates_token_count}"))
+		    )
+		   (f.write (string "Warning: Did not finish!")))
 	       )
 	 (os.rename pre_file md_file)
 	 
