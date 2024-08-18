@@ -6,11 +6,21 @@ import argparse
 # allow access to captions of videos that are not owned by the api key owner
 # https://stackoverflow.com/questions/41087864/youtube-api-v3-download-captions-from-third-party-videos-without-asking-for-au
 
-# I tried the api explorer using my own videos with transcript and always get a 403 error
+# I tried the api explorer using my own videos with transcript and always get a 404 Not Found error
 # So maybe i still misunderstand the youtube api
+
+# here they discuss that v3 youtube api requires consent from the owner to download captions
+# https://stackoverflow.com/questions/30514097/unable-to-download-closed-captions-in-youtube-api-v3
 
 # https://pypi.org/project/youtube-transcript-api/ uses undocumented parts of the youtube api,
 # so it might be against the youtube terms of service just as yt-dlp
+
+# https://stackoverflow.com/questions/69937867/google-video-no-longer-able-to-retrieve-captions/70013529#70013529
+# here is an old api that uses protobuf encoding
+
+# this seems to be an official example from google
+# https://github.com/youtube/api-samples/blob/master/python/captions.py
+# annoyingly it is python 2
 
 def get_video_transcript(api_key, video_id):
     """Downloads the transcript of a YouTube video using the YouTube Data API v3 (REST).
