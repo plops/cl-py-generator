@@ -35,41 +35,113 @@
      (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
      `(do0
        "#!/usr/bin/env python3"
-       "# pip install -U google-generativeai"
-       ; M-S-Enter in alive to execute top-level expression
+       (comments "pip install -U google-generativeai")
+       (comments "https://docs.fastht.ml/tutorials/by_example.html#full-example-2---image-generation-app")
+					; M-S-Enter in alive to execute top-level expression
 
-       (imports ((genai google.generativeai)))
+       (imports ((genai google.generativeai)
+		 os
+		 datetime))
        (imports-from (fasthtml.common *))
 
+       " "
+       (comments "Read the gemini api key from disk")
        (with (as (open (string "api_key.txt"))
                  f)
              (setf api_key (dot f (read) (strip))))
 
        (genai.configure :api_key api_key)
 
+       " "
+       (comments "open website")
+       (setf (ntuple app rt)
+	     (fast_app :live True))
+
+       (comments "create a folder with current datetime gens_<datetime>/")
+       (setf generations (list)
+	     dt_now (dot datetime
+			 datetime
+			 (now)
+			 (strftime (string "%Y%m%d_%H%M%S")))
+	     folder (fstring "gens_{dt_now}/")
+	     )
+       (os.makedirs folder :exist_ok True)
+
+       
+       " "
        (@rt (string "/"))
        (def get ()
-            (setf frm (Form
-                       (Group
-                        (Textarea :placeholder (string "Paste YouTube transcript here"
-                                  :name (string "transcript")))
-			(Select (Option (string "gemini-1.5-pro-exp-0801"))
-				(Option (string "gemini-1.5-flash-latest"))
-				:name (string "model"))
-			(Button (string "Send Transcript")
-				:hx_post (string "/process_transcript")
-				))
-		       :hx_post (string "/process_transcript")
-		       :hx_target (string "#summary")))
-	 (return (tuple (Title (string "Video Transcript Summarizer"))
-			(Main (H1 (string "Summarizer Demo"))
-			      (Card (Div :id (string "summary"))
-				    :header frm)))))
+	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
+				    :name (string "transcript"))
+	       model (Select (Option (string "gemini-1.5-pro-exp-0801"))
+			     (Option (string "gemini-1.5-flash-latest"))
+			     :name (string "model")))
+	 (setf form (Form
+                     (Group
+		      transcript
+		      model
+		      (Button (string "Send Transcript")))
+		     :hx_post (string "/process_transcript")
+		     :hx_swap (string "afterbegin")
+		     :target_id (string "gen-list")))
+
+	 (setf gen_list (Div :id (string "gen-list")))
+  
+	 (return (ntuple (Title (string "Video Transcript Summarizer"))
+			 (Main (H1 (string "Summarizer Demo"))
+			       form
+			       gen_list
+			       :cls (string "container")
+			       #+nil (Card (Div :id (string "summary"))
+					   :header frm)))))
+       " "
+       (comments "A pending preview keeps polling this route until we return the summary")
+       (def generation_preview (id)
+	 (setf sid (fstring "gen-{id}"))
+	 (if (os.path.exists (fstring "{folder}/{id}.md"))
+	     (return (Div (Pre (string "summary_pre")
+			       :id sid)))
+	     (return (Div (string "Generating ...")
+			  :id sid
+			  :hx_post (fstring "/generations/{id}")
+			  :hx_trigger (string "every 1s")
+			  :hx_swap (string "outerHTML")))))
+
+       " "
+       (@app.post (string "/generations/{id}"))
+       (def get (id)
+	 (declare (type int id))
+	 (return (generation_preview id)))
+
+       " "
        (@rt (string "/process_transcript"))
-       (space async (def post (transcript model)
-		      (declare (type str transcript)
-			       (type str model))
-		      (setf words (transcript.split))
-		      (when (< 20_000 (len words))
-			(return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it.")
-				     :id (string "summary"))))))))))
+       (def post (transcript model)
+	 (declare (type str transcript)
+		  (type str model))
+	 (setf words (transcript.split))
+	 (when (< 20_000 (len words))
+	   (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it.")
+			:id (string "summary"))))
+	 (setf id (len generations))
+	 (generate_and_save transcript id model)
+	 (generations.append transcript)
+	 
+	 (return (generation_preview id)))
+
+       " "
+       "@threaded"
+       (def generate_and_save (prompt id model)
+	 (setf m (genai.GenerativeModel model))
+	 (setf response (m.generate_content
+			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {prompt}")
+			 :stream True))
+	 (comments "consecutively append output to {folder}/{id}.md")				
+	 (with (as (open (fstring "{folder}/{id}.md")
+			 (string "w"))
+		   f)
+	       (for (chunk response)
+		    (f.write chunk.text)
+		    (print (fstring "{model} {id} {chunk.text}"))))
+	 )
+
+       (serve :port 5002)))))
