@@ -98,20 +98,34 @@
        (comments "A pending preview keeps polling this route until we return the summary")
        (def generation_preview (id)
 	 (setf sid (fstring "gen-{id}"))
+	 (setf pre_filename (fstring "{folder}/{id}.pre"))
 	 (setf filename (fstring "{folder}/{id}.md"))
 	 (if (os.path.exists filename)
 	     (do0
 	      (comments "Load potentially partial response from the file")
 	      (with (as (open filename)
 			f)
+		    (setf summary (f.read)))
+	      (return (Div (Pre summary)
+			   :id sid)))
+	     (if (os.path.exists pre_filename)
+		 (do0
+		  (with (as (open pre_filename)
+			f)
 		    (setf summary_pre (f.read)))
-	      (return (Div (Pre summary_pre
-				:id sid))))
-	     (return (Div (string "Generating ...")
-			  :id sid
-			  :hx_post (fstring "/generations/{id}")
-			  :hx_trigger (string "every 1s")
-			  :hx_swap (string "outerHTML")))))
+		  (return (Div (Pre
+				summary_pre
+				)
+			       :id sid
+			       :hx_post (fstring "/generations/{id}")
+			       :hx_trigger (string "every 1s")
+			       :hx_swap (string "outerHTML"))))
+		 (return (Div (string "Generating ...")
+			      
+			      :id sid
+			      :hx_post (fstring "/generations/{id}")
+			      :hx_trigger (string "every 1s")
+			      :hx_swap (string "outerHTML"))))))
 
        " "
        (@app.post (string "/generations/{id}"))
@@ -141,13 +155,16 @@
 	 (setf response (m.generate_content
 			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {prompt}")
 			 :stream True))
-	 (comments "consecutively append output to {folder}/{id}.md")				
-	 (with (as (open (fstring "{folder}/{id}.md")
+	 (comments "consecutively append output to {folder}/{id}.pre and finally move from .pre to .md file")
+	 (setf pre_file (fstring "{folder}/{id}.pre"))
+	 (setf md_file (fstring "{folder}/{id}.md"))
+	 (with (as (open pre_file
 			 (string "w"))
 		   f)
 	       (for (chunk response)
-		    (f.write chunk.text)
-		    (print (fstring "{model} {id} {chunk.text}"))))
+		    (print chunk)
+		    (f.write chunk.text)))
+	 (os.rename pre_file md_file)
 	 )
-
+       " "
        (serve :port 5002)))))

@@ -30,14 +30,20 @@ def get():
 # A pending preview keeps polling this route until we return the summary
 def generation_preview(id):
     sid=f"gen-{id}"
+    pre_filename=f"{folder}/{id}.pre"
     filename=f"{folder}/{id}.md"
     if ( os.path.exists(filename) ):
         # Load potentially partial response from the file
         with open(filename) as f:
-            summary_pre=f.read()
-        return Div(Pre(summary_pre, id=sid))
+            summary=f.read()
+        return Div(Pre(summary), id=sid)
     else:
-        return Div("Generating ...", id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
+        if ( os.path.exists(pre_filename) ):
+            with open(pre_filename) as f:
+                summary_pre=f.read()
+            return Div(Pre(summary_pre), id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
+        else:
+            return Div("Generating ...", id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
  
 @app.post("/generations/{id}")
 def get(id: int):
@@ -57,9 +63,13 @@ def post(transcript: str, model: str):
 def generate_and_save(prompt, id, model):
     m=genai.GenerativeModel(model)
     response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {prompt}", stream=True)
-    # consecutively append output to {folder}/{id}.md
-    with open(f"{folder}/{id}.md", "w") as f:
+    # consecutively append output to {folder}/{id}.pre and finally move from .pre to .md file
+    pre_file=f"{folder}/{id}.pre"
+    md_file=f"{folder}/{id}.md"
+    with open(pre_file, "w") as f:
         for chunk in response:
+            print(chunk)
             f.write(chunk.text)
-            print(f"{model} {id} {chunk.text}")
+    os.rename(pre_file, md_file)
+ 
 serve(port=5002)
