@@ -163,8 +163,14 @@
 		   f)
 	       (for (chunk response)
 		    (print chunk)
-		    (f.write chunk.text)))
+		    (f.write chunk.text))
+	       (when response.done
+		 (f.write (fstring "\\nSummarized with {model}"))
+		 (f.write (fstring "\\nInput tokens: {response.usage_metadata.prompt_token_count}"))
+		 (f.write (fstring "\\nOutput tokens: {response.usage_metadata.candidates_token_count}")))
+	       )
 	 (os.rename pre_file md_file)
+	 
 	 )
        " "
        (serve :port 5002)))))

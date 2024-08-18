@@ -70,6 +70,10 @@ def generate_and_save(prompt, id, model):
         for chunk in response:
             print(chunk)
             f.write(chunk.text)
+        if ( response.done ):
+            f.write(f"\nSummarized with {model}")
+            f.write(f"\nInput tokens: {response.usage_metadata.prompt_token_count}")
+            f.write(f"\nOutput tokens: {response.usage_metadata.candidates_token_count}")
     os.rename(pre_file, md_file)
  
 serve(port=5002)
