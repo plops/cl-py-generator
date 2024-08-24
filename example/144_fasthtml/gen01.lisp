@@ -59,7 +59,7 @@
        (def get ()
 	 (setf create_comment (Form
 			       (Input :id (string "username")
-				      :name (string "username")
+				      :name (string "user")
 				      :placeholder (string "username"))
 			       (Textarea :id (string "comment")
 				      :name (string "comment")

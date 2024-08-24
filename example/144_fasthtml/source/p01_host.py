@@ -8,7 +8,7 @@ def render(comment):
 app, rt, comments, Comment=fast_app("data/comments.db", id=int, comment=str, user=str, created_at=str, render=render, pk="id")
 @rt("/")
 def get():
-    create_comment=Form(Input(id="username", name="username", placeholder="username"), Textarea(id="comment", name="comment", placeholder="comment"), Button("Add Comment"), hx_post="/comments", hx_target="#comments", hx_swap="afterbegin")
+    create_comment=Form(Input(id="username", name="user", placeholder="username"), Textarea(id="comment", name="comment", placeholder="comment"), Button("Add Comment"), hx_post="/comments", hx_target="#comments", hx_swap="afterbegin")
     comments_list=Ul(*comments(order_by="id DESC"), id="comments")
     return Div(comments_list, create_comment, cls="container")
 @rt("/comments")
