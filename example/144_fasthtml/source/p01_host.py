@@ -4,7 +4,7 @@
 import datetime
 from fasthtml.common import *
 def render(comment):
-    return Li(A(comment.comment, href=f"/comments/{comment.id}"))
+    return Li(A(comment.comment, f"by {comment.user}", href=f"/comments/{comment.id}"))
 app, rt, comments, Comment=fast_app("data/comments.db", id=int, comment=str, user=str, created_at=str, render=render, pk="id")
 @rt("/")
 def get():

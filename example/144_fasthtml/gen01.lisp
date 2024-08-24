@@ -44,6 +44,7 @@
 
        (def render (comment)
 	 (return (Li (A comment.comment
+			(fstring "by {comment.user}")
 			:href (fstring "/comments/{comment.id}")))))
 
        (setf (ntuple app rt comments Comment)
