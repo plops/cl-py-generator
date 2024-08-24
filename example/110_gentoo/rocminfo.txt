@@ -3,10 +3,13 @@
 HSA System Attributes    
 =====================    
 Runtime Version:         1.1
+Runtime Ext Version:     1.4
 System Timestamp Freq.:  1000.000000MHz
 Sig. Max Wait Duration:  18446744073709551615 (0xFFFFFFFFFFFFFFFF) (timestamp count)
 Machine Model:           LARGE                              
 System Endianness:       LITTLE                             
+Mwaitx:                  DISABLED
+DMAbuf Support:          YES
 
 ==========               
 HSA Agents               
@@ -32,7 +35,7 @@ Agent 1
   Chip ID:                 0(0x0)                             
   ASIC Revision:           0(0x0)                             
   Cacheline Size:          64(0x40)                           
-  Max Clock Freq. (MHz):   2300                               
+  Max Clock Freq. (MHz):   4388                               
   BDFID:                   0                                  
   Internal Node ID:        0                                  
   Compute Unit:            12                                 
@@ -44,23 +47,26 @@ Agent 1
   Pool Info:               
     Pool 1                   
       Segment:                 GLOBAL; FLAGS: FINE GRAINED        
-      Size:                    14153256(0xd7f628) KB              
+      Size:                    15691748(0xef6fe4) KB              
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
+      Alloc Recommended Granule:4KB                                
       Alloc Alignment:         4KB                                
       Accessible by all:       TRUE                               
     Pool 2                   
       Segment:                 GLOBAL; FLAGS: KERNARG, FINE GRAINED
-      Size:                    14153256(0xd7f628) KB              
+      Size:                    15691748(0xef6fe4) KB              
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
+      Alloc Recommended Granule:4KB                                
       Alloc Alignment:         4KB                                
       Accessible by all:       TRUE                               
     Pool 3                   
       Segment:                 GLOBAL; FLAGS: COARSE GRAINED      
-      Size:                    14153256(0xd7f628) KB              
+      Size:                    15691748(0xef6fe4) KB              
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
+      Alloc Recommended Granule:4KB                                
       Alloc Alignment:         4KB                                
       Accessible by all:       TRUE                               
   ISA Info:                
@@ -94,6 +100,7 @@ Agent 2
   Shader Engines:          1                                  
   Shader Arrs. per Eng.:   1                                  
   WatchPts on Addr. Ranges:4                                  
+  Coherent Host Access:    FALSE                              
   Features:                KERNEL_DISPATCH 
   Fast F16 Operation:      TRUE                               
   Wavefront Size:          64(0x40)                           
@@ -110,24 +117,37 @@ Agent 2
     y                        4294967295(0xffffffff)             
     z                        4294967295(0xffffffff)             
   Max fbarriers/Workgrp:   32                                 
+  Packet Processor uCode:: 472                                
+  SDMA engine uCode::      40                                 
+  IOMMU Support::          None                               
   Pool Info:               
     Pool 1                   
       Segment:                 GLOBAL; FLAGS: COARSE GRAINED      
-      Size:                    2097152(0x200000) KB               
+      Size:                    7845872(0x77b7f0) KB               
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
+      Alloc Recommended Granule:2048KB                             
       Alloc Alignment:         4KB                                
       Accessible by all:       FALSE                              
     Pool 2                   
+      Segment:                 GLOBAL; FLAGS: EXTENDED FINE GRAINED
+      Size:                    7845872(0x77b7f0) KB               
+      Allocatable:             TRUE                               
+      Alloc Granule:           4KB                                
+      Alloc Recommended Granule:2048KB                             
+      Alloc Alignment:         4KB                                
+      Accessible by all:       FALSE                              
+    Pool 3                   
       Segment:                 GROUP                              
       Size:                    64(0x40) KB                        
       Allocatable:             FALSE                              
       Alloc Granule:           0KB                                
+      Alloc Recommended Granule:0KB                                
       Alloc Alignment:         0KB                                
       Accessible by all:       FALSE                              
   ISA Info:                
     ISA 1                    
-      Name:                    amdgcn-amd-amdhsa--gfx90c:xnack-   
+      Name:                    amdgcn-amd-amdhsa--gfx90c:xnack+   
       Machine Models:          HSA_MACHINE_MODEL_LARGE            
       Profiles:                HSA_PROFILE_BASE                   
       Default Rounding Mode:   NEAR                               
