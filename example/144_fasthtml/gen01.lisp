@@ -74,5 +74,12 @@
 		      create_comment
 		      :cls (string "container"))))
 
+       (@rt (string "/comments"))
+       (space async (def post (comment)
+		      (declare (type Comment comment))
+		      (setf comment.created_ad (dot datetime datetime
+						    (now) (isoformat)))
+		      (return (comments.insert comment))))
+
        (serve)
        ))))
