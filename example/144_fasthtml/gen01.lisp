@@ -44,8 +44,11 @@
 
        (def render (comment)
 	 (return (Li (A comment.comment
-			(fstring "by {comment.user}")
-			:href (fstring "/comments/{comment.id}")))))
+			
+			:href (fstring "/comments/{comment.id}")
+			)
+		     (fstring "by {comment.user} {comment.created_at}")
+		     )))
 
        (setf (ntuple app rt comments Comment)
 	     (fast_app (string "data/comments.db")
@@ -78,7 +81,7 @@
        (@rt (string "/comments"))
        (space async (def post (comment)
 		      (declare (type Comment comment))
-		      (setf comment.created_ad (dot datetime datetime
+		      (setf comment.created_at (dot datetime datetime
 						    (now) (isoformat)))
 		      (return (comments.insert comment))))
 

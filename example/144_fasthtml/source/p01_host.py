@@ -4,7 +4,7 @@
 import datetime
 from fasthtml.common import *
 def render(comment):
-    return Li(A(comment.comment, f"by {comment.user}", href=f"/comments/{comment.id}"))
+    return Li(A(comment.comment, href=f"/comments/{comment.id}"), f"by {comment.user} {comment.created_at}")
 app, rt, comments, Comment=fast_app("data/comments.db", id=int, comment=str, user=str, created_at=str, render=render, pk="id")
 @rt("/")
 def get():
@@ -13,6 +13,6 @@ def get():
     return Div(comments_list, create_comment, cls="container")
 @rt("/comments")
 async def post(comment: Comment):
-    comment.created_ad=datetime.datetime.now().isoformat()
+    comment.created_at=datetime.datetime.now().isoformat()
     return comments.insert(comment)
 serve()
