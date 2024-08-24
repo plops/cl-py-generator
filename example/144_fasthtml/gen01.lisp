@@ -61,20 +61,29 @@
 
        (@rt (string "/"))
        (def get ()
+	 (setf nav (Nav
+		    (Ul (Li (Strong (string "Acme Corp"))))
+		    (Ul (Li (A (string "About")
+			       :href (string "#")))
+			(Li (A (string "Services")
+			       :href (string "#")))
+			(Li (A (string "Products")
+			       :href (string "#"))))))
 	 (setf create_comment (Form
 			       (Input :id (string "username")
 				      :name (string "user")
 				      :placeholder (string "username"))
 			       (Textarea :id (string "comment")
-				      :name (string "comment")
-				      :placeholder (string "comment"))
+					 :name (string "comment")
+					 :placeholder (string "comment"))
 			       (Button (string "Add Comment"))
 			       :hx_post (string "/comments")
 			       :hx_target (string "#comments")
 			       :hx_swap (string "afterbegin")))
 	 (setf comments_list (Ul (*comments :order_by (string "id DESC"))
 				 :id (string "comments")))
-	 (return (Div comments_list
+	 (return (Div nav
+		      comments_list
 		      create_comment
 		      :cls (string "container"))))
 
