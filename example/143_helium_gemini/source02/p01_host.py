@@ -16,7 +16,7 @@ def render(summary: Summary):
     identifier=summary.identifier
     sid=f"gen-{identifier}"
     if ( summary.timestamps_done ):
-        return Div(Pre(summary.timestamped_summary_in_youtube_format), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="", hx_swap="outerHTML")
+        return generation_preview(identifier)
     elif ( summary.summary_done ):
         return Div(Pre(summary.summary), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
     else:
@@ -58,10 +58,14 @@ def generation_preview(identifier):
             input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
             output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
             cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
+            if ( ((cost)<((2.00e-2))) ):
+                cost_str=f"${cost:.4f}"
+            else:
+                cost_str=f"${cost:.2f}"
             text=f"""{s.timestamped_summary_in_youtube_format}
 
 I used {s.model} to summarize the transcript.
-Cost (if I didn't use the free tier): ${cost:.4f}
+Cost (if I didn't use the free tier): {cost_str}
 Input tokens: {input_tokens}
 Output tokens: {output_tokens}"""
             trigger=""
@@ -135,7 +139,7 @@ def generate_and_save(identifier: int):
     text=text.replace("**.", ".**")
     text=text.replace("**", "*")
     # markdown title starting with ## with fat text
-    text=re.sub(r"""^##(.*)""", r"""*\\1*""", text)
+    text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
     summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
  
 serve(port=5002)

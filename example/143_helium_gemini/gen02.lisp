@@ -78,7 +78,8 @@
 	 (setf sid (fstring "gen-{identifier}"))
 	 (cond
 	   (summary.timestamps_done
-	    (return (Div (Pre summary.timestamped_summary_in_youtube_format)
+	    (return (generation_preview identifier)
+		    #+nil(Div (Pre summary.timestamped_summary_in_youtube_format)
 			 :id sid
 			 :hx_post (fstring "/generations/{identifier}")
 			 :hx_trigger (string "")
@@ -123,6 +124,7 @@
 	 (return (Li 
 		  (A summary.summary_timestamp_start
 		     :href (fstring "/summaries/{summary.identifier}")))))
+
 
        " "
        
@@ -199,15 +201,18 @@
 			    (* (/ output_tokens 1_000_000)
 			       price_output_token_usd_per_mio)))
 
+	      (if (< cost .02)
+		  (setf cost_str (fstring "${cost:.4f}"))
+		  (setf cost_str (fstring "${cost:.2f}")))
 	      (setf text (fstring3 "{s.timestamped_summary_in_youtube_format}
 
 I used {s.model} to summarize the transcript.
-Cost (if I didn't use the free tier): ${cost:.4f}
+Cost (if I didn't use the free tier): {cost_str}
 Input tokens: {input_tokens}
 Output tokens: {output_tokens}")
 
 		   
-    trigger (string ""))
+		    trigger (string ""))
 
 
 	      )
@@ -360,8 +365,8 @@ Output tokens: {output_tokens}")
 				   (string "*")))
 
 	  (comments "markdown title starting with ## with fat text")
-	  (setf text (re.sub (rstring3 "^##(.*)")
-			     (rstring3 "*\\\\1*")
+	  (setf text (re.sub (rstring3 "^##\\s*(.*)")
+			     (rstring3 "*\\1*")
 			     text))
 
 				
