@@ -57,6 +57,7 @@
        (imports ((genai google.generativeai)
 		 ;google.generativeai.types.answer_types
 					;os
+		 re
 		 sqlite_minutils.db
 		 datetime
 		 time))
@@ -316,7 +317,7 @@
 			    (print (string "Value Error"))))
 	       )
 	  (setf text (dot (aref summaries identifier)
-						    timestamps))
+			  timestamps))
 
 	  (comments "adapt the markdown to youtube formatting")
 	  (setf text (text.replace (string "**:")
@@ -328,6 +329,15 @@
 
 	  (setf text (text.replace (string "**")
 				   (string "*")))
+
+	  (comments "markdown title starting with ## with fat text")
+	  (setf text (re.sub (rstring3 "^\\#\\#(.*)$")
+			     (rstring3 "*\\1*")
+			     text))
+
+				
+
+	  
 	  
 	  (summaries.update :pk_values identifier
 			    :timestamps_done True

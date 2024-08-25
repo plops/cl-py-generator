@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # pip install -U google-generativeai python-fasthtml
 import google.generativeai as genai
+import re
 import sqlite_minutils.db
 import datetime
 import time
@@ -118,6 +119,8 @@ def generate_and_save(identifier: int):
     text=text.replace("**,", ",**")
     text=text.replace("**.", ".**")
     text=text.replace("**", "*")
+    # markdown title starting with ## with fat text
+    text=re.sub(r"""^\#\#(.*)$""", r"""*\1*""", text)
     summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
  
 serve(port=5002)
