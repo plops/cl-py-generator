@@ -17,6 +17,7 @@ def render(summary):
         return Div(Pre(summary.summary), id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
  
 # open website
+# summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=True, render=render, id=int, model=str, transcript=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, cost=float, pk="id")
  
 def render(summary):
