@@ -172,6 +172,12 @@
 			       form
 			       gen_list
 			       summary_list
+			       (Script (string3 "function copyPreContent(elementId) {
+  var preElement = document.getElementById(elementId);
+  var textToCopy = preElement.textContent;
+
+  navigator.clipboard.writeText(textToCopy);
+}"))
 			       :cls (string "container")))))
        " "
        (comments "A pending preview keeps polling this route until we return the summary")
@@ -226,7 +232,9 @@ Output tokens: {output_tokens}")
 
 	   (return (Div
 		    (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}")
-		    (Pre text)
+		    (Pre text :id (fstring "pre-{identifier}"))
+		    (Button (string "Copy")
+			    :onclick (fstring "copyPreContent('pre-{identifier}')"))
 		    :id sid
 		    :hx_post (fstring "/generations/{identifier}")
 		    :hx_trigger trigger

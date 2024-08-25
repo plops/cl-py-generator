@@ -38,7 +38,12 @@ def get(request: Request):
     summaries_to_show=summaries(order_by="identifier DESC")
     summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
     summary_list=Ul(*summaries_to_show, id="summaries")
-    return Title("Video Transcript Summarizer"), Main(nav, H1("Summarizer Demo"), form, gen_list, summary_list, cls="container")
+    return Title("Video Transcript Summarizer"), Main(nav, H1("Summarizer Demo"), form, gen_list, summary_list, Script("""function copyPreContent(elementId) {
+  var preElement = document.getElementById(elementId);
+  var textToCopy = preElement.textContent;
+
+  navigator.clipboard.writeText(textToCopy);
+}"""), cls="container")
  
 # A pending preview keeps polling this route until we return the summary
 def generation_preview(identifier):
@@ -75,7 +80,7 @@ Output tokens: {output_tokens}"""
             text=s.summary
         elif ( ((len(s.transcript))) ):
             text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
-        return Div(f"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
+        return Div(f"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}", Pre(text, id=f"pre-{identifier}"), Button("Copy", onclick=f"copyPreContent('pre-{identifier}')"), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
         return Div(f"id: {identifier}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
  
