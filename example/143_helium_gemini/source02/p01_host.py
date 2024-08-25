@@ -51,6 +51,8 @@ def post(summary: Summary):
     if ( ((20_000)<(len(words))) ):
         return Div("Error: Transcript exceeds 20,000 words. Please shorten it.", id="summary")
     summary.timestamp_summary_start=datetime.datetime.now().isoformat()
+    summary.summary=""
+    global s2
     s2=summaries.insert(summary)
     generate_and_save(s2.id)
     return generation_preview(s2.id)
@@ -61,21 +63,15 @@ def generate_and_save(id: int):
     s=summaries[id]
     print(f"generate_and_save model={s.model}")
     m=genai.GenerativeModel(s.model)
-    response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.prompt}", stream=True)
-    print(type(summaries))
-    print(dir(summaries))
-    with open(pre_file, "w") as f:
-        s["summary"]=""
-        for chunk in response:
-            print(chunk)
-            s["summary"]=((s["summary"])+(chunk.text))
-            f.write(chunk.text)
-        if ( response._done ):
-            s["summary_done"]=True
-            f.write(f"\nSummarized with {model}")
-            f.write(f"\nInput tokens: {response.usage_metadata.prompt_token_count}")
-            f.write(f"\nOutput tokens: {response.usage_metadata.candidates_token_count}")
-        else:
-            f.write("Warning: Did not finish!")
+    response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}", stream=True)
+    for chunk in response:
+        print(chunk)
+        new=dict(summary=((s.summary)+(chunk.text)))
+        summaries.update(id, updates=new)
+    if ( response._done ):
+        new=dict(summary_done=True, summary=((s.summary)+(chunk.text)), summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_stop=datetime.datetime.now().isoformat())
+        summaries.update(id, updates=new)
+    else:
+        f.write("Warning: Did not finish!")
  
 serve(port=5002)

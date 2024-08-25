@@ -174,7 +174,10 @@
 						     datetime
 						     (now)
 						     (isoformat)))
+	 (setf summary.summary (string ""))
+	 "global s2"
 	 (setf s2 (summaries.insert summary))
+	 
 	 (generate_and_save s2.id)
 	 
 	 
@@ -189,32 +192,36 @@
 	 (print (fstring "generate_and_save model={s.model}"))
 	 (setf m (genai.GenerativeModel s.model))
 	 (setf response (m.generate_content
-			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.prompt}")
+			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
 			 :stream True))
-	 (print (type summaries))
-	 (print (dir summaries))
-	 (with (as (open pre_file
-			 (string "w"))
-		   f)
-	       (setf (aref s (string "summary"))
-		      (string ""))
-	       (for (chunk response)
-		    (print chunk)
-		    (setf (aref s (string "summary"))
-			  (+ (aref s (string "summary"))
-			     chunk.text))
-		    (f.write chunk.text))
-	       (if response._done
-		   
-		   (do0
-		    (setf (aref s (string "summary_done"))
-			  True)
-		    (f.write (fstring "\\nSummarized with {model}"))
-		    (f.write (fstring "\\nInput tokens: {response.usage_metadata.prompt_token_count}"))
-		    (f.write (fstring "\\nOutput tokens: {response.usage_metadata.candidates_token_count}"))
-		    )
-		   (f.write (string "Warning: Did not finish!")))
+	 
+	 (for (chunk response)
+	      (print chunk)
+	      (setf new (dictionary :summary (+ s.summary chunk.text)))
+	      (summaries.update id
+				:updates new
+					;:alter True
+				)
+	      )
+	 (if response._done
+	     
+	     (do0
+	      (setf new (dictionary :summary_done True
+				    :summary (+ s.summary chunk.text)
+				    :summary_input_tokens response.usage_metadata.prompt_token_count
+				    :summary_output_tokens response.usage_metadata.candidates_token_count
+				    :summary_timestamp_stop (dot datetime
+								 datetime
+								 (now)
+								 (isoformat))))
+	      (summaries.update
+	       id
+	       :updates new
+					;:alter True
 	       )
+	      )
+	     (f.write (string "Warning: Did not finish!")))
+	 
 	 
 	 
 	 )
