@@ -32,12 +32,10 @@
 
  (let* ((notebook-name "host"))
    (write-source
-     (format nil "~a/source/p~a_~a" *path* *idx* notebook-name)
+     (format nil "~a/source02/p~a_~a" *path* *idx* notebook-name)
      `(do0
        "#!/usr/bin/env python3"
-       (comments "pip install -U google-generativeai")
-       (comments "https://docs.fastht.ml/tutorials/by_example.html#full-example-2---image-generation-app")
-					; M-S-Enter in alive to execute top-level expression
+       (comments "pip install -U google-generativeai python-fasthtml")
 
        (imports ((genai google.generativeai)
 		 os
