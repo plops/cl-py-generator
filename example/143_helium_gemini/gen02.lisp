@@ -34,6 +34,7 @@
 	(db-cols `((:name id :type int)
 		   (:name model :type str)
 		   (:name transcript :type str)
+		   (:name host :type str)
 		   ,@(loop for e in `(summary timestamps)
 			   appending
 			   `((:name ,e :type str)
@@ -67,6 +68,9 @@
 
        " "
        (def render (summary)
+	 (declare (type Summary summary))
+	 (setf id summary.id)
+	 (setf sid (fstring "gen-{id}"))
 	 (if summary.summary_done
 	     (return (Div (Pre summary.timestamps)
 			  :id sid
@@ -102,12 +106,18 @@
 
        " "
        (def render (summary)
-	 (return (Li (A summary.summary_timestamp_start
-			:href (fstring "/summaries/{summary.id}")))))
+	 (declare (type Summary summary))
+	 (return (Li 
+		  (A summary.summary_timestamp_start
+		     :href (fstring "/summaries/{summary.id}")))))
 
        " "
+       
        (@rt (string "/"))
-       (def get ()
+       (def get (request)
+	 (declare (type Request request))
+	
+	 (print request.client.host)
 	 (setf nav (Nav
 		    (Ul (Li (Strong (string "Transcript Summarizer"))))
 		    (Ul (Li (A (string "About")
@@ -131,30 +141,34 @@
 		:hx_swap (string "afterbegin")
 		:target_id (string "gen-list")))
 
-	 (setf gen_list (Div :id (string "gen-list")))
-  
+	 ;(setf gen_list (Div :id (string "gen-list")))
+
+	 (setf summary_list (Ul (*summaries :order_by (string "id DESC"))
+				:id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
 			 (Main nav
 			       (H1 (string "Summarizer Demo"))
 			       
 			       form
-			       gen_list
+			       ; gen_list
+			       summary_list
 			       :cls (string "container")))))
        " "
        (comments "A pending preview keeps polling this route until we return the summary")
-       (def generation_preview (id)
+       (def generation_preview (id )
 	 (setf sid (fstring "gen-{id}"))
-	 (if (aref summaries id)
+	 (try
 	     (do0
 	      (setf summary (dot (aref summaries id) summary))
 	      (return (Div (Pre summary)
 			   :id sid)))
-	     (return (Div (string "Generating ...")
+	   (NotFoundError ()
+			  (return (Div (string "Generating ...")
 			  
-			  :id sid
-			  :hx_post (fstring "/generations/{id}")
-			  :hx_trigger (string "every 1s")
-			  :hx_swap (string "outerHTML")))))
+				       :id sid
+				       :hx_post (fstring "/generations/{id}")
+				       :hx_trigger (string "every 1s")
+				       :hx_swap (string "outerHTML"))))))
  
       " "
        (@app.post (string "/generations/{id}"))
@@ -164,20 +178,22 @@
 
        " "
        (@rt (string "/process_transcript"))
-       (def post (summary)
-	 (declare (type Summary summary))
+       (def post (summary request)
+	 (declare (type Summary summary)
+		   (type Request request))
 	 (setf words (summary.transcript.split))
 	 (when (< 20_000 (len words))
 	   (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it.")
 			:id (string "summary"))))
+	 (setf summary.host request.client.host)
 	 (setf summary.timestamp_summary_start (dot datetime
-						     datetime
-						     (now)
-						     (isoformat)))
+						    datetime
+						    (now)
+						    (isoformat)))
 	 (setf summary.summary (string ""))
 	 "global s2"
 	 (setf s2 (summaries.insert summary))
-	 
+	 (comments "first id is 1")
 	 (generate_and_save s2.id)
 	 
 	 
@@ -194,33 +210,45 @@
 	 (setf response (m.generate_content
 			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
 			 :stream True))
+
+	 (when (==
+		FinishReason.SAFETY
+		(dot response
+		     (aref candidates 0)
+		     safety_ratings))
+	   (print (string "stopped because of safety")))
 	 
 	 (for (chunk response)
-	      (print chunk)
-	      (setf new (dictionary :summary (+ s.summary chunk.text)))
-	      (summaries.update id
-				:updates new
+	      
+	      (try
+	       (do0
+		(print (fstring "add text to id={id}: {chunk.text}"))
+	       
+		(summaries.update :pk_values id
+				  :summary (+ (dot (aref summaries id)
+						   summary)
+					      chunk.text)
+					;new
 					;:alter True
-				)
+				  ))
+	       (ValueError ()
+			   (print (string "Value Error"))))
 	      )
 	 (if response._done
 	     
 	     (do0
-	      (setf new (dictionary :summary_done True
-				    :summary (+ s.summary chunk.text)
-				    :summary_input_tokens response.usage_metadata.prompt_token_count
-				    :summary_output_tokens response.usage_metadata.candidates_token_count
-				    :summary_timestamp_stop (dot datetime
-								 datetime
-								 (now)
-								 (isoformat))))
-	      (summaries.update
-	       id
-	       :updates new
-					;:alter True
-	       )
+	      
+	      (summaries.update :pk_values id
+			:summary_done True
+			
+			:summary_input_tokens response.usage_metadata.prompt_token_count
+			:summary_output_tokens response.usage_metadata.candidates_token_count
+			:summary_timestamp_end (dot datetime
+						     datetime
+						     (now)
+						     (isoformat)))
 	      )
-	     (f.write (string "Warning: Did not finish!")))
+	     (print (string "Warning: Did not finish!")))
 	 
 	 
 	 
