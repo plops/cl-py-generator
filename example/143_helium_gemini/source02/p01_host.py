@@ -3,6 +3,7 @@
 import google.generativeai as genai
 import google.generativeai.types.answer_types
 import datetime
+import time
 from fasthtml.common import *
  
 # Read the gemini api key from disk
@@ -32,8 +33,11 @@ def get(request: Request):
     transcript=Textarea(placeholder="Paste YouTube transcript here", name="transcript")
     model=Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-exp-0801"), name="model")
     form=Form(Group(transcript, model, Button("Send Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
-    summary_list=Ul(*summaries(order_by="identifier DESC"), id="summaries")
-    return Title("Video Transcript Summarizer"), Main(nav, H1("Summarizer Demo"), form, summary_list, cls="container")
+    gen_list=Div(id="gen-list")
+    summaries_to_show=summaries(order_by="identifier DESC")
+    summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
+    summary_list=Ul(*summaries_to_show, id="summaries")
+    return Title("Video Transcript Summarizer"), Main(nav, H1("Summarizer Demo"), form, gen_list, summary_list, cls="container")
  
 # A pending preview keeps polling this route until we return the summary
 def generation_preview(identifier):
@@ -41,11 +45,10 @@ def generation_preview(identifier):
     try:
         summary=summaries[identifier].summary
         return Div(Pre(summary), id=sid)
-    except NotFoundError:
-        
+    except Exception as e:
         return Div("Generating ...", id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
  
-@app.post("/generations/{id}")
+@app.post("/generations/{identifier}")
 def get(identifier: int):
     return generation_preview(identifier)
  
@@ -62,15 +65,24 @@ def post(summary: Summary, request: Request):
     generate_and_save(s2.identifier)
     return generation_preview(s2.identifier)
  
+def wait_until_row_exists(identifier):
+    for i in range(10):
+        try:
+            s=summaries[identifier]
+            return s
+        except sqlite_utils.db.NotFoundError:
+            print("entry not found")
+        time.sleep((0.10    ))
+    print("row did not appear")
+    return -1
+ 
 @threaded
 def generate_and_save(identifier: int):
     print(f"generate_and_save id={identifier}")
-    s=summaries[identifier]
+    s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
     m=genai.GenerativeModel(s.model)
     response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}", stream=True)
-    if ( ((google.generativeai.types.answer_types.FinishReason.SAFETY)==(response.candidates[0].safety_ratings)) ):
-        print("stopped because of safety")
     for chunk in response:
         try:
             print(f"add text to id={identifier}: {chunk.text}")
@@ -78,9 +90,6 @@ def generate_and_save(identifier: int):
         except ValueError:
             
             print("Value Error")
-    if ( response._done ):
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat())
-    else:
-        print("Warning: Did not finish!")
+    summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat())
  
 serve(port=5002)

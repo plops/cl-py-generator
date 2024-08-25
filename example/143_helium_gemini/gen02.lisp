@@ -56,7 +56,8 @@
        (imports ((genai google.generativeai)
 		 google.generativeai.types.answer_types
 					;os
-		 datetime))
+		 datetime
+		 time))
        (imports-from (fasthtml.common *))
 
        " "
@@ -142,16 +143,19 @@
 		:hx_swap (string "afterbegin")
 		:target_id (string "gen-list")))
 
-	 ;(setf gen_list (Div :id (string "gen-list")))
+	 (setf gen_list (Div :id (string "gen-list")))
 
-	 (setf summary_list (Ul (*summaries :order_by (string "identifier DESC"))
-				:id (string "summaries")))
+	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
+				       )
+	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
+	 (setf summary_list (Ul *summaries_to_show
+			     :id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
 			 (Main nav
 			       (H1 (string "Summarizer Demo"))
 			       
 			       form
-			       ; gen_list
+			       gen_list
 			       summary_list
 			       :cls (string "container")))))
        " "
@@ -163,7 +167,7 @@
 	      (setf summary (dot (aref summaries identifier) summary))
 	      (return (Div (Pre summary)
 			   :id sid)))
-	   (NotFoundError ()
+	   ("Exception as e" ; NotFoundError ()
 			  (return (Div (string "Generating ...")
 			  
 				       :id sid
@@ -172,7 +176,7 @@
 				       :hx_swap (string "outerHTML"))))))
  
       " "
-       (@app.post (string "/generations/{id}"))
+       (@app.post (string "/generations/{identifier}"))
        (def get (identifier)
 	 (declare (type int identifier))
 	 (return (generation_preview identifier)))
@@ -201,28 +205,32 @@
 	 (return (generation_preview s2.identifier)))
 
        " "
+       (def wait_until_row_exists (identifier)
+	 (for (i (range 10))
+	      (try
+	       (do0 (setf s (aref summaries identifier))
+		    (return s))
+	       (sqlite_utils.db.NotFoundError
+		(print (string "entry not found"))))
+	      (time.sleep .1))
+	 (print (string "row did not appear"))
+	 (return -1))
+       
+       " "
        "@threaded"
        (def generate_and_save (identifier)
 	 (declare (type int identifier))
 	 (print (fstring "generate_and_save id={identifier}"))
-	 (setf s (aref summaries identifier))
+	 (setf s (wait_until_row_exists identifier))
 	 (print (fstring "generate_and_save model={s.model}"))
 	 (setf m (genai.GenerativeModel s.model))
 	 (setf response (m.generate_content
 			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
 			 :stream True))
 
-	 (when (==
-		google.generativeai.types.answer_types.FinishReason.SAFETY
-		(dot response
-		     (aref candidates 0)
-		     safety_ratings)
-		
-		)
-	   (print (string "stopped because of safety")))
+	 
 	 
 	 (for (chunk response)
-	      
 	      (try
 	       (do0
 		(print (fstring "add text to id={identifier}: {chunk.text}"))
@@ -237,21 +245,50 @@
 	       (ValueError ()
 			   (print (string "Value Error"))))
 	      )
-	 (if response._done
-	     
-	     (do0
-	      
-	      (summaries.update :pk_values identifier
-			:summary_done True
+
+	 (summaries.update :pk_values identifier
+				:summary_done True
 			
-			:summary_input_tokens response.usage_metadata.prompt_token_count
-			:summary_output_tokens response.usage_metadata.candidates_token_count
-			:summary_timestamp_end (dot datetime
-						     datetime
-						     (now)
-						     (isoformat)))
-	      )
-	     (print (string "Warning: Did not finish!")))
+				:summary_input_tokens response.usage_metadata.prompt_token_count
+				:summary_output_tokens response.usage_metadata.candidates_token_count
+				:summary_timestamp_end (dot datetime
+							    datetime
+							    (now)
+							    (isoformat)))
+	 
+	 #+nil (cond 
+		 ((== google.generativeai.types.answer_types.FinishReason.STOP
+		      (dot response
+			   (aref candidates 0)
+			   safety_ratings))
+		  (summaries.update :pk_values identifier
+				    :summary_done True
+			
+				    :summary_input_tokens response.usage_metadata.prompt_token_count
+				    :summary_output_tokens response.usage_metadata.candidates_token_count
+				    :summary_timestamp_end (dot datetime
+								datetime
+								(now)
+								(isoformat))))
+
+		 ((== google.generativeai.types.answer_types.FinishReason.SAFETY
+		      (dot response
+			   (aref candidates 0)
+			   safety_ratings))
+		  (print (string "summary failed because of safety"))
+		  (summaries.update :pk_values identifier
+				    :summary_done False
+			
+				    :summary_input_tokens response.usage_metadata.prompt_token_count
+				    :summary_output_tokens response.usage_metadata.candidates_token_count
+				    :summary_timestamp_end (dot datetime
+								datetime
+								(now)
+								(isoformat))))
+	     
+		 (t
+		  (print (string "summary failed for an unknown reason"))))
+	 
 	 
 	 
 	 
