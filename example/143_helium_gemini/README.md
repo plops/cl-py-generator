@@ -47,3 +47,27 @@ tinyproxy -d -c tinyproxy.conf &
 export http_proxy="http://localhost:8888"
 python -i ./p01_host.py 
 ```
+
+here is the tinyproxy output:
+
+```
+NOTICE    Aug 25 12:31:18.208 [26268]: Initializing tinyproxy ...
+NOTICE    Aug 25 12:31:18.208 [26268]: Reloading config file (tinyproxy.conf)
+INFO      Aug 25 12:31:18.208 [26268]: Added address [127.0.0.1] to listen addresses.
+INFO      Aug 25 12:31:18.208 [26268]: Added upstream socks5 127.0.0.1:5555 for [default]
+NOTICE    Aug 25 12:31:18.208 [26268]: Reloading config file finished
+INFO      Aug 25 12:31:18.208 [26268]: listen_sock called with addr = '127.0.0.1'
+INFO      Aug 25 12:31:18.208 [26268]: trying to listen on host[127.0.0.1], family[2], socktype[1], proto[6]
+INFO      Aug 25 12:31:18.208 [26268]: listening on fd [3]
+INFO      Aug 25 12:31:18.208 [26268]: Not running as root, so not changing UID/GID.
+INFO      Aug 25 12:31:18.208 [26268]: Setting the various signals.
+INFO      Aug 25 12:31:18.208 [26268]: Starting main loop. Accepting connections.
+CONNECT   Aug 25 12:34:09.011 [26268]: Connect (file descriptor 4): 127.0.0.1
+CONNECT   Aug 25 12:34:09.011 [26268]: Request (file descriptor 4): CONNECT generativelanguage.googleapis.com:443 HTTP/1.1
+INFO      Aug 25 12:34:09.011 [26268]: Found upstream proxy socks5 127.0.0.1:5555 for generativelanguage.googleapis.com
+INFO      Aug 25 12:34:09.011 [26268]: opensock: opening connection to 127.0.0.1:5555
+INFO      Aug 25 12:34:09.012 [26268]: opensock: getaddrinfo returned for 127.0.0.1:5555
+CONNECT   Aug 25 12:34:09.012 [26268]: Established connection to socks5 proxy "127.0.0.1" using file descriptor 5.
+INFO      Aug 25 12:34:09.387 [26268]: Not sending client headers to remote machine
+
+```
