@@ -30,7 +30,7 @@ app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=True, ren
 @rt("/")
 def get(request: Request):
     print(request.client.host)
-    nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("About", href="#")), Li(A("Documentation", href="#"))))
+    nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
     transcript=Textarea(placeholder="Paste YouTube transcript here", name="transcript")
     model=Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-exp-0801"), name="model")
     form=Form(Group(transcript, model, Button("Send Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
@@ -48,7 +48,22 @@ def generation_preview(identifier):
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):
-            text=s.timestamped_summary_in_youtube_format
+            # this is for <= 128k tokens
+            if ( ((s.model)==("gemini-1.5-pro-exp-0801")) ):
+                price_input_token_usd_per_mio=(3.50    )
+                price_output_token_usd_per_mio=(10.50    )
+            else:
+                price_input_token_usd_per_mio=(7.50e-2)
+                price_output_token_usd_per_mio=(0.30    )
+            input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
+            output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
+            cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
+            text=f"""{s.timestamped_summary_in_youtube_format}
+
+I used {s.model} to summarize the transcript.
+Cost (if I didn't use the free tier): ${cost:.4f}
+Input tokens: {input_tokens}
+Output tokens: {output_tokens}"""
             trigger=""
         elif ( s.summary_done ):
             text=s.summary
@@ -120,7 +135,7 @@ def generate_and_save(identifier: int):
     text=text.replace("**.", ".**")
     text=text.replace("**", "*")
     # markdown title starting with ## with fat text
-    text=re.sub(r"""^\#\#(.*)$""", r"""*\1*""", text)
+    text=re.sub(r"""^##(.*)""", r"""*\\1*""", text)
     summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
  
 serve(port=5002)

@@ -133,10 +133,12 @@
 	 (print request.client.host)
 	 (setf nav (Nav
 		    (Ul (Li (Strong (string "Transcript Summarizer"))))
-		    (Ul (Li (A (string "About")
+		    (Ul #+nil (Li (A (string "About")
 			       :href (string "#")))
+			(Li (A (string "Demo Video")
+			       :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
 			(Li (A (string "Documentation")
-			       :href (string "#")))
+			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
 				    :name (string "transcript"))
@@ -179,9 +181,36 @@
 	  (do0
 	   (setf s (aref summaries identifier))
 	   (cond
+	     
 	     (s.timestamps_done
-	      (setf text s.timestamped_summary_in_youtube_format
-		    trigger (string "")))
+	      (comments "this is for <= 128k tokens")
+	      (if (== s.model (string "gemini-1.5-pro-exp-0801"))
+		  (setf price_input_token_usd_per_mio 3.5
+			price_output_token_usd_per_mio 10.5)
+		  (setf price_input_token_usd_per_mio 0.075
+			price_output_token_usd_per_mio 0.3)
+		  )
+	      (setf input_tokens (+ s.summary_input_tokens
+				    s.timestamps_input_tokens)
+		    output_tokens (+ s.summary_output_tokens
+				     s.timestamps_output_tokens)
+		    cost (+ (* (/ input_tokens 1_000_000)
+			       price_input_token_usd_per_mio)
+			    (* (/ output_tokens 1_000_000)
+			       price_output_token_usd_per_mio)))
+
+	      (setf text (fstring3 "{s.timestamped_summary_in_youtube_format}
+
+I used {s.model} to summarize the transcript.
+Cost (if I didn't use the free tier): ${cost:.4f}
+Input tokens: {input_tokens}
+Output tokens: {output_tokens}")
+
+		   
+    trigger (string ""))
+
+
+	      )
 	     (s.summary_done
 	      (setf text s.summary))
 	     ((< 0 (len s.summary))
@@ -331,8 +360,8 @@
 				   (string "*")))
 
 	  (comments "markdown title starting with ## with fat text")
-	  (setf text (re.sub (rstring3 "^\\#\\#(.*)$")
-			     (rstring3 "*\\1*")
+	  (setf text (re.sub (rstring3 "^##(.*)")
+			     (rstring3 "*\\\\1*")
 			     text))
 
 				

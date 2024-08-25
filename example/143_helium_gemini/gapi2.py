@@ -295,3 +295,20 @@ with open(filename, "w") as f:
         print_and_write("I added a 61 second delay to prevent a rate limit of the free tier.", f)
     print_and_write(f"Input tokens: {input_tokens+input_tokens2}", f)
     print_and_write(f"Output tokens: {output_tokens+output_tokens2}", f)
+    # this is for <= 128k tokens
+    if args.pro:
+        price_input_token_usd_per_mio = 3.5
+        price_output_token_usd_per_mio = 10.5
+    else:
+        price_input_token_usd_per_mio = 0.075
+        price_output_token_usd_per_mio = 0.3
+    end = time.time()
+    cost_input = (input_tokens+input_tokens2) / 1_000_000 * price_input_token_usd_per_mio
+    cost_output = (output_tokens+output_tokens2) / 1_000_000 * price_output_token_usd_per_mio
+
+    print_and_write(f"Cost (if I didn't use the free tier): ${cost_input+cost_output:.4f}", f)
+    print_and_write(f"Time: {end-start:.2f} seconds", f)
+    if rate_limit_mitigation > 0:
+        print_and_write("I added a 61 second delay to prevent a rate limit of the free tier.", f)
+    print_and_write(f"Input tokens: {input_tokens+input_tokens2}", f)
+    print_and_write(f"Output tokens: {output_tokens+output_tokens2}", f)
