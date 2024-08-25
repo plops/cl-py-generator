@@ -103,6 +103,8 @@ def wait_until_row_exists(identifier):
             return s
         except sqlite_minutils.db.NotFoundError:
             print("entry not found")
+        except Exception as e:
+            print(f"entry not found {e.what()}")
         time.sleep((0.10    ))
     print("row did not appear")
     return -1

@@ -276,7 +276,9 @@ Output tokens: {output_tokens}")
 	       (do0 (setf s (aref summaries identifier))
 		    (return s))
 	       (sqlite_minutils.db.NotFoundError
-		(print (string "entry not found"))))
+		(print (string "entry not found")))
+	       ("Exception as e"
+		(print (fstring "entry not found {e.what()}"))))
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
 	 (return -1))
