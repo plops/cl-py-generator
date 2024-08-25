@@ -162,7 +162,7 @@
 
 	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
 				       )
-	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 1 (len summaries_to_show)))))
+	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
 	 (setf summary_list (Ul *summaries_to_show
 			     :id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
@@ -278,7 +278,7 @@ Output tokens: {output_tokens}")
 	       (sqlite_minutils.db.NotFoundError
 		(print (string "entry not found")))
 	       ("Exception as e"
-		(print (fstring "entry not found {e.what()}"))))
+		(print (fstring "entry not found"))))
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
 	 (return -1))

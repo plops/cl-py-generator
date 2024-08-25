@@ -36,7 +36,7 @@ def get(request: Request):
     form=Form(Group(transcript, model, Button("Send Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC")
-    summaries_to_show=summaries_to_show[0:min(1, len(summaries_to_show))]
+    summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
     summary_list=Ul(*summaries_to_show, id="summaries")
     return Title("Video Transcript Summarizer"), Main(nav, H1("Summarizer Demo"), form, gen_list, summary_list, cls="container")
  
@@ -104,7 +104,7 @@ def wait_until_row_exists(identifier):
         except sqlite_minutils.db.NotFoundError:
             print("entry not found")
         except Exception as e:
-            print(f"entry not found {e.what()}")
+            print(f"entry not found")
         time.sleep((0.10    ))
     print("row did not appear")
     return -1
