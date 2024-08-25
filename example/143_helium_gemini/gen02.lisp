@@ -153,7 +153,7 @@
                 (Group
 		 transcript
 		 model
-		 (Button (string "Send Transcript")))
+		 (Button (string "Summarize Transcript")))
 		:hx_post (string "/process_transcript")
 		:hx_swap (string "afterbegin")
 		:target_id (string "gen-list")))

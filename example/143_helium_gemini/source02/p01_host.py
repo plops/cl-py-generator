@@ -33,7 +33,7 @@ def get(request: Request):
     nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
     transcript=Textarea(placeholder="Paste YouTube transcript here", name="transcript")
     model=Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-exp-0801"), name="model")
-    form=Form(Group(transcript, model, Button("Send Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
+    form=Form(Group(transcript, model, Button("Summarize Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC")
     summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
