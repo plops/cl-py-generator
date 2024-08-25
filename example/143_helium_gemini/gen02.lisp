@@ -31,7 +31,7 @@
                    (setf ,name ,val))))))
 
  (let* ((notebook-name "host")
-	(db-cols `((:name id :type int)
+	(db-cols `((:name identifier :type int)
 		   (:name model :type str)
 		   (:name transcript :type str)
 		   (:name host :type str)
@@ -54,7 +54,8 @@
        (comments "pip install -U google-generativeai python-fasthtml")
 
        (imports ((genai google.generativeai)
-		 os
+		 google.generativeai.types.answer_types
+					;os
 		 datetime))
        (imports-from (fasthtml.common *))
 
@@ -69,19 +70,19 @@
        " "
        (def render (summary)
 	 (declare (type Summary summary))
-	 (setf id summary.id)
-	 (setf sid (fstring "gen-{id}"))
+	 (setf identifier summary.identifier)
+	 (setf sid (fstring "gen-{identifier}"))
 	 (if summary.summary_done
 	     (return (Div (Pre summary.timestamps)
 			  :id sid
-			  :hx_post (fstring "/generations/{id}")
+			  :hx_post (fstring "/generations/{identifier}")
 			  :hx_trigger (? summary.timestamps_done
 					 (string "")
 					 (string "every 1s"))
 			  :hx_swap (string "outerHTML")))
 	     (return (Div (Pre summary.summary)
 			  :id sid
-			  :hx_post (fstring "/generations/{id}")
+			  :hx_post (fstring "/generations/{identifier}")
 			  :hx_trigger (string "every 1s")
 			  :hx_swap (string "outerHTML")))
 	     ))
@@ -100,7 +101,7 @@
 				   ,type)))
 
 		       
-		       :pk (string "id")
+		       :pk (string "identifier")
 		       ))
 
 
@@ -109,7 +110,7 @@
 	 (declare (type Summary summary))
 	 (return (Li 
 		  (A summary.summary_timestamp_start
-		     :href (fstring "/summaries/{summary.id}")))))
+		     :href (fstring "/summaries/{summary.identifier}")))))
 
        " "
        
@@ -143,7 +144,7 @@
 
 	 ;(setf gen_list (Div :id (string "gen-list")))
 
-	 (setf summary_list (Ul (*summaries :order_by (string "id DESC"))
+	 (setf summary_list (Ul (*summaries :order_by (string "identifier DESC"))
 				:id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
 			 (Main nav
@@ -155,26 +156,26 @@
 			       :cls (string "container")))))
        " "
        (comments "A pending preview keeps polling this route until we return the summary")
-       (def generation_preview (id )
-	 (setf sid (fstring "gen-{id}"))
+       (def generation_preview (identifier)
+	 (setf sid (fstring "gen-{identifier}"))
 	 (try
 	     (do0
-	      (setf summary (dot (aref summaries id) summary))
+	      (setf summary (dot (aref summaries identifier) summary))
 	      (return (Div (Pre summary)
 			   :id sid)))
 	   (NotFoundError ()
 			  (return (Div (string "Generating ...")
 			  
 				       :id sid
-				       :hx_post (fstring "/generations/{id}")
+				       :hx_post (fstring "/generations/{identifier}")
 				       :hx_trigger (string "every 1s")
 				       :hx_swap (string "outerHTML"))))))
  
       " "
        (@app.post (string "/generations/{id}"))
-       (def get (id)
-	 (declare (type int id))
-	 (return (generation_preview id)))
+       (def get (identifier)
+	 (declare (type int identifier))
+	 (return (generation_preview identifier)))
 
        " "
        (@rt (string "/process_transcript"))
@@ -191,20 +192,20 @@
 						    (now)
 						    (isoformat)))
 	 (setf summary.summary (string ""))
-	 "global s2"
+	 ;"global s2"
 	 (setf s2 (summaries.insert summary))
-	 (comments "first id is 1")
-	 (generate_and_save s2.id)
+	 (comments "first identifier is 1")
+	 (generate_and_save s2.identifier)
 	 
 	 
-	 (return (generation_preview s2.id)))
+	 (return (generation_preview s2.identifier)))
 
        " "
        "@threaded"
-       (def generate_and_save (id)
-	 (declare (type int id))
-	 (print (fstring "generate_and_save id={id}"))
-	 (setf s (aref summaries id))
+       (def generate_and_save (identifier)
+	 (declare (type int identifier))
+	 (print (fstring "generate_and_save id={identifier}"))
+	 (setf s (aref summaries identifier))
 	 (print (fstring "generate_and_save model={s.model}"))
 	 (setf m (genai.GenerativeModel s.model))
 	 (setf response (m.generate_content
@@ -212,20 +213,22 @@
 			 :stream True))
 
 	 (when (==
-		FinishReason.SAFETY
+		google.generativeai.types.answer_types.FinishReason.SAFETY
 		(dot response
 		     (aref candidates 0)
-		     safety_ratings))
+		     safety_ratings)
+		
+		)
 	   (print (string "stopped because of safety")))
 	 
 	 (for (chunk response)
 	      
 	      (try
 	       (do0
-		(print (fstring "add text to id={id}: {chunk.text}"))
+		(print (fstring "add text to id={identifier}: {chunk.text}"))
 	       
-		(summaries.update :pk_values id
-				  :summary (+ (dot (aref summaries id)
+		(summaries.update :pk_values identifier
+				  :summary (+ (dot (aref summaries identifier)
 						   summary)
 					      chunk.text)
 					;new
@@ -238,7 +241,7 @@
 	     
 	     (do0
 	      
-	      (summaries.update :pk_values id
+	      (summaries.update :pk_values identifier
 			:summary_done True
 			
 			:summary_input_tokens response.usage_metadata.prompt_token_count
