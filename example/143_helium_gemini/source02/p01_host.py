@@ -25,8 +25,6 @@ def render(summary: Summary):
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=True, render=render, identifier=int, model=str, transcript=str, host=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, pk="identifier")
  
-def render(summary: Summary):
-    return Li(A(summary.summary_timestamp_start, href=f"/summaries/{summary.identifier}"))
  
 @rt("/")
 def get(request: Request):
@@ -37,25 +35,29 @@ def get(request: Request):
     form=Form(Group(transcript, model, Button("Send Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC")
-    summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
+    summaries_to_show=summaries_to_show[0:min(1, len(summaries_to_show))]
     summary_list=Ul(*summaries_to_show, id="summaries")
     return Title("Video Transcript Summarizer"), Main(nav, H1("Summarizer Demo"), form, gen_list, summary_list, cls="container")
  
 # A pending preview keeps polling this route until we return the summary
 def generation_preview(identifier):
     sid=f"gen-{identifier}"
+    text="Generating ..."
+    trigger="every 1s"
     try:
-        text="Generating ..."
         s=summaries[identifier]
-        trigger="every 1s"
         if ( s.timestamps_done ):
             text=s.timestamped_summary_in_youtube_format
             trigger=""
         elif ( s.summary_done ):
             text=s.summary
-        return Div(Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
+        elif ( ((0)<(len(s.summary))) ):
+            text=s.summary
+        elif ( ((len(s.transcript))) ):
+            text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
+        return Div(f"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
-        return Div(Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
+        return Div(f"id: {identifier}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):
@@ -67,7 +69,7 @@ def post(summary: Summary, request: Request):
     if ( ((20_000)<(len(words))) ):
         return Div("Error: Transcript exceeds 20,000 words. Please shorten it.", id="summary")
     summary.host=request.client.host
-    summary.timestamp_summary_start=datetime.datetime.now().isoformat()
+    summary.summary_timestamp_start=datetime.datetime.now().isoformat()
     summary.summary=""
     s2=summaries.insert(summary)
     # first identifier is 1
@@ -98,13 +100,14 @@ def generate_and_save(identifier: int):
             summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
         except ValueError:
             
-            print("Value Error")
-    summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps_timestamp_start=datetime.datetime.now().isoformat())
+            print("Value Error ")
+    summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+    print("generate timestamps")
     s=summaries[identifier]
     response2=m.generate_content(f"Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}nThe full transcript is: {s.transcript}", stream=True)
     for chunk in response2:
         try:
-            print(f"add text to id={identifier}: {chunk.text}")
+            print(f"add timestamped text to id={identifier}: {chunk.text}")
             summaries.update(pk_values=identifier, timestamps=((summaries[identifier].timestamps)+(chunk.text)))
         except ValueError:
             

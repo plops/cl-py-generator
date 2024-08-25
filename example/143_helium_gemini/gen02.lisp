@@ -117,7 +117,7 @@
 
 
        " "
-       (def render (summary)
+       #+nil(def render (summary)
 	 (declare (type Summary summary))
 	 (return (Li 
 		  (A summary.summary_timestamp_start
@@ -157,7 +157,7 @@
 
 	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
 				       )
-	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
+	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 1 (len summaries_to_show)))))
 	 (setf summary_list (Ul *summaries_to_show
 			     :id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
@@ -172,31 +172,38 @@
        (comments "A pending preview keeps polling this route until we return the summary")
        (def generation_preview (identifier)
 	 (setf sid (fstring "gen-{identifier}"))
+	 (setf text (string "Generating ...")
+	       trigger (string "every 1s"))
 	 (try
-	     (do0
-	      (setf text (string "Generating ..."))
-	      (setf s (aref summaries identifier)
-		    trigger (string "every 1s"))
-	      (cond
-		(s.timestamps_done
-		 (setf text s.timestamped_summary_in_youtube_format
-		       trigger (string "")))
-		(s.summary_done
-		 (setf text s.summary)))
+	  (do0
+	   (setf s (aref summaries identifier))
+	   (cond
+	     (s.timestamps_done
+	      (setf text s.timestamped_summary_in_youtube_format
+		    trigger (string "")))
+	     (s.summary_done
+	      (setf text s.summary))
+	     ((< 0 (len s.summary))
+	      (setf text s.summary))
 
-	      (return (Div 
-		     (Pre text)
-		     :id sid
-		     :hx_post (fstring "/generations/{identifier}")
-		     :hx_trigger (string "every 1s")
-		     :hx_swap (string "outerHTML"))))
-	   ("Exception as e" ; NotFoundError ()
-	    (return (Div 
-		     (Pre text)
-		     :id sid
-		     :hx_post (fstring "/generations/{identifier}")
-		     :hx_trigger (string "every 1s")
-		     :hx_swap (string "outerHTML"))))))
+	     ((< (len s.transcript))
+	      (setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
+
+	   (return (Div
+		    (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}")
+		    (Pre text)
+		    :id sid
+		    :hx_post (fstring "/generations/{identifier}")
+		    :hx_trigger trigger
+		    :hx_swap (string "outerHTML"))))
+	  ("Exception as e"		; NotFoundError ()
+	   (return (Div
+		    (fstring "id: {identifier}")
+		    (Pre text)
+		    :id sid
+		    :hx_post (fstring "/generations/{identifier}")
+		    :hx_trigger trigger
+		    :hx_swap (string "outerHTML"))))))
  
       " "
        (@app.post (string "/generations/{identifier}"))
@@ -214,7 +221,7 @@
 	   (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it.")
 			:id (string "summary"))))
 	 (setf summary.host request.client.host)
-	 (setf summary.timestamp_summary_start (dot datetime
+	 (setf summary.summary_timestamp_start (dot datetime
 						    datetime
 						    (now)
 						    (isoformat)))
@@ -267,7 +274,7 @@
 					;:alter True
 				   ))
 		(ValueError ()
-			    (print (string "Value Error"))))
+			    (print (string "Value Error "))))
 	       )
 
 	  (summaries.update :pk_values identifier
@@ -279,12 +286,15 @@
 							datetime
 							(now)
 							(isoformat))
+
+			    :timestamps (string "") 
 			    :timestamps_timestamp_start (dot datetime
-							datetime
-							(now)
-							(isoformat))))
+							     datetime
+							     (now)
+							     (isoformat))))
 
 	 (do0
+	  (print (string "generate timestamps"))
 	  (setf s (dot (aref summaries identifier)
 		       ))
 	  (setf response2 (m.generate_content
@@ -296,7 +306,7 @@
 	  (for (chunk response2)
 	       (try
 		(do0
-		 (print (fstring "add text to id={identifier}: {chunk.text}"))
+		 (print (fstring "add timestamped text to id={identifier}: {chunk.text}"))
 		 
 		 (summaries.update :pk_values identifier
 				   :timestamps (+ (dot (aref summaries identifier)
