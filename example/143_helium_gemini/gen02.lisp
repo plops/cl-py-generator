@@ -30,7 +30,22 @@
                    (comments ,(format nil "~a (~a)" help unit))
                    (setf ,name ,val))))))
 
- (let* ((notebook-name "host"))
+ (let* ((notebook-name "host")
+	(db-cols `((:name id :type int)
+		   (:name model :type str)
+		   (:name transcript :type str)
+		   ,@(loop for e in `(summary timestamps)
+			   appending
+			   `((:name ,e :type str)
+			     ,@(loop for (f f-type) in `((done bool)
+							 (input_tokens int)
+							 (output_tokens int)
+							 (timestamp_start str)
+							 (timestamp_end str))
+				     collect
+				     `(:name ,(format nil "~a_~a" e f) :type ,f-type))))
+		   (:name cost :type float)
+		   )))
    (write-source
      (format nil "~a/source02/p~a_~a" *path* *idx* notebook-name)
      `(do0
@@ -73,34 +88,25 @@
 	     (fast_app :db_file (string "summaries.db")
 		       :live True
 		       :render render
-		       :id int
-		       :model str
-		       :summary str
-		       :summary_done bool
-		       :summary_input_tokens int
-		       :summary_output_tokens int
-		       :timestamps str
-		       :timestamps_done bool
-		       :timestamps_input_tokens int
-		       :timestamps_output_tokens int
+		       ,@(loop for e in db-cols
+			       appending
+			       (destructuring-bind (&key name type) e
+				 `(,(make-keyword (string-upcase (format nil "~a" name)))
+				   ,type)))
 		       :cost float
 		       :pk (string "id")
 		       ))
-
-       (comments "create a folder with current datetime gens_<datetime>/")
-       (setf generations (list)
-	     dt_now (dot datetime
-			 datetime
-			 (now)
-			 (strftime (string "%Y%m%d_%H%M%S")))
-	     folder (fstring "gens_{dt_now}/")
-	     )
-       (os.makedirs folder :exist_ok True)
-
        
        " "
        (@rt (string "/"))
        (def get ()
+	 (setf nav (Nav
+		    (Ul (Li (Strong (string "Transcript Summarizer"))))
+		    (Ul (Li (A (string "About")
+			       :href (string "#")))
+			(Li (A (string "Documentation")
+			       :href (string "#")))
+			)))
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
 				    :name (string "transcript"))
 	       model (Select (Option (string "gemini-1.5-flash-latest"))
