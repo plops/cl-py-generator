@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # pip install -U google-generativeai python-fasthtml
 import google.generativeai as genai
-import google.generativeai.types.answer_types
+import sqlite_minutils.db
 import datetime
 import time
 from fasthtml.common import *
@@ -14,14 +14,16 @@ genai.configure(api_key=api_key)
 def render(summary: Summary):
     identifier=summary.identifier
     sid=f"gen-{identifier}"
-    if ( summary.summary_done ):
-        return Div(Pre(summary.timestamps), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
+    if ( summary.timestamps_done ):
+        return Div(Pre(summary.timestamped_summary_in_youtube_format), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="", hx_swap="outerHTML")
+    elif ( summary.summary_done ):
+        return Div(Pre(summary.summary), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
     else:
         return Div(Pre(summary.summary), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
  
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
-app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=True, render=render, identifier=int, model=str, transcript=str, host=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, cost=float, pk="identifier")
+app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=True, render=render, identifier=int, model=str, transcript=str, host=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, pk="identifier")
  
 def render(summary: Summary):
     return Li(A(summary.summary_timestamp_start, href=f"/summaries/{summary.identifier}"))
@@ -43,10 +45,17 @@ def get(request: Request):
 def generation_preview(identifier):
     sid=f"gen-{identifier}"
     try:
-        summary=summaries[identifier].summary
-        return Div(Pre(summary), id=sid)
+        text="Generating ..."
+        s=summaries[identifier]
+        trigger="every 1s"
+        if ( s.timestamps_done ):
+            text=s.timestamped_summary_in_youtube_format
+            trigger=""
+        elif ( s.summary_done ):
+            text=s.summary
+        return Div(Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
     except Exception as e:
-        return Div("Generating ...", id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
+        return Div(Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):
@@ -70,7 +79,7 @@ def wait_until_row_exists(identifier):
         try:
             s=summaries[identifier]
             return s
-        except sqlite_utils.db.NotFoundError:
+        except sqlite_minutils.db.NotFoundError:
             print("entry not found")
         time.sleep((0.10    ))
     print("row did not appear")
@@ -90,6 +99,22 @@ def generate_and_save(identifier: int):
         except ValueError:
             
             print("Value Error")
-    summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat())
+    summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps_timestamp_start=datetime.datetime.now().isoformat())
+    s=summaries[identifier]
+    response2=m.generate_content(f"Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}nThe full transcript is: {s.transcript}", stream=True)
+    for chunk in response2:
+        try:
+            print(f"add text to id={identifier}: {chunk.text}")
+            summaries.update(pk_values=identifier, timestamps=((summaries[identifier].timestamps)+(chunk.text)))
+        except ValueError:
+            
+            print("Value Error")
+    text=summaries[identifier].timestamps
+    # adapt the markdown to youtube formatting
+    text=text.replace("**:", ":**")
+    text=text.replace("**,", ",**")
+    text=text.replace("**.", ".**")
+    text=text.replace("**", "*")
+    summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
  
 serve(port=5002)

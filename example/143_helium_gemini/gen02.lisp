@@ -45,6 +45,7 @@
 							 (timestamp_end str))
 				     collect
 				     `(:name ,(format nil "~a_~a" e f) :type ,f-type))))
+		   (:name timestamped_summary_in_youtube_format :type str)
 		   (:name cost :type float)
 		   )))
    (write-source
@@ -54,8 +55,9 @@
        (comments "pip install -U google-generativeai python-fasthtml")
 
        (imports ((genai google.generativeai)
-		 google.generativeai.types.answer_types
+		 ;google.generativeai.types.answer_types
 					;os
+		 sqlite_minutils.db
 		 datetime
 		 time))
        (imports-from (fasthtml.common *))
@@ -73,20 +75,28 @@
 	 (declare (type Summary summary))
 	 (setf identifier summary.identifier)
 	 (setf sid (fstring "gen-{identifier}"))
-	 (if summary.summary_done
-	     (return (Div (Pre summary.timestamps)
-			  :id sid
-			  :hx_post (fstring "/generations/{identifier}")
-			  :hx_trigger (? summary.timestamps_done
-					 (string "")
-					 (string "every 1s"))
-			  :hx_swap (string "outerHTML")))
-	     (return (Div (Pre summary.summary)
+	 (cond
+	   (summary.timestamps_done
+	    (return (Div (Pre summary.timestamped_summary_in_youtube_format)
+			 :id sid
+			 :hx_post (fstring "/generations/{identifier}")
+			 :hx_trigger (string "")
+			 :hx_swap (string "outerHTML"))))
+	   (summary.summary_done
+	    (return (Div (Pre summary.summary)
+			 :id sid
+			 :hx_post (fstring "/generations/{identifier}")
+			 :hx_trigger (? summary.timestamps_done
+					(string "")
+					(string "every 1s"))
+			 :hx_swap (string "outerHTML"))))
+	   (t
+	    (return (Div (Pre summary.summary)
 			  :id sid
 			  :hx_post (fstring "/generations/{identifier}")
 			  :hx_trigger (string "every 1s")
-			  :hx_swap (string "outerHTML")))
-	     ))
+			  :hx_swap (string "outerHTML")))))
+	 )
        
        " "
        (comments "open website")
@@ -164,16 +174,29 @@
 	 (setf sid (fstring "gen-{identifier}"))
 	 (try
 	     (do0
-	      (setf summary (dot (aref summaries identifier) summary))
-	      (return (Div (Pre summary)
-			   :id sid)))
+	      (setf text (string "Generating ..."))
+	      (setf s (aref summaries identifier)
+		    trigger (string "every 1s"))
+	      (cond
+		(s.timestamps_done
+		 (setf text s.timestamped_summary_in_youtube_format
+		       trigger (string "")))
+		(s.summary_done
+		 (setf text s.summary)))
+
+	      (return (Div 
+		     (Pre text)
+		     :id sid
+		     :hx_post (fstring "/generations/{identifier}")
+		     :hx_trigger (string "every 1s")
+		     :hx_swap (string "outerHTML"))))
 	   ("Exception as e" ; NotFoundError ()
-			  (return (Div (string "Generating ...")
-			  
-				       :id sid
-				       :hx_post (fstring "/generations/{identifier}")
-				       :hx_trigger (string "every 1s")
-				       :hx_swap (string "outerHTML"))))))
+	    (return (Div 
+		     (Pre text)
+		     :id sid
+		     :hx_post (fstring "/generations/{identifier}")
+		     :hx_trigger (string "every 1s")
+		     :hx_swap (string "outerHTML"))))))
  
       " "
        (@app.post (string "/generations/{identifier}"))
@@ -196,7 +219,7 @@
 						    (now)
 						    (isoformat)))
 	 (setf summary.summary (string ""))
-	 ;"global s2"
+	
 	 (setf s2 (summaries.insert summary))
 	 (comments "first identifier is 1")
 	 (generate_and_save s2.identifier)
@@ -210,7 +233,7 @@
 	      (try
 	       (do0 (setf s (aref summaries identifier))
 		    (return s))
-	       (sqlite_utils.db.NotFoundError
+	       (sqlite_minutils.db.NotFoundError
 		(print (string "entry not found"))))
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
@@ -224,73 +247,87 @@
 	 (setf s (wait_until_row_exists identifier))
 	 (print (fstring "generate_and_save model={s.model}"))
 	 (setf m (genai.GenerativeModel s.model))
-	 (setf response (m.generate_content
-			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
-			 :stream True))
+	 (do0
+	  (setf response (m.generate_content
+			  (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
+			  :stream True))
 
-	 
-	 
-	 (for (chunk response)
-	      (try
-	       (do0
-		(print (fstring "add text to id={identifier}: {chunk.text}"))
-	       
-		(summaries.update :pk_values identifier
-				  :summary (+ (dot (aref summaries identifier)
-						   summary)
-					      chunk.text)
+	  
+	  
+	  (for (chunk response)
+	       (try
+		(do0
+		 (print (fstring "add text to id={identifier}: {chunk.text}"))
+		 
+		 (summaries.update :pk_values identifier
+				   :summary (+ (dot (aref summaries identifier)
+						    summary)
+					       chunk.text)
 					;new
 					;:alter True
-				  ))
-	       (ValueError ()
-			   (print (string "Value Error"))))
-	      )
+				   ))
+		(ValueError ()
+			    (print (string "Value Error"))))
+	       )
 
-	 (summaries.update :pk_values identifier
-				:summary_done True
-			
-				:summary_input_tokens response.usage_metadata.prompt_token_count
-				:summary_output_tokens response.usage_metadata.candidates_token_count
-				:summary_timestamp_end (dot datetime
-							    datetime
-							    (now)
-							    (isoformat)))
-	 
-	 #+nil (cond 
-		 ((== google.generativeai.types.answer_types.FinishReason.STOP
-		      (dot response
-			   (aref candidates 0)
-			   safety_ratings))
-		  (summaries.update :pk_values identifier
-				    :summary_done True
-			
-				    :summary_input_tokens response.usage_metadata.prompt_token_count
-				    :summary_output_tokens response.usage_metadata.candidates_token_count
-				    :summary_timestamp_end (dot datetime
-								datetime
-								(now)
-								(isoformat))))
+	  (summaries.update :pk_values identifier
+			    :summary_done True
+			    
+			    :summary_input_tokens response.usage_metadata.prompt_token_count
+			    :summary_output_tokens response.usage_metadata.candidates_token_count
+			    :summary_timestamp_end (dot datetime
+							datetime
+							(now)
+							(isoformat))
+			    :timestamps_timestamp_start (dot datetime
+							datetime
+							(now)
+							(isoformat))))
 
-		 ((== google.generativeai.types.answer_types.FinishReason.SAFETY
-		      (dot response
-			   (aref candidates 0)
-			   safety_ratings))
-		  (print (string "summary failed because of safety"))
-		  (summaries.update :pk_values identifier
-				    :summary_done False
-			
-				    :summary_input_tokens response.usage_metadata.prompt_token_count
-				    :summary_output_tokens response.usage_metadata.candidates_token_count
-				    :summary_timestamp_end (dot datetime
-								datetime
-								(now)
-								(isoformat))))
-	     
-		 (t
-		  (print (string "summary failed for an unknown reason"))))
-	 
-	 
-	 
+	 (do0
+	  (setf s (dot (aref summaries identifier)
+		       ))
+	  (setf response2 (m.generate_content
+			   (fstring "Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}\nThe full transcript is: {s.transcript}")
+			   :stream True))
+
+	  
+	  
+	  (for (chunk response2)
+	       (try
+		(do0
+		 (print (fstring "add text to id={identifier}: {chunk.text}"))
+		 
+		 (summaries.update :pk_values identifier
+				   :timestamps (+ (dot (aref summaries identifier)
+						       timestamps)
+						  chunk.text)))
+		(ValueError ()
+			    (print (string "Value Error"))))
+	       )
+	  (setf text (dot (aref summaries identifier)
+						    timestamps))
+
+	  (comments "adapt the markdown to youtube formatting")
+	  (setf text (text.replace (string "**:")
+				   (string ":**")))
+	  (setf text (text.replace (string "**,")
+				   (string ",**")))
+	  (setf text (text.replace (string "**.")
+				   (string ".**")))
+
+	  (setf text (text.replace (string "**")
+				   (string "*")))
+	  
+	  (summaries.update :pk_values identifier
+			    :timestamps_done True
+			    :timestamped_summary_in_youtube_format text
+			    :timestamps_input_tokens response2.usage_metadata.prompt_token_count
+			    :timestamps_output_tokens response2.usage_metadata.candidates_token_count
+			    :timestamps_timestamp_end (dot datetime
+							   datetime
+							   (now)
+							   (isoformat))))
 	 
 	 )
        " "
