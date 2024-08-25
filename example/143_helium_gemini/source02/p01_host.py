@@ -17,7 +17,7 @@ def render(summary):
         return Div(Pre(summary.summary), id=sid, hx_post=f"/generations/{id}", hx_trigger="every 1s", hx_swap="outerHTML")
  
 # open website
-app, rt, summaries, summary=fast_app(db_file="data/summaries.db", live=True, render=render, id=int, model=str, transcript=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, cost=float, pk="id")
+app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=True, render=render, id=int, model=str, transcript=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, cost=float, pk="id")
  
 def render(summary):
     return Li(A(summary.summary_timestamp_start, href=f"/summaries/{summary.id}"))
@@ -45,18 +45,24 @@ def get(id: int):
     return generation_preview(id)
  
 @rt("/process_transcript")
-def post(transcript: str, model: str):
-    words=transcript.split()
+def post(summary: Summary):
+    words=summary.transcript.split()
     if ( ((20_000)<(len(words))) ):
         return Div("Error: Transcript exceeds 20,000 words. Please shorten it.", id="summary")
-    generate_and_save(transcript, id, model)
-    return generation_preview(id)
+    summary.timestamp_summary_start=datetime.datetime.now().isoformat()
+    s2=summaries.insert(summary)
+    generate_and_save(s2.id)
+    return generation_preview(s2.id)
  
 @threaded
-def generate_and_save(prompt, id, model):
-    m=genai.GenerativeModel(model)
-    response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {prompt}", stream=True)
-    s=summaries()[id]
+def generate_and_save(id: int):
+    print(f"generate_and_save id={id}")
+    s=summaries[id]
+    print(f"generate_and_save model={s.model}")
+    m=genai.GenerativeModel(s.model)
+    response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.prompt}", stream=True)
+    print(type(summaries))
+    print(dir(summaries))
     with open(pre_file, "w") as f:
         s["summary"]=""
         for chunk in response:

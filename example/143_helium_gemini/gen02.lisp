@@ -84,8 +84,9 @@
        
        " "
        (comments "open website")
-       (setf (ntuple app rt summaries summary)
-	     (fast_app :db_file (string "summaries.db")
+       (comments "summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils")
+       (setf (ntuple app rt summaries Summary)
+	     (fast_app :db_file (string "data/summaries.db")
 		       :live True
 		       :render render
 		       ,@(loop for e in db-cols
@@ -93,10 +94,17 @@
 			       (destructuring-bind (&key name type) e
 				 `(,(make-keyword (string-upcase (format nil "~a" name)))
 				   ,type)))
-		       :cost float
+
+		       
 		       :pk (string "id")
 		       ))
-       
+
+
+       " "
+       (def render (summary)
+	 (return (Li (A summary.summary_timestamp_start
+			:href (fstring "/summaries/{summary.id}")))))
+
        " "
        (@rt (string "/"))
        (def get ()
@@ -113,58 +121,42 @@
 			     (Option (string "gemini-1.5-pro-exp-0801"))
 			     
 			     :name (string "model")))
-	 (setf form (Form
-                     (Group
-		      transcript
-		      model
-		      (Button (string "Send Transcript")))
-		     :hx_post (string "/process_transcript")
-		     :hx_swap (string "afterbegin")
-		     :target_id (string "gen-list")))
+	 (setf form
+	       (Form
+                (Group
+		 transcript
+		 model
+		 (Button (string "Send Transcript")))
+		:hx_post (string "/process_transcript")
+		:hx_swap (string "afterbegin")
+		:target_id (string "gen-list")))
 
 	 (setf gen_list (Div :id (string "gen-list")))
   
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
-			 (Main (H1 (string "Summarizer Demo"))
+			 (Main nav
+			       (H1 (string "Summarizer Demo"))
+			       
 			       form
 			       gen_list
-			       :cls (string "container")
-			       #+nil (Card (Div :id (string "summary"))
-					   :header frm)))))
+			       :cls (string "container")))))
        " "
        (comments "A pending preview keeps polling this route until we return the summary")
        (def generation_preview (id)
 	 (setf sid (fstring "gen-{id}"))
-	 (setf pre_filename (fstring "{folder}/{id}.pre"))
-	 (setf filename (fstring "{folder}/{id}.md"))
-	 (if (os.path.exists filename)
+	 (if (aref summaries id)
 	     (do0
-	      (comments "Load potentially partial response from the file")
-	      (with (as (open filename)
-			f)
-		    (setf summary (f.read)))
+	      (setf summary (dot (aref summaries id) summary))
 	      (return (Div (Pre summary)
 			   :id sid)))
-	     (if (os.path.exists pre_filename)
-		 (do0
-		  (with (as (open pre_filename)
-			f)
-		    (setf summary_pre (f.read)))
-		  (return (Div (Pre
-				summary_pre
-				)
-			       :id sid
-			       :hx_post (fstring "/generations/{id}")
-			       :hx_trigger (string "every 1s")
-			       :hx_swap (string "outerHTML"))))
-		 (return (Div (string "Generating ...")
-			      
-			      :id sid
-			      :hx_post (fstring "/generations/{id}")
-			      :hx_trigger (string "every 1s")
-			      :hx_swap (string "outerHTML"))))))
-
-       " "
+	     (return (Div (string "Generating ...")
+			  
+			  :id sid
+			  :hx_post (fstring "/generations/{id}")
+			  :hx_trigger (string "every 1s")
+			  :hx_swap (string "outerHTML")))))
+ 
+      " "
        (@app.post (string "/generations/{id}"))
        (def get (id)
 	 (declare (type int id))
@@ -172,31 +164,35 @@
 
        " "
        (@rt (string "/process_transcript"))
-       (def post (transcript model)
-	 (declare (type str transcript)
-		  (type str model))
-	 (setf words (transcript.split))
+       (def post (summary)
+	 (declare (type Summary summary))
+	 (setf words (summary.transcript.split))
 	 (when (< 20_000 (len words))
 	   (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it.")
 			:id (string "summary"))))
-	 (setf id (dot (summaries) db (get_last_rowid)))
-	 (print (fstring "got last id: {id}"))
-	 (generate_and_save transcript id model)
-	 (generations.append transcript)
+	 (setf summary.timestamp_summary_start (dot datetime
+						     datetime
+						     (now)
+						     (isoformat)))
+	 (setf s2 (summaries.insert summary))
+	 (generate_and_save s2.id)
 	 
-	 (return (generation_preview id)))
+	 
+	 (return (generation_preview s2.id)))
 
        " "
        "@threaded"
-       (def generate_and_save (prompt id model)
-	 (setf m (genai.GenerativeModel model))
+       (def generate_and_save (id)
+	 (declare (type int id))
+	 (print (fstring "generate_and_save id={id}"))
+	 (setf s (aref summaries id))
+	 (print (fstring "generate_and_save model={s.model}"))
+	 (setf m (genai.GenerativeModel s.model))
 	 (setf response (m.generate_content
-			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {prompt}")
+			 (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.prompt}")
 			 :stream True))
-	 (comments "consecutively append output to {folder}/{id}.pre and finally move from .pre to .md file")
-	 (setf pre_file (fstring "{folder}/{id}.pre"))
-	 (setf md_file (fstring "{folder}/{id}.md"))
-	 (setf s (aref (summaries) id))
+	 (print (type summaries))
+	 (print (dir summaries))
 	 (with (as (open pre_file
 			 (string "w"))
 		   f)
@@ -219,7 +215,7 @@
 		    )
 		   (f.write (string "Warning: Did not finish!")))
 	       )
-	 (os.rename pre_file md_file)
+	 
 	 
 	 )
        " "
