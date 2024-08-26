@@ -89,7 +89,7 @@
 			 :id sid
 			 :hx_post (fstring "/generations/{identifier}")
 			 :hx_trigger (? summary.timestamps_done
-					(string "")
+					(string "")	
 					(string "every 1s"))
 			 :hx_swap (string "outerHTML"))))
 	   (t
