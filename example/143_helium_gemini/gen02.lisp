@@ -230,15 +230,26 @@ Output tokens: {output_tokens}")
 	     ((< (len s.transcript))
 	      (setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
 
-	   (return (Div
-		    (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}")
-		    (Pre text :id (fstring "pre-{identifier}"))
-		    (Button (string "Copy")
-			    :onclick (fstring "copyPreContent('pre-{identifier}')"))
-		    :id sid
-		    :hx_post (fstring "/generations/{identifier}")
-		    :hx_trigger trigger
-		    :hx_swap (string "outerHTML"))))
+	   (setf title  (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"))
+	   (setf pre (Pre text :id (fstring "pre-{identifier}")))
+	   (setf button (Button (string "Copy")
+			     :onclick (fstring "copyPreContent('pre-{identifier}')")))
+	   (if (== trigger (string ""))
+	       
+	       (return (Div
+			title
+			pre
+			button
+			:id sid
+			))
+	       (return (Div
+			title
+			pre
+			button
+			:id sid
+			:hx_post (fstring "/generations/{identifier}")
+			:hx_trigger trigger
+			:hx_swap (string "outerHTML")))))
 	  ("Exception as e"		; NotFoundError ()
 	   (return (Div
 		    (fstring "id: {identifier}")

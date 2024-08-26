@@ -80,7 +80,13 @@ Output tokens: {output_tokens}"""
             text=s.summary
         elif ( ((len(s.transcript))) ):
             text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
-        return Div(f"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}", Pre(text, id=f"pre-{identifier}"), Button("Copy", onclick=f"copyPreContent('pre-{identifier}')"), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
+        title=f"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
+        pre=Pre(text, id=f"pre-{identifier}")
+        button=Button("Copy", onclick=f"copyPreContent('pre-{identifier}')")
+        if ( ((trigger)==("")) ):
+            return Div(title, pre, button, id=sid)
+        else:
+            return Div(title, pre, button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
         return Div(f"id: {identifier}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
  
