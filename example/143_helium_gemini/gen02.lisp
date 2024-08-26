@@ -57,6 +57,7 @@
        (imports ((genai google.generativeai)
 		 ;google.generativeai.types.answer_types
 					;os
+		 google.api_core.exceptions
 		 re
 		 sqlite_minutils.db
 		 datetime

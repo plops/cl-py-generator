@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # pip install -U google-generativeai python-fasthtml
 import google.generativeai as genai
+import google.api_core.exceptions
 import re
 import sqlite_minutils.db
 import datetime
