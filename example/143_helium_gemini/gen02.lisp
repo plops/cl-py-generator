@@ -62,6 +62,9 @@
 		 sqlite_minutils.db
 		 datetime
 		 time))
+
+       (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
+
        (imports-from (fasthtml.common *))
 
        " "
@@ -311,10 +314,15 @@ Output tokens: {output_tokens}")
 	 (setf s (wait_until_row_exists identifier))
 	 (print (fstring "generate_and_save model={s.model}"))
 	 (setf m (genai.GenerativeModel s.model))
+	 (setf safety (dict (HarmCategory.HARM_CATEGORY_HATE_SPEECH HarmBlockThreshold.BLOCK_NONE)
+			    (HarmCategory.HARM_CATEGORY_HARASSMENT HarmBlockThreshold.BLOCK_NONE)
+			    (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT HarmBlockThreshold.BLOCK_NONE)
+			    (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT HarmBlockThreshold.BLOCK_NONE)))
 	 (try
 	  (do0
 	   (setf response (m.generate_content
 			   (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
+			   :safety_settings safety
 			   :stream True))
 
 	  
@@ -355,7 +363,7 @@ Output tokens: {output_tokens}")
 			     :summary_done False
 			    
 			     :summary (+ (dot (aref summaries identifier)
-						     summary)
+					      summary)
 					 (string "\\nError: resource exhausted"))
 			     :summary_timestamp_end (dot datetime
 							 datetime
@@ -376,6 +384,7 @@ Output tokens: {output_tokens}")
 			))
 	   (setf response2 (m.generate_content
 			    (fstring "Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}\nThe full transcript is: {s.transcript}")
+			    :safety_settings safety
 			    :stream True))
 
 	  

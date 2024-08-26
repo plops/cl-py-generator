@@ -6,6 +6,7 @@ import re
 import sqlite_minutils.db
 import datetime
 import time
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
  
 # Read the gemini api key from disk
@@ -127,8 +128,9 @@ def generate_and_save(identifier: int):
     s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
     m=genai.GenerativeModel(s.model)
+    safety={(HarmCategory.HARM_CATEGORY_HATE_SPEECH):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_HARASSMENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT):(HarmBlockThreshold.BLOCK_NONE)}
     try:
-        response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}", stream=True)
+        response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}", safety_settings=safety, stream=True)
         for chunk in response:
             try:
                 print(f"add text to id={identifier}: {chunk.text}")
@@ -143,7 +145,7 @@ def generate_and_save(identifier: int):
     try:
         print("generate timestamps")
         s=summaries[identifier]
-        response2=m.generate_content(f"Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}nThe full transcript is: {s.transcript}", stream=True)
+        response2=m.generate_content(f"Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}nThe full transcript is: {s.transcript}", safety_settings=safety, stream=True)
         for chunk in response2:
             try:
                 print(f"add timestamped text to id={identifier}: {chunk.text}")
