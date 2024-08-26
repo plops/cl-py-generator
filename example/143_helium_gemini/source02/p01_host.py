@@ -138,7 +138,7 @@ def generate_and_save(identifier: int):
                 print("Value Error ")
         summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
-        summaries.update(pk_values=identifier, summary_done=False, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return
     try:
         print("generate timestamps")
@@ -161,7 +161,7 @@ def generate_and_save(identifier: int):
         text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
         summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
-        summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=text, timestamps_timestamp_end=datetime.datetime.now().isoformat())
+        summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"{text}\nresource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
         return
  
 serve(port=5001)

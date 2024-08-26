@@ -354,7 +354,9 @@ Output tokens: {output_tokens}")
 	   (summaries.update :pk_values identifier
 			     :summary_done False
 			    
-			     
+			     :summary (+ (dot (aref summaries identifier)
+						     summary)
+					 (string "\\nError: resource exhausted"))
 			     :summary_timestamp_end (dot datetime
 							 datetime
 							 (now)
@@ -426,7 +428,8 @@ Output tokens: {output_tokens}")
 	  (google.api_core.exceptions.ResourceExhausted
 	   (summaries.update :pk_values identifier
 			     :timestamps_done False
-			     :timestamped_summary_in_youtube_format text
+			     
+			     :timestamped_summary_in_youtube_format (fstring "{text}\\nresource exhausted")
 			     :timestamps_timestamp_end (dot datetime
 							    datetime
 							    (now)
