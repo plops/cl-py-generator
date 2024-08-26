@@ -167,7 +167,7 @@
 			     :id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
 			 (Main nav
-			       (H1 (string "Summarizer Demo"))
+			       ;(H1 (string "Summarizer Demo"))
 			       
 			       form
 			       gen_list

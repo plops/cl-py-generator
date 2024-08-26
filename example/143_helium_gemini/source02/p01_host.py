@@ -38,7 +38,7 @@ def get(request: Request):
     summaries_to_show=summaries(order_by="identifier DESC")
     summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
     summary_list=Ul(*summaries_to_show, id="summaries")
-    return Title("Video Transcript Summarizer"), Main(nav, H1("Summarizer Demo"), form, gen_list, summary_list, Script("""function copyPreContent(elementId) {
+    return Title("Video Transcript Summarizer"), Main(nav, form, gen_list, summary_list, Script("""function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
 
