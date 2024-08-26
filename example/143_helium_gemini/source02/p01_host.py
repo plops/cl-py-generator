@@ -126,33 +126,41 @@ def generate_and_save(identifier: int):
     s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
     m=genai.GenerativeModel(s.model)
-    response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}", stream=True)
-    for chunk in response:
-        try:
-            print(f"add text to id={identifier}: {chunk.text}")
-            summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
-        except ValueError:
-            
-            print("Value Error ")
-    summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
-    print("generate timestamps")
-    s=summaries[identifier]
-    response2=m.generate_content(f"Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}nThe full transcript is: {s.transcript}", stream=True)
-    for chunk in response2:
-        try:
-            print(f"add timestamped text to id={identifier}: {chunk.text}")
-            summaries.update(pk_values=identifier, timestamps=((summaries[identifier].timestamps)+(chunk.text)))
-        except ValueError:
-            
-            print("Value Error")
-    text=summaries[identifier].timestamps
-    # adapt the markdown to youtube formatting
-    text=text.replace("**:", ":**")
-    text=text.replace("**,", ",**")
-    text=text.replace("**.", ".**")
-    text=text.replace("**", "*")
-    # markdown title starting with ## with fat text
-    text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
-    summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
+    try:
+        response=m.generate_content(f"I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}", stream=True)
+        for chunk in response:
+            try:
+                print(f"add text to id={identifier}: {chunk.text}")
+                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
+            except ValueError:
+                
+                print("Value Error ")
+        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+    except google.api_core.exceptions.ResourceExhausted:
+        summaries.update(pk_values=identifier, summary_done=False, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        return
+    try:
+        print("generate timestamps")
+        s=summaries[identifier]
+        response2=m.generate_content(f"Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}nThe full transcript is: {s.transcript}", stream=True)
+        for chunk in response2:
+            try:
+                print(f"add timestamped text to id={identifier}: {chunk.text}")
+                summaries.update(pk_values=identifier, timestamps=((summaries[identifier].timestamps)+(chunk.text)))
+            except ValueError:
+                
+                print("Value Error")
+        text=summaries[identifier].timestamps
+        # adapt the markdown to youtube formatting
+        text=text.replace("**:", ":**")
+        text=text.replace("**,", ",**")
+        text=text.replace("**.", ".**")
+        text=text.replace("**", "*")
+        # markdown title starting with ## with fat text
+        text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
+        summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
+    except google.api_core.exceptions.ResourceExhausted:
+        summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=text, timestamps_timestamp_end=datetime.datetime.now().isoformat())
+        return
  
 serve(port=5001)

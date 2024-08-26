@@ -310,99 +310,127 @@ Output tokens: {output_tokens}")
 	 (setf s (wait_until_row_exists identifier))
 	 (print (fstring "generate_and_save model={s.model}"))
 	 (setf m (genai.GenerativeModel s.model))
-	 (do0
-	  (setf response (m.generate_content
-			  (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
-			  :stream True))
-
-	  
-	  
-	  (for (chunk response)
-	       (try
-		(do0
-		 (print (fstring "add text to id={identifier}: {chunk.text}"))
-		 
-		 (summaries.update :pk_values identifier
-				   :summary (+ (dot (aref summaries identifier)
-						    summary)
-					       chunk.text)
-					;new
-					;:alter True
-				   ))
-		(ValueError ()
-			    (print (string "Value Error "))))
-	       )
-
-	  (summaries.update :pk_values identifier
-			    :summary_done True
-			    
-			    :summary_input_tokens response.usage_metadata.prompt_token_count
-			    :summary_output_tokens response.usage_metadata.candidates_token_count
-			    :summary_timestamp_end (dot datetime
-							datetime
-							(now)
-							(isoformat))
-
-			    :timestamps (string "") 
-			    :timestamps_timestamp_start (dot datetime
-							     datetime
-							     (now)
-							     (isoformat))))
-
-	 (do0
-	  (print (string "generate timestamps"))
-	  (setf s (dot (aref summaries identifier)
-		       ))
-	  (setf response2 (m.generate_content
-			   (fstring "Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}\nThe full transcript is: {s.transcript}")
+	 (try
+	  (do0
+	   (setf response (m.generate_content
+			   (fstring "I don't want to watch the video. Create a self-contained bullet list summary: {s.transcript}")
 			   :stream True))
 
 	  
 	  
-	  (for (chunk response2)
-	       (try
-		(do0
-		 (print (fstring "add timestamped text to id={identifier}: {chunk.text}"))
+	   (for (chunk response)
+		(try
+		 (do0
+		  (print (fstring "add text to id={identifier}: {chunk.text}"))
 		 
-		 (summaries.update :pk_values identifier
-				   :timestamps (+ (dot (aref summaries identifier)
-						       timestamps)
-						  chunk.text)))
-		(ValueError ()
-			    (print (string "Value Error"))))
-	       )
-	  (setf text (dot (aref summaries identifier)
-			  timestamps))
+		  (summaries.update :pk_values identifier
+				    :summary (+ (dot (aref summaries identifier)
+						     summary)
+						chunk.text)
+					;new
+					;:alter True
+				    ))
+		 (ValueError ()
+			     (print (string "Value Error "))))
+		)
 
-	  (comments "adapt the markdown to youtube formatting")
-	  (setf text (text.replace (string "**:")
-				   (string ":**")))
-	  (setf text (text.replace (string "**,")
-				   (string ",**")))
-	  (setf text (text.replace (string "**.")
-				   (string ".**")))
+	   (summaries.update :pk_values identifier
+			     :summary_done True
+			    
+			     :summary_input_tokens response.usage_metadata.prompt_token_count
+			     :summary_output_tokens response.usage_metadata.candidates_token_count
+			     :summary_timestamp_end (dot datetime
+							 datetime
+							 (now)
+							 (isoformat))
 
-	  (setf text (text.replace (string "**")
-				   (string "*")))
+			     :timestamps (string "") 
+			     :timestamps_timestamp_start (dot datetime
+							      datetime
+							      (now)
+							      (isoformat))))
+	  (google.api_core.exceptions.ResourceExhausted
+	   (summaries.update :pk_values identifier
+			     :summary_done False
+			    
+			     
+			     :summary_timestamp_end (dot datetime
+							 datetime
+							 (now)
+							 (isoformat))
 
-	  (comments "markdown title starting with ## with fat text")
-	  (setf text (re.sub (rstring3 "^##\\s*(.*)")
-			     (rstring3 "*\\1*")
-			     text))
+			     :timestamps (string "") 
+			     :timestamps_timestamp_start (dot datetime
+							      datetime
+							      (now)
+							      (isoformat)))
+	   return))
+
+	 (try
+	  (do0
+	   (print (string "generate timestamps"))
+	   (setf s (dot (aref summaries identifier)
+			))
+	   (setf response2 (m.generate_content
+			    (fstring "Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}\nThe full transcript is: {s.transcript}")
+			    :stream True))
+
+	  
+	  
+	   (for (chunk response2)
+		(try
+		 (do0
+		  (print (fstring "add timestamped text to id={identifier}: {chunk.text}"))
+		 
+		  (summaries.update :pk_values identifier
+				    :timestamps (+ (dot (aref summaries identifier)
+							timestamps)
+						   chunk.text)))
+		 (ValueError ()
+			     (print (string "Value Error"))))
+		)
+	   (setf text (dot (aref summaries identifier)
+			   timestamps))
+
+	   (comments "adapt the markdown to youtube formatting")
+	   (setf text (text.replace (string "**:")
+				    (string ":**")))
+	   (setf text (text.replace (string "**,")
+				    (string ",**")))
+	   (setf text (text.replace (string "**.")
+				    (string ".**")))
+
+	   (setf text (text.replace (string "**")
+				    (string "*")))
+
+	   (comments "markdown title starting with ## with fat text")
+	   (setf text (re.sub (rstring3 "^##\\s*(.*)")
+			      (rstring3 "*\\1*")
+			      text))
 
 				
 
 	  
 	  
-	  (summaries.update :pk_values identifier
-			    :timestamps_done True
-			    :timestamped_summary_in_youtube_format text
-			    :timestamps_input_tokens response2.usage_metadata.prompt_token_count
-			    :timestamps_output_tokens response2.usage_metadata.candidates_token_count
-			    :timestamps_timestamp_end (dot datetime
-							   datetime
-							   (now)
-							   (isoformat))))
+	   (summaries.update :pk_values identifier
+			     :timestamps_done True
+			     :timestamped_summary_in_youtube_format text
+			     :timestamps_input_tokens response2.usage_metadata.prompt_token_count
+			     :timestamps_output_tokens response2.usage_metadata.candidates_token_count
+			     :timestamps_timestamp_end (dot datetime
+							    datetime
+							    (now)
+							    (isoformat))))
+
+	  (google.api_core.exceptions.ResourceExhausted
+	   (summaries.update :pk_values identifier
+			     :timestamps_done False
+			     :timestamped_summary_in_youtube_format text
+			     :timestamps_timestamp_end (dot datetime
+							    datetime
+							    (now)
+							    (isoformat)))
+	   return))
 	 
 	 )
        " "
