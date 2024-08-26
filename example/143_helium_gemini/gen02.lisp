@@ -171,7 +171,7 @@
 			       
 			       form
 			       gen_list
-			       summary_list
+			       summary_list 
 			       (Script (string3 "function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
