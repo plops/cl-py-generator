@@ -130,7 +130,10 @@ def generate_and_save(identifier: int):
     m=genai.GenerativeModel(s.model)
     safety={(HarmCategory.HARM_CATEGORY_HATE_SPEECH):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_HARASSMENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT):(HarmBlockThreshold.BLOCK_NONE)}
     try:
-        response=m.generate_content(f"""I don't want to watch the video. Create a self-contained bullet list summary from a transcript. I will first show you an example transcript as input and the output I expect you to produce.
+        response=m.generate_content(f"""Below, I will provide an example video transcript and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+
+**Please summarize the transcript in a self-contained bullet list format.** Include important details and key takeaways. Also, incorporate information from the comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the comments, please indicate this by adding "[From Comments]" at the end of the bullet point.
+
 Example Input: 
 Fluidigm Polaris Part 2- illuminator and camera
 mikeselectricstuff

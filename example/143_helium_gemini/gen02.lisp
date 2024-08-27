@@ -1644,7 +1644,10 @@ Output tokens: {output_tokens}")
 	 (try
 	  (do0
 	   (setf response (m.generate_content
-			   (fstring3 ,(format nil "I don't want to watch the video. Create a self-contained bullet list summary from a transcript. I will first show you an example transcript as input and the output I expect you to produce.
+			   (fstring3 ,(format nil "Below, I will provide an example video transcript and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+
+**Please summarize the transcript in a self-contained bullet list format.** Include important details and key takeaways. Also, incorporate information from the comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the comments, please indicate this by adding \"[From Comments]\" at the end of the bullet point.
+
 Example Input: 
 ~a
 Example Output:
