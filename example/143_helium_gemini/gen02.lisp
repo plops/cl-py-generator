@@ -438,7 +438,7 @@ Output tokens: {output_tokens}")
 	   (summaries.update :pk_values identifier
 			     :timestamps_done False
 			     
-			     :timestamped_summary_in_youtube_format (fstring "{text}\\nresource exhausted")
+			     :timestamped_summary_in_youtube_format (fstring "resource exhausted")
 			     :timestamps_timestamp_end (dot datetime
 							    datetime
 							    (now)

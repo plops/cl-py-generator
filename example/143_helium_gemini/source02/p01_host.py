@@ -163,7 +163,7 @@ def generate_and_save(identifier: int):
         text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
         summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=response2.usage_metadata.prompt_token_count, timestamps_output_tokens=response2.usage_metadata.candidates_token_count, timestamps_timestamp_end=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
-        summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"{text}\nresource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
+        summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
         return
  
 serve(port=5001)
