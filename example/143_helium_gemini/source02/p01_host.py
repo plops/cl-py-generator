@@ -1469,5 +1469,18 @@ Here is the real transcript. Please summarize it:
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return
+    try:
+        text=summaries[identifier].summary
+        # adapt the markdown to youtube formatting
+        text=text.replace("**:", ":**")
+        text=text.replace("**,", ",**")
+        text=text.replace("**.", ".**")
+        text=text.replace("**", "*")
+        # markdown title starting with ## with fat text
+        text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
+        summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=0, timestamps_output_tokens=0, timestamps_timestamp_end=datetime.datetime.now().isoformat())
+    except google.api_core.exceptions.ResourceExhausted:
+        summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
+        return
  
 serve(port=5001)

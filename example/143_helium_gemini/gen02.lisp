@@ -1706,34 +1706,37 @@ Here is the real transcript. Please summarize it:
 							      (isoformat)))
 	   return))
 
-	 #+ni
+	 
 	 (try
 	  (do0
-	   (print (string "generate timestamps"))
-	   (setf s (dot (aref summaries identifier)
-			))
-	   (setf response2 (m.generate_content
-			    (fstring "Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}\nThe full transcript is: {s.transcript}")
-			    :safety_settings safety
-			    :stream True))
+	   #+nil
+	   (do0
+	    (print (string "generate timestamps"))
+	    (setf s (dot (aref summaries identifier)))
+	    (setf response2 (m.generate_content
+			     (fstring "Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}\nThe full transcript is: {s.transcript}")
+			     :safety_settings safety
+			     :stream True))
 
-	  
-	  
-	   (for (chunk response2)
-		(try
-		 (do0
-		  (print (fstring "add timestamped text to id={identifier}: {chunk.text}"))
-		 
-		  (summaries.update :pk_values identifier
-				    :timestamps (+ (dot (aref summaries identifier)
-							timestamps)
-						   chunk.text)))
-		 (ValueError ()
-			     (print (string "Value Error"))))
-		)
+	    
+	    
+	    (for (chunk response2)
+		 (try
+		  (do0
+		   (print (fstring "add timestamped text to id={identifier}: {chunk.text}"))
+		   
+		   (summaries.update :pk_values identifier
+				     :timestamps (+ (dot (aref summaries identifier)
+							 timestamps)
+						    chunk.text)))
+		  (ValueError ()
+			      (print (string "Value Error"))))
+		 )
+	    (setf text (dot (aref summaries identifier)
+			    timestamps)))
+
 	   (setf text (dot (aref summaries identifier)
-			   timestamps))
-
+			   summary))
 	   (comments "adapt the markdown to youtube formatting")
 	   (setf text (text.replace (string "**:")
 				    (string ":**")))
@@ -1757,8 +1760,8 @@ Here is the real transcript. Please summarize it:
 	   (summaries.update :pk_values identifier
 			     :timestamps_done True
 			     :timestamped_summary_in_youtube_format text
-			     :timestamps_input_tokens response2.usage_metadata.prompt_token_count
-			     :timestamps_output_tokens response2.usage_metadata.candidates_token_count
+			     :timestamps_input_tokens 0; response2.usage_metadata.prompt_token_count
+			     :timestamps_output_tokens 0; response2.usage_metadata.candidates_token_count
 			     :timestamps_timestamp_end (dot datetime
 							    datetime
 							    (now)
