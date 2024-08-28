@@ -100,7 +100,8 @@ def get(identifier: int):
 def post(summary: Summary, request: Request):
     words=summary.transcript.split()
     if ( ((20_000)<(len(words))) ):
-        return Div("Error: Transcript exceeds 20,000 words. Please shorten it.", id="summary")
+        if ( ((summary.model)==("gemini-1.5-pro-exp-0801")) ):
+            return Div("Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.", id="summary")
     summary.host=request.client.host
     summary.summary_timestamp_start=datetime.datetime.now().isoformat()
     summary.summary=""

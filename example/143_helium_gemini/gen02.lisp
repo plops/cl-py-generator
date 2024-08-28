@@ -1599,8 +1599,9 @@ Output tokens: {output_tokens}")
 		   (type Request request))
 	 (setf words (summary.transcript.split))
 	 (when (< 20_000 (len words))
-	   (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it.")
-			:id (string "summary"))))
+	   (when (== summary.model (string "gemini-1.5-pro-exp-0801"))
+	    (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")
+			 :id (string "summary")))))
 	 (setf summary.host request.client.host)
 	 (setf summary.summary_timestamp_start (dot datetime
 						    datetime
