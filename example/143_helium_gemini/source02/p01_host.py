@@ -99,7 +99,7 @@ def get(identifier: int):
 @rt("/process_transcript")
 def post(summary: Summary, request: Request):
     words=summary.transcript.split()
-    if ( ((20_000)<(len(words))) ):
+    if ( ((100_000)<(len(words))) ):
         if ( ((summary.model)==("gemini-1.5-pro-exp-0801")) ):
             return Div("Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.", id="summary")
     summary.host=request.client.host
