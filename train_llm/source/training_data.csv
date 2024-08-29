@@ -1,0 +1,252 @@
+path,text_input,output,text_input_len,output_len
+01_plot/gen,"Convert the following Python code into s-expressions: 
+// /home/martin/stage/cl-py-generator/example/01_plot/source/code.py
+import sys
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pathlib
+plt.ion()
+x=np.linspace(0, (2.e+0), 30)
+y=np.sin(x)
+plt.plot(x, y)
+plt.grid()
+
+","(eval-when (:compile-toplevel :execute :load-toplevel)
+  (ql:quickload :cl-py-generator))
+;; https://www.kdnuggets.com/2018/08/introduction-t-sne-python.html
+;; https://www.youtube.com/watch?v=RJVL80Gg3lA
+;; sudo pacman -S autopep8
+
+(in-package :cl-py-generator)
+
+(start-python)
+
+(let ((code
+       `(do0
+	 (imports (sys
+		   (plt matplotlib.pyplot)
+		   (np numpy)
+		   (pd pandas)
+		   pathlib))
+	 (plt.ion)
+	 (setf x (np.linspace 0 2.0 30)
+	       y (np.sin x))
+	 (plt.plot x y)
+	 (plt.grid))))
+  (run code)
+  (write-source ""/home/martin/stage/cl-py-generator/example/01_plot/source/code"" code))
+",300,599
+02_qt/gen,"Convert the following Python code into s-expressions: 
+// /home/martin/stage/cl-py-generator/example/02_qt/source/code.py
+import sys
+import os
+import random
+import matplotlib
+matplotlib.use(""Qt5Agg"")
+import PySide2.QtWidgets as qw
+import PySide2.QtCore as qc
+import numpy as np
+import pandas as pd
+import pathlib
+import matplotlib.backends.backend_qt5agg as agg
+import matplotlib.figure as mf
+class PlotCanvas(agg.FigureCanvasQTAgg):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig=mf.Figure(figsize=(width,height,), dpi=dpi)
+        self.axes=fig.add_subplot(111)
+        self.compute_initial_figure()
+        agg.FigureCanvasQTAgg.__init__(self, fig)
+        self.setParent(parent)
+        agg.FigureCanvasQTAgg.setSizePolicy(self, qw.QSizePolicy.Expanding, qw.QSizePolicy.Expanding)
+        agg.FigureCanvasQTAgg.updateGeometry(self)
+    def compute_initial_figure(self):
+        pass
+class StaticCanvas(PlotCanvas):
+    def compute_initial_figure(self):
+        t=np.arange(0, 3, (9.999999776482582e-3))
+        s=np.sin(((2)*(np.pi)*(t)))
+        self.axes.plot(t, s)
+class DynamicCanvas(PlotCanvas):
+    def __init__(self, *args, **kwargs):
+        PlotCanvas.__init__(self, *args, **kwargs)
+        timer=qc.QTimer(self)
+        timer.timeout.connect(self.update_figure)
+        timer.start(1000)
+    def compute_initial_figure(self):
+        self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], ""r"")
+    def update_figure(self):
+        l=[]
+        for i in range(4):
+            l.append(random.randint(0, 10))
+        self.axes.cla()
+        self.axes.plot([0, 1, 2, 3], l, ""r"")
+        self.draw()
+class ApplicationWindow(qw.QMainWindow):
+    def __init__(self):
+        qw.QMainWindow.__init__(self)
+        self.setAttribute(qc.Qt.WA_DeleteOnClose)
+        self.main_widget=qw.QWidget(self)
+        l=qw.QVBoxLayout(self.main_widget)
+        sc=StaticCanvas(self.main_widget, width=5, height=4, dpi=100)
+        dc=DynamicCanvas(self.main_widget, width=5, height=4, dpi=100)
+        l.addWidget(sc)
+        l.addWidget(dc)
+        self.main_widget.setFocus()
+        self.setCentralWidget(self.main_widget)
+qApp=qw.QApplication(sys.argv)
+aw=ApplicationWindow()
+aw.show()
+sys.exit(qApp.exec_())
+
+","(eval-when (:compile-toplevel :execute :load-toplevel)
+  (ql:quickload :cl-py-generator))
+;;https://matplotlib.org/2.1.0/gallery/user_interfaces/embedding_in_qt5_sgskip.html
+(in-package :cl-py-generator)
+
+(start-python)
+
+(let ((code
+       `(do0
+	 (imports (sys
+		   os
+		   random
+		   matplotlib))
+	 (matplotlib.use (string ""Qt5Agg""))
+	 (imports ((qw PySide2.QtWidgets)
+		   (qc PySide2.QtCore)
+		   (np numpy)
+		   (pd pandas)
+		   pathlib
+		   (agg matplotlib.backends.backend_qt5agg)
+		   (mf matplotlib.figure)))
+	 (class PlotCanvas (agg.FigureCanvasQTAgg)
+		(def __init__ (self &key
+				    (parent None)
+				    (width 5)
+				    (height 4)
+				    (dpi 100))
+		  (setf fig (mf.Figure
+			     :figsize (tuple width height)
+			     :dpi dpi)
+			self.axes (fig.add_subplot 111))
+		  (self.compute_initial_figure)
+
+		  (agg.FigureCanvasQTAgg.__init__ self fig)
+		  (self.setParent parent)
+		  (agg.FigureCanvasQTAgg.setSizePolicy
+		   self qw.QSizePolicy.Expanding
+		   qw.QSizePolicy.Expanding)
+		  (agg.FigureCanvasQTAgg.updateGeometry self))
+		(def compute_initial_figure (self)
+		  pass))
+	 (class StaticCanvas (PlotCanvas)
+		(def compute_initial_figure (self)
+		  (setf t (np.arange 0 3 .01)
+			s (np.sin (* 2 np.pi t))
+			)
+		  (self.axes.plot t s)))
+	 (class DynamicCanvas (PlotCanvas)
+		(def __init__ (self *args **kwargs)
+		  (PlotCanvas.__init__ self *args **kwargs)
+		  (setf timer (qc.QTimer self))
+		  (timer.timeout.connect self.update_figure)
+		  (timer.start 1000))
+		(def compute_initial_figure (self)
+		  (self.axes.plot (list 0 1 2 3)
+				  (list 1 2 0 4)
+				  (string ""r"")))
+		(def update_figure (self)
+		  (setf l (list))
+		  (for (i (range 4))
+		       (l.append (random.randint 0 10)))
+		  (self.axes.cla)
+		  (self.axes.plot (list 0 1 2 3)
+				  l
+				  (string ""r""))
+		  (self.draw)))
+	 (class ApplicationWindow (qw.QMainWindow)
+		(def __init__ (self)
+		  (qw.QMainWindow.__init__ self)
+		  (self.setAttribute qc.Qt.WA_DeleteOnClose)
+		  (setf self.main_widget (qw.QWidget self)
+			l (qw.QVBoxLayout self.main_widget)
+			sc (StaticCanvas self.main_widget
+					 :width 5
+					 :height 4
+					 :dpi 100)
+			dc (DynamicCanvas self.main_widget
+					 :width 5
+					 :height 4
+					 :dpi 100))
+		  (l.addWidget sc)
+		  (l.addWidget dc)
+		  (self.main_widget.setFocus)
+		  (self.setCentralWidget self.main_widget)
+		  ))
+	 (setf qApp (qw.QApplication sys.argv)
+	       aw (ApplicationWindow)
+	       )
+	 (aw.show)
+	 (sys.exit (qApp.exec_))
+	 )))
+  ;(run code)
+  (write-source ""/home/martin/stage/cl-py-generator/example/02_qt/source/code"" code))
+",2228,2570
+03_cl/gen,"Convert the following Python code into s-expressions: 
+// /home/martin/stage/cl-py-generator/example/03_cl/source/code.py
+import sys
+import os
+import loopy as lp
+import pyopencl as cl
+import numpy as np
+import pyopencl.array
+X=np.random.random((7000,3,)).astype(np.float32)
+ctx=cl.create_some_context(interactive=False)
+q=cl.CommandQueue(ctx)
+X_dev=cl.array.to_device(q, X)
+knl=lp.make_kernel(""{[i,j,k]:0<=i,j<M and 0<=k<N}"", ""D[i,j]=sqrt(sum(k, ((((X[i,k])-(X[j,k])))**(2))))"", lang_version=(2018,2,))
+knl=lp.set_options(knl, write_cl=True)
+knl=lp.set_loop_priority(knl, ""i,j"")
+result=knl(q, X=X_dev)
+
+","(eval-when (:compile-toplevel :execute :load-toplevel)
+  (ql:quickload :cl-py-generator))
+
+;; https://www.youtube.com/watch?v=Zz_6P5qAJck
+(in-package :cl-py-generator)
+
+(start-python)
+
+(let ((code
+       `(do0
+	 (imports (sys
+		   os
+                   (lp loopy)
+                   (cl pyopencl)
+                   (np numpy)
+                   pyopencl.array))
+         (setf X (dot (np.random.random (tuple 7000 3))
+                      (astype np.float32)))
+         (setf ctx (cl.create_some_context :interactive False)
+               q (cl.CommandQueue ctx)
+               X_dev (cl.array.to_device q X)
+               )
+         (setf knl (lp.make_kernel (string
+                                    ""{[i,j,k]:0<=i,j<M and 0<=k<N}""
+                                    #+nil,(emit-py :code `(dict ((list i j k) (and (<= 0 (tuple i j) (- M 1))
+                                                                                    (<= 0 k (- N 1)))))))
+                                   (string ,(emit-py :code `(= (aref D i j)
+                                                                  (sqrt (sum k (** (- (aref X i k)
+                                                                                      (aref X j k))
+                                                                                   2))))))
+                                   :lang_version (tuple 2018 2))
+               knl (lp.set_options knl :write_cl True)
+               knl (lp.set_loop_priority knl (string ""i,j""))
+               result (knl q :X X_dev))
+	 )))
+  ;(run code)
+  (write-source ""/home/martin/stage/cl-py-generator/example/03_cl/source/code"" code))
+
+
+",603,1650
