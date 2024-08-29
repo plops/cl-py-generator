@@ -1792,6 +1792,6 @@ Here is the real transcript. Please summarize it:
 		    :host (string "0.0.0.0")
 		    :port 443
 		    :reload False
-		    :ssl_keyfile (string "/etc/letsencrypt/live/rocketrecap.com/privkey.pem")
-		    :ssl_certfile (string "/etc/letsencrypt/live/rocketrecap.com/fullchain.pem"))
+		    :ssl_keyfile (string "privkey.pem")
+		    :ssl_certfile (string "fullchain.pem"))
        ))))
