@@ -1540,7 +1540,7 @@ use of these things")
 		  (setf cost_str (fstring "${cost:.2f}")))
 	      (setf text (fstring3 "{s.timestamped_summary_in_youtube_format}
 
-I used {s.model} to summarize the transcript.
+I used {s.model} on rocketrecap.com to summarize the transcript.
 Cost (if I didn't use the free tier): {cost_str}
 Input tokens: {input_tokens}
 Output tokens: {output_tokens}")
