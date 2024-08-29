@@ -1788,7 +1788,7 @@ Here is the real transcript. Please summarize it:
 
 
        ;(serve :port 5001)
-       (uvicorn.run :app (fstring "rocketrecap:app")
+       (uvicorn.run :app (string ":app")
 		    :host (string "0.0.0.0")
 		    :port 8443
 		    :reload False
