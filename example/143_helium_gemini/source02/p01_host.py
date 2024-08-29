@@ -72,7 +72,7 @@ def generation_preview(identifier):
                 cost_str=f"${cost:.2f}"
             text=f"""{s.timestamped_summary_in_youtube_format}
 
-I used {s.model} to summarize the transcript.
+I used {s.model} on rocketrecap.com to summarize the transcript.
 Cost (if I didn't use the free tier): {cost_str}
 Input tokens: {input_tokens}
 Output tokens: {output_tokens}"""
