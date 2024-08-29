@@ -1792,8 +1792,8 @@ Here is the real transcript. Please summarize it:
 	(uvicorn.run :app (string "p01_host:app")
 		     :host (string "localhost")
 		     :port 8443
-		     :reload True ;False
-					;:ssl_keyfile (string "privkey.pem")
-					;:ssl_certfile (string "fullchain.pem")
+		     :reload False
+		     :ssl_keyfile (string "privkey.pem")
+		     :ssl_certfile (string "fullchain.pem")
 		     ))
        ))))
