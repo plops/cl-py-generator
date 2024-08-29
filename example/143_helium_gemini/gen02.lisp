@@ -1788,11 +1788,11 @@ Here is the real transcript. Please summarize it:
 
 
        ;(serve :port 8443)
-       (space await
-	(uvicorn.run :app (string "p01_host:app")
-		     :host (string "localhost")
-		     :port 8443
-		     :reload False
-		     :ssl_keyfile (string "privkey.pem")
-		     :ssl_certfile (string "fullchain.pem")))
+       (uvicorn.run :app (string "p01_host:app")
+		    :host (string "localhost")
+		    :port 8443
+		    :reload True ;False
+					;:ssl_keyfile (string "privkey.pem")
+					;:ssl_certfile (string "fullchain.pem")
+		    )
        ))))
