@@ -1489,4 +1489,4 @@ Here is the real transcript. Please summarize it:
         return
  
 if ( ((__name__)==("main")) ):
-    uvicorn.run(app="p01_host:app", host="0.0.0.0", port=5001, reload=True, ssl_keyfile="privkey.pem", ssl_certfile="fullchain.pem")
+    uvicorn.run(app="p01_host:app", host="0.0.0.0", port=5001, reload=True)
