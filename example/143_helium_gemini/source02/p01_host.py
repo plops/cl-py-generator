@@ -1488,5 +1488,4 @@ Here is the real transcript. Please summarize it:
         summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
         return
  
-if ( ((__name__)==("main")) ):
-    uvicorn.run(app="p01_host:app", host="0.0.0.0", port=5001, reload=True)
+serve(port=5001)
