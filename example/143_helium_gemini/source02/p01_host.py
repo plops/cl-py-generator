@@ -3,6 +3,7 @@
 import google.generativeai as genai
 import google.api_core.exceptions
 import re
+import uvicorn
 import sqlite_minutils.db
 import datetime
 import time
@@ -1487,4 +1488,4 @@ Here is the real transcript. Please summarize it:
         summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
         return
  
-serve(port=5001)
+uvicorn.run(app=f"rocketrecap:app", host="0.0.0.0", port=443, reload=False, ssl_keyfile="/etc/letsencrypt/live/rocketrecap.com/privkey.pem", ssl_certfile="/etc/letsencrypt/live/rocketrecap.com/fullchain.pem")

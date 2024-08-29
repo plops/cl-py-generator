@@ -1382,6 +1382,7 @@ use of these things")
 					;os
 		 google.api_core.exceptions
 		 re
+		 uvicorn
 		 sqlite_minutils.db
 		 datetime
 		 time))
@@ -1784,4 +1785,13 @@ Here is the real transcript. Please summarize it:
 	 
 	 )
        " "
-       (serve :port 5001)))))
+
+
+       ;(serve :port 5001)
+       (uvicorn.run :app (fstring "rocketrecap:app")
+		    :host (string "0.0.0.0")
+		    :port 443
+		    :reload False
+		    :ssl_keyfile (string "/etc/letsencrypt/live/rocketrecap.com/privkey.pem")
+		    :ssl_certfile (string "/etc/letsencrypt/live/rocketrecap.com/fullchain.pem"))
+       ))))
