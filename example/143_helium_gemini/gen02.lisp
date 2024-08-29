@@ -1788,12 +1788,12 @@ Here is the real transcript. Please summarize it:
 
 
        ;(serve :port 8443)
-       (freeze_support)
-       (uvicorn.run :app (string "p01_host:app")
-		    :host (string "localhost")
-		    :port 8443
-		    :reload True  ;False
+       (when (== __name__ (string "main"))
+	(uvicorn.run :app (string "p01_host:app")
+		     :host (string "localhost")
+		     :port 8443
+		     :reload True ;False
 					;:ssl_keyfile (string "privkey.pem")
 					;:ssl_certfile (string "fullchain.pem")
-		    )
+		     ))
        ))))
