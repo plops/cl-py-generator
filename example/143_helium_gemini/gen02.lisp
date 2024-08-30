@@ -1669,12 +1669,20 @@ Here is the real transcript. Please summarize it:
 		  (summaries.update :pk_values identifier
 				    :summary (+ (dot (aref summaries identifier)
 						     summary)
-						chunk.text)
-					;new
-					;:alter True
-				    ))
+						chunk.text)))
 		 (ValueError ()
-			     (print (string "Value Error "))))
+			     (summaries.update :pk_values identifier
+				    :summary (+ (dot (aref summaries identifier)
+						     summary)
+						(string "\\nError: value error")))
+			     (print (string "Value Error ")))
+		 ("Exception as e"
+		   (summaries.update :pk_values identifier
+				    :summary (+ (dot (aref summaries identifier)
+						     summary)
+						(fstring "\\nError: {str(e)}")))
+		   (print (string "Error")))
+		 )
 		)
 
 	   (summaries.update :pk_values identifier

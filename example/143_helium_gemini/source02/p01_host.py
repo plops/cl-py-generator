@@ -1469,7 +1469,11 @@ Here is the real transcript. Please summarize it:
                 summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
             except ValueError:
                 
+                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+("\nError: value error")))
                 print("Value Error ")
+            except Exception as e:
+                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
+                print("Error")
         summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
