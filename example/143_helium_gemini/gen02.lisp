@@ -6,7 +6,7 @@
 
 (progn
  (defparameter *project* "143_helium_gemini")
- (defparameter *idx* "01")
+ (defparameter *idx* "01") 
  (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
  (defparameter *day-names*
                '("Monday" "Tuesday" "Wednesday"
