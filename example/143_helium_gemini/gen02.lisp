@@ -1795,13 +1795,14 @@ Here is the real transcript. Please summarize it:
        " "
 
 
-       (serve :host (string "localhost") :port 5001)
+       ;(serve :host (string "localhost") :port 5001)
+       (serve :host (string "0.0.0.0") :port 5001)
        #+nil (when (== __name__ (string "main"))
-	(uvicorn.run :app (string "p01_host:app")
-		     :host (string "0.0.0.0")
-		     :port 5001
-		     :reload True
-		     ;:ssl_keyfile (string "privkey.pem")
-		     ;:ssl_certfile (string "fullchain.pem")
-		     ))
+	       (uvicorn.run :app (string "p01_host:app")
+			    :host (string "0.0.0.0")
+			    :port 5001
+			    :reload True
+					;:ssl_keyfile (string "privkey.pem")
+					;:ssl_certfile (string "fullchain.pem")
+			    ))
        ))))
