@@ -1585,8 +1585,12 @@ Output tokens: {output_tokens}")
 	      (setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
 
 	   (setf title  (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"))
+
+	   (setf html (markdown.markdown s.summary))
+	   (print (fstring "md: {html}"))
 	   (setf pre #+nil (Pre text :id (fstring "pre-{identifier}"))
-		     (NotStr (markdown.markdown s.summary) :id (fstring "pre-{identifier}")))
+		     (NotStr html
+			     :id (fstring "pre-{identifier}")))
 	   (setf button (Button (string "Copy")
 			     :onclick (fstring "copyPreContent('pre-{identifier}')")))
 	   (if (== trigger (string ""))
