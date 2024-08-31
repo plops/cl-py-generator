@@ -1456,19 +1456,19 @@ use of these things")
 
 
 
-       (setf documentation (string3 "## **Prepare the Input Text from YouTube:**
+       (setf documentation (string3 "###### **Prepare the Input Text from YouTube:**
  * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
  * Click on the \"Show Transcript\" button below the video.
  * **Scroll to the bottom** in the transcript sub-window.
  * **Start selecting the text from the bottom of the transcript sub-window and drag your cursor upwards, including the video title at the top.** This will select the title, description, comments (that have loaded), and the entire transcript.
  * **Tip:** Summaries are often better if you include the video title, the video description, and relevant comments along with the transcript.
 
-## **Paste the Text into the Web Interface:**
+###### **Paste the Text into the Web Interface:**
  * Paste the copied text (title, description, transcript, and optional comments) into the text area provided below.
  * Select your desired model from the dropdown menu (Gemini Pro is recommended for accurate timestamps).
  * Click the \"Summarize Transcript\" button.
 
-## **View the Summary:**
+###### **View the Summary:**
  * The application will process your input and display a continuously updating preview of the summary. 
  * Once complete, the final summary with timestamps will be displayed, along with an option to copy the text.
  * You can then paste this summarized text into a YouTube comment.
