@@ -1375,13 +1375,14 @@ use of these things")
      (format nil "~a/source02/p~a_~a" *path* *idx* notebook-name)
      `(do0
        "#!/usr/bin/env python3"
-       (comments "pip install -U google-generativeai python-fasthtml")
+       (comments "pip install -U google-generativeai python-fasthtml markdown")
 
        (imports ((genai google.generativeai)
 		 ;google.generativeai.types.answer_types
 					;os
 		 google.api_core.exceptions
 		 re
+		 markdown
 		 uvicorn
 		 sqlite_minutils.db
 		 datetime
@@ -1454,30 +1455,34 @@ use of these things")
 		     :href (fstring "/summaries/{summary.identifier}")))))
 
 
-       " "
+
+       (setf documentation (string3 "## **Prepare the Input Text from YouTube:**
+ * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
+ * Click on the \"Show Transcript\" button below the video.
+ * **Scroll to the bottom** in the transcript sub-window.
+ * **Start selecting the text from the bottom of the transcript sub-window and drag your cursor upwards, including the video title at the top.** This will select the title, description, comments (that have loaded), and the entire transcript.
+ * **Tip:** Summaries are often better if you include the video title, the video description, and relevant comments along with the transcript.
+
+## **Paste the Text into the Web Interface:**
+ * Paste the copied text (title, description, transcript, and optional comments) into the text area provided below.
+ * Select your desired model from the dropdown menu (Gemini Pro is recommended for accurate timestamps).
+ * Click the \"Summarize Transcript\" button.
+
+## **View the Summary:**
+ * The application will process your input and display a continuously updating preview of the summary. 
+ * Once complete, the final summary with timestamps will be displayed, along with an option to copy the text.
+ * You can then paste this summarized text into a YouTube comment.
+"))
+
        
+       " "
+       (setf documentation_html
+	     (markdown.markdown documentation))
        (@rt (string "/"))
        (def get (request)
 	 (declare (type Request request))
 	 ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
-	 (setf documentation (string3 "## How to Use:
-
-    1. **Prepare the Input Text from YouTube:**
-        * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
-        * Click on the \"Show Transcript\" button below the video.
-        * **Scroll to the bottom** in the transcript sub-window.
-        * **Start selecting the text from the bottom of the transcript sub-window and drag your cursor upwards, including the video title at the top.** This will select the title, description, comments (that have loaded), and the entire transcript.
-        * **Tip:** Summaries are often better if you include the video title, the video description, and relevant comments along with the transcript.
-
-    2. **Paste the Text into the Web Interface:**
-        * Paste the copied text (title, description, transcript, and optional comments) into the text area provided below.
-        * Select your desired model from the dropdown menu (Gemini Pro is recommended for accurate timestamps).
-        * Click the \"Summarize Transcript\" button.
-
-    3. **View the Summary:**
-        * The application will process your input and display a continuously updating preview of the summary. 
-        * Once complete, the final summary with timestamps will be displayed, along with an option to copy the text.
-        * You can then paste this summarized text into a YouTube comment."))
+	 
 	 (print request.client.host)
 	 (setf nav (Nav
 		    (Ul (Li (Strong (string "Transcript Summarizer"))))
@@ -1488,6 +1493,7 @@ use of these things")
 			(Li (A (string "Documentation")
 			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
+	 
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
 				    :name (string "transcript"))
 	       model (Select (Option (string "gemini-1.5-flash-latest"))
@@ -1514,7 +1520,7 @@ use of these things")
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
 			 (Main nav
 			       ;(H1 (string "Summarizer Demo"))
-			       
+			       (NotStr documentation_html)
 			       form
 			       gen_list
 			       summary_list 
@@ -1674,8 +1680,8 @@ Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
 {s.transcript}"
-					      "input" "output"
-					      ;example-input example-output
+					      ;"input" "output"
+					      example-input example-output
 					      ))
 			   :safety_settings safety
 			   :stream True))
