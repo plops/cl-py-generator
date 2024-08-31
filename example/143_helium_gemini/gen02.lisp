@@ -1587,16 +1587,24 @@ Output tokens: {output_tokens}")
 	   (setf title  (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"))
 
 	   (setf html (markdown.markdown s.summary))
-	   (print (fstring "md: {html}"))
-	   (setf pre #+nil (Pre text :id (fstring "pre-{identifier}"))
-		     (NotStr html
-			     :id (fstring "pre-{identifier}")))
+	   ;(print (fstring "md: {html}"))
+	   (setf pre (Div (Div (Pre text
+				:id (fstring "pre-{identifier}")
+				)
+			       :id (string "hidden-markdown")
+			       
+			       :style (string "display: none;"))
+			  (Div
+			   (NotStr html)
+			   ;:id (fstring "pre-{identifier}-html")
+			   )))
 	   (setf button (Button (string "Copy")
 			     :onclick (fstring "copyPreContent('pre-{identifier}')")))
 	   (if (== trigger (string ""))
 	       
 	       (return (Div
 			title
+		      
 			pre
 			button
 			:id sid
@@ -1611,7 +1619,7 @@ Output tokens: {output_tokens}")
 			:hx_swap (string "outerHTML")))))
 	  ("Exception as e"		; NotFoundError ()
 	   (return (Div
-		    (fstring "id: {identifier}")
+		    (fstring "id: {identifier} e: {e}")
 		    (Pre text)
 		    :id sid
 		    :hx_post (fstring "/generations/{identifier}")

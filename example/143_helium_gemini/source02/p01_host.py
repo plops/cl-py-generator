@@ -104,15 +104,14 @@ Output tokens: {output_tokens}"""
             text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
         title=f"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
         html=markdown.markdown(s.summary)
-        print(f"md: {html}")
-        pre=NotStr(html, id=f"pre-{identifier}")
+        pre=Div(Div(Pre(text, id=f"pre-{identifier}"), id="hidden-markdown", style="display: none;"), Div(NotStr(html)))
         button=Button("Copy", onclick=f"copyPreContent('pre-{identifier}')")
         if ( ((trigger)==("")) ):
             return Div(title, pre, button, id=sid)
         else:
             return Div(title, pre, button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
-        return Div(f"id: {identifier}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
+        return Div(f"id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):
