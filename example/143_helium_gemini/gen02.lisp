@@ -1670,9 +1670,9 @@ Output tokens: {output_tokens}")
 	 (try
 	  (do0
 	   (setf response (m.generate_content
-			   (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+			   (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the comments, please indicate this by adding \"[From Comments]\" at the end of the bullet point.
+**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From Comments]\" at the end of the bullet point.
 
 Example Input: 
 ~a
