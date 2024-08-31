@@ -1415,7 +1415,7 @@ use of these things")
 			 :hx_swap (string "outerHTML"))))
 	   (summary.summary_done
 	    (return (Div ;(Pre summary.summary)
-			 (NotStr (markdown.markdown summary.summary))
+			 (Pre (markdown.markdown summary.summary))
 			 :id sid
 			 :hx_post (fstring "/generations/{identifier}")
 			 :hx_trigger (? summary.timestamps_done
@@ -1424,7 +1424,7 @@ use of these things")
 			 :hx_swap (string "outerHTML"))))
 	   (t
 	    (return (Div ;(Pre summary.summary)
-			 (NotStr (markdown.markdown summary.summary))
+			 (Pre (markdown.markdown summary.summary))
 			 :id sid
 			  :hx_post (fstring "/generations/{identifier}")
 			  :hx_trigger (string "every 1s")
