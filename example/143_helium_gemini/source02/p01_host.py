@@ -103,7 +103,7 @@ Output tokens: {output_tokens}"""
         elif ( ((len(s.transcript))) ):
             text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
         title=f"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
-        pre=Pre(text, id=f"pre-{identifier}")
+        pre=NotStr(markdown.markdown(s.summary), id=f"pre-{identifier}")
         button=Button("Copy", onclick=f"copyPreContent('pre-{identifier}')")
         if ( ((trigger)==("")) ):
             return Div(title, pre, button, id=sid)
