@@ -34,12 +34,12 @@
 	(example-output "**Exploring the Fluidigm Polaris: A Detailed Look at its High-End Optics and Camera System**
 
 * **0:00 High-End Optics:** The system utilizes heavy, high-quality lenses and mirrors for precise imaging, weighing around 4 kilos each.
-* **0:49 Narrow Band Filters:** A filter wheel with five narrow band filters (488, 525, 570, 630, and 700 nm) ensures accurate fluorescence detection and rejection of excitation light.  [From Comments] These filters are likely sided for optimal performance.
+* **0:49 Narrow Band Filters:** A filter wheel with five narrow band filters (488, 525, 570, 630, and 700 nm) ensures accurate fluorescence detection and rejection of excitation light.  [From 2010craggy's Comment] These filters are likely sided for optimal performance.
 * **2:01 Customizable Illumination:** The Lumen Dynamics light source offers five individually controllable LED wavelengths (430, 475, 520, 575, 630 nm) with varying power outputs. The 575nm yellow LED is uniquely achieved using a white LED with filtering.
 * **3:45 TTL Control:**  The light source is controlled via a simple TTL interface, enabling easy on/off switching for each LED color.
-* **12:55 Sophisticated Camera:**  The system includes a 50-megapixel Kodak KAI-50100 CCD camera with a Peltier cooling system for reduced noise. [From Comments] This sensor is noted to be quite expensive (around $5,000) and rare, even when it was in production.
+* **12:55 Sophisticated Camera:**  The system includes a 50-megapixel Kodak KAI-50100 CCD camera with a Peltier cooling system for reduced noise. [From JAKOB1977's Comment] This sensor is noted to be quite expensive (around $5,000) and rare, even when it was in production.
 * **14:54 High-Speed Data Transfer:** The camera features dual analog-to-digital converters to manage the high data throughput of the 50-megapixel sensor, which is effectively two 25-megapixel sensors operating in parallel.
-* **18:11 Possible Issues: The video creator noted some potential issues with the camera, including image smearing. [From Comments] This smearing could be due to the lack of a shutter, causing light to hit the sensor during readout.  A shutter would be needed for optimal performance and to avoid this issue.**
+* **18:11 Possible Issues: The video creator noted some potential issues with the camera, including image smearing. [From wolpumba4099's and florianf4257's and Comments] This smearing could be due to the lack of a shutter, causing light to hit the sensor during readout.  A shutter would be needed for optimal performance and to avoid this issue.**
 * **18:11 Limited Dynamic Range:** The camera's sensor has a limited dynamic range, making it potentially challenging to capture scenes with a wide range of brightness levels.
 * **11:45 Low Runtime:** Internal data suggests the system has seen minimal usage, with only 20 minutes of recorded runtime for the green LED.
 * **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.")
