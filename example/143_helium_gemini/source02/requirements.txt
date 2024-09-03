@@ -1,0 +1,5 @@
+Markdown==3.7
+protobuf==5.28.0
+python_fasthtml==0.3.4
+sqlite_minutils==3.36.0.post4
+uvicorn==0.30.6
