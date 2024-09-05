@@ -5759,3 +5759,13 @@ dracut \
 
 ```
 - reboot into 6.6.38 from disk and build the ryzen monitor module
+
+
+# Proposal 2024-09-05
+
+ Important: In case the wireless configuration API (CONFIG_CFG80211) is
+built into the kernel (<*>) instead as a module (<M>), the driver
+won't be able to load regulatory.db from /lib/firmware resulting in
+broken regulatory domain support. Please set CONFIG_CFG80211=m or add
+regulatory.db and regulatory.db.p7s (from net-wireless/wireless-regdb)
+to CONFIG_EXTRA_FIRMWARE.
