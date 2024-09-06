@@ -5960,3 +5960,4 @@ perl5 (52MB!)
 ctest cpack binaries wireshark obs
 ```
 
+- cfg80211 must be a module
