@@ -5908,7 +5908,8 @@ tmp/* \
 mnt/ \
 mnt4/ \
 mnt5/ \
-usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
+usr/lib/firmwar/{iwlwifi,phanfw}* \
 persistent \
 initramfs-with-squashfs.img
 
@@ -5939,4 +5940,23 @@ dracut \
 
 ```
 - reboot into 6.6.47 from disk and build the ryzen monitor module
+
+- look with qdirstat what can be removed in /usr/lib/firmware and in general
+
+- a lot of stuff in /var/db and /var/tmp/portage, maybe i need to 
+
+```
+eclean packages
+eclean distfiles 
+
+
+very big
+
+/usr/lib64/libwireshark 91M 
+libmupdf 47M
+
+perl5 (52MB!)
+
+ctest cpack binaries wireshark obs
+```
 
