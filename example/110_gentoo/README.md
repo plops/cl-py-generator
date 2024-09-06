@@ -5781,8 +5781,8 @@ eix-sync
 
 dispatch-conf
 
-emerge --deselect grpc
-emerge --deselect lmfit
+
+emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y --fetchonly @world
 
 emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
 
@@ -5790,8 +5790,18 @@ emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --wi
  * Checking for suitable kernel configuration options ...
  *   CONFIG_IP_NF_NAT:   is not set when it should be.
  *   CONFIG_IP_NF_TARGET_MASQUERADE:     is not set when it should be.
+ CONFIG_UHID:        is not set when it should be.
+
+ * NOTE: To capture traffic with wireshark as normal user you have to
+ * add yourself to the pcap group.
  
-emerge --depclean
+emerge --depclean -va
+perl-cleaner --all
+
+# 6.6.47 new kernel
+
+ 
+
 # clang is now 18
 # kernel 6.6.38 instead of 6.6.30
 # python 3.12.3-r1 instead of python 3.11.8_p1
