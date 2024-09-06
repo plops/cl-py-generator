@@ -5961,3 +5961,5 @@ perl5 (52MB!)
 
 ctest cpack binaries wireshark obs
 ```
+
+- cfg80211 should be module, regulatory domain still doesn't load
