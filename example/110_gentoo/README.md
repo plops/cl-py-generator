@@ -5911,16 +5911,18 @@ mnt5/ \
 usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
 usr/lib/firmwar/{iwlwifi,phanfw}* \
 persistent \
+var/tmp/portage/* \
 initramfs-with-squashfs.img
 
 
 ```
 
-- 20Mb bigger than before (compressed)
+- 20Mb smaller than before (compressed)
 ```
-Filesystem size 1816616.11 Kbytes (1774.04 Mbytes)
-        30.44% of uncompressed filesystem size (5967557.51 Kbytes)
-1m17s
+Filesystem size 1773518.69 Kbytes (1731.95 Mbytes)
+        30.24% of uncompressed filesystem size (5864583.37 Kbytes)
+
+1m9s
 
 ```
 
@@ -5946,8 +5948,8 @@ dracut \
 - a lot of stuff in /var/db and /var/tmp/portage, maybe i need to 
 
 ```
-eclean packages
-eclean distfiles 
+eclean packages # 1.2G 94 files
+eclean distfiles  # 2G 172 files
 
 
 very big
