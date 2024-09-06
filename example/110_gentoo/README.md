@@ -5791,40 +5791,37 @@ emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --wi
  *   CONFIG_IP_NF_NAT:   is not set when it should be.
  *   CONFIG_IP_NF_TARGET_MASQUERADE:     is not set when it should be.
  CONFIG_UHID:        is not set when it should be.
+ make 8852BE a module
 
  * NOTE: To capture traffic with wireshark as normal user you have to
  * add yourself to the pcap group.
- 
+# 6.6.47 new kernel
+
 emerge --depclean -va
 perl-cleaner --all
 
-# 6.6.47 new kernel
 
- 
 
-# clang is now 18
-# kernel 6.6.38 instead of 6.6.30
-# python 3.12.3-r1 instead of python 3.11.8_p1
-# protobuf, re2, asteval, lmfit, grpc gone
 revdev-rebuild # nothing
 
 eselect kernel list
-eselect kernel set 2 # set 6.6.38
+eselect kernel set 1
+
 cd /usr/src/linux
-cp ../linux-6.6.30/.config .
+cp ../linux-6.6.38-gentoo/.config .
 make menuconfig
-make -j12
+make -j12 # 13m14s
 make modules_install
 make install
-cp /boot/vmlinuz /boot/vmlinuz-6.6.38-gentoo-x86_64
+cp /boot/vmlinuz /boot/vmlinuz-6.6.47-gentoo-x86_64
 
-update emacs packages # (2)
+update emacs packages 
 
-# i tried updating slime, didn't help
+# i tried updating quicklisp, nothing new. ql has slime 28 and emacs has 30
 
 emacs /boot/grub/grub.cfg
 
-menuentry 'Gentoo GNU/Linux 20240727 6.6.38 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+menuentry 'Gentoo GNU/Linux 20240727 6.6.47 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
 	load_video
 	if [ "x$grub_platform" = xefi ]; then
 		set gfxpayload=keep
@@ -5833,14 +5830,14 @@ menuentry 'Gentoo GNU/Linux 20240727 6.6.38 ram squash persist crypt ssd ' --cla
 	insmod part_gpt
 	insmod fat
 	search --no-floppy --fs-uuid --set=root F63D-5318
-	echo	'Loading Linux 6.6.38-gentoo-x86_64 ...'
+	echo	'Loading Linux 6.6.47-gentoo-x86_64 ...'
 # the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
 # the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
-	linux	/vmlinuz-6.6.38-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
-	initrd	/initramfs20240727_squash_crypt-6.6.38-gentoo-x86_64.img
+	linux	/vmlinuz-6.6.47-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20240727_squash_crypt-6.6.47-gentoo-x86_64.img
 }
 
-menuentry 'Gentoo GNU/Linux 6.6.38 from disk' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+menuentry 'Gentoo GNU/Linux 6.6.47 from disk' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
 	load_video
 	if [ "x$grub_platform" = xefi ]; then
 		set gfxpayload=keep
@@ -5849,11 +5846,14 @@ menuentry 'Gentoo GNU/Linux 6.6.38 from disk' --class gentoo --class gnu-linux -
 	insmod part_gpt
 	insmod fat
 	search --no-floppy --fs-uuid --set=root F63D-5318
-	echo	'Loading Linux 6.6.38-gentoo ...'
-	linux	/vmlinuz-6.6.38-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+	echo	'Loading Linux 6.6.47-gentoo ...'
+	linux	/vmlinuz-6.6.47-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
 }
 
-export TODAY=20240727
+cryptsetup luksOpen /dev/nvme0n1p4 p4
+mount /dev/mapper/p4 /mnt4
+
+export TODAY=20240906
 export INDIR=/
 export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
 rm $OUTFILE
@@ -5873,10 +5873,12 @@ lib/modules/6.3.12-gentoo-x86_64 \
 lib/modules/6.6.12-gentoo-x86_64 \
 lib/modules/6.6.17-gentoo-x86_64 \
 lib/modules/6.6.30-gentoo-x86_64 \
+lib/modules/6.6.38-gentoo-x86_64 \
 usr/lib/modules/6.3.12-gentoo-x86_64 \
 usr/lib/modules/6.6.12-gentoo-x86_64 \
 usr/lib/modules/6.6.17-gentoo-x86_64 \
 usr/lib/modules/6.6.30-gentoo-x86_64 \
+usr/lib/modules/6.6.38-gentoo-x86_64 \
 usr/src/linux* \
 var/cache/binpkgs/* \
 var/cache/distfiles/* \
@@ -5906,17 +5908,18 @@ tmp/* \
 mnt/ \
 mnt4/ \
 mnt5/ \
-usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia} \
 persistent \
 initramfs-with-squashfs.img
 
 
 ```
 
-- 50Mb smaller than before (compressed)
+- 20Mb bigger than before (compressed)
 ```
-Filesystem size 1797389.54 Kbytes (1755.26 Mbytes)
-        30.32% of uncompressed filesystem size (5927673.71 Kbytes)
+Filesystem size 1816616.11 Kbytes (1774.04 Mbytes)
+        30.44% of uncompressed filesystem size (5967557.51 Kbytes)
+1m17s
 
 ```
 
@@ -5930,10 +5933,10 @@ chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 dracut \
   -m " kernel-modules base rootfs-block crypt dm " \
   --filesystems " squashfs vfat overlay " \
-  --kver=6.6.38-gentoo-x86_64 \
+  --kver=6.6.47-gentoo-x86_64 \
   --force \
-  "/boot/initramfs"$TODAY"_squash_crypt-6.6.38-gentoo-x86_64.img"
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.47-gentoo-x86_64.img"
 
 ```
-- reboot into 6.6.38 from disk and build the ryzen monitor module
+- reboot into 6.6.47 from disk and build the ryzen monitor module
 
