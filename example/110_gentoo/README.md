@@ -5969,4 +5969,53 @@ ctest cpack binaries wireshark obs
 
 ```
 Sep 13 21:27:51 archlinux tlp[971]: Error in configuration at STOP_CHARGE_THRESH_BAT0="80": conservation mode not specified or invalid (must be 0 or 1) skipped
+
+
+STOP_CHARGE_THRESH_BAT0=1
+
+systemctl stop tlp
+systemctl start tlp
+systemctl status tlp
+
+tlp-stat -b
+
+archlinux /home/martin # systemctl status tlp
+● tlp.service - TLP system startup/shutdown
+     Loaded: loaded (/usr/lib/systemd/system/tlp.service; enabled; preset: disabled)
+     Active: active (exited) since Fri 2024-09-13 21:46:14 CEST; 3s ago
+       Docs: https://linrunner.de/tlp
+    Process: 3441 ExecStart=/usr/sbin/tlp init start (code=exited, status=0/SUCCESS)
+   Main PID: 3441 (code=exited, status=0/SUCCESS)
+        CPU: 129ms
+
+Sep 13 21:46:14 archlinux systemd[1]: Starting TLP system startup/shutdown...
+Sep 13 21:46:14 archlinux tlp[3441]: Applying power save settings...done.
+Sep 13 21:46:14 archlinux tlp[3441]: Setting battery charge thresholds...done.
+Sep 13 21:46:14 archlinux systemd[1]: Finished TLP system startup/shutdown.
+archlinux /home/martin # tlp-stat -b
+--- TLP 1.6.1 --------------------------------------------
+
++++ Battery Care
+Plugin: lenovo
+Supported features: charge threshold
+Driver usage:
+* vendor (ideapad_laptop) = active (charge threshold)
+Parameter value range:
+* STOP_CHARGE_THRESH_BAT0: 0(off), 1(on) -- battery conservation mode
+
+/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode = 1 (60%)
+
++++ Battery Status: BAT0
+/sys/class/power_supply/BAT0/manufacturer                   = Celxpert
+/sys/class/power_supply/BAT0/model_name                     = L20C2PF0
+/sys/class/power_supply/BAT0/cycle_count                    =    248
+/sys/class/power_supply/BAT0/energy_full_design             =  38000 [mWh]
+/sys/class/power_supply/BAT0/energy_full                    =  32740 [mWh]
+/sys/class/power_supply/BAT0/energy_now                     =  29380 [mWh]
+/sys/class/power_supply/BAT0/power_now                      =   6299 [mW]
+/sys/class/power_supply/BAT0/status                         = Not charging
+
+Charge                                                      =   89.7 [%]
+Capacity                                                    =   86.2 [%]
+
 ```
