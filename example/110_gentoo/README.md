@@ -5963,3 +5963,10 @@ ctest cpack binaries wireshark obs
 ```
 
 - cfg80211 should be module, regulatory domain still doesn't load
+
+
+- tlp is not protecting battery anymore:
+
+```
+Sep 13 21:27:51 archlinux tlp[971]: Error in configuration at STOP_CHARGE_THRESH_BAT0="80": conservation mode not specified or invalid (must be 0 or 1) skipped
+```
