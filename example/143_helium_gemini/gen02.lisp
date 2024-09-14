@@ -4,6 +4,14 @@
 
 (in-package :cl-py-generator)
 
+;; TODO:
+;; [ ] add choice for output language
+;; [ ] optional timestamps
+;; [ ] optional user comments
+;; [ ] optional glossary
+;; [ ] find better examples for comments, or glossary
+
+
 
 (setf *features* (union *features* '(:example)))
 (setf *features* (set-difference *features* '(;:example
