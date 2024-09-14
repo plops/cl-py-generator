@@ -6,7 +6,8 @@
 
 
 (setf *features* (union *features* '(:example)))
-(setf *features* (set-difference *features* '(:example)))
+(setf *features* (set-difference *features* '(;:example
+					      )))
 
 (progn
   (defparameter *project* "143_helium_gemini")
