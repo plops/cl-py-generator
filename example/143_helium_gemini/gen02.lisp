@@ -1816,7 +1816,11 @@ Here is the real transcript. Please summarize it:
 	   (comments "find any text that looks like a url and replace the . with -dot-")
 
 	  
-	  
+	   ;; text = re.sub(r"((?:https?://)?(?:www\.)?[^\s]+)\.((?:com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))", r"\1-dot-\2", text)
+
+	   (setf text (re.sub (rstring3 "((?:https?://)?(?:www\\.)?[^\\s]+)\\.((?:com|org|de|us|gov|net|edu|info|io|co\\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))")
+			      (rstring3 "\\1-dot-\\2")
+			      text))
 	   (summaries.update :pk_values identifier
 			     :timestamps_done True
 			     :timestamped_summary_in_youtube_format text
