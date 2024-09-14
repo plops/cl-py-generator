@@ -4,34 +4,38 @@
 
 (in-package :cl-py-generator)
 
-(progn
- (defparameter *project* "143_helium_gemini")
- (defparameter *idx* "01") 
- (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
- (defparameter *day-names*
-               '("Monday" "Tuesday" "Wednesday"
-                          "Thursday" "Friday" "Saturday"
-                          "Sunday"))
- (defun lprint (&key msg vars)
-   `(do0 ;when args.verbose
-        (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}"
-                               msg
-                               (mapcar (lambda (x)
-                                         (emit-py :code x))
-                                   vars)))
-                    (format (- (time.time) start_time)
-                        ,@vars)))))
- (defun doc (def)
-   `(do0
-     ,@(loop for e in def
-             collect
-               (destructuring-bind (&key name val (unit "-") (help name)) e
-                 `(do0
-                   (comments ,(format nil "~a (~a)" help unit))
-                   (setf ,name ,val))))))
 
- (let* ((notebook-name "host")
-	(example-output "**Exploring the Fluidigm Polaris: A Detailed Look at its High-End Optics and Camera System**
+(setf *features* (union *features* '(:example)))
+(setf *features* (set-difference *features* '(:example)))
+
+(progn
+  (defparameter *project* "143_helium_gemini")
+  (defparameter *idx* "01") 
+  (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
+  (defparameter *day-names*
+    '("Monday" "Tuesday" "Wednesday"
+      "Thursday" "Friday" "Saturday"
+      "Sunday"))
+  (defun lprint (&key msg vars)
+    `(do0				;when args.verbose
+      (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}"
+				   msg
+				   (mapcar (lambda (x)
+                                             (emit-py :code x))
+					   vars)))
+                  (format (- (time.time) start_time)
+                          ,@vars)))))
+  (defun doc (def)
+    `(do0
+      ,@(loop for e in def
+              collect
+              (destructuring-bind (&key name val (unit "-") (help name)) e
+                `(do0
+                  (comments ,(format nil "~a (~a)" help unit))
+                  (setf ,name ,val))))))
+
+  (let* ((notebook-name "host")
+	 (example-output  "**Exploring the Fluidigm Polaris: A Detailed Look at its High-End Optics and Camera System**
 
 * **0:00 High-End Optics:** The system utilizes heavy, high-quality lenses and mirrors for precise imaging, weighing around 4 kilos each.
 * **0:49 Narrow Band Filters:** A filter wheel with five narrow band filters (488, 525, 570, 630, and 700 nm) ensures accurate fluorescence detection and rejection of excitation light.  [From 2010craggy's Comment] These filters are likely sided for optimal performance.
@@ -43,7 +47,7 @@
 * **18:11 Limited Dynamic Range:** The camera's sensor has a limited dynamic range, making it potentially challenging to capture scenes with a wide range of brightness levels.
 * **11:45 Low Runtime:** Internal data suggests the system has seen minimal usage, with only 20 minutes of recorded runtime for the green LED.
 * **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.")
-	(example-input "Fluidigm Polaris Part 2- illuminator and camera
+	 (example-input "Fluidigm Polaris Part 2- illuminator and camera
 mikeselectricstuff
 131K subscribers
 Subscribed
@@ -1354,31 +1358,31 @@ the description and say hopefully
 someone could actually make some uh good
 20:47
 use of these things")
-	(db-cols `((:name identifier :type int)
-		   (:name model :type str)
-		   (:name transcript :type str)
-		   (:name host :type str)
-		   ,@(loop for e in `(summary timestamps)
-			   appending
-			   `((:name ,e :type str)
-			     ,@(loop for (f f-type) in `((done bool)
-							 (input_tokens int)
-							 (output_tokens int)
-							 (timestamp_start str)
-							 (timestamp_end str))
-				     collect
-				     `(:name ,(format nil "~a_~a" e f) :type ,f-type))))
-		   (:name timestamped_summary_in_youtube_format :type str)
-		   (:name cost :type float)
-		   )))
-   (write-source
+	 (db-cols `((:name identifier :type int)
+		    (:name model :type str)
+		    (:name transcript :type str)
+		    (:name host :type str)
+		    ,@(loop for e in `(summary timestamps)
+			    appending
+			    `((:name ,e :type str)
+			      ,@(loop for (f f-type) in `((done bool)
+							  (input_tokens int)
+							  (output_tokens int)
+							  (timestamp_start str)
+							  (timestamp_end str))
+				      collect
+				      `(:name ,(format nil "~a_~a" e f) :type ,f-type))))
+		    (:name timestamped_summary_in_youtube_format :type str)
+		    (:name cost :type float)
+		    )))
+    (write-source
      (format nil "~a/source02/p~a_~a" *path* *idx* notebook-name)
      `(do0
        "#!/usr/bin/env python3"
        (comments "pip install -U google-generativeai python-fasthtml markdown")
 
        (imports ((genai google.generativeai)
-		 ;google.generativeai.types.answer_types
+					;google.generativeai.types.answer_types
 					;os
 		 google.api_core.exceptions
 		 re
@@ -1409,26 +1413,26 @@ use of these things")
 	   (summary.timestamps_done
 	    (return (generation_preview identifier)
 		    #+nil(Div (Pre summary.timestamped_summary_in_youtube_format)
-			 :id sid
-			 :hx_post (fstring "/generations/{identifier}")
-			 :hx_trigger (string "")
-			 :hx_swap (string "outerHTML"))))
+			      :id sid
+			      :hx_post (fstring "/generations/{identifier}")
+			      :hx_trigger (string "")
+			      :hx_swap (string "outerHTML"))))
 	   (summary.summary_done
-	    (return (Div ;(Pre summary.summary)
-			 (NotStr (markdown.markdown summary.summary))
-			 :id sid
-			 :hx_post (fstring "/generations/{identifier}")
-			 :hx_trigger (? summary.timestamps_done
-					(string "")	
-					(string "every 1s"))
-			 :hx_swap (string "outerHTML"))))
+	    (return (Div		;(Pre summary.summary)
+		     (NotStr (markdown.markdown summary.summary))
+		     :id sid
+		     :hx_post (fstring "/generations/{identifier}")
+		     :hx_trigger (? summary.timestamps_done
+				    (string "")	
+				    (string "every 1s"))
+		     :hx_swap (string "outerHTML"))))
 	   (t
-	    (return (Div ;(Pre summary.summary)
-			 (NotStr (markdown.markdown summary.summary))
-			 :id sid
-			  :hx_post (fstring "/generations/{identifier}")
-			  :hx_trigger (string "every 1s")
-			  :hx_swap (string "outerHTML")))))
+	    (return (Div		;(Pre summary.summary)
+		     (NotStr (markdown.markdown summary.summary))
+		     :id sid
+		     :hx_post (fstring "/generations/{identifier}")
+		     :hx_trigger (string "every 1s")
+		     :hx_swap (string "outerHTML")))))
 	 )
        
        " "
@@ -1436,7 +1440,7 @@ use of these things")
        (comments "summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
        (setf (ntuple app rt summaries Summary)
 	     (fast_app :db_file (string "data/summaries.db")
-		       :live False ;True
+		       :live False	;True
 		       :render render
 		       ,@(loop for e in db-cols
 			       appending
@@ -1451,10 +1455,10 @@ use of these things")
 
        " "
        #+nil(def render (summary)
-	 (declare (type Summary summary))
-	 (return (Li 
-		  (A summary.summary_timestamp_start
-		     :href (fstring "/summaries/{summary.identifier}")))))
+	      (declare (type Summary summary))
+	      (return (Li 
+		       (A summary.summary_timestamp_start
+			  :href (fstring "/summaries/{summary.identifier}")))))
 
 
 
@@ -1489,7 +1493,7 @@ use of these things")
 	 (setf nav (Nav
 		    (Ul (Li (Strong (string "Transcript Summarizer"))))
 		    (Ul #+nil (Li (A (string "About")
-			       :href (string "#")))
+				     :href (string "#")))
 			(Li (A (string "Demo Video")
 			       :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
 			(Li (A (string "Documentation")
@@ -1515,13 +1519,13 @@ use of these things")
 	 (setf gen_list (Div :id (string "gen-list")))
 
 	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
-				       )
+	       )
 	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
 	 (setf summary_list (Ul *summaries_to_show
-			     :id (string "summaries")))
+				:id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
 			 (Main nav
-			       ;(H1 (string "Summarizer Demo"))
+					;(H1 (string "Summarizer Demo"))
 			       (NotStr documentation_html)
 			       form
 			       gen_list
@@ -1587,19 +1591,19 @@ Output tokens: {output_tokens}")
 	   (setf title  (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"))
 
 	   (setf html (markdown.markdown s.summary))
-	   ;(print (fstring "md: {html}"))
+					;(print (fstring "md: {html}"))
 	   (setf pre (Div (Div (Pre text
-				:id (fstring "pre-{identifier}")
-				)
+				    :id (fstring "pre-{identifier}")
+				    )
 			       :id (string "hidden-markdown")
 			       
 			       :style (string "display: none;"))
 			  (Div
 			   (NotStr html)
-			   ;:id (fstring "pre-{identifier}-html")
+					;:id (fstring "pre-{identifier}-html")
 			   )))
 	   (setf button (Button (string "Copy")
-			     :onclick (fstring "copyPreContent('pre-{identifier}')")))
+				:onclick (fstring "copyPreContent('pre-{identifier}')")))
 	   (if (== trigger (string ""))
 	       
 	       (return (Div
@@ -1626,7 +1630,7 @@ Output tokens: {output_tokens}")
 		    :hx_trigger trigger
 		    :hx_swap (string "outerHTML"))))))
  
-      " "
+       " "
        (@app.post (string "/generations/{identifier}"))
        (def get (identifier)
 	 (declare (type int identifier))
@@ -1636,12 +1640,12 @@ Output tokens: {output_tokens}")
        (@rt (string "/process_transcript"))
        (def post (summary request)
 	 (declare (type Summary summary)
-		   (type Request request))
+		  (type Request request))
 	 (setf words (summary.transcript.split))
 	 (when (< 100_000 (len words))
 	   (when (== summary.model (string "gemini-1.5-pro-exp-0801"))
-	    (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")
-			 :id (string "summary")))))
+	     (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")
+			  :id (string "summary")))))
 	 (setf summary.host request.client.host)
 	 (setf summary.summary_timestamp_start (dot datetime
 						    datetime
@@ -1687,7 +1691,7 @@ Output tokens: {output_tokens}")
 	   (setf response (m.generate_content
 			   (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From <user>'s Comments]\" at the end of the bullet point.
+**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From <user>'s Comments]\" at the end of the bullet point. Note that while viewer comments appear earlier in the text than the transcript they are in fact recorded at a later time. Therefore, if viewer comments repeat information from the transcript, they should not appear in the summary.
 
 Example Input: 
 ~a
@@ -1695,8 +1699,8 @@ Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
 {s.transcript}"
-					      ;"input" "output"
-					      example-input example-output
+					#-example "input" #-example "output"
+					      #+example example-input #+example example-output
 					      ))
 			   :safety_settings safety
 			   :stream True))
@@ -1714,16 +1718,16 @@ Here is the real transcript. Please summarize it:
 						chunk.text)))
 		 (ValueError ()
 			     (summaries.update :pk_values identifier
-				    :summary (+ (dot (aref summaries identifier)
-						     summary)
-						(string "\\nError: value error")))
+					       :summary (+ (dot (aref summaries identifier)
+								summary)
+							   (string "\\nError: value error")))
 			     (print (string "Value Error ")))
 		 ("Exception as e"
-		   (summaries.update :pk_values identifier
+		  (summaries.update :pk_values identifier
 				    :summary (+ (dot (aref summaries identifier)
 						     summary)
 						(fstring "\\nError: {str(e)}")))
-		   (print (string "Error")))
+		  (print (string "Error")))
 		 )
 		)
 
@@ -1808,15 +1812,16 @@ Here is the real transcript. Please summarize it:
 			      (rstring3 "*\\1*")
 			      text))
 
-				
+
+	   (comments "find any text that looks like a url and replace the . with -dot-")
 
 	  
 	  
 	   (summaries.update :pk_values identifier
 			     :timestamps_done True
 			     :timestamped_summary_in_youtube_format text
-			     :timestamps_input_tokens 0; response2.usage_metadata.prompt_token_count
-			     :timestamps_output_tokens 0; response2.usage_metadata.candidates_token_count
+			     :timestamps_input_tokens 0	; response2.usage_metadata.prompt_token_count
+			     :timestamps_output_tokens 0 ; response2.usage_metadata.candidates_token_count
 			     :timestamps_timestamp_end (dot datetime
 							    datetime
 							    (now)
@@ -1837,7 +1842,7 @@ Here is the real transcript. Please summarize it:
        " "
 
 
-       ;(serve :host (string "localhost") :port 5001)
+					;(serve :host (string "localhost") :port 5001)
        (serve :host (string "0.0.0.0") :port 5001)
        #+nil (when (== __name__ (string "main"))
 	       (uvicorn.run :app (string "p01_host:app")
