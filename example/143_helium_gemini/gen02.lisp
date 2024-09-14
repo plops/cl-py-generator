@@ -6,6 +6,7 @@
 
 ;; TODO:
 ;; [ ] add choice for output language
+;; [ ] show spinner
 ;; [ ] optional timestamps
 ;; [ ] optional user comments
 ;; [ ] optional glossary
