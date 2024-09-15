@@ -12,7 +12,8 @@
 ;; [ ] optional glossary
 ;; [ ] find better examples for comments, or glossary
 ;; [ ] communicate gemini's evaluation of the content (e.g. harassment) to the user
-
+;; [ ] generate transcript from audio channel
+;; [ ] get transcript from link
 
 
 (setf *features* (union *features* '(:example)))
