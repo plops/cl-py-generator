@@ -7,6 +7,7 @@
 ;; TODO:
 ;; [ ] add choice for output language
 ;; [ ] show spinner
+;; [ ] allow to store the original youtube link
 ;; [ ] optional timestamps
 ;; [ ] optional user comments
 ;; [ ] optional glossary
