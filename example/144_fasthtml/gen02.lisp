@@ -73,10 +73,10 @@
        "#!/usr/bin/env python3"
        (comments "pip install -U google-generativeai python-fasthtml markdown")
 
-       (imports ((genai google.generativeai)
+       (imports (;(genai google.generativeai)
 					;google.generativeai.types.answer_types
 					;os
-		 google.api_core.exceptions
+		 ;google.api_core.exceptions
 		 re
 		 markdown
 		 uvicorn
@@ -88,13 +88,15 @@
 
        (imports-from (fasthtml.common *))
 
-       " "
-       (comments "Read the gemini api key from disk")
-       (with (as (open (string "api_key.txt"))
-                 f)
-             (setf api_key (dot f (read) (strip))))
+       #+nil
+       (do0
+	" "
+	(comments "Read the gemini api key from disk")
+	(with (as (open (string "api_key.txt"))
+                  f)
+              (setf api_key (dot f (read) (strip))))
 
-       (genai.configure :api_key api_key)
+	(genai.configure :api_key api_key))
 
        " "
        (def render (summary)
@@ -103,7 +105,8 @@
 	 (setf sid (fstring "gen-{identifier}"))
 	 (cond
 	   (summary.timestamps_done
-	    (return (generation_preview identifier)
+	    (return 
+		    (generation_preview identifier)
 		    #+nil(Div (Pre summary.timestamped_summary_in_youtube_format)
 			      :id sid
 			      :hx_post (fstring "/generations/{identifier}")
@@ -116,14 +119,16 @@
 		     :hx_post (fstring "/generations/{identifier}")
 		     :hx_trigger (? summary.timestamps_done
 				    (string "")	
-				    (string "every 1s"))
+				    (string "" ; "every 1s"
+					    ))
 		     :hx_swap (string "outerHTML"))))
 	   (t
 	    (return (Div		;(Pre summary.summary)
 		     (NotStr (markdown.markdown summary.summary))
 		     :id sid
 		     :hx_post (fstring "/generations/{identifier}")
-		     :hx_trigger (string "every 1s")
+		     :hx_trigger (string "" ; "every 1s"
+					 )
 		     :hx_swap (string "outerHTML")))))
 	 )
        
@@ -155,21 +160,6 @@
 
 
        (setf documentation (string3 "###### **Prepare the Input Text from YouTube:**
- * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
- * Click on the \"Show Transcript\" button below the video.
- * **Scroll to the bottom** in the transcript sub-window.
- * **Start selecting the text from the bottom of the transcript sub-window and drag your cursor upwards, including the video title at the top.** This will select the title, description, comments (that have loaded), and the entire transcript.
- * **Tip:** Summaries are often better if you include the video title, the video description, and relevant comments along with the transcript.
-
-###### **Paste the Text into the Web Interface:**
- * Paste the copied text (title, description, transcript, and optional comments) into the text area provided below.
- * Select your desired model from the dropdown menu (Gemini Pro is recommended for accurate timestamps).
- * Click the \"Summarize Transcript\" button.
-
-###### **View the Summary:**
- * The application will process your input and display a continuously updating preview of the summary. 
- * Once complete, the final summary with timestamps will be displayed, along with an option to copy the text.
- * You can then paste this summarized text into a YouTube comment.
 "))
 
        
@@ -212,7 +202,7 @@
 
 	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
 	       )
-	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
+	 (setf summaries_to_show summaries_to_show #+nil (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
 	 (setf summary_list (Ul *summaries_to_show
 				:id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
@@ -282,7 +272,11 @@ Output tokens: {output_tokens}")
 
 	   (setf title  (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"))
 
-	   (setf html (markdown.markdown s.summary))
+	   ;(setf summary_text s.summary)
+	   (setf summary_text (dot s summary (aref (split (string "\\n")) 0)))
+	   
+	   (setf html (markdown.markdown (fstring "{s.summary_timestamp_start[:16]} {summary_text}")
+					 ))
 					;(print (fstring "md: {html}"))
 	   (setf pre (Div (Div (Pre text
 				    :id (fstring "pre-{identifier}")
@@ -299,16 +293,16 @@ Output tokens: {output_tokens}")
 	   (if (== trigger (string ""))
 	       
 	       (return (Div
-			title
+			;title
 		      
 			pre
-			button
+			;button
 			:id sid
 			))
 	       (return (Div
-			title
+			;title
 			pre
-			button
+			;button
 			:id sid
 			:hx_post (fstring "/generations/{identifier}")
 			:hx_trigger trigger
