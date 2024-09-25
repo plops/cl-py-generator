@@ -77,8 +77,8 @@ def generation_preview(identifier):
         if ( s.timestamps_done ):
             # this is for <= 128k tokens
             if ( ((s.model)==("gemini-1.5-pro-exp-0827")) ):
-                price_input_token_usd_per_mio=(3.50    )
-                price_output_token_usd_per_mio=(10.50    )
+                price_input_token_usd_per_mio=(1.250    )
+                price_output_token_usd_per_mio=(5.0    )
             else:
                 price_input_token_usd_per_mio=(7.50e-2)
                 price_output_token_usd_per_mio=(0.30    )

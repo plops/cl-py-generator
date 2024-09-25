@@ -1564,8 +1564,8 @@ use of these things")
 	     (s.timestamps_done
 	      (comments "this is for <= 128k tokens")
 	      (if (== s.model (string "gemini-1.5-pro-exp-0827"))
-		  (setf price_input_token_usd_per_mio 3.5
-			price_output_token_usd_per_mio 10.5)
+		  (setf price_input_token_usd_per_mio 1.25
+			price_output_token_usd_per_mio 5.0)
 		  (setf price_input_token_usd_per_mio 0.075
 			price_output_token_usd_per_mio 0.3)
 		  )
