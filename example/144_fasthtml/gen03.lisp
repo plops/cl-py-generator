@@ -181,32 +181,79 @@ zoneinfo
 		  :hx_boost True
 		       
 		  )))
+
+      (def get_proc_contents (proc)
+	(setf lines (string ""))
+	(when (< 0 (len proc))
+	  (with (as (open (fstring "/proc/{proc}")
+			  )
+		    f)
+		(setf lines (f.readlines))))
+
+	(setf target (fstring "/{proc}"))
+	(return (Pre (dot (string "") 
+			  (join lines))
+		     :hx_get (fstring "/{proc}/pre")
+		     :hx_trigger (string "every 1s")
+		     :hx_swap (string "outerHTML")
+		     )
+		)
+	)
+      
       (do0
        (@rt (string "/{proc}"))
        (def get (proc request)
 	 (declare (type Request request)
 		  (type str proc))
 	 
-	 (print (fstring "proc={proc} client={request.client.host}"))
+	; (print (fstring "proc={proc} client={request.client.host}"))
 
-	 (setf lines (string ""))
+	#+NIl (do0
+	  (setf lines (string ""))
 
-	 (when (< 0 (len proc))
-	  (with (as (open (fstring "/proc/{proc}")
-			  )
-		    f)
-		(setf lines (f.readlines))))
-	 
+	  (when (< 0 (len proc))
+	    (with (as (open (fstring "/proc/{proc}")
+			    )
+		      f)
+		  (setf lines (f.readlines)))))
+
 	 (return (Titled (fstring "/{proc}")
 			 (Main nav
 			     
 			     
 					; form
 					; gen_list
-					; summary_list 
-			       (Pre (dot (string "") 
-					  (join lines)))
+					; summary_list
+			       (get_proc_contents proc)
+			       #+nil (Pre (dot (string "") 
+					       (join lines))
+					  :hx_get (fstring "/{proc}/pre")
+					  :hx_trigger (string "every 1s")
+					  :hx_swap (string "outerHTML")
+					  )
 			       :cls (string "container"))))))
+
+      (do0
+       (@rt (string "/{proc}/pre"))
+       (def get (proc request)
+	 (declare (type Request request)
+		  (type str proc))
+	 (return (get_proc_contents proc))
+	 (setf lines (string ""))
+	 (when (< 0 (len proc))
+	  (with (as (open (fstring "/proc/{proc}")
+			  )
+		    f)
+		(setf lines (f.readlines))))
+
+	 (setf target (fstring "/{proc}"))
+	 (return (Pre (dot (string "") 
+			   (join lines))
+		      :hx_get (fstring "/{proc}/pre")
+		      :hx_trigger (string "every 1s")
+		      :hx_swap (string "outerHTML")
+		      )
+		 )))
 
       (do0
        (@rt (string "/"))
