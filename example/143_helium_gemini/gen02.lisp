@@ -1516,7 +1516,7 @@ use of these things")
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
 				    :name (string "transcript"))
 	       model (Select (Option (string "gemini-1.5-flash-latest"))
-			     (Option (string "gemini-1.5-pro-exp-0801"))
+			     (Option (string "gemini-1.5-pro-exp-0827"))
 			     
 			     :name (string "model")))
 	 (setf form
@@ -1563,7 +1563,7 @@ use of these things")
 	     
 	     (s.timestamps_done
 	      (comments "this is for <= 128k tokens")
-	      (if (== s.model (string "gemini-1.5-pro-exp-0801"))
+	      (if (== s.model (string "gemini-1.5-pro-exp-0827"))
 		  (setf price_input_token_usd_per_mio 3.5
 			price_output_token_usd_per_mio 10.5)
 		  (setf price_input_token_usd_per_mio 0.075
@@ -1656,7 +1656,7 @@ Output tokens: {output_tokens}")
 		  (type Request request))
 	 (setf words (summary.transcript.split))
 	 (when (< 100_000 (len words))
-	   (when (== summary.model (string "gemini-1.5-pro-exp-0801"))
+	   (when (== summary.model (string "gemini-1.5-pro-exp-0827"))
 	     (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")
 			  :id (string "summary")))))
 	 (setf summary.host request.client.host)
