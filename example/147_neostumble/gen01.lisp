@@ -45,9 +45,21 @@
 		 datetime
 		 time))
 
+      
        (setf b (pd.read_csv (string "../data/beacons.csv")))
        (setf c (pd.read_csv (string "../data/cells.csv")))
        (setf w (pd.read_csv (string "../data/wifis.csv")))
 
-       
+       (setf u (w.ssid.unique))
+
+       (setf w1 (w.set_index (string "ssid")))
+       (setf w2 (w1.sort_values :by (string "signalStrength")
+				:ascending False))
+       (setf w3 (dot w2
+		     (reset_index)
+		     (set_index (list (string "ssid")
+				      (string "signalStrength")))))
+       (print (dot (w.sort_values :by (string "signalStrength")
+				  :ascending False)
+		   (aref iloc (slice 0 300))))
        ))))

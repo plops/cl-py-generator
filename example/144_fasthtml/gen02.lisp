@@ -47,6 +47,8 @@
                   (comments ,(format nil "~a (~a)" help unit))
                   (setf ,name ,val))))))
 
+  
+  
   (let* ((notebook-name "host")
 	 (example-output  "out")
 	 (example-input "in")
@@ -73,10 +75,10 @@
        "#!/usr/bin/env python3"
        (comments "pip install -U google-generativeai python-fasthtml markdown")
 
-       (imports (;(genai google.generativeai)
+       (imports (	       ;(genai google.generativeai)
 					;google.generativeai.types.answer_types
 					;os
-		 ;google.api_core.exceptions
+					;google.api_core.exceptions
 		 re
 		 markdown
 		 uvicorn
@@ -106,12 +108,12 @@
 	 (cond
 	   (summary.timestamps_done
 	    (return 
-		    (generation_preview identifier)
-		    #+nil(Div (Pre summary.timestamped_summary_in_youtube_format)
-			      :id sid
-			      :hx_post (fstring "/generations/{identifier}")
-			      :hx_trigger (string "")
-			      :hx_swap (string "outerHTML"))))
+	      (generation_preview identifier)
+	      #+nil(Div (Pre summary.timestamped_summary_in_youtube_format)
+			:id sid
+			:hx_post (fstring "/generations/{identifier}")
+			:hx_trigger (string "")
+			:hx_swap (string "outerHTML"))))
 	   (summary.summary_done
 	    (return (Div		;(Pre summary.summary)
 		     (NotStr (markdown.markdown summary.summary))
@@ -272,7 +274,7 @@ Output tokens: {output_tokens}")
 
 	   (setf title  (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"))
 
-	   ;(setf summary_text s.summary)
+					;(setf summary_text s.summary)
 	   (setf summary_text (dot s summary (aref (split (string "\\n")) 0)))
 	   
 	   (setf html (markdown.markdown (fstring "{s.summary_timestamp_start[:16]} {summary_text}")
@@ -293,16 +295,16 @@ Output tokens: {output_tokens}")
 	   (if (== trigger (string ""))
 	       
 	       (return (Div
-			;title
+					;title
 		      
 			pre
-			;button
+					;button
 			:id sid
 			))
 	       (return (Div
-			;title
+					;title
 			pre
-			;button
+					;button
 			:id sid
 			:hx_post (fstring "/generations/{identifier}")
 			:hx_trigger trigger
@@ -385,7 +387,7 @@ Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
 {s.transcript}"
-					#-example "input" #-example "output"
+					      #-example "input" #-example "output"
 					      #+example example-input #+example example-output
 					      ))
 			   :safety_settings safety
@@ -542,4 +544,30 @@ Here is the real transcript. Please summarize it:
 					;:ssl_keyfile (string "privkey.pem")
 					;:ssl_certfile (string "fullchain.pem")
 			    ))
+       )))
+
+
+
+  (let* ((notebook-name "test")
+	 )
+    (write-source
+     (format nil "~a/source/p~a_~a" *path* "03" notebook-name)
+     `(do0
+       "#!/usr/bin/env python3"
+       
+       (imports (;re
+		 datetime
+		 time))
+
+       (imports-from (helium *)
+		     ;(selenium.webdriver ChromeOptions)
+		     (selenium.webdriver.common.by By))
+
+       (setf url (string "http://localhost:5001/"))
+       #+nil(do0
+	(setf options (ChromeOptions))
+	(options.add_argument (string "user-data-dir=/home/martin/.config/google-chrome/")))
+
+       (setf driver (start_chrome url :headless False))
+
        ))))
