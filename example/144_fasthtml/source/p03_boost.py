@@ -2,7 +2,7 @@
 from fasthtml.common import *
  
 app, rt=fast_app(live=True)
-proc_files=["bootconfig", "buddyinfo", "cgroups", "cmdline", "consoles", "cpuinfo", "crypto", "devices", "diskstats", "dma", "execdomains", "filesystems", "interrupts", "iomem", "ioports", "kallsyms", "key-users", "keys", "kpagecgroup", "kpagecount", "kpageflags", "latency_stats", "loadavg", "locks", "meminfo", "misc", "modules", "mtrr", "pagetypeinfo", "partitions", "schedstat", "slabinfo", "softirqs", "stat", "swaps", "sysrq-trigger", "timer_list", "uptime", "version", "vmstat", "zoneinfo"]
+proc_files=["bootconfig", "buddyinfo", "cgroups", "cmdline", "consoles", "cpuinfo", "crypto", "devices", "diskstats", "dma", "execdomains", "filesystems", "interrupts", "iomem", "ioports", "kallsyms", "key-users", "keys", "latency_stats", "loadavg", "locks", "meminfo", "misc", "modules", "mtrr", "pagetypeinfo", "partitions", "schedstat", "slabinfo", "softirqs", "stat", "swaps", "sysrq-trigger", "timer_list", "uptime", "version", "vmstat", "zoneinfo"]
 proc_links=[Li(A(f, href=f"/{f}")) for f in proc_files]
 nav=Nav(Ul(Li(Strong("Linux Discover"))), Ul(*proc_links, hx_boost=True))
 @rt("/{proc}")

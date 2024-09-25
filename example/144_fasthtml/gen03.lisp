@@ -59,9 +59,9 @@ kallsyms
 key-users
 keys
 ;kmsg
-kpagecgroup
-kpagecount
-kpageflags
+;kpagecgroup
+;kpagecount
+;kpageflags
 latency_stats
 loadavg
 locks
