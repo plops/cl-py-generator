@@ -90,20 +90,20 @@ zoneinfo
      `
      (do0
       "#!/usr/bin/env python3"
-      (comments "pip install -U google-generativeai python-fasthtml markdown")
+      ;(comments "pip install -U python-fasthtml markdown")
 
-      (imports (	       ;(genai google.generativeai)
+      #+nil (imports (	       ;(genai google.generativeai)
 					;google.generativeai.types.answer_types
 					;os
 					;google.api_core.exceptions
-		re
+		;re
 		markdown
 		uvicorn
-		sqlite_minutils.db
+		;sqlite_minutils.db
 		datetime
 		time))
 
-      (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
+      
 
       (imports-from (fasthtml.common *))
 
@@ -141,8 +141,8 @@ zoneinfo
 	      )
        
       " "
-      (comments "open website")
-      (comments "summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
+      
+      ;(comments "summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
       (setf (ntuple app rt		; summaries Summary
 		    )
 	    (fast_app		;:db_file (string "data/summaries.db")
@@ -160,19 +160,27 @@ zoneinfo
 
 
 
-      (setf nav (Nav 
-		   (Ul (Li (Strong (string "Linux Discover"))))
-		   (Ul 
-		       ,@(loop for e in proc-files
-			       collect
-			       `(Li (A (string ,e)
+      (setf proc_files (list ,@(loop for e in proc-files collect `(string ,e))))
+
+      (setf proc_links (list
+		   (for-generator (f proc_files)
+				  (Li (A f
 				       
-				       :href (string ,(format nil "/~a" e))
+					 :href (fstring "/{f}"))))))
+      (setf nav (Nav 
+		 (Ul (Li (Strong (string "Linux Discover"))))
+		 (Ul
+		  *proc_links
+		  #+nil ,@(loop for e in proc-files
+				collect
+				`(Li (A (string ,e)
+				       
+					:href (string ,(format nil "/~a" e))
 				      
-				       )))
-		       :hx_boost True
+					)))
+		  :hx_boost True
 		       
-		       )))
+		  )))
       (do0
        (@rt (string "/{proc}"))
        (def get (proc request)
