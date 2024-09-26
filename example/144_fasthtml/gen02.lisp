@@ -185,17 +185,29 @@
 			)))
 	 
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
-				    :name (string "transcript"))
-	       model (Select (Option (string "gemini-1.5-flash-latest"))
-			     (Option (string "gemini-1.5-pro-exp-0801"))
-			     
-			     :name (string "model")))
+				    :name (string "transcript")
+				    :style (string "height: 300px; width=60%;"))
+	       model (Div (Select (Option (string "gemini-1.5-flash-latest"))
+				  (Option (string "gemini-1.5-pro-exp-0801"))
+				  
+				  :name (string "model")
+				  :style (string "width: 100%;")
+				  )
+			  :style (string "display: flex; align-items: center; width: 100%;")))
 	 (setf form
 	       (Form
                 (Group
-		 transcript
-		 model
-		 (Button (string "Summarize Transcript")))
+		 (Div 
+		  transcript
+		  model
+		  (Div
+		   (Label (string "Include User Comments:") :_for (string "includeComments"))
+		   (Input :type (string "checkbox")
+			  :id (string "includeComments")
+			  :name (string "includeComments"))
+		    :style (string "display: flex; align-items: center; width: 100%;"))
+		  (Button (string "Summarize Transcript"))
+		  :style (string "display: flex; flex-direction:column;")))
 		:hx_post (string "/process_transcript")
 		:hx_swap (string "afterbegin")
 		:target_id (string "gen-list")))
