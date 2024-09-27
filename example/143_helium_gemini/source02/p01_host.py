@@ -84,8 +84,12 @@ def generation_preview(identifier):
                     price_input_token_usd_per_mio=(7.50e-2)
                     price_output_token_usd_per_mio=(0.30    )
                 else:
-                    price_input_token_usd_per_mio=-1
-                    price_output_token_usd_per_mio=-1
+                    if ( s.model.startswith("gemini-1.0-pro") ):
+                        price_input_token_usd_per_mio=(0.50    )
+                        price_output_token_usd_per_mio=(1.50    )
+                    else:
+                        price_input_token_usd_per_mio=-1
+                        price_output_token_usd_per_mio=-1
             input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
             output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
             cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))

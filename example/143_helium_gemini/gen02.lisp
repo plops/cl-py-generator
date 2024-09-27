@@ -1604,8 +1604,11 @@ use of these things")
 		  (if (dot s model (startswith (string "gemini-1.5-flash"))) 
 		      (setf price_input_token_usd_per_mio 0.075
 			 price_output_token_usd_per_mio 0.3)
-		      (setf price_input_token_usd_per_mio -1
-			 price_output_token_usd_per_mio -1))
+		      (if (dot s model (startswith (string "gemini-1.0-pro")))
+			  (setf price_input_token_usd_per_mio 0.5
+				price_output_token_usd_per_mio 1.5)
+			  (setf price_input_token_usd_per_mio -1
+				price_output_token_usd_per_mio -1)))
 		  )
 	      (setf input_tokens (+ s.summary_input_tokens
 				    s.timestamps_input_tokens)
