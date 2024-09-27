@@ -54,7 +54,7 @@ def get(request: Request):
     print(request.client.host)
     nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
     transcript=Textarea(placeholder="Paste YouTube transcript here", style="height: 300px; width=60%;", name="transcript")
-    model=Div(Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-002"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
+    model=Div(Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-002"), Option("gemini-1.5-pro-exp-0827"), Option("gemini-1.5-pro-exp-0801"), Option("gemini-1.5-flash-exp-0827"), Option("gemini-1.5-flash-8b-exp-0924"), Option("gemini-1.5-flash-002"), Option("gemma-2-2b-it"), Option("gemma-2-9b-it"), Option("gemma-2-27b-it"), Option("gemini-1.5-flash"), Option("gemini-1.5-pro"), Option("gemini-1.0-pro"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
     form=Form(Group(Div(transcript, model, Div(Label("Include User Comments:", _for="includeComments"), Input(type="checkbox", id="includeComments", name="includeComments"), style="display: flex; align-items: center; width: 100%;"), Div(Label("Include Timestamps:", _for="includeTimestamps"), Input(type="checkbox", id="includeTimestamps", name="includeTimestamps"), style="display: flex; align-items: center; width: 100%;"), Div(Label("Include Glossary:", _for="includeGlossary"), Input(type="checkbox", id="includeGlossary", name="includeGlossary"), style="display: flex; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC")
@@ -76,12 +76,16 @@ def generation_preview(identifier):
         s=summaries[identifier]
         if ( s.timestamps_done ):
             # this is for <= 128k tokens
-            if ( ((s.model)==("gemini-1.5-pro-002")) ):
+            if ( s.model.startswith("gemini-1.5-pro") ):
                 price_input_token_usd_per_mio=(1.250    )
                 price_output_token_usd_per_mio=(5.0    )
             else:
-                price_input_token_usd_per_mio=(7.50e-2)
-                price_output_token_usd_per_mio=(0.30    )
+                if ( s.model.startswith("gemini-1.5-flash") ):
+                    price_input_token_usd_per_mio=(7.50e-2)
+                    price_output_token_usd_per_mio=(0.30    )
+                else:
+                    price_input_token_usd_per_mio=-1
+                    price_output_token_usd_per_mio=-1
             input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
             output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
             cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))

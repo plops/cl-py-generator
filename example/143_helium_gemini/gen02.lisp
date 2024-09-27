@@ -23,6 +23,20 @@
 
 (progn
   (defparameter *project* "143_helium_gemini")
+  (defparameter *models* `(gemini-1.5-flash-latest
+			   gemini-1.5-pro-002
+			   gemini-1.5-pro-exp-0827
+			   gemini-1.5-pro-exp-0801
+			   gemini-1.5-flash-exp-0827
+			   gemini-1.5-flash-8b-exp-0924
+			   gemini-1.5-flash-002
+			   gemma-2-2b-it
+			   gemma-2-9b-it
+			   gemma-2-27b-it
+			   gemini-1.5-flash
+			   gemini-1.5-pro
+			   gemini-1.0-pro
+			   ))
   (defparameter *idx* "01") 
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
@@ -1516,10 +1530,12 @@ use of these things")
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
 				    :style (string "height: 300px; width=60%;")
 				    :name (string "transcript"))
-	       model (Div (Select (Option (string "gemini-1.5-flash-latest"))
-			      (Option (string "gemini-1.5-pro-002"))
-			      :style (string "width: 100%;")
-			      :name (string "model"))
+	       model (Div (Select
+			   ,@(loop for e in *models*
+				   collect
+				   `(Option (string ,e)))
+			   :style (string "width: 100%;")
+			   :name (string "model"))
 			  :style (string "display: flex; align-items: center; width: 100%;")))
 
 	
@@ -1582,11 +1598,14 @@ use of these things")
 	     
 	     (s.timestamps_done
 	      (comments "this is for <= 128k tokens")
-	      (if (== s.model (string "gemini-1.5-pro-002"))
+	      (if (dot s model (startswith (string "gemini-1.5-pro"))) 
 		  (setf price_input_token_usd_per_mio 1.25
 			price_output_token_usd_per_mio 5.0)
-		  (setf price_input_token_usd_per_mio 0.075
-			price_output_token_usd_per_mio 0.3)
+		  (if (dot s model (startswith (string "gemini-1.5-flash"))) 
+		      (setf price_input_token_usd_per_mio 0.075
+			 price_output_token_usd_per_mio 0.3)
+		      (setf price_input_token_usd_per_mio -1
+			 price_output_token_usd_per_mio -1))
 		  )
 	      (setf input_tokens (+ s.summary_input_tokens
 				    s.timestamps_input_tokens)
