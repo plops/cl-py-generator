@@ -23,13 +23,13 @@
 
 (progn
   (defparameter *project* "143_helium_gemini")
-  (defparameter *models* `(gemini-1.5-flash-latest
+  (defparameter *models* `(gemini-1.5-flash-002
 			   gemini-1.5-pro-002
 			   gemini-1.5-pro-exp-0827
 			   gemini-1.5-pro-exp-0801
 			   gemini-1.5-flash-exp-0827
 			   gemini-1.5-flash-8b-exp-0924
-			   gemini-1.5-flash-002
+			   gemini-1.5-flash-latest
 			   gemma-2-2b-it
 			   gemma-2-9b-it
 			   gemma-2-27b-it
