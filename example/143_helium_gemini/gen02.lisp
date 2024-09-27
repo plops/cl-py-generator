@@ -1544,17 +1544,21 @@ use of these things")
                 (Group
 		 (Div 
 		  transcript
+		  (Textarea :placeholder (string "(Optional) Add Link to original source")
+				    
+				    :name (string "originalSourceLink"))
 		  model
-		 ,@(loop for (e f) in `((includeComments "Include User Comments:")
-				      (includeTimestamps "Include Timestamps:")
-				      (includeGlossary "Include Glossary:")
+		 ,@(loop for (e f) in `((includeComments "Include User Comments")
+				      (includeTimestamps "Include Timestamps")
+				      (includeGlossary "Include Glossary")
 				      )
 			 collect
 			 `(Div
-			  (Label (string ,f) :_for (string ,e))
+			  
 			  (Input :type (string "checkbox")
 				 :id (string ,e)
 				 :name (string ,e))
+			  (Label (string ,f) :_for (string ,e))
 			  :style (string "display: flex; align-items: center; width: 100%;")))
 		  
 		  (Button (string "Summarize Transcript"))
