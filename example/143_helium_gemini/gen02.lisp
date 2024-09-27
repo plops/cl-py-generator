@@ -1514,17 +1514,36 @@ use of these things")
 			)))
 	 
 	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
+				    :style (string "height: 300px; width=60%;")
 				    :name (string "transcript"))
-	       model (Select (Option (string "gemini-1.5-flash-latest"))
-			     (Option (string "gemini-1.5-pro-exp-0827"))
-			     
-			     :name (string "model")))
+	       model (Div (Select (Option (string "gemini-1.5-flash-latest"))
+			      (Option (string "gemini-1.5-pro-002"))
+			      :style (string "width: 100%;")
+			      :name (string "model"))
+			  :style (string "display: flex; align-items: center; width: 100%;")))
+
+	
 	 (setf form
 	       (Form
                 (Group
-		 transcript
-		 model
-		 (Button (string "Summarize Transcript")))
+		 (Div 
+		  transcript
+		  model
+		 ,@(loop for (e f) in `((includeComments "Include User Comments:")
+				      (includeTimestamps "Include Timestamps:")
+				      (includeGlossary "Include Glossary:")
+				      )
+			 collect
+			 `(Div
+			  (Label (string ,f) :_for (string ,e))
+			  (Input :type (string "checkbox")
+				 :id (string ,e)
+				 :name (string ,e))
+			  :style (string "display: flex; align-items: center; width: 100%;")))
+		  
+		  (Button (string "Summarize Transcript"))
+		  :style (string "display: flex; flex-direction:column;"))
+		 )
 		:hx_post (string "/process_transcript")
 		:hx_swap (string "afterbegin")
 		:target_id (string "gen-list")))
@@ -1563,7 +1582,7 @@ use of these things")
 	     
 	     (s.timestamps_done
 	      (comments "this is for <= 128k tokens")
-	      (if (== s.model (string "gemini-1.5-pro-exp-0827"))
+	      (if (== s.model (string "gemini-1.5-pro-002"))
 		  (setf price_input_token_usd_per_mio 1.25
 			price_output_token_usd_per_mio 5.0)
 		  (setf price_input_token_usd_per_mio 0.075
@@ -1656,7 +1675,7 @@ Output tokens: {output_tokens}")
 		  (type Request request))
 	 (setf words (summary.transcript.split))
 	 (when (< 100_000 (len words))
-	   (when (== summary.model (string "gemini-1.5-pro-exp-0827"))
+	   (when (== summary.model (string "gemini-1.5-pro-002"))
 	     (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")
 			  :id (string "summary")))))
 	 (setf summary.host request.client.host)

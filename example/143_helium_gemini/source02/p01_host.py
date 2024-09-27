@@ -53,9 +53,9 @@ documentation_html=markdown.markdown(documentation)
 def get(request: Request):
     print(request.client.host)
     nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
-    transcript=Textarea(placeholder="Paste YouTube transcript here", name="transcript")
-    model=Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-exp-0827"), name="model")
-    form=Form(Group(transcript, model, Button("Summarize Transcript")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
+    transcript=Textarea(placeholder="Paste YouTube transcript here", style="height: 300px; width=60%;", name="transcript")
+    model=Div(Select(Option("gemini-1.5-flash-latest"), Option("gemini-1.5-pro-002"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
+    form=Form(Group(Div(transcript, model, Div(Label("Include User Comments:", _for="includeComments"), Input(type="checkbox", id="includeComments", name="includeComments"), style="display: flex; align-items: center; width: 100%;"), Div(Label("Include Timestamps:", _for="includeTimestamps"), Input(type="checkbox", id="includeTimestamps", name="includeTimestamps"), style="display: flex; align-items: center; width: 100%;"), Div(Label("Include Glossary:", _for="includeGlossary"), Input(type="checkbox", id="includeGlossary", name="includeGlossary"), style="display: flex; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC")
     summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
@@ -76,7 +76,7 @@ def generation_preview(identifier):
         s=summaries[identifier]
         if ( s.timestamps_done ):
             # this is for <= 128k tokens
-            if ( ((s.model)==("gemini-1.5-pro-exp-0827")) ):
+            if ( ((s.model)==("gemini-1.5-pro-002")) ):
                 price_input_token_usd_per_mio=(1.250    )
                 price_output_token_usd_per_mio=(5.0    )
             else:
@@ -121,7 +121,7 @@ def get(identifier: int):
 def post(summary: Summary, request: Request):
     words=summary.transcript.split()
     if ( ((100_000)<(len(words))) ):
-        if ( ((summary.model)==("gemini-1.5-pro-exp-0827")) ):
+        if ( ((summary.model)==("gemini-1.5-pro-002")) ):
             return Div("Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.", id="summary")
     summary.host=request.client.host
     summary.summary_timestamp_start=datetime.datetime.now().isoformat()
