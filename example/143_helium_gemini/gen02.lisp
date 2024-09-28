@@ -1407,11 +1407,11 @@ use of these things")
 		    (:name model :type str)
 		    (:name transcript :type str :no-show t)
 		    (:name host :type str)
-		    (:name originalSourceLink :type str)
-		    (:name includeComments :type bool)
-		    (:name includeTimestamps :type bool)
-		    (:name includeGlossary :type bool)
-		    (:name outputLanguage :type str)
+		    (:name original_source_link :type str)
+		    (:name include_comments :type bool)
+		    (:name include_timestamps :type bool)
+		    (:name include_glossary :type bool)
+		    (:name output_language :type str)
 		    ,@(loop for e in `(summary timestamps)
 			    appending
 			    `((:name ,e :type str :no-show t)
@@ -1475,14 +1475,14 @@ use of these things")
 		     :hx_post (fstring "/generations/{identifier}")
 		     :hx_trigger (? summary.timestamps_done
 				    (string "")	
-				    (string "every 1s"))
+				    (string #+emulate "" #-emulate "every 1s"))
 		     :hx_swap (string "outerHTML"))))
 	   (t
 	    (return (Div		;(Pre summary.summary)
 		     (NotStr (markdown.markdown summary.summary))
 		     :id sid
 		     :hx_post (fstring "/generations/{identifier}")
-		     :hx_trigger (string "every 1s")
+		     :hx_trigger (string #+emulate "" #-emulate "every 1s")
 		     :hx_swap (string "outerHTML")))))
 	 )
        
@@ -1570,20 +1570,20 @@ use of these things")
 		  transcript
 		  (Textarea :placeholder (string "(Optional) Add Link to original source")
 				    
-				    :name (string "originalSourceLink"))
+				    :name (string "original_source_link"))
 		  model
-		  (Div (Label (string "Output Language") :_for (string "outputLanguage"))
+		  (Div (Label (string "Output Language") :_for (string "output_language"))
 		       (Select
 			,@(loop for e in *languages*
 				collect
 				`(Option (string ,e)))
 			:style (string "width: 100%;")
-			:name (string "outputLanguage")
-			:id (string "outputLanguage"))
+			:name (string "output_language")
+			:id (string "output_language"))
 			  :style (string "display: flex; align-items: center; width: 100%;"))
-		  ,@(loop for (e f default) in `((includeComments "Include User Comments" False)
-						 (includeTimestamps "Include Timestamps" True)
-						 (includeGlossary "Include Glossary" False)
+		  ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
+						 (include_timestamps "Include Timestamps" True)
+						 (include_glossary "Include Glossary" False)
 					 )
 			  collect
 			  `(Div
@@ -1628,7 +1628,7 @@ use of these things")
        (def generation_preview (identifier)
 	 (setf sid (fstring "gen-{identifier}"))
 	 (setf text (string "Generating ...")
-	       trigger (string "every 1s"))
+	       trigger (string #+emulate "" #-emulate "every 1s"))
 	 (try
 	  (do0
 	   (setf s (aref summaries identifier))
@@ -1656,7 +1656,8 @@ use of these things")
 			       price_input_token_usd_per_mio)
 			    (* (/ output_tokens 1_000_000)
 			       price_output_token_usd_per_mio)))
-
+	      (summaries.update :pk_values identifier
+				:cost cost)
 	      (if (< cost .02)
 		  (setf cost_str (fstring "${cost:.4f}"))
 		  (setf cost_str (fstring "${cost:.2f}")))
@@ -1752,6 +1753,7 @@ Output tokens: {output_tokens}")
 						    datetime
 						    (now)
 						    (isoformat)))
+	 (print (fstring "link: {summary.original_source_link}") )
 	 (setf summary.summary (string ""))
 	
 	 (setf s2 (summaries.insert summary))
