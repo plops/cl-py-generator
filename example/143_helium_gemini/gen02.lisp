@@ -17,8 +17,11 @@
 ;; [ ] get transcript from link
 
 
-(setf *features* (union *features* '(:example)))
+(setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
+				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
+				     )))
 (setf *features* (set-difference *features* '(;:example
+					      ;:emulate
 					      )))
 
 (progn
@@ -37,6 +40,7 @@
 			   gemini-1.5-pro
 			   gemini-1.0-pro
 			   ))
+  (defparameter *languages* `(en de fr ch nl pt cz it jp ar))
   (defparameter *idx* "01") 
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
@@ -1401,6 +1405,11 @@ use of these things")
 		    (:name model :type str)
 		    (:name transcript :type str)
 		    (:name host :type str)
+		    (:name originalSourceLink :type str)
+		    (:name includeComments :type bool)
+		    (:name includeTimestamps :type bool)
+		    (:name includeGlossary :type bool)
+		    (:name outputLanguage :type str)
 		    ,@(loop for e in `(summary timestamps)
 			    appending
 			    `((:name ,e :type str)
@@ -1560,18 +1569,26 @@ use of these things")
 				    
 				    :name (string "originalSourceLink"))
 		  model
-		 ,@(loop for (e f) in `((includeComments "Include User Comments")
-				      (includeTimestamps "Include Timestamps")
-				      (includeGlossary "Include Glossary")
-				      )
-			 collect
-			 `(Div
+		  (Div (Label (string "Output Language") :_for (string "outputLanguage"))
+		       (Select
+			,@(loop for e in *languages*
+				collect
+				`(Option (string ,e)))
+			:style (string "width: 100%;")
+			:name (string "outputLanguage"))
+			  :style (string "display: flex; align-items: center; width: 100%;"))
+		  ,@(loop for (e f) in `((includeComments "Include User Comments")
+					 (includeTimestamps "Include Timestamps")
+					 (includeGlossary "Include Glossary")
+					 )
+			  collect
+			  `(Div
 			  
-			  (Input :type (string "checkbox")
-				 :id (string ,e)
-				 :name (string ,e))
-			  (Label (string ,f) :_for (string ,e))
-			  :style (string "display: flex; align-items: center; width: 100%;")))
+			    (Input :type (string "checkbox")
+				   :id (string ,e)
+				   :name (string ,e))
+			    (Label (string ,f) :_for (string ,e))
+			    :style (string "display: flex; align-items: center; width: 100%;")))
 		  
 		  (Button (string "Summarize Transcript"))
 		  :style (string "display: flex; flex-direction:column;"))
