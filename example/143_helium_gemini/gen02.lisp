@@ -1433,9 +1433,9 @@ use of these things")
 					;google.generativeai.types.answer_types
 					;os
 		 google.api_core.exceptions
-		 re
+		 ; re
 		 markdown
-		 uvicorn
+		 ; uvicorn
 		 sqlite_minutils.db
 		 datetime
 		 time))
@@ -1577,16 +1577,17 @@ use of these things")
 			:style (string "width: 100%;")
 			:name (string "outputLanguage"))
 			  :style (string "display: flex; align-items: center; width: 100%;"))
-		  ,@(loop for (e f) in `((includeComments "Include User Comments")
-					 (includeTimestamps "Include Timestamps")
-					 (includeGlossary "Include Glossary")
+		  ,@(loop for (e f default) in `((includeComments "Include User Comments" False)
+						 (includeTimestamps "Include Timestamps" True)
+						 (includeGlossary "Include Glossary" False)
 					 )
 			  collect
 			  `(Div
 			  
 			    (Input :type (string "checkbox")
 				   :id (string ,e)
-				   :name (string ,e))
+				   :name (string ,e)
+				   :checked ,default)
 			    (Label (string ,f) :_for (string ,e))
 			    :style (string "display: flex; align-items: center; width: 100%;")))
 		  
@@ -1730,7 +1731,7 @@ Output tokens: {output_tokens}")
 		  (type Request request))
 	 (setf words (summary.transcript.split))
 	 (when (< 100_000 (len words))
-	   (when (== summary.model (string "gemini-1.5-pro-002"))
+	   (when (dot summary model (startswith (string "gemini-1.5-pro")))
 	     (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")
 			  :id (string "summary")))))
 	 (setf summary.host request.client.host)
@@ -1777,21 +1778,7 @@ Output tokens: {output_tokens}")
 			    ))
 	 (try
 	  (do0
-	   (setf response (m.generate_content
-			  #+comments (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
-
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From <user>'s Comments]\" at the end of the bullet point. Note that while viewer comments appear earlier in the text than the transcript they are in fact recorded at a later time. Therefore, if viewer comments repeat information from the transcript, they should not appear in the summary.
-
-Example Input: 
-~a
-Example Output:
-~a
-Here is the real transcript. Please summarize it: 
-{s.transcript}"
-					#-example "input" #-example "output"
-					      #+example example-input #+example example-output-nocomments
-					      ))
-			   (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+	   (setf prompt (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
 **Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
 
@@ -1801,37 +1788,58 @@ Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
 {s.transcript}"
-					#-example "input" #-example "output"
+					      #-example "input" #-example "output"
 					      #+example example-input #+example example-output-nocomments
-					      ))
-			   :safety_settings safety
-			   :stream True))
+					      )))
+	   #+emulate
+	   (do0
+	    (summaries.update :pk_values identifier
+			      :summary (string "emulate")))
+	   #-emulate
+	   (do0
+	    (setf response (m.generate_content
+			    #+comments (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
-	  
-	  
-	   (for (chunk response)
-		(try
-		 (do0
-		  (print (fstring "add text to id={identifier}: {chunk.text}"))
-		 
-		  (summaries.update :pk_values identifier
-				    :summary (+ (dot (aref summaries identifier)
-						     summary)
-						chunk.text)))
-		 (ValueError ()
-			     (summaries.update :pk_values identifier
-					       :summary (+ (dot (aref summaries identifier)
-								summary)
-							   (string "\\nError: value error")))
-			     (print (string "Value Error ")))
-		 ("Exception as e"
-		  (summaries.update :pk_values identifier
-				    :summary (+ (dot (aref summaries identifier)
-						     summary)
-						(fstring "\\nError: {str(e)}")))
-		  (print (string "Error")))
-		 )
-		)
+**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From <user>'s Comments]\" at the end of the bullet point. Note that while viewer comments appear earlier in the text than the transcript they are in fact recorded at a later time. Therefore, if viewer comments repeat information from the transcript, they should not appear in the summary.
+
+Example Input: 
+~a
+Example Output:
+~a
+Here is the real transcript. Please summarize it: 
+{s.transcript}"
+							  #-example "input" #-example "output"
+							  #+example example-input #+example example-output-nocomments
+							  ))
+			    prompt
+			    :safety_settings safety
+			    :stream True))
+
+	    
+	    
+	    (for (chunk response)
+		 (try
+		  (do0
+		   (print (fstring "add text to id={identifier}: {chunk.text}"))
+		   
+		   (summaries.update :pk_values identifier
+				     :summary (+ (dot (aref summaries identifier)
+						      summary)
+						 chunk.text)))
+		  (ValueError ()
+			      (summaries.update :pk_values identifier
+						:summary (+ (dot (aref summaries identifier)
+								 summary)
+							    (string "\\nError: value error")))
+			      (print (string "Value Error ")))
+		  ("Exception as e"
+		   (summaries.update :pk_values identifier
+				     :summary (+ (dot (aref summaries identifier)
+						      summary)
+						 (fstring "\\nError: {str(e)}")))
+		   (print (string "Error")))
+		  )
+		 ))
 
 	   (summaries.update :pk_values identifier
 			     :summary_done True
