@@ -1489,6 +1489,8 @@ Example Output:
 * **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.
 Here is the real transcript. Please summarize it: 
 {s.transcript}"""
+        with open("/dev/shm/propmt.txt", "w") as f:
+            f.write(prompt)
         summaries.update(pk_values=identifier, summary="emulate")
         summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:

@@ -5,12 +5,12 @@
 (in-package :cl-py-generator)
 
 ;; TODO:
-;; [ ] add choice for output language
+;; [X] add choice for output language
 ;; [ ] show spinner
-;; [ ] allow to store the original youtube link
-;; [ ] optional timestamps
-;; [ ] optional user comments
-;; [ ] optional glossary
+;; [X] allow to store the original youtube link
+;; [X] optional timestamps
+;; [X] optional user comments
+;; [X] optional glossary
 ;; [ ] find better examples for comments, or glossary
 ;; [ ] communicate gemini's evaluation of the content (e.g. harassment) to the user
 ;; [ ] generate transcript from audio channel
@@ -1793,6 +1793,10 @@ Here is the real transcript. Please summarize it:
 					      )))
 	   #+emulate
 	   (do0
+	    (with (as (open (string "/dev/shm/propmt.txt")
+			    (string "w"))
+		      f)
+		  (f.write prompt))
 	    (summaries.update :pk_values identifier
 			      :summary (string "emulate")))
 	   #-emulate
