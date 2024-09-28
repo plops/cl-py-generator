@@ -1405,7 +1405,7 @@ someone could actually make some uh good
 use of these things")
 	 (db-cols `((:name identifier :type int)
 		    (:name model :type str)
-		    (:name transcript :type str)
+		    (:name transcript :type str :no-show t)
 		    (:name host :type str)
 		    (:name originalSourceLink :type str)
 		    (:name includeComments :type bool)
@@ -1414,17 +1414,18 @@ use of these things")
 		    (:name outputLanguage :type str)
 		    ,@(loop for e in `(summary timestamps)
 			    appending
-			    `((:name ,e :type str)
+			    `((:name ,e :type str :no-show t)
 			      ,@(loop for (f f-type) in `((done bool)
 							  (input_tokens int)
 							  (output_tokens int)
 							  (timestamp_start str)
 							  (timestamp_end str))
 				      collect
-				      `(:name ,(format nil "~a_~a" e f) :type ,f-type))))
-		    (:name timestamped_summary_in_youtube_format :type str)
+				      `(:name ,(format nil "~a_~a" e f) :type ,f-type :no-show t))))
+		    (:name timestamped_summary_in_youtube_format :type str :no-show t)
 		    (:name cost :type float)
-		    )))
+		    ))
+	 )
     (write-source
      (format nil "~a/source02/p~a_~a" *path* *idx* notebook-name)
      `(do0
@@ -1494,7 +1495,7 @@ use of these things")
 		       :render render
 		       ,@(loop for e in db-cols
 			       appending
-			       (destructuring-bind (&key name type) e
+			       (destructuring-bind (&key name type no-show) e
 				 `(,(make-keyword (string-upcase (format nil "~a" name)))
 				   ,type)))
 
@@ -1577,7 +1578,8 @@ use of these things")
 				collect
 				`(Option (string ,e)))
 			:style (string "width: 100%;")
-			:name (string "outputLanguage"))
+			:name (string "outputLanguage")
+			:id (string "outputLanguage"))
 			  :style (string "display: flex; align-items: center; width: 100%;"))
 		  ,@(loop for (e f default) in `((includeComments "Include User Comments" False)
 						 (includeTimestamps "Include Timestamps" True)
@@ -1604,7 +1606,7 @@ use of these things")
 
 	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
 	       )
-	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
+	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 13 (len summaries_to_show)))))
 	 (setf summary_list (Ul *summaries_to_show
 				:id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
@@ -1678,7 +1680,16 @@ Output tokens: {output_tokens}")
 	     ((< (len s.transcript))
 	      (setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
 
-	   (setf title  (fstring "{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"))
+	   ;; title of row
+	   (setf title  (fstring ;"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
+			 ,(format nil "~{~a~^ ~}"
+				  (remove-if #'null
+				   (loop for e in db-cols
+					 collect
+					 (destructuring-bind (&key name type no-show) e
+					   (unless no-show
+					     (format nil "~a: {s.~a}" name (string-downcase name)))))))
+			 ))
 
 	   (setf html (markdown.markdown s.summary))
 					;(print (fstring "md: {html}"))
