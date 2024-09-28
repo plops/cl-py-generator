@@ -14,6 +14,7 @@
 ;; [ ] find better examples for comments, or glossary
 ;; [ ] communicate gemini's evaluation of the content (e.g. harassment) to the user
 ;; [ ] generate transcript from audio channel
+;; [ ] allow local LLM
 ;; [ ] get transcript from link
 
 
