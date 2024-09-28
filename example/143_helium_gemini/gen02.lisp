@@ -1442,7 +1442,7 @@ use of these things")
 		 datetime
 		 time))
 
-       (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
+       #-emulate (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
 
        (imports-from (fasthtml.common *))
 
@@ -1759,7 +1759,7 @@ Output tokens: {output_tokens}")
 	       (sqlite_minutils.db.NotFoundError
 		(print (string "entry not found")))
 	       ("Exception as e"
-		(print (fstring "entry not found"))))
+		(print (fstring "unknown exception {e}"))))
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
 	 (return -1))
@@ -1771,13 +1771,15 @@ Output tokens: {output_tokens}")
 	 (print (fstring "generate_and_save id={identifier}"))
 	 (setf s (wait_until_row_exists identifier))
 	 (print (fstring "generate_and_save model={s.model}"))
-	 (setf m (genai.GenerativeModel s.model))
-	 (setf safety (dict (HarmCategory.HARM_CATEGORY_HATE_SPEECH HarmBlockThreshold.BLOCK_NONE)
-			    (HarmCategory.HARM_CATEGORY_HARASSMENT HarmBlockThreshold.BLOCK_NONE)
-			    (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT HarmBlockThreshold.BLOCK_NONE)
-			    (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT HarmBlockThreshold.BLOCK_NONE)
-			    ;(HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY HarmBlockThreshold.BLOCK_NONE)
-			    ))
+	 #-emulate
+	 (do0
+	  (setf m (genai.GenerativeModel s.model))
+	  (setf safety (dict (HarmCategory.HARM_CATEGORY_HATE_SPEECH HarmBlockThreshold.BLOCK_NONE)
+			     (HarmCategory.HARM_CATEGORY_HARASSMENT HarmBlockThreshold.BLOCK_NONE)
+			     (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT HarmBlockThreshold.BLOCK_NONE)
+			     (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT HarmBlockThreshold.BLOCK_NONE)
+					;(HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY HarmBlockThreshold.BLOCK_NONE)
+			     )))
 	 (try
 	  (do0
 	   (setf prompt (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
@@ -1795,10 +1797,10 @@ Here is the real transcript. Please summarize it:
 					      )))
 	   #+emulate
 	   (do0
-	    (with (as (open (string "/dev/shm/propmt.txt")
+	    (with (as (open (string "/dev/shm/prompt.txt")
 			    (string "w"))
-		      f)
-		  (f.write prompt))
+		      fprompt)
+		  (fprompt.write prompt))
 	    (summaries.update :pk_values identifier
 			      :summary (string "emulate")))
 	   #-emulate
@@ -1849,9 +1851,8 @@ Here is the real transcript. Please summarize it:
 
 	   (summaries.update :pk_values identifier
 			     :summary_done True
-			    
-			     :summary_input_tokens response.usage_metadata.prompt_token_count
-			     :summary_output_tokens response.usage_metadata.candidates_token_count
+			     :summary_input_tokens #+emulate 0 #-emulate response.usage_metadata.prompt_token_count
+			     :summary_output_tokens #+emulate 0 #-emulate response.usage_metadata.candidates_token_count
 			     :summary_timestamp_end (dot datetime
 							 datetime
 							 (now)
@@ -1912,7 +1913,7 @@ Here is the real transcript. Please summarize it:
 
 	   (setf text (dot (aref summaries identifier)
 			   summary))
-	   (comments "adapt the markdown to youtube formatting")
+	   (comments "adapt the markdown to YouTube formatting")
 	   (setf text (text.replace (string "**:")
 				    (string ":**")))
 	   (setf text (text.replace (string "**,")
@@ -1929,12 +1930,12 @@ Here is the real transcript. Please summarize it:
 			      text))
 
 
-	   (comments "find any text that looks like a url and replace the . with -dot-")
+	   (comments "find any text that looks like an url and replace the . with -dot-")
 
 	  
 	   ;; text = re.sub(r"((?:https?://)?(?:www\.)?[^\s]+)\.((?:com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))", r"\1-dot-\2", text)
 
-	   (setf text (re.sub (rstring3 "((?:https?://)?(?:www\\.)?[^\\s]+)\\.((?:com|org|de|us|gov|net|edu|info|io|co\\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))")
+	   (setf text (re.sub (rstring3 "((?:https?://)?(?:www\\.)?\\S+)\\.(com|org|de|us|gov|net|edu|info|io|co\\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)")
 			      (rstring3 "\\1-dot-\\2")
 			      text))
 	   (summaries.update :pk_values identifier

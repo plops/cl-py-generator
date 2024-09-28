@@ -6,7 +6,6 @@ import markdown
 import sqlite_minutils.db
 import datetime
 import time
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
  
 # Read the gemini api key from disk
@@ -145,7 +144,7 @@ def wait_until_row_exists(identifier):
         except sqlite_minutils.db.NotFoundError:
             print("entry not found")
         except Exception as e:
-            print(f"entry not found")
+            print(f"unknown exception {e}")
         time.sleep((0.10    ))
     print("row did not appear")
     return -1
@@ -155,8 +154,6 @@ def generate_and_save(identifier: int):
     print(f"generate_and_save id={identifier}")
     s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
-    m=genai.GenerativeModel(s.model)
-    safety={(HarmCategory.HARM_CATEGORY_HATE_SPEECH):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_HARASSMENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT):(HarmBlockThreshold.BLOCK_NONE)}
     try:
         prompt=f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
@@ -1489,24 +1486,24 @@ Example Output:
 * **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.
 Here is the real transcript. Please summarize it: 
 {s.transcript}"""
-        with open("/dev/shm/propmt.txt", "w") as f:
-            f.write(prompt)
+        with open("/dev/shm/prompt.txt", "w") as fprompt:
+            fprompt.write(prompt)
         summaries.update(pk_values=identifier, summary="emulate")
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=0, summary_output_tokens=0, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return
     try:
         text=summaries[identifier].summary
-        # adapt the markdown to youtube formatting
+        # adapt the markdown to YouTube formatting
         text=text.replace("**:", ":**")
         text=text.replace("**,", ",**")
         text=text.replace("**.", ".**")
         text=text.replace("**", "*")
         # markdown title starting with ## with fat text
         text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
-        # find any text that looks like a url and replace the . with -dot-
-        text=re.sub(r"""((?:https?://)?(?:www\.)?[^\s]+)\.((?:com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))""", r"""\1-dot-\2""", text)
+        # find any text that looks like an url and replace the . with -dot-
+        text=re.sub(r"""((?:https?://)?(?:www\.)?\S+)\.(com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)""", r"""\1-dot-\2""", text)
         summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=0, timestamps_output_tokens=0, timestamps_timestamp_end=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
