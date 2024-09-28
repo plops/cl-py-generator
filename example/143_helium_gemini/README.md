@@ -71,3 +71,14 @@ CONNECT   Aug 25 12:34:09.012 [26268]: Established connection to socks5 proxy "1
 INFO      Aug 25 12:34:09.387 [26268]: Not sending client headers to remote machine
 
 ```
+
+
+- explore the sqlite table
+```
+sqlite3 data/summaries.db
+.tables
+.schema items
+.headers on
+SELECT * FROM items ORDER BY identifier DESC LIMIT 1;
+
+```
