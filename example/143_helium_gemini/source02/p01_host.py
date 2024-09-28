@@ -6,6 +6,7 @@ import markdown
 import sqlite_minutils.db
 import datetime
 import time
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
  
 # Read the gemini api key from disk
@@ -19,9 +20,9 @@ def render(summary: Summary):
     if ( summary.timestamps_done ):
         return generation_preview(identifier)
     elif ( summary.summary_done ):
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else (""), hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
     else:
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="", hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
  
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
@@ -68,7 +69,7 @@ def get(request: Request):
 def generation_preview(identifier):
     sid=f"gen-{identifier}"
     text="Generating ..."
-    trigger=""
+    trigger="every 1s"
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):
@@ -156,6 +157,8 @@ def generate_and_save(identifier: int):
     print(f"generate_and_save id={identifier}")
     s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
+    m=genai.GenerativeModel(s.model)
+    safety={(HarmCategory.HARM_CATEGORY_HATE_SPEECH):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_HARASSMENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT):(HarmBlockThreshold.BLOCK_NONE)}
     try:
         prompt=f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
@@ -1488,10 +1491,19 @@ Example Output:
 * **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.
 Here is the real transcript. Please summarize it: 
 {s.transcript}"""
-        with open("/dev/shm/prompt.txt", "w") as fprompt:
-            fprompt.write(prompt)
-        summaries.update(pk_values=identifier, summary="emulate")
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=0, summary_output_tokens=0, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        response=m.generate_content(prompt, safety_settings=safety, stream=True)
+        for chunk in response:
+            try:
+                print(f"add text to id={identifier}: {chunk.text}")
+                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
+            except ValueError:
+                
+                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+("\nError: value error")))
+                print("Value Error ")
+            except Exception as e:
+                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
+                print("Error")
+        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return

@@ -23,25 +23,31 @@
 				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
 				     )))
 (setf *features* (set-difference *features* '(;:example
-					      ;:emulate
+					      :emulate
 					      )))
 
 (progn
   (defparameter *project* "143_helium_gemini")
-  (defparameter *models* `(gemini-1.5-flash-002
-			   gemini-1.5-pro-002
-			   gemini-1.5-pro-exp-0827
-			   gemini-1.5-pro-exp-0801
-			   gemini-1.5-flash-exp-0827
-			   gemini-1.5-flash-8b-exp-0924
-			   gemini-1.5-flash-latest
-			   gemma-2-2b-it
-			   gemma-2-9b-it
-			   gemma-2-27b-it
-			   gemini-1.5-flash
-			   gemini-1.5-pro
-			   gemini-1.0-pro
-			   ))
+  ;; name input-price output-price context-length harm-civic
+  
+  (let ((iflash .075)
+	(oflash .3)
+	(ipro 1.25)
+	(opro 5))
+   (defparameter *models* `((:name gemini-1.5-flash-002 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-pro-002 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-pro-exp-0827 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-pro-exp-0801 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
+			    (:name gemini-1.5-flash-exp-0827 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-flash-8b-exp-0924 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-flash-latest :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemma-2-2b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			    (:name gemma-2-9b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			    (:name gemma-2-27b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			    (:name gemini-1.5-flash :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic nil)
+			    (:name gemini-1.5-pro :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
+			    (:name gemini-1.0-pro :input-price .5 :output-price 1.5 :context-length 128_000 :harm-civic nil)
+			    )))
   (defparameter *languages* `(en de fr ch nl pt cz it jp ar))
   (defparameter *idx* "01") 
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
@@ -1557,7 +1563,8 @@ use of these things")
 	       model (Div (Select
 			   ,@(loop for e in *models*
 				   collect
-				   `(Option (string ,e)))
+				   (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
+				    `(Option (string ,name))))
 			   :style (string "width: 100%;")
 			   :name (string "model"))
 			  :style (string "display: flex; align-items: center; width: 100%;")))
