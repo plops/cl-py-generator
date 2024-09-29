@@ -82,23 +82,24 @@
 		 sqlite_minutils.db
 		 datetime
 		 time))
-
+       
        (imports-from (fasthtml.common *))
 
        " "
-       (def render (video)
-	 (declare (type Video video))
-	 (setf identifier video.identifier)
-	 (setf sid (fstring "gen-{identifier}"))
-	 (return (Div (NotStr sid))))
+       (def find_mp4_files (directory)
+	 (setf root_path (pathlib.Path directory))
+	 (setf mp4_files ("list" (root_path.rglob (string "*.mp4*"))))
+	 (return mp4_files))
+
+       (setf mp4_files (find_mp4_files (string "videos/")))
        
        " "
        (comments "open website")
-       (comments "video is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
-       (setf (ntuple app rt video Video)
+       (comments "videos is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
+       (setf (ntuple app rt videos VideoEntry)
 	     (fast_app :db_file (string "data/video.db")
 		       :live False	;True
-		       :render render
+		       ;:render render
 		       ,@(loop for e in db-cols
 			       appending
 			       (destructuring-bind (&key name type no-show) e
@@ -109,7 +110,13 @@
 		       :pk (string "identifier")
 		       ))
 
-
+       " "
+       (def render (video)
+	 (declare (type VideoEntry video))
+	 (setf identifier video.identifier)
+	 (setf sid (fstring "gen-{identifier}"))
+	 (return (Div (NotStr sid))))
+       
        
        (@rt (string "/"))
        (def get (request)
@@ -176,7 +183,21 @@
 		:target_id (string "gen-list")))
 
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
+			
 			 (Main nav
+			       (Div
+				(Video
+				 (Source 
+				  :src (str (aref mp4_files 0))
+				  :type (string "video/mp4"))
+				 (NotStr (string "Your browser does not support the video tag."))
+					:style (string "margin-bottom: 20px;")
+					;:height (string "auto")
+					;:width (string "100%")
+				 ;:controls True
+				 
+				 ))
+			       
 					
 			       form
 			       
