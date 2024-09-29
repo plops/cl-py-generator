@@ -75,6 +75,7 @@
 
        (imports (
 					;os
+		 random
 		 pathlib
 		 ; re
 		 ;markdown
@@ -189,7 +190,7 @@
 			       (Div
 				(Video
 				 (Source 
-				  :src (str (aref mp4_files 0))
+				  :src (str (random.choice mp4_files ))
 				  :type (string "video/mp4"))
 				 (NotStr (string "Your browser does not support the video tag."))
 				 :style (string "margin-bottom: 20px;")
