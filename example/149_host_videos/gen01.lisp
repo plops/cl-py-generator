@@ -79,9 +79,10 @@
 		 ; re
 		 ;markdown
 		 ; uvicorn
-		 sqlite_minutils.db
-		 datetime
-		 time))
+		 ;sqlite_minutils.db
+		 ;datetime
+		 ;time
+		 ))
        
        (imports-from (fasthtml.common *))
 
@@ -98,7 +99,7 @@
        (comments "videos is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
        (setf (ntuple app rt videos VideoEntry)
 	     (fast_app :db_file (string "data/video.db")
-		       :live False	;True
+		       :live True
 		       ;:render render
 		       ,@(loop for e in db-cols
 			       appending
@@ -191,16 +192,15 @@
 				  :src (str (aref mp4_files 0))
 				  :type (string "video/mp4"))
 				 (NotStr (string "Your browser does not support the video tag."))
-					:style (string "margin-bottom: 20px;")
-					;:height (string "auto")
-					;:width (string "100%")
-				 ;:controls True
-				 
+				 :style (string "margin-bottom: 20px;")
+				 :height (string "auto")
+				 :width (string "100%")
+				 :controls True
+				 :id (string "my_video")
 				 ))
-			       
-					
 			       form
-			       
+			       (Script (string3 "var myVideo = document.getElementById('my_video');
+myVideo.muted = true;"))
 			       :cls (string "container")))))
  
        " "
