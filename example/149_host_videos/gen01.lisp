@@ -184,28 +184,6 @@
 			       `(setf (dot v ,e) ,f))
 		       (videos.upsert v)))))
        
-;; import concurrent.futures
-;; import subprocess
-;; from tqdm import tqdm
-
-;; def process_video(video):
-;;     if video.path is not None and not video.ffmpeg_text:
-;;         ffmpeg_text = subprocess.run(["ffmpeg", "-i", video.path], capture_output=True, text=True)
-;;         video.ffmpeg_text = ffmpeg_text.stderr
-;;         return video.upsert()
-;;     return None
-
-;; videos_list = list(videos())  # Convert the generator to a list for iteration
-
-;; with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-;;     future_to_video = {executor.submit(process_video, v): v for v in videos_list}
-    
-;;     for future in tqdm(concurrent.futures.as_completed(future_to_video), total=len(videos_list)):
-;;         video = future_to_video[future]
-;;         try:
-;;             result = future.result()
-;;         except Exception as exc:
-;;             print(f'{video.path} generated an exception: {exc}')
 
        )))
 
@@ -233,12 +211,7 @@
        (imports-from (fasthtml.common *))
 
        " "
-       (def find_mp4_files (directory)
-	 (setf root_path (pathlib.Path directory))
-	 (setf mp4_files ("list" (root_path.rglob (string "*.mp4*"))))
-	 (return mp4_files))
 
-       (setf mp4_files (find_mp4_files (string "videos/")))
        
        " "
        (comments "open website")
@@ -329,13 +302,14 @@
 		:hx_swap (string "afterbegin")
 		:target_id (string "gen-list")))
 
-	 (return (ntuple (Title (string "Video Transcript Summarizer"))
+	 (return (ntuple (Title (string "Video Viewer"))
 			
 			 (Main nav
 			       (Div
 				(Video
 				 (Source 
-				  :src (str (random.choice mp4_files ))
+				  :src (dot (random.choice (videos))
+					    path)
 				  :type (string "video/mp4"))
 				 (NotStr (string "Your browser does not support the video tag."))
 				 :style (string "margin-bottom: 20px;")
