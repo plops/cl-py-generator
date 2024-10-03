@@ -123,7 +123,7 @@
        (unless db_exists
 	(do0
 	 (print (string "first iteration: collecting file sizes"))
-	 (comments "collecting file sizes and file times (cold over network: 100it/s, hot: 1800 it/s)")
+	 (comments "collecting file sizes and file times (cold over network: 100it/s, hot: 1800 it/s, local: 840it/s)")
 	 (for (f (tqdm.tqdm mp4_files))
 	      (setf v (VideoEntry))
 	      
