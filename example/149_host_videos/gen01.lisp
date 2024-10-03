@@ -20,7 +20,27 @@
 (setf *features* (union *features* '(:more)))
 (setf *features* (set-difference *features* '(:more)))
 
-(progn
+(let ((db-cols `((:name identifier :type int)
+		 (:name path :type str)
+		 (:name tags :type str)
+		 (:name video_width :type int)
+		 (:name video_height :type int)
+		 (:name size_bytes :type int)
+		 (:name atime :type int)
+		 (:name mtime :type int)
+		 (:name ctime :type int)
+		 (:name ffmpeg_text :type str)
+		 (:name duration_s :type float)
+		 (:name video_bitrate_Mbit :type float)
+		 (:name audio_bitrate_Mbit :type float)
+		 (:name audio_language :type str)
+		 (:name partial :type bool)
+		 (:name duplicates :type str)
+		 ,@(loop for e in `(actors story)
+			 collect
+			 `(:name ,(format nil "rating_~a" e)
+			   :type int))
+		 )))
   (defparameter *project* "149_host_videos")
   (defparameter *idx* "01") 
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
@@ -47,25 +67,98 @@
                   (comments ,(format nil "~a (~a)" help unit))
                   (setf ,name ,val))))))
 
+  
+  (let* ((notebook-name "fill"))
+    (write-source
+     (format nil "~a/source01/p~a_~a" *path* "00" notebook-name)
+     `(do0
+       "#!/usr/bin/env python3"
+       (comments "pip install -U python-fasthtml")
+
+       (comments "Purpose of this file is to populate the video.db sqlite database with filenames and whatever information may be useful (filesize, video duration, dimensions)")
+       (imports (
+					;os
+		 tqdm
+		 subprocess
+		 pathlib
+					; re
+					;markdown
+					; uvicorn
+					;sqlite_minutils.db
+					;datetime
+					;time
+		 ))
+       
+       (imports-from (fasthtml.common *))
+
+       " "
+       (def find_mp4_files (directory)
+	 (setf root_path (pathlib.Path directory))
+	 (setf mp4_files ("list" (root_path.rglob (string "*.mp4*"))))
+	 (return mp4_files))
+
+       (setf mp4_files (find_mp4_files (string "videos/")))
+       
+       " "
+       (comments "open website")
+       (comments "videos is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
+       (setf (ntuple app rt videos VideoEntry)
+	     (fast_app :db_file (string "data/video.db")
+		       :live True
+					;:render render
+		       ,@(loop for e in db-cols
+			       appending
+			       (destructuring-bind (&key name type no-show) e
+				 `(,(make-keyword (string-upcase (format nil "~a" name)))
+				   ,type)))
+
+		       
+		       :pk (string "identifier")
+		       ))
+       (print (string "...loaded"))
+       (for ((tuple idx f) (enumerate (tqdm.tqdm mp4_files)))
+	    (setf v (VideoEntry))
+	    #+nil
+	    ((:name identifier :type int)
+	     (:name path :type str)
+	     (:name tags :type str)
+	     (:name video_width :type int)
+	     (:name video_height :type int)
+	     (:name size_bytes :type int)
+	     (:name duration_s :type float)
+	     (:name video_bitrate_Mbit :type float)
+	     (:name audio_bitrate_Mbit :type float)
+	     (:name audio_language :type str)
+	     (:name partial :type bool)
+	     (:name duplicates :type str)
+	     ,@(loop for e in `(actors story)
+		     collect
+		     `(:name ,(format nil "rating_~a" e)
+		       :type int))
+	     )
+	    ;;result = subprocess.run(['ffmpeg', '-i', video_path], capture_output=True, text=True)
+	    (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
+					       (string "-i")
+					       (str f))
+					 :capture_output True
+					 :text True))
+	    (setf stat (dot f (stat)))
+	    ,@(loop for (e f) in `(;(identifier idx)
+				   (path (str f))
+				   (size_bytes stat.st_size)
+				   (atime stat.st_atime)
+				   (mtime stat.st_mtime)
+				   (ctime stat.st_ctime)
+				   (ffmpeg_text ffmpeg_text.stderr))
+		    collect
+		    `(setf (dot v ,e) ,f))
+	    (videos.insert v))
+       
+
+       )))
+
   (let* ((notebook-name "host")
-	 
-	 (db-cols `((:name identifier :type int)
-		    (:name path :type str)
-		    (:name tags :type str)
-		    (:name video_width :type int)
-		    (:name video_height :type int)
-		    (:name size_bytes :type int)
-		    (:name duration_s :type float)
-		    (:name video_bitrate_Mbit :type float)
-		    (:name audio_bitrate_Mbit :type float)
-		    (:name audio_language :type str)
-		    (:name partial :type bool)
-		    (:name duplicates :type str)
-		    ,@(loop for e in `(actors story)
-			    collect
-			    `(:name ,(format nil "rating_~a" e)
-			      :type int))
-		    ))
+
 	 )
     (write-source
      (format nil "~a/source01/p~a_~a" *path* *idx* notebook-name)
