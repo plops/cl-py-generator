@@ -81,6 +81,7 @@
 		 tqdm
 		 subprocess
 		 pathlib
+		 concurrent.futures
 					; re
 					;markdown
 					; uvicorn
@@ -140,21 +141,71 @@
 	      (videos.insert v)))
 	
 	)
-       (do0
-	 (print (string "second iteration: collecting video metadata"))
-	 (for (v (tqdm.tqdm (videos)))
-	      (when (is v.path "not None")
-	       (unless v.ffmpeg_text
-		 (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
-							 (string "-i")
-							 v.path)
-						   :capture_output True
-						   :text True))
-		 ,@(loop for (e f) in `((ffmpeg_text ffmpeg_text.stderr))
-			 collect
-			 `(setf (dot v ,e) ,f))
-		 (videos.upsert v)))))
+
+       (def collect_video_metadata (v)
+	 (declare (type VideoEntry v))
+	 (when (is v.path "not None")
+	   (unless v.ffmpeg_text
+	     (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
+						     (string "-i")
+						     v.path)
+					       :capture_output True
+					       :text True))
+	     ,@(loop for (e f) in `((ffmpeg_text ffmpeg_text.stderr))
+		     collect
+		     `(setf (dot v ,e) ,f))
+	     (videos.upsert v)))
+	 (return None))
        
+       (do0
+	(print (string "second iteration: collecting video metadata"))
+	(with (as (concurrent.futures.ThreadPoolExecutor :max_workers 12)
+		  executor)
+	      (setf future_to_video "{}")
+	      (for (v (videos))
+		   (executor.submit collect_video_metadata
+				    v))
+	      (for (future (tqdm.tqdm (concurrent.futures.as_completed future_to_video)
+				      :total (len (videos))))
+		   (try
+		       (setf result (future.result))
+		     ("Exception as e"
+			 (print (fstring "{vido.path} generated an exception: {e}"))))))
+	#+nil (for (v (tqdm.tqdm (videos)))
+		   (when (is v.path "not None")
+		     (unless v.ffmpeg_text
+		       (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
+							       (string "-i")
+							       v.path)
+							 :capture_output True
+							 :text True))
+		       ,@(loop for (e f) in `((ffmpeg_text ffmpeg_text.stderr))
+			       collect
+			       `(setf (dot v ,e) ,f))
+		       (videos.upsert v)))))
+       
+;; import concurrent.futures
+;; import subprocess
+;; from tqdm import tqdm
+
+;; def process_video(video):
+;;     if video.path is not None and not video.ffmpeg_text:
+;;         ffmpeg_text = subprocess.run(["ffmpeg", "-i", video.path], capture_output=True, text=True)
+;;         video.ffmpeg_text = ffmpeg_text.stderr
+;;         return video.upsert()
+;;     return None
+
+;; videos_list = list(videos())  # Convert the generator to a list for iteration
+
+;; with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+;;     future_to_video = {executor.submit(process_video, v): v for v in videos_list}
+    
+;;     for future in tqdm(concurrent.futures.as_completed(future_to_video), total=len(videos_list)):
+;;         video = future_to_video[future]
+;;         try:
+;;             result = future.result()
+;;         except Exception as exc:
+;;             print(f'{video.path} generated an exception: {exc}')
 
        )))
 
