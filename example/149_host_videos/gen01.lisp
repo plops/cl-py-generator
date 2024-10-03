@@ -97,7 +97,10 @@
 	 (setf mp4_files ("list" (root_path.rglob (string "*.mp4*"))))
 	 (return mp4_files))
 
-       (setf mp4_files (find_mp4_files (string "videos/")))
+       (setf db_exists (dot pathlib (Path (string "data/video.db"))
+		    (exists)))
+       (unless db_exists
+	 (setf mp4_files (find_mp4_files (string "videos/"))))
        
        " "
        (comments "open website")
@@ -116,43 +119,41 @@
 		       :pk (string "identifier")
 		       ))
        (print (string "...loaded"))
-       (for ((tuple idx f) (enumerate (tqdm.tqdm mp4_files)))
-	    (setf v (VideoEntry))
-	    #+nil
-	    ((:name identifier :type int)
-	     (:name path :type str)
-	     (:name tags :type str)
-	     (:name video_width :type int)
-	     (:name video_height :type int)
-	     (:name size_bytes :type int)
-	     (:name duration_s :type float)
-	     (:name video_bitrate_Mbit :type float)
-	     (:name audio_bitrate_Mbit :type float)
-	     (:name audio_language :type str)
-	     (:name partial :type bool)
-	     (:name duplicates :type str)
-	     ,@(loop for e in `(actors story)
-		     collect
-		     `(:name ,(format nil "rating_~a" e)
-		       :type int))
-	     )
-	    ;;result = subprocess.run(['ffmpeg', '-i', video_path], capture_output=True, text=True)
-	    (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
-					       (string "-i")
-					       (str f))
-					 :capture_output True
-					 :text True))
-	    (setf stat (dot f (stat)))
-	    ,@(loop for (e f) in `(;(identifier idx)
-				   (path (str f))
-				   (size_bytes stat.st_size)
-				   (atime stat.st_atime)
-				   (mtime stat.st_mtime)
-				   (ctime stat.st_ctime)
-				   (ffmpeg_text ffmpeg_text.stderr))
-		    collect
-		    `(setf (dot v ,e) ,f))
-	    (videos.insert v))
+       (unless db_exists
+	(do0
+	 (print (string "first iteration: collecting file sizes"))
+	 (comments "collecting file sizes and file times (cold over network: 100it/s, hot: 1800 it/s)")
+	 (for (f (tqdm.tqdm mp4_files))
+	      (setf v (VideoEntry))
+	      
+	      (setf stat (dot f (stat)))
+	      ,@(loop for (e f) in `(	;(identifier idx)
+				     (path (str f))
+				     (size_bytes stat.st_size)
+				     (atime stat.st_atime)
+				     (mtime stat.st_mtime)
+				     (ctime stat.st_ctime)
+					;(ffmpeg_text ffmpeg_text.stderr)
+				     )
+		      collect
+		      `(setf (dot v ,e) ,f))
+	      (videos.insert v)))
+	
+	)
+       (do0
+	 (print (string "second iteration: collecting video metadata"))
+	 (for (v (tqdm.tqdm (videos)))
+	      (when (is v.path "not None")
+	       (unless v.ffmpeg_text
+		 (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
+							 (string "-i")
+							 v.path)
+						   :capture_output True
+						   :text True))
+		 ,@(loop for (e f) in `((ffmpeg_text ffmpeg_text.stderr))
+			 collect
+			 `(setf (dot v ,e) ,f))
+		 (videos.upsert v)))))
        
 
        )))
