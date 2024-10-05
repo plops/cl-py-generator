@@ -354,6 +354,16 @@ myVideo.muted = true;"))
 		    (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)" e))
 								ftext))
 		    (setf ,e (dot ,e-match (group 1))))))
+
+	 ,@(loop for e in `(bitrate)
+		 collect
+		 (let ((e-match (format nil "~a_match" e))
+		       (e-unit (format nil "~a_unit" e)))
+		  `(do0
+		    (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)[ ]+(\\S+)" e))
+								ftext))
+		    (setf ,e (dot ,e-match (group 1)))
+		    (setf ,e-unit (dot ,e-match (group 2))))))
 	 
 	 (return (Body (H4 (fstring "{v.identifier} {v.path}"))
 		       (A (string "Prev")
@@ -390,7 +400,7 @@ myVideo.muted = true;"))
 							    (fromtimestamp (dot v ,e))
 							    (isoformat)))))
 				 )
-			 (NotStr (fstring "creation_time: {creation_time} duration: {Duration}")))
+			 (NotStr (fstring "creation_time: {creation_time} duration: {Duration} bitrate: {bitrate} {bitrate_unit}")))
 			
 			(Pre ftext))
 		       (Script (string3 "var myVideo = document.getElementById('my_video');
