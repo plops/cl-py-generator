@@ -207,7 +207,7 @@
 		 ;markdown
 		 ; uvicorn
 		 ;sqlite_minutils.db
-		 ;datetime
+		 datetime
 		 ;time
 		 ))
        
@@ -344,7 +344,27 @@ myVideo.muted = true;"))
 	    :name (string "video"))
        (def get (id)
 	 (declare (type "int=4" id))
-	 (return (aref videos id)))
+	 (setf v (aref videos id))
+	 (return (Body (H1 v.identifier)
+		       (H4 (NotStr (string "path:")) v.path)
+		       (Div ,@(loop for e in `(size_bytes
+					      					      )
+				    collect
+				    `(P (NotStr (string ,(format nil "~a: " e)))
+					  (dot v ,e)))
+			    ,@(loop for e in `(
+					      atime
+					      mtime
+					      ctime
+					      )
+				    collect
+				    `(P (NotStr (string ,(format nil "~a: " e)))
+					  (dot datetime
+					       datetime
+					       (fromtimestamp (dot v ,e))
+					       (isoformat))))
+			    (Pre v.ffmpeg_text))
+		       )))
        
        (def serve_in_process ()
 	 (serve :host (string "0.0.0.0") :port 5001))
