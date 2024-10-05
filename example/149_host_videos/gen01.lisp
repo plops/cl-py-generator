@@ -339,8 +339,15 @@ myVideo.muted = true;"))
 		  (type Request request))
 	 ,(lprint :msg "POST process_transcript" :vars `(summary request)))
 
+       " "
+       (@rt (string "/video/{id}")
+	    :name (string "video"))
+       (def get (id)
+	 (declare (type "int=4" id))
+	 (return (aref videos id)))
+       
        (def serve_in_process ()
-	  (serve :host (string "0.0.0.0") :port 5001))
+	 (serve :host (string "0.0.0.0") :port 5001))
 
        (when (== __name__ (string "__main__"))
 	 (setf process (multiprocessing.Process :target serve_in_process))
@@ -369,5 +376,11 @@ myVideo.muted = true;"))
 		     o
 		     (partialmethod Client._sync o)))
        (setf cli (Client app))
-       (setf q (dot cli (get (string "/"))))
+       (print (dot cli
+		   (get (string "/"))
+		   text))
+
+       (print (dot cli
+		   (get (string "/video/32"))
+		   text))
        ))))
