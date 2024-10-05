@@ -200,6 +200,9 @@
 					;os
 		 random
 		 pathlib
+		 multiprocessing
+		 
+		 
 		 ; re
 		 ;markdown
 		 ; uvicorn
@@ -336,7 +339,35 @@ myVideo.muted = true;"))
 		  (type Request request))
 	 ,(lprint :msg "POST process_transcript" :vars `(summary request)))
 
-              
-       
-       (serve :host (string "0.0.0.0") :port 5001)
+       (def serve_in_process ()
+	  (serve :host (string "0.0.0.0") :port 5001))
+
+       (when (== __name__ (string "__main__"))
+	 (setf process (multiprocessing.Process :target serve_in_process))
+	 (process.start))
+
+       (imports-from (httpx ASGITransport AsyncClient)
+		     (anyio from_thread)
+		     (functools partialmethod))
+       (class Client ()
+	      (def __init__ (self app &key (url (string "http://localhost:5001")))
+		(setf self.cli (AsyncClient :transport
+					    (ASGITransport app)
+					    :base_url url)))
+	      (def _sync (self method url **kwargs)
+		(space async
+		       (def _request ()
+			   (return (space await
+					  (self.cli.request method url **kwargs)))))
+		(with (as (from_thread.start_blocking_portal)
+			  portal)
+		      (return (portal.call _request))))
+	      )
+       (for (o (dot (string "get post delete put patch options")
+		    (split)))
+	    (setattr Client
+		     o
+		     (partialmethod Client._sync o)))
+       (setf cli (Client app))
+       (setf q (dot cli (get (string "/"))))
        ))))
