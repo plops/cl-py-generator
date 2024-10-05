@@ -201,9 +201,7 @@
 		 random
 		 pathlib
 		 multiprocessing
-		 
-		 
-		 ; re
+		 re
 		 ;markdown
 		 ; uvicorn
 		 ;sqlite_minutils.db
@@ -345,62 +343,100 @@ myVideo.muted = true;"))
        (def get (id)
 	 (declare (type "int=4" id))
 	 (setf v (aref videos id))
-	 (return (Body (H1 v.identifier)
-		       (H4 (NotStr (string "path:")) v.path)
-		       (Div ,@(loop for e in `(size_bytes
-					      					      )
-				    collect
-				    `(P (NotStr (string ,(format nil "~a: " e)))
-					  (dot v ,e)))
-			    ,@(loop for e in `(
-					      atime
-					      mtime
-					      ctime
-					      )
-				    collect
-				    `(P (NotStr (string ,(format nil "~a: " e)))
-					  (dot datetime
-					       datetime
-					       (fromtimestamp (dot v ,e))
-					       (isoformat))))
-			    (Pre v.ffmpeg_text))
+	 (setf ftext (dot (string "\\n")
+			  (join (aref (v.ffmpeg_text.split (string "\\n"))
+				      (slice 12 "")))))
+	 ,@(loop for e in `(creation_time Duration)
+		 collect
+		 (let ((e-match (format nil "~a_match" e))
+		       )
+		  `(do0
+		    (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)" e))
+								ftext))
+		    (setf ,e (dot ,e-match (group 1))))))
+	 
+	 (return (Body (H4 (fstring "{v.identifier} {v.path}"))
+		       (A (string "Prev")
+			  :href (fstring "/video/{id-1}"))
+		       (A (string "Next")
+			  :href (fstring "/video/{id+1}")
+			  )
+		       (Div
+			(Video
+			 (Source 
+			  :src (fstring "/{v.path}")
+			  :type (string "video/mp4"))
+			 (NotStr (string "Your browser does not support the video tag."))
+			 :style (string "margin-bottom: 20px;")
+			 :height (string "auto")
+			 :width (string "30%")
+			 :controls True
+			 :id (string "my_video")
+			 )
+			(Pre
+			 ,@(loop for e in `(size_bytes)
+				 collect
+				 `(NotStr (dot (string ,(format nil "~a: {}" e))
+					       (format (dot v ,e)))))
+			 ,@(loop for e in `(
+					    atime
+					    mtime
+					    ctime
+					    )
+				 collect
+				 `(NotStr (dot (string ,(format nil "~a: {}" e))
+					       (format (dot datetime
+							    datetime
+							    (fromtimestamp (dot v ,e))
+							    (isoformat)))))
+				 )
+			 (NotStr (fstring "creation_time: {creation_time} duration: {Duration}")))
+			
+			(Pre ftext))
+		       (Script (string3 "var myVideo = document.getElementById('my_video');
+myVideo.muted = true;"))
 		       )))
+
+       (serve :host (string "0.0.0.0") :port 5001)
        
-       (def serve_in_process ()
-	 (serve :host (string "0.0.0.0") :port 5001))
+       #+nil
+       (do0
+	(def serve_in_process ()
+	  (serve :host (string "0.0.0.0") :port 5001))
 
-       (when (== __name__ (string "__main__"))
-	 (setf process (multiprocessing.Process :target serve_in_process))
-	 (process.start))
+	(when (== __name__ (string "__main__"))
+	  (setf process (multiprocessing.Process :target serve_in_process))
+	  (process.start)))
+       #+nil
+       (do0
+	(imports-from (httpx ASGITransport AsyncClient)
+		      (anyio from_thread)
+		      (functools partialmethod))
+	(class Client ()
+	       (def __init__ (self app &key (url (string "http://localhost:5001")))
+		 (setf self.cli (AsyncClient :transport
+					     (ASGITransport app)
+					     :base_url url)))
+	       (def _sync (self method url **kwargs)
+		 (space async
+			(def _request ()
+			  (return (space await
+					 (self.cli.request method url **kwargs)))))
+		 (with (as (from_thread.start_blocking_portal)
+			   portal)
+		       (return (portal.call _request))))
+	       )
+	(for (o (dot (string "get post delete put patch options")
+		     (split)))
+	     (setattr Client
+		      o
+		      (partialmethod Client._sync o)))
+	(setf cli (Client app))
+	(print (dot cli
+		    (get (string "/"))
+		    text))
 
-       (imports-from (httpx ASGITransport AsyncClient)
-		     (anyio from_thread)
-		     (functools partialmethod))
-       (class Client ()
-	      (def __init__ (self app &key (url (string "http://localhost:5001")))
-		(setf self.cli (AsyncClient :transport
-					    (ASGITransport app)
-					    :base_url url)))
-	      (def _sync (self method url **kwargs)
-		(space async
-		       (def _request ()
-			   (return (space await
-					  (self.cli.request method url **kwargs)))))
-		(with (as (from_thread.start_blocking_portal)
-			  portal)
-		      (return (portal.call _request))))
-	      )
-       (for (o (dot (string "get post delete put patch options")
-		    (split)))
-	    (setattr Client
-		     o
-		     (partialmethod Client._sync o)))
-       (setf cli (Client app))
-       (print (dot cli
-		   (get (string "/"))
-		   text))
-
-       (print (dot cli
-		   (get (string "/video/32"))
-		   text))
+	(print (dot cli
+		    (get (string "/video/32"))
+		    text)))
        ))))
