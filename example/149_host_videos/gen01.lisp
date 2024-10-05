@@ -372,13 +372,13 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 
 	     (do0
 	      (comments "Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p, 640x360 [SAR 1:1 DAR 16:9], 674 kb/s, 25 fps, 30 tbr, 90k tbn, 60 tbc (default)")
-	      (setf video_info (re.search (rstring3 "Stream (\\S+): Video: ([^,]+), ([^,]+), (\\d+)x(\\d+)[ ]*([^,]*), (\\d+) ([^,]*), (\\d+) ([^,]*),.*")
+	      (setf video_info (re.search (rstring3 "Stream (\\S+): Video: ([^,]+), ([^,]+), (\\d+)x(\\d+)[ ]*([^,]*), ([0-9.]+) ([^,]*), ([\\d.]+) ([^,]*),.*")
 					
 					  ftext))
 	      ,@(loop for e in l-video
 			collect
 			`(setf ,(format nil "video_~a" e)
-			       (string "none")))
+			       (string "-1")))
 	      (when video_info
 		,@(loop for e in l-video
 			and e-i from 1
@@ -386,7 +386,10 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 			`(setf ,(format nil "video_~a" e)
 			       (dot video_info (group ,e-i))))
 		))
-	  
+
+	     (setf bit_per_pixel (/ (int v.size_bytes)
+				    (* (int video_width)
+				       (int video_height))))
 	     (return (Body (H4 (fstring "{v.identifier} {v.path}"))
 			   (A (string "Prev")
 			      :href (fstring "/video/{id-1}"))
@@ -426,10 +429,16 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 			  
 			     )
 			    (Pre (NotStr (fstring ,(format nil "~{~a~^, ~}"
+							   (loop for e in `(bit_per_pixel)
+								 collect
+								 (format nil "~a: {~a:3.2f}"
+									 e e))))))
+
+			    (Pre (NotStr (fstring ,(format nil "~{~a~^, ~}"
 							   (loop for e in l-video
 								 collect
 								 (format nil "~a: {video_~a}"
-									  e e))))))
+									 e e))))))
 			    (Pre ftext))
 			   (Script (string3 "var myVideo = document.getElementById('my_video');
 myVideo.muted = true;"))
