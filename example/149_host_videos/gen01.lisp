@@ -337,75 +337,103 @@ myVideo.muted = true;"))
 		  (type Request request))
 	 ,(lprint :msg "POST process_transcript" :vars `(summary request)))
 
-       " "
-       (@rt (string "/video/{id}")
-	    :name (string "video"))
-       (def get (id)
-	 (declare (type "int=4" id))
-	 (setf v (aref videos id))
-	 (setf ftext (dot (string "\\n")
-			  (join (aref (v.ffmpeg_text.split (string "\\n"))
-				      (slice 12 "")))))
-	 ,@(loop for e in `(creation_time Duration)
-		 collect
-		 (let ((e-match (format nil "~a_match" e))
-		       )
-		  `(do0
-		    (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)" e))
-								ftext))
-		    (setf ,e (dot ,e-match (group 1))))))
+       ,(let ((l-video `(channel codec format  width height dimension_extra bitrate bitrate_unit framerate framerate_unit
+				 )))
+	 `(do0
+	   " "
+	   (@rt (string "/video/{id}")
+		:name (string "video"))
+	   (def get (id)
+	     (declare (type "int=4" id))
+	     (setf v (aref videos id))
+	     (setf ftext (dot (string "\\n")
+			      (join (aref (v.ffmpeg_text.split (string "\\n"))
+					  (slice 12 "")))))
+	     (comments "  creation_time   : 2018-02-13T01:59:51.000000Z
+Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
+	     ,@(loop for e in `(creation_time Duration)
+		     collect
+		     (let ((e-match (format nil "~a_match" e))
+			   )
+		       `(do0
+			 (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)" e))
+						   ftext))
+			 (setf ,e (dot ,e-match (group 1))))))
 
-	 ,@(loop for e in `(bitrate)
-		 collect
-		 (let ((e-match (format nil "~a_match" e))
-		       (e-unit (format nil "~a_unit" e)))
-		  `(do0
-		    (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)[ ]+(\\S+)" e))
-								ftext))
-		    (setf ,e (dot ,e-match (group 1)))
-		    (setf ,e-unit (dot ,e-match (group 2))))))
-	 
-	 (return (Body (H4 (fstring "{v.identifier} {v.path}"))
-		       (A (string "Prev")
-			  :href (fstring "/video/{id-1}"))
-		       (A (string "Next")
-			  :href (fstring "/video/{id+1}")
-			  )
-		       (Div
-			(Video
-			 (Source 
-			  :src (fstring "/{v.path}")
-			  :type (string "video/mp4"))
-			 (NotStr (string "Your browser does not support the video tag."))
-			 :style (string "margin-bottom: 20px;")
-			 :height (string "auto")
-			 :width (string "30%")
-			 :controls True
-			 :id (string "my_video")
-			 )
-			(Pre
-			 ,@(loop for e in `(size_bytes)
-				 collect
-				 `(NotStr (dot (string ,(format nil "~a: {}" e))
-					       (format (dot v ,e)))))
-			 ,@(loop for e in `(
-					    atime
-					    mtime
-					    ctime
-					    )
-				 collect
-				 `(NotStr (dot (string ,(format nil "~a: {}" e))
-					       (format (dot datetime
-							    datetime
-							    (fromtimestamp (dot v ,e))
-							    (isoformat)))))
-				 )
-			 (NotStr (fstring "creation_time: {creation_time} duration: {Duration} bitrate: {bitrate} {bitrate_unit}")))
-			
-			(Pre ftext))
-		       (Script (string3 "var myVideo = document.getElementById('my_video');
+	     ,@(loop for e in `(bitrate)
+		     collect
+		     (let ((e-match (format nil "~a_match" e))
+			   (e-unit (format nil "~a_unit" e)))
+		       `(do0
+			 (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)[ ]+(\\S+)" e))
+						   ftext))
+			 (setf ,e (dot ,e-match (group 1)))
+			 (setf ,e-unit (dot ,e-match (group 2))))))
+
+	     (do0
+	      (comments "Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p, 640x360 [SAR 1:1 DAR 16:9], 674 kb/s, 25 fps, 30 tbr, 90k tbn, 60 tbc (default)")
+	      (setf video_info (re.search (rstring3 "Stream (\\S+): Video: ([^,]+), ([^,]+), (\\d+)x(\\d+)[ ]*([^,]*), (\\d+) ([^,]*), (\\d+) ([^,]*),.*")
+					
+					  ftext))
+	      ,@(loop for e in l-video
+			collect
+			`(setf ,(format nil "video_~a" e)
+			       (string "none")))
+	      (when video_info
+		,@(loop for e in l-video
+			and e-i from 1
+			collect
+			`(setf ,(format nil "video_~a" e)
+			       (dot video_info (group ,e-i))))
+		))
+	  
+	     (return (Body (H4 (fstring "{v.identifier} {v.path}"))
+			   (A (string "Prev")
+			      :href (fstring "/video/{id-1}"))
+			   (A (string "Next")
+			      :href (fstring "/video/{id+1}")
+			      )
+			   (Div
+			    (Video
+			     (Source 
+			      :src (fstring "/{v.path}")
+			      :type (string "video/mp4"))
+			     (NotStr (string "Your browser does not support the video tag."))
+			     :style (string "margin-bottom: 20px;")
+			     :height (string "auto")
+			     :width (string "30%")
+			     :controls True
+			     :id (string "my_video")
+			     )
+			    (Pre
+			     ,@(loop for e in `(size_bytes)
+				     collect
+				     `(NotStr (dot (string ,(format nil "~a: {}" e))
+						   (format (dot v ,e)))))
+			     ,@(loop for e in `(
+						atime
+						mtime
+						ctime
+						)
+				     collect
+				     `(NotStr (dot (string ,(format nil "~a: {}" e))
+						   (format (dot datetime
+								datetime
+								(fromtimestamp (dot v ,e))
+								(isoformat)))))
+				     )
+			     (NotStr (fstring "creation_time: {creation_time} duration: {Duration} bitrate: {bitrate} {bitrate_unit}"))
+			  
+			     )
+			    (Pre (NotStr (fstring ,(format nil "~{~a~^, ~}"
+							   (loop for e in l-video
+								 collect
+								 (format nil "~a: {video_~a}"
+									  e e))))))
+			    (Pre ftext))
+			   (Script (string3 "var myVideo = document.getElementById('my_video');
 myVideo.muted = true;"))
-		       )))
+			   )))))
 
        (serve :host (string "0.0.0.0") :port 5001)
        
