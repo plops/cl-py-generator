@@ -31,6 +31,7 @@
 		 (:name ctime :type int)
 		 (:name ffmpeg_text :type str)
 		 (:name duration_s :type float)
+		 (:name framerate :type float)
 		 (:name video_bitrate_Mbit :type float)
 		 (:name audio_bitrate_Mbit :type float)
 		 (:name audio_language :type str)
@@ -225,6 +226,22 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 				 )))
 		 `(do0
 		  (comments "Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p, 640x360 [SAR 1:1 DAR 16:9], 674 kb/s, 25 fps, 30 tbr, 90k tbn, 60 tbc (default)")
+		  (do0
+		   (setf video_info0 (re.search (rstring3 "Stream .*: Video:.*(\\d+)x(\\d+).*([0-9.]+) kb/s, ([0-9.]*) fps,.*")
+					      ftext)))
+
+		  ,@(loop for e in l-video
+			  collect
+			  `(setf ,(format nil "video_~a" e)
+				 None))
+		  (when video_info0
+		    ,@(loop for e in `(width height bitrate framerate)
+			    and e-i from 1
+			    collect
+			    `(setf ,(format nil "video_~a" e)
+				   (dot video_info0 (group ,e-i))))
+		    )
+		  
 		  (setf video_info (re.search (rstring3 "Stream (\\S+): Video: ([^,]+), (.*), (\\d+)x(\\d+)[ ]*([^,]*), ([0-9.]+) ([^,]*), ([\\d.]+) ([^,]*),.*")
 					      ftext))
 		  ,@(loop for e in l-video
@@ -241,7 +258,7 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 
 	       (comments "convert 00:07:27.65 into seconds")
 	       ;;(setf Duration (string "00:07:27.65"))
-	       (print Duration)
+	       ;(print Duration)
 	       (setf time_diff (- (dot datetime
 				       datetime
 				       (strptime Duration
@@ -263,9 +280,10 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 	       (setf bit_per_pixel_and_frame (/ bit_per_pixel
 						number_frames))
 	       (setf v.duration_s duration_s
-		     v.video_bitrate_Mbit bitrate
+		     v.video_bitrate_mbit bitrate
 		     v.video_width video_width
-		     v.video_height video_height)
+		     v.video_height video_height
+		     v.framerate video_framerate)
 	       (videos.upsert v)
 	       )
 	      ("Exception as e"
