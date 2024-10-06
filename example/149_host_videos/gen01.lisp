@@ -100,6 +100,8 @@
 
        (setf db_exists (dot pathlib (Path (string "data/video.db"))
 		    (exists)))
+       (when db_exists
+	 (print (string "video.db file exists. use it")))
        (unless db_exists
 	 (setf mp4_files (find_mp4_files (string "videos/"))))
        
@@ -156,8 +158,9 @@
 		     `(setf (dot v ,e) ,f))
 	     (videos.upsert v)))
 	 (return None))
-       
+       #+nil 
        (do0
+	(comments "run ffmpeg for each video file to collect information about width, height, bitrate")
 	(print (string "second iteration: collecting video metadata"))
 	(with (as (concurrent.futures.ThreadPoolExecutor :max_workers 12)
 		  executor)
@@ -171,18 +174,108 @@
 		       (setf result (future.result))
 		     ("Exception as e"
 			 (print (fstring "{vido.path} generated an exception: {e}"))))))
-	#+nil (for (v (tqdm.tqdm (videos)))
-		   (when (is v.path "not None")
-		     (unless v.ffmpeg_text
-		       (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
-							       (string "-i")
-							       v.path)
-							 :capture_output True
-							 :text True))
-		       ,@(loop for (e f) in `((ffmpeg_text ffmpeg_text.stderr))
-			       collect
-			       `(setf (dot v ,e) ,f))
-		       (videos.upsert v)))))
+
+	#+nil
+	(do0 (comments "single threaded version of the code above")
+	 (for (v (tqdm.tqdm (videos)))
+	      (when (is v.path "not None")
+		(unless v.ffmpeg_text
+		  (setf ffmpeg_text (subprocess.run (list (string "ffmpeg")
+							  (string "-i")
+							  v.path)
+						    :capture_output True
+						    :text True))
+		  ,@(loop for (e f) in `((ffmpeg_text ffmpeg_text.stderr))
+			  collect
+			  `(setf (dot v ,e) ,f))
+		  (videos.upsert v))))))
+
+       (do0
+	
+	(comments "parse ffmpeg output and populate db, for now i want duration, width, height, bitrate")
+	
+	(def parse_ffmpeg (v)
+	  (try
+	      (do0
+	       (setf ftext (dot (string "\\n")
+				(join (aref (v.ffmpeg_text.split (string "\\n"))
+					    (slice 12 "")))))
+	       (comments "  creation_time   : 2018-02-13T01:59:51.000000Z
+Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
+	       ,@(loop for e in `(creation_time Duration)
+		       collect
+		       (let ((e-match (format nil "~a_match" e))
+			     )
+			 `(do0
+			   (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*([^ ,]+)" e))
+						     ftext))
+			   (setf ,e (dot ,e-match (group 1))))))
+
+	       ,@(loop for e in `(bitrate)
+		       collect
+		       (let ((e-match (format nil "~a_match" e))
+			     (e-unit (format nil "~a_unit" e)))
+			 `(do0
+			   (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)[ ]+(\\S+)" e))
+						     ftext))
+			   (setf ,e (dot ,e-match (group 1)))
+			   (setf ,e-unit (dot ,e-match (group 2))))))
+
+	       ,(let ((l-video `(channel codec format  width height dimension_extra bitrate bitrate_unit framerate framerate_unit
+				 )))
+		 `(do0
+		  (comments "Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p, 640x360 [SAR 1:1 DAR 16:9], 674 kb/s, 25 fps, 30 tbr, 90k tbn, 60 tbc (default)")
+		  (setf video_info (re.search (rstring3 "Stream (\\S+): Video: ([^,]+), (.*), (\\d+)x(\\d+)[ ]*([^,]*), ([0-9.]+) ([^,]*), ([\\d.]+) ([^,]*),.*")
+					      ftext))
+		  ,@(loop for e in l-video
+			  collect
+			  `(setf ,(format nil "video_~a" e)
+				 (string "-1")))
+		  (when video_info
+		    ,@(loop for e in l-video
+			    and e-i from 1
+			    collect
+			    `(setf ,(format nil "video_~a" e)
+				   (dot video_info (group ,e-i))))
+		    )))
+
+	       (comments "convert 00:07:27.65 into seconds")
+	       ;;(setf Duration (string "00:07:27.65"))
+	       (print Duration)
+	       (setf time_diff (- (dot datetime
+				       datetime
+				       (strptime Duration
+						 (string "%H:%M:%S.%f")))
+				  (dot datetime
+				       datetime
+				       (strptime (string "00:00:00.00")
+						 (string "%H:%M:%S.%f")))))
+	       (setf duration_s (dot time_diff
+				     (total_seconds)))
+	       (setf number_frames (* (float video_framerate)
+				      duration_s))
+	       (setf estimated_bytes (* duration_s
+					(/ (* 1024 (int video_bitrate))
+					   8)))
+	       (setf bit_per_pixel (/ (* 8 (int v.size_bytes))
+				      (* (int video_width)
+					 (int video_height))))
+	       (setf bit_per_pixel_and_frame (/ bit_per_pixel
+						number_frames))
+	       (setf v.duration_s duration_s
+		     v.video_bitrate_Mbit bitrate
+		     v.video_width video_width
+		     v.video_height video_height)
+	       (videos.upsert v)
+	       )
+	      ("Exception as e"
+	       pass))
+	     
+	     )
+	
+	(print (string "parse ffmpeg output")) ;; 80k it/s
+	(for (v (tqdm.tqdm (videos)))
+	     (parse_ffmpeg v)))
        
 
        )))
@@ -346,50 +439,109 @@ myVideo.muted = true;"))
 	   (def get (id)
 	     (declare (type "int=4" id))
 	     (setf v (aref videos id))
-	     (setf ftext (dot (string "\\n")
-			      (join (aref (v.ffmpeg_text.split (string "\\n"))
-					  (slice 12 "")))))
-	     (comments "  creation_time   : 2018-02-13T01:59:51.000000Z
+	     (setf compute_results (Div (NotStr (string "error"))))
+	     (try
+	      (do0
+	       (setf ftext (dot (string "\\n")
+				(join (aref (v.ffmpeg_text.split (string "\\n"))
+					    (slice 12 "")))))
+	       (comments "  creation_time   : 2018-02-13T01:59:51.000000Z
 Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
-	     ,@(loop for e in `(creation_time Duration)
-		     collect
-		     (let ((e-match (format nil "~a_match" e))
-			   )
-		       `(do0
-			 (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)" e))
-						   ftext))
-			 (setf ,e (dot ,e-match (group 1))))))
+	       ,@(loop for e in `(creation_time Duration)
+		       collect
+		       (let ((e-match (format nil "~a_match" e))
+			     )
+			 `(do0
+			   (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*([^ ,]+)" e))
+						     ftext))
+			   (setf ,e (dot ,e-match (group 1))))))
 
-	     ,@(loop for e in `(bitrate)
-		     collect
-		     (let ((e-match (format nil "~a_match" e))
-			   (e-unit (format nil "~a_unit" e)))
-		       `(do0
-			 (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)[ ]+(\\S+)" e))
-						   ftext))
-			 (setf ,e (dot ,e-match (group 1)))
-			 (setf ,e-unit (dot ,e-match (group 2))))))
+	       ,@(loop for e in `(bitrate)
+		       collect
+		       (let ((e-match (format nil "~a_match" e))
+			     (e-unit (format nil "~a_unit" e)))
+			 `(do0
+			   (setf ,e-match (re.search (rstring3 ,(format nil "[ ]*~a[ ]*:[ ]*(\\S+)[ ]+(\\S+)" e))
+						     ftext))
+			   (setf ,e (dot ,e-match (group 1)))
+			   (setf ,e-unit (dot ,e-match (group 2))))))
 
-	     (do0
-	      (comments "Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p, 640x360 [SAR 1:1 DAR 16:9], 674 kb/s, 25 fps, 30 tbr, 90k tbn, 60 tbc (default)")
-	      (setf video_info (re.search (rstring3 "Stream (\\S+): Video: ([^,]+), ([^,]+), (\\d+)x(\\d+)[ ]*([^,]*), ([0-9.]+) ([^,]*), ([\\d.]+) ([^,]*),.*")
-					
-					  ftext))
-	      ,@(loop for e in l-video
+	       (do0
+		(comments "Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p, 640x360 [SAR 1:1 DAR 16:9], 674 kb/s, 25 fps, 30 tbr, 90k tbn, 60 tbc (default)")
+		(setf video_info (re.search (rstring3 "Stream (\\S+): Video: ([^,]+), ([^,]+), (\\d+)x(\\d+)[ ]*([^,]*), ([0-9.]+) ([^,]*), ([\\d.]+) ([^,]*),.*")
+					   
+					    ftext))
+		,@(loop for e in l-video
 			collect
 			`(setf ,(format nil "video_~a" e)
 			       (string "-1")))
-	      (when video_info
-		,@(loop for e in l-video
-			and e-i from 1
-			collect
-			`(setf ,(format nil "video_~a" e)
-			       (dot video_info (group ,e-i))))
-		))
+		(when video_info
+		  ,@(loop for e in l-video
+			  and e-i from 1
+			  collect
+			  `(setf ,(format nil "video_~a" e)
+				 (dot video_info (group ,e-i))))
+		  ))
 
-	     (setf bit_per_pixel (/ (int v.size_bytes)
-				    (* (int video_width)
-				       (int video_height))))
+	       (comments "convert 00:07:27.65 into seconds")
+					;(setf Duration (string "00:07:27.65"))
+	       (print Duration)
+	       (setf time_diff (- (dot datetime
+				       datetime
+				       (strptime Duration
+						 (string "%H:%M:%S.%f")))
+				  (dot datetime
+				       datetime
+				       (strptime (string "00:00:00.00")
+						 (string "%H:%M:%S.%f")))))
+	       (setf duration_s (dot time_diff
+				     (total_seconds)))
+	       (setf number_frames (* (float video_framerate)
+				      duration_s))
+	       (setf estimated_bytes (* duration_s
+					(/ (* 1024 (int video_bitrate))
+					   8)))
+	       (setf bit_per_pixel (/ (* 8 (int v.size_bytes))
+				      (* (int video_width)
+					 (int video_height))))
+	       (setf bit_per_pixel_and_frame (/ bit_per_pixel
+						number_frames))
+	       (setf compute_results (Div (Pre
+					   ,@(loop for e in `(size_bytes)
+						   collect
+						   `(NotStr (dot (string ,(format nil "~a: {}" e))
+								 (format (dot v ,e)))))
+					   ,@(loop for e in `(
+							      atime
+							      mtime
+							      ctime
+							      )
+						   collect
+						   `(NotStr (dot (string ,(format nil "~a: {}" e))
+								 (format (dot datetime
+									      datetime
+									      (fromtimestamp (dot v ,e))
+									      (isoformat)))))
+						   )
+					   (NotStr (fstring "creation_time: {creation_time} duration: {Duration} bitrate: {bitrate} {bitrate_unit}"))
+					   
+					   )
+					  (Pre (NotStr (fstring ,(format nil "~{~a~^, ~}"
+									 (loop for e in `(bit_per_pixel duration_s estimated_bytes number_frames bit_per_pixel_and_frame)
+									       collect
+									       (format nil "~a: {~a:3.2f}"
+										       e e))))))
+
+					  (Pre (NotStr (fstring ,(format nil "~{~a~^, ~}"
+									 (loop for e in l-video
+									       collect
+									       (format nil "~a: {video_~a}"
+										       e e))))))
+					  (Pre ftext)) ))
+	      ("Exception as e"
+	       pass))
+	     
+	     
 	     (return (Body (H4 (fstring "{v.identifier} {v.path}"))
 			   (A (string "Prev")
 			      :href (fstring "/video/{id-1}"))
@@ -408,38 +560,8 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 			     :controls True
 			     :id (string "my_video")
 			     )
-			    (Pre
-			     ,@(loop for e in `(size_bytes)
-				     collect
-				     `(NotStr (dot (string ,(format nil "~a: {}" e))
-						   (format (dot v ,e)))))
-			     ,@(loop for e in `(
-						atime
-						mtime
-						ctime
-						)
-				     collect
-				     `(NotStr (dot (string ,(format nil "~a: {}" e))
-						   (format (dot datetime
-								datetime
-								(fromtimestamp (dot v ,e))
-								(isoformat)))))
-				     )
-			     (NotStr (fstring "creation_time: {creation_time} duration: {Duration} bitrate: {bitrate} {bitrate_unit}"))
-			  
-			     )
-			    (Pre (NotStr (fstring ,(format nil "~{~a~^, ~}"
-							   (loop for e in `(bit_per_pixel)
-								 collect
-								 (format nil "~a: {~a:3.2f}"
-									 e e))))))
 
-			    (Pre (NotStr (fstring ,(format nil "~{~a~^, ~}"
-							   (loop for e in l-video
-								 collect
-								 (format nil "~a: {video_~a}"
-									 e e))))))
-			    (Pre ftext))
+			    compute_results)
 			   (Script (string3 "var myVideo = document.getElementById('my_video');
 myVideo.muted = true;"))
 			   )))))
