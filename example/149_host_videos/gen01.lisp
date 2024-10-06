@@ -86,7 +86,7 @@
 					;markdown
 					; uvicorn
 					;sqlite_minutils.db
-					;datetime
+		 datetime
 					;time
 		 ))
        
@@ -269,11 +269,12 @@ Duration: 00:02:08.46, start: 0.000000, bitrate: 442 kb/s")
 	       (videos.upsert v)
 	       )
 	      ("Exception as e"
+	       (print (fstring "exception {v.path} {e}"))
 	       pass))
 	     
 	     )
 	
-	(print (string "parse ffmpeg output")) ;; 80k it/s
+	(print (string "parse ffmpeg output")) ;; 2000 it/s
 	(for (v (tqdm.tqdm (videos)))
 	     (parse_ffmpeg v)))
        
