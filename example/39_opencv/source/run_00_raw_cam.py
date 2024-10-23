@@ -5,7 +5,7 @@ import copy
 _code_git_version = "30b5a88e76ee57aae97a49489d438e789bb6b047"
 _code_repository = "https://github.com/plops/cl-py-generator/tree/master/example/29_ondrejs_challenge/source/run_00_start.py"
 _code_generation_time = "06:28:34 of Wednesday, 2022-01-19 (GMT+1)"
-cap = cv.VideoCapture("/dev/video0")
+cap = cv.VideoCapture("/dev/video2")
 r = cap.set(cv.CAP_PROP_MODE, 0)
 if not (r):
     print("problem with MODE")
@@ -32,15 +32,20 @@ if not (r):
 r = cap.get(cv.CAP_PROP_EXPOSURE)
 print("EXPOSURE={}".format(r))
 cv.namedWindow("image", cv.WINDOW_NORMAL)
-cv.resizeWindow("image", ((1920) // (2)), 1080)
+cv.resizeWindow("image", 256, 384)
+cap.set(cv.CAP_PROP_CONVERT_RGB, 0)
 while True:
     ret, image = cap.read()
+    # image.shape => (384, 256, 2)
     if not (ret):
         break
     image.flags.writeable = False
     key = cv.waitKey(1)
     if (27) == (key):
         break
-    cv.imshow("image", image)
+    
+    cv.imshow("image", np.hstack([image[:,:,0],image[:,:,1]]))
+
 cap.release()
 cv.destroyAllWindows()
+
