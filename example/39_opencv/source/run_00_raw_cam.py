@@ -34,6 +34,13 @@ print("EXPOSURE={}".format(r))
 cv.namedWindow("image", cv.WINDOW_NORMAL)
 cv.resizeWindow("image", 256, 384)
 cap.set(cv.CAP_PROP_CONVERT_RGB, 0)
+
+# from  https://github.com/LeoDJ/P2Pro-Viewer
+P2Pro_resolution = (256, 384)
+P2Pro_fps = 25.0
+P2Pro_usb_id = (0x0bda, 0x5830)  # VID, PID
+
+
 while True:
     ret, image = cap.read()
     # image.shape => (384, 256, 2)
@@ -43,8 +50,28 @@ while True:
     key = cv.waitKey(1)
     if (27) == (key):
         break
-    # only first channel (with index 0) contains image data
-    cv.imshow("image", np.hstack([image[:,:,0],image[:,:,1]]))
+    frame = image
+
+    # split video frame (top is pseudo color, bottom is temperature data)
+    frame_mid_pos = int(len(frame) / 2)
+    #picture_data = frame[0:frame_mid_pos]
+    thermal_data = frame[frame_mid_pos:]
+
+    # convert buffers to numpy arrays
+    #yuv_picture = np.frombuffer(picture_data, dtype=np.uint8).reshape((P2Pro_resolution[1] // 2, P2Pro_resolution[0], 2))
+    #rgb_picture = cv2.cvtColor(yuv_picture, cv2.COLOR_YUV2RGB_YUY2)
+
+    thermal_picture_16 = np.frombuffer(thermal_data.ravel(), dtype=np.uint16).reshape((P2Pro_resolution[1] // 2, P2Pro_resolution[0]))
+
+    ltemp = thermal_picture_16
+    print(ltemp.min(), ltemp.max())
+    ma = 19900 # ltemp.max()
+    mi = 18700 # ltemp.min()
+    #print(mi,ma)
+    v = (ltemp-mi)/(ma-mi)
+    scaled_image = cv.resize(v, (0, 0), fx=3, fy=3)
+
+    cv.imshow("image", scaled_image)
 
 cap.release()
 cv.destroyAllWindows()
