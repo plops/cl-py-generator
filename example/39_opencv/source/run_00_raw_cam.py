@@ -43,7 +43,7 @@ while True:
     key = cv.waitKey(1)
     if (27) == (key):
         break
-    
+    # only first channel (with index 0) contains image data
     cv.imshow("image", np.hstack([image[:,:,0],image[:,:,1]]))
 
 cap.release()
