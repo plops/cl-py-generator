@@ -12,6 +12,7 @@ def find_pdf_files(root_path):
     for path in Path(root_path).rglob('*.pdf'):
         if path.is_file():
             pdf_files.append(path)
+    print(f'found {len(pdf_files)} pdf files')
     return pdf_files
 
 def get_pdfinfo_metadata(pdf_path):
@@ -53,6 +54,8 @@ def store_pdf_data(db_path, pdf_path):
     
     # Get PDF content and execution time
     pdftotext_result = get_pdftotext_content(pdf_path)
+
+    print(f"{pdf_path} {len(pdftotext_result)}")
     
     # Store data in SQLite database
     db['pdfs'].insert({
@@ -78,7 +81,7 @@ def store_pdf_data(db_path, pdf_path):
 def process_pdf_files(pdf_files, db_path):
     db = Database(db_path)
     
-    if not db.table_exists('pdfs'):
+    if not db['pdfs'].exists():
         db['pdfs'].create({
             'path': str,
             'content': str,
@@ -92,7 +95,7 @@ def process_pdf_files(pdf_files, db_path):
             'date_created': pd.Timestamp
         })
     
-    if not db.table_exists('pdfs_info'):
+    if not db['pdfs_info'].exists():
         db['pdfs_info'].create({
             'path': str,
             'metadata': str,
@@ -101,6 +104,7 @@ def process_pdf_files(pdf_files, db_path):
     
     with ThreadPool() as pool:
         for pdf_path in pdf_files:
+            print(pdf_path)
             pool.apply_async(store_pdf_data, args=(db_path, pdf_path))
     
     pool.close()

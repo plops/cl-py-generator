@@ -64,12 +64,13 @@ while True:
     thermal_picture_16 = np.frombuffer(thermal_data.ravel(), dtype=np.uint16).reshape((P2Pro_resolution[1] // 2, P2Pro_resolution[0]))
 
     ltemp = thermal_picture_16
-    print(ltemp.min(), ltemp.max())
-    ma = 19900 # ltemp.max()
-    mi = 18700 # ltemp.min()
-    #print(mi,ma)
+    # print(ltemp.min(), ltemp.max())
+    #ma = 19900
+    ma, mi = ltemp.max(), ltemp.min()
+    #mi = 18700 # ltemp.min()
+    
     v = (ltemp-mi)/(ma-mi)
-    scaled_image = cv.resize(v, (0, 0), fx=3, fy=3)
+    scaled_image = cv.resize(v, (0, 0), fx=5, fy=5)
 
     cv.imshow("image", scaled_image)
 
