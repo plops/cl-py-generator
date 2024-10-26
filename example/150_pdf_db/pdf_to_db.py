@@ -12,9 +12,9 @@ def process_pdf(pdf_path):
     pdf_path = Path(pdf_path)
     start_time = time.time()
 
-    print(pdf_path)
-
     try:
+        print(pdf_path)
+
         # pdftotext
         pdftotext_process = subprocess.run(
             ["pdftotext", "-raw", "-enc", "UTF-8", str(pdf_path), "-"],
@@ -65,6 +65,10 @@ def process_pdf(pdf_path):
     except (subprocess.CalledProcessError, FileNotFoundError) as e:
         print(f"Error processing {pdf_path}: {e}")
         return None
+    except Exception as e:
+        print(e)
+        return None
+    return None
 
 parser = argparse.ArgumentParser()
 parser.add_argument("input_paths", nargs="+", help="Path(s) to search for PDF files.")
@@ -90,7 +94,16 @@ with Pool() as pool:
     print("processing finished")
 
     # Filter out failed runs returning None
-    successful_results = [result for result in results if result]
+    # successful_results = [result for result in results if result]
+
+    successful_results = []
+    for result in results:
+        try:
+            if result:
+                successful_results.append(result)
+        except Exception as e:
+            print(e)
+            pass
 
     db["pdfs"].insert_all(successful_results, pk="path", replace=True)
 
@@ -120,13 +133,8 @@ with Pool() as pool:
 #         print("processing finished")
 #
 #         # Filter out failed runs returning None
-#         # successful_results = [result for result in results if result]
+#         successful_results = [result for result in results if result]
 #
-#         successful_results = []
-#         for result in results:
-#             if result:
-#                 print(result['path'])
-#                 successful_results.append(result)
 #
 #         db["pdfs"].insert_all(successful_results, pk="path", replace=True)
 #
