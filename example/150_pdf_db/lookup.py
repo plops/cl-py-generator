@@ -10,8 +10,7 @@ db = sqlite_utils.Database(args.db_path)
 
 try:
     if db['pdfs'].detect_fts() is None:
-        fts_columns = ['text','path']
-        # ['text','path','pdfinfo','pdfinfo_url']
+        fts_columns = ['text','path','pdfinfo','pdfinfo_url']
         db['pdfs'].enable_fts(fts_columns)
         db['pdfs'].populate_fts(fts_columns)
 except Exception as e:
