@@ -7,6 +7,21 @@ after playing around with fasthtml i got interested in sqlite, sqlite-utils and 
 next steps might be to use bag-of-words statistics (or maybe some ai stuff) to separate the documents into different classes and display a 2d map of the clusters.
 another thing that would be useful is to read through a document and show corresponding documents that match best to the 500 words surrounding the current position of the reader.
 
+# Indexing the Unseen: Full-Text Search for PDFs
+
+My journey with FastHTML led me to explore the world of SQLite, sqlite-utils, datasette, and their capabilities in full-text search. A series of videos 
+and tutorials later, I discovered that implementing this feature is surprisingly straightforward. Intrigued by the results, I set out to 
+create a tool that could index all PDF files on my system, leveraging the power of full-text search.
+
+The current implementation delivers impressive results, with search findings sorted in a way that seems intuitive yet difficult to 
+pinpoint exactly. This sparks my interest in further developing and refining this tool.
+
+Future plans include:
+
+- Applying Bag-of-Words statistics or more advanced AI techniques to categorize documents into distinct classes.
+- Visualizing these clusters using a 2D map for enhanced understanding.
+- Enhancing the reading experience by highlighting matching documents based on the surrounding words read by the user.
+
 
 # Prompt
 
