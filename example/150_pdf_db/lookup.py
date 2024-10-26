@@ -26,13 +26,5 @@ except Exception as e:
 # after update of the table you need to run .populate_fts to update search index
 # or use create_trigger=True. However, this code doesn't change the database entries
 
-rows = list(db['pdfs'].search('opengl'))
-
-q = db['pdfs'].detect_fts()
-
-db.add_fts_index('items', columns=['name'])
-
-# Perform a search
-results = db.execute("SELECT * FROM items WHERE items MATCH 'fruit'")
-for row in results:
-    print(row)
+rows = list(db['pdfs'].search(db.quote_fts('H.264')))
+print(rows)
