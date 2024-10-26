@@ -1,133 +1,136 @@
-import os
-import time
-from pathlib import Path
-import pandas as pd
-import sqlite3
-from sqlite_utils.db import Database
+
+import argparse
+import sqlite_utils
 import subprocess
-from multiprocessing.pool import ThreadPool
+import time
+import json
+from pathlib import Path
+from multiprocessing import Pool
 
-def find_pdf_files(root_path):
-    pdf_files = []
-    for path in Path(root_path).rglob('*.pdf'):
-        if path.is_file():
-            pdf_files.append(path)
-    print(f'found {len(pdf_files)} pdf files')
-    return pdf_files
+def process_pdf(pdf_path):
+    """Processes a single PDF file."""
+    pdf_path = Path(pdf_path)
+    start_time = time.time()
 
-def get_pdfinfo_metadata(pdf_path):
+    print(pdf_path)
+
     try:
-        result = subprocess.run(['pdfinfo', str(pdf_path)], capture_output=True, text=True, check=False)
-        return result.stdout
-    except Exception as e:
-        return f"Error: {e}"
+        # pdftotext
+        pdftotext_process = subprocess.run(
+            ["pdftotext", "-raw", "-enc", "UTF-8", str(pdf_path), "-"],
+            capture_output=True,
+            text=True,
+            check=True  # Raise CalledProcessError if command fails
+        )
+        pdftotext_output = pdftotext_process.stdout
+        pdftotext_size = len(pdftotext_output.encode("utf-8"))
+        pdftotext_time = time.time() - start_time
 
-def extract_pdfinfo_data(metadata_str):
-    data = {}
-    for line in metadata_str.strip().split('\n'):
-        key, value = line.split(':')
-        key = key.strip()
-        value = value.strip()
-        if key == 'Title' or key == 'Author':
-            value = value.replace('"', '\\"')  # Escape double quotes
-        data[key] = value
-    return data
+        # pdfinfo
+        pdfinfo_process = subprocess.run(["pdfinfo", str(pdf_path)], capture_output=True, text=True, check=True)
+        pdfinfo_output = pdfinfo_process.stdout
+        pdfinfo_data = {}
+        for line in pdfinfo_output.splitlines():
+            if ":" in line:
+                key, value = line.split(":", 1)
+                pdfinfo_data[key.strip()] = value.strip()
 
-def get_pdftotext_content(pdf_path):
-    try:
-        start_time = time.time()
-        result = subprocess.run(['pdftotext', '-raw', '-enc', 'UTF-8', str(pdf_path), '-'], capture_output=True, text=True)
-        end_time = time.time()
+        # pdfinfo -url
+
+        pdfinfo_url_data = []
+        try:
+            pdfinfo_url_process = subprocess.run(["pdfinfo", "-url", "-enc", "UTF-8", str(pdf_path)],
+                                                 capture_output=True, text=True, check=True)
+            if pdfinfo_url_process.returncode == 0:
+                lines = pdfinfo_url_process.stdout.strip().split('\n')
+                if len(lines) > 1:  # Check if there are actual URLs (not just the header)
+                    for line in lines[1:]:  # Skip the header line
+                        parts = line.split()
+                        if len(parts) == 3:  # Avoid lines with potential errors (e.g. blank)
+                            pdfinfo_url_data.append({'Page': int(parts[0]), 'Type': parts[1], 'URL': parts[2]})
+        except Exception as e:
+            print(pdf_path, e)
+            pass
+
         return {
-            'content': result.stdout,
-            'execution_time': end_time - start_time
+            "path": str(pdf_path),
+            "text": pdftotext_output,
+            "created_at": time.strftime('%Y-%m-%d %H:%M:%S'),
+            "pdf_size": pdf_path.stat().st_size,
+            "pdftotext_time": pdftotext_time,
+            "text_size": pdftotext_size,
+            "pdfinfo": json.dumps(pdfinfo_data),
+            "pdfinfo_url": json.dumps(pdfinfo_url_data)
         }
-    except Exception as e:
-        return f"Error: {e}"
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"Error processing {pdf_path}: {e}")
+        return None
 
-def store_pdf_data(db_path, pdf_path):
-    db = Database(db_path)
-    
-    # Extract PDF info metadata
-    pdfinfo_metadata = get_pdfinfo_metadata(pdf_path)
-    pdfinfo_data = extract_pdfinfo_data(pdfinfo_metadata)
-    
-    # Get PDF content and execution time
-    pdftotext_result = get_pdftotext_content(pdf_path)
+parser = argparse.ArgumentParser()
+parser.add_argument("input_paths", nargs="+", help="Path(s) to search for PDF files.")
+parser.add_argument("--db_path", default="pdfs.db", help="Path to the SQLite database.")
+args = parser.parse_args()
 
-    print(f"{pdf_path} {len(pdftotext_result)}")
-    
-    # Store data in SQLite database
-    db['pdfs'].insert({
-        'path': str(pdf_path),
-        'content': pdfinfo_data.get('Content', ''),
-        'title': pdfinfo_data.get('Title', ''),
-        'author': pdfinfo_data.get('Author', ''),
-        'creation_date': pdfinfo_data.get('CreationDate', ''),
-        'modification_date': pdfinfo_data.get('ModDate', ''),
-        'size_bytes_pdf': os.path.getsize(pdf_path),
-        'time_execution_pdftotext': pdftotext_result.get('execution_time', 0),
-        'size_bytes_pdftotext_result': len(pdftotext_result.get('content', '')),
-        'date_created': pd.to_datetime('now')
-    }, replace=True)
-    
-    # Store pdfinfo metadata in a separate table
-    db['pdfs_info'].insert({
-        'path': str(pdf_path),
-        'metadata': pdfinfo_metadata,
-        'date_updated': pd.to_datetime('now')
-    }, replace=True)
+db = sqlite_utils.Database(args.db_path)
 
-def process_pdf_files(pdf_files, db_path):
-    db = Database(db_path)
-    
-    if not db['pdfs'].exists():
-        db['pdfs'].create({
-            'path': str,
-            'content': str,
-            'title': str,
-            'author': str,
-            'creation_date': str,
-            'modification_date': str,
-            'size_bytes_pdf': int,
-            'time_execution_pdftotext': float,
-            'size_bytes_pdftotext_result': int,
-            'date_created': pd.Timestamp
-        })
-    
-    if not db['pdfs_info'].exists():
-        db['pdfs_info'].create({
-            'path': str,
-            'metadata': str,
-            'date_updated': pd.Timestamp
-        })
-    
-    with ThreadPool() as pool:
-        for pdf_path in pdf_files:
-            print(pdf_path)
-            pool.apply_async(store_pdf_data, args=(db_path, pdf_path))
-    
-    pool.close()
-    pool.join()
+pdf_files = []
+for input_path in args.input_paths:
+    path_obj = Path(input_path)
+    if path_obj.is_dir():
+        pdf_files.extend(path_obj.rglob("*.pdf"))
+    elif path_obj.is_file() and path_obj.suffix == ".pdf":
+        pdf_files.append(path_obj)
 
-def main():
-    import argparse
 
-    parser = argparse.ArgumentParser(description='Process PDF files and store metadata in a SQLite database.')
-    parser.add_argument('input_paths', nargs='+', help='One or more input paths to search for PDF files.')
-    parser.add_argument('--db-path', default='pdfs.db', help='Path to the SQLite database file (default: pdfs.db)')
 
-    args = parser.parse_args()
 
-    pdf_files = []
-    for root_path in args.input_paths:
-        pdf_files.extend(find_pdf_files(root_path))
+with Pool() as pool:
+    results = pool.imap_unordered(process_pdf, pdf_files)
 
-    if not pdf_files:
-        print("No PDF files found.")
-        return
+    print("processing finished")
 
-    process_pdf_files(pdf_files, args.db_path)
+    # Filter out failed runs returning None
+    successful_results = [result for result in results if result]
 
-if __name__ == '__main__':
-    main()
+    db["pdfs"].insert_all(successful_results, pk="path", replace=True)
+
+#
+# def main():
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("input_paths", nargs="+", help="Path(s) to search for PDF files.")
+#     parser.add_argument("--db_path", default="pdfs.db", help="Path to the SQLite database.")
+#     args = parser.parse_args()
+#
+#     db = sqlite_utils.Database(args.db_path)
+#
+#     pdf_files = []
+#     for input_path in args.input_paths:
+#         path_obj = Path(input_path)
+#         if path_obj.is_dir():
+#             pdf_files.extend(path_obj.rglob("*.pdf"))
+#         elif path_obj.is_file() and path_obj.suffix == ".pdf":
+#             pdf_files.append(path_obj)
+#
+#
+#
+#
+#     with Pool() as pool:
+#         results = pool.imap_unordered(process_pdf, pdf_files)
+#
+#         print("processing finished")
+#
+#         # Filter out failed runs returning None
+#         # successful_results = [result for result in results if result]
+#
+#         successful_results = []
+#         for result in results:
+#             if result:
+#                 print(result['path'])
+#                 successful_results.append(result)
+#
+#         db["pdfs"].insert_all(successful_results, pk="path", replace=True)
+#
+#
+#
+# if __name__ == "__main__":
+#     main()
