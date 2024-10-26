@@ -1,3 +1,5 @@
+# Prompt
+
 create a python program use pandas, sqlite-utils, pathlib, argparse
 
 1. given one or several input path(s) use pathlib to find recursively all *.pdf files below it(them)
@@ -48,3 +50,10 @@ Again, parse this output and store it appropriatly in the database (maybe as ano
 
 Note: executions of the pdftotext and pdfinfo commands shall run in parallel so that all cores of the computer are busy
 
+# Interrogate Database
+
+## Compare size of PDF with text stored in it
+
+```
+sqlite-utils -t pdfs.db "SELECT path, pdf_size, text_size, CAST(pdf_size AS REAL) / text_size AS ratio FROM pdfs ORDER BY ratio DESC;"
+```
