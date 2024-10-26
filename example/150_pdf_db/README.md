@@ -57,3 +57,6 @@ Note: executions of the pdftotext and pdfinfo commands shall run in parallel so 
 ```
 sqlite-utils -t pdfs.db "SELECT path, pdf_size, text_size, CAST(pdf_size AS REAL) / text_size AS ratio FROM pdfs ORDER BY ratio DESC;"
 ```
+# References
+
+Datasette： a big bag of tricks for solving interesting problems using SQLite [B55hcKYye_c]
