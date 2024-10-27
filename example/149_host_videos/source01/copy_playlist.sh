@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# i have a file containing a playlist (path of one music file in each
+# given a file containing a playlist (path of one music file in each
 # line, path may contain space character or paren). they are in
 # different folders. i want to copy them all into a new
 # folder. filename collision shall be resolved by asigning a new
