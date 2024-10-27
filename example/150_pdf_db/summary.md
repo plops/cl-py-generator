@@ -1,4 +1,4 @@
-This is an AI summary of "Tutorials - Simon Willison： Data analysis with SQLite and Python [5TdIxxBPUSI]"
+This is an AI summary of "Tutorials - Simon Willison： Data analysis with SQLite and Python [5TdIxxBPUSI]" from pycon 2023
 
 *Data Analysis with SQLite and Python: A Comprehensive Tutorial*
 

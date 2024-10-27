@@ -70,3 +70,4 @@ sqlite-utils -t pdfs.db "SELECT path, pdf_size, text_size, CAST(pdf_size AS REAL
 # References
 
 Datasette： a big bag of tricks for solving interesting problems using SQLite [B55hcKYye_c]
+Tutorials - Simon Willison： Data analysis with SQLite and Python [5TdIxxBPUSI]
