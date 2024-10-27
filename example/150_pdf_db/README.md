@@ -2,10 +2,19 @@ revise the beginning of the README.md for my github project
 
 # Intro
 
-after playing around with fasthtml i got interested in sqlite, sqlite-utils and datasette. i watched some videos and found that fulltext search is easy to implement. so naturally i wanted to try to create a tool to index all pdfs on my system. the full text search works surprisingly well. the found items are sorted somehow by importance. i'm not sure how that works but seems quite good. 
+after playing around with fasthtml i got interested in sqlite,
+sqlite-utils and datasette. i watched some videos and found that it
+comes with fulltext search that is easy to use. so naturally i wanted
+to try to create a tool to index all pdfs on my system. the full text
+search works surprisingly well. the found items are sorted by
+importance using bm25 ranking. i'm not sure how that works but seems
+quite good.
 
-next steps might be to use bag-of-words statistics (or maybe some ai stuff) to separate the documents into different classes and display a 2d map of the clusters.
-another thing that would be useful is to read through a document and show corresponding documents that match best to the 500 words surrounding the current position of the reader.
+next steps might be to use bag-of-words statistics (or maybe some ai
+stuff) to separate the documents into different classes and display a
+2d map of the clusters.  another thing that would be useful is to read
+through a document and show corresponding documents that match best to
+the 500 words surrounding the current position of the reader.
 
 
 # Prompt
