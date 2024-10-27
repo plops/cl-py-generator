@@ -76,6 +76,21 @@ Note: executions of the pdftotext and pdfinfo commands shall run in parallel so 
 ```
 sqlite-utils -t pdfs.db "SELECT path, pdf_size, text_size, CAST(pdf_size AS REAL) / text_size AS ratio FROM pdfs ORDER BY ratio DESC;"
 ```
+## Rank search results in datasette
+
+```
+select path from pdfs
+join  
+  pdfs_fts on pdfs.rowid = pdfs_fts.rowid
+where
+  pdfs_fts match :search
+order by
+  pdfs_fts.rank
+limit 
+  20
+```
+
+
 # References
 
 Datasette： a big bag of tricks for solving interesting problems using SQLite [B55hcKYye_c]
