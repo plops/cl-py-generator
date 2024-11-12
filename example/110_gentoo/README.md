@@ -6154,9 +6154,8 @@ initramfs-with-squashfs.img
 
 - 5Mb bigger than before (compressed)
 
-Filesystem size 1777698.15 Kbytes (1736.03 Mbytes)
-        30.72% of uncompressed filesystem size (5786720.01 Kbytes)
-
+Filesystem size 1777865.98 Kbytes (1736.20 Mbytes)
+        30.72% of uncompressed filesystem size (5787613.74 Kbytes)
 
 1m4s
 
@@ -6174,6 +6173,153 @@ dracut \
   --kver=6.6.52-gentoo-x86_64 \
   --force \
   "/boot/initramfs"$TODAY"_squash_crypt-6.6.52-gentoo-x86_64.img"
+
+
+```
+
+# update 2024-11-12
+
+```
+eix-sync
+emerge --jobs=6 --load-average=10   --ask --verbose --update --newuse --deep --with-bdeps=y @world 
+emerge --depclean
+6.6.52 -> 6.6.58
+eselect kernel set 1
+
+# add unrar license
+sudo emerge -av unrar mcomix
+
+cd /usr/src/linux
+cp ../linux*52/.config .
+make oldconfig
+
+make -j13 # 10m36s
+make modules_install
+make install
+cp /boot/vmlinuz /boot/vmlinuz-6.6.58-gentoo-r1-x86_64
+
+emacs /boot/grub/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20241112 6.6.58 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.58-gentoo-r1-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.6.58-gentoo-r1-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20241112_squash_crypt-6.6.58-gentoo-r1-x86_64.img
+}
+
+menuentry 'Gentoo GNU/Linux 6.6.58 from disk' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.58-gentoo ...'
+	linux	/vmlinuz-6.6.58-gentoo-r1-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+}
+
+cryptsetup luksOpen /dev/nvme0n1p4 p4
+mount /dev/mapper/p4 /mnt4
+
+export TODAY=20241112
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 1 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+lib/modules/6.6.12-gentoo-x86_64 \
+lib/modules/6.6.17-gentoo-x86_64 \
+lib/modules/6.6.30-gentoo-x86_64 \
+lib/modules/6.6.38-gentoo-x86_64 \
+lib/modules/6.6.47-gentoo-x86_64 \
+lib/modules/6.6.52-gentoo-x86_64 \
+usr/lib/modules/6.3.12-gentoo-x86_64 \
+usr/lib/modules/6.6.12-gentoo-x86_64 \
+usr/lib/modules/6.6.17-gentoo-x86_64 \
+usr/lib/modules/6.6.30-gentoo-x86_64 \
+usr/lib/modules/6.6.38-gentoo-x86_64 \
+usr/lib/modules/6.6.47-gentoo-x86_64 \
+usr/lib/modules/6.6.52-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/stage \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
+usr/lib/firmwar/{iwlwifi,phanfw}* \
+persistent \
+var/tmp/portage/* \
+initramfs-with-squashfs.img
+
+- 200Mb bigger than before (compressed with 1 instead of 6), uncompressed 70MB more
+
+Filesystem size 1967989.72 Kbytes (1921.86 Mbytes)
+        33.60% of uncompressed filesystem size (5857524.18 Kbytes
+
+39s # 30s faster than before (1m4s)
+
+
+
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.6.58-gentoo-r1-x86_64 \
+  --force \
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.58-gentoo-r1-x86_64.img"
+
+
 
 
 ```
