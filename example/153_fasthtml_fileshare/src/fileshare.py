@@ -10,7 +10,7 @@ upload_dir.mkdir(exist_ok=True)
 def get():
     return Titled("File Upload Demo",
         Article(
-            Form(hx_post=upload, hx_target="#result-one")(
+            Form(hx_post='upload', hx_target="#result-one")(
                 Input(type="file", name="file"),
                 Button("Upload", type="submit", cls='secondary'),
             ),
