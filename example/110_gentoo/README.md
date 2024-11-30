@@ -6323,3 +6323,35 @@ dracut \
 
 
 ```
+
+
+# Update 2024-11-30
+
+```
+emerge-webrsync # i ran this on the wrong harddrive
+emerge -fetchonly -e @world
+
+cryptsetup luksOpen /dev/nvme0n1p4 p4
+mount /dev/mapper/p4 /mnt4
+
+# copy /etc/portage/package.use/package.use # for dav1d av1 support
+# /etc/group and passwd for ollama user
+
+dispatch-conf
+# tlp.conf
+ # Battery charge level below which charging will begin.
+-#START_CHARGE_THRESH_BAT0=75
++START_CHARGE_THRESH_BAT0=75
+ # Battery charge level above which charging will stop.
+-#STOP_CHARGE_THRESH_BAT0=80
++STOP_CHARGE_THRESH_BAT0=80
+
+
+time emerge --jobs=6 --load-average=10  --ask --verbose --update --newuse --deep --with-bdeps=y @world
+
+# this builds dav1d dependency
+
+# i ran webrsync on the wrong harddrive, i need network again to proceed with the update (to get gcc 14)
+
+
+```
