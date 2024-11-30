@@ -48,8 +48,8 @@ def process_pdf(pdf_path):
                         parts = line.split()
                         if len(parts) == 3:  # Avoid lines with potential errors (e.g. blank)
                             pdfinfo_url_data.append({'Page': int(parts[0]), 'Type': parts[1], 'URL': parts[2]})
-        except Exception as e:
-            print(pdf_path, e)
+        except Exception as e1:
+            print(pdf_path, e1)
             pass
 
         return {
@@ -62,11 +62,11 @@ def process_pdf(pdf_path):
             "pdfinfo": json.dumps(pdfinfo_data),
             "pdfinfo_url": json.dumps(pdfinfo_url_data)
         }
-    except (subprocess.CalledProcessError, FileNotFoundError) as e:
-        print(f"Error processing {pdf_path}: {e}")
+    except (subprocess.CalledProcessError, FileNotFoundError) as e2:
+        print(f"Error processing {pdf_path}: {e2}")
         return None
-    except Exception as e:
-        print(e)
+    except Exception as e3:
+        print(e3)
         return None
     return None
 
