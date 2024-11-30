@@ -16,6 +16,13 @@ stuff) to separate the documents into different classes and display a
 through a document and show corresponding documents that match best to
 the 500 words surrounding the current position of the reader.
 
+# Files
+
+
+| file         | level | comment                                                                                                          |
+|--------------+-------+------------------------------------------------------------------------------------------------------------------|
+| pdf_to_db.py |       | [-h] [--db_path DB_PATH] input_paths [input_paths ...] iterate through all pdfs and store their text in database |
+| lookup.py    |       | [-h] [--db_path DB_PATH] [--search SEARCH] find pdfs that contain a search term using the database               |
 
 # Prompt
 
