@@ -6398,11 +6398,10 @@ menuentry 'Gentoo GNU/Linux 6.6.62 from disk' --class gentoo --class gnu-linux -
 	linux	/vmlinuz-6.6.62-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
 }
 
-cryptsetup luksOpen /dev/nvme0n1p4 p4
-mount /dev/mapper/p4 /mnt4
+cryptsetup luksOpen /dev/nvme0n1p4 p4 && mount /dev/mapper/p4 /mnt4
 umount /mnt2
 
-export TODAY=20241201
+export TODAY=20241203
 export INDIR=/
 export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
 rm $OUTFILE
@@ -6490,10 +6489,26 @@ chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 dracut \
   -m " kernel-modules base rootfs-block crypt dm " \
   --filesystems " squashfs vfat overlay " \
-  --kver=6.6.58-gentoo-r1-x86_64 \
+  --kver=6.6.62-gentoo-x86_64 \
   --force \
-  "/boot/initramfs"$TODAY"_squash_crypt-6.6.58-gentoo-r1-x86_64.img"
+  "/boot/initramfs"$TODAY"_squash_crypt-6.6.62-gentoo-x86_64.img"
 
+
+
+```
+
+# update 2024-12-03
+
+```
+emerge -e @world
+emerge --depclean
+
+fetchonly opencv
+
+
+# same size as before
+Filesystem size 2021578.07 Kbytes (1974.20 Mbytes)
+        32.42% of uncompressed filesystem size (6236207.91 Kbytes)
 
 
 ```
