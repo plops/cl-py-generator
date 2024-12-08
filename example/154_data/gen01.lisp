@@ -41,9 +41,10 @@
      `(do0
        "#!/usr/bin/env python3"
        
-       #+nil (imports (
+       (imports (
+		 json
 					;os
-		 ;tqdm
+		 tqdm
 		 ;subprocess
 		 ;pathlib
 		 ;concurrent.futures
@@ -53,10 +54,46 @@
 					;sqlite_minutils.db
 		 ;datetime
 					;time
+		 (pd pandas)
 		 ))
 
        (imports-from (sqlite_minutils *))
        (setf db (Database (string "tide.db")))
        (setf users (Table db (string "Users")))
+       #+nil (setf q ("list" (for-generator (row (tqdm.tqdm users.rows)) (json.loads (aref row (string "data"))))))
+       (setf res (list))
+       (for (row (tqdm.tqdm users.rows))
+	    (setf q (json.loads (aref row (string "data"))))
+	    (setf d (dictionary))
+	    (do0
+	     ,@(loop for e in `(name
+				id
+				birth_date
+				bio
+				schools
+				jobs
+				locations
+				distance
+				)
+		     collect
+		     `(try
+		       (do0 (setf (aref d (string ,e))
+				  (aref q (string ,e)))
+			    )
+		       ("Exception as e"
+			pass)
+		       )))
+	    
+	    (for (s (aref row (string "selected_descriptors")))
+		 (try
+		  (setf (aref d (aref s (string "name")))
+			(aref (aref (aref s (string "choice_selections"))
+				    0)
+			      (string "name")))
+		  ("Exception as e"
+		   pass)))
+	    
+	    (res.append d))
+       (setf df (pd.DataFrame res))
        )))
 )
