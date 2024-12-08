@@ -55,6 +55,7 @@
 		 ;datetime
 					;time
 		 (pd pandas)
+		 (np numpy)
 		 ))
 
        (imports-from (sqlite_minutils *))
@@ -83,17 +84,21 @@
 		       ("Exception as e"
 			pass)
 		       )))
-	    
-	    (for (s (aref row (string "selected_descriptors")))
-		 (try
-		  (setf (aref d (aref s (string "name")))
-			(aref (aref (aref s (string "choice_selections"))
-				    0)
-			      (string "name")))
-		  ("Exception as e"
-		   pass)))
+	    (try
+	     (for (s (aref q (string "selected_descriptors")))
+		  (try
+		   (setf (aref d (aref s (string "name")))
+			 (aref (aref (aref s (string "choice_selections"))
+				     0)
+			       (string "name")))
+		   ("Exception as e"
+		    pass)))
+	     ("Exception as e"
+		    pass))
 	    
 	    (res.append d))
-       (setf df (pd.DataFrame res))
+       (setf df0 (pd.DataFrame res))
+       (setf df (aref df0 (logior (== df0.Smoking (string "Non-smoker"))
+				  (df0.Smoking.isna))))
        )))
 )

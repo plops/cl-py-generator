@@ -2,6 +2,7 @@
 import json
 import tqdm
 import pandas as pd
+import numpy as np
 from sqlite_minutils import *
 db=Database("tide.db")
 users=Table(db, "Users")
@@ -41,10 +42,14 @@ for row in tqdm.tqdm(users.rows):
         d["distance"]=q["distance"]
     except Exception as e:
         pass
-    for s in row["selected_descriptors"]:
-        try:
-            d[s["name"]]=s["choice_selections"][0]["name"]
-        except Exception as e:
-            pass
+    try:
+        for s in q["selected_descriptors"]:
+            try:
+                d[s["name"]]=s["choice_selections"][0]["name"]
+            except Exception as e:
+                pass
+    except Exception as e:
+        pass
     res.append(d)
-df=pd.DataFrame(res)
+df0=pd.DataFrame(res)
+df=df0[((((df0.Smoking)==("Non-smoker"))) | (df0.Smoking.isna()))]
