@@ -91,7 +91,11 @@
 			    (:name "suffix"
 			     :type str
 			     :default (string "*")
-			     :help "File suffix pattern that must match the filename (e.g. *.mp4). The default pattern accepts all."))
+			     :help "File suffix pattern that must match the filename (e.g. *.mp4). The default pattern accepts all.")
+			    (:name "debug"
+			     :type bool
+			     :default False
+			     :help "Enable debug output"))
 		 collect
 		 (destructuring-bind (&key name default type help) e
 		   (let ((cmd `(parser.add_argument (string ,(format nil "--~a" name)))))
@@ -137,7 +141,7 @@
        (do0
 	,(lprint :msg "collect files that contain part and match size criterium")
 	(setf res (list))
-	(for (file (tqdm.tqdm files))
+	(for (file (tqdm.tqdm files :disable (not args.debug)))
 	     (do0
 	      (comments "check if file has a match with any of the entries of parts")
 	      (setf isMatch False)
@@ -161,7 +165,11 @@
 	(setf df (pd.DataFrame res))
 	(for ((ntuple idx row)
 	      (df.iterrows))
-	     (print row.file)))
+	     (print row.file))
+	(when args.debug
+	  (comments "print  the size of all selected files")
+	  (setf sum_st_size (df.st_size.sum))
+	  (print (fstring "size of all selected files: {sum_st_size/1024/1024} MBytes"))))
        
        )))
   )

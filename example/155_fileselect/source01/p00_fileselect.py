@@ -11,6 +11,7 @@ parser.add_argument("input_paths", nargs="+", help="Path(s) to search for matchi
 parser.add_argument("--file-parts-from", help="A text file with parts that shall occur in the filename.")
 parser.add_argument("--min-size", type=int, default=0, help="Minimum size in bytes for a file to be selected.")
 parser.add_argument("--suffix", type=str, default="*", help="File suffix pattern that must match the filename (e.g. *.mp4). The default pattern accepts all.")
+parser.add_argument("--debug", type=bool, default=False, help="Enable debug output")
 args=parser.parse_args()
 # stop if input_paths is empty
 if ( ((len(args.input_paths))==(0)) ):
@@ -32,7 +33,7 @@ for part in parts0:
     parts.append(part.strip("\n"))
 print("collect files that contain part and match size criterium ".format())
 res=[]
-for file in tqdm.tqdm(files):
+for file in tqdm.tqdm(files, disable=not(args.debug)):
     # check if file has a match with any of the entries of parts
     isMatch=False
     for p in parts:
@@ -51,3 +52,7 @@ for file in tqdm.tqdm(files):
 df=pd.DataFrame(res)
 for idx, row in df.iterrows():
     print(row.file)
+if ( args.debug ):
+    # print  the size of all selected files
+    sum_st_size=df.st_size.sum()
+    print(f"size of all selected files: {sum_st_size/1024/1024} MBytes")
