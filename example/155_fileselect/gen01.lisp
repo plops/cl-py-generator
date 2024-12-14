@@ -124,24 +124,41 @@
 	(comments "load parts")
 	(with (as (open args.file_parts_from)
 		  f)
-	      (setf parts (f.readlines))))
+	      (setf parts0 (f.readlines))
+	      )
+	(comments "remove newlines")
+	(setf parts (list))
+	(for (part parts0)
+	     (parts.append (dot part (strip (string "\\n")))))
+	#+nil
+	(do0 (comments "convert into set")
+	     (setf parts (set parts))))
 
        (do0
 	,(lprint :msg "collect file sizes")
 	(setf res (list))
-	(for ((ntuple idx row) (tqdm.tqdm (df.iterrows)))
-	     (setf st_size 0)
-	     (try
-	      (do0
-	       (comments "this throws for dangling symlinks")
-	       (setf st_size (dot row.file (stat) st_size)))
-		  ("Exception as e"
-		   ;(print e)
-		   pass))
-	     (res.append (dictionary :file (str row.file)
-				     :st_size st_size)))
+	(for (file (tqdm.tqdm files))
+	     (do0
+	      (comments "check if file has a match with any of the entries of parts")
+	      (setf isMatch False)
+	      (for (p parts)
+		   (when (in p (str file))
+		     (setf isMatch True))))
+	     (when isMatch
+	       (do0
+		(setf st_size 0)
+		(try
+		 (do0
+		  (comments "this throws for dangling symlinks")
+		  (setf st_size (dot file (stat) st_size)))
+		 ("Exception as e"
+					;(print e)
+		  pass))
+		(comments "keep only rows that have st_size>=args.min_size")
+		(when (<= args.min_size st_size)
+		  (res.append (dictionary :file (str file)
+					  :st_size st_size))))))
 	(setf df (pd.DataFrame res)))
-       (comments "keep only rows that have st_size>=args.min_size")
-       (setf df (aref df (<= args.min_size df.st_size)))
+       
        )))
   )

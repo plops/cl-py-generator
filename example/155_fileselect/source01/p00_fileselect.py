@@ -25,17 +25,27 @@ for input_path in args.input_paths:
 df=pd.DataFrame(dict(file=files))
 # load parts
 with open(args.file_parts_from) as f:
-    parts=f.readlines()
+    parts0=f.readlines()
+# remove newlines
+parts=[]
+for part in parts0:
+    parts.append(part.strip("\n"))
 print("collect file sizes ".format())
 res=[]
-for idx, row in tqdm.tqdm(df.iterrows()):
-    st_size=0
-    try:
-        # this throws for dangling symlinks
-        st_size=row.file.stat().st_size
-    except Exception as e:
-        pass
-    res.append(dict(file=str(row.file), st_size=st_size))
+for file in tqdm.tqdm(files):
+    # check if file has a match with any of the entries of parts
+    isMatch=False
+    for p in parts:
+        if ( (p in str(file)) ):
+            isMatch=True
+    if ( isMatch ):
+        st_size=0
+        try:
+            # this throws for dangling symlinks
+            st_size=file.stat().st_size
+        except Exception as e:
+            pass
+        # keep only rows that have st_size>=args.min_size
+        if ( ((args.min_size)<=(st_size)) ):
+            res.append(dict(file=str(file), st_size=st_size))
 df=pd.DataFrame(res)
-# keep only rows that have st_size>=args.min_size
-df=df[((args.min_size)<=(df.st_size))]
