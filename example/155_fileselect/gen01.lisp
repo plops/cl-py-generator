@@ -135,7 +135,7 @@
 	     (setf parts (set parts))))
 
        (do0
-	,(lprint :msg "collect file sizes")
+	,(lprint :msg "collect files that contain part and match size criterium")
 	(setf res (list))
 	(for (file (tqdm.tqdm files))
 	     (do0
@@ -158,7 +158,10 @@
 		(when (<= args.min_size st_size)
 		  (res.append (dictionary :file (str file)
 					  :st_size st_size))))))
-	(setf df (pd.DataFrame res)))
+	(setf df (pd.DataFrame res))
+	(for ((ntuple idx row)
+	      (df.iterrows))
+	     (print row.file)))
        
        )))
   )

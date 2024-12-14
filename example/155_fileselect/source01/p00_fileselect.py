@@ -30,7 +30,7 @@ with open(args.file_parts_from) as f:
 parts=[]
 for part in parts0:
     parts.append(part.strip("\n"))
-print("collect file sizes ".format())
+print("collect files that contain part and match size criterium ".format())
 res=[]
 for file in tqdm.tqdm(files):
     # check if file has a match with any of the entries of parts
@@ -49,3 +49,5 @@ for file in tqdm.tqdm(files):
         if ( ((args.min_size)<=(st_size)) ):
             res.append(dict(file=str(file), st_size=st_size))
 df=pd.DataFrame(res)
+for idx, row in df.iterrows():
+    print(row.file)
