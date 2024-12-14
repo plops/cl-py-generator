@@ -214,10 +214,29 @@
 				 (string "bio")
 				 (string "num_photos"))))
 
-
-       #+nil
+       (setf sleep_max_for 1.3)
        (do0
-	(setf sleep_max_for .3)
+	(with (as (open (string "token")) f)
+	      (setf token (dot f (read) (strip))))
+	(for ((ntuple idx (tuple row_idx row)) (tqdm.tqdm (enumerate (df.iterrows))))
+	     (setf url (fstring "https://api.gotinder.com/like/{row._id}"))
+	     (setf header "{}")
+	     (setf (aref header (string "X-Auth-Token"))
+		   token)
+	     (setf data (dot  (requests.get url :headers header)
+			      (json))
+		   likes (aref data (string "likes_remaining"))
+		   match (aref data (string "match"))
+		   ;;1734151873712
+		   limit (aref data (string "rate_limited_until")))
+	     (print (fstring "match={match} {likes} likes remaining"))
+	     (print data)
+	   
+	     (time.sleep (* (random.random) sleep_max_for)))
+	)
+       #+nil 
+       (do0
+	
 	
 	(for ((ntuple idx (tuple row_idx row)) (tqdm.tqdm (enumerate (df.iterrows))))
 	     (for ((ntuple i url) (enumerate row.images))

@@ -142,3 +142,16 @@ def computeWeight(row):
 df["weight"]=df.apply(computeWeight, axis=1)
 df=df.sort_values(by="weight", ascending=False)
 print(df[["name", "weight", "age", "bio", "num_photos"]])
+sleep_max_for=(1.30    )
+with open("token") as f:
+    token=f.read().strip()
+for idx, (row_idx,row,) in tqdm.tqdm(enumerate(df.iterrows())):
+    url=f"https://api.gotinder.com/like/{row._id}"
+    header={}
+    header["X-Auth-Token"]=token
+    data=requests.get(url, headers=header).json()
+    likes=data["likes_remaining"]
+    match=data["match"]
+    print(f"match={match} {likes} likes remaining")
+    print(data)
+    time.sleep(((random.random())*(sleep_max_for)))

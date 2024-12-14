@@ -18,12 +18,12 @@
   (defparameter *languages* `(en de fr ch nl pt cz it jp ar))
   (defun lprint (&key msg vars)
     `(do0				;when args.verbose
-      (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}"
+      (print (dot (string ,(format nil "~a ~{~a={}~^ ~}"
 				   msg
 				   (mapcar (lambda (x)
                                              (emit-py :code x))
 					   vars)))
-                  (format (- (time.time) start_time)
+                  (format 
                           ,@vars)))))
   (defun doc (def)
     `(do0
@@ -44,6 +44,7 @@
        (imports (
 		 time
 		 ;json
+		 sys
 					;os
 		 tqdm
 		 ;subprocess
@@ -55,7 +56,7 @@
 					;sqlite_minutils.db
 		 ;datetime
 					;time
-		 ;(pd pandas)
+		 (pd pandas)
 		 ;(np numpy)
 		 ;requests
 		 ;random
@@ -82,16 +83,65 @@
 			      :nargs (string "+")
 			      :help (string "Path(s) to search for matching files."))
 	 ,@(loop for e in `((:name "file-parts-from"
-				   ;:default (string "")
-				   :help "A text file with parts that shall occur in the filename."))
+			     :help "A text file with parts that shall occur in the filename.")
+			    (:name "min-size"
+			     :type int
+			     :default 0
+			     :help "Minimum size in bytes for a file to be selected.")
+			    (:name "suffix"
+			     :type str
+			     :default (string "*")
+			     :help "File suffix pattern that must match the filename (e.g. *.mp4). The default pattern accepts all."))
 		 collect
-		 (destructuring-bind (&key name default help) e
-		   (let ((cmd `(parser.add_argument (string ,(format nil "--~a" name))
-			)))
+		 (destructuring-bind (&key name default type help) e
+		   (let ((cmd `(parser.add_argument (string ,(format nil "--~a" name)))))
+		     (when type
+		       (setf cmd (append cmd `(:type ,type))))
 		     (when default
 		       (setf cmd (append cmd `(:default ,default))))
 		     (when help
 		       (setf cmd (append cmd `(:help (string ,help)))))
-		     cmd))))
-       
-       ))))
+		     cmd)))
+	 (setf args (parser.parse_args)))
+
+       (do0
+	(comments "stop if input_paths is empty")
+	(when (== (len args.input_paths)
+		  0)
+	  (sys.exit 0)))
+       (do0
+	(setf files (list))
+	(for (input_path args.input_paths)
+	     (setf path (pathlib.Path input_path))
+	     (cond ((path.is_dir)
+		    (files.extend (path.rglob args.suffix)))
+		   ((and (path.is_file)
+			 (== path.suffix args.suffix))
+		    (files.append path))))
+	(setf df (pd.DataFrame (dictionary :file files))))
+
+       (do0
+	(comments "load parts")
+	(with (as (open args.file_parts_from)
+		  f)
+	      (setf parts (f.readlines))))
+
+       (do0
+	,(lprint :msg "collect file sizes")
+	(setf res (list))
+	(for ((ntuple idx row) (tqdm.tqdm (df.iterrows)))
+	     (setf st_size 0)
+	     (try
+	      (do0
+	       (comments "this throws for dangling symlinks")
+	       (setf st_size (dot row.file (stat) st_size)))
+		  ("Exception as e"
+		   ;(print e)
+		   pass))
+	     (res.append (dictionary :file (str row.file)
+				     :st_size st_size)))
+	(setf df (pd.DataFrame res)))
+       (comments "keep only rows that have st_size>=args.min_size")
+       (setf df (aref df (<= args.min_size df.st_size)))
+       )))
+  )
