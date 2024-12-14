@@ -31,7 +31,8 @@ with open(args.file_parts_from) as f:
 parts=[]
 for part in parts0:
     parts.append(part.strip("\n"))
-print("collect files that contain part and match size criterium ".format())
+if ( args.debug ):
+    print("collect files that contain part and match size criterium ".format())
 res=[]
 for file in tqdm.tqdm(files, disable=not(args.debug)):
     # check if file has a match with any of the entries of parts

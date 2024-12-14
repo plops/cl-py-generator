@@ -139,7 +139,8 @@
 	     (setf parts (set parts))))
 
        (do0
-	,(lprint :msg "collect files that contain part and match size criterium")
+	(when args.debug
+	 ,(lprint :msg "collect files that contain part and match size criterium"))
 	(setf res (list))
 	(for (file (tqdm.tqdm files :disable (not args.debug)))
 	     (do0
