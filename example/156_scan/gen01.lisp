@@ -15,7 +15,6 @@
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
       "Sunday"))
-  (defparameter *languages* `(en de fr ch nl pt cz it jp ar))
   (defun lprint (&key msg vars)
     `(do0				;when args.verbose
       (print (dot (string ,(format nil "~a ~{~a={}~^ ~}"
@@ -46,9 +45,10 @@
 		 tqdm
 		 ;subprocess
 		 pathlib
-		 (cv opencv)
+		 (cv cv2)
 		 ;argparse
 		 ))
+       ;(imports-from (cv2 *))
 
        #+nil
        (do0
@@ -72,6 +72,27 @@
 		      (setf cmd (append cmd `(:help (string ,help)))))
 		    cmd)))
 	(setf args (parser.parse_args)))
+
+       (comments "load video file")
+       (setf fn (string "IMG_3355.mov"))
+       (setf v (cv.VideoCapture fn))
+       (unless (v.isOpened)
+	 ,(lprint :msg "video could not be opened" :vars `(fn)))
+       (setf w (v.get cv.CAP_PROP_FRAME_WIDTH)
+	     h (v.get cv.CAP_PROP_FRAME_HEIGHT))
+       (setf win (string "screen"))
+       (cv.namedWindow win
+		       cv.WINDOW_AUTOSIZE)
+       (while True
+	      (setf (ntuple a frame)
+		    (v.read))
+	      (when (is frame None)
+		break)
+	      (cv.imshow win frame)
+	      (setf k (cv.waitKey 30))
+	      (when (==   k 27)
+		break)
+	      )
        
        )))
   )
