@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-# micromamba install tqdm pandas requests sqlite_minutils
+# micromamba install requests sqlite_minutils
 import time
-import json
 import sys
-import tqdm
-import pandas as pd
 import requests
 import random
 import datetime
@@ -90,18 +87,7 @@ datetime_str=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 db_fn=f"tide_{datetime_str}.db"
 db=Database(db_fn)
 users=Table(db, "Users")
-schema=dict(id=str, data=str)
-schema["name"]=str
-schema["bio"]=str
-schema["distance"]=str
-schema["birth_date"]=int
-schema["gender"]=str
-schema["images"]=str
-schema["family_plans"]=str
-schema["smoking"]=str
-schema["drinking"]=str
-schema["workout"]=str
-schema["education"]=str
+schema=dict(id=str, data=str, name=str, bio=str, distance=str, birth_date=int, gender=str, images=str, family_plans=str, smoking=str, drinking=str, workout=str, education=str)
 users.create(columns=schema, pk="id")
 api=API(token)
 while (True):

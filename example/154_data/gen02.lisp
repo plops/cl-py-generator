@@ -43,13 +43,13 @@
      (format nil "~a/source01/p~a_~a" *path* "00" notebook-name)
      `(do0
        "#!/usr/bin/env python3"
-       (comments "micromamba install tqdm pandas requests sqlite_minutils")
+       (comments "micromamba install requests sqlite_minutils")
        (imports (
 		 time
-		 json
+		 ;json
 		 sys
 					;os
-		 tqdm
+		 ;tqdm
 		 ;subprocess
 		 ;pathlib
 		 ;concurrent.futures
@@ -59,7 +59,7 @@
 					;sqlite_minutils.db
 		 ;datetime
 					;time
-		 (pd pandas)
+		 ;(pd pandas)
 		 ;(np numpy)
 		 requests
 		 random
@@ -194,13 +194,14 @@
 		   db_fn (fstring "tide_{datetime_str}.db"))
 	     (setf db (Database db_fn))
 	     (setf users (Table db (string "Users")))
-	     (setf schema (dictionary :id str
-				      :data str))
-	     ,@(loop for e in l
-		     collect
-		     (destructuring-bind (&key var fun type json) e
-		       `(setf (aref schema (string ,var))
-			      ,type)))
+	     (setf schema (dictionary
+			   :id str
+			   :data str
+			   ,@(loop for e in l
+				   appending
+				   (destructuring-bind (&key var fun type json) e
+				     `(,(make-keyword (string-upcase (format nil "~a" var)))
+				       ,type)))))
 	     
 	     (users.create :columns schema
 			   :pk (string "id"))))
