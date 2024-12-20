@@ -77,17 +77,37 @@
 		 datetime
 		 time))
 
-       (imports-from (fasthtml.common *)
+       (imports-from ;(fasthtml.common *)
 		     (google genai)
-		     (google.genai types))
+		     (google.genai types) ;; pydantic model types for paramters (alternative to TypedDict)
+		     )
 
        (comments "genai manual: https://googleapis.github.io/python-genai/")
        " "
-       (comments "Read the gemini api key from disk")
+       (comments "Read the gemini api key from  disk")
        (with (as (open (string "api_key.txt"))
                  f)
              (setf api_key (dot f (read) (strip))))
        (setf client (genai.Client :api_key api_key))
+
        
+       (setf prompt (string "Tell me a joke about rockets!"))
+       (setf model (string "gemini-2.0-flash-exp"))
+       (setf safeties (list))
+       (for (harm (aref types.HarmCategory.__args__ (slice 1 "")))
+	    (comments "skip unspecified")
+	    (safeties.append (types.SafetySetting
+			      :category harm
+			      :threshold (string "BLOCK_NONE") ;; or OFF
+			      )))
+       (setf config (types.GenerateContentConfig :temperature 2s0
+						 :safety_settings safeties))
+       (for (chunk
+	     (client.models.generate_content_stream
+	      :model model
+	      :contents prompt
+	      :config config
+	      ))
+	    (print chunk.text))
 
        ))))
