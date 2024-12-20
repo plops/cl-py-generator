@@ -41,12 +41,12 @@
        "#!/usr/bin/env python3"
        (comments "load a slow-mo video from iphone that with structured illumination")
        (imports (
-		 time
-		 tqdm
-		 ;subprocess
-		 pathlib
+		 ;time
+		 ; tqdm
+					;subprocess
+		 ;pathlib
 		 (cv cv2)
-		 ;argparse
+					;argparse
 		 ))
        ;(imports-from (cv2 *))
 

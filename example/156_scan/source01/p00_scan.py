@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # load a slow-mo video from iphone that with structured illumination
-import time
-import tqdm
-import pathlib
 import cv2 as cv
 # load video file
 fn="IMG_3355.mov"
