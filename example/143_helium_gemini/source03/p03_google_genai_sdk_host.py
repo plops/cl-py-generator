@@ -1,23 +1,17 @@
 #!/usr/bin/env python3
-# micromamba install python-fasthtml markdown; pip install google-genai
-import markdown
+# micromamba install python-fasthtml markdown; pip install google-genai webvtt-py
 import sqlite_minutils.db
 import datetime
 import time
+import subprocess
+import webvtt
 from google import genai
 from google.genai import types
-# genai manual: https://googleapis.github.io/python-genai/
- 
-# Read the gemini api key from  disk
-with open("api_key.txt") as f:
-    api_key=f.read().strip()
-client=genai.Client(api_key=api_key)
-prompt="Tell me a joke about rockets!"
-model="gemini-2.0-flash-exp"
-safeties=[]
-for harm in types.HarmCategory.__args__[1:]:
-    # skip unspecified
-    safeties.append(types.SafetySetting(category=harm, threshold="BLOCK_NONE"))
-config=types.GenerateContentConfig(temperature=(2.0    ), safety_settings=safeties)
-for chunk in client.models.generate_content_stream(model=model, contents=prompt, config=config):
-    print(chunk.text)
+start_time=time.time()
+# Call yt-dlp to download the subtitles
+url="https://www.youtube.com/watch?v=ttuDW1YrkpU"
+sub_file="/dev/shm/o"
+sub_file_="/dev/shm/o.en.vtt"
+subprocess.run(["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--sub-lang", "en", "-o", sub_file, url])
+for c in webvtt.read(sub_file_):
+    print("{} nil c.start={} c.text={}".format(((time.time())-(start_time)), c.start, c.text))

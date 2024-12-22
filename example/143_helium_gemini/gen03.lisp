@@ -67,47 +67,74 @@
      (format nil "~a/source03/p~a_~a" *path* *idx* notebook-name)
      `(do0
        "#!/usr/bin/env python3"
-       (comments "micromamba install python-fasthtml markdown; pip install google-genai")
+       (comments "micromamba install python-fasthtml markdown; pip install google-genai webvtt-py")
 
        (imports (
 					; re
-		 markdown
+		 ;markdown
 					; uvicorn
 		 sqlite_minutils.db
 		 datetime
-		 time))
+		 time
+		 subprocess
+		 webvtt))
 
        (imports-from ;(fasthtml.common *)
 		     (google genai)
 		     (google.genai types) ;; pydantic model types for paramters (alternative to TypedDict)
 		     )
+       (setf start_time (time.time))
 
-       (comments "genai manual: https://googleapis.github.io/python-genai/")
-       " "
-       (comments "Read the gemini api key from  disk")
-       (with (as (open (string "api_key.txt"))
-                 f)
-             (setf api_key (dot f (read) (strip))))
-       (setf client (genai.Client :api_key api_key))
+       (do0
+	(comments "Call yt-dlp to download the subtitles")
+	(setf url (string "https://www.youtube.com/watch?v=ttuDW1YrkpU"))
+	(setf sub_file (string "/dev/shm/o"))
+	(setf sub_file_ (string "/dev/shm/o.en.vtt"))
+	(subprocess.run (list (string "yt-dlp")
+			      (string "--skip-download")
+			      (string "--write-auto-subs")
+			      (string "--write-subs")
+			      (string "--sub-lang")
+			      (string "en")
+			      (string "-o")
+			      sub_file
+			      url))
+	(for (c (webvtt.read sub_file_))
+	     ,(lprint :vars `(;c.identifier
+			      c.start
+			      ;c.end
+			      c.text
+			      ;c.voice
+			      ))))
 
-       
-       (setf prompt (string "Tell me a joke about rockets!"))
-       (setf model (string "gemini-2.0-flash-exp"))
-       (setf safeties (list))
-       (for (harm (aref types.HarmCategory.__args__ (slice 1 "")))
-	    (comments "skip unspecified")
-	    (safeties.append (types.SafetySetting
-			      :category harm
-			      :threshold (string "BLOCK_NONE") ;; or OFF
-			      )))
-       (setf config (types.GenerateContentConfig :temperature 2s0
-						 :safety_settings safeties))
-       (for (chunk
-	     (client.models.generate_content_stream
-	      :model model
-	      :contents prompt
-	      :config config
-	      ))
-	    (print chunk.text))
+       #+Nil
+       (do0
+	(comments "genai manual: https://googleapis.github.io/python-genai/")
+	" "
+	(comments "Read the gemini api key from  disk")
+	(with (as (open (string "api_key.txt"))
+                  f)
+              (setf api_key (dot f (read) (strip))))
+	(setf client (genai.Client :api_key api_key))
+
+	
+	(setf prompt (string "Tell me a joke about rockets!"))
+	(setf model (string "gemini-2.0-flash-exp"))
+	(setf safeties (list))
+	(for (harm (aref types.HarmCategory.__args__ (slice 1 "")))
+	     (comments "skip unspecified")
+	     (safeties.append (types.SafetySetting
+			       :category harm
+			       :threshold (string "BLOCK_NONE") ;; or OFF
+			       )))
+	(setf config (types.GenerateContentConfig :temperature 2s0
+						  :safety_settings safeties))
+	(for (chunk
+	      (client.models.generate_content_stream
+	       :model model
+	       :contents prompt
+	       :config config
+	       ))
+	     (print chunk.text)))
 
        ))))
