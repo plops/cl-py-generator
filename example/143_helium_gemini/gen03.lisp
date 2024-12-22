@@ -100,6 +100,7 @@
 			      sub_file
 			      url))
 	(for (c (webvtt.read sub_file_))
+	     (comments "we don't need sub-second time resolution. trim it away")
 	     (setf start (dot c start (aref (split (string ".")) 0)))
 	     ,(lprint :vars `(		;c.identifier
 			      start

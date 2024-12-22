@@ -14,5 +14,6 @@ sub_file="/dev/shm/o"
 sub_file_="/dev/shm/o.en.vtt"
 subprocess.run(["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--sub-lang", "en", "-o", sub_file, url])
 for c in webvtt.read(sub_file_):
+    # we don't need sub-second time resolution. trim it away
     start=c.start.split(".")[0]
     print("{} nil start={} c.text={}".format(((time.time())-(start_time)), start, c.text))
