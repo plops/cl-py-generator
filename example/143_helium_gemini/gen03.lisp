@@ -100,11 +100,12 @@
 			      sub_file
 			      url))
 	(for (c (webvtt.read sub_file_))
-	     ,(lprint :vars `(;c.identifier
-			      c.start
-			      ;c.end
+	     (setf start (dot c start (aref (split (string ".")) 0)))
+	     ,(lprint :vars `(		;c.identifier
+			      start
+					;c.end
 			      c.text
-			      ;c.voice
+					;c.voice
 			      ))))
 
        #+Nil
