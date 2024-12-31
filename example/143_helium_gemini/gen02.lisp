@@ -1804,7 +1804,7 @@ Output tokens: {output_tokens}")
 	 (declare (type Summary summary)
 		  (type Request request))
 	 
-	 #+yd
+	 #+dl
 	 (when (== 0 (len summary.transcript))
 	   (comments "No transcript given, try to download from URL")
 	   (setf summary.transcript (get_transcript summary.original_source_link))
