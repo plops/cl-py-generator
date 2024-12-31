@@ -1529,7 +1529,13 @@ use of these things")
 
 
 
-       (setf documentation (string3 "###### **Prepare the Input Text from YouTube:**
+       (setf documentation #+dl (string3 "###### To use the YouTube summarizer:
+
+1. **Copy the YouTube video link.**
+2. **Paste the link into the provided input field.**
+3. **Click the  'Summarize'  button.**  The summary with timestamps will be generated.
+")
+			   #-dl (string3 "###### **Prepare the Input Text from YouTube:**
  * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
  * Click on the \"Show Transcript\" button below the video.
  * **Scroll to the bottom** in the transcript sub-window.
@@ -1548,7 +1554,7 @@ use of these things")
 "))
 
        " "
-       #+yd
+       #+dl
        (def get_transcript (url)
 	 (comments "Call yt-dlp to download the subtitles")
 	 

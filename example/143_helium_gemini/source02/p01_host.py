@@ -31,24 +31,32 @@ def render(summary: Summary):
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, pk="identifier")
  
-documentation="""###### **Prepare the Input Text from YouTube:**
- * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
- * Click on the "Show Transcript" button below the video.
- * **Scroll to the bottom** in the transcript sub-window.
- * **Start selecting the text from the bottom of the transcript sub-window and drag your cursor upwards, including the video title at the top.** This will select the title, description, comments (that have loaded), and the entire transcript.
- * **Tip:** Summaries are often better if you include the video title, the video description, and relevant comments along with the transcript.
+documentation="""###### To use the YouTube summarizer:
 
-###### **Paste the Text into the Web Interface:**
- * Paste the copied text (title, description, transcript, and optional comments) into the text area provided below.
- * Select your desired model from the dropdown menu (Gemini Pro is recommended for accurate timestamps).
- * Click the "Summarize Transcript" button.
-
-###### **View the Summary:**
- * The application will process your input and display a continuously updating preview of the summary. 
- * Once complete, the final summary with timestamps will be displayed, along with an option to copy the text.
- * You can then paste this summarized text into a YouTube comment.
+1. **Copy the YouTube video link.**
+2. **Paste the link into the provided input field.**
+3. **Click the  'Summarize'  button.**  The summary with timestamps will be generated.
 """
  
+def get_transcript(url):
+    # Call yt-dlp to download the subtitles
+    sub_file="/dev/shm/o"
+    sub_file_="/dev/shm/o.en.vtt"
+    subprocess.run(["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies", "yt_cookies.txt", "--sub-lang", "en", "-o", sub_file, url])
+    ostr=""
+    try:
+        for c in webvtt.read(sub_file_):
+            # we don't need sub-second time resolution. trim it away
+            start=c.start.split(".")[0]
+            # remove internal newlines within a caption
+            cap=c.text.strip().replace("\n", " ")
+            # write <start> <c.text> into each line of ostr
+            ostr += f"{start} {cap}\n"
+    except FileNotFoundError:
+        print("Error: Subtitle file not found")
+    except Exception as e:
+        print("Error: problem when processing subtitle file")
+    return ostr
  
 documentation_html=markdown.markdown(documentation)
 @rt("/")
