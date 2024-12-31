@@ -1533,7 +1533,9 @@ use of these things")
 
 1. **Copy the YouTube video link.**
 2. **Paste the link into the provided input field.**
-3. **Click the  'Summarize'  button.**  The summary with timestamps will be generated.
+3. **Alternatively (for desktop browsers):** If you're on the YouTube video page, you can copy the video's title, description, transcript, and any visible comments, then paste them into the input field.
+4. **Click the 'Summarize' button.** The summary with timestamps will be generated.
+
 ")
 			   #-dl (string3 "###### **Prepare the Input Text from YouTube:**
  * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
@@ -1607,7 +1609,7 @@ use of these things")
 			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
 	 
-	 (setf #-dl transcript #-dl (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
+	 (setf  transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				    :style (string "height: 300px; width=60%;")
 				    :name (string "transcript"))
 	       model (Div (Select
@@ -1628,7 +1630,7 @@ use of these things")
 		  (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
 				    
 				    :name (string "original_source_link"))
-		  #-dl transcript
+		   transcript
 		  model
 		  (Div (Label (string "Output Language") :_for (string "output_language"))
 		       (Select
