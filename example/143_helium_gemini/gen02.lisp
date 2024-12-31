@@ -1448,7 +1448,7 @@ use of these things")
        #+dl (comments "micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py")
        (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
-					;os
+		 os
 		 google.api_core.exceptions
 		 ; re
 		 markdown
@@ -1559,6 +1559,12 @@ use of these things")
        #+dl
        (def get_transcript (url)
 	 (comments "Call yt-dlp to download the subtitles")
+
+	 (do0
+	  (setf pattern (rstring "^https://youtube\\.com/watch\\?v=[A-Za-z0-9_-]{11}$"))
+	  (unless (re.match pattern url)
+	    (print (string "Error: Invalid youtube url"))
+	    (return (string ""))))
 	 
 	 (setf sub_file (string "/dev/shm/o"))
 	 (setf sub_file_ (string "/dev/shm/o.en.vtt"))
@@ -1575,15 +1581,18 @@ use of these things")
 			       url))
 	 (setf ostr (string "")) 
 	 (try
-	  (for (c (webvtt.read sub_file_))
-	       (comments "we don't need sub-second time resolution. trim it away")
-	       (setf start (dot c start (aref (split (string ".")) 0)))
-	       (comments "remove internal newlines within a caption")
-	       (setf cap (dot c text (strip) (replace (string "\\n")
-						      (string " "))))
-	       (comments "write <start> <c.text> into each line of ostr")
-	       (incf ostr
-		     (fstring "{start} {cap}\\n")))
+	  (do0
+	   (for (c (webvtt.read sub_file_))
+		(comments "we don't need sub-second time resolution. trim it away")
+		(setf start (dot c start (aref (split (string ".")) 0)))
+		(comments "remove internal newlines within a caption")
+		(setf cap (dot c text (strip) (replace (string "\\n")
+						       (string " "))))
+		(comments "write <start> <c.text> into each line of ostr")
+		(incf ostr
+		      (fstring "{start} {cap}\\n")))
+	   (os.remove sub_file_))
+	  
 	  (FileNotFoundError
 	   (print (string "Error: Subtitle file not found")))
 	  ("Exception as e"

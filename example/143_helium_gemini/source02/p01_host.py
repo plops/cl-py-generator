@@ -2,6 +2,7 @@
 # pip install -U google-generativeai python-fasthtml markdown
 # micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py
 import google.generativeai as genai
+import os
 import google.api_core.exceptions
 import markdown
 import sqlite_minutils.db
@@ -42,6 +43,10 @@ documentation="""###### To use the YouTube summarizer:
  
 def get_transcript(url):
     # Call yt-dlp to download the subtitles
+    pattern=rstring(^https://youtube\.com/watch\?v=[A-Za-z0-9_-]{11}$)
+    if ( not(re.match(pattern, url)) ):
+        print("Error: Invalid youtube url")
+        return ""
     sub_file="/dev/shm/o"
     sub_file_="/dev/shm/o.en.vtt"
     subprocess.run(["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies", "yt_cookies.txt", "--sub-lang", "en", "-o", sub_file, url])
@@ -54,6 +59,7 @@ def get_transcript(url):
             cap=c.text.strip().replace("\n", " ")
             # write <start> <c.text> into each line of ostr
             ostr += f"{start} {cap}\n"
+        os.remove(sub_file_)
     except FileNotFoundError:
         print("Error: Subtitle file not found")
     except Exception as e:
