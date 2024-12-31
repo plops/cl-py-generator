@@ -43,7 +43,7 @@ documentation="""###### To use the YouTube summarizer:
  
 def get_transcript(url):
     # Call yt-dlp to download the subtitles
-    pattern=r"""^https://youtube\.com/watch\?v=[A-Za-z0-9_-]{11}$"""
+    pattern=r"""^https://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}$"""
     if ( not(re.match(pattern, url)) ):
         print("Error: Invalid youtube url")
         return ""

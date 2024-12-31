@@ -1561,7 +1561,7 @@ use of these things")
 	 (comments "Call yt-dlp to download the subtitles")
 
 	 (do0
-	  (setf pattern (rstring3 "^https://youtube\\.com/watch\\?v=[A-Za-z0-9_-]{11}$"))
+	  (setf pattern (rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=[A-Za-z0-9_-]{11}$"))
 	  (unless (re.match pattern url)
 	    (print (string "Error: Invalid youtube url"))
 	    (return (string ""))))
