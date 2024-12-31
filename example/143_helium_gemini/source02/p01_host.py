@@ -151,8 +151,7 @@ def get(identifier: int):
 def post(summary: Summary, request: Request):
     if ( ((0)==(len(summary.transcript))) ):
         # No transcript given, try to download from URL
-        transcript=get_transcript(summary.original_source_link)
-        summary.transcript=transcript
+        summary.transcript=get_transcript(summary.original_source_link)
     words=summary.transcript.split()
     if ( ((len(words))<(30)) ):
         return Div("Error: Transcript is too short. No summary necessary", id="summary")
