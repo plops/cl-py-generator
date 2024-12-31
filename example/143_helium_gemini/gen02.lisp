@@ -1579,7 +1579,7 @@ use of these things")
 			       (string "-o")
 			       sub_file
 			       url))
-	 (prints (dot (string " ")
+	 (print (dot (string " ")
 		      (join cmds)))
 	 (subprocess.run cmds)
 	 (setf ostr (string "")) 
