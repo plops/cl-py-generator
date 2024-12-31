@@ -1549,9 +1549,8 @@ use of these things")
 
        " "
        (def get_transcript (url)
-
-	   (comments "Call yt-dlp to download the subtitles")
-	   
+	 (comments "Call yt-dlp to download the subtitles")
+	 
 	 (setf sub_file (string "/dev/shm/o"))
 	 (setf sub_file_ (string "/dev/shm/o.en.vtt"))
 	 (subprocess.run (list (string "yt-dlp")
@@ -1793,6 +1792,9 @@ Output tokens: {output_tokens}")
 	 (declare (type Summary summary)
 		  (type Request request))
 	 (setf words (summary.transcript.split))
+	 (when (< (len words) 30)
+	   (return (Div (string "Error: Transcript is too short. No summary necessary")
+			  :id (string "summary"))))
 	 (when (< 100_000 (len words))
 	   (when (dot summary model (startswith (string "gemini-1.5-pro")))
 	     (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")

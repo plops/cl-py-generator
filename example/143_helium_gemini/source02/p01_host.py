@@ -150,6 +150,8 @@ def get(identifier: int):
 @rt("/process_transcript")
 def post(summary: Summary, request: Request):
     words=summary.transcript.split()
+    if ( ((len(words))<(30)) ):
+        return Div("Error: Transcript is too short. No summary necessary", id="summary")
     if ( ((100_000)<(len(words))) ):
         if ( summary.model.startswith("gemini-1.5-pro") ):
             return Div("Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.", id="summary")
