@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # pip install -U google-generativeai python-fasthtml markdown
-# micromamba install python-fasthtml markdown; pip install  webvtt-py
+# micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py
 import google.generativeai as genai
 import google.api_core.exceptions
 import markdown
@@ -53,7 +53,7 @@ def get_transcript(url):
     # Call yt-dlp to download the subtitles
     sub_file="/dev/shm/o"
     sub_file_="/dev/shm/o.en.vtt"
-    subprocess.run(["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--sub-lang", "en", "-o", sub_file, url])
+    subprocess.run(["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies", "yt_cookies.txt", "--sub-lang", "en", "-o", sub_file, url])
     ostr=""
     try:
         for c in webvtt.read(sub_file_):

@@ -1445,7 +1445,7 @@ use of these things")
      `(do0
        "#!/usr/bin/env python3"
        (comments "pip install -U google-generativeai python-fasthtml markdown")
-       #+dl (comments "micromamba install python-fasthtml markdown; pip install  webvtt-py")
+       #+dl (comments "micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py")
        (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
 					;os
@@ -1557,6 +1557,8 @@ use of these things")
 			       (string "--skip-download")
 			       (string "--write-auto-subs")
 			       (string "--write-subs")
+			       (string "--cookies")
+			       (string "yt_cookies.txt")
 			       (string "--sub-lang")
 			       (string "en")
 			       (string "-o")
@@ -1747,7 +1749,7 @@ Output tokens: {output_tokens}")
 				    )
 			       :id (string "hidden-markdown")
 			       
-			       :style (string "display: none;"))
+			       :style( string "display: none;"))
 			  (Div
 			   (NotStr html)
 					;:id (fstring "pre-{identifier}-html")
