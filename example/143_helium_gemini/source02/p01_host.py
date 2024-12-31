@@ -49,34 +49,14 @@ documentation="""###### **Prepare the Input Text from YouTube:**
  * You can then paste this summarized text into a YouTube comment.
 """
  
-def get_transcript(url):
-    # Call yt-dlp to download the subtitles
-    sub_file="/dev/shm/o"
-    sub_file_="/dev/shm/o.en.vtt"
-    subprocess.run(["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies", "yt_cookies.txt", "--sub-lang", "en", "-o", sub_file, url])
-    ostr=""
-    try:
-        for c in webvtt.read(sub_file_):
-            # we don't need sub-second time resolution. trim it away
-            start=c.start.split(".")[0]
-            # remove internal newlines within a caption
-            cap=c.text.strip().replace("\n", " ")
-            # write <start> <c.text> into each line of ostr
-            ostr += f"{start} {cap}\n"
-    except FileNotFoundError:
-        print("Error: Subtitle file not found")
-    except Exception as e:
-        print("Error: problem when processing subtitle file")
-    return ostr
  
 documentation_html=markdown.markdown(documentation)
 @rt("/")
 def get(request: Request):
     print(request.client.host)
     nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
-    transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width=60%;", name="transcript")
     model=Div(Select(Option("gemini-1.5-pro-exp-0827"), Option("gemini-2.0-flash-exp"), Option("gemini-exp-1206"), Option("gemini-exp-1121"), Option("gemini-exp-1114"), Option("learnlm-1.5-pro-experimental"), Option("gemini-1.5-flash-002"), Option("gemini-1.5-pro-002"), Option("gemini-1.5-pro-exp-0801"), Option("gemini-1.5-flash-exp-0827"), Option("gemini-1.5-flash-8b-exp-0924"), Option("gemini-1.5-flash-latest"), Option("gemma-2-2b-it"), Option("gemma-2-9b-it"), Option("gemma-2-27b-it"), Option("gemini-1.5-flash"), Option("gemini-1.5-pro"), Option("gemini-1.0-pro"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
-    form=Form(Group(Div(transcript, Textarea(placeholder="(Optional) Add Link to original source", name="original_source_link"), model, Div(Label("Output Language", _for="output_language"), Select(Option("en"), Option("de"), Option("fr"), Option("ch"), Option("nl"), Option("pt"), Option("cz"), Option("it"), Option("jp"), Option("ar"), style="width: 100%;", name="output_language", id="output_language"), style="display: flex; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_comments", name="include_comments", checked=False), Label("Include User Comments", _for="include_comments"), style="display: flex; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_timestamps", name="include_timestamps", checked=True), Label("Include Timestamps", _for="include_timestamps"), style="display: flex; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_glossary", name="include_glossary", checked=False), Label("Include Glossary", _for="include_glossary"), style="display: flex; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
+    form=Form(Group(Div(Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", name="original_source_link"), model, Div(Label("Output Language", _for="output_language"), Select(Option("en"), Option("de"), Option("fr"), Option("ch"), Option("nl"), Option("pt"), Option("cz"), Option("it"), Option("jp"), Option("ar"), style="width: 100%;", name="output_language", id="output_language"), style="display: flex; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_comments", name="include_comments", checked=False), Label("Include User Comments", _for="include_comments"), style="display: flex; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_timestamps", name="include_timestamps", checked=True), Label("Include Timestamps", _for="include_timestamps"), style="display: flex; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_glossary", name="include_glossary", checked=False), Label("Include Glossary", _for="include_glossary"), style="display: flex; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC")
     summaries_to_show=summaries_to_show[0:min(13, len(summaries_to_show))]
@@ -149,9 +129,6 @@ def get(identifier: int):
  
 @rt("/process_transcript")
 def post(summary: Summary, request: Request):
-    if ( ((0)==(len(summary.transcript))) ):
-        # No transcript given, try to download from URL
-        summary.transcript=get_transcript(summary.original_source_link)
     words=summary.transcript.split()
     if ( ((len(words))<(30)) ):
         return Div("Error: Transcript is too short. No summary necessary", id="summary")

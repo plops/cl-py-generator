@@ -1548,6 +1548,7 @@ use of these things")
 "))
 
        " "
+       #+yd
        (def get_transcript (url)
 	 (comments "Call yt-dlp to download the subtitles")
 	 
@@ -1600,7 +1601,7 @@ use of these things")
 			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
 	 
-	 (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
+	 (setf #-dl transcript #-dl (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				    :style (string "height: 300px; width=60%;")
 				    :name (string "transcript"))
 	       model (Div (Select
@@ -1617,10 +1618,11 @@ use of these things")
 	       (Form
                 (Group
 		 (Div 
-		  transcript
-		  (Textarea :placeholder (string "(Optional) Add Link to original source")
+		  
+		  (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
 				    
 				    :name (string "original_source_link"))
+		  #-dl transcript
 		  model
 		  (Div (Label (string "Output Language") :_for (string "output_language"))
 		       (Select
@@ -1794,6 +1796,7 @@ Output tokens: {output_tokens}")
 	 (declare (type Summary summary)
 		  (type Request request))
 	 
+	 #+yd
 	 (when (== 0 (len summary.transcript))
 	   (comments "No transcript given, try to download from URL")
 	   (setf summary.transcript (get_transcript summary.original_source_link))
