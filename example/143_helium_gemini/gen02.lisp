@@ -1564,7 +1564,7 @@ use of these things")
 			       (string "-o")
 			       sub_file
 			       url))
-	 (setf ostr (string ""))
+	 (setf ostr (string "")) 
 	 (try
 	  (for (c (webvtt.read sub_file_))
 	       (comments "we don't need sub-second time resolution. trim it away")
