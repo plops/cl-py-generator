@@ -16,14 +16,16 @@
 ;; [ ] generate transcript from audio channel
 ;; [ ] allow editing of the models output
 ;; [ ] allow local LLM
-;; [ ] get transcript from link
+;; [X] get transcript from link
 
 
 (setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
 				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
+				     :dl ;; download transcript from link
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
+					      ;:dl
 					      )))
 
 (progn
@@ -1443,7 +1445,7 @@ use of these things")
      `(do0
        "#!/usr/bin/env python3"
        (comments "pip install -U google-generativeai python-fasthtml markdown")
-
+       #+dl (comments "micromamba install python-fasthtml markdown; pip install  webvtt-py")
        (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
 					;os
@@ -1453,6 +1455,8 @@ use of these things")
 		 ; uvicorn
 		 sqlite_minutils.db
 		 datetime
+		 #+dl subprocess
+		 #+dl webvtt
 		 time))
 
        #-emulate (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
@@ -1543,7 +1547,39 @@ use of these things")
  * You can then paste this summarized text into a YouTube comment.
 "))
 
-       
+       " "
+       (def get_transcript (url)
+
+	   (comments "Call yt-dlp to download the subtitles")
+	   
+	 (setf sub_file (string "/dev/shm/o"))
+	 (setf sub_file_ (string "/dev/shm/o.en.vtt"))
+	 (subprocess.run (list (string "yt-dlp")
+			       (string "--skip-download")
+			       (string "--write-auto-subs")
+			       (string "--write-subs")
+			       (string "--sub-lang")
+			       (string "en")
+			       (string "-o")
+			       sub_file
+			       url))
+	 (setf ostr (string ""))
+	 (try
+	  (for (c (webvtt.read sub_file_))
+	       (comments "we don't need sub-second time resolution. trim it away")
+	       (setf start (dot c start (aref (split (string ".")) 0)))
+	       (comments "remove internal newlines within a caption")
+	       (setf cap (dot c text (strip) (replace (string "\\n")
+						      (string " "))))
+	       (comments "write <start> <c.text> into each line of ostr")
+	       (incf ostr
+		     (fstring "{start} {cap}\\n")))
+	  (FileNotFoundError
+	   (print (string "Error: Subtitle file not found")))
+	  ("Exception as e"
+	   (print (string "Error: problem when processing subtitle file"))))
+	 (return ostr)
+	 )
        " "
        (setf documentation_html
 	     (markdown.markdown documentation))
@@ -1563,7 +1599,7 @@ use of these things")
 			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
 	 
-	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
+	 (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				    :style (string "height: 300px; width=60%;")
 				    :name (string "transcript"))
 	       model (Div (Select

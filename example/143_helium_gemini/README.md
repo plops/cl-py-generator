@@ -8,7 +8,7 @@
 | selen_comments.py | use selenium to download all my youtube comments                                                                          |
 | gen01             | try to generate fasthtml interface with storage in files                                                                  |
 | gen02             | try to generate fasthtml interface with storage in sqlite based on gapi2.py and 144 (this is what i run most of the time) |
-| gen03             | experiment with google-genai                                                                                              |
+| gen03             | experiment with google-genai  and yt-dlp                                                                                  |
 |                   |                                                                                                                           |
 
 
@@ -83,3 +83,15 @@ sqlite3 data/summaries.db
 SELECT * FROM items ORDER BY identifier DESC LIMIT 1;
 
 ```
+
+
+# yt-dlp usage
+
+## comments
+```
+
+# dump complete JSON with comments
+yt-dlp --write-comments --dump-single-json -o "$file" "$url"
+yt-dlp --write-comments --dump-single-json "$url" > "$file"x
+```
+
