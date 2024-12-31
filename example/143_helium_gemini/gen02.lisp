@@ -1568,7 +1568,7 @@ use of these things")
 	 
 	 (setf sub_file (string "/dev/shm/o"))
 	 (setf sub_file_ (string "/dev/shm/o.en.vtt"))
-	 (subprocess.run (list (string "yt-dlp")
+	 (setf cmds (list (string "yt-dlp")
 			       (string "--skip-download")
 			       (string "--write-auto-subs")
 			       (string "--write-subs")
@@ -1579,6 +1579,9 @@ use of these things")
 			       (string "-o")
 			       sub_file
 			       url))
+	 (prints (dot (string " ")
+		      (join cmds)))
+	 (subprocess.run cmds)
 	 (setf ostr (string "")) 
 	 (try
 	  (do0
