@@ -1633,7 +1633,8 @@ use of these things")
 			)))
 	 
 	 (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
-				    :style (string "height: 300px; width=60%; visibility: hidden;")
+				    :style (string #+simple "height: 300px; width=60%; display: none;"
+						   #-simple "height: 300px; width=60%;")
 				    :name (string "transcript")))
 	 (setf  
 	  model (Div (Select
@@ -1664,7 +1665,8 @@ use of these things")
 			:style (string "width: 100%;")
 			:name (string "output_language")
 			:id (string "output_language"))
-			  :style (string "display: flex; align-items: center; width: 100%;"))
+			  :style (string #+simple "display: none; align-items: center; width: 100%;"
+					 #-simple "display: flex; align-items: center; width: 100%;"))
 		  
 		  ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
 						 (include_timestamps "Include Timestamps" True)
@@ -1678,7 +1680,8 @@ use of these things")
 				   :name (string ,e)
 				   :checked ,default)
 			    (Label (string ,f) :_for (string ,e))
-			    :style (string "display: flex; align-items: center; width: 100%;")))
+			    :style #+simple (string "display: none; align-items: center; width: 100%;")
+				   #-simple (string "display: flex; align-items: center; width: 100%;")))
 		  
 		  (Button (string "Summarize Transcript"))
 		  :style (string "display: flex; flex-direction:column;"))
