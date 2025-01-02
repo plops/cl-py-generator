@@ -1631,9 +1631,9 @@ use of these things")
 			(Li (A (string "Documentation")
 			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
-	 #-simple
+	 
 	 (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
-				    :style (string "height: 300px; width=60%;")
+				    :style (string "height: 300px; width=60%; visibility: hidden;")
 				    :name (string "transcript")))
 	 (setf  
 	  model (Div (Select
@@ -1654,9 +1654,9 @@ use of these things")
 		  (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
 				    
 				    :name (string "original_source_link"))
-		   #-simple transcript
+		  transcript
 		  model
-		  #-simple (Div (Label (string "Output Language") :_for (string "output_language"))
+		   (Div (Label (string "Output Language") :_for (string "output_language"))
 		       (Select
 			,@(loop for e in *languages*
 				collect
@@ -1665,7 +1665,7 @@ use of these things")
 			:name (string "output_language")
 			:id (string "output_language"))
 			  :style (string "display: flex; align-items: center; width: 100%;"))
-		  #-simple
+		  
 		  ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
 						 (include_timestamps "Include Timestamps" True)
 						 (include_glossary "Include Glossary" False)
