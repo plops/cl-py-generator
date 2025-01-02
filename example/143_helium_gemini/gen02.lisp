@@ -21,9 +21,11 @@
 (setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
 				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
 				     :dl ;; download transcript from link
+				     :simple ;; use very few gui elements 
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
+					      ;:simple
 					      ;:dl
 					      )))
 
@@ -1528,7 +1530,7 @@ use of these things")
 
 
 
-       (setf documentation #+dl (string3 "###### To use the YouTube summarizer:
+       (setf documentation #+nil (string3 "###### To use the YouTube summarizer:
 
 1. **Copy the YouTube video link.**
 2. **Paste the link into the provided input field.**
@@ -1536,6 +1538,14 @@ use of these things")
 4. **Click the 'Summarize' button.** The summary with timestamps will be generated.
 
 ")
+			   #-simple (string3 "###### To use the YouTube summarizer:
+
+1. **Copy the YouTube video link.**
+2. **Paste the link into the provided input field.**
+3. **Click the 'Summarize' button.** The summary with timestamps will be generated.
+
+")
+			  
 			   #-dl (string3 "###### **Prepare the Input Text from YouTube:**
  * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
  * Click on the \"Show Transcript\" button below the video.
@@ -1621,18 +1631,19 @@ use of these things")
 			(Li (A (string "Documentation")
 			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
-	 
-	 (setf  transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
+	 #-simple
+	 (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				    :style (string "height: 300px; width=60%;")
-				    :name (string "transcript"))
-	       model (Div (Select
-			   ,@(loop for e in *models*
-				   collect
-				   (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-				    `(Option (string ,name))))
-			   :style (string "width: 100%;")
-			   :name (string "model"))
-			  :style (string "display: flex; align-items: center; width: 100%;")))
+				    :name (string "transcript")))
+	 (setf  
+	  model (Div (Select
+		      ,@(loop for e in *models*
+			      collect
+			      (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
+				`(Option (string ,name))))
+		      :style (string "width: 100%;")
+		      :name (string "model"))
+		     :style (string "display: flex; align-items: center; width: 100%;")))
 
 	
 	 (setf form
@@ -1643,9 +1654,9 @@ use of these things")
 		  (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
 				    
 				    :name (string "original_source_link"))
-		   transcript
+		   #-simple transcript
 		  model
-		  (Div (Label (string "Output Language") :_for (string "output_language"))
+		  #-simple (Div (Label (string "Output Language") :_for (string "output_language"))
 		       (Select
 			,@(loop for e in *languages*
 				collect
@@ -1654,10 +1665,11 @@ use of these things")
 			:name (string "output_language")
 			:id (string "output_language"))
 			  :style (string "display: flex; align-items: center; width: 100%;"))
+		  #-simple
 		  ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
 						 (include_timestamps "Include Timestamps" True)
 						 (include_glossary "Include Glossary" False)
-					 )
+						 )
 			  collect
 			  `(Div
 			  

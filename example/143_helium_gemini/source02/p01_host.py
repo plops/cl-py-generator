@@ -36,8 +36,7 @@ documentation="""###### To use the YouTube summarizer:
 
 1. **Copy the YouTube video link.**
 2. **Paste the link into the provided input field.**
-3. **Alternatively (for desktop browsers):** If you're on the YouTube video page, you can copy the video's title, description, transcript, and any visible comments, then paste them into the input field.
-4. **Click the 'Summarize' button.** The summary with timestamps will be generated.
+3. **Click the 'Summarize' button.** The summary with timestamps will be generated.
 
 """
  
