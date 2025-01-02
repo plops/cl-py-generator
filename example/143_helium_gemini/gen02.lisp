@@ -1633,8 +1633,8 @@ use of these things")
 			)))
 	 
 	 (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
-				    :style (string #+simple "height: 300px; width=60%; display: none;"
-						   #-simple "height: 300px; width=60%;")
+				    :style (string ;#+simple "height: 300px; width=60%; display: none;"
+						    "height: 300px; width=60%;")
 				    :name (string "transcript")))
 	 (setf  
 	  model (Div (Select
