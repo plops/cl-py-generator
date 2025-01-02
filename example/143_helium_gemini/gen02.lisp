@@ -1538,7 +1538,7 @@ use of these things")
 4. **Click the 'Summarize' button.** The summary with timestamps will be generated.
 
 ")
-			   #-simple (string3 "###### To use the YouTube summarizer:
+			   #+simple (string3 "###### To use the YouTube summarizer:
 
 1. **Copy the YouTube video link.**
 2. **Paste the link into the provided input field.**
