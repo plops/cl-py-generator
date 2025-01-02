@@ -111,5 +111,9 @@ if i copy the link on the ios youtube app it looks like that:
 
 https://www.youtube.com/live/ZOw5LT2vs9E?feature=shared
 
-but it should be
+on the desktop this is the link (what i currently support)
 https://www.youtube.com/watch?v=ZOw5LT2vs9E
+
+another video has this link for the pattern:
+
+https://youtu.be/tW6Y1WYwozk?feature=shared

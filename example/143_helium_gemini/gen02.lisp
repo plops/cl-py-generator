@@ -1566,14 +1566,31 @@ use of these things")
 
        " "
        #+dl
+       (def validate_youtube_url (url)
+	 (string3 "Validates various YouTube URL formats.")
+	 (setf patterns
+	       (list
+		;; standard watch link
+		(rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=[A-Za-z0-9_-]{11}.*")
+		;; live stream link
+		(rstring3 "^https://(www\\.)?youtube\\.com/live/[A-Za-z0-9_-]{11}.*")
+		;; shortened link
+		(rstring3 "^https://(www\\.)?youtu\\.be/[A-Za-z0-9_-]{11}.*")
+		)
+	       
+	       )
+	 (for (pattern patterns)
+	      (when (re.match pattern url)
+		(return True)))
+	 (print (string "Error: Invalid YouTube URL"))
+	 (return False))
+       #+dl
        (def get_transcript (url)
 	 (comments "Call yt-dlp to download the subtitles")
 
-	 (do0
-	  (setf pattern (rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=[A-Za-z0-9_-]{11}$"))
-	  (unless (re.match pattern url)
-	    (print (string "Error: Invalid youtube url"))
-	    (return (string ""))))
+	 
+	 (unless (validate_youtube_url url)
+	   (return (string "")))
 	 
 	 (setf sub_file (string "/dev/shm/o"))
 	 (setf sub_file_ (string "/dev/shm/o.en.vtt"))

@@ -40,11 +40,17 @@ documentation="""###### To use the YouTube summarizer:
 
 """
  
+def validate_youtube_url(url):
+    """Validates various YouTube URL formats."""
+    patterns=[r"""^https://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}.*""", r"""^https://(www\.)?youtube\.com/live/[A-Za-z0-9_-]{11}.*""", r"""^https://(www\.)?youtu\.be/[A-Za-z0-9_-]{11}.*"""]
+    for pattern in patterns:
+        if ( re.match(pattern, url) ):
+            return True
+    print("Error: Invalid YouTube URL")
+    return False
 def get_transcript(url):
     # Call yt-dlp to download the subtitles
-    pattern=r"""^https://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}$"""
-    if ( not(re.match(pattern, url)) ):
-        print("Error: Invalid youtube url")
+    if ( not(validate_youtube_url(url)) ):
         return ""
     sub_file="/dev/shm/o"
     sub_file_="/dev/shm/o.en.vtt"
