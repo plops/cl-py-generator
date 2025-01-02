@@ -103,3 +103,13 @@ yt-dlp --write-comments --dump-single-json "$url" > "$file"x
 yt-dlp --cookies-from-browser chrome --skip-download --cookies ff2_cookies.txt; head -n3 ff2_cookies.txt > yt_cookies.txt ; grep ^.youtube.com ff2_cookies.txt >> yt_cookies.txt ; 
 scp -Cr yt_cookies.txt ...
 ```
+
+
+# Links
+
+if i copy the link on the ios youtube app it looks like that:
+
+https://www.youtube.com/live/ZOw5LT2vs9E?feature=shared
+
+but it should be
+https://www.youtube.com/watch?v=ZOw5LT2vs9E
