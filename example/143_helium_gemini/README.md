@@ -100,7 +100,6 @@ yt-dlp --write-comments --dump-single-json "$url" > "$file"x
 # get cookies
 
 ```
-yt-dlp --cookies-from-browser chrome --skip-download --cookies ff2_cookies.txt
-head -n3 ff2_cookies.txt ; grep ^.youtube.com ff2_cookies.txt > yt_cookies.txt
+yt-dlp --cookies-from-browser chrome --skip-download --cookies ff2_cookies.txt; head -n3 ff2_cookies.txt > yt_cookies.txt ; grep ^.youtube.com ff2_cookies.txt >> yt_cookies.txt ; 
 scp -Cr yt_cookies.txt ...
 ```

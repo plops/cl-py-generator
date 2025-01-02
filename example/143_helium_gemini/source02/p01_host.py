@@ -49,7 +49,7 @@ def get_transcript(url):
         return ""
     sub_file="/dev/shm/o"
     sub_file_="/dev/shm/o.en.vtt"
-    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies", "yt_cookies.txt", "--sub-lang", "en", "-o", sub_file, url]
+    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, url]
     print(" ".join(cmds))
     subprocess.run(cmds)
     ostr=""

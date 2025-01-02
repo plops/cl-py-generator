@@ -18,7 +18,6 @@
 ;; [ ] allow local LLM
 ;; [X] get transcript from link
 
-
 (setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
 				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
 				     :dl ;; download transcript from link
@@ -1572,8 +1571,10 @@ use of these things")
 			       (string "--skip-download")
 			       (string "--write-auto-subs")
 			       (string "--write-subs")
-			       (string "--cookies")
-			       (string "yt_cookies.txt")
+			       ;(string "--cookies")
+			       ;(string "yt_cookies.txt")
+			       (string "--cookies-from-browser")
+			       (string "firefox")
 			       (string "--sub-lang")
 			       (string "en")
 			       (string "-o")
