@@ -1711,7 +1711,7 @@ use of these things")
 
 	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
 	       )
-	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 13 (len summaries_to_show)))))
+	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
 	 (setf summary_list (Ul *summaries_to_show
 				:id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
