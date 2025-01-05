@@ -159,9 +159,9 @@ def post(summary: Summary, request: Request):
     words=summary.transcript.split()
     if ( ((len(words))<(30)) ):
         return Div("Error: Transcript is too short. No summary necessary", id="summary")
-    if ( ((100_000)<(len(words))) ):
+    if ( ((200_000)<(len(words))) ):
         if ( summary.model.startswith("gemini-1.5-pro") ):
-            return Div("Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.", id="summary")
+            return Div("Error: Transcript exceeds 200,000 words. Please shorten it or don't use the pro model.", id="summary")
     summary.host=request.client.host
     summary.summary_timestamp_start=datetime.datetime.now().isoformat()
     print(f"link: {summary.original_source_link}")
