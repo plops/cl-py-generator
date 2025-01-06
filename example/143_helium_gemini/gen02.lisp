@@ -1797,7 +1797,7 @@ Output tokens: {output_tokens}")
 				 (unless no-show
 				   (if (eq name 'original_source_link)
 				       `(A
-					 (fstring "{s.original_soucrce_link}")
+					 (fstring "{s.original_source_link}")
 					 :target (string "_blank")
 					 :href (fstring "{s.original_source_link}")
 					 :id (string "source-link"))
