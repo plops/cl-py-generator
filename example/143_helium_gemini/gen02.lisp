@@ -1795,10 +1795,16 @@ Output tokens: {output_tokens}")
 			       collect
 			       (destructuring-bind (&key name type no-show) e
 				 (unless no-show
-				   `(P
-				    (B (string ,(format nil "~a:" name)))
-				    (Span (fstring ,(format nil "{s.~a}"
-							    (string-downcase name)))))
+				   (if (eq name 'original-source-link)
+				       `(A
+					 (fstring "{s.original_source_link}")
+					 :target (string "_blank")
+					 :href (fstring "{s.original_source_link}")
+					 :id (string "source-link"))
+				       `(P
+					 (B (string ,(format nil "~a:" name)))
+					 (Span (fstring ,(format nil "{s.~a}"
+								 (string-downcase name))))))
 				   #+nil
 				   (format nil "~a: {s.~a}" name (string-downcase name))))))
 
