@@ -1795,9 +1795,9 @@ Output tokens: {output_tokens}")
 			       collect
 			       (destructuring-bind (&key name type no-show) e
 				 (unless no-show
-				   (if (eq name 'original-source-link)
+				   (if (eq name 'original_source_link)
 				       `(A
-					 (fstring "{s.original_source_link}")
+					 (fstring "{s.original_soucrce_link}")
 					 :target (string "_blank")
 					 :href (fstring "{s.original_source_link}")
 					 :id (string "source-link"))
