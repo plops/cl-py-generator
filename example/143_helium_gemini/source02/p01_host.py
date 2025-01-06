@@ -136,8 +136,8 @@ Output tokens: {output_tokens}"""
             text=s.summary
         elif ( ((len(s.transcript))) ):
             text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
-        summary_details=Div(P(B("identifier:"), Span(f"{s.identifier}")), P(B("model:"), Span(f"{s.model}")), P(B("host:"), Span(f"{s.host}")), P(B("original_source_link:"), Span(f"{s.original_source_link}")), P(B("include_comments:"), Span(f"{s.include_comments}")), P(B("include_timestamps:"), Span(f"{s.include_timestamps}")), P(B("include_glossary:"), Span(f"{s.include_glossary}")), P(B("output_language:"), Span(f"{s.output_language}")), P(B("cost:"), Span(f"{s.cost}")), class="summary-details")
-        summary_container=Div(summary_details, class="summary-container")
+        summary_details=Div(P(B("identifier:"), Span(f"{s.identifier}")), P(B("model:"), Span(f"{s.model}")), P(B("host:"), Span(f"{s.host}")), P(B("original_source_link:"), Span(f"{s.original_source_link}")), P(B("include_comments:"), Span(f"{s.include_comments}")), P(B("include_timestamps:"), Span(f"{s.include_timestamps}")), P(B("include_glossary:"), Span(f"{s.include_glossary}")), P(B("output_language:"), Span(f"{s.output_language}")), P(B("cost:"), Span(f"{s.cost}")), cls="summary-details")
+        summary_container=Div(summary_details, cls="summary-container")
         title=summary_container
         html=markdown.markdown(s.summary)
         pre=Div(Div(Pre(text, id=f"pre-{identifier}"), id="hidden-markdown", style="display: none;"), Div(NotStr(html)))

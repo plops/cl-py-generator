@@ -1802,7 +1802,7 @@ Output tokens: {output_tokens}")
 				   #+nil
 				   (format nil "~a: {s.~a}" name (string-downcase name))))))
 
-		      :class (string "summary-details")
+		      :cls (string "summary-details")
 		      
 		      #+nil (P
 		       (B (string "Identifier:"))
@@ -1815,7 +1815,7 @@ Output tokens: {output_tokens}")
 			       ))))
 	   (setf summary_container
 		 (Div summary_details
-		      :class (string "summary-container")
+		      :cls (string "summary-container")
 		      
 		      ))
 	   (setf title summary_container
