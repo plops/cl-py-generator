@@ -1788,23 +1788,52 @@ Output tokens: {output_tokens}")
 	      (setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
 
 	   ;; title of row
-	   (setf title  (fstring ;"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
-			 ,(format nil "~{~a~^ ~}"
-				  (remove-if #'null
-				   (loop for e in db-cols
-					 collect
-					 (destructuring-bind (&key name type no-show) e
-					   (unless no-show
-					     (format nil "~a: {s.~a}" name (string-downcase name)))))))
-			 ))
+	   (setf summary_details
+		 (Div ,@(remove-if
+			 #'null
+			 (loop for e in db-cols
+			       collect
+			       (destructuring-bind (&key name type no-show) e
+				 (unless no-show
+				   `(P
+				    (B (string ,(format nil "~a:" name)))
+				    (Span (fstring ,(format nil "{s.~a}"
+							    (string-downcase name)))))
+				   #+nil
+				   (format nil "~a: {s.~a}" name (string-downcase name))))))
+
+		      :class (string "summary-details")
+		      
+		      #+nil (P
+		       (B (string "Identifier:"))
+		       (Span 558
+			     :id (string "identifier")
+			     ))
+		      #+nil (P (B (string "Model:"))
+			 (Span (string "gemini2.0")
+			       :id (string "model")
+			       ))))
+	   (setf summary_container
+		 (Div summary_details
+		      :class (string "summary-container")
+		      
+		      ))
+	   (setf title summary_container
+		 #+nil (fstring ;"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
+			  ,(format nil "~{~a~^ ~}"
+				   (remove-if #'null
+					      (loop for e in db-cols
+						    collect
+						    (destructuring-bind (&key name type no-show) e
+						      (unless no-show
+							(format nil "~a: {s.~a}" name (string-downcase name)))))))
+			  ))
 
 	   (setf html (markdown.markdown s.summary))
 					;(print (fstring "md: {html}"))
 	   (setf pre (Div (Div (Pre text
-				    :id (fstring "pre-{identifier}")
-				    )
+				    :id (fstring "pre-{identifier}"))
 			       :id (string "hidden-markdown")
-			       
 			       :style( string "display: none;"))
 			  (Div
 			   (NotStr html)
@@ -1816,8 +1845,7 @@ Output tokens: {output_tokens}")
 	       
 	       (return (Div
 			title
-		      
-			pre
+		      	pre
 			button
 			:id sid
 			))
