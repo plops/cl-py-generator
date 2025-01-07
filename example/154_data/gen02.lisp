@@ -260,13 +260,20 @@
 				    ,@(loop for e in l-choice
 					    collect
 					    (destructuring-bind (&key column values nan) e
-					      `(or ,@(loop for f in values
-							   collect
-							   (destructuring-bind (&key value weight) f
-							     `(== (dot p (get (string ,column)))
-								  (string ,value))))
-						   (== (dot p (get (string ,column)))
-						       (string "")))
+					      (if nan
+						  `(or ,@(loop for f in values
+							       collect
+							       (destructuring-bind (&key value weight) f
+								 `(== (dot p (get (string ,column)))
+								      (string ,value))))
+						       (== (dot p (get (string ,column)))
+							   (string "")))
+						  `(do0
+						   ,@(loop for f in values
+							       collect
+							       (destructuring-bind (&key value weight) f
+								 `(== (dot p (get (string ,column)))
+								      (string ,value))))))
 					      )))
 			       (print (fstring "liking {p['name']}"))
 			       (setf like_result (api.like person.id))
