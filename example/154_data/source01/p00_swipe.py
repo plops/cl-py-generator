@@ -63,6 +63,10 @@ class Person(object):
             d["education"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Education"))) else ("") for s in data["selected_descriptors"])
         except Exception as e:
             pass
+        try:
+            d["personality_type"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Personality Type"))) else ("") for s in data["selected_descriptors"])
+        except Exception as e:
+            pass
         return d
 class API():
     def __init__(self, token):
@@ -87,7 +91,7 @@ datetime_str=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 db_fn=f"tide_{datetime_str}.db"
 db=Database(db_fn)
 users=Table(db, "Users")
-schema=dict(id=str, data=str, name=str, bio=str, distance=str, birth_date=int, gender=str, images=str, family_plans=str, smoking=str, drinking=str, workout=str, education=str)
+schema=dict(id=str, data=str, name=str, bio=str, distance=str, birth_date=int, gender=str, images=str, family_plans=str, smoking=str, drinking=str, workout=str, education=str, personality_type=str)
 users.create(columns=schema, pk="id")
 api=API(token)
 while (True):
@@ -105,7 +109,7 @@ while (True):
                 smoking=p["smoking"]
                 family=p["family_plans"]
                 print("nil person.id={} name={} smoking={} family={}".format(person.id, name, smoking, family))
-                if ( ((((((p.get("smoking"))==("Non-smoker"))) or (((p.get("smoking"))==(""))))) and (((((p.get("family_plans"))==("Not sure yet"))) or (((p.get("family_plans"))==("I want children"))) or (((p.get("family_plans"))==(""))))) and (((((p.get("drinking"))==("Not for me"))) or (((p.get("drinking"))==("Sober"))) or (((p.get("drinking"))==(""))))) and (((((p.get("workout"))==("Often"))) or (((p.get("workout"))==("Everyday"))) or (((p.get("workout"))==("Gym rat"))) or (((p.get("workout"))==("")))))) ):
+                if ( ((((((p.get("smoking"))==("Non-smoker"))) or (((p.get("smoking"))==(""))))) and (((((p.get("family_plans"))==("Not sure yet"))) or (((p.get("family_plans"))==("I want children"))) or (((p.get("family_plans"))==(""))))) and (((((p.get("personality_type"))==("INFJ"))) or (((p.get("personality_type"))==(""))))) and (((((p.get("drinking"))==("Not for me"))) or (((p.get("drinking"))==("Sober"))) or (((p.get("drinking"))==(""))))) and (((((p.get("workout"))==("Often"))) or (((p.get("workout"))==("Everyday"))) or (((p.get("workout"))==("Gym rat"))) or (((p.get("workout"))==("")))))) ):
                     print(f"liking {p['name']}")
                     like_result=api.like(person.id)
                     print(like_result)

@@ -106,7 +106,8 @@
 		    (:var smoking :json "Smoking")
 		    (:var drinking :json "Drinking")
 		    (:var workout :json "Workout")
-		    (:var education :json "Education")))
+		    (:var education :json "Education")
+		    (:var personality_type :json "Personality Type")))
 	       (l (append
 		   (loop for e in l0
 			 collect
@@ -214,6 +215,9 @@
 						(:value  "I want children" :weight 10)
 						)
 		  :nan t)
+		 (:column personality_type :values ((:value "INFJ" :weight 3)
+						     )
+		  :nan nil)
 		 (:column drinking :values ((:value "Not for me" :weight 7)
 					    (:value "Sober" :weight 5))
 		  :nan t)
