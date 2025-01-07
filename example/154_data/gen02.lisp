@@ -144,6 +144,19 @@
 		      (when add_data
 			(setf (aref d (string "data"))
 			      data))
+		      (try
+		       (for (s (aref data (string "selected_descriptors")))
+			    (try
+			     (setf (aref d (aref s (string "name")))
+				   (aref
+				    (aref
+				     (aref s (string "choice_selections"))
+				     0)
+				    (string "name")))
+			     ("Exception as e"
+			      pass)))
+		   ("Exception as e"
+		    pass))
 		      ,@(loop for e in l
 			      collect
 			      (destructuring-bind (&key var fun type json) e
@@ -152,7 +165,7 @@
 				   (setf (aref d (string ,var))
 					 ,fun))
 				  ("Exception as e"
-				   ;(print (fstring ,(format nil "125: '~a' {e}" var)))
+					;(print (fstring ,(format nil "125: '~a' {e}" var)))
 				   pass))))
 		      (return d)))
 	     (class API ()

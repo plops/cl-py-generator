@@ -70,6 +70,7 @@
 		     (dot pathlib
 			  (Path (string "data/"))
 			  (rglob (string "*.db")))))
+       (print (fstring "{len(db_fns)} files: {db_fns}"))
        (setf res (list))
        
        
@@ -136,9 +137,9 @@
 	     (setf db (Database db_fn))
 	     (setf users (Table db (string "Users")))
 	     (for (row users.rows)
-		  (setf q (json.loads (aref row (string "data")))
+		  (setf data (json.loads (aref row (string "data")))
 			d (dictionary :id (aref row (string "id"))
-				      :data q))
+				      :data data))
 		  ,@(loop for e in l
 		    collect
 		    (destructuring-bind (&key var fun type json) e
@@ -149,6 +150,19 @@
 			("Exception as e"
 					;(print (fstring ,(format nil "125: '~a' {e}" var)))
 			 pass))))
+		  (try
+		   (for (s (aref data (string "selected_descriptors")))
+			(try
+			 (setf (aref d (aref s (string "name")))
+			       (aref
+				(aref
+				 (aref s (string "choice_selections"))
+				 0)
+				(string "name")))
+			 ("Exception as e"
+			  pass)))
+		   ("Exception as e"
+		    pass))
 		  (res.append d)
 		  ))
 	(setf df2 (pd.DataFrame res)
@@ -157,6 +171,17 @@
 				 :drop True
 				 :append False
 				 :inplace False)))
+	    (setf (aref df0 (string "age"))
+		  (dot df0 birth_date (apply (lambda (x)
+					       (- 2025 x)
+					       #+nil (? (== (type (string "bla")) (type x))
+						  (- 2024 (int (aref x (slice 0 4))))
+						  0
+						  ))
+					     1)))
+	    (setf df (dot (aref df0
+			    (== (aref df0 (string "Personality Type")) (string "INFJ")))
+			  (sort_values :by (string "age"))))
 
 	    
 	     ))

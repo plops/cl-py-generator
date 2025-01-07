@@ -20,6 +20,14 @@ class Person(object):
         if ( add_data ):
             d["data"]=data
         try:
+            for s in data["selected_descriptors"]:
+                try:
+                    d[s["name"]]=s["choice_selections"][0]["name"]
+                except Exception as e:
+                    pass
+        except Exception as e:
+            pass
+        try:
             d["name"]=data.get("name", "Unknown")
         except Exception as e:
             pass
