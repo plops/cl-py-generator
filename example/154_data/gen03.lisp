@@ -182,6 +182,9 @@
 	    (setf df (dot (aref df0
 			    (== (aref df0 (string "Personality Type")) (string "INFJ")))
 			  (sort_values :by (string "age"))))
+	    (for ((ntuple idx row)
+		  (df.iterrows))
+		 (print (fstring "####\\n{row['name']} ({row.age}): {row.bio}\\n")))
 
 	    
 	     ))

@@ -78,3 +78,5 @@ df1=df2.drop_duplicates(subset="id")
 df0=df1.set_index("id", drop=True, append=False, inplace=False)
 df0["age"]=df0.birth_date.apply(lambda x: ((2025)-(x)), 1)
 df=df0[((df0["Personality Type"])==("INFJ"))].sort_values(by="age")
+for idx, row in df.iterrows():
+    print(f"####\n{row['name']} ({row.age}): {row.bio}\n")
