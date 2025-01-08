@@ -228,7 +228,7 @@
 						(:value  "I want children" :weight 10)
 						)
 		  :nan t)
-		 (:column personality_type :values ((:value "INFJ" :weight 3)
+		 #+nil (:column personality_type :values ((:value "INFJ" :weight 3)
 						     )
 		  :nan nil)
 		 (:column "Personality Type" :values ((:value "INFJ" :weight 3)

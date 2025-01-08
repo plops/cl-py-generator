@@ -117,7 +117,7 @@ while (True):
                 smoking=p["smoking"]
                 family=p["family_plans"]
                 print("nil person.id={} name={} smoking={} family={}".format(person.id, name, smoking, family))
-                if ( ((((((p.get("smoking"))==("Non-smoker"))) or (((p.get("smoking"))==(""))))) and (((((p.get("family_plans"))==("Not sure yet"))) or (((p.get("family_plans"))==("I want children"))) or (((p.get("family_plans"))==(""))))) and (((p.get("personality_type"))==("INFJ"))) and (((p.get("Personality Type"))==("INFJ"))) and (((((p.get("drinking"))==("Not for me"))) or (((p.get("drinking"))==("Sober"))) or (((p.get("drinking"))==(""))))) and (((((p.get("workout"))==("Often"))) or (((p.get("workout"))==("Everyday"))) or (((p.get("workout"))==("Gym rat"))) or (((p.get("workout"))==("")))))) ):
+                if ( ((((((p.get("smoking"))==("Non-smoker"))) or (((p.get("smoking"))==(""))))) and (((((p.get("family_plans"))==("Not sure yet"))) or (((p.get("family_plans"))==("I want children"))) or (((p.get("family_plans"))==(""))))) and (((p.get("Personality Type"))==("INFJ"))) and (((((p.get("drinking"))==("Not for me"))) or (((p.get("drinking"))==("Sober"))) or (((p.get("drinking"))==(""))))) and (((((p.get("workout"))==("Often"))) or (((p.get("workout"))==("Everyday"))) or (((p.get("workout"))==("Gym rat"))) or (((p.get("workout"))==("")))))) ):
                     print(f"liking {p['name']}")
                     like_result=api.like(person.id)
                     print(like_result)
