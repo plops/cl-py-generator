@@ -22,7 +22,10 @@ class Person(object):
         try:
             for s in data["selected_descriptors"]:
                 try:
-                    d[s["name"]]=s["choice_selections"][0]["name"]
+                    sname=s["name"]
+                    svalue=s["choice_selections"][0]["name"]
+                    print(f"{sname}: {svalue}")
+                    d[sname]=svalue
                 except Exception as e:
                     pass
         except Exception as e:
@@ -94,7 +97,9 @@ class API():
         data=self.get("/v2/recs/core")
         global q
         q=data
-        return list(map(lambda user: Person(user["user"], self), data.get("data").get("results")))
+        data_data=data.get("data")
+        data_data_results=data_data.get("results")
+        return list(map(lambda user: Person(user["user"], self), data_data_results))
 datetime_str=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 db_fn=f"tide_{datetime_str}.db"
 db=Database(db_fn)

@@ -7,7 +7,7 @@
 (setf *features* (union *features* '(:more
 				     :try)))
 (setf *features* (set-difference *features* '(:more
-					      ;:try
+					;:try
 					      )))
 
 (let ()
@@ -147,12 +147,16 @@
 		      (try
 		       (for (s (aref data (string "selected_descriptors")))
 			    (try
-			     (setf (aref d (aref s (string "name")))
-				   (aref
-				    (aref
-				     (aref s (string "choice_selections"))
-				     0)
-				    (string "name")))
+			     (do0
+			      (setf sname (aref s (string "name"))
+				    svalue (aref
+				     (aref
+				      (aref s (string "choice_selections"))
+				      0)
+				     (string "name")))
+			      (print (fstring "{sname}: {svalue}"))
+			      (setf (aref d sname)
+				    svalue))
 			     ("Exception as e"
 			      pass)))
 		   ("Exception as e"
@@ -192,14 +196,14 @@
 		      "global q"
 		      (setf q data)
 		      ;(print data)
+		      (setf data_data (dot data (get (string "data"))))
+		      (setf data_data_results (dot data_data (get (string "results"))))
 		      (return ("list"
 			       (map
 				(lambda (user)
 				  (Person (aref user (string "user"))
 					  self))
-				(dot data
-				     (get (string "data"))
-				     (get (string "results"))))))))
+				data_data_results)))))
 	      
 	     (setf datetime_str (dot datetime
 				     datetime
@@ -301,9 +305,10 @@
 		       #+try ("Exception as e"
 			      (print (fstring "169: {e}"))
 			      pass))))
-		#+try ("Exception as e"
-		       (print (fstring "162: {e}"))
-		       pass))
+		#+try
+		("Exception as e"
+		 (print (fstring "162: {e}"))
+		 pass))
 	       ))
        
        #+nil (setf q ("list" (for-generator (row (tqdm.tqdm users.rows)) (json.loads (aref row (string "data"))))))
