@@ -59,9 +59,11 @@
 					;time
 		 (pd pandas)
 		 json
-		 ;(np numpy)
-		 ;requests
-		 ;random
+		 (np numpy)
+					;(np numpy)
+					;requests
+					;random
+		 argparse
 		 ;datetime
 		 ))
 
@@ -72,7 +74,37 @@
 			  (rglob (string "*.db")))))
        (print (fstring "{len(db_fns)} files: {db_fns}"))
        (setf res (list))
-       
+
+
+       (do0
+	(setf parser (argparse.ArgumentParser))
+	#+nil (parser.add_argument (string "input_paths")
+			      :nargs (string "+")
+			      :help (string "Path(s) to search for matching files."))
+	 ,@(loop for e in `((:name "personality"
+			     :type str
+			     :default (string "INFJ")
+			     :help "Select personality type.")
+			    (:name "smoking"
+			     :type str
+			     :default (string "Non-smoker")
+			     )
+			    
+			    (:name "debug"
+			     :type bool
+			     :default False
+			     :help "Enable debug output"))
+		 collect
+		 (destructuring-bind (&key name default type help) e
+		   (let ((cmd `(parser.add_argument (string ,(format nil "--~a" name)))))
+		     (when type
+		       (setf cmd (append cmd `(:type ,type))))
+		     (when default
+		       (setf cmd (append cmd `(:default ,default))))
+		     (when help
+		       (setf cmd (append cmd `(:help (string ,help)))))
+		     cmd)))
+	 (setf args (parser.parse_args)))
        
       
        ,(let* ((l0 `((:var name :fun (data.get (string "name")
@@ -90,7 +122,7 @@
 				     (slice 0 4)))
 			      0)
 		      :type int)
-		     (:var gender :fun (aref (list (string "Male")
+		     #+nil (:var gender :fun (aref (list (string "Male")
 						   (string "Female")
 						   (string "Unknown"))
 					     (data.get (string "gender")
@@ -102,12 +134,13 @@
 					 (data.get (string "photos")
 						   (list)))))
 		     ))
-	       (l1 `((:var family_plans :json "Family Plans")
-		     (:var smoking :json "Smoking")
-		     (:var drinking :json "Drinking")
-		     (:var workout :json "Workout")
-		     (:var education :json "Education")
-		     (:var personality_type :json "Personality Type")))
+	       (l1 `(;(:var family_plans :json "Family Plans")
+		     ;(:var smoking :json "Smoking")
+		     ;(:var drinking :json "Drinking")
+		     ;(:var workout :json "Workout")
+		     ;(:var education :json "Education")
+		     ;(:var personality_type :json "Personality Type")
+		     ))
 	       (l (append
 		   (loop for e in l0
 			 collect
@@ -133,61 +166,84 @@
 	  `(do0
 
 	    (do0
-	(for (db_fn (tqdm.tqdm db_fns))
-	     (setf db (Database db_fn))
-	     (setf users (Table db (string "Users")))
-	     (for (row users.rows)
-		  (setf data (json.loads (aref row (string "data")))
-			d (dictionary :id (aref row (string "id"))
-				      :data data))
-		  ,@(loop for e in l
-		    collect
-		    (destructuring-bind (&key var fun type json) e
-		      `(try
-			(do0
-			 (setf (aref d (string ,var))
-			       ,fun))
-			("Exception as e"
+	     (for (db_fn (tqdm.tqdm db_fns))
+		  (setf db (Database db_fn))
+		  (setf users (Table db (string "Users")))
+		  (for (row users.rows)
+		       (setf data (json.loads (aref row (string "data")))
+			     d (dictionary :id (aref row (string "id"))
+					   :data data))
+		       ,@(loop for e in l
+			       collect
+			       (destructuring-bind (&key var fun type json) e
+				 `(try
+				   (do0
+				    (setf (aref d (string ,var))
+					  ,fun))
+				   ("Exception as e"
 					;(print (fstring ,(format nil "125: '~a' {e}" var)))
-			 pass))))
-		  (try
-		   (for (s (aref data (string "selected_descriptors")))
-			(try
-			 (setf (aref d (aref s (string "name")))
-			       (aref
-				(aref
-				 (aref s (string "choice_selections"))
-				 0)
-				(string "name")))
-			 ("Exception as e"
-			  pass)))
-		   ("Exception as e"
-		    pass))
-		  (res.append d)
-		  ))
-	(setf df2 (pd.DataFrame res)
-	      df1 (df2.drop_duplicates :subset (string "id"))
-	      df0 (df1.set_index (string "id")
-				 :drop True
-				 :append False
-				 :inplace False)))
+				    pass))))
+		       (try
+			(for (s (aref data (string "selected_descriptors")))
+			     (try
+			      (setf (aref d (aref s (string "name")))
+				    (aref
+				     (aref
+				      (aref s (string "choice_selections"))
+				      0)
+				     (string "name")))
+			      ("Exception as e"
+			       pass)))
+			("Exception as e"
+			 pass))
+		       (res.append d)
+		       ))
+	     (setf df2 (pd.DataFrame res)
+		   df1 (df2.drop_duplicates :subset (string "id"))
+		   df0 (df1.set_index (string "id")
+				      :drop True
+				      :append False
+				      :inplace False)))
+	    (print (fstring "number of entries: {len(df1)}"))
 	    (setf (aref df0 (string "age"))
 		  (dot df0 birth_date (apply (lambda (x)
 					       (- 2025 x)
 					       #+nil (? (== (type (string "bla")) (type x))
-						  (- 2024 (int (aref x (slice 0 4))))
-						  0
-						  ))
+							(- 2024 (int (aref x (slice 0 4))))
+							0
+							))
 					     1)))
+	    ,@(loop for e in `("Smoking" "Family Plans")
+			      collect
+			      `(setf (aref df0 (string ,e))
+				    (dot (aref df0 (string ,e))(astype str))))
 	    (setf df (dot (aref df0
-			    (== (aref df0 (string "Personality Type")) (string "INFJ")))
+				(logand
+				 (== (aref df0 (string "Personality Type")) args.personality)
+				 (logior (== (aref df0 (string "Smoking")) args.smoking)
+					 (== (string "nan") (aref df0 (string "Smoking"))))
+				 (< df0.age 39)
+				 (!= (string "I don't want children")
+				     (aref df0 (string "Family Plans")))
+				 (!= (string "I have children and don't want more")
+				     (aref df0 (string "Family Plans")))
+				 (!= (string "I have children and want more")
+				     (aref df0 (string "Family Plans"))))
+				)
 			  (sort_values :by (string "age"))))
-	    (for ((ntuple idx row)
-		  (df.iterrows))
-		 (print (fstring "####\\n{row['name']} ({row.age}): {row.bio}\\n")))
+	    (print (fstring "number of entries of type {args.personality}: {len(df)} ({len(df)/len(df1)*100}% of {len(df1)})"))
+	    (do0
+	     (setf count 0)
+	     (setf q (dot df (drop :columns (list ,@(loop for e in `(bio data images distance "Blood Type"
+									 "Personality Type")
+							  collect `(string ,e))))))
+	     (for ((ntuple idx row)
+		   (df.iterrows))
+		  (incf count)
+		  (print (fstring "#### {count} # {row['name']} ({row.age}): \\n{row.bio}\\n{q.loc[idx]}\\n"))))
 
 	    
-	     ))
+	    ))
 
        #+nil
        ,(let ((l-choice

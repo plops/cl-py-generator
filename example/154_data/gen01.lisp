@@ -43,6 +43,7 @@
        
        (imports (
 		 time
+		 pathlib
 		 json
 					;os
 		 tqdm
@@ -62,78 +63,85 @@
 		 ))
 
        (imports-from (sqlite_minutils *))
-       (setf db (Database (string "tide.db")))
-       (setf users (Table db (string "Users")))
-       #+nil (setf q ("list" (for-generator (row (tqdm.tqdm users.rows)) (json.loads (aref row (string "data"))))))
+       (setf db_fns ("list"
+		     (dot pathlib
+			  (Path (string "data/"))
+			  (rglob (string "*.db")))))
        (setf res (list))
-       (for (row (tqdm.tqdm users.rows))
-	    (setf q (json.loads (aref row (string "data"))))
-	    (setf d (dictionary :id (aref row (string "id"))
-				))
-	    (do0
-	     ,@(loop for e in `(name
-				
-				birth_date
-				bio
-				schools
-				jobs
-				_id
-				locations
-				distance
-			       
-				)
-		     collect
-		     `(try
-		       (do0 (setf (aref d (string ,e))
-				  (aref q (string ,e)))
-			    )
-		       ("Exception as e"
-			(print (string ,(format nil "no ~a" e)))
-			pass)
-		       )))
+       (for (fn (tqdm.tqdm db_fns))
+	    (setf db (Database fn))
+	    (setf users (Table db (string "Users")))
+	    #+nil (setf q ("list" (for-generator (row (tqdm.tqdm users.rows)) (json.loads (aref row (string "data"))))))
 	    
-	    (do0 (setf images (list))
-		 (setf photos (aref q (string "photos")))
-		 (setf num_photos (len photos))
+	    (for (row users.rows)
+		 (setf q (json.loads (aref row (string "data"))))
+		 (setf d (dictionary :id (aref row (string "id"))
+				     ))
+		 (do0
+		  ,@(loop for e in `(name
+				     
+				     birth_date
+				     bio
+				     schools
+				     jobs
+				     _id
+				     ;locations
+				     ;distance
+				     
+				     )
+			  collect
+			  `(try
+			    (do0 (setf (aref d (string ,e))
+				       (aref q (string ,e)))
+				 )
+			    ("Exception as e"
+			     (print (string ,(format nil "no ~a" e)))
+			     pass)
+			    )))
+		 
+		 (do0 (setf images (list))
+		      (setf photos (aref q (string "photos")))
+		      (setf num_photos (len photos))
 					;(print (fstring "{d['name']} {len(photos)}"))
-		 (for (image_data photos)
+		      (for (image_data photos)
+			   (try
+			    (do0
+					;(print (type image_data))
+			     (setf url
+				   (aref (aref (aref image_data (string "processedFiles"))
+					       0)
+					 (string "url"))
+				   )
+			     
+			     (images.append url))
+			    ("Exception as e"
+			     pass)))
 		      (try
 		       (do0
-			;(print (type image_data))
-			(setf url
-			      (aref (aref (aref image_data (string "processedFiles"))
-					  0)
-				    (string "url"))
-			      )
-			
-			(images.append url))
+			#+nil (setf (aref d (string "user_url"))
+				    (fstring "https://api.gotinder.com/v2/profile?include=account%2Cuser/{}"))
+			(setf (aref d (string "num_photos"))
+			      num_photos)
+			(setf (aref d (string "images"))
+			      images))
 		       ("Exception as e"
-			pass)))
+			pass))
+		      )
+		 
 		 (try
-		  (do0
-		   #+nil (setf (aref d (string "user_url"))
-			 (fstring "https://api.gotinder.com/v2/profile?include=account%2Cuser/{}"))
-		   (setf (aref d (string "num_photos"))
-			 num_photos)
-		       (setf (aref d (string "images"))
-			     images))
+		  (for (s (aref q (string "selected_descriptors")))
+		       (try
+			(setf (aref d (aref s (string "name")))
+			      (aref (aref (aref s (string "choice_selections"))
+					  0)
+				    (string "name")))
+			("Exception as e"
+			 pass)))
 		  ("Exception as e"
 		   pass))
-		 )
-	    
-	    (try
-	     (for (s (aref q (string "selected_descriptors")))
-		  (try
-		   (setf (aref d (aref s (string "name")))
-			 (aref (aref (aref s (string "choice_selections"))
-				     0)
-			       (string "name")))
-		   ("Exception as e"
-		    pass)))
-	     ("Exception as e"
-	      pass))
-	    
-	    (res.append d))
+		 
+		 (res.append d)))
+       
        (setf df2 (pd.DataFrame res))
        (setf df1 (df2.drop_duplicates :subset (string "id")
 						  ))
@@ -144,25 +152,47 @@
        (setf (aref df0 (string "age"))
 	     (dot df0 birth_date (apply (lambda (x)
 					  (? (== (type (string "bla")) (type x))
-					     (- 2024 (int (aref x (slice 0 4))))
+					     (- 2025 (int (aref x (slice 0 4))))
 					     0
 					     ))
 					1)))
-       ,(let ((l `((:column Smoking :values ((:value Non-smoker :weight 10))
+       ,(let ((l `((:column Smoking :values ((:value Non-smoker :weight 10)
+					     (:value "Trying to quit" :weight 1)
+					     (:value "Smoker when drinking" :weight 0))
 		    :nan t)
+		   (:column "Personality Type" :values ((:value "INFJ" :weight 10))
+		    :nan nil)
 		   (:column "Family Plans" :values ((:value "Not sure yet" :weight 3)
 						    (:value  "I want children" :weight 10)
+						    (:value "" :weight 3)
+						    (:value "" :weight 3)
+						    (:value "I don't want children" :weight 0)
+						    (:value "I have children and want more" :weight 1)
+						    (:value "I have children and don't want more" :weight 0)
 						    )
 		    :nan t)
 		   (:column Drinking :values ((:value "Not for me" :weight 7)
-					      (:value "Sober" :weight 5))
+					      (:value "Sober" :weight 5)
+					      (:value "On special occasions" :weight 4)
+					      (:value "Sober curious" :weight 4)
+					      (:value "Socially on weekends" :weight 3)
+					      (:value "Most Nights" :weight 0)
+					      (:value "I don't drink" :weight 7)
+					      )
 		    :nan t)
-		   (:column Workout :values ((:value "Often" :weight 4)
+		   (:column Workout :values ((:value "Ocasionally" :weight 2)
+					     (:value "Sometimes" :weight 1)
+					     (:value "Never" :weight 0)
+					     (:value "Often" :weight 4)
 					     (:value "Everyday" :weight 3)
 					     (:value "Gym rat" :weight 3))
 		    :nan t)
-		   (:column Education :values ((:value "Bachelors" :weight 5)
+		   (:column Education :values ((:value "High School" :weight 1)
+					       (:value "Trade School" :weight 2)
+					       (:value "Bachelors" :weight 5)
+					       (:value "In College" :weight 5)
 					       (:value "Masters" :weight 6)
+					       (:value "In Grad School" :weight 6)
 					       (:value "PhD" :weight 7))
 		    :nan t)
 		   )))
@@ -215,6 +245,7 @@
 				 (string "num_photos"))))
 
        (setf sleep_max_for 1.3)
+       #+nil
        (do0
 	(with (as (open (string "token")) f)
 	      (setf token (dot f (read) (strip))))
@@ -234,10 +265,8 @@
 	   
 	     (time.sleep (* (random.random) sleep_max_for)))
 	)
-       #+nil 
+       #-nil 
        (do0
-	
-	
 	(for ((ntuple idx (tuple row_idx row)) (tqdm.tqdm (enumerate (df.iterrows))))
 	     (for ((ntuple i url) (enumerate row.images))
 		  (setf req (requests.get url :stream True))

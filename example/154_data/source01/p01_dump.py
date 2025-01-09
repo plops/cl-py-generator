@@ -6,10 +6,17 @@ import tqdm
 import pathlib
 import pandas as pd
 import json
+import numpy as np
+import argparse
 from sqlite_minutils import *
 db_fns=list(pathlib.Path("data/").rglob("*.db"))
 print(f"{len(db_fns)} files: {db_fns}")
 res=[]
+parser=argparse.ArgumentParser()
+parser.add_argument("--personality", type=str, default="INFJ", help="Select personality type.")
+parser.add_argument("--smoking", type=str, default="Non-smoker")
+parser.add_argument("--debug", type=bool, default=False, help="Enable debug output")
+args=parser.parse_args()
 for db_fn in tqdm.tqdm(db_fns):
     db=Database(db_fn)
     users=Table(db, "Users")
@@ -33,35 +40,7 @@ for db_fn in tqdm.tqdm(db_fns):
         except Exception as e:
             pass
         try:
-            d["gender"]=["Male", "Female", "Unknown"][data.get("gender", 2)]
-        except Exception as e:
-            pass
-        try:
             d["images"]=list(map(lambda p: p["url"], data.get("photos", [])))
-        except Exception as e:
-            pass
-        try:
-            d["family_plans"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Family Plans"))) else ("") for s in data["selected_descriptors"])
-        except Exception as e:
-            pass
-        try:
-            d["smoking"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Smoking"))) else ("") for s in data["selected_descriptors"])
-        except Exception as e:
-            pass
-        try:
-            d["drinking"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Drinking"))) else ("") for s in data["selected_descriptors"])
-        except Exception as e:
-            pass
-        try:
-            d["workout"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Workout"))) else ("") for s in data["selected_descriptors"])
-        except Exception as e:
-            pass
-        try:
-            d["education"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Education"))) else ("") for s in data["selected_descriptors"])
-        except Exception as e:
-            pass
-        try:
-            d["personality_type"]=next((s.get("choice_selections")[0].get("name")) if (((s.get("name"))==("Personality Type"))) else ("") for s in data["selected_descriptors"])
         except Exception as e:
             pass
         try:
@@ -76,7 +55,14 @@ for db_fn in tqdm.tqdm(db_fns):
 df2=pd.DataFrame(res)
 df1=df2.drop_duplicates(subset="id")
 df0=df1.set_index("id", drop=True, append=False, inplace=False)
+print(f"number of entries: {len(df1)}")
 df0["age"]=df0.birth_date.apply(lambda x: ((2025)-(x)), 1)
-df=df0[((df0["Personality Type"])==("INFJ"))].sort_values(by="age")
+df0["Smoking"]=df0["Smoking"].astype(str)
+df0["Family Plans"]=df0["Family Plans"].astype(str)
+df=df0[((((df0["Personality Type"])==(args.personality))) & (((((df0["Smoking"])==(args.smoking))) | ((("nan")==(df0["Smoking"]))))) & (((df0.age)<(39))) & ((("I don't want children")!=(df0["Family Plans"]))) & ((("I have children and don't want more")!=(df0["Family Plans"]))) & ((("I have children and want more")!=(df0["Family Plans"]))))].sort_values(by="age")
+print(f"number of entries of type {args.personality}: {len(df)} ({len(df)/len(df1)*100}% of {len(df1)})")
+count=0
+q=df.drop(columns=["bio", "data", "images", "distance", "Blood Type", "Personality Type"])
 for idx, row in df.iterrows():
-    print(f"####\n{row['name']} ({row.age}): {row.bio}\n")
+    count += 1
+    print(f"#### {count} # {row['name']} ({row.age}): \n{row.bio}\n{q.loc[idx]}\n")
