@@ -108,7 +108,7 @@ schema=dict(id=str, data=str, name=str, bio=str, distance=str, birth_date=int, g
 users.create(columns=schema, pk="id")
 api=API(token)
 while (True):
-    time.sleep(((random.random())*((3.20    ))))
+    time.sleep(((random.random())*((13.20    ))))
     try:
         persons=api.nearby_persons()
         l=len(persons)

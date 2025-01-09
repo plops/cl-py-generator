@@ -251,7 +251,7 @@
 		  :nan t)
 		 )))
 	`(while True
-	       (time.sleep (* (random.random) 3.2))
+	       (time.sleep (* (random.random) 13.2))
 	       (#-try do0 #+try try 
 		(do0
 		 (setf persons (api.nearby_persons))
