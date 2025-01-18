@@ -3,7 +3,7 @@
 import pandas as pd
 from tkinter import *
 from sqlite_minutils import *
-from tkinter import ttk
+from tkinter.ttk import *
 db=Database("/home/martin/summaries.db")
 items=Table(db, "items")
 res=[]
@@ -27,22 +27,23 @@ for row in items.rows:
     res.append(d)
 df=pd.DataFrame(res)
 root=Tk()
-frm=ttk.Frame(root, padding=10)
+frm=Frame(root, padding=10)
 frm.grid()
-ttk.Label(frm, text="summary_timestamp_start").grid(column=0, row=0)
-ttk.Label(frm, text="cost").grid(column=1, row=0)
-ttk.Label(frm, text="summary_input_tokens").grid(column=2, row=0)
-ttk.Label(frm, text="summary_output_tokens").grid(column=3, row=0)
-ttk.Label(frm, text="model").grid(column=4, row=0)
-ttk.Label(frm, text="title").grid(column=5, row=0)
+Label(frm, text="summary_timestamp_start").grid(column=0, row=0)
+Label(frm, text="cost").grid(column=1, row=0)
+Label(frm, text="summary_input_tokens").grid(column=2, row=0)
+Label(frm, text="summary_output_tokens").grid(column=3, row=0)
+Label(frm, text="model").grid(column=4, row=0)
+Label(frm, text="title").grid(column=5, row=0)
 count=1
-for idx, row in df[::-1].iterrows():
-    ttk.Label(frm, justify="right", text=row["summary_timestamp_start"]).grid(column=0, row=count)
-    ttk.Label(frm, justify="right", text=row["cost"]).grid(column=1, row=count)
-    ttk.Label(frm, justify="right", text=row["summary_input_tokens"]).grid(column=2, row=count)
-    ttk.Label(frm, justify="right", text=row["summary_output_tokens"]).grid(column=3, row=count)
-    ttk.Label(frm, justify="right", text=row["model"]).grid(column=4, row=count)
-    ttk.Button(frm, command=lambda : print(df.iloc[idx].summary), text=row["title"]).grid(column=5, row=count)
+df=df[::-1]
+for idx, row in df.iterrows():
+    Label(frm, justify="right", text=row["summary_timestamp_start"]).grid(column=0, row=count)
+    Label(frm, justify="right", text=row["cost"]).grid(column=1, row=count)
+    Label(frm, justify="right", text=row["summary_input_tokens"]).grid(column=2, row=count)
+    Label(frm, justify="right", text=row["summary_output_tokens"]).grid(column=3, row=count)
+    Label(frm, justify="right", text=row["model"]).grid(column=4, row=count)
+    Button(frm, command=lambda : print(df.iloc[idx].summary), text=row["title"]).grid(column=5, row=count)
     count += 1
 root.mainloop()
 print("finished ".format())

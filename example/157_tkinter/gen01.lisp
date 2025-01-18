@@ -61,7 +61,7 @@
 		 ))
        (imports-from (tkinter *)
 		     (sqlite_minutils *)
-		     (tkinter ttk))
+		     (tkinter.ttk *))
        (setf db (Database (string "/home/martin/summaries.db")))
        (setf items (Table db (string "items")))
        (setf res (list))
@@ -82,43 +82,46 @@
        (setf df (pd.DataFrame res))
 
        (setf root (Tk))
-       (setf frm (ttk.Frame root :padding 10))
+       (setf frm (Frame root :padding 10))
        (frm.grid)
 
        #+nil
-       (do0 (dot ttk (Label frm :text (string "Hello World"))
+       (do0 (dot  (Label frm :text (string "Hello World"))
 		 (grid :column 0 :row 0))
 
 	    
-	    (dot ttk (Button frm :text (string "Quit")
+	    (dot (Button frm :text (string "Quit")
 				 :command root.destroy)
 		 (grid :column 1 :row 0))
 	    )
        ,@(loop for e in cols-show
 	       and e-i from 0
 	       collect
-	       `(dot ttk (Label frm
+	       `(dot (Label frm
 				:text (string ,e)
 				;:command (lambda () ,(lprint :msg e))
 				)
 		     (grid :column ,e-i :row 0)))
 
        (setf count 1)
-       (for ((ntuple idx row) (dot (aref df (slice "" "" -1))  (iterrows)))
+       (setf df (aref df (slice "" "" -1)))
+       (for ((ntuple idx row) (dot df (iterrows)))
 	    ,@(loop for e in cols-show
 		    and e-i from 0
 		    collect
 		    (if (eq e 'title)
-		     `(dot ttk (Button frm
+			`(dot  (Button frm
 				       :command (lambda ()
+					;,(lprint :vars `(idx))
 						  (print (dot (aref df.iloc idx)
 							      summary)))
 				       :text (aref row (string ,e)))
-			   (grid :column ,e-i :row count))
-		     `(dot ttk (Label frm
-				      :justify (string "right")
-				      :text (aref row (string ,e)))
-			   (grid :column ,e-i :row count))))
+			       (grid :column ,e-i :row count)
+			       )
+			`(dot (Label frm
+				     :justify (string "right")
+				     :text (aref row (string ,e)))
+			      (grid :column ,e-i :row count))))
 	    (incf count))
        
        (root.mainloop)
