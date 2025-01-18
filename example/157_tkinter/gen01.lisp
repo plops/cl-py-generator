@@ -34,7 +34,15 @@
                   (setf ,name ,val))))))
 
   
-  (let* ((notebook-name "show_db"))
+  (let* ((notebook-name "show_db")
+	 (cols `(summary summary_done model cost
+			 summary_input_tokens
+			 summary_output_tokens
+			 summary_timestamp_start
+			 summary_timestamp_end
+			 original_source_link
+			 host))
+	 (cols-show `(summary_timestamp_start cost summary_input_tokens title model)))
     (write-source
      (format nil "~a/source01/p~a_~a" *path* "00" notebook-name)
      `(do0
@@ -57,26 +65,48 @@
        (setf res (list))
        (for (row items.rows)
 	    (setf d "{}")
-	    ,@(loop for e in `(summary summary_done model cost
-				    summary_input_tokens
-				    summary_output_tokens
-				    summary_timestamp_start
-				    summary_timestamp_end
-				    original_source_link
-				    host)
+	    ,@(loop for e in cols
 		    collect
 		    `(setf (aref d (string ,e)) (aref row (string ,e))))
+	    (setf (aref d (string "title"))
+		  (dot (aref row (string "summary"))
+		       (aref (split (string "\\n")) 0)))
 	    (res.append d))
        (setf df (pd.DataFrame res))
 
        (setf root (Tk))
        (setf frm (ttk.Frame root :padding 10))
        (frm.grid)
-       (dot ttk (Label frm :text (string "Hello World"))
-	    (grid :column 0 :row 0))
-       (dot ttk (Button frm :text (string "Quit")
-			:command root.destroy)
-	    (grid :column 1 :row 0))
+
+       #+nil
+       (do0 (dot ttk (Label frm :text (string "Hello World"))
+		 (grid :column 0 :row 0))
+
+	    
+	    (dot ttk (Button frm :text (string "Quit")
+				 :command root.destroy)
+		 (grid :column 1 :row 0))
+	    )
+       ,@(loop for e in cols-show
+	       and e-i from 0
+	       collect
+	       `(dot ttk (Label frm
+				:text (string ,e)
+				;:command (lambda () ,(lprint :msg e))
+				)
+		     (grid :column ,e-i :row 0)))
+
+       (setf count 1)
+       (for ((ntuple idx row) (dot (aref df (slice "" "" -1))  (iterrows)))
+	    ,@(loop for e in cols-show
+		    and e-i from 0
+		    collect
+		    `(dot ttk (Label frm
+				     :text (aref row (string ,e))
+				     )
+			  (grid :column ,e-i :row count)))
+	    (incf count))
+       
        (root.mainloop)
        
        ,(lprint :msg "finished")
