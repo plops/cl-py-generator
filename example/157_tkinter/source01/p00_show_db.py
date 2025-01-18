@@ -19,7 +19,11 @@ for row in items.rows:
     d["summary_timestamp_end"]=row["summary_timestamp_end"]
     d["original_source_link"]=row["original_source_link"]
     d["host"]=row["host"]
-    d["title"]=row["summary"].split("\n")[0]
+    title=row["summary"].split("\n")[0]
+    max_len=100
+    if ( ((max_len)<(len(title))) ):
+        title=title[:max_len]
+    d["title"]=title
     res.append(d)
 df=pd.DataFrame(res)
 root=Tk()
@@ -28,15 +32,17 @@ frm.grid()
 ttk.Label(frm, text="summary_timestamp_start").grid(column=0, row=0)
 ttk.Label(frm, text="cost").grid(column=1, row=0)
 ttk.Label(frm, text="summary_input_tokens").grid(column=2, row=0)
-ttk.Label(frm, text="title").grid(column=3, row=0)
+ttk.Label(frm, text="summary_output_tokens").grid(column=3, row=0)
 ttk.Label(frm, text="model").grid(column=4, row=0)
+ttk.Label(frm, text="title").grid(column=5, row=0)
 count=1
 for idx, row in df[::-1].iterrows():
-    ttk.Label(frm, text=row["summary_timestamp_start"]).grid(column=0, row=count)
-    ttk.Label(frm, text=row["cost"]).grid(column=1, row=count)
-    ttk.Label(frm, text=row["summary_input_tokens"]).grid(column=2, row=count)
-    ttk.Label(frm, text=row["title"]).grid(column=3, row=count)
-    ttk.Label(frm, text=row["model"]).grid(column=4, row=count)
+    ttk.Label(frm, justify="right", text=row["summary_timestamp_start"]).grid(column=0, row=count)
+    ttk.Label(frm, justify="right", text=row["cost"]).grid(column=1, row=count)
+    ttk.Label(frm, justify="right", text=row["summary_input_tokens"]).grid(column=2, row=count)
+    ttk.Label(frm, justify="right", text=row["summary_output_tokens"]).grid(column=3, row=count)
+    ttk.Label(frm, justify="right", text=row["model"]).grid(column=4, row=count)
+    ttk.Button(frm, command=lambda : print(df.iloc[idx].summary), text=row["title"]).grid(column=5, row=count)
     count += 1
 root.mainloop()
 print("finished ".format())

@@ -42,7 +42,9 @@
 			 summary_timestamp_end
 			 original_source_link
 			 host))
-	 (cols-show `(summary_timestamp_start cost summary_input_tokens title model)))
+	 (cols-show `(summary_timestamp_start cost summary_input_tokens
+					      summary_output_tokens
+					      model title )))
     (write-source
      (format nil "~a/source01/p~a_~a" *path* "00" notebook-name)
      `(do0
@@ -68,9 +70,14 @@
 	    ,@(loop for e in cols
 		    collect
 		    `(setf (aref d (string ,e)) (aref row (string ,e))))
-	    (setf (aref d (string "title"))
-		  (dot (aref row (string "summary"))
+	    (setf title (dot (aref row (string "summary"))
 		       (aref (split (string "\\n")) 0)))
+	    (setf max_len 100)
+	    (when (< max_len (len title))
+	      (setf title (aref title (slice "" max_len))))
+	    (setf (aref d (string "title"))
+		  title
+		  )
 	    (res.append d))
        (setf df (pd.DataFrame res))
 
@@ -101,10 +108,17 @@
 	    ,@(loop for e in cols-show
 		    and e-i from 0
 		    collect
-		    `(dot ttk (Label frm
-				     :text (aref row (string ,e))
-				     )
-			  (grid :column ,e-i :row count)))
+		    (if (eq e 'title)
+		     `(dot ttk (Button frm
+				       :command (lambda ()
+						  (print (dot (aref df.iloc idx)
+							      summary)))
+				       :text (aref row (string ,e)))
+			   (grid :column ,e-i :row count))
+		     `(dot ttk (Label frm
+				      :justify (string "right")
+				      :text (aref row (string ,e)))
+			   (grid :column ,e-i :row count))))
 	    (incf count))
        
        (root.mainloop)
