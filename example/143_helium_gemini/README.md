@@ -106,6 +106,8 @@ scp -Cr yt_cookies.txt ...
 
 # instrumentation
 
+by analizing the response time for around 700 summaries (not all of them gave valid results) i found that most of the responses come with 0.2 to 2 seconds per 1000 input tokens.
+
 it might be interesting to store the time when each response packet arrives
 
 
