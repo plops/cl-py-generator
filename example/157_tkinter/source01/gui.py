@@ -24,7 +24,11 @@ for row in items.rows:
     try:
         start_time = datetime.fromisoformat(row["summary_timestamp_start"])
         end_time = datetime.fromisoformat(row["summary_timestamp_end"])
-        d["time_diff"] = str(end_time - start_time)
+        time_delta = end_time - start_time
+        # convert time_delta to seconds (float)
+        time_delta_f = time_delta.total_seconds()
+        d["time_diff"] = time_delta_f
+        d["time_per_1ktoken"] = time_delta_f*1000/float(row["summary_input_tokens"]) # typically 0.2 to 2 seconds / 1k token
     except Exception as e:
         d["time_diff"] = 0
     title=row["summary"].split("\n")[0]
@@ -36,7 +40,7 @@ for row in items.rows:
 
 df = pd.DataFrame(res)
 
-df = df.sort_values(by=["summary_output_tokens"])
+df = df.sort_values(by=["time_per_1ktoken"], ascending=False)
 df = df.reset_index(drop=True)
 
 root = tk.Tk()
