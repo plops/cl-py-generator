@@ -104,6 +104,10 @@ yt-dlp --cookies-from-browser chrome --skip-download --cookies ff2_cookies.txt; 
 scp -Cr yt_cookies.txt ...
 ```
 
+# instrumentation
+
+it might be interesting to store the time when each response packet arrives
+
 
 # Links
 
@@ -117,3 +121,5 @@ https://www.youtube.com/watch?v=ZOw5LT2vs9E
 another video has this link for the pattern:
 
 https://youtu.be/tW6Y1WYwozk?feature=shared
+
+
