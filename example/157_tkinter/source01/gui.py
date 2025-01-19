@@ -21,6 +21,12 @@ for row in items.rows:
     d["summary_timestamp_end"]=row["summary_timestamp_end"]
     d["original_source_link"]=row["original_source_link"]
     d["host"]=row["host"]
+    try:
+        start_time = datetime.fromisoformat(row["summary_timestamp_start"])
+        end_time = datetime.fromisoformat(row["summary_timestamp_end"])
+        d["time_diff"] = str(end_time - start_time)
+    except Exception as e:
+        d["time_diff"] = 0
     title=row["summary"].split("\n")[0]
     max_len=100
     if ( ((max_len)<(len(title))) ):
@@ -29,6 +35,9 @@ for row in items.rows:
     res.append(d)
 
 df = pd.DataFrame(res)
+
+df = df.sort_values(by=["cost"])
+df = df.reset_index(drop=True)
 
 root = tk.Tk()
 root.title("DataFrame Viewer")
@@ -48,25 +57,30 @@ hsb.pack(side="bottom", fill="x")
 for col in df.columns:
     tree.heading(col, text=col)
     tree.column(col, width=100, anchor='center')  # Adjust as needed
+#
+# tree.heading("Time Difference", text="Time Difference")
+# tree.column("Time Difference", width=100, anchor='center')
 
-tree.heading("Time Difference", text="Time Difference")
-tree.column("Time Difference", width=100, anchor='center')
+# for index, row in df.iterrows():
+#     try: # Handle potential errors during time conversion
+#         start_time = datetime.fromisoformat(row["summary_timestamp_start"])
+#         end_time = datetime.fromisoformat(row["summary_timestamp_end"])
+#         time_diff = end_time - start_time
+#         values = list(row) + [str(time_diff)]
+#
+#
+#     except (ValueError, TypeError):
+#         print(f"Error converting times for row {index}. Skipping time difference.") # More informative error message
+#         values = list(row) + ["N/A"] # Or choose a different placeholder
+#
+#
+#     tree.insert("", tk.END, values=values, iid=index) # Use index as iid
+#
+
 
 for index, row in df.iterrows():
-    try: # Handle potential errors during time conversion
-        start_time = datetime.fromisoformat(row["summary_timestamp_start"])
-        end_time = datetime.fromisoformat(row["summary_timestamp_end"])
-        time_diff = end_time - start_time
-        values = list(row) + [str(time_diff)]
-
-
-    except (ValueError, TypeError):
-        print(f"Error converting times for row {index}. Skipping time difference.") # More informative error message
-        values = list(row) + ["N/A"] # Or choose a different placeholder
-
-
+    values = list(row)
     tree.insert("", tk.END, values=values, iid=index) # Use index as iid
-
 
 
 def on_double_click(event):
