@@ -36,7 +36,7 @@ for row in items.rows:
 
 df = pd.DataFrame(res)
 
-df = df.sort_values(by=["cost"])
+df = df.sort_values(by=["summary_output_tokens"])
 df = df.reset_index(drop=True)
 
 root = tk.Tk()
