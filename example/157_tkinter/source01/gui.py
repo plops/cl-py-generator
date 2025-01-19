@@ -33,14 +33,14 @@ df = pd.DataFrame(res)
 root = tk.Tk()
 root.title("DataFrame Viewer")
 
-frame = ttk.Frame(root)
-frame.pack(fill=tk.BOTH, expand=True)
+#frame = ttk.Frame(root)
+#frame.pack(fill=tk.BOTH, expand=True)
 
 tree = ttk.Treeview(columns=list(df.columns) + ["Time Difference"], show="headings")
 tree.pack(fill=tk.BOTH, expand=True)
 
-vsb = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
-hsb = ttk.Scrollbar(frame, orient="horizontal", command=tree.xview)
+vsb = ttk.Scrollbar(tree, orient="vertical", command=tree.yview)
+hsb = ttk.Scrollbar(tree, orient="horizontal", command=tree.xview)
 tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 vsb.pack(side="right", fill="y")
 hsb.pack(side="bottom", fill="x")
