@@ -40,8 +40,8 @@ for row in items.rows:
 
 df = pd.DataFrame(res)
 
-df = df.sort_values(by=["time_per_1ktoken"], ascending=False)
-df = df.reset_index(drop=True)
+#df = df.sort_values(by=["time_per_1ktoken"], ascending=False)
+#df = df.reset_index(drop=True)
 
 root = tk.Tk()
 root.title("DataFrame Viewer")
@@ -60,7 +60,7 @@ hsb.pack(side="bottom", fill="x")
 
 for col in df.columns:
     tree.heading(col, text=col)
-    tree.column(col, width=100, anchor='center')  # Adjust as needed
+    tree.column(col, width=80, anchor='w')  # Adjust as needed
 #
 # tree.heading("Time Difference", text="Time Difference")
 # tree.column("Time Difference", width=100, anchor='center')
