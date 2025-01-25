@@ -10,7 +10,7 @@ model = YOLO("/home/martin/yolo/yolo11n.pt")
 names = model.names
 
 # capture screenshots and run yolo
-
+start_time=time.time()
 loop_time=time.time()
 with mss.mss() as sct:
     loop_start=time.time()
