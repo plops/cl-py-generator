@@ -22,14 +22,17 @@ with mss.mss() as sct:
 
         timestamp_ms=int(((1000)*(((time.time())-(loop_start)))))
         annotator = Annotator(img,pil=False)
-        results = model.predict(img)
+        #results = model.predict(img)
+        # track needs micromamba install lap
+        results = model.track(img,stream=False,persist=True)
         boxes = results[0].boxes.xyxy.cpu()
         clss = results[0].boxes.cls.cpu().tolist()
         kpts = results[0].keypoints
 
         for box, cls in zip(boxes, clss):
             annotator.box_label(box, label=names[int(cls)])
-        annotator.kpts(kpts.xy[0],shape=kpts.orig_shape)
+        for i in range(kpts.xy.shape[0]):
+            annotator.kpts(kpts.xy[i],shape=kpts.orig_shape)
         
         cv.imshow("Ultralytics circle annotation", img)
         #cv.imshow("screen", img)
