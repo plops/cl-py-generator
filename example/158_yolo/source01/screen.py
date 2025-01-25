@@ -15,7 +15,7 @@ loop_time=time.time()
 with mss.mss() as sct:
     loop_start=time.time()
     while (True):
-        img=np.ascontiguousarray(np.array(sct.grab(dict(top=160, left=0, width=1000, height=740)))[:,:,0:3])
+        img=np.ascontiguousarray(np.array(sct.grab(dict(top=160, left=0, width=640, height=480)))[:,:,0:3])
 
         timestamp_ms=int(((1000)*(((time.time())-(loop_start)))))
         annotator = Annotator(img)
@@ -24,8 +24,7 @@ with mss.mss() as sct:
         clss = results[0].boxes.cls.cpu().tolist()
 
         for box, cls in zip(boxes, clss):
-            annotator.circle_label(box, label=names[int(cls)])
-
+            annotator.box_label(box, label=names[int(cls)])
         
         cv.imshow("Ultralytics circle annotation", img)
         #cv.imshow("screen", img)
