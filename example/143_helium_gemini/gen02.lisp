@@ -1750,7 +1750,7 @@ use of these things")
 		      (dot s model (startswith (string "gemini-2.0-pro")))) 
 		  (setf price_input_token_usd_per_mio 1.25
 			price_output_token_usd_per_mio 5.0)
-		  (if (dot s model (contains (string "flash"))) 
+		  (if (in (string "flash") (dot s model )) 
 		      (setf price_input_token_usd_per_mio 0.1
 			    price_output_token_usd_per_mio 0.4)
 		      (if (dot s model (startswith (string "gemini-1.0-pro")))
@@ -1764,7 +1764,7 @@ use of these things")
 		    output_tokens (+ s.summary_output_tokens
 				     s.timestamps_output_tokens)
 		    )
-	      (if (dot s model (contains (string "flash"))) ;; flash price doesn't depend on number of tokens
+	      (if (in (string "flash") (dot s model)) ;; flash price doesn't depend on number of tokens
 		  (setf cost (+ price_input_token_usd_per_mio
 				price_output_token_usd_per_mio))
 		  (setf cost (+ (* (/ input_tokens 1_000_000)
