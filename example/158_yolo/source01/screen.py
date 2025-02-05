@@ -12,6 +12,18 @@ parser.add_argument("--model","-m",
                     type=str,
                     default="/home/martin/yolo/yolo11n.pt",
                     help="Select yolo model [n,s,n-pose,m-pose].")
+parser.add_argument("--fps","-f",
+                    type=int,
+                    default=30,
+                    help="Desired update rate of the processed image (in Hz).")
+parser.add_argument("--width","-W",
+                    type=int,
+                    default=1920//2,
+                    help="Captured screen width.")
+parser.add_argument("--height","-H",
+                    type=int,
+                    default=512,
+                    help="Captured screen height.")
 args=parser.parse_args()
 
 model = YOLO(f"/home/martin/yolo/yolo11{args.model}.pt")
@@ -27,12 +39,15 @@ loop_time=time.time()
 with mss.mss() as sct:
     loop_start=time.time()
     while (True):
-        img=np.ascontiguousarray(np.array(sct.grab(dict(top=160, left=0, width=1920//2, height=512)))[:,:,0:3])
+        img=np.ascontiguousarray(np.array(sct.grab(dict(top=160, left=0,
+                                                        width=args.width,
+                                                        height=args.height)))[:,:,0:3])
 
         timestamp_ms=int(((1000)*(((time.time())-(loop_start)))))
         annotator = Annotator(img,pil=False)
         #results = model.predict(img)
         # track needs micromamba install lap
+        global results
         results = model.track(img,stream=False,persist=True)
         boxes = results[0].boxes.xyxy.cpu()
         clss = results[0].boxes.cls.cpu().tolist()
@@ -48,7 +63,7 @@ with mss.mss() as sct:
         
         cv.imshow("screen", img)
         delta=((time.time())-(loop_time))
-        target_period=((((1)/((30.    ))))-((1.00e-4)))
+        target_period=((((1)/((args.fps    ))))-((1.00e-4)))
         if ( ((delta)<(target_period)) ):
             time.sleep(((target_period)-(delta)))
         fps=((1)/(delta))

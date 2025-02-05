@@ -10,7 +10,6 @@ import datetime
 import subprocess
 import webvtt
 import time
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
  
 # Read the gemini api key from disk
@@ -24,9 +23,9 @@ def render(summary: Summary):
     if ( summary.timestamps_done ):
         return generation_preview(identifier)
     elif ( summary.summary_done ):
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else (""), hx_swap="outerHTML")
     else:
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="", hx_swap="outerHTML")
  
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
@@ -79,7 +78,7 @@ def get(request: Request):
     print(request.client.host)
     nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
     transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width=60%;", name="transcript")
-    model=Div(Select(Option("gemini-2.0-flash-exp"), Option("gemini-1.5-pro-exp-0827"), Option("gemini-exp-1206"), Option("gemini-exp-1121"), Option("gemini-exp-1114"), Option("learnlm-1.5-pro-experimental"), Option("gemini-1.5-flash-002"), Option("gemini-1.5-pro-002"), Option("gemini-1.5-pro-exp-0801"), Option("gemini-1.5-flash-exp-0827"), Option("gemini-1.5-flash-8b-exp-0924"), Option("gemini-1.5-flash-latest"), Option("gemma-2-2b-it"), Option("gemma-2-9b-it"), Option("gemma-2-27b-it"), Option("gemini-1.5-flash"), Option("gemini-1.5-pro"), Option("gemini-1.0-pro"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
+    model=Div(Select(Option("gemini-2.0-flash-exp"), Option("gemini-1.5-pro-exp-02-05"), Option("gemini-1.5-pro-exp-0827"), Option("gemini-2.0-flash-lite-preview-02-05"), Option("gemini-2.0-flash-thinking-exp-01-21"), Option("gemini-2.0-flash-001"), Option("gemini-exp-1206"), Option("gemini-exp-1121"), Option("gemini-exp-1114"), Option("learnlm-1.5-pro-experimental"), Option("gemini-1.5-flash-002"), Option("gemini-1.5-pro-002"), Option("gemini-1.5-pro-exp-0801"), Option("gemini-1.5-flash-exp-0827"), Option("gemini-1.5-flash-8b-exp-0924"), Option("gemini-1.5-flash-latest"), Option("gemma-2-2b-it"), Option("gemma-2-9b-it"), Option("gemma-2-27b-it"), Option("gemini-1.5-flash"), Option("gemini-1.5-pro"), Option("gemini-1.0-pro"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
     form=Form(Group(Div(Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", name="original_source_link"), transcript, model, Div(Label("Output Language", _for="output_language"), Select(Option("en"), Option("de"), Option("fr"), Option("ch"), Option("nl"), Option("pt"), Option("cz"), Option("it"), Option("jp"), Option("ar"), style="width: 100%;", name="output_language", id="output_language"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_comments", name="include_comments", checked=False), Label("Include User Comments", _for="include_comments"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_timestamps", name="include_timestamps", checked=True), Label("Include Timestamps", _for="include_timestamps"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_glossary", name="include_glossary", checked=False), Label("Include Glossary", _for="include_glossary"), style="display: none; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC")
@@ -96,18 +95,18 @@ def get(request: Request):
 def generation_preview(identifier):
     sid=f"gen-{identifier}"
     text="Generating ..."
-    trigger="every 1s"
+    trigger=""
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):
             # this is for <= 128k tokens
-            if ( s.model.startswith("gemini-1.5-pro") ):
+            if ( ((s.model.startswith("gemini-1.5-pro")) or (s.model.startswith("gemini-2.0-pro"))) ):
                 price_input_token_usd_per_mio=(1.250    )
                 price_output_token_usd_per_mio=(5.0    )
             else:
-                if ( s.model.startswith("gemini-1.5-flash") ):
-                    price_input_token_usd_per_mio=(7.50e-2)
-                    price_output_token_usd_per_mio=(0.30    )
+                if ( s.model.contains("flash") ):
+                    price_input_token_usd_per_mio=(0.10    )
+                    price_output_token_usd_per_mio=(0.40    )
                 else:
                     if ( s.model.startswith("gemini-1.0-pro") ):
                         price_input_token_usd_per_mio=(0.50    )
@@ -117,7 +116,10 @@ def generation_preview(identifier):
                         price_output_token_usd_per_mio=-1
             input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
             output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
-            cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
+            if ( s.model.contains("flash") ):
+                cost=((price_input_token_usd_per_mio)+(price_output_token_usd_per_mio))
+            else:
+                cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
             summaries.update(pk_values=identifier, cost=cost)
             if ( ((cost)<((2.00e-2))) ):
                 cost_str=f"${cost:.4f}"
@@ -191,8 +193,6 @@ def generate_and_save(identifier: int):
     print(f"generate_and_save id={identifier}")
     s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
-    m=genai.GenerativeModel(s.model)
-    safety={(HarmCategory.HARM_CATEGORY_HATE_SPEECH):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_HARASSMENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT):(HarmBlockThreshold.BLOCK_NONE)}
     try:
         prompt=f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
@@ -1525,19 +1525,10 @@ Example Output:
 * **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.
 Here is the real transcript. Please summarize it: 
 {s.transcript}"""
-        response=m.generate_content(prompt, safety_settings=safety, stream=True)
-        for chunk in response:
-            try:
-                print(f"add text to id={identifier}: {chunk.text}")
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
-            except ValueError:
-                
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+("\nError: value error")))
-                print("Value Error ")
-            except Exception as e:
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
-                print("Error")
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        with open("/dev/shm/prompt.txt", "w") as fprompt:
+            fprompt.write(prompt)
+        summaries.update(pk_values=identifier, summary="emulate")
+        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=0, summary_output_tokens=0, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return

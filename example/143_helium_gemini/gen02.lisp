@@ -33,13 +33,17 @@
   (defparameter *project* "143_helium_gemini")
   ;; name input-price output-price context-length harm-civic
   
-  (let ((iflash .075)
-	(oflash .3)
+  (let ((iflash .1)
+	(oflash .4)
 	(ipro 1.25)
 	(opro 5))
-   (defparameter *models* `((:name gemini-2.0-flash-exp :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+   (defparameter *models* `(
+			    (:name gemini-2.0-flash-exp :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-pro-exp-02-05 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
 			    (:name gemini-1.5-pro-exp-0827 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			    
+			    (:name gemini-2.0-flash-lite-preview-02-05 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-thinking-exp-01-21 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-001 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t) ;; the price is now fixed at $.1 for input and $.4 for output
 			    (:name gemini-exp-1206 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
 			    (:name gemini-exp-1121 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
 			    (:name gemini-exp-1114 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
@@ -1742,12 +1746,13 @@ use of these things")
 	     
 	     (s.timestamps_done
 	      (comments "this is for <= 128k tokens")
-	      (if (dot s model (startswith (string "gemini-1.5-pro"))) 
+	      (if (or (dot s model (startswith (string "gemini-1.5-pro")))
+		      (dot s model (startswith (string "gemini-2.0-pro")))) 
 		  (setf price_input_token_usd_per_mio 1.25
 			price_output_token_usd_per_mio 5.0)
-		  (if (dot s model (startswith (string "gemini-1.5-flash"))) 
-		      (setf price_input_token_usd_per_mio 0.075
-			 price_output_token_usd_per_mio 0.3)
+		  (if (dot s model (contains (string "flash"))) 
+		      (setf price_input_token_usd_per_mio 0.1
+			    price_output_token_usd_per_mio 0.4)
 		      (if (dot s model (startswith (string "gemini-1.0-pro")))
 			  (setf price_input_token_usd_per_mio 0.5
 				price_output_token_usd_per_mio 1.5)
@@ -1758,10 +1763,14 @@ use of these things")
 				    s.timestamps_input_tokens)
 		    output_tokens (+ s.summary_output_tokens
 				     s.timestamps_output_tokens)
-		    cost (+ (* (/ input_tokens 1_000_000)
-			       price_input_token_usd_per_mio)
-			    (* (/ output_tokens 1_000_000)
-			       price_output_token_usd_per_mio)))
+		    )
+	      (if (dot s model (contains (string "flash"))) ;; flash price doesn't depend on number of tokens
+		  (setf cost (+ price_input_token_usd_per_mio
+				price_output_token_usd_per_mio))
+		  (setf cost (+ (* (/ input_tokens 1_000_000)
+				   price_input_token_usd_per_mio)
+				(* (/ output_tokens 1_000_000)
+				   price_output_token_usd_per_mio))))
 	      (summaries.update :pk_values identifier
 				:cost cost)
 	      (if (< cost .02)
