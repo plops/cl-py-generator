@@ -1636,7 +1636,7 @@ use of these things")
 	  (FileNotFoundError
 	   (print (string "Error: Subtitle file not found")))
 	  ("Exception as e"
-	   (print (string "Error: problem when processing subtitle file"))))
+	   (print (string "line 1639 Error: problem when processing subtitle file"))))
 	 (return ostr)
 	 )
        " "
@@ -1894,7 +1894,7 @@ Output tokens: {output_tokens}")
 			:hx_swap (string "outerHTML")))))
 	  ("Exception as e"		; NotFoundError ()
 	   (return (Div
-		    (fstring "id: {identifier} e: {e}")
+		    (fstring "line 1897 id: {identifier} e: {e}")
 		    (Pre text)
 		    :id sid
 		    :hx_post (fstring "/generations/{identifier}")
@@ -1950,7 +1950,7 @@ Output tokens: {output_tokens}")
 	       (sqlite_minutils.db.NotFoundError
 		(print (string "entry not found")))
 	       ("Exception as e"
-		(print (fstring "unknown exception {e}"))))
+		(print (fstring "line 1953 unknown exception {e}"))))
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
 	 (return -1))
@@ -2046,7 +2046,7 @@ Here is the real transcript. Please summarize it:
 				      :summary (+ (dot (aref summaries identifier)
 						       summary)
 						  (fstring "\\nError: {str(e)}")))
-		    (print (string "Error")))
+		    (print (string "line 2049 Error")))
 		   )
 		  )))
 

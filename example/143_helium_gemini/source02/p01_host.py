@@ -71,7 +71,7 @@ def get_transcript(url):
     except FileNotFoundError:
         print("Error: Subtitle file not found")
     except Exception as e:
-        print("Error: problem when processing subtitle file")
+        print("line 1639 Error: problem when processing subtitle file")
     return ostr
  
 documentation_html=markdown.markdown(documentation)
@@ -154,7 +154,7 @@ Output tokens: {output_tokens}"""
         else:
             return Div(title, pre, prompt_pre, button, prompt_button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
-        return Div(f"id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
+        return Div(f"line 1897 id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):
@@ -188,7 +188,7 @@ def wait_until_row_exists(identifier):
         except sqlite_minutils.db.NotFoundError:
             print("entry not found")
         except Exception as e:
-            print(f"unknown exception {e}")
+            print(f"line 1953 unknown exception {e}")
         time.sleep((0.10    ))
     print("row did not appear")
     return -1
@@ -1548,7 +1548,7 @@ def generate_and_save(identifier: int):
                 print("Value Error ")
             except Exception as e:
                 summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
-                print("Error")
+                print("line 2049 Error")
         summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
