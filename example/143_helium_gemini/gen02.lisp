@@ -23,7 +23,7 @@
 				     :dl ;; download transcript from link
 				     :simple ;; use very few gui elements 
 				     )))
-(setf *features* (set-difference *features* '(;:example
+(setf *features* (set-difference *features* '(:example
 					      :emulate
 					      ;:simple
 					      ;:dl
@@ -1456,7 +1456,7 @@ use of these things")
 					;google.generativeai.types.answer_types
 		 os
 		 google.api_core.exceptions
-		 ; re
+		 re
 		 markdown
 		 ; uvicorn
 		 sqlite_minutils.db
@@ -1464,6 +1464,10 @@ use of these things")
 		 #+dl subprocess
 		 #+dl webvtt
 		 time))
+
+       #+nil
+       (imports-from (threading Thread)
+		     (functools wraps))
 
        #-emulate (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
 
@@ -1856,18 +1860,34 @@ Output tokens: {output_tokens}")
 			   )))
 	   (setf button (Button (string "Copy")
 				:onclick (fstring "copyPreContent('pre-{identifier}')")))
+
+	   
+        ;; prompt_text = get_prompt(s)  # Get the prompt text
+        ;; prompt_pre = Pre(prompt_text, id=f"prompt-pre-{identifier}")
+        ;; prompt_button = Button("Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')")
+
+	   (do0
+	    (setf prompt_text (get_prompt s)
+		  prompt_pre (Pre prompt_text :id (fstring "prompt-pre-{identifier}")
+				  :style (string "display: none;"))
+		  prompt_button (Button (string "Copy Prompt")
+					:onclick (fstring "copyPreContent('prompt-pre-{identifier}')"))))
+	   
 	   (if (== trigger (string ""))
-	       
+           
 	       (return (Div
 			title
-		      	pre
-			button
+			pre
+			prompt_pre
+			prompt_button
 			:id sid
 			))
 	       (return (Div
 			title
 			pre
+			prompt_pre
 			button
+			prompt_button
 			:id sid
 			:hx_post (fstring "/generations/{identifier}")
 			:hx_trigger trigger
@@ -1934,7 +1954,28 @@ Output tokens: {output_tokens}")
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
 	 (return -1))
-       
+
+       " "
+       (def get_prompt (summary)
+	 (declare (type Summary summary)
+		  (values str))
+	 (rstring3 "Generate prompt from a given Summary object. It will use the contained transcript.")
+	 (setf prompt (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+
+**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
+
+Example Input: 
+~a
+Example Output:
+~a
+Here is the real transcript. Please summarize it: 
+{s.transcript}"
+					    #-example "input" #-example "output"
+					    #+example example-input #+example example-output-nocomments
+					    )))
+
+	 (return prompt)
+	 )
        " "
        "@threaded"
        (def generate_and_save (identifier)
@@ -1953,31 +1994,20 @@ Output tokens: {output_tokens}")
 			     )))
 	 (try
 	  (do0
-	   (setf prompt (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
-
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
-
-Example Input: 
-~a
-Example Output:
-~a
-Here is the real transcript. Please summarize it: 
-{s.transcript}"
-					      #-example "input" #-example "output"
-					      #+example example-input #+example example-output-nocomments
-					      )))
-	   #+emulate
-	   (do0
-	    (with (as (open (string "/dev/shm/prompt.txt")
-			    (string "w"))
-		      fprompt)
-		  (fprompt.write prompt))
-	    (summaries.update :pk_values identifier
-			      :summary (string "emulate")))
-	   #-emulate
-	   (do0
-	    (setf response (m.generate_content
-			    #+comments (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+	   (do0 
+	    (setf prompt (get_prompt s))
+	    #+emulate
+	    (do0
+	     (with (as (open (string "/dev/shm/prompt.txt")
+			     (string "w"))
+		       fprompt)
+		   (fprompt.write prompt))
+	     (summaries.update :pk_values identifier
+			       :summary (string "emulate")))
+	    #-emulate
+	    (do0
+	     (setf response (m.generate_content
+			     #+comments (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
 **Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From <user>'s Comments]\" at the end of the bullet point. Note that while viewer comments appear earlier in the text than the transcript they are in fact recorded at a later time. Therefore, if viewer comments repeat information from the transcript, they should not appear in the summary.
 
@@ -1987,38 +2017,38 @@ Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
 {s.transcript}"
-							  #-example "input" #-example "output"
-							  #+example example-input #+example example-output-nocomments
-							  ))
-			    prompt
-			    :safety_settings safety
-			    :stream True))
+							   #-example "input" #-example "output"
+							   #+example example-input #+example example-output-nocomments
+							   ))
+			     prompt
+			     :safety_settings safety
+			     :stream True))
 
-	    
-	    
-	    (for (chunk response)
-		 (try
-		  (do0
-		   (print (fstring "add text to id={identifier}: {chunk.text}"))
-		   
-		   (summaries.update :pk_values identifier
-				     :summary (+ (dot (aref summaries identifier)
-						      summary)
-						 chunk.text)))
-		  (ValueError ()
-			      (summaries.update :pk_values identifier
-						:summary (+ (dot (aref summaries identifier)
-								 summary)
-							    (string "\\nError: value error")))
-			      (print (string "Value Error ")))
-		  ("Exception as e"
-		   (summaries.update :pk_values identifier
-				     :summary (+ (dot (aref summaries identifier)
-						      summary)
-						 (fstring "\\nError: {str(e)}")))
-		   (print (string "Error")))
-		  )
-		 ))
+	     
+	     
+	     (for (chunk response)
+		  (try
+		   (do0
+		    (print (fstring "add text to id={identifier}: {chunk.text}"))
+		    
+		    (summaries.update :pk_values identifier
+				      :summary (+ (dot (aref summaries identifier)
+						       summary)
+						  chunk.text)))
+		   (ValueError ()
+			       (summaries.update :pk_values identifier
+						 :summary (+ (dot (aref summaries identifier)
+								  summary)
+							     (string "\\nError: value error")))
+			       (print (string "Value Error ")))
+		   ("Exception as e"
+		    (summaries.update :pk_values identifier
+				      :summary (+ (dot (aref summaries identifier)
+						       summary)
+						  (fstring "\\nError: {str(e)}")))
+		    (print (string "Error")))
+		   )
+		  )))
 
 	   (summaries.update :pk_values identifier
 			     :summary_done True
