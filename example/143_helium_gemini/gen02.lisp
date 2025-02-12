@@ -23,7 +23,7 @@
 				     :dl ;; download transcript from link
 				     :simple ;; use very few gui elements 
 				     )))
-(setf *features* (set-difference *features* '(:example
+(setf *features* (set-difference *features* '(;:example
 					      :emulate
 					      ;:simple
 					      ;:dl
