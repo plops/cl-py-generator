@@ -2078,7 +2078,7 @@ Example Input:
 Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
-{deduplicate_transcript(summary.transcript)}"
+{(summary.transcript)}"
 					    #-example "input" #-example "output"
 					    #+example example-input #+example example-output-nocomments
 					    )))
