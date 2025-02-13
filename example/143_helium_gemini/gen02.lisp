@@ -1911,7 +1911,7 @@ Output tokens: {output_tokens}")
 		      (ratio))))
 
        " "
-       (def deduplicate_transcript (vtt_content &key (time_window_seconds 15)
+       (def deduplicate_transcript (vtt_content &key (time_window_seconds 5)
 						(similarity_threshold .35))
 	 (rstring3 "
     Deduplicates a VTT transcript string.
@@ -1941,8 +1941,8 @@ Output tokens: {output_tokens}")
 	       current_time (parse_vtt_time current_time_str)
 	       is_duplicate False)
 
-	 (for (i (range (len deduplicated_lines)
-			-1 -1 -1))
+	 (for (i (range (- (len deduplicated_lines) 1)
+			-1 -1))
 	      (comments "Iterate backwards to efficiently check recent lines")
 	      (setf prev_line (aref deduplicated_lines i)
 		    prev_match (re.match pattern prev_line))
