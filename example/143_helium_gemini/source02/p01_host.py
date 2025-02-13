@@ -179,7 +179,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     Returns:
         A deduplicated VTT transcript string.
 """
-    lines=vtt_content.strip().split('\n')
+    lines=vtt_content.strip().split("\n")
     deduplicated_lines=[]
     pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
     print("nil len(lines)={}".format(len(lines)))
@@ -221,7 +221,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
                 break
     if ( not(is_duplicate) ):
         deduplicated_lines.append(line)
-    dedup="\n".join(deduplicated_lines)
+    dedup="\n".join(lines)
     print("nil len(vtt_content)={} len(dedup)={}".format(len(vtt_content), len(dedup)))
     return dedup
 example=r"""01:03:10 vaccines about how individuals try to
