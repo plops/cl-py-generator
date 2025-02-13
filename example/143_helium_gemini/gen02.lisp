@@ -1863,11 +1863,6 @@ Output tokens: {output_tokens}")
 	   (setf button (Button (string "Copy")
 				:onclick (fstring "copyPreContent('pre-{identifier}')")))
 
-	   
-        ;; prompt_text = get_prompt(s)  # Get the prompt text
-        ;; prompt_pre = Pre(prompt_text, id=f"prompt-pre-{identifier}")
-        ;; prompt_button = Button("Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')")
-
 	   (do0
 	    (setf prompt_text (get_prompt s)
 		  prompt_pre (Pre prompt_text :id (fstring "prompt-pre-{identifier}")
@@ -1876,11 +1871,11 @@ Output tokens: {output_tokens}")
 					:onclick (fstring "copyPreContent('prompt-pre-{identifier}')"))))
 	   
 	   (if (== trigger (string ""))
-           
-	       (return (Div
+               (return (Div
 			title
 			pre
 			prompt_pre
+			button
 			prompt_button
 			:id sid
 			))

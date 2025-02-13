@@ -150,7 +150,7 @@ Output tokens: {output_tokens}"""
         prompt_pre=Pre(prompt_text, id=f"prompt-pre-{identifier}", style="display: none;")
         prompt_button=Button("Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')")
         if ( ((trigger)==("")) ):
-            return Div(title, pre, prompt_pre, prompt_button, id=sid)
+            return Div(title, pre, prompt_pre, button, prompt_button, id=sid)
         else:
             return Div(title, pre, prompt_pre, button, prompt_button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
