@@ -193,6 +193,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     current_time=parse_vtt_time(current_time_str)
     is_duplicate=False
     print("nil current_time={} current_text={}".format(current_time, current_text))
+    print("nil ((len(deduplicated_lines))-(1))={} [range(((len(deduplicated_lines))-(1)), -1, -1)]={}".format(((len(deduplicated_lines))-(1)), [range(((len(deduplicated_lines))-(1)), -1, -1)]))
     for i in range(((len(deduplicated_lines))-(1)), -1, -1):
         # Iterate backwards to efficiently check recent lines
         prev_line=deduplicated_lines[i]
