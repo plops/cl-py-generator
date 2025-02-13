@@ -73,12 +73,12 @@
       "Sunday"))
   (defun lprint (&key msg vars)
     `(do0				;when args.verbose
-      (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}"
+      (print (dot (string ,(format nil "~a ~{~a={}~^ ~}"
 				   msg
 				   (mapcar (lambda (x)
                                              (emit-py :code x))
 					   vars)))
-                  (format (- (time.time) start_time)
+                  (format ;(- (time.time) start_time)
                           ,@vars)))))
   (defun doc (def)
     `(do0

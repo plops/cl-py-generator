@@ -213,7 +213,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
         deduplicated_lines.append(line)
         last_times[current_text]=current_time
     dedup="\n".join(deduplicated_lines)
-    print("{} nil len(vtt_content)={} len(dedup)={}".format(((time.time())-(start_time)), len(vtt_content), len(dedup)))
+    print("nil len(vtt_content)={} len(dedup)={}".format(len(vtt_content), len(dedup)))
     return dedup
  
 @app.post("/generations/{identifier}")
