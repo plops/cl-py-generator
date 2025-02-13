@@ -165,7 +165,7 @@ def calculate_similarity(text1, text2):
     r"""Calculates the similarity ratio between two strings using SequenceMatcher."""
     return difflib.SequenceMatcher(None, text1, text2).ratio()
  
-def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_threshold = (0.350    )):
+def deduplicate_transcript(vtt_content, time_window_seconds = 15, similarity_threshold = (0.350    )):
     r"""
     Deduplicates a VTT transcript string.
 
@@ -1583,7 +1583,7 @@ Example Output:
 * **11:45 Low Runtime:** Internal data suggests the system has seen minimal usage, with only 20 minutes of recorded runtime for the green LED.
 * **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.
 Here is the real transcript. Please summarize it: 
-{summary.transcript}"""
+{deduplicate_transcript(summary.transcript)}"""
     return prompt
  
 @threaded

@@ -1911,7 +1911,7 @@ Output tokens: {output_tokens}")
 		      (ratio))))
 
        " "
-       (def deduplicate_transcript (vtt_content &key (time_window_seconds 5)
+       (def deduplicate_transcript (vtt_content &key (time_window_seconds 15)
 						(similarity_threshold .35))
 	 (rstring3 "
     Deduplicates a VTT transcript string.
@@ -2042,7 +2042,7 @@ Example Input:
 Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
-{summary.transcript}"
+{deduplicate_transcript(summary.transcript)}"
 					    #-example "input" #-example "output"
 					    #+example example-input #+example example-output-nocomments
 					    )))
