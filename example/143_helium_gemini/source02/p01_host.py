@@ -215,6 +215,20 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     dedup="\n".join(deduplicated_lines)
     print("nil len(vtt_content)={} len(dedup)={}".format(len(vtt_content), len(dedup)))
     return dedup
+example=r"""01:03:10 vaccines about how individuals try to
+01:03:10 vaccines about how individuals try to combine Fidelity control with Rec
+01:03:13 combine Fidelity control with Rec
+01:03:13 combine Fidelity control with Rec combination control to reduce reversion
+01:03:17 combination control to reduce reversion
+01:03:17 combination control to reduce reversion of a vaccine
+01:03:18 of a vaccine
+01:03:18 of a vaccine strain and the moral of the story is
+01:03:20 strain and the moral of the story is
+01:03:20 strain and the moral of the story is don't try and fight nature you're always
+01:03:23 don't try and fight nature you're always
+01:03:23 don't try and fight nature you're always going to
+"""
+print(deduplicate_transcript(example))
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):
