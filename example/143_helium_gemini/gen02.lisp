@@ -1943,6 +1943,7 @@ Output tokens: {output_tokens}")
 	       (match.groups)
 	       current_time (parse_vtt_time current_time_str)
 	       is_duplicate False)
+	
 
 	 (for (i (range (- (len deduplicated_lines) 1)
 			-1 -1))
@@ -1958,6 +1959,7 @@ Output tokens: {output_tokens}")
 		    time_diff (dot (- current_time
 				      prev_time)
 				   (total_seconds)))
+	      ,(lprint :vars `(time_diff))
 	      (when (< time_window_seconds
 		       time_diff)
 		(comments "Past the time window, stop checking")

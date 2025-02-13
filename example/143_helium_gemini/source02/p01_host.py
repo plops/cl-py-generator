@@ -200,6 +200,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
         prev_time_str, prev_text=prev_match.groups()
         prev_time=parse_vtt_time(prev_time_str)
         time_diff=((current_time)-(prev_time)).total_seconds()
+        print("nil time_diff={}".format(time_diff))
         if ( ((time_window_seconds)<(time_diff)) ):
             # Past the time window, stop checking
             break
