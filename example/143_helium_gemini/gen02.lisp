@@ -1931,7 +1931,7 @@ Output tokens: {output_tokens}")
 	 (setf lines (dot vtt_content (strip) (split (string "\\n")))
 	       deduplicated_lines (list)
 	       ;last_times "{}"
-	       )c
+	       )
 	 (setf pattern (rstring3 "(\\d{2}:\\d{2}:\\d{2})\\s+(.*)"))
 	 ,(lprint :vars `((len lines)))
 	 (for (line lines)
@@ -1954,6 +1954,7 @@ Output tokens: {output_tokens}")
 		    prev_match (re.match pattern prev_line))
 	      ,(lprint :vars `(i prev_line prev_match))
 	      (unless prev_match
+		,(lprint :vars `(prev_match))
 		continue)
 	      (setf (ntuple prev_time_str prev_text)
 		    (prev_match.groups)
