@@ -195,7 +195,8 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     current_time=parse_vtt_time(current_time_str)
     is_duplicate=False
     print("1950 current_time={} current_text={}".format(current_time, current_text))
-    print("1951 ((len(deduplicated_lines))-(1))={} [range(((len(deduplicated_lines))-(1)), -1, -1)]={}".format(((len(deduplicated_lines))-(1)), [range(((len(deduplicated_lines))-(1)), -1, -1)]))
+    ll=list(range(((len(deduplicated_lines))-(1)), -1, -1))
+    print("1951 ((len(deduplicated_lines))-(1))={} ll={}".format(((len(deduplicated_lines))-(1)), ll))
     for i in range(((len(deduplicated_lines))-(1)), -1, -1):
         print("nil i={} prev_line={} prev_match={}".format(i, prev_line, prev_match))
         # Iterate backwards to efficiently check recent lines
