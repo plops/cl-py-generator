@@ -179,7 +179,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     Returns:
         A deduplicated VTT transcript string.
 """
-    lines=vtt_content.strip().split("\n")
+    lines=vtt_content.strip().split('\n')
     deduplicated_lines=[]
     pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
     print("nil len(lines)={}".format(len(lines)))
