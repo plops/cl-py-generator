@@ -8,6 +8,7 @@ import re
 import markdown
 import sqlite_minutils.db
 import datetime
+import difflib
 import subprocess
 import webvtt
 import time
@@ -155,6 +156,63 @@ Output tokens: {output_tokens}"""
             return Div(title, pre, prompt_pre, button, prompt_button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
         return Div(f"line 1897 id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
+ 
+def parse_vtt_time(time_str):
+    r"""Parses a VTT timestamp string (HH:MM:SS) into a datetime object."""
+    return datetime.datetime.strptime(time_str, "%H:%M:%S")
+ 
+def calculate_similarity(text1, text2):
+    r"""Calculates the similarity ratio between two strings using SequenceMatcher."""
+    return difflib.SequenceMatcher(None, text1, text2).ratio()
+ 
+def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_threshold = (0.350    )):
+    r"""
+    Deduplicates a VTT transcript string.
+
+    Args:
+        vtt_content: The VTT transcript as a single string.
+        time_window_seconds: The maximum time difference (in seconds) between lines
+                             to be considered for deduplication.
+        similarity_threshold:  The minimum similarity ratio (0.0 to 1.0) for two
+                              lines to be considered near-duplicates.
+
+    Returns:
+        A deduplicated VTT transcript string.
+"""
+    lines=vtt_content.strip().split("\n")
+    deduplicated_lines=[]
+    last_times={}
+    pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
+    for line in lines:
+        match=re.match(pattern, line)
+        if ( not(match) ):
+            deduplicated_lines.append(line)
+            continue
+    current_time_str, current_text=match.groups()
+    current_time=parse_vtt_time(current_time_str)
+    is_duplicate=False
+    for i in range(len(deduplicated_lines), -1, -1, -1):
+        # Iterate backwards to efficiently check recent lines
+        prev_line=deduplicated_lines[i]
+        prev_match=re.match(pattern, prev_line)
+        if ( not(prev_match) ):
+            continue
+        prev_time_str, prev_text=prev_match.groups()
+        prev_time=parse_vtt_time(prev_time_str)
+        time_diff=((current_time)-(prev_time)).total_seconds()
+        if ( ((time_window_seconds)<(time_diff)) ):
+            # Past the time window, stop checking
+            break
+        if ( ((0)<=(time_diff)) ):
+            # Ensure time is progressing
+            similarity=calculate_similarity(prev_text, current_text)
+            if ( ((similarity_threshold)<=(similarity)) ):
+                is_duplicate=True
+                break
+    if ( not(is_duplicate) ):
+        deduplicated_lines.append(line)
+        last_times[current_text]=current_time
+    return "\n".join(deduplicated_lines)
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):

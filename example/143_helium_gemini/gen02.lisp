@@ -1463,6 +1463,7 @@ use of these things")
 		 ; uvicorn
 		 sqlite_minutils.db
 		 datetime
+		 difflib
 		 #+dl subprocess
 		 #+dl webvtt
 		 time))
@@ -1897,7 +1898,82 @@ Output tokens: {output_tokens}")
 		    :hx_post (fstring "/generations/{identifier}")
 		    :hx_trigger trigger
 		    :hx_swap (string "outerHTML"))))))
- 
+
+       " "
+       (def parse_vtt_time (time_str)
+	 (rstring3 "Parses a VTT timestamp string (HH:MM:SS) into a datetime object.")
+	 (return (datetime.datetime.strptime time_str (string "%H:%M:%S"))))
+       " "
+       (def calculate_similarity (text1 text2)
+	 (rstring3 "Calculates the similarity ratio between two strings using SequenceMatcher.")
+	 (return (dot difflib
+		      (SequenceMatcher None text1 text2)
+		      (ratio))))
+
+       " "
+       (def deduplicate_transcript (vtt_content &key (time_window_seconds 5)
+						(similarity_threshold .35))
+	 (rstring3 "
+    Deduplicates a VTT transcript string.
+
+    Args:
+        vtt_content: The VTT transcript as a single string.
+        time_window_seconds: The maximum time difference (in seconds) between lines
+                             to be considered for deduplication.
+        similarity_threshold:  The minimum similarity ratio (0.0 to 1.0) for two
+                              lines to be considered near-duplicates.
+
+    Returns:
+        A deduplicated VTT transcript string.
+")
+	 (setf lines (dot vtt_content (strip) (split (string "\\n")))
+	       deduplicated_lines (list)
+	       last_times "{}")
+	 (setf pattern (rstring3 "(\\d{2}:\\d{2}:\\d{2})\\s+(.*)"))
+	 (for (line lines)
+	      (setf match (re.match pattern
+				    line))
+	      (unless match
+		(deduplicated_lines.append line)
+		continue))
+	 (setf (ntuple current_time_str current_text)
+	       (match.groups)
+	       current_time (parse_vtt_time current_time_str)
+	       is_duplicate False)
+
+	 (for (i (range (len deduplicated_lines)
+			-1 -1 -1))
+	      (comments "Iterate backwards to efficiently check recent lines")
+	      (setf prev_line (aref deduplicated_lines i)
+		    prev_match (re.match pattern prev_line))
+	      (unless prev_match
+		continue)
+	      (setf (ntuple prev_time_str prev_text)
+		    (prev_match.groups)
+		    prev_time (parse_vtt_time prev_time_str)
+		    time_diff (dot (- current_time
+				      prev_time)
+				   (total_seconds)))
+	      (when (< time_window_seconds
+		       time_diff)
+		(comments "Past the time window, stop checking")
+		break)
+	      (when (<= 0 time_diff)
+		(comments "Ensure time is progressing")
+		(setf similarity (calculate_similarity prev_text current_text))
+		(when (<= similarity_threshold
+			  similarity)
+		  (setf is_duplicate True)
+		  break))
+	      )
+	 (unless is_duplicate
+	   (deduplicated_lines.append line)
+	   (setf (aref last_times current_text)
+		 current_time))
+	 (return (dot (string "\\n")
+		      (join deduplicated_lines)))
+	 )
+       
        " "
        (@app.post (string "/generations/{identifier}"))
        (def get (identifier)
@@ -2013,7 +2089,7 @@ Example Input:
 Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
-{s.transcript}"
+{deduplicate_transcript(s.transcript)}"
 							   #-example "input" #-example "output"
 							   #+example example-input #+example example-output-nocomments
 							   ))
