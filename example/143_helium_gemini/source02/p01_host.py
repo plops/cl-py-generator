@@ -181,7 +181,6 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
 """
     lines=vtt_content.strip().split("\n")
     deduplicated_lines=[]
-    last_times={}
     pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
     for line in lines:
         match=re.match(pattern, line)
@@ -206,12 +205,12 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
         if ( ((0)<=(time_diff)) ):
             # Ensure time is progressing
             similarity=calculate_similarity(prev_text, current_text)
+            print("nil similarity={} prev_text={} current_text={}".format(similarity, prev_text, current_text))
             if ( ((similarity_threshold)<=(similarity)) ):
                 is_duplicate=True
                 break
     if ( not(is_duplicate) ):
         deduplicated_lines.append(line)
-        last_times[current_text]=current_time
     dedup="\n".join(deduplicated_lines)
     print("nil len(vtt_content)={} len(dedup)={}".format(len(vtt_content), len(dedup)))
     return dedup

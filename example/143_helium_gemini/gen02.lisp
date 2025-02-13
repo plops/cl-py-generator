@@ -1930,7 +1930,8 @@ Output tokens: {output_tokens}")
 	 
 	 (setf lines (dot vtt_content (strip) (split (string "\\n")))
 	       deduplicated_lines (list)
-	       last_times "{}")
+	       ;last_times "{}"
+	       )
 	 (setf pattern (rstring3 "(\\d{2}:\\d{2}:\\d{2})\\s+(.*)"))
 	 (for (line lines)
 	      (setf match (re.match pattern
@@ -1963,6 +1964,7 @@ Output tokens: {output_tokens}")
 	      (when (<= 0 time_diff)
 		(comments "Ensure time is progressing")
 		(setf similarity (calculate_similarity prev_text current_text))
+		,(lprint :vars `(similarity prev_text current_text))
 		(when (<= similarity_threshold
 			  similarity)
 		  (setf is_duplicate True)
@@ -1970,7 +1972,7 @@ Output tokens: {output_tokens}")
 	      )
 	 (unless is_duplicate
 	   (deduplicated_lines.append line)
-	   (setf (aref last_times current_text)
+	   #+nil (setf (aref last_times current_text)
 		 current_time))
 	 (setf dedup (dot (string "\\n")
 		      (join deduplicated_lines)))
