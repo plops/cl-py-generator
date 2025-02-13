@@ -1931,19 +1931,21 @@ Output tokens: {output_tokens}")
 	 (setf lines (dot vtt_content (strip) (split (string "\\n")))
 	       deduplicated_lines (list)
 	       ;last_times "{}"
-	       )
+	       )c
 	 (setf pattern (rstring3 "(\\d{2}:\\d{2}:\\d{2})\\s+(.*)"))
+	 ,(lprint :vars `((len lines)))
 	 (for (line lines)
 	      (setf match (re.match pattern
 				    line))
 	      (unless match
+		(comments "Keep non-timestamped lines")
 		(deduplicated_lines.append line)
 		continue))
 	 (setf (ntuple current_time_str current_text)
 	       (match.groups)
 	       current_time (parse_vtt_time current_time_str)
 	       is_duplicate False)
-	
+	,(lprint :vars `(current_time current_text ))
 
 	 (for (i (range (- (len deduplicated_lines) 1)
 			-1 -1))

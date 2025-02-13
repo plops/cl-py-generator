@@ -181,15 +181,19 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
 """
     lines=vtt_content.strip().split("\n")
     deduplicated_lines=[]
+    c
     pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
+    print("nil len(lines)={}".format(len(lines)))
     for line in lines:
         match=re.match(pattern, line)
         if ( not(match) ):
+            # Keep non-timestamped lines
             deduplicated_lines.append(line)
             continue
     current_time_str, current_text=match.groups()
     current_time=parse_vtt_time(current_time_str)
     is_duplicate=False
+    print("nil current_time={} current_text={}".format(current_time, current_text))
     for i in range(((len(deduplicated_lines))-(1)), -1, -1):
         # Iterate backwards to efficiently check recent lines
         prev_line=deduplicated_lines[i]
