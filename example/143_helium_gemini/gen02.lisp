@@ -1912,7 +1912,7 @@ Output tokens: {output_tokens}")
 
        " "
        (def deduplicate_transcript (vtt_content &key (time_window_seconds 5)
-						(similarity_threshold .35))
+						(similarity_threshold .7))
 	 (rstring3 "
     Deduplicates a VTT transcript string.
 

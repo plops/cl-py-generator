@@ -165,7 +165,7 @@ def calculate_similarity(text1, text2):
     r"""Calculates the similarity ratio between two strings using SequenceMatcher."""
     return difflib.SequenceMatcher(None, text1, text2).ratio()
  
-def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_threshold = (0.350    )):
+def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_threshold = (0.70    )):
     r"""
     Deduplicates a VTT transcript string.
 
