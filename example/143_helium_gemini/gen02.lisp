@@ -1960,7 +1960,7 @@ Output tokens: {output_tokens}")
 		    prev_match (re.match pattern prev_line))
 	      
 	      (unless prev_match
-		,(lprint :vars `(prev_match))
+		,(lprint :msg "ERROR" :vars `(prev_match))
 		continue)
 	      (setf (ntuple prev_time_str prev_text)
 		    (prev_match.groups)
@@ -1968,7 +1968,7 @@ Output tokens: {output_tokens}")
 		    time_diff (dot (- current_time
 				      prev_time)
 				   (total_seconds)))
-	      ,(lprint :vars `(time_diff))
+	      ,(lprint :vars `(time_diff prev_text))
 	      (when (< time_window_seconds
 		       time_diff)
 		(comments "Past the time window, stop checking")

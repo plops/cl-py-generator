@@ -203,12 +203,12 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
         prev_line=deduplicated_lines[i]
         prev_match=re.match(pattern, prev_line)
         if ( not(prev_match) ):
-            print("nil prev_match={}".format(prev_match))
+            print("ERROR prev_match={}".format(prev_match))
             continue
         prev_time_str, prev_text=prev_match.groups()
         prev_time=parse_vtt_time(prev_time_str)
         time_diff=((current_time)-(prev_time)).total_seconds()
-        print("nil time_diff={}".format(time_diff))
+        print("nil time_diff={} prev_text={}".format(time_diff, prev_text))
         if ( ((time_window_seconds)<(time_diff)) ):
             # Past the time window, stop checking
             break
