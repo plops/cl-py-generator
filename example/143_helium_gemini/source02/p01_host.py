@@ -51,7 +51,7 @@ def validate_youtube_url(url):
     print("Error: Invalid YouTube URL")
     return False
 def get_transcript(url):
-    # Call yt-dlp to download the subtitles
+    # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     if ( not(validate_youtube_url(url)) ):
         return ""
     sub_file="/dev/shm/o"
@@ -212,7 +212,9 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     if ( not(is_duplicate) ):
         deduplicated_lines.append(line)
         last_times[current_text]=current_time
-    return "\n".join(deduplicated_lines)
+    dedup="\n".join(deduplicated_lines)
+    print("{} nil len(vtt_content)={} len(dedup)={}".format(((time.time())-(start_time)), len(vtt_content), len(dedup)))
+    return dedup
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):

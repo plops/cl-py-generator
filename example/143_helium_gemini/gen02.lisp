@@ -1598,7 +1598,7 @@ use of these things")
 	 (return False))
        #+dl
        (def get_transcript (url)
-	 (comments "Call yt-dlp to download the subtitles")
+	 (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
 
 	 
 	 (unless (validate_youtube_url url)
@@ -1926,6 +1926,8 @@ Output tokens: {output_tokens}")
     Returns:
         A deduplicated VTT transcript string.
 ")
+
+	 
 	 (setf lines (dot vtt_content (strip) (split (string "\\n")))
 	       deduplicated_lines (list)
 	       last_times "{}")
@@ -1970,8 +1972,11 @@ Output tokens: {output_tokens}")
 	   (deduplicated_lines.append line)
 	   (setf (aref last_times current_text)
 		 current_time))
-	 (return (dot (string "\\n")
+	 (setf dedup (dot (string "\\n")
 		      (join deduplicated_lines)))
+	 ,(lprint :vars `((len vtt_content)
+			   (len dedup)))
+	 (return dedup)
 	 )
        
        " "
