@@ -1949,6 +1949,7 @@ Output tokens: {output_tokens}")
 	      (comments "Iterate backwards to efficiently check recent lines")
 	      (setf prev_line (aref deduplicated_lines i)
 		    prev_match (re.match pattern prev_line))
+	      ,(lprint :vars `(i prev_line prev_match))
 	      (unless prev_match
 		continue)
 	      (setf (ntuple prev_time_str prev_text)

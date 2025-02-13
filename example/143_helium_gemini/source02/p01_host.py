@@ -194,6 +194,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
         # Iterate backwards to efficiently check recent lines
         prev_line=deduplicated_lines[i]
         prev_match=re.match(pattern, prev_line)
+        print("nil i={} prev_line={} prev_match={}".format(i, prev_line, prev_match))
         if ( not(prev_match) ):
             continue
         prev_time_str, prev_text=prev_match.groups()
