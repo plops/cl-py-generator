@@ -11,6 +11,8 @@
 ;; [X] optional timestamps
 ;; [X] optional user comments
 ;; [X] optional glossary
+;; [X] allow copying the prompt (in case resources are exhausted the user can go to a different provider)
+;; [ ] allow user to enter a modified or alternative summary (with comment)
 ;; [ ] find better examples for comments, or glossary
 ;; [ ] communicate gemini's evaluation of the content (e.g. harassment) to the user
 ;; [ ] generate transcript from audio channel
