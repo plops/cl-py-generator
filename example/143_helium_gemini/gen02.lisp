@@ -1939,6 +1939,7 @@ Output tokens: {output_tokens}")
 	      (setf match (re.match pattern
 				    line))
 	      (unless match
+		,(lprint :msg "no match" :vars `(match))
 		(comments "Keep non-timestamped lines")
 		(deduplicated_lines.append line)
 		continue))

@@ -187,6 +187,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
         print("nil line={}".format(line))
         match=re.match(pattern, line)
         if ( not(match) ):
+            print("no match match={}".format(match))
             # Keep non-timestamped lines
             deduplicated_lines.append(line)
             continue
