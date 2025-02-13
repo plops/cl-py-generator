@@ -1860,7 +1860,7 @@ Output tokens: {output_tokens}")
 			   (NotStr html)
 					;:id (fstring "pre-{identifier}-html")
 			   )))
-	   (setf button (Button (string "Copy")
+	   (setf button (Button (string "Copy Summary")
 				:onclick (fstring "copyPreContent('pre-{identifier}')")))
 
 	   (do0

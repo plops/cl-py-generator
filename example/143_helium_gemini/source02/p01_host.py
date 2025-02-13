@@ -145,7 +145,7 @@ Output tokens: {output_tokens}"""
         title=summary_container
         html=markdown.markdown(s.summary)
         pre=Div(Div(Pre(text, id=f"pre-{identifier}"), id="hidden-markdown", style="display: none;"), Div(NotStr(html)))
-        button=Button("Copy", onclick=f"copyPreContent('pre-{identifier}')")
+        button=Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')")
         prompt_text=get_prompt(s)
         prompt_pre=Pre(prompt_text, id=f"prompt-pre-{identifier}", style="display: none;")
         prompt_button=Button("Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')")
