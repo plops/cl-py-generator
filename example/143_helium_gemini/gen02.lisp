@@ -1935,6 +1935,7 @@ Output tokens: {output_tokens}")
 	 (setf pattern (rstring3 "(\\d{2}:\\d{2}:\\d{2})\\s+(.*)"))
 	 ,(lprint :vars `((len lines)))
 	 (for (line lines)
+	      ,(lprint :vars `(line))
 	      (setf match (re.match pattern
 				    line))
 	      (unless match
@@ -1951,10 +1952,11 @@ Output tokens: {output_tokens}")
 			-1 -1))))
 	 (for (i (range (- (len deduplicated_lines) 1)
 			-1 -1))
+	      ,(lprint :vars `(i prev_line prev_match))
 	      (comments "Iterate backwards to efficiently check recent lines")
 	      (setf prev_line (aref deduplicated_lines i)
 		    prev_match (re.match pattern prev_line))
-	      ,(lprint :vars `(i prev_line prev_match))
+	      
 	      (unless prev_match
 		,(lprint :vars `(prev_match))
 		continue)

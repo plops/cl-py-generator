@@ -184,6 +184,7 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
     print("nil len(lines)={}".format(len(lines)))
     for line in lines:
+        print("nil line={}".format(line))
         match=re.match(pattern, line)
         if ( not(match) ):
             # Keep non-timestamped lines
@@ -195,10 +196,10 @@ def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_thre
     print("nil current_time={} current_text={}".format(current_time, current_text))
     print("nil ((len(deduplicated_lines))-(1))={} [range(((len(deduplicated_lines))-(1)), -1, -1)]={}".format(((len(deduplicated_lines))-(1)), [range(((len(deduplicated_lines))-(1)), -1, -1)]))
     for i in range(((len(deduplicated_lines))-(1)), -1, -1):
+        print("nil i={} prev_line={} prev_match={}".format(i, prev_line, prev_match))
         # Iterate backwards to efficiently check recent lines
         prev_line=deduplicated_lines[i]
         prev_match=re.match(pattern, prev_line)
-        print("nil i={} prev_line={} prev_match={}".format(i, prev_line, prev_match))
         if ( not(prev_match) ):
             print("nil prev_match={}".format(prev_match))
             continue
