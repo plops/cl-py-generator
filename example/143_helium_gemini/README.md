@@ -9,7 +9,7 @@
 | gen01             | try to generate fasthtml interface with storage in files                                                                  |
 | gen02             | try to generate fasthtml interface with storage in sqlite based on gapi2.py and 144 (this is what i run most of the time) |
 | gen03             | experiment with google-genai  and yt-dlp                                                                                  |
-|                   |                                                                                                                           |
+| gen04             | split up 02 for testing                                                                                                   |
 
 
 # Create a proxy 
