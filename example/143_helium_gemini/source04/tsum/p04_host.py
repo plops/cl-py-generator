@@ -6,7 +6,6 @@ import google.api_core.exceptions
 import markdown
 import sqlite_minutils.db
 import datetime
-import difflib
 import subprocess
 import time
 from fasthtml.common import *
@@ -145,74 +144,6 @@ Output tokens: {output_tokens}"""
             return Div(title, pre, prompt_pre, button, prompt_button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
         return Div(f"line 1897 id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
- 
-def parse_vtt_time(time_str):
-    r"""Parses a VTT timestamp string (HH:MM:SS) into a datetime object."""
-    return datetime.datetime.strptime(time_str, "%H:%M:%S")
- 
-def calculate_similarity(text1, text2):
-    r"""Calculates the similarity ratio between two strings using SequenceMatcher."""
-    return difflib.SequenceMatcher(None, text1, text2).ratio()
- 
-def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_threshold = (0.70    )):
-    r"""
-    Deduplicates a VTT transcript string.
-
-    Args:
-        vtt_content: The VTT transcript as a single string.
-        time_window_seconds: The maximum time difference (in seconds) between lines
-                             to be considered for deduplication.
-        similarity_threshold:  The minimum similarity ratio (0.0 to 1.0) for two
-                              lines to be considered near-duplicates.
-
-    Returns:
-        A deduplicated VTT transcript string.
-"""
-    lines=vtt_content.strip().split("\n")
-    deduplicated_lines=[]
-    pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
-    print("nil len(lines)={}".format(len(lines)))
-    for line in lines:
-        print("nil line={}".format(line))
-        match=re.match(pattern, line)
-        if ( not(match) ):
-            print("no match match={}".format(match))
-            # Keep non-timestamped lines
-            deduplicated_lines.append(line)
-            continue
-    current_time_str, current_text=match.groups()
-    current_time=parse_vtt_time(current_time_str)
-    is_duplicate=False
-    print("1950 current_time={} current_text={}".format(current_time, current_text))
-    ll=list(range(((len(deduplicated_lines))-(1)), -1, -1))
-    print("1951 ((len(deduplicated_lines))-(1))={} ll={}".format(((len(deduplicated_lines))-(1)), ll))
-    for i in range(((len(deduplicated_lines))-(1)), -1, -1):
-        print("nil i={} prev_line={} prev_match={}".format(i, prev_line, prev_match))
-        # Iterate backwards to efficiently check recent lines
-        prev_line=deduplicated_lines[i]
-        prev_match=re.match(pattern, prev_line)
-        if ( not(prev_match) ):
-            print("ERROR prev_match={}".format(prev_match))
-            continue
-        prev_time_str, prev_text=prev_match.groups()
-        prev_time=parse_vtt_time(prev_time_str)
-        time_diff=((current_time)-(prev_time)).total_seconds()
-        print("nil time_diff={} prev_text={}".format(time_diff, prev_text))
-        if ( ((time_window_seconds)<(time_diff)) ):
-            # Past the time window, stop checking
-            break
-        if ( ((0)<=(time_diff)) ):
-            # Ensure time is progressing
-            similarity=calculate_similarity(prev_text, current_text)
-            print("nil similarity={} prev_text={} current_text={}".format(similarity, prev_text, current_text))
-            if ( ((similarity_threshold)<=(similarity)) ):
-                is_duplicate=True
-                break
-    if ( not(is_duplicate) ):
-        deduplicated_lines.append(line)
-    dedup="\n".join(lines)
-    print("nil len(vtt_content)={} len(dedup)={}".format(len(vtt_content), len(dedup)))
-    return dedup
  
 @app.post("/generations/{identifier}")
 def get(identifier: int):

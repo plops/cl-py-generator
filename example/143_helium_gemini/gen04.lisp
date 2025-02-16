@@ -301,7 +301,7 @@
 					; uvicorn
 		   sqlite_minutils.db
 		   datetime
-		   difflib
+		   ;difflib
 		   #+dl subprocess
 		   ;#+dl webvtt
 		   time))
@@ -731,105 +731,7 @@ Output tokens: {output_tokens}")
 		      :hx_trigger trigger
 		      :hx_swap (string "outerHTML"))))))
 
-	 " "
-	 (def parse_vtt_time (time_str)
-	   (rstring3 "Parses a VTT timestamp string (HH:MM:SS) into a datetime object.")
-	   (return (datetime.datetime.strptime time_str (string "%H:%M:%S"))))
-	 " "
-	 (def calculate_similarity (text1 text2)
-	   (rstring3 "Calculates the similarity ratio between two strings using SequenceMatcher.")
-	   (return (dot difflib
-			(SequenceMatcher None text1 text2)
-			(ratio))))
-
-	 " "
-	 (def deduplicate_transcript (vtt_content &key (time_window_seconds 5)
-						  (similarity_threshold .7))
-	   (rstring3 "
-    Deduplicates a VTT transcript string.
-
-    Args:
-        vtt_content: The VTT transcript as a single string.
-        time_window_seconds: The maximum time difference (in seconds) between lines
-                             to be considered for deduplication.
-        similarity_threshold:  The minimum similarity ratio (0.0 to 1.0) for two
-                              lines to be considered near-duplicates.
-
-    Returns:
-        A deduplicated VTT transcript string.
-")
-
-	   (setf lines (dot vtt_content (strip) (split (string "\\n"))))
-	   (do0
-	    (setf 
-	     deduplicated_lines (list)
-	     )
-	    (setf pattern (rstring3 "(\\d{2}:\\d{2}:\\d{2})\\s+(.*)"))
-	    ,(lprint :vars `((len lines)))
-	    (for (line lines)
-		 ,(lprint :vars `(line))
-		 (setf match (re.match pattern
-				       line))
-		 (unless match
-		   ,(lprint :msg "no match" :vars `(match))
-		   (comments "Keep non-timestamped lines")
-		   (deduplicated_lines.append line)
-		   continue))
-	    (setf (ntuple current_time_str current_text)
-		  (match.groups)
-		  current_time (parse_vtt_time current_time_str)
-		  is_duplicate False)
-	    ,(lprint :msg "1950" :vars `(current_time current_text ))
-	    (setf ll ("list" (range (- (len deduplicated_lines) 1)
-				    -1 -1)))
-	    ,(lprint :msg "1951" :vars `((- (len deduplicated_lines) 1)
-					 ll))
-	    (for (i (range (- (len deduplicated_lines) 1)
-			   -1 -1))
-		 ,(lprint :vars `(i prev_line prev_match))
-		 (comments "Iterate backwards to efficiently check recent lines")
-		 (setf prev_line (aref deduplicated_lines i)
-		       prev_match (re.match pattern prev_line))
-		 
-		 (unless prev_match
-		   ,(lprint :msg "ERROR" :vars `(prev_match))
-		   continue)
-		 (setf (ntuple prev_time_str prev_text)
-		       (prev_match.groups)
-		       prev_time (parse_vtt_time prev_time_str)
-		       time_diff (dot (- current_time
-					 prev_time)
-				      (total_seconds)))
-		 ,(lprint :vars `(time_diff prev_text))
-		 (when (< time_window_seconds
-			  time_diff)
-		   (comments "Past the time window, stop checking")
-		   break)
-		 (when (<= 0 time_diff)
-		   (comments "Ensure time is progressing")
-		   (setf similarity (calculate_similarity prev_text current_text))
-		   ,(lprint :vars `(similarity prev_text current_text))
-		   (when (<= similarity_threshold
-			     similarity)
-		     (setf is_duplicate True)
-		     break))
-		 )
-	    (unless is_duplicate
-	      (deduplicated_lines.append line)
-	      #+nil (setf (aref last_times current_text)
-			  current_time)))
-	   (setf dedup (dot (string "\\n")
-			    (join lines #+nil
-					deduplicated_lines)))
-	   ,(lprint :vars `((len vtt_content)
-			    (len dedup)))
-	   (return dedup)
-	   )
-
-
-	 #+nil (do0
-		(setf example (rstring3 *duplication-example-input*))
-		(print (deduplicate_transcript example)))
+	 
 	 " "
 	 (@app.post (string "/generations/{identifier}"))
 	 (def get (identifier)
