@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import re
+import webvtt
 def parse_vtt_file(filename):
     r"""load vtt from <filename>. Returns deduplicated transcript as string with second-granularity timestamps"""
     ostr=""

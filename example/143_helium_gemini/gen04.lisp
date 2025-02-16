@@ -61,7 +61,7 @@
 			     (:name learnlm-1.5-pro-experimental :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
 			     (:name gemini-1.5-flash-002 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
 			     (:name gemini-1.5-pro-002 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			    
+			     
 			     (:name gemini-1.5-pro-exp-0801 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
 			     (:name gemini-1.5-flash-exp-0827 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
 			     (:name gemini-1.5-flash-8b-exp-0924 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
@@ -87,8 +87,8 @@
 				   (mapcar (lambda (x)
                                              (emit-py :code x))
 					   vars)))
-                  (format ;(- (time.time) start_time)
-                          ,@vars)))))
+                  (format		;(- (time.time) start_time)
+                   ,@vars)))))
   (defun doc (def)
     `(do0
       ,@(loop for e in def
@@ -127,83 +127,84 @@
 	 )
 
     (let* ((l-steps0 `((:step-name validate_youtube_url
-		      :code (do0
-			     "#!/usr/bin/env python3"
-			     (imports (re))
-			     (def validate_youtube_url (url)
-			       (string3 "Validates various YouTube URL formats. Returns normalized YouTube video identifier as a string where unneccessary information has been removed. False if the Link doesn't match acceptable patterns.")
-			       (setf patterns
-				     (list
-				      ;; standard watch link
-				      (rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=([A-Za-z0-9_-]{11}).*")
-				      ;; live stream link
-				      (rstring3 "^https://(www\\.)?youtube\\.com/live/([A-Za-z0-9_-]{11}).*")
-				      ;; shortened link
-				      (rstring3 "^https://(www\\.)?youtu\\.be/([A-Za-z0-9_-]{11}).*")
-				      ))
-			       (for (pattern patterns)
-				    (setf match (re.match pattern url))
-				    (when match
-				      ;; (print (match.groups))
-				      (return (aref (match.groups) 1))))
-			       (print (string "Error: Invalid YouTube URL"))
-			       (return False)))
-		      :test (do0
-			     
-			     (assert
-			      (== (string "0123456789a")
-			       (validate_youtube_url (string "https://www.youtube.com/live/0123456789a"))))
-			     (assert
-			      (== (string "0123456789a")
-			       (validate_youtube_url (string "https://www.youtube.com/live/0123456789a&abc=123"))))
-			     (assert
-			      (== (string "_123456789a")
-			       (validate_youtube_url (string "https://www.youtube.com/watch?v=_123456789a&abc=123"))))
-			     (assert
-			      (== (string "_123456789a")
-			       (validate_youtube_url (string "https://youtube.com/watch?v=_123456789a&abc=123"))))
-			     (comments "FIXME: I'm not sure if a Youtube-ID that starts with a - character is handled correctly in the downstream pipeline")
-			     (assert
-			      (== (string "-123456789a") 
-				  (validate_youtube_url (string "https://www.youtu.be/-123456789a&abc=123"))))
-			     (assert
-			      (== (string "-123456789a")
-				  (validate_youtube_url (string "https://youtu.be/-123456789a&abc=123"))))
-			     
-			     (assert
-			      (== False
-				  (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))
+			:code (do0
+			       "#!/usr/bin/env python3"
+			       (imports (re))
+			       (def validate_youtube_url (url)
+				 (string3 "Validates various YouTube URL formats. Returns normalized YouTube video identifier as a string where unneccessary information has been removed. False if the Link doesn't match acceptable patterns.")
+				 (setf patterns
+				       (list
+					 ;; standard watch link
+					(rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=([A-Za-z0-9_-]{11}).*")
+					;; live stream link
+					(rstring3 "^https://(www\\.)?youtube\\.com/live/([A-Za-z0-9_-]{11}).*")
+					;; shortened link
+					(rstring3 "^https://(www\\.)?youtu\\.be/([A-Za-z0-9_-]{11}).*")
+					))
+				 (for (pattern patterns)
+				      (setf match (re.match pattern url))
+				      (when match
+					;; (print (match.groups))
+					(return (aref (match.groups) 1))))
+				 (print (string "Error: Invalid YouTube URL"))
+				 (return False)))
+			:test (do0
+			       
+			       (assert
+				(== (string "0123456789a")
+				    (validate_youtube_url (string "https://www.youtube.com/live/0123456789a"))))
+			       (assert
+				(== (string "0123456789a")
+				    (validate_youtube_url (string "https://www.youtube.com/live/0123456789a&abc=123"))))
+			       (assert
+				(== (string "_123456789a")
+				    (validate_youtube_url (string "https://www.youtube.com/watch?v=_123456789a&abc=123"))))
+			       (assert
+				(== (string "_123456789a")
+				    (validate_youtube_url (string "https://youtube.com/watch?v=_123456789a&abc=123"))))
+			       (comments "FIXME: I'm not sure if a Youtube-ID that starts with a - character is handled correctly in the downstream pipeline")
+			       (assert
+				(== (string "-123456789a") 
+				    (validate_youtube_url (string "https://www.youtu.be/-123456789a&abc=123"))))
+			       (assert
+				(== (string "-123456789a")
+				    (validate_youtube_url (string "https://youtu.be/-123456789a&abc=123"))))
+			       
+			       (assert
+				(== False
+				    (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))
 		       (:step-name parse_vtt_file
-		      :code (do0
-			     "#!/usr/bin/env python3"
-			     (imports (re))
-			     (def parse_vtt_file (filename)
-	       (rstring3 "load vtt from <filename>. Returns deduplicated transcript as string with second-granularity timestamps")
-	       (do0
-		(setf ostr (string "")) 
-		(for (c (webvtt.read sub_file_))
-		     (comments "we don't need sub-second time resolution. trim it away")
-		     (setf start (dot c start (aref (split (string ".")) 0)))
-		     (comments "remove internal newlines within a caption")
-		     (setf cap (dot c text (strip) (replace (string "\\n")
-							    (string " "))))
-		     (comments "write <start> <c.text> into each line of ostr")
-		     (incf ostr
-			   (fstring "{start} {cap}\\n"))))))
-		      :test (do0
-			     
-			     (print (parse_vtt_file (string "cW3tzRzTHKI.en.vt")))
+			:code (do0
+			       "#!/usr/bin/env python3"
+			       (imports ( ;re
+					 webvtt))
+			       (def parse_vtt_file (filename)
+				 (rstring3 "load vtt from <filename>. Returns deduplicated transcript as string with second-granularity timestamps")
+				 (do0
+				  (setf ostr (string "")) 
+				  (for (c (webvtt.read filename))
+				       (comments "we don't need sub-second time resolution. trim it away")
+				       (setf start (dot c start (aref (split (string ".")) 0)))
+				       (comments "remove internal newlines within a caption")
+				       (setf cap (dot c text (strip) (replace (string "\\n")
+									      (string " "))))
+				       (comments "write <start> <c.text> into each line of ostr")
+				       (incf ostr
+					     (fstring "{start} {cap}\\n"))))))
+			:test (do0
+			       
+			       (print (parse_vtt_file (string "cW3tzRzTHKI.en.vt")))
 
-			     ))))
+			       ))))
 	   (l-steps (loop for e in l-steps0
-			 and step-index from 1
-			 collect
-			(destructuring-bind (&key step-name code test) e
-			  `(:step-index ,step-index
-			    :step-name ,step-name
-				       :code ,code
-				       :test ,test
-			    )))))
+			  and step-index from 1
+			  collect
+			  (destructuring-bind (&key step-name code test) e
+			    `(:step-index ,step-index
+			      :step-name ,step-name
+			      :code ,code
+			      :test ,test
+			      )))))
       (loop for e in l-steps
 	    collect
 	    (destructuring-bind (&key step-index step-name code test) e
