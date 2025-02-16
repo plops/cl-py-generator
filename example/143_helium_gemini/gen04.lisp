@@ -181,20 +181,37 @@
 			       (def parse_vtt_file (filename)
 				 (rstring3 "load vtt from <filename>. Returns deduplicated transcript as string with second-granularity timestamps")
 				 (do0
-				  (setf ostr (string "")) 
+				  (setf ostr (string ""))
+				  (setf old_text (string ""))
 				  (for (c (webvtt.read filename))
-				       (comments "we don't need sub-second time resolution. trim it away")
-				       (setf start (dot c start (aref (split (string ".")) 0)))
-				       (comments "remove internal newlines within a caption")
-				       (setf cap (dot c text (strip) (replace (string "\\n")
-									      (string " "))))
-				       (comments "write <start> <c.text> into each line of ostr")
-				       (incf ostr
-					     (fstring "{start} {cap}\\n")))
+					;(comments "we don't need sub-second time resolution. trim it away")
+				       (setf start c.start ;(dot c start (aref (split (string ".")) 0))
+					     )
+				       
+				       
+				       (setf duplicated_p (dot c text (strip) (startswith (old_text.strip))))
+				       (if duplicated_p
+					   (do0
+					    (comments "the line containing a duplication will be stored in cap. remove internal newlines within a caption.")
+					    (setf ; old_text (string "")
+						  cap (dot c text (strip) (replace (string "\\n")
+										   (string " "))))
+					    
+					    ,(lprint :vars `(duplicated_p start cap))
+					    (do0
+					     (comments "write <start> <c.text> into each line of ostr")
+					     (incf ostr
+						   (fstring "{start} {cap}\\n"))))
+					   (setf 
+						 cap (string "")))
+				       
+				       (setf old_text c.text)
+				      )
 				  (return ostr))))
 			:test (do0
 			       
-			       (print (parse_vtt_file (string "cW3tzRzTHKI.en.vtt")))
+			       (print
+				(parse_vtt_file (string "cW3tzRzTHKI.en.vtt")))
 
 			       ))))
 	   (l-steps (loop for e in l-steps0
