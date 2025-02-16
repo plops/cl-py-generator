@@ -57,7 +57,7 @@ def get_transcript(url):
     subprocess.run(cmds)
     ostr="Problem getting subscript."
     try:
-        ostr="test"
+        ostr=parse_vtt_file(sub_file_)
         os.remove(sub_file_)
     except FileNotFoundError:
         print("Error: Subtitle file not found")

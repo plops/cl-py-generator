@@ -511,9 +511,8 @@ Let's **go** to http://www.google.com/search?q=hello.")))
 	   (setf ostr (string "Problem getting subscript."))
 	   (try
 	    (do0
-	     (setf ostr (string "test")
-		   ;(parse_vtt_file sub_file_)
-		   )
+	     (setf ostr 
+		   (parse_vtt_file sub_file_))
 	     
 	     (os.remove sub_file_))
 	    
