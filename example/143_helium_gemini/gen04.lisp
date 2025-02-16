@@ -157,6 +157,19 @@
 			      (== (string "0123456789a")
 			       (validate_youtube_url (string "https://www.youtube.com/live/0123456789a&abc=123"))))
 			     (assert
+			      (== (string "_123456789a")
+			       (validate_youtube_url (string "https://www.youtube.com/watch?v=_123456789a&abc=123"))))
+			     (assert
+			      (== (string "_123456789a")
+			       (validate_youtube_url (string "https://youtube.com/watch?v=_123456789a&abc=123"))))
+			     (assert
+			      (== (string "-123456789a")
+			       (validate_youtube_url (string "https://www.youtu.be/-123456789a&abc=123"))))
+			     (assert
+			      (== (string "-123456789a")
+				  (validate_youtube_url (string "https://youtu.be/-123456789a&abc=123"))))
+			     
+			     (assert
 			      (== False
 				  (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))))
 	   (l-steps (loop for e in l-steps0
