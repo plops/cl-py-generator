@@ -263,6 +263,50 @@
 ")
 				 (parse_vtt_file (string "cW3tzRzTHKI.en.vtt"))))
 
+			       ))
+		       
+		       (:step-name convert_markdown_to_youtube_format
+			:code (do0
+			       "#!/usr/bin/env python3"
+			       (imports (re
+					 ))
+			       (def convert_markdown_to_youtube_format (text)
+			 (rstring3 "In its comments YouTube only allows *word* for bold text, not **word**. Colons or comma can not be fat (e.g. *Description:* must be written as *Description*: to be formatted properly. YouTube comments containing links seem to cause severe censoring. So we replace links.")
+			 (do0
+			  (comments "adapt the markdown to YouTube formatting")
+			  (setf text (text.replace (string "**:")
+						   (string ":**")))
+			  (setf text (text.replace (string "**,")
+						   (string ",**")))
+			  (setf text (text.replace (string "**.")
+						   (string ".**")))
+
+			  (setf text (text.replace (string "**")
+						   (string "*")))
+
+			  (comments "markdown title starting with ## with fat text")
+			  (setf text (re.sub (rstring3 "^##\\s*(.*)")
+					     (rstring3 "*\\1*")
+					     text))
+
+
+			  (comments "find any text that looks like an url and replace the . with -dot-")
+
+	      
+			  ;; text = re.sub(r"((?:https?://)?(?:www\.)?[^\s]+)\.((?:com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))", r"\1-dot-\2", text)
+
+			  (setf text (re.sub (rstring3 "((?:https?://)?(?:www\\.)?\\S+)\\.(com|org|de|us|gov|net|edu|info|io|co\\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)")
+					     (rstring3 "\\1-dot-\\2")
+					     text))
+			  (return text))))
+			:test (do0
+			       (assert
+				(== (rstring3 "*Title:*
+Let's *go* to http://www.google-dot-com/search?q=hello."))
+				(convert_markdown_to_youtube_format
+				 (rstring3 "**Title:**
+Let's **go** to http://www.google.com/search?q=hello.")))
+
 			       ))))
 	   (l-steps (loop for e in l-steps0
 			  and step-index from 1
@@ -314,7 +358,8 @@
 
 	 (imports-from (fasthtml.common *)
 		       (s01_validate_youtube_url *)
-		       (s02_parse_vtt_file *))
+		       (s02_parse_vtt_file *)
+		       (s03_convert_markdown_to_youtube_format *))
 
 	 (do0
 	  (comments "Read the demonstration transcript and corresponding summary from disk")
@@ -944,31 +989,9 @@ Here is the real transcript. Please summarize it:
 
 	     (setf text (dot (aref summaries identifier)
 			     summary))
-	     (comments "adapt the markdown to YouTube formatting")
-	     (setf text (text.replace (string "**:")
-				      (string ":**")))
-	     (setf text (text.replace (string "**,")
-				      (string ",**")))
-	     (setf text (text.replace (string "**.")
-				      (string ".**")))
-
-	     (setf text (text.replace (string "**")
-				      (string "*")))
-
-	     (comments "markdown title starting with ## with fat text")
-	     (setf text (re.sub (rstring3 "^##\\s*(.*)")
-				(rstring3 "*\\1*")
-				text))
-
-
-	     (comments "find any text that looks like an url and replace the . with -dot-")
-
+	     (setf text (convert_markdown_to_youtube_format text))
 	     
-	     ;; text = re.sub(r"((?:https?://)?(?:www\.)?[^\s]+)\.((?:com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))", r"\1-dot-\2", text)
-
-	     (setf text (re.sub (rstring3 "((?:https?://)?(?:www\\.)?\\S+)\\.(com|org|de|us|gov|net|edu|info|io|co\\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)")
-				(rstring3 "\\1-dot-\\2")
-				text))
+	     
 	     (summaries.update :pk_values identifier
 			       :timestamps_done True
 			       :timestamped_summary_in_youtube_format text

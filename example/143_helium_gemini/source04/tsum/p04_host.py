@@ -11,6 +11,7 @@ import time
 from fasthtml.common import *
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
+from s03_convert_markdown_to_youtube_format import *
 # Read the demonstration transcript and corresponding summary from disk
 with open("example_input.txt") as f:
     g_example_input=f.read()
@@ -212,15 +213,7 @@ def generate_and_save(identifier: int):
         return
     try:
         text=summaries[identifier].summary
-        # adapt the markdown to YouTube formatting
-        text=text.replace("**:", ":**")
-        text=text.replace("**,", ",**")
-        text=text.replace("**.", ".**")
-        text=text.replace("**", "*")
-        # markdown title starting with ## with fat text
-        text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
-        # find any text that looks like an url and replace the . with -dot-
-        text=re.sub(r"""((?:https?://)?(?:www\.)?\S+)\.(com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)""", r"""\1-dot-\2""", text)
+        text=convert_markdown_to_youtube_format(text)
         summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=0, timestamps_output_tokens=0, timestamps_timestamp_end=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
