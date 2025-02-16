@@ -6497,3 +6497,9 @@ dracut \
 
 
 ```
+
+# proposal 2025-02-16
+
+check tlp configuration
+
+* STOP_CHARGE_THRESH_BAT0: 0(off), 1(on) -- battery conservation mode

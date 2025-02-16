@@ -14,6 +14,11 @@ import webvtt
 import time
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
+# Read the  examples from disk
+with open("example_input.txt") as f:
+    g_example_input=f.read()
+with open("example_output.txt") as f:
+    g_example_output=f.read()
  
 # Read the gemini api key from disk
 with open("api_key.txt") as f:
@@ -261,10 +266,6 @@ def wait_until_row_exists(identifier):
         time.sleep((0.10    ))
     print("row did not appear")
     return -1
-with open("example_input.txt") as f:
-    g_example_input=f.read()
-with open("example_output.txt") as f:
-    g_example_output=f.read()
  
 def get_prompt(summary: Summary)->str:
     r"""Generate prompt from a given Summary object. It will use the contained transcript."""

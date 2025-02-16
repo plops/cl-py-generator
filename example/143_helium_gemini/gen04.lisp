@@ -20,6 +20,13 @@
 ;; [ ] allow local LLM
 ;; [X] get transcript from link
 
+;; Tests of individual steps
+;; [ ] Validate YouTube URL
+;; [ ] Bring Timestamps into HH:MM:SS format
+;; [ ] Deduplicate Transcript
+;; [ ] Convert formatting for YouTube
+;; [ ] Price estimation
+
 (setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
 				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
 				     :dl ;; download transcript from link
@@ -146,6 +153,22 @@
 
        (imports-from (fasthtml.common *))
 
+       (do0
+	(comments "Read the  examples from disk")
+	,@(loop for e in `((:var g_example_input :data ,*example-input* :fn example_input.txt)
+			   (:var g_example_output :data ,*example-output* :fn example_output.txt)
+			   )
+		collect
+		(destructuring-bind (&key var data fn) e
+		  (with-open-file (str (format nil "~a/source04/tsum/~a" *path* fn)
+				       :direction :output
+				       :if-exists :supersede
+				       :if-does-not-exist :create)
+		    (format str "~a" data))
+		  `(with (as (open (string ,fn))
+			     f)
+			 (setf ,var (dot f (read)))))))
+       
        " "
        (comments "Read the gemini api key from disk")
        (with (as (open (string "api_key.txt"))
@@ -665,7 +688,7 @@ Output tokens: {output_tokens}")
 	 )
 
 
-       (do0
+       #+nil (do0
 	(setf example (rstring3 *duplication-example-input*))
 	(print (deduplicate_transcript example)))
        " "
@@ -721,25 +744,24 @@ Output tokens: {output_tokens}")
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
 	 (return -1))
-
+       
+       
+       
        " "
        (def get_prompt (summary)
 	 (declare (type Summary summary)
 		  (values str))
 	 (rstring3 "Generate prompt from a given Summary object. It will use the contained transcript.")
-	 (setf prompt (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+	 (setf prompt (fstring3 "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
 **Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
 
 Example Input: 
-~a
+{g_example_input}
 Example Output:
-~a
+{g_example_output}
 Here is the real transcript. Please summarize it: 
-{(summary.transcript)}"
-					    #-example "input" #-example "output"
-					    #+example example-input #+example example-output-nocomments
-					    )))
+{(summary.transcript)}"))
 
 	 (return prompt)
 	 )
