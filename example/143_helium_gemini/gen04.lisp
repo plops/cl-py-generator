@@ -190,10 +190,11 @@
 									      (string " "))))
 				       (comments "write <start> <c.text> into each line of ostr")
 				       (incf ostr
-					     (fstring "{start} {cap}\\n"))))))
+					     (fstring "{start} {cap}\\n")))
+				  (return ostr))))
 			:test (do0
 			       
-			       (print (parse_vtt_file (string "cW3tzRzTHKI.en.vt")))
+			       (print (parse_vtt_file (string "cW3tzRzTHKI.en.vtt")))
 
 			       ))))
 	   (l-steps (loop for e in l-steps0
