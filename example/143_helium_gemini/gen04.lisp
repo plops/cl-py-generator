@@ -131,25 +131,31 @@
 			     "#!/usr/bin/env python3"
 			     (imports (re))
 			     (def validate_youtube_url (url)
-			       (string3 "Validates various YouTube URL formats.")
+			       (string3 "Validates various YouTube URL formats. Returns normalized YouTube video identifier as a string where unneccessary information has been removed. False if the Link doesn't match acceptable patterns.")
 			       (setf patterns
 				     (list
 				      ;; standard watch link
-				      (rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=[A-Za-z0-9_-]{11}.*")
+				      (rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=([A-Za-z0-9_-]{11}).*")
 				      ;; live stream link
-				      (rstring3 "^https://(www\\.)?youtube\\.com/live/[A-Za-z0-9_-]{11}.*")
+				      (rstring3 "^https://(www\\.)?youtube\\.com/live/([A-Za-z0-9_-]{11}).*")
 				      ;; shortened link
-				      (rstring3 "^https://(www\\.)?youtu\\.be/[A-Za-z0-9_-]{11}.*")
+				      (rstring3 "^https://(www\\.)?youtu\\.be/([A-Za-z0-9_-]{11}).*")
 				      ))
 			       (for (pattern patterns)
-				    (when (re.match pattern url)
-				      (return True)))
+				    (setf match (re.match pattern url))
+				    (when match
+				      ;; (print (match.groups))
+				      (return (aref (match.groups) 1))))
 			       (print (string "Error: Invalid YouTube URL"))
 			       (return False)))
 		      :test (do0
 			     
 			     (assert
-			      (validate_youtube_url (string "https://www.youtube.com/live/0123456789a")))
+			      (== (string "0123456789a")
+			       (validate_youtube_url (string "https://www.youtube.com/live/0123456789a"))))
+			     (assert
+			      (== (string "0123456789a")
+			       (validate_youtube_url (string "https://www.youtube.com/live/0123456789a&abc=123"))))
 			     (assert
 			      (== False
 				  (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))))
@@ -327,9 +333,9 @@
 	 (def get_transcript (url)
 	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
 
-	   
-	   (unless (validate_youtube_url url)
-	     (return (string "")))
+	   (setf youtube_id (validate_youtube_url url))
+	   (unless youtube_id
+	     (return (string "URL couldn't be validated")))
 	   
 	   (setf sub_file (string "/dev/shm/o"))
 	   (setf sub_file_ (string "/dev/shm/o.en.vtt"))
@@ -345,7 +351,7 @@
 			    (string "en")
 			    (string "-o")
 			    sub_file
-			    url))
+			    youtube_id))
 	   (print (dot (string " ")
 		       (join cmds)))
 	   (subprocess.run cmds)

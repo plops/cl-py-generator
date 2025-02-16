@@ -49,11 +49,12 @@ documentation="""###### To use the YouTube summarizer:
 """
 def get_transcript(url):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
-    if ( not(validate_youtube_url(url)) ):
-        return ""
+    youtube_id=validate_youtube_url(url)
+    if ( not(youtube_id) ):
+        return "URL couldn't be validated"
     sub_file="/dev/shm/o"
     sub_file_="/dev/shm/o.en.vtt"
-    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, url]
+    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, youtube_id]
     print(" ".join(cmds))
     subprocess.run(cmds)
     ostr=""
