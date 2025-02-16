@@ -225,7 +225,7 @@
 		       (s01_validate_youtube_url *))
 
 	 (do0
-	  (comments "Read the  examples from disk")
+	  (comments "Read the demonstration transcript and corresponding summary from disk")
 	  ,@(loop for e in `((:var g_example_input :data ,*example-input* :fn example_input.txt)
 			     (:var g_example_output :data ,*example-output* :fn example_output.txt)
 			     )

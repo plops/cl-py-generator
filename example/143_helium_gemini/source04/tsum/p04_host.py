@@ -15,7 +15,7 @@ import time
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
 from s01_validate_youtube_url import *
-# Read the  examples from disk
+# Read the demonstration transcript and corresponding summary from disk
 with open("example_input.txt") as f:
     g_example_input=f.read()
 with open("example_output.txt") as f:
