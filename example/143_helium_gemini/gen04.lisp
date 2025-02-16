@@ -21,7 +21,7 @@
 ;; [X] get transcript from link
 
 ;; Tests of individual steps
-;; [ ] Validate YouTube URL
+;; [X] Validate YouTube URL
 ;; [ ] Bring Timestamps into HH:MM:SS format
 ;; [ ] Deduplicate Transcript
 ;; [ ] Convert formatting for YouTube
