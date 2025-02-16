@@ -24,7 +24,7 @@
 ;; [X] Validate YouTube URL
 ;; [ ] Bring Timestamps into HH:MM:SS format
 ;; [ ] Deduplicate Transcript
-;; [ ] Convert formatting for YouTube
+;; [ ] Convert formatting of the summary from markdown to YouTube
 ;; [ ] Price estimation
 
 (setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
