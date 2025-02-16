@@ -145,7 +145,14 @@
 				    (when (re.match pattern url)
 				      (return True)))
 			       (print (string "Error: Invalid YouTube URL"))
-			       (return False))))))
+			       (return False)))
+		      :test (do0
+			     
+			     (assert
+			      (validate_youtube_url (string "https://www.youtube.com/live/0123456789a")))
+			     (assert
+			      (== False
+				  (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))))
 	   (l-steps (loop for e in l-steps0
 			 and step-index from 1
 			 collect
@@ -160,7 +167,13 @@
 	    (destructuring-bind (&key step-index step-name code test) e
 	      (write-source
 	       (format nil "~a/source04/tsum/s~2,'0d_~a" *path* step-index step-name)
-	       code)))
+	       code)
+	      (write-source
+	       (format nil "~a/source04/tsum/t~2,'0d_~a" *path* step-index step-name)
+	       `(do0
+		 (imports-from 
+		  (,(format nil "s~2,'0d_~a" step-index step-name) *))
+		 ,test))))
       
       (write-source
        (format nil "~a/source04/tsum/p~a_~a" *path* *idx* notebook-name)
