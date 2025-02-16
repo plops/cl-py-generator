@@ -22,8 +22,8 @@
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
-;; [ ] Bring Timestamps into HH:MM:SS format
-;; [ ] Deduplicate Transcript
+;; [X] Bring Timestamps into HH:MM:SS format
+;; [X] Deduplicate Transcript
 ;; [ ] Convert formatting of the summary from markdown to YouTube
 ;; [ ] Price estimation
 
