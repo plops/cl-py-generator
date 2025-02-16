@@ -14,6 +14,7 @@ import webvtt
 import time
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
+from s01_validate_youtube_url import *
 # Read the  examples from disk
 with open("example_input.txt") as f:
     g_example_input=f.read()
@@ -46,15 +47,6 @@ documentation="""###### To use the YouTube summarizer:
 3. **Click the 'Summarize' button.** The summary with timestamps will be generated.
 
 """
- 
-def validate_youtube_url(url):
-    """Validates various YouTube URL formats."""
-    patterns=[r"""^https://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}.*""", r"""^https://(www\.)?youtube\.com/live/[A-Za-z0-9_-]{11}.*""", r"""^https://(www\.)?youtu\.be/[A-Za-z0-9_-]{11}.*"""]
-    for pattern in patterns:
-        if ( re.match(pattern, url) ):
-            return True
-    print("Error: Invalid YouTube URL")
-    return False
 def get_transcript(url):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     if ( not(validate_youtube_url(url)) ):
