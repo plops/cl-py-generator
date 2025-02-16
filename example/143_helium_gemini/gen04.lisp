@@ -294,16 +294,16 @@
 	 #+dl (comments "micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py")
 	 (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
-		   os
+		   ;os
 		   google.api_core.exceptions
-		   re
+		   ;re
 		   markdown
 					; uvicorn
 		   sqlite_minutils.db
 		   datetime
 		   difflib
 		   #+dl subprocess
-		   #+dl webvtt
+		   ;#+dl webvtt
 		   time))
 
 	 #+nil
@@ -461,7 +461,7 @@
 	   (print (dot (string " ")
 		       (join cmds)))
 	   (subprocess.run cmds)
-	   
+	   (setf ostr (string "Problem getting subscript."))
 	   (try
 	    (do0
 	     (setf ostr (parse_vtt_file sub_file_))

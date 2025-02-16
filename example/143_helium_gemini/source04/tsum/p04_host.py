@@ -2,17 +2,13 @@
 # pip install -U google-generativeai python-fasthtml markdown
 # micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py
 import google.generativeai as genai
-import os
 import google.api_core.exceptions
-import re
 import markdown
 import sqlite_minutils.db
 import datetime
 import difflib
 import subprocess
-import webvtt
 import time
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
@@ -33,9 +29,9 @@ def render(summary: Summary):
     if ( summary.timestamps_done ):
         return generation_preview(identifier)
     elif ( summary.summary_done ):
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else (""), hx_swap="outerHTML")
     else:
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="", hx_swap="outerHTML")
  
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
@@ -58,6 +54,7 @@ def get_transcript(url):
     cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, youtube_id]
     print(" ".join(cmds))
     subprocess.run(cmds)
+    ostr="Problem getting subscript."
     try:
         ostr=parse_vtt_file(sub_file_)
         os.remove(sub_file_)
@@ -90,7 +87,7 @@ def get(request: Request):
 def generation_preview(identifier):
     sid=f"gen-{identifier}"
     text="Generating ..."
-    trigger="every 1s"
+    trigger=""
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):
@@ -273,23 +270,12 @@ def generate_and_save(identifier: int):
     print(f"generate_and_save id={identifier}")
     s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
-    m=genai.GenerativeModel(s.model)
-    safety={(HarmCategory.HARM_CATEGORY_HATE_SPEECH):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_HARASSMENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT):(HarmBlockThreshold.BLOCK_NONE)}
     try:
         prompt=get_prompt(s)
-        response=m.generate_content(prompt, safety_settings=safety, stream=True)
-        for chunk in response:
-            try:
-                print(f"add text to id={identifier}: {chunk.text}")
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
-            except ValueError:
-                
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+("\nError: value error")))
-                print("Value Error ")
-            except Exception as e:
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
-                print("line 2049 Error")
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        with open("/dev/shm/prompt.txt", "w") as fprompt:
+            fprompt.write(prompt)
+        summaries.update(pk_values=identifier, summary="emulate")
+        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=0, summary_output_tokens=0, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return
