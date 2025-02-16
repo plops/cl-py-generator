@@ -516,7 +516,7 @@ Let's **go** to http://www.google.com/search?q=hello.")))
 	    (FileNotFoundError
 	     (print (string "Error: Subtitle file not found")))
 	    ("Exception as e"
-	     (print (string "line 1639 Error: problem when processing subtitle file"))))
+	     (print (fstring "line 1639 Error: problem when processing subtitle file {e}"))))
 	   (return ostr)
 	   )
 	 " "

@@ -61,7 +61,7 @@ def get_transcript(url):
     except FileNotFoundError:
         print("Error: Subtitle file not found")
     except Exception as e:
-        print("line 1639 Error: problem when processing subtitle file")
+        print(f"line 1639 Error: problem when processing subtitle file {e}")
     return ostr
  
 documentation_html=markdown.markdown(documentation)
