@@ -19,6 +19,8 @@
 ;; [ ] allow editing of the models output
 ;; [ ] allow local LLM
 ;; [X] get transcript from link
+;; [ ] allow concurrent summary downloads
+
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
@@ -509,7 +511,9 @@ Let's **go** to http://www.google.com/search?q=hello.")))
 	   (setf ostr (string "Problem getting subscript."))
 	   (try
 	    (do0
-	     (setf ostr (parse_vtt_file sub_file_))
+	     (setf ostr (string "test")
+		   ;(parse_vtt_file sub_file_)
+		   )
 	     
 	     (os.remove sub_file_))
 	    
@@ -547,7 +551,8 @@ Let's **go** to http://www.google.com/search?q=hello.")))
 			,@(loop for e in *models*
 				collect
 				(destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-				  `(Option (string ,name))))
+				  `(Option (string ,name
+					    #+nil ,(format nil "~a input-price: ~a output-price: ~a context-length: ~a" name input-price output-price context-length)))))
 			:style (string "width: 100%;")
 			:name (string "model"))
 		       :style (string "display: flex; align-items: center; width: 100%;")))
@@ -626,8 +631,8 @@ Let's **go** to http://www.google.com/search?q=hello.")))
 	   (try
 	    (do0
 	     (setf s (aref summaries identifier))
+	     
 	     (cond
-	       
 	       (s.timestamps_done
 		(comments "this is for <= 128k tokens")
 		(if (or (dot s model (startswith (string "gemini-1.5-pro")))
