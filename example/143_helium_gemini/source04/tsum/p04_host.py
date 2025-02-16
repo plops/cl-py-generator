@@ -15,6 +15,7 @@ import time
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
 from s01_validate_youtube_url import *
+from s02_parse_vtt_file import *
 # Read the demonstration transcript and corresponding summary from disk
 with open("example_input.txt") as f:
     g_example_input=f.read()
@@ -57,15 +58,8 @@ def get_transcript(url):
     cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, youtube_id]
     print(" ".join(cmds))
     subprocess.run(cmds)
-    ostr=""
     try:
-        for c in webvtt.read(sub_file_):
-            # we don't need sub-second time resolution. trim it away
-            start=c.start.split(".")[0]
-            # remove internal newlines within a caption
-            cap=c.text.strip().replace("\n", " ")
-            # write <start> <c.text> into each line of ostr
-            ostr += f"{start} {cap}\n"
+        ostr=parse_vtt_file(sub_file_)
         os.remove(sub_file_)
     except FileNotFoundError:
         print("Error: Subtitle file not found")

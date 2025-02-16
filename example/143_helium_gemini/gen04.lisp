@@ -172,7 +172,29 @@
 			     
 			     (assert
 			      (== False
-				  (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))))
+				  (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))
+		       (:step-name parse_vtt_file
+		      :code (do0
+			     "#!/usr/bin/env python3"
+			     (imports (re))
+			     (def parse_vtt_file (filename)
+	       (rstring3 "load vtt from <filename>. Returns deduplicated transcript as string with second-granularity timestamps")
+	       (do0
+		(setf ostr (string "")) 
+		(for (c (webvtt.read sub_file_))
+		     (comments "we don't need sub-second time resolution. trim it away")
+		     (setf start (dot c start (aref (split (string ".")) 0)))
+		     (comments "remove internal newlines within a caption")
+		     (setf cap (dot c text (strip) (replace (string "\\n")
+							    (string " "))))
+		     (comments "write <start> <c.text> into each line of ostr")
+		     (incf ostr
+			   (fstring "{start} {cap}\\n"))))))
+		      :test (do0
+			     
+			     (print (parse_vtt_file (string "cW3tzRzTHKI.en.vt")))
+
+			     ))))
 	   (l-steps (loop for e in l-steps0
 			 and step-index from 1
 			 collect
@@ -222,7 +244,8 @@
 	 #-emulate (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
 
 	 (imports-from (fasthtml.common *)
-		       (s01_validate_youtube_url *))
+		       (s01_validate_youtube_url *)
+		       (s02_parse_vtt_file *))
 
 	 (do0
 	  (comments "Read the demonstration transcript and corresponding summary from disk")
@@ -369,18 +392,11 @@
 	   (print (dot (string " ")
 		       (join cmds)))
 	   (subprocess.run cmds)
-	   (setf ostr (string "")) 
+	   
 	   (try
 	    (do0
-	     (for (c (webvtt.read sub_file_))
-		  (comments "we don't need sub-second time resolution. trim it away")
-		  (setf start (dot c start (aref (split (string ".")) 0)))
-		  (comments "remove internal newlines within a caption")
-		  (setf cap (dot c text (strip) (replace (string "\\n")
-							 (string " "))))
-		  (comments "write <start> <c.text> into each line of ostr")
-		  (incf ostr
-			(fstring "{start} {cap}\\n")))
+	     (setf ostr (parse_vtt_file sub_file_))
+	     
 	     (os.remove sub_file_))
 	    
 	    (FileNotFoundError
