@@ -162,9 +162,10 @@
 			     (assert
 			      (== (string "_123456789a")
 			       (validate_youtube_url (string "https://youtube.com/watch?v=_123456789a&abc=123"))))
+			     (comments "FIXME: I'm not sure if a Youtube-ID that starts with a - character is handled correctly in the downstream pipeline")
 			     (assert
-			      (== (string "-123456789a")
-			       (validate_youtube_url (string "https://www.youtu.be/-123456789a&abc=123"))))
+			      (== (string "-123456789a") 
+				  (validate_youtube_url (string "https://www.youtu.be/-123456789a&abc=123"))))
 			     (assert
 			      (== (string "-123456789a")
 				  (validate_youtube_url (string "https://youtu.be/-123456789a&abc=123"))))
