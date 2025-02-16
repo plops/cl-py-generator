@@ -534,9 +534,7 @@ Let's **go** to http://www.google.com/search?q=hello.")))
 	   (print request.client.host)
 	   (setf nav (Nav
 		      (Ul (Li (Strong (string "Transcript Summarizer"))))
-		      (Ul #+nil (Li (A (string "About")
-				       :href (string "#")))
-			  (Li (A (string "Demo Video")
+		      (Ul (Li (A (string "Demo Video")
 				 :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
 			  (Li (A (string "Documentation")
 				 :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
@@ -707,42 +705,22 @@ Output tokens: {output_tokens}")
 				     (format nil "~a: {s.~a}" name (string-downcase name))))))
 
 			:cls (string "summary-details")
-			
-			#+nil (P
-			       (B (string "Identifier:"))
-			       (Span 558
-				     :id (string "identifier")
-				     ))
-			#+nil (P (B (string "Model:"))
-				 (Span (string "gemini2.0")
-				       :id (string "model")
-				       ))))
+			))
 	     (setf summary_container
 		   (Div summary_details
 			:cls (string "summary-container")
 			
 			))
-	     (setf title summary_container
-		   #+nil (fstring ;"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
-				  ,(format nil "~{~a~^ ~}"
-					   (remove-if #'null
-						      (loop for e in db-cols
-							    collect
-							    (destructuring-bind (&key name type no-show) e
-							      (unless no-show
-								(format nil "~a: {s.~a}" name (string-downcase name)))))))
-				  ))
+	     (setf title summary_container)
 
 	     (setf html (markdown.markdown s.summary))
-					;(print (fstring "md: {html}"))
+					
 	     (setf pre (Div (Div (Pre text
 				      :id (fstring "pre-{identifier}"))
 				 :id (string "hidden-markdown")
 				 :style( string "display: none;"))
 			    (Div
-			     (NotStr html)
-					;:id (fstring "pre-{identifier}-html")
-			     )))
+			     (NotStr html))))
 	     (setf button (Button (string "Copy Summary")
 				  :onclick (fstring "copyPreContent('pre-{identifier}')")))
 
@@ -876,36 +854,11 @@ Here is the real transcript. Please summarize it:
 	    (do0
 	     (do0 
 	      (setf prompt (get_prompt s))
-	      #+emulate
-	      (do0
-	       (with (as (open (string "/dev/shm/prompt.txt")
-			       (string "w"))
-			 fprompt)
-		     (fprompt.write prompt))
-	       (summaries.update :pk_values identifier
-				 :summary (string "emulate")))
-	      #-emulate
 	      (do0
 	       (setf response (m.generate_content
-			       #+comments (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
-
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From <user>'s Comments]\" at the end of the bullet point. Note that while viewer comments appear earlier in the text than the transcript they are in fact recorded at a later time. Therefore, if viewer comments repeat information from the transcript, they should not appear in the summary.
-
-Example Input: 
-~a
-Example Output:
-~a
-Here is the real transcript. Please summarize it: 
-{deduplicate_transcript(s.transcript)}"
-							     #-example "input" #-example "output"
-							     #+example example-input #+example example-output-nocomments
-							     ))
 			       prompt
 			       :safety_settings safety
 			       :stream True))
-
-	       
-	       
 	       (for (chunk response)
 		    (try
 		     (do0
@@ -966,37 +919,9 @@ Here is the real transcript. Please summarize it:
 	   
 	   (try
 	    (do0
-	     #+nil
-	     (do0
-	      (print (string "generate timestamps"))
-	      (setf s (dot (aref summaries identifier)))
-	      (setf response2 (m.generate_content
-			       (fstring "Add a title to the summary and add a starting (not stopping) timestamp to each bullet point in the following summary: {s.summary}\nThe full transcript is: {s.transcript}")
-			       :safety_settings safety
-			       :stream True))
-
-	      
-	      
-	      (for (chunk response2)
-		   (try
-		    (do0
-		     (print (fstring "add timestamped text to id={identifier}: {chunk.text}"))
-		     
-		     (summaries.update :pk_values identifier
-				       :timestamps (+ (dot (aref summaries identifier)
-							   timestamps)
-						      chunk.text)))
-		    (ValueError ()
-				(print (string "Value Error"))))
-		   )
-	      (setf text (dot (aref summaries identifier)
-			      timestamps)))
-
 	     (setf text (dot (aref summaries identifier)
 			     summary))
 	     (setf text (convert_markdown_to_youtube_format text))
-	     
-	     
 	     (summaries.update :pk_values identifier
 			       :timestamps_done True
 			       :timestamped_summary_in_youtube_format text
@@ -1020,9 +945,7 @@ Here is the real transcript. Please summarize it:
 	   
 	   )
 	 " "
-
-
-					;(serve :host (string "localhost") :port 5001)
+	
 	 (serve :host (string "0.0.0.0") :port 5001)
 	 #+nil (when (== __name__ (string "main"))
 		 (uvicorn.run :app (string "p01_host:app")
