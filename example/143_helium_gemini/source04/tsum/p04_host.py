@@ -231,4 +231,4 @@ def generate_and_save(identifier: int):
         summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
         return
  
-serve(host="0.0.0.0", port=5001)
+serve(host="127.0.0.1", port=5001)
