@@ -530,7 +530,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	   (declare (type Request request))
 	   ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
 	   
-	   (print request.client.host)
+	   ,(lprint :vars `(request.client.host))
 	   (setf nav (Nav
 		      (Ul (Li (Strong (string "Transcript Summarizer"))))
 		      (Ul (Li (A (string "Demo Video")
@@ -548,12 +548,14 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			,@(loop for e in *models*
 				collect
 				(destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-				  `(Option (string ,name
-					    #+nil ,(format nil "~a input-price: ~a output-price: ~a context-length: ~a" name input-price output-price context-length)))))
+				  `(Option (string #+nil ,name
+					     ,(format nil "~a| input-price: ~a output-price: ~a max-context-length: ~a" name input-price output-price context-length)))))
 			:style (string "width: 100%;")
 			:name (string "model"))
 		       :style (string "display: flex; align-items: center; width: 100%;")))
-
+	   #+nil (setf model (aref (model.split (string "\\n"))
+			     0))
+	   #+nil ,(lprint :vars `((type model)))
 	   
 	   (setf form
 		 (Form
@@ -705,15 +707,10 @@ Output tokens: {output_tokens}")
 
 			:cls (string "summary-details")
 			))
-	     (setf summary_container
-		   (Div summary_details
-			:cls (string "summary-container")
-			
-			))
+	     (setf summary_container (Div summary_details
+					  :cls (string "summary-container")))
 	     (setf title summary_container)
-
 	     (setf html (markdown.markdown s.summary))
-					
 	     (setf pre (Div (Div (Pre text
 				      :id (fstring "pre-{identifier}"))
 				 :id (string "hidden-markdown")
@@ -722,7 +719,6 @@ Output tokens: {output_tokens}")
 			     (NotStr html))))
 	     (setf button (Button (string "Copy Summary")
 				  :onclick (fstring "copyPreContent('pre-{identifier}')")))
-
 	     (do0
 	      (setf prompt_text (get_prompt s)
 		    prompt_pre (Pre prompt_text :id (fstring "prompt-pre-{identifier}")
@@ -757,7 +753,6 @@ Output tokens: {output_tokens}")
 		      :hx_post (fstring "/generations/{identifier}")
 		      :hx_trigger trigger
 		      :hx_swap (string "outerHTML"))))))
-
 	 
 	 " "
 	 (@app.post (string "/generations/{identifier}"))
@@ -795,8 +790,7 @@ Output tokens: {output_tokens}")
 	   (setf s2 (summaries.insert summary))
 	   (comments "first identifier is 1")
 	   (generate_and_save s2.identifier)
-	   
-	   
+
 	   (return (generation_preview s2.identifier)))
 
 	 " "
@@ -842,7 +836,7 @@ Here is the real transcript. Please summarize it:
 	   (print (fstring "generate_and_save model={s.model}"))
 	   #-emulate
 	   (do0
-	    (setf m (genai.GenerativeModel s.model))
+	    (setf m (genai.GenerativeModel (dot s model (aref (split (string "|")) 0))))
 	    (setf safety (dict (HarmCategory.HARM_CATEGORY_HATE_SPEECH HarmBlockThreshold.BLOCK_NONE)
 			       (HarmCategory.HARM_CATEGORY_HARASSMENT HarmBlockThreshold.BLOCK_NONE)
 			       (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT HarmBlockThreshold.BLOCK_NONE)
