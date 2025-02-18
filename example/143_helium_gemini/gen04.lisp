@@ -270,8 +270,7 @@
 		       (:step-name convert_markdown_to_youtube_format
 			:code (do0
 			       "#!/usr/bin/env python3"
-			       (imports (re
-					 ))
+			       (imports (re))
 			       (def convert_markdown_to_youtube_format (text)
 			 (rstring3 "In its comments YouTube only allows *word* for bold text, not **word**. Colons or comma can not be fat (e.g. *Description:* must be written as *Description*: to be formatted properly. YouTube comments containing links seem to cause severe censoring. So we replace links.")
 			 (do0
@@ -302,12 +301,13 @@
 					     text))
 			  (return text))))
 			:test (do0
+			       (setf r (convert_markdown_to_youtube_format
+				     (rstring3 "**Title:**
+Let's **go** to http://www.google.com/search?q=hello.")))
 			       (assert
 				(== (rstring3 "*Title:*
-Let's *go* to http://www.google-dot-com/search?q=hello."))
-				(convert_markdown_to_youtube_format
-				 (rstring3 "**Title:**
-Let's **go** to http://www.google.com/search?q=hello.")))
+Let's *go* to http://www.google-dot-com/search?q=hello.")
+				    r))
 
 			       ))))
 	   (l-steps (loop for e in l-steps0
