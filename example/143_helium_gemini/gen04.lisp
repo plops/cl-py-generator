@@ -460,7 +460,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	  (def get (req)
 	    (return (ntuple
 		     (Div (P (string "Not logged in")))
-		     (A (string "Log in")
+		     (A (string "Log in)"
 			:href (oauth.login_link req))))))
 	 
 
