@@ -2,6 +2,7 @@
 # pip install -U google-generativeai python-fasthtml markdown
 # micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py
 import google.generativeai as genai
+import os
 import google.api_core.exceptions
 import markdown
 import sqlite_minutils.db
@@ -10,9 +11,15 @@ import subprocess
 import time
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
+from fasthtml.oauth import OAuth, GoogleAppClient
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
+client=GoogleAppClient(os.getenv("AUTH_CLIENT_ID"), os.getenv("AUTH_CLIENT_SECRET"))
+class Auth(OAuth):
+    def get_auth(self, info, ident, session, state):
+        if ( info.email_verified ):
+            return RedirectResponse("/", status_code=303)
 # Read the demonstration transcript and corresponding summary from disk
 with open("example_input.txt") as f:
     g_example_input=f.read()
@@ -37,7 +44,11 @@ def render(summary: Summary):
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, pk="identifier")
+oauth=Auth(app, client)
  
+@rt("/login")
+def get(req):
+    return Div(P("Not logged in")), A("Log in", href=oauth.login_link(req))
 documentation="""###### To use the YouTube summarizer:
 
 1. **Copy the YouTube video link.**
@@ -69,7 +80,7 @@ documentation_html=markdown.markdown(documentation)
 @rt("/")
 def get(request: Request):
     print("nil request.client.host={}".format(request.client.host))
-    nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
+    nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md")), Li(A("Log out", href="/logout"))))
     transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width=60%;", name="transcript")
     model=Div(Select(Option("gemini-2.0-flash-exp| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-2.0-pro-exp-02-05| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-1.5-pro-exp-0827| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-2.0-flash-lite-preview-02-05| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-2.0-flash-thinking-exp-01-21| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-2.0-flash-001| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-exp-1206| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-exp-1121| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-exp-1114| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("learnlm-1.5-pro-experimental| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-1.5-flash-002| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-1.5-pro-002| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-1.5-pro-exp-0801| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-1.5-flash-exp-0827| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-1.5-flash-8b-exp-0924| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-1.5-flash-latest| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemma-2-2b-it| input-price: -1 output-price: -1 max-context-length: 128_000"), Option("gemma-2-9b-it| input-price: -1 output-price: -1 max-context-length: 128_000"), Option("gemma-2-27b-it| input-price: -1 output-price: -1 max-context-length: 128_000"), Option("gemini-1.5-flash| input-price: 0.1 output-price: 0.4 max-context-length: 128_000"), Option("gemini-1.5-pro| input-price: 1.25 output-price: 5 max-context-length: 128_000"), Option("gemini-1.0-pro| input-price: 0.5 output-price: 1.5 max-context-length: 128_000"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
     form=Form(Group(Div(Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", name="original_source_link"), transcript, model, Div(Label("Output Language", _for="output_language"), Select(Option("en"), Option("de"), Option("fr"), Option("ch"), Option("nl"), Option("pt"), Option("cz"), Option("it"), Option("jp"), Option("ar"), style="width: 100%;", name="output_language", id="output_language"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_comments", name="include_comments", checked=False), Label("Include User Comments", _for="include_comments"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_timestamps", name="include_timestamps", checked=True), Label("Include Timestamps", _for="include_timestamps"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_glossary", name="include_glossary", checked=False), Label("Include Glossary", _for="include_glossary"), style="display: none; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")

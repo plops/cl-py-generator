@@ -20,7 +20,7 @@
 ;; [ ] allow local LLM
 ;; [X] get transcript from link
 ;; [ ] allow concurrent summary downloads
-
+;; [ ] OAuth
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
@@ -32,12 +32,14 @@
 (setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
 				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
 				     :dl ;; download transcript from link
-				     :simple ;; use very few gui elements 
+				     :simple ;; use very few gui elements
+				     :auth ;; oauth login (requires AUTH_CLIENT_{ID,SECRET} in env)
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
 					      ;:simple
 					      ;:dl
+					      ;:auth
 					      )))
 
 (progn
@@ -340,7 +342,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 #+dl (comments "micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py")
 	 (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
-		   ;os
+		   #+auth os
 		   google.api_core.exceptions
 		   ;re
 		   markdown
@@ -359,10 +361,25 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 #-emulate (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
 
 	 (imports-from (fasthtml.common *)
+		       #+auth (fasthtml.oauth OAuth GoogleAppClient)
 		       (s01_validate_youtube_url *)
 		       (s02_parse_vtt_file *)
 		       (s03_convert_markdown_to_youtube_format *))
 
+	 #+auth
+	 (do0
+	  (setf client
+		(GoogleAppClient
+		 (os.getenv (string "AUTH_CLIENT_ID"))
+		 (os.getenv (string "AUTH_CLIENT_SECRET"))))
+	  (class Auth (OAuth)
+		 (def get_auth (self info ident session state)
+		   (when info.email_verified
+		     (return (RedirectResponse
+			      (string "/")
+			      :status_code 303)))))
+	  )
+	 
 	 (do0
 	  (comments "Read the demonstration transcript and corresponding summary from disk")
 	  ,@(loop for e in `((:var g_example_input :data ,*example-input* :fn example_input.txt)
@@ -435,25 +452,20 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			 :pk (string "identifier")
 			 ))
 
+	 #+auth
+	 (do0
+	  (setf oauth (Auth app client))
+	  " "
+	  (@rt (string "/login"))
+	  (def get (req)
+	    (return (ntuple
+		     (Div (P (string "Not logged in")))
+		     (A (string "Log in")
+			:href (oauth.login_link req))))))
+	 
 
-	 " "
-	 #+nil(def render (summary)
-		(declare (type Summary summary))
-		(return (Li 
-			 (A summary.summary_timestamp_start
-			    :href (fstring "/summaries/{summary.identifier}")))))
-
-
-
-	 (setf documentation #+nil (string3 "###### To use the YouTube summarizer:
-
-1. **Copy the YouTube video link.**
-2. **Paste the link into the provided input field.**
-3. **Alternatively (for desktop browsers):** If you're on the YouTube video page, you can copy the video's title, description, transcript, and any visible comments, then paste them into the input field.
-4. **Click the 'Summarize' button.** The summary with timestamps will be generated.
-
-")
-			     #+simple (string3 "###### To use the YouTube summarizer:
+	 (setf documentation 
+	       #+simple (string3 "###### To use the YouTube summarizer:
 
 1. **Copy the YouTube video link.**
 2. **Paste the link into the provided input field.**
@@ -461,27 +473,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 
 ")
 			     
-			     #-dl (string3 "###### **Prepare the Input Text from YouTube:**
- * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
- * Click on the \"Show Transcript\" button below the video.
- * **Scroll to the bottom** in the transcript sub-window.
- * **Start selecting the text from the bottom of the transcript sub-window and drag your cursor upwards, including the video title at the top.** This will select the title, description, comments (that have loaded), and the entire transcript.
- * **Tip:** Summaries are often better if you include the video title, the video description, and relevant comments along with the transcript.
+	       )
 
-###### **Paste the Text into the Web Interface:**
- * Paste the copied text (title, description, transcript, and optional comments) into the text area provided below.
- * Select your desired model from the dropdown menu (Gemini Pro is recommended for accurate timestamps).
- * Click the \"Summarize Transcript\" button.
-
-###### **View the Summary:**
- * The application will process your input and display a continuously updating preview of the summary. 
- * Once complete, the final summary with timestamps will be displayed, along with an option to copy the text.
- * You can then paste this summarized text into a YouTube comment.
-"))
-
-	 
-	 
-	 
+	 	 
 	 #+dl
 	 (def get_transcript (url)
 	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
@@ -537,7 +531,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				 :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
 			  (Li (A (string "Documentation")
 				 :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
-			  )))
+			  #+auth
+			  (Li (A (string "Log out")
+				 :href (string "/logout"))))))
 	   
 	   (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				      :style (string ;#+simple "height: 300px; width=60%; display: none;"
