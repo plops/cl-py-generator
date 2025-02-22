@@ -16,9 +16,17 @@ CMD <cmd>
 # docker container list
 # show the running containers
 
+# docker container list --all
+# also show stopped containers
+
 # docker logs <container-id>
 
 
 # connect to running container:
 # docker exec -it <container-id> bash
 
+
+# docker stop <container-id>
+# after stopping you can still shell into it
+
+# docker rm <container-id>
