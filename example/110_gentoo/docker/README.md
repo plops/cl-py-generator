@@ -32,6 +32,17 @@ CMD <cmd>
 # docker rm <container-id>
 
 
-# create a registry on azure 
+# create a registry on azure:
+# create a resource
+# search; container registry
+
+# <name>.azurecr.io
+
+# authenticate with registry
+
+# docker login <name>.azurecr.io --username <username> --password <password>
+# docker tag <image-tag> <name>.azurecr.io/<image-tag>:latest
+
+# check if tag was applied with: docker image list
 
 # docker push
