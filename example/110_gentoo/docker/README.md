@@ -30,3 +30,8 @@ CMD <cmd>
 # after stopping you can still shell into it
 
 # docker rm <container-id>
+
+
+# create a registry on azure 
+
+# docker push
