@@ -11,3 +11,14 @@ CMD <cmd>
 # -d .. detached mode in background
 # -p .. bind container port to host port
 # -e .. set environment variable
+
+
+# docker container list
+# show the running containers
+
+# docker logs <container-id>
+
+
+# connect to running container:
+# docker exec -it <container-id> bash
+
