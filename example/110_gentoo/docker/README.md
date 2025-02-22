@@ -46,3 +46,7 @@ CMD <cmd>
 # check if tag was applied with: docker image list
 
 # docker push <name>.azurecr.io/<image-tag>:latest
+
+# instead of latest you would use the actual version number
+
+# once the image is in the registry you can rm the local version an will later be able to get it from the registry
