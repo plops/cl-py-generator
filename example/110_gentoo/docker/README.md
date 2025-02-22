@@ -45,4 +45,4 @@ CMD <cmd>
 
 # check if tag was applied with: docker image list
 
-# docker push
+# docker push <name>.azurecr.io/<image-tag>:latest
