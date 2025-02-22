@@ -50,3 +50,6 @@ CMD <cmd>
 # instead of latest you would use the actual version number
 
 # once the image is in the registry you can rm the local version an will later be able to get it from the registry
+
+
+# docker run -d -p 3000:3000 -e PORT=3000 <name>.azurecr.io/<image-tag>:<version>
