@@ -24,63 +24,66 @@ RUN emerge -e @world --fetchonly
 #RUN emerge -v --update --deep --newuse  @world
 RUN emerge -e @world
 
+RUN emerge sys-kernel/gentoo-sources
 
 ENV KVER=6.6.74-gentoo
 RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY ../config-6.6.52 .config
+COPY config/config-6.6.74 .config
 RUN make oldconfig
-RUN make -j32 && make modules_install && make install
+RUN make -j32
+RUN make modules_install
+RUN make install
 
-WORKDIR /
-RUN emerge sys-fs/squashfs-tools
+# WORKDIR /
+# RUN emerge sys-fs/squashfs-tools
 
 
 
-RUN mksquashfs / /gentoo.squashfs \
--comp zstd \
--noappend \
--xattrs \
--not-reproducible \
--Xcompression-level 9 \
--progress \
--mem 10G \
--wildcards \
--e \
-usr/src/linux* \
-var/cache/binpkgs/* \
-var/cache/distfiles/* \
-gentoo*squashfs \
-usr/share/genkernel/distfiles/* \
-boot/* \
-proc \
-sys/* \
-run/* \
-dev/pts/* \
-dev/shm/* \
-dev/hugepages/* \
-dev/mqueue/* \
-home/martin/.cache/mozilla \
-home/martin/.cache/google-chrome \
-home/martin/.cache/mesa_shader_cache \
-home/martin/.cache/fontconfig \
-home/martin/Downloads/* \
-home/martin/.config/* \
-home/martin/.mozilla/* \
-home/martin/src \
-var/log/journal/* \
-var/cache/genkernel/* \
-tmp/* \
-mnt/ 
+# RUN mksquashfs / /gentoo.squashfs \
+# -comp zstd \
+# -noappend \
+# -xattrs \
+# -not-reproducible \
+# -Xcompression-level 9 \
+# -progress \
+# -mem 10G \
+# -wildcards \
+# -e \
+# usr/src/linux* \
+# var/cache/binpkgs/* \
+# var/cache/distfiles/* \
+# gentoo*squashfs \
+# usr/share/genkernel/distfiles/* \
+# boot/* \
+# proc \
+# sys/* \
+# run/* \
+# dev/pts/* \
+# dev/shm/* \
+# dev/hugepages/* \
+# dev/mqueue/* \
+# home/martin/.cache/mozilla \
+# home/martin/.cache/google-chrome \
+# home/martin/.cache/mesa_shader_cache \
+# home/martin/.cache/fontconfig \
+# home/martin/Downloads/* \
+# home/martin/.config/* \
+# home/martin/.mozilla/* \
+# home/martin/src \
+# var/log/journal/* \
+# var/cache/genkernel/* \
+# tmp/* \
+# mnt/ 
 
-COPY ../init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
-RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
-RUN dracut \
-  -m " kernel-modules base rootfs-block crypt dm " \
-  --filesystems " squashfs vfat overlay " \
-  --kver=${KVER}-x86_64 \
-  --force \
-  /boot/initramfs_squash_crypt-${KVER}-x86_64.img
+# COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
+# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+# RUN dracut \
+#   -m " kernel-modules base rootfs-block crypt dm " \
+#   --filesystems " squashfs vfat overlay " \
+#   --kver=${KVER}-x86_64 \
+#   --force \
+#   /boot/initramfs_squash_crypt-${KVER}-x86_64.img
 
 
 
