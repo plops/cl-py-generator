@@ -82,7 +82,11 @@ The build process generates the kernel, initramfs, and SquashFS image *within* t
 Helper scripts (`setup01.sh`, `setup02.sh`, `setup03.sh`, etc.) are provided to potentially automate parts of the build and execution.  Examine these scripts for their specific functionality. 
 
 
+## Configuration of the host system
 
+- i use a host system that runs gentoo as well (this is not strictly needed)
+- one of the advantages is that i can share the distfiles between the docker instance and the host using apt-cacher-ng as described here https://wiki.gentoo.org/wiki/Local_distfiles_cache
+- this prevents excessive downloads from the gentoo mirrors when modifying the dockerfile
 
 
 
