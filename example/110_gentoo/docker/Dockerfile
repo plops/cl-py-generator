@@ -15,6 +15,7 @@ COPY package.use /etc/portage/package.use
 COPY make.conf /etc/portage/make.conf
 #COPY update_package_use.sh /usr/local/bin/
 #RUN chmod +x /usr/local/bin/update_package_use.sh
+RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 
 # RUN emerge -v --update --deep --newuse  @world --fetchonly
 RUN emerge -e @world --fetchonly
