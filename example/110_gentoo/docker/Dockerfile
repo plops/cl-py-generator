@@ -86,6 +86,12 @@ RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
 RUN rm -rf /usr/share/locale/*
 RUN locale-gen
 
+COPY config/world /var/lib/portage/world
+RUN emerge -e @world
+RUN emerge --depclean
+
+# Above command emerges 674 packages
+
 RUN mksquashfs / /gentoo.squashfs \
 -comp zstd \
 -xattrs \
