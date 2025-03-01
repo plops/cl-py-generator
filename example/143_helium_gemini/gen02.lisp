@@ -11,32 +11,48 @@
 ;; [X] optional timestamps
 ;; [X] optional user comments
 ;; [X] optional glossary
+;; [X] allow copying the prompt (in case resources are exhausted the user can go to a different provider)
+;; [ ] allow user to enter a modified or alternative summary (with comment)
 ;; [ ] find better examples for comments, or glossary
 ;; [ ] communicate gemini's evaluation of the content (e.g. harassment) to the user
 ;; [ ] generate transcript from audio channel
 ;; [ ] allow editing of the models output
 ;; [ ] allow local LLM
-;; [ ] get transcript from link
-
+;; [X] get transcript from link
 
 (setf *features* (union *features* '(:example ;; store long example text in python (enable for production, disable for debugging)
 				     :emulate ;; don't actually make the calls to gemini api (enable for debugging)
+				     :dl ;; download transcript from link
+				     :simple ;; use very few gui elements 
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
+					      ;:simple
+					      ;:dl
 					      )))
 
 (progn
   (defparameter *project* "143_helium_gemini")
   ;; name input-price output-price context-length harm-civic
   
-  (let ((iflash .075)
-	(oflash .3)
+  (let ((iflash .1)
+	(oflash .4)
 	(ipro 1.25)
 	(opro 5))
-   (defparameter *models* `((:name gemini-1.5-flash-002 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			    (:name gemini-1.5-pro-002 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+   (defparameter *models* `(
+			    (:name gemini-2.0-flash-exp :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-pro-exp-02-05 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
 			    (:name gemini-1.5-pro-exp-0827 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-lite-preview-02-05 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-thinking-exp-01-21 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-001 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t) ;; the price is now fixed at $.1 for input and $.4 for output
+			    (:name gemini-exp-1206 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name gemini-exp-1121 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name gemini-exp-1114 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name learnlm-1.5-pro-experimental :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-flash-002 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-1.5-pro-002 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    
 			    (:name gemini-1.5-pro-exp-0801 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
 			    (:name gemini-1.5-flash-exp-0827 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
 			    (:name gemini-1.5-flash-8b-exp-0924 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
@@ -57,12 +73,12 @@
       "Sunday"))
   (defun lprint (&key msg vars)
     `(do0				;when args.verbose
-      (print (dot (string ,(format nil "{} ~a ~{~a={}~^ ~}"
+      (print (dot (string ,(format nil "~a ~{~a={}~^ ~}"
 				   msg
 				   (mapcar (lambda (x)
                                              (emit-py :code x))
 					   vars)))
-                  (format (- (time.time) start_time)
+                  (format ;(- (time.time) start_time)
                           ,@vars)))))
   (defun doc (def)
     `(do0
@@ -1437,17 +1453,24 @@ use of these things")
      `(do0
        "#!/usr/bin/env python3"
        (comments "pip install -U google-generativeai python-fasthtml markdown")
-
+       #+dl (comments "micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py")
        (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
-					;os
+		 os
 		 google.api_core.exceptions
-		 ; re
+		 re
 		 markdown
 		 ; uvicorn
 		 sqlite_minutils.db
 		 datetime
+		 difflib
+		 #+dl subprocess
+		 #+dl webvtt
 		 time))
+
+       #+nil
+       (imports-from (threading Thread)
+		     (functools wraps))
 
        #-emulate (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
 
@@ -1519,7 +1542,23 @@ use of these things")
 
 
 
-       (setf documentation (string3 "###### **Prepare the Input Text from YouTube:**
+       (setf documentation #+nil (string3 "###### To use the YouTube summarizer:
+
+1. **Copy the YouTube video link.**
+2. **Paste the link into the provided input field.**
+3. **Alternatively (for desktop browsers):** If you're on the YouTube video page, you can copy the video's title, description, transcript, and any visible comments, then paste them into the input field.
+4. **Click the 'Summarize' button.** The summary with timestamps will be generated.
+
+")
+			   #+simple (string3 "###### To use the YouTube summarizer:
+
+1. **Copy the YouTube video link.**
+2. **Paste the link into the provided input field.**
+3. **Click the 'Summarize' button.** The summary with timestamps will be generated.
+
+")
+			  
+			   #-dl (string3 "###### **Prepare the Input Text from YouTube:**
  * **Scroll down a bit** on the video page to ensure some of the top comments have loaded.
  * Click on the \"Show Transcript\" button below the video.
  * **Scroll to the bottom** in the transcript sub-window.
@@ -1537,7 +1576,72 @@ use of these things")
  * You can then paste this summarized text into a YouTube comment.
 "))
 
-       
+       " "
+       #+dl
+       (def validate_youtube_url (url)
+	 (string3 "Validates various YouTube URL formats.")
+	 (setf patterns
+	       (list
+		;; standard watch link
+		(rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=[A-Za-z0-9_-]{11}.*")
+		;; live stream link
+		(rstring3 "^https://(www\\.)?youtube\\.com/live/[A-Za-z0-9_-]{11}.*")
+		;; shortened link
+		(rstring3 "^https://(www\\.)?youtu\\.be/[A-Za-z0-9_-]{11}.*")
+		)
+	       
+	       )
+	 (for (pattern patterns)
+	      (when (re.match pattern url)
+		(return True)))
+	 (print (string "Error: Invalid YouTube URL"))
+	 (return False))
+       #+dl
+       (def get_transcript (url)
+	 (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
+
+	 
+	 (unless (validate_youtube_url url)
+	   (return (string "")))
+	 
+	 (setf sub_file (string "/dev/shm/o"))
+	 (setf sub_file_ (string "/dev/shm/o.en.vtt"))
+	 (setf cmds (list (string "yt-dlp")
+			       (string "--skip-download")
+			       (string "--write-auto-subs")
+			       (string "--write-subs")
+			       ;(string "--cookies")
+			       ;(string "yt_cookies.txt")
+			       (string "--cookies-from-browser")
+			       (string "firefox")
+			       (string "--sub-lang")
+			       (string "en")
+			       (string "-o")
+			       sub_file
+			       url))
+	 (print (dot (string " ")
+		      (join cmds)))
+	 (subprocess.run cmds)
+	 (setf ostr (string "")) 
+	 (try
+	  (do0
+	   (for (c (webvtt.read sub_file_))
+		(comments "we don't need sub-second time resolution. trim it away")
+		(setf start (dot c start (aref (split (string ".")) 0)))
+		(comments "remove internal newlines within a caption")
+		(setf cap (dot c text (strip) (replace (string "\\n")
+						       (string " "))))
+		(comments "write <start> <c.text> into each line of ostr")
+		(incf ostr
+		      (fstring "{start} {cap}\\n")))
+	   (os.remove sub_file_))
+	  
+	  (FileNotFoundError
+	   (print (string "Error: Subtitle file not found")))
+	  ("Exception as e"
+	   (print (string "line 1639 Error: problem when processing subtitle file"))))
+	 (return ostr)
+	 )
        " "
        (setf documentation_html
 	     (markdown.markdown documentation))
@@ -1557,29 +1661,32 @@ use of these things")
 			       :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
 			)))
 	 
-	 (setf transcript (Textarea :placeholder (string "Paste YouTube transcript here")
-				    :style (string "height: 300px; width=60%;")
-				    :name (string "transcript"))
-	       model (Div (Select
-			   ,@(loop for e in *models*
-				   collect
-				   (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-				    `(Option (string ,name))))
-			   :style (string "width: 100%;")
-			   :name (string "model"))
-			  :style (string "display: flex; align-items: center; width: 100%;")))
+	 (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
+				    :style (string ;#+simple "height: 300px; width=60%; display: none;"
+						    "height: 300px; width=60%;")
+				    :name (string "transcript")))
+	 (setf  
+	  model (Div (Select
+		      ,@(loop for e in *models*
+			      collect
+			      (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
+				`(Option (string ,name))))
+		      :style (string "width: 100%;")
+		      :name (string "model"))
+		     :style (string "display: flex; align-items: center; width: 100%;")))
 
 	
 	 (setf form
 	       (Form
                 (Group
 		 (Div 
-		  transcript
-		  (Textarea :placeholder (string "(Optional) Add Link to original source")
+		  
+		  (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
 				    
 				    :name (string "original_source_link"))
+		  transcript
 		  model
-		  (Div (Label (string "Output Language") :_for (string "output_language"))
+		   (Div (Label (string "Output Language") :_for (string "output_language"))
 		       (Select
 			,@(loop for e in *languages*
 				collect
@@ -1587,11 +1694,13 @@ use of these things")
 			:style (string "width: 100%;")
 			:name (string "output_language")
 			:id (string "output_language"))
-			  :style (string "display: flex; align-items: center; width: 100%;"))
+			  :style (string #+simple "display: none; align-items: center; width: 100%;"
+					 #-simple "display: flex; align-items: center; width: 100%;"))
+		  
 		  ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
 						 (include_timestamps "Include Timestamps" True)
 						 (include_glossary "Include Glossary" False)
-					 )
+						 )
 			  collect
 			  `(Div
 			  
@@ -1600,7 +1709,8 @@ use of these things")
 				   :name (string ,e)
 				   :checked ,default)
 			    (Label (string ,f) :_for (string ,e))
-			    :style (string "display: flex; align-items: center; width: 100%;")))
+			    :style #+simple (string "display: none; align-items: center; width: 100%;")
+				   #-simple (string "display: flex; align-items: center; width: 100%;")))
 		  
 		  (Button (string "Summarize Transcript"))
 		  :style (string "display: flex; flex-direction:column;"))
@@ -1613,7 +1723,7 @@ use of these things")
 
 	 (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
 	       )
-	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 13 (len summaries_to_show)))))
+	 (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
 	 (setf summary_list (Ul *summaries_to_show
 				:id (string "summaries")))
 	 (return (ntuple (Title (string "Video Transcript Summarizer"))
@@ -1643,12 +1753,13 @@ use of these things")
 	     
 	     (s.timestamps_done
 	      (comments "this is for <= 128k tokens")
-	      (if (dot s model (startswith (string "gemini-1.5-pro"))) 
+	      (if (or (dot s model (startswith (string "gemini-1.5-pro")))
+		      (dot s model (startswith (string "gemini-2.0-pro")))) 
 		  (setf price_input_token_usd_per_mio 1.25
 			price_output_token_usd_per_mio 5.0)
-		  (if (dot s model (startswith (string "gemini-1.5-flash"))) 
-		      (setf price_input_token_usd_per_mio 0.075
-			 price_output_token_usd_per_mio 0.3)
+		  (if (in (string "flash") (dot s model )) 
+		      (setf price_input_token_usd_per_mio 0.1
+			    price_output_token_usd_per_mio 0.4)
 		      (if (dot s model (startswith (string "gemini-1.0-pro")))
 			  (setf price_input_token_usd_per_mio 0.5
 				price_output_token_usd_per_mio 1.5)
@@ -1659,10 +1770,14 @@ use of these things")
 				    s.timestamps_input_tokens)
 		    output_tokens (+ s.summary_output_tokens
 				     s.timestamps_output_tokens)
-		    cost (+ (* (/ input_tokens 1_000_000)
-			       price_input_token_usd_per_mio)
-			    (* (/ output_tokens 1_000_000)
-			       price_output_token_usd_per_mio)))
+		    )
+	      (if (in (string "flash") (dot s model)) ;; flash price doesn't depend on number of tokens
+		  (setf cost (+ price_input_token_usd_per_mio
+				price_output_token_usd_per_mio))
+		  (setf cost (+ (* (/ input_tokens 1_000_000)
+				   price_input_token_usd_per_mio)
+				(* (/ output_tokens 1_000_000)
+				   price_output_token_usd_per_mio))))
 	      (summaries.update :pk_values identifier
 				:cost cost)
 	      (if (< cost .02)
@@ -1689,56 +1804,212 @@ Output tokens: {output_tokens}")
 	      (setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
 
 	   ;; title of row
-	   (setf title  (fstring ;"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
-			 ,(format nil "~{~a~^ ~}"
-				  (remove-if #'null
-				   (loop for e in db-cols
-					 collect
-					 (destructuring-bind (&key name type no-show) e
-					   (unless no-show
-					     (format nil "~a: {s.~a}" name (string-downcase name)))))))
-			 ))
+	   (setf summary_details
+		 (Div ,@(remove-if
+			 #'null
+			 (loop for e in db-cols
+			       collect
+			       (destructuring-bind (&key name type no-show) e
+				 (unless no-show
+				   (if (eq name 'original_source_link)
+				       `(A
+					 (fstring "{s.original_source_link}")
+					 :target (string "_blank")
+					 :href (fstring "{s.original_source_link}")
+					 :id (string "source-link"))
+				       `(P
+					 (B (string ,(format nil "~a:" name)))
+					 (Span (fstring ,(format nil "{s.~a}"
+								 (string-downcase name))))))
+				   #+nil
+				   (format nil "~a: {s.~a}" name (string-downcase name))))))
+
+		      :cls (string "summary-details")
+		      
+		      #+nil (P
+		       (B (string "Identifier:"))
+		       (Span 558
+			     :id (string "identifier")
+			     ))
+		      #+nil (P (B (string "Model:"))
+			 (Span (string "gemini2.0")
+			       :id (string "model")
+			       ))))
+	   (setf summary_container
+		 (Div summary_details
+		      :cls (string "summary-container")
+		      
+		      ))
+	   (setf title summary_container
+		 #+nil (fstring ;"{s.summary_timestamp_start} id: {identifier} summary: {s.summary_done} timestamps: {s.timestamps_done}"
+			  ,(format nil "~{~a~^ ~}"
+				   (remove-if #'null
+					      (loop for e in db-cols
+						    collect
+						    (destructuring-bind (&key name type no-show) e
+						      (unless no-show
+							(format nil "~a: {s.~a}" name (string-downcase name)))))))
+			  ))
 
 	   (setf html (markdown.markdown s.summary))
 					;(print (fstring "md: {html}"))
 	   (setf pre (Div (Div (Pre text
-				    :id (fstring "pre-{identifier}")
-				    )
+				    :id (fstring "pre-{identifier}"))
 			       :id (string "hidden-markdown")
-			       
-			       :style (string "display: none;"))
+			       :style( string "display: none;"))
 			  (Div
 			   (NotStr html)
 					;:id (fstring "pre-{identifier}-html")
 			   )))
-	   (setf button (Button (string "Copy")
+	   (setf button (Button (string "Copy Summary")
 				:onclick (fstring "copyPreContent('pre-{identifier}')")))
+
+	   (do0
+	    (setf prompt_text (get_prompt s)
+		  prompt_pre (Pre prompt_text :id (fstring "prompt-pre-{identifier}")
+				  :style (string "display: none;"))
+		  prompt_button (Button (string "Copy Prompt")
+					:onclick (fstring "copyPreContent('prompt-pre-{identifier}')"))))
+	   
 	   (if (== trigger (string ""))
-	       
-	       (return (Div
+               (return (Div
 			title
-		      
 			pre
+			prompt_pre
 			button
+			prompt_button
 			:id sid
 			))
 	       (return (Div
 			title
 			pre
+			prompt_pre
 			button
+			prompt_button
 			:id sid
 			:hx_post (fstring "/generations/{identifier}")
 			:hx_trigger trigger
 			:hx_swap (string "outerHTML")))))
 	  ("Exception as e"		; NotFoundError ()
 	   (return (Div
-		    (fstring "id: {identifier} e: {e}")
+		    (fstring "line 1897 id: {identifier} e: {e}")
 		    (Pre text)
 		    :id sid
 		    :hx_post (fstring "/generations/{identifier}")
 		    :hx_trigger trigger
 		    :hx_swap (string "outerHTML"))))))
- 
+
+       " "
+       (def parse_vtt_time (time_str)
+	 (rstring3 "Parses a VTT timestamp string (HH:MM:SS) into a datetime object.")
+	 (return (datetime.datetime.strptime time_str (string "%H:%M:%S"))))
+       " "
+       (def calculate_similarity (text1 text2)
+	 (rstring3 "Calculates the similarity ratio between two strings using SequenceMatcher.")
+	 (return (dot difflib
+		      (SequenceMatcher None text1 text2)
+		      (ratio))))
+
+       " "
+       (def deduplicate_transcript (vtt_content &key (time_window_seconds 5)
+						(similarity_threshold .7))
+	 (rstring3 "
+    Deduplicates a VTT transcript string.
+
+    Args:
+        vtt_content: The VTT transcript as a single string.
+        time_window_seconds: The maximum time difference (in seconds) between lines
+                             to be considered for deduplication.
+        similarity_threshold:  The minimum similarity ratio (0.0 to 1.0) for two
+                              lines to be considered near-duplicates.
+
+    Returns:
+        A deduplicated VTT transcript string.
+")
+
+	 (setf lines (dot vtt_content (strip) (split (string "\\n"))))
+	 (do0
+	     (setf 
+	      deduplicated_lines (list)
+	      )
+	     (setf pattern (rstring3 "(\\d{2}:\\d{2}:\\d{2})\\s+(.*)"))
+	     ,(lprint :vars `((len lines)))
+	     (for (line lines)
+		  ,(lprint :vars `(line))
+		  (setf match (re.match pattern
+					line))
+		  (unless match
+		    ,(lprint :msg "no match" :vars `(match))
+		    (comments "Keep non-timestamped lines")
+		    (deduplicated_lines.append line)
+		    continue))
+	     (setf (ntuple current_time_str current_text)
+		   (match.groups)
+		   current_time (parse_vtt_time current_time_str)
+		   is_duplicate False)
+	     ,(lprint :msg "1950" :vars `(current_time current_text ))
+	     (setf ll ("list" (range (- (len deduplicated_lines) 1)
+				     -1 -1)))
+	     ,(lprint :msg "1951" :vars `((- (len deduplicated_lines) 1)
+					  ll))
+	     (for (i (range (- (len deduplicated_lines) 1)
+			    -1 -1))
+		  ,(lprint :vars `(i prev_line prev_match))
+		  (comments "Iterate backwards to efficiently check recent lines")
+		  (setf prev_line (aref deduplicated_lines i)
+			prev_match (re.match pattern prev_line))
+		  
+		  (unless prev_match
+		    ,(lprint :msg "ERROR" :vars `(prev_match))
+		    continue)
+		  (setf (ntuple prev_time_str prev_text)
+			(prev_match.groups)
+			prev_time (parse_vtt_time prev_time_str)
+			time_diff (dot (- current_time
+					  prev_time)
+				       (total_seconds)))
+		  ,(lprint :vars `(time_diff prev_text))
+		  (when (< time_window_seconds
+			   time_diff)
+		    (comments "Past the time window, stop checking")
+		    break)
+		  (when (<= 0 time_diff)
+		    (comments "Ensure time is progressing")
+		    (setf similarity (calculate_similarity prev_text current_text))
+		    ,(lprint :vars `(similarity prev_text current_text))
+		    (when (<= similarity_threshold
+			      similarity)
+		      (setf is_duplicate True)
+		      break))
+		  )
+	     (unless is_duplicate
+	       (deduplicated_lines.append line)
+	       #+nil (setf (aref last_times current_text)
+			   current_time)))
+	 (setf dedup (dot (string "\\n")
+		      (join lines #+nil
+				  deduplicated_lines)))
+	 ,(lprint :vars `((len vtt_content)
+			   (len dedup)))
+	 (return dedup)
+	 )
+
+
+       (do0
+	(setf example (rstring3 "01:03:10 vaccines about how individuals try to
+01:03:10 vaccines about how individuals try to combine Fidelity control with Rec
+01:03:13 combine Fidelity control with Rec
+01:03:13 combine Fidelity control with Rec combination control to reduce reversion
+01:03:17 combination control to reduce reversion
+01:03:17 combination control to reduce reversion of a vaccine
+01:03:18 of a vaccine
+01:03:18 of a vaccine strain and the moral of the story is
+01:03:20 strain and the moral of the story is
+01:03:20 strain and the moral of the story is don't try and fight nature you're always
+01:03:23 don't try and fight nature you're always
+01:03:23 don't try and fight nature you're always going to
+"))
+	(print (deduplicate_transcript example)))
        " "
        (@app.post (string "/generations/{identifier}"))
        (def get (identifier)
@@ -1750,10 +2021,19 @@ Output tokens: {output_tokens}")
        (def post (summary request)
 	 (declare (type Summary summary)
 		  (type Request request))
+	 
+	 #+dl
+	 (when (== 0 (len summary.transcript))
+	   (comments "No transcript given, try to download from URL")
+	   (setf summary.transcript (get_transcript summary.original_source_link))
+	   )
 	 (setf words (summary.transcript.split))
-	 (when (< 100_000 (len words))
-	   (when (dot summary model (startswith (string "gemini-1.5-pro")))
-	     (return (Div (string "Error: Transcript exceeds 20,000 words. Please shorten it or don't use the pro model.")
+	 (when (< (len words) 30)
+	   (return (Div (string "Error: Transcript is too short. No summary necessary")
+			:id (string "summary"))))
+	 (when (< 280_000 (len words))
+	   (when (in (string "-pro") (dot summary model))
+	     (return (Div (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
 			  :id (string "summary")))))
 	 (setf summary.host request.client.host)
 	 (setf summary.summary_timestamp_start (dot datetime
@@ -1779,11 +2059,32 @@ Output tokens: {output_tokens}")
 	       (sqlite_minutils.db.NotFoundError
 		(print (string "entry not found")))
 	       ("Exception as e"
-		(print (fstring "unknown exception {e}"))))
+		(print (fstring "line 1953 unknown exception {e}"))))
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
 	 (return -1))
-       
+
+       " "
+       (def get_prompt (summary)
+	 (declare (type Summary summary)
+		  (values str))
+	 (rstring3 "Generate prompt from a given Summary object. It will use the contained transcript.")
+	 (setf prompt (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+
+**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
+
+Example Input: 
+~a
+Example Output:
+~a
+Here is the real transcript. Please summarize it: 
+{(summary.transcript)}"
+					    #-example "input" #-example "output"
+					    #+example example-input #+example example-output-nocomments
+					    )))
+
+	 (return prompt)
+	 )
        " "
        "@threaded"
        (def generate_and_save (identifier)
@@ -1802,31 +2103,20 @@ Output tokens: {output_tokens}")
 			     )))
 	 (try
 	  (do0
-	   (setf prompt (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
-
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
-
-Example Input: 
-~a
-Example Output:
-~a
-Here is the real transcript. Please summarize it: 
-{s.transcript}"
-					      #-example "input" #-example "output"
-					      #+example example-input #+example example-output-nocomments
-					      )))
-	   #+emulate
-	   (do0
-	    (with (as (open (string "/dev/shm/prompt.txt")
-			    (string "w"))
-		      fprompt)
-		  (fprompt.write prompt))
-	    (summaries.update :pk_values identifier
-			      :summary (string "emulate")))
-	   #-emulate
-	   (do0
-	    (setf response (m.generate_content
-			    #+comments (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+	   (do0 
+	    (setf prompt (get_prompt s))
+	    #+emulate
+	    (do0
+	     (with (as (open (string "/dev/shm/prompt.txt")
+			     (string "w"))
+		       fprompt)
+		   (fprompt.write prompt))
+	     (summaries.update :pk_values identifier
+			       :summary (string "emulate")))
+	    #-emulate
+	    (do0
+	     (setf response (m.generate_content
+			     #+comments (fstring3 ,(format nil "Below, I will provide input for an example video (comprising of title, description, optional viewer comments, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
 **Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. Also, incorporate information from the viewer comments **if they clarify points made in the video, answer questions raised, or correct factual errors**. When including information sourced from the viewer comments, please indicate this by adding \"[From <user>'s Comments]\" at the end of the bullet point. Note that while viewer comments appear earlier in the text than the transcript they are in fact recorded at a later time. Therefore, if viewer comments repeat information from the transcript, they should not appear in the summary.
 
@@ -1835,39 +2125,39 @@ Example Input:
 Example Output:
 ~a
 Here is the real transcript. Please summarize it: 
-{s.transcript}"
-							  #-example "input" #-example "output"
-							  #+example example-input #+example example-output-nocomments
-							  ))
-			    prompt
-			    :safety_settings safety
-			    :stream True))
+{deduplicate_transcript(s.transcript)}"
+							   #-example "input" #-example "output"
+							   #+example example-input #+example example-output-nocomments
+							   ))
+			     prompt
+			     :safety_settings safety
+			     :stream True))
 
-	    
-	    
-	    (for (chunk response)
-		 (try
-		  (do0
-		   (print (fstring "add text to id={identifier}: {chunk.text}"))
-		   
-		   (summaries.update :pk_values identifier
-				     :summary (+ (dot (aref summaries identifier)
-						      summary)
-						 chunk.text)))
-		  (ValueError ()
-			      (summaries.update :pk_values identifier
-						:summary (+ (dot (aref summaries identifier)
-								 summary)
-							    (string "\\nError: value error")))
-			      (print (string "Value Error ")))
-		  ("Exception as e"
-		   (summaries.update :pk_values identifier
-				     :summary (+ (dot (aref summaries identifier)
-						      summary)
-						 (fstring "\\nError: {str(e)}")))
-		   (print (string "Error")))
-		  )
-		 ))
+	     
+	     
+	     (for (chunk response)
+		  (try
+		   (do0
+		    (print (fstring "add text to id={identifier}: {chunk.text}"))
+		    
+		    (summaries.update :pk_values identifier
+				      :summary (+ (dot (aref summaries identifier)
+						       summary)
+						  chunk.text)))
+		   (ValueError ()
+			       (summaries.update :pk_values identifier
+						 :summary (+ (dot (aref summaries identifier)
+								  summary)
+							     (string "\\nError: value error")))
+			       (print (string "Value Error ")))
+		   ("Exception as e"
+		    (summaries.update :pk_values identifier
+				      :summary (+ (dot (aref summaries identifier)
+						       summary)
+						  (fstring "\\nError: {str(e)}")))
+		    (print (string "line 2049 Error")))
+		   )
+		  )))
 
 	   (summaries.update :pk_values identifier
 			     :summary_done True

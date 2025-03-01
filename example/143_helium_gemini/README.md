@@ -1,14 +1,15 @@
-| file              | comment                                                                              |
-|                   |                                                                                      |
-| captions.py       | download captions with youtube api (an example), not working for third party videos  |
-| gapi.py           | grpc based generativeai interface (can't install this on vm)                         |
-| gapi2.py          | REST based gemini transcript summarization                                           |
-| get_transcript.py | another failed attempt to get video transcripts                                      |
-| run.py            | an attempt to use gemini via selenium (very slow and brittle for large transcripts)  |
-| selen_comments.py | use selenium to download all my youtube comments                                     |
-| gen01             | try to generate fasthtml interface with storage in files                             |
-| gen02             | try to generate fasthtml interface with storage in sqlite  based on gapi2.py and 144 |
-|                   |                                                                                      |
+| file              | comment                                                                                                                   |
+|-------------------+---------------------------------------------------------------------------------------------------------------------------|
+| captions.py       | download captions with youtube api (an example), not working for third party videos                                       |
+| gapi.py           | grpc based generativeai interface (can't install this on vm)                                                              |
+| gapi2.py          | REST based gemini transcript summarization                                                                                |
+| get_transcript.py | another failed attempt to get video transcripts                                                                           |
+| run.py            | an attempt to use gemini via selenium (very slow and brittle for large transcripts)                                       |
+| selen_comments.py | use selenium to download all my youtube comments                                                                          |
+| gen01             | try to generate fasthtml interface with storage in files                                                                  |
+| gen02             | try to generate fasthtml interface with storage in sqlite based on gapi2.py and 144 (this is what i run most of the time) |
+| gen03             | experiment with google-genai  and yt-dlp                                                                                  |
+| gen04             | split up 02 for testing                                                                                                   |
 
 
 # Create a proxy 
@@ -82,3 +83,48 @@ sqlite3 data/summaries.db
 SELECT * FROM items ORDER BY identifier DESC LIMIT 1;
 
 ```
+
+
+# yt-dlp usage
+
+## comments
+```
+
+# dump complete JSON with comments
+yt-dlp --write-comments --dump-single-json -o "$file" "$url"
+yt-dlp --write-comments --dump-single-json "$url" > "$file"x
+```
+
+
+
+# get cookies
+
+```
+yt-dlp --cookies-from-browser chrome --skip-download --cookies ff2_cookies.txt; head -n3 ff2_cookies.txt > yt_cookies.txt ; grep ^.youtube.com ff2_cookies.txt >> yt_cookies.txt ; 
+scp -Cr yt_cookies.txt ...
+```
+
+# instrumentation
+
+by analizing the response time for around 700 summaries (not all of them gave valid results) i found that most of the responses come with 0.2 to 2 seconds per 1000 input tokens.
+
+it might be interesting to store the time when each response packet arrives
+
+
+# Links
+
+if i copy the link on the ios youtube app it looks like that:
+
+https://www.youtube.com/live/ZOw5LT2vs9E?feature=shared
+
+on the desktop this is the link (what i currently support)
+https://www.youtube.com/watch?v=ZOw5LT2vs9E
+
+another video has this link for the pattern:
+
+https://youtu.be/tW6Y1WYwozk?feature=shared
+
+
+oauth with google and fasthtml
+
+https://www.danliden.com/notebooks/web_dev/fasthtml/5_google_oauth_1.html

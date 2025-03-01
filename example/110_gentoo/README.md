@@ -6495,6 +6495,7 @@ dracut \
 
 ```
 
+
 # update 2024-12-03
 
 ```
@@ -6510,3 +6511,10 @@ Filesystem size 2021578.07 Kbytes (1974.20 Mbytes)
 
 
 ```
+
+# proposal 2025-02-16
+
+check tlp configuration
+
+* STOP_CHARGE_THRESH_BAT0: 0(off), 1(on) -- battery conservation mode
+

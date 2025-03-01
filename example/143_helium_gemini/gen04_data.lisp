@@ -1,230 +1,5 @@
-#!/usr/bin/env python3
-# pip install -U google-generativeai python-fasthtml markdown
-# micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py
-import google.generativeai as genai
-import os
-import google.api_core.exceptions
-import re
-import markdown
-import sqlite_minutils.db
-import datetime
-import difflib
-import subprocess
-import webvtt
-import time
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
-from fasthtml.common import *
- 
-# Read the gemini api key from disk
-with open("api_key.txt") as f:
-    api_key=f.read().strip()
-genai.configure(api_key=api_key)
- 
-def render(summary: Summary):
-    identifier=summary.identifier
-    sid=f"gen-{identifier}"
-    if ( summary.timestamps_done ):
-        return generation_preview(identifier)
-    elif ( summary.summary_done ):
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), hx_swap="outerHTML")
-    else:
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, hx_post=f"/generations/{identifier}", hx_trigger="every 1s", hx_swap="outerHTML")
- 
-# open website
-# summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
-app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, pk="identifier")
- 
-documentation="""###### To use the YouTube summarizer:
-
-1. **Copy the YouTube video link.**
-2. **Paste the link into the provided input field.**
-3. **Click the 'Summarize' button.** The summary with timestamps will be generated.
-
-"""
- 
-def validate_youtube_url(url):
-    """Validates various YouTube URL formats."""
-    patterns=[r"""^https://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}.*""", r"""^https://(www\.)?youtube\.com/live/[A-Za-z0-9_-]{11}.*""", r"""^https://(www\.)?youtu\.be/[A-Za-z0-9_-]{11}.*"""]
-    for pattern in patterns:
-        if ( re.match(pattern, url) ):
-            return True
-    print("Error: Invalid YouTube URL")
-    return False
-def get_transcript(url):
-    # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
-    if ( not(validate_youtube_url(url)) ):
-        return ""
-    sub_file="/dev/shm/o"
-    sub_file_="/dev/shm/o.en.vtt"
-    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, url]
-    print(" ".join(cmds))
-    subprocess.run(cmds)
-    ostr=""
-    try:
-        for c in webvtt.read(sub_file_):
-            # we don't need sub-second time resolution. trim it away
-            start=c.start.split(".")[0]
-            # remove internal newlines within a caption
-            cap=c.text.strip().replace("\n", " ")
-            # write <start> <c.text> into each line of ostr
-            ostr += f"{start} {cap}\n"
-        os.remove(sub_file_)
-    except FileNotFoundError:
-        print("Error: Subtitle file not found")
-    except Exception as e:
-        print("line 1639 Error: problem when processing subtitle file")
-    return ostr
- 
-documentation_html=markdown.markdown(documentation)
-@rt("/")
-def get(request: Request):
-    print(request.client.host)
-    nav=Nav(Ul(Li(Strong("Transcript Summarizer"))), Ul(Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
-    transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width=60%;", name="transcript")
-    model=Div(Select(Option("gemini-2.0-flash-exp"), Option("gemini-2.0-pro-exp-02-05"), Option("gemini-1.5-pro-exp-0827"), Option("gemini-2.0-flash-lite-preview-02-05"), Option("gemini-2.0-flash-thinking-exp-01-21"), Option("gemini-2.0-flash-001"), Option("gemini-exp-1206"), Option("gemini-exp-1121"), Option("gemini-exp-1114"), Option("learnlm-1.5-pro-experimental"), Option("gemini-1.5-flash-002"), Option("gemini-1.5-pro-002"), Option("gemini-1.5-pro-exp-0801"), Option("gemini-1.5-flash-exp-0827"), Option("gemini-1.5-flash-8b-exp-0924"), Option("gemini-1.5-flash-latest"), Option("gemma-2-2b-it"), Option("gemma-2-9b-it"), Option("gemma-2-27b-it"), Option("gemini-1.5-flash"), Option("gemini-1.5-pro"), Option("gemini-1.0-pro"), style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
-    form=Form(Group(Div(Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", name="original_source_link"), transcript, model, Div(Label("Output Language", _for="output_language"), Select(Option("en"), Option("de"), Option("fr"), Option("ch"), Option("nl"), Option("pt"), Option("cz"), Option("it"), Option("jp"), Option("ar"), style="width: 100%;", name="output_language", id="output_language"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_comments", name="include_comments", checked=False), Label("Include User Comments", _for="include_comments"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_timestamps", name="include_timestamps", checked=True), Label("Include Timestamps", _for="include_timestamps"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_glossary", name="include_glossary", checked=False), Label("Include Glossary", _for="include_glossary"), style="display: none; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
-    gen_list=Div(id="gen-list")
-    summaries_to_show=summaries(order_by="identifier DESC")
-    summaries_to_show=summaries_to_show[0:min(3, len(summaries_to_show))]
-    summary_list=Ul(*summaries_to_show, id="summaries")
-    return Title("Video Transcript Summarizer"), Main(nav, NotStr(documentation_html), form, gen_list, summary_list, Script("""function copyPreContent(elementId) {
-  var preElement = document.getElementById(elementId);
-  var textToCopy = preElement.textContent;
-
-  navigator.clipboard.writeText(textToCopy);
-}"""), cls="container")
- 
-# A pending preview keeps polling this route until we return the summary
-def generation_preview(identifier):
-    sid=f"gen-{identifier}"
-    text="Generating ..."
-    trigger="every 1s"
-    try:
-        s=summaries[identifier]
-        if ( s.timestamps_done ):
-            # this is for <= 128k tokens
-            if ( ((s.model.startswith("gemini-1.5-pro")) or (s.model.startswith("gemini-2.0-pro"))) ):
-                price_input_token_usd_per_mio=(1.250    )
-                price_output_token_usd_per_mio=(5.0    )
-            else:
-                if ( ("flash" in s.model) ):
-                    price_input_token_usd_per_mio=(0.10    )
-                    price_output_token_usd_per_mio=(0.40    )
-                else:
-                    if ( s.model.startswith("gemini-1.0-pro") ):
-                        price_input_token_usd_per_mio=(0.50    )
-                        price_output_token_usd_per_mio=(1.50    )
-                    else:
-                        price_input_token_usd_per_mio=-1
-                        price_output_token_usd_per_mio=-1
-            input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
-            output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
-            if ( ("flash" in s.model) ):
-                cost=((price_input_token_usd_per_mio)+(price_output_token_usd_per_mio))
-            else:
-                cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
-            summaries.update(pk_values=identifier, cost=cost)
-            if ( ((cost)<((2.00e-2))) ):
-                cost_str=f"${cost:.4f}"
-            else:
-                cost_str=f"${cost:.2f}"
-            text=f"""{s.timestamped_summary_in_youtube_format}
-
-I used {s.model} on rocketrecap dot com to summarize the transcript.
-Cost (if I didn't use the free tier): {cost_str}
-Input tokens: {input_tokens}
-Output tokens: {output_tokens}"""
-            trigger=""
-        elif ( s.summary_done ):
-            text=s.summary
-        elif ( ((0)<(len(s.summary))) ):
-            text=s.summary
-        elif ( ((len(s.transcript))) ):
-            text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
-        summary_details=Div(P(B("identifier:"), Span(f"{s.identifier}")), P(B("model:"), Span(f"{s.model}")), P(B("host:"), Span(f"{s.host}")), A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}", id="source-link"), P(B("include_comments:"), Span(f"{s.include_comments}")), P(B("include_timestamps:"), Span(f"{s.include_timestamps}")), P(B("include_glossary:"), Span(f"{s.include_glossary}")), P(B("output_language:"), Span(f"{s.output_language}")), P(B("cost:"), Span(f"{s.cost}")), cls="summary-details")
-        summary_container=Div(summary_details, cls="summary-container")
-        title=summary_container
-        html=markdown.markdown(s.summary)
-        pre=Div(Div(Pre(text, id=f"pre-{identifier}"), id="hidden-markdown", style="display: none;"), Div(NotStr(html)))
-        button=Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')")
-        prompt_text=get_prompt(s)
-        prompt_pre=Pre(prompt_text, id=f"prompt-pre-{identifier}", style="display: none;")
-        prompt_button=Button("Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')")
-        if ( ((trigger)==("")) ):
-            return Div(title, pre, prompt_pre, button, prompt_button, id=sid)
-        else:
-            return Div(title, pre, prompt_pre, button, prompt_button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
-    except Exception as e:
-        return Div(f"line 1897 id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
- 
-def parse_vtt_time(time_str):
-    r"""Parses a VTT timestamp string (HH:MM:SS) into a datetime object."""
-    return datetime.datetime.strptime(time_str, "%H:%M:%S")
- 
-def calculate_similarity(text1, text2):
-    r"""Calculates the similarity ratio between two strings using SequenceMatcher."""
-    return difflib.SequenceMatcher(None, text1, text2).ratio()
- 
-def deduplicate_transcript(vtt_content, time_window_seconds = 5, similarity_threshold = (0.70    )):
-    r"""
-    Deduplicates a VTT transcript string.
-
-    Args:
-        vtt_content: The VTT transcript as a single string.
-        time_window_seconds: The maximum time difference (in seconds) between lines
-                             to be considered for deduplication.
-        similarity_threshold:  The minimum similarity ratio (0.0 to 1.0) for two
-                              lines to be considered near-duplicates.
-
-    Returns:
-        A deduplicated VTT transcript string.
-"""
-    lines=vtt_content.strip().split("\n")
-    deduplicated_lines=[]
-    pattern=r"""(\d{2}:\d{2}:\d{2})\s+(.*)"""
-    print("nil len(lines)={}".format(len(lines)))
-    for line in lines:
-        print("nil line={}".format(line))
-        match=re.match(pattern, line)
-        if ( not(match) ):
-            print("no match match={}".format(match))
-            # Keep non-timestamped lines
-            deduplicated_lines.append(line)
-            continue
-    current_time_str, current_text=match.groups()
-    current_time=parse_vtt_time(current_time_str)
-    is_duplicate=False
-    print("1950 current_time={} current_text={}".format(current_time, current_text))
-    ll=list(range(((len(deduplicated_lines))-(1)), -1, -1))
-    print("1951 ((len(deduplicated_lines))-(1))={} ll={}".format(((len(deduplicated_lines))-(1)), ll))
-    for i in range(((len(deduplicated_lines))-(1)), -1, -1):
-        print("nil i={} prev_line={} prev_match={}".format(i, prev_line, prev_match))
-        # Iterate backwards to efficiently check recent lines
-        prev_line=deduplicated_lines[i]
-        prev_match=re.match(pattern, prev_line)
-        if ( not(prev_match) ):
-            print("ERROR prev_match={}".format(prev_match))
-            continue
-        prev_time_str, prev_text=prev_match.groups()
-        prev_time=parse_vtt_time(prev_time_str)
-        time_diff=((current_time)-(prev_time)).total_seconds()
-        print("nil time_diff={} prev_text={}".format(time_diff, prev_text))
-        if ( ((time_window_seconds)<(time_diff)) ):
-            # Past the time window, stop checking
-            break
-        if ( ((0)<=(time_diff)) ):
-            # Ensure time is progressing
-            similarity=calculate_similarity(prev_text, current_text)
-            print("nil similarity={} prev_text={} current_text={}".format(similarity, prev_text, current_text))
-            if ( ((similarity_threshold)<=(similarity)) ):
-                is_duplicate=True
-                break
-    if ( not(is_duplicate) ):
-        deduplicated_lines.append(line)
-    dedup="\n".join(lines)
-    print("nil len(vtt_content)={} len(dedup)={}".format(len(vtt_content), len(dedup)))
-    return dedup
-example=r"""01:03:10 vaccines about how individuals try to
+(defparameter *duplication-example-input*
+	     "01:03:10 vaccines about how individuals try to
 01:03:10 vaccines about how individuals try to combine Fidelity control with Rec
 01:03:13 combine Fidelity control with Rec
 01:03:13 combine Fidelity control with Rec combination control to reduce reversion
@@ -236,54 +11,48 @@ example=r"""01:03:10 vaccines about how individuals try to
 01:03:20 strain and the moral of the story is don't try and fight nature you're always
 01:03:23 don't try and fight nature you're always
 01:03:23 don't try and fight nature you're always going to
-"""
-print(deduplicate_transcript(example))
- 
-@app.post("/generations/{identifier}")
-def get(identifier: int):
-    return generation_preview(identifier)
- 
-@rt("/process_transcript")
-def post(summary: Summary, request: Request):
-    if ( ((0)==(len(summary.transcript))) ):
-        # No transcript given, try to download from URL
-        summary.transcript=get_transcript(summary.original_source_link)
-    words=summary.transcript.split()
-    if ( ((len(words))<(30)) ):
-        return Div("Error: Transcript is too short. No summary necessary", id="summary")
-    if ( ((280_000)<(len(words))) ):
-        if ( ("-pro" in summary.model) ):
-            return Div("Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.", id="summary")
-    summary.host=request.client.host
-    summary.summary_timestamp_start=datetime.datetime.now().isoformat()
-    print(f"link: {summary.original_source_link}")
-    summary.summary=""
-    s2=summaries.insert(summary)
-    # first identifier is 1
-    generate_and_save(s2.identifier)
-    return generation_preview(s2.identifier)
- 
-def wait_until_row_exists(identifier):
-    for i in range(10):
-        try:
-            s=summaries[identifier]
-            return s
-        except sqlite_minutils.db.NotFoundError:
-            print("entry not found")
-        except Exception as e:
-            print(f"line 1953 unknown exception {e}")
-        time.sleep((0.10    ))
-    print("row did not appear")
-    return -1
- 
-def get_prompt(summary: Summary)->str:
-    r"""Generate prompt from a given Summary object. It will use the contained transcript."""
-    prompt=f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+")
 
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
+(defparameter *duplication-example-output*
+	     "01:03:10 vaccines about how individuals try to combine Fidelity control with Rec
+01:03:13 combine Fidelity control with Rec combination control to reduce reversion
+01:03:17 combination control to reduce reversion of a vaccine
+01:03:18 of a vaccine strain and the moral of the story is
+01:03:20 strain and the moral of the story is don't try and fight nature you're always
+01:03:23 don't try and fight nature you're always going to
+")
 
-Example Input: 
-Fluidigm Polaris Part 2- illuminator and camera
+(defparameter *example-output*
+  "**Exploring the Fluidigm Polaris: A Detailed Look at its High-End Optics and Camera System**
+
+* **0:00 High-End Optics:** The system utilizes heavy, high-quality lenses and mirrors for precise imaging, weighing around 4 kilos each.
+* **0:49 Narrow Band Filters:** A filter wheel with five narrow band filters (488, 525, 570, 630, and 700 nm) ensures accurate fluorescence detection and rejection of excitation light. 
+* **2:01 Customizable Illumination:** The Lumen Dynamics light source offers five individually controllable LED wavelengths (430, 475, 520, 575, 630 nm) with varying power outputs. The 575nm yellow LED is uniquely achieved using a white LED with filtering.
+* **3:45 TTL Control:**  The light source is controlled via a simple TTL interface, enabling easy on/off switching for each LED color.
+* **12:55 Sophisticated Camera:**  The system includes a 50-megapixel Kodak KAI-50100 CCD camera with a Peltier cooling system for reduced noise.
+* **14:54 High-Speed Data Transfer:** The camera features dual analog-to-digital converters to manage the high data throughput of the 50-megapixel sensor, which is effectively two 25-megapixel sensors operating in parallel.
+* **18:11 Possible Issues:** The video creator noted some potential issues with the camera, including image smearing. 
+* **18:11 Limited Dynamic Range:** The camera's sensor has a limited dynamic range, making it potentially challenging to capture scenes with a wide range of brightness levels.
+* **11:45 Low Runtime:** Internal data suggests the system has seen minimal usage, with only 20 minutes of recorded runtime for the green LED.
+* **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.")
+
+
+(defparameter *example-output-with-comments*
+  "**Exploring the Fluidigm Polaris: A Detailed Look at its High-End Optics and Camera System**
+
+* **0:00 High-End Optics:** The system utilizes heavy, high-quality lenses and mirrors for precise imaging, weighing around 4 kilos each.
+* **0:49 Narrow Band Filters:** A filter wheel with five narrow band filters (488, 525, 570, 630, and 700 nm) ensures accurate fluorescence detection and rejection of excitation light.  [From 2010craggy's Comment] These filters are likely sided for optimal performance.
+* **2:01 Customizable Illumination:** The Lumen Dynamics light source offers five individually controllable LED wavelengths (430, 475, 520, 575, 630 nm) with varying power outputs. The 575nm yellow LED is uniquely achieved using a white LED with filtering.
+* **3:45 TTL Control:**  The light source is controlled via a simple TTL interface, enabling easy on/off switching for each LED color.
+* **12:55 Sophisticated Camera:**  The system includes a 50-megapixel Kodak KAI-50100 CCD camera with a Peltier cooling system for reduced noise. [From JAKOB1977's Comment] This sensor is noted to be quite expensive (around $5,000) and rare, even when it was in production.
+* **14:54 High-Speed Data Transfer:** The camera features dual analog-to-digital converters to manage the high data throughput of the 50-megapixel sensor, which is effectively two 25-megapixel sensors operating in parallel.
+* **18:11 Possible Issues: The video creator noted some potential issues with the camera, including image smearing. [From wolpumba4099's and florianf4257's and Comments] This smearing could be due to the lack of a shutter, causing light to hit the sensor during readout.  A shutter would be needed for optimal performance and to avoid this issue.**
+* **18:11 Limited Dynamic Range:** The camera's sensor has a limited dynamic range, making it potentially challenging to capture scenes with a wide range of brightness levels.
+* **11:45 Low Runtime:** Internal data suggests the system has seen minimal usage, with only 20 minutes of recorded runtime for the green LED.
+* **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.")
+
+(defparameter *example-input*
+  "Fluidigm Polaris Part 2- illuminator and camera
 mikeselectricstuff
 131K subscribers
 Subscribed
@@ -312,7 +81,7 @@ Thanks Mike. Ooof! - with the level of bodgery going on around 15:48 I think sha
 Reply
 @Muonium1
 9 hours ago
-The green LED looks different from the others and uses phosphor conversion because of the "green gap" problem where green InGaN emitters suffer efficiency droop at high currents. Phosphide based emitters don't start becoming efficient until around 600nm so also can't be used for high power green emitters. See the paper and plot by Matthias Auf der Maur in his 2015 paper on alloy fluctuations in InGaN as the cause of reduced external quantum efficiency at longer (green) wavelengths.
+The green LED looks different from the others and uses phosphor conversion because of the \"green gap\" problem where green InGaN emitters suffer efficiency droop at high currents. Phosphide based emitters don't start becoming efficient until around 600nm so also can't be used for high power green emitters. See the paper and plot by Matthias Auf der Maur in his 2015 paper on alloy fluctuations in InGaN as the cause of reduced external quantum efficiency at longer (green) wavelengths.
 4
 Reply
 1 reply
@@ -343,7 +112,7 @@ That LED module says it can go up to 28 amps!!! 21 amps for 100%. You should see
 Reply
 @Prophes0r
 19 hours ago
-I had an "Oh SHIT!" moment when I realized that the weird trapezoidal shape of that light guide was for keystone correction of the light source.
+I had an \"Oh SHIT!\" moment when I realized that the weird trapezoidal shape of that light guide was for keystone correction of the light source.
 Very clever.
 6
 Reply
@@ -359,7 +128,7 @@ $20 thousand dollars per minute of run time!
 Reply
 @tekvax01
 22 hours ago
-"We spared no expense!" John Hammond Jurassic Park.
+\"We spared no expense!\" John Hammond Jurassic Park.
 *(that's why this thing costs the same as a 50-seat Greyhound Bus coach!)
 Reply
 @florianf4257
@@ -1593,63 +1362,4 @@ the description and say hopefully
 20:45
 someone could actually make some uh good
 20:47
-use of these things
-Example Output:
-**Exploring the Fluidigm Polaris: A Detailed Look at its High-End Optics and Camera System**
-
-* **0:00 High-End Optics:** The system utilizes heavy, high-quality lenses and mirrors for precise imaging, weighing around 4 kilos each.
-* **0:49 Narrow Band Filters:** A filter wheel with five narrow band filters (488, 525, 570, 630, and 700 nm) ensures accurate fluorescence detection and rejection of excitation light. 
-* **2:01 Customizable Illumination:** The Lumen Dynamics light source offers five individually controllable LED wavelengths (430, 475, 520, 575, 630 nm) with varying power outputs. The 575nm yellow LED is uniquely achieved using a white LED with filtering.
-* **3:45 TTL Control:**  The light source is controlled via a simple TTL interface, enabling easy on/off switching for each LED color.
-* **12:55 Sophisticated Camera:**  The system includes a 50-megapixel Kodak KAI-50100 CCD camera with a Peltier cooling system for reduced noise.
-* **14:54 High-Speed Data Transfer:** The camera features dual analog-to-digital converters to manage the high data throughput of the 50-megapixel sensor, which is effectively two 25-megapixel sensors operating in parallel.
-* **18:11 Possible Issues:** The video creator noted some potential issues with the camera, including image smearing. 
-* **18:11 Limited Dynamic Range:** The camera's sensor has a limited dynamic range, making it potentially challenging to capture scenes with a wide range of brightness levels.
-* **11:45 Low Runtime:** Internal data suggests the system has seen minimal usage, with only 20 minutes of recorded runtime for the green LED.
-* **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.
-Here is the real transcript. Please summarize it: 
-{(summary.transcript)}"""
-    return prompt
- 
-@threaded
-def generate_and_save(identifier: int):
-    print(f"generate_and_save id={identifier}")
-    s=wait_until_row_exists(identifier)
-    print(f"generate_and_save model={s.model}")
-    m=genai.GenerativeModel(s.model)
-    safety={(HarmCategory.HARM_CATEGORY_HATE_SPEECH):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_HARASSMENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT):(HarmBlockThreshold.BLOCK_NONE),(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT):(HarmBlockThreshold.BLOCK_NONE)}
-    try:
-        prompt=get_prompt(s)
-        response=m.generate_content(prompt, safety_settings=safety, stream=True)
-        for chunk in response:
-            try:
-                print(f"add text to id={identifier}: {chunk.text}")
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
-            except ValueError:
-                
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+("\nError: value error")))
-                print("Value Error ")
-            except Exception as e:
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
-                print("line 2049 Error")
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
-    except google.api_core.exceptions.ResourceExhausted:
-        summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
-        return
-    try:
-        text=summaries[identifier].summary
-        # adapt the markdown to YouTube formatting
-        text=text.replace("**:", ":**")
-        text=text.replace("**,", ",**")
-        text=text.replace("**.", ".**")
-        text=text.replace("**", "*")
-        # markdown title starting with ## with fat text
-        text=re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
-        # find any text that looks like an url and replace the . with -dot-
-        text=re.sub(r"""((?:https?://)?(?:www\.)?\S+)\.(com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)""", r"""\1-dot-\2""", text)
-        summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=0, timestamps_output_tokens=0, timestamps_timestamp_end=datetime.datetime.now().isoformat())
-    except google.api_core.exceptions.ResourceExhausted:
-        summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
-        return
- 
-serve(host="0.0.0.0", port=5001)
+use of these things")
