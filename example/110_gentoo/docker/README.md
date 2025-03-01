@@ -29,14 +29,13 @@ The system utilizes the following key components:
     *   During boot, the initramfs copies the SquashFS image into RAM.
     *   An OverlayFS is used to combine the read-only SquashFS root filesystem with a separate, encrypted persistent storage partition.  This allows modifications to the system to be saved across reboots.
 
+## Building and Interacting with the Docker Image
 
-## Building the Docker Image
-
-This section describes the process of building the Docker image from the provided `Dockerfile`.
+This section details the process of building the Docker image, running a container for testing, and accessing the build artifacts.
 
 **Prerequisites:**
 
-*   **Docker Engine and Buildx:** Ensure that Docker Engine is installed and running.  You will also need the `docker-buildx` plugin.  If `docker-buildx` is not already installed, you can install it on a Gentoo system using:
+*   **Docker Engine and Buildx:** Docker Engine must be installed and running.  The `docker-buildx` plugin is also required.  On a Gentoo system, install `docker-buildx` with:
 
     ```bash
     sudo emerge -av app-containers/docker-buildx
@@ -44,37 +43,43 @@ This section describes the process of building the Docker image from the provide
 
 **Build Process:**
 
-1.  **Navigate to the Dockerfile Directory:** Open a terminal and navigate to the directory containing the `Dockerfile` and associated files (e.g., `setup*.sh` scripts).
+1.  **Navigate to the Dockerfile Directory:** Open a terminal and navigate to the directory containing the `Dockerfile` and associated files.
 
-2.  **Execute the Build Command:**  Run the following command to build the image:
+2.  **Execute the Build Command:** Build the image using the following command:
 
     ```bash
     DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64 -t gentoo-ideapad .
     ```
 
-    *   `DOCKER_BUILDKIT=1`: Enables the BuildKit builder, which offers performance improvements and advanced features.  (This might not be strictly necessary if BuildKit is already your default builder, but it's good practice to include it for clarity).
-    *   `docker buildx build`:  Uses the Buildx plugin for building.
-    *   `--platform linux/amd64`: Specifies the target platform for the image. This is *crucially important* as it ensures the resulting image is built for the correct architecture (amd64), even if your build machine has a different architecture (e.g., ARM).  Without this, you'll likely encounter execution errors when running the image on the target laptop.
-    *   `-t gentoo-ideapad`:  Tags the resulting image with the name `gentoo-ideapad`.  You can choose a different name if desired.
-    *   `.`:  Specifies the build context (the current directory).
+    *   `DOCKER_BUILDKIT=1`: Enables the BuildKit builder (for performance and features).
+    *   `docker buildx build`: Uses the Buildx plugin.
+    *   `--platform linux/amd64`: **Crucially Important:** Specifies the target architecture (amd64) to ensure compatibility with the Lenovo Ideapad, regardless of the build machine's architecture.
+    *   `-t gentoo-ideapad`: Tags the image as `gentoo-ideapad`.
+    *   `.`: Specifies the current directory as the build context.
 
-**Running the Container (for testing and development):**
+**Running a Development Container:**
 
-After the image is successfully built, you can start a container for testing or further development:
+After building the image, you can launch a container for testing and development.  This provides an interactive environment to inspect the built system.
 
 ```bash
 docker run -it --privileged -v /dev/shm:/tmp/outside gentoo-ideapad
 ```
 
-*   `-it`:  Runs the container in interactive mode with a pseudo-TTY (allowing you to interact with a shell).
-*   `--privileged`:  Grants the container elevated privileges.  **Caution:** Using `--privileged` should be avoided in production environments due to security implications.  I just use it in case I have to execute operations when debugging the build process that require access to system resources.
-*   `-v /dev/shm:/tmp/outside`:  Creates a volume mount, mapping the host's `/dev/shm` to `/tmp/outside` *inside* the container.
+*   `-it`: Runs the container interactively with a pseudo-TTY (for shell access).
+*   `--privileged`:  Grants elevated privileges to the container. **Caution:**  `--privileged` should *not* be used in production due to significant security risks. It's used here for debugging and build-process tasks that require extensive system access.
+*   `-v /dev/shm:/tmp/outside`: Mounts the host's shared memory (`/dev/shm`) into the container at `/tmp/outside`.  This facilitates efficient file transfer between the host and container, as explained below. 
 
-I use the volume to copy the generated files tho the host.
+**Accessing Build Artifacts (Kernel, Initramfs, SquashFS):**
+
+The build process generates the kernel, initramfs, and SquashFS image *within* the container.  The volume mount (`-v /dev/shm:/tmp/outside`) provides a convenient way to copy these artifacts to the host system:
+
+1.  **Inside the Container:**  After building, and while running the container interactively, copy the generated files (kernel, initramfs, and the SquashFS image) to the `/tmp/outside` directory *within the container*.  Since this directory is a shared volume, the files will also appear in `/dev/shm` on your host machine.
+
+2.  **On the Host:**  Access the files directly from your host's `/dev/shm` directory.  You can then move them to their final destination on the encrypted hard drive.
 
 **Alternative Build and Execution Scripts:**
 
-The project also includes helper scripts (`setup01.sh`, `setup02.sh`, `setup03.sh`, etc.) that may automate aspects of the build and execution process. Refer to the contents of these scripts for specific details and instructions.  
+Helper scripts (`setup01.sh`, `setup02.sh`, `setup03.sh`, etc.) are provided to potentially automate parts of the build and execution.  Examine these scripts for their specific functionality. 
 
 
 
