@@ -24,7 +24,14 @@ RUN emerge -e @world --fetchonly
 #RUN emerge -v --update --deep --newuse  @world
 RUN emerge -e @world
 
-RUN emerge sys-kernel/gentoo-sources
+COPY config/package.license /etc/portage/package.license
+RUN emerge \
+sys-kernel/gentoo-sources \
+sys-kernel/linux-firmware
+
+# The kernel needs firmware blobs (for amdgpu) and  regulatory.db 
+RUN emerge \
+net-wireless/wireless-regdb
 
 ENV KVER=6.6.74-gentoo
 RUN eselect kernel set 1
@@ -34,6 +41,8 @@ RUN make oldconfig
 RUN make -j32
 RUN make modules_install
 RUN make install
+
+# The kernel compilation needs firmware blobs
 
 # WORKDIR /
 # RUN emerge sys-fs/squashfs-tools
