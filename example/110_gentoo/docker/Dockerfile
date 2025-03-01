@@ -98,7 +98,7 @@ mnt5/ \
 usr/lib/firmware/iwlwifi* \
 usr/lib/firmware/intel/ipu \
 usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
-usr/lib/firmwar/{iwlwifi,phanfw}* \
+usr/lib/firmware/{iwlwifi,phanfw}* \
 persistent \
 var/tmp/portage/* 
 
