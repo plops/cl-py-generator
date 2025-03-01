@@ -29,9 +29,9 @@ RUN emerge --unmerge dev-lang/python:3.13
 # We need rust for rsvg (and it takes a lot time to compile, so we use the)
 RUN emerge --oneshot virtual/rust dev-lang/rust-bin
 
-RUN emerge -e @world --fetchonly
+# RUN emerge -e @world --fetchonly
 
-# Build 674 packages
+# Build 674 packages in 5840 seconds
 RUN emerge -e @world
 RUN emerge --depclean
 
