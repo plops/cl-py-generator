@@ -45,9 +45,29 @@ RUN make install
 # The kernel compilation needs firmware blobs
 
 WORKDIR /
-RUN emerge sys-fs/squashfs-tools
-
-
+COPY config/dwm-6.5 /etc/portage/savedconfig/x11-wm/dwm-6.5
+RUN emerge \
+sys-fs/squashfs-tools \
+sys-kernel/dracut \
+emerge sys-fs/cryptsetup \
+app-editors/emacs \
+x11-base/xorg-server \
+net-wireless/bluez \
+net-wireless/iwd \
+net-misc/dhcp \
+dev-vcs/git \
+media-plugins/alsa-plugins \
+media-libs/libaom \
+media-sound/pulseaudio \
+net-wireless/blueman \
+x11-wm/dwm \
+dev-libs/glib \
+dev-libs/dbus-glib \
+app-text/poppler \
+app-text/mupdf \
+media-video/mpv \
+x11-terms/xterm \
+www-client/firefox-bin
 
 RUN mksquashfs / /gentoo.squashfs \
 -comp zstd \
@@ -85,21 +105,17 @@ var/cache/genkernel/* \
 tmp/* \
 mnt/ 
 
-
-RUN emerge sys-kernel/dracut
-RUN emerge sys-fs/cryptsetup
-
-
+# Create a new initramfs with cryptsetup
+# It will mount the encrypted partition /dev/nvme0n1p4,
+# mount gentoo.squashfs into a overlayfs and pivot_root into it
 COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
 RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
-
-
 RUN dracut \
   -m " kernel-modules base rootfs-block crypt dm " \
   --filesystems " squashfs vfat overlay " \
   --kver=${KVER}-x86_64 \
   --force \
-  /boot/initramfs_squash_crypt-${KVER}-x86_64.img
+  /boot/initramfs_squash_crypt-x86_64.img
 
 
 
