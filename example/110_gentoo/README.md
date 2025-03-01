@@ -6464,17 +6464,15 @@ mnt2/ \
 mnt4/ \
 mnt5/ \
 usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
-usr/lib/firmwar/{iwlwifi,phanfw}* \
+usr/lib/firmware/{iwlwifi,phanfw}* \
 persistent \
 var/tmp/portage/* \
 initramfs-with-squashfs.img
 
-- 52MB bigger than before (compressed with 1 instead of 6), uncompressed 365MB more
-- maybe because llvm 17 and 18 is contained
-
-Filesystem size 2020743.17 Kbytes (1973.38 Mbytes)
-        32.43% of uncompressed filesystem size (6231739.15 Kbytes)
-
+# 100MB less (iwlwifi firmware)
+# 200MB less uncompressed
+Filesystem size 1934944.00 Kbytes (1889.59 Mbytes)
+        32.07% of uncompressed filesystem size (6034395.17 Kbytes)
 
 41s 
 
