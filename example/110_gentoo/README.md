@@ -6518,3 +6518,154 @@ check tlp configuration
 
 * STOP_CHARGE_THRESH_BAT0: 0(off), 1(on) -- battery conservation mode
 
+
+# update 2025-03-01
+
+```
+eselect kernel set linux-6.12.16-gentoo
+cd /usr/src/linux
+zcat /proc/config.gz > .config
+make olddefconfig
+
+```
+
+
+```
+cryptsetup luksOpen /dev/nvme0n1p4 p4 && mount /dev/mapper/p4 /mnt4
+
+
+export TODAY=20250301
+export INDIR=/
+export OUTFILE=/mnt4/gentoo_$TODAY.squashfs
+rm $OUTFILE
+time \
+mksquashfs \
+$INDIR \
+$OUTFILE \
+-comp zstd \
+-xattrs \
+-not-reproducible \
+-Xcompression-level 1 \
+-progress \
+-mem 10G \
+-wildcards \
+-e \
+lib/modules/6.3.12-gentoo-x86_64 \
+lib/modules/6.6.12-gentoo-x86_64 \
+lib/modules/6.6.17-gentoo-x86_64 \
+lib/modules/6.6.30-gentoo-x86_64 \
+lib/modules/6.6.38-gentoo-x86_64 \
+lib/modules/6.6.47-gentoo-x86_64 \
+lib/modules/6.6.52-gentoo-x86_64 \
+lib/modules/6.6.58-gentoo-r1-x86_64 \
+lib/modules/6.6.62-gentoo-x86_64 \
+usr/lib/modules/6.3.12-gentoo-x86_64 \
+usr/lib/modules/6.6.12-gentoo-x86_64 \
+usr/lib/modules/6.6.17-gentoo-x86_64 \
+usr/lib/modules/6.6.30-gentoo-x86_64 \
+usr/lib/modules/6.6.38-gentoo-x86_64 \
+usr/lib/modules/6.6.47-gentoo-x86_64 \
+usr/lib/modules/6.6.52-gentoo-x86_64 \
+usr/lib/modules/6.6.58-gentoo-r1-x86_64 \
+usr/lib/modules/6.6.62-gentoo-x86_64 \
+usr/src/linux* \
+var/cache/binpkgs/* \
+var/cache/distfiles/* \
+gentoo*squashfs \
+usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
+boot/* \
+proc \
+sys/* \
+run/* \
+dev/pts/* \
+dev/shm/* \
+dev/hugepages/* \
+dev/mqueue/* \
+home/martin/.cache/mozilla \
+home/martin/.cache/google-chrome \
+home/martin/.cache/mesa_shader_cache \
+home/martin/.cache/fontconfig \
+home/martin/Downloads/* \
+home/martin/.config/* \
+home/martin/.mozilla/* \
+home/martin/stage \
+var/log/journal/* \
+var/cache/genkernel/* \
+var/tmp/portage/* \
+tmp/* \
+mnt/ \
+mnt2/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
+usr/lib/firmware/{iwlwifi,phanfw}* \
+persistent \
+var/tmp/portage/* \
+initramfs-with-squashfs.img
+
+
+# 80MB more (compressed)
+# 430MB more (uncompressed)
+Filesystem size 2016627.26 Kbytes (1969.36 Mbytes)
+        31.20% of uncompressed filesystem size (6462759.07 Kbytes)
+
+40s 
+
+
+
+emacs init_dracut_crypt.sh
+cp init_dracut_crypt.sh  /usr/lib/dracut/modules.d/99base/init.sh
+chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+
+
+dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=6.12.16-gentoo-x86_64 \
+  --force \
+  "/boot/initramfs"$TODAY"_squash_crypt-6.12.16-gentoo-x86_64.img"
+
+
+
+```
+
+
+```
+mount /dev/nvme0n1p2 /mnt2
+cp /boot/vmlinuz /boot/vmlinuz-6.12.16-gentoo-x86_64
+
+emacs /mnt2/boot/grub2/grub.cfg
+
+menuentry 'Gentoo GNU/Linux 20250301 6.12.16 ram squash persist crypt ssd ' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.6.58-gentoo-r1-x86_64 ...'
+# the kernel and initramfs is loaded from nvme0n1p3 (unencrypted)
+# the initramfs asks for password and gets the squashfs from nvme0n1p4 (encrypted)
+	linux	/vmlinuz-6.12.16-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs20250301_squash_crypt-6.12.16-gentoo-x86_64.img
+}
+
+menuentry 'Gentoo GNU/Linux 6.12.16 from disk' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+	load_video
+	if [ "x$grub_platform" = xefi ]; then
+		set gfxpayload=keep
+	fi
+	insmod gzio
+	insmod part_gpt
+	insmod fat
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.12.16-gentoo ...'
+	linux	/vmlinuz-6.12.16-gentoo-x86_64 root=UUID=80b66b33-ce31-4a54-9adc-b6c72fe3a826 ro  
+}
+
+
+```
