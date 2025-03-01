@@ -69,21 +69,42 @@ media-video/mpv \
 x11-terms/xterm \
 www-client/firefox-bin
 
+RUN echo "net-wireless/iwgtk ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN emerge \
+dev-lisp/sbcl \
+net-wireless/iwgtk \
+app-emacs/magit \
+app-emacs/paredit \
+x11-misc/xclip
+
+# Remove rust, it needs a lot of space
+RUN emerge --unmerge virtual/rust dev-lang/rust-bin
+RUN emerge --unmerge dev-lang/python:3.13
+RUN emerge --depclean
+
+RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
+RUN rm -rf /usr/share/locale/*
+RUN locale-gen
+
 RUN mksquashfs / /gentoo.squashfs \
 -comp zstd \
--noappend \
 -xattrs \
 -not-reproducible \
--Xcompression-level 9 \
+-Xcompression-level 22 \
 -progress \
 -mem 10G \
 -wildcards \
 -e \
+lib/modules/6.6.52-gentoo-x86_64 \
+lib/modules/6.6.58-gentoo-r1-x86_64 \
+usr/lib/modules/6.6.52-gentoo-x86_64 \
+usr/lib/modules/6.6.58-gentoo-r1-x86_64 \
 usr/src/linux* \
 var/cache/binpkgs/* \
 var/cache/distfiles/* \
 gentoo*squashfs \
 usr/share/genkernel/distfiles/* \
+opt/rust-bin* \
 boot/* \
 proc \
 sys/* \
@@ -99,11 +120,21 @@ home/martin/.cache/fontconfig \
 home/martin/Downloads/* \
 home/martin/.config/* \
 home/martin/.mozilla/* \
-home/martin/src \
+home/martin/stage \
 var/log/journal/* \
 var/cache/genkernel/* \
+var/tmp/portage/* \
 tmp/* \
-mnt/ 
+mnt/ \
+mnt2/ \
+mnt4/ \
+mnt5/ \
+usr/lib/firmware/iwlwifi* \
+usr/lib/firmware/intel/ipu \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
+usr/lib/firmwar/{iwlwifi,phanfw}* \
+persistent \
+var/tmp/portage/* 
 
 # Create a new initramfs with cryptsetup
 # It will mount the encrypted partition /dev/nvme0n1p4,
