@@ -10,12 +10,11 @@ FROM gentoo/stage3:nomultilib-systemd-20250224
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
-COPY package.use /etc/portage/package.use
-COPY make.conf /etc/portage/make.conf
-
 
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
+COPY config/package.use /etc/portage/package.use
+COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords

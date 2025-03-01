@@ -82,11 +82,19 @@ The build process generates the kernel, initramfs, and SquashFS image *within* t
 Helper scripts (`setup01.sh`, `setup02.sh`, `setup03.sh`, etc.) are provided to potentially automate parts of the build and execution.  Examine these scripts for their specific functionality. 
 
 
-## Configuration of the host system
 
-- i use a host system that runs gentoo as well (this is not strictly needed)
-- one of the advantages is that i can share the distfiles between the docker instance and the host using apt-cacher-ng as described here https://wiki.gentoo.org/wiki/Local_distfiles_cache
-- this prevents excessive downloads from the gentoo mirrors when modifying the dockerfile
+## Host System Configuration (Gentoo Recommended)
+
+While not mandatory, a Gentoo Linux host is recommended for efficient development. It allows sharing downloaded package source files (distfiles) between the host and the Docker container, significantly speeding up builds.
+
+**Distfiles Caching (Recommended):**
+
+Use `apt-cacher-ng` to create a local cache of Gentoo distfiles, minimizing redundant downloads. See the Gentoo Wiki for setup instructions: [https://wiki.gentoo.org/wiki/Local_distfiles_cache](https://wiki.gentoo.org/wiki/Local_distfiles_cache)
+
+**Key Considerations:**
+
+*   Configure `apt-cacher-ng` on your host, setting `GENTOO_MIRRORS` in `/etc/portage/make.conf` as is custom.
+*   Within your `config/make.conf`, set the `http_proxy` environment variable to point to your host's `apt-cacher-ng` instance (e.g., `http_proxy="http://<host_ip_or_hostname>:3142/"`).  Ensure proper Docker networking allows the container to access the host.
 
 
 
