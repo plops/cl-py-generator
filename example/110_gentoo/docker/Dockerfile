@@ -27,7 +27,7 @@ RUN locale-gen
 
 RUN emerge --unmerge dev-lang/python:3.13
 # We need rust for rsvg (and it takes a lot time to compile, so we use the)
-RUN emerge --oneshot virtual/rust dev-lang/rust-bin
+RUN emerge --oneshot dev-lang/rust-bin
 
 # RUN emerge -e @world --fetchonly
 
