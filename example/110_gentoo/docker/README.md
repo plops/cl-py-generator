@@ -1,3 +1,31 @@
+# Introduction
+
+- this project creates a squashfs image with gentoo that i use on a lenova ideapad
+- the main component is the docker file, that performs the following tasks:
+
+- start a stage3 (no multilib, systemd) from https://github.com/gentoo/gentoo-docker-images
+
+- specific world set of packages that i found useful:
+    - wifi configuration using iwgtk
+    - support for my bluetooth headphones
+    - kernel with support for the hardware of the laptop
+    - firefox 
+    - common lisp and emacs and a c++ compiler
+    - minimal xorg with dwm
+    - turn screen dark and red in the evening
+
+- the dockerfile creates a squashfs image (~2GB), kernel and initramfs
+- files are placed on an encrypted hard drive
+- when booting the initramfs copies the squashfs into ram, this allows very fast startup of the programs
+- any changes are made persistent by storing to another encrypted harddriver that is combined with the root filesystem of the squashfs image using overlayfs.
+
+    
+
+
+
+## Appendix: Useful Docker commands
+
+```
 FROM <base-image>
 WORKDIR <directory-in-image>
 COPY <srcs> <dst>
@@ -55,4 +83,4 @@ CMD <cmd>
 # docker run -d -p 3000:3000 -e PORT=3000 <name>.azurecr.io/<image-tag>:<version>
 
 
-https://github.com/gentoo/gentoo-docker-images
+```
