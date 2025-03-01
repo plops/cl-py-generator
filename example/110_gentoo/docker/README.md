@@ -29,6 +29,58 @@ The system utilizes the following key components:
     *   During boot, the initramfs copies the SquashFS image into RAM.
     *   An OverlayFS is used to combine the read-only SquashFS root filesystem with a separate, encrypted persistent storage partition.  This allows modifications to the system to be saved across reboots.
 
+
+## Building the Docker Image
+
+This section describes the process of building the Docker image from the provided `Dockerfile`.
+
+**Prerequisites:**
+
+*   **Docker Engine and Buildx:** Ensure that Docker Engine is installed and running.  You will also need the `docker-buildx` plugin.  If `docker-buildx` is not already installed, you can install it on a Gentoo system using:
+
+    ```bash
+    sudo emerge -av app-containers/docker-buildx
+    ```
+
+**Build Process:**
+
+1.  **Navigate to the Dockerfile Directory:** Open a terminal and navigate to the directory containing the `Dockerfile` and associated files (e.g., `setup*.sh` scripts).
+
+2.  **Execute the Build Command:**  Run the following command to build the image:
+
+    ```bash
+    DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64 -t gentoo-ideapad .
+    ```
+
+    *   `DOCKER_BUILDKIT=1`: Enables the BuildKit builder, which offers performance improvements and advanced features.  (This might not be strictly necessary if BuildKit is already your default builder, but it's good practice to include it for clarity).
+    *   `docker buildx build`:  Uses the Buildx plugin for building.
+    *   `--platform linux/amd64`: Specifies the target platform for the image. This is *crucially important* as it ensures the resulting image is built for the correct architecture (amd64), even if your build machine has a different architecture (e.g., ARM).  Without this, you'll likely encounter execution errors when running the image on the target laptop.
+    *   `-t gentoo-ideapad`:  Tags the resulting image with the name `gentoo-ideapad`.  You can choose a different name if desired.
+    *   `.`:  Specifies the build context (the current directory).
+
+**Running the Container (for testing and development):**
+
+After the image is successfully built, you can start a container for testing or further development:
+
+```bash
+docker run -it --privileged -v /dev/shm:/tmp/outside gentoo-ideapad
+```
+
+*   `-it`:  Runs the container in interactive mode with a pseudo-TTY (allowing you to interact with a shell).
+*   `--privileged`:  Grants the container elevated privileges.  **Caution:** Using `--privileged` should be avoided in production environments due to security implications.  I just use it in case I have to execute operations when debugging the build process that require access to system resources.
+*   `-v /dev/shm:/tmp/outside`:  Creates a volume mount, mapping the host's `/dev/shm` to `/tmp/outside` *inside* the container.
+
+I use the volume to copy the generated files tho the host.
+
+**Alternative Build and Execution Scripts:**
+
+The project also includes helper scripts (`setup01.sh`, `setup02.sh`, `setup03.sh`, etc.) that may automate aspects of the build and execution process. Refer to the contents of these scripts for specific details and instructions.  
+
+
+
+
+
+
 ## Dockerfile Details (Key Commands)
 
 The Dockerfile uses standard Docker commands to build the environment.  Here's a summary of common directives:
