@@ -8,13 +8,13 @@ FROM gentoo/portage:latest AS portage
 # based on stage3 image (1GB)
 FROM gentoo/stage3:nomultilib-systemd-20250217
 # gcc 14.2.1
-RUN df -h
+
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 COPY package.use /etc/portage/package.use
 COPY make.conf /etc/portage/make.conf
-COPY update_package_use.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/update_package_use.sh
+#COPY update_package_use.sh /usr/local/bin/
+#RUN chmod +x /usr/local/bin/update_package_use.sh
 
 # RUN emerge -v --update --deep --newuse  @world --fetchonly
 RUN emerge -e @world --fetchonly
