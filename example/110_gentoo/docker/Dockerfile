@@ -55,7 +55,17 @@ RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 
-RUN emerge dev-qt/qtgui
+RUN emerge \
+dev-qt/qtgui \
+dev-qt/qtwidgets \
+dev-qt/qtx11extras \
+dev-qt/qtcore \
+dev-qt/qtsvg \
+dev-qt/qtconcurrent \
+dev-qt/qttest \
+dev-qt/qtnetwork
+
+RUN emerge sys-apps/qdirstat
 
 # Add a tool to read the Ryzen temperatures, frequencies and voltages
 WORKDIR /usr/src
