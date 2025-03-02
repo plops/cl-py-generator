@@ -116,7 +116,7 @@ RUN mksquashfs / /gentoo.squashfs \
 -comp zstd \
 -xattrs \
 -not-reproducible \
--Xcompression-level 22 \
+-Xcompression-level 15 \
 -progress \
 -mem 10G \
 -wildcards \
