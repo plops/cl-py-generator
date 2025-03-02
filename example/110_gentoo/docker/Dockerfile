@@ -66,6 +66,7 @@ RUN echo "root:$(cat /tmp/password.txt)" | chpasswd
 RUN rm /tmp/password.txt
 
 
+
 # Add a tool to read the Ryzen temperatures, frequencies and voltages
 WORKDIR /usr/src
 RUN git clone https://github.com/leogx9r/ryzen_smu
@@ -141,6 +142,12 @@ RUN cp ryzen_smu.ko /lib/modules/${KVER}-x86_64/kernel/drivers/
 #   /boot/initramfs_squash_crypt-x86_64.img
 
 
+# Configure grub
+# This will load kernel and initramfs from nvme0n1p1 (EFI partition with UUID F63D-5318)
+# It the initramfs (which calls config/init_dracut_crypt.sh) will mount the encrypted partition /dev/nvme0n1p4
+# create overlay with squashfs image and pivot_root into it
+COPY config/40_custom /etc/grub.d/40_custom
+
 
   # Runtime
   # umerge 8s
@@ -152,3 +159,4 @@ RUN cp ryzen_smu.ko /lib/modules/${KVER}-x86_64/kernel/drivers/
   # squashfs 60s
   # dracut 4s
   # export 15s
+
