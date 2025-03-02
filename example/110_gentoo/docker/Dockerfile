@@ -54,18 +54,23 @@ RUN emerge --depclean
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
+# Install some qt5 libraries with documentation
+RUN echo "dev-qt/qt-docs:5 3d assistant bluetooth concurrent dbus -declarative -designer -gamepad graphicaleffects gui help html -imageformats -linguist -location multimedia network -opengl -positioning -printsupport -qch -qdoc -quickcontrols -quickcontrols2 -scxml -sensors -serialbus -serialport -speech sql svg test -wayland -webchannel -websockets -webview widgets x11extras -xml -xmlpatterns" >> /etc/portage/package.use/qt-docs
+RUN emerge -av \
+dev-qt/qtcore:5 \
+dev-qt/qtgui:5 \
+dev-qt/qtmultimedia:5 \
+dev-qt/qtnetwork:5 \
+dev-qt/qtsql:5 \
+dev-qt/qttest:5 \
+dev-qt/qtwidgets:5 \
+dev-qt/qtcharts:5 \
+dev-qt/qtconcurrent:5 \
+dev-qt/qtx11extras:5 \
+dev-qt/qt-docs:5 \
+sys-apps/qdirstat
 
-RUN emerge \
-dev-qt/qtgui \
-dev-qt/qtwidgets \
-dev-qt/qtx11extras \
-dev-qt/qtcore \
-dev-qt/qtsvg \
-dev-qt/qtconcurrent \
-dev-qt/qttest \
-dev-qt/qtnetwork
 
-RUN emerge sys-apps/qdirstat
 
 # Add a tool to read the Ryzen temperatures, frequencies and voltages
 WORKDIR /usr/src
