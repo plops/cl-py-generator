@@ -100,9 +100,7 @@ RUN rm /tmp/password.txt
 
 RUN systemctl enable tlp
 
-# Quite a few packages pull in 3.13 (vulkan, gtk)
-# RUN emerge --depclean -v dev-lang/python:3.13
-
+RUN emerge net-wireless/iw
 
 # Prepare the squashfs image
 RUN mksquashfs / /gentoo.squashfs \
