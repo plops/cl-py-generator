@@ -80,8 +80,17 @@ WORKDIR /usr/src/ryzen_smu
 RUN sed -i "s/\$(shell uname -r)/${KVER}-x86_64/g" Makefile
 RUN make -j7
 RUN cp ryzen_smu.ko /lib/modules/${KVER}-x86_64/kernel/drivers/
-RUN make clean
+RUN rm *.o
 
+
+# Add slstatus to show battery status and time
+WORKDIR /usr/src
+RUN git clone https://git.suckless.org/slstatus
+WORKDIR /usr/src/slstatus
+COPY config/slstatus_config.h .
+RUN make -j32
+RUN make install
+RUN make clean
 
 # Create a user 
 RUN useradd -m -G wheel -s /bin/bash martin
