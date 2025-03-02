@@ -193,6 +193,16 @@ RUN dracut \
 # create overlay with squashfs image and pivot_root into it
 COPY config/40_custom /etc/grub.d/40_custom
 
+# Create an initramfs that loads the squashfs from nvme0n1p5 and overlays it 
+# on the folder persistent/ on that partition
+COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
+RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+RUN dracut \
+  -m " kernel-modules base rootfs-block dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=${KVER}-x86_64 \
+  --force \
+  /boot/initramfs_squash_nvme0n1p5-x86_64.img
 
   # Runtime
   # umerge 8s
