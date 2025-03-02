@@ -50,69 +50,95 @@ RUN make install
 RUN emerge --unmerge virtual/rust dev-lang/rust-bin
 RUN emerge --depclean
 
+# Allow members of the wheel group to execute any command without a password
+RUN mkdir -p /etc/sudoers.d
+RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
-# Prepare the squashfs image
-RUN mksquashfs / /gentoo.squashfs \
--comp zstd \
--xattrs \
--not-reproducible \
--Xcompression-level 22 \
--progress \
--mem 10G \
--wildcards \
--e \
-lib/modules/6.6.52-gentoo-x86_64 \
-lib/modules/6.6.58-gentoo-r1-x86_64 \
-usr/lib/modules/6.6.52-gentoo-x86_64 \
-usr/lib/modules/6.6.58-gentoo-r1-x86_64 \
-usr/src/linux* \
-var/cache/binpkgs/* \
-var/cache/distfiles/* \
-gentoo*squashfs \
-usr/share/genkernel/distfiles/* \
-opt/rust-bin* \
-boot/* \
-proc \
-sys/* \
-run/* \
-dev/pts/* \
-dev/shm/* \
-dev/hugepages/* \
-dev/mqueue/* \
-home/martin/.cache/mozilla \
-home/martin/.cache/google-chrome \
-home/martin/.cache/mesa_shader_cache \
-home/martin/.cache/fontconfig \
-home/martin/Downloads/* \
-home/martin/.config/* \
-home/martin/.mozilla/* \
-home/martin/stage \
-var/log/journal/* \
-var/cache/genkernel/* \
-var/tmp/portage/* \
-tmp/* \
-mnt/ \
-mnt2/ \
-mnt4/ \
-mnt5/ \
-usr/lib/firmware/iwlwifi* \
-usr/lib/firmware/intel/ipu \
-usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
-usr/lib/firmware/{iwlwifi,phanfw}* \
-persistent \
-var/tmp/portage/* 
+# Create a user
+RUN useradd -m -G wheel -s /bin/bash martin
+# Create a random passphrase of 3 words, set as the password and print to console
+RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN echo "app-admin/xkcdpass ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN emerge app-admin/xkcdpass
+RUN xkcdpass -n 3 -d '.' > /tmp/password.txt
+RUN echo "Password: $(cat /tmp/password.txt)"
+RUN echo "root:$(cat /tmp/password.txt)" | chpasswd
+RUN rm /tmp/password.txt
 
-# Create a new initramfs with cryptsetup
-# It will mount the encrypted partition /dev/nvme0n1p4,
-# mount gentoo.squashfs into a overlayfs and pivot_root into it
-COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
-RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
-RUN dracut \
-  -m " kernel-modules base rootfs-block crypt dm " \
-  --filesystems " squashfs vfat overlay " \
-  --kver=${KVER}-x86_64 \
-  --force \
-  /boot/initramfs_squash_crypt-x86_64.img
+
+# Add a tool to read the Ryzen temperatures, frequencies and voltages
+WORKDIR /usr/src
+RUN git clone https://github.com/leogx9r/ryzen_smu
+WORKDIR /usr/src/ryzen_smu
+# Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
+RUN sed -i "s/\$(shell uname -r)/${KVER}-x86_64/g" Makefile
+RUN make -j7
+RUN cp ryzen_smu.ko /lib/modules/${KVER}-x86_64/kernel/drivers/
+
+# # Prepare the squashfs image
+# RUN mksquashfs / /gentoo.squashfs \
+# -comp zstd \
+# -xattrs \
+# -not-reproducible \
+# -Xcompression-level 1 \
+# -progress \
+# -mem 10G \
+# -wildcards \
+# -e \
+# lib/modules/6.6.52-gentoo-x86_64 \
+# lib/modules/6.6.58-gentoo-r1-x86_64 \
+# usr/lib/modules/6.6.52-gentoo-x86_64 \
+# usr/lib/modules/6.6.58-gentoo-r1-x86_64 \
+# usr/src/linux* \
+# var/cache/binpkgs/* \
+# var/cache/distfiles/* \
+# gentoo*squashfs \
+# usr/share/genkernel/distfiles/* \
+# usr/share/locale/* \
+# opt/rust-bin* \
+# boot/* \
+# proc \
+# sys/* \
+# run/* \
+# dev/pts/* \
+# dev/shm/* \
+# dev/hugepages/* \
+# dev/mqueue/* \
+# home/martin/.cache/mozilla \
+# home/martin/.cache/google-chrome \
+# home/martin/.cache/mesa_shader_cache \
+# home/martin/.cache/fontconfig \
+# home/martin/Downloads/* \
+# home/martin/.config/* \
+# home/martin/.mozilla/* \
+# home/martin/stage \
+# var/log/journal/* \
+# var/cache/genkernel/* \
+# var/tmp/portage/* \
+# tmp/* \
+# mnt/ \
+# mnt2/ \
+# mnt4/ \
+# mnt5/ \
+# usr/lib/firmware/iwlwifi* \
+# usr/lib/firmware/intel/ipu \
+# usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
+# usr/lib/firmware/{iwlwifi,phanfw}* \
+# persistent \
+# var/tmp/portage/* 
+
+
+# # Create a new initramfs with cryptsetup
+# # It will mount the encrypted partition /dev/nvme0n1p4,
+# # mount gentoo.squashfs into a overlayfs and pivot_root into it
+# COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
+# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+# RUN dracut \
+#   -m " kernel-modules base rootfs-block crypt dm " \
+#   --filesystems " squashfs vfat overlay " \
+#   --kver=${KVER}-x86_64 \
+#   --force \
+#   /boot/initramfs_squash_crypt-x86_64.img
 
 
 
