@@ -113,3 +113,16 @@ RUN dracut \
   --kver=${KVER}-x86_64 \
   --force \
   /boot/initramfs_squash_crypt-x86_64.img
+
+
+
+  # Runtime
+  # umerge 8s
+  # rust-bin 32s
+  # world 5830s
+  # depclean 12s
+  # kernel 180s
+  # umerge, deplcean 15s
+  # squashfs 60s
+  # dracut 4s
+  # export 15s
