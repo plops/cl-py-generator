@@ -56,7 +56,7 @@ RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 # Install some qt5 libraries with documentation
 RUN echo "dev-qt/qt-docs:5 3d assistant bluetooth concurrent dbus -declarative -designer -gamepad graphicaleffects gui help html -imageformats -linguist -location multimedia network -opengl -positioning -printsupport -qch -qdoc -quickcontrols -quickcontrols2 -scxml -sensors -serialbus -serialport -speech sql svg test -wayland -webchannel -websockets -webview widgets x11extras -xml -xmlpatterns" >> /etc/portage/package.use/qt-docs
-RUN emerge -av \
+RUN emerge \
 dev-qt/qtcore:5 \
 dev-qt/qtgui:5 \
 dev-qt/qtmultimedia:5 \
