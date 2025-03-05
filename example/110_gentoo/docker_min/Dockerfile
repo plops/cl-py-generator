@@ -1,12 +1,10 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:latest AS portage
+FROM gentoo/portage:20250305 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250224
-
-# gcc 14.2.1
+FROM gentoo/stage3:nomultilib-systemd-20250303
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
