@@ -11,6 +11,7 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
+RUN emerge -1 gentoolkit eix
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
@@ -23,84 +24,69 @@ RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
 RUN rm -rf /usr/share/locale/*
 RUN locale-gen
 
-RUN emerge emerge --update --deep --changed-use @world
-# RUN emerge --depclean
+RUN emerge --update --deep --changed-use @world
+
+# 310 packages
+
+RUN emerge --depclean
 
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
-# ENV KVER=6.6.74-gentoo
-# RUN eselect kernel set 1
-# WORKDIR /usr/src/linux
-# COPY config/config-6.6.74 .config
-# RUN make oldconfig
-# RUN make -j32
-# RUN make modules_install
-# RUN make install
+ENV KVER=6.12.16-gentoo
+RUN eselect kernel set 1
+WORKDIR /usr/src/linux
+COPY config/config-6.12.16 .config
+RUN make olddefconfig
+RUN make -j32
+RUN make modules_install
+RUN make install
 
 # # Remove rust, it needs a lot of space
 # RUN emerge --unmerge virtual/rust dev-lang/rust-bin
 # RUN emerge --depclean
 
 # # Allow members of the wheel group to execute any command without a password
-# RUN mkdir -p /etc/sudoers.d
-# RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
-
-# # Install some qt5 libraries with documentation
-# RUN echo "dev-qt/qt-docs:5 3d assistant bluetooth concurrent dbus -declarative -designer -gamepad graphicaleffects gui help html -imageformats -linguist -location multimedia network -opengl -positioning -printsupport -qch -qdoc -quickcontrols -quickcontrols2 -scxml -sensors -serialbus -serialport -speech sql svg test -wayland -webchannel -websockets -webview widgets x11extras -xml -xmlpatterns" >> /etc/portage/package.use/qt-docs
-# RUN emerge \
-# dev-qt/qtcore:5 \
-# dev-qt/qtgui:5 \
-# dev-qt/qtmultimedia:5 \
-# dev-qt/qtnetwork:5 \
-# dev-qt/qtsql:5 \
-# dev-qt/qttest:5 \
-# dev-qt/qtwidgets:5 \
-# dev-qt/qtcharts:5 \
-# dev-qt/qtconcurrent:5 \
-# dev-qt/qtx11extras:5 \
-# dev-qt/qt-docs:5 \
-# sys-apps/qdirstat
-
+RUN mkdir -p /etc/sudoers.d
+RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 
 # # Add a tool to read the Ryzen temperatures, frequencies and voltages
-# WORKDIR /usr/src
-# RUN git clone https://github.com/leogx9r/ryzen_smu
-# WORKDIR /usr/src/ryzen_smu
-# # Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
-# RUN sed -i "s/\$(shell uname -r)/${KVER}-x86_64/g" Makefile
-# RUN make -j7
-# RUN cp ryzen_smu.ko /lib/modules/${KVER}-x86_64/kernel/drivers/
-# RUN rm *.o
+WORKDIR /usr/src
+RUN git clone https://github.com/leogx9r/ryzen_smu
+WORKDIR /usr/src/ryzen_smu
+# Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
+RUN sed -i "s/\$(shell uname -r)/${KVER}-x86_64/g" Makefile
+RUN make -j7
+RUN cp ryzen_smu.ko /lib/modules/${KVER}-x86_64/kernel/drivers/
+RUN rm *.o
 
 
 # # Add slstatus to show battery status and time
-# WORKDIR /usr/src
-# RUN git clone https://git.suckless.org/slstatus
-# WORKDIR /usr/src/slstatus
-# COPY config/slstatus_config.h .
-# RUN make -j32
-# RUN make install
-# RUN make clean
+WORKDIR /usr/src
+RUN git clone https://git.suckless.org/slstatus
+WORKDIR /usr/src/slstatus
+COPY config/slstatus_config.h .
+RUN make -j32
+RUN make install
+RUN make clean
 
 # # Create a user 
-# RUN useradd -m -G wheel -s /bin/bash martin
-# # Create a random passphrase of 3 words, set as the password and print to console
-# RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
-# RUN echo "app-admin/xkcdpass ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
-# RUN emerge app-admin/xkcdpass
-# RUN xkcdpass -n 3 -d '.' > /tmp/password.txt \
-# && echo "Password: $(cat /tmp/password.txt)" \
-# && echo "martin:$(cat /tmp/password.txt)" | chpasswd
-# RUN rm /tmp/password.txt
+RUN useradd -m -G wheel -s /bin/bash martin
+# Create a random passphrase of 3 words, set as the password and print to console
+RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN echo "app-admin/xkcdpass ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN emerge app-admin/xkcdpass
+RUN xkcdpass -n 3 -d '.' > /tmp/password.txt \
+&& echo "Password: $(cat /tmp/password.txt)" \
+&& echo "martin:$(cat /tmp/password.txt)" | chpasswd
+RUN rm /tmp/password.txt
 
 
 
 
 
-# RUN systemctl enable tlp
+RUN systemctl enable tlp
 
-# RUN emerge net-wireless/iw
 
 # # Prepare the squashfs image
 # RUN mksquashfs /lib /bin /etc /home /dev \

@@ -15,7 +15,7 @@ x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xi
 net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
 net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
 net-misc/dhcp client ipv6 -server ssl -ldap -selinux -vim-syntax
-dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -selinux -subversion -test tk -xinet
+dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -selinux -subversion -test -tk -xinet
 #sci-libs/nlopt -cxx -guile -octave python -test
 #dev-python/numpy lapack -test
 #sci-libs/openblas openmp -dynamic -eselect-ldso -index-64bit pthread -relapack -test
@@ -100,3 +100,4 @@ media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -arc
 media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pulseaudio threads vaapi x264 zlib -amf -amr -amrenc  -appkit  -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection  -cuda  dav1d -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma  -mipsdspr1   -mipsdspr2   -mipsfpu  -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic  -qsv  -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab  -vmaf  -vorbis -vpx -vulkan -webp -x265 -xvid -zeromq -zimg -zvbi
 
 #media-libs/opencv eigen features2d ffmpeg openmp python vaapi -atlas -contrib  -contribcvv -contribdnn -contribfreetype  -contribhdf   -contribovis   -contribsfm   -contribxfeatures2d   -cuda   -cudnn  -debug -dnnsamples -doc -examples -gdal  -gflags   -glog  -gphoto2 -gstreamer gtk3 -ieee1394 -jasper -java jpeg -jpeg2k -lapack  -mkl  non-free -opencl opencvapps -openexr opengl png -qt5 -qt6 -quirc -tbb  -tesseract  -test -testprograms -tiff v4l  -vtk  webp -xine
+x11-libs/libdrm video_cards_radeon
