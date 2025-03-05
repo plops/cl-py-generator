@@ -16,7 +16,6 @@ net-misc/dhcp
 net-wireless/blueman
 net-wireless/bluez
 net-wireless/iwd
-net-wireless/iwgtk
 net-wireless/wireless-regdb
 sys-devel/gcc
 sys-fs/btrfs-progs
