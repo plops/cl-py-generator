@@ -15,13 +15,14 @@ def list_firmware_files_glob(directory="/usr/lib/firmware"):
         A list of file paths.
     """
     all_files = glob.glob(os.path.join(directory, "**/*"), recursive=True)
-    all_files = [f for f in all_files if os.path.isfile(f)] #filter out directories
+    #all_files = [f for f in all_files if os.path.isfile(f)] #filter out directories
 
     # Create exclusion patterns using glob wildcards
     exclusion_patterns_glob = [
         os.path.join(directory, "amdgpu/green_sardine*.bin"),
         os.path.join(directory, "rtl_bt/rtl8852bu*.bin"),
         os.path.join(directory, "rtw89/rtw8852b_fw-1.bin"),
+        os.path.join(directory, "amd-ucode/microcode_amd_fam19h.bin"),
     ]
     
     excluded_files = []
