@@ -177,14 +177,14 @@ usr/lib/firmware/intel/ice
 # # Create a new initramfs with cryptsetup
 # # It will mount the encrypted partition /dev/nvme0n1p4,
 # # mount gentoo.squashfs into a overlayfs and pivot_root into it
-# COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
-# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
-# RUN dracut \
-#   -m " kernel-modules base rootfs-block crypt dm " \
-#   --filesystems " squashfs vfat overlay " \
-#   --kver=${KVER}-x86_64 \
-#   --force \
-#   /boot/initramfs_squash_crypt-x86_64.img
+COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
+RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+RUN dracut \
+  -m " kernel-modules base rootfs-block crypt dm " \
+  --filesystems " squashfs vfat overlay " \
+  --kver=${KVER}-x86_64 \
+  --force \
+  /boot/initramfs_squash_crypt-x86_64.img
 
 
 # # Configure grub
@@ -195,14 +195,14 @@ usr/lib/firmware/intel/ice
 
 # # Create an initramfs that loads the squashfs from nvme0n1p5 and overlays it 
 # # on the folder persistent/ on that partition
-# COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
-# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
-# RUN dracut \
-#   -m " kernel-modules base rootfs-block dm " \
-#   --filesystems " squashfs vfat overlay btrfs " \
-#   --kver=${KVER}-x86_64 \
-#   --force \
-#   /boot/initramfs_squash_nvme0n1p5-x86_64.img
+COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
+RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+RUN dracut \
+  -m " kernel-modules base rootfs-block dm " \
+  --filesystems " squashfs vfat overlay btrfs " \
+  --kver=${KVER}-x86_64 \
+  --force \
+  /boot/initramfs_squash_nvme0n1p5-x86_64.img
 
 #   # Runtime
 #   # umerge 8s
