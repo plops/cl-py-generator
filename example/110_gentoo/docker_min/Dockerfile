@@ -33,6 +33,8 @@ RUN emerge --depclean
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
 ENV KVER=6.12.16-gentoo
+# sys-kernel/gentoo-sources experimental
+RUN USE="experimental" emerge sys-kernel/gentoo-sources
 RUN eselect kernel set 1
 WORKDIR /usr/src/linux
 COPY config/config-6.12.16 .config
@@ -98,6 +100,8 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # # The full emerge of all the updated packet took 2224 seconds
 # # The kernel build took 194 seconds
 # #'usr/lib/firmware/!({regulator.db*,amdgpu,rtl_bt,rtw89})' 
+
+# For my laptop: -march=znver3 
 
 # Prepare the squashfs image
 RUN mksquashfs /lib /bin /etc /home /dev \
