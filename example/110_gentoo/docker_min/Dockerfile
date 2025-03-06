@@ -24,6 +24,7 @@ RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
 RUN rm -rf /usr/share/locale/*
 RUN locale-gen
 
+RUN emerge --update --deep --changed-use @world --fetchonly
 RUN emerge --update --deep --changed-use @world
 
 # 310 packages
@@ -33,8 +34,6 @@ RUN emerge --depclean
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
 ENV KVER=6.12.16-gentoo
-# sys-kernel/gentoo-sources experimental
-RUN USE="experimental" emerge sys-kernel/gentoo-sources
 RUN eselect kernel set 1
 WORKDIR /usr/src/linux
 COPY config/config-6.12.16 .config

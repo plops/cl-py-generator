@@ -101,3 +101,4 @@ media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pu
 
 #media-libs/opencv eigen features2d ffmpeg openmp python vaapi -atlas -contrib  -contribcvv -contribdnn -contribfreetype  -contribhdf   -contribovis   -contribsfm   -contribxfeatures2d   -cuda   -cudnn  -debug -dnnsamples -doc -examples -gdal  -gflags   -glog  -gphoto2 -gstreamer gtk3 -ieee1394 -jasper -java jpeg -jpeg2k -lapack  -mkl  non-free -opencl opencvapps -openexr opengl png -qt5 -qt6 -quirc -tbb  -tesseract  -test -testprograms -tiff v4l  -vtk  webp -xine
 x11-libs/libdrm video_cards_radeon
+sys-kernel/gentoo-sources experimental
