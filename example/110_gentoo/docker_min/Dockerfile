@@ -107,7 +107,7 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 
 # Prepare the squashfs image
 RUN mksquashfs /lib /bin /etc /home /dev \
-/usr/lib /usr/share \
+/usr  \
 /gentoo.squashfs \
 -comp zstd \
 -xattrs \
