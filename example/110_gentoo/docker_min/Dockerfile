@@ -33,16 +33,18 @@ RUN emerge --depclean
 
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
+ENV KVER_PURE=6.6.79
+ENV KVER=${KVER_PURE}-gentooz
+
 RUN echo "sys-kernel/gentoo-sources ~amd64" >> /etc/portage/package.accept_keywords/gentoo-sources
-RUN USE="experimental" emerge =sys-kernel/gentoo-sources-6.13.5
-ENV KVER=6.13.5-gentoo
+RUN USE="experimental" emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 #ENV KVER=6.12.16-gentoo
 RUN eselect kernel list
-RUN eselect kernel set linux-6.13.5-gentoo
+RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config-6.12.16 .config
+COPY config/config-${KVER_PURE} .config
 RUN make olddefconfig
 RUN make -j32
 RUN make modules_install
@@ -88,13 +90,8 @@ RUN xkcdpass -n 3 -d '.' > /tmp/password.txt \
 && echo "martin:$(cat /tmp/password.txt)" | chpasswd
 RUN rm /tmp/password.txt
 
-
-
-
-
 RUN systemctl enable tlp
 RUN systemctl enable bluetooth
-
 
 COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
@@ -125,8 +122,10 @@ RUN mksquashfs /lib /bin /etc /home /dev \
 -ef /list_files.txt \
 -e \
 lib/modules/6.6.52-gentoo-x86_64 \
+lib/modules/6.6.74-gentoo-x86_64 \
 lib/modules/6.6.58-gentoo-r1-x86_64 \
 usr/lib/modules/6.6.52-gentoo-x86_64 \
+usr/lib/modules/6.6.74-gentoo-x86_64 \
 usr/lib/modules/6.6.58-gentoo-r1-x86_64 \
 usr/src/linux* \
 var/cache/binpkgs/* \
