@@ -41,7 +41,7 @@ RUN eselect kernel list
 RUN eselect kernel set linux-6.6.79-gentoo
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config-6.12.16 .config
+COPY config/config-6.6.79 .config
 RUN make olddefconfig
 RUN make -j32
 RUN make modules_install
