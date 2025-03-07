@@ -33,7 +33,10 @@ RUN emerge --depclean
 
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
-ENV KVER=6.12.16-gentoo
+RUN USE="experimental" emerge =sys-kernel/gentoo-sources-6.6.79
+ENV KVER=6.6.79-gentoo
+
+#ENV KVER=6.12.16-gentoo
 RUN eselect kernel set 1
 WORKDIR /usr/src/linux
 COPY config/config-6.12.16 .config
