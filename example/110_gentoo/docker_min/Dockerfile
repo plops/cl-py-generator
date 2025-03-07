@@ -34,7 +34,7 @@ RUN emerge --depclean
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
 ENV KVER_PURE=6.6.79
-ENV KVER=${KVER_PURE}-gentooz
+ENV KVER=${KVER_PURE}-gentoo
 
 RUN echo "sys-kernel/gentoo-sources ~amd64" >> /etc/portage/package.accept_keywords/gentoo-sources
 RUN USE="experimental" emerge =sys-kernel/gentoo-sources-${KVER_PURE}
