@@ -203,14 +203,4 @@ RUN dracut \
   --force \
   /boot/initramfs_squash_nvme0n1p5-x86_64.img
 
-#   # Runtime
-#   # umerge 8s
-#   # rust-bin 32s
-#   # world 5830s
-#   # depclean 12s
-#   # kernel 180s
-#   # umerge, deplcean 15s
-#   # squashfs 60s
-#   # dracut 4s
-#   # export 15s
-
+# entire build takes 43min
