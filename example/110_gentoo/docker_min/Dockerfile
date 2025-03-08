@@ -157,7 +157,6 @@ RUN emerge app-admin/xkcdpass
 RUN xkcdpass -n 3 -d '.' > /tmp/password.txt \
 && echo "Password: $(cat /tmp/password.txt)" \
 && echo "martin:$(cat /tmp/password.txt)" | chpasswd
-RUN rm /tmp/password.txt
 
 RUN systemctl enable tlp
 RUN systemctl enable bluetooth
@@ -173,9 +172,10 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # #'usr/lib/firmware/!({regulator.db*,amdgpu,rtl_bt,rtw89})' 
 
 # For my laptop: -march=znver3 
-
+# -one-file-system-x 
 # Prepare the squashfs image
 RUN mksquashfs /lib /sbin /bin /etc /home /dev \
+/proc /sys /run /var /tmp /mnt \
 /usr  \
 /gentoo.squashfs \
 -comp zstd \
@@ -185,7 +185,6 @@ RUN mksquashfs /lib /sbin /bin /etc /home /dev \
 -progress \
 -mem 10G \
 -no-strip \
--one-file-system-x \
 -noappend \
 -wildcards \
 -ef /list_files.txt \
@@ -240,7 +239,8 @@ usr/lib/firmware/intel/vsc \
 usr/lib/firmware/intel/ice \
 usr/share/sgml/docbook \
 usr/share/doc/openssl* \
-usr/share/doc/docutils*/html
+usr/share/doc/docutils*/html \
+tmp/password.txt
 
 
 
@@ -279,5 +279,8 @@ RUN dracut \
   --kver=${KVER} \
   --force \
   /boot/initramfs_squash_nvme0n1p5-x86_64.img
+
+RUN rm /tmp/password.txt
+
 
 # entire build takes 43min
