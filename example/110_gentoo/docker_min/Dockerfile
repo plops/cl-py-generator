@@ -175,7 +175,7 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # For my laptop: -march=znver3 
 
 # Prepare the squashfs image
-RUN mksquashfs /lib /bin /etc /home /dev \
+RUN mksquashfs /lib /sbin /bin /etc /home /dev \
 /usr  \
 /gentoo.squashfs \
 -comp zstd \
