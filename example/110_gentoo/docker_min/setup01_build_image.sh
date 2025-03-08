@@ -2,6 +2,6 @@
 
 # use plain to show container output (e.g. user password)
 DOCKER_BUILDKIT=1 docker build \
--t gentoo-ideapad_20250301 \
+-t gentoo-ideapad-min_20250305 \
 --progress=plain \
 .
