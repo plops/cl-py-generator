@@ -130,10 +130,12 @@ RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 WORKDIR /usr/src
 RUN git clone https://github.com/leogx9r/ryzen_smu
 WORKDIR /usr/src/ryzen_smu
+# Path should be like /lib/modules/6.13.5-gentoo/
 # Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
-RUN sed -i "s/\$(shell uname -r)/${KVER}-x86_64/g" Makefile
+RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
 RUN make -j7
-RUN cp ryzen_smu.ko /lib/modules/${KVER}-x86_64/kernel/drivers/
+RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
+RUN depmod -a ${KVER}
 RUN rm *.o
 
 
@@ -256,7 +258,7 @@ RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 RUN dracut \
   -m " kernel-modules base rootfs-block crypt dm " \
   --filesystems " squashfs vfat overlay " \
-  --kver=${KVER}-x86_64 \
+  --kver=${KVER} \
   --force \
   /boot/initramfs_squash_crypt-x86_64.img
 
@@ -274,7 +276,7 @@ RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 RUN dracut \
   -m " kernel-modules base rootfs-block dm " \
   --filesystems " squashfs vfat overlay btrfs " \
-  --kver=${KVER}-x86_64 \
+  --kver=${KVER} \
   --force \
   /boot/initramfs_squash_nvme0n1p5-x86_64.img
 
