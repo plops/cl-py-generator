@@ -51,13 +51,13 @@ RUN make olddefconfig
 # Disable debug info for a smaller amdgpu module (20MB instead of 400MB)
 # tobogganing is the behavior where penguins slide on their bellies across ice or snow
 # Maybe: -e CONFIG_RFKILL instead of -m
+# --set-val BUILD_SALT "6.13.5-gentoo" 
 RUN ./scripts/config --file .config \
 -d DEBUG_INFO \
 -d DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT \
 -d DEBUG_INFO_DWARF4 \
 -d DEBUG_INFO_DWARF5 \
 -e DEBUG_INFO_NONE \
---set-val BUILD_SALT "6.13.5-gentoo-idea" \
 --set-val DEFAULT_HOSTNAME "toboggan" \
 -e MZEN3 \
 -d GENERIC_CPU \
