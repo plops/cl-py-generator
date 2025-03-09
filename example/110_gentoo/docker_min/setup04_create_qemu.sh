@@ -26,11 +26,25 @@ mkfs.ext4 /dev/loop0p1
 mount /dev/loop0p1 /mnt
 # Create folder for grub
 mkdir -p /mnt/boot/grub
-mkdir -p /mnt/boot/efi
 # Install grub
-grub-install --target=i386-pc --boot-directory=/mnt/boot/grub /dev/loop0
+grub-install --target=i386-pc --boot-directory=/mnt/boot /dev/loop0
 # Copy squashfs, initramfs and kernel
 cp /dev/shm/gentoo*/{*.squashfs,*.img,vmlinuz} /mnt
+
+
+# Create grub.cfg
+# https://wiki.archlinux.org/title/GRUB
+# Boot vmlinuz with initramfs_squash_sda1-x86_64.img
+cat << EOF > /mnt/boot/grub/grub.cfg
+set default=0
+set timeout=5
+set root=(hd0,1)
+menuentry "Gentoo" {
+    linux /vmlinuz root=/dev/loop0p1
+    initrd /initramfs_squash_nvme0n1p5-x86_64.img
+}
+EOF
+
 
 # Umount the file system and detach the loop device
 umount /mnt
