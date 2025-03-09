@@ -40,7 +40,7 @@ set default=0
 set timeout=5
 set root=(hd0,1)
 menuentry "Gentoo" {
-    linux /vmlinuz root=/dev/loop0p1
+    linux /vmlinuz root=/dev/sda1
     initrd /initramfs_squash_nvme0n1p5-x86_64.img
 }
 EOF
