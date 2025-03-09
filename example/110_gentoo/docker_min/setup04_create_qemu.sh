@@ -1,5 +1,5 @@
 mkdir -p qemu
-qemu-img create -f raw qemu/nvme0n1.img 1G
+qemu-img create -f raw qemu/nvme0n1.img 1100M
 losetup -fP qemu/nvme0n1.img 
 
   #  -f find the first unused loop device
