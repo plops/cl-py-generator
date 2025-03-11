@@ -281,7 +281,7 @@ RUN dracut \
   --filesystems " squashfs vfat overlay btrfs " \
   --kver=${KVER} \
   --force \
-  /boot/initramfs_squash_nvme0n1p5-x86_64.img
+  /boot/initramfs_squash_sda1-x86_64.img
 
 RUN rm /tmp/password.txt
 
