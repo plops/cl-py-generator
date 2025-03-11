@@ -106,7 +106,7 @@ RUN ./scripts/config --file .config \
 --set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
 -m ENCRYPTED_KEYS \
 --set-val SECURITY_TOMOYO_POLICY_LOADER "/usr/bin/tomoyo-init"
-RUN make repare
+RUN make prepare
 
 
 
