@@ -1,5 +1,5 @@
 mkdir -p qemu
-qemu-img create -f raw qemu/sda1.img 1100M
+qemu-img create -f raw qemu/sda1.img 600M
 losetup -fP qemu/sda1.img 
 
   #  -f find the first unused loop device
@@ -12,7 +12,7 @@ parted /dev/loop0 print
 # Create msdos disk label
 parted /dev/loop0 mklabel msdos
 # Create ext4 partition
-parted /dev/loop0 mkpart primary ext4 1Mib 1Gib
+parted /dev/loop0 mkpart primary ext4 1Mib 580Gb
 # Set the boot flag
 parted /dev/loop0 set 1 boot on
 
