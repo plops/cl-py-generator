@@ -1,6 +1,6 @@
 mkdir -p qemu
-qemu-img create -f raw qemu/nvme0n1.img 1100M
-losetup -fP qemu/nvme0n1.img 
+qemu-img create -f raw qemu/sda1.img 1100M
+losetup -fP qemu/sda1.img 
 
   #  -f find the first unused loop device
   #  -P scans for the partitions
@@ -18,7 +18,7 @@ parted /dev/loop0 set 1 boot on
 
 # Update partition table
 losetup -d /dev/loop0
-losetup -fP qemu/nvme0n1.img 
+losetup -fP qemu/sda1.img 
 
 # Create a file system
 mkfs.ext4 /dev/loop0p1
@@ -41,7 +41,7 @@ set timeout=5
 set root=(hd0,1)
 menuentry "Gentoo" {
     linux /vmlinuz root=/dev/sda1
-    initrd /initramfs_squash_nvme0n1p5-x86_64.img
+    initrd /initramfs_squash_sda1-x86_64.img
 }
 EOF
 

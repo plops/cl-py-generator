@@ -264,26 +264,17 @@ make_trace_mem "hook cleanup" '1:shortmem' '2+:mem' '3+:slab'
 getarg 'rd.break=cleanup' -d 'rdbreak=cleanup' && emergency_shell -n cleanup "Break cleanup"
 source_hook cleanup
 
-echo "Martin's init script"
+echo "Mount /dev/sda1 to /mnt and /mnt/gentoo.squashfs to /squash"
 
-mkdir /mnt5
-mkdir /squash
-umount /dev/nvme0n1p5
-mount -t ext4 /dev/nvme0n1p5 /mnt5
-mount /mnt5/gentoo.squashfs /squash
-mkdir -p /mnt5/persistent/lower
-mkdir -p /mnt5/persistent/work
-mount -t overlay overlay -o upperdir=/mnt5/persistent/lower,lowerdir=/squash,workdir=/mnt5/persistent/work /sysroot 
-#mount --types proc /proc /proc
-#mount --rbind /sys /sys
-#mount --make-rslave /sys
-#mount --rbind /dev /dev
-#mount --make-rslave /dev
-#mount --bind /run /run
-#mount --make-slave /run 
-#exec switch_root  /sbin/init
-
-
+mkdir -p /mnt
+mkdir -p /squash
+umount /dev/sda1
+mount -t ext4 /dev/sda1 /mnt
+mount /mnt/gentoo.squashfs /squash
+mkdir -p /mnt/persistent/lower
+mkdir -p /mnt/persistent/work
+echo "Mount overlay lower=/mnt/persistent/lower upper=/squash work=/mnt/persistent/work"
+mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work /sysroot 
 
 # By the time we get here, the root filesystem should be mounted.
 # Try to find init.
