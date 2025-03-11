@@ -110,10 +110,9 @@ set default=0
 set timeout=5
 set root=(hd0,1)
 menuentry "Gentoo from sda1/gentoo.squashfs" {
-  load_video
   insmod gzio
   insmod part_msdos
-  insmod ext4
+  insmod ext2
   echo 'Loading Linux ...'
   linux /vmlinuz root=/dev/sda1
   echo 'Loading initial ramdisk ...'
