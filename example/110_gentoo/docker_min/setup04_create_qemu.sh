@@ -27,8 +27,9 @@ mkdir -p qemu
 log_message "Created qemu directory."
 
 # Create the raw disk image
-qemu-img create -f raw qemu/sda1.img 653M
-log_message "Created raw disk image: qemu/sda1.img (653M)"
+# 653M is needed for kernel, squashfs and initramfs
+qemu-img create -f raw qemu/sda1.img 900M
+log_message "Created raw disk image: qemu/sda1.img"
 
 # Detach all loop devices (cleanup from previous runs)
 log_message "Detaching all existing loop devices..."
@@ -108,9 +109,15 @@ cat << EOF > /mnt/boot/grub/grub.cfg
 set default=0
 set timeout=5
 set root=(hd0,1)
-menuentry "Gentoo" {
-    linux /vmlinuz root=/dev/sda1
-    initrd /initramfs_squash_sda1-x86_64.img
+menuentry "Gentoo from sda1/gentoo.squashfs" {
+  load_video
+  insmod gzio
+  insmod part_msdos
+  insmod ext4
+  echo 'Loading Linux ...'
+  linux /vmlinuz root=/dev/sda1
+  echo 'Loading initial ramdisk ...'
+  initrd /initramfs_squash_sda1-x86_64.img
 }
 EOF
 
