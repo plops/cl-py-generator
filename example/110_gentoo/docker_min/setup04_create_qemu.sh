@@ -114,7 +114,7 @@ menuentry "Gentoo from sda1/gentoo.squashfs" {
   insmod part_msdos
   insmod ext2
   echo 'Loading Linux ...'
-  linux /vmlinuz root=/dev/sda1
+  linux /vmlinuz root=/dev/sda1 console=ttyS0
   echo 'Loading initial ramdisk ...'
   initrd /initramfs_squash_sda1-x86_64.img
 }

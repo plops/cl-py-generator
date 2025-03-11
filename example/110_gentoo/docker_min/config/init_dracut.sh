@@ -276,6 +276,9 @@ mkdir -p /mnt/persistent/work
 echo "Mount overlay lower=/mnt/persistent/lower upper=/squash work=/mnt/persistent/work"
 mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work /sysroot 
 
+echo "Start emergency shell for debugging"
+emergency_shell
+
 # By the time we get here, the root filesystem should be mounted.
 # Try to find init.
 for i in "$(getarg real_init=)" "$(getarg init=)" $(getargs rd.distroinit=) /sbin/init; do
