@@ -25,19 +25,13 @@ RUN rm -rf /usr/share/locale/*
 RUN locale-gen
 
 RUN emerge --update --deep --changed-use @world --fetchonly
-RUN emerge --update --deep --changed-use @world
-
-# 310 packages
-
-RUN emerge --depclean
 
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
 ENV KVER_PURE=6.13.5
 ENV KVER=${KVER_PURE}-gentoo
 
-RUN echo "sys-kernel/gentoo-sources ~amd64" >> /etc/portage/package.accept_keywords/gentoo-sources
-RUN USE="experimental" emerge =sys-kernel/gentoo-sources-${KVER_PURE}
+RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 #ENV KVER=6.12.16-gentoo
 RUN eselect kernel list
@@ -112,10 +106,19 @@ RUN ./scripts/config --file .config \
 --set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
 -m ENCRYPTED_KEYS \
 --set-val SECURITY_TOMOYO_POLICY_LOADER "/usr/bin/tomoyo-init"
+RUN make repare
+
+
+
+RUN emerge --update --deep --changed-use @world
+RUN emerge --depclean
 
 RUN make -j32
 RUN make modules_install
 RUN make install
+
+
+
 
 # # Remove rust, it needs a lot of space
 # RUN emerge --unmerge virtual/rust dev-lang/rust-bin
