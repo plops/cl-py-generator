@@ -4,7 +4,7 @@
 FROM gentoo/portage:20250305 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250303
+FROM gentoo/stage3:nomultilib-systemd-20250310
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -283,4 +283,7 @@ RUN dracut \
 RUN rm /tmp/password.txt
 
 
-# entire build takes 43min
+# entire build takes 40min16sec
+
+
+# we need the kernel before the full build
