@@ -132,7 +132,12 @@ source_hook pre-udev
 
 UDEV_LOG=err
 getargbool 0 rd.udev.info -d -y rdudevinfo && UDEV_LOG=info
-getargbool 0 rd.udev.debug -d -y rdudevdebug && UDEV_LOG=debug
+getargbool 0 rd.udev.debug -d -y rdudevdebugi
+
+if ! ismounted /dev; then
+    echo "Cannot mount devtmpfs on /dev! Compile the kernel with CONFIG_DEVTMPFS!"
+    exit 1
+fi && UDEV_LOG=debug
 
 # start up udev and trigger cold plugs
 UDEV_LOG=$UDEV_LOG "$systemdutildir"/systemd-udevd --daemon --resolve-names=never

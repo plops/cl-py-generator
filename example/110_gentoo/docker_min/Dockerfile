@@ -256,14 +256,14 @@ tmp/password.txt
 # # Create a new initramfs with cryptsetup
 # # It will mount the encrypted partition /dev/nvme0n1p4,
 # # mount gentoo.squashfs into a overlayfs and pivot_root into it
-COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
-RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
-RUN dracut \
-  -m " kernel-modules base rootfs-block crypt dm " \
-  --filesystems " squashfs vfat overlay " \
-  --kver=${KVER} \
-  --force \
-  /boot/initramfs_squash_crypt-x86_64.img
+# COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
+# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+# RUN dracut \
+#   -m " kernel-modules base rootfs-block crypt dm " \
+#   --filesystems " squashfs vfat overlay " \
+#   --kver=${KVER} \
+#   --force \
+#   /boot/initramfs_squash_crypt-x86_64.img
 
 
 # # Configure grub
@@ -274,10 +274,14 @@ RUN dracut \
 
 # # Create an initramfs that loads the squashfs from nvme0n1p5 and overlays it 
 # # on the folder persistent/ on that partition
+
+# Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
+
 COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
 RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
 RUN dracut \
-  -m " kernel-modules base rootfs-block dm " \
+  -m " kernel-modules base dmsquash-live-autooverlay " \
   --filesystems " squashfs vfat overlay btrfs " \
   --kver=${KVER} \
   --force \
