@@ -49,28 +49,29 @@ fi
 [ ! -h /dev/stdout ] && ln -s /proc/self/fd/1 /dev/stdout > /dev/null 2>&1
 [ ! -h /dev/stderr ] && ln -s /proc/self/fd/2 /dev/stderr > /dev/null 2>&1
 
-if ! ismounted /dev/pts; then
-    mkdir -m 0755 -p /dev/pts
-    mount -t devpts -o gid=5,mode=620,noexec,nosuid devpts /dev/pts > /dev/null
-fi
+# only needed for ssh, which we don't use in initramfs
+# if ! ismounted /dev/pts; then
+#     mkdir -m 0755 -p /dev/pts
+#     mount -t devpts -o gid=5,mode=620,noexec,nosuid devpts /dev/pts > /dev/null
+# fi
 
 if ! ismounted /dev/shm; then
     mkdir -m 0755 -p /dev/shm
-    mount -t tmpfs -o mode=1777,noexec,nosuid,nodev,strictatime tmpfs /dev/shm > /dev/null
+    mount -t tmpfs -o mode=1777,exec,nosuid,nodev,strictatime tmpfs /dev/shm > /dev/null
 fi
 
-if ! ismounted /run; then
-    mkdir -m 0755 -p /newrun
-    if ! str_starts "$(readlink -f /bin/sh)" "/run/"; then
-        mount -t tmpfs -o mode=0755,noexec,nosuid,nodev,strictatime tmpfs /newrun > /dev/null
-    else
-        # the initramfs binaries are located in /run, so don't mount it with noexec
-        mount -t tmpfs -o mode=0755,nosuid,nodev,strictatime tmpfs /newrun > /dev/null
-    fi
-    cp -a /run/* /newrun > /dev/null 2>&1
-    mount --move /newrun /run
-    rm -fr -- /newrun
-fi
+# if ! ismounted /run; then
+#     mkdir -m 0755 -p /newrun
+#     if ! str_starts "$(readlink -f /bin/sh)" "/run/"; then
+#         mount -t tmpfs -o mode=0755,noexec,nosuid,nodev,strictatime tmpfs /newrun > /dev/null
+#     else
+#         # the initramfs binaries are located in /run, so don't mount it with noexec
+#         mount -t tmpfs -o mode=0755,nosuid,nodev,strictatime tmpfs /newrun > /dev/null
+#     fi
+#     cp -a /run/* /newrun > /dev/null 2>&1
+#     mount --move /newrun /run
+#     rm -fr -- /newrun
+# fi
 
 if command -v kmod > /dev/null 2> /dev/null; then
     kmod static-nodes --format=tmpfiles 2> /dev/null \
@@ -87,17 +88,17 @@ if command -v kmod > /dev/null 2> /dev/null; then
         done
 fi
 
-trap "emergency_shell Signal caught!" 0
+# trap "emergency_shell Signal caught!" 0
 
-export UDEVRULESD=/run/udev/rules.d
-[ -d /run/udev ] || mkdir -p -m 0755 /run/udev
-[ -d "$UDEVRULESD" ] || mkdir -p -m 0755 "$UDEVRULESD"
+# export UDEVRULESD=/run/udev/rules.d
+# [ -d /run/udev ] || mkdir -p -m 0755 /run/udev
+# [ -d "$UDEVRULESD" ] || mkdir -p -m 0755 "$UDEVRULESD"
 
 
-udevadm control --reload > /dev/null 2>&1 || :
-# then the rest
-udevadm trigger --type=subsystems --action=add > /dev/null 2>&1
-udevadm trigger --type=devices --action=add > /dev/null 2>&1
+# udevadm control --reload > /dev/null 2>&1 || :
+# # then the rest
+# udevadm trigger --type=subsystems --action=add > /dev/null 2>&1
+# udevadm trigger --type=devices --action=add > /dev/null 2>&1
 
 
 mkdir -p /mnt /squash 
@@ -115,7 +116,8 @@ if [ ! -f /mnt/gentoo.squashfs ]; then
     emergency_shell
 fi
 
-mount /mnt/gentoo.squashfs /squash || { echo "Failed to mount /mnt/gentoo.squashfs"; emergency_shell; }
+cp /mnt/gentoo.squashfs /dev/shm/gentoo.squashfs || { echo "Failed to copy /mnt/gentoo.squashfs"; emergency_shell; }
+mount /dev/shm/gentoo.squashfs /squash || { echo "Failed to mount /dev/shm/gentoo.squashfs"; emergency_shell; }
 
 echo "Mounting overlay..."
 mkdir -p /mnt/persistent/lower /mnt/persistent/work "$NEWROOT"
@@ -129,57 +131,18 @@ echo "Contents of /squash:"
 ls -l /squash
 echo "Contents of /sysroot:"
 ls -l "$NEWROOT"
+echo "df -h:"
+/sysroot/usr/bin/df -h
+#
+export PATH=/bin:/usr/bin:/sysroot/usr/bin
+export LD_LIBRARY_PATH=/lib:/usr/lib:/sysroot/usr/lib64:/sysroot/usr/lib64/systemd/:/usr/lib64:/usr/lib64/systemd/
+#/bin/bash
+# clean up. The init process will remount proc sys and dev later
+umount /proc
+umount /sys
 
-export INIT=/sbin/init
-export initargs=""
-echo "INIT: $INIT"
-ls -l "$NEWROOT"/"$INIT"
-echo "details of systemd binary"
-ls -l "$NEWROOT"/lib/systemd/systemd
+rm -rf /dev/fd /dev/stdin /dev/stdout /dev/stderr
+#umount /dev
 
-CAPSH=$(command -v capsh)
-SWITCH_ROOT=$(command -v switch_root)
-echo will exec "$SWITCH_ROOT" "$NEWROOT" "$INIT" $initargs 
-
-#emergency_shell
-
-# Usage:
-#  switch_root [options] <newrootdir> <init> <args to init>
-
-# Switch to another filesystem as the root of the mount tree.
-
-# Options:
-#  -h, --help     display this help
-#  -V, --version  display version
-
-# For more details see switch_root(8).
-# DESCRIPTION
-#        switch_root moves already mounted /proc, /dev, /sys and /run to newroot and makes newroot the new root filesystem and starts init process.
-
-#        WARNING: switch_root removes recursively all files and directories on the current root filesystem.
-# NOTES
-#        switch_root will fail to function if newroot is not the root of a mount. If you want to switch root into a directory that does not meet this requirement then you can first use a
-#        bind-mounting trick to turn any directory into a mount point:
-
-#            mount --bind $DIR $DIR
-
-
-CAPSH=$(command -v capsh)
-SWITCH_ROOT=$(command -v switch_root)
-
-PATH=$OLDPATH
-export PATH
-
-
-unset RD_DEBUG
-# shellcheck disable=SC2086
-
-
-
-exec "$SWITCH_ROOT" "$NEWROOT" "$INIT" $initargs 2>&1 || {
-        warn "Something went very badly wrong in the initramfs.  Please "
-        warn "file a bug against dracut."
-        emergency_shell
-}
-
-
+# exec /usr/bin/switch_root /sysroot /lib/systemd/systemd
+exec /usr/bin/switch_root /sysroot /usr/bin/bash
