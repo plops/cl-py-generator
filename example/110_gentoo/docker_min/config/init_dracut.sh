@@ -10,6 +10,9 @@ emergency_shell() {
 # Define NEWROOT (this MUST be done before switch_root)
 NEWROOT=/sysroot
 
+OLDPATH=$PATH
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+export PATH
 
 # mount some important things
 if [ ! -d /proc/self ]; then
@@ -84,6 +87,18 @@ if command -v kmod > /dev/null 2> /dev/null; then
         done
 fi
 
+trap "emergency_shell Signal caught!" 0
+
+export UDEVRULESD=/run/udev/rules.d
+[ -d /run/udev ] || mkdir -p -m 0755 /run/udev
+[ -d "$UDEVRULESD" ] || mkdir -p -m 0755 "$UDEVRULESD"
+
+
+udevadm control --reload > /dev/null 2>&1 || :
+# then the rest
+udevadm trigger --type=subsystems --action=add > /dev/null 2>&1
+udevadm trigger --type=devices --action=add > /dev/null 2>&1
+
 
 mkdir -p /mnt /squash 
 # Check if /dev/sda1 exists.
@@ -103,40 +118,68 @@ fi
 mount /mnt/gentoo.squashfs /squash || { echo "Failed to mount /mnt/gentoo.squashfs"; emergency_shell; }
 
 echo "Mounting overlay..."
-mkdir -p /mnt/persistent/lower /mnt/persistent/work
+mkdir -p /mnt/persistent/lower /mnt/persistent/work "$NEWROOT"
 mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work "$NEWROOT" || { echo "Failed to mount overlay"; emergency_shell; }
+
+echo "Contents of /:"
+ls -l /
+echo "Contents of /mnt:"
+ls -l /mnt
+echo "Contents of /squash:"
+ls -l /squash
+echo "Contents of /sysroot:"
+ls -l "$NEWROOT"
+
+export INIT=/sbin/init
+export initargs=""
+echo "INIT: $INIT"
+ls -l "$NEWROOT"/"$INIT"
+echo "details of systemd binary"
+ls -l "$NEWROOT"/lib/systemd/systemd
+
+CAPSH=$(command -v capsh)
+SWITCH_ROOT=$(command -v switch_root)
+echo will exec "$SWITCH_ROOT" "$NEWROOT" "$INIT" $initargs 
+
+#emergency_shell
+
+# Usage:
+#  switch_root [options] <newrootdir> <init> <args to init>
+
+# Switch to another filesystem as the root of the mount tree.
+
+# Options:
+#  -h, --help     display this help
+#  -V, --version  display version
+
+# For more details see switch_root(8).
+# DESCRIPTION
+#        switch_root moves already mounted /proc, /dev, /sys and /run to newroot and makes newroot the new root filesystem and starts init process.
+
+#        WARNING: switch_root removes recursively all files and directories on the current root filesystem.
+# NOTES
+#        switch_root will fail to function if newroot is not the root of a mount. If you want to switch root into a directory that does not meet this requirement then you can first use a
+#        bind-mounting trick to turn any directory into a mount point:
+
+#            mount --bind $DIR $DIR
 
 
 CAPSH=$(command -v capsh)
 SWITCH_ROOT=$(command -v switch_root)
 
-# You *might* want to set a default INIT if it's not provided externally
-INIT="${INIT:-/sbin/init}"  # Default to /sbin/init if INIT is not set
-
-# initargs might be empty, but we'll define it for clarity
-initargs="${initargs:-}"
+PATH=$OLDPATH
+export PATH
 
 
-if [ -f /etc/capsdrop ]; then
-    . /etc/capsdrop
-    echo "Calling $INIT with capabilities $CAPS_INIT_DROP dropped."
-    unset RD_DEBUG
-    exec "$CAPSH" --drop="$CAPS_INIT_DROP" -- \
-        -c "exec $SWITCH_ROOT \"$NEWROOT\" \"$INIT\" $initargs" \
-        || {
-            echo "Command:"
-            echo "$CAPSH --drop=\"$CAPS_INIT_DROP\" -- -c exec $SWITCH_ROOT \"$NEWROOT\" \"$INIT\" $initargs"
-            echo "failed."
-            emergency_shell
-        }
-else
-    unset RD_DEBUG
-    # shellcheck disable=SC2086
-    exec "$SWITCH_ROOT" "$NEWROOT" "$INIT" $initargs || {
-        echo "Something went very badly wrong in the initramfs.  Please "
-        echo "file a bug against dracut."
+unset RD_DEBUG
+# shellcheck disable=SC2086
+
+
+
+exec "$SWITCH_ROOT" "$NEWROOT" "$INIT" $initargs 2>&1 || {
+        warn "Something went very badly wrong in the initramfs.  Please "
+        warn "file a bug against dracut."
         emergency_shell
-    }
-fi
+}
 
-    
+
