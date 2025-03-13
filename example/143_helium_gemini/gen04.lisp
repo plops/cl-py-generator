@@ -39,7 +39,7 @@
 					      :emulate
 					      ;:simple
 					      ;:dl
-					      ;:auth
+					      :auth
 					      )))
 
 (progn
