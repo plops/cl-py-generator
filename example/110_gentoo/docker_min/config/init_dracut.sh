@@ -116,33 +116,44 @@ if [ ! -f /mnt/gentoo.squashfs ]; then
     emergency_shell
 fi
 
-cp /mnt/gentoo.squashfs /dev/shm/gentoo.squashfs || { echo "Failed to copy /mnt/gentoo.squashfs"; emergency_shell; }
-mount /dev/shm/gentoo.squashfs /squash || { echo "Failed to mount /dev/shm/gentoo.squashfs"; emergency_shell; }
+# cp /mnt/gentoo.squashfs /dev/shm/gentoo.squashfs || { echo "Failed to copy /mnt/gentoo.squashfs"; emergency_shell; }
+# mount /dev/shm/gentoo.squashfs /squash || { echo "Failed to mount /dev/shm/gentoo.squashfs"; emergency_shell; }
 
-echo "Mounting overlay..."
-mkdir -p /mnt/persistent/lower /mnt/persistent/work "$NEWROOT"
-mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work "$NEWROOT" || { echo "Failed to mount overlay"; emergency_shell; }
+# echo "Mounting overlay..."
+# mkdir -p /mnt/persistent/lower /mnt/persistent/work "$NEWROOT"
+# mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work "$NEWROOT" || { echo "Failed to mount overlay"; emergency_shell; }
 
-echo "Contents of /:"
-ls -l /
-echo "Contents of /mnt:"
-ls -l /mnt
-echo "Contents of /squash:"
-ls -l /squash
-echo "Contents of /sysroot:"
-ls -l "$NEWROOT"
-echo "df -h:"
-/sysroot/usr/bin/df -h
-#
-export PATH=/bin:/usr/bin:/sysroot/usr/bin
-export LD_LIBRARY_PATH=/lib:/usr/lib:/sysroot/usr/lib64:/sysroot/usr/lib64/systemd/:/usr/lib64:/usr/lib64/systemd/
-#/bin/bash
+
+# echo "Contents of /:"
+# ls -l /
+# echo "Contents of /mnt:"
+# ls -l /mnt
+# echo "Contents of /squash:"
+# ls -l /squash
+# echo "Contents of /sysroot:"
+# ls -l "$NEWROOT"
+# echo "df -h:"
+# /sysroot/usr/bin/df -h
+
+
+# export PATH=/bin:/usr/bin:/sysroot/usr/bin
+# export LD_LIBRARY_PATH=/lib:/usr/lib:/sysroot/usr/lib64:/sysroot/usr/lib64/systemd/:/usr/lib64:/usr/lib64/systemd/
+# cd /dev/shm/
+# unsquashfs /mnt/gentoo.squashfs || { echo "Failed to unsquash /mnt/gentoo.squashfs"; emergency_shell; }
+
 # clean up. The init process will remount proc sys and dev later
 umount /proc
 umount /sys
 
 rm -rf /dev/fd /dev/stdin /dev/stdout /dev/stderr
-#umount /dev
+# rm -rf /dev/shm/squashfs-root/dev/*
+
+umount /dev/shm/
+umount /dev
+
+# /bin/bash
+
 
 # exec /usr/bin/switch_root /sysroot /lib/systemd/systemd
-exec /usr/bin/switch_root /sysroot /usr/bin/bash
+#exec /usr/bin/switch_root /sysroot /usr/bin/bash
+exec /usr/bin/switch_root /mnt/squashfs-root /sbin/init

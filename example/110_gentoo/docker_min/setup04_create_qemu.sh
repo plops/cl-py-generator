@@ -28,7 +28,7 @@ log_message "Created qemu directory."
 
 # Create the raw disk image
 # 653M is needed for kernel, squashfs and initramfs
-qemu-img create -f raw qemu/sda1.img 900M
+qemu-img create -f raw qemu/sda1.img 5900M
 log_message "Created raw disk image: qemu/sda1.img"
 
 # Detach all loop devices (cleanup from previous runs)
@@ -121,6 +121,10 @@ menuentry "Gentoo from sda1/gentoo.squashfs" {
 EOF
 
 log_message "grub.cfg created."
+
+cd /mnt
+unsquashfs gentoo.squashfs
+cd /
 
 # Umount the file system and detach the loop device
 log_message "Unmounting /mnt..."
