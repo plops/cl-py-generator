@@ -115,15 +115,15 @@ menuentry "Gentoo from sda1/gentoo.squashfs" {
   insmod ext2
   echo 'Loading Linux ...'
   linux /vmlinuz root=/dev/sda1 console=ttyS0 rd.live.squashimg=/gentoo.squashfs
-  echo 'Loading initial ramdisk ...'
-  initrd /initramfs_squash_sda1-x86_64.img
+  #echo 'Loading initial ramdisk ...'
+  #initrd /initramfs_squash_sda1-x86_64.img
 }
 EOF
 
 log_message "grub.cfg created."
 
 cd /mnt
-unsquashfs gentoo.squashfs
+unsquashfs gentoo.squashfs -d /mnt
 cd /
 
 # Umount the file system and detach the loop device
