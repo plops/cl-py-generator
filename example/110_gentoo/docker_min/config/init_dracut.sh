@@ -142,16 +142,19 @@ fi
 # unsquashfs /mnt/gentoo.squashfs || { echo "Failed to unsquash /mnt/gentoo.squashfs"; emergency_shell; }
 
 # clean up. The init process will remount proc sys and dev later
-umount /proc
-umount /sys
+# umount /proc
+# umount /sys
 
-rm -rf /dev/fd /dev/stdin /dev/stdout /dev/stderr
-# rm -rf /dev/shm/squashfs-root/dev/*
+# rm -rf /dev/fd /dev/stdin /dev/stdout /dev/stderr
+# # rm -rf /dev/shm/squashfs-root/dev/*
 
-umount /dev/shm/
-umount /dev
+# umount /dev/shm/
+# umount /dev
+
+# emergency_shell
 
 # /bin/bash
+/mnt/bin/dash
 
 
 # exec /usr/bin/switch_root /sysroot /lib/systemd/systemd

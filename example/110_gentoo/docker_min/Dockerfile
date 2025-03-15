@@ -168,6 +168,9 @@ COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
 RUN python /usr/bin/list_files.py > /list_files.txt
 
+RUN USE="static" emerge app-shells/dash
+
+
 # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
 
 # # The full emerge of all the updated packet took 2224 seconds
@@ -244,7 +247,6 @@ usr/share/sgml/docbook \
 usr/share/doc/openssl* \
 usr/share/doc/docutils*/html \
 tmp/password.txt
-
 
 
 # # intel/vsc 11MB   Visual Sensing Controller
