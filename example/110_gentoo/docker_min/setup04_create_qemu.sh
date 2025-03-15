@@ -28,7 +28,7 @@ log_message "Created qemu directory."
 
 # Create the raw disk image
 # 653M is needed for kernel, squashfs and initramfs
-qemu-img create -f raw qemu/sda1.img 5900M
+qemu-img create -f raw qemu/sda1.img 900M
 log_message "Created raw disk image: qemu/sda1.img"
 
 # Detach all loop devices (cleanup from previous runs)
@@ -103,6 +103,8 @@ done
 
 check_disk_usage /mnt #final check
 
+# https://github.com/blickers/livebackup
+# https://www.gnu.org/software/grub/manual/grub/html_node/Loopback-booting.html
 # Create grub.cfg
 log_message "Creating /mnt/boot/grub/grub.cfg..."
 cat << EOF > /mnt/boot/grub/grub.cfg
@@ -113,9 +115,22 @@ menuentry "Gentoo from sda1/gentoo.squashfs" {
   insmod gzio
   insmod part_msdos
   insmod ext2
+  insmod squash4
+  # insmod probe
+  # echo 'Searching for gentoo.squashfs ...'
+  # set file="/gentoo.squashfs"
+  # search --no-floppy -f --set=SFSROOT \$file
+  #probe -u --set=SFSUUID \${SFSROOT}
+  #loopback loop (\${SFSROOT})/\$file
+  #set root=\${SFSROOT}
+  #linux /vmlinuz root=UUID=\${SFSUUID} squashfs=\$file console=ttyS0
+  
   echo 'Loading Linux ...'
+  set root=(hd0,1)
+  loopback loop (hd0,1)/gentoo.squashfs
+  linux /vmlinuz root=/dev/sda1 squashfs=/gentoo.squashfs init=/bin/dash console=ttyS0
   #linux /vmlinuz root=/dev/sda1 init=/bin/dash console=ttyS0
-  linux /vmlinuz root=/dev/sda1 init=/bin/dash rootfstype=ext4 rootflags=ro,loop=/gentoo.squashfs overlayroot=/dev/sda1:/gentoo.squashfs
+  # linux /vmlinuz root=/dev/sda1 init=/bin/dash rootfstype=ext4 rootflags=ro,loop=/gentoo.squashfs overlayroot=/dev/sda1:/gentoo.squashfs
   #echo 'Loading initial ramdisk ...'
   #initrd /initramfs_squash_sda1-x86_64.img
 }
@@ -123,7 +138,7 @@ EOF
 
 log_message "grub.cfg created."
 
-unsquashfs -d /mnt /mnt/gentoo.squashfs 
+# unsquashfs -d /mnt /mnt/gentoo.squashfs 
 
 # Umount the file system and detach the loop device
 log_message "Unmounting /mnt..."
