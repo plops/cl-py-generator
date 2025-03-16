@@ -68,4 +68,5 @@ usr/lib/firmware/intel/ice \
 usr/share/sgml/docbook \
 usr/share/doc/openssl* \
 usr/share/doc/docutils*/html \
-tmp/password.txt
+	   tmp/password.txt \
+	   usr/lib64/libQt*.a
