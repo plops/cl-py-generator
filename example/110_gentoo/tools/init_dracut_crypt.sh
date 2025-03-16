@@ -283,10 +283,11 @@ cryptsetup luksOpen /dev/nvme0n1p4 vg
 
 # Mount the ext4 filesystems
 mount -t ext4 /dev/mapper/vg /mnt
-
-echo "Mount gentoo_20250301.squashfs from /dev/nvme0n1p4"
+echo "Copy gentoo.squashfs from /dev/nvme0n1p4 to /dev/shm/"
+cp /mnt/gentoo.squashfs /dev/shm/
+echo "Mount gentoo.squashfs from /dev/nvme0n1p4"
 # Mount the squashfs
-mount /mnt/gentoo_20250301.squashfs /squash
+mount /dev/shm/gentoo.squashfs /squash
 
 # Set up directories for overlayfs
 mkdir -p /mnt/persistent/lower
