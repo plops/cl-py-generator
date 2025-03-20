@@ -120,6 +120,13 @@ menuentry "Gentoo from sda1/gentoo.squashfs" {
   echo 'Loading initial ramdisk ...'
   initrd /initramfs_squash_sda1-x86_64.img
 }
+menuentry "Gentoo from mmcblk0p1/gentoo.squashfs and overlay on mmcblk0p2" {
+  insmod part_msdos
+  echo 'Loading Linux ...'
+  linux /vmlinuz root=/dev/sda1 console=ttyS0 squash_root=/dev/mmcblk0p1:/gentoo.squashfs overlay_lower=/dev/mmcblk0p2
+  echo 'Loading initial ramdisk ...'
+  initrd /initramfs_squash_sda1-x86_64.img
+}
 EOF
 
 log_message "grub.cfg created."
