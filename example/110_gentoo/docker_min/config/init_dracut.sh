@@ -100,16 +100,21 @@ fi
 # udevadm trigger --type=devices --action=add > /dev/null 2>&1
 
 
+
+
+mkdir -p /mnt1 /mnt /squash
+
+# --- Parse Kernel Command Line for squash_root and overlay_lower ---
+
+squash_device=""
+squash_path=""
+overlay_lower_device=""
+
 # The following loop iterates through the kernel parameters.
 # It specifically looks for the squash_root parameter.
 # It uses IFS=':' read -r squash_device squash_path <<< "$squash_root_param" to 
 # split the parameter value into the device and path components. This is a robust 
 # way to handle the colon separator.
-
-# --- Parse Kernel Command Line for squash_root ---
-
-squash_device=""
-squash_path=""
 
 # Read kernel parameters from /proc/cmdline
 for param in $(cat /proc/cmdline); do
@@ -118,25 +123,31 @@ for param in $(cat /proc/cmdline); do
             squash_root_param="${param#squash_root=}"
             IFS=':' read -r squash_device squash_path <<< "$squash_root_param"
             ;;
+        overlay_lower=*)
+            overlay_lower_device="${param#overlay_lower=}"
+            ;;
     esac
 done
 
-# --- Validate and Mount SquashFS ---
+# --- Validate Parameters ---
 if [ -z "$squash_device" ] || [ -z "$squash_path" ]; then
     echo "Error: squash_root parameter not provided or invalid."
     emergency_shell
 fi
 
+if [ -z "$overlay_lower_device" ]; then
+    echo "Error: overlay_lower parameter not provided."
+    emergency_shell
+fi
+
+# --- Mount SquashFS ---
 
 if [ ! -b "$squash_device" ]; then
     echo "Error: SquashFS device '$squash_device' does not exist!"
     emergency_shell
 fi
 
-mkdir -p /mnt1 /mnt /squash || { echo "Failed to create directories"; emergency_shell; }
 mount "$squash_device" /mnt1 || { echo "Failed to mount $squash_device"; emergency_shell; }
-mount /dev/sda2 /mnt || { echo "Failed to mount /dev/sda2"; emergency_shell; }
-
 
 # Check if the SquashFS file exists at the specified path
 if [ ! -f "/mnt1$squash_path" ]; then
@@ -148,10 +159,20 @@ fi
 cp "/mnt1$squash_path" /dev/shm/gentoo.squashfs || { echo "Failed to copy SquashFS image"; emergency_shell; }
 mount /dev/shm/gentoo.squashfs /squash || { echo "Failed to mount SquashFS"; emergency_shell; }
 
+# --- Mount Overlay Lower ---
+if [ ! -b "$overlay_lower_device" ]; then
+    echo "Error: Overlay lower device '$overlay_lower_device' does not exist!"
+    emergency_shell
+fi
+
+mount "$overlay_lower_device" /mnt || { echo "Failed to mount $overlay_lower_device"; emergency_shell; }
+
+
+# --- Mount Overlay ---
+
 echo "Mounting overlay..."
 mkdir -p /mnt/persistent/lower /mnt/persistent/work "$NEWROOT"
 mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work "$NEWROOT" || { echo "Failed to mount overlay"; emergency_shell; }
 
 exec /usr/bin/switch_root /sysroot /bin/init
-
 

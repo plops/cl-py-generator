@@ -116,7 +116,7 @@ set root=(hd0,1)
 menuentry "Gentoo from sda1/gentoo.squashfs" {
   insmod part_msdos
   echo 'Loading Linux ...'
-  linux /vmlinuz root=/dev/sda1 console=ttyS0 squash_root=/dev/sda1:/gentoo.squashfs
+  linux /vmlinuz root=/dev/sda1 console=ttyS0 squash_root=/dev/sda1:/gentoo.squashfs overlay_lower=/dev/sda2
   echo 'Loading initial ramdisk ...'
   initrd /initramfs_squash_sda1-x86_64.img
 }
