@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250305 AS portage
+FROM gentoo/portage:20250320 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250310
+FROM gentoo/stage3:nomultilib-systemd-20250317
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -110,7 +110,8 @@ RUN make prepare
 
 
 
-RUN emerge --update --deep --changed-use @world
+RUN emerge -e @world --fetchonly
+RUN emerge -e @world
 RUN emerge --depclean
 
 RUN make -j32
