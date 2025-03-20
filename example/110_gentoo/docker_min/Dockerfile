@@ -177,6 +177,14 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # RUN USE="static" emerge app-shells/dash
 
 
+# I want to mount sdcards
+WORKDIR /usr/src/linux
+RUN ./scripts/config --file .config \
+-m MMC_BLOCK
+RUN make -j32
+RUN make modules_install
+RUN make install
+
 # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
 
 # # The full emerge of all the updated packet took 2224 seconds

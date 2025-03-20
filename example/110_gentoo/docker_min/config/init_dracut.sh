@@ -100,28 +100,58 @@ fi
 # udevadm trigger --type=devices --action=add > /dev/null 2>&1
 
 
-mkdir -p /mnt1 /mnt /squash 
-# Check if /dev/sda1 exists.
-if [ ! -b /dev/sda1 ]; then
-    echo "Error: /dev/sda1 does not exist!"
+# The following loop iterates through the kernel parameters.
+# It specifically looks for the squash_root parameter.
+# It uses IFS=':' read -r squash_device squash_path <<< "$squash_root_param" to 
+# split the parameter value into the device and path components. This is a robust 
+# way to handle the colon separator.
+
+# --- Parse Kernel Command Line for squash_root ---
+
+squash_device=""
+squash_path=""
+
+# Read kernel parameters from /proc/cmdline
+for param in $(cat /proc/cmdline); do
+    case "$param" in
+        squash_root=*)
+            squash_root_param="${param#squash_root=}"
+            IFS=':' read -r squash_device squash_path <<< "$squash_root_param"
+            ;;
+    esac
+done
+
+# --- Validate and Mount SquashFS ---
+if [ -z "$squash_device" ] || [ -z "$squash_path" ]; then
+    echo "Error: squash_root parameter not provided or invalid."
     emergency_shell
 fi
 
-mount /dev/sda1 /mnt1 || { echo "Failed to mount /dev/sda1"; emergency_shell; }
-mount /dev/sda2 /mnt || { echo "Failed to mount /dev/sda1"; emergency_shell; }
 
-# Check if /mnt/gentoo.squashfs exists.
-if [ ! -f /mnt1/gentoo.squashfs ]; then
-   echo "Error: /mnt1/gentoo.squashfs does not exist!"
+if [ ! -b "$squash_device" ]; then
+    echo "Error: SquashFS device '$squash_device' does not exist!"
     emergency_shell
 fi
 
-cp /mnt1/gentoo.squashfs /dev/shm/gentoo.squashfs || { echo "Failed to copy /mnt1/gentoo.squashfs"; emergency_shell; }
-mount /dev/shm/gentoo.squashfs /squash || { echo "Failed to mount /dev/shm/gentoo.squashfs"; emergency_shell; }
+mkdir -p /mnt1 /mnt /squash || { echo "Failed to create directories"; emergency_shell; }
+mount "$squash_device" /mnt1 || { echo "Failed to mount $squash_device"; emergency_shell; }
+mount /dev/sda2 /mnt || { echo "Failed to mount /dev/sda2"; emergency_shell; }
+
+
+# Check if the SquashFS file exists at the specified path
+if [ ! -f "/mnt1$squash_path" ]; then
+    echo "Error: SquashFS file not found at /mnt1$squash_path"
+    emergency_shell
+fi
+
+# Copy and mount SquashFS image
+cp "/mnt1$squash_path" /dev/shm/gentoo.squashfs || { echo "Failed to copy SquashFS image"; emergency_shell; }
+mount /dev/shm/gentoo.squashfs /squash || { echo "Failed to mount SquashFS"; emergency_shell; }
 
 echo "Mounting overlay..."
 mkdir -p /mnt/persistent/lower /mnt/persistent/work "$NEWROOT"
 mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work "$NEWROOT" || { echo "Failed to mount overlay"; emergency_shell; }
 
-
 exec /usr/bin/switch_root /sysroot /bin/init
+
+
