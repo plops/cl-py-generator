@@ -15,7 +15,7 @@ def list_firmware_files_glob(directory="/usr/lib/firmware"):
         A list of file paths.
     """
     all_files = glob.glob(os.path.join(directory, "**/*"), recursive=True)
-    #all_files = [f for f in all_files if os.path.isfile(f)] #filter out directories
+    all_files = [f for f in all_files if os.path.isfile(f)] #filter out directories
 
     # Create exclusion patterns using glob wildcards
     exclusion_patterns_glob = [
