@@ -185,6 +185,35 @@ RUN make -j32
 RUN make modules_install
 RUN make install
 
+COPY config/list_files.py /usr/bin/list_files.py
+RUN chmod a+x /usr/bin/list_files.py
+RUN python /usr/bin/list_files.py > /list_files.txt
+
+# Add additional programs to world
+COPY config/world.2 /
+COPY config/package.use.2 /
+RUN cat /world.2 >> /var/lib/portage/world
+RUN cat /package.use.2 >> /etc/portage/package.use/packag.use
+RUN emerge --update --deep --changed-use @world --fetchonly
+RUN emerge --update --deep --changed-use @world
+
+# 622MB compressed, 2.1GB uncompressed, 7min for compilation of world.2
+
+# COPY config/world.3 /
+# COPY config/package.use.3 /
+# COPY config/package.license.3 /
+# COPY config/package.accept_keywords.3 /
+# RUN cat /world.3 >> /var/lib/portage/world
+# RUN cat /package.use.3 >> /etc/portage/package.use/package.use
+# RUN cat /package.license.3 >> /etc/portage/package.license
+# RUN cat /package.accept_keywords.3 >> /etc/portage/package.accept_keywords/package.accept_keywords
+# #RUN emerge --update --deep --changed-use @world --fetchonly
+# #RUN emerge --update --deep --changed-use @world
+# #RUN emerge -v www-client/chromium
+# RUN emerge dev-util/clion
+
+
+
 # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
 
 # # The full emerge of all the updated packet took 2224 seconds
@@ -236,8 +265,6 @@ mnt/ \
 mnt2/ \
 mnt4/ \
 mnt5/ \
-usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
-usr/lib/firmware/{iwlwifi,phanfw}* \
 var/tmp \
 initramfs-with-squashfs.img \
 usr/lib64/libQt*.a \
