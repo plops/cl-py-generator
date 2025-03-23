@@ -224,26 +224,27 @@ media-video/ffmpeg X dav1d encode gpl libdrm opus pulseaudio static-libs threads
 media-libs/libvpx highbitdepth threads -doc postproc -static-libs -test
 gnome-base/librsvg vala -debug -gtk-doc introspection
 EOF
-
-# 
-# RUN echo "dev-libs/glib dbus elf mime xattr -debug -doc introspection -selinux -static-libs -sysprof -systemtap -test -utils
-# x11-libs/gdk-pixbuf -gif -gtk-doc introspection -jpeg -test -tif" >> /etc/portage/package.use/package.use
-# RUN echo "www-client/firefox X -clang -gmp-autoupdate jumbo-build system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-webp -telemetry -dbus -debug -eme-free -gnome-shell -hardened -hwaccel -jack -libproxy -openh264 -pgo pulseaudio -selinux -sndio -system-png -wasm-sandbox -wayland -wifi" >> /etc/portage/package.use/package.use
-# RUN echo "media-video/ffmpeg X dav1d encode gpl libdrm opus pulseaudio static-libs threads vaapi vulkan x264 -alsa -amf -amr -amrenc -appkit -bluray -bs2b -bzip2 -cdio -chromaprint -chromium -codec2 -cpudetection (-cuda) -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gnutls -gsm -hardcoded-tables -iconv -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma (-mipsdspr1) (-mipsdspr2) (-mipsfpu) -modplug -mp3 -network -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic -postproc (-qsv) -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -webp -x265 -xvid -zeromq -zimg zlib -zvbi" >> /etc/portage/package.use/package.use
-# RUN echo "media-libs/libvpx highbitdepth threads -doc postproc -static-libs -test" >> /etc/portage/package.use/package.use
-# RUN echo "gnome-base/librsvg vala -debug -gtk-doc introspection" >> /etc/portage/package.use/package.use
 RUN emerge -v www-client/firefox
 
-# 
-#net-wireless/iwgtk
-# net-wireless/blueman \
-# www-client/firefox-bin
-
-
-# RUN emerge --update --deep --changed-use @world --fetchonly
-# RUN emerge --update --deep --changed-use @world
-
 # 622MB compressed, 2.1GB uncompressed, 7min for compilation of world.2
+
+# 32 minutes for the firefox build
+# 847MB compressed, 2.9GB uncompressed
+
+RUN emerge --unmerge virtual/rust dev-lang/rust-bin
+RUN emerge --depclean
+
+RUN emerge \
+ net-wireless/iwgtk
+
+#net-wireless/blueman # need gtk 3.24
+
+ #83 37.29 Filesystem size 876395.57 Kbytes (855.86 Mbytes)
+#83 37.29       29.95% of uncompressed filesystem size (2926143.56 Kbytes)
+
+RUN eclean-dist
+RUN eclean-pkg
+
 
 # COPY config/world.3 /
 # COPY config/package.use.3 /
@@ -256,9 +257,21 @@ RUN emerge -v www-client/firefox
 # #RUN emerge --update --deep --changed-use @world --fetchonly
 # #RUN emerge --update --deep --changed-use @world
 # #RUN emerge -v www-client/chromium
-# RUN emerge dev-util/clion
 
+RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN echo "dev-util/clion ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN echo "dev-util/clion IDEA" >> /etc/portage/package.license 
+RUN emerge dev-util/clion
 
+#89 87.70 Filesystem size 2149035.79 Kbytes (2098.67 Mbytes)
+#89 87.70       31.35% of uncompressed filesystem size (6855828.81 Kbytes)
+# 5min24s to install clion (and recompress)
+
+RUN emerge  dev-debug/gdb
+
+#90 86.38 Filesystem size 2154112.32 Kbytes (2103.63 Mbytes)
+#90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)
+# 2min35s to install gdb (and recompress)
 
 # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
 
