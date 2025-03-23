@@ -273,6 +273,20 @@ RUN emerge  dev-debug/gdb
 #90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)
 # 2min35s to install gdb (and recompress)
 
+
+# iwd complains about missing DES support
+
+WORKDIR /usr/src/linux\
+RUN ./scripts/config --file .config \
+-m CRYPTO_USER_API_SKCIPHER \
+-m CRYPTO_ECB \
+-m CRYPTO_CBC \
+-m CRYPTO_DES \
+-m CRYPTO_DES3_EDE_X86_64
+RUN make -j32
+RUN make modules_install
+RUN make install
+
 # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
 
 # # The full emerge of all the updated packet took 2224 seconds
