@@ -193,9 +193,55 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 COPY config/world.2 /
 COPY config/package.use.2 /
 RUN cat /world.2 >> /var/lib/portage/world
-RUN cat /package.use.2 >> /etc/portage/package.use/packag.use
-RUN emerge --update --deep --changed-use @world --fetchonly
-RUN emerge --update --deep --changed-use @world
+RUN cat /package.use.2 >> /etc/portage/package.use/package.use
+RUN emerge \
+app-editors/emacs \
+app-emacs/magit \
+app-emacs/paredit \
+app-misc/tmux \
+dev-lisp/sbcl \
+dev-util/tkdiff \
+net-analyzer/netcat \
+dev-libs/capnproto \
+app-text/mupdf \
+x11-terms/zutty \
+sys-fs/cryptsetup \
+sys-fs/lvm2 \
+media-libs/glfw \
+media-sound/pulseaudio \
+dev-cpp/popl \
+dev-db/sqlite \
+dev-libs/spdlog
+
+# jumbo-build combines files to compile faster but requires more memory
+
+RUN echo "" >> /etc/portage/package.use/package.use
+RUN cat <<EOF >> /etc/portage/package.use/package.use
+dev-libs/glib dbus elf mime xattr -debug -doc introspection -selinux -static-libs -sysprof -systemtap -test -utils
+x11-libs/gdk-pixbuf -gif -gtk-doc introspection -jpeg -test -tif
+www-client/firefox X -clang -gmp-autoupdate jumbo-build system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-webp -telemetry -dbus -debug -eme-free -gnome-shell -hardened -hwaccel -jack -libproxy -openh264 -pgo pulseaudio -selinux -sndio -system-png -wasm-sandbox -wayland -wifi
+media-video/ffmpeg X dav1d encode gpl libdrm opus pulseaudio static-libs threads vaapi vulkan x264 -alsa -amf -amr -amrenc -appkit -bluray -bs2b -bzip2 -cdio -chromaprint -chromium -codec2 -cpudetection (-cuda) -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gnutls -gsm -hardcoded-tables -iconv -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma (-mipsdspr1) (-mipsdspr2) (-mipsfpu) -modplug -mp3 -network -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic -postproc (-qsv) -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -webp -x265 -xvid -zeromq -zimg zlib -zvbi
+media-libs/libvpx highbitdepth threads -doc postproc -static-libs -test
+gnome-base/librsvg vala -debug -gtk-doc introspection
+EOF
+
+# 
+# RUN echo "dev-libs/glib dbus elf mime xattr -debug -doc introspection -selinux -static-libs -sysprof -systemtap -test -utils
+# x11-libs/gdk-pixbuf -gif -gtk-doc introspection -jpeg -test -tif" >> /etc/portage/package.use/package.use
+# RUN echo "www-client/firefox X -clang -gmp-autoupdate jumbo-build system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-webp -telemetry -dbus -debug -eme-free -gnome-shell -hardened -hwaccel -jack -libproxy -openh264 -pgo pulseaudio -selinux -sndio -system-png -wasm-sandbox -wayland -wifi" >> /etc/portage/package.use/package.use
+# RUN echo "media-video/ffmpeg X dav1d encode gpl libdrm opus pulseaudio static-libs threads vaapi vulkan x264 -alsa -amf -amr -amrenc -appkit -bluray -bs2b -bzip2 -cdio -chromaprint -chromium -codec2 -cpudetection (-cuda) -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gnutls -gsm -hardcoded-tables -iconv -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma (-mipsdspr1) (-mipsdspr2) (-mipsfpu) -modplug -mp3 -network -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic -postproc (-qsv) -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -webp -x265 -xvid -zeromq -zimg zlib -zvbi" >> /etc/portage/package.use/package.use
+# RUN echo "media-libs/libvpx highbitdepth threads -doc postproc -static-libs -test" >> /etc/portage/package.use/package.use
+# RUN echo "gnome-base/librsvg vala -debug -gtk-doc introspection" >> /etc/portage/package.use/package.use
+RUN emerge -v www-client/firefox
+
+# 
+#net-wireless/iwgtk
+# net-wireless/blueman \
+# www-client/firefox-bin
+
+
+# RUN emerge --update --deep --changed-use @world --fetchonly
+# RUN emerge --update --deep --changed-use @world
 
 # 622MB compressed, 2.1GB uncompressed, 7min for compilation of world.2
 
