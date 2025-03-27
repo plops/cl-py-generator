@@ -37,11 +37,17 @@
   
   (let ((iflash .1)
 	(oflash .4)
+	(iflashl .075)
+	(oflashl .3)
 	(ipro 1.25)
 	(opro 5))
    (defparameter *models* `(
-			    (:name gemini-2.0-flash-exp :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-lite :input-price ,iflashl :output-price ,oflashl :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-thinking-exp-01-21 :input-price ,iflashl :output-price ,oflashl :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.5-pro-exp-03-25 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
 			    (:name gemini-2.0-pro-exp-02-05 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
+			    (:name gemini-2.0-flash-exp :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
 			    (:name gemini-1.5-pro-exp-0827 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
 			    (:name gemini-2.0-flash-lite-preview-02-05 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
 			    (:name gemini-2.0-flash-thinking-exp-01-21 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
@@ -1551,12 +1557,13 @@ use of these things")
 4. **Click the 'Summarize' button.** The summary with timestamps will be generated.
 
 ")
-			   #+simple (string3 "###### To use the YouTube summarizer:
+			   #+simple (string3 "**Get Your YouTube Summary:**
 
-1. **Copy the YouTube video link.**
-2. **Paste the link into the provided input field.**
-3. **Click the 'Summarize' button.** The summary with timestamps will be generated.
+1.  **Copy** the video link.
+2.  **Paste** it into the input field.
+3.  **Click** 'Summarize' to get your summary with timestamps.
 
+**For videos longer than 20 minutes:** Select the **Pro model**. Note that Pro usage is limited daily. If the limit is reached, use the **"Copy Prompt"** button and paste the prompt into your own AI tool (ChatGPT, Claude, Google AI Studio, etc.).
 ")
 			  
 			   #-dl (string3 "###### **Prepare the Input Text from YouTube:**
@@ -2063,8 +2070,8 @@ Output tokens: {output_tokens}")
 		(print (fstring "line 1953 unknown exception {e}"))))
 	      (time.sleep .1))
 	 (print (string "row did not appear"))
-	 (return -1))
-
+	 (return -1)
+)
        " "
        (def get_prompt (summary)
 	 (declare (type Summary summary)
