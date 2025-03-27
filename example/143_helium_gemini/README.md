@@ -1,15 +1,15 @@
-| file              | comment                                                                                                                   |
-|-------------------+---------------------------------------------------------------------------------------------------------------------------|
-| captions.py       | download captions with youtube api (an example), not working for third party videos                                       |
-| gapi.py           | grpc based generativeai interface (can't install this on vm)                                                              |
-| gapi2.py          | REST based gemini transcript summarization                                                                                |
-| get_transcript.py | another failed attempt to get video transcripts                                                                           |
-| run.py            | an attempt to use gemini via selenium (very slow and brittle for large transcripts)                                       |
-| selen_comments.py | use selenium to download all my youtube comments                                                                          |
-| gen01             | try to generate fasthtml interface with storage in files                                                                  |
-| gen02             | try to generate fasthtml interface with storage in sqlite based on gapi2.py and 144 (this is what i run most of the time) |
-| gen03             | experiment with google-genai  and yt-dlp                                                                                  |
-| gen04             | split up 02 for testing                                                                                                   |
+| file              | comment                                                                             |
+|-------------------+-------------------------------------------------------------------------------------|
+| captions.py       | download captions with youtube api (an example), not working for third party videos |
+| gapi.py           | grpc based generativeai interface (can't install this on vm)                        |
+| gapi2.py          | REST based gemini transcript summarization                                          |
+| get_transcript.py | another failed attempt to get video transcripts                                     |
+| run.py            | an attempt to use gemini via selenium (very slow and brittle for large transcripts) |
+| selen_comments.py | use selenium to download all my youtube comments                                    |
+| gen01             | try to generate fasthtml interface with storage in files                            |
+| gen02             | try to generate fasthtml interface with storage in sqlite based on gapi2.py and 144 |
+| gen03             | experiment with google-genai  and yt-dlp                                            |
+| gen04             | split up 02 for testing   (this is what i run most of the time)                     |
 
 
 # Create a proxy 
