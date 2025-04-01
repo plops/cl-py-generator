@@ -43,7 +43,7 @@ documentation="""**Get Your YouTube Summary:**
 2.  **Paste** it into the input field.
 3.  **Click** 'Summarize' to get your summary with timestamps.
 
-**For videos longer than 20 minutes:** Select the **Pro model**. Note that Pro usage is limited daily. If the limit is reached, use the **Copy Prompt** button and paste the prompt into your own AI tool (ChatGPT, Claude, Google AI Studio, etc.)."""
+**For videos longer than 20 minutes:** Select a **Pro model**. Note that Pro usage is limited daily. If the limit is reached, use the **Copy Prompt** button and paste the prompt into your own AI tool (ChatGPT, Claude, Google AI Studio, etc.)."""
 def get_transcript(url):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     youtube_id=validate_youtube_url(url)
@@ -185,9 +185,9 @@ def wait_until_row_exists(identifier):
  
 def get_prompt(summary: Summary)->str:
     r"""Generate prompt from a given Summary object. It will use the contained transcript."""
-    prompt=f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+    prompt=f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding abstract and summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
+**Please give an abstract of the transcript and then summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
 
 Example Input: 
 {g_example_input}

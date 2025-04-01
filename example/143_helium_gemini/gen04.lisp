@@ -478,7 +478,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 2.  **Paste** it into the input field.
 3.  **Click** 'Summarize' to get your summary with timestamps.
 
-**For videos longer than 20 minutes:** Select the **Pro model**. Note that Pro usage is limited daily. If the limit is reached, use the **Copy Prompt** button and paste the prompt into your own AI tool (ChatGPT, Claude, Google AI Studio, etc.)."))
+**For videos longer than 20 minutes:** Select a **Pro model**. Note that Pro usage is limited daily. If the limit is reached, use the **Copy Prompt** button and paste the prompt into your own AI tool (ChatGPT, Claude, Google AI Studio, etc.)."))
 
 	 	 
 	 #+dl
@@ -815,9 +815,9 @@ Output tokens: {output_tokens}")
 	   (declare (type Summary summary)
 		    (values str))
 	   (rstring3 "Generate prompt from a given Summary object. It will use the contained transcript.")
-	   (setf prompt (fstring3 "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+	   (setf prompt (fstring3 "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding abstract and summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
 
-**Please summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
+**Please give an abstract of the transcript and then summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
 
 Example Input: 
 {g_example_input}
