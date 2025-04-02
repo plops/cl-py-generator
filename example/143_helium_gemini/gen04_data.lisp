@@ -34,8 +34,18 @@
 * **18:11 Possible Issues:** The video creator noted some potential issues with the camera, including image smearing. 
 * **18:11 Limited Dynamic Range:** The camera's sensor has a limited dynamic range, making it potentially challenging to capture scenes with a wide range of brightness levels.
 * **11:45 Low Runtime:** Internal data suggests the system has seen minimal usage, with only 20 minutes of recorded runtime for the green LED.
-* **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.")
+* **20:38 Availability on eBay:** Both the illuminator and camera are expected to be listed for sale on eBay.
+")
 
+(defparameter *example-output-abstract*
+  "**Abstract:**
+
+This video presents Part 2 of a teardown focusing on the optical components of a Fluidigm Polaris biotechnology instrument, specifically the multi-wavelength illuminator and the high-resolution CCD camera.
+
+The Lumen Dynamics illuminator unit is examined in detail, revealing its construction using multiple high-power LEDs (430nm, 475nm, 520nm, 575nm, 630nm) combined via dichroic mirrors and filters. A square fiber optic rod is used to homogenize the light. A notable finding is the use of a phosphor-converted white LED filtered to achieve the 575nm output. The unit features simple TTL activation for each color, conduction cooling, and internal homogenization optics. Analysis of its EEPROM suggests extremely low operational runtime.
+
+The camera module teardown showcases a 50 Megapixel ON Semiconductor KAF-50100 CCD sensor with micro-lenses, cooled by a multi-stage Peltier stack. The control electronics include an FPGA and a USB interface. Significant post-manufacturing modifications (\"bodges\") are observed on the camera's circuit boards. Basic functional testing using vendor software and a pinhole lens confirms image capture but reveals prominent vertical streaking artifacts, the cause of which remains uncertain (potential overload, readout artifact, or fault).
+")
 
 (defparameter *example-output-with-comments*
   "**Exploring the Fluidigm Polaris: A Detailed Look at its High-End Optics and Camera System**

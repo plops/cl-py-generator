@@ -391,6 +391,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	  (comments "Read the demonstration transcript and corresponding summary from disk")
 	  ,@(loop for e in `((:var g_example_input :data ,*example-input* :fn example_input.txt)
 			     (:var g_example_output :data ,*example-output* :fn example_output.txt)
+			     (:var g_example_output_abstract :data ,*example-output-abstract* :fn example_output_abstract.txt)
 			     )
 		  collect
 		  (destructuring-bind (&key var data fn) e
@@ -822,6 +823,7 @@ Output tokens: {output_tokens}")
 Example Input: 
 {g_example_input}
 Example Output:
+{g_example_output_abstract}
 {g_example_output}
 Here is the real transcript. Please summarize it: 
 {(summary.transcript)}"))

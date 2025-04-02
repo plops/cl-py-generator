@@ -18,6 +18,8 @@ with open("example_input.txt") as f:
     g_example_input=f.read()
 with open("example_output.txt") as f:
     g_example_output=f.read()
+with open("example_output_abstract.txt") as f:
+    g_example_output_abstract=f.read()
  
 # Read the gemini api key from disk
 with open("api_key.txt") as f:
@@ -192,6 +194,7 @@ def get_prompt(summary: Summary)->str:
 Example Input: 
 {g_example_input}
 Example Output:
+{g_example_output_abstract}
 {g_example_output}
 Here is the real transcript. Please summarize it: 
 {(summary.transcript)}"""
