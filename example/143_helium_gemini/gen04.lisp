@@ -21,7 +21,8 @@
 ;; [X] get transcript from link
 ;; [ ] allow concurrent summary downloads
 ;; [ ] OAuth
-;; [ ] Add example with abstract infront of summary
+;; [X] Add example with abstract infront of summary
+;; [ ] Store the thought process of the model in the database
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
