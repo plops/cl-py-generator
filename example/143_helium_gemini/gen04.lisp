@@ -36,12 +36,14 @@
 				     :dl ;; download transcript from link
 				     :simple ;; use very few gui elements
 				     :auth ;; oauth login (requires AUTH_CLIENT_{ID,SECRET} in env)
+				     :optional-abstract ;; user can disable abstract generation
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
 					      ;:simple
 					      ;:dl
 					      :auth
+					      :optional-abstract
 					      )))
 
 (progn
@@ -123,6 +125,7 @@
 		    (:name include_comments :type bool)
 		    (:name include_timestamps :type bool)
 		    (:name include_glossary :type bool)
+		    #+optional-abstract (:name generate_abstract :type bool)
 		    (:name output_language :type str)
 		    ,@(loop for e in `(summary timestamps)
 			    appending
@@ -475,7 +478,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 
 
 	 (setf documentation 
-	       #+simple (string3 "**Get Your YouTube Summary:**
+	       (string3 "**Get Your YouTube Summary:**
 
 1.  **Copy** the video link.
 2.  **Paste** it into the input field.
@@ -585,6 +588,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		    ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
 						   (include_timestamps "Include Timestamps" True)
 						   (include_glossary "Include Glossary" False)
+						   #+optional-abstract (generate_abstract "Generate Abstract" True)
 						   )
 			    collect
 			    `(Div
