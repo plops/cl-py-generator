@@ -21,6 +21,7 @@
 ;; [X] get transcript from link
 ;; [ ] allow concurrent summary downloads
 ;; [ ] OAuth
+;; [ ] Add example with abstract infront of summary
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
