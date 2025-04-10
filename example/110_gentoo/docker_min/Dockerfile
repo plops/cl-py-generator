@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250320 AS portage
+FROM gentoo/portage:20250407 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250317
+FROM gentoo/stage3:nomultilib-systemd-20250407
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -28,7 +28,7 @@ RUN emerge --update --deep --changed-use @world --fetchonly
 
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
-ENV KVER_PURE=6.13.5
+ENV KVER_PURE=6.12.21
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
@@ -38,7 +38,8 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config-${KVER_PURE} .config
+#COPY config/config-${KVER_PURE} .config
+COPY config/config-6.13.5 .config
 
 
 RUN make olddefconfig
@@ -103,9 +104,16 @@ RUN ./scripts/config --file .config \
 -e SQUASHFS_ZSTD \
 -d SQUASHFS_4K_DEVBLK_SIZE \
 -d SQUASHFS_EMBEDDED \
+-m MMC_BLOCK \
+-m CRYPTO_USER_API_SKCIPHER \
+-m CRYPTO_ECB \
+-m CRYPTO_CBC \
+-m CRYPTO_DES \
+-m CRYPTO_DES3_EDE_X86_64 \
 --set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
 -m ENCRYPTED_KEYS \
 --set-val SECURITY_TOMOYO_POLICY_LOADER "/usr/bin/tomoyo-init"
+# crypto_des is needed for iwd
 RUN make prepare
 
 
@@ -176,14 +184,6 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 
 # RUN USE="static" emerge app-shells/dash
 
-
-# I want to mount sdcards
-WORKDIR /usr/src/linux
-RUN ./scripts/config --file .config \
--m MMC_BLOCK
-RUN make -j32
-RUN make modules_install
-RUN make install
 
 COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
@@ -273,19 +273,27 @@ RUN emerge  dev-debug/gdb
 #90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)
 # 2min35s to install gdb (and recompress)
 
-
-# iwd complains about missing DES support
-
-WORKDIR /usr/src/linux\
-RUN ./scripts/config --file .config \
--m CRYPTO_USER_API_SKCIPHER \
--m CRYPTO_ECB \
--m CRYPTO_CBC \
--m CRYPTO_DES \
--m CRYPTO_DES3_EDE_X86_64
-RUN make -j32
-RUN make modules_install
-RUN make install
+RUN echo "" >> /etc/portage/package.use/package.use
+RUN cat <<EOF >> /etc/portage/package.use/package.use
+net-libs/nodejs inspector
+sys-libs/zlib minizip
+media-libs/harfbuzz icu
+dev-libs/libxml2 icu
+www-client/chromium X -hangouts official -proprietary-codecs -screencast system-harfbuzz system-png system-zstd -wayland -widevine -bindist -bundled-toolchain -cups -custom-cflags -debug -ffmpeg-chromium gtk4 -headless -kerberos -pax-kernel -pgo -pulseaudio -qt6 -selinux -system-icu -test -vaapi
+EOF
+RUN emerge www-client/chromium
+#87 5223.1  * ERROR: www-client/chromium-135.0.7049.52::gentoo failed (compile phase):
+#87 5223.1  *   ninja -v -j33 -l0 -C out/Release chrome chromedriver chrome_sandbox failed
+#87 5223.1  *
+#87 5223.1  * Call stack:
+#87 5223.1  *     ebuild.sh, line  136:  Called src_compile
+#87 5223.1  *   environment, line 4489:  Called chromium_compile
+#87 5223.1  *   environment, line 1745:  Called eninja '-C' 'out/Release' 'chrome' 'chromedriver' 'chrome_sandbox'
+#87 5223.1  *   environment, line 2118:  Called die
+#87 5223.1  * The specific snippet of code:
+#87 5223.1  *       "$@" || die -n "${*} failed"
+#87 ERROR: process "/bin/sh -c emerge www-client/chromium" did not complete successfully: exit code: 1
+# failed after real    87m4.507s
 
 # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
 
