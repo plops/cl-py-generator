@@ -85,7 +85,7 @@ for input_path in args.input_paths:
     elif path_obj.is_file() and path_obj.suffix == ".pdf":
         pdf_files.append(path_obj)
 
-
+print(f"len(pdf_files={len(pdf_files)}")
 
 
 with Pool() as pool:

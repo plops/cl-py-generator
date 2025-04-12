@@ -45,7 +45,20 @@ documentation="""**Get Your YouTube Summary:**
 2.  **Paste** it into the input field.
 3.  **Click** 'Summarize' to get your summary with timestamps.
 
-**For videos longer than 20 minutes:** Select a **Pro model**. Note that Pro usage is limited daily. If the limit is reached, use the **Copy Prompt** button and paste the prompt into your own AI tool (ChatGPT, Claude, Google AI Studio, etc.)."""
+**Important Note on Subtitles:**
+
+*   Automatic summary generation requires **English subtitles** on the video.
+*   **If the video has no English subtitles, the automatic download of the transcript using the link will fail.**
+*   **Manual Alternative:** You can still get a summary!
+    1.  Find the transcript on YouTube (usually below the video description when viewed on a desktop browser).
+    2.  **Copy** the entire transcript text manually. (Need help finding/copying? Watch the 'Demo Video' linked at the top right of this page).
+    3.  **(Optional)** Add any additional instructions *after* the transcript (e.g., 'Translate the summary to German.', 'Add a glossary of medical terms and jargon to the summary.').
+
+**For videos longer than 20 minutes:**
+
+*   Select a **Pro model** for automatic summarization. Note that Pro usage is limited daily.
+*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
+"""
 def get_transcript(url):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     youtube_id=validate_youtube_url(url)
