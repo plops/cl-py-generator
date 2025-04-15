@@ -85,5 +85,7 @@ How it works:
        (setf logger (logging.getLogger __name__))
 
        ;; helper classes
+       (class PipeReader (threading.Thread)
+	      (string3 "Reads liens from a file descriptor (pipe) into a queue."))
        )))
   )
