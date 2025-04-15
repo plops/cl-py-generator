@@ -49,3 +49,34 @@ logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 logger=logging.getLogger(__name__)
 class PipeReader(threading.Thread):
     """Reads liens from a file descriptor (pipe) into a queue."""
+    def __init__(self, pipe_fd, output_queue: queue.Queue, prefix: str = ""):
+        super().__init__(daemon=True)
+        # Daemon thread exit when main thread exits
+        self._pipe_fd=pipe_fd
+        self.output_queue=output_queue
+        self._prefix=prefix
+        self._running=True
+    def run(self):
+        """Read lines until the pipe closes."""
+        try:
+            for line in iter(self._pipe_fd.readline, b""):
+                if ( not(self._running) ):
+                    break
+                sef.output_queue.put(f"{self._prefix} {line.decode(errors='relpace').strip()}")
+            # Signal EOF
+            self.output_queue.put(None)
+        except Exception as e:
+            logger.error(f"Error reading pipe: {e}")
+            # Signal EOF on error
+            self.output_queue.put(None)
+        finally:
+            try:
+                self._pipe_fd.close()
+            except OSError:
+                # Ignore errors closing already closed pipe
+                pass
+    def stop(self):
+        self._running(False)
+    def join(self, timeout = None):
+        self.stop()
+        super().join(timeout)

@@ -86,6 +86,43 @@ How it works:
 
        ;; helper classes
        (class PipeReader (threading.Thread)
-	      (string3 "Reads liens from a file descriptor (pipe) into a queue."))
+	      (string3 "Reads liens from a file descriptor (pipe) into a queue.")
+	      (def __init__ (self pipe_fd output_queue &key (prefix (string "")))
+		(declare (type queue.Queue output_queue)
+			 (type str prefix))
+		(dot (super)
+		     (__init__ :daemon True))
+		(comments "Daemon thread exit when main thread exits")
+		(setf self._pipe_fd pipe_fd
+		      self.output_queue output_queue
+		      self._prefix prefix
+		      self._running True))
+	      (def run (self)
+		(string3 "Read lines until the pipe closes.")
+		(try
+		 (do0
+		  (for (line (iter self._pipe_fd.readline
+				   (string-b "")))
+		       (unless self._running
+			 break)
+		       (sef.output_queue.put (fstring "{self._prefix} {line.decode(errors='relpace').strip()}")))
+		  (comments "Signal EOF")
+		  (self.output_queue.put None))
+		 ("Exception as e"
+		  (logger.error (fstring "Error reading pipe: {e}"))
+		  (comments "Signal EOF on error")
+		  (self.output_queue.put None))
+		 (finally
+		  (try
+		   (self._pipe_fd.close)
+		   ("OSError"
+		    (comments "Ignore errors closing already closed pipe")
+		    pass)))))
+	      (def stop (self)
+		(self._running False))
+	      (def join (self &key (timeout None))
+		(self.stop)
+		(dot (super) (join timeout)))
+	      )
        )))
   )
