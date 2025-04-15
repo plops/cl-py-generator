@@ -124,5 +124,51 @@ How it works:
 		(self.stop)
 		(dot (super) (join timeout)))
 	      )
+
+       ;; core logic
+       (def run_self_on_remote (remote_host_spec target_port)
+	 (declare (type str remote_host_spec)
+		  (type int target_port)
+		  (values None))
+	 (string3 "
+    Executes this script on the remote host via SSH.
+
+    Args:
+        remote_host_spec: SSH destination (e.g., user@hostname).
+        target_port: The UDP port to use for punching.
+")
+	 (setf script_path (os.path.abspath __file__))
+	 (comments "Use '-T' for non-interactive session, disable pseudo-tty allocation"
+		   "Pass script via stdin using '-'"
+		   "Pass port and a flag '--remote-instance' to indicate server-side execution")
+	 (setf ssh_command (list (string "ssh")
+				 (string "-T")
+				 remote_host_spec
+				 (string "python3")
+				 (string "-")
+				 (str target_port)
+				 (string "--remote-instance")))
+	 (logger.info (fstring "Attempting to start remote puncher via SSH: {' '.join(ssh_command)}"))
+	 (try
+	  (do0
+	   (with (as (open script_path (string "rb"))
+		     script_file)
+		 (setf process (subprocess.Popen
+				ssh_command
+				:stdin script_file
+				:stdout subprocess.PIPE
+				:stderr subprocess.PIPE)))
+	   (setf "log_queue: queue.Queue[Optional[str]]"
+		 (queue.Queue))
+	   (setf stdout_reader (PipeReader process.stdout
+					   log_queue
+					   :prefix (string "[REMOTE STDOUT] ")))
+	   (setf stderr_reader (PipeReader process.stdout
+					   log_queue
+					   :prefix (string "[REMOTE STDERR] ")))
+	   (stdout_reader.start)
+	   (stderr_reader.start)
+	   (setf active_readers 2)))
+	 )
        )))
   )

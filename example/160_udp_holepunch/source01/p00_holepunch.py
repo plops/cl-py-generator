@@ -80,3 +80,26 @@ class PipeReader(threading.Thread):
     def join(self, timeout = None):
         self.stop()
         super().join(timeout)
+def run_self_on_remote(remote_host_spec: str, target_port: int)->None:
+    """
+    Executes this script on the remote host via SSH.
+
+    Args:
+        remote_host_spec: SSH destination (e.g., user@hostname).
+        target_port: The UDP port to use for punching.
+"""
+    script_path=os.path.abspath(__file__)
+    # Use '-T' for non-interactive session, disable pseudo-tty allocation
+# Pass script via stdin using '-'
+# Pass port and a flag '--remote-instance' to indicate server-side execution
+    ssh_command=["ssh", "-T", remote_host_spec, "python3", "-", str(target_port), "--remote-instance"]
+    logger.info(f"Attempting to start remote puncher via SSH: {' '.join(ssh_command)}")
+    try:
+        with open(script_path, "rb") as script_file:
+            process=subprocess.Popen(ssh_command, stdin=script_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        log_queue: queue.Queue[Optional[str]]=queue.Queue()
+        stdout_reader=PipeReader(process.stdout, log_queue, prefix="[REMOTE STDOUT] ")
+        stderr_reader=PipeReader(process.stdout, log_queue, prefix="[REMOTE STDERR] ")
+        stdout_reader.start()
+        stderr_reader.start()
+        active_readers=2
