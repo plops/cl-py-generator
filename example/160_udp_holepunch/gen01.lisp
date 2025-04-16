@@ -372,7 +372,7 @@ How it works:
 			      :help (string "The UDP port number for hole punching (must be same on both ends)."))
 	 (parser.add_argument (string "-r") (string "--remote-instance")
 			      :action (string "store_true")
-			      :help "Internal flag: Indicates this script instance is running on the remote server.")
+			      :help (string "Internal flag: Indicates this script instance is running on the remote server."))
 	 (parser.add_argument (string "-v")
 			      (string "--verbose")
 			      :action (string "store_true")
