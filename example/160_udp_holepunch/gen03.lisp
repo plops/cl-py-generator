@@ -9,7 +9,7 @@
 
 (let ()
   (defparameter *project* "160_udp_holepunch")
-  (defparameter *idx* "02") 
+  (defparameter *idx* "03") 
   (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
@@ -37,7 +37,7 @@
   (let* ((notebook-name "run_self_on_remote")
 	 )
     (write-source
-     (format nil "~a/source01/p~a_~a" *path* "02" notebook-name)
+     (format nil "~a/source01/p~a_~a" *path* "03" notebook-name)
      `(do0
        "#!/usr/bin/env python3"
        

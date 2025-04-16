@@ -248,7 +248,7 @@ def main():
     parser=argparse.ArgumentParser(description="UDP Hole Punching Tool. Runs locally and initiates remote execution via SSH.", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-H", "--remote_spec", nargs="?", help="Remote server specification (e.g., usre@hostname.com or IP). Required unless running as --remote-instance.")
     parser.add_argument("-p", "--port", type=int, help="The UDP port number for hole punching (must be same on both ends).")
-    parser.add_argument("-r", "--remote-instance", action="store_true", help=Internal flag: Indicates this script instance is running on the remote server.)
+    parser.add_argument("-r", "--remote-instance", action="store_true", help="Internal flag: Indicates this script instance is running on the remote server.")
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose debug logging.")
     args=parser.parse_args()
     if ( args.verbose ):
