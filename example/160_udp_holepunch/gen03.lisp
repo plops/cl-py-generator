@@ -34,15 +34,36 @@
                   (setf ,name ,val))))))
 
   
-  (let* ((notebook-name "run_self_on_remote")
+  (let* ((notebook-name "simultaneous_packet")
 	 )
     (write-source
      (format nil "~a/source01/p~a_~a" *path* "03" notebook-name)
      `(do0
        "#!/usr/bin/env python3"
        
-       (imports (subprocess sys os))
+       (imports (subprocess sys os socket))
 
+       ;; curl ifconfig.me
+       (setf port 60001
+	     msg (string-b A)
+	     client_ip (string "24.40.61.10")
+	     server_ip (string "3.5.1.16")
+	     any (string "0.0.0.0"))
+       
+       ;; mosh-server new -p 60001
+       ;; MOSH_KEY=... mosh-client 193.8.40.126 60001
+       (def emit (src dst)
+  (try
+   (do0
+    (setf sock (socket.socket
+		socket.AF_INET
+		socket.SOCK_DGRAM))
+    (sock.bind (tuple src port))
+    (sock.sendto msg (tuple dst port)))
+   ("Exception as e"
+    (print (fstring "exception {e}")))
+   (finally (sock.close))))
+       
        (def run_self_on_remote (host)
 	 (with (as (open __file__ (string "rb"))
 		   f)
@@ -51,7 +72,7 @@
 			 host
 			 (string "python3")
 			 (string "-")
-			 ;(str port)
+					;(str port)
 			 ))
 	 (print (fstring "run {cmd}"))
 	 (setf result
@@ -71,11 +92,13 @@
 		   (string "-"))
 	       (do0
 		(comments "remote running script name is '-'")
-		(print (string "remote script")))
+		(print (string "remote script"))
+		(emit any client_ip))
 	       (do0
 		(print (string "local script"))
 		(run_self_on_remote (string "tux")
 				    ;2224
-				    )))
+				    )
+		(emit any server_ip)))
 	   ))))
   )

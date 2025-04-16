@@ -41,28 +41,30 @@
      `(do0
        "#!/usr/bin/env python3"
        
-       (imports (subprocess sys os socket))
-
+       (imports (subprocess sys os socket time))
+       (imports-from (subprocess Popen PIPE DEVNULL))
        ;; curl ifconfig.me
        (setf port 60001
 	     msg (string-b A)
-	     client_ip (string "194.230.161.210")
-	     server_ip (string "193.8.40.126")
+	     client_ip (string "14.40.11.250")
+	     server_ip (string "13.4.0.26")
 	     any (string "0.0.0.0"))
        
        ;; mosh-server new -p 60001
        ;; MOSH_KEY=... mosh-client 193.8.40.126 60001
        (def emit (src dst)
-  (try
-   (do0
-    (setf sock (socket.socket
-		socket.AF_INET
-		socket.SOCK_DGRAM))
-    (sock.bind (tuple src port))
-    (sock.sendto msg (tuple dst port)))
-   ("Exception as e"
-    (print (fstring "exception {e}")))
-   (finally (sock.close))))
+	 (try
+	  (do0
+	   (setf sock (socket.socket
+		       socket.AF_INET
+		       socket.SOCK_DGRAM))
+	   (sock.bind (tuple src port))
+	   (for (i (range 33))
+		(sock.sendto msg (tuple dst port))
+		(time.sleep .1)))
+	  ("Exception as e"
+	   (print (fstring "exception {e}")))
+	  (finally (sock.close))))
        
        (def run_self_on_remote (host)
 	 (with (as (open __file__ (string "rb"))
@@ -75,16 +77,12 @@
 					;(str port)
 			 ))
 	 (print (fstring "run {cmd}"))
-	 (setf result
-	       (subprocess.run
-		cmd
-		:input script_content
-		:capture_output True
-		:check False ;; prevent raising error on non-zero exit
-		:text False
-		))
-	 (print (fstring "remote script {result.returncode}"))
-	 
+	 (setf process (Popen cmd
+			      :stdin PIPE
+			      :stdout DEVNULL
+			      :stderr DEVNULL))
+	 (process.stdin.write script_content)
+	 (process.stdin.close)
 	 )
        (when (== __name__ (string "__main__"))
 	   (print (fstring "start {sys.argv}"))
@@ -96,9 +94,7 @@
 		(emit any client_ip))
 	       (do0
 		(print (string "local script"))
-		(run_self_on_remote (string "tux")
-				    ;2224
-				    )
+		(run_self_on_remote (string "tux"))
 		(emit any server_ip)))
 	   ))))
   )
