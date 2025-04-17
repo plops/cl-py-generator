@@ -645,12 +645,28 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
   navigator.clipboard.writeText(textToCopy);
 }"))
 				 :cls (string "container")))))
+
+	 
+	 
 	 " "
 	 (comments "A pending preview keeps polling this route until we return the summary")
 	 (def generation_preview (identifier)
 	   (setf sid (fstring "gen-{identifier}"))
 	   (setf text (string "Generating ...")
 		 trigger (string #+emulate "" #-emulate "every 1s"))
+	   (do0
+	  (setf price_input (dict
+			     ,@(loop for e in *models*
+				     collect
+				     (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
+				       `((string ,name)
+					 ,input-price)))))
+	  (setf price_output (dict
+			      ,@(loop for e in *models*
+				      collect
+				      (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
+					`((string ,name)
+					  ,output-price))))))
 	   (try
 	    (do0
 	     (setf s (aref summaries identifier))
@@ -658,8 +674,18 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	     (cond
 	       (s.timestamps_done
 		(comments "this is for <= 128k tokens")
+		(setf real_model (dot s model (aref (split (string "|")) 0)))
+		(setf price_input_token_usd_per_mio -1)
+		(setf price_output_token_usd_per_mio -1)
+		(try
+		 (do0 (setf price_input_token_usd_per_mio (aref price_input real_model))
+		      (setf price_output_token_usd_per_mio (aref price_output real_model)))
+		 ("Exception as e"
+		  pass))
+		#+nil
 		(if (or (dot s model (startswith (string "gemini-1.5-pro")))
-			(dot s model (startswith (string "gemini-2.0-pro")))) 
+			(dot s model (startswith (string "gemini-2.0-pro")))
+			(dot s model (startswith (string "gemini-2.5-pro")))) 
 		    (setf price_input_token_usd_per_mio 1.25
 			  price_output_token_usd_per_mio 5.0)
 		    (if (in (string "flash") (dot s model )) 
@@ -676,13 +702,10 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		      output_tokens (+ s.summary_output_tokens
 				       s.timestamps_output_tokens)
 		      )
-		(if (in (string "flash") (dot s model)) ;; flash price doesn't depend on number of tokens
-		    (setf cost (+ price_input_token_usd_per_mio
-				  price_output_token_usd_per_mio))
-		    (setf cost (+ (* (/ input_tokens 1_000_000)
-				     price_input_token_usd_per_mio)
-				  (* (/ output_tokens 1_000_000)
-				     price_output_token_usd_per_mio))))
+		(setf cost (+ (* (/ input_tokens 1_000_000)
+				 price_input_token_usd_per_mio)
+			      (* (/ output_tokens 1_000_000)
+				 price_output_token_usd_per_mio)))
 		(summaries.update :pk_values identifier
 				  :cost cost)
 		(if (< cost .02)

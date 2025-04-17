@@ -103,30 +103,23 @@ def generation_preview(identifier):
     sid=f"gen-{identifier}"
     text="Generating ..."
     trigger="every 1s"
+    price_input={("gemini-2.5-flash-preview-04-17"):((0.150    )),("gemini-2.5-pro-exp-03-25"):((1.250    )),("gemini-2.0-flash"):((0.10    )),("gemini-2.0-flash-lite"):((7.50e-2)),("gemini-2.0-flash-thinking-exp-01-21"):((7.50e-2)),("gemini-2.0-flash-exp"):((0.10    )),("gemini-2.0-pro-exp-02-05"):((1.250    )),("gemini-1.5-pro-exp-0827"):((1.250    )),("gemini-2.0-flash-lite-preview-02-05"):((0.10    )),("gemini-2.0-flash-thinking-exp-01-21"):((0.10    )),("gemini-2.0-flash-001"):((0.10    )),("gemini-exp-1206"):((1.250    )),("gemini-exp-1121"):((1.250    )),("gemini-exp-1114"):((1.250    )),("learnlm-1.5-pro-experimental"):((1.250    )),("gemini-1.5-flash-002"):((0.10    )),("gemini-1.5-pro-002"):((1.250    )),("gemini-1.5-pro-exp-0801"):((1.250    )),("gemini-1.5-flash-exp-0827"):((0.10    )),("gemini-1.5-flash-8b-exp-0924"):((0.10    )),("gemini-1.5-flash-latest"):((0.10    )),("gemma-2-2b-it"):(-1),("gemma-2-9b-it"):(-1),("gemma-2-27b-it"):(-1),("gemma-3-27b-it"):(-1),("gemini-1.5-flash"):((0.10    )),("gemini-1.5-pro"):((1.250    )),("gemini-1.0-pro"):((0.50    ))}
+    price_output={("gemini-2.5-flash-preview-04-17"):((0.350    )),("gemini-2.5-pro-exp-03-25"):(5),("gemini-2.0-flash"):((0.40    )),("gemini-2.0-flash-lite"):((0.30    )),("gemini-2.0-flash-thinking-exp-01-21"):((0.30    )),("gemini-2.0-flash-exp"):((0.40    )),("gemini-2.0-pro-exp-02-05"):(5),("gemini-1.5-pro-exp-0827"):(5),("gemini-2.0-flash-lite-preview-02-05"):((0.40    )),("gemini-2.0-flash-thinking-exp-01-21"):((0.40    )),("gemini-2.0-flash-001"):((0.40    )),("gemini-exp-1206"):(5),("gemini-exp-1121"):(5),("gemini-exp-1114"):(5),("learnlm-1.5-pro-experimental"):(5),("gemini-1.5-flash-002"):((0.40    )),("gemini-1.5-pro-002"):(5),("gemini-1.5-pro-exp-0801"):(5),("gemini-1.5-flash-exp-0827"):((0.40    )),("gemini-1.5-flash-8b-exp-0924"):((0.40    )),("gemini-1.5-flash-latest"):((0.40    )),("gemma-2-2b-it"):(-1),("gemma-2-9b-it"):(-1),("gemma-2-27b-it"):(-1),("gemma-3-27b-it"):(-1),("gemini-1.5-flash"):((0.40    )),("gemini-1.5-pro"):(5),("gemini-1.0-pro"):((1.50    ))}
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):
             # this is for <= 128k tokens
-            if ( ((s.model.startswith("gemini-1.5-pro")) or (s.model.startswith("gemini-2.0-pro"))) ):
-                price_input_token_usd_per_mio=(1.250    )
-                price_output_token_usd_per_mio=(5.0    )
-            else:
-                if ( ("flash" in s.model) ):
-                    price_input_token_usd_per_mio=(0.10    )
-                    price_output_token_usd_per_mio=(0.40    )
-                else:
-                    if ( s.model.startswith("gemini-1.0-pro") ):
-                        price_input_token_usd_per_mio=(0.50    )
-                        price_output_token_usd_per_mio=(1.50    )
-                    else:
-                        price_input_token_usd_per_mio=-1
-                        price_output_token_usd_per_mio=-1
+            real_model=s.model.split("|")[0]
+            price_input_token_usd_per_mio=-1
+            price_output_token_usd_per_mio=-1
+            try:
+                price_input_token_usd_per_mio=price_input[real_model]
+                price_output_token_usd_per_mio=price_output[real_model]
+            except Exception as e:
+                pass
             input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
             output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
-            if ( ("flash" in s.model) ):
-                cost=((price_input_token_usd_per_mio)+(price_output_token_usd_per_mio))
-            else:
-                cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
+            cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
             summaries.update(pk_values=identifier, cost=cost)
             if ( ((cost)<((2.00e-2))) ):
                 cost_str=f"${cost:.4f}"
