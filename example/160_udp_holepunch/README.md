@@ -20,6 +20,7 @@ sounds daunting
 
 ```
 sudo tcpdump -nn -i any udp
+sudo tcpdump -nn -i eth0 udp
 
 -nn: don't resolve IP addresses to host names and port numbers to service names
 ```

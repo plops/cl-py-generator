@@ -60,7 +60,8 @@
 		       socket.AF_INET
 		       socket.SOCK_DGRAM))
 	   (sock.bind (tuple src port))
-	   (for (i (range 33))
+	   (for (i (range 3))
+		,(lprint :msg "sendto" :vars `(src dst port))
 		(sock.sendto msg (tuple dst port))
 		(time.sleep .1)))
 	  ("Exception as e"
@@ -75,7 +76,7 @@
 				 host
 				 )
 			   cmds))
-	 (print (fstring "run {cmd}"))
+	 ;(print (fstring "run {cmd}"))
 	 (setf result
 	       (subprocess.run
 		cmd
@@ -84,8 +85,10 @@
 		:check False ;; prevent raising error on non-zero exit
 		:text False
 		))
-	 (print (fstring "remote script {result}"))
-	 (return (dot result stdout (decode (string "utf-8"))))
+	 ;(print (fstring "remote script {result}"))
+	 (setf ip (dot result stdout (decode (string "utf-8"))))
+	 ,(lprint :vars `(cmd ip))
+	 (return ip)
 	 )
 
        (def run_local_cmd_and_wait ( cmds)
@@ -93,7 +96,7 @@
 		   f)
 	       (setf script_content (f.read)))
 	 (setf cmd cmds)
-	 (print (fstring "run {cmd}"))
+	 ;(print (fstring "run {cmd}"))
 	 (setf result
 	       (subprocess.run
 		cmd
@@ -102,8 +105,10 @@
 		:check False ;; prevent raising error on non-zero exit
 		:text False
 		))
-	 (print (fstring "local script {result}"))
-	 (return (dot result stdout (decode (string "utf-8"))))
+	 ;(print (fstring "local script {result}"))
+	 (setf ip (dot result stdout (decode (string "utf-8"))))
+	 ,(lprint :vars `(cmd ip))
+	 (return ip)
 	 )
        
        (def run_self_on_remote (host cmds)
@@ -174,7 +179,10 @@
 	       (do0
 		(comments "remote running script name is '-'")
 		(print (string "remote script"))
-		#+nil (emit any_ip client_ip))
+		(emit any_ip extra_ip)
+		(emit any_ip local_ip)
+		(emit any_ip jump_ip)
+		)
 	       (do0
 		(print (string "local script"))
 		(setf local_ip
@@ -211,6 +219,9 @@
 					  server_ip
 					  (string "-E")
 					  extra_ip))
-		(emit any_ip server_ip)))
+		(emit any_ip extra_ip)
+		(emit any_ip jump_ip)
+		(emit any_ip server_ip)
+		))
 	   ))))
   )
