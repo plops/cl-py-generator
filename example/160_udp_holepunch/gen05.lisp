@@ -143,6 +143,16 @@
 				 :type str
 				 :default (string "tux")
 				 :help (string "ssh hostname of server host"))
+	    (parser.add_argument (string "-e")
+				 (string "--extra-host")
+				 :type str
+				 :default (string "tinyus")
+				 :help (string "ssh hostname of second server host"))
+	    (parser.add_argument (string "-E")
+				 (string "--extra-ip")
+				 :type str
+				 :default (string "1.1.3.4")
+				 :help (string "ip of second server host"))
 	    (parser.add_argument (string "-S")
 				 (string "--server-ip")
 				 :type str
@@ -186,13 +196,21 @@
 					      (string "ifconfig.me"))
 					)
 		      )
+		(setf extra_ip
+		      (run_cmd_and_wait args.extra_host
+					(list (string "curl")
+					      (string "ifconfig.me"))
+					)
+		      )
 		(run_self_on_remote (string "tux")
 				    (list (string "-L")
 					  local_ip
 					  (string "-J")
 					  jump_ip
 					  (string "-S")
-					  server_ip))
+					  server_ip
+					  (string "-E")
+					  extra_ip))
 		(emit any_ip server_ip)))
 	   ))))
   )

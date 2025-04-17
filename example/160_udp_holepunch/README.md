@@ -15,6 +15,16 @@ basically random ports go through internet
 maybe i could try many ports with several servers in order to
 try and figure out the underlying assignment pattern. but it
 sounds daunting
+
+# tcpdump for udp
+
+```
+sudo tcpdump -nn -i any udp
+
+-nn: don't resolve IP addresses to host names and port numbers to service names
+```
+
+# summary of RPC ont NATs
 https://www.rfc-editor.org/rfc/rfc4787.txt
 
 REQ-1: NATs MUST use "Endpoint-Independent Mapping", meaning the same external IP:port is reused for subsequent packets from the same internal IP:port, regardless of the destination.
