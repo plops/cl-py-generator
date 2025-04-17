@@ -191,12 +191,14 @@
 		(setf local_ip
 		      (run_local_cmd_and_wait 
 					      (list (string "curl")
+						    (string "-4")
 						    (string "ifconfig.me"))
 					      )
 		      )
 		(setf server_ip
 		      (run_cmd_and_wait args.server_host
 					(list (string "curl")
+					      (string "-4")
 					      (string "ifconfig.me"))
 					)
 
@@ -204,12 +206,14 @@
 		(setf jump_ip
 		      (run_cmd_and_wait args.jump_host
 					(list (string "curl")
+					      (string "-4")
 					      (string "ifconfig.me"))
 					)
 		      )
 		(setf extra_ip
 		      (run_cmd_and_wait args.extra_host
 					(list (string "curl")
+					      (string "-4")
 					      (string "ifconfig.me"))
 					)
 		      )
