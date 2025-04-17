@@ -88,7 +88,7 @@
 	 (return (dot result stdout (decode (string "utf-8"))))
 	 )
 
-       (def run_local_cmd_and_wait (host cmds)
+       (def run_local_cmd_and_wait ( cmds)
 	 (with (as (open __file__ (string "rb"))
 		   f)
 	       (setf script_content (f.read)))
@@ -168,20 +168,20 @@
 	       (do0
 		(print (string "local script"))
 		(setf local_ip
-		      (run_local_cmd_and_wait (string "tux")
+		      (run_local_cmd_and_wait 
 					      (list (string "curl")
 						    (string "ifconfig.me"))
 					      )
 		      )
 		(setf server_ip
-		      (run_cmd_and_wait (string "tux")
+		      (run_cmd_and_wait args.server_host
 					(list (string "curl")
 					      (string "ifconfig.me"))
 					)
 
 		      )
 		(setf jump_ip
-		      (run_cmd_and_wait (string "tinyeu")
+		      (run_cmd_and_wait args.jump_host
 					(list (string "curl")
 					      (string "ifconfig.me"))
 					)
