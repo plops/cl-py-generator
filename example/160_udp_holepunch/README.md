@@ -49,3 +49,45 @@ REQ-11: NATs MUST behave deterministically; mapping and filtering rules MUST NOT
 
 REQ-12: Receiving ICMP messages MUST NOT terminate a UDP mapping. NATs SHOULD NOT filter incoming ICMP based on source IP by default. It is RECOMMENDED that NATs process and forward ICMP Destination Unreachable messages.
 
+
+
+# stun tool
+
+```
+apt install stun
+
+```
+
+## hetzner
+```
+sudo stun stun.1und1.de:3478
+STUN client version 0.97
+Primary: Open
+Return value is 0x000001
+```
+
+
+## azure
+```
+sudo stun stun.1und1.de:3478
+STUN client version 0.97
+Primary: Independent Mapping, Port Dependent Filter, preserves ports, will hairpin
+Return value is 0x000007
+```
+
+
+## enterprise
+```
+sudo stun stun.1und1.de:3478
+STUN client version 0.97
+Primary: Independent Mapping, Port Dependent Filter, preserves ports, no hairpin
+Return value is 0x000017
+```
+
+## mobile hotspot (iphone)
+```
+sudo ./client stun.1und1.de:3478
+STUN client version 0.97
+Primary: Dependent Mapping, random port, no hairpin
+Return value is 0x000018
+```
