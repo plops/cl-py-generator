@@ -46,7 +46,7 @@
        (imports-from (subprocess Popen PIPE DEVNULL))
        ;; curl ifconfig.me
        (setf port 60001
-	     msg (string-b A)
+	     ;msg (string-b A)
 	     client_ip (string "14.40.11.250")
 	     server_ip (string "13.4.0.26")
 	     any_ip (string "0.0.0.0"))
@@ -61,7 +61,10 @@
 		       socket.SOCK_DGRAM))
 	   (sock.bind (tuple src port))
 	   (for (i (range 3))
-		,(lprint :msg "sendto" :vars `(src dst port))
+		
+		(setf msg (dot (fstring "sendto src={src}:{port} dst={dst}:{port} i={i}")
+			       (encode (string "utf-8"))))
+		,(lprint :msg "sendto" :vars `(msg))
 		(sock.sendto msg (tuple dst port))
 		(time.sleep .1)))
 	  ("Exception as e"
