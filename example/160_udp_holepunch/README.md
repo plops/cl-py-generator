@@ -66,6 +66,12 @@ Primary: Open
 Return value is 0x000001
 ```
 
+The machine running the test has a public IP address directly assigned
+or is behind a very simple firewall that doesn't perform NAT
+address/port translation. Port preservation is indicated (which is
+expected when there's no port translation). This environment is ideal
+for P2P communication as the host is directly reachable.
+
 
 ## azure
 ```
@@ -74,6 +80,13 @@ STUN client version 0.97
 Primary: Independent Mapping, Port Dependent Filter, preserves ports, will hairpin
 Return value is 0x000007
 ```
+
+Azure is using a Port Restricted Cone NAT.
+        *   *Independent Mapping:* The same internal IP:Port maps to the same external IP:Port regardless of destination.
+        *   *Port Dependent Filter:* Incoming packets are only allowed if they come from the *exact* IP address *and port* that the client previously sent a packet to.
+        *   *Preserves ports:* The NAT tries to use the same external port as the internal source port. This is helpful but not guaranteed.
+        *   *Will hairpin:* Allows communication between two clients behind the same Azure NAT by using their public IP addresses.
+        *   This is a relatively common and moderately P2P-friendly NAT type. UDP hole punching can usually work.
 
 
 ## enterprise
@@ -84,6 +97,16 @@ Primary: Independent Mapping, Port Dependent Filter, preserves ports, no hairpin
 Return value is 0x000017
 ```
 
+The enterprise network uses the same type of NAT as Azure (Port
+Restricted Cone) regarding mapping and filtering, and it also tries to
+preserve ports. However, it explicitly *disables hairpinning*. This
+means two clients inside the enterprise network cannot directly
+communicate using their STUN-discovered public IP addresses; the
+enterprise firewall/NAT prevents this loopback traffic. P2P with
+external peers is possible (same as Azure), but internal P2P via the
+public mapping is blocked.
+
+
 ## mobile hotspot (iphone)
 ```
 sudo ./client stun.1und1.de:3478
@@ -91,3 +114,30 @@ STUN client version 0.97
 Primary: Dependent Mapping, random port, no hairpin
 Return value is 0x000018
 ```
+
+This indicates a Symmetric NAT, which is common for mobile carriers (often part of Carrier-Grade NAT - CGNAT).
+        *   *Dependent Mapping:* The external IP:Port mapping depends on the destination IP:Port. Sending from the same internal socket to two different servers will result in two different external source IP:Ports being used by the NAT.
+        *   *Random port:* The NAT assigns unpredictable external ports.
+        *   *No hairpin:* Loopback is blocked.
+        *   This is the most restrictive type of NAT for P2P communication. UDP hole punching is often very difficult or impossible because predicting the port mapping used for the peer is extremely hard. Applications often need to rely on a relay server (like TURN) in this scenario.
+
+
+
+# Decoding the Output Components
+
+Based on the `client.cxx` source code, we can decode the output:
+
+*   **NAT Type (Base Value):** The core NAT/Firewall type determines a base hexadecimal value (`retval[nic]` in the code):
+    *   `0x00`: Open Internet (No NAT or basic firewall)
+    *   `0x02`: Independent Mapping, Independent Filter (Full Cone NAT)
+    *   `0x04`: Independent Mapping, Address Dependent Filter (Restricted Cone NAT)
+    *   `0x06`: Independent Mapping, Port Dependent Filter (Port Restricted Cone NAT)
+    *   `0x08`: Dependent Mapping (Symmetric NAT)
+    *   `0x0A`: Firewall (Blocks incoming unsolicited, but mapping is like Open)
+    *   `0x0C`: Blocked (Cannot reach STUN server or test fails)
+    *   `0x0E`: Unknown NAT type (Test results ambiguous)
+    *   `-1` (0xFFFFFFFF): Failure (Error during test execution)
+
+*   **Flags (Bitwise ORed with Base Value):**
+    *   `preserves ports`: If the NAT attempts to keep the same source port number for the external mapping, bit 0 (`0x01`) is *set*. If it assigns a `random port`, bit 0 is *cleared*.
+    *   `no hairpin`: If the NAT *does not* allow a client to send packets to its own external mapped address and receive them back, bit 4 (`0x10`) is *set*. If it `will hairpin`, bit 4 is *cleared*.
