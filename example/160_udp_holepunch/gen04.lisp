@@ -48,7 +48,7 @@
 	     msg (string-b A)
 	     client_ip (string "14.40.11.250")
 	     server_ip (string "13.4.0.26")
-	     any (string "0.0.0.0"))
+	     any_ip (string "0.0.0.0"))
        
        ;; mosh-server new -p 60001
        ;; MOSH_KEY=... mosh-client 193.8.40.126 60001
@@ -91,10 +91,10 @@
 	       (do0
 		(comments "remote running script name is '-'")
 		(print (string "remote script"))
-		(emit any client_ip))
+		(emit any_ip client_ip))
 	       (do0
 		(print (string "local script"))
 		(run_self_on_remote (string "tux"))
-		(emit any server_ip)))
+		(emit any_ip server_ip)))
 	   ))))
   )

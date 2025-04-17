@@ -14,3 +14,4 @@ basically random ports go through internet
 maybe i could try many ports with several servers in order to
 try and figure out the underlying assignment pattern. but it
 sounds daunting
+https://www.rfc-editor.org/rfc/rfc4787.txt
