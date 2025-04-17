@@ -57,12 +57,15 @@
 	(iflashl .075)
 	(oflashl .3)
 	(ipro 1.25)
-	(opro 5))
-    (defparameter *models* `(
+	(opro 5)
+	(iflash25 .15)
+	(oflash25think .35))
+    (defparameter *models* `((:name gemini-2.5-flash-preview-04-17 :input-price ,iflash25 :output-price ,oflash25think :context-length 128_000 :harm-civic nil)
+			     (:name gemini-2.5-pro-exp-03-25 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.0-flash :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
 			     (:name gemini-2.0-flash-lite :input-price ,iflashl :output-price ,oflashl :context-length 128_000 :harm-civic t)
 			     (:name gemini-2.0-flash-thinking-exp-01-21 :input-price ,iflashl :output-price ,oflashl :context-length 128_000 :harm-civic t)
-			     (:name gemini-2.5-pro-exp-03-25 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
+			     
 			     (:name gemini-2.0-flash-exp :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
 			     (:name gemini-2.0-pro-exp-02-05 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
 			     (:name gemini-1.5-pro-exp-0827 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)

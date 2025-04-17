@@ -141,3 +141,7 @@ Based on the `client.cxx` source code, we can decode the output:
 *   **Flags (Bitwise ORed with Base Value):**
     *   `preserves ports`: If the NAT attempts to keep the same source port number for the external mapping, bit 0 (`0x01`) is *set*. If it assigns a `random port`, bit 0 is *cleared*.
     *   `no hairpin`: If the NAT *does not* allow a client to send packets to its own external mapped address and receive them back, bit 4 (`0x10`) is *set*. If it `will hairpin`, bit 4 is *cleared*.
+
+
+# Proposal of hole punching between Mobile and Enterprise:
+
