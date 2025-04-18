@@ -128,3 +128,8 @@ https://youtu.be/tW6Y1WYwozk?feature=shared
 oauth with google and fasthtml
 
 https://www.danliden.com/notebooks/web_dev/fasthtml/5_google_oauth_1.html
+
+
+# prepare gemini embeddings
+
+https://github.com/google/generative-ai-docs/blob/main/site/en/gemini-api/tutorials/clustering_with_embeddings.ipynb
