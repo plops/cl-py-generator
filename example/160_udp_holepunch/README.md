@@ -145,3 +145,8 @@ Based on the `client.cxx` source code, we can decode the output:
 
 # Proposal of hole punching between Mobile and Enterprise:
 
+# Online tool to check NAT type
+
+checkmynat.com
+
+for iphone it gives IP and says Symmetric NAT
