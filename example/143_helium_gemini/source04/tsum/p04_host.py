@@ -66,7 +66,7 @@ def get_transcript(url):
         return "URL couldn't be validated"
     sub_file="/dev/shm/o"
     sub_file_="/dev/shm/o.en.vtt"
-    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, youtube_id]
+    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, "--", youtube_id]
     print(" ".join(cmds))
     subprocess.run(cmds)
     ostr="Problem getting subscript."

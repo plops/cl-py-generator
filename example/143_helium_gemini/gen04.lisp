@@ -526,6 +526,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			    (string "en")
 			    (string "-o")
 			    sub_file
+			    (string "--")
 			    youtube_id))
 	   (print (dot (string " ")
 		       (join cmds)))
