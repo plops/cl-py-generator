@@ -154,6 +154,8 @@ sudo systemctl start fail2ban
 
 # Nginx http/3
 
+i am trying to compile nginx with http/3 support on ubuntu 24.04
+
 ```
 sudo apt install gcc g++ make libpcre3-dev zlib1g-dev ninja-build cmake
 git clone https://github.com/google/boringssl
@@ -167,10 +169,136 @@ git clone https://github.com/nginx/nginx
 
 
 cd nginx
-auto/configure --with-http_v3_module \
+auto/configure \
+--with-http_ssl_module \
+--with-http_v3_module \
 --with-cc-opt="-I../boringssl/include" \
---with-ld-opt="-L../boringssl/build -lstdc++"
+--with-ld-opt="-L../boringssl/build -lstdc++" 
+
+--with-openssl="../boringssl/"
 make -j2 
 make install
 
 ```
+
+the configure step fails with:
+
+```
+checking for PCRE2 library ... not found
+checking for PCRE library ... found
+checking for PCRE JIT support ... found
+checking for OpenSSL library ... not found
+checking for OpenSSL library in /usr/local/ ... not found
+checking for OpenSSL library in /usr/pkg/ ... not found
+checking for OpenSSL library in /opt/local/ ... not found
+checking for OpenSSL library in /opt/homebrew/ ... not found
+
+auto/configure: error: SSL modules require the OpenSSL library.
+You can either do not enable the modules, or install the OpenSSL library
+into the system, or build the OpenSSL library statically from the source
+with nginx by using --with-openssl=<path> option.
+```
+
+
+here is some documentation from the nginx website:
+
+Support for QUIC and HTTP/3 protocols is available since 1.25.0. Also, since 1.25.0, the QUIC and HTTP/3 support is available in Linux binary packages.
+
+
+The QUIC and HTTP/3 support is experimental, caveat emptor applies.
+
+Building from sources
+The build is configured using the configure command. Please refer to Building nginx from Sources for details.
+
+When configuring nginx, it is possible to enable QUIC and HTTP/3 using the --with-http_v3_module configuration parameter.
+
+An SSL library that provides QUIC support is recommended to build nginx, such as BoringSSL, LibreSSL, or QuicTLS. Otherwise, the OpenSSL compatibility layer will be used that does not support early data.
+
+Use the following command to configure nginx with BoringSSL:
+
+./configure
+    --with-debug
+    --with-http_v3_module
+    --with-cc-opt="-I../boringssl/include"
+    --with-ld-opt="-L../boringssl/build -lstdc++"
+
+Alternatively, nginx can be configured with QuicTLS:
+
+./configure
+    --with-debug
+    --with-http_v3_module
+    --with-cc-opt="-I../quictls/build/include"
+    --with-ld-opt="-L../quictls/build/lib"
+
+Alternatively, nginx can be configured with a modern version of LibreSSL:
+
+./configure
+    --with-debug
+    --with-http_v3_module
+    --with-cc-opt="-I../libressl/build/include"
+    --with-ld-opt="-L../libressl/build/lib"
+
+After configuration, nginx is compiled and installed using make.
+
+Configuration
+The listen directive in ngx_http_core_module module got a new parameter quic which enables HTTP/3 over QUIC on the specified port.
+
+Along with the quic parameter it is also possible to specify the reuseport parameter to make it work properly with multiple workers.
+
+For the list of directives, see ngx_http_v3_module.
+
+To enable address validation:
+
+quic_retry on;
+To enable 0-RTT:
+
+ssl_early_data on;
+To enable GSO (Generic Segmentation Offloading):
+
+quic_gso on;
+To set host key for various tokens:
+
+quic_host_key <filename>;
+
+QUIC requires TLSv1.3 protocol version which is enabled by default in the ssl_protocols directive.
+
+By default, GSO Linux-specific optimization is disabled. Enable it in case a corresponding network interface is configured to support GSO.
+
+Example Configuration
+
+http {
+    log_format quic '$remote_addr - $remote_user [$time_local] '
+                    '"$request" $status $body_bytes_sent '
+                    '"$http_referer" "$http_user_agent" "$http3"';
+
+    access_log logs/access.log quic;
+
+    server {
+        # for better compatibility it's recommended
+        # to use the same port for quic and https
+        listen 8443 quic reuseport;
+        listen 8443 ssl;
+
+        ssl_certificate     certs/example.com.crt;
+        ssl_certificate_key certs/example.com.key;
+
+        location / {
+            # required for browsers to direct them to quic port
+            add_header Alt-Svc 'h3=":8443"; ma=86400';
+        }
+    }
+}
+
+Troubleshooting
+Tips that may help to identify problems:
+
+Ensure nginx is built with the proper SSL library.
+Ensure nginx is using the proper SSL library in runtime (the nginx -V shows what it is currently used).
+Ensure a client is actually sending requests over QUIC. It is recommended to start with a simple console client such as ngtcp2 to ensure the server is configured properly before trying with real browsers that may be quite picky with certificates.
+Build nginx with debug support and check the debug log. It should contain all details about the connection and why it failed. All related messages contain the “quic” prefix and can be easily filtered out.
+For a deeper investigation, additional debugging can be enabled using the following macros: NGX_QUIC_DEBUG_PACKETS, NGX_QUIC_DEBUG_FRAMES, NGX_QUIC_DEBUG_ALLOC, NGX_QUIC_DEBUG_CRYPTO.
+
+./configure
+    --with-http_v3_module
+    --with-debug
+    --with-cc-opt="-DNGX_QUIC_DEBUG_PACKETS -DNGX_QUIC_DEBUG_CRYPTO"
