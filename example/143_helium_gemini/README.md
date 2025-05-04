@@ -175,7 +175,6 @@ auto/configure \
 --with-cc-opt="-I../boringssl/include" \
 --with-ld-opt="-L../boringssl/build -lstdc++" 
 
---with-openssl="../boringssl/"
 make -j2 
 make install
 
@@ -184,6 +183,16 @@ make install
 the configure step fails with:
 
 ```
+auto/configure --with-http_ssl_module --with-http_v3_module --with-cc-opt="-I../boringssl/include" --with-ld-opt="-L../boringssl/build -lstdc++"
+checking for OS
+ + Linux 6.8.0-58-generic x86_64
+checking for C compiler ... found
+ + using GNU C compiler
+ + gcc version: 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)
+checking for gcc -pipe switch ... found
+checking for --with-ld-opt="-L../boringssl/build -lstdc++" ... found
+checking for -Wl,-E switch ... found
+...
 checking for PCRE2 library ... not found
 checking for PCRE library ... found
 checking for PCRE JIT support ... found
