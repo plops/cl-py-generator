@@ -150,3 +150,27 @@ sudo apt update && sudo apt install fail2ban
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
+
+
+# Nginx http/3
+
+```
+sudo apt install gcc g++ make libpcre3-dev zlib1g-dev ninja-build cmake
+git clone https://github.com/google/boringssl
+cd boringssl
+mkdir build
+cd build
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
+ninja
+
+git clone https://github.com/nginx/nginx
+
+
+cd nginx
+auto/configure --with-http_v3_module \
+--with-cc-opt="-I../boringssl/include" \
+--with-ld-opt="-L../boringssl/build -lstdc++"
+make -j2 
+make install
+
+```
