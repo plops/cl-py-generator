@@ -137,3 +137,16 @@ https://github.com/google/generative-ai-docs/blob/main/site/en/gemini-api/tutori
 https://news.ycombinator.com/item?id=38976773
 
 This Hacker News discussion revolves around K-Means clustering, sparked by a post sharing a generalized, scalable implementation using Spark. Commenters explore various facets of K-Means and related techniques, particularly in the context of modern AI applications involving high-dimensional embeddings. Key themes include practical pipelines combining text embedding (e.g., SentenceTransformers), dimensionality reduction (UMAP), clustering (K-Means, DBSCAN, HDBSCAN), and automated labeling using LLMs like ChatGPT. Significant discussion addresses the challenge of selecting the optimal number of clusters (k), with users suggesting heuristics like cluster stability, Silhouette index, and Calinski-Harabasz index, or advocating for alternatives like DBSCAN/HDBSCAN that don't require pre-specifying k. The conversation also covers diverse applications of K-Means (text analysis, image processing, GIS, e-commerce, bioinformatics, noise reduction), performance considerations for large datasets, implementation details (libraries, specific models), the algorithm's theoretical underpinnings (relation to EM/GMM), and its perceived simplicity versus limitations compared to other methods.
+
+
+
+# Fail2Ban
+
+- too many clients try to find PHP vulnerabilities
+
+```
+
+sudo apt update && sudo apt install fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```

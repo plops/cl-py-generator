@@ -37,6 +37,7 @@
 				     :simple ;; use very few gui elements
 				     :auth ;; oauth login (requires AUTH_CLIENT_{ID,SECRET} in env)
 				     :optional-abstract ;; user can disable abstract generation
+				     :copy-prompt ;; transmit the entire prompt (makes page a lot bigger)
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
@@ -44,6 +45,7 @@
 					      ;:dl
 					      :auth
 					      :optional-abstract
+					      :copy-prompt
 					      )))
 
 (progn
@@ -482,7 +484,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 
 
 	 (setf documentation 
-	       (string3 "**Get Your YouTube Summary:**
+	       
+	       (+
+		(string3 "**Get Your YouTube Summary:**
 
 1.  **Copy** the video link.
 2.  **Paste** it into the input field.
@@ -500,8 +504,12 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 **For videos longer than 20 minutes:**
 
 *   Select a **Pro model** for automatic summarization. Note that Pro usage is limited daily.
-*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
-"))
+")
+		#+copy-prompt
+		"*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
+"
+		))
+	 
 
 	 	 
 	 #+dl
@@ -779,17 +787,17 @@ Output tokens: {output_tokens}")
 		 (return (Div
 			  title
 			  pre
-			  prompt_pre
+			  #+copy-prompt prompt_pre
 			  button
-			  prompt_button
+			  #+copy-prompt prompt_button
 			  :id sid
 			  ))
 		 (return (Div
 			  title
 			  pre
-			  prompt_pre
+			  #+copy-prompt prompt_pre
 			  button
-			  prompt_button
+			  #+copy-prompt prompt_button
 			  :id sid
 			  :hx_post (fstring "/generations/{identifier}")
 			  :hx_trigger trigger

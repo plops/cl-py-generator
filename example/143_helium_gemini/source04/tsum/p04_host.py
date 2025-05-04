@@ -39,7 +39,7 @@ def render(summary: Summary):
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, pk="identifier")
-documentation="""**Get Your YouTube Summary:**
+documentation=(("""**Get Your YouTube Summary:**
 
 1.  **Copy** the video link.
 2.  **Paste** it into the input field.
@@ -57,8 +57,7 @@ documentation="""**Get Your YouTube Summary:**
 **For videos longer than 20 minutes:**
 
 *   Select a **Pro model** for automatic summarization. Note that Pro usage is limited daily.
-*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
-"""
+"""))
 def get_transcript(url):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     youtube_id=validate_youtube_url(url)
@@ -148,9 +147,9 @@ Output tokens: {output_tokens}"""
         prompt_pre=Pre(prompt_text, id=f"prompt-pre-{identifier}", style="display: none;")
         prompt_button=Button("Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')")
         if ( ((trigger)==("")) ):
-            return Div(title, pre, prompt_pre, button, prompt_button, id=sid)
+            return Div(title, pre, button, id=sid)
         else:
-            return Div(title, pre, prompt_pre, button, prompt_button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
+            return Div(title, pre, button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
         return Div(f"line 1897 id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
  
