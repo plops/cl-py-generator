@@ -784,14 +784,23 @@ Output tokens: {output_tokens}")
 					  :onclick (fstring "copyPreContent('prompt-pre-{identifier}')"))))
 	     
 	     (if (== trigger (string ""))
-		 (return (Div
-			  title
-			  pre
-			  #+copy-prompt prompt_pre
-			  button
-			  #+copy-prompt prompt_button
-			  :id sid
-			  ))
+		 (if s.summaries_done
+		     (return (Div
+			   title
+			   pre
+			   #+copy-prompt prompt_pre
+			   button
+			   #+copy-prompt prompt_button
+			   :id sid
+			   ))
+		     (return (Div
+			   title
+			   pre
+			   prompt_pre
+			   ;button
+			   prompt_button
+			   :id sid
+			   )))
 		 (return (Div
 			  title
 			  pre
