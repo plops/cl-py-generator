@@ -45,7 +45,7 @@
 					      ;:dl
 					      :auth
 					      :optional-abstract
-					      :copy-prompt
+					      ;:copy-prompt
 					      )))
 
 (progn

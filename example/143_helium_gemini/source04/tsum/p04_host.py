@@ -57,7 +57,8 @@ documentation=(("""**Get Your YouTube Summary:**
 **For videos longer than 20 minutes:**
 
 *   Select a **Pro model** for automatic summarization. Note that Pro usage is limited daily.
-"""))
+""")+(*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
+))
 def get_transcript(url):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     youtube_id=validate_youtube_url(url)
@@ -147,9 +148,9 @@ Output tokens: {output_tokens}"""
         prompt_pre=Pre(prompt_text, id=f"prompt-pre-{identifier}", style="display: none;")
         prompt_button=Button("Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')")
         if ( ((trigger)==("")) ):
-            return Div(title, pre, button, id=sid)
+            return Div(title, pre, prompt_pre, button, prompt_button, id=sid)
         else:
-            return Div(title, pre, button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
+            return Div(title, pre, prompt_pre, button, prompt_button, id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
     except Exception as e:
         return Div(f"line 1897 id: {identifier} e: {e}", Pre(text), id=sid, hx_post=f"/generations/{identifier}", hx_trigger=trigger, hx_swap="outerHTML")
  
