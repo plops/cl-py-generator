@@ -506,8 +506,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 *   Select a **Pro model** for automatic summarization. Note that Pro usage is limited daily.
 ")
 		#+copy-prompt
-		"*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
-"
+		(string3 "*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
+")
 		))
 	 
 

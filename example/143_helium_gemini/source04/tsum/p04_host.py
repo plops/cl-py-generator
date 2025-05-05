@@ -57,8 +57,8 @@ documentation=(("""**Get Your YouTube Summary:**
 **For videos longer than 20 minutes:**
 
 *   Select a **Pro model** for automatic summarization. Note that Pro usage is limited daily.
-""")+(*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
-))
+""")+("""*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
+"""))
 def get_transcript(url):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     youtube_id=validate_youtube_url(url)
