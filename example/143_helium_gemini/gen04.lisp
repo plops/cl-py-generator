@@ -801,16 +801,27 @@ Output tokens: {output_tokens}")
 			   prompt_button
 			   :id sid
 			   )))
-		 (return (Div
-			  title
-			  pre
-			  #+copy-prompt prompt_pre
-			  button
-			  #+copy-prompt prompt_button
-			  :id sid
-			  :hx_post (fstring "/generations/{identifier}")
-			  :hx_trigger trigger
-			  :hx_swap (string "outerHTML")))))
+		 (if s.summary_done
+		  (return (Div
+			   title
+			   pre
+			   #+copy-prompt prompt_pre
+			   button
+			   #+copy-prompt prompt_button
+			   :id sid
+			   :hx_post (fstring "/generations/{identifier}")
+			   :hx_trigger trigger
+			   :hx_swap (string "outerHTML")))
+		  (return (Div
+			   title
+			   pre
+			   prompt_pre
+			   ; button
+			   prompt_button
+			   :id sid
+			   :hx_post (fstring "/generations/{identifier}")
+			   :hx_trigger trigger
+			   :hx_swap (string "outerHTML"))))))
 	    ("Exception as e"		; NotFoundError ()
 	     (return (Div
 		      (fstring "line 1897 id: {identifier} e: {e}")
