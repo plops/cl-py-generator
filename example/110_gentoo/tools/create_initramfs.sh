@@ -7,6 +7,6 @@ chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 dracut \
     -m " kernel-modules base rootfs-block crypt dm " \
     --filesystems " squashfs vfat overlay " \
-    --kver=6.12.16-gentoo-x86_64 \
+    --kver=6.12.21-gentoo-x86_64 \
     --force \
-    "/boot/initramfs_squash_crypt-6.12.16-gentoo-x86_64.img"
+    "/boot/initramfs_squash_crypt-6.12.21-gentoo-x86_64.img"

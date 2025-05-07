@@ -6715,3 +6715,42 @@ menuentry 'grub2 6.12.16 from disk' {
 }
 ```
 
+
+# update 2025-05-07
+
+
+```
+emerge-webrsync
+emerge -e @world
+eselect kernel set 2 # 6.12.21
+cd /usr/src/linux
+make -j12
+make modules-install
+make install
+# reboot with this kernel
+cd  /mnt4/persistent/lower/home/martin/src/ryzen_monitor/ryzen_smu
+make
+cp ryzen_smu.ko /lib/modules/6.12.21-gentoo-x86_64/kernel/
+
+cd /mnt4/persistent/lower/home/martin/stage/cl-py-generator/example/110_gentoo/tools
+./create_squashfs.sh
+# 1040 MB, 3645 MB
+./create_initramfs.sh
+
+mount /dev/nvme0n1p2 /mnt2
+cp /boot/vmlinuz /boot/vmlinuz-6.12.21-gentoo-x86_64
+
+emacs /mnt2/boot/grub2/grub.cfg
+
+menuentry 'grub2 6.12.21 copy squashfs to ram' {
+	load_video
+	insmod part_gpt
+	search --no-floppy --fs-uuid --set=root F63D-5318
+	echo	'Loading Linux 6.12.21 ..."
+	linux	/vmlinuz-6.12.21-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+	initrd	/initramfs_squash_crypt-6.12.21-gentoo-x86_64.img
+}
+
+
+```
+
