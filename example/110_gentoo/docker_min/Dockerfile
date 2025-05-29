@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250501 AS portage
+FROM gentoo/portage:20250529 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250429
+FROM gentoo/stage3:nomultilib-systemd-20250526
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -273,15 +273,16 @@ RUN emerge  dev-debug/gdb
 #90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)
 # 2min35s to install gdb (and recompress)
 
-RUN echo "" >> /etc/portage/package.use/package.use
-RUN cat <<EOF >> /etc/portage/package.use/package.use
-net-libs/nodejs inspector
-sys-libs/zlib minizip
-media-libs/harfbuzz icu
-dev-libs/libxml2 icu
-www-client/chromium X -hangouts official -proprietary-codecs -screencast system-harfbuzz system-png system-zstd -wayland -widevine -bindist -bundled-toolchain -cups -custom-cflags -debug -ffmpeg-chromium gtk4 -headless -kerberos -pax-kernel -pgo -pulseaudio -qt6 -selinux -system-icu -test -vaapi
-EOF
-RUN emerge www-client/chromium --jobs=4
+# RUN echo "" >> /etc/portage/package.use/package.use
+# RUN cat <<EOF >> /etc/portage/package.use/package.use
+# net-libs/nodejs inspector
+# sys-libs/zlib minizip
+# media-libs/harfbuzz icu
+# dev-libs/libxml2 icu
+# www-client/chromium X -hangouts official -proprietary-codecs -screencast system-harfbuzz system-png system-zstd -wayland -widevine -bindist -bundled-toolchain -cups -custom-cflags -debug -ffmpeg-chromium gtk4 -headless -kerberos -pax-kernel -pgo -pulseaudio -qt6 -selinux -system-icu -test -vaapi
+# EOF
+# RUN emerge www-client/chromium --jobs=4
+
 #87 5223.1  * ERROR: www-client/chromium-135.0.7049.52::gentoo failed (compile phase):
 #87 5223.1  *   ninja -v -j33 -l0 -C out/Release chrome chromedriver chrome_sandbox failed
 #87 5223.1  *
