@@ -54,9 +54,9 @@ documentation=(("""**Get Your YouTube Summary:**
     2.  **Copy** the entire transcript text manually. (Need help finding/copying? Watch the 'Demo Video' linked at the top right of this page).
     3.  **(Optional)** Add any additional instructions *after* the transcript (e.g., 'Translate the summary to German.', 'Add a glossary of medical terms and jargon to the summary.').
 
-**For videos longer than 20 minutes:**
+**For videos longer than 50 minutes:**
 
-*   Select a **Pro model** for automatic summarization. Note that Pro usage is limited daily.
+*   Select a **Pro model** for automatic summarization. Note that Google seems to not allow free use of Pro model anymore.
 """)+("""*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
 """))
 def get_transcript(url):
