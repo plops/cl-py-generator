@@ -57,7 +57,11 @@ lost+found \
 var/log \
 usr/share/gtk-doc \
 usr/share/doc \
-usr/share/locale 
+usr/share/locale \
+usr/lib/modules/6.12.16-gentoo-x86_64 \
+usr/lib/modules/6.12.21-gentoo-x86_64 \
+lib/modules/6.12.16-gentoo-x86_64 \
+lib/modules/6.12.21-gentoo-x86_64
 
 # mksquashfs /lib /sbin /bin /etc /home /dev \
 # /proc /sys /run /var /tmp /mnt \

@@ -6754,3 +6754,24 @@ menuentry 'grub2 6.12.21 copy squashfs to ram' {
 
 ```
 
+
+# update 2025-06-13
+
+```
+emerge-webrsync
+deep
+compile, install boot 6.12.31; compile ryzen smu module
+exclude old modules in create script and change kernel in initramfs script
+./create_squashfs.sh # 1182MB
+./create_initramfs.sh
+emacs /mnt2/boot/grub2/grub.cfg
+
+menuentry 'p2/grub2 6.12.31 ram hd1' --class gnu-linux --class gnu --class os $menuentry_id_option 'osprober-gnulinux-/vmlinuz-6.6.62-gentoo-x86_64--80b66b33-ce31-4a54-9adc-b6c72fe3a826' {
+               insmod part_gpt
+    	       insmod fat
+               set root=(hd1,gpt1)
+               linux /vmlinuz-6.12.31-gentoo-x86_64 root=/dev/nvme0n1p3 init=/init mitigations=off
+               initrd /initramfs_squash_crypt-6.12.31-gentoo-x86_64.img
+       }
+```
+

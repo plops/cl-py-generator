@@ -63,7 +63,11 @@
 	(iflash25 .15)
 	(oflash25think 3.5)
 	(oflash25nothink .6))
-    (defparameter *models* `((:name gemini-2.5-flash-preview-05-20 :input-price ,iflash25 :output-price ,oflash25think :context-length 128_000 :harm-civic nil)
+    (defparameter *models* `((:name gemini-2.5-flash :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
+			     (:name gemini-2.5-flash-lite-preview-06-17 :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
+			     (:name gemini-2.5-pro :input-price 1.25 :output-price 10 :context-length 200_000 :harm-civic nil)
+			     (:name gemini-2.5-flash-preview-05-20 :input-price ,iflash25 :output-price ,oflash25think :context-length 128_000 :harm-civic nil)
+			     
 			     (:name gemma-3n-e4b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-preview-04-17 :input-price ,iflash25 :output-price ,oflash25think :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-pro-preview-05-06 :input-price 1.25 :output-price 10.0 :context-length 128_000 :harm-civic nil)
