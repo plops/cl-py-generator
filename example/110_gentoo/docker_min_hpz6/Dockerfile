@@ -223,7 +223,7 @@ mnt/ \
 mnt2/ \
 mnt4/ \
 mnt5/ \
-usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
+usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus} \
 usr/lib/firmware/{iwlwifi,phanfw}* \
 var/tmp \
 initramfs-with-squashfs.img \
