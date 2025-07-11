@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250529 AS portage
+FROM gentoo/portage:20250606 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250526
+FROM gentoo/stage3:nomultilib-systemd-20250602
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -28,7 +28,7 @@ RUN emerge --update --deep --changed-use @world --fetchonly
 
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
-ENV KVER_PURE=6.12.21
+ENV KVER_PURE=6.12.31
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
@@ -268,6 +268,7 @@ RUN emerge dev-util/clion
 # 5min24s to install clion (and recompress)
 
 RUN emerge  dev-debug/gdb
+RUN emerge dev-ada/gprbuild 
 
 #90 86.38 Filesystem size 2154112.32 Kbytes (2103.63 Mbytes)
 #90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)

@@ -1,11 +1,12 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250305 AS portage
+FROM gentoo/portage:20250711 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250310
-
+# https://hub.docker.com/r/gentoo/stage3/tags
+FROM gentoo/stage3:nomultilib-systemd-20250707
+# https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
@@ -26,7 +27,7 @@ RUN locale-gen
 
 RUN emerge --update --deep --changed-use @world --fetchonly
 
-ENV KVER_PURE=6.13.5
+ENV KVER_PURE=6.12.31
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
@@ -35,9 +36,11 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/lsmod_hpz6_6.11.4-301.fc41.x86_64 /lsmod_fc41
-RUN make defconfig
-RUN make LSMOD=/lsmod_fc41 localmodconfig
+COPY config/config6.12.31 .config
+RUN make oldconfig
+#COPY config/lsmod_hpz6_6.11.4-301.fc41.x86_64 /lsmod_fc41
+#RUN make defconfig
+#RUN make LSMOD=/lsmod_fc41 localmodconfig
 
 # pesto is what you find on google when you search for fat penguin
 # Maybe: -e CONFIG_RFKILL instead of -m
