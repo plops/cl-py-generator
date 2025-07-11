@@ -205,7 +205,7 @@ RUN ln -s /lib/modules/6.12.31-gentoo-gentoo-dist/ /lib/modules/6.12.31-gentoo
 RUN dracut \
   -m "base" \
   --kver=${KVER} \
-  --filesystems " squashfs vfat overlay " \
+  --filesystems " squashfs vfat overlay nvme " \
   --force \
   /boot/initramfs_squash_sda1-x86_64.img
 

@@ -100,15 +100,18 @@ fi
 # udevadm trigger --type=devices --action=add > /dev/null 2>&1
 
 
+#PARTNAME=/dev/sda1
+PARTNAME=/dev/nvme0n1p3
+
 mkdir -p /mnt1 /mnt /squash 
 # Check if /dev/sda1 exists.
-if [ ! -b /dev/sda1 ]; then
-    echo "Error: /dev/sda1 does not exist!"
+if [ ! -b $PARTNAME ]; then
+    echo "Error: $PARTNAME does not exist!"
     emergency_shell
 fi
 
-mount /dev/sda1 /mnt1 || { echo "Failed to mount /dev/sda1"; emergency_shell; }
-mount /dev/sda2 /mnt || { echo "Failed to mount /dev/sda1"; emergency_shell; }
+mount $PARTNAME /mnt1 || { echo "Failed to mount $PARTNAME"; emergency_shell; }
+#mount /dev/sda2 /mnt || { echo "Failed to mount /dev/sda2"; emergency_shell; }
 
 # Check if /mnt/gentoo.squashfs exists.
 if [ ! -f /mnt1/gentoo.squashfs ]; then
