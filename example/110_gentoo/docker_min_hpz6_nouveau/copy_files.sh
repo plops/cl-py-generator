@@ -2,7 +2,7 @@
 
 # This script copies the resulting gentoo files (squashfs image and kernel) to the host
 TODAY=$(date +%Y%m%d)
-TARGET=gentoo-ideapad-min_${TODAY}
+TARGET=gentoo-z6-min_${TODAY}
 mkdir -p /tmp/outside/${TARGET}
 cp /gentoo.squashfs /tmp/outside/${TARGET}/
 cp /boot/vmlinuz /tmp/outside/${TARGET}/

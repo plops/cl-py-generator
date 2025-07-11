@@ -201,6 +201,7 @@ usr/share/locale
 COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
 RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
+RUN ln -s /lib/modules/6.12.31-gentoo-gentoo-dist/ /lib/modules/6.12.31-gentoo
 RUN dracut \
   -m "base" \
   --kver=${KVER} \
