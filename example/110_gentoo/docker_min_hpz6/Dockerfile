@@ -129,15 +129,7 @@ RUN make -j32
 RUN make install
 RUN make clean
 
-# # Create a user
-RUN useradd -m -G wheel -s /bin/bash martin
-COPY config/simple_password.expect /simple_password.expect
-RUN expect /simple_password.expect
-RUN rm /simple_password.expect
 
-COPY config/list_files.py /usr/bin/list_files.py
-RUN chmod a+x /usr/bin/list_files.py
-RUN python /usr/bin/list_files.py > /list_files.txt
 
 
 WORKDIR /usr/src/linux
@@ -180,6 +172,11 @@ RUN echo -e "\nVIDEO_CARDS=\"nvidia\"" >> /etc/portage/make.conf
 RUN emerge --update --deep --changed-use @world
 RUN emerge --depclean
 
+COPY config/list_files.py /usr/bin/list_files.py
+RUN chmod a+x /usr/bin/list_files.py
+RUN python /usr/bin/list_files.py > /list_files.txt
+RUN cat /list_files.txt |grep -v nvidia > /list_files2.txt
+
 WORKDIR /
 # 22
 RUN mksquashfs \
@@ -193,7 +190,7 @@ RUN mksquashfs \
 -progress \
 -one-file-system-x \
 -mem 10G \
--ef /list_files.txt     \
+-ef /list_files2.txt     \
 -wildcards \
 -e \
 usr/src \
@@ -223,8 +220,6 @@ mnt/ \
 mnt2/ \
 mnt4/ \
 mnt5/ \
-usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus} \
-usr/lib/firmware/{iwlwifi,phanfw}* \
 var/tmp \
 initramfs-with-squashfs.img \
 usr/lib64/libQt*.a \
@@ -234,6 +229,8 @@ usr/share/gtk-doc \
 usr/share/doc \
 usr/share/locale
 
+#usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus}
+#usr/lib/firmware/{iwlwifi,phanfw}*
 
 # Create an initramfs that loads the squashfs from disk and overlays it
 # on the folder persistent/ on that partition

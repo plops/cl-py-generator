@@ -19,6 +19,7 @@ def list_firmware_files_glob(directory="/usr/lib/firmware"):
 
     # Create exclusion patterns using glob wildcards
     exclusion_patterns_glob = [
+        os.path.join(directory, "nvidia/"),
         # os.path.join(directory, "amdgpu/green_sardine*.bin"),
         # os.path.join(directory, "rtl_bt/rtl8852bu*.bin"),
         # os.path.join(directory, "rtw89/rtw8852b_fw-1.bin"),
