@@ -102,6 +102,7 @@ fi
 
 #PARTNAME=/dev/sda1
 PARTNAME=/dev/nvme0n1p3
+PARTNAME2=/dev/nvme0n1p5
 
 mkdir -p /mnt1 /mnt /squash 
 # Check if /dev/sda1 exists.
@@ -111,7 +112,7 @@ if [ ! -b $PARTNAME ]; then
 fi
 
 mount $PARTNAME /mnt1 || { echo "Failed to mount $PARTNAME"; emergency_shell; }
-#mount /dev/sda2 /mnt || { echo "Failed to mount /dev/sda2"; emergency_shell; }
+mount $PARTNAME2 /mnt || { echo "Failed to mount $PARTNAME2"; emergency_shell; }
 
 # Check if /mnt/gentoo.squashfs exists.
 if [ ! -f /mnt1/gentoo.squashfs ]; then

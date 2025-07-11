@@ -44,7 +44,7 @@ RUN make oldconfig
 
 # pesto is what you find on google when you search for fat penguin
 # Maybe: -e CONFIG_RFKILL instead of -m
-# --set-val BUILD_SALT "6.13.5-gentoo" 
+# --set-val BUILD_SALT "6.13.5-gentoo"
 RUN ./scripts/config --file .config \
 -d DEBUG_INFO \
 -d DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT \
@@ -129,7 +129,7 @@ RUN make -j32
 RUN make install
 RUN make clean
 
-# # Create a user 
+# # Create a user
 RUN useradd -m -G wheel -s /bin/bash martin
 COPY config/simple_password.expect /simple_password.expect
 RUN expect /simple_password.expect
@@ -138,6 +138,44 @@ RUN rm /simple_password.expect
 COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
 RUN python /usr/bin/list_files.py > /list_files.txt
+
+
+WORKDIR /usr/src/linux
+RUN ./scripts/config --file .config \
+    -e CONFIG_BLK_DEV_NVME \
+    -e CONFIG_NVME_CORE \
+    -d DRM_NOUVEAU \
+    -e HID_CHERRY \
+    -e ACPI_IPMI \
+    -d FB_NVIDIA -d FB_RIVA -d DRM_SIMPLEDRM \
+    -e SIMPLEFB -e FB_VESA -e FB_EFI -e FB_SIMPLE \
+    -d DRM \
+    -e BLK_DEV_LOOP \
+    --set-val LOCALVERSION "-gentoo"
+
+RUN make -j32
+RUN make modules_install
+RUN make install
+
+# add to license: x11-drivers/nvidia-drivers NVIDIA-2025
+# add to package.accept_keywords: x11-drivers/nvidia-drivers ~amd64
+# make sure newline in front and after the line
+
+RUN echo -e "\nx11-drivers/nvidia-drivers ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN echo -e "\nx11-drivers/nvidia-drivers NVIDIA-2025" >> /etc/portage/package.license
+#use flags: gnome-base/librsvg vala -debug -gtk-doc introspection
+# RUN echo -e "\ngnome-base/librsvg vala -debug -gtk-doc introspection" >> /etc/portage/package.use/package.use
+RUN echo -e "\nx11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland" >> /etc/portage/package.use/package.use
+RUN echo "*/* VIDEO_CARDS: -* nvidia" > /etc/portage/package.use/00video
+
+
+RUN emerge x11-drivers/nvidia-drivers
+
+
+
+
+
+
 
 WORKDIR /
 RUN mksquashfs \
@@ -193,7 +231,7 @@ usr/share/doc \
 usr/share/locale
 
 
-# Create an initramfs that loads the squashfs from disk and overlays it 
+# Create an initramfs that loads the squashfs from disk and overlays it
 # on the folder persistent/ on that partition
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
@@ -201,11 +239,11 @@ usr/share/locale
 COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
 RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
-RUN ln -s /lib/modules/6.12.31-gentoo-gentoo-dist/ /lib/modules/6.12.31-gentoo
+RUN ln -s /lib/modules/6.12.31-gentoo-gentoo-dist /lib/modules/6.12.31-gentoo
 RUN dracut \
   -m "base" \
   --kver=${KVER} \
-  --filesystems " squashfs vfat overlay nvme " \
+  --filesystems " squashfs fat vfat overlay nvme fuse hid-cherry kvm nvidia_uvm ip6table_filter ip6_tables overlay vfat fat nvidia_drm nvidia_modeset nvidia intel_rapl_msr amd_atl intel_rapl_common amd64_edac edac_mce_amd kvm_amd kvm irqbypass snd_hda_codec_realtek snd_hda_codec_generic snd_hda_scodec_component snd_hda_codec_hdmi hp_wmi sparse_keymap snd_hda_intel platform_profile rfkill snd_intel_dspcfg wmi_bmof snd_hda_codec snd_hwdep snd_hda_core rapl pcspkr snd_pcm video igc snd_timer i2c_piix4 snd r8169 k10temp i2c_smbus soundcore wmi gpio_amdpt joydev gpio_generic fuse loop hid_cherry crct10dif_pclmul crc32_pclmul crc32c_intel polyval_clmulni polyval_generic ghash_clmulni_intel sha512_ssse3 sha256_ssse3 sha1_ssse3 serio_raw nvme nvme_core ucsi_acpi ccp sp5100_tco typec_ucsi typec " \
   --force \
   /boot/initramfs_squash_sda1-x86_64.img
 
