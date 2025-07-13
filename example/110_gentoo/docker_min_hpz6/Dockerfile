@@ -38,9 +38,6 @@ RUN eselect kernel set linux-${KVER}
 WORKDIR /usr/src/linux
 COPY config/config6.12.31 .config
 RUN make oldconfig
-#COPY config/lsmod_hpz6_6.11.4-301.fc41.x86_64 /lsmod_fc41
-#RUN make defconfig
-#RUN make LSMOD=/lsmod_fc41 localmodconfig
 
 # pesto is what you find on google when you search for fat penguin
 # Maybe: -e CONFIG_RFKILL instead of -m
@@ -96,7 +93,17 @@ RUN ./scripts/config --file .config \
 -d SQUASHFS_4K_DEVBLK_SIZE \
 -d SQUASHFS_EMBEDDED \
 --set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
--m ENCRYPTED_KEYS
+-m ENCRYPTED_KEYS \
+        -e CONFIG_BLK_DEV_NVME \
+        -e CONFIG_NVME_CORE \
+        -d DRM_NOUVEAU \
+        -e HID_CHERRY \
+        -e ACPI_IPMI \
+        -d FB_NVIDIA -d FB_RIVA -d DRM_SIMPLEDRM \
+        -e SIMPLEFB -e FB_VESA -e FB_EFI -e FB_SIMPLE \
+        -d DRM \
+        -e BLK_DEV_LOOP \
+        --set-val LOCALVERSION "-gentoo"
 RUN make prepare
 
 
@@ -130,55 +137,15 @@ RUN make install
 RUN make clean
 
 
-
-
-WORKDIR /usr/src/linux
-RUN ./scripts/config --file .config \
-    -e CONFIG_BLK_DEV_NVME \
-    -e CONFIG_NVME_CORE \
-    -d DRM_NOUVEAU \
-    -e HID_CHERRY \
-    -e ACPI_IPMI \
-    -d FB_NVIDIA -d FB_RIVA -d DRM_SIMPLEDRM \
-    -e SIMPLEFB -e FB_VESA -e FB_EFI -e FB_SIMPLE \
-    -d DRM \
-    -e BLK_DEV_LOOP \
-    --set-val LOCALVERSION "-gentoo"
-
-RUN make -j32
-RUN make modules_install
-RUN make install
-
-# add to license: x11-drivers/nvidia-drivers NVIDIA-2025
-# add to package.accept_keywords: x11-drivers/nvidia-drivers ~amd64
-# make sure newline in front and after the line
-
-RUN echo -e "\nx11-drivers/nvidia-drivers ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
-RUN echo -e "\nx11-drivers/nvidia-drivers NVIDIA-2025" >> /etc/portage/package.license
-#use flags: gnome-base/librsvg vala -debug -gtk-doc introspection
-# RUN echo -e "\ngnome-base/librsvg vala -debug -gtk-doc introspection" >> /etc/portage/package.use/package.use
-RUN echo -e "\nx11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland" >> /etc/portage/package.use/package.use
-RUN echo "*/* VIDEO_CARDS: -* nvidia" > /etc/portage/package.use/00video
-
-
-RUN emerge x11-drivers/nvidia-drivers
-
 RUN useradd -m -G users,wheel,audio -s /bin/bash kiel
 RUN echo "kiel:kiel" | chpasswd
-#COPY config/passwd /etc/passwd
-#COPY config/shadow /etc/shadow
 
-RUN echo -e "\nVIDEO_CARDS=\"nvidia\"" >> /etc/portage/make.conf
-RUN emerge --update --deep --changed-use @world
-RUN emerge --depclean
 
 COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
 RUN python /usr/bin/list_files.py > /list_files.txt
-RUN cat /list_files.txt |grep -v nvidia > /list_files2.txt
 
 WORKDIR /
-# 22
 RUN mksquashfs \
 / \
 /gentoo.squashfs \
@@ -186,11 +153,11 @@ RUN mksquashfs \
 -xattrs \
 -noappend \
 -not-reproducible \
--Xcompression-level 1 \
+-Xcompression-level 22 \
 -progress \
 -one-file-system-x \
 -mem 10G \
--ef /list_files2.txt     \
+-ef /list_files.txt     \
 -wildcards \
 -e \
 usr/src \
@@ -240,7 +207,6 @@ usr/share/locale
 COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
 RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
-RUN ln -s /lib/modules/6.12.31-gentoo-gentoo-dist /lib/modules/6.12.31-gentoo
 RUN dracut \
   -m "base" \
   --kver=${KVER} \

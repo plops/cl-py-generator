@@ -55,3 +55,5 @@ media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pu
 
 x11-libs/libdrm video_cards_radeon
 #sys-kernel/gentoo-sources experimental
+x11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland
+media-libs/mesa X -llvm opengl proprietary-codecs -vaapi -vulkan zstd -d3d9 -debug -lm-sensors -opencl -osmesa -test -unwind -valgrind -vdpau -wayland -xa
