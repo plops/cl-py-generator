@@ -109,16 +109,15 @@ RUN make prepare
 
 
 RUN emerge -e @world --fetchonly
-# The fetch should replace he one earlier
 
-RUN emerge -e @world
-RUN emerge --depclean
-# only binutils is deleted
 
+# compile the kernel
 RUN make -j32
 RUN make modules_install
 RUN make install
 
+RUN emerge -e @world
+RUN emerge --depclean
 
 # # Allow members of the wheel group to execute any command without a password
 RUN mkdir -p /etc/sudoers.d
