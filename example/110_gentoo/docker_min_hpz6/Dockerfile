@@ -136,9 +136,18 @@ RUN make install
 RUN make clean
 
 
-RUN useradd -m -G users,wheel,audio -s /bin/bash kiel
+RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
 RUN echo "kiel:kiel" | chpasswd
 
+COPY config/xinitrc /home/kiel/.xinitrc
+
+RUN echo -e "\ngnome-base/librsvg vala -debug -gtk-doc introspection" >> /etc/portage/package.use/package.use
+#RUN echo -e "\n" >> /etc/portage/package.use/package.use
+RUN echo -e "\nx11-libs/gdk-pixbuf introspection" >> /etc/portage/package.use/package.use
+RUN echo -e "\ndev-libs/glib introspection" >> /etc/portage/package.use/package.use
+
+RUN emerge --update --deep --changed-use btop firefox-bin
+RUN emerge --depclean
 
 COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
@@ -203,13 +212,14 @@ usr/share/locale
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
-COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
+#COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
+COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
 RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
 RUN dracut \
-  -m "base" \
-  --kver=${KVER} \
-  --filesystems " squashfs fat vfat overlay nvme fuse hid-cherry kvm nvidia_uvm ip6table_filter ip6_tables overlay vfat fat nvidia_drm nvidia_modeset nvidia intel_rapl_msr amd_atl intel_rapl_common amd64_edac edac_mce_amd kvm_amd kvm irqbypass snd_hda_codec_realtek snd_hda_codec_generic snd_hda_scodec_component snd_hda_codec_hdmi hp_wmi sparse_keymap snd_hda_intel platform_profile rfkill snd_intel_dspcfg wmi_bmof snd_hda_codec snd_hwdep snd_hda_core rapl pcspkr snd_pcm video igc snd_timer i2c_piix4 snd r8169 k10temp i2c_smbus soundcore wmi gpio_amdpt joydev gpio_generic fuse loop hid_cherry crct10dif_pclmul crc32_pclmul crc32c_intel polyval_clmulni polyval_generic ghash_clmulni_intel sha512_ssse3 sha256_ssse3 sha1_ssse3 serio_raw nvme nvme_core ucsi_acpi ccp sp5100_tco typec_ucsi typec " \
+      -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
+      --filesystems " squashfs vfat overlay btrfs " \
+   --kver=${KVER} \
   --force \
   /boot/initramfs_squash_sda1-x86_64.img
 

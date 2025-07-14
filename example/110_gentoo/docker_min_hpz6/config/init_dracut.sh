@@ -89,20 +89,20 @@ fi
 
 # trap "emergency_shell Signal caught!" 0
 
-# export UDEVRULESD=/run/udev/rules.d
-# [ -d /run/udev ] || mkdir -p -m 0755 /run/udev
-# [ -d "$UDEVRULESD" ] || mkdir -p -m 0755 "$UDEVRULESD"
+ export UDEVRULESD=/run/udev/rules.d
+ [ -d /run/udev ] || mkdir -p -m 0755 /run/udev
+ [ -d "$UDEVRULESD" ] || mkdir -p -m 0755 "$UDEVRULESD"
 
 
-# udevadm control --reload > /dev/null 2>&1 || :
-# # then the rest
-# udevadm trigger --type=subsystems --action=add > /dev/null 2>&1
-# udevadm trigger --type=devices --action=add > /dev/null 2>&1
+ udevadm control --reload > /dev/null 2>&1 || :
+ # then the rest
+ udevadm trigger --type=subsystems --action=add > /dev/null 2>&1
+ udevadm trigger --type=devices --action=add > /dev/null 2>&1
 
 
 #PARTNAME=/dev/sda1
-PARTNAME=/dev/nvme0n1p3
-PARTNAME2=/dev/nvme0n1p5
+PARTNAME=/dev/disk/by-label/gentoo
+PARTNAME2=/dev/disk/by-label/docker
 
 mkdir -p /mnt1 /mnt /squash 
 # Check if /dev/sda1 exists.
