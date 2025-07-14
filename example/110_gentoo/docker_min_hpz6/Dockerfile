@@ -147,6 +147,11 @@ RUN echo -e "\nx11-libs/gdk-pixbuf introspection" >> /etc/portage/package.use/pa
 RUN echo -e "\ndev-libs/glib introspection" >> /etc/portage/package.use/package.use
 
 RUN emerge --update --deep --changed-use btop firefox-bin
+
+
+RUN echo -e "\ndev-util/clion IDEA" >> /etc/portage/package.license
+RUN echo -e "\ndev-util/clion ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN emerge dev-util/clion
 RUN emerge --depclean
 
 COPY config/list_files.py /usr/bin/list_files.py
