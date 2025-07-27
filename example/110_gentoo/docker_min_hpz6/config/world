@@ -14,11 +14,7 @@ media-libs/vulkan-loader
 dev-util/vulkan-headers
 dev-vcs/git
 dev-tcltk/expect
-#net-analyzer/netcat
 net-misc/dhcp
-# net-wireless/bluez
-# net-wireless/iwd
-# net-wireless/wireless-regdb
 sys-devel/gcc
 # sys-fs/btrfs-progs
 sys-fs/cryptsetup
@@ -26,14 +22,10 @@ sys-fs/squashfs-tools
 sys-kernel/dracut
 sys-kernel/gentoo-sources
 sys-kernel/linux-firmware
-# sys-power/tlp
 x11-apps/setxkbmap
 x11-apps/xrandr
 x11-apps/xset
 x11-base/xorg-server
-# x11-misc/redshift
-# x11-misc/xclip
-# x11-misc/xosview
 x11-terms/xterm
 x11-wm/dwm
-# net-wireless/iw
+x11-drivers/nvidia-drivers

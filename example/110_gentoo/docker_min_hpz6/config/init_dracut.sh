@@ -89,26 +89,30 @@ fi
 
 # trap "emergency_shell Signal caught!" 0
 
-# export UDEVRULESD=/run/udev/rules.d
-# [ -d /run/udev ] || mkdir -p -m 0755 /run/udev
-# [ -d "$UDEVRULESD" ] || mkdir -p -m 0755 "$UDEVRULESD"
+ export UDEVRULESD=/run/udev/rules.d
+ [ -d /run/udev ] || mkdir -p -m 0755 /run/udev
+ [ -d "$UDEVRULESD" ] || mkdir -p -m 0755 "$UDEVRULESD"
 
 
-# udevadm control --reload > /dev/null 2>&1 || :
-# # then the rest
-# udevadm trigger --type=subsystems --action=add > /dev/null 2>&1
-# udevadm trigger --type=devices --action=add > /dev/null 2>&1
+ udevadm control --reload > /dev/null 2>&1 || :
+ # then the rest
+ udevadm trigger --type=subsystems --action=add > /dev/null 2>&1
+ udevadm trigger --type=devices --action=add > /dev/null 2>&1
 
+
+#PARTNAME=/dev/sda1
+PARTNAME=/dev/disk/by-label/gentoo
+PARTNAME2=/dev/disk/by-label/docker
 
 mkdir -p /mnt1 /mnt /squash 
 # Check if /dev/sda1 exists.
-if [ ! -b /dev/sda1 ]; then
-    echo "Error: /dev/sda1 does not exist!"
+if [ ! -b $PARTNAME ]; then
+    echo "Error: $PARTNAME does not exist!"
     emergency_shell
 fi
 
-mount /dev/sda1 /mnt1 || { echo "Failed to mount /dev/sda1"; emergency_shell; }
-mount /dev/sda2 /mnt || { echo "Failed to mount /dev/sda1"; emergency_shell; }
+mount $PARTNAME /mnt1 || { echo "Failed to mount $PARTNAME"; emergency_shell; }
+mount $PARTNAME2 /mnt || { echo "Failed to mount $PARTNAME2"; emergency_shell; }
 
 # Check if /mnt/gentoo.squashfs exists.
 if [ ! -f /mnt1/gentoo.squashfs ]; then

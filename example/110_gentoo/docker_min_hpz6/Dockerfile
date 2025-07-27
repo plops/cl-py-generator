@@ -1,11 +1,12 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250305 AS portage
+FROM gentoo/portage:20250711 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250310
-
+# https://hub.docker.com/r/gentoo/stage3/tags
+FROM gentoo/stage3:nomultilib-systemd-20250707
+# https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
@@ -26,7 +27,7 @@ RUN locale-gen
 
 RUN emerge --update --deep --changed-use @world --fetchonly
 
-ENV KVER_PURE=6.13.5
+ENV KVER_PURE=6.12.31
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
@@ -35,13 +36,12 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/lsmod_hpz6_6.11.4-301.fc41.x86_64 /lsmod_fc41
-RUN make defconfig
-RUN make LSMOD=/lsmod_fc41 localmodconfig
+COPY config/config6.12.31 .config
+RUN make oldconfig
 
 # pesto is what you find on google when you search for fat penguin
 # Maybe: -e CONFIG_RFKILL instead of -m
-# --set-val BUILD_SALT "6.13.5-gentoo" 
+# --set-val BUILD_SALT "6.13.5-gentoo"
 RUN ./scripts/config --file .config \
 -d DEBUG_INFO \
 -d DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT \
@@ -93,22 +93,31 @@ RUN ./scripts/config --file .config \
 -d SQUASHFS_4K_DEVBLK_SIZE \
 -d SQUASHFS_EMBEDDED \
 --set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
--m ENCRYPTED_KEYS
+-m ENCRYPTED_KEYS \
+        -e CONFIG_BLK_DEV_NVME \
+        -e CONFIG_NVME_CORE \
+        -d DRM_NOUVEAU \
+        -e HID_CHERRY \
+        -e ACPI_IPMI \
+        -d FB_NVIDIA -d FB_RIVA -d DRM_SIMPLEDRM \
+        -e SIMPLEFB -e FB_VESA -e FB_EFI -e FB_SIMPLE \
+        -d DRM \
+        -e BLK_DEV_LOOP \
+        --set-val LOCALVERSION "-gentoo"
 RUN make prepare
 
 
 
 RUN emerge -e @world --fetchonly
-# The fetch should replace he one earlier
 
-RUN emerge -e @world
-RUN emerge --depclean
-# only binutils is deleted
 
+# compile the kernel
 RUN make -j32
 RUN make modules_install
 RUN make install
 
+RUN emerge -e @world
+RUN emerge --depclean
 
 # # Allow members of the wheel group to execute any command without a password
 RUN mkdir -p /etc/sudoers.d
@@ -126,11 +135,24 @@ RUN make -j32
 RUN make install
 RUN make clean
 
-# # Create a user 
-RUN useradd -m -G wheel -s /bin/bash martin
-COPY config/simple_password.expect /simple_password.expect
-RUN expect /simple_password.expect
-RUN rm /simple_password.expect
+
+RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
+RUN echo "kiel:kiel" | chpasswd
+
+COPY config/xinitrc /home/kiel/.xinitrc
+
+RUN echo -e "\ngnome-base/librsvg vala -debug -gtk-doc introspection" >> /etc/portage/package.use/package.use
+#RUN echo -e "\n" >> /etc/portage/package.use/package.use
+RUN echo -e "\nx11-libs/gdk-pixbuf introspection" >> /etc/portage/package.use/package.use
+RUN echo -e "\ndev-libs/glib introspection" >> /etc/portage/package.use/package.use
+
+RUN emerge --update --deep --changed-use btop firefox-bin
+
+
+RUN echo -e "\ndev-util/clion IDEA" >> /etc/portage/package.license
+RUN echo -e "\ndev-util/clion ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+RUN emerge dev-util/clion
+RUN emerge --depclean
 
 COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
@@ -178,8 +200,6 @@ mnt/ \
 mnt2/ \
 mnt4/ \
 mnt5/ \
-usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,nvidia,i915,qca,cirrus} \
-usr/lib/firmware/{iwlwifi,phanfw}* \
 var/tmp \
 initramfs-with-squashfs.img \
 usr/lib64/libQt*.a \
@@ -189,19 +209,22 @@ usr/share/gtk-doc \
 usr/share/doc \
 usr/share/locale
 
+#usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus}
+#usr/lib/firmware/{iwlwifi,phanfw}*
 
-# Create an initramfs that loads the squashfs from disk and overlays it 
+# Create an initramfs that loads the squashfs from disk and overlays it
 # on the folder persistent/ on that partition
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
-COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
+#COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
+COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
 RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
 RUN dracut \
-  -m "base" \
-  --kver=${KVER} \
-  --filesystems " squashfs vfat overlay " \
+      -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
+      --filesystems " squashfs vfat overlay btrfs " \
+   --kver=${KVER} \
   --force \
   /boot/initramfs_squash_sda1-x86_64.img
 

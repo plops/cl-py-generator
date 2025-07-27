@@ -28,7 +28,7 @@ log_message "Created qemu directory."
 
 # Create the raw disk image
 # 653M is needed for kernel, squashfs and initramfs
-qemu-img create -f raw qemu/sda1.img 2900M
+qemu-img create -f raw qemu/sda1.img 3100M
 log_message "Created raw disk image: qemu/sda1.img"
 
 # Detach all loop devices (cleanup from previous runs)
@@ -62,8 +62,8 @@ log_message "Creating msdos disk label..."
 parted "$LOOP_DEVICE" mklabel msdos
 # Create ext4 partition
 log_message "Creating ext4 partition..."
-parted "$LOOP_DEVICE" mkpart primary fat32 1MiB 900MB
-parted "$LOOP_DEVICE" mkpart primary ext4 900MB 100%
+parted "$LOOP_DEVICE" mkpart primary fat32 1MiB 2400MB
+parted "$LOOP_DEVICE" mkpart primary ext4 2400MB 100%
 # Set the boot flag
 log_message "Setting boot flag on partition 1..."
 parted "$LOOP_DEVICE" set 1 boot on

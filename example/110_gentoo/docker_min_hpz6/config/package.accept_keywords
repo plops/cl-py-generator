@@ -1,0 +1,3 @@
+net-wireless/iwgtk ~amd64
+#sys-kernel/gentoo-sources ~amd64
+x11-drivers/nvidia-drivers ~amd64
