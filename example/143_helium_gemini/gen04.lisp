@@ -23,6 +23,8 @@
 ;; [ ] OAuth
 ;; [X] Add example with abstract infront of summary
 ;; [ ] Store the thought process of the model in the database
+;; [ ] Download main language of the transcript
+;; [ ] Browsers sometimes translate the model selector, this might mess up the model lookup
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
