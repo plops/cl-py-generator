@@ -367,7 +367,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
        `(do0
 	 "#!/usr/bin/env python3"
 	 (comments "pip install -U google-generativeai python-fasthtml markdown")
-	 #+dl (comments "micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py")
+	 #+dl (comments "micromamba install python-fasthtml markdown yt-dlp uvicorn; pip install  webvtt-py")
 	 (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
 		   #+auth os
@@ -1010,7 +1010,7 @@ Here is the real transcript. Please summarize it:
 	   
 	   )
 	 " "
-	 (comments "in production run this script with: gunicorn -w 4 -k uvicorn.workers.UvicornWorker p04_host:app --bind 127.0.0.1:5001")
+	 (comments "in production run this script with: uvicorn p04_host:app --port 5001")
 	 #+nil (serve :host (string "127.0.0.1") :port 5001)
 	 #+nil
 	 (when (== __name__ (string "main"))
