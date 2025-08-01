@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # pip install -U google-generativeai python-fasthtml markdown
-# micromamba install python-fasthtml markdown yt-dlp; pip install  webvtt-py
+# micromamba install python-fasthtml markdown yt-dlp uvicorn; pip install  webvtt-py
 import google.generativeai as genai
 import google.api_core.exceptions
 import markdown
@@ -238,4 +238,4 @@ def generate_and_save(identifier: int):
         summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
         return
  
-# in production run this script with: gunicorn -w 4 -k uvicorn.workers.UvicornWorker p04_host:app --bind 127.0.0.1:5001
+# in production run this script with: uvicorn p04_host:app --port 5001
