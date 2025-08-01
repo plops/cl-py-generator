@@ -648,9 +648,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 
 	   (setf gen_list (Div :id (string "gen-list")))
 
-	   (setf summaries_to_show (summaries :order_by (string "identifier DESC"))
-		 )
-	   (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
+	   (setf summaries_to_show (summaries :order_by (string "identifier DESC")
+					      :limit 3))
+	   #+nil (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
 	   (setf summary_list (Ul *summaries_to_show
 				  :id (string "summaries")))
 	   (return (ntuple (Title (string "Video Transcript Summarizer"))
@@ -1010,14 +1010,15 @@ Here is the real transcript. Please summarize it:
 	   
 	   )
 	 " "
-	
-	 (serve :host (string "127.0.0.1") :port 5001)
-	 #+nil (when (== __name__ (string "main"))
-		 (uvicorn.run :app (string "p01_host:app")
-			      :host (string "0.0.0.0")
-			      :port 5001
-			      :reload True
+	 (comments "in production run this script with: gunicorn -w 4 -k uvicorn.workers.UvicornWorker p04_host:app --bind 127.0.0.1:5001")
+	 #+nil (serve :host (string "127.0.0.1") :port 5001)
+	 #+nil
+	 (when (== __name__ (string "main"))
+	   (uvicorn.run :app (string "p04_host:app")
+			:host (string "127.0.0.1")
+			:port 5001
+			:reload False
 					;:ssl_keyfile (string "privkey.pem")
 					;:ssl_certfile (string "fullchain.pem")
-			      ))
+			))
 	 )))))
