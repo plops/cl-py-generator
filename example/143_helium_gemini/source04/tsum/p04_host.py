@@ -240,10 +240,17 @@ def generate_and_save(identifier: int):
                 summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
                 print("line 2049 Error")
         prompt_tokens = response.usage_metadata.prompt_token_count
-        thinking_tokens = response.usage_metadata.thinking_token_count
         candidates_tokens = response.usage_metadata.candidates_token_count
-        print(f"usage: {response.usage_metadata}")
-        print(f"input: {prompt_tokens}, thinking: {thinking_tokens}, candidates: {candidates_tokens}")
+
+        try:
+            print(f"usage: {response.usage_metadata}")
+            thinking_tokens = response.usage_metadata.thinking_token_count
+            print(f"input: {prompt_tokens}, thinking: {thinking_tokens}, candidates: {candidates_tokens}")
+        except Exception as e:
+            print(f"line 250 Error: no thinking token count")
+            thinking_tokens = 0
+            pass
+        
         summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=prompt_token_count, summary_output_tokens=candidates_tokens+thinking_tokens, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
