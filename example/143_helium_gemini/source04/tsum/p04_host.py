@@ -72,6 +72,7 @@ def get_transcript(url, identifier):
     ostr="Problem getting subscript."
     try:
         ostr=parse_vtt_file(sub_file_)
+        print(f"removing {sub_file}")
         os.remove(sub_file_)
     except FileNotFoundError:
         print("Error: Subtitle file not found")
