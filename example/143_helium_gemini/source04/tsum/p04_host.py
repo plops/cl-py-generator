@@ -69,7 +69,7 @@ def get_transcript(url, identifier):
     sub_file_en=f"/dev/shm/o_{identifier}.en.vtt"
 
     # First, try to get English subtitles
-    cmds_en=["yt-dlp", "--skip-download", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, "--", youtube_id]
+    cmds_en=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, "--", youtube_id]
     print(" ".join(cmds_en))
     subprocess.run(cmds_en)
 
