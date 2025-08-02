@@ -523,15 +523,15 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 
 	 	 
 	 #+dl
-	 (def get_transcript (url)
+	 (def get_transcript (url identifier)
 	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
 
 	   (setf youtube_id (validate_youtube_url url))
 	   (unless youtube_id
 	     (return (string "URL couldn't be validated")))
 	   
-	   (setf sub_file (string "/dev/shm/o"))
-	   (setf sub_file_ (string "/dev/shm/o.en.vtt"))
+	   (setf sub_file (fstring "/dev/shm/o_{identifier}"))
+	   (setf sub_file_ (fstring "/dev/shm/o_{identifier}.en.vtt"))
 	   (setf cmds (list (string "yt-dlp")
 			    (string "--skip-download")
 			    (string "--write-auto-subs")
@@ -554,11 +554,12 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	    (do0
 	     (setf ostr 
 		   (parse_vtt_file sub_file_))
-	     
+	     (print (fstring "removing {sub_file}"))
 	     (os.remove sub_file_))
 	    
 	    (FileNotFoundError
-	     (print (string "Error: Subtitle file not found")))
+	     (print (string "Error: Subtitle file not found"))
+	     (setf ostr (string "Error: No English subtitles found for this video. Please provide the transcript manually.")))
 	    ("Exception as e"
 	     (print (fstring "line 1639 Error: problem when processing subtitle file {e}"))))
 	   (return ostr)
@@ -832,37 +833,86 @@ Output tokens: {output_tokens}")
 	   (return (generation_preview identifier)))
 
 	 " "
-	 (@rt (string "/process_transcript"))
-	 (def post (summary request)
-	   (declare (type Summary summary)
-		    (type Request request))
-	   
-	   #+dl
-	   (when (== 0 (len summary.transcript))
-	     (comments "No transcript given, try to download from URL")
-	     (setf summary.transcript (get_transcript summary.original_source_link))
-	     )
-	   (setf words (summary.transcript.split))
-	   (when (< (len words) 30)
-	     (return (Div (string "Error: Transcript is too short. No summary necessary")
-			  :id (string "summary"))))
-	   (when (< 280_000 (len words))
-	     (when (in (string "-pro") (dot summary model))
-	       (return (Div (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
-			    :id (string "summary")))))
-	   (setf summary.host request.client.host)
-	   (setf summary.summary_timestamp_start (dot datetime
-						      datetime
-						      (now)
-						      (isoformat)))
-	   (print (fstring "link: {summary.original_source_link}") )
-	   (setf summary.summary (string ""))
-	   
-	   (setf s2 (summaries.insert summary))
-	   (comments "first identifier is 1")
-	   (generate_and_save s2.identifier)
+	 (do0
+	  (@rt (string "/process_transcript"))
+	  (def post (summary request)
+	    (declare (type Summary summary)
+		     (type Request request))
+	    (setf summary.host request.client.host
+		  summary.summary_timestamp_start (dot datetime
+						       datetime
+						       (now)
+						       (isoformat))
+		  summary.summary (string ""))
+	    (when (== 0 (len summary.transcript))
+	      (setf summary.summary (string "Downloading transcript...")))
+	    (setf s2 (summaries.insert summary))
+	    (download_and_generate s2.identifier)
+	    (return (generation_preview s2.identifier))))
 
-	   (return (generation_preview s2.identifier)))
+	 (do0
+	  " "
+	  @threaded
+	  (def download_and_generate (identifier)
+	    (declare (type int identifier))
+	    (setf s (wait_until_row_exists identifier))
+	    (when (== 0 (len s.transcript))
+	      (comments "No transcript given, try to download from URL")
+	      (setf transcript (get_transcript s.original_source_link identifier))
+	      (summaries.update :pk_values identifier
+				:transcript transcript))
+
+	    (comments "re-fetch summary with transcript")
+	    (setf s (aref summaries identifier))
+	    (setf words (s.transcript.split))
+	    (when (< (len words) 30)
+	      (summaries.update :pk_values identifier
+				:summary (string "Error: Transcript is too short. No summary necessary")
+				:summary_done True)
+	      (return))
+	    (when (< 280_000 (len words))
+	      (when (in (string "-pro") s.model)
+		(summaries.update :pk_values identifier
+				  :summary (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
+				  :summary_done True)
+		(return)))
+	    (print (fstring "link: {s.original_source_link}"))
+	    (summaries.update :pk_values identifier
+			      :summary (string ""))
+	    (generate_and_save identifier)))
+	 #+nil
+	 (do0
+	  (@rt (string "/process_transcript"))
+	  (def post (summary request)
+	    (declare (type Summary summary)
+		     (type Request request))
+	    
+	    #+dl
+	    (when (== 0 (len summary.transcript))
+	      (comments "No transcript given, try to download from URL")
+	      (setf summary.transcript (get_transcript summary.original_source_link))
+	      )
+	    (setf words (summary.transcript.split))
+	    (when (< (len words) 30)
+	      (return (Div (string "Error: Transcript is too short. No summary necessary")
+			   :id (string "summary"))))
+	    (when (< 280_000 (len words))
+	      (when (in (string "-pro") (dot summary model))
+		(return (Div (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
+			     :id (string "summary")))))
+	    (setf summary.host request.client.host)
+	    (setf summary.summary_timestamp_start (dot datetime
+						       datetime
+						       (now)
+						       (isoformat)))
+	    (print (fstring "link: {summary.original_source_link}") )
+	    (setf summary.summary (string ""))
+	    
+	    (setf s2 (summaries.insert summary))
+	    (comments "first identifier is 1")
+	    (generate_and_save s2.identifier)
+
+	    (return (generation_preview s2.identifier))))
 
 	 " "
 	 (def wait_until_row_exists (identifier)
@@ -900,7 +950,6 @@ Here is the real transcript. Please summarize it:
 	   (return prompt)
 	   )
 	 " "
-	 "@threaded"
 	 (def generate_and_save (identifier)
 	   (declare (type int identifier))
 	   (print (fstring "generate_and_save id={identifier}"))
@@ -1021,4 +1070,5 @@ Here is the real transcript. Please summarize it:
 					;:ssl_keyfile (string "privkey.pem")
 					;:ssl_certfile (string "fullchain.pem")
 			))
-	 )))))
+	 ))))
+  )
