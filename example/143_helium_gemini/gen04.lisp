@@ -19,7 +19,7 @@
 ;; [ ] allow editing of the models output
 ;; [ ] allow local LLM
 ;; [X] get transcript from link
-;; [ ] allow concurrent summary downloads
+;; [X] allow concurrent transcript downloads
 ;; [ ] OAuth
 ;; [X] Add example with abstract infront of summary
 ;; [ ] Store the thought process of the model in the database
