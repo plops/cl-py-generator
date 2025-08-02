@@ -239,7 +239,12 @@ def generate_and_save(identifier: int):
             except Exception as e:
                 summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: {str(e)}")))
                 print("line 2049 Error")
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=response.usage_metadata.prompt_token_count, summary_output_tokens=response.usage_metadata.candidates_token_count, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        prompt_tokens = response.usage_metadata.prompt_token_count
+        thinking_tokens = response.usage_metadata.thinking_token_count
+        candidates_tokens = response.usage_metadata.candidates_token_count
+        print(f"usage: {response.usage_metadata}")
+        print(f"input: {prompt_tokens}, thinking: {thinking_tokens}, candidates: {candidates_tokens}")
+        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=prompt_token_count, summary_output_tokens=candidates_tokens+thinking_tokens, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return
