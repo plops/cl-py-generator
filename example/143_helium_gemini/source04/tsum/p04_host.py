@@ -8,6 +8,7 @@ import sqlite_minutils.db
 import datetime
 import subprocess
 import time
+import glob
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
 from s01_validate_youtube_url import *
@@ -65,20 +66,49 @@ def get_transcript(url, identifier):
     if ( not(youtube_id) ):
         return "URL couldn't be validated"
     sub_file=f"/dev/shm/o_{identifier}"
-    sub_file_=f"/dev/shm/o_{identifier}.en.vtt"
-    cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, "--", youtube_id]
-    print(" ".join(cmds))
-    subprocess.run(cmds)
+    sub_file_en=f"/dev/shm/o_{identifier}.en.vtt"
+
+    # First, try to get English subtitles
+    cmds_en=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, "--", youtube_id]
+    print(" ".join(cmds_en))
+    subprocess.run(cmds_en)
+
+    sub_file_to_parse = None
+    if os.path.exists(sub_file_en):
+        sub_file_to_parse = sub_file_en
+    else:
+        # If English subtitles are not found, try to download any available subtitle
+        print("English subtitles not found. Trying to download original language subtitles.")
+        cmds_any=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "-o", sub_file, "--", youtube_id]
+        print(" ".join(cmds_any))
+        subprocess.run(cmds_any)
+
+        # Find the downloaded subtitle file
+        subtitle_files = glob.glob(f"{sub_file}.*.vtt")
+        if subtitle_files:
+            sub_file_to_parse = subtitle_files[0]
+
     ostr="Problem getting subscript."
-    try:
-        ostr=parse_vtt_file(sub_file_)
-        print(f"removing {sub_file}")
-        os.remove(sub_file_)
-    except FileNotFoundError:
+    if sub_file_to_parse and os.path.exists(sub_file_to_parse):
+        try:
+            ostr=parse_vtt_file(sub_file_to_parse)
+            print(f"removing {sub_file_to_parse}")
+            os.remove(sub_file_to_parse)
+        except Exception as e:
+            print(f"line 1639 Error: problem when processing subtitle file {e}")
+            ostr = f"Error: problem when processing subtitle file {e}"
+    else:
         print("Error: Subtitle file not found")
         ostr="Error: No English subtitles found for this video. Please provide the transcript manually."
-    except Exception as e:
-        print(f"line 1639 Error: problem when processing subtitle file {e}")
+
+    # Cleanup any other subtitle files that might have been downloaded
+    other_subs = glob.glob(f"{sub_file}.*.vtt")
+    for sub in other_subs:
+        try:
+            os.remove(sub)
+        except OSError as e:
+            print(f"Error removing file {sub}: {e}")
+
     return ostr
  
 documentation_html=markdown.markdown(documentation)
