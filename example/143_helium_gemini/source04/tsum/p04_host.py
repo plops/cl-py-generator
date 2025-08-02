@@ -59,13 +59,13 @@ documentation=(("""**Get Your YouTube Summary:**
 *   Select a **Pro model** for automatic summarization. Note that Google seems to not allow free use of Pro model anymore.
 """)+("""*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
 """))
-def get_transcript(url):
+def get_transcript(url, identifier):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     youtube_id=validate_youtube_url(url)
     if ( not(youtube_id) ):
         return "URL couldn't be validated"
-    sub_file="/dev/shm/o"
-    sub_file_="/dev/shm/o.en.vtt"
+    sub_file=f"/dev/shm/o_{identifier}"
+    sub_file_=f"/dev/shm/o_{identifier}.en.vtt"
     cmds=["yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--sub-lang", "en", "-o", sub_file, "--", youtube_id]
     print(" ".join(cmds))
     subprocess.run(cmds)
@@ -75,6 +75,7 @@ def get_transcript(url):
         os.remove(sub_file_)
     except FileNotFoundError:
         print("Error: Subtitle file not found")
+        ostr = "Error: No English subtitles found for this video. Please provide the transcript manually."
     except Exception as e:
         print(f"line 1639 Error: problem when processing subtitle file {e}")
     return ostr
@@ -156,27 +157,41 @@ Output tokens: {output_tokens}"""
 @app.post("/generations/{identifier}")
 def get(identifier: int):
     return generation_preview(identifier)
- 
+
 @rt("/process_transcript")
 def post(summary: Summary, request: Request):
-    if ( ((0)==(len(summary.transcript))) ):
-        # No transcript given, try to download from URL
-        summary.transcript=get_transcript(summary.original_source_link)
-    words=summary.transcript.split()
-    if ( ((len(words))<(30)) ):
-        return Div("Error: Transcript is too short. No summary necessary", id="summary")
-    if ( ((280_000)<(len(words))) ):
-        if ( ("-pro" in summary.model) ):
-            return Div("Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.", id="summary")
     summary.host=request.client.host
     summary.summary_timestamp_start=datetime.datetime.now().isoformat()
-    print(f"link: {summary.original_source_link}")
     summary.summary=""
+    if ( ((0)==(len(summary.transcript))) ):
+        summary.summary="Downloading transcript..."
     s2=summaries.insert(summary)
-    # first identifier is 1
-    generate_and_save(s2.identifier)
+    download_and_generate(s2.identifier)
     return generation_preview(s2.identifier)
- 
+
+@threaded
+def download_and_generate(identifier: int):
+    s = wait_until_row_exists(identifier)
+    if ( ((0)==(len(s.transcript))) ):
+        # No transcript given, try to download from URL
+        transcript = get_transcript(s.original_source_link, identifier)
+        summaries.update(pk_values=identifier, transcript=transcript)
+
+    s = summaries[identifier] # re-fetch summary with transcript
+    words=s.transcript.split()
+    if ( ((len(words))<(30)) ):
+        summaries.update(pk_values=identifier, summary="Error: Transcript is too short. No summary necessary", summary_done=True)
+        return
+    if ( ((280_000)<(len(words))) ):
+        if ( ("-pro" in s.model) ):
+            summaries.update(pk_values=identifier, summary="Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.", summary_done=True)
+            return
+
+    print(f"link: {s.original_source_link}")
+    summaries.update(pk_values=identifier, summary="")
+    generate_and_save(identifier)
+
+
 def wait_until_row_exists(identifier):
     for i in range(10):
         try:
@@ -204,8 +219,7 @@ Example Output:
 Here is the real transcript. Please summarize it: 
 {(summary.transcript)}"""
     return prompt
- 
-@threaded
+
 def generate_and_save(identifier: int):
     print(f"generate_and_save id={identifier}")
     s=wait_until_row_exists(identifier)
