@@ -12,7 +12,6 @@ import glob
 import numpy as np
 import os
 import logging
-from datetime import datetime, timezone
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
@@ -24,7 +23,7 @@ from s03_convert_markdown_to_youtube_format import *
 # Configure logging with UTC timestamps and file output
 class UTCFormatter(logging.Formatter):
     def formatTime(self, record, datefmt=None):
-        dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
+        dt = datetime.datetime.fromtimestamp(record.created, tz=datetime.timezone.utc)
         return dt.isoformat()
 
 
