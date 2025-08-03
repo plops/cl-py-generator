@@ -12,6 +12,7 @@ import glob
 import numpy as np
 import os
 import logging
+from datetime import datetime, timezone
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
@@ -19,8 +20,35 @@ from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+
+# Configure logging with UTC timestamps and file output
+class UTCFormatter(logging.Formatter):
+    def formatTime(self, record, datefmt=None):
+        dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
+        return dt.isoformat()
+
+
+# Create formatter with UTC timestamps
+formatter = UTCFormatter(fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+# Configure root logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+# Clear any existing handlers
+logger.handlers.clear()
+
+# Console handler
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+# File handler
+file_handler = logging.FileHandler("transcript_summarizer.log")
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
+# Get logger for this module
 logger = logging.getLogger(__name__)
 
 # Read the demonstration transcript and corresponding summary from disk
@@ -36,15 +64,19 @@ except FileNotFoundError as e:
     raise
 
 # Use environment variable for API key
-api_key = os.getenv('GEMINI_API_KEY')
+api_key = os.getenv("GEMINI_API_KEY")
 if not api_key:
     # Fallback to file for backward compatibility
     try:
         with open("api_key.txt") as f:
             api_key = f.read().strip()
-        logger.warning("Using API key from file. Consider using GEMINI_API_KEY environment variable for security.")
+        logger.warning(
+            "Using API key from file. Consider using GEMINI_API_KEY environment variable for security."
+        )
     except FileNotFoundError:
-        raise ValueError("GEMINI_API_KEY environment variable required or api_key.txt file must exist")
+        raise ValueError(
+            "GEMINI_API_KEY environment variable required or api_key.txt file must exist"
+        )
 
 genai.configure(api_key=api_key)
 
@@ -104,7 +136,7 @@ def validate_youtube_id(youtube_id: str) -> bool:
     if not youtube_id or len(youtube_id) != 11:
         return False
     # YouTube IDs are alphanumeric with _ and -
-    return all(c.isalnum() or c in '_-' for c in youtube_id)
+    return all(c.isalnum() or c in "_-" for c in youtube_id)
 
 
 def render(summary: Summary):
@@ -223,14 +255,18 @@ def get_transcript(url, identifier):
         result = subprocess.run(cmds_en, capture_output=True, text=True, timeout=60)
 
         if result.returncode != 0:
-            logger.warning(f"yt-dlp failed with return code {result.returncode}: {result.stderr}")
+            logger.warning(
+                f"yt-dlp failed with return code {result.returncode}: {result.stderr}"
+            )
 
         sub_file_to_parse = None
         if os.path.exists(sub_file_en):
             sub_file_to_parse = sub_file_en
         else:
             # If English subtitles are not found, try to download any available subtitle
-            logger.info("English subtitles not found. Trying to download original language subtitles.")
+            logger.info(
+                "English subtitles not found. Trying to download original language subtitles."
+            )
             cmds_any = [
                 "yt-dlp",
                 "--skip-download",
@@ -243,7 +279,9 @@ def get_transcript(url, identifier):
                 youtube_id,
             ]
             logger.info(f"Downloading any subtitles: {' '.join(cmds_any)}")
-            result = subprocess.run(cmds_any, capture_output=True, text=True, timeout=60)
+            result = subprocess.run(
+                cmds_any, capture_output=True, text=True, timeout=60
+            )
 
             # Find the downloaded subtitle file
             subtitle_files = glob.glob(f"{sub_file}.*.vtt")
@@ -650,7 +688,10 @@ def download_and_generate(identifier: int):
                 summary_done=True,
             )
         except Exception as update_error:
-            logger.error(f"Failed to update database with error for {identifier}: {update_error}")
+            logger.error(
+                f"Failed to update database with error for {identifier}: {update_error}"
+            )
+
 
 def wait_until_row_exists(identifier):
     for i in range(400):
@@ -658,7 +699,7 @@ def wait_until_row_exists(identifier):
             s = summaries[identifier]
             return s
         except sqlite_minutils.db.NotFoundError:
-            logger.debug(f"Entry {identifier} not found, attempt {i+1}")
+            logger.debug(f"Entry {identifier} not found, attempt {i + 1}")
         except Exception as e:
             logger.error(f"Unknown exception waiting for row {identifier}: {e}")
         time.sleep((0.10))
@@ -702,8 +743,12 @@ def generate_and_save(identifier: int):
         safety = {
             (HarmCategory.HARM_CATEGORY_HATE_SPEECH): (HarmBlockThreshold.BLOCK_NONE),
             (HarmCategory.HARM_CATEGORY_HARASSMENT): (HarmBlockThreshold.BLOCK_NONE),
-            (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT): (HarmBlockThreshold.BLOCK_NONE),
-            (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT): (HarmBlockThreshold.BLOCK_NONE),
+            (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT): (
+                HarmBlockThreshold.BLOCK_NONE
+            ),
+            (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT): (
+                HarmBlockThreshold.BLOCK_NONE
+            ),
         }
 
         prompt = get_prompt(s)
@@ -774,7 +819,9 @@ def generate_and_save(identifier: int):
                 summary_timestamp_end=datetime.datetime.now().isoformat(),
             )
         except Exception as update_error:
-            logger.error(f"Failed to update database with error for {identifier}: {update_error}")
+            logger.error(
+                f"Failed to update database with error for {identifier}: {update_error}"
+            )
         return
 
     try:
@@ -833,6 +880,8 @@ def generate_and_save(identifier: int):
         )
         return
     except Exception as e:
-        logger.error(f"Error during embedding or final update for identifier {identifier}: {e}")
+        logger.error(
+            f"Error during embedding or final update for identifier {identifier}: {e}"
+        )
 
         # in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001
