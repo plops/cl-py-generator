@@ -10,6 +10,8 @@ import subprocess
 import time
 import glob
 import numpy as np
+import os
+import logging
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
@@ -17,18 +19,92 @@ from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
 
-# Read the demonstration transcript and corresponding summary from disk
-with open("example_input.txt") as f:
-    g_example_input = f.read()
-with open("example_output.txt") as f:
-    g_example_output = f.read()
-with open("example_output_abstract.txt") as f:
-    g_example_output_abstract = f.read()
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Read the gemini api key from disk
-with open("api_key.txt") as f:
-    api_key = f.read().strip()
+# Read the demonstration transcript and corresponding summary from disk
+try:
+    with open("example_input.txt") as f:
+        g_example_input = f.read()
+    with open("example_output.txt") as f:
+        g_example_output = f.read()
+    with open("example_output_abstract.txt") as f:
+        g_example_output_abstract = f.read()
+except FileNotFoundError as e:
+    logger.error(f"Required example file not found: {e}")
+    raise
+
+# Use environment variable for API key
+api_key = os.getenv('GEMINI_API_KEY')
+if not api_key:
+    # Fallback to file for backward compatibility
+    try:
+        with open("api_key.txt") as f:
+            api_key = f.read().strip()
+        logger.warning("Using API key from file. Consider using GEMINI_API_KEY environment variable for security.")
+    except FileNotFoundError:
+        raise ValueError("GEMINI_API_KEY environment variable required or api_key.txt file must exist")
+
 genai.configure(api_key=api_key)
+
+# Model configuration - moved from inline list
+MODEL_OPTIONS = [
+    "gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
+    "gemini-2.5-flash-lite| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000",
+    "gemini-2.5-flash-lite-preview-06-17| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-2.5-flash-preview-05-20| input-price: 0.15 output-price: 3.5 max-context-length: 128_000",
+    "gemma-3n-e4b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
+    "gemini-2.5-flash-preview-04-17| input-price: 0.15 output-price: 3.5 max-context-length: 128_000",
+    "gemini-2.5-pro-preview-05-06| input-price: 1.25 output-price: 10.0 max-context-length: 128_000",
+    "gemini-2.5-pro-exp-03-25| input-price: 1.25 output-price: 10.0 max-context-length: 128_000",
+    "gemini-2.0-flash| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-2.0-flash-lite| input-price: 0.075 output-price: 0.3 max-context-length: 128_000",
+    "gemini-2.0-flash-thinking-exp-01-21| input-price: 0.075 output-price: 0.3 max-context-length: 128_000",
+    "gemini-2.0-flash-exp| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-2.0-pro-exp-02-05| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-1.5-pro-exp-0827| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-2.0-flash-lite-preview-02-05| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-2.0-flash-thinking-exp-01-21| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-2.0-flash-001| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-exp-1206| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-exp-1121| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-exp-1114| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "learnlm-1.5-pro-experimental| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-1.5-flash-002| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-1.5-pro-002| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-1.5-pro-exp-0801| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-1.5-flash-exp-0827| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-1.5-flash-8b-exp-0924| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-1.5-flash-latest| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemma-2-2b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
+    "gemma-2-9b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
+    "gemma-2-27b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
+    "gemma-3-27b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
+    "gemini-1.5-flash| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-1.5-pro| input-price: 1.25 output-price: 5 max-context-length: 128_000",
+    "gemini-1.0-pro| input-price: 0.5 output-price: 1.5 max-context-length: 128_000",
+]
+
+
+def validate_transcript_length(transcript: str, max_words: int = 280_000) -> bool:
+    """Validate transcript length to prevent processing overly large inputs."""
+    if not transcript or not transcript.strip():
+        raise ValueError("Transcript cannot be empty")
+
+    words = transcript.split()
+    if len(words) > max_words:
+        raise ValueError(f"Transcript too long: {len(words)} words (max: {max_words})")
+    return True
+
+
+def validate_youtube_id(youtube_id: str) -> bool:
+    """Validate YouTube ID to prevent injection attacks."""
+    if not youtube_id or len(youtube_id) != 11:
+        return False
+    # YouTube IDs are alphanumeric with _ and -
+    return all(c.isalnum() or c in '_-' for c in youtube_id)
 
 
 def render(summary: Summary):
@@ -115,79 +191,100 @@ documentation = (
 
 def get_transcript(url, identifier):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
-    youtube_id = validate_youtube_url(url)
-    if not (youtube_id):
-        return "URL couldn't be validated"
-    sub_file = f"/dev/shm/o_{identifier}"
-    sub_file_en = f"/dev/shm/o_{identifier}.en.vtt"
+    try:
+        youtube_id = validate_youtube_url(url)
+        if not youtube_id:
+            logger.warning(f"Invalid YouTube URL: {url}")
+            return "URL couldn't be validated"
 
-    # First, try to get English subtitles
-    cmds_en = [
-        "yt-dlp",
-        "--skip-download",
-        "--write-auto-subs",
-        "--write-subs",
-        "--cookies-from-browser",
-        "firefox",
-        "--sub-lang",
-        "en",
-        "-o",
-        sub_file,
-        "--",
-        youtube_id,
-    ]
-    print(" ".join(cmds_en))
-    subprocess.run(cmds_en)
+        if not validate_youtube_id(youtube_id):
+            logger.warning(f"Invalid YouTube ID format: {youtube_id}")
+            return "Invalid YouTube ID format"
 
-    sub_file_to_parse = None
-    if os.path.exists(sub_file_en):
-        sub_file_to_parse = sub_file_en
-    else:
-        # If English subtitles are not found, try to download any available subtitle
-        print(
-            "English subtitles not found. Trying to download original language subtitles."
-        )
-        cmds_any = [
+        sub_file = f"/dev/shm/o_{identifier}"
+        sub_file_en = f"/dev/shm/o_{identifier}.en.vtt"
+
+        # First, try to get English subtitles
+        cmds_en = [
             "yt-dlp",
             "--skip-download",
+            "--write-auto-subs",
             "--write-subs",
             "--cookies-from-browser",
             "firefox",
+            "--sub-lang",
+            "en",
             "-o",
             sub_file,
             "--",
             youtube_id,
         ]
-        print(" ".join(cmds_any))
-        subprocess.run(cmds_any)
+        logger.info(f"Downloading English subtitles: {' '.join(cmds_en)}")
+        result = subprocess.run(cmds_en, capture_output=True, text=True, timeout=60)
 
-        # Find the downloaded subtitle file
-        subtitle_files = glob.glob(f"{sub_file}.*.vtt")
-        if subtitle_files:
-            sub_file_to_parse = subtitle_files[0]
+        if result.returncode != 0:
+            logger.warning(f"yt-dlp failed with return code {result.returncode}: {result.stderr}")
 
-    ostr = "Problem getting subscript."
-    if sub_file_to_parse and os.path.exists(sub_file_to_parse):
-        try:
-            ostr = parse_vtt_file(sub_file_to_parse)
-            print(f"removing {sub_file_to_parse}")
-            os.remove(sub_file_to_parse)
-        except Exception as e:
-            print(f"line 1639 Error: problem when processing subtitle file {e}")
-            ostr = f"Error: problem when processing subtitle file {e}"
-    else:
-        print("Error: Subtitle file not found")
-        ostr = "Error: No English subtitles found for this video. Please provide the transcript manually."
+        sub_file_to_parse = None
+        if os.path.exists(sub_file_en):
+            sub_file_to_parse = sub_file_en
+        else:
+            # If English subtitles are not found, try to download any available subtitle
+            logger.info("English subtitles not found. Trying to download original language subtitles.")
+            cmds_any = [
+                "yt-dlp",
+                "--skip-download",
+                "--write-subs",
+                "--cookies-from-browser",
+                "firefox",
+                "-o",
+                sub_file,
+                "--",
+                youtube_id,
+            ]
+            logger.info(f"Downloading any subtitles: {' '.join(cmds_any)}")
+            result = subprocess.run(cmds_any, capture_output=True, text=True, timeout=60)
 
-    # Cleanup any other subtitle files that might have been downloaded
-    other_subs = glob.glob(f"{sub_file}.*.vtt")
-    for sub in other_subs:
-        try:
-            os.remove(sub)
-        except OSError as e:
-            print(f"Error removing file {sub}: {e}")
+            # Find the downloaded subtitle file
+            subtitle_files = glob.glob(f"{sub_file}.*.vtt")
+            if subtitle_files:
+                sub_file_to_parse = subtitle_files[0]
 
-    return ostr
+        ostr = "Problem getting subscript."
+        if sub_file_to_parse and os.path.exists(sub_file_to_parse):
+            try:
+                ostr = parse_vtt_file(sub_file_to_parse)
+                logger.info(f"Successfully parsed subtitle file: {sub_file_to_parse}")
+                os.remove(sub_file_to_parse)
+            except FileNotFoundError:
+                logger.error(f"Subtitle file not found: {sub_file_to_parse}")
+                ostr = "Error: Subtitle file disappeared"
+            except PermissionError:
+                logger.error(f"Permission denied removing file: {sub_file_to_parse}")
+                ostr = "Error: Permission denied"
+            except Exception as e:
+                logger.error(f"Error processing subtitle file: {e}")
+                ostr = f"Error: problem when processing subtitle file {e}"
+        else:
+            logger.error("No subtitle file found")
+            ostr = "Error: No English subtitles found for this video. Please provide the transcript manually."
+
+        # Cleanup any other subtitle files that might have been downloaded
+        other_subs = glob.glob(f"{sub_file}.*.vtt")
+        for sub in other_subs:
+            try:
+                os.remove(sub)
+            except OSError as e:
+                logger.warning(f"Error removing file {sub}: {e}")
+
+        return ostr
+
+    except subprocess.TimeoutExpired:
+        logger.error(f"yt-dlp timeout for identifier {identifier}")
+        return "Error: Download timeout"
+    except Exception as e:
+        logger.error(f"Unexpected error in get_transcript: {e}")
+        return f"Error: {str(e)}"
 
 
 documentation_html = markdown.markdown(documentation)
@@ -195,7 +292,7 @@ documentation_html = markdown.markdown(documentation)
 
 @rt("/")
 def get(request: Request):
-    print("nil request.client.host={}".format(request.client.host))
+    logger.info(f"Request from host: {request.client.host}")
     nav = Nav(
         Ul(Li(Strong("Transcript Summarizer"))),
         Ul(
@@ -214,45 +311,8 @@ def get(request: Request):
         style="height: 300px; width=60%;",
         name="transcript",
     )
-    model_options = [
-        "gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
-        "gemini-2.5-flash-lite| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000",
-        "gemini-2.5-flash-lite-preview-06-17| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-2.5-flash-preview-05-20| input-price: 0.15 output-price: 3.5 max-context-length: 128_000",
-        "gemma-3n-e4b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-        "gemini-2.5-flash-preview-04-17| input-price: 0.15 output-price: 3.5 max-context-length: 128_000",
-        "gemini-2.5-pro-preview-05-06| input-price: 1.25 output-price: 10.0 max-context-length: 128_000",
-        "gemini-2.5-pro-exp-03-25| input-price: 1.25 output-price: 10.0 max-context-length: 128_000",
-        "gemini-2.0-flash| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-2.0-flash-lite| input-price: 0.075 output-price: 0.3 max-context-length: 128_000",
-        "gemini-2.0-flash-thinking-exp-01-21| input-price: 0.075 output-price: 0.3 max-context-length: 128_000",
-        "gemini-2.0-flash-exp| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-2.0-pro-exp-02-05| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-1.5-pro-exp-0827| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-2.0-flash-lite-preview-02-05| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-2.0-flash-thinking-exp-01-21| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-2.0-flash-001| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-exp-1206| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-exp-1121| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-exp-1114| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "learnlm-1.5-pro-experimental| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-1.5-flash-002| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-1.5-pro-002| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-1.5-pro-exp-0801| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-1.5-flash-exp-0827| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-1.5-flash-8b-exp-0924| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-1.5-flash-latest| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemma-2-2b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-        "gemma-2-9b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-        "gemma-2-27b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-        "gemma-3-27b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-        "gemini-1.5-flash| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-        "gemini-1.5-pro| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-        "gemini-1.0-pro| input-price: 0.5 output-price: 1.5 max-context-length: 128_000",
-    ]
     model = Div(
-        Select(*[Option(opt, value=opt) for opt in model_options], name="model"),
+        Select(*[Option(opt, value=opt) for opt in MODEL_OPTIONS], name="model"),
         style="width: 100%;",
     )
     form = Form(
@@ -534,45 +594,75 @@ def post(summary: Summary, request: Request):
 
 @threaded
 def download_and_generate(identifier: int):
-    s = wait_until_row_exists(identifier)
-    if (0) == (len(s.transcript)):
-        # No transcript given, try to download from URL
-        transcript = get_transcript(s.original_source_link, identifier)
-        summaries.update(pk_values=identifier, transcript=transcript)
-    # re-fetch summary with transcript
-    s = summaries[identifier]
-    words = s.transcript.split()
-    if (len(words)) < (30):
-        summaries.update(
-            pk_values=identifier,
-            summary="Error: Transcript is too short. No summary necessary",
-            summary_done=True,
-        )
-        return
-    if (280_000) < (len(words)):
-        if "-pro" in s.model:
+    try:
+        s = wait_until_row_exists(identifier)
+        if s == -1:
+            logger.error(f"Row {identifier} never appeared in database")
+            return
+
+        if (0) == (len(s.transcript)):
+            # No transcript given, try to download from URL
+            transcript = get_transcript(s.original_source_link, identifier)
+            summaries.update(pk_values=identifier, transcript=transcript)
+
+        # re-fetch summary with transcript
+        s = summaries[identifier]
+
+        # Validate transcript length
+        try:
+            validate_transcript_length(s.transcript)
+        except ValueError as e:
+            logger.error(f"Transcript validation failed for {identifier}: {e}")
             summaries.update(
                 pk_values=identifier,
-                summary="Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.",
+                summary=f"Error: {str(e)}",
                 summary_done=True,
             )
             return
-    print(f"link: {s.original_source_link}")
-    summaries.update(pk_values=identifier, summary="")
-    generate_and_save(identifier)
 
+        words = s.transcript.split()
+        if (len(words)) < (30):
+            summaries.update(
+                pk_values=identifier,
+                summary="Error: Transcript is too short. No summary necessary",
+                summary_done=True,
+            )
+            return
+        if (280_000) < (len(words)):
+            if "-pro" in s.model:
+                summaries.update(
+                    pk_values=identifier,
+                    summary="Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.",
+                    summary_done=True,
+                )
+                return
+
+        logger.info(f"Processing link: {s.original_source_link}")
+        summaries.update(pk_values=identifier, summary="")
+        generate_and_save(identifier)
+
+    except Exception as e:
+        logger.error(f"Error in download_and_generate for {identifier}: {e}")
+        try:
+            summaries.update(
+                pk_values=identifier,
+                summary=f"Error: {str(e)}",
+                summary_done=True,
+            )
+        except Exception as update_error:
+            logger.error(f"Failed to update database with error for {identifier}: {update_error}")
 
 def wait_until_row_exists(identifier):
-    for i in range(10):
+    for i in range(400):
         try:
             s = summaries[identifier]
             return s
         except sqlite_minutils.db.NotFoundError:
-            print("entry not found")
+            logger.debug(f"Entry {identifier} not found, attempt {i+1}")
         except Exception as e:
-            print(f"line 1953 unknown exception {e}")
+            logger.error(f"Unknown exception waiting for row {identifier}: {e}")
         time.sleep((0.10))
-    print("row did not appear")
+    logger.error(f"Row {identifier} did not appear after 400 attempts")
     return -1
 
 
@@ -600,53 +690,58 @@ def generate_and_save(identifier: int):
     Args:
         identifier (int): The unique identifier for the summary entry in the database.
     """
-    print(f"generate_and_save id={identifier}")
-    s = wait_until_row_exists(identifier)
-    print(f"generate_and_save model={s.model}")
-    m = genai.GenerativeModel(s.model.split("|")[0])
-    safety = {
-        (HarmCategory.HARM_CATEGORY_HATE_SPEECH): (HarmBlockThreshold.BLOCK_NONE),
-        (HarmCategory.HARM_CATEGORY_HARASSMENT): (HarmBlockThreshold.BLOCK_NONE),
-        (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT): (HarmBlockThreshold.BLOCK_NONE),
-        (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT): (HarmBlockThreshold.BLOCK_NONE),
-    }
+    logger.info(f"generate_and_save id={identifier}")
     try:
+        s = wait_until_row_exists(identifier)
+        if s == -1:
+            logger.error(f"Could not find summary with id {identifier}")
+            return
+
+        logger.info(f"generate_and_save model={s.model}")
+        m = genai.GenerativeModel(s.model.split("|")[0])
+        safety = {
+            (HarmCategory.HARM_CATEGORY_HATE_SPEECH): (HarmBlockThreshold.BLOCK_NONE),
+            (HarmCategory.HARM_CATEGORY_HARASSMENT): (HarmBlockThreshold.BLOCK_NONE),
+            (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT): (HarmBlockThreshold.BLOCK_NONE),
+            (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT): (HarmBlockThreshold.BLOCK_NONE),
+        }
+
         prompt = get_prompt(s)
         response = m.generate_content(prompt, safety_settings=safety, stream=True)
         for chunk in response:
             try:
-                print(f"add text to id={identifier}: {chunk.text}")
+                logger.debug(f"Adding text chunk to id={identifier}")
                 summaries.update(
                     pk_values=identifier,
                     summary=((summaries[identifier].summary) + (chunk.text)),
                 )
-            except ValueError:
+            except ValueError as e:
+                logger.warning(f"ValueError processing chunk for {identifier}: {e}")
                 summaries.update(
                     pk_values=identifier,
                     summary=(
                         (summaries[identifier].summary) + ("\nError: value error")
                     ),
                 )
-                print("Value Error ")
             except Exception as e:
+                logger.error(f"Error processing chunk for {identifier}: {e}")
                 summaries.update(
                     pk_values=identifier,
                     summary=((summaries[identifier].summary) + (f"\nError: {str(e)}")),
                 )
-                print("line 2049 Error")
+
         prompt_token_count = response.usage_metadata.prompt_token_count
         candidates_token_count = response.usage_metadata.candidates_token_count
 
         try:
-            print(f"usage: {response.usage_metadata}")
+            logger.info(f"Usage metadata: {response.usage_metadata}")
             thinking_token_count = response.usage_metadata.thinking_token_count
-            print(
-                f"input: {prompt_token_count}, thinking: {thinking_token_count}, candidates: {candidates_token_count}"
+            logger.info(
+                f"Tokens - input: {prompt_token_count}, thinking: {thinking_token_count}, candidates: {candidates_token_count}"
             )
-        except Exception as e:
-            print(f"line 250 Error: no thinking token count")
+        except AttributeError:
+            logger.info("No thinking token count available")
             thinking_token_count = 0
-            pass
 
         summaries.update(
             pk_values=identifier,
@@ -657,7 +752,9 @@ def generate_and_save(identifier: int):
             timestamps="",
             timestamps_timestamp_start=datetime.datetime.now().isoformat(),
         )
-    except google.api_core.exceptions.ResourceExhausted:
+
+    except google.api_core.exceptions.ResourceExhausted as e:
+        logger.error(f"Resource exhausted for {identifier}: {e}")
         summaries.update(
             pk_values=identifier,
             summary_done=False,
@@ -667,12 +764,24 @@ def generate_and_save(identifier: int):
             timestamps_timestamp_start=datetime.datetime.now().isoformat(),
         )
         return
+    except Exception as e:
+        logger.error(f"Unexpected error in generate_and_save for {identifier}: {e}")
+        try:
+            summaries.update(
+                pk_values=identifier,
+                summary_done=False,
+                summary=((summaries[identifier].summary) + (f"\nError: {str(e)}")),
+                summary_timestamp_end=datetime.datetime.now().isoformat(),
+            )
+        except Exception as update_error:
+            logger.error(f"Failed to update database with error for {identifier}: {update_error}")
+        return
 
     try:
         # Generate and store the embedding of the transcript
         transcript_text = summaries[identifier].transcript
         if transcript_text:
-            print(f"Generating embedded transcript: {identifier}...")
+            logger.info(f"Generating embedded transcript: {identifier}...")
             embedding_result = genai.embed_content(
                 model="models/embedding-001",
                 content=transcript_text,
@@ -682,20 +791,17 @@ def generate_and_save(identifier: int):
                 embedding_result["embedding"], dtype=np.float32
             ).tobytes()
             summaries.update(pk_values=identifier, full_embedding=vector_blob)
-            print(f"Embedding stored for identifier {identifier}.")
+            logger.info(f"Embedding stored for identifier {identifier}.")
     except google.api_core.exceptions.ResourceExhausted:
-        print("Resource Exhausted when embedding full transcript")
-        pass
+        logger.warning("Resource exhausted when embedding full transcript")
     except Exception as e:
-        print(
-            f"An error occurred during full embedding for identifier {identifier}: {e}"
-        )
+        logger.error(f"Error during full embedding for identifier {identifier}: {e}")
 
     try:
         # Generate and store the embedding of the summary
         summary_text = summaries[identifier].summary
         if summary_text:
-            print(f"Generating embedding for identifier {identifier}...")
+            logger.info(f"Generating embedding for identifier {identifier}...")
             embedding_result = genai.embed_content(
                 model="models/embedding-001",
                 content=summary_text,
@@ -705,7 +811,7 @@ def generate_and_save(identifier: int):
                 embedding_result["embedding"], dtype=np.float32
             ).tobytes()
             summaries.update(pk_values=identifier, embedding=vector_blob)
-            print(f"Embedding stored for identifier {identifier}.")
+            logger.info(f"Embedding stored for identifier {identifier}.")
 
         text = summaries[identifier].summary
         text = convert_markdown_to_youtube_format(text)
@@ -718,6 +824,7 @@ def generate_and_save(identifier: int):
             timestamps_timestamp_end=datetime.datetime.now().isoformat(),
         )
     except google.api_core.exceptions.ResourceExhausted:
+        logger.warning("Resource exhausted during final embedding")
         summaries.update(
             pk_values=identifier,
             timestamps_done=False,
@@ -726,8 +833,6 @@ def generate_and_save(identifier: int):
         )
         return
     except Exception as e:
-        print(
-            f"An error occurred during embedding or final update for identifier {identifier}: {e}"
-        )
+        logger.error(f"Error during embedding or final update for identifier {identifier}: {e}")
 
-        # in production run this script with: uvicorn p04_host:app --port 5001
+        # in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001
