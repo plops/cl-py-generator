@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # pip install -U google-generativeai python-fasthtml markdown
-# micromamba install python-fasthtml markdown yt-dlp uvicorn; pip install  webvtt-py
+# micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py
 import google.generativeai as genai
 import google.api_core.exceptions
 import markdown
@@ -298,7 +298,7 @@ def generate_and_save(identifier: int):
                 task_type="clustering"
             )
             vector_blob = np.array(embedding_result['embedding'], dtype=np.float32).tobytes()
-            summaries.update(identifier, {"embedding": vector_blob})
+            summaries.update(pk_values=identifier, embedding=vector_blob)
             print(f"Embedding stored for identifier {identifier}.")
 
         text=summaries[identifier].summary
