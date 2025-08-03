@@ -41,7 +41,7 @@ def render(summary: Summary):
  
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
-app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, pk="identifier")
+app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, full_embedding=bytes, pk="identifier")
 documentation=(("""**Get Your YouTube Summary:**
 
 1.  **Copy** the video link.
@@ -287,8 +287,28 @@ def generate_and_save(identifier: int):
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return
+
     try:
-        # Generate and store the embedding
+        # Generate and store the embedding of the transcript
+        transcript_text = summaries[identifier].transcript
+        if transcript_text:
+            print(f"Generating embedded transcript: {identifier}...")
+            embedding_result = genai.embed_content(
+                model="models/embedding-001",
+                content=transcript_text,
+                task_type="clustering"
+            )
+            vector_blob = np.array(embedding_result['embedding'], dtype=np.float32).tobytes()
+            summaries.update(pk_values=identifier, full_embedding=vector_blob)
+            print(f"Embedding stored for identifier {identifier}.")
+    except google.api_core.exceptions.ResourceExhausted:
+        print("Resource Exhausted when embedding full transcript")
+        pass
+    except Exception as e:
+        print(f"An error occurred during full embedding for identifier {identifier}: {e}")
+
+    try:
+        # Generate and store the embedding of the summary
         summary_text = summaries[identifier].summary
         if summary_text:
             print(f"Generating embedding for identifier {identifier}...")
@@ -310,5 +330,7 @@ def generate_and_save(identifier: int):
     except Exception as e:
         print(f"An error occurred during embedding or final update for identifier {identifier}: {e}")
 
- 
-# in production run this script with: uvicorn p04_host:app --port 5001
+
+
+
+        # in production run this script with: uvicorn p04_host:app --port 5001
