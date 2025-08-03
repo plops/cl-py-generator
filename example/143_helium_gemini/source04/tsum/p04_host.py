@@ -252,6 +252,13 @@ Here is the real transcript. Please summarize it:
     return prompt
 
 def generate_and_save(identifier: int):
+    """
+    Generates a summary for the given identifier, stores it in the database, and computes embeddings for both
+    the transcript and the summary. Handles errors and updates the database accordingly.
+
+    Args:
+        identifier (int): The unique identifier for the summary entry in the database.
+    """
     print(f"generate_and_save id={identifier}")
     s=wait_until_row_exists(identifier)
     print(f"generate_and_save model={s.model}")
