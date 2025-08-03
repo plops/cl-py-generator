@@ -156,7 +156,7 @@ def get(request: Request):
         "gemini-1.5-pro| input-price: 1.25 output-price: 5 max-context-length: 128_000",
         "gemini-1.0-pro| input-price: 0.5 output-price: 1.5 max-context-length: 128_000"
     ]
-    model=Div(Select(*[Option(opt, value=opt) for opt in model_options]), style="width: 100%;", name="model")
+    model=Div(Select(*[Option(opt, value=opt) for opt in model_options], name="model"), style="width: 100%;")
     form=Form(Group(Div(Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", name="original_source_link"), transcript, model, Div(Label("Output Language", _for="output_language"), Select(Option("en"), Option("de"), Option("fr"), Option("ch"), Option("nl"), Option("pt"), Option("cz"), Option("it"), Option("jp"), Option("ar"), style="width: 100%;", name="output_language", id="output_language"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_comments", name="include_comments", checked=False), Label("Include User Comments", _for="include_comments"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_timestamps", name="include_timestamps", checked=True), Label("Include Timestamps", _for="include_timestamps"), style="display: none; align-items: center; width: 100%;"), Div(Input(type="checkbox", id="include_glossary", name="include_glossary", checked=False), Label("Include Glossary", _for="include_glossary"), style="display: none; align-items: center; width: 100%;"), Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), hx_post="/process_transcript", hx_swap="afterbegin", target_id="gen-list")
     gen_list=Div(id="gen-list")
     summaries_to_show=summaries(order_by="identifier DESC", limit=3)
@@ -167,7 +167,6 @@ def get(request: Request):
 
   navigator.clipboard.writeText(textToCopy);
 }"""), cls="container")
- 
 # A pending preview keeps polling this route until we return the summary
 def generation_preview(identifier):
     sid=f"gen-{identifier}"
