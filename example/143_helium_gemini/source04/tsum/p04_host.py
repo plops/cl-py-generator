@@ -9,6 +9,8 @@ import datetime
 import subprocess
 import time
 import glob
+import numpy as np
+from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
 from s01_validate_youtube_url import *
@@ -39,7 +41,7 @@ def render(summary: Summary):
  
 # open website
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
-app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, pk="identifier")
+app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, pk="identifier")
 documentation=(("""**Get Your YouTube Summary:**
 
 1.  **Copy** the video link.
@@ -248,7 +250,7 @@ Example Output:
 Here is the real transcript. Please summarize it: 
 {(summary.transcript)}"""
     return prompt
- 
+
 def generate_and_save(identifier: int):
     print(f"generate_and_save id={identifier}")
     s=wait_until_row_exists(identifier)
@@ -263,7 +265,7 @@ def generate_and_save(identifier: int):
                 print(f"add text to id={identifier}: {chunk.text}")
                 summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
             except ValueError:
-                
+
                 summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+("\nError: value error")))
                 print("Value Error ")
             except Exception as e:
@@ -286,11 +288,27 @@ def generate_and_save(identifier: int):
         summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError: resource exhausted")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return
     try:
+        # Generate and store the embedding
+        summary_text = summaries[identifier].summary
+        if summary_text:
+            print(f"Generating embedding for identifier {identifier}...")
+            embedding_result = genai.embed_content(
+                model="models/embedding-001",
+                content=summary_text,
+                task_type="clustering"
+            )
+            vector_blob = np.array(embedding_result['embedding'], dtype=np.float32).tobytes()
+            summaries.update(identifier, {"embedding": vector_blob})
+            print(f"Embedding stored for identifier {identifier}.")
+
         text=summaries[identifier].summary
         text=convert_markdown_to_youtube_format(text)
         summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=0, timestamps_output_tokens=0, timestamps_timestamp_end=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
         summaries.update(pk_values=identifier, timestamps_done=False, timestamped_summary_in_youtube_format=f"resource exhausted", timestamps_timestamp_end=datetime.datetime.now().isoformat())
         return
+    except Exception as e:
+        print(f"An error occurred during embedding or final update for identifier {identifier}: {e}")
+
  
 # in production run this script with: uvicorn p04_host:app --port 5001
