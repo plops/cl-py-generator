@@ -798,6 +798,27 @@ def generate_and_save(identifier: int):
     except Exception as e:
         logger.error(f"Error during full embedding for identifier {identifier}: {e}")
     try:
+        text = summaries[identifier].summary
+        text = convert_markdown_to_youtube_format(text)
+        summaries.update(
+            pk_values=identifier,
+            timestamps_done=True,
+            timestamped_summary_in_youtube_format=text,
+            timestamps_input_tokens=0,
+            timestamps_output_tokens=0,
+            timestamps_timestamp_end=datetime.datetime.now().isoformat(),
+        )
+    except google.api_core.exceptions.ResourceExhausted:
+        logger.warning("Resource exhausted during summary update")
+        summaries.update(
+            pk_values=identifier,
+            timestamps_done=False,
+            timestamped_summary_in_youtube_format=f"resource exhausted",
+            timestamps_timestamp_end=datetime.datetime.now().isoformat(),
+        )
+    except Exception as e:
+        logger.error(f"Error during summary update for identifier {identifier}: {e}")
+    try:
         # Generate and store the embedding of the summary
         summary_text = summaries[identifier].summary
         if summary_text:
@@ -812,29 +833,10 @@ def generate_and_save(identifier: int):
             ).tobytes()
             summaries.update(pk_values=identifier, embedding=vector_blob)
             logger.info(f"Embedding stored for identifier {identifier}.")
-        text = summaries[identifier].summary
-        text = convert_markdown_to_youtube_format(text)
-        summaries.update(
-            pk_values=identifier,
-            timestamps_done=True,
-            timestamped_summary_in_youtube_format=text,
-            timestamps_input_tokens=0,
-            timestamps_output_tokens=0,
-            timestamps_timestamp_end=datetime.datetime.now().isoformat(),
-        )
     except google.api_core.exceptions.ResourceExhausted:
-        logger.warning("Resource exhausted during final update")
-        summaries.update(
-            pk_values=identifier,
-            timestamps_done=False,
-            timestamped_summary_in_youtube_format=f"resource exhausted",
-            timestamps_timestamp_end=datetime.datetime.now().isoformat(),
-        )
-        return
+        logger.warning("Resource exhausted during embedding of summary")
     except Exception as e:
-        logger.error(
-            f"Error during embedding or final update for identifier {identifier}: {e}"
-        )
+        logger.error(f"Error during embedding for identifier {identifier}: {e}")
 
 
 # in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001

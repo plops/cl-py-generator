@@ -1286,53 +1286,65 @@ Here is the real transcript. Please summarize it:
 	     (logger.warning (string "Resource exhausted when embedding full transcript")))
 	    ((as Exception e)
 	     (logger.error (fstring "Error during full embedding for identifier {identifier}: {e}"))))
+
+	   
+
 	   (try
-	      (do0
+	    (do0
 
-	       (do0
-		(comments "Generate and store the embedding of the summary")
-		(setf summary_text (dot (aref summaries identifier)
-					summary))
-		(when summary_text
-		  (logger.info (fstring "Generating summary embedding for identifier {identifier}..."))
-		  (setf embedding_result (genai.embed_content
-					  :model (string "models/embedding-001")
-					  :content summary_text
-					  :task_type (string "clustering")))
-		  (setf vector_blob (dot (np.array
-					  (aref embedding_result (string "embedding"))
-					  :dtype np.float32)
-					 (tobytes)))
-		  (summaries.update :pk_values identifier
-				    :embedding vector_blob)
-		  (logger.info (fstring "Embedding stored for identifier {identifier}."))))
-	       
-	       (setf text (dot (aref summaries identifier)
-			       summary))
-	       (setf text (convert_markdown_to_youtube_format text))
-	       (summaries.update :pk_values identifier
-				 :timestamps_done True
-				 :timestamped_summary_in_youtube_format text
-				 :timestamps_input_tokens 0 ; response2.usage_metadata.prompt_token_count
-				 :timestamps_output_tokens 0 ; response2.usage_metadata.candidates_token_count
-				 :timestamps_timestamp_end (dot datetime
-								datetime
-								(now)
-								(isoformat))))
+	     (setf text (dot (aref summaries identifier)
+			     summary))
+	     (setf text (convert_markdown_to_youtube_format text))
+	     (summaries.update :pk_values identifier
+			       :timestamps_done True
+			       :timestamped_summary_in_youtube_format text
+			       :timestamps_input_tokens 0 ; response2.usage_metadata.prompt_token_count
+			       :timestamps_output_tokens 0 ; response2.usage_metadata.candidates_token_count
+			       :timestamps_timestamp_end (dot datetime
+							      datetime
+							      (now)
+							      (isoformat))))
 
-	      (google.api_core.exceptions.ResourceExhausted
-	       (logger.warning (string "Resource exhausted during final update"))
-	       (summaries.update :pk_values identifier
-				 :timestamps_done False
+	    (google.api_core.exceptions.ResourceExhausted
+	     (logger.warning (string "Resource exhausted during summary update"))
+	     (summaries.update :pk_values identifier
+			       :timestamps_done False
 			       
-				 :timestamped_summary_in_youtube_format (fstring "resource exhausted")
-				 :timestamps_timestamp_end (dot datetime
-								datetime
-								(now)
-								(isoformat)))
-	       return)
-	      ((as Exception e)
-	       (logger.error (fstring "Error during embedding or final update for identifier {identifier}: {e}")))))
+			       :timestamped_summary_in_youtube_format (fstring "resource exhausted")
+			       :timestamps_timestamp_end (dot datetime
+							      datetime
+							      (now)
+							      (isoformat)))
+	     )
+	    ((as Exception e)
+	     (logger.error (fstring "Error during summary update for identifier {identifier}: {e}"))))
+
+
+	   (try
+	    (do0
+	     (comments "Generate and store the embedding of the summary")
+	     (setf summary_text (dot (aref summaries identifier)
+				     summary))
+	     (when summary_text
+	       (logger.info (fstring "Generating summary embedding for identifier {identifier}..."))
+	       (setf embedding_result (genai.embed_content
+				       :model (string "models/embedding-001")
+				       :content summary_text
+				       :task_type (string "clustering")))
+	       (setf vector_blob (dot (np.array
+				       (aref embedding_result (string "embedding"))
+				       :dtype np.float32)
+				      (tobytes)))
+	       (summaries.update :pk_values identifier
+				 :embedding vector_blob)
+	       (logger.info (fstring "Embedding stored for identifier {identifier}."))))
+	    
+
+	    (google.api_core.exceptions.ResourceExhausted
+	     (logger.warning (string "Resource exhausted during embedding of summary"))
+	     )
+	    ((as Exception e)
+	     (logger.error (fstring "Error during embedding for identifier {identifier}: {e}")))))
 	 " "
 	 (comments "in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001")
 	 #+nil (serve :host (string "127.0.0.1") :port 5001)
