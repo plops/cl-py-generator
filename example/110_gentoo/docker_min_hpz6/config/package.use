@@ -57,3 +57,4 @@ x11-libs/libdrm video_cards_radeon
 #sys-kernel/gentoo-sources experimental
 x11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland
 media-libs/mesa X -llvm opengl proprietary-codecs -vaapi -vulkan zstd -d3d9 -debug -lm-sensors -opencl -osmesa -test -unwind -valgrind -vdpau -wayland -xa
+sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv

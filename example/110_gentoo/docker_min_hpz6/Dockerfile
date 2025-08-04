@@ -174,7 +174,8 @@ RUN emerge \
     dev-debug/ltrace \
     dev-debug/dtrace \
     dev-util/ruff \
-    app-text/poppler
+    app-text/poppler \
+    dev-debug/valgrind
 
 RUN emerge --depclean
 
