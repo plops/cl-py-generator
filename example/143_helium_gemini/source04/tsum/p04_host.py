@@ -29,27 +29,21 @@ class UTCFormatter(logging.Formatter):
 
 # Create formatter with UTC timestamps
 formatter = UTCFormatter(fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-
 # Configure root logger
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
 # Clear any existing handlers
 logger.handlers.clear()
-
 # Console handler
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
-
 # File handler
 file_handler = logging.FileHandler("transcript_summarizer.log")
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
-
 # Get logger for this module
 logger = logging.getLogger(__name__)
-
 # Read the demonstration transcript and corresponding summary from disk
 try:
     with open("example_input.txt") as f:
@@ -64,22 +58,8 @@ except FileNotFoundError as e:
 
 # Use environment variable for API key
 api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    # Fallback to file for backward compatibility
-    try:
-        with open("api_key.txt") as f:
-            api_key = f.read().strip()
-        logger.warning(
-            "Using API key from file. Consider using GEMINI_API_KEY environment variable for security."
-        )
-    except FileNotFoundError:
-        raise ValueError(
-            "GEMINI_API_KEY environment variable required or api_key.txt file must exist"
-        )
-
 genai.configure(api_key=api_key)
 
-# Model configuration - moved from inline list
 MODEL_OPTIONS = [
     "gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
     "gemini-2.5-flash-lite| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
@@ -121,21 +101,21 @@ MODEL_OPTIONS = [
 
 def validate_transcript_length(transcript: str, max_words: int = 280_000) -> bool:
     """Validate transcript length to prevent processing overly large inputs."""
-    if not transcript or not transcript.strip():
-        raise ValueError("Transcript cannot be empty")
-
+    if (not (transcript)) or (not (transcript.strip())):
+        raise (ValueError("Transcript cannot be empty"))
     words = transcript.split()
-    if len(words) > max_words:
-        raise ValueError(f"Transcript too long: {len(words)} words (max: {max_words})")
+    if (max_words) < (len(words)):
+        raise (
+            ValueError(f"Transcript too long: {len(words)} words (max: {max_words})")
+        )
     return True
 
 
 def validate_youtube_id(youtube_id: str) -> bool:
-    """Validate YouTube ID to prevent injection attacks."""
-    if not youtube_id or len(youtube_id) != 11:
+    if (not (youtube_id)) or ((len(youtube_id)) != (11)):
         return False
     # YouTube IDs are alphanumeric with _ and -
-    return all(c.isalnum() or c in "_-" for c in youtube_id)
+    return all(((c.isalnum()) or (c in "_-")) for c in youtube_id)
 
 
 def render(summary: Summary):
@@ -224,17 +204,14 @@ def get_transcript(url, identifier):
     # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
     try:
         youtube_id = validate_youtube_url(url)
-        if not youtube_id:
+        if not (youtube_id):
             logger.warning(f"Invalid YouTube URL: {url}")
             return "URL couldn't be validated"
-
-        if not validate_youtube_id(youtube_id):
+        if not (validate_youtube_id(youtube_id)):
             logger.warning(f"Invalid YouTube ID format: {youtube_id}")
             return "Invalid YouTube ID format"
-
         sub_file = f"/dev/shm/o_{identifier}"
         sub_file_en = f"/dev/shm/o_{identifier}.en.vtt"
-
         # First, try to get English subtitles
         cmds_en = [
             "yt-dlp",
@@ -252,12 +229,10 @@ def get_transcript(url, identifier):
         ]
         logger.info(f"Downloading English subtitles: {' '.join(cmds_en)}")
         result = subprocess.run(cmds_en, capture_output=True, text=True, timeout=60)
-
-        if result.returncode != 0:
+        if (result.returncode) != (0):
             logger.warning(
                 f"yt-dlp failed with return code {result.returncode}: {result.stderr}"
             )
-
         sub_file_to_parse = None
         if os.path.exists(sub_file_en):
             sub_file_to_parse = sub_file_en
@@ -269,6 +244,7 @@ def get_transcript(url, identifier):
             cmds_any = [
                 "yt-dlp",
                 "--skip-download",
+                "--write-auto-subs",
                 "--write-subs",
                 "--cookies-from-browser",
                 "firefox",
@@ -281,14 +257,15 @@ def get_transcript(url, identifier):
             result = subprocess.run(
                 cmds_any, capture_output=True, text=True, timeout=60
             )
-
             # Find the downloaded subtitle file
             subtitle_files = glob.glob(f"{sub_file}.*.vtt")
             if subtitle_files:
                 sub_file_to_parse = subtitle_files[0]
-
+                logger.info(
+                    f"Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}"
+                )
         ostr = "Problem getting subscript."
-        if sub_file_to_parse and os.path.exists(sub_file_to_parse):
+        if (sub_file_to_parse) and (os.path.exists(sub_file_to_parse)):
             try:
                 ostr = parse_vtt_file(sub_file_to_parse)
                 logger.info(f"Successfully parsed subtitle file: {sub_file_to_parse}")
@@ -298,14 +275,13 @@ def get_transcript(url, identifier):
                 ostr = "Error: Subtitle file disappeared"
             except PermissionError:
                 logger.error(f"Permission denied removing file: {sub_file_to_parse}")
-                ostr = "Error: Permission denied"
+                ostr = "Error: Permission denied cleaning up subtitle file"
             except Exception as e:
                 logger.error(f"Error processing subtitle file: {e}")
                 ostr = f"Error: problem when processing subtitle file {e}"
         else:
             logger.error("No subtitle file found")
-            ostr = "Error: No English subtitles found for this video. Please provide the transcript manually."
-
+            ostr = "Error: No subtitles found for this video. Please provide the transcript manually."
         # Cleanup any other subtitle files that might have been downloaded
         other_subs = glob.glob(f"{sub_file}.*.vtt")
         for sub in other_subs:
@@ -313,9 +289,7 @@ def get_transcript(url, identifier):
                 os.remove(sub)
             except OSError as e:
                 logger.warning(f"Error removing file {sub}: {e}")
-
         return ostr
-
     except subprocess.TimeoutExpired:
         logger.error(f"yt-dlp timeout for identifier {identifier}")
         return "Error: Download timeout"
@@ -348,9 +322,10 @@ def get(request: Request):
         style="height: 300px; width=60%;",
         name="transcript",
     )
+    selector = [Option(opt, value=opt) for opt in MODEL_OPTIONS]
     model = Div(
-        Select(*[Option(opt, value=opt) for opt in MODEL_OPTIONS], name="model"),
-        style="width: 100%;",
+        Select(*selector, style="width: 100%;", name="model"),
+        style="display: flex; align-items: center; width: 100%;",
     )
     form = Form(
         Group(
@@ -633,30 +608,24 @@ def post(summary: Summary, request: Request):
 def download_and_generate(identifier: int):
     try:
         s = wait_until_row_exists(identifier)
-        if s == -1:
+        if (s) == (-1):
             logger.error(f"Row {identifier} never appeared in database")
             return
-
         if (0) == (len(s.transcript)):
             # No transcript given, try to download from URL
             transcript = get_transcript(s.original_source_link, identifier)
             summaries.update(pk_values=identifier, transcript=transcript)
-
         # re-fetch summary with transcript
         s = summaries[identifier]
-
         # Validate transcript length
         try:
             validate_transcript_length(s.transcript)
         except ValueError as e:
             logger.error(f"Transcript validation failed for {identifier}: {e}")
             summaries.update(
-                pk_values=identifier,
-                summary=f"Error: {str(e)}",
-                summary_done=True,
+                pk_values=identifier, summary=f"Error: {str(e)}", summary_done=True
             )
             return
-
         words = s.transcript.split()
         if (len(words)) < (30):
             summaries.update(
@@ -673,18 +642,14 @@ def download_and_generate(identifier: int):
                     summary_done=True,
                 )
                 return
-
         logger.info(f"Processing link: {s.original_source_link}")
         summaries.update(pk_values=identifier, summary="")
         generate_and_save(identifier)
-
     except Exception as e:
         logger.error(f"Error in download_and_generate for {identifier}: {e}")
         try:
             summaries.update(
-                pk_values=identifier,
-                summary=f"Error: {str(e)}",
-                summary_done=True,
+                pk_values=identifier, summary=f"Error: {str(e)}", summary_done=True
             )
         except Exception as update_error:
             logger.error(
@@ -728,15 +693,13 @@ def generate_and_save(identifier: int):
     the transcript and the summary. Handles errors and updates the database accordingly.
 
     Args:
-        identifier (int): The unique identifier for the summary entry in the database.
-    """
+        identifier (int): The unique identifier for the summary entry in the database."""
     logger.info(f"generate_and_save id={identifier}")
     try:
         s = wait_until_row_exists(identifier)
-        if s == -1:
+        if (s) == (-1):
             logger.error(f"Could not find summary with id {identifier}")
             return
-
         logger.info(f"generate_and_save model={s.model}")
         m = genai.GenerativeModel(s.model.split("|")[0])
         safety = {
@@ -749,7 +712,6 @@ def generate_and_save(identifier: int):
                 HarmBlockThreshold.BLOCK_NONE
             ),
         }
-
         prompt = get_prompt(s)
         response = m.generate_content(prompt, safety_settings=safety, stream=True)
         for chunk in response:
@@ -764,7 +726,8 @@ def generate_and_save(identifier: int):
                 summaries.update(
                     pk_values=identifier,
                     summary=(
-                        (summaries[identifier].summary) + ("\nError: value error")
+                        (summaries[identifier].summary)
+                        + (f"\nError: value error {str(e)}")
                     ),
                 )
             except Exception as e:
@@ -773,30 +736,23 @@ def generate_and_save(identifier: int):
                     pk_values=identifier,
                     summary=((summaries[identifier].summary) + (f"\nError: {str(e)}")),
                 )
-
         prompt_token_count = response.usage_metadata.prompt_token_count
         candidates_token_count = response.usage_metadata.candidates_token_count
-
         try:
             logger.info(f"Usage metadata: {response.usage_metadata}")
             thinking_token_count = response.usage_metadata.thinking_token_count
-            logger.info(
-                f"Tokens - input: {prompt_token_count}, thinking: {thinking_token_count}, candidates: {candidates_token_count}"
-            )
         except AttributeError:
             logger.info("No thinking token count available")
             thinking_token_count = 0
-
         summaries.update(
             pk_values=identifier,
             summary_done=True,
             summary_input_tokens=prompt_token_count,
-            summary_output_tokens=candidates_token_count + thinking_token_count,
+            summary_output_tokens=((candidates_token_count) + (thinking_token_count)),
             summary_timestamp_end=datetime.datetime.now().isoformat(),
             timestamps="",
             timestamps_timestamp_start=datetime.datetime.now().isoformat(),
         )
-
     except google.api_core.exceptions.ResourceExhausted as e:
         logger.error(f"Resource exhausted for {identifier}: {e}")
         summaries.update(
@@ -814,7 +770,7 @@ def generate_and_save(identifier: int):
             summaries.update(
                 pk_values=identifier,
                 summary_done=False,
-                summary=((summaries[identifier].summary) + (f"\nError: {str(e)}")),
+                summary=((summaries[identifier].summary) + (f"Error: {str(e)}")),
                 summary_timestamp_end=datetime.datetime.now().isoformat(),
             )
         except Exception as update_error:
@@ -822,7 +778,6 @@ def generate_and_save(identifier: int):
                 f"Failed to update database with error for {identifier}: {update_error}"
             )
         return
-
     try:
         # Generate and store the embedding of the transcript
         transcript_text = summaries[identifier].transcript
@@ -842,12 +797,11 @@ def generate_and_save(identifier: int):
         logger.warning("Resource exhausted when embedding full transcript")
     except Exception as e:
         logger.error(f"Error during full embedding for identifier {identifier}: {e}")
-
     try:
         # Generate and store the embedding of the summary
         summary_text = summaries[identifier].summary
         if summary_text:
-            logger.info(f"Generating embedding for identifier {identifier}...")
+            logger.info(f"Generating summary embedding for identifier {identifier}...")
             embedding_result = genai.embed_content(
                 model="models/embedding-001",
                 content=summary_text,
@@ -858,7 +812,6 @@ def generate_and_save(identifier: int):
             ).tobytes()
             summaries.update(pk_values=identifier, embedding=vector_blob)
             logger.info(f"Embedding stored for identifier {identifier}.")
-
         text = summaries[identifier].summary
         text = convert_markdown_to_youtube_format(text)
         summaries.update(
@@ -870,7 +823,7 @@ def generate_and_save(identifier: int):
             timestamps_timestamp_end=datetime.datetime.now().isoformat(),
         )
     except google.api_core.exceptions.ResourceExhausted:
-        logger.warning("Resource exhausted during final embedding")
+        logger.warning("Resource exhausted during final update")
         summaries.update(
             pk_values=identifier,
             timestamps_done=False,
@@ -883,4 +836,5 @@ def generate_and_save(identifier: int):
             f"Error during embedding or final update for identifier {identifier}: {e}"
         )
 
-        # in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001
+
+# in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001

@@ -23,8 +23,9 @@
 ;; [ ] OAuth
 ;; [X] Add example with abstract infront of summary
 ;; [ ] Store the thought process of the model in the database
-;; [ ] Download main language of the transcript
-;; [ ] Browsers sometimes translate the model selector, this might mess up the model lookup
+;; [.] Download main language of the transcript
+;; [X] Browsers sometimes translate the model selector, this might mess up the model lookup
+;; [X] Log to file with timestamps
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
@@ -155,6 +156,8 @@
 				      `(:name ,(format nil "~a_~a" e f) :type ,f-type :no-show t))))
 		    (:name timestamped_summary_in_youtube_format :type str :no-show t)
 		    (:name cost :type float)
+		    (:name embedding :type bytes)
+		    (:name full_embedding :type bytes)
 		    ))
 	 )
 
@@ -367,7 +370,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
        `(do0
 	 "#!/usr/bin/env python3"
 	 (comments "pip install -U google-generativeai python-fasthtml markdown")
-	 #+dl (comments "micromamba install python-fasthtml markdown yt-dlp uvicorn; pip install  webvtt-py")
+	 #+dl (comments "micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py")
 	 (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
 		   #+auth os
@@ -380,7 +383,13 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		   ;difflib
 		   #+dl subprocess
 		   ;#+dl webvtt
-		   time))
+		   time
+		   glob
+		   (np numpy)
+		   os
+		   logging))
+	 (imports-from 
+		       (google.generativeai types))
 
 	 #+nil
 	 (imports-from (threading Thread)
@@ -394,6 +403,36 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		       (s02_parse_vtt_file *)
 		       (s03_convert_markdown_to_youtube_format *))
 
+	 (do0
+	  (comments "Configure logging with UTC timestamps and file output")
+	  (class UTCFormatter (logging.Formatter)
+		 (def formatTime (self record &key (datefmt None))
+		   (setf dt (dot
+			     datetime
+			     datetime
+			     (fromtimestamp record.created
+					    :tz datetime.timezone.utc)))
+		   (return (dt.isoformat))))
+	  (comments "Create formatter with UTC timestamps")
+	  (setf formatter (UTCFormatter :fmt (string "%(asctime)s - %(name)s - %(levelname)s - %(message)s")))
+	  (comments "Configure root logger")
+	  (setf logger (logging.getLogger)
+		)
+	  (logger.setLevel logging.INFO)
+	  (comments "Clear any existing handlers")
+	  (logger.handlers.clear)
+	  (comments "Console handler")
+	  (setf console_handler (logging.StreamHandler))
+	  (console_handler.setFormatter formatter)
+	  (logger.addHandler console_handler)
+	  (comments "File handler")
+	  (setf file_handler (logging.FileHandler (string "transcript_summarizer.log")))
+	  (file_handler.setFormatter formatter)
+	  (logger.addHandler file_handler)
+	  (comments "Get logger for this module")
+	  (setf logger (logging.getLogger __name__)))
+
+	 
 	 #+auth
 	 (do0
 	  (setf client
@@ -410,29 +449,72 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 
 	 (do0
 	  (comments "Read the demonstration transcript and corresponding summary from disk")
-	  ,@(loop for e in `((:var g_example_input :data ,*example-input* :fn example_input.txt)
-			     (:var g_example_output :data ,*example-output* :fn example_output.txt)
-			     (:var g_example_output_abstract :data ,*example-output-abstract* :fn example_output_abstract.txt)
-			     )
-		  collect
-		  (destructuring-bind (&key var data fn) e
-		    (with-open-file (str (format nil "~a/source04/tsum/~a" *path* fn)
-					 :direction :output
-					 :if-exists :supersede
-					 :if-does-not-exist :create)
-		      (format str "~a" data))
-		    `(with (as (open (string ,fn))
-			       f)
-			   (setf ,var (dot f (read)))))))
-	 
-	 " "
-	 (comments "Read the gemini api key from disk")
-	 (with (as (open (string "api_key.txt"))
-                   f)
-	       (setf api_key (dot f (read) (strip))))
+	  (try
+	   (do0
+	    ,@(loop for e in `((:var g_example_input :data ,*example-input* :fn example_input.txt)
+			       (:var g_example_output :data ,*example-output* :fn example_output.txt)
+			       (:var g_example_output_abstract :data ,*example-output-abstract* :fn example_output_abstract.txt)
+			       )
+		    collect
+		    (destructuring-bind (&key var data fn) e
+		      (with-open-file (str (format nil "~a/source04/tsum/~a" *path* fn)
+					   :direction :output
+					   :if-exists :supersede
+					   :if-does-not-exist :create)
+			(format str "~a" data))
+		      `(with (as (open (string ,fn))
+				 f)
+			     (setf ,var (dot f (read)))))))
+	   ((as FileNotFoundError e)
+			      (logger.error (fstring "Required example file not found: {e}"))
+			      raise)))
+
+	 (do0
+	  " "
+	  (comments "Use environment variable for API key")
+	  (setf api_key (os.getenv (string "GEMINI_API_KEY")))
+	  )
 
 	 (genai.configure :api_key api_key)
+	 
+	 " "
+	 (setf MODEL_OPTIONS
+	       (list
+		,@(loop for e in *models*
+				collect
+				(destructuring-bind (&key name input-price output-price context-length harm-civic) e 
+				  `(string 
+				   ,(format nil "~a| input-price: ~a output-price: ~a max-context-length: ~a" name input-price output-price context-length))))))
 
+
+	 " "
+	 (def validate_transcript_length (transcript &key (max_words 280_000))
+	   (declare (values bool)
+		    (type str transcript)
+		    (type int max_words))
+	   (string3 "Validate transcript length to prevent processing overly large inputs.")
+	   (when (or (not transcript)
+		     (not (transcript.strip)))
+	     (raise (ValueError (string "Transcript cannot be empty"))))
+	   (setf words (transcript.split))
+	   (when (< max_words (len words))
+	     (raise (ValueError (fstring "Transcript too long: {len(words)} words (max: {max_words})"))))
+	   (return True))
+
+	 " "
+	 (def validate_youtube_id (youtube_id)
+	   (declare (values bool)
+		    (type str youtube_id))
+	   (when (or (not youtube_id)
+		      (!= (len youtube_id)
+		       11))
+	     (return False))
+	   
+	   (comments "YouTube IDs are alphanumeric with _ and -")
+	   (return (all (for-generator (c youtube_id)
+				       (or (c.isalnum)
+					   (in c (string "_-")))))))
+	 
 	 " "
 	 (def render (summary)
 	   (declare (type Summary summary))
@@ -525,45 +607,110 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 #+dl
 	 (def get_transcript (url identifier)
 	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
-
-	   (setf youtube_id (validate_youtube_url url))
-	   (unless youtube_id
-	     (return (string "URL couldn't be validated")))
 	   
-	   (setf sub_file (fstring "/dev/shm/o_{identifier}"))
-	   (setf sub_file_ (fstring "/dev/shm/o_{identifier}.en.vtt"))
-	   (setf cmds (list (string "yt-dlp")
-			    (string "--skip-download")
-			    (string "--write-auto-subs")
-			    (string "--write-subs")
-					;(string "--cookies")
-					;(string "yt_cookies.txt")
-			    (string "--cookies-from-browser")
-			    (string "firefox")
-			    (string "--sub-lang")
-			    (string "en")
-			    (string "-o")
-			    sub_file
-			    (string "--")
-			    youtube_id))
-	   (print (dot (string " ")
-		       (join cmds)))
-	   (subprocess.run cmds)
-	   (setf ostr (string "Problem getting subscript."))
 	   (try
 	    (do0
-	     (setf ostr 
-		   (parse_vtt_file sub_file_))
-	     (print (fstring "removing {sub_file}"))
-	     (os.remove sub_file_))
 	    
-	    (FileNotFoundError
-	     (print (string "Error: Subtitle file not found"))
-	     (setf ostr (string "Error: No English subtitles found for this video. Please provide the transcript manually.")))
+
+	     (setf youtube_id (validate_youtube_url url))
+	     (unless youtube_id
+	       (logger.warning (fstring "Invalid YouTube URL: {url}"))
+	       (return (string "URL couldn't be validated")))
+	     (unless (validate_youtube_id youtube_id)
+	       (logger.warning (fstring "Invalid YouTube ID format: {youtube_id}"))
+	       (return (string "Invalid YouTube ID format")))
+	   
+	     (setf sub_file (fstring "/dev/shm/o_{identifier}"))
+	     (setf sub_file_en (fstring "/dev/shm/o_{identifier}.en.vtt"))
+	     (comments "First, try to get English subtitles")
+	     (setf cmds_en (list (string "yt-dlp")
+				 (string "--skip-download")
+				 (string "--write-auto-subs")
+				 (string "--write-subs")
+				 (string "--cookies-from-browser")
+				 (string "firefox")
+				 (string "--sub-lang")
+				 (string "en")
+				 (string "-o")
+				 sub_file
+				 (string "--")
+				 youtube_id))
+	     (logger.info (fstring "Downloading English subtitles: {' '.join(cmds_en)}"))
+	     (setf result
+		   (subprocess.run cmds_en
+				   :capture_output True
+				   :text True
+				   :timeout 60))
+	     (when (!= result.returncode 0)
+	       (logger.warning (fstring "yt-dlp failed with return code {result.returncode}: {result.stderr}")))
+
+	     (setf sub_file_to_parse None)
+	     (if (os.path.exists sub_file_en)
+		 (setf sub_file_to_parse sub_file_en)
+		 (do0
+		  (comments "If English subtitles are not found, try to download any available subtitle")
+		  (logger.info (string "English subtitles not found. Trying to download original language subtitles."))
+		  (setf cmds_any (list (string "yt-dlp")
+				 (string "--skip-download")
+				 (string "--write-auto-subs")
+				 (string "--write-subs")
+				 (string "--cookies-from-browser")
+				 (string "firefox")
+				 (string "-o")
+				 sub_file
+				 (string "--")
+				 youtube_id))
+		  (logger.info (fstring "Downloading any subtitles: {' '.join(cmds_any)}"))
+		  (setf result (subprocess.run cmds_any
+					       :capture_output True
+					       :text True
+					       :timeout 60))
+		  (comments "Find the downloaded subtitle file")
+		  (setf subtitle_files (glob.glob (fstring "{sub_file}.*.vtt")))
+		  (when subtitle_files
+		    (setf sub_file_to_parse (aref subtitle_files 0))
+		    (logger.info (fstring "Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}")))))
+	     
+	     (setf ostr (string "Problem getting subscript."))
+
+	     (if (and sub_file_to_parse
+		      (os.path.exists sub_file_to_parse))
+		 (try
+	       (do0
+		(setf ostr 
+		      (parse_vtt_file sub_file_to_parse))
+		(logger.info (fstring "Successfully parsed subtitle file: {sub_file_to_parse}"))
+		(os.remove sub_file_to_parse))
+	    
+	       (FileNotFoundError
+		(logger.error (fstring "Subtitle file not found: {sub_file_to_parse}"))
+		(setf ostr (string "Error: Subtitle file disappeared")))
+	       (PermissionError
+		(logger.error (fstring "Permission denied removing file: {sub_file_to_parse}"))
+		(setf ostr (string "Error: Permission denied cleaning up subtitle file")))
+	       ("Exception as e"
+		(logger.error (fstring "Error processing subtitle file: {e}")
+			      )
+		(setf ostr (fstring "Error: problem when processing subtitle file {e}"))))
+		 (do0
+		  (logger.error (string "No subtitle file found")
+				)
+		  (setf ostr (string "Error: No subtitles found for this video. Please provide the transcript manually."))))
+	     (do0
+	      (comments "Cleanup any other subtitle files that might have been downloaded")
+	      (setf other_subs (glob.glob (fstring "{sub_file}.*.vtt")))
+	      (for (sub other_subs)
+		   (try (os.remove sub)
+			((as OSError e)
+			 (logger.warning (fstring "Error removing file {sub}: {e}"))))))
+	     
+	     (return ostr))
+	    (subprocess.TimeoutExpired
+	     (logger.error (fstring "yt-dlp timeout for identifier {identifier}"))
+	     (return (string "Error: Download timeout")))
 	    ("Exception as e"
-	     (print (fstring "line 1639 Error: problem when processing subtitle file {e}"))))
-	   (return ostr)
-	   )
+	     (logger.error (fstring "Unexpected error in get_transcript: {e}"))
+	     (return (fstring "Error: {str(e)}")))))
 	 " "
 	 (setf documentation_html
 	       (markdown.markdown documentation))
@@ -572,7 +719,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	   (declare (type Request request))
 	   ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
 	   
-	   ,(lprint :vars `(request.client.host))
+	   (logger.info (fstring "Request from host: {request.client.host}"))
 	   (setf nav (Nav
 		      (Ul (Li (Strong (string "Transcript Summarizer"))))
 		      (Ul (Li (A (string "Map")
@@ -589,13 +736,12 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				      :style (string ;#+simple "height: 300px; width=60%; display: none;"
 						     "height: 300px; width=60%;")
 				      :name (string "transcript")))
-	   (setf  
+	   (setf
+	    selector (list (for-generator (opt MODEL_OPTIONS)
+						(Option opt :value opt)))
 	    model (Div (Select
-			,@(loop for e in *models*
-				collect
-				(destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-				  `(Option (string #+nil ,name
-					     ,(format nil "~a| input-price: ~a output-price: ~a max-context-length: ~a" name input-price output-price context-length)))))
+			*selector
+			
 			:style (string "width: 100%;")
 			:name (string "model"))
 		       :style (string "display: flex; align-items: center; width: 100%;")))
@@ -678,8 +824,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	   (setf text (string "Generating ...")
 		 trigger (string #+emulate "" #-emulate "every 1s"))
 	   (do0
-	  (setf price_input (dict
-			     ,@(loop for e in *models*
+	    (setf price_input (dict
+			       ,@(loop for e in *models*
 				     collect
 				     (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
 				       `((string ,name)
@@ -762,16 +908,19 @@ Output tokens: {output_tokens}")
 				 collect
 				 (destructuring-bind (&key name type no-show) e
 				   (unless no-show
-				     (if (eq name 'original_source_link)
-					 `(A
-					   (fstring "{s.original_source_link}")
-					   :target (string "_blank")
-					   :href (fstring "{s.original_source_link}")
-					   :id (string "source-link"))
-					 `(P
-					   (B (string ,(format nil "~a:" name)))
-					   (Span (fstring ,(format nil "{s.~a}"
-								   (string-downcase name))))))
+				     (cond ((eq name 'original_source_link)
+					    `(A
+					      (fstring "{s.original_source_link}")
+					      :target (string "_blank")
+					      :href (fstring "{s.original_source_link}")
+					      :id (string "source-link")))
+					   ((member name `(embedding
+							   full_embedding))
+					    nil)
+					   (t `(P
+						(B (string ,(format nil "~a:" name)))
+						(Span (fstring ,(format nil "{s.~a}"
+									(string-downcase name)))))))
 				     #+nil
 				     (format nil "~a: {s.~a}" name (string-downcase name))))))
 
@@ -854,32 +1003,60 @@ Output tokens: {output_tokens}")
 	  " "
 	  @threaded
 	  (def download_and_generate (identifier)
-	    (declare (type int identifier))
-	    (setf s (wait_until_row_exists identifier))
-	    (when (== 0 (len s.transcript))
-	      (comments "No transcript given, try to download from URL")
-	      (setf transcript (get_transcript s.original_source_link identifier))
-	      (summaries.update :pk_values identifier
-				:transcript transcript))
+	   (declare (type int identifier))
 
-	    (comments "re-fetch summary with transcript")
-	    (setf s (aref summaries identifier))
-	    (setf words (s.transcript.split))
-	    (when (< (len words) 30)
-	      (summaries.update :pk_values identifier
-				:summary (string "Error: Transcript is too short. No summary necessary")
-				:summary_done True)
-	      (return))
-	    (when (< 280_000 (len words))
-	      (when (in (string "-pro") s.model)
+	    (try
+	     (do0
+	     
+	      (setf s (wait_until_row_exists identifier))
+	      (when (== s -1)
+		(logger.error (fstring "Row {identifier} never appeared in database"))
+		(return))
+
+	      (when (== 0 (len s.transcript))
+		(comments "No transcript given, try to download from URL")
+		(setf transcript (get_transcript s.original_source_link identifier))
 		(summaries.update :pk_values identifier
-				  :summary (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
+				  :transcript transcript))
+
+	      (comments "re-fetch summary with transcript")
+	      (setf s (aref summaries identifier))
+
+	      (do0
+	       (comments "Validate transcript length")
+	       (try
+		(validate_transcript_length s.transcript)
+		((as ValueError e)
+		 (logger.error (fstring "Transcript validation failed for {identifier}: {e}"))
+		 (summaries.update :pk_values identifier
+				   :summary (fstring "Error: {str(e)}")
+				   :summary_done True)
+		 (return))))
+	      
+	      (setf words (s.transcript.split))
+	      (when (< (len words) 30)
+		(summaries.update :pk_values identifier
+				  :summary (string "Error: Transcript is too short. No summary necessary")
 				  :summary_done True)
-		(return)))
-	    (print (fstring "link: {s.original_source_link}"))
-	    (summaries.update :pk_values identifier
-			      :summary (string ""))
-	    (generate_and_save identifier)))
+		(return))
+	      (when (< 280_000 (len words))
+		(when (in (string "-pro") s.model)
+		  (summaries.update :pk_values identifier
+				    :summary (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
+				    :summary_done True)
+		  (return)))
+	      (logger.info (fstring "Processing link: {s.original_source_link}"))
+	      (summaries.update :pk_values identifier
+				:summary (string ""))
+	      (generate_and_save identifier))
+	     ("Exception as e"
+	      (logger.error (fstring "Error in download_and_generate for {identifier}: {e}"))
+	      (try
+	       (summaries.update :pk_values identifier
+				 :summary (fstring "Error: {str(e)}")
+				 :summary_done True)
+	       ("Exception as update_error"
+		(logger.error (fstring "Failed to update database with error for {identifier}: {update_error}"))))))))
 	 #+nil
 	 (do0
 	  (@rt (string "/process_transcript"))
@@ -916,16 +1093,16 @@ Output tokens: {output_tokens}")
 
 	 " "
 	 (def wait_until_row_exists (identifier)
-	   (for (i (range 10))
+	   (for (i (range 400))
 		(try
 		 (do0 (setf s (aref summaries identifier))
 		      (return s))
 		 (sqlite_minutils.db.NotFoundError
-		  (print (string "entry not found")))
+		  (logger.debug (fstring "Entry {identifier} not found, attempt {i + 1}")))
 		 ("Exception as e"
-		  (print (fstring "line 1953 unknown exception {e}"))))
+		  (logger.error (fstring "Unknown exception waiting for row {identifier}: {e}"))))
 		(time.sleep .1))
-	   (print (string "row did not appear"))
+	   (logger.error (fstring "Row {identifier} did not appear after 400 attempts"))
 	   (return -1))
 	 
 	 
@@ -951,115 +1128,213 @@ Here is the real transcript. Please summarize it:
 	   )
 	 " "
 	 (def generate_and_save (identifier)
-	   (declare (type int identifier))
-	   (print (fstring "generate_and_save id={identifier}"))
-	   (setf s (wait_until_row_exists identifier))
-	   (print (fstring "generate_and_save model={s.model}"))
-	   #-emulate
-	   (do0
-	    (setf m (genai.GenerativeModel (dot s model (aref (split (string "|")) 0))))
-	    (setf safety (dict (HarmCategory.HARM_CATEGORY_HATE_SPEECH HarmBlockThreshold.BLOCK_NONE)
-			       (HarmCategory.HARM_CATEGORY_HARASSMENT HarmBlockThreshold.BLOCK_NONE)
-			       (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT HarmBlockThreshold.BLOCK_NONE)
-			       (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT HarmBlockThreshold.BLOCK_NONE)
-					;(HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY HarmBlockThreshold.BLOCK_NONE)
-			       )))
+	  (declare (type int identifier))
+	   (string3 "
+    Generates a summary for the given identifier, stores it in the database, and computes embeddings for both
+    the transcript and the summary. Handles errors and updates the database accordingly.
+
+    Args:
+        identifier (int): The unique identifier for the summary entry in the database.")
+	   (logger.info (fstring "generate_and_save id={identifier}"))
 	   (try
 	    (do0
-	     (do0 
-	      (setf prompt (get_prompt s))
+	    
+	     
+	     
+	     (setf s (wait_until_row_exists identifier))
+	     (when (== s -1)
+	       (logger.error (fstring "Could not find summary with id {identifier}"))
+	       (return))
+	     (logger.info (fstring "generate_and_save model={s.model}"))
+	     #-emulate
+	     (do0
+	      (setf m (genai.GenerativeModel (dot s model (aref (split (string "|")) 0))))
+	      (setf safety (dict (HarmCategory.HARM_CATEGORY_HATE_SPEECH HarmBlockThreshold.BLOCK_NONE)
+				 (HarmCategory.HARM_CATEGORY_HARASSMENT HarmBlockThreshold.BLOCK_NONE)
+				 (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT HarmBlockThreshold.BLOCK_NONE)
+				 (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT HarmBlockThreshold.BLOCK_NONE)
+					;(HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY HarmBlockThreshold.BLOCK_NONE)
+				 )))
+	     (do0 ;try
 	      (do0
-	       (setf response (m.generate_content
-			       prompt
-			       :safety_settings safety
-			       :stream True))
-	       (for (chunk response)
-		    (try
-		     (do0
-		      (print (fstring "add text to id={identifier}: {chunk.text}"))
+	       (do0 
+		(setf prompt (get_prompt s))
+		(do0
+		 (setf response (m.generate_content
+				 prompt
+				 :safety_settings safety
+				 :stream True))
+		 (for (chunk response)
+		      (try
+		       (do0
+			(logger.debug (fstring #+nil
+					       "Adding text chunk to id={identifier}: {chunk.text}"
+					       "Adding text chunk to id={identifier}"))
 		      
-		      (summaries.update :pk_values identifier
-					:summary (+ (dot (aref summaries identifier)
-							 summary)
-						    chunk.text)))
-		     (ValueError ()
-				 (summaries.update :pk_values identifier
-						   :summary (+ (dot (aref summaries identifier)
-								    summary)
-							       (string "\\nError: value error")))
-				 (print (string "Value Error ")))
-		     ("Exception as e"
-		      (summaries.update :pk_values identifier
-					:summary (+ (dot (aref summaries identifier)
-							 summary)
-						    (fstring "\\nError: {str(e)}")))
-		      (print (string "line 2049 Error")))
+			(summaries.update :pk_values identifier
+					  :summary (+ (dot (aref summaries identifier)
+							   summary)
+						      chunk.text)))
+		       ((as ValueError e)
+				   (logger.warning (fstring "ValueError processing chunk for {identifier}: {e}"))
+			(summaries.update :pk_values identifier
+					  :summary (+ (dot (aref summaries identifier)
+							   summary)
+						      (fstring "\\nError: value error {str(e)}")))
+				   )
+		       ("Exception as e"
+			(logger.error (fstring "Error processing chunk for {identifier}: {e}"))
+			(summaries.update :pk_values identifier
+					  :summary (+ (dot (aref summaries identifier)
+							   summary)
+						      (fstring "\\nError: {str(e)}"))))
+		       )
+		      )))
+	       (setf prompt_token_count response.usage_metadata.prompt_token_count
+		     candidates_token_count response.usage_metadata.candidates_token_count)
+	       (try
+		(do0
+		 (logger.info (fstring "Usage metadata: {response.usage_metadata}"))
+		 (setf thinking_token_count response.usage_metadata.thinking_token_count)
+		 )
+		(AttributeError
+		 (logger.info (string "No thinking token count available"))
+		 (setf thinking_token_count 0)))
+	       
+	       (summaries.update :pk_values identifier
+				 :summary_done True
+				 :summary_input_tokens #+emulate 0 #-emulate prompt_token_count
+				 :summary_output_tokens #+emulate 0 #-emulate (+ candidates_token_count
+										 thinking_token_count)
+				 :summary_timestamp_end (dot datetime
+							     datetime
+							     (now)
+							     (isoformat))
+
+				 :timestamps (string "") 
+				 :timestamps_timestamp_start (dot datetime
+								  datetime
+								  (now)
+								  (isoformat))))
+	       
+	       )
+
+	   
+	     
+	   
+	     )
+
+	    ((as google.api_core.exceptions.ResourceExhausted e)
+	       (logger.error (fstring "Resource exhausted for {identifier}: {e}"))
+	       (summaries.update :pk_values identifier
+				 :summary_done False
+			       
+				 :summary (+ (dot (aref summaries identifier)
+						  summary)
+					     (string "\\nError: resource exhausted"))
+				 :summary_timestamp_end (dot datetime
+							     datetime
+							     (now)
+							     (isoformat))
+
+				 :timestamps (string "") 
+				 :timestamps_timestamp_start (dot datetime
+								  datetime
+								  (now)
+								  (isoformat)))
+	       (return))
+
+	    ("Exception as e"
+	     (logger.error (fstring "Unexpected error in generate_and_save for {identifier}: {e}") )
+	     (try
+	      (summaries.update :pk_values identifier
+				:summary_done False
+				:summary (+ (dot (aref summaries identifier)
+						 summary)
+					    (fstring "Error: {str(e)}"))
+				:summary_timestamp_end (dot datetime
+							    datetime
+							    (now)
+							    (isoformat)))
+	      ((as Exception update_error)
+	       (logger.error (fstring "Failed to update database with error for {identifier}: {update_error}"))
+	       ))
+	     (return))
+	    
+	    #+nil ("Exception as e"
+		   (logger.error (fstring "Error during embedding or final update for identifier {identifier}: {e}") )))
+	   (try
+	    (do0
+	     (comments "Generate and store the embedding of the transcript")
+	     (setf transcript_text (dot (aref summaries identifier)
+					transcript))
+	     (when transcript_text
+	       (logger.info (fstring "Generating embedded transcript: {identifier}..."))
+	       (setf embedding_result (genai.embed_content
+				       :model (string "models/embedding-001")
+				       :content transcript_text
+				       :task_type (string "clustering")))
+	       (setf vector_blob
+		     (dot (np.array (aref embedding_result (string "embedding"))
+				    :dtype np.float32)
+			  (tobytes))
 		     )
-		    )))
+	       (summaries.update :pk_values identifier
+				 :full_embedding vector_blob)
+	       (logger.info (fstring "Embedding stored for identifier {identifier}."))))
+	    (google.api_core.exceptions.ResourceExhausted
+	     (logger.warning (string "Resource exhausted when embedding full transcript")))
+	    ((as Exception e)
+	     (logger.error (fstring "Error during full embedding for identifier {identifier}: {e}"))))
+	   (try
+	      (do0
 
-	     (summaries.update :pk_values identifier
-			       :summary_done True
-			       :summary_input_tokens #+emulate 0 #-emulate response.usage_metadata.prompt_token_count
-			       :summary_output_tokens #+emulate 0 #-emulate response.usage_metadata.candidates_token_count
-			       :summary_timestamp_end (dot datetime
-							   datetime
-							   (now)
-							   (isoformat))
-
-			       :timestamps (string "") 
-			       :timestamps_timestamp_start (dot datetime
+	       (do0
+		(comments "Generate and store the embedding of the summary")
+		(setf summary_text (dot (aref summaries identifier)
+					summary))
+		(when summary_text
+		  (logger.info (fstring "Generating summary embedding for identifier {identifier}..."))
+		  (setf embedding_result (genai.embed_content
+					  :model (string "models/embedding-001")
+					  :content summary_text
+					  :task_type (string "clustering")))
+		  (setf vector_blob (dot (np.array
+					  (aref embedding_result (string "embedding"))
+					  :dtype np.float32)
+					 (tobytes)))
+		  (summaries.update :pk_values identifier
+				    :embedding vector_blob)
+		  (logger.info (fstring "Embedding stored for identifier {identifier}."))))
+	       
+	       (setf text (dot (aref summaries identifier)
+			       summary))
+	       (setf text (convert_markdown_to_youtube_format text))
+	       (summaries.update :pk_values identifier
+				 :timestamps_done True
+				 :timestamped_summary_in_youtube_format text
+				 :timestamps_input_tokens 0 ; response2.usage_metadata.prompt_token_count
+				 :timestamps_output_tokens 0 ; response2.usage_metadata.candidates_token_count
+				 :timestamps_timestamp_end (dot datetime
 								datetime
 								(now)
 								(isoformat))))
-	    (google.api_core.exceptions.ResourceExhausted
-	     (summaries.update :pk_values identifier
-			       :summary_done False
-			       
-			       :summary (+ (dot (aref summaries identifier)
-						summary)
-					   (string "\\nError: resource exhausted"))
-			       :summary_timestamp_end (dot datetime
-							   datetime
-							   (now)
-							   (isoformat))
 
-			       :timestamps (string "") 
-			       :timestamps_timestamp_start (dot datetime
+	      (google.api_core.exceptions.ResourceExhausted
+	       (logger.warning (string "Resource exhausted during final update"))
+	       (summaries.update :pk_values identifier
+				 :timestamps_done False
+			       
+				 :timestamped_summary_in_youtube_format (fstring "resource exhausted")
+				 :timestamps_timestamp_end (dot datetime
 								datetime
 								(now)
 								(isoformat)))
-	     return))
-
-	   
-	   (try
-	    (do0
-	     (setf text (dot (aref summaries identifier)
-			     summary))
-	     (setf text (convert_markdown_to_youtube_format text))
-	     (summaries.update :pk_values identifier
-			       :timestamps_done True
-			       :timestamped_summary_in_youtube_format text
-			       :timestamps_input_tokens 0 ; response2.usage_metadata.prompt_token_count
-			       :timestamps_output_tokens 0 ; response2.usage_metadata.candidates_token_count
-			       :timestamps_timestamp_end (dot datetime
-							      datetime
-							      (now)
-							      (isoformat))))
-
-	    (google.api_core.exceptions.ResourceExhausted
-	     (summaries.update :pk_values identifier
-			       :timestamps_done False
-			       
-			       :timestamped_summary_in_youtube_format (fstring "resource exhausted")
-			       :timestamps_timestamp_end (dot datetime
-							      datetime
-							      (now)
-							      (isoformat)))
-	     return))
-	   
-	   )
+	       return)
+	      ((as Exception e)
+	       (logger.error (fstring "Error during embedding or final update for identifier {identifier}: {e}")))))
 	 " "
-	 (comments "in production run this script with: uvicorn p04_host:app --port 5001")
+	 (comments "in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001")
 	 #+nil (serve :host (string "127.0.0.1") :port 5001)
 	 #+nil
 	 (when (== __name__ (string "main"))
