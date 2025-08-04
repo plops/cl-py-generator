@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250711 AS portage
+FROM gentoo/portage:20250804 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20250707
+FROM gentoo/stage3:nomultilib-systemd-20250804
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -106,10 +106,7 @@ RUN ./scripts/config --file .config \
         --set-val LOCALVERSION "-gentoo"
 RUN make prepare
 
-
-
 RUN emerge -e @world --fetchonly
-
 
 # compile the kernel
 RUN make -j32
@@ -123,9 +120,6 @@ RUN emerge --depclean
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
-
-
-
 # # Add slstatus to show battery status and time
 WORKDIR /usr/src
 RUN git clone https://git.suckless.org/slstatus
@@ -135,23 +129,53 @@ RUN make -j32
 RUN make install
 RUN make clean
 
-
 RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
 RUN echo "kiel:kiel" | chpasswd
 
 COPY config/xinitrc /home/kiel/.xinitrc
 
-RUN echo -e "\ngnome-base/librsvg vala -debug -gtk-doc introspection" >> /etc/portage/package.use/package.use
-#RUN echo -e "\n" >> /etc/portage/package.use/package.use
-RUN echo -e "\nx11-libs/gdk-pixbuf introspection" >> /etc/portage/package.use/package.use
-RUN echo -e "\ndev-libs/glib introspection" >> /etc/portage/package.use/package.use
+# Install additional packages
+RUN mv /etc/portage/package.license /etc/portage/package.license.bak
+RUN mkdir -p /etc/portage/package.license
+RUN mv /etc/portage/package.license.bak /etc/portage/package.license/package.license.1
+COPY config/package.license.2 /etc/portage/package.license
+COPY config/package.accept_keywords.2 /etc/portage/package.accept_keywords/package.accept_keywords.2
+COPY config/package.use.2 /etc/portage/package.use/package.use.2
 
-RUN emerge --update --deep --changed-use btop firefox-bin
+RUN emerge \
+    dev-util/clion \
+    sys-process/btop \
+    www-client/firefox-bin \
+    app-containers/docker \
+    app-containers/docker-buildx \
+    app-containers/docker-cli \
+    app-editors/emacs \
+    app-editors/vscode \
+    app-misc/mc \
+    app-text/mupdf \
+    dev-debug/gdb \
+    dev-lisp/sbcl \
+    dev-python/uv \
+    dev-util/nvidia-cuda-toolkit \
+    dev-util/ruff \
+    media-gfx/feh \
+    media-gfx/scrot \
+    net-fs/sshfs \
+    net-im/signal-desktop-bin \
+    net-misc/apt-cacher-ng \
+    net-misc/chrony \
+    net-misc/freerdp \
+    x11-misc/xclip \
+    x11-misc/xtrlock \
+    app-crypt/p11-kit \
+    net-misc/chrony \
+    net-fs/sshfs \
+    sys-apps/qdirstat \
+    dev-debug/ltrace \
+    dev-debug/dtrace \
+    dev-util/ruff \
+    app-text/poppler
 
-
-RUN echo -e "\ndev-util/clion IDEA" >> /etc/portage/package.license
-RUN echo -e "\ndev-util/clion ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
-RUN emerge dev-util/clion
 RUN emerge --depclean
 
 COPY config/list_files.py /usr/bin/list_files.py
@@ -182,7 +206,6 @@ usr/share/genkernel/distfiles \
 usr/src/linux \
 usr/share/sgml \
 var/cache/eix/previous.eix \
-'opt/rust-bin*' \
 boot \
 persistent \
 home/martin/.cache/mozilla \
@@ -209,6 +232,7 @@ usr/share/gtk-doc \
 usr/share/doc \
 usr/share/locale
 
+# 'opt/rust-bin*'
 #usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus}
 #usr/lib/firmware/{iwlwifi,phanfw}*
 
