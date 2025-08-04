@@ -245,12 +245,13 @@ Returns:
 					(write-sequence code-str s))
 				#+nil
 				(sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
+				(sb-ext:run-program "/home/martin/micromamba/bin/ruff" (list "format" (namestring fn)))
 				#+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
 				#+nil
 				(progn
 					;; python3 -m pip install --user black
 					;; should i use --fast option?xs
-					(sb-ext:run-program "/home/martin/.local/bin/black"
+				  (sb-ext:run-program "/home/martin/.local/bin/black"
 							(list "--fast"
 										(namestring  fn))))))))
 
