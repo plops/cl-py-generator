@@ -144,43 +144,6 @@ COPY config/xinitrc /home/kiel/.xinitrc
 
 
 
-#RUN emerge \
-#    dev-util/clion \
-#    sys-process/btop \
-#    www-client/google-chrome \
-#    dev-lang/rust \
-#    media-video/mpv \
-#    app-containers/docker \
-#    app-containers/docker-buildx \
-#    app-containers/docker-cli \
-#    app-editors/emacs \
-#    app-editors/vscode \
-#    app-misc/mc \
-#    app-text/mupdf \
-#    dev-debug/gdb \
-#    dev-lisp/sbcl \
-#    dev-python/uv \
-#    dev-util/nvidia-cuda-toolkit \
-#    dev-util/ruff \
-#    media-gfx/feh \
-#    media-gfx/scrot \
-#    net-fs/sshfs \
-#    net-im/signal-desktop-bin \
-#    net-misc/apt-cacher-ng \
-#    net-misc/chrony \
-#    net-misc/freerdp \
-#    x11-misc/xclip \
-#    x11-misc/xtrlock \
-#    app-crypt/p11-kit \
-#    net-misc/chrony \
-#    net-fs/sshfs \
-#    sys-apps/qdirstat \
-#    dev-debug/ltrace \
-#    dev-debug/dtrace \
-#    dev-util/ruff \
-#    app-text/poppler \
-#    dev-debug/valgrind
-
 RUN emerge --depclean
 
 #COPY config/list_files.py /usr/bin/list_files.py
@@ -198,6 +161,7 @@ RUN mksquashfs \
 -Xcompression-level 22 \
 -progress \
 -one-file-system-x \
+-b 1M \
 -mem 10G \
 -wildcards \
 -e \
