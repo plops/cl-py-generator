@@ -177,12 +177,17 @@ RUN emerge \
     app-text/poppler \
     dev-debug/valgrind
 
+# Add chrome license
+COPY config/package.license.chrome /etc/portage/package.license/google-chrome
+RUN emerge www-client/google-chrome media-video/mpv
+RUN emerge --depclean firefox-bin
+
 RUN emerge --depclean
 
-COPY config/list_files.py /usr/bin/list_files.py
-RUN chmod a+x /usr/bin/list_files.py
-RUN python /usr/bin/list_files.py > /list_files.txt
-
+#COPY config/list_files.py /usr/bin/list_files.py
+#RUN chmod a+x /usr/bin/list_files.py
+#RUN python /usr/bin/list_files.py > /list_files.txt
+# -ef /list_files.txt
 WORKDIR /
 RUN mksquashfs \
 / \
@@ -195,7 +200,6 @@ RUN mksquashfs \
 -progress \
 -one-file-system-x \
 -mem 10G \
--ef /list_files.txt     \
 -wildcards \
 -e \
 usr/src \
@@ -203,6 +207,7 @@ var/cache/binpkgs \
 var/cache/distfiles \
 'gentoo*squashfs' \
 'usr/lib/llvm/*/lib64/lib*.a' \
+'cuda/targets/x86_64-linux/lib/lib*.a' \
 usr/share/genkernel/distfiles \
 usr/src/linux \
 usr/share/sgml \
