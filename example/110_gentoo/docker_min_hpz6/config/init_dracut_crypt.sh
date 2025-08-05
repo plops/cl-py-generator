@@ -273,6 +273,18 @@ source_hook cleanup
 #persist.lv=/dev/mapper/ubuntu--vg-ubuntu--lv \
 #persist.mapname=vg"
 
+#menuentry 'Gentoo from ram (Configurable)' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-4f708c84-185d-437b-a03a-7a565f598a23' {
+#	load_video
+#	insmod gzio
+#	insmod part_gpt
+#	insmod btrfs
+#	search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
+#	echo	'Loading Linux 6.12.31-gentoo-gentoo-dist ...'
+#	linux	/boot/vmlinuz root=UUID=4f708c84-185d-437b-a03a-7a565f598a23 ro squashfs.part=LABEL=gentoo squashfs.file=gentoo.squashfs persist.part=UUID=42bbab57-7cb0-465f-8ef9-6b34379da7d3 persist.lv=/dev/mapper/ubuntu--vg-ubuntu--lv persist.mapname=vg
+#	echo	'Loading initial ramdisk ...'
+#	initrd	/boot/initramfs_squash_sda1-x86_64.img
+#}
+
 #
 # Martin's init script for encrypted rootfs with configurable parameters
 #
@@ -377,14 +389,7 @@ info "Successfully mounted overlayfs on ${NEWROOT}"
 #umount /mnt_persist
 # The crypt-device will be closed by the real system shutdown
 
-# The original script had switch_root with /bin/init, but systemd is more common.
-# Adjust if your system does not use systemd.
 INIT_BIN="/sbin/init"
-if [ -f "${NEWROOT}/usr/bin/systemd" ]; then
-    INIT_BIN="/usr/bin/systemd"
-elif [ -f "${NEWROOT}/sbin/init" ]; then
-    INIT_BIN="/sbin/init"
-fi
 
 info "Switching root to ${NEWROOT} and executing ${INIT_BIN}"
 exec /usr/bin/switch_root "${NEWROOT}" "${INIT_BIN}"
