@@ -58,3 +58,7 @@ x11-libs/libdrm video_cards_radeon
 x11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland
 media-libs/mesa X -llvm opengl proprietary-codecs -vaapi -vulkan zstd -d3d9 -debug -lm-sensors -opencl -osmesa -test -unwind -valgrind -vdpau -wayland -xa
 sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
+
+dev-qt/qtmultimedia X dbus ffmpeg vaapi -alsa -custom-cflags -eglfs -gstreamer opengl pipewire pulseaudio -qml -test -v4l vulkan -wayland
+dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev widgets xml zstd -accessibility -brotli -cups -custom-cflags -eglfs -evdev -gles2-only -gssapi -gtk -icu -journald -libproxy -mysql -oci8 -odbc opengl -postgres -renderdoc -sctp -syslog -test -tslib vulkan -wayland
+ dev-qt/qttools assistant linguist qdbus widgets (zstd) -clang -custom-cflags -designer -distancefieldgenerator -gles2-only opengl -pixeltool -qdoc -qml -qmlls -qtattributionsscanner -qtdiag -qtplugininfo vulkan

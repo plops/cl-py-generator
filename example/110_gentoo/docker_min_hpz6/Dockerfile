@@ -20,6 +20,14 @@ COPY config/package.license /etc/portage/package.license
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/dwm-6.5 /etc/portage/savedconfig/x11-wm/dwm-6.5
 
+# Install additional packages
+RUN mv /etc/portage/package.license /etc/portage/package.license.bak
+RUN mkdir -p /etc/portage/package.license
+RUN mv /etc/portage/package.license.bak /etc/portage/package.license/package.license.1
+COPY config/package.license.2 /etc/portage/package.license
+COPY config/package.accept_keywords.2 /etc/portage/package.accept_keywords/package.accept_keywords.2
+COPY config/package.use.2 /etc/portage/package.use/package.use.2
+
 # Clean up the locales
 RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
 RUN rm -rf /usr/share/locale/*
@@ -134,53 +142,44 @@ RUN echo "kiel:kiel" | chpasswd
 
 COPY config/xinitrc /home/kiel/.xinitrc
 
-# Install additional packages
-RUN mv /etc/portage/package.license /etc/portage/package.license.bak
-RUN mkdir -p /etc/portage/package.license
-RUN mv /etc/portage/package.license.bak /etc/portage/package.license/package.license.1
-COPY config/package.license.2 /etc/portage/package.license
-COPY config/package.accept_keywords.2 /etc/portage/package.accept_keywords/package.accept_keywords.2
-COPY config/package.use.2 /etc/portage/package.use/package.use.2
 
-RUN emerge \
-    dev-util/clion \
-    sys-process/btop \
-    www-client/firefox-bin \
-    app-containers/docker \
-    app-containers/docker-buildx \
-    app-containers/docker-cli \
-    app-editors/emacs \
-    app-editors/vscode \
-    app-misc/mc \
-    app-text/mupdf \
-    dev-debug/gdb \
-    dev-lisp/sbcl \
-    dev-python/uv \
-    dev-util/nvidia-cuda-toolkit \
-    dev-util/ruff \
-    media-gfx/feh \
-    media-gfx/scrot \
-    net-fs/sshfs \
-    net-im/signal-desktop-bin \
-    net-misc/apt-cacher-ng \
-    net-misc/chrony \
-    net-misc/freerdp \
-    x11-misc/xclip \
-    x11-misc/xtrlock \
-    app-crypt/p11-kit \
-    net-misc/chrony \
-    net-fs/sshfs \
-    sys-apps/qdirstat \
-    dev-debug/ltrace \
-    dev-debug/dtrace \
-    dev-util/ruff \
-    app-text/poppler \
-    dev-debug/valgrind
 
-# Add chrome license
-COPY config/package.license.chrome /etc/portage/package.license/google-chrome
-RUN emerge www-client/google-chrome media-video/mpv
-RUN emerge --depclean firefox-bin
+#RUN emerge \
+#    dev-util/clion \
+#    sys-process/btop \
+#    www-client/google-chrome \
+#    dev-lang/rust \
+#    media-video/mpv \
+#    app-containers/docker \
+#    app-containers/docker-buildx \
+#    app-containers/docker-cli \
+#    app-editors/emacs \
+#    app-editors/vscode \
+#    app-misc/mc \
+#    app-text/mupdf \
+#    dev-debug/gdb \
+#    dev-lisp/sbcl \
+#    dev-python/uv \
+#    dev-util/nvidia-cuda-toolkit \
+#    dev-util/ruff \
+#    media-gfx/feh \
+#    media-gfx/scrot \
+#    net-fs/sshfs \
+#    net-im/signal-desktop-bin \
+#    net-misc/apt-cacher-ng \
+#    net-misc/chrony \
+#    net-misc/freerdp \
+#    x11-misc/xclip \
+#    x11-misc/xtrlock \
+#    app-crypt/p11-kit \
+#    net-misc/chrony \
+#    net-fs/sshfs \
+#    sys-apps/qdirstat \
+#    dev-debug/ltrace \
+#    dev-debug/dtrace \
+#    dev-util/ruff \
+#    app-text/poppler \
+#    dev-debug/valgrind
 
 RUN emerge --depclean
 
