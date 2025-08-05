@@ -64,3 +64,4 @@ www-client/google-chrome
     dev-util/ruff
     app-text/poppler
     dev-debug/valgrind
+     app-emulation/qemu
