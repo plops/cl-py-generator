@@ -205,8 +205,8 @@ usr/src \
 var/cache/binpkgs \
 var/cache/distfiles \
 'gentoo*squashfs' \
-'usr/lib/llvm/*/lib64/lib*.a' \
-'cuda/targets/x86_64-linux/lib/lib*.a' \
+usr/lib/llvm/*/lib64/lib*.a \
+cuda/targets/x86_64-linux/lib/lib*.a \
 usr/share/genkernel/distfiles \
 usr/src/linux \
 usr/share/sgml \

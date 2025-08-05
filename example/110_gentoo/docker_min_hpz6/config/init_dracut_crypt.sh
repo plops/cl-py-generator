@@ -266,201 +266,125 @@ make_trace_mem "hook cleanup" '1:shortmem' '2+:mem' '3+:slab'
 getarg 'rd.break=cleanup' -d 'rdbreak=cleanup' && emergency_shell -n cleanup "Break cleanup"
 source_hook cleanup
 
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet splash \
+#squashfs.part=LABEL=gentoo \
+#squashfs.file=gentoo.squashfs \
+#persist.part=UUID=42bbab57-7cb0-465f-8ef9-6b34379da7d3 \
+#persist.lv=/dev/mapper/ubuntu--vg-ubuntu--lv \
+#persist.mapname=vg"
 
-echo "Martin's init script for encrypted rootfs"
+#
+# Martin's init script for encrypted rootfs with configurable parameters
+#
+info "Martin's init: Starting custom overlay boot sequence."
 
+# --- Get kernel parameters with sane defaults ---
+# Use `getarg <param>` which is provided by dracut-lib.sh.
+# The `|| echo "default"` part provides a fallback if the parameter isn't set.
 
-PARTNAME=/dev/disk/by-label/gentoo
-#PARTNAME2=/dev/disk/by-label/docker
-PARTNAME2C=/dev/disk/by-uuid/42bbab57-7cb0-465f-8ef9-6b34379da7d3
+SQUASH_PART=$(getarg squashfs.part || echo "/dev/disk/by-label/gentoo")
+SQUASH_FILE=$(getarg squashfs.file || echo "gentoo.squashfs")
+PERSIST_PART=$(getarg persist.part || echo "/dev/disk/by-uuid/42bbab57-7cb0-465f-8ef9-6b34379da7d3")
+PERSIST_LV=$(getarg persist.lv || echo "/dev/mapper/ubuntu--vg-ubuntu--lv")
+PERSIST_MAPNAME=$(getarg persist.mapname || echo "vg")
 
-cryptsetup luksOpen $PARTNAME2C vg
-lvm vgchange -ay
+info "SquashFS source: ${SQUASH_PART}"
+info "SquashFS file: ${SQUASH_FILE}"
+info "Persistence source: ${PERSIST_PART}"
+info "Persistence LV: ${PERSIST_LV}"
+info "Persistence LUKS mapping name: ${PERSIST_MAPNAME}"
 
+# --- Open encrypted persistence volume ---
+info "Opening LUKS volume ${PERSIST_PART} as ${PERSIST_MAPNAME}"
+cryptsetup luksOpen "${PERSIST_PART}" "${PERSIST_MAPNAME}" || {
+    warn "Failed to open LUKS device ${PERSIST_PART}"
+    emergency_shell
+}
+info "Activating LVM volume groups"
+lvm vgchange -ay || {
+    warn "Failed to activate LVM volume groups"
+    emergency_shell
+}
 
-mkdir -p /mnt1 /mnt /squash
-# Check if /dev/sda1 exists.
-if [ ! -b $PARTNAME ]; then
-    echo "Error: $PARTNAME does not exist!"
+# --- Prepare and mount filesystems ---
+mkdir -p /mnt_squash /mnt_persist /squash
+
+# Mount partition containing the squashfs file
+info "Mounting ${SQUASH_PART} on /mnt_squash"
+if [ ! -b "${SQUASH_PART}" ]; then
+    # Wait for the device to appear, udev might still be working
+    udevadm settle
+    if [ ! -b "${SQUASH_PART}" ]; then
+        warn "SquashFS partition ${SQUASH_PART} does not exist!"
+        emergency_shell
+    fi
+fi
+mount "${SQUASH_PART}" /mnt_squash || {
+    warn "Failed to mount ${SQUASH_PART}"
+    emergency_shell
+}
+
+# Mount the persistent storage LV
+info "Mounting ${PERSIST_LV} on /mnt_persist"
+if [ ! -b "${PERSIST_LV}" ]; then
+    warn "Persistent LV ${PERSIST_LV} does not exist!"
+    emergency_shell
+fi
+mount "${PERSIST_LV}" /mnt_persist || {
+    warn "Failed to mount encrypted LV ${PERSIST_LV}"
+    emergency_shell
+}
+
+# Copy squashfs to RAM for better performance and to free the source device
+SQUASH_SRC_PATH="/mnt_squash/${SQUASH_FILE}"
+SQUASH_RAM_PATH="/dev/shm/${SQUASH_FILE}"
+info "Checking for ${SQUASH_SRC_PATH}"
+if [ ! -f "${SQUASH_SRC_PATH}" ]; then
+    warn "${SQUASH_SRC_PATH} does not exist!"
     emergency_shell
 fi
 
-mount $PARTNAME /mnt1 || { echo "Failed to mount $PARTNAME"; emergency_shell; }
-#mount $PARTNAME2 /mnt || { echo "Failed to mount $PARTNAME2"; emergency_shell; }
-mount /dev/mapper/ubuntu--vg-ubuntu--lv /mnt || { echo "Failed to mount encrypted $PARTNAME2C"; emergency_shell; }
-
-# Check if /mnt/gentoo.squashfs exists.
-if [ ! -f /mnt1/gentoo.squashfs ]; then
-   echo "Error: /mnt1/gentoo.squashfs does not exist!"
+info "Copying ${SQUASH_SRC_PATH} to RAM"
+cp "${SQUASH_SRC_PATH}" "${SQUASH_RAM_PATH}" || {
+    warn "Failed to copy ${SQUASH_SRC_PATH}"
     emergency_shell
+}
+
+info "Mounting SquashFS image from RAM"
+mount "${SQUASH_RAM_PATH}" /squash || {
+    warn "Failed to mount ${SQUASH_RAM_PATH}"
+    emergency_shell
+}
+
+# --- Setup the OverlayFS ---
+info "Mounting overlay filesystem..."
+UPPER_DIR="/mnt_persist/persistent/upper"
+WORK_DIR="/mnt_persist/persistent/work"
+LOWER_DIR="/squash"
+
+# Create overlay directories if they don't exist
+mkdir -p "${UPPER_DIR}" "${WORK_DIR}"
+
+mount -t overlay overlay -o "upperdir=${UPPER_DIR},lowerdir=${LOWER_DIR},workdir=${WORK_DIR}" "${NEWROOT}" || {
+    warn "Failed to mount overlay filesystem"
+    emergency_shell
+}
+
+info "Successfully mounted overlayfs on ${NEWROOT}"
+
+# --- Clean up before switching root ---
+#umount /mnt_squash
+#umount /mnt_persist
+# The crypt-device will be closed by the real system shutdown
+
+# The original script had switch_root with /bin/init, but systemd is more common.
+# Adjust if your system does not use systemd.
+INIT_BIN="/sbin/init"
+if [ -f "${NEWROOT}/usr/bin/systemd" ]; then
+    INIT_BIN="/usr/bin/systemd"
+elif [ -f "${NEWROOT}/sbin/init" ]; then
+    INIT_BIN="/sbin/init"
 fi
 
-cp /mnt1/gentoo.squashfs /dev/shm/gentoo.squashfs || { echo "Failed to copy /mnt1/gentoo.squashfs"; emergency_shell; }
-mount /dev/shm/gentoo.squashfs /squash || { echo "Failed to mount /dev/shm/gentoo.squashfs"; emergency_shell; }
-
-echo "Mounting overlay..."
-mkdir -p /mnt/persistent/lower /mnt/persistent/work "$NEWROOT"
-mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work "$NEWROOT" || { echo "Failed to mount overlay"; emergency_shell; }
-
-
-exec /usr/bin/switch_root /sysroot /bin/init
-
-
-#
-#
-#
-## Create necessary directories
-#mkdir -p /mnt /squash
-#
-## Unmount potential pre-mounted partitions
-#umount /dev/nvme0n1p1
-#umount /dev/nvme0n1p3
-#umount /dev/nvme0n1p5
-#
-## Decrypt the LUKS encrypted partition
-#cryptsetup luksOpen /dev/nvme0n1p4 vg
-#
-## If you use lvm you might need to activate all known volume groups
-## vgchange -ay
-#
-## Mount the ext4 filesystems
-#mount -t ext4 /dev/mapper/vg /mnt
-#
-#echo "Mount gentoo.squashfs from /dev/nvme0n1p4"
-## Mount the squashfs
-#mount /mnt/gentoo.squashfs /squash
-#
-## Set up directories for overlayfs
-#mkdir -p /mnt/persistent/lower
-#mkdir -p /mnt/persistent/work
-#
-## Mount overlayfs
-#mount -t overlay overlay -o upperdir=/mnt/persistent/lower,lowerdir=/squash,workdir=/mnt/persistent/work /sysroot
-#
-#
-## By the time we get here, the root filesystem should be mounted.
-## Try to find init.
-#for i in "$(getarg real_init=)" "$(getarg init=)" $(getargs rd.distroinit=) /sbin/init; do
-#    [ -n "$i" ] || continue
-#
-#    __p="${NEWROOT}/${i}"
-#    if [ -h "$__p" ]; then
-#        # relative links need to be left alone,
-#        # while absolute links need to be resolved and prefixed.
-#        __pt=$(readlink "$__p")
-#        [ "${__pt#/}" = "$__pt" ] || __p="${NEWROOT}/$__pt"
-#    fi
-#    if [ -x "$__p" ]; then
-#        INIT="$i"
-#        break
-#    fi
-#done
-#
-#[ "$INIT" ] || {
-#    echo "Cannot find init!"
-#    echo "Please check to make sure you passed a valid root filesystem!"
-#    emergency_shell
-#}
-#
-#udevadm control --exit
-#udevadm info --cleanup-db
-#
-#debug_off # Turn off debugging for this section
-#
-## unexport some vars
-#export_n root rflags fstype netroot NEWROOT
-#unset CMDLINE
-#export RD_TIMESTAMP
-## Clean up the environment
-#for i in $(export -p); do
-#    i=${i#declare -x}
-#    i=${i#export}
-#    strstr "$i" "=" || continue
-#    i=${i%%=*}
-#    [ -z "$i" ] && continue
-#    case $i in
-#        root | PATH | HOME | TERM | PS4 | RD_*)
-#            :
-#            ;;
-#        *)
-#            unset "$i"
-#            ;;
-#    esac
-#done
-#. /tmp/export.orig 2> /dev/null || :
-#rm -f -- /tmp/export.orig
-#
-#initargs=""
-#read -r CLINE < /proc/cmdline
-#if getarg init= > /dev/null; then
-#    ignoreargs="console BOOT_IMAGE"
-#    # only pass arguments after init= to the init
-#    CLINE=${CLINE#*init=}
-#    set -- "$CLINE"
-#    shift # clear out the rest of the "init=" arg
-#    for x in "$@"; do
-#        for s in $ignoreargs; do
-#            [ "${x%%=*}" = "$s" ] && continue 2
-#        done
-#        initargs="$initargs $x"
-#    done
-#    unset CLINE
-#else
-#    debug_off # Turn off debugging for this section
-#    set -- "$CLINE"
-#    for x in "$@"; do
-#        case "$x" in
-#            [0-9] | s | S | single | emergency | auto)
-#                initargs="$initargs $x"
-#                ;;
-#        esac
-#    done
-#fi
-#debug_on
-#
-#if ! [ -d "$NEWROOT"/run ]; then
-#    NEWRUN=/dev/.initramfs
-#    mkdir -m 0755 -p "$NEWRUN"
-#    mount --rbind /run/initramfs "$NEWRUN"
-#fi
-#
-#wait_for_loginit
-#
-## remove helper symlink
-#[ -h /dev/root ] && rm -f -- /dev/root
-#
-#bv=$(getarg rd.break -d rdbreak) && [ -z "$bv" ] \
-#    && emergency_shell -n switch_root "Break before switch_root"
-#unset bv
-#info "Switching root"
-#
-#unset PS4
-#
-#CAPSH=$(command -v capsh)
-#SWITCH_ROOT=$(command -v switch_root)
-#PATH=$OLDPATH
-#export PATH
-#
-#if [ -f /etc/capsdrop ]; then
-#    . /etc/capsdrop
-#    info "Calling $INIT with capabilities $CAPS_INIT_DROP dropped."
-#    unset RD_DEBUG
-#    exec "$CAPSH" --drop="$CAPS_INIT_DROP" -- \
-#        -c "exec switch_root \"$NEWROOT\" \"$INIT\" $initargs" \
-#        || {
-#            warn "Command:"
-#            warn capsh --drop="$CAPS_INIT_DROP" -- -c exec switch_root "$NEWROOT" "$INIT" "$initargs"
-#            warn "failed."
-#            emergency_shell
-#        }
-#else
-#    unset RD_DEBUG
-#    # shellcheck disable=SC2086
-#    exec "$SWITCH_ROOT" "$NEWROOT" "$INIT" $initargs || {
-#        warn "Something went very badly wrong in the initramfs.  Please "
-#        warn "file a bug against dracut."
-#        emergency_shell
-#    }
-#fi
-#
-#
+info "Switching root to ${NEWROOT} and executing ${INIT_BIN}"
+exec /usr/bin/switch_root "${NEWROOT}" "${INIT_BIN}"
