@@ -150,6 +150,7 @@ RUN emerge --depclean
 #RUN chmod a+x /usr/bin/list_files.py
 #RUN python /usr/bin/list_files.py > /list_files.txt
 # -ef /list_files.txt
+# "... *.a"
 WORKDIR /
 RUN mksquashfs \
 / \
@@ -168,10 +169,9 @@ RUN mksquashfs \
 usr/src \
 var/cache/binpkgs \
 var/cache/distfiles \
-'gentoo*squashfs' \
-"... *.a" \
-usr/lib/llvm/*/lib64/lib*.a \
-cuda/targets/x86_64-linux/lib/lib*.a \
+"gentoo*squashfs" \
+"usr/lib/llvm/20/lib64/lib*.a" \
+"opt/cuda/targets/x86_64-linux/lib/lib*.a" \
 usr/share/genkernel/distfiles \
 usr/src/linux \
 usr/share/sgml \
