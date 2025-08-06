@@ -170,8 +170,9 @@ usr/src \
 var/cache/binpkgs \
 var/cache/distfiles \
 "gentoo*squashfs" \
-"usr/lib/llvm/20/lib64/lib*.a" \
+"usr/lib/llvm/*/lib64/lib*.a" \
 "opt/cuda/targets/x86_64-linux/lib/lib*.a" \
+"usr/lib64/libQt*.a" \
 usr/share/genkernel/distfiles \
 usr/src/linux \
 usr/share/sgml \
@@ -195,7 +196,6 @@ mnt4/ \
 mnt5/ \
 var/tmp \
 initramfs-with-squashfs.img \
-usr/lib64/libQt*.a \
 lost+found \
 var/log \
 usr/share/gtk-doc \
