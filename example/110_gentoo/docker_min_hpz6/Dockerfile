@@ -151,6 +151,7 @@ RUN emerge --depclean
 #RUN python /usr/bin/list_files.py > /list_files.txt
 # -ef /list_files.txt
 # "... *.a"
+# "opt/cuda/targets/x86_64-linux/lib/lib*.a"
 WORKDIR /
 RUN mksquashfs \
 / \
@@ -171,7 +172,6 @@ var/cache/binpkgs \
 var/cache/distfiles \
 "gentoo*squashfs" \
 "usr/lib/llvm/*/lib64/lib*.a" \
-"opt/cuda/targets/x86_64-linux/lib/lib*.a" \
 "usr/lib64/libQt*.a" \
 usr/share/genkernel/distfiles \
 usr/src/linux \
