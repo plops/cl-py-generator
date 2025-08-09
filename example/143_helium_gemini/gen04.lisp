@@ -621,7 +621,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	       (return (string "Invalid YouTube ID format")))
 	   
 	     (setf sub_file (fstring "/dev/shm/o_{identifier}"))
-	     (setf sub_file_en (fstring "/dev/shm/o_{identifier}.en.vtt"))
+	     (setf sub_file_en (fstring "/dev/shm/o_{identifier}.en-orig.vtt"))
 	     (comments "First, try to get English subtitles")
 	     (setf cmds_en (list (string "uvx")
 				 (string "yt-dlp")
@@ -678,7 +678,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		    (setf subtitle_files (glob.glob (fstring "{sub_file}.*.vtt")))
 		    (when subtitle_files
 		      (setf sub_file_to_parse (aref subtitle_files 0))
-		      (logger.info (fstring "Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}")))))))
+		      (logger.info (fstring "Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}"))
+		      break)))))
 	     
 	     (setf ostr (string "Problem getting subscript."))
 

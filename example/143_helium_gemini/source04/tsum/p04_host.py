@@ -180,7 +180,7 @@ def get_transcript(url, identifier):
             logger.warning(f"Invalid YouTube ID format: {youtube_id}")
             return "Invalid YouTube ID format"
         sub_file = f"/dev/shm/o_{identifier}"
-        sub_file_en = f"/dev/shm/o_{identifier}.en.vtt"
+        sub_file_en = f"/dev/shm/o_{identifier}.en-orig.vtt"
         # First, try to get English subtitles
         cmds_en = [
             "uvx",
@@ -238,6 +238,7 @@ def get_transcript(url, identifier):
                     logger.info(
                         f"Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}"
                     )
+                    break
         ostr = "Problem getting subscript."
         if (sub_file_to_parse) and (os.path.exists(sub_file_to_parse)):
             try:
