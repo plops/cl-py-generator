@@ -1046,7 +1046,7 @@ Output tokens: {output_tokens}")
 	      (setf words (s.transcript.split))
 	      (when (< (len words) 30)
 		(summaries.update :pk_values identifier
-				  :summary (string "Error: Transcript is too short. No summary necessary")
+				  :summary (string "Error: Transcript is too short. Probably I couldn't download it. You can provide it manually.")
 				  :summary_done True)
 		(return))
 	      (when (< 280_000 (len words))
