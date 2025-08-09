@@ -295,7 +295,7 @@ def get_transcript(url, identifier):
         return "Error: Download timeout"
     except Exception as e:
         logger.error(f"Unexpected error in get_transcript: {e}")
-        return f"Error: {str(e)}"
+        return f"Error712: {str(e)}"
 
 
 documentation_html = markdown.markdown(documentation)
@@ -623,7 +623,7 @@ def download_and_generate(identifier: int):
         except ValueError as e:
             logger.error(f"Transcript validation failed for {identifier}: {e}")
             summaries.update(
-                pk_values=identifier, summary=f"Error: {str(e)}", summary_done=True
+                pk_values=identifier, summary=f"Error1031: {str(e)}", summary_done=True
             )
             return
         words = s.transcript.split()
@@ -649,7 +649,7 @@ def download_and_generate(identifier: int):
         logger.error(f"Error in download_and_generate for {identifier}: {e}")
         try:
             summaries.update(
-                pk_values=identifier, summary=f"Error: {str(e)}", summary_done=True
+                pk_values=identifier, summary=f"Error1055: {str(e)}", summary_done=True
             )
         except Exception as update_error:
             logger.error(
@@ -734,7 +734,9 @@ def generate_and_save(identifier: int):
                 logger.error(f"Error processing chunk for {identifier}: {e}")
                 summaries.update(
                     pk_values=identifier,
-                    summary=((summaries[identifier].summary) + (f"\nError: {str(e)}")),
+                    summary=(
+                        (summaries[identifier].summary) + (f"\nError1189: {str(e)}")
+                    ),
                 )
         prompt_token_count = response.usage_metadata.prompt_token_count
         candidates_token_count = response.usage_metadata.candidates_token_count
@@ -758,7 +760,9 @@ def generate_and_save(identifier: int):
         summaries.update(
             pk_values=identifier,
             summary_done=False,
-            summary=((summaries[identifier].summary) + ("\nError: resource exhausted")),
+            summary=(
+                (summaries[identifier].summary) + ("\nError1234: resource exhausted")
+            ),
             summary_timestamp_end=datetime.datetime.now().isoformat(),
             timestamps="",
             timestamps_timestamp_start=datetime.datetime.now().isoformat(),
@@ -770,7 +774,7 @@ def generate_and_save(identifier: int):
             summaries.update(
                 pk_values=identifier,
                 summary_done=False,
-                summary=((summaries[identifier].summary) + (f"Error: {str(e)}")),
+                summary=((summaries[identifier].summary) + (f"Error1254: {str(e)}")),
                 summary_timestamp_end=datetime.datetime.now().isoformat(),
             )
         except Exception as update_error:

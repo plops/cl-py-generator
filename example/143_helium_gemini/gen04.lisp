@@ -693,8 +693,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			      )
 		(setf ostr (fstring "Error: problem when processing subtitle file {e}"))))
 		 (do0
-		  (logger.error (string "No subtitle file found")
-				)
+		  (logger.error (string "No subtitle file found"))
 		  (setf ostr (string "Error: No subtitles found for this video. Please provide the transcript manually."))))
 	     (do0
 	      (comments "Cleanup any other subtitle files that might have been downloaded")
@@ -710,7 +709,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	     (return (string "Error: Download timeout")))
 	    ("Exception as e"
 	     (logger.error (fstring "Unexpected error in get_transcript: {e}"))
-	     (return (fstring "Error: {str(e)}")))))
+	     (return (fstring "Error712: {str(e)}")))))
 	 " "
 	 (setf documentation_html
 	       (markdown.markdown documentation))
@@ -1029,7 +1028,7 @@ Output tokens: {output_tokens}")
 		((as ValueError e)
 		 (logger.error (fstring "Transcript validation failed for {identifier}: {e}"))
 		 (summaries.update :pk_values identifier
-				   :summary (fstring "Error: {str(e)}")
+				   :summary (fstring "Error1031: {str(e)}")
 				   :summary_done True)
 		 (return))))
 	      
@@ -1053,7 +1052,7 @@ Output tokens: {output_tokens}")
 	      (logger.error (fstring "Error in download_and_generate for {identifier}: {e}"))
 	      (try
 	       (summaries.update :pk_values identifier
-				 :summary (fstring "Error: {str(e)}")
+				 :summary (fstring "Error1055: {str(e)}")
 				 :summary_done True)
 	       ("Exception as update_error"
 		(logger.error (fstring "Failed to update database with error for {identifier}: {update_error}"))))))))
@@ -1187,7 +1186,7 @@ Here is the real transcript. Please summarize it:
 			(summaries.update :pk_values identifier
 					  :summary (+ (dot (aref summaries identifier)
 							   summary)
-						      (fstring "\\nError: {str(e)}"))))
+						      (fstring "\\nError1189: {str(e)}"))))
 		       )
 		      )))
 	       (setf prompt_token_count response.usage_metadata.prompt_token_count
@@ -1231,7 +1230,7 @@ Here is the real transcript. Please summarize it:
 			       
 				 :summary (+ (dot (aref summaries identifier)
 						  summary)
-					     (string "\\nError: resource exhausted"))
+					     (string "\\nError1234: resource exhausted"))
 				 :summary_timestamp_end (dot datetime
 							     datetime
 							     (now)
@@ -1251,7 +1250,7 @@ Here is the real transcript. Please summarize it:
 				:summary_done False
 				:summary (+ (dot (aref summaries identifier)
 						 summary)
-					    (fstring "Error: {str(e)}"))
+					    (fstring "Error1254: {str(e)}"))
 				:summary_timestamp_end (dot datetime
 							    datetime
 							    (now)
