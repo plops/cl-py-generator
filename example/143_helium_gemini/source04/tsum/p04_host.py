@@ -183,7 +183,8 @@ def get_transcript(url, identifier):
         sub_file_en = f"/dev/shm/o_{identifier}.en.vtt"
         # First, try to get English subtitles
         cmds_en = [
-            "uvx yt-dlp",
+            "uvx",
+            "yt-dlp",
             "--skip-download",
             "--write-auto-subs",
             "--write-subs",
@@ -211,7 +212,8 @@ def get_transcript(url, identifier):
                 "English subtitles not found. Trying to download original language subtitles."
             )
             cmds_any = [
-                "uvx yt-dlp",
+                "uvx",
+                "yt-dlp",
                 "--skip-download",
                 "--write-auto-subs",
                 "--write-subs",
@@ -631,7 +633,7 @@ def generate_and_save(identifier: int):
                 summaries.update(
                     pk_values=identifier,
                     summary=(
-                        (summaries[identifier].summary) + (f"\nError1189: {str(e)}")
+                        (summaries[identifier].summary) + (f"\n[Error1189: {str(e)}]")
                     ),
                 )
         prompt_token_count = response.usage_metadata.prompt_token_count
