@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-# pip install -U google-generativeai python-fasthtml markdown
-# micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py
+# Alternative 1: running with uv: uv venv; uv run uvicorn p04_host:app --port 5001 --host 0.0.0.0
+# Alternative 2: install dependencies with pip: pip install -U google-generativeai python-fasthtml markdown
+# Alternative 3: install dependencies with micromamba: micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py
 import google.generativeai as genai
 import google.api_core.exceptions
 import markdown
@@ -64,38 +65,6 @@ MODEL_OPTIONS = [
     "gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
     "gemini-2.5-flash-lite| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
     "gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000",
-    "gemini-2.5-flash-lite-preview-06-17| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-2.5-flash-preview-05-20| input-price: 0.15 output-price: 3.5 max-context-length: 128_000",
-    "gemma-3n-e4b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-    "gemini-2.5-flash-preview-04-17| input-price: 0.15 output-price: 3.5 max-context-length: 128_000",
-    "gemini-2.5-pro-preview-05-06| input-price: 1.25 output-price: 10.0 max-context-length: 128_000",
-    "gemini-2.5-pro-exp-03-25| input-price: 1.25 output-price: 10.0 max-context-length: 128_000",
-    "gemini-2.0-flash| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-2.0-flash-lite| input-price: 0.075 output-price: 0.3 max-context-length: 128_000",
-    "gemini-2.0-flash-thinking-exp-01-21| input-price: 0.075 output-price: 0.3 max-context-length: 128_000",
-    "gemini-2.0-flash-exp| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-2.0-pro-exp-02-05| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-1.5-pro-exp-0827| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-2.0-flash-lite-preview-02-05| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-2.0-flash-thinking-exp-01-21| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-2.0-flash-001| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-exp-1206| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-exp-1121| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-exp-1114| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "learnlm-1.5-pro-experimental| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-1.5-flash-002| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-1.5-pro-002| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-1.5-pro-exp-0801| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-1.5-flash-exp-0827| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-1.5-flash-8b-exp-0924| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-1.5-flash-latest| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemma-2-2b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-    "gemma-2-9b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-    "gemma-2-27b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-    "gemma-3-27b-it| input-price: -1 output-price: -1 max-context-length: 128_000",
-    "gemini-1.5-flash| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    "gemini-1.5-pro| input-price: 1.25 output-price: 5 max-context-length: 128_000",
-    "gemini-1.0-pro| input-price: 0.5 output-price: 1.5 max-context-length: 128_000",
 ]
 
 
@@ -340,15 +309,6 @@ def get(request: Request):
                     Label("Output Language", _for="output_language"),
                     Select(
                         Option("en"),
-                        Option("de"),
-                        Option("fr"),
-                        Option("ch"),
-                        Option("nl"),
-                        Option("pt"),
-                        Option("cz"),
-                        Option("it"),
-                        Option("jp"),
-                        Option("ar"),
                         style="width: 100%;",
                         name="output_language",
                         id="output_language",
@@ -421,75 +381,11 @@ def generation_preview(identifier):
         ("gemini-2.5-flash"): (0.30),
         ("gemini-2.5-flash-lite"): (0.10),
         ("gemini-2.5-pro"): (1.250),
-        ("gemini-2.5-flash-lite-preview-06-17"): (0.10),
-        ("gemini-2.5-flash-preview-05-20"): (0.150),
-        ("gemma-3n-e4b-it"): (-1),
-        ("gemini-2.5-flash-preview-04-17"): (0.150),
-        ("gemini-2.5-pro-preview-05-06"): (1.250),
-        ("gemini-2.5-pro-exp-03-25"): (1.250),
-        ("gemini-2.0-flash"): (0.10),
-        ("gemini-2.0-flash-lite"): (7.50e-2),
-        ("gemini-2.0-flash-thinking-exp-01-21"): (7.50e-2),
-        ("gemini-2.0-flash-exp"): (0.10),
-        ("gemini-2.0-pro-exp-02-05"): (1.250),
-        ("gemini-1.5-pro-exp-0827"): (1.250),
-        ("gemini-2.0-flash-lite-preview-02-05"): (0.10),
-        ("gemini-2.0-flash-thinking-exp-01-21"): (0.10),
-        ("gemini-2.0-flash-001"): (0.10),
-        ("gemini-exp-1206"): (1.250),
-        ("gemini-exp-1121"): (1.250),
-        ("gemini-exp-1114"): (1.250),
-        ("learnlm-1.5-pro-experimental"): (1.250),
-        ("gemini-1.5-flash-002"): (0.10),
-        ("gemini-1.5-pro-002"): (1.250),
-        ("gemini-1.5-pro-exp-0801"): (1.250),
-        ("gemini-1.5-flash-exp-0827"): (0.10),
-        ("gemini-1.5-flash-8b-exp-0924"): (0.10),
-        ("gemini-1.5-flash-latest"): (0.10),
-        ("gemma-2-2b-it"): (-1),
-        ("gemma-2-9b-it"): (-1),
-        ("gemma-2-27b-it"): (-1),
-        ("gemma-3-27b-it"): (-1),
-        ("gemini-1.5-flash"): (0.10),
-        ("gemini-1.5-pro"): (1.250),
-        ("gemini-1.0-pro"): (0.50),
     }
     price_output = {
         ("gemini-2.5-flash"): (2.50),
         ("gemini-2.5-flash-lite"): (0.40),
         ("gemini-2.5-pro"): (10),
-        ("gemini-2.5-flash-lite-preview-06-17"): (0.40),
-        ("gemini-2.5-flash-preview-05-20"): (3.50),
-        ("gemma-3n-e4b-it"): (-1),
-        ("gemini-2.5-flash-preview-04-17"): (3.50),
-        ("gemini-2.5-pro-preview-05-06"): (10.0),
-        ("gemini-2.5-pro-exp-03-25"): (10.0),
-        ("gemini-2.0-flash"): (0.40),
-        ("gemini-2.0-flash-lite"): (0.30),
-        ("gemini-2.0-flash-thinking-exp-01-21"): (0.30),
-        ("gemini-2.0-flash-exp"): (0.40),
-        ("gemini-2.0-pro-exp-02-05"): (5),
-        ("gemini-1.5-pro-exp-0827"): (5),
-        ("gemini-2.0-flash-lite-preview-02-05"): (0.40),
-        ("gemini-2.0-flash-thinking-exp-01-21"): (0.40),
-        ("gemini-2.0-flash-001"): (0.40),
-        ("gemini-exp-1206"): (5),
-        ("gemini-exp-1121"): (5),
-        ("gemini-exp-1114"): (5),
-        ("learnlm-1.5-pro-experimental"): (5),
-        ("gemini-1.5-flash-002"): (0.40),
-        ("gemini-1.5-pro-002"): (5),
-        ("gemini-1.5-pro-exp-0801"): (5),
-        ("gemini-1.5-flash-exp-0827"): (0.40),
-        ("gemini-1.5-flash-8b-exp-0924"): (0.40),
-        ("gemini-1.5-flash-latest"): (0.40),
-        ("gemma-2-2b-it"): (-1),
-        ("gemma-2-9b-it"): (-1),
-        ("gemma-2-27b-it"): (-1),
-        ("gemma-3-27b-it"): (-1),
-        ("gemini-1.5-flash"): (0.40),
-        ("gemini-1.5-pro"): (5),
-        ("gemini-1.0-pro"): (1.50),
     }
     try:
         s = summaries[identifier]
@@ -522,7 +418,7 @@ Output tokens: {output_tokens}"""
             trigger = ""
         elif s.summary_done:
             text = s.summary
-        elif (0) < (len(s.summary)):
+        elif (s.summary is not None) and ((0) < (len(s.summary))):
             text = s.summary
         elif len(s.transcript):
             text = f"Generating from transcript: {s.transcript[0 : min(100, len(s.transcript))]}"
@@ -611,7 +507,7 @@ def download_and_generate(identifier: int):
         if (s) == (-1):
             logger.error(f"Row {identifier} never appeared in database")
             return
-        if (0) == (len(s.transcript)):
+        if (s.transcript is None) or ((0) == (len(s.transcript))):
             # No transcript given, try to download from URL
             transcript = get_transcript(s.original_source_link, identifier)
             summaries.update(pk_values=identifier, transcript=transcript)
