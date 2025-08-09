@@ -209,34 +209,35 @@ def get_transcript(url, identifier):
         else:
             # If English subtitles are not found, try to download any available subtitle
             logger.info(
-                "English subtitles not found. Trying to download original language subtitles."
+                "English subtitles not found. Trying to download subtitles in other languages."
             )
-            cmds_any = [
-                "uvx",
-                "yt-dlp",
-                "--skip-download",
-                "--write-auto-subs",
-                "--write-subs",
-                "--cookies-from-browser",
-                "firefox",
-                "--sub-langs",
-                "en,de,zh-Hans,iw,lv,fr,pl,ja",
-                "-o",
-                sub_file,
-                "--",
-                youtube_id,
-            ]
-            logger.info(f"Downloading any subtitles: {' '.join(cmds_any)}")
-            result = subprocess.run(
-                cmds_any, capture_output=True, text=True, timeout=60
-            )
-            # Find the downloaded subtitle file
-            subtitle_files = glob.glob(f"{sub_file}.*.vtt")
-            if subtitle_files:
-                sub_file_to_parse = subtitle_files[0]
-                logger.info(
-                    f"Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}"
+            for lang in ["en", "de", "zh", "iw", "lv", "fr", "pl", "ja"]:
+                cmds_any = [
+                    "uvx",
+                    "yt-dlp",
+                    "--skip-download",
+                    "--write-auto-subs",
+                    "--write-subs",
+                    "--cookies-from-browser",
+                    "firefox",
+                    "--sub-langs",
+                    lang,
+                    "-o",
+                    sub_file,
+                    "--",
+                    youtube_id,
+                ]
+                logger.info(f"Downloading any subtitles: {' '.join(cmds_any)}")
+                result = subprocess.run(
+                    cmds_any, capture_output=True, text=True, timeout=60
                 )
+                # Find the downloaded subtitle file
+                subtitle_files = glob.glob(f"{sub_file}.*.vtt")
+                if subtitle_files:
+                    sub_file_to_parse = subtitle_files[0]
+                    logger.info(
+                        f"Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}"
+                    )
         ostr = "Problem getting subscript."
         if (sub_file_to_parse) and (os.path.exists(sub_file_to_parse)):
             try:

@@ -650,52 +650,57 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		 (setf sub_file_to_parse sub_file_en)
 		 (do0
 		  (comments "If English subtitles are not found, try to download any available subtitle")
-		  (logger.info (string "English subtitles not found. Trying to download original language subtitles."))
-		  (setf cmds_any (list (string "uvx")
-				       (string "yt-dlp")
-				 (string "--skip-download")
-				 (string "--write-auto-subs")
-				 (string "--write-subs")
-				 (string "--cookies-from-browser")
-				 (string "firefox")
-				 (string "--sub-langs")
-				 (string "en,de,zh-Hans,iw,lv,fr,pl,ja")
-				 (string "-o")
-				 sub_file
-				 (string "--")
-				 youtube_id))
-		  (logger.info (fstring "Downloading any subtitles: {' '.join(cmds_any)}"))
-		  (setf result (subprocess.run cmds_any
-					       :capture_output True
-					       :text True
-					       :timeout 60))
-		  (comments "Find the downloaded subtitle file")
-		  (setf subtitle_files (glob.glob (fstring "{sub_file}.*.vtt")))
-		  (when subtitle_files
-		    (setf sub_file_to_parse (aref subtitle_files 0))
-		    (logger.info (fstring "Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}")))))
+		  (logger.info (string "English subtitles not found. Trying to download subtitles in other languages."))
+
+		  (for (lang (list ,@(loop for e in `(en de zh iw lv fr pl ja)
+					   collect
+					   `(string ,e))))
+		   (do0
+		    (setf cmds_any (list (string "uvx")
+					 (string "yt-dlp")
+					 (string "--skip-download")
+					 (string "--write-auto-subs")
+					 (string "--write-subs")
+					 (string "--cookies-from-browser")
+					 (string "firefox")
+					 (string "--sub-langs")
+					 lang
+					 (string "-o")
+					 sub_file
+					 (string "--")
+					 youtube_id))
+		    (logger.info (fstring "Downloading any subtitles: {' '.join(cmds_any)}"))
+		    (setf result (subprocess.run cmds_any
+						 :capture_output True
+						 :text True
+						 :timeout 60))
+		    (comments "Find the downloaded subtitle file")
+		    (setf subtitle_files (glob.glob (fstring "{sub_file}.*.vtt")))
+		    (when subtitle_files
+		      (setf sub_file_to_parse (aref subtitle_files 0))
+		      (logger.info (fstring "Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}")))))))
 	     
 	     (setf ostr (string "Problem getting subscript."))
 
 	     (if (and sub_file_to_parse
 		      (os.path.exists sub_file_to_parse))
 		 (try
-	       (do0
-		(setf ostr 
-		      (parse_vtt_file sub_file_to_parse))
-		(logger.info (fstring "Successfully parsed subtitle file: {sub_file_to_parse}"))
-		(os.remove sub_file_to_parse))
-	    
-	       (FileNotFoundError
-		(logger.error (fstring "Subtitle file not found: {sub_file_to_parse}"))
-		(setf ostr (string "Error: Subtitle file disappeared")))
-	       (PermissionError
-		(logger.error (fstring "Permission denied removing file: {sub_file_to_parse}"))
-		(setf ostr (string "Error: Permission denied cleaning up subtitle file")))
-	       ("Exception as e"
-		(logger.error (fstring "Error processing subtitle file: {e}")
-			      )
-		(setf ostr (fstring "Error: problem when processing subtitle file {e}"))))
+		  (do0
+		   (setf ostr 
+			 (parse_vtt_file sub_file_to_parse))
+		   (logger.info (fstring "Successfully parsed subtitle file: {sub_file_to_parse}"))
+		   (os.remove sub_file_to_parse))
+		  
+		  (FileNotFoundError
+		   (logger.error (fstring "Subtitle file not found: {sub_file_to_parse}"))
+		   (setf ostr (string "Error: Subtitle file disappeared")))
+		  (PermissionError
+		   (logger.error (fstring "Permission denied removing file: {sub_file_to_parse}"))
+		   (setf ostr (string "Error: Permission denied cleaning up subtitle file")))
+		  ("Exception as e"
+		   (logger.error (fstring "Error processing subtitle file: {e}")
+				 )
+		   (setf ostr (fstring "Error: problem when processing subtitle file {e}"))))
 		 (do0
 		  (logger.error (string "No subtitle file found"))
 		  (setf ostr (string "Error: No subtitles found for this video. Please provide the transcript manually."))))
