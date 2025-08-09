@@ -245,7 +245,7 @@ Returns:
 					(write-sequence code-str s))
 				#+nil
 				(sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
-				(sb-ext:run-program "/home/martin/micromamba/bin/ruff" (list "format" (namestring fn)))
+				(sb-ext:run-program "/usr/bin/ruff" (list "format" (namestring fn)))
 				#+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
 				#+nil
 				(progn

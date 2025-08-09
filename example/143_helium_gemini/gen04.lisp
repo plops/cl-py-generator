@@ -371,7 +371,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
        (format nil "~a/source04/tsum/p~a_~a" *path* *idx* notebook-name)
        `(do0
 	 "#!/usr/bin/env python3"
-	 (comments "Alternative 1: running with uv: uv venv; uv run uvicorn p04_host:app --port 5001 --host 0.0.0.0")
+	 (comments "Alternative 1: running with uv: GEMINI_API_KEY=`cat api_key.txt` uv run uvicorn p04_host:app --port 5001")
 	 (comments "Alternative 2: install dependencies with pip: pip install -U google-generativeai python-fasthtml markdown")
 	 #+dl (comments "Alternative 3: install dependencies with micromamba: micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py")
 	 (imports ((genai google.generativeai)
