@@ -143,8 +143,8 @@ RUN echo "kiel:kiel" | chpasswd
 COPY config/xinitrc /home/kiel/.xinitrc
 
 
-
 RUN emerge --depclean
+RUN sudo chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
 
 #COPY config/list_files.py /usr/bin/list_files.py
 #RUN chmod a+x /usr/bin/list_files.py
