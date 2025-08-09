@@ -5,7 +5,7 @@ description = "A YouTube transcript summarizer using Gemini and FastHTML."
 authors = [
     { name = "wolpumba@gmail.com" },
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 dependencies = [
     "google-generativeai",
     "python-fasthtml",
@@ -19,7 +19,3 @@ dependencies = [
 
 [project.scripts]
 start = "uvicorn p04_host:app --port 5001 --host 0.0.0.0"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
