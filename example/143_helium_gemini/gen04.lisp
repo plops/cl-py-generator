@@ -610,11 +610,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 #+dl
 	 (def get_transcript (url identifier)
 	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
-	   
 	   (try
 	    (do0
-	    
-
 	     (setf youtube_id (validate_youtube_url url))
 	     (unless youtube_id
 	       (logger.warning (fstring "Invalid YouTube URL: {url}"))
@@ -633,8 +630,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				 (string "--write-subs")
 				 (string "--cookies-from-browser")
 				 (string "firefox")
-				 (string "--sub-lang")
-				 (string "en")
+				 (string "--sub-langs")
+				 (string "en-orig")
 				 (string "-o")
 				 sub_file
 				 (string "--")
@@ -661,6 +658,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				 (string "--write-subs")
 				 (string "--cookies-from-browser")
 				 (string "firefox")
+				 (string "--sub-langs")
+				 (string "en,de,zh-Hans,iw,lv,fr,pl,ja")
 				 (string "-o")
 				 sub_file
 				 (string "--")
