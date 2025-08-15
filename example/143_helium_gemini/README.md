@@ -311,3 +311,33 @@ For a deeper investigation, additional debugging can be enabled using the follow
     --with-http_v3_module
     --with-debug
     --with-cc-opt="-DNGX_QUIC_DEBUG_PACKETS -DNGX_QUIC_DEBUG_CRYPTO"
+
+
+# Live Chat
+
+## Getting
+
+```
+yt-dlp --cookies-from-browser chrome --skip-download --write-subs --sub-langs live_chat
+```
+
+
+## Parsing
+
+```
+$ jq -r '
+  .replayChatItemAction.actions[].addChatItemAction.item.liveChatTextMessageRenderer
+  | select(. != null)
+  | [.timestampText.simpleText, .authorName.simpleText, .message.runs[0].text]
+  | @tsv
+' < GPT5_Code-\[xiJwgwoiXpc\].live_chat.json 
+0:13    Abdeljalil ELMAJJODI    Hello hello
+0:23    NLP Prompter    it is sometimes funny to think... that we need so many different AI to work on something
+0:37    Sorry dave, I am afraid i can't do that.        yoo
+0:48    NLP Prompter    i can't imagine to add text into image without gpt or qwen image now
+1:27    Sorry dave, I am afraid i can't do that.        I was waiting for your video
+2:44    dm204375        cursor now has a cli
+2:50    Josh Phillips   oh sweet! I've been meaning to look into opencode. It looked interesting
+3:48    NLP Prompter    ELON MUSK 
+
+```
