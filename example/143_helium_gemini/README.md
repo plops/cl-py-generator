@@ -1,28 +1,26 @@
-9| file              | comment                                                                             |
+9| file | comment |
 |-------------------+-------------------------------------------------------------------------------------|
-| captions.py       | download captions with youtube api (an example), not working for third party videos |
-| gapi.py           | grpc based generativeai interface (can't install this on vm)                        |
-| gapi2.py          | REST based gemini transcript summarization                                          |
-| get_transcript.py | another failed attempt to get video transcripts                                     |
-| run.py            | an attempt to use gemini via selenium (very slow and brittle for large transcripts) |
-| selen_comments.py | use selenium to download all my youtube comments                                    |
-| gen01             | try to generate fasthtml interface with storage in files                            |
-| gen02             | try to generate fasthtml interface with storage in sqlite based on gapi2.py and 144 |
-| gen03             | experiment with google-genai  and yt-dlp                                            |
-| gen04             | split up 02 for testing   (this is what i run most of the time)                     |
+| captions.py | download captions with youtube api (an example), not working for third party videos |
+| gapi.py | grpc based generativeai interface (can't install this on vm)                        |
+| gapi2.py | REST based gemini transcript summarization |
+| get_transcript.py | another failed attempt to get video transcripts |
+| run.py | an attempt to use gemini via selenium (very slow and brittle for large transcripts) |
+| selen_comments.py | use selenium to download all my youtube comments |
+| gen01 | try to generate fasthtml interface with storage in files |
+| gen02 | try to generate fasthtml interface with storage in sqlite based on gapi2.py and 144 |
+| gen03 | experiment with google-genai and yt-dlp |
+| gen04 | split up 02 for testing   (this is what i run most of the time)                     |
 
-
-# Create a proxy 
+# Create a proxy
 
 - the free version of gemini api works better if accessed from us
 
 - solution:
-  - rent a server in the us
-  - create socks proxy: `ssh -D 5555 server-in-us`
-  - run tinyproxy (this is needed because grpc can't go through socks
-    ('socks5h' scheme not supported in proxy URI)
-	- documentation: https://tinyproxy.github.io/
-
+    - rent a server in the us
+    - create socks proxy: `ssh -D 5555 server-in-us`
+    - run tinyproxy (this is needed because grpc can't go through socks
+      ('socks5h' scheme not supported in proxy URI)
+        - documentation: https://tinyproxy.github.io/
 
 ```
 # tinyproxy.conf
@@ -38,9 +36,9 @@ Upstream socks5 127.0.0.1:5555
 Allow 127.0.0.1
 ```
 
-   - run `tinyproxy -d -c tinyproxy.conf`
+- run `tinyproxy -d -c tinyproxy.conf`
 
- - `export http_proxy="http://localhost:8888"`
+- `export http_proxy="http://localhost:8888"`
 
 ```
 cd source02
@@ -73,8 +71,8 @@ INFO      Aug 25 12:34:09.387 [26268]: Not sending client headers to remote mach
 
 ```
 
-
 - explore the sqlite table
+
 ```
 sqlite3 data/summaries.db
 .tables
@@ -84,18 +82,16 @@ SELECT * FROM items ORDER BY identifier DESC LIMIT 1;
 
 ```
 
-
 # yt-dlp usage
 
 ## comments
+
 ```
 
 # dump complete JSON with comments
 yt-dlp --write-comments --dump-single-json -o "$file" "$url"
 yt-dlp --write-comments --dump-single-json "$url" > "$file"x
 ```
-
-
 
 # get cookies
 
@@ -106,10 +102,10 @@ scp -Cr yt_cookies.txt ...
 
 # instrumentation
 
-by analizing the response time for around 700 summaries (not all of them gave valid results) i found that most of the responses come with 0.2 to 2 seconds per 1000 input tokens.
+by analizing the response time for around 700 summaries (not all of them gave valid results) i found that most of the
+responses come with 0.2 to 2 seconds per 1000 input tokens.
 
 it might be interesting to store the time when each response packet arrives
-
 
 # Links
 
@@ -124,11 +120,9 @@ another video has this link for the pattern:
 
 https://youtu.be/tW6Y1WYwozk?feature=shared
 
-
 oauth with google and fasthtml
 
 https://www.danliden.com/notebooks/web_dev/fasthtml/5_google_oauth_1.html
-
 
 # prepare gemini embeddings for t-SNE or UMAP
 
@@ -136,9 +130,17 @@ https://github.com/google/generative-ai-docs/blob/main/site/en/gemini-api/tutori
 5
 https://news.ycombinator.com/item?id=38976773
 
-This Hacker News discussion revolves around K-Means clustering, sparked by a post sharing a generalized, scalable implementation using Spark. Commenters explore various facets of K-Means and related techniques, particularly in the context of modern AI applications involving high-dimensional embeddings. Key themes include practical pipelines combining text embedding (e.g., SentenceTransformers), dimensionality reduction (UMAP), clustering (K-Means, DBSCAN, HDBSCAN), and automated labeling using LLMs like ChatGPT. Significant discussion addresses the challenge of selecting the optimal number of clusters (k), with users suggesting heuristics like cluster stability, Silhouette index, and Calinski-Harabasz index, or advocating for alternatives like DBSCAN/HDBSCAN that don't require pre-specifying k. The conversation also covers diverse applications of K-Means (text analysis, image processing, GIS, e-commerce, bioinformatics, noise reduction), performance considerations for large datasets, implementation details (libraries, specific models), the algorithm's theoretical underpinnings (relation to EM/GMM), and its perceived simplicity versus limitations compared to other methods.
-
-
+This Hacker News discussion revolves around K-Means clustering, sparked by a post sharing a generalized, scalable
+implementation using Spark. Commenters explore various facets of K-Means and related techniques, particularly in the
+context of modern AI applications involving high-dimensional embeddings. Key themes include practical pipelines
+combining text embedding (e.g., SentenceTransformers), dimensionality reduction (UMAP), clustering (K-Means, DBSCAN,
+HDBSCAN), and automated labeling using LLMs like ChatGPT. Significant discussion addresses the challenge of selecting
+the optimal number of clusters (k), with users suggesting heuristics like cluster stability, Silhouette index, and
+Calinski-Harabasz index, or advocating for alternatives like DBSCAN/HDBSCAN that don't require pre-specifying k. The
+conversation also covers diverse applications of K-Means (text analysis, image processing, GIS, e-commerce,
+bioinformatics, noise reduction), performance considerations for large datasets, implementation details (libraries,
+specific models), the algorithm's theoretical underpinnings (relation to EM/GMM), and its perceived simplicity versus
+limitations compared to other methods.
 
 # Fail2Ban
 
@@ -150,7 +152,6 @@ sudo apt update && sudo apt install fail2ban
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
-
 
 # Nginx http/3
 
@@ -208,51 +209,54 @@ into the system, or build the OpenSSL library statically from the source
 with nginx by using --with-openssl=<path> option.
 ```
 
-
 here is some documentation from the nginx website:
 
-Support for QUIC and HTTP/3 protocols is available since 1.25.0. Also, since 1.25.0, the QUIC and HTTP/3 support is available in Linux binary packages.
-
+Support for QUIC and HTTP/3 protocols is available since 1.25.0. Also, since 1.25.0, the QUIC and HTTP/3 support is
+available in Linux binary packages.
 
 The QUIC and HTTP/3 support is experimental, caveat emptor applies.
 
 Building from sources
 The build is configured using the configure command. Please refer to Building nginx from Sources for details.
 
-When configuring nginx, it is possible to enable QUIC and HTTP/3 using the --with-http_v3_module configuration parameter.
+When configuring nginx, it is possible to enable QUIC and HTTP/3 using the --with-http_v3_module configuration
+parameter.
 
-An SSL library that provides QUIC support is recommended to build nginx, such as BoringSSL, LibreSSL, or QuicTLS. Otherwise, the OpenSSL compatibility layer will be used that does not support early data.
+An SSL library that provides QUIC support is recommended to build nginx, such as BoringSSL, LibreSSL, or QuicTLS.
+Otherwise, the OpenSSL compatibility layer will be used that does not support early data.
 
 Use the following command to configure nginx with BoringSSL:
 
 ./configure
-    --with-debug
-    --with-http_v3_module
-    --with-cc-opt="-I../boringssl/include"
-    --with-ld-opt="-L../boringssl/build -lstdc++"
+--with-debug
+--with-http_v3_module
+--with-cc-opt="-I../boringssl/include"
+--with-ld-opt="-L../boringssl/build -lstdc++"
 
 Alternatively, nginx can be configured with QuicTLS:
 
 ./configure
-    --with-debug
-    --with-http_v3_module
-    --with-cc-opt="-I../quictls/build/include"
-    --with-ld-opt="-L../quictls/build/lib"
+--with-debug
+--with-http_v3_module
+--with-cc-opt="-I../quictls/build/include"
+--with-ld-opt="-L../quictls/build/lib"
 
 Alternatively, nginx can be configured with a modern version of LibreSSL:
 
 ./configure
-    --with-debug
-    --with-http_v3_module
-    --with-cc-opt="-I../libressl/build/include"
-    --with-ld-opt="-L../libressl/build/lib"
+--with-debug
+--with-http_v3_module
+--with-cc-opt="-I../libressl/build/include"
+--with-ld-opt="-L../libressl/build/lib"
 
 After configuration, nginx is compiled and installed using make.
 
 Configuration
-The listen directive in ngx_http_core_module module got a new parameter quic which enables HTTP/3 over QUIC on the specified port.
+The listen directive in ngx_http_core_module module got a new parameter quic which enables HTTP/3 over QUIC on the
+specified port.
 
-Along with the quic parameter it is also possible to specify the reuseport parameter to make it work properly with multiple workers.
+Along with the quic parameter it is also possible to specify the reuseport parameter to make it work properly with
+multiple workers.
 
 For the list of directives, see ngx_http_v3_module.
 
@@ -271,14 +275,15 @@ quic_host_key <filename>;
 
 QUIC requires TLSv1.3 protocol version which is enabled by default in the ssl_protocols directive.
 
-By default, GSO Linux-specific optimization is disabled. Enable it in case a corresponding network interface is configured to support GSO.
+By default, GSO Linux-specific optimization is disabled. Enable it in case a corresponding network interface is
+configured to support GSO.
 
 Example Configuration
 
 http {
-    log_format quic '$remote_addr - $remote_user [$time_local] '
-                    '"$request" $status $body_bytes_sent '
-                    '"$http_referer" "$http_user_agent" "$http3"';
+log_format quic '$remote_addr - $remote_user [$time_local] '
+'"$request" $status $body_bytes_sent '
+'"$http_referer" "$http_user_agent" "$http3"';
 
     access_log logs/access.log quic;
 
@@ -296,6 +301,7 @@ http {
             add_header Alt-Svc 'h3=":8443"; ma=86400';
         }
     }
+
 }
 
 Troubleshooting
@@ -303,15 +309,18 @@ Tips that may help to identify problems:
 
 Ensure nginx is built with the proper SSL library.
 Ensure nginx is using the proper SSL library in runtime (the nginx -V shows what it is currently used).
-Ensure a client is actually sending requests over QUIC. It is recommended to start with a simple console client such as ngtcp2 to ensure the server is configured properly before trying with real browsers that may be quite picky with certificates.
-Build nginx with debug support and check the debug log. It should contain all details about the connection and why it failed. All related messages contain the “quic” prefix and can be easily filtered out.
-For a deeper investigation, additional debugging can be enabled using the following macros: NGX_QUIC_DEBUG_PACKETS, NGX_QUIC_DEBUG_FRAMES, NGX_QUIC_DEBUG_ALLOC, NGX_QUIC_DEBUG_CRYPTO.
+Ensure a client is actually sending requests over QUIC. It is recommended to start with a simple console client such as
+ngtcp2 to ensure the server is configured properly before trying with real browsers that may be quite picky with
+certificates.
+Build nginx with debug support and check the debug log. It should contain all details about the connection and why it
+failed. All related messages contain the “quic” prefix and can be easily filtered out.
+For a deeper investigation, additional debugging can be enabled using the following macros: NGX_QUIC_DEBUG_PACKETS,
+NGX_QUIC_DEBUG_FRAMES, NGX_QUIC_DEBUG_ALLOC, NGX_QUIC_DEBUG_CRYPTO.
 
 ./configure
-    --with-http_v3_module
-    --with-debug
-    --with-cc-opt="-DNGX_QUIC_DEBUG_PACKETS -DNGX_QUIC_DEBUG_CRYPTO"
-
+--with-http_v3_module
+--with-debug
+--with-cc-opt="-DNGX_QUIC_DEBUG_PACKETS -DNGX_QUIC_DEBUG_CRYPTO"
 
 # Live Chat
 
@@ -320,7 +329,6 @@ For a deeper investigation, additional debugging can be enabled using the follow
 ```
 yt-dlp --cookies-from-browser chrome --skip-download --write-subs --sub-langs live_chat
 ```
-
 
 ## Parsing
 
@@ -340,4 +348,102 @@ $ jq -r '
 2:50    Josh Phillips   oh sweet! I've been meaning to look into opencode. It looked interesting
 3:48    NLP Prompter    ELON MUSK 
 
+```
+
+# Miscellaneous
+
+## Repairing a Sqlite3 Database
+
+Occasionally, after exiting the program, you may notice additional files alongside your main database file
+(`data/*.db`), specifically `data/*.db-wal` and `data/*.db-shm`. To safely merge any pending transactions and
+clean up these files, run `checkup.py`. This script will open and close the database, ensuring
+all in-flight updates are committed.
+
+### **Adding Columns from an Older Database to a Newer One**
+
+This guide describes how to update a primary SQLite database with valuable, pre-computed data from an older version of
+the database. The goal is to merge specific column data (e.g., computationally expensive embeddings) into a newer,
+larger database without losing new entries or re-running complex calculations.
+
+The most direct and efficient method is to use SQL's `ATTACH DATABASE` feature. This approach allows you to access both
+databases simultaneously and perform the update directly within the SQLite engine.
+
+---
+
+### **Step-by-Step Guide**
+
+In this example, we will update a newer database, `summaries_on_server.db`, with `embedding` data from an older file,
+`summaries_20250720.db`. The operation will match rows based on a unique `identifier` column.
+
+#### **1. Backup Your Databases**
+
+Before you begin, create copies of both database files. This is a critical safety step to prevent accidental data loss.
+
+```bash
+cp summaries_on_server.db summaries_on_server.db.backup
+cp summaries_20250720.db summaries_20250720.db.backup
+```
+
+#### **2. Open the New Database**
+
+Use the `sqlite3` command-line client to open the main database you wish to update (`summaries_on_server.db`).
+
+```bash
+sqlite3 summaries_on_server.db
+```
+
+#### **3. Attach the Old Database**
+
+Use the `ATTACH` command to make the older database available within the current connection. We will assign it the alias
+`old_db` for easy reference in our query.
+
+```sql
+-- Use the correct file path to your old database
+ATTACH
+DATABASE 'summaries_20250720.db' AS old_db;```
+
+#### **4. Run the Update Command**
+
+Execute a single `
+UPDATE` statement. This command finds all rows in the main `items` table that have a matching `identifier` in the `old_db.items` table and copies the `embedding` value.
+
+```sql
+UPDATE items
+SET embedding = (SELECT embedding
+                 FROM old_db.items AS old_items
+                 WHERE old_items.identifier = items.identifier)
+WHERE EXISTS (SELECT 1
+              FROM old_db.items AS old_items
+              WHERE old_items.identifier = items.identifier
+                AND old_items.embedding IS NOT NULL);
+```
+
+* `SET embedding = (...)`: This subquery looks up the corresponding embedding from the old database based on the
+  matching `identifier`.
+* `WHERE EXISTS (...)`: This clause ensures that we only attempt to update rows in the new database that actually have a
+  corresponding entry in the old database with a valid (non-null) embedding.
+
+#### **5. Verify and Detach**
+
+After running the update, you can check how many rows were affected using the `changes()` function.
+
+```sql
+-- See how many rows were updated
+SELECT changes();
+
+-- Spot-check a few rows to confirm embeddings were copied
+SELECT identifier, embedding IS NOT NULL
+FROM items
+WHERE embedding IS NOT NULL LIMIT 5;
+```
+
+When you have confirmed the update was successful, detach the old database and exit the client.
+
+```sql
+-- Detach the old database
+DETACH
+DATABASE old_db;
+
+-- Exit the SQLite client
+.quit
 ```
