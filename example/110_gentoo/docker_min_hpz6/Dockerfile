@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250804 AS portage
+FROM gentoo/portage:20250817 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20250804
+FROM gentoo/stage3:nomultilib-systemd-20250811
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -102,16 +102,34 @@ RUN ./scripts/config --file .config \
 -d SQUASHFS_EMBEDDED \
 --set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
 -m ENCRYPTED_KEYS \
-        -e CONFIG_BLK_DEV_NVME \
-        -e CONFIG_NVME_CORE \
-        -d DRM_NOUVEAU \
-        -e HID_CHERRY \
-        -e ACPI_IPMI \
-        -d FB_NVIDIA -d FB_RIVA -d DRM_SIMPLEDRM \
-        -e SIMPLEFB -e FB_VESA -e FB_EFI -e FB_SIMPLE \
-        -d DRM \
-        -e BLK_DEV_LOOP \
-        --set-val LOCALVERSION "-gentoo"
+-e CONFIG_BLK_DEV_NVME \
+-e CONFIG_NVME_CORE \
+-d DRM_NOUVEAU \
+-e HID_CHERRY \
+-e ACPI_IPMI \
+-d FB_NVIDIA -d FB_RIVA -d DRM_SIMPLEDRM \
+-e SIMPLEFB -e FB_VESA -e FB_EFI -e FB_SIMPLE \
+-d DRM \
+-e BLK_DEV_LOOP \
+--set-val LOCALVERSION "-gentoo" \
+-m WIREGUARD \
+-e MACVLAN \
+-e VXLAN \
+-e VETH \
+-e IPVALN \
+-e IPVLAN_L3S \
+-m IGC \
+-m R8169 \
+-e REALTEK_PHY \
+-m GPIO_AMDPT \
+-m DRM_GPUVM \
+-e FB_DEVICE \
+-m HID_CHERRY \
+-m EDAC_AMD64 \
+-m MXM_WMI \
+-m HP_WMI \
+-m RAS_FMPM \
+-d CPU_MITIGATIONS
 RUN make prepare
 
 RUN emerge -e @world --fetchonly
