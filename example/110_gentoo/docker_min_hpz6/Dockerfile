@@ -146,6 +146,20 @@ RUN emerge --depclean
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
+
+# # Add a tool to read the Ryzen temperatures, frequencies and voltages
+WORKDIR /usr/src
+RUN git clone https://github.com/leogx9r/ryzen_smu
+WORKDIR /usr/src/ryzen_smu
+# Path should be like /lib/modules/6.13.5-gentoo/
+# Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
+RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
+RUN make -j7
+RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
+RUN depmod -a ${KVER}
+RUN rm *.o
+
+
 # # Add slstatus to show battery status and time
 WORKDIR /usr/src
 RUN git clone https://git.suckless.org/slstatus
