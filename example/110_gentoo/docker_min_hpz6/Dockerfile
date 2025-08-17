@@ -149,7 +149,7 @@ RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 # # Add a tool to read the Ryzen temperatures, frequencies and voltages
 WORKDIR /usr/src
-RUN git clone https://github.com/leogx9r/ryzen_smu
+RUN git clone https://github.com/amkillam/ryzen_smu
 WORKDIR /usr/src/ryzen_smu
 # Path should be like /lib/modules/6.13.5-gentoo/
 # Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
