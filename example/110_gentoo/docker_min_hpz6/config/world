@@ -67,7 +67,14 @@ www-client/google-chrome
      app-emulation/qemu
      sys-apps/smartmontools
      sys-apps/nvme-cli
+     sys-apps/pciutils
      sys-apps/usbutils
+     sys-process/iotop
+     app-portage/cpuid2cpuflags
+     sys-apps/cpuid
+     net-analyzer/nmap
+     net-analyzer/bmon
+     net-dns/bind-tools
      x11-apps/xkill
      media-libs/plotutils
      app-text/doxygen
@@ -78,3 +85,9 @@ net-wireless/iw
 x11-misc/redshift
 media-sound/pavucontrol
 sys-power/tlp
+dev-db/postgresql
+ www-servers/nginx
+ sys-apps/lshw
+ app-misc/fastfetch
+ sys-process/glances
+ sys-apps/lm-sensors
