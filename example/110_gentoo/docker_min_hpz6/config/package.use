@@ -49,9 +49,9 @@ net-print/cups -X -acl -dbus -debug -kerberos -openssl -pam -selinux ssl -static
 media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
 
 
-media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug -drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet -vdpau vulkan -wayland -xv -zimg
+media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet vdpau vulkan -wayland -xv -zimg
 
-media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pulseaudio threads vaapi x264 zlib -amf -amr -amrenc  -appkit  -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection  -cuda  dav1d -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma  -mipsdspr1   -mipsdspr2   -mipsfpu  -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic  -qsv  -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab  -vmaf  -vorbis -vpx -vulkan -webp -x265 -xvid -zeromq -zimg -zvbi
+media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pulseaudio threads vaapi x264 zlib -amf -amr -amrenc  -appkit  -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection  -cuda  dav1d -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma  -mipsdspr1   -mipsdspr2   -mipsfpu  -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic  -qsv  -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l vdpau -verify-sig -vidstab  -vmaf  -vorbis -vpx -vulkan -webp -x265 -xvid -zeromq -zimg -zvbi
 
 x11-libs/libdrm video_cards_radeon
 #sys-kernel/gentoo-sources experimental
@@ -62,3 +62,44 @@ sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pi
 dev-qt/qtmultimedia X dbus ffmpeg vaapi -alsa -custom-cflags -eglfs -gstreamer opengl pipewire pulseaudio -qml -test -v4l vulkan -wayland
 dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev widgets xml zstd -accessibility -brotli -cups -custom-cflags -eglfs -evdev -gles2-only -gssapi -gtk -icu -journald -libproxy -mysql -oci8 -odbc opengl -postgres -renderdoc -sctp -syslog -test -tslib vulkan -wayland
  dev-qt/qttools assistant linguist qdbus widgets (zstd) -clang -custom-cflags -designer -distancefieldgenerator -gles2-only opengl -pixeltool -qdoc -qml -qmlls -qtattributionsscanner -qtdiag -qtplugininfo vulkan
+
+ # firefox-bin
+ gnome-base/librsvg introspection vala -debug -gtk-doc
+ x11-libs/gdk-pixbuf introspection -gif -gtk-doc -jpeg -test -tiff
+ dev-libs/glib dbus elf introspection mime xattr -debug -doc -selinux -static-libs -sysprof -systemtap -test -utils
+ app-crypt/p11-kit libffi nls systemd gtk-doc -test
+ net-misc/freerdp X client ffmpeg fuse icu systemd aad -alsa -cups -debug -gstreamer -jpeg -kerberos -openh264 -pulseaudio -sdl -server -smartcard -test -usb -valgrind -verify-sig -wayland -xinerama -xv
+
+ # vscode
+ app-crypt/libsecret crypt gcrypt pam test-rust vala -gnutls -gtk-doc introspection -test -tpm
+ app-text/xmlto -latex text
+ app-crypt/gcr systemd vala -gnutls gtk -gtk-doc introspection -test
+ x11-libs/gtk+ X -aqua -broadway -cloudproviders -colord -cups -examples -gtk-doc introspection -sysprof -test -vim-syntax -wayland -xinerama
+ app-accessibility/at-spi2-core X systemd -dbus-broker -gtk-doc introspection -test
+ x11-libs/pango X -debug -examples introspection -sysprof -test
+ media-libs/harfbuzz cairo glib graphite truetype -debug -doc -experimental -icu introspection -test
+
+
+ #net-vpn/tor man seccomp -server systemd -caps -doc -hardened -lzma -scrypt -selinux -test -verify-sig -zstd
+ #media-gfx/zbar X imagemagick nls threads -dbus -graphicsmagick -gtk -introspection -java -jpeg -python -qt5 -static-libs -test v4l -xv
+
+ # R need minizip
+ sys-libs/zlib minizip -static-libs -verify-sig
+
+ dev-lang/R X libdeflate nls readline cairo -doc -icu -java jpeg -lto -minimal -openmp -perl png -prefix -profile -test -tiff tk
+
+ # arduino
+ #dev-util/astyle java -static-libs -verify-sig
+
+ sys-apps/smartmontools -daemon systemd update-drivedb -caps -selinux -static
+
+ # plantuml
+ media-libs/gd fontconfig jpeg png truetype zlib -avif -heif -static-libs -test -tiff -webp -xpm
+
+ dev-vcs/git curl gpg iconv nls pcre safe-directory -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -perl -selinux -subversion -test tk -webdav -xinetd
+
+ app-text/doxygen -clang -debug -doc dot -doxysearch -gui -test
+
+ # nginx
+ app-misc/mime-types nginx
+

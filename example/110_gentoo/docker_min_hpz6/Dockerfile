@@ -26,7 +26,6 @@ RUN mkdir -p /etc/portage/package.license
 RUN mv /etc/portage/package.license.bak /etc/portage/package.license/package.license.1
 COPY config/package.license.2 /etc/portage/package.license
 COPY config/package.accept_keywords.2 /etc/portage/package.accept_keywords/package.accept_keywords.2
-COPY config/package.use.2 /etc/portage/package.use/package.use.2
 
 # Clean up the locales
 RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
@@ -313,7 +312,12 @@ RUN ./scripts/config --file .config \
 -m THINKPAD_LMI \
 -m FAT_FS \
 -m VFAT_FS \
--e FAT_DEFAULT_UTF8
+-e FAT_DEFAULT_UTF8 \
+    -e CRYPTO_DES \
+    -e CRYPTO_MD4 \
+    -e CRYPTO_DES3_EDE_X86_64 \
+    -e PKCS8_PRIVATE_KEY_PARSER
+
 
 RUN make prepare
 
