@@ -68,7 +68,7 @@ static const struct arg args[] = {
 	{ datetime, "%s ",           "%F %T" },
 	{ load_avg, "%s ", NULL },
 	//{ temp, "%s ", "/sys/class/thermal/cooling_device0" },
-	// { battery_perc, "%s%% ", "BAT0" },
+	{ battery_perc, "%s%% ", "BAT0" },
 	//{ battery_remaining, "%s ", "BAT0" },
-	// { battery_state, "%s ", "BAT0" },
+	{ battery_state, "%s ", "BAT0" },
 };
