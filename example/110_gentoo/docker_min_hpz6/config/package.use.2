@@ -26,3 +26,11 @@ dev-lang/R X libdeflate nls readline cairo -doc -icu -java jpeg -lto -minimal -o
 # arduino
 #dev-util/astyle java -static-libs -verify-sig
 
+sys-apps/smartmontools -daemon systemd update-drivedb -caps -selinux -static
+
+# plantuml
+media-libs/gd fontconfig jpeg png truetype zlib -avif -heif -static-libs -test -tiff -webp -xpm
+
+dev-vcs/git curl gpg iconv nls pcre safe-directory -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -perl -selinux -subversion -test tk -webdav -xinetd
+
+app-text/doxygen -clang -debug -doc dot -doxysearch -gui -test

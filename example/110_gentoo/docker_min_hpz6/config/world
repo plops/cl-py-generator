@@ -65,3 +65,16 @@ www-client/google-chrome
     app-text/poppler
     dev-debug/valgrind
      app-emulation/qemu
+     sys-apps/smartmontools
+     sys-apps/nvme-cli
+     sys-apps/usbutils
+     x11-apps/xkill
+     media-libs/plotutils
+     app-text/doxygen
+     virtual/jdk
+media-gfx/plantuml
+net-wireless/iwgtk
+net-wireless/iw
+x11-misc/redshift
+media-sound/pavucontrol
+sys-power/tlp
