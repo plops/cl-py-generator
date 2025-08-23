@@ -91,3 +91,4 @@ dev-db/postgresql
  app-misc/fastfetch
  sys-process/glances
  sys-apps/lm-sensors
+ app-misc/tmux
