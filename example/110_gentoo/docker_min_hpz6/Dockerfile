@@ -633,11 +633,14 @@ RUN ./scripts/config --file .config \
 -m FAT_FS \
 -m VFAT_FS \
 -e FAT_DEFAULT_UTF8 \
-    -e CRYPTO_DES \
-    -e CRYPTO_MD4 \
-    -e CRYPTO_DES3_EDE_X86_64 \
-    -e PKCS8_PRIVATE_KEY_PARSER \
-    -e PREEMPT_RT
+-e CRYPTO_DES \
+-e CRYPTO_MD4 \
+-e CRYPTO_DES3_EDE_X86_64 \
+-e PKCS8_PRIVATE_KEY_PARSER \
+-e PREEMPT_RT \
+-e PREEMPTION \
+-e PREEMPT_COUNT \
+-e PREEMPT_RCU
 
 # compile the kernel
 RUN make -j32
