@@ -656,6 +656,8 @@ RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
 RUN depmod -a ${KVER}
 RUN rm *.o
 
+RUN IGNORE_PREEMPT_RT_PRESENCE=1 emerge nvidia-drivers
+
 #COPY config/list_files.py /usr/bin/list_files.py
 #RUN chmod a+x /usr/bin/list_files.py
 #RUN python /usr/bin/list_files.py > /list_files.txt
