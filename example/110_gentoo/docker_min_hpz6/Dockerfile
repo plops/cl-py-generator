@@ -735,3 +735,14 @@ RUN dracut \
   /boot/initramfs_squash_sda1-x86_64.img
 
 
+COPY config/init_dracut_crypt_disk.sh /usr/lib/dracut/modules.d/99base/init.sh
+RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+RUN dracut \
+      -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
+      --filesystems " squashfs vfat overlay btrfs " \
+   --kver=${KVER} \
+  --force \
+  /boot/initramfs_squash_from_disk.img
+
+
