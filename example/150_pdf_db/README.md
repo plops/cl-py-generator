@@ -25,7 +25,7 @@ This project uses `uv` for dependency management and script execution.
     pip install uv
     ```
 
-2.  Create a virtual environment and install dependencies:
+2.  (Optional) Create a virtual environment and install dependencies:
     ```bash
     uv venv
     uv pip install -e . # FIXME: not sure about that
@@ -41,6 +41,11 @@ This project uses `uv` for dependency management and script execution.
     ```bash
     source .venv/bin/activate
     pdf-to-db /path/to/your/pdfs
+    ```
+    If you didn't perform step 2, you can run the script directly with `uv`:
+    ```bash
+    150_pdf_db $ uv run python pdf_to_db.py /path/to/your/pdfs
+    150_pdf_db $ uv run python lookup.py --db_path pdfs.db --search "Cuda"
     ```
 
 5.  Search for a term in your indexed PDFs:
