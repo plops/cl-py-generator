@@ -1,0 +1,14 @@
+[project]
+name = "pdf-db"
+version = "0.1.0"
+description = "A tool to index and search PDFs using sqlite-utils and FTS5."
+dependencies = [
+    "sqlite-utils"
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+pdf-to-db = "pdf_to_db:main"
+pdf-lookup = "lookup:main"
+
+
