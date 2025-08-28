@@ -1,4 +1,3 @@
-
 import argparse
 import sqlite_utils
 import subprocess
@@ -70,75 +69,43 @@ def process_pdf(pdf_path):
         return None
     return None
 
-parser = argparse.ArgumentParser()
-parser.add_argument("input_paths", nargs="+", help="Path(s) to search for PDF files.")
-parser.add_argument("--db_path", default="pdfs.db", help="Path to the SQLite database.")
-args = parser.parse_args()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input_paths", nargs="+", help="Path(s) to search for PDF files.")
+    parser.add_argument("--db_path", default="pdfs.db", help="Path to the SQLite database.")
+    args = parser.parse_args()
 
-db = sqlite_utils.Database(args.db_path)
+    db = sqlite_utils.Database(args.db_path)
 
-pdf_files = []
-for input_path in args.input_paths:
-    path_obj = Path(input_path)
-    if path_obj.is_dir():
-        pdf_files.extend(path_obj.rglob("*.pdf"))
-    elif path_obj.is_file() and path_obj.suffix == ".pdf":
-        pdf_files.append(path_obj)
+    pdf_files = []
+    for input_path in args.input_paths:
+        path_obj = Path(input_path)
+        if path_obj.is_dir():
+            pdf_files.extend(path_obj.rglob("*.pdf"))
+        elif path_obj.is_file() and path_obj.suffix == ".pdf":
+            pdf_files.append(path_obj)
 
-print(f"len(pdf_files={len(pdf_files)}")
+    print(f"len(pdf_files={len(pdf_files)}")
 
 
-with Pool() as pool:
-    results = pool.imap_unordered(process_pdf, pdf_files)
+    with Pool() as pool:
+        results = pool.imap_unordered(process_pdf, pdf_files)
 
-    print("processing finished")
+        print("processing finished")
 
-    # Filter out failed runs returning None
-    # successful_results = [result for result in results if result]
+        # Filter out failed runs returning None
+        # successful_results = [result for result in results if result]
 
-    successful_results = []
-    for result in results:
-        try:
-            if result:
-                successful_results.append(result)
-        except Exception as e:
-            print(e)
-            pass
+        successful_results = []
+        for result in results:
+            try:
+                if result:
+                    successful_results.append(result)
+            except Exception as e:
+                print(e)
+                pass
 
-    db["pdfs"].insert_all(successful_results, pk="path", replace=True)
+        db["pdfs"].insert_all(successful_results, pk="path", replace=True)
 
-#
-# def main():
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("input_paths", nargs="+", help="Path(s) to search for PDF files.")
-#     parser.add_argument("--db_path", default="pdfs.db", help="Path to the SQLite database.")
-#     args = parser.parse_args()
-#
-#     db = sqlite_utils.Database(args.db_path)
-#
-#     pdf_files = []
-#     for input_path in args.input_paths:
-#         path_obj = Path(input_path)
-#         if path_obj.is_dir():
-#             pdf_files.extend(path_obj.rglob("*.pdf"))
-#         elif path_obj.is_file() and path_obj.suffix == ".pdf":
-#             pdf_files.append(path_obj)
-#
-#
-#
-#
-#     with Pool() as pool:
-#         results = pool.imap_unordered(process_pdf, pdf_files)
-#
-#         print("processing finished")
-#
-#         # Filter out failed runs returning None
-#         successful_results = [result for result in results if result]
-#
-#
-#         db["pdfs"].insert_all(successful_results, pk="path", replace=True)
-#
-#
-#
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

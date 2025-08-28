@@ -16,6 +16,43 @@ stuff) to separate the documents into different classes and display a
 through a document and show corresponding documents that match best to
 the 500 words surrounding the current position of the reader.
 
+# Installation and Usage
+
+This project uses `uv` for dependency management and script execution.
+
+1.  Install `uv`:
+    ```bash
+    pip install uv
+    ```
+
+2.  (Optional) Create a virtual environment and install dependencies:
+    ```bash
+    uv venv
+    uv pip install -e . # FIXME: not sure about that
+    ```
+    This also installs the command-line scripts.
+
+3.  **System Dependenscies**: This tool requires `pdftotext` and `pdfinfo`, which are part of the `poppler-utils` package on Debian/Ubuntu systems. Make sure they are installed and in your `PATH`.
+    ```bash
+    sudo apt-get install poppler-utils
+    ```
+
+4.  Index your PDF files:
+    ```bash
+    source .venv/bin/activate
+    pdf-to-db /path/to/your/pdfs
+    ```
+    If you didn't perform step 2, you can run the script directly with `uv`:
+    ```bash
+    150_pdf_db $ uv run python pdf_to_db.py /path/to/your/pdfs
+    150_pdf_db $ uv run python lookup.py --db_path pdfs.db --search "Cuda"
+    ```
+
+5.  Search for a term in your indexed PDFs:
+    ```bash
+    pdf-lookup --search "your search term"
+    ```
+
 # Files
 
 
