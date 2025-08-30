@@ -160,7 +160,7 @@ fedora
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm msi pciexpress bus_master cap_list ethernet physical
-                configuration: broadcast=yes driver=rtw89_8852be driverversion=6.15.10-200.fc42.x86_64 firmware=N/A ip=[REDACTED_IP] latency=0 link=yes multicast=yes
+                configuration: broadcast=yes driver=rtw89_8852be driverversion=6.16.3-200.fc42.x86_64 firmware=N/A ip=[REDACTED_IP] latency=0 link=yes multicast=yes
                 resources: irq:75 ioport:2000(size=256) memory:fd600000-fd6fffff
         *-pci:2
              description: PCI bridge
@@ -336,11 +336,11 @@ fedora
                 resources: irq:37 memory:fd100000-fd1fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
+                   vendor: Linux 6.16.3-200.fc42.x86_64 xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@1
                    logical name: usb1
-                   version: 6.15
+                   version: 6.16
                    capabilities: usb-2.00
                    configuration: driver=hub slots=4 speed=480Mbit/s
                  *-usb:0
@@ -367,11 +367,11 @@ fedora
                       configuration: driver=uvcvideo maxpower=500mA speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
+                   vendor: Linux 6.16.3-200.fc42.x86_64 xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@2
                    logical name: usb2
-                   version: 6.15
+                   version: 6.16
                    capabilities: usb-3.10
                    configuration: driver=hub slots=2 speed=10000Mbit/s
            *-usb:1
@@ -388,11 +388,11 @@ fedora
                 resources: irq:46 memory:fd200000-fd2fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
+                   vendor: Linux 6.16.3-200.fc42.x86_64 xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@3
                    logical name: usb3
-                   version: 6.15
+                   version: 6.16
                    capabilities: usb-2.00
                    configuration: driver=hub slots=4 speed=480Mbit/s
                  *-usb:0
@@ -417,11 +417,11 @@ fedora
                       configuration: driver=btusb maxpower=500mA speed=12Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
+                   vendor: Linux 6.16.3-200.fc42.x86_64 xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@4
                    logical name: usb4
-                   version: 6.15
+                   version: 6.16
                    capabilities: usb-3.10
                    configuration: driver=hub slots=2 speed=10000Mbit/s
            *-multimedia:1 UNCLAIMED
