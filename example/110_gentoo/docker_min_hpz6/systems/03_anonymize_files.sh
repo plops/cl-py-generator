@@ -56,7 +56,7 @@ for file in "${files[@]}"; do
     [ -f "$file" ] || continue
     bak="${file}.bak"
     cp -a -- "$file" "$bak"
-    echo "Processing $file (backup -> $bak)..."
+    #echo "Processing $file (backup -> $bak)..."
 
     # Count matches before
     ipv4_before=$(grep -Eo "$ipv4_regex" "$bak" | wc -l || true)
@@ -71,6 +71,9 @@ for file in "${files[@]}"; do
     awk '{
         print $0
     }' "$bak" > "$tmp"
+
+    # remove CR characters to avoid terminal carriage-return overwrites when printing diffs
+    sed -i 's/\r$//' "$tmp" 2>/dev/null || true
 
     # IPv4
     sed -E -i "s/\\b$ipv4_regex\\b/[REDACTED_IP]/g" "$tmp" 2>/dev/null || true
@@ -112,30 +115,20 @@ for file in "${files[@]}"; do
     # Move temp back to original file
     mv -f -- "$tmp" "$file"
 
-    # Concise diagnostic: show up to 5 anonymized changed lines (color placeholders red)
-    if command -v diff >/dev/null 2>&1; then
-        # collect added/changed lines from anonymized file (ignore diff headers like "+++")
-        changes=$(diff -U0 --label "anon: $file" --label "orig: $bak" "$bak" "$file" \
-            | awk '/^\+[^+]/ {sub(/^\+/, ""); print}' | sed -n '1,5p' || true)
-        if [ -n "$changes" ]; then
-            echo "  Changed lines (anonymized; red = redacted tokens):"
-            printf '%s\n' "$changes" \
-                | sed -E \
-                    -e "s/(\[REDACTED_[A-Z0-9_]+\])/${red}\1${reset}/g" \
-                    -e "s|/home/REDACTED|${red}/home/REDACTED${reset}|g" \
-                    -e "s/\(REDACTED\)/${red}(REDACTED)${reset}/g" \
-                    -e "s/(\[REDACTED_USER\]@)/${red}\1${reset}/g" \
-                    -e "s/(\[REDACTED_USER\])/${red}\1${reset}/g" \
-                | sed 's/^/    /'
-        else
-            echo "  (no changed lines detected)"
+    # Diagnostic: if file differs from backup, run the exact incantation to show redacted changes.
+    # Do not print files that haven't changed.
+    if ! cmp -s -- "$file" "$bak"; then
+        # allow commands that may return non-zero without exiting the script
+        set +e
+        output=$(git diff --word-diff=color --no-index --color=always "$file" "$bak" 2>/dev/null | grep --color=never '\[31' || true)
+        set -e
+        if [ -n "$output" ]; then
+            printf '%s\n' "$file:"
+            printf '%s\n' "$output"
         fi
-    else
-        echo "  (diff not available to show changes)"
     fi
 
-    echo "  (original saved as $bak)"
-    echo ""
+    # Diagnostic output removed (script still keeps .bak copies).
 done
 
 echo "Anonymization complete."
