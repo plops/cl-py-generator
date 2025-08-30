@@ -56,3 +56,20 @@ Use the `localectl` command to set the Colemak layout:
 This will update the `/etc/vconsole.conf` file, making the Colemak
 layout the default for all console sessions. You can check the current
 settings with `localectl status`.
+
+If you get the error: `Failed to set keymap: Keymap colemak is not
+installed.` Read further:
+
+The installation of console keymaps from the sys-apps/kbd package is
+controlled by the KEYMAPS variable in your /etc/portage/make.conf file
+
+If this variable is not set, a minimal default set is often installed,
+which typically does not include layouts like Colemak. The colemak
+keymap is located in the i386 subdirectory, which you need to
+explicitly tell Portage to install by defining 
+
+```
+KEYMAPS="i386 colemak"
+```
+
+in make.conf. Call `sudo emerge sys-apps/kbd` to install the new keymap.
