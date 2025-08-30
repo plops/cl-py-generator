@@ -92,3 +92,4 @@ dev-db/postgresql
  sys-process/glances
  sys-apps/lm-sensors
  app-misc/tmux
+ sys-apps/dmidecode
