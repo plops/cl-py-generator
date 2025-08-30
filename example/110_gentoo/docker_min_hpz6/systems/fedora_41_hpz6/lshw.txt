@@ -1,0 +1,1369 @@
+fedora
+    description: Desktop Computer
+    product: HP Z6 G5 A Workstation Desktop PC (7D8C0AV)
+    vendor: HP
+    version: SBKPF
+    serial: CZC4177H9W
+    width: 64 bits
+    capabilities: smbios-3.5.0 dmi-3.5.0 smp vsyscall32
+    configuration: administrator_password=disabled boot=normal chassis=desktop family=103C_53335X HP Workstation frontpanel_password=disabled keyboard_password=disabled power-on_password=disabled sku=7D8C0AV uuid=3381a3ab-3053-4069-b0c3-d3d7a6573c81
+  *-core
+       description: Motherboard
+       product: 8B24
+       vendor: HP
+       physical id: 0
+       version: KBC Version 12.03.00
+       serial: PQZGT0ACYIL090
+     *-cache:0
+          description: L1 cache
+          physical id: 0
+          slot: L1 - Cache
+          size: 1MiB
+          capacity: 1MiB
+          clock: 1GHz (1.0ns)
+          capabilities: pipeline-burst internal write-back unified
+          configuration: level=1
+     *-cache:1
+          description: L2 cache
+          physical id: 1
+          slot: L2 - Cache
+          size: 16MiB
+          capacity: 16MiB
+          clock: 1GHz (1.0ns)
+          capabilities: pipeline-burst internal write-back unified
+          configuration: level=2
+     *-cache:2
+          description: L3 cache
+          physical id: 2
+          slot: L3 - Cache
+          size: 64MiB
+          capacity: 64MiB
+          clock: 1GHz (1.0ns)
+          capabilities: pipeline-burst internal write-back unified
+          configuration: level=3
+     *-cpu
+          description: CPU
+          product: AMD Ryzen Threadripper PRO 7955WX 16-Cores
+          vendor: Advanced Micro Devices [AMD]
+          physical id: 3
+          bus info: [REDACTED_USER]@0
+          version: 25.24.1
+          serial: Unknown
+          slot: CPU0
+          size: 2201MHz
+          capacity: 5375MHz
+          width: 64 bits
+          clock: 100MHz
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp x86-64 constant_tsc rep_good amd_lbr_v2 nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd amd_ppin cppc arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid overflow_recov succor smca fsrm flush_l1d debug_swap cpufreq
+          configuration: cores=16 enabledcores=16 microcode=168853769 threads=32
+     *-memory
+          description: System Memory
+          physical id: 6
+          slot: System board or motherboard
+          size: 64GiB
+          capacity: 2TiB
+          capabilities: ecc
+          configuration: errordetection=multi-bit-ecc
+        *-bank:0
+             description: DIMM Synchronous Registered (Buffered) 5600 MHz (0.2 ns)
+             product: M321R4GA3PB0-CWMKH
+             vendor: Samsung
+             physical id: 0
+             serial: 04F43E67
+             slot: CPU0-DIMM1
+             size: 32GiB
+             width: 64 bits
+             clock: 1305MHz (0.8ns)
+        *-bank:1
+             description: DIMM [empty]
+             product: Unknown
+             vendor: Unknown
+             physical id: 1
+             serial: Unknown
+             slot: CPU0-DIMM2
+        *-bank:2
+             description: DIMM [empty]
+             product: Unknown
+             vendor: Unknown
+             physical id: 2
+             serial: Unknown
+             slot: CPU0-DIMM3
+        *-bank:3
+             description: DIMM [empty]
+             product: Unknown
+             vendor: Unknown
+             physical id: 3
+             serial: Unknown
+             slot: CPU0-DIMM4
+        *-bank:4
+             description: DIMM [empty]
+             product: Unknown
+             vendor: Unknown
+             physical id: 4
+             serial: Unknown
+             slot: CPU0-DIMM5
+        *-bank:5
+             description: DIMM [empty]
+             product: Unknown
+             vendor: Unknown
+             physical id: 5
+             serial: Unknown
+             slot: CPU0-DIMM6
+        *-bank:6
+             description: DIMM [empty]
+             product: Unknown
+             vendor: Unknown
+             physical id: 6
+             serial: Unknown
+             slot: CPU0-DIMM7
+        *-bank:7
+             description: DIMM Synchronous Registered (Buffered) 5600 MHz (0.2 ns)
+             product: M321R4GA3PB0-CWMKH
+             vendor: Samsung
+             physical id: 7
+             serial: 04F43776
+             slot: CPU0-DIMM8
+             size: 32GiB
+             width: 64 bits
+             clock: 1305MHz (0.8ns)
+     *-firmware
+          description: BIOS
+          vendor: HP
+          physical id: 1f
+          version: U65 Ver. 01.01.21
+          date: 08/15/2024
+          size: 64KiB
+          capacity: 32MiB
+          capabilities: pci pnp upgrade shadowing cdboot bootselect edd int5printscreen int9keyboard int14serial int17printer acpi usb biosbootspecification netboot uefi
+     *-pci:0
+          description: Host bridge
+          product: Genoa/Bergamo [REDACTED_USER] Complex
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 100
+          bus info: [REDACTED_USER]@0000:00:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Genoa/Bergamo IOMMU
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: [REDACTED_USER]@0000:00:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1
+             description: [REDACTED_USER] Complex Event Collector
+             product: Genoa/Bergamo RCEC
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: [REDACTED_USER]@0000:00:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: driver=pcieport latency=0
+             resources: irq:40
+        *-pci:0
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.1
+             bus info: [REDACTED_USER]@0000:00:01.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:41 ioport:2000(size=4096) memory:da000000-db0fffff ioport:48030000000(size=301989888)
+           *-display
+                description: VGA compatible controller
+                product: GA104GL [RTX A4000]
+                vendor: NVIDIA Corporation
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:01:00.0
+                version: a1
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress vga_controller bus_master cap_list rom
+                configuration: driver=nouveau latency=0
+                resources: iomemory:4800-47ff iomemory:4800-47ff irq:161 memory:da000000-daffffff memory:48030000000-4803fffffff memory:48040000000-48041ffffff ioport:2000(size=128) memory:db080000-db0fffff
+           *-multimedia
+                description: Audio device
+                product: GA104 High Definition Audio Controller
+                vendor: NVIDIA Corporation
+                physical id: 0.1
+                bus info: [REDACTED_USER]@0000:01:00.1
+                logical name: card0
+                logical name: /dev/snd/controlC0
+                logical name: /dev/snd/hwC0D0
+                logical name: /dev/snd/pcmC0D3p
+                logical name: /dev/snd/pcmC0D7p
+                logical name: /dev/snd/pcmC0D8p
+                logical name: /dev/snd/pcmC0D9p
+                version: a1
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress bus_master cap_list
+                configuration: driver=snd_hda_intel latency=0
+                resources: irq:39 memory:db000000-db003fff
+              *-input:0
+                   product: HDA NVidia HDMI/DP,pcm=3
+                   physical id: 0
+                   logical name: input11
+                   logical name: /dev/input/event8
+              *-input:1
+                   product: HDA NVidia HDMI/DP,pcm=7
+                   physical id: 1
+                   logical name: input12
+                   logical name: /dev/input/event9
+              *-input:2
+                   product: HDA NVidia HDMI/DP,pcm=8
+                   physical id: 2
+                   logical name: input13
+                   logical name: /dev/input/event10
+              *-input:3
+                   product: HDA NVidia HDMI/DP,pcm=9
+                   physical id: 3
+                   logical name: input14
+                   logical name: /dev/input/event11
+        *-pci:1
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 3.3
+             bus info: [REDACTED_USER]@0000:00:03.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:42 memory:db600000-db6fffff ioport:5e66c200000(size=2097152)
+        *-pci:2
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 3.5
+             bus info: [REDACTED_USER]@0000:00:03.5
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:43 ioport:1000(size=4096) memory:db500000-db5fffff
+           *-network
+                description: Ethernet interface
+                product: RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet Controller
+                vendor: Realtek Semiconductor Co., Ltd.
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:03:00.0
+                logical name: eno1
+                version: 1c
+                serial: [REDACTED_MAC]
+                size: 1Gbit/s
+                capacity: 1Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress msix vpd bus_master cap_list ethernet physical tp mii 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=r8169 driverversion=6.16.3-100.fc41.x86_64 duplex=full ip=[REDACTED_IP] latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+                resources: irq:163 ioport:1000(size=256) memory:db504000-db504fff memory:db500000-db503fff
+        *-pci:3
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 3.6
+             bus info: [REDACTED_USER]@0000:00:03.6
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:44 ioport:3000(size=4096) memory:db400000-db4fffff ioport:5e66c400000(size=2097152)
+        *-pci:4
+             description: PCI bridge
+             product: Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: [REDACTED_USER]@0000:00:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:45 memory:db100000-db3fffff
+           *-generic:0 UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Genoa/Bergamo Dummy Function
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:05:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+           *-usb
+                description: USB controller
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.4
+                bus info: [REDACTED_USER]@0000:05:00.4
+                version: da
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix xhci cap_list
+                configuration: driver=xhci_hcd latency=0
+                resources: irq:65 memory:db100000-db1fffff
+              *-usbhost:0
+                   product: xHCI Host Controller
+                   vendor: Linux 6.16.3-100.fc41.x86_64 xhci-hcd
+                   physical id: 0
+                   bus info: [REDACTED_USER]@1
+                   logical name: usb1
+                   version: 6.16
+                   capabilities: usb-2.00
+                   configuration: driver=hub slots=2 speed=480Mbit/s
+                 *-usb
+                      description: USB hub
+                      product: 4-Port USB 2.1 Hub
+                      vendor: Generic
+                      physical id: 1
+                      bus info: [REDACTED_USER]@1:1
+                      version: 1.01
+                      capabilities: usb-2.10
+                      configuration: driver=hub slots=4 speed=480Mbit/s
+              *-usbhost:1
+                   product: xHCI Host Controller
+                   vendor: Linux 6.16.3-100.fc41.x86_64 xhci-hcd
+                   physical id: 1
+                   bus info: [REDACTED_USER]@2
+                   logical name: usb2
+                   version: 6.16
+                   capabilities: usb-3.10
+                   configuration: driver=hub slots=2 speed=10000Mbit/s
+                 *-usb
+                      description: USB hub
+                      product: 4-Port USB 3.1 Hub
+                      vendor: Generic
+                      physical id: 1
+                      bus info: [REDACTED_USER]@2:1
+                      version: 1.01
+                      capabilities: usb-3.10
+                      configuration: driver=hub slots=4 speed=5000Mbit/s
+           *-generic:1
+                description: Encryption controller
+                product: Genoa CCP/PSP 4.0 Device
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.5
+                bus info: [REDACTED_USER]@0000:05:00.5
+                version: 00
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix bus_master cap_list
+                configuration: driver=ccp latency=0
+                resources: irq:91 memory:db200000-db2fffff memory:db348000-db349fff
+           *-multimedia:0 UNCLAIMED
+                description: Multimedia controller
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.6
+                bus info: [REDACTED_USER]@0000:05:00.6
+                version: 61
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi bus_master cap_list
+                configuration: latency=0
+                resources: memory:db300000-db33ffff
+           *-multimedia:1
+                description: Audio device
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.7
+                bus info: [REDACTED_USER]@0000:05:00.7
+                logical name: card1
+                logical name: /dev/snd/controlC1
+                logical name: /dev/snd/hwC1D0
+                logical name: /dev/snd/pcmC1D0c
+                logical name: /dev/snd/pcmC1D0p
+                version: 00
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi bus_master cap_list
+                configuration: driver=snd_hda_intel latency=0
+                resources: irq:171 memory:db340000-db347fff
+              *-input:0
+                   product: HD-Audio Generic Rear Mic
+                   physical id: 0
+                   logical name: input15
+                   logical name: /dev/input/event12
+              *-input:1
+                   product: HD-Audio Generic Front Mic
+                   physical id: 1
+                   logical name: input16
+                   logical name: /dev/input/event13
+              *-input:2
+                   product: HD-Audio Generic Line Out
+                   physical id: 2
+                   logical name: input17
+                   logical name: /dev/input/event14
+              *-input:3
+                   product: HD-Audio Generic Front Headphone
+                   physical id: 3
+                   logical name: input18
+                   logical name: /dev/input/event15
+        *-serial
+             description: SMBus
+             product: FCH SMBus Controller
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 14
+             bus info: [REDACTED_USER]@0000:00:14.0
+             version: 71
+             width: 32 bits
+             clock: 66MHz
+             configuration: driver=piix4_smbus latency=0
+             resources: irq:0
+        *-isa
+             description: ISA bridge
+             product: FCH LPC Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 14.3
+             bus info: [REDACTED_USER]@0000:00:14.3
+             version: 51
+             width: 32 bits
+             clock: 66MHz
+             capabilities: isa bus_master
+             configuration: latency=0
+           *-pnp00:00
+                product: PnP device PNP0c02
+                physical id: 0
+                capabilities: pnp
+                configuration: driver=system
+           *-pnp00:01
+                product: PnP device HPQ8002
+                vendor: Hewlett-Packard Co.
+                physical id: 1
+                capabilities: pnp
+                configuration: driver=i8042 kbd
+           *-pnp00:02
+                product: PnP device PNP0f03
+                physical id: 2
+                capabilities: pnp
+                configuration: driver=i8042 aux
+           *-pnp00:03
+                product: PnP device PNP0c02
+                physical id: 3
+                capabilities: pnp
+                configuration: driver=system
+     *-pci:1
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 101
+          bus info: [REDACTED_USER]@0000:00:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:2
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 102
+          bus info: [REDACTED_USER]@0000:00:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:3
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 103
+          bus info: [REDACTED_USER]@0000:00:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:4
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 104
+          bus info: [REDACTED_USER]@0000:00:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:5
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 105
+          bus info: [REDACTED_USER]@0000:00:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:6
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 106
+          bus info: [REDACTED_USER]@0000:00:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:7
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 0
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 107
+          bus info: [REDACTED_USER]@0000:00:18.0
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:8
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 1
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 108
+          bus info: [REDACTED_USER]@0000:00:18.1
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:9
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 2
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 109
+          bus info: [REDACTED_USER]@0000:00:18.2
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:10
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 3
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10a
+          bus info: [REDACTED_USER]@0000:00:18.3
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+          configuration: driver=k10temp
+          resources: irq:0
+     *-pci:11
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 4
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10b
+          bus info: [REDACTED_USER]@0000:00:18.4
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:12
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 5
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10c
+          bus info: [REDACTED_USER]@0000:00:18.5
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:13
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 6
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10d
+          bus info: [REDACTED_USER]@0000:00:18.6
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:14
+          description: Host bridge
+          product: Genoa/Bergamo Data Fabric; Function 7
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10e
+          bus info: [REDACTED_USER]@0000:00:18.7
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:15
+          description: Host bridge
+          product: Genoa/Bergamo [REDACTED_USER] Complex
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10f
+          bus info: [REDACTED_USER]@0000:40:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Genoa/Bergamo IOMMU
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: [REDACTED_USER]@0000:40:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1
+             description: [REDACTED_USER] Complex Event Collector
+             product: Genoa/Bergamo RCEC
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: [REDACTED_USER]@0000:40:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: driver=pcieport latency=0
+             resources: irq:47
+        *-pci:0
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.1
+             bus info: [REDACTED_USER]@0000:40:01.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:48 memory:92000000-921fffff
+           *-network
+                description: Ethernet interface
+                product: Ethernet Controller I226-LM
+                vendor: Intel Corporation
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:41:00.0
+                logical name: enp65s0
+                version: 04
+                serial: [REDACTED_MAC]
+                size: 1Gbit/s
+                capacity: 2500Mbit/s
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm msi msix pciexpress bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd 2500bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=igc driverversion=6.16.3-100.fc41.x86_64 duplex=full firmware=2020:888d latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+                resources: irq:162 memory:92000000-920fffff memory:92100000-92103fff
+        *-pci:1
+             description: PCI bridge
+             product: Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: [REDACTED_USER]@0000:40:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:50
+           *-generic UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Genoa/Bergamo Dummy Function
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:42:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+     *-pci:16
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 110
+          bus info: [REDACTED_USER]@0000:40:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:17
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 111
+          bus info: [REDACTED_USER]@0000:40:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:18
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 112
+          bus info: [REDACTED_USER]@0000:40:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:19
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 113
+          bus info: [REDACTED_USER]@0000:40:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:20
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 114
+          bus info: [REDACTED_USER]@0000:40:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:21
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 115
+          bus info: [REDACTED_USER]@0000:40:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:22
+          description: Host bridge
+          product: Genoa/Bergamo [REDACTED_USER] Complex
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 116
+          bus info: [REDACTED_USER]@0000:80:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Genoa/Bergamo IOMMU
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: [REDACTED_USER]@0000:80:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1
+             description: [REDACTED_USER] Complex Event Collector
+             product: Genoa/Bergamo RCEC
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: [REDACTED_USER]@0000:80:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: driver=pcieport latency=0
+             resources: irq:52
+        *-pci:0
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.1
+             bus info: [REDACTED_USER]@0000:80:01.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:53 memory:aa500000-aa5fffff
+           *-nvme
+                description: NVMe device
+                product: MTFDKBA1T0TFH-1BC1AABHA
+                vendor: Micron Technology Inc
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:81:00.0
+                logical name: /dev/nvme0
+                version: HPS0043
+                serial: UMDMD01J1IZ9A9
+                width: 64 bits
+                clock: 33MHz
+                capabilities: nvme pm msix pciexpress nvm_express bus_master cap_list
+                configuration: driver=nvme latency=0 nqn=nqn.2014.08.org.nvmexpress:13441344UMDMD01J1IZ9A9      MTFDKBA1T0TFH-1BC1AABHA state=live
+                resources: irq:95 memory:aa500000-aa503fff
+              *-namespace:0
+                   description: NVMe disk
+                   physical id: 0
+                   logical name: hwmon1
+              *-namespace:1
+                   description: NVMe disk
+                   physical id: 2
+                   logical name: /dev/ng0n1
+              *-namespace:2
+                   description: NVMe disk
+                   physical id: 1
+                   bus info: [REDACTED_USER]@0:1
+                   logical name: /dev/nvme0n1
+                   size: 953GiB (1024GB)
+                   capabilities: gpt-1.00 partitioned partitioned:gpt
+                   configuration: guid=1d435f08-ba41-44ec-ad11-e045941bd721 logicalsectorsize=512 sectorsize=512 wwid=eui.000000000000000100a07523462334b1
+                 *-volume:0
+                      description: Windows FAT volume
+                      vendor: MSDOS5.0
+                      physical id: 1
+                      bus info: [REDACTED_USER]@0:1,1
+                      logical name: /dev/nvme0n1p1
+                      version: FAT32
+                      serial: 6c98-e2cb
+                      size: 1020MiB
+                      capacity: 1023MiB
+                      capabilities: boot fat initialized
+                      configuration: FATs=2 filesystem=fat label=EFIBOOT name=EFI system partition
+                 *-volume:1
+                      description: Windows NTFS volume
+                      vendor: Windows
+                      physical id: 2
+                      bus info: [REDACTED_USER]@0:1,2
+                      logical name: /dev/nvme0n1p2
+                      version: 3.1
+                      serial: c899-2307
+                      size: 8190MiB
+                      capacity: 8191MiB
+                      capabilities: ntfs initialized
+                      configuration: clustersize=4096 created=2024-04-29 08:00:55 filesystem=ntfs label=HPDOCS name=Basic data partition state=clean
+                 *-volume:2
+                      description: EFI partition
+                      physical id: 3
+                      bus info: [REDACTED_USER]@0:1,3
+                      logical name: /dev/nvme0n1p3
+                      serial: c3240922-6cf5-431f-8238-a7cae7e72746
+                      capacity: 195GiB
+                      configuration: name=/
+                 *-volume:3
+                      description: EXT4 volume
+                      vendor: Linux
+                      physical id: 4
+                      bus info: [REDACTED_USER]@0:1,4
+                      logical name: /dev/nvme0n1p4
+                      logical name: /
+                      version: 1.0
+                      serial: be76e5c9-5972-4a10-83eb-14b62e5de2a5
+                      size: 22GiB
+                      capabilities: nofs journaled extended_attributes large_files huge_files dir_nlink 64bit extents ext4 ext2 initialized
+                      configuration: created=2025-03-18 17:50:27 filesystem=ext4 label=fedora_root lastmountpoint=/ modified=2025-08-30 11:51:39 mount.fstype=ext4 mount.options=rw,seclabel,relatime mounted=2025-08-30 09:50:50 name=swap state=mounted
+                 *-volume:4
+                      description: EXT4 volume
+                      vendor: Linux
+                      physical id: 5
+                      bus info: [REDACTED_USER]@0:1,5
+                      logical name: /dev/nvme0n1p5
+                      version: 1.0
+                      serial: 3c4974bc-caaf-469a-90fd-b7614710cd27
+                      size: 687GiB
+                      capabilities: journaled extended_attributes large_files huge_files dir_nlink extents ext4 ext2 initialized
+                      configuration: created=2025-02-24 08:56:49 filesystem=ext4 label=docker lastmountpoint=/mnt5 modified=2025-08-29 19:11:56 mounted=2025-08-29 16:45:52 name=docker state=clean
+        *-pci:1
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.2
+             bus info: [REDACTED_USER]@0000:80:01.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:54 memory:aa400000-aa4fffff
+           *-nvme
+                description: NVMe device
+                product: MTFDKBA1T0TFH-1BC1AABHA
+                vendor: Micron Technology Inc
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:82:00.0
+                logical name: /dev/nvme1
+                version: HPS0043
+                serial: UMDMD01J1IZ99V
+                width: 64 bits
+                clock: 33MHz
+                capabilities: nvme pm msix pciexpress nvm_express bus_master cap_list
+                configuration: driver=nvme latency=0 nqn=nqn.2014.08.org.nvmexpress:13441344UMDMD01J1IZ99V      MTFDKBA1T0TFH-1BC1AABHA state=live
+                resources: irq:94 memory:aa400000-aa403fff
+              *-namespace:0
+                   description: NVMe disk
+                   physical id: 0
+                   logical name: hwmon0
+              *-namespace:1
+                   description: NVMe disk
+                   physical id: 2
+                   logical name: /dev/ng1n1
+              *-namespace:2
+                   description: NVMe disk
+                   physical id: 1
+                   bus info: [REDACTED_USER]@1:1
+                   logical name: /dev/nvme1n1
+                   size: 953GiB (1024GB)
+                   capabilities: gpt-1.00 partitioned partitioned:gpt
+                   configuration: guid=98701591-db0c-4b0f-ab3c-1712cb58b607 logicalsectorsize=512 sectorsize=512 wwid=eui.000000000000000100a075234623262c
+                 *-volume:0
+                      description: Windows FAT volume
+                      vendor: mkfs.fat
+                      physical id: 1
+                      bus info: [REDACTED_USER]@1:1,1
+                      logical name: /dev/nvme1n1p1
+                      logical name: /boot/efi
+                      version: FAT32
+                      serial: 3a0d-07b4
+                      size: 1073MiB
+                      capacity: 1074MiB
+                      capabilities: boot fat initialized
+                      configuration: FATs=2 filesystem=fat mount.fstype=vfat mount.options=rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=winnt,errors=remount-ro name=EFI System Partition state=mounted
+                 *-volume:1
+                      description: EXT4 volume
+                      vendor: Linux
+                      physical id: 2
+                      bus info: [REDACTED_USER]@1:1,2
+                      logical name: /dev/nvme1n1p2
+                      version: 1.0
+                      serial: 127103bf-4415-4545-afa3-de7e49032316
+                      size: 2GiB
+                      capabilities: journaled extended_attributes large_files huge_files dir_nlink 64bit extents ext4 ext2 initialized
+                      configuration: created=2024-05-06 13:48:49 filesystem=ext4 lastmountpoint=/mnt2 modified=2025-08-17 16:09:00 mounted=2025-08-17 16:08:37 state=clean
+                 *-volume:2
+                      description: EFI partition
+                      physical id: 3
+                      bus info: [REDACTED_USER]@1:1,3
+                      logical name: /dev/nvme1n1p3
+                      serial: 42bbab57-7cb0-465f-8ef9-6b34379da7d3
+                      size: 950GiB
+                      capacity: 950GiB
+                      width: 501800744 bits
+                      capabilities: encrypted luks initialized
+                      configuration: bits=9091735336 filesystem=luks hash=sha256 version=2
+        *-pci:2
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.3
+             bus info: [REDACTED_USER]@0000:80:01.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:55 memory:aa200000-aa3fffff
+           *-pci
+                description: PCI bridge
+                product: 600 Series Chipset PCIe Switch Upstream Port
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:83:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pci msi pm pciexpress normal_decode bus_master cap_list
+                configuration: driver=pcieport
+                resources: irq:25 memory:aa200000-aa3fffff
+              *-pci:0
+                   description: PCI bridge
+                   product: 600 Series Chipset PCIe Switch Downstream Port
+                   vendor: Advanced Micro Devices, Inc. [AMD]
+                   physical id: c
+                   bus info: [REDACTED_USER]@0000:84:0c.0
+                   version: 01
+                   width: 64 bits
+                   clock: 33MHz
+                   capabilities: pci msi pm pciexpress normal_decode bus_master cap_list
+                   configuration: driver=pcieport
+                   resources: iomemory:f00-eff irq:25 memory:aa300000-aa3fffff
+                 *-usb
+                      description: USB controller
+                      product: Advanced Micro Devices, Inc. [AMD]
+                      vendor: Advanced Micro Devices, Inc. [AMD]
+                      physical id: 0
+                      bus info: [REDACTED_USER]@0000:85:00.0
+                      version: 01
+                      width: 64 bits
+                      clock: 33MHz
+                      capabilities: msi msix pm pciexpress xhci bus_master cap_list
+                      configuration: driver=xhci_hcd latency=0
+                      resources: irq:25 memory:aa300000-aa307fff
+                    *-usbhost:0
+                         product: xHCI Host Controller
+                         vendor: Linux 6.16.3-100.fc41.x86_64 xhci-hcd
+                         physical id: 0
+                         bus info: [REDACTED_USER]@3
+                         logical name: usb3
+                         version: 6.16
+                         capabilities: usb-2.00
+                         configuration: driver=hub slots=12 speed=480Mbit/s
+                       *-usb:0
+                            description: USB hub
+                            product: 4-Port USB 2.1 Hub
+                            vendor: Generic
+                            physical id: 2
+                            bus info: [REDACTED_USER]@3:2
+                            version: 1.01
+                            capabilities: usb-2.10
+                            configuration: driver=hub slots=4 speed=480Mbit/s
+                          *-usb:0
+                               description: Human interface device
+                               product: Plantronics Plantronics Voyager Focus UC
+                               vendor: Plantronics
+                               physical id: 1
+                               bus info: [REDACTED_USER]@3:2.1
+                               logical name: input6
+                               logical name: /dev/input/event3
+                               version: 7.13
+                               serial: fb257bdcbdca40cda01cafdf198ce59c
+                               capabilities: usb-2.00 usb
+                               configuration: driver=usbhid maxpower=500mA speed=12Mbit/s
+                          *-usb:1
+                               description: Generic USB device
+                               product: iPhone
+                               vendor: Apple Inc.
+                               physical id: 2
+                               bus info: [REDACTED_USER]@3:2.2
+                               version: 12.01
+                               serial: 0000803000020DA10120802E
+                               capabilities: usb-2.00
+                               configuration: driver=ipheth maxpower=500mA speed=480Mbit/s
+                       *-usb:1
+                            description: Mouse
+                            product: PixArt HP USB Optical Mouse
+                            vendor: PixArt
+                            physical id: 4
+                            bus info: [REDACTED_USER]@3:4
+                            logical name: input5
+                            logical name: /dev/input/event2
+                            logical name: /dev/input/mouse0
+                            version: 1.00
+                            capabilities: usb-2.00 usb
+                            configuration: driver=usbhid maxpower=100mA speed=2Mbit/s
+                       *-usb:2
+                            description: Keyboard
+                            product: HID 046a:0023
+                            vendor: CHERRY
+                            physical id: 5
+                            bus info: [REDACTED_USER]@3:5
+                            logical name: input7
+                            logical name: /dev/input/event4
+                            logical name: input7::capslock
+                            logical name: input7::numlock
+                            logical name: input7::scrolllock
+                            logical name: input8
+                            logical name: /dev/input/event5
+                            version: 2.20
+                            capabilities: usb-2.00 usb
+                            configuration: driver=usbhid maxpower=100mA speed=2Mbit/s
+                    *-usbhost:1
+                         product: xHCI Host Controller
+                         vendor: Linux 6.16.3-100.fc41.x86_64 xhci-hcd
+                         physical id: 1
+                         bus info: [REDACTED_USER]@4
+                         logical name: usb4
+                         version: 6.16
+                         capabilities: usb-3.10
+                         configuration: driver=hub slots=5 speed=10000Mbit/s
+                       *-usb
+                            description: USB hub
+                            product: 4-Port USB 3.1 Hub
+                            vendor: Generic
+                            physical id: 2
+                            bus info: [REDACTED_USER]@4:2
+                            version: 1.01
+                            capabilities: usb-3.10
+                            configuration: driver=hub slots=4 speed=5000Mbit/s
+              *-pci:1
+                   description: PCI bridge
+                   product: 600 Series Chipset PCIe Switch Downstream Port
+                   vendor: Advanced Micro Devices, Inc. [AMD]
+                   physical id: d
+                   bus info: [REDACTED_USER]@0000:84:0d.0
+                   version: 01
+                   width: 64 bits
+                   clock: 33MHz
+                   capabilities: pci msi pm pciexpress normal_decode bus_master cap_list
+                   configuration: driver=pcieport
+                   resources: iomemory:f00-eff irq:60 memory:aa200000-aa2fffff
+                 *-sata
+                      description: SATA controller
+                      product: 600 Series Chipset SATA Controller
+                      vendor: Advanced Micro Devices, Inc. [AMD]
+                      physical id: 0
+                      bus info: [REDACTED_USER]@0000:86:00.0
+                      version: 01
+                      width: 32 bits
+                      clock: 33MHz
+                      capabilities: sata msi pm pciexpress ahci_1.0 bus_master cap_list rom
+                      configuration: driver=ahci latency=0
+                      resources: irq:64 memory:aa200000-aa2003ff memory:aa280000-aa2fffff
+        *-pci:3
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 3.3
+             bus info: [REDACTED_USER]@0000:80:03.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:56 ioport:7000(size=4096) memory:aa100000-aa1fffff ioport:4266c200000(size=2097152)
+        *-pci:4
+             description: PCI bridge
+             product: Genoa/Bergamo GPP Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 3.4
+             bus info: [REDACTED_USER]@0000:80:03.4
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:57 ioport:8000(size=4096) memory:aa000000-aa0fffff ioport:4266c400000(size=2097152)
+        *-pci:5
+             description: PCI bridge
+             product: Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: [REDACTED_USER]@0000:80:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:59
+           *-generic UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Genoa/Bergamo Dummy Function
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:89:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+     *-pci:23
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 117
+          bus info: [REDACTED_USER]@0000:80:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:24
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 118
+          bus info: [REDACTED_USER]@0000:80:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:25
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 119
+          bus info: [REDACTED_USER]@0000:80:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:26
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11a
+          bus info: [REDACTED_USER]@0000:80:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:27
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11b
+          bus info: [REDACTED_USER]@0000:80:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:28
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11c
+          bus info: [REDACTED_USER]@0000:80:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:29
+          description: Host bridge
+          product: Genoa/Bergamo [REDACTED_USER] Complex
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11d
+          bus info: [REDACTED_USER]@0000:c0:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Genoa/Bergamo IOMMU
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: [REDACTED_USER]@0000:c0:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1
+             description: [REDACTED_USER] Complex Event Collector
+             product: Genoa/Bergamo RCEC
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: [REDACTED_USER]@0000:c0:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: driver=pcieport latency=0
+             resources: irq:62
+        *-pci
+             description: PCI bridge
+             product: Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: [REDACTED_USER]@0000:c0:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:63 memory:c2000000-c20fffff
+           *-generic UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Genoa/Bergamo Dummy Function
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: [REDACTED_USER]@0000:c1:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+           *-usb
+                description: USB controller
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.4
+                bus info: [REDACTED_USER]@0000:c1:00.4
+                version: da
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix xhci cap_list
+                configuration: driver=xhci_hcd latency=0
+                resources: irq:82 memory:c2000000-c20fffff
+              *-usbhost:0
+                   product: xHCI Host Controller
+                   vendor: Linux 6.16.3-100.fc41.x86_64 xhci-hcd
+                   physical id: 0
+                   bus info: [REDACTED_USER]@5
+                   logical name: usb5
+                   version: 6.16
+                   capabilities: usb-2.00
+                   configuration: driver=hub slots=2 speed=480Mbit/s
+              *-usbhost:1
+                   product: xHCI Host Controller
+                   vendor: Linux 6.16.3-100.fc41.x86_64 xhci-hcd
+                   physical id: 1
+                   bus info: [REDACTED_USER]@6
+                   logical name: usb6
+                   version: 6.16
+                   capabilities: usb-3.10
+                   configuration: driver=hub slots=2 speed=10000Mbit/s
+     *-pci:30
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11e
+          bus info: [REDACTED_USER]@0000:c0:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:31
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11f
+          bus info: [REDACTED_USER]@0000:c0:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:32
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 120
+          bus info: [REDACTED_USER]@0000:c0:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:33
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 121
+          bus info: [REDACTED_USER]@0000:c0:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:34
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 122
+          bus info: [REDACTED_USER]@0000:c0:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:35
+          description: Host bridge
+          product: Genoa/Bergamo Dummy Host Bridge
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 123
+          bus info: [REDACTED_USER]@0000:c0:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+  *-power UNCLAIMED
+       description: NULL
+       product: High Efficiency
+       vendor: NULL
+       physical id: 1
+       version: NULL
+       serial: NULL
+       capacity: 1125mWh
+  *-input:0
+       product: Power Button
+       physical id: 2
+       logical name: input0
+       logical name: /dev/input/event0
+       capabilities: platform
+  *-input:1
+       product: Power Button
+       physical id: 3
+       logical name: input1
+       logical name: /dev/input/event1
+       capabilities: platform
+  *-input:2
+       product: HP WMI hotkeys
+       physical id: 4
+       logical name: input10
+       logical name: /dev/input/event7
+       capabilities: platform
+  *-input:3
+       product: PC Speaker
+       physical id: 5
+       logical name: input9
+       logical name: /dev/input/event6
+       capabilities: isa
+  *-network
+       description: Ethernet interface
+       product: iPhone
+       physical id: 6
+       bus info: [REDACTED_USER]@3:2.2
+       logical name: eth0
+       serial: [REDACTED_MAC]
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=ipheth driverversion=6.16.3-100.fc41.x86_64 link=no multicast=yes

@@ -1,0 +1,34 @@
+Disk /dev/nvme1n1: 953.87 GiB, 1024209543168 bytes, 2000409264 sectors
+Disk model: MTFDKBA1T0TFH-1BC1AABHA                 
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 98701591-DB0C-4B0F-AB3C-1712CB58B607
+
+Device           Start        End    Sectors   Size Type
+/dev/nvme1n1p1    2048    2203647    2201600     1G EFI System
+/dev/nvme1n1p2 2203648    6397951    4194304     2G Linux filesystem
+/dev/nvme1n1p3 6397952 2000406527 1994008576 950.8G Linux filesystem
+
+
+Disk /dev/nvme0n1: 953.87 GiB, 1024209543168 bytes, 2000409264 sectors
+Disk model: MTFDKBA1T0TFH-1BC1AABHA                 
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 1D435F08-BA41-44EC-AD11-E045941BD721
+
+Device             Start        End    Sectors   Size Type
+/dev/nvme0n1p1      2048    2099199    2097152     1G EFI System
+/dev/nvme0n1p2   2099200   18876415   16777216     8G Microsoft basic data
+/dev/nvme0n1p3  18876416  428476415  409600000 195.3G Linux filesystem
+/dev/nvme0n1p4 428476416  475662335   47185920  22.5G Linux swap
+/dev/nvme0n1p5 559548416 2000408575 1440860160 687.1G Linux filesystem
+
+
+Disk /dev/zram0: 8 GiB, 8589934592 bytes, 2097152 sectors
+Units: sectors of 1 * 4096 = 4096 bytes
+Sector size (logical/physical): 4096 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes

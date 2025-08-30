@@ -1,0 +1,80 @@
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo [REDACTED_USER] Complex (rev 01)
+00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo IOMMU (rev 01)
+00:00.3 [REDACTED_USER] Complex Event Collector: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo RCEC
+00:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+00:01.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+00:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+00:03.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+00:03.3 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+00:03.5 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+00:03.6 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+00:04.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+00:05.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+00:07.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+00:07.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B] (rev 01)
+00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller (rev 71)
+00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge (rev 51)
+00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 0
+00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 1
+00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 2
+00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 3
+00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 4
+00:18.5 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 5
+00:18.6 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 6
+00:18.7 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Data Fabric; Function 7
+01:00.0 VGA compatible controller: NVIDIA Corporation GA104GL [RTX A4000] (rev a1)
+01:00.1 Audio device: NVIDIA Corporation GA104 High Definition Audio Controller (rev a1)
+03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet Controller (rev 1c)
+05:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Function (rev 01)
+05:00.4 USB controller: Advanced Micro Devices, Inc. [AMD] Device 14c9 (rev da)
+05:00.5 Encryption controller: Advanced Micro Devices, Inc. [AMD] Genoa CCP/PSP 4.0 Device
+05:00.6 Multimedia controller: Advanced Micro Devices, Inc. [AMD] Device 14cb (rev 61)
+05:00.7 Audio device: Advanced Micro Devices, Inc. [AMD] Device 14cc
+40:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo [REDACTED_USER] Complex (rev 01)
+40:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo IOMMU (rev 01)
+40:00.3 [REDACTED_USER] Complex Event Collector: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo RCEC
+40:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+40:01.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+40:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+40:03.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+40:04.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+40:05.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+40:07.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+40:07.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B] (rev 01)
+41:00.0 Ethernet controller: Intel Corporation Ethernet Controller I226-LM (rev 04)
+42:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Function (rev 01)
+80:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo [REDACTED_USER] Complex (rev 01)
+80:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo IOMMU (rev 01)
+80:00.3 [REDACTED_USER] Complex Event Collector: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo RCEC
+80:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+80:01.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+80:01.2 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+80:01.3 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+80:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+80:03.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+80:03.3 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+80:03.4 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo GPP Bridge (rev 01)
+80:04.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+80:05.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+80:07.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+80:07.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B] (rev 01)
+81:00.0 Non-Volatile memory controller: Micron Technology Inc 3400 NVMe SSD [Hendrix]
+82:00.0 Non-Volatile memory controller: Micron Technology Inc 3400 NVMe SSD [Hendrix]
+83:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Upstream Port (rev 01)
+84:0c.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port (rev 01)
+84:0d.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port (rev 01)
+85:00.0 USB controller: Advanced Micro Devices, Inc. [AMD] Device 43fb (rev 01)
+86:00.0 SATA controller: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset SATA Controller (rev 01)
+89:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Function (rev 01)
+c0:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo [REDACTED_USER] Complex (rev 01)
+c0:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo IOMMU (rev 01)
+c0:00.3 [REDACTED_USER] Complex Event Collector: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo RCEC
+c0:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+c0:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+c0:03.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+c0:04.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+c0:05.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+c0:07.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Host Bridge (rev 01)
+c0:07.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Internal PCIe GPP Bridge to Bus [D:B] (rev 01)
+c1:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Genoa/Bergamo Dummy Function (rev 01)
+c1:00.4 USB controller: Advanced Micro Devices, Inc. [AMD] Device 14c9 (rev da)
