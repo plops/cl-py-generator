@@ -116,12 +116,26 @@ for file in "${files[@]}"; do
     mv -f -- "$tmp" "$file"
 
     # Diagnostic: if file differs from backup, run the exact incantation to show redacted changes.
-    # Do not print files that haven't changed.
+    # Protect the console by diffing sanitized copies (strip ANSI / control sequences).
     if ! cmp -s -- "$file" "$bak"; then
+        sanitized_file="$(mktemp)"
+        sanitized_bak="$(mktemp)"
+        # Prefer perl for robust ANSI/control stripping, fallback to raw copy if perl missing.
+        if command -v perl >/dev/null 2>&1; then
+            # remove common ANSI CSI sequences and other C0 control chars except newline/tab
+            perl -pe 's/\e\[[0-9;?]*[ -\/]*[@-~]//g; s/[\x00-\x08\x0B\x0C\x0E-\x1F]//g' "$file" > "$sanitized_file" 2>/dev/null || cp -a -- "$file" "$sanitized_file"
+            perl -pe 's/\e\[[0-9;?]*[ -\/]*[@-~]//g; s/[\x00-\x08\x0B\x0C\x0E-\x1F]//g' "$bak" > "$sanitized_bak" 2>/dev/null || cp -a -- "$bak" "$sanitized_bak"
+        else
+            cp -a -- "$file" "$sanitized_file"
+            cp -a -- "$bak" "$sanitized_bak"
+        fi
+
         # allow commands that may return non-zero without exiting the script
         set +e
-        output=$(git diff --word-diff=color --no-index --color=always "$file" "$bak" 2>/dev/null | grep --color=never '\[31' || true)
+        output=$(git diff --word-diff=color --no-index --color=always "$sanitized_file" "$sanitized_bak" 2>/dev/null | grep --color=never '\[31' || true)
         set -e
+
+        rm -f -- "$sanitized_file" "$sanitized_bak"
         if [ -n "$output" ]; then
             printf '%s\n' "$file:"
             printf '%s\n' "$output"
