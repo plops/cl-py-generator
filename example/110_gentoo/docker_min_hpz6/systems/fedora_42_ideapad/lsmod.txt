@@ -1,0 +1,172 @@
+Module                  Size  Used by
+uinput                 32768  0
+cdc_ether              24576  0
+usbnet                 61440  1 cdc_ether
+r8152                 176128  0
+mii                    16384  2 usbnet,r8152
+rfcomm                110592  16
+snd_seq_dummy          12288  0
+snd_hrtimer            12288  1
+nf_conntrack_netbios_ns    12288  1
+nf_conntrack_broadcast    12288  1 nf_conntrack_netbios_ns
+nft_fib_inet           12288  1
+nft_fib_ipv4           12288  1 nft_fib_inet
+nft_fib_ipv6           12288  1 nft_fib_inet
+nft_fib                12288  3 nft_fib_ipv6,nft_fib_ipv4,nft_fib_inet
+nft_reject_inet        12288  10
+nf_reject_ipv4         12288  1 nft_reject_inet
+nf_reject_ipv6         20480  1 nft_reject_inet
+nft_reject             12288  1 nft_reject_inet
+nft_ct                 28672  9
+nft_chain_nat          12288  3
+nf_nat                 65536  1 nft_chain_nat
+nf_conntrack          212992  4 nf_nat,nft_ct,nf_conntrack_netbios_ns,nf_conntrack_broadcast
+nf_defrag_ipv6         24576  1 nf_conntrack
+nf_defrag_ipv4         12288  1 nf_conntrack
+nf_tables             425984  301 nft_ct,nft_reject_inet,nft_fib_ipv6,nft_fib_ipv4,nft_chain_nat,nft_reject,nft_fib,nft_fib_inet
+qrtr                   57344  2
+bnep                   36864  2
+rtw89_8852be           12288  0
+snd_sof_amd_acp70      16384  0
+snd_sof_amd_acp63      16384  0
+rtw89_8852b           360448  1 rtw89_8852be
+snd_sof_amd_vangogh    16384  0
+snd_sof_amd_rembrandt    16384  0
+snd_sof_amd_renoir     16384  0
+rtw89_8852b_common     77824  1 rtw89_8852b
+snd_sof_amd_acp        73728  5 snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_sof_amd_renoir
+snd_sof_pci            24576  5 snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_sof_amd_renoir
+amd_atl                77824  1
+rtw89_pci             122880  1 rtw89_8852be
+intel_rapl_msr         20480  0
+snd_sof_xtensa_dsp     16384  1 snd_sof_amd_acp
+intel_rapl_common      61440  1 intel_rapl_msr
+snd_sof               512000  2 snd_sof_amd_acp,snd_sof_pci
+binfmt_misc            28672  1
+rtw89_core           1155072  3 rtw89_8852b,rtw89_pci,rtw89_8852b_common
+snd_sof_utils          16384  1 snd_sof
+snd_pci_ps             36864  0
+snd_soc_acpi_amd_match    12288  2 snd_sof_amd_acp63,snd_pci_ps
+edac_mce_amd           40960  0
+snd_amd_sdw_acpi       16384  2 snd_sof_amd_acp,snd_pci_ps
+snd_ctl_led            28672  0
+soundwire_amd          53248  2 snd_sof_amd_acp,snd_pci_ps
+soundwire_generic_allocation    24576  1 soundwire_amd
+snd_hda_codec_realtek   233472  1
+vfat                   24576  1
+soundwire_bus        1212416  2 soundwire_generic_allocation,soundwire_amd
+kvm_amd               249856  0
+fat                   126976  1 vfat
+snd_hda_codec_generic   139264  1 snd_hda_codec_realtek
+snd_soc_sdca           57344  1 soundwire_bus
+snd_hda_scodec_component    20480  1 snd_hda_codec_realtek
+snd_hda_codec_hdmi    102400  1
+mac80211             1925120  2 rtw89_core,rtw89_pci
+snd_soc_core          491520  2 snd_sof,soundwire_amd
+uvcvideo              200704  1
+snd_hda_intel          73728  4
+kvm                  1486848  1 kvm_amd
+snd_intel_dspcfg       40960  2 snd_hda_intel,snd_sof
+uvc                    12288  1 uvcvideo
+snd_intel_sdw_acpi     16384  1 snd_intel_dspcfg
+videobuf2_vmalloc      20480  1 uvcvideo
+videobuf2_memops       16384  1 videobuf2_vmalloc
+snd_compress           28672  1 snd_soc_core
+videobuf2_v4l2         40960  1 uvcvideo
+snd_hda_codec         233472  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek
+ac97_bus               12288  1 snd_soc_core
+btusb                  81920  0
+snd_pcm_dmaengine      16384  1 snd_soc_core
+videobuf2_common      102400  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
+snd_rpl_pci_acp6x      16384  0
+btrtl                  36864  1 btusb
+snd_acp_pci            16384  0
+snd_hda_core          159744  5 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek
+snd_amd_acpi_mach      12288  1 snd_acp_pci
+btintel                73728  1 btusb
+snd_acp_legacy_common    24576  1 snd_acp_pci
+videodev              421888  2 videobuf2_v4l2,uvcvideo
+snd_pci_acp6x          20480  0
+btbcm                  24576  1 btusb
+snd_hwdep              24576  1 snd_hda_codec
+snd_seq               135168  7 snd_seq_dummy
+btmtk                  32768  1 btusb
+irqbypass              12288  1 kvm
+libarc4                12288  1 mac80211
+ee1004                 16384  0
+think_lmi              45056  0
+snd_seq_device         16384  1 snd_seq
+bluetooth            1089536  44 btrtl,btmtk,btintel,btbcm,bnep,btusb,rfcomm
+firmware_attributes_class    12288  1 think_lmi
+mc                     94208  5 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
+rapl                   20480  0
+snd_pcm               212992  14 snd_sof_amd_acp,snd_hda_codec_hdmi,snd_pci_acp6x,snd_acp_legacy_common,snd_hda_intel,snd_hda_codec,snd_sof,snd_compress,snd_soc_core,snd_sof_utils,soundwire_amd,snd_hda_core,snd_pci_ps,snd_pcm_dmaengine
+cfg80211             1511424  3 rtw89_core,mac80211,rtw89_8852b_common
+pcspkr                 12288  0
+lenovo_wmi_hotkey_utilities    12288  0
+snd_pci_acp5x          20480  0
+wmi_bmof               12288  0
+snd_rn_pci_acp3x       24576  0
+snd_timer              57344  3 snd_seq,snd_hrtimer,snd_pcm
+snd_acp_config         20480  10 snd_rn_pci_acp3x,snd_sof_amd_acp70,snd_pci_acp6x,snd_pci_acp5x,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_acp_pci,snd_pci_ps,snd_sof_amd_renoir
+ideapad_laptop         53248  0
+i2c_piix4              40960  0
+snd_soc_acpi           16384  5 snd_sof_amd_acp,snd_acp_legacy_common,snd_acp_config,snd_amd_acpi_mach,snd_pci_ps
+snd                   163840  24 snd_ctl_led,snd_hda_codec_generic,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_sof,snd_timer,snd_compress,snd_soc_core,snd_pcm
+sparse_keymap          12288  1 ideapad_laptop
+i2c_smbus              20480  1 i2c_piix4
+k10temp                16384  0
+platform_profile       16384  1 ideapad_laptop
+snd_pci_acp3x          20480  0
+rfkill                 45056  9 rtw89_core,bluetooth,ideapad_laptop,cfg80211
+soundcore              16384  2 snd_ctl_led,snd
+joydev                 36864  0
+loop                   45056  0
+zram                   65536  1
+lz4hc_compress         20480  1 zram
+lz4_compress           24576  1 zram
+amdgpu              20643840  8
+amdxcp                 12288  1 amdgpu
+i2c_algo_bit           20480  1 amdgpu
+drm_ttm_helper         16384  1 amdgpu
+ttm                   135168  2 amdgpu,drm_ttm_helper
+drm_exec               12288  1 amdgpu
+nvme                   73728  2
+gpu_sched              65536  1 amdgpu
+sdhci_pci             114688  0
+drm_suballoc_helper    20480  1 amdgpu
+polyval_clmulni        12288  0
+nvme_core             270336  3 nvme
+drm_panel_backlight_quirks    12288  1 amdgpu
+sdhci_uhs2             40960  1 sdhci_pci
+polyval_generic        12288  1 polyval_clmulni
+drm_buddy              32768  1 amdgpu
+ghash_clmulni_intel    16384  0
+sdhci                 110592  2 sdhci_uhs2,sdhci_pci
+sha512_ssse3           53248  0
+ucsi_acpi              12288  0
+drm_display_helper    315392  1 amdgpu
+typec_ucsi             77824  1 ucsi_acpi
+hid_multitouch         36864  0
+sha256_ssse3           36864  0
+cqhci                  40960  1 sdhci_pci
+nvme_keyring           20480  1 nvme_core
+sha1_ssse3             32768  0
+mmc_core              303104  4 sdhci_uhs2,sdhci,cqhci,sdhci_pci
+cec                   102400  2 drm_display_helper,amdgpu
+sp5100_tco             20480  0
+typec                 118784  1 typec_ucsi
+nvme_auth              32768  1 nvme_core
+video                  81920  2 amdgpu,ideapad_laptop
+i2c_hid_acpi           12288  0
+wmi                    32768  5 video,lenovo_wmi_hotkey_utilities,wmi_bmof,ideapad_laptop,think_lmi
+i2c_hid                49152  1 i2c_hid_acpi
+serio_raw              20480  0
+sunrpc                925696  1
+iscsi_tcp              28672  0
+libiscsi_tcp           40960  1 iscsi_tcp
+libiscsi               94208  2 libiscsi_tcp,iscsi_tcp
+scsi_transport_iscsi   192512  3 libiscsi_tcp,iscsi_tcp,libiscsi
+i2c_dev                28672  0
+fuse                  286720  3
+nfnetlink              20480  3 nf_tables
