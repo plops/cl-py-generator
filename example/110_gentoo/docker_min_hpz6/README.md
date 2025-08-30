@@ -14,18 +14,6 @@ make LSMOD=~/lsmod.txt localmodconfig
 
 # How to configure colemak keyboard layout in the linux command line
 
-Configuring the Linux command line to use the Colemak keyboard layout
-without a graphical interface involves a couple of steps: a temporary
-change to test the layout and a permanent one to make it persist
-across reboots. The commands and configuration files can vary slightly
-depending on your Linux distribution.
-
-## 1. Temporary Change (for the Current Session)
-
-Before making any permanent changes, you can test the Colemak layout
-in your current console session. This change will revert to the
-default layout upon logging out or rebooting.
-
 Open your terminal and type the following command:
 ```bash
 loadkeys /usr/share/keymaps/i386/colemak/en-latin9.map.gz 
