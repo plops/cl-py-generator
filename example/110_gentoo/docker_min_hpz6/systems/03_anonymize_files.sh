@@ -20,6 +20,10 @@
 #
 set -euo pipefail
 
+# ensure color variables are always defined (fixes "unbound variable" when set -u)
+red="$(printf '\033[31m')"
+reset="$(printf '\033[0m')"
+
 # Files to process by default (gather outputs)
 default_files=(cpuinfo.txt uname.txt lscpu.txt lsmod.txt lspci.txt lsusb.txt lshw.txt dmidecode.txt meminfo.txt free.txt lsblk_devices.txt lsblk_all.txt blkid.txt df.txt dmesg.txt fdisk.txt fstab.txt os-release.txt hostnamectl.txt fastfetch.txt sensors.txt smartctl_*.txt)
 
@@ -70,8 +74,30 @@ for file in "${files[@]}"; do
 
     # IPv4
     sed -E -i "s/\\b$ipv4_regex\\b/[REDACTED_IP]/g" "$tmp" 2>/dev/null || true
-    # IPv6 (simple heuristic)
-    sed -E -i "s/$ipv6_regex/[REDACTED_IPV6]/g" "$tmp" 2>/dev/null || true
+
+    # IPv6: only redact specific IPv6 addresses present on THIS host (avoid broad regex)
+    ipv6_addresses=()
+    if command -v ip >/dev/null 2>&1; then
+        # collect global (non-link-local) IPv6 addresses, strip prefix/zone
+        while IFS= read -r a; do
+            [ -n "$a" ] && ipv6_addresses+=("$a")
+        done < <(ip -6 -o addr show scope global 2>/dev/null | awk '{print $4}' | sed 's#/.*##' | sed 's/%.*//g' | sort -u)
+    elif command -v ifconfig >/dev/null 2>&1; then
+        while IFS= read -r a; do
+            [ -n "$a" ] && ipv6_addresses+=("$a")
+        done < <(ifconfig 2>/dev/null | grep -oE '([0-9a-fA-F]{1,4}:){2,}[0-9a-fA-F:]+' | sed 's/%.*//g' | sort -u)
+    fi
+
+    if [ "${#ipv6_addresses[@]}" -gt 0 ]; then
+        for addr in "${ipv6_addresses[@]}"; do
+            # use '#' delimiter to avoid escaping ':'; treat the found address as literal pattern
+            sed -E -i "s#${addr}#[REDACTED_IPV6]#g" "$tmp" 2>/dev/null || true
+        done
+    else
+        # No local IPv6 addresses detected — do not apply broad IPv6 redaction
+        :
+    fi
+
     # MAC addresses
     sed -E -i "s/$mac_regex/[REDACTED_MAC]/g" "$tmp" 2>/dev/null || true
     # home paths -> /home/REDACTED
@@ -86,26 +112,26 @@ for file in "${files[@]}"; do
     # Move temp back to original file
     mv -f -- "$tmp" "$file"
 
-    # Count matches after
-    ipv4_after=$(grep -Eo "$ipv4_regex" "$file" | wc -l || true)
-    ipv6_after=$(grep -E -o "$ipv6_regex" "$file" | wc -l || true)
-    mac_after=$(grep -Eo "$mac_regex" "$file" | wc -l || true)
-    home_after=$(grep -Eo '/home/[^/[:space:]]+' "$file" | wc -l || true)
-    uid_after=$(grep -Eo 'uid=[0-9]+\([[:alnum:]_@.-]+\)' "$file" | wc -l || true)
-    users_after=$(grep -Eo -i "\b($common_users)\b" "$file" | wc -l || true)
-
-    # Diagnostic summary
-    echo "  IPv4 addresses: removed $((ipv4_before - ipv4_after)) (before: $ipv4_before, after: $ipv4_after)"
-    echo "  IPv6-like addresses: removed $((ipv6_before - ipv6_after)) (before: $ipv6_before, after: $ipv6_after)"
-    echo "  MAC addresses: removed $((mac_before - mac_after)) (before: $mac_before, after: $mac_after)"
-    echo "  /home/... paths: removed $((home_before - home_after)) (before: $home_before, after: $home_after)"
-    echo "  uid(NAME) patterns: removed $((uid_before - uid_after)) (before: $uid_before, after: $uid_after)"
-    echo "  common usernames: removed $((users_before - users_after)) (before: $users_before, after: $users_after)"
-
-    # Show up to 5 example changed lines (diff-like)
+    # Concise diagnostic: show up to 5 anonymized changed lines (color placeholders red)
     if command -v diff >/dev/null 2>&1; then
-        echo "  Example changes (up to 5):"
-        diff -u --label "orig: $bak" --label "anon: $file" "$bak" "$file" | sed -n '1,200p' | sed -n '1,200p' | head -n 50 || true
+        # collect added/changed lines from anonymized file (ignore diff headers like "+++")
+        changes=$(diff -U0 --label "anon: $file" --label "orig: $bak" "$bak" "$file" \
+            | awk '/^\+[^+]/ {sub(/^\+/, ""); print}' | sed -n '1,5p' || true)
+        if [ -n "$changes" ]; then
+            echo "  Changed lines (anonymized; red = redacted tokens):"
+            printf '%s\n' "$changes" \
+                | sed -E \
+                    -e "s/(\[REDACTED_[A-Z0-9_]+\])/${red}\1${reset}/g" \
+                    -e "s|/home/REDACTED|${red}/home/REDACTED${reset}|g" \
+                    -e "s/\(REDACTED\)/${red}(REDACTED)${reset}/g" \
+                    -e "s/(\[REDACTED_USER\]@)/${red}\1${reset}/g" \
+                    -e "s/(\[REDACTED_USER\])/${red}\1${reset}/g" \
+                | sed 's/^/    /'
+        else
+            echo "  (no changed lines detected)"
+        fi
+    else
+        echo "  (diff not available to show changes)"
     fi
 
     echo "  (original saved as $bak)"
