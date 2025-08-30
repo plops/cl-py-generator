@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copies squashfs to ram (tmpfs) before mounting. Then creates overlay with lower filesystem on an encrypted partition
+# Mounts squashfs directly from disk and creates overlay with lower filesystem on an encrypted partition
 
 export -p > /tmp/export.orig
 

@@ -14,6 +14,7 @@ def main():
             fts_columns = ['text','path','pdfinfo','pdfinfo_url']
             db['pdfs'].enable_fts(fts_columns)
             db['pdfs'].populate_fts(fts_columns)
+            db.conn.commit()
     except Exception as e:
         print(e)
         pass
