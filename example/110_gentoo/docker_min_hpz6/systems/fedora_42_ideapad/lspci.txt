@@ -1,4 +1,4 @@
-00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir/Cezanne Root Complex
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir/Cezanne [REDACTED_USER] Complex
 	Subsystem: Lenovo Device 3831
 	Flags: fast devsel, IOMMU group 0
 
@@ -23,7 +23,7 @@
 	Memory behind bridge: fd700000-fd7fffff [size=1M] [32-bit]
 	Prefetchable memory behind bridge: [disabled] [64-bit]
 	Capabilities: [50] Power Management version 3
-	Capabilities: [58] Express Root Port (Slot+), IntMsgNum 0
+	Capabilities: [58] Express [REDACTED_USER] Port (Slot+), IntMsgNum 0
 	Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
 	Capabilities: [c0] Subsystem: Lenovo Device 394a
 	Capabilities: [c8] HyperTransport: MSI Mapping Enable+ Fixed+
@@ -41,7 +41,7 @@
 	Memory behind bridge: fd600000-fd6fffff [size=1M] [32-bit]
 	Prefetchable memory behind bridge: [disabled] [64-bit]
 	Capabilities: [50] Power Management version 3
-	Capabilities: [58] Express Root Port (Slot+), IntMsgNum 0
+	Capabilities: [58] Express [REDACTED_USER] Port (Slot+), IntMsgNum 0
 	Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
 	Capabilities: [c0] Subsystem: Lenovo Device 394a
 	Capabilities: [c8] HyperTransport: MSI Mapping Enable+ Fixed+
@@ -59,7 +59,7 @@
 	Memory behind bridge: fd500000-fd5fffff [size=1M] [32-bit]
 	Prefetchable memory behind bridge: [disabled] [64-bit]
 	Capabilities: [50] Power Management version 3
-	Capabilities: [58] Express Root Port (Slot+), IntMsgNum 0
+	Capabilities: [58] Express [REDACTED_USER] Port (Slot+), IntMsgNum 0
 	Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
 	Capabilities: [c0] Subsystem: Lenovo Device 394a
 	Capabilities: [c8] HyperTransport: MSI Mapping Enable+ Fixed+
@@ -80,7 +80,7 @@
 	Memory behind bridge: fd100000-fd4fffff [size=4M] [32-bit]
 	Prefetchable memory behind bridge: 460000000-4701fffff [size=258M] [32-bit]
 	Capabilities: [50] Power Management version 3
-	Capabilities: [58] Express Root Port (Slot-), IntMsgNum 0
+	Capabilities: [58] Express [REDACTED_USER] Port (Slot-), IntMsgNum 0
 	Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
 	Capabilities: [c0] Subsystem: Advanced Micro Devices, Inc. [AMD] Renoir Internal PCIe GPP Bridge to Bus
 	Capabilities: [100] Vendor Specific Information: ID=0001 Rev=1 Len=010 <?>
@@ -99,7 +99,7 @@
 	Memory behind bridge: fd000000-fd0fffff [size=1M] [32-bit]
 	Prefetchable memory behind bridge: [disabled] [64-bit]
 	Capabilities: [50] Power Management version 3
-	Capabilities: [58] Express Root Port (Slot-), IntMsgNum 0
+	Capabilities: [58] Express [REDACTED_USER] Port (Slot-), IntMsgNum 0
 	Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
 	Capabilities: [c0] Subsystem: Advanced Micro Devices, Inc. [AMD] Renoir Internal PCIe GPP Bridge to Bus
 	Capabilities: [100] Vendor Specific Information: ID=0001 Rev=1 Len=010 <?>
@@ -169,7 +169,7 @@
 	Capabilities: [50] MSI: Enable+ Count=1/1 Maskable- 64bit+
 	Capabilities: [70] Express Endpoint, IntMsgNum 0
 	Capabilities: [100] Advanced Error Reporting
-	Capabilities: [148] Device Serial Number 00-e0-4c-ff-fe-88-52-01
+	Capabilities: [148] Device Serial Number [REDACTED_MAC]-52-01
 	Capabilities: [158] Latency Tolerance Reporting
 	Capabilities: [160] L1 PM Substates
 	Kernel driver in use: rtw89_8852be

@@ -72,7 +72,7 @@ fedora
           product: AMD Ryzen 5 5625U with Radeon Graphics
           vendor: Advanced Micro Devices [AMD]
           physical id: 6
-          bus info: cpu@0
+          bus info: [REDACTED_USER]@0
           version: 25.80.0
           serial: Null
           slot: FP6
@@ -93,10 +93,10 @@ fedora
           capabilities: pci pcmcia pnp apm upgrade shadowing cdboot bootselect edd int5printscreen int9keyboard int14serial int17printer int10video acpi usb biosbootspecification netboot uefi
      *-pci:0
           description: Host bridge
-          product: Renoir/Cezanne Root Complex
+          product: Renoir/Cezanne [REDACTED_USER] Complex
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 100
-          bus info: pci@0000:00:00.0
+          bus info: [REDACTED_USER]@0000:00:00.0
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -105,7 +105,7 @@ fedora
              product: Renoir/Cezanne IOMMU
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 0.2
-             bus info: pci@0000:00:00.2
+             bus info: [REDACTED_USER]@0000:00:00.2
              version: 00
              width: 32 bits
              clock: 33MHz
@@ -116,7 +116,7 @@ fedora
              product: Renoir/Cezanne PCIe GPP Bridge
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 2.1
-             bus info: pci@0000:00:02.1
+             bus info: [REDACTED_USER]@0000:00:02.1
              version: 00
              width: 32 bits
              clock: 33MHz
@@ -128,7 +128,7 @@ fedora
                 product: GL9750 SD Host Controller
                 vendor: Genesys Logic, Inc
                 physical id: 0
-                bus info: pci@0000:01:00.0
+                bus info: [REDACTED_USER]@0000:01:00.0
                 logical name: mmc0
                 version: 01
                 width: 32 bits
@@ -141,7 +141,7 @@ fedora
              product: Renoir/Cezanne PCIe GPP Bridge
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 2.2
-             bus info: pci@0000:00:02.2
+             bus info: [REDACTED_USER]@0000:00:02.2
              version: 00
              width: 32 bits
              clock: 33MHz
@@ -153,21 +153,21 @@ fedora
                 product: RTL8852BE PCIe 802.11ax Wireless Network Controller
                 vendor: Realtek Semiconductor Co., Ltd.
                 physical id: 0
-                bus info: pci@0000:02:00.0
+                bus info: [REDACTED_USER]@0000:02:00.0
                 logical name: wlp2s0
                 version: 00
-                serial: 92:a0:d0:0c:eb:9d
+                serial: [REDACTED_MAC]
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm msi pciexpress bus_master cap_list ethernet physical
-                configuration: broadcast=yes driver=rtw89_8852be driverversion=6.15.10-200.fc42.x86_64 firmware=N/A ip=10.188.248.205 latency=0 link=yes multicast=yes
+                configuration: broadcast=yes driver=rtw89_8852be driverversion=6.15.10-200.fc42.x86_64 firmware=N/A ip=[REDACTED_IP] latency=0 link=yes multicast=yes
                 resources: irq:75 ioport:2000(size=256) memory:fd600000-fd6fffff
         *-pci:2
              description: PCI bridge
              product: Renoir/Cezanne PCIe GPP Bridge
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 2.4
-             bus info: pci@0000:00:02.4
+             bus info: [REDACTED_USER]@0000:00:02.4
              version: 00
              width: 32 bits
              clock: 33MHz
@@ -179,7 +179,7 @@ fedora
                 product: ADATA LEGEND 800
                 vendor: ADATA Technology Co., Ltd.
                 physical id: 0
-                bus info: pci@0000:03:00.0
+                bus info: [REDACTED_USER]@0000:03:00.0
                 logical name: /dev/nvme0
                 version: V1122B0
                 serial: 2N152LAGA9YR
@@ -199,7 +199,7 @@ fedora
               *-namespace:2
                    description: NVMe disk
                    physical id: 1
-                   bus info: nvme@0:1
+                   bus info: [REDACTED_USER]@0:1
                    logical name: /dev/nvme0n1
                    size: 931GiB (1TB)
                    capabilities: gpt-1.00 partitioned partitioned:gpt
@@ -208,7 +208,7 @@ fedora
                       description: Windows FAT volume
                       vendor: mkfs.fat
                       physical id: 1
-                      bus info: nvme@0:1,1
+                      bus info: [REDACTED_USER]@0:1,1
                       logical name: /dev/nvme0n1p1
                       logical name: /boot/efi
                       version: FAT32
@@ -221,7 +221,7 @@ fedora
                       description: swap partition
                       vendor: Linux
                       physical id: 2
-                      bus info: nvme@0:1,2
+                      bus info: [REDACTED_USER]@0:1,2
                       logical name: /dev/nvme0n1p2
                       logical name: /
                       serial: 81a3124b-cd69-4440-ae4a-1355bf8835d7
@@ -232,7 +232,7 @@ fedora
                       description: EXT4 volume
                       vendor: Linux
                       physical id: 3
-                      bus info: nvme@0:1,3
+                      bus info: [REDACTED_USER]@0:1,3
                       logical name: /dev/nvme0n1p3
                       version: 1.0
                       serial: 80b66b33-ce31-4a54-9adc-b6c72fe3a826
@@ -242,7 +242,7 @@ fedora
                  *-volume:3
                       description: EFI partition
                       physical id: 4
-                      bus info: nvme@0:1,4
+                      bus info: [REDACTED_USER]@0:1,4
                       logical name: /dev/nvme0n1p4
                       serial: bbac9bb8-39d9-42fa-8d04-94610ced9839
                       size: 111GiB
@@ -253,7 +253,7 @@ fedora
                  *-volume:4
                       description: EFI partition
                       physical id: 5
-                      bus info: nvme@0:1,5
+                      bus info: [REDACTED_USER]@0:1,5
                       logical name: /dev/nvme0n1p5
                       serial: de71cb44-ea19-4e5c-8762-768fbdc7990d
                       size: 750GiB
@@ -266,7 +266,7 @@ fedora
              product: Renoir Internal PCIe GPP Bridge to Bus
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 8.1
-             bus info: pci@0000:00:08.1
+             bus info: [REDACTED_USER]@0000:00:08.1
              version: 00
              width: 32 bits
              clock: 33MHz
@@ -278,7 +278,7 @@ fedora
                 product: Barcelo
                 vendor: Advanced Micro Devices, Inc. [AMD/ATI]
                 physical id: 0
-                bus info: pci@0000:04:00.0
+                bus info: [REDACTED_USER]@0000:04:00.0
                 version: c2
                 width: 64 bits
                 clock: 33MHz
@@ -290,7 +290,7 @@ fedora
                 product: Renoir/Cezanne HDMI/DP Audio Controller
                 vendor: Advanced Micro Devices, Inc. [AMD/ATI]
                 physical id: 0.1
-                bus info: pci@0000:04:00.1
+                bus info: [REDACTED_USER]@0000:04:00.1
                 logical name: card0
                 logical name: /dev/snd/controlC0
                 logical name: /dev/snd/hwC0D0
@@ -317,7 +317,7 @@ fedora
                 product: Raven/Raven2/FireFlight/Renoir/Cezanne Platform Security Processor
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.2
-                bus info: pci@0000:04:00.2
+                bus info: [REDACTED_USER]@0000:04:00.2
                 version: 00
                 width: 32 bits
                 clock: 33MHz
@@ -329,7 +329,7 @@ fedora
                 product: Renoir/Cezanne USB 3.1
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.3
-                bus info: pci@0000:04:00.3
+                bus info: [REDACTED_USER]@0000:04:00.3
                 version: 00
                 width: 64 bits
                 clock: 33MHz
@@ -340,7 +340,7 @@ fedora
                    product: xHCI Host Controller
                    vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
                    physical id: 0
-                   bus info: usb@1
+                   bus info: [REDACTED_USER]@1
                    logical name: usb1
                    version: 6.15
                    capabilities: usb-2.00
@@ -350,7 +350,7 @@ fedora
                       product: PixArt HP USB Optical Mouse
                       vendor: PixArt
                       physical id: 2
-                      bus info: usb@1:2
+                      bus info: [REDACTED_USER]@1:2
                       logical name: input4
                       logical name: /dev/input/event4
                       logical name: /dev/input/mouse0
@@ -362,7 +362,7 @@ fedora
                       product: Integrated Camera
                       vendor: Chicony Electronics Co.,Ltd.
                       physical id: 3
-                      bus info: usb@1:3
+                      bus info: [REDACTED_USER]@1:3
                       version: 27.64
                       serial: 0001
                       capabilities: usb-2.01
@@ -371,7 +371,7 @@ fedora
                    product: xHCI Host Controller
                    vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
                    physical id: 1
-                   bus info: usb@2
+                   bus info: [REDACTED_USER]@2
                    logical name: usb2
                    version: 6.15
                    capabilities: usb-3.10
@@ -381,7 +381,7 @@ fedora
                 product: Renoir/Cezanne USB 3.1
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.4
-                bus info: pci@0000:04:00.4
+                bus info: [REDACTED_USER]@0000:04:00.4
                 version: 00
                 width: 64 bits
                 clock: 33MHz
@@ -392,7 +392,7 @@ fedora
                    product: xHCI Host Controller
                    vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
                    physical id: 0
-                   bus info: usb@3
+                   bus info: [REDACTED_USER]@3
                    logical name: usb3
                    version: 6.15
                    capabilities: usb-2.00
@@ -402,7 +402,7 @@ fedora
                       product: USB 10/100 LAN
                       vendor: Realtek
                       physical id: 1
-                      bus info: usb@3:1
+                      bus info: [REDACTED_USER]@3:1
                       version: 20.00
                       serial: 00E04C3605F8
                       capabilities: usb-2.10
@@ -412,7 +412,7 @@ fedora
                       product: Bluetooth Radio
                       vendor: Realtek
                       physical id: 4
-                      bus info: usb@3:4
+                      bus info: [REDACTED_USER]@3:4
                       version: 0.00
                       serial: 00e04c000001
                       capabilities: bluetooth usb-1.00
@@ -421,7 +421,7 @@ fedora
                    product: xHCI Host Controller
                    vendor: Linux 6.15.10-200.fc42.x86_64 xhci-hcd
                    physical id: 1
-                   bus info: usb@4
+                   bus info: [REDACTED_USER]@4
                    logical name: usb4
                    version: 6.15
                    capabilities: usb-3.10
@@ -431,7 +431,7 @@ fedora
                 product: Audio Coprocessor
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.5
-                bus info: pci@0000:04:00.5
+                bus info: [REDACTED_USER]@0000:04:00.5
                 version: 01
                 width: 32 bits
                 clock: 33MHz
@@ -443,7 +443,7 @@ fedora
                 product: Family 17h/19h/1ah HD Audio Controller
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.6
-                bus info: pci@0000:04:00.6
+                bus info: [REDACTED_USER]@0000:04:00.6
                 logical name: card1
                 logical name: /dev/snd/controlC1
                 logical name: /dev/snd/hwC1D0
@@ -470,7 +470,7 @@ fedora
              product: Renoir Internal PCIe GPP Bridge to Bus
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 8.2
-             bus info: pci@0000:00:08.2
+             bus info: [REDACTED_USER]@0000:00:08.2
              version: 00
              width: 32 bits
              clock: 33MHz
@@ -482,7 +482,7 @@ fedora
                 product: FCH SATA Controller [AHCI mode]
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0
-                bus info: pci@0000:05:00.0
+                bus info: [REDACTED_USER]@0000:05:00.0
                 logical name: scsi0
                 version: 81
                 width: 32 bits
@@ -494,7 +494,7 @@ fedora
                    description: ATA Disk
                    product: SanDisk SD7TB3Q-
                    physical id: 0.0.0
-                   bus info: scsi@0:0.0.0
+                   bus info: [REDACTED_USER]@0:0.0.0
                    logical name: /dev/sda
                    version: 0306
                    serial: 152490400448
@@ -505,7 +505,7 @@ fedora
                       description: Linux filesystem partition
                       vendor: Linux
                       physical id: 1
-                      bus info: scsi@0:0.0.0,1
+                      bus info: [REDACTED_USER]@0:0.0.0,1
                       logical name: /dev/sda1
                       version: 1.0
                       serial: a8800899-6675-40dd-a299-0aee2b04d21c
@@ -516,7 +516,7 @@ fedora
                  *-volume:1
                       description: Linux filesystem partition
                       physical id: 3
-                      bus info: scsi@0:0.0.0,3
+                      bus info: [REDACTED_USER]@0:0.0.0,3
                       logical name: /dev/sda3
                       capacity: 235GiB
                       capabilities: primary
@@ -525,7 +525,7 @@ fedora
                 product: FCH SATA Controller [AHCI mode]
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.1
-                bus info: pci@0000:05:00.1
+                bus info: [REDACTED_USER]@0000:05:00.1
                 version: 81
                 width: 32 bits
                 clock: 33MHz
@@ -537,7 +537,7 @@ fedora
              product: FCH SMBus Controller
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 14
-             bus info: pci@0000:00:14.0
+             bus info: [REDACTED_USER]@0000:00:14.0
              version: 51
              width: 32 bits
              clock: 66MHz
@@ -548,7 +548,7 @@ fedora
              product: FCH LPC Bridge
              vendor: Advanced Micro Devices, Inc. [AMD]
              physical id: 14.3
-             bus info: pci@0000:00:14.3
+             bus info: [REDACTED_USER]@0000:00:14.3
              version: 51
              width: 32 bits
              clock: 66MHz
@@ -591,7 +591,7 @@ fedora
           product: Renoir PCIe Dummy Host Bridge
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 101
-          bus info: pci@0000:00:01.0
+          bus info: [REDACTED_USER]@0000:00:01.0
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -600,7 +600,7 @@ fedora
           product: Renoir PCIe Dummy Host Bridge
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 102
-          bus info: pci@0000:00:02.0
+          bus info: [REDACTED_USER]@0000:00:02.0
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -609,7 +609,7 @@ fedora
           product: Renoir PCIe Dummy Host Bridge
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 103
-          bus info: pci@0000:00:08.0
+          bus info: [REDACTED_USER]@0000:00:08.0
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -618,7 +618,7 @@ fedora
           product: Cezanne Data Fabric; Function 0
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 104
-          bus info: pci@0000:00:18.0
+          bus info: [REDACTED_USER]@0000:00:18.0
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -627,7 +627,7 @@ fedora
           product: Cezanne Data Fabric; Function 1
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 105
-          bus info: pci@0000:00:18.1
+          bus info: [REDACTED_USER]@0000:00:18.1
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -636,7 +636,7 @@ fedora
           product: Cezanne Data Fabric; Function 2
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 106
-          bus info: pci@0000:00:18.2
+          bus info: [REDACTED_USER]@0000:00:18.2
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -645,7 +645,7 @@ fedora
           product: Cezanne Data Fabric; Function 3
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 107
-          bus info: pci@0000:00:18.3
+          bus info: [REDACTED_USER]@0000:00:18.3
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -656,7 +656,7 @@ fedora
           product: Cezanne Data Fabric; Function 4
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 108
-          bus info: pci@0000:00:18.4
+          bus info: [REDACTED_USER]@0000:00:18.4
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -665,7 +665,7 @@ fedora
           product: Cezanne Data Fabric; Function 5
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 109
-          bus info: pci@0000:00:18.5
+          bus info: [REDACTED_USER]@0000:00:18.5
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -674,7 +674,7 @@ fedora
           product: Cezanne Data Fabric; Function 6
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 10a
-          bus info: pci@0000:00:18.6
+          bus info: [REDACTED_USER]@0000:00:18.6
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -683,7 +683,7 @@ fedora
           product: Cezanne Data Fabric; Function 7
           vendor: Advanced Micro Devices, Inc. [AMD]
           physical id: 10b
-          bus info: pci@0000:00:18.7
+          bus info: [REDACTED_USER]@0000:00:18.7
           version: 00
           width: 32 bits
           clock: 33MHz
@@ -744,9 +744,9 @@ fedora
        description: Ethernet interface
        product: USB 10/100 LAN
        physical id: 9
-       bus info: usb@3:1
+       bus info: [REDACTED_USER]@3:1
        logical name: enp4s0f4u1
-       serial: 00:e0:4c:36:05:f8
+       serial: [REDACTED_MAC]
        capacity: 100Mbit/s
        capabilities: ethernet physical tp mii 10bt 10bt-fd 100bt 100bt-fd autonegotiation
        configuration: autonegotiation=on broadcast=yes driver=r8152 driverversion=v1.12.13 duplex=half link=no multicast=yes port=MII

@@ -16,7 +16,7 @@ cccccc;dNMWXXXWM0:;cccccccccccccc:,
 cccccccc;.:odl:.;cccccccccccccc:,.
 ccccccccccccccccccccccccccccc:'.
 :ccccccccccccccccccccccc:;,..
- ':cccccccccccccccc::;,.[1G[18A[42Croot@fedora
+ ':cccccccccccccccc::;,.[1G[18A[[REDACTED_USER]@fedora
 [42C-----------
 [42COS: Fedora Linux 42 (Workstation Edition) x86_64
 [42CHost: 82RN (IdeaPad 3 15ABA7)
@@ -34,7 +34,7 @@ ccccccccccccccccccccccccccccc:'.
 [42CMemory: 1.33 GiB / 14.96 GiB (9%)
 [42CSwap: 0 B / 8.00 GiB (0%)
 [42CDisk (/): 13.53 GiB / 18.00 GiB (75%) - btrfs
-[42CLocal IP (wlp2s0): 10.188.248.205/21
+[42CLocal IP (wlp2s0): [REDACTED_IP]/21
 [42CBattery (L20C2PF0): 95% [Discharging]
 [42CLocale: en_US.UTF-8
 [42C

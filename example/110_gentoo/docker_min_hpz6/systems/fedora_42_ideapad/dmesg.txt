@@ -1,5 +1,5 @@
-[    0.000000] Linux version 6.15.10-200.fc42.x86_64 (mockbuild@14a33d64645143cab3659d1335d9f80c) (gcc (GCC) 15.2.1 20250808 (Red Hat 15.2.1-1), GNU ld version 2.44-6.fc42) #1 SMP PREEMPT_DYNAMIC Fri Aug 15 15:57:06 UTC 2025
-[    0.000000] Command line: BOOT_IMAGE=(hd1,gpt2)/boot/vmlinuz-6.15.10-200.fc42.x86_64 root=UUID=df544e10-90c0-4315-860c-92a58ec8499e ro rhgb quiet
+[    0.000000] Linux version 6.15.10-200.fc42.x86_64 ([REDACTED_USER]@14a33d64645143cab3659d1335d9f80c) (gcc (GCC) 15.2.1 20250808 (Red Hat 15.2.1-1), GNU ld version 2.44-6.fc42) #1 SMP PREEMPT_DYNAMIC Fri Aug 15 15:57:06 UTC 2025
+[    0.000000] Command line: BOOT_IMAGE=(hd1,gpt2)/boot/vmlinuz-6.15.10-200.fc42.x86_64 [REDACTED_USER]=UUID=df544e10-90c0-4315-860c-92a58ec8499e ro rhgb quiet
 [    0.000000] BIOS-provided physical RAM map:
 [    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009efff] usable
 [    0.000000] BIOS-e820: [mem 0x000000000009f000-0x000000000009ffff] reserved
@@ -170,8 +170,8 @@
 [    0.036729] pcpu-alloc: s217088 r8192 d114688 u524288 alloc=1*2097152
 [    0.036730] pcpu-alloc: [0] 00 01 02 03 [0] 04 05 06 07 
 [    0.036733] pcpu-alloc: [0] 08 09 10 11 
-[    0.036748] Kernel command line: BOOT_IMAGE=(hd1,gpt2)/boot/vmlinuz-6.15.10-200.fc42.x86_64 root=UUID=df544e10-90c0-4315-860c-92a58ec8499e ro rhgb quiet
-[    0.036800] Unknown kernel command line parameters "rhgb BOOT_IMAGE=(hd1,gpt2)/boot/vmlinuz-6.15.10-200.fc42.x86_64", will be passed to user space.
+[    0.036748] Kernel command line: BOOT_IMAGE=(hd1,gpt2)/boot/vmlinuz-6.15.10-200.fc42.x86_64 [REDACTED_USER]=UUID=df544e10-90c0-4315-860c-92a58ec8499e ro rhgb quiet
+[    0.036800] Unknown kernel command line parameters "rhgb BOOT_IMAGE=(hd1,gpt2)/boot/vmlinuz-6.15.10-200.fc42.x86_64", will be passed to [REDACTED_USER] space.
 [    0.036820] printk: log buffer data + meta data: 262144 + 917504 = 1179648 bytes
 [    0.038171] Dentry cache hash table entries: 2097152 (order: 12, 16777216 bytes, linear)
 [    0.038885] Inode-cache hash table entries: 1048576 (order: 11, 8388608 bytes, linear)
@@ -211,7 +211,7 @@
 [    0.097742] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
 [    0.102230] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x2117351afbb, max_idle_ns: 440795213115 ns
 [    0.102235] Calibrating delay loop (skipped), value calculated using timer frequency.. 4591.32 BogoMIPS (lpj=2295664)
-[    0.102248] x86/cpu: User Mode Instruction Prevention (UMIP) activated
+[    0.102248] x86/cpu: [REDACTED_USER] Mode Instruction Prevention (UMIP) activated
 [    0.102285] LVT offset 1 assigned for vector 0xf9
 [    0.102361] LVT offset 2 assigned for vector 0xf4
 [    0.102378] Last level iTLB entries: 4KB 512, 2MB 512, 4MB 256
@@ -222,15 +222,15 @@
 [    0.102385] Spectre V2 : Spectre v2 / SpectreRSB: Filling RSB on context switch and VMEXIT
 [    0.102386] Spectre V2 : Enabling Restricted Speculation for firmware calls
 [    0.102387] Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
-[    0.102388] Spectre V2 : User space: Mitigation: STIBP always-on protection
+[    0.102388] Spectre V2 : [REDACTED_USER] space: Mitigation: STIBP always-on protection
 [    0.102389] Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl
 [    0.102390] Speculative Return Stack Overflow: Mitigation: Safe RET
 [    0.102391] Transient Scheduler Attacks: Mitigation: Clear CPU buffers
 [    0.102396] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
 [    0.102396] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
 [    0.102397] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
-[    0.102397] x86/fpu: Supporting XSAVE feature 0x200: 'Protection Keys User registers'
-[    0.102398] x86/fpu: Supporting XSAVE feature 0x800: 'Control-flow User registers'
+[    0.102397] x86/fpu: Supporting XSAVE feature 0x200: 'Protection Keys [REDACTED_USER] registers'
+[    0.102398] x86/fpu: Supporting XSAVE feature 0x800: 'Control-flow [REDACTED_USER] registers'
 [    0.102399] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
 [    0.102400] x86/fpu: xstate_offset[9]:  832, xstate_sizes[9]:    8
 [    0.102401] x86/fpu: xstate_offset[11]:  840, xstate_sizes[11]:   16
@@ -265,7 +265,7 @@
 [    0.246233] Measured 2726457872 cycles TSC warp between CPUs, turning off TSC clock.
 [    0.246248] tsc: Marking TSC unstable due to check_tsc_sync_source failed
 [    0.247375]   #1  #3  #5  #7  #9 #11
-[    0.249352] Spectre V2 : Update user space SMT mitigation: STIBP always-on
+[    0.249352] Spectre V2 : Update [REDACTED_USER] space SMT mitigation: STIBP always-on
 [    0.249352] smp: Brought up 1 node, 12 CPUs
 [    0.249352] smpboot: Total of 12 processors activated (55095.93 BogoMIPS)
 [    0.251373] Memory: 15575808K/16094648K available (21678K kernel code, 4521K rwdata, 17652K rodata, 5060K init, 4268K bss, 499888K reserved, 0K cma-reserved)
@@ -319,46 +319,46 @@
 [    0.321262] ACPI: \_SB_.PCI0.GPP4.WL00.WRST: New power resource
 [    0.322433] ACPI: \_SB_.PCI0.GP17.XHC1.RHUB.HSP4.BTPR: New power resource
 [    0.322608] ACPI: \_SB_.PCI0.GP18.P0SA: New power resource
-[    0.328270] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    0.328270] ACPI: PCI [REDACTED_USER] Bridge [PCI0] (domain 0000 [bus 00-ff])
 [    0.328277] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI EDR HPX-Type3]
 [    0.328410] acpi PNP0A08:00: _OSC: platform does not support [SHPCHotplug AER LTR DPC]
 [    0.328646] acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME PCIeCapability]
 [    0.328648] acpi PNP0A08:00: FADT indicates ASPM is unsupported, using BIOS configuration
 [    0.328661] acpi PNP0A08:00: [Firmware Info]: ECAM [mem 0xf8000000-0xfbffffff] for domain 0000 [bus 00-3f] only partially covers this bridge
 [    0.329067] PCI host bridge to bus 0000:00
-[    0.329075] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000effff window]
-[    0.329077] pci_bus 0000:00: root bus resource [mem 0xd0000000-0xf7ffffff window]
-[    0.329079] pci_bus 0000:00: root bus resource [mem 0xfc000000-0xfdffffff window]
-[    0.329081] pci_bus 0000:00: root bus resource [mem 0x430000000-0xffffffffff window]
-[    0.329082] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
-[    0.329084] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
-[    0.329087] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    0.329075] pci_bus 0000:00: [REDACTED_USER] bus resource [mem 0x000a0000-0x000effff window]
+[    0.329077] pci_bus 0000:00: [REDACTED_USER] bus resource [mem 0xd0000000-0xf7ffffff window]
+[    0.329079] pci_bus 0000:00: [REDACTED_USER] bus resource [mem 0xfc000000-0xfdffffff window]
+[    0.329081] pci_bus 0000:00: [REDACTED_USER] bus resource [mem 0x430000000-0xffffffffff window]
+[    0.329082] pci_bus 0000:00: [REDACTED_USER] bus resource [io  0x0000-0x0cf7 window]
+[    0.329084] pci_bus 0000:00: [REDACTED_USER] bus resource [io  0x0d00-0xffff window]
+[    0.329087] pci_bus 0000:00: [REDACTED_USER] bus resource [bus 00-ff]
 [    0.329100] pci 0000:00:00.0: [1022:1630] type 00 class 0x060000 conventional PCI endpoint
 [    0.329190] pci 0000:00:00.2: [1022:1631] type 00 class 0x080600 conventional PCI endpoint
 [    0.329278] pci 0000:00:01.0: [1022:1632] type 00 class 0x060000 conventional PCI endpoint
 [    0.329398] pci 0000:00:02.0: [1022:1632] type 00 class 0x060000 conventional PCI endpoint
-[    0.329497] pci 0000:00:02.1: [1022:1634] type 01 class 0x060400 PCIe Root Port
+[    0.329497] pci 0000:00:02.1: [1022:1634] type 01 class 0x060400 PCIe [REDACTED_USER] Port
 [    0.329511] pci 0000:00:02.1: PCI bridge to [bus 01]
 [    0.329517] pci 0000:00:02.1:   bridge window [mem 0xfd700000-0xfd7fffff]
 [    0.329566] pci 0000:00:02.1: PME# supported from D0 D3hot D3cold
-[    0.329685] pci 0000:00:02.2: [1022:1634] type 01 class 0x060400 PCIe Root Port
+[    0.329685] pci 0000:00:02.2: [1022:1634] type 01 class 0x060400 PCIe [REDACTED_USER] Port
 [    0.329699] pci 0000:00:02.2: PCI bridge to [bus 02]
 [    0.329704] pci 0000:00:02.2:   bridge window [io  0x2000-0x2fff]
 [    0.329707] pci 0000:00:02.2:   bridge window [mem 0xfd600000-0xfd6fffff]
 [    0.329751] pci 0000:00:02.2: PME# supported from D0 D3hot D3cold
-[    0.329863] pci 0000:00:02.4: [1022:1634] type 01 class 0x060400 PCIe Root Port
+[    0.329863] pci 0000:00:02.4: [1022:1634] type 01 class 0x060400 PCIe [REDACTED_USER] Port
 [    0.329877] pci 0000:00:02.4: PCI bridge to [bus 03]
 [    0.329882] pci 0000:00:02.4:   bridge window [mem 0xfd500000-0xfd5fffff]
 [    0.329927] pci 0000:00:02.4: PME# supported from D0 D3hot D3cold
 [    0.330037] pci 0000:00:08.0: [1022:1632] type 00 class 0x060000 conventional PCI endpoint
-[    0.330137] pci 0000:00:08.1: [1022:1635] type 01 class 0x060400 PCIe Root Port
+[    0.330137] pci 0000:00:08.1: [1022:1635] type 01 class 0x060400 PCIe [REDACTED_USER] Port
 [    0.330151] pci 0000:00:08.1: PCI bridge to [bus 04]
 [    0.330155] pci 0000:00:08.1:   bridge window [io  0x1000-0x1fff]
 [    0.330158] pci 0000:00:08.1:   bridge window [mem 0xfd100000-0xfd4fffff]
 [    0.330163] pci 0000:00:08.1:   bridge window [mem 0x460000000-0x4701fffff 64bit pref]
 [    0.330170] pci 0000:00:08.1: enabling Extended Tags
 [    0.330205] pci 0000:00:08.1: PME# supported from D0 D3hot D3cold
-[    0.330345] pci 0000:00:08.2: [1022:1635] type 01 class 0x060400 PCIe Root Port
+[    0.330345] pci 0000:00:08.2: [1022:1635] type 01 class 0x060400 PCIe [REDACTED_USER] Port
 [    0.330359] pci 0000:00:08.2: PCI bridge to [bus 05]
 [    0.330364] pci 0000:00:08.2:   bridge window [mem 0xfd000000-0xfd0fffff]
 [    0.330375] pci 0000:00:08.2: enabling Extended Tags
@@ -449,7 +449,7 @@
 [    0.339436] usbcore: registered new interface driver hub
 [    0.339436] usbcore: registered new device driver usb
 [    0.344912] pps_core: LinuxPPS API ver. 1 registered
-[    0.344914] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.344914] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <[REDACTED_USER]@linux.it>
 [    0.344918] PTP clock support registered
 [    0.344942] EDAC MC: Ver: 3.0.0
 [    0.346245] efivars: Registered efivars operations
@@ -624,12 +624,12 @@
 [    0.642671] ahci 0000:05:00.0: 1/1 ports implemented (port mask 0x1)
 [    0.642673] ahci 0000:05:00.0: flags: 64bit ncq sntf ilck pm led clo only pmp fbs pio slum part 
 [    0.642981] scsi host0: ahci
-[    0.643046] ata1: SATA max UDMA/133 abar m2048@0xfd001000 port 0xfd001100 irq 34 lpm-pol 3
+[    0.643046] ata1: SATA max UDMA/133 abar [REDACTED_USER]@0xfd001000 port 0xfd001100 irq 34 lpm-pol 3
 [    0.643218] ahci 0000:05:00.1: AHCI vers 0001.0301, 32 command slots, 6 Gbps, SATA mode
 [    0.643221] ahci 0000:05:00.1: 1/1 ports implemented (port mask 0x1)
 [    0.643223] ahci 0000:05:00.1: flags: 64bit ncq sntf ilck pm led clo only pmp fbs pio slum part 
 [    0.643450] scsi host1: ahci
-[    0.643507] ata2: SATA max UDMA/133 abar m2048@0xfd000000 port 0xfd000100 irq 36 lpm-pol 3
+[    0.643507] ata2: SATA max UDMA/133 abar [REDACTED_USER]@0xfd000000 port 0xfd000100 irq 36 lpm-pol 3
 [    0.643894] xhci_hcd 0000:04:00.3: xHCI Host Controller
 [    0.643963] xhci_hcd 0000:04:00.3: new USB bus registered, assigned bus number 1
 [    0.644065] xhci_hcd 0000:04:00.3: hcc params 0x0268ffe5 hci version 0x110 quirks 0x0000020000000010
@@ -684,7 +684,7 @@
 [    0.648050] rtc_cmos 00:01: alarms up to one month, y3k, 114 bytes nvram
 [    0.648072] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
 [    0.648077] device-mapper: uevent: version 1.0.3
-[    0.648145] device-mapper: ioctl: 4.49.0-ioctl (2025-01-17) initialised: dm-devel@lists.linux.dev
+[    0.648145] device-mapper: ioctl: 4.49.0-ioctl (2025-01-17) initialised: [REDACTED_USER]@lists.linux.dev
 [    0.649955] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input3
 [    0.650032] simple-framebuffer simple-framebuffer.0: [drm] Registered 1 planes with drm panic
 [    0.650035] [drm] Initialized simpledrm 1.0.0 for simple-framebuffer.0 on minor 0
@@ -986,14 +986,14 @@
 [    8.186995] systemd[1]: Detected architecture x86-64.
 [    8.399487] systemd[1]: bpf-restrict-fs: LSM BPF program attached
 [    8.488253] zram: Added device: zram0
-[    8.755958] systemd[1]: initrd-switch-root.service: Deactivated successfully.
-[    8.756244] systemd[1]: Stopped initrd-switch-root.service - Switch Root.
+[    8.755958] systemd[1]: initrd-switch-[REDACTED_USER].service: Deactivated successfully.
+[    8.756244] systemd[1]: Stopped initrd-switch-[REDACTED_USER].service - Switch [REDACTED_USER].
 [    8.757840] systemd[1]: systemd-journald.service: Scheduled restart job, restart counter is at 1.
 [    8.758901] systemd[1]: Created slice machine.slice - Virtual Machine and Container Slice.
 [    8.759617] systemd[1]: Created slice system-getty.slice - Slice /system/getty.
 [    8.760268] systemd[1]: Created slice system-systemd\x2dfsck.slice - Slice /system/systemd-fsck.
 [    8.760956] systemd[1]: Created slice system-systemd\x2dzram\x2dsetup.slice - Slice /system/systemd-zram-setup.
-[    8.761695] systemd[1]: Created slice user.slice - User and Session Slice.
+[    8.761695] systemd[1]: Created slice [REDACTED_USER].slice - [REDACTED_USER] and Session Slice.
 [    8.761768] systemd[1]: systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch was skipped because of an unmet condition check (ConditionPathExists=!/run/plymouth/pid).
 [    8.761932] systemd[1]: Started systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch.
 [    8.762417] systemd[1]: Set up automount proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point.
@@ -1002,9 +1002,9 @@
 [    8.762555] systemd[1]: Expecting device dev-zram0.device - /dev/zram0...
 [    8.762599] systemd[1]: Reached target cryptsetup.target - Local Encrypted Volumes.
 [    8.762642] systemd[1]: Reached target getty.target - Login Prompts.
-[    8.762685] systemd[1]: Stopped target initrd-switch-root.target - Switch Root.
+[    8.762685] systemd[1]: Stopped target initrd-switch-[REDACTED_USER].target - Switch [REDACTED_USER].
 [    8.762721] systemd[1]: Stopped target initrd-fs.target - Initrd File Systems.
-[    8.762754] systemd[1]: Stopped target initrd-root-fs.target - Initrd Root File System.
+[    8.762754] systemd[1]: Stopped target initrd-[REDACTED_USER]-fs.target - Initrd [REDACTED_USER] File System.
 [    8.762796] systemd[1]: Reached target integritysetup.target - Local Integrity Protected Volumes.
 [    8.762867] systemd[1]: Reached target rpc_pipefs.target.
 [    8.762912] systemd[1]: Reached target slices.target - Slice Units.
@@ -1020,7 +1020,7 @@
 [    8.769777] systemd[1]: systemd-pcrlock.socket - Make TPM PCR Policy was skipped because of an unmet condition check (ConditionSecurity=measured-uki).
 [    8.770641] systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
 [    8.771044] systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
-[    8.771506] systemd[1]: Listening on systemd-userdbd.socket - User Database Manager Socket.
+[    8.771506] systemd[1]: Listening on systemd-userdbd.socket - [REDACTED_USER] Database Manager Socket.
 [    8.774135] systemd[1]: Mounting dev-hugepages.mount - Huge Pages File System...
 [    8.775691] systemd[1]: Mounting dev-mqueue.mount - POSIX Message Queue File System...
 [    8.777283] systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
@@ -1029,22 +1029,22 @@
 [    8.779109] systemd[1]: iscsi-starter.service was skipped because of an unmet condition check (ConditionDirectoryNotEmpty=/var/lib/iscsi/nodes).
 [    8.796737] systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
 [    8.798071] systemd[1]: Starting lvm2-monitor.service - Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
-[    8.799596] systemd[1]: Starting modprobe@configfs.service - Load Kernel Module configfs...
-[    8.801570] systemd[1]: Starting modprobe@dm_mod.service - Load Kernel Module dm_mod...
-[    8.803266] systemd[1]: Starting modprobe@drm.service - Load Kernel Module drm...
-[    8.804757] systemd[1]: Starting modprobe@efi_pstore.service - Load Kernel Module efi_pstore...
-[    8.806210] systemd[1]: Starting modprobe@fuse.service - Load Kernel Module fuse...
-[    8.808022] systemd[1]: Starting modprobe@loop.service - Load Kernel Module loop...
-[    8.808093] systemd[1]: plymouth-switch-root.service: Deactivated successfully.
-[    8.808187] systemd[1]: Stopped plymouth-switch-root.service - Plymouth switch root service.
-[    8.808421] systemd[1]: systemd-fsck-root.service: Deactivated successfully.
-[    8.808575] systemd[1]: Stopped systemd-fsck-root.service - File System Check on Root Device.
+[    8.799596] systemd[1]: Starting [REDACTED_USER]@configfs.service - Load Kernel Module configfs...
+[    8.801570] systemd[1]: Starting [REDACTED_USER]@dm_mod.service - Load Kernel Module dm_mod...
+[    8.803266] systemd[1]: Starting [REDACTED_USER]@drm.service - Load Kernel Module drm...
+[    8.804757] systemd[1]: Starting [REDACTED_USER]@efi_pstore.service - Load Kernel Module efi_pstore...
+[    8.806210] systemd[1]: Starting [REDACTED_USER]@fuse.service - Load Kernel Module fuse...
+[    8.808022] systemd[1]: Starting [REDACTED_USER]@loop.service - Load Kernel Module loop...
+[    8.808093] systemd[1]: plymouth-switch-[REDACTED_USER].service: Deactivated successfully.
+[    8.808187] systemd[1]: Stopped plymouth-switch-[REDACTED_USER].service - Plymouth switch [REDACTED_USER] service.
+[    8.808421] systemd[1]: systemd-fsck-[REDACTED_USER].service: Deactivated successfully.
+[    8.808575] systemd[1]: Stopped systemd-fsck-[REDACTED_USER].service - File System Check on [REDACTED_USER] Device.
 [    8.808820] systemd[1]: systemd-hibernate-clear.service - Clear Stale Hibernate Storage Info was skipped because of an unmet condition check (ConditionPathExists=/sys/firmware/efi/efivars/HibernateLocation-8cf2644b-4b0b-428f-9387-6d876050dc67).
 [    8.811864] systemd[1]: Starting systemd-journald.service - Journal Service...
 [    8.813479] systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
 [    8.814858] systemd[1]: Starting systemd-network-generator.service - Generate network units from Kernel command line...
 [    8.814926] systemd[1]: systemd-pcrmachine.service - TPM PCR Machine ID Measurement was skipped because of an unmet condition check (ConditionSecurity=measured-uki).
-[    8.816507] systemd[1]: Starting systemd-remount-fs.service - Remount Root and Kernel File Systems...
+[    8.816507] systemd[1]: Starting systemd-remount-fs.service - Remount [REDACTED_USER] and Kernel File Systems...
 [    8.816619] systemd[1]: systemd-tpm2-setup-early.service - Early TPM SRK Setup was skipped because of an unmet condition check (ConditionSecurity=measured-uki).
 [    8.818116] systemd[1]: Starting systemd-udev-load-credentials.service - Load udev Rules from Credentials...
 [    8.819542] systemd[1]: Starting systemd-udev-trigger.service - Coldplug All udev Devices...
@@ -1054,27 +1054,27 @@
 [    8.826282] systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
 [    8.826529] systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
 [    8.827716] systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
-[    8.828264] systemd[1]: modprobe@configfs.service: Deactivated successfully.
-[    8.828595] systemd[1]: Finished modprobe@configfs.service - Load Kernel Module configfs.
-[    8.829300] systemd[1]: modprobe@dm_mod.service: Deactivated successfully.
-[    8.829780] systemd[1]: Finished modprobe@dm_mod.service - Load Kernel Module dm_mod.
-[    8.830457] systemd[1]: modprobe@drm.service: Deactivated successfully.
-[    8.830879] systemd[1]: Finished modprobe@drm.service - Load Kernel Module drm.
-[    8.831525] systemd[1]: modprobe@efi_pstore.service: Deactivated successfully.
-[    8.831831] systemd[1]: Finished modprobe@efi_pstore.service - Load Kernel Module efi_pstore.
-[    8.832264] systemd[1]: modprobe@fuse.service: Deactivated successfully.
-[    8.832644] systemd[1]: Finished modprobe@fuse.service - Load Kernel Module fuse.
-[    8.833187] systemd[1]: modprobe@loop.service: Deactivated successfully.
-[    8.833521] systemd[1]: Finished modprobe@loop.service - Load Kernel Module loop.
+[    8.828264] systemd[1]: [REDACTED_USER]@configfs.service: Deactivated successfully.
+[    8.828595] systemd[1]: Finished [REDACTED_USER]@configfs.service - Load Kernel Module configfs.
+[    8.829300] systemd[1]: [REDACTED_USER]@dm_mod.service: Deactivated successfully.
+[    8.829780] systemd[1]: Finished [REDACTED_USER]@dm_mod.service - Load Kernel Module dm_mod.
+[    8.830457] systemd[1]: [REDACTED_USER]@drm.service: Deactivated successfully.
+[    8.830879] systemd[1]: Finished [REDACTED_USER]@drm.service - Load Kernel Module drm.
+[    8.831525] systemd[1]: [REDACTED_USER]@efi_pstore.service: Deactivated successfully.
+[    8.831831] systemd[1]: Finished [REDACTED_USER]@efi_pstore.service - Load Kernel Module efi_pstore.
+[    8.832264] systemd[1]: [REDACTED_USER]@fuse.service: Deactivated successfully.
+[    8.832644] systemd[1]: Finished [REDACTED_USER]@fuse.service - Load Kernel Module fuse.
+[    8.833187] systemd[1]: [REDACTED_USER]@loop.service: Deactivated successfully.
+[    8.833521] systemd[1]: Finished [REDACTED_USER]@loop.service - Load Kernel Module loop.
 [    8.834129] systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
 [    8.835118] systemd[1]: Finished systemd-network-generator.service - Generate network units from Kernel command line.
-[    8.835676] systemd[1]: Finished systemd-remount-fs.service - Remount Root and Kernel File Systems.
+[    8.835676] systemd[1]: Finished systemd-remount-fs.service - Remount [REDACTED_USER] and Kernel File Systems.
 [    8.836283] systemd[1]: iscsi-onboot.service - Special handling of early boot iSCSI sessions was skipped because of an unmet condition check (ConditionDirectoryNotEmpty=/sys/class/iscsi_session).
 [    8.836781] systemd[1]: systemd-hwdb-update.service - Rebuild Hardware Database was skipped because of an unmet condition check (ConditionNeedsUpdate=/etc).
 [    8.836867] systemd[1]: systemd-pstore.service - Platform Persistent Storage Archival was skipped because of an unmet condition check (ConditionDirectoryNotEmpty=/sys/fs/pstore).
 [    8.838299] systemd-journald[944]: Collecting audit messages is enabled.
 [    8.838439] systemd[1]: Starting systemd-random-seed.service - Load/Save OS Random Seed...
-[    8.838532] systemd[1]: systemd-repart.service - Repartition Root Disk was skipped because no trigger condition checks were met.
+[    8.838532] systemd[1]: systemd-repart.service - Repartition [REDACTED_USER] Disk was skipped because no trigger condition checks were met.
 [    8.839955] systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
 [    8.841348] systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
 [    8.841410] systemd[1]: systemd-tpm2-setup.service - TPM SRK Setup was skipped because of an unmet condition check (ConditionSecurity=measured-uki).
@@ -1158,8 +1158,8 @@
 [    9.878903] amd_atl: AMD Address Translation Library initialized
 [    9.955385] rtw89_8852be 0000:02:00.0: loaded firmware rtw89/rtw8852b_fw-1.bin
 [    9.955469] rtw89_8852be 0000:02:00.0: enabling device (0000 -> 0003)
-[    9.963213] rtw89_8852be 0000:02:00.0: Firmware version 0.29.128.0 (418a672d), cmd version 0, type 5
-[    9.963220] rtw89_8852be 0000:02:00.0: Firmware version 0.29.128.0 (418a672d), cmd version 0, type 3
+[    9.963213] rtw89_8852be 0000:02:00.0: Firmware version [REDACTED_IP] (418a672d), cmd version 0, type 5
+[    9.963220] rtw89_8852be 0000:02:00.0: Firmware version [REDACTED_IP] (418a672d), cmd version 0, type 3
 [   10.179955] Bluetooth: hci0: RTL: fw version 0x098b154b
 [   10.285403] rtw89_8852be 0000:02:00.0: chip rfe_type is 1
 [   10.307982] Bluetooth: hci0: AOSP extensions version v1.00
@@ -1172,15 +1172,15 @@
 [   10.432549] Bluetooth: MGMT ver 1.23
 [   10.505951] block nvme0n1: No UUID available providing old NGUID
 [   10.597931] NET: Registered PF_QIPCRTR protocol family
-[   15.254454] wlp2s0: authenticate with 78:f1:c6:bc:41:8f (local address=92:a0:d0:0c:eb:9d)
-[   15.254461] wlp2s0: send auth to 78:f1:c6:bc:41:8f (try 1/3)
-[   15.259167] wlp2s0: authenticate with 78:f1:c6:bc:41:8f (local address=92:a0:d0:0c:eb:9d)
-[   15.259178] wlp2s0: send auth to 78:f1:c6:bc:41:8f (try 1/3)
+[   15.254454] wlp2s0: authenticate with [REDACTED_MAC] (local address=[REDACTED_MAC])
+[   15.254461] wlp2s0: send auth to [REDACTED_MAC] (try 1/3)
+[   15.259167] wlp2s0: authenticate with [REDACTED_MAC] (local address=[REDACTED_MAC])
+[   15.259178] wlp2s0: send auth to [REDACTED_MAC] (try 1/3)
 [   15.261523] wlp2s0: authenticated
-[   15.262360] wlp2s0: associate with 78:f1:c6:bc:41:8f (try 1/3)
-[   15.275227] wlp2s0: RX AssocResp from 78:f1:c6:bc:41:8f (capab=0x1111 status=0 aid=3)
+[   15.262360] wlp2s0: associate with [REDACTED_MAC] (try 1/3)
+[   15.275227] wlp2s0: RX AssocResp from [REDACTED_MAC] (capab=0x1111 status=0 aid=3)
 [   15.383962] wlp2s0: associated
-[   15.384017] wlp2s0: Limiting TX power to 30 (30 - 0) dBm as advertised by 78:f1:c6:bc:41:8f
+[   15.384017] wlp2s0: Limiting TX power to 30 (30 - 0) dBm as advertised by [REDACTED_MAC]
 [   18.578902] rfkill: input handler disabled
 [   19.399157] Bluetooth: RFCOMM TTY layer initialized
 [   19.399176] Bluetooth: RFCOMM socket layer initialized

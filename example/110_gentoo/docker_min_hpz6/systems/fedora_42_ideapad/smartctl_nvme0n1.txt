@@ -15,7 +15,7 @@ Namespace 1 Formatted LBA Size:     512
 Namespace 1 IEEE EUI-64:            707c18 0215020aa9
 Local Time is:                      Sat Aug 30 08:01:23 2025 CEST
 Firmware Updates (0x12):            1 Slot, no Reset required
-Optional Admin Commands (0x0016):   Format Frmw_DL Self_Test
+Optional [REDACTED_USER] Commands (0x0016):   Format Frmw_DL Self_Test
 Optional NVM Commands (0x009f):     Comp Wr_Unc DS_Mngmt Wr_Zero Sav/Sel_Feat Verify
 Log Page Attributes (0x12):         Cmd_Eff_Lg Pers_Ev_Lg
 Maximum Data Transfer Size:         64 Pages

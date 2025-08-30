@@ -1,5 +1,5 @@
 
-Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
 Negotiated speed: High Speed (480Mbps)
 Device Descriptor:
   bLength                18
@@ -10,7 +10,7 @@ Device Descriptor:
   bDeviceProtocol         1 Single TT
   bMaxPacketSize0        64
   idVendor           0x1d6b Linux Foundation
-  idProduct          0x0002 2.0 root hub
+  idProduct          0x0002 2.0 [REDACTED_USER] hub
   bcdDevice            6.15
   iManufacturer           3 Linux 6.15.10-200.fc42.x86_64 xhci-hcd
   iProduct                2 xHCI Host Controller
@@ -35,7 +35,7 @@ Device Descriptor:
       bNumEndpoints           1
       bInterfaceClass         9 Hub
       bInterfaceSubClass      0 [unknown]
-      bInterfaceProtocol      0 Full speed (or root) hub
+      bInterfaceProtocol      0 Full speed (or [REDACTED_USER]) hub
       iInterface              0 
       Endpoint Descriptor:
         bLength                 7
@@ -808,7 +808,7 @@ Binary Object Store Descriptor:
 Device Status:     0x0000
   (Bus Powered)
 
-Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
 Negotiated speed: SuperSpeed+ (10Gbps)
 Device Descriptor:
   bLength                18
@@ -819,7 +819,7 @@ Device Descriptor:
   bDeviceProtocol         3 
   bMaxPacketSize0         9
   idVendor           0x1d6b Linux Foundation
-  idProduct          0x0003 3.0 root hub
+  idProduct          0x0003 3.0 [REDACTED_USER] hub
   bcdDevice            6.15
   iManufacturer           3 Linux 6.15.10-200.fc42.x86_64 xhci-hcd
   iProduct                2 xHCI Host Controller
@@ -844,7 +844,7 @@ Device Descriptor:
       bNumEndpoints           1
       bInterfaceClass         9 Hub
       bInterfaceSubClass      0 [unknown]
-      bInterfaceProtocol      0 Full speed (or root) hub
+      bInterfaceProtocol      0 Full speed (or [REDACTED_USER]) hub
       iInterface              0 
       Endpoint Descriptor:
         bLength                 7
@@ -907,7 +907,7 @@ Hub Descriptor:
 Device Status:     0x0001
   Self Powered
 
-Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
 Negotiated speed: High Speed (480Mbps)
 Device Descriptor:
   bLength                18
@@ -918,7 +918,7 @@ Device Descriptor:
   bDeviceProtocol         1 Single TT
   bMaxPacketSize0        64
   idVendor           0x1d6b Linux Foundation
-  idProduct          0x0002 2.0 root hub
+  idProduct          0x0002 2.0 [REDACTED_USER] hub
   bcdDevice            6.15
   iManufacturer           3 Linux 6.15.10-200.fc42.x86_64 xhci-hcd
   iProduct                2 xHCI Host Controller
@@ -943,7 +943,7 @@ Device Descriptor:
       bNumEndpoints           1
       bInterfaceClass         9 Hub
       bInterfaceSubClass      0 [unknown]
-      bInterfaceProtocol      0 Full speed (or root) hub
+      bInterfaceProtocol      0 Full speed (or [REDACTED_USER]) hub
       iInterface              0 
       Endpoint Descriptor:
         bLength                 7
@@ -1390,7 +1390,7 @@ Binary Object Store Descriptor:
 Device Status:     0x0000
   (Bus Powered)
 
-Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
 Negotiated speed: SuperSpeed+ (10Gbps)
 Device Descriptor:
   bLength                18
@@ -1401,7 +1401,7 @@ Device Descriptor:
   bDeviceProtocol         3 
   bMaxPacketSize0         9
   idVendor           0x1d6b Linux Foundation
-  idProduct          0x0003 3.0 root hub
+  idProduct          0x0003 3.0 [REDACTED_USER] hub
   bcdDevice            6.15
   iManufacturer           3 Linux 6.15.10-200.fc42.x86_64 xhci-hcd
   iProduct                2 xHCI Host Controller
@@ -1426,7 +1426,7 @@ Device Descriptor:
       bNumEndpoints           1
       bInterfaceClass         9 Hub
       bInterfaceSubClass      0 [unknown]
-      bInterfaceProtocol      0 Full speed (or root) hub
+      bInterfaceProtocol      0 Full speed (or [REDACTED_USER]) hub
       iInterface              0 
       Endpoint Descriptor:
         bLength                 7
