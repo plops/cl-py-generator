@@ -51,11 +51,16 @@ mac_regex='([0-9A-Fa-f]{2}([:-])){5}[0-9A-Fa-f]{2}'
 # common system usernames to redact (additional names will be caught by home-path and uid patterns)
 common_users='root|admin|ubuntu|user|pi|debian|centos|ec2-user|azureuser|git'
 
+# backup tracking: collect .bak files created by this run
+bak_files=()
+
 # backup and process each file
 for file in "${files[@]}"; do
     [ -f "$file" ] || continue
     bak="${file}.bak"
     cp -a -- "$file" "$bak"
+    # record this backup so we can remove it after the script finishes
+    bak_files+=("$bak")
     #echo "Processing $file (backup -> $bak)..."
 
     # Count matches before
@@ -144,5 +149,16 @@ for file in "${files[@]}"; do
 
     # Diagnostic output removed (script still keeps .bak copies).
 done
+
+# remove .bak files created by this run
+removed=0
+for b in "${bak_files[@]}"; do
+    if [ -f "$b" ]; then
+        rm -f -- "$b"
+        removed=$((removed+1))
+    fi
+done
+
+printf 'Removed %d .bak file(s).\n' "$removed"
 
 echo "Anonymization complete."
