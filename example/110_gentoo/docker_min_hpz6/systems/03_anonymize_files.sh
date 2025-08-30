@@ -51,6 +51,18 @@ mac_regex='([0-9A-Fa-f]{2}([:-])){5}[0-9A-Fa-f]{2}'
 # common system usernames to redact (additional names will be caught by home-path and uid patterns)
 common_users='root|admin|ubuntu|user|pi|debian|centos|ec2-user|azureuser|git'
 
+# Detect current user and prepare an escaped regex-safe version for targeted redaction
+CURRENT_USER="$(id -un 2>/dev/null || true)"
+if [ -z "$CURRENT_USER" ] && [ -n "${USER:-}" ]; then
+    CURRENT_USER="$USER"
+fi
+if [ -n "$CURRENT_USER" ]; then
+    # escape characters that are special in sed/regex
+    esc_current_user="$(printf '%s' "$CURRENT_USER" | sed -e 's/[][\/.^$*+?(){}|]/\\&/g')"
+else
+    esc_current_user=""
+fi
+
 # backup tracking: collect .bak files created by this run
 bak_files=()
 
@@ -114,6 +126,17 @@ for file in "${files[@]}"; do
     sed -E -i "s/(uid=[0-9]+)\([[:alnum:]_@.-]+\)/\\1(REDACTED)/g" "$tmp" 2>/dev/null || true
     # common usernames as whole words -> [REDACTED_USER]
     sed -E -i "s/\\b($common_users)\\b/[REDACTED_USER]/gi" "$tmp" 2>/dev/null || true
+
+    # Also redact the current user explicitly (whole-word, ~user, and user@host)
+    if [ -n "$esc_current_user" ]; then
+        # whole-word instances of the current username
+        sed -E -i "s/\\b${esc_current_user}\\b/[REDACTED_USER]/g" "$tmp" 2>/dev/null || true
+        # ~username shorthand
+        sed -E -i "s#~${esc_current_user}#~REDACTED#g" "$tmp" 2>/dev/null || true
+        # username@host -> [REDACTED_USER]@host
+        sed -E -i "s/(${esc_current_user})@([[:alnum:]_.-]+)/[REDACTED_USER]@\\2/g" "$tmp" 2>/dev/null || true
+    fi
+
     # username@host patterns -> [REDACTED_USER]@
     sed -E -i "s/([[:alnum:]_@.-]+)@([[:alnum:]_.-]+)/[REDACTED_USER]@\\2/g" "$tmp" 2>/dev/null || true
 
