@@ -76,7 +76,7 @@ fedora
           version: 25.80.0
           serial: Null
           slot: FP6
-          size: 1454MHz
+          size: 1110MHz
           capacity: 4390MHz
           width: 64 bits
           clock: 100MHz
@@ -204,19 +204,17 @@ fedora
                    size: 931GiB (1TB)
                    capabilities: gpt-1.00 partitioned partitioned:gpt
                    configuration: guid=df7f2ff5-fe39-46df-a4e2-e4821501dfce logicalsectorsize=512 sectorsize=512 wwid=eui.0000000000000000707c180215020aa9
-                 *-volume:0
+                 *-volume:0 UNCLAIMED
                       description: Windows FAT volume
                       vendor: mkfs.fat
                       physical id: 1
                       bus info: [REDACTED_USER]@0:1,1
-                      logical name: /dev/nvme0n1p1
-                      logical name: /boot/efi
                       version: FAT32
                       serial: f63d-5318
                       size: 1022MiB
                       capacity: 1023MiB
                       capabilities: boot fat initialized
-                      configuration: FATs=2 filesystem=fat mount.fstype=vfat mount.options=rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=winnt,errors=remount-ro name=EFI System Partition state=mounted
+                      configuration: FATs=2 filesystem=fat name=EFI System Partition
                  *-volume:1
                       description: swap partition
                       vendor: Linux
@@ -238,7 +236,7 @@ fedora
                       serial: 80b66b33-ce31-4a54-9adc-b6c72fe3a826
                       size: 50GiB
                       capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
-                      configuration: created=2023-07-12 16:57:54 filesystem=ext4 lastmountpoint=/mnt3 modified=2025-08-29 19:45:48 mounted=2025-08-29 19:45:48 state=clean
+                      configuration: created=2023-07-12 16:57:54 filesystem=ext4 lastmountpoint=/mnt3 modified=2025-08-30 08:08:58 mounted=2025-08-30 08:08:58 state=clean
                  *-volume:3
                       description: EFI partition
                       physical id: 4

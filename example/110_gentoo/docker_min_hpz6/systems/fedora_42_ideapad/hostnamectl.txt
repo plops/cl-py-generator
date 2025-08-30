@@ -1,0 +1,19 @@
+     Static hostname: (unset)
+  Transient hostname: fedora
+           Icon name: computer-laptop
+             Chassis: laptop 💻
+          Machine ID: a7f98636703f49dda29ba1eb73c4d650
+             Boot ID: 99587e04141345ab91030efa08018d3f
+        Product UUID: 470b3d6d-b944-11ec-80f2-6c24082e961b
+    Operating System: Fedora Linux 42 (Workstation Edition)
+         CPE OS Name: cpe:/o:fedoraproject:fedora:42
+      OS Support End: Wed 2026-05-13
+OS Support Remaining: 8month 1w 5d
+              Kernel: Linux 6.15.10-200.fc42.x86_64
+        Architecture: x86-64
+     Hardware Vendor: Lenovo
+      Hardware Model: IdeaPad 3 15ABA7
+     Hardware Serial: PF3RDZY1
+    Firmware Version: JTCN42WW
+       Firmware Date: Tue 2023-01-10
+        Firmware Age: 2y 7month 2w 5d

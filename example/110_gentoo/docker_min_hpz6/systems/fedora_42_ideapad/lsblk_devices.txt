@@ -1,0 +1,3 @@
+sda     disk 238.5G SanDisk SD7TB3Q-256G-1006 ATA     
+zram0   disk     8G                           
+nvme0n1 disk 931.5G ADATA LEGEND 800          
