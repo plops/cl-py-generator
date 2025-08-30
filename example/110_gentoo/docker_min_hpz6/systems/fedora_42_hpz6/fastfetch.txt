@@ -18,23 +18,23 @@ ccccccccccccccccccccccccccccc:'.
 :ccccccccccccccccccccccc:;,..
  ':cccccccccccccccc::;,.[1G[18A[[REDACTED_USER]@fedora
 [42C-----------
-[42COS: Fedora Linux 41 (Workstation Edition) x86_64
+[42COS: Fedora Linux 42 (Workstation Edition) x86_64
 [42CHost: HP Z6 G5 A Workstation Desktop PC (SBKPF)
-[42CKernel: Linux 6.16.3-100.fc41.x86_64
-[42CUptime: 4 mins
-[42CPackages: 2091 (rpm)
-[42CShell: bash 5.2.32
+[42CKernel: Linux 6.16.3-200.fc42.x86_64
+[42CUptime: 13 mins
+[42CPackages: 2132 (rpm)
+[42CShell: bash 5.2.37
 [42CDisplay (DP-1): 1080x1920 @ 60 Hz in 24" [External]
 [42CDisplay (DP-2): 1080x1920 @ 60 Hz in 24" [External]
 [42CWM: Mutter (X11)
 [42CCursor: Adwaita
-[42CTerminal: Ptyxis 47.13
-[42CTerminal Font: Source Code Pro (10pt)
+[42CTerminal: Ptyxis 48.5
+[42CTerminal Font: Adwaita Mono (11pt)
 [42CCPU: AMD Ryzen Threadripper PRO 7955WXs (32) @ 5.38 GHz
 [42CGPU: NVIDIA RTX A4000
-[42CMemory: 2.46 GiB / 62.17 GiB (4%)
+[42CMemory: 2.13 GiB / 62.17 GiB (3%)
 [42CSwap: 0 B / 8.00 GiB (0%)
-[42CDisk (/): 9.32 GiB / 21.98 GiB (42%) - ext4
+[42CDisk (/): 8.75 GiB / 21.98 GiB (40%) - ext4
 [42CLocal IP (eno1): [REDACTED_IP]/23
 [42CLocale: en_US.UTF-8
 [42C

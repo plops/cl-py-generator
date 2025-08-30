@@ -1,6 +1,6 @@
 Module                  Size  Used by
 overlay               249856  0
-uinput                 28672  0
+uinput                 32768  0
 snd_seq_dummy          12288  0
 snd_hrtimer            12288  1
 nf_conntrack_netbios_ns    12288  1
@@ -13,74 +13,67 @@ nft_reject_inet        12288  10
 nf_reject_ipv4         12288  1 nft_reject_inet
 nf_reject_ipv6         20480  1 nft_reject_inet
 nft_reject             12288  1 nft_reject_inet
-nft_ct                 28672  8
+nft_ct                 28672  9
 nft_chain_nat          12288  3
-nf_nat                 69632  1 nft_chain_nat
-nf_conntrack          217088  4 nf_nat,nft_ct,nf_conntrack_netbios_ns,nf_conntrack_broadcast
+nf_nat                 65536  1 nft_chain_nat
+nf_conntrack          212992  4 nf_nat,nft_ct,nf_conntrack_netbios_ns,nf_conntrack_broadcast
 nf_defrag_ipv6         24576  1 nf_conntrack
 nf_defrag_ipv4         12288  1 nf_conntrack
-ip_set                 69632  0
-nf_tables             434176  298 nft_ct,nft_reject_inet,nft_fib_ipv6,nft_fib_ipv4,nft_chain_nat,nft_reject,nft_fib,nft_fib_inet
+nf_tables             430080  301 nft_ct,nft_reject_inet,nft_fib_ipv6,nft_fib_ipv4,nft_chain_nat,nft_reject,nft_fib,nft_fib_inet
+cdc_ncm                53248  0
 qrtr                   57344  2
-cdc_ncm                57344  0
 cdc_ether              24576  1 cdc_ncm
 usbnet                 61440  2 cdc_ncm,cdc_ether
 mii                    16384  1 usbnet
 ipheth                 20480  0
 lm92                   12288  0
-sunrpc                925696  1
 binfmt_misc            28672  1
 vfat                   24576  1
 fat                   126976  1 vfat
+snd_hda_codec_realtek   233472  1
 amd_atl                77824  1
 intel_rapl_msr         20480  0
-snd_hda_codec_realtek   229376  1
 intel_rapl_common      61440  1 intel_rapl_msr
-amd64_edac             98304  0
-snd_hda_codec_generic   135168  1 snd_hda_codec_realtek
-edac_mce_amd           40960  1 amd64_edac
+snd_hda_codec_generic   139264  1 snd_hda_codec_realtek
+amd64_edac             94208  0
 snd_hda_scodec_component    20480  1 snd_hda_codec_realtek
+edac_mce_amd           40960  1 amd64_edac
 snd_hda_codec_hdmi    102400  1
 kvm_amd               258048  0
-snd_hda_intel          73728  6
+snd_hda_intel          73728  4
 snd_intel_dspcfg       45056  1 snd_hda_intel
 snd_intel_sdw_acpi     16384  1 snd_intel_dspcfg
+snd_hda_codec         233472  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek
 kvm                  1490944  1 kvm_amd
-snd_hda_codec         229376  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek
 snd_hda_core          159744  5 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek
 snd_hwdep              24576  1 snd_hda_codec
-snd_seq               139264  7 snd_seq_dummy
-snd_seq_device         16384  1 snd_seq
+snd_seq               135168  7 snd_seq_dummy
 hp_wmi                 45056  0
-irqbypass              16384  1 kvm
-sparse_keymap          12288  1 hp_wmi
+snd_seq_device         16384  1 snd_seq
 spd5118                16384  0
-joydev                 36864  0
-apple_mfi_fastcharge    16384  0
-snd_pcm               212992  5 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core
+sparse_keymap          12288  1 hp_wmi
+snd_pcm               208896  4 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core
 platform_profile       16384  1 hp_wmi
-rapl                   20480  0
-r8169                 151552  0
+irqbypass              16384  1 kvm
 rfkill                 45056  4 hp_wmi
+apple_mfi_fastcharge    16384  0
+rapl                   20480  0
 wmi_bmof               12288  0
-snd_timer              57344  3 snd_seq,snd_hrtimer,snd_pcm
 pcspkr                 12288  0
-igc                   241664  0
-snd                   151552  23 snd_hda_codec_generic,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_timer,snd_pcm
+snd_timer              57344  3 snd_seq,snd_hrtimer,snd_pcm
+snd                   155648  20 snd_hda_codec_generic,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_timer,snd_pcm
 i2c_piix4              40960  0
-realtek                57344  1
+k10temp                16384  0
 soundcore              12288  1 snd
 i2c_smbus              20480  1 i2c_piix4
-k10temp                16384  0
+joydev                 36864  0
 gpio_amdpt             16384  0
 gpio_generic           20480  1 gpio_amdpt
 loop                   49152  0
-nfnetlink              24576  4 nf_tables,ip_set
 zram                   73728  1
 lz4hc_compress         20480  1 zram
 lz4_compress           24576  1 zram
-nouveau              3969024  12
-hid_cherry             12288  0
+nouveau              3985408  18
 drm_ttm_helper         16384  1 nouveau
 ttm                   135168  2 drm_ttm_helper,nouveau
 video                  81920  1 nouveau
@@ -89,22 +82,33 @@ i2c_algo_bit           20480  1 nouveau
 ucsi_acpi              12288  0
 typec_ucsi             77824  1 ucsi_acpi
 drm_gpuvm              49152  1 nouveau
-nvme                   77824  2
-typec                 122880  1 typec_ucsi
 drm_exec               12288  2 drm_gpuvm,nouveau
+nvme                   73728  2
+typec                 118784  1 typec_ucsi
 mxm_wmi                12288  1 nouveau
-drm_display_helper    327680  1 nouveau
-nvme_core             278528  3 nvme
 polyval_clmulni        12288  0
-thunderbolt           606208  1 typec
+nvme_core             274432  3 nvme
+drm_display_helper    327680  1 nouveau
+thunderbolt           602112  1 typec
 ghash_clmulni_intel    12288  0
 sha512_ssse3           49152  0
+igc                   241664  0
 sha1_ssse3             32768  0
+r8169                 151552  0
 serio_raw              20480  0
 nvme_keyring           20480  1 nvme_core
-cec                   106496  1 drm_display_helper
 nvme_auth              32768  1 nvme_core
+cec                   106496  1 drm_display_helper
+realtek                53248  1
 sp5100_tco             20480  0
 wmi                    32768  5 hp_wmi,video,wmi_bmof,mxm_wmi,nouveau
+hid_cherry             12288  0
 hid_plantronics        16384  0
+sunrpc                921600  1
+iscsi_tcp              28672  0
+libiscsi_tcp           40960  1 iscsi_tcp
+libiscsi               94208  2 libiscsi_tcp,iscsi_tcp
+scsi_transport_iscsi   192512  3 libiscsi_tcp,iscsi_tcp,libiscsi
+i2c_dev                28672  0
 fuse                  282624  5
+nfnetlink              20480  3 nf_tables

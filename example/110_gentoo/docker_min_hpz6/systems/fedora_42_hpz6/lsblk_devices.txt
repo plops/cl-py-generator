@@ -1,3 +1,3 @@
 zram0   disk     8G                         
-nvme1n1 disk 953.9G MTFDKBA1T0TFH-1BC1AABHA 
 nvme0n1 disk 953.9G MTFDKBA1T0TFH-1BC1AABHA 
+nvme1n1 disk 953.9G MTFDKBA1T0TFH-1BC1AABHA 

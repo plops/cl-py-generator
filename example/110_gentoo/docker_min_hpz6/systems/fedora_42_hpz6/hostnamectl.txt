@@ -3,13 +3,13 @@
            Icon name: computer-desktop
              Chassis: desktop 🖥️
           Machine ID: bfc62c5894a442f499300d3f25522fc6
-             Boot ID: 10c4d01975b7424d8d1d7b930069082c
+             Boot ID: f2bcb52d421e49bea15a904af61c2710
         Product UUID: 3381a3ab-3053-4069-b0c3-d3d7a6573c81
-    Operating System: Fedora Linux 41 (Workstation Edition)
-         CPE OS Name: cpe:/o:fedoraproject:fedora:41
-      OS Support End: Mon 2025-12-15
-OS Support Remaining: 3month 2w 1d
-              Kernel: Linux 6.16.3-100.fc41.x86_64
+    Operating System: Fedora Linux 42 (Workstation Edition)
+         CPE OS Name: cpe:/o:fedoraproject:fedora:42
+      OS Support End: Wed 2026-05-13
+OS Support Remaining: 8month 1w 5d
+              Kernel: Linux 6.16.3-200.fc42.x86_64
         Architecture: x86-64
      Hardware Vendor: HP
       Hardware Model: HP Z6 G5 A Workstation Desktop PC
