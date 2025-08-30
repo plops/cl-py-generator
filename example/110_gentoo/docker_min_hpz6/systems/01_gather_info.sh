@@ -1,16 +1,20 @@
 #!/bin/bash
-
-# Gather comprehensive system information. This is helpful to find the correct
-# drivers and settings for a specific hardware setup. If you have a new computer
-# you can run a Fedora or Ubuntu live system and execute this script there.
-# The output files can then be used to build a bespoke Gentoo configuration
-# in the docker container.
-
-# Use 00_setup_gather_dependencies.sh to install required tools (should work for Ubuntu,
-# Debian, Fedora and Arch)
-
-# Create a folder (e.g. mkdir fedora_hpz6) and then go into the folder and run
-# this script `sudo ../01_gather_info.sh`.
+# Gather hardware-only information for offline hardware configuration.
+# Purpose:
+#  - Collect details about CPU, memory, buses, block devices, firmware/BIOS,
+#    PCI/USB devices, kernel modules, sensors and SMART data.
+#  - Avoid collecting intrusive information: no network config or IPs,
+#    no local users, no running process lists, and do not read per-system
+#    config files like /etc/fstab or /etc/os-release.
+#
+# Usage:
+#  - Create an empty directory, cd into it, then run:
+#      sudo ../01_gather_info.sh
+#
+# Privacy: this script intentionally avoids collecting network, user or
+# filesystem-specific confidential data. It focuses on hardware description
+# only so the outputs are suitable for building a minimal OS/kernel/driver
+# configuration.
 
 # Helper: record missing tools and optionally run commands with warnings.
 MISSING_TOOLS=()
@@ -76,16 +80,44 @@ report_missing_tools() {
     fi
 }
 
+# Hardware probes (non-intrusive)
+# CPU and kernel
 cat /proc/cpuinfo > cpuinfo.txt
-dmesg > dmesg.txt
-run_or_warn fastfetch.txt fastfetch
-run_or_warn lshw.txt lshw
+uname -a > uname.txt
+run_or_warn lscpu.txt lscpu
+
+# Kernel modules (helps identify loaded drivers)
 run_or_warn lsmod.txt lsmod
+
+# PCI/USB buses and system topology
 run_or_warn lspci.txt lspci
 run_or_warn lsusb.txt lsusb
-uname -a > uname.txt
+run_or_warn lshw.txt lshw
 
-# Collect SMART info for all disks
+# DMI / firmware / BIOS information (may require root)
+if check_tool dmidecode; then
+    dmidecode > dmidecode.txt 2>/dev/null || echo "dmidecode failed or requires root" > dmidecode.txt
+else
+    echo "dmidecode requires root or is not installed" > dmidecode.txt
+fi
+
+# Memory (hardware-related only)
+cat /proc/meminfo > meminfo.txt
+run_or_warn free.txt free -h
+
+# Block devices: use non-invasive listing that focuses on device attributes
+# (avoid printing mount paths or file contents)
+if check_tool lsblk; then
+    # -d = only devices, -n = no headings, -o = selected columns
+    lsblk -dn -o NAME,TYPE,SIZE,MODEL,VENDOR > lsblk_devices.txt 2>/dev/null || echo "lsblk failed" > lsblk_devices.txt
+else
+    echo "lsblk not available" > lsblk_devices.txt
+fi
+
+# Also capture full lsblk output (devices + children) for topology reference
+run_or_warn lsblk_all.txt lsblk -a
+
+# SMART info for block devices
 for disk in /dev/sd? /dev/sd?? /dev/nvme[0-9]n[0-9] /dev/hd?; do
     [ -b "$disk" ] || continue
     if check_tool smartctl; then
@@ -95,56 +127,45 @@ for disk in /dev/sd? /dev/sd?? /dev/nvme[0-9]n[0-9] /dev/hd?; do
     fi
 done
 
-# CPU & hardware
-run_or_warn lscpu.txt lscpu
-if check_tool dmidecode; then
-    dmidecode > dmidecode.txt 2>/dev/null || echo "dmidecode failed or requires root" > dmidecode.txt
-else
-    echo "dmidecode requires root or is not installed" > dmidecode.txt
-fi
-
-# Memory & storage
-cat /proc/meminfo > meminfo.txt
-free -h > free.txt
-df -h > df.txt
-lsblk -a > lsblk.txt
-if check_tool blkid; then
-    blkid > blkid.txt 2>/dev/null || echo "blkid may require root" > blkid.txt
-else
-    echo "blkid not available" > blkid.txt
-fi
-if check_tool fdisk; then
-    fdisk -l > fdisk.txt 2>/dev/null || echo "fdisk may require root" > fdisk.txt
-else
-    echo "fdisk not available" > fdisk.txt
-fi
-
-# Sensors / temps (may need lm-sensors installed)
+# Sensors / temps (may need lm-sensors)
 if check_tool sensors; then
     sensors > sensors.txt 2>/dev/null || echo "sensors failed" > sensors.txt
 else
     echo "sensors not available" > sensors.txt
 fi
 
-# OS & boot
-cat /etc/os-release > os-release.txt 2>/dev/null || echo "no /etc/os-release" > os-release.txt
-hostnamectl > hostnamectl.txt 2>/dev/null || hostname > hostnamectl.txt
-cat /etc/fstab > fstab.txt 2>/dev/null || echo "no /etc/fstab" > fstab.txt
-if check_tool journalctl; then
-    journalctl -b > journalctl.txt 2>/dev/null || echo "journalctl may require root or systemd" > journalctl.txt
+# Additional non-identifying system files requested by user:
+# - blkid, df, dmesg: useful for storage/kernel diagnostics
+# - /etc/fstab and /etc/os-release and hostnamectl: saved for offline review then sanitized
+# - fdisk: add partition table listing (fdisk -l) for disk layout info
+run_or_warn fdisk.txt fdisk -l
+run_or_warn blkid.txt blkid
+run_or_warn df.txt df -h
+
+# dmesg may require root to include all messages; try if available
+run_or_warn dmesg.txt dmesg
+
+# Save /etc/fstab and /etc/os-release if readable (these may contain host/user references;
+# they will be anonymized by 03_anonymize_files.sh)
+if [ -r /etc/fstab ]; then
+    cp /etc/fstab fstab.txt 2>/dev/null || { echo "failed to copy /etc/fstab" > fstab.txt; }
 else
-    echo "journalctl may require root or systemd or is not installed" > journalctl.txt
+    echo "/etc/fstab not readable" > fstab.txt
 fi
 
-# Processes & services
-ps aux > ps.txt
-# Try ss first, then netstat
-try_alternatives ss.txt ss -tulpn :: netstat -tulpn || echo "ss/netstat not available or require root" > ss.txt
-if check_tool systemctl; then
-    systemctl list-units --type=service --state=running > running_services.txt 2>/dev/null || echo "systemctl not available or requires root" > running_services.txt
+if [ -r /etc/os-release ]; then
+    cp /etc/os-release os-release.txt 2>/dev/null || { echo "failed to copy /etc/os-release" > os-release.txt; }
 else
-    echo "systemctl not available" > running_services.txt
+    echo "/etc/os-release not readable" > os-release.txt
 fi
 
-# summary of missing tools
+# hostnamectl (may show hostname/pretty name; will be sanitized by anonymizer)
+run_or_warn hostnamectl.txt hostnamectl
+
+# System overview (non-identifying)
+run_or_warn fastfetch.txt fastfetch
+
+# Final summary of missing tools
 report_missing_tools
+
+# End of hardware-only gather script

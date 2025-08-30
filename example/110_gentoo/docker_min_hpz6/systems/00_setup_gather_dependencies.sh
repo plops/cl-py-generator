@@ -1,5 +1,13 @@
 #!/bin/bash
-# Setup script to install tools required by 01_gather_info.sh
+# Install required tools for the hardware-only gather script (01_gather_info.sh).
+#
+# Purpose:
+#  - Ensure the minimal set of utilities that probe hardware are present:
+#    fastfetch, lshw, lspci, lsusb, smartctl, dmidecode, lscpu, lsmod, sensors, lsblk.
+#  - Do not install or enable tools that gather network, user or process info.
+#
+# Usage: run as root or with sudo; the script will detect distro and install
+# appropriate packages for the reduced toolset.
 
 set -euo pipefail
 
@@ -24,11 +32,10 @@ else
     exit 1
 fi
 
-# required commands used by 01_gather_info.sh
-required_cmds=(fastfetch lshw lspci lsusb smartctl dmidecode lscpu lsmod uname \
-               sensors lsblk blkid fdisk hostnamectl journalctl ps ss netstat systemctl)
+# reduced set of required commands used by the hardware-only gather script
+required_cmds=(fastfetch lshw lspci lsusb smartctl dmidecode lscpu lsmod sensors lsblk blkid df dmesg fdisk hostnamectl)
 
-# per-distro mapping from command -> package
+# per-distro mapping from command -> package (only entries for the reduced set)
 declare -A pkg_debian=(
     [fastfetch]=fastfetch
     [lshw]=lshw
@@ -41,13 +48,10 @@ declare -A pkg_debian=(
     [sensors]=lm-sensors
     [lsblk]=util-linux
     [blkid]=util-linux
+    [df]=util-linux
+    [dmesg]=util-linux
     [fdisk]=util-linux
     [hostnamectl]=systemd
-    [journalctl]=systemd
-    [ps]=procps
-    [ss]=iproute2
-    [netstat]=net-tools
-    [systemctl]=systemd
 )
 declare -A pkg_fedora=(
     [fastfetch]=fastfetch
@@ -61,13 +65,10 @@ declare -A pkg_fedora=(
     [sensors]=lm_sensors
     [lsblk]=util-linux
     [blkid]=util-linux
+    [df]=util-linux
+    [dmesg]=util-linux
     [fdisk]=util-linux
     [hostnamectl]=systemd
-    [journalctl]=systemd
-    [ps]=procps-ng
-    [ss]=iproute
-    [netstat]=net-tools
-    [systemctl]=systemd
 )
 declare -A pkg_arch=(
     [fastfetch]=fastfetch
@@ -81,13 +82,10 @@ declare -A pkg_arch=(
     [sensors]=lm_sensors
     [lsblk]=util-linux
     [blkid]=util-linux
+    [df]=util-linux
+    [dmesg]=util-linux
     [fdisk]=util-linux
     [hostnamectl]=systemd
-    [journalctl]=systemd
-    [ps]=procps-ng
-    [ss]=iproute2
-    [netstat]=net-tools
-    [systemctl]=systemd
 )
 declare -A pkg_gentoo=(
     [fastfetch]=app-misc/fastfetch
@@ -101,13 +99,10 @@ declare -A pkg_gentoo=(
     [sensors]=sys-apps/lm-sensors
     [lsblk]=sys-apps/util-linux
     [blkid]=sys-apps/util-linux
+    [df]=sys-apps/util-linux
+    [dmesg]=sys-apps/util-linux
     [fdisk]=sys-apps/util-linux
     [hostnamectl]=sys-apps/systemd
-    [journalctl]=sys-apps/systemd
-    [ps]=sys-process/procps
-    [ss]=net-misc/iproute2
-    [netstat]=net-misc/net-tools
-    [systemctl]=sys-apps/systemd
 )
 
 pkgs_to_install=()
@@ -187,5 +182,5 @@ echo "Installation finished."
 
 # Post-install notes
 if command -v sensors >/dev/null 2>&1; then
-    echo "If lm-sensors was just installed, run 'sudo sensors-detect' and then 'sudo systemctl restart systemd-modules-load.service' (or reboot) to enable sensor modules."
+    echo "If lm-sensors was just installed, run 'sudo sensors-detect' and then reboot or load modules as needed to enable sensors."
 fi
