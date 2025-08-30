@@ -1,0 +1,42 @@
+         -/oyddmdhs+:.
+     -odNMMMMMMMMNNmhy+-`
+   -yNMMMMMMMMMMMNNNmmdhy+-
+ `omMMMMMMMMMMMMNmdmmmmddhhy/`
+ omMMMMMMMMMMMNhhyyyohmdddhhhdo`
+.ydMMMMMMMMMMdhs++so/smdddhhhhdm+`
+ oyhdmNMMMMMMMNdyooydmddddhhhhyhNd.
+  :oyhhdNNMMMMMMMNNNmmdddhhhhhyymMh
+    .:+sydNMMMMMNNNmmmdddhhhhhhmMmy
+       /mMMMMMMNNNmmmdddhhhhhmMNhs:
+    `oNMMMMMMMNNNmmmddddhhdmMNhs+`
+  `sNMMMMMMMMNNNmmmdddddmNMmhs/.
+ /NMMMMMMMMNNNNmmmdddmNMNdso:`
++MMMMMMMNNNNNmmmmdmNMNdso/-
+yMMNNNNNNNmmmmmNNMmhs+/-`
+/hMMNNNNNNNNMNdhs++/-`
+`/ohdmmddhys+++/:.`
+  `-//////:--.[1G[17A[[REDACTED_USER]@localhost
+[39C--------------
+[39COS: Gentoo Linux x86_64
+[39CHost: 82RN (IdeaPad 3 15ABA7)
+[39CKernel: Linux 6.12.31-gentoo
+[39CUptime: 1 hour, 31 mins
+[39CPackages: 784 (emerge)
+[39CShell: bash 5.2.37
+[39CDisplay (AUOE48D): 1920x1080 @ 60 Hz in 16" [Built-in]
+[39CTheme: Adwaita [GTK3]
+[39CIcons: gnome [GTK3]
+[39CCursor: Adwaita
+[39CTerminal: xterm 399
+[39CTerminal Font: fixed (8.0pt)
+[39CCPU: AMD Ryzen 5 5625U (12) @ 4.39 GHz
+[39CGPU: AMD Barcelo [Integrated]
+[39CMemory: 3.14 GiB / 14.97 GiB (21%)
+[39CSwap: Disabled
+[39CDisk (/): 31.36 GiB / 109.43 GiB (29%) - overlay
+[39CLocal IP (wlan0): [REDACTED_IP]/21
+[39CBattery (L20C2PF0): 100% [AC Connected]
+[39CLocale: C.UTF8
+[39C
+[39C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[39C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m

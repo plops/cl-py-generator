@@ -1,0 +1,16 @@
+   Static hostname: (unset)
+Transient hostname: localhost
+         Icon name: computer-laptop
+           Chassis: laptop 💻
+        Machine ID: ba4ea8fda8604d63137167966489fa27
+           Boot ID: 3f4c672019e8457b9213ee327a8866aa
+      Product UUID: 470b3d6d-b944-11ec-80f2-6c24082e961b
+  Operating System: Gentoo Linux
+            Kernel: Linux 6.12.31-gentoo
+      Architecture: x86-64
+   Hardware Vendor: Lenovo
+    Hardware Model: IdeaPad 3 15ABA7
+   Hardware Serial: PF3RDZY1
+  Firmware Version: JTCN42WW
+     Firmware Date: Tue 2023-01-10
+      Firmware Age: 2y 7month 2w 5d
