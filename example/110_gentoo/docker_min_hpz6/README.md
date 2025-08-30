@@ -28,48 +28,9 @@ default layout upon logging out or rebooting.
 
 Open your terminal and type the following command:
 ```bash
-loadkeys colemak
+loadkeys /usr/share/keymaps/i386/colemak/en-latin9.map.gz 
 ```
 
 Your keyboard layout should now be set to Colemak for the current TTY
 session. You can test this by typing in the console. To switch back to
 the standard US QWERTY layout temporarily, you can use `loadkeys us`.
-
-## 2. Persistent Change (to Survive Reboots)
-
-To ensure the Colemak layout is active every time you boot your system
-into the command line, you need to modify system configuration
-files. The method for this varies by Linux distribution.
-
-
-### For Gentoo with Systemd, Arch, Fedora, CentOS, and RHEL
-
-Modern versions of Fedora, CentOS, and Red Hat Enterprise Linux also
-use `systemd` and the `localectl` command for persistent keyboard
-layout configuration in the console.
-
-Use the `localectl` command to set the Colemak layout:
-    ```bash
-    sudo localectl set-keymap colemak
-    ```
-
-This will update the `/etc/vconsole.conf` file, making the Colemak
-layout the default for all console sessions. You can check the current
-settings with `localectl status`.
-
-If you get the error: `Failed to set keymap: Keymap colemak is not
-installed.` Read further:
-
-The installation of console keymaps from the sys-apps/kbd package is
-controlled by the KEYMAPS variable in your /etc/portage/make.conf file
-
-If this variable is not set, a minimal default set is often installed,
-which typically does not include layouts like Colemak. The colemak
-keymap is located in the i386 subdirectory, which you need to
-explicitly tell Portage to install by defining 
-
-```
-KEYMAPS="i386 colemak"
-```
-
-in make.conf. Call `sudo emerge sys-apps/kbd` to install the new keymap.
