@@ -46,7 +46,7 @@ I shall try again and tell Chat GPT 4 that the code is Common Lisp and we are de
    
 **Dictionary**  
 - **Python dictionary using 'dict' constructor**: Similar to 'Dict', but uses the 'dict()' constructor to build the dictionary.  
-- **Example**: `(dictionary (a 1) (b 2))` => `dict(a=1, b=2)`  
+- **Example**: `(dictionary :a 1 :b 2)` => `dict(a=1, b=2)`  
    
 **Indent**  
 - **Indented block**: Adds indentation to a block of code, commonly used inside code blocks like loops and conditionals to indicate scope.  
@@ -86,7 +86,7 @@ I shall try again and tell Chat GPT 4 that the code is Common Lisp and we are de
    
 **Setf**  
 - **Assignment statement**: Used to assign values to variables.  
-- **Example**: `(setf (a b) (c d))` => `a = c; b = d`  
+- **Example**: `(setf (a b) (c d))` => `a = b; c = d`  
 
 **Incf**  
 - **Increment field**: Increases the value of a variable by a specified amount.  
@@ -196,4 +196,4 @@ I shall try again and tell Chat GPT 4 that the code is Common Lisp and we are de
 - **Bitwise Inclusive OR**: Performs a bitwise OR operation between multiple numbers.  
 - **Example**: `(logior a b)` => `(a) | (b)`  
    
-The provided code snippet appears to map these forms to a Lisp-like syntax, which suggests it is part of a system that translates a domain-specific language into Python code. The names of the forms (`incf`, `aref`, `slice`, etc.) and their behaviors are indicative of a Lisp or Scheme dialect, which typically uses prefix notation and parentheses to structure code. The documentation provided describes each form's general behavior and provides a Python equivalent to illustrate the translation result.
+

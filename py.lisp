@@ -318,12 +318,10 @@ Returns:
 	      (curly (let ((args (cdr code)))
 		       (format nil "{~{~a~^, ~}}" (mapcar #'emit args))))
               (dict (let* ((args (cdr code)))
-		      (let ((str (with-output-to-string (s)
-				   (loop for (e f) in args
-					 do
-					 (format s "(~a):(~a)," (emit e) (emit f))))))
-			(format nil "{~a}" ;; remove trailing comma
-				(subseq str 0 (- (length str) 1))))))
+		      (format nil "{~{~{(~a):(~a)~}~^, ~}}" 
+			      (loop for (k v) in args
+				    collect (list (emit k) (emit v))))
+		      ))
 	      (dictionary (let* ((args (cdr code)))
 			    (format nil "dict~a"
 				    (emit `(paren ,@(loop for (e f) on args by #'cddr
