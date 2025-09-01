@@ -8,4 +8,5 @@
     :serial t
     :components ((:file "package")
 		 (:file "py")
+		 ;(:file "transpiler-tests")
 		 #+sbcl (:file "pipe")) )

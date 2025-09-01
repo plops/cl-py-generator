@@ -5,6 +5,7 @@
 					;:optima
 	:alexandria)
   (:export
+   #:emit-py
    #:tuple
    #:indent
    #:do
