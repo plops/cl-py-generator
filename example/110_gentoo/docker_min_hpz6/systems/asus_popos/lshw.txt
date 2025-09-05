@@ -99,7 +99,7 @@ pop-os
           version: 23.113.0
           serial: Unknown
           slot: AM4
-          size: 2200MHz
+          size: 2794MHz
           capacity: 4208MHz
           width: 64 bits
           clock: 100MHz
@@ -248,7 +248,7 @@ pop-os
                             serial: 2de43651-def2-444f-8dd5-71b8e4d4a234
                             size: 677GiB
                             capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
-                            configuration: created=2020-11-30 21:00:11 filesystem=ext4 lastmountpoint=/mnt modified=2025-09-04 19:00:40 mount.fstype=ext4 mount.options=rw,noatime mounted=2025-09-04 19:00:40 name=big state=mounted
+                            configuration: created=2020-11-30 21:00:11 filesystem=ext4 lastmountpoint=/mnt modified=2025-09-05 06:07:14 mount.fstype=ext4 mount.options=rw,noatime mounted=2025-09-05 06:07:14 name=big state=mounted
                        *-volume:5
                             description: EXT4 volume
                             vendor: Linux
@@ -261,7 +261,7 @@ pop-os
                             size: 173GiB
                             capacity: 173GiB
                             capabilities: journaled extended_attributes large_files huge_files dir_nlink recover extents ext4 ext2 initialized
-                            configuration: created=2022-01-02 22:15:35 filesystem=ext4 lastmountpoint=/ modified=2025-09-04 19:00:39 mount.fstype=ext4 mount.options=rw,noatime,errors=remount-ro mounted=2025-09-04 19:00:40 name=popos state=mounted
+                            configuration: created=2022-01-02 22:15:35 filesystem=ext4 lastmountpoint=/ modified=2025-09-05 06:07:13 mount.fstype=ext4 mount.options=rw,noatime,errors=remount-ro mounted=2025-09-05 06:07:14 name=popos state=mounted
               *-pci:1
                    description: PCI bridge
                    product: Matisse PCIe GPP Bridge
@@ -306,7 +306,7 @@ pop-os
                       clock: 33MHz
                       capabilities: pm pciexpress msi bus_master cap_list
                       configuration: driver=snd_hda_intel latency=0
-                      resources: irq:98 memory:fc760000-fc763fff
+                      resources: irq:99 memory:fc760000-fc763fff
                     *-input:0
                          product: HDA ATI HDMI HDMI/DP,pcm=9
                          physical id: 0
@@ -326,17 +326,17 @@ pop-os
                          product: HDA ATI HDMI HDMI/DP,pcm=3
                          physical id: 3
                          logical name: input7
-                         logical name: /dev/input/event8
+                         logical name: /dev/input/event11
                     *-input:4
                          product: HDA ATI HDMI HDMI/DP,pcm=7
                          physical id: 4
                          logical name: input8
-                         logical name: /dev/input/event9
+                         logical name: /dev/input/event12
                     *-input:5
                          product: HDA ATI HDMI HDMI/DP,pcm=8
                          physical id: 5
                          logical name: input9
-                         logical name: /dev/input/event11
+                         logical name: /dev/input/event13
               *-pci:2
                    description: PCI bridge
                    product: Matisse PCIe GPP Bridge
@@ -363,7 +363,7 @@ pop-os
                       width: 64 bits
                       clock: 33MHz
                       capabilities: pm msi pciexpress msix bus_master cap_list ethernet physical tp mii 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                      configuration: autonegotiation=on broadcast=yes driver=r8169 driverversion=6.9.3-76060903-generic duplex=full firmware=rtl8168h-2_0.0.2 02/26/15 ip=[REDACTED_IP] latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+                      configuration: autonegotiation=on broadcast=yes driver=r8169 driverversion=6.12.10-76061203-generic duplex=full firmware=rtl8168h-2_0.0.2 02/26/15 ip=[REDACTED_IP] latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
                       resources: irq:38 ioport:d000(size=256) memory:fc604000-fc604fff memory:fc600000-fc603fff
               *-pci:3
                    description: PCI bridge
@@ -402,20 +402,20 @@ pop-os
                       resources: irq:42 memory:fc300000-fc3fffff
                     *-usbhost:0
                          product: xHCI Host Controller
-                         vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                         vendor: Linux 6.12.10-76061203-generic xhci-hcd
                          physical id: 0
                          bus info: [REDACTED_USER]@1
                          logical name: usb1
-                         version: 6.09
+                         version: 6.12
                          capabilities: usb-2.00
                          configuration: driver=hub slots=6 speed=480Mbit/s
                     *-usbhost:1
                          product: xHCI Host Controller
-                         vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                         vendor: Linux 6.12.10-76061203-generic xhci-hcd
                          physical id: 1
                          bus info: [REDACTED_USER]@2
                          logical name: usb2
-                         version: 6.09
+                         version: 6.12
                          capabilities: usb-3.10
                          configuration: driver=hub slots=4 speed=10000Mbit/s
                  *-usb:1
@@ -432,61 +432,34 @@ pop-os
                       resources: irq:40 memory:fc200000-fc2fffff
                     *-usbhost:0
                          product: xHCI Host Controller
-                         vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                         vendor: Linux 6.12.10-76061203-generic xhci-hcd
                          physical id: 0
                          bus info: [REDACTED_USER]@3
                          logical name: usb3
-                         version: 6.09
+                         version: 6.12
                          capabilities: usb-2.00
                          configuration: driver=hub slots=6 speed=480Mbit/s
                        *-usb:0
-                            description: Keyboard
-                            product: USB Receiver
-                            vendor: Logitech
-                            physical id: 1
-                            bus info: [REDACTED_USER]@3:1
-                            version: 24.10
-                            capabilities: usb-2.00
-                            configuration: driver=usbhid maxpower=98mA speed=12Mbit/s
-                          *-input:0
-                               product: Logitech M215 2nd Gen
-                               physical id: 0
-                               logical name: input39
-                               logical name: /dev/input/event22
-                               logical name: /dev/input/mouse0
-                               capabilities: usb
-                          *-input:1
-                               product: Logitech K330
-                               physical id: 1
-                               logical name: input40
-                               logical name: /dev/input/event23
-                               logical name: input40::capslock
-                               logical name: input40::compose
-                               logical name: input40::kana
-                               logical name: input40::numlock
-                               logical name: input40::scrolllock
-                               capabilities: usb
-                       *-usb:1
                             description: Keyboard
                             product: Chicony HP Business Slim Keyboard
                             vendor: Chicony
                             physical id: 2
                             bus info: [REDACTED_USER]@3:2
-                            logical name: input22
+                            logical name: input2
                             logical name: /dev/input/event2
-                            logical name: input22::capslock
-                            logical name: input22::numlock
-                            logical name: input22::scrolllock
-                            logical name: input23
+                            logical name: input2::capslock
+                            logical name: input2::numlock
+                            logical name: input2::scrolllock
+                            logical name: input3
                             logical name: /dev/input/event3
-                            logical name: input24
+                            logical name: input4
                             logical name: /dev/input/event4
-                            logical name: input25
+                            logical name: input5
                             logical name: /dev/input/event5
                             version: 0.10
                             capabilities: usb-2.00 usb
                             configuration: driver=usbhid maxpower=100mA speed=2Mbit/s
-                       *-usb:2
+                       *-usb:1
                             description: Human interface device
                             product: AURA LED Controller
                             vendor: AsusTek Computer Inc.
@@ -498,11 +471,11 @@ pop-os
                             configuration: driver=usbhid maxpower=16mA speed=12Mbit/s
                     *-usbhost:1
                          product: xHCI Host Controller
-                         vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                         vendor: Linux 6.12.10-76061203-generic xhci-hcd
                          physical id: 1
                          bus info: [REDACTED_USER]@4
                          logical name: usb4
-                         version: 6.09
+                         version: 6.12
                          capabilities: usb-3.10
                          configuration: driver=hub slots=4 speed=10000Mbit/s
               *-pci:4
@@ -528,7 +501,7 @@ pop-os
                       clock: 33MHz
                       capabilities: sata pm pciexpress msi ahci_1.0 bus_master cap_list
                       configuration: driver=ahci latency=0
-                      resources: irq:43 memory:fc500000-fc5007ff
+                      resources: irq:62 memory:fc500000-fc5007ff
               *-pci:5
                    description: PCI bridge
                    product: Matisse PCIe GPP Bridge
@@ -553,7 +526,7 @@ pop-os
                       clock: 33MHz
                       capabilities: sata pm pciexpress msi ahci_1.0 bus_master cap_list emulated
                       configuration: driver=ahci latency=0
-                      resources: irq:44 memory:fc400000-fc4007ff
+                      resources: irq:64 memory:fc400000-fc4007ff
                     *-disk
                          description: ATA Disk
                          product: ST16000NM000J-2T
@@ -657,7 +630,7 @@ pop-os
                 clock: 33MHz
                 capabilities: pm msi pciexpress bus_master cap_list
                 configuration: driver=snd_hda_intel latency=0
-                resources: irq:99 memory:fc080000-fc083fff
+                resources: irq:98 memory:fc080000-fc083fff
               *-input:0
                    product: HDA NVidia HDMI/DP,pcm=3
                    physical id: 0
@@ -667,17 +640,17 @@ pop-os
                    product: HDA NVidia HDMI/DP,pcm=7
                    physical id: 1
                    logical name: input14
-                   logical name: /dev/input/event10
+                   logical name: /dev/input/event8
               *-input:2
                    product: HDA NVidia HDMI/DP,pcm=8
                    physical id: 2
                    logical name: input15
-                   logical name: /dev/input/event12
+                   logical name: /dev/input/event9
               *-input:3
                    product: HDA NVidia HDMI/DP,pcm=9
                    physical id: 3
                    logical name: input16
-                   logical name: /dev/input/event13
+                   logical name: /dev/input/event10
            *-usb
                 description: USB controller
                 product: TU106 USB 3.1 Host Controller
@@ -689,23 +662,23 @@ pop-os
                 clock: 33MHz
                 capabilities: msi pciexpress pm xhci cap_list
                 configuration: driver=xhci_hcd latency=0
-                resources: irq:69 memory:c2000000-c203ffff memory:c2040000-c204ffff
+                resources: irq:52 memory:c2000000-c203ffff memory:c2040000-c204ffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                   vendor: Linux 6.12.10-76061203-generic xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@5
                    logical name: usb5
-                   version: 6.09
+                   version: 6.12
                    capabilities: usb-2.00
                    configuration: driver=hub slots=2 speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                   vendor: Linux 6.12.10-76061203-generic xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@6
                    logical name: usb6
-                   version: 6.09
+                   version: 6.12
                    capabilities: usb-3.10
                    configuration: driver=hub slots=4 speed=10000Mbit/s
            *-serial UNCLAIMED
@@ -789,23 +762,23 @@ pop-os
                 clock: 33MHz
                 capabilities: pm pciexpress msi msix xhci bus_master cap_list
                 configuration: driver=xhci_hcd latency=0
-                resources: irq:70 memory:fc900000-fc9fffff
+                resources: irq:53 memory:fc900000-fc9fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                   vendor: Linux 6.12.10-76061203-generic xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@7
                    logical name: usb7
-                   version: 6.09
+                   version: 6.12
                    capabilities: usb-2.00
                    configuration: driver=hub slots=4 speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.9.3-76060903-generic xhci-hcd
+                   vendor: Linux 6.12.10-76061203-generic xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@8
                    logical name: usb8
-                   version: 6.09
+                   version: 6.12
                    capabilities: usb-3.10
                    configuration: driver=hub slots=4 speed=10000Mbit/s
            *-multimedia
@@ -828,12 +801,12 @@ pop-os
                 configuration: driver=snd_hda_intel latency=0
                 resources: irq:101 memory:fcb00000-fcb07fff
               *-input:0
-                   product: HD-Audio Generic Front Mic
+                   product: HD-Audio Generic Rear Mic
                    physical id: 0
                    logical name: input17
                    logical name: /dev/input/event17
               *-input:1
-                   product: HD-Audio Generic Rear Mic
+                   product: HD-Audio Generic Front Mic
                    physical id: 1
                    logical name: input18
                    logical name: /dev/input/event18

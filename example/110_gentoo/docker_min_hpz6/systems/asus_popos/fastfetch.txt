@@ -20,27 +20,21 @@
              /////////////[1G[19A[[REDACTED_USER]@pop-os
 [43C-----------
 [43COS: Pop!_OS 22.04 LTS x86_64
-[43CKernel: Linux 6.9.3-76060903-generic
-[43CUptime: 44 mins
-[43CPackages: 2918 (dpkg), 5 (snap)
+[43CKernel: Linux 6.12.10-76061203-generic
+[43CUptime: 5 mins
+[43CPackages: 2974 (dpkg), 5 (snap)
 [43CShell: bash 5.1.16
-[43CDisplay (BenQ GL2450H): 1920x1080 in 24", 60 Hz [External]
-[43CDE: pop:GNOME
-[43CWM: Mutter (X11)
-[43CWM Theme: Yaru
 [43CTheme: Yaru [GTK3]
 [43CIcons: Yaru [GTK3]
 [43CCursor: Adwaita
-[43CTerminal: GNOME Terminal 3.44.0
-[43CTerminal Font: Fira Mono (12pt)
+[43CTerminal: 
 [43CCPU: AMD Ryzen 5 3600 (12) @ 4.21 GHz
 [43CGPU 1: NVIDIA GeForce RTX 2060 SUPER [Discrete]
 [43CGPU 2: AMD Radeon RX 580 2048SP [Discrete]
-[43CMemory: 4.11 GiB / 15.53 GiB (26%)
-[43CSwap: 512.00 KiB / 31.53 GiB (0%)
-[43CDisk (/): 135.22 GiB / 169.71 GiB (80%) - ext4
+[43CMemory: 2.73 GiB / 15.53 GiB (18%)
+[43CSwap: 0 B / 31.53 GiB (0%)
+[43CDisk (/): 137.39 GiB / 169.71 GiB (81%) - ext4
 [43CDisk (/mnt): 592.11 GiB / 665.31 GiB (89%) - ext4
-[43CDisk (/mnt6): 5.41 TiB / 14.35 TiB (38%) - btrfs
 [43CLocal IP (enp5s0): [REDACTED_IP]/24
 [43CLocale: en_US.UTF-8
 [43C

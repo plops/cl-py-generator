@@ -10,51 +10,40 @@ Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop2: 63.77 MiB, 66863104 bytes, 130592 sectors
+Disk /dev/loop2: 104.19 MiB, 109252608 bytes, 213384 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop3: 104.19 MiB, 109252608 bytes, 213384 sectors
+Disk /dev/loop3: 104.23 MiB, 109289472 bytes, 213456 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop5: 55.66 MiB, 58363904 bytes, 113992 sectors
+Disk /dev/loop4: 55.66 MiB, 58363904 bytes, 113992 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop6: 55.48 MiB, 58175488 bytes, 113624 sectors
+Disk /dev/loop5: 55.48 MiB, 58175488 bytes, 113624 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop7: 63.95 MiB, 67051520 bytes, 130960 sectors
+Disk /dev/loop6: 63.95 MiB, 67051520 bytes, 130960 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/sda: 14.55 TiB, 16000900661248 bytes, 31251759104 sectors
-Disk model: ST16000NM000J-2T
+Disk /dev/loop7: 63.77 MiB, 66863104 bytes, 130592 sectors
 Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 4096 bytes
-I/O size (minimum/optimal): 4096 bytes / 4096 bytes
-Disklabel type: gpt
-Disk identifier: 3AFC43C3-EA68-DF40-A198-F44BD7078414
-
-Device         Start         End     Sectors  Size Type
-/dev/sda1       2048     2099199     2097152    1G EFI System
-/dev/sda2    2099200    10487807     8388608    4G Linux swap
-/dev/sda3   10487808   115345407   104857600   50G Linux filesystem
-/dev/sda4  115345408   220203007   104857600   50G Linux filesystem
-/dev/sda5  220203008   429918207   209715200  100G Linux filesystem
-/dev/sda6  429918208 31251759070 30821840863 14.4T Linux filesystem
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
 Disk /dev/nvme0n1: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
@@ -72,6 +61,23 @@ Device              Start        End    Sectors   Size Type
 /dev/nvme0n1p4   35657728  169875455  134217728    64G Linux filesystem
 /dev/nvme0n1p5  169877504 1589663743 1419786240   677G Linux filesystem
 /dev/nvme0n1p6 1589663744 1953523711  363859968 173.5G Linux filesystem
+
+
+Disk /dev/sda: 14.55 TiB, 16000900661248 bytes, 31251759104 sectors
+Disk model: ST16000NM000J-2T
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: 3AFC43C3-EA68-DF40-A198-F44BD7078414
+
+Device         Start         End     Sectors  Size Type
+/dev/sda1       2048     2099199     2097152    1G EFI System
+/dev/sda2    2099200    10487807     8388608    4G Linux swap
+/dev/sda3   10487808   115345407   104857600   50G Linux filesystem
+/dev/sda4  115345408   220203007   104857600   50G Linux filesystem
+/dev/sda5  220203008   429918207   209715200  100G Linux filesystem
+/dev/sda6  429918208 31251759070 30821840863 14.4T Linux filesystem
 
 
 Disk /dev/loop8: 40.43 MiB, 42393600 bytes, 82800 sectors
@@ -95,16 +101,4 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disk /dev/zram0: 15.53 GiB, 16672358400 bytes, 4070400 sectors
 Units: sectors of 1 * 4096 = 4096 bytes
 Sector size (logical/physical): 4096 bytes / 4096 bytes
-I/O size (minimum/optimal): 4096 bytes / 4096 bytes
-
-
-Disk /dev/loop10: 104.23 MiB, 109289472 bytes, 213456 sectors
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-
-
-Disk /dev/mapper/a6: 14.35 TiB, 15780765744640 bytes, 30821808095 sectors
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 4096 bytes
 I/O size (minimum/optimal): 4096 bytes / 4096 bytes
