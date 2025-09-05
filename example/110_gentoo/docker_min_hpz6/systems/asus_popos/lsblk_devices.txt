@@ -1,13 +1,13 @@
 loop0   loop   313M                         
 loop1   loop 313.7M                         
-loop2   loop  63.8M                         
+loop2   loop 104.2M                         
 loop3   loop 104.2M                         
-loop5   loop  55.7M                         
-loop6   loop  55.5M                         
-loop7   loop  63.9M                         
+loop4   loop  55.7M                         
+loop5   loop  55.5M                         
+loop6   loop  63.9M                         
+loop7   loop  63.8M                         
 loop8   loop  40.4M                         
 loop9   loop  38.8M                         
-loop10  loop 104.2M                         
 sda     disk  14.6T ST16000NM000J-2TW103    ATA     
 zram0   disk  15.5G                         
 nvme0n1 disk 931.5G Samsung SSD 970 EVO 1TB 
