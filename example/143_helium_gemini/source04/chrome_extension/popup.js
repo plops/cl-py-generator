@@ -20,7 +20,8 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
       const formData = new FormData();
       formData.append('original_source_link', youtubeUrl);
       formData.append('transcript', '');
-      formData.append('model', 'gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000');
+      // use selected model value from the dropdown (default set in HTML)
+      formData.append('model', (modelSelect && modelSelect.value) ? modelSelect.value : 'gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000');
       formData.append('output_language', 'en');
       formData.append('include_timestamps', 'on');
 
@@ -47,3 +48,13 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
     }
   });
 });
+
+// restore/save selected model (optional persistence)
+const modelSelect = document.getElementById('modelSelect');
+if (modelSelect) {
+  const saved = localStorage.getItem('selectedModel');
+  if (saved) modelSelect.value = saved;
+  modelSelect.addEventListener('change', () => {
+    localStorage.setItem('selectedModel', modelSelect.value);
+  });
+}

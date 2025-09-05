@@ -15,10 +15,33 @@
       font-size: 16px;
       cursor: pointer;
     }
+    label {
+      display: block;
+      margin-bottom: 6px;
+    }
+    select {
+      width: 100%;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <h3>Summarize YouTube Video</h3>
+
+  <!-- Model selection UI -->
+  <label for="modelSelect">Model:</label>
+  <select id="modelSelect">
+    <option value="gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000" selected>
+      gemini-2.5-flash — input: 0.3 output: 2.5
+    </option>
+    <option value="gemini-2.5-flash-lite| input-price: 0.1 output-price: 0.4 max-context-length: 128_000">
+      gemini-2.5-flash-lite — input: 0.1 output: 0.4
+    </option>
+    <option value="gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000">
+      gemini-2.5-pro — input: 1.25 output: 10
+    </option>
+  </select>
+
   <button id="summarizeButton">Summarize</button>
   <p id="status"></p>
   <script src="popup.js"></script>
