@@ -5,3 +5,4 @@ tmpfs           7.8G     0  7.8G   0% /dev/shm
 tmpfs           5.0M     0  5.0M   0% /run/lock
 /dev/nvme0n1p5  666G  593G   40G  94% /mnt
 tmpfs           1.6G  152K  1.6G   1% /run/[REDACTED_USER]/1000
+/dev/mapper/a6   15T  5.5T  9.0T  38% /mnt6

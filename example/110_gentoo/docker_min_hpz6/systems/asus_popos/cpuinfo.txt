@@ -5,7 +5,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 1862.979
+cpu MHz		: 2195.617
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -33,7 +33,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 2793.965
+cpu MHz		: 2306.639
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -61,7 +61,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 2200.000
+cpu MHz		: 2195.729
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -89,7 +89,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 2794.685
+cpu MHz		: 2195.786
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -117,7 +117,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 1864.114
+cpu MHz		: 2200.000
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -145,7 +145,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 1854.912
+cpu MHz		: 2200.000
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -173,7 +173,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 1862.958
+cpu MHz		: 2195.845
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -201,7 +201,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 2200.000
+cpu MHz		: 2194.676
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -229,7 +229,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 2200.000
+cpu MHz		: 2195.627
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -257,7 +257,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 2200.000
+cpu MHz		: 2195.674
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -285,7 +285,7 @@ model		: 113
 model name	: AMD Ryzen 5 3600 6-Core Processor
 stepping	: 0
 microcode	: 0x8701021
-cpu MHz		: 1915.888
+cpu MHz		: 2200.000
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12

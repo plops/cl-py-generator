@@ -59,9 +59,9 @@ efi_pstore             12288  0
 ip_tables              32768  0
 x_tables               65536  1 ip_tables
 autofs4                57344  2
-btrfs                2068480  0
+btrfs                2068480  1
 blake2b_generic        24576  0
-dm_crypt               65536  1
+dm_crypt               65536  2
 raid10                 77824  0
 raid456               196608  0
 async_raid6_recov      20480  1 raid456
@@ -95,7 +95,7 @@ sha1_ssse3             32768  0
 drm_display_helper    278528  1 amdgpu
 usbhid                 77824  0
 i2c_piix4              32768  0
-ahci                   49152  0
+ahci                   49152  1
 nvme                   61440  3
 i2c_smbus              16384  1 i2c_piix4
 hid                   266240  2 usbhid,hid_generic
@@ -107,6 +107,6 @@ rc_core                73728  1 cec
 realtek                45056  1
 nvme_auth              28672  1 nvme_core
 wmi                    28672  3 video,asus_wmi,wmi_bmof
-aesni_intel           122880  2
+aesni_intel           122880  4
 crypto_simd            16384  1 aesni_intel
-cryptd                 24576  3 crypto_simd,ghash_clmulni_intel
+cryptd                 24576  4 crypto_simd,ghash_clmulni_intel

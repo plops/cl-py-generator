@@ -102,3 +102,9 @@ Disk /dev/zram0: 15.53 GiB, 16672358400 bytes, 4070400 sectors
 Units: sectors of 1 * 4096 = 4096 bytes
 Sector size (logical/physical): 4096 bytes / 4096 bytes
 I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+
+
+Disk /dev/mapper/a6: 14.35 TiB, 15780765744640 bytes, 30821808095 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes

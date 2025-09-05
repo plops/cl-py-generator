@@ -17,11 +17,11 @@
     /////767676767676767676767/////
       ///////////////////////////
          /////////////////////
-             /////////////[1G[19A[[REDACTED_USER]@pop-os
+             /////////////[1G[19A[43C[REDACTED_USER]@pop-os
 [43C-----------
 [43COS: Pop!_OS 22.04 LTS x86_64
 [43CKernel: Linux 6.12.10-76061203-generic
-[43CUptime: 5 mins
+[43CUptime: 7 mins
 [43CPackages: 2974 (dpkg), 5 (snap)
 [43CShell: bash 5.1.16
 [43CTheme: Yaru [GTK3]
@@ -35,6 +35,7 @@
 [43CSwap: 0 B / 31.53 GiB (0%)
 [43CDisk (/): 137.39 GiB / 169.71 GiB (81%) - ext4
 [43CDisk (/mnt): 592.11 GiB / 665.31 GiB (89%) - ext4
+[43CDisk (/mnt6): 5.43 TiB / 14.35 TiB (38%) - btrfs
 [43CLocal IP (enp5s0): [REDACTED_IP]/24
 [43CLocale: en_US.UTF-8
 [43C

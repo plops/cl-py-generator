@@ -99,7 +99,7 @@ pop-os
           version: 23.113.0
           serial: Unknown
           slot: AM4
-          size: 2794MHz
+          size: 2195MHz
           capacity: 4208MHz
           width: 64 bits
           clock: 100MHz

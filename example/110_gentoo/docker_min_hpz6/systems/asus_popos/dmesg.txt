@@ -1255,3 +1255,15 @@
 [  271.967022] [drm] UVD and UVD ENC initialized successfully.
 [  272.068019] [drm] VCE initialized successfully.
 [  272.075072] amdgpu 0000:04:00.0: [drm] Cannot find any crtc or sizes
+[  272.220895] [drm:nv_drm_master_set [nvidia_drm]] *ERROR* [nvidia-drm] [GPU ID 0x00000900] Failed to grab modeset ownership
+[  332.185946] EXT4-fs (nvme0n1p5): error count since last fsck: 17
+[  332.185979] EXT4-fs (nvme0n1p5): initial error at time 1663999830: ext4_update_backup_sb:164
+[  332.185985] EXT4-fs (nvme0n1p5): last error at time 1663999830: ext4_update_backup_sb:164
+[  372.874680] BTRFS: device fsid cae0a501-b537-478e-b90b-efb9ad4796cf devid 1 transid 10197 /dev/mapper/a6 (252:1) scanned by mount (4429)
+[  372.874962] BTRFS info (device dm-1): first mount of filesystem cae0a501-b537-478e-b90b-efb9ad4796cf
+[  372.874976] BTRFS info (device dm-1): using crc32c (crc32c-intel) checksum algorithm
+[  372.874980] BTRFS info (device dm-1): using free-space-tree
+[  391.703489] [drm] PCIE GART of 256M enabled (table at 0x000000F400000000).
+[  391.879093] [drm] UVD and UVD ENC initialized successfully.
+[  391.980077] [drm] VCE initialized successfully.
+[  391.987221] amdgpu 0000:04:00.0: [drm] Cannot find any crtc or sizes
