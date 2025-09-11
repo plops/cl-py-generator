@@ -1,7 +1,7 @@
 dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 app-emacs/emacs-common -games gui
-app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick -jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
+app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
 x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
 net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
 net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
@@ -57,7 +57,7 @@ x11-libs/libdrm video_cards_radeon
 #sys-kernel/gentoo-sources experimental
 x11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland
 media-libs/mesa X -llvm opengl proprietary-codecs -vaapi -vulkan zstd -d3d9 -debug -lm-sensors -opencl -osmesa -test -unwind -valgrind -vdpau -wayland -xa
-sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
+sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
 
 dev-qt/qtmultimedia X dbus ffmpeg vaapi -alsa -custom-cflags -eglfs -gstreamer opengl pipewire pulseaudio -qml -test -v4l vulkan -wayland
 dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev widgets xml zstd -accessibility -brotli -cups -custom-cflags -eglfs -evdev -gles2-only -gssapi -gtk -icu -journald -libproxy -mysql -oci8 -odbc opengl -postgres -renderdoc -sctp -syslog -test -tslib vulkan -wayland
