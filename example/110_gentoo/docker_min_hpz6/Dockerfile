@@ -76,7 +76,6 @@ IDEAPAD_LAPTOP
 USB_NET_CDC_NCM
 EEPROM_EE1004
 EDAC_DECODE_MCE
-EFI_PARTITION
 THINKPAD_LMI
 THINKPAD_ACPI
 HID_CHERRY
@@ -119,7 +118,7 @@ USB_VIDEO_CLASS
 M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
 
 # Execute the script a single time with the dynamically built list of options
-./scripts/config --file .config $M_OPTIONS
+./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION
 EOF
 
 
