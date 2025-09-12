@@ -93,3 +93,4 @@ dev-db/postgresql
  sys-apps/lm-sensors
  app-misc/tmux
  sys-apps/dmidecode
+llvm-core/clang

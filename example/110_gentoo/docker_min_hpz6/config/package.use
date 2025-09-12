@@ -103,3 +103,4 @@ dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev wid
  # nginx
  app-misc/mime-types nginx
 
+llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -verify-sig -xml
