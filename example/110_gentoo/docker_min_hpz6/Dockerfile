@@ -43,8 +43,9 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config6.12.31 .config
-RUN make oldconfig
+COPY config/config6.12.41 .config
+#  Update current config utilising a provided .config as base
+RUN make oldconfig 
 
 # RUN ./scripts/config --file .config \
 # --set-val MODPROBE_PATH "/usr/sbin/modprobe" \
