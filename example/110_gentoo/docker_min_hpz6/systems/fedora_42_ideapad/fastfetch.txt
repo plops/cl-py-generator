@@ -16,27 +16,27 @@ cccccc;dNMWXXXWM0:;cccccccccccccc:,
 cccccccc;.:odl:.;cccccccccccccc:,.
 ccccccccccccccccccccccccccccc:'.
 :ccccccccccccccccccccccc:;,..
- ':cccccccccccccccc::;,.[1G[18A[[REDACTED_USER]@fedora
+ ':cccccccccccccccc::;,.[1G[18A[42C[REDACTED_USER]@fedora
 [42C-----------
 [42COS: Fedora Linux 42 (Workstation Edition) x86_64
 [42CHost: 82RN (IdeaPad 3 15ABA7)
 [42CKernel: Linux 6.16.3-200.fc42.x86_64
-[42CUptime: 2 mins
+[42CUptime: 6 mins
 [42CPackages: 2206 (rpm)
 [42CShell: bash 5.2.37
 [42CDisplay (eDP-1): 1920x1080 @ 60 Hz in 15" [Built-in]
 [42CWM: Mutter (X11)
 [42CCursor: Adwaita
-[42CTerminal: foot 1.23.1
-[42CTerminal Font: monospace (8pt)
+[42CTerminal: GNOME Terminal 3.56.2
+[42CTerminal Font: Adwaita Mono (11pt)
 [42CCPU: AMD Ryzen 5 5625U (12) @ 4.39 GHz
 [42CGPU: AMD Barcelo [Integrated]
-[42CMemory: 1.27 GiB / 14.96 GiB (8%)
+[42CMemory: 2.26 GiB / 14.96 GiB (15%)
 [42CSwap: 0 B / 8.00 GiB (0%)
-[42CDisk (/): 13.86 GiB / 18.00 GiB (77%) - btrfs
-[42CLocal IP (wlp2s0): [REDACTED_IP]/21
-[42CBattery (L20C2PF0): 100% [AC Connected]
+[42CDisk (/): 14.32 GiB / 18.00 GiB (80%) - btrfs
+[42CLocal IP (wlp2s0): [REDACTED_IP]/24
+[42CBattery (L20C2PF0): 76% [AC Connected]
 [42CLocale: en_US.UTF-8
 [42C
 [42C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
-[42C[5m[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m
+[42C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m

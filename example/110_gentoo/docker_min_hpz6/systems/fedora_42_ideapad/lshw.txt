@@ -76,7 +76,7 @@ fedora
           version: 25.80.0
           serial: Null
           slot: FP6
-          size: 1110MHz
+          size: 4341MHz
           capacity: 4390MHz
           width: 64 bits
           clock: 100MHz
@@ -236,7 +236,7 @@ fedora
                       serial: 80b66b33-ce31-4a54-9adc-b6c72fe3a826
                       size: 50GiB
                       capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
-                      configuration: created=2023-07-12 16:57:54 filesystem=ext4 lastmountpoint=/mnt3 modified=2025-08-30 08:08:58 mounted=2025-08-30 08:08:58 state=clean
+                      configuration: created=2023-07-12 16:57:54 filesystem=ext4 lastmountpoint=/mnt3 modified=2025-09-12 18:41:50 mounted=2025-09-12 18:41:50 state=clean
                  *-volume:3
                       description: EFI partition
                       physical id: 4
@@ -303,13 +303,13 @@ fedora
               *-input:0
                    product: HD-Audio Generic HDMI/DP,pcm=3
                    physical id: 0
-                   logical name: input14
-                   logical name: /dev/input/event10
+                   logical name: input28
+                   logical name: /dev/input/event11
               *-input:1
                    product: HD-Audio Generic HDMI/DP,pcm=7
                    physical id: 1
-                   logical name: input15
-                   logical name: /dev/input/event11
+                   logical name: input29
+                   logical name: /dev/input/event12
            *-generic
                 description: Encryption controller
                 product: Raven/Raven2/FireFlight/Renoir/Cezanne Platform Security Processor
@@ -344,17 +344,15 @@ fedora
                    capabilities: usb-2.00
                    configuration: driver=hub slots=4 speed=480Mbit/s
                  *-usb:0
-                      description: Mouse
-                      product: PixArt HP USB Optical Mouse
-                      vendor: PixArt
+                      description: Wireless interface
+                      product: Android
+                      vendor: Android
                       physical id: 2
                       bus info: [REDACTED_USER]@1:2
-                      logical name: input4
-                      logical name: /dev/input/event4
-                      logical name: /dev/input/mouse0
-                      version: 1.00
-                      capabilities: usb-2.00 usb
-                      configuration: driver=usbhid maxpower=100mA speed=2Mbit/s
+                      version: ff.ff
+                      serial: 0
+                      capabilities: usb-2.00
+                      configuration: driver=rndis_host maxpower=500mA speed=480Mbit/s
                  *-usb:1
                       description: Video
                       product: Integrated Camera
@@ -396,15 +394,15 @@ fedora
                    capabilities: usb-2.00
                    configuration: driver=hub slots=4 speed=480Mbit/s
                  *-usb:0
-                      description: Generic USB device
-                      product: USB 10/100 LAN
+                      description: Bluetooth wireless interface
+                      product: 802.11ac NIC
                       vendor: Realtek
                       physical id: 1
                       bus info: [REDACTED_USER]@3:1
-                      version: 20.00
-                      serial: 00E04C3605F8
-                      capabilities: usb-2.10
-                      configuration: driver=r8152 maxpower=100mA speed=480Mbit/s
+                      version: 2.00
+                      serial: 123456
+                      capabilities: usb-2.00 bluetooth
+                      configuration: driver=rtw88_8821cu maxpower=500mA speed=480Mbit/s
                  *-usb:1
                       description: Bluetooth wireless interface
                       product: Bluetooth Radio
@@ -456,13 +454,13 @@ fedora
               *-input:0
                    product: HD-Audio Generic Mic
                    physical id: 0
-                   logical name: input16
-                   logical name: /dev/input/event12
+                   logical name: input30
+                   logical name: /dev/input/event13
               *-input:1
                    product: HD-Audio Generic Headphone
                    physical id: 1
-                   logical name: input17
-                   logical name: /dev/input/event13
+                   logical name: input31
+                   logical name: /dev/input/event14
         *-pci:4
              description: PCI bridge
              product: Renoir Internal PCIe GPP Bridge to Bus
@@ -581,8 +579,8 @@ fedora
            *-input
                 product: Ideapad extra buttons
                 physical id: 5
-                logical name: input12
-                logical name: /dev/input/event8
+                logical name: input26
+                logical name: /dev/input/event9
                 capabilities: platform
      *-pci:1
           description: Host bridge
@@ -698,53 +696,61 @@ fedora
        logical name: /dev/input/event1
        capabilities: platform
   *-input:2
-       product: MSFT0001:00 04F3:31BE Touchpad
+       product: Video Bus
        physical id: 3
-       logical name: input11
-       logical name: /dev/input/event7
-       logical name: /dev/input/mouse2
-       capabilities: i2c
+       logical name: input12
+       logical name: /dev/input/event5
+       capabilities: platform
   *-input:3
-       product: PC Speaker
-       physical id: 4
-       logical name: input13
-       logical name: /dev/input/event9
-       capabilities: isa
-  *-input:4
        product: Power Button
-       physical id: 5
+       physical id: 4
        logical name: input2
        logical name: /dev/input/event2
        capabilities: platform
+  *-input:4
+       product: MSFT0001:00 04F3:31BE Mouse
+       physical id: 5
+       logical name: input21
+       logical name: /dev/input/event7
+       logical name: /dev/input/mouse1
+       capabilities: i2c
   *-input:5
-       product: AT Translated Set 2 keyboard
+       product: MSFT0001:00 04F3:31BE Touchpad
        physical id: 6
+       logical name: input23
+       logical name: /dev/input/event8
+       logical name: /dev/input/mouse2
+       capabilities: i2c
+  *-input:6
+       product: PC Speaker
+       physical id: 7
+       logical name: input27
+       logical name: /dev/input/event10
+       capabilities: isa
+  *-input:7
+       product: AT Translated Set 2 keyboard
+       physical id: 8
        logical name: input3
        logical name: /dev/input/event3
        logical name: input3::capslock
        logical name: input3::numlock
        logical name: input3::scrolllock
        capabilities: i8042
-  *-input:6
-       product: Video Bus
-       physical id: 7
-       logical name: input5
-       logical name: /dev/input/event5
-       capabilities: platform
-  *-input:7
-       product: MSFT0001:00 04F3:31BE Mouse
-       physical id: 8
-       logical name: input9
-       logical name: /dev/input/event6
-       logical name: /dev/input/mouse1
-       capabilities: i2c
-  *-network
+  *-network:0
        description: Ethernet interface
-       product: USB 10/100 LAN
+       product: Android
        physical id: 9
-       bus info: [REDACTED_USER]@3:1
-       logical name: enp4s0f4u1
+       bus info: [REDACTED_USER]@1:2
+       logical name: enp4s0f3u2
        serial: [REDACTED_MAC]
-       capacity: 100Mbit/s
-       capabilities: ethernet physical tp mii 10bt 10bt-fd 100bt 100bt-fd autonegotiation
-       configuration: autonegotiation=on broadcast=yes driver=r8152 driverversion=v1.12.13 duplex=half link=no multicast=yes port=MII
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=rndis_host driverversion=6.16.3-200.fc42.x86_64 duplex=half firmware=RNDIS device ip=[REDACTED_IP] link=yes multicast=yes port=twisted pair
+  *-network:1
+       description: Ethernet interface
+       product: 802.11ac NIC
+       physical id: a
+       bus info: [REDACTED_USER]@3:1
+       logical name: wlp4s0f4u1i2
+       serial: [REDACTED_MAC]
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=rtw88_8821cu driverversion=6.16.3-200.fc42.x86_64 firmware=N/A link=no multicast=yes
