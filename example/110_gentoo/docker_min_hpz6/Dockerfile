@@ -400,7 +400,6 @@ usr/src \
 var/cache/binpkgs \
 var/cache/distfiles \
 "gentoo*squashfs" \
-"usr/lib/llvm/*/lib64/lib*.a" \
 "usr/lib64/libQt*.a" \
 usr/share/genkernel/distfiles \
 usr/src/linux \
@@ -431,6 +430,7 @@ usr/share/gtk-doc \
 usr/share/doc \
 usr/share/locale
 
+# "usr/lib/llvm/*/lib64/lib*.a" 
 # 'opt/rust-bin*'
 #usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus}
 #usr/lib/firmware/{iwlwifi,phanfw}*
