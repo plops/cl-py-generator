@@ -45,13 +45,83 @@ RUN eselect kernel set linux-${KVER}
 WORKDIR /usr/src/linux
 COPY config/config6.12.41 .config
 #  Update current config utilising a provided .config as base
-RUN make oldconfig 
+RUN make oldconfig
+# cd example/110_gentoo/docker_min_hpz6/systems
+# find .|grep lsmod|xargs cat|sort|uniq|grep -v nouveau > /dev/shm/lsmod
+# yes "" | make LSMOD=/dev/shm/lsmod localmodconfig
+
 
 # RUN ./scripts/config --file .config \
 # --set-val MODPROBE_PATH "/usr/sbin/modprobe" \
 # --set-val EXTRA_FIRMWARE "amd-ucode/microcode_amd_fam19h.bin rtw89/rtw8852b_fw.bin regulatory.db" \
 # --set-val EXTRA_FIRMWARE_DIR "/usr/lib/firmware" \
-# -e SQUASHFS 
+# -e SQUASHFS
+
+RUN <<EOF
+set -e
+OPTIONS="
+BT_BCM
+BT_INTEL
+BT_INTEL_PCIE
+BT_MTK
+BT_RTL
+BT_BNEP
+BT_HCIBTUSB
+APPLE_MFI_FASTCHARGE
+USB_NET_CDCETHER
+EEEPC_WMI
+ASUS_WMI
+HP_WMI
+IDEAPAD_LAPTOP
+USB_NET_CDC_NCM
+EEPROM_EE1004
+EDAC_DECODE_MCE
+EFI_PARTITION
+THINKPAD_LMI
+THINKPAD_ACPI
+HID_CHERRY
+HID_GENERIC
+HID_LOGITECH
+HID_LOGITECH_HIDPP
+HID_MULTITOUCH
+HID_LENOVO
+LENOVO_WMI_CAMERA
+HID_PLANTRONICS
+CRYPTO_GHASH_CLMUL_NI_INTEL
+INTEL_RAPL_CORE
+INTEL_RAPL
+USB_IPHETH
+SENSORS_K10TEMP
+NVME_KEYRING
+NVME_AUTH
+PPDEV
+USB_NET_QMI_WWAN
+QRTR
+R8169
+RTW88_8821C
+RTW88_8821CU
+RTW89_8852B
+RTW89_8852BE
+RTW89_8852B_COMMON
+SND_HDA_CODEC_REALTEK
+SND_HDA_INTEL
+CRYPTO_SHA1_SSSE3
+CRYPTO_SHA256_SSSE3
+CRYPTO_SHA512_SSSE3
+SND_SOC_AMD_ACP_LEGACY_COMMON
+SND_SOC_AMD_ACP_COMMON
+SND_SOC_AMD_ACP_PCI
+USB_USBNET
+USB_VIDEO_CLASS
+"
+# Use printf to format each option with a preceding "-m"
+# The result is captured into the M_OPTIONS variable
+M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
+
+# Execute the script a single time with the dynamically built list of options
+./scripts/config --file .config $M_OPTIONS
+EOF
+
 
 RUN make prepare
 
