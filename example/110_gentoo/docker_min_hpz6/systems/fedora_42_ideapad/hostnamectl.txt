@@ -3,12 +3,12 @@
            Icon name: computer-laptop
              Chassis: laptop 💻
           Machine ID: a7f98636703f49dda29ba1eb73c4d650
-             Boot ID: 6e39e9ee38c94f7eba43056da771d0fb
+             Boot ID: f9bb4b482f2c4317b3e359b510f49414
         Product UUID: 470b3d6d-b944-11ec-80f2-6c24082e961b
     Operating System: Fedora Linux 42 (Workstation Edition)
          CPE OS Name: cpe:/o:fedoraproject:fedora:42
       OS Support End: Wed 2026-05-13
-OS Support Remaining: 8month 1w 5d
+OS Support Remaining: 7month 4w 1d
               Kernel: Linux 6.16.3-200.fc42.x86_64
         Architecture: x86-64
      Hardware Vendor: Lenovo
@@ -16,4 +16,4 @@ OS Support Remaining: 8month 1w 5d
      Hardware Serial: PF3RDZY1
     Firmware Version: JTCN42WW
        Firmware Date: Tue 2023-01-10
-        Firmware Age: 2y 7month 2w 5d
+        Firmware Age: 2y 8month 2d
