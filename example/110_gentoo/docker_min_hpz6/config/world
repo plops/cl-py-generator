@@ -94,3 +94,4 @@ dev-db/postgresql
  app-misc/tmux
  sys-apps/dmidecode
 llvm-core/clang
+ dev-cpp/folly
