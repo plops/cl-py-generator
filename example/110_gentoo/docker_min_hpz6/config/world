@@ -96,3 +96,4 @@ dev-db/postgresql
 llvm-core/clang
  dev-cpp/folly
  www-apps/chromedriver-bin
+ dev-util/android-tools
