@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-db_file = os.path.join('data', 'summaries.db')
+db_file = os.path.join("data", "summaries.db")
 
 print(f"Opening and closing the database to trigger a checkpoint: {db_file}")
 

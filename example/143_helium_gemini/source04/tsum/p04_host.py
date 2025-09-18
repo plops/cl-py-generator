@@ -614,12 +614,8 @@ def generate_and_save(identifier: int):
                 HarmBlockThreshold.BLOCK_NONE
             ),
         }
-        tools = [types.Tool(url_context=types.UrlContext()),
-                 types.Tool(googleSearch=types.GoogleSearch(
-                 ))]
-        generation_config = types.Generate
         prompt = get_prompt(s)
-        response = m.generate_content(prompt, safety_settings=safety, stream=True, tools=tools)
+        response = m.generate_content(prompt, safety_settings=safety, stream=True)
         for chunk in response:
             try:
                 logger.debug(f"Adding text chunk to id={identifier}")
