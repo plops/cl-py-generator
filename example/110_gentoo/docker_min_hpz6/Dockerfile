@@ -174,6 +174,7 @@ RUN sudo chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
 #RUN IGNORE_PREEMPT_RT_PRESENCE=1 emerge nvidia-drivers
 
 COPY config/20-enp65s0.network /etc/systemd/network/
+COPY config/resolv.conf /etc/
 
 #COPY config/list_files.py /usr/bin/list_files.py
 #RUN chmod a+x /usr/bin/list_files.py
