@@ -8,6 +8,7 @@ fi
 
 # The private key for the reverse tunnels should be provided in the environment as TUNNEL_KEY
 # Example: export TUNNEL_KEY="$(cat ~/.ssh/tunnel_id_rsa)"
+export TUNNEL_KEY="$(cat ~/.ssh/tinyus_key.pem)"
 # It will be passed into the build and written into /etc/dracut-crypt-ssh/tunnel_id_rsa
 DOCKER_BUILDKIT=1 docker build \
   --build-arg INITRAMFS_AUTH_KEY="$AUTHKEY" \
