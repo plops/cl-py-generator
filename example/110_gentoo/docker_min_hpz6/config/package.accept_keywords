@@ -5,3 +5,4 @@ dev-util/clion ~amd64
 dev-util/nvidia-cuda-toolkit ~amd64
 dev-util/ruff ~amd64
 net-misc/apt-cacher-ng ~amd64
+sys-kernel/dracut-crypt-ssh  ~amd64
