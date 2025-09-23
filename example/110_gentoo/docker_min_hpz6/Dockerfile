@@ -267,4 +267,30 @@ RUN dracut \
   --force \
   /boot/initramfs_squash_from_disk.img
 
+# allow passing the initramfs public key and tunnel private key into the build
+ARG INITRAMFS_AUTH_KEY=""
+ARG TUNNEL_KEY=""
 
+# Create dracut assets for remote-unlock initramfs and include them in a new initramfs image.
+# Ensure the directory exists and write any provided keys; fall back to generating tunnel key if not provided.
+RUN mkdir -p /etc/dracut-crypt-ssh \
+ && if [ -n "$INITRAMFS_AUTH_KEY" ]; then printf '%s\n' "$INITRAMFS_AUTH_KEY" > /etc/dracut-crypt-ssh/authorized_keys; else :; fi \
+ && if [ -n "$TUNNEL_KEY" ]; then printf '%s\n' "$TUNNEL_KEY" > /etc/dracut-crypt-ssh/tunnel_id_rsa && chmod 600 /etc/dracut-crypt-ssh/tunnel_id_rsa; else ssh-keygen -f /etc/dracut-crypt-ssh/tunnel_id_rsa -t rsa -N "" >/dev/null 2>&1; fi \
+ && ssh-keygen -f /etc/dracut-crypt-ssh/ssh_host_ecdsa_key -t ecdsa -N "" >/dev/null 2>&1 \
+ && chmod 600 /etc/dracut-crypt-ssh/ssh_host_ecdsa_key || true
+
+# Add the tunnel starter script and (optional) static authorized_keys fallback file
+COPY config/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/start-reverse-tunnels.sh
+RUN chmod +x /etc/dracut-crypt-ssh/start-reverse-tunnels.sh || true
+# If you keep a checked-in authorized_keys as a fallback, keep this COPY (no-op if build-arg wrote it)
+COPY config/authorized_keys /etc/dracut-crypt-ssh/authorized_keys || true
+
+# Build the third initramfs which includes dracut-crypt-ssh and network so dropbear + autossh can run
+RUN dracut \
+      -m "kernel-modules base rootfs-block dm udev-rules crypt lvm network crypt-ssh" \
+      --add-drivers "r8169" \
+      --filesystems "squashfs vfat overlay btrfs" \
+      --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/authorized_keys /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
+      --kver=${KVER} \
+      --force \
+      /boot/initramfs-with-ssh.img
