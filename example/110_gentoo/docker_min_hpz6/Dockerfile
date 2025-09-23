@@ -283,7 +283,11 @@ RUN mkdir -p /etc/dracut-crypt-ssh \
 COPY config/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/start-reverse-tunnels.sh
 RUN chmod +x /etc/dracut-crypt-ssh/start-reverse-tunnels.sh || true
 # If you keep a checked-in authorized_keys as a fallback, keep this COPY (no-op if build-arg wrote it)
-COPY config/authorized_keys /etc/dracut-crypt-ssh/authorized_keys || true
+# NOTE: COPY does not support shell operators like "|| true" — make the fallback optional via a conditional RUN.
+COPY config /tmp/config
+RUN if [ -f /tmp/config/authorized_keys ] && [ ! -f /etc/dracut-crypt-ssh/authorized_keys ]; then \
+      cp /tmp/config/authorized_keys /etc/dracut-crypt-ssh/authorized_keys; \
+    fi && rm -rf /tmp/config || true
 
 # Build the third initramfs which includes dracut-crypt-ssh and network so dropbear + autossh can run
 RUN dracut \
