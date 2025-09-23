@@ -1,0 +1,17 @@
+[Unit]
+Description=Reverse SSH tunnel to tinyeu
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=kiel
+Environment=HOME=/home/kiel
+# Do NOT use -f; systemd manages the process
+ExecStart=/usr/bin/autossh -M 0 -N -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -R 2332:localhost:22 tinyus
+Restart=always
+RestartSec=10
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+[Install]
+WantedBy=multi-user.target

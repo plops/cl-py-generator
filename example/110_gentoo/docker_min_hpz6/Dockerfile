@@ -175,6 +175,10 @@ RUN sudo chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
 
 COPY config/20-enp65s0.network /etc/systemd/network/
 COPY config/resolv.conf /etc/
+COPY config/reverse-ssh-eu.service /etc/systemd/system/
+COPY config/reverse-ssh-us.service /etc/systemd/system/
+RUN systemctl enable reverse-ssh-eu
+RUN systemctl enable reverse-ssh-us
 
 #COPY config/list_files.py /usr/bin/list_files.py
 #RUN chmod a+x /usr/bin/list_files.py
