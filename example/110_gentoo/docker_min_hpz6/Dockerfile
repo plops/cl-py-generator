@@ -274,6 +274,7 @@ ARG TUNNEL_KEY=""
 # Create dracut assets for remote-unlock initramfs and include them in a new initramfs image.
 # Ensure the directory exists and write any provided keys; fall back to generating tunnel key if not provided.
 RUN mkdir -p /etc/dracut-crypt-ssh \
+    && mkdir -p /root/.ssh \
  && if [ -n "$INITRAMFS_AUTH_KEY" ]; then printf '%s\n' "$INITRAMFS_AUTH_KEY" > /root/.ssh/authorized_keys; else :; fi \
  && if [ -n "$TUNNEL_KEY" ]; then printf '%s\n' "$TUNNEL_KEY" > /etc/dracut-crypt-ssh/tunnel_id_rsa && chmod 600 /etc/dracut-crypt-ssh/tunnel_id_rsa; else ssh-keygen -f /etc/dracut-crypt-ssh/tunnel_id_rsa -t rsa -N "" >/dev/null 2>&1; fi \
  && ssh-keygen -f /etc/dracut-crypt-ssh/ssh_host_ecdsa_key -t ecdsa -N "" >/dev/null 2>&1 \
