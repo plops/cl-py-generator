@@ -1,0 +1,20 @@
+menuentry 'Gentoo with Remote SSH Unlock' --class gentoo --class gnu-linux --class gnu --class os {
+	load_video
+	insmod gzio
+	insmod part_gpt
+	insmod btrfs
+	search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
+	echo	'Loading Linux 6.12.41-gentoo ...'
+	linux	/boot/vmlinuz root=UUID=4f708c84-185d-437b-a03a-7a565f598a23 ro \
+		squashfs.part=/dev/disk/by-label/gentoo \
+		squashfs.file=gentoo.squashfs \
+		persist.part=/dev/disk/by-uuid/42bbab57-7cb0-465f-8ef9-6b34379da7d3 \
+		persist.lv=/dev/mapper/ubuntu--vg-ubuntu--lv \
+		persist.mapname=vg \
+		rd.luks.uuid=42bbab57-7cb0-465f-8ef9-6b34379da7d3 \
+		rd.neednet=1 \
+		ip=enp65s0:dhcp \
+		rd.ssh.start_shell=/etc/dracut-crypt-ssh/start-reverse-tunnels.sh
+	echo	'Loading initial ramdisk for remote unlock ...'
+	initrd	/boot/initramfs-with-ssh.img
+}
