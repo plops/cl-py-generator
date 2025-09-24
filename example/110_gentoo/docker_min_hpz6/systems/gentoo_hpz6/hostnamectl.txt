@@ -1,0 +1,16 @@
+   Static hostname: (unset)
+Transient hostname: localhost
+         Icon name: computer-desktop
+           Chassis: desktop 🖥️
+        Machine ID: 3bc5cd7540d300807a0a4a1d68c3ef75
+           Boot ID: 2ae7a47397e846b6bfda2b71290df2b0
+      Product UUID: 3381a3ab-3053-4069-b0c3-d3d7a6573c81
+  Operating System: Gentoo Linux
+            Kernel: Linux 6.12.41-gentoo
+      Architecture: x86-64
+   Hardware Vendor: HP
+    Hardware Model: HP Z6 G5 A Workstation Desktop PC
+   Hardware Serial: CZC4177H9W
+  Firmware Version: U65 Ver. 01.01.21
+     Firmware Date: Thu 2024-08-15
+      Firmware Age: 1y 1month 1w 2d

@@ -1,0 +1,18 @@
+NAME                        MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
+loop0                         7:0    0   7.5G  0 loop  
+sda                           8:0    0 476.9G  0 disk  
+├─sda1                        8:1    0  19.5G  0 part  
+├─sda2                        8:2    0  48.8G  0 part  
+└─sda3                        8:3    0 408.6G  0 part  
+nvme1n1                     259:0    0 953.9G  0 disk  
+├─nvme1n1p1                 259:1    0     1G  0 part  
+├─nvme1n1p2                 259:2    0     2G  0 part  
+└─nvme1n1p3                 259:3    0 950.8G  0 part  
+  └─vg                      253:0    0 950.8G  0 crypt 
+    └─[REDACTED_USER]--vg-[REDACTED_USER]--lv 253:1    0 950.8G  0 lvm   
+nvme0n1                     259:4    0 953.9G  0 disk  
+├─nvme0n1p1                 259:5    0     1G  0 part  
+├─nvme0n1p2                 259:6    0     8G  0 part  
+├─nvme0n1p3                 259:7    0 195.3G  0 part  
+├─nvme0n1p4                 259:8    0  22.5G  0 part  
+└─nvme0n1p5                 259:9    0 687.1G  0 part  

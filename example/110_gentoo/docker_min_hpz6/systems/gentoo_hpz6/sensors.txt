@@ -1,0 +1,27 @@
+hp-isa-0000
+Adapter: ISA adapter
+pwm1:             N/A
+
+ucsi_source_psy_USBC000:001-isa-0000
+Adapter: ISA adapter
+in0:           0.00 V  (min =  +0.00 V, max =  +0.00 V)
+curr1:         0.00 A  (max =  +0.00 A)
+
+nvme-pci-8200
+Adapter: PCI adapter
+Composite:    +37.9°C  (low  =  -0.1°C, high = +79.8°C)
+                       (crit = +81.8°C)
+Sensor 1:     +37.9°C  (low  = -273.1°C, high = +65261.8°C)
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tctl:         +54.9°C  
+Tccd1:        +43.0°C  
+Tccd2:        +41.5°C  
+
+nvme-pci-8100
+Adapter: PCI adapter
+Composite:    +37.9°C  (low  =  -0.1°C, high = +79.8°C)
+                       (crit = +81.8°C)
+Sensor 1:     +37.9°C  (low  = -273.1°C, high = +65261.8°C)
+

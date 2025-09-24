@@ -1,0 +1,1 @@
+Linux localhost 6.12.41-gentoo #1 SMP PREEMPT_RT Tue Sep 23 21:32:03 -00 2025 x86_64 AMD Ryzen Threadripper PRO 7955WX 16-Cores AuthenticAMD GNU/Linux
