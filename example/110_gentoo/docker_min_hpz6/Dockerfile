@@ -274,7 +274,7 @@ ARG TUNNEL_KEY=""
 # Create dracut assets for remote-unlock initramfs and include them in a new initramfs image.
 # Ensure the directory exists and write any provided keys; fall back to generating tunnel key if not provided.
 RUN mkdir -p /etc/dracut-crypt-ssh \
- && if [ -n "$INITRAMFS_AUTH_KEY" ]; then printf '%s\n' "$INITRAMFS_AUTH_KEY" > /etc/dracut-crypt-ssh/authorized_keys; else :; fi \
+ && if [ -n "$INITRAMFS_AUTH_KEY" ]; then printf '%s\n' "$INITRAMFS_AUTH_KEY" > /root/.ssh/authorized_keys; else :; fi \
  && if [ -n "$TUNNEL_KEY" ]; then printf '%s\n' "$TUNNEL_KEY" > /etc/dracut-crypt-ssh/tunnel_id_rsa && chmod 600 /etc/dracut-crypt-ssh/tunnel_id_rsa; else ssh-keygen -f /etc/dracut-crypt-ssh/tunnel_id_rsa -t rsa -N "" >/dev/null 2>&1; fi \
  && ssh-keygen -f /etc/dracut-crypt-ssh/ssh_host_ecdsa_key -t ecdsa -N "" >/dev/null 2>&1 \
  && chmod 600 /etc/dracut-crypt-ssh/ssh_host_ecdsa_key || true
@@ -282,19 +282,17 @@ RUN mkdir -p /etc/dracut-crypt-ssh \
 # Add the tunnel starter script and (optional) static authorized_keys fallback file
 COPY config/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/start-reverse-tunnels.sh
 RUN chmod +x /etc/dracut-crypt-ssh/start-reverse-tunnels.sh || true
-## If you keep a checked-in authorized_keys as a fallback, keep this COPY (no-op if build-arg wrote it)
-## NOTE: COPY does not support shell operators like "|| true" — make the fallback optional via a conditional RUN.
-#COPY config /tmp/config
-#RUN if [ -f /tmp/config/authorized_keys ] && [ ! -f /etc/dracut-crypt-ssh/authorized_keys ]; then \
-#      cp /tmp/config/authorized_keys /etc/dracut-crypt-ssh/authorized_keys; \
-#    fi && rm -rf /tmp/config || true
 
 # Build the third initramfs which includes dracut-crypt-ssh and network so dropbear + autossh can run
 RUN dracut \
       -m "kernel-modules base rootfs-block dm udev-rules crypt lvm network crypt-ssh" \
       --add-drivers "r8169" \
       --filesystems "squashfs vfat overlay btrfs" \
-      --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/authorized_keys /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
+      --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
       --kver=${KVER} \
       --force \
       /boot/initramfs-with-ssh.img
+
+# real    174m37.518s
+#70 198.6 Filesystem size 7895377.73 Kbytes (7710.33 Mbytes)
+#70 198.6       36.59% of uncompressed filesystem size (21579915.17 Kbytes)
