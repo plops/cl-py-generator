@@ -1,5 +1,5 @@
 NAME        MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
-loop0         7:0    0   7.3G  0 loop  
+loop0         7:0    0   7.5G  0 loop  
 sda           8:0    0 238.5G  0 disk  
 ├─sda1        8:1    0   2.8G  0 part  
 └─sda3        8:3    0 235.6G  0 part  

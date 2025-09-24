@@ -76,12 +76,12 @@ localhost
           version: 25.80.0
           serial: Null
           slot: FP6
-          size: 400MHz
+          size: 2598MHz
           capacity: 4388MHz
           width: 64 bits
           clock: 100MHz
           capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp x86-64 constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk clzero irperf xsaveerptr rdpru wbnoinvd cppc arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl umip pku ospke vaes vpclmulqdq rdpid overflow_recov succor smca fsrm debug_swap cpufreq
-          configuration: cores=6 enabledcores=6 microcode=173015052 threads=12
+          configuration: cores=6 enabledcores=6 microcode=173015058 threads=12
      *-firmware
           description: BIOS
           vendor: LENOVO
@@ -162,7 +162,7 @@ localhost
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm msi pciexpress bus_master cap_list ethernet physical wireless
-                configuration: broadcast=yes driver=rtw89_8852be driverversion=6.12.31-gentoo firmware=N/A ip=[REDACTED_IP] latency=0 link=yes multicast=yes wireless=IEEE 802.11
+                configuration: broadcast=yes driver=rtw89_8852be driverversion=6.12.41-gentoo firmware=N/A ip=[REDACTED_IP] latency=0 link=yes multicast=yes wireless=IEEE 802.11
                 resources: irq:74 ioport:2000(size=256) memory:fd600000-fd6fffff
         *-pci:2
              description: PCI bridge
@@ -237,7 +237,7 @@ localhost
                       serial: 80b66b33-ce31-4a54-9adc-b6c72fe3a826
                       size: 50GiB
                       capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
-                      configuration: created=2023-07-12 14:57:54 filesystem=ext4 lastmountpoint=/mnt3 modified=2025-08-30 06:08:58 mounted=2025-08-30 06:08:58 state=clean
+                      configuration: created=2023-07-12 14:57:54 filesystem=ext4 lastmountpoint=/mnt3 modified=2025-09-24 16:46:08 mounted=2025-09-24 16:46:08 state=clean
                  *-volume:3
                       description: EFI partition
                       physical id: 4
@@ -287,7 +287,7 @@ localhost
                 resources: iomemory:40-3f iomemory:40-3f irq:48 memory:460000000-46fffffff memory:470000000-4701fffff ioport:1000(size=256) memory:fd400000-fd47ffff
            *-multimedia:0
                 description: Audio device
-                product: Renoir Radeon High Definition Audio Controller
+                product: Renoir/Cezanne HDMI/DP Audio Controller
                 vendor: Advanced Micro Devices, Inc. [AMD/ATI]
                 physical id: 0.1
                 bus info: [REDACTED_USER]@0000:04:00.1
@@ -305,16 +305,16 @@ localhost
               *-input:0
                    product: HD-Audio Generic HDMI/DP,pcm=3
                    physical id: 0
-                   logical name: input14
-                   logical name: /dev/input/event10
+                   logical name: input18
+                   logical name: /dev/input/event13
               *-input:1
                    product: HD-Audio Generic HDMI/DP,pcm=7
                    physical id: 1
-                   logical name: input15
-                   logical name: /dev/input/event11
+                   logical name: input19
+                   logical name: /dev/input/event14
            *-generic
                 description: Encryption controller
-                product: Family 17h (Models 10h-1fh) Platform Security Processor
+                product: Raven/Raven2/FireFlight/Renoir/Cezanne Platform Security Processor
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.2
                 bus info: [REDACTED_USER]@0000:04:00.2
@@ -338,26 +338,14 @@ localhost
                 resources: irq:39 memory:fd100000-fd1fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.31-gentoo xhci-hcd
+                   vendor: Linux 6.12.41-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@1
                    logical name: usb1
                    version: 6.12
                    capabilities: usb-2.00
                    configuration: driver=hub slots=4 speed=480Mbit/s
-                 *-usb:0
-                      description: Mouse
-                      product: PixArt HP USB Optical Mouse
-                      vendor: PixArt
-                      physical id: 2
-                      bus info: [REDACTED_USER]@1:2
-                      logical name: input3
-                      logical name: /dev/input/event3
-                      logical name: /dev/input/mouse0
-                      version: 1.00
-                      capabilities: usb-2.00 usb
-                      configuration: driver=usbhid maxpower=100mA speed=2Mbit/s
-                 *-usb:1 UNCLAIMED
+                 *-usb UNCLAIMED
                       description: Video
                       product: Integrated Camera
                       vendor: Chicony Electronics Co.,Ltd.
@@ -369,7 +357,7 @@ localhost
                       configuration: maxpower=500mA speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.31-gentoo xhci-hcd
+                   vendor: Linux 6.12.41-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@2
                    logical name: usb2
@@ -390,7 +378,7 @@ localhost
                 resources: irq:48 memory:fd200000-fd2fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.31-gentoo xhci-hcd
+                   vendor: Linux 6.12.41-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@3
                    logical name: usb3
@@ -398,15 +386,28 @@ localhost
                    capabilities: usb-2.00
                    configuration: driver=hub slots=4 speed=480Mbit/s
                  *-usb:0
-                      description: Communication device
-                      product: USB 10/100 LAN
-                      vendor: Realtek
+                      description: Keyboard
+                      product: Logitech USB Receiver System Control
+                      vendor: Logitech
                       physical id: 1
                       bus info: [REDACTED_USER]@3:1
-                      version: 20.00
-                      serial: 00E04C3605F8
-                      capabilities: usb-2.10 ethernet
-                      configuration: driver=cdc_ether maxpower=100mA speed=480Mbit/s
+                      logical name: input3
+                      logical name: /dev/input/event3
+                      logical name: input3::capslock
+                      logical name: input3::compose
+                      logical name: input3::kana
+                      logical name: input3::numlock
+                      logical name: input3::scrolllock
+                      logical name: input5
+                      logical name: /dev/input/event5
+                      logical name: /dev/input/mouse0
+                      logical name: input6
+                      logical name: /dev/input/event6
+                      logical name: input7
+                      logical name: /dev/input/event7
+                      version: 24.10
+                      capabilities: usb-2.00 usb
+                      configuration: driver=usbhid maxpower=98mA speed=12Mbit/s
                  *-usb:1
                       description: Bluetooth wireless interface
                       product: Bluetooth Radio
@@ -419,7 +420,7 @@ localhost
                       configuration: driver=btusb maxpower=500mA speed=12Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.31-gentoo xhci-hcd
+                   vendor: Linux 6.12.41-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@4
                    logical name: usb4
@@ -428,7 +429,7 @@ localhost
                    configuration: driver=hub slots=2 speed=10000Mbit/s
            *-multimedia:1 UNCLAIMED
                 description: Multimedia controller
-                product: ACP/ACP3X/ACP6x Audio Coprocessor
+                product: Audio Coprocessor
                 vendor: Advanced Micro Devices, Inc. [AMD]
                 physical id: 0.5
                 bus info: [REDACTED_USER]@0000:04:00.5
@@ -458,13 +459,13 @@ localhost
               *-input:0
                    product: HD-Audio Generic Mic
                    physical id: 0
-                   logical name: input16
-                   logical name: /dev/input/event12
+                   logical name: input20
+                   logical name: /dev/input/event15
               *-input:1
                    product: HD-Audio Generic Headphone
                    physical id: 1
-                   logical name: input17
-                   logical name: /dev/input/event13
+                   logical name: input21
+                   logical name: /dev/input/event16
         *-pci:4
              description: PCI bridge
              product: Renoir Internal PCIe GPP Bridge to Bus
@@ -583,8 +584,8 @@ localhost
            *-input
                 product: Ideapad extra buttons
                 physical id: 5
-                logical name: input12
-                logical name: /dev/input/event8
+                logical name: input17
+                logical name: /dev/input/event12
                 capabilities: platform
      *-pci:1
           description: Host bridge
@@ -700,52 +701,43 @@ localhost
        logical name: /dev/input/event1
        capabilities: platform
   *-input:2
-       product: MSFT0001:00 04F3:31BE Touchpad
+       product: MSFT0001:00 04F3:31BE Mouse
        physical id: 3
-       logical name: input10
-       logical name: /dev/input/event6
-       logical name: /dev/input/mouse2
+       logical name: input12
+       logical name: /dev/input/event8
+       logical name: /dev/input/mouse1
        capabilities: i2c
   *-input:3
-       product: Video Bus
+       product: MSFT0001:00 04F3:31BE Touchpad
        physical id: 4
-       logical name: input11
-       logical name: /dev/input/event7
-       capabilities: platform
-  *-input:4
-       product: PC Speaker
-       physical id: 5
-       logical name: input13
+       logical name: input14
        logical name: /dev/input/event9
-       capabilities: isa
+       logical name: /dev/input/mouse2
+       capabilities: i2c
+  *-input:4
+       product: Video Bus
+       physical id: 5
+       logical name: input15
+       logical name: /dev/input/event10
+       capabilities: platform
   *-input:5
-       product: Power Button
+       product: PC Speaker
        physical id: 6
+       logical name: input16
+       logical name: /dev/input/event11
+       capabilities: isa
+  *-input:6
+       product: Power Button
+       physical id: 7
        logical name: input2
        logical name: /dev/input/event2
        capabilities: platform
-  *-input:6
-       product: AT Translated Set 2 keyboard
-       physical id: 7
-       logical name: input7
-       logical name: /dev/input/event4
-       logical name: input7::capslock
-       logical name: input7::numlock
-       logical name: input7::scrolllock
-       capabilities: i8042
   *-input:7
-       product: MSFT0001:00 04F3:31BE Mouse
+       product: AT Translated Set 2 keyboard
        physical id: 8
-       logical name: input8
-       logical name: /dev/input/event5
-       logical name: /dev/input/mouse1
-       capabilities: i2c
-  *-network DISABLED
-       description: Ethernet interface
-       product: USB 10/100 LAN
-       physical id: 9
-       bus info: [REDACTED_USER]@3:1
-       logical name: enp4s0f4u1c2
-       serial: [REDACTED_MAC]
-       capabilities: ethernet physical
-       configuration: autonegotiation=off broadcast=yes driver=cdc_ether driverversion=6.12.31-gentoo duplex=half firmware=CDC Ethernet Device link=no multicast=yes port=twisted pair
+       logical name: input4
+       logical name: /dev/input/event4
+       logical name: input4::capslock
+       logical name: input4::numlock
+       logical name: input4::scrolllock
+       capabilities: i8042

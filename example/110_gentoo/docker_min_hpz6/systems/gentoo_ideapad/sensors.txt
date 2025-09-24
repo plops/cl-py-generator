@@ -1,22 +1,22 @@
 amdgpu-pci-0400
 Adapter: PCI adapter
-vddgfx:      793.00 mV 
+vddgfx:        1.36 V  
 vddnb:       774.00 mV 
-edge:         +42.0°C  
-PPT:           4.00 W  
+edge:         +45.0°C  
+PPT:          10.00 W  
 sclk:         400 MHz 
 
 BAT0-acpi-0
 Adapter: ACPI interface
-in0:           8.62 V  
+in0:           8.14 V  
 power1:        0.00 W  
 
 k10temp-pci-00c3
 Adapter: PCI adapter
-Tctl:         +52.6°C  
+Tctl:         +58.8°C  
 
 nvme-pci-0300
 Adapter: PCI adapter
-Composite:    +36.9°C  (low  =  -0.1°C, high = +82.8°C)
+Composite:    +43.9°C  (low  =  -0.1°C, high = +82.8°C)
                        (crit = +89.8°C)
 

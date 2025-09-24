@@ -1,1 +1,1 @@
-Linux localhost 6.12.31-gentoo #1 SMP PREEMPT_RT Thu Aug 28 17:18:45 -00 2025 x86_64 AMD Ryzen 5 5625U with Radeon Graphics AuthenticAMD GNU/Linux
+Linux localhost 6.12.41-gentoo #1 SMP PREEMPT_RT Tue Sep 23 21:32:03 -00 2025 x86_64 AMD Ryzen 5 5625U with Radeon Graphics AuthenticAMD GNU/Linux
