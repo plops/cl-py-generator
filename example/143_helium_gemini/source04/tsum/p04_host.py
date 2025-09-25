@@ -435,11 +435,6 @@ Output tokens: {output_tokens}"""
                 href=f"{s.original_source_link}",
                 id="source-link",
             ),
-            P(B("include_comments:"), Span(f"{s.include_comments}")),
-            P(B("include_timestamps:"), Span(f"{s.include_timestamps}")),
-            P(B("include_glossary:"), Span(f"{s.include_glossary}")),
-            P(B("output_language:"), Span(f"{s.output_language}")),
-            P(B("cost:"), Span(f"{s.cost}")),
             cls="summary-details",
         )
         summary_container = Div(summary_details, cls="summary-container")
