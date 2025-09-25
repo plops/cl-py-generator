@@ -45,7 +45,7 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
       formData.append('original_source_link', pageUrl);
       formData.append('transcript', transcriptToSend);
       // use selected model value from the dropdown (default set in HTML)
-      formData.append('model', (modelSelect && modelSelect.value) ? modelSelect.value : 'gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000');
+      formData.append('model', (modelSelect && modelSelect.value) ? modelSelect.value : 'gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000');
       formData.append('output_language', 'en');
       formData.append('include_timestamps', 'on');
 
