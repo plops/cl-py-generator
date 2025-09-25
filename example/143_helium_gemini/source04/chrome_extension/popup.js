@@ -7,19 +7,43 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const currentTab = tabs[0];
-    if (currentTab) {
-      const youtubeUrl = currentTab.url;
+    if (!currentTab) {
+      status.textContent = 'Could not get current tab.';
+      summarizeButton.disabled = false;
+      return;
+    }
 
-      // Optional: Check if it's a YouTube URL
-      if (!youtubeUrl.includes("youtube.com/watch")) {
-        status.textContent = "Not a YouTube video page.";
-        summarizeButton.disabled = false;
-        return;
+    // Inject a small script to read selection and page text
+    chrome.scripting.executeScript({
+      target: { tabId: currentTab.id, allFrames: false },
+      func: () => {
+        return {
+          selection: (window.getSelection ? window.getSelection().toString() : '').trim(),
+          text: (document.body ? document.body.innerText : '').trim()
+        };
+      }
+    }).then((injectionResults) => {
+      const pageResult = (injectionResults && injectionResults[0] && injectionResults[0].result) || {};
+      const selectionText = pageResult.selection || '';
+      const pageText = pageResult.text || '';
+      const pageUrl = currentTab.url || '';
+
+      // Decide what to send:
+      // - If user selected text, send that only (but still include original link).
+      // - Else if it's a YouTube watch page, send the link and empty transcript.
+      // - Else (non-YouTube, no selection) send page text and the page link.
+      let transcriptToSend = '';
+      if (selectionText) {
+        transcriptToSend = selectionText;
+      } else if (pageUrl.includes('youtube.com/watch')) {
+        transcriptToSend = '';
+      } else {
+        transcriptToSend = pageText;
       }
 
       const formData = new FormData();
-      formData.append('original_source_link', youtubeUrl);
-      formData.append('transcript', '');
+      formData.append('original_source_link', pageUrl);
+      formData.append('transcript', transcriptToSend);
       // use selected model value from the dropdown (default set in HTML)
       formData.append('model', (modelSelect && modelSelect.value) ? modelSelect.value : 'gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 128_000');
       formData.append('output_language', 'en');
@@ -42,10 +66,11 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
         status.textContent = 'An error occurred.';
         summarizeButton.disabled = false;
       });
-    } else {
-        status.textContent = 'Could not get current tab.';
-        summarizeButton.disabled = false;
-    }
+    }).catch((err) => {
+      console.error('Injection error:', err);
+      status.textContent = 'Could not read page content.';
+      summarizeButton.disabled = false;
+    });
   });
 });
 
