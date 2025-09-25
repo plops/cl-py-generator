@@ -278,6 +278,9 @@ def get(request: Request):
         Ul(Li(Strong("Transcript Summarizer"))),
         Ul(
             Li(A("Map", href="https://rocketrecap.com/exports/index.html")),
+            Li(
+                A("Privacy Policy", href="https://rocketrecap.com/exports/privacy.html")
+            ),
             Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")),
             Li(
                 A(
