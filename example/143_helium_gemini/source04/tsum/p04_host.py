@@ -599,7 +599,9 @@ def generate_and_save(identifier: int):
             ),
         }
         prompt = get_prompt(s)
-        response = m.generate_content(prompt, safety_settings=safety, stream=True)
+        response = m.generate_content(
+            prompt, tools="google_search_retrieval", safety_settings=safety, stream=True
+        )
         for chunk in response:
             try:
                 logger.debug(f"Adding text chunk to id={identifier}")

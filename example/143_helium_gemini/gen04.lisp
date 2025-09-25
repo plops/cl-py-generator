@@ -1182,6 +1182,7 @@ Here is the real transcript. Please summarize it:
 		(do0
 		 (setf response (m.generate_content
 				 prompt
+				 :tools (string "google_search_retrieval")
 				 :safety_settings safety
 				 :stream True))
 		 (for (chunk response)
