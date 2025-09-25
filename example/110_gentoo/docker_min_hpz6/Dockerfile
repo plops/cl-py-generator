@@ -112,6 +112,7 @@ SND_SOC_AMD_ACP_COMMON
 SND_SOC_AMD_ACP_PCI
 USB_USBNET
 USB_VIDEO_CLASS
+USB_SERIAL_CH341
 "
 # Use printf to format each option with a preceding "-m"
 # The result is captured into the M_OPTIONS variable
