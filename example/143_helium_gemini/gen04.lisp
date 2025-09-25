@@ -141,7 +141,7 @@
 	 (db-cols `((:name identifier :type int)
 		    (:name model :type str)
 		    (:name transcript :type str :no-show t)
-		    (:name host :type str)
+		    (:name host :type str :no-show t)
 		    (:name original_source_link :type str)
 		    (:name include_comments :type bool)
 		    (:name include_timestamps :type bool)
@@ -927,7 +927,7 @@ Output tokens: {output_tokens}")
 					      :id (string "source-link")))
 					   ((member name `(embedding
 							   full_embedding
-							   host))
+							   ))
 					    nil)
 					   (t `(P
 						(B (string ,(format nil "~a:" name)))
