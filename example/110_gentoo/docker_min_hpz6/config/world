@@ -99,4 +99,5 @@ llvm-core/clang
  dev-util/android-tools
  net-misc/autossh
  sys-kernel/dracut-crypt-ssh
-  net-misc/mosh 
+  net-misc/mosh
+   net-misc/socat
