@@ -143,8 +143,7 @@ app, rt, summaries, Summary = fast_app(
     full_embedding=bytes,
     pk="identifier",
 )
-documentation = (
-    """**Get Your YouTube Summary:**
+documentation = """**Get Your YouTube Summary:**
 
 1.  **Copy** the video link.
 2.  **Paste** it into the input field.
@@ -163,10 +162,6 @@ documentation = (
 
 *   Select a **Pro model** for automatic summarization. Note that Google seems to not allow free use of Pro model anymore.
 """
-) + (
-    """*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
-"""
-)
 
 
 def get_transcript(url, identifier):
@@ -431,7 +426,6 @@ Output tokens: {output_tokens}"""
         summary_details = Div(
             P(B("identifier:"), Span(f"{s.identifier}")),
             P(B("model:"), Span(f"{s.model}")),
-            P(B("host:"), Span(f"{s.host}")),
             A(
                 f"{s.original_source_link}",
                 target="_blank",
@@ -458,21 +452,13 @@ Output tokens: {output_tokens}"""
         )
         button = Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')")
         prompt_text = get_prompt(s)
-        prompt_pre = Pre(
-            prompt_text, id=f"prompt-pre-{identifier}", style="display: none;"
-        )
-        prompt_button = Button(
-            "Copy Prompt", onclick=f"copyPreContent('prompt-pre-{identifier}')"
-        )
         if (trigger) == (""):
-            return Div(title, pre, prompt_pre, button, prompt_button, id=sid)
+            return Div(title, pre, button, id=sid)
         else:
             return Div(
                 title,
                 pre,
-                prompt_pre,
                 button,
-                prompt_button,
                 id=sid,
                 hx_post=f"/generations/{identifier}",
                 hx_trigger=trigger,

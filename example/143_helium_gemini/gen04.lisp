@@ -41,6 +41,7 @@
 				     :auth ;; oauth login (requires AUTH_CLIENT_{ID,SECRET} in env)
 				     :optional-abstract ;; user can disable abstract generation
 				     :copy-prompt ;; transmit the entire prompt (makes page a lot bigger)
+				     :show-ip ;; display the origin ip of the request
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
@@ -48,7 +49,8 @@
 					      ;:dl
 					      :auth
 					      :optional-abstract
-					      ;:copy-prompt
+					      :copy-prompt
+					      ;:show-ip
 					      )))
 
 (progn
@@ -924,7 +926,8 @@ Output tokens: {output_tokens}")
 					      :href (fstring "{s.original_source_link}")
 					      :id (string "source-link")))
 					   ((member name `(embedding
-							   full_embedding))
+							   full_embedding
+							   host))
 					    nil)
 					   (t `(P
 						(B (string ,(format nil "~a:" name)))
@@ -949,10 +952,12 @@ Output tokens: {output_tokens}")
 				  :onclick (fstring "copyPreContent('pre-{identifier}')")))
 	     (do0
 	      (setf prompt_text (get_prompt s)
-		    prompt_pre (Pre prompt_text :id (fstring "prompt-pre-{identifier}")
+		    )
+	      #+copy-prompt
+	      (setf prompt_pre (Pre prompt_text :id (fstring "prompt-pre-{identifier}")
 						:style (string "display: none;"))
-		    prompt_button (Button (string "Copy Prompt")
-					  :onclick (fstring "copyPreContent('prompt-pre-{identifier}')"))))
+		    prompt_button  (Button (string "Copy Prompt")
+					   :onclick (fstring "copyPreContent('prompt-pre-{identifier}')"))))
 	     
 	     (if (== trigger (string ""))
 		 (return (Div
