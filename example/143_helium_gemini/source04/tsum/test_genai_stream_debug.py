@@ -7,7 +7,7 @@ def main():
     force_mock = os.getenv("FORCE_MOCK", "0") == "1"
     use_mock = force_mock or (api_key is None)
 
-    model = os.getenv("TEST_GENAI_MODEL", "gemini-2.0-flash")
+    model = os.getenv("TEST_GENAI_MODEL", "gemini-2.5-flash-preview-09-2025")
     prompt = "Write a short story about a robot and a cat in 40 words."
 
     if use_mock:
