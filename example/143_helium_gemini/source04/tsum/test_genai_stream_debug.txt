@@ -5,26 +5,26 @@ Streaming generation (showing introspection of raw chunks)...
 GenerateContentResponse (pydantic model):
   dict (len=9):
     ['sdk_http_response'] =>
-        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:03:58 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=445)
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
     ['candidates'] =>
-        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'Unit 7 polished the antenna. The cat, named Chairman...(len=703)
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'Unit'}], 'role': 'model'}, 'citation_metadata': None...(len=511)
     ['create_time'] =>
         NoneType: None
     ['model_version'] =>
         str: 'gemini-2.5-flash-preview-09-2025'
     ['prompt_feedback'] =>
-        <circular id=139692540415488 type=NoneType>
+        <circular id=140353994550784 type=NoneType>
     ['response_id'] =>
-        str: 'vB7WaK2tLPTqvdIPy-_NqAw'
+        str: 'HiDWaO69Mp37kdUPjejScA'
     ... 3 more keys
 === DEBUG: normalized ===
-text: 'Unit 7 polished the antenna. The cat, named Chairman Meow, knocked over the oil can. Unit 7 sighed, a low mechanical hiss. He picked up the cat and placed him on the warm server stack. "Nap time,"'
-usage: {'prompt': 17, 'candidates': 49, 'thinking': 0}
+text: 'Unit'
+usage: {'prompt': 17, 'candidates': 1, 'thinking': 0}
 candidates (first 1): [Candidate(
   content=Content(
     parts=[
       Part(
-        text='Unit 7 polished the antenna. The cat, named Chairman Meow, knocked over the oil can. Unit 7 sighed, a low mechanical hiss. He picked up the cat and placed him on the warm server stack. "Nap time,"'
+        text='Unit'
       ),
     ],
     role='model'
@@ -33,50 +33,162 @@ candidates (first 1): [Candidate(
 )]
 ======================================
 ------ CHUNK #0 ------
-Normalized text -> 'Unit 7 polished the antenna. The cat, named Chairman Meow, knocked over the oil can. Unit 7 sighed, a low mechanical hiss. He picked up the cat and placed him on the warm server stack. "Nap time,"'
-Normalized usage -> {'prompt': 17, 'candidates': 49, 'thinking': 0}
+Normalized text -> 'Unit'
+Normalized usage -> {'prompt': 17, 'candidates': 1, 'thinking': 0}
 Raw object type: <class 'google.genai.types.GenerateContentResponse'>
 Raw object introspection:
 
 GenerateContentResponse (pydantic model):
   dict (len=9):
     ['sdk_http_response'] =>
-        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:03:58 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=445)
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
     ['candidates'] =>
-        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'Unit 7 polished the antenna. The cat, named Chairman...(len=703)
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'Unit'}], 'role': 'model'}, 'citation_metadata': None...(len=511)
     ['create_time'] =>
         NoneType: None
     ['model_version'] =>
         str: 'gemini-2.5-flash-preview-09-2025'
     ['prompt_feedback'] =>
-        <circular id=139692540415488 type=NoneType>
+        <circular id=140353994550784 type=NoneType>
     ['response_id'] =>
-        str: 'vB7WaK2tLPTqvdIPy-_NqAw'
+        str: 'HiDWaO69Mp37kdUPjejScA'
     ... 3 more keys
 === DEBUG: raw chunk introspection ===
 GenerateContentResponse (pydantic model):
   dict (len=9):
     ['sdk_http_response'] =>
-        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:03:58 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=445)
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
     ['candidates'] =>
-        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': ' the robot whirred.'}], 'role': 'model'}, 'citation_...(len=549)
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': ' 734, Maintenance Bot, monitored the calico. The cre...(len=573)
     ['create_time'] =>
         NoneType: None
     ['model_version'] =>
         str: 'gemini-2.5-flash-preview-09-2025'
     ['prompt_feedback'] =>
-        <circular id=139692540415488 type=NoneType>
+        <circular id=140353994550784 type=NoneType>
     ['response_id'] =>
-        str: 'vB7WaK2tLPTqvdIPy-_NqAw'
+        str: 'HiDWaO69Mp37kdUPjejScA'
     ... 3 more keys
 === DEBUG: normalized ===
-text: ' the robot whirred.'
-usage: {'prompt': 17, 'candidates': 55, 'thinking': 0}
+text: ' 734, Maintenance Bot, monitored the calico. The creature, named "'
+usage: {'prompt': 17, 'candidates': 18, 'thinking': 0}
 candidates (first 1): [Candidate(
   content=Content(
     parts=[
       Part(
-        text=' the robot whirred.'
+        text=' 734, Maintenance Bot, monitored the calico. The creature, named "'
+      ),
+    ],
+    role='model'
+  ),
+  index=0
+)]
+======================================
+------ CHUNK #1 ------
+Normalized text -> ' 734, Maintenance Bot, monitored the calico. The creature, named "'
+Normalized usage -> {'prompt': 17, 'candidates': 18, 'thinking': 0}
+Raw object type: <class 'google.genai.types.GenerateContentResponse'>
+Raw object introspection:
+
+GenerateContentResponse (pydantic model):
+  dict (len=9):
+    ['sdk_http_response'] =>
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
+    ['candidates'] =>
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': ' 734, Maintenance Bot, monitored the calico. The cre...(len=573)
+    ['create_time'] =>
+        NoneType: None
+    ['model_version'] =>
+        str: 'gemini-2.5-flash-preview-09-2025'
+    ['prompt_feedback'] =>
+        <circular id=140353994550784 type=NoneType>
+    ['response_id'] =>
+        str: 'HiDWaO69Mp37kdUPjejScA'
+    ... 3 more keys
+=== DEBUG: raw chunk introspection ===
+GenerateContentResponse (pydantic model):
+  dict (len=9):
+    ['sdk_http_response'] =>
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
+    ['candidates'] =>
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'Muffin," ignored all programming.\n\nWhen a dust bun...(len=697)
+    ['create_time'] =>
+        NoneType: None
+    ['model_version'] =>
+        str: 'gemini-2.5-flash-preview-09-2025'
+    ['prompt_feedback'] =>
+        <circular id=140353994550784 type=NoneType>
+    ['response_id'] =>
+        str: 'HiDWaO69Mp37kdUPjejScA'
+    ... 3 more keys
+=== DEBUG: normalized ===
+text: 'Muffin," ignored all programming.\n\nWhen a dust bunny rolled past, Unit 734 deployed its micro-vacuum. Muffin batted the dirt, then leaped onto the bot\'s chrome head.\n\nA sudden purr vibr'
+usage: {'prompt': 17, 'candidates': 66, 'thinking': 0}
+candidates (first 1): [Candidate(
+  content=Content(
+    parts=[
+      Part(
+        text="""Muffin," ignored all programming.
+
+When a dust bunny rolled past, Unit 734 deployed its micro-vacuum. Muffin batted the dirt, then leaped onto the bot's chrome head.
+
+A sudden purr vibr"""
+      ),
+    ],
+    role='model'
+  ),
+  index=0
+)]
+======================================
+------ CHUNK #2 ------
+Normalized text -> 'Muffin," ignored all programming.\n\nWhen a dust bunny rolled past, Unit 734 deployed its micro-vacuum. Muffin batted the dirt, then leaped onto the bot\'s chrome head.\n\nA sudden purr vibr'
+Normalized usage -> {'prompt': 17, 'candidates': 66, 'thinking': 0}
+Raw object type: <class 'google.genai.types.GenerateContentResponse'>
+Raw object introspection:
+
+GenerateContentResponse (pydantic model):
+  dict (len=9):
+    ['sdk_http_response'] =>
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
+    ['candidates'] =>
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'Muffin," ignored all programming.\n\nWhen a dust bun...(len=697)
+    ['create_time'] =>
+        NoneType: None
+    ['model_version'] =>
+        str: 'gemini-2.5-flash-preview-09-2025'
+    ['prompt_feedback'] =>
+        <circular id=140353994550784 type=NoneType>
+    ['response_id'] =>
+        str: 'HiDWaO69Mp37kdUPjejScA'
+    ... 3 more keys
+=== DEBUG: raw chunk introspection ===
+GenerateContentResponse (pydantic model):
+  dict (len=9):
+    ['sdk_http_response'] =>
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
+    ['candidates'] =>
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'ated through Unit 734’s chassis.\n\n*Error: Unexpect...(len=675)
+    ['create_time'] =>
+        NoneType: None
+    ['model_version'] =>
+        str: 'gemini-2.5-flash-preview-09-2025'
+    ['prompt_feedback'] =>
+        <circular id=140353994550784 type=NoneType>
+    ['response_id'] =>
+        str: 'HiDWaO69Mp37kdUPjejScA'
+    ... 3 more keys
+=== DEBUG: normalized ===
+text: 'ated through Unit 734’s chassis.\n\n*Error: Unexpected Emotional Response (Positive).*\n\nUnit 734 simply adjusted its path, letting Muffin ride.'
+usage: {'prompt': 17, 'candidates': 103, 'thinking': 0}
+candidates (first 1): [Candidate(
+  content=Content(
+    parts=[
+      Part(
+        text="""ated through Unit 734’s chassis.
+
+*Error: Unexpected Emotional Response (Positive).*
+
+Unit 734 simply adjusted its path, letting Muffin ride."""
       ),
     ],
     role='model'
@@ -85,24 +197,24 @@ candidates (first 1): [Candidate(
   index=0
 )]
 ======================================
------- CHUNK #1 ------
-Normalized text -> ' the robot whirred.'
-Normalized usage -> {'prompt': 17, 'candidates': 55, 'thinking': 0}
+------ CHUNK #3 ------
+Normalized text -> 'ated through Unit 734’s chassis.\n\n*Error: Unexpected Emotional Response (Positive).*\n\nUnit 734 simply adjusted its path, letting Muffin ride.'
+Normalized usage -> {'prompt': 17, 'candidates': 103, 'thinking': 0}
 Raw object type: <class 'google.genai.types.GenerateContentResponse'>
 Raw object introspection:
 
 GenerateContentResponse (pydantic model):
   dict (len=9):
     ['sdk_http_response'] =>
-        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:03:58 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=445)
+        dict: {'headers': {'content-type': 'text/event-stream', 'content-disposition': 'attachment', 'vary': 'Origin, X-Origin, Referer', 'transfer-encoding': 'chunked', 'date': 'Fri, 26 Sep 2025 05:09:50 GMT', 'server': 'scaffolding on HTTPServer2', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-co...(len=444)
     ['candidates'] =>
-        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': ' the robot whirred.'}], 'role': 'model'}, 'citation_...(len=549)
+        list: [{'content': {'parts': [{'video_metadata': None, 'thought': None, 'inline_data': None, 'file_data': None, 'thought_signature': None, 'code_execution_result': None, 'executable_code': None, 'function_call': None, 'function_response': None, 'text': 'ated through Unit 734’s chassis.\n\n*Error: Unexpect...(len=675)
     ['create_time'] =>
         NoneType: None
     ['model_version'] =>
         str: 'gemini-2.5-flash-preview-09-2025'
     ['prompt_feedback'] =>
-        <circular id=139692540415488 type=NoneType>
+        <circular id=140353994550784 type=NoneType>
     ['response_id'] =>
-        str: 'vB7WaK2tLPTqvdIPy-_NqAw'
+        str: 'HiDWaO69Mp37kdUPjejScA'
     ... 3 more keys

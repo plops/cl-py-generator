@@ -8,7 +8,7 @@ def main():
     use_mock = force_mock or (api_key is None)
 
     model = os.getenv("TEST_GENAI_MODEL", "gemini-2.5-flash-preview-09-2025")
-    prompt = "Write a short story about a robot and a cat in 40 words."
+    prompt = "Write a short story about a robot and a cat in 80 words."
 
     if use_mock:
         print("Using MockGenAIClient (no network).")
