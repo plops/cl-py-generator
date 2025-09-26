@@ -15,6 +15,7 @@ dependencies = [
     "numpy",
     "webvtt-py",
     "sqlite-minutils",
+    "google-genai>=1.32.0",
 ]
 
 [project.scripts]
