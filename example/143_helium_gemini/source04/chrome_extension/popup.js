@@ -44,8 +44,12 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
       const formData = new FormData();
       formData.append('original_source_link', pageUrl);
       formData.append('transcript', transcriptToSend);
-      // use selected model value from the dropdown (default set in HTML)
-      formData.append('model', (modelSelect && modelSelect.value) ? modelSelect.value : 'gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000');
+
+      // use selected model value from the dropdown (populated from MODELS)
+      const modelSelect = document.getElementById('modelSelect');
+      const selectedModel = (modelSelect && modelSelect.value) ? modelSelect.value : MODELS[0].value;
+      formData.append('model', selectedModel);
+
       formData.append('output_language', 'en');
       formData.append('include_timestamps', 'on');
 
@@ -74,12 +78,45 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
   });
 });
 
-// restore/save selected model (optional persistence)
-const modelSelect = document.getElementById('modelSelect');
-if (modelSelect) {
+// Single source of truth for available models and their display labels
+const MODELS = [
+  {
+    value: "gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
+    label: "gemini-2.5-flash-preview-09-2025"
+  },
+  {
+    value: "gemini-2.5-flash-lite-preview-09-2025| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    label: "gemini-2.5-flash-lite-preview-09-2025"
+  },
+  {
+    value: "gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000",
+    label: "gemini-2.5-pro"
+  }
+];
+
+// Populate the model select and restore saved selection
+document.addEventListener('DOMContentLoaded', () => {
+  const modelSelect = document.getElementById('modelSelect');
+  if (!modelSelect) return;
+
+  // build options from MODELS
+  MODELS.forEach((m) => {
+    const opt = document.createElement('option');
+    opt.value = m.value;
+    opt.textContent = m.label;
+    modelSelect.appendChild(opt);
+  });
+
+  // restore saved model or select the first model by default
   const saved = localStorage.getItem('selectedModel');
-  if (saved) modelSelect.value = saved;
+  if (saved && [...modelSelect.options].some(o => o.value === saved)) {
+    modelSelect.value = saved;
+  } else {
+    modelSelect.value = MODELS[0].value;
+  }
+
+  // persist changes
   modelSelect.addEventListener('change', () => {
     localStorage.setItem('selectedModel', modelSelect.value);
   });
-}
+});
