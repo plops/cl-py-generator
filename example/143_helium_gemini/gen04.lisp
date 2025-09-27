@@ -825,13 +825,12 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			       :style #+simple (string "display: none; align-items: center; width: 100%;")
 			       #-simple (string "display: flex; align-items: center; width: 100%;")))
 		     
-		     (Button (string "Summarize Transcript")
-			     :hx_post (string "/process_transcript")
-			     :hx_swap (string "afterbegin")
-			     :target_id (string "gen-list"))
+		     (Button (string "Summarize Transcript"))
 		     :style (string "display: flex; flex-direction:column;"))
 		    )
-		   ))
+		   :hx_post (string "/process_transcript")
+		   :hx_swap (string "afterbegin")
+		   :target_id (string "gen-list")))
 
 	    (setf gen_list (Div :id (string "gen-list")))
 
