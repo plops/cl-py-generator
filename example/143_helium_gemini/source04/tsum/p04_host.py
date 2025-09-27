@@ -389,7 +389,8 @@ def get(request: Request):
     )
     gen_list = Div(id="gen-list")
     summaries_to_show = summaries(order_by="identifier DESC", limit=3)
-    summary_list = Ul(*summaries_to_show, id="summaries")
+    summaries_li = [Li(s) for s in summaries_to_show]
+    summary_list = Ul(*summaries_li, id="summaries")
     return (
         Title("Video Transcript Summarizer"),
         Meta(

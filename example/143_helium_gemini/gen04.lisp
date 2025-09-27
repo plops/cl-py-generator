@@ -837,8 +837,10 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	    (setf summaries_to_show (summaries :order_by (string "identifier DESC")
 					       :limit 3))
 	    #+nil (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
-	    (setf summary_list (Ul *summaries_to_show
-				   :id (string "summaries")))
+	    (setf summaries_li (list (for-generator (s  summaries_to_show)
+							(Li s))))
+	    (setf summary_list (Ul *summaries_li
+				:id (string "summaries")))
 	    #+nil (setf head (Head
 			(Title (string "Video Transcript Summarizer"))
 			(Meta :name (string "description")
