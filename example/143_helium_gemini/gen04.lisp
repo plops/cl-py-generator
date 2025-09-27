@@ -839,15 +839,18 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	    #+nil (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
 	    (setf summary_list (Ul *summaries_to_show
 				   :id (string "summaries")))
-	    (setf head (Head
+	    #+nil (setf head (Head
 			(Title (string "Video Transcript Summarizer"))
 			(Meta :name (string "description")
 			      :content (string "Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps.")
 			      )
-			(Link :rel (string 'preconnect)
+			(Link :rel (string "preconnect")
 			      :href (string "https://cdn.jsdelivr.net"))))
-	    (return (ntuple #+nil (Title (string "Video Transcript Summarizer"))
-			    head
+	    (return (ntuple #-nil (Title (string "Video Transcript Summarizer"))
+			    (Meta :name (string "description")
+			      :content (string "Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps.")
+			      )
+			    #+nil head
 			    (Main nav
 					;(H1 (string "Summarizer Demo"))
 				  (NotStr documentation_html)
