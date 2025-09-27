@@ -836,25 +836,18 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 
 	    (setf summaries_to_show (summaries :order_by (string "identifier DESC")
 					       :limit 3))
-	    #+nil (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
+	   
 	    (setf summaries_li (list (for-generator (s  summaries_to_show)
 							(Li s))))
 	    (setf summary_list (Ul *summaries_li
 				:id (string "summaries")))
-	    #+nil (setf head (Head
-			(Title (string "Video Transcript Summarizer"))
-			(Meta :name (string "description")
-			      :content (string "Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps.")
-			      )
-			(Link :rel (string "preconnect")
-			      :href (string "https://cdn.jsdelivr.net"))))
-	    (return (ntuple #-nil (Title (string "Video Transcript Summarizer"))
+	   
+	    (return (ntuple (Title (string "Video Transcript Summarizer"))
 			    (Meta :name (string "description")
 			      :content (string "Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps.")
 			      )
-			    #+nil head
+			   
 			    (Main nav
-					;(H1 (string "Summarizer Demo"))
 				  (NotStr documentation_html)
 				  chrome_ext_promo
 				  form
