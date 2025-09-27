@@ -847,7 +847,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 }"))
 				  :cls (string "container"))
 			    (Style
-			     (string ".visually-hidden {
+			     (string3 ".visually-hidden {
     position: absolute;
     width: 1px;
     height: 1px;
