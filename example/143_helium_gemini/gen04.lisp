@@ -738,6 +738,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		       (Ul (Li (Strong (string "Transcript Summarizer"))))
 		       (Ul (Li (A (string "Map")
 				  :href (string "https://rocketrecap.com/exports/index.html")))
+			   (Li (A (string "Extension")
+				  :href (string "https://rocketrecap.com/exports/extension.html")))
 			   (Li (A (string "Privacy Policy")
 				  :href (string "https://rocketrecap.com/exports/privacy.html")))
 			   (Li (A (string "Demo Video")
@@ -748,7 +750,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			   (Li (A (string "Log out")
 				  :href (string "/logout"))))))
 
-
+	    #+nil
 	    (setf chrome_ext_promo
 		  (Article
 		   (H2 (string "Summarize Faster with the Chrome Extension!")
@@ -848,7 +850,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			   
 			    (Main nav
 				  (NotStr documentation_html)
-				  chrome_ext_promo
+				  #+nil chrome_ext_promo
 				  form
 				  summary_list_container 
 				  (Script (string3 "function copyPreContent(elementId) {
