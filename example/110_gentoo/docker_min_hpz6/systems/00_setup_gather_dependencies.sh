@@ -123,6 +123,20 @@ add_pkg_if_missing() {
     fi
 }
 
+# helper to download a URL to a file using curl or wget
+download_file() {
+    local url="$1"
+    local out="$2"
+    if command -v curl >/dev/null 2>&1; then
+        curl -fsSL -o "$out" "$url"
+    elif command -v wget >/dev/null 2>&1; then
+        wget -qO "$out" "$url"
+    else
+        echo "Neither curl nor wget is available to download $url" >&2
+        return 1
+    fi
+}
+
 case "$DISTRO_ID" in
     ubuntu|debian)
         for cmd in "${required_cmds[@]}"; do
@@ -132,8 +146,42 @@ case "$DISTRO_ID" in
             echo "All required commands already installed."
             exit 0
         fi
+
         echo "Updating package lists..."
         $SUDO apt-get update -y
+
+        # If fastfetch is required but not available in the distro repos, fetch .deb and install with dpkg.
+        for i in "${!pkgs_to_install[@]}"; do
+            if [ "${pkgs_to_install[$i]}" = "fastfetch" ]; then
+                if ! apt-cache show fastfetch >/dev/null 2>&1; then
+                    echo "fastfetch not found in apt repos; downloading .deb and installing with dpkg..."
+                    tmpdeb="$(mktemp --suffix=-fastfetch.deb)"
+                    if download_file "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb" "$tmpdeb"; then
+                        if ! $SUDO dpkg -i "$tmpdeb"; then
+                            echo "dpkg reported missing dependencies; running apt-get -f install to fix them..."
+                            $SUDO apt-get -f install -y
+                        fi
+                        rm -f "$tmpdeb"
+                        # remove fastfetch from the install list
+                        new_pkgs=()
+                        for p in "${pkgs_to_install[@]}"; do
+                            [ "$p" = "fastfetch" ] && continue
+                            new_pkgs+=("$p")
+                        done
+                        pkgs_to_install=("${new_pkgs[@]}")
+                    else
+                        echo "Failed to download fastfetch .deb; leaving fastfetch in package list and proceeding with apt install attempt." >&2
+                    fi
+                fi
+                break
+            fi
+        done
+
+        if [ "${#pkgs_to_install[@]}" -eq 0 ]; then
+            echo "All required commands already installed (or installed manually)."
+            exit 0
+        fi
+
         echo "Installing: ${pkgs_to_install[*]}"
         $SUDO apt-get install -y "${pkgs_to_install[@]}"
         ;;
