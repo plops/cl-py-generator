@@ -925,7 +925,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		(if (< cost .02)
 		    (setf cost_str (fstring "${cost:.4f}"))
 		    (setf cost_str (fstring "${cost:.2f}")))
-		(setf text (fstring3 "{s.timestamped_summary_in_youtube_format}
+		(setf text (fstring3 "*AI Summary*
+
+{s.timestamped_summary_in_youtube_format}
 
 AI-generated summary created with {s.model.split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens} tokens, Output: {output_tokens} tokens, Est. cost: {cost_str}).")
 

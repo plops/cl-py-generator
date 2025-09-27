@@ -403,7 +403,9 @@ def generation_preview(identifier):
                 cost_str = f"${cost:.4f}"
             else:
                 cost_str = f"${cost:.2f}"
-            text = f"""{s.timestamped_summary_in_youtube_format}
+            text = f"""*AI Summary*
+
+{s.timestamped_summary_in_youtube_format}
 
 AI-generated summary created with {s.model.split("|")[0]} for free via RocketRecap-dot-com. (Input: {input_tokens} tokens, Output: {output_tokens} tokens, Est. cost: {cost_str})."""
             trigger = ""
