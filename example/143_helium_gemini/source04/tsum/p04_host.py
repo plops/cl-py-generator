@@ -461,7 +461,7 @@ Output tokens: {output_tokens}"""
                 Button(
                     "Copy Summary",
                     onclick=f"copyPreContent('pre-{identifier}')",
-                    class_="outline",
+                    cls="outline",
                 ),
             ),
         ]
