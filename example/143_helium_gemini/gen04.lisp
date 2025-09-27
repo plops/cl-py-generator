@@ -992,7 +992,7 @@ Output tokens: {output_tokens}")
 		     hidden_pre_for_copy
 		     (Button (string "Copy Summary")
 			     :onclick (fstring "copyPreContent('pre-{identifier}')")
-			     :class (string "outline")))))
+			     :class_ (string "outline")))))
 	     ;; Conditionally add HTMX attributes for polling
 	     (if (== trigger (string ""))
 		 (return (Article *card_content :id sid))
