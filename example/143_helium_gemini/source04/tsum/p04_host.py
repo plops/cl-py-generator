@@ -390,19 +390,38 @@ def get(request: Request):
     gen_list = Div(id="gen-list")
     summaries_to_show = summaries(order_by="identifier DESC", limit=3)
     summary_list = Ul(*summaries_to_show, id="summaries")
-    return Title("Video Transcript Summarizer"), Main(
+    head = Head(
+        Title("Video Transcript Summarizer"),
+        Meta(
+            name="description",
+            content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps.",
+        ),
+        Link(rel="'preconnect", href="https://cdn.jsdelivr.net"),
+    )
+    return head, Main(
         nav,
         NotStr(documentation_html),
         chrome_ext_promo,
         form,
         gen_list,
         summary_list,
-        Script("""function copyPreContent(elementId) {
+        Script(
+            """function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
 
   navigator.clipboard.writeText(textToCopy);
-}"""),
+}""",
+            defer=True,
+        ),
+        Script(
+            src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js",
+            defer=True,
+        ),
+        Script(
+            src="https://cdn.jsdelivr.net/npm/fasthtml-js@1.0.12/fasthtml.js",
+            defer=True,
+        ),
         cls="container",
     )
 
