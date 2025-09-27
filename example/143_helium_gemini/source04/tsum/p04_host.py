@@ -407,7 +407,7 @@ def generation_preview(identifier):
 
 {s.timestamped_summary_in_youtube_format}
 
-AI-generated summary created with {s.model.split("|")[0]} for free via RocketRecap-dot-com. (Input: {input_tokens} tokens, Output: {output_tokens} tokens, Est. cost: {cost_str})."""
+AI-generated summary created with {s.model.split("|")[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str})."""
             trigger = ""
         elif s.summary_done:
             text = s.summary
