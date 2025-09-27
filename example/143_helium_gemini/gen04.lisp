@@ -832,7 +832,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		    )
 		   :data_hx_post (string "/process_transcript")
 		   :data_hx_swap (string "afterbegin")
-		   :data_target_id (string "gen-list")))
+		   ;; target_id 
+		   :data_hx_target (string "#gen-list") ))
 
 	    (setf gen_list (Div :id (string "gen-list")))
 

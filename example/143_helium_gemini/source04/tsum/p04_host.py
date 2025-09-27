@@ -345,7 +345,7 @@ def get(request: Request):
         ),
         data_hx_post="/process_transcript",
         data_hx_swap="afterbegin",
-        data_target_id="gen-list",
+        data_hx_target="#gen-list",
     )
     gen_list = Div(id="gen-list")
     summaries_to_show = summaries(order_by="identifier DESC", limit=3)
