@@ -290,6 +290,36 @@ def get(request: Request):
             ),
         ),
     )
+    chrome_ext_promo = Article(
+        H2(
+            "Summarize Faster with the Chrome Extension!",
+            style="margin-bottom: 0.5rem;",
+        ),
+        P(
+            "Tired of copying and pasting links? Install the official RocketRecap browser extension to summarize any YouTube video, article, or selected text with a single click."
+        ),
+        H3("How to Use:"),
+        Ol(
+            Li("Keep a tab open with this page (rocketrecap.com)."),
+            Li(
+                "On any YouTube video or article, click the extension icon to send it for summarization."
+            ),
+            Li(
+                "Return to the rocketrecap.com tab and refresh the page. Your new summary will appear at the top."
+            ),
+        ),
+        A(
+            Img(
+                src="https://rocketrecap.com/exports/cws.png",
+                alt="Available on the Chrome Web Store",
+                style="height: 58px; width: auto;",
+            ),
+            href="https://chrome.google.com/webstore/detail/lbkchnlbfpibkooidbngaiilmegfkbej",
+            target="_blank",
+            title="Available on the Chrome Web Store",
+        ),
+        style="margin-top: 2rem; margin-bottom: 2rem; border-color: var(--pico-primary-border);",
+    )
     transcript = Textarea(
         placeholder="(Optional) Paste YouTube transcript here",
         style="height: 300px; width=60%;",
@@ -363,6 +393,7 @@ def get(request: Request):
     return Title("Video Transcript Summarizer"), Main(
         nav,
         NotStr(documentation_html),
+        chrome_ext_promo,
         form,
         gen_list,
         summary_list,

@@ -729,107 +729,131 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 (setf documentation_html
 	       (markdown.markdown documentation))
 	 (@rt (string "/"))
-	 (def get (request)
-	   (declare (type Request request))
-	   ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
-	   
-	   (logger.info (fstring "Request from host: {request.client.host}"))
-	   (setf nav (Nav
-		      (Ul (Li (Strong (string "Transcript Summarizer"))))
-		      (Ul (Li (A (string "Map")
-				 :href (string "https://rocketrecap.com/exports/index.html")))
-			  (Li (A (string "Privacy Policy")
-				 :href (string "https://rocketrecap.com/exports/privacy.html")))
-			  (Li (A (string "Demo Video")
-				 :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
-			  (Li (A (string "Documentation")
-				 :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
-			  #+auth
-			  (Li (A (string "Log out")
-				 :href (string "/logout"))))))
-	   
-	   (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
-				      :style (string ;#+simple "height: 300px; width=60%; display: none;"
-						     "height: 300px; width=60%;")
-				      :name (string "transcript")))
-	   (setf
-	    selector (list (for-generator (opt MODEL_OPTIONS)
-						(Option opt :value opt)))
-	    model (Div (Select
-			*selector
-			
-			:style (string "width: 100%;")
-			:name (string "model"))
-		       :style (string "display: flex; align-items: center; width: 100%;")))
-	   #+nil (setf model (aref (model.split (string "\\n"))
-			     0))
-	   #+nil ,(lprint :vars `((type model)))
-	   
-	   (setf form
-		 (Form
-                  (Group
-		   (Div 
+	  (def get (request)
+	    (declare (type Request request))
+	    ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
+	    
+	    (logger.info (fstring "Request from host: {request.client.host}"))
+	    (setf nav (Nav
+		       (Ul (Li (Strong (string "Transcript Summarizer"))))
+		       (Ul (Li (A (string "Map")
+				  :href (string "https://rocketrecap.com/exports/index.html")))
+			   (Li (A (string "Privacy Policy")
+				  :href (string "https://rocketrecap.com/exports/privacy.html")))
+			   (Li (A (string "Demo Video")
+				  :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
+			   (Li (A (string "Documentation")
+				  :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
+			   #+auth
+			   (Li (A (string "Log out")
+				  :href (string "/logout"))))))
+
+
+	    (setf chrome_ext_promo
+		  (Article
+		   (H2 (string "Summarize Faster with the Chrome Extension!")
+		       :style (string "margin-bottom: 0.5rem;"))
+		   (P (string "Tired of copying and pasting links? Install the official RocketRecap browser extension to summarize any YouTube video, article, or selected text with a single click."))
+		   
+		   (H3 (string "How to Use:"))
+		   (Ol
+		    (Li (string "Keep a tab open with this page (rocketrecap.com)."))
+		    (Li (string "On any YouTube video or article, click the extension icon to send it for summarization."))
+		    (Li (string "Return to the rocketrecap.com tab and refresh the page. Your new summary will appear at the top.")))
+		   
+
+		   (A
+		    (Img :src  (string "https://rocketrecap.com/exports/cws.png")
+			 :alt (string "Available on the Chrome Web Store")
+			 :style (string "height: 58px; width: auto;"))
+		    :href (string "https://chrome.google.com/webstore/detail/lbkchnlbfpibkooidbngaiilmegfkbej")
+		    :target (string "_blank")
+		    :title (string "Available on the Chrome Web Store"))
+		   :style (string "margin-top: 2rem; margin-bottom: 2rem; border-color: var(--pico-primary-border);")))
+	    
+	    (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
+				       :style (string ;#+simple "height: 300px; width=60%; display: none;"
+						      "height: 300px; width=60%;")
+				       :name (string "transcript")))
+	    (setf
+	     selector (list (for-generator (opt MODEL_OPTIONS)
+					   (Option opt :value opt)))
+	     model (Div (Select
+			 *selector
+			 
+			 :style (string "width: 100%;")
+			 :name (string "model"))
+			:style (string "display: flex; align-items: center; width: 100%;")))
+	    #+nil (setf model (aref (model.split (string "\\n"))
+				    0))
+	    #+nil ,(lprint :vars `((type model)))
+	    
+	    (setf form
+		  (Form
+                   (Group
+		    (Div 
+		      
+		     (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
+			       
+			       :name (string "original_source_link"))
+		     transcript
+		     model
+		     (Div (Label (string "Output Language") :_for (string "output_language"))
+			  (Select
+			   ,@(loop for e in *languages*
+				   collect
+				   `(Option (string ,e)))
+			   :style (string "width: 100%;")
+			   :name (string "output_language")
+			   :id (string "output_language"))
+			  :style (string #+simple "display: none; align-items: center; width: 100%;"
+					 #-simple "display: flex; align-items: center; width: 100%;"))
 		     
-		    (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
-			      
-			      :name (string "original_source_link"))
-		    transcript
-		    model
-		    (Div (Label (string "Output Language") :_for (string "output_language"))
-			 (Select
-			  ,@(loop for e in *languages*
-				  collect
-				  `(Option (string ,e)))
-			  :style (string "width: 100%;")
-			  :name (string "output_language")
-			  :id (string "output_language"))
-			 :style (string #+simple "display: none; align-items: center; width: 100%;"
-					#-simple "display: flex; align-items: center; width: 100%;"))
-		    
-		    ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
-						   (include_timestamps "Include Timestamps" True)
-						   (include_glossary "Include Glossary" False)
-						   #+optional-abstract (generate_abstract "Generate Abstract" True)
-						   )
-			    collect
-			    `(Div
-			      
-			      (Input :type (string "checkbox")
-				     :id (string ,e)
-				     :name (string ,e)
-				     :checked ,default)
-			      (Label (string ,f) :_for (string ,e))
-			      :style #+simple (string "display: none; align-items: center; width: 100%;")
-			      #-simple (string "display: flex; align-items: center; width: 100%;")))
-		    
-		    (Button (string "Summarize Transcript"))
-		    :style (string "display: flex; flex-direction:column;"))
-		   )
-		  :hx_post (string "/process_transcript")
-		  :hx_swap (string "afterbegin")
-		  :target_id (string "gen-list")))
+		     ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
+						    (include_timestamps "Include Timestamps" True)
+						    (include_glossary "Include Glossary" False)
+						    #+optional-abstract (generate_abstract "Generate Abstract" True)
+						    )
+			     collect
+			     `(Div
+			       
+			       (Input :type (string "checkbox")
+				      :id (string ,e)
+				      :name (string ,e)
+				      :checked ,default)
+			       (Label (string ,f) :_for (string ,e))
+			       :style #+simple (string "display: none; align-items: center; width: 100%;")
+			       #-simple (string "display: flex; align-items: center; width: 100%;")))
+		     
+		     (Button (string "Summarize Transcript"))
+		     :style (string "display: flex; flex-direction:column;"))
+		    )
+		   :hx_post (string "/process_transcript")
+		   :hx_swap (string "afterbegin")
+		   :target_id (string "gen-list")))
 
-	   (setf gen_list (Div :id (string "gen-list")))
+	    (setf gen_list (Div :id (string "gen-list")))
 
-	   (setf summaries_to_show (summaries :order_by (string "identifier DESC")
-					      :limit 3))
-	   #+nil (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
-	   (setf summary_list (Ul *summaries_to_show
-				  :id (string "summaries")))
-	   (return (ntuple (Title (string "Video Transcript Summarizer"))
-			   (Main nav
+	    (setf summaries_to_show (summaries :order_by (string "identifier DESC")
+					       :limit 3))
+	    #+nil (setf summaries_to_show (aref summaries_to_show (slice 0 (min 3 (len summaries_to_show)))))
+	    (setf summary_list (Ul *summaries_to_show
+				   :id (string "summaries")))
+	    (return (ntuple (Title (string "Video Transcript Summarizer"))
+			    (Main nav
 					;(H1 (string "Summarizer Demo"))
-				 (NotStr documentation_html)
-				 form
-				 gen_list
-				 summary_list 
-				 (Script (string3 "function copyPreContent(elementId) {
+				  (NotStr documentation_html)
+				  chrome_ext_promo
+				  form
+				  gen_list
+				  summary_list 
+				  (Script (string3 "function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
 
   navigator.clipboard.writeText(textToCopy);
 }"))
-				 :cls (string "container")))))
+				  :cls (string "container")))))
 
 	 
 	 
