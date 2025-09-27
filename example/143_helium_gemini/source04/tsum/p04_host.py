@@ -379,13 +379,15 @@ def get(request: Request):
                     Label("Include Glossary", _for="include_glossary"),
                     style="display: none; align-items: center; width: 100%;",
                 ),
-                Button("Summarize Transcript"),
+                Button(
+                    "Summarize Transcript",
+                    hx_post="/process_transcript",
+                    hx_swap="afterbegin",
+                    target_id="gen-list",
+                ),
                 style="display: flex; flex-direction:column;",
             )
-        ),
-        hx_post="/process_transcript",
-        hx_swap="afterbegin",
-        target_id="gen-list",
+        )
     )
     gen_list = Div(id="gen-list")
     summaries_to_show = summaries(order_by="identifier DESC", limit=3)
