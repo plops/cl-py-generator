@@ -1,0 +1,3 @@
+sda  disk   30G Virtual Disk    Msft    
+sdb  disk    4G Virtual Disk    Msft    
+sr0  rom  1024M Virtual DVD-ROM Msft    

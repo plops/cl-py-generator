@@ -1,0 +1,14 @@
+ Static hostname: tinyus
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: f7c668be9d344fe7a7e95b7211f5dc87
+         Boot ID: b8430b91327845cab0cae0e9dcba7864
+  Virtualization: microsoft
+Operating System: [REDACTED_USER] 24.04.3 LTS
+          Kernel: Linux 6.11.0-1018-azure
+    Architecture: x86-64
+ Hardware Vendor: Microsoft Corporation
+  Hardware Model: Virtual Machine
+Firmware Version: Hyper-V UEFI Release v4.1
+   Firmware Date: Mon 2024-05-13
+    Firmware Age: 1y 4month 2w 1d

@@ -1,0 +1,1 @@
+smartctl failed for /dev/sdb1

@@ -1,0 +1,46 @@
+Module                  Size  Used by
+cpuid                  12288  0
+tls                   151552  0
+8021q                  45056  0
+garp                   20480  1 8021q
+mrp                    20480  1 8021q
+stp                    12288  1 garp
+llc                    16384  2 stp,garp
+xt_conntrack           12288  1
+nf_conntrack          196608  1 xt_conntrack
+nf_defrag_ipv6         24576  1 nf_conntrack
+nf_defrag_ipv4         12288  1 nf_conntrack
+xt_owner               12288  1
+xt_tcpudp              16384  0
+nft_compat             20480  2
+nf_tables             368640  21 nft_compat
+libcrc32c              12288  2 nf_conntrack,nf_tables
+binfmt_misc            24576  1
+nls_iso8859_1          12288  1
+crct10dif_pclmul       12288  1
+crc32_pclmul           12288  0
+polyval_clmulni        12288  0
+polyval_generic        12288  1 polyval_clmulni
+ghash_clmulni_intel    16384  0
+sha256_ssse3           32768  0
+joydev                 32768  0
+sha1_ssse3             32768  0
+hid_generic            12288  0
+aesni_intel           118784  0
+hid_hyperv             16384  0
+crypto_simd            16384  1 aesni_intel
+serio_raw              20480  0
+cryptd                 24576  2 crypto_simd,ghash_clmulni_intel
+hv_netvsc             114688  0
+hid                   249856  2 hid_hyperv,hid_generic
+hyperv_drm             20480  0
+hyperv_keyboard        12288  0
+sch_fq_codel           24576  2
+dm_multipath           45056  0
+msr                    12288  0
+nvme_fabrics           36864  0
+efi_pstore             12288  0
+nfnetlink              20480  4 nft_compat,nf_tables
+ip_tables              32768  0
+x_tables               61440  5 xt_conntrack,nft_compat,xt_tcpudp,xt_owner,ip_tables
+autofs4                57344  2

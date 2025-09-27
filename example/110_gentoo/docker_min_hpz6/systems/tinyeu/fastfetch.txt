@@ -1,0 +1,39 @@
+                             ....
+              .',:clooo:  .:looooo:.
+           .;looooooooc  .oooooooooo'
+        .;looooool:,''.  :ooooooooooc
+       ;looool;.         'oooooooooo,
+      ;clool'             .cooooooc.  ,,
+         ...                ......  .:oo,
+  .;clol:,.                        .loooo'
+ :ooooooooo,                        'ooool
+'ooooooooooo.                        loooo.
+'ooooooooool                         coooo.
+ ,loooooooc.                        .loooo.
+   .,;;;'.                          ;ooooc
+       ...                         ,ooool.
+    .cooooc.              ..',,'.  .cooo.
+      ;ooooo:.           ;oooooooc.  :l.
+       .coooooc,..      coooooooooo.
+         .:ooooooolc:. .ooooooooooo'
+           .':loooooo;  ,oooooooooc
+               ..';::c'  .;loooo:'[1G[19A[47C[REDACTED_USER]@tinyeu
+[47C-----------
+[47COS: [REDACTED_USER] 24.04.3 LTS x86_64
+[47CHost: Virtual Machine (Hyper-V UEFI Release v4.1)
+[47CKernel: Linux 6.11.0-1018-azure
+[47CUptime: 4 days, 15 hours, 59 mins
+[47CPackages: 504 (dpkg)
+[47CShell: bash 5.2.21
+[47CDisplay (Virtual-1): 1024x768
+[47CTerminal: 
+[47CCPU: Intel(R) Xeon(R) E5-2673 v4 @ 2.29 GHz
+[47CMemory: 148.80 MiB / 395.18 MiB (38%)
+[47CSwap: 60.59 MiB / 1024.00 MiB (6%)
+[47CDisk (/): 12.32 GiB / 28.02 GiB (44%) - ext4
+[47CDisk (/mnt): 1.00 GiB / 3.86 GiB (26%) - ext4
+[47CLocal IP (eth0): [REDACTED_IP]/24
+[47CLocale: C.UTF-8
+[47C
+[47C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[47C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m

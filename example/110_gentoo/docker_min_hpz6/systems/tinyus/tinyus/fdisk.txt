@@ -1,0 +1,27 @@
+Disk /dev/sda: 30 GiB, 32213303296 bytes, 62916608 sectors
+Disk model: Virtual Disk    
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: 535F78C2-5A41-414C-8931-D254F4C84168
+
+Device       Start      End  Sectors  Size Type
+/dev/sda1  2099200 62916574 60817375   29G Linux filesystem
+/dev/sda14    2048    10239     8192    4M BIOS boot
+/dev/sda15   10240   227327   217088  106M EFI System
+/dev/sda16  227328  2097152  1869825  913M Linux extended boot
+
+Partition table entries are not in disk order.
+
+
+Disk /dev/sdb: 4 GiB, 4294967296 bytes, 8388608 sectors
+Disk model: Virtual Disk    
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: dos
+Disk identifier: 0x8d47caf3
+
+Device     Boot Start     End Sectors Size Id Type
+/dev/sdb1        2048 8386559 8384512   4G  7 HPFS/NTFS/exFAT

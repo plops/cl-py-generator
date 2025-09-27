@@ -1,0 +1,42 @@
+                             ....
+              .',:clooo:  .:looooo:.
+           .;looooooooc  .oooooooooo'
+        .;looooool:,''.  :ooooooooooc
+       ;looool;.         'oooooooooo,
+      ;clool'             .cooooooc.  ,,
+         ...                ......  .:oo,
+  .;clol:,.                        .loooo'
+ :ooooooooo,                        'ooool
+'ooooooooooo.                        loooo.
+'ooooooooool                         coooo.
+ ,loooooooc.                        .loooo.
+   .,;;;'.                          ;ooooc
+       ...                         ,ooool.
+    .cooooc.              ..',,'.  .cooo.
+      ;ooooo:.           ;oooooooc.  :l.
+       .coooooc,..      coooooooooo.
+         .:ooooooolc:. .ooooooooooo'
+           .':loooooo;  ,oooooooooc
+               ..';::c'  .;loooo:'[1G[19A[47C[REDACTED_USER]@tinyus
+[47C-----------
+[47COS: [REDACTED_USER] 24.04.3 LTS x86_64
+[47CHost: Virtual Machine (Hyper-V UEFI Release v4.1)
+[47CKernel: Linux 6.11.0-1018-azure
+[47CUptime: 4 days, 16 hours, 1 min
+[47CPackages: 939 (dpkg)
+[47CShell: bash 5.2.21
+[47CDisplay (Virtual-1): 1024x768
+[47CTheme: Yaru [GTK3]
+[47CIcons: Yaru [GTK3]
+[47CCursor: Adwaita
+[47CTerminal: 
+[47CCPU: Intel(R) Xeon(R) Platinum 8272CL @ 2.59 GHz
+[47CMemory: 164.93 MiB / 345.07 MiB (48%)
+[47CSwap: 95.92 MiB / 1024.00 MiB (9%)
+[47CDisk (/): 6.38 GiB / 28.02 GiB (23%) - ext4
+[47CDisk (/mnt): 1.00 GiB / 3.86 GiB (26%) - ext4
+[47CLocal IP (eth0): [REDACTED_IP]/24
+[47CLocale: C.UTF-8
+[47C
+[47C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[47C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m
