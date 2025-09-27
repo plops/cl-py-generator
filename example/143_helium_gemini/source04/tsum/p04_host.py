@@ -405,10 +405,7 @@ def generation_preview(identifier):
                 cost_str = f"${cost:.2f}"
             text = f"""{s.timestamped_summary_in_youtube_format}
 
-I used {s.model} on rocketrecap dot com to summarize the transcript.
-Cost (if I didn't use the free tier): {cost_str}
-Input tokens: {input_tokens}
-Output tokens: {output_tokens}"""
+AI-generated summary created with {s.model.split("|")[0]} for free via RocketRecap-dot-com. (Input: {input_tokens} tokens, Output: {output_tokens} tokens, Est. cost: {cost_str})."""
             trigger = ""
         elif s.summary_done:
             text = s.summary

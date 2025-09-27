@@ -927,10 +927,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		    (setf cost_str (fstring "${cost:.2f}")))
 		(setf text (fstring3 "{s.timestamped_summary_in_youtube_format}
 
-I used {s.model} on rocketrecap dot com to summarize the transcript.
-Cost (if I didn't use the free tier): {cost_str}
-Input tokens: {input_tokens}
-Output tokens: {output_tokens}")
+AI-generated summary created with {s.model.split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens} tokens, Output: {output_tokens} tokens, Est. cost: {cost_str}).")
 
 		      
 		      trigger (string ""))
