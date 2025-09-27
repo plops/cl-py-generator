@@ -497,18 +497,18 @@ Output tokens: {output_tokens}"""
                 pre,
                 button,
                 id=sid,
-                hx_post=f"/generations/{identifier}",
-                hx_trigger=trigger,
-                hx_swap="outerHTML",
+                data_hx_post=f"/generations/{identifier}",
+                data_hx_trigger=trigger,
+                data_hx_swap="outerHTML",
             )
     except Exception as e:
         return Div(
             f"line 1897 id: {identifier} e: {e}",
             Pre(text),
             id=sid,
-            hx_post=f"/generations/{identifier}",
-            hx_trigger=trigger,
-            hx_swap="outerHTML",
+            data_hx_post=f"/generations/{identifier}",
+            data_hx_trigger=trigger,
+            data_hx_swap="outerHTML",
         )
 
 

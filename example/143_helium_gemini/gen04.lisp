@@ -1018,18 +1018,18 @@ Output tokens: {output_tokens}")
 			  button
 			  #+copy-prompt prompt_button
 			  :id sid
-			  :hx_post (fstring "/generations/{identifier}")
-			  :hx_trigger trigger
-			  :hx_swap (string "outerHTML")))
+			  :data_hx_post (fstring "/generations/{identifier}")
+			  :data_hx_trigger trigger
+			  :data_hx_swap (string "outerHTML")))
 		 ))
 	    ("Exception as e"		; NotFoundError ()
 	     (return (Div
 		      (fstring "line 1897 id: {identifier} e: {e}")
 		      (Pre text)
 		      :id sid
-		      :hx_post (fstring "/generations/{identifier}")
-		      :hx_trigger trigger
-		      :hx_swap (string "outerHTML"))))))
+		      :data_hx_post (fstring "/generations/{identifier}")
+		      :data_hx_trigger trigger
+		      :data_hx_swap (string "outerHTML"))))))
 	 
 	 " "
 	 (@app.post (string "/generations/{identifier}"))
