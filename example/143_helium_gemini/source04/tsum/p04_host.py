@@ -143,24 +143,25 @@ app, rt, summaries, Summary = fast_app(
     full_embedding=bytes,
     pk="identifier",
 )
-documentation = """**Get Your YouTube Summary:**
+documentation = """**Get Your Summary:**
 
-1.  **Copy** the video link.
-2.  **Paste** it into the input field.
-3.  **Click** 'Summarize' to get your summary with timestamps.
+1.  For **YouTube videos**, paste the link into the input field for automatic transcript download.
+2.  For **any other text** (like articles, meeting notes, or non-YouTube transcripts), paste the content directly into the text area below.
+3.  Click 'Summarize' to get your summary.
 
-**Important Note on Subtitles:**
+**Important Notes:**
 
-*   Automatic summary generation requires **English subtitles** on the video.
-*   **If the video has no English subtitles, the automatic download of the transcript using the link will fail.**
-*   **Manual Alternative:** You can still get a summary!
-    1.  Find the transcript on YouTube (usually below the video description when viewed on a desktop browser).
-    2.  **Copy** the entire transcript text manually. (Need help finding/copying? Watch the 'Demo Video' linked at the top right of this page).
-    3.  **(Optional)** Add any additional instructions *after* the transcript (e.g., 'Translate the summary to German.', 'Add a glossary of medical terms and jargon to the summary.').
+*   **For YouTube Links:** Automatic download requires **English subtitles** on the video. If they are missing, please use the manual method below.
+*   **For Any Text Content:** You can summarize any text by pasting it into the text area. This is the best method for articles, your own notes, or transcripts from other sources.
+    1.  **Copy** the entire text you wish to summarize.
+    2.  **Paste** it into the '(Optional) Paste YouTube transcript here' field.
+    3.  **Please note:** The summarizer is optimized for content that includes timestamps (e.g., `00:15:23 Key point is made.`). While it works well for any text, providing timestamped transcripts will produce the most detailed and well-structured summaries.
 
-**For videos longer than 50 minutes:**
 
-*   Select a **Pro model** for automatic summarization. Note that Google seems to not allow free use of Pro model anymore.
+**For Very Long Content (e.g., over 2 hours):**
+
+*   Select the **Pro model** for summarizing long-form content. It is equipped with advanced reasoning capabilities that produce more concise and higher-quality summaries.
+*   **Performance Tip:** For the fastest results, you may experience better performance when using the Pro model on weekends or outside of standard US business hours.
 """
 
 
