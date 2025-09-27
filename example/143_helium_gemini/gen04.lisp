@@ -828,9 +828,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		     (Button (string "Summarize Transcript"))
 		     :style (string "display: flex; flex-direction:column;"))
 		    )
-		   :hx_post (string "/process_transcript")
-		   :hx_swap (string "afterbegin")
-		   :target_id (string "gen-list")))
+		   :data_hx_post (string "/process_transcript")
+		   :data_hx_swap (string "afterbegin")
+		   :data_target_id (string "gen-list")))
 
 	    (setf gen_list (Div :id (string "gen-list")))
 

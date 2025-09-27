@@ -383,9 +383,9 @@ def get(request: Request):
                 style="display: flex; flex-direction:column;",
             )
         ),
-        hx_post="/process_transcript",
-        hx_swap="afterbegin",
-        target_id="gen-list",
+        data_hx_post="/process_transcript",
+        data_hx_swap="afterbegin",
+        data_target_id="gen-list",
     )
     gen_list = Div(id="gen-list")
     summaries_to_show = summaries(order_by="identifier DESC", limit=3)
