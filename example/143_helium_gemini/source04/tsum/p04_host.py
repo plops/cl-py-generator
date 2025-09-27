@@ -276,7 +276,7 @@ documentation_html = markdown.markdown(documentation)
 def get(request: Request):
     logger.info(f"Request from host: {request.client.host}")
     nav = Nav(
-        Ul(Li(H1("Content Summarizer"))),
+        Ul(Li(H1("RocketRecap Content Summarizer"))),
         Ul(
             Li(A("Map", href="https://rocketrecap.com/exports/index.html")),
             Li(A("Extension", href="https://rocketrecap.com/exports/extension.html")),

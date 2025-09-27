@@ -736,7 +736,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	    
 	    (logger.info (fstring "Request from host: {request.client.host}"))
 	    (setf nav (Nav
-		       (Ul (Li (H1 (string "Content Summarizer"))))
+		       (Ul (Li (H1 (string "RocketRecap Content Summarizer"))))
 		       (Ul (Li (A (string "Map")
 				  :href (string "https://rocketrecap.com/exports/index.html")))
 			   (Li (A (string "Extension")
