@@ -275,7 +275,7 @@ documentation_html = markdown.markdown(documentation)
 def get(request: Request):
     logger.info(f"Request from host: {request.client.host}")
     nav = Nav(
-        Ul(Li(Strong("Transcript Summarizer"))),
+        Ul(Li(H1("Content Summarizer"))),
         Ul(
             Li(A("Map", href="https://rocketrecap.com/exports/index.html")),
             Li(A("Extension", href="https://rocketrecap.com/exports/extension.html")),
@@ -307,6 +307,7 @@ def get(request: Request):
     )
     form = Form(
         Fieldset(
+            Legend("Submit Text for Summarization"),
             Div(
                 Label(
                     "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)",
@@ -324,7 +325,7 @@ def get(request: Request):
                 model,
                 Button("Summarize Transcript"),
                 style="display: flex; flex-direction:column;",
-            )
+            ),
         ),
         data_hx_post="/process_transcript",
         data_hx_swap="afterbegin",
