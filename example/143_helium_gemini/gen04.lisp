@@ -533,25 +533,25 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	      (return (generation_preview identifier)
 		      #+nil(Div (Pre summary.timestamped_summary_in_youtube_format)
 				:id sid
-				:hx_post (fstring "/generations/{identifier}")
-				:hx_trigger (string "")
-				:hx_swap (string "outerHTML"))))
+				:data_hx_post (fstring "/generations/{identifier}")
+				:data_hx_trigger (string "")
+				:data_hx_swap (string "outerHTML"))))
 	     (summary.summary_done
 	      (return (Div		;(Pre summary.summary)
 		       (NotStr (markdown.markdown summary.summary))
 		       :id sid
-		       :hx_post (fstring "/generations/{identifier}")
-		       :hx_trigger (? summary.timestamps_done
+		       :data_hx_post (fstring "/generations/{identifier}")
+		       :data_hx_trigger (? summary.timestamps_done
 				      (string "")	
 				      (string #+emulate "" #-emulate "every 1s"))
-		       :hx_swap (string "outerHTML"))))
+		       :data_hx_swap (string "outerHTML"))))
 	     (t
 	      (return (Div		;(Pre summary.summary)
 		       (NotStr (markdown.markdown summary.summary))
 		       :id sid
-		       :hx_post (fstring "/generations/{identifier}")
-		       :hx_trigger (string #+emulate "" #-emulate "every 1s")
-		       :hx_swap (string "outerHTML")))))
+		       :data_hx_post (fstring "/generations/{identifier}")
+		       :data_hx_trigger (string #+emulate "" #-emulate "every 1s")
+		       :data_hx_swap (string "outerHTML")))))
 	   )
 	 
 	 " "

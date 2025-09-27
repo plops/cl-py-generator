@@ -96,17 +96,17 @@ def render(summary: Summary):
         return Div(
             NotStr(markdown.markdown(summary.summary)),
             id=sid,
-            hx_post=f"/generations/{identifier}",
-            hx_trigger=("") if (summary.timestamps_done) else ("every 1s"),
-            hx_swap="outerHTML",
+            data_hx_post=f"/generations/{identifier}",
+            data_hx_trigger=("") if (summary.timestamps_done) else ("every 1s"),
+            data_hx_swap="outerHTML",
         )
     else:
         return Div(
             NotStr(markdown.markdown(summary.summary)),
             id=sid,
-            hx_post=f"/generations/{identifier}",
-            hx_trigger="every 1s",
-            hx_swap="outerHTML",
+            data_hx_post=f"/generations/{identifier}",
+            data_hx_trigger="every 1s",
+            data_hx_swap="outerHTML",
         )
 
 
