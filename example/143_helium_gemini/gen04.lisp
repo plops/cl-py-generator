@@ -773,7 +773,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	    
 	    (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				       :style (string ;#+simple "height: 300px; width=60%; display: none;"
-						      "height: 300px; width=60%;")
+						      "height: 300px; width: 60%;")
 				       :name (string "transcript")))
 	    (setf
 	     selector (list (for-generator (opt MODEL_OPTIONS)
@@ -865,14 +865,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
   var textToCopy = preElement.textContent;
 
   navigator.clipboard.writeText(textToCopy);
-}")
-					  :defer True)
-				  #+nil
-				  (Script :src (string "https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js")
-					  :defer True)
-				  #+nil
-				  (Script :src (string "https://cdn.jsdelivr.net/npm/fasthtml-js@1.0.12/fasthtml.js")
-					  :defer True)
+}"))
 				  :cls (string "container")))))
 
 	 
@@ -973,7 +966,7 @@ Output tokens: {output_tokens}")
 					      (fstring "{s.original_source_link}")
 					      :target (string "_blank")
 					      :href (fstring "{s.original_source_link}")
-					      :id (string "source-link")))
+					      :id (string "source-link-{identifier}")))
 					   ((member name `(embedding
 							   full_embedding
 							   ))
@@ -993,7 +986,7 @@ Output tokens: {output_tokens}")
 	     (setf html (markdown.markdown s.summary))
 	     (setf pre (Div (Div (Pre text
 				      :id (fstring "pre-{identifier}"))
-				 :id (string "hidden-markdown")
+				 :id (string "hidden-markdown-{identifier}")
 				 :style( string "display: none;"))
 			    (Div
 			     (NotStr html))))

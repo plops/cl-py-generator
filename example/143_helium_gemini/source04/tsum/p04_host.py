@@ -322,7 +322,7 @@ def get(request: Request):
     )
     transcript = Textarea(
         placeholder="(Optional) Paste YouTube transcript here",
-        style="height: 300px; width=60%;",
+        style="height: 300px; width: 60%;",
         name="transcript",
     )
     selector = [Option(opt, value=opt) for opt in MODEL_OPTIONS]
@@ -404,15 +404,12 @@ def get(request: Request):
             form,
             gen_list,
             summary_list,
-            Script(
-                """function copyPreContent(elementId) {
+            Script("""function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
 
   navigator.clipboard.writeText(textToCopy);
-}""",
-                defer=True,
-            ),
+}"""),
             cls="container",
         ),
     )
@@ -475,7 +472,7 @@ Output tokens: {output_tokens}"""
                 f"{s.original_source_link}",
                 target="_blank",
                 href=f"{s.original_source_link}",
-                id="source-link",
+                id="source-link-{identifier}",
             ),
             cls="summary-details",
         )
@@ -485,7 +482,7 @@ Output tokens: {output_tokens}"""
         pre = Div(
             Div(
                 Pre(text, id=f"pre-{identifier}"),
-                id="hidden-markdown",
+                id="hidden-markdown-{identifier}",
                 style="display: none;",
             ),
             Div(NotStr(html)),
