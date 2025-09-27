@@ -729,7 +729,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 (setf documentation_html
 	       (markdown.markdown documentation))
 	 (@rt (string "/"))
-	  (def get (request)
+	 (def get (request)
 	    (declare (type Request request))
 	    ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
 	    
@@ -750,42 +750,24 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			   (Li (A (string "Log out")
 				  :href (string "/logout"))))))
 
-	    #+nil
-	    (setf chrome_ext_promo
-		  (Article
-		   (H2 (string "Summarize Faster with the Chrome Extension!")
-		       :style (string "margin-bottom: 0.5rem;"))
-		   (P (string "Tired of copying and pasting links? Install the official RocketRecap browser extension to summarize any YouTube video, article, or selected text with a single click."))
-		   
-		   (H3 (string "How to Use:"))
-		   (Ol
-		    (Li (string "Keep a tab open with this page (rocketrecap.com)."))
-		    (Li (string "On any YouTube video or article, click the extension icon to send it for summarization."))
-		    (Li (string "Return to the rocketrecap.com tab and refresh the page. Your new summary will appear at the top.")))
-		   
-
-		   (A
-		    (Img :src  (string "https://rocketrecap.com/exports/cws.png")
-			 :alt (string "Available on the Chrome Web Store")
-			 :style (string "height: 58px; width: auto;"))
-		    :href (string "https://chrome.google.com/webstore/detail/lbkchnlbfpibkooidbngaiilmegfkbej")
-		    :target (string "_blank")
-		    :title (string "Available on the Chrome Web Store"))
-		   :style (string "margin-top: 2rem; margin-bottom: 2rem; border-color: var(--pico-primary-border);")))
-	    
-	    (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
-				       :style (string ;#+simple "height: 300px; width=60%; display: none;"
-						      "height: 300px; width: 60%;")
-				       :name (string "transcript")))
+	   (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
+				      :style (string "height: 300px; width: 60%;")
+				      :name (string "transcript")
+				      :id (string "transcript-paste")))
+	   
 	    (setf
 	     selector (list (for-generator (opt MODEL_OPTIONS)
 					   (Option opt :value opt
 						   :label (dot opt (aref (split (string "|")) 0)))))
-	     model (Div (Select
-			 *selector
-			 
-			 :style (string "width: 100%;")
-			 :name (string "model"))
+	     model (Div
+		    (Label (string "Select Model")
+			   :_for (string "model-select")
+			   :cls (string "visually-hidden"))
+		    (Select
+		     *selector
+		     :id (string "model-select")
+		     :style (string "width: 100%;")
+		     :name (string "model"))
 			:style (string "display: flex; align-items: center; width: 100%;")))
 	    #+nil (setf model (aref (model.split (string "\\n"))
 				    0))
@@ -795,10 +777,13 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		  (Form
                    (Fieldset ;; Group
 		    (Div 
-		      
+		     (Label (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
+			    :_for (string "youtube-link"))
 		     (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
-			       
+			       :id (string "youtube-link")
 			       :name (string "original_source_link"))
+		     (Label (string "(Optional) Paste YouTube transcript here")
+			    :_for (string "transcript-paste"))
 		     transcript
 		     model
 		     #+nil
@@ -860,7 +845,18 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 
   navigator.clipboard.writeText(textToCopy);
 }"))
-				  :cls (string "container")))))
+				  :cls (string "container"))
+			    (Style
+			     (string ".visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}")))))
 
 	 
 	 
