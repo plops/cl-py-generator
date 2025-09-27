@@ -412,14 +412,6 @@ def get(request: Request):
 }""",
                 defer=True,
             ),
-            Script(
-                src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js",
-                defer=True,
-            ),
-            Script(
-                src="https://cdn.jsdelivr.net/npm/fasthtml-js@1.0.12/fasthtml.js",
-                defer=True,
-            ),
             cls="container",
         ),
     )

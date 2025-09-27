@@ -865,8 +865,10 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
   navigator.clipboard.writeText(textToCopy);
 }")
 					  :defer True)
+				  #+nil
 				  (Script :src (string "https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js")
 					  :defer True)
+				  #+nil
 				  (Script :src (string "https://cdn.jsdelivr.net/npm/fasthtml-js@1.0.12/fasthtml.js")
 					  :defer True)
 				  :cls (string "container")))))
