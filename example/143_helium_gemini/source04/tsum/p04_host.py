@@ -472,7 +472,7 @@ Output tokens: {output_tokens}"""
                 f"{s.original_source_link}",
                 target="_blank",
                 href=f"{s.original_source_link}",
-                id="source-link-{identifier}",
+                id=f"source-link-{identifier}",
             ),
             cls="summary-details",
         )
@@ -482,7 +482,7 @@ Output tokens: {output_tokens}"""
         pre = Div(
             Div(
                 Pre(text, id=f"pre-{identifier}"),
-                id="hidden-markdown-{identifier}",
+                id=f"hidden-markdown-{identifier}",
                 style="display: none;",
             ),
             Div(NotStr(html)),

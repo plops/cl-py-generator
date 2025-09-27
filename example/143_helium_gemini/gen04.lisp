@@ -966,7 +966,7 @@ Output tokens: {output_tokens}")
 					      (fstring "{s.original_source_link}")
 					      :target (string "_blank")
 					      :href (fstring "{s.original_source_link}")
-					      :id (string "source-link-{identifier}")))
+					      :id (fstring "source-link-{identifier}")))
 					   ((member name `(embedding
 							   full_embedding
 							   ))
@@ -986,7 +986,7 @@ Output tokens: {output_tokens}")
 	     (setf html (markdown.markdown s.summary))
 	     (setf pre (Div (Div (Pre text
 				      :id (fstring "pre-{identifier}"))
-				 :id (string "hidden-markdown-{identifier}")
+				 :id (fstring "hidden-markdown-{identifier}")
 				 :style( string "display: none;"))
 			    (Div
 			     (NotStr html))))
