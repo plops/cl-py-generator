@@ -331,7 +331,7 @@ def get(request: Request):
         style="display: flex; align-items: center; width: 100%;",
     )
     form = Form(
-        Group(
+        Fieldset(
             Div(
                 Textarea(
                     placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)",

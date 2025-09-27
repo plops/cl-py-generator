@@ -790,7 +790,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	    
 	    (setf form
 		  (Form
-                   (Group
+                   (Fieldset ;Group
 		    (Div 
 		      
 		     (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
