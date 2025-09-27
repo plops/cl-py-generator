@@ -832,18 +832,14 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		    )
 		   :data_hx_post (string "/process_transcript")
 		   :data_hx_swap (string "afterbegin")
-		   ;; target_id 
-		   :data_hx_target (string "#gen-list") ))
+		   :data_hx_target (string "#summary-list") ))
 
-	    (setf gen_list (Div :id (string "gen-list")))
 
 	    (setf summaries_to_show (summaries :order_by (string "identifier DESC")
 					       :limit 3))
 	   
-	    (setf summaries_li (list (for-generator (s  summaries_to_show)
-							(Li s))))
-	    (setf summary_list (Ul *summaries_li
-				:id (string "summaries")))
+	    (setf summary_list_container (Div *summaries_to_show
+					      :id (string "summary-list")))
 	   
 	    (return (ntuple (Title (string "Video Transcript Summarizer"))
 			    (Meta :name (string "description")
@@ -854,8 +850,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				  (NotStr documentation_html)
 				  chrome_ext_promo
 				  form
-				  gen_list
-				  summary_list 
+				  summary_list_container 
 				  (Script (string3 "function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
@@ -980,52 +975,51 @@ Output tokens: {output_tokens}")
 					  :cls (string "summary-container")))
 	     (setf title summary_container)
 	     (setf html (markdown.markdown s.summary))
-	     (setf pre (Div (Div (Pre text
-				      :id (fstring "pre-{identifier}"))
-				 :id (fstring "hidden-markdown-{identifier}")
-				 :style( string "display: none;"))
-			    (Div
-			     (NotStr html))))
-	     (setf button (Button (string "Copy Summary")
-				  :onclick (fstring "copyPreContent('pre-{identifier}')")))
-	     (do0
-	      (setf prompt_text (get_prompt s)
-		    )
-	      #+copy-prompt
-	      (setf prompt_pre (Pre prompt_text :id (fstring "prompt-pre-{identifier}")
-						:style (string "display: none;"))
-		    prompt_button  (Button (string "Copy Prompt")
-					   :onclick (fstring "copyPreContent('prompt-pre-{identifier}')"))))
-	     
+	     (setf hidden_pre_for_copy
+		   (Div (Pre text :id (fstring "pre-{identifier}"))
+			:id (fstring "hidden-markdown-{identifier}")
+			:style (string "display: none;")))
+	     (setf card_content
+		   (list
+		    (Header
+		     (H4 (A (fstring "{s.original_source_link}")
+			    :target (string "_blank")
+			    :href (fstring "{s.original_source_link}")))
+		     (P (fstring "ID: {s.identifier} | Model: {s.model.split('|')[0]}")
+			:style (string "font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")))
+		    (Div (NotStr html))
+		    (Footer
+		     hidden_pre_for_copy
+		     (Button (string "Copy Summary")
+			     :onclick (fstring "copyPreContent('pre-{identifier}')")
+			     :class (string "outline")))))
+	     ;; Conditionally add HTMX attributes for polling
 	     (if (== trigger (string ""))
-		 (return (Div
-			  title
-			  pre
-			  #+copy-prompt prompt_pre
-			  button
-			  #+copy-prompt prompt_button
-			  :id sid
-			  ))
-		 
-		 (return (Div
-			  title
-			  pre
-			  #+copy-prompt prompt_pre
-			  button
-			  #+copy-prompt prompt_button
-			  :id sid
-			  :data_hx_post (fstring "/generations/{identifier}")
-			  :data_hx_trigger trigger
-			  :data_hx_swap (string "outerHTML")))
-		 ))
+		 (return (Article *card_content :id sid))
+		 (return (Article *card_content
+				  :id sid
+				  :data_hx_post (fstring "/generations/{identifier}")
+				  :data_hx_trigger trigger
+				  :data_hx_swap (string "outerHTML"))))
+	     
+	     )
+
 	    ("Exception as e"		; NotFoundError ()
-	     (return (Div
-		      (fstring "line 1897 id: {identifier} e: {e}")
-		      (Pre text)
+	     (return (Article
+		      (Header (H4 (fstring "Error processing Summary ID: {identifier}")))
+		      (Div
+		       (P (string "An error occurred while trying to render the summary. The page will continue to refresh automatically."))
+		       (P (B (string "Details:")) (Code (fstring "{e}")))
+		       (Pre text)) ; Shows the last known state, e.g., "Generating..."
+		      
 		      :id sid
 		      :data_hx_post (fstring "/generations/{identifier}")
 		      :data_hx_trigger trigger
-		      :data_hx_swap (string "outerHTML"))))))
+		      :data_hx_swap (string "outerHTML")
+		      ;; MODIFIED: Add a distinct style to indicate an error
+		      :style (string "border-color: var(--pico-del-color);"))))
+	 
+	 ))
 	 
 	 " "
 	 (@app.post (string "/generations/{identifier}"))
