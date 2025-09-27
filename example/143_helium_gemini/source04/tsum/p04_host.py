@@ -339,46 +339,6 @@ def get(request: Request):
                 ),
                 transcript,
                 model,
-                Div(
-                    Label("Output Language", _for="output_language"),
-                    Select(
-                        Option("en"),
-                        style="width: 100%;",
-                        name="output_language",
-                        id="output_language",
-                    ),
-                    style="display: none; align-items: center; width: 100%;",
-                ),
-                Div(
-                    Input(
-                        type="checkbox",
-                        id="include_comments",
-                        name="include_comments",
-                        checked=False,
-                    ),
-                    Label("Include User Comments", _for="include_comments"),
-                    style="display: none; align-items: center; width: 100%;",
-                ),
-                Div(
-                    Input(
-                        type="checkbox",
-                        id="include_timestamps",
-                        name="include_timestamps",
-                        checked=True,
-                    ),
-                    Label("Include Timestamps", _for="include_timestamps"),
-                    style="display: none; align-items: center; width: 100%;",
-                ),
-                Div(
-                    Input(
-                        type="checkbox",
-                        id="include_glossary",
-                        name="include_glossary",
-                        checked=False,
-                    ),
-                    Label("Include Glossary", _for="include_glossary"),
-                    style="display: none; align-items: center; width: 100%;",
-                ),
                 Button("Summarize Transcript"),
                 style="display: flex; flex-direction:column;",
             )

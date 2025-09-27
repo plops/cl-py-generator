@@ -790,7 +790,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	    
 	    (setf form
 		  (Form
-                   (Fieldset ;Group
+                   (Fieldset ;; Group
 		    (Div 
 		      
 		     (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
@@ -798,6 +798,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			       :name (string "original_source_link"))
 		     transcript
 		     model
+		     #+nil
 		     (Div (Label (string "Output Language") :_for (string "output_language"))
 			  (Select
 			   ,@(loop for e in *languages*
@@ -809,6 +810,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			  :style (string #+simple "display: none; align-items: center; width: 100%;"
 					 #-simple "display: flex; align-items: center; width: 100%;"))
 		     
+		     #+nil
 		     ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
 						    (include_timestamps "Include Timestamps" True)
 						    (include_glossary "Include Glossary" False)
