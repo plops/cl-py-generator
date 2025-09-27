@@ -296,7 +296,9 @@ def get(request: Request):
         style="height: 300px; width: 60%;",
         name="transcript",
     )
-    selector = [Option(opt, value=opt) for opt in MODEL_OPTIONS]
+    selector = [
+        Option(opt, value=opt, label=opt.split("|")[0]) for opt in MODEL_OPTIONS
+    ]
     model = Div(
         Select(*selector, style="width: 100%;", name="model"),
         style="display: flex; align-items: center; width: 100%;",

@@ -779,7 +779,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				       :name (string "transcript")))
 	    (setf
 	     selector (list (for-generator (opt MODEL_OPTIONS)
-					   (Option opt :value opt)))
+					   (Option opt :value opt
+						   :label (dot opt (aref (split (string "|")) 0)))))
 	     model (Div (Select
 			 *selector
 			 
@@ -1018,7 +1019,6 @@ Output tokens: {output_tokens}")
 		      :data_hx_post (fstring "/generations/{identifier}")
 		      :data_hx_trigger trigger
 		      :data_hx_swap (string "outerHTML")
-		      ;; MODIFIED: Add a distinct style to indicate an error
 		      :style (string "border-color: var(--pico-del-color);"))))
 	 
 	 ))
