@@ -6,7 +6,7 @@
 
 ;; TODO:
 ;; [X] add choice for output language
-;; [ ] show spinner
+;; [X] show spinner
 ;; [X] allow to store the original youtube link
 ;; [X] optional timestamps
 ;; [X] optional user comments
@@ -439,7 +439,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	  (file_handler.setFormatter formatter)
 	  (logger.addHandler file_handler)
 	  (comments "Get logger for this module")
-	  (setf logger (logging.getLogger __name__)))
+	  (setf logger (logging.getLogger __name__))
+	  (logger.info (string "Logger initializedx")))
 
 	 
 	 #+auth

@@ -3,6 +3,7 @@
 # Alternative 2: install dependencies with pip: pip install -U google-generativeai python-fasthtml markdown
 # Alternative 3: install dependencies with micromamba: micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py
 import google.generativeai as genai
+import os
 import google.api_core.exceptions
 import markdown
 import sqlite_minutils.db
@@ -14,8 +15,8 @@ import numpy as np
 import os
 import logging
 from google.generativeai import types
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
+from fasthtml.oauth import OAuth, GoogleAppClient
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
@@ -46,6 +47,16 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 # Get logger for this module
 logger = logging.getLogger(__name__)
+logger.info("Logger initializedx")
+client = GoogleAppClient(os.getenv("AUTH_CLIENT_ID"), os.getenv("AUTH_CLIENT_SECRET"))
+
+
+class Auth(OAuth):
+    def get_auth(self, info, ident, session, state):
+        if info.email_verified:
+            return RedirectResponse("/", status_code=303)
+
+
 # Read the demonstration transcript and corresponding summary from disk
 try:
     with open("example_input.txt") as f:
@@ -98,7 +109,7 @@ def render(summary: Summary):
             NotStr(markdown.markdown(summary.summary)),
             id=sid,
             data_hx_post=f"/generations/{identifier}",
-            data_hx_trigger=("") if (summary.timestamps_done) else ("every 1s"),
+            data_hx_trigger=("") if (summary.timestamps_done) else (""),
             data_hx_swap="outerHTML",
         )
     else:
@@ -106,7 +117,7 @@ def render(summary: Summary):
             NotStr(markdown.markdown(summary.summary)),
             id=sid,
             data_hx_post=f"/generations/{identifier}",
-            data_hx_trigger="every 1s",
+            data_hx_trigger="",
             data_hx_swap="outerHTML",
         )
 
@@ -125,6 +136,7 @@ app, rt, summaries, Summary = fast_app(
     include_comments=bool,
     include_timestamps=bool,
     include_glossary=bool,
+    generate_abstract=bool,
     output_language=str,
     summary=str,
     summary_done=bool,
@@ -144,7 +156,16 @@ app, rt, summaries, Summary = fast_app(
     full_embedding=bytes,
     pk="identifier",
 )
-documentation = """**Get Your Summary:**
+oauth = Auth(app, client)
+
+
+@rt("/login")
+def get(req):
+    return Div(P("Not logged in")), A("Log in", href=oauth.login_link(req))
+
+
+documentation = (
+    """**Get Your Summary:**
 
 1.  For **YouTube videos**, paste the link into the input field for automatic transcript download.
 2.  For **any other text** (like articles, meeting notes, or non-YouTube transcripts), paste the content directly into the text area below.
@@ -164,6 +185,10 @@ documentation = """**Get Your Summary:**
 *   Select the **Pro model** for summarizing long-form content. It is equipped with advanced reasoning capabilities that produce more concise and higher-quality summaries.
 *   **Performance Tip:** For the fastest results, you may experience better performance when using the Pro model on weekends or outside of standard US business hours.
 """
+) + (
+    """*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
+"""
+)
 
 
 def get_transcript(url, identifier):
@@ -291,6 +316,7 @@ def get(request: Request):
                     href="https://github.com/plops/gemini-competition/blob/main/README.md",
                 )
             ),
+            Li(A("Log out", href="/logout")),
         ),
     )
     transcript = Textarea(
@@ -371,7 +397,7 @@ def get(request: Request):
 def generation_preview(identifier):
     sid = f"gen-{identifier}"
     text = "Generating ..."
-    trigger = "every 1s"
+    trigger = ""
     price_input = {
         ("gemini-2.5-flash-preview-09-2025"): (0.30),
         ("gemini-2.5-pro"): (1.250),
@@ -425,6 +451,7 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
                 href=f"{s.original_source_link}",
                 id=f"source-link-{identifier}",
             ),
+            P(B("generate_abstract:"), Span(f"{s.generate_abstract}")),
             cls="summary-details",
         )
         summary_container = Div(summary_details, cls="summary-container")
@@ -609,17 +636,6 @@ def generate_and_save(identifier: int):
             logger.error(f"Could not find summary with id {identifier}")
             return
         logger.info(f"generate_and_save model={s.model}")
-        m = genai.GenerativeModel(s.model.split("|")[0])
-        safety = {
-            (HarmCategory.HARM_CATEGORY_HATE_SPEECH): (HarmBlockThreshold.BLOCK_NONE),
-            (HarmCategory.HARM_CATEGORY_HARASSMENT): (HarmBlockThreshold.BLOCK_NONE),
-            (HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT): (
-                HarmBlockThreshold.BLOCK_NONE
-            ),
-            (HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT): (
-                HarmBlockThreshold.BLOCK_NONE
-            ),
-        }
         prompt = get_prompt(s)
         response = m.generate_content(prompt, safety_settings=safety, stream=True)
         for chunk in response:
@@ -657,8 +673,8 @@ def generate_and_save(identifier: int):
         summaries.update(
             pk_values=identifier,
             summary_done=True,
-            summary_input_tokens=prompt_token_count,
-            summary_output_tokens=((candidates_token_count) + (thinking_token_count)),
+            summary_input_tokens=0,
+            summary_output_tokens=0,
             summary_timestamp_end=datetime.datetime.now().isoformat(),
             timestamps="",
             timestamps_timestamp_start=datetime.datetime.now().isoformat(),
