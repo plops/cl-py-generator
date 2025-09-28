@@ -557,7 +557,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	   )
 	 
 	 " "
-	 (logger.info (string Create website app))
+	 (logger.info (string "Create website app"))
 	 (comments "summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
 	 (setf (ntuple app rt summaries Summary)
 	       (fast_app :db_file (string "data/summaries.db")

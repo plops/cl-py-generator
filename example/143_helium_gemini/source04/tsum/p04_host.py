@@ -122,7 +122,7 @@ def render(summary: Summary):
         )
 
 
-logger.info("Create")
+logger.info("Create website app")
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 app, rt, summaries, Summary = fast_app(
     db_file="data/summaries.db",
