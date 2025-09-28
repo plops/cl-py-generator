@@ -396,8 +396,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		   (np numpy)
 		   os
 		   logging))
-	 (imports-from
-	  (uviccorn.config LOGGING_CONFIG)
+	 (imports-from 
+	  #+nil (uviccorn.config LOGGING_CONFIG)
 	  (google.generativeai types))
 
 	 #+nil
@@ -1446,7 +1446,7 @@ Here is the real transcript. Please summarize it:
 	    ((as Exception e)
 	     (logger.error (fstring "Error during embedding for identifier {identifier}: {e}")))))
 	 " "
-	 (comments "in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001")
+	 (comments "in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001 --log-config=uvicorn_log_conf.yaml")
 	 #+nil (serve :host (string "127.0.0.1") :port 5001)
 	 #+nil
 	 (when (== __name__ (string "main"))

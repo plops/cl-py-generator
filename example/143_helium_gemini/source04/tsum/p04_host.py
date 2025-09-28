@@ -14,7 +14,6 @@ import glob
 import numpy as np
 import os
 import logging
-from uviccorn.config import LOGGING_CONFIG
 from google.generativeai import types
 from fasthtml.common import *
 from fasthtml.oauth import OAuth, GoogleAppClient
@@ -768,4 +767,4 @@ def generate_and_save(identifier: int):
         logger.error(f"Error during embedding for identifier {identifier}: {e}")
 
 
-# in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001
+# in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001 --log-config=uvicorn_log_conf.yaml
