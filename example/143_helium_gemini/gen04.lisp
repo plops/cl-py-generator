@@ -994,7 +994,9 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 			    :href (fstring "{s.original_source_link}")))
 		     (P (fstring "ID: {s.identifier} | Model: {s.model.split('|')[0]}")
 			:style (string "font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")))
-		    (Div (NotStr html))
+		    (Div (NotStr html)
+			 ;; override nowrap property that pico-css sets with the spinner
+			 :style (string "white-space: normal;"))
 		    (Footer
 		     hidden_pre_for_copy
 		     (Button (string "Copy Summary")

@@ -454,7 +454,7 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
                     style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;",
                 ),
             ),
-            Div(NotStr(html)),
+            Div(NotStr(html), style="white-space: normal;"),
             Footer(
                 hidden_pre_for_copy,
                 Button(
