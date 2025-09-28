@@ -1013,8 +1013,9 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 				   :data_hx_trigger trigger
 				   :data_hx_swap (string "outerHTML")))
 		  ;; The process is still loading if the end timestamp has not yet been written.
-		  ;; This correctly handles success, all errors, and in-progress states.3
-		  (unless s.summary_timestamp_end
+		  ;; This should handle success, all errors, and in-progress states.
+		  (unless (or s.summary_timestamp_end
+			      s.summary_done)
 		    (setf (aref attrs (string "aria-busy"))
 			  (string "true"))
 		    (setf (aref attrs (string "aria-live"))

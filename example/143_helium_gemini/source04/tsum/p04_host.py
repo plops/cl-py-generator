@@ -473,7 +473,7 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
                 data_hx_trigger=trigger,
                 data_hx_swap="outerHTML",
             )
-            if not (s.summary_timestamp_end):
+            if not ((s.summary_timestamp_end) or (s.summary_done)):
                 attrs["aria-busy"] = "true"
                 attrs["aria-live"] = "polite"
             return Article(*card_content, **attrs)
