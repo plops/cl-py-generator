@@ -413,7 +413,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		       (s03_convert_markdown_to_youtube_format *)
 		       (s04_convert_html_timestamps_to_youtube_links *))
 
-	 #+nil 
+	 
 	 (do0
 	  (comments "Configure logging with UTC timestamps and file output")
 	  (class UTCFormatter (logging.Formatter)
@@ -445,7 +445,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	  (logger.info (string "Logger initialized")))
 
 	 
-	 (do0
+	 #+nil (do0
 	  (comments "Configure Uvicorn's logging to use UTC timestamps.")
 	  (comments "Modify the format for the default and access loggers.")
 	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
