@@ -396,8 +396,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		   (np numpy)
 		   os
 		   logging))
-	 (imports-from 
-		       (google.generativeai types))
+	 (imports-from
+	  (uviccorn.config LOGGING_CONFIG)
+	  (google.generativeai types))
 
 	 #+nil
 	 (imports-from (threading Thread)
@@ -412,6 +413,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		       (s03_convert_markdown_to_youtube_format *)
 		       (s04_convert_html_timestamps_to_youtube_links *))
 
+	 #+nil 
 	 (do0
 	  (comments "Configure logging with UTC timestamps and file output")
 	  (class UTCFormatter (logging.Formatter)
@@ -442,6 +444,35 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	  (setf logger (logging.getLogger __name__))
 	  (logger.info (string "Logger initialized")))
 
+	 
+	 (do0
+	  (comments "Configure Uvicorn's logging to use UTC timestamps.")
+	  (comments "Modify the format for the default and access loggers.")
+	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
+		      (string "default")
+		      (string "fmt"))
+		(string "%(asctime)s.%(msecs)03dZ [%(name)s] %(levelprefix)s %(message)s"))
+	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
+		      (string "default")
+		      (string "datefmt"))
+		(string "%Y-%m-%dT%H:%M:%S"))
+	  
+	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
+		      (string "access")
+		      (string "fmt"))
+		(string "%(asctime)s.%(msecs)03dZ [%(name)s] %(levelprefix)s %(client_addr)s - \"%(request_line)s\" %(status_code)s"))
+	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
+		      (string "access")
+		      (string "datefmt"))
+		(string "%Y-%m-%dT%H:%M:%S"))
+
+	  (comments "Monkey-patch Uvicorn's formatters to use time.gmtime for UTC conversion.")
+	  (setf uvicorn.logging.DefaultFormatter.converter time.gmtime)
+	  (setf uvicorn.logging.AccessFormatter.converter time.gmtime)
+
+	  (comments "Get a logger for application-specific messages.")
+	  (setf logger (logging.getLogger __name__))
+	  (logger.info (string "Uvicorn logging configured to use UTC timestamps.")))
 	 
 	 #+auth
 	 (do0
