@@ -392,7 +392,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		   #+dl subprocess
 		   ;#+dl webvtt
 		   time
-		   glob
+		   glob 
 		   (np numpy)
 		   os
 		   logging))
