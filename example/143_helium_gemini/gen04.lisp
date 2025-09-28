@@ -975,7 +975,8 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	     (setf summary_container (Div summary_details
 					  :cls (string "summary-container")))
 	     (setf title summary_container)
-	     (setf html0 (markdown.markdown s.summary :extensions (list (string "nl2br"))))
+	     (setf html0 (markdown.markdown s.summary ; :extensions (list (string "nl2br"))
+					    ))
 	     (if (== (string "") html0)
 		 (do0
 		  (setf real_model (dot s model (aref (split (string "|")) 0)))
@@ -1013,7 +1014,9 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 		  ;; This correctly handles success, all errors, and in-progress states.3
 		  (unless s.summary_timestamp_end
 		    (setf (aref attrs (string "aria-busy"))
-			  (string "true")))
+			  (string "true"))
+		    (setf (aref attrs (string "aria-live"))
+			  (string "polite")))
 		  (return (Article *card_content
 				   **attrs))))
 	     

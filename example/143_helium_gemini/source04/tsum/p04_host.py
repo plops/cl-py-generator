@@ -429,7 +429,7 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
         )
         summary_container = Div(summary_details, cls="summary-container")
         title = summary_container
-        html0 = markdown.markdown(s.summary, extensions=["nl2br"])
+        html0 = markdown.markdown(s.summary)
         if ("") == (html0):
             real_model = s.model.split("|")[0]
             html = f"Waiting for {real_model} to respond to request..."
@@ -475,6 +475,7 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
             )
             if not (s.summary_timestamp_end):
                 attrs["aria-busy"] = "true"
+                attrs["aria-live"] = "polite"
             return Article(*card_content, **attrs)
     except Exception as e:
         return Article(
