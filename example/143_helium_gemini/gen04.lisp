@@ -440,7 +440,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	  (logger.addHandler file_handler)
 	  (comments "Get logger for this module")
 	  (setf logger (logging.getLogger __name__))
-	  (logger.info (string "Logger initializedx")))
+	  (logger.info (string "Logger initialized")))
 
 	 
 	 #+auth
@@ -458,7 +458,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	  )
 	 
 	 (do0
-	  (comments "Read the demonstration transcript and corresponding summary from disk")
+	  (logger.info (string "Read the demonstration transcript and corresponding summary from disk"))
 	  (try
 	   (do0
 	    ,@(loop for e in `((:var g_example_input :data ,*example-input* :fn example_input.txt)
@@ -481,7 +481,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 
 	 (do0
 	  " "
-	  (comments "Use environment variable for API key")
+	  (logger.info (string  "Use environment variable for API key"))
 	  (setf api_key (os.getenv (string "GEMINI_API_KEY")))
 	  )
 
@@ -557,7 +557,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	   )
 	 
 	 " "
-	 (comments "open website")
+	 (logger.info (string Create website app))
 	 (comments "summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
 	 (setf (ntuple app rt summaries Summary)
 	       (fast_app :db_file (string "data/summaries.db")

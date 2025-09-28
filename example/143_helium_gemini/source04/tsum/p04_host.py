@@ -47,7 +47,7 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 # Get logger for this module
 logger = logging.getLogger(__name__)
-logger.info("Logger initializedx")
+logger.info("Logger initialized")
 client = GoogleAppClient(os.getenv("AUTH_CLIENT_ID"), os.getenv("AUTH_CLIENT_SECRET"))
 
 
@@ -57,7 +57,7 @@ class Auth(OAuth):
             return RedirectResponse("/", status_code=303)
 
 
-# Read the demonstration transcript and corresponding summary from disk
+logger.info("Read the demonstration transcript and corresponding summary from disk")
 try:
     with open("example_input.txt") as f:
         g_example_input = f.read()
@@ -69,7 +69,7 @@ except FileNotFoundError as e:
     logger.error(f"Required example file not found: {e}")
     raise
 
-# Use environment variable for API key
+logger.info("Use environment variable for API key")
 api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
@@ -122,7 +122,7 @@ def render(summary: Summary):
         )
 
 
-# open website
+logger.info("Create")
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 app, rt, summaries, Summary = fast_app(
     db_file="data/summaries.db",
