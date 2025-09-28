@@ -430,7 +430,11 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
         summary_container = Div(summary_details, cls="summary-container")
         title = summary_container
         html0 = markdown.markdown(s.summary)
-        html = replace_timestamps_in_html(html0, s.original_source_link)
+        if ("") == (html0):
+            real_model = s.model.split("|")[0]
+            html = f"Waiting for {real_model} to respond to request..."
+        else:
+            html = replace_timestamps_in_html(html0, s.original_source_link)
         hidden_pre_for_copy = Div(
             Pre(text, id=f"pre-{identifier}"),
             id=f"hidden-markdown-{identifier}",

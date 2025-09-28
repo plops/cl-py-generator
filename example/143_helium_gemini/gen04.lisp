@@ -976,7 +976,11 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 					  :cls (string "summary-container")))
 	     (setf title summary_container)
 	     (setf html0 (markdown.markdown s.summary))
-	     (setf html (replace_timestamps_in_html html0 s.original_source_link))
+	     (if (== (string "") html0)
+		 (do0
+		  (setf real_model (dot s model (aref (split (string "|")) 0)))
+		  (setf html (fstring "Waiting for {real_model} to respond to request...")))
+		 (setf html (replace_timestamps_in_html html0 s.original_source_link)))
 	     (setf hidden_pre_for_copy
 		   (Div (Pre text :id (fstring "pre-{identifier}"))
 			:id (fstring "hidden-markdown-{identifier}")
