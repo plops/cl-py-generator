@@ -1002,11 +1002,20 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	     ;; Conditionally add HTMX attributes for polling
 	     (if (== trigger (string ""))
 		 (return (Article *card_content :id sid))
-		 (return (Article *card_content
-				  :id sid
-				  :data_hx_post (fstring "/generations/{identifier}")
-				  :data_hx_trigger trigger
-				  :data_hx_swap (string "outerHTML"))))
+		 (do0
+		  ;; Polling  state. Create attributes and add the spinner only if still loading.
+		  (setf attrs (dictionary
+				   :id sid
+				   :data_hx_post (fstring "/generations/{identifier}")
+				   :data_hx_trigger trigger
+				   :data_hx_swap (string "outerHTML")))
+		  ;; The process is still loading if the end timestamp has not yet been written.
+		  ;; This correctly handles success, all errors, and in-progress states.
+		  (unless s.summary_timestamp_end
+		    (setf (aref attrs (string "aria-busy"))
+			  (string "true")))
+		  (return (Article *card_content
+				   **attrs))))
 	     
 	     )
 

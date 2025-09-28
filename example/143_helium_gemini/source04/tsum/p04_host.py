@@ -467,13 +467,15 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
         if (trigger) == (""):
             return Article(*card_content, id=sid)
         else:
-            return Article(
-                *card_content,
+            attrs = dict(
                 id=sid,
                 data_hx_post=f"/generations/{identifier}",
                 data_hx_trigger=trigger,
                 data_hx_swap="outerHTML",
             )
+            if not (s.summary_timestamp_end):
+                attrs["aria-busy"] = "true"
+            return Article(*card_content, **attrs)
     except Exception as e:
         return Article(
             Header(H4(f"Error processing Summary ID: {identifier}")),
