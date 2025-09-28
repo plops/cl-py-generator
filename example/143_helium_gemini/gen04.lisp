@@ -594,6 +594,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	       (fast_app :db_file (string "data/summaries.db")
 			 :live False	;True
 			 :render render
+			 :htmlkw (dictionary :lang (string "en-US"))
 			 ,@(loop for e in db-cols
 				 appending
 				 (destructuring-bind (&key name type no-show) e

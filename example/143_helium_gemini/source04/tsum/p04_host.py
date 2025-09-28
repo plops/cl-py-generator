@@ -118,6 +118,7 @@ app, rt, summaries, Summary = fast_app(
     db_file="data/summaries.db",
     live=False,
     render=render,
+    htmlkw=dict(lang="en-US"),
     identifier=int,
     model=str,
     transcript=str,
