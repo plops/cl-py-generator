@@ -409,7 +409,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		       #+auth (fasthtml.oauth OAuth GoogleAppClient)
 		       (s01_validate_youtube_url *)
 		       (s02_parse_vtt_file *)
-		       (s03_convert_markdown_to_youtube_format *))
+		       (s03_convert_markdown_to_youtube_format *)
+		       (s04_convert_html_timestamps_to_youtube_links *))
 
 	 (do0
 	  (comments "Configure logging with UTC timestamps and file output")
@@ -974,7 +975,8 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	     (setf summary_container (Div summary_details
 					  :cls (string "summary-container")))
 	     (setf title summary_container)
-	     (setf html (markdown.markdown s.summary))
+	     (setf html0 (markdown.markdown s.summary))
+	     (setf html (replace_timestamps_in_html html0 s.original_source_link))
 	     (setf hidden_pre_for_copy
 		   (Div (Pre text :id (fstring "pre-{identifier}"))
 			:id (fstring "hidden-markdown-{identifier}")

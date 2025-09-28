@@ -19,6 +19,7 @@ from fasthtml.common import *
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
+from s04_convert_html_timestamps_to_youtube_links import *
 
 
 # Configure logging with UTC timestamps and file output
@@ -428,7 +429,8 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
         )
         summary_container = Div(summary_details, cls="summary-container")
         title = summary_container
-        html = markdown.markdown(s.summary)
+        html0 = markdown.markdown(s.summary)
+        html = replace_timestamps_in_html(html0, s.original_source_link)
         hidden_pre_for_copy = Div(
             Pre(text, id=f"pre-{identifier}"),
             id=f"hidden-markdown-{identifier}",
