@@ -429,7 +429,7 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
         )
         summary_container = Div(summary_details, cls="summary-container")
         title = summary_container
-        html0 = markdown.markdown(s.summary)
+        html0 = markdown.markdown(s.summary, extensions=["nl2br"])
         if ("") == (html0):
             real_model = s.model.split("|")[0]
             html = f"Waiting for {real_model} to respond to request..."
