@@ -34,6 +34,9 @@ sql = (
     + (" FROM items WHERE summary is NOT NULL AND summary !=''")
 )
 df = pd.read_sql_query(sql, db.conn)
+df["ts_start"] = pd.to_datetime(df["summary_timestamp_start"], errors="coerce")
+df["ts_end"] = pd.to_datetime(df["summary_timestamp_end"], errors="coerce")
+df["duration_s"] = ((df["ts_end"]) - (df["ts_start"])).dt.total_seconds()
 logger.info("Read columns from sqlite into pandas dataframe")
 #
 # >>> df

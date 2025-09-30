@@ -43,6 +43,17 @@
 			   (join cols))
 		      (string " FROM items WHERE summary is NOT NULL AND summary !=''")))
 	 (setf df (pd.read_sql_query sql db.conn))
+	 (setf (aref df (string "ts_start"))
+	       (pd.to_datetime (aref df (string "summary_timestamp_start"))
+			       :errors (string "coerce")))
+	 (setf (aref df (string "ts_end"))
+	       (pd.to_datetime (aref df (string "summary_timestamp_end"))
+			       :errors (string "coerce")))
+	 (setf (aref df (string "duration_s"))
+	       (dot (- (aref df (string "ts_end"))
+		       (aref df (string "ts_start")))
+		    dt
+		    (total_seconds)))
 	 (logger.info (string "Read columns from sqlite into pandas dataframe")))
        )
     (comments "
