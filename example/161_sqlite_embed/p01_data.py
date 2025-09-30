@@ -36,6 +36,38 @@ sql = (
 df = pd.read_sql_query(sql, db.conn)
 logger.info("Read columns from sqlite into pandas dataframe")
 #
+# >>> df
+#       identifier                                              model  ... embedding full_embedding
+# 0              1                            gemini-1.5-pro-exp-0827  ...      None           None
+# 1              2                            gemini-1.5-pro-exp-0827  ...      None           None
+# 2              3                            gemini-1.5-pro-exp-0827  ...      None           None
+# 3              4                            gemini-1.5-pro-exp-0827  ...      None           None
+# 4              5                            gemini-1.5-pro-exp-0827  ...      None           None
+# ...          ...                                                ...  ...       ...            ...
+# 7972        8155  gemini-2.5-pro| input-price: 1.25 output-price...  ...      None           None
+# 7973        8156  gemini-2.5-pro| input-price: 1.25 output-price...  ...      None           None
+# 7974        8157  gemini-2.5-pro| input-price: 1.25 output-price...  ...      None           None
+# 7975        8158  gemini-2.5-pro| input-price: 1.25 output-price...  ...      None           None
+# 7976        8159  gemini-2.5-pro| input-price: 1.25 output-price...  ...      None           None
+#
+# [7977 rows x 12 columns]
+# >>> df.iloc[-1]
+# identifier                                                              8159
+# model                      gemini-2.5-pro| input-price: 1.25 output-price...
+# summary                    **Abstract:**nnThis personal essay by Georgi...
+# summary_timestamp_start                           2025-09-29T21:32:46.405084
+# summary_timestamp_end                             2025-09-29T21:33:08.668613
+# summary_done                                                             1.0
+# summary_input_tokens                                                 14343.0
+# summary_output_tokens                                                  742.0
+# host                                                          194.230.161.72
+# original_source_link       https://www.huffpost.com/entry/weight-loss-sur...
+# embedding                                                               None
+# full_embedding                                                          None
+# Name: 7976, dtype: object
+#
+#
+#
 #  convert a subset of the columns to pandas (identifier model summary summary_timestamp_start summary_timestamp_end summary_done summary_input_tokens summary_output_tokens host original_source_link embedding full_embedding)
 #  filter out bad summaries
 #  compute 4d and 2d umap
