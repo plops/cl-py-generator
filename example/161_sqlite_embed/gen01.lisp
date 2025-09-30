@@ -13,7 +13,7 @@
 				(merge-pathnames #P"p01_data"
 						 "example/161_sqlite_embed/"))
  `(do0
-    (imports ((np numpy)
+    (imports (;(np numpy)
 	      (pd pandas)
 	      sys))
     (imports-from (sqlite_minutils *)
