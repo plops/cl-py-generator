@@ -50,42 +50,6 @@ df["ts_end"] = pd.to_datetime(df["summary_timestamp_end"], errors="coerce", utc=
 df["duration_s"] = ((df["ts_end"]) - (df["ts_start"])).dt.total_seconds()
 # Find which inferences were performed during the work week and
 logger.info("Read columns from sqlite into pandas dataframe")
-# Add continental US workhour filter
-# define continental US timezones
-tzs = dict(
-    eastern="US/Eastern",
-    central="US/Central",
-    mountain="US/Mountain",
-    pacific="US/Pacific",
-)
-# create localized columns and boolean workhour masks per timezone
-work_masks = []
-for name, tz in tzs.items():
-    col = f"ts_{name}"
-    df[col] = df["ts_start"].dt.tz_convert(tz)
-    # workday Mon-Fri -> dayofweek 0..4
-    is_weekday = (df[col].dt.dayofweek) < (5)
-    # workhours 09:00 <= local_time < 17:00 (hours 9..16
-    is_workhour = df[col].dt.hour.between(9, 16)
-    work_masks.append(((is_weekday) & (is_workhour)))
-df["is_workhours_continental"] = np.logical_or.reduce(work_masks)
-# filter invalid durations and tokens and keep only workhours rows
-df_valid = df[
-    (
-        (df["is_workhours_continental"])
-        & (df["duration_s"].notna())
-        & ((df["duration_s"]) > (0))
-        & (df["summary_input_tokens"].notna())
-    )
-]
-df_valid_off = df[
-    (
-        (~df["is_workhours_continental"])
-        & (df["duration_s"].notna())
-        & ((df["duration_s"]) > (0))
-        & (df["summary_input_tokens"].notna())
-    )
-]
 for name, df in [["work", df_valid], ["off", df_valid_off]]:
     for s in ["-flash"]:
         mask = df.model.str.contains(s, case=False, na=False)
@@ -115,20 +79,26 @@ plt.show()
 #
 # [7977 rows x 12 columns]
 # >>> df.iloc[-1]
-# identifier                                                              8159
-# model                      gemini-2.5-pro| input-price: 1.25 output-price...
-# summary                    **Abstract:**nnThis personal essay by Georgi...
-# summary_timestamp_start                           2025-09-29T21:32:46.405084
-# summary_timestamp_end                             2025-09-29T21:33:08.668613
-# summary_done                                                             1.0
-# summary_input_tokens                                                 14343.0
-# summary_output_tokens                                                  742.0
-# host                                                          194.230.161.72
-# original_source_link       https://www.huffpost.com/entry/weight-loss-sur...
-# embedding                                                               None
-# full_embedding                                                          None
-# Name: 7976, dtype: object
-#
+# identifier                                                               8123
+# model                       gemini-2.5-pro| input-price: 1.25 output-price...
+# summary                     **Abstract:**nnThis presentation by Thomas B...
+# summary_timestamp_start                            2025-09-29T11:11:19.613310
+# summary_timestamp_end                              2025-09-29T11:12:00.599444
+# summary_done                                                              1.0
+# summary_input_tokens                                                  22888.0
+# summary_output_tokens                                                  1162.0
+# host                                                             193.8.40.126
+# original_source_link              https://www.youtube.com/watch?v=0CepUaVqSeQ
+# embedding                                                                None
+# full_embedding                                                           None
+# ts_start                                     2025-09-29 11:11:19.613310+00:00
+# ts_end                                       2025-09-29 11:12:00.599444+00:00
+# duration_s                                                          40.986134
+# ts_eastern                                   2025-09-29 07:11:19.613310-04:00
+# ts_central                                   2025-09-29 06:11:19.613310-05:00
+# ts_mountain                                  2025-09-29 05:11:19.613310-06:00
+# ts_pacific                                   2025-09-29 04:11:19.613310-07:00
+# is_workhours_continental                                                False
 #
 #
 #  convert a subset of the columns to pandas (identifier model summary summary_timestamp_start summary_timestamp_end summary_done summary_input_tokens summary_output_tokens host original_source_link embedding full_embedding)

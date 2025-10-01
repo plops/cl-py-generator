@@ -74,7 +74,7 @@
 	  (comments "Find which inferences were performed during the work week and "))
 	 (logger.info (string "Read columns from sqlite into pandas dataframe")))
        )
-
+   #+nil
    (do0
     (comments "Add continental US workhour filter")
     (comments "define continental US timezones")
@@ -163,20 +163,26 @@
 
 [7977 rows x 12 columns]
 >>> df.iloc[-1]
-identifier                                                              8159
-model                      gemini-2.5-pro| input-price: 1.25 output-price...
-summary                    **Abstract:**\n\nThis personal essay by Georgi...
-summary_timestamp_start                           2025-09-29T21:32:46.405084
-summary_timestamp_end                             2025-09-29T21:33:08.668613
-summary_done                                                             1.0
-summary_input_tokens                                                 14343.0
-summary_output_tokens                                                  742.0
-host                                                          194.230.161.72
-original_source_link       https://www.huffpost.com/entry/weight-loss-sur...
-embedding                                                               None
-full_embedding                                                          None
-Name: 7976, dtype: object
-
+identifier                                                               8123
+model                       gemini-2.5-pro| input-price: 1.25 output-price...
+summary                     **Abstract:**\n\nThis presentation by Thomas B...
+summary_timestamp_start                            2025-09-29T11:11:19.613310
+summary_timestamp_end                              2025-09-29T11:12:00.599444
+summary_done                                                              1.0
+summary_input_tokens                                                  22888.0
+summary_output_tokens                                                  1162.0
+host                                                             193.8.40.126
+original_source_link              https://www.youtube.com/watch?v=0CepUaVqSeQ
+embedding                                                                None
+full_embedding                                                           None
+ts_start                                     2025-09-29 11:11:19.613310+00:00
+ts_end                                       2025-09-29 11:12:00.599444+00:00
+duration_s                                                          40.986134
+ts_eastern                                   2025-09-29 07:11:19.613310-04:00
+ts_central                                   2025-09-29 06:11:19.613310-05:00
+ts_mountain                                  2025-09-29 05:11:19.613310-06:00
+ts_pacific                                   2025-09-29 04:11:19.613310-07:00
+is_workhours_continental                                                False
 ")
     (comments
      "
