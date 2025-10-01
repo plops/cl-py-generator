@@ -1,7 +1,10 @@
 import matplotlib
 
-matplotlib.use("webagg")
+matplotlib.use("qtagg")
 import matplotlib.pyplot as plt
+
+plt.ion()
+import numpy as np
 import pandas as pd
 import sys
 import matplotlib.pyplot as plt
@@ -43,7 +46,13 @@ df["ts_start"] = pd.to_datetime(df["summary_timestamp_start"], errors="coerce")
 df["ts_end"] = pd.to_datetime(df["summary_timestamp_end"], errors="coerce")
 df["duration_s"] = ((df["ts_end"]) - (df["ts_start"])).dt.total_seconds()
 logger.info("Read columns from sqlite into pandas dataframe")
-plt.hist(((df.summary_input_tokens) / (df.duration_s)), log=True, bins=300)
+for s in ["-flash", "-pro"]:
+    mask = df.model.str.contains(s, case=False, na=False)
+    dfm = df.loc[mask]
+    dat = (dfm.summary_input_tokens) / (dfm.duration_s)
+    bins = np.linspace(0, np.percentile(dat.dropna(), 99), 300)
+    plt.hist(dat, log=True, bins=bins)
+plt.xlabel("tokens/s")
 plt.show()
 #
 # >>> df

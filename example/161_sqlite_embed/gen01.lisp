@@ -15,11 +15,13 @@
  `(do0
    (do0
     (imports (matplotlib))
-    (matplotlib.use (string "webagg"))
+    (matplotlib.use (string "qtagg" ; "webagg"
+			    ))
     (imports ((plt matplotlib.pyplot)))
+    (plt.ion)
     )
 
-   (imports (				;(np numpy)
+   (imports ((np numpy)
 	     (pd pandas)
 	     sys
 	     (plt matplotlib.pyplot)))
@@ -68,11 +70,26 @@
        )
 
    (do0
-    (plt.hist (/ df.summary_input_tokens
-		 df.duration_s)
-	      :log True
-	      :bins 300
-	      )
+    (for (s (list (string "-flash")
+		  (string "-pro")
+		  ))
+     (do0
+      (setf mask (df.model.str.contains s
+					:case False
+					:na False))
+      (setf dfm (aref df.loc mask))
+      (setf dat (/ dfm.summary_input_tokens
+		   dfm.duration_s))
+      (setf bins (np.linspace 0
+			      (np.percentile (dat.dropna) 99)
+			      300))
+      (plt.hist dat
+		:log True
+		:bins bins
+		)))
+
+    
+    (plt.xlabel (string "tokens/s"))
     (plt.show))
    (comments "
 >>> df
