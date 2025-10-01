@@ -101,7 +101,7 @@
 	      (append (& is_weekday is_workhour))))
     (setf (aref df (string "is_workhours_continental")
 		)
-	  (np.logical_or (reduce work_masks)))
+	  (dot np logical_or (reduce work_masks)))
     (comments "filter invalid durations and tokens and keep only workhours rows")
     (setf df_valid
 	  (aref df
@@ -109,27 +109,38 @@
 		   (dot (aref df (string "duration_s")) (notna))
 		   (> (aref df (string "duration_s")) 0)
 		   (dot (aref df (string "summary_input_tokens")) (notna)))
+		))
+    (setf df_valid_off
+	  (aref df
+		(& (aref ~df (string "is_workhours_continental"))
+		   (dot (aref df (string "duration_s")) (notna))
+		   (> (aref df (string "duration_s")) 0)
+		   (dot (aref df (string "summary_input_tokens")) (notna)))
 		)))
    
    (do0
-    (for (s (list (string "-flash")
-		  (string "-pro")
-		  ))
-	 (do0
-	  (setf mask (df.model.str.contains s
-					    :case False
-					    :na False))
-	  (setf dfm (aref df.loc mask))
-	  (setf dat (/ dfm.summary_input_tokens
-		       dfm.duration_s))
-	  (setf bins (np.linspace 0
-				  (np.percentile (dat.dropna) 99)
-				  300))
-	  (plt.hist dat
-		    :log True
-		    :bins bins
-		    :label s
-		    )))
+    (for ((ntuple name df) (list (list (string "work") df_valid)
+				 (list (string "off") df_valid_off)))
+     (for (s (list ;(string "-flash")
+		   (string "-pro")
+		   ))
+	  (do0
+	   (setf mask (df.model.str.contains s
+					     :case False
+					     :na False))
+	   (setf dfm (aref df.loc mask))
+	   (setf dat (/ (+ dfm.summary_input_tokens
+			   dfm.summary_output_tokens)
+			dfm.duration_s))
+	   (setf bins (np.linspace 0
+				   (np.percentile (dat.dropna) 99)
+				   300))
+	   (plt.hist dat
+		     :log True
+		     :bins bins
+		     :label (+ name s)
+		     :alpha .6
+		     ))))
 
     
     (plt.xlabel (string "tokens/s"))
