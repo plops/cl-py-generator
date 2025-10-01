@@ -1,3 +1,7 @@
+import matplotlib
+
+matplotlib.use("webagg")
+import matplotlib.pyplot as plt
 import pandas as pd
 import sys
 import matplotlib.pyplot as plt
@@ -39,6 +43,8 @@ df["ts_start"] = pd.to_datetime(df["summary_timestamp_start"], errors="coerce")
 df["ts_end"] = pd.to_datetime(df["summary_timestamp_end"], errors="coerce")
 df["duration_s"] = ((df["ts_end"]) - (df["ts_start"])).dt.total_seconds()
 logger.info("Read columns from sqlite into pandas dataframe")
+plt.hist(((df.summary_input_tokens) / (df.duration_s)), log=True, bins=300)
+plt.show()
 #
 # >>> df
 #       identifier                                              model  ... embedding full_embedding

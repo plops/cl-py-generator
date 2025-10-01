@@ -13,11 +13,17 @@
 				(merge-pathnames #P"p01_data"
 						 "example/161_sqlite_embed/"))
  `(do0
-    (imports (;(np numpy)
-	      (pd pandas)
-	      sys
-	      (plt matplotlib.pyplot)))
+   (do0
+    (imports (matplotlib))
+    (matplotlib.use (string "webagg"))
+    (imports ((plt matplotlib.pyplot)))
+    )
 
+   (imports (				;(np numpy)
+	     (pd pandas)
+	     sys
+	     (plt matplotlib.pyplot)))
+    
     
     
     (imports-from (sqlite_minutils *)
@@ -60,7 +66,15 @@
 		    (total_seconds)))
 	 (logger.info (string "Read columns from sqlite into pandas dataframe")))
        )
-    (comments "
+
+   (do0
+    (plt.hist (/ df.summary_input_tokens
+		 df.duration_s)
+	      :log True
+	      :bins 300
+	      )
+    (plt.show))
+   (comments "
 >>> df
       identifier                                              model  ... embedding full_embedding
 0              1                            gemini-1.5-pro-exp-0827  ...      None           None

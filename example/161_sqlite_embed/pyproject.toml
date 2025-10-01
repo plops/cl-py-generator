@@ -7,16 +7,17 @@ requires-python = ">=3.12"
 #requires-python = "==3.12.*" # for numba
 dependencies = [
     "sqlite-minutils",
-#    "google-genai",
+    #    "google-genai",
     "numpy",
     "pandas",
     "loguru",
-#    "seaborn",
-#    "umap-learn[plot]",
-#    "scikit-learn",
-#    "matplotlib",
-#    "numba>=0.59.0",
-#    "jax>=0.7.2",
+    #    "seaborn",
+    #    "umap-learn[plot]",
+    #    "scikit-learn",
+    "matplotlib",
+    #    "numba>=0.59.0",
+    #    "jax>=0.7.2",
+    "tornado>=6.5.2",
 ]
 
 [project.optional-dependencies]
