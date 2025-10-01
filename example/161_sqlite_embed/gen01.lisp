@@ -55,41 +55,85 @@
 			   (join cols))
 		      (string " FROM items WHERE summary is NOT NULL AND summary !=''")))
 	 (setf df (pd.read_sql_query sql db.conn))
-	 (setf (aref df (string "ts_start"))
-	       (pd.to_datetime (aref df (string "summary_timestamp_start"))
-			       :errors (string "coerce")))
-	 (setf (aref df (string "ts_end"))
-	       (pd.to_datetime (aref df (string "summary_timestamp_end"))
-			       :errors (string "coerce")))
-	 (setf (aref df (string "duration_s"))
-	       (dot (- (aref df (string "ts_end"))
-		       (aref df (string "ts_start")))
-		    dt
-		    (total_seconds)))
+	 (do0
+	  (comments "Convert Timestamps from string into datetime type")
+	  (setf (aref df (string "ts_start"))
+		(pd.to_datetime (aref df (string "summary_timestamp_start"))
+				:errors (string "coerce")
+				:utc True))
+	  (setf (aref df (string "ts_end"))
+		(pd.to_datetime (aref df (string "summary_timestamp_end"))
+				:errors (string "coerce")
+				:utc True))
+	  (setf (aref df (string "duration_s"))
+		(dot (- (aref df (string "ts_end"))
+			(aref df (string "ts_start")))
+		     dt
+		     (total_seconds))))
+	 (do0
+	  (comments "Find which inferences were performed during the work week and "))
 	 (logger.info (string "Read columns from sqlite into pandas dataframe")))
        )
 
    (do0
+    (comments "Add continental US workhour filter")
+    (comments "define continental US timezones")
+    (setf tzs (dictionary :eastern (string "US/Eastern")
+			  :central (string "US/Central")
+			  :mountain (string "US/Mountain")
+			  :pacific (string "US/Pacific")))
+    (comments "create localized columns and boolean workhour masks per timezone")
+    (setf work_masks (list))
+    (for ((ntuple name tz)
+	  (tzs.items))
+	 (setf col (fstring "ts_{name}")
+	       (aref df col) (dot (aref df (string "ts_start")
+					)
+				  dt (tz_convert tz)))
+	 (comments "workday Mon-Fri -> dayofweek 0..4")
+	 (setf is_weekday (< (dot (aref df col)
+				dt dayofweek )
+			     5))
+	 (comments "workhours 09:00 <= local_time < 17:00 (hours 9..16")
+	 (setf is_workhour (dot (aref df col)
+				dt hour (between 9 16)))
+	 (dot work_masks
+	      (append (& is_weekday is_workhour))))
+    (setf (aref df (string "is_workhours_continental")
+		)
+	  (np.logical_or (reduce work_masks)))
+    (comments "filter invalid durations and tokens and keep only workhours rows")
+    (setf df_valid
+	  (aref df
+		(& (aref df (string "is_workhours_continental"))
+		   (dot (aref df (string "duration_s")) (notna))
+		   (> (aref df (string "duration_s")) 0)
+		   (dot (aref df (string "summary_input_tokens")) (notna)))
+		)))
+   
+   (do0
     (for (s (list (string "-flash")
 		  (string "-pro")
 		  ))
-     (do0
-      (setf mask (df.model.str.contains s
-					:case False
-					:na False))
-      (setf dfm (aref df.loc mask))
-      (setf dat (/ dfm.summary_input_tokens
-		   dfm.duration_s))
-      (setf bins (np.linspace 0
-			      (np.percentile (dat.dropna) 99)
-			      300))
-      (plt.hist dat
-		:log True
-		:bins bins
-		)))
+	 (do0
+	  (setf mask (df.model.str.contains s
+					    :case False
+					    :na False))
+	  (setf dfm (aref df.loc mask))
+	  (setf dat (/ dfm.summary_input_tokens
+		       dfm.duration_s))
+	  (setf bins (np.linspace 0
+				  (np.percentile (dat.dropna) 99)
+				  300))
+	  (plt.hist dat
+		    :log True
+		    :bins bins
+		    :label s
+		    )))
 
     
     (plt.xlabel (string "tokens/s"))
+    (plt.legend)
     (plt.show))
    (comments "
 >>> df

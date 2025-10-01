@@ -42,17 +42,50 @@ sql = (
     + (" FROM items WHERE summary is NOT NULL AND summary !=''")
 )
 df = pd.read_sql_query(sql, db.conn)
-df["ts_start"] = pd.to_datetime(df["summary_timestamp_start"], errors="coerce")
-df["ts_end"] = pd.to_datetime(df["summary_timestamp_end"], errors="coerce")
+# Convert Timestamps from string into datetime type
+df["ts_start"] = pd.to_datetime(
+    df["summary_timestamp_start"], errors="coerce", utc=True
+)
+df["ts_end"] = pd.to_datetime(df["summary_timestamp_end"], errors="coerce", utc=True)
 df["duration_s"] = ((df["ts_end"]) - (df["ts_start"])).dt.total_seconds()
+# Find which inferences were performed during the work week and
 logger.info("Read columns from sqlite into pandas dataframe")
+# Add continental US workhour filter
+# define continental US timezones
+tzs = dict(
+    eastern="US/Eastern",
+    central="US/Central",
+    mountain="US/Mountain",
+    pacific="US/Pacific",
+)
+# create localized columns and boolean workhour masks per timezone
+work_masks = []
+for name, tz in tzs.items():
+    col = f"ts_{name}"
+    df[col] = df["ts_start"].dt.tz_convert(tz)
+    # workday Mon-Fri -> dayofweek 0..4
+    is_weekday = (df[col].dt.dayofweek) < (5)
+    # workhours 09:00 <= local_time < 17:00 (hours 9..16
+    is_workhour = df[col].dt.hour.between(9, 16)
+    work_masks.append(((is_weekday) & (is_workhour)))
+df["is_workhours_continental"] = np.logical_or(reduce(work_masks))
+# filter invalid durations and tokens and keep only workhours rows
+df_valid = df[
+    (
+        (df["is_workhours_continental"])
+        & (df["duration_s"].notna())
+        & ((df["duration_s"]) > (0))
+        & (df["summary_input_tokens"].notna())
+    )
+]
 for s in ["-flash", "-pro"]:
     mask = df.model.str.contains(s, case=False, na=False)
     dfm = df.loc[mask]
     dat = (dfm.summary_input_tokens) / (dfm.duration_s)
     bins = np.linspace(0, np.percentile(dat.dropna(), 99), 300)
-    plt.hist(dat, log=True, bins=bins)
+    plt.hist(dat, log=True, bins=bins, label=s)
 plt.xlabel("tokens/s")
+plt.legend()
 plt.show()
 #
 # >>> df
