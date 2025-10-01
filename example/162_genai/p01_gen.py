@@ -5,6 +5,7 @@ import os
 from sqlite_minutils import *
 from loguru import logger
 from google import genai
+from pydantic import BaseModel
 from google.genai import types
 
 logger.remove()
@@ -15,16 +16,31 @@ logger.add(
     level="DEBUG",
 )
 logger.info("Logger configured")
+
+
+class Recipe(BaseModel):
+    title: str
+    summary: list[str]
+
+
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 model = "gemini-flash-latest"
 contents = [
     types.Content(
-        role="user", parts=[types.Part.from_text(text=r"""tell me a jokes""")]
+        role="user",
+        parts=[
+            types.Part.from_text(
+                text=r"""make a summary about the most recent news about trump"""
+            )
+        ],
     )
 ]
 tools = [types.Tool(googleSearch=types.GoogleSearch())]
 generate_content_config = types.GenerateContentConfig(
-    thinking_config=types.ThinkingConfig(thinkingBudget=24576), tools=tools
+    thinking_config=types.ThinkingConfig(thinkingBudget=24576),
+    tools=tools,
+    response_mime_type="application/json",
+    response_schema=list[Recipe],
 )
 for chunk in client.models.generate_content_stream(
     model=model, contents=contents, config=generate_content_config
