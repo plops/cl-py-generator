@@ -27,7 +27,10 @@
 	     (pd pandas)
 	     sys
 	     os
-	     ))
+	     ;pickle
+	     json
+	     pydantic_core)
+	  )
     
     
     
@@ -59,21 +62,48 @@
     (setf model (string "gemini-flash-latest"))
     (setf contents (list (types.Content
 			  :role (string "user")
-			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about musk")))
+			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about bill gates")))
 			  )))
     (setf tools (list (types.Tool :googleSearch (types.GoogleSearch))))
-    
+
+    (setf think_max_budget_flash 24576
+	  think_auto_budget -1
+	  think_off 0)
     (setf generate_content_config (types.GenerateContentConfig
-				   :thinking_config (types.ThinkingConfig :thinkingBudget 24576)
+				   :thinking_config (types.ThinkingConfig
+						     :thinkingBudget think_auto_budget
+						     :include_thoughts True)
 				   :tools tools
-				   :response_mime_type (string "application/json")
-				   :response_schema (space "list" (list Recipe))))
+				   :response_mime_type (string
+								    #-structure "text/plain"
+							#+structure "application/json")
+				   :response_schema (space "list" (list Recipe))
+				   ))
+    (setf 
+	  thoughts (string "")
+	  answer (string "")
+	  responses (list))
     (for (chunk (client.models.generate_content_stream
 		 :model model
 		 :contents contents
 		 :config generate_content_config))
-	 (print chunk.text :end (string "")))
-    
+	 (for (part (dot chunk (aref candidates 0) content parts))
+	      (responses.append chunk)
+	      (cond ((not part.text)
+		     continue)
+		    (part.thought
+		     (print part.text)
+		     (incf thoughts part.text))
+		    (t
+		     (print part.text)
+		     (incf answer part.text))))
+	 )
+    #+structure
+    (print (pydantic_core.from_json answer))
+    #-structure
+    (do0
+     (print thoughts)
+     (print answer))
     )
    ))
 
