@@ -15,6 +15,7 @@
  `(do0
    #+nil
    (do0
+    (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_gen.py")
     (imports (matplotlib))
     (matplotlib.use (string "qtagg"	; "webagg"
 			    ))
