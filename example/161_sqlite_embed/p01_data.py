@@ -87,7 +87,7 @@ df_valid_off = df[
     )
 ]
 for name, df in [["work", df_valid], ["off", df_valid_off]]:
-    for s in ["-pro"]:
+    for s in ["-flash"]:
         mask = df.model.str.contains(s, case=False, na=False)
         dfm = df.loc[mask]
         dat = ((dfm.summary_input_tokens) + (dfm.summary_output_tokens)) / (

@@ -121,8 +121,8 @@
    (do0
     (for ((ntuple name df) (list (list (string "work") df_valid)
 				 (list (string "off") df_valid_off)))
-     (for (s (list ;(string "-flash")
-		   (string "-pro")
+     (for (s (list (string "-flash")
+		   ;(string "-pro")
 		   ))
 	  (do0
 	   (setf mask (df.model.str.contains s
