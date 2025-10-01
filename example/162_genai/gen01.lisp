@@ -59,7 +59,7 @@
     (setf model (string "gemini-flash-latest"))
     (setf contents (list (types.Content
 			  :role (string "user")
-			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about trump")))
+			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about musk")))
 			  )))
     (setf tools (list (types.Tool :googleSearch (types.GoogleSearch))))
     
