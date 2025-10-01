@@ -15,7 +15,11 @@
  `(do0
     (imports (;(np numpy)
 	      (pd pandas)
-	      sys))
+	      sys
+	      (plt matplotlib.pyplot)))
+
+    
+    
     (imports-from (sqlite_minutils *)
 		  (loguru logger))
 

@@ -1,5 +1,6 @@
 import pandas as pd
 import sys
+import matplotlib.pyplot as plt
 from sqlite_minutils import *
 from loguru import logger
 
