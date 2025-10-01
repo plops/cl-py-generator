@@ -5,107 +5,49 @@
 					;:optima
 	:alexandria)
   (:export
-   #:emit-py
-   #:tuple
-   #:indent
-   #:do
-   #:do0
-   #:def
-   #:slice
-   #:dot
-   #:**
-   #:imports
-   #:import-from
-   #:imports-from
-   #:try
-   #:write-source
-   #:run
-   #:start-python
-      #:&
-   #:!=
-   #:%
-   #:+
-   #:-
-   #:*
-   #:/
-   #:/=
-   #:<
-   #:<<
-   #:<=
-   #:=
-   #:==
-   #:>
-   #:>>
-   #:?
-   #:^
-   #:^=
-   #:angle
-   #:and
-   #:aref
-   #:bitwise-not
-   #:bracket
-   #:case
-   #:cast
-   #:char
-   #:co_await
-   #:co_return
-   #:co_yield
-   #:comma
-   #:comments
-   #:curly
-   #:decf
-   #:defclass
-   #:defclass+
-   #:defmethod
-   #:defstruct0
-   #:deftype
-   #:defun
-   #:defun+
-   #:defun*
-   #:deref
-   #:designated-initializer
-   #:do
-   #:do0
-   #:dot
-   #:dotimes
-   #:for
-   #:for-range
-   #:foreach
-   #:handler-case
-   #:hex
-   #:if
-   #:if-constexpr
-   #:include
-   #:include<>
-   #:incf
-   #:indent
-   #:lambda
-   #:let
-   #:logand
-   #:logior
-   #:namespace
-   #:new
-   #:not
-   #:or
-   #:paren
-   #:paren*
-   #:pragma
-   #:progn
-   #:protected
-   #:public
-   #:ref
-   #:return
-   #:semicolon
-   #:setf
-   #:space
-   #:space-n
-   #:split-header-and-code
-   #:string
-   #:string-r
-   #:string-u8
-   #:struct
-   #:throw
-   #:unless
-   #:when
-   #:while
-   #:xor))
+   ;; public API  
+   #:emit-py  
+   #:write-source  
+   #:write-notebook  
+   ;#:parse-defun  
+   ;#:consume-declare  
+   ;#:print-sufficient-digits-f64  
+  
+   ;; public state (if you need them externally)  
+   ;#:*warn-breaking*  
+   ;#:*file-hashes*  
+   ;#:*env-functions*  
+   ;#:*env-macros*  
+  
+   ;; DSL node names handled by emit-py  
+   #:tuple #:paren #:ntuple #:list #:curly  
+   #:dict #:dictionary  
+  
+   #:indent #:do #:do0 #:class #:cell #:export #:space  
+  
+   #:lambda #:def  
+  
+   #:= #:+ #:- #:* #:@ #:== #:<< #:!= #:< #:> #:<= #:>= #:>> #:/ #:** #:// #:%  
+  
+   #:& #:^ #:logand #:logxor #:logior  
+   #:and #:or  
+  
+   #:setf #:incf #:decf #:aref #:slice #:dot  
+  
+   #:in #:is #:as  
+  
+   #:comment #:comments #:symbol  
+   #:string #:string-b #:fstring #:fstring3 #:string3 #:rstring3  
+  
+   #:return_ #:return  
+  
+   #:for #:for-generator #:while #:if #:cond #:? #:when #:unless  
+  
+   #:import #:import-from #:imports #:imports-from  
+  
+   #:with #:try  
+  
+   ;; unusual/punctuation tokens used in the code (kept for completeness)  
+   ;; #:| ;;  i think this is or. not sure if i ever use itisth
+
+))
