@@ -28,7 +28,8 @@
 	     sys
 	     os
 	     ;pickle
-	     json
+	     ;json
+	     yaml
 	     pydantic_core)
 	  )
     
@@ -89,6 +90,7 @@
 		 :config generate_content_config))
 	 (for (part (dot chunk (aref candidates 0) content parts))
 	      (responses.append chunk)
+	      (print chunk)
 	      (cond ((not part.text)
 		     continue)
 		    (part.thought
@@ -98,6 +100,20 @@
 		     (print part.text)
 		     (incf answer part.text))))
 	 )
+    
+    #+nil
+    (with (as (open (string "out.json")
+		    (string "w")
+		    :encoding (string "utf-8"))
+	      f)
+	  
+	  (json.dump responses f :ensure_ascii False :indent 2))
+    (with (as (open (string "out.yaml")
+		    (string "w")
+		    :encoding (string "utf-8"))
+	      f)
+	  
+	  (yaml.dump responses f :allow_unicode True :indent 2))
     #+structure
     (print (pydantic_core.from_json answer))
     #-structure

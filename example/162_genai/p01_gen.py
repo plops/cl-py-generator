@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import sys
 import os
-import json
+import yaml
 import pydantic_core
 from sqlite_minutils import *
 from loguru import logger
@@ -57,6 +57,7 @@ for chunk in client.models.generate_content_stream(
 ):
     for part in chunk.candidates[0].content.parts:
         responses.append(chunk)
+        print(chunk)
         if not (part.text):
             continue
         elif part.thought:
@@ -65,5 +66,7 @@ for chunk in client.models.generate_content_stream(
         else:
             print(part.text)
             answer += part.text
+with open("out.yaml", "w", encoding="utf-8") as f:
+    yaml.dump(responses, f, allow_unicode=True, indent=2)
 print(thoughts)
 print(answer)
