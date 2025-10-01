@@ -3,7 +3,7 @@ name = "embed"
 version = "0.1.0"
 description = "Load video summaries from sqlite file and compute embeddings, visualize with UMAP and cluster with DBSCAN"
 readme = "README.md"
-requirse-python = ">=3.12.*" 
+requires-python = ">=3.12" 
 #requires-python = "==3.12.*" # for numba
 dependencies = [
     "sqlite-minutils",
