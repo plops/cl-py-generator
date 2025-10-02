@@ -54,7 +54,7 @@
     (setf model (string "gemini-flash-latest"))
     (setf contents (list (types.Content
 			  :role (string "user")
-			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about bill gates")))
+			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about astrazeneca stock")))
 			  )))
     (setf tools (list (types.Tool :googleSearch (types.GoogleSearch))))
 
@@ -131,26 +131,46 @@
 	       collect
 	       `(setf (aref d (string ,e))
 		      (getattr um (string ,e) None)))
-       ,@(loop for e in `(total_token_count
-			   response_id
-			   model_version
-			   create_time
-			   )
-	       (setf (aref d (string ,e) (find_first responses (lambda (r)
-								 (getattr r (string ,e)
-									  None)))))
+       ,@(loop for e in `(
+			  response_id
+			  model_version
+			  create_time
+			  )
+	       collect
+	       `(setf (aref d (string ,e))
+		      (find_first responses (lambda (r)
+						    (getattr r (string ,e)
+							     None))))
 	       )
+
+       (setf totals (list (for-generator (r responses)
+					 (getattr (getattr r (string "usage_metadata")
+							   None)
+						  (string "total_token_count")
+						  None)))
+	     valid_totals (list (for-generator (tot totals)
+					       (? (isinstance tot (tuple int float))
+						  tot
+						  None)))
+	     (aref d (string "total_token_count")) (? valid_totals
+				    (max valid_totals)
+				    None))
        (setf (aref d (string "finish_reason"))
 	     (find_first responses
 			 (lambda (r)
-			   (getattr r (string ,e)
-				    None))))
-       (try
-	(setf finish_reason (getattr (dot last_with_usage (aref candidates 0))
-				     (string "finish_reason")
-				     None))
-	(Exception
-	 (setf finish_reason None)))))
+			   (or (and (getattr r (string "finish_reason")
+					     None)
+				    (getattr (dot r (aref candidates 0))
+					     (string "finish_reason")
+					     None))
+			       None))))
+
+       (setf (aref d (string "sdk_date"))
+	     (find_first responses (lambda (r)
+				     (and
+				      (getattr r (string "sdk_http_response") None)
+				      (dot (getattr r.sdk_http_response (string "headers") "{}")
+					   (get (string "date")))))))))
     
     (do0
      (logger.info (fstring "thoughts: {thoughts}"))

@@ -23,7 +23,7 @@ contents = [
         role="user",
         parts=[
             types.Part.from_text(
-                text=r"""make a summary about the most recent news about bill gates"""
+                text=r"""make a summary about the most recent news about astrazeneca stock"""
             )
         ],
     )
@@ -83,13 +83,47 @@ if last_with_usage is not None:
     d["candidates_token_count"] = getattr(um, "candidates_token_count", None)
     d["prompt_token_count"] = getattr(um, "prompt_token_count", None)
     d["thoughts_token_count"] = getattr(um, "thoughts_token_count", None)
-    d["total_token_count"] = getattr(um, "total_token_count", None)
-    d["response_id"] = getattr(um, "response_id", None)
-    d["model_version"] = getattr(um, "model_version", None)
-    try:
-        finish_reason = getattr(last_with_usage.candidates[0], "finish_reason", None)
-    except Exception:
-        finish_reason = None
+    d["response_id"] = find_first(responses, lambda r: getattr(r, "response_id", None))
+    d["model_version"] = find_first(
+        responses, lambda r: getattr(r, "model_version", None)
+    )
+    d["create_time"] = find_first(responses, lambda r: getattr(r, "create_time", None))
+    totals = [
+        getattr(getattr(r, "usage_metadata", None), "total_token_count", None)
+        for r in responses
+    ]
+    valid_totals = [
+        (tot)
+        if (
+            isinstance(
+                tot,
+                (
+                    int,
+                    float,
+                ),
+            )
+        )
+        else (None)
+        for tot in totals
+    ]
+    d["total_token_count"] = (max(valid_totals)) if (valid_totals) else (None)
+    d["finish_reason"] = find_first(
+        responses,
+        lambda r: (
+            (
+                (getattr(r, "finish_reason", None))
+                and (getattr(r.candidates[0], "finish_reason", None))
+            )
+            or (None)
+        ),
+    )
+    d["sdk_date"] = find_first(
+        responses,
+        lambda r: (
+            (getattr(r, "sdk_http_response", None))
+            and (getattr(r.sdk_http_response, "headers", {}).get("date"))
+        ),
+    )
 logger.info(f"thoughts: {thoughts}")
 logger.info(f"answer: {answer}")
 logger.info(f"{d}")
