@@ -27,19 +27,12 @@
 	     (pd pandas)
 	     sys
 	     os
-	     ;pickle
-	     ;json
-	     yaml
-	     pydantic_core)
-	  )
+	     yaml))
     
-    
-    
-    (imports-from (sqlite_minutils *)
-		  (loguru logger)
-		  (google genai)
-		  (pydantic BaseModel)
-		  (google.genai types))
+   (imports-from (sqlite_minutils *)
+		 (loguru logger)
+		 (google genai)
+		 (google.genai types))
 
     (do0
      (logger.remove)
@@ -54,9 +47,7 @@
     (logger.info (string "Logger configured"))
 
    (do0
-    (class Recipe (BaseModel)
-	   "title: str"
-	   "summary: list[str]")
+    
     (setf client (genai.Client :api_key (os.environ.get (string "GEMINI_API_KEY"))
 					;:http_options (types.HttpOptions :api_version (string "v1alpha"))
 			       ))
@@ -77,14 +68,15 @@
 						     )
 				   :tools tools
 				   :response_mime_type (string
-								    #-structure "text/plain"
-							#+structure "application/json")
-				   :response_schema (space "list" (list Recipe))
+								    "text/plain"
+						)
+				   
 				   ))
     (setf 
-	  thoughts (string "")
-	  answer (string "")
-	  responses (list))
+     thoughts (string "")
+     answer (string "")
+     responses (list))
+    
     (for (chunk (client.models.generate_content_stream
 		 :model model
 		 :contents contents
@@ -101,26 +93,70 @@
 		     (print part.text)
 		     (incf answer part.text))))
 	 )
-    
-    #+nil
-    (with (as (open (string "out.json")
-		    (string "w")
-		    :encoding (string "utf-8"))
-	      f)
-	  
-	  (json.dump responses f :ensure_ascii False :indent 2))
-    (with (as (open (string "out.yaml")
-		    (string "w")
-		    :encoding (string "utf-8"))
-	      f)
-	  
-	  (yaml.dump responses f :allow_unicode True :indent 2))
-    #+structure
-    (print (pydantic_core.from_json answer))
-    #-structure
     (do0
-     (print thoughts)
-     (print answer))
+     (comments "persist raw responses")
+     (with (as (open (string "out.yaml")
+		     (string "w")
+		     :encoding (string "utf-8"))
+	       f)
+	   (yaml.dump responses f :allow_unicode True :indent 2)))
+
+    (do0
+     (comments "helper to find the first non-null value across all responses using a provided extractor")
+     (def find_first (responses extractor)
+       (for (r responses)
+	    (try
+	     (setf v (extractor r))
+	     (Exception
+	      (setf v None)))
+	    (unless (is v None)
+	      (return v)))
+       (return None))
+     (do0 (comments "find the last response that contains usage metadata (for the aggregated token counts)")
+      (setf last_with_usage None
+	    )
+      (for (resp (reversed responses))
+	   (when (is (getattr resp (string "usage_metadata") None)
+		     "not None")
+	     (setf last_with_usage resp)
+	     break)))
+     (when (is last_with_usage
+	       "not None")
+       (setf um last_with_usage.usage_metadata)
+       (setf d "{}")
+       ,@(loop for e  in `(candidates_token_count
+			   prompt_token_count
+			   thoughts_token_count
+			   )
+	       collect
+	       `(setf (aref d (string ,e))
+		      (getattr um (string ,e) None)))
+       ,@(loop for e in `(total_token_count
+			   response_id
+			   model_version
+			   create_time
+			   )
+	       (setf (aref d (string ,e) (find_first responses (lambda (r)
+								 (getattr r (string ,e)
+									  None)))))
+	       )
+       (setf (aref d (string "finish_reason"))
+	     (find_first responses
+			 (lambda (r)
+			   (getattr r (string ,e)
+				    None))))
+       (try
+	(setf finish_reason (getattr (dot last_with_usage (aref candidates 0))
+				     (string "finish_reason")
+				     None))
+	(Exception
+	 (setf finish_reason None)))))
+    
+    (do0
+     (logger.info (fstring "thoughts: {thoughts}"))
+     (logger.info (fstring "answer: {answer}"))
+     (logger.info (fstring "{d}"))
+     )
     )
    ))
 

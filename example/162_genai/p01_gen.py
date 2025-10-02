@@ -3,11 +3,9 @@ import pandas as pd
 import sys
 import os
 import yaml
-import pydantic_core
 from sqlite_minutils import *
 from loguru import logger
 from google import genai
-from pydantic import BaseModel
 from google.genai import types
 
 logger.remove()
@@ -18,13 +16,6 @@ logger.add(
     level="DEBUG",
 )
 logger.info("Logger configured")
-
-
-class Recipe(BaseModel):
-    title: str
-    summary: list[str]
-
-
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 model = "gemini-flash-latest"
 contents = [
@@ -45,7 +36,6 @@ generate_content_config = types.GenerateContentConfig(
     thinking_config=types.ThinkingConfig(thinkingBudget=think_auto_budget),
     tools=tools,
     response_mime_type="text/plain",
-    response_schema=list[Recipe],
 )
 thoughts = ""
 answer = ""
@@ -64,7 +54,42 @@ for chunk in client.models.generate_content_stream(
         else:
             print(part.text)
             answer += part.text
+# persist raw responses
 with open("out.yaml", "w", encoding="utf-8") as f:
     yaml.dump(responses, f, allow_unicode=True, indent=2)
-print(thoughts)
-print(answer)
+
+
+# helper to find the first non-null value across all responses using a provided extractor
+def find_first(responses, extractor):
+    for r in responses:
+        try:
+            v = extractor(r)
+        except Exception:
+            v = None
+        if not (v is None):
+            return v
+    return None
+
+
+# find the last response that contains usage metadata (for the aggregated token counts)
+last_with_usage = None
+for resp in reversed(responses):
+    if getattr(resp, "usage_metadata", None) is not None:
+        last_with_usage = resp
+        break
+if last_with_usage is not None:
+    um = last_with_usage.usage_metadata
+    d = {}
+    d["candidates_token_count"] = getattr(um, "candidates_token_count", None)
+    d["prompt_token_count"] = getattr(um, "prompt_token_count", None)
+    d["thoughts_token_count"] = getattr(um, "thoughts_token_count", None)
+    d["total_token_count"] = getattr(um, "total_token_count", None)
+    d["response_id"] = getattr(um, "response_id", None)
+    d["model_version"] = getattr(um, "model_version", None)
+    try:
+        finish_reason = getattr(last_with_usage.candidates[0], "finish_reason", None)
+    except Exception:
+        finish_reason = None
+logger.info(f"thoughts: {thoughts}")
+logger.info(f"answer: {answer}")
+logger.info(f"{d}")
