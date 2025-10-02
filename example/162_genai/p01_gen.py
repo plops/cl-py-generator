@@ -23,7 +23,7 @@ contents = [
         role="user",
         parts=[
             types.Part.from_text(
-                text=r"""make a summary about the most recent news about astrazeneca stock"""
+                text=r"""make a summary about the most recent news about eli lily stock"""
             )
         ],
     )
