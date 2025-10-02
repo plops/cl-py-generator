@@ -27,7 +27,8 @@
 	     (pd pandas)
 	     sys
 	     os
-	     yaml))
+	     yaml
+	     time))
     
    (imports-from (sqlite_minutils *)
 		 (loguru logger)
@@ -54,7 +55,7 @@
     (setf model (string "gemini-flash-latest"))
     (setf contents (list (types.Content
 			  :role (string "user")
-			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about eli lily stock")))
+			  :parts (list (types.Part.from_text :text (rstring3 "make a summary about the most recent news about ethris stock")))
 			  )))
     (setf tools (list (types.Tool :googleSearch (types.GoogleSearch))))
 
@@ -64,7 +65,7 @@
     (setf generate_content_config (types.GenerateContentConfig
 				   :thinking_config (types.ThinkingConfig
 						     :thinkingBudget think_auto_budget
-						     ;:include_thoughts True
+						     :include_thoughts True
 						     )
 				   :tools tools
 				   :response_mime_type (string
@@ -75,7 +76,12 @@
     (setf 
      thoughts (string "")
      answer (string "")
-     responses (list))
+     responses (list)
+     t_submit (time.monotonic)
+     first_thought_time None
+     last_thought_time None
+     first_answer_time None
+     final_answer_time None)
     
     (for (chunk (client.models.generate_content_stream
 		 :model model
@@ -87,9 +93,21 @@
 	      (cond ((not part.text)
 		     continue)
 		    (part.thought
+		     (do0
+		      (setf now (time.monotonic))
+		      (when (is first_thought_time None)
+			(logger.info (string "first thought"))
+			(setf first_thought_time now))
+		      (setf last_thought_time now))
 		     (print part.text)
 		     (incf thoughts part.text))
 		    (t
+		     (do0
+		      (setf now (time.monotonic))
+		      (when (is first_answer_time None)
+			(logger.info (string "first answer"))
+			(setf first_answer_time now))
+		      (setf final_answer_time now))
 		     (print part.text)
 		     (incf answer part.text))))
 	 )
@@ -112,14 +130,24 @@
 	    (unless (is v None)
 	      (return v)))
        (return None))
+
+     (def find_last (responses extractor)
+       (for (r (reversed responses))
+	    (try
+	     (setf v (extractor r))
+	     (Exception
+	      (setf v None)))
+	    (unless (is v None)
+	      (return v)))
+       (return None))
      (do0 (comments "find the last response that contains usage metadata (for the aggregated token counts)")
-      (setf last_with_usage None
-	    )
-      (for (resp (reversed responses))
-	   (when (is (getattr resp (string "usage_metadata") None)
-		     "not None")
-	     (setf last_with_usage resp)
-	     break)))
+	  (setf last_with_usage None
+		)
+	  (for (resp (reversed responses))
+	       (when (is (getattr resp (string "usage_metadata") None)
+			 "not None")
+		 (setf last_with_usage resp)
+		 break)))
      (when (is last_with_usage
 	       "not None")
        (setf um last_with_usage.usage_metadata)
@@ -134,7 +162,7 @@
        ,@(loop for e in `(
 			  response_id
 			  model_version
-			  create_time
+			  
 			  )
 	       collect
 	       `(setf (aref d (string ,e))
@@ -142,6 +170,7 @@
 						    (getattr r (string ,e)
 							     None))))
 	       )
+
 
        (setf totals (list (for-generator (r responses)
 					 (getattr (getattr r (string "usage_metadata")
@@ -153,24 +182,30 @@
 						  tot
 						  None)))
 	     (aref d (string "total_token_count")) (? valid_totals
-				    (max valid_totals)
-				    None))
+						      (max valid_totals)
+						      None))
        (setf (aref d (string "finish_reason"))
-	     (find_first responses
+	     (find_last responses
 			 (lambda (r)
-			   (or (and (getattr r (string "finish_reason")
-					     None)
-				    (getattr (dot r (aref candidates 0))
-					     (string "finish_reason")
-					     None))
-			       None))))
+			   (or (getattr r (string "finish_reason")
+					None)
+			       (? (getattr r (string "candidates") None)
+				  (getattr (aref (getattr r (string "candidates") (list None)) 0
+						 )
+					   (string "finish_reason")
+					   None)
+				  None)))))
 
        (setf (aref d (string "sdk_date"))
 	     (find_first responses (lambda (r)
 				     (and
 				      (getattr r (string "sdk_http_response") None)
 				      (dot (getattr r.sdk_http_response (string "headers") "{}")
-					   (get (string "date")))))))))
+					   (get (string "date")))))))
+       (setf (aref d (string "prompt_parsing_time")) (- first_thought_time t_submit)
+	     (aref d (string "thinking_time")) (- last_thought_time
+						  first_thought_time)
+	     (aref d (string "answer_time")) (- final_answer_time last_thought_time))))
     
     (do0
      (logger.info (fstring "thoughts: {thoughts}"))
