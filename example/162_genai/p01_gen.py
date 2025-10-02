@@ -42,9 +42,7 @@ think_max_budget_flash = 24576
 think_auto_budget = -1
 think_off = 0
 generate_content_config = types.GenerateContentConfig(
-    thinking_config=types.ThinkingConfig(
-        thinkingBudget=think_auto_budget, include_thoughts=True
-    ),
+    thinking_config=types.ThinkingConfig(thinkingBudget=think_auto_budget),
     tools=tools,
     response_mime_type="text/plain",
     response_schema=list[Recipe],

@@ -73,7 +73,8 @@
     (setf generate_content_config (types.GenerateContentConfig
 				   :thinking_config (types.ThinkingConfig
 						     :thinkingBudget think_auto_budget
-						     :include_thoughts True)
+						     ;:include_thoughts True
+						     )
 				   :tools tools
 				   :response_mime_type (string
 								    #-structure "text/plain"
