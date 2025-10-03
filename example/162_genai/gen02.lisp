@@ -179,6 +179,117 @@
 	    (summary.update (result.timing_metrics))
 	    (return summary)))
 
+   ;; Insert PricingEstimator class (cost estimator)
+   (class PricingEstimator ()
+	  (comments "Estimates API costs based on token usage and model version.")
+	  (setf PRICING
+		(dictionary
+		 :gemini-2.5-pro
+		 (dictionary
+		  :input_low 1.25
+		  :input_high 2.5
+		  :output_low 10.0
+		  :output_high 15.0
+		  :threshold 200000)
+		 :gemini-2.5-flash
+		 (dictionary
+		  :input_low 0.30
+		  :input_high 0.30
+		  :output_low 2.50
+		  :output_high 2.50
+		  :threshold 200000)
+		 :gemini-2.5-flash-lite
+		 (dictionary
+		  :input_low 0.10
+		  :input_high 0.10
+		  :output_low 0.40
+		  :output_high 0.40
+		  :threshold 200000)
+		 :gemini-2.0-flash
+		 (dictionary
+		  :input_low 0.30
+		  :input_high 0.30
+		  :output_low 2.50
+		  :output_high 2.50
+		  :threshold 200000)))
+	  (setf GROUNDING_PRICING
+		(dictionary
+		 :google_search 35.0
+		 :web_grounding_enterprise 45.0
+		 :google_maps 25.0
+		 :grounding_with_data 2.5))
+	  (setf FREE_TIER_LIMITS
+		(dictionary
+		 :gemini-2.5-pro (dictionary :google_search 10000 :google_maps 10000)
+		 :gemini-2.5-flash (dictionary :google_search 1500 :google_maps 1500)
+		 :gemini-2.5-flash-lite (dictionary :google_search 1500 :google_maps 1500)
+		 :gemini-2.0-flash (dictionary :google_search 1500 :google_maps 1500)))
+	  @classmethod
+	  (def _normalize_model_name (cls model_version)
+	    (declare (values "Optional[str]"))
+	    (unless model_version
+	      (return None))
+	    (setf model_lower (dot model_version lower))
+	    (if (or (contains model_lower (string "2.5-pro"))
+		    (contains model_lower (string "2.5pro")))
+		(return (string "gemini-2.5-pro")))
+	    (if (or (contains model_lower (string "2.5-flash-lite"))
+		    (contains model_lower (string "2.5flash-lite")))
+		(return (string "gemini-2.5-flash-lite")))
+	    (if (or (contains model_lower (string "2.5-flash"))
+		    (contains model_lower (string "2.5flash")))
+		(return (string "gemini-2.5-flash")))
+	    (if (or (contains model_lower (string "2.0-flash"))
+		    (contains model_lower (string "2.0flash")))
+		(return (string "gemini-2.0-flash")))
+	    (return None))
+	  @classmethod
+	  (def estimate_cost (cls model_version prompt_tokens thought_tokens output_tokens &key (grounding_used False) (grounding_type (string "google_search")))
+	    (declare (values "Dict[str,Any]"))
+	    (setf model_name (cls._normalize_model_name model_version))
+	    (unless (and model_name (getattr cls PRICING None))
+	      (return (dictionary
+		       :error (fstring "Unknown model: {model_version}")
+		       :model_detected model_name
+		       :total_cost_usd 0.0)))
+	    (setf pricing (getattr cls PRICING model_name)
+		  threshold (getattr pricing (string "threshold") None))
+	    (setf use_high_tier (> prompt_tokens threshold))
+	    (setf input_rate (? use_high_tier (getattr pricing (string "input_high")) (getattr pricing (string "input_low"))))
+	    (setf output_rate (? use_high_tier (getattr pricing (string "output_high")) (getattr pricing (string "output_low"))))
+	    (setf input_cost (* (/ prompt_tokens 1000000.0) input_rate)
+		  thought_cost (* (/ thought_tokens 1000000.0) output_rate)
+		  output_cost (* (/ output_tokens 1000000.0) output_rate))
+	    (setf total_token_cost (+ input_cost thought_cost output_cost))
+	    (setf grounding_cost 0.0
+		  grounding_info "{}")
+	    (when grounding_used
+	      (setf grounding_rate (getattr cls.GROUNDING_PRICING grounding_type 35.0)
+		    grounding_cost (/ grounding_rate 1000.0)
+		    grounding_info (dictionary
+				   :grounding_type grounding_type
+				   :grounding_prompts 1
+				   :grounding_cost_usd (round grounding_cost 6)
+				   :grounding_rate_per_1k grounding_rate
+				   :note (string "Free tier limits apply (not calculated here)"))))
+	    (setf total_cost (+ total_token_cost grounding_cost))
+	    (setf result (dictionary
+			  :model_version model_version
+			  :model_detected model_name
+			  :pricing_tier (? use_high_tier (string "high") (string "low"))
+			  :input_tokens prompt_tokens
+			  :thought_tokens thought_tokens
+			  :output_tokens output_tokens
+			  :total_output_tokens (+ thought_tokens output_tokens)
+			  :input_cost_usd (round input_cost 6)
+			  :thought_cost_usd (round thought_cost 6)
+			  :output_cost_usd (round output_cost 6)
+			  :total_token_cost_usd (round total_token_cost 6)
+			  :total_cost_usd (round total_cost 6)
+			  :rates_per_1m (dictionary :input input_rate :output output_rate)))
+	    (unless (is grounding_info "{}")
+	      (setf (aref result (string "grounding")) grounding_info))
+	    (return result)))
    (class GenAIJob ()
 	  (def __init__ (self config ;&key (logger_configured True)
 			      )
@@ -271,9 +382,8 @@
    (setf __all__ (list ,@(loop for e in `(GenerationConfig
 					  StreamResult
 					  GenAIJob
-					  UsageAggregator)
+					  UsageAggregator
+					  PricingEstimator)
 			       collect
 			       `(string ,e))))
    ))
-
-
