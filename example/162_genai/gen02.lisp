@@ -239,7 +239,7 @@
 	    (logger.debug (fstring "Thoughts: {result.thoughts}"))
 	    (logger.debug (fstring "Answer: {result.answer}"))
 	    (setf result.usage_summary (UsageAggregator.summarize result))
-	    (logger.debug (fstring "Usage: {result.usage_summary}"))
+	    (logger.debug (fstring "Usage: {result.usage_summary}")) 
 	    (self._persist_yaml result)
 	    (return result))
 	  (def _persist_yaml (self result)
