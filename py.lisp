@@ -335,7 +335,9 @@ Returns:
 	      (class (destructuring-bind (name parents &rest body) (cdr code)
 		       (format nil "class ~a~a:~%~a"
 			       name
-			       (emit `(paren ,@parents))
+			       (if (eq 0 (length parents))
+				    ""
+				    (emit `(paren ,@parents)))
 			       (emit `(do ,@body)))))
 	      (do0 (with-output-to-string (s)
 		     (format s "~&~a~{~&~a~}"

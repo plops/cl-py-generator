@@ -182,68 +182,63 @@
    ;; Insert PricingEstimator class (cost estimator)
    (class PricingEstimator ()
 	  (comments "Estimates API costs based on token usage and model version.")
-	  (setf PRICING
-		(dictionary
-		 :gemini-2.5-pro
+	  (setf self.PRICING "{}")
+	  (setf (aref self.PRICING (string "gemini-2.5-pro"))
 		 (dictionary
 		  :input_low 1.25
 		  :input_high 2.5
 		  :output_low 10.0
 		  :output_high 15.0
 		  :threshold 200000)
-		 :gemini-2.5-flash
+		(aref self.PRICING (string "gemini-2.5-flash"))
 		 (dictionary
 		  :input_low 0.30
 		  :input_high 0.30
 		  :output_low 2.50
 		  :output_high 2.50
 		  :threshold 200000)
-		 :gemini-2.5-flash-lite
+		(aref self.PRICING (string "gemini-2.5-flash-lite"))
 		 (dictionary
 		  :input_low 0.10
 		  :input_high 0.10
 		  :output_low 0.40
 		  :output_high 0.40
 		  :threshold 200000)
-		 :gemini-2.0-flash
+		(aref self.PRICING (string "gemini-2.0-flash"))
 		 (dictionary
 		  :input_low 0.30
 		  :input_high 0.30
 		  :output_low 2.50
 		  :output_high 2.50
-		  :threshold 200000)))
-	  (setf GROUNDING_PRICING
+		  :threshold 200000))
+	  (setf self.GROUNDING_PRICING
 		(dictionary
 		 :google_search 35.0
 		 :web_grounding_enterprise 45.0
 		 :google_maps 25.0
 		 :grounding_with_data 2.5))
-	  (setf FREE_TIER_LIMITS
-		(dictionary
-		 :gemini-2.5-pro (dictionary :google_search 10000 :google_maps 10000)
-		 :gemini-2.5-flash (dictionary :google_search 1500 :google_maps 1500)
-		 :gemini-2.5-flash-lite (dictionary :google_search 1500 :google_maps 1500)
-		 :gemini-2.0-flash (dictionary :google_search 1500 :google_maps 1500)))
+	  (setf self.FREE_TIER_LIMITS
+		(dict
+		 ((string "gemini-2.5-pro") (dictionary :google_search 10000 :google_maps 10000))
+		 ((string "gemini-2.5-flash") (dictionary :google_search 1500 :google_maps 1500))
+		 ((string "gemini-2.5-flash-lite") (dictionary :google_search 1500 :google_maps 1500))
+		 ((string "gemini-2.0-flash") (dictionary :google_search 1500 :google_maps 1500))))
 	  @classmethod
 	  (def _normalize_model_name (cls model_version)
 	    (declare (values "Optional[str]"))
 	    (unless model_version
 	      (return None))
-	    (setf model_lower (dot model_version lower))
-	    (if (or (contains model_lower (string "2.5-pro"))
-		    (contains model_lower (string "2.5pro")))
+	    (setf m (dot model_version lower))
+	    (if (m.contains  (string "2.5-pro"))
 		(return (string "gemini-2.5-pro")))
-	    (if (or (contains model_lower (string "2.5-flash-lite"))
-		    (contains model_lower (string "2.5flash-lite")))
+	    (if (m.contains  (string "2.5-flash-lite"))
 		(return (string "gemini-2.5-flash-lite")))
-	    (if (or (contains model_lower (string "2.5-flash"))
-		    (contains model_lower (string "2.5flash")))
+	    (if (m.contains (string "2.5-flash"))
 		(return (string "gemini-2.5-flash")))
-	    (if (or (contains model_lower (string "2.0-flash"))
-		    (contains model_lower (string "2.0flash")))
+	    (if (m.contains (string "2.0-flash"))
 		(return (string "gemini-2.0-flash")))
 	    (return None))
-	  @classmethod
+	  @class3method
 	  (def estimate_cost (cls model_version prompt_tokens thought_tokens output_tokens &key (grounding_used False) (grounding_type (string "google_search")))
 	    (declare (values "Dict[str,Any]"))
 	    (setf model_name (cls._normalize_model_name model_version))
@@ -287,7 +282,7 @@
 			  :total_token_cost_usd (round total_token_cost 6)
 			  :total_cost_usd (round total_cost 6)
 			  :rates_per_1m (dictionary :input input_rate :output output_rate)))
-	    (unless (is grounding_info "{}")
+	    (unless (== grounding_info "{}")
 	      (setf (aref result (string "grounding")) grounding_info))
 	    (return result)))
    (class GenAIJob ()
@@ -349,7 +344,17 @@
 	    
 	    (logger.debug (fstring "Thoughts: {result.thoughts}"))
 	    (logger.debug (fstring "Answer: {result.answer}"))
+	   
 	    (setf result.usage_summary (UsageAggregator.summarize result))
+	     (setf u result.usage_summary)
+	    (setf e (PricingEstimator))
+	    (setf price (e.estimate_cost :model_version u.model_version
+					:prompt_tokens u.input_tokens
+					:thought_tokens u.thought_tokens
+					:output_tokens u.output_tokens
+					:grounding_used True
+					))
+	    (logger.debug (fstring "Price: {price}2"))
 	    (logger.debug (fstring "Usage: {result.usage_summary}")) 
 	    (self._persist_yaml result)
 	    (return result))
