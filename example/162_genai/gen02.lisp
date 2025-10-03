@@ -73,11 +73,32 @@
     (google genai)
     (google.genai types))
 
+   (do0
+    @dataclass
+    (class GenerationConfig ()
+	   "prompt_text:str"
+	   (setf "model:str" (string "gemini-flash-latest")
+		 "output_yaml_path:str" (string "out.yaml")
+		 "use_search:bool" True
+		 "think_budget:int" -1
+		 "include_thoughts:bool" True
+		 "api_key_env:str" (string "GEMINI_API_KEY"))
+	   ))
 
    (do0
     @dataclass
     (class StreamResult ()
-	   (setf thoughts-str (string "q"))))
+	   (setf "thoughts:str" (string "")
+		 "answer:str" (string "")
+		 "responses:list[Any]" (field :default_factory list)
+		 "usage_summary:Dict[str,Any]" (field :default_factory dict))
+	   ,@(loop for e in `(first_thought_time
+			      last_thought_time
+			      first_answer_time
+			      final_answer_time
+			      submit_time)
+		   collect
+		   `(setf ,(format nil "~a:Optional[float]" e) None))))
 
 
    
