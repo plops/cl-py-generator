@@ -231,10 +231,39 @@
 			     (incf result.answer part.text))))))
 	    (result.usage_summary (UsageAggregator.summarize result))
 	    (self._persist_yaml result)
-	    (return result)))
+	    (return result))
+	  (def _persist_yaml (self result)
+	    (declare (type StreamResult result))
+	    (setf path self.config.output_yaml_path)
+	    (try
+	     (do0
+	      (with (as (open pathname (string "w")
+			      :encoding (string "utf-8"))
+			f)
+		    (yaml.dump result.responses
+			       f
+			       :allow_unicode True
+			       :indent 2))
+	      (logger.info (fstring "Wrote raw responses to {path}")))
+	     ("Exception as e"
+	      (logger.error (fstring "Failed to write YAML: {e}")))))
+	  (def to_dict (self result)
+	    (declare (type StreamResult result)
+		     (values "Dict[str,Any]"))
+	    (return (dictionary
+		     :config (asdict self.config)
+		     :thoughts result.thoughts
+		     :answer result.answer
+		     :usage result.usage_summary))
+	    ))
    
    
-   
+   (setf __all__ (list ,@(loop for e in `(GenerationConfig
+					  StreamResult
+					  GenAIJob
+					  UsageAggregator)
+			       collect
+			       `(string ,e))))
    ))
 
 

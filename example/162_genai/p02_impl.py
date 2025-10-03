@@ -185,3 +185,23 @@ class GenAIJob:
         result.usage_summary(UsageAggregator.summarize(result))
         self._persist_yaml(result)
         return result
+
+    def _persist_yaml(self, result: StreamResult):
+        path = self.config.output_yaml_path
+        try:
+            with open(pathname, "w", encoding="utf-8") as f:
+                yaml.dump(result.responses, f, allow_unicode=True, indent=2)
+            logger.info(f"Wrote raw responses to {path}")
+        except Exception as e:
+            logger.error(f"Failed to write YAML: {e}")
+
+    def to_dict(self, result: StreamResult) -> Dict[str, Any]:
+        return dict(
+            config=asdict(self.config),
+            thoughts=result.thoughts,
+            answer=result.answer,
+            usage=result.usage_summary,
+        )
+
+
+__all__ = ["GenerationConfig", "StreamResult", "GenAIJob", "UsageAggregator"]
