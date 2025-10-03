@@ -113,6 +113,19 @@
 			  :answer_time (- final_answer_time
 					  last_thought_timeq)))))))
 
+   (class UsageAggregator ()
+	  @staticmethod
+	  (def _first (responses extractor)
+	    (declare (type "Callable[[Any],Any]" extractor))
+	    (for (r responses)
+		 (try
+		  (setf v (extractor r))
+		  (Exception
+		   (setf v None)))
+		 (unless (is v None)
+		   (return v)))
+	    (return None)))
+
    
    
    ))

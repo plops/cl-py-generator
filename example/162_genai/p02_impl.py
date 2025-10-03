@@ -46,3 +46,16 @@ class StreamResult:
             thinking_time=((self.last_thought_time) - (self.first_thought_time)),
             answer_time=((final_answer_time) - (last_thought_timeq)),
         )
+
+
+class UsageAggregator:
+    @staticmethod
+    def _first(responses, extractor: Callable[[Any], Any]):
+        for r in responses:
+            try:
+                v = extractor(r)
+            except Exception:
+                v = None
+            if not (v is None):
+                return v
+        return None
