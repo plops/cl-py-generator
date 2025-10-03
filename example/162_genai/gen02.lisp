@@ -85,22 +85,35 @@
 		 "api_key_env:str" (string "GEMINI_API_KEY"))
 	   ))
 
-   (do0
-    @dataclass
-    (class StreamResult ()
-	   (setf "thoughts:str" (string "")
-		 "answer:str" (string "")
-		 "responses:list[Any]" (field :default_factory list)
-		 "usage_summary:Dict[str,Any]" (field :default_factory dict))
-	   ,@(loop for e in `(first_thought_time
-			      last_thought_time
-			      first_answer_time
-			      final_answer_time
-			      submit_time)
-		   collect
-		   `(setf ,(format nil "~a:Optional[float]" e) None))))
 
+   ,(let ((l `(first_thought_time
+	       last_thought_time
+	       first_answer_time
+	       final_answer_time
+	       submit_time)))
+      `(do0
+	@dataclass
+	(class StreamResult ()
+	       (setf "thoughts:str" (string "")
+		     "answer:str" (string "")
+		     "responses:list[Any]" (field :default_factory list)
+		     "usage_summary:Dict[str,Any]" (field :default_factory dict))
+	       ,@(loop for e in l
+		       collect
+		       `(setf ,(format nil "~a:Optional[float]" e) None))
+	       (def timing_metrics (self)
+		 (declare (values "Dict[str,float]"))
+		 (unless (and ,@(loop for e in l collect `(dot self ,e)))
+		   (return "{}"))
+		 (return (dictionary
+			  :prompt_parsing_time (- self.first_thought_time
+						  self.submit_time)
+			  :thinking_time (- self.last_thought_time
+					    self.first_thought_time)
+			  :answer_time (- final_answer_time
+					  last_thought_timeq)))))))
 
+   
    
    ))
 

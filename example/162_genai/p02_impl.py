@@ -31,3 +31,18 @@ class StreamResult:
     first_answer_time: Optional[float] = None
     final_answer_time: Optional[float] = None
     submit_time: Optional[float] = None
+
+    def timing_metrics(self) -> Dict[str, float]:
+        if not (
+            (self.first_thought_time)
+            and (self.last_thought_time)
+            and (self.first_answer_time)
+            and (self.final_answer_time)
+            and (self.submit_time)
+        ):
+            return {}
+        return dict(
+            prompt_parsing_time=((self.first_thought_time) - (self.submit_time)),
+            thinking_time=((self.last_thought_time) - (self.first_thought_time)),
+            answer_time=((final_answer_time) - (last_thought_timeq)),
+        )
