@@ -18,7 +18,7 @@ logger.info("Logger configured")
 from p02_impl import GenerationConfig, GenAIJob
 
 cfg = GenerationConfig(
-    prompt_text="make a summary",
+    prompt_text="make a summary of the imminent government shutdown in the US. show historical parallels.",
     model="gemini-flash-latest",
     output_yaml_path="out.yaml",
     use_search=True,

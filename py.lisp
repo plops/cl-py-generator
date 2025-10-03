@@ -548,7 +548,7 @@ Returns:
 			       (emit true-statement)
 			       (emit condition)
 			       (emit false-statement))
-		       (format nil "(~a) if (~a)"
+		       (format nil "~a if (~a)"
 			       (emit true-statement)
 			       (emit condition)))))
 	      (when (destructuring-bind (condition &rest forms) (cdr code)

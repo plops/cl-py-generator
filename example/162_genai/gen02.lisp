@@ -43,7 +43,7 @@
    (imports-from (p02_impl GenerationConfig GenAIJob))
 
    (setf cfg (GenerationConfig
-	      :prompt_text (string "make a summary")
+	      :prompt_text (string "make a summary of the imminent government shutdown in the US. show historical parallels.")
 	      :model (string "gemini-flash-latest")
 	      :output_yaml_path (string "out.yaml")
 	      :use_search True
@@ -62,13 +62,13 @@
 				(merge-pathnames #P"p02_impl"
 						 "example/162_genai/"))
  `(do0
-   
+   (imports-from (__future__ annotations))
    (imports (os time yaml))
     
    (imports-from
     (dataclasses dataclass field asdict)
     (typing List Callable Any Optional Dict)
-    (__future__ annotations)
+    
     (loguru logger)
     (google genai)
     (google.genai types))
@@ -154,12 +154,12 @@
 		      collect
 		      `(setf (aref summary (string ,e))
 			     (cls._first responses (lambda (r) (getattr r (string ,e) None)))))
-	    (setf numeric_totals (list (for-generator (tot totals)
-						      (? (isinstance tot (tuple int float))
+	    (setf numeric_totals (list (? (isinstance tot (tuple int float))
+					  (for-generator (tot totals)
 							 tot))))
 	    (setf (aref summary (string "total_token_count"))
 		  (? numeric_totals (max numeric_totals) None))
-	    (setf (aref finish_reason)
+	    (setf (aref summary (string "finish_reason"))
 		  (cls._last responses
 			     (lambda (r)
 			       (or (getattr r (string "finish_reason")
@@ -172,6 +172,66 @@
 	    (comments "merge timing metrics")
 	    (summary.update (result.timing_metrics))
 	    (return summary)))
+
+   (class GenAIJob ()
+	  (def __init__ (self config ;&key (logger_configured True)
+			      )
+	    (declare (type GenerationConfig config)
+		     ;(type bool logger_configured)
+		     )
+	    (setf self.config config)
+	    #+nil (unless logger_configured
+	      (logger.remove)
+	      (logger.add ))
+	    (setf self.client (genai.Client :api_key (os.environ.get config.api_key_env))))
+	  (def _build_request (self)
+	    (declare (values "Dict[str,Any]"))
+	    (setf tools (? self.config.use_search
+			   (list (types.Tool :googleSearch (types.GoogleSearch)))
+			   (list)))
+	    (setf generate_content_config (types.GenerateContentConfig
+					   :thinking_config (types.ThinkingConfig :thinkingBudget self.config.think_budget
+										  :include_thoughts self.config.include_thoughts 
+							     )
+					   :tools tools
+					   ;:response_mime_type (string "text/plain")
+					   )
+		  contents (list (types.Content :role (string "user")
+					       :parts (list (types.Part.from_text :text self.config.prompt_text)))))
+	    (return (dictionary :model self.config.model
+				:contents contents
+				:config generate_content_config)))
+	  (def run (self)
+	    (declare (values StreamResult))
+	    (setf req (self._build_request)
+		  result (StreamResult :submit_time (time.monotonic)))
+	    (logger.debug (string "Starting streaming generation"))
+	    (for (chunk (self.client.models.generate_content_stream **req))
+		 (result.responses.append chunk)
+		 (try (setf parts (dot chunk (aref candidates 0)
+				       content parts))
+		      (Exception
+		       continue))
+		 (for (part parts)
+		      (when (getattr part (string "text") None)
+			(if (getattr part (string "thought") False)
+			    (do0 (setf now (time.monotonic))
+				 (when (is result.first_thought_time
+					   None)
+				   (logger.debug (string "First thought received"))
+				   (setf result.first_thought_time now))
+				 (setf result.last_thought_time now)
+				 (incf result.thoughts part.text))
+			    (do0
+			     (setf now (time.monotonic))
+			     (when (is result.first_answer_time None)
+			       (logger.debug (string "First answer chunk received"))
+			       (setf result.first_answer_time now))
+			     (setf result.final_answer_time now)
+			     (incf result.answer part.text))))))
+	    (result.usage_summary (UsageAggregator.summarize result))
+	    (self._persist_yaml result)
+	    (return result)))
    
    
    
