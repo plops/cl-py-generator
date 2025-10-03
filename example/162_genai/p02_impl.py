@@ -24,7 +24,7 @@ class GenerationConfig:
 class StreamResult:
     thoughts: str = ""
     answer: str = ""
-    responses: list[Any] = field(default_factory=list)
+    responses: List[Any] = field(default_factory=list)
     usage_summary: Dict[str, Any] = field(default_factory=dict)
     first_thought_time: Optional[float] = None
     last_thought_time: Optional[float] = None
@@ -44,7 +44,7 @@ class StreamResult:
         return dict(
             prompt_parsing_time=((self.first_thought_time) - (self.submit_time)),
             thinking_time=((self.last_thought_time) - (self.first_thought_time)),
-            answer_time=((final_answer_time) - (last_thought_timeq)),
+            answer_time=((self.final_answer_time) - (self.last_thought_time)),
         )
 
 
@@ -93,6 +93,10 @@ class UsageAggregator:
         summary["model_version"] = cls._first(
             responses, lambda r: getattr(r, "model_version", None)
         )
+        totals = [
+            getattr(getattr(r, "usage_metadata", None), "total_token_count", None)
+            for r in responses
+        ]
         numeric_totals = [
             tot
             for tot in totals
@@ -182,14 +186,17 @@ class GenAIJob:
                             result.first_answer_time = now
                         result.final_answer_time = now
                         result.answer += part.text
-        result.usage_summary(UsageAggregator.summarize(result))
+        logger.debug(f"Thoughts: {result.thoughts}")
+        logger.debug(f"Answer: {result.answer}")
+        result.usage_summary = UsageAggregator.summarize(result)
+        logger.debug(f"Usage: {result.usage_summary}")
         self._persist_yaml(result)
         return result
 
     def _persist_yaml(self, result: StreamResult):
         path = self.config.output_yaml_path
         try:
-            with open(pathname, "w", encoding="utf-8") as f:
+            with open(path, "w", encoding="utf-8") as f:
                 yaml.dump(result.responses, f, allow_unicode=True, indent=2)
             logger.info(f"Wrote raw responses to {path}")
         except Exception as e:

@@ -18,13 +18,11 @@
    
    
    
-   (imports ((np numpy) (pd pandas) sys))
+   (imports (sys))
     
    (imports-from
     (sqlite_minutils *)
     (loguru logger)
-    (google genai)
-    (google.genai types)
     )
 
     (do0
@@ -96,7 +94,7 @@
 	(class StreamResult ()
 	       (setf "thoughts:str" (string "")
 		     "answer:str" (string "")
-		     "responses:list[Any]" (field :default_factory list)
+		     "responses:List[Any]" (field :default_factory list)
 		     "usage_summary:Dict[str,Any]" (field :default_factory dict))
 	       ,@(loop for e in l
 		       collect
@@ -110,8 +108,8 @@
 						  self.submit_time)
 			  :thinking_time (- self.last_thought_time
 					    self.first_thought_time)
-			  :answer_time (- final_answer_time
-					  last_thought_timeq)))))))
+			  :answer_time (- self.final_answer_time
+					  self.last_thought_time)))))))
 
    (class UsageAggregator ()
 	  ,@(loop for (name loop-list) in `((_first responses)
@@ -154,6 +152,14 @@
 		      collect
 		      `(setf (aref summary (string ,e))
 			     (cls._first responses (lambda (r) (getattr r (string ,e) None)))))
+
+	    (setf totals (list
+			  (for-generator (r responses)
+					 (getattr
+					  (getattr r (string "usage_metadata")
+						   None)
+					  (string "total_token_count")
+					  None))))
 	    (setf numeric_totals (list (? (isinstance tot (tuple int float))
 					  (for-generator (tot totals)
 							 tot))))
@@ -229,7 +235,11 @@
 			       (setf result.first_answer_time now))
 			     (setf result.final_answer_time now)
 			     (incf result.answer part.text))))))
-	    (result.usage_summary (UsageAggregator.summarize result))
+	    
+	    (logger.debug (fstring "Thoughts: {result.thoughts}"))
+	    (logger.debug (fstring "Answer: {result.answer}"))
+	    (setf result.usage_summary (UsageAggregator.summarize result))
+	    (logger.debug (fstring "Usage: {result.usage_summary}"))
 	    (self._persist_yaml result)
 	    (return result))
 	  (def _persist_yaml (self result)
@@ -237,7 +247,7 @@
 	    (setf path self.config.output_yaml_path)
 	    (try
 	     (do0
-	      (with (as (open pathname (string "w")
+	      (with (as (open path (string "w")
 			      :encoding (string "utf-8"))
 			f)
 		    (yaml.dump result.responses

@@ -1,11 +1,7 @@
 # export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p02_top.py
-import numpy as np
-import pandas as pd
 import sys
 from sqlite_minutils import *
 from loguru import logger
-from google import genai
-from google.genai import types
 
 logger.remove()
 logger.add(
