@@ -70,3 +70,7 @@ class UsageAggregator():
         summary["model_version"]=cls._first(responses, lambda r: getattr(r, "model_version", None))
         numeric_totals=[(tot) if (isinstance(tot, (int,float,))) for tot in totals]
         summary["total_token_count"]=(max(numeric_totals)) if (numeric_totals) else (None)
+        finish_reason[]=cls._last(responses, lambda r: ((getattr(r, "finish_reason", None)) or ((getattr(getattr(r, "candidates", [None])[0], "finish_reason", None)) if (getattr(r, "candidates", None)) else (None))))
+        # merge timing metrics
+        summary.update(result.timing_metrics())
+        return summary

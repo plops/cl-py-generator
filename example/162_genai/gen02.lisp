@@ -158,7 +158,20 @@
 						      (? (isinstance tot (tuple int float))
 							 tot))))
 	    (setf (aref summary (string "total_token_count"))
-		  (? numeric_totals (max numeric_totals) None))))
+		  (? numeric_totals (max numeric_totals) None))
+	    (setf (aref finish_reason)
+		  (cls._last responses
+			     (lambda (r)
+			       (or (getattr r (string "finish_reason")
+					    None)
+				   (? (getattr r (string "candidates") None)
+				    (getattr (aref (getattr r (string "candidates") (list None))
+						   0)
+					     (string "finish_reason") None)
+				    None)))))
+	    (comments "merge timing metrics")
+	    (summary.update (result.timing_metrics))
+	    (return summary)))
    
    
    
