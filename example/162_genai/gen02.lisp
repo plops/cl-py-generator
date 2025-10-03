@@ -156,7 +156,9 @@
 			     (cls._first responses (lambda (r) (getattr r (string ,e) None)))))
 	    (setf numeric_totals (list (for-generator (tot totals)
 						      (? (isinstance tot (tuple int float))
-							 tot))))))
+							 tot))))
+	    (setf (aref summary (string "total_token_count"))
+		  (? numeric_totals (max numeric_totals) None))))
    
    
    
