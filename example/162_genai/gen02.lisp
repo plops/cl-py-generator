@@ -132,8 +132,32 @@
 	  (def summarize (cls result)
 	    (declare (type StreamResult result)
 		     (values "Dict[str,Any]" ))
-	    (setf responses result.responses)))
-
+	    (setf responses result.responses
+		  last_with_usage None)
+	    (for (r (reversed responses))
+		 (unless (is (getattr r (string "usage_metadata") None)
+			     None)
+		   (setf last_with_usage r)
+		   break))
+	    (setf "summary: Dict[str,Any]" "{}")
+	    (when last_with_usage
+	      (setf um last_with_usage.usage_metadata
+		    )
+	      ,@(loop for e in `(candidates_token_count
+				 prompt_token_count
+				 thoughts_token_count)
+		      collect
+		      `(setf (aref summary (string ,e))
+			     (getattr um (string ,e) None))))
+	    ,@(loop for e in `(response_id
+			       model_version)
+		      collect
+		      `(setf (aref summary (string ,e))
+			     (cls._first responses (lambda (r) (getattr r (string ,e) None)))))
+	    (setf numeric_totals (list (for-generator (tot totals)
+						      (? (isinstance tot (tuple int float))
+							 tot))))))
+   
    
    
    ))

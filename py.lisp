@@ -541,13 +541,16 @@ Returns:
 					      )
 					(emit `(do ,@statements)))))
 			)))
-	      (? (destructuring-bind (condition true-statement false-statement)
+	      (? (destructuring-bind (condition true-statement &optional (false-statement "None" false-statement-supplied-p))
 		     (cdr code)
-		   (format nil "(~a) if (~a) else (~a)"
-
-			   (emit true-statement)
-			   (emit condition)
-			   (emit false-statement))))
+		   (if false-statement-supplied-p
+		       (format nil "(~a) if (~a) else (~a)"
+			       (emit true-statement)
+			       (emit condition)
+			       (emit false-statement))
+		       (format nil "(~a) if (~a)"
+			       (emit true-statement)
+			       (emit condition)))))
 	      (when (destructuring-bind (condition &rest forms) (cdr code)
                       (emit `(if ,condition
                                  (do0
