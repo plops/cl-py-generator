@@ -179,7 +179,7 @@
 	    (summary.update (result.timing_metrics))
 	    (return summary)))
 
-   ;; Insert PricingEstimator class (cost estimator)
+   ;; Insert PricingEstimator class (cost estimator) https://cloud.google.com/vertex-ai/generative-ai/pricing
    (class PricingEstimator ()
 	  (comments "Estimates API costs based on token usage and model version.")
 	  (setf self.PRICING "{}")
