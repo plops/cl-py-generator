@@ -59,3 +59,18 @@ class UsageAggregator:
             if not (v is None):
                 return v
         return None
+
+    @staticmethod
+    def _last(responses, extractor: Callable[[Any], Any]):
+        for r in reversed(responses):
+            try:
+                v = extractor(r)
+            except Exception:
+                v = None
+            if not (v is None):
+                return v
+        return None
+
+    @classmethod
+    def summarize(cls, result: StreamResult) -> Dict[str, Any]:
+        responses = result.responses

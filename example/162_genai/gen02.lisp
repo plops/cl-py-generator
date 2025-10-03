@@ -114,17 +114,25 @@
 					  last_thought_timeq)))))))
 
    (class UsageAggregator ()
-	  @staticmethod
-	  (def _first (responses extractor)
-	    (declare (type "Callable[[Any],Any]" extractor))
-	    (for (r responses)
-		 (try
-		  (setf v (extractor r))
-		  (Exception
-		   (setf v None)))
-		 (unless (is v None)
-		   (return v)))
-	    (return None)))
+	  ,@(loop for (name loop-list) in `((_first responses)
+					   (_last (reversed responses)))
+	     collect
+	     `(do0 @staticmethod
+		  (def ,name (responses extractor)
+		    (declare (type "Callable[[Any],Any]" extractor))
+		    (for (r ,loop-list)
+			 (try
+			  (setf v (extractor r))
+			  (Exception
+			   (setf v None)))
+			 (unless (is v None)
+			   (return v)))
+		    (return None))))
+	  @classmethod
+	  (def summarize (cls result)
+	    (declare (type StreamResult result)
+		     (values "Dict[str,Any]" ))
+	    (setf responses result.responses)))
 
    
    
