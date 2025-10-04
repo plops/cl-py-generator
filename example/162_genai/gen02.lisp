@@ -45,7 +45,7 @@
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (string "make a summary of the current state of clinical and experimental cancer treatment. make a list of established companies and  newcomers")
+	      :prompt_text (string "make a summary of the current state of clinical and experimental cancer treatment. 16 years ago Roger Tsien mentioned that pharma has perverse incentives: they will produce drugs for late stage cancer rather than early detection and early treatment because there is more money in it. he argued that we therefore need government funding and universities. did this change? are there now more approaches for non-late treatment. if yes, did big pharma develop this or was it government funding?")
 	      :model (string "gemini-flash-latest")
 	      :output_yaml_path yaml_filename
 	      :use_search True
