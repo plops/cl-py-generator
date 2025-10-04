@@ -318,16 +318,23 @@
 	    (setf tools (? self.config.use_search
 			   (list (types.Tool :googleSearch (types.GoogleSearch)))
 			   (list)))
+	    (setf safety (list
+			  ,@(loop for e in `(HARASSMENT HATE_SPEECH SEXUALLY_EXPLICIT DANGEROUS_COUNTENT)
+				  collect
+				  `(types.SafetySetting
+				    :category (string ,(format nil "HARM_CATEGORY_~a" e))
+				    :threshold (string "BLOCK_NONE")))))
 	    (setf generate_content_config (types.GenerateContentConfig
 					   :thinking_config (types.ThinkingConfig
 							     :thinkingBudget self.config.think_budget
 							     :include_thoughts self.config.include_thoughts 
 							     )
+					   :safety_settings safety
 					   :tools tools
-					   ;:response_mime_type (string "text/plain")
+					;:response_mime_type (string "text/plain")
 					   )
 		  contents (list (types.Content :role (string "user")
-					       :parts (list (types.Part.from_text :text self.config.prompt_text)))))
+						:parts (list (types.Part.from_text :text self.config.prompt_text)))))
 	    (return (dictionary :model self.config.model
 				:contents contents
 				:config generate_content_config)))

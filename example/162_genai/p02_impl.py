@@ -268,11 +268,26 @@ class GenAIJob:
             if (self.config.use_search)
             else ([])
         )
+        safety = [
+            types.SafetySetting(
+                category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_NONE"
+            ),
+            types.SafetySetting(
+                category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_NONE"
+            ),
+            types.SafetySetting(
+                category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_NONE"
+            ),
+            types.SafetySetting(
+                category="HARM_CATEGORY_DANGEROUS_COUNTENT", threshold="BLOCK_NONE"
+            ),
+        ]
         generate_content_config = types.GenerateContentConfig(
             thinking_config=types.ThinkingConfig(
                 thinkingBudget=self.config.think_budget,
                 include_thoughts=self.config.include_thoughts,
             ),
+            safety_settings=safety,
             tools=tools,
         )
         contents = [
