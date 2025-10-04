@@ -93,7 +93,6 @@ class UsageAggregator:
         summary["model_version"] = cls._first(
             responses, lambda r: getattr(r, "model_version", None)
         )
-        logger.debug(f"model version: {summary.model_version}")
         totals = [
             getattr(getattr(r, "usage_metadata", None), "total_token_count", None)
             for r in responses
@@ -101,19 +100,9 @@ class UsageAggregator:
         numeric_totals = [
             tot
             for tot in totals
-            if (
-                isinstance(
-                    tot,
-                    (
-                        int,
-                        float,
-                    ),
-                )
-            )
+            if isinstance(tot, (int, float))
         ]
-        summary["total_token_count"] = (
-            (max(numeric_totals)) if (numeric_totals) else (None)
-        )
+        summary["total_token_count"] = (max(numeric_totals)) if (numeric_totals) else (None)
         summary["finish_reason"] = cls._last(
             responses,
             lambda r: (
@@ -131,7 +120,11 @@ class UsageAggregator:
         )
         # merge timing metrics
         summary.update(result.timing_metrics())
-        return summary
+
+        # Convert to AttrDict so callers can use dot access: u.model_version, u.prompt_token_count
+        summary_attr = AttrDict.from_dict(summary)
+        logger.debug(f"model version: {summary_attr.model_version}")
+        return summary_attr
 
 
 class PricingEstimator:
@@ -199,7 +192,8 @@ class PricingEstimator:
         grounding_type="google_search",
     ) -> Dict[str, Any]:
         model_name = cls._normalize_model_name(model_version)
-        if not ((model_name) or (model_name not in cls.PRICING)):
+        # fixed: correct boolean logic to detect unknown model
+        if not model_name or (model_name not in cls.PRICING):
             return dict(
                 error=f"Unknown model: {model_version}",
                 model_detected=model_name,
@@ -312,14 +306,33 @@ class GenAIJob:
         self._persist_yaml(result)
         logger.debug(f"Thoughts: {result.thoughts}")
         logger.debug(f"Answer: {result.answer}")
+        # usage_summary is now an AttrDict (supports attribute access)
         result.usage_summary = UsageAggregator.summarize(result)
-        u = (result.usage_summary) or ({})
+        u = result.usage_summary or AttrDict.from_dict({})
         logger.debug(f"Usage: {result.usage_summary}")
+
+        # use attribute-style access, with defensive fallbacks
+        model_version = getattr(u, "model_version", None)
+        prompt_tokens = float(getattr(u, "prompt_token_count", 0) or 0)
+        thought_tokens = float(getattr(u, "thoughts_token_count", 0) or 0)
+        total_tokens = getattr(u, "total_token_count", None)
+        if total_tokens is not None:
+            try:
+                total_tokens_f = float(total_tokens)
+            except Exception:
+                total_tokens_f = None
+        else:
+            total_tokens_f = None
+        if total_tokens_f is not None:
+            output_tokens = max(0.0, total_tokens_f - prompt_tokens - thought_tokens)
+        else:
+            output_tokens = 0.0
+
         price = PricingEstimator.estimate_cost(
-            model_version=u.model_version,
-            prompt_tokens=u.input_tokens,
-            thought_tokens=u.thought_tokens,
-            output_tokens=u.output_tokens,
+            model_version=model_version,
+            prompt_tokens=prompt_tokens,
+            thought_tokens=thought_tokens,
+            output_tokens=output_tokens,
             grounding_used=self.config.use_search,
         )
         logger.debug(f"Price: {price}")
@@ -341,6 +354,32 @@ class GenAIJob:
             answer=result.answer,
             usage=result.usage_summary,
         )
+
+
+# Add: small attribute-accessible dict wrapper (recursive)
+class AttrDict(dict):
+    """Dict that supports attribute access (recursively for nested dicts/lists)."""
+    @staticmethod
+    def _convert(obj):
+        if isinstance(obj, dict):
+            return AttrDict({k: AttrDict._convert(v) for k, v in obj.items()})
+        if isinstance(obj, list):
+            return [AttrDict._convert(v) for v in obj]
+        return obj
+
+    @classmethod
+    def from_dict(cls, d: Optional[Dict[str, Any]]):
+        if d is None:
+            return cls()
+        return cls._convert(dict(d))
+
+    def __getattr__(self, name):
+        if name in self:
+            return self[name]
+        raise AttributeError(f"{type(self).__name__!s} has no attribute {name!s}")
+
+    def __setattr__(self, name, value):
+        self[name] = value
 
 
 __all__ = [
