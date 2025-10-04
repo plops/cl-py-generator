@@ -377,7 +377,8 @@
 			 :grounding_used self.config.use_search
 			 ))
 	    (logger.debug (fstring "Price: {price}"))
-	    
+	    (setf (aref result.usage_summary (string "price"))
+		  price)
 	    
 	    (return result))
 	  (def _persist_yaml (self result error_in_parts)

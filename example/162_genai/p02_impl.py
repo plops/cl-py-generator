@@ -328,6 +328,7 @@ class GenAIJob:
             grounding_used=self.config.use_search,
         )
         logger.debug(f"Price: {price}")
+        result.usage_summary["price"] = price
         return result
 
     def _persist_yaml(self, result: StreamResult, error_in_parts):
