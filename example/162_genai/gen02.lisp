@@ -24,7 +24,7 @@
     ;(sqlite_minutils Database)
     (loguru logger)
     )
-   (imports-from (p02_impl GenerationConfig GenAIJob))
+   
    
    (do0
     (logger.remove)
@@ -38,26 +38,15 @@
 
     (logger.info (string "Logger configured"))
 
-
+   (comments "import after logger exists")
+   (imports-from (p02_impl GenerationConfig GenAIJob))
    
    (comments "UTC timestamp for output file")
    (setf timestamp (dot datetime datetime (now datetime.UTC)
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (rstring3 "a discussion about Roger Tsien's predictions 16 years ago lead to this:
-
-#### ** The Funding Driver: Government and Academia as Innovators, Big Pharma as Commercializers:**
-
-Tsien's call for government funding and universities was prescient, as they remain the primary source of truly novel, long-term, and high-risk innovation.
-
-*   **Government/Academic Funding (The "Discovery" Phase):** Breakthroughs like the fundamental work behind CAR T-cell therapy and immunotherapy were overwhelmingly the result of **NIH (government) funding** and university research, which provides the necessary capital for long-term, basic science that is free from short-term shareholder pressure.
-*   **Big Pharma Funding (The "Commercialization" Phase):** Big Pharma’s role is typically to step in during the later stages (Phase 2 and 3 clinical trials). They provide the massive funding and infrastructure required to scale up a therapy and bring it to market. This is often done by **acquiring** the small biotech company or licensing the technology from the university that performed the initial, government-funded research (e.g., Gilead Sciences acquired Kite Pharma and Novartis partnered with the University of Pennsylvania for their respective CAR T-cell therapies).
-
-In summary, the most groundbreaking new approaches for non-late-stage treatment and detection are often **conceived and initially developed by government-funded university research and non-profit grants.** While the pharmaceutical industry has dramatically shifted its portfolio to these innovative areas (like immunotherapy), its role often follows a pattern: **academic institutions lay the foundational science, and Big Pharma uses its financial power to commercialize the product once the initial risk is mitigated.**
-
-Trump and the republican party severely defund universities. what effects will this have on cancer treatment. have enough treatment innovations been kickstarted to allow the commercialization of valuable clinical solutions by big pharma or will a lack of innovation have a sever impact?
-")
+	      :prompt_text (rstring3 "Make a summary of recent innovation that came out of Zeiss Meditech")
 	      :model (string "gemini-flash-latest")
 	      :output_yaml_path yaml_filename
 	      :use_search True
