@@ -35,7 +35,7 @@
    :setf :incf :decf :aref :slice :dot  
   
    :in :is :as
-   :not-in
+   :not-in :is-not
   
    :comment :comments :symbol  
    :string :string-b :fstring :fstring3 :string3 :rstring3  

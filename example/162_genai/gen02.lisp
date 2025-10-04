@@ -21,24 +21,25 @@
    (imports (sys datetime))
     
    (imports-from
-    (sqlite_minutils *)
+    ;(sqlite_minutils Database)
     (loguru logger)
     )
-
-    (do0
-     (logger.remove)
-     (logger.add
-      sys.stdout
-      :format (string "<green>{time:YYYY-MM-DD HH:mm:ss.SSS} UTC</green> <level>{level}</level> <cyan>{name}</cyan>: <level>{message}</level>")
-      :colorize True
-      :level (string "DEBUG")
-      ;:utc True
-      ))
+   (imports-from (p02_impl GenerationConfig GenAIJob))
+   
+   (do0
+    (logger.remove)
+    (logger.add
+     sys.stdout
+     :format (string "<green>{time:YYYY-MM-DD HH:mm:ss.SSS} UTC</green> <level>{level}</level> <cyan>{name}</cyan>: <level>{message}</level>")
+     :colorize True
+     :level (string "DEBUG")
+					;:utc True
+     ))
 
     (logger.info (string "Logger configured"))
 
 
-   (imports-from (p02_impl GenerationConfig GenAIJob))
+   
    (comments "UTC timestamp for output file")
    (setf timestamp (dot datetime datetime (now datetime.UTC)
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
@@ -72,8 +73,7 @@
     
     (loguru logger)
     (google genai)
-    (google.genai types)
-    (attrdict AttrDict))
+    (google.genai types))
 
    (do0
     @dataclass
@@ -127,18 +127,18 @@
 			  (setf v (extractor r))
 			  (Exception
 			   (setf v None)))
-			 (unless (is v None)
+			 (when (is-not v None)
 			   (return v)))
 		    (return None))))
 	  @classmethod
 	  (def summarize (cls result)
 	    (declare (type StreamResult result)
-		     (values "AttrDict[str,Any]" ))
+		     (values "Dict[str,Any]" ))
 	    (setf responses result.responses
 		  last_with_usage None)
 	    (for (r (reversed responses))
-		 (unless (is (getattr r (string "usage_metadata") None)
-			     None)
+		 (when (is-not (getattr r (string "usage_metadata") None)
+			       None)
 		   (setf last_with_usage r)
 		   break))
 	    (setf "summary: Dict[str,Any]" "{}")
@@ -181,8 +181,8 @@
 				    None)))))
 	    (comments "merge timing metrics")
 	    (summary.update (result.timing_metrics))
-	    (comments "Convert to AttrDict so callers can use dot access: u.model_version")
-	    (return (AttrDict.from_dict summary))))
+	    
+	    (return summary)))
 
    (class PricingEstimator ()
 	  (comments "Estimates API costs based on token usage and model version. data from https://cloud.google.com/vertex-ai/generative-ai/pricing")
@@ -364,10 +364,10 @@
 			"{}"))
 	    (logger.debug (fstring "Usage: {result.usage_summary}")) 
 	    (setf price (PricingEstimator.estimate_cost
-			 :model_version u.model_version
-			 :prompt_tokens u.input_tokens
-			 :thought_tokens u.thought_tokens
-			 :output_tokens u.output_tokens
+			 :model_version (u.get (string "model_version"))
+			 :prompt_tokens (u.get (string "input_tokens"))
+			 :thought_tokens (u.get (string "thought_tokens"))
+			 :output_tokens (u.get (string x"output_tokens"))
 			 :grounding_used self.config.use_search
 			 ))
 	    (logger.debug (fstring "Price: {price}"))

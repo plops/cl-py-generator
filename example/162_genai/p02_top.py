@@ -1,8 +1,8 @@
 # export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p02_top.py
 import sys
 import datetime
-from sqlite_minutils import *
 from loguru import logger
+from p02_impl import GenerationConfig, GenAIJob
 
 logger.remove()
 logger.add(
@@ -12,8 +12,6 @@ logger.add(
     level="DEBUG",
 )
 logger.info("Logger configured")
-from p02_impl import GenerationConfig, GenAIJob
-
 # UTC timestamp for output file
 timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H_%M_%S")
 yaml_filename = f"out_{timestamp}.yaml"

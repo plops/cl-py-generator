@@ -7,7 +7,6 @@ from typing import List, Callable, Any, Optional, Dict
 from loguru import logger
 from google import genai
 from google.genai import types
-from attrdict import AttrDict
 
 
 @dataclass
@@ -57,7 +56,7 @@ class UsageAggregator:
                 v = extractor(r)
             except Exception:
                 v = None
-            if not (v is None):
+            if v is not None:
                 return v
         return None
 
@@ -68,16 +67,16 @@ class UsageAggregator:
                 v = extractor(r)
             except Exception:
                 v = None
-            if not (v is None):
+            if v is not None:
                 return v
         return None
 
     @classmethod
-    def summarize(cls, result: StreamResult) -> AttrDict[str, Any]:
+    def summarize(cls, result: StreamResult) -> Dict[str, Any]:
         responses = result.responses
         last_with_usage = None
         for r in reversed(responses):
-            if not (getattr(r, "usage_metadata", None) is None):
+            if getattr(r, "usage_metadata", None) is not None:
                 last_with_usage = r
                 break
         summary: Dict[str, Any] = {}
@@ -132,8 +131,7 @@ class UsageAggregator:
         )
         # merge timing metrics
         summary.update(result.timing_metrics())
-        # Convert to AttrDict so callers can use dot access: u.model_version
-        return AttrDict.from_dict(summary)
+        return summary
 
 
 class PricingEstimator:
@@ -318,10 +316,10 @@ class GenAIJob:
         u = (result.usage_summary) or ({})
         logger.debug(f"Usage: {result.usage_summary}")
         price = PricingEstimator.estimate_cost(
-            model_version=u.model_version,
-            prompt_tokens=u.input_tokens,
-            thought_tokens=u.thought_tokens,
-            output_tokens=u.output_tokens,
+            model_version=u.get("model_version"),
+            prompt_tokens=u.get("input_tokens"),
+            thought_tokens=u.get("thought_tokens"),
+            output_tokens=u.get("x"),
             grounding_used=self.config.use_search,
         )
         logger.debug(f"Price: {price}")
