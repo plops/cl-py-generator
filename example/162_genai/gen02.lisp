@@ -40,7 +40,7 @@
 
    (imports-from (p02_impl GenerationConfig GenAIJob))
    (comments "UTC timestamp for output file")
-   (setf timestamp (dot datetime (utcnow)
+   (setf timestamp (dot datetime datetime (now datetime.UTC)
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
@@ -353,14 +353,14 @@
 			       (setf result.first_answer_time now))
 			     (setf result.final_answer_time now)
 			     (incf result.answer part.text))))))
-	    
+	    (self._persist_yaml result)
 	    (logger.debug (fstring "Thoughts: {result.thoughts}"))
 	    (logger.debug (fstring "Answer: {result.answer}"))
-	   
+	    
 	    (setf result.usage_summary (UsageAggregator.summarize result))
 	    (setf u (or result.usage_summary
 			"{}"))
-	    
+	    (logger.debug (fstring "Usage: {result.usage_summary}")) 
 	    (setf price (PricingEstimator.estimate_cost
 			 :model_version u.model_version
 			 :prompt_tokens u.input_tokens
@@ -369,8 +369,8 @@
 			 :grounding_used self.config.use_search
 			 ))
 	    (logger.debug (fstring "Price: {price}"))
-	    (logger.debug (fstring "Usage: {result.usage_summary}")) 
-	    (self._persist_yaml result)
+	    
+	    
 	    (return result))
 	  (def _persist_yaml (self result)
 	    (declare (type StreamResult result))

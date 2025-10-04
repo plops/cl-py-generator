@@ -309,10 +309,12 @@ class GenAIJob:
                             result.first_answer_time = now
                         result.final_answer_time = now
                         result.answer += part.text
+        self._persist_yaml(result)
         logger.debug(f"Thoughts: {result.thoughts}")
         logger.debug(f"Answer: {result.answer}")
         result.usage_summary = UsageAggregator.summarize(result)
         u = (result.usage_summary) or ({})
+        logger.debug(f"Usage: {result.usage_summary}")
         price = PricingEstimator.estimate_cost(
             model_version=u.model_version,
             prompt_tokens=u.input_tokens,
@@ -321,8 +323,6 @@ class GenAIJob:
             grounding_used=self.config.use_search,
         )
         logger.debug(f"Price: {price}")
-        logger.debug(f"Usage: {result.usage_summary}")
-        self._persist_yaml(result)
         return result
 
     def _persist_yaml(self, result: StreamResult):

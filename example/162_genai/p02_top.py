@@ -15,7 +15,7 @@ logger.info("Logger configured")
 from p02_impl import GenerationConfig, GenAIJob
 
 # UTC timestamp for output file
-timestamp = datetime.utcnow().strftime("%Y%m%d_%H_%M_%S")
+timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H_%M_%S")
 yaml_filename = f"out_{timestamp}.yaml"
 cfg = GenerationConfig(
     prompt_text="make a summary of the current state of clinical and experimental cancer treatment. in particular look at the approach roger tien's company uses (fluorescent labels), genetic modification or selection of immune cells, and specialized delivery.",
