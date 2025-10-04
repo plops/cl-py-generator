@@ -248,6 +248,7 @@ class PricingEstimator:
             thought_cost_usd=round(thought_cost, 6),
             output_cost_usd=round(output_cost, 6),
             total_token_cost_usd=round(total_token_cost, 6),
+            grounding_cost_usd=round(grounding_cost, 6),
             total_cost_usd=round(total_cost, 6),
             rates_per_1m=dict(input=input_rate, output=output_rate),
         )

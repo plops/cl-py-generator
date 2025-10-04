@@ -46,7 +46,7 @@
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (rstring3 "Make a summary of recent innovation that came out of Zeiss Meditech")
+	      :prompt_text (rstring3 "Make a summary of recent innovation and growth plans of Siemens. Which markets do they move away from, which markets do they want to enter or consolidate. Are they involved in weapons manufacturing?")
 	      :model (string "gemini-flash-latest")
 	      :output_yaml_path yaml_filename
 	      :use_search True
@@ -294,6 +294,7 @@
 			  :thought_cost_usd (round thought_cost 6)
 			  :output_cost_usd (round output_cost 6)
 			  :total_token_cost_usd (round total_token_cost 6)
+			  :grounding_cost_usd (round grounding_cost 6)
 			  :total_cost_usd (round total_cost 6)
 			  :rates_per_1m (dictionary :input input_rate :output output_rate)))
 	    (when grounding_info

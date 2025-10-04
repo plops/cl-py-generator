@@ -18,7 +18,7 @@ from p02_impl import GenerationConfig, GenAIJob
 timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H_%M_%S")
 yaml_filename = f"out_{timestamp}.yaml"
 cfg = GenerationConfig(
-    prompt_text=r"""Make a summary of recent innovation that came out of Zeiss Meditech""",
+    prompt_text=r"""Make a summary of recent innovation and growth plans of Siemens. Which markets do they move away from, which markets do they want to enter or consolidate. Are they involved in weapons manufacturing?""",
     model="gemini-flash-latest",
     output_yaml_path=yaml_filename,
     use_search=True,
