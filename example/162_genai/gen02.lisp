@@ -179,9 +179,8 @@
 	    (summary.update (result.timing_metrics))
 	    (return summary)))
 
-   ;; Insert PricingEstimator class (cost estimator) https://cloud.google.com/vertex-ai/generative-ai/pricing
    (class PricingEstimator ()
-	  (comments "Estimates API costs based on token usage and model version.")
+	  (comments "Estimates API costs based on token usage and model version. data from https://cloud.google.com/vertex-ai/generative-ai/pricing")
 	  (setf self.PRICING "{}")
 	  (setf (aref self.PRICING (string "gemini-2.5-pro"))
 		 (dictionary
@@ -238,7 +237,7 @@
 	    (if (m.contains (string "2.0-flash"))
 		(return (string "gemini-2.0-flash")))
 	    (return None))
-	  @class3method
+	  @classmethod
 	  (def estimate_cost (cls model_version prompt_tokens thought_tokens output_tokens &key (grounding_used False) (grounding_type (string "google_search")))
 	    (declare (values "Dict[str,Any]"))
 	    (setf model_name (cls._normalize_model_name model_version))
