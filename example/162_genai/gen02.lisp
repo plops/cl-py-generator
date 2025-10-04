@@ -72,7 +72,8 @@
     
     (loguru logger)
     (google genai)
-    (google.genai types))
+    (google.genai types)
+    (attrdict AttrDict))
 
    (do0
     @dataclass
@@ -132,7 +133,7 @@
 	  @classmethod
 	  (def summarize (cls result)
 	    (declare (type StreamResult result)
-		     (values "Dict[str,Any]" ))
+		     (values "AttrDict[str,Any]" ))
 	    (setf responses result.responses
 		  last_with_usage None)
 	    (for (r (reversed responses))
@@ -180,7 +181,8 @@
 				    None)))))
 	    (comments "merge timing metrics")
 	    (summary.update (result.timing_metrics))
-	    (return summary)))
+	    (comments "Convert to AttrDict so callers can use dot access: u.model_version")
+	    (return (AttrDict.from_dict summary))))
 
    (class PricingEstimator ()
 	  (comments "Estimates API costs based on token usage and model version. data from https://cloud.google.com/vertex-ai/generative-ai/pricing")
