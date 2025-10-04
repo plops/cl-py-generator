@@ -18,7 +18,7 @@
    
    
    
-   (imports (sys))
+   (imports (sys datetime))
     
    (imports-from
     (sqlite_minutils *)
@@ -39,11 +39,14 @@
 
 
    (imports-from (p02_impl GenerationConfig GenAIJob))
-
+   (comments "UTC timestamp for output file")
+   (setf timestamp (dot datetime (utcnow)
+			(strftime (string "%Y%m%d_%H_%M_%S"))))
+   (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (string "make a summary of the imminent government shutdown in the US. show historical parallels.")
+	      :prompt_text (string "make a summary of the current state of clinical and experimental cancer treatment. in particular look at the approach roger tien's company uses (fluorescent labels), genetic modification or selection of immune cells, and specialized delivery.")
 	      :model (string "gemini-flash-latest")
-	      :output_yaml_path (string "out.yaml")
+	      :output_yaml_path yaml_filename
 	      :use_search True
 	      :think_budget -1
 	      :include_thoughts True))
@@ -152,7 +155,7 @@
 		      collect
 		      `(setf (aref summary (string ,e))
 			     (cls._first responses (lambda (r) (getattr r (string ,e) None)))))
-
+	    (logger.debug (fstring "model version: {summary.model_version}"))
 	    (setf totals (list
 			  (for-generator (r responses)
 					 (getattr
@@ -310,8 +313,9 @@
 			   (list (types.Tool :googleSearch (types.GoogleSearch)))
 			   (list)))
 	    (setf generate_content_config (types.GenerateContentConfig
-					   :thinking_config (types.ThinkingConfig :thinkingBudget self.config.think_budget
-										  :include_thoughts self.config.include_thoughts 
+					   :thinking_config (types.ThinkingConfig
+							     :thinkingBudget self.config.think_budget
+							     :include_thoughts self.config.include_thoughts 
 							     )
 					   :tools tools
 					   ;:response_mime_type (string "text/plain")
