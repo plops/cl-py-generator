@@ -45,7 +45,19 @@
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (string "make a summary of the current state of clinical and experimental cancer treatment. 16 years ago Roger Tsien mentioned that pharma has perverse incentives: they will produce drugs for late stage cancer rather than early detection and early treatment because there is more money in it. he argued that we therefore need government funding and universities. did this change? are there now more approaches for non-late treatment. if yes, did big pharma develop this or was it government funding?")
+	      :prompt_text (rstring3 "make a summary of the current state of clinical and experimental cancer treatment. 16 years ago Roger Tsien mentioned that pharma has perverse incentives: they will produce drugs for late stage cancer rather than early detection and early treatment because there is more money in it. he argued that we therefore need government funding and universities. did this change? are there now more approaches for non-late treatment. if yes, did big pharma develop this or was it government funding?
+
+#### ** The Funding Driver: Government and Academia as Innovators, Big Pharma as Commercializers:**
+
+Tsien's call for government funding and universities was prescient, as they remain the primary source of truly novel, long-term, and high-risk innovation.
+
+*   **Government/Academic Funding (The "Discovery" Phase):** Breakthroughs like the fundamental work behind CAR T-cell therapy and immunotherapy were overwhelmingly the result of **NIH (government) funding** and university research, which provides the necessary capital for long-term, basic science that is free from short-term shareholder pressure.
+*   **Big Pharma Funding (The "Commercialization" Phase):** Big Pharma’s role is typically to step in during the later stages (Phase 2 and 3 clinical trials). They provide the massive funding and infrastructure required to scale up a therapy and bring it to market. This is often done by **acquiring** the small biotech company or licensing the technology from the university that performed the initial, government-funded research (e.g., Gilead Sciences acquired Kite Pharma and Novartis partnered with the University of Pennsylvania for their respective CAR T-cell therapies).
+
+In summary, the most groundbreaking new approaches for non-late-stage treatment and detection are often **conceived and initially developed by government-funded university research and non-profit grants.** While the pharmaceutical industry has dramatically shifted its portfolio to these innovative areas (like immunotherapy), its role often follows a pattern: **academic institutions lay the foundational science, and Big Pharma uses its financial power to commercialize the product once the initial risk is mitigated.**
+
+Trump and the republican party severely defund universities. what effects will this have on cancer treatment. have enough treatment innovations been kickstarted to allow the commercialization of valuable clinical solutions by big pharma or will a lack of innovation have a sever impact?
+")
 	      :model (string "gemini-flash-latest")
 	      :output_yaml_path yaml_filename
 	      :use_search True
@@ -338,23 +350,26 @@
 				       content parts))
 		      (Exception
 		       continue))
-		 (for (part parts)
-		      (when (getattr part (string "text") None)
-			(if (getattr part (string "thought") False)
-			    (do0 (setf now (time.monotonic))
-				 (when (is result.first_thought_time
-					   None)
-				   (logger.debug (string "First thought received"))
-				   (setf result.first_thought_time now))
-				 (setf result.last_thought_time now)
-				 (incf result.thoughts part.text))
-			    (do0
-			     (setf now (time.monotonic))
-			     (when (is result.first_answer_time None)
-			       (logger.debug (string "First answer chunk received"))
-			       (setf result.first_answer_time now))
-			     (setf result.final_answer_time now)
-			     (incf result.answer part.text))))))
+		 (try
+		  (for (part parts)
+		       (when (getattr part (string "text") None)
+			 (if (getattr part (string "thought") False)
+			     (do0 (setf now (time.monotonic))
+				  (when (is result.first_thought_time
+					    None)
+				    (logger.debug (string "First thought received"))
+				    (setf result.first_thought_time now))
+				  (setf result.last_thought_time now)
+				  (incf result.thoughts part.text))
+			     (do0
+			      (setf now (time.monotonic))
+			      (when (is result.first_answer_time None)
+				(logger.debug (string "First answer chunk received"))
+				(setf result.first_answer_time now))
+			      (setf result.final_answer_time now)
+			      (incf result.answer part.text)))))
+		  (Exception
+		   pass)))
 	    (self._persist_yaml result)
 	    (logger.debug (fstring "Thoughts: {result.thoughts}"))
 	    (logger.debug (fstring "Answer: {result.answer}"))
@@ -365,9 +380,9 @@
 	    (logger.debug (fstring "Usage: {result.usage_summary}")) 
 	    (setf price (PricingEstimator.estimate_cost
 			 :model_version (u.get (string "model_version"))
-			 :prompt_tokens (u.get (string "input_tokens"))
-			 :thought_tokens (u.get (string "thought_tokens"))
-			 :output_tokens (u.get (string x"output_tokens"))
+			 :prompt_tokens (u.get (string "prompt_token_count"))
+			 :thought_tokens (u.get (string "thoughts_token_count"))
+			 :output_tokens (u.get (string "candidates_token_count"))
 			 :grounding_used self.config.use_search
 			 ))
 	    (logger.debug (fstring "Price: {price}"))

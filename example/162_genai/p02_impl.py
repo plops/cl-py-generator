@@ -199,12 +199,11 @@ class PricingEstimator:
         grounding_type="google_search",
     ) -> Dict[str, Any]:
         model_name = cls._normalize_model_name(model_version)
-        # Defensive: ensure we have a recognized model_name
-        if (not model_name) or (model_name not in cls.PRICING):
+        if not ((model_name) or (model_name not in cls.PRICING)):
             return dict(
                 error=f"Unknown model: {model_version}",
                 model_detected=model_name,
-                total_cost_usd=0.0,
+                total_cost_usd=(0.0),
             )
         pricing = cls.PRICING[model_name]
         threshold = pricing.get("threshold", float("inf"))
@@ -289,65 +288,41 @@ class GenAIJob:
         result = StreamResult(submit_time=time.monotonic())
         logger.debug("Starting streaming generation")
         for chunk in self.client.models.generate_content_stream(**req):
-            # always record the raw chunk for later inspection
             result.responses.append(chunk)
-            # defensive attribute access: candidates may be missing or empty
-            candidates = getattr(chunk, "candidates", None)
-            if not candidates:
-                logger.debug("Chunk has no candidates; skipping chunk")
+            try:
+                parts = chunk.candidates[0].content.parts
+            except Exception:
                 continue
-            first_candidate = candidates[0] if len(candidates) > 0 else None
-            if first_candidate is None:
-                logger.debug("First candidate is None; skipping chunk")
-                continue
-            content = getattr(first_candidate, "content", None)
-            if content is None:
-                logger.debug("Candidate has no content; skipping chunk")
-                continue
-            parts = getattr(content, "parts", None)
-            # parts might legitimately be None, or be a single Part object.
-            if parts is None:
-                logger.debug("Candidate content.parts is None; skipping chunk")
-                continue
-            # normalize to list-like for iteration
-            if not isinstance(parts, (list, tuple)):
-                parts = [parts]
-            # iterate safely
-            for part in parts:
-                if not part:
-                    continue
-                text = getattr(part, "text", None)
-                if not text:
-                    continue
-                if getattr(part, "thought", False):
-                    now = time.monotonic()
-                    if result.first_thought_time is None:
-                        logger.debug("First thought received")
-                        result.first_thought_time = now
-                    result.last_thought_time = now
-                    result.thoughts += text
-                else:
-                    now = time.monotonic()
-                    if result.first_answer_time is None:
-                        logger.debug("First answer chunk received")
-                        result.first_answer_time = now
-                    result.final_answer_time = now
-                    result.answer += text
+            try:
+                for part in parts:
+                    if getattr(part, "text", None):
+                        if getattr(part, "thought", False):
+                            now = time.monotonic()
+                            if result.first_thought_time is None:
+                                logger.debug("First thought received")
+                                result.first_thought_time = now
+                            result.last_thought_time = now
+                            result.thoughts += part.text
+                        else:
+                            now = time.monotonic()
+                            if result.first_answer_time is None:
+                                logger.debug("First answer chunk received")
+                                result.first_answer_time = now
+                            result.final_answer_time = now
+                            result.answer += part.text
+            except Exception:
+                pass
         self._persist_yaml(result)
         logger.debug(f"Thoughts: {result.thoughts}")
         logger.debug(f"Answer: {result.answer}")
         result.usage_summary = UsageAggregator.summarize(result)
         u = (result.usage_summary) or ({})
         logger.debug(f"Usage: {result.usage_summary}")
-        # best-effort mapping from usage summary keys to pricing estimator inputs
-        prompt_tokens = u.get("prompt_token_count") or u.get("prompt_tokens") or u.get("input_tokens") or 0
-        thought_tokens = u.get("thoughts_token_count") or u.get("thought_tokens") or 0
-        output_tokens = u.get("total_token_count") or u.get("output_tokens") or 0
         price = PricingEstimator.estimate_cost(
             model_version=u.get("model_version"),
-            prompt_tokens=prompt_tokens,
-            thought_tokens=thought_tokens,
-            output_tokens=output_tokens,
+            prompt_tokens=u.get("prompt_token_count"),
+            thought_tokens=u.get("thoughts_token_count"),
+            output_tokens=u.get("candidates_token_count"),
             grounding_used=self.config.use_search,
         )
         logger.debug(f"Price: {price}")
