@@ -137,49 +137,43 @@ class PricingEstimator:
     # Estimates API costs based on token usage and model version. data from https://cloud.google.com/vertex-ai/generative-ai/pricing
     PRICING = {}
     PRICING["gemini-2.5-pro"] = dict(
-        input_low=1.250,
-        input_high=2.50,
-        output_low=10.0,
-        output_high=15.0,
+        input_low=(1.250),
+        input_high=(2.50),
+        output_low=(10.0),
+        output_high=(15.0),
         threshold=200000,
     )
     PRICING["gemini-2.5-flash"] = dict(
-        input_low=0.30,
-        input_high=0.30,
-        output_low=2.50,
-        output_high=2.50,
+        input_low=(0.30),
+        input_high=(0.30),
+        output_low=(2.50),
+        output_high=(2.50),
         threshold=200000,
     )
     PRICING["gemini-2.5-flash-lite"] = dict(
-        input_low=0.10,
-        input_high=0.10,
-        output_low=0.40,
-        output_high=0.40,
+        input_low=(0.10),
+        input_high=(0.10),
+        output_low=(0.40),
+        output_high=(0.40),
         threshold=200000,
     )
     PRICING["gemini-2.0-flash"] = dict(
-        input_low=0.30,
-        input_high=0.30,
-        output_low=2.50,
-        output_high=2.50,
+        input_low=(0.30),
+        input_high=(0.30),
+        output_low=(2.50),
+        output_high=(2.50),
         threshold=200000,
     )
     GROUNDING_PRICING = dict(
-        google_search=35.0,
-        web_grounding_enterprise=45.0,
-        google_maps=25.0,
-        grounding_with_data=2.50,
+        google_search=(35.0),
+        web_grounding_enterprise=(45.0),
+        google_maps=(25.0),
+        grounding_with_data=(2.50),
     )
-    FREE_TIER_LIMITS = {
-        "gemini-2.5-pro": dict(google_search=10000, google_maps=10000),
-        "gemini-2.5-flash": dict(google_search=1500, google_maps=1500),
-        "gemini-2.5-flash-lite": dict(google_search=1500, google_maps=1500),
-        "gemini-2.0-flash": dict(google_search=1500, google_maps=1500),
-    }
 
     @classmethod
     def _normalize_model_name(cls, model_version) -> Optional[str]:
-        if not model_version:
+        if not (model_version):
             return None
         m = model_version.lower()
         # check most specific strings first
@@ -204,34 +198,35 @@ class PricingEstimator:
         grounding_type="google_search",
     ) -> Dict[str, Any]:
         model_name = cls._normalize_model_name(model_version)
-        if not model_name or model_name not in cls.PRICING:
+        if not ((model_name) or (model_name not in cls.PRICING)):
             return dict(
                 error=f"Unknown model: {model_version}",
                 model_detected=model_name,
-                total_cost_usd=0.0,
+                total_cost_usd=(0.0),
             )
         pricing = cls.PRICING[model_name]
         threshold = pricing.get("threshold", float("inf"))
-        # ensure numeric defaults
-        prompt_tokens = float(prompt_tokens or 0)
-        thought_tokens = float(thought_tokens or 0)
-        output_tokens = float(output_tokens or 0)
-
-        use_high_tier = prompt_tokens > float(threshold)
-        input_rate = pricing.get("input_high") if use_high_tier else pricing.get("input_low")
-        output_rate = pricing.get("output_high") if use_high_tier else pricing.get("output_low")
-
-        input_cost = (prompt_tokens / 1.00e6) * input_rate
-        # treat thoughts as part of "output" billing here (matches prior intent)
-        thought_cost = (thought_tokens / 1.00e6) * output_rate
-        output_cost = (output_tokens / 1.00e6) * output_rate
-        total_token_cost = input_cost + thought_cost + output_cost
-
+        use_high_tier = (prompt_tokens) > (float(threshold))
+        input_rate = (
+            (pricing.get("input_high"))
+            if (use_high_tier)
+            else (pricing.get("input_low"))
+        )
+        output_rate = (
+            (pricing.get("output_high"))
+            if (use_high_tier)
+            else (pricing.get("output_low"))
+        )
+        # treat thoughts as part of `output` billing here
+        input_cost = ((prompt_tokens) / (1.00e6)) * (input_rate)
+        thought_cost = ((thought_tokens) / (1.00e6)) * (output_rate)
+        output_cost = ((output_tokens) / (1.00e6)) * (output_rate)
+        total_token_cost = (input_cost) + (thought_cost) + (output_cost)
         grounding_cost = 0.0
         grounding_info = {}
         if grounding_used:
-            grounding_rate = cls.GROUNDING_PRICING.get(grounding_type, 35.0)
-            grounding_cost = grounding_rate / 1.00e3
+            grounding_rate = cls.GROUNDING_PRICING.get(grounding_type, (35.0))
+            grounding_cost = (grounding_rate) / (1.00e3)
             grounding_info = dict(
                 grounding_type=grounding_type,
                 grounding_prompts=1,
@@ -239,16 +234,15 @@ class PricingEstimator:
                 grounding_rate_per_1k=grounding_rate,
                 note="Free tier limits apply (not calculated here)",
             )
-
-        total_cost = total_token_cost + grounding_cost
+        total_cost = (total_token_cost) + (grounding_cost)
         result = dict(
             model_version=model_version,
             model_detected=model_name,
-            pricing_tier="high" if use_high_tier else "low",
+            pricing_tier=("high") if (use_high_tier) else ("low"),
             input_tokens=prompt_tokens,
             thought_tokens=thought_tokens,
             output_tokens=output_tokens,
-            total_output_tokens=(thought_tokens + output_tokens),
+            total_output_tokens=((thought_tokens) + (output_tokens)),
             input_cost_usd=round(input_cost, 6),
             thought_cost_usd=round(thought_cost, 6),
             output_cost_usd=round(output_cost, 6),
@@ -317,22 +311,13 @@ class GenAIJob:
         logger.debug(f"Thoughts: {result.thoughts}")
         logger.debug(f"Answer: {result.answer}")
         result.usage_summary = UsageAggregator.summarize(result)
-        u = result.usage_summary or {}
-        # map usage_summary keys to estimator inputs (be defensive about missing keys)
-        model_version = u.get("model_version")
-        prompt_tokens = u.get("prompt_token_count", 0) or u.get("prompt_token_count", 0)
-        thought_tokens = u.get("thoughts_token_count", 0)
-        # try to derive output tokens: prefer explicit total_token_count, otherwise fallback to 0
-        if u.get("total_token_count") is not None:
-            output_tokens = max(0, u.get("total_token_count", 0) - prompt_tokens - thought_tokens)
-        else:
-            output_tokens = 0
+        u = (result.usage_summary) or ({})
         price = PricingEstimator.estimate_cost(
-            model_version=model_version,
-            prompt_tokens=prompt_tokens,
-            thought_tokens=thought_tokens,
-            output_tokens=output_tokens,
-            grounding_used=True,
+            model_version=u.model_version,
+            prompt_tokens=u.input_tokens,
+            thought_tokens=u.thought_tokens,
+            output_tokens=u.output_tokens,
+            grounding_used=self.config.use_search,
         )
         logger.debug(f"Price: {price}")
         logger.debug(f"Usage: {result.usage_summary}")

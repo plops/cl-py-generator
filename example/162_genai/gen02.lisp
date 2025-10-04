@@ -181,42 +181,43 @@
 
    (class PricingEstimator ()
 	  (comments "Estimates API costs based on token usage and model version. data from https://cloud.google.com/vertex-ai/generative-ai/pricing")
-	  (setf self.PRICING "{}")
-	  (setf (aref self.PRICING (string "gemini-2.5-pro"))
+	  (setf PRICING "{}")
+	  (setf (aref PRICING (string "gemini-2.5-pro"))
 		 (dictionary
 		  :input_low 1.25
 		  :input_high 2.5
 		  :output_low 10.0
 		  :output_high 15.0
 		  :threshold 200000)
-		(aref self.PRICING (string "gemini-2.5-flash"))
+		(aref PRICING (string "gemini-2.5-flash"))
 		 (dictionary
 		  :input_low 0.30
 		  :input_high 0.30
 		  :output_low 2.50
 		  :output_high 2.50
 		  :threshold 200000)
-		(aref self.PRICING (string "gemini-2.5-flash-lite"))
+		(aref PRICING (string "gemini-2.5-flash-lite"))
 		 (dictionary
 		  :input_low 0.10
 		  :input_high 0.10
 		  :output_low 0.40
 		  :output_high 0.40
 		  :threshold 200000)
-		(aref self.PRICING (string "gemini-2.0-flash"))
+		(aref PRICING (string "gemini-2.0-flash"))
 		 (dictionary
 		  :input_low 0.30
 		  :input_high 0.30
 		  :output_low 2.50
 		  :output_high 2.50
 		  :threshold 200000))
-	  (setf self.GROUNDING_PRICING
+	  (setf GROUNDING_PRICING
 		(dictionary
 		 :google_search 35.0
 		 :web_grounding_enterprise 45.0
 		 :google_maps 25.0
 		 :grounding_with_data 2.5))
-	  (setf self.FREE_TIER_LIMITS
+	  #+nil
+	  (setf FREE_TIER_LIMITS
 		(dict
 		 ((string "gemini-2.5-pro") (dictionary :google_search 10000 :google_maps 10000))
 		 ((string "gemini-2.5-flash") (dictionary :google_search 1500 :google_maps 1500))
@@ -227,30 +228,38 @@
 	    (declare (values "Optional[str]"))
 	    (unless model_version
 	      (return None))
-	    (setf m (dot model_version lower))
-	    (if (m.contains  (string "2.5-pro"))
+	    (setf m (dot model_version (lower)))
+	    (comments "check most specific strings first")
+	    (if (in (string "2.5-pro") m)
 		(return (string "gemini-2.5-pro")))
-	    (if (m.contains  (string "2.5-flash-lite"))
+	    (if (in (string "2.5-flash-lite") m)
 		(return (string "gemini-2.5-flash-lite")))
-	    (if (m.contains (string "2.5-flash"))
+	    (if (in (string "2.5-flash") m)
 		(return (string "gemini-2.5-flash")))
-	    (if (m.contains (string "2.0-flash"))
+	    (if (in (string "2.0-flash") m)
 		(return (string "gemini-2.0-flash")))
 	    (return None))
 	  @classmethod
-	  (def estimate_cost (cls model_version prompt_tokens thought_tokens output_tokens &key (grounding_used False) (grounding_type (string "google_search")))
-	    (declare (values "Dict[str,Any]"))
+	  (def estimate_cost (cls model_version &key (prompt_tokens 0) (thought_tokens 0) (output_tokens 0) (grounding_used False) (grounding_type (string "google_search")))
+	    (declare (values "Dict[str,Any]")
+		     (type "Optional[float]" prompt_tokens thought_tokens output_tokens))
 	    (setf model_name (cls._normalize_model_name model_version))
-	    (unless (and model_name (getattr cls PRICING None))
+	    (unless (or model_name (not-in model_name cls.PRICING))
 	      (return (dictionary
 		       :error (fstring "Unknown model: {model_version}")
 		       :model_detected model_name
 		       :total_cost_usd 0.0)))
-	    (setf pricing (getattr cls PRICING model_name)
-		  threshold (getattr pricing (string "threshold") None))
-	    (setf use_high_tier (> prompt_tokens threshold))
-	    (setf input_rate (? use_high_tier (getattr pricing (string "input_high")) (getattr pricing (string "input_low"))))
-	    (setf output_rate (? use_high_tier (getattr pricing (string "output_high")) (getattr pricing (string "output_low"))))
+	    (setf pricing (aref cls.PRICING model_name)
+		  threshold (pricing.get (string "threshold") (float (string "inf"))))
+	    #+nil
+	    (do0 (comments "ensure numeric defaults")
+		 ,@(loop for e in `(prompt_tokens thought_tokens output_tokens)
+			 collect `(setf ,e (float  (or ,e 0)))))
+	    
+	    (setf use_high_tier (> prompt_tokens (float threshold)))
+	    (setf input_rate (? use_high_tier (pricing.get (string "input_high")) (pricing.get (string "input_low"))))
+	    (setf output_rate (? use_high_tier (pricing.get (string "output_high")) (pricing.get (string "output_low"))))
+	    (comments "treat thoughts as part of `output` billing here")
 	    (setf input_cost (* (/ prompt_tokens 1000000.0) input_rate)
 		  thought_cost (* (/ thought_tokens 1000000.0) output_rate)
 		  output_cost (* (/ output_tokens 1000000.0) output_rate))
@@ -258,7 +267,7 @@
 	    (setf grounding_cost 0.0
 		  grounding_info "{}")
 	    (when grounding_used
-	      (setf grounding_rate (getattr cls.GROUNDING_PRICING grounding_type 35.0)
+	      (setf grounding_rate (cls.GROUNDING_PRICING.get grounding_type 35.0)
 		    grounding_cost (/ grounding_rate 1000.0)
 		    grounding_info (dictionary
 				   :grounding_type grounding_type
@@ -281,7 +290,7 @@
 			  :total_token_cost_usd (round total_token_cost 6)
 			  :total_cost_usd (round total_cost 6)
 			  :rates_per_1m (dictionary :input input_rate :output output_rate)))
-	    (unless (== grounding_info "{}")
+	    (when grounding_info
 	      (setf (aref result (string "grounding")) grounding_info))
 	    (return result)))
    (class GenAIJob ()
@@ -345,15 +354,17 @@
 	    (logger.debug (fstring "Answer: {result.answer}"))
 	   
 	    (setf result.usage_summary (UsageAggregator.summarize result))
-	     (setf u result.usage_summary)
-	    (setf e (PricingEstimator))
-	    (setf price (e.estimate_cost :model_version u.model_version
-					:prompt_tokens u.input_tokens
-					:thought_tokens u.thought_tokens
-					:output_tokens u.output_tokens
-					:grounding_used True
-					))
-	    (logger.debug (fstring "Price: {price}2"))
+	    (setf u (or result.usage_summary
+			"{}"))
+	    
+	    (setf price (PricingEstimator.estimate_cost
+			 :model_version u.model_version
+			 :prompt_tokens u.input_tokens
+			 :thought_tokens u.thought_tokens
+			 :output_tokens u.output_tokens
+			 :grounding_used self.config.use_search
+			 ))
+	    (logger.debug (fstring "Price: {price}"))
 	    (logger.debug (fstring "Usage: {result.usage_summary}")) 
 	    (self._persist_yaml result)
 	    (return result))
