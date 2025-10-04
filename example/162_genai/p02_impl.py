@@ -93,7 +93,7 @@ class UsageAggregator:
         summary["model_version"] = cls._first(
             responses, lambda r: getattr(r, "model_version", None)
         )
-        logger.debug(f"model version: {summary.model_version}")
+        logger.debug(f"model version: {summary['model_version']}")
         totals = [
             getattr(getattr(r, "usage_metadata", None), "total_token_count", None)
             for r in responses

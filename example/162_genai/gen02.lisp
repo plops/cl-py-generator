@@ -45,7 +45,7 @@
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (string "make a summary of the current state of clinical and experimental cancer treatment. in particular look at the approach roger tien's company uses (fluorescent labels), genetic modification or selection of immune cells, and specialized delivery.")
+	      :prompt_text (string "make a summary of the current state of clinical and experimental cancer treatment. make a list of established companies and  newcomers")
 	      :model (string "gemini-flash-latest")
 	      :output_yaml_path yaml_filename
 	      :use_search True
@@ -156,7 +156,7 @@
 		      collect
 		      `(setf (aref summary (string ,e))
 			     (cls._first responses (lambda (r) (getattr r (string ,e) None)))))
-	    (logger.debug (fstring "model version: {summary.model_version}"))
+	    (logger.debug (fstring "model version: {summary['model_version']}"))
 	    (setf totals (list
 			  (for-generator (r responses)
 					 (getattr
