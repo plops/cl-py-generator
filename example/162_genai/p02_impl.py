@@ -287,6 +287,7 @@ class GenAIJob:
         req = self._build_request()
         result = StreamResult(submit_time=time.monotonic())
         logger.debug("Starting streaming generation")
+        error_in_parts = False
         for chunk in self.client.models.generate_content_stream(**req):
             result.responses.append(chunk)
             try:
@@ -311,8 +312,9 @@ class GenAIJob:
                             result.final_answer_time = now
                             result.answer += part.text
             except Exception:
+                error_in_parts = True
                 pass
-        self._persist_yaml(result)
+        self._persist_yaml(result, error_in_parts)
         logger.debug(f"Thoughts: {result.thoughts}")
         logger.debug(f"Answer: {result.answer}")
         result.usage_summary = UsageAggregator.summarize(result)
@@ -328,8 +330,10 @@ class GenAIJob:
         logger.debug(f"Price: {price}")
         return result
 
-    def _persist_yaml(self, result: StreamResult):
+    def _persist_yaml(self, result: StreamResult, error_in_parts):
         path = self.config.output_yaml_path
+        if error_in_parts:
+            path = f"error_{path}"
         try:
             with open(path, "w", encoding="utf-8") as f:
                 yaml.dump(result.responses, f, allow_unicode=True, indent=2)

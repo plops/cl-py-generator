@@ -45,7 +45,7 @@
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (rstring3 "make a summary of the current state of clinical and experimental cancer treatment. 16 years ago Roger Tsien mentioned that pharma has perverse incentives: they will produce drugs for late stage cancer rather than early detection and early treatment because there is more money in it. he argued that we therefore need government funding and universities. did this change? are there now more approaches for non-late treatment. if yes, did big pharma develop this or was it government funding?
+	      :prompt_text (rstring3 "a discussion about Roger Tsien's predictions 16 years ago lead to this:
 
 #### ** The Funding Driver: Government and Academia as Innovators, Big Pharma as Commercializers:**
 
@@ -344,6 +344,7 @@ Trump and the republican party severely defund universities. what effects will t
 	    (setf req (self._build_request)
 		  result (StreamResult :submit_time (time.monotonic)))
 	    (logger.debug (string "Starting streaming generation"))
+	    (setf error_in_parts False)
 	    (for (chunk (self.client.models.generate_content_stream **req))
 		 (result.responses.append chunk)
 		 (try (setf parts (dot chunk (aref candidates 0)
@@ -369,8 +370,9 @@ Trump and the republican party severely defund universities. what effects will t
 			      (setf result.final_answer_time now)
 			      (incf result.answer part.text)))))
 		  (Exception
+		   (setf error_in_parts True)
 		   pass)))
-	    (self._persist_yaml result)
+	    (self._persist_yaml result error_in_parts)
 	    (logger.debug (fstring "Thoughts: {result.thoughts}"))
 	    (logger.debug (fstring "Answer: {result.answer}"))
 	    
@@ -389,9 +391,11 @@ Trump and the republican party severely defund universities. what effects will t
 	    
 	    
 	    (return result))
-	  (def _persist_yaml (self result)
+	  (def _persist_yaml (self result error_in_parts)
 	    (declare (type StreamResult result))
 	    (setf path self.config.output_yaml_path)
+	    (when error_in_parts
+	      (setf path (fstring "error_{path}")))
 	    (try
 	     (do0
 	      (with (as (open path (string "w")

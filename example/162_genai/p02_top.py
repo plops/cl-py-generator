@@ -16,7 +16,7 @@ logger.info("Logger configured")
 timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H_%M_%S")
 yaml_filename = f"out_{timestamp}.yaml"
 cfg = GenerationConfig(
-    prompt_text=r"""make a summary of the current state of clinical and experimental cancer treatment. 16 years ago Roger Tsien mentioned that pharma has perverse incentives: they will produce drugs for late stage cancer rather than early detection and early treatment because there is more money in it. he argued that we therefore need government funding and universities. did this change? are there now more approaches for non-late treatment. if yes, did big pharma develop this or was it government funding?
+    prompt_text=r"""a discussion about Roger Tsien's predictions 16 years ago lead to this:
 
 #### ** The Funding Driver: Government and Academia as Innovators, Big Pharma as Commercializers:**
 
