@@ -46,7 +46,9 @@
 			(strftime (string "%Y%m%d_%H_%M_%S"))))
    (setf yaml_filename (fstring "out_{timestamp}.yaml"))
    (setf cfg (GenerationConfig
-	      :prompt_text (rstring3 "Make a summary of recent innovation and growth plans of Siemens. Which markets do they move away from, which markets do they want to enter or consolidate. Are they involved in weapons manufacturing?")
+	      :prompt_text (rstring3
+			    "Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat"
+			    #+nil "Make a summary of recent innovation and growth plans of Bosch. Which markets do they move away from, which markets do they want to enter or consolidate. Are they involved in weapons manufacturing?")
 	      :model (string "gemini-flash-latest")
 	      :output_yaml_path yaml_filename
 	      :use_search True

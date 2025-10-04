@@ -1,0 +1,4965 @@
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Initiating Company Research**
+
+
+                  I''m starting by compiling a list of comparable European industrial
+                  giants to Bosch and Siemens. The goal is to identify core business
+                  areas for each firm. Once I have the preliminary list, I''ll dive
+                  into their individual areas of focus to determine the most relevant
+                  "topics" for each one. The output of this stage will be a list of
+                  companies that match the criteria, along with a high level overview
+                  of the areas where they operate.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 69
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: 88
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Defining Scope & Criteria**
+
+
+                  I''ve refined my approach by breaking down the company analysis
+                  into specific steps. I''ll begin by identifying the major European
+                  industrial and technology firms comparable to Bosch and Siemens.
+                  Then, I will delve into their core business areas, key innovation
+                  strategies, and sources of competitive advantage. The output will
+                  be a detailed, topic-grouped list.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 149
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: 168
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Expanding the Scope**
+
+
+                  I''ve just broadened the scope to look at key European tech and
+                  industrial giants, starting with a base of Bosch and Siemens. This
+                  initial sweep included direct rivals like ABB and Schneider Electric,
+                  along with software players like Dassault Systèmes and SAP.  Now,
+                  I''m ready to delve deeper.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: 44
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 221
+        tool_use_prompt_token_count: 166
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 166
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 450
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Compiling Key Data**
+
+
+                  I''m now collating the core data points for the initial list of
+                  companies. The goal is a concise summary of their primary innovations
+                  and competitive advantages. I''ve selected ABB, Schneider, ASML,
+                  Dassault, Continental, and BASF for detailed analysis. I''m focusing
+                  on distilling "innovation" and "moat" info into a useful, structured
+                  form, going beyond the initial broad strokes. The data is piling
+                  up, but the structure is forming.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: 43
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 462
+        tool_use_prompt_token_count: 166
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 166
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 690
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Analyzing European Leaders**
+
+
+                  I''ve just added to my initial data collection, focusing specifically
+                  on ABB and Schneider Electric, delving into their innovations and
+                  competitive moats within the industrial tech and automation realm.
+                  The next step is ASML and Dassault Systèmes, researching their advanced
+                  technology and software offerings to further refine the list.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: 42
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 605
+        tool_use_prompt_token_count: 166
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 166
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 832
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: !!python/object/apply:google.genai.types.FinishReason
+        - STOP
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: !!python/object:google.genai.types.SearchEntryPoint
+              __dict__:
+                rendered_content: "<style>\n.container {\n  align-items: center;\n\
+                  \  border-radius: 8px;\n  display: flex;\n  font-family: Google\
+                  \ Sans, Roboto, sans-serif;\n  font-size: 14px;\n  line-height:\
+                  \ 20px;\n  padding: 8px 12px;\n}\n.chip {\n  display: inline-block;\n\
+                  \  border: solid 1px;\n  border-radius: 16px;\n  min-width: 14px;\n\
+                  \  padding: 5px 16px;\n  text-align: center;\n  user-select: none;\n\
+                  \  margin: 0 8px;\n  -webkit-tap-highlight-color: transparent;\n\
+                  }\n.carousel {\n  overflow: auto;\n  scrollbar-width: none;\n  white-space:\
+                  \ nowrap;\n  margin-right: -12px;\n}\n.headline {\n  display: flex;\n\
+                  \  margin-right: 4px;\n}\n.gradient-container {\n  position: relative;\n\
+                  }\n.gradient {\n  position: absolute;\n  transform: translate(3px,\
+                  \ -9px);\n  height: 36px;\n  width: 9px;\n}\n@media (prefers-color-scheme:\
+                  \ light) {\n  .container {\n    background-color: #fafafa;\n   \
+                  \ box-shadow: 0 0 0 1px #0000000f;\n  }\n  .headline-label {\n \
+                  \   color: #1f1f1f;\n  }\n  .chip {\n    background-color: #ffffff;\n\
+                  \    border-color: #d2d2d2;\n    color: #5e5e5e;\n    text-decoration:\
+                  \ none;\n  }\n  .chip:hover {\n    background-color: #f2f2f2;\n\
+                  \  }\n  .chip:focus {\n    background-color: #f2f2f2;\n  }\n  .chip:active\
+                  \ {\n    background-color: #d8d8d8;\n    border-color: #b6b6b6;\n\
+                  \  }\n  .logo-dark {\n    display: none;\n  }\n  .gradient {\n \
+                  \   background: linear-gradient(90deg, #fafafa 15%, #fafafa00 100%);\n\
+                  \  }\n}\n@media (prefers-color-scheme: dark) {\n  .container {\n\
+                  \    background-color: #1f1f1f;\n    box-shadow: 0 0 0 1px #ffffff26;\n\
+                  \  }\n  .headline-label {\n    color: #fff;\n  }\n  .chip {\n  \
+                  \  background-color: #2c2c2c;\n    border-color: #3c4043;\n    color:\
+                  \ #fff;\n    text-decoration: none;\n  }\n  .chip:hover {\n    background-color:\
+                  \ #353536;\n  }\n  .chip:focus {\n    background-color: #353536;\n\
+                  \  }\n  .chip:active {\n    background-color: #464849;\n    border-color:\
+                  \ #53575b;\n  }\n  .logo-light {\n    display: none;\n  }\n  .gradient\
+                  \ {\n    background: linear-gradient(90deg, #1f1f1f 15%, #1f1f1f00\
+                  \ 100%);\n  }\n}\n</style>\n<div class=\"container\">\n  <div class=\"\
+                  headline\">\n    <svg class=\"logo-light\" width=\"18\" height=\"\
+                  18\" viewBox=\"9 9 35 35\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"\
+                  >\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"\
+                  M42.8622 27.0064C42.8622 25.7839 42.7525 24.6084 42.5487 23.4799H26.3109V30.1568H35.5897C35.1821\
+                  \ 32.3041 33.9596 34.1222 32.1258 35.3448V39.6864H37.7213C40.9814\
+                  \ 36.677 42.8622 32.2571 42.8622 27.0064V27.0064Z\" fill=\"#4285F4\"\
+                  />\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"\
+                  M26.3109 43.8555C30.9659 43.8555 34.8687 42.3195 37.7213 39.6863L32.1258\
+                  \ 35.3447C30.5898 36.3792 28.6306 37.0061 26.3109 37.0061C21.8282\
+                  \ 37.0061 18.0195 33.9811 16.6559 29.906H10.9194V34.3573C13.7563\
+                  \ 39.9841 19.5712 43.8555 26.3109 43.8555V43.8555Z\" fill=\"#34A853\"\
+                  />\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"\
+                  M16.6559 29.8904C16.3111 28.8559 16.1074 27.7588 16.1074 26.6146C16.1074\
+                  \ 25.4704 16.3111 24.3733 16.6559 23.3388V18.8875H10.9194C9.74388\
+                  \ 21.2072 9.06992 23.8247 9.06992 26.6146C9.06992 29.4045 9.74388\
+                  \ 32.022 10.9194 34.3417L15.3864 30.8621L16.6559 29.8904V29.8904Z\"\
+                  \ fill=\"#FBBC05\"/>\n      <path fill-rule=\"evenodd\" clip-rule=\"\
+                  evenodd\" d=\"M26.3109 16.2386C28.85 16.2386 31.107 17.1164 32.9095\
+                  \ 18.8091L37.8466 13.8719C34.853 11.082 30.9659 9.3736 26.3109 9.3736C19.5712\
+                  \ 9.3736 13.7563 13.245 10.9194 18.8875L16.6559 23.3388C18.0195\
+                  \ 19.2636 21.8282 16.2386 26.3109 16.2386V16.2386Z\" fill=\"#EA4335\"\
+                  />\n    </svg>\n    <svg class=\"logo-dark\" width=\"18\" height=\"\
+                  18\" viewBox=\"0 0 48 48\" xmlns=\"http://www.w3.org/2000/svg\"\
+                  >\n      <circle cx=\"24\" cy=\"23\" fill=\"#FFF\" r=\"22\"/>\n\
+                  \      <path d=\"M33.76 34.26c2.75-2.56 4.49-6.37 4.49-11.26 0-.89-.08-1.84-.29-3H24.01v5.99h8.03c-.4\
+                  \ 2.02-1.5 3.56-3.07 4.56v.75l3.91 2.97h.88z\" fill=\"#4285F4\"\
+                  />\n      <path d=\"M15.58 25.77A8.845 8.845 0 0 0 24 31.86c1.92\
+                  \ 0 3.62-.46 4.97-1.31l4.79 3.71C31.14 36.7 27.65 38 24 38c-5.93\
+                  \ 0-11.01-3.4-13.45-8.36l.17-1.01 4.06-2.85h.8z\" fill=\"#34A853\"\
+                  />\n      <path d=\"M15.59 20.21a8.864 8.864 0 0 0 0 5.58l-5.03\
+                  \ 3.86c-.98-2-1.53-4.25-1.53-6.64 0-2.39.55-4.64 1.53-6.64l1-.22\
+                  \ 3.81 2.98.22 1.08z\" fill=\"#FBBC05\"/>\n      <path d=\"M24 14.14c2.11\
+                  \ 0 4.02.75 5.52 1.98l4.36-4.36C31.22 9.43 27.81 8 24 8c-5.93 0-11.01\
+                  \ 3.4-13.45 8.36l5.03 3.85A8.86 8.86 0 0 1 24 14.14z\" fill=\"#EA4335\"\
+                  />\n    </svg>\n    <div class=\"gradient-container\"><div class=\"\
+                  gradient\"></div></div>\n  </div>\n  <div class=\"carousel\">\n\
+                  \    <a class=\"chip\" href=\"https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOdY18gxtGH2T7JQwtyq-tnKg0vfOHVYqeGak1V_kw0YTHs_3avQ8X5LxWst4G8r_zZTtBohWXBg1xxGl7Bi4DmOPGAKbi89L_d-ZEkBH1hWbpGOjCIvq0wt3qK3kwkdD9S25G1TlkdDeWmBx5zteNPjIgJMDM9foy5dbmbTGmLbDiGE3s4nauGr33bLODli7I7X0GMv8WUTbbauYOUXKmfYFkOm_tKNP0YpsYJVjG1Q8bdcjAZvrcn05Rbgik\"\
+                  >companies similar to Siemens and Bosch in Europe by sector</a>\n\
+                  \    <a class=\"chip\" href=\"https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNQFNbEjbEKM-kDD_xIb4ZQIBd51hCddym2S01aYnBmtMXbHKo-giYSqj98lUB1LOEjT-YK6O0D7zPIJymW8qtmMChsoqWKYR5wkL1PBue_vYulDG9-M04nSlVE9p6HLOUoTC60zuqFt4SQROguVK7xXEM2e9JpzO7m_6_P2TbnpcEuN1mOjZwPw8CuiUoN6m6iufR1N-xmHG9eLBfhx4dsVdoqBzmsGU5J6WqSR9bzyceE0ShNai1MMJBHIRrXgbbDOeha0o-Zw-0Z_LA\"\
+                  >major European industrial and technology companies like Bosch and\
+                  \ Siemens</a>\n    <a class=\"chip\" href=\"https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIAiQIaBlwg-jnx4RZA1KSGH-Ka-PMCdv4ZgiUaYlXXkx_nh37DMdQt7-4gjhfTTb_YJef4T-K_G3NDooWlodhuRfES1w_6sy7jP-TMRU6hnrNGP92EaWcIfVnfh7odZGoKIkfooHHK2-UJdxIqGCJ_TwpGZWI3StWuBieq4o_kdXD37hqvbQVPO1zTCKfHishRe3FvVTbXGSr1oRMjkr02v_Qi4fSFnTGkDd8zwnytHHScTCIYdxRibYsoX8H0gMH1BJV4kLTb7KIJQg=\"\
+                  >European industrial conglomerates with strong innovation and market\
+                  \ moat</a>\n  </div>\n</div>\n"
+                sdk_blob: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                rendered_content: null
+              __pydantic_private__: null
+            web_search_queries:
+            - major European industrial and technology companies like Bosch and Siemens
+            - European industrial conglomerates with strong innovation and market
+              moat
+            - companies similar to Siemens and Bosch in Europe by sector
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        finish_reason: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: 86
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 605
+        tool_use_prompt_token_count: 166
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 166
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 876
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Exploring Industrial Leaders**
+
+
+                  I''ve just finished compiling detailed information on ABB and Schneider
+                  Electric, both prominent in the Industrial Technology & Automation
+                  field. ABB''s strengths lie in industrial automation, robotics,
+                  and electrification, with a strong emphasis on digital solutions
+                  and their ABB Ability software.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 8
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 8
+        candidates_token_count: 85
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 677
+        tool_use_prompt_token_count: 786
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 786
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 1567
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Reviewing Industry Titans**
+
+
+                  I''ve deepened my dive into ABB and Schneider Electric, focusing
+                  on their innovation. I''ve highlighted ABB''s digitalization, robotics,
+                  and power efficiency, particularly their ABB Ability software. With
+                  Schneider Electric, I''ve honed in on EcoStruxure, AI, and their
+                  strong sustainability focus, giving them a core competitive advantage.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 8
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 8
+        candidates_token_count: 84
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 925
+        tool_use_prompt_token_count: 786
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 786
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 1814
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Shifting Focus, Broadening Scope**
+
+
+                  I''m now diving into ASML, Dassault Systèmes, Continental, and BASF,
+                  expanding my scope beyond industrial automation. I''m prioritizing
+                  innovation and competitive advantages, just as before, ensuring
+                  I understand their core strengths. I''m aiming to categorize them
+                  effectively and succinctly. The research will feed into a more comprehensive
+                  final report, still aiming for topic grouping and in-depth entries.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 8
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 8
+        candidates_token_count: 83
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1142
+        tool_use_prompt_token_count: 786
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 786
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 2030
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Evaluating Recent Data**
+
+
+                  I''ve just successfully gathered in-depth data on the remaining
+                  companies. My focus now is on ASML''s advancements, particularly
+                  their Extreme Ultraviolet (EUV) lithography and High-NA EUV systems,
+                  which are crucial for 2nm chips and beyond. I''m also digging into
+                  computational lithography as it relates to this.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 136
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1212
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 3308
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Examining New Developments**
+
+
+                  I''ve just successfully researched and analyzed recent data on Dassault
+                  Systèmes and Continental. I''m focusing on the 3DEXPERIENCE platform
+                  and its use of generative AI. I am also investigating the impact
+                  on competition of Dassault''s dominance in 3D design software. My
+                  attention has turned to Continental''s advancements in automotive
+                  technology, especially in autonomous driving and electrification,
+                  as these are promising.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 135
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1457
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 3552
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Deep Diving into Moats**
+
+
+                  I''ve just finished a deep dive into the moats of ASML, Dassault
+                  Systèmes, Continental, and BASF. ASML''s near-monopoly and advanced
+                  tech are formidable. Dassault''s high switching costs and network
+                  effect are key. Continental''s resilient tires business and strong
+                  R&D are noteworthy. Finally, BASF''s Verbund system and global leadership
+                  are a significant advantage.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 134
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1701
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 3795
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '**Summarizing Final Data**
+
+
+                  I''ve wrapped up compiling detailed information on all selected
+                  companies, focusing on ASML''s EUV lithography and its role in 2nm
+                  chip development, Dassault''s 3DEXPERIENCE platform with generative
+                  AI, Continental''s advancements in autonomous driving and electrification,
+                  and BASF''s sustainable chemistry initiatives and Verbund system.
+                  My next step is to format all the research.
+
+
+
+                  '
+                thought: true
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+                thought: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 133
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 3833
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: The European industrial landscape is characterized by a group
+                  of highly specialized and diversified conglomerates similar to Bosch
+                  and Siemens. These companies maintain their market leadership through
+                  deep R&D investment, a focus on the Industrial Internet of Things
+                  (IIoT), sustainability
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 181
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 3881
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ', and decades-long customer relationships, forming powerful
+                  economic "moats."
+
+
+                  Here is a list of major European industrial and technology companies,
+                  grouped by their core focus, innovation drivers, and competitive
+                  moat.
+
+
+                  | Company | Country | Topic ('
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 230
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 3930
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: 'Core Business) | Key Innovation Focus | Competitive Moat (Durable
+                  Advantage) |
+
+                  | :--- | :--- | :--- | :--- | :--- |
+
+                  | **ABB** | Switzerland / Sweden | Industrial Automation, Robotics,
+                  Elect'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 280
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 3980
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: rification & Motion | **Digitalization & Sustainable Solutions:**
+                  Integrated digital-industrial platform (*ABB Ability™*), advanced
+                  AI-driven robotics (e.g., collaborative robots, AMRs), and high-efficiency
+                  power products for smart grids.
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 328
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4028
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' | **Proprietary Technology & Installed Base:** Extensive intellectual
+                  property in robotics and power systems, decades of reliability building
+                  trust with large industrial clients, and a vast global service network.
+                  |
+
+                  | **Schneider Electric** | France | Energy Management, Digital'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 378
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4078
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' Automation, Smart Infrastructure | **Energy Digitalization:**
+                  IoT-enabled *EcoStruxure™* platform for optimizing energy in buildings,
+                  data centers, and industries, and pioneering Energy-as-a-Service
+                  (EaaS) business'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 426
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4126
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' models. | **Sustainability as a Competitive Edge:** Market
+                  leadership in a mission-critical field (energy efficiency) backed
+                  by significant customer switching costs from integrated software/hardware
+                  solutions and a focus on decarbonization. |
+
+                  | **Dassault Systèmes** | France | 3D Design Software, Product Lifecycle
+                  Management (PLM), Virtual Twin | **Virtual Twin Technology & AI:**
+                  The **3DEXPERIENCE platform** for creating'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 513
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4213
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' virtual replicas of products and processes, integrating Generative
+                  AI, and defining "3D UNIV+RSES" (virtual-plus-real environments).
+                  | **High Switching Costs & Network Effect:** Deep entrenchment in
+                  critical industries (e.'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 562
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4262
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: 'g., used to design 90% of all aircraft), creating high switching
+                  costs for major customers and a *de facto* industry standard. |
+
+                  | **ASML** | Netherlands | Semiconductor Manufacturing Equipment
+                  (Phot'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 606
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4306
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: olithography) | **Extreme Ultraviolet (EUV) Lithography:** Sole
+                  supplier of the world's most advanced lithography machines, pioneering
+                  High-NA EUV for producing next-generation microchips (2nm nodes
+                  and below). |
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 654
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4354
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' **Technological Near-Monopoly:** A unique and indispensable
+                  position as the *only* provider of EUV systems, backed by decades
+                  of R&D, massive IP, and immense capital barriers to entry for competitors.
+                  |
+
+                  | **BASF** | Germany | Chemicals, Advanced Materials, Agricultural
+                  Solutions | **Sustainable Chemistry & Digital R&D:** Developing
+                  products with reduced or net-zero Product Carbon Footprint (PCF),
+                  materials'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 741
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4441
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' for battery electric vehicle (BEV) components, and accelerating
+                  R&D using digitalization and a proprietary supercomputer (*Quriosity*).
+                  | **"Verbund" Production System:** A highly integrated, large-scale
+                  production setup that creates'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 789
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4489
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' cost efficiencies and resource optimization at major sites
+                  that competitors struggle to replicate, maintaining a global top-three
+                  market position in core businesses. |
+
+                  | **Continental AG** | Germany | Automotive Technology, Tires'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 829
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4529
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ', Industrial Solutions | **Future Mobility:** Heavy investment
+                  in advanced driver-assistance systems (ADAS), software-defined vehicle
+                  architectures, electrification of powertrains, and digital/smart
+                  tire solutions. | **Diversification & Legacy Ties:** The combination
+                  of'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 877
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4577
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' a highly profitable and resilient **Tires business** that
+                  generates significant cash flow, coupled with long-standing, deep-seated
+                  supply relationships with global automotive manufacturers (OEMs).
+                  |
+
+                  '
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 913
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4613
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: '| **Airbus** | Netherlands / France | Aerospace and Defence
+                  | **Sustainable Aviation:** Developing zero-emission flights, pioneering
+                  hydrogen-powered aircraft concepts, and continuous innovation in
+                  aircraft materials for better fuel efficiency. | **Regulatory &
+                  Programmatic'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: null
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks: null
+            grounding_supports: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set {}
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 961
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4661
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
+- !!python/object:google.genai.types.GenerateContentResponse
+  __dict__:
+    automatic_function_calling_history: null
+    candidates:
+    - !!python/object:google.genai.types.Candidate
+      __dict__:
+        avg_logprobs: null
+        citation_metadata: null
+        content: !!python/object:google.genai.types.Content
+          __dict__:
+            parts:
+            - !!python/object:google.genai.types.Part
+              __dict__:
+                code_execution_result: null
+                executable_code: null
+                file_data: null
+                function_call: null
+                function_response: null
+                inline_data: null
+                text: ' Moat:** Extremely high regulatory barriers (certification
+                  process for new aircraft), colossal initial R&D costs, and a duopoly
+                  structure (with Boeing) creating a near-guaranteed market share
+                  for large-scale commercial programs. |'
+                thought: null
+                thought_signature: null
+                video_metadata: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                text: null
+              __pydantic_private__: null
+            role: model
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            parts: null
+            role: null
+          __pydantic_private__: null
+        finish_message: null
+        finish_reason: !!python/object/apply:google.genai.types.FinishReason
+        - STOP
+        grounding_metadata: !!python/object:google.genai.types.GroundingMetadata
+          __dict__:
+            google_maps_widget_context_token: null
+            grounding_chunks:
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: financialcontent.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-IjyL4F6N-TzIVyETHnYbnxB0dqRbs4vrQPk2zdI_yb_xzi0yURWrJ20Z3JCg2NWAc52b5N2-oG9UnMLjETS5HBEyp03yKDCciczqg5cEIqgNKCG0-83XoVf_qKp-Fi5kMae0u_OW28fat0ZziQB10ghaMhRhWx3jx1uPrClEJvNooERSbTdGZXLPPz9_ntjwfpX0VMiNMZtLOiPQeBfpD5rCk1n6fnXgEbxfioGvVDC3iMn-7kjean5XnFqgF5SxfRiD
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: ainvest.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHteiq6KtaS5CdgoYBVJMgXPtQizWovgJDq95abLjoCs7ovJ4mIlWFq3ucVsF_x_ISBiQQaYzyZLjCS4_lOgQZPvWWjzrtGQISKRKofrVUjW23o61BVNGUVnODhbNUWEf8TJiOUS7xMBmPrvwAde7Tsfw9ubgUstKF-Wnkooa5NrspdzkqtUbU=
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: etoro.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7BugRkgfi70JP1he0gNcGJMi476U3d7vlCbgBvU9x1KapX9JdzCZKbhmqG3CWpZ9vZFYnIwMAwUSltf6mgfC6jJhDeDa-qIBZsglo3sYfRExyIC2Hpr3BB3mflMm5lWLSSF37PhQqvt6IhmzyCwC85Gv96ZOxoYc1vlPWs8WDy0N9qMqGAYIlUExB054rYs6cHjAGQA6puaitEpEE1qO3NUEX
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: morningstar.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0C3Yyt4tzys_2U47Co0_MoztO1A6GQaedccRtu2-oGX4hVD5nDtCk8f9zm-rQg8RMabbLfB7hiX99L-ifF0s3Qq5Trddr_JBuVeHCxAx3co9gZnHbTGTM5J89fp4qjz_b06YQ0yQfpxFASkxgGdN6241fo8F7nqqzlkWERP4Upn7KQAWUFP7gU9k_cR64Y6yJ4dOG8vjQqe0VRgzjJjx0QPljBsAxfbholtMo6yhUaBV-Ns9T25uK4hb2dJdu
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: tipranks.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGikmiDmKXC8o5AzXIkAtt_EviNNyze0ln1rjY0pm0DXW2pdzNnISS092b6XS25OlNg61ZewfYL5VN9z0oHUW1K-9le1Shz9XR6Yl56BT3taSGTe0pZuK_jgUp0todceZe6dLpDGRt7P9akqprIVUKdriLZTSe1vs37PbYgd_qM6lqiT6q1z30M
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: indianchemicalnews.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7rdm4iYu1nUqboiE0KLPAhtB2Lch7YrwGBPMUfxPfbjy84zh1W6hM57qP8Sen4higQd3OW9kcthIgYuwp_RvBb6fXIoIVm4qgdbU5tqTNf6YfLWKx-4kluYSolo9dTlNOIjribOXkcBwCq4vaEl2KjirbMkjankz_ExtItmfMnUuzucRYfTS2lxKjv1cfwmunBvqHOTlk11AN9fh2gJvA1F0oQYjETxXZAQ==
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: pcimag.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEe39XGAitvH1tP0Wxlsbh4csmxYt2a9vOoWUyto15ojBDuiuRZjpR8g9isUfGe6Cl4wks_71Yvd_bDMe-o2ZFmCIcxJQfCJk8L_yvEnnorCzfPLKveN7tv604CLW4DfEFpBzG_Ggs4HtnvMlKWVq2zy76zKuA889PhQJCjXeA8ioB5uSUktIm8gdO-SRIwd7KNPMmATD33d4nd
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: camissa-am.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqEFK-Vkf52z0fkPqDMSRiavtu-23LYjn-Pl4llpp-fEEy72RMEV59-DfE92bwRcw9pvr3FX4hl3c2WUgwi-jBBqdwIrMKZ_CYzhR35DV_dLab-X8WMHnqVSJM_SW_kjmqk44iv02ItpyD0r4IOChR_TJ_XDYL-1yxj0MeSiR1xJkQLiHrgmpStYCgSXNCMXxu3rFP5hKFQY1jml4VNBMJI1PXfdUdrW3C4N8MAqiAZg==
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingChunk
+              __dict__:
+                maps: null
+                retrieved_context: null
+                web: !!python/object:google.genai.types.GroundingChunkWeb
+                  __dict__:
+                    domain: null
+                    title: continental.com
+                    uri: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiOsebbh2UAyFw8gtm-yLMsXX2qXtVdZ418j5XQ9tjPnYiiAmbyvj4S9P5E8NqJVdSehODVUHPB38CBop4-exqcD_46ZvHfaahDVuRkVceKABNJjtwfAInPVmy2a35NMWcemkwMY4Hs13W0cEZLLAx4S8SxOraJEoSkcUb0DIk4OGlNA==
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    title: null
+                    uri: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                web: null
+              __pydantic_private__: null
+            grounding_supports:
+            - !!python/object:google.genai.types.GroundingSupport
+              __dict__:
+                confidence_scores: null
+                grounding_chunk_indices:
+                - 0
+                - 1
+                - 2
+                segment: !!python/object:google.genai.types.Segment
+                  __dict__:
+                    end_index: 1705
+                    part_index: null
+                    start_index: 1473
+                    text: '| **Sustainability as a Competitive Edge:** Market leadership
+                      in a mission-critical field (energy efficiency) backed by significant
+                      customer switching costs from integrated software/hardware solutions
+                      and a focus on decarbonization.'
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    end_index: null
+                    start_index: null
+                    text: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                grounding_chunk_indices: null
+                segment: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingSupport
+              __dict__:
+                confidence_scores: null
+                grounding_chunk_indices:
+                - 3
+                segment: !!python/object:google.genai.types.Segment
+                  __dict__:
+                    end_index: 2240
+                    part_index: null
+                    start_index: 2025
+                    text: '| **High Switching Costs & Network Effect:** Deep entrenchment
+                      in critical industries (e.g., used to design 90% of all aircraft),
+                      creating high switching costs for major customers and a *de
+                      facto* industry standard.'
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    end_index: null
+                    start_index: null
+                    text: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                grounding_chunk_indices: null
+                segment: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingSupport
+              __dict__:
+                confidence_scores: null
+                grounding_chunk_indices:
+                - 0
+                - 2
+                - 4
+                segment: !!python/object:google.genai.types.Segment
+                  __dict__:
+                    end_index: 2726
+                    part_index: null
+                    start_index: 2524
+                    text: '| **Technological Near-Monopoly:** A unique and indispensable
+                      position as the *only* provider of EUV systems, backed by decades
+                      of R&D, massive IP, and immense capital barriers to entry for
+                      competitors.'
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    end_index: null
+                    start_index: null
+                    text: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                grounding_chunk_indices: null
+                segment: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingSupport
+              __dict__:
+                confidence_scores: null
+                grounding_chunk_indices:
+                - 5
+                - 6
+                segment: !!python/object:google.genai.types.Segment
+                  __dict__:
+                    end_index: 3335
+                    part_index: null
+                    start_index: 3072
+                    text: '| **"Verbund" Production System:** A highly integrated,
+                      large-scale production setup that creates cost efficiencies
+                      and resource optimization at major sites that competitors struggle
+                      to replicate, maintaining a global top-three market position
+                      in core businesses.'
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    end_index: null
+                    start_index: null
+                    text: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                grounding_chunk_indices: null
+                segment: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingSupport
+              __dict__:
+                confidence_scores: null
+                grounding_chunk_indices:
+                - 7
+                - 8
+                segment: !!python/object:google.genai.types.Segment
+                  __dict__:
+                    end_index: 3866
+                    part_index: null
+                    start_index: 3614
+                    text: '| **Diversification & Legacy Ties:** The combination of
+                      a highly profitable and resilient **Tires business** that generates
+                      significant cash flow, coupled with long-standing, deep-seated
+                      supply relationships with global automotive manufacturers (OEMs).'
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    end_index: null
+                    start_index: null
+                    text: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                grounding_chunk_indices: null
+                segment: null
+              __pydantic_private__: null
+            - !!python/object:google.genai.types.GroundingSupport
+              __dict__:
+                confidence_scores: null
+                grounding_chunk_indices:
+                - 1
+                segment: !!python/object:google.genai.types.Segment
+                  __dict__:
+                    end_index: 4371
+                    part_index: null
+                    start_index: 4114
+                    text: '| **Regulatory & Programmatic Moat:** Extremely high regulatory
+                      barriers (certification process for new aircraft), colossal
+                      initial R&D costs, and a duopoly structure (with Boeing) creating
+                      a near-guaranteed market share for large-scale commercial programs.'
+                  __pydantic_extra__: null
+                  __pydantic_fields_set__: !!set
+                    end_index: null
+                    start_index: null
+                    text: null
+                  __pydantic_private__: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                grounding_chunk_indices: null
+                segment: null
+              __pydantic_private__: null
+            retrieval_metadata: null
+            retrieval_queries: null
+            search_entry_point: !!python/object:google.genai.types.SearchEntryPoint
+              __dict__:
+                rendered_content: "<style>\n.container {\n  align-items: center;\n\
+                  \  border-radius: 8px;\n  display: flex;\n  font-family: Google\
+                  \ Sans, Roboto, sans-serif;\n  font-size: 14px;\n  line-height:\
+                  \ 20px;\n  padding: 8px 12px;\n}\n.chip {\n  display: inline-block;\n\
+                  \  border: solid 1px;\n  border-radius: 16px;\n  min-width: 14px;\n\
+                  \  padding: 5px 16px;\n  text-align: center;\n  user-select: none;\n\
+                  \  margin: 0 8px;\n  -webkit-tap-highlight-color: transparent;\n\
+                  }\n.carousel {\n  overflow: auto;\n  scrollbar-width: none;\n  white-space:\
+                  \ nowrap;\n  margin-right: -12px;\n}\n.headline {\n  display: flex;\n\
+                  \  margin-right: 4px;\n}\n.gradient-container {\n  position: relative;\n\
+                  }\n.gradient {\n  position: absolute;\n  transform: translate(3px,\
+                  \ -9px);\n  height: 36px;\n  width: 9px;\n}\n@media (prefers-color-scheme:\
+                  \ light) {\n  .container {\n    background-color: #fafafa;\n   \
+                  \ box-shadow: 0 0 0 1px #0000000f;\n  }\n  .headline-label {\n \
+                  \   color: #1f1f1f;\n  }\n  .chip {\n    background-color: #ffffff;\n\
+                  \    border-color: #d2d2d2;\n    color: #5e5e5e;\n    text-decoration:\
+                  \ none;\n  }\n  .chip:hover {\n    background-color: #f2f2f2;\n\
+                  \  }\n  .chip:focus {\n    background-color: #f2f2f2;\n  }\n  .chip:active\
+                  \ {\n    background-color: #d8d8d8;\n    border-color: #b6b6b6;\n\
+                  \  }\n  .logo-dark {\n    display: none;\n  }\n  .gradient {\n \
+                  \   background: linear-gradient(90deg, #fafafa 15%, #fafafa00 100%);\n\
+                  \  }\n}\n@media (prefers-color-scheme: dark) {\n  .container {\n\
+                  \    background-color: #1f1f1f;\n    box-shadow: 0 0 0 1px #ffffff26;\n\
+                  \  }\n  .headline-label {\n    color: #fff;\n  }\n  .chip {\n  \
+                  \  background-color: #2c2c2c;\n    border-color: #3c4043;\n    color:\
+                  \ #fff;\n    text-decoration: none;\n  }\n  .chip:hover {\n    background-color:\
+                  \ #353536;\n  }\n  .chip:focus {\n    background-color: #353536;\n\
+                  \  }\n  .chip:active {\n    background-color: #464849;\n    border-color:\
+                  \ #53575b;\n  }\n  .logo-light {\n    display: none;\n  }\n  .gradient\
+                  \ {\n    background: linear-gradient(90deg, #1f1f1f 15%, #1f1f1f00\
+                  \ 100%);\n  }\n}\n</style>\n<div class=\"container\">\n  <div class=\"\
+                  headline\">\n    <svg class=\"logo-light\" width=\"18\" height=\"\
+                  18\" viewBox=\"9 9 35 35\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"\
+                  >\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"\
+                  M42.8622 27.0064C42.8622 25.7839 42.7525 24.6084 42.5487 23.4799H26.3109V30.1568H35.5897C35.1821\
+                  \ 32.3041 33.9596 34.1222 32.1258 35.3448V39.6864H37.7213C40.9814\
+                  \ 36.677 42.8622 32.2571 42.8622 27.0064V27.0064Z\" fill=\"#4285F4\"\
+                  />\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"\
+                  M26.3109 43.8555C30.9659 43.8555 34.8687 42.3195 37.7213 39.6863L32.1258\
+                  \ 35.3447C30.5898 36.3792 28.6306 37.0061 26.3109 37.0061C21.8282\
+                  \ 37.0061 18.0195 33.9811 16.6559 29.906H10.9194V34.3573C13.7563\
+                  \ 39.9841 19.5712 43.8555 26.3109 43.8555V43.8555Z\" fill=\"#34A853\"\
+                  />\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"\
+                  M16.6559 29.8904C16.3111 28.8559 16.1074 27.7588 16.1074 26.6146C16.1074\
+                  \ 25.4704 16.3111 24.3733 16.6559 23.3388V18.8875H10.9194C9.74388\
+                  \ 21.2072 9.06992 23.8247 9.06992 26.6146C9.06992 29.4045 9.74388\
+                  \ 32.022 10.9194 34.3417L15.3864 30.8621L16.6559 29.8904V29.8904Z\"\
+                  \ fill=\"#FBBC05\"/>\n      <path fill-rule=\"evenodd\" clip-rule=\"\
+                  evenodd\" d=\"M26.3109 16.2386C28.85 16.2386 31.107 17.1164 32.9095\
+                  \ 18.8091L37.8466 13.8719C34.853 11.082 30.9659 9.3736 26.3109 9.3736C19.5712\
+                  \ 9.3736 13.7563 13.245 10.9194 18.8875L16.6559 23.3388C18.0195\
+                  \ 19.2636 21.8282 16.2386 26.3109 16.2386V16.2386Z\" fill=\"#EA4335\"\
+                  />\n    </svg>\n    <svg class=\"logo-dark\" width=\"18\" height=\"\
+                  18\" viewBox=\"0 0 48 48\" xmlns=\"http://www.w3.org/2000/svg\"\
+                  >\n      <circle cx=\"24\" cy=\"23\" fill=\"#FFF\" r=\"22\"/>\n\
+                  \      <path d=\"M33.76 34.26c2.75-2.56 4.49-6.37 4.49-11.26 0-.89-.08-1.84-.29-3H24.01v5.99h8.03c-.4\
+                  \ 2.02-1.5 3.56-3.07 4.56v.75l3.91 2.97h.88z\" fill=\"#4285F4\"\
+                  />\n      <path d=\"M15.58 25.77A8.845 8.845 0 0 0 24 31.86c1.92\
+                  \ 0 3.62-.46 4.97-1.31l4.79 3.71C31.14 36.7 27.65 38 24 38c-5.93\
+                  \ 0-11.01-3.4-13.45-8.36l.17-1.01 4.06-2.85h.8z\" fill=\"#34A853\"\
+                  />\n      <path d=\"M15.59 20.21a8.864 8.864 0 0 0 0 5.58l-5.03\
+                  \ 3.86c-.98-2-1.53-4.25-1.53-6.64 0-2.39.55-4.64 1.53-6.64l1-.22\
+                  \ 3.81 2.98.22 1.08z\" fill=\"#FBBC05\"/>\n      <path d=\"M24 14.14c2.11\
+                  \ 0 4.02.75 5.52 1.98l4.36-4.36C31.22 9.43 27.81 8 24 8c-5.93 0-11.01\
+                  \ 3.4-13.45 8.36l5.03 3.85A8.86 8.86 0 0 1 24 14.14z\" fill=\"#EA4335\"\
+                  />\n    </svg>\n    <div class=\"gradient-container\"><div class=\"\
+                  gradient\"></div></div>\n  </div>\n  <div class=\"carousel\">\n\
+                  \    <a class=\"chip\" href=\"https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQpRzKt_PugflpIpeKyilv-_r21ATuaNtwEXK_fzGCGp9F-YEo6CwULh0eFgMlFEupkhRaVmZjfFOqL789O0kh-Cero3pl3WH4OpiDRlXceFNrJyf3xWgeN2tEr2w5KeOU396K_yn-qnuL9y2zJvRrK1hozL6WqOHils58eQ5pSPQByHH6Q3WUanfQEPA2fnWNMwZMOnv5wOw_F3hnOvtLC9EV_2aeei3N6-d3bh3RUiRZJoiHufP_TcH_oMw1IexWqHDWAiss\"\
+                  >Dassault Systèmes 3DEXPERIENCE innovation and competitive moat</a>\n\
+                  \    <a class=\"chip\" href=\"https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSmIU17UoNDJvSR-caYXuC6zvHYPIVkH9-fChMBBeXKktX8BpHvOHB5SxXSWinEZMnCvC-d3yuk-vsN6hKjMFV9sOjlZsh_yE4IemYi3fySPToWyLe4uJPRJBLlNgWeaEQKbKnqfzV-JrBfWX0qNOauBaPFF5FYg7HGhEFXxQZWw6fo7fQ31oM95UgKTAVVmfGdXIwGinUFIrHNrZM2iz3lyi6PmwRIQ==\"\
+                  >ASML innovation and competitive moat</a>\n    <a class=\"chip\"\
+                  \ href=\"https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5TA-ZbCIgUR8PVOG4ijajY97E2AYsqhPItoN1FUtr3r_0-8cCBoP7dQFLiF38n6tYBCDOXSLsXjHkZLxRhn1rJDTR7gWj9rhuqpmgQ_rrJCXAtxjK35rs2BrrMM1rQV_scsexQC64rwyPvoe2FeRFopm7jeTbncRS2D-Ql-81QUa0yjzI30UXvY_Q8wTTwr7d4zh_G7I1UtvAWrKFW33PkvU0EP0INgbupA1xKsObdM9hgmONWzlE\"\
+                  >Continental AG innovation areas and competitive moat</a>\n    <a\
+                  \ class=\"chip\" href=\"https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdl1Q-Sk8j8V1uOPPNaZjeok7VOUw6Tr0cTvUCECWDyIO0aBGlmgShSu4t3QnSaxzfXX2yOeaVY2S6E6LEAqckFGASbs2QMrhfLFc43kd7nFLDCXNmnGvWcwRJn3YKNmr28tmlD6X4NfIZuVvSRGFAIkxSFmdqwV0bFt84fyx63f-QsR6sMjki3YDE8YmvZg6pwu5byBDkapDew8_vWnVj2yy2LqWhfXwVZu3qbdaqjA==\"\
+                  >BASF innovation strategy and competitive moat</a>\n  </div>\n</div>\n"
+                sdk_blob: null
+              __pydantic_extra__: null
+              __pydantic_fields_set__: !!set
+                rendered_content: null
+              __pydantic_private__: null
+            web_search_queries:
+            - ASML innovation and competitive moat
+            - Dassault Systèmes 3DEXPERIENCE innovation and competitive moat
+            - Continental AG innovation areas and competitive moat
+            - BASF innovation strategy and competitive moat
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            grounding_chunks: null
+            grounding_supports: null
+            search_entry_point: null
+            web_search_queries: null
+          __pydantic_private__: null
+        index: 0
+        logprobs_result: null
+        safety_ratings: null
+        token_count: null
+        url_context_metadata: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        content: null
+        finish_reason: null
+        grounding_metadata: null
+        index: null
+      __pydantic_private__: null
+    create_time: null
+    model_version: gemini-2.5-flash-preview-09-2025
+    parsed: null
+    prompt_feedback: null
+    response_id: FMLgaIHWJJTrnsEPr9WSsQ4
+    sdk_http_response: !!python/object:google.genai.types.HttpResponse
+      __dict__:
+        body: null
+        headers:
+          alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content-disposition: attachment
+          content-type: text/event-stream
+          date: Sat, 04 Oct 2025 06:43:32 GMT
+          server: scaffolding on HTTPServer2
+          server-timing: gfet4t7; dur=1312
+          transfer-encoding: chunked
+          vary: Origin, X-Origin, Referer
+          x-content-type-options: nosniff
+          x-frame-options: SAMEORIGIN
+          x-xss-protection: '0'
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        headers: null
+      __pydantic_private__: null
+    usage_metadata: !!python/object:google.genai.types.GenerateContentResponseUsageMetadata
+      __dict__:
+        cache_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 11
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        cached_content_token_count: 11
+        candidates_token_count: 1007
+        candidates_tokens_details: null
+        prompt_token_count: 19
+        prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 19
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        thoughts_token_count: 1740
+        tool_use_prompt_token_count: 1941
+        tool_use_prompt_tokens_details:
+        - !!python/object:google.genai.types.ModalityTokenCount
+          __dict__:
+            modality: !!python/object/apply:google.genai.types.MediaModality
+            - TEXT
+            token_count: 1941
+          __pydantic_extra__: null
+          __pydantic_fields_set__: !!set
+            modality: null
+            token_count: null
+          __pydantic_private__: null
+        total_token_count: 4707
+        traffic_type: null
+      __pydantic_extra__: null
+      __pydantic_fields_set__: !!set
+        cache_tokens_details: null
+        cached_content_token_count: null
+        candidates_token_count: null
+        prompt_token_count: null
+        prompt_tokens_details: null
+        thoughts_token_count: null
+        tool_use_prompt_token_count: null
+        tool_use_prompt_tokens_details: null
+        total_token_count: null
+      __pydantic_private__: null
+  __pydantic_extra__: null
+  __pydantic_fields_set__: !!set
+    candidates: null
+    model_version: null
+    response_id: null
+    sdk_http_response: null
+    usage_metadata: null
+  __pydantic_private__: null
