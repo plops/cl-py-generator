@@ -13,7 +13,7 @@
 				(merge-pathnames #P"p01_top"
 						 "example/163_fasthtml_sse/"))
  `(do0
-   (imports (random time))
+   (imports (random time asyncio))
    (imports-from (loguru logger)
 		 (fasthtml.common *))
           
@@ -52,7 +52,7 @@
 			 (setf data (Div (Article (random.randint 1 100))
 					 (Article (random.randint 1 100))))
 			 (yield (sse_message data))
-			 (await (time.sleep 1)))))
+			 (await (asyncio.sleep 1)))))
 
    (@rt (string "/number-stream"))
    (space async (def get ()

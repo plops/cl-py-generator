@@ -1,5 +1,6 @@
 import random
 import time
+import asyncio
 from loguru import logger
 from fasthtml.common import *
 
@@ -37,7 +38,7 @@ async def number_generator():
     while not (shutdown_event.is_set()):
         data = Div(Article(random.randint(1, 100)), Article(random.randint(1, 100)))
         yield (sse_message(data))
-        await time.sleep(1)
+        await asyncio.sleep(1)
 
 
 @rt("/number-stream")
