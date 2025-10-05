@@ -35,7 +35,7 @@
 ;; [ ] different language outputs (and instructions with different languages)
 ;; [ ] login (first only for me)
 ;; [ ] oauth
-;; [ ] google genai with async responses
+;; [ ] google genai with async responses (and thinking for the flash model)
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
