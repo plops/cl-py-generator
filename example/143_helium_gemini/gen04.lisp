@@ -29,7 +29,7 @@
 
 
 ;; TODO (new implementation)
-;; [ ] migrate data to postgres
+;; [ ] migrate data to postgres and use it instead of sqlite
 ;; [ ] sse
 ;; [ ] forms with dataclass
 ;; [ ] different language outputs (and instructions with different languages)
