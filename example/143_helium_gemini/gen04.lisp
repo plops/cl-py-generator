@@ -27,6 +27,16 @@
 ;; [X] Browsers sometimes translate the model selector, this might mess up the model lookup
 ;; [X] Log to file with timestamps
 
+
+;; TODO (new implementation)
+;; [ ] migrate data to postgres
+;; [ ] sse
+;; [ ] forms with dataclass
+;; [ ] different language outputs (and instructions with different languages)
+;; [ ] login (first only for me)
+;; [ ] oauth
+;; [ ] google genai with async responses
+
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
 ;; [X] Bring Timestamps into HH:MM:SS format
