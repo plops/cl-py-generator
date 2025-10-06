@@ -199,3 +199,16 @@ stateDiagram-v2
     COMPLETED --> [*]
     FAILED --> [*]
 ```
+
+### 5. API Routes and Endpoints
+
+This section provides a detailed overview of all the HTTP routes supported by the `p04_host.py` application. These endpoints are designed to be consumed by an HTMX-powered front-end, handling everything from serving the main user interface to processing form submissions and providing real-time updates via polling.
+
+| Endpoint | Method | Description | Request Data | Success Response |
+| :--- | :--- | :--- | :--- | :--- |
+| `/` | `GET` | Renders the main application page. This includes the submission form and a list of recently completed summaries fetched from the SQLite database. | - | Full HTML page (`text/html`). |
+| `/process_transcript` | `POST` | The primary action endpoint that initiates a new summarization job. It creates a record in the `summaries` table, starts the `download_and_generate` function in a background thread, and returns an initial placeholder UI. | Form Data (`source_url`, `manual_transcript`, `model_id`). | **HTML Partial.** Returns a `<div>` containing the HTMX attributes needed to start polling the `/generations/{identifier}` endpoint for the newly created job. |
+| `/generations/{id}` | `GET` | **HTMX Polling Endpoint.** Provides real-time progress updates for a specific job. It is polled every second by the client. The server checks the job's status in the database (`summary_done`, `timestamps_done`) and returns the appropriate HTML partial. | `id` (Path Parameter). | **HTML Partial.** Returns an "in-progress" view while the job is running. When complete, it returns the final formatted summary and includes an `HX-Trigger` header to stop the polling. |
+| `/yt/{id}` | `GET` | Displays the full, final, YouTube-formatted summary on a dedicated page. This is the target for the "View full" links. | `id` (Path Parameter). | Full HTML page showing the final formatted summary and relevant metadata. |
+| `/delete/{id}` | `POST` | Deletes a specific summarization job record from the `summaries` table in the database. | `id` (Path Parameter). | An empty response (`HTTP 200 OK`) with an `HX-Refresh` header to instruct the client to reload the page, removing the deleted item from the list. |
+| `/static/{filename}` | `GET` | Serves static files, such as the `pico.classless.min.css` stylesheet, required by the application's front-end. | `filename` (Path Parameter). | The requested static file (e.g., `text/css`). |
