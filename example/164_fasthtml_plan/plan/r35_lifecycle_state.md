@@ -13,7 +13,7 @@ stateDiagram-v2
     [*] --> PENDING: User submits request
 
     PENDING --> DOWNLOADING: Workflow starts processing job
-    note on link
+    note right of PENDING
         e.g., fetching transcript
     end note
 
@@ -22,7 +22,7 @@ stateDiagram-v2
 
     GENERATING --> COMPLETED: AI summary stream finishes
     GENERATING --> FAILED: AI generation error or timeout
-    note on link
+    note right of GENERATING
         e.g., API key issue, content safety filter
     end note
 
