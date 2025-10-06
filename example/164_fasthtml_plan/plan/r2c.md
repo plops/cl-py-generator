@@ -45,10 +45,10 @@ erDiagram
         INTEGER output_tokens
         INTEGER thinking_tokens "Tokens used during the 'thinking' phase"
         BOOLEAN grounding_used "Flag if Google Search was used"
-        NUMERIC(10, 8) cost_input_usd
-        NUMERIC(10, 8) cost_output_usd "Includes cost for both output and thinking tokens"
-        NUMERIC(10, 8) cost_grounding_usd
-        NUMERIC(10, 8) cost_total_usd
+        NUMERIC(10_8) cost_input_usd
+        NUMERIC(10_8) cost_output_usd "Includes cost for both output and thinking tokens"
+        NUMERIC(10_8) cost_grounding_usd
+        NUMERIC(10_8) cost_total_usd
         VECTOR(768) transcript_embedding "(Optional) For similarity search"
         VECTOR(768) summary_embedding "(Optional) For similarity search"
         TEXT client_host "Requesting client's host/IP"
