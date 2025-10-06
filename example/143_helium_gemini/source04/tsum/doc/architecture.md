@@ -65,7 +65,7 @@ graph TD
     class user,youtube,genai_api external;
     class routes,summarization_process,transcript_downloader,genai_integrator,db_manager,utils,sqlite_db,s01,s02,s03,s04 app;```
 
----
+```
 
 ### 2. Asynchronous Summarization Flow (Sequence Diagram)
 
