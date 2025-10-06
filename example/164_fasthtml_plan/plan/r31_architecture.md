@@ -9,6 +9,7 @@ This diagram provides a high-level overview of the major components of the Rocke
 The flow begins with the user interacting with the Presentation Layer, which then delegates actions to the Service Layer. The Service Layer orchestrates complex workflows, such as summarization, by utilizing adapters in the Infrastructure Layer to communicate with external dependencies like the database and AI models.
 
 ```mermaid
+
 graph TD
     subgraph External Systems
         youtube[<i class='fa fa-youtube'></i> YouTube]
@@ -32,13 +33,13 @@ graph TD
 
         subgraph Infrastructure Layer [Infrastructure Layer - Adapters]
             direction TB
-            db_adapter[Database Adapter <br/>(Repositories)]
+            db_adapter["Database Adapter <br/>(Repositories)"]
             genai_adapter[GenAIAdapter]
             transcript_provider[TranscriptProvider]
         end
 
         subgraph Domain
-            models[Data Models <br/>(Dataclasses)]
+            models["Data Models <br/>(Dataclasses)"]
         end
     end
 
