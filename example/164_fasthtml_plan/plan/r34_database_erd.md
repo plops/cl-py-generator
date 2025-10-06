@@ -26,7 +26,7 @@ erDiagram
         job_status status "ENUM type for job state"
         TEXT source_url "Original YouTube URL"
         TEXT model_id "e.g., 'gemini-1.5-pro-latest'"
-        NUMERIC(10,8) cost_total_usd "Sum of all cost components"
+        NUMERIC(10_8) cost_total_usd "Sum of all cost components"
         VECTOR(768) summary_embedding "(Optional) For similarity search"
         TIMESTAMPTZ created_at "Timestamp of job creation"
         TIMESTAMPTZ completed_at "Timestamp of completion or failure"
