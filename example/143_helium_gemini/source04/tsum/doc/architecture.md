@@ -12,48 +12,48 @@ graph TD
         genai_api[<i class='fa fa-robot'></i> Google GenAI API]
     end
 
-    subgraph RocketRecap Simplified App
-        subgraph Presentation Layer [Presentation Layer - FastHTML]
+    subgraph "RocketRecap Simplified App"
+        subgraph "Presentation Layer [Presentation Layer - FastHTML]"
             direction TB
-            routes[Routes & UI Rendering]
+            routes["Routes & UI Rendering"]
         end
 
-        subgraph Application Logic [Application Logic - p04_host.py]
+        subgraph "Application Logic [Application Logic - p04_host.py]"
             direction TB
-            summarization_process[Summarization Process (Threaded)]
-            transcript_downloader[Transcript Downloader (yt-dlp)]
-            genai_integrator[GenAI Integrator]
-            db_manager[Database Manager]
-            utils[Utility Functions]
+            summarization_process["Summarization Process (Threaded)"]
+            transcript_downloader["Transcript Downloader (yt-dlp)"]
+            genai_integrator["GenAI Integrator"]
+            db_manager["Database Manager"]
+            utils["Utility Functions"]
         end
 
-        subgraph Data Storage
+        subgraph "Data Storage"
             sqlite_db[<i class='fa fa-database'></i> SQLite DB (summaries.db)]
         end
 
-        subgraph Utility Scripts
-            s01[s01_validate_youtube_url.py]
-            s02[s02_parse_vtt_file.py]
-            s03[s03_convert_markdown_to_youtube_format.py]
-            s04[s04_convert_html_timestamps_to_youtube_links.py]
+        subgraph "Utility Scripts"
+            s01["s01_validate_youtube_url.py"]
+            s02["s02_parse_vtt_file.py"]
+            s03["s03_convert_markdown_to_youtube_format.py"]
+            s04["s04_convert_html_timestamps_to_youtube_links.py"]
         end
     end
 
     %% --- Interactions ---
-    user --> routes: HTTP Request
-    routes --> db_manager: Store initial job
-    routes --> summarization_process: Trigger background task
-    summarization_process --> transcript_downloader: Request transcript
-    transcript_downloader --> youtube: Download VTT (via yt-dlp)
-    transcript_downloader --> s01: Validate URL
-    transcript_downloader --> s02: Parse VTT
-    summarization_process --> genai_integrator: Generate summary & embeddings
-    genai_integrator --> genai_api: Call GenAI API (summary, embeddings)
-    summarization_process --> db_manager: Update job status/data
-    genai_integrator --> s03: Format for YouTube
-    routes --> user: HTML Response (incl. HTMX for updates)
-    user -- HTMX polling --> routes: Check for updates
-    routes --> s04: Convert timestamps to links (for UI)
+    user --> routes
+    routes --> db_manager
+    routes --> summarization_process
+    summarization_process --> transcript_downloader
+    transcript_downloader --> youtube
+    transcript_downloader --> s01
+    transcript_downloader --> s02
+    summarization_process --> genai_integrator
+    genai_integrator --> genai_api
+    summarization_process --> db_manager
+    genai_integrator --> s03
+    routes --> user
+    user -- HTMX polling --> routes
+    routes --> s04
     db_manager --> sqlite_db
     s01 -.-> transcript_downloader
     s02 -.-> transcript_downloader
@@ -63,8 +63,7 @@ graph TD
     classDef external fill:#D1E8E2,stroke:#333,stroke-width:2px;
     classDef app fill:#f9f9f9,stroke:#333,stroke-width:2px;
     class user,youtube,genai_api external;
-    class routes,summarization_process,transcript_downloader,genai_integrator,db_manager,utils,sqlite_db,s01,s02,s03,s04 app;```
-
+    class routes,summarization_process,transcript_downloader,genai_integrator,db_manager,utils,sqlite_db,s01,s02,s03,s04 app;
 ```
 
 ### 2. Asynchronous Summarization Flow (Sequence Diagram)
