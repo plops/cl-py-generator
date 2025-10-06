@@ -28,7 +28,7 @@ graph TD
         end
 
         subgraph "Data Storage"
-            sqlite_db[<i class='fa fa-database'></i> SQLite DB (summaries.db)]
+            sqlite_db[<i class='fa fa-database'></i> SQLite DB]
         end
 
         subgraph "Utility Scripts"
