@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "A tool to index and search PDFs using sqlite-utils and FTS5."
 dependencies = [
     "beautifulsoup4>=4.14.2",
+    "colorlog>=6.9.0",
     "ebooklib>=0.19",
     "sqlite-utils",
 ]

@@ -3,20 +3,63 @@ import sqlite_utils
 import subprocess
 import time
 import json
+import logging
 from pathlib import Path
 from multiprocessing import Pool
 import ebooklib
 from ebooklib import epub
 from bs4 import BeautifulSoup
 
+# --- Logger Setup ---
+# Get a logger instance
+logger = logging.getLogger(__name__)
+
+def setup_logging(log_file="processing.log"):
+    """Configures logging to console and file."""
+    logger.setLevel(logging.INFO) # Set the lowest level to capture all messages
+
+    # Prevent adding handlers multiple times if the function is called again
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    # File Handler - writes detailed logs to a file
+    file_handler = logging.FileHandler(log_file, mode='a', encoding='utf-8')
+    file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(file_formatter)
+    file_handler.setLevel(logging.INFO)
+    logger.addHandler(file_handler)
+
+    # Console Handler - writes colored logs to the console
+    try:
+        # Use colorlog if available for better readability
+        import colorlog
+        console_formatter = colorlog.ColoredFormatter(
+            '%(log_color)s%(asctime)s - %(levelname)s - %(message)s',
+            log_colors={
+                'DEBUG': 'cyan',
+                'INFO': 'green',
+                'WARNING': 'yellow',
+                'ERROR': 'red',
+                'CRITICAL': 'bold_red',
+            })
+        console_handler = colorlog.StreamHandler()
+    except ImportError:
+        # Fallback to standard StreamHandler if colorlog is not installed
+        console_handler = logging.StreamHandler()
+        console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    console_handler.setFormatter(console_formatter)
+    console_handler.setLevel(logging.INFO)
+    logger.addHandler(console_handler)
+
+
 def process_pdf(pdf_path):
     """Processes a single PDF file."""
     pdf_path = Path(pdf_path)
     start_time = time.time()
+    logger.info(f"Processing PDF: {pdf_path}")
 
     try:
-        print(f"Processing PDF: {pdf_path}")
-
         # pdftotext
         pdftotext_process = subprocess.run(
             ["pdftotext", "-raw", "-enc", "UTF-8", str(pdf_path), "-"],
@@ -50,7 +93,7 @@ def process_pdf(pdf_path):
                         if len(parts) == 3:
                             pdfinfo_url_data.append({'Page': int(parts[0]), 'Type': parts[1], 'URL': parts[2]})
         except Exception as e1:
-            print(f"Could not get URL info for {pdf_path}: {e1}")
+            logger.warning(f"Could not get URL info for {pdf_path}: {e1}")
             pass
 
         return {
@@ -65,36 +108,33 @@ def process_pdf(pdf_path):
             "type": "pdf"
         }
     except (subprocess.CalledProcessError, FileNotFoundError) as e2:
-        print(f"Error processing {pdf_path}: {e2}")
+        logger.error(f"Failed to process PDF {pdf_path}: {e2}")
         return None
     except Exception as e3:
-        print(f"An unexpected error occurred with {pdf_path}: {e3}")
+        logger.error(f"An unexpected error occurred with PDF {pdf_path}: {e3}")
         return None
 
 def process_epub(epub_path):
     """Processes a single EPUB file."""
     epub_path = Path(epub_path)
     start_time = time.time()
+    logger.info(f"Processing EPUB: {epub_path}")
 
     try:
-        print(f"Processing EPUB: {epub_path}")
         book = epub.read_epub(str(epub_path))
         full_text = []
 
-        # Extract text from all document items
         for item in book.get_items_of_type(ebooklib.ITEM_DOCUMENT):
             soup = BeautifulSoup(item.get_content(), 'html.parser')
-            # Extract text from the body, or the whole document if no body is found
             if soup.body:
-                full_text.append(soup.body.get_text())
+                full_text.append(soup.body.get_text(separator='\n'))
             else:
-                full_text.append(soup.get_text())
+                full_text.append(soup.get_text(separator='\n'))
 
         content = "\n".join(full_text)
         text_size = len(content.encode("utf-8"))
         processing_time = time.time() - start_time
 
-        # Extract metadata
         metadata = {
             'title': book.get_metadata('DC', 'title'),
             'creator': book.get_metadata('DC', 'creator'),
@@ -112,31 +152,36 @@ def process_epub(epub_path):
             "processing_time": processing_time,
             "text_size": text_size,
             "metadata": json.dumps(metadata),
-            "url_info": None, # EPUBs don't have a direct equivalent to pdfinfo -url
+            "url_info": None,
             "type": "epub"
         }
     except Exception as e:
-        print(f"Error processing {epub_path}: {e}")
+        logger.error(f"Failed to process EPUB {epub_path}: {e}")
         return None
 
 def process_file(file_path):
     """Determines the file type and calls the appropriate processor."""
+    file_path = Path(file_path)
     if file_path.suffix.lower() == ".pdf":
         return process_pdf(file_path)
     elif file_path.suffix.lower() == ".epub":
         return process_epub(file_path)
+    logger.warning(f"Skipping unsupported file type: {file_path}")
     return None
 
-
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Process PDF and EPUB files and store their content in a SQLite database.")
     parser.add_argument("input_paths", nargs="+", help="Path(s) to search for PDF and EPUB files.")
     parser.add_argument("--db_path", default="documents.db", help="Path to the SQLite database.")
+    parser.add_argument("--log_file", default="processing.log", help="Path to the log file.")
     args = parser.parse_args()
 
+    # Configure logging at the start of the main function
+    setup_logging(args.log_file)
+
+    logger.info("Script started.")
     db = sqlite_utils.Database(args.db_path)
 
-    # Find both PDF and EPUB files
     files_to_process = []
     for input_path in args.input_paths:
         path_obj = Path(input_path)
@@ -147,23 +192,34 @@ def main():
             if path_obj.suffix.lower() in [".pdf", ".epub"]:
                 files_to_process.append(path_obj)
 
-    print(f"Found {len(files_to_process)} files to process.")
+    logger.info(f"Found {len(files_to_process)} files to process.")
+
+    if not files_to_process:
+        logger.warning("No files found to process. Exiting.")
+        return
 
     with Pool() as pool:
+        logger.info(f"Starting processing pool with {pool._processes} workers.")
         results = pool.imap_unordered(process_file, files_to_process)
-        print("Processing finished. Now inserting into database.")
-
+        
         successful_results = []
         for result in results:
             if result:
                 successful_results.append(result)
 
+        logger.info("Processing finished. Now handling database insertion.")
+
         if successful_results:
-            # Create table if it doesn't exist and insert data
-            db["documents"].insert_all(successful_results, pk="path", replace=True)
-            print(f"Successfully inserted {len(successful_results)} documents into the database.")
+            try:
+                db["documents"].insert_all(successful_results, pk="path", replace=True)
+                logger.info(f"Successfully inserted or replaced {len(successful_results)} documents in the database.")
+            except Exception as e:
+                logger.error(f"Failed to insert records into the database: {e}")
         else:
-            print("No documents were successfully processed.")
+            logger.warning("No documents were successfully processed to be inserted into the database.")
+    
+    logger.info("Script finished.")
+
 
 if __name__ == "__main__":
     main()
