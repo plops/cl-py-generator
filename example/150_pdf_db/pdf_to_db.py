@@ -1,3 +1,4 @@
+
 import argparse
 import sqlite_utils
 import subprocess
@@ -11,12 +12,11 @@ from ebooklib import epub
 from bs4 import BeautifulSoup
 
 # --- Logger Setup ---
-# Get a logger instance
 logger = logging.getLogger(__name__)
 
 def setup_logging(log_file="processing.log"):
     """Configures logging to console and file."""
-    logger.setLevel(logging.INFO) # Set the lowest level to capture all messages
+    logger.setLevel(logging.INFO)  # Set the lowest level to capture all messages
 
     # Prevent adding handlers multiple times if the function is called again
     if logger.hasHandlers():
@@ -51,7 +51,6 @@ def setup_logging(log_file="processing.log"):
     console_handler.setFormatter(console_formatter)
     console_handler.setLevel(logging.INFO)
     logger.addHandler(console_handler)
-
 
 def process_pdf(pdf_path):
     """Processes a single PDF file."""
@@ -115,21 +114,26 @@ def process_pdf(pdf_path):
         return None
 
 def process_epub(epub_path):
-    """Processes a single EPUB file."""
+    """Processes a single EPUB file with improved error handling."""
     epub_path = Path(epub_path)
     start_time = time.time()
     logger.info(f"Processing EPUB: {epub_path}")
+    full_text = []
 
     try:
         book = epub.read_epub(str(epub_path))
-        full_text = []
 
         for item in book.get_items_of_type(ebooklib.ITEM_DOCUMENT):
-            soup = BeautifulSoup(item.get_content(), 'html.parser')
-            if soup.body:
-                full_text.append(soup.body.get_text(separator='\n'))
-            else:
-                full_text.append(soup.get_text(separator='\n'))
+            try:
+                soup = BeautifulSoup(item.get_content(), 'html.parser')
+                if soup.body:
+                    text = soup.body.get_text(separator='\n')
+                else:
+                    text = soup.get_text(separator='\n')
+                full_text.append(text)
+            except (KeyError, ValueError, AttributeError) as e:
+                logger.warning(f"Error extracting text from item {item.file_name} in EPUB {epub_path}: {e}")
+                continue  # Skip to the next item
 
         content = "\n".join(full_text)
         text_size = len(content.encode("utf-8"))
@@ -219,7 +223,6 @@ def main():
             logger.warning("No documents were successfully processed to be inserted into the database.")
     
     logger.info("Script finished.")
-
 
 if __name__ == "__main__":
     main()
