@@ -3,7 +3,9 @@ name = "pdf-db"
 version = "0.1.0"
 description = "A tool to index and search PDFs using sqlite-utils and FTS5."
 dependencies = [
-    "sqlite-utils"
+    "beautifulsoup4>=4.14.2",
+    "ebooklib>=0.19",
+    "sqlite-utils",
 ]
 requires-python = ">=3.8"
 

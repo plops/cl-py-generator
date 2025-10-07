@@ -10,10 +10,10 @@ def main():
     db = sqlite_utils.Database(args.db_path)
 
     try:
-        if db['pdfs'].detect_fts() is None:
-            fts_columns = ['text','path','pdfinfo','pdfinfo_url']
-            db['pdfs'].enable_fts(fts_columns)
-            db['pdfs'].populate_fts(fts_columns)
+        if db['documents'].detect_fts() is None:
+            fts_columns = ['text','path'] #,'pdfinfo','pdfinfo_url']
+            db['documents'].enable_fts(fts_columns)
+            db['documents'].populate_fts(fts_columns)
             db.conn.commit()
     except Exception as e:
         print(e)
@@ -22,7 +22,7 @@ def main():
     # after update of the table you need to run .populate_fts to update search index
     # or use create_trigger=True. However, this code doesn't change the database entries
 
-    rows = list(db['pdfs'].search(db.quote_fts(args.search)))
+    rows = list(db['documents'].search(db.quote_fts(args.search)))
     for row in rows:
         print(row['path'])
 
