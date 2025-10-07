@@ -7,10 +7,12 @@ def convert_markdown_to_youtube_format(text):
     # adapt the markdown to YouTube formatting
     text = text.replace("**:", ":**")
     text = text.replace("**,", ",**")
+    text = text.replace("**;", ";**")
     text = text.replace("**.", ".**")
     text = text.replace("**", "*")
     text = text.replace("*:", ":*")
     text = text.replace("*,", ",*")
+    text = text.replace("*;", ";*")
     text = text.replace("*.", ".*")
     # markdown title starting with ## with fat text
     text = re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)

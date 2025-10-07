@@ -12,6 +12,7 @@ def validate_youtube_url(url):
     for pattern in patterns:
         match = re.match(pattern, url)
         if match:
-            return match.groups()[-1]  # Last group is the video ID
+            # The last group is the video id
+            return match.groups()[-1]
     print("Error: Invalid YouTube URL")
     return False

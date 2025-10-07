@@ -29,13 +29,14 @@
 
 
 ;; TODO (new implementation)
+;; [ ] google genai with async responses (and thinking for the flash model)
+;; [ ] different language outputs (and instructions with different languages)
 ;; [ ] migrate data to postgres and use it instead of sqlite
 ;; [ ] sse
 ;; [ ] forms with dataclass
-;; [ ] different language outputs (and instructions with different languages)
 ;; [ ] login (first only for me)
 ;; [ ] oauth
-;; [ ] google genai with async responses (and thinking for the flash model)
+
 
 ;; Tests of individual steps
 ;; [X] Validate YouTube URL
@@ -187,9 +188,9 @@
 				 (setf patterns
 				       (list
 					 ;; standard watch link
-					(rstring3 "^https://(www\\.)?youtube\\.com/watch\\?v=([A-Za-z0-9_-]{11}).*")
+					(rstring3 "^https://((www|m)\\.)?youtube\\.com/watch\\?v=([A-Za-z0-9_-]{11}).*")
 					;; live stream link
-					(rstring3 "^https://(www\\.)?youtube\\.com/live/([A-Za-z0-9_-]{11}).*")
+					(rstring3 "^https://((www|m)\\.)?youtube\\.com/live/([A-Za-z0-9_-]{11}).*")
 					;; shortened link
 					(rstring3 "^https://(www\\.)?youtu\\.be/([A-Za-z0-9_-]{11}).*")
 					))
@@ -197,7 +198,8 @@
 				      (setf match (re.match pattern url))
 				      (when match
 					;; (print (match.groups))
-					(return (aref (match.groups) 1))))
+					(comments "The last group is the video id")
+					(return (aref (match.groups) -1))))
 				 (print (string "Error: Invalid YouTube URL"))
 				 (return False)))
 			:test (do0
@@ -224,7 +226,10 @@
 			       
 			       (assert
 				(== False
-				    (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))))
+				    (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))
+			       (assert
+				(== (string "QbnkIdw0HJQ")
+				    (validate_youtube_url (string "https://m.youtube.com/watch?v=QbnkIdw0HJQ"))))))
 		       (:step-name parse_vtt_file
 			:code (do0
 			       "#!/usr/bin/env python3"
@@ -325,15 +330,20 @@
 			 (rstring3 "In its comments YouTube only allows *word* for bold text, not **word**. Colons or comma can not be fat (e.g. *Description:* must be written as *Description*: to be formatted properly. YouTube comments containing links seem to cause severe censoring. So we replace links.")
 			 (do0
 			  (comments "adapt the markdown to YouTube formatting")
-			  (setf text (text.replace (string "**:")
-						   (string ":**")))
-			  (setf text (text.replace (string "**,")
-						   (string ",**")))
-			  (setf text (text.replace (string "**.")
-						   (string ".**")))
-
+			  ,@(loop for e in `(":" "," ";" ".")
+				  collect
+				  `(setf text (text.replace (string ,(format nil "**~a" e))
+							    (string ,(format nil "~a**" e)))))
 			  (setf text (text.replace (string "**")
 						   (string "*")))
+
+			  ,@(loop for e in `(":" "," ";" ".")
+				  collect
+				  `(setf text (text.replace (string ,(format nil "*~a" e))
+							    (string ,(format nil "~a*" e)))))
+			  
+
+			  
 
 			  (comments "markdown title starting with ## with fat text")
 			  (setf text (re.sub (rstring3 "^##\\s*(.*)")
