@@ -9,6 +9,9 @@ def convert_markdown_to_youtube_format(text):
     text = text.replace("**,", ",**")
     text = text.replace("**.", ".**")
     text = text.replace("**", "*")
+    text = text.replace("*:", ":*")
+    text = text.replace("*,", ",*")
+    text = text.replace("*.", ".*")
     # markdown title starting with ## with fat text
     text = re.sub(r"""^##\s*(.*)""", r"""*\1*""", text)
     # find any text that looks like an url and replace the . with -dot-
