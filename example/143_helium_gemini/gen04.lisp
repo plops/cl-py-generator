@@ -223,7 +223,8 @@
 			       (assert
 				(== (string "-123456789a")
 				    (validate_youtube_url (string "https://youtu.be/-123456789a&abc=123"))))
-			       
+
+			       (print (string "Expect invalid url:"))
 			       (assert
 				(== False
 				    (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))

@@ -17,6 +17,7 @@ assert ("-123456789a") == (
     validate_youtube_url("https://www.youtu.be/-123456789a&abc=123")
 )
 assert ("-123456789a") == (validate_youtube_url("https://youtu.be/-123456789a&abc=123"))
+print("Expect invalid url:")
 assert (False) == (validate_youtube_url("http://www.youtube.com/live/0123456789a"))
 assert ("QbnkIdw0HJQ") == (
     validate_youtube_url("https://m.youtube.com/watch?v=QbnkIdw0HJQ")
