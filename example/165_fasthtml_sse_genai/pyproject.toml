@@ -1,0 +1,12 @@
+[project]
+name = "163-fasthtml-sse"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "google-genai>=1.41.0",
+    "loguru>=0.7.3",
+    "python-fasthtml>=0.12.29",
+    "pyyaml>=6.0.3",
+]
