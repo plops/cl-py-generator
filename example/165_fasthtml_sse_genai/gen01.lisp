@@ -10,18 +10,23 @@
 
 (progn
 
-  (defparameter *source* "example/165_fasthtml_sse_genai")
+  (defparameter *source* "example/165_fasthtml_sse_genai/")
   (write-source
    (asdf:system-relative-pathname 'cl-py-generator
 				  (merge-pathnames #P"p02_impl"
 						   *source*))
    `(do0
      (imports-from (__future__ annotations))
-     (imports (os time yaml))
+     (imports (os time #+yaml yaml
+		       asyncio))
      
      (imports-from
       (dataclasses dataclass field asdict)
-      (typing List Callable Any Optional Dict)
+      (typing List
+	      ;Callable
+	      Any
+	      ;Optional
+	      Dict)
       
       (loguru logger)
       (google genai)
@@ -77,43 +82,51 @@
 	      (return (dictionary :model self.config.model
 				  :contents contents
 				  :config generate_content_config)))
-	    (def run (self)
-	      (declare (values StreamResult))
-	      (setf req (self._build_request)
-		    result (StreamResult :submit_time (time.monotonic)))
-	      (logger.debug (string "Starting streaming generation"))
-	      (setf error_in_parts False)
-	      (for (chunk (self.client.models.generate_content_stream **req))
-		   (result.responses.append chunk)
-		   (try (setf parts (dot chunk (aref candidates 0)
-					 content parts))
-			(Exception
-			 continue))
-		   (try
-		    (for (part parts)
-			 (when (getattr part (string "text") None)
-			   (if (getattr part (string "thought") False)
-			       (do0 (setf now (time.monotonic))
-				    (when (is result.first_thought_time
-					      None)
-				      (logger.debug (string "First thought received"))
-				      (setf result.first_thought_time now))
-				    (setf result.last_thought_time now)
-				    (incf result.thoughts part.text))
-			       (do0
-				(setf now (time.monotonic))
-				(when (is result.first_answer_time None)
-				  (logger.debug (string "First answer chunk received"))
-				  (setf result.first_answer_time now))
-				(setf result.final_answer_time now)
-				(incf result.answer part.text)))))
-		    (Exception
-		     (setf error_in_parts True)
-		     pass)))
-	      (self._persist_yaml result error_in_parts)
-	      (logger.debug (fstring "Thoughts: {result.thoughts}"))
-	      (logger.debug (fstring "Answer: {result.answer}"))
-	      (return result))
+	    (space async
+		   (def run (self)
+		     (declare (values StreamResult))
+		     (setf req (self._build_request)
+			   result (StreamResult))
+		     (logger.debug (string "Starting streaming generation"))
+		     (setf error_in_parts False)
+
+		     (try
+		      (space async
+		       (for (chunk (self.client.models.generate_content_stream **req))
+			    (result.responses.append chunk)
+			    (try (setf parts (dot chunk (aref candidates 0)
+						  content parts))
+				 (Exception
+				  continue))
+			    (try
+			     (for (part parts)
+				  (when (getattr part (string "text") None)
+				    (if (getattr part (string "thought") False)
+					(do0
+					 (incf result.thought part.text)
+					 (yield (dictionary :type (string "thought")
+							    :text part.text)))
+					(do0
+					 (incf result.answer part.text)
+					 (yield (dictionary :type (string "answer")
+							    :text part.text))))))
+			     (Exception
+			      (setf error_in_parts True)
+			      pass))))
+		      ("Exception as e"
+		       (logger.error (fstring "genai {e}"))
+		       (yield (dictionary :type (string "error")
+					  :message (str e)))))
+		     #+yaml
+		     (self._persist_yaml result error_in_parts)
+
+		     (logger.debug (fstring "Thoughts: {result.thoughts}"))
+		     (logger.debug (fstring "Answer: {result.answer}"))
+	      
+		     (yield (dictionary :type (string "complete")
+					:thought result.thought
+					:answer result.answer))))
+	    #+nil
 	    (def _persist_yaml (self result error_in_parts)
 	      (declare (type StreamResult result))
 	      (setf path self.config.output_yaml_path)
@@ -155,10 +168,12 @@
 				  (merge-pathnames #P"p01_top"
 						   *source*))
    `(do0
+     (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p02_top.py")
+
      (imports (random time asyncio))
      (imports-from (loguru logger)
 		   (fasthtml.common *))
-     
+3
      (do0
       (logger.remove)
       (logger.add
@@ -167,9 +182,39 @@
        :colorize True
        :level (string "DEBUG")
 					;:utc True
-       ))
+       )
 
-     (logger.info (string "Logger configured"))
+      (logger.info (string "Logger configured")))
+     
+     (comments "import after logger exists")
+     (imports-from (p02_impl GenerationConfig GenAIJob))
+
+     #+yaml
+     (do0 
+      (comments "UTC timestamp for output file")
+      (setf timestamp (dot datetime datetime (now datetime.UTC)
+			   (strftime (string "%Y%m%d_%H_%M_%S"))))
+      (setf yaml_filename (fstring "out_{timestamp}.yaml")))
+
+     (setf cfg (GenerationConfig
+		:prompt_text (rstring3
+			      "Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat"
+			      )
+		:model (string "gemini-flash-latest")
+		#+yaml :output_yaml_path #+yaml yaml_filename
+		:use_search True
+		:think_budget -1
+		:include_thoughts True))
+
+     #+nil
+     (do0
+      (setf job (GenAIJob cfg))
+      (setf result (job.run))
+      (logger.info (fstring "thoughts: {result.thoughts}"))
+      (logger.info (fstring "answer: {result.answer}")))
+   
+     
+     
 
 
      (setf hdrs (tuple (Script :src (string "https://unpkg.com/htmx-ext-sse@2.2.3/sse.js")))
