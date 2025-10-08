@@ -65,6 +65,7 @@ class GenAIJob:
                 role="user", parts=[types.Part.from_text(text=self.config.prompt_text)]
             )
         ]
+        logger.debug(f"_build_request {self.config.prompt_text}")
         return dict(
             model=self.config.model, contents=contents, config=generate_content_config
         )
@@ -77,6 +78,7 @@ class GenAIJob:
         try:
             async for chunk in self.client.models.generate_content_stream(**req):
                 result.responses.append(chunk)
+                logger.debug("received chunk")
                 try:
                     parts = chunk.candidates[0].content.parts
                 except Exception:
