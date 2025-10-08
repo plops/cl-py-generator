@@ -2,10 +2,11 @@
 import random
 import time
 import asyncio
-from loguru import logger
+from urllib.parse import quote
 from fasthtml.common import *
+from loguru import logger
 
-3
+
 logger.remove()
 logger.add(
     sys.stdout,
@@ -25,36 +26,55 @@ cfg = GenerationConfig(
     include_thoughts=True,
 )
 hdrs = (Script(src="https://unpkg.com/htmx-ext-sse@2.2.3/sse.js"),)
-app, rt = fast_app(hdrs=hdrs)
+app, rt = fast_app(hdrs=hdrs, live=True)
 
 
 @rt
 def index():
     return Titled(
         "SSE Random Number Generator",
-        P("Generate pairs of random numbers, as the list grows scroll downwards."),
-        Div(
-            hx_ext="sse",
-            sse_connect="/number-stream",
-            hx_swap="beforeend show:bottom",
-            sse_swap="message",
+        "GenAI Prompt",
+        Form(
+            Input(type="text", name="prompt", placeholder="Enter your prompt"),
+            Button("Submit", type="submit"),
+            hx_post="/generate",
+            hx_target="#output",
+            hx_swap="innerHTML"
         ),
+        Div(id="output")
     )
 
 
-shutdown_event = signal_shutdown()
+@rt
+def generate(prompt: str):
+    return Div(
+        hx_ext="sse",
+        sse_connect=f"/stream?prompt={quote(prompt)}",
+        hx_swap="beforeend",
+        sse_swap="message",
+        id="output")
 
 
-async def number_generator():
-    while not (shutdown_event.is_set()):
-        data = Div(Article(random.randint(1, 100)), Article(random.randint(1, 100)))
-        yield (sse_message(data))
-        await asyncio.sleep(1)
-
-
-@rt("/number-stream")
-async def get():
-    return EventStream(number_generator())
-
+@rt("/stream")
+async def stream(prompt: str):
+    config = GenerationConfig(
+        prompt_text=prompt,
+        model="gemini-flash-latest",
+        use_search=True,
+        think_budget=-1,
+        include_thoughts=True,
+    )
+    job = GenAIJob(config)
+    async for msg in job.run():
+        if msg['type'] == 'thought':
+            yield sse_message(Div(f"Thought: {msg['text']}"))
+        elif msg['type'] == 'answer':
+            yield sse_message(Div(f"Answer: {msg['text']}"))
+        elif msg['type'] == 'complete':
+            yield sse_message(Div(f"Final Answer: {msg['answer']}"))
+            break
+        elif msg['type'] == 'error':
+            yield sse_message(Div(f"Error: {msg['message']}"))
+            break
 
 serve()

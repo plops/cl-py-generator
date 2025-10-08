@@ -49,7 +49,7 @@ class GenAIJob:
                 category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_NONE"
             ),
             types.SafetySetting(
-                category="HARM_CATEGORY_DANGEROUS_COUNTENT", threshold="BLOCK_NONE"
+                category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_NONE"
             ),
         ]
         generate_content_config = types.GenerateContentConfig(
