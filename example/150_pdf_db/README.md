@@ -139,3 +139,4 @@ limit
 
 Datasette： a big bag of tricks for solving interesting problems using SQLite [B55hcKYye_c]
 Tutorials - Simon Willison： Data analysis with SQLite and Python [5TdIxxBPUSI]
+https://trafilatura.readthedocs.io/en/latest/ converts html into text (maybye could help parsing epub) 
