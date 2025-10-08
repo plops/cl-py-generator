@@ -1,11 +1,12 @@
+
 # export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p02_top.py
 import random
 import time
 import asyncio
 from urllib.parse import quote
 from fasthtml.common import *
+import sys
 from loguru import logger
-
 
 logger.remove()
 logger.add(
@@ -32,8 +33,7 @@ app, rt = fast_app(hdrs=hdrs, live=True)
 @rt
 def index():
     return Titled(
-        "SSE Random Number Generator",
-        "GenAI Prompt",
+        "Gemini AI Prompt",
         Form(
             Input(type="text", name="prompt", placeholder="Enter your prompt"),
             Button("Submit", type="submit"),
@@ -52,7 +52,7 @@ def generate(prompt: str):
         sse_connect=f"/stream?prompt={quote(prompt)}",
         hx_swap="beforeend",
         sse_swap="message",
-        id="output")
+    )
 
 
 @rt("/stream")
@@ -76,5 +76,4 @@ async def stream(prompt: str):
         elif msg['type'] == 'error':
             yield sse_message(Div(f"Error: {msg['message']}"))
             break
-
 serve()
