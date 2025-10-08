@@ -65,7 +65,7 @@
 			     (list (types.Tool :googleSearch (types.GoogleSearch)))
 			     (list)))
 	      (setf safety (list
-			    ,@(loop for e in `(HARASSMENT HATE_SPEECH SEXUALLY_EXPLICIT DANGEROUS_COUNTENT)
+			    ,@(loop for e in `(HARASSMENT HATE_SPEECH SEXUALLY_EXPLICIT DANGEROUS_CONTENT)
 				    collect
 				    `(types.SafetySetting
 				      :category (string ,(format nil "HARM_CATEGORY_~a" e))
@@ -218,7 +218,7 @@
 
 
      (setf hdrs (tuple (Script :src (string "https://unpkg.com/htmx-ext-sse@2.2.3/sse.js")))
-	   (ntuple app rt) (fast_app :hdrs hdrs))
+	   (ntuple app rt) (fast_app :hdrs hdrs :live True))
 
      (do0
       @rt
