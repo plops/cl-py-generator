@@ -7,7 +7,7 @@
   (:use #:cl #:cl-py-generator)) 
 
 (in-package #:my-py-project)
-
+;; https://htmx.org/extensions/sse/
 (progn
 
   (defparameter *source* "example/165_fasthtml_sse_genai/")
