@@ -39,7 +39,7 @@ def index():
             ),
             data_hx_post="/process_transcript",
             data_hx_swap="afterbegin",
-            data_hx_target="#summary-list",  # Updated to match existing Div ID
+            data_hx_target="#response-list",
         ),
         Div(
             data_hx_ext="sse",
@@ -47,13 +47,13 @@ def index():
             data_hx_swap="innerHTML",
             data_sse_swap="message",
         ),
-        # Removed static response-stream Div; it will be inserted dynamically
-        Div(id="summary-list"),
+        Div(id="response-list"),
     )
+
 
 @rt("/process_transcript")
 def post(prompt_text: str, request: Request):
-    # Return a new SSE Div with the prompt in the connect URL
+    # Return a new SSE Div with th prompt in the connect URL
     return Div(
         data_hx_ext="sse",
         data_sse_connect=f"/response-stream?prompt={prompt_text}",

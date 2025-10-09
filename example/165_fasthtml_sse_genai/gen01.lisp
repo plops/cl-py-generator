@@ -217,6 +217,10 @@
      (setf hdrs (tuple (Script :src (string "https://unpkg.com/htmx-ext-sse@2.2.3/sse.js")))
 	   (ntuple app rt) (fast_app :hdrs hdrs :live True))
 
+     #+nil "If the submit button is pressed, the prompt-text shall be submitted as
+a GenAIJob. the thought and answer outputs of its job method shall be
+appended to corresponding HTML elements via HTMX with server side
+events until the final answer is complete or an error has occured"
      (do0
       @rt
       (def index ()
@@ -239,13 +243,14 @@
 			  :data_hx_target (string "#response-list"))
 			 (Div :data_hx_ext (string "sse")
 			      :data_sse_connect (string "/time-sender")
-			      :data_hx_swap (string "innerHTML"); (string "beforeend show:bottom")
+			      :data_hx_swap (string "innerHTML") ; (string "beforeend show:bottom")
 			      :data_sse_swap (string "message"))
+			 #+nil
 			 (Div :data_hx_ext (string "sse")
 			      :data_sse_connect (string "/response-stream")
 			      :data_hx_swap (string "beforeend show:bottom")
 			      :data_sse_swap (string "message"))
-			 (Div :id (string "summary-list")))))))
+			 (Div :id (string "response-list")))))))
 
 
      (do0
@@ -254,7 +259,12 @@
 		 request)
 	(declare (type str prompt_text)
 		 (type Request request))
-	(return prompt_text)))
+	(comments "Return a new SSE Div with th prompt in the connect URL")
+	(return (Div
+		 :data_hx_ext (string "sse")
+		 :data_sse_connect (fstring "/response-stream?prompt={prompt_text}")
+		 :data_hx_swap (string "beforeend show:bottom")
+		 :data_sse_swap (string "message")))))
      
      (do0
       (setf event (signal_shutdown))
