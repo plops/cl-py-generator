@@ -290,7 +290,7 @@
 	     (space async
 		    (def run (self)
 		      ;(declare (values StreamResult))
-		      (setf req (self._build_request)
+		      (setf req (self._build_request) 
 			    result (StreamResult))
 		      (logger.debug (string "Starting streaming generation"))
 		      (setf error_in_parts False)
