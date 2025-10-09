@@ -7,7 +7,8 @@
   (:use #:cl #:cl-py-generator)) 
 
 (in-package #:my-py-project)
-;; https://htmx.org/extensions/sse/
+;; https://htmx.org/extensions/sse/                                HTMX with server side events
+;; https://www.fastht.ml/docs/ref/response_types.html#eventstream  FastHTML with server side events
 (progn
 
   (defparameter *source* "example/165_fasthtml_sse_genai/")
@@ -172,8 +173,8 @@
    `(do0
      (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py")
 
-     (imports (;random time
-		      asyncio))
+     (imports (				;random time
+	       asyncio))
      (imports-from (loguru logger)
 		   (fasthtml.common *))
      
@@ -236,8 +237,8 @@
 						)
 				  :model (string "gemini-flash-latest")
 				  #+yaml :output_yaml_path #+yaml yaml_filename
-				  :use_search False ; True
-				  :think_budget 0   ;-1
+				  :use_search False	  ; True
+				  :think_budget 0	  ;-1
 				  :include_thoughts False ; True
 				  ))
 		    (setf job (GenAIJob config))
