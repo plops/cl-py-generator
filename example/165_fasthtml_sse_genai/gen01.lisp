@@ -446,7 +446,8 @@ events until the final answer is complete or an error has occured"
 		 :data_hx_ext (string "sse")
 		 :data_sse_connect (fstring "/response-stream?prompt_text={prompt_text}")
 		 :data_hx_swap (string "beforeend show:bottom")
-		 :data_sse_swap (string "message")))))
+		 :data_sse_swap (string "message")
+		 :data_sse_close (string "close")))))
      
      (do0
       (setf event (signal_shutdown))
@@ -501,10 +502,12 @@ events until the final answer is complete or an error has occured"
 					 ((== (aref msg (string "type"))
 					      (string "complete"))
 					  (yield (sse_message (Div (fstring "Final Answer: {msg['answer']}"))))
+					  (yield (sse_message (string "") :event (string "close")))
 					  break)
 					 ((== (aref msg (string "type"))
 					      (string "error"))
 					  (yield (sse_message (Div (fstring "Error: {msg['message']}"))))
+					  (yield (sse_message (string "") :event (string "close")))
 					  break))))))
 	      (return (EventStream (gen)))))
      (serve)
