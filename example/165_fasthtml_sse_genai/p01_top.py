@@ -213,6 +213,7 @@ def process_transcript(prompt_text: str, request: Request):
         data_sse_connect=f"/response-stream?prompt_text={prompt_text}",
         data_hx_swap="beforeend show:bottom",
         data_sse_swap="message",
+        data_sse_close="close",
     )
 
 
@@ -258,9 +259,11 @@ async def response_stream(prompt_text: str):
                 yield (sse_message(Div(f"Answer: {msg['text']}")))
             elif (msg["type"]) == ("complete"):
                 yield (sse_message(Div(f"Final Answer: {msg['answer']}")))
+                yield (sse_message("", event="close"))
                 break
             elif (msg["type"]) == ("error"):
                 yield (sse_message(Div(f"Error: {msg['message']}")))
+                yield (sse_message("", event="close"))
                 break
 
     return EventStream(gen())
