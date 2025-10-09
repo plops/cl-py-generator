@@ -78,7 +78,7 @@ class GenAIJob:
         logger.debug("Starting streaming generation")
         error_in_parts = False
         try:
-            async for chunk in self.client.models.generate_content_stream(**req):
+            for chunk in self.client.models.generate_content_stream(**req):
                 logger.debug("received chunk")
                 try:
                     parts = chunk.candidates[0].content.parts

@@ -12,6 +12,7 @@
 (progn
 
   (defparameter *source* "example/165_fasthtml_sse_genai/")
+  #+nil
   (write-source
    (asdf:system-relative-pathname 'cl-py-generator
 				  (merge-pathnames #P"p02_impl"
@@ -96,33 +97,32 @@
 		     (setf error_in_parts False)
 
 		     (try
-		      (space async
-			     (for (chunk (self.client.models.generate_content_stream **req))
-				  #+nil (result.responses.append chunk)
-				  (logger.debug (string "received chunk"))
-				  (try (setf parts (dot chunk (aref candidates 0)
-							content parts))
-				       ("Exception as e"
-					(logger.debug (fstring "exception when accessing chunk: {e}"))
-					continue))
-				  (try
-				   (for (part parts)
-					(when (getattr part (string "text") None)
-					  (logger.trace (fstring "{part}"))
-					  (if (getattr part (string "thought") False)
-					      (do0
-					       (incf result.thought part.text)
-					       (yield (dictionary :type (string "thought")
-								  :text part.text)))
-					      (do0
-					       (incf result.answer part.text)
-					       (yield (dictionary :type (string "answer")
-								  :text part.text))))))
-				   ("Exception as e"
-				    (setf error_in_parts True)
-				    (logger.warning (fstring "genai {e}"))
+		      (for (chunk (self.client.models.generate_content_stream **req))
+			   #+nil (result.responses.append chunk)
+			   (logger.debug (string "received chunk"))
+			   (try (setf parts (dot chunk (aref candidates 0)
+						 content parts))
+				("Exception as e"
+				 (logger.debug (fstring "exception when accessing chunk: {e}"))
+				 continue))
+			   (try
+			    (for (part parts)
+				 (when (getattr part (string "text") None)
+				   (logger.trace (fstring "{part}"))
+				   (if (getattr part (string "thought") False)
+				       (do0
+					(incf result.thought part.text)
+					(yield (dictionary :type (string "thought")
+							   :text part.text)))
+				       (do0
+					(incf result.answer part.text)
+					(yield (dictionary :type (string "answer")
+							   :text part.text))))))
+			    ("Exception as e"
+			     (setf error_in_parts True)
+			     (logger.warning (fstring "genai {e}"))
 					;pass
-				    ))))
+			     )))
 		      ("Exception as e"
 		       (logger.error (fstring "genai {e}"))
 		       (yield (dictionary :type (string "error")
@@ -251,7 +251,7 @@
        (class StreamResult ()
 	      (setf "thought:str" (string "")
 		    "answer:str" (string "")
-		    "responses:List[Any]" (field :default_factory list)
+		    ;"responses:List[Any]" (field :default_factory list)
 		    )))
       
       (class GenAIJob ()
@@ -296,33 +296,32 @@
 		      (setf error_in_parts False)
 
 		      (try
-		       (space async
-			      (for (chunk (self.client.models.generate_content_stream **req))
-				   #+nil (result.responses.append chunk)
-				   (logger.debug (string "received chunk"))
-				   (try (setf parts (dot chunk (aref candidates 0)
-							 content parts))
-					("Exception as e"
-					 (logger.debug (fstring "exception when accessing chunk: {e}"))
-					 continue))
-				   (try
-				    (for (part parts)
-					 (when (getattr part (string "text") None)
-					   (logger.trace (fstring "{part}"))
-					   (if (getattr part (string "thought") False)
-					       (do0
-						(incf result.thought part.text)
-						(yield (dictionary :type (string "thought")
-								   :text part.text)))
-					       (do0
-						(incf result.answer part.text)
-						(yield (dictionary :type (string "answer")
-								   :text part.text))))))
-				    ("Exception as e"
-				     (setf error_in_parts True)
-				     (logger.warning (fstring "genai {e}"))
+		       (for (chunk (self.client.models.generate_content_stream **req))
+			    #+nil (result.responses.append chunk)
+			    (logger.debug (string "received chunk"))
+			    (try (setf parts (dot chunk (aref candidates 0)
+						  content parts))
+				 ("Exception as e"
+				  (logger.debug (fstring "exception when accessing chunk: {e}"))
+				  continue))
+			    (try
+			     (for (part parts)
+				  (when (getattr part (string "text") None)
+				    (logger.trace (fstring "{part}"))
+				    (if (getattr part (string "thought") False)
+					(do0
+					 (incf result.thought part.text)
+					 (yield (dictionary :type (string "thought")
+							    :text part.text)))
+					(do0
+					 (incf result.answer part.text)
+					 (yield (dictionary :type (string "answer")
+							    :text part.text))))))
+			     ("Exception as e"
+			      (setf error_in_parts True)
+			      (logger.warning (fstring "genai {e}"))
 					;pass
-				     ))))
+			      )))
 		       ("Exception as e"
 			(logger.error (fstring "genai {e}"))
 			(yield (dictionary :type (string "error")
@@ -472,37 +471,42 @@ events until the final answer is complete or an error has occured"
      
 
      (@app.get (string "/response-stream"))
-     (space async (def response_stream (prompt_text)
-		    (declare (type str prompt_text))
-		    (logger.trace (fstring "GET response-stream prompt_text={prompt_text}"))
-		    (setf config (GenerationConfig
-				  :prompt_text prompt_text
-				  :model (string "gemini-flash-latest")
-				  #+yaml :output_yaml_path #+yaml yaml_filename
-				  :use_search False	  ; True
-				  :think_budget 0	  ;-1
-				  :include_thoughts False ; True
-				  ))
-		    (logger.trace (string "created a genai configuration"))
-		    (setf job (GenAIJob config))
-		    (logger.trace (string "configured genai job"))
-		    (space async
-			   (for (msg (job.run))
-				(logger.trace (fstring "genai.job async for {msg}"))
-				(cond ((== (aref msg (string "type"))
-					   (string "thought"))
-				       (yield (sse_message (Div (fstring "Thought: {msg['text']}")))))
-				      ((== (aref msg (string "type"))
-					   (string "answer"))
-				       (yield (sse_message (Div (fstring "Answer: {msg['text']}")))))
-				      ((== (aref msg (string "type"))
-					   (string "complete"))
-				       (yield (sse_message (Div (fstring "Final Answer: {msg['answer']}"))))
-				       break)
-				      ((== (aref msg (string "type"))
-					   (string "error"))
-				       (yield (sse_message (Div (fstring "Error: {msg['message']}"))))
-				       break))))))
+     (space async
+	    (def  response_stream (prompt_text)
+	      (declare (type str prompt_text))
+	      (space async
+		     (def gen ()
+			
+		       (logger.trace (fstring "GET response-stream prompt_text={prompt_text}"))
+		       (setf config (GenerationConfig
+				     :prompt_text prompt_text
+				     :model (string "gemini-flash-latest")
+				     #+yaml :output_yaml_path #+yaml yaml_filename
+				     :use_search False	   ; True
+				     :think_budget 0	   ;-1
+				     :include_thoughts False ; True
+				     ))
+		       (logger.trace (string "created a genai configuration"))
+		       (setf job (GenAIJob config))
+		       (logger.trace (string "configured genai job"))
+		       (space async
+			      (for (msg (job.run))
+				   (logger.trace (fstring "genai.job async for {msg}"))
+				   (cond ((== (aref msg (string "type"))
+					      (string "thought"))
+					  (yield (sse_message (Div (fstring "Thought: {msg['text']}")))))
+					 ((== (aref msg (string "type"))
+					      (string "answer"))
+					  (yield (sse_message (Div (fstring "Answer: {msg['text']}")))))
+					 ((== (aref msg (string "type"))
+					      (string "complete"))
+					  (yield (sse_message (Div (fstring "Final Answer: {msg['answer']}"))))
+					  break)
+					 ((== (aref msg (string "type"))
+					      (string "error"))
+					  (yield (sse_message (Div (fstring "Error: {msg['message']}"))))
+					  break))))))
+	      (return (EventStream (gen)))))
      (serve)
      )))
 

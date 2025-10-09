@@ -73,7 +73,6 @@ class GenerationConfig:
 class StreamResult:
     thought: str = ""
     answer: str = ""
-    responses: List[Any] = field(default_factory=list)
 
 
 class GenAIJob:
@@ -127,11 +126,8 @@ class GenAIJob:
         logger.debug("Starting streaming generation")
         error_in_parts = False
         try:
-            def sync_gen():
-                for chunk in self.client.models.generate_content_stream(**req):
-                    yield chunk
-
-            async for chunk in asyncio.to_thread(lambda: list(sync_gen())):
+            for chunk in self.client.models.generate_content_stream(**req):
+                logger.debug("received chunk")
                 try:
                     parts = chunk.candidates[0].content.parts
                 except Exception as e:
@@ -143,24 +139,26 @@ class GenAIJob:
                             logger.trace(f"{part}")
                             if getattr(part, "thought", False):
                                 result.thought += part.text
-                                yield dict(type="thought", text=part.text)
+                                yield (dict(type="thought", text=part.text))
                             else:
                                 result.answer += part.text
-                                yield dict(type="answer", text=part.text)
+                                yield (dict(type="answer", text=part.text))
                 except Exception as e:
                     error_in_parts = True
                     logger.warning(f"genai {e}")
         except Exception as e:
             logger.error(f"genai {e}")
-            yield dict(type="error", message=str(e))
+            yield (dict(type="error", message=str(e)))
             return
         logger.debug(f"Thought: {result.thought}")
         logger.debug(f"Answer: {result.answer}")
-        yield dict(
-            type="complete",
-            thought=result.thought,
-            answer=result.answer,
-            error=error_in_parts,
+        yield (
+            dict(
+                type="complete",
+                thought=result.thought,
+                answer=result.answer,
+                error=error_in_parts,
+            )
         )
 
 
@@ -238,7 +236,6 @@ async def time_sender():
     return EventStream(time_gen)
 
 
-
 @app.get("/response-stream")
 async def response_stream(prompt_text: str):
     async def gen():
@@ -265,6 +262,8 @@ async def response_stream(prompt_text: str):
             elif (msg["type"]) == ("error"):
                 yield (sse_message(Div(f"Error: {msg['message']}")))
                 break
+
     return EventStream(gen())
+
 
 serve()
