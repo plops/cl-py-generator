@@ -282,6 +282,7 @@ def get(request: Request):
         Ul(Li(H1("RocketRecap Content Summarizer"))),
         Ul(
             Li(A("Map", href="https://rocketrecap.com/exports/index.html")),
+            Li(A("FAQ", href="https://rocketrecap.com/exports/faq.html")),
             Li(A("Extension", href="https://rocketrecap.com/exports/extension.html")),
             Li(
                 A("Privacy Policy", href="https://rocketrecap.com/exports/privacy.html")
