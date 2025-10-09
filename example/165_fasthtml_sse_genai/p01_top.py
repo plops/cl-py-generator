@@ -127,8 +127,11 @@ class GenAIJob:
         logger.debug("Starting streaming generation")
         error_in_parts = False
         try:
-            async for chunk in self.client.models.generate_content_stream(**req):
-                logger.debug("received chunk")
+            def sync_gen():
+                for chunk in self.client.models.generate_content_stream(**req):
+                    yield chunk
+
+            async for chunk in asyncio.to_thread(lambda: list(sync_gen())):
                 try:
                     parts = chunk.candidates[0].content.parts
                 except Exception as e:
@@ -140,26 +143,24 @@ class GenAIJob:
                             logger.trace(f"{part}")
                             if getattr(part, "thought", False):
                                 result.thought += part.text
-                                yield (dict(type="thought", text=part.text))
+                                yield dict(type="thought", text=part.text)
                             else:
                                 result.answer += part.text
-                                yield (dict(type="answer", text=part.text))
+                                yield dict(type="answer", text=part.text)
                 except Exception as e:
                     error_in_parts = True
                     logger.warning(f"genai {e}")
         except Exception as e:
             logger.error(f"genai {e}")
-            yield (dict(type="error", message=str(e)))
+            yield dict(type="error", message=str(e))
             return
         logger.debug(f"Thought: {result.thought}")
         logger.debug(f"Answer: {result.answer}")
-        yield (
-            dict(
-                type="complete",
-                thought=result.thought,
-                answer=result.answer,
-                error=error_in_parts,
-            )
+        yield dict(
+            type="complete",
+            thought=result.thought,
+            answer=result.answer,
+            error=error_in_parts,
         )
 
 
@@ -237,31 +238,33 @@ async def time_sender():
     return EventStream(time_gen)
 
 
+
 @app.get("/response-stream")
 async def response_stream(prompt_text: str):
-    logger.trace(f"GET response-stream prompt_text={prompt_text}")
-    config = GenerationConfig(
-        prompt_text=prompt_text,
-        model="gemini-flash-latest",
-        use_search=False,
-        think_budget=0,
-        include_thoughts=False,
-    )
-    logger.trace("created a genai configuration")
-    job = GenAIJob(config)
-    logger.trace("configured genai job")
-    async for msg in job.run():
-        logger.trace(f"genai.job async for {msg}")
-        if (msg["type"]) == ("thought"):
-            yield (sse_message(Div(f"Thought: {msg['text']}")))
-        elif (msg["type"]) == ("answer"):
-            yield (sse_message(Div(f"Answer: {msg['text']}")))
-        elif (msg["type"]) == ("complete"):
-            yield (sse_message(Div(f"Final Answer: {msg['answer']}")))
-            break
-        elif (msg["type"]) == ("error"):
-            yield (sse_message(Div(f"Error: {msg['message']}")))
-            break
-
+    async def gen():
+        logger.trace(f"GET response-stream prompt_text={prompt_text}")
+        config = GenerationConfig(
+            prompt_text=prompt_text,
+            model="gemini-flash-latest",
+            use_search=False,
+            think_budget=0,
+            include_thoughts=False,
+        )
+        logger.trace("created a genai configuration")
+        job = GenAIJob(config)
+        logger.trace("configured genai job")
+        async for msg in job.run():
+            logger.trace(f"genai.job async for {msg}")
+            if (msg["type"]) == ("thought"):
+                yield (sse_message(Div(f"Thought: {msg['text']}")))
+            elif (msg["type"]) == ("answer"):
+                yield (sse_message(Div(f"Answer: {msg['text']}")))
+            elif (msg["type"]) == ("complete"):
+                yield (sse_message(Div(f"Final Answer: {msg['answer']}")))
+                break
+            elif (msg["type"]) == ("error"):
+                yield (sse_message(Div(f"Error: {msg['message']}")))
+                break
+    return EventStream(gen())
 
 serve()
