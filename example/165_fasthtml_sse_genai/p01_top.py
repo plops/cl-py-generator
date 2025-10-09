@@ -1,5 +1,6 @@
 # export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py
 import asyncio
+import datetime
 from loguru import logger
 from fasthtml.common import *
 
@@ -22,20 +23,67 @@ app, rt = fast_app(hdrs=hdrs, live=True)
 def index():
     return Titled(
         "SSE AI Responder",
-        P("See the response to the prompt"),
-        Div(
-            hx_ext="sse",
-            sse_connect="/response-stream",
-            hx_swap="beforeend show:bottom",
-            sse_swap="message",
+        Form(
+            Fieldset(
+                Legend("Submit a prompt for the AI to respond to"),
+                Div(
+                    Label("Write or paste your prompt here", _for="prompt-text"),
+                    Textarea(
+                        placeholder="Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat",
+                        style="height: 300px; width: 60%;",
+                        id="prompt-text",
+                        name="prompt-text",
+                    ),
+                    Button("Submit"),
+                ),
+            ),
+            data_hx_post="/process_transcript",
+            data_hx_swap="afterbegin",
+            data_hx_target="#response-list",
         ),
+        Div(
+            data_hx_ext="sse",
+            data_sse_connect="/time-sender",
+            data_hx_swap="innerHTML",
+            data_sse_swap="message",
+        ),
+        Div(
+            data_hx_ext="sse",
+            data_sse_connect="/response-stream",
+            data_hx_swap="beforeend show:bottom",
+            data_sse_swap="message",
+        ),
+        Div(id="summary-list"),
     )
 
 
-@rt("/response-stream")
+@rt("/process_transcript")
+def post(prompt_text: str, request: Request):
+    return prompt_text
+
+
+event = signal_shutdown()
+
+
+async def time_generator():
+    while not (event.is_set()):
+        yield (
+            sse_message(
+                Article(datetime.datetime.now().strftime("%H:%M:%S")), event="message"
+            )
+        )
+        await asyncio.sleep(1)
+
+
+@rt("/time-sender")
 async def get():
+    return EventStream(time_generator())
+
+
+@rt("/response-stream")
+async def get(prompt: str):
     config = GenerationConfig(
-        prompt_text=r"""Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat""",
+        prompt_text=prompt,
         model="gemini-flash-latest",
         use_search=False,
         think_budget=0,

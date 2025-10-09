@@ -174,7 +174,8 @@
      (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py")
 
      (imports (				;random time
-	       asyncio))
+	       asyncio
+	       datetime))
      (imports-from (loguru logger)
 		   (fasthtml.common *))
      
@@ -221,20 +222,61 @@
       (def index ()
 	(return (ntuple
 		 (Titled (string "SSE AI Responder")
-			 (P (string "See the response to the prompt"))
-			 (Div :hx_ext (string "sse")
-			      :sse_connect (string "/response-stream")
-			      :hx_swap (string "beforeend show:bottom")
-			      :sse_swap (string "message")))))))
+			 (Form
+			  (Fieldset
+			   (Legend (string "Submit a prompt for the AI to respond to"))
+			   (Div
+			    (Label (string "Write or paste your prompt here")
+				   :_for (string "prompt-text"))
+			    (Textarea
+			     :placeholder (string "Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat")
+			     :style (string "height: 300px; width: 60%;")
+			     :id (string "prompt-text")
+			     :name (string "prompt-text"))
+			    (Button (string "Submit"))))
+			  :data_hx_post (string "/process_transcript")
+			  :data_hx_swap (string "afterbegin")
+			  :data_hx_target (string "#response-list"))
+			 (Div :data_hx_ext (string "sse")
+			      :data_sse_connect (string "/time-sender")
+			      :data_hx_swap (string "innerHTML"); (string "beforeend show:bottom")
+			      :data_sse_swap (string "message"))
+			 (Div :data_hx_ext (string "sse")
+			      :data_sse_connect (string "/response-stream")
+			      :data_hx_swap (string "beforeend show:bottom")
+			      :data_sse_swap (string "message"))
+			 (Div :id (string "summary-list")))))))
 
+
+     (do0
+      (@rt (string "/process_transcript"))
+      (def post (prompt_text
+		 request)
+	(declare (type str prompt_text)
+		 (type Request request))
+	(return prompt_text)))
+     
+     (do0
+      (setf event (signal_shutdown))
+      (space async (def time_generator ()
+		     (while (not (event.is_set))
+			    (yield (sse_message (Article (dot datetime
+							      datetime (now)
+							      (strftime (string "%H:%M:%S"))))
+						:event (string "message")))
+			    (await (asyncio.sleep 1)))))
+      (do0
+       (@rt (string "/time-sender"))
+       (space async (def get ()
+		      (return (EventStream (time_generator)))))))
+     
      
 
      (@rt (string "/response-stream"))
-     (space async (def get ()
+     (space async (def get (prompt )
+		    (declare (type str prompt))
 		    (setf config (GenerationConfig
-				  :prompt_text (rstring3
-						"Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat"
-						)
+				  :prompt_text prompt
 				  :model (string "gemini-flash-latest")
 				  #+yaml :output_yaml_path #+yaml yaml_filename
 				  :use_search False	  ; True
