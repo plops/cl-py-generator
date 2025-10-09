@@ -1,15 +1,29 @@
 # export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py
+import argparse
 import asyncio
 import datetime
+import sys
 from loguru import logger
-from fasthtml.common import *
+
+# Parse command-line arguments
+parser = argparse.ArgumentParser(description="Run the SSE AI Responder")
+parser.add_argument('-v', '--verbose', action='count', default=0, help="Increase verbosity: -v for DEBUG, -vv for TRACE")
+args = parser.parse_args()
+
+# Determine log level based on verbosity
+if args.verbose == 1:
+    log_level = "DEBUG"
+elif args.verbose >= 2:
+    log_level = "TRACE"
+else:
+    log_level = "INFO"
 
 logger.remove()
 logger.add(
     sys.stdout,
     format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS} UTC</green> <level>{level}</level> <cyan>{name}</cyan>: <level>{message}</level>",
     colorize=True,
-    level="DEBUG",
+    level=log_level,
 )
 logger.info("Logger configured")
 # import after logger exists
@@ -27,12 +41,15 @@ def index():
             Fieldset(
                 Legend("Submit a prompt for the AI to respond to"),
                 Div(
-                    Label("Write or paste your prompt here", _for="prompt-text"),
+                    Label(
+                        "Enter your prompt here (e.g. Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat.)",
+                        _for="prompt_text",
+                    ),
                     Textarea(
-                        placeholder="Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat",
+                        placeholder="Enter prompt text here",
                         style="height: 300px; width: 60%;",
-                        id="prompt-text",
-                        name="prompt-text",
+                        id="prompt_text",
+                        name="prompt_text",
                     ),
                     Button("Submit"),
                 ),
@@ -53,10 +70,10 @@ def index():
 
 @rt("/process_transcript")
 def post(prompt_text: str, request: Request):
-    # Return a new SSE Div with th prompt in the connect URL
+    # Return a new SSE Div with the prompt in the connect URL
     return Div(
         data_hx_ext="sse",
-        data_sse_connect=f"/response-stream?prompt={prompt_text}",
+        data_sse_connect=f"/response-stream?prompt_text={prompt_text}",
         data_hx_swap="beforeend show:bottom",
         data_sse_swap="message",
     )
@@ -81,9 +98,9 @@ async def get():
 
 
 @rt("/response-stream")
-async def get(prompt: str):
+async def get(prompt_text: str):
     config = GenerationConfig(
-        prompt_text=prompt,
+        prompt_text=prompt_text,
         model="gemini-flash-latest",
         use_search=False,
         think_budget=0,
