@@ -1,23 +1,27 @@
 # export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py
-import argparse
 import asyncio
 import datetime
-import sys
+import argparse
 from loguru import logger
+from fasthtml.common import *
 
 # Parse command-line arguments
-parser = argparse.ArgumentParser(description="Run the SSE AI Responder")
-parser.add_argument('-v', '--verbose', action='count', default=0, help="Increase verbosity: -v for DEBUG, -vv for TRACE")
+parser = argparse.ArgumentParser(description="Run the SSE AI Responder website")
+parser.add_argument(
+    "-v",
+    "--verbose",
+    action="count",
+    default=0,
+    help="Increase verbosity: -v for DEBUG, -vv for TRACE",
+)
 args = parser.parse_args()
-
 # Determine log level based on verbosity
-if args.verbose == 1:
+if (args.verbose) == (1):
     log_level = "DEBUG"
-elif args.verbose >= 2:
+elif (args.verbose) >= (2):
     log_level = "TRACE"
 else:
     log_level = "INFO"
-
 logger.remove()
 logger.add(
     sys.stdout,
@@ -71,6 +75,9 @@ def index():
 @rt("/process_transcript")
 def post(prompt_text: str, request: Request):
     # Return a new SSE Div with the prompt in the connect URL
+    logger.trace(
+        f"POST process_transcript client={request.client.host} prompt='{prompt_text}'"
+    )
     return Div(
         data_hx_ext="sse",
         data_sse_connect=f"/response-stream?prompt_text={prompt_text}",
@@ -83,22 +90,25 @@ event = signal_shutdown()
 
 
 async def time_generator():
+    logger.trace("time_generator init")
     while not (event.is_set()):
-        yield (
-            sse_message(
-                Article(datetime.datetime.now().strftime("%H:%M:%S")), event="message"
-            )
-        )
+        time_str = datetime.datetime.now().strftime("%H:%M:%S")
+        logger.trace(f"time_generator sends {time_str}")
+        yield (sse_message(Article(time_str), event="message"))
         await asyncio.sleep(1)
+    logger.trace("time_generator shutdown")
 
 
 @rt("/time-sender")
 async def get():
-    return EventStream(time_generator())
+    time_gen = time_generator()
+    logger.trace(f"time-sender {time_gen}")
+    return EventStream(time_gen)
 
 
 @rt("/response-stream")
 async def get(prompt_text: str):
+    logger.trace(f"GET response-stream prompt_text={prompt_text}")
     config = GenerationConfig(
         prompt_text=prompt_text,
         model="gemini-flash-latest",
@@ -106,8 +116,11 @@ async def get(prompt_text: str):
         think_budget=0,
         include_thoughts=False,
     )
+    logger.trace("created a genai configuration")
     job = GenAIJob(config)
+    logger.trace("configured genai job")
     async for msg in job.run():
+        logger.trace(f"genai.job async for {msg}")
         if (msg["type"]) == ("thought"):
             yield (sse_message(Div(f"Thought: {msg['text']}")))
         elif (msg["type"]) == ("answer"):

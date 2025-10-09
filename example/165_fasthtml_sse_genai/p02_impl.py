@@ -22,7 +22,7 @@ class GenerationConfig:
 
 @dataclass
 class StreamResult:
-    thoughts: str = ""
+    thought: str = ""
     answer: str = ""
     responses: List[Any] = field(default_factory=list)
 
@@ -92,19 +92,19 @@ class GenAIJob:
                             else:
                                 result.answer += part.text
                                 yield (dict(type="answer", text=part.text))
-                except Exception:
+                except Exception as e:
                     error_in_parts = True
-                    pass
+                    logger.warning(f"genai {e}")
         except Exception as e:
             logger.error(f"genai {e}")
             yield (dict(type="error", message=str(e)))
-        logger.debug(f"Thoughts: {result.thoughts}")
+        logger.debug(f"Thought: {result.thought}")
         logger.debug(f"Answer: {result.answer}")
         yield (dict(type="complete", thought=result.thought, answer=result.answer))
 
     def to_dict(self, result: StreamResult) -> Dict[str, Any]:
         return dict(
-            config=asdict(self.config), thoughts=result.thoughts, answer=result.answer
+            config=asdict(self.config), thought=result.thought, answer=result.answer
         )
 
 

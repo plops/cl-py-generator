@@ -49,7 +49,7 @@
      (do0
       @dataclass
       (class StreamResult ()
-	     (setf "thoughts:str" (string "")
+	     (setf "thought:str" (string "")
 		   "answer:str" (string "")
 		   "responses:List[Any]" (field :default_factory list)
 		   )))
@@ -113,9 +113,11 @@
 					       (incf result.answer part.text)
 					       (yield (dictionary :type (string "answer")
 								  :text part.text))))))
-				   (Exception
+				   ("Exception as e"
 				    (setf error_in_parts True)
-				    pass))))
+				    (logger.warning (fstring "genai {e}"))
+					;pass
+				    ))))
 		      ("Exception as e"
 		       (logger.error (fstring "genai {e}"))
 		       (yield (dictionary :type (string "error")
@@ -123,7 +125,7 @@
 		     #+yaml
 		     (self._persist_yaml result error_in_parts)
 
-		     (logger.debug (fstring "Thoughts: {result.thoughts}"))
+		     (logger.debug (fstring "Thought: {result.thought}"))
 		     (logger.debug (fstring "Answer: {result.answer}"))
 		     
 		     (yield (dictionary :type (string "complete")
@@ -152,7 +154,7 @@
 		       (values "Dict[str,Any]"))
 	      (return (dictionary
 		       :config (asdict self.config)
-		       :thoughts result.thoughts
+		       :thought result.thought
 		       :answer result.answer
 		       ))
 	      ))
@@ -175,17 +177,39 @@
 
      (imports (				;random time
 	       asyncio
-	       datetime))
+	       datetime
+	       argparse))
      (imports-from (loguru logger)
 		   (fasthtml.common *))
+
+     (do0
+      (comments "Parse command-line arguments")
+      (setf parser (argparse.ArgumentParser :description (string "Run the SSE AI Responder website")))
+      (parser.add_argument (string "-v")
+			   (string "--verbose")
+			   :action (string "count")
+			   :default 0
+			   :help (string "Increase verbosity: -v for DEBUG, -vv for TRACE"))
+      (setf args (parser.parse_args))
+
+      (do0
+       (comments "Determine log level based on verbosity")
+       (cond ((== args.verbose 1)
+	      (setf log_level (string "DEBUG"))
+	      )
+	     ((>= args.verbose 2)
+	      (setf log_level (string "TRACE")))
+	     (t
+	      (setf log_level (string "INFO")))))
      
+     )
      (do0
       (logger.remove)
       (logger.add
        sys.stdout
        :format (string "<green>{time:YYYY-MM-DD HH:mm:ss.SSS} UTC</green> <level>{level}</level> <cyan>{name}</cyan>: <level>{message}</level>")
        :colorize True
-       :level (string "DEBUG")
+       :level log_level
 					;:utc True
        )
 
@@ -207,7 +231,7 @@
      (do0
       (setf job (GenAIJob cfg))
       (setf result (job.run))
-      (logger.info (fstring "thoughts: {result.thoughts}"))
+      (logger.info (fstring "thought: {result.thought}"))
       (logger.info (fstring "answer: {result.answer}")))
      
      
@@ -230,13 +254,13 @@ events until the final answer is complete or an error has occured"
 			  (Fieldset
 			   (Legend (string "Submit a prompt for the AI to respond to"))
 			   (Div
-			    (Label (string "Write or paste your prompt here")
-				   :_for (string "prompt-text"))
+			    (Label (string "Enter your prompt here (e.g. Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat.)")
+				   :_for (string "prompt_text"))
 			    (Textarea
-			     :placeholder (string "Make a list of european companies like Bosch, Siemens, group by topic, innovation and moat")
+			     :placeholder (string "Enter prompt text here")
 			     :style (string "height: 300px; width: 60%;")
-			     :id (string "prompt-text")
-			     :name (string "prompt-text"))
+			     :id (string "prompt_text")
+			     :name (string "prompt_text"))
 			    (Button (string "Submit"))))
 			  :data_hx_post (string "/process_transcript")
 			  :data_hx_swap (string "afterbegin")
@@ -259,43 +283,54 @@ events until the final answer is complete or an error has occured"
 		 request)
 	(declare (type str prompt_text)
 		 (type Request request))
-	(comments "Return a new SSE Div with th prompt in the connect URL")
+	(comments "Return a new SSE Div with the prompt in the connect URL")
+	(logger.trace (fstring "POST process_transcript client={request.client.host} prompt='{prompt_text}'"))
 	(return (Div
 		 :data_hx_ext (string "sse")
-		 :data_sse_connect (fstring "/response-stream?prompt={prompt_text}")
+		 :data_sse_connect (fstring "/response-stream?prompt_text={prompt_text}")
 		 :data_hx_swap (string "beforeend show:bottom")
 		 :data_sse_swap (string "message")))))
      
      (do0
       (setf event (signal_shutdown))
       (space async (def time_generator ()
+		     (logger.trace (string "time_generator init"))
 		     (while (not (event.is_set))
-			    (yield (sse_message (Article (dot datetime
-							      datetime (now)
-							      (strftime (string "%H:%M:%S"))))
+			    (setf time_str (dot datetime
+						datetime (now)
+						(strftime (string "%H:%M:%S"))))
+			    (logger.trace (fstring "time_generator sends {time_str}"))
+			    (yield (sse_message (Article time_str)
 						:event (string "message")))
-			    (await (asyncio.sleep 1)))))
+			    (await (asyncio.sleep 1)))
+		     (logger.trace (string "time_generator shutdown"))))
       (do0
        (@rt (string "/time-sender"))
        (space async (def get ()
-		      (return (EventStream (time_generator)))))))
+		      (setf time_gen (time_generator))
+		      (logger.trace (fstring "time-sender {time_gen}"))
+		      (return (EventStream time_gen))))))
      
      
 
      (@rt (string "/response-stream"))
-     (space async (def get (prompt )
-		    (declare (type str prompt))
+     (space async (def get (prompt_text)
+		    (declare (type str prompt_text))
+		    (logger.trace (fstring "GET response-stream prompt_text={prompt_text}"))
 		    (setf config (GenerationConfig
-				  :prompt_text prompt
+				  :prompt_text prompt_text
 				  :model (string "gemini-flash-latest")
 				  #+yaml :output_yaml_path #+yaml yaml_filename
 				  :use_search False	  ; True
 				  :think_budget 0	  ;-1
 				  :include_thoughts False ; True
 				  ))
+		    (logger.trace (string "created a genai configuration"))
 		    (setf job (GenAIJob config))
+		    (logger.trace (string "configured genai job"))
 		    (space async
 			   (for (msg (job.run))
+				(logger.trace (fstring "genai.job async for {msg}"))
 				(cond ((== (aref msg (string "type"))
 					   (string "thought"))
 				       (yield (sse_message (Div (fstring "Thought: {msg['text']}")))))
