@@ -35,202 +35,6 @@
 	   (google.genai types)))
 
      (do0
-      @dataclass
-      (class GenerationConfig ()
-	     "prompt_text:str"
-	     (setf "model:str" (string "gemini-flash-latest")
-		   "output_yaml_path:str" (string "out.yaml")
-		   "use_search:bool" True
-		   "think_budget:int" -1
-		   "include_thoughts:bool" True
-		   "api_key_env:str" (string "GEMINI_API_KEY"))
-	     ))
-
-
-     (do0
-      @dataclass
-      (class StreamResult ()
-	     (setf "thought:str" (string "")
-		   "answer:str" (string "")
-		   "responses:List[Any]" (field :default_factory list)
-		   )))
-     
-     (class GenAIJob ()
-	    (def __init__ (self config)
-	      (declare (type GenerationConfig config))
-	      (logger.trace (fstring "GenAIJob::init"))
-	      (setf self.config config)
-	      
-	      (setf self.client (genai.Client :api_key (os.environ.get config.api_key_env))))
-	    (def _build_request (self)
-	      (declare (values "Dict[str,Any]"))
-	      (logger.trace (fstring "GenAIJob::_build_request"))
-	      
-	      (setf tools (? self.config.use_search
-			     (list (types.Tool :googleSearch (types.GoogleSearch)))
-			     (list)))
-	      (setf safety (list
-			    ,@(loop for e in `(HARASSMENT HATE_SPEECH SEXUALLY_EXPLICIT DANGEROUS_CONTENT)
-				    collect
-				    `(types.SafetySetting
-				      :category (string ,(format nil "HARM_CATEGORY_~a" e))
-				      :threshold (string "BLOCK_NONE")))))
-	      (setf generate_content_config (types.GenerateContentConfig
-					     :thinking_config (types.ThinkingConfig
-							       :thinkingBudget self.config.think_budget
-							       :include_thoughts self.config.include_thoughts 
-							       )
-					     :safety_settings safety
-					     :tools tools)
-		    contents (list (types.Content :role (string "user")
-						  :parts (list (types.Part.from_text :text self.config.prompt_text)))))
-	      (logger.debug (fstring "_build_request {self.config.prompt_text}"))
-	      (return (dictionary :model self.config.model
-				  :contents contents
-				  :config generate_content_config)))
-	    (space async
-		   (def run (self)
-		     (declare (values StreamResult))
-		     (setf req (self._build_request)
-			   result (StreamResult))
-		     (logger.debug (string "Starting streaming generation"))
-		     (setf error_in_parts False)
-
-		     (try
-		      (for (chunk (self.client.models.generate_content_stream **req))
-			   #+nil (result.responses.append chunk)
-			   (logger.debug (string "received chunk"))
-			   (try (setf parts (dot chunk (aref candidates 0)
-						 content parts))
-				("Exception as e"
-				 (logger.debug (fstring "exception when accessing chunk: {e}"))
-				 continue))
-			   (try
-			    (for (part parts)
-				 (when (getattr part (string "text") None)
-				   (logger.trace (fstring "{part}"))
-				   (if (getattr part (string "thought") False)
-				       (do0
-					(incf result.thought part.text)
-					(yield (dictionary :type (string "thought")
-							   :text part.text)))
-				       (do0
-					(incf result.answer part.text)
-					(yield (dictionary :type (string "answer")
-							   :text part.text))))))
-			    ("Exception as e"
-			     (setf error_in_parts True)
-			     (logger.warning (fstring "genai {e}"))
-					;pass
-			     )))
-		      ("Exception as e"
-		       (logger.error (fstring "genai {e}"))
-		       (yield (dictionary :type (string "error")
-					  :message (str e)))
-		       return))
-		     #+yaml
-		     (self._persist_yaml result error_in_parts)
-
-		     (logger.debug (fstring "Thought: {result.thought}"))
-		     (logger.debug (fstring "Answer: {result.answer}"))
-		     
-		     (yield (dictionary :type (string "complete")
-					:thought result.thought
-					:answer result.answer
-					:error error_in_parts))))
-	    )
-     
-     
-     ))
-
-  (write-source
-   (asdf:system-relative-pathname 'cl-py-generator
-				  (merge-pathnames #P"p01_top"
-						   *source*))
-   `(do0
-     (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py")
-     (imports-from (__future__ annotations))
-     (imports (			;random time
-	       
-	       datetime
-	       argparse))
-     (imports-from 
-		   (fasthtml.common
-    Script
-    fast_app
-    Titled
-    Form
-    Fieldset
-    Legend
-    Div
-    Label
-    Textarea
-    Button
-    Request
-    signal_shutdown
-    sse_message
-    Article
-    EventStream
-    serve
-		    
-		    ))
-
-     (do0 
-	  (imports (os  sys #+yaml yaml
-			    asyncio))
-	  
-	  (imports-from
-	   (dataclasses dataclass field ;asdict
-			)
-	   (typing List
-					;Callable
-		   Any
-					;Optional
-		   Dict)
-	   
-	   (loguru logger)
-	   (google genai)
-	   (google.genai types)))
-
-     (do0
-      (comments "Parse command-line arguments")
-      (setf parser (argparse.ArgumentParser :description (string "Run the SSE AI Responder website")))
-      (parser.add_argument (string "-v")
-			   (string "--verbose")
-			   :action (string "count")
-			   :default 0
-			   :help (string "Increase verbosity: -v for DEBUG, -vv for TRACE"))
-      (setf args (parser.parse_args))
-
-      (do0
-       (comments "Determine log level based on verbosity")
-       (cond ((== args.verbose 1)
-	      (setf log_level (string "DEBUG"))
-	      )
-	     ((>= args.verbose 2)
-	      (setf log_level (string "TRACE")))
-	     (t
-	      (setf log_level (string "INFO")))))
-      
-      )
-     (do0
-      (logger.remove)
-      (logger.add
-       sys.stdout
-       :format (string "<green>{time:YYYY-MM-DD HH:mm:ss.SSS} UTC</green> <level>{level}</level> <cyan>{name}</cyan>: <level>{message}</level>")
-       :colorize True
-       :level log_level
-       :enqueue True ;; enable logging in async environment without blocking the eventloop
-					;:utc True
-       )
-
-      (logger.info (string "Logger configured")))
-     
-     (comments "import after logger exists")
-     #+nil
-     (imports-from (p02_impl GenerationConfig GenAIJob))
-
-     (do0
       
 
       (do0
@@ -374,6 +178,97 @@
 				  collect
 				  `(string ,e))))
       )
+
+     ))
+
+  (write-source
+   (asdf:system-relative-pathname 'cl-py-generator
+				  (merge-pathnames #P"p01_top"
+						   *source*))
+   `(do0
+     (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py")
+     (imports-from (__future__ annotations))
+     (imports (			;random time
+	       
+	       datetime
+	       argparse))
+     (imports-from 
+		   (fasthtml.common
+    Script
+    fast_app
+    Titled
+    Form
+    Fieldset
+    Legend
+    Div
+    Label
+    Textarea
+    Button
+    Request
+    signal_shutdown
+    sse_message
+    Article
+    EventStream
+    serve
+		    
+		    ))
+
+     (do0 
+	  (imports (os  sys #+yaml yaml
+			    asyncio))
+	  
+	  (imports-from
+	   (dataclasses dataclass field ;asdict
+			)
+	   (typing List
+					;Callable
+		   Any
+					;Optional
+		   Dict)
+	   
+	   (loguru logger)
+	   (google genai)
+	   (google.genai types)))
+
+     (do0
+      (comments "Parse command-line arguments")
+      (setf parser (argparse.ArgumentParser :description (string "Run the SSE AI Responder website")))
+      (parser.add_argument (string "-v")
+			   (string "--verbose")
+			   :action (string "count")
+			   :default 0
+			   :help (string "Increase verbosity: -v for DEBUG, -vv for TRACE"))
+      (setf args (parser.parse_args))
+
+      (do0
+       (comments "Determine log level based on verbosity")
+       (cond ((== args.verbose 1)
+	      (setf log_level (string "DEBUG"))
+	      )
+	     ((>= args.verbose 2)
+	      (setf log_level (string "TRACE")))
+	     (t
+	      (setf log_level (string "INFO")))))
+      
+      )
+     (do0
+      (logger.remove)
+      (logger.add
+       sys.stdout
+       :format (string "<green>{time:YYYY-MM-DD HH:mm:ss.SSS} UTC</green> <level>{level}</level> <cyan>{name}</cyan>: <level>{message}</level>")
+       :colorize True
+       :level log_level
+       :enqueue True ;; enable logging in async environment without blocking the eventloop
+					;:utc True
+       )
+
+      (logger.info (string "Logger configured")))
+     
+     (comments "import after logger exists")
+     
+     (imports-from (p02_impl GenerationConfig GenAIJob))
+
+     
      
      #+yaml
      (do0 
@@ -425,7 +320,8 @@ events until the final answer is complete or an error has occured"
 			 (Div :data_hx_ext (string "sse")
 			      :data_sse_connect (string "/time-sender")
 			      :data_hx_swap (string "innerHTML") ; (string "beforeend show:bottom")
-			      :data_sse_swap (string "message"))
+			      :data_sse_swap (string "message")
+			      :data_sse_close (string "close"))
 			 #+nil
 			 (Div :data_hx_ext (string "sse")
 			      :data_sse_connect (string "/response-stream")
@@ -453,7 +349,10 @@ events until the final answer is complete or an error has occured"
       (setf event (signal_shutdown))
       (space async (def time_generator ()
 		     (logger.trace (string "time_generator init"))
-		     (while (not (event.is_set))
+		     (setf count 0)
+		     (while (not (or (event.is_set)
+				     (< 7 count)))
+			    (incf count)
 			    (setf time_str (dot datetime
 						datetime (now)
 						(strftime (string "%H:%M:%S"))))
@@ -461,13 +360,14 @@ events until the final answer is complete or an error has occured"
 			    (yield (sse_message (Article time_str)
 						:event (string "message")))
 			    (await (asyncio.sleep 1)))
+		     (yield (sse_message (Article time_str)
+					 :event (string "close")))
 		     (logger.trace (string "time_generator shutdown"))))
       (do0
        (@app.get (string "/time-sender"))
        (space async (def time_sender ()
-		      (setf time_gen (time_generator))
-		      (logger.trace (fstring "GET time-sender {time_gen}"))
-		      (return (EventStream time_gen))))))
+		      (logger.trace (fstring "GET time-sender"))
+		      (return (EventStream (time_generator)))))))
      
      
 
