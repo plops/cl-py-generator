@@ -1,13 +1,29 @@
 # export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py
 from __future__ import annotations
-import asyncio
 import datetime
 import argparse
-from loguru import logger
-from fasthtml.common import *
+from fasthtml.common import (
+    Script,
+    fast_app,
+    Titled,
+    Form,
+    Fieldset,
+    Legend,
+    Div,
+    Label,
+    Textarea,
+    Button,
+    Request,
+    signal_shutdown,
+    sse_message,
+    Article,
+    EventStream,
+    serve,
+)
 import os
+import sys
 import asyncio
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from typing import List, Any, Dict
 from loguru import logger
 from google import genai
@@ -62,12 +78,12 @@ class StreamResult:
 
 class GenAIJob:
     def __init__(self, config: GenerationConfig):
-        logger.trace(f"GenAIJob::init")
+        logger.trace("GenAIJob.__init__")
         self.config = config
         self.client = genai.Client(api_key=os.environ.get(config.api_key_env))
 
     def _build_request(self) -> Dict[str, Any]:
-        logger.trace(f"GenAIJob::_build_request")
+        logger.trace("GenAIJob._build_request")
         tools = (
             ([types.Tool(googleSearch=types.GoogleSearch())])
             if (self.config.use_search)
@@ -105,7 +121,7 @@ class GenAIJob:
             model=self.config.model, contents=contents, config=generate_content_config
         )
 
-    async def run(self) -> StreamResult:
+    async def run(self):
         req = self._build_request()
         result = StreamResult()
         logger.debug("Starting streaming generation")
@@ -187,8 +203,8 @@ def index():
     )
 
 
-@rt("/process_transcript")
-def post(prompt_text: str, request: Request):
+@app.post("/process_transcript")
+def process_transcript(prompt_text: str, request: Request):
     # Return a new SSE Div with the prompt in the connect URL
     logger.trace(
         f"POST process_transcript client={request.client.host} prompt='{prompt_text}'"
@@ -214,15 +230,15 @@ async def time_generator():
     logger.trace("time_generator shutdown")
 
 
-@rt("/time-sender")
-async def get():
+@app.get("/time-sender")
+async def time_sender():
     time_gen = time_generator()
-    logger.trace(f"time-sender {time_gen}")
+    logger.trace(f"GET time-sender {time_gen}")
     return EventStream(time_gen)
 
 
-@rt("/response-stream")
-async def get(prompt_text: str):
+@app.get("/response-stream")
+async def response_stream(prompt_text: str):
     logger.trace(f"GET response-stream prompt_text={prompt_text}")
     config = GenerationConfig(
         prompt_text=prompt_text,

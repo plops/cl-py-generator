@@ -151,18 +151,37 @@
      (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py")
      (imports-from (__future__ annotations))
      (imports (			;random time
-	       asyncio
+	       
 	       datetime
 	       argparse))
-     (imports-from (loguru logger)
-		   (fasthtml.common *))
+     (imports-from 
+		   (fasthtml.common
+    Script
+    fast_app
+    Titled
+    Form
+    Fieldset
+    Legend
+    Div
+    Label
+    Textarea
+    Button
+    Request
+    signal_shutdown
+    sse_message
+    Article
+    EventStream
+    serve
+		    
+		    ))
 
      (do0 
-	  (imports (os  #+yaml yaml
+	  (imports (os  sys #+yaml yaml
 			    asyncio))
 	  
 	  (imports-from
-	   (dataclasses dataclass field asdict)
+	   (dataclasses dataclass field ;asdict
+			)
 	   (typing List
 					;Callable
 		   Any
@@ -238,13 +257,13 @@
       (class GenAIJob ()
 	     (def __init__ (self config)
 	       (declare (type GenerationConfig config))
-	       (logger.trace (fstring "GenAIJob::init"))
+	       (logger.trace (string "GenAIJob.__init__"))
 	       (setf self.config config)
 	       
 	       (setf self.client (genai.Client :api_key (os.environ.get config.api_key_env))))
 	     (def _build_request (self)
 	       (declare (values "Dict[str,Any]"))
-	       (logger.trace (fstring "GenAIJob::_build_request"))
+	       (logger.trace (string "GenAIJob._build_request"))
 	       
 	       (setf tools (? self.config.use_search
 			      (list (types.Tool :googleSearch (types.GoogleSearch)))
@@ -270,7 +289,7 @@
 				   :config generate_content_config)))
 	     (space async
 		    (def run (self)
-		      (declare (values StreamResult))
+		      ;(declare (values StreamResult))
 		      (setf req (self._build_request)
 			    result (StreamResult))
 		      (logger.debug (string "Starting streaming generation"))
@@ -417,8 +436,8 @@ events until the final answer is complete or an error has occured"
 
 
      (do0
-      (@rt (string "/process_transcript"))
-      (def post (prompt_text
+      (@app.post (string "/process_transcript"))
+      (def process_transcript (prompt_text
 		 request)
 	(declare (type str prompt_text)
 		 (type Request request))
@@ -444,16 +463,16 @@ events until the final answer is complete or an error has occured"
 			    (await (asyncio.sleep 1)))
 		     (logger.trace (string "time_generator shutdown"))))
       (do0
-       (@rt (string "/time-sender"))
-       (space async (def get ()
+       (@app.get (string "/time-sender"))
+       (space async (def time_sender ()
 		      (setf time_gen (time_generator))
-		      (logger.trace (fstring "time-sender {time_gen}"))
+		      (logger.trace (fstring "GET time-sender {time_gen}"))
 		      (return (EventStream time_gen))))))
      
      
 
-     (@rt (string "/response-stream"))
-     (space async (def get (prompt_text)
+     (@app.get (string "/response-stream"))
+     (space async (def response_stream (prompt_text)
 		    (declare (type str prompt_text))
 		    (logger.trace (fstring "GET response-stream prompt_text={prompt_text}"))
 		    (setf config (GenerationConfig
