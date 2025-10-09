@@ -29,10 +29,12 @@ class StreamResult:
 
 class GenAIJob:
     def __init__(self, config: GenerationConfig):
+        logger.trace(f"GenAIJob::init")
         self.config = config
         self.client = genai.Client(api_key=os.environ.get(config.api_key_env))
 
     def _build_request(self) -> Dict[str, Any]:
+        logger.trace(f"GenAIJob::_build_request")
         tools = (
             ([types.Tool(googleSearch=types.GoogleSearch())])
             if (self.config.use_search)
@@ -77,15 +79,16 @@ class GenAIJob:
         error_in_parts = False
         try:
             async for chunk in self.client.models.generate_content_stream(**req):
-                result.responses.append(chunk)
                 logger.debug("received chunk")
                 try:
                     parts = chunk.candidates[0].content.parts
-                except Exception:
+                except Exception as e:
+                    logger.debug(f"exception when accessing chunk: {e}")
                     continue
                 try:
                     for part in parts:
                         if getattr(part, "text", None):
+                            logger.trace(f"{part}")
                             if getattr(part, "thought", False):
                                 result.thought += part.text
                                 yield (dict(type="thought", text=part.text))
@@ -98,14 +101,14 @@ class GenAIJob:
         except Exception as e:
             logger.error(f"genai {e}")
             yield (dict(type="error", message=str(e)))
+            return
         logger.debug(f"Thought: {result.thought}")
         logger.debug(f"Answer: {result.answer}")
-        yield (dict(type="complete", thought=result.thought, answer=result.answer))
-
-    def to_dict(self, result: StreamResult) -> Dict[str, Any]:
-        return dict(
-            config=asdict(self.config), thought=result.thought, answer=result.answer
+        yield (
+            dict(
+                type="complete",
+                thought=result.thought,
+                answer=result.answer,
+                error=error_in_parts,
+            )
         )
-
-
-__all__ = ["GenerationConfig", "StreamResult", "GenAIJob"]
