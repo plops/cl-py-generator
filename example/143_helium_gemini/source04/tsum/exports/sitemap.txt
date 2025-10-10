@@ -2,3 +2,4 @@ https://rocketrecap.com/
 https://rocketrecap.com/exports/index.html
 https://rocketrecap.com/exports/extension.html
 https://rocketrecap.com/exports/privacy.html
+https://rocketrecap.com/exports/faq.html
