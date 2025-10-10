@@ -101,12 +101,12 @@ def index():
 @app.post("/process_transcript")
 def process_transcript(prompt_text: str, request: Request):
     # Return a new SSE Div with the prompt in the connect URL
+    id_str = datetime.datetime.now().timestamp()
+    uid = f"id-{id_str}"
     logger.trace(
         f"POST process_transcript client={request.client.host} prompt='{prompt_text}'"
     )
-    uid = f"id-{datetime.datetime.now().timestamp()}"
     return Div(
-        Article(f"Prompt: {prompt_text}"),
         Div("Thoughts:", Div(id=f"{uid}-thoughts")),
         Div("Answer:", Div(id=f"{uid}-answer")),
         Div(id=f"{uid}-error"),
@@ -144,25 +144,26 @@ async def time_sender():
 async def response_stream(prompt_text: str, uid: str):
     async def gen():
         logger.trace(f"GET response-stream prompt_text={prompt_text}")
+        include_thought = False
         config = GenerationConfig(
             prompt_text=prompt_text,
             model="gemini-flash-latest",
             use_search=False,
-            think_budget=0,
-            include_thoughts=True,
+            think_budget=(-1) if (include_thought) else (0),
+            include_thoughts=include_thought,
         )
         logger.trace("created a genai configuration")
         job = GenAIJob(config)
         logger.trace("configured genai job")
         async for msg in job.run():
             logger.trace(f"genai.job async for {msg}")
-            if (msg["type"]) == ("thought"):
+            if (include_thought) and ((msg["type"]) == ("thought")):
                 yield (
                     sse_message(
                         Div(
                             f"{msg['text']}",
                             id=f"{uid}-thoughts",
-                            hx_swap_oob="beforeend",
+                            data_hx_swap_oob="beforeend",
                         ),
                         event="thought",
                     )
@@ -171,7 +172,9 @@ async def response_stream(prompt_text: str, uid: str):
                 yield (
                     sse_message(
                         Div(
-                            f"{msg['text']}", id=f"{uid}-answer", hx_swap_oob="beforeend"
+                            f"{msg['text']}",
+                            id=f"{uid}-answer",
+                            data_hx_swap_oob="beforeend",
                         ),
                         event="answer",
                     )
@@ -180,28 +183,27 @@ async def response_stream(prompt_text: str, uid: str):
                 yield (
                     sse_message(
                         Div(
-                            f"Final Answer: {msg['answer']}",
+                            f"Final Answer: {msg['text']}",
                             id=f"{uid}-answer",
-                            hx_swap_oob="innerHTML",
+                            data_hx_swap_oob="innerHTML",
                         ),
                         event="final_answer",
                     )
                 )
-                yield (sse_message(" ", event="close"))
                 break
             elif (msg["type"]) == ("error"):
                 yield (
                     sse_message(
                         Div(
-                            f"Error: {msg['message']}",
+                            f"Error: {msg['text']}",
                             id=f"{uid}-error",
-                            hx_swap_oob="innerHTML",
+                            data_hx_swap_oob="innerHTML",
                         ),
                         event="error",
                     )
                 )
-                yield (sse_message(" ", event="close"))
                 break
+        yield (sse_message("", event="close"))
 
     return EventStream(gen())
 

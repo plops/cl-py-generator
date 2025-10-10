@@ -337,12 +337,21 @@ events until the final answer is complete or an error has occured"
 	(declare (type str prompt_text)
 		 (type Request request))
 	(comments "Return a new SSE Div with the prompt in the connect URL")
+	(setf id_str (dot datetime datetime (now) (timestamp))
+	      uid (fstring "id-{id_str}"))
 	(logger.trace (fstring "POST process_transcript client={request.client.host} prompt='{prompt_text}'"))
 	(return (Div
+		 ;(Article (fstring "Prompt: {prompt_text}"))
+		 (Div (string "Thoughts:")
+		      (Div :id (fstring "{uid}-thoughts")))
+		 (Div (string "Answer:")
+		      (Div :id (fstring "{uid}-answer")))
+		 (Div :id (fstring "{uid}-error"))
 		 :data_hx_ext (string "sse")
-		 :data_sse_connect (fstring "/response-stream?prompt_text={prompt_text}")
-		 :data_hx_swap (string "beforeend show:bottom")
-		 :data_sse_swap (string "message")
+		 :data_sse_connect (fstring "/response-stream?prompt_text={prompt_text}&uid={uid}")
+		; :data_hx_swap (string "beforeend show:bottom")
+		 :data_sse_swap (string "thought,answer,final_answer,error")
+		 :data_hx_swap_oob (string "true")
 		 :data_sse_close (string "close")))))
      
      (do0
@@ -372,20 +381,21 @@ events until the final answer is complete or an error has occured"
      
 
      (@app.get (string "/response-stream"))
-     (space async
-	    (def  response_stream (prompt_text)
-	      (declare (type str prompt_text))
+     (space async 
+	    (def  response_stream (prompt_text uid)
+	      (declare (type str prompt_text uid))
 	      (space async
 		     (def gen ()
 			
 		       (logger.trace (fstring "GET response-stream prompt_text={prompt_text}"))
+		       (setf include_thought False)
 		       (setf config (GenerationConfig
 				     :prompt_text prompt_text
 				     :model (string "gemini-flash-latest")
 				     #+yaml :output_yaml_path #+yaml yaml_filename
-				     :use_search False	   ; True
-				     :think_budget 0	   ;-1
-				     :include_thoughts False ; True
+				     :use_search False	     ; True
+				     :think_budget (? include_thought -1 0)
+				     :include_thoughts include_thought
 				     ))
 		       (logger.trace (string "created a genai configuration"))
 		       (setf job (GenAIJob config))
@@ -393,22 +403,38 @@ events until the final answer is complete or an error has occured"
 		       (space async
 			      (for (msg (job.run))
 				   (logger.trace (fstring "genai.job async for {msg}"))
-				   (cond ((== (aref msg (string "type"))
-					      (string "thought"))
-					  (yield (sse_message (Div (fstring "Thought: {msg['text']}")))))
+				   (cond ((and include_thought
+					       (== (aref msg (string "type"))
+						   (string "thought")))
+					  (yield (sse_message (Div (fstring "{msg['text']}")
+								   :id (fstring "{uid}-thoughts")
+								   :data_hx_swap_oob (string "beforeend"))
+							      :event (string "thought"))))
 					 ((== (aref msg (string "type"))
 					      (string "answer"))
-					  (yield (sse_message (Div (fstring "Answer: {msg['text']}")))))
+					  (yield (sse_message (Div (fstring "{msg['text']}")
+								   :id (fstring "{uid}-answer")
+								   :data_hx_swap_oob (string "beforeend")
+								   )
+							      :event (string "answer"))))
 					 ((== (aref msg (string "type"))
 					      (string "complete"))
-					  (yield (sse_message (Div (fstring "Final Answer: {msg['answer']}"))))
-					  (yield (sse_message (string "") :event (string "close")))
+					  (yield (sse_message (Div (fstring "Final Answer: {msg['text']}")
+								   :id (fstring "{uid}-answer")
+								   :data_hx_swap_oob (string "innerHTML")
+								   )
+							      :event (string "final_answer")))
 					  break)
 					 ((== (aref msg (string "type"))
 					      (string "error"))
-					  (yield (sse_message (Div (fstring "Error: {msg['message']}"))))
-					  (yield (sse_message (string "") :event (string "close")))
-					  break))))))
+					  (yield (sse_message (Div (fstring "Error: {msg['text']}")
+								   :id (fstring "{uid}-error")
+								   :data_hx_swap_oob (string "innerHTML")
+								   )
+							      :event (string "error")))
+					  break))))
+		       (yield (sse_message (string "")
+					   :event (string "close")))))
 	      (return (EventStream (gen)))))
      (serve)
      )))
