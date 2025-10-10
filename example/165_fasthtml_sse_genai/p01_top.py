@@ -203,10 +203,10 @@ _job_store_lock = asyncio.Lock()
 @app.post("/process_transcript")
 async def process_transcript(prompt_text: str, request: Request):
     # Return a new SSE Div with a uid-only connect URL (prompt stored server-side)
-    id_str = datetime.datetime.now().timestamp()
+    id_str = int(datetime.datetime.now().timestamp()*1000)
     uid = f"id-{id_str}"
     logger.trace(
-        f"POST process_transcript client={request.client.host} prompt_len={len(prompt_text) if prompt_text else 0}"
+        f"POST process_transcript client={request.client.host} {uid} prompt_len={len(prompt_text) if prompt_text else 0}"
     )
     # store prompt and any generation options server-side so the prompt is not resent
     # keep this small/brief; adjust options as needed
@@ -224,12 +224,12 @@ async def process_transcript(prompt_text: str, request: Request):
         Div("Thoughts:", Div(id=f"{uid}-thoughts")),
         Div("Answer:", Div(id=f"{uid}-answer")),
         Div(id=f"{uid}-error"),
-        data_hx_ext="sse",
+        hx_ext="sse",
         # connect using only uid so the prompt text is never sent again from the client
         data_sse_connect=f"/response-stream?uid={uid}",
         data_sse_swap="thought,answer,final_answer,error",
-        data_hx_swap_oob="true",
-        data_hx_target="response-list",
+        # data_hx_swap_oob="true",
+        data_hx_target="#response-list",
         data_sse_close="close",
     )
 
