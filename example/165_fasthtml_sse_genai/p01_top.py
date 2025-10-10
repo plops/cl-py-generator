@@ -104,11 +104,16 @@ def process_transcript(prompt_text: str, request: Request):
     logger.trace(
         f"POST process_transcript client={request.client.host} prompt='{prompt_text}'"
     )
+    uid = f"id-{datetime.datetime.now().timestamp()}"
     return Div(
+        Article(f"Prompt: {prompt_text}"),
+        Div("Thoughts:", Div(id=f"{uid}-thoughts")),
+        Div("Answer:", Div(id=f"{uid}-answer")),
+        Div(id=f"{uid}-error"),
         data_hx_ext="sse",
-        data_sse_connect=f"/response-stream?prompt_text={prompt_text}",
-        data_hx_swap="beforeend show:bottom",
-        data_sse_swap="message",
+        data_sse_connect=f"/response-stream?prompt_text={prompt_text}&uid={uid}",
+        data_sse_swap="thought,answer,final_answer,error",
+        data_hx_swap_oob="true",
         data_sse_close="close",
     )
 
@@ -136,7 +141,7 @@ async def time_sender():
 
 
 @app.get("/response-stream")
-async def response_stream(prompt_text: str):
+async def response_stream(prompt_text: str, uid: str):
     async def gen():
         logger.trace(f"GET response-stream prompt_text={prompt_text}")
         config = GenerationConfig(
@@ -144,7 +149,7 @@ async def response_stream(prompt_text: str):
             model="gemini-flash-latest",
             use_search=False,
             think_budget=0,
-            include_thoughts=False,
+            include_thoughts=True,
         )
         logger.trace("created a genai configuration")
         job = GenAIJob(config)
@@ -152,16 +157,50 @@ async def response_stream(prompt_text: str):
         async for msg in job.run():
             logger.trace(f"genai.job async for {msg}")
             if (msg["type"]) == ("thought"):
-                yield (sse_message(Div(f"Thought: {msg['text']}")))
+                yield (
+                    sse_message(
+                        Div(
+                            f"{msg['text']}",
+                            id=f"{uid}-thoughts",
+                            hx_swap_oob="beforeend",
+                        ),
+                        event="thought",
+                    )
+                )
             elif (msg["type"]) == ("answer"):
-                yield (sse_message(Div(f"Answer: {msg['text']}")))
+                yield (
+                    sse_message(
+                        Div(
+                            f"{msg['text']}", id=f"{uid}-answer", hx_swap_oob="beforeend"
+                        ),
+                        event="answer",
+                    )
+                )
             elif (msg["type"]) == ("complete"):
-                yield (sse_message(Div(f"Final Answer: {msg['answer']}")))
-                yield (sse_message("", event="close"))
+                yield (
+                    sse_message(
+                        Div(
+                            f"Final Answer: {msg['answer']}",
+                            id=f"{uid}-answer",
+                            hx_swap_oob="innerHTML",
+                        ),
+                        event="final_answer",
+                    )
+                )
+                yield (sse_message(" ", event="close"))
                 break
             elif (msg["type"]) == ("error"):
-                yield (sse_message(Div(f"Error: {msg['message']}")))
-                yield (sse_message("", event="close"))
+                yield (
+                    sse_message(
+                        Div(
+                            f"Error: {msg['message']}",
+                            id=f"{uid}-error",
+                            hx_swap_oob="innerHTML",
+                        ),
+                        event="error",
+                    )
+                )
+                yield (sse_message(" ", event="close"))
                 break
 
     return EventStream(gen())
