@@ -9,34 +9,8 @@
 (in-package #:my-py-project)
 ;; https://htmx.org/extensions/sse/                                HTMX with server side events
 ;; https://www.fastht.ml/docs/ref/response_types.html#eventstream  FastHTML with server side events
-(progn
-
-  (defparameter *source* "example/165_fasthtml_sse_genai/")
-  #+nil
-  (write-source
-   (asdf:system-relative-pathname 'cl-py-generator
-				  (merge-pathnames #P"p02_impl"
-						   *source*))
-   `(do0
-     (do0 (imports-from (__future__ annotations))
-	  (imports (os time #+yaml yaml
-			    asyncio))
-	  
-	  (imports-from
-	   (dataclasses dataclass field asdict)
-	   (typing List
-					;Callable
-		   Any
-					;Optional
-		   Dict)
-	   
-	   (loguru logger)
-	   (google genai)
-	   (google.genai types)))
-
-     (do0
-      
-
+(let ((helper-classes
+	`(do0
       (do0
        @dataclass
        (class GenerationConfig ()
@@ -171,14 +145,37 @@
 	       ))
       
       
-      (setf __all__ (list ,@(loop for e in `(GenerationConfig
+      
+      )))
+  (defparameter *source* "example/165_fasthtml_sse_genai/")
+  #+nil
+  (write-source
+   (asdf:system-relative-pathname 'cl-py-generator
+				  (merge-pathnames #P"p02_impl"
+						   *source*))
+   `(do0
+     (do0 (imports-from (__future__ annotations))
+	  (imports (os time #+yaml yaml
+			    asyncio))
+	  
+	  (imports-from
+	   (dataclasses dataclass field asdict)
+	   (typing ;List
+					;Callable
+		   Any
+					;Optional
+		   Dict)
+	   
+	   (loguru logger)
+	   (google genai)
+	   (google.genai types)))
+     ,helper-classes
+     (setf __all__ (list ,@(loop for e in `(GenerationConfig
 					     StreamResult
 					     GenAIJob
 					     )
 				  collect
 				  `(string ,e))))
-      )
-
      ))
 
   (write-source
@@ -218,9 +215,9 @@
 			    asyncio))
 	  
 	  (imports-from
-	   (dataclasses dataclass field ;asdict
+	   (dataclasses dataclass ;field ;asdict
 			)
-	   (typing List
+	   (typing ;List
 					;Callable
 		   Any
 					;Optional
@@ -266,9 +263,9 @@
      
      (comments "import after logger exists")
      
+     #+nil
      (imports-from (p02_impl GenerationConfig GenAIJob))
-
-     
+     ,helper-classes
      
      #+yaml
      (do0 
@@ -375,7 +372,7 @@ events until the final answer is complete or an error has occured"
       (do0
        (@app.get (string "/time-sender"))
        (space async (def time_sender ()
-		      (logger.trace (fstring "GET time-sender"))
+		      (logger.trace (string "GET time-sender"))
 		      (return (EventStream (time_generator)))))))
      
      
