@@ -207,7 +207,6 @@ def process_transcript(prompt_text: str, request: Request):
         Div("Answer:", Div(id=f"{uid}-answer")),
         Div(id=f"{uid}-error"),
         data_hx_ext="sse",
-        # URL-encode the prompt so spaces and special chars don't break the connect URL
         data_sse_connect=f"/response-stream?prompt_text={quote_plus(prompt_text)}&uid={uid}",
         data_sse_swap="thought,answer,final_answer,error",
         data_hx_swap_oob="true",
@@ -256,12 +255,10 @@ async def response_stream(prompt_text: str, uid: str):
                     )
                 )
             elif (msg["type"]) == ("complete"):
-                # final message: use the 'answer' field produced by GenAIJob.run
-                final_ans = msg.get("answer", "")
                 yield (
                     sse_message(
                         Div(
-                            f"Final Answer: {final_ans}",
+                            f"Final Answer: {msg['text']}",
                             id=f"{uid}-answer",
                             data_hx_swap_oob="innerHTML",
                         ),
@@ -270,12 +267,10 @@ async def response_stream(prompt_text: str, uid: str):
                 )
                 break
             elif (msg["type"]) == ("error"):
-                # error payloads from GenAIJob use the 'message' key
-                err_text = msg.get("message", "")
                 yield (
                     sse_message(
                         Div(
-                            f"Error: {err_text}",
+                            f"Error: {msg['text']}",
                             id=f"{uid}-error",
                             data_hx_swap_oob="innerHTML",
                         ),

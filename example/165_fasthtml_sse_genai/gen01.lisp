@@ -11,142 +11,142 @@
 ;; https://www.fastht.ml/docs/ref/response_types.html#eventstream  FastHTML with server side events
 (let ((helper-classes
 	`(do0
-      (do0
-       @dataclass
-       (class GenerationConfig ()
-	      "prompt_text:str"
-	      (setf "model:str" (string "gemini-flash-latest")
-		    "output_yaml_path:str" (string "out.yaml")
-		    "use_search:bool" True
-		    "think_budget:int" -1
-		    "include_thoughts:bool" True
-		    "api_key_env:str" (string "GEMINI_API_KEY"))
-	      ))
+	  (do0
+	   @dataclass
+	   (class GenerationConfig ()
+		  "prompt_text:str"
+		  (setf "model:str" (string "gemini-flash-latest")
+			"output_yaml_path:str" (string "out.yaml")
+			"use_search:bool" True
+			"think_budget:int" -1
+			"include_thoughts:bool" True
+			"api_key_env:str" (string "GEMINI_API_KEY"))
+		  ))
 
 
-      (do0
-       @dataclass
-       (class StreamResult ()
-	      (setf "thought:str" (string "")
-		    "answer:str" (string "")
-		    ;"responses:List[Any]" (field :default_factory list)
-		    )))
-      
-      (class GenAIJob ()
-	     (def __init__ (self config)
-	       (declare (type GenerationConfig config))
-	       (logger.trace (string "GenAIJob.__init__"))
-	       (setf self.config config)
-	       
-	       (setf self.client (genai.Client :api_key (os.environ.get config.api_key_env))))
-	     (def _build_request (self)
-	       (declare (values "Dict[str,Any]"))
-	       (logger.trace (string "GenAIJob._build_request"))
-	       
-	       (setf tools (? self.config.use_search
-			      (list (types.Tool :googleSearch (types.GoogleSearch)))
-			      (list)))
-	       (setf safety (list
-			     ,@(loop for e in `(HARASSMENT HATE_SPEECH SEXUALLY_EXPLICIT DANGEROUS_CONTENT)
-				     collect
-				     `(types.SafetySetting
-				       :category (string ,(format nil "HARM_CATEGORY_~a" e))
-				       :threshold (string "BLOCK_NONE")))))
-	       (setf generate_content_config (types.GenerateContentConfig
-					      :thinking_config (types.ThinkingConfig
-								:thinkingBudget self.config.think_budget
-								:include_thoughts self.config.include_thoughts 
-								)
-					      :safety_settings safety
-					      :tools tools)
-		     contents (list (types.Content :role (string "user")
-						   :parts (list (types.Part.from_text :text self.config.prompt_text)))))
-	       (logger.debug (fstring "_build_request {self.config.prompt_text}"))
-	       (return (dictionary :model self.config.model
-				   :contents contents
-				   :config generate_content_config)))
-	     (space async
-		    (def run (self)
-		      ;(declare (values StreamResult))
-		      (setf req (self._build_request) 
-			    result (StreamResult))
-		      (logger.debug (string "Starting streaming generation"))
-		      (setf error_in_parts False)
+	  (do0
+	   @dataclass
+	   (class StreamResult ()
+		  (setf "thought:str" (string "")
+			"answer:str" (string "")
+					;"responses:List[Any]" (field :default_factory list)
+			)))
+	  
+	  (class GenAIJob ()
+		 (def __init__ (self config)
+		   (declare (type GenerationConfig config))
+		   (logger.trace (string "GenAIJob.__init__"))
+		   (setf self.config config)
+		   
+		   (setf self.client (genai.Client :api_key (os.environ.get config.api_key_env))))
+		 (def _build_request (self)
+		   (declare (values "Dict[str,Any]"))
+		   (logger.trace (string "GenAIJob._build_request"))
+		   
+		   (setf tools (? self.config.use_search
+				  (list (types.Tool :googleSearch (types.GoogleSearch)))
+				  (list)))
+		   (setf safety (list
+				 ,@(loop for e in `(HARASSMENT HATE_SPEECH SEXUALLY_EXPLICIT DANGEROUS_CONTENT)
+					 collect
+					 `(types.SafetySetting
+					   :category (string ,(format nil "HARM_CATEGORY_~a" e))
+					   :threshold (string "BLOCK_NONE")))))
+		   (setf generate_content_config (types.GenerateContentConfig
+						  :thinking_config (types.ThinkingConfig
+								    :thinkingBudget self.config.think_budget
+								    :include_thoughts self.config.include_thoughts 
+								    )
+						  :safety_settings safety
+						  :tools tools)
+			 contents (list (types.Content :role (string "user")
+						       :parts (list (types.Part.from_text :text self.config.prompt_text)))))
+		   (logger.debug (fstring "_build_request {self.config.prompt_text}"))
+		   (return (dictionary :model self.config.model
+				       :contents contents
+				       :config generate_content_config)))
+		 (space async
+			(def run (self)
+					;(declare (values StreamResult))
+			  (setf req (self._build_request) 
+				result (StreamResult))
+			  (logger.debug (string "Starting streaming generation"))
+			  (setf error_in_parts False)
 
-		      (try
-		       (for (chunk (self.client.models.generate_content_stream **req))
-			    #+nil (result.responses.append chunk)
-			    (logger.debug (string "received chunk"))
-			    (try (setf parts (dot chunk (aref candidates 0)
-						  content parts))
+			  (try
+			   (for (chunk (self.client.models.generate_content_stream **req))
+				#+nil (result.responses.append chunk)
+				(logger.debug (string "received chunk"))
+				(try (setf parts (dot chunk (aref candidates 0)
+						      content parts))
+				     ("Exception as e"
+				      (logger.debug (fstring "exception when accessing chunk: {e}"))
+				      continue))
+				(try
+				 (for (part parts)
+				      (when (getattr part (string "text") None)
+					(logger.trace (fstring "{part}"))
+					(if (getattr part (string "thought") False)
+					    (do0
+					     (incf result.thought part.text)
+					     (yield (dictionary :type (string "thought")
+								:text part.text)))
+					    (do0
+					     (incf result.answer part.text)
+					     (yield (dictionary :type (string "answer")
+								:text part.text))))))
 				 ("Exception as e"
-				  (logger.debug (fstring "exception when accessing chunk: {e}"))
-				  continue))
-			    (try
-			     (for (part parts)
-				  (when (getattr part (string "text") None)
-				    (logger.trace (fstring "{part}"))
-				    (if (getattr part (string "thought") False)
-					(do0
-					 (incf result.thought part.text)
-					 (yield (dictionary :type (string "thought")
-							    :text part.text)))
-					(do0
-					 (incf result.answer part.text)
-					 (yield (dictionary :type (string "answer")
-							    :text part.text))))))
-			     ("Exception as e"
-			      (setf error_in_parts True)
-			      (logger.warning (fstring "genai {e}"))
+				  (setf error_in_parts True)
+				  (logger.warning (fstring "genai {e}"))
 					;pass
-			      )))
-		       ("Exception as e"
-			(logger.error (fstring "genai {e}"))
-			(yield (dictionary :type (string "error")
-					   :message (str e)))
-			return))
-		      #+yaml
-		      (self._persist_yaml result error_in_parts)
+				  )))
+			   ("Exception as e"
+			    (logger.error (fstring "genai {e}"))
+			    (yield (dictionary :type (string "error")
+					       :message (str e)))
+			    return))
+			  #+yaml
+			  (self._persist_yaml result error_in_parts)
 
-		      (logger.debug (fstring "Thought: {result.thought}"))
-		      (logger.debug (fstring "Answer: {result.answer}"))
-		      
-		      (yield (dictionary :type (string "complete")
-					 :thought result.thought
-					 :answer result.answer
-					 :error error_in_parts))))
-	     #+nil
-	     (def _persist_yaml (self result error_in_parts)
-	       (declare (type StreamResult result))
-	       (setf path self.config.output_yaml_path)
-	       (when error_in_parts
-		 (setf path (fstring "error_{path}")))
-	       (try
-		(do0
-		 (with (as (open path (string "w")
-				 :encoding (string "utf-8"))
-			   f)
-		       (yaml.dump result.responses
-				  f
-				  :allow_unicode True
-				  :indent 2))
-		 (logger.info (fstring "Wrote raw responses to {path}")))
-		("Exception as e"
-		 (logger.error (fstring "Failed to write YAML: {e}")))))
-	     #+nil
-	     (def to_dict (self result)
-	       (declare (type StreamResult result)
-			(values "Dict[str,Any]"))
-	       (return (dictionary
-			:config (asdict self.config)
-			:thought result.thought
-			:answer result.answer
-			))
-	       ))
-      
-      
-      
-      )))
+			  (logger.debug (fstring "Thought: {result.thought}"))
+			  (logger.debug (fstring "Answer: {result.answer}"))
+			  
+			  (yield (dictionary :type (string "complete")
+					     :thought result.thought
+					     :answer result.answer
+					     :error error_in_parts))))
+		 #+nil
+		 (def _persist_yaml (self result error_in_parts)
+		   (declare (type StreamResult result))
+		   (setf path self.config.output_yaml_path)
+		   (when error_in_parts
+		     (setf path (fstring "error_{path}")))
+		   (try
+		    (do0
+		     (with (as (open path (string "w")
+				     :encoding (string "utf-8"))
+			       f)
+			   (yaml.dump result.responses
+				      f
+				      :allow_unicode True
+				      :indent 2))
+		     (logger.info (fstring "Wrote raw responses to {path}")))
+		    ("Exception as e"
+		     (logger.error (fstring "Failed to write YAML: {e}")))))
+		 #+nil
+		 (def to_dict (self result)
+		   (declare (type StreamResult result)
+			    (values "Dict[str,Any]"))
+		   (return (dictionary
+			    :config (asdict self.config)
+			    :thought result.thought
+			    :answer result.answer
+			    ))
+		   ))
+	  
+	  
+	  
+	  )))
   (defparameter *source* "example/165_fasthtml_sse_genai/")
   #+nil
   (write-source
@@ -190,42 +190,45 @@
 	       datetime
 	       argparse))
      (imports-from 
-		   (fasthtml.common
-    Script
-    fast_app
-    Titled
-    Form
-    Fieldset
-    Legend
-    Div
-    Label
-    Textarea
-    Button
-    Request
-    signal_shutdown
-    sse_message
-    Article
-    EventStream
-    serve
-		    
-		    ))
+      (fasthtml.common
+       Script
+       fast_app
+       Titled
+       Form
+       Fieldset
+       Legend
+       Div
+       Label
+       Textarea
+       Button
+       Request
+       #+timer signal_shutdown
+       #+timer Article
+       sse_message
+       
+       EventStream
+       serve
+       
+       ))
 
      (do0 
-	  (imports (os  sys #+yaml yaml
-			    asyncio))
-	  
-	  (imports-from
-	   (dataclasses dataclass ;field ;asdict
-			)
-	   (typing ;List
+      (imports (os  sys #+yaml yaml
+			asyncio))
+      
+      (imports-from
+       (dataclasses dataclass		;field ;asdict
+		    )
+       (typing				;List
 					;Callable
-		   Any
+	Any
 					;Optional
-		   Dict)
-	   
-	   (loguru logger)
-	   (google genai)
-	   (google.genai types)))
+	Dict)
+       
+       
+       (loguru logger)
+       (google genai)
+       (google.genai types)
+       (urllib.parse quote_plus)))
 
      (do0
       (comments "Parse command-line arguments")
@@ -288,7 +291,9 @@
 
 
      (setf hdrs (tuple (Script :src (string "https://unpkg.com/htmx-ext-sse@2.2.3/sse.js")))
-	   (ntuple app rt) (fast_app :hdrs hdrs :live True))
+	   (ntuple app rt) (fast_app :hdrs hdrs
+					; :live False
+				     ))
 
      #+nil "If the submit button is pressed, the prompt-text shall be submitted as
 a GenAIJob. the thought and answer outputs of its job method shall be
@@ -314,6 +319,7 @@ events until the final answer is complete or an error has occured"
 			  :data_hx_post (string "/process_transcript")
 			  :data_hx_swap (string "afterbegin")
 			  :data_hx_target (string "#response-list"))
+			 #+timer
 			 (Div :data_hx_ext (string "sse")
 			      :data_sse_connect (string "/time-sender")
 			      :data_hx_swap (string "innerHTML") ; (string "beforeend show:bottom")
@@ -330,7 +336,7 @@ events until the final answer is complete or an error has occured"
      (do0
       (@app.post (string "/process_transcript"))
       (def process_transcript (prompt_text
-		 request)
+			       request)
 	(declare (type str prompt_text)
 		 (type Request request))
 	(comments "Return a new SSE Div with the prompt in the connect URL")
@@ -338,19 +344,21 @@ events until the final answer is complete or an error has occured"
 	      uid (fstring "id-{id_str}"))
 	(logger.trace (fstring "POST process_transcript client={request.client.host} prompt='{prompt_text}'"))
 	(return (Div
-		 ;(Article (fstring "Prompt: {prompt_text}"))
+					;(Article (fstring "Prompt: {prompt_text}"))
 		 (Div (string "Thoughts:")
 		      (Div :id (fstring "{uid}-thoughts")))
 		 (Div (string "Answer:")
 		      (Div :id (fstring "{uid}-answer")))
 		 (Div :id (fstring "{uid}-error"))
 		 :data_hx_ext (string "sse")
-		 :data_sse_connect (fstring "/response-stream?prompt_text={prompt_text}&uid={uid}")
-		; :data_hx_swap (string "beforeend show:bottom")
+		 :data_sse_connect (fstring "/response-stream?prompt_text={quote_plus(prompt_text)}&uid={uid}")
+					; :data_hx_swap (string "beforeend show:bottom")
 		 :data_sse_swap (string "thought,answer,final_answer,error")
 		 :data_hx_swap_oob (string "true")
+		 :data_hx_target (string "response-list")
 		 :data_sse_close (string "close")))))
      
+     #+timer
      (do0
       (setf event (signal_shutdown))
       (space async (def time_generator ()
@@ -383,14 +391,14 @@ events until the final answer is complete or an error has occured"
 	      (declare (type str prompt_text uid))
 	      (space async
 		     (def gen ()
-			
+		       
 		       (logger.trace (fstring "GET response-stream prompt_text={prompt_text}"))
 		       (setf include_thought False)
 		       (setf config (GenerationConfig
 				     :prompt_text prompt_text
 				     :model (string "gemini-flash-latest")
 				     #+yaml :output_yaml_path #+yaml yaml_filename
-				     :use_search False	     ; True
+				     :use_search False	; True
 				     :think_budget (? include_thought -1 0)
 				     :include_thoughts include_thought
 				     ))
