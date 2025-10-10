@@ -223,8 +223,9 @@ async def process_transcript(prompt_text: str, request: Request):
     return Div(
         Div("Thoughts:", Div(id=f"{uid}-thoughts")),
         Div("Answer:", Div(id=f"{uid}-answer")),
+        Div(id=f"{uid}-final_answer"),
         Div(id=f"{uid}-error"),
-        hx_ext="sse",
+        data_hx_ext="sse",
         # connect using only uid so the prompt text is never sent again from the client
         data_sse_connect=f"/response-stream?uid={uid}",
         data_sse_swap="thought,answer,final_answer,error",
@@ -294,7 +295,7 @@ async def response_stream(uid: str):
                     yield sse_message(
                         Div(
                             f"Final Answer: {final}",
-                            id=f"{uid}-answer",
+                            id=f"{uid}-final_answer",
                             data_hx_swap_oob="innerHTML",
                         ),
                         event="final_answer",
