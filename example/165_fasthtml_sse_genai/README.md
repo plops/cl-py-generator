@@ -31,7 +31,7 @@ sequenceDiagram
     Browser->>Server: POST /process_transcript with prompt_text
     Server-->>Browser: Returns HTML Div with hx-sse attributes
     Note right of Browser: The response includes placeholder Divs for thoughts, answer, and error.
-    Browser->>Browser: Inserts the new Div into `#response-list`
+    Browser->>Browser: Inserts the new Div into element with id=response-list
     Browser->>Server: Opens SSE connection to /response-stream
 ```
 
@@ -47,18 +47,18 @@ sequenceDiagram
     Browser->>Server: GET /response-stream (SSE connection established)
     loop Streaming Events
         Server-->>Browser: SSE event: 'thought' with HTML content
-        Browser->>Browser: Appends content to `#uid-thoughts` div (hx-swap-oob="beforeend")
+        Browser->>Browser: Appends content to `uid-thoughts` div (hx-swap-oob="beforeend")
 
         Server-->>Browser: SSE event: 'answer' with HTML content
-        Browser->>Browser: Appends content to `#uid-answer` div (hx-swap-oob="beforeend")
+        Browser->>Browser: Appends content to `uid-answer` div (hx-swap-oob="beforeend")
     end
 
     alt Final State
         Server-->>Browser: SSE event: 'complete' with final answer
-        Browser->>Browser: Replaces content of `#uid-answer` div (hx-swap-oob="innerHTML")
+        Browser->>Browser: Replaces content of `uid-answer` div (hx-swap-oob="innerHTML")
     else Error State
         Server-->>Browser: SSE event: 'error' with error message
-        Browser->>Browser: Replaces content of `#uid-error` div (hx-swap-oob="innerHTML")
+        Browser->>Browser: Replaces content of `uid-error` div (hx-swap-oob="innerHTML")
     end
 
     Server-->>Browser: SSE event: 'close'
