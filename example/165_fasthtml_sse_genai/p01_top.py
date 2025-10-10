@@ -201,7 +201,7 @@ _job_store_lock = asyncio.Lock()
 
 
 @app.post("/process_transcript")
-def process_transcript(prompt_text: str, request: Request):
+async def process_transcript(prompt_text: str, request: Request):
     # Return a new SSE Div with a uid-only connect URL (prompt stored server-side)
     id_str = datetime.datetime.now().timestamp()
     uid = f"id-{id_str}"
@@ -210,19 +210,15 @@ def process_transcript(prompt_text: str, request: Request):
     )
     # store prompt and any generation options server-side so the prompt is not resent
     # keep this small/brief; adjust options as needed
-    async def _store():
-        async with _job_store_lock:
-            _job_store[uid] = dict(
-                prompt_text=prompt_text,
-                model="gemini-flash-latest",
-                use_search=False,
-                include_thoughts=False,
-                think_budget=0,
-                created_at=time.time(),
-            )
-
-    # schedule the store write (fast and non-blocking in this sync endpoint)
-    asyncio.get_event_loop().create_task(_store())
+    async with _job_store_lock:
+        _job_store[uid] = dict(
+            prompt_text=prompt_text,
+            model="gemini-flash-latest",
+            use_search=False,
+            include_thoughts=False,
+            think_budget=0,
+            created_at=time.time(),
+        )
 
     return Div(
         Div("Thoughts:", Div(id=f"{uid}-thoughts")),
