@@ -14,9 +14,7 @@ from fasthtml.common import (
     Textarea,
     Button,
     Request,
-    signal_shutdown,
     sse_message,
-    Article,
     EventStream,
     serve,
 )
@@ -28,6 +26,7 @@ from typing import Any, Dict
 from loguru import logger
 from google import genai
 from google.genai import types
+from urllib.parse import quote_plus
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Run the SSE AI Responder website")
@@ -163,7 +162,7 @@ class GenAIJob:
 
 
 hdrs = (Script(src="https://unpkg.com/htmx-ext-sse@2.2.3/sse.js"),)
-app, rt = fast_app(hdrs=hdrs, live=True)
+app, rt = fast_app(hdrs=hdrs)
 
 
 @rt
@@ -191,13 +190,6 @@ def index():
             data_hx_swap="afterbegin",
             data_hx_target="#response-list",
         ),
-        Div(
-            data_hx_ext="sse",
-            data_sse_connect="/time-sender",
-            data_hx_swap="innerHTML",
-            data_sse_swap="message",
-            data_sse_close="close",
-        ),
         Div(id="response-list"),
     )
 
@@ -215,33 +207,13 @@ def process_transcript(prompt_text: str, request: Request):
         Div("Answer:", Div(id=f"{uid}-answer")),
         Div(id=f"{uid}-error"),
         data_hx_ext="sse",
-        data_sse_connect=f"/response-stream?prompt_text={prompt_text}&uid={uid}",
+        # URL-encode the prompt so spaces and special chars don't break the connect URL
+        data_sse_connect=f"/response-stream?prompt_text={quote_plus(prompt_text)}&uid={uid}",
         data_sse_swap="thought,answer,final_answer,error",
         data_hx_swap_oob="true",
+        data_hx_target="response-list",
         data_sse_close="close",
     )
-
-
-event = signal_shutdown()
-
-
-async def time_generator():
-    logger.trace("time_generator init")
-    count = 0
-    while not ((event.is_set()) or ((7) < (count))):
-        count += 1
-        time_str = datetime.datetime.now().strftime("%H:%M:%S")
-        logger.trace(f"time_generator sends {time_str}")
-        yield (sse_message(Article(time_str), event="message"))
-        await asyncio.sleep(1)
-    yield (sse_message(Article(time_str), event="close"))
-    logger.trace("time_generator shutdown")
-
-
-@app.get("/time-sender")
-async def time_sender():
-    logger.trace("GET time-sender")
-    return EventStream(time_generator())
 
 
 @app.get("/response-stream")
@@ -284,10 +256,12 @@ async def response_stream(prompt_text: str, uid: str):
                     )
                 )
             elif (msg["type"]) == ("complete"):
+                # final message: use the 'answer' field produced by GenAIJob.run
+                final_ans = msg.get("answer", "")
                 yield (
                     sse_message(
                         Div(
-                            f"Final Answer: {msg['text']}",
+                            f"Final Answer: {final_ans}",
                             id=f"{uid}-answer",
                             data_hx_swap_oob="innerHTML",
                         ),
@@ -296,10 +270,12 @@ async def response_stream(prompt_text: str, uid: str):
                 )
                 break
             elif (msg["type"]) == ("error"):
+                # error payloads from GenAIJob use the 'message' key
+                err_text = msg.get("message", "")
                 yield (
                     sse_message(
                         Div(
-                            f"Error: {msg['text']}",
+                            f"Error: {err_text}",
                             id=f"{uid}-error",
                             data_hx_swap_oob="innerHTML",
                         ),
