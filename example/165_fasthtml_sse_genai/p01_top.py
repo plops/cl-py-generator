@@ -114,7 +114,9 @@ class GenAIJob:
                 role="user", parts=[types.Part.from_text(text=self.config.prompt_text)]
             )
         ]
-        logger.debug(f"_build_request {self.config.prompt_text}")
+        logger.info(
+            "_build_request self.config.prompt_text={}".format(self.config.prompt_text)
+        )
         return dict(
             model=self.config.model, contents=contents, config=generate_content_config
         )
@@ -130,12 +132,12 @@ class GenAIJob:
                 try:
                     parts = chunk.candidates[0].content.parts
                 except Exception as e:
-                    logger.debug(f"exception when accessing chunk: {e}")
+                    logger.info("exception when accessing chunk: e={}".format(e))
                     continue
                 try:
                     for part in parts:
                         if getattr(part, "text", None):
-                            logger.trace(f"{part}")
+                            logger.info(" part={}".format(part))
                             if getattr(part, "thought", False):
                                 result.thought += part.text
                                 yield (dict(type="thought", text=part.text))
@@ -144,13 +146,13 @@ class GenAIJob:
                                 yield (dict(type="answer", text=part.text))
                 except Exception as e:
                     error_in_parts = True
-                    logger.warning(f"genai {e}")
+                    logger.info("genai e={}".format(e))
         except Exception as e:
-            logger.error(f"genai {e}")
+            logger.info("genai e={}".format(e))
             yield (dict(type="error", message=str(e)))
             return
-        logger.debug(f"Thought: {result.thought}")
-        logger.debug(f"Answer: {result.answer}")
+        logger.info("Thought: result.thought={}".format(result.thought))
+        logger.info("Answer: result.answer={}".format(result.answer))
         yield (
             dict(
                 type="complete",
@@ -199,8 +201,10 @@ def process_transcript(prompt_text: str, request: Request):
     # Return a new SSE Div with the prompt in the connect URL
     id_str = datetime.datetime.now().timestamp()
     uid = f"id-{id_str}"
-    logger.trace(
-        f"POST process_transcript client={request.client.host} prompt='{prompt_text}'"
+    logger.info(
+        "POST process_transcript request.client.host={} prompt_text={}".format(
+            request.client.host, prompt_text
+        )
     )
     return Div(
         Div("Thoughts:", Div(id=f"{uid}-thoughts")),
@@ -218,7 +222,7 @@ def process_transcript(prompt_text: str, request: Request):
 @app.get("/response-stream")
 async def response_stream(prompt_text: str, uid: str):
     async def gen():
-        logger.trace(f"GET response-stream prompt_text={prompt_text}")
+        logger.info("GET response-stream prompt_text={}".format(prompt_text))
         include_thought = False
         config = GenerationConfig(
             prompt_text=prompt_text,
@@ -231,7 +235,7 @@ async def response_stream(prompt_text: str, uid: str):
         job = GenAIJob(config)
         logger.trace("configured genai job")
         async for msg in job.run():
-            logger.trace(f"genai.job async for {msg}")
+            logger.info("genai.job async for msg={}".format(msg))
             if (include_thought) and ((msg["type"]) == ("thought")):
                 yield (
                     sse_message(

@@ -18,7 +18,7 @@
 (progn
   
   (defun lprint (&key msg vars (level "info"))
-    `(do0			
+    `(do0
       #+log (dot logger (info
 			 ,(if vars
 			      `(dot (string ,(format nil "~a ~{~a={}~^ ~}"
@@ -82,7 +82,9 @@
 						    :tools tools)
 			   contents (list (types.Content :role (string "user")
 							 :parts (list (types.Part.from_text :text self.config.prompt_text)))))
-		     (logger.debug (fstring "_build_request {self.config.prompt_text}"))
+		     ,(lprint :level "debug"
+			      :msg "_build_request"
+			      :vars `(self.config.prompt_text))
 		     (return (dictionary :model self.config.model
 					 :contents contents
 					 :config generate_content_config)))
@@ -101,12 +103,14 @@
 				  (try (setf parts (dot chunk (aref candidates 0)
 							content parts))
 				       ("Exception as e"
-					(logger.debug (fstring "exception when accessing chunk: {e}"))
+					,(lprint :level "debug"
+						:msg "exception when accessing chunk:"
+						:vars `(e))
 					continue))
 				  (try
 				   (for (part parts)
 					(when (getattr part (string "text") None)
-					  (logger.trace (fstring "{part}"))
+					  ,(lprint :level "trace" :msg "" :vars `(part))
 					  (if (getattr part (string "thought") False)
 					      (do0
 					       (incf result.thought part.text)
@@ -118,20 +122,20 @@
 								  :text part.text))))))
 				   ("Exception as e"
 				    (setf error_in_parts True)
-				    (logger.warning (fstring "genai {e}"))
+				    ,(lprint :level "warning" :msg "genai" :vars `(e))
 					;pass
 				    )))
 			     ("Exception as e"
-			      (logger.error (fstring "genai {e}"))
+			      ,(lprint :level "error" :msg "genai" :vars `(e))
 			      (yield (dictionary :type (string "error")
 						 :message (str e)))
 			      return))
 			    #+yaml
 			    (self._persist_yaml result error_in_parts)
 
-			    (logger.debug (fstring "Thought: {result.thought}"))
-			    (logger.debug (fstring "Answer: {result.answer}"))
-			  
+			    ,(lprint :level "debug" :msg "Thought:" :vars `(result.thought))
+			    ,(lprint :level "debug" :msg "Answer:" :vars `(result.answer))
+
 			    (yield (dictionary :type (string "complete")
 					       :thought result.thought
 					       :answer result.answer
@@ -151,9 +155,9 @@
 					f
 					:allow_unicode True
 					:indent 2))
-		       (logger.info (fstring "Wrote raw responses to {path}")))
+		       ,(lprint :level "info" :msg "Wrote raw responses to" :vars `(path)))
 		      ("Exception as e"
-		       (logger.error (fstring "Failed to write YAML: {e}")))))
+		       ,(lprint :level "error" :msg "Failed to write YAML:" :vars `(e)))))
 		   #+nil
 		   (def to_dict (self result)
 		     (declare (type StreamResult result)
@@ -363,7 +367,7 @@ events until the final answer is complete or an error has occured"
 	  (comments "Return a new SSE Div with the prompt in the connect URL")
 	  (setf id_str (dot datetime datetime (now) (timestamp))
 		uid (fstring "id-{id_str}"))
-	  (logger.trace (fstring "POST process_transcript client={request.client.host} prompt='{prompt_text}'"))
+	  ,(lprint :level "trace" :msg "POST process_transcript" :vars `(request.client.host prompt_text))
 	  (return (Div
 					;(Article (fstring "Prompt: {prompt_text}"))
 		   (Div (string "Thoughts:")
@@ -383,7 +387,7 @@ events until the final answer is complete or an error has occured"
        (do0
 	(setf event (signal_shutdown))
 	(space async (def time_generator ()
-		       (logger.trace (string "time_generator init"))
+		       ,(lprint :level "trace" :msg "time_generator init")
 		       (setf count 0)
 		       (while (not (or (event.is_set)
 				       (< 7 count)))
@@ -391,7 +395,7 @@ events until the final answer is complete or an error has occured"
 			      (setf time_str (dot datetime
 						  datetime (now)
 						  (strftime (string "%H:%M:%S"))))
-			      (logger.trace (fstring "time_generator sends {time_str}"))
+			      ,(lprint :level "trace" :msg "time_generator sends" :vars `(time_str))
 			      (yield (sse_message (Article time_str)
 						  :event (string "message")))
 			      (await (asyncio.sleep 1)))
@@ -413,7 +417,7 @@ events until the final answer is complete or an error has occured"
 		(space async
 		       (def gen ()
 		       
-			 (logger.trace (fstring "GET response-stream prompt_text={prompt_text}"))
+			 ,(lprint :level "trace" :msg "GET response-stream" :vars `(prompt_text))
 			 (setf include_thought False)
 			 (setf config (GenerationConfig
 				       :prompt_text prompt_text
@@ -428,7 +432,7 @@ events until the final answer is complete or an error has occured"
 			 (logger.trace (string "configured genai job"))
 			 (space async
 				(for (msg (job.run))
-				     (logger.trace (fstring "genai.job async for {msg}"))
+				     ,(lprint :level "trace" :msg "genai.job async for" :vars `(msg))
 				     (cond ((and include_thought
 						 (== (aref msg (string "type"))
 						     (string "thought")))
@@ -464,5 +468,3 @@ events until the final answer is complete or an error has occured"
 		(return (EventStream (gen)))))
        (serve)
        ))))
-
-
