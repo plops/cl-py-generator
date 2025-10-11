@@ -4,7 +4,7 @@
   (ql:quickload "cl-py-generator"))
 
 (defpackage #:my-py-project
-  (:use #:cl #:cl-py-generator)) 
+  (:use #:cl #:cl-py-generator))
 
 (in-package #:my-py-project)
 ;; https://htmx.org/extensions/sse/                                HTMX with server side events
@@ -12,24 +12,25 @@
 
 (setf *features* (union *features* '(:log ;; logger
 				     )))
-(setf *features* (set-difference *features* '(:log
+(setf *features* (set-difference *features* '(;:log
 					      )))
 
 (progn
-  
+
   (defun lprint (&key msg vars (level "info"))
     `(do0
-      #+log (dot logger (info
-			 ,(if vars
-			      `(dot (string ,(format nil "~a ~{~a={}~^ ~}"
-						    msg
-						    (mapcar (lambda (x)
-							      (emit-py :code x))
-							    vars)))
-				   (format
-				    ,@vars))
-			      `(string ,(format nil "~a"
-						    msg)))))))
+      #+log (dot logger
+		 (,level
+		  ,(if vars
+		       `(dot (string ,(format nil "~a ~{~a={}~^ ~}"
+					      msg
+					      (mapcar (lambda (x)
+							(emit-py :code x))
+						      vars)))
+			     (format
+			      ,@vars))
+		       `(string ,(format nil "~a"
+					 msg)))))))
   (let ((helper-classes
 	  `(do0
 	    (do0
@@ -52,18 +53,18 @@
 			  "answer:str" (string "")
 					;"responses:List[Any]" (field :default_factory list)
 			  )))
-	  
+
 	    (class GenAIJob ()
 		   (def __init__ (self config)
 		     (declare (type GenerationConfig config))
 		     ,(lprint :msg "GenAIJob.__init__" :level "trace" )
 		     (setf self.config config)
-		   
+
 		     (setf self.client (genai.Client :api_key (os.environ.get config.api_key_env))))
 		   (def _build_request (self)
 		     (declare (values "Dict[str,Any]"))
 		     ,(lprint :level "trace" :msg "GenAIJob._build_request")
-		   
+
 		     (setf tools (? self.config.use_search
 				    (list (types.Tool :googleSearch (types.GoogleSearch)))
 				    (list)))
@@ -76,7 +77,7 @@
 		     (setf generate_content_config (types.GenerateContentConfig
 						    :thinking_config (types.ThinkingConfig
 								      :thinkingBudget self.config.think_budget
-								      :include_thoughts self.config.include_thoughts 
+								      :include_thoughts self.config.include_thoughts
 								      )
 						    :safety_settings safety
 						    :tools tools)
@@ -91,21 +92,19 @@
 		   (space async
 			  (def run (self)
 					;(declare (values StreamResult))
-			    (setf req (self._build_request) 
+			    (setf req (self._build_request)
 				  result (StreamResult))
-			    (logger.debug (string "Starting streaming generation"))
+			    ,(lprint :level "debug" :msg "Starting streaming generation")
 			    (setf error_in_parts False)
 
 			    (try
 			     (for (chunk (self.client.models.generate_content_stream **req))
 				  #+nil (result.responses.append chunk)
-				  (logger.debug (string "received chunk"))
+				  ,(lprint :level "debug" :msg "received chunk")
 				  (try (setf parts (dot chunk (aref candidates 0)
 							content parts))
 				       ("Exception as e"
-					,(lprint :level "debug"
-						:msg "exception when accessing chunk:"
-						:vars `(e))
+					,(lprint :level "debug" :msg "exception when accessing chunk:" :vars `(e))
 					continue))
 				  (try
 				   (for (part parts)
@@ -155,7 +154,7 @@
 					f
 					:allow_unicode True
 					:indent 2))
-		       ,(lprint :level "info" :msg "Wrote raw responses to" :vars `(path)))
+		       ,(lprint :msg "Wrote raw responses to" :vars `(path)))
 		      ("Exception as e"
 		       ,(lprint :level "error" :msg "Failed to write YAML:" :vars `(e)))))
 		   #+nil
@@ -168,9 +167,9 @@
 			      :answer result.answer
 			      ))
 		     ))
-	  
-	  
-	  
+
+
+
 	    )))
     (defparameter *source* "example/165_fasthtml_sse_genai/")
     #+nil
@@ -182,7 +181,7 @@
        (do0 (imports-from (__future__ annotations))
 	    (imports (os time #+yaml yaml
 			      asyncio))
-	  
+
 	    (imports-from
 	     (dataclasses dataclass field asdict)
 	     (typing			;List
@@ -190,7 +189,7 @@
 	      Any
 					;Optional
 	      Dict)
-	   
+
 	     (loguru logger)
 	     (google genai)
 	     (google.genai types)))
@@ -211,10 +210,10 @@
        (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py")
        (imports-from (__future__ annotations))
        (imports (			;random time
-	       
+
 		 datetime
 		 argparse))
-       (imports-from 
+       (imports-from
 	(fasthtml.common
 	 Script
 	 fast_app
@@ -230,16 +229,16 @@
 	 #+timer signal_shutdown
 	 #+timer Article
 	 sse_message
-       
+
 	 EventStream
 	 serve
-       
+
 	 ))
 
-       (do0 
+       (do0
 	(imports (os  sys #+yaml yaml
 			  asyncio))
-      
+
 	(imports-from
 	 (dataclasses dataclass		;field ;asdict
 		      )
@@ -248,8 +247,8 @@
 	  Any
 					;Optional
 	  Dict)
-       
-       
+
+
 	 (loguru logger)
 	 (google genai)
 	 (google.genai types)
@@ -274,7 +273,7 @@
 		(setf log_level (string "TRACE")))
 	       (t
 		(setf log_level (string "INFO")))))
-      
+
 	)
        (do0
 	(logger.remove)
@@ -287,32 +286,32 @@
 					;:utc True
 	 )
 
-	(logger.info (string "Logger configured")))
-     
+	,(lprint :msg "Logger configured"))
+
        (comments "import after logger exists")
-     
+
        #+nil
        (imports-from (p02_impl GenerationConfig GenAIJob))
        ,helper-classes
-     
+
        #+yaml
-       (do0 
+       (do0
 	(comments "UTC timestamp for output file")
 	(setf timestamp (dot datetime datetime (now datetime.UTC)
 			     (strftime (string "%Y%m%d_%H_%M_%S"))))
 	(setf yaml_filename (fstring "out_{timestamp}.yaml")))
 
-     
+
 
        #+nil
        (do0
 	(setf job (GenAIJob cfg))
 	(setf result (job.run))
-	(logger.info (fstring "thought: {result.thought}"))
-	(logger.info (fstring "answer: {result.answer}")))
-     
-     
-     
+	,(lprint :msg "thought:" :vars `(result.thought))
+	,(lprint :msg "answer:" :vars `(result.answer)))
+
+
+
 
 
        (setf hdrs (tuple (Script :src (string "https://unpkg.com/htmx-ext-sse@2.2.3/sse.js")))
@@ -382,7 +381,7 @@ events until the final answer is complete or an error has occured"
 		   :data_hx_swap_oob (string "true")
 		   :data_hx_target (string "response-list")
 		   :data_sse_close (string "close")))))
-     
+
        #+timer
        (do0
 	(setf event (signal_shutdown))
@@ -401,22 +400,22 @@ events until the final answer is complete or an error has occured"
 			      (await (asyncio.sleep 1)))
 		       (yield (sse_message (Article time_str)
 					   :event (string "close")))
-		       (logger.trace (string "time_generator shutdown"))))
+		       ,(lprint :level "trace" :msg "time_generator shutdown")))
 	(do0
 	 (@app.get (string "/time-sender"))
 	 (space async (def time_sender ()
-			(logger.trace (string "GET time-sender"))
+			,(lprint :level "trace" :msg "GET time-sender")
 			(return (EventStream (time_generator)))))))
-     
-     
+
+
 
        (@app.get (string "/response-stream"))
-       (space async 
+       (space async
 	      (def  response_stream (prompt_text uid)
 		(declare (type str prompt_text uid))
 		(space async
 		       (def gen ()
-		       
+
 			 ,(lprint :level "trace" :msg "GET response-stream" :vars `(prompt_text))
 			 (setf include_thought False)
 			 (setf config (GenerationConfig
@@ -427,9 +426,9 @@ events until the final answer is complete or an error has occured"
 				       :think_budget (? include_thought -1 0)
 				       :include_thoughts include_thought
 				       ))
-			 (logger.trace (string "created a genai configuration"))
+			 ,(lprint :level "trace" :msg "created a genai configuration")
 			 (setf job (GenAIJob config))
-			 (logger.trace (string "configured genai job"))
+			 ,(lprint :level "trace" :msg "configured genai job")
 			 (space async
 				(for (msg (job.run))
 				     ,(lprint :level "trace" :msg "genai.job async for" :vars `(msg))
