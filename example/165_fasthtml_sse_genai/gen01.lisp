@@ -12,7 +12,7 @@
 
 (setf *features* (union *features* '(:log ;; logger
 				     )))
-(setf *features* (set-difference *features* '(;:log
+(setf *features* (set-difference *features* '(:log
 					      )))
 
 (progn
