@@ -79,11 +79,39 @@ dfr["best_romantic_matches"] = dfr["best_romantic_matches"].str.split(", ")
 dfr["male_finds_female_match_%"] = dfr["best_romantic_matches"].apply(
     lambda matches: df.loc[matches, "FEMALE"].sum()
 )
+dfn = pd.read_csv("mbti_names.csv")
+#    mbti_type        name
+# 0       ISTJ   Inspector
+# 1       ISFJ   Protector
+# 2       INFJ    Advocate
+# 3       INTJ   Architect
+# 4       ISTP     Crafter
+# 5       ISFP      Artist
+# 6       INFP    Mediator
+# 7       INTP     Thinker
+# 8       ESTP      Dynamo
+# 9       ESFP   Performer
+# 10      ENFP    Champion
+# 11      ENTP     Debater
+# 12      ESTJ  Supervisor
+# 13      ESFJ    Provider
+# 14      ENFJ       Giver
+# 15      ENTJ   Commander
+#
+# for readabilty add the name to dfr
+dfr = pd.merge(dfr, dfn, on="mbti_type")
 dfr["female_finds_male_match_%"] = dfr["best_romantic_matches"].apply(
     lambda matches: df.loc[matches, "MALE"].sum()
 )
-result_df_male = dfr[["mbti_type", "male_finds_female_match_%"]]
-result_df_female = dfr[["mbti_type", "female_finds_male_match_%"]]
+dfr["male_has_it_easier"] = (
+    (dfr["female_finds_male_match_%"]) < (dfr["male_finds_female_match_%"])
+)
+result_df_male = dfr[
+    ["mbti_type", "name", "male_finds_female_match_%", "male_has_it_easier"]
+]
+result_df_female = dfr[
+    ["mbti_type", "name", "female_finds_male_match_%", "male_has_it_easier"]
+]
 print(result_df_male.sort_values(by="male_finds_female_match_%"))
 print(result_df_female.sort_values(by="female_finds_male_match_%"))
 #

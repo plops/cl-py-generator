@@ -103,23 +103,53 @@ It's probably bullshit anyway, but I just want to look at the results
 		(apply (lambda (matches)
 			 (dot df (aref loc matches (string "FEMALE"))
 			      (sum))))))
-     (setf (aref dfr (string "female_finds_male_match_%"))
+     (setf dfn (pd.read_csv (string "mbti_names.csv")))
+     (comments "   mbti_type        name
+0       ISTJ   Inspector
+1       ISFJ   Protector
+2       INFJ    Advocate
+3       INTJ   Architect
+4       ISTP     Crafter
+5       ISFP      Artist
+6       INFP    Mediator
+7       INTP     Thinker
+8       ESTP      Dynamo
+9       ESFP   Performer
+10      ENFP    Champion
+11      ENTP     Debater
+12      ESTJ  Supervisor
+13      ESFJ    Provider
+14      ENFJ       Giver
+15      ENTJ   Commander
+")
+     (comments "for readabilty add the name to dfr")
+     #+nil(setf (aref dfr (string "name"))
+		)
+     (setf dfr (pd.merge dfr dfn :on (string "mbti_type")))
+     (setf (aref dfr (string
+		      "female_finds_male_match_%"))
 	   (dot (aref dfr (string "best_romantic_matches"))
 		(apply (lambda (matches)
 			 (dot df (aref loc matches (string "MALE"))
 			      (sum))))))
+     (setf (aref dfr (string "male_has_it_easier"))
+	   (< (aref dfr (string "female_finds_male_match_%"))
+	      (aref dfr (string "male_finds_female_match_%"))))
 
      (setf result_df_male (aref dfr (list (string "mbti_type")
-				     (string "male_finds_female_match_%")
-				     )))
+					  (string "name")
+					  
+					  (string "male_finds_female_match_%")
+					  (string "male_has_it_easier"))))
      (setf result_df_female (aref dfr (list (string "mbti_type")
-				     
-				     (string "female_finds_male_match_%"))))
+				     (string "name")
+				     (string "female_finds_male_match_%")
+				     (string "male_has_it_easier"))))
 
      (print (dot result_df_male (sort_values :by (string "male_finds_female_match_%"))))
      (print (dot result_df_female (sort_values :by (string "female_finds_male_match_%"))))
      
-     #+nil (setf dfn (pd.read_csv (string "mbti_names.csv")))
+     
      (comments "
    mbti_type  male_finds_female_match_%
 10      ENFP                        2.5
