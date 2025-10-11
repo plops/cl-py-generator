@@ -12,7 +12,7 @@ df = pd.read_csv("personality_type.csv")
 # 1   INTP    3.3   4.8     1.7
 # 2   ENTJ    1.8   2.7     0.9
 # 3   ENTP    3.2   4.0     2.4
-# 4   INFJ    1.5   1.2     1.6
+# 4   INFJ    1.5   1.2     1.6C
 # 5   INFP    4.4   4.1     4.6
 # 6   ENFJ    2.5   1.6     3.3
 # 7   ENFP    8.1   6.4     9.7
@@ -26,7 +26,7 @@ df = pd.read_csv("personality_type.csv")
 # 15  ESFP    8.5   6.9    10.1
 #
 #
-df = df.set_index("TYPE")
+df = df.set_index("mbti_type")
 # References (given by gemini 2.5 pro) for matches:
 #
 # * 1 [dreamsaroundtheworld.com](https://www.dreamsaroundtheworld.com/mbti-compatibility-guide/)
@@ -103,15 +103,11 @@ dfr = pd.merge(dfr, dfn, on="mbti_type")
 dfr["female_finds_male_match_%"] = dfr["best_romantic_matches"].apply(
     lambda matches: df.loc[matches, "MALE"].sum()
 )
-dfr["male_has_it_easier"] = (
-    (dfr["female_finds_male_match_%"]) < (dfr["male_finds_female_match_%"])
-)
-result_df_male = dfr[
-    ["mbti_type", "name", "male_finds_female_match_%", "male_has_it_easier"]
-]
-result_df_female = dfr[
-    ["mbti_type", "name", "female_finds_male_match_%", "male_has_it_easier"]
-]
+result_df_male = dfr[["mbti_type", "name", "male_finds_female_match_%"]]
+result_df_female = dfr[["mbti_type", "name", "female_finds_male_match_%"]]
+df = pd.merge(dfn, df, on="mbti_type")
+print(df.sort_values(by="FEMALE"))
+print(dfr)
 print(result_df_male.sort_values(by="male_finds_female_match_%"))
 print(result_df_female.sort_values(by="female_finds_male_match_%"))
 #

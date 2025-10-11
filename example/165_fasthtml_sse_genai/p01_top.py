@@ -76,12 +76,12 @@ class StreamResult:
 
 class GenAIJob:
     def __init__(self, config: GenerationConfig):
-        logger.trace("GenAIJob.__init__")
+        logger.info("GenAIJob.__init__")
         self.config = config
         self.client = genai.Client(api_key=os.environ.get(config.api_key_env))
 
     def _build_request(self) -> Dict[str, Any]:
-        logger.trace("GenAIJob._build_request")
+        logger.info("GenAIJob._build_request")
         tools = (
             ([types.Tool(googleSearch=types.GoogleSearch())])
             if (self.config.use_search)

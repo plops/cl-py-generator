@@ -44,7 +44,7 @@
 15  ESFP    8.5   6.9    10.1
 
 ")
-     (setf df (df.set_index (string "TYPE")))
+     (setf df (df.set_index (string "mbti_type")))
 
      (comments "References (given by gemini 2.5 pro) for matches:
 
@@ -132,20 +132,23 @@ It's probably bullshit anyway, but I just want to look at the results
 		(apply (lambda (matches)
 			 (dot df (aref loc matches (string "MALE"))
 			      (sum))))))
-     (setf (aref dfr (string "male_has_it_easier"))
-	   (< (aref dfr (string "female_finds_male_match_%"))
-	      (aref dfr (string "male_finds_female_match_%"))))
+     
 
      (setf result_df_male (aref dfr (list (string "mbti_type")
 					  (string "name")
 					  
 					  (string "male_finds_female_match_%")
-					  (string "male_has_it_easier"))))
+					  )))
      (setf result_df_female (aref dfr (list (string "mbti_type")
 				     (string "name")
 				     (string "female_finds_male_match_%")
-				     (string "male_has_it_easier"))))
-
+				     )))
+     (setf df (pd.merge
+	     dfn
+	     df
+	     :on (string "mbti_type")))
+     (print (dot df (sort_values :by (string "FEMALE"))))
+     (print dfr)
      (print (dot result_df_male (sort_values :by (string "male_finds_female_match_%"))))
      (print (dot result_df_female (sort_values :by (string "female_finds_male_match_%"))))
      
