@@ -23,6 +23,28 @@
 	       "They write: To supplement our data, we have also turned to another well-known and authoritative study on gender differences and stereotypes. This normative study was conducted in 1996 by Allen Hammer and Wayne Mitchell, and is titled “The Distribution of Personality Types In General Population.” It surveyed 1267 adults on a number of different demographic factors."
 	       "values are given in percent")
      (setf df (pd.read_csv (string "personality_type.csv")))
+     (comments "
+>>> df
+    TYPE  TOTAL  MALE  FEMALE
+0   INTJ    2.1   3.3     0.9
+1   INTP    3.3   4.8     1.7
+2   ENTJ    1.8   2.7     0.9
+3   ENTP    3.2   4.0     2.4
+4   INFJ    1.5   1.2     1.6
+5   INFP    4.4   4.1     4.6
+6   ENFJ    2.5   1.6     3.3
+7   ENFP    8.1   6.4     9.7
+8   ISTJ   11.6  16.4     6.9
+9   ISFJ   13.8   8.1    19.4
+10  ESTJ    8.7  11.2     6.3
+11  ESFJ   12.0   7.5    16.9
+12  ISTP    5.4   8.5     2.3
+13  ISFP    8.8   7.6     9.9
+14  ESTP    4.3   5.6     3.0
+15  ESFP    8.5   6.9    10.1
+
+")
+     (setf df (df.set_index (string "TYPE")))
 
      (comments "References (given by gemini 2.5 pro) for matches:
 
@@ -51,7 +73,92 @@
 It's probably bullshit anyway, but I just want to look at the results
 ")
      (setf dfr (pd.read_csv (string "romantic_match.csv")))
-    ; (setf dfn (pd.read_csv (string "mbti_names.csv")))
+     (comments "
+>>> dfr
+   mbti_type best_romantic_matches  references
+0       ISTJ            ESFP, ESTP         NaN
+1       ISFJ            ESFP, ESTP         1,2
+2       INFJ            ENFP, ENTP   1,3,4,5,6
+3       INTJ            ENFP, ENTP     1,4,5,7
+4       ISTP            ESFJ, ESTJ           1
+5       ISFP      ENFJ, ESFJ, ESTJ    1,8,9,10
+6       INFP            ENFJ, ENTJ        1,11
+7       INTP            ENTJ, ESTJ     1,12,13
+8       ESTP            ISFJ, ISTJ         NaN
+9       ESFP            ISFJ, ISTJ        1,14
+10      ENFP            INFJ, INTJ           1
+11      ENTP            INFJ, INTJ     1,3,4,7
+12      ESTJ      ISTP, ISFP, INTP     1,15,16
+13      ESFJ            ISTP, ISFP   1,8,17,18
+14      ENFJ            INFP, ISFP     1,19,20
+15      ENTJ            INFP, INTP  1,12,13,21
+")
+     (setf (aref dfr (string "best_romantic_matches"))
+	   (dot (aref dfr (string "best_romantic_matches"))
+		str (split (string ", "))))
+     (comments "I want a table with how easy it is for a person to find a romantic match, e.g. male ENTP -> female INFJ or female INTJ -> 1.6 + 0.9 = 2.5%")
+
+     (setf (aref dfr (string "male_finds_female_match_%"))
+	   (dot (aref dfr (string "best_romantic_matches"))
+		(apply (lambda (matches)
+			 (dot df (aref loc matches (string "FEMALE"))
+			      (sum))))))
+     (setf (aref dfr (string "female_finds_male_match_%"))
+	   (dot (aref dfr (string "best_romantic_matches"))
+		(apply (lambda (matches)
+			 (dot df (aref loc matches (string "MALE"))
+			      (sum))))))
+
+     (setf result_df_male (aref dfr (list (string "mbti_type")
+				     (string "male_finds_female_match_%")
+				     )))
+     (setf result_df_female (aref dfr (list (string "mbti_type")
+				     
+				     (string "female_finds_male_match_%"))))
+
+     (print (dot result_df_male (sort_values :by (string "male_finds_female_match_%"))))
+     (print (dot result_df_female (sort_values :by (string "female_finds_male_match_%"))))
+     
+     #+nil (setf dfn (pd.read_csv (string "mbti_names.csv")))
+     (comments "
+   mbti_type  male_finds_female_match_%
+10      ENFP                        2.5
+11      ENTP                        2.5
+6       INFP                        4.2
+15      ENTJ                        6.3
+7       INTP                        7.2
+3       INTJ                       12.1
+2       INFJ                       12.1
+13      ESFJ                       12.2
+1       ISFJ                       13.1
+0       ISTJ                       13.1
+12      ESTJ                       13.9
+14      ENFJ                       14.5
+4       ISTP                       23.2
+8       ESTP                       26.3
+9       ESFP                       26.3
+5       ISFP                       26.5
+   mbti_type  female_finds_male_match_%
+6       INFP                        4.3
+11      ENTP                        4.5
+10      ENFP                        4.5
+15      ENTJ                        8.9
+2       INFJ                       10.4
+3       INTJ                       10.4
+14      ENFJ                       11.7
+1       ISFJ                       12.5
+0       ISTJ                       12.5
+7       INTP                       13.9
+13      ESFJ                       16.1
+4       ISTP                       18.7
+5       ISFP                       20.3
+12      ESTJ                       20.9
+8       ESTP                       24.5
+9       ESFP                       24.5
+
+")
+     
+     
      ))
 )
 

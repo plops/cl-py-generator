@@ -26,6 +26,7 @@ df = pd.read_csv("personality_type.csv")
 # 15  ESFP    8.5   6.9    10.1
 #
 #
+df = df.set_index("TYPE")
 # References (given by gemini 2.5 pro) for matches:
 #
 # * 1 [dreamsaroundtheworld.com](https://www.dreamsaroundtheworld.com/mbti-compatibility-guide/)
@@ -73,35 +74,52 @@ dfr = pd.read_csv("romantic_match.csv")
 # 14      ENFJ            INFP, ISFP     1,19,20
 # 15      ENTJ            INFP, INTP  1,12,13,21
 #
+dfr["best_romantic_matches"] = dfr["best_romantic_matches"].str.split(", ")
 # I want a table with how easy it is for a person to find a romantic match, e.g. male ENTP -> female INFJ or female INTJ -> 1.6 + 0.9 = 2.5%
-
-
-# For easier and faster data retrieval, we'll set the 'TYPE' column as the index
-# for the population dataframe.
-df_indexed = df.set_index('TYPE')
-
-# The 'best_romantic_matches' column currently contains comma-separated strings.
-# We need to convert these into lists of individual personality types
-# to process them. For example, 'ESFP, ESTP' will become ['ESFP', 'ESTP'].
-dfr['matches_list'] = dfr['best_romantic_matches'].str.split(', ')
-
-# Now, we'll calculate the probability for a male of a given personality type
-# to find a female partner considered a "best match".
-# We do this by summing up the population percentages of the female "best match" types.
-dfr['male_finds_female_match_%'] = dfr['matches_list'].apply(
-    lambda matches: df_indexed.loc[matches, 'FEMALE'].sum()
+dfr["male_finds_female_match_%"] = dfr["best_romantic_matches"].apply(
+    lambda matches: df.loc[matches, "FEMALE"].sum()
 )
-
-# Similarly, we calculate the probability for a female of a given personality type
-# to find a male partner who is a "best match".
-# This involves summing the population percentages of the male "best match" types.
-dfr['female_finds_male_match_%'] = dfr['matches_list'].apply(
-    lambda matches: df_indexed.loc[matches, 'MALE'].sum()
+dfr["female_finds_male_match_%"] = dfr["best_romantic_matches"].apply(
+    lambda matches: df.loc[matches, "MALE"].sum()
 )
-
-# To present the results clearly, we create a new dataframe
-# containing only the essential information: the personality type and the calculated match percentages.
-result_df = dfr[['mbti_type', 'male_finds_female_match_%', 'female_finds_male_match_%']]
-
-# Finally, we print the resulting table.
-print(result_df)
+result_df_male = dfr[["mbti_type", "male_finds_female_match_%"]]
+result_df_female = dfr[["mbti_type", "female_finds_male_match_%"]]
+print(result_df_male.sort_values(by="male_finds_female_match_%"))
+print(result_df_female.sort_values(by="female_finds_male_match_%"))
+#
+#    mbti_type  male_finds_female_match_%
+# 10      ENFP                        2.5
+# 11      ENTP                        2.5
+# 6       INFP                        4.2
+# 15      ENTJ                        6.3
+# 7       INTP                        7.2
+# 3       INTJ                       12.1
+# 2       INFJ                       12.1
+# 13      ESFJ                       12.2
+# 1       ISFJ                       13.1
+# 0       ISTJ                       13.1
+# 12      ESTJ                       13.9
+# 14      ENFJ                       14.5
+# 4       ISTP                       23.2
+# 8       ESTP                       26.3
+# 9       ESFP                       26.3
+# 5       ISFP                       26.5
+#    mbti_type  female_finds_male_match_%
+# 6       INFP                        4.3
+# 11      ENTP                        4.5
+# 10      ENFP                        4.5
+# 15      ENTJ                        8.9
+# 2       INFJ                       10.4
+# 3       INTJ                       10.4
+# 14      ENFJ                       11.7
+# 1       ISFJ                       12.5
+# 0       ISTJ                       12.5
+# 7       INTP                       13.9
+# 13      ESFJ                       16.1
+# 4       ISTP                       18.7
+# 5       ISFP                       20.3
+# 12      ESTJ                       20.9
+# 8       ESTP                       24.5
+# 9       ESFP                       24.5
+#
+#
