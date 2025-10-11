@@ -1,4 +1,4 @@
-smartctl 7.5 2025-04-30 r5714 [x86_64-linux-6.16.3-200.fc42.x86_64] (local build)
+smartctl 7.5 2025-04-30 r5714 [x86_64-linux-6.16.10-200.fc42.x86_64] (local build)
 Copyright (C) 2002-25, Bruce Allen, Christian Franke, www.smartmontools.org
 
 === START OF INFORMATION SECTION ===
@@ -13,7 +13,7 @@ Number of Namespaces:               1
 Namespace 1 Size/Capacity:          1,000,204,886,016 [1.00 TB]
 Namespace 1 Formatted LBA Size:     512
 Namespace 1 IEEE EUI-64:            707c18 0215020aa9
-Local Time is:                      Fri Sep 12 21:31:53 2025 CEST
+Local Time is:                      Sat Oct 11 14:49:23 2025 CEST
 Firmware Updates (0x12):            1 Slot, no Reset required
 Optional [REDACTED_USER] Commands (0x0016):   Format Frmw_DL Self_Test
 Optional NVM Commands (0x009f):     Comp Wr_Unc DS_Mngmt Wr_Zero Sav/Sel_Feat Verify
@@ -39,18 +39,18 @@ SMART overall-health self-assessment test result: PASSED
 
 SMART/Health Information (NVMe Log 0x02, NSID 0xffffffff)
 Critical Warning:                   0x00
-Temperature:                        41 Celsius
+Temperature:                        49 Celsius
 Available Spare:                    100%
 Available Spare Threshold:          10%
 Percentage Used:                    3%
-Data Units Read:                    115,520,782 [59.1 TB]
-Data Units Written:                 35,875,233 [18.3 TB]
-Host Read Commands:                 722,426,510
-Host Write Commands:                385,068,918
-Controller Busy Time:               38,674
-Power Cycles:                       1,749
-Power On Hours:                     13,039
-Unsafe Shutdowns:                   351
+Data Units Read:                    115,755,629 [59.2 TB]
+Data Units Written:                 36,692,468 [18.7 TB]
+Host Read Commands:                 727,268,655
+Host Write Commands:                400,579,471
+Controller Busy Time:               39,832
+Power Cycles:                       1,834
+Power On Hours:                     13,524
+Unsafe Shutdowns:                   373
 Media and Data Integrity Errors:    0
 Error Information Log Entries:      0
 Warning  Comp. Temperature Time:    792

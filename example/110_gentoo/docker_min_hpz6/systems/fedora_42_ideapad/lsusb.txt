@@ -1,8 +1,7 @@
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
-Bus 001 Device 002: ID 04f2:b725 Chicony Electronics Co., Ltd Integrated Camera
-Bus 001 Device 004: ID 05c6:9024 Qualcomm, Inc. Android
+Bus 001 Device 002: ID 248a:8566 Maxxter Wireless Receiver
+Bus 001 Device 003: ID 04f2:b725 Chicony Electronics Co., Ltd Integrated Camera
 Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
 Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
-Bus 003 Device 003: ID 0bda:4853 Realtek Semiconductor Corp. Bluetooth Radio
-Bus 003 Device 005: ID 0bda:c820 Realtek Semiconductor Corp. 802.11ac NIC
+Bus 003 Device 002: ID 0bda:4853 Realtek Semiconductor Corp. Bluetooth Radio
 Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
