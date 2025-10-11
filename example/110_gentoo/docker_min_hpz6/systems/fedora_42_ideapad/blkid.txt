@@ -5,4 +5,4 @@
 /dev/nvme0n1p2: UUID="df544e10-90c0-4315-860c-92a58ec8499e" UUID_SUB="e80ad8f0-c7fe-47b3-8b1a-93d35aca3579" BLOCK_SIZE="4096" TYPE="btrfs" PARTUUID="81a3124b-cd69-4440-ae4a-1355bf8835d7"
 /dev/sda3: UUID="b8e2ce97-2ae8-4c8f-b350-8f11cc119508" UUID_SUB="12a3fef6-f3a4-410e-abad-9c610669cc97" BLOCK_SIZE="4096" TYPE="btrfs" PARTUUID="d57c45d6-03"
 /dev/sda1: UUID="a8800899-6675-40dd-a299-0aee2b04d21c" BLOCK_SIZE="4096" TYPE="ext2" PARTUUID="d57c45d6-01"
-/dev/zram0: LABEL="zram0" UUID="b34dc033-b1a1-4453-aa6a-94c7842fe847" TYPE="swap"
+/dev/zram0: LABEL="zram0" UUID="4fbd3039-d1de-4a05-830f-64ce22802cea" TYPE="swap"
