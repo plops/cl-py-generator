@@ -1,0 +1,17 @@
+Type,Dominant,Auxiliary,Tertiary,Inferior
+ISTJ,Si,Te,Fi,Ne
+ISFJ,Si,Fe,Ti,Ne
+INFJ,Ni,Fe,Ti,Se
+INTJ,Ni,Te,Fi,Se
+ISTP,Ti,Se,Ni,Fe
+ISFP,Fi,Se,Ni,Te
+INFP,Fi,Ne,Si,Te
+INTP,Ti,Ne,Si,Fe
+ESTP,Se,Ti,Fe,Ni
+ESFP,Se,Fi,Te,Ni
+ENFP,Ne,Fi,Te,Si
+ENTP,Ne,Ti,Fe,Si
+ESTJ,Te,Si,Ne,Fi
+ESFJ,Fe,Si,Ne,Ti
+ENFJ,Fe,Ni,Se,Ti
+ENTJ,Te,Ni,Se,Fix
