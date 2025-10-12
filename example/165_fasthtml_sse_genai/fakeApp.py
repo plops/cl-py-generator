@@ -18,8 +18,8 @@ from fasthtml.common import (
     serve,
     Span,
     H4,  # MODIFICATION: Import H4
-    P,   # MODIFICATION: Import P
-    Strong, # MODIFICATION: Import Strong
+    P,  # MODIFICATION: Import P
+    Strong,  # MODIFICATION: Import Strong
 )
 from typing import Any, Dict
 
@@ -38,7 +38,10 @@ class FakeGenAIJob:
         """An async generator that yields data chunks to simulate a real API."""
         # MODIFICATION: Yield a "thought" message first.
         await asyncio.sleep(0.5)
-        yield dict(type="thought", text="Thinking about the prompt and preparing the simulated response...")
+        yield dict(
+            type="thought",
+            text="Thinking about the prompt and preparing the simulated response...",
+        )
 
         for word in self.fake_response.split():
             await asyncio.sleep(0.2)  # Simulate network latency/computation
@@ -137,8 +140,12 @@ async def response_stream(uid: str):
             if not job_info:
                 # MODIFICATION: Target the new error div
                 yield sse_message(
-                    Div(f"Error: unknown UID {uid}", id=f"{uid}-error", hx_swap_oob="innerHTML"),
-                    event="error"
+                    Div(
+                        f"Error: unknown UID {uid}",
+                        id=f"{uid}-error",
+                        hx_swap_oob="innerHTML",
+                    ),
+                    event="error",
                 )
                 return
 
@@ -153,7 +160,11 @@ async def response_stream(uid: str):
                 # MODIFICATION: Handle 'answer_chunk' event
                 elif msg["type"] == "answer_chunk":
                     yield sse_message(
-                        Span(msg["text"], id=f"{uid}-answer-stream", hx_swap_oob="beforeend"),
+                        Span(
+                            msg["text"],
+                            id=f"{uid}-answer-stream",
+                            hx_swap_oob="beforeend",
+                        ),
                         event="answer_chunk",
                     )
                 # MODIFICATION: Handle 'final_answer' event
@@ -161,7 +172,7 @@ async def response_stream(uid: str):
                     yield sse_message(
                         Div(
                             Strong("Final Answer:"),
-                            P(msg['answer']),
+                            P(msg["answer"]),
                             id=f"{uid}-answer-stream",
                             hx_swap_oob="innerHTML",
                         ),
