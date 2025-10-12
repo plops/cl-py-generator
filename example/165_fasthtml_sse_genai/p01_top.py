@@ -1,5 +1,6 @@
- export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py
+# export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py
 from __future__ import annotations
+import time
 import datetime
 import argparse
 from fasthtml.common import (
@@ -23,11 +24,8 @@ import sys
 import asyncio
 from dataclasses import dataclass
 from typing import Any, Dict
-from loguru import logger
 from google import genai
 from google.genai import types
-from urllib.parse import quote_plus
-import time
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Run the SSE AI Responder website")
@@ -39,22 +37,6 @@ parser.add_argument(
     help="Increase verbosity: -v for DEBUG, -vv for TRACE",
 )
 args = parser.parse_args()
-# Determine log level based on verbosity
-if (args.verbose) == (1):
-    log_level = "DEBUG"
-elif (args.verbose) >= (2):
-    log_level = "TRACE"
-else:
-    log_level = "INFO"
-logger.remove()
-logger.add(
-    sys.stdout,
-    format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS} UTC</green> <level>{level}</level> <cyan>{name}</cyan>: <level>{message}</level>",
-    colorize=True,
-    level=log_level,
-    enqueue=True,
-)
-logger.info("Logger configured")
 
 
 # import after logger exists
@@ -77,12 +59,12 @@ class StreamResult:
 
 class GenAIJob:
     def __init__(self, config: GenerationConfig):
-        logger.trace("GenAIJob.__init__")
+        # GenAIJob.__init__
         self.config = config
         self.client = genai.Client(api_key=os.environ.get(config.api_key_env))
 
     def _build_request(self) -> Dict[str, Any]:
-        logger.trace("GenAIJob._build_request")
+        # GenAIJob._build_request
         tools = (
             ([types.Tool(googleSearch=types.GoogleSearch())])
             if (self.config.use_search)
@@ -115,7 +97,7 @@ class GenAIJob:
                 role="user", parts=[types.Part.from_text(text=self.config.prompt_text)]
             )
         ]
-        logger.debug(f"_build_request {self.config.prompt_text}")
+        # _build_request
         return dict(
             model=self.config.model, contents=contents, config=generate_content_config
         )
@@ -123,20 +105,20 @@ class GenAIJob:
     async def run(self):
         req = self._build_request()
         result = StreamResult()
-        logger.debug("Starting streaming generation")
+        # Starting streaming generation
         error_in_parts = False
         try:
             for chunk in self.client.models.generate_content_stream(**req):
-                logger.debug("received chunk")
+                # received chunk
                 try:
                     parts = chunk.candidates[0].content.parts
                 except Exception as e:
-                    logger.debug(f"exception when accessing chunk: {e}")
+                    # exception when accessing chunk:
                     continue
                 try:
                     for part in parts:
                         if getattr(part, "text", None):
-                            logger.trace(f"{part}")
+                            #
                             if getattr(part, "thought", False):
                                 result.thought += part.text
                                 yield (dict(type="thought", text=part.text))
@@ -145,13 +127,13 @@ class GenAIJob:
                                 yield (dict(type="answer", text=part.text))
                 except Exception as e:
                     error_in_parts = True
-                    logger.warning(f"genai {e}")
+                    # genai
         except Exception as e:
-            logger.error(f"genai {e}")
+            # genai
             yield (dict(type="error", message=str(e)))
             return
-        logger.debug(f"Thought: {result.thought}")
-        logger.debug(f"Answer: {result.answer}")
+        # Thought:
+        # Answer:
         yield (
             dict(
                 type="complete",
@@ -195,21 +177,16 @@ def index():
     )
 
 
-# Add a simple in-memory store and lock to keep prompts server-side
 _job_store: Dict[str, Dict[str, Any]] = {}
 _job_store_lock = asyncio.Lock()
 
 
 @app.post("/process_transcript")
 async def process_transcript(prompt_text: str, request: Request):
-    # Return a new SSE Div with a uid-only connect URL (prompt stored server-side)
-    id_str = int(datetime.datetime.now().timestamp()*1000)
+    # Return a new SSE Div with the uid (prompt is stored server side)
+    id_str = int(((1000) * (datetime.datetime.now().timestamp())))
     uid = f"id-{id_str}"
-    logger.trace(
-        f"POST process_transcript client={request.client.host} {uid} prompt_len={len(prompt_text) if prompt_text else 0}"
-    )
-    # store prompt and any generation options server-side so the prompt is not resent
-    # keep this small/brief; adjust options as needed
+    # POST process_transcript
     async with _job_store_lock:
         _job_store[uid] = dict(
             prompt_text=prompt_text,
@@ -219,17 +196,14 @@ async def process_transcript(prompt_text: str, request: Request):
             think_budget=0,
             created_at=time.time(),
         )
-
     return Div(
         Div("Thoughts:", Div(id=f"{uid}-thoughts")),
         Div("Answer:", Div(id=f"{uid}-answer")),
         Div(id=f"{uid}-final_answer"),
         Div(id=f"{uid}-error"),
         data_hx_ext="sse",
-        # connect using only uid so the prompt text is never sent again from the client
         data_sse_connect=f"/response-stream?uid={uid}",
         data_sse_swap="thought,answer,final_answer,error",
-        # data_hx_swap_oob="true",
         data_hx_target="#response-list",
         data_sse_close="close",
     )
@@ -238,88 +212,91 @@ async def process_transcript(prompt_text: str, request: Request):
 @app.get("/response-stream")
 async def response_stream(uid: str):
     async def gen():
-        logger.trace(f"GET response-stream uid={uid}")
-        # retrieve prompt from server-side store
+        # GET response-stream
         async with _job_store_lock:
             job_info = _job_store.get(uid)
-
-        if not job_info:
-            # return an immediate error SSE and close
-            yield sse_message(
-                Div(
-                    f"Error: unknown or expired uid {uid}",
-                    id=f"{uid}-error",
-                    data_hx_swap_oob="innerHTML",
-                ),
-                event="error",
+        if not (job_info):
+            yield (
+                sse_message(
+                    Div(
+                        f"Error: unkown or expired uid {uid}",
+                        id=f"{uid}-error",
+                        data_hx_swap_oob="innerHTML",
+                    ),
+                    event="error",
+                )
             )
-            yield sse_message("", event="close")
+            yield (sse_message("", event="close"))
             return
-
         prompt_text = job_info["prompt_text"]
-        include_thought = job_info.get("include_thoughts", False)
+        include_thought = False
         config = GenerationConfig(
             prompt_text=prompt_text,
             model=job_info.get("model", "gemini-flash-latest"),
             use_search=job_info.get("use_search", False),
-            think_budget=job_info.get("think_budget", 0 if not include_thought else -1),
+            think_budget=job_info.get(
+                "think_budget", (-1) if (include_thought) else (0)
+            ),
             include_thoughts=include_thought,
         )
-        logger.trace("created a genai configuration from server-side store")
+        # created a genai configuration
         job = GenAIJob(config)
-
+        # configured genai job
         try:
             async for msg in job.run():
-                logger.trace(f"genai.job async for {msg}")
-                if include_thought and msg.get("type") == "thought":
-                    yield sse_message(
-                        Div(
-                            f"{msg['text']}",
-                            id=f"{uid}-thoughts",
-                            data_hx_swap_oob="beforeend",
-                        ),
-                        event="thought",
+                # genai.job async for
+                if (include_thought) and ((msg["type"]) == ("thought")):
+                    yield (
+                        sse_message(
+                            Div(
+                                f"{msg['text']}",
+                                id=f"{uid}-thoughts",
+                                data_hx_swap_oob="beforeend",
+                            ),
+                            event="thought",
+                        )
                     )
-                elif msg.get("type") == "answer":
-                    yield sse_message(
-                        Div(
-                            f"{msg['text']}",
-                            id=f"{uid}-answer",
-                            data_hx_swap_oob="beforeend",
-                        ),
-                        event="answer",
+                elif (msg["type"]) == ("answer"):
+                    yield (
+                        sse_message(
+                            Div(
+                                f"{msg['text']}",
+                                id=f"{uid}-answer",
+                                data_hx_swap_oob="beforeend",
+                            ),
+                            event="answer",
+                        )
                     )
-                elif msg.get("type") == "complete":
-                    # job.run returns complete with 'answer' and 'thought' fields
-                    final = msg.get("answer", "")
-                    yield sse_message(
-                        Div(
-                            f"Final Answer: {final}",
-                            id=f"{uid}-final_answer",
-                            data_hx_swap_oob="innerHTML",
-                        ),
-                        event="final_answer",
+                elif (msg["type"]) == ("complete"):
+                    yield (
+                        sse_message(
+                            Div(
+                                f"Final Answer: {msg['answer']}",
+                                id=f"{uid}-answer",
+                                data_hx_swap_oob="innerHTML",
+                            ),
+                            event="final_answer",
+                        )
                     )
                     break
-                elif msg.get("type") == "error":
-                    # job.run may use 'message' for error text
+                elif (msg["type"]) == ("error"):
                     err_text = msg.get("message", msg.get("text", "Unknown error"))
-                    yield sse_message(
-                        Div(
-                            f"Error: {err_text}",
-                            id=f"{uid}-error",
-                            data_hx_swap_oob="innerHTML",
-                        ),
-                        event="error",
+                    yield (
+                        sse_message(
+                            Div(
+                                f"Error: {err_text}",
+                                id=f"{uid}-error",
+                                data_hx_swap_oob="innerHTML",
+                            ),
+                            event="error",
+                        )
                     )
                     break
         finally:
-            # cleanup stored prompt to avoid memory growth
             async with _job_store_lock:
                 if uid in _job_store:
                     del _job_store[uid]
-                    logger.trace(f"cleaned up job store for uid={uid}")
-
+                    # cleaned up job store for
         yield (sse_message("", event="close"))
 
     return EventStream(gen())

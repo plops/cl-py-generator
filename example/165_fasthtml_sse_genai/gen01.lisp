@@ -12,25 +12,28 @@
 
 (setf *features* (union *features* '(:log ;; logger
 				     )))
-(setf *features* (set-difference *features* '(;:log
+(setf *features* (set-difference *features* '(:log
 					      )))
 
 (progn
 
   (defun lprint (&key msg vars (level "info"))
     `(do0
-      #+log (dot logger
-		 (,level
-		  ,(if vars
-		       `(dot (string ,(format nil "~a ~{~a={}~^ ~}"
-					      msg
-					      (mapcar (lambda (x)
-							(emit-py :code x))
-						      vars)))
-			     (format
-			      ,@vars))
-		       `(string ,(format nil "~a"
-					 msg)))))))
+      #-log
+      (comments ,(format nil "~a" msg))
+      #+log
+      (dot logger
+	   (,level
+	    ,(if vars
+		 `(dot (string ,(format nil "~a ~{~a={}~^ ~}"
+					msg
+					(mapcar (lambda (x)
+						  (emit-py :code x))
+						vars)))
+		       (format
+			,@vars))
+		 `(string ,(format nil "~a"
+				   msg)))))))
   (let ((helper-classes
 	  `(do0
 	    (do0
@@ -250,7 +253,7 @@
 	  Dict)
 
 
-	 (loguru logger)
+	 #+log (loguru logger)
 	 (google genai)
 	 (google.genai types)))
 
