@@ -133,23 +133,25 @@ async def response_stream(uid: str):
         try:
             async for msg in job.run():
                 if msg["type"] == "answer":
-                    # Send an SSE message with the event name "answer"
+                    # --- FIX 1: ---
+                    # The attributes `id` and `hx_swap_oob` are moved to an HTML component.
+                    # We wrap the text in a Div to carry these attributes for the OOB swap.
+                    # Note: fasthtml uses `hx_swap_oob`, which becomes `hx-swap-oob` in HTML.
                     yield sse_message(
-                        msg["text"],
+                        # This Div is the content sent to the browser
+                        Div(msg["text"], id=f"{uid}-answer", hx_swap_oob="beforeend"),
                         event="answer",
-                        id=f"{uid}-answer",
-                        # Note: We are targeting the ID directly instead of using OOB
-                        # for this simplified example, which appends to the target.
-                        # For more complex layouts, OOB is better. Let's use it for clarity.
-                        data_hx_swap_oob="beforeend",
                     )
                 elif msg["type"] == "complete":
-                    # When complete, we REPLACE the whole answer div with the final text.
+                    # --- FIX 2: ---
+                    # Similarly, move the attributes from sse_message into the Div.
                     yield sse_message(
-                        Div(f"Final Answer: {msg['answer']}"),
+                        Div(
+                            f"Final Answer: {msg['answer']}",
+                            id=f"{uid}-answer",
+                            hx_swap_oob="innerHTML",  # Overwrite the content
+                        ),
                         event="answer",
-                        id=f"{uid}-answer",
-                        data_hx_swap_oob="innerHTML",  # Overwrite the content
                     )
                     break  # Stop the loop
         finally:
