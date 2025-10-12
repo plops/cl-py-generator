@@ -34,7 +34,7 @@ class FakeGenAIJob:
         """An async generator that yields data chunks to simulate a real API."""
         # Yield a few "answer" chunks
         for word in self.fake_response.split():
-            await asyncio.sleep(0.1)  # Simulate network latency/computation
+            await asyncio.sleep(1)  # Simulate network latency/computation
             yield dict(type="answer", text=f"{word} ")
 
         await asyncio.sleep(0.5)
@@ -101,7 +101,7 @@ async def process_prompt(prompt_text: str):
     # The key change is adding `id=f"{uid}-container"` to this Div.
     # This allows us to target this specific element for removal later.
     return Div(
-        Div(Div(id=f"{uid}-answer", cl="answer-box")),
+        Div(Div(id=f"{uid}-answer", _cls="answer-box")),
         Div(id=f"{uid}-error"),
         id=f"{uid}-container",  # MODIFICATION: Added a unique ID to the container
         data_hx_ext="sse",
