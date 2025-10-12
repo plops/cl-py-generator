@@ -16,7 +16,10 @@ from fasthtml.common import (
     sse_message,
     EventStream,
     serve,
-    Span,  # MODIFICATION: Import Span
+    Span,
+    H4,  # MODIFICATION: Import H4
+    P,   # MODIFICATION: Import P
+    Strong, # MODIFICATION: Import Strong
 )
 from typing import Any, Dict
 
@@ -33,17 +36,21 @@ class FakeGenAIJob:
 
     async def run(self):
         """An async generator that yields data chunks to simulate a real API."""
+        # MODIFICATION: Yield a "thought" message first.
+        await asyncio.sleep(0.5)
+        yield dict(type="thought", text="Thinking about the prompt and preparing the simulated response...")
+
         for word in self.fake_response.split():
-            await asyncio.sleep(1)  # Simulate network latency/computation
-            yield dict(type="answer", text=f"{word} ")
+            await asyncio.sleep(0.2)  # Simulate network latency/computation
+            # MODIFICATION: Change event type to 'answer_chunk'
+            yield dict(type="answer_chunk", text=f"{word} ")
 
         await asyncio.sleep(0.5)
 
-        # Yield the "complete" message
+        # MODIFICATION: Change event type to 'final_answer'
         yield dict(
-            type="complete",
+            type="final_answer",
             answer=self.final_answer,
-            thought="",  # No thoughts in this simple simulation
             error=False,
         )
 
@@ -79,10 +86,12 @@ def index():
             ),
             # HTMX attributes for the form submission
             data_hx_post="/process_prompt",
-            data_hx_swap="afterbegin",
-            data_hx_target="#response-list",
+            # MODIFICATION: Target #response-container and use innerHTML swap
+            data_hx_target="#response-container",
+            data_hx_swap="innerHTML",
         ),
-        Div(id="response-list"),
+        # MODIFICATION: Change id to response-container
+        Div(id="response-container"),
     )
 
 
@@ -92,15 +101,24 @@ async def process_prompt(prompt_text: str):
     async with _job_store_lock:
         _job_store[uid] = dict(prompt_text=prompt_text)
 
-    # This container initiates the SSE connection and holds the results.
-    # The `data-sse-close="close"` attribute is crucial for stopping the stream.
+    # MODIFICATION: This container now matches the structure from the README.
     return Div(
-        Div(Div(id=f"{uid}-answer", _cls="answer-box")),
-        Div(id=f"{uid}-error"),
+        H4("Response Stream:"),
+        Div(
+            "Waiting for AI to start thinking...",
+            id=f"{uid}-thoughts",
+            style="color: grey; font-style: italic;",
+        ),
+        Div(
+            id=f"{uid}-answer-stream",
+            style="border: 1px solid #ccc; padding: 10px; min-height: 50px; margin-top: 10px;",
+        ),
+        Div(id=f"{uid}-error", style="color: red; margin-top: 10px;"),
         id=f"{uid}-container",
         data_hx_ext="sse",
         data_sse_connect=f"/response-stream?uid={uid}",
-        data_sse_swap="answer,error",
+        # MODIFICATION: Listen for the new event names
+        data_sse_swap="thought,answer_chunk,final_answer,error",
         data_sse_close="close",
     )
 
@@ -108,8 +126,7 @@ async def process_prompt(prompt_text: str):
 @app.get("/response-stream")
 async def response_stream(uid: str):
     """
-    The streaming endpoint, now corrected to show intermediate results
-    and preserve the final answer.
+    The streaming endpoint, now corrected to match the README example.
     """
 
     async def gen():
@@ -118,6 +135,7 @@ async def response_stream(uid: str):
                 job_info = _job_store.get(uid)
 
             if not job_info:
+                # MODIFICATION: Target the new error div
                 yield sse_message(
                     Div(f"Error: unknown UID {uid}", id=f"{uid}-error", hx_swap_oob="innerHTML"),
                     event="error"
@@ -126,38 +144,37 @@ async def response_stream(uid: str):
 
             job = FakeGenAIJob(prompt_text=job_info["prompt_text"])
             async for msg in job.run():
-                if msg["type"] == "answer":
-                    # MODIFICATION: Use a Span for streaming.
-                    # This sends an inline element whose content (the text) is appended
-                    # to the target, creating a visible streaming effect.
+                # MODIFICATION: Handle 'thought' event
+                if msg["type"] == "thought":
                     yield sse_message(
-                        Span(msg["text"], id=f"{uid}-answer", hx_swap_oob="beforeend"),
-                        event="answer",
+                        Div(msg["text"], id=f"{uid}-thoughts", hx_swap_oob="innerHTML"),
+                        event="thought",
                     )
-                elif msg["type"] == "complete":
-                    # This part remains the same. It correctly replaces the
-                    # intermediate streamed content with the final complete answer.
+                # MODIFICATION: Handle 'answer_chunk' event
+                elif msg["type"] == "answer_chunk":
+                    yield sse_message(
+                        Span(msg["text"], id=f"{uid}-answer-stream", hx_swap_oob="beforeend"),
+                        event="answer_chunk",
+                    )
+                # MODIFICATION: Handle 'final_answer' event
+                elif msg["type"] == "final_answer":
                     yield sse_message(
                         Div(
-                            f"Final Answer: {msg['answer']}",
-                            id=f"{uid}-answer",
+                            Strong("Final Answer:"),
+                            P(msg['answer']),
+                            id=f"{uid}-answer-stream",
                             hx_swap_oob="innerHTML",
                         ),
-                        event="answer",
+                        event="final_answer",
                     )
                     break
         finally:
-            # MODIFICATION: The manual removal of the container has been deleted.
-            # We now rely solely on the 'close' event to terminate the connection,
-            # which leaves the final answer visible on the page.
-
             # Clean up the job from the server-side store
             async with _job_store_lock:
                 if uid in _job_store:
                     del _job_store[uid]
 
-            # Tell the client to close the SSE connection. HTMX listens for this
-            # because of the `data-sse-close="close"` attribute on the container.
+            # Tell the client to close the SSE connection.
             yield sse_message("", event="close")
 
     return EventStream(gen())
@@ -168,55 +185,3 @@ async def response_stream(uid: str):
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     serve()
-#
-#
-#
-#
-# ### How the HTMX and SSE Flow Works (The Important Part)
-#
-# This is a step-by-step breakdown of what happens when you click "Submit".
-#
-# **Step 1: The Form Submission**
-# - You fill out the `Textarea` and click the "Submit" button.
-# - The `Form` has `data_hx_post="/process_prompt"`. HTMX sends an AJAX POST request to that URL.
-# - The `data_hx_target="#response-list"` and `data_hx_swap="afterbegin"` attributes tell HTMX: "When you get a response from the POST request, take the HTML content and put it at the very beginning of the `<div id="response-list">`."
-#
-# **Step 2: The "Bridge" Endpoint (`/process_prompt`)**
-# - This is the crucial part. This endpoint does **not** do the long-running AI work.
-# - It quickly does two things:
-# 1.  It generates a unique ID (`uid`) and stores the user's prompt on the server in the `_job_store` dictionary. This is necessary because the next request (the SSE connection) is a separate HTTP GET request and needs a way to retrieve the prompt.
-# 2.  It returns a small snippet of HTML:
-# ```html
-# <div>
-# <div><div id="id-12345-answer" class="answer-box"></div></div>
-# <div id="id-12345-error"></div>
-# </div>
-# ```
-# - **This snippet contains instructions for the HTMX SSE extension:**
-# - `data_hx_ext="sse"`: "Hey HTMX, enable the SSE extension for this element."
-# - `data_sse_connect="/response-stream?uid=..."`: "Now, immediately open a Server-Sent Events connection to this URL."
-# - `data_sse_swap="answer,error"`: "Listen for messages from this stream. If you get a message with `event: answer`, swap its content. If you get `event: error`, swap its content."
-# - `data_sse_close="close"`: "If you get a message with `event: close`, terminate the SSE connection."
-#
-# **Step 3: The SSE Stream (`/response-stream`)**
-# - As soon as the browser receives the HTML snippet from Step 2, the HTMX SSE extension opens a GET request to `/response-stream?uid=...`. This connection is kept open.
-# - The server-side `response_stream` function is an async generator (`async def` with `yield`).
-# - It looks up the `uid` to get the original prompt.
-#                                             - It starts the `FakeGenAIJob`.
-#                                                             - As the `FakeGenAIJob` `yield`s data chunks, the `response_stream` function wraps them in an SSE message format using `sse_message()`:
-# - `yield sse_message(..., event="answer", id=f"{uid}-answer", data_hx_swap_oob="beforeend")`
-# - This sends a message to the browser that looks something like this:
-# ```
-# event: answer
-# data: <div id="id-12345-answer" hx-swap-oob="beforeend">This </div>
-#                                                                ```
-#                                                                  - **HTMX on the client sees this message:**
-# - It sees `event: answer`, which matches one of the events in `data_sse_swap`.
-#                                                     - It looks at the `data` payload.
-#                                                                              - It sees the `hx-swap-oob="beforeend"` ("Out-Of-Band" swap). This is a powerful feature that says: "Don't swap this content into the element that initiated the SSE connection. Instead, find the element on the page with `id="id-12345-answer"` and append this content to it."
-#                                                                                                                                                                                                                                                                                                                              - This process repeats for every word, creating the streaming effect in the browser.
-#
-# **Step 4: Closing the Connection**
-#                       - Once the `FakeGenAIJob` is done, the `finally` block in `response_stream` runs.
-# - It sends one final message: `yield sse_message("", event="close")`.
-# - HTMX on the client sees `event: close`, matches it to `data_sse_close="close"`, and closes the connection. The process is complete.
