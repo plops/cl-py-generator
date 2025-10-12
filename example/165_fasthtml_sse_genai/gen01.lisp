@@ -209,8 +209,9 @@
      `(do0
        (comments "export GEMINI_API_KEY=`cat ~/api_key.txt`; uv run python -i p01_top.py")
        (imports-from (__future__ annotations))
-       (imports (			;random time
-
+       (imports (			;random
+		 time
+		 
 		 datetime
 		 argparse))
        (imports-from
@@ -251,8 +252,7 @@
 
 	 (loguru logger)
 	 (google genai)
-	 (google.genai types)
-	 (urllib.parse quote_plus)))
+	 (google.genai types)))
 
        (do0
 	(comments "Parse command-line arguments")
@@ -264,6 +264,7 @@
 			     :help (string "Increase verbosity: -v for DEBUG, -vv for TRACE"))
 	(setf args (parser.parse_args))
 
+	#+log
 	(do0
 	 (comments "Determine log level based on verbosity")
 	 (cond ((== args.verbose 1)
@@ -275,6 +276,7 @@
 		(setf log_level (string "INFO")))))
 
 	)
+       #+log
        (do0
 	(logger.remove)
 	(logger.add
@@ -356,31 +358,48 @@ events until the final answer is complete or an error has occured"
 				:data_sse_swap (string "message"))
 			   (Div :id (string "response-list")))))))
 
+       (setf "_job_store: Dict[str, Dict[str, Any]]" "{}"
+	     _job_store_lock (asyncio.Lock))
+       
 
        (do0
 	(@app.post (string "/process_transcript"))
-	(def process_transcript (prompt_text
-				 request)
-	  (declare (type str prompt_text)
-		   (type Request request))
-	  (comments "Return a new SSE Div with the prompt in the connect URL")
-	  (setf id_str (dot datetime datetime (now) (timestamp))
-		uid (fstring "id-{id_str}"))
-	  ,(lprint :level "trace" :msg "POST process_transcript" :vars `(request.client.host prompt_text))
-	  (return (Div
-					;(Article (fstring "Prompt: {prompt_text}"))
-		   (Div (string "Thoughts:")
-			(Div :id (fstring "{uid}-thoughts")))
-		   (Div (string "Answer:")
-			(Div :id (fstring "{uid}-answer")))
-		   (Div :id (fstring "{uid}-error"))
-		   :data_hx_ext (string "sse")
-		   :data_sse_connect (fstring "/response-stream?prompt_text={quote_plus(prompt_text)}&uid={uid}")
+	(space async
+	 (def process_transcript (prompt_text
+				  request)
+	   (declare (type str prompt_text)
+		    (type Request request))
+	   (comments "Return a new SSE Div with the uid (prompt is stored server side)")
+	   (setf id_str (int (* 1000 (dot datetime datetime (now) (timestamp))))
+		 uid (fstring "id-{id_str}"))
+	   ,(lprint :level "trace" :msg "POST process_transcript" :vars `(request.client.host prompt_text))
+	   (space async
+		  (with _job_store_lock
+			(setf (aref _job_store uid)
+			      (dictionary
+			       :prompt_text prompt_text
+			       :model (string "gemini-flash-latest")
+			       :use_search False
+			       :include_thoughts False
+			       :think_budget 0
+			       :created_at (time.time)))))
+
+	   (return (Div
+
+					
+		    (Div (string "Thoughts:")
+			 (Div :id (fstring "{uid}-thoughts")))
+		    (Div (string "Answer:")
+			 (Div :id (fstring "{uid}-answer")))
+		    (Div :id (fstring "{uid}-final_answer"))
+		    (Div :id (fstring "{uid}-error"))
+		    :data_hx_ext (string "sse")
+		    :data_sse_connect (fstring "/response-stream?uid={uid}")
 					; :data_hx_swap (string "beforeend show:bottom")
-		   :data_sse_swap (string "thought,answer,final_answer,error")
-		   :data_hx_swap_oob (string "true")
-		   :data_hx_target (string "response-list")
-		   :data_sse_close (string "close")))))
+		    :data_sse_swap (string "thought,answer,final_answer,error")
+		    ;:data_hx_swap_oob (string "true")
+		    :data_hx_target (string "#response-list")
+		    :data_sse_close (string "close"))))))
 
        #+timer
        (do0
@@ -411,59 +430,96 @@ events until the final answer is complete or an error has occured"
 
        (@app.get (string "/response-stream"))
        (space async
-	      (def  response_stream (prompt_text uid)
+	      (def  response_stream (;prompt_text
+				     uid)
 		(declare (type str prompt_text uid))
 		(space async
 		       (def gen ()
 
-			 ,(lprint :level "trace" :msg "GET response-stream" :vars `(prompt_text))
+			 ,(lprint :level "trace" :msg "GET response-stream" :vars `(uid))
+
+			 (space async
+				(with _job_store_lock
+				      (setf job_info (_job_store.get uid))))
+
+			 (unless job_info
+			   (yield (sse_message
+				   (Div (fstring "Error: unkown or expired uid {uid}")
+					:id (fstring "{uid}-error")
+					:data_hx_swap_oob (string "innerHTML"))
+				   :event (string "error")))
+			   (yield (sse_message (string "")
+					       :event (string "close")))
+			   return)
+
+			 (setf prompt_text (aref job_info (string "prompt_text")))
 			 (setf include_thought False)
 			 (setf config (GenerationConfig
 				       :prompt_text prompt_text
-				       :model (string "gemini-flash-latest")
+				       :model (job_info.get (string "model")
+							    (string "gemini-flash-latest"))
 				       #+yaml :output_yaml_path #+yaml yaml_filename
-				       :use_search False ; True
-				       :think_budget (? include_thought -1 0)
+				       :use_search (job_info.get (string "use_search")
+								 False)
+				       :think_budget (job_info.get (string "think_budget")
+								   (? include_thought -1 0))
 				       :include_thoughts include_thought
 				       ))
 			 ,(lprint :level "trace" :msg "created a genai configuration")
 			 (setf job (GenAIJob config))
 			 ,(lprint :level "trace" :msg "configured genai job")
-			 (space async
-				(for (msg (job.run))
-				     ,(lprint :level "trace" :msg "genai.job async for" :vars `(msg))
-				     (cond ((and include_thought
-						 (== (aref msg (string "type"))
-						     (string "thought")))
-					    (yield (sse_message (Div (fstring "{msg['text']}")
-								     :id (fstring "{uid}-thoughts")
-								     :data_hx_swap_oob (string "beforeend"))
-								:event (string "thought"))))
-					   ((== (aref msg (string "type"))
-						(string "answer"))
-					    (yield (sse_message (Div (fstring "{msg['text']}")
-								     :id (fstring "{uid}-answer")
-								     :data_hx_swap_oob (string "beforeend")
-								     )
-								:event (string "answer"))))
-					   ((== (aref msg (string "type"))
-						(string "complete"))
-					    (yield (sse_message (Div (fstring "Final Answer: {msg['text']}")
-								     :id (fstring "{uid}-answer")
-								     :data_hx_swap_oob (string "innerHTML")
-								     )
-								:event (string "final_answer")))
-					    break)
-					   ((== (aref msg (string "type"))
-						(string "error"))
-					    (yield (sse_message (Div (fstring "Error: {msg['text']}")
-								     :id (fstring "{uid}-error")
-								     :data_hx_swap_oob (string "innerHTML")
-								     )
-								:event (string "error")))
-					    break))))
+			 (try
+			  (space
+			   async
+			   (for (msg (job.run))
+				,(lprint :level "trace" :msg "genai.job async for" :vars `(msg))
+				(cond ((and include_thought
+					    (== (aref msg (string "type"))
+						(string "thought")))
+				       (yield (sse_message (Div (fstring "{msg['text']}")
+								:id (fstring "{uid}-thoughts")
+								:data_hx_swap_oob (string "beforeend"))
+							   :event (string "thought"))))
+				      ((== (aref msg (string "type"))
+					   (string "answer"))
+				       (yield (sse_message (Div (fstring "{msg['text']}")
+								:id (fstring "{uid}-answer")
+								:data_hx_swap_oob (string "beforeend")
+								)
+							   :event (string "answer"))))
+				      ((== (aref msg (string "type"))
+					   (string "complete"))
+				       (yield (sse_message (Div (fstring "Final Answer: {msg['answer']}")
+								:id (fstring "{uid}-answer")
+								:data_hx_swap_oob (string "innerHTML")
+								)
+							   :event (string "final_answer")))
+				       break)
+				      ((== (aref msg (string "type"))
+					   (string "error"))
+				       (setf err_text
+					     (msg.get (string "message")
+						      (msg.get (string "text")
+							       (string "Unknown error"))))
+				       (yield (sse_message (Div (fstring "Error: {err_text}")
+								:id (fstring "{uid}-error")
+								:data_hx_swap_oob (string "innerHTML")
+								)
+							   :event (string "error")))
+				       break))))
+			  (finally
+			   (space async
+				  (with _job_store_lock
+					(when (in uid
+						  _job_store)
+					  (del (aref _job_store uid))
+					  ,(lprint :level "trace"
+						   :msg "cleaned up job store for"
+						   :vars `(uid)))))))
 			 (yield (sse_message (string "")
 					     :event (string "close")))))
 		(return (EventStream (gen)))))
        (serve)
        ))))
+
+
