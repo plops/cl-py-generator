@@ -37,7 +37,6 @@ class FakeGenAIJob:
             await asyncio.sleep(0.1)  # Simulate network latency/computation
             yield dict(type="answer", text=f"{word} ")
 
-        # Wait a bit before the final result
         await asyncio.sleep(0.5)
 
         # Yield the "complete" message
@@ -92,74 +91,84 @@ def index():
 @app.post("/process_prompt")
 async def process_prompt(prompt_text: str):
     """
-    Step 2 in the HTMX flow. This is the "bridge" endpoint.
-    It doesn't run the job. It just stores the prompt and returns
-    an HTML snippet that tells the browser to open an SSE connection.
+    Step 2: This endpoint now returns an HTML snippet with a unique ID
+    on the container element that initiates the SSE connection.
     """
     uid = f"id-{int(time.time() * 1000)}"
     async with _job_store_lock:
         _job_store[uid] = dict(prompt_text=prompt_text)
 
-    # This Div is the response to the POST. Its attributes are instructions for htmx.
+    # The key change is adding `id=f"{uid}-container"` to this Div.
+    # This allows us to target this specific element for removal later.
     return Div(
         Div(Div(id=f"{uid}-answer", cl="answer-box")),
         Div(id=f"{uid}-error"),
-        # These attributes are the key to understanding the flow:
-        data_hx_ext="sse",  # Use the Server-Sent Events extension
-        data_sse_connect=f"/response-stream?uid={uid}",  # Connect to this URL for events
-        data_sse_swap="answer,error",  # Listen for events named "answer" and "error"
-        data_sse_close="close",  # The event name that will close the connection
+        id=f"{uid}-container",  # MODIFICATION: Added a unique ID to the container
+        data_hx_ext="sse",
+        data_sse_connect=f"/response-stream?uid={uid}",
+        data_sse_swap="answer,error",
+        data_sse_close="close",
     )
 
 
 @app.get("/response-stream")
 async def response_stream(uid: str):
     """
-    Step 3 in the HTMX flow. This is the endpoint that streams the actual data.
+    Step 3: The streaming endpoint. It now sends a final OOB swap
+    message to remove the SSE-initiating element from the DOM.
     """
 
     async def gen():
-        # Get the prompt from our server-side store
-        async with _job_store_lock:
-            job_info = _job_store.get(uid)
-
-        if not job_info:
-            yield sse_message(f"Error: unknown UID {uid}", event="error")
-            yield sse_message("", event="close")
-            return
-
-        # Create and run our fake job
-        job = FakeGenAIJob(prompt_text=job_info["prompt_text"])
+        job_info = None
+        # MODIFICATION: Encapsulate the entire logic in a try/finally block
+        # to guarantee cleanup and connection termination.
         try:
+            async with _job_store_lock:
+                job_info = _job_store.get(uid)
+
+            if not job_info:
+                # Send a visible error message to the user
+                yield sse_message(
+                    Div(f"Error: unknown UID {uid}", id=f"{uid}-error", hx_swap_oob="innerHTML"),
+                    event="error"
+                )
+                return  # Exit the generator
+
+            job = FakeGenAIJob(prompt_text=job_info["prompt_text"])
             async for msg in job.run():
                 if msg["type"] == "answer":
-                    # --- FIX 1: ---
-                    # The attributes `id` and `hx_swap_oob` are moved to an HTML component.
-                    # We wrap the text in a Div to carry these attributes for the OOB swap.
-                    # Note: fasthtml uses `hx_swap_oob`, which becomes `hx-swap-oob` in HTML.
                     yield sse_message(
-                        # This Div is the content sent to the browser
                         Div(msg["text"], id=f"{uid}-answer", hx_swap_oob="beforeend"),
                         event="answer",
                     )
                 elif msg["type"] == "complete":
-                    # --- FIX 2: ---
-                    # Similarly, move the attributes from sse_message into the Div.
                     yield sse_message(
                         Div(
                             f"Final Answer: {msg['answer']}",
                             id=f"{uid}-answer",
-                            hx_swap_oob="innerHTML",  # Overwrite the content
+                            hx_swap_oob="innerHTML",
                         ),
                         event="answer",
                     )
-                    break  # Stop the loop
+                    break
         finally:
-            # Clean up the job from the store
+            # MODIFICATION: This block now executes after the stream is finished or fails.
+            # Its primary job is to remove the element that started the SSE connection.
+            yield sse_message(
+                # This is an empty Div targeting the container by its ID.
+                # hx-swap-oob="outerHTML" will replace the entire element with
+                # this Div's content (which is nothing), effectively deleting it.
+                Div("", id=f"{uid}-container", hx_swap_oob="outerHTML"),
+                event="answer",  # Use an event the client is already listening to.
+            )
+
+            # Clean up the job from the server-side store
             async with _job_store_lock:
                 if uid in _job_store:
                     del _job_store[uid]
-            # Tell the client to close the connection
+
+            # Formally tell the client to close the connection. While removing the
+            # element usually handles this, sending the close event is good practice.
             yield sse_message("", event="close")
 
     return EventStream(gen())
