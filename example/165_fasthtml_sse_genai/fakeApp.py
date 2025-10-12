@@ -1,7 +1,6 @@
 # Save as mini_htmx_sse.py and run with: uv run mini_htmx_sse.py
 from __future__ import annotations
 import time
-import datetime
 import asyncio
 from fasthtml.common import (
     Script,
@@ -19,6 +18,7 @@ from fasthtml.common import (
     serve,
 )
 from typing import Any, Dict
+
 
 # -----------------------------------------------------------------------------
 # 1. FAKE GenAI Implementation to emulate streaming
@@ -44,9 +44,10 @@ class FakeGenAIJob:
         yield dict(
             type="complete",
             answer=self.final_answer,
-            thought="", # No thoughts in this simple simulation
+            thought="",  # No thoughts in this simple simulation
             error=False,
         )
+
 
 # -----------------------------------------------------------------------------
 # 2. FastHTML App Setup
@@ -87,6 +88,7 @@ def index():
         Div(id="response-list"),
     )
 
+
 @app.post("/process_prompt")
 async def process_prompt(prompt_text: str):
     """
@@ -109,11 +111,13 @@ async def process_prompt(prompt_text: str):
         data_sse_close="close",  # The event name that will close the connection
     )
 
+
 @app.get("/response-stream")
 async def response_stream(uid: str):
     """
     Step 3 in the HTMX flow. This is the endpoint that streams the actual data.
     """
+
     async def gen():
         # Get the prompt from our server-side store
         async with _job_store_lock:
@@ -131,7 +135,7 @@ async def response_stream(uid: str):
                 if msg["type"] == "answer":
                     # Send an SSE message with the event name "answer"
                     yield sse_message(
-                        msg['text'],
+                        msg["text"],
                         event="answer",
                         id=f"{uid}-answer",
                         # Note: We are targeting the ID directly instead of using OOB
@@ -145,9 +149,9 @@ async def response_stream(uid: str):
                         Div(f"Final Answer: {msg['answer']}"),
                         event="answer",
                         id=f"{uid}-answer",
-                        data_hx_swap_oob="innerHTML", # Overwrite the content
+                        data_hx_swap_oob="innerHTML",  # Overwrite the content
                     )
-                    break # Stop the loop
+                    break  # Stop the loop
         finally:
             # Clean up the job from the store
             async with _job_store_lock:
