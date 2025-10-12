@@ -16,6 +16,7 @@ from fasthtml.common import (
     sse_message,
     EventStream,
     serve,
+    Span,  # MODIFICATION: Import Span
 )
 from typing import Any, Dict
 
@@ -32,7 +33,6 @@ class FakeGenAIJob:
 
     async def run(self):
         """An async generator that yields data chunks to simulate a real API."""
-        # Yield a few "answer" chunks
         for word in self.fake_response.split():
             await asyncio.sleep(1)  # Simulate network latency/computation
             yield dict(type="answer", text=f"{word} ")
@@ -55,14 +55,12 @@ class FakeGenAIJob:
 hdrs = (Script(src="https://unpkg.com/htmx-ext-sse@2.2.3/sse.js"),)
 app, rt = fast_app(hdrs=hdrs)
 
-# Server-side store to hold prompts between the POST and GET requests
 _job_store: Dict[str, Dict[str, Any]] = {}
 _job_store_lock = asyncio.Lock()
 
 
 @rt
 def index():
-    """The main page with the form."""
     return Titled(
         "SSE AI Responder (Simulation)",
         Form(
@@ -90,20 +88,16 @@ def index():
 
 @app.post("/process_prompt")
 async def process_prompt(prompt_text: str):
-    """
-    Step 2: This endpoint now returns an HTML snippet with a unique ID
-    on the container element that initiates the SSE connection.
-    """
     uid = f"id-{int(time.time() * 1000)}"
     async with _job_store_lock:
         _job_store[uid] = dict(prompt_text=prompt_text)
 
-    # The key change is adding `id=f"{uid}-container"` to this Div.
-    # This allows us to target this specific element for removal later.
+    # This container initiates the SSE connection and holds the results.
+    # The `data-sse-close="close"` attribute is crucial for stopping the stream.
     return Div(
         Div(Div(id=f"{uid}-answer", _cls="answer-box")),
         Div(id=f"{uid}-error"),
-        id=f"{uid}-container",  # MODIFICATION: Added a unique ID to the container
+        id=f"{uid}-container",
         data_hx_ext="sse",
         data_sse_connect=f"/response-stream?uid={uid}",
         data_sse_swap="answer,error",
@@ -114,34 +108,35 @@ async def process_prompt(prompt_text: str):
 @app.get("/response-stream")
 async def response_stream(uid: str):
     """
-    Step 3: The streaming endpoint. It now sends a final OOB swap
-    message to remove the SSE-initiating element from the DOM.
+    The streaming endpoint, now corrected to show intermediate results
+    and preserve the final answer.
     """
 
     async def gen():
-        job_info = None
-        # MODIFICATION: Encapsulate the entire logic in a try/finally block
-        # to guarantee cleanup and connection termination.
         try:
             async with _job_store_lock:
                 job_info = _job_store.get(uid)
 
             if not job_info:
-                # Send a visible error message to the user
                 yield sse_message(
                     Div(f"Error: unknown UID {uid}", id=f"{uid}-error", hx_swap_oob="innerHTML"),
                     event="error"
                 )
-                return  # Exit the generator
+                return
 
             job = FakeGenAIJob(prompt_text=job_info["prompt_text"])
             async for msg in job.run():
                 if msg["type"] == "answer":
+                    # MODIFICATION: Use a Span for streaming.
+                    # This sends an inline element whose content (the text) is appended
+                    # to the target, creating a visible streaming effect.
                     yield sse_message(
-                        Div(msg["text"], id=f"{uid}-answer", hx_swap_oob="beforeend"),
+                        Span(msg["text"], id=f"{uid}-answer", hx_swap_oob="beforeend"),
                         event="answer",
                     )
                 elif msg["type"] == "complete":
+                    # This part remains the same. It correctly replaces the
+                    # intermediate streamed content with the final complete answer.
                     yield sse_message(
                         Div(
                             f"Final Answer: {msg['answer']}",
@@ -152,23 +147,17 @@ async def response_stream(uid: str):
                     )
                     break
         finally:
-            # MODIFICATION: This block now executes after the stream is finished or fails.
-            # Its primary job is to remove the element that started the SSE connection.
-            yield sse_message(
-                # This is an empty Div targeting the container by its ID.
-                # hx-swap-oob="outerHTML" will replace the entire element with
-                # this Div's content (which is nothing), effectively deleting it.
-                Div("", id=f"{uid}-container", hx_swap_oob="outerHTML"),
-                event="answer",  # Use an event the client is already listening to.
-            )
+            # MODIFICATION: The manual removal of the container has been deleted.
+            # We now rely solely on the 'close' event to terminate the connection,
+            # which leaves the final answer visible on the page.
 
             # Clean up the job from the server-side store
             async with _job_store_lock:
                 if uid in _job_store:
                     del _job_store[uid]
 
-            # Formally tell the client to close the connection. While removing the
-            # element usually handles this, sending the close event is good practice.
+            # Tell the client to close the SSE connection. HTMX listens for this
+            # because of the `data-sse-close="close"` attribute on the container.
             yield sse_message("", event="close")
 
     return EventStream(gen())
