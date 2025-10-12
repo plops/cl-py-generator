@@ -46,7 +46,7 @@
   
    :import :import-from :imports :imports-from  
   
-   :with :try  
+   :with :try :else :finally 
   
    ;; unusual/punctuation tokens used in the code (kept for completeness)  
    ;; :| ;;  i think this is or. not sure if i ever use itisth

@@ -595,7 +595,8 @@ Returns:
 			       (emit `(do ,prog)))
 		       (loop for e in exceptions do
 			     (destructuring-bind (form &rest body) e
-			       (if (member form '(else finally))
+			       (if (member form
+					   '(else finally))
 				   (format s "~&~a~%"
 					   (emit `(indent ,(format nil "~a:" form))))
 				   (format s "~&~a~%"
