@@ -1,4 +1,4 @@
-# Save as mini_htmx_sse.py and run with: uvicorn mini_htmx_sse:app --reload
+# Save as fakeApp.py and run with: uvicorn fakeApp:app --reload
 from __future__ import annotations
 import time
 import asyncio
@@ -55,10 +55,8 @@ class FakeGenAIJob:
 # -----------------------------------------------------------------------------
 # 2. FastHTML App Setup
 # -----------------------------------------------------------------------------
-hdrs = (
-    Script(src="https://unpkg.com/htmx.org@1.9.12"),
-    Script(src="https://unpkg.com/htmx-ext-sse@2.2.3/sse.js"),
-)
+hdrs = (Script(src="https://unpkg.com/htmx-ext-sse@2.2.3/sse.js"),
+        Script(src="https://unpkg.com/htmx.org@1.9.12/dist/ext/debug.js"))
 app, rt = fast_app(hdrs=hdrs)
 
 _job_store: Dict[str, Dict[str, Any]] = {}
@@ -75,8 +73,8 @@ def index():
                 Div(
                     Label("Enter your prompt here:", _for="prompt_text"),
                     Textarea(
-                        "Write a short story about a robot who discovers music.",
-                        style="height: 150px; width: 60%;",
+                        "Create a summary of industries in Europe, grouped by topic, innovation, and moat. Also indicate the impact that increasing US Import Tariffs will have on these industries.",
+                        style="height: 150px; width: 99%;",
                         id="prompt_text",
                         name="prompt_text",
                     ),
@@ -86,6 +84,7 @@ def index():
             data_hx_post="/process_prompt",
             data_hx_target="#response-container",
             data_hx_swap="innerHTML",
+            data_hx_ext="debug",
         ),
         Div(id="response-container"),
     )
@@ -97,10 +96,7 @@ async def process_prompt(prompt_text: str):
     async with _job_store_lock:
         _job_store[uid] = dict(prompt_text=prompt_text)
 
-    # SYNTAX FIX: All positional arguments (child components) are now listed
-    # BEFORE all keyword arguments (HTML attributes for this Div).
     return Div(
-        # --- Child Components (Positional Arguments) ---
         H4("Response Stream:"),
         Div(
             "Waiting for AI to start thinking...",
@@ -130,7 +126,7 @@ async def process_prompt(prompt_text: str):
         ),
         # --- HTML Attributes (Keyword Arguments) ---
         id=f"{uid}-container",
-        data_hx_ext="sse",
+        data_hx_ext="sse,debug",
         data_sse_connect=f"/response-stream?uid={uid}",
         data_sse_close="close",
     )
