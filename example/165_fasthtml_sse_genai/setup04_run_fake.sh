@@ -1,3 +1,3 @@
 #!/bin/bash
 
-uvx uvicorn fakeApp:app --reload
+.venv/bin/uvicorn fakeApp:app --reload
