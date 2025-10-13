@@ -55,7 +55,10 @@ class FakeGenAIJob:
 # -----------------------------------------------------------------------------
 # 2. FastHTML App Setup
 # -----------------------------------------------------------------------------
-hdrs = (Script(src="https://unpkg.com/htmx.org@1.9.12"), Script(src="https://unpkg.com/htmx-ext-sse@2.2.3/sse.js"),)
+hdrs = (
+    Script(src="https://unpkg.com/htmx.org@1.9.12"),
+    Script(src="https://unpkg.com/htmx-ext-sse@2.2.3/sse.js"),
+)
 app, rt = fast_app(hdrs=hdrs)
 
 _job_store: Dict[str, Dict[str, Any]] = {}
@@ -107,23 +110,24 @@ async def process_prompt(prompt_text: str):
         ),
         Div(
             id=f"{uid}-final-container",
-            children=[Div(
-                data_sse_swap="answer_chunk",
-                data_hx_swap="beforeend",
-                style="border: 1px solid #ccc; padding: 10px; min-height: 50px; margin-top: 10px;",
-            )]
+            children=[
+                Div(
+                    data_sse_swap="answer_chunk",
+                    data_hx_swap="beforeend",
+                    style="border: 1px solid #ccc; padding: 10px; min-height: 50px; margin-top: 10px;",
+                )
+            ],
         ),
         Div(
             data_sse_swap="final_answer",
             data_hx_target=f"#{uid}-final-container",
-            data_hx_swap="outerHTML"
+            data_hx_swap="outerHTML",
         ),
         Div(
             data_sse_swap="error",
             data_hx_swap="innerHTML",
             style="color: red; margin-top: 10px;",
         ),
-
         # --- HTML Attributes (Keyword Arguments) ---
         id=f"{uid}-container",
         data_hx_ext="sse",
@@ -152,11 +156,13 @@ async def response_stream(uid: str):
                 elif msg["type"] == "final_answer":
                     final_html_content = Div(
                         id=f"{uid}-final-container",
-                        children=[Div(
-                            Strong("Final Answer:"),
-                            P(msg["answer"]),
-                            style="border: 1px solid #ccc; padding: 10px; min-height: 50px; margin-top: 10px;",
-                        )]
+                        children=[
+                            Div(
+                                Strong("Final Answer:"),
+                                P(msg["answer"]),
+                                style="border: 1px solid #ccc; padding: 10px; min-height: 50px; margin-top: 10px;",
+                            )
+                        ],
                     )
                     yield sse_message(str(final_html_content), event="final_answer")
                     break
@@ -174,4 +180,5 @@ async def response_stream(uid: str):
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="127.0.0.1", port=8000)
