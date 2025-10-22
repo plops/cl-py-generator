@@ -107,3 +107,5 @@ llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -v
 dev-cpp/glog gflags libunwind -llvm-libunwind -test
 
  media-libs/freetype X adobe-cff brotli bzip2 cleartype-hinting png -debug -doc -fontforge harfbuzz -static-libs -svg -utils
+
+ net-analyzer/wireshark capinfos captype dftest dumpcap editcap filecaps gui mergecap minizip netlink pcap plugins randpkt randpktdump reordercap sharkd ssl text2pcap tshark udpdump zlib zstd -androiddump -bcg729 -brotli -ciscodump -doc -dpauxmon -http2 -http3 -ilbc -kerberos -libxml2 lua -lz4 -maxminddb -opus -sbc -sdjournal -selinux -smi -snappy -spandsp -sshdump -test -verify-sig -wifi lua_single_target_lua5-4
