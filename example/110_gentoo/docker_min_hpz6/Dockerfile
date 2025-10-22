@@ -28,9 +28,12 @@ COPY config/package.license.2 /etc/portage/package.license
 COPY config/package.accept_keywords.2 /etc/portage/package.accept_keywords/package.accept_keywords.2
 
 # Clean up the locales
-RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
-RUN rm -rf /usr/share/locale/*
-RUN locale-gen
+RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
+ && locale-gen \
+ && env-update \
+ && . /etc/profile
+ENV LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 
 RUN emerge --update --deep --changed-use @world --fetchonly
 

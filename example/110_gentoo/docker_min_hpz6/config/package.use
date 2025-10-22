@@ -105,3 +105,5 @@ dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev wid
 
 llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -verify-sig -xml
 dev-cpp/glog gflags libunwind -llvm-libunwind -test
+
+ media-libs/freetype X adobe-cff brotli bzip2 cleartype-hinting png -debug -doc -fontforge harfbuzz -static-libs -svg -utils
