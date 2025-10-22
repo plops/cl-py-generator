@@ -167,7 +167,7 @@ RUN make install
 RUN make clean
 
 RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
-RUN echo "kiel:kiel" | chpasswd
+RUN echo "kiel:YourStrongPassword123!" | chpasswd
 
 COPY config/xinitrc /home/kiel/.xinitrc
 
