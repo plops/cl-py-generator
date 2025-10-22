@@ -1,9 +1,4 @@
 app-admin/sudo
-#app-arch/cpio
-#app-editors/emacs
-#app-emacs/magit
-#app-emacs/paredit
-#app-misc/tmux
 app-portage/eix
 app-portage/gentoolkit
 dev-build/ninja
@@ -101,3 +96,4 @@ llvm-core/clang
  sys-kernel/dracut-crypt-ssh
   net-misc/mosh
    net-misc/socat
+   app-pda/ifuse
