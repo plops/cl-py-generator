@@ -33,7 +33,7 @@ Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop0: 7.53 GiB, 8084869120 bytes, 15790760 sectors
+Disk /dev/loop0: 7.52 GiB, 8075513856 bytes, 15772488 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
