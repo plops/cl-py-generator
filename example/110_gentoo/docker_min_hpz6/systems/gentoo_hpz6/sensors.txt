@@ -9,19 +9,19 @@ curr1:         0.00 A  (max =  +0.00 A)
 
 nvme-pci-8200
 Adapter: PCI adapter
-Composite:    +37.9°C  (low  =  -0.1°C, high = +79.8°C)
+Composite:    +38.9°C  (low  =  -0.1°C, high = +79.8°C)
                        (crit = +81.8°C)
-Sensor 1:     +37.9°C  (low  = -273.1°C, high = +65261.8°C)
+Sensor 1:     +38.9°C  (low  = -273.1°C, high = +65261.8°C)
 
 k10temp-pci-00c3
 Adapter: PCI adapter
-Tctl:         +54.9°C  
-Tccd1:        +43.0°C  
-Tccd2:        +41.5°C  
+Tctl:         +63.5°C  
+Tccd1:        +49.0°C  
+Tccd2:        +47.0°C  
 
 nvme-pci-8100
 Adapter: PCI adapter
-Composite:    +37.9°C  (low  =  -0.1°C, high = +79.8°C)
+Composite:    +38.9°C  (low  =  -0.1°C, high = +79.8°C)
                        (crit = +81.8°C)
-Sensor 1:     +37.9°C  (low  = -273.1°C, high = +65261.8°C)
+Sensor 1:     +38.9°C  (low  = -273.1°C, high = +65261.8°C)
 

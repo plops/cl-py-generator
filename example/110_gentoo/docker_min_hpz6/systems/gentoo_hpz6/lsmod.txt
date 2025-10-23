@@ -1,44 +1,43 @@
 Module                  Size  Used by
-uas                    32768  0
-nvidia_uvm           2609152  4
+nvidia_uvm           2613248  4
 mousedev               20480  0
 joydev                 24576  0
 cfg80211             1175552  0
-nvidia_drm            110592  2
-nvidia_modeset       2068480  3 nvidia_drm
+nvidia_drm            110592  3
+nvidia_modeset       2146304  6 nvidia_drm
 intel_rapl_msr         16384  0
 amd_atl                53248  1
 intel_rapl_common      45056  1 intel_rapl_msr
 amd64_edac             65536  0
 edac_mce_amd           40960  1 amd64_edac
 hp_wmi                 32768  0
-snd_hda_codec_realtek   192512  1
 sparse_keymap          12288  1 hp_wmi
+snd_hda_codec_realtek   192512  1
 snd_hda_codec_generic    98304  1 snd_hda_codec_realtek
 platform_profile       12288  1 hp_wmi
 wmi_bmof               12288  0
-snd_hda_scodec_component    20480  1 snd_hda_codec_realtek
 kvm_amd               200704  0
+snd_hda_scodec_component    20480  1 snd_hda_codec_realtek
 snd_hda_codec_hdmi     81920  1
-nvidia              15077376  42 nvidia_uvm,nvidia_modeset
-kvm                  1159168  1 kvm_amd
-irqbypass              12288  1 kvm
+nvidia              15085568  83 nvidia_uvm,nvidia_modeset
 snd_hda_intel          61440  0
+kvm                  1159168  1 kvm_amd
 snd_intel_dspcfg       20480  1 snd_hda_intel
+irqbypass              12288  1 kvm
 snd_hda_codec         176128  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek
-drm_ttm_helper         16384  1 nvidia_drm
 snd_hwdep              16384  1 snd_hda_codec
-rapl                   20480  0
-ttm                    86016  1 drm_ttm_helper
 snd_hda_core          118784  5 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek
-video                  73728  1 nvidia_modeset
-pcspkr                 12288  0
+rapl                   20480  0
+drm_ttm_helper         16384  1 nvidia_drm
 snd_pcm               147456  4 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core
-igc                   167936  0
+pcspkr                 12288  0
 snd_timer              45056  1 snd_pcm
-r8169                  98304  0
+ttm                    86016  1 drm_ttm_helper
+video                  73728  1 nvidia_modeset
 snd                   122880  8 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_timer,snd_pcm
 soundcore              16384  1 snd
+r8169                  98304  0
+igc                   167936  0
 i2c_piix4              32768  0
 k10temp                12288  0
 i2c_smbus              20480  1 i2c_piix4
@@ -58,14 +57,14 @@ polyval_clmulni        12288  0
 polyval_generic        12288  1 polyval_clmulni
 ghash_clmulni_intel    12288  0
 sha512_ssse3           45056  0
-atkbd                  36864  0
 sha256_ssse3           28672  0
-vivaldi_fmap           12288  1 atkbd
 sha1_ssse3             32768  0
+atkbd                  36864  0
+vivaldi_fmap           12288  1 atkbd
 serio_raw              16384  0
 ccp                   151552  1 kvm_amd
-sp5100_tco             20480  0
 ucsi_acpi              12288  0
 typec_ucsi             61440  1 ucsi_acpi
 roles                  16384  1 typec_ucsi
+sp5100_tco             20480  0
 typec                  94208  1 typec_ucsi

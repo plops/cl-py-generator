@@ -40,21 +40,7 @@ Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop0: 7.53 GiB, 8084869120 bytes, 15790760 sectors
+Disk /dev/loop0: 7.52 GiB, 8075513856 bytes, 15772488 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-
-
-Disk /dev/sda: 476.94 GiB, 512110190592 bytes, 1000215216 sectors
-Disk model: 31CG            
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disklabel type: gpt
-Disk identifier: 1B280CBD-E3A7-447C-93E5-949B01E0DD5F
-
-Device         Start        End   Sectors   Size Type
-/dev/sda1       2048   40962047  40960000  19.5G Linux filesystem
-/dev/sda2   40962048  143362047 102400000  48.8G Linux filesystem
-/dev/sda3  143362048 1000214527 856852480 408.6G Linux filesystem

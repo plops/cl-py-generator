@@ -167,13 +167,13 @@ RUN make install
 RUN make clean
 
 RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
-RUN echo "kiel:YourStrongPassword123!" | chpasswd
+#RUN echo "kiel:Cosmos3fed*debtor" | chpasswd
 
 COPY config/xinitrc /home/kiel/.xinitrc
 
 
 RUN emerge --depclean
-RUN sudo chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
+RUN chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
 
 #RUN IGNORE_PREEMPT_RT_PRESENCE=1 emerge nvidia-drivers
 

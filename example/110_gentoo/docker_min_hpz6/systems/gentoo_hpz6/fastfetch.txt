@@ -20,8 +20,8 @@ yMMNNNNNNNmmmmmNNMmhs+/-`
 [39COS: Gentoo Linux x86_64
 [39CHost: HP Z6 G5 A Workstation Desktop PC (SBKPF)
 [39CKernel: Linux 6.12.41-gentoo
-[39CUptime: 9 mins
-[39CPackages: 807 (emerge)
+[39CUptime: 4 mins
+[39CPackages: 879 (emerge)
 [39CShell: bash 5.3.3
 [39CTheme: Adwaita [GTK3]
 [39CIcons: gnome [GTK3]
@@ -30,9 +30,9 @@ yMMNNNNNNNmmmmmNNMmhs+/-`
 [39CTerminal Font: fixed (8.0pt)
 [39CCPU: AMD Ryzen Threadripper PRO 7955WXs (32) @ 5.37 GHz
 [39CGPU: NVIDIA RTX A4000
-[39CMemory: 8.80 GiB / 62.19 GiB (14%)
+[39CMemory: 14.67 GiB / 62.19 GiB (24%)
 [39CSwap: Disabled
-[39CDisk (/): 436.66 GiB / 934.80 GiB (47%) - overlay
+[39CDisk (/): 453.79 GiB / 934.80 GiB (49%) - overlay
 [39CLocal IP (enp65s0): [REDACTED_IP]/23
 [39CLocale: C.UTF8
 [39C
