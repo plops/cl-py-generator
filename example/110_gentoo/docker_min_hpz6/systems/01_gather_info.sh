@@ -121,7 +121,8 @@ run_or_warn lsblk_all.txt lsblk -a
 for disk in /dev/sd? /dev/sd?? /dev/nvme[0-9]n[0-9] /dev/hd?; do
     [ -b "$disk" ] || continue
     if check_tool smartctl; then
-        smartctl -xa "$disk" > "smartctl_$(basename "$disk").txt" 2>/dev/null || echo "smartctl failed for $disk" > "smartctl_$(basename "$disk").txt"
+        smartctl -xa "$disk" > "smartctl_$(basename "$disk").txt" # 2>/dev/null || echo "smartctl failed for $disk" > "smartctl_$(basename "$disk").txt"
+	# sleep 1
     else
         echo "smartctl not available" > "smartctl_$(basename "$disk").txt"
     fi
