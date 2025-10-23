@@ -76,7 +76,7 @@ localhost
           version: 25.80.0
           serial: Null
           slot: FP6
-          size: 414MHz
+          size: 413MHz
           capacity: 4388MHz
           width: 64 bits
           clock: 100MHz

@@ -68,7 +68,7 @@ Suspend mode   = s2idle [deep]
 +++ TLP Status
 State          = enabled
 RDW state      = enabled
-Last run       = 23:59:23, 411 sec(s) ago
+Last run       = 00:11:58, 17 sec(s) ago
 Mode           = battery (persistent)
 Power source   = AC
 
@@ -116,7 +116,7 @@ Devices = nvme0n1 sda
   Disk ID    = nvme-ADATA_LEGEND_800_************
   Model      = ADATA LEGEND 800                        
   Firmware   = V1122B0 
-  Temp       = 59 °C
+  Temp       = 60 °C
   Scheduler  = [none] mq-deadline kyber bfq (multi queue)
 
   Runtime PM:
@@ -124,11 +124,11 @@ Devices = nvme0n1 sda
 
   SMART info:
     Critical Warning:                   0x00
-    Temperature:                        59 Celsius
+    Temperature:                        60 Celsius
     Available Spare:                    100%
     Available Spare Threshold:          10%
     Percentage Used:                    3%
-    Data Units Written:                 37,002,460 [18.9 TB]
+    Data Units Written:                 37,002,471 [18.9 TB]
     Power Cycles:                       1,881
     Power On Hours:                     13,713
     Unsafe Shutdowns:                   385
@@ -149,7 +149,7 @@ Devices = nvme0n1 sda
 
   SMART info:
       5 Reallocated_Sector_Ct     =        0 
-      9 Power_On_Hours            =    35023 [h]
+      9 Power_On_Hours            =    35024 [h]
      12 Power_Cycle_Count         =      914 
     190 Airflow_Temperature_Cel   =       37 [°C]
 
@@ -253,14 +253,14 @@ Parameter value range:
 +++ Battery Status: BAT0
 /sys/class/power_supply/BAT0/manufacturer                   = Celxpert
 /sys/class/power_supply/BAT0/model_name                     = L20C2PF0
-/sys/class/power_supply/BAT0/cycle_count                    =    447
+/sys/class/power_supply/BAT0/cycle_count                    =    448
 /sys/class/power_supply/BAT0/energy_full_design             =  38000 [mWh]
 /sys/class/power_supply/BAT0/energy_full                    =  30890 [mWh]
-/sys/class/power_supply/BAT0/energy_now                     =  22520 [mWh]
-/sys/class/power_supply/BAT0/power_now                      =  23737 [mW]
-/sys/class/power_supply/BAT0/status                         = Charging
+/sys/class/power_supply/BAT0/energy_now                     =  24570 [mWh]
+/sys/class/power_supply/BAT0/power_now                      =   6103 [mW]
+/sys/class/power_supply/BAT0/status                         = Not charging
 
-Charge                                                      =   72.9 [%]
+Charge                                                      =   79.5 [%]
 Capacity                                                    =   81.3 [%]
 
 +++ Recommendations

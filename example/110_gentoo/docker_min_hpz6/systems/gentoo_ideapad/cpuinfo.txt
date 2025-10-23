@@ -5,7 +5,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 413.850
+cpu MHz		: 413.993
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -33,7 +33,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 413.995
+cpu MHz		: 414.204
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -61,7 +61,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 414.205
+cpu MHz		: 414.222
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -89,7 +89,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 414.451
+cpu MHz		: 413.527
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -117,7 +117,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 414.194
+cpu MHz		: 414.077
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -145,7 +145,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 414.144
+cpu MHz		: 414.026
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -173,7 +173,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 414.027
+cpu MHz		: 413.749
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -201,7 +201,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 400.000
+cpu MHz		: 414.087
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -229,7 +229,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 414.169
+cpu MHz		: 414.235
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -257,7 +257,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 400.000
+cpu MHz		: 413.815
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -285,7 +285,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 414.210
+cpu MHz		: 413.996
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
@@ -313,7 +313,7 @@ model		: 80
 model name	: AMD Ryzen 5 5625U with Radeon Graphics
 stepping	: 0
 microcode	: 0xa500012
-cpu MHz		: 400.000
+cpu MHz		: 414.065
 cache size	: 512 KB
 physical id	: 0
 siblings	: 12
