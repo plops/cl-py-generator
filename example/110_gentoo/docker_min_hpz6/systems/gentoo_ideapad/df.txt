@@ -1,6 +1,6 @@
 Filesystem      Size  Used Avail Use% Mounted on
-devtmpfs        7.5G     0  7.5G   0% /dev
-tmpfs           7.5G  8.0K  7.5G   1% /dev/shm
+devtmpfs        7.5G  8.0K  7.5G   1% /dev
+tmpfs           7.5G   48K  7.5G   1% /dev/shm
 tmpfs           7.5G  9.3M  7.5G   1% /run
 overlay         110G   40G   65G  39% /
 efivarfs        178K  108K   66K  63% /sys/firmware/efi/efivars

@@ -104,7 +104,7 @@ fi
 # Memory (hardware-related only)
 cat /proc/meminfo > meminfo.txt
 run_or_warn free.txt free -h
-
+run_or_warn tlp-stat.txt tlp-stat
 # Block devices: use non-invasive listing that focuses on device attributes
 # (avoid printing mount paths or file contents)
 if check_tool lsblk; then
@@ -121,7 +121,7 @@ run_or_warn lsblk_all.txt lsblk -a
 for disk in /dev/sd? /dev/sd?? /dev/nvme[0-9]n[0-9] /dev/hd?; do
     [ -b "$disk" ] || continue
     if check_tool smartctl; then
-        smartctl -a "$disk" > "smartctl_$(basename "$disk").txt" 2>/dev/null || echo "smartctl failed for $disk" > "smartctl_$(basename "$disk").txt"
+        smartctl -xa "$disk" > "smartctl_$(basename "$disk").txt" 2>/dev/null || echo "smartctl failed for $disk" > "smartctl_$(basename "$disk").txt"
     else
         echo "smartctl not available" > "smartctl_$(basename "$disk").txt"
     fi

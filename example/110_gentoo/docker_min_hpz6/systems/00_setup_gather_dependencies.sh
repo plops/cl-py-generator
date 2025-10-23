@@ -88,6 +88,7 @@ declare -A pkg_arch=(
     [hostnamectl]=systemd
 )
 declare -A pkg_gentoo=(
+    [tlp-stat]=syst-power/tlp
     [fastfetch]=app-misc/fastfetch
     [lshw]=sys-apps/lshw
     [lspci]=sys-apps/pciutils

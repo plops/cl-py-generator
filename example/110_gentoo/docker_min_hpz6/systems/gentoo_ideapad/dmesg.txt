@@ -1151,3 +1151,174 @@
 [  290.650367] sd 0:0:0:0: [sda] Starting disk
 [  333.859428] warning: `lshw' uses wireless extensions which will stop working for Wi-Fi 7 hardware; use nl80211
 [  334.728874] nvme nvme0: using unchecked data buffer
+[  356.105714] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  356.114642] sd 0:0:0:0: [sda] Stopping disk
+[  439.220415] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  439.225804] ata1.00: supports DRM functions and may not be fully accessible
+[  439.236640] ata1.00: supports DRM functions and may not be fully accessible
+[  439.271506] ata1.00: configured for UDMA/133
+[  439.271748] ata1.00: Entering active power mode
+[  439.295182] sd 0:0:0:0: [sda] Starting disk
+[  439.295429] sd 0:0:0:0: [sda] Starting disk
+[  439.303814] sd 0:0:0:0: [sda] Starting disk
+[  463.974203] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  463.982894] sd 0:0:0:0: [sda] Stopping disk
+[  467.017489] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  467.023035] ata1.00: supports DRM functions and may not be fully accessible
+[  467.044211] ata1.00: supports DRM functions and may not be fully accessible
+[  467.069389] ata1.00: configured for UDMA/133
+[  467.074387] ata1.00: Entering active power mode
+[  467.087555] sd 0:0:0:0: [sda] Starting disk
+[  467.087888] sd 0:0:0:0: [sda] Starting disk
+[  467.090414] sd 0:0:0:0: [sda] Starting disk
+[  483.222733] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  483.231178] sd 0:0:0:0: [sda] Stopping disk
+[  528.443800] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  528.449245] ata1.00: supports DRM functions and may not be fully accessible
+[  528.465284] ata1.00: supports DRM functions and may not be fully accessible
+[  528.470962] ata1.00: configured for UDMA/133
+[  528.471204] ata1.00: Entering active power mode
+[  528.484240] sd 0:0:0:0: [sda] Starting disk
+[  528.484640] sd 0:0:0:0: [sda] Starting disk
+[  528.490324] sd 0:0:0:0: [sda] Starting disk
+[  543.497317] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  543.505749] sd 0:0:0:0: [sda] Stopping disk
+[  577.107111] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  577.112520] ata1.00: supports DRM functions and may not be fully accessible
+[  577.128383] ata1.00: supports DRM functions and may not be fully accessible
+[  577.163257] ata1.00: configured for UDMA/133
+[  577.168347] ata1.00: Entering active power mode
+[  577.186387] sd 0:0:0:0: [sda] Starting disk
+[  577.186623] sd 0:0:0:0: [sda] Starting disk
+[  577.190396] sd 0:0:0:0: [sda] Starting disk
+[  622.665537] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  622.673893] sd 0:0:0:0: [sda] Stopping disk
+[  671.970656] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  671.976655] ata1.00: supports DRM functions and may not be fully accessible
+[  672.002144] ata1.00: supports DRM functions and may not be fully accessible
+[  672.012751] ata1.00: configured for UDMA/133
+[  672.017847] ata1.00: Entering active power mode
+[  672.036050] sd 0:0:0:0: [sda] Starting disk
+[  672.036410] sd 0:0:0:0: [sda] Starting disk
+[  672.040318] sd 0:0:0:0: [sda] Starting disk
+[  694.045797] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  694.054924] sd 0:0:0:0: [sda] Stopping disk
+[  715.300387] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  715.305731] ata1.00: supports DRM functions and may not be fully accessible
+[  715.316628] ata1.00: supports DRM functions and may not be fully accessible
+[  715.346616] ata1.00: configured for UDMA/133
+[  715.346836] ata1.00: Entering active power mode
+[  715.359939] sd 0:0:0:0: [sda] Starting disk
+[  715.360206] sd 0:0:0:0: [sda] Starting disk
+[  715.363686] sd 0:0:0:0: [sda] Starting disk
+[  730.373163] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  730.381716] sd 0:0:0:0: [sda] Stopping disk
+[  734.716986] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  734.722421] ata1.00: supports DRM functions and may not be fully accessible
+[  734.728392] ata1.00: supports DRM functions and may not be fully accessible
+[  734.743915] ata1.00: configured for UDMA/133
+[  734.748969] ata1.00: Entering active power mode
+[  734.762082] sd 0:0:0:0: [sda] Starting disk
+[  734.762389] sd 0:0:0:0: [sda] Starting disk
+[  734.766970] sd 0:0:0:0: [sda] Starting disk
+[  788.351954] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  788.360389] sd 0:0:0:0: [sda] Stopping disk
+[  800.320399] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  800.325936] ata1.00: supports DRM functions and may not be fully accessible
+[  800.341603] ata1.00: supports DRM functions and may not be fully accessible
+[  800.376474] ata1.00: configured for UDMA/133
+[  800.381570] ata1.00: Entering active power mode
+[  800.399620] sd 0:0:0:0: [sda] Starting disk
+[  800.399885] sd 0:0:0:0: [sda] Starting disk
+[  800.403699] sd 0:0:0:0: [sda] Starting disk
+[  815.416685] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  815.425092] sd 0:0:0:0: [sda] Stopping disk
+[  899.670341] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  899.675768] ata1.00: supports DRM functions and may not be fully accessible
+[  899.691550] ata1.00: supports DRM functions and may not be fully accessible
+[  899.726388] ata1.00: configured for UDMA/133
+[  899.731484] ata1.00: Entering active power mode
+[  899.749533] sd 0:0:0:0: [sda] Starting disk
+[  899.749783] sd 0:0:0:0: [sda] Starting disk
+[  899.753645] sd 0:0:0:0: [sda] Starting disk
+[  916.411474] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  916.420048] sd 0:0:0:0: [sda] Stopping disk
+[  942.143649] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  942.149071] ata1.00: supports DRM functions and may not be fully accessible
+[  942.164854] ata1.00: supports DRM functions and may not be fully accessible
+[  942.194774] ata1.00: configured for UDMA/133
+[  942.195014] ata1.00: Entering active power mode
+[  942.208063] sd 0:0:0:0: [sda] Starting disk
+[  942.208318] sd 0:0:0:0: [sda] Starting disk
+[  942.211242] sd 0:0:0:0: [sda] Starting disk
+[  957.756958] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  957.765326] sd 0:0:0:0: [sda] Stopping disk
+[  970.856980] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[  970.862309] ata1.00: supports DRM functions and may not be fully accessible
+[  970.868277] ata1.00: supports DRM functions and may not be fully accessible
+[  970.878908] ata1.00: configured for UDMA/133
+[  970.879142] ata1.00: Entering active power mode
+[  970.892195] sd 0:0:0:0: [sda] Starting disk
+[  970.892491] sd 0:0:0:0: [sda] Starting disk
+[  970.896954] sd 0:0:0:0: [sda] Starting disk
+[  986.076585] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  986.085320] sd 0:0:0:0: [sda] Stopping disk
+[ 1004.230381] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[ 1004.235747] ata1.00: supports DRM functions and may not be fully accessible
+[ 1004.246551] ata1.00: supports DRM functions and may not be fully accessible
+[ 1004.281576] ata1.00: configured for UDMA/133
+[ 1004.286553] ata1.00: Entering active power mode
+[ 1004.299902] sd 0:0:0:0: [sda] Starting disk
+[ 1004.300138] sd 0:0:0:0: [sda] Starting disk
+[ 1004.306948] sd 0:0:0:0: [sda] Starting disk
+[ 1064.830022] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[ 1064.838588] sd 0:0:0:0: [sda] Stopping disk
+[ 1066.166993] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[ 1066.172313] ata1.00: supports DRM functions and may not be fully accessible
+[ 1066.183137] ata1.00: supports DRM functions and may not be fully accessible
+[ 1066.193750] ata1.00: configured for UDMA/133
+[ 1066.193994] ata1.00: Entering active power mode
+[ 1066.207170] sd 0:0:0:0: [sda] Starting disk
+[ 1066.207495] sd 0:0:0:0: [sda] Starting disk
+[ 1066.220271] sd 0:0:0:0: [sda] Starting disk
+[ 1082.451196] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[ 1082.460265] sd 0:0:0:0: [sda] Stopping disk
+[ 1109.097257] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[ 1109.102925] ata1.00: supports DRM functions and may not be fully accessible
+[ 1109.123668] ata1.00: supports DRM functions and may not be fully accessible
+[ 1109.153656] ata1.00: configured for UDMA/133
+[ 1109.158805] ata1.00: Entering active power mode
+[ 1109.177174] sd 0:0:0:0: [sda] Starting disk
+[ 1109.177458] sd 0:0:0:0: [sda] Starting disk
+[ 1109.180263] sd 0:0:0:0: [sda] Starting disk
+[ 1135.647339] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[ 1135.655717] sd 0:0:0:0: [sda] Stopping disk
+[ 1147.373677] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[ 1147.379219] ata1.00: supports DRM functions and may not be fully accessible
+[ 1147.399939] ata1.00: supports DRM functions and may not be fully accessible
+[ 1147.434872] ata1.00: configured for UDMA/133
+[ 1147.439973] ata1.00: Entering active power mode
+[ 1147.458146] sd 0:0:0:0: [sda] Starting disk
+[ 1147.458408] sd 0:0:0:0: [sda] Starting disk
+[ 1147.460335] sd 0:0:0:0: [sda] Starting disk
+[ 1162.604919] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[ 1162.614058] sd 0:0:0:0: [sda] Stopping disk
+[ 1276.820243] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[ 1276.825576] ata1.00: supports DRM functions and may not be fully accessible
+[ 1276.831552] ata1.00: supports DRM functions and may not be fully accessible
+[ 1276.837310] ata1.00: configured for UDMA/133
+[ 1276.837553] ata1.00: Entering active power mode
+[ 1276.850666] sd 0:0:0:0: [sda] Starting disk
+[ 1276.850891] sd 0:0:0:0: [sda] Starting disk
+[ 1276.860256] sd 0:0:0:0: [sda] Starting disk
+[ 1292.470024] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[ 1292.478451] sd 0:0:0:0: [sda] Stopping disk
+[ 1348.583853] hrtimer: interrupt took 9570701 ns
+[ 1352.666944] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[ 1352.672346] ata1.00: supports DRM functions and may not be fully accessible
+[ 1352.688034] ata1.00: supports DRM functions and may not be fully accessible
+[ 1352.703419] ata1.00: configured for UDMA/133
+[ 1352.703674] ata1.00: Entering active power mode
+[ 1352.716798] sd 0:0:0:0: [sda] Starting disk
+[ 1352.717255] sd 0:0:0:0: [sda] Starting disk
+[ 1352.723570] sd 0:0:0:0: [sda] Starting disk
