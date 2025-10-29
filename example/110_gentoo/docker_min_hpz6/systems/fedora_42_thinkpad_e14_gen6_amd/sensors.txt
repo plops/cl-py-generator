@@ -1,8 +1,33 @@
+spd5118-i2c-17-52
+Adapter: SMBus PIIX4 adapter port 0 at 0b00
+temp1:        +44.5°C  (low  =  +0.0°C, high = +55.0°C)
+                       (crit low =  +0.0°C, crit = +85.0°C)
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tctl:         +49.5°C  
+
+nvme-pci-0400
+Adapter: PCI adapter
+Composite:    +37.9°C  (low  = -273.1°C, high = +85.8°C)
+                       (crit = +86.8°C)
+Sensor 1:     +40.9°C  (low  = -273.1°C, high = +65261.8°C)
+Sensor 2:     +37.9°C  (low  = -273.1°C, high = +65261.8°C)
+
+BAT0-acpi-0
+Adapter: ACPI interface
+in0:          12.07 V  
+power1:       16.01 W  
+
+mt7921_phy0-pci-0300
+Adapter: PCI adapter
+temp1:        +38.0°C  
+
 thinkpad-isa-0000
 Adapter: ISA adapter
-fan1:           0 RPM
-fan2:           0 RPM
-CPU:          +46.0°C  
+fan1:        2000 RPM
+fan2:        2000 RPM
+CPU:          +48.0°C  
 GPU:           +0.0°C  
 temp3:         +0.0°C  
 temp4:         +0.0°C  
@@ -11,45 +36,20 @@ temp6:         +0.0°C
 temp7:         +0.0°C  
 temp8:            N/A  
 
-k10temp-pci-00c3
-Adapter: PCI adapter
-Tctl:         +46.1°C  
-
-nvme-pci-0400
-Adapter: PCI adapter
-Composite:    +36.9°C  (low  = -273.1°C, high = +85.8°C)
-                       (crit = +86.8°C)
-Sensor 1:     +39.9°C  (low  = -273.1°C, high = +65261.8°C)
-Sensor 2:     +36.9°C  (low  = -273.1°C, high = +65261.8°C)
-
-BAT0-acpi-0
-Adapter: ACPI interface
-in0:          12.86 V  
-power1:       43.99 W  
-
-mt7921_phy0-pci-0300
-Adapter: PCI adapter
-temp1:        +32.0°C  
-
-spd5118-i2c-17-52
-Adapter: SMBus PIIX4 adapter port 0 at 0b00
-temp1:        +40.2°C  (low  =  +0.0°C, high = +55.0°C)
-                       (crit low =  +0.0°C, crit = +85.0°C)
-
 amdgpu-pci-0500
 Adapter: PCI adapter
-vddgfx:      825.00 mV 
-vddnb:         1.03 V  
-edge:         +44.0°C  
-PPT:           5.07 W  
+vddgfx:      919.00 mV 
+vddnb:         1.02 V  
+edge:         +47.0°C  
+PPT:          25.25 W  
 
 nvme-pci-0100
 Adapter: PCI adapter
-Composite:    +41.9°C  (low  =  -0.1°C, high = +82.8°C)
+Composite:    +43.9°C  (low  =  -0.1°C, high = +82.8°C)
                        (crit = +89.8°C)
 
 acpitz-acpi-0
 Adapter: ACPI interface
-temp1:        +46.0°C  
+temp1:        +48.0°C  
 temp2:        +20.0°C  
 

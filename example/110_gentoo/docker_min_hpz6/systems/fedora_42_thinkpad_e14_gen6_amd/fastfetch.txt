@@ -20,8 +20,8 @@ ccccccccccccccccccccccccccccc:'.
 [42C-----------
 [42COS: Fedora Linux 42 (Workstation Edition) x86_64
 [42CHost: 21M30030MZ (ThinkPad E14 Gen 6)
-[42CKernel: Linux 6.16.11-200.fc42.x86_64
-[42CUptime: 2 mins
+[42CKernel: Linux 6.17.5-200.fc42.x86_64
+[42CUptime: 7 mins
 [42CPackages: 2212 (rpm)
 [42CShell: bash 5.2.37
 [42CDisplay (eDP-1): 3072x1920 @ 60 Hz in 14" [Built-in]
@@ -31,11 +31,11 @@ ccccccccccccccccccccccccccccc:'.
 [42CTerminal Font: Adwaita Mono (11pt)
 [42CCPU: AMD Ryzen 7 7735HS (16) @ 4.83 GHz
 [42CGPU: AMD Radeon 680M [Integrated]
-[42CMemory: 1.66 GiB / 14.38 GiB (12%)
+[42CMemory: 2.97 GiB / 14.38 GiB (21%)
 [42CSwap: 0 B / 8.00 GiB (0%)
-[42CDisk (/): 14.83 GiB / 18.00 GiB (82%) - btrfs
+[42CDisk (/): 14.91 GiB / 18.00 GiB (83%) - btrfs
 [42CLocal IP (wlp3s0): [REDACTED_IP]/24
-[42CBattery (L23D3PG2): 67% [Charging, AC Connected]
+[42CBattery (L23D3PG2): 79% [Discharging]
 [42CLocale: en_US.UTF-8
 [42C
 [42C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m

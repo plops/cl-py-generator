@@ -1,4 +1,4 @@
-Disk /dev/nvme1n1: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk /dev/nvme0n1: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
 Disk model: ADATA LEGEND 800                        
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
@@ -7,14 +7,14 @@ Disklabel type: gpt
 Disk identifier: DF7F2FF5-FE39-46DF-A4E2-E4821501DFCE
 
 Device             Start        End    Sectors   Size Type
-/dev/nvme1n1p1      2048    2099199    2097152     1G EFI System
-/dev/nvme1n1p2   2099200   39847935   37748736    18G Linux swap
-/dev/nvme1n1p3  39847936  144705535  104857600    50G Linux filesystem
-/dev/nvme1n1p4 144705536  379080703  234375168 111.8G Linux filesystem
-/dev/nvme1n1p5 379080704 1953523711 1574443008 750.8G Linux filesystem
+/dev/nvme0n1p1      2048    2099199    2097152     1G EFI System
+/dev/nvme0n1p2   2099200   39847935   37748736    18G Linux swap
+/dev/nvme0n1p3  39847936  144705535  104857600    50G Linux filesystem
+/dev/nvme0n1p4 144705536  379080703  234375168 111.8G Linux filesystem
+/dev/nvme0n1p5 379080704 1953523711 1574443008 750.8G Linux filesystem
 
 
-Disk /dev/nvme0n1: 476.94 GiB, 512110190592 bytes, 1000215216 sectors
+Disk /dev/nvme1n1: 476.94 GiB, 512110190592 bytes, 1000215216 sectors
 Disk model: SKHynix_HFS512GEJ4X164N                 
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
@@ -23,27 +23,13 @@ Disklabel type: gpt
 Disk identifier: 3C499643-4E62-45F3-A000-11F927639BB9
 
 Device             Start        End   Sectors   Size Type
-/dev/nvme0n1p1      2048     206847    204800   100M EFI System
-/dev/nvme0n1p2    206848     239615     32768    16M Microsoft reserved
-/dev/nvme0n1p3    239616  998684671 998445056 476.1G Microsoft basic data
-/dev/nvme0n1p4 998684672 1000212479   1527808   746M Windows recovery environment
+/dev/nvme1n1p1      2048     206847    204800   100M EFI System
+/dev/nvme1n1p2    206848     239615     32768    16M Microsoft reserved
+/dev/nvme1n1p3    239616  998684671 998445056 476.1G Microsoft basic data
+/dev/nvme1n1p4 998684672 1000212479   1527808   746M Windows recovery environment
 
 
 Disk /dev/zram0: 8 GiB, 8589934592 bytes, 2097152 sectors
 Units: sectors of 1 * 4096 = 4096 bytes
 Sector size (logical/physical): 4096 bytes / 4096 bytes
 I/O size (minimum/optimal): 4096 bytes / 4096 bytes
-
-
-Disk /dev/sda: 476.94 GiB, 512110190592 bytes, 1000215216 sectors
-Disk model: 31CG            
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 33553920 bytes
-Disklabel type: gpt
-Disk identifier: 1B280CBD-E3A7-447C-93E5-949B01E0DD5F
-
-Device         Start        End   Sectors   Size Type
-/dev/sda1       2048   40962047  40960000  19.5G Linux filesystem
-/dev/sda2   40962048  143362047 102400000  48.8G Linux filesystem
-/dev/sda3  143362048 1000214527 856852480 408.6G Linux filesystem
