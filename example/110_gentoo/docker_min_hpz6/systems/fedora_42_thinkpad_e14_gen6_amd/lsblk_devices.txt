@@ -1,0 +1,4 @@
+sda     disk 476.9G Micron MTFDHBA512QFD    M       
+zram0   disk     8G                         
+nvme1n1 disk 931.5G ADATA LEGEND 800        
+nvme0n1 disk 476.9G SKHynix_HFS512GEJ4X164N 

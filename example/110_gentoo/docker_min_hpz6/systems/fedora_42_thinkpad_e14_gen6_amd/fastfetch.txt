@@ -1,0 +1,42 @@
+             .',;::::;,'.
+         .';:cccccccccccc:;,.
+      .;cccccccccccccccccccccc;.
+    .:cccccccccccccccccccccccccc:.
+  .;ccccccccccccc;.:dddl:.;ccccccc;.
+ .:ccccccccccccc;OWMKOOXMWd;ccccccc:.
+.:ccccccccccccc;KMMc;cc;xMMc;ccccccc:.
+,cccccccccccccc;MMM.;cc;;WW:;cccccccc,
+:cccccccccccccc;MMM.;cccccccccccccccc:
+:ccccccc;oxOOOo;MMM000k.;cccccccccccc:
+cccccc;0MMKxdd:;MMMkddc.;cccccccccccc;
+ccccc;XMO';cccc;MMM.;cccccccccccccccc'
+ccccc;MMo;ccccc;MMW.;ccccccccccccccc;
+ccccc;0MNc.ccc.xMMd;ccccccccccccccc;
+cccccc;dNMWXXXWM0:;cccccccccccccc:,
+cccccccc;.:odl:.;cccccccccccccc:,.
+ccccccccccccccccccccccccccccc:'.
+:ccccccccccccccccccccccc:;,..
+ ':cccccccccccccccc::;,.[1G[18A[42C[REDACTED_USER]@fedora
+[42C-----------
+[42COS: Fedora Linux 42 (Workstation Edition) x86_64
+[42CHost: 21M30030MZ (ThinkPad E14 Gen 6)
+[42CKernel: Linux 6.16.11-200.fc42.x86_64
+[42CUptime: 2 mins
+[42CPackages: 2212 (rpm)
+[42CShell: bash 5.2.37
+[42CDisplay (eDP-1): 3072x1920 @ 60 Hz in 14" [Built-in]
+[42CWM: Mutter (X11)
+[42CCursor: Adwaita
+[42CTerminal: Ptyxis 48.5
+[42CTerminal Font: Adwaita Mono (11pt)
+[42CCPU: AMD Ryzen 7 7735HS (16) @ 4.83 GHz
+[42CGPU: AMD Radeon 680M [Integrated]
+[42CMemory: 1.66 GiB / 14.38 GiB (12%)
+[42CSwap: 0 B / 8.00 GiB (0%)
+[42CDisk (/): 14.83 GiB / 18.00 GiB (82%) - btrfs
+[42CLocal IP (wlp3s0): [REDACTED_IP]/24
+[42CBattery (L23D3PG2): 67% [Charging, AC Connected]
+[42CLocale: en_US.UTF-8
+[42C
+[42C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[42C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m
