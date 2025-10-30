@@ -1,0 +1,14 @@
+loop0   loop  73.9M                         
+loop1   loop     4K                         
+loop2   loop  11.8M                         
+loop3   loop 247.6M                         
+loop4   loop  11.1M                         
+loop5   loop 516.2M                         
+loop6   loop  91.7M                         
+loop7   loop  14.4M                         
+loop8   loop  17.5M                         
+loop9   loop  50.8M                         
+loop10  loop   576K                         
+loop11  loop 226.2M                         
+nvme0n1 disk 931.5G ADATA LEGEND 800        
+nvme1n1 disk 476.9G SKHynix_HFS512GEJ4X164N 
