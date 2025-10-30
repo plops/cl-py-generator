@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20251026 AS portage
+FROM gentoo/portage:20251030 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20251020
+FROM gentoo/stage3:nomultilib-systemd-20251027
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -116,6 +116,7 @@ SND_SOC_AMD_ACP_PCI
 USB_USBNET
 USB_VIDEO_CLASS
 USB_SERIAL_CH341
+MT7921E
 "
 # Use printf to format each option with a preceding "-m"
 # The result is captured into the M_OPTIONS variable
@@ -191,77 +192,6 @@ RUN systemctl enable reverse-ssh-us
 # "... *.a"
 # "opt/cuda/targets/x86_64-linux/lib/lib*.a"
 
-WORKDIR /usr/src/linux
-
-RUN <<EOF
-set -e
-OPTIONS="
-BT_BCM
-BT_INTEL
-BT_INTEL_PCIE
-BT_MTK
-BT_RTL
-BT_BNEP
-BT_HCIBTUSB
-APPLE_MFI_FASTCHARGE
-USB_NET_CDCETHER
-EEEPC_WMI
-ASUS_WMI
-HP_WMI
-IDEAPAD_LAPTOP
-USB_NET_CDC_NCM
-EEPROM_EE1004
-EDAC_DECODE_MCE
-THINKPAD_LMI
-THINKPAD_ACPI
-HID_CHERRY
-HID_GENERIC
-HID_LOGITECH
-HID_LOGITECH_HIDPP
-HID_MULTITOUCH
-HID_LENOVO
-LENOVO_WMI_CAMERA
-HID_PLANTRONICS
-CRYPTO_GHASH_CLMUL_NI_INTEL
-INTEL_RAPL_CORE
-INTEL_RAPL
-USB_IPHETH
-SENSORS_K10TEMP
-NVME_KEYRING
-NVME_AUTH
-PPDEV
-USB_NET_QMI_WWAN
-QRTR
-R8169
-RTW88_8821C
-RTW88_8821CU
-RTW89_8852B
-RTW89_8852BE
-RTW89_8852B_COMMON
-SND_HDA_CODEC_REALTEK
-SND_HDA_INTEL
-CRYPTO_SHA1_SSSE3
-CRYPTO_SHA256_SSSE3
-CRYPTO_SHA512_SSSE3
-SND_SOC_AMD_ACP_LEGACY_COMMON
-SND_SOC_AMD_ACP_COMMON
-SND_SOC_AMD_ACP_PCI
-USB_USBNET
-USB_VIDEO_CLASS
-USB_SERIAL_CH341
-MT7921E
-"
-# Use printf to format each option with a preceding "-m"
-# The result is captured into the M_OPTIONS variable
-M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
-
-# Execute the script a single time with the dynamically built list of options
-./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION
-EOF
-# compile the kernel
-RUN make -j32
-RUN make modules_install
-RUN make install
 
 WORKDIR /
 RUN mksquashfs \
