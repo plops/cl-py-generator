@@ -60,3 +60,4 @@ To ensure your extension works as expected, try these scenarios in both browsers
 4.  **Test Model Selection:**
     *   Open the popup and select a different model from the dropdown.
     *   Close and reopen the popup to ensure your selection was saved and is still selected.
+ccy
