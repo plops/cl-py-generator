@@ -97,3 +97,5 @@ llvm-core/clang
   net-misc/mosh
    net-misc/socat
    app-pda/ifuse
+   app-misc/fdupes
+   net-analyzer/netcat

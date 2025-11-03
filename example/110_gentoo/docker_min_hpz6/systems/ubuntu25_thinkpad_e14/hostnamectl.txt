@@ -1,0 +1,15 @@
+ Static hostname: kiel-ThinkPad-E14-Gen-6
+       Icon name: computer-laptop
+         Chassis: laptop 💻
+      Machine ID: a50d19f9725d49aa8b882b2a048cf8f2
+         Boot ID: d13a05b8a9024fa1a66e8f9842ac8b5d
+    Product UUID: a600af4c-31d2-11b2-a85c-b5045e8f0b79
+Operating System: [REDACTED_USER] 25.10
+          Kernel: Linux 6.17.0-6-generic
+    Architecture: x86-64
+ Hardware Vendor: Lenovo
+  Hardware Model: ThinkPad E14 Gen 6
+ Hardware Serial: PF53Q1A0
+Firmware Version: R2KET35W (1.18 )
+   Firmware Date: Thu 2025-07-24
+    Firmware Age: 3month 1w

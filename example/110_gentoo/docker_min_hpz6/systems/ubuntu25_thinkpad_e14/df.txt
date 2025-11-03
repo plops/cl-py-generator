@@ -1,0 +1,13 @@
+Filesystem       Size  Used Avail Use% Mounted on
+tmpfs            2.8G  2.6M  2.8G   1% /run
+/dev/nvme1n1p2    47G  8.1G   38G  18% /
+tmpfs            7.0G  8.0K  7.0G   1% /dev/shm
+efivarfs         248K   70K  174K  29% /sys/firmware/efi/efivars
+tmpfs            5.0M   16K  5.0M   1% /run/lock
+tmpfs            7.0G  1.5M  7.0G   1% /tmp
+tmpfs            1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+tmpfs            1.0M     0  1.0M   0% /run/credentials/systemd-resolved.service
+/dev/nvme1n1p1   1.1G  6.3M  1.1G   1% /boot/efi
+tmpfs            1.4G  108K  1.4G   1% /run/[REDACTED_USER]/1000
+tmpfs            1.4G   52K  1.4G   1% /run/[REDACTED_USER]/0
+/dev/mapper/0p4  110G   43G   61G  42% /mnt

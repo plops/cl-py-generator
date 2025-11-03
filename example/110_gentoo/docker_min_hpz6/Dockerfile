@@ -116,6 +116,7 @@ SND_SOC_AMD_ACP_PCI
 USB_USBNET
 USB_VIDEO_CLASS
 USB_SERIAL_CH341
+MT7921E
 "
 # Use printf to format each option with a preceding "-m"
 # The result is captured into the M_OPTIONS variable
@@ -190,6 +191,8 @@ RUN systemctl enable reverse-ssh-us
 # -ef /list_files.txt
 # "... *.a"
 # "opt/cuda/targets/x86_64-linux/lib/lib*.a"
+
+
 WORKDIR /
 RUN mksquashfs \
 / \

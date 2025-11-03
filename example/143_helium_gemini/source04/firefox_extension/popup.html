@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RocketRecap</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      width: 200px;
+      text-align: center;
+      padding: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+    }
+    select {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Summarize YouTube Video, WebPage or Selection</h3>
+
+  <!-- Model selection UI -->
+  <label for="modelSelect">Model:</label>
+  <select id="modelSelect">
+    <!-- options populated dynamically from popup.js -->
+  </select>
+
+  <button id="summarizeButton">Summarize</button>
+  <p id="status"></p>
+  <script src="popup.js"></script>
+</body>
+</html>

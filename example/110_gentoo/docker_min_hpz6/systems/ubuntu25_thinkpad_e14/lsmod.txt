@@ -1,0 +1,170 @@
+Module                  Size  Used by
+cpuid                  12288  0
+dm_crypt               73728  1
+ccm                    20480  6
+snd_seq_dummy          12288  0
+snd_hrtimer            12288  1
+snd_seq_midi           24576  0
+snd_seq_midi_event     16384  1 snd_seq_midi
+snd_rawmidi            57344  1 snd_seq_midi
+snd_seq               122880  9 snd_seq_midi,snd_seq_midi_event,snd_seq_dummy
+snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+rfcomm                102400  6
+cmac                   12288  4
+algif_hash             16384  1
+algif_skcipher         12288  1
+af_alg                 32768  6 algif_hash,algif_skcipher
+qrtr                   53248  2
+bnep                   32768  2
+binfmt_misc            24576  1
+uvcvideo              147456  2
+videobuf2_vmalloc      20480  1 uvcvideo
+uvc                    12288  1 uvcvideo
+videobuf2_memops       16384  1 videobuf2_vmalloc
+videobuf2_v4l2         36864  1 uvcvideo
+btusb                  77824  0
+videobuf2_common       90112  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
+btrtl                  36864  1 btusb
+btintel                69632  1 btusb
+videodev              372736  2 videobuf2_v4l2,uvcvideo
+btbcm                  24576  1 btusb
+btmtk                  36864  1 btusb
+bluetooth            1040384  34 btrtl,btmtk,btintel,btbcm,bnep,btusb,rfcomm
+mc                     86016  6 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
+nls_iso8859_1          12288  1
+snd_soc_dmic           12288  1
+amd_atl                73728  1
+snd_soc_acp6x_mach     40960  4
+snd_acp6x_pdm_dma      12288  1
+intel_rapl_msr         20480  0
+intel_rapl_common      57344  1 intel_rapl_msr
+snd_sof_amd_acp70      16384  0
+snd_sof_amd_acp63      16384  0
+snd_sof_amd_vangogh    16384  0
+snd_sof_amd_rembrandt    16384  0
+snd_sof_amd_renoir     16384  0
+amdgpu              20373504  11
+snd_sof_amd_acp        65536  5 snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_sof_amd_renoir
+snd_sof_pci            24576  5 snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_sof_amd_renoir
+snd_sof_xtensa_dsp     12288  1 snd_sof_amd_acp
+edac_mce_amd           28672  0
+snd_sof               413696  2 snd_sof_amd_acp,snd_sof_pci
+snd_sof_utils          16384  1 snd_sof
+snd_pci_ps             32768  0
+snd_soc_acpi_amd_match    12288  3 snd_sof_amd_acp70,snd_sof_amd_acp63,snd_pci_ps
+snd_amd_sdw_acpi       16384  2 snd_sof_amd_acp,snd_pci_ps
+soundwire_amd          49152  2 snd_sof_amd_acp,snd_pci_ps
+soundwire_generic_allocation    24576  1 soundwire_amd
+soundwire_bus        1179648  2 soundwire_generic_allocation,soundwire_amd
+snd_soc_sdca           86016  1 soundwire_bus
+kvm_amd               249856  0
+snd_soc_core          430080  6 snd_soc_acp6x_mach,snd_sof,snd_soc_sdca,snd_acp6x_pdm_dma,soundwire_amd,snd_soc_dmic
+mt7921e                24576  0
+spd5118                16384  0
+snd_compress           36864  1 snd_soc_core
+mt7921_common          94208  1 mt7921e
+ac97_bus               12288  1 snd_soc_core
+kvm                  1466368  1 kvm_amd
+mt792x_lib             73728  2 mt7921e,mt7921_common
+snd_pcm_dmaengine      20480  1 snd_soc_core
+snd_hda_codec_conexant    36864  1
+mt76_connac_lib       110592  3 mt792x_lib,mt7921e,mt7921_common
+snd_rpl_pci_acp6x      16384  0
+irqbypass              16384  1 kvm
+snd_hda_codec_generic   126976  1 snd_hda_codec_conexant
+mt76                  163840  4 mt792x_lib,mt7921e,mt7921_common,mt76_connac_lib
+snd_hda_codec_atihdmi    24576  1
+snd_acp_pci            12288  0
+rapl                   20480  0
+snd_hda_codec_hdmi     65536  1 snd_hda_codec_atihdmi
+snd_amd_acpi_mach      12288  1 snd_acp_pci
+amdxcp                 12288  1 amdgpu
+drm_panel_backlight_quirks    12288  1 amdgpu
+snd_acp_legacy_common    28672  1 snd_acp_pci
+mac80211             1884160  4 mt792x_lib,mt76,mt7921_common,mt76_connac_lib
+gpu_sched              65536  1 amdgpu
+drm_buddy              28672  1 amdgpu
+snd_hda_intel          61440  11
+snd_ctl_led            24576  0
+drm_ttm_helper         16384  1 amdgpu
+snd_pci_acp6x          16384  0
+snd_hda_codec         204800  5 snd_hda_codec_generic,snd_hda_codec_conexant,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_atihdmi
+ttm                   131072  2 amdgpu,drm_ttm_helper
+drm_exec               12288  1 amdgpu
+think_lmi              45056  0
+drm_suballoc_helper    24576  1 amdgpu
+snd_pci_acp5x          16384  0
+snd_hda_core          151552  6 snd_hda_codec_generic,snd_hda_codec_conexant,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_atihdmi
+drm_display_helper    294912  1 amdgpu
+snd_rn_pci_acp3x       16384  0
+firmware_attributes_class    12288  1 think_lmi
+snd_acp_config         24576  10 snd_rn_pci_acp3x,snd_sof_amd_acp70,snd_pci_acp6x,snd_pci_acp5x,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_acp_pci,snd_pci_ps,snd_sof_amd_renoir
+cec                   106496  2 drm_display_helper,amdgpu
+snd_intel_dspcfg       45056  2 snd_hda_intel,snd_sof
+wmi_bmof               12288  0
+cfg80211             1474560  4 mt76,mac80211,mt7921_common,mt76_connac_lib
+snd_soc_acpi           16384  5 snd_sof_amd_acp,snd_acp_legacy_common,snd_acp_config,snd_amd_acpi_mach,snd_pci_ps
+snd_intel_sdw_acpi     16384  1 snd_intel_dspcfg
+r8169                 143360  0
+rc_core                73728  1 cec
+snd_hwdep              24576  1 snd_hda_codec
+thinkpad_acpi         167936  0
+libarc4                12288  1 mac80211
+snd_pci_acp3x          16384  0
+i2c_algo_bit           16384  1 amdgpu
+snd_pcm               208896  17 snd_sof_amd_acp,snd_hda_codec_hdmi,snd_pci_acp6x,snd_acp_legacy_common,snd_hda_intel,snd_hda_codec,snd_sof,snd_soc_sdca,snd_acp6x_pdm_dma,snd_compress,snd_soc_core,snd_sof_utils,soundwire_amd,snd_hda_core,snd_pci_ps,snd_pcm_dmaengine
+nvram                  20480  1 thinkpad_acpi
+snd_timer              53248  3 snd_seq,snd_hrtimer,snd_pcm
+realtek                49152  1
+i2c_piix4              32768  0
+k10temp                16384  0
+i2c_smbus              20480  1 i2c_piix4
+acpi_tad               20480  0
+amd_pmc                49152  0
+joydev                 32768  0
+input_leds             12288  0
+mac_hid                12288  0
+sch_fq_codel           24576  2
+efi_pstore             12288  0
+nfnetlink              20480  1
+ip_tables              36864  0
+x_tables               65536  1 ip_tables
+nvme                   65536  3
+snd                   147456  48 snd_ctl_led,snd_hda_codec_generic,snd_seq,snd_hda_codec_conexant,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_sof,snd_soc_sdca,snd_timer,snd_compress,thinkpad_acpi,snd_soc_core,snd_pcm,snd_rawmidi
+ucsi_acpi              12288  0
+typec_ucsi             65536  1 ucsi_acpi
+nvme_core             241664  4 nvme
+soundcore              16384  2 snd_ctl_led,snd
+hid_multitouch         36864  0
+typec                 118784  1 typec_ucsi
+nvme_keyring           20480  1 nvme_core
+video                  77824  2 thinkpad_acpi,amdgpu
+hid_generic            12288  0
+polyval_clmulni        12288  0
+ghash_clmulni_intel    12288  0
+psmouse               225280  0
+platform_profile       20480  1 thinkpad_acpi
+thunderbolt           544768  1 typec
+ccp                   159744  1 kvm_amd
+nvme_auth              28672  1 nvme_core
+sparse_keymap          12288  1 thinkpad_acpi
+i2c_hid_acpi           12288  0
+i2c_hid                40960  1 i2c_hid_acpi
+hid                   270336  4 i2c_hid,hid_multitouch,snd_soc_sdca,hid_generic
+wmi                    28672  3 video,wmi_bmof,think_lmi
+serio_raw              20480  0
+btrfs                2174976  1
+blake2b_generic        20480  0
+xor                    24576  1 btrfs
+raid6_pq              126976  1 btrfs
+dm_mirror              28672  0
+dm_region_hash         24576  1 dm_mirror
+dm_log                 20480  2 dm_region_hash,dm_mirror
+msr                    12288  0
+parport_pc             53248  0
+ppdev                  24576  0
+lp                     32768  0
+parport                73728  3 parport_pc,lp,ppdev
+dmi_sysfs              24576  0
+autofs4                57344  2
+aesni_intel            94208  9
