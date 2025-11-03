@@ -1,0 +1,39 @@
+Disk /dev/nvme0n1: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk model: ADATA LEGEND 800                        
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: DF7F2FF5-FE39-46DF-A4E2-E4821501DFCE
+
+Device             Start        End    Sectors   Size Type
+/dev/nvme0n1p1      2048    2099199    2097152     1G EFI System
+/dev/nvme0n1p2   2099200   39847935   37748736    18G Linux swap
+/dev/nvme0n1p3  39847936  144705535  104857600    50G Linux filesystem
+/dev/nvme0n1p4 144705536  379080703  234375168 111.8G Linux filesystem
+/dev/nvme0n1p5 379080704 1953523711 1574443008 750.8G Linux filesystem
+
+
+Disk /dev/nvme1n1: 476.94 GiB, 512110190592 bytes, 1000215216 sectors
+Disk model: SKHynix_HFS512GEJ4X164N                 
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 526C92DD-0F07-42BE-B431-C2F7A8E85BD0
+
+Device           Start      End  Sectors  Size Type
+/dev/nvme1n1p1    2048  2203647  2201600    1G EFI System
+/dev/nvme1n1p2 2203648 99860479 97656832 46.6G Linux filesystem
+
+
+Disk /dev/mapper/enc: 111.74 GiB, 119983308800 bytes, 234342400 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop0: 7.46 GiB, 8013635584 bytes, 15651632 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes

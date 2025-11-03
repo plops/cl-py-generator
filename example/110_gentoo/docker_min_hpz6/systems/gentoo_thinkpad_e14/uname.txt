@@ -1,0 +1,1 @@
+Linux localhost 6.12.41-gentoo #1 SMP PREEMPT_RT Sun Oct 26 10:12:49 -00 2025 x86_64 AMD Ryzen 7 7735HS with Radeon Graphics AuthenticAMD GNU/Linux

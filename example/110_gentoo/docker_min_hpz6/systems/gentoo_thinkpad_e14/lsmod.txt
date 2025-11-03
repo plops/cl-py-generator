@@ -1,0 +1,83 @@
+Module                  Size  Used by
+btusb                  65536  0
+btrtl                  32768  1 btusb
+btintel                61440  1 btusb
+amd_atl                53248  1
+intel_rapl_msr         16384  0
+btbcm                  20480  1 btusb
+cfg80211             1175552  0
+intel_rapl_common      45056  1 intel_rapl_msr
+amdgpu              12922880  2
+snd_hda_codec_generic    98304  1
+edac_mce_amd           40960  0
+snd_hda_codec_hdmi     81920  1
+snd_hda_intel          61440  3
+kvm_amd               200704  0
+i2c_algo_bit           16384  1 amdgpu
+drm_ttm_helper         16384  2 amdgpu
+snd_intel_dspcfg       20480  1 snd_hda_intel
+think_lmi              36864  0
+wmi_bmof               12288  0
+snd_ctl_led            24576  0
+firmware_attributes_class    12288  1 think_lmi
+ttm                    86016  2 amdgpu,drm_ttm_helper
+snd_hda_codec         176128  3 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel
+kvm                  1159168  1 kvm_amd
+drm_exec               12288  1 amdgpu
+snd_hwdep              16384  1 snd_hda_codec
+drm_suballoc_helper    12288  1 amdgpu
+amdxcp                 12288  1 amdgpu
+drm_buddy              20480  1 amdgpu
+snd_pci_ps             20480  0
+snd_hda_core          118784  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec
+irqbypass              12288  1 kvm
+gpu_sched              57344  1 amdgpu
+snd_acp_pci            12288  0
+snd_acp_legacy_common    12288  1 snd_acp_pci
+snd_pcm               147456  5 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core,snd_pci_ps
+snd_rn_pci_acp3x       24576  0
+rapl                   20480  0
+pcspkr                 12288  0
+snd_acp_config         20480  3 snd_rn_pci_acp3x,snd_acp_pci,snd_pci_ps
+snd_timer              45056  1 snd_pcm
+drm_display_helper    184320  1 amdgpu
+thinkpad_acpi         172032  0
+snd_soc_acpi           16384  1 snd_acp_config
+r8169                  98304  0
+snd                   122880  15 snd_ctl_led,snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_timer,thinkpad_acpi,snd_pcm
+soundcore              16384  2 snd_ctl_led,snd
+i2c_piix4              32768  0
+k10temp                12288  0
+sparse_keymap          12288  1 thinkpad_acpi
+i2c_smbus              20480  1 i2c_piix4
+ryzen_smu              40960  0
+platform_profile       12288  1 thinkpad_acpi
+video                  73728  2 thinkpad_acpi,amdgpu
+wmi                    28672  3 video,wmi_bmof,think_lmi
+joydev                 24576  0
+mousedev               20480  0
+mac_hid                12288  0
+fuse                  180224  1
+dm_crypt               57344  1
+ucsi_acpi              12288  0
+crct10dif_pclmul       12288  1
+crc32_pclmul           12288  0
+crc32c_intel           16384  2
+polyval_clmulni        12288  0
+hid_multitouch         32768  0
+polyval_generic        12288  1 polyval_clmulni
+atkbd                  36864  0
+hid_generic            12288  0
+ghash_clmulni_intel    12288  0
+typec_ucsi             61440  1 ucsi_acpi
+vivaldi_fmap           12288  1 atkbd
+sha512_ssse3           45056  0
+sha256_ssse3           28672  0
+sha1_ssse3             32768  0
+serio_raw              16384  0
+roles                  16384  1 typec_ucsi
+sp5100_tco             20480  0
+ccp                   151552  1 kvm_amd
+typec                  94208  1 typec_ucsi
+i2c_hid_acpi           12288  0
+i2c_hid                40960  1 i2c_hid_acpi
