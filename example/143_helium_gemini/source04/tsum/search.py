@@ -1,4 +1,9 @@
 import sqlite_minutils
+import argparse
+
+parser = argparse.ArgumentParser(description='Search summaries database.')
+parser.add_argument('query', type=str, help='Search query string')
+args = parser.parse_args()
 
 db = sqlite_minutils.Database("/home/kiel/summaries_20251105.db")
 
@@ -15,10 +20,8 @@ try:
 except Exception as e:
     print(e)
     pass
-#
-# # after update of the table you need to run .populate_fts to update search index
-# # or use create_trigger=True. However, this code doesn't change the database entries
-#
-# rows = list(db['documents'].search(db.quote_fts(args.search)))
-# for row in rows:
-#     print(row['path'])
+
+rows = list(tab.search(db.quote_fts(args.query)))
+for row in rows:
+    print(f'#URL: {row['original_source_link']}')
+    print(row['summary'])
