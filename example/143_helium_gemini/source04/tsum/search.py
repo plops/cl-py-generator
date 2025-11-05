@@ -23,5 +23,5 @@ except Exception as e:
 
 rows = list(tab.search(db.quote_fts(args.query)))
 for row in rows:
-    print(f'#URL: {row['original_source_link']}')
+    print(f'#{row['summary_timestamp_start']} URL: {row['original_source_link']} ')
     print(row['summary'])
