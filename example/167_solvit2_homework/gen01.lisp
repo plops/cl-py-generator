@@ -89,6 +89,12 @@ The general function, `mk_msgs` (called by mk_msgs_anthropic), creates a list of
       (comments "
 Message(id='msg_01QndYW2KPiotRHiHcUxFjXt', content=[TextBlock(citations=None, text='Now I'll add 547892 to that result:\n', type='text')], model='claude-haiku-4-5-20251001', role='assistant', stop_reason='end_turn', stop_sequence=None, type='message', usage=In: 168; Out: 21; Cache create: 0; Cache read: 0; Total Tokens: 189; Search: 0)
 ")
+      (comments "append previous message and the current response to form a new prompt")
+      (setf msgs2 (mk_msgs (+ (list (for-generator (m msgs)
+						   m.content))
+			      (list (dot r content)))))
+      (setf r2 (c msgs2))
+      
       )
      )
    ))

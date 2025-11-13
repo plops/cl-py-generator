@@ -52,3 +52,6 @@ r = c(msgs)
 #
 # Message(id='msg_01QndYW2KPiotRHiHcUxFjXt', content=[TextBlock(citations=None, text='Now I'll add 547892 to that result:n', type='text')], model='claude-haiku-4-5-20251001', role='assistant', stop_reason='end_turn', stop_sequence=None, type='message', usage=In: 168; Out: 21; Cache create: 0; Cache read: 0; Total Tokens: 189; Search: 0)
 #
+# append previous message and the current response to form a new prompt
+msgs2 = mk_msgs((([m.content for m in msgs]) + ([r.content])))
+r2 = c(msgs2)
