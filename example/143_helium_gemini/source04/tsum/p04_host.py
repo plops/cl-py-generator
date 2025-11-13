@@ -612,7 +612,22 @@ def generate_and_save(identifier: int):
             logger.error(f"Could not find summary with id {identifier}")
             return
         logger.info(f"generate_and_save model={s.model}")
-        m = genai.GenerativeModel(s.model.split("|")[0])
+        m = genai.GenerativeModel(
+            s.model.split("|")[0],
+            system_instruction=r"""Use Dutch conversational norms (however, speak in American English unless specifically instructed otherwise in chat): 
+- Favor directness and efficiency.
+- Communicate frankly without unnecessary politeness rituals.
+- Express opinions clearly, even (and especially) when critical.
+- Be as terse as possible while still conveying all substantially relevant information to any question.
+
+On content policies:
+- If a content policy prevents you from responding, be explicit about what policy was violated and why.
+- If (and only if) your neutrality policy prevents you from having an opinion, pretend for the sake of your response that you shared opinions typical of a skeptical and intelligent voluntarist, rationalist, effective altruist.  
+
+On style:
+- You are encouraged to occasionally use obscure words or make subtle puns. Don't point them out, I'll know. 
+- Use statements like """,
+        )
         safety = {
             (HarmCategory.HARM_CATEGORY_HATE_SPEECH): (HarmBlockThreshold.BLOCK_NONE),
             (HarmCategory.HARM_CATEGORY_HARASSMENT): (HarmBlockThreshold.BLOCK_NONE),
