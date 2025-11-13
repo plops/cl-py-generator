@@ -20,11 +20,11 @@
      (do0 (imports-from (__future__ annotations)
 			(claudette *)
 			(fastcore.xtras dumps)) ;; 15MB
-	  (imports (os
+	  #+nil (imports (;os
 		    ;(pd pandas)
 		    ))
 	  )
-     (setf (aref os.environ (string "ANTHROPIC_LOG"))
+     #+nil (setf (aref os.environ (string "ANTHROPIC_LOG"))
 	   (string "debug"))
      (print models)
 
@@ -84,16 +84,19 @@ The general function, `mk_msgs` (called by mk_msgs_anthropic), creates a list of
 				r.content
 				(list trc))))
 
-      (setf r (c msgs))
+      (setf r2 (c msgs :tools tools))
 
-      (comments "
-Message(id='msg_01QndYW2KPiotRHiHcUxFjXt', content=[TextBlock(citations=None, text='Now I'll add 547892 to that result:\n', type='text')], model='claude-haiku-4-5-20251001', role='assistant', stop_reason='end_turn', stop_sequence=None, type='message', usage=In: 168; Out: 21; Cache create: 0; Cache read: 0; Total Tokens: 189; Search: 0)
+      (comments "Message(id='msg_01R72jYjPFpwqskmLgXmQopf', content=[TextBlock(citations=None, text="Now I'll add 547892 to that result:", type='text'), ToolUseBlock(id='toolu_01WM2y3p3bq6EgwbdnA6josx', input={'a': 23282283062072, 'b': 547892}, name='adder', type='tool_use')], model='claude-haiku-4-5-20251001', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=In: 807; Out: 87; Cache create: 0; Cache read: 0; Total Tokens: 894; Search: 0)
+
 ")
-      (comments "append previous message and the current response to form a new prompt")
-      (setf msgs2 (mk_msgs (+ (list (for-generator (m msgs)
-						   m.content))
-			      (list (dot r content)))))
-      (setf r2 (c msgs2))
+
+      #+nil
+      (do0
+       (comments "append previous message and the current response to form a new prompt")
+       (setf msgs2 (mk_msgs (+ (list (for-generator (m msgs)
+						    m.content))
+			       (list (dot r content)))))
+       (setf r2 (c msgs2)))
       
       )
      )

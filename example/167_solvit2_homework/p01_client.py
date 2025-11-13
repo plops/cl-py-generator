@@ -2,9 +2,7 @@
 from __future__ import annotations
 from claudette import *
 from fastcore.xtras import dumps
-import os
 
-os.environ["ANTHROPIC_LOG"] = "debug"
 print(models)
 # ['claude-opus-4-1-20250805', 'claude-sonnet-4-5', 'claude-haiku-4-5', 'claude-opus-4-20250514', 'claude-3-opus-20240229', 'claude-sonnet-4-20250514', 'claude-3-7-sonnet-20250219', 'claude-3-5-sonnet-20241022']
 # haiku is cheapest
@@ -48,10 +46,7 @@ trc = dict(type="tool_result", tool_use_id=tub.id, content=dumps(res))
 # - Finally, it returns the flattened list `res`.
 #
 msgs = mk_msgs([pr, r.content, [trc]])
-r = c(msgs)
+r2 = c(msgs, tools=tools)
 #
 # Message(id='msg_01QndYW2KPiotRHiHcUxFjXt', content=[TextBlock(citations=None, text='Now I'll add 547892 to that result:n', type='text')], model='claude-haiku-4-5-20251001', role='assistant', stop_reason='end_turn', stop_sequence=None, type='message', usage=In: 168; Out: 21; Cache create: 0; Cache read: 0; Total Tokens: 189; Search: 0)
 #
-# append previous message and the current response to form a new prompt
-msgs2 = mk_msgs((([m.content for m in msgs]) + ([r.content])))
-r2 = c(msgs2)
