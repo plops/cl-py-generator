@@ -53,17 +53,58 @@
       (setf tools (list adder multer))
 
       (setf pr (string "I want to test my tools. Can you use &`[adder,multer]` to solve 42427928*548749+547892?"))
+      
 
-      (setf r (c pr :tools tools))
-      (print r)
 
-      (setf tub (dot r (aref content 1))
-	    func (aref (globals) tub.name)
-	    res (func **tub.input)
-	    trc (dictionary :type (string "tool_result")
-			    :tool_use_id tub.id
-			    :content (dumps res)))
+      (def doloop (prompt &key (tools None) (debug False))
+	(setf msgs prompt)
+	(while True
+	       (setf r (c msgs :tools tools))
+	       (when debug
+		 (print r))
+	       (when (== r.stop_reason (string "end_turn"))
+		 (return r))
+	       
+	       (setf 
+		tub (dot r (aref content 1))
+		func (aref (globals) tub.name)
+		res (func **tub.input)
+		trc (dictionary :type (string "tool_result")
+				:tool_use_id tub.id
+				:content (dumps res))
+		msgs (mk_msgs (list pr
+				    r.content
+				    (list trc)))
+		))
+	)
+      (setf r
+       (doloop pr :tools tools :debug True))
+
       (comments "
+Perfect! Here's the solution to **42427928 × 548749 + 547892**:
+
+1. First, I multiplied: 42427928 × 548749 = **23,282,283,062,072**
+2. Then, I added: 23,282,283,062,072 + 547,892 = **23,282,283,609,964**
+
+**Final Answer: 23,282,283,609,964**
+
+Comparison:
+>>> 42427928*548749+547892
+23282283609964
+
+")
+      #+nil
+      (do0
+       (setf r (c pr :tools tools))
+       (print r)
+
+       (setf tub (dot r (aref content 1))
+	     func (aref (globals) tub.name)
+	     res (func **tub.input)
+	     trc (dictionary :type (string "tool_result")
+			     :tool_use_id tub.id
+			     :content (dumps res)))
+       (comments "
 
 The call of mk_msgs goes to the function mk_msgs_anthropic, which creates a list of messages compatible with the Anthropic API. It uses the @delegates decorator to inherit parameters from mk_msgs, allowing flexible argument passing.
 It calls mk_msgs with api='anthropic' to generate the initial list of messages.
@@ -80,15 +121,15 @@ The general function, `mk_msgs` (called by mk_msgs_anthropic), creates a list of
 - It then flattens `mm` into `res`: if an item in `mm` is a list, it extends `res` with its elements; otherwise, it appends the item.
 - Finally, it returns the flattened list `res`.
 ")
-      (setf msgs (mk_msgs (list pr
-				r.content
-				(list trc))))
+       (setf msgs (mk_msgs (list pr
+				 r.content
+				 (list trc))))
 
-      (setf r2 (c msgs :tools tools))
-
-      (comments "Message(id='msg_01R72jYjPFpwqskmLgXmQopf', content=[TextBlock(citations=None, text="Now I'll add 547892 to that result:", type='text'), ToolUseBlock(id='toolu_01WM2y3p3bq6EgwbdnA6josx', input={'a': 23282283062072, 'b': 547892}, name='adder', type='tool_use')], model='claude-haiku-4-5-20251001', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=In: 807; Out: 87; Cache create: 0; Cache read: 0; Total Tokens: 894; Search: 0)
+       (setf r2 (c msgs :tools tools))
+       (comments "Message(id='msg_01R72jYjPFpwqskmLgXmQopf', content=[TextBlock(citations=None, text="Now I'll add 547892 to that result:", type='text'), ToolUseBlock(id='toolu_01WM2y3p3bq6EgwbdnA6josx', input={'a': 23282283062072, 'b': 547892}, name='adder', type='tool_use')], model='claude-haiku-4-5-20251001', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=In: 807; Out: 87; Cache create: 0; Cache read: 0; Total Tokens: 894; Search: 0)
 
 ")
+       )
 
       #+nil
       (do0
