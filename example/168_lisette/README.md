@@ -16,8 +16,8 @@ I'm really interested in using LLMs to help understand legacy codebases. This ex
 #### **Implementation**
 
 *   **Agent:** This code uses `lisette` instead of `claudette`, primarily because I have a free and generous Gemini API key. The switch between the two libraries is straightforward.
-*   **Tools:** As described in the lecture, the agent is given access to filesystem tools (`fs_tools`) to list directories and read files.
-*   **Target:** The agent was run on one of my old Git repositories, a place where I occasionally add new experiments.
+*   **Tools:** As described in the lecture, the agent is given access to filesystem tools (`rg`, `set` and `view` from `fastcore.tools`) to list directories and read files.
+*   **Target:** The agent was run on one of my old Git repositories (this one), a place where I occasionally add new experiments.
 
 The full script can be found in `p02_fs_tools.py`.
 
