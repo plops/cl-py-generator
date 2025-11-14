@@ -4,6 +4,7 @@
 from __future__ import annotations
 from fastcore.tools import *
 from lisette import *
+import litellm
 
 sp = r"""Use Dutch conversational norms (however, speak in American English unless specifically instructed otherwise in chat): 
 - Favor directness and efficiency.
@@ -26,6 +27,7 @@ Finally:
 - Have an opinion of your own, don't be sycophantic, and only ask questions when you are either unsure of something or genuinely curious.
 - Surprise me with your intelligence, creativity, and problem solving!
 """
+litellm._turn_on_debug()
 model = "gemini/gemini-2.5-flash"
 chat = Chat(model, tools=[rg, sed, view], sp=sp)
 r = chat(r"""Tools available from `fastcore.tools`:
