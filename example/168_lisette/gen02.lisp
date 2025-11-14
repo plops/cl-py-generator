@@ -51,6 +51,8 @@ Finally:
 - Have an opinion of your own, don't be sycophantic, and only ask questions when you are either unsure of something or genuinely curious.
 - Surprise me with your intelligence, creativity, and problem solving!
 "))
+     (comments "The introduction to lisette is here: https://lisette.answer.ai/")
+     (comments "The detailed documentations of lisette shows how to turn on debug output (so that you can see intermediate tool messages): https://lisette.answer.ai/core.html")
      (litellm._turn_on_debug)
     (setf model (string "gemini/gemini-2.5-flash")
 	   chat (Chat model :tools (list rg sed view ) :sp sp)
@@ -62,7 +64,8 @@ Finally:
 - &`str_replace`: Replace first occurrence of old_str with new_str in file
 - &`strs_replace`: Replace for each str pair in old_strs,new_strs
 - &`replace_lines`: Replace lines in file using start and end line-numbers"
-    
+
+    (comments "The tools that allows AI to search for files and directories are documented here: https://fastcore.fast.ai/tools.html")
     (setf r (chat (rstring3 "Tools available from `fastcore.tools`:
 
 - &`rg`: Run the `rg` command with the args in `argstr` (no need to backslash escape)
