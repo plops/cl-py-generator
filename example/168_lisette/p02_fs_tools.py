@@ -177,7 +177,6 @@ r = chat(
     r"""Create a list summary of the project in the folder /d/.  Perhaps start reading some top level markdown files and then look into specific implementation files.""",
     max_steps=36,
     return_all=True,
-    think="h",
 )
 with open("response_diplib.yaml", "w", encoding="utf-8") as f:
     yaml.dump(r, f, allow_unicode=True, indent=2)

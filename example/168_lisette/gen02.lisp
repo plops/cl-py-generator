@@ -209,7 +209,8 @@ project:
     (setf r (chat (rstring3 "Create a list summary of the project in the folder /d/.  Perhaps start reading some top level markdown files and then look into specific implementation files.")
 		  :max_steps 36
 		  :return_all True
-		  :think (string "h")))
+		  ;:think (string "h")
+		  ))
 
     (with (as (open (string "response_diplib.yaml")
 		    (string "w")
