@@ -65,6 +65,7 @@ genai.configure(api_key=api_key)
 
 MODEL_OPTIONS = [
     "gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
+    "gemini-3-pro-preview| input-price: 2.0 output-price: 12 max-context-length: 200_000",
     "gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000",
     "gemini-2.5-flash-lite-preview-09-2025| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
 ]
@@ -377,11 +378,13 @@ def generation_preview(identifier):
     trigger = "every 1s"
     price_input = {
         ("gemini-2.5-flash-preview-09-2025"): (0.30),
+        ("gemini-3-pro-preview"): (2.0),
         ("gemini-2.5-pro"): (1.250),
         ("gemini-2.5-flash-lite-preview-09-2025"): (0.10),
     }
     price_output = {
         ("gemini-2.5-flash-preview-09-2025"): (2.50),
+        ("gemini-3-pro-preview"): (12),
         ("gemini-2.5-pro"): (10),
         ("gemini-2.5-flash-lite-preview-09-2025"): (0.40),
     }
