@@ -174,7 +174,7 @@ COPY config/xinitrc /home/kiel/.xinitrc
 
 
 RUN emerge --depclean
-RUN chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
+#RUN chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
 
 #RUN IGNORE_PREEMPT_RT_PRESENCE=1 emerge nvidia-drivers
 
