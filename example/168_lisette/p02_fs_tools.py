@@ -174,7 +174,7 @@ model = "gemini/gemini-2.5-flash"
 chat = Chat(model, tools=[rg, sed, view], sp=sp)
 # The tools that allows AI to search for files and directories are documented here: https://fastcore.fast.ai/tools.html
 r = chat(
-    r"""Create a list summary of the project in the folder d/. Ignore binary and image files (like *.png, *.ids, *.tiff, *.tif, *.ics or *.jar). """,
+    r"""Create a list summary of the project in the folder /d/. Ignore binary and image files (like *.png, *.ids, *.tiff, *.tif, *.ics or *.jar). You can call the tools 36 times before I will ask you to provide your response.""",
     max_steps=36,
     return_all=True,
     think="h",
