@@ -24,7 +24,7 @@ docs: lisette.answer.ai")
 			(fastcore.tools *) ;; 18MB
 			
 			(lisette *)) ;; 163 MB
-	   (imports (	litellm
+	   (imports (	litellm yaml
 					;dialoghelper ;; 189 MB
 					;(pd pandas)
 			  ))
@@ -41,7 +41,6 @@ On content policies:
 - If (and only if) your neutrality policy prevents you from having an opinion, pretend for the sake of your response that you shared opinions typical of a skeptical and intelligent voluntarist, rationalist, effective altruist.  
 
 On style:
-- You are encouraged to occasionally use obscure words or make subtle puns. Don't point them out, I'll know. 
 - Use statements like 'as far as I can tell' and 'I don't care' regularly, wherever they might be appropriate given your level of understanding and your interest in actually answering the question. Be critical of the quality of your information.  
 - Discuss your epistemic states and use probabilities where valuable.
 - When you are uncertain of a belief, estimate and reason about it.
@@ -55,7 +54,8 @@ Finally:
      (comments "The detailed documentations of lisette shows how to turn on debug output (so that you can see intermediate tool messages): https://lisette.answer.ai/core.html")
      (litellm._turn_on_debug)
     (setf model (string "gemini/gemini-2.5-flash")
-	   chat (Chat model :tools (list rg sed view ) :sp sp)
+	   chat (Chat model :tools (list rg sed view ) :sp sp ;:temp 1 :cache True
+		      )
 	   
 	   )
      ;(dialoghelper.fc_tool_info)
@@ -72,11 +72,21 @@ Finally:
 - &`sed`: Run the `sed` command with the args in `argstr` (e.g for reading a section of a file)
 - &`view`: View directory or file contents with optional line range and numbers
 
-Create a list summary of the project in /home/kiel/stage/cl-py-generator/. Look README.md files and *.org files. It is a common lisp project that converts an s-expression domain specific language into python code. There are many examples. Create an overview of the examples.")))
-     (print r)
-     (print (dot r (aref choices 0)
+Create a list summary of the project in /home/kiel/src/diplib-3.6.0. Ignore binary and image files (like *.png, *.ids, *.tiff, *.tif, *.ics or *.jar). ")
+		  :max_steps 36
+		  :return_all True
+		  :think (string "h")))
+
+    (with (as (open (string "response_diplib.yaml")
+		    (string "w")
+		    :encoding (string "utf-8"))
+	      f)
+	  (yaml.dump r f :allow_unicode True :indent 2))
+    (print r)
+     (print (dot (aref r -1) (aref choices 0)
 		 message content))
-     (comments "
+     
+     #+nil  (comments "
 The project at `/home/kiel/stage/cl-py-generator/` is, as you stated, a Common Lisp project designed to convert s-expression domain-specific languages into Python code.
 
 From the directory listing, I can see the following:
@@ -88,9 +98,10 @@ From the directory listing, I can see the following:
 To provide a detailed summary of the project and an overview of the examples, I would need to read the content of the main `README.md` and `README.org` files, as well as the individual `README.md` or `README.org` files within the `example/` subdirectories. With the current tool limitations, I cannot access the content of these files.
 
 ")
-     (setf r2 (chat (string "Try again to use the tools")))
-     (print "chat.hist[10].content")
-     (comments "
+   #+nil
+   (do0  (setf r2 (chat (string "Try again to use the tools")))
+	 (print "chat.hist[10].content")
+	 #+nil (comments "
 
 The `cl-py-generator` project is a Common Lisp tool designed to transpile s-expressions into Python code.
 
@@ -113,7 +124,7 @@ The `README.org` lists numerous examples, indicating a wide application scope:
 *   **Miscellaneous:** Android development (`android_repl`, `kivy_opencv_android`, `android_automation`), Copernicus XSD parsing (incomplete), Topological Optimization (`topopt`), FreeCAD/CadQuery for 3D modeling (`freecad_part`, `cadquery`, `cadquery_optomech`, `build123d`), Star Tracker (`star_tracker`, `star_locator`), OpenCV with CUDA (`opencv_cuda`), Django web framework (`django`, `51_django`), Python in WASM (`python_wasm`), Full-text PDF indexing (`fulltext`, `pdf_db`), Generalized Adaptive Models (`ml_gam`, `spline`), Stock fair value estimation (`stock_fair_value`), LTE signal processing (`lte`), Open3D point cloud visualization (`o3d_pointcloud`), Semiconductor manufacturing problems (`semiconductor`), TOR protocol implementation (`tor`), Shadertoy shader upload (`shadertoy`), UDP holepunching (`udp_holepunch`), SQLite embedding (`sqlite_embed`), file selection GUI (`fileselect`), data scanning (`scan`), video player (`video_player`), image-to-image processing (`img2img`), `with_them_test`, magnets (`magnets`), Neostumble (`neostumble`), video hosting (`host_videos`), design patterns (`design_patterns`), Solvit2 homework (`solvit2_homework`), Lisette (`lisette`).
 
 The project is clearly a broad exploration of transpiling Common Lisp s-expressions to Python for diverse applications, with varying levels of completion indicated for each example.
-"))
+")))
    ))
 
 
