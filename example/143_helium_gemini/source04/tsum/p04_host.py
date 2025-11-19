@@ -446,14 +446,15 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
             html = f"Waiting for {real_model} to respond to request..."
         else:
             html = replace_timestamps_in_html(html0, s.original_source_link)
+        prompt_id = f"pompt-pre-{identifier}"
+        hidden_pre_for_prompt = Pre(get_prompt(s), id=prompt_id)
+        prompt_button = Button("Copy Prompt", onclick=f"copyPreContent('{prompt_id}')")
         hidden_pre_for_copy = Div(
             Pre(text, id=f"pre-{identifier}"),
+            hidden_pre_for_prompt,
             id=f"hidden-markdown-{identifier}",
             style="display: none;",
         )
-        prompt_id = f"pompt-pre-{identifier}"
-        hidden_pre_for_prompt = Div(Pre(get_prompt(s), id=prompt_id))
-        prompt_button = Button("Copy Prompt", onclick=f"copyPreContent('{prompt_id}')")
         card_content = [
             Header(
                 H4(
@@ -471,7 +472,6 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
             Div(NotStr(html), style="white-space: normal;"),
             Footer(
                 hidden_pre_for_copy,
-                hidden_pre_for_prompt,
                 Button(
                     "Copy Summary",
                     onclick=f"copyPreContent('pre-{identifier}')",

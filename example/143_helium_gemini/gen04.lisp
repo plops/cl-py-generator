@@ -1041,19 +1041,22 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 		  (setf real_model (dot s model (aref (split (string "|")) 0)))
 		  (setf html (fstring "Waiting for {real_model} to respond to request...")))
 		 (setf html (replace_timestamps_in_html html0 s.original_source_link)))
-	     (setf hidden_pre_for_copy
-		   (Div (Pre text :id (fstring "pre-{identifier}"))
-			:id (fstring "hidden-markdown-{identifier}")
-			:style (string "display: none;")))
+	     
 	     #+copy-prompt
 	     (do0
 	      (setf
 	       prompt_id (fstring "pompt-pre-{identifier}")
 	       hidden_pre_for_prompt
-		    (Div (Pre (get_prompt s)
-			      :id prompt_id))
+		    (Pre (get_prompt s)
+			 :id prompt_id)
 	       prompt_button (Button (string "Copy Prompt")
 				     :onclick (fstring "copyPreContent('{prompt_id}')"))))
+
+	     (setf hidden_pre_for_copy
+		   (Div (Pre text :id (fstring "pre-{identifier}"))
+			#+copy-prompt hidden_pre_for_prompt
+			:id (fstring "hidden-markdown-{identifier}")
+			:style (string "display: none;")))
 	     (setf card_content
 		   (list
 		    (Header
@@ -1067,7 +1070,6 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 			 :style (string "white-space: normal;"))
 		    (Footer
 		     hidden_pre_for_copy
-		     #+copy-prompt hidden_pre_for_prompt
 		     (Button (string "Copy Summary")
 			     :onclick (fstring "copyPreContent('pre-{identifier}')")
 			     :cls (string "outline"))
