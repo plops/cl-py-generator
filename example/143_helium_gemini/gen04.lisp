@@ -1052,8 +1052,8 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	       hidden_pre_for_prompt
 		    (Div (Pre (get_prompt s)
 			      :id prompt_id))
-		    prompt_button (Button :string "Copy Prompt"
-					  :onclick (fstring "copyPreContent('{prompt_id}')"))))
+	       prompt_button (Button (string "Copy Prompt")
+				     :onclick (fstring "copyPreContent('{prompt_id}')"))))
 	     (setf card_content
 		   (list
 		    (Header
