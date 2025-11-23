@@ -13,8 +13,6 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 RUN emerge -1 gentoolkit eix
-RUN eselect repository enable guru
-RUN emaint sync -r guru
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
@@ -36,7 +34,8 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && . /etc/profile
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-
+RUN eselect repository enable guru
+RUN emaint sync -r guru
 RUN emerge --update --deep --changed-use @world --fetchonly
 
 ENV KVER_PURE=6.12.41
