@@ -12,7 +12,7 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
-RUN emerge -1 gentoolkit eix
+RUN emerge -1 gentoolkit eix app-eselect/eselect-repository dev-vcs/git
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
