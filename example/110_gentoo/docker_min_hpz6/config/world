@@ -99,3 +99,7 @@ llvm-core/clang
    app-pda/ifuse
    app-misc/fdupes
    net-analyzer/netcat
+   net-misc/moonlight
+   net-misc/sunshine
+    net-libs/nodejs
+    app-text/typst::guru

@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20251117 AS portage
+FROM gentoo/portage:20251123 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
@@ -13,6 +13,8 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 RUN emerge -1 gentoolkit eix
+RUN eselect repository enable guru
+RUN emaint sync -r guru
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
