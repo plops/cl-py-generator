@@ -162,11 +162,13 @@ VIDEO_V4L2
 M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
 
 # Execute the script a single time with the dynamically built list of options
-./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION
+./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC 
+make olddefconfig # apply default configuration for whatever options are still open
 EOF
 
 
 RUN make prepare
+
 
 RUN emerge -e @world --fetchonly
 
