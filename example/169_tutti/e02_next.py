@@ -5,6 +5,7 @@ import pandas as pd
 import time
 import datetime
 import os
+import math
 from fastcore.utils import BasicRepr, store_attr
 
 # Function provided in your prompt context implies these imports exist in the library
@@ -136,6 +137,7 @@ def download_tutti_json(pages=2):
 def evaluate_phones(df, max_price=None):
     """
     Filters phones by price and uses Gaspard (Gemini) to rate them as 5G routers.
+    Now processes in BATCHES to avoid API quotas.
     """
     if df.empty:
         return df
@@ -168,7 +170,7 @@ def evaluate_phones(df, max_price=None):
         print("No items left after price filtering.")
         return df
 
-    # 2. Setup Gaspard
+    # --- 2. Setup Gaspard ---
     if "GEMINI_API_KEY" not in os.environ:
         raise EnvironmentError("GEMINI_API_KEY environment variable is not set.")
 
@@ -183,115 +185,146 @@ def evaluate_phones(df, max_price=None):
 
         def __init__(
             self,
+            listing_id: str,  # The ID of the listing being evaluated
             score: int,  # Rating 0-100 (100 is perfect match)
-            reasoning: str,  # Brief explanation of the rating
+            reasoning: str,  # Brief explanation
             has_5g: bool,  # Does it clearly support 5G?
-            screen_condition: str,  # Brief note on screen (e.g. "Cracked", "OK", "Unknown")
+            screen_condition: str,  # e.g. "Cracked", "OK"
         ):
             store_attr()
 
-    results = []
-    print("Scoring listings with AI...")
+    # --- 3. Batch Processing ---
+    results_map = {}  # Store results by listing ID
 
-    for idx, row in df.iterrows():
-        # Context for the LLM
-        item_text = (
-            f"Title: {row['title']}\n"
-            f"Price: {row['price']}\n"
-            f"Description: {row['description']}"
-        )
+    # Batch size: 15 items per request is usually safe for tokens and function calling limits
+    BATCH_SIZE = 15
+    # Delay: 10 seconds between requests ensures we stay under 10 RPM (60s / 10 = 6s minimum)
+    DELAY_SECONDS = 10
+
+    listings_data = df.to_dict("records")
+    total_batches = math.ceil(len(listings_data) / BATCH_SIZE)
+
+    print(f"Starting AI evaluation in {total_batches} batches...")
+
+    for i in range(0, len(listings_data), BATCH_SIZE):
+        batch = listings_data[i : i + BATCH_SIZE]
+        batch_num = (i // BATCH_SIZE) + 1
+
+        # Construct a combined prompt for the batch
+        batch_text = ""
+        for item in batch:
+            batch_text += (
+                f"--- ITEM START ---\n"
+                f"ID: {item['id']}\n"
+                f"Title: {item['title']}\n"
+                f"Price: {item['price']}\n"
+                f"Description: {item['description']}\n"
+                f"--- ITEM END ---\n\n"
+            )
 
         prompt = (
-            "I need a phone to use as a permanently plugged-in 5G router. "
+            "I need phones to use as permanently plugged-in 5G routers. "
             "Requirements:\n"
             "- MUST have 5G (fast preferred).\n"
             "- Display/Touch must work (scratches fine, cracks bad/risk of ghost touch).\n"
-            "- Camera status irrelevant.\n"
-            "- Battery health irrelevant (plugged in).\n\n"
-            "Assess this listing:"
-            f"\n---\n{item_text}\n---"
+            "- Camera/Battery health irrelevant.\n\n"
+            "Evaluate ALL of the following listings evaluating each one individually. "
+            "Call the PhoneRating tool for EVERY single item found below.\n\n"
+            f"{batch_text}"
         )
 
         try:
-            # Call Gaspard structured output
-            # Returns a list of objects, we take the first
-            res_objs = cli.structured(prompt, PhoneRating)
-            if res_objs:
-                rating = res_objs[0]
-                results.append(
-                    {
-                        "score": rating.score,
-                        "ai_reasoning": rating.reasoning,
-                        "ai_has_5g": rating.has_5g,
-                        "ai_screen": rating.screen_condition,
+            print(
+                f"Processing batch {batch_num}/{total_batches} ({len(batch)} items)..."
+            )
+
+            # structured() returns a list of tool outputs
+            responses = cli.structured(prompt, PhoneRating)
+
+            # Map back to IDs
+            if responses:
+                for r in responses:
+                    # Normalize ID to string to ensure matching works
+                    r_id = str(r.listing_id)
+                    results_map[r_id] = {
+                        "score": r.score,
+                        "ai_reasoning": r.reasoning,
+                        "ai_has_5g": r.has_5g,
+                        "ai_screen": r.screen_condition,
                     }
-                )
             else:
-                results.append(
-                    {
-                        "score": 0,
-                        "ai_reasoning": "No response",
-                        "ai_has_5g": False,
-                        "ai_screen": "?",
-                    }
-                )
+                print(f"Batch {batch_num} returned no structured data.")
 
         except Exception as e:
-            print(f"AI Error on row {idx}: {e}")
-            results.append(
+            print(f"Error processing batch {batch_num}: {e}")
+            # If we hit a quota error here, we might want to sleep longer
+            if "429" in str(e):
+                print("Quota hit. Sleeping for 60 seconds...")
+                time.sleep(60)
+            else:
+                time.sleep(2)
+
+        # Rate limiting delay
+        if batch_num < total_batches:
+            time.sleep(DELAY_SECONDS)
+
+    # --- 4. Merge Results back to DataFrame ---
+    # Create temporary list to ensure alignment
+    ai_cols = []
+    for idx, row in df.iterrows():
+        lid = str(row["id"])
+        if lid in results_map:
+            ai_cols.append(results_map[lid])
+        else:
+            ai_cols.append(
                 {
                     "score": -1,
-                    "ai_reasoning": f"Error: {e}",
+                    "ai_reasoning": "Not evaluated / Error",
                     "ai_has_5g": False,
                     "ai_screen": "?",
                 }
             )
-            time.sleep(2)  # Backoff on error
 
-    # 3. Merge and Sort
-    metrics = pd.DataFrame(results)
-    # Align indices just in case
+    metrics_df = pd.DataFrame(ai_cols)
     df = df.reset_index(drop=True)
-    final_df = pd.concat([df, metrics], axis=1)
+    final_df = pd.concat([df, metrics_df], axis=1)
 
-    # Sort by score descending
     final_df.sort_values(by="score", ascending=False, inplace=True)
     return final_df
 
 
 if __name__ == "__main__":
-    # 1. Scrape
-    df = download_tutti_json(pages=22)  # Adjust pages as needed
+    # Adjust pages as needed (more pages = more batches)
+    df = download_tutti_json(pages=2)
 
     if df is not None and not df.empty:
         print(f"\nExtracted {len(df)} items. Starting AI evaluation...")
 
-        # 2. Filter and Rate (Max price, e.g. 120.-, for a router seems reasonable)
-        scored_df = evaluate_phones(df, max_price=120.0)
+        # Filter price first to save tokens/requests
+        scored_df = evaluate_phones(df, max_price=150.0)
 
-        # 3. Display Top Results
-        print("\n=== Top 5 Recommendations ===")
+        print("\n=== Top Recommendations ===")
         cols = [
             "score",
             "title",
             "price",
             "ai_has_5g",
-            "ai_screen",
             "ai_reasoning",
             "link",
         ]
-        # Handle case where AI failed for all
+
         if "score" in scored_df.columns:
             pd.set_option("display.max_colwidth", 100)
-            print(scored_df[cols].head(5).to_string(index=False))
+            # Filter out failed evaluations
+            valid_results = scored_df[scored_df["score"] > 0]
+            print(valid_results[cols].head(10).to_string(index=False))
 
-            # 4. Save
             dt = datetime.datetime.now().isoformat().replace(":", "-")
             fn = f"tutti_router_candidates_{dt}.csv"
             scored_df.to_csv(fn, index=False)
             print(f"\nFull results saved to {fn}")
         else:
-            print("Scoring failed or returned no data.")
+            print("Scoring failed.")
     else:
         print("No listings found to evaluate.")
 
