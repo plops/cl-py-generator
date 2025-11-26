@@ -134,10 +134,11 @@ def download_tutti_json(pages=2):
     return pd.DataFrame(all_devices)
 
 
-def evaluate_phones(df, max_price=None):
+# python
+def evaluate_phones(df, max_price=None, skip_scored=True):
     """
     Filters phones by price and uses Gaspard (Gemini) to rate them as 5G routers.
-    Now processes in BATCHES to avoid API quotas.
+    If skip_scored is True (default), entries with existing score > 0 are not re-submitted.
     """
     if df.empty:
         return df
@@ -157,6 +158,7 @@ def evaluate_phones(df, max_price=None):
         except ValueError:
             return 99999.0
 
+    df = df.copy()
     df["price_numeric"] = df["price"].apply(clean_price)
 
     if max_price is not None:
@@ -168,6 +170,19 @@ def evaluate_phones(df, max_price=None):
 
     if df.empty:
         print("No items left after price filtering.")
+        return df
+
+    # Determine which rows to evaluate
+    if "score" in df.columns and skip_scored:
+        to_eval_mask = df["score"].fillna(-1) <= 0
+    else:
+        to_eval_mask = pd.Series([True] * len(df), index=df.index)
+
+    to_eval_df = df[to_eval_mask].copy()
+    if to_eval_df.empty:
+        print(
+            "No items to evaluate (all already scored). Returning original dataframe."
+        )
         return df
 
     # --- 2. Setup Gaspard ---
@@ -197,11 +212,11 @@ def evaluate_phones(df, max_price=None):
     results_map = {}  # Store results by listing ID
 
     # Batch size: 15 items per request is usually safe for tokens and function calling limits
-    BATCH_SIZE = 15
+    BATCH_SIZE = 1500
     # Delay: 10 seconds between requests ensures we stay under 10 RPM (60s / 10 = 6s minimum)
     DELAY_SECONDS = 10
 
-    listings_data = df.to_dict("records")
+    listings_data = to_eval_df.to_dict("records")
     total_batches = math.ceil(len(listings_data) / BATCH_SIZE)
 
     print(f"Starting AI evaluation in {total_batches} batches...")
@@ -232,6 +247,13 @@ def evaluate_phones(df, max_price=None):
             "Call the PhoneRating tool for EVERY single item found below.\n\n"
             f"{batch_text}"
         )
+
+        # store prompt to file with iso datetime for debugging
+        dt = datetime.datetime.now().isoformat().replace(":", "-")
+        with open(
+            f"debug_prompt_batch_{batch_num}_{dt}.txt", "w", encoding="utf-8"
+        ) as f:
+            f.write(prompt)
 
         try:
             print(
@@ -268,26 +290,33 @@ def evaluate_phones(df, max_price=None):
         if batch_num < total_batches:
             time.sleep(DELAY_SECONDS)
 
-    # --- 4. Merge Results back to DataFrame ---
-    # Create temporary list to ensure alignment
-    ai_cols = []
+    # --- 4. Merge Results back to DataFrame (assign/overwrite columns directly) ---
+    ai_cols_list = []
     for idx, row in df.iterrows():
         lid = str(row["id"])
+        # If we evaluated this row, use the AI result
         if lid in results_map:
-            ai_cols.append(results_map[lid])
+            ai_cols_list.append(results_map[lid])
         else:
-            ai_cols.append(
+            # Keep existing scoring/AI columns if present, otherwise defaults
+            ai_cols_list.append(
                 {
-                    "score": -1,
-                    "ai_reasoning": "Not evaluated / Error",
-                    "ai_has_5g": False,
-                    "ai_screen": "?",
+                    "score": row.get("score", -1),
+                    "ai_reasoning": row.get("ai_reasoning", "Not evaluated / Error"),
+                    "ai_has_5g": row.get("ai_has_5g", False),
+                    "ai_screen": row.get("ai_screen", "?"),
                 }
             )
 
-    metrics_df = pd.DataFrame(ai_cols)
-    df = df.reset_index(drop=True)
-    final_df = pd.concat([df, metrics_df], axis=1)
+    metrics_df = pd.DataFrame(ai_cols_list, index=df.index)
+
+    final_df = df.reset_index(drop=True).copy()
+    # Overwrite or create the AI columns (this avoids duplicate column labels)
+    for c in metrics_df.columns:
+        final_df[c] = metrics_df[c].values
+
+    # Ensure single 'score' column exists and is numeric for sorting
+    final_df["score"] = pd.to_numeric(final_df["score"], errors="coerce").fillna(-1)
 
     final_df.sort_values(by="score", ascending=False, inplace=True)
     return final_df
@@ -295,13 +324,13 @@ def evaluate_phones(df, max_price=None):
 
 if __name__ == "__main__":
     # Adjust pages as needed (more pages = more batches)
-    df = download_tutti_json(pages=2)
-
+    # df = download_tutti_json(pages=25)
+    df = pd.read_csv("tutti_router_candidates_2025-11-26T21-56-31.181221.csv")
     if df is not None and not df.empty:
         print(f"\nExtracted {len(df)} items. Starting AI evaluation...")
 
         # Filter price first to save tokens/requests
-        scored_df = evaluate_phones(df, max_price=150.0)
+        scored_df = evaluate_phones(df, max_price=67.0)
 
         print("\n=== Top Recommendations ===")
         cols = [
