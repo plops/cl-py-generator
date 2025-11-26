@@ -5,6 +5,8 @@ import pandas as pd
 import time
 import datetime
 import os
+from fastcore.utils import BasicRepr, store_attr
+
 
 # Function provided in your prompt context implies these imports exist in the library
 try:
@@ -142,7 +144,7 @@ def evaluate_phones(df, max_price=None):
         raise EnvironmentError("GEMINI_API_KEY environment variable is not set.")
 
     # Using the flash-exp model as suggested in docs for speed/free tier
-    model_name = 'gemini-2.0-flash-exp'
+    model_name = 'gemini-flash-latest'
     print(f"Initializing Gaspard with model: {model_name}")
     cli = Client(model_name)
 
@@ -210,7 +212,7 @@ def evaluate_phones(df, max_price=None):
 
 if __name__ == "__main__":
     # 1. Scrape
-    df = download_tutti_json(pages=2) # Adjust pages as needed
+    df = download_tutti_json(pages=22) # Adjust pages as needed
 
     if df is not None and not df.empty:
         print(f"\nExtracted {len(df)} items. Starting AI evaluation...")
