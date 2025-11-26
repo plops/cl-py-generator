@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+import datetime
 
 def get_build_id(session, base_url):
     """Fetch the current Next.js build ID from the homepage."""
@@ -32,7 +33,8 @@ def download_tutti_json(pages=2):
 
     # 1. Get the dynamic build ID
     # The category path we want to scrape
-    category_slug = "handys/Ak8CqY2VsbFBob25lc5TAwMDA"
+    slug = ['handys', 'Ak6xtb2JpbGUgcGhvbmWqY2VsbFBob25lc5TAwMDA'] #['handys', 'Ak8CqY2VsbFBob25lc5TAwMDA']
+    category_slug = f"{slug[0]}/{slug[1]}" #"handys/Ak8CqY2VsbFBob25lc5TAwMDA"
     base_url = f"https://www.tutti.ch/de/q/{category_slug}"
 
     try:
@@ -53,7 +55,7 @@ def download_tutti_json(pages=2):
             'sorting': 'newest',
             'page': page,
             # The slug parameters are sometimes required in the query string by Next.js routers
-            'slug': ['handys', 'Ak8CqY2VsbFBob25lc5TAwMDA']
+            'slug': slug
         }
 
         print(f"Downloading JSON for page {page}...")
@@ -105,14 +107,17 @@ def download_tutti_json(pages=2):
 
     return pd.DataFrame(all_devices)
 
-if __name__ == "__main__":
-    df = download_tutti_json(2)
-    if df is not None and not df.empty:
-        print(f"\nTotal items extracted: {len(df)}")
-        print(df[['title', 'price', 'date']].head())
-        # df.to_csv('tutti_data_clean.csv', index=False)
-    else:
-        print("No data found.")
+# if __name__ == "__main__":
+df = download_tutti_json(2)
+if df is not None and not df.empty:
+    print(f"\nTotal items extracted: {len(df)}")
+    print(df[['title', 'price', 'date']].head())
+    # store in csv with iso datetime in filename
+    dt = datetime.datetime.now().isoformat()
+    fn = f'tutti_data_{dt}.csv'
+    df.to_csv(fn, index=False)
+else:
+    print("No data found.")
 
 
 # >>> df
@@ -120,3 +125,7 @@ if __name__ == "__main__":
 # 0   72023485                     Schöne Hülle für iPhone 16 Pro     10.-                    Lyss  3250  2025-11-25T07:50:43+01:00                       Inkl. Porto, TWINT moeglich.  https://www.tutti.ch/de/vi/72023485
 # 1   76543915                               Iphone 14 pro 256 gb    499.-                 Locarno  6600  2025-11-25T07:44:19+01:00  Da tip top natel locarno Telefono in buono sta...  https://www.tutti.ch/de/vi/76543915
 # 2   77691845  Samsung Galaxy S20 Ultra 5G Neuwertig mit Sams...    200.-           Bremgarten AG  5620  2025-11-25T07:38:56+01:00  SAMSUNG Galaxy S20 Ultra 5G 128GB, Pearl White...  https://www.tutti.ch/de/vi/77691845
+
+# From the dataframe a prompt for an LLM containing listings like this for each phone
+# Use a function that allows setting and upper limit on the price
+# Idx=1 Titel="Iphone 14 pro 256 gb" Price=499 Description="Da tip top natel ..."
