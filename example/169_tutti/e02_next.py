@@ -49,7 +49,7 @@ def download_tutti_json(pages=2):
     )
     # 1. Get the dynamic build ID
     # The category path we want to scrape
-    slug = ["handys", "Ak6xtb2JpbGUgcGhvbmWqY2VsbFBob25lc5TAwMDA"]
+    slug = ["handys", "Ak8CqY2VsbFBob25lc5TAwMDA"]
     # In Next.js, a "slug" is the part of the URL that identifies the specific page or category you are looking at.
     # that long string is the Category ID. It describes what you are looking for, not which version of the site you are viewing.
 
