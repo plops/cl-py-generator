@@ -135,7 +135,7 @@ def download_tutti_json(pages=2):
 
 
 # python
-def evaluate_phones(df, max_price=None, skip_scored=True):
+def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
     """
     Filters phones by price and uses Gaspard (Gemini) to rate them as 5G routers.
     If skip_scored is True (default), entries with existing score > 0 are not re-submitted.
@@ -161,11 +161,15 @@ def evaluate_phones(df, max_price=None, skip_scored=True):
     df = df.copy()
     df["price_numeric"] = df["price"].apply(clean_price)
 
-    if max_price is not None:
+    # Apply min_price and/or max_price filters if provided
+    if min_price is not None or max_price is not None:
         initial_count = len(df)
-        df = df[df["price_numeric"] <= max_price].copy()
+        if min_price is not None:
+            df = df[df["price_numeric"] >= min_price].copy()
+        if max_price is not None:
+            df = df[df["price_numeric"] <= max_price].copy()
         print(
-            f"Filtered {initial_count} items down to {len(df)} based on price limit ({max_price})."
+            f"Filtered {initial_count} items down to {len(df)} based on price limits (min={min_price}, max={max_price})."
         )
 
     if df.empty:
@@ -230,7 +234,7 @@ def evaluate_phones(df, max_price=None, skip_scored=True):
         for item in batch:
             batch_text += (
                 f"--- ITEM START ---\n"
-                f"ID: {item['id']}\n"
+                #f"ID: {item['id']}\n"
                 f"Title: {item['title']}\n"
                 f"Price: {item['price']}\n"
                 f"Description: {item['description']}\n"
@@ -243,8 +247,10 @@ def evaluate_phones(df, max_price=None, skip_scored=True):
             "- MUST have 5G (fast preferred).\n"
             "- Display/Touch must work (scratches fine, cracks bad/risk of ghost touch).\n"
             "- Camera/Battery health irrelevant.\n\n"
+            "- Prefer Pixel over iPhone, then any phone that is supported by lineageos then samsung, then others."
             "Evaluate ALL of the following listings evaluating each one individually. "
-            "Call the PhoneRating tool for EVERY single item found below.\n\n"
+            "Output devices that match these critery and show the most promising phones at the top."
+            #"Call the PhoneRating tool for EVERY single item found below.\n\n"
             f"{batch_text}"
         )
 
@@ -330,7 +336,7 @@ if __name__ == "__main__":
         print(f"\nExtracted {len(df)} items. Starting AI evaluation...")
 
         # Filter price first to save tokens/requests
-        scored_df = evaluate_phones(df, max_price=67.0)
+        scored_df = evaluate_phones(df, min_price=67.0, max_price=167.0)
 
         print("\n=== Top Recommendations ===")
         cols = [
