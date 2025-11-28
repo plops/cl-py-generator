@@ -7,6 +7,8 @@ import datetime
 import os
 import math
 from fastcore.utils import BasicRepr, store_attr
+import argparse
+from glob import glob
 
 # Function provided in your prompt context implies these imports exist in the library
 try:
@@ -134,6 +136,15 @@ def download_tutti_json(pages=2):
     return pd.DataFrame(all_devices)
 
 
+def find_latest_candidates_csv(pattern="tutti_router_candidates_*.csv"):
+    files = glob(pattern)
+    if not files:
+        raise FileNotFoundError(f"No files matching pattern '{pattern}' found.")
+    latest = max(files, key=os.path.getmtime)
+    print(f"Using cached CSV: {latest}")
+    return latest
+
+
 # python
 def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
     """
@@ -249,7 +260,7 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
             "- Camera/Battery health irrelevant.\n\n"
             "- Prefer Pixel over iPhone, then any phone that is supported by lineageos then samsung, then others."
             "Evaluate ALL of the following listings evaluating each one individually. "
-            "Output devices that match these critery and show the most promising phones at the top."
+            "Output devices that match these critery and show the most price-effective and promising phones at the top."
             #"Call the PhoneRating tool for EVERY single item found below.\n\n"
             f"{batch_text}"
         )
@@ -328,15 +339,29 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
     return final_df
 
 
-if __name__ == "__main__":
-    # Adjust pages as needed (more pages = more batches)
-    # df = download_tutti_json(pages=25)
-    df = pd.read_csv("tutti_router_candidates_2025-11-26T21-56-31.181221.csv")
+def main():
+    parser = argparse.ArgumentParser(description="Fetch and score Tutti listings.")
+    parser.add_argument(
+        "--pages",
+        type=int,
+        default=100,
+        help="Number of Tutti pages to download (0 = reuse latest candidates CSV).",
+    )
+    args = parser.parse_args()
+
+    if args.pages == 0:
+        csv_path = find_latest_candidates_csv()
+        df = pd.read_csv(csv_path)
+    else:
+        df = download_tutti_json(pages=args.pages)
+        dt = datetime.datetime.now().isoformat().replace(":", "-")
+        fn = f"tutti_phones_{dt}.csv"
+        df.to_csv(fn)
+
     if df is not None and not df.empty:
         print(f"\nExtracted {len(df)} items. Starting AI evaluation...")
-
         # Filter price first to save tokens/requests
-        scored_df = evaluate_phones(df, min_price=67.0, max_price=167.0)
+        scored_df = evaluate_phones(df, min_price=7.0, max_price=127.0)
 
         print("\n=== Top Recommendations ===")
         cols = [
@@ -363,6 +388,7 @@ if __name__ == "__main__":
     else:
         print("No listings found to evaluate.")
 
+
 # >>> df
 #           id                                              title    price                location   zip                       date                                        description                                 link
 # 0   72023485                     Schöne Hülle für iPhone 16 Pro     10.-                    Lyss  3250  2025-11-25T07:50:43+01:00                       Inkl. Porto, TWINT moeglich.  https://www.tutti.ch/de/vi/72023485
@@ -375,3 +401,6 @@ if __name__ == "__main__":
 
 
 # export GEMINI_API_KEY=`cat ~/api_key.txt` ;  uv run python -i e02_next.py
+
+if __name__ == "__main__":
+    main()
