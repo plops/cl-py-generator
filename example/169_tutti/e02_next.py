@@ -9,12 +9,15 @@ import math
 from fastcore.utils import BasicRepr, store_attr
 import argparse
 from glob import glob
+from loguru import logger
 
 # Function provided in your prompt context implies these imports exist in the library
 try:
     from gaspard import Client
 except ImportError:
     # Fallback/Mock for dry-run if gaspard isn't actually installed
+    # replace print with logger after logger config in main
+    # but keep early exit here
     print("Gaspard library not found. Ensure it is installed via pip.")
     exit(1)
 
@@ -22,8 +25,8 @@ except ImportError:
 def get_build_id(session, base_url):
     """Fetch the current Next.js build ID from the homepage."""
     # The Build ID is a unique hash (a string of random characters) generated every time the developers at Tutti release a new version of their website.
-    print("Fetching build ID...")
-    response = session.get(base_url)
+    logger.info("Fetching build ID...")
+    response = session.get(base_url, timeout=30)
     response.raise_for_status()
 
     soup = BeautifulSoup(response.content, "html.parser")
@@ -36,7 +39,7 @@ def get_build_id(session, base_url):
 
     data = json.loads(script.string)
     build_id = data.get("buildId")
-    print(f"Found Build ID: {build_id}")
+    logger.info(f"Found Build ID: {build_id}")
     return build_id
 
 
@@ -68,7 +71,7 @@ def download_tutti_json(pages=2):
     try:
         build_id = get_build_id(session, base_url)
     except Exception as e:
-        print(f"Failed to init: {e}")
+        logger.error(f"Failed to init: {e}")
         return pd.DataFrame()
 
     all_devices = []
@@ -82,12 +85,13 @@ def download_tutti_json(pages=2):
         )
         params = {"sorting": "newest", "page": page, "slug": slug}
 
-        print(f"Downloading JSON for page {page}...")
-
+        logger.info(f"Downloading JSON for page {page}...")
         try:
-            resp = session.get(json_url, params=params)
+            resp = session.get(json_url, params=params, timeout=30)
             if resp.status_code != 200:
-                print(f"Failed to fetch page {page} (Status: {resp.status_code})")
+                logger.warning(
+                    f"Failed to fetch page {page} (Status: {resp.status_code})"
+                )
                 continue
 
             data = resp.json()
@@ -102,7 +106,7 @@ def download_tutti_json(pages=2):
                 )
 
                 if not listing_query:
-                    print("No listing data found in JSON.")
+                    logger.warning("No listing data found in JSON.")
                     break
 
                 edges = listing_query["state"]["data"]["listings"]["edges"]
@@ -123,16 +127,12 @@ def download_tutti_json(pages=2):
                             "link": f"https://www.tutti.ch/de/vi/{node.get('listingID')}",
                         }
                     )
-                print(f"Found {len(edges)} items.")
-
+                logger.info(f"Found {len(edges)} items.")
             except KeyError as e:
-                print(f"JSON structure changed, key not found: {e}")
-
+                logger.error(f"JSON structure changed, key not found: {e}")
             time.sleep(1)  # Be polite
-
         except Exception as e:
-            print(f"Error on page {page}: {e}")
-
+            logger.error(f"Error on page {page}: {e}")
     return pd.DataFrame(all_devices)
 
 
@@ -141,7 +141,7 @@ def find_latest_candidates_csv(pattern="tutti_router_candidates_*.csv"):
     if not files:
         raise FileNotFoundError(f"No files matching pattern '{pattern}' found.")
     latest = max(files, key=os.path.getmtime)
-    print(f"Using cached CSV: {latest}")
+    logger.info(f"Using cached CSV: {latest}")
     return latest
 
 
@@ -179,12 +179,12 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
             df = df[df["price_numeric"] >= min_price].copy()
         if max_price is not None:
             df = df[df["price_numeric"] <= max_price].copy()
-        print(
+        logger.info(
             f"Filtered {initial_count} items down to {len(df)} based on price limits (min={min_price}, max={max_price})."
         )
 
     if df.empty:
-        print("No items left after price filtering.")
+        logger.info("No items left after price filtering.")
         return df
 
     # Determine which rows to evaluate
@@ -195,7 +195,7 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
 
     to_eval_df = df[to_eval_mask].copy()
     if to_eval_df.empty:
-        print(
+        logger.info(
             "No items to evaluate (all already scored). Returning original dataframe."
         )
         return df
@@ -204,9 +204,8 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
     if "GEMINI_API_KEY" not in os.environ:
         raise EnvironmentError("GEMINI_API_KEY environment variable is not set.")
 
-    # Using the flash-exp model as suggested in docs for speed/free tier
     model_name = "gemini-flash-latest"
-    print(f"Initializing Gaspard with model: {model_name}")
+    logger.info(f"Initializing Gaspard with model: {model_name}")
     cli = Client(model_name)
 
     # Structured Output Class matching Gaspard/fastcore syntax
@@ -226,15 +225,14 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
     # --- 3. Batch Processing ---
     results_map = {}  # Store results by listing ID
 
-    # Batch size: 15 items per request is usually safe for tokens and function calling limits
+    # Reduce batch size to avoid token/function-call issues
     BATCH_SIZE = 1500
     # Delay: 10 seconds between requests ensures we stay under 10 RPM (60s / 10 = 6s minimum)
     DELAY_SECONDS = 10
 
     listings_data = to_eval_df.to_dict("records")
     total_batches = math.ceil(len(listings_data) / BATCH_SIZE)
-
-    print(f"Starting AI evaluation in {total_batches} batches...")
+    logger.info(f"Starting AI evaluation in {total_batches} batches...")
 
     for i in range(0, len(listings_data), BATCH_SIZE):
         batch = listings_data[i : i + BATCH_SIZE]
@@ -245,7 +243,7 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
         for item in batch:
             batch_text += (
                 f"--- ITEM START ---\n"
-                #f"ID: {item['id']}\n"
+                # f"ID: {item['id']}\n"
                 f"Title: {item['title']}\n"
                 f"Price: {item['price']}\n"
                 f"Description: {item['description']}\n"
@@ -260,20 +258,19 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
             "- Camera/Battery health irrelevant.\n\n"
             "- Prefer Pixel over iPhone, then any phone that is supported by lineageos then samsung, then others."
             "Evaluate ALL of the following listings evaluating each one individually. "
-            "Output devices that match these critery and show the most price-effective and promising phones at the top."
-            #"Call the PhoneRating tool for EVERY single item found below.\n\n"
+            "Output devices that match these criteria and show the most price-effective and promising phones at the top."
             f"{batch_text}"
         )
 
         # store prompt to file with iso datetime for debugging
         dt = datetime.datetime.now().isoformat().replace(":", "-")
-        with open(
-            f"debug_prompt_batch_{batch_num}_{dt}.txt", "w", encoding="utf-8"
-        ) as f:
+        debug_fn = f"debug_prompt_batch_{batch_num}_{dt}.txt"
+        with open(debug_fn, "w", encoding="utf-8") as f:
             f.write(prompt)
+        logger.info(f"Saved debug prompt for batch {batch_num} to {debug_fn}")
 
         try:
-            print(
+            logger.info(
                 f"Processing batch {batch_num}/{total_batches} ({len(batch)} items)..."
             )
 
@@ -291,14 +288,16 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
                         "ai_has_5g": r.has_5g,
                         "ai_screen": r.screen_condition,
                     }
+                logger.success(
+                    f"Batch {batch_num} completed: {len(responses)} evaluations."
+                )
             else:
-                print(f"Batch {batch_num} returned no structured data.")
-
+                logger.warning(f"Batch {batch_num} returned no structured data.")
         except Exception as e:
-            print(f"Error processing batch {batch_num}: {e}")
+            logger.error(f"Error processing batch {batch_num}: {e}")
             # If we hit a quota error here, we might want to sleep longer
             if "429" in str(e):
-                print("Quota hit. Sleeping for 60 seconds...")
+                logger.warning("Quota hit. Sleeping for 60 seconds...")
                 time.sleep(60)
             else:
                 time.sleep(2)
@@ -339,6 +338,11 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
     return final_df
 
 
+def _timestamp_filename(prefix: str, ext: str) -> str:
+    dt = datetime.datetime.now().isoformat().replace(":", "-")
+    return f"{prefix}_{dt}.{ext}"
+
+
 def main():
     parser = argparse.ArgumentParser(description="Fetch and score Tutti listings.")
     parser.add_argument(
@@ -362,48 +366,62 @@ def main():
         default=127.0,
         help="Maximum price (CHF) to include when evaluating listings.",
     )
+    parser.add_argument(
+        "-l",
+        "--log-file",
+        type=str,
+        help="Optional log file path. If provided, logs will also be written to this file.",
+    )
     args = parser.parse_args()
+
+    # Configure loguru with timestamp
+    logger.remove()
+    logger.add(
+        lambda m: print(m, end=""),
+        format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <level>{message}</level>",
+        level="INFO",
+    )
+    if args.log_file:
+        logger.add(
+            args.log_file,
+            format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message}",
+            level="DEBUG",
+            rotation="10 MB",
+        )
+        logger.info(f"Logging to file: {args.log_file}")
 
     if args.pages == 0:
         csv_path = find_latest_candidates_csv()
         df = pd.read_csv(csv_path)
     else:
         df = download_tutti_json(pages=args.pages)
-        dt = datetime.datetime.now().isoformat().replace(":", "-")
-        fn = f"tutti_phones_{dt}.csv"
-        df.to_csv(fn)
+        fn = _timestamp_filename("tutti_phones", "csv")
+        df.to_csv(fn, index=False)
+        logger.info(f"Raw data saved to {fn}")
 
     if df is not None and not df.empty:
-        print(f"\nExtracted {len(df)} items. Starting AI evaluation...")
-        # Filter price first to save tokens/requests
+        logger.info(f"Extracted {len(df)} items. Starting AI evaluation...")
         scored_df = evaluate_phones(
             df, min_price=args.min_price, max_price=args.max_price
         )
 
-        print("\n=== Top Recommendations ===")
-        cols = [
-            "score",
-            "title",
-            "price",
-            "ai_has_5g",
-            "ai_reasoning",
-            "link",
-        ]
+        logger.info("=== Top Recommendations ===")
+        cols = ["score", "title", "price", "ai_has_5g", "ai_reasoning", "link"]
 
         if "score" in scored_df.columns:
             pd.set_option("display.max_colwidth", 100)
-            # Filter out failed evaluations
             valid_results = scored_df[scored_df["score"] > 0]
-            print(valid_results[cols].head(10).to_string(index=False))
-
-            dt = datetime.datetime.now().isoformat().replace(":", "-")
-            fn = f"tutti_router_candidates_{dt}.csv"
-            scored_df.to_csv(fn, index=False)
-            print(f"\nFull results saved to {fn}")
+            if not valid_results.empty:
+                print(valid_results[cols].head(10).to_string(index=False))
+                fn = _timestamp_filename("tutti_router_candidates", "csv")
+                scored_df.to_csv(fn, index=False)
+                logger.success(f"Full results saved to {fn}")
+            else:
+                logger.warning("No valid results with score > 0.")
         else:
-            print("Scoring failed.")
+            logger.error("Scoring failed.")
     else:
-        print("No listings found to evaluate.")
+        logger.warning("No listings found to evaluate.")
 
 
 # >>> df
