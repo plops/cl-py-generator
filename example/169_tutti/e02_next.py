@@ -342,10 +342,25 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
 def main():
     parser = argparse.ArgumentParser(description="Fetch and score Tutti listings.")
     parser.add_argument(
+        "-p",
         "--pages",
         type=int,
         default=100,
         help="Number of Tutti pages to download (0 = reuse latest candidates CSV).",
+    )
+    parser.add_argument(
+        "-m",
+        "--min-price",
+        type=float,
+        default=7.0,
+        help="Minimum price (CHF) to include when evaluating listings.",
+    )
+    parser.add_argument(
+        "-M",
+        "--max-price",
+        type=float,
+        default=127.0,
+        help="Maximum price (CHF) to include when evaluating listings.",
     )
     args = parser.parse_args()
 
@@ -361,7 +376,9 @@ def main():
     if df is not None and not df.empty:
         print(f"\nExtracted {len(df)} items. Starting AI evaluation...")
         # Filter price first to save tokens/requests
-        scored_df = evaluate_phones(df, min_price=7.0, max_price=127.0)
+        scored_df = evaluate_phones(
+            df, min_price=args.min_price, max_price=args.max_price
+        )
 
         print("\n=== Top Recommendations ===")
         cols = [
