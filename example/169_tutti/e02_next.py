@@ -136,7 +136,7 @@ def download_tutti_json(pages=2):
     return pd.DataFrame(all_devices)
 
 
-def find_latest_candidates_csv(pattern="tutti_router_candidates_*.csv"):
+def find_latest_candidates_csv(pattern="tutti_phones_*.csv"):
     files = glob(pattern)
     if not files:
         raise FileNotFoundError(f"No files matching pattern '{pattern}' found.")
