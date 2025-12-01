@@ -122,6 +122,10 @@ def download_tutti_json(pages=2, category="phones"):
                         }
                     )
                 logger.info(f"Found {len(edges)} items.")
+                # Stop if no items returned for this page
+                if len(edges) == 0:
+                    logger.info("No items returned. Stopping pagination.")
+                    break
             except KeyError as e:
                 logger.error(f"JSON structure changed, key not found: {e}")
             time.sleep(1)
@@ -221,6 +225,8 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
         system_prompt = (
             "I need an Apple Watch. Requirements:\n"
             "- Prefer newer Series (Ultra > 10 > 9 > 8 > 7 > SE).\n"
+            "- I want to give watches to my grandmas so that her health is monitored and we know when she falls.\n"
+            "- If a seller sells two or more, that is an advantage.\n"
             "- Screen must be readable. Scratches ok if price is low, cracks are bad.\n"
             "- key_feature = True if it has Cellular/LTE support.\n"
             "- Battery health is important.\n"
