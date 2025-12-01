@@ -255,10 +255,13 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
             "Requirements:\n"
             "- MUST have 5G (fast preferred).\n"
             "- Display/Touch must work (scratches fine, cracks bad/risk of ghost touch).\n"
+            "- If the phone supports an external display (e.g. USB-C to HDMI cable in to see the screen on a monitor) and external mouse then the state of the display doesn't matter"
             "- Camera/Battery health irrelevant.\n\n"
-            "- Prefer Pixel over iPhone, then any phone that is supported by lineageos then samsung, then others."
+            "- Prefer Pixel over iPhone, then any phone that is supported by lineageos then samsung, then others.\n"
+            "- A 1st generation google pixel is also very much appreciated (for the infinite unscaled photo storage).\n"
+            "Consider that now is the end of 2025 and there are phones that you may not have heard about."
             "Evaluate ALL of the following listings evaluating each one individually. "
-            "Output devices that match these criteria and show the most price-effective and promising phones at the top."
+            "Output devices that match these criteria and show the most price-effective and promising phones at the top. \n"
             f"{batch_text}"
         )
 
@@ -267,7 +270,7 @@ def evaluate_phones(df, min_price=None, max_price=None, skip_scored=True):
         debug_fn = f"debug_prompt_batch_{batch_num}_{dt}.txt"
         with open(debug_fn, "w", encoding="utf-8") as f:
             f.write(prompt)
-        logger.info(f"Saved debug prompt for batch {batch_num} to {debug_fn}")
+        logger.info(f"Saved debug prompt for batch {batch_num}. cat {debug_fn} | xclip")
 
         try:
             logger.info(
