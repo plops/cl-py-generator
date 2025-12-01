@@ -237,6 +237,8 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
             "- Battery health is important.\n"
             "- Accessories alone (bands/chargers) get score 0.\n"
             "- Ignore non-Apple watches.\n"
+            "- Don't exclude watches without cellular, but prefer those with it.\n"
+            "- I prefer cheaper watches if they are in good condition.\n"
             "- Print the most fitting candidates.\n"
 
         )
@@ -259,11 +261,11 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
         batch_text = ""
         for item in batch:
             batch_text += (
-                f"--- ITEM {item['id']} ---\n"
+                f"--- ITEM --\n" #{item['id']} ---\n"
                 f"Title: {item['title']}\n"
                 f"Price: {item['price']}\n"
                 f"Description: {item['description']}\n"
-                f"------------------\n"
+                #f"------------------\n"
             )
 
         final_prompt = (
