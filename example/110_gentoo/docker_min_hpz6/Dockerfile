@@ -41,6 +41,7 @@ RUN emerge --update --deep --changed-use @world --fetchonly
 ENV KVER_PURE=6.12.58
 ENV KVER=${KVER_PURE}-gentoo
 
+RUN df -h
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
