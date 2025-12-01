@@ -142,8 +142,7 @@ def find_latest_candidates_csv(pattern="tutti_*.csv"):
     logger.info(f"Using cached CSV: {latest}")
     return latest
 
-
-def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_scored=True):
+def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_scored=True, debug=False, dry_run=False):
     """
     Filters items by price and uses Gaspard (Gemini) to rate them based on category logic.
     """
@@ -196,7 +195,12 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
 
     model_name = "gemini-flash-latest"
     logger.info(f"Initializing Gaspard with model: {model_name}")
-    cli = Client(model_name)
+
+    if dry_run:
+        logger.warning("DRY RUN mode enabled - prompts will be constructed but NOT submitted to Gemini")
+        cli = None
+    else:
+        cli = Client(model_name)
 
     # Generalized Class
     class ItemRating(BasicRepr):
@@ -219,7 +223,7 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
             "- Display/Touch must work (scratches fine, cracks bad).\n"
             "- If USB-C to HDMI works, screen state matters less.\n"
             "- Prefer Pixel over iPhone, then LineageOS supported phones.\n"
-            "- key_feature = True if it definitely has 5G."
+            "- key_feature = True if it definitely has 5G.\n"
         )
     elif category == "watches":
         system_prompt = (
@@ -265,9 +269,22 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
             f"{batch_text}"
         )
 
+        # Debug: save prompt to file
+        if debug:
+            dt = datetime.datetime.now().isoformat().replace(":", "-")
+            debug_fn = f"debug_prompt_{category}_batch_{batch_num}_{dt}.txt"
+            with open(debug_fn, "w", encoding="utf-8") as f:
+                f.write(final_prompt)
+            logger.info(f"Saved debug prompt for batch {batch_num}. cat {debug_fn} | xclip")
+
         try:
             logger.info(f"Processing batch {batch_num}/{total_batches}...")
-            responses = cli.structured(final_prompt, ItemRating)
+
+            if dry_run:
+                logger.info(f"[DRY RUN] Skipping API call for batch {batch_num}")
+                responses = []
+            else:
+                responses = cli.structured(final_prompt, ItemRating)
 
             if responses:
                 for r in responses:
@@ -328,6 +345,8 @@ def main():
     parser.add_argument("-m", "--min-price", type=float, default=7.0)
     parser.add_argument("-M", "--max-price", type=float, default=300.0)
     parser.add_argument("-l", "--log-file", type=str)
+    parser.add_argument("--debug", action="store_true", help="Save prompts to debug files and print xclip commands")
+    parser.add_argument("--dry-run", action="store_true", help="Construct prompts but do not call Gemini API")
 
     args = parser.parse_args()
 
@@ -352,7 +371,8 @@ def main():
     if df is not None and not df.empty:
         logger.info(f"Evaluating {len(df)} items for {args.category}...")
         scored_df = evaluate_items(
-            df, category=args.category, min_price=args.min_price, max_price=args.max_price
+            df, category=args.category, min_price=args.min_price, max_price=args.max_price,
+            debug=args.debug, dry_run=args.dry_run
         )
 
         logger.info("=== Top Recommendations ===")
