@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20251123 AS portage
+FROM gentoo/portage:20251201 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20251117
+FROM gentoo/stage3:nomultilib-systemd-20251201
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -38,7 +38,7 @@ RUN eselect repository enable guru
 RUN emaint sync -r guru
 RUN emerge --update --deep --changed-use @world --fetchonly
 
-ENV KVER_PURE=6.12.41
+ENV KVER_PURE=6.12.58
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
