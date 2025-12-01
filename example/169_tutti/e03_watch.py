@@ -224,6 +224,7 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
             "- If USB-C to HDMI works, screen state matters less.\n"
             "- Prefer Pixel over iPhone, then LineageOS supported phones.\n"
             "- key_feature = True if it definitely has 5G.\n"
+            "- Print the most fitting candidates.\n"
         )
     elif category == "watches":
         system_prompt = (
@@ -235,7 +236,9 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
             "- key_feature = True if it has Cellular/LTE support.\n"
             "- Battery health is important.\n"
             "- Accessories alone (bands/chargers) get score 0.\n"
-            "- Ignore non-Apple watches."
+            "- Ignore non-Apple watches.\n"
+            "- Print the most fitting candidates.\n"
+
         )
     else:
         system_prompt = "Evaluate these items for resale value."
