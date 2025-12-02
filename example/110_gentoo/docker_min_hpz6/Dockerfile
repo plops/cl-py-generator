@@ -12,6 +12,20 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
+
+# Install GCC 15
+RUN emerge --ask=n --verbose sys-devel/gcc:15 \
+ && gcc_15=$(eselect gcc list | grep "15" | awk '{print $1}' | tr -d '[]') \
+ && eselect gcc set "${gcc_15}" \
+ && source /etc/profile \
+ && emerge --ask=n --oneshot --verbose libtool \
+ # Explicitly deselect gcc:14 in case it was in the world file
+ && emerge --deselect=y sys-devel/gcc:14 \
+ # Remove GCC 14
+ && emerge --ask=n --depclean sys-devel/gcc:14 \
+ # (Optional) Clean up preserved libraries if any depend on gcc14
+ && emerge --ask=n @preserved-rebuild
+
 RUN emerge -1 gentoolkit eix app-eselect/eselect-repository dev-vcs/git dev-lang/rust-bin
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
