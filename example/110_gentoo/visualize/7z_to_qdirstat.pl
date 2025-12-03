@@ -10,11 +10,13 @@ my $toplevel_dir = "/squashfs-root";
 
 # Options
 my $opt_uncompressed = 0;
-my $opt_ratio = 0;
+my $opt_ratio        = 0;
+my $opt_factor       = 0;
 
 GetOptions(
     "uncompressed" => \$opt_uncompressed,
-    "ratio"        => \$opt_ratio
+    "ratio"        => \$opt_ratio,
+    "factor"       => \$opt_factor,
 ) or die("Error in command line arguments\n");
 
 print <<EOF;
@@ -42,7 +44,7 @@ while (<>) {
 
     my $line = $_;
     
-    # 3. Parse Columns: Date(0) Time(1) Attr(2) ...
+    # 3. Parse Columns
     my ($date, $time, $attr, $rest) = split(/\s+/, $line, 4);
 
     next unless defined $attr;
@@ -58,7 +60,6 @@ while (<>) {
     }
 
     # CASE B: File
-    # $rest contains: "Size   Compressed  Name"
     my ($size, $compressed, $name) = split(/\s+/, $rest, 3);
     
     next unless defined $name;
@@ -68,17 +69,27 @@ while (<>) {
     $compressed = 0 unless ($compressed =~ /^\d+$/);
 
     # Determine visual size based on flags
-    my $visual_size = $compressed; # Default
+    my $visual_size = $compressed; # Default: Compressed Size
 
     if ($opt_uncompressed) {
         $visual_size = $size;
     } elsif ($opt_ratio) {
+        # Compressed / Uncompressed (0..100)
+        # 100 = Hard to compress (Bad ratio)
+        # 1   = Easy to compress (Good ratio)
         if ($size > 0) {
-            # Ratio as integer percentage (e.g. 45% -> 45).
-            # Note: Treemaps sum these, so folder sizes will be nonsense (sum of percentages).
             $visual_size = int(($compressed / $size) * 100);
         } else {
             $visual_size = 0;
+        }
+    } elsif ($opt_factor) {
+        # Uncompressed / Compressed (1..N)
+        # High Number = High Space Saving (Easy to compress)
+        # 1 = No saving (Hard to compress)
+        if ($compressed > 0) {
+            $visual_size = int($size / $compressed);
+        } else {
+            $visual_size = 0; # Avoid div by zero
         }
     }
 
