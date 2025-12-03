@@ -5,8 +5,7 @@ use URI::Escape;
 use File::Basename;
 
 # Configuration
-my $toplevel_dir = "/squashfs-root"; # Virtual root name for the visualization
-my $target_col   = 4; # 0-indexed column for 'Compressed' in your specific 7z output
+my $toplevel_dir = "/squashfs-root"; 
 
 print <<EOF;
 [qdirstat 2.0 cache file]
@@ -16,38 +15,54 @@ EOF
 
 my %dirs;
 my %files;
+my $parsing_started = 0;
 
 while (<>) {
     chomp;
-    next if /^\s*Date\s+Time/; # Skip header
-    next if /^-+\s+-+/;        # Skip separator line
-    next if /^\s*$/;           # Skip empty
 
-    # Parse 7z list output. 
-    # Logic: Date(0) Time(1) Attr(2) Size(3) Compressed(4) Name(5)
-    # Note: Directories in your snippet lack size/compressed columns.
+    # 1. State Machine: Wait for the separator line to start parsing
+    if (/^-------------------/) {
+        $parsing_started = 1;
+        next;
+    }
     
+    # Ignore headers before the separator
+    next unless $parsing_started;
+
+    # 2. Validation: Ensure line starts with a timestamp (YYYY-MM-DD)
+    # This filters out the footer summaries (e.g. "Files: 15, Folders: 2")
+    next unless /^\d{4}-\d{2}-\d{2}/;
+
     my $line = $_;
-    my ($date, $time, $attr, $rest) = split(/\s+/, $line, 4);
     
-    # Handle Directory (D....) which implies missing size columns
+    # 3. Parse Columns
+    # Format: Date(0) Time(1) Attr(2) ... Rest depends on file vs dir
+    my ($date, $time, $attr, $rest) = split(/\s+/, $line, 4);
+
+    # Sanity check: if we somehow got a weird line, skip
+    next unless defined $attr;
+
+    # Remove leading whitespace from the rest of the line
+    $rest =~ s/^\s+//;
+
+    # CASE A: Directory (Attr starts with D)
     if ($attr =~ /^D/) {
-        # The rest of the line is just the name, but might have leading whitespace
-        $rest =~ s/^\s+//;
+        # For directories, $rest is just the Name (Size columns are empty)
         my $path = $rest;
-        # 7z usually lists dirs without leading slash, we normalize
+        
+        # Normalize path
         $path = "$toplevel_dir/$path"; 
-        $path =~ s|/$||; # Remove trailing slash
+        $path =~ s|/$||;
+        
         $dirs{$path} = 1;
         next;
     }
 
-    # Handle Files
-    # We need to split $rest to get Size, Compressed, Name
+    # CASE B: File
     # $rest contains: "Size   Compressed  Name"
+    # We use limit=3 to ensure spaces in filenames remain in the 3rd element
     my ($size, $compressed, $name) = split(/\s+/, $rest, 3);
     
-    # Validation: ensure we have numbers where expected
     next unless defined $name;
 
     # Normalize path
@@ -59,19 +74,19 @@ while (<>) {
     $dirs{$dir} = 1;
 
     # Store file entry: [Name, CompressedSize]
-    # We substitute logical size with compressed size for the visualization
+    # We use CompressedSize ($compressed) as the visual size. 
+    # If 7z reports empty or non-numeric for compressed, default to 0.
+    $compressed = 0 if ($compressed !~ /^\d+$/);
+
     push @{$files{$dir}}, [$filename, $compressed];
 }
 
 # Output the tree in QDirStat cache format
-# Order: Directory entry, then its files.
-
 foreach my $dir (sort keys %dirs) {
-    # Encode spaces and special chars
+    # Encode path for QDirStat format
     my $enc_dir = uri_escape($dir, "\x00-\x20%");
     
-    # D <path> <size> <uid> <gid> <perm> <mtime>
-    # Size 0 for dirs (qdirstat calculates it), fake uid/gid/mtime
+    # Header: D <path> <size> <uid> <gid> <perm> <mtime>
     print "D $enc_dir\t0\t0\t0\t0755\t0\n";
 
     if (exists $files{$dir}) {
@@ -79,9 +94,9 @@ foreach my $dir (sort keys %dirs) {
             my ($name, $size) = @$file_ref;
             my $enc_name = uri_escape($name, "\x00-\x20%");
             
-            # F <name> <size> <uid> <gid> <perm> <mtime>
-            # Use COMPRESSED size as the size value
+            # File: F <name> <size> <uid> <gid> <perm> <mtime>
             print "F $enc_name\t$size\t0\t0\t0644\t0\n";
         }
     }
 }
+
