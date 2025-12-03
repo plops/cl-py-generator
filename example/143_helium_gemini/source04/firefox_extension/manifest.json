@@ -25,7 +25,14 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "summarizer@rocketrecap.com"
+      "id": "summarizer@rocketrecap.com",
+      "data_collection_permissions": {
+        "collects_data": true,
+        "data_types": [
+          "webpage_content"
+        ],
+        "purpose": "Sends webpage URLs and content to RocketRecap service for summarization"
+      }
     }
   }
 }
