@@ -2,7 +2,7 @@
 
 This Perl script converts the list output of `7z l` (specifically for SquashFS images) into a cache file readable by [QDirStat](https://github.com/shundhammer/qdirstat).
 
-It allows you to visualize the **compressed** size, **uncompressed** size, or **compression ratio** of files within a SquashFS image without mounting it or unpacking it. This is useful for optimizing Gentoo Docker/SquashFS builds.
+It allows you to visualize the **compressed** size, **uncompressed** size, or various **compression metrics** of files within a SquashFS image without mounting it.
 
 The cache format is based on [qdirstat-cache-writer](https://github.com/shundhammer/qdirstat/blob/master/scripts/qdirstat-cache-writer).
 
@@ -13,24 +13,39 @@ The cache format is based on [qdirstat-cache-writer](https://github.com/shundham
    * Gentoo: `emerge dev-perl/URI`
 
 2. **Generate the Cache:**
-   Pipe the output of `7z l` into the script.
+   Pipe the output of `7z l` into the script using one of the modes below.
 
-   **Default (Compressed Size):**
-   ```bash
-   7z l image.squashfs | perl 7z-to-qdirstat.pl > image.cache
-   ```
+### Modes
 
-   **Show Uncompressed Size:**
-   ```bash
-   7z l image.squashfs | perl 7z-to-qdirstat.pl --uncompressed > image.cache
-   ```
+#### 1. Compressed Size (Default)
+Visualizes the actual space used on disk.
+```bash
+7z l image.squashfs | perl 7z-to-qdirstat.pl > image.cache
+```
 
-   **Show Compression Ratio:**
-   Displays the ratio (Compressed / Uncompressed) as an integer percentage (0-100).
-   *Note: QDirStat sums directory sizes. A folder size in this mode represents the sum of percentages of its children, which is mathematically meaningless, but individual file blocks will correctly represent their density.*
-   ```bash
-   7z l image.squashfs | perl 7z-to-qdirstat.pl --ratio > image.cache
-   ```
+#### 2. Uncompressed Size
+Visualizes the logical size of the files.
+```bash
+7z l image.squashfs | perl 7z-to-qdirstat.pl --uncompressed > image.cache
+```
+
+#### 3. Compression Ratio (`--ratio`)
+Visualizes `(Compressed / Uncompressed) * 100`.
+*   **Big Blocks:** Files that compressed poorly (Difficult to compress).
+*   **Small Blocks:** Files that compressed well.
+*   *Use this to find files that are stubborn and barely shrinking.*
+```bash
+7z l image.squashfs | perl 7z-to-qdirstat.pl --ratio > image.cache
+```
+
+#### 4. Compression Factor (`--factor`)
+Visualizes `Uncompressed / Compressed`.
+*   **Big Blocks:** Files that compressed extremely well (e.g., text logs, empty files).
+*   **Small Blocks:** Files that compressed poorly.
+*   *Use this to see "Space Saving Factor" (Inverse Ratio).*
+```bash
+7z l image.squashfs | perl 7z-to-qdirstat.pl --factor > image.cache
+```
 
 3. **Visualize:**
    Open QDirStat and select **File -> Open Cache File...**
@@ -38,7 +53,7 @@ The cache format is based on [qdirstat-cache-writer](https://github.com/shundham
 ## Limitations
 
 *   **Solid Compression:** SquashFS usually uses solid compression. `7z` often reports `0` bytes or the uncompressed size for files inside a solid block because the metadata doesn't exist per-file.
-*   **Accuracy:** If `7z` reports `0` for the compressed size, this script records `0`.
+*   **Summing Ratios:** When using `--ratio` or `--factor`, folder sizes represent the *sum* of the ratios of their children. This number is mathematically abstract, but the visual relative sizes of the individual file blocks are correct.
 
 ## Example
 
