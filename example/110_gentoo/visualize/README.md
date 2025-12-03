@@ -48,7 +48,7 @@ Visualizes `Uncompressed / Compressed`.
 ```
 
 3. **Visualize:**
-   Open QDirStat and select **File -> Open Cache File...**
+   Open QDirStat and select **File -> Read Cache File...**
 
 ## Limitations
 
