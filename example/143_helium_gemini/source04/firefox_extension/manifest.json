@@ -27,6 +27,7 @@
     "gecko": {
       "id": "summarizer@rocketrecap.com",
       "data_collection_permissions": {
+        "required": true,
         "collects_data": true,
         "data_types": [
           "webpage_content"
