@@ -3,9 +3,19 @@ use strict;
 use warnings;
 use URI::Escape;
 use File::Basename;
+use Getopt::Long;
 
 # Configuration
 my $toplevel_dir = "/squashfs-root"; 
+
+# Options
+my $opt_uncompressed = 0;
+my $opt_ratio = 0;
+
+GetOptions(
+    "uncompressed" => \$opt_uncompressed,
+    "ratio"        => \$opt_ratio
+) or die("Error in command line arguments\n");
 
 print <<EOF;
 [qdirstat 2.0 cache file]
@@ -20,83 +30,78 @@ my $parsing_started = 0;
 while (<>) {
     chomp;
 
-    # 1. State Machine: Wait for the separator line to start parsing
+    # 1. State Machine: Wait for separator
     if (/^-------------------/) {
         $parsing_started = 1;
         next;
     }
-    
-    # Ignore headers before the separator
     next unless $parsing_started;
 
-    # 2. Validation: Ensure line starts with a timestamp (YYYY-MM-DD)
-    # This filters out the footer summaries (e.g. "Files: 15, Folders: 2")
+    # 2. Validation: Ensure line starts with a timestamp
     next unless /^\d{4}-\d{2}-\d{2}/;
 
     my $line = $_;
     
-    # 3. Parse Columns
-    # Format: Date(0) Time(1) Attr(2) ... Rest depends on file vs dir
+    # 3. Parse Columns: Date(0) Time(1) Attr(2) ...
     my ($date, $time, $attr, $rest) = split(/\s+/, $line, 4);
 
-    # Sanity check: if we somehow got a weird line, skip
     next unless defined $attr;
-
-    # Remove leading whitespace from the rest of the line
     $rest =~ s/^\s+//;
 
-    # CASE A: Directory (Attr starts with D)
+    # CASE A: Directory
     if ($attr =~ /^D/) {
-        # For directories, $rest is just the Name (Size columns are empty)
         my $path = $rest;
-        
-        # Normalize path
         $path = "$toplevel_dir/$path"; 
         $path =~ s|/$||;
-        
         $dirs{$path} = 1;
         next;
     }
 
     # CASE B: File
     # $rest contains: "Size   Compressed  Name"
-    # We use limit=3 to ensure spaces in filenames remain in the 3rd element
     my ($size, $compressed, $name) = split(/\s+/, $rest, 3);
     
     next unless defined $name;
+
+    # Data cleanup
+    $size       = 0 unless ($size =~ /^\d+$/);
+    $compressed = 0 unless ($compressed =~ /^\d+$/);
+
+    # Determine visual size based on flags
+    my $visual_size = $compressed; # Default
+
+    if ($opt_uncompressed) {
+        $visual_size = $size;
+    } elsif ($opt_ratio) {
+        if ($size > 0) {
+            # Ratio as integer percentage (e.g. 45% -> 45).
+            # Note: Treemaps sum these, so folder sizes will be nonsense (sum of percentages).
+            $visual_size = int(($compressed / $size) * 100);
+        } else {
+            $visual_size = 0;
+        }
+    }
 
     # Normalize path
     my $full_path = "$toplevel_dir/$name";
     my $dir       = dirname($full_path);
     my $filename  = basename($full_path);
 
-    # Ensure parent dir exists in our map
     $dirs{$dir} = 1;
 
-    # Store file entry: [Name, CompressedSize]
-    # We use CompressedSize ($compressed) as the visual size. 
-    # If 7z reports empty or non-numeric for compressed, default to 0.
-    $compressed = 0 if ($compressed !~ /^\d+$/);
-
-    push @{$files{$dir}}, [$filename, $compressed];
+    push @{$files{$dir}}, [$filename, $visual_size];
 }
 
-# Output the tree in QDirStat cache format
+# Output
 foreach my $dir (sort keys %dirs) {
-    # Encode path for QDirStat format
     my $enc_dir = uri_escape($dir, "\x00-\x20%");
-    
-    # Header: D <path> <size> <uid> <gid> <perm> <mtime>
     print "D $enc_dir\t0\t0\t0\t0755\t0\n";
 
     if (exists $files{$dir}) {
         foreach my $file_ref (@{$files{$dir}}) {
-            my ($name, $size) = @$file_ref;
+            my ($name, $val) = @$file_ref;
             my $enc_name = uri_escape($name, "\x00-\x20%");
-            
-            # File: F <name> <size> <uid> <gid> <perm> <mtime>
-            print "F $enc_name\t$size\t0\t0\t0644\t0\n";
+            print "F $enc_name\t$val\t0\t0\t0644\t0\n";
         }
     }
 }
-
