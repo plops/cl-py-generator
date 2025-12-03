@@ -348,14 +348,14 @@ COPY config/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/start-reverse-tunnels
 RUN chmod +x /etc/dracut-crypt-ssh/start-reverse-tunnels.sh || true
 
 # Build the third initramfs which includes dracut-crypt-ssh and network so dropbear + autossh can run
-RUN dracut \
-      -m "kernel-modules base rootfs-block dm udev-rules crypt lvm network crypt-ssh" \
-      --add-drivers "r8169" \
-      --filesystems "squashfs vfat overlay btrfs" \
-      --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
-      --kver=${KVER} \
-      --force \
-      /boot/initramfs-with-ssh.img
+# RUN dracut \
+#       -m "kernel-modules base rootfs-block dm udev-rules crypt lvm network crypt-ssh" \
+#       --add-drivers "r8169" \
+#       --filesystems "squashfs vfat overlay btrfs" \
+#       --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
+#       --kver=${KVER} \
+#       --force \
+#       /boot/initramfs-with-ssh.img
 
 # real    174m37.518s
 #70 198.6 Filesystem size 7895377.73 Kbytes (7710.33 Mbytes)
