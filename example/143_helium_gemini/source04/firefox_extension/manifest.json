@@ -27,12 +27,10 @@
     "gecko": {
       "id": "summarizer@rocketrecap.com",
       "data_collection_permissions": {
-        "required": true,
-        "collects_data": true,
-        "data_types": [
-          "webpage_content"
-        ],
-        "purpose": "Sends webpage URLs and content to RocketRecap service for summarization"
+        "required": [
+          "websiteContent",
+          "browsingActivity"
+        ]
       }
     }
   }
