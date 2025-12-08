@@ -25,7 +25,13 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "summarizer@rocketrecap.com"
+      "id": "summarizer@rocketrecap.com",
+      "data_collection_permissions": {
+        "required": [
+          "websiteContent",
+          "browsingActivity"
+        ]
+      }
     }
   }
 }

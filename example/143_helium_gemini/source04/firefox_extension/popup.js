@@ -83,7 +83,7 @@ const MODELS = [
 ];
 
 // Populate the model select and restore saved selection
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const modelSelect = document.getElementById('modelSelect');
   if (!modelSelect) return;
 
@@ -94,7 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
     modelSelect.appendChild(opt);
   });
 
-  const saved = localStorage.getItem('selectedModel');
+  const result = await browser.storage.local.get('selectedModel');
+  const saved = result.selectedModel;
   if (saved && [...modelSelect.options].some(o => o.value === saved)) {
     modelSelect.value = saved;
   } else {
@@ -102,6 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   modelSelect.addEventListener('change', () => {
-    localStorage.setItem('selectedModel', modelSelect.value);
+    browser.storage.local.set({ selectedModel: modelSelect.value });
   });
 });
