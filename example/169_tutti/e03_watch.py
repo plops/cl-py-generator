@@ -127,7 +127,8 @@ def download_tutti_json(pages=2, category="phones"):
                     logger.info("No items returned. Stopping pagination.")
                     break
             except KeyError as e:
-                logger.error(f"JSON structure changed, key not found: {e}")
+                logger.warning(f"JSON structure changed or page empty (Key not found: {e}). Stopping pagination.")
+                break
             time.sleep(1)
         except Exception as e:
             logger.error(f"Error on page {page}: {e}")
