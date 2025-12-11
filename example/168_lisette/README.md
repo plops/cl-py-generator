@@ -2,6 +2,7 @@
 |-------|---------------------------------------------------------------------|
 | gen01 | simple test                                                         |
 | gen02 | tool use (reading directory listings, files and searching for text) |
+| gen03 | ollama gpt-oss:20b                                                  |
 |       |                                                                     |
 
 
