@@ -1251,7 +1251,7 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	   (declare (type Summary summary)
 		    (values str))
 	   (rstring3 "Generate prompt from a given Summary object. It will use the contained transcript.")
-	   (setf prompt (fstring3 "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding abstract and summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+	   (setf prompt (fstring3 "Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding abstract and summary I expect. Afterward, I will provide a new transcript that I want a summarization in the same format. 
 
 **Please give an abstract of the transcript and then summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
 
@@ -1260,7 +1260,7 @@ Example Input:
 Example Output:
 {g_example_output_abstract}
 {g_example_output}
-Here is the real transcript. Please summarize it: 
+Here is the real transcript. What would be a good group of people to review this topic? Please summarize provide a summary like they would: 
 {(summary.transcript)}"))
 
 	   (return prompt)

@@ -597,7 +597,7 @@ def wait_until_row_exists(identifier):
 
 def get_prompt(summary: Summary) -> str:
     r"""Generate prompt from a given Summary object. It will use the contained transcript."""
-    prompt = f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding abstract and summary I expect. Afterward, I will provide a new transcript that I want you to summarize in the same format. 
+    prompt = f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding abstract and summary I expect. Afterward, I will provide a new transcript that I want a summarization in the same format. 
 
 **Please give an abstract of the transcript and then summarize the transcript in a self-contained bullet list format.** Include starting timestamps, important details and key takeaways. 
 
@@ -606,7 +606,7 @@ Example Input:
 Example Output:
 {g_example_output_abstract}
 {g_example_output}
-Here is the real transcript. Please summarize it: 
+Here is the real transcript. What would be a good group of people to review this topic? Please summarize provide a summary like they would: 
 {(summary.transcript)}"""
     return prompt
 
