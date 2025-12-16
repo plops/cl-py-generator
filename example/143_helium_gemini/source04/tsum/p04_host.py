@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Alternative 1: running with uv: GEMINI_API_KEY=`cat api_key.txt` uv run uvicorn p04_host:app --port 5001
-# Alternative 2: install dependencies with pip: pip install -U google-generativeai python-fasthtml markdown
+# Alternative 2: install dependencies with pip: pip install -U google-generativeai python-fasthtml markdown; apt-get install nodejs
 # Alternative 3: install dependencies with micromamba: micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py
 import google.generativeai as genai
 import google.api_core.exceptions
@@ -195,8 +195,7 @@ def get_transcript(url, identifier):
             "--write-subs",
             "--cookies-from-browser",
             "firefox",
-            "--sub-langs",
-            "en-orig",
+            "--js-runtimes node  --remote-components ejs:github",
             "-o",
             sub_file,
             "--",
@@ -225,6 +224,7 @@ def get_transcript(url, identifier):
                     "--write-subs",
                     "--cookies-from-browser",
                     "firefox",
+                    "--js-runtimes node  --remote-components ejs:github",
                     "--sub-langs",
                     lang,
                     "-o",

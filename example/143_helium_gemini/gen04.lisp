@@ -401,7 +401,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
        `(do0
 	 "#!/usr/bin/env python3"
 	 (comments "Alternative 1: running with uv: GEMINI_API_KEY=`cat api_key.txt` uv run uvicorn p04_host:app --port 5001")
-	 (comments "Alternative 2: install dependencies with pip: pip install -U google-generativeai python-fasthtml markdown")
+	 (comments "Alternative 2: install dependencies with pip: pip install -U google-generativeai python-fasthtml markdown; apt-get install nodejs")
 	 #+dl (comments "Alternative 3: install dependencies with micromamba: micromamba install python-fasthtml markdown yt-dlp uvicorn numpy; pip install  webvtt-py")
 	 (imports ((genai google.generativeai)
 					;google.generativeai.types.answer_types
@@ -694,8 +694,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				 (string "--write-subs")
 				 (string "--cookies-from-browser")
 				 (string "firefox")
-				 (string "--sub-langs")
-				 (string "en-orig")
+				 (string "--js-runtimes node  --remote-components ejs:github")
+				 ;(string "--sub-langs")
+				 ;(string "en-orig")
 				 (string "-o")
 				 sub_file
 				 (string "--")
@@ -727,6 +728,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 					 (string "--write-subs")
 					 (string "--cookies-from-browser")
 					 (string "firefox")
+					 (string "--js-runtimes node  --remote-components ejs:github")
 					 (string "--sub-langs")
 					 lang
 					 (string "-o")
