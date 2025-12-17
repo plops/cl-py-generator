@@ -81,6 +81,9 @@ document.getElementById('summarizeButton').addEventListener('click', () => {
 // Single source of truth for available models and their display labels
 const MODELS = [
   {
+    value: "gemini-3-flash-preview| input-price: 0.5 output-price: 3 max-context-length: 128_000",
+    label: "gemini-3-flash-preview"
+  },{
     value: "gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
     label: "gemini-2.5-flash-preview-09-2025"
   },
