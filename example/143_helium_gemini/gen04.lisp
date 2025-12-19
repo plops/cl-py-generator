@@ -83,6 +83,12 @@
 			     (:name gemini-3-flash-preview :input-price .5 :output-price 3 :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-preview-09-2025 :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-lite-preview-09-2025 :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
+			     (:name gemma-3-27b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     (:name gemma-3-12b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     (:name gemma-3-4b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     (:name gemma-3-1b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			   
+			     
 			     #+nil
 			     ((:name gemini-3-pro-preview :input-price 2.0 :output-price 12 :context-length 200_000 :harm-civic nil)
 			     (:name gemini-2.5-pro :input-price 1.25 :output-price 10 :context-length 200_000 :harm-civic nil)
@@ -658,11 +664,9 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
     2.  **Paste** it into the '(Optional) Paste YouTube transcript here' field.
     3.  **Please note:** The summarizer is optimized for content that includes timestamps (e.g., `00:15:23 Key point is made.`). While it works well for any text, providing timestamped transcripts will produce the most detailed and well-structured summaries.
 
-
-**For Very Long Content (e.g., over 2 hours):**
-
-*   Select the **Pro model** for summarizing long-form content. It is equipped with advanced reasoning capabilities that produce more concise and higher-quality summaries.
-*   **Performance Tip:** For the fastest results, you may experience better performance when using the Pro model on weekends or outside of standard US business hours.
+* Gemini 3 Flash gives good summaries even for 3 hour videos.
+* Google's Gemini free tier allows 20 requests per day for each of the models
+* Google Gemma models allow 14400 requests per day but I haven't tried them much. They may not work very well for summarization.
 ")
 		#+copy-prompt
 		(string3 "*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
