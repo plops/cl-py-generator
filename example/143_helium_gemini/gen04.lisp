@@ -83,10 +83,10 @@
 			     (:name gemini-3-flash-preview :input-price .5 :output-price 3 :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-preview-09-2025 :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-lite-preview-09-2025 :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
-			     (:name gemma-3-27b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			     (:name gemma-3-12b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			     (:name gemma-3-4b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			     (:name gemma-3-1b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     ;(:name gemma-3-27b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     ;(:name gemma-3-12b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     ;(:name gemma-3-4b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     ;(:name gemma-3-1b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
 			   
 			     
 			     #+nil
@@ -665,11 +665,10 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
     3.  **Please note:** The summarizer is optimized for content that includes timestamps (e.g., `00:15:23 Key point is made.`). While it works well for any text, providing timestamped transcripts will produce the most detailed and well-structured summaries.
 
 * Gemini 3 Flash gives good summaries even for 3 hour videos.
-* Google's Gemini free tier allows 20 requests per day for each of the models
-* Google Gemma models allow 14400 requests per day but I haven't tried them much. They may not work very well for summarization.
+* Google's Gemini free tier allows 20 requests per day for each of the models.
 ")
 		#+copy-prompt
-		(string3 "*   If the Pro limit is reached (or if you prefer using your own tool), use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
+		(string3 "* If the daily request limit is reached, use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
 ")
 		))
 	 
