@@ -64,9 +64,9 @@ api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
 MODEL_OPTIONS = [
-    "gemini-3-flash-preview| input-price: 0.5 output-price: 3 max-context-length: 128_000",
-    "gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
     "gemini-2.5-flash-lite-preview-09-2025| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
+    "gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
+    "gemini-3-flash-preview| input-price: 0.5 output-price: 3 max-context-length: 128_000",
 ]
 
 
@@ -386,14 +386,14 @@ def generation_preview(identifier):
     text = "Generating ..."
     trigger = "every 1s"
     price_input = {
-        ("gemini-3-flash-preview"): (0.50),
-        ("gemini-2.5-flash-preview-09-2025"): (0.30),
         ("gemini-2.5-flash-lite-preview-09-2025"): (0.10),
+        ("gemini-2.5-flash-preview-09-2025"): (0.30),
+        ("gemini-3-flash-preview"): (0.50),
     }
     price_output = {
-        ("gemini-3-flash-preview"): (3),
-        ("gemini-2.5-flash-preview-09-2025"): (2.50),
         ("gemini-2.5-flash-lite-preview-09-2025"): (0.40),
+        ("gemini-2.5-flash-preview-09-2025"): (2.50),
+        ("gemini-3-flash-preview"): (3),
     }
     try:
         s = summaries[identifier]

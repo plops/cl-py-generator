@@ -80,13 +80,15 @@
 	(oflash25think 3.5)
 	(oflash25nothink .6))
     (defparameter *models* `(
-			     (:name gemini-3-flash-preview :input-price .5 :output-price 3 :context-length 128_000 :harm-civic nil)
-			     (:name gemini-2.5-flash-preview-09-2025 :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-lite-preview-09-2025 :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
-			     ;(:name gemma-3-27b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			     ;(:name gemma-3-12b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			     ;(:name gemma-3-4b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			     ;(:name gemma-3-1b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+			     (:name gemini-2.5-flash-preview-09-2025 :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
+			     (:name gemini-3-flash-preview :input-price .5 :output-price 3 :context-length 128_000 :harm-civic nil)
+			     
+			     
+					;(:name gemma-3-27b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+					;(:name gemma-3-12b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+					;(:name gemma-3-4b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
+					;(:name gemma-3-1b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
 			   
 			     
 			     #+nil
