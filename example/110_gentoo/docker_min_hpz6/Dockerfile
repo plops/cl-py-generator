@@ -19,13 +19,12 @@ RUN emerge --ask=n --verbose sys-devel/gcc:15 \
  && eselect gcc set "${gcc_15}" \
  && source /etc/profile \
  && emerge --ask=n --oneshot --verbose libtool \
- # Explicitly deselect gcc:14 in case it was in the world file
- && emerge --deselect=y sys-devel/gcc:14 \
- # Remove GCC 14
- && emerge --ask=n --depclean sys-devel/gcc:14 \
- # (Optional) Clean up preserved libraries if any depend on gcc14
+ # Use || true to prevent failure if it's not in world
+ && (emerge --deselect=y sys-devel/gcc:14 || true) \
+ # Use || true so build doesn't die if Portage refuses to remove it
+ && (emerge --ask=n --depclean sys-devel/gcc:14 || true) \
  && emerge --ask=n @preserved-rebuild
-
+ 
 RUN emerge -1 gentoolkit eix app-eselect/eselect-repository dev-vcs/git dev-lang/rust-bin
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
