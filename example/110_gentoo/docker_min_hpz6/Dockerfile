@@ -5,7 +5,7 @@ FROM gentoo/portage:20260103 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20250103
+FROM gentoo/stage3:nomultilib-systemd-20260103
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
