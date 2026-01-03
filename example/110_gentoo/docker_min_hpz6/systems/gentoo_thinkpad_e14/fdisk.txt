@@ -22,9 +22,10 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: gpt
 Disk identifier: 526C92DD-0F07-42BE-B431-C2F7A8E85BD0
 
-Device           Start      End  Sectors  Size Type
-/dev/nvme1n1p1    2048  2203647  2201600    1G EFI System
-/dev/nvme1n1p2 2203648 99860479 97656832 46.6G Linux filesystem
+Device            Start       End   Sectors   Size Type
+/dev/nvme1n1p1     2048   2203647   2201600     1G EFI System
+/dev/nvme1n1p2  2203648  99860479  97656832  46.6G Linux filesystem
+/dev/nvme1n1p3 99860480 822515711 722655232 344.6G Linux filesystem
 
 
 Disk /dev/mapper/enc: 111.74 GiB, 119983308800 bytes, 234342400 sectors
@@ -33,7 +34,7 @@ Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 
-Disk /dev/loop0: 7.46 GiB, 8013635584 bytes, 15651632 sectors
+Disk /dev/loop0: 3.96 GiB, 4248473600 bytes, 8297800 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes

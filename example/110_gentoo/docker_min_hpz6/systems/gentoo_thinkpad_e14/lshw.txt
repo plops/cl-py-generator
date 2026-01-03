@@ -51,7 +51,7 @@ localhost
           version: 25.68.1
           serial: None
           slot: FP7
-          size: 414MHz
+          size: 1691MHz
           capacity: 4829MHz
           width: 64 bits
           clock: 100MHz
@@ -183,7 +183,7 @@ localhost
                       serial: 80b66b33-ce31-4a54-9adc-b6c72fe3a826
                       size: 50GiB
                       capabilities: journaled extended_attributes large_files huge_files dir_nlink 64bit extents ext4 ext2 initialized
-                      configuration: created=2023-07-12 16:57:54 filesystem=ext4 lastmountpoint=/ modified=2025-10-30 14:32:09 mounted=2025-10-30 14:32:09 state=clean
+                      configuration: created=2023-07-12 16:57:54 filesystem=ext4 lastmountpoint=/1p3 modified=2026-01-03 22:05:08 mounted=2026-01-03 21:59:37 state=clean
                  *-volume:3
                       description: EFI partition
                       physical id: 4
@@ -230,7 +230,7 @@ localhost
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm msi pciexpress msix cap_list ethernet physical
-                configuration: broadcast=yes driver=r8169 driverversion=6.12.41-gentoo latency=0 link=no multicast=yes
+                configuration: broadcast=yes driver=r8169 driverversion=6.12.58-gentoo latency=0 link=no multicast=yes
                 resources: irq:80 ioport:2000(size=256) memory:80904000-80904fff memory:80900000-80903fff
         *-pci:2
              description: PCI bridge
@@ -245,18 +245,20 @@ localhost
              configuration: driver=pcieport
              resources: irq:35 memory:80800000-808fffff ioport:4c0200000(size=1048576)
            *-network
-                description: Network controller
+                description: Wireless interface
                 product: MT7922 802.11ax PCI Express Wireless Network Adapter
                 vendor: MEDIATEK Corp.
                 physical id: 0
                 bus info: [REDACTED_USER]@0000:03:00.0
+                logical name: wlan0
                 logical name: /dev/fb0
                 version: 00
+                serial: [REDACTED_MAC]
                 width: 64 bits
                 clock: 33MHz
-                capabilities: pciexpress msi pm cap_list fb
-                configuration: depth=32 latency=0 mode=1920x1200 visual=truecolor xres=1920 yres=1200
-                resources: iomemory:40-3f memory:4c0200000-4c02fffff memory:80800000-80807fff
+                capabilities: pciexpress msi pm bus_master cap_list ethernet physical wireless fb
+                configuration: broadcast=yes depth=32 driver=mt7921e driverversion=6.12.58-gentoo firmware=____000000-20250523103234 ip=[REDACTED_IP] latency=0 link=yes mode=1920x1200 multicast=yes visual=truecolor wireless=IEEE 802.11 xres=1920 yres=1200
+                resources: iomemory:40-3f irq:85 memory:4c0200000-4c02fffff memory:80800000-80807fff
         *-pci:3
              description: PCI bridge
              product: Family 17h-19h PCIe GPP Bridge
@@ -318,6 +320,17 @@ localhost
                       logical name: /dev/nvme1n1p2
                       serial: 1f6c466a-9a17-44c7-93dc-beaa8408a920
                       capacity: 46GiB
+                 *-volume:2
+                      description: EFI partition
+                      physical id: 3
+                      bus info: [REDACTED_USER]@1:1,3
+                      logical name: /dev/nvme1n1p3
+                      serial: 663368ff-d433-41ac-91e1-ab4d38ca5f9f
+                      size: 344GiB
+                      capacity: 344GiB
+                      width: 3262596872 bits
+                      capabilities: encrypted luks initialized
+                      configuration: bits=29032400648 filesystem=luks hash=sha256 version=2
         *-pci:4
              description: PCI bridge
              product: Family 17h-19h Internal PCIe GPP Bridge
@@ -402,7 +415,7 @@ localhost
                 resources: irq:43 memory:80300000-803fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@1
                    logical name: usb1
@@ -421,7 +434,7 @@ localhost
                       configuration: driver=btusb maxpower=100mA speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@2
                    logical name: usb2
@@ -442,7 +455,7 @@ localhost
                 resources: irq:45 memory:80400000-804fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@3
                    logical name: usb3
@@ -460,7 +473,7 @@ localhost
                       configuration: maxpower=100mA speed=12Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@4
                    logical name: usb4
@@ -530,16 +543,16 @@ localhost
                 capabilities: pm pciexpress msi msix xhci bus_master cap_list
                 configuration: driver=xhci_hcd latency=0
                 resources: irq:47 memory:80000000-800fffff
-              *-usbhost:0
+              *-usbhost
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
-                   physical id: 0
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   physical id: 1
                    bus info: [REDACTED_USER]@5
                    logical name: usb5
                    version: 6.12
                    capabilities: usb-2.00
                    configuration: driver=hub slots=1 speed=480Mbit/s
-                 *-usb UNCLAIMED
+                 *-usb
                       description: Video
                       product: Integrated Camera
                       physical id: 1
@@ -547,16 +560,7 @@ localhost
                       version: 11.12
                       serial: 0001
                       capabilities: usb-2.01
-                      configuration: maxpower=500mA speed=480Mbit/s
-              *-usbhost:1
-                   product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
-                   physical id: 1
-                   bus info: [REDACTED_USER]@6
-                   logical name: usb6
-                   version: 6.12
-                   capabilities: usb-3.00
-                   configuration: speed=5000Mbit/s
+                      configuration: driver=uvcvideo maxpower=500mA speed=480Mbit/s
            *-usb:1
                 description: USB controller
                 product: Rembrandt USB4 XHCI controller #5
@@ -571,19 +575,19 @@ localhost
                 resources: irq:49 memory:80100000-801fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 0
-                   bus info: [REDACTED_USER]@7
-                   logical name: usb7
+                   bus info: [REDACTED_USER]@6
+                   logical name: usb6
                    version: 6.12
                    capabilities: usb-2.00
                    configuration: driver=hub slots=1 speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 1
-                   bus info: [REDACTED_USER]@8
-                   logical name: usb8
+                   bus info: [REDACTED_USER]@7
+                   logical name: usb7
                    version: 6.12
                    capabilities: usb-3.10
                    configuration: driver=hub slots=1 speed=10000Mbit/s
@@ -601,19 +605,19 @@ localhost
                 resources: irq:51 memory:80200000-802fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 0
-                   bus info: [REDACTED_USER]@9
-                   logical name: usb9
+                   bus info: [REDACTED_USER]@8
+                   logical name: usb8
                    version: 6.12
                    capabilities: usb-2.00
                    configuration: driver=hub slots=1 speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.41-gentoo xhci-hcd
+                   vendor: Linux 6.12.58-gentoo xhci-hcd
                    physical id: 1
-                   bus info: [REDACTED_USER]@10
-                   logical name: usb10
+                   bus info: [REDACTED_USER]@9
+                   logical name: usb9
                    version: 6.12
                    capabilities: usb-3.10
                    configuration: driver=hub slots=1 speed=10000Mbit/s
@@ -813,7 +817,7 @@ localhost
        product: ELAN06C7:00 04F3:3193 Touchpad
        physical id: 4
        logical name: input11
-       logical name: /dev/input/event7
+       logical name: /dev/input/event6
        logical name: /dev/input/mouse2
        capabilities: i2c
   *-input:3
@@ -823,17 +827,17 @@ localhost
        logical name: /dev/input/event8
        capabilities: platform
   *-input:4
-       product: ThinkPad Extra Buttons
+       product: PC Speaker
        physical id: 6
        logical name: input13
-       logical name: /dev/input/event10
-       capabilities: platform
-  *-input:5
-       product: PC Speaker
-       physical id: 7
-       logical name: input14
        logical name: /dev/input/event9
        capabilities: isa
+  *-input:5
+       product: ThinkPad Extra Buttons
+       physical id: 7
+       logical name: input14
+       logical name: /dev/input/event10
+       capabilities: platform
   *-input:6
        product: Sleep Button
        physical id: 8
@@ -857,7 +861,7 @@ localhost
        product: AT Translated Set 2 keyboard
        physical id: b
        logical name: input8
-       logical name: /dev/input/event5
+       logical name: /dev/input/event7
        logical name: input8::capslock
        logical name: input8::numlock
        logical name: input8::scrolllock
@@ -866,6 +870,6 @@ localhost
        product: ELAN06C7:00 04F3:3193 Mouse
        physical id: c
        logical name: input9
-       logical name: /dev/input/event6
+       logical name: /dev/input/event5
        logical name: /dev/input/mouse1
        capabilities: i2c

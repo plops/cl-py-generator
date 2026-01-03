@@ -13,7 +13,7 @@ Core(s) per socket:                      8
 Socket(s):                               1
 Stepping:                                1
 Frequency boost:                         enabled
-CPU(s) scaling MHz:                      9%
+CPU(s) scaling MHz:                      32%
 CPU max MHz:                             4829.0000
 CPU min MHz:                             400.0000
 BogoMIPS:                                6390.50
@@ -41,3 +41,4 @@ Vulnerability Spectre v2:                Vulnerable; IBPB: disabled; STIBP: disa
 Vulnerability Srbds:                     Not affected
 Vulnerability Tsa:                       Vulnerable
 Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Vulnerable

@@ -1,5 +1,5 @@
 NAME        MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
-loop0         7:0    0   7.5G  0 loop  
+loop0         7:0    0     4G  0 loop  
 nvme0n1     259:0    0 931.5G  0 disk  
 ├─nvme0n1p1 259:1    0     1G  0 part  
 ├─nvme0n1p2 259:2    0    18G  0 part  
@@ -9,4 +9,5 @@ nvme0n1     259:0    0 931.5G  0 disk
 └─nvme0n1p5 259:5    0 750.8G  0 part  
 nvme1n1     259:6    0 476.9G  0 disk  
 ├─nvme1n1p1 259:7    0     1G  0 part  
-└─nvme1n1p2 259:8    0  46.6G  0 part  
+├─nvme1n1p2 259:8    0  46.6G  0 part  
+└─nvme1n1p3 259:9    0 344.6G  0 part  

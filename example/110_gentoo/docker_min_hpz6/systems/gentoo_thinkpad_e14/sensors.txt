@@ -1,35 +1,35 @@
-ucsi_source_psy_USBC000:002-isa-0000
-Adapter: ISA adapter
-in0:           0.00 V  (min =  +0.00 V, max =  +0.00 V)
-curr1:         0.00 A  (max =  +0.00 A)
-
-k10temp-pci-00c3
+amdgpu-pci-0500
 Adapter: PCI adapter
-Tctl:         +44.0°C  
+vddgfx:      740.00 mV 
+vddnb:         1.03 V  
+edge:         +51.0°C  
+PPT:           7.17 W  
+sclk:           2 GHz 
+
+spd5118-i2c-2-52
+Adapter: SMBus PIIX4 adapter port 0 at 0b00
+temp1:        +46.0°C  (low  =  +0.0°C, high = +55.0°C)
+                       (crit low =  +0.0°C, crit = +85.0°C)
 
 BAT0-acpi-0
 Adapter: ACPI interface
-in0:          12.39 V  
+in0:          12.35 V  
 power1:        0.00 W  
 
 nvme-pci-0100
 Adapter: PCI adapter
-Composite:    +43.9°C  (low  =  -0.1°C, high = +82.8°C)
+Composite:    +45.9°C  (low  =  -0.1°C, high = +82.8°C)
                        (crit = +89.8°C)
 
-amdgpu-pci-0500
+mt7921_phy0-pci-0300
 Adapter: PCI adapter
-vddgfx:      705.00 mV 
-vddnb:         1.03 V  
-edge:         +43.0°C  
-PPT:           5.01 W  
-sclk:           2 GHz 
+temp1:        +44.0°C  
 
 thinkpad-isa-0000
 Adapter: ISA adapter
-fan1:           0 RPM
-fan2:           0 RPM
-CPU:          +44.0°C  
+fan1:        2500 RPM
+fan2:        2500 RPM
+CPU:          +53.0°C  
 GPU:           +0.0°C  
 temp3:         +0.0°C  
 temp4:         +0.0°C  
@@ -39,20 +39,19 @@ temp7:         +0.0°C
 temp8:            N/A  
 pwm1:            128%
 
-ucsi_source_psy_USBC000:001-isa-0000
-Adapter: ISA adapter
-in0:           0.00 V  (min =  +0.00 V, max =  +0.00 V)
-curr1:         3.25 A  (max =  +0.00 A)
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tctl:         +53.6°C  
 
 nvme-pci-0400
 Adapter: PCI adapter
-Composite:    +35.9°C  (low  = -273.1°C, high = +85.8°C)
+Composite:    +39.9°C  (low  = -273.1°C, high = +85.8°C)
                        (crit = +86.8°C)
-Sensor 1:     +37.9°C  (low  = -273.1°C, high = +65261.8°C)
-Sensor 2:     +35.9°C  (low  = -273.1°C, high = +65261.8°C)
+Sensor 1:     +41.9°C  (low  = -273.1°C, high = +65261.8°C)
+Sensor 2:     +39.9°C  (low  = -273.1°C, high = +65261.8°C)
 
 acpitz-acpi-0
 Adapter: ACPI interface
-temp1:        +44.0°C  
+temp1:        +53.0°C  
 temp2:        +20.0°C  
 
