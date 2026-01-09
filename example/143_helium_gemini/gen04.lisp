@@ -1506,7 +1506,7 @@ For every input provided, follow this strict three-step process:
 				     summary))
 	     (when summary_text
 	       (logger.info (fstring "Generating summary embedding for identifier {identifier}..."))
-	       (setf embedding_model (string "models/gemini-embedding-1.0"))
+	       (setf embedding_model (string "models/gemini-embedding-001"))
 	       (setf embedding_result (genai.embed_content
 				       :model embedding_model ; (string "models/embedding-001")
 				       :content summary_text

@@ -753,7 +753,7 @@ For every input provided, follow this strict three-step process:
         summary_text = summaries[identifier].summary
         if summary_text:
             logger.info(f"Generating summary embedding for identifier {identifier}...")
-            embedding_model = "models/gemini-embedding-1.0"
+            embedding_model = "models/gemini-embedding-001"
             embedding_result = genai.embed_content(
                 model=embedding_model, content=summary_text, task_type="clustering"
             )
