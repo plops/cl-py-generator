@@ -1506,9 +1506,9 @@ For every input provided, follow this strict three-step process:
 				     summary))
 	     (when summary_text
 	       (logger.info (fstring "Generating summary embedding for identifier {identifier}..."))
-	       (setf embedding_model (string "models/gemini-embedding-001"))
+	       (setf embedding_model (string "gemini-embedding-001"))
 	       (setf embedding_result (genai.embed_content
-				       :model embedding_model ; (string "models/embedding-001")
+				       :model (fstring "models/{embedding_model}") ; (string "models/embedding-001")
 				       :content summary_text
 				       :task_type (string "clustering")))
 	       (setf vector_blob (dot (np.array
@@ -1525,8 +1525,8 @@ For every input provided, follow this strict three-step process:
 	     (logger.warning (string "Resource exhausted during embedding of summary"))
 	     )
 	    ((as Exception e)
-	     (logger.error (fstring "Error during embedding for identifier {identifier}: {e}")))))
-	 " "
+	     (logger.error (fstring "Error during embedding for identifier {identifier}: {e}"))))
+	   " ")
 	 (comments "in production run this script with: GEMINI_API_KEY=`cat api_key.txt` uvicorn p04_host:app --port 5001 --log-config=uvicorn_log_conf.yaml")
 	 #+nil (serve :host (string "127.0.0.1") :port 5001)
 	 #+nil
