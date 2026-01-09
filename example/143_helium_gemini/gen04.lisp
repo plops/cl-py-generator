@@ -1,6 +1,7 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "cl-py-generator")
-  (ql:quickload "cl-change-case"))
+  (ql:quickload "cl-change-case")
+  )
 
 (in-package :cl-py-generator)
 
@@ -186,6 +187,7 @@
 		    (:name timestamped_summary_in_youtube_format :type str :no-show t)
 		    (:name cost :type float :no-show t)
 		    (:name embedding :type bytes)
+		    (:name embedding_model :type str)
 		    (:name full_embedding :type bytes)
 		    ))
 	 )
@@ -1438,6 +1440,8 @@ For every input provided, follow this strict three-step process:
 	    
 	    #+nil ("Exception as e"
 		   (logger.error (fstring "Error during embedding or final update for identifier {identifier}: {e}") )))
+
+	   #+nil
 	   (try
 	    (do0
 	     (comments "Generate and store the embedding of the transcript")
@@ -1502,8 +1506,9 @@ For every input provided, follow this strict three-step process:
 				     summary))
 	     (when summary_text
 	       (logger.info (fstring "Generating summary embedding for identifier {identifier}..."))
+	       (setf embedding_model (string "models/gemini-embedding-1.0"))
 	       (setf embedding_result (genai.embed_content
-				       :model (string "models/embedding-001")
+				       :model embedding_model ; (string "models/embedding-001")
 				       :content summary_text
 				       :task_type (string "clustering")))
 	       (setf vector_blob (dot (np.array
@@ -1511,7 +1516,8 @@ For every input provided, follow this strict three-step process:
 				       :dtype np.float32)
 				      (tobytes)))
 	       (summaries.update :pk_values identifier
-				 :embedding vector_blob)
+				 :embedding vector_blob
+				 :embedding_model embedding_model)
 	       (logger.info (fstring "Embedding stored for identifier {identifier}."))))
 	    
 

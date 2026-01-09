@@ -143,6 +143,7 @@ app, rt, summaries, Summary = fast_app(
     timestamped_summary_in_youtube_format=str,
     cost=float,
     embedding=bytes,
+    embedding_model=str,
     full_embedding=bytes,
     pk="identifier",
 )
@@ -438,6 +439,7 @@ AI-generated summary created with {s.model.split("|")[0]} for free via RocketRec
                 href=f"{s.original_source_link}",
                 id=f"source-link-{identifier}",
             ),
+            P(B("embedding_model:"), Span(f"{s.embedding_model}")),
             cls="summary-details",
         )
         summary_container = Div(summary_details, cls="summary-container")
@@ -726,25 +728,6 @@ For every input provided, follow this strict three-step process:
             )
         return
     try:
-        # Generate and store the embedding of the transcript
-        transcript_text = summaries[identifier].transcript
-        if transcript_text:
-            logger.info(f"Generating embedded transcript: {identifier}...")
-            embedding_result = genai.embed_content(
-                model="models/embedding-001",
-                content=transcript_text,
-                task_type="clustering",
-            )
-            vector_blob = np.array(
-                embedding_result["embedding"], dtype=np.float32
-            ).tobytes()
-            summaries.update(pk_values=identifier, full_embedding=vector_blob)
-            logger.info(f"Embedding stored for identifier {identifier}.")
-    except google.api_core.exceptions.ResourceExhausted:
-        logger.warning("Resource exhausted when embedding full transcript")
-    except Exception as e:
-        logger.error(f"Error during full embedding for identifier {identifier}: {e}")
-    try:
         text = summaries[identifier].summary
         text = convert_markdown_to_youtube_format(text)
         summaries.update(
@@ -770,15 +753,18 @@ For every input provided, follow this strict three-step process:
         summary_text = summaries[identifier].summary
         if summary_text:
             logger.info(f"Generating summary embedding for identifier {identifier}...")
+            embedding_model = "models/gemini-embedding-1.0"
             embedding_result = genai.embed_content(
-                model="models/embedding-001",
-                content=summary_text,
-                task_type="clustering",
+                model=embedding_model, content=summary_text, task_type="clustering"
             )
             vector_blob = np.array(
                 embedding_result["embedding"], dtype=np.float32
             ).tobytes()
-            summaries.update(pk_values=identifier, embedding=vector_blob)
+            summaries.update(
+                pk_values=identifier,
+                embedding=vector_blob,
+                embedding_model=embedding_model,
+            )
             logger.info(f"Embedding stored for identifier {identifier}.")
     except google.api_core.exceptions.ResourceExhausted:
         logger.warning("Resource exhausted during embedding of summary")
