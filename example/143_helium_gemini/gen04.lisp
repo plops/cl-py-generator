@@ -1453,14 +1453,15 @@ For every input provided, follow this strict three-step process:
 				       :model (string "models/embedding-001")
 				       :content transcript_text
 				       :task_type (string "clustering")))
-	       (setf vector_blob
-		     (dot (np.array (aref embedding_result (string "embedding"))
-				    :dtype np.float32)
+	       (setf vector_array
+		     (np.array (aref embedding_result (string "embedding"))
+			       :dtype np.float32)
+		     vector_blob (dot vector_array
 			  (tobytes))
 		     )
 	       (summaries.update :pk_values identifier
 				 :full_embedding vector_blob)
-	       (logger.info (fstring "Embedding stored for identifier {identifier}."))))
+	       (logger.info (fstring "Embedding stored for identifier {identifier} shape={vector_array.shape}."))))
 	    (google.api_core.exceptions.ResourceExhausted
 	     (logger.warning (string "Resource exhausted when embedding full transcript")))
 	    ((as Exception e)
@@ -1511,14 +1512,16 @@ For every input provided, follow this strict three-step process:
 				       :model (fstring "models/{embedding_model}") ; (string "models/embedding-001")
 				       :content summary_text
 				       :task_type (string "clustering")))
-	       (setf vector_blob (dot (np.array
-				       (aref embedding_result (string "embedding"))
-				       :dtype np.float32)
-				      (tobytes)))
+	       (setf vector_array
+		     (np.array (aref embedding_result (string "embedding"))
+			       :dtype np.float32)
+		     vector_blob (dot vector_array
+			  (tobytes))
+		     )
 	       (summaries.update :pk_values identifier
 				 :embedding vector_blob
 				 :embedding_model embedding_model)
-	       (logger.info (fstring "Embedding stored for identifier {identifier}."))))
+	       (logger.info (fstring "Embedding stored for identifier {identifier} shape={vector_array.shape}."))))
 	    
 
 	    (google.api_core.exceptions.ResourceExhausted

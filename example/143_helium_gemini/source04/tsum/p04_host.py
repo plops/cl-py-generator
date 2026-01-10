@@ -759,15 +759,16 @@ For every input provided, follow this strict three-step process:
                 content=summary_text,
                 task_type="clustering",
             )
-            vector_blob = np.array(
-                embedding_result["embedding"], dtype=np.float32
-            ).tobytes()
+            vector_array = np.array(embedding_result["embedding"], dtype=np.float32)
+            vector_blob = vector_array.tobytes()
             summaries.update(
                 pk_values=identifier,
                 embedding=vector_blob,
                 embedding_model=embedding_model,
             )
-            logger.info(f"Embedding stored for identifier {identifier}.")
+            logger.info(
+                f"Embedding stored for identifier {identifier} shape={vector_array.shape}."
+            )
     except google.api_core.exceptions.ResourceExhausted:
         logger.warning("Resource exhausted during embedding of summary")
     except Exception as e:
