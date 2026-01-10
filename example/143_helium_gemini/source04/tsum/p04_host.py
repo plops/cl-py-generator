@@ -758,6 +758,7 @@ For every input provided, follow this strict three-step process:
                 model=f"models/{embedding_model}",
                 content=summary_text,
                 task_type="clustering",
+                output_dimensionality=3072,
             )
             vector_array = np.array(embedding_result["embedding"], dtype=np.float32)
             vector_blob = vector_array.tobytes()

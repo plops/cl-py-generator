@@ -1511,7 +1511,9 @@ For every input provided, follow this strict three-step process:
 	       (setf embedding_result (genai.embed_content
 				       :model (fstring "models/{embedding_model}") ; (string "models/embedding-001")
 				       :content summary_text
-				       :task_type (string "clustering")))
+				       :task_type (string "clustering")
+				       :output_dimensionality 3072)
+		     )
 	       (setf vector_array
 		     (np.array (aref embedding_result (string "embedding"))
 			       :dtype np.float32)
