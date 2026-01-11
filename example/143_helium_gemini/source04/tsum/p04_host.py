@@ -274,7 +274,7 @@ def get_transcript(url, identifier):
         ]
         logger.info(f"Listing subtitles: {' '.join(list_cmd)}")
         list_res = subprocess.run(list_cmd, capture_output=True, text=True, timeout=60)
-        if (0) != (list_res.return_code):
+        if (0) != (list_res.returncode):
             logger.warning(f"yt-dlp --list-subs failed: {list_res.stderr}")
             return "Error: Could not list subtitles"
         chosen_lang = pick_best_language(list_res.stdout)

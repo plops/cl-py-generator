@@ -763,7 +763,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 					    :capture_output True
 					    :text True
 					    :timeout 60))
-	     (when (!= 0 list_res.return_code)
+	     (when (!= 0 list_res.returncode)
 	       (logger.warning (fstring "yt-dlp --list-subs failed: {list_res.stderr}"))
 	       (return (string "Error: Could not list subtitles")))
 	     (setf chosen_lang (pick_best_language list_res.stdout))
