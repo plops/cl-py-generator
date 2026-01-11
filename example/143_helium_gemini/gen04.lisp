@@ -247,7 +247,7 @@
 		       (:step-name parse_vtt_file
 			:code (do0
 			       "#!/usr/bin/env python3"
-			       (imports ( ;re
+			       (imports (; re
 					 webvtt))
 			       (def parse_vtt_file (filename)
 				 (rstring3 "load vtt from <filename>. Returns deduplicated transcript as string with second-granularity timestamps")
@@ -429,7 +429,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		   glob 
 		   (np numpy)
 		   os
-		   logging))
+		   logging
+		   re))
 	 (imports-from 
 	  #+nil (uviccorn.config LOGGING_CONFIG)
 	  (google.generativeai types))
@@ -677,7 +678,62 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		))
 	 
 
-	 	 
+	 (setf PREFERRED_BASE (list
+			       ,@(loop for e in `(en de fr pl ar bn bg zh-Hans zh-Hant hr cs da nl et fi el iw hi hu id it ja ko lv lt no pt ro ru sr sk sl es sw sv th tr uk vi)
+				       collect `(string ,e))))
+
+	 (def pick_best_language (list_output)
+	   (declare (type str list_output)
+		    (values "str | None"))
+	   (comments "Collect available language codes from yt-dlp --list-subs output")
+	   (setf langs (set))
+	   (for (line (list_output.splitlines))
+		(setf m (re.match (rstring3 "^\\s*([A-Za-z0-9\\-]+)\\s+")
+				  line))
+		(when m
+		  (langs.add (m.group 1))))
+	   (unless langs
+	     (return None))
+
+	   (def base (code)
+	     (declare (type str code)
+		      (values str))
+	     (comments "Group langs by base code (strip trailing -orig if present)")
+	     (return (? (code.endswith (string "-orig"))
+			(aref code (slice "" -5))
+			code)))
+	   (setf orig_langs (list (for-generator (l (? (l.endswith (string "-orig"))
+						       langs))
+						 l)))
+	   (do0
+	    (comments "1) Prefer any -orig. If multiple, choose by PREFERRED_BASE order using base code")
+	    (when orig_langs
+	      (comments "Map base -> full code with orig")
+	      (setf base_to_orig (curly (for-generator (l orig_langs)
+						       "base(l):l")))
+	      (for (pref PREFERRED_BASE)
+		   (when (in pref base_to_orig)
+		     (return (aref base_to_orig pref))))
+	      (comments "If none of the bases are in the list, pick the first deterministically")
+	      (return (aref (sorted orig_langs) 0))))
+	   
+	   (do0
+	    (comments "2) No -orig, choose by PREFERRED_BASE")
+	    (setf available_bases (curly (for-generator (l langs)
+							l)))
+	    (for (pref PREFERRED_BASE)
+		 (when (in pref available_bases)
+		   (return pref))))
+
+	   (do0
+	    (comments "3) Fallbacks")
+	    (for (l (sorted langs))
+		 (when (l.startswith (string "en"))
+		   (return l)))
+	    (return (aref (sorted langs) 0)))
+
+	   
+	   )
 	 #+dl
 	 (def get_transcript (url identifier)
 	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
@@ -690,11 +746,33 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	     (unless (validate_youtube_id youtube_id)
 	       (logger.warning (fstring "Invalid YouTube ID format: {youtube_id}"))
 	       (return (string "Invalid YouTube ID format")))
-	   
-	     (setf sub_file (fstring "/dev/shm/o_{identifier}"))
-	     (setf sub_file_en (fstring "/dev/shm/o_{identifier}.en-orig.vtt"))
-	     (comments "First, try to get English subtitles")
-	     (setf cmds_en (list (string "uvx")
+
+	     (setf list_cmd (list (string "uvx")
+				  (string "yt-dlp")
+				  (string "--list-subs")
+				  (string "--cookies-from-browser")
+				  (string "firefox")
+				  (string "--js-runtimes")
+				  (string "deno")
+				  (string "--remote-components")
+				  (string "ejs:npm")
+				  (string "--")
+				  youtube_id))
+	     (logger.info (fstring "Listing subtitles: {' '.join(list_cmd)}"))
+	     (setf list_res (subprocess.run list_cmd
+					    :capture_output True
+					    :text True
+					    :timeout 60))
+	     (when (!= 0 list_res.return_code)
+	       (logger.warning (fstring "yt-dlp --list-subs failed: {list_res.stderr}"))
+	       (return (string "Error: Could not list subtitles")))
+	     (setf chosen_lang (pick_best_language list_res.stdout))
+	     (unless chosen_lang
+	       (logger.error (string "No subtitles listed by yt-dlp"))
+	       (return (string "Error: No subtitles found for this video. Please provide the transcript manually.")))
+	     
+	     (setf sub_file_prefix (fstring "/dev/shm/o_{identifier}"))
+	     (setf dl_cmd (list (string "uvx")
 				 (string "yt-dlp")
 				 (string "--skip-download")
 				 (string "--write-auto-subs")
@@ -706,91 +784,51 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				 (string "--remote-components")
 				 (string "ejs:npm")
 				 (string "--sub-langs")
-				 (string "en-orig")
+				 chosen_lang
 				 (string "-o")
-				 sub_file
+				 sub_file_prefix
 				 (string "--")
 				 youtube_id))
-	     (logger.info (fstring "Downloading English subtitles: {' '.join(cmds_en)}"))
-	     (setf result
-		   (subprocess.run cmds_en
+	     (logger.info (fstring "Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}"))
+	     (setf dl_res (subprocess.run dl_cmd
+					  :capture_output True
+					  :text True
+					  :timeout 60))
+	     
+	     (setf dl_res
+		   (subprocess.run dl_cmd
 				   :capture_output True
 				   :text True
 				   :timeout 60))
-	     (when (!= result.returncode 0)
-	       (logger.warning (fstring "yt-dlp failed with return code {result.returncode}: {result.stderr}")))
+	     (when (!= dl_res.returncode 0)
+	       (logger.warning (fstring "yt-dlp download failed: {dl_res.stderr}")))
+	     (setf vtt_files (glob.glob (fstring "{sub_file_prefix}.*.vtt")))
+	     (unless vtt_files
+	       (logger.error (string "No subtitle file downloaded"))
+	       (return (string "Error: No subtitles found for this video. Please provide the transcript manually.")))
+	     (setf sub_file_to_parse (aref vtt_files 0))
 
-	     (setf sub_file_to_parse None)
-	     (if (os.path.exists sub_file_en)
-		 (setf sub_file_to_parse sub_file_en)
-		 (do0
-		  (comments "If English subtitles are not found, try to download any available subtitle")
-		  (logger.info (string "English subtitles not found. Trying to download subtitles in other languages."))
+	     (try
+	      (do0
+	       (setf ostr (parse_vtt_file sub_file_to_parse))
+	       (logger.info (fstring "Successfully parsed subtitle file: {sub_file_to_parse}")))
+	      (FileNotFoundError
+	       (do0 (logger.error (fstring "Subtitle file not found: {sub_file_to_parse}"))
+		    (setf ostr (string "Error: Subtitle file disappeared or was not present"))))
+	      (PermissionError
+	       (do0 (logger.error (fstring "Permission denied removing file: {sub_file_to_parse}"))
+		    (setf ostr (string "Error: Permission denied cleaning up subtitle file")))
+	       )
+	      ("Exception as e"
+	       (logger.error (fstring "Error processing subtitle file: {e}"))
+	       (setf ostr (fstring "Error: problem when processing subtitle file {e}"))))
 
-		  (for (lang (list ,@(loop for e in `(en de zh iw lv fr pl ja)
-					   collect
-					   `(string ,e))))
-		   (do0
-		    (setf cmds_any (list (string "uvx")
-					 (string "yt-dlp")
-					 (string "--skip-download")
-					 (string "--write-auto-subs")
-					 (string "--write-subs")
-					 (string "--cookies-from-browser")
-					 (string "firefox")
-					 (string "--js-runtimes")
-					 (string "deno")
-					 (string "--remote-components")
-					 (string "ejs:npm")
-				 	 (string "--sub-langs")
-					 lang
-					 (string "-o")
-					 sub_file
-					 (string "--")
-					 youtube_id))
-		    (logger.info (fstring "Downloading any subtitles: {' '.join(cmds_any)}"))
-		    (setf result (subprocess.run cmds_any
-						 :capture_output True
-						 :text True
-						 :timeout 60))
-		    (comments "Find the downloaded subtitle file")
-		    (setf subtitle_files (glob.glob (fstring "{sub_file}.*.vtt")))
-		    (when subtitle_files
-		      (setf sub_file_to_parse (aref subtitle_files 0))
-		      (logger.info (fstring "Parse transcript from {sub_file_to_parse} out of the subtitle files: {subtitle_files}"))
-		      break)))))
+	     (for (sub (glob.glob (fstring "{sub_file_prefix}.*.vtt")))
+		  (try
+		   (os.remove sub)
+		   ("OSError as e"
+		    (logger.warning (fstring "Error removing file {sub}: {e}")))))
 	     
-	     (setf ostr (string "Problem getting subscript."))
-
-	     (if (and sub_file_to_parse
-		      (os.path.exists sub_file_to_parse))
-		 (try
-		  (do0
-		   (setf ostr 
-			 (parse_vtt_file sub_file_to_parse))
-		   (logger.info (fstring "Successfully parsed subtitle file: {sub_file_to_parse}"))
-		   (os.remove sub_file_to_parse))
-		  
-		  (FileNotFoundError
-		   (logger.error (fstring "Subtitle file not found: {sub_file_to_parse}"))
-		   (setf ostr (string "Error: Subtitle file disappeared")))
-		  (PermissionError
-		   (logger.error (fstring "Permission denied removing file: {sub_file_to_parse}"))
-		   (setf ostr (string "Error: Permission denied cleaning up subtitle file")))
-		  ("Exception as e"
-		   (logger.error (fstring "Error processing subtitle file: {e}")
-				 )
-		   (setf ostr (fstring "Error: problem when processing subtitle file {e}"))))
-		 (do0
-		  (logger.error (string "No subtitle file found"))
-		  (setf ostr (string "Error: No subtitles found for this video. Please provide the transcript manually."))))
-	     (do0
-	      (comments "Cleanup any other subtitle files that might have been downloaded")
-	      (setf other_subs (glob.glob (fstring "{sub_file}.*.vtt")))
-	      (for (sub other_subs)
-		   (try (os.remove sub)
-			((as OSError e)
-			 (logger.warning (fstring "Error removing file {sub}: {e}"))))))
 	     
 	     (return ostr))
 	    (subprocess.TimeoutExpired
