@@ -760,7 +760,8 @@ For every input provided, follow this strict three-step process:
             pk_values=identifier,
             summary_done=False,
             summary=(
-                (summaries[identifier].summary) + ("\nError1234: resource exhausted")
+                (summaries[identifier].summary)
+                + ("\nError1234: resource exhausted. Try again with a different model.")
             ),
             summary_timestamp_end=datetime.datetime.now().isoformat(),
             timestamps="",

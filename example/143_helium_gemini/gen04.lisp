@@ -1446,7 +1446,7 @@ For every input provided, follow this strict three-step process:
 			       
 				 :summary (+ (dot (aref summaries identifier)
 						  summary)
-					     (string "\\nError1234: resource exhausted"))
+					     (string "\\nError1234: resource exhausted. Try again with a different model."))
 				 :summary_timestamp_end (dot datetime
 							     datetime
 							     (now)
