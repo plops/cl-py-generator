@@ -149,22 +149,35 @@ app, rt, summaries, Summary = fast_app(
     pk="identifier",
 )
 documentation = (
-    """**Get Your Summary:**
+    """**Get Your Summary**
 
-1.  For **YouTube videos**, paste the link into the input field for automatic transcript download.
-2.  For **any other text** (like articles, meeting notes, or non-YouTube transcripts), paste the content directly into the text area below.
-3.  Click 'Summarize' to get your summary.
+1.  **For YouTube videos:** Paste the link into the input field for automatic transcript download.
+2.  **For other text:** Paste articles, meeting notes, or manually copied transcripts directly into the text area below.
+3.  **Click 'Summarize':** The tool will process your request using the selected model.
 
-**Important Notes:**
+### Browser Extension Available
+To make this process faster, you can use the **new browser addon** for Chrome and Firefox. This extension simplifies the workflow and also enables usage on **iPhone**.
 
-*   **For YouTube Links:** Automatic download requires **English subtitles** on the video. If they are missing, please use the manual method below.
-*   **For Any Text Content:** You can summarize any text by pasting it into the text area. This is the best method for articles, your own notes, or transcripts from other sources.
-    1.  **Copy** the entire text you wish to summarize.
-    2.  **Paste** it into the '(Optional) Paste YouTube transcript here' field.
-    3.  **Please note:** The summarizer is optimized for content that includes timestamps (e.g., `00:15:23 Key point is made.`). While it works well for any text, providing timestamped transcripts will produce the most detailed and well-structured summaries.
+### Available Models
+You can choose between three models with different capabilities. While these models have commercial costs, we utilize **Google's Free Tier**, so you are not charged on this website.
+*   **Gemini 3 Flash** (~$0.50/1M tokens): Highest capability, great for long or complex videos.
+*   **Gemini 2.5 Flash** (~$0.30/1M tokens): Balanced performance.
+*   **Gemini 2.5 Flash-Lite** (~$0.10/1M tokens): Fastest and lightweight.
+*(Note: The free tier allows approximately 20 requests per day for each model. This is for the entire website, so don't tell anyone it exists ;-) )*
 
-* Gemini 3 Flash gives good summaries even for 3 hour videos.
-* Google's Gemini free tier allows 20 requests per day for each of the models.
+### Important Notes & Troubleshooting
+
+**YouTube Captions & Languages**
+*   **Automatic Download:** The software now automatically downloads captions corresponding to the **original audio language** of the video.
+*   **Missing/Wrong Captions:** Some videos may have incorrect language settings or no captions at all. If the automatic download fails:
+    1.  Open the video on YouTube (this usually requires a **desktop browser**).
+    2.  Open the transcript tab on YouTube.
+    3.  Copy the entire transcript.
+    4.  Paste it manually into the text area below.
+
+**Tips for Pasting Text**
+*   **Timestamps:** The summarizer is optimized for content that includes timestamps (e.g., `00:15:23 Key point is made`).
+*   **Best Results:** While the tool works with any block of text (articles/notes), providing timestamped transcripts generally produces the most detailed and well-structured summaries.
 """
 ) + (
     """* If the daily request limit is reached, use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
