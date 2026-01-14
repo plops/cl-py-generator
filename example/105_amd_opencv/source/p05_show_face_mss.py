@@ -15,10 +15,11 @@ parser.add_argument("-dc", "--detection-confidence", type=float, default=0.15, h
 parser.add_argument("-pc", "--presence-confidence", type=float, default=0.15, help="Minimum presence confidence")
 parser.add_argument("-tc", "--tracking-confidence", type=float, default=0.15, help="Minimum tracking confidence")
 parser.add_argument("-cl", "--clahe-clip-limit", type=float, default=15.0, help="CLAHE clip limit for contrast enhancement")
-parser.add_argument("-rx", "--roi-x", type=int, default=None, help="ROI top-left X coordinate (default: 0)")
-parser.add_argument("-ry", "--roi-y", type=int, default=None, help="ROI top-left Y coordinate (default: 0)")
-parser.add_argument("-rw", "--roi-width", type=int, default=None, help="ROI width (default: full screen width)")
-parser.add_argument("-rh", "--roi-height", type=int, default=None, help="ROI height (default: full screen height)")
+parser.add_argument("--no-clahe", action="store_true", help="Disable CLAHE contrast enhancement")
+parser.add_argument("-rx", "--roi-x", type=int, default=20, help="ROI top-left X coordinate (default: 0)")
+parser.add_argument("-ry", "--roi-y", type=int, default=100, help="ROI top-left Y coordinate (default: 0)")
+parser.add_argument("-rw", "--roi-width", type=int, default=1200, help="ROI width (default: full screen width)")
+parser.add_argument("-rh", "--roi-height", type=int, default=512, help="ROI height (default: full screen height)")
 args = parser.parse_args()
 scale = args.scale
 num_faces = args.num_faces
@@ -26,6 +27,7 @@ detection_confidence = args.detection_confidence
 presence_confidence = args.presence_confidence
 tracking_confidence = args.tracking_confidence
 clahe_clip_limit = args.clahe_clip_limit
+use_clahe = not args.no_clahe
 
 # ROI parameters
 sct_temp = mss.mss()
@@ -152,7 +154,8 @@ with FaceLandmarker.create_from_options(options) as landmarker:
         frame = cv.cvtColor(frame, cv.COLOR_BGRA2BGR)
 
         # Apply CLAHE for contrast enhancement
-        frame = apply_clahe(frame, clahe_clip_limit)
+        if use_clahe:
+            frame = apply_clahe(frame, clahe_clip_limit)
 
         # Convert BGR to RGB for MediaPipe
         rgb_frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
