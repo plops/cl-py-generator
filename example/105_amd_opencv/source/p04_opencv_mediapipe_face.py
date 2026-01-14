@@ -12,18 +12,28 @@ debug=True
 _code_git_version="04882686f7fa99983ba70436cb1a7031e689a4d9"
 _code_repository="https://github.com/plops/cl-py-generator/tree/master/example/105_amd_opencv/source/"
 _code_generation_time="10:21:50 of Sunday, 2023-06-25 (GMT+1)"
-parser=argparse.ArgumentParser(description="Scale the output window")
+parser=argparse.ArgumentParser(description="Scale the output window and configure algorithm parameters")
 parser.add_argument("-s", "--scale", type=int, choices=[1, 2, 3, 4], default=1, help="Scale factor for the output window")
+parser.add_argument("-n", "--num-faces", type=int, default=1, help="Maximum number of faces to detect")
+parser.add_argument("-dc", "--detection-confidence", type=float, default=0.15, help="Minimum detection confidence")
+parser.add_argument("-pc", "--presence-confidence", type=float, default=0.15, help="Minimum presence confidence")
+parser.add_argument("-tc", "--tracking-confidence", type=float, default=0.15, help="Minimum tracking confidence")
+parser.add_argument("-cl", "--clahe-clip-limit", type=float, default=15.0, help="CLAHE clip limit for contrast enhancement")
 args=parser.parse_args()
 scale=args.scale
+num_faces=args.num_faces
+detection_confidence=args.detection_confidence
+presence_confidence=args.presence_confidence
+tracking_confidence=args.tracking_confidence
+clahe_clip_limit=args.clahe_clip_limit
 print("{} nil cv.ocl.haveOpenCL()={}".format(((time.time())-(start_time)), cv.ocl.haveOpenCL()))
 loop_time=time.time()
 mp_drawing=mp.solutions.drawing_utils
 mp_drawing_styles=mp.solutions.drawing_styles
 mp_face_mesh=mp.solutions.face_mesh
-clahe=cv.createCLAHE(clipLimit=(15.    ), tileGridSize=(32,18,))
+clahe=cv.createCLAHE(clipLimit=(clahe_clip_limit), tileGridSize=(32,18,))
 drawing_spec=mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
-with mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, refine_landmarks=True, min_detection_confidence=(0.150    ), min_tracking_confidence=(0.150    )) as face_mesh:
+with mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=num_faces, refine_landmarks=True, min_detection_confidence=(detection_confidence), min_tracking_confidence=(tracking_confidence)) as face_mesh:
     # https://github.com/google/mediapipe/blob/master/docs/solutions/face_mesh.md
 # select the attention model using refine_landmarks option to home improve accuracy around lips, eyes and irises
     with mss.mss() as sct:
