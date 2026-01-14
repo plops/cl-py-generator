@@ -14,6 +14,7 @@ import numpy as np
 import os
 import logging
 import re
+from zoneinfo import ZoneInfo
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
@@ -69,6 +70,25 @@ MODEL_OPTIONS = [
     "gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
     "gemini-3-flash-preview| input-price: 0.5 output-price: 3 max-context-length: 128_000",
 ]
+
+# Counters for tracking daily usage
+model_counts = {opt.split("|")[0]: 0 for opt in MODEL_OPTIONS}
+last_reset_day = None
+
+
+def check_reset_counters():
+    global last_reset_day
+    try:
+        la_tz = ZoneInfo("America/Los_Angeles")
+        now = datetime.datetime.now(la_tz)
+        today = now.date()
+        if last_reset_day != today:
+            logger.info(f"Resetting quota counters. New day: {today}")
+            for k in model_counts:
+                model_counts[k] = 0
+            last_reset_day = today
+    except Exception as e:
+        logger.warning(f"Timezone reset check failed: {e}")
 
 
 def validate_transcript_length(transcript: str, max_words: int = 280_000) -> bool:
@@ -356,6 +376,7 @@ documentation_html = markdown.markdown(documentation)
 @rt("/")
 def get(request: Request):
     logger.info(f"Request from host: {request.client.host}")
+    check_reset_counters()
     nav = Nav(
         Ul(Li(H1("RocketRecap Content Summarizer"))),
         Ul(
@@ -380,9 +401,14 @@ def get(request: Request):
         name="transcript",
         id="transcript-paste",
     )
-    selector = [
-        Option(opt, value=opt, label=opt.split("|")[0]) for opt in MODEL_OPTIONS
-    ]
+    selector = []
+    for opt in MODEL_OPTIONS:
+        model_name = opt.split("|")[0]
+        used = model_counts.get(model_name, 0)
+        remaining = max(0, 20 - used)
+        label = f"{model_name} | {remaining} requests left"
+        selector.append(Option(opt, value=opt, label=label))
+
     model = Div(
         Label("Select Model", _for="model-select", cls="visually-hidden"),
         Select(*selector, id="model-select", style="width: 100%;", name="model"),
@@ -695,6 +721,13 @@ def generate_and_save(identifier: int):
         if (s) == (-1):
             logger.error(f"Could not find summary with id {identifier}")
             return
+
+        # Update usage counter
+        check_reset_counters()
+        real_model = s.model.split("|")[0]
+        if real_model in model_counts:
+            model_counts[real_model] += 1
+
         logger.info(f"generate_and_save model={s.model}")
         m = genai.GenerativeModel(
             s.model.split("|")[0],
