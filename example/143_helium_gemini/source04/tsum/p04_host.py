@@ -336,7 +336,6 @@ def get_transcript(url, identifier):
         ]
         logger.info(f"Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}")
         dl_res = subprocess.run(dl_cmd, capture_output=True, text=True, timeout=60)
-        dl_res = subprocess.run(dl_cmd, capture_output=True, text=True, timeout=60)
         if (dl_res.returncode) != (0):
             logger.warning(f"yt-dlp download failed: {dl_res.stderr}")
         vtt_files = glob.glob(f"{sub_file_prefix}.*.vtt")
@@ -618,8 +617,9 @@ def post(summary: Summary, request: Request):
     summary.host = request.client.host
     summary.summary_timestamp_start = datetime.datetime.now().isoformat()
     summary.summary = ""
-    if (0) == (len(summary.transcript)):
-        summary.summary = "Downloading transcript..."
+    if summary.transcript is not None:
+        if (0 == len(summary.transcript)):
+            summary.summary = "Downloading transcript..."
     s2 = summaries.insert(summary)
     download_and_generate(s2.identifier)
     return generation_preview(s2.identifier)
