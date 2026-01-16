@@ -6,6 +6,7 @@ from google.ai.generativelanguage.v1beta import (
     generative_service_pb2 as gen_types,
     content_pb2 as content_types
 )
+
 # from google.ai.generativelanguage.v1beta import generative_service_pb2 as gen_types
 
 # 1. Establish a secure channel to the Google endpoint
@@ -19,19 +20,21 @@ stub = gen_service.GenerativeServiceStub(channel)
 content = content_types.Content(
     parts=[content_types.Part(text="Explain gRPC in one sentence.")])
 
-
 request = gen_types.GenerateContentRequest(
-    model="models/gemma-3-27b", contents=[content]
+    model="models/gemma-3-27b-it", contents=[content]
 )
 
 # 3. Add API Key to metadata (Mandatory for authentication)
 # The header key must be 'x-goog-api-key'
-metadata = [("x-goog-api-key", "YOUR_API_KEY")]
+with open("/home/kiel/api_key.txt") as f:
+    api_key = f.read().strip()
+
+metadata = [("x-goog-api-key", api_key)]
 
 # 4. Execute the call
 response = stub.GenerateContent(request, metadata=metadata)
-#
-# # 5. Handle the response
-# for candidate in response.candidates:
-#     for part in candidate.content.parts:
-#         print(part.text)
+
+# 5. Handle the response
+for candidate in response.candidates:
+    for part in candidate.content.parts:
+        print(part.text)
