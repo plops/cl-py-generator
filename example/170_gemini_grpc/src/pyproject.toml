@@ -1,0 +1,11 @@
+[project]
+name = "src"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "google-api-python-client>=2.187.0",
+    "grpcio>=1.76.0",
+    "grpcio-tools>=1.71.2",
+]
