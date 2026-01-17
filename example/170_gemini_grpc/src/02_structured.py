@@ -1,4 +1,8 @@
 import grpc
+from google.protobuf import json_format
+from google.protobuf.struct_pb2 import Value  # Import standard Value type
+import json
+
 from google.ai.generativelanguage.v1beta import (
     generative_service_pb2_grpc as gen_service,
     generative_service_pb2 as gen_types,
@@ -19,10 +23,15 @@ class Employee(BaseModel):
         default_factory=list,
         description="A list of employees reporting to this employee."
     )
-schema = Employee.model_json_schema()
-# pretty print the schema as JSON with indentation
-import json
-print(json.dumps(schema, indent=2))
+
+# 1. Get the dictionary from Pydantic
+schema_dict = Employee.model_json_schema()
+print(json.dumps(schema_dict, indent=2))
+
+# 2. Convert the Python Dict to a Protobuf Value message
+# The API expects the schema wrapped in a google.protobuf.Value message
+schema_value = Value()
+json_format.ParseDict(schema_dict, schema_value)
 
 
 channel = grpc.secure_channel(
@@ -39,7 +48,7 @@ The manager is Alice, who manages Bob and Charlie. Bob manages David.""")])
 
 config = gen_types.GenerationConfig(
     response_mime_type="application/json",
-    response_json_schema=Employee.model_json_schema()
+    response_json_schema=schema_value
 )
 
 request = gen_types.GenerateContentRequest(
