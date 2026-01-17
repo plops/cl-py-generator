@@ -169,12 +169,13 @@ with FaceLandmarker.create_from_options(options) as landmarker:
         # Run async detection
         landmarker.detect_async(mp_image, timestamp_ms)
 
+        # Apply scaling before drawing so marker size stays constant
+        if scale != 1:
+            frame = cv.resize(frame, None, fx=scale, fy=scale)
+
         # Draw latest results on frame
         if latest_result and latest_result.face_landmarks:
             frame = draw_landmarks(frame, latest_result.face_landmarks)
-
-        # Apply scaling
-        frame = cv.resize(frame, None, fx=scale, fy=scale)
 
         cv.imshow('Face Landmarks (Screen)', frame)
 
