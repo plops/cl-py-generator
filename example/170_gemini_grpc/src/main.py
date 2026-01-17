@@ -1,13 +1,9 @@
 import grpc
-# import google
-# Replace with your actual generated stub names
 from google.ai.generativelanguage.v1beta import (
     generative_service_pb2_grpc as gen_service,
     generative_service_pb2 as gen_types,
     content_pb2 as content_types
 )
-
-# from google.ai.generativelanguage.v1beta import generative_service_pb2 as gen_types
 
 # 1. Establish a secure channel to the Google endpoint
 channel = grpc.secure_channel(
