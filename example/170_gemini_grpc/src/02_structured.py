@@ -9,14 +9,21 @@ from typing import List
 
 class Employee(BaseModel):
     """Represents an employee in an organization."""
-    name: str
-    employee_id: int
+    name: str = Field(
+        description="The full name of the employee."
+    )
+    employee_id: int = Field(
+        description="A unique identifier for the employee."
+    )
     reports: List["Employee"] = Field(
         default_factory=list,
         description="A list of employees reporting to this employee."
     )
+schema = Employee.model_json_schema()
+# pretty print the schema as JSON with indentation
+import json
+print(json.dumps(schema, indent=2))
 
-print(Employee.model_json_schema())
 
 channel = grpc.secure_channel(
     "generativelanguage.googleapis.com:443", grpc.ssl_channel_credentials()
@@ -32,11 +39,11 @@ The manager is Alice, who manages Bob and Charlie. Bob manages David.""")])
 
 config = gen_types.GenerationConfig(
     response_mime_type="application/json",
-#    response_json_schema=Employee.model_json_schema()
+    response_json_schema=Employee.model_json_schema()
 )
 
 request = gen_types.GenerateContentRequest(
-    model="models/gemini-2.0-flash-lite-preview",
+    model="models/gemini-2.5-flash-lite",
     contents=[content],
     generation_config=config
 )
