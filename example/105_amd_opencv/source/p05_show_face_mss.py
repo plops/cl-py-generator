@@ -14,6 +14,7 @@ parser.add_argument("-n", "--num-faces", type=int, default=1, help="Maximum numb
 parser.add_argument("-dc", "--detection-confidence", type=float, default=0.15, help="Minimum detection confidence")
 parser.add_argument("-pc", "--presence-confidence", type=float, default=0.15, help="Minimum presence confidence")
 parser.add_argument("-tc", "--tracking-confidence", type=float, default=0.15, help="Minimum tracking confidence")
+parser.add_argument("-mr", "--marker-radius", type=int, default=1, help="Radius for landmark markers")
 parser.add_argument("-cl", "--clahe-clip-limit", type=float, default=15.0, help="CLAHE clip limit for contrast enhancement")
 parser.add_argument("--no-clahe", action="store_true", help="Disable CLAHE contrast enhancement")
 parser.add_argument("-rx", "--roi-x", type=int, default=20, help="ROI top-left X coordinate (default: 0)")
@@ -26,6 +27,7 @@ num_faces = args.num_faces
 detection_confidence = args.detection_confidence
 presence_confidence = args.presence_confidence
 tracking_confidence = args.tracking_confidence
+marker_radius = args.marker_radius
 clahe_clip_limit = args.clahe_clip_limit
 use_clahe = not args.no_clahe
 
@@ -62,12 +64,13 @@ def result_callback(result, output_image, timestamp_ms):
     latest_result = result
     latest_timestamp = timestamp_ms
 
-def draw_landmarks(image, face_landmarks_list):
+def draw_landmarks(image, face_landmarks_list, radius):
     """Draw face landmarks on the image."""
     if not face_landmarks_list:
         return image
 
     h, w = image.shape[:2]
+    line_thickness = max(1, radius)
 
     for face_landmarks in face_landmarks_list:
         # Draw each landmark as a small circle
@@ -77,7 +80,7 @@ def draw_landmarks(image, face_landmarks_list):
             # Validate coordinates to prevent crashes
             if not (np.isfinite(x) and np.isfinite(y) and 0 <= x < w and 0 <= y < h):
                 continue
-            cv.circle(image, (x, y), 1, (0, 255, 0), -1)
+            cv.circle(image, (x, y), radius, (0, 255, 0), -1)
 
         # Helper function to safely draw lines
         def safe_draw_line(pt1, pt2):
@@ -85,7 +88,7 @@ def draw_landmarks(image, face_landmarks_list):
             x2, y2 = int(pt2.x * w), int(pt2.y * h)
             if (np.isfinite(x1) and np.isfinite(y1) and np.isfinite(x2) and np.isfinite(y2) and
                 0 <= x1 < w and 0 <= y1 < h and 0 <= x2 < w and 0 <= y2 < h):
-                cv.line(image, (x1, y1), (x2, y2), (0, 255, 0), 1)
+                cv.line(image, (x1, y1), (x2, y2), (0, 255, 0), line_thickness)
 
         # Lips outer
         lip_indices = [61, 146, 91, 181, 84, 17, 314, 405, 321, 375, 291, 61]
@@ -175,7 +178,7 @@ with FaceLandmarker.create_from_options(options) as landmarker:
 
         # Draw latest results on frame
         if latest_result and latest_result.face_landmarks:
-            frame = draw_landmarks(frame, latest_result.face_landmarks)
+            frame = draw_landmarks(frame, latest_result.face_landmarks, marker_radius)
 
         cv.imshow('Face Landmarks (Screen)', frame)
 
