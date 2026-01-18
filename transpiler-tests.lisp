@@ -45,6 +45,253 @@ b = 2"
      :python "dict(a=1, b=2)"
      :tags '(:core :collection))
 
+    (:name "incf-basic"
+     :description "Tests incf emission with explicit increment."
+     :lisp (incf a 2)
+     :python "a += 2"
+     :tags '(:operator :assignment))
+
+    (:name "decf-basic"
+     :description "Tests decf emission with explicit decrement."
+     :lisp (decf a 3)
+     :python "a -= 3"
+     :tags '(:operator :assignment))
+
+    (:name "aref-index"
+     :description "Tests array reference emission."
+     :lisp (aref arr 1)
+     :python "arr[1]"
+     :tags '(:core :indexing))
+
+    (:name "slice-index"
+     :description "Tests slice emission inside indexing."
+     :lisp (aref arr (slice 1 2))
+     :python "arr[1:2]"
+     :tags '(:core :indexing))
+
+    (:name "dot-access"
+     :description "Tests dot form emission."
+     :lisp (dot obj attr)
+     :python "obj.attr"
+     :tags '(:core :accessor))
+
+    (:name "logical-and"
+     :description "Tests logical and emission."
+     :lisp (and a b)
+     :python "((a) and (b))"
+     :tags '(:operator :boolean))
+
+    (:name "logical-or"
+     :description "Tests logical or emission."
+     :lisp (or a b)
+     :python "((a) or (b))"
+     :tags '(:operator :boolean))
+
+    (:name "eq-compare"
+     :description "Tests equality comparison emission."
+     :lisp (== a b)
+     :python "((a)==(b))"
+     :tags '(:operator :comparison))
+
+    (:name "neq-compare"
+     :description "Tests inequality comparison emission."
+     :lisp (!= a b)
+     :python "((a)!=(b))"
+     :tags '(:operator :comparison))
+
+    (:name "lt-compare"
+     :description "Tests less-than comparison emission."
+     :lisp (< a b)
+     :python "((a)<(b))"
+     :tags '(:operator :comparison))
+
+    (:name "lte-compare"
+     :description "Tests less-than-or-equal comparison emission."
+     :lisp (<= a b)
+     :python "((a)<=(b))"
+     :tags '(:operator :comparison))
+
+    (:name "gt-compare"
+     :description "Tests greater-than comparison emission."
+     :lisp (> a b)
+     :python "((a)>(b))"
+     :tags '(:operator :comparison))
+
+    (:name "gte-compare"
+     :description "Tests greater-than-or-equal comparison emission."
+     :lisp (>= a b)
+     :python "((a)>=(b))"
+     :tags '(:operator :comparison))
+
+    (:name "in-compare"
+     :description "Tests membership comparison emission."
+     :lisp (in a b)
+     :python "(a in b)"
+     :tags '(:operator :comparison))
+
+    (:name "not-in-compare"
+     :description "Tests negative membership comparison emission."
+     :lisp (not-in a b)
+     :python "(a not in b)"
+     :tags '(:operator :comparison))
+
+    (:name "is-compare"
+     :description "Tests identity comparison emission."
+     :lisp (is a b)
+     :python "(a is b)"
+     :tags '(:operator :comparison))
+
+    (:name "is-not-compare"
+     :description "Tests negative identity comparison emission."
+     :lisp (is-not a b)
+     :python "(a is not b)"
+     :tags '(:operator :comparison))
+
+    (:name "mod-operator"
+     :description "Tests modulo operator emission."
+     :lisp (% a b)
+     :python "((a)%(b))"
+     :tags '(:operator :arithmetic))
+
+    (:name "floor-div-operator"
+     :description "Tests floor division operator emission."
+     :lisp (// a b)
+     :python "((a)//(b))"
+     :tags '(:operator :arithmetic))
+
+    (:name "pow-operator"
+     :description "Tests exponentiation operator emission."
+     :lisp (** a b)
+     :python "((a)**(b))"
+     :tags '(:operator :arithmetic))
+
+    (:name "shift-left-operator"
+     :description "Tests left shift operator emission."
+     :lisp (<< a b)
+     :python "((a)<<(b))"
+     :tags '(:operator :bitwise))
+
+    (:name "shift-right-operator"
+     :description "Tests right shift operator emission."
+     :lisp (>> a b)
+     :python "((a)>>(b))"
+     :tags '(:operator :bitwise))
+
+    (:name "lambda-basic"
+     :description "Tests lambda emission with a single expression body."
+     :lisp (lambda (x) (+ x 1))
+     :python "lambda x: ((x)+(1))"
+     :tags '(:core :lambda))
+
+    (:name "if-else-basic"
+     :description "Tests if/else emission."
+     :lisp (if (== a b) (return 1) (return 2))
+     :python "if ( ((a)==(b)) ):
+    return 1
+else:
+    return 2"
+     :tags '(:control-flow))
+
+    (:name "when-basic"
+     :description "Tests when emission."
+     :lisp (when (> a b) (return a))
+     :python "if ( ((a)>(b)) ):
+    return a"
+     :tags '(:control-flow))
+
+    (:name "unless-basic"
+     :description "Tests unless emission."
+     :lisp (unless (> a b) (return b))
+     :python "if ( not(((a)>(b))) ):
+    return b"
+     :tags '(:control-flow))
+
+    (:name "while-basic"
+     :description "Tests while loop emission."
+     :lisp (while (< a b) (setf a (+ a 1)))
+     :python "while (((a)<(b))):
+    a=((a)+(1))"
+     :tags '(:control-flow))
+
+    (:name "for-basic"
+     :description "Tests for loop emission."
+     :lisp (for (i (range 3)) (print i))
+     :python "for i in range(3):
+    print(i)"
+     :tags '(:control-flow))
+
+    (:name "class-basic"
+     :description "Tests class emission with a simple initializer."
+     :lisp (class Foo () (def __init__ (self x) (setf (dot self x) x)))
+     :python "class Foo:
+    def __init__(self, x):
+        self.x=x"
+     :tags '(:core :class))
+
+    (:name "import-basic"
+     :description "Tests single import emission."
+     :lisp (import sys)
+     :python "import sys"
+     :tags '(:import))
+
+    (:name "imports-basic"
+     :description "Tests multiple import emissions with aliases."
+     :lisp (imports (sys (np numpy) (plt matplotlib.pyplot)))
+     :python "import sys
+import numpy as np
+import matplotlib.pyplot as plt"
+     :tags '(:import))
+
+    (:name "import-from-basic"
+     :description "Tests from-import emission."
+     :lisp (import-from math sin cos)
+     :python "from math import sin, cos"
+     :tags '(:import))
+
+    (:name "imports-from-basic"
+     :description "Tests multiple from-import emissions."
+     :lisp (imports-from (math sin cos) (pathlib Path))
+     :python "from math import sin, cos
+from pathlib import Path"
+     :tags '(:import))
+
+    (:name "with-basic"
+     :description "Tests with-statement emission."
+     :lisp (with (open \"f.txt\") (setf data (dot f read)))
+     :python "with open(\"f.txt\"):
+    data=f.read"
+     :tags '(:control-flow))
+
+    (:name "try-basic"
+     :description "Tests try/except/else/finally emission."
+     :lisp (try (setf a 1) (Exception (setf a 2)) (else (setf a 3)) (finally (setf a 4)))
+     :python "try:
+    a=1
+except Exception:
+    a=2
+else:
+    a=3
+finally:
+    a=4"
+     :tags '(:control-flow))
+
+    (:name "cond-basic"
+     :description "Tests cond emission."
+     :lisp (cond ((> a b) (return a)) ((< a b) (return b)) (t (return 0)))
+     :python "if ( ((a)>(b)) ):
+    return a
+elif ( ((a)<(b)) ):
+    return b
+else:
+    return 0"
+     :tags '(:control-flow))
+
+    (:name "ternary-basic"
+     :description "Tests ternary emission."
+     :lisp (? (> a b) a b)
+     :python "(a) if (((a)>(b))) else (b)"
+     :tags '(:control-flow))
+
     (:name "functional-addition"
      :description "Verifies that the generated code for '+' executes correctly."
      :lisp (print (+ 5 8))
