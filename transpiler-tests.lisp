@@ -39,6 +39,36 @@ b = 2"
      :python "[1, 2]"
      :tags '(:core :collection))
 
+    (:name "tuple-literal"
+     :description "Tests tuple literal emission."
+     :lisp (tuple 1 2 3)
+     :python "(1, 2, 3,)"
+     :tags '(:core :collection))
+
+    (:name "paren-literal"
+     :description "Tests paren emission for comma-separated values."
+     :lisp (paren a b)
+     :python "(a, b)"
+     :tags '(:core :collection))
+
+    (:name "ntuple-literal"
+     :description "Tests ntuple emission without surrounding parentheses."
+     :lisp (ntuple a b c)
+     :python "a, b, c"
+     :tags '(:core :collection))
+
+    (:name "curly-literal"
+     :description "Tests curly emission for set literals."
+     :lisp (curly 1 2 3)
+     :python "{1, 2, 3}"
+     :tags '(:core :collection))
+
+    (:name "dict-literal"
+     :description "Tests dict literal emission with explicit key/value pairs."
+     :lisp (dict ((string "a") 1) ((string "b") 2))
+     :python "{(\"a\"): (1), (\"b\"): (2)}"
+     :tags '(:core :collection))
+
     (:name "dictionary-constructor"
      :description "Tests keyword-based dictionary constructor emission."
      :lisp (dictionary :a 1 :b 2)
@@ -153,6 +183,30 @@ b = 2"
      :python "((a)%(b))"
      :tags '(:operator :arithmetic))
 
+    (:name "sub-operator"
+     :description "Tests subtraction operator emission."
+     :lisp (- a b)
+     :python "((a)-(b))"
+     :tags '(:operator :arithmetic))
+
+    (:name "mul-operator"
+     :description "Tests multiplication operator emission."
+     :lisp (* a b c)
+     :python "((a)*(b)*(c))"
+     :tags '(:operator :arithmetic))
+
+    (:name "div-operator"
+     :description "Tests division operator emission."
+     :lisp (/ a b)
+     :python "((a)/(b))"
+     :tags '(:operator :arithmetic))
+
+    (:name "matmul-operator"
+     :description "Tests matrix-multiplication operator emission."
+     :lisp (@ a b)
+     :python "((a)@(b))"
+     :tags '(:operator :arithmetic))
+
     (:name "floor-div-operator"
      :description "Tests floor division operator emission."
      :lisp (// a b)
@@ -176,6 +230,79 @@ b = 2"
      :lisp (>> a b)
      :python "((a)>>(b))"
      :tags '(:operator :bitwise))
+
+    (:name "bitwise-and-operator"
+     :description "Tests bitwise and operator emission."
+     :lisp (& a b)
+     :python "((a) & (b))"
+     :tags '(:operator :bitwise))
+
+    (:name "bitwise-xor-operator"
+     :description "Tests bitwise xor operator emission."
+     :lisp (^ a b)
+     :python "((a) ^ (b))"
+     :tags '(:operator :bitwise))
+
+    (:name "bitwise-ior-operator"
+     :description "Tests bitwise or operator emission."
+     :lisp (logior a b c)
+     :python "((a) | (b) | (c))"
+     :tags '(:operator :bitwise))
+
+    (:name "string-literal"
+     :description "Tests string literal emission."
+     :lisp (string "hi")
+     :python "\"hi\""
+     :tags '(:core :string))
+
+    (:name "string-bytes-literal"
+     :description "Tests byte string literal emission."
+     :lisp (string-b "data")
+     :python "b\"data\""
+     :tags '(:core :string))
+
+    (:name "string3-literal"
+     :description "Tests triple-quoted string literal emission."
+     :lisp (string3 "block")
+     :python "\"\"\"block\"\"\""
+     :tags '(:core :string))
+
+    (:name "rstring3-literal"
+     :description "Tests raw triple-quoted string literal emission."
+     :lisp (rstring3 "raw")
+     :python "r\"\"\"raw\"\"\""
+     :tags '(:core :string))
+
+    (:name "fstring-literal"
+     :description "Tests f-string emission."
+     :lisp (fstring "{x}")
+     :python "f\"{x}\""
+     :tags '(:core :string))
+
+    (:name "fstring3-literal"
+     :description "Tests triple-quoted f-string emission."
+     :lisp (fstring3 "{x}")
+     :python "f\"\"\"{x}\"\"\""
+     :tags '(:core :string))
+
+    (:name "comment-literal"
+     :description "Tests single line comment emission."
+     :lisp (comment "note")
+     :python "# note"
+     :tags '(:core :comment))
+
+    (:name "comments-literal"
+     :description "Tests multi-line comment emission."
+     :lisp (comments "line1" "line2")
+     :python "# line1
+# line2"
+     :tags '(:core :comment))
+
+    (:name "symbol-literal"
+     :description "Tests symbol emission with hyphen to colon conversion."
+     :lisp (symbol foo-bar)
+     :python "foo:bar"
+     :tags '(:core :symbol))
 
     (:name "lambda-basic"
      :description "Tests lambda emission with a single expression body."
@@ -218,6 +345,12 @@ else:
      :lisp (for (i (range 3)) (print i))
      :python "for i in range(3):
     print(i)"
+     :tags '(:control-flow))
+
+    (:name "for-generator-basic"
+     :description "Tests for-generator emission."
+     :lisp (for-generator (i (range 3)) (* i 2))
+     :python "((i)*(2)) for i in range(3)"
      :tags '(:control-flow))
 
     (:name "class-basic"
@@ -291,6 +424,19 @@ else:
      :lisp (? (> a b) a b)
      :python "(a) if (((a)>(b))) else (b)"
      :tags '(:control-flow))
+
+    (:name "return_-basic"
+     :description "Tests return_ emission inside a function."
+     :lisp (def foo () (return_ (x)))
+     :python "def foo():
+    return x"
+     :tags '(:control-flow))
+
+    (:name "space-basic"
+     :description "Tests space emission."
+     :lisp (space alpha beta)
+     :python "alpha beta"
+     :tags '(:core :utility))
 
     (:name "functional-addition"
      :description "Verifies that the generated code for '+' executes correctly."
