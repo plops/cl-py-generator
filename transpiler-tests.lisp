@@ -33,6 +33,18 @@
 b = 2"
      :tags '(:core :assignment))
 
+    (:name "list-literal"
+     :description "Tests list literal emission."
+     :lisp (list 1 2)
+     :python "[1, 2]"
+     :tags '(:core :collection))
+
+    (:name "dictionary-constructor"
+     :description "Tests keyword-based dictionary constructor emission."
+     :lisp (dictionary :a 1 :b 2)
+     :python "dict(a=1, b=2)"
+     :tags '(:core :collection))
+
     (:name "functional-addition"
      :description "Verifies that the generated code for '+' executes correctly."
      :lisp (print (+ 5 8))
