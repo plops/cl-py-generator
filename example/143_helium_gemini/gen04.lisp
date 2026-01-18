@@ -433,6 +433,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		   re))
 	 (imports-from 
 	  #+nil (uviccorn.config LOGGING_CONFIG)
+	  (zoneinfo ZoneInfo)
 	  (google.generativeai types))
 
 	 #+nil
@@ -561,6 +562,29 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				(destructuring-bind (&key name input-price output-price context-length harm-civic) e 
 				  `(string 
 				   ,(format nil "~a| input-price: ~a output-price: ~a max-context-length: ~a" name input-price output-price context-length))))))
+
+	 " "
+	 (comments "Counters for tracking daily usage")
+	 (setf model_counts (curly (for-generator (opt MODEL_OPTIONS)
+						  "opt.split(\"|\")[0]:0"))
+	       last_reset_day None)
+
+	 " "
+	 (def check_reset_counters ()
+	   "global last_reset_day"
+	   (try
+	    (do0
+	     (setf la_tz (ZoneInfo (string "America/Los_Angeles"))
+		   now (datetime.datetime.now la_tz)
+		   today (now.date))
+	     (when (!= last_reset_day today)
+	       (logger.info (fstring "Resetting quota counters. New day: {today}"))
+	       (for (k model_counts)
+		    (setf (aref model_counts k) 0))
+	       (setf last_reset_day today)))
+	    ("Exception as e"
+	     (logger.warning (fstring "Timezone reset check failed: {e}"))))
+	   )
 
 
 	 " "
@@ -803,11 +827,6 @@ You can choose between three models with different capabilities. While these mod
 				 (string "--")
 				 youtube_id))
 	     (logger.info (fstring "Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}"))
-	     (setf dl_res (subprocess.run dl_cmd
-					  :capture_output True
-					  :text True
-					  :timeout 60))
-	     
 	     (setf dl_res
 		   (subprocess.run dl_cmd
 				   :capture_output True
@@ -859,6 +878,7 @@ You can choose between three models with different capabilities. While these mod
 	    ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
 	    
 	    (logger.info (fstring "Request from host: {request.client.host}"))
+	    (check_reset_counters)
 	    (setf nav (Nav
 		       (Ul (Li (H1 (string "RocketRecap Content Summarizer"))))
 		       (Ul (Li (A (string "Map")
@@ -882,11 +902,15 @@ You can choose between three models with different capabilities. While these mod
 				      :name (string "transcript")
 				      :id (string "transcript-paste")))
 	   
-	    (setf
-	     selector (list (for-generator (opt MODEL_OPTIONS)
-					   (Option opt :value opt
-						   :label (dot opt (aref (split (string "|")) 0)))))
-	     model (Div
+	    (setf selector (list))
+	    (for (opt MODEL_OPTIONS)
+		 (setf model_name (dot opt (aref (split (string "|")) 0))
+		       used (model_counts.get model_name 0)
+		       remaining (max 0 (- 20 used))
+		       label (fstring "{model_name} | {remaining} requests left"))
+		 (selector.append (Option opt :value opt
+					  :label label)))
+	    (setf model (Div
 		    (Label (string "Select Model")
 			   :_for (string "model-select")
 			   :cls (string "visually-hidden"))
@@ -1197,8 +1221,9 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 						       (now)
 						       (isoformat))
 		  summary.summary (string ""))
-	    (when (== 0 (len summary.transcript))
-	      (setf summary.summary (string "Downloading transcript...")))
+	    (when (is-not summary.transcript None)
+	      (when (== 0 (len summary.transcript))
+		(setf summary.summary (string "Downloading transcript..."))))
 	    (setf s2 (summaries.insert summary))
 	    (download_and_generate s2.identifier)
 	    (return (generation_preview s2.identifier))))
@@ -1350,6 +1375,11 @@ Here is the real transcript. What would be a good group of people to review this
 	     (when (== s -1)
 	       (logger.error (fstring "Could not find summary with id {identifier}"))
 	       (return))
+	     (comments "Update usage counter")
+	     (check_reset_counters)
+	     (setf real_model (dot s model (aref (split (string "|")) 0)))
+	     (when (in real_model model_counts)
+	       (incf (aref model_counts real_model)))
 	     (logger.info (fstring "generate_and_save model={s.model}"))
 	     #-emulate
 	     (do0

@@ -82,7 +82,7 @@ def check_reset_counters():
         la_tz = ZoneInfo("America/Los_Angeles")
         now = datetime.datetime.now(la_tz)
         today = now.date()
-        if last_reset_day != today:
+        if (last_reset_day) != (today):
             logger.info(f"Resetting quota counters. New day: {today}")
             for k in model_counts:
                 model_counts[k] = 0
@@ -404,10 +404,9 @@ def get(request: Request):
     for opt in MODEL_OPTIONS:
         model_name = opt.split("|")[0]
         used = model_counts.get(model_name, 0)
-        remaining = max(0, 20 - used)
+        remaining = max(0, ((20) - (used)))
         label = f"{model_name} | {remaining} requests left"
         selector.append(Option(opt, value=opt, label=label))
-
     model = Div(
         Label("Select Model", _for="model-select", cls="visually-hidden"),
         Select(*selector, id="model-select", style="width: 100%;", name="model"),
@@ -618,7 +617,7 @@ def post(summary: Summary, request: Request):
     summary.summary_timestamp_start = datetime.datetime.now().isoformat()
     summary.summary = ""
     if summary.transcript is not None:
-        if (0 == len(summary.transcript)):
+        if (0) == (len(summary.transcript)):
             summary.summary = "Downloading transcript..."
     s2 = summaries.insert(summary)
     download_and_generate(s2.identifier)
@@ -721,13 +720,11 @@ def generate_and_save(identifier: int):
         if (s) == (-1):
             logger.error(f"Could not find summary with id {identifier}")
             return
-
         # Update usage counter
         check_reset_counters()
         real_model = s.model.split("|")[0]
         if real_model in model_counts:
             model_counts[real_model] += 1
-
         logger.info(f"generate_and_save model={s.model}")
         m = genai.GenerativeModel(
             s.model.split("|")[0],
