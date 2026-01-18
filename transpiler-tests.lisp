@@ -99,6 +99,12 @@ b = 2"
      :python "arr[1:2]"
      :tags '(:core :indexing))
 
+    (:name "slice-step"
+     :description "Tests slice emission with a step."
+     :lisp (aref arr (slice 1 5 2))
+     :python "arr[1:5:2]"
+     :tags '(:core :indexing))
+
     (:name "slice-open-start"
      :description "Tests slice emission with an open start."
      :lisp (aref arr (slice nil 3))
@@ -116,6 +122,15 @@ b = 2"
      :lisp (dot obj attr)
      :python "obj.attr"
      :tags '(:core :accessor))
+
+    (:name "try-except-as"
+     :description "Tests as-form emission in except clauses."
+     :lisp (try (setf a 1) ((as Exception e) (setf a 2)))
+     :python "try:
+    a=1
+except Exception as e:
+    a=2"
+     :tags '(:control-flow))
 
     (:name "logical-and"
      :description "Tests logical and emission."
@@ -279,6 +294,12 @@ b = 2"
      :python "((a) | (b) | (c))"
      :tags '(:operator :bitwise))
 
+    (:name "keyword-args-call"
+     :description "Tests keyword argument emission in function calls."
+     :lisp (foo 1 :bar 2 :baz 3)
+     :python "foo(1, bar=2, baz=3)"
+     :tags '(:core :call))
+
     (:name "string-literal"
      :description "Tests string literal emission."
      :lisp (string "hi")
@@ -437,6 +458,20 @@ from pathlib import Path"
      :python "with open(\"f.txt\") as f:
     data=f.read"
      :tags '(:control-flow))
+
+    (:name "do0-basic"
+     :description "Tests do0 emission without extra indentation."
+     :lisp (do0 (setf a 1) (setf b 2))
+     :python "a=1
+b=2"
+     :tags '(:core :utility))
+
+    (:name "cell-basic"
+     :description "Tests cell emission with export comment."
+     :lisp (cell (setf a 1))
+     :python "# export
+a=1"
+     :tags '(:core :utility))
 
     (:name "try-basic"
      :description "Tests try/except/else/finally emission."

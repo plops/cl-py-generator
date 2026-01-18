@@ -210,6 +210,20 @@ arr[1:2]
 
 ```
 
+### `(aref cl-py-generator/tests::arr (cl-py-generator:slice 1 5 2))`
+Tests slice emission with a step.
+
+**Lisp S-Expression:**
+```lisp
+(aref cl-py-generator/tests::arr (cl-py-generator:slice 1 5 2))
+```
+
+**Generated Python (after formatting):**
+```python
+arr[1:5:2]
+
+```
+
 ### `(aref cl-py-generator/tests::arr (cl-py-generator:slice nil 3))`
 Tests slice emission with an open start.
 
@@ -250,6 +264,29 @@ Tests dot form emission.
 **Generated Python (after formatting):**
 ```python
 obj.attr
+
+```
+
+### `(cl-py-generator:try (setf cl-py-generator/tests::a 1)
+      ((cl-py-generator:as cl-py-generator/tests::Exception
+        cl-py-generator/tests::e)
+       (setf cl-py-generator/tests::a 2)))`
+Tests as-form emission in except clauses.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:try (setf cl-py-generator/tests::a 1)
+ ((cl-py-generator:as cl-py-generator/tests::Exception
+   cl-py-generator/tests::e)
+  (setf cl-py-generator/tests::a 2)))
+```
+
+**Generated Python (after formatting):**
+```python
+try:
+    a = 1
+except Exception as e:
+    a = 2
 
 ```
 
@@ -633,6 +670,20 @@ Tests bitwise or operator emission.
 **Generated Python (after formatting):**
 ```python
 ((a) | (b) | (c))
+
+```
+
+### `(cl-py-generator/tests::foo 1 :bar 2 :baz 3)`
+Tests keyword argument emission in function calls.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator/tests::foo 1 :bar 2 :baz 3)
+```
+
+**Generated Python (after formatting):**
+```python
+foo(1, bar=2, baz=3)
 
 ```
 
@@ -1032,6 +1083,38 @@ Tests with-statement emission using 'as'.
 ```python
 with open("f.txt") as f:
     data = f.read
+
+```
+
+### `(cl-py-generator:do0 (setf cl-py-generator/tests::a 1)
+      (setf cl-py-generator/tests::b 2))`
+Tests do0 emission without extra indentation.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:do0 (setf cl-py-generator/tests::a 1)
+ (setf cl-py-generator/tests::b 2))
+```
+
+**Generated Python (after formatting):**
+```python
+a = 1
+b = 2
+
+```
+
+### `(cl-py-generator:cell (setf cl-py-generator/tests::a 1))`
+Tests cell emission with export comment.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:cell (setf cl-py-generator/tests::a 1))
+```
+
+**Generated Python (after formatting):**
+```python
+# export
+a = 1
 
 ```
 
