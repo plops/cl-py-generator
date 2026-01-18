@@ -21,7 +21,7 @@ Reference notes from the earliest setup live in `../README.md`.
 
 - The Docker base images (Gentoo portage and stage3 tags) are periodically
   updated, typically every few weeks, and the image is rebuilt.
-- A clean rebuild from scratch takes about 2.5 hours.
+- A clean rebuild from scratch takes about 4 hours.
 
 ## Primary workflow
 
