@@ -50,6 +50,20 @@ b = 2
 
 ```
 
+### `(= cl-py-generator/tests::a 1)`
+Tests direct assignment emission.
+
+**Lisp S-Expression:**
+```lisp
+(= cl-py-generator/tests::a 1)
+```
+
+**Generated Python (after formatting):**
+```python
+a = 1
+
+```
+
 ### `(list 1 2)`
 Tests list literal emission.
 
@@ -249,6 +263,22 @@ Tests slice emission with an open end.
 **Generated Python (after formatting):**
 ```python
 arr[1:]
+
+```
+
+### `(aref cl-py-generator/tests::arr cl-py-generator/tests::i
+           cl-py-generator/tests::j)`
+Tests multi-index emission.
+
+**Lisp S-Expression:**
+```lisp
+(aref cl-py-generator/tests::arr cl-py-generator/tests::i
+      cl-py-generator/tests::j)
+```
+
+**Generated Python (after formatting):**
+```python
+arr[i, j]
 
 ```
 
@@ -687,6 +717,20 @@ foo(1, bar=2, baz=3)
 
 ```
 
+### `(cl-py-generator/tests::foo :bar 2)`
+Tests keyword-only call emission.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator/tests::foo :bar 2)
+```
+
+**Generated Python (after formatting):**
+```python
+foo(bar=2)
+
+```
+
 ### `(string "hi")`
 Tests string literal emission.
 
@@ -960,6 +1004,26 @@ Tests class emission with a simple initializer.
 class Foo:
     def __init__(self, x):
         self.x = x
+
+```
+
+### `(class cl-py-generator/tests::Child (cl-py-generator/tests::Base)
+      (cl-py-generator:def cl-py-generator/tests::__init__
+       (cl-py-generator/tests::self) (return 1)))`
+Tests class emission with a parent class.
+
+**Lisp S-Expression:**
+```lisp
+(class cl-py-generator/tests::Child (cl-py-generator/tests::Base)
+ (cl-py-generator:def cl-py-generator/tests::__init__
+  (cl-py-generator/tests::self) (return 1)))
+```
+
+**Generated Python (after formatting):**
+```python
+class Child(Base):
+    def __init__(self):
+        return 1
 
 ```
 

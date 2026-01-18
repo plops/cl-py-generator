@@ -33,6 +33,12 @@
 b = 2"
      :tags '(:core :assignment))
 
+    (:name "assignment-basic"
+     :description "Tests direct assignment emission."
+     :lisp (= a 1)
+     :python "a=1"
+     :tags '(:core :assignment))
+
     (:name "list-literal"
      :description "Tests list literal emission."
      :lisp (list 1 2)
@@ -115,6 +121,12 @@ b = 2"
      :description "Tests slice emission with an open end."
      :lisp (aref arr (slice 1 nil))
      :python "arr[1:]"
+     :tags '(:core :indexing))
+
+    (:name "aref-multi-index"
+     :description "Tests multi-index emission."
+     :lisp (aref arr i j)
+     :python "arr[i,j]"
      :tags '(:core :indexing))
 
     (:name "dot-access"
@@ -300,6 +312,12 @@ except Exception as e:
      :python "foo(1, bar=2, baz=3)"
      :tags '(:core :call))
 
+    (:name "keyword-only-call"
+     :description "Tests keyword-only call emission."
+     :lisp (foo :bar 2)
+     :python "foo(bar=2)"
+     :tags '(:core :call))
+
     (:name "string-literal"
      :description "Tests string literal emission."
      :lisp (string "hi")
@@ -410,6 +428,14 @@ else:
      :python "class Foo:
     def __init__(self, x):
         self.x=x"
+     :tags '(:core :class))
+
+    (:name "class-parent"
+     :description "Tests class emission with a parent class."
+     :lisp (class Child (Base) (def __init__ (self) (return 1)))
+     :python "class Child(Base):
+    def __init__(self):
+        return 1"
      :tags '(:core :class))
 
     (:name "import-basic"
