@@ -100,3 +100,4 @@ net-misc/moonlight
 net-misc/sunshine
 net-libs/nodejs
 app-text/typst::guru
+sys-apps/ripgrep
