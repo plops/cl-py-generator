@@ -99,6 +99,18 @@ b = 2"
      :python "arr[1:2]"
      :tags '(:core :indexing))
 
+    (:name "slice-open-start"
+     :description "Tests slice emission with an open start."
+     :lisp (aref arr (slice nil 3))
+     :python "arr[:3]"
+     :tags '(:core :indexing))
+
+    (:name "slice-open-end"
+     :description "Tests slice emission with an open end."
+     :lisp (aref arr (slice 1 nil))
+     :python "arr[1:]"
+     :tags '(:core :indexing))
+
     (:name "dot-access"
      :description "Tests dot form emission."
      :lisp (dot obj attr)
@@ -237,10 +249,28 @@ b = 2"
      :python "((a) & (b))"
      :tags '(:operator :bitwise))
 
+    (:name "logand-operator"
+     :description "Tests logand emission."
+     :lisp (logand a b c)
+     :python "((a) & (b) & (c))"
+     :tags '(:operator :bitwise))
+
     (:name "bitwise-xor-operator"
      :description "Tests bitwise xor operator emission."
      :lisp (^ a b)
      :python "((a) ^ (b))"
+     :tags '(:operator :bitwise))
+
+    (:name "logxor-operator"
+     :description "Tests logxor emission."
+     :lisp (logxor a b)
+     :python "((a) ^ (b))"
+     :tags '(:operator :bitwise))
+
+    (:name "bitwise-or-operator"
+     :description "Tests bitwise or operator emission."
+     :lisp (cl-py-generator::|\|| a b)
+     :python "((a) | (b))"
      :tags '(:operator :bitwise))
 
     (:name "bitwise-ior-operator"
@@ -367,6 +397,12 @@ else:
      :python "import sys"
      :tags '(:import))
 
+    (:name "import-alias"
+     :description "Tests import emission with alias."
+     :lisp (import (np numpy))
+     :python "import numpy as np"
+     :tags '(:import))
+
     (:name "imports-basic"
      :description "Tests multiple import emissions with aliases."
      :lisp (imports (sys (np numpy) (plt matplotlib.pyplot)))
@@ -392,6 +428,13 @@ from pathlib import Path"
      :description "Tests with-statement emission."
      :lisp (with (open \"f.txt\") (setf data (dot f read)))
      :python "with open(\"f.txt\"):
+    data=f.read"
+     :tags '(:control-flow))
+
+    (:name "with-as-basic"
+     :description "Tests with-statement emission using 'as'."
+     :lisp (with (as (open \"f.txt\") f) (setf data (dot f read)))
+     :python "with open(\"f.txt\") as f:
     data=f.read"
      :tags '(:control-flow))
 

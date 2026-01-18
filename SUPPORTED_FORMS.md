@@ -210,6 +210,34 @@ arr[1:2]
 
 ```
 
+### `(aref cl-py-generator/tests::arr (cl-py-generator:slice nil 3))`
+Tests slice emission with an open start.
+
+**Lisp S-Expression:**
+```lisp
+(aref cl-py-generator/tests::arr (cl-py-generator:slice nil 3))
+```
+
+**Generated Python (after formatting):**
+```python
+arr[:3]
+
+```
+
+### `(aref cl-py-generator/tests::arr (cl-py-generator:slice 1 nil))`
+Tests slice emission with an open end.
+
+**Lisp S-Expression:**
+```lisp
+(aref cl-py-generator/tests::arr (cl-py-generator:slice 1 nil))
+```
+
+**Generated Python (after formatting):**
+```python
+arr[1:]
+
+```
+
 ### `(cl-py-generator:dot cl-py-generator/tests::obj
       cl-py-generator/tests::attr)`
 Tests dot form emission.
@@ -534,6 +562,22 @@ Tests bitwise and operator emission.
 
 ```
 
+### `(logand cl-py-generator/tests::a cl-py-generator/tests::b
+             cl-py-generator/tests::c)`
+Tests logand emission.
+
+**Lisp S-Expression:**
+```lisp
+(logand cl-py-generator/tests::a cl-py-generator/tests::b
+        cl-py-generator/tests::c)
+```
+
+**Generated Python (after formatting):**
+```python
+((a) & (b) & (c))
+
+```
+
 ### `(cl-py-generator:^ cl-py-generator/tests::a cl-py-generator/tests::b)`
 Tests bitwise xor operator emission.
 
@@ -545,6 +589,34 @@ Tests bitwise xor operator emission.
 **Generated Python (after formatting):**
 ```python
 ((a) ^ (b))
+
+```
+
+### `(logxor cl-py-generator/tests::a cl-py-generator/tests::b)`
+Tests logxor emission.
+
+**Lisp S-Expression:**
+```lisp
+(logxor cl-py-generator/tests::a cl-py-generator/tests::b)
+```
+
+**Generated Python (after formatting):**
+```python
+((a) ^ (b))
+
+```
+
+### `(cl-py-generator::|\|| cl-py-generator/tests::a cl-py-generator/tests::b)`
+Tests bitwise or operator emission.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator::|\|| cl-py-generator/tests::a cl-py-generator/tests::b)
+```
+
+**Generated Python (after formatting):**
+```python
+((a) | (b))
 
 ```
 
@@ -854,6 +926,20 @@ import sys
 
 ```
 
+### `(import (cl-py-generator/tests::np cl-py-generator/tests::numpy))`
+Tests import emission with alias.
+
+**Lisp S-Expression:**
+```lisp
+(import (cl-py-generator/tests::np cl-py-generator/tests::numpy))
+```
+
+**Generated Python (after formatting):**
+```python
+import numpy as np
+
+```
+
 ### `(cl-py-generator:imports
       (cl-py-generator/tests::sys
        (cl-py-generator/tests::np cl-py-generator/tests::numpy)
@@ -922,6 +1008,29 @@ Tests with-statement emission.
 **Generated Python (after formatting):**
 ```python
 with open("f.txt"):
+    data = f.read
+
+```
+
+### `(cl-py-generator:with
+      (cl-py-generator:as (open cl-py-generator/tests::|"F.TXT"|)
+       cl-py-generator/tests::f)
+      (setf cl-py-generator/tests::data
+              (cl-py-generator:dot cl-py-generator/tests::f read)))`
+Tests with-statement emission using 'as'.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:with
+ (cl-py-generator:as (open cl-py-generator/tests::|"F.TXT"|)
+  cl-py-generator/tests::f)
+ (setf cl-py-generator/tests::data
+         (cl-py-generator:dot cl-py-generator/tests::f read)))
+```
+
+**Generated Python (after formatting):**
+```python
+with open("f.txt") as f:
     data = f.read
 
 ```
