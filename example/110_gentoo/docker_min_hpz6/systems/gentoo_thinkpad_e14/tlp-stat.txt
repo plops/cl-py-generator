@@ -59,8 +59,8 @@ System         = LENOVO ThinkPad E14 Gen 6 21M30030MZ
 BIOS           = R2KET35W (1.18 )
 EC Firmware    = 1.18
 OS Release     = Gentoo Linux
-Kernel         = 6.12.58-gentoo #1 SMP PREEMPT_RT Sat Jan  3 05:06:18 -00 2026 x86_64
-/proc/cmdline  = BOOT_IMAGE=/boot/vmlinuz root=/dev/nvme0n1p2 squashfs.part=/dev/disk/by-uuid/df544e10-90c0-4315-860c-92a58ec8499e squashfs.file=gentoo.squashfs persist.part=/dev/disk/by-uuid/bbac9bb8-39d9-42fa-8d04-94610ced9839 persist.lv=/dev/mapper/enc persist.mapname=enc
+Kernel         = 6.12.58-gentoo #1 SMP PREEMPT_RT Thu Dec 11 02:07:11 -00 2025 x86_64
+/proc/cmdline  = BOOT_IMAGE=/boot/vmlinuz_1211 root=/dev/nvme0n1p2 squashfs.part=/dev/disk/by-uuid/df544e10-90c0-4315-860c-92a58ec8499e squashfs.file=gentoo.squashfs persist.part=/dev/disk/by-uuid/bbac9bb8-39d9-42fa-8d04-94610ced9839 persist.lv=/dev/mapper/enc persist.mapname=enc
 Init system    = systemd 
 Boot mode      = UEFI
 Suspend mode   = [s2idle]
@@ -68,7 +68,7 @@ Suspend mode   = [s2idle]
 +++ TLP Status
 State          = enabled
 RDW state      = enabled
-Last run       = 22:05:50, 4710 sec(s) ago
+Last run       = 06:32:14, 2279 sec(s) ago
 Mode           = battery (persistent)
 Power source   = AC
 
@@ -98,8 +98,8 @@ CPU model = AMD Ryzen 7 7735HS with Radeon Graphics
 /sys/devices/platform/thinkpad_acpi/dytc_lapmode       = 0
 
 +++ Temperatures
-/proc/acpi/ibm/thermal = 53 0 0 0 0 0 0 -128 [°C]
-/proc/acpi/ibm/fan     =  2500 [/min]
+/proc/acpi/ibm/thermal = 47 0 0 0 0 0 0 -128 [°C]
+/proc/acpi/ibm/fan     =     0 [/min]
 
 +++ File System
 /proc/sys/vm/laptop_mode               =     2
@@ -117,7 +117,7 @@ Devices = nvme0n1 sda
   Disk ID    = nvme-ADATA_LEGEND_800_************
   Model      = ADATA LEGEND 800                        
   Firmware   = V1122B0 
-  Temp       = 46 °C
+  Temp       = 43 °C
   Scheduler  = [none] mq-deadline kyber bfq (multi queue)
 
   Runtime PM:
@@ -125,14 +125,14 @@ Devices = nvme0n1 sda
 
   SMART info:
     Critical Warning:                   0x00
-    Temperature:                        47 Celsius
+    Temperature:                        44 Celsius
     Available Spare:                    100%
     Available Spare Threshold:          10%
     Percentage Used:                    3%
-    Data Units Written:                 39,069,587 [20.0 TB]
-    Power Cycles:                       2,032
-    Power On Hours:                     14,838
-    Unsafe Shutdowns:                   432
+    Data Units Written:                 39,405,021 [20.1 TB]
+    Power Cycles:                       2,069
+    Power On Hours:                     15,072
+    Unsafe Shutdowns:                   441
     Media and Data Integrity Errors:    0
 
 /dev/sda: not present.
@@ -217,7 +217,8 @@ Bus 001 Device 001 ID 1d6b:0002 control = auto, autosuspend_delay_ms =    0 -- L
 Bus 001 Device 002 ID 0489:e0d8 control = auto, autosuspend_delay_ms = 2000 -- Foxconn / Hon Hai Bluetooth 5.2 Adapter [MediaTek MT7922] (btusb)
 Bus 002 Device 001 ID 1d6b:0003 control = auto, autosuspend_delay_ms =    0 -- Linux Foundation 3.0 root hub (hub)
 Bus 003 Device 001 ID 1d6b:0002 control = auto, autosuspend_delay_ms =    0 -- Linux Foundation 2.0 root hub (hub)
-Bus 003 Device 002 ID 10a5:d805 control = auto, autosuspend_delay_ms = 2000 -- FPC FPC L:0005 FW:2127093 (no driver)
+Bus 003 Device 002 ID 046d:c52b control = on,   autosuspend_delay_ms = 2000 -- Logitech, Inc. Unifying Receiver (usbhid)
+Bus 003 Device 003 ID 10a5:d805 control = auto, autosuspend_delay_ms = 2000 -- FPC FPC L:0005 FW:2127093 (no driver)
 Bus 004 Device 001 ID 1d6b:0003 control = auto, autosuspend_delay_ms =    0 -- Linux Foundation 3.0 root hub (hub)
 Bus 005 Device 001 ID 1d6b:0002 control = auto, autosuspend_delay_ms =    0 -- Linux Foundation 2.0 root hub (hub)
 Bus 005 Device 002 ID 174f:1820 control = auto, autosuspend_delay_ms = 2000 -- Syntek Integrated Camera (uvcvideo)
@@ -238,10 +239,10 @@ Parameter value ranges:
 +++ ThinkPad Battery Status: BAT0 (Main / Internal)
 /sys/class/power_supply/BAT0/manufacturer                   = Sunwoda
 /sys/class/power_supply/BAT0/model_name                     = L23D3PG2
-/sys/class/power_supply/BAT0/cycle_count                    =     84
+/sys/class/power_supply/BAT0/cycle_count                    =     86
 /sys/class/power_supply/BAT0/energy_full_design             =  57000 [mWh]
-/sys/class/power_supply/BAT0/energy_full                    =  53540 [mWh]
-/sys/class/power_supply/BAT0/energy_now                     =  42580 [mWh]
+/sys/class/power_supply/BAT0/energy_full                    =  54300 [mWh]
+/sys/class/power_supply/BAT0/energy_now                     =  43150 [mWh]
 /sys/class/power_supply/BAT0/power_now                      =      0 [mW]
 /sys/class/power_supply/BAT0/status                         = Not charging
 
@@ -250,7 +251,7 @@ Parameter value ranges:
 /sys/class/power_supply/BAT0/charge_behaviour               = [auto] inhibit-charge force-discharge
 
 Charge                                                      =   79.5 [%]
-Capacity                                                    =   93.9 [%]
+Capacity                                                    =   95.3 [%]
 
 +++ Recommendations
 * Install ethtool to disable Wake-on-LAN

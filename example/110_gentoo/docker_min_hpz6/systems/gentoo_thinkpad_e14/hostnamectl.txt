@@ -1,9 +1,10 @@
-   Static hostname: (unset)
 Transient hostname: localhost
+   Static hostname: (unset)
          Icon name: computer-laptop
            Chassis: laptop 💻
+ Chassis Asset Tag: No Asset Information
         Machine ID: 3bc5cd7540d300807a0a4a1d68c3ef75
-           Boot ID: c05e8aa1666b4d109764336b5727ee6e
+           Boot ID: 85847c628f004ba694a7b2bb2c14f3d3
       Product UUID: a600af4c-31d2-11b2-a85c-b5045e8f0b79
   Operating System: Gentoo Linux
             Kernel: Linux 6.12.58-gentoo
@@ -11,6 +12,7 @@ Transient hostname: localhost
    Hardware Vendor: Lenovo
     Hardware Model: ThinkPad E14 Gen 6
    Hardware Serial: PF53Q1A0
+      Hardware SKU: LENOVO_MT_21M3_BU_Think_FM_ThinkPad E14 Gen 6
   Firmware Version: R2KET35W (1.18 )
      Firmware Date: Thu 2025-07-24
-      Firmware Age: 5month 1w 4d
+      Firmware Age: 5month 3w 6d
