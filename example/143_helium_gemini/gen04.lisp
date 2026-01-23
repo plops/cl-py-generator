@@ -664,6 +664,18 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			 :pk (string "identifier")
 			 ))
 
+	     (do0
+      (comments "Optimization: Ensure indexes exist for fast deduplication lookups.")
+      (try
+       (do0
+        ;; We index the columns used in the WHERE clause of the deduplication query
+        (summaries.create_index (list (string "original_source_link") 
+                                      (string "model") 
+                                      (string "summary_timestamp_start"))
+                                :if_not_exists True))
+       ("Exception as e"
+        (logger.warning (fstring "Index creation failed (this is harmless if they exist): {e}")))))
+
 	 #+auth
 	 (do0
 	  (setf oauth (Auth app client))
@@ -1224,6 +1236,7 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 
 	    ;; --- START DEDUPLICATION LOGIC ---
 	    (do0
+	     (setf t_start (time.perf_counter)) ;; Start Timer
 	     (comments "Define a lookback window (e.g., 5 minutes) to catch double-clicks or re-submissions.")
 	     (setf lookback_limit (- (datetime.datetime.now)
 				     (datetime.timedelta :minutes 5))
@@ -1254,10 +1267,17 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 		(when (< 0 (len matches))
 		  (setf existing_entry (aref matches 0)))))
 
-	     (when existing_entry
-	       (comments " If a duplicate is found, log it and return the PREVIEW of the existing entry instead of starting a new generation job.")
-	       (logger.info (fstring "Duplicate request detected (ID: {existing_entry.identifier}). Skipping new generation."))
-	       (return (generation_preview existing_entry.identifier))))
+	     
+	     (setf t_end (time.perf_counter)) ;; End Timer
+             (setf duration (- t_end t_start))
+	      (if (> duration 0.5)
+		  (logger.warning (fstring "Slow deduplication lookup: {duration:.4f}s"))
+		  (logger.info (fstring "Deduplication lookup took: {duration:.4f}s")))
+	      
+	      (when existing_entry
+		(comments " If a duplicate is found, log it and return the PREVIEW of the existing entry instead of starting a new generation job.")
+		(logger.info (fstring "Duplicate request detected (ID: {existing_entry.identifier}). Skipping new generation."))
+		(return (generation_preview existing_entry.identifier))))
 	    ;; --- END DEDUPLICATION LOGIC ---
 
 	    

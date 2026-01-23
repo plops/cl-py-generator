@@ -168,6 +168,13 @@ app, rt, summaries, Summary = fast_app(
     full_embedding=bytes,
     pk="identifier",
 )
+# Optimization: Ensure indexes exist for fast deduplication lookups.
+try:
+    summaries.create_index(
+        ["original_source_link", "model", "summary_timestamp_start"], if_not_exists=True
+    )
+except Exception as e:
+    logger.warning(f"Index creation failed (this is harmless if they exist): {e}")
 documentation = (
     """**Get Your Summary**
 
@@ -616,6 +623,7 @@ def post(summary: Summary, request: Request):
     summary.host = request.client.host
     summary.summary_timestamp_start = datetime.datetime.now().isoformat()
     summary.summary = ""
+    t_start = time.perf_counter()
     # Define a lookback window (e.g., 5 minutes) to catch double-clicks or re-submissions.
     lookback_limit = (datetime.datetime.now()) - (datetime.timedelta(minutes=5))
     existing_entry = None
@@ -645,6 +653,12 @@ def post(summary: Summary, request: Request):
         )
         if (0) < (len(matches)):
             existing_entry = matches[0]
+    t_end = time.perf_counter()
+    duration = (t_end) - (t_start)
+    if (duration) > (0.50):
+        logger.warning(f"Slow deduplication lookup: {duration:.4f}s")
+    else:
+        logger.info(f"Deduplication lookup took: {duration:.4f}s")
     if existing_entry:
         #  If a duplicate is found, log it and return the PREVIEW of the existing entry instead of starting a new generation job.
         logger.info(
