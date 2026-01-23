@@ -307,55 +307,86 @@ usr/share/locale
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
-#COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
-COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
-RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
 RUN dracut \
-      -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
-      --filesystems " squashfs vfat overlay btrfs " \
-   --kver=${KVER} \
-  --force \
-  /boot/initramfs_squash_sda1-x86_64.img
+      -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
+      --filesystems "squashfs vfat ext4 overlay btrfs" \
+      --kver=${KVER} \
+      --force \
+      /boot/initramfs_squash_sda1-x86_64.img
+      
+
+# Standard Dracut dmsquash-live is very picky about the persistence partition structure. If you want it to automatically detect the overlay partition, that partition must contain two specific directories: overlayfs and ovlwork.
+
+# Mount your persistent LV manually one last time and rearrange the folders to match Dracut's expectation:
+
+# mount /dev/mapper/ubuntu--vg-ubuntu--lv /mnt
+# mkdir /mnt/ovlwork
+# mv /mnt/persistent/upper/* /mnt/persistent/   # Move contents to root of folder
+# rmdir /mnt/persistent/upper /mnt/persistent/work
+# # Ensure /mnt/persistent and /mnt/ovlwork are siblings
+# umount /mnt
+
+# root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
+# rd.live.dir=/ \
+# rd.live.squashimg=gentoo.squashfs \
+# rd.live.ram=1 \
+# rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
+# rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
+# rd.lvm.lv=ubuntu--vg/ubuntu--lv \
+# rd.overlay=/dev/mapper/ubuntu--vg-ubuntu--lv:persistent \
+# rd.live.overlay.overlayfs=1
 
 
-COPY config/init_dracut_crypt_disk.sh /usr/lib/dracut/modules.d/99base/init.sh
-RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+# #COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
+# COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
+# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
-RUN dracut \
-      -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
-      --filesystems " squashfs vfat overlay btrfs " \
-   --kver=${KVER} \
-  --force \
-  /boot/initramfs_squash_from_disk.img
-
-# allow passing the initramfs public key and tunnel private key into the build
-ARG INITRAMFS_AUTH_KEY=""
-ARG TUNNEL_KEY=""
-
-# Create dracut assets for remote-unlock initramfs and include them in a new initramfs image.
-# Ensure the directory exists and write any provided keys; fall back to generating tunnel key if not provided.
-RUN mkdir -p /etc/dracut-crypt-ssh \
-    && mkdir -p /root/.ssh \
- && if [ -n "$INITRAMFS_AUTH_KEY" ]; then printf '%s\n' "$INITRAMFS_AUTH_KEY" > /root/.ssh/authorized_keys; else :; fi \
- && if [ -n "$TUNNEL_KEY" ]; then printf '%s\n' "$TUNNEL_KEY" > /etc/dracut-crypt-ssh/tunnel_id_rsa && chmod 600 /etc/dracut-crypt-ssh/tunnel_id_rsa; else ssh-keygen -f /etc/dracut-crypt-ssh/tunnel_id_rsa -t rsa -N "" >/dev/null 2>&1; fi \
- && ssh-keygen -f /etc/dracut-crypt-ssh/ssh_host_ecdsa_key -t ecdsa -N "" >/dev/null 2>&1 \
- && chmod 600 /etc/dracut-crypt-ssh/ssh_host_ecdsa_key || true
-
-# Add the tunnel starter script and (optional) static authorized_keys fallback file
-COPY config/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/start-reverse-tunnels.sh
-RUN chmod +x /etc/dracut-crypt-ssh/start-reverse-tunnels.sh || true
-
-# Build the third initramfs which includes dracut-crypt-ssh and network so dropbear + autossh can run
 # RUN dracut \
-#       -m "kernel-modules base rootfs-block dm udev-rules crypt lvm network crypt-ssh" \
-#       --add-drivers "r8169" \
-#       --filesystems "squashfs vfat overlay btrfs" \
-#       --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
-#       --kver=${KVER} \
-#       --force \
-#       /boot/initramfs-with-ssh.img
+#       -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
+#       --filesystems " squashfs vfat overlay btrfs " \
+#    --kver=${KVER} \
+#   --force \
+#   /boot/initramfs_squash_sda1-x86_64.img
 
-# real    174m37.518s
-#70 198.6 Filesystem size 7895377.73 Kbytes (7710.33 Mbytes)
-#70 198.6       36.59% of uncompressed filesystem size (21579915.17 Kbytes)
+
+# COPY config/init_dracut_crypt_disk.sh /usr/lib/dracut/modules.d/99base/init.sh
+# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+
+# RUN dracut \
+#       -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
+#       --filesystems " squashfs vfat overlay btrfs " \
+#    --kver=${KVER} \
+#   --force \
+#   /boot/initramfs_squash_from_disk.img
+
+# # allow passing the initramfs public key and tunnel private key into the build
+# ARG INITRAMFS_AUTH_KEY=""
+# ARG TUNNEL_KEY=""
+
+# # Create dracut assets for remote-unlock initramfs and include them in a new initramfs image.
+# # Ensure the directory exists and write any provided keys; fall back to generating tunnel key if not provided.
+# RUN mkdir -p /etc/dracut-crypt-ssh \
+#     && mkdir -p /root/.ssh \
+#  && if [ -n "$INITRAMFS_AUTH_KEY" ]; then printf '%s\n' "$INITRAMFS_AUTH_KEY" > /root/.ssh/authorized_keys; else :; fi \
+#  && if [ -n "$TUNNEL_KEY" ]; then printf '%s\n' "$TUNNEL_KEY" > /etc/dracut-crypt-ssh/tunnel_id_rsa && chmod 600 /etc/dracut-crypt-ssh/tunnel_id_rsa; else ssh-keygen -f /etc/dracut-crypt-ssh/tunnel_id_rsa -t rsa -N "" >/dev/null 2>&1; fi \
+#  && ssh-keygen -f /etc/dracut-crypt-ssh/ssh_host_ecdsa_key -t ecdsa -N "" >/dev/null 2>&1 \
+#  && chmod 600 /etc/dracut-crypt-ssh/ssh_host_ecdsa_key || true
+
+# # Add the tunnel starter script and (optional) static authorized_keys fallback file
+# COPY config/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/start-reverse-tunnels.sh
+# RUN chmod +x /etc/dracut-crypt-ssh/start-reverse-tunnels.sh || true
+
+# # Build the third initramfs which includes dracut-crypt-ssh and network so dropbear + autossh can run
+# # RUN dracut \
+# #       -m "kernel-modules base rootfs-block dm udev-rules crypt lvm network crypt-ssh" \
+# #       --add-drivers "r8169" \
+# #       --filesystems "squashfs vfat overlay btrfs" \
+# #       --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
+# #       --kver=${KVER} \
+# #       --force \
+# #       /boot/initramfs-with-ssh.img
+
+# # real    174m37.518s
+# #70 198.6 Filesystem size 7895377.73 Kbytes (7710.33 Mbytes)
+# #70 198.6       36.59% of uncompressed filesystem size (21579915.17 Kbytes)

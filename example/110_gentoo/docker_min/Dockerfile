@@ -389,15 +389,13 @@ usr/share/locale
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
-COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
-RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
 
 RUN dracut \
-  -m "base" \
-  --kver=${KVER} \
-  --filesystems " squashfs vfat overlay " \
-  --force \
-  /boot/initramfs_squash_sda1-x86_64.img
+      -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
+      --filesystems "squashfs vfat ext4 overlay btrfs" \
+      --kver=${KVER} \
+      --force \
+      /boot/initramfs_squash_sda1-x86_64.img
 
 
 

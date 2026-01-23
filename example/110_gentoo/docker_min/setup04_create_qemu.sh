@@ -76,7 +76,15 @@ lsblk "$LOOP_DEVICE"
 # Create a file system
 log_message "Creating ext4 filesystem on ${LOOP_DEVICE}p1..."
 mkfs.vfat "${LOOP_DEVICE}p1"
-mkfs.ext4 "${LOOP_DEVICE}p2"
+mkfs.ext4 -L "persistence" "${LOOP_DEVICE}p2"
+
+# Mount the persistence partition to create required directories
+log_message "Setting up persistence structure on ${LOOP_DEVICE}p2..."
+mount "${LOOP_DEVICE}p2" /mnt
+mkdir -p /mnt/overlayfs
+mkdir -p /mnt/ovlwork
+umount /mnt
+
 # Mount the file system
 log_message "Mounting ${LOOP_DEVICE}p1 to /mnt..."
 mount "${LOOP_DEVICE}p1" /mnt
@@ -108,26 +116,67 @@ check_disk_usage /mnt #final check
 # https://github.com/blickers/livebackup
 # https://www.gnu.org/software/grub/manual/grub/html_node/Loopback-booting.html
 # Create grub.cfg
+
+
+# mapping:
+# root=live:<device>            -> Where the squashfs file is
+# rd.live.dir=/                 -> File is in root, not /LiveOS
+# rd.live.squashimg=filename    -> The name of the file
+# rd.live.ram=1                 -> Copy to RAM
+# rd.overlay=<device>           -> The persistence partition
+# rd.live.overlay.overlayfs=1   -> Use OverlayFS (not DeviceMapper)
+
+
+
 log_message "Creating /mnt/boot/grub/grub.cfg..."
 cat << EOF > /mnt/boot/grub/grub.cfg
 set default=0
 set timeout=5
 set root=(hd0,1)
-menuentry "Gentoo from sda1/gentoo.squashfs" {
+
+menuentry "Gentoo Standard Dracut (QEMU)" {
   insmod part_msdos
   echo 'Loading Linux ...'
-  linux /vmlinuz root=/dev/sda1 console=ttyS0 squash_root=/dev/sda1:/gentoo.squashfs overlay_lower=/dev/sda2
+  linux /vmlinuz \
+      root=live:/dev/sda1 \
+      rd.live.dir=/ \
+      rd.live.squashimg=gentoo.squashfs \
+      rd.live.ram=1 \
+      rd.overlay=/dev/sda2 \
+      rd.live.overlay.overlayfs=1 \
+      console=ttyS0
   echo 'Loading initial ramdisk ...'
   initrd /initramfs_squash_sda1-x86_64.img
 }
-menuentry "Gentoo from mmcblk0p1/gentoo.squashfs and overlay on mmcblk0p2" {
+
+menuentry "Gentoo Production (Encrypted Persistence Example)" {
   insmod part_msdos
   echo 'Loading Linux ...'
-  linux /vmlinuz root=/dev/sda1 console=ttyS0 squash_root=/dev/mmcblk0p1:/gentoo.squashfs overlay_lower=/dev/mmcblk0p2
+  linux /vmlinuz \
+      root=live:/dev/sda1 \
+      rd.live.dir=/ \
+      rd.live.squashimg=gentoo.squashfs \
+      rd.live.ram=1 \
+      rd.luks.uuid=YOUR-UUID-HERE \
+      rd.luks.name=YOUR-UUID-HERE=enc \
+      rd.overlay=/dev/mapper/enc \
+      rd.live.overlay.overlayfs=1 \
+      console=ttyS0
   echo 'Loading initial ramdisk ...'
   initrd /initramfs_squash_sda1-x86_64.img
 }
 EOF
+
+# Summary of what happens on boot:
+# Dracut starts.
+# It sees root=live:/dev/sda1. It mounts sda1 to /run/initramfs/live.
+# It sees rd.live.ram=1. It copies /run/initramfs/live/gentoo.squashfs to RAM.
+# It sees rd.overlay=/dev/sda2. It mounts sda2 temporarily.
+# It checks if sda2 contains directories /overlayfs and /ovlwork (which we created in the updated script).
+# It creates the union mount using those directories over the RAM-backed system.
+
+
+
 
 log_message "grub.cfg created."
 
