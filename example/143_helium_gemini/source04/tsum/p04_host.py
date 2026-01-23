@@ -616,6 +616,41 @@ def post(summary: Summary, request: Request):
     summary.host = request.client.host
     summary.summary_timestamp_start = datetime.datetime.now().isoformat()
     summary.summary = ""
+    # Define a lookback window (e.g., 5 minutes) to catch double-clicks or re-submissions.
+    lookback_limit = (datetime.datetime.now()) - (datetime.timedelta(minutes=5))
+    existing_entry = None
+    if (summary.original_source_link) and (
+        (0) < (len(summary.original_source_link.strip()))
+    ):
+        # Criteria 1: Check by YouTube Link + Model
+        matches = summaries(
+            where="original_source_link = ? AND model = ? AND summary_timestamp_start > ?",
+            where_args=[
+                summary.original_source_link.strip(),
+                summary.model,
+                lookback_limit.isoformat(),
+            ],
+            order_by="identifier DESC",
+            limit=1,
+        )
+        if (0) < (len(matches)):
+            existing_entry = matches[0]
+    elif (summary.transcript) and ((0) < (len(summary.transcript.strip()))):
+        # Criteria 2: Check by Raw Transcript + Model (if no link provided)
+        matches = summaries(
+            where="transcript = ? AND model = ? AND summary_timestamp_start > ?",
+            where_args=[summary.transcript, summary.model, lookback_limit.isoformat()],
+            order_by="identifier DESC",
+            limit=1,
+        )
+        if (0) < (len(matches)):
+            existing_entry = matches[0]
+    if existing_entry:
+        #  If a duplicate is found, log it and return the PREVIEW of the existing entry instead of starting a new generation job.
+        logger.info(
+            f"Duplicate request detected (ID: {existing_entry.identifier}). Skipping new generation."
+        )
+        return generation_preview(existing_entry.identifier)
     if summary.transcript is not None:
         if (0) == (len(summary.transcript)):
             summary.summary = "Downloading transcript..."

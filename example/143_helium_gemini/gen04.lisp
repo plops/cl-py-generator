@@ -27,7 +27,7 @@
 ;; [.] Download main language of the transcript
 ;; [X] Browsers sometimes translate the model selector, this might mess up the model lookup
 ;; [X] Log to file with timestamps
-
+;; [X] Deduplication of the same request in short time frame
 
 ;; TODO (new implementation)
 ;; [ ] google genai with async responses (and thinking for the flash model)
@@ -1221,6 +1221,46 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 						       (now)
 						       (isoformat))
 		  summary.summary (string ""))
+
+	    ;; --- START DEDUPLICATION LOGIC ---
+	    (do0
+	     (comments "Define a lookback window (e.g., 5 minutes) to catch double-clicks or re-submissions.")
+	     (setf lookback_limit (- (datetime.datetime.now)
+				     (datetime.timedelta :minutes 5))
+		   existing_entry None)
+
+	     (cond
+	       ((and summary.original_source_link
+		     (< 0 (len (summary.original_source_link.strip))))
+		(comments "Criteria 1: Check by YouTube Link + Model")
+		(setf matches (summaries :where (string "original_source_link = ? AND model = ? AND summary_timestamp_start > ?")
+					 :where_args (list (summary.original_source_link.strip)
+							   summary.model
+							   (lookback_limit.isoformat))
+					 :order_by (string "identifier DESC")
+					 :limit 1))
+		(when (< 0 (len matches))
+		  (setf existing_entry (aref matches 0))))
+	       
+	       ((and summary.transcript
+		     (< 0 (len (summary.transcript.strip))))
+		(comments "Criteria 2: Check by Raw Transcript + Model (if no link provided)")
+		(setf matches (summaries :where (string "transcript = ? AND model = ? AND summary_timestamp_start > ?")
+					 :where_args (list summary.transcript
+							   summary.model
+							   (lookback_limit.isoformat))
+					 :order_by (string "identifier DESC")
+					 :limit 1))
+		(when (< 0 (len matches))
+		  (setf existing_entry (aref matches 0)))))
+
+	     (when existing_entry
+	       (comments " If a duplicate is found, log it and return the PREVIEW of the existing entry instead of starting a new generation job.")
+	       (logger.info (fstring "Duplicate request detected (ID: {existing_entry.identifier}). Skipping new generation."))
+	       (return (generation_preview existing_entry.identifier))))
+	    ;; --- END DEDUPLICATION LOGIC ---
+
+	    
 	    (when (is-not summary.transcript None)
 	      (when (== 0 (len summary.transcript))
 		(setf summary.summary (string "Downloading transcript..."))))
