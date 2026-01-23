@@ -389,14 +389,13 @@ usr/share/locale
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
-
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
       --filesystems "squashfs vfat ext4 overlay btrfs" \
       --kver=${KVER} \
+      --install "stat blockdev" \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
-
 
 
 # entire build takes 40min16sec

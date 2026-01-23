@@ -312,6 +312,7 @@ RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
       --filesystems "squashfs vfat ext4 overlay btrfs" \
       --kver=${KVER} \
+      --install "stat blockdev" \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
       
