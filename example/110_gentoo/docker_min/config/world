@@ -25,14 +25,14 @@ sys-fs/squashfs-tools
 sys-kernel/dracut
 sys-kernel/gentoo-sources
 sys-kernel/linux-firmware
-sys-power/tlp
-x11-apps/setxkbmap
-x11-apps/xrandr
-x11-apps/xset
-x11-base/xorg-server
-x11-misc/redshift
-x11-misc/xclip
-x11-misc/xosview
-x11-terms/xterm
-x11-wm/dwm
-net-wireless/iw
+# sys-power/tlp
+# x11-apps/setxkbmap
+# x11-apps/xrandr
+# x11-apps/xset
+# x11-base/xorg-server
+# x11-misc/redshift
+# x11-misc/xclip
+# x11-misc/xosview
+# x11-terms/xterm
+# x11-wm/dwm
+# net-wireless/iw

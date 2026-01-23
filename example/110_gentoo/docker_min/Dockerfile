@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20250606 AS portage
+FROM gentoo/portage:20260122 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20250602
+FROM gentoo/stage3:nomultilib-systemd-20260121
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -21,14 +21,14 @@ COPY config/dwm-6.5 /etc/portage/savedconfig/x11-wm/dwm-6.5
 
 # Clean up the locales
 RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
-RUN rm -rf /usr/share/locale/*
-RUN locale-gen
+#RUN rm -rf /usr/share/locale/*
+#RUN locale-gen
 
 RUN emerge --update --deep --changed-use @world --fetchonly
 
 # # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db 
 
-ENV KVER_PURE=6.12.31
+ENV KVER_PURE=6.12.58
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
@@ -175,8 +175,8 @@ COPY config/simple_password.expect /simple_password.expect
 RUN expect /simple_password.expect
 RUN rm /simple_password.expect
 
-RUN systemctl enable tlp
-RUN systemctl enable bluetooth
+#RUN systemctl enable tlp
+#RUN systemctl enable bluetooth
 
 COPY config/list_files.py /usr/bin/list_files.py
 RUN chmod a+x /usr/bin/list_files.py
@@ -190,118 +190,118 @@ RUN chmod a+x /usr/bin/list_files.py
 RUN python /usr/bin/list_files.py > /list_files.txt
 
 # Add additional programs to world
-COPY config/world.2 /
-COPY config/package.use.2 /
-RUN cat /world.2 >> /var/lib/portage/world
-RUN cat /package.use.2 >> /etc/portage/package.use/package.use
-RUN emerge \
-app-editors/emacs \
-app-emacs/magit \
-app-emacs/paredit \
-app-misc/tmux \
-dev-lisp/sbcl \
-dev-util/tkdiff \
-net-analyzer/netcat \
-dev-libs/capnproto \
-app-text/mupdf \
-x11-terms/zutty \
-sys-fs/cryptsetup \
-sys-fs/lvm2 \
-media-libs/glfw \
-media-sound/pulseaudio \
-dev-cpp/popl \
-dev-db/sqlite \
-dev-libs/spdlog
+# COPY config/world.2 /
+# COPY config/package.use.2 /
+# RUN cat /world.2 >> /var/lib/portage/world
+# RUN cat /package.use.2 >> /etc/portage/package.use/package.use
+# RUN emerge \
+# app-editors/emacs \
+# app-emacs/magit \
+# app-emacs/paredit \
+# app-misc/tmux \
+# dev-lisp/sbcl \
+# dev-util/tkdiff \
+# net-analyzer/netcat \
+# dev-libs/capnproto \
+# app-text/mupdf \
+# x11-terms/zutty \
+# sys-fs/cryptsetup \
+# sys-fs/lvm2 \
+# media-libs/glfw \
+# media-sound/pulseaudio \
+# dev-cpp/popl \
+# dev-db/sqlite \
+# dev-libs/spdlog
 
-# jumbo-build combines files to compile faster but requires more memory
-
-RUN echo "" >> /etc/portage/package.use/package.use
-RUN cat <<EOF >> /etc/portage/package.use/package.use
-dev-libs/glib dbus elf mime xattr -debug -doc introspection -selinux -static-libs -sysprof -systemtap -test -utils
-x11-libs/gdk-pixbuf -gif -gtk-doc introspection -jpeg -test -tif
-www-client/firefox X -clang -gmp-autoupdate jumbo-build system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-webp -telemetry -dbus -debug -eme-free -gnome-shell -hardened -hwaccel -jack -libproxy -openh264 -pgo pulseaudio -selinux -sndio -system-png -wasm-sandbox -wayland -wifi
-media-video/ffmpeg X dav1d encode gpl libdrm opus pulseaudio static-libs threads vaapi vulkan x264 -alsa -amf -amr -amrenc -appkit -bluray -bs2b -bzip2 -cdio -chromaprint -chromium -codec2 -cpudetection (-cuda) -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gnutls -gsm -hardcoded-tables -iconv -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma (-mipsdspr1) (-mipsdspr2) (-mipsfpu) -modplug -mp3 -network -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic -postproc (-qsv) -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -webp -x265 -xvid -zeromq -zimg zlib -zvbi
-media-libs/libvpx highbitdepth threads -doc postproc -static-libs -test
-gnome-base/librsvg vala -debug -gtk-doc introspection
-EOF
-RUN emerge -v www-client/firefox
-
-# 622MB compressed, 2.1GB uncompressed, 7min for compilation of world.2
-
-# 32 minutes for the firefox build
-# 847MB compressed, 2.9GB uncompressed
-
-RUN emerge --unmerge virtual/rust dev-lang/rust-bin
-RUN emerge --depclean
-
-RUN emerge \
- net-wireless/iwgtk
-
-#net-wireless/blueman # need gtk 3.24
-
- #83 37.29 Filesystem size 876395.57 Kbytes (855.86 Mbytes)
-#83 37.29       29.95% of uncompressed filesystem size (2926143.56 Kbytes)
-
-RUN eclean-dist
-RUN eclean-pkg
-
-
-# COPY config/world.3 /
-# COPY config/package.use.3 /
-# COPY config/package.license.3 /
-# COPY config/package.accept_keywords.3 /
-# RUN cat /world.3 >> /var/lib/portage/world
-# RUN cat /package.use.3 >> /etc/portage/package.use/package.use
-# RUN cat /package.license.3 >> /etc/portage/package.license
-# RUN cat /package.accept_keywords.3 >> /etc/portage/package.accept_keywords/package.accept_keywords
-# #RUN emerge --update --deep --changed-use @world --fetchonly
-# #RUN emerge --update --deep --changed-use @world
-# #RUN emerge -v www-client/chromium
-
-RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
-RUN echo "dev-util/clion ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
-RUN echo "dev-util/clion IDEA" >> /etc/portage/package.license 
-RUN emerge dev-util/clion
-
-#89 87.70 Filesystem size 2149035.79 Kbytes (2098.67 Mbytes)
-#89 87.70       31.35% of uncompressed filesystem size (6855828.81 Kbytes)
-# 5min24s to install clion (and recompress)
-
-RUN emerge  dev-debug/gdb
-RUN emerge dev-ada/gprbuild 
-
-#90 86.38 Filesystem size 2154112.32 Kbytes (2103.63 Mbytes)
-#90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)
-# 2min35s to install gdb (and recompress)
+# # jumbo-build combines files to compile faster but requires more memory
 
 # RUN echo "" >> /etc/portage/package.use/package.use
 # RUN cat <<EOF >> /etc/portage/package.use/package.use
-# net-libs/nodejs inspector
-# sys-libs/zlib minizip
-# media-libs/harfbuzz icu
-# dev-libs/libxml2 icu
-# www-client/chromium X -hangouts official -proprietary-codecs -screencast system-harfbuzz system-png system-zstd -wayland -widevine -bindist -bundled-toolchain -cups -custom-cflags -debug -ffmpeg-chromium gtk4 -headless -kerberos -pax-kernel -pgo -pulseaudio -qt6 -selinux -system-icu -test -vaapi
+# dev-libs/glib dbus elf mime xattr -debug -doc introspection -selinux -static-libs -sysprof -systemtap -test -utils
+# x11-libs/gdk-pixbuf -gif -gtk-doc introspection -jpeg -test -tif
+# www-client/firefox X -clang -gmp-autoupdate jumbo-build system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-webp -telemetry -dbus -debug -eme-free -gnome-shell -hardened -hwaccel -jack -libproxy -openh264 -pgo pulseaudio -selinux -sndio -system-png -wasm-sandbox -wayland -wifi
+# media-video/ffmpeg X dav1d encode gpl libdrm opus pulseaudio static-libs threads vaapi vulkan x264 -alsa -amf -amr -amrenc -appkit -bluray -bs2b -bzip2 -cdio -chromaprint -chromium -codec2 -cpudetection (-cuda) -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gnutls -gsm -hardcoded-tables -iconv -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma (-mipsdspr1) (-mipsdspr2) (-mipsfpu) -modplug -mp3 -network -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic -postproc (-qsv) -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -webp -x265 -xvid -zeromq -zimg zlib -zvbi
+# media-libs/libvpx highbitdepth threads -doc postproc -static-libs -test
+# gnome-base/librsvg vala -debug -gtk-doc introspection
 # EOF
-# RUN emerge www-client/chromium --jobs=4
+# RUN emerge -v www-client/firefox
 
-#87 5223.1  * ERROR: www-client/chromium-135.0.7049.52::gentoo failed (compile phase):
-#87 5223.1  *   ninja -v -j33 -l0 -C out/Release chrome chromedriver chrome_sandbox failed
-#87 5223.1  *
-#87 5223.1  * Call stack:
-#87 5223.1  *     ebuild.sh, line  136:  Called src_compile
-#87 5223.1  *   environment, line 4489:  Called chromium_compile
-#87 5223.1  *   environment, line 1745:  Called eninja '-C' 'out/Release' 'chrome' 'chromedriver' 'chrome_sandbox'
-#87 5223.1  *   environment, line 2118:  Called die
-#87 5223.1  * The specific snippet of code:
-#87 5223.1  *       "$@" || die -n "${*} failed"
-#87 ERROR: process "/bin/sh -c emerge www-client/chromium" did not complete successfully: exit code: 1
-# failed after real    87m4.507s
+# # 622MB compressed, 2.1GB uncompressed, 7min for compilation of world.2
 
-# #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
+# # 32 minutes for the firefox build
+# # 847MB compressed, 2.9GB uncompressed
 
-# # The full emerge of all the updated packet took 2224 seconds
-# # The kernel build took 194 seconds
-# #'usr/lib/firmware/!({regulator.db*,amdgpu,rtl_bt,rtw89})' 
+# RUN emerge --unmerge virtual/rust dev-lang/rust-bin
+# RUN emerge --depclean
+
+# RUN emerge \
+#  net-wireless/iwgtk
+
+# #net-wireless/blueman # need gtk 3.24
+
+#  #83 37.29 Filesystem size 876395.57 Kbytes (855.86 Mbytes)
+# #83 37.29       29.95% of uncompressed filesystem size (2926143.56 Kbytes)
+
+# RUN eclean-dist
+# RUN eclean-pkg
+
+
+# # COPY config/world.3 /
+# # COPY config/package.use.3 /
+# # COPY config/package.license.3 /
+# # COPY config/package.accept_keywords.3 /
+# # RUN cat /world.3 >> /var/lib/portage/world
+# # RUN cat /package.use.3 >> /etc/portage/package.use/package.use
+# # RUN cat /package.license.3 >> /etc/portage/package.license
+# # RUN cat /package.accept_keywords.3 >> /etc/portage/package.accept_keywords/package.accept_keywords
+# # #RUN emerge --update --deep --changed-use @world --fetchonly
+# # #RUN emerge --update --deep --changed-use @world
+# # #RUN emerge -v www-client/chromium
+
+# RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
+# RUN echo "dev-util/clion ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
+# RUN echo "dev-util/clion IDEA" >> /etc/portage/package.license 
+# RUN emerge dev-util/clion
+
+# #89 87.70 Filesystem size 2149035.79 Kbytes (2098.67 Mbytes)
+# #89 87.70       31.35% of uncompressed filesystem size (6855828.81 Kbytes)
+# # 5min24s to install clion (and recompress)
+
+# RUN emerge  dev-debug/gdb
+# RUN emerge dev-ada/gprbuild 
+
+# #90 86.38 Filesystem size 2154112.32 Kbytes (2103.63 Mbytes)
+# #90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)
+# # 2min35s to install gdb (and recompress)
+
+# # RUN echo "" >> /etc/portage/package.use/package.use
+# # RUN cat <<EOF >> /etc/portage/package.use/package.use
+# # net-libs/nodejs inspector
+# # sys-libs/zlib minizip
+# # media-libs/harfbuzz icu
+# # dev-libs/libxml2 icu
+# # www-client/chromium X -hangouts official -proprietary-codecs -screencast system-harfbuzz system-png system-zstd -wayland -widevine -bindist -bundled-toolchain -cups -custom-cflags -debug -ffmpeg-chromium gtk4 -headless -kerberos -pax-kernel -pgo -pulseaudio -qt6 -selinux -system-icu -test -vaapi
+# # EOF
+# # RUN emerge www-client/chromium --jobs=4
+
+# #87 5223.1  * ERROR: www-client/chromium-135.0.7049.52::gentoo failed (compile phase):
+# #87 5223.1  *   ninja -v -j33 -l0 -C out/Release chrome chromedriver chrome_sandbox failed
+# #87 5223.1  *
+# #87 5223.1  * Call stack:
+# #87 5223.1  *     ebuild.sh, line  136:  Called src_compile
+# #87 5223.1  *   environment, line 4489:  Called chromium_compile
+# #87 5223.1  *   environment, line 1745:  Called eninja '-C' 'out/Release' 'chrome' 'chromedriver' 'chrome_sandbox'
+# #87 5223.1  *   environment, line 2118:  Called die
+# #87 5223.1  * The specific snippet of code:
+# #87 5223.1  *       "$@" || die -n "${*} failed"
+# #87 ERROR: process "/bin/sh -c emerge www-client/chromium" did not complete successfully: exit code: 1
+# # failed after real    87m4.507s
+
+# # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
+
+# # # The full emerge of all the updated packet took 2224 seconds
+# # # The kernel build took 194 seconds
+# # #'usr/lib/firmware/!({regulator.db*,amdgpu,rtl_bt,rtw89})' 
 
 # For my laptop: -march=znver3 
 # -one-file-system-x 
