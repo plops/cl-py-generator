@@ -338,6 +338,24 @@ RUN dracut \
 # rd.overlay=/dev/mapper/ubuntu--vg-ubuntu--lv:persistent \
 # rd.live.overlay.overlayfs=1
 
+# verified grub config to boot this image 
+# menuentry 'Gentoo Dracut (Fixed)' {
+#     insmod part_gpt
+#     insmod fat
+#     insmod btrfs
+#     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
+    
+#     linux /boot/vmlinuz \
+#     root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
+#     rd.live.dir=/ \
+#     rd.live.squashimg=gentoo.squashfs \
+#     rd.live.ram=1 \
+#     rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
+#     rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
+#         rd.overlay=/dev/mapper/enc:persistent \
+#     rd.live.overlay.overlayfs=1
+#     initrd /boot/initramfs_squash_sda1-x86_64.img
+# }
 
 # Summary of what happens on boot:
 # Dracut starts.
