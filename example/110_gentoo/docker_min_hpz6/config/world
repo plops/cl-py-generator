@@ -22,82 +22,83 @@ x11-apps/xset
 x11-base/xorg-server
 x11-terms/xterm
 x11-wm/dwm
-# x11-drivers/nvidia-drivers
-# dev-util/clion
-# sys-process/btop
-# www-client/google-chrome
-# dev-lang/rust
-# media-video/mpv
-# app-containers/docker
-# app-containers/docker-buildx
-# app-containers/docker-cli
-# app-editors/emacs
-# #app-editors/vscode
-# app-misc/mc
-# app-text/mupdf
-# dev-debug/gdb
-# dev-lisp/sbcl
-# dev-python/uv
-# #dev-util/nvidia-cuda-toolkit
-# dev-util/ruff
-# media-gfx/feh
-# media-gfx/scrot
-# net-fs/sshfs
-# net-im/signal-desktop-bin
-# net-misc/apt-cacher-ng
-# net-misc/chrony
-# net-misc/freerdp
-# x11-misc/xclip
-# x11-misc/xtrlock
-# app-crypt/p11-kit
-# sys-apps/qdirstat
-# dev-debug/ltrace
-# dev-debug/dtrace
-# dev-util/ruff
-# app-text/poppler
-# dev-debug/valgrind
-# #app-emulation/qemu
-# sys-apps/smartmontools
-# sys-apps/nvme-cli
-# sys-apps/pciutils
-# sys-apps/usbutils
-# sys-process/iotop
-# app-portage/cpuid2cpuflags
-# sys-apps/cpuid
-# net-analyzer/nmap
-# net-analyzer/bmon
-# #net-dns/bind-tools
-# x11-apps/xkill
-# media-libs/plotutils
-# app-text/doxygen
-# virtual/jdk
-# media-gfx/plantuml
-# net-wireless/iwgtk
-# net-wireless/iw
-# x11-misc/redshift
-# media-sound/pavucontrol
-# sys-power/tlp
-# #dev-db/postgresql
-# #www-servers/nginx
-# sys-apps/lshw
-# app-misc/fastfetch
-# #sys-process/glances
-# sys-apps/lm-sensors
-# app-misc/tmux
-# sys-apps/dmidecode
-# #llvm-core/clang
-# #dev-cpp/folly
-# www-apps/chromedriver-bin
-# dev-util/android-tools
-# net-misc/autossh
-# #sys-kernel/dracut-crypt-ssh
-# net-misc/mosh
-# net-misc/socat
-# app-pda/ifuse
-# app-misc/fdupes
-# net-analyzer/netcat
-# net-misc/moonlight
-# net-misc/sunshine
-# net-libs/nodejs
-# app-text/typst::guru
-# sys-apps/ripgrep
+x11-drivers/nvidia-drivers
+dev-util/clion
+sys-process/btop
+www-client/google-chrome
+dev-lang/rust
+media-video/mpv
+app-containers/docker
+app-containers/docker-buildx
+app-containers/docker-cli
+app-editors/emacs
+#app-editors/vscode
+app-misc/mc
+app-text/mupdf
+dev-debug/gdb
+dev-lisp/sbcl
+dev-python/uv
+#dev-util/nvidia-cuda-toolkit
+dev-util/ruff
+media-gfx/feh
+media-gfx/scrot
+net-fs/sshfs
+net-im/signal-desktop-bin
+net-misc/apt-cacher-ng
+net-misc/chrony
+net-misc/freerdp
+x11-misc/xclip
+x11-misc/xtrlock
+app-crypt/p11-kit
+sys-apps/qdirstat
+dev-debug/ltrace
+dev-debug/dtrace
+dev-util/ruff
+app-text/poppler
+dev-debug/valgrind
+#app-emulation/qemu
+sys-apps/smartmontools
+sys-apps/nvme-cli
+sys-apps/pciutils
+sys-apps/usbutils
+sys-process/iotop
+app-portage/cpuid2cpuflags
+sys-apps/cpuid
+net-analyzer/nmap
+net-analyzer/bmon
+#net-dns/bind-tools
+x11-apps/xkill
+media-libs/plotutils
+app-text/doxygen
+virtual/jdk
+media-gfx/plantuml
+net-wireless/iwgtk
+net-wireless/iw
+x11-misc/redshift
+media-sound/pavucontrol
+sys-power/tlp
+#dev-db/postgresql
+#www-servers/nginx
+sys-apps/lshw
+app-misc/fastfetch
+#sys-process/glances
+sys-apps/lm-sensors
+app-misc/tmux
+sys-apps/dmidecode
+#llvm-core/clang
+#dev-cpp/folly
+www-apps/chromedriver-bin
+dev-util/android-tools
+net-misc/autossh
+#sys-kernel/dracut-crypt-ssh
+net-misc/mosh
+net-misc/socat
+app-pda/ifuse
+app-misc/fdupes
+net-analyzer/netcat
+net-misc/moonlight
+net-misc/sunshine
+net-libs/nodejs
+app-text/typst::guru
+sys-apps/ripgrep
+dev-db/postgresql
