@@ -339,6 +339,14 @@ RUN dracut \
 # rd.live.overlay.overlayfs=1
 
 
+# Summary of what happens on boot:
+# Dracut starts.
+# It sees root=live:/dev/sda1. It mounts sda1 to /run/initramfs/live.
+# It sees rd.live.ram=1. It copies /run/initramfs/live/gentoo.squashfs to RAM.
+# It sees rd.overlay=/dev/sda2. It mounts sda2 temporarily.
+# It checks if sda2 contains directories /overlayfs and /ovlwork (which we created in the updated script).
+# It creates the union mount using those directories over the RAM-backed system.
+
 # #COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
 # COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
 # RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
