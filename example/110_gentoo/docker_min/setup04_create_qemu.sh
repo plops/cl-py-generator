@@ -199,7 +199,7 @@ menuentry "Gentoo Production (Encrypted Persistence Example) debug shell" {
       rd.luks.name=${UUID}=enc \
       rd.overlay=/dev/mapper/enc \
       rd.live.overlay.overlayfs=1 \
-      rd.debug  \
+      rd.debug rd.break=pre-pivot  \
       console=ttyS0
   echo 'Loading initial ramdisk ...'
   initrd /initramfs_squash_sda1-x86_64.img
@@ -216,7 +216,8 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     rd.luks.uuid=${UUID} \
     rd.luks.name=${UUID}=enc \
     rd.overlay=/dev/mapper/enc:/persistent \
-    rd.live.overlay.overlayfs=1 rd.break=pre-pivot
+    rd.live.overlay.overlayfs=1 rd.break=pre-pivot \
+    console=ttyS0
     initrd /initramfs_squash_sda1-x86_64.img
 }
 EOF
