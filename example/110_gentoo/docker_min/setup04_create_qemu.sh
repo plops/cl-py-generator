@@ -219,10 +219,13 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     rd.live.overlay.overlayfs=1 rd.break=pre-pivot
     initrd /initramfs_squash_sda1-x86_64.img
 }
-
-
-
 EOF
+
+# Print the grub.cfg (so that i can see if the UUID is correct)
+log_message "Contents of /mnt/boot/grub/grub.cfg:"
+cat /mnt/boot/grub/grub.cfg
+
+
 
 # Summary of what happens on boot:
 # Dracut starts.
