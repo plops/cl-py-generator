@@ -27,8 +27,8 @@ mkdir -p qemu
 log_message "Created qemu directory."
 
 # Create the raw disk image
-# 653M is needed for kernel, squashfs and initramfs
-qemu-img create -f raw qemu/sda1.img 3100M
+# it will contain 2 partitions: vfat with grub, kernel and initramfs, squashfs; encrypted ext4 for persistence
+qemu-img create -f raw qemu/sda1.img 6000M
 log_message "Created raw disk image: qemu/sda1.img"
 
 # Detach all loop devices (cleanup from previous runs)
@@ -61,9 +61,9 @@ log_message "Loop device is: $LOOP_DEVICE"
 log_message "Creating msdos disk label..."
 parted "$LOOP_DEVICE" mklabel msdos
 # Create ext4 partition
-log_message "Creating ext4 partition..."
-parted "$LOOP_DEVICE" mkpart primary fat32 1MiB 2400MB
-parted "$LOOP_DEVICE" mkpart primary ext4 2400MB 100%
+log_message "Creating 2 partitions..."
+parted "$LOOP_DEVICE" mkpart primary fat32 1MiB 2400MB # grub, kernel, initramfs, squashfs
+parted "$LOOP_DEVICE" mkpart primary ext4 2400MB 100% # encrypted persistence
 # Set the boot flag
 log_message "Setting boot flag on partition 1..."
 parted "$LOOP_DEVICE" set 1 boot on
@@ -74,16 +74,34 @@ lsblk "$LOOP_DEVICE"
 
 
 # Create a file system
-log_message "Creating ext4 filesystem on ${LOOP_DEVICE}p1..."
+log_message "Creating vfat filesystem on ${LOOP_DEVICE}p1..."
 mkfs.vfat "${LOOP_DEVICE}p1"
-mkfs.ext4 -L "persistence" "${LOOP_DEVICE}p2"
+log_message "Creating encrypted LUKS partition on ${LOOP_DEVICE}p2..."
+# Set up LUKS encryption
+echo -n "123" | cryptsetup luksFormat "${LOOP_DEVICE}p2
+# Open the LUKS partition
+echo -n "123" | cryptsetup luksOpen "${LOOP_DEVICE}p2" enc
+log_message "Creating ext4 filesystem on /dev/mapper/enc..."
+mkfs.ext4 -L "persistence" /dev/mapper/enc
 
 # Mount the persistence partition to create required directories
 log_message "Setting up persistence structure on ${LOOP_DEVICE}p2..."
-mount "${LOOP_DEVICE}p2" /mnt
+mount /dev/mapper/enc /mnt
 mkdir -p /mnt/overlayfs
 mkdir -p /mnt/ovlwork
 umount /mnt
+
+# Close the LUKS partition
+log_message "Closing LUKS partition..."
+cryptsetup luksClose enc
+
+# print the uuid of the encrypted partition
+UUID=$(blkid -s UUID -o value "${LOOP_DEVICE}p2")
+log_message "UUID of encrypted partition (${LOOP_DEVICE}p2): $UUID"
+
+
+
+
 
 # Mount the file system
 log_message "Mounting ${LOOP_DEVICE}p1 to /mnt..."
