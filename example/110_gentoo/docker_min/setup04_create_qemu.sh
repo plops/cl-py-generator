@@ -178,14 +178,50 @@ menuentry "Gentoo Production (Encrypted Persistence Example)" {
       rd.live.dir=/ \
       rd.live.squashimg=gentoo.squashfs \
       rd.live.ram=1 \
-      rd.luks.uuid=YOUR-UUID-HERE \
-      rd.luks.name=YOUR-UUID-HERE=enc \
+      rd.luks.uuid=${UUID} \
+      rd.luks.name=${UUID}=enc \
       rd.overlay=/dev/mapper/enc \
       rd.live.overlay.overlayfs=1 \
       console=ttyS0
   echo 'Loading initial ramdisk ...'
   initrd /initramfs_squash_sda1-x86_64.img
 }
+
+menuentry "Gentoo Production (Encrypted Persistence Example) debug shell" {
+  insmod part_msdos
+  echo 'Loading Linux ...'
+  linux /vmlinuz \
+      root=live:/dev/sda1 \
+      rd.live.dir=/ \
+      rd.live.squashimg=gentoo.squashfs \
+      rd.live.ram=1 \
+      rd.luks.uuid=${UUID} \
+      rd.luks.name=${UUID}=enc \
+      rd.overlay=/dev/mapper/enc \
+      rd.live.overlay.overlayfs=1 \
+      rd.debug  \
+      console=ttyS0
+  echo 'Loading initial ramdisk ...'
+  initrd /initramfs_squash_sda1-x86_64.img
+}
+
+menuentry 'Gentoo Dracut (Fixed) debug' {
+    insmod part_msdos
+    echo 'Loading Linux ...'
+    linux /vmlinuz \
+    root=live:/dev/sda1 \
+    rd.live.dir=/ \
+    rd.live.squashimg=gentoo.squashfs \
+    rd.live.ram=1 \
+    rd.luks.uuid=${UUID} \
+    rd.luks.name=${UUID}=enc \
+    rd.overlay=/dev/mapper/enc:/persistent \
+    rd.live.overlay.overlayfs=1 rd.break=pre-pivot
+    initrd /boot/initramfs_squash_sda1-x86_64.img
+}
+
+
+
 EOF
 
 # Summary of what happens on boot:
