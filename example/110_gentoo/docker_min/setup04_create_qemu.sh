@@ -246,7 +246,7 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     rd.live.ram=1 \
     rd.luks.uuid=${UUID} \
     rd.luks.name=${UUID}=enc \
-    rd.overlay=/dev/mapper/enc:persistent \
+    rd.overlay=/dev/mapper/enc:overlayfs \
     rd.live.overlay.overlayfs=1 rd.break=pre-pivot \
     console=ttyS0
     initrd /initramfs_squash_sda1-x86_64.img
