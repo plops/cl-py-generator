@@ -86,8 +86,39 @@ mkfs.ext4 -L "persistence" /dev/mapper/enc
 
 # Mount the persistence partition to create required directories
 log_message "Setting up persistence structure on ${LOOP_DEVICE}p2..."
-mount /dev/mapper/enc /mnt
-mkdir -p /mnt/overlayfs
+mount /dev/mapper/enc /mnt # This will be the upper layer for OverlayFS (persistence)
+mkdir -p /mnt/overlayfs/etc
+log_message "Storing passwd in /mnt/overlayfs/etc/passwd..."
+cat <<'EOF' > /mnt/overlayfs/etc/passwd
+root:123:0:0:root:/root:/bin/bash
+bin:123:1:1:bin:/bin:/bin/false
+daemon:123:2:2:daemon:/sbin:/bin/false
+adm:123:3:4:adm:/var/adm:/bin/false
+lp:123:4:7:lp:/var/spool/lpd:/bin/false
+sync:123:5:0:sync:/sbin:/bin/sync
+shutdown:123:6:0:shutdown:/sbin:/sbin/shutdown
+halt:123:7:0:halt:/sbin:/sbin/halt
+news:123:9:13:news:/var/spool/news:/bin/false
+uucp:123:10:14:uucp:/var/spool/uucp:/bin/false
+operator:123:11:0:operator:/root:/sbin/nologin
+portage:123:250:250:System user; portage:/var/lib/portage/home:/sbin/nologin
+nobody:123:65534:65534:System user; nobody:/var/empty:/sbin/nologin
+systemd-resolve:123:193:193:System user; systemd-resolve:/dev/null:/sbin/nologin
+systemd-oom:123:198:198:System user; systemd-oom:/dev/null:/sbin/nologin
+systemd-timesync:123:195:195:System user; systemd-timesync:/dev/null:/sbin/nologin
+messagebus:123:101:101:System user; messagebus:/dev/null:/sbin/nologin
+systemd-journal-remote:123:191:191:System user; systemd-journal-remote:/dev/null:/sbin/nologin
+systemd-network:123:192:192:System user; systemd-network:/dev/null:/sbin/nologin
+systemd-coredump:123:194:194:System user; systemd-coredump:/dev/null:/sbin/nologin
+mail:123:8:12:Mail program user:/var/spool/mail:/sbin/nologin
+postmaster:123:14:12:Postmaster user:/var/spool/mail:/sbin/nologin
+man:123:13:15:System user; man:/dev/null:/sbin/nologin
+sshd:123:22:22:User for ssh:/var/empty:/sbin/nologin
+dhcp:123:300:300:user for dhcp daemon:/dev/null:/sbin/nologin
+nullmail:123:88:88:A user for the nullmailer:/var/spool/nullmailer:/sbin/nologin
+martin:123:1000:1000::/home/martin:/bin/bash
+EOF
+
 mkdir -p /mnt/ovlwork
 umount /mnt
 
