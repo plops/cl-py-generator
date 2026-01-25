@@ -201,6 +201,8 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     initrd /initramfs_squash_sda1-x86_64.img
 }
 EOF
+# The AI expects that mounting the overlay takes too long and the dracut script defaults to ramfs for upper layer
+# of the overlayfs
 
 # Print the grub.cfg (so that i can see if the UUID is correct)
 log_message "Contents of /mnt/boot/grub/grub.cfg:"
