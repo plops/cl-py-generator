@@ -113,6 +113,9 @@ mkdir -p /mnt/boot/grub
 log_message "Installing GRUB to $LOOP_DEVICE..."
 grub-install --target=i386-pc --boot-directory=/mnt/boot "$LOOP_DEVICE"
 
+
+# Note: you should have only one /dev/shm/gentoo-*/gentoo.squashfs file
+# sudo rm -rf /dev/shm/gentoo-*;  ./setup03_copy_from_container.sh
 # Copy squashfs, initramfs and kernel
 log_message "Copying files from /dev/shm/..."
 find /dev/shm/ -maxdepth 2 -name "gentoo*" -type d | while read -r gentoo_dir; do
