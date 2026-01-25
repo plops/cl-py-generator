@@ -328,6 +328,49 @@ RUN dracut \
 # # Ensure /mnt/persistent and /mnt/ovlwork are siblings
 # umount /mnt
 
+# https://dracut-ng.github.io/dracut-ng/man/dracut.cmdline.7.html#_booting_live_images
+#root=live:<url>: Specifies the location of the live image (e.g., root=live:CDLABEL=LIVE).
+#rd.live.overlay=<device>: Defines the device to be used for the writable overlay.
+#rd.live.ram=1: Attempts to load the entire live image into RAM for faster performance (note: may require significant memory).
+#iso-scan/filename=<path>: Searches for an ISO file on available devices and mounts it as a loop device; requires this module.
+# rd.live.debug=1
+# Enables debug output from the live boot process.
+
+# rd.live.dir=<path>
+# Specifies the directory within the boot device where the squashfs.img or rootfs.img can be found. By default, this is /LiveOS.
+
+# rd.live.squashimg=<filename of SquashFS image>
+# Specifies the filename for a SquashFS image of the root filesystem. By default, this is squashfs.img.
+
+# rd.live.ram=1
+# Copy the complete image to RAM and use this for booting. This is useful when the image resides on, e.g., a DVD which needs to be ejected later on.
+
+# rd.overlay={<devspec>[:{<pathspec>|auto}]|none}
+# Manage the usage of a persistent overlay for live images.
+
+# <devspec> specifies the path to a device with a mountable filesystem.
+
+# <pathspec> is a path within the <devspec> filesystem to either
+
+# a file (that is loop mounted for a Device-mapper overlay) or
+
+# a directory (that is symbolically linked to /run/overlayfs for a OverlayFS mount overlay). (A required sister directory /<pathspec>/../ovlwork is automatically made.)
+
+# none (the word itself) specifies that no overlay will be used, such as when an uncompressed, writable live root filesystem is available.
+
+# The above method shall be used to persist the changes made to the root filesystem specified within the
+# root=live:<path to blockdevice> or root=live:<url> device.
+
+# The default pathspec, when :auto or no :<pathspec> is given, is /<rd.live.dir>/overlay-<label>-<uuid>, where <label> and <uuid> are the LABEL and UUID of the filesystem specified by the root=live:<path|url> device.
+
+# If a persistent overlay is detected at the standard LiveOS path, and rd.overlayfs is not set to 1, the overlay type (either Device-mapper or OverlayFS) will be detected and it will be used.
+
+# Examples
+# rd.overlay=/dev/sdb1:/persistent-overlay.img
+# rd.overlay=UUID=99440c1f-8daa-41bf-b965-b7240a8996f4
+
+
+
 # root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
 # rd.live.dir=/ \
 # rd.live.squashimg=gentoo.squashfs \
@@ -337,6 +380,7 @@ RUN dracut \
 # rd.lvm.lv=ubuntu--vg/ubuntu--lv \
 # rd.overlay=/dev/mapper/ubuntu--vg-ubuntu--lv:persistent \
 # rd.live.overlay.overlayfs=1
+# rd.live.debug=1
 
 # verified grub config to boot this image 
 # menuentry 'Gentoo Dracut (Fixed)' {
