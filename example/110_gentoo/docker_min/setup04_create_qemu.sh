@@ -28,7 +28,7 @@ log_message "Created qemu directory."
 
 # Create the raw disk image
 # it will contain 2 partitions: vfat with grub, kernel and initramfs, squashfs; encrypted ext4 for persistence
-qemu-img create -f raw qemu/sda1.img 6000M
+qemu-img create -f raw qemu/sda1.img 1000M
 log_message "Created raw disk image: qemu/sda1.img"
 
 # Detach all loop devices (cleanup from previous runs)
@@ -62,8 +62,8 @@ log_message "Creating msdos disk label..."
 parted "$LOOP_DEVICE" mklabel msdos
 # Create ext4 partition
 log_message "Creating 2 partitions..."
-parted "$LOOP_DEVICE" mkpart primary fat32 1MiB 2400MB # grub, kernel, initramfs, squashfs
-parted "$LOOP_DEVICE" mkpart primary ext4 2400MB 100% # encrypted persistence
+parted "$LOOP_DEVICE" mkpart primary fat32 1MiB 600MB # grub, kernel, initramfs, squashfs
+parted "$LOOP_DEVICE" mkpart primary ext4 600MB 100% # encrypted persistence
 # Set the boot flag
 log_message "Setting boot flag on partition 1..."
 parted "$LOOP_DEVICE" set 1 boot on
