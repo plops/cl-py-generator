@@ -186,56 +186,6 @@ set default=0
 set timeout=5
 set root=(hd0,1)
 
-menuentry "Gentoo Standard Dracut (QEMU)" {
-  insmod part_msdos
-  echo 'Loading Linux ...'
-  linux /vmlinuz \
-      root=live:/dev/sda1 \
-      rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs \
-      rd.live.ram=1 \
-      rd.overlay=/dev/sda2 \
-      rd.live.overlay.overlayfs=1 \
-      console=ttyS0
-  echo 'Loading initial ramdisk ...'
-  initrd /initramfs_squash_sda1-x86_64.img
-}
-
-menuentry "Gentoo Production (Encrypted Persistence Example)" {
-  insmod part_msdos
-  echo 'Loading Linux ...'
-  linux /vmlinuz \
-      root=live:/dev/sda1 \
-      rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs \
-      rd.live.ram=1 \
-      rd.luks.uuid=${UUID} \
-      rd.luks.name=${UUID}=enc \
-      rd.overlay=/dev/mapper/enc \
-      rd.live.overlay.overlayfs=1 \
-      console=ttyS0
-  echo 'Loading initial ramdisk ...'
-  initrd /initramfs_squash_sda1-x86_64.img
-}
-
-menuentry "Gentoo Production (Encrypted Persistence Example) debug shell" {
-  insmod part_msdos
-  echo 'Loading Linux ...'
-  linux /vmlinuz \
-      root=live:/dev/sda1 \
-      rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs \
-      rd.live.ram=1 \
-      rd.luks.uuid=${UUID} \
-      rd.luks.name=${UUID}=enc \
-      rd.overlay=/dev/mapper/enc \
-      rd.live.overlay.overlayfs=1 \
-      rd.debug rd.break=pre-pivot  \
-      console=ttyS0
-  echo 'Loading initial ramdisk ...'
-  initrd /initramfs_squash_sda1-x86_64.img
-}
-
 menuentry 'Gentoo Dracut (Fixed) debug' {
     insmod part_msdos
     echo 'Loading Linux ...'
@@ -245,8 +195,8 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     rd.live.squashimg=gentoo.squashfs \
     rd.live.ram=1 \
     rd.luks.uuid=${UUID} \
-    rd.luks.name=${UUID}=enc \
-    rd.live.overlay.overlayfs=/dev/mapper/enc:/overlayfs \
+    rd.overlay=/dev/mapper/luks-${UUID}:/overlayfs \
+    rd.live.overlay.overlayfs=1 \
     rd.debug rd.break=pre-pivot \
     console=ttyS0
     initrd /initramfs_squash_sda1-x86_64.img
