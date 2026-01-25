@@ -78,7 +78,7 @@ log_message "Creating vfat filesystem on ${LOOP_DEVICE}p1..."
 mkfs.vfat "${LOOP_DEVICE}p1"
 log_message "Creating encrypted LUKS partition on ${LOOP_DEVICE}p2..."
 # Set up LUKS encryption
-echo -n "123" | cryptsetup luksFormat "${LOOP_DEVICE}p2
+echo -n "123" | cryptsetup luksFormat "${LOOP_DEVICE}p2"
 # Open the LUKS partition
 echo -n "123" | cryptsetup luksOpen "${LOOP_DEVICE}p2" enc
 log_message "Creating ext4 filesystem on /dev/mapper/enc..."
