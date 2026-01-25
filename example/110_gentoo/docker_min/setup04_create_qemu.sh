@@ -193,7 +193,6 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     root=live:/dev/sda1 \
     rd.live.dir=/ \
     rd.live.squashimg=gentoo.squashfs \
-    rd.live.ram=1 \
     rd.luks.uuid=${UUID} \
     rd.overlay=/dev/mapper/luks-${UUID}:/overlayfs \
     rd.live.overlay.overlayfs=1 \
