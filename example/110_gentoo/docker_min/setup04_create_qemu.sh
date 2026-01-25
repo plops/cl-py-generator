@@ -195,7 +195,6 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     rd.live.squashimg=gentoo.squashfs \
     rd.luks.uuid=${UUID} \
     rd.overlay=LABEL=persistence:/overlayfs \
-    rd.live.overlay.readonly=1 \
     rd.live.overlay.overlayfs=1 \
     rd.debug rd.break=pre-pivot \
     console=ttyS0
