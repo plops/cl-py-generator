@@ -194,10 +194,11 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     rd.live.dir=/ \
     rd.live.squashimg=gentoo.squashfs \
     rd.luks.uuid=${UUID} \
+    rd.luks.name=${UUID}=enc \
     rd.overlay=LABEL=persistence:/overlayfs \
     rd.live.overlay.overlayfs=1 \
-    rd.debug rd.break=pre-pivot \
-    console=ttyS0
+    rd.break=pre-pivot \
+    console=ttyS0 # rd.debug
     initrd /initramfs_squash_sda1-x86_64.img
 }
 EOF
