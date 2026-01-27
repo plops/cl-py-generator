@@ -389,7 +389,8 @@ usr/share/locale
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
-COPY config/95presistent-overlay /usr/lib/dracut/modules.d/95persistent-overlay/
+# copy the config/95persisent-overlay folder to extend dracut
+COPY config/95persistent-overlay /usr/lib/dracut/modules.d/95persistent-overlay/
 RUN chmod +x /usr/lib/dracut/modules.d/95persistent-overlay/mount-persistent.sh
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs persistent-overlay" \
