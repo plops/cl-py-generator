@@ -102,3 +102,4 @@ net-libs/nodejs
 app-text/typst::guru
 sys-apps/ripgrep
 dev-db/postgresql
+dev-build/steve

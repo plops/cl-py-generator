@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260121 AS portage
+FROM gentoo/portage:20260127 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20260121
+FROM gentoo/stage3:nomultilib-systemd-20260126
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -177,7 +177,7 @@ VIDEO_V4L2
 M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
 
 # Execute the script a single time with the dynamically built list of options
-./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC 
+./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e CUSE -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC 
 make olddefconfig # apply default configuration for whatever options are still open
 EOF
 
