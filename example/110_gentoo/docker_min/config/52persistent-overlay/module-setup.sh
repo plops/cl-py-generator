@@ -10,5 +10,5 @@ depends() {
 }
 install() {
     # Install the hook script into the 'mount' stage
-    inst_hook mount 01 "$moddir/mount-persistent.sh"
+    inst_hook mount 00 "$moddir/mount-persist.sh"
 }
