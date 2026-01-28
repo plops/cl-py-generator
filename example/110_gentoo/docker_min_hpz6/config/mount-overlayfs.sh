@@ -15,11 +15,14 @@ if [ -n "$overlayfs" ]; then
     fi
 
     mkdir -p /run/enc
+    # mount persistent encrypted disk that will be the upper layer of the overlayfs
     mount -t ext4 /dev/mapper/enc /run/enc
+    # a previous step creates these folders. we dont want them
     rm -rf /run/overlayfs
     rm -rf /run/ovlwork
-    ln -s /run/enc/overlayfs /run/overlayfs
-    ln -s /run/enc/ovlwork /run/ovlwork
+    # we have the folders persistent/upper and persistent/work on the encrypted partition
+    ln -s /run/enc/persistent/upper /run/overlayfs
+    ln -s /run/enc/persistent/work /run/ovlwork
     
     if ! strstr "$(cat /proc/mounts)" LiveOS_rootfs; then
         mount -t overlay LiveOS_rootfs -o "$ROOTFLAGS,$ovlfs",upperdir=/run/overlayfs,workdir=/run/ovlwork "$NEWROOT"
