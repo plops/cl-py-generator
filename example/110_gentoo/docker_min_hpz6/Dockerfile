@@ -270,7 +270,7 @@ RUN systemctl enable reverse-ssh-us
 
 # 1. Create a clean temporary workspace
 RUN mkdir -p /tmp/firmware_safe
-RUN cd /usr/lib/firmware
+WORKDIR cd /usr/lib/firmware
 
 # 2. Copy the specific files you need, preserving their directory paths
 RUN cp --parents regulatory.db* /tmp/firmware_safe/
@@ -279,6 +279,7 @@ RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
 RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
 
 # 3. Wipe the original directory (and /opt/cuda as per your first message)
+WORKDIR /
 RUN rm -rf /usr/lib/firmware/*
 
 # 4. Move everything back in one go
