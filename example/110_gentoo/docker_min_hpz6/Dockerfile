@@ -248,8 +248,6 @@ RUN systemctl enable reverse-ssh-us
 # "... *.a"
 # "opt/cuda/targets/x86_64-linux/lib/lib*.a"
 
-# 12.8GB uncompressed
-RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
 # on my laptop i only need
 # [   61.916836] Loading firmware: regulatory.db
@@ -288,6 +286,9 @@ RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
 
 # 5. Cleanup
 RUN rm -rf /tmp/firmware_safe
+
+# 12.8GB uncompressed
+RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
 
 WORKDIR /
