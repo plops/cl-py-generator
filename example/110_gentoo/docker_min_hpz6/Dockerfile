@@ -177,7 +177,7 @@ VIDEO_V4L2
 M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
 
 # Execute the script a single time with the dynamically built list of options
-./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e CUSE -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC 
+./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e SQUASHFS_4K_DEVBLK_SIZE -e CUSE -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC 
 make olddefconfig # apply default configuration for whatever options are still open
 EOF
 
@@ -300,10 +300,10 @@ RUN mksquashfs \
 -xattrs \
 -noappend \
 -not-reproducible \
--Xcompression-level 22 \
+-Xcompression-level 19 \
 -progress \
 -one-file-system-x \
--b 1M \
+-b 256K -noI -noX \
 -mem 10G \
 -wildcards \
 -e \
