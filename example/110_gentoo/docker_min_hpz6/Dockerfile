@@ -248,6 +248,46 @@ RUN systemctl enable reverse-ssh-us
 # "... *.a"
 # "opt/cuda/targets/x86_64-linux/lib/lib*.a"
 
+# 12.8GB uncompressed
+RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
+
+# on my laptop i only need
+# [   61.916836] Loading firmware: regulatory.db
+# [   61.934422] Loading firmware: regulatory.db.p7s
+# [   63.134619] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# [   63.136954] Loading firmware: amdgpu/yellow_carp_toc.bin
+# [   63.139761] Loading firmware: amdgpu/yellow_carp_ta.bin
+# [   63.142223] Loading firmware: amdgpu/yellow_carp_dmcub.bin
+# [   63.143726] Loading firmware: amdgpu/yellow_carp_pfp.bin
+# [   63.144158] Loading firmware: amdgpu/yellow_carp_me.bin
+# [   63.144554] Loading firmware: amdgpu/yellow_carp_ce.bin
+# [   63.144991] Loading firmware: amdgpu/yellow_carp_rlc.bin
+# [   63.145354] Loading firmware: amdgpu/yellow_carp_mec.bin
+# [   63.145729] Loading firmware: amdgpu/yellow_carp_mec2.bin
+# [   63.146091] Loading firmware: amdgpu/yellow_carp_sdma.bin
+# [   63.146270] Loading firmware: amdgpu/yellow_carp_vcn.bin
+# [   63.206931] Loading firmware: mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
+# [   63.589195] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# [   63.634733] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
+
+# 1. Create a clean temporary workspace
+RUN mkdir -p /tmp/firmware_safe && cd /usr/lib/firmware
+
+# 2. Copy the specific files you need, preserving their directory paths
+RUN cp --parents regulatory.db* /tmp/firmware_safe/
+RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
+RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
+RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
+
+# 3. Wipe the original directory (and /opt/cuda as per your first message)
+RUN rm -rf /usr/lib/firmware/*
+
+# 4. Move everything back in one go
+RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
+
+# 5. Cleanup
+RUN rm -rf /tmp/firmware_safe
+
 
 WORKDIR /
 RUN mksquashfs \
