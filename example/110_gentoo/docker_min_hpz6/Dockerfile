@@ -271,7 +271,8 @@ RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 # [   63.634733] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
 
 # 1. Create a clean temporary workspace
-RUN mkdir -p /tmp/firmware_safe && cd /usr/lib/firmware
+RUN mkdir -p /tmp/firmware_safe
+RUN cd /usr/lib/firmware
 
 # 2. Copy the specific files you need, preserving their directory paths
 RUN cp --parents regulatory.db* /tmp/firmware_safe/
