@@ -270,7 +270,7 @@ RUN systemctl enable reverse-ssh-us
 
 # 1. Create a clean temporary workspace
 RUN mkdir -p /tmp/firmware_safe
-WORKDIR cd /usr/lib/firmware
+WORKDIR /usr/lib/firmware
 
 # 2. Copy the specific files you need, preserving their directory paths
 RUN cp --parents regulatory.db* /tmp/firmware_safe/
