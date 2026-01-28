@@ -308,7 +308,8 @@ usr/share/locale
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
-
+COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
+RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
       --filesystems "squashfs vfat ext4 overlay btrfs" \

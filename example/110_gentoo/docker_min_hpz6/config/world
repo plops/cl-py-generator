@@ -38,7 +38,7 @@ app-text/mupdf
 dev-debug/gdb
 dev-lisp/sbcl
 dev-python/uv
-#dev-util/nvidia-cuda-toolkit
+dev-util/nvidia-cuda-toolkit
 dev-util/ruff
 media-gfx/feh
 media-gfx/scrot
@@ -56,7 +56,7 @@ dev-debug/dtrace
 dev-util/ruff
 app-text/poppler
 dev-debug/valgrind
-#app-emulation/qemu
+app-emulation/qemu
 sys-apps/smartmontools
 sys-apps/nvme-cli
 sys-apps/pciutils
