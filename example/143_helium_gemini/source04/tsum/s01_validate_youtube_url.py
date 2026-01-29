@@ -8,6 +8,7 @@ def validate_youtube_url(url):
         r"""^https://((www|m)\.)?youtube\.com/watch\?v=([A-Za-z0-9_-]{11}).*""",
         r"""^https://((www|m)\.)?youtube\.com/live/([A-Za-z0-9_-]{11}).*""",
         r"""^https://(www\.)?youtu\.be/([A-Za-z0-9_-]{11}).*""",
+        r"""^https://((www|m)\.)?youtube\.com/shorts\?v=([A-Za-z0-9_-]{11}).*""",
     ]
     for pattern in patterns:
         match = re.match(pattern, url)

@@ -28,6 +28,7 @@
 ;; [X] Browsers sometimes translate the model selector, this might mess up the model lookup
 ;; [X] Log to file with timestamps
 ;; [X] Deduplication of the same request in short time frame
+;; [ ] Download transcripts for youtube shorts
 
 ;; TODO (new implementation)
 ;; [ ] google genai with async responses (and thinking for the flash model)
@@ -206,6 +207,8 @@
 					(rstring3 "^https://((www|m)\\.)?youtube\\.com/live/([A-Za-z0-9_-]{11}).*")
 					;; shortened link
 					(rstring3 "^https://(www\\.)?youtu\\.be/([A-Za-z0-9_-]{11}).*")
+					;; youtube short
+					(rstring3 "^https://((www|m)\\.)?youtube\\.com/shorts\\?v=([A-Za-z0-9_-]{11}).*")
 					))
 				 (for (pattern patterns)
 				      (setf match (re.match pattern url))
@@ -243,7 +246,10 @@
 				    (validate_youtube_url (string "http://www.youtube.com/live/0123456789a"))))
 			       (assert
 				(== (string "QbnkIdw0HJQ")
-				    (validate_youtube_url (string "https://m.youtube.com/watch?v=QbnkIdw0HJQ"))))))
+				    (validate_youtube_url (string "https://m.youtube.com/watch?v=QbnkIdw0HJQ"))))
+			       (assert
+				(== (string "QbnkIdw0HJQ")
+				    (validate_youtube_url (string "https://m.youtube.com/shorts/QbnkIdw0HJQ"))))))
 		       (:step-name parse_vtt_file
 			:code (do0
 			       "#!/usr/bin/env python3"

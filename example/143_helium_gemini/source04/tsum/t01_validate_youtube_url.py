@@ -22,3 +22,6 @@ assert (False) == (validate_youtube_url("http://www.youtube.com/live/0123456789a
 assert ("QbnkIdw0HJQ") == (
     validate_youtube_url("https://m.youtube.com/watch?v=QbnkIdw0HJQ")
 )
+assert ("QbnkIdw0HJQ") == (
+    validate_youtube_url("https://m.youtube.com/shorts/QbnkIdw0HJQ")
+)
