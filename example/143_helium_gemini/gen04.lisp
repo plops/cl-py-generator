@@ -29,7 +29,7 @@
 ;; [X] Log to file with timestamps
 ;; [X] Deduplication of the same request in short time frame
 ;; [ ] Download transcripts for youtube shorts
-
+ 
 ;; TODO (new implementation)
 ;; [ ] google genai with async responses (and thinking for the flash model)
 ;; [ ] different language outputs (and instructions with different languages)
