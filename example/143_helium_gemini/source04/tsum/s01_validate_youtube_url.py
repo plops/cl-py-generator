@@ -8,12 +8,12 @@ def validate_youtube_url(url):
         r"""^https://((www|m)\.)?youtube\.com/watch\?v=([A-Za-z0-9_-]{11}).*""",
         r"""^https://((www|m)\.)?youtube\.com/live/([A-Za-z0-9_-]{11}).*""",
         r"""^https://(www\.)?youtu\.be/([A-Za-z0-9_-]{11}).*""",
-        r"""^https://((www|m)\.)?youtube\.com/shorts\?v=([A-Za-z0-9_-]{11}).*""",
+        r"""^https://((www|m)\.)?youtube\.com/shorts/([A-Za-z0-9_-]{11}).*""",
     ]
     for pattern in patterns:
         match = re.match(pattern, url)
         if match:
             # The last group is the video id
             return match.groups()[-1]
-    print("Error: Invalid YouTube URL")
+    print(f"Error: Invalid YouTube URL in {url}")
     return False

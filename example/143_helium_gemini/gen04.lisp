@@ -208,7 +208,7 @@
 					;; shortened link
 					(rstring3 "^https://(www\\.)?youtu\\.be/([A-Za-z0-9_-]{11}).*")
 					;; youtube short
-					(rstring3 "^https://((www|m)\\.)?youtube\\.com/shorts\\?v=([A-Za-z0-9_-]{11}).*")
+					(rstring3 "^https://((www|m)\\.)?youtube\\.com/shorts/([A-Za-z0-9_-]{11}).*")
 					))
 				 (for (pattern patterns)
 				      (setf match (re.match pattern url))
@@ -216,7 +216,7 @@
 					;; (print (match.groups))
 					(comments "The last group is the video id")
 					(return (aref (match.groups) -1))))
-				 (print (string "Error: Invalid YouTube URL"))
+				 (print (fstring "Error: Invalid YouTube URL in {url}"))
 				 (return False)))
 			:test (do0
 			       
@@ -247,9 +247,14 @@
 			       (assert
 				(== (string "QbnkIdw0HJQ")
 				    (validate_youtube_url (string "https://m.youtube.com/watch?v=QbnkIdw0HJQ"))))
+
+			       
 			       (assert
-				(== (string "QbnkIdw0HJQ")
-				    (validate_youtube_url (string "https://m.youtube.com/shorts/QbnkIdw0HJQ"))))))
+				(== (string "Dgj2jivpaJk")
+				    (validate_youtube_url (string "https://www.youtube.com/watch?v=Dgj2jivpaJk"))))
+			       (assert
+				(== (string "Dgj2jivpaJk")
+				    (validate_youtube_url (string "https://www.youtube.com/shorts/Dgj2jivpaJk"))))))
 		       (:step-name parse_vtt_file
 			:code (do0
 			       "#!/usr/bin/env python3"
