@@ -121,3 +121,6 @@ sys-apps/coreutils openssl xattr acl nls
 app-crypt/gnupg alternatives
 dev-lang/python ssl gdbm ncurses readline sqlite ensurepip
 dev-lang/ruby ssl
+
+sys-apps/dbus systemd
+sys-libs/gdbm berkdb
