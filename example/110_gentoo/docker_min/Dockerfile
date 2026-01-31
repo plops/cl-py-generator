@@ -190,7 +190,7 @@ RUN for i in \
 RUN make prepare
 
 
-
+RUN emerge -v python
 RUN emerge -e @world --fetchonly
 RUN emerge -e @world
 RUN emerge --depclean
@@ -210,28 +210,6 @@ RUN make install
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
-
-# # Add a tool to read the Ryzen temperatures, frequencies and voltages
-WORKDIR /usr/src
-RUN git clone https://github.com/leogx9r/ryzen_smu
-WORKDIR /usr/src/ryzen_smu
-# Path should be like /lib/modules/6.13.5-gentoo/
-# Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
-RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
-RUN make -j7
-RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
-RUN depmod -a ${KVER}
-RUN rm *.o
-
-
-# # Add slstatus to show battery status and time
-WORKDIR /usr/src
-RUN git clone https://git.suckless.org/slstatus
-WORKDIR /usr/src/slstatus
-COPY config/slstatus_config.h .
-RUN make -j32
-RUN make install
-RUN make clean
 
 # # Create a user 
 RUN useradd -m -G wheel -s /bin/bash martin
@@ -379,6 +357,83 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # For my laptop: -march=znver3 
 # -one-file-system-x 
 # Prepare the squashfs image
+
+
+WORKDIR /usr/src/linux
+RUN make defconfig
+RUN make kvm_guest.config
+RUN for i in \
+	DRM_NOUVEAU \
+	DRM_EXYNOS \
+	DRM_ROCKCHIP \
+	DRM_RCAR_DU \
+	DRM_RCAR_DW_HDMI \
+	DRM_RCAR_USE_LVDS \
+	DRM_RCAR_USE_MIPI_DSI \
+	DRM_IMX_DCSS \
+	DRM_ETNAVIV \
+	DRM_HISI_HIBMC \
+	DRM_HISI_KIRIN \
+	DRM_MEDIATEK \
+	DRM_MSM \
+	DRM_MXSFB \
+	DRM_MESON \
+	DRM_PL111 \
+	DRM_TIDSS \
+	DRM_LEGACY \
+	DRM_SUN4I \
+	DRM_TEGRA \
+	TEGRA_HOST1X \
+	SCSI_UFSHCD \
+	FPGA \
+	RC_CORE \
+	NEW_LEDS \
+	CHROME_PLATFORMS \
+	SURFACE_PLATFORMS \
+	XEN_BLKDEV_FRONTEND \
+	LOGO \
+	SOUND \
+	SLIMBUS \
+	SOUNDWIRE \
+	MEDIA_SUPPORT \
+	MMC \
+	NFS_FS \
+	9P_FS \
+	SUSPEND \
+	HIBERNATION \
+	VIRTUALIZATION \
+	WLAN \
+	PINCTRL \
+	GPIOLIB \
+	PWM \
+	IPMI_HANDLER \
+	CAN \
+	BT \
+	WIRELESS \
+	MD \
+	RFKILL \
+	NET_9P \
+	NFC \
+	SPI \
+	SPMI \
+	HWMON \
+	THERMAL \
+	IIO \
+	USB_NET_DRIVERS \
+	XEN_NETDEV_FRONTEND \
+	ETHERNET \
+	QCOM_IPA \
+	REGULATOR \
+	STAGING \
+	DEBUG_KERNEL \
+	XEN \
+	MODULES; do ./scripts/config --disable $i; done
+RUN make prepare
+RUN make -j32
+RUN make modules_install
+RUN make install
+
+
 WORKDIR /
 RUN mksquashfs \
 / \
@@ -387,8 +442,9 @@ RUN mksquashfs \
 -xattrs \
 -noappend \
 -not-reproducible \
--Xcompression-level 22 \
+-Xcompression-level 17 \
 -progress \
+-b 256K -noI -noX \
 -one-file-system-x \
 -mem 10G \
 -ef /list_files.txt     \
@@ -466,7 +522,7 @@ usr/share/locale
 COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
 RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
 RUN dracut \
-      -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
+      -m "kernel-modules base dmsquash-live dm udev-rules lvm crypt overlayfs" \
       --filesystems "squashfs vfat ext4 overlay btrfs" \
       --kver=${KVER} \
       --install "stat blockdev" \

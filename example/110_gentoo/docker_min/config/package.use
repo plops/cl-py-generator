@@ -104,7 +104,7 @@ media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pu
 #sys-kernel/gentoo-sources experimental
 
 #sys-devel/gcc ada cet cxx default-stack-clash-protection default-znow fortran -multilib nls openmp pie sanitize ssp zstd -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -objc -objc++ -objc-gc -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
-app-alternatives/awk busybox
+app-alternatives/awk gawk
 #app-alternatives/bzip2 pbzip2
 #app-alternatives/gzip pigz
 app-alternatives/sh bash
@@ -124,3 +124,4 @@ dev-lang/ruby ssl
 
 sys-apps/dbus systemd
 sys-libs/gdbm berkdb
+dev-lang/python ensurepip gdbm ncurses readline sqlite ssl -bluetooth -debug -examples -jit -libedit -pgo -tail-call-interp -test -tk -valgrind -verify-sig
