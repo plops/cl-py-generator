@@ -30,7 +30,7 @@ media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threa
 #dev-lang/rust clippy -debug -dist -doc -llvm-libunwind -miri -nightly parallel-compiler -profiler rust-analyzer rust-src rustfmt -system-bootstrap system-llvm -test -verify-sig -wasm
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
 media-libs/libaom -examples -doc -test
-sys-kernel/dracut -selinux -test
+#sys-kernel/dracut -selinux -test
 media-sound/pulseaudio glib bluetooth -daemon -jack ofono-headset
 media-libs/libcanberra gtk3 sound udev alsa pulseaudio
 net-wireless/blueman nls network -policykit pulseaudio
@@ -100,7 +100,24 @@ media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -arc
 media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pulseaudio threads vaapi x264 zlib -amf -amr -amrenc  -appkit  -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection  -cuda  dav1d -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma  -mipsdspr1   -mipsdspr2   -mipsfpu  -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic  -qsv  -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab  -vmaf  -vorbis -vpx -vulkan -webp -x265 -xvid -zeromq -zimg -zvbi
 
 #media-libs/opencv eigen features2d ffmpeg openmp python vaapi -atlas -contrib  -contribcvv -contribdnn -contribfreetype  -contribhdf   -contribovis   -contribsfm   -contribxfeatures2d   -cuda   -cudnn  -debug -dnnsamples -doc -examples -gdal  -gflags   -glog  -gphoto2 -gstreamer gtk3 -ieee1394 -jasper -java jpeg -jpeg2k -lapack  -mkl  non-free -opencl opencvapps -openexr opengl png -qt5 -qt6 -quirc -tbb  -tesseract  -test -testprograms -tiff v4l  -vtk  webp -xine
-x11-libs/libdrm video_cards_radeon
-sys-kernel/gentoo-sources experimental
+#x11-libs/libdrm video_cards_radeon
+#sys-kernel/gentoo-sources experimental
 
-sys-devel/gcc ada cet cxx default-stack-clash-protection default-znow fortran -multilib nls openmp pie sanitize ssp zstd -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -objc -objc++ -objc-gc -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
+#sys-devel/gcc ada cet cxx default-stack-clash-protection default-znow fortran -multilib nls openmp pie sanitize ssp zstd -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -objc -objc++ -objc-gc -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
+app-alternatives/awk busybox
+#app-alternatives/bzip2 pbzip2
+#app-alternatives/gzip pigz
+app-alternatives/sh bash
+app-alternatives/tar gnu
+app-alternatives/cpio gnu
+app-alternatives/bc gnu
+app-alternatives/lex flex
+app-alternatives/yacc bison
+app-alternatives/ninja reference
+app-alternatives/gpg reference
+sys-fs/cryptsetup kernel
+net-misc/curl curl_ssl_openssl openssl ssl
+sys-apps/coreutils openssl xattr acl nls
+app-crypt/gnupg alternatives
+dev-lang/python ssl gdbm ncurses readline sqlite ensurepip
+dev-lang/ruby ssl
