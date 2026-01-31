@@ -144,15 +144,17 @@ RUN for i in \
     CRYPTO_XTS \
     CRYPTO_SHA256 \
     CRYPTO_USER_API_SKCIPHER \
+    CRYPTO_USER_API_HASH \
     CRYPTO_AES_X86_64 \
     CRPYTO_AES_NI_INTEL \
+    FANOTIFY \
+    CGROUP_BPF \
     ; do ./scripts/config --module $i; done
 
 RUN ./scripts/config --set-str CMDLINE ""
 
 RUN make prepare
 
-RUN emerge -v python
 RUN emerge -e @world --fetchonly
 RUN emerge -e @world
 RUN emerge --depclean
