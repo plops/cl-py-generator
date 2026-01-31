@@ -465,6 +465,7 @@ def get(request: Request):
   navigator.clipboard.writeText(textToCopy);
 }
 
+
 document.getElementById('transcript-paste').addEventListener('paste', (e) => {
     const html = e.clipboardData.getData('text/html');
     
@@ -473,16 +474,23 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
         const container = document.createElement('div');
         container.innerHTML = html;
         
-        // 1. Convert links to text format "Text (URL)" 
-        // using a temporary span to avoid losing the surrounding structure
+        // 1. Handle Links: Convert to "Text (URL) "
         container.querySelectorAll('a').forEach(link => {
-            const replacement = document.createTextNode(`${link.innerText} (${link.href})`);
-            link.parentNode.replaceChild(replacement, link);
+            link.innerText = `${link.innerText} (${link.href}) `;
+        });
+
+        // 2. Prevent Merging: Add a space to every child element 
+        // This ensures that when <div>Text</div><div>37:28</div> 
+        // is flattened, it becomes "Text 37:28 "
+        const allElements = container.querySelectorAll('*');
+        allElements.forEach(el => {
+            if (el.innerText && el.children.length === 0) {
+                el.innerText = el.innerText + ' ';
+            }
         });
         
-        // 2. Use 'text/plain' fallback if innerText is too messy, 
-        // but typically Youtube transcripts need the 'pre-wrap' style
-        const cleanText = container.innerText; 
+        // 3. Clean up double spaces and insert
+        const cleanText = container.innerText.replace(/[ ]+/g, ' ').trim();
         document.execCommand("insertText", false, cleanText);
     }
 });
