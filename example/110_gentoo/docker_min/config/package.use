@@ -115,7 +115,7 @@ app-alternatives/lex flex
 app-alternatives/yacc bison
 app-alternatives/ninja reference
 app-alternatives/gpg reference
-sys-fs/cryptsetup kernel
+sys-fs/cryptsetup argon2 nls openssl udev -fips -gcrypt -kernel -nettle -passwdqc -pwquality -ssh -static -static-libs -test -urandom -verify-sig
 net-misc/curl curl_ssl_openssl openssl ssl
 sys-apps/coreutils openssl xattr acl nls
 app-crypt/gnupg alternatives
