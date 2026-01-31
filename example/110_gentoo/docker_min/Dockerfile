@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260122 AS portage
+FROM gentoo/portage:20260131 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20260121
+FROM gentoo/stage3:nomultilib-systemd-20260126
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -39,81 +39,155 @@ RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
 #COPY config/config-${KVER_PURE} .config
-COPY config/config-6.13.5 .config
+#COPY config/config-6.13.5 .config
 
 
-RUN make olddefconfig
+#RUN make olddefconfig
 # Disable debug info for a smaller amdgpu module (20MB instead of 400MB)
 # tobogganing is the behavior where penguins slide on their bellies across ice or snow
 # Maybe: -e CONFIG_RFKILL instead of -m
 # --set-val BUILD_SALT "6.13.5-gentoo" 
-RUN ./scripts/config --file .config \
--d DEBUG_INFO \
--d DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT \
--d DEBUG_INFO_DWARF4 \
--d DEBUG_INFO_DWARF5 \
--e DEBUG_INFO_NONE \
---set-val DEFAULT_HOSTNAME "toboggan" \
--e MZEN3 \
--d GENERIC_CPU \
--d CPU_MITIGATIONS \
---set-val MODPROBE_PATH "/usr/sbin/modprobe" \
--m NETFILTER_XT_NAT \
--m NETFILTER_XT_TARGET_MASQUERADE \
--m IP_NF_IPTABLES \
---set-val EXTRA_FIRMWARE "rtw89/rtw8852b_fw.bin regulatory.db amd-ucode/microcode_amd_fam19h.bin" \
---set-val EXTRA_FIRMWARE_DIR "/usr/lib/firmware" \
--m DM_CRYPT \
--m MII \
--m USB_NET_DRIVERS \
--m USB_USBNET \
--m USB_NET_CDCETHER \
--m USB_NET_CDC_EEM \
--m USB_NET_CDC_NCM \
--m USB_NET_RNDIS_HOST \
--m USB_NET_CDC_SUBSET_ENABLE \
--m USB_NET_CDC_SUBSET \
--e USB_BELKIN \
--e USB_ARMLINUX \
--m VIRT_WIFI \
--e POWER_RESET_RESTART \
--e CHARGER_MANAGER \
--e THERMAL_GOV_POWER_ALLOCATOR \
--e DEVFREQ_THERMAL \
--d DRM_AMDGPU_SI \
--d DRM_AMDGPU_CIK \
--e HID_CHICONY \
--e HID_LOGITECH \
--e USB_STORAGE \
--e OVERLAY_FS \
--e OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW \
--m ISO9660_FS \
--e SQUASHFS \
--d SQUASHFS_FILE_CACHE \
--e SQUASHFS_FILE_DIRECT \
--e SQUASHFS_DECOMP_MULTI_PERCPU \
--d SQUASHFS_CHOICE_DECOMP_BY_MOUNT \
--d SQUASHFS_COMPILE_DECOMP_SINGLE \
--d SQUASHFS_COMPILE_DECOMP_MULTI \
--e SQUASHFS_COMPILE_DECOMP_MULTI_PERCPU \
--e SQUASHFS_XATTR \
--e SQUASHFS_ZLIB \
--d SQUASHFS_LZ4 \
--d SQUASHFS_LZO \
--e SQUASHFS_XZ \
--e SQUASHFS_ZSTD \
--d SQUASHFS_4K_DEVBLK_SIZE \
--d SQUASHFS_EMBEDDED \
--m MMC_BLOCK \
--m CRYPTO_USER_API_SKCIPHER \
--m CRYPTO_ECB \
--m CRYPTO_CBC \
--m CRYPTO_DES \
--m CRYPTO_DES3_EDE_X86_64 \
---set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
--m ENCRYPTED_KEYS \
---set-val SECURITY_TOMOYO_POLICY_LOADER "/usr/bin/tomoyo-init"
+#RUN ./scripts/config --file .config \
+#-d DEBUG_INFO \
+#-d DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT \
+#-d DEBUG_INFO_DWARF4 \
+#-d DEBUG_INFO_DWARF5 \
+#-e DEBUG_INFO_NONE \
+#--set-val DEFAULT_HOSTNAME "toboggan" \
+#-e MZEN3 \
+#-d GENERIC_CPU \
+#-d CPU_MITIGATIONS \
+#--set-val MODPROBE_PATH "/usr/sbin/modprobe" \
+#-m NETFILTER_XT_NAT \
+#-m NETFILTER_XT_TARGET_MASQUERADE \
+#-m IP_NF_IPTABLES \
+#--set-val EXTRA_FIRMWARE "rtw89/rtw8852b_fw.bin regulatory.db amd-ucode/microcode_amd_fam19h.bin" \
+#--set-val EXTRA_FIRMWARE_DIR "/usr/lib/firmware" \
+#-m DM_CRYPT \
+#-m MII \
+#-m USB_NET_DRIVERS \
+#-m USB_USBNET \
+#-m USB_NET_CDCETHER \
+#-m USB_NET_CDC_EEM \
+#-m USB_NET_CDC_NCM \
+#-m USB_NET_RNDIS_HOST \
+#-m USB_NET_CDC_SUBSET_ENABLE \
+#-m USB_NET_CDC_SUBSET \
+#-e USB_BELKIN \
+#-e USB_ARMLINUX \
+#-m VIRT_WIFI \
+#-e POWER_RESET_RESTART \
+#-e CHARGER_MANAGER \
+#-e THERMAL_GOV_POWER_ALLOCATOR \
+#-e DEVFREQ_THERMAL \
+#-d DRM_AMDGPU_SI \
+#-d DRM_AMDGPU_CIK \
+#-e HID_CHICONY \
+#-e HID_LOGITECH \
+#-e USB_STORAGE \
+#-e OVERLAY_FS \
+#-e OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW \
+#-m ISO9660_FS \
+#-e SQUASHFS \
+#-d SQUASHFS_FILE_CACHE \
+#-e SQUASHFS_FILE_DIRECT \
+#-e SQUASHFS_DECOMP_MULTI_PERCPU \
+#-d SQUASHFS_CHOICE_DECOMP_BY_MOUNT \
+#-d SQUASHFS_COMPILE_DECOMP_SINGLE \
+#-d SQUASHFS_COMPILE_DECOMP_MULTI \
+#-e SQUASHFS_COMPILE_DECOMP_MULTI_PERCPU \
+#-e SQUASHFS_XATTR \
+#-e SQUASHFS_ZLIB \
+#-d SQUASHFS_LZ4 \
+#-d SQUASHFS_LZO \
+#-e SQUASHFS_XZ \
+#-e SQUASHFS_ZSTD \
+#-d SQUASHFS_4K_DEVBLK_SIZE \
+#-d SQUASHFS_EMBEDDED \
+#-m MMC_BLOCK \
+#-m CRYPTO_USER_API_SKCIPHER \
+#-m CRYPTO_ECB \
+#-m CRYPTO_CBC \
+#-m CRYPTO_DES \
+#-m CRYPTO_DES3_EDE_X86_64 \
+#--set-val SQUASHFS_FRAGMENT_CACHE_SIZE 3 \
+#-m ENCRYPTED_KEYS \
+#--set-val SECURITY_TOMOYO_POLICY_LOADER "/usr/bin/tomoyo-init"
 # crypto_des is needed for iwd
+
+# https://wiki.gentoo.org/wiki/Hetzner_Cloud_(ARM64)
+
+RUN make defconfig && \
+    make kvm_guest.config && \
+    for i in \
+	DRM_NOUVEAU \
+	DRM_EXYNOS \
+	DRM_ROCKCHIP \
+	DRM_RCAR_DU \
+	DRM_RCAR_DW_HDMI \
+	DRM_RCAR_USE_LVDS \
+	DRM_RCAR_USE_MIPI_DSI \
+	DRM_IMX_DCSS \
+	DRM_ETNAVIV \
+	DRM_HISI_HIBMC \
+	DRM_HISI_KIRIN \
+	DRM_MEDIATEK \
+	DRM_MSM \
+	DRM_MXSFB \
+	DRM_MESON \
+	DRM_PL111 \
+	DRM_TIDSS \
+	DRM_LEGACY \
+	DRM_SUN4I \
+	DRM_TEGRA \
+	TEGRA_HOST1X \
+	SCSI_UFSHCD \
+	FPGA \
+	RC_CORE \
+	NEW_LEDS \
+	CHROME_PLATFORMS \
+	SURFACE_PLATFORMS \
+	XEN_BLKDEV_FRONTEND \
+	LOGO \
+	SOUND \
+	SLIMBUS \
+	SOUNDWIRE \
+	MEDIA_SUPPORT \
+	MMC \
+	NFS_FS \
+	9P_FS \
+	SUSPEND \
+	HIBERNATION \
+	BLK_DEV_INITRD \
+	VIRTUALIZATION \
+	WLAN \
+	PINCTRL \
+	GPIOLIB \
+	PWM \
+	IPMI_HANDLER \
+	CAN \
+	BT \
+	WIRELESS \
+	MD \
+	RFKILL \
+	NET_9P \
+	NFC \
+	SPI \
+	SPMI \
+	HWMON \
+	THERMAL \
+	IIO \
+	USB_NET_DRIVERS \
+	XEN_NETDEV_FRONTEND \
+	ETHERNET \
+	QCOM_IPA \
+	REGULATOR \
+	STAGING \
+	DEBUG_KERNEL \
+	XEN \
+	MODULES; do ./scripts/config --disable $i; done && \
+    ./scripts/config --set-str CMDLINE "init=/usr/lib/systemd/systemd root=/dev/sda3 rootwait rootfstype=ext4" \
+
 RUN make prepare
 
 
