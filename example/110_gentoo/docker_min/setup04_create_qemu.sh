@@ -81,12 +81,27 @@ log_message "Creating encrypted LUKS partition on ${LOOP_DEVICE}p2..."
 echo -n "123" | cryptsetup luksFormat "${LOOP_DEVICE}p2"
 # Open the LUKS partition
 echo -n "123" | cryptsetup luksOpen "${LOOP_DEVICE}p2" enc
-log_message "Creating ext4 filesystem on /dev/mapper/enc..."
-mkfs.ext4 -L "persistence" /dev/mapper/enc
+
+# --- NEU: LVM Setup ---
+log_message "Setting up LVM (PV, VG, LV) on /dev/mapper/enc..."
+# Physical Volume erstellen
+pvcreate /dev/mapper/enc
+# Volume Group 'vg' erstellen
+vgcreate vg /dev/mapper/enc
+# Logical Volume 'lv_persistence' erstellen (nutzt 100% des Platzes)
+lvcreate -l 100%FREE -n lv_persistence vg
+
+# Aktivieren (zur Sicherheit, meistens automatisch aktiv nach create)
+vgchange -ay vg
+
+log_message "Creating ext4 filesystem on /dev/mapper/vg-lv_persistence..."
+# Dateisystem auf dem LV erstellen
+mkfs.ext4 -L "persistence" /dev/mapper/vg-lv_persistence
 
 # Mount the persistence partition to create required directories
-log_message "Setting up persistence structure on ${LOOP_DEVICE}p2..."
-mount /dev/mapper/enc /mnt # This will be the upper layer for OverlayFS (persistence)
+log_message "Setting up persistence structure on Logical Volume..."
+# Hier mounten wir das LV, nicht mehr 'enc' direkt
+mount /dev/mapper/vg-lv_persistence /mnt
 mkdir -p /mnt/overlayfs/etc
 log_message "Storing passwd in /mnt/overlayfs/etc/passwd..."
 cat <<'EOF' > /mnt/overlayfs/etc/passwd
@@ -122,8 +137,9 @@ EOF
 mkdir -p /mnt/ovlwork
 umount /mnt
 
-# Close the LUKS partition
-log_message "Closing LUKS partition..."
+# Close LVM and LUKS
+log_message "Deactivating LVM and closing LUKS partition..."
+vgchange -an vg
 cryptsetup luksClose enc
 
 # print the uuid of the encrypted partition
@@ -180,13 +196,17 @@ check_disk_usage /mnt #final check
 
 
 
+# Wir müssen Dracut sagen, dass LVM genutzt wird.
+# rd.lvm.vg=vg aktiviert die Volume Group 'vg'.
+# rd.lvm.lv=vg/lv_persistence aktiviert das spezifische LV.
+
 log_message "Creating /mnt/boot/grub/grub.cfg..."
 cat << EOF > /mnt/boot/grub/grub.cfg
 set default=0
 set timeout=5
 set root=(hd0,1)
 
-menuentry 'Gentoo Dracut (Fixed) debug' {
+menuentry 'Gentoo Dracut (LVM on LUKS)' {
     insmod part_msdos
     echo 'Loading Linux ...'
     linux /vmlinuz \
@@ -195,6 +215,25 @@ menuentry 'Gentoo Dracut (Fixed) debug' {
     rd.live.squashimg=gentoo.squashfs \
     rd.luks.uuid=${UUID} \
     rd.luks.name=${UUID}=enc \
+    rd.lvm.vg=vg \
+    rd.lvm.lv=vg/lv_persistence \
+    rd.overlay=LABEL=persistence:/overlayfs \
+    rd.live.overlay.overlayfs=1 \
+    console=ttyS0
+    initrd /initramfs_squash_sda1-x86_64.img
+}
+
+menuentry 'Gentoo Dracut (LVM on LUKS) debug' {
+    insmod part_msdos
+    echo 'Loading Linux ...'
+    linux /vmlinuz \
+    root=live:/dev/sda1 \
+    rd.live.dir=/ \
+    rd.live.squashimg=gentoo.squashfs \
+    rd.luks.uuid=${UUID} \
+    rd.luks.name=${UUID}=enc \
+    rd.lvm.vg=vg \
+    rd.lvm.lv=vg/lv_persistence \
     rd.overlay=LABEL=persistence:/overlayfs \
     rd.live.overlay.overlayfs=1 \
     rd.break=cleanup \

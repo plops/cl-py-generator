@@ -15,7 +15,18 @@ if [ -n "$overlayfs" ]; then
     fi
 
     mkdir -p /run/enc
-    mount -t ext4 /dev/mapper/enc /run/enc
+
+    # ÄNDERUNG: Mounten des LVM Logical Volumes statt des LUKS Mappers direkt.
+    # Der Pfad ist meist /dev/mapper/VGName-LVName oder /dev/VGName/LVName
+    if [ -e /dev/mapper/vg-lv_persistence ]; then
+        mount -t ext4 /dev/mapper/vg-lv_persistence /run/enc
+    else
+        # Fallback oder Fehlerbehandlung, falls LVM nicht hochkam
+        echo "FEHLER: Logical Volume vg/lv_persistence nicht gefunden!"
+        # Notfallversuch, falls user LVM vergessen hat
+        mount -t ext4 /dev/mapper/enc /run/enc
+    fi
+
     rm -rf /run/overlayfs
     rm -rf /run/ovlwork
     ln -s /run/enc/overlayfs /run/overlayfs
