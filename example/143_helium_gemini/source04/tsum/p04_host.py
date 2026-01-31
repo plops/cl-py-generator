@@ -465,26 +465,25 @@ def get(request: Request):
   navigator.clipboard.writeText(textToCopy);
 }
 
-
 document.getElementById('transcript-paste').addEventListener('paste', (e) => {
-    e.preventDefault();
-    // Get the HTML version of what was copied
     const html = e.clipboardData.getData('text/html');
     
     if (html) {
+        e.preventDefault();
         const container = document.createElement('div');
         container.innerHTML = html;
         
-        // Convert all <a> tags to "Text (URL)"
+        // 1. Convert links to text format "Text (URL)" 
+        // using a temporary span to avoid losing the surrounding structure
         container.querySelectorAll('a').forEach(link => {
-            link.replaceWith(`${link.innerText} (${link.href})`);
+            const replacement = document.createTextNode(`${link.innerText} (${link.href})`);
+            link.parentNode.replaceChild(replacement, link);
         });
         
-        const plainText = container.innerText;
-        document.execCommand("insertText", false, plainText);
-    } else {
-        const text = e.clipboardData.getData('text');
-        document.execCommand("insertText", false, text);
+        // 2. Use 'text/plain' fallback if innerText is too messy, 
+        // but typically Youtube transcripts need the 'pre-wrap' style
+        const cleanText = container.innerText; 
+        document.execCommand("insertText", false, cleanText);
     }
 });
 """),
