@@ -361,7 +361,9 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 
 WORKDIR /usr/src/linux
 RUN make defconfig
+
 RUN make kvm_guest.config
+
 RUN for i in \
 	DRM_NOUVEAU \
 	DRM_EXYNOS \
@@ -427,7 +429,45 @@ RUN for i in \
 	STAGING \
 	DEBUG_KERNEL \
 	XEN \
-	MODULES; do ./scripts/config --disable $i; done
+    ; do ./scripts/config --disable $i; done
+
+
+
+RUN for i in \
+    MODULES \
+    OVERLAY_FS_REDIRECT_DIR \
+    OVERLAY_FS_INDEX \
+    OVERLAY_FS_XINO_AUTO \
+    OVERLAY_FS_METACOPY \
+    SQUASHFS_ZSTD \
+    SQUASHFS_XATTR \
+    SQUASHFS_4K_DEVBLK_SIZE \
+    SQUASHFS_DECOMP_MULTI \
+    SQUASHFS_COMPILE_DECOMP_MULTI \
+    SQUASHFS_FILE_DIRECT \
+    MD \
+    ; do ./scripts/config --enable $i; done
+
+
+RUN for i in \
+    OVERLAY_FS \
+    BLK_DEV_DM \
+    DM_CRYPT \
+    DM_SNAPSHOT \
+    DM_MIRROR \
+    SQUASHFS \
+    VFAT_FS \
+    EXT4_FS \
+    BTRFS_FS \
+    CRYPTO_AES \
+    CRYPTO_XTS \
+    CRYPTO_SHA256 \
+    CRYPTO_USER_API_SKCIPHER \
+    CRYPTO_AES_X86_64 \
+    CRPYTO_AES_NI_INTEL \
+    ; do ./scripts/config --module $i; done
+
+
 RUN make prepare
 RUN make -j32
 RUN make modules_install
