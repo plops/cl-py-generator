@@ -29,7 +29,8 @@
 ;; [X] Log to file with timestamps
 ;; [X] Deduplication of the same request in short time frame
 ;; [ ] Download transcripts for youtube shorts
- 
+;; [ ] Allow pasting links
+
 ;; TODO (new implementation)
 ;; [ ] google genai with async responses (and thinking for the flash model)
 ;; [ ] different language outputs (and instructions with different languages)
@@ -1019,7 +1020,31 @@ You can choose between three models with different capabilities. While these mod
   var textToCopy = preElement.textContent;
 
   navigator.clipboard.writeText(textToCopy);
-}"))
+}
+
+
+document.getElementById('transcript-paste').addEventListener('paste', (e) => {
+    e.preventDefault();
+    // Get the HTML version of what was copied
+    const html = e.clipboardData.getData('text/html');
+    
+    if (html) {
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        
+        // Convert all <a> tags to \"Text (URL)\"
+        container.querySelectorAll('a').forEach(link => {
+            link.replaceWith(`${link.innerText} (${link.href})`);
+        });
+        
+        const plainText = container.innerText;
+        document.execCommand(\"insertText\", false, plainText);
+    } else {
+        const text = e.clipboardData.getData('text');
+        document.execCommand(\"insertText\", false, text);
+    }
+});
+"))
 				  :cls (string "container"))
 			    (Style
 			     (string3 ".visually-hidden {
