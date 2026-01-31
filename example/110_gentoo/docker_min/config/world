@@ -9,22 +9,22 @@ app-portage/gentoolkit
 dev-build/ninja
 #dev-lisp/sbcl
 #dev-util/tkdiff
-dev-util/vulkan-tools
-media-libs/vulkan-loader
-dev-util/vulkan-headers
+#dev-util/vulkan-tools
+#media-libs/vulkan-loader
+#dev-util/vulkan-headers
 dev-vcs/git
 #net-analyzer/netcat
 net-misc/dhcp
-net-wireless/bluez
-net-wireless/iwd
-net-wireless/wireless-regdb
+#net-wireless/bluez
+#net-wireless/iwd
+#net-wireless/wireless-regdb
 sys-devel/gcc
 sys-fs/btrfs-progs
 sys-fs/cryptsetup
 sys-fs/squashfs-tools
 sys-kernel/dracut
 sys-kernel/gentoo-sources
-sys-kernel/linux-firmware
+#sys-kernel/linux-firmware
 # sys-power/tlp
 # x11-apps/setxkbmap
 # x11-apps/xrandr
