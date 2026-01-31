@@ -117,9 +117,9 @@ WORKDIR /usr/src/linux
 
 # https://wiki.gentoo.org/wiki/Hetzner_Cloud_(ARM64)
 
-RUN make defconfig && \
-    make kvm_guest.config && \
-    for i in \
+RUN make defconfig
+RUN make kvm_guest.config
+RUN for i in \
 	DRM_NOUVEAU \
 	DRM_EXYNOS \
 	DRM_ROCKCHIP \
@@ -186,8 +186,7 @@ RUN make defconfig && \
 	DEBUG_KERNEL \
 	XEN \
 	MODULES; do ./scripts/config --disable $i; done && \
-    ./scripts/config --set-str CMDLINE "init=/usr/lib/systemd/systemd root=/dev/sda3 rootwait rootfstype=ext4" \
-
+    ./scripts/config --set-str CMDLINE "init=/usr/lib/systemd/systemd root=/dev/sda3 rootwait rootfstype=ext4"
 RUN make prepare
 
 
