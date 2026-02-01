@@ -331,6 +331,7 @@ RUN echo "sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 opens
 RUN emerge --ask=n --update --changed-use sys-apps/systemd
 
 WORKDIR /
+RUN rm -rf /usr/lib/lib*.a /usr/x86_64-pc-linux-gnu/gcc-bin/15/lto-dump /usr/share/i18n/ /usr/var/db/pkg/sys-kernel/gentoo-sources-6.12.58/CONTENTS /usr/lib/gcc/x86_64-pc-linux-gnu/15/lib*.a
 RUN mksquashfs \
 / \
 /gentoo.squashfs \
@@ -340,7 +341,7 @@ RUN mksquashfs \
 -not-reproducible \
 -Xcompression-level 17 \
 -progress \
--b 256K -noI -noX \
+-b 256K -noI -noX -Xbcj x86 \
 -one-file-system-x \
 -mem 10G \
 -ef /list_files.txt     \
