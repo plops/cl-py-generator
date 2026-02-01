@@ -169,6 +169,22 @@ check_disk_usage /mnt #final check
 # rd.lvm.vg=vg aktiviert die Volume Group 'vg'.
 # rd.lvm.lv=vg/lv_persistence aktiviert das spezifische LV.
 
+
+#You can target specific breakpoints by using the syntax rd.break=[stage]:
+#cmdline: Stops immediately after the kernel command line has been parsed.
+#pre-udev: Stops before the udev daemon is started, which is responsible for device detection.
+#pre-trigger: Stops before udev triggers are run to populate /dev.
+#initqueue: Stops before the main dracut initialization queue starts processing.
+#pre-mount: Stops before the root filesystem is mounted. This is commonly used for manual filesystem checks or manual mounting.
+#mount: Stops after the root filesystem has been mounted, but before other tasks like SELinux relabeling or pivoting.
+#pre-pivot: The default stop point. It occurs after the root filesystem is mounted but before the system "pivots" to it to start the real init process.
+#cleanup: Stops during the final cleanup of the initramfs environment before the switch to the real system.
+#**pre-shutdown / shutdown: These can be used to debug the system shutdown sequence as it pivots back into the initramfs.
+#Quick Tips for Usage:
+#Accessing Shell: When the boot process stops, you are dropped into an emergency shell.
+#Multiple Breaks: You can specify rd.break multiple times in one command line to stop at different stages sequentially.
+#Resuming Boot: To continue the boot process after troubleshooting, type exit or press Ctrl+D.
+
 log_message "Creating /mnt/boot/grub/grub.cfg..."
 cat << EOF > /mnt/boot/grub/grub.cfg
 set default=0
@@ -205,7 +221,7 @@ menuentry 'Gentoo Dracut (LVM on LUKS) debug' {
     rd.lvm.lv=vg/lv_persistence \
     rd.overlay=LABEL=persistence:/overlayfs \
     rd.live.overlay.overlayfs=1 \
-    rd.break=cleanup \
+    rd.break=pre-pivot \
     console=ttyS0 rd.debug
     initrd /initramfs_squash_sda1-x86_64.img
 }
