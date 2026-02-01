@@ -323,6 +323,126 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # Prepare the squashfs image
 
 
+WORKDIR /usr/src/linux
+COPY config/config6.12.41 .config
+#  Update current config utilising a provided .config as base
+RUN make oldconfig
+# cd example/110_gentoo/docker_min_hpz6/systems
+# find .|grep lsmod|xargs cat|sort|uniq|grep -v nouveau > /dev/shm/lsmod
+# yes "" | make LSMOD=/dev/shm/lsmod localmodconfig
+
+
+# RUN ./scripts/config --file .config \
+# --set-val MODPROBE_PATH "/usr/sbin/modprobe" \
+# --set-val EXTRA_FIRMWARE "amd-ucode/microcode_amd_fam19h.bin rtw89/rtw8852b_fw.bin regulatory.db" \
+# --set-val EXTRA_FIRMWARE_DIR "/usr/lib/firmware" \
+# -e SQUASHFS
+# amd/sof/* and amd/sof-tplg/* firmware blobs
+RUN <<EOF
+set -e
+OPTIONS="
+BT_BCM
+BT_INTEL
+BT_INTEL_PCIE
+BT_MTK
+BT_RTL
+BT_BNEP
+BT_HCIBTUSB
+APPLE_MFI_FASTCHARGE
+USB_NET_CDCETHER
+EEEPC_WMI
+ASUS_WMI
+HP_WMI
+IDEAPAD_LAPTOP
+USB_NET_CDC_NCM
+EEPROM_EE1004
+EDAC_DECODE_MCE
+THINKPAD_LMI
+THINKPAD_ACPI
+HID_CHERRY
+HID_GENERIC
+HID_LOGITECH
+HID_LOGITECH_HIDPP
+HID_MULTITOUCH
+HID_LENOVO
+LENOVO_WMI_CAMERA
+HID_PLANTRONICS
+CRYPTO_GHASH_CLMUL_NI_INTEL
+INTEL_RAPL_CORE
+INTEL_RAPL
+USB_IPHETH
+SENSORS_K10TEMP
+NVME_KEYRING
+NVME_AUTH
+PPDEV
+USB_NET_QMI_WWAN
+QRTR
+R8169
+RTW88_8821C
+RTW88_8821CU
+RTW89_8852B
+RTW89_8852BE
+RTW89_8852B_COMMON
+SND_HDA_CODEC_REALTEK
+SND_HDA_INTEL
+CRYPTO_SHA1_SSSE3
+CRYPTO_SHA256_SSSE3
+CRYPTO_SHA512_SSSE3
+SND_SOC_AMD_ACP_LEGACY_COMMON
+SND_SOC_AMD_ACP_COMMON
+SND_SOC_AMD_ACP_PCI
+USB_USBNET
+USB_VIDEO_CLASS
+USB_SERIAL_CH341
+MT7921E
+SND_SOC_SOF_TOPLEVEL
+SND_SOC_SOF_PCI
+SND_SOC_SOF_AMD_TOPLEVEL
+SND_SOC_SOF_AMD_RENOIR
+SND_SOC_SOF_AMD_REMBRANDT
+SND_SOC_SOF_AMD_VANGOGH
+SND_SOC_SOF_AMD_ACP63
+SND_SOC_AMD_ACP6x
+SND_SOC_AMD_PS
+SND_SOC_DMIC
+SND_HDA_CODEC_CONEXANT
+SOUNDWIRE
+SOUNDWIRE_AMD
+SOUNDWIRE_GENERIC_ALLOCATION
+SND_SOC_SDCA
+AMD_PMC
+THUNDERBOLT
+BT_RFCOMM
+SENSORS_SPD5118
+SOUNDWIRE
+SOUNDWIRE_AMD
+SOUNDWIRE_GENERIC_ALLOCATION
+SOUNDWIRE_BUS
+SND_SOC_SDCA
+AMD_PMC
+SND_SOC_AMD_PS_MACH
+THUNDERBOLT
+USB4
+BT_RFCOMM
+BT_BNEP
+CRYPTO_USER_API_HASH
+CRYPTO_USER_API_SKCIPHER
+CRYPTO_CMAC
+MEDIA_SUPPORT
+MEDIA_USB_SUPPORT
+USB_VIDEO_CLASS
+MEDIA_CAMERA_SUPPORT
+VIDEO_DEV
+VIDEO_V4L2
+"
+# Use printf to format each option with a preceding "-m"
+# The result is captured into the M_OPTIONS variable
+M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
+
+# Execute the script a single time with the dynamically built list of options
+./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e SQUASHFS_4K_DEVBLK_SIZE -e CUSE -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC
+make olddefconfig # apply default configuration for whatever options are still open
+EOF
 
 
 RUN make prepare
@@ -330,6 +450,12 @@ RUN make -j32
 RUN make modules_install
 RUN make install
 
+
+# Configure USE flags for systemd
+RUN echo "sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 openssl pam pcre resolvconf seccomp sysv-utils zstd -apparmor -audit -boot -bpf -cgroup-hybrid -cryptsetup -curl -elfutils -fido2 -gnutls -homed -http -idn -importd -iptables -lzma -passwdqc -pkcs11 -policykit -pwquality -qrcode -secureboot -test -tpm -ukify -vanilla -xkb" >> /etc/portage/package.use/systemd
+
+# Rebuild systemd with the new flags
+RUN emerge --ask=n --update --changed-use sys-apps/systemd
 
 WORKDIR /
 RUN mksquashfs \
