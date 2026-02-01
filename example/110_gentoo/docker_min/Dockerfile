@@ -339,9 +339,9 @@ RUN mksquashfs \
 -xattrs \
 -noappend \
 -not-reproducible \
--Xcompression-level 17 \
+-Xcompression-level 19 \
 -progress \
--b 256K -noI -noX -Xbcj x86 \
+-b 256K -noI -noX \
 -one-file-system-x \
 -mem 10G \
 -ef /list_files.txt     \
