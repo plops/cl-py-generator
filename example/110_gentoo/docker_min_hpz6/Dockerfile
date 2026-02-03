@@ -291,6 +291,20 @@ RUN rm -rf /tmp/firmware_safe
 # 12.8GB uncompressed
 RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
+# Switch to user 'kiel'
+USER kiel
+ENV HOME=/home/kiel
+
+# Install Emacs packages from MELPA in batch mode
+RUN emacs --batch \
+    --eval "(require 'package)" \
+    --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
+    --eval "(package-initialize)" \
+    --eval "(package-refresh-contents)" \
+    --eval "(dolist (pkg '(magit paredit slime)) (package-install pkg))"
+
+# Switch back to root user for the remaining steps
+USER root
 
 WORKDIR /
 RUN mksquashfs \
