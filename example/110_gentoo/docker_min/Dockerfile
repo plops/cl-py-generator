@@ -1,23 +1,39 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260131 AS portage
+FROM gentoo/portage:20260203 AS portage
 
 # based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20260126
+FROM gentoo/stage3:nomultilib-systemd-20260202
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
-RUN emerge -1 gentoolkit eix
+
+
+
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
+COPY config/package.accept_keywords /etc/
 COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/dwm-6.5 /etc/portage/savedconfig/x11-wm/dwm-6.5
+RUN emerge -1 gentoolkit eix
+
+# Install GCC 16
+RUN emerge --ask=n --verbose sys-devel/gcc:16 \
+ && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]') \
+ && eselect gcc set "${gcc_16}" \
+ && source /etc/profile \
+ && emerge --ask=n --oneshot --verbose libtool \
+ # Use || true to prevent failure if it's not in world
+ && (emerge --deselect=y sys-devel/gcc:14 || true) \
+ # Use || true so build doesn't die if Portage refuses to remove it
+ && (emerge --ask=n --depclean sys-devel/gcc:14 || true) \
+ && emerge --ask=n @preserved-rebuild
 
 # Clean up the locales
 RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
@@ -175,7 +191,7 @@ RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 
-# # Create a user 
+# # Create a user
 RUN useradd -m -G wheel -s /bin/bash martin
 # # Create a random passphrase of 3 words, set as the password and print to console
 # RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
@@ -275,7 +291,7 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 
 # RUN echo "" >> /etc/portage/package.accept_keywords/package.accept_keywords
 # RUN echo "dev-util/clion ~amd64" >> /etc/portage/package.accept_keywords/package.accept_keywords
-# RUN echo "dev-util/clion IDEA" >> /etc/portage/package.license 
+# RUN echo "dev-util/clion IDEA" >> /etc/portage/package.license
 # RUN emerge dev-util/clion
 
 # #89 87.70 Filesystem size 2149035.79 Kbytes (2098.67 Mbytes)
@@ -283,7 +299,7 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # # 5min24s to install clion (and recompress)
 
 # RUN emerge  dev-debug/gdb
-# RUN emerge dev-ada/gprbuild 
+# RUN emerge dev-ada/gprbuild
 
 # #90 86.38 Filesystem size 2154112.32 Kbytes (2103.63 Mbytes)
 # #90 86.38       31.36% of uncompressed filesystem size (6868545.41 Kbytes)
@@ -312,14 +328,14 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # #87 ERROR: process "/bin/sh -c emerge www-client/chromium" did not complete successfully: exit code: 1
 # # failed after real    87m4.507s
 
-# # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)' 
+# # #-e 'usr/lib/firmware/amdgpu/(?!green_sardine.*\.bin$)'
 
 # # # The full emerge of all the updated packet took 2224 seconds
 # # # The kernel build took 194 seconds
-# # #'usr/lib/firmware/!({regulator.db*,amdgpu,rtl_bt,rtw89})' 
+# # #'usr/lib/firmware/!({regulator.db*,amdgpu,rtl_bt,rtw89})'
 
-# For my laptop: -march=znver3 
-# -one-file-system-x 
+# For my laptop: -march=znver3
+# -one-file-system-x
 # Prepare the squashfs image
 
 
@@ -386,8 +402,8 @@ usr/share/locale
 
 
 # # intel/vsc 11MB   Visual Sensing Controller
-# # This hardware is found with modern Intel Core laptops 
-# # and tied into the web camera can be used for proximity sensors and ultimately 
+# # This hardware is found with modern Intel Core laptops
+# # and tied into the web camera can be used for proximity sensors and ultimately
 # # enabling functionality like locking the screen when walking away from the computer
 # # intel/ice 4.7MB Intel Ethernet Connection E800 Series
 
@@ -410,7 +426,7 @@ usr/share/locale
 # # create overlay with squashfs image and pivot_root into it
 # COPY config/40_custom /etc/grub.d/40_custom
 
-# # Create an initramfs that loads the squashfs from nvme0n1p5 and overlays it 
+# # Create an initramfs that loads the squashfs from nvme0n1p5 and overlays it
 # # on the folder persistent/ on that partition
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
