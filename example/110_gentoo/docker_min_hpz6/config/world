@@ -55,7 +55,7 @@ dev-debug/ltrace
 dev-debug/dtrace
 dev-util/ruff
 app-text/poppler
-dev-debug/valgrind
+#dev-debug/valgrind
 app-emulation/qemu
 sys-apps/smartmontools
 sys-apps/nvme-cli
