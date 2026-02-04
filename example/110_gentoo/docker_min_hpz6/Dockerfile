@@ -1,22 +1,23 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260127 AS portage
+FROM gentoo/portage:20260204 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20260126
+FROM gentoo/stage3:nomultilib-systemd-20260202
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
+COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 
-# Install GCC 15
-RUN emerge --ask=n --verbose sys-devel/gcc:15 \
- && gcc_15=$(eselect gcc list | grep "15" | awk '{print $1}' | tr -d '[]') \
- && eselect gcc set "${gcc_15}" \
+# Install GCC 16
+RUN emerge --ask=n --verbose sys-devel/gcc:16 \
+ && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]') \
+ && eselect gcc set "${gcc_16}" \
  && source /etc/profile \
  && emerge --ask=n --oneshot --verbose libtool \
  # Use || true to prevent failure if it's not in world
@@ -24,13 +25,13 @@ RUN emerge --ask=n --verbose sys-devel/gcc:15 \
  # Use || true so build doesn't die if Portage refuses to remove it
  && (emerge --ask=n --depclean sys-devel/gcc:14 || true) \
  && emerge --ask=n @preserved-rebuild
+
  
 RUN emerge -1 gentoolkit eix app-eselect/eselect-repository dev-vcs/git dev-lang/rust-bin
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
-COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/dwm-6.6 /etc/portage/savedconfig/x11-wm/dwm-6.6
 
 # Install additional packages
