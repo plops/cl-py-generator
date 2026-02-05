@@ -192,6 +192,8 @@ RUN emerge -e @world --fetchonly
 RUN make -j32
 RUN make modules_install
 RUN make install
+RUN mkdir -p /etc/portage/patches/dev-libs/jemalloc
+COPY config/jemalloc-gcc16-fix.patch /etc/portage/patches/dev-libs/jemalloc/
 
 #iRUN emerge --update --deep --newuse --with-bdeps=y @world
 RUN emerge -e @world
