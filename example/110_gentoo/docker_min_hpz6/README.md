@@ -22,3 +22,14 @@ loadkeys /usr/share/keymaps/i386/colemak/en-latin9.map.gz
 Your keyboard layout should now be set to Colemak for the current TTY
 session. You can test this by typing in the console. To switch back to
 the standard US QWERTY layout temporarily, you can use `loadkeys us`.
+
+# GCC 16 errors
+
+I switched to the experimental GCC 16 and had an error compiling jemalloc.
+Annoyingly, such an error aborts `emerge -e world` and I have to start over again after fixing the error. 
+
+The following command creates a list of packages that will be compiled by `emerge -e world`, perhaps I could split
+the build into multiple docker RUN stages so that I can have it pick up from an intermediate stage instead of starting over again after fixing the error.
+```
+emerge -pqe @world
+```
