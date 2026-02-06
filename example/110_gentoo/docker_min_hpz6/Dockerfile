@@ -56,6 +56,8 @@ ENV KVER_PURE=6.12.58
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN df -h
+RUN emerge app-arch/libarchive || cat /var/tmp/portage/app-arch/libarchive-3.8.3/temp/build.log
+RUN cat /var/tmp/portage/app-arch/libarchive-3.8.3/work/libarchive-3.8.3-abi_x86_64.amd64/config.log
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
