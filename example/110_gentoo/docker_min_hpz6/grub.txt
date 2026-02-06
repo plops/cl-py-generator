@@ -17,3 +17,36 @@ menuentry 'Gentoo Dracut (Fixed)' {
     rd.live.overlay.overlayfs=1
     initrd /boot/initramfs_squash_sda1-x86_64.img
 }
+# BOOT_IMAGE=/boot/vmlinuz root=UUID=4f708c84-185d-437b-a03a-7a565f598a23 ro squashfs.part=/dev/disk/by-label/gentoo squashfs.file=gentoo.squashfs persist.part=/dev/disk/by-uuid/42bbab57-7cb0-465f-8ef9-6b34379da7d3 persist.lv=/dev/mapper/ubuntu--vg-ubuntu--lv persist.mapname=vg
+# /dev/nvme0n1p3 195.3G
+menuentry 'Gentoo (LVM on LUKS) 20260206' {
+	load_video
+	insmod gzio
+	insmod part_gpt
+	insmod btrfs
+	search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
+	echo	'Loading Linux 6.12.58-gentoo ...'
+	linux	/boot/vmlinuz_0206 root=UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
+	    rd.live.dir=/ \
+        rd.live.squashimg=gentoo.squashfs_0206 \
+        rd.luks.uuid=42bbab57-7cb0-465f-8ef9-6b34379da7d3 \
+        rd.luks.name=42bbab57-7cb0-465f-8ef9-6b34379da7d3=enc \
+        rd.lvm.vg=vg \
+        rd.lvm.lv=vg/ubuntu--vg-ubuntu--lv \
+        rd.overlay=LABEL=persistence:/overlayfs \
+        rd.live.overlay.overlayfs=1 \
+        rd.debug rd.break=cleanup
+  	echo	'Loading initial ramdisk ...'
+    initrd /boot/initramfs-hpz6-x86_64.img_0206
+}
+menuentry 'Gentoo from ram (Configurable) nvme0n1p3' --class gentoo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-4f708c84-185d-437b-a03a-7a565f598a23' {
+	load_video
+	insmod gzio
+	insmod part_gpt
+	insmod btrfs
+	search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
+	echo	'Loading Linux 6.12.31-gentoo-gentoo-dist ...'
+	linux	/boot/vmlinuz root=UUID=4f708c84-185d-437b-a03a-7a565f598a23 ro squashfs.part=/dev/disk/by-label/gentoo squashfs.file=gentoo.squashfs persist.part=/dev/disk/by-uuid/42bbab57-7cb0-465f-8ef9-6b34379da7d3 persist.lv=/dev/mapper/ubuntu--vg-ubuntu--lv persist.mapname=vg
+	echo	'Loading initial ramdisk ...'
+	initrd	/boot/initramfs_squash_sda1-x86_64.img
+}

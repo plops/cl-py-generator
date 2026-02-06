@@ -9,5 +9,5 @@ sys-kernel/dracut-crypt-ssh  ~amd64
 net-misc/sunshine ~amd64
 net-misc/moonlight ~amd64
 app-text/typst ~amd64
-=sys-devel/gcc-16* **
+=sys-devel/gcc-16.0.1* **
 dev-libs/jemalloc ~amd64

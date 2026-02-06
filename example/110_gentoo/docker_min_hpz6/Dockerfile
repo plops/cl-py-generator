@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260204 AS portage
+FROM gentoo/portage:20260205 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
@@ -27,7 +27,7 @@ RUN emerge --ask=n --verbose sys-devel/gcc:16 \
  && emerge --ask=n @preserved-rebuild
 
  
-RUN emerge -1 gentoolkit eix app-eselect/eselect-repository dev-vcs/git dev-lang/rust-bin
+#RUN emerge -1 gentoolkit eix app-eselect/eselect-repository dev-vcs/git dev-lang/rust-bin
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
@@ -38,7 +38,7 @@ COPY config/dwm-6.6 /etc/portage/savedconfig/x11-wm/dwm-6.6
 RUN mv /etc/portage/package.license /etc/portage/package.license.bak
 RUN mkdir -p /etc/portage/package.license
 RUN mv /etc/portage/package.license.bak /etc/portage/package.license/package.license.1
-COPY config/package.license.2 /etc/portage/package.license
+COPY config/package.license.2 /etc/portage/package.license/
 COPY config/package.accept_keywords.2 /etc/portage/package.accept_keywords/package.accept_keywords.2
 
 # Clean up the locales
@@ -48,9 +48,9 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && . /etc/profile
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-RUN eselect repository enable guru
-RUN emaint sync -r guru
-RUN emerge --update --deep --changed-use @world --fetchonly
+#RUN eselect repository enable guru
+#RUN emaint sync -r guru
+#RUN emerge --update --deep --changed-use @world --fetchonly
 
 ENV KVER_PURE=6.12.58
 ENV KVER=${KVER_PURE}-gentoo
@@ -178,7 +178,7 @@ VIDEO_V4L2
 M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
 
 # Execute the script a single time with the dynamically built list of options
-./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e SQUASHFS_4K_DEVBLK_SIZE -e CUSE -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC 
+./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e SQUASHFS_4K_DEVBLK_SIZE -e CUSE -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC -e BT_RFCOMM_TTY 
 make olddefconfig # apply default configuration for whatever options are still open
 EOF
 
@@ -195,8 +195,74 @@ RUN make install
 RUN mkdir -p /etc/portage/patches/dev-libs/jemalloc
 COPY config/jemalloc-gcc16-fix.patch /etc/portage/patches/dev-libs/jemalloc/
 
-#iRUN emerge --update --deep --newuse --with-bdeps=y @world
-RUN emerge -e @world
+# Generate the full list of packages to build and split into 10 stages
+RUN emerge -pqe --columns @world | awk '{print $2}' > /tmp/world_packages.txt && \
+    total_lines=$(wc -l < /tmp/world_packages.txt) && \
+    lines_per_stage=$((($total_lines + 9) / 10)) && \
+    for i in {1..10}; do \
+      start=$(((i-1) * lines_per_stage + 1)); \
+      sed -n "${start},$((start + lines_per_stage - 1))p" /tmp/world_packages.txt > /tmp/stage_${i}_packages.txt; \
+    done
+
+# Stage 1 of 10
+RUN if [ -s /tmp/stage_1_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_1_packages.txt | awk '{print $NF}'); fi
+
+# Stage 2 of 10
+RUN if [ -s /tmp/stage_2_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_2_packages.txt | awk '{print $NF}'); fi
+
+# Stage 3 of 10
+RUN if [ -s /tmp/stage_3_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_3_packages.txt | awk '{print $NF}'); fi
+
+# Stage 4 of 10
+RUN if [ -s /tmp/stage_4_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_4_packages.txt | awk '{print $NF}'); fi
+
+# Stage 5 of 10
+RUN if [ -s /tmp/stage_5_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_5_packages.txt | awk '{print $NF}'); fi
+
+# Stage 6 of 10
+RUN if [ -s /tmp/stage_6_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_6_packages.txt | awk '{print $NF}'); fi
+
+# Stage 7 of 10
+RUN if [ -s /tmp/stage_7_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_7_packages.txt | awk '{print $NF}'); fi
+
+# Create a hook to inject the missing header into all relevant files
+RUN echo 'post_src_unpack() { \
+    cd "${S}/src"; \
+    for f in aclogger.h portutils.h ahttpurl.h; do \
+        [ -f "$f" ] && sed -i "1i #include <cstdint>" "$f"; \
+    done; \
+}' >> /etc/portage/bashrc
+
+RUN emerge --ask=n -1 net-misc/apt-cacher-ng
+
+
+# Install newest apt-cacher-ng
+#RUN echo "=net-misc/apt-cacher-ng-9999 **" >> /etc/portage/package.accept_keywords/apt-cacher-ng
+#Version #9999 and #3.7.4_p1-r2 are in gentoo portage repo
+# I want 9999
+
+#RUN emerge --ask=n =net-misc/apt-cacher-ng-9999
+
+# Stage 8 of 10
+RUN if [ -s /tmp/stage_8_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_8_packages.txt | awk '{print $NF}'); fi
+
+# Stage 9 of 10
+RUN if [ -s /tmp/stage_9_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_9_packages.txt | awk '{print $NF}'); fi
+
+## Generate the full list of packages to build and split into 10 stages
+## Using 'awk' to extract only the package name and avoiding empty lines
+#RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt && \
+#    total_lines=$(wc -l < /tmp/world_packages.txt) && \
+#    lines_per_stage=$(( (total_lines + 9) / 10 )) && \
+#    for i in {1..10}; do \
+#      start=$(((i-1) * lines_per_stage + 1)); \
+#      sed -n "${start},$((start + lines_per_stage - 1))p" /tmp/world_packages.txt > /tmp/stage_${i}_packages.txt; \
+#    done
+
+
+# Stage 10 of 10
+RUN if [ -s /tmp/stage_10_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_10_packages.txt | grep / | awk '{print $NF}'); fi
+
 RUN emerge --depclean
 
 # # Allow members of the wheel group to execute any command without a password
@@ -271,28 +337,28 @@ RUN systemctl enable reverse-ssh-us
 # [   63.589195] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
 # [   63.634733] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
 
-# 1. Create a clean temporary workspace
-RUN mkdir -p /tmp/firmware_safe
-WORKDIR /usr/lib/firmware
-
-# 2. Copy the specific files you need, preserving their directory paths
-RUN cp --parents regulatory.db* /tmp/firmware_safe/
-RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
-RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
-RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
-
-# 3. Wipe the original directory (and /opt/cuda as per your first message)
-WORKDIR /
-RUN rm -rf /usr/lib/firmware/*
-
-# 4. Move everything back in one go
-RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
-
-# 5. Cleanup
-RUN rm -rf /tmp/firmware_safe
+## 1. Create a clean temporary workspace
+#RUN mkdir -p /tmp/firmware_safe
+#WORKDIR /usr/lib/firmware
+#
+## 2. Copy the specific files you need, preserving their directory paths
+#RUN cp --parents regulatory.db* /tmp/firmware_safe/
+#RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
+#RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
+#RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
+#
+## 3. Wipe the original directory (and /opt/cuda as per your first message)
+#WORKDIR /
+#RUN rm -rf /usr/lib/firmware/*
+#
+## 4. Move everything back in one go
+#RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
+#
+## 5. Cleanup
+#RUN rm -rf /tmp/firmware_safe
 
 # 12.8GB uncompressed
-RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
+#RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
 # Switch to user 'kiel'
 USER kiel
@@ -308,6 +374,8 @@ RUN emacs --batch \
 
 # Switch back to root user for the remaining steps
 USER root
+
+COPY config/sysctl.conf /etc/sysctl.conf
 
 WORKDIR /
 RUN mksquashfs \
@@ -358,7 +426,7 @@ usr/share/gtk-doc \
 usr/share/doc \
 usr/share/locale
 
-# "usr/lib/llvm/*/lib64/lib*.a" 
+# "usr/lib/llvm/*/lib64/lib*.a"
 # 'opt/rust-bin*'
 #usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus}
 #usr/lib/firmware/{iwlwifi,phanfw}*
@@ -377,7 +445,17 @@ RUN dracut \
       --install "stat blockdev" \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
-      
+
+COPY config/mount-overlayfs.sh_hpz6 /usr/lib/dracut/modules.d/70overlayfs
+RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
+RUN dracut \
+      -m "kernel-modules base dmsquash-live dm udev-rules lvm crypt overlayfs" \
+      --filesystems "squashfs vfat ext4 overlay btrfs" \
+      --kver=${KVER} \
+      --install "stat blockdev" \
+      --force \
+      /boot/initramfs-hpz6-x86_64.img
+
 
 # Standard Dracut dmsquash-live is very picky about the persistence partition structure. If you want it to automatically detect the overlay partition, that partition must contain two specific directories: overlayfs and ovlwork.
 
@@ -444,13 +522,13 @@ RUN dracut \
 # rd.live.overlay.overlayfs=1
 # rd.live.debug=1
 
-# verified grub config to boot this image 
+# verified grub config to boot this image
 # menuentry 'Gentoo Dracut (Fixed)' {
 #     insmod part_gpt
 #     insmod fat
 #     insmod btrfs
 #     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
-    
+
 #     linux /boot/vmlinuz \
 #     root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
 #     rd.live.dir=/ \
@@ -473,7 +551,7 @@ RUN dracut \
 
 # #COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
 # COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
-# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+# RUN chmod +x /usr/lib/dracut/modules.d/99base/init.sh
 
 # RUN dracut \
 #       -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
@@ -484,7 +562,7 @@ RUN dracut \
 
 
 # COPY config/init_dracut_crypt_disk.sh /usr/lib/dracut/modules.d/99base/init.sh
-# RUN chmod a+x /usr/lib/dracut/modules.d/99base/init.sh
+# RUN chmod +x /usr/lib/dracut/modules.d/99base/init.sh
 
 # RUN dracut \
 #       -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
@@ -523,3 +601,4 @@ RUN dracut \
 # # real    174m37.518s
 # #70 198.6 Filesystem size 7895377.73 Kbytes (7710.33 Mbytes)
 # #70 198.6       36.59% of uncompressed filesystem size (21579915.17 Kbytes)
+

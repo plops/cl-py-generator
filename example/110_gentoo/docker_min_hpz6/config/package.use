@@ -111,3 +111,6 @@ media-libs/libsdl2 X gles2 haptic joystick kms opengl pulseaudio sound udev vide
  dev-qt/qtdeclarative jit network opengl sql ssl svg vulkan widgets -accessibility -custom-cflags -qmlls
  net-analyzer/wireshark capinfos captype dftest dumpcap editcap filecaps gui mergecap minizip netlink pcap plugins randpkt randpktdump reordercap sharkd ssl text2pcap tshark udpdump zlib zstd -androiddump -bcg729 -brotli -ciscodump -doc -dpauxmon -http2 -http3 -ilbc -kerberos -libxml2 lua -lz4 -maxminddb -opus -sbc -sdjournal -selinux -smi -snappy -spandsp -sshdump -test -verify-sig -wifi lua_single_target_lua5-4
  net-libs/nodejs icu snapshot ssl system-icu system-ssl -corepack -debug -doc -inspector -lto npm -pax-kernel -test
+
+
+sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 openssl pam pcre resolvconf seccomp sysv-utils zstd -apparmor -audit -boot -bpf -cgroup-hybrid -cryptsetup -curl -elfutils -fido2 -gnutls -homed -http -idn -importd -iptables -lzma -passwdqc -pkcs11 -policykit -pwquality -qrcode -secureboot -selinux -split-usr  -test -tpm -ukify -vanilla -xkb

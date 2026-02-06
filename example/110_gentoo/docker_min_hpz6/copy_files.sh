@@ -8,7 +8,8 @@ cp /gentoo.squashfs /tmp/outside/${TARGET}/
 cp /boot/vmlinuz /tmp/outside/${TARGET}/
 #cp /boot/initramfs_squash_crypt-x86_64.img /tmp/outside/${TARGET}/
 cp /boot/initramfs_squash_sda1-x86_64.img /tmp/outside/${TARGET}/
+cp /boot/initramfs-hpz6-x86_64.img /tmp/outside/${TARGET}/
 #cp /boot/initramfs_squash_from_disk.img /tmp/outside/${TARGET}/
 #cp /boot/initramfs-with-ssh.img /tmp/outside/${TARGET}/
-chmod a+rwx /tmp/outside/${TARGET}/*
-qlist -Iv > /tmp/outside/packages.txt
+qlist -Iv > /tmp/outside/${TARGET}/packages.txt
+chmod -R a+rwx /tmp/outside/${TARGET}

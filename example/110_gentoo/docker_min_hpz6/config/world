@@ -52,7 +52,7 @@ x11-misc/xtrlock
 app-crypt/p11-kit
 sys-apps/qdirstat
 dev-debug/ltrace
-dev-debug/dtrace
+#dev-debug/dtrace
 dev-util/ruff
 app-text/poppler
 #dev-debug/valgrind
