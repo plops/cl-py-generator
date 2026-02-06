@@ -273,15 +273,11 @@ RUN make install
 RUN make clean
 
 RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
-#RUN echo "kiel:Cosmos3fed*debtor" | chpasswd
 
 COPY config/xinitrc /home/kiel/.xinitrc
 
 
 RUN emerge --depclean
-#RUN chmod a+rx /opt/clion/bin/clang/linux/x64/bin/clang-format
-
-#RUN IGNORE_PREEMPT_RT_PRESENCE=1 emerge nvidia-drivers
 
 COPY config/20-enp65s0.network /etc/systemd/network/
 COPY config/resolv.conf /etc/
@@ -289,13 +285,6 @@ COPY config/reverse-ssh-eu.service /etc/systemd/system/
 COPY config/reverse-ssh-us.service /etc/systemd/system/
 RUN systemctl enable reverse-ssh-eu
 RUN systemctl enable reverse-ssh-us
-
-#COPY config/list_files.py /usr/bin/list_files.py
-#RUN chmod a+x /usr/bin/list_files.py
-#RUN python /usr/bin/list_files.py > /list_files.txt
-# -ef /list_files.txt
-# "... *.a"
-# "opt/cuda/targets/x86_64-linux/lib/lib*.a"
 
 
 # on my laptop i only need
@@ -337,7 +326,7 @@ RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
 # 5. Cleanup
 RUN rm -rf /tmp/firmware_safe
 
- 12.8GB uncompressed
+# 12.8GB uncompressed
 RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
 # Switch to user 'kiel'
