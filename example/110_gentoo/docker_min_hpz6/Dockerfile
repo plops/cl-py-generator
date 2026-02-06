@@ -56,8 +56,6 @@ ENV KVER_PURE=6.12.58
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN df -h
-RUN emerge app-arch/libarchive || cat /var/tmp/portage/app-arch/libarchive-3.8.3/temp/build.log
-RUN cat /var/tmp/portage/app-arch/libarchive-3.8.3/work/libarchive-3.8.3-abi_x86_64.amd64/config.log
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
@@ -191,16 +189,7 @@ RUN make prepare
 RUN make -j32
 RUN make modules_install
 RUN make install
-RUN mkdir -p /etc/portage/patches/dev-libs/jemalloc
-COPY config/jemalloc-gcc16-fix.patch /etc/portage/patches/dev-libs/jemalloc/
 
-# Create a hook to inject the missing header into all relevant files
-RUN echo 'post_src_unpack() { \
-    cd "${S}/src"; \
-    for f in aclogger.h portutils.h ahttpurl.h; do \
-        [ -f "$f" ] && sed -i "1i #include <cstdint>" "$f"; \
-    done; \
-}' >> /etc/portage/bashrc
 
 RUN emerge -e --ask=n @world
 
@@ -328,28 +317,28 @@ RUN systemctl enable reverse-ssh-us
 # [   63.589195] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
 # [   63.634733] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
 
-## 1. Create a clean temporary workspace
-#RUN mkdir -p /tmp/firmware_safe
-#WORKDIR /usr/lib/firmware
-#
-## 2. Copy the specific files you need, preserving their directory paths
-#RUN cp --parents regulatory.db* /tmp/firmware_safe/
-#RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
-#RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
-#RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
-#
-## 3. Wipe the original directory (and /opt/cuda as per your first message)
-#WORKDIR /
-#RUN rm -rf /usr/lib/firmware/*
-#
-## 4. Move everything back in one go
-#RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
-#
-## 5. Cleanup
-#RUN rm -rf /tmp/firmware_safe
+# 1. Create a clean temporary workspace
+RUN mkdir -p /tmp/firmware_safe
+WORKDIR /usr/lib/firmware
 
-# 12.8GB uncompressed
-#RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
+# 2. Copy the specific files you need, preserving their directory paths
+RUN cp --parents regulatory.db* /tmp/firmware_safe/
+RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
+RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
+RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
+
+# 3. Wipe the original directory (and /opt/cuda as per your first message)
+WORKDIR /
+RUN rm -rf /usr/lib/firmware/*
+
+# 4. Move everything back in one go
+RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
+
+# 5. Cleanup
+RUN rm -rf /tmp/firmware_safe
+
+ 12.8GB uncompressed
+RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
 # Switch to user 'kiel'
 USER kiel
@@ -417,14 +406,6 @@ usr/share/gtk-doc \
 usr/share/doc \
 usr/share/locale
 
-# "usr/lib/llvm/*/lib64/lib*.a"
-# 'opt/rust-bin*'
-#usr/lib/firmware/{qcom,netronome,mellanox,mrvl,mediatek,ath11k,ath10k,ath12k,qed,dpaa2,brcm,ti-connectivity,cypress,liquidio,cxgb4,bnx2x,i915,qca,cirrus}
-#usr/lib/firmware/{iwlwifi,phanfw}*
-
-# Create an initramfs that loads the squashfs from disk and overlays it
-# on the folder persistent/ on that partition
-
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
 COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
@@ -448,148 +429,4 @@ RUN dracut \
       /boot/initramfs-hpz6-x86_64.img
 
 
-# Standard Dracut dmsquash-live is very picky about the persistence partition structure. If you want it to automatically detect the overlay partition, that partition must contain two specific directories: overlayfs and ovlwork.
-
-# Mount your persistent LV manually one last time and rearrange the folders to match Dracut's expectation:
-
-# mount /dev/mapper/ubuntu--vg-ubuntu--lv /mnt
-# mkdir /mnt/ovlwork
-# mv /mnt/persistent/upper/* /mnt/persistent/   # Move contents to root of folder
-# rmdir /mnt/persistent/upper /mnt/persistent/work
-# # Ensure /mnt/persistent and /mnt/ovlwork are siblings
-# umount /mnt
-
-# https://dracut-ng.github.io/dracut-ng/man/dracut.cmdline.7.html#_booting_live_images
-#root=live:<url>: Specifies the location of the live image (e.g., root=live:CDLABEL=LIVE).
-#rd.live.overlay=<device>: Defines the device to be used for the writable overlay.
-#rd.live.ram=1: Attempts to load the entire live image into RAM for faster performance (note: may require significant memory).
-#iso-scan/filename=<path>: Searches for an ISO file on available devices and mounts it as a loop device; requires this module.
-# rd.live.debug=1
-# Enables debug output from the live boot process.
-
-# rd.live.dir=<path>
-# Specifies the directory within the boot device where the squashfs.img or rootfs.img can be found. By default, this is /LiveOS.
-
-# rd.live.squashimg=<filename of SquashFS image>
-# Specifies the filename for a SquashFS image of the root filesystem. By default, this is squashfs.img.
-
-# rd.live.ram=1
-# Copy the complete image to RAM and use this for booting. This is useful when the image resides on, e.g., a DVD which needs to be ejected later on.
-
-# rd.overlay={<devspec>[:{<pathspec>|auto}]|none}
-# Manage the usage of a persistent overlay for live images.
-
-# <devspec> specifies the path to a device with a mountable filesystem.
-
-# <pathspec> is a path within the <devspec> filesystem to either
-
-# a file (that is loop mounted for a Device-mapper overlay) or
-
-# a directory (that is symbolically linked to /run/overlayfs for a OverlayFS mount overlay). (A required sister directory /<pathspec>/../ovlwork is automatically made.)
-
-# none (the word itself) specifies that no overlay will be used, such as when an uncompressed, writable live root filesystem is available.
-
-# The above method shall be used to persist the changes made to the root filesystem specified within the
-# root=live:<path to blockdevice> or root=live:<url> device.
-
-# The default pathspec, when :auto or no :<pathspec> is given, is /<rd.live.dir>/overlay-<label>-<uuid>, where <label> and <uuid> are the LABEL and UUID of the filesystem specified by the root=live:<path|url> device.
-
-# If a persistent overlay is detected at the standard LiveOS path, and rd.overlayfs is not set to 1, the overlay type (either Device-mapper or OverlayFS) will be detected and it will be used.
-
-# Examples
-# rd.overlay=/dev/sdb1:/persistent-overlay.img
-# rd.overlay=UUID=99440c1f-8daa-41bf-b965-b7240a8996f4
-
-
-
-# root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
-# rd.live.dir=/ \
-# rd.live.squashimg=gentoo.squashfs \
-# rd.live.ram=1 \
-# rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
-# rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
-# rd.lvm.lv=ubuntu--vg/ubuntu--lv \
-# rd.overlay=/dev/mapper/ubuntu--vg-ubuntu--lv:persistent \
-# rd.live.overlay.overlayfs=1
-# rd.live.debug=1
-
-# verified grub config to boot this image
-# menuentry 'Gentoo Dracut (Fixed)' {
-#     insmod part_gpt
-#     insmod fat
-#     insmod btrfs
-#     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
-
-#     linux /boot/vmlinuz \
-#     root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
-#     rd.live.dir=/ \
-#     rd.live.squashimg=gentoo.squashfs \
-#     rd.live.ram=1 \
-#     rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
-#     rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
-#         rd.overlay=/dev/mapper/enc:persistent \
-#     rd.live.overlay.overlayfs=1
-#     initrd /boot/initramfs_squash_sda1-x86_64.img
-# }
-
-# Summary of what happens on boot:
-# Dracut starts.
-# It sees root=live:/dev/sda1. It mounts sda1 to /run/initramfs/live.
-# It sees rd.live.ram=1. It copies /run/initramfs/live/gentoo.squashfs to RAM.
-# It sees rd.overlay=/dev/sda2. It mounts sda2 temporarily.
-# It checks if sda2 contains directories /overlayfs and /ovlwork (which we created in the updated script).
-# It creates the union mount using those directories over the RAM-backed system.
-
-# #COPY config/init_dracut.sh /usr/lib/dracut/modules.d/99base/init.sh
-# COPY config/init_dracut_crypt.sh /usr/lib/dracut/modules.d/99base/init.sh
-# RUN chmod +x /usr/lib/dracut/modules.d/99base/init.sh
-
-# RUN dracut \
-#       -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
-#       --filesystems " squashfs vfat overlay btrfs " \
-#    --kver=${KVER} \
-#   --force \
-#   /boot/initramfs_squash_sda1-x86_64.img
-
-
-# COPY config/init_dracut_crypt_disk.sh /usr/lib/dracut/modules.d/99base/init.sh
-# RUN chmod +x /usr/lib/dracut/modules.d/99base/init.sh
-
-# RUN dracut \
-#       -m " kernel-modules base rootfs-block dm udev-rules crypt lvm " \
-#       --filesystems " squashfs vfat overlay btrfs " \
-#    --kver=${KVER} \
-#   --force \
-#   /boot/initramfs_squash_from_disk.img
-
-# # allow passing the initramfs public key and tunnel private key into the build
-# ARG INITRAMFS_AUTH_KEY=""
-# ARG TUNNEL_KEY=""
-
-# # Create dracut assets for remote-unlock initramfs and include them in a new initramfs image.
-# # Ensure the directory exists and write any provided keys; fall back to generating tunnel key if not provided.
-# RUN mkdir -p /etc/dracut-crypt-ssh \
-#     && mkdir -p /root/.ssh \
-#  && if [ -n "$INITRAMFS_AUTH_KEY" ]; then printf '%s\n' "$INITRAMFS_AUTH_KEY" > /root/.ssh/authorized_keys; else :; fi \
-#  && if [ -n "$TUNNEL_KEY" ]; then printf '%s\n' "$TUNNEL_KEY" > /etc/dracut-crypt-ssh/tunnel_id_rsa && chmod 600 /etc/dracut-crypt-ssh/tunnel_id_rsa; else ssh-keygen -f /etc/dracut-crypt-ssh/tunnel_id_rsa -t rsa -N "" >/dev/null 2>&1; fi \
-#  && ssh-keygen -f /etc/dracut-crypt-ssh/ssh_host_ecdsa_key -t ecdsa -N "" >/dev/null 2>&1 \
-#  && chmod 600 /etc/dracut-crypt-ssh/ssh_host_ecdsa_key || true
-
-# # Add the tunnel starter script and (optional) static authorized_keys fallback file
-# COPY config/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/start-reverse-tunnels.sh
-# RUN chmod +x /etc/dracut-crypt-ssh/start-reverse-tunnels.sh || true
-
-# # Build the third initramfs which includes dracut-crypt-ssh and network so dropbear + autossh can run
-# # RUN dracut \
-# #       -m "kernel-modules base rootfs-block dm udev-rules crypt lvm network crypt-ssh" \
-# #       --add-drivers "r8169" \
-# #       --filesystems "squashfs vfat overlay btrfs" \
-# #       --install "/etc/dracut-crypt-ssh/ssh_host_ecdsa_key /etc/dracut-crypt-ssh/start-reverse-tunnels.sh /etc/dracut-crypt-ssh/tunnel_id_rsa" \
-# #       --kver=${KVER} \
-# #       --force \
-# #       /boot/initramfs-with-ssh.img
-
-# # real    174m37.518s
-# #70 198.6 Filesystem size 7895377.73 Kbytes (7710.33 Mbytes)
-# #70 198.6       36.59% of uncompressed filesystem size (21579915.17 Kbytes)
 
