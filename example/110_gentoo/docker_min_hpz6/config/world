@@ -22,7 +22,7 @@ x11-apps/xset
 x11-base/xorg-server
 x11-terms/xterm
 x11-wm/dwm
-x11-drivers/nvidia-drivers
+#x11-drivers/nvidia-drivers
 dev-util/clion
 sys-process/btop
 www-client/google-chrome
@@ -38,7 +38,7 @@ app-text/mupdf
 dev-debug/gdb
 dev-lisp/sbcl
 dev-python/uv
-dev-util/nvidia-cuda-toolkit
+#dev-util/nvidia-cuda-toolkit
 dev-util/ruff
 media-gfx/feh
 media-gfx/scrot

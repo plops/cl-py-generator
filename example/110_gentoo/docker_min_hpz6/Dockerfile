@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260205 AS portage
+FROM gentoo/portage:20260206 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
@@ -185,45 +185,12 @@ EOF
 
 RUN make prepare
 
-
-RUN emerge -e @world --fetchonly
-
 # compile the kernel
 RUN make -j32
 RUN make modules_install
 RUN make install
 RUN mkdir -p /etc/portage/patches/dev-libs/jemalloc
 COPY config/jemalloc-gcc16-fix.patch /etc/portage/patches/dev-libs/jemalloc/
-
-# Generate the full list of packages to build and split into 10 stages
-RUN emerge -pqe --columns @world | awk '{print $2}' > /tmp/world_packages.txt && \
-    total_lines=$(wc -l < /tmp/world_packages.txt) && \
-    lines_per_stage=$((($total_lines + 9) / 10)) && \
-    for i in {1..10}; do \
-      start=$(((i-1) * lines_per_stage + 1)); \
-      sed -n "${start},$((start + lines_per_stage - 1))p" /tmp/world_packages.txt > /tmp/stage_${i}_packages.txt; \
-    done
-
-# Stage 1 of 10
-RUN if [ -s /tmp/stage_1_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_1_packages.txt | awk '{print $NF}'); fi
-
-# Stage 2 of 10
-RUN if [ -s /tmp/stage_2_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_2_packages.txt | awk '{print $NF}'); fi
-
-# Stage 3 of 10
-RUN if [ -s /tmp/stage_3_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_3_packages.txt | awk '{print $NF}'); fi
-
-# Stage 4 of 10
-RUN if [ -s /tmp/stage_4_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_4_packages.txt | awk '{print $NF}'); fi
-
-# Stage 5 of 10
-RUN if [ -s /tmp/stage_5_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_5_packages.txt | awk '{print $NF}'); fi
-
-# Stage 6 of 10
-RUN if [ -s /tmp/stage_6_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_6_packages.txt | awk '{print $NF}'); fi
-
-# Stage 7 of 10
-RUN if [ -s /tmp/stage_7_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_7_packages.txt | awk '{print $NF}'); fi
 
 # Create a hook to inject the missing header into all relevant files
 RUN echo 'post_src_unpack() { \
@@ -233,35 +200,57 @@ RUN echo 'post_src_unpack() { \
     done; \
 }' >> /etc/portage/bashrc
 
-RUN emerge --ask=n -1 net-misc/apt-cacher-ng
-
-
-# Install newest apt-cacher-ng
-#RUN echo "=net-misc/apt-cacher-ng-9999 **" >> /etc/portage/package.accept_keywords/apt-cacher-ng
-#Version #9999 and #3.7.4_p1-r2 are in gentoo portage repo
-# I want 9999
-
-#RUN emerge --ask=n =net-misc/apt-cacher-ng-9999
-
-# Stage 8 of 10
-RUN if [ -s /tmp/stage_8_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_8_packages.txt | awk '{print $NF}'); fi
-
-# Stage 9 of 10
-RUN if [ -s /tmp/stage_9_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_9_packages.txt | awk '{print $NF}'); fi
+RUN emerge -e --ask=n @world
 
 ## Generate the full list of packages to build and split into 10 stages
-## Using 'awk' to extract only the package name and avoiding empty lines
-#RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt && \
+#RUN emerge -pqe --columns @world | awk '{print $2}' > /tmp/world_packages.txt && \
 #    total_lines=$(wc -l < /tmp/world_packages.txt) && \
-#    lines_per_stage=$(( (total_lines + 9) / 10 )) && \
+#    lines_per_stage=$((($total_lines + 9) / 10)) && \
 #    for i in {1..10}; do \
 #      start=$(((i-1) * lines_per_stage + 1)); \
 #      sed -n "${start},$((start + lines_per_stage - 1))p" /tmp/world_packages.txt > /tmp/stage_${i}_packages.txt; \
 #    done
-
-
-# Stage 10 of 10
-RUN if [ -s /tmp/stage_10_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_10_packages.txt | grep / | awk '{print $NF}'); fi
+#
+## Stage 1 of 10
+#RUN if [ -s /tmp/stage_1_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_1_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 2 of 10
+#RUN if [ -s /tmp/stage_2_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_2_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 3 of 10
+#RUN if [ -s /tmp/stage_3_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_3_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 4 of 10
+#RUN if [ -s /tmp/stage_4_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_4_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 5 of 10
+#RUN if [ -s /tmp/stage_5_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_5_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 6 of 10
+#RUN if [ -s /tmp/stage_6_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_6_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 7 of 10
+#RUN if [ -s /tmp/stage_7_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_7_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 8 of 10
+#RUN if [ -s /tmp/stage_8_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_8_packages.txt | awk '{print $NF}'); fi
+#
+## Stage 9 of 10
+#RUN if [ -s /tmp/stage_9_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_9_packages.txt | awk '{print $NF}'); fi
+#
+### Generate the full list of packages to build and split into 10 stages
+### Using 'awk' to extract only the package name and avoiding empty lines
+##RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt && \
+##    total_lines=$(wc -l < /tmp/world_packages.txt) && \
+##    lines_per_stage=$(( (total_lines + 9) / 10 )) && \
+##    for i in {1..10}; do \
+##      start=$(((i-1) * lines_per_stage + 1)); \
+##      sed -n "${start},$((start + lines_per_stage - 1))p" /tmp/world_packages.txt > /tmp/stage_${i}_packages.txt; \
+##    done
+#
+#
+## Stage 10 of 10
+#RUN if [ -s /tmp/stage_10_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_10_packages.txt | grep / | awk '{print $NF}'); fi
 
 RUN emerge --depclean
 
