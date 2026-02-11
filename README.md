@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/plops/cl-py-generator)
+
 # Introduction
 
 This program is a Common Lisp tool to convert s-expressions into Python.
