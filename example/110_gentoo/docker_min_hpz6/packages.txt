@@ -152,7 +152,6 @@ app-text/libpaper-2.1.3
 app-text/lowdown-2.0.2
 app-text/manpager-1
 app-text/mupdf-1.25.6
-app-text/openjade-1.3.2-r9
 app-text/opensp-1.5.2-r10
 app-text/po4a-0.74-r1
 app-text/scdoc-1.11.4
@@ -176,10 +175,10 @@ dev-cpp/cairomm-1.18.0
 dev-cpp/glibmm-2.84.0
 dev-cpp/gtkmm-4.18.0-r1
 dev-cpp/pangomm-2.50.2
-dev-db/postgresql-18.1
+dev-db/postgresql-18.2
 dev-db/sqlite-3.50.4
 dev-debug/strace-6.18
-dev-lang/go-1.25.5
+dev-lang/go-1.25.5-r1
 dev-lang/nasm-3.01
 dev-lang/orc-0.4.41
 dev-lang/perl-5.42.0-r1
@@ -204,7 +203,6 @@ dev-libs/fribidi-1.0.16
 dev-libs/glib-2.84.4
 dev-libs/gmp-6.3.0-r1
 dev-libs/gobject-introspection-1.84.0-r1
-dev-libs/gobject-introspection-common-1.84.0
 dev-libs/gumbo-0.13.1
 dev-libs/icu-77.1
 dev-libs/isl-0.27
@@ -301,7 +299,7 @@ dev-perl/Text-CharWidth-0.40.0-r2
 dev-perl/Text-WrapI18N-0.60.0-r3
 dev-perl/TimeDate-2.330.0-r1
 dev-perl/Try-Tiny-0.320.0
-dev-perl/Unicode-LineBreak-2019.1.0-r1
+dev-perl/Unicode-LineBreak-2019.1.0-r2
 dev-perl/URI-5.340.0
 dev-perl/WWW-RobotRules-6.20.0-r2
 dev-perl/XML-Parser-2.470.0-r1
@@ -454,7 +452,7 @@ media-libs/libsndfile-1.2.2-r2
 media-libs/libva-2.22.0-r1
 media-libs/libvorbis-1.3.7-r2
 media-libs/libwebp-1.6.0
-media-libs/mesa-25.2.8
+media-libs/mesa-25.3.3
 media-libs/openal-1.24.3
 media-libs/openjpeg-2.5.3-r1
 media-libs/opus-1.5.2
@@ -477,7 +475,7 @@ net-dns/c-ares-1.34.6
 net-dns/libidn2-2.3.8
 net-firewall/iptables-1.8.11-r1
 net-fs/sshfs-3.7.3-r2
-net-im/signal-desktop-bin-7.83.0
+net-im/signal-desktop-bin-7.86.0
 net-libs/gnutls-3.8.11
 net-libs/libasyncns-0.8-r4
 net-libs/liblockfile-1.17
@@ -501,7 +499,7 @@ net-misc/mosh-1.4.0-r1
 net-misc/ofono-2.14
 net-misc/openssh-10.2_p1
 net-misc/rsync-3.4.1-r1
-net-misc/socat-1.8.1.0
+net-misc/socat-1.8.1.0-r1
 net-misc/wget-1.25.0-r1
 net-print/cups-2.4.14-r1
 net-wireless/bluez-5.85
@@ -522,7 +520,7 @@ sys-apps/dmidecode-3.7
 sys-apps/file-5.46-r3
 sys-apps/findutils-4.10.0
 sys-apps/gawk-5.3.2
-sys-apps/gentoo-functions-0.19
+sys-apps/gentoo-functions-1.7.6
 sys-apps/gentoo-systemd-integration-9-r1
 sys-apps/grep-3.12
 sys-apps/groff-1.23.0-r1
@@ -537,7 +535,7 @@ sys-apps/lm-sensors-3.6.2
 sys-apps/locale-gen-3.10
 sys-apps/lsb-release-3.3
 sys-apps/lshw-02.20.2b-r1
-sys-apps/man-db-2.13.1
+sys-apps/man-db-2.13.1-r1
 sys-apps/man-pages-6.10
 sys-apps/net-tools-2.10
 sys-apps/nvme-cli-2.16
@@ -560,7 +558,7 @@ sys-devel/binutils-2.45.1
 sys-devel/binutils-config-5.6
 sys-devel/bison-3.8.2-r3
 sys-devel/flex-2.6.4-r6
-sys-devel/gcc-16.0.1_p20260201
+sys-devel/gcc-16.0.1_p20260208-r1
 sys-devel/gcc-config-2.12.2
 sys-devel/gettext-0.23.2
 sys-devel/gnuconfig-20250710
@@ -577,10 +575,10 @@ sys-fs/udev-init-scripts-35
 sys-kernel/dracut-108-r5
 sys-kernel/gentoo-sources-6.12.58
 sys-kernel/linux-firmware-20260110
-sys-kernel/linux-headers-6.12
+sys-kernel/linux-headers-6.18
 sys-libs/binutils-libs-2.45.1
 sys-libs/gdbm-1.26
-sys-libs/glibc-2.41-r10
+sys-libs/glibc-2.42-r5
 sys-libs/libcap-2.77
 sys-libs/libnvme-1.16.1
 sys-libs/libseccomp-2.6.0-r3
@@ -595,7 +593,7 @@ sys-libs/slang-2.3.3-r1
 sys-libs/timezone-data-2025b
 sys-libs/zlib-1.3.1-r1
 sys-power/tlp-1.8.0-r1
-sys-process/btop-1.4.5
+sys-process/btop-1.4.6
 sys-process/numactl-2.0.19
 sys-process/procps-4.0.5-r3
 sys-process/psmisc-23.7
@@ -656,8 +654,8 @@ virtual/ttf-fonts-1-r2
 virtual/udev-217-r7
 virtual/w3m-1
 virtual/zlib-1.3.1-r1
-www-apps/chromedriver-bin-144.0.7559.109
-www-client/google-chrome-144.0.7559.109
+www-apps/chromedriver-bin-144.0.7559.132
+www-client/google-chrome-144.0.7559.132
 www-client/w3m-0.5.3_p20240916
 x11-apps/bdftopcf-1.1.2
 x11-apps/fonttosfnt-1.2.5
