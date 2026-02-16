@@ -24,7 +24,7 @@ Wed Feb  4 16:31:20 2026 >>> sys-devel/gcc-16.0.9999
        merge time: 1 minute.
 ```
 
-emerge --info
+emerge --info -v
 ```
 Portage 3.0.72 (python 3.13.11-final-0, default/linux/amd64/23.0/no-multilib/systemd, gcc-16, glibc-2.41-r6, 6.12.58-gentoo x86_64)
 =================================================================
