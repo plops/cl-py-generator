@@ -2,6 +2,70 @@ https://forums.gentoo.org/viewtopic-p-8790781.html?sid=d43656936be7d6cffb8864cce
 
 Abstract: This technical discussion examines the implementation of USE="-*" within the Gentoo Linux environment. By setting USE="-*" in make.conf, a user effectively nullifies all default USE flags provided by the system profile, necessitating the explicit definition of every desired functional flag. The documentation outlines the methodology for transitioning to this state, emphasizing the reduction of system "bloat"—reporting package count reductions of 6% to 13%. Key technical requirements include the manual configuration of USE_EXPAND variables (e.g., PYTHON_TARGETS, CPU_FLAGS_X86) and the resolution of complex portage blockers. While proponents argue for increased security through reduced attack surfaces and absolute dependency control, senior administrators highlight significant pitfalls. These include increased maintenance overhead, potential breakages in software lacking explicit dependencies (e.g., imlib2, clisp), and the ethical burden on community volunteers when troubleshooting "self-inflicted" issues on non-standard, "minimalist" configurations.
 
+The following advice is aggregated directly from the provided forum thread. It is categorized into the **"Nuclear Option"** (starting with zero flags) and the **"Subtractive Option"** (removing specific bloat), along with specific implementation details.
+
+### 1. The Nuclear Option: `USE="-*"`
+The primary method discussed is placing `USE="-*"` at the beginning of your `make.conf`.
+
+*   **What it does:** It disables *all* USE flags, ignoring the defaults set by your selected profile (e.g., `default/linux/amd64/17.1`). It forces you to explicitly enable only what you need.
+*   **The Results:**
+    *   User *stefan11111* removed 50-100 packages (approx. 6.5% - 13% of their system).
+    *   User *kimchi_sg* achieved a functional KDE Plasma 5 desktop with only **376 packages** (compared to ~800+ on a standard profile).
+    *   User *kimchi_sg* achieved a minimal desktop (twm + firefox) with only **227 packages**.
+*   **The Workflow:**
+    1.  **Update First:** Run a full `@world` update before changing flags to ensure a stable base.
+    2.  **Edit make.conf:** Add `USE="-* [essential_flags]"` (see list below).
+    3.  **Resolve Blockers:** Run an update. You will get many blocks. Resolve them by adding necessary flags to `/etc/portage/package.use`.
+    4.  **Depclean:** Run `emerge -ca` (depclean) to remove the orphaned dependencies.
+
+### 2. The Subtractive Option (Safer Alternative)
+If `USE="-*"` is too aggressive or unstable for your workflow, Moderator *pietinger* suggests using a standard profile but explicitly disabling known "bloat" flags in `make.conf`.
+
+**Suggested "Bloat" Flags to Disable:**
+> `USE="-accessibility -activities -bluetooth -gstreamer -gtk -gtk3 -haptic -initramfs -ipv6 -lvm -modemmanager -networkmanager -phonon -ppp -pulseaudio -screencast -semantic-desktop -thin -thumbnail -wext -wifi -wireless"`
+
+### 3. Essential Flags to Re-Enable
+If using the Nuclear Option (`USE="-*"`), you **must** manually add back specific flags to maintain a functional and secure system.
+
+*   **System Essentials:** `git`, `verify-sig`, `man` (if you want man pages), `ssl`, `libressl` (or openssl), `threads`, `jit`.
+*   **Security (Do NOT disable these):**
+    *   `pie` (Position Independent Executables)
+    *   `ssp` (Stack Smashing Protection)
+    *   `xattr` (Required for file capabilities, e.g., using `ping` without setuid root)
+    *   `cet` (Control-flow Enforcement Technology - for modern CPUs)
+*   **Hardware/Desktop:** `alsa`, `X`, `glib`, `dbus`, `icu`, `udev`, `png`, `jpeg`, `truetype`.
+
+### 4. Handling `USE_EXPAND` Variables
+`USE="-*"` does not automatically handle `USE_EXPAND` variables correctly; they often default to empty or invalid states.
+
+*   **Input Devices:** Do not leave this empty.
+    *   *Recommendation:* `INPUT_DEVICES="libinput"` (Standard for modern X11/Wayland).
+    *   *Avoid:* `INPUT_DEVICES="mouse keyboard"` (Outdated/Static).
+*   **Python Targets:**
+    *   To strictly minimize python usage, user *shimbob* suggests:
+        ```bash
+        USE_PYTHON=""
+        PYTHON_TARGETS=""
+        PYTHON_SINGLE_TARGET=""
+        ```
+    *   *Note:* You must then manually enable specific python targets in `package.use` for packages that strictly require them.
+
+### 5. Advanced Optimization & File Masking
+*   **Optimization Flags:**
+    *   `minimal`: Often removes plugins or extra code.
+    *   `jumbo-build`: Speeds up compilation (e.g., qtwebengine) but increases RAM usage significantly.
+RF    *   `lto` & `pgo`: Optimize binary performance and size, though PGO increases build times.
+*   **INSTALL_MASK:**
+    *   User *stefan11111* uses this in `make.conf` to prevent the installation of unwanted files (saving disk space), specifically targeting systemd files on OpenRC systems:
+        ```bash
+        INSTALL_MASK="/etc/systemd /lib/systemd /usr/lib/systemd /usr/lib/modules-load.d *udev* /usr/lib/tmpfiles.d *tmpfiles* /var/lib/dbus /usr/bin/gdbus /lib/udev"
+        ```
+
+### 6. Warnings and Etiquette
+*   **"Tinderbox" Status:** Using `USE="-*"` effectively turns your system into a test bed. You will likely discover missing dependency declarations in ebuilds (e.g., `dev-lisp/clisp` failing because `unicode` was disabled).
+*   **Implicit Dependencies:** You will break things that developers assumed were always present. You must be comfortable debugging build logs.
+*   **Forum Etiquette:** If asking for help on the forums, **you must explicitly state** you are using `USE="-*"`. Failure to do so wastes volunteer time diagnosing standard issues that are actually caused by your aggressive flag stripping.
+
 
 
 
