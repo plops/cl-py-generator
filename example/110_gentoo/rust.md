@@ -31,3 +31,6 @@ Maintainers are increasingly encouraged to:
 Use Feature Flags: Allow users to opt-in only to the parts of a library they need, which often strips away secondary dependencies.
 
 Avoid Default Features: Developers often use --no-default-features when adding crates to keep the initial footprint small.
+
+
+use https://doc.rust-lang.org/clippy/ for extra checks in code
