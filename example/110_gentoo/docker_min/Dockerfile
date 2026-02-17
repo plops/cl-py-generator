@@ -4,7 +4,7 @@
 FROM gentoo/portage:20260217 AS portage
 
 # based on stage3 image
-FROM gentoo/stage3:nomultilib-20260216
+FROM gentoo/stage3:nomultilib-20260216 AS base
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -171,6 +171,18 @@ RUN for i in \
 RUN ./scripts/config --set-str CMDLINE ""
 
 RUN make prepare
+
+FROM base AS world-rebuild
+
+COPY config/package.use.ssl /tmp/package.use.ssl
+COPY config/package.mask.nosystemd /tmp/package.mask.nosystemd
+RUN install -d /etc/portage/package.use /etc/portage/package.mask \
+ && cat /tmp/package.use.ssl >> /etc/portage/package.use/zz-local \
+ && cat /tmp/package.mask.nosystemd >> /etc/portage/package.mask/zz-nosystemd \
+ && rm /tmp/package.use.ssl /tmp/package.mask.nosystemd
+RUN emerge --ask=n --oneshot dev-lang/python:3.13 sys-apps/systemd-utils
+
+WORKDIR /usr/src/linux
 
 RUN emerge -e @world --fetchonly
 RUN emerge -e @world

@@ -1,0 +1,4 @@
+# Extra USE flags to satisfy Portage requirements and enable TLS in Python
+>=dev-lang/python-3.13 ssl
+>=sys-apps/systemd-utils-255 tmpfiles udev
+
