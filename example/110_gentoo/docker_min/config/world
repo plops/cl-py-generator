@@ -1,38 +1,12 @@
 app-admin/sudo
-#app-arch/cpio
-#app-editors/emacs
-#app-emacs/magit
-#app-emacs/paredit
-#app-misc/tmux
-#app-portage/eix
-#app-portage/gentoolkit
-#dev-build/ninja
-#dev-lisp/sbcl
-#dev-util/tkdiff
-#dev-util/vulkan-tools
-#media-libs/vulkan-loader
-#dev-util/vulkan-headers
-#dev-vcs/git
-#net-analyzer/netcat
+app-portage/gentoolkit
+dev-build/steve
+dev-lang/python:3.14
+dev-libc/libtool
 net-misc/dhcp
-#net-wireless/bluez
-#net-wireless/iwd
-#net-wireless/wireless-regdb
-#sys-devel/gcc
-#sys-fs/btrfs-progs
+sys-apps/systemd-utils
+sys-devel/gcc:16
 sys-fs/cryptsetup
 sys-fs/squashfs-tools
 sys-kernel/dracut
 sys-kernel/gentoo-sources
-#sys-kernel/linux-firmware
-# sys-power/tlp
-# x11-apps/setxkbmap
-# x11-apps/xrandr
-# x11-apps/xset
-# x11-base/xorg-server
-# x11-misc/redshift
-# x11-misc/xclip
-# x11-misc/xosview
-# x11-terms/xterm
-# x11-wm/dwm
-# net-wireless/iw
