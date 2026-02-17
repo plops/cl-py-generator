@@ -174,6 +174,10 @@ RUN make prepare
 
 FROM base AS world-rebuild
 
+# Note: In the stage3 base image, /etc/portage/package.use and /etc/portage/package.mask are directories.
+# Append new entries as files inside those directories (zz-local / zz-nosystemd).
+# We keep sys-apps/systemd masked, but still use sys-apps/systemd-utils as the udev provider
+# since sys-fs/eudev has been removed from Gentoo.
 COPY config/package.use.ssl /tmp/package.use.ssl
 COPY config/package.mask.nosystemd /tmp/package.mask.nosystemd
 RUN install -d /etc/portage/package.use /etc/portage/package.mask \
