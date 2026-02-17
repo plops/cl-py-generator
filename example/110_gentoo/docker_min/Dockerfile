@@ -10,10 +10,16 @@ FROM gentoo/stage3:nomultilib-20260216 AS base
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Configure the system and copy all initial configuration files
-COPY config/make.conf /etc/portage/make.conf
+COPY config/make.conf /etc/portage/make.conf.full
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
+
+# Create a temporary make.conf without jobserver for early stages
+# (steve jobserver is installed later in the build)
+RUN grep -v "MAKEFLAGS\|EMERGE_DEFAULT_OPTS\|steve" /etc/portage/make.conf.full > /etc/portage/make.conf && \
+    echo 'MAKEOPTS="-j8 -l8"' >> /etc/portage/make.conf && \
+    echo 'EMERGE_DEFAULT_OPTS="--jobs 4 --load-average 8"' >> /etc/portage/make.conf
 
 RUN eselect profile set default/linux/amd64/23.0/no-multilib && \
     echo "C.UTF-8 UTF-8" >> /etc/locale.gen && \
@@ -73,6 +79,7 @@ RUN for i in \
 
 # Install and configure steve jobserver, then prepare for world rebuild
 RUN emerge --ask=n dev-build/steve && \
+    cp /etc/portage/make.conf.full /etc/portage/make.conf && \
     cat > /usr/local/bin/with-steve.sh << 'EOF' && \
 chmod +x /usr/local/bin/with-steve.sh
 #!/bin/bash
