@@ -23,7 +23,6 @@ Output: `gentoo.squashfs` in the Docker container (extracted via setup03_copy_fr
   - `package.use.ssl` - SSL/TLS related USE flags
   - `world` - List of packages to install
   - `dwm-6.5` - DWM window manager saved config
-  - `simple_password.expect` - Password setup script
   - `list_files.py` - Generates exclusion list for squashfs
   - `mount-overlayfs.sh` - Dracut module for overlayfs mounting
   - `52persistent-overlay/` - Dracut module directory
@@ -399,7 +398,7 @@ Day 7:   Move tested packages to 🚀 config/world (weekly maintenance)
 - **Base system**: @system + gentoolkit, eix
 - **Compiler**: GCC 16
 - **Kernel**: gentoo-sources 6.12.58
-- **Tools**: steve (jobserver), expect (password setup)
+- **Tools**: steve (jobserver)
 - **Python**: 3.14 (single target)
 
 ### Adding Packages

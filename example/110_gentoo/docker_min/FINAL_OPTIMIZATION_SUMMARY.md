@@ -76,7 +76,6 @@ config/package.license             (license acceptance)
 config/package.mask.nosystemd      (systemd masking)
 config/package.use                 (USE flag configuration)
 config/package.use.ssl             (SSL-specific USE flags)
-config/simple_password.expect      (password setup script)
 config/world                       (package list)
 ```
 

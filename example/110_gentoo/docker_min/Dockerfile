@@ -118,16 +118,11 @@ RUN with-steve.sh make -j32
 RUN make modules_install && \
     make install
 
-# Configure sudo and create user with password
+# Configure sudo and create user (no password)
 RUN mkdir -p /etc/sudoers.d && \
     echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel && \
     useradd -m -G wheel -s /bin/bash martin
 
-# Set up password using expect script
-COPY config/simple_password.expect /simple_password.expect
-RUN GENTOO_MIRRORS="" emerge dev-tcltk/expect && \
-    expect /simple_password.expect && \
-    rm /simple_password.expect
 
 # Generate file list for exclusions
 COPY config/list_files.py /usr/bin/list_files.py

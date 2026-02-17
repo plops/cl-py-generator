@@ -88,13 +88,8 @@ The Dockerfile has been consolidated and optimized, reducing it from **489 lines
 - wheel group configuration
 - User creation
 
-**Combined password setup**:
-- expect installation
-- Password script execution
-- Cleanup
-
-**Before**: 7 separate RUN commands
-**After**: 2 consolidated RUN commands
+**Before**: Multiple separate RUN commands
+**After**: 1 consolidated RUN command (no password setup needed)
 
 ### 10. Removed Duplicate File List Generation (Lines 117-120)
 **Before**: list_files.py was copied and executed TWICE

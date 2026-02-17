@@ -19,7 +19,7 @@ net-misc/dhcp
 #net-wireless/iwd
 #net-wireless/wireless-regdb
 #sys-devel/gcc
-sys-fs/btrfs-progs
+#sys-fs/btrfs-progs
 sys-fs/cryptsetup
 sys-fs/squashfs-tools
 sys-kernel/dracut
