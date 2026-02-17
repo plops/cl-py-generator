@@ -100,7 +100,7 @@ RUN install -d /etc/portage/package.use /etc/portage/package.mask && \
     cat /tmp/package.use.ssl >> /etc/portage/package.use/zz-local && \
     cat /tmp/package.mask.nosystemd >> /etc/portage/package.mask/zz-nosystemd && \
     rm /tmp/package.use.ssl /tmp/package.mask.nosystemd && \
-    emerge --ask=n --oneshot dev-lang/python:3.13 sys-apps/systemd-utils
+    emerge --ask=n --oneshot dev-lang/python:3.14 sys-apps/systemd-utils
 
 # Download all packages first (cached layer - won't re-download if build fails)
 RUN with-steve.sh emerge -e @world --fetchonly

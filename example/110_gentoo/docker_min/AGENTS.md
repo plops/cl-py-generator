@@ -218,7 +218,7 @@ RUN emerge @world
 - **Compiler**: GCC 16
 - **Kernel**: gentoo-sources 6.12.58
 - **Tools**: steve (jobserver), expect (password setup)
-- **Python**: 3.13 (single target)
+- **Python**: 3.14 (single target)
 
 ### Adding Packages
 1. Edit `config/world`
