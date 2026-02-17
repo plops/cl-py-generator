@@ -14,7 +14,6 @@ COPY config/make.conf /etc/portage/make.conf
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
-COPY config/dwm-6.5 /etc/portage/savedconfig/x11-wm/dwm-6.5
 
 RUN eselect profile set default/linux/amd64/23.0/no-multilib && \
     echo "C.UTF-8 UTF-8" >> /etc/locale.gen && \
@@ -193,8 +192,8 @@ usr/share/locale
 COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
 RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh && \
     dracut \
-      -m "kernel-modules base dmsquash-live dm udev-rules lvm crypt overlayfs" \
-      --filesystems "squashfs vfat ext4 overlay btrfs" \
+      -m "kernel-modules base dmsquash-live dm udev-rules crypt overlayfs" \
+      --filesystems "squashfs vfat ext4 overlay " \
       --kver=${KVER} \
       --install "stat blockdev" \
       --force \
