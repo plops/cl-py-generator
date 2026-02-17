@@ -1,16 +1,16 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260203 AS portage
+FROM gentoo/portage:20260217 AS portage
 
-# based on stage3 image (1GB)
-FROM gentoo/stage3:nomultilib-systemd-20260202
+# based on stage3 image
+FROM gentoo/stage3:nomultilib-20260216
 
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Configure the system
-RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
+RUN eselect profile set default/linux/amd64/23.0/no-multilib
 
 
 
@@ -24,6 +24,7 @@ COPY config/dwm-6.5 /etc/portage/savedconfig/x11-wm/dwm-6.5
 RUN emerge -1 gentoolkit eix
 
 # Install GCC 16
+RUN emerge -avp sys-devel/gcc:16 > /emereg-gcc16-stage1.txt
 RUN emerge --ask=n --verbose sys-devel/gcc:16 \
  && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]') \
  && eselect gcc set "${gcc_16}" \
@@ -347,6 +348,8 @@ RUN echo "sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 opens
 RUN emerge --ask=n --update --changed-use sys-apps/systemd
 
 WORKDIR /
+#RUN genlop -ltn > genlop_ltn.txt
+RUN emerge --info -v > emerge_info_v.txt
 RUN rm -rf /usr/lib/lib*.a /usr/x86_64-pc-linux-gnu/gcc-bin/15/lto-dump /usr/share/i18n/ /usr/var/db/pkg/sys-kernel/gentoo-sources-6.12.58/CONTENTS /usr/lib/gcc/x86_64-pc-linux-gnu/15/lib*.a
 RUN mksquashfs \
 / \
