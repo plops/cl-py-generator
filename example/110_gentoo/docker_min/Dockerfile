@@ -40,7 +40,7 @@ RUN emerge --ask=n --verbose sys-devel/gcc:16 \
 RUN echo "C.UTF-8 UTF-8" >> /etc/locale.gen
 #RUN rm -rf /usr/share/locale/*
 #RUN locale-gen
-
+COPY config/package.use /etc/portage/package.use
 RUN emerge --update --deep --changed-use @world --fetchonly
 
 # Note: The kernel needs linux-firmware (for amdgpu) and  wireless-regdb for regulatory.db
@@ -335,17 +335,7 @@ RUN python /usr/bin/list_files.py > /list_files.txt
 # # # The kernel build took 194 seconds
 # # #'usr/lib/firmware/!({regulator.db*,amdgpu,rtl_bt,rtw89})'
 
-# For my laptop: -march=znver3
-# -one-file-system-x
-# Prepare the squashfs image
 
-
-
-# Configure USE flags for systemd
-RUN echo "sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 openssl pam pcre resolvconf seccomp sysv-utils zstd -apparmor -audit -boot -bpf -cgroup-hybrid -cryptsetup -curl -elfutils -fido2 -gnutls -homed -http -idn -importd -iptables -lzma -passwdqc -pkcs11 -policykit -pwquality -qrcode -secureboot -test -tpm -ukify -vanilla -xkb" >> /etc/portage/package.use/systemd
-
-# Rebuild systemd with the new flags
-RUN emerge --ask=n --update --changed-use sys-apps/systemd
 
 WORKDIR /
 #RUN genlop -ltn > genlop_ltn.txt
