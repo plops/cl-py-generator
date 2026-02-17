@@ -24,7 +24,7 @@ COPY config/dwm-6.5 /etc/portage/savedconfig/x11-wm/dwm-6.5
 RUN emerge -1 gentoolkit eix
 
 # Install GCC 16
-RUN emerge -avp sys-devel/gcc:16 > /emereg-gcc16-stage1.txt
+RUN emerge -vp sys-devel/gcc:16 > /emerge-gcc16-stage1.txt
 RUN emerge --ask=n --verbose sys-devel/gcc:16 \
  && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]') \
  && eselect gcc set "${gcc_16}" \
