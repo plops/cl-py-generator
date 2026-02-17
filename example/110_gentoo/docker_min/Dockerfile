@@ -14,7 +14,7 @@ RUN eselect profile set default/linux/amd64/23.0/no-multilib
 
 
 
-COPY config/package.use /etc/portage/package.use
+#COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.accept_keywords /etc/
 COPY config/world /var/lib/portage/world
