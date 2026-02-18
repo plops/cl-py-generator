@@ -58,7 +58,7 @@ The main exported functions are:
 
 - `emit-py` - Convert S-expressions to Python code
 - `write-source` - Write generated Python code to a file
-- `write-notebook` - Generate Jupyter notebook files [50-4) 
+- `write-notebook` - Generate Jupyter notebook files 
 
 ## Examples
 
