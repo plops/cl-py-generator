@@ -63,7 +63,7 @@
 					      ;:dl
 					      :auth
 					      :optional-abstract
-					      copy-prompt
+					      :copy-prompt
 					      ;:show-ip
 					      )))
 
