@@ -63,7 +63,7 @@
 					      ;:dl
 					      :auth
 					      :optional-abstract
-					      ;:copy-prompt
+					      copy-prompt
 					      ;:show-ip
 					      )))
 
@@ -84,7 +84,7 @@
 	(oflash25nothink .6))
     (defparameter *models* `(
 			     (:name gemini-2.5-flash-lite-preview-09-2025 :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
-			     (:name gemini-2.5-flash-preview-09-2025 :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
+			     
 			     (:name gemini-3-flash-preview :input-price .5 :output-price 3 :context-length 128_000 :harm-civic nil)
 			     
 			     
@@ -95,7 +95,8 @@
 			   
 			     
 			     #+nil
-			     ((:name gemini-3-pro-preview :input-price 2.0 :output-price 12 :context-length 200_000 :harm-civic nil)
+			     ((:name gemini-2.5-flash-preview-09-2025 :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
+			      (:name gemini-3-pro-preview :input-price 2.0 :output-price 12 :context-length 200_000 :harm-civic nil)
 			     (:name gemini-2.5-pro :input-price 1.25 :output-price 10 :context-length 200_000 :harm-civic nil)
 			      (:name gemini-2.5-flash :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-lite :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)

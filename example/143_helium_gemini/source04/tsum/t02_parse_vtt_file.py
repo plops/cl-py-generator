@@ -1,7 +1,5 @@
 from s02_parse_vtt_file import *
-
-assert (
-    r"""00:00:00 [Music]
+assert(((r"""00:00:00 [Music]
 00:00:00 welcome to BASF we create chemistry so
 00:00:05 it makes sense that we should
 00:00:06 familiarize you with the basic chemistry
@@ -54,5 +52,4 @@ assert (
 00:02:33 just the way end-users like them so
 00:02:33 there you have it the basics of
 00:02:36 polyurethanes from BASF we create
-"""
-) == (parse_vtt_file("cW3tzRzTHKI.en.vtt"))
+""")==(parse_vtt_file("cW3tzRzTHKI.en.vtt"))))
