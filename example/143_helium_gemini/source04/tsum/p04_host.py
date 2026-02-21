@@ -143,7 +143,6 @@ You can choose between three models with different capabilities. While these mod
 **Tips for Pasting Text**
 *   **Timestamps:** The summarizer is optimized for content that includes timestamps (e.g., `00:15:23 Key point is made`).
 *   **Best Results:** While the tool works with any block of text (articles/notes), providing timestamped transcripts generally produces the most detailed and well-structured summaries.
-""")+("""* If the daily request limit is reached, use the **Copy Prompt** button, paste the prompt into your AI tool, and run it there.
 """))
 PREFERRED_BASE=["en", "de", "fr", "pl", "ar", "bn", "bg", "zh-Hans", "zh-Hant", "hr", "cs", "da", "nl", "et", "fi", "el", "iw", "hi", "hu", "id", "it", "ja", "ko", "lv", "lt", "no", "pt", "ro", "ru", "sr", "sk", "sl", "es", "sw", "sv", "th", "tr", "uk", "vi"]
 def pick_best_language(list_output: str)->str | None:
@@ -347,11 +346,8 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
             html=f"Waiting for {real_model} to respond to request..."
         else:
             html=replace_timestamps_in_html(html0, s.original_source_link)
-        prompt_id=f"pompt-pre-{identifier}"
-        hidden_pre_for_prompt=Pre(get_prompt(s), id=prompt_id)
-        prompt_button=Button("Copy Prompt", onclick=f"copyPreContent('{prompt_id}')")
-        hidden_pre_for_copy=Div(Pre(text, id=f"pre-{identifier}"), hidden_pre_for_prompt, id=f"hidden-markdown-{identifier}", style="display: none;")
-        card_content=[Header(H4(A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}")), P(f"ID: {s.identifier} | Model: {s.model.split('|')[0]}", style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")), Div(NotStr(html), style="white-space: normal;"), Footer(hidden_pre_for_copy, Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')", cls="outline"), prompt_button)]
+        hidden_pre_for_copy=Div(Pre(text, id=f"pre-{identifier}"), id=f"hidden-markdown-{identifier}", style="display: none;")
+        card_content=[Header(H4(A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}")), P(f"ID: {s.identifier} | Model: {s.model.split('|')[0]}", style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")), Div(NotStr(html), style="white-space: normal;"), Footer(hidden_pre_for_copy, Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')", cls="outline"))]
         if ( ((trigger)==("")) ):
             return Article(*card_content, id=sid)
         else:
