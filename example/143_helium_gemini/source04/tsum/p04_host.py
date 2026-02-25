@@ -18,6 +18,7 @@ from zoneinfo import ZoneInfo
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
+from fastlite import database
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
@@ -108,42 +109,20 @@ def render(summary: Summary):
  
 logger.info("Create website app")
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
-app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, htmlkw=dict(lang="en-US"), identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier")
+app, rt = fast_app(db_file="data/summaries.db", live=False, render=render, htmlkw=dict(lang="en-US"))
+db = database("data/summaries.db")
+summaries = db.t.summaries
+if not summaries.exists():
+    summaries.create(identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier")
+# Binding the render function and deriving the dataclass as fast_app would
+summaries.render = render
+Summary = summaries.dataclass()
 # Optimization: Ensure indexes exist for fast deduplication lookups.
 try:
     summaries.create_index(["original_source_link", "model", "summary_timestamp_start"], if_not_exists=True)
 except Exception as e:
     logger.warning(f"Index creation failed (this is harmless if they exist): {e}")
-documentation=(("""**Get Your Summary**
-
-1.  **For YouTube videos:** Paste the link into the input field for automatic transcript download.
-2.  **For other text:** Paste articles, meeting notes, or manually copied transcripts directly into the text area below.
-3.  **Click 'Summarize':** The tool will process your request using the selected model.
-
-### Browser Extension Available
-To make this process faster, you can use the **new browser addon** for Chrome and Firefox. This extension simplifies the workflow and also enables usage on **iPhone**.
-
-### Available Models
-You can choose between three models with different capabilities. While these models have commercial costs, we utilize **Google's Free Tier**, so you are not charged on this website.
-*   **Gemini 3 Flash** (~$0.50/1M tokens): Highest capability, great for long or complex videos.
-*   **Gemini 2.5 Flash** (~$0.30/1M tokens): Balanced performance.
-*   **Gemini 2.5 Flash-Lite** (~$0.10/1M tokens): Fastest and lightweight.
-*(Note: The free tier allows approximately 20 requests per day for each model. This is for the entire website, so don't tell anyone it exists ;-) )*
-
-### Important Notes & Troubleshooting
-
-**YouTube Captions & Languages**
-*   **Automatic Download:** The software now automatically downloads captions corresponding to the **original audio language** of the video.
-*   **Missing/Wrong Captions:** Some videos may have incorrect language settings or no captions at all. If the automatic download fails:
-    1.  Open the video on YouTube (this usually requires a **desktop browser**).
-    2.  Open the transcript tab on YouTube.
-    3.  Copy the entire transcript.
-    4.  Paste it manually into the text area below.
-
-**Tips for Pasting Text**
-*   **Timestamps:** The summarizer is optimized for content that includes timestamps (e.g., `00:15:23 Key point is made`).
-*   **Best Results:** While the tool works with any block of text (articles/notes), providing timestamped transcripts generally produces the most detailed and well-structured summaries.
-"""))
+documentation=((""""""))
 PREFERRED_BASE=["en", "de", "fr", "pl", "ar", "bn", "bg", "zh-Hans", "zh-Hant", "hr", "cs", "da", "nl", "et", "fi", "el", "iw", "hi", "hu", "id", "it", "ja", "ko", "lv", "lt", "no", "pt", "ro", "ru", "sr", "sk", "sl", "es", "sw", "sv", "th", "tr", "uk", "vi"]
 def pick_best_language(list_output: str)->str | None:
     # Collect available language codes from yt-dlp --list-subs output
