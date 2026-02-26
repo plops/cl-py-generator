@@ -170,9 +170,11 @@ localhost
                       physical id: 2
                       bus info: [REDACTED_USER]@0:1,2
                       logical name: /dev/nvme0n1p2
+                      logical name: /run/initramfs/live
                       serial: 81a3124b-cd69-4440-ae4a-1355bf8835d7
                       capacity: 17GiB
                       capabilities: nofs
+                      configuration: mount.fstype=btrfs mount.options=ro,relatime,ssd,discard=async,space_cache=v2,subvolid=5,subvol=/ state=mounted
                  *-volume:2
                       description: EXT4 volume
                       vendor: Linux
@@ -183,7 +185,7 @@ localhost
                       serial: 80b66b33-ce31-4a54-9adc-b6c72fe3a826
                       size: 50GiB
                       capabilities: journaled extended_attributes large_files huge_files dir_nlink 64bit extents ext4 ext2 initialized
-                      configuration: created=2023-07-12 16:57:54 filesystem=ext4 lastmountpoint=/1p3 modified=2026-01-03 22:05:08 mounted=2026-01-03 21:59:37 state=clean
+                      configuration: created=2023-07-12 14:57:54 filesystem=ext4 lastmountpoint=/1p3 modified=2026-02-22 09:40:51 mounted=2026-02-22 09:40:28 state=clean
                  *-volume:3
                       description: EFI partition
                       physical id: 4
@@ -257,8 +259,8 @@ localhost
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pciexpress msi pm bus_master cap_list ethernet physical wireless fb
-                configuration: broadcast=yes depth=32 driver=mt7921e driverversion=6.12.58-gentoo firmware=____000000-20250523103234 ip=[REDACTED_IP] latency=0 link=yes mode=1920x1200 multicast=yes visual=truecolor wireless=IEEE 802.11 xres=1920 yres=1200
-                resources: iomemory:40-3f irq:83 memory:4c0200000-4c02fffff memory:80800000-80807fff
+                configuration: broadcast=yes depth=32 driver=mt7921e driverversion=6.12.58-gentoo firmware=____000000-20260106153507 ip=[REDACTED_IP] latency=0 link=yes mode=1920x1200 multicast=yes visual=truecolor wireless=IEEE 802.11 xres=1920 yres=1200
+                resources: iomemory:40-3f irq:85 memory:4c0200000-4c02fffff memory:80800000-80807fff
         *-pci:3
              description: PCI bridge
              product: Family 17h-19h PCIe GPP Bridge
@@ -373,7 +375,7 @@ localhost
                 clock: 33MHz
                 capabilities: pm pciexpress msi bus_master cap_list
                 configuration: driver=snd_hda_intel latency=0
-                resources: irq:84 memory:806c8000-806cbfff
+                resources: irq:83 memory:806c8000-806cbfff
               *-input:0
                    product: HD-Audio Generic HDMI/DP,pcm=3
                    physical id: 0
@@ -464,24 +466,24 @@ localhost
                    configuration: driver=hub slots=3 speed=480Mbit/s
                  *-usb:0
                       description: Keyboard
-                      product: Logitech USB Receiver Mouse
+                      product: Logitech USB Receiver System Control
                       vendor: Logitech
                       physical id: 2
                       bus info: [REDACTED_USER]@3:2
-                      logical name: input10
-                      logical name: /dev/input/event9
-                      logical name: input11
-                      logical name: /dev/input/event11
-                      logical name: input5
+                      logical name: input6
                       logical name: /dev/input/event5
-                      logical name: input5::capslock
-                      logical name: input5::compose
-                      logical name: input5::kana
-                      logical name: input5::numlock
-                      logical name: input5::scrolllock
-                      logical name: input9
-                      logical name: /dev/input/event8
+                      logical name: input6::capslock
+                      logical name: input6::compose
+                      logical name: input6::kana
+                      logical name: input6::numlock
+                      logical name: input6::scrolllock
+                      logical name: input7
+                      logical name: /dev/input/event7
                       logical name: /dev/input/mouse1
+                      logical name: input8
+                      logical name: /dev/input/event8
+                      logical name: input9
+                      logical name: /dev/input/event9
                       version: 24.10
                       capabilities: usb-2.00 usb
                       configuration: driver=usbhid maxpower=98mA speed=12Mbit/s
@@ -531,7 +533,7 @@ localhost
                 clock: 33MHz
                 capabilities: pm pciexpress msi bus_master cap_list
                 configuration: driver=snd_hda_intel latency=0
-                resources: irq:85 memory:806c0000-806c7fff
+                resources: irq:84 memory:806c0000-806c7fff
               *-input:0
                    product: HD-Audio Generic Mic
                    physical id: 0
@@ -837,62 +839,62 @@ localhost
        logical name: /dev/input/event1
        capabilities: platform
   *-input:2
-       product: AT Translated Set 2 keyboard
-       physical id: 4
-       logical name: input13
-       logical name: /dev/input/event10
-       logical name: input13::capslock
-       logical name: input13::numlock
-       logical name: input13::scrolllock
-       capabilities: i8042
-  *-input:3
        product: ELAN06C7:00 04F3:3193 Mouse
-       physical id: 5
+       physical id: 4
        logical name: input14
-       logical name: /dev/input/event6
+       logical name: /dev/input/event10
        logical name: /dev/input/mouse2
        capabilities: i2c
-  *-input:4
+  *-input:3
        product: ELAN06C7:00 04F3:3193 Touchpad
-       physical id: 6
+       physical id: 5
        logical name: input16
-       logical name: /dev/input/event7
+       logical name: /dev/input/event11
        logical name: /dev/input/mouse3
        capabilities: i2c
-  *-input:5
+  *-input:4
        product: Video Bus
-       physical id: 7
+       physical id: 6
        logical name: input17
        logical name: /dev/input/event12
+       capabilities: platform
+  *-input:5
+       product: ThinkPad Extra Buttons
+       physical id: 7
+       logical name: input18
+       logical name: /dev/input/event14
        capabilities: platform
   *-input:6
        product: PC Speaker
        physical id: 8
-       logical name: input18
+       logical name: input19
        logical name: /dev/input/event13
        capabilities: isa
   *-input:7
-       product: ThinkPad Extra Buttons
-       physical id: 9
-       logical name: input19
-       logical name: /dev/input/event14
-       capabilities: platform
-  *-input:8
        product: Sleep Button
-       physical id: a
+       physical id: 9
        logical name: input2
        logical name: /dev/input/event2
        capabilities: platform
-  *-input:9
+  *-input:8
        product: Power Button
-       physical id: b
+       physical id: a
        logical name: input3
        logical name: /dev/input/event3
        capabilities: platform
-  *-input:10
+  *-input:9
        product: TPPS/2 Elan TrackPoint
-       physical id: c
+       physical id: b
        logical name: input4
        logical name: /dev/input/event4
        logical name: /dev/input/mouse0
+       capabilities: i8042
+  *-input:10
+       product: AT Translated Set 2 keyboard
+       physical id: c
+       logical name: input5
+       logical name: /dev/input/event6
+       logical name: input5::capslock
+       logical name: input5::numlock
+       logical name: input5::scrolllock
        capabilities: i8042
