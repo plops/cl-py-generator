@@ -20,8 +20,8 @@ yMMNNNNNNNmmmmmNNMmhs+/-`
 [39COS: Gentoo Linux x86_64
 [39CHost: 21M30030MZ (ThinkPad E14 Gen 6)
 [39CKernel: Linux 6.12.58-gentoo
-[39CUptime: 38 mins
-[39CPackages: 823 (emerge)
+[39CUptime: 3 mins
+[39CPackages: 776 (emerge)
 [39CShell: bash 5.3.9
 [39CDisplay (BOE0A35): 1920x1200 in 14", 60 Hz [Built-in]
 [39CTheme: Adwaita [GTK3]
@@ -31,9 +31,11 @@ yMMNNNNNNNmmmmmNNMmhs+/-`
 [39CTerminal Font: fixed (8.0pt)
 [39CCPU: AMD Ryzen 7 7735HS (16) @ 4.83 GHz
 [39CGPU: AMD Radeon 680M [Integrated]
-[39CMemory: 1.87 GiB / 14.40 GiB (13%)
+[39CMemory: 1.99 GiB / 14.39 GiB (14%)
 [39CSwap: Disabled
-[39CDisk (/): 41.00 GiB / 109.43 GiB (37%) - overlay
+[39CDisk (/): 102.04 GiB / 109.43 GiB (93%) - overlay
+[39CDisk (/run/enc): 102.04 GiB / 109.43 GiB (93%) - ext4
+[39CDisk (/run/initramfs/live): 11.48 GiB / 18.00 GiB (64%) - btrfs [Read-only]
 [39CLocal IP (wlan0): [REDACTED_IP]/24
 [39CBattery (L23D3PG2): 79% [AC Connected]
 [39CLocale: C.UTF-8
