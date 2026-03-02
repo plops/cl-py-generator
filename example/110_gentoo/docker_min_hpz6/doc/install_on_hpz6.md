@@ -173,3 +173,13 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
     initrd /boot/initramfs_squash_sda1-x86_64.img_0225
 }
 
+
+Ich bin mir nicht sicher, was für ein Passwort im Squash festgesetzt wird. Das ist auch nicht wichtig. Am besten ist, wir überschreiben einfach das Passwort in der persistenten Partition mit den existierenden.
+
+sudo mount "/dev/mapper/$CRYPT_NAME" /mnt
+sudo mkdir -p /mnt/etc
+sudo cp -av /etc/shadow /mnt/etc/shadow
+sudo cp -av /etc/passwd /mnt/etc/passwd
+sudo cp -av /etc/group /mnt/etc/group
+sudo umount /mnt
+
