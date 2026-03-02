@@ -704,7 +704,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 (setf documentation 
 	       
 	       (+
-		(string3 "**Get Your Summary**
+		(string3 "" #+nil "**Get Your Summary**
 
 1.  **For YouTube videos:** Paste the link into the input field for automatic transcript download.
 2.  **For other text:** Paste articles, meeting notes, or manually copied transcripts directly into the text area below.

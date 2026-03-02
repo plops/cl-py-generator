@@ -1,4 +1,4 @@
-# dmidecode 3.6
+# dmidecode 3.7
 Getting SMBIOS data from sysfs.
 SMBIOS 3.3.0 present.
 Table at 0x47554000.
@@ -9,8 +9,8 @@ Cache Information
 	Configuration: Enabled, Not Socketed, Level 1
 	Operational Mode: Write Back
 	Location: Internal
-	Installed Size: 512 kB
-	Maximum Size: 512 kB
+	Installed Size: 512 KiB
+	Maximum Size: 512 KiB
 	Supported SRAM Types:
 		Pipeline Burst
 	Installed SRAM Type: Pipeline Burst
@@ -25,8 +25,8 @@ Cache Information
 	Configuration: Enabled, Not Socketed, Level 2
 	Operational Mode: Write Back
 	Location: Internal
-	Installed Size: 4 MB
-	Maximum Size: 4 MB
+	Installed Size: 4 MiB
+	Maximum Size: 4 MiB
 	Supported SRAM Types:
 		Pipeline Burst
 	Installed SRAM Type: Pipeline Burst
@@ -41,8 +41,8 @@ Cache Information
 	Configuration: Enabled, Not Socketed, Level 3
 	Operational Mode: Write Back
 	Location: Internal
-	Installed Size: 16 MB
-	Maximum Size: 16 MB
+	Installed Size: 16 MiB
+	Maximum Size: 16 MiB
 	Supported SRAM Types:
 		Pipeline Burst
 	Installed SRAM Type: Pipeline Burst
@@ -122,7 +122,7 @@ Physical Memory Array
 	Location: System Board Or Motherboard
 	Use: System Memory
 	Error Correction Type: None
-	Maximum Capacity: 64 GB
+	Maximum Capacity: 64 GiB
 	Error Information Handle: 0x0004
 	Number Of Devices: 2
 
@@ -130,7 +130,7 @@ Handle 0x0006, DMI type 19, 31 bytes
 Memory Array Mapped Address
 	Starting Address: 0x00000000000
 	Ending Address: 0x003FFFFFFFF
-	Range Size: 16 GB
+	Range Size: 16 GiB
 	Physical Array Handle: 0x0005
 	Partition Width: 1
 
@@ -174,7 +174,7 @@ Memory Device
 	Error Information Handle: 0x0009
 	Total Width: 64 bits
 	Data Width: 64 bits
-	Size: 16 GB
+	Size: 16 GiB
 	Form Factor: SODIMM
 	Set: None
 	Locator: DIMM 0
@@ -199,7 +199,7 @@ Memory Device
 	Memory Subsystem Controller Manufacturer ID: Unknown
 	Memory Subsystem Controller Product ID: Unknown
 	Non-Volatile Size: None
-	Volatile Size: 16 GB
+	Volatile Size: 16 GiB
 	Cache Size: None
 	Logical Size: None
 
@@ -207,7 +207,7 @@ Handle 0x000B, DMI type 20, 35 bytes
 Memory Device Mapped Address
 	Starting Address: 0x00000000000
 	Ending Address: 0x003FFFFFFFF
-	Range Size: 16 GB
+	Range Size: 16 GiB
 	Physical Device Handle: 0x000A
 	Memory Array Mapped Address Handle: 0x0006
 	Partition Row Position: Unknown
@@ -220,18 +220,18 @@ OEM-specific Type
 		86 0D 0C 00 25 08 24 20 00 00 00 00 00
 
 Handle 0x000D, DMI type 0, 26 bytes
-BIOS Information
+Platform Firmware Information
 	Vendor: LENOVO
 	Version: R2KET35W (1.18 )
 	Release Date: 07/24/2025
 	Address: 0xE0000
-	Runtime Size: 128 kB
-	ROM Size: 32 MB
+	Runtime Size: 128 KiB
+	ROM Size: 32 MiB
 	Characteristics:
 		PCI is supported
 		PNP is supported
-		BIOS is upgradeable
-		BIOS shadowing is allowed
+		Firmware is upgradeable
+		Firmware shadowing is allowed
 		Boot from CD is supported
 		Selectable boot is supported
 		EDD is supported
@@ -246,8 +246,8 @@ BIOS Information
 		BIOS boot specification is supported
 		Targeted content distribution is supported
 		UEFI is supported
-	BIOS Revision: 1.18
-	Firmware Revision: 1.18
+	Platform Firmware Revision: 1.18
+	Embedded Controller Firmware Revision: 1.18
 
 Handle 0x000E, DMI type 1, 27 bytes
 System Information
@@ -371,7 +371,7 @@ System Configuration Options
 	Option 1: Unknown
 
 Handle 0x0023, DMI type 13, 22 bytes
-BIOS Language Information
+Firmware Language Information
 	Language Description Format: Abbreviated
 	Installable Languages: 6
 		en-US
@@ -514,14 +514,14 @@ OEM-specific Type
 Handle 0x0033, DMI type 141, 18 bytes
 OEM-specific Type
 	Header and Data:
-		8D 12 33 00 54 48 4E 4B 00 00 40 00 00 00 56 00
+		8D 12 33 00 54 48 4E 4B 00 00 40 00 00 00 5F 00
 		00 00
 
 Handle 0x0034, DMI type 141, 30 bytes
 OEM-specific Type
 	Header and Data:
-		8D 1E 34 00 54 48 4E 4B 00 00 50 00 00 00 F6 07
-		F1 07 00 00 00 00 80 49 E6 0A 00 00 00 00
+		8D 1E 34 00 54 48 4E 4B 00 00 50 00 00 00 29 F8
+		1D 08 00 00 00 00 69 C7 05 0B 00 00 00 00
 
 Handle 0x0035, DMI type 135, 18 bytes
 OEM-specific Type
@@ -538,9 +538,9 @@ Handle 0x0037, DMI type 141, 56 bytes
 OEM-specific Type
 	Header and Data:
 		8D 38 37 00 54 48 4E 4B 00 00 60 00 00 00 FF 00
-		26 20 01 19 05 31 53 00 26 20 01 18 23 26 24 00
-		26 20 01 18 23 24 54 00 26 20 01 18 23 24 12 00
-		26 20 01 18 23 23 24 00
+		26 20 02 26 20 29 01 00 26 20 02 26 18 05 04 00
+		26 20 02 26 17 13 07 00 26 20 02 25 17 54 01 00
+		26 20 02 24 18 06 32 00
 
 Handle 0xFEFF, DMI type 127, 4 bytes
 End Of Table

@@ -1,10 +1,13 @@
-Filesystem      Size  Used Avail Use% Mounted on
-devtmpfs        7.2G     0  7.2G   0% /dev
-tmpfs           7.2G   48M  7.2G   1% /dev/shm
-tmpfs           7.2G   18M  7.2G   1% /run
-overlay         110G   41G   63G  40% /
-efivarfs        248K  128K  116K  53% /sys/firmware/efi/efivars
-tmpfs           7.2G  5.4M  7.2G   1% /tmp
-tmpfs           1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
-tmpfs           1.0M     0  1.0M   0% /run/credentials/[REDACTED_USER]@tty1.service
-tmpfs           1.5G   32K  1.5G   1% /run/[REDACTED_USER]/1000
+Filesystem       Size  Used Avail Use% Mounted on
+devtmpfs         7.2G     0  7.2G   0% /dev
+tmpfs            7.2G     0  7.2G   0% /dev/shm
+tmpfs            7.2G  1.4G  5.9G  19% /run
+/dev/nvme0n1p2    18G   12G  6.2G  66% /run/initramfs/live
+/dev/loop0       1.4G  1.4G     0 100% /run/rootfsbase
+/dev/mapper/enc  110G  103G  1.8G  99% /run/enc
+LiveOS_rootfs    110G  103G  1.8G  99% /
+efivarfs         248K  171K   73K  71% /sys/firmware/efi/efivars
+tmpfs            7.2G  8.0K  7.2G   1% /tmp
+tmpfs            1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+tmpfs            1.0M     0  1.0M   0% /run/credentials/[REDACTED_USER]@tty1.service
+tmpfs            1.5G   24K  1.5G   1% /run/[REDACTED_USER]/1000
