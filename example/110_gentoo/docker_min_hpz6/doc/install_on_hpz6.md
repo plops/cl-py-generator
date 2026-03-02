@@ -169,7 +169,8 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
     rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
     rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
         rd.overlay=/dev/mapper/enc:persistent \
-    rd.live.overlay.overlayfs=1
+    rd.live.overlay.overlayfs=1 \
+    modprobe.blacklist=hp_bioscfg
     initrd /boot/initramfs_squash_sda1-x86_64.img_0302
 }
 
