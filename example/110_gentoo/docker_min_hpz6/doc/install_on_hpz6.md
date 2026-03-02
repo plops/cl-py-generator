@@ -173,13 +173,24 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
     initrd /boot/initramfs_squash_sda1-x86_64.img_0225
 }
 
+dracut Erwartet die Existenz bestimmter Verzeichnisse auf der Partition, die müssen wir jetzt noch erstellen.
+
+sudo mount "/dev/mapper/$CRYPT_NAME" /mnt
+
+mkdir -p /mnt/overlayfs
+mkdir -p /mnt/ovlwork
+
+Dabei ist /mnt/overlayfs das wichtigste Verzeichnis, das ist der sogenannte Upper Layer. Da werden alle Änderungen gespeichert. Der Lower Layer ist auf dem Read-only SquashFS.
 
 Ich bin mir nicht sicher, was für ein Passwort im Squash festgesetzt wird. Das ist auch nicht wichtig. Am besten ist, wir überschreiben einfach das Passwort in der persistenten Partition mit den existierenden.
 
-sudo mount "/dev/mapper/$CRYPT_NAME" /mnt
-sudo mkdir -p /mnt/etc
-sudo cp -av /etc/shadow /mnt/etc/shadow
-sudo cp -av /etc/passwd /mnt/etc/passwd
-sudo cp -av /etc/group /mnt/etc/group
+
+sudo mkdir -p /mnt/overlayfs/etc
+sudo cp -av /etc/shadow /mnt/overlayfs/etc/shadow
+sudo cp -av /etc/passwd /mnt/overlayfs/etc/passwd
+sudo cp -av /etc/group /mnt/overlayfs/etc/group
 sudo umount /mnt
 
+
+
+ovlwork/: Das Work-Directory. Dies ist ein technisches Hilfsverzeichnis für OverlayFS, das für atomare Operationen (wie das Verschieben von Dateien) benötigt wird. Es muss zwingend auf demselben Dateisystem wie das overlayfs-Verzeichnis liegen und sollte im Normalbetrieb leer sein
