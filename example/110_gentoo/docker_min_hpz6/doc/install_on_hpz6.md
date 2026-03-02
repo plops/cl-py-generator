@@ -34,19 +34,19 @@ worried about the drive being stolen. the only data that needs protection is on 
 
 i have already a pre-existing installation that is currently running.
 Schauen wir mal von wo der aktuelle Kernel gebootet wurde. Das kann ich mir nie merken
-kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 $ cat /proc/cmdline 
+kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260302 $ cat /proc/cmdline 
 BOOT_IMAGE=/boot/vmlinuz root=UUID=4f708c84-185d-437b-a03a-7a565f598a23 ro squashfs.part=/dev/disk/by-label/gentoo squashfs.file=gentoo.squashfs persist.part=/dev/disk/by-uuid/42bbab57-7cb0-465f-8ef9-6b34379da7d3 persist.lv=/dev/mapper/ubuntu--vg-ubuntu--lv persist.mapname=vg
 
 Aha, die Position hat ein Label gent. Wo zeigt das genau hin?
 
-kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 $ ls -ltr /dev/disk/by-label/gentoo
+kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260302 $ ls -ltr /dev/disk/by-label/gentoo
 lrwxrwxrwx 1 root root 15 Feb 27 13:18 /dev/disk/by-label/gentoo -> ../../nvme0n1p3
 
 Gut, das ist Position 3 der ersten NVME Festplatte. Die mounten wir jetzt mal.
 
 
-localhost /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 # mount /dev/nvme0n1p3 /0p3/
-localhost /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 # ls /0p3
+localhost /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260302 # mount /dev/nvme0n1p3 /0p3/
+localhost /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260302 # ls /0p3
 bin   dev  etc              gentoo.squashfs_0206  home  lib64  mnt   opt   root  sbin  sys  tools  var
 boot  efi  gentoo.squashfs  gentoo.squashfs_1124  lib   media  mnt1  proc  run   srv   tmp  usr
 
@@ -54,7 +54,7 @@ Im Root verzeichnet befinden sich die SquashfS-Dateien. Ich werde neuen Squash F
 
 Als nächstes schauen wir uns das Bootverzeichnis dieser Position an.
 
-localhost /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 # ls /0p3/boot/
+localhost /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260302 # ls /0p3/boot/
 0806                                        initramfs-6.6.67-gentoo-gentoo-dist.img  initramfs_squash_sda1-x86_64.img_1023  kernel-6.6.67-gentoo-gentoo-dist
 System.map                                  initramfs-6.6.74-gentoo-gentoo-dist.img  initramfs_squash_sda1-x86_64.img_1026  kernel-6.6.74-gentoo-gentoo-dist
 amd-uc.img                                  initramfs-hpz6-x86_64.img_0206           initramfs_squash_sda1-x86_64.img_1104  vmlinuz
@@ -89,22 +89,22 @@ Ja, das sieht gut aus. Das ist meine ursprüngliche Konfiguration. Wir sehen, da
 Ich habe die aktuellen Bildresultate bereits mit dem Skript setup03_copy_from_container.sh aus dem Docker Container herauskopiert.
 Sie befinden sich in folgendem verzeichnis.
 
-kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 $ ls -lh
-total 1.4G
--rwxrwxrwx 1 kiel kiel 1.4G Mar  2 09:38 gentoo.squashfs
--rwxrwxrwx 1 kiel kiel  13M Mar  2 09:38 initramfs-hpz6-x86_64.img
--rwxrwxrwx 1 kiel kiel  13M Mar  2 09:38 initramfs_squash_sda1-x86_64.img
--rwxrwxrwx 1 kiel kiel  20K Mar  2 09:38 packages.txt
--rwxrwxrwx 1 kiel kiel  15M Mar  2 09:38 vmlinuz
+kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260302 $ ls -tlrh
+total 2.4G
+-rwxrwxrwx 1 kiel kiel 2.4G Mar  2 14:59 gentoo.squashfs
+-rwxrwxrwx 1 kiel kiel  15M Mar  2 14:59 vmlinuz
+-rwxrwxrwx 1 kiel kiel  13M Mar  2 14:59 initramfs_squash_sda1-x86_64.img
+-rwxrwxrwx 1 kiel kiel  20K Mar  2 14:59 packages.txt
 
-Dieser Build wurde mit Portage von 0225 erzeugt. Daher wird dieses Suffix für die Dateien verwendet werden.
+
+Dieser Build wurde mit Portage von 0302 erzeugt. Daher wird dieses Suffix für die Dateien verwendet werden.
 Wir brauchen nur die initramfs mit squash im namen. Von den initramFS-Dateien. Die mit HPZ6 im namen ist nur ein Experiment, was nicht funktioniert hat.
 
 
 # Neue Dateien mit Datums-Suffix ablegen (Rollback-freundlich)
-sudo cp -av gentoo.squashfs /0p3/gentoo.squashfs_0225
-sudo cp -av vmlinuz /0p3/boot/vmlinuz_0225
-sudo cp -av initramfs_squash_sda1-x86_64.img /0p3/boot/initramfs_squash_sda1-x86_64.img_0225
+sudo cp -av gentoo.squashfs /0p3/gentoo.squashfs_0302
+sudo cp -av vmlinuz /0p3/boot/vmlinuz_0302
+sudo cp -av initramfs_squash_sda1-x86_64.img /0p3/boot/initramfs_squash_sda1-x86_64.img_0302
 
 
 Der schwierigste Schritt wird gleich die GRUB-Konfiguration anzugehen. Dabei ist der wesentliche Punkt, die UUIDs für die einzelnen Festplattenpartitionen herauszufinden. Aber vorher müssen wir die persistente Partition vorbereiten.
@@ -133,7 +133,7 @@ sudo cryptsetup close "$CRYPT_NAME"
 
 Hier sind die UUIDs für die neuen Partitionen.
 
-kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 $ sudo blkid "$PERSIST_PART" "/dev/mapper/$CRYPT_NAME"
+kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260302 $ sudo blkid "$PERSIST_PART" "/dev/mapper/$CRYPT_NAME"
 /dev/nvme0n1p5: UUID="0d7c5e23-6bab-4dce-b744-a5d61d497aca" TYPE="crypto_LUKS" PARTLABEL="docker" PARTUUID="6ea05cc3-7d72-45fb-8305-7fbddd0781e2"
 /dev/mapper/persist: LABEL="persist" UUID="3ca5dfb2-35c9-4ed5-906a-f965dbcd1c7b" BLOCK_SIZE="4096" TYPE="ext4"
 
@@ -164,13 +164,13 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
     linux /boot/vmlinuz \
     root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
     rd.live.dir=/ \
-    rd.live.squashimg=gentoo.squashfs_0225 \
+    rd.live.squashimg=gentoo.squashfs_0302 \
     rd.live.ram=1 \
     rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
     rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
         rd.overlay=/dev/mapper/enc:persistent \
     rd.live.overlay.overlayfs=1
-    initrd /boot/initramfs_squash_sda1-x86_64.img_0225
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0302
 }
 
 dracut Erwartet die Existenz bestimmter Verzeichnisse auf der Partition, die müssen wir jetzt noch erstellen.
