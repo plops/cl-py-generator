@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260225 AS portage
+FROM gentoo/portage:20260302 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20260223
+FROM gentoo/stage3:nomultilib-systemd-20260302
 # https://hub.docker.com/r/gentoo/portage/tags
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -21,9 +21,9 @@ RUN emerge --ask=n --verbose sys-devel/gcc:16 \
  && source /etc/profile \
  && emerge --ask=n --oneshot --verbose libtool \
  # Use || true to prevent failure if it's not in world
- && (emerge --deselect=y sys-devel/gcc:14 || true) \
+ # && (emerge --deselect=y sys-devel/gcc:14 || true) 
  # Use || true so build doesn't die if Portage refuses to remove it
- && (emerge --ask=n --depclean sys-devel/gcc:14 || true) \
+ # && (emerge --ask=n --depclean sys-devel/gcc:14 || true) 
  && emerge --ask=n @preserved-rebuild
 
  
@@ -316,18 +316,18 @@ RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
 RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
 RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
 
-# 3. Wipe the original directory (and /opt/cuda as per your first message)
-WORKDIR /
-RUN rm -rf /usr/lib/firmware/*
+# # 3. Wipe the original directory (and /opt/cuda as per your first message)
+# WORKDIR /
+# RUN rm -rf /usr/lib/firmware/*
 
-# 4. Move everything back in one go
-RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
+# # 4. Move everything back in one go
+# RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
 
-# 5. Cleanup
-RUN rm -rf /tmp/firmware_safe
+# # 5. Cleanup
+# RUN rm -rf /tmp/firmware_safe
 
-# 12.8GB uncompressed
-RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
+# # 12.8GB uncompressed
+# RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
 # Switch to user 'kiel'
 USER kiel
@@ -407,15 +407,15 @@ RUN dracut \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
 
-COPY config/mount-overlayfs.sh_hpz6 /usr/lib/dracut/modules.d/70overlayfs
-RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
-RUN dracut \
-      -m "kernel-modules base dmsquash-live dm udev-rules lvm crypt overlayfs" \
-      --filesystems "squashfs vfat ext4 overlay btrfs" \
-      --kver=${KVER} \
-      --install "stat blockdev" \
-      --force \
-      /boot/initramfs-hpz6-x86_64.img
+# COPY config/mount-overlayfs.sh_hpz6 /usr/lib/dracut/modules.d/70overlayfs
+# RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
+# RUN dracut \
+#       -m "kernel-modules base dmsquash-live dm udev-rules lvm crypt overlayfs" \
+#       --filesystems "squashfs vfat ext4 overlay btrfs" \
+#       --kver=${KVER} \
+#       --install "stat blockdev" \
+#       --force \
+#       /boot/initramfs-hpz6-x86_64.img
 
 
 
