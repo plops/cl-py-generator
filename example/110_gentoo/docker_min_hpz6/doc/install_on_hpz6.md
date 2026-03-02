@@ -174,6 +174,18 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
     initrd /boot/initramfs_squash_sda1-x86_64.img_0302
 }
 
+Ich musste die Modul Blackliste für HP Biosconfig einführen, weil es sonst einen Kernel Oops gibt. 
+Der Bug wurde vor kurzem behoben  CVE-2026-23062 Beschreibt ihn. Ein Vergleich war nicht korrekt. Ein kleiner Hals musste mit einem kleinen Gleicher ersetzt werden oder sowas.
+
+
+Hier ist eine Erklärung des Moduls:
+The `hp_bioscfg` module is the HP BIOS Configuration Driver that provides a Linux interface for reading and modifying BIOS settings on HP systems through sysfs. It creates entries under `/sys/class/firmware_attributes/hp-bioscfg/` allowing users to configure various BIOS parameters without entering the BIOS setup utility.
+
+The module is specifically designed for HP business systems and includes security features to prevent unauthorized BIOS modifications. If you don't need to change BIOS settings from within Linux, blacklisting this module is safe and may slightly reduce kernel memory usage.
+
+
+
+
 dracut Erwartet die Existenz bestimmter Verzeichnisse auf der Partition, die müssen wir jetzt noch erstellen.
 
 sudo mount "/dev/mapper/$CRYPT_NAME" /mnt
