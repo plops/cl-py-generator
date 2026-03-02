@@ -205,6 +205,12 @@ sudo mkdir -p /mnt/persistent/overlayfs/etc
 sudo cp -av /etc/shadow /mnt/persistent/overlayfs/etc/shadow
 sudo cp -av /etc/passwd /mnt/persistent/overlayfs/etc/passwd
 sudo cp -av /etc/group /mnt/persistent/overlayfs/etc/group
+sudo mkdir -p /mnt/persistent/overlayfs/home/kiel
+sudo chown -R kiel:kiel /mnt/persistent/overlayfs/home/kiel
+sudo cp -av /home/kiel/.ssh /mnt/persistent/overlayfs/home/kiel
+sudo cp -av /home/kiel/.xinitrc /mnt/persistent/overlayfs/home/kiel
+sudo cp -av /home/kiel/.bashrc /mnt/persistent/overlayfs/home/kiel
+
 sudo umount /mnt
 
 
