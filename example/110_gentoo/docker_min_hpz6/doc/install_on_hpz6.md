@@ -161,7 +161,7 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
     insmod btrfs
     search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
     
-    linux /boot/vmlinuz \
+    linux /boot/vmlinuz_0302 \
     root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
     rd.live.dir=/ \
     rd.live.squashimg=gentoo.squashfs_0302 \
