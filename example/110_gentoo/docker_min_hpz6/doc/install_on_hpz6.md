@@ -42,7 +42,7 @@ Aha, die Position hat ein Label gent. Wo zeigt das genau hin?
 kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 $ ls -ltr /dev/disk/by-label/gentoo
 lrwxrwxrwx 1 root root 15 Feb 27 13:18 /dev/disk/by-label/gentoo -> ../../nvme0n1p3
 
-Gut, das ist Position 3 der ersten NVME Festplatte. Die monten wir jetzt mal.
+Gut, das ist Position 3 der ersten NVME Festplatte. Die mounten wir jetzt mal.
 
 
 localhost /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 # mount /dev/nvme0n1p3 /0p3/
@@ -85,4 +85,75 @@ menuentry 'Gentoo from ram (Configurable) nvme0n1p3' --class gentoo --class gnu-
 }
 
 Ja, das sieht gut aus. Das ist meine ursprüngliche Konfiguration. Wir sehen, dass die Variable squashfs.part auf die Disk mit Labelgänge zeigt.
+
+Ich habe die aktuellen Bildresultate bereits mit dem Skript setup03_copy_from_container.sh aus dem Docker Container herauskopiert.
+Sie befinden sich in folgendem verzeichnis.
+
+kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 $ ls -lh
+total 1.4G
+-rwxrwxrwx 1 kiel kiel 1.4G Mar  2 09:38 gentoo.squashfs
+-rwxrwxrwx 1 kiel kiel  13M Mar  2 09:38 initramfs-hpz6-x86_64.img
+-rwxrwxrwx 1 kiel kiel  13M Mar  2 09:38 initramfs_squash_sda1-x86_64.img
+-rwxrwxrwx 1 kiel kiel  20K Mar  2 09:38 packages.txt
+-rwxrwxrwx 1 kiel kiel  15M Mar  2 09:38 vmlinuz
+
+Dieser Build wurde mit Portage von 0225 erzeugt. Daher wird dieses Suffix für die Dateien verwendet werden.
+Wir brauchen nur die initramfs mit squash im namen. Von den initramFS-Dateien. Die mit HPZ6 im namen ist nur ein Experiment, was nicht funktioniert hat.
+
+
+# Neue Dateien mit Datums-Suffix ablegen (Rollback-freundlich)
+sudo cp -av gentoo.squashfs /0p3/gentoo.squashfs_0225
+sudo cp -av vmlinuz /0p3/boot/vmlinuz_0225
+sudo cp -av initramfs_squash_sda1-x86_64.img /0p3/boot/initramfs_squash_sda1-x86_64.img_0225
+
+
+Der schwierigste Schritt wird gleich die GRUB-Konfiguration anzugehen. Dabei ist der wesentliche Punkt, die UUIDs für die einzelnen Festplattenpartitionen herauszufinden. Aber vorher müssen wir die persistente Partition vorbereiten.
+
+export PERSIST_PART=/dev/nvme0n1p5
+export CRYPT_NAME=persist
+
+# 1) LUKS-Container anlegen
+sudo cryptsetup luksFormat --type luks2 "$PERSIST_PART"
+
+# 2) LUKS-Container öffnen -> /dev/mapper/persist
+sudo cryptsetup open "$PERSIST_PART" "$CRYPT_NAME"
+
+# 3) ext4 im entschlüsselten Device erstellen
+sudo mkfs.ext4 -L persist "/dev/mapper/$CRYPT_NAME"
+
+# 4) Mountpoint anlegen und testen
+sudo mkdir -p /mnt/persist
+sudo mount "/dev/mapper/$CRYPT_NAME" /mnt/persist
+
+# 5) UUIDs notieren (für Kernel-Parameter/Config)
+sudo blkid "$PERSIST_PART" "/dev/mapper/$CRYPT_NAME"
+
+# 6) Optional: sauber aushängen und schließen
+sudo cryptsetup close "$CRYPT_NAME"
+
+Hier sind die UUIDs für die neuen Partitionen.
+
+kiel@localhost ~/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6/gentoo-z6-min_20260225 $ sudo blkid "$PERSIST_PART" "/dev/mapper/$CRYPT_NAME"
+/dev/nvme0n1p5: UUID="0d7c5e23-6bab-4dce-b744-a5d61d497aca" TYPE="crypto_LUKS" PARTLABEL="docker" PARTUUID="6ea05cc3-7d72-45fb-8305-7fbddd0781e2"
+/dev/mapper/persist: LABEL="persist" UUID="3ca5dfb2-35c9-4ed5-906a-f965dbcd1c7b" BLOCK_SIZE="4096" TYPE="ext4"
+
+Die UUID für die Position von wo das squash FS geladen wird, bleibt dieselbe wie vorher.
+
+$ sudo blkid /dev/disk/by-label/gentoo
+/dev/disk/by-label/gentoo: LABEL="gentoo" UUID="4f708c84-185d-437b-a03a-7a565f598a23" UUID_SUB="02afc0f2-fe58-4d88-8cbd-0bb98ad50d74" BLOCK_SIZE="4096" TYPE="btrfs" PARTLABEL="/" PARTUUID="c3240922-6cf5-431f-8238-a7cae7e72746"
+
+Im Grub müssen wir die eintragen, die mit 4f708... beginnt
+
+
+Jetzt müssen wir den neuen Eintrag für die Grubkonfiguration schreiben.
+Im Gegensatz zu der alten Installation, wo ich das DRACuT-Skript manuel neu geschrieben hatte um persistente partition auf LVM->LUKS->Ext4 zu erlauben, benutze ich jetzt das Original Dracut. Daher müssen sich die Parameter etwas ändern.
+
+Ich habe es beim besten Billen nicht hinbekommen, mit dem Original Draw Card die persistente Position in einem LVM-Container zu haben. Aber das ist eigentlich nicht so wichtig. Wichtiger ist, dass die Konfiguration robust ist und sich nicht bei jedem Update ändern kann. Daher der Umbau jetzt.
+
+In ../grub.txt habe ich beispiele fuer die neun Grubeinträge. Diese sind aber für einen anderen Computer . wir nehmen
+beispiel `Gentoo Dracut (Fixed)`
+
+
+
+
 
