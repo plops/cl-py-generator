@@ -52,7 +52,7 @@ ENV LANG=en_US.UTF-8 \
 #RUN emaint sync -r guru
 #RUN emerge --update --deep --changed-use @world --fetchonly
 
-ENV KVER_PURE=6.12.58
+ENV KVER_PURE=6.12.74
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN df -h
