@@ -142,7 +142,7 @@ Die UUID für die Position von wo das squash FS geladen wird, bleibt dieselbe wi
 $ sudo blkid /dev/disk/by-label/gentoo
 /dev/disk/by-label/gentoo: LABEL="gentoo" UUID="4f708c84-185d-437b-a03a-7a565f598a23" UUID_SUB="02afc0f2-fe58-4d88-8cbd-0bb98ad50d74" BLOCK_SIZE="4096" TYPE="btrfs" PARTLABEL="/" PARTUUID="c3240922-6cf5-431f-8238-a7cae7e72746"
 
-Im Grub müssen wir die eintragen, die mit 4f708... beginnt
+Im Grub müssen wir die uuid eintragen, die mit 4f708... beginnt
 
 
 Jetzt müssen wir den neuen Eintrag für die Grubkonfiguration schreiben.
@@ -155,5 +155,21 @@ beispiel `Gentoo Dracut (Fixed)`
 
 
 
-
+menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
+    insmod part_gpt
+    insmod fat
+    insmod btrfs
+    search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
+    
+    linux /boot/vmlinuz \
+    root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
+    rd.live.dir=/ \
+    rd.live.squashimg=gentoo.squashfs_0225 \
+    rd.live.ram=1 \
+    rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
+    rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
+        rd.overlay=/dev/mapper/enc:persistent \
+    rd.live.overlay.overlayfs=1
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0225
+}
 
