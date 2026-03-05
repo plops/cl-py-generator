@@ -83,7 +83,7 @@ app-arch/brotli-1.1.0
 app-arch/bzip2-1.0.8-r5
 app-arch/cpio-2.15
 app-arch/gzip-1.14
-app-arch/libarchive-3.8.3
+app-arch/libarchive-3.8.4
 app-arch/lz4-1.10.0-r1
 app-arch/ncompress-5.0-r2
 app-arch/tar-1.35
@@ -129,7 +129,7 @@ app-pda/usbmuxd-1.1.1_p20240915
 app-portage/cpuid2cpuflags-17
 app-portage/eix-0.36.9
 app-portage/elt-patches-20250718
-app-portage/gemato-20.10-r1
+app-portage/gemato-20.11
 app-portage/gentoolkit-0.7.1
 app-portage/getuto-1.15-r1
 app-portage/portage-utils-0.97
@@ -170,7 +170,7 @@ dev-build/make-4.4.1-r102
 dev-build/meson-1.9.2
 dev-build/meson-format-array-0
 dev-build/ninja-1.13.2-r1
-dev-build/steve-1.4.0
+dev-build/steve-1.5.0
 dev-cpp/abseil-cpp-20250512.1
 dev-cpp/cairomm-1.18.0
 dev-cpp/eigen-3.4.0-r3
@@ -453,7 +453,7 @@ media-libs/libglvnd-1.7.0
 media-libs/libjpeg-turbo-3.1.3
 media-libs/libogg-1.3.6
 media-libs/libplacebo-7.351.0
-media-libs/libpng-1.6.54
+media-libs/libpng-1.6.55
 media-libs/libpulse-17.0
 media-libs/libsndfile-1.2.2-r2
 media-libs/libva-2.22.0-r1
@@ -466,7 +466,7 @@ media-libs/opus-1.5.2
 media-libs/sbc-2.1
 media-libs/shaderc-2025.5
 media-libs/speexdsp-1.2.1
-media-libs/tiff-4.7.0-r1
+media-libs/tiff-4.7.1
 media-libs/vulkan-loader-1.4.335.0-r1
 media-libs/webrtc-audio-processing-1.3-r3
 media-libs/x264-0.0.20240513
@@ -596,7 +596,7 @@ sys-libs/libutempter-1.2.1
 sys-libs/libxcrypt-4.4.38
 sys-libs/mtdev-1.1.7
 sys-libs/ncurses-6.5_p20250802
-sys-libs/pam-1.7.1-r3
+sys-libs/pam-1.7.2
 sys-libs/readline-8.3_p3
 sys-libs/slang-2.3.3-r2
 sys-libs/timezone-data-2025c
