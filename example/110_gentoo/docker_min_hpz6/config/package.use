@@ -1,4 +1,5 @@
 dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
+dev-lang/rust rustfmt clippy
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 app-emacs/emacs-common -games gui
 app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
@@ -109,7 +110,7 @@ dev-cpp/glog gflags libunwind -llvm-libunwind -test
 media-libs/libsdl2 X gles2 haptic joystick kms opengl pulseaudio sound udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx -gles1 -ibus -jack -libsamplerate -nas -oss -pipewire -sndio -static-libs -test -vulkan -wayland -xscreensaver
  media-libs/freetype X adobe-cff brotli bzip2 cleartype-hinting png -debug -doc -fontforge harfbuzz -static-libs -svg -utils
  dev-qt/qtdeclarative jit network opengl sql ssl svg vulkan widgets -accessibility -custom-cflags -qmlls
- net-analyzer/wireshark capinfos captype dftest dumpcap editcap filecaps gui mergecap minizip netlink pcap plugins randpkt randpktdump reordercap sharkd ssl text2pcap tshark udpdump zlib zstd -androiddump -bcg729 -brotli -ciscodump -doc -dpauxmon -http2 -http3 -ilbc -kerberos -libxml2 lua -lz4 -maxminddb -opus -sbc -sdjournal -selinux -smi -snappy -spandsp -sshdump -test -verify-sig -wifi lua_single_target_lua5-4
+net-analyzer/wireshark plugins ssl maxminddb sdjournal smi sshdump wifi http2 brotli snappy lua lua_single_target_lua5-4
  net-libs/nodejs icu snapshot ssl system-icu system-ssl -corepack -debug -doc -inspector -lto npm -pax-kernel -test
 
 
