@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
+# syntax=docker/dockerfile:1.7-labs  # REQUIRED for build-time mounts + security opts
 
 # name the portage image
 FROM gentoo/portage:20260305 AS portage
@@ -10,12 +10,17 @@ FROM gentoo/stage3:nomultilib-systemd-20260302
 # copy the entire portage volume in (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
+ARG STEVE_MAKEFLAGS="--jobserver-auth=fifo:/dev/steve -l32"
+ARG STEVE_NINJAOPTS="-l32"
+
 # Configure the system
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 
 # Install GCC 16
-RUN emerge --ask=n --verbose sys-devel/gcc:16 \
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ export MAKEFLAGS="${STEVE_MAKEFLAGS}" NINJAOPTS="${STEVE_NINJAOPTS}" FEATURES="${FEATURES} jobserver-token" \
+ && emerge --ask=n --verbose sys-devel/gcc:16 \
  && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]') \
  && eselect gcc set "${gcc_16}" \
  && source /etc/profile \
@@ -32,7 +37,7 @@ COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
-COPY config/dwm-6.6 /etc/portage/savedconfig/x11-wm/dwm-6.6
+COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
 
 # Install additional packages
 RUN mv /etc/portage/package.license /etc/portage/package.license.bak
@@ -56,7 +61,9 @@ ENV KVER_PURE=6.12.74
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN df -h
-RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" NINJAOPTS="${STEVE_NINJAOPTS}" FEATURES="${FEATURES} jobserver-token" \
+ emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
 RUN eselect kernel set linux-${KVER}
@@ -64,7 +71,8 @@ RUN eselect kernel set linux-${KVER}
 WORKDIR /usr/src/linux
 COPY config/config6.12.41 .config
 #  Update current config utilising a provided .config as base
-RUN make oldconfig
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make oldconfig
 # cd example/110_gentoo/docker_min_hpz6/systems
 # find .|grep lsmod|xargs cat|sort|uniq|grep -v nouveau > /dev/shm/lsmod
 # yes "" | make LSMOD=/dev/shm/lsmod localmodconfig
@@ -76,8 +84,9 @@ RUN make oldconfig
 # --set-val EXTRA_FIRMWARE_DIR "/usr/lib/firmware" \
 # -e SQUASHFS
 # amd/sof/* and amd/sof-tplg/* firmware blobs
-RUN <<EOF
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve <<EOF
 set -e
+export MAKEFLAGS="${STEVE_MAKEFLAGS}"
 OPTIONS="
 BT_BCM
 BT_INTEL
@@ -183,11 +192,14 @@ make olddefconfig # apply default configuration for whatever options are still o
 EOF
 
 
-RUN make prepare
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make prepare
 
 # compile the kernel
-RUN make -j32
-RUN make modules_install
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make -j32
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make modules_install
 
 # I found that linux hangs after booting (just before you can log into the console). I also found that
 # removing the modules helps.
@@ -195,10 +207,13 @@ RUN make modules_install
 # be present for X11 to start. So we will move the modules to /nvidia and add a script /nvidia_start.sh
 # to run depmod -a and modprobe. The user can execute this before starting X11
 
-RUN make install
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make install
 
 
-RUN emerge -e --ask=n @world
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" NINJAOPTS="${STEVE_NINJAOPTS}" FEATURES="${FEATURES} jobserver-token" \
+ emerge -e --ask=n @world
 RUN qlist -Iv > /packages.txt
 
 ## Generate the full list of packages to build and split into 10 stages
@@ -265,7 +280,8 @@ WORKDIR /usr/src/ryzen_smu
 # Path should be like /lib/modules/6.13.5-gentoo/
 # Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
 RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
-RUN make -j7
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make -j7
 RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
 RUN depmod -a ${KVER}
 RUN rm *.o
@@ -276,13 +292,25 @@ WORKDIR /usr/src
 RUN git clone https://git.suckless.org/slstatus
 WORKDIR /usr/src/slstatus
 COPY config/slstatus_config.h .
-RUN make -j32
-RUN make install
-RUN make clean
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make -j32
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make install
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ MAKEFLAGS="${STEVE_MAKEFLAGS}" make clean
 
 RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
 
 COPY config/xinitrc /home/kiel/.xinitrc
+
+# Configure steve for the built system.
+RUN --security=insecure --mount=from=hostdev,source=steve,target=/dev/steve \
+ emerge --ask=n --noreplace acct-group/cuse acct-group/jobserver acct-user/steve dev-build/steve \
+ && usermod -a -G jobserver portage \
+ && usermod -a -G jobserver kiel \
+ && install -d /etc/udev/rules.d \
+ && printf 'KERNEL=="cuse", GROUP="cuse", MODE="0660"\nKERNEL=="steve", GROUP="jobserver", MODE="0660"\n' > /etc/udev/rules.d/99-steve-perms.rules \
+ && systemctl enable steve
 
 
 RUN emerge --depclean
@@ -424,5 +452,3 @@ RUN dracut \
 #       --install "stat blockdev" \
 #       --force \
 #       /boot/initramfs-hpz6-x86_64.img
-
-
