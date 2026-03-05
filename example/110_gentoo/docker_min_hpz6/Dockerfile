@@ -27,7 +27,8 @@ RUN emerge --ask=n --verbose sys-devel/gcc:16 \
  && emerge --ask=n @preserved-rebuild
 
  
-#RUN emerge -1 gentoolkit eix app-eselect/eselect-repository dev-vcs/git dev-lang/rust-bin
+# Ensure repository tooling is available before enabling GURU.
+RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
 COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
@@ -48,8 +49,8 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && . /etc/profile
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-#RUN eselect repository enable guru
-#RUN emaint sync -r guru
+RUN eselect repository enable guru \
+ && emaint sync --repo guru
 #RUN emerge --update --deep --changed-use @world --fetchonly
 
 ENV KVER_PURE=6.12.74
@@ -424,5 +425,4 @@ RUN dracut \
 #       --install "stat blockdev" \
 #       --force \
 #       /boot/initramfs-hpz6-x86_64.img
-
 

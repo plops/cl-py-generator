@@ -11,6 +11,7 @@ dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -c
 
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
 media-libs/libaom -examples -doc -test
+media-libs/libvpx postproc
 sys-kernel/dracut -selinux -test
 media-sound/pulseaudio glib bluetooth -daemon -jack ofono-headset
 media-libs/libcanberra gtk3 sound udev alsa pulseaudio
@@ -57,6 +58,7 @@ dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev wid
 dev-qt/qttools assistant linguist qdbus widgets (zstd) -clang -custom-cflags -designer -distancefieldgenerator -gles2-only opengl -pixeltool -qdoc -qml -qmlls -qtattributionsscanner -qtdiag -qtplugininfo vulkan
 
  # firefox-bin
+www-client/firefox X dbus hwaccel jumbo-build openh264 pulseaudio system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-pipewire system-webp -clang -gmp-autoupdate -wifi -debug -eme-free -gnome-shell -hardened -jack -libproxy -pgo -sndio -telemetry -test -wasm-sandbox -wayland
 gnome-base/librsvg introspection vala -debug -gtk-doc
 x11-libs/gdk-pixbuf introspection -gif -gtk-doc -jpeg -test -tiff
 dev-libs/glib dbus elf introspection mime xattr -debug -doc -selinux -static-libs -sysprof -systemtap -test -utils
