@@ -7,6 +7,7 @@ and an HP Z6 workstation, with tooling and configs captured here for repeatable
 rebuilds.
 
 Reference notes from the earliest setup live in `../README.md`.
+Steve-specific build setup is documented in `steve.md`.
 
 ## What this repository does
 
