@@ -32,7 +32,7 @@ COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
 COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
-COPY config/dwm-6.6 /etc/portage/savedconfig/x11-wm/dwm-6.6
+COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
 
 # Install additional packages
 RUN mv /etc/portage/package.license /etc/portage/package.license.bak
