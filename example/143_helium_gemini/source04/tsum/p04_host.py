@@ -61,7 +61,7 @@ logger.info("Use environment variable for API key")
 api_key=os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
  
-MODEL_OPTIONS=["gemini-2.5-flash-lite-preview-09-2025| input-price: 0.1 output-price: 0.4 max-context-length: 128_000", "gemini-3-flash-preview| input-price: 0.5 output-price: 3 max-context-length: 128_000"]
+MODEL_OPTIONS=["gemini-3-flash-preview| input-price: 0.5 output-price: 3.0 max-context-length: 1_000_000", "gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 1_000_000", "gemini-2.5-flash-lite| input-price: 0.1 output-price: 0.4 max-context-length: 1_000_000", "gemini-2.5-flash-native-audio-preview| input-price: 0.5 output-price: 2.0 max-context-length: 1_000_000", "gemini-embedding-001| input-price: 0.15 output-price: 0.0 max-context-length: 30_720", "gemini-robotics-er-1.5-preview| input-price: 0.3 output-price: 2.5 max-context-length: 1_000_000"]
  
 # Counters for tracking daily usage
 model_counts={opt.split("|")[0]:0 for opt in MODEL_OPTIONS}
@@ -274,8 +274,8 @@ def generation_preview(identifier):
     sid=f"gen-{identifier}"
     text="Generating ..."
     trigger="every 1s"
-    price_input={("gemini-2.5-flash-lite-preview-09-2025"):((0.10    )), ("gemini-3-flash-preview"):((0.50    ))}
-    price_output={("gemini-2.5-flash-lite-preview-09-2025"):((0.40    )), ("gemini-3-flash-preview"):(3)}
+    price_input={("gemini-3-flash-preview"):((0.50    )), ("gemini-2.5-flash"):((0.30    )), ("gemini-2.5-flash-lite"):((0.10    )), ("gemini-2.5-flash-native-audio-preview"):((0.50    )), ("gemini-embedding-001"):((0.150    )), ("gemini-robotics-er-1.5-preview"):((0.30    ))}
+    price_output={("gemini-3-flash-preview"):((3.0    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-2.5-flash-native-audio-preview"):((2.0    )), ("gemini-embedding-001"):((0.    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):
