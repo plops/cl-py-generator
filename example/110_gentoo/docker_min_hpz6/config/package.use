@@ -7,9 +7,7 @@ x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xi
 net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
 net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
 net-misc/dhcp client ipv6 -server ssl -ldap -selinux -vim-syntax
-dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -selinux -subversion -test -tk -xinet
-
-media-video/ffmpeg X bzip2 -dav1d encode gnutls gpl iconv network postproc threads vaapi zlib alsa -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -kvazaar -ladspa -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -mmal -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl opus -oss -pic pulseaudio -qsv -rav1e -rubberband -samba -sdl -snappy -sndio -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp x264 -x265 -xvid -zeromq -zimg -zvbi
+dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -selinux -subversion -test tk -xinet
 
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
 media-libs/libaom -examples -doc -test
@@ -24,13 +22,10 @@ x11-wm/dwm savedconfig -xinerama
 
 sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd 
 
-# tor firefox binary requires libdbus-glib 
-dev-libs/glib elf mime xattr dbus -debug -gtk-doc -selinux -static-libs -sysprof -systemtap -test -utils
+# tor firefox binary requires libdbus-glib
 dev-libs/dbus-glib -debug -static-libs -test
 
 
-net-print/cups-filters -foomatic -postscript -dbus -exif -jpeg -ldap -pclm -pdf -perl -png -test -tiff -zeroconf
-net-print/cups -X -acl -pam -ssl -systemd -dbus -debug -kerberos -openssl -selinux -static-libs -test -usb -xinetd -zeroconf
 app-text/poppler cxx -introspection jpeg -jpeg2k lcms utils -boost -cairo -cjk -curl -debug -doc -nss -png -qt5 -test -tiff -verify-sig
 sys-fs/lvm2 readline systemd udev lvm -sanlock -selinux -static -static-libs -thin -valgrind
 
@@ -45,73 +40,68 @@ app-misc/tmux systemd -debug -selinux -utempter -vim-syntax
 net-libs/grpc -doc -examples -test
 app-misc/fdupes ncurses
 media-gfx/feh -curl -debug -exif inotify -test -xinerama
-media-libs/libsdl2 X -joystick sound threads udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx4 -gles1 -gles2 -haptic -ibus -jack -kms -libsamplerate -nas opengl -oss -pipewire pulseaudio -sndio -static-libs -vulkan -wayland -xscreensaver
-net-print/cups -X -acl -dbus -debug -kerberos -openssl -pam -selinux ssl -static-libs -systemd -test -usb -xinetd -zeroconf
 media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
 
 
-media-video/mpv X alsa cli libmpv openal opengl pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -pipewire -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet vdpau vulkan -wayland -xv -zimg
+media-video/mpv X alsa cli libmpv openal opengl pipewire pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet vdpau vulkan -wayland -xv -zimg
 
-media-video/ffmpeg X alsa bzip2 encode gnutls gpl iconv network opus postproc pulseaudio threads vaapi x264 zlib -amf -amr -amrenc  -appkit  -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection  -cuda  dav1d -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma  -mipsdspr1   -mipsdspr2   -mipsfpu  -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic  -qsv  -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l vdpau -verify-sig -vidstab  -vmaf  -vorbis -vpx -vulkan -webp -x265 -xvid -zeromq -zimg -zvbi
+media-video/ffmpeg X alsa bzip2 dav1d encode gnutls gpl iconv network opus pipewire postproc pulseaudio threads vaapi x264 zlib -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libdrm -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -libxml2 -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic -qsv -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l vdpau -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp -x265 -xvid -zeromq -zimg -zvbi
 
 x11-libs/libdrm video_cards_radeon
 #sys-kernel/gentoo-sources experimental
 x11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland
-media-libs/mesa X -llvm opengl proprietary-codecs vaapi -vulkan zstd -d3d9 -debug -lm-sensors -opencl -osmesa -test -unwind -valgrind -vdpau -wayland -xa
 sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
 
 dev-qt/qtmultimedia X dbus ffmpeg vaapi -alsa -custom-cflags -eglfs -gstreamer opengl pipewire pulseaudio -qml -test -v4l vulkan -wayland
 dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev widgets xml zstd -accessibility -brotli -cups -custom-cflags -eglfs -evdev -gles2-only -gssapi -gtk -icu -journald -libproxy -mysql -oci8 -odbc opengl -postgres -renderdoc -sctp -syslog -test -tslib vulkan -wayland
- dev-qt/qttools assistant linguist qdbus widgets (zstd) -clang -custom-cflags -designer -distancefieldgenerator -gles2-only opengl -pixeltool -qdoc -qml -qmlls -qtattributionsscanner -qtdiag -qtplugininfo vulkan
+dev-qt/qttools assistant linguist qdbus widgets (zstd) -clang -custom-cflags -designer -distancefieldgenerator -gles2-only opengl -pixeltool -qdoc -qml -qmlls -qtattributionsscanner -qtdiag -qtplugininfo vulkan
 
  # firefox-bin
- gnome-base/librsvg introspection vala -debug -gtk-doc
- x11-libs/gdk-pixbuf introspection -gif -gtk-doc -jpeg -test -tiff
- dev-libs/glib dbus elf introspection mime xattr -debug -doc -selinux -static-libs -sysprof -systemtap -test -utils
- app-crypt/p11-kit libffi nls systemd gtk-doc -test
- net-misc/freerdp X client ffmpeg fuse icu systemd aad -alsa -cups -debug -gstreamer -jpeg -kerberos -openh264 -pulseaudio -sdl -server -smartcard -test -usb -valgrind -verify-sig -wayland -xinerama -xv
+gnome-base/librsvg introspection vala -debug -gtk-doc
+x11-libs/gdk-pixbuf introspection -gif -gtk-doc -jpeg -test -tiff
+dev-libs/glib dbus elf introspection mime xattr -debug -doc -selinux -static-libs -sysprof -systemtap -test -utils
+app-crypt/p11-kit libffi nls systemd gtk-doc -test
+net-misc/freerdp X client ffmpeg fuse icu systemd aad -alsa -cups -debug -gstreamer -jpeg -kerberos -openh264 -pulseaudio -sdl -server -smartcard -test -usb -valgrind -verify-sig -wayland -xinerama -xv
 
  # vscode
- app-crypt/libsecret crypt gcrypt pam test-rust vala -gnutls -gtk-doc introspection -test -tpm
- app-text/xmlto -latex text
- app-crypt/gcr systemd vala -gnutls gtk -gtk-doc introspection -test
- x11-libs/gtk+ X -aqua -broadway -cloudproviders -colord -cups -examples -gtk-doc introspection -sysprof -test -vim-syntax -wayland -xinerama
- app-accessibility/at-spi2-core X systemd -dbus-broker -gtk-doc introspection -test
- x11-libs/pango X -debug -examples introspection -sysprof -test
- media-libs/harfbuzz cairo glib graphite truetype -debug -doc -experimental -icu introspection -test
+app-crypt/libsecret crypt gcrypt pam test-rust vala -gnutls -gtk-doc introspection -test -tpm
+app-text/xmlto -latex text
+app-crypt/gcr systemd vala -gnutls gtk -gtk-doc introspection -test
+x11-libs/gtk+ X -aqua -broadway -cloudproviders -colord -cups -examples -gtk-doc introspection -sysprof -test -vim-syntax -wayland -xinerama
+app-accessibility/at-spi2-core X systemd -dbus-broker -gtk-doc introspection -test
+x11-libs/pango X -debug -examples introspection -sysprof -test
+media-libs/harfbuzz cairo glib graphite truetype -debug -doc -experimental -icu introspection -test
 
 
  #net-vpn/tor man seccomp -server systemd -caps -doc -hardened -lzma -scrypt -selinux -test -verify-sig -zstd
  #media-gfx/zbar X imagemagick nls threads -dbus -graphicsmagick -gtk -introspection -java -jpeg -python -qt5 -static-libs -test v4l -xv
 
  # R need minizip
- sys-libs/zlib minizip -static-libs -verify-sig
+sys-libs/zlib minizip -static-libs -verify-sig
 
- dev-lang/R X libdeflate nls readline cairo -doc -icu -java jpeg -lto -minimal -openmp -perl png -prefix -profile -test -tiff tk
+dev-lang/R X libdeflate nls readline cairo -doc -icu -java jpeg -lto -minimal -openmp -perl png -prefix -profile -test -tiff tk
 
  # arduino
  #dev-util/astyle java -static-libs -verify-sig
 
- sys-apps/smartmontools -daemon systemd update-drivedb -caps -selinux -static
+sys-apps/smartmontools -daemon systemd update-drivedb -caps -selinux -static
 
  # plantuml
- media-libs/gd fontconfig jpeg png truetype zlib -avif -heif -static-libs -test -tiff -webp -xpm
+media-libs/gd fontconfig jpeg png truetype zlib -avif -heif -static-libs -test -tiff -webp -xpm
 
- dev-vcs/git curl gpg iconv nls pcre safe-directory -cgi -cvs -doc -highlight -keyring -mediawiki -perforce -perl -selinux -subversion -test tk -webdav -xinetd
-
- app-text/doxygen -clang -debug -doc dot -doxysearch -gui -test
+app-text/doxygen -clang -debug -doc dot -doxysearch -gui -test
 
  # nginx
- app-misc/mime-types nginx
+app-misc/mime-types nginx
 
 llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -verify-sig -xml
 dev-cpp/glog gflags libunwind -llvm-libunwind -test
 
-media-libs/libsdl2 X gles2 haptic joystick kms opengl pulseaudio sound udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx -gles1 -ibus -jack -libsamplerate -nas -oss -pipewire -sndio -static-libs -test -vulkan -wayland -xscreensaver
- media-libs/freetype X adobe-cff brotli bzip2 cleartype-hinting png -debug -doc -fontforge harfbuzz -static-libs -svg -utils
- dev-qt/qtdeclarative jit network opengl sql ssl svg vulkan widgets -accessibility -custom-cflags -qmlls
+media-libs/libsdl2 X gles2 haptic joystick kms opengl pipewire pulseaudio sound udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx -gles1 -ibus -jack -libsamplerate -nas -oss -sndio -static-libs -test -vulkan -wayland -xscreensaver
+media-libs/freetype X adobe-cff brotli bzip2 cleartype-hinting png -debug -doc -fontforge harfbuzz -static-libs -svg -utils
+dev-qt/qtdeclarative jit network opengl sql ssl svg vulkan widgets -accessibility -custom-cflags -qmlls
 net-analyzer/wireshark plugins ssl maxminddb sdjournal smi sshdump wifi http2 brotli snappy lua lua_single_target_lua5-4
- net-libs/nodejs icu snapshot ssl system-icu system-ssl -corepack -debug -doc -inspector -lto npm -pax-kernel -test
+net-libs/nodejs icu snapshot ssl system-icu system-ssl -corepack -debug -doc -inspector -lto npm -pax-kernel -test
 
 
 sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 openssl pam pcre resolvconf seccomp sysv-utils zstd -apparmor -audit -boot -bpf -cgroup-hybrid -cryptsetup -curl -elfutils -fido2 -gnutls -homed -http -idn -importd -iptables -lzma -passwdqc -pkcs11 -policykit -pwquality -qrcode -secureboot -selinux -split-usr  -test -tpm -ukify -vanilla -xkb
