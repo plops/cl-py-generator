@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # name the portage image
-FROM gentoo/portage:20260302 AS portage
+FROM gentoo/portage:20260305 AS portage
 
 # based on stage3 image (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
@@ -188,10 +188,18 @@ RUN make prepare
 # compile the kernel
 RUN make -j32
 RUN make modules_install
+
+# I found that linux hangs after booting (just before you can log into the console). I also found that
+# removing the modules helps.
+# In order for the computer to boot the nvidia modules must be not present but they must
+# be present for X11 to start. So we will move the modules to /nvidia and add a script /nvidia_start.sh
+# to run depmod -a and modprobe. The user can execute this before starting X11
+
 RUN make install
 
 
 RUN emerge -e --ask=n @world
+RUN qlist -Iv > /packages.txt
 
 ## Generate the full list of packages to build and split into 10 stages
 #RUN emerge -pqe --columns @world | awk '{print $2}' > /tmp/world_packages.txt && \
@@ -416,6 +424,5 @@ RUN dracut \
 #       --install "stat blockdev" \
 #       --force \
 #       /boot/initramfs-hpz6-x86_64.img
-
 
 
