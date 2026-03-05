@@ -59,9 +59,11 @@ x11-misc/redshift
 media-gfx/feh
 media-gfx/scrot
 app-text/mupdf
+www-client/firefox
 www-client/google-chrome
 www-apps/chromedriver-bin
 net-im/signal-desktop-bin
+media-fonts/wqy-microhei
 
 # Audio and Media
 media-video/mpv
