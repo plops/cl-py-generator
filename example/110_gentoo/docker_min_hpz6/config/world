@@ -27,6 +27,7 @@ x11-wm/dwm
 sys-process/btop
 www-client/google-chrome
 dev-lang/rust
+net-analyzer/wireshark
 media-video/mpv
 #app-containers/docker
 #app-containers/docker-buildx
