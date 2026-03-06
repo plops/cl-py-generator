@@ -1,16 +1,16 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
-# name the portage image
+# Base images
 FROM gentoo/portage:20260305 AS portage
 
-# based on stage3 image (1GB)
+# Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
 FROM gentoo/stage3:nomultilib-systemd-20260302
 # https://hub.docker.com/r/gentoo/portage/tags
-# copy the entire portage volume in (570MB)
+# Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-# Configure the system
+# Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 
@@ -27,20 +27,13 @@ RUN emerge --ask=n --verbose sys-devel/gcc:16 \
  && emerge --ask=n @preserved-rebuild
 
  
-# Ensure repository tooling is available before enabling GURU.
+# Repository tooling and package configuration
 RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
-COPY config/package.use /etc/portage/package.use
 COPY config/make.conf /etc/portage/make.conf
-COPY config/world /var/lib/portage/world
 COPY config/package.license /etc/portage/package.license
+COPY config/package.use /etc/portage/package.use
+COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-
-# Install additional packages
-RUN mv /etc/portage/package.license /etc/portage/package.license.bak
-RUN mkdir -p /etc/portage/package.license
-RUN mv /etc/portage/package.license.bak /etc/portage/package.license/package.license.1
-COPY config/package.license.2 /etc/portage/package.license/
-COPY config/package.accept_keywords.2 /etc/portage/package.accept_keywords/package.accept_keywords.2
 
 # Clean up the locales
 RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
@@ -53,6 +46,7 @@ RUN eselect repository enable guru \
  && emaint sync --repo guru
 #RUN emerge --update --deep --changed-use @world --fetchonly
 
+# Kernel build
 ENV KVER_PURE=6.12.74
 ENV KVER=${KVER_PURE}-gentoo
 
@@ -199,6 +193,7 @@ RUN make modules_install
 RUN make install
 
 
+# System package build
 RUN emerge -e --ask=n @world
 RUN qlist -Iv > /packages.txt
 
@@ -254,12 +249,12 @@ RUN qlist -Iv > /packages.txt
 
 RUN emerge --depclean
 
-# # Allow members of the wheel group to execute any command without a password
+# Sudo policy
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 
-# # Add a tool to read the Ryzen temperatures, frequencies and voltages
+# Ryzen SMU kernel module
 WORKDIR /usr/src
 RUN git clone https://github.com/amkillam/ryzen_smu
 WORKDIR /usr/src/ryzen_smu
@@ -279,7 +274,7 @@ COPY config/video.sh /video.sh
 RUN chmod 0755 /video.sh
 
 
-# # Add slstatus to show battery status and time
+# slstatus
 WORKDIR /usr/src
 RUN git clone https://git.suckless.org/slstatus
 WORKDIR /usr/src/slstatus
@@ -298,6 +293,7 @@ COPY config/xinitrc /home/kiel/.xinitrc
 
 RUN emerge --depclean
 
+# Network and services
 COPY config/20-enp65s0.network /etc/systemd/network/
 COPY config/resolv.conf /etc/
 COPY config/reverse-ssh-eu.service /etc/systemd/system/
