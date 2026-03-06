@@ -48,7 +48,7 @@ menuentry 'Gentoo Dracut (E14 persist on nvme0n1p4 0306)' {
 }
 EOF
 ```
-```
+
 
 ## 3. Reboot and Test
 
