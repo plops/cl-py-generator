@@ -2,7 +2,7 @@ dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rus
 dev-lang/rust rustfmt clippy
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 app-emacs/emacs-common -games gui
-app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source -svg -tiff -toolkit-scroll-bars -valgrind -wide-int -xft -xwidgets
+app-editors/emacs -acl gmp inotify ssl systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source sqlite -svg -tiff -toolkit-scroll-bars tree-sitter -valgrind -wide-int -xft -xwidgets
 x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
 net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs 
 net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
