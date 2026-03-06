@@ -229,6 +229,49 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5 0306)' {
 EOF
 ```
 
+### Migrate an existing entry from `grub.cfg` to `custom.cfg`
+
+If you already appended the entry directly to `grub.cfg`, move it to `custom.cfg` for cleaner long-term maintenance:
+
+```bash
+# 1) Backup grub.cfg
+sudo cp -av /0p3/boot/grub/grub.cfg /0p3/boot/grub/grub.cfg.bak_migrate_$(date +%Y%m%d_%H%M%S)
+
+# 2) Write the entry into /boot/grub/custom.cfg
+cat <<'EOF' | sudo tee /0p3/boot/grub/custom.cfg >/dev/null
+menuentry 'Gentoo Dracut (persist on nvme0n1p5 0306)' {
+    insmod part_gpt
+    insmod fat
+    insmod btrfs
+    search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
+
+    linux /boot/vmlinuz_0306 \
+    root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
+    rd.live.dir=/ \
+    rd.live.squashimg=gentoo.squashfs_0306 \
+    rd.live.ram=1 \
+    rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
+    rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
+    rd.overlay=/dev/mapper/enc:persistent \
+    rd.live.overlay.overlayfs=1 \
+    modprobe.blacklist=hp_bioscfg
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0306
+}
+EOF
+
+# 3) Remove only that menuentry block from grub.cfg
+sudo awk '
+BEGIN{skip=0}
+/^menuentry '\''Gentoo Dracut \(persist on nvme0n1p5 0306\)'\'' \{$/{skip=1;next}
+skip==1 && /^[[:space:]]*}[[:space:]]*$/{skip=0;next}
+skip==0{print}
+' /0p3/boot/grub/grub.cfg > /tmp/grub.cfg.migrated
+sudo cp -av /tmp/grub.cfg.migrated /0p3/boot/grub/grub.cfg
+
+# 4) Verify the entry exists in custom.cfg and not in grub.cfg
+sudo rg -n "Gentoo Dracut \\(persist on nvme0n1p5 0306\\)" /0p3/boot/grub/custom.cfg /0p3/boot/grub/grub.cfg
+```
+
 Notes:
 - This setup uses stock dracut behavior.
 - `modprobe.blacklist=hp_bioscfg` is included to avoid a kernel issue seen on this platform.
@@ -291,7 +334,7 @@ sudo umount /mnt
 
 ## 9. Reboot and test
 
-1. Reboot and select `Gentoo Dracut (persist on nvme0n1p5)` from GRUB.
+1. Reboot and select `Gentoo Dracut (persist on nvme0n1p5 0306)` from GRUB.
 2. Unlock LUKS when prompted.
 3. Verify persistence by creating a test file and rebooting again.
 4. Keep older `_MMDD` artifacts for rollback until the new boot path is validated.
