@@ -271,6 +271,13 @@ RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
 RUN depmod -a ${KVER}
 RUN rm *.o
 
+# Keep video modules out of /lib/modules during boot. They are activated later by /video.sh.
+RUN if [ -d /lib/modules/${KVER}/video ]; then \
+      mv /lib/modules/${KVER}/video /video${KVER}; \
+    fi
+COPY config/video.sh /video.sh
+RUN chmod 0755 /video.sh
+
 
 # # Add slstatus to show battery status and time
 WORKDIR /usr/src
@@ -425,4 +432,3 @@ RUN dracut \
 #       --install "stat blockdev" \
 #       --force \
 #       /boot/initramfs-hpz6-x86_64.img
-
