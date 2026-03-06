@@ -12,6 +12,25 @@ Current image set used in this guide:
 - Build directory: `gentoo-z6-min_20260306`
 - Version suffix for copied boot artifacts: `0306`
 
+## 0. Preflight and safety checks
+
+Run these checks first:
+
+```bash
+lsblk -f
+```
+
+On the target HP Z6 used for this guide, the relevant identifiers are:
+- Boot/squashfs partition: `/dev/nvme0n1p3` (label `gentoo`, UUID `4f708c84-185d-437b-a03a-7a565f598a23`)
+- Persistent encrypted partition: `/dev/nvme0n1p5` (LUKS UUID `0d7c5e23-6bab-4dce-b744-a5d61d497aca`)
+- Open mapper for persistence: `/dev/mapper/enc` (ext4 label `persist`)
+
+Before editing GRUB config directly, always create a backup:
+
+```bash
+sudo cp -av /0p3/boot/grub/grub.cfg /0p3/boot/grub/grub.cfg.bak_$(date +%Y%m%d_%H%M%S)
+```
+
 ## 1. Inspect disks and choose persistent partition
 
 Boot into an existing Linux installation and inspect disks:
@@ -60,7 +79,7 @@ Mount it to inspect contents:
 
 ```bash
 sudo mkdir -p /0p3
-sudo mount /dev/nvme0n1p3 /0p3
+mountpoint -q /0p3 || sudo mount /dev/nvme0n1p3 /0p3
 ls /0p3
 ls /0p3/boot
 ```
@@ -106,7 +125,16 @@ sudo cp -av gentoo-z6-min_20260306/vmlinuz /0p3/boot/vmlinuz_0306
 sudo cp -av gentoo-z6-min_20260306/initramfs_squash_sda1-x86_64.img /0p3/boot/initramfs_squash_sda1-x86_64.img_0306
 ```
 
+Verify copied files:
+
+```bash
+ls -lh /0p3/gentoo.squashfs_0306
+ls -lh /0p3/boot/vmlinuz_0306 /0p3/boot/initramfs_squash_sda1-x86_64.img_0306
+```
+
 ## 5. Create encrypted persistent partition (`nvme0n1p5`)
+
+If persistence on `nvme0n1p5` is already configured and working, **skip this section** to avoid destructive reformatting.
 
 Set variables:
 
@@ -144,6 +172,10 @@ In this setup:
 
 ## 6. Add GRUB menu entry for dracut live boot + encrypted overlay
 
+Preferred location:
+- Put custom entries into `/0p3/boot/grub/custom.cfg` (it is sourced by `grub.cfg`).
+- This survives `grub-mkconfig` regeneration better than editing `grub.cfg` directly.
+
 Use this entry (adapt UUIDs/paths if your system differs):
 
 ```cfg
@@ -168,11 +200,48 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
 }
 ```
 
+Recommended menu title convention:
+- `Gentoo Dracut (persist on nvme0n1p5 0306)`
+
+Example append command:
+
+```bash
+cat <<'EOF' | sudo tee -a /0p3/boot/grub/custom.cfg >/dev/null
+menuentry 'Gentoo Dracut (persist on nvme0n1p5 0306)' {
+    insmod part_gpt
+    insmod fat
+    insmod btrfs
+    search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
+
+    linux /boot/vmlinuz_0306 \
+      root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
+      rd.live.dir=/ \
+      rd.live.squashimg=gentoo.squashfs_0306 \
+      rd.live.ram=1 \
+      rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
+      rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
+      rd.overlay=/dev/mapper/enc:persistent \
+      rd.live.overlay.overlayfs=1 \
+      modprobe.blacklist=hp_bioscfg
+
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0306
+}
+EOF
+```
+
 Notes:
 - This setup uses stock dracut behavior.
 - `modprobe.blacklist=hp_bioscfg` is included to avoid a kernel issue seen on this platform.
 
 `hp_bioscfg` is HP's BIOS configuration driver (sysfs interface under `/sys/class/firmware_attributes/hp-bioscfg/`). If BIOS configuration from Linux is not needed, blacklisting is acceptable.
+
+After editing, validate syntax if available:
+
+```bash
+sudo grub-script-check /0p3/boot/grub/grub.cfg
+```
+
+On minimal live environments this tool may be absent. In that case, do a careful visual check and keep your backup file for rollback.
 
 ## 7. Prepare required overlay directories on persistent volume
 
@@ -184,6 +253,13 @@ Mount and create them:
 sudo mount "/dev/mapper/$CRYPT_NAME" /mnt
 sudo mkdir -p /mnt/persistent/upper
 sudo mkdir -p /mnt/persistent/work
+```
+
+If `enc` is already open and mounted (for example at `/run/enc`), you can use that mountpoint directly:
+
+```bash
+sudo mkdir -p /run/enc/persistent/upper
+sudo mkdir -p /run/enc/persistent/work
 ```
 
 Meaning:
