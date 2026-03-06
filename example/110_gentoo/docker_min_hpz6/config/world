@@ -90,3 +90,9 @@ net-analyzer/wireshark
 
 # Crypto
 app-crypt/p11-kit
+
+# Virtualization
+app-emulation/qemu
+app-emulation/libvirt
+app-emulation/virt-manager
+sys-firmware/edk2-bin
