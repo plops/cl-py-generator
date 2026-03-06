@@ -179,7 +179,7 @@ VIDEO_V4L2
 M_OPTIONS=$(printf -- '-m %s ' $OPTIONS)
 
 # Execute the script a single time with the dynamically built list of options
-./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e SQUASHFS_4K_DEVBLK_SIZE -e CUSE -e TUN -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC -e BT_RFCOMM_TTY 
+./scripts/config --file .config $M_OPTIONS -e EFI_PARTITION -e SQUASHFS_4K_DEVBLK_SIZE -e CUSE -e TUN -m KVM -m KVM_AMD -m KVM_INTEL -m VIRTIO_NET -m VIRTIO_BLK -m VIRTIO_BALLOON -m VHOST_NET -m MACVTAP -d USB4_NET -e SENSORS_SPD5118_DETECT -d MFD_CS42L43_SDW -e MEDIA_USB_SUPPORT -d USB_GSPCA -d TOUCHSCREEN_SUR40 -d USB_PWC -e BT_RFCOMM_TTY 
 make olddefconfig # apply default configuration for whatever options are still open
 EOF
 
