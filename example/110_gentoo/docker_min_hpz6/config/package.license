@@ -1,3 +1,7 @@
 sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
 x11-drivers/nvidia-drivers NVIDIA-2025
 dev-util/nvidia-cuda-toolkit NVIDIA-CUDA
+dev-util/clion IDEA
+app-editors/vscode Microsoft-vscode
+www-client/google-chrome google-chrome
+www-apps/chromedriver-bin google-chrome
