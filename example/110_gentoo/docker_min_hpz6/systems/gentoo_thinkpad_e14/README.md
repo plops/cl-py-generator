@@ -27,11 +27,11 @@ This directory contains system snapshots of the Gentoo installation on the Think
 - **Persistent Storage**: `nvme0n1p4` (decrypted to `enc`) remains the primary persistent layer.
 
 ### 4. Hardware and Runtime
-- **Battery**: Cycle count increased from 86 to 95. Capacity slightly adjusted (95.3% -> 95.0%).
-- **NVMe Endurance**:
-    - `nvme0n1` (1TB) reached **20.9 TB** total writes.
-    - `nvme1n1` (512GB) reached **5.70 TB** total writes.
-    - Logged ~95 additional Power On Hours since the 0226 snapshot.
+- **Battery**: Significant health drop noted since Jan snapshot (97% -> 90.9%). Thresholds are active (75/80).
+- **NVMe Anomalies**:
+    - `nvme0n1` (1TB) suffers from **Unsafe Shutdowns** due to DRAM-less architecture.
+    - `nvme1n1` (512GB) shows **pathological power cycling** (23k+ cycles) due to aggressive APST.
+    - Both addressed via `nvme_core.default_ps_max_latency_us=0` kernel parameter.
 - **CPU**: `cpuinfo.txt` reflects active frequency scaling during the snapshot.
 - **Modules**: Minor adjustments in loaded kernel modules.
 

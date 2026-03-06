@@ -24,17 +24,21 @@ Significant boot entries and changes:
 - **Memory Maps**: Minor shifts in efi memory allocation ranges (`0x70aad018` vs `0x70aad018`).
 - **Initialization**: Firmware attributes and EFI services initialized with identical hardware signatures.
 
-## Hardware Health (`tlp-stat.txt` & `sensors.txt`)
+## Battery Health Trends (Jan - Mar)
 
-- **Battery Aging**:
-    - Cycle Count: 86 -> **95**
-    - Full Charge Energy: 54300 mWh -> **54130 mWh**
-    - Capacity: 95.3% -> **95.0%**
-- **Thermal Status**: Idle temperatures remained consistent within expected ranges.
+Analysis of the system's Git history (`cfa74177` -> `0306`) reveals steady degradation:
+
+| Period | Cycle Count | Full Capacity | Capacity % |
+|--------|-------------|---------------|------------|
+| Early Jan | 67 | 55.3 Wh | 97.0% |
+| Late Feb | 86 | 54.3 Wh | 95.3% |
+| **Mar 06** | **95** | **51.8 Wh** | **90.9%** |
+
+**Observation**: Despite using a 75%/80% charge threshold, the battery's full energy capacity is starting to decline more rapidly as it approaches 100 cycles.
 
 ## NVMe Drive Endurance and Health
 
-The SMART data for both primary and secondary drives shows the following activity over the last ~95 operational hours:
+The SMART data for both primary and secondary drives shows interesting activity since the last collection:
 
 | Metric | nvme0n1 (1TB) | nvme1n1 (512GB) | Change (Approx) |
 |--------|---------------|-----------------|-----------------|
@@ -45,9 +49,9 @@ The SMART data for both primary and secondary drives shows the following activit
 | **Temperature** | 31°C -> 47°C | 23°C -> 41°C | +16-18°C elevated |
 
 **Notes**:
-- The temperature elevation is consistent with sustained write activity during the SquashFS transfer and image deployment.
-- **Unsafe Shutdowns**: Both drives are DRAM-less (ADATA Legend 800 and SK Hynix BC901) and are sensitive to the shutdown handshake. 
-- **Recommendation**: Consider adding `nvme_core.default_ps_max_latency_us=0` to the GRUB command line to ensure the controller is always ready for the final shutdown signal.
+- **Unsafe Shutdowns**: Both drives are DRAM-less (ADATA Legend 800 and SK Hynix BC901) and are sensitive to the shutdown handshake. The ADATA drive has logged **33 unsafe shutdowns** since early January, correlating almost 1:1 with system power cycles.
+- **Pathological Cycling on nvme1n1**: The secondary Hynix drive is cycling at an extreme rate of **8.6 cycles/hour** (~23,330 cycles total). This is likely due to aggressive APST (Autonomous Power State Transitions) firmware.
+- **Recommendation**: The parameter `nvme_core.default_ps_max_latency_us=0` is critical for this machine to stop both the unsafe shutdowns and the excessive cycling on the secondary drive.
 
 ## Loaded Modules (`lsmod.txt`)
 
