@@ -106,7 +106,9 @@ net-analyzer/wireshark plugins ssl maxminddb sdjournal smi sshdump wifi http2 br
 net-libs/nodejs icu snapshot ssl system-icu system-ssl -corepack -debug -doc -inspector -lto npm -pax-kernel -test
 
 
-sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 openssl pam pcre resolvconf seccomp sysv-utils zstd -apparmor -audit -boot -bpf -cgroup-hybrid -cryptsetup -curl -elfutils -fido2 -gnutls -homed -http -idn -importd -iptables -lzma -passwdqc -pkcs11 -policykit -pwquality -qrcode -secureboot -selinux -split-usr  -test -tpm -ukify -vanilla -xkb
+sys-apps/systemd acl dns-over-tls gcrypt kernel-install kmod lz4 openssl pam pcre resolvconf seccomp sysv-utils zstd -apparmor -audit -boot -bpf -cgroup-hybrid -cryptsetup -curl -elfutils -fido2 -gnutls -homed -http -idn -importd -iptables -lzma -passwdqc -pkcs11 policykit -pwquality -qrcode -secureboot -selinux -split-usr  -test -tpm -ukify -vanilla -xkb
 
 # Virtualization for Windows guests
 app-emulation/qemu spice usbredir
+app-emulation/virt-manager gui policykit
+app-emulation/libvirt policykit

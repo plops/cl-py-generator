@@ -288,7 +288,10 @@ RUN make -j32
 RUN make install
 RUN make clean
 
-RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel
+RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
+ && for grp in libvirt kvm qemu; do \
+      if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi; \
+    done
 
 COPY config/xinitrc /home/kiel/.xinitrc
 
@@ -299,6 +302,7 @@ COPY config/20-enp65s0.network /etc/systemd/network/
 COPY config/resolv.conf /etc/
 COPY config/reverse-ssh-eu.service /etc/systemd/system/
 COPY config/reverse-ssh-us.service /etc/systemd/system/
+RUN systemctl enable libvirtd.service
 RUN systemctl enable reverse-ssh-eu
 RUN systemctl enable reverse-ssh-us
 
