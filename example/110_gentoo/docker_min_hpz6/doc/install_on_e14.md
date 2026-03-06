@@ -42,12 +42,16 @@ menuentry 'Gentoo Dracut (E14 persist on nvme0n1p4 0306)' {
       rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
       rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
       rd.overlay=/dev/mapper/enc:persistent \
-      rd.live.overlay.overlayfs=1
+      rd.live.overlay.overlayfs=1 \
+      nvme_core.default_ps_max_latency_us=0
 
     initrd /boot/initramfs_squash_sda1-x86_64.img_0306
 }
 EOF
 ```
+
+> [!NOTE]
+> The `nvme_core.default_ps_max_latency_us=0` parameter is added to prevent "Unsafe Shutdown" logs on the DRAM-less NVMe drives (ADATA/Hynix) used in this machine. It ensures the controller is ready for the shutdown signal from systemd.
 
 
 ## 3. Reboot and Test

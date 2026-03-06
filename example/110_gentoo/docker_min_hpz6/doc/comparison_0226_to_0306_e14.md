@@ -32,6 +32,23 @@ Significant boot entries and changes:
     - Capacity: 95.3% -> **95.0%**
 - **Thermal Status**: Idle temperatures remained consistent within expected ranges.
 
+## NVMe Drive Endurance and Health
+
+The SMART data for both primary and secondary drives shows the following activity over the last ~95 operational hours:
+
+| Metric | nvme0n1 (1TB) | nvme1n1 (512GB) | Change (Approx) |
+|--------|---------------|-----------------|-----------------|
+| **Power On Hours** | 15,670 -> 15,763 | 2,626 -> 2,721 | +93-95 hours |
+| **Power Cycles** | 2,143 -> 2,167 | 23,306 -> 23,330 | +24 cycles |
+| **Data Written** | 20.7 TB -> 20.9 TB | 5.67 TB -> 5.70 TB | +230 GB total |
+| **Unsafe Shutdowns** | 460 -> 465 | 80 -> 88 | +5 / +8 |
+| **Temperature** | 31°C -> 47°C | 23°C -> 41°C | +16-18°C elevated |
+
+**Notes**:
+- The temperature elevation is consistent with sustained write activity during the SquashFS transfer and image deployment.
+- **Unsafe Shutdowns**: Both drives are DRAM-less (ADATA Legend 800 and SK Hynix BC901) and are sensitive to the shutdown handshake. 
+- **Recommendation**: Consider adding `nvme_core.default_ps_max_latency_us=0` to the GRUB command line to ensure the controller is always ready for the final shutdown signal.
+
 ## Loaded Modules (`lsmod.txt`)
 
 - Observed minor variations in module load order and resident memory usage for graphics and wireless drivers, matching the kernel upgrade.

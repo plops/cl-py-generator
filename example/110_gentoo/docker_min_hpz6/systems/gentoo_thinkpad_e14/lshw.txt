@@ -232,7 +232,7 @@ localhost
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm msi pciexpress msix cap_list ethernet physical
-                configuration: broadcast=yes driver=r8169 driverversion=6.12.58-gentoo latency=0 link=no multicast=yes
+                configuration: broadcast=yes driver=r8169 driverversion=6.12.74-gentoo latency=0 link=no multicast=yes
                 resources: irq:80 ioport:2000(size=256) memory:80904000-80904fff memory:80900000-80903fff
         *-pci:2
              description: PCI bridge
@@ -259,7 +259,7 @@ localhost
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pciexpress msi pm bus_master cap_list ethernet physical wireless fb
-                configuration: broadcast=yes depth=32 driver=mt7921e driverversion=6.12.58-gentoo firmware=____000000-20260106153507 ip=[REDACTED_IP] latency=0 link=yes mode=1920x1200 multicast=yes visual=truecolor wireless=IEEE 802.11 xres=1920 yres=1200
+                configuration: broadcast=yes depth=32 driver=mt7921e driverversion=6.12.74-gentoo firmware=____000000-20260106153507 ip=[REDACTED_IP] latency=0 link=yes mode=1920x1200 multicast=yes visual=truecolor wireless=IEEE 802.11 xres=1920 yres=1200
                 resources: iomemory:40-3f irq:85 memory:4c0200000-4c02fffff memory:80800000-80807fff
         *-pci:3
              description: PCI bridge
@@ -417,7 +417,7 @@ localhost
                 resources: irq:43 memory:80300000-803fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@1
                    logical name: usb1
@@ -436,7 +436,7 @@ localhost
                       configuration: driver=btusb maxpower=100mA speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@2
                    logical name: usb2
@@ -457,7 +457,7 @@ localhost
                 resources: irq:45 memory:80400000-804fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@3
                    logical name: usb3
@@ -498,7 +498,7 @@ localhost
                       configuration: maxpower=100mA speed=12Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@4
                    logical name: usb4
@@ -570,7 +570,7 @@ localhost
                 resources: irq:47 memory:80000000-800fffff
               *-usbhost
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@5
                    logical name: usb5
@@ -600,7 +600,7 @@ localhost
                 resources: irq:49 memory:80100000-801fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@6
                    logical name: usb6
@@ -609,7 +609,7 @@ localhost
                    configuration: driver=hub slots=1 speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@7
                    logical name: usb7
@@ -630,7 +630,7 @@ localhost
                 resources: irq:51 memory:80200000-802fffff
               *-usbhost:0
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 0
                    bus info: [REDACTED_USER]@8
                    logical name: usb8
@@ -639,7 +639,7 @@ localhost
                    configuration: driver=hub slots=1 speed=480Mbit/s
               *-usbhost:1
                    product: xHCI Host Controller
-                   vendor: Linux 6.12.58-gentoo xhci-hcd
+                   vendor: Linux 6.12.74-gentoo xhci-hcd
                    physical id: 1
                    bus info: [REDACTED_USER]@9
                    logical name: usb9
@@ -862,13 +862,13 @@ localhost
        product: ThinkPad Extra Buttons
        physical id: 7
        logical name: input18
-       logical name: /dev/input/event14
+       logical name: /dev/input/event13
        capabilities: platform
   *-input:6
        product: PC Speaker
        physical id: 8
        logical name: input19
-       logical name: /dev/input/event13
+       logical name: /dev/input/event14
        capabilities: isa
   *-input:7
        product: Sleep Button

@@ -28,6 +28,10 @@ This directory contains system snapshots of the Gentoo installation on the Think
 
 ### 4. Hardware and Runtime
 - **Battery**: Cycle count increased from 86 to 95. Capacity slightly adjusted (95.3% -> 95.0%).
+- **NVMe Endurance**:
+    - `nvme0n1` (1TB) reached **20.9 TB** total writes.
+    - `nvme1n1` (512GB) reached **5.70 TB** total writes.
+    - Logged ~95 additional Power On Hours since the 0226 snapshot.
 - **CPU**: `cpuinfo.txt` reflects active frequency scaling during the snapshot.
 - **Modules**: Minor adjustments in loaded kernel modules.
 
