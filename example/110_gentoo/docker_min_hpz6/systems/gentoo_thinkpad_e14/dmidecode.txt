@@ -514,14 +514,14 @@ OEM-specific Type
 Handle 0x0033, DMI type 141, 18 bytes
 OEM-specific Type
 	Header and Data:
-		8D 12 33 00 54 48 4E 4B 00 00 40 00 00 00 5F 00
+		8D 12 33 00 54 48 4E 4B 00 00 40 00 00 00 62 00
 		00 00
 
 Handle 0x0034, DMI type 141, 30 bytes
 OEM-specific Type
 	Header and Data:
-		8D 1E 34 00 54 48 4E 4B 00 00 50 00 00 00 29 F8
-		1D 08 00 00 00 00 69 C7 05 0B 00 00 00 00
+		8D 1E 34 00 54 48 4E 4B 00 00 50 00 00 00 F4 89
+		1F 08 00 00 00 00 A3 E4 08 0B 00 00 00 00
 
 Handle 0x0035, DMI type 135, 18 bytes
 OEM-specific Type
@@ -538,9 +538,9 @@ Handle 0x0037, DMI type 141, 56 bytes
 OEM-specific Type
 	Header and Data:
 		8D 38 37 00 54 48 4E 4B 00 00 60 00 00 00 FF 00
-		26 20 02 26 20 29 01 00 26 20 02 26 18 05 04 00
-		26 20 02 26 17 13 07 00 26 20 02 25 17 54 01 00
-		26 20 02 24 18 06 32 00
+		26 20 03 06 20 11 17 00 26 20 03 06 19 13 19 00
+		26 20 03 05 18 16 07 00 26 20 03 05 07 32 44 00
+		26 20 03 04 08 31 45 00
 
 Handle 0xFEFF, DMI type 127, 4 bytes
 End Of Table
