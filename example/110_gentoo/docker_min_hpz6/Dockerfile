@@ -267,6 +267,7 @@ RUN depmod -a ${KVER}
 RUN rm *.o
 
 # Keep video modules out of /lib/modules during boot. They are activated later by /video.sh.
+# I suspect the RT_PREEMPT kernel is causing issues with the nvidia video modules, i've also abserved instability on amd apu driver on the thinkpad e14
 RUN if [ -d /lib/modules/${KVER}/video ]; then \
       mv /lib/modules/${KVER}/video /video${KVER}; \
     fi
