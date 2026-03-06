@@ -69,8 +69,6 @@ media-fonts/wqy-microhei
 media-video/mpv
 media-sound/pavucontrol
 app-misc/pulsemixer
-media-sound/pulseaudio
-media-sound/pulseaudio-daemon
 media-video/pipewire
 media-video/wireplumber
 media-video/v4l-utils
