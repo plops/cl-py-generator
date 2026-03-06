@@ -1,13 +1,24 @@
-net-wireless/iwgtk ~amd64
-#sys-kernel/gentoo-sources ~amd64
-x11-drivers/nvidia-drivers ~amd64
-dev-util/clion ~amd64
-dev-util/nvidia-cuda-toolkit ~amd64
-dev-util/ruff ~amd64
-net-misc/apt-cacher-ng ~amd64
-sys-kernel/dracut-crypt-ssh ~amd64
-net-misc/sunshine ~amd64
-net-misc/moonlight ~amd64
-app-text/typst ~amd64
+# Toolchain, Compiler, Runtime
 =sys-devel/gcc-16.0.1* **
 dev-libs/jemalloc ~amd64
+dev-util/ruff ~amd64
+
+# Development Tools
+dev-util/clion ~amd64
+
+# Graphics, GPU, CUDA
+dev-util/nvidia-cuda-toolkit ~amd64
+x11-drivers/nvidia-drivers ~amd64
+
+# Documents / Publishing
+app-text/typst ~amd64
+
+# Networking, Remote, Wireless
+net-misc/apt-cacher-ng ~amd64
+net-misc/moonlight ~amd64
+net-misc/sunshine ~amd64
+net-wireless/iwgtk ~amd64
+
+# Initramfs / Kernel
+sys-kernel/dracut-crypt-ssh ~amd64
+#sys-kernel/gentoo-sources ~amd64

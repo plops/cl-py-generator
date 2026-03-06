@@ -68,12 +68,11 @@ media-fonts/wqy-microhei
 # Audio and Media
 media-video/mpv
 media-sound/pavucontrol
-app-misc/pulsemixer
-media-sound/pulseaudio
+media-sound/pulsemixer
 media-sound/pulseaudio-daemon
 media-video/pipewire
 media-video/wireplumber
-media-video/v4l-utils
+media-libs/libv4l
 
 # Networking and Remote Access
 net-fs/sshfs
@@ -84,7 +83,7 @@ net-misc/socat
 net-wireless/iwd
 net-wireless/iw
 net-wireless/iwgtk
-net-analyzer/netcat
+net-analyzer/openbsd-netcat
 net-analyzer/nmap
 net-analyzer/wireshark
 
