@@ -1,6 +1,8 @@
-# Run the docker image and copy the results (squashfs image and kernel) to the host
+docker run \
+gentoo-z6-min \
+/bin/bash /tmp/outside/${TARGET}/copy_files.sh
 TODAY=$(date +%Y%m%d)
-TARGET=gentoo-z6-min
+TARGET=gentoo-z6-min_${TODAY}
 mkdir -p /dev/shm/${TARGET}
 cp copy_files.sh /dev/shm/${TARGET}
 docker run \
