@@ -1,4 +1,4 @@
-# Build the docker image based on a gentoo stage3 image
+# Build the docker image for ThinkPad E14 minimal (no NVIDIA)
 
 # Extract the public key line for kiel@localhost from the user's ~/.ssh/authorized_keys
 AUTHKEY=""
