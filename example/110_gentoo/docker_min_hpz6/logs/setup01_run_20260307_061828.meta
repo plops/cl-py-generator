@@ -1,0 +1,8 @@
+start=2026-03-07T06:18:28-00:00
+end=2026-03-07T07:11:16-00:00
+start_epoch=1772864308
+end_epoch=1772867476
+duration_seconds=3168
+exit_code=0
+cmd=bash setup01_build_image.sh
+log=logs/setup01_run_20260307_061828.log

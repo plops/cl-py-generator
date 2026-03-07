@@ -1,0 +1,2227 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 13.04kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 DONE 0.7s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:b6afd42430b15f2d2a4c5a02b919e98a525b785b1aaff16747d2f623364e39b6
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/gentoo/stage3:nomultilib-systemd-20260302
+#4 DONE 0.7s
+
+#5 [internal] load metadata for docker.io/gentoo/portage:20260306
+#5 DONE 0.7s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 2B done
+#6 DONE 0.0s
+
+#7 [portage 1/1] FROM docker.io/gentoo/portage:20260306@sha256:b62a784a58f7e8eab09239df3cbc561bd2a40984f17a824cf8fea89311cd47c1
+#7 DONE 0.0s
+
+#8 [stage-1  1/82] FROM docker.io/gentoo/stage3:nomultilib-systemd-20260302@sha256:dfd3b6c18d7cc2a9870057c6d1b35c868c950072cc0e7d63ec9eba0eda8d617f
+#8 DONE 0.0s
+
+#9 [internal] load build context
+#9 transferring context: 675B done
+#9 DONE 0.0s
+
+#10 [stage-1 12/82] RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen  && locale-gen  && env-update  && . /etc/profile
+#10 CACHED
+
+#11 [stage-1 10/82] COPY config/world /var/lib/portage/world
+#11 CACHED
+
+#12 [stage-1 28/82] RUN if [ -s /tmp/world_stage_2.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_2.txt); fi
+#12 CACHED
+
+#13 [stage-1 19/82] COPY config/config6.12.41 .config
+#13 CACHED
+
+#14 [stage-1  9/82] COPY config/package.use /etc/portage/package.use
+#14 CACHED
+
+#15 [stage-1  8/82] COPY config/package.license /etc/portage/package.license
+#15 CACHED
+
+#16 [stage-1 29/82] RUN if [ -s /tmp/world_stage_3.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_3.txt); fi
+#16 CACHED
+
+#17 [stage-1 31/82] RUN if [ -s /tmp/world_stage_5.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_5.txt); fi
+#17 CACHED
+
+#18 [stage-1  7/82] COPY config/make.conf /etc/portage/make.conf
+#18 CACHED
+
+#19 [stage-1  6/82] RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
+#19 CACHED
+
+#20 [stage-1 13/82] RUN eselect repository enable guru  && emaint sync --repo guru
+#20 CACHED
+
+#21 [stage-1 26/82] RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt  && total_lines=$(wc -l < /tmp/world_packages.txt)  && lines_per_stage=$(( (total_lines + 9) / 10 ))  && for i in $(seq 1 10); do       start=$(( (i - 1) * lines_per_stage + 1 ));       end=$(( i * lines_per_stage ));       sed -n "${start},${end}p" /tmp/world_packages.txt > "/tmp/world_stage_${i}.txt";     done
+#21 CACHED
+
+#22 [stage-1 18/82] WORKDIR /usr/src/linux
+#22 CACHED
+
+#23 [stage-1 22/82] RUN make prepare
+#23 CACHED
+
+#24 [stage-1 33/82] RUN if [ -s /tmp/world_stage_7.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_7.txt); fi
+#24 CACHED
+
+#25 [stage-1 11/82] COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
+#25 CACHED
+
+#26 [stage-1 32/82] RUN if [ -s /tmp/world_stage_6.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_6.txt); fi
+#26 CACHED
+
+#27 [stage-1  3/82] RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
+#27 CACHED
+
+#28 [stage-1 14/82] RUN df -h
+#28 CACHED
+
+#29 [stage-1 25/82] RUN make install
+#29 CACHED
+
+#30 [stage-1 34/82] RUN if [ -s /tmp/world_stage_8.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_8.txt); fi
+#30 CACHED
+
+#31 [stage-1 15/82] RUN emerge =sys-kernel/gentoo-sources-6.12.74
+#31 CACHED
+
+#32 [stage-1 30/82] RUN if [ -s /tmp/world_stage_4.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_4.txt); fi
+#32 CACHED
+
+#33 [stage-1  2/82] COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
+#33 CACHED
+
+#34 [stage-1 21/82] RUN <<EOF (set -e...)
+#34 CACHED
+
+#35 [stage-1 24/82] RUN make modules_install
+#35 CACHED
+
+#36 [stage-1 20/82] RUN make oldconfig
+#36 CACHED
+
+#37 [stage-1  4/82] COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
+#37 CACHED
+
+#38 [stage-1 23/82] RUN make -j32
+#38 CACHED
+
+#39 [stage-1  5/82] RUN emerge --ask=n --verbose sys-devel/gcc:16  && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]')  && eselect gcc set "${gcc_16}"  && source /etc/profile  && emerge --ask=n --oneshot --verbose libtool  && emerge --ask=n @preserved-rebuild
+#39 CACHED
+
+#40 [stage-1 17/82] RUN eselect kernel set linux-6.12.74-gentoo
+#40 CACHED
+
+#41 [stage-1 16/82] RUN eselect kernel list
+#41 CACHED
+
+#42 [stage-1 27/82] RUN if [ -s /tmp/world_stage_1.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_1.txt); fi
+#42 CACHED
+
+#43 [stage-1 35/82] RUN if [ -s /tmp/world_stage_9.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_9.txt); fi
+#43 CACHED
+
+#44 [stage-1 36/82] RUN mkdir -p /etc/portage/package.accept_keywords  && touch /etc/portage/package.accept_keywords/package.accept_keywords  && grep -q '^>=net-misc/freerdp-3.17.2-r1 ~amd64$' /etc/portage/package.accept_keywords/package.accept_keywords     || printf '>=net-misc/freerdp-3.17.2-r1 ~amd64\n' >> /etc/portage/package.accept_keywords/package.accept_keywords
+#44 DONE 0.6s
+
+#45 [stage-1 37/82] RUN if [ -s /tmp/world_stage_10.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_10.txt); fi
+#45 1.183 
+#45 1.183  * IMPORTANT: 18 news items need reading for repository 'gentoo'.
+#45 1.183  * Use eselect news read to view new items.
+#45 1.183 
+#45 1.183 Calculating dependencies  ... done!
+#45 4.407 Dependency resolution took 3.22 s (backtrack: 0/20).
+#45 4.407 
+#45 4.677 >>> Verifying ebuild manifests
+#45 4.709 >>> Running pre-merge checks for www-client/google-chrome-145.0.7632.159
+#45 4.780 Unable to unshare: EPERM (for FEATURES="pid-sandbox")
+#45 4.992 Unable to unshare: EPERM (for FEATURES="ipc-sandbox network-sandbox pid-sandbox")
+#45 5.015 >>> Running pre-merge checks for media-video/ffmpeg-8.0.1
+#45 5.023 Unable to unshare: EPERM (for FEATURES="pid-sandbox")
+#45 5.293 Unable to unshare: EPERM (for FEATURES="ipc-sandbox network-sandbox pid-sandbox")
+#45 5.318 >>> Running pre-merge checks for www-client/firefox-140.8.0
+#45 5.326 Unable to unshare: EPERM (for FEATURES="pid-sandbox")
+#45 5.570  [32m*[0m Checking for at least 7400 MiB disk space at "/var/tmp/portage/www-client/firefox-140.8.0/temp" ...
+#45 5.575 [A[72C [34;01m[ [32;01mok[34;01m ][0m
+#45 5.680 Unable to unshare: EPERM (for FEATURES="ipc-sandbox network-sandbox pid-sandbox")
+#45 5.707 >>> Jobs: 0 of 79 complete, 1 running                                   Load avg: 1.46, 1.45, 2.22
+#45 5.707 >>> Emerging (1 of 79) x11-libs/xcb-util-wm-0.4.2::gentoo
+#45 5.707 >>> Jobs: 0 of 79 complete, 1 running                                   Load avg: 1.46, 1.45, 2.22
+#45 5.972 >>> Jobs: 0 of 79 complete, 2 running                                   Load avg: 1.46, 1.45, 2.22
+#45 5.972 >>> Emerging (2 of 79) www-client/w3m-0.5.3_p20240916::gentoo
+#45 5.972 >>> Jobs: 0 of 79 complete, 2 running                                   Load avg: 1.46, 1.45, 2.22
+#45 11.48 >>> Jobs: 0 of 79 complete, 1 running                                   Load avg: 3.27, 1.83, 2.33
+#45 19.09 >>> Jobs: 0 of 79 complete, 1 merge wait                                Load avg: 3.64, 1.95, 2.37
+#45 19.09 >>> Installing (1 of 79) x11-libs/xcb-util-wm-0.4.2::gentoo
+#45 19.09 >>> Jobs: 0 of 79 complete, 2 merge wait                                Load avg: 3.64, 1.95, 2.37
+#45 20.34 >>> Recording x11-libs/xcb-util-wm in "world" favorites file...
+#45 20.34 >>> Jobs: 0 of 79 complete                                              Load avg: 3.64, 1.95, 2.37
+#45 20.34 >>> Completed (1 of 79) x11-libs/xcb-util-wm-0.4.2::gentoo
+#45 20.34 >>> Jobs: 0 of 79 complete                                              Load avg: 3.64, 1.95, 2.37
+#45 20.34 >>> Installing (2 of 79) www-client/w3m-0.5.3_p20240916::gentoo
+#45 20.34 >>> Jobs: 0 of 79 complete                                              Load avg: 3.64, 1.95, 2.37
+#45 20.42 >>> Jobs: 1 of 79 complete                                              Load avg: 3.64, 1.95, 2.37
+#45 21.58 >>> Recording www-client/w3m in "world" favorites file...
+#45 21.58 >>> Jobs: 1 of 79 complete                                              Load avg: 3.64, 1.95, 2.37
+#45 21.58 >>> Completed (2 of 79) www-client/w3m-0.5.3_p20240916::gentoo
+#45 21.58 >>> Jobs: 1 of 79 complete                                              Load avg: 3.64, 1.95, 2.37
+#45 21.58 >>> Jobs: 2 of 79 complete                                              Load avg: 3.64, 1.95, 2.37
+#45 21.58 >>> Jobs: 2 of 79 complete, 1 running                                   Load avg: 3.64, 1.95, 2.37
+#45 21.58 >>> Emerging (3 of 79) media-fonts/font-misc-misc-1.1.3::gentoo
+#45 21.58 >>> Jobs: 2 of 79 complete, 1 running                                   Load avg: 3.64, 1.95, 2.37
+#45 22.40 >>> Jobs: 2 of 79 complete, 2 running                                   Load avg: 4.55, 2.17, 2.44
+#45 22.40 >>> Emerging (4 of 79) virtual/w3m-1::gentoo
+#45 22.40 >>> Jobs: 2 of 79 complete, 2 running                                   Load avg: 4.55, 2.17, 2.44
+#45 23.80 >>> Jobs: 2 of 79 complete, 1 running                                   Load avg: 4.55, 2.17, 2.44
+#45 26.91 >>> Jobs: 2 of 79 complete, 1 merge wait                                Load avg: 5.55, 2.41, 2.51
+#45 26.91 >>> Installing (4 of 79) virtual/w3m-1::gentoo
+#45 26.91 >>> Jobs: 2 of 79 complete, 2 merge wait                                Load avg: 5.55, 2.41, 2.51
+#45 28.02 >>> Recording virtual/w3m in "world" favorites file...
+#45 28.02 >>> Jobs: 2 of 79 complete                                              Load avg: 5.55, 2.41, 2.51
+#45 28.02 >>> Completed (4 of 79) virtual/w3m-1::gentoo
+#45 28.02 >>> Jobs: 2 of 79 complete                                              Load avg: 5.55, 2.41, 2.51
+#45 28.02 >>> Installing (3 of 79) media-fonts/font-misc-misc-1.1.3::gentoo
+#45 28.02 >>> Jobs: 2 of 79 complete                                              Load avg: 5.55, 2.41, 2.51
+#45 28.03 >>> Jobs: 3 of 79 complete                                              Load avg: 5.55, 2.41, 2.51
+#45 31.82 >>> Recording media-fonts/font-misc-misc in "world" favorites file...
+#45 31.82 >>> Jobs: 3 of 79 complete                                              Load avg: 6.62, 2.69, 2.60
+#45 31.83 >>> Completed (3 of 79) media-fonts/font-misc-misc-1.1.3::gentoo
+#45 31.83 >>> Jobs: 3 of 79 complete                                              Load avg: 6.62, 2.69, 2.60
+#45 31.83 >>> Jobs: 4 of 79 complete                                              Load avg: 6.62, 2.69, 2.60
+#45 31.83 >>> Jobs: 4 of 79 complete, 1 running                                   Load avg: 6.62, 2.69, 2.60
+#45 31.83 >>> Emerging (5 of 79) x11-apps/setxkbmap-1.3.4::gentoo
+#45 31.83 >>> Jobs: 4 of 79 complete, 1 running                                   Load avg: 6.62, 2.69, 2.60
+#45 33.02 >>> Jobs: 4 of 79 complete, 2 running                                   Load avg: 6.62, 2.69, 2.60
+#45 33.02 >>> Emerging (6 of 79) x11-apps/xrandr-1.5.3::gentoo
+#45 33.02 >>> Jobs: 4 of 79 complete, 2 running                                   Load avg: 6.62, 2.69, 2.60
+#45 34.20 >>> Jobs: 4 of 79 complete, 3 running                                   Load avg: 6.62, 2.69, 2.60
+#45 34.20 >>> Emerging (7 of 79) media-gfx/scrot-1.12.1::gentoo
+#45 34.20 >>> Jobs: 4 of 79 complete, 3 running                                   Load avg: 6.62, 2.69, 2.60
+#45 35.39 >>> Jobs: 4 of 79 complete, 4 running                                   Load avg: 6.62, 2.69, 2.60
+#45 35.39 >>> Emerging (8 of 79) x11-misc/xtrlock-2.13-r1::gentoo
+#45 35.39 >>> Jobs: 4 of 79 complete, 4 running                                   Load avg: 6.62, 2.69, 2.60
+#45 35.77 >>> Jobs: 4 of 79 complete, 3 running                                   Load avg: 6.62, 2.69, 2.60
+#45 36.58 >>> Jobs: 4 of 79 complete, 4 running, 1 merge wait                     Load avg: 6.62, 2.69, 2.60
+#45 36.58 >>> Emerging (9 of 79) virtual/opengl-8::gentoo
+#45 36.58 >>> Jobs: 4 of 79 complete, 4 running, 1 merge wait                     Load avg: 6.62, 2.69, 2.60
+#45 37.20 >>> Jobs: 4 of 79 complete, 3 running, 1 merge wait                     Load avg: 8.42, 3.13, 2.74
+#45 37.51 >>> Jobs: 4 of 79 complete, 2 running, 2 merge wait                     Load avg: 8.42, 3.13, 2.74
+#45 37.77 >>> Jobs: 4 of 79 complete, 1 running, 3 merge wait                     Load avg: 8.42, 3.13, 2.74
+#45 38.00 >>> Jobs: 4 of 79 complete, 4 merge wait                                Load avg: 8.42, 3.13, 2.74
+#45 38.00 >>> Installing (5 of 79) x11-apps/setxkbmap-1.3.4::gentoo
+#45 38.00 >>> Jobs: 4 of 79 complete, 5 merge wait                                Load avg: 8.42, 3.13, 2.74
+#45 39.19 >>> Completed (5 of 79) x11-apps/setxkbmap-1.3.4::gentoo
+#45 39.19 >>> Jobs: 4 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 39.19 >>> Installing (8 of 79) x11-misc/xtrlock-2.13-r1::gentoo
+#45 39.19 >>> Jobs: 4 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 39.20 >>> Jobs: 5 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 40.30 >>> Completed (8 of 79) x11-misc/xtrlock-2.13-r1::gentoo
+#45 40.30 >>> Jobs: 5 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 40.30 >>> Jobs: 6 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 40.30 >>> Installing (7 of 79) media-gfx/scrot-1.12.1::gentoo
+#45 40.30 >>> Jobs: 6 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 41.47 >>> Completed (7 of 79) media-gfx/scrot-1.12.1::gentoo
+#45 41.47 >>> Jobs: 6 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 41.47 >>> Jobs: 7 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 41.47 >>> Installing (6 of 79) x11-apps/xrandr-1.5.3::gentoo
+#45 41.47 >>> Jobs: 7 of 79 complete                                              Load avg: 8.42, 3.13, 2.74
+#45 42.59 >>> Completed (6 of 79) x11-apps/xrandr-1.5.3::gentoo
+#45 42.59 >>> Jobs: 7 of 79 complete                                              Load avg: 8.14, 3.16, 2.76
+#45 42.59 >>> Jobs: 8 of 79 complete                                              Load avg: 8.14, 3.16, 2.76
+#45 42.59 >>> Installing (9 of 79) virtual/opengl-8::gentoo
+#45 42.59 >>> Jobs: 8 of 79 complete                                              Load avg: 8.14, 3.16, 2.76
+#45 43.69 >>> Recording virtual/opengl in "world" favorites file...
+#45 43.69 >>> Jobs: 8 of 79 complete                                              Load avg: 8.14, 3.16, 2.76
+#45 43.69 >>> Completed (9 of 79) virtual/opengl-8::gentoo
+#45 43.69 >>> Jobs: 8 of 79 complete                                              Load avg: 8.14, 3.16, 2.76
+#45 43.69 >>> Jobs: 9 of 79 complete                                              Load avg: 8.14, 3.16, 2.76
+#45 43.69 >>> Jobs: 9 of 79 complete, 1 running                                   Load avg: 8.14, 3.16, 2.76
+#45 43.69 >>> Emerging (10 of 79) media-gfx/feh-3.11.2-r1::gentoo
+#45 43.69 >>> Jobs: 9 of 79 complete, 1 running                                   Load avg: 8.14, 3.16, 2.76
+#45 45.15 >>> Jobs: 9 of 79 complete, 2 running                                   Load avg: 8.14, 3.16, 2.76
+#45 45.15 >>> Emerging (11 of 79) app-text/xmlto-0.0.28-r11::gentoo
+#45 45.15 >>> Jobs: 9 of 79 complete, 2 running                                   Load avg: 8.14, 3.16, 2.76
+#45 46.30 >>> Jobs: 9 of 79 complete, 1 running                                   Load avg: 8.14, 3.16, 2.76
+#45 49.61 >>> Jobs: 9 of 79 complete, 1 merge wait                                Load avg: 8.93, 3.40, 2.84
+#45 49.61 >>> Installing (10 of 79) media-gfx/feh-3.11.2-r1::gentoo
+#45 49.61 >>> Jobs: 9 of 79 complete, 2 merge wait                                Load avg: 8.93, 3.40, 2.84
+#45 50.99 >>> Completed (10 of 79) media-gfx/feh-3.11.2-r1::gentoo
+#45 50.99 >>> Jobs: 9 of 79 complete                                              Load avg: 8.93, 3.40, 2.84
+#45 50.99 >>> Installing (11 of 79) app-text/xmlto-0.0.28-r11::gentoo
+#45 50.99 >>> Jobs: 9 of 79 complete                                              Load avg: 8.93, 3.40, 2.84
+#45 51.00 >>> Jobs: 10 of 79 complete                                             Load avg: 8.93, 3.40, 2.84
+#45 52.69 >>> Recording app-text/xmlto in "world" favorites file...
+#45 52.69 >>> Jobs: 10 of 79 complete                                             Load avg: 9.18, 3.55, 2.89
+#45 52.69 >>> Completed (11 of 79) app-text/xmlto-0.0.28-r11::gentoo
+#45 52.69 >>> Jobs: 10 of 79 complete                                             Load avg: 9.18, 3.55, 2.89
+#45 52.70 >>> Jobs: 11 of 79 complete                                             Load avg: 9.18, 3.55, 2.89
+#45 52.70 >>> Jobs: 11 of 79 complete, 1 running                                  Load avg: 9.18, 3.55, 2.89
+#45 52.70 >>> Emerging (12 of 79) x11-apps/xhost-1.0.10::gentoo
+#45 52.70 >>> Jobs: 11 of 79 complete, 1 running                                  Load avg: 9.18, 3.55, 2.89
+#45 54.35 >>> Jobs: 11 of 79 complete, 2 running                                  Load avg: 9.18, 3.55, 2.89
+#45 54.35 >>> Emerging (13 of 79) x11-apps/xkill-1.0.6::gentoo
+#45 54.35 >>> Jobs: 11 of 79 complete, 2 running                                  Load avg: 9.18, 3.55, 2.89
+#45 55.99 >>> Jobs: 11 of 79 complete, 3 running                                  Load avg: 9.18, 3.55, 2.89
+#45 55.99 >>> Emerging (14 of 79) x11-misc/xclip-0.13::gentoo
+#45 55.99 >>> Jobs: 11 of 79 complete, 3 running                                  Load avg: 9.18, 3.55, 2.89
+#45 57.17 >>> Jobs: 11 of 79 complete, 2 running                                  Load avg: 8.84, 3.57, 2.90
+#45 57.57 >>> Jobs: 11 of 79 complete, 3 running, 1 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 57.57 >>> Emerging (15 of 79) x11-misc/redshift-1.12-r13::gentoo
+#45 57.57 >>> Jobs: 11 of 79 complete, 3 running, 1 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 58.32 >>> Jobs: 11 of 79 complete, 2 running, 1 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 59.15 >>> Jobs: 11 of 79 complete, 3 running, 2 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 59.15 >>> Emerging (16 of 79) dev-lang/tk-8.6.16::gentoo
+#45 59.16 >>> Jobs: 11 of 79 complete, 3 running, 2 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 59.85 >>> Jobs: 11 of 79 complete, 2 running, 2 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 60.74 >>> Jobs: 11 of 79 complete, 3 running, 3 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 60.74 >>> Emerging (17 of 79) x11-wm/dwm-6.8::gentoo
+#45 60.74 >>> Jobs: 11 of 79 complete, 3 running, 3 merge wait                    Load avg: 8.84, 3.57, 2.90
+#45 62.58 >>> Jobs: 11 of 79 complete, 4 running, 3 merge wait                    Load avg: 10.3, 4.0, 3.0
+#45 62.58 >>> Emerging (18 of 79) x11-libs/xcb-util-cursor-0.1.6::gentoo
+#45 62.58 >>> Jobs: 11 of 79 complete, 4 running, 3 merge wait                    Load avg: 10.3, 4.0, 3.0
+#45 63.50 >>> Jobs: 11 of 79 complete, 3 running, 3 merge wait                    Load avg: 10.3, 4.0, 3.0
+#45 64.43 >>> Jobs: 11 of 79 complete, 4 running, 4 merge wait                    Load avg: 10.3, 4.0, 3.0
+#45 64.43 >>> Emerging (19 of 79) sys-apps/dbus-1.16.2::gentoo
+#45 64.43 >>> Jobs: 11 of 79 complete, 4 running, 4 merge wait                    Load avg: 10.3, 4.0, 3.0
+#45 67.71 >>> Jobs: 11 of 79 complete, 3 running, 4 merge wait                    Load avg: 10.9, 4.2, 3.1
+#45 68.20 >>> Jobs: 11 of 79 complete, 2 running, 5 merge wait                    Load avg: 10.9, 4.2, 3.1
+#45 68.91 >>> Jobs: 11 of 79 complete, 1 running, 6 merge wait                    Load avg: 10.9, 4.2, 3.1
+#45 72.18 >>> Jobs: 11 of 79 complete, 7 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 72.18 >>> Installing (12 of 79) x11-apps/xhost-1.0.10::gentoo
+#45 72.18 >>> Jobs: 11 of 79 complete, 8 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 73.51 >>> Completed (12 of 79) x11-apps/xhost-1.0.10::gentoo
+#45 73.51 >>> Jobs: 11 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 73.51 >>> Installing (13 of 79) x11-apps/xkill-1.0.6::gentoo
+#45 73.51 >>> Jobs: 11 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 73.52 >>> Jobs: 12 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 74.70 >>> Completed (13 of 79) x11-apps/xkill-1.0.6::gentoo
+#45 74.70 >>> Jobs: 12 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 74.70 >>> Jobs: 13 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 74.70 >>> Installing (14 of 79) x11-misc/xclip-0.13::gentoo
+#45 74.70 >>> Jobs: 13 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 75.92 >>> Completed (14 of 79) x11-misc/xclip-0.13::gentoo
+#45 75.92 >>> Jobs: 13 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 75.92 >>> Jobs: 14 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 75.92 >>> Installing (17 of 79) x11-wm/dwm-6.8::gentoo
+#45 75.92 >>> Jobs: 14 of 79 complete, 1 merge wait                               Load avg: 10.1, 4.1, 3.1
+#45 77.19 >>> Completed (17 of 79) x11-wm/dwm-6.8::gentoo
+#45 77.19 >>> Jobs: 14 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 77.19 >>> Jobs: 15 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 77.19 >>> Installing (15 of 79) x11-misc/redshift-1.12-r13::gentoo
+#45 77.19 >>> Jobs: 15 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 78.46 >>> Completed (15 of 79) x11-misc/redshift-1.12-r13::gentoo
+#45 78.46 >>> Jobs: 15 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 78.46 >>> Jobs: 16 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 78.46 >>> Installing (16 of 79) dev-lang/tk-8.6.16::gentoo
+#45 78.46 >>> Jobs: 16 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 79.78 >>> Recording dev-lang/tk in "world" favorites file...
+#45 79.78 >>> Jobs: 16 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 79.78 >>> Completed (16 of 79) dev-lang/tk-8.6.16::gentoo
+#45 79.78 >>> Jobs: 16 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 79.78 >>> Jobs: 17 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 79.78 >>> Installing (18 of 79) x11-libs/xcb-util-cursor-0.1.6::gentoo
+#45 79.78 >>> Jobs: 17 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 81.07 >>> Recording x11-libs/xcb-util-cursor in "world" favorites file...
+#45 81.07 >>> Jobs: 17 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 81.07 >>> Completed (18 of 79) x11-libs/xcb-util-cursor-0.1.6::gentoo
+#45 81.07 >>> Jobs: 17 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 81.07 >>> Jobs: 18 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 81.07 >>> Installing (19 of 79) sys-apps/dbus-1.16.2::gentoo
+#45 81.07 >>> Jobs: 18 of 79 complete, 1 merge wait                               Load avg: 10.5, 4.3, 3.2
+#45 82.88 >>> Recording sys-apps/dbus in "world" favorites file...
+#45 82.88 >>> Jobs: 18 of 79 complete                                             Load avg: 9.75, 4.27, 3.15
+#45 82.88 >>> Completed (19 of 79) sys-apps/dbus-1.16.2::gentoo
+#45 82.88 >>> Jobs: 18 of 79 complete                                             Load avg: 9.75, 4.27, 3.15
+#45 82.88 >>> Jobs: 19 of 79 complete                                             Load avg: 9.75, 4.27, 3.15
+#45 82.89 >>> Jobs: 19 of 79 complete, 1 running                                  Load avg: 9.75, 4.27, 3.15
+#45 82.89 >>> Emerging (20 of 79) media-video/libva-utils-2.22.0::gentoo
+#45 82.89 >>> Jobs: 19 of 79 complete, 1 running                                  Load avg: 9.75, 4.27, 3.15
+#45 84.63 >>> Jobs: 19 of 79 complete, 2 running                                  Load avg: 9.75, 4.27, 3.15
+#45 84.63 >>> Emerging (21 of 79) x11-libs/libXScrnSaver-1.2.5::gentoo
+#45 84.63 >>> Jobs: 19 of 79 complete, 2 running                                  Load avg: 9.75, 4.27, 3.15
+#45 86.38 >>> Jobs: 19 of 79 complete, 3 running                                  Load avg: 9.75, 4.27, 3.15
+#45 86.38 >>> Emerging (22 of 79) x11-libs/libXpresent-1.0.2::gentoo
+#45 86.38 >>> Jobs: 19 of 79 complete, 3 running                                  Load avg: 9.75, 4.27, 3.15
+#45 86.41 >>> Jobs: 19 of 79 complete, 2 running                                  Load avg: 9.75, 4.27, 3.15
+#45 87.70 >>> Jobs: 19 of 79 complete, 1 running, 1 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 88.02 >>> Jobs: 19 of 79 complete, 2 running, 2 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 88.02 >>> Emerging (23 of 79) media-libs/libplacebo-7.360.0::gentoo
+#45 88.02 >>> Jobs: 19 of 79 complete, 2 running, 2 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 89.60 >>> Jobs: 19 of 79 complete, 1 running, 2 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 89.67 >>> Jobs: 19 of 79 complete, 2 running, 3 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 89.67 >>> Emerging (24 of 79) app-misc/mc-4.8.33::gentoo
+#45 89.67 >>> Jobs: 19 of 79 complete, 2 running, 3 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 91.32 >>> Jobs: 19 of 79 complete, 3 running, 3 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 91.32 >>> Emerging (25 of 79) net-wireless/bluez-5.85::gentoo
+#45 91.32 >>> Jobs: 19 of 79 complete, 3 running, 3 merge wait                    Load avg: 9.21, 4.24, 3.15
+#45 93.28 >>> Jobs: 19 of 79 complete, 4 running, 3 merge wait                    Load avg: 11.0, 4.7, 3.3
+#45 93.28 >>> Emerging (26 of 79) x11-misc/xdg-utils-1.2.1-r9::gentoo
+#45 93.28 >>> Jobs: 19 of 79 complete, 4 running, 3 merge wait                    Load avg: 11.0, 4.7, 3.3
+#45 95.63 >>> Jobs: 19 of 79 complete, 3 running, 3 merge wait                    Load avg: 11.0, 4.7, 3.3
+#45 95.63 >>> Jobs: 19 of 79 complete, 4 running, 4 merge wait                    Load avg: 11.0, 4.7, 3.3
+#45 95.63 >>> Emerging (27 of 79) dev-python/pycairo-1.29.0-r1::gentoo
+#45 95.63 >>> Jobs: 19 of 79 complete, 4 running, 4 merge wait                    Load avg: 11.0, 4.7, 3.3
+#45 96.33 >>> Jobs: 19 of 79 complete, 3 running, 4 merge wait                    Load avg: 11.0, 4.7, 3.3
+#45 97.94 >>> Jobs: 19 of 79 complete, 4 running, 5 merge wait                    Load avg: 12.9, 5.2, 3.5
+#45 97.94 >>> Emerging (28 of 79) x11-terms/xterm-406::gentoo
+#45 97.94 >>> Jobs: 19 of 79 complete, 4 running, 5 merge wait                    Load avg: 12.9, 5.2, 3.5
+#45 102.0 >>> Jobs: 19 of 79 complete, 3 running, 5 merge wait                    Load avg: 16.2, 6.0, 3.7
+#45 102.0 >>> Jobs: 19 of 79 complete, 4 running, 6 merge wait                    Load avg: 16.2, 6.0, 3.7
+#45 102.0 >>> Emerging (29 of 79) dev-vcs/git-2.52.0::gentoo
+#45 102.0 >>> Jobs: 19 of 79 complete, 4 running, 6 merge wait                    Load avg: 16.2, 6.0, 3.7
+#45 107.6 >>> Jobs: 19 of 79 complete, 3 running, 6 merge wait                    Load avg: 16.6, 6.3, 3.8
+#45 107.6 >>> Jobs: 19 of 79 complete, 4 running, 7 merge wait                    Load avg: 16.6, 6.3, 3.8
+#45 107.6 >>> Emerging (30 of 79) app-accessibility/at-spi2-core-2.56.5::gentoo
+#45 107.6 >>> Jobs: 19 of 79 complete, 4 running, 7 merge wait                    Load avg: 16.6, 6.3, 3.8
+#45 113.9 >>> Jobs: 19 of 79 complete, 3 running, 7 merge wait                    Load avg: 18.0, 6.7, 4.0
+#45 113.9 >>> Jobs: 19 of 79 complete, 4 running, 8 merge wait                    Load avg: 18.0, 6.7, 4.0
+#45 113.9 >>> Emerging (31 of 79) media-libs/libass-0.17.4::gentoo
+#45 113.9 >>> Jobs: 19 of 79 complete, 4 running, 8 merge wait                    Load avg: 18.0, 6.7, 4.0
+#45 120.0 >>> Jobs: 19 of 79 complete, 3 running, 8 merge wait                    Load avg: 20.6, 7.4, 4.2
+#45 120.0 >>> Jobs: 19 of 79 complete, 4 running, 9 merge wait                    Load avg: 20.6, 7.4, 4.2
+#45 120.0 >>> Emerging (32 of 79) app-text/mupdf-1.26.3::gentoo
+#45 120.0 >>> Jobs: 19 of 79 complete, 4 running, 9 merge wait                    Load avg: 20.6, 7.4, 4.2
+#45 120.4 >>> Jobs: 19 of 79 complete, 3 running, 9 merge wait                    Load avg: 20.6, 7.4, 4.2
+#45 123.2 >>> Jobs: 19 of 79 complete, 2 running, 10 merge wait                   Load avg: 19.4, 7.4, 4.3
+#45 123.5 >>> Jobs: 19 of 79 complete, 3 running, 11 merge wait                   Load avg: 19.4, 7.4, 4.3
+#45 123.5 >>> Emerging (33 of 79) media-libs/gst-plugins-base-1.24.13::gentoo
+#45 123.5 >>> Jobs: 19 of 79 complete, 3 running, 11 merge wait                   Load avg: 19.4, 7.4, 4.3
+#45 127.4 >>> Jobs: 19 of 79 complete, 4 running, 11 merge wait                   Load avg: 22.1, 8.2, 4.5
+#45 127.4 >>> Emerging (34 of 79) dev-cpp/pangomm-2.50.2::gentoo
+#45 127.4 >>> Jobs: 19 of 79 complete, 4 running, 11 merge wait                   Load avg: 22.1, 8.2, 4.5
+#45 127.7 >>> Jobs: 19 of 79 complete, 3 running, 11 merge wait                   Load avg: 22.1, 8.2, 4.5
+#45 131.4 >>> Jobs: 19 of 79 complete, 4 running, 12 merge wait                   Load avg: 22.1, 8.2, 4.5
+#45 131.4 >>> Emerging (35 of 79) dev-qt/qtbase-6.10.2::gentoo
+#45 131.4 >>> Jobs: 19 of 79 complete, 4 running, 12 merge wait                   Load avg: 22.1, 8.2, 4.5
+#45 139.5 >>> Jobs: 19 of 79 complete, 3 running, 12 merge wait                   Load avg: 23.9, 9.0, 4.8
+#45 139.5 >>> Jobs: 19 of 79 complete, 4 running, 13 merge wait                   Load avg: 23.9, 9.0, 4.8
+#45 139.5 >>> Emerging (36 of 79) app-emulation/libvirt-11.10.0::gentoo
+#45 139.5 >>> Jobs: 19 of 79 complete, 4 running, 13 merge wait                   Load avg: 23.9, 9.0, 4.8
+#45 142.7 >>> Jobs: 19 of 79 complete, 3 running, 13 merge wait                   Load avg: 25.6, 9.6, 5.0
+#45 144.6 >>> Jobs: 19 of 79 complete, 2 running, 14 merge wait                   Load avg: 25.6, 9.6, 5.0
+#45 175.9 >>> Jobs: 19 of 79 complete, 1 running, 15 merge wait                   Load avg: 30.0, 12.1, 6.0
+#45 362.2 >>> Jobs: 19 of 79 complete, 16 merge wait                              Load avg: 16.4, 15.1, 8.4
+#45 362.2 >>> Installing (20 of 79) media-video/libva-utils-2.22.0::gentoo
+#45 362.2 >>> Jobs: 19 of 79 complete, 17 merge wait                              Load avg: 16.4, 15.1, 8.4
+#45 363.4 >>> Recording media-video/libva-utils in "world" favorites file...
+#45 363.4 >>> Jobs: 19 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 363.4 >>> Completed (20 of 79) media-video/libva-utils-2.22.0::gentoo
+#45 363.4 >>> Jobs: 19 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 363.4 >>> Installing (21 of 79) x11-libs/libXScrnSaver-1.2.5::gentoo
+#45 363.4 >>> Jobs: 19 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 363.4 >>> Jobs: 20 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 364.5 >>> Recording x11-libs/libXScrnSaver in "world" favorites file...
+#45 364.5 >>> Jobs: 20 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 364.5 >>> Completed (21 of 79) x11-libs/libXScrnSaver-1.2.5::gentoo
+#45 364.5 >>> Jobs: 20 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 364.5 >>> Jobs: 21 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 364.5 >>> Installing (22 of 79) x11-libs/libXpresent-1.0.2::gentoo
+#45 364.5 >>> Jobs: 21 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 365.7 >>> Recording x11-libs/libXpresent in "world" favorites file...
+#45 365.7 >>> Jobs: 21 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 365.7 >>> Completed (22 of 79) x11-libs/libXpresent-1.0.2::gentoo
+#45 365.7 >>> Jobs: 21 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 365.7 >>> Jobs: 22 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 365.7 >>> Installing (23 of 79) media-libs/libplacebo-7.360.0::gentoo
+#45 365.7 >>> Jobs: 22 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 366.9 >>> Recording media-libs/libplacebo in "world" favorites file...
+#45 366.9 >>> Jobs: 22 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 366.9 >>> Completed (23 of 79) media-libs/libplacebo-7.360.0::gentoo
+#45 366.9 >>> Jobs: 22 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 366.9 >>> Jobs: 23 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 366.9 >>> Installing (26 of 79) x11-misc/xdg-utils-1.2.1-r9::gentoo
+#45 366.9 >>> Jobs: 23 of 79 complete, 9 merge wait                               Load avg: 16.4, 15.1, 8.4
+#45 368.0 >>> Recording x11-misc/xdg-utils in "world" favorites file...
+#45 368.0 >>> Jobs: 23 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 368.0 >>> Completed (26 of 79) x11-misc/xdg-utils-1.2.1-r9::gentoo
+#45 368.0 >>> Jobs: 23 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 368.0 >>> Jobs: 24 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 368.0 >>> Installing (27 of 79) dev-python/pycairo-1.29.0-r1::gentoo
+#45 368.0 >>> Jobs: 24 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 369.2 >>> Recording dev-python/pycairo in "world" favorites file...
+#45 369.2 >>> Jobs: 24 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 369.2 >>> Completed (27 of 79) dev-python/pycairo-1.29.0-r1::gentoo
+#45 369.2 >>> Jobs: 24 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 369.2 >>> Jobs: 25 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 369.2 >>> Installing (25 of 79) net-wireless/bluez-5.85::gentoo
+#45 369.2 >>> Jobs: 25 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 370.5 >>> Recording net-wireless/bluez in "world" favorites file...
+#45 370.5 >>> Jobs: 25 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 370.5 >>> Completed (25 of 79) net-wireless/bluez-5.85::gentoo
+#45 370.5 >>> Jobs: 25 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 370.5 >>> Jobs: 26 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 370.5 >>> Installing (28 of 79) x11-terms/xterm-406::gentoo
+#45 370.5 >>> Jobs: 26 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 371.7 >>> Completed (28 of 79) x11-terms/xterm-406::gentoo
+#45 371.7 >>> Jobs: 26 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 371.7 >>> Jobs: 27 of 79 complete, 9 merge wait                               Load avg: 16.1, 15.1, 8.4
+#45 371.7 >>> Jobs: 27 of 79 complete, 1 running, 9 merge wait                    Load avg: 16.1, 15.1, 8.4
+#45 371.7 >>> Emerging (37 of 79) net-misc/ofono-2.14::gentoo
+#45 371.7 >>> Jobs: 27 of 79 complete, 1 running, 9 merge wait                    Load avg: 16.1, 15.1, 8.4
+#45 374.6 >>> Jobs: 27 of 79 complete, 2 running, 9 merge wait                    Load avg: 15.6, 15.0, 8.4
+#45 374.6 >>> Emerging (38 of 79) net-print/cups-2.4.14-r1::gentoo
+#45 374.6 >>> Jobs: 27 of 79 complete, 2 running, 9 merge wait                    Load avg: 15.6, 15.0, 8.4
+#45 378.0 >>> Jobs: 27 of 79 complete, 3 running, 9 merge wait                    Load avg: 18.6, 15.6, 8.6
+#45 378.0 >>> Emerging (39 of 79) dev-python/pygobject-3.50.1::gentoo
+#45 378.0 >>> Jobs: 27 of 79 complete, 3 running, 9 merge wait                    Load avg: 18.6, 15.6, 8.6
+#45 380.8 >>> Jobs: 27 of 79 complete, 2 running, 9 merge wait                    Load avg: 18.6, 15.6, 8.6
+#45 384.2 >>> Jobs: 27 of 79 complete, 1 running, 10 merge wait                   Load avg: 18.3, 15.6, 8.7
+#45 401.9 >>> Jobs: 27 of 79 complete, 11 merge wait                              Load avg: 15.6, 15.2, 8.6
+#45 401.9 >>> Installing (24 of 79) app-misc/mc-4.8.33::gentoo
+#45 401.9 >>> Jobs: 27 of 79 complete, 12 merge wait                              Load avg: 15.6, 15.2, 8.6
+#45 403.2 >>> Completed (24 of 79) app-misc/mc-4.8.33::gentoo
+#45 403.2 >>> Jobs: 27 of 79 complete, 11 merge wait                              Load avg: 14.6, 15.0, 8.6
+#45 403.2 >>> Jobs: 28 of 79 complete, 11 merge wait                              Load avg: 14.6, 15.0, 8.6
+#45 403.2 >>> Installing (30 of 79) app-accessibility/at-spi2-core-2.56.5::gentoo
+#45 403.2 >>> Jobs: 28 of 79 complete, 11 merge wait                              Load avg: 14.6, 15.0, 8.6
+#45 404.6 >>> Recording app-accessibility/at-spi2-core in "world" favorites file...
+#45 404.6 >>> Jobs: 28 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 404.6 >>> Completed (30 of 79) app-accessibility/at-spi2-core-2.56.5::gentoo
+#45 404.6 >>> Jobs: 28 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 404.6 >>> Installing (31 of 79) media-libs/libass-0.17.4::gentoo
+#45 404.6 >>> Jobs: 28 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 404.6 >>> Jobs: 29 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 405.9 >>> Recording media-libs/libass in "world" favorites file...
+#45 405.9 >>> Jobs: 29 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 405.9 >>> Completed (31 of 79) media-libs/libass-0.17.4::gentoo
+#45 405.9 >>> Jobs: 29 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 405.9 >>> Jobs: 30 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 405.9 >>> Installing (29 of 79) dev-vcs/git-2.52.0::gentoo
+#45 405.9 >>> Jobs: 30 of 79 complete                                             Load avg: 14.6, 15.0, 8.6
+#45 408.5 >>> Completed (29 of 79) dev-vcs/git-2.52.0::gentoo
+#45 408.5 >>> Jobs: 30 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 408.5 >>> Jobs: 31 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 408.5 >>> Installing (34 of 79) dev-cpp/pangomm-2.50.2::gentoo
+#45 408.5 >>> Jobs: 31 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 409.9 >>> Recording dev-cpp/pangomm in "world" favorites file...
+#45 409.9 >>> Jobs: 31 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 409.9 >>> Completed (34 of 79) dev-cpp/pangomm-2.50.2::gentoo
+#45 409.9 >>> Jobs: 31 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 409.9 >>> Jobs: 32 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 409.9 >>> Installing (32 of 79) app-text/mupdf-1.26.3::gentoo
+#45 409.9 >>> Jobs: 32 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 411.2 >>> Completed (32 of 79) app-text/mupdf-1.26.3::gentoo
+#45 411.2 >>> Jobs: 32 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 411.2 >>> Jobs: 33 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 411.2 >>> Installing (33 of 79) media-libs/gst-plugins-base-1.24.13::gentoo
+#45 411.2 >>> Jobs: 33 of 79 complete                                             Load avg: 13.6, 14.7, 8.6
+#45 412.5 >>> Recording media-libs/gst-plugins-base in "world" favorites file...
+#45 412.5 >>> Jobs: 33 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 412.5 >>> Completed (33 of 79) media-libs/gst-plugins-base-1.24.13::gentoo
+#45 412.5 >>> Jobs: 33 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 412.5 >>> Jobs: 34 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 412.5 >>> Installing (36 of 79) app-emulation/libvirt-11.10.0::gentoo
+#45 412.5 >>> Jobs: 34 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 414.1 >>> Completed (36 of 79) app-emulation/libvirt-11.10.0::gentoo
+#45 414.1 >>> Jobs: 34 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 414.1 >>> Jobs: 35 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 414.1 >>> Installing (35 of 79) dev-qt/qtbase-6.10.2::gentoo
+#45 414.1 >>> Jobs: 35 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 415.7 >>> Recording dev-qt/qtbase in "world" favorites file...
+#45 415.7 >>> Jobs: 35 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 415.7 >>> Completed (35 of 79) dev-qt/qtbase-6.10.2::gentoo
+#45 415.7 >>> Jobs: 35 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 415.7 >>> Jobs: 36 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 415.7 >>> Installing (37 of 79) net-misc/ofono-2.14::gentoo
+#45 415.7 >>> Jobs: 36 of 79 complete                                             Load avg: 13.3, 14.6, 8.6
+#45 417.0 >>> Recording net-misc/ofono in "world" favorites file...
+#45 417.0 >>> Jobs: 36 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 417.0 >>> Completed (37 of 79) net-misc/ofono-2.14::gentoo
+#45 417.0 >>> Jobs: 36 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 417.0 >>> Jobs: 37 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 417.0 >>> Installing (39 of 79) dev-python/pygobject-3.50.1::gentoo
+#45 417.0 >>> Jobs: 37 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 418.3 >>> Recording dev-python/pygobject in "world" favorites file...
+#45 418.3 >>> Jobs: 37 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 418.3 >>> Completed (39 of 79) dev-python/pygobject-3.50.1::gentoo
+#45 418.3 >>> Jobs: 37 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 418.3 >>> Jobs: 38 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 418.3 >>> Installing (38 of 79) net-print/cups-2.4.14-r1::gentoo
+#45 418.3 >>> Jobs: 38 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 419.7 >>> Recording net-print/cups in "world" favorites file...
+#45 419.7 >>> Jobs: 38 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 419.7 >>> Completed (38 of 79) net-print/cups-2.4.14-r1::gentoo
+#45 419.7 >>> Jobs: 38 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 419.7 >>> Jobs: 39 of 79 complete                                             Load avg: 12.4, 14.5, 8.5
+#45 419.7 >>> Jobs: 39 of 79 complete, 1 running                                  Load avg: 12.4, 14.5, 8.5
+#45 419.7 >>> Emerging (40 of 79) app-admin/sudo-1.9.17_p2::gentoo
+#45 419.7 >>> Jobs: 39 of 79 complete, 1 running                                  Load avg: 12.4, 14.5, 8.5
+#45 421.9 >>> Jobs: 39 of 79 complete, 2 running                                  Load avg: 12.4, 14.5, 8.5
+#45 421.9 >>> Emerging (41 of 79) app-text/typst-0.14.2::guru
+#45 421.9 >>> Jobs: 39 of 79 complete, 2 running                                  Load avg: 12.4, 14.5, 8.5
+#45 424.2 >>> Jobs: 39 of 79 complete, 3 running                                  Load avg: 12.7, 14.5, 8.6
+#45 424.2 >>> Emerging (42 of 79) media-libs/gst-plugins-good-1.24.13::gentoo
+#45 424.2 >>> Jobs: 39 of 79 complete, 3 running                                  Load avg: 12.7, 14.5, 8.6
+#45 426.5 >>> Jobs: 39 of 79 complete, 4 running                                  Load avg: 12.7, 14.5, 8.6
+#45 426.5 >>> Emerging (43 of 79) x11-libs/gtk+-3.24.51::gentoo
+#45 426.5 >>> Jobs: 39 of 79 complete, 4 running                                  Load avg: 12.7, 14.5, 8.6
+#45 441.7 >>> Jobs: 39 of 79 complete, 3 running                                  Load avg: 15.0, 14.9, 8.8
+#45 441.8 >>> Jobs: 39 of 79 complete, 4 running, 1 merge wait                    Load avg: 15.0, 14.9, 8.8
+#45 441.8 >>> Emerging (44 of 79) media-libs/libpulse-17.0::gentoo
+#45 441.8 >>> Jobs: 39 of 79 complete, 4 running, 1 merge wait                    Load avg: 15.0, 14.9, 8.8
+#45 454.2 >>> Jobs: 39 of 79 complete, 3 running, 1 merge wait                    Load avg: 19.5, 15.9, 9.2
+#45 454.2 >>> Jobs: 39 of 79 complete, 4 running, 2 merge wait                    Load avg: 19.5, 15.9, 9.2
+#45 454.2 >>> Emerging (45 of 79) dev-qt/qttools-6.10.2::gentoo
+#45 454.2 >>> Jobs: 39 of 79 complete, 4 running, 2 merge wait                    Load avg: 19.5, 15.9, 9.2
+#45 457.4 >>> Jobs: 39 of 79 complete, 3 running, 2 merge wait                    Load avg: 22.3, 16.5, 9.5
+#45 458.2 >>> Jobs: 39 of 79 complete, 4 running, 3 merge wait                    Load avg: 22.3, 16.5, 9.5
+#45 458.2 >>> Emerging (46 of 79) dev-python/libvirt-python-11.10.0::gentoo
+#45 458.2 >>> Jobs: 39 of 79 complete, 4 running, 3 merge wait                    Load avg: 22.3, 16.5, 9.5
+#45 470.8 >>> Jobs: 39 of 79 complete, 3 running, 3 merge wait                    Load avg: 26.1, 17.5, 9.9
+#45 475.3 >>> Jobs: 39 of 79 complete, 2 running, 4 merge wait                    Load avg: 26.1, 17.6, 9.9
+#45 494.5 >>> Jobs: 39 of 79 complete, 1 running, 5 merge wait                    Load avg: 20.9, 17.0, 9.9
+#45 1810.1 >>> Jobs: 39 of 79 complete, 6 merge wait                               Load avg: 8.54, 6.13, 5.74
+#45 1810.1 >>> Installing (42 of 79) media-libs/gst-plugins-good-1.24.13::gentoo
+#45 1810.1 >>> Jobs: 39 of 79 complete, 7 merge wait                               Load avg: 8.54, 6.13, 5.74
+#45 1811.3 >>> Recording media-libs/gst-plugins-good in "world" favorites file...
+#45 1811.3 >>> Jobs: 39 of 79 complete                                             Load avg: 8.54, 6.13, 5.74
+#45 1811.3 >>> Completed (42 of 79) media-libs/gst-plugins-good-1.24.13::gentoo
+#45 1811.3 >>> Jobs: 39 of 79 complete                                             Load avg: 8.54, 6.13, 5.74
+#45 1811.3 >>> Installing (40 of 79) app-admin/sudo-1.9.17_p2::gentoo
+#45 1811.3 >>> Jobs: 39 of 79 complete                                             Load avg: 8.54, 6.13, 5.74
+#45 1811.3 >>> Jobs: 40 of 79 complete                                             Load avg: 8.54, 6.13, 5.74
+#45 1812.5 >>> Completed (40 of 79) app-admin/sudo-1.9.17_p2::gentoo
+#45 1812.5 >>> Jobs: 40 of 79 complete                                             Load avg: 8.54, 6.13, 5.74
+#45 1812.5 >>> Jobs: 41 of 79 complete                                             Load avg: 8.54, 6.13, 5.74
+#45 1812.5 >>> Installing (44 of 79) media-libs/libpulse-17.0::gentoo
+#45 1812.5 >>> Jobs: 41 of 79 complete                                             Load avg: 8.54, 6.13, 5.74
+#45 1813.9 >>> Recording media-libs/libpulse in "world" favorites file...
+#45 1813.9 >>> Jobs: 41 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1813.9 >>> Completed (44 of 79) media-libs/libpulse-17.0::gentoo
+#45 1813.9 >>> Jobs: 41 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1813.9 >>> Jobs: 42 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1813.9 >>> Installing (46 of 79) dev-python/libvirt-python-11.10.0::gentoo
+#45 1813.9 >>> Jobs: 42 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1815.1 >>> Recording dev-python/libvirt-python in "world" favorites file...
+#45 1815.1 >>> Jobs: 42 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1815.1 >>> Completed (46 of 79) dev-python/libvirt-python-11.10.0::gentoo
+#45 1815.1 >>> Jobs: 42 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1815.1 >>> Jobs: 43 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1815.1 >>> Installing (43 of 79) x11-libs/gtk+-3.24.51::gentoo
+#45 1815.1 >>> Jobs: 43 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1816.6 >>> Recording x11-libs/gtk+ in "world" favorites file...
+#45 1816.6 >>> Jobs: 43 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1816.6 >>> Completed (43 of 79) x11-libs/gtk+-3.24.51::gentoo
+#45 1816.6 >>> Jobs: 43 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1816.6 >>> Jobs: 44 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1816.6 >>> Installing (45 of 79) dev-qt/qttools-6.10.2::gentoo
+#45 1816.6 >>> Jobs: 44 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1817.9 >>> Recording dev-qt/qttools in "world" favorites file...
+#45 1817.9 >>> Jobs: 44 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1817.9 >>> Completed (45 of 79) dev-qt/qttools-6.10.2::gentoo
+#45 1817.9 >>> Jobs: 44 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1817.9 >>> Jobs: 45 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1817.9 >>> Installing (41 of 79) app-text/typst-0.14.2::guru
+#45 1817.9 >>> Jobs: 45 of 79 complete                                             Load avg: 9.14, 6.30, 5.79
+#45 1819.1 >>> Recording app-text/typst in "world" favorites file...
+#45 1819.1 >>> Jobs: 45 of 79 complete                                             Load avg: 9.37, 6.39, 5.83
+#45 1819.1 >>> Completed (41 of 79) app-text/typst-0.14.2::guru
+#45 1819.1 >>> Jobs: 45 of 79 complete                                             Load avg: 9.37, 6.39, 5.83
+#45 1819.1 >>> Jobs: 46 of 79 complete                                             Load avg: 9.37, 6.39, 5.83
+#45 1819.1 >>> Jobs: 46 of 79 complete, 1 running                                  Load avg: 9.37, 6.39, 5.83
+#45 1819.1 >>> Emerging (47 of 79) x11-themes/adwaita-icon-theme-legacy-46.2::gentoo
+#45 1819.1 >>> Jobs: 46 of 79 complete, 1 running                                  Load avg: 9.37, 6.39, 5.83
+#45 1820.8 >>> Jobs: 46 of 79 complete, 2 running                                  Load avg: 9.37, 6.39, 5.83
+#45 1820.8 >>> Emerging (48 of 79) media-sound/pulseaudio-daemon-17.0-r1::gentoo
+#45 1820.8 >>> Jobs: 46 of 79 complete, 2 running                                  Load avg: 9.37, 6.39, 5.83
+#45 1822.5 >>> Jobs: 46 of 79 complete, 3 running                                  Load avg: 9.37, 6.39, 5.83
+#45 1822.5 >>> Emerging (49 of 79) dev-qt/qttranslations-6.10.2::gentoo
+#45 1822.5 >>> Jobs: 46 of 79 complete, 3 running                                  Load avg: 9.37, 6.39, 5.83
+#45 1822.7 >>> Jobs: 46 of 79 complete, 2 running                                  Load avg: 9.37, 6.39, 5.83
+#45 1824.3 >>> Jobs: 46 of 79 complete, 3 running, 1 merge wait                    Load avg: 10.5, 6.7, 5.9
+#45 1824.3 >>> Emerging (50 of 79) app-emulation/libvirt-glib-5.0.0-r1::gentoo
+#45 1824.3 >>> Jobs: 46 of 79 complete, 3 running, 1 merge wait                    Load avg: 10.5, 6.7, 5.9
+#45 1826.8 >>> Jobs: 46 of 79 complete, 2 running, 1 merge wait                    Load avg: 10.5, 6.7, 5.9
+#45 1831.6 >>> Jobs: 46 of 79 complete, 1 running, 2 merge wait                    Load avg: 12.7, 7.2, 6.1
+#45 1834.2 >>> Jobs: 46 of 79 complete, 3 merge wait                               Load avg: 12.7, 7.3, 6.1
+#45 1834.2 >>> Installing (47 of 79) x11-themes/adwaita-icon-theme-legacy-46.2::gentoo
+#45 1834.2 >>> Jobs: 46 of 79 complete, 4 merge wait                               Load avg: 12.7, 7.3, 6.1
+#45 1835.6 >>> Recording x11-themes/adwaita-icon-theme-legacy in "world" favorites file...
+#45 1835.6 >>> Jobs: 46 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1835.6 >>> Completed (47 of 79) x11-themes/adwaita-icon-theme-legacy-46.2::gentoo
+#45 1835.6 >>> Jobs: 46 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1835.6 >>> Installing (49 of 79) dev-qt/qttranslations-6.10.2::gentoo
+#45 1835.6 >>> Jobs: 46 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1835.7 >>> Jobs: 47 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1836.8 >>> Recording dev-qt/qttranslations in "world" favorites file...
+#45 1836.8 >>> Jobs: 47 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1836.8 >>> Completed (49 of 79) dev-qt/qttranslations-6.10.2::gentoo
+#45 1836.8 >>> Jobs: 47 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1836.8 >>> Jobs: 48 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1836.8 >>> Installing (48 of 79) media-sound/pulseaudio-daemon-17.0-r1::gentoo
+#45 1836.8 >>> Jobs: 48 of 79 complete                                             Load avg: 12.7, 7.3, 6.1
+#45 1838.2 >>> Completed (48 of 79) media-sound/pulseaudio-daemon-17.0-r1::gentoo
+#45 1838.2 >>> Jobs: 48 of 79 complete                                             Load avg: 12.6, 7.4, 6.2
+#45 1838.2 >>> Jobs: 49 of 79 complete                                             Load avg: 12.6, 7.4, 6.2
+#45 1838.2 >>> Installing (50 of 79) app-emulation/libvirt-glib-5.0.0-r1::gentoo
+#45 1838.2 >>> Jobs: 49 of 79 complete                                             Load avg: 12.6, 7.4, 6.2
+#45 1839.4 >>> Recording app-emulation/libvirt-glib in "world" favorites file...
+#45 1839.4 >>> Jobs: 49 of 79 complete                                             Load avg: 12.6, 7.4, 6.2
+#45 1839.4 >>> Completed (50 of 79) app-emulation/libvirt-glib-5.0.0-r1::gentoo
+#45 1839.4 >>> Jobs: 49 of 79 complete                                             Load avg: 12.6, 7.4, 6.2
+#45 1839.4 >>> Jobs: 50 of 79 complete                                             Load avg: 12.6, 7.4, 6.2
+#45 1839.4 >>> Jobs: 50 of 79 complete, 1 running                                  Load avg: 12.6, 7.4, 6.2
+#45 1839.4 >>> Emerging (51 of 79) x11-themes/adwaita-icon-theme-48.1::gentoo
+#45 1839.4 >>> Jobs: 50 of 79 complete, 1 running                                  Load avg: 12.6, 7.4, 6.2
+#45 1841.6 >>> Jobs: 50 of 79 complete, 2 running                                  Load avg: 12.6, 7.4, 6.2
+#45 1841.6 >>> Emerging (52 of 79) media-plugins/alsa-plugins-1.2.12::gentoo
+#45 1841.6 >>> Jobs: 50 of 79 complete, 2 running                                  Load avg: 12.6, 7.4, 6.2
+#45 1842.4 >>> Jobs: 50 of 79 complete, 1 running                                  Load avg: 12.6, 7.4, 6.2
+#45 1843.9 >>> Jobs: 50 of 79 complete, 2 running, 1 merge wait                    Load avg: 11.7, 7.3, 6.1
+#45 1843.9 >>> Emerging (53 of 79) dev-qt/qt5compat-6.10.2::gentoo
+#45 1843.9 >>> Jobs: 50 of 79 complete, 2 running, 1 merge wait                    Load avg: 11.7, 7.3, 6.1
+#45 1846.0 >>> Jobs: 50 of 79 complete, 3 running, 1 merge wait                    Load avg: 11.7, 7.3, 6.1
+#45 1846.0 >>> Emerging (54 of 79) dev-qt/qtshadertools-6.10.2::gentoo
+#45 1846.0 >>> Jobs: 50 of 79 complete, 3 running, 1 merge wait                    Load avg: 11.7, 7.3, 6.1
+#45 1850.2 >>> Jobs: 50 of 79 complete, 2 running, 1 merge wait                    Load avg: 12.8, 7.6, 6.2
+#45 1858.7 >>> Jobs: 50 of 79 complete, 1 running, 2 merge wait                    Load avg: 14.1, 8.0, 6.4
+#45 1880.8 >>> Jobs: 50 of 79 complete, 3 merge wait                               Load avg: 10.9, 7.7, 6.3
+#45 1880.8 >>> Installing (51 of 79) x11-themes/adwaita-icon-theme-48.1::gentoo
+#45 1880.8 >>> Jobs: 50 of 79 complete, 4 merge wait                               Load avg: 10.9, 7.7, 6.3
+#45 1882.3 >>> Recording x11-themes/adwaita-icon-theme in "world" favorites file...
+#45 1882.3 >>> Jobs: 50 of 79 complete                                             Load avg: 10.9, 7.7, 6.3
+#45 1882.3 >>> Completed (51 of 79) x11-themes/adwaita-icon-theme-48.1::gentoo
+#45 1882.3 >>> Jobs: 50 of 79 complete                                             Load avg: 10.9, 7.7, 6.3
+#45 1882.3 >>> Installing (52 of 79) media-plugins/alsa-plugins-1.2.12::gentoo
+#45 1882.3 >>> Jobs: 50 of 79 complete                                             Load avg: 10.9, 7.7, 6.3
+#45 1882.4 >>> Jobs: 51 of 79 complete                                             Load avg: 10.9, 7.7, 6.3
+#45 1883.7 >>> Recording media-plugins/alsa-plugins in "world" favorites file...
+#45 1883.7 >>> Jobs: 51 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1883.7 >>> Completed (52 of 79) media-plugins/alsa-plugins-1.2.12::gentoo
+#45 1883.7 >>> Jobs: 51 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1883.7 >>> Jobs: 52 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1883.7 >>> Installing (53 of 79) dev-qt/qt5compat-6.10.2::gentoo
+#45 1883.7 >>> Jobs: 52 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1885.0 >>> Recording dev-qt/qt5compat in "world" favorites file...
+#45 1885.0 >>> Jobs: 52 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1885.0 >>> Completed (53 of 79) dev-qt/qt5compat-6.10.2::gentoo
+#45 1885.0 >>> Jobs: 52 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1885.0 >>> Jobs: 53 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1885.0 >>> Installing (54 of 79) dev-qt/qtshadertools-6.10.2::gentoo
+#45 1885.0 >>> Jobs: 53 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1886.3 >>> Recording dev-qt/qtshadertools in "world" favorites file...
+#45 1886.3 >>> Jobs: 53 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1886.3 >>> Completed (54 of 79) dev-qt/qtshadertools-6.10.2::gentoo
+#45 1886.3 >>> Jobs: 53 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1886.3 >>> Jobs: 54 of 79 complete                                             Load avg: 10.4, 7.6, 6.3
+#45 1886.3 >>> Jobs: 54 of 79 complete, 1 running                                  Load avg: 10.4, 7.6, 6.3
+#45 1886.3 >>> Emerging (55 of 79) gui-libs/gtk-4.18.6-r1::gentoo
+#45 1886.3 >>> Jobs: 54 of 79 complete, 1 running                                  Load avg: 10.4, 7.6, 6.3
+#45 1888.2 >>> Jobs: 54 of 79 complete, 2 running                                  Load avg: 9.56, 7.51, 6.28
+#45 1888.2 >>> Emerging (56 of 79) virtual/freedesktop-icon-theme-0-r4::gentoo
+#45 1888.2 >>> Jobs: 54 of 79 complete, 2 running                                  Load avg: 9.56, 7.51, 6.28
+#45 1889.5 >>> Jobs: 54 of 79 complete, 1 running                                  Load avg: 9.56, 7.51, 6.28
+#45 1889.9 >>> Jobs: 54 of 79 complete, 2 running, 1 merge wait                    Load avg: 9.56, 7.51, 6.28
+#45 1889.9 >>> Emerging (57 of 79) www-client/google-chrome-145.0.7632.159::gentoo
+#45 1889.9 >>> Jobs: 54 of 79 complete, 2 running, 1 merge wait                    Load avg: 9.56, 7.51, 6.28
+#45 1891.6 >>> Jobs: 54 of 79 complete, 3 running, 1 merge wait                    Load avg: 9.56, 7.51, 6.28
+#45 1891.6 >>> Emerging (58 of 79) net-libs/gtk-vnc-1.5.0::gentoo
+#45 1891.6 >>> Jobs: 54 of 79 complete, 3 running, 1 merge wait                    Load avg: 9.56, 7.51, 6.28
+#45 1893.7 >>> Jobs: 54 of 79 complete, 4 running, 1 merge wait                    Load avg: 11.8, 8.0, 6.5
+#45 1893.7 >>> Emerging (59 of 79) net-misc/spice-gtk-0.42-r4::gentoo
+#45 1893.7 >>> Jobs: 54 of 79 complete, 4 running, 1 merge wait                    Load avg: 11.8, 8.0, 6.5
+#45 1898.5 >>> Jobs: 54 of 79 complete, 3 running, 1 merge wait                    Load avg: 13.3, 8.4, 6.6
+#45 1898.5 >>> Jobs: 54 of 79 complete, 4 running, 2 merge wait                    Load avg: 13.3, 8.4, 6.6
+#45 1898.5 >>> Emerging (60 of 79) x11-libs/gtksourceview-4.8.4-r2::gentoo
+#45 1898.5 >>> Jobs: 54 of 79 complete, 4 running, 2 merge wait                    Load avg: 13.3, 8.4, 6.6
+#45 1913.6 >>> Jobs: 54 of 79 complete, 3 running, 2 merge wait                    Load avg: 18.4, 9.8, 7.1
+#45 1913.6 >>> Jobs: 54 of 79 complete, 4 running, 3 merge wait                    Load avg: 18.4, 9.8, 7.1
+#45 1913.6 >>> Emerging (61 of 79) media-video/ffmpeg-8.0.1::gentoo
+#45 1913.6 >>> Jobs: 54 of 79 complete, 4 running, 3 merge wait                    Load avg: 18.4, 9.8, 7.1
+#45 1923.6 >>> Jobs: 54 of 79 complete, 3 running, 3 merge wait                    Load avg: 22.6, 11.0, 7.5
+#45 1923.6 >>> Jobs: 54 of 79 complete, 4 running, 4 merge wait                    Load avg: 22.6, 11.0, 7.5
+#45 1923.6 >>> Emerging (62 of 79) media-libs/libcanberra-0.30-r8::gentoo
+#45 1923.6 >>> Jobs: 54 of 79 complete, 4 running, 4 merge wait                    Load avg: 22.6, 11.0, 7.5
+#45 1924.2 >>> Jobs: 54 of 79 complete, 3 running, 4 merge wait                    Load avg: 22.6, 11.0, 7.5
+#45 1927.6 >>> Jobs: 54 of 79 complete, 4 running, 5 merge wait                    Load avg: 22.6, 11.0, 7.5
+#45 1927.6 >>> Emerging (63 of 79) media-sound/pulsemixer-1.5.1-r2::gentoo
+#45 1927.6 >>> Jobs: 54 of 79 complete, 4 running, 5 merge wait                    Load avg: 22.6, 11.0, 7.5
+#45 1933.5 >>> Jobs: 54 of 79 complete, 3 running, 5 merge wait                    Load avg: 26.4, 12.2, 7.9
+#45 1933.5 >>> Jobs: 54 of 79 complete, 4 running, 6 merge wait                    Load avg: 26.4, 12.2, 7.9
+#45 1933.5 >>> Emerging (64 of 79) net-im/signal-desktop-bin-8.1.0::gentoo
+#45 1933.5 >>> Jobs: 54 of 79 complete, 4 running, 6 merge wait                    Load avg: 26.4, 12.2, 7.9
+#45 1941.9 >>> Jobs: 54 of 79 complete, 3 running, 6 merge wait                    Load avg: 27.8, 12.7, 8.1
+#45 1941.9 >>> Jobs: 54 of 79 complete, 4 running, 7 merge wait                    Load avg: 27.8, 12.7, 8.1
+#45 1941.9 >>> Emerging (65 of 79) sys-apps/qdirstat-1.9_p20250726-r1::gentoo
+#45 1941.9 >>> Jobs: 54 of 79 complete, 4 running, 7 merge wait                    Load avg: 27.8, 12.7, 8.1
+#45 1944.8 >>> Jobs: 54 of 79 complete, 3 running, 7 merge wait                    Load avg: 27.5, 12.9, 8.2
+#45 1988.4 >>> Jobs: 54 of 79 complete, 2 running, 8 merge wait                    Load avg: 41.0, 18.4, 10.3
+#45 2010.3 >>> Jobs: 54 of 79 complete, 1 running, 9 merge wait                    Load avg: 43.9, 20.6, 11.2
+#45 2019.7 >>> Jobs: 54 of 79 complete, 10 merge wait                              Load avg: 37.4, 20.0, 11.1
+#45 2019.7 >>> Installing (56 of 79) virtual/freedesktop-icon-theme-0-r4::gentoo
+#45 2019.7 >>> Jobs: 54 of 79 complete, 11 merge wait                              Load avg: 37.4, 20.0, 11.1
+#45 2020.8 >>> Recording virtual/freedesktop-icon-theme in "world" favorites file...
+#45 2020.8 >>> Jobs: 54 of 79 complete                                             Load avg: 37.4, 20.0, 11.1
+#45 2020.8 >>> Completed (56 of 79) virtual/freedesktop-icon-theme-0-r4::gentoo
+#45 2020.8 >>> Jobs: 54 of 79 complete                                             Load avg: 37.4, 20.0, 11.1
+#45 2020.8 >>> Installing (57 of 79) www-client/google-chrome-145.0.7632.159::gentoo
+#45 2020.8 >>> Jobs: 54 of 79 complete                                             Load avg: 37.4, 20.0, 11.1
+#45 2020.8 >>> Jobs: 55 of 79 complete                                             Load avg: 37.4, 20.0, 11.1
+#45 2022.3 >>> Completed (57 of 79) www-client/google-chrome-145.0.7632.159::gentoo
+#45 2022.3 >>> Jobs: 55 of 79 complete                                             Load avg: 37.4, 20.0, 11.1
+#45 2022.3 >>> Jobs: 56 of 79 complete                                             Load avg: 37.4, 20.0, 11.1
+#45 2022.3 >>> Installing (58 of 79) net-libs/gtk-vnc-1.5.0::gentoo
+#45 2022.3 >>> Jobs: 56 of 79 complete                                             Load avg: 37.4, 20.0, 11.1
+#45 2023.6 >>> Recording net-libs/gtk-vnc in "world" favorites file...
+#45 2023.6 >>> Jobs: 56 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2023.6 >>> Completed (58 of 79) net-libs/gtk-vnc-1.5.0::gentoo
+#45 2023.6 >>> Jobs: 56 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2023.6 >>> Jobs: 57 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2023.6 >>> Installing (59 of 79) net-misc/spice-gtk-0.42-r4::gentoo
+#45 2023.6 >>> Jobs: 57 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2024.9 >>> Recording net-misc/spice-gtk in "world" favorites file...
+#45 2024.9 >>> Jobs: 57 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2024.9 >>> Completed (59 of 79) net-misc/spice-gtk-0.42-r4::gentoo
+#45 2024.9 >>> Jobs: 57 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2024.9 >>> Jobs: 58 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2024.9 >>> Installing (60 of 79) x11-libs/gtksourceview-4.8.4-r2::gentoo
+#45 2024.9 >>> Jobs: 58 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2026.1 >>> Recording x11-libs/gtksourceview in "world" favorites file...
+#45 2026.1 >>> Jobs: 58 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2026.1 >>> Completed (60 of 79) x11-libs/gtksourceview-4.8.4-r2::gentoo
+#45 2026.1 >>> Jobs: 58 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2026.1 >>> Jobs: 59 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2026.1 >>> Installing (63 of 79) media-sound/pulsemixer-1.5.1-r2::gentoo
+#45 2026.1 >>> Jobs: 59 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2027.3 >>> Completed (63 of 79) media-sound/pulsemixer-1.5.1-r2::gentoo
+#45 2027.3 >>> Jobs: 59 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2027.3 >>> Jobs: 60 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2027.3 >>> Installing (62 of 79) media-libs/libcanberra-0.30-r8::gentoo
+#45 2027.3 >>> Jobs: 60 of 79 complete                                             Load avg: 34.6, 19.7, 11.0
+#45 2028.5 >>> Recording media-libs/libcanberra in "world" favorites file...
+#45 2028.5 >>> Jobs: 60 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2028.5 >>> Completed (62 of 79) media-libs/libcanberra-0.30-r8::gentoo
+#45 2028.5 >>> Jobs: 60 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2028.5 >>> Jobs: 61 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2028.5 >>> Installing (64 of 79) net-im/signal-desktop-bin-8.1.0::gentoo
+#45 2028.5 >>> Jobs: 61 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2030.2 >>> Completed (64 of 79) net-im/signal-desktop-bin-8.1.0::gentoo
+#45 2030.2 >>> Jobs: 61 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2030.2 >>> Jobs: 62 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2030.2 >>> Installing (55 of 79) gui-libs/gtk-4.18.6-r1::gentoo
+#45 2030.2 >>> Jobs: 62 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2031.6 >>> Recording gui-libs/gtk in "world" favorites file...
+#45 2031.6 >>> Jobs: 62 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2031.6 >>> Completed (55 of 79) gui-libs/gtk-4.18.6-r1::gentoo
+#45 2031.6 >>> Jobs: 62 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2031.6 >>> Jobs: 63 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2031.6 >>> Installing (65 of 79) sys-apps/qdirstat-1.9_p20250726-r1::gentoo
+#45 2031.6 >>> Jobs: 63 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2032.8 >>> Completed (65 of 79) sys-apps/qdirstat-1.9_p20250726-r1::gentoo
+#45 2032.8 >>> Jobs: 63 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2032.8 >>> Jobs: 64 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2032.8 >>> Installing (61 of 79) media-video/ffmpeg-8.0.1::gentoo
+#45 2032.8 >>> Jobs: 64 of 79 complete                                             Load avg: 32.0, 19.4, 11.0
+#45 2034.0 >>> Recording media-video/ffmpeg in "world" favorites file...
+#45 2034.0 >>> Jobs: 64 of 79 complete                                             Load avg: 29.5, 19.1, 10.9
+#45 2034.0 >>> Completed (61 of 79) media-video/ffmpeg-8.0.1::gentoo
+#45 2034.0 >>> Jobs: 64 of 79 complete                                             Load avg: 29.5, 19.1, 10.9
+#45 2034.1 >>> Jobs: 65 of 79 complete                                             Load avg: 29.5, 19.1, 10.9
+#45 2034.1 >>> Jobs: 65 of 79 complete, 1 running                                  Load avg: 29.5, 19.1, 10.9
+#45 2034.1 >>> Emerging (66 of 79) dev-cpp/gtkmm-4.18.0-r1::gentoo
+#45 2034.1 >>> Jobs: 65 of 79 complete, 1 running                                  Load avg: 29.5, 19.1, 10.9
+#45 2078.7 >>> Jobs: 65 of 79 complete                                             Load avg: 28.0, 20.2, 11.7
+#45 2078.7 >>> Installing (66 of 79) dev-cpp/gtkmm-4.18.0-r1::gentoo
+#45 2078.7 >>> Jobs: 65 of 79 complete, 1 merge wait                               Load avg: 28.0, 20.2, 11.7
+#45 2079.9 >>> Recording dev-cpp/gtkmm in "world" favorites file...
+#45 2079.9 >>> Jobs: 65 of 79 complete                                             Load avg: 28.0, 20.2, 11.7
+#45 2079.9 >>> Completed (66 of 79) dev-cpp/gtkmm-4.18.0-r1::gentoo
+#45 2079.9 >>> Jobs: 65 of 79 complete                                             Load avg: 28.0, 20.2, 11.7
+#45 2079.9 >>> Jobs: 66 of 79 complete                                             Load avg: 28.0, 20.2, 11.7
+#45 2080.0 >>> Jobs: 66 of 79 complete, 1 running                                  Load avg: 28.0, 20.2, 11.7
+#45 2080.0 >>> Emerging (67 of 79) gui-libs/vte-common-0.80.4::gentoo
+#45 2080.0 >>> Jobs: 66 of 79 complete, 1 running                                  Load avg: 28.0, 20.2, 11.7
+#45 2088.1 >>> Jobs: 66 of 79 complete                                             Load avg: 24.6, 19.8, 11.7
+#45 2088.1 >>> Installing (67 of 79) gui-libs/vte-common-0.80.4::gentoo
+#45 2088.1 >>> Jobs: 66 of 79 complete, 1 merge wait                               Load avg: 24.6, 19.8, 11.7
+#45 2089.4 >>> Recording gui-libs/vte-common in "world" favorites file...
+#45 2089.4 >>> Jobs: 66 of 79 complete                                             Load avg: 24.6, 19.8, 11.7
+#45 2089.4 >>> Completed (67 of 79) gui-libs/vte-common-0.80.4::gentoo
+#45 2089.4 >>> Jobs: 66 of 79 complete                                             Load avg: 24.6, 19.8, 11.7
+#45 2089.4 >>> Jobs: 67 of 79 complete                                             Load avg: 24.6, 19.8, 11.7
+#45 2089.4 >>> Jobs: 67 of 79 complete, 1 running                                  Load avg: 24.6, 19.8, 11.7
+#45 2089.4 >>> Emerging (68 of 79) net-wireless/iwgtk-0.9::gentoo
+#45 2089.4 >>> Jobs: 67 of 79 complete, 1 running                                  Load avg: 24.6, 19.8, 11.7
+#45 2093.1 >>> Jobs: 67 of 79 complete                                             Load avg: 23.3, 19.6, 11.6
+#45 2093.1 >>> Installing (68 of 79) net-wireless/iwgtk-0.9::gentoo
+#45 2093.1 >>> Jobs: 67 of 79 complete, 1 merge wait                               Load avg: 23.3, 19.6, 11.6
+#45 2094.4 >>> Completed (68 of 79) net-wireless/iwgtk-0.9::gentoo
+#45 2094.4 >>> Jobs: 67 of 79 complete                                             Load avg: 23.3, 19.6, 11.6
+#45 2094.4 >>> Jobs: 68 of 79 complete                                             Load avg: 23.3, 19.6, 11.6
+#45 2094.4 >>> Jobs: 68 of 79 complete, 1 running                                  Load avg: 23.3, 19.6, 11.6
+#45 2094.4 >>> Emerging (69 of 79) www-apps/chromedriver-bin-145.0.7632.159::gentoo
+#45 2094.4 >>> Jobs: 68 of 79 complete, 1 running                                  Load avg: 23.3, 19.6, 11.6
+#45 2096.0 >>> Jobs: 68 of 79 complete                                             Load avg: 23.3, 19.6, 11.6
+#45 2096.0 >>> Installing (69 of 79) www-apps/chromedriver-bin-145.0.7632.159::gentoo
+#45 2096.0 >>> Jobs: 68 of 79 complete, 1 merge wait                               Load avg: 23.3, 19.6, 11.6
+#45 2097.1 >>> Completed (69 of 79) www-apps/chromedriver-bin-145.0.7632.159::gentoo
+#45 2097.1 >>> Jobs: 68 of 79 complete                                             Load avg: 23.3, 19.6, 11.6
+#45 2097.1 >>> Jobs: 69 of 79 complete                                             Load avg: 23.3, 19.6, 11.6
+#45 2097.1 >>> Jobs: 69 of 79 complete, 1 running                                  Load avg: 23.3, 19.6, 11.6
+#45 2097.1 >>> Emerging (70 of 79) x11-libs/vte-0.80.4-r1::gentoo
+#45 2097.1 >>> Jobs: 69 of 79 complete, 1 running                                  Load avg: 23.3, 19.6, 11.6
+#45 2101.3 >>> Jobs: 69 of 79 complete, 2 running                                  Load avg: 22.0, 19.4, 11.6
+#45 2101.3 >>> Emerging (71 of 79) media-sound/pavucontrol-6.1-r1::gentoo
+#45 2101.3 >>> Jobs: 69 of 79 complete, 2 running                                  Load avg: 22.0, 19.4, 11.6
+#45 2105.4 >>> Jobs: 69 of 79 complete, 3 running                                  Load avg: 23.3, 19.7, 11.7
+#45 2105.4 >>> Emerging (72 of 79) net-misc/freerdp-3.23.0::gentoo
+#45 2105.4 >>> Jobs: 69 of 79 complete, 3 running                                  Load avg: 23.3, 19.7, 11.7
+#45 2109.7 >>> Jobs: 69 of 79 complete, 4 running                                  Load avg: 23.8, 19.8, 11.8
+#45 2109.7 >>> Emerging (73 of 79) media-video/pipewire-1.4.10::gentoo
+#45 2109.7 >>> Jobs: 69 of 79 complete, 4 running                                  Load avg: 23.8, 19.8, 11.8
+#45 2113.1 >>> Jobs: 69 of 79 complete, 3 running                                  Load avg: 23.8, 19.8, 11.8
+#45 2119.6 >>> Jobs: 69 of 79 complete, 2 running, 1 merge wait                    Load avg: 23.0, 19.8, 11.9
+#45 2128.8 >>> Jobs: 69 of 79 complete, 1 running, 2 merge wait                    Load avg: 23.9, 20.1, 12.1
+#45 2136.5 >>> Jobs: 69 of 79 complete, 3 merge wait                               Load avg: 22.3, 19.8, 12.1
+#45 2136.5 >>> Installing (71 of 79) media-sound/pavucontrol-6.1-r1::gentoo
+#45 2136.5 >>> Jobs: 69 of 79 complete, 4 merge wait                               Load avg: 22.3, 19.8, 12.1
+#45 2137.7 >>> Completed (71 of 79) media-sound/pavucontrol-6.1-r1::gentoo
+#45 2137.7 >>> Jobs: 69 of 79 complete                                             Load avg: 22.3, 19.8, 12.1
+#45 2137.7 >>> Installing (70 of 79) x11-libs/vte-0.80.4-r1::gentoo
+#45 2137.7 >>> Jobs: 69 of 79 complete                                             Load avg: 22.3, 19.8, 12.1
+#45 2137.7 >>> Jobs: 70 of 79 complete                                             Load avg: 22.3, 19.8, 12.1
+#45 2139.0 >>> Recording x11-libs/vte in "world" favorites file...
+#45 2139.0 >>> Jobs: 70 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2139.0 >>> Completed (70 of 79) x11-libs/vte-0.80.4-r1::gentoo
+#45 2139.0 >>> Jobs: 70 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2139.0 >>> Jobs: 71 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2139.0 >>> Installing (72 of 79) net-misc/freerdp-3.23.0::gentoo
+#45 2139.0 >>> Jobs: 71 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2140.4 >>> Completed (72 of 79) net-misc/freerdp-3.23.0::gentoo
+#45 2140.4 >>> Jobs: 71 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2140.4 >>> Jobs: 72 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2140.4 >>> Installing (73 of 79) media-video/pipewire-1.4.10::gentoo
+#45 2140.4 >>> Jobs: 72 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2142.0 >>> Completed (73 of 79) media-video/pipewire-1.4.10::gentoo
+#45 2142.0 >>> Jobs: 72 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2142.0 >>> Jobs: 73 of 79 complete                                             Load avg: 20.8, 19.6, 12.0
+#45 2142.0 >>> Jobs: 73 of 79 complete, 1 running                                  Load avg: 20.8, 19.6, 12.0
+#45 2142.0 >>> Emerging (74 of 79) media-video/wireplumber-0.5.13::gentoo
+#45 2142.0 >>> Jobs: 73 of 79 complete, 1 running                                  Load avg: 20.8, 19.6, 12.0
+#45 2145.8 >>> Jobs: 73 of 79 complete, 2 running                                  Load avg: 20.2, 19.5, 12.0
+#45 2145.8 >>> Emerging (75 of 79) app-emulation/virt-manager-5.1.0-r1::gentoo
+#45 2145.8 >>> Jobs: 73 of 79 complete, 2 running                                  Load avg: 20.2, 19.5, 12.0
+#45 2149.2 >>> Jobs: 73 of 79 complete, 1 running                                  Load avg: 19.2, 19.3, 12.0
+#45 2150.1 >>> Jobs: 73 of 79 complete, 1 merge wait                               Load avg: 19.2, 19.3, 12.0
+#45 2150.1 >>> Installing (74 of 79) media-video/wireplumber-0.5.13::gentoo
+#45 2150.1 >>> Jobs: 73 of 79 complete, 2 merge wait                               Load avg: 19.2, 19.3, 12.0
+#45 2151.4 >>> Completed (74 of 79) media-video/wireplumber-0.5.13::gentoo
+#45 2151.4 >>> Jobs: 73 of 79 complete                                             Load avg: 19.2, 19.3, 12.0
+#45 2151.4 >>> Installing (75 of 79) app-emulation/virt-manager-5.1.0-r1::gentoo
+#45 2151.4 >>> Jobs: 73 of 79 complete                                             Load avg: 19.2, 19.3, 12.0
+#45 2151.4 >>> Jobs: 74 of 79 complete                                             Load avg: 19.2, 19.3, 12.0
+#45 2153.5 >>> Completed (75 of 79) app-emulation/virt-manager-5.1.0-r1::gentoo
+#45 2153.5 >>> Jobs: 74 of 79 complete                                             Load avg: 17.9, 19.0, 11.9
+#45 2153.5 >>> Jobs: 75 of 79 complete                                             Load avg: 17.9, 19.0, 11.9
+#45 2153.5 >>> Jobs: 75 of 79 complete, 1 running                                  Load avg: 17.9, 19.0, 11.9
+#45 2153.5 >>> Emerging (76 of 79) dev-qt/qtmultimedia-6.10.2::gentoo
+#45 2153.5 >>> Jobs: 75 of 79 complete, 1 running                                  Load avg: 17.9, 19.0, 11.9
+#45 2156.7 >>> Jobs: 75 of 79 complete, 2 running                                  Load avg: 17.9, 19.0, 11.9
+#45 2156.7 >>> Emerging (77 of 79) media-video/mpv-0.41.0::gentoo
+#45 2156.7 >>> Jobs: 75 of 79 complete, 2 running                                  Load avg: 17.9, 19.0, 11.9
+#45 2159.9 >>> Jobs: 75 of 79 complete, 3 running                                  Load avg: 17.1, 18.8, 11.9
+#45 2159.9 >>> Emerging (78 of 79) www-client/firefox-140.8.0::gentoo
+#45 2159.9 >>> Jobs: 75 of 79 complete, 3 running                                  Load avg: 17.1, 18.8, 11.9
+#45 2172.9 >>> Jobs: 75 of 79 complete, 2 running                                  Load avg: 19.6, 19.3, 12.1
+#45 2198.8 >>> Jobs: 75 of 79 complete, 1 running, 1 merge wait                    Load avg: 15.4, 18.3, 12.0
+#45 2858.3 >>> Jobs: 75 of 79 complete, 2 merge wait                               Load avg: 21.1, 29.1, 21.9
+#45 2858.3 >>> Installing (77 of 79) media-video/mpv-0.41.0::gentoo
+#45 2858.3 >>> Jobs: 75 of 79 complete, 3 merge wait                               Load avg: 21.1, 29.1, 21.9
+#45 2860.0 >>> Completed (77 of 79) media-video/mpv-0.41.0::gentoo
+#45 2860.0 >>> Jobs: 75 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2860.0 >>> Installing (76 of 79) dev-qt/qtmultimedia-6.10.2::gentoo
+#45 2860.0 >>> Jobs: 75 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2860.1 >>> Jobs: 76 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2861.3 >>> Recording dev-qt/qtmultimedia in "world" favorites file...
+#45 2861.3 >>> Jobs: 76 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2861.3 >>> Completed (76 of 79) dev-qt/qtmultimedia-6.10.2::gentoo
+#45 2861.3 >>> Jobs: 76 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2861.3 >>> Jobs: 77 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2861.3 >>> Installing (78 of 79) www-client/firefox-140.8.0::gentoo
+#45 2861.3 >>> Jobs: 77 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2863.6 >>> Completed (78 of 79) www-client/firefox-140.8.0::gentoo
+#45 2863.6 >>> Jobs: 77 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2863.6 >>> Jobs: 78 of 79 complete                                             Load avg: 20.3, 28.8, 21.9
+#45 2863.6 >>> Jobs: 78 of 79 complete, 1 running                                  Load avg: 20.3, 28.8, 21.9
+#45 2863.6 >>> Emerging (79 of 79) net-analyzer/wireshark-4.6.3::gentoo
+#45 2863.6 >>> Jobs: 78 of 79 complete, 1 running                                  Load avg: 20.3, 28.8, 21.9
+#45 2990.8 >>> Jobs: 78 of 79 complete                                             Load avg: 26.3, 29.0, 22.9
+#45 2990.8 >>> Installing (79 of 79) net-analyzer/wireshark-4.6.3::gentoo
+#45 2990.8 >>> Jobs: 78 of 79 complete, 1 merge wait                               Load avg: 26.3, 29.0, 22.9
+#45 2992.4 >>> Completed (79 of 79) net-analyzer/wireshark-4.6.3::gentoo
+#45 2992.4 >>> Jobs: 78 of 79 complete                                             Load avg: 26.3, 29.0, 22.9
+#45 2992.4 >>> Jobs: 79 of 79 complete                                             Load avg: 26.3, 29.0, 22.9
+#45 2992.4 
+#45 2992.4 
+#45 2992.4  * Messages for package media-fonts/font-misc-misc-1.1.3:
+#45 2992.4 
+#45 2992.4  * Installed fonts changed. Run 'xset fp rehash' if you are using non-fontconfig applications.
+#45 2992.4 
+#45 2992.4  * Messages for package x11-wm/dwm-6.8:
+#45 2992.4 
+#45 2992.4  * Building using saved configfile "/etc/portage/savedconfig/x11-wm/dwm-6.8"
+#45 2992.4  * Your configuration for x11-wm/dwm-6.8 has been saved in 
+#45 2992.4  * "/etc/portage/savedconfig/x11-wm/dwm-6.8" for your editing pleasure.
+#45 2992.4  * You can edit these files by hand and remerge this package with
+#45 2992.4  * USE=savedconfig to customise the configuration.
+#45 2992.4  * You can rename this file/directory to one of the following for
+#45 2992.4  * its configuration to apply to multiple versions:
+#45 2992.4  * ${PORTAGE_CONFIGROOT}/etc/portage/savedconfig/
+#45 2992.4  * [${CTARGET}|${CHOST}|""]/${CATEGORY}/[${PF}|${P}|${PN}]
+#45 2992.4 
+#45 2992.4  * Messages for package net-wireless/bluez-5.85:
+#45 2992.4 
+#45 2992.4  * Install additional packages for optional runtime features:
+#45 2992.4  *   net-dialup/ppp for Dial-up networking
+#45 2992.4 
+#45 2992.4  * Messages for package app-misc/mc-4.8.33:
+#45 2992.4 
+#45 2992.4  * mc extension scripts depend on many external tools, install them as needed
+#45 2992.4  * To enable exiting to latest working directory,
+#45 2992.4  * put this into your ~/.bashrc:
+#45 2992.4  * . /usr/libexec/mc/mc.sh
+#45 2992.4 
+#45 2992.4  * Messages for package dev-vcs/git-2.52.0:
+#45 2992.4 
+#45 2992.4  * Some scripts require additional dependencies:
+#45 2992.4  *   dev-util/quilt for git-quiltimport
+#45 2992.4  *   www-servers/lighttpd for git-instaweb
+#45 2992.4  *   www-servers/apache for git-instaweb
+#45 2992.4  *   www-servers/nginx for git-instaweb
+#45 2992.4 
+#45 2992.4  * Messages for package app-emulation/libvirt-11.10.0:
+#45 2992.4 
+#45 2992.4  *   CONFIG_BRIDGE_EBT_MARK_T:	 is not set when it should be.
+#45 2992.4  *   CONFIG_BRIDGE_NF_EBTABLES:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NETFILTER_XT_TARGET_CHECKSUM:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NET_ACT_CSUM:	 is not set when it should be.
+#45 2992.4  *   CONFIG_IP6_NF_MANGLE:	 is not set when it should be.
+#45 2992.4  *   CONFIG_IP6_NF_NAT:	 is not set when it should be.
+#45 2992.4  *   CONFIG_BRIDGE_EBT_T_NAT:	 is not set when it should be.
+#45 2992.4  *   CONFIG_IP_NF_TARGET_REJECT:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NET_ACT_POLICE:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NET_CLS_FW:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NET_CLS_U32:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NET_SCH_HTB:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NET_SCH_INGRESS:	 is not set when it should be.
+#45 2992.4  *   CONFIG_NET_SCH_SFQ:	 is not set when it should be.
+#45 2992.4  * Please check to make sure these options are set correctly.
+#45 2992.4  * Failure to do so may cause unexpected problems.
+#45 2992.4  * Important: The openrc libvirtd init script is now broken up into two
+#45 2992.4  * separate services: libvirtd, that solely handles the daemon, and
+#45 2992.4  * libvirt-guests, that takes care of clients during shutdown/restart of the
+#45 2992.4  * host. In order to reenable client handling, edit /etc/conf.d/libvirt-guests
+#45 2992.4  * and enable the service and start it:
+#45 2992.4  * $ rc-update add libvirt-guests
+#45 2992.4  * $ rc-service libvirt-guests start
+#45 2992.4  * For the basic networking support (bridged and routed networks) you don't
+#45 2992.4  * need any extra software. For more complex network modes including but not
+#45 2992.4  * limited to NATed network, you can enable the 'virt-network' USE flag. It
+#45 2992.4  * will pull in required runtime dependencies
+#45 2992.4  * If you are using dnsmasq on your system, you will have to configure
+#45 2992.4  * /etc/dnsmasq.conf to enable the following settings:
+#45 2992.4  * bind-interfaces
+#45 2992.4  * interface or except-interface
+#45 2992.4  * Otherwise you might have issues with your existing DNS server.
+#45 2992.4  * For openrc users:
+#45 2992.4  * Please use /etc/conf.d/libvirtd to control the '--listen' parameter for
+#45 2992.4  * libvirtd.
+#45 2992.4  * Use /etc/init.d/libvirt-guests to manage clients on restart/shutdown of
+#45 2992.4  * the host. The default configuration will suspend and resume running kvm
+#45 2992.4  * guests with 'managedsave'. This behavior can be changed under
+#45 2992.4  * /etc/conf.d/libvirt-guests
+#45 2992.4  * For systemd users:
+#45 2992.4  * The '--listen' parameter is unavailable when libvirtd is run as a
+#45 2992.4  * systemd unit.
+#45 2992.4  * The configuration for the 'libvirt-guests.service' is found under
+#45 2992.4  * /etc/libvirt/libvirt-guests.conf"
+#45 2992.4  * If you have built libvirt with policykit support, a new group "libvirt" has
+#45 2992.4  * been created. Simply add a user to the libvirt group in order to grant
+#45 2992.4  * administrative access to libvirtd. Alternatively, drop a custom policykit
+#45 2992.4  * rule into /etc/polkit-1/rules.d.
+#45 2992.4  * If you have built libvirt without policykit support (USE=-policykit), you
+#45 2992.4  * must change the unix sock group and/or perms in /etc/libvirt/libvirtd.conf
+#45 2992.4  * in order to allow normal users to connect to libvirtd.
+#45 2992.4  * If libvirt is built with USE=caps, libvirt will now start qemu/kvm VMs
+#45 2992.4  * with non-root privileges. Ensure any resources your VMs use are accessible
+#45 2992.4  * by qemu:qemu.
+#45 2992.4  * (Note: Above message is only printed the first time package is
+#45 2992.4  * installed. Please look at /usr/share/doc/libvirt-11.10.0/README.gentoo*
+#45 2992.4  * for future reference)
+#45 2992.4 
+#45 2992.4  * Messages for package net-print/cups-2.4.14-r1:
+#45 2992.4 
+#45 2992.4  * If you plan to use USB printers you should enable the USB_PRINTER
+#45 2992.4  * support in your kernel.
+#45 2992.4  * Please enable it:
+#45 2992.4  *     CONFIG_USB_PRINTER=y
+#45 2992.4  * in /usr/src/linux/.config or
+#45 2992.4  *     Device Drivers --->
+#45 2992.4  *         USB support  --->
+#45 2992.4  *             [*] USB Printer support
+#45 2992.4  * Alternatively, enable the usb useflag for cups and use the libusb code.
+#45 2992.4 
+#45 2992.4  * Messages for package app-admin/sudo-1.9.17_p2:
+#45 2992.4 
+#45 2992.4  * To use the -A (askpass) option, you need to install a compatible
+#45 2992.4  * password program from the following list. Starred packages will
+#45 2992.4  * automatically register for the use with sudo (but will not force
+#45 2992.4  * the -A option):
+#45 2992.4  *  [*] net-misc/ssh-askpass-fullscreen
+#45 2992.4  *      net-misc/x11-ssh-askpass
+#45 2992.4  * You can override the choice by setting the SUDO_ASKPASS environmnent
+#45 2992.4  * variable to the program you want to use.
+#45 2992.4 
+#45 2992.4  * Messages for package media-libs/libpulse-17.0:
+#45 2992.4 
+#45 2992.4  * PulseAudio can be enhanced by installing the following:
+#45 2992.4  *   sys-auth/rtkit for restricted realtime capabilities via D-Bus
+#45 2992.4 
+#45 2992.4  * Messages for package x11-libs/gtk+-3.24.51:
+#45 2992.4 
+#45 2992.4  * Please install app-text/evince for print preview functionality.
+#45 2992.4  * Alternatively, check "gtk-print-preview-command" documentation and
+#45 2992.4  * add it to your settings.ini file.
+#45 2992.4 
+#45 2992.4  * Messages for package dev-qt/qttools-6.10.2:
+#45 2992.4 
+#45 2992.4  * Install additional packages for optional runtime features:
+#45 2992.4  *   dev-qt/qt-docs:6[qch] for Qt documentation viewable in assistant
+#45 2992.4 
+#45 2992.4  * Messages for package media-sound/pulseaudio-daemon-17.0-r1:
+#45 2992.4 
+#45 2992.4  * You have enabled bluetooth USE flag for pulseaudio. Daemon will now handle
+#45 2992.4  * bluetooth Headset (HSP HS and HSP AG) and Handsfree (HFP HF) profiles using
+#45 2992.4  * native headset backend by default. This can be selectively disabled
+#45 2992.4  * via runtime configuration arguments to module-bluetooth-discover
+#45 2992.4  * in /etc/pulse/default.pa
+#45 2992.4  * To disable HFP HF append enable_native_hfp_hf=false
+#45 2992.4  * To disable HSP HS append enable_native_hsp_hs=false
+#45 2992.4  * To disable HSP AG append headset=auto or headset=ofono
+#45 2992.4  * (note this does NOT require enabling USE ofono)
+#45 2992.4  * You have enabled both native and ofono headset profiles. The runtime decision
+#45 2992.4  * which to use is done via the 'headset' argument of module-bluetooth-discover.
+#45 2992.4  * Pulseaudio autospawn by client library is no longer enabled when systemd is available.
+#45 2992.4  * It's recommended to start pulseaudio via its systemd user units:
+#45 2992.4  *   systemctl --user enable pulseaudio.service pulseaudio.socket
+#45 2992.4  * Root user can change system default configuration for all users:
+#45 2992.4  *   systemctl --global enable pulseaudio.service pulseaudio.socket
+#45 2992.4  * If you would like to enable autospawn by client library, edit autospawn flag in /etc/pulse/client.conf like this:
+#45 2992.4  *   autospawn = yes
+#45 2992.4  * The change from autospawn to user units will take effect after restarting.
+#45 2992.4  * PulseAudio can be enhanced by installing the following:
+#45 2992.4  *   sys-auth/rtkit for restricted realtime capabilities via D-Bus
+#45 2992.4 
+#45 2992.4  * Messages for package net-misc/spice-gtk-0.42-r4:
+#45 2992.4 
+#45 2992.4  * Install additional packages for optional runtime features:
+#45 2992.4  *   media-plugins/gst-plugins-pulse for Sound support (via pulseaudio)
+#45 2992.4 
+#45 2992.4  * Messages for package net-im/signal-desktop-bin-8.1.0:
+#45 2992.4 
+#45 2992.4  * For using the tray icon on compatible desktop environments, start Signal with
+#45 2992.4  *  '--start-in-tray' or '--use-tray-icon'.
+#45 2992.4 
+#45 2992.4  * Messages for package gui-libs/gtk-4.18.6-r1:
+#45 2992.4 
+#45 2992.4  * Please install app-text/evince for print preview functionality.
+#45 2992.4  * Alternatively, check "gtk-print-preview-command" documentation and
+#45 2992.4  * add it to your settings.ini file.
+#45 2992.4 
+#45 2992.4  * Messages for package media-video/pipewire-1.4.10:
+#45 2992.4 
+#45 2992.4  * USE=sound-server is disabled! If you want PipeWire to provide
+#45 2992.4  * your sound, please enable it. See the wiki at
+#45 2992.4  * https://wiki.gentoo.org/wiki/PipeWire#Replacing_PulseAudio
+#45 2992.4  * for more details.
+#45 2992.4  * For latest tips and tricks, troubleshooting information, and documentation
+#45 2992.4  * in general, please refer to https://wiki.gentoo.org/wiki/PipeWire
+#45 2992.4  * The following can be installed for optional runtime features:
+#45 2992.4  *   sys-auth/rtkit for restricted realtime capabilities via D-Bus
+#45 2992.4 
+#45 2992.4  * Messages for package app-emulation/virt-manager-5.1.0-r1:
+#45 2992.4 
+#45 2992.4  * Install additional packages for optional runtime features:
+#45 2992.4  *   app-emulation/libguestfs[libvirt,python] for Inspection of guest filesystems
+#45 2992.4  *   kde-plasma/ksshaskpass for SSH_ASKPASS program implementation
+#45 2992.4  *   lxqt-base/lxqt-openssh-askpass for SSH_ASKPASS program implementation
+#45 2992.4  *   net-misc/ssh-askpass-fullscreen for SSH_ASKPASS program implementation
+#45 2992.4  *   net-misc/x11-ssh-askpass for SSH_ASKPASS program implementation
+#45 2992.4 
+#45 2992.4  * Messages for package media-video/mpv-0.41.0:
+#45 2992.4 
+#45 2992.4  * Install additional packages for optional runtime features:
+#45 2992.4  *   net-misc/yt-dlp for various websites URL support (requires mpv with USE=lua)
+#45 2992.4 
+#45 2992.4  * Messages for package www-client/firefox-140.8.0:
+#45 2992.4 
+#45 2992.4  * USE='-gmp-autoupdate' has disabled the following plugins from updating or
+#45 2992.4  * installing into new profiles:
+#45 2992.4  * 	 gmp-gmpopenh264
+#45 2992.4  * 	 gmp-widevinecdm
+#45 2992.4  * ## DoH
+#45 2992.4  * Note regarding Trusted Recursive Resolver aka DNS-over-HTTPS (DoH):
+#45 2992.4  * Due to privacy concerns (encrypting DNS might be a good thing, sending all DNS
+#45 2992.4  * traffic to Cloudflare by default is not a good idea and applications should
+#45 2992.4  * respect OS configured settings), "network.trr.mode" was set to 5 ("Off by
+#45 2992.4  * choice") by default.
+#45 2992.4  * You can enable DNS-over-HTTPS in Firefox's preferences.
+#45 2992.4  * ## Normandy
+#45 2992.4  * Upstream operates a service named Normandy which allows Mozilla to push changes
+#45 2992.4  * for default settings or even install new add-ons remotely. While this can be
+#45 2992.4  * useful to address problems like 'Armagadd-on 2.0' or revert previous decisions
+#45 2992.4  * to disable TLS 1.0/1.1, privacy and security concerns prevail, which is why we
+#45 2992.4  * have switched off the use of this service by default.
+#45 2992.4  * To re-enable this service set the following in "about:config":
+#45 2992.4  * app.normandy.enabled=true
+#45 2992.4  * (Note: Above message is only printed the first time package is
+#45 2992.4  * installed. Please look at /usr/share/doc/firefox-140.8.0/README.gentoo*
+#45 2992.4  * for future reference)
+#45 2992.4  * Optional programs for extra features:
+#45 2992.4  *   x11-libs/libnotify for desktop notifications
+#45 2992.4  *   sys-apps/xdg-desktop-portal for screencasting with pipewire
+#45 2992.4  *   media-libs/nvidia-vaapi-driver for hardware acceleration with NVIDIA cards
+#45 2992.4 
+#45 2992.4  * Messages for package net-analyzer/wireshark-4.6.3:
+#45 2992.4 
+#45 2992.4  * NOTE: To capture traffic with wireshark as normal user you have to
+#45 2992.4  * add yourself to the pcap group. This security measure ensures
+#45 2992.4  * that only trusted users are allowed to sniff your traffic.
+#45 2992.4 
+#45 2992.4  * GNU info directory index is up-to-date.
+#45 2992.4 
+#45 2992.4  * IMPORTANT: config file '/etc/hosts' needs updating.
+#45 2992.5  * See the CONFIGURATION FILES and CONFIGURATION FILES UPDATE TOOLS
+#45 2992.5  * sections of the emerge man page to learn how to update config files.
+#45 2992.5 
+#45 2992.5  * IMPORTANT: 22 news items need reading for repository 'gentoo'.
+#45 2992.5  * Use eselect news read to view new items.
+#45 2992.5 
+#45 DONE 2992.8s
+
+#46 [stage-1 38/82] RUN qlist -Iv > /packages.txt
+#46 DONE 1.1s
+
+#47 [stage-1 39/82] RUN emerge --depclean
+#47 1.201 
+#47 1.201  * Always study the list of packages to be cleaned for any obvious
+#47 1.201  * mistakes. Packages that are part of the world set will always
+#47 1.201  * be kept.  They can be manually added to this set with
+#47 1.201  * `emerge --noreplace <atom>`.  Packages that are listed in
+#47 1.201  * package.provided (see portage(5)) will be removed by
+#47 1.201  * depclean, even if they are part of the world set.
+#47 1.201  * 
+#47 1.201  * As a safety measure, depclean will not remove any packages
+#47 1.201  * unless *all* required dependencies have been resolved.  As a
+#47 1.201  * consequence of this, it often becomes necessary to run 
+#47 1.201  * `emerge --update --newuse --deep @world` prior to depclean.
+#47 1.228 
+#47 1.228 Calculating dependencies  ... done!
+#47 3.212 >>> Calculating removal order...
+#47 3.365 
+#47 3.365  sys-devel/gcc
+#47 3.365     selected: 15.2.1_p20260214 
+#47 3.365    protected: none 
+#47 3.365      omitted: 16.0.1_p20260301 
+#47 3.366 
+#47 3.366  dev-perl/MailTools
+#47 3.366     selected: 2.220.0 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  dev-perl/Error
+#47 3.366     selected: 0.170.300-r1 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  dev-perl/Authen-SASL
+#47 3.366     selected: 2.190.0 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  app-eselect/eselect-repository
+#47 3.366     selected: 15 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  app-editors/nano
+#47 3.366     selected: 8.7 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366 
+#47 3.366 !!! 'app-editors/nano' (virtual/editor) is part of your system profile.
+#47 3.366 !!! Unmerging it may be damaging to your system.
+#47 3.366 
+#47 3.366 
+#47 3.366  app-doc/info-manual
+#47 3.366     selected: 30.2 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  virtual/perl-libnet
+#47 3.366     selected: 3.150.0-r2 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  sys-devel/binutils
+#47 3.366     selected: 2.45.1 
+#47 3.366    protected: none 
+#47 3.366      omitted: 2.46.0 
+#47 3.366 
+#47 3.366  dev-perl/Digest-HMAC
+#47 3.366     selected: 1.50.0 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  dev-perl/Crypt-URandom
+#47 3.366     selected: 0.540.0 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  virtual/perl-Digest-SHA
+#47 3.366     selected: 6.40.0-r2 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366  virtual/perl-Digest-MD5
+#47 3.366     selected: 2.590.0 
+#47 3.366    protected: none 
+#47 3.366      omitted: none 
+#47 3.366 
+#47 3.366 All selected packages: =dev-perl/Authen-SASL-2.190.0 =virtual/perl-Digest-MD5-2.590.0 =app-editors/nano-8.7 =virtual/perl-Digest-SHA-6.40.0-r2 =dev-perl/Error-0.170.300-r1 =virtual/perl-libnet-3.150.0-r2 =sys-devel/binutils-2.45.1 =sys-devel/gcc-15.2.1_p20260214 =app-eselect/eselect-repository-15 =dev-perl/MailTools-2.220.0 =app-doc/info-manual-30.2 =dev-perl/Crypt-URandom-0.540.0 =dev-perl/Digest-HMAC-1.50.0
+#47 3.366 
+#47 3.366 >>> 'Selected' packages are slated for removal.
+#47 3.366 >>> 'Protected' and 'omitted' packages will not be removed.
+#47 3.366 
+#47 3.367 >>> Waiting 5 seconds before starting...
+#47 3.367 >>> (Control-C to abort)...
+#47 3.367 >>> Unmerging in: 5 4 3 2 1
+#47 8.367 >>> Unmerging (1 of 13) sys-devel/gcc-15.2.1_p20260214...
+#47 11.24 >>> Unmerging (2 of 13) dev-perl/MailTools-2.220.0...
+#47 11.86 >>> Unmerging (3 of 13) dev-perl/Error-0.170.300-r1...
+#47 12.53 >>> Unmerging (4 of 13) dev-perl/Authen-SASL-2.190.0...
+#47 13.08 >>> Unmerging (5 of 13) app-eselect/eselect-repository-15...
+#47 13.72 >>> Unmerging (6 of 13) app-editors/nano-8.7...
+#47 14.56 >>> Unmerging (7 of 13) app-doc/info-manual-30.2...
+#47 15.09 >>> Unmerging (8 of 13) virtual/perl-libnet-3.150.0-r2...
+#47 15.62 >>> Unmerging (9 of 13) sys-devel/binutils-2.45.1...
+#47 16.99 >>> Unmerging (10 of 13) dev-perl/Digest-HMAC-1.50.0...
+#47 17.54 >>> Unmerging (11 of 13) dev-perl/Crypt-URandom-0.540.0...
+#47 18.17 >>> Unmerging (12 of 13) virtual/perl-Digest-SHA-6.40.0-r2...
+#47 18.70 >>> Unmerging (13 of 13) virtual/perl-Digest-MD5-2.590.0...
+#47 19.24 Packages installed:   871
+#47 19.24 Packages in world:    826
+#47 19.24 Packages in system:   50
+#47 19.24 Required packages:    871
+#47 19.24 Number removed:       13
+#47 19.24 
+#47 19.24  * Messages for package app-editors/nano-8.7:
+#47 19.24 
+#47 19.24  * The EDITOR variable is still set to /bin/nano.
+#47 19.24  * You can update it with "eselect editor".
+#47 19.24 
+#47 19.24  * Regenerating GNU info directory index...
+#47 19.81  * Processed 118 info files.
+#47 19.81 
+#47 19.81  * IMPORTANT: config file '/etc/hosts' needs updating.
+#47 19.83  * See the CONFIGURATION FILES and CONFIGURATION FILES UPDATE TOOLS
+#47 19.83  * sections of the emerge man page to learn how to update config files.
+#47 19.83 
+#47 19.83  * IMPORTANT: 22 news items need reading for repository 'gentoo'.
+#47 19.83  * Use eselect news read to view new items.
+#47 19.83 
+#47 DONE 20.3s
+
+#48 [stage-1 40/82] RUN mkdir -p /etc/sudoers.d
+#48 DONE 1.2s
+
+#49 [stage-1 41/82] RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
+#49 DONE 1.2s
+
+#50 [stage-1 42/82] WORKDIR /usr/src
+#50 DONE 0.1s
+
+#51 [stage-1 43/82] RUN git clone https://github.com/amkillam/ryzen_smu
+#51 0.827 Cloning into 'ryzen_smu'...
+#51 DONE 1.6s
+
+#52 [stage-1 44/82] WORKDIR /usr/src/ryzen_smu
+#52 DONE 0.1s
+
+#53 [stage-1 45/82] RUN sed -i "s/$(shell uname -r)/6.12.74-gentoo/g" Makefile
+#53 DONE 1.0s
+
+#54 [stage-1 46/82] RUN make -j7
+#54 1.013 make[1]: Entering directory '/usr/src/linux-6.12.74-gentoo'
+#54 1.367   CC [M]  /usr/src/ryzen_smu/drv.o
+#54 1.367   CC [M]  /usr/src/ryzen_smu/smu.o
+#54 1.740   LD [M]  /usr/src/ryzen_smu/ryzen_smu.o
+#54 1.754   MODPOST /usr/src/ryzen_smu/Module.symvers
+#54 1.766   CC [M]  /usr/src/ryzen_smu/ryzen_smu.mod.o
+#54 1.766   CC [M]  /usr/src/ryzen_smu/.module-common.o
+#54 1.953   LD [M]  /usr/src/ryzen_smu/ryzen_smu.ko
+#54 1.955 make[1]: Leaving directory '/usr/src/linux-6.12.74-gentoo'
+#54 DONE 2.2s
+
+#55 [stage-1 47/82] RUN cp ryzen_smu.ko /lib/modules/6.12.74-gentoo/kernel/
+#55 DONE 1.2s
+
+#56 [stage-1 48/82] RUN depmod -a 6.12.74-gentoo
+#56 DONE 1.3s
+
+#57 [stage-1 49/82] RUN rm *.o
+#57 DONE 1.2s
+
+#58 [stage-1 50/82] RUN if [ -d /lib/modules/6.12.74-gentoo/video ]; then       mv /lib/modules/6.12.74-gentoo/video /video6.12.74-gentoo;     fi
+#58 DONE 1.2s
+
+#59 [stage-1 51/82] COPY config/video.sh /video.sh
+#59 DONE 0.1s
+
+#60 [stage-1 52/82] RUN chmod 0755 /video.sh
+#60 DONE 1.1s
+
+#61 [stage-1 53/82] WORKDIR /usr/src
+#61 DONE 0.1s
+
+#62 [stage-1 54/82] RUN git clone https://git.suckless.org/slstatus
+#62 0.824 Cloning into 'slstatus'...
+#62 DONE 1.3s
+
+#63 [stage-1 55/82] WORKDIR /usr/src/slstatus
+#63 DONE 0.1s
+
+#64 [stage-1 56/82] COPY config/slstatus_config.h .
+#64 DONE 0.1s
+
+#65 [stage-1 57/82] RUN make -j32
+#65 0.762 cp config.def.h config.h
+#65 0.762 cc -o components/battery.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/battery.c
+#65 0.763 cc -o components/cat.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/cat.c
+#65 0.763 cc -o components/cpu.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/cpu.c
+#65 0.763 cc -o components/datetime.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/datetime.c
+#65 0.763 cc -o components/disk.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/disk.c
+#65 0.763 cc -o components/entropy.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/entropy.c
+#65 0.763 cc -o components/hostname.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/hostname.c
+#65 0.763 cc -o components/ip.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/ip.c
+#65 0.764 cc -o components/kernel_release.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/kernel_release.c
+#65 0.764 cc -o components/keyboard_indicators.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/keyboard_indicators.c
+#65 0.764 cc -o components/keymap.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/keymap.c
+#65 0.764 cc -o components/load_avg.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/load_avg.c
+#65 0.764 cc -o components/netspeeds.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/netspeeds.c
+#65 0.764 cc -o components/num_files.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/num_files.c
+#65 0.764 cc -o components/ram.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/ram.c
+#65 0.764 cc -o components/run_command.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/run_command.c
+#65 0.765 cc -o components/swap.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/swap.c
+#65 0.765 cc -o components/temperature.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/temperature.c
+#65 0.765 cc -o components/uptime.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/uptime.c
+#65 0.765 cc -o components/user.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/user.c
+#65 0.765 cc -o components/volume.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/volume.c
+#65 0.765 cc -o components/wifi.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os components/wifi.c
+#65 0.765 cc -o util.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os util.c
+#65 0.766 cc -o slstatus.o -c -I/usr/X11R6/include -D_DEFAULT_SOURCE -DVERSION=\"1.1\" -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter -Os slstatus.c
+#65 0.832 cc -o slstatus -L/usr/X11R6/lib -s components/battery.o components/cat.o components/cpu.o components/datetime.o components/disk.o components/entropy.o components/hostname.o components/ip.o components/kernel_release.o components/keyboard_indicators.o components/keymap.o components/load_avg.o components/netspeeds.o components/num_files.o components/ram.o components/run_command.o components/swap.o components/temperature.o components/uptime.o components/user.o components/volume.o components/wifi.o util.o slstatus.o -lX11
+#65 DONE 1.0s
+
+#66 [stage-1 58/82] RUN make install
+#66 1.031 mkdir -p "/usr/local/bin"
+#66 1.032 cp -f slstatus "/usr/local/bin"
+#66 1.039 chmod 755 "/usr/local/bin/slstatus"
+#66 1.039 mkdir -p "/usr/local/share/man/man1"
+#66 1.040 cp -f slstatus.1 "/usr/local/share/man/man1"
+#66 1.041 chmod 644 "/usr/local/share/man/man1/slstatus.1"
+#66 DONE 1.2s
+
+#67 [stage-1 59/82] RUN make clean
+#67 1.040 rm -f slstatus slstatus.o components/battery.o components/cat.o components/cpu.o components/datetime.o components/disk.o components/entropy.o components/hostname.o components/ip.o components/kernel_release.o components/keyboard_indicators.o components/keymap.o components/load_avg.o components/netspeeds.o components/num_files.o components/ram.o components/run_command.o components/swap.o components/temperature.o components/uptime.o components/user.o components/volume.o components/wifi.o util.o slstatus-1.1.tar.gz
+#67 DONE 1.2s
+
+#68 [stage-1 60/82] RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel  && for grp in libvirt kvm qemu; do       if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi;     done
+#68 DONE 1.2s
+
+#69 [stage-1 61/82] COPY config/xinitrc /home/kiel/.xinitrc
+#69 DONE 0.1s
+
+#70 [stage-1 62/82] RUN emerge --depclean
+#70 1.016 
+#70 1.016  * Always study the list of packages to be cleaned for any obvious
+#70 1.016  * mistakes. Packages that are part of the world set will always
+#70 1.016  * be kept.  They can be manually added to this set with
+#70 1.016  * `emerge --noreplace <atom>`.  Packages that are listed in
+#70 1.016  * package.provided (see portage(5)) will be removed by
+#70 1.016  * depclean, even if they are part of the world set.
+#70 1.016  * 
+#70 1.016  * As a safety measure, depclean will not remove any packages
+#70 1.016  * unless *all* required dependencies have been resolved.  As a
+#70 1.016  * consequence of this, it often becomes necessary to run 
+#70 1.016  * `emerge --update --newuse --deep @world` prior to depclean.
+#70 1.043 
+#70 1.043 Calculating dependencies  ... done!
+#70 2.955 >>> No packages selected for removal by depclean
+#70 2.955 >>> To see reverse dependencies, use --verbose
+#70 3.077 Packages installed:   871
+#70 3.077 Packages in world:    826
+#70 3.077 Packages in system:   50
+#70 3.077 Required packages:    871
+#70 3.077 Number removed:       0
+#70 DONE 3.5s
+
+#71 [stage-1 63/82] COPY config/20-enp65s0.network /etc/systemd/network/
+#71 DONE 0.1s
+
+#72 [stage-1 64/82] COPY config/resolv.conf /etc/
+#72 DONE 0.1s
+
+#73 [stage-1 65/82] COPY config/reverse-ssh-eu.service /etc/systemd/system/
+#73 DONE 0.1s
+
+#74 [stage-1 66/82] COPY config/reverse-ssh-us.service /etc/systemd/system/
+#74 DONE 0.1s
+
+#75 [stage-1 67/82] RUN systemctl enable libvirtd.service
+#75 0.620 Created symlink '/etc/systemd/system/multi-user.target.wants/libvirtd.service' → '/usr/lib/systemd/system/libvirtd.service'.
+#75 0.620 Created symlink '/etc/systemd/system/sockets.target.wants/virtlockd.socket' → '/usr/lib/systemd/system/virtlockd.socket'.
+#75 0.620 Created symlink '/etc/systemd/system/sockets.target.wants/virtlogd.socket' → '/usr/lib/systemd/system/virtlogd.socket'.
+#75 0.620 Created symlink '/etc/systemd/system/sockets.target.wants/libvirtd.socket' → '/usr/lib/systemd/system/libvirtd.socket'.
+#75 0.620 Created symlink '/etc/systemd/system/sockets.target.wants/libvirtd-ro.socket' → '/usr/lib/systemd/system/libvirtd-ro.socket'.
+#75 0.620 Created symlink '/etc/systemd/system/sockets.target.wants/libvirtd-admin.socket' → '/usr/lib/systemd/system/libvirtd-admin.socket'.
+#75 0.620 Created symlink '/etc/systemd/system/sockets.target.wants/virtlockd-admin.socket' → '/usr/lib/systemd/system/virtlockd-admin.socket'.
+#75 0.620 Created symlink '/etc/systemd/system/sockets.target.wants/virtlogd-admin.socket' → '/usr/lib/systemd/system/virtlogd-admin.socket'.
+#75 DONE 0.7s
+
+#76 [stage-1 68/82] RUN systemctl enable reverse-ssh-eu
+#76 0.955 Created symlink '/etc/systemd/system/multi-user.target.wants/reverse-ssh-eu.service' → '/etc/systemd/system/reverse-ssh-eu.service'.
+#76 DONE 1.1s
+
+#77 [stage-1 69/82] RUN systemctl enable reverse-ssh-us
+#77 0.958 Created symlink '/etc/systemd/system/multi-user.target.wants/reverse-ssh-us.service' → '/etc/systemd/system/reverse-ssh-us.service'.
+#77 DONE 1.1s
+
+#78 [stage-1 70/82] RUN mkdir -p /tmp/firmware_safe
+#78 DONE 1.1s
+
+#79 [stage-1 71/82] WORKDIR /usr/lib/firmware
+#79 DONE 0.1s
+
+#80 [stage-1 72/82] RUN cp --parents regulatory.db* /tmp/firmware_safe/
+#80 DONE 1.2s
+
+#81 [stage-1 73/82] RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
+#81 DONE 1.1s
+
+#82 [stage-1 74/82] RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
+#82 DONE 1.0s
+
+#83 [stage-1 75/82] RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
+#83 DONE 1.2s
+
+#84 [stage-1 76/82] RUN emacs --batch     --eval "(require 'package)"     --eval "(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)"     --eval "(package-initialize)"     --eval "(package-refresh-contents)"     --eval "(dolist (pkg '(magit paredit slime)) (package-install pkg))"
+#84 1.248 Importing package-keyring.gpg...
+#84 1.364 Importing package-keyring.gpg...done
+#84 1.394 Contacting host: elpa.gnu.org:443
+#84 2.294 Contacting host: elpa.gnu.org:443
+#84 2.563 Package refresh done
+#84 3.243 Contacting host: elpa.nongnu.org:443
+#84 3.503 Package refresh done
+#84 7.329 Contacting host: melpa.org:443
+#84 7.839 Package refresh done
+#84 7.857 Setting ‘package-selected-packages’ temporarily since "emacs -q" would overwrite customizations
+#84 7.857 Setting ‘package-selected-packages’ temporarily since "emacs -q" would overwrite customizations
+#84 7.858 Contacting host: melpa.org:443
+#84 8.197 Parsing tar file... 
+#84 8.197 Parsing tar file...done
+#84 8.197 Extracting... \ 
+#84 8.198 Extracting...done
+#84 8.202   INFO     Scraping 2 files for loaddefs... 
+#84 8.206   INFO     Scraping 2 files for loaddefs...done
+#84 8.206   GEN      with-editor-autoloads.el
+#84 8.236 Checking /home/kiel/.emacs.d/elpa/with-editor-20260301.1317...
+#84 8.236 Compiling /home/kiel/.emacs.d/elpa/with-editor-20260301.1317/with-editor-autoloads.el...
+#84 8.237 Compiling /home/kiel/.emacs.d/elpa/with-editor-20260301.1317/with-editor-pkg.el...
+#84 8.238 Compiling /home/kiel/.emacs.d/elpa/with-editor-20260301.1317/with-editor.el...
+#84 8.257 Done (Total of 1 file compiled, 2 skipped)
+#84 8.599 Parsing tar file... 
+#84 8.599 Parsing tar file...done
+#84 8.600 Extracting... \ 
+#84 8.600 Extracting...done
+#84 8.600   INFO     Scraping 2 files for loaddefs... 
+#84 8.600   INFO     Scraping 2 files for loaddefs...done
+#84 8.601   GEN      cond-let-autoloads.el
+#84 8.615 Checking /home/kiel/.emacs.d/elpa/cond-let-20260201.1500...
+#84 8.615 Compiling /home/kiel/.emacs.d/elpa/cond-let-20260201.1500/cond-let-autoloads.el...
+#84 8.616 Compiling /home/kiel/.emacs.d/elpa/cond-let-20260201.1500/cond-let-pkg.el...
+#84 8.616 Compiling /home/kiel/.emacs.d/elpa/cond-let-20260201.1500/cond-let.el...
+#84 8.621 Done (Total of 1 file compiled, 2 skipped)
+#84 9.098 Contacting host: melpa.org:443
+#84 9.263 Parsing tar file... 
+#84 9.263 Parsing tar file...done
+#84 9.263 Extracting... \ 
+#84 9.264 Extracting...done
+#84 9.264   INFO     Scraping 2 files for loaddefs... 
+#84 9.268   INFO     Scraping 2 files for loaddefs...done
+#84 9.269   GEN      transient-autoloads.el
+#84 9.283 Checking /home/kiel/.emacs.d/elpa/transient-20260305.2144...
+#84 9.283 Compiling /home/kiel/.emacs.d/elpa/transient-20260305.2144/transient-autoloads.el...
+#84 9.284 Compiling /home/kiel/.emacs.d/elpa/transient-20260305.2144/transient-pkg.el...
+#84 9.285 Compiling /home/kiel/.emacs.d/elpa/transient-20260305.2144/transient.el...
+#84 9.431 Done (Total of 1 file compiled, 2 skipped)
+#84 9.773 Parsing tar file... 
+#84 9.773 Parsing tar file...done
+#84 9.774 Extracting... \ 
+#84 9.774 Extracting...done
+#84 9.774   INFO     Scraping 2 files for loaddefs... 
+#84 9.775   INFO     Scraping 2 files for loaddefs...done
+#84 9.776   GEN      llama-autoloads.el
+#84 9.792 Checking /home/kiel/.emacs.d/elpa/llama-20260301.1253...
+#84 9.792 Compiling /home/kiel/.emacs.d/elpa/llama-20260301.1253/llama-autoloads.el...
+#84 9.793 Compiling /home/kiel/.emacs.d/elpa/llama-20260301.1253/llama-pkg.el...
+#84 9.793 Compiling /home/kiel/.emacs.d/elpa/llama-20260301.1253/llama.el...
+#84 9.799 Done (Total of 1 file compiled, 2 skipped)
+#84 9.811 Contacting host: melpa.org:443
+#84 10.14 Parsing tar file... 
+#84 10.14 Parsing tar file...done
+#84 10.14 Extracting... \ 
+#84 10.14 Extracting...done
+#84 10.14   INFO     Scraping 2 files for loaddefs... 
+#84 10.15   INFO     Scraping 2 files for loaddefs...done
+#84 10.15   GEN      magit-section-autoloads.el
+#84 10.16 Checking /home/kiel/.emacs.d/elpa/magit-section-20260101.1850...
+#84 10.16 Compiling /home/kiel/.emacs.d/elpa/magit-section-20260101.1850/magit-section-autoloads.el...
+#84 10.16 Compiling /home/kiel/.emacs.d/elpa/magit-section-20260101.1850/magit-section-pkg.el...
+#84 10.17 Compiling /home/kiel/.emacs.d/elpa/magit-section-20260101.1850/magit-section.el...
+#84 10.34 Done (Total of 1 file compiled, 2 skipped)
+#84 12.37 Contacting host: melpa.org:443
+#84 12.53 Parsing tar file... 
+#84 12.53 Parsing tar file...done
+#84 12.53 Extracting... \ 
+#84 12.54 Extracting...done
+#84 12.54   INFO     Scraping 47 files for loaddefs... 
+#84 12.59   INFO     Scraping 47 files for loaddefs...done
+#84 12.59   GEN      magit-autoloads.el
+#84 12.68 Checking /home/kiel/.emacs.d/elpa/magit-20260226.1808...
+#84 12.68 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/git-commit.el...
+#84 12.85 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/git-rebase.el...
+#84 12.90 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-apply.el...
+#84 12.91 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-autoloads.el...
+#84 12.91 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-autorevert.el...
+#84 12.92 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-base.el...
+#84 12.93 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-bisect.el...
+#84 12.93 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-blame.el...
+#84 12.94 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-bookmark.el...
+#84 12.95 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-branch.el...
+#84 12.96 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-bundle.el...
+#84 12.96 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-clone.el...
+#84 12.96 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-commit.el...
+#84 12.97 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-core.el...
+#84 12.97 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-diff.el...
+#84 13.02 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-dired.el...
+#84 13.02 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-ediff.el...
+#84 13.04 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-extras.el...
+#84 13.05 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-fetch.el...
+#84 13.05 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-files.el...
+#84 13.06 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-git.el...
+#84 13.13 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-gitignore.el...
+#84 13.13 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-log.el...
+#84 13.15 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-margin.el...
+#84 13.16 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-merge.el...
+#84 13.16 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-mode.el...
+#84 13.17 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-notes.el...
+#84 13.18 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-patch.el...
+#84 13.18 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-pkg.el...
+#84 13.18 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-process.el...
+#84 13.19 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-pull.el...
+#84 13.20 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-push.el...
+#84 13.20 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-reflog.el...
+#84 13.20 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-refs.el...
+#84 13.21 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-remote.el...
+#84 13.22 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-repos.el...
+#84 13.22 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-reset.el...
+#84 13.22 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-sequence.el...
+#84 13.24 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-sparse-checkout.el...
+#84 13.24 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-stash.el...
+#84 13.25 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-status.el...
+#84 13.26 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-submodule.el...
+#84 13.26 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-subtree.el...
+#84 13.27 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-tag.el...
+#84 13.27 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-transient.el...
+#84 13.27 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-wip.el...
+#84 13.28 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit-worktree.el...
+#84 13.28 Compiling /home/kiel/.emacs.d/elpa/magit-20260226.1808/magit.el...
+#84 13.29 Checking /home/kiel/.emacs.d/elpa/magit-20260226.1808/git-hooks...
+#84 13.29 Done (Total of 46 files compiled, 2 skipped)
+#84 13.33 Package ‘magit’ installed.
+#84 13.33 Setting ‘package-selected-packages’ temporarily since "emacs -q" would overwrite customizations
+#84 13.33 Contacting host: melpa.org:443
+#84 13.81 Parsing tar file... 
+#84 13.81 Parsing tar file...done
+#84 13.81 Extracting... \ 
+#84 13.81 Extracting...done
+#84 13.81   INFO     Scraping 2 files for loaddefs... 
+#84 13.82   INFO     Scraping 2 files for loaddefs...done
+#84 13.82   GEN      paredit-autoloads.el
+#84 13.84 Checking /home/kiel/.emacs.d/elpa/paredit-20241103.2046...
+#84 13.84 Compiling /home/kiel/.emacs.d/elpa/paredit-20241103.2046/paredit-autoloads.el...
+#84 13.84 Compiling /home/kiel/.emacs.d/elpa/paredit-20241103.2046/paredit-pkg.el...
+#84 13.84 Compiling /home/kiel/.emacs.d/elpa/paredit-20241103.2046/paredit.el...
+#84 13.84 
+#84 13.84 In paredit-find-comment-on-line:
+#84 13.84 paredit.el:714:33: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.84 paredit.el:722:43: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.84 paredit.el:723:42: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.84 paredit.el:724:36: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:725:36: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.85 
+#84 13.85 In paredit-newline:
+#84 13.85 paredit.el:1010:44: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-semicolon-find-line-break-point:
+#84 13.85 paredit.el:1100:20: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1110:46: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1114:55: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1119:55: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-comment-on-line-p:
+#84 13.85 paredit.el:1219:47: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-insert-comment:
+#84 13.85 paredit.el:1228:54: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1231:56: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.85 
+#84 13.85 In paredit-check-forward-delete-in-comment:
+#84 13.85 paredit.el:1382:31: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.85 paredit.el:1383:29: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-forward-delete-comment-start:
+#84 13.85 paredit.el:1393:40: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-backward-delete-in-comment:
+#84 13.85 paredit.el:1500:38: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-backward-delete-maybe-comment-end:
+#84 13.85 paredit.el:1511:30: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1511:45: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.85 
+#84 13.85 In paredit-kill:
+#84 13.85 paredit.el:1537:54: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-kill-line-in-string:
+#84 13.85 paredit.el:1546:51: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1554:26: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-kill-sexps-on-line:
+#84 13.85 paredit.el:1567:15: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1583:36: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-forward-sexps-to-kill:
+#84 13.85 paredit.el:1614:38: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1633:29: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 
+#84 13.85 In paredit-kill-sexps-on-whole-line:
+#84 13.85 paredit.el:1666:21: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1667:56: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.85 
+#84 13.85 In paredit-copy-as-kill:
+#84 13.85 paredit.el:1793:40: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.85 paredit.el:1794:54: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 paredit.el:1800:42: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 
+#84 13.86 In paredit-copy-as-kill-in-string:
+#84 13.86 paredit.el:1808:32: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 
+#84 13.86 In paredit-copy-sexps-as-kill:
+#84 13.86 paredit.el:1816:17: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 paredit.el:1825:42: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 paredit.el:1827:47: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 
+#84 13.86 In paredit-check-region-for-delete:comment:
+#84 13.86 paredit.el:1900:55: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 paredit.el:2151:19: Warning: Use of deprecated ((lambda (n) ...) ...) form
+#84 13.86 
+#84 13.86 In paredit-raise-sexp:
+#84 13.86 paredit.el:2332:64: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 paredit.el:2333:62: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.86 
+#84 13.86 In paredit-join-lists-internal:
+#84 13.86 paredit.el:2747:45: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.87 
+#84 13.87 In paredit-indent-region:
+#84 13.87 paredit.el:2892:17: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.87 paredit.el:2895:62: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.87 paredit.el:2901:44: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.87 paredit.el:2910:31: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.87 paredit.el:2912:30: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 13.87 
+#84 13.87 In paredit-current-column:
+#84 13.87 paredit.el:3068:15: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.87 
+#84 13.87 In paredit-restore-column:
+#84 13.87 paredit.el:3083:10: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 13.87 Done (Total of 1 file compiled, 2 skipped)
+#84 13.88 Package ‘paredit’ installed.
+#84 13.88 Setting ‘package-selected-packages’ temporarily since "emacs -q" would overwrite customizations
+#84 13.88 Contacting host: melpa.org:443
+#84 14.27 Parsing tar file... 
+#84 14.27 Parsing tar file...done
+#84 14.27 Extracting... \ 
+#84 14.27 Extracting...done
+#84 14.27   INFO     Scraping 3 files for loaddefs... 
+#84 14.27   INFO     Scraping 3 files for loaddefs...done
+#84 14.27   GEN      macrostep-autoloads.el
+#84 14.33 Checking /home/kiel/.emacs.d/elpa/macrostep-20250202.2205...
+#84 14.33 Compiling /home/kiel/.emacs.d/elpa/macrostep-20250202.2205/macrostep-autoloads.el...
+#84 14.33 Compiling /home/kiel/.emacs.d/elpa/macrostep-20250202.2205/macrostep-c.el...
+#84 14.37 Compiling /home/kiel/.emacs.d/elpa/macrostep-20250202.2205/macrostep-pkg.el...
+#84 14.37 Compiling /home/kiel/.emacs.d/elpa/macrostep-20250202.2205/macrostep.el...
+#84 14.38 Done (Total of 2 files compiled, 2 skipped)
+#84 17.03 Contacting host: melpa.org:443
+#84 17.19 Parsing tar file... 
+#84 17.19 Parsing tar file...done
+#84 17.19 Extracting... \ 
+#84 17.21 Extracting...done
+#84 17.21   INFO     Scraping 4 files for loaddefs... 
+#84 17.22   INFO     Scraping 4 files for loaddefs...done
+#84 17.22   GEN      slime-autoloads.el
+#84 17.27 Checking /home/kiel/.emacs.d/elpa/slime-20260303.1754...
+#84 17.27 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/slime-autoloads.el...
+#84 17.27 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/slime-pkg.el...
+#84 17.27 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/slime-tests.el...
+#84 17.35 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/slime.el...
+#84 17.36 
+#84 17.36 In toplevel form:
+#84 17.36 slime.el:112:2: Warning: Alias for ‘slime-contribs’ should be declared before its referent
+#84 17.36 
+#84 17.36 In slime-dcase:
+#84 17.36 slime.el:706:4: Warning: Doc string after ‘declare’
+#84 17.37 
+#84 17.37 In slime-recompile-bytecode:
+#84 17.37 slime.el:1182:6: Warning: ‘byte-compile-file’ called with 2 arguments, but accepts only 1
+#84 17.39 
+#84 17.39 In slime-log-event:
+#84 17.39 slime.el:2473:10: Warning: ‘hide-entry’ is an obsolete function (as of 25.1); use ‘outline-hide-entry’ instead.
+#84 17.40 
+#84 17.40 In slime-forward-source-path:
+#84 17.40 slime.el:3146:12: Warning: ‘beginning-of-sexp’ is an obsolete function (as of 25.1); use ‘thing-at-point--beginning-of-sexp’ instead.
+#84 17.40 
+#84 17.40 In slime-location-offset:
+#84 17.40 slime.el:3457:16: Warning: ‘beginning-of-sexp’ is an obsolete function (as of 25.1); use ‘thing-at-point--beginning-of-sexp’ instead.
+#84 17.40 
+#84 17.40 In slime-push-definition-stack:
+#84 17.40 slime.el:3754:20: Warning: ‘find-tag-marker-ring’ is an obsolete variable (as of 25.1); use ‘xref-push-marker-stack’ or ‘xref-go-back’ instead.
+#84 17.45 
+#84 17.45 In slime-eval-defun:
+#84 17.45 slime.el:4140:2: Warning: docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.46 
+#84 17.46 In slime-insert-xrefs:
+#84 17.46 slime.el:4648:4: Warning: ‘backward-delete-char’ is for interactive use only; use ‘delete-char’ instead.
+#84 17.46 
+#84 17.46 In slime-edit-uses:
+#84 17.46 slime.el:4998:31: Warning: Unused lexical argument ‘type’
+#84 17.46 
+#84 17.46 In slime-initialize-macroexpansion-buffer:
+#84 17.46 slime.el:5075:6: Warning: ‘font-lock-fontify-buffer’ is for interactive use only; use ‘font-lock-ensure’ or ‘font-lock-flush’ instead.
+#84 17.47 
+#84 17.47 In sldb-fetch-more-frames:
+#84 17.47 slime.el:5632:10: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.47 
+#84 17.47 In sldb-fetch-all-frames:
+#84 17.47 slime.el:5788:10: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.48 
+#84 17.48 In sldb-toggle-details:
+#84 17.48 slime.el:5891:10: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.49 
+#84 17.49 In slime-open-inspector:
+#84 17.49 slime.el:6584:14: Warning: ‘backward-delete-char’ is for interactive use only; use ‘delete-char’ instead.
+#84 17.49 
+#84 17.49 In slime-find-inspectable-object:
+#84 17.49 slime.el:6723:2: Warning: docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.51 
+#84 17.51 In slime-add-easy-menu:
+#84 17.51 slime.el:7300:4: Warning: ‘easy-menu-add’ is an obsolete function (as of 28.1); this was always a no-op in Emacs and can be safely removed.
+#84 17.51 
+#84 17.51 In slime-sldb-add-easy-menu:
+#84 17.51 slime.el:7307:4: Warning: ‘easy-menu-add’ is an obsolete function (as of 28.1); this was always a no-op in Emacs and can be safely removed.
+#84 17.51 
+#84 17.51 In slime-group-similar:
+#84 17.51 slime.el:7425:2: Warning: docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.52 Checking /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib...
+#84 17.52 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/inferior-slime.el...
+#84 17.52 
+#84 17.52 In toplevel form:
+#84 17.52 contrib/inferior-slime.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.52 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-asdf.el...
+#84 17.53 
+#84 17.53 In toplevel form:
+#84 17.53 contrib/slime-asdf.el:82:12: Warning: in defcustom for ‘slime-asdf-collect-notes’: missing :type keyword parameter
+#84 17.53 
+#84 17.53 In slime-asdf-operation-finished-function:
+#84 17.53 contrib/slime-asdf.el:92:29: Warning: Unused lexical argument ‘system’
+#84 17.53 
+#84 17.53 In slime-query-replace-system:
+#84 17.53 contrib/slime-asdf.el:193:36: Warning: Unused lexical argument ‘name’
+#84 17.53 contrib/slime-asdf.el:201:8: Warning: ‘tags-query-replace’ called with 4 arguments, but accepts only 2 or 3
+#84 17.53 
+#84 17.53 In slime-who-depends-on:
+#84 17.53 contrib/slime-asdf.el:242:30: Warning: Lexical argument shadows the dynamic variable system-name
+#84 17.53 
+#84 17.53 In end of data:
+#84 17.53 contrib/slime-asdf.el:179:28: Warning: the function ‘second’ is not known to be defined.
+#84 17.53 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-autodoc.el...
+#84 17.53 
+#84 17.53 In toplevel form:
+#84 17.53 contrib/slime-autodoc.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.53 
+#84 17.53 In slime-autodoc-manually:
+#84 17.53 contrib/slime-autodoc.el:51:17: Warning: ‘eldoc-message’ is an obsolete function (as of eldoc-1.1.0); use ‘eldoc-documentation-functions’ instead.
+#84 17.53 contrib/slime-autodoc.el:52:15: Warning: ‘eldoc-message’ is an obsolete function (as of eldoc-1.1.0); use ‘eldoc-documentation-functions’ instead.
+#84 17.53 
+#84 17.53 In slime-autodoc-space:
+#84 17.53 contrib/slime-autodoc.el:64:8: Warning: ‘eldoc-message’ is an obsolete function (as of eldoc-1.1.0); use ‘eldoc-documentation-functions’ instead.
+#84 17.53 
+#84 17.53 In slime-autodoc--fontify:
+#84 17.53 contrib/slime-autodoc.el:106:8: Warning: ‘font-lock-fontify-buffer’ is for interactive use only; use ‘font-lock-ensure’ or ‘font-lock-flush’ instead.
+#84 17.53 
+#84 17.53 In slime-autodoc--async%:
+#84 17.53 contrib/slime-autodoc.el:165:14: Warning: ‘eldoc-display-message-p’ is an obsolete function (as of eldoc-1.6.0); Use ‘eldoc-documentation-functions’ instead.
+#84 17.53 contrib/slime-autodoc.el:166:10: Warning: ‘eldoc-message’ is an obsolete function (as of eldoc-1.1.0); use ‘eldoc-documentation-functions’ instead.
+#84 17.53 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-banner.el...
+#84 17.54 
+#84 17.54 In toplevel form:
+#84 17.54 contrib/slime-banner.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.54 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-buffer-streams.el...
+#84 17.54 
+#84 17.54 In toplevel form:
+#84 17.54 contrib/slime-buffer-streams.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.54 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-c-p-c.el...
+#84 17.54 
+#84 17.54 In toplevel form:
+#84 17.54 contrib/slime-c-p-c.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.54 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-cl-indent.el...
+#84 17.54 
+#84 17.54 In toplevel form:
+#84 17.54 contrib/slime-cl-indent.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.54 contrib/slime-cl-indent.el:114:12: Warning: custom-declare-variable ‘lisp-align-keywords-in-calls’ docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.55 contrib/slime-cl-indent.el:1453:9: Warning: defvar ‘common-lisp-indent-clause-joining-loop-macro-keyword’ docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.55 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-clipboard.el...
+#84 17.55 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-compiler-notes-tree.el...
+#84 17.55 
+#84 17.55 In toplevel form:
+#84 17.55 contrib/slime-compiler-notes-tree.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.56 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-editing-commands.el...
+#84 17.56 
+#84 17.56 In toplevel form:
+#84 17.56 contrib/slime-editing-commands.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.56 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-enclosing-context.el...
+#84 17.56 
+#84 17.56 In toplevel form:
+#84 17.56 contrib/slime-enclosing-context.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.57 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-fancy-inspector.el...
+#84 17.57 
+#84 17.57 In toplevel form:
+#84 17.57 contrib/slime-fancy-inspector.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.57 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-fancy-trace.el...
+#84 17.57 
+#84 17.57 In toplevel form:
+#84 17.57 contrib/slime-fancy-trace.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.57 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-fancy.el...
+#84 17.57 
+#84 17.57 In toplevel form:
+#84 17.57 contrib/slime-fancy.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.58 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-fontifying-fu.el...
+#84 17.58 
+#84 17.58 In toplevel form:
+#84 17.58 contrib/slime-fontifying-fu.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.59 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-fuzzy.el...
+#84 17.59 
+#84 17.59 In toplevel form:
+#84 17.59 contrib/slime-fuzzy.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.59 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-highlight-edits.el...
+#84 17.59 
+#84 17.59 In toplevel form:
+#84 17.59 contrib/slime-highlight-edits.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.59 contrib/slime-highlight-edits.el:23:20: Warning: Use keywords rather than deprecated positional arguments to ‘define-minor-mode’
+#84 17.60 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-hyperdoc.el...
+#84 17.60 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-indentation.el...
+#84 17.60 
+#84 17.60 In toplevel form:
+#84 17.60 contrib/slime-indentation.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.60 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-listener-hooks.el...
+#84 17.60 
+#84 17.60 In toplevel form:
+#84 17.60 contrib/slime-listener-hooks.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.60 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-macrostep.el...
+#84 17.60 
+#84 17.60 In toplevel form:
+#84 17.60 contrib/slime-macrostep.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.60 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-mdot-fu.el...
+#84 17.60 
+#84 17.60 In toplevel form:
+#84 17.60 contrib/slime-mdot-fu.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.60 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-media.el...
+#84 17.61 
+#84 17.61 In toplevel form:
+#84 17.61 contrib/slime-media.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.61 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-mrepl.el...
+#84 17.61 
+#84 17.61 In toplevel form:
+#84 17.61 contrib/slime-mrepl.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.61 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-package-fu.el...
+#84 17.61 
+#84 17.61 In toplevel form:
+#84 17.61 contrib/slime-package-fu.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.61 
+#84 17.61 In slime-add-export:
+#84 17.61 contrib/slime-package-fu.el:226:21: Warning: ‘looking-back’ called with 1 argument, but requires 2 or 3
+#84 17.61 
+#84 17.61 In slime-insert-export:
+#84 17.61 contrib/slime-package-fu.el:263:14: Warning: ‘looking-back’ called with 1 argument, but requires 2 or 3
+#84 17.61 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-parse.el...
+#84 17.61 
+#84 17.61 In toplevel form:
+#84 17.61 contrib/slime-parse.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.62 
+#84 17.62 In slime-definition-at-point:
+#84 17.62 contrib/slime-parse.el:328:20: Warning: Stray ‘declare’ form: (declare (ignore args))
+#84 17.62 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-presentation-streams.el...
+#84 17.62 
+#84 17.62 In toplevel form:
+#84 17.62 contrib/slime-presentation-streams.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.62 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-presentations.el...
+#84 17.62 
+#84 17.62 In toplevel form:
+#84 17.62 contrib/slime-presentations.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.63 
+#84 17.63 In slime-menu-choices-for-presentation:
+#84 17.63 contrib/slime-presentations.el:599:2: Warning: docstring wider than 80 characters
+#84 17.63 
+#84 17.63 In slime-presentation-add-easy-menu:
+#84 17.63 contrib/slime-presentations.el:757:4: Warning: ‘easy-menu-add’ is an obsolete function (as of 28.1); this was always a no-op in Emacs and can be safely removed.
+#84 17.63 contrib/slime-presentations.el:758:4: Warning: ‘easy-menu-add’ is an obsolete function (as of 28.1); this was always a no-op in Emacs and can be safely removed.
+#84 17.63 contrib/slime-presentations.el:759:4: Warning: ‘easy-menu-add’ is an obsolete function (as of 28.1); this was always a no-op in Emacs and can be safely removed.
+#84 17.63 contrib/slime-presentations.el:760:4: Warning: ‘easy-menu-add’ is an obsolete function (as of 28.1); this was always a no-op in Emacs and can be safely removed.
+#84 17.63 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-quicklisp.el...
+#84 17.63 
+#84 17.63 In toplevel form:
+#84 17.63 contrib/slime-quicklisp.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.63 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-references.el...
+#84 17.63 
+#84 17.63 In toplevel form:
+#84 17.63 contrib/slime-references.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.64 
+#84 17.64 In slime-lookup-reference-at-point:
+#84 17.64 contrib/slime-references.el:102:67: Warning: reference to free variable ‘name’
+#84 17.64 contrib/slime-references.el:129:2: Warning: ‘defadvice’ is an obsolete macro (as of 30.1); use ‘advice-add’ or ‘define-advice’
+#84 17.64 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-repl.el...
+#84 17.64 
+#84 17.64 In toplevel form:
+#84 17.64 contrib/slime-repl.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.64 contrib/slime-repl.el:130:9: Warning: defvar ‘slime-repl-history-use-mark’ docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.64 
+#84 17.64 In slime-repl-history-yank-start:
+#84 17.64 contrib/slime-repl.el:138:2: Warning: docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.64 
+#84 17.64 In slime-repl-history-replace:
+#84 17.64 contrib/slime-repl.el:931:2: Warning: docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.65 
+#84 17.65 In slime-repl-add-easy-menu:
+#84 17.65 contrib/slime-repl.el:1623:4: Warning: ‘easy-menu-add’ is an obsolete function (as of 28.1); this was always a no-op in Emacs and can be safely removed.
+#84 17.66 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-sbcl-exts.el...
+#84 17.66 
+#84 17.66 In toplevel form:
+#84 17.66 contrib/slime-sbcl-exts.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.66 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-scheme.el...
+#84 17.66 
+#84 17.66 In toplevel form:
+#84 17.66 contrib/slime-scheme.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.66 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-scratch.el...
+#84 17.66 
+#84 17.66 In toplevel form:
+#84 17.66 contrib/slime-scratch.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.66 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-snapshot.el...
+#84 17.66 
+#84 17.66 In toplevel form:
+#84 17.66 contrib/slime-snapshot.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.66 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-sprof.el...
+#84 17.66 
+#84 17.66 In slime-sprof-format:
+#84 17.66 contrib/slime-sprof.el:87:12: Warning: ‘goto-line’ is for interactive use only; use ‘forward-line’ instead.
+#84 17.66 
+#84 17.66 In slime-sprof-browser-collapse:
+#84 17.66 contrib/slime-sprof.el:158:30: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 17.66 contrib/slime-sprof.el:158:45: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 17.66 
+#84 17.66 In slime-sprof-browser-add-line-text-properties:
+#84 17.66 contrib/slime-sprof.el:201:25: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+#84 17.66 contrib/slime-sprof.el:202:25: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+#84 17.67 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-trace-dialog.el...
+#84 17.67 
+#84 17.67 In slime-trace-dialog--call-refreshing:
+#84 17.67 contrib/slime-trace-dialog.el:162:12: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.67 
+#84 17.67 In slime-trace-dialog--make-autofollow-fn:
+#84 17.67 contrib/slime-trace-dialog.el:248:16: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.67 contrib/slime-trace-dialog.el:261:28: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.68 
+#84 17.68 In slime-trace-dialog--call-maintaining-properties:
+#84 17.68 contrib/slime-trace-dialog.el:351:13: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.68 
+#84 17.68 In slime-trace-dialog--draw-tree-lines:
+#84 17.68 contrib/slime-trace-dialog.el:477:12: Warning: ‘inhibit-point-motion-hooks’ is an obsolete variable (as of 25.1); use ‘cursor-intangible-mode’ or ‘cursor-sensor-mode’ instead
+#84 17.68 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-tramp.el...
+#84 17.72 
+#84 17.72 In toplevel form:
+#84 17.72 contrib/slime-tramp.el:14:12: Warning: custom-declare-variable ‘slime-filename-translations’ docstring has wrong usage of unescaped single quotes (use \=' or different quoting such as `...')
+#84 17.72 
+#84 17.72 In slime-make-tramp-file-name:
+#84 17.72 contrib/slime-tramp.el:67:6: Warning: ‘tramp-make-tramp-file-name’ called with 6 arguments, but accepts only 1 or 2
+#84 17.72 contrib/slime-tramp.el:74:6: Warning: ‘tramp-make-tramp-file-name’ called with 5 arguments, but accepts only 1 or 2
+#84 17.72 contrib/slime-tramp.el:79:6: Warning: ‘tramp-make-tramp-file-name’ called with 4 arguments, but accepts only 1 or 2
+#84 17.72 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-typeout-frame.el...
+#84 17.72 
+#84 17.72 In toplevel form:
+#84 17.72 contrib/slime-typeout-frame.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.72 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/contrib/slime-xref-browser.el...
+#84 17.72 
+#84 17.72 In toplevel form:
+#84 17.72 contrib/slime-xref-browser.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.72 Checking /home/kiel/.emacs.d/elpa/slime-20260303.1754/lib...
+#84 17.72 Compiling /home/kiel/.emacs.d/elpa/slime-20260303.1754/lib/hyperspec.el...
+#84 17.73 
+#84 17.73 In toplevel form:
+#84 17.73 lib/hyperspec.el:1:1: Warning: file has no ‘lexical-binding’ directive on its first line
+#84 17.73 lib/hyperspec.el:1321:4: Warning: Alias for ‘common-lisp-hyperspec-glossary-function’ should be declared before its referent
+#84 17.73 Checking /home/kiel/.emacs.d/elpa/slime-20260303.1754/swank...
+#84 17.73 Done (Total of 43 files compiled, 2 skipped in 3 directories)
+#84 17.77 ad-handle-definition: ‘slime-note.message’ got redefined
+#84 17.78 Package ‘slime’ installed.
+#84 DONE 17.9s
+
+#85 [stage-1 77/82] COPY config/sysctl.conf /etc/sysctl.conf
+#85 DONE 0.1s
+
+#86 [stage-1 78/82] RUN mksquashfs / /gentoo.squashfs -comp zstd -xattrs -noappend -not-reproducible -Xcompression-level 19 -progress -one-file-system-x -b 256K -noI -noX -mem 10G -wildcards -e usr/src var/cache/binpkgs var/cache/distfiles "gentoo*squashfs" "usr/lib64/libQt*.a" usr/share/genkernel/distfiles usr/src/linux usr/share/sgml var/cache/eix/previous.eix boot persistent home/martin/.cache/mozilla home/martin/.cache/google-chrome home/martin/.cache/mesa_shader_cache home/martin/.cache/fontconfig home/martin/Downloads home/martin/.config home/martin/.mozilla home/martin/stage var/log/journal var/cache/genkernel var/tmp/portage mnt/ mnt2/ mnt4/ mnt5/ var/tmp initramfs-with-squashfs.img lost+found var/log usr/share/gtk-doc usr/share/doc usr/share/locale
+#86 0.883 //sys is on a different filesystem, ignored
+#86 1.128 Parallel mksquashfs: Using 32 processors
+#86 1.128 Creating 4.0 filesystem on /gentoo.squashfs, block size 262144.
+#86 1.128 [/                                                           ]     0/64521   0%//proc is on a different filesystem, ignored
+#86 1.631 //etc/hosts is on a different filesystem, ignored
+#86 1.643 //etc/resolv.conf is on a different filesystem, ignored
+#86 2.701 //dev is on a different filesystem, ignored
+#86 46.41 
+#86 46.41 
+#86 46.41 [===============-                                          ]  91500/339544  26%[===============-                                          ]  93700/339544  27%[=========================================================-] 339544/339544 100%
+#86 72.45 
+#86 72.45 Exportable Squashfs 4.0 filesystem, zstd compressed, data block size 262144
+#86 72.45 	compressed data, uncompressed metadata, compressed fragments,
+#86 72.45 	uncompressed xattrs, uncompressed ids
+#86 72.45 	duplicates are removed
+#86 72.45 Filesystem size 3043759.39 Kbytes (2972.42 Mbytes)
+#86 72.45 	32.34% of uncompressed filesystem size (9410947.13 Kbytes)
+#86 72.45 Inode table size 11496466 bytes (11227.02 Kbytes)
+#86 72.45 	100.00% of uncompressed inode table size (11496466 bytes)
+#86 72.45 Directory table size 8852587 bytes (8645.10 Kbytes)
+#86 72.45 	100.00% of uncompressed directory table size (8852587 bytes)
+#86 72.45 Xattr table size 154 bytes (0.15 Kbytes)
+#86 72.45 	96.25% of uncompressed xattr table size (160 bytes)
+#86 72.45 Number of duplicate files found 44935
+#86 72.45 Number of inodes 348111
+#86 72.45 Number of files 293950
+#86 72.45 Number of fragments 6903
+#86 72.45 Number of symbolic links 12335
+#86 72.45 Number of device nodes 0
+#86 72.45 Number of fifo nodes 1
+#86 72.45 Number of socket nodes 5
+#86 72.45 Number of directories 41820
+#86 72.45 Number of hard-links 415
+#86 72.45 Number of ids (unique uids + gids) 19
+#86 72.45 Number of uids 10
+#86 72.45 	root (0)
+#86 72.45 	nullmail (88)
+#86 72.45 	polkitd (102)
+#86 72.45 	kiel (1000)
+#86 72.45 	ntp (123)
+#86 72.45 	postgres (70)
+#86 72.45 	portage (250)
+#86 72.45 	man (13)
+#86 72.45 	dhcp (300)
+#86 72.45 	tss (59)
+#86 72.45 Number of gids 17
+#86 72.45 	root (0)
+#86 72.45 	lp (7)
+#86 72.45 	shadow (42)
+#86 72.45 	nullmail (88)
+#86 72.45 	polkitd (102)
+#86 72.45 	kiel (1000)
+#86 72.45 	ntp (123)
+#86 72.45 	postgres (70)
+#86 72.45 	mail (12)
+#86 72.45 	pcap (377)
+#86 72.45 	video (27)
+#86 72.45 	utmp (406)
+#86 72.45 	messagebus (101)
+#86 72.45 	tty (5)
+#86 72.45 	portage (250)
+#86 72.45 	man (15)
+#86 72.45 	dhcp (300)
+#86 DONE 74.0s
+
+#87 [stage-1 79/82] COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
+#87 DONE 0.1s
+
+#88 [stage-1 80/82] RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
+#88 DONE 0.7s
+
+#89 [stage-1 81/82] RUN dracut       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs"       --filesystems "squashfs vfat ext4 overlay btrfs"       --kver=6.12.74-gentoo       --install "stat blockdev"       --force       /boot/initramfs_squash_sda1-x86_64.img
+#89 1.366 libkmod: ERROR: kmod_module_parse_depline: ctx=0x561ea2c4c740 path=/usr/lib/modules/6.12.74-gentoo/video/nvidia.ko error=No such file or directory
+#89 1.366 libkmod: ERROR: kmod_module_parse_depline: ctx=0x561ea2c4c740 path=/usr/lib/modules/6.12.74-gentoo/video/nvidia.ko error=No such file or directory
+#89 1.370 dracut[I]: Detected container-other container.
+#89 1.383 dracut[I]: Executing: /usr/bin/dracut -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" --filesystems "squashfs vfat ext4 overlay btrfs" --kver=6.12.74-gentoo --install "stat blockdev" --force /boot/initramfs_squash_sda1-x86_64.img
+#89 1.709 dracut[I]: *** Including module: crypt ***
+#89 1.743 dracut[I]: *** Including module: dm ***
+#89 1.785 dracut[I]: *** Including module: dmsquash-live ***
+#89 1.808 dracut[I]: *** Including module: fs-lib ***
+#89 1.824 dracut[I]: *** Including module: img-lib ***
+#89 1.833 dracut[I]: *** Including module: kernel-modules ***
+#89 1.893 dracut[I]: *** Including module: lvm ***
+#89 1.929 dracut[I]: *** Including module: overlayfs ***
+#89 1.940 dracut[I]: *** Including module: rootfs-block ***
+#89 1.965 dracut[I]: *** Including module: udev-rules ***
+#89 2.202 dracut[I]: *** Including module: initqueue ***
+#89 2.204 dracut[I]: *** Including module: base ***
+#89 2.221 grep: /var/tmp/dracut.dM4Rq9t/initramfs/etc/shadow: No such file or directory
+#89 2.248 dracut[I]: *** Including modules done ***
+#89 2.254 dracut[I]: *** Installing kernel module dependencies ***
+#89 2.263 dracut[I]: *** Installing kernel module dependencies done ***
+#89 2.267 dracut[I]: *** Resolving executable dependencies ***
+#89 2.361 dracut[I]: *** Resolving executable dependencies done ***
+#89 2.745 dracut[I]: *** Generating early-microcode cpio image ***
+#89 2.750 dracut[I]: *** Constructing AuthenticAMD.bin ***
+#89 2.760 dracut[I]: *** Store current command line parameters ***
+#89 2.761 dracut[I]: Stored kernel commandline:
+#89 2.761 dracut[I]: No dracut internal kernel commandline stored in the initramfs
+#89 2.783 dracut[I]: *** Stripping files ***
+#89 2.842 dracut[I]: *** Stripping files done ***
+#89 2.842 dracut[I]: *** Creating image file '/boot/initramfs_squash_sda1-x86_64.img' ***
+#89 2.843 dracut[I]: *** Hardlinking files ***
+#89 2.845 dracut[I]: *** Hardlinking files done ***
+#89 2.848 dracut[I]: Using auto-determined compression method 'zstd'
+#89 4.492 dracut[I]: *** Creating initramfs image file '/boot/initramfs_squash_sda1-x86_64.img' done ***
+#89 DONE 4.8s
+
+#90 exporting to image
+#90 exporting layers
+#90 exporting layers 20.4s done
+#90 writing image sha256:e32d92e52da6a1115a34a28b4d3c0a2147c018d62b7122b70c4e4ecab90fd851 done
+#90 naming to docker.io/library/gentoo-z6-min done
+#90 DONE 20.4s
