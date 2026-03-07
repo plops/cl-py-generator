@@ -63,7 +63,7 @@ www-client/firefox
 www-client/google-chrome
 www-apps/chromedriver-bin
 net-im/signal-desktop-bin
-media-fonts/wqy-microhei
+media-fonts/wqy-zenhei
 
 # Audio and Media
 media-video/mpv

@@ -254,7 +254,7 @@ RUN if [ -s /tmp/world_stage_10.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tm
 RUN qlist -Iv > /packages.txt
 
 RUN emerge --depclean
-
+RUN fc-cache -fv
 # Sudo policy
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
