@@ -95,17 +95,17 @@
 			     ;(:name gemini-2.5-pro :input-price 1.25 :output-price 10.0 :context-length 2_000_000 :harm-civic nil)
 			     (:name gemini-2.5-flash :input-price 0.3 :output-price 2.5 :context-length 1_000_000 :harm-civic nil)
 			     (:name gemini-2.5-flash-lite :input-price 0.1 :output-price 0.4 :context-length 1_000_000 :harm-civic nil)
-			     (:name gemini-2.5-flash-native-audio-preview :input-price 0.5 :output-price 2.0 :context-length 1_000_000 :harm-civic nil)
+			     ;(:name gemini-2.5-flash-native-audio-preview :input-price 0.5 :output-price 2.0 :context-length 1_000_000 :harm-civic nil) ;; this can't make summaries
 			     
 			     ;; --- Gemini 2.0 Series (Efficiency) ---
-			     ;(:name gemini-2.0-flash :input-price 0.1 :output-price 0.4 :context-length 1_000_000 :harm-civic nil)
+			     ;(:name gemini-2.0-flash :input-price 0.1 :output-price 0.4 :context-length 1_000_000 :harm-civic nil) ;; no free quota
 			     ;(:name gemini-2.0-flash-lite :input-price 0.075 :output-price 0.3 :context-length 1_000_000 :harm-civic nil)
 			     
 			     ;; --- Specialized Models ---
-			     (:name gemini-embedding-001 :input-price 0.15 :output-price 0.0 :context-length 30_720 :harm-civic nil)
-			     (:name gemini-robotics-er-1.5-preview :input-price 0.3 :output-price 2.5 :context-length 1_000_000 :harm-civic nil)
+			     ;(:name gemini-embedding-001 :input-price 0.15 :output-price 0.0 :context-length 30_720 :harm-civic nil) ;; this can't make summaries
+			     (:name gemini-robotics-er-1.5-preview :input-price 0.3 :output-price 2.5 :context-length 1_000_000 :harm-civic nil) ;; this can make summaries
 
-			     
+			     ;; the gemma models don't work with the old genai api that i am using
 					;(:name gemma-3-27b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
 					;(:name gemma-3-12b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
 					;(:name gemma-3-4b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
