@@ -7,17 +7,17 @@ This guide describes how to install a new live Gentoo image on the ThinkPad E14 
 - **Artifacts Partition (Kernel/Squashfs)**: `/dev/nvme0n1p2` (UUID `df544e10-90c0-4315-860c-92a58ec8499e`)
 - **GRUB Config Partition**: `/dev/nvme1n1p2` (currently mounted at `/1p2`)
 - **Persistent Partition**: `/dev/nvme0n1p4` (LUKS UUID `bbac9bb8-39d9-42fa-8d04-94610ced9839`)
-- **Build Date Suffix**: `0306`
+- **Build Date Suffix**: `0307`
 
 ## 1. Copy New Build Artifacts
 
-We copy the artifacts to the storage partition (currently at `/run/initramfs/live`). We must remount it as `rw` first.
+We copy the new artifacts to the storage partition (currently at `/run/initramfs/live`). We must remount it as `rw` first.
 
 ```bash
 sudo mount -o remount,rw /run/initramfs/live
-sudo cp -av ~/gentoo-z6-min_20260306/gentoo.squashfs /run/initramfs/live/gentoo.squashfs_0306
-sudo cp -av ~/gentoo-z6-min_20260306/vmlinuz /run/initramfs/live/boot/vmlinuz_0306
-sudo cp -av ~/gentoo-z6-min_20260306/initramfs_squash_sda1-x86_64.img /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0306
+sudo cp -av ~/gentoo-z6-min_20260307/gentoo.squashfs /run/initramfs/live/gentoo.squashfs_0307
+sudo cp -av ~/gentoo-z6-min_20260307/vmlinuz /run/initramfs/live/boot/vmlinuz_0307
+sudo cp -av ~/gentoo-z6-min_20260307/initramfs_squash_sda1-x86_64.img /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0307
 ```
 
 ## 2. Update GRUB Configuration
@@ -27,17 +27,17 @@ The GRUB config on this machine is located on `/dev/nvme1n1p2` (mounted at `/1p2
 ```bash
 cat <<'EOF' | sudo tee -a /1p2/boot/grub/custom.cfg >/dev/null
 
-menuentry 'Gentoo Dracut (E14 persist on nvme0n1p4 0306)' {
+menuentry 'Gentoo Dracut (E14 persist on nvme0n1p4 0307)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     # Search for the partition containing the artifacts (nvme0n1p2)
     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
 
-    linux /boot/vmlinuz_0306 \
+    linux /boot/vmlinuz_0307 \
       root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
       rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs_0306 \
+      rd.live.squashimg=gentoo.squashfs_0307 \
       rd.live.ram=1 \
       rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
       rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
@@ -45,7 +45,7 @@ menuentry 'Gentoo Dracut (E14 persist on nvme0n1p4 0306)' {
       rd.live.overlay.overlayfs=1 \
       nvme_core.default_ps_max_latency_us=0
 
-    initrd /boot/initramfs_squash_sda1-x86_64.img_0306
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0307
 }
 EOF
 ```
