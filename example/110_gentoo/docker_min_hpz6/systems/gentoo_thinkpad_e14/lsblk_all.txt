@@ -1,5 +1,5 @@
 NAME        MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
-loop0         7:0    0   2.6G  1 loop  /run/rootfsbase
+loop0         7:0    0   2.9G  1 loop  /run/rootfsbase
 nvme0n1     259:0    0 931.5G  0 disk  
 ├─nvme0n1p1 259:1    0     1G  0 part  
 ├─nvme0n1p2 259:2    0    18G  0 part  /run/initramfs/live

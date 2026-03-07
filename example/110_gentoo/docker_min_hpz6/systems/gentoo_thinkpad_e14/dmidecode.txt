@@ -496,7 +496,7 @@ System Event Log
 Handle 0x0030, DMI type 141, 18 bytes
 OEM-specific Type
 	Header and Data:
-		8D 12 30 00 54 48 4E 4B 00 00 00 00 00 00 01 00
+		8D 12 30 00 54 48 4E 4B 00 00 00 00 00 00 0D 00
 		00 00
 
 Handle 0x0031, DMI type 141, 18 bytes
@@ -508,7 +508,7 @@ OEM-specific Type
 Handle 0x0032, DMI type 141, 18 bytes
 OEM-specific Type
 	Header and Data:
-		8D 12 32 00 54 48 4E 4B 00 00 30 00 00 00 00 00
+		8D 12 32 00 54 48 4E 4B 00 00 30 00 00 00 02 00
 		00 00
 
 Handle 0x0033, DMI type 141, 18 bytes
@@ -520,8 +520,8 @@ OEM-specific Type
 Handle 0x0034, DMI type 141, 30 bytes
 OEM-specific Type
 	Header and Data:
-		8D 1E 34 00 54 48 4E 4B 00 00 50 00 00 00 F4 89
-		1F 08 00 00 00 00 A3 E4 08 0B 00 00 00 00
+		8D 1E 34 00 54 48 4E 4B 00 00 50 00 00 00 8D 8C
+		1F 08 00 00 00 00 D3 E4 08 0B 00 00 00 00
 
 Handle 0x0035, DMI type 135, 18 bytes
 OEM-specific Type
@@ -538,9 +538,9 @@ Handle 0x0037, DMI type 141, 56 bytes
 OEM-specific Type
 	Header and Data:
 		8D 38 37 00 54 48 4E 4B 00 00 60 00 00 00 FF 00
-		26 20 03 06 20 11 17 00 26 20 03 06 19 13 19 00
-		26 20 03 05 18 16 07 00 26 20 03 05 07 32 44 00
-		26 20 03 04 08 31 45 00
+		26 20 03 07 09 01 52 00 26 20 03 06 20 11 17 00
+		26 20 03 06 19 13 19 00 26 20 03 05 18 16 07 00
+		26 20 03 05 07 32 44 00
 
 Handle 0xFEFF, DMI type 127, 4 bytes
 End Of Table
