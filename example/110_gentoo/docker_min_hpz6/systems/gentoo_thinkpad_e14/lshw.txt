@@ -470,13 +470,13 @@ localhost
                       vendor: Logitech
                       physical id: 2
                       bus info: [REDACTED_USER]@3:2
-                      logical name: input6
+                      logical name: input5
                       logical name: /dev/input/event5
-                      logical name: input6::capslock
-                      logical name: input6::compose
-                      logical name: input6::kana
-                      logical name: input6::numlock
-                      logical name: input6::scrolllock
+                      logical name: input5::capslock
+                      logical name: input5::compose
+                      logical name: input5::kana
+                      logical name: input5::numlock
+                      logical name: input5::scrolllock
                       logical name: input7
                       logical name: /dev/input/event7
                       logical name: /dev/input/mouse1
@@ -862,13 +862,13 @@ localhost
        product: ThinkPad Extra Buttons
        physical id: 7
        logical name: input18
-       logical name: /dev/input/event13
+       logical name: /dev/input/event14
        capabilities: platform
   *-input:6
        product: PC Speaker
        physical id: 8
        logical name: input19
-       logical name: /dev/input/event14
+       logical name: /dev/input/event13
        capabilities: isa
   *-input:7
        product: Sleep Button
@@ -892,9 +892,9 @@ localhost
   *-input:10
        product: AT Translated Set 2 keyboard
        physical id: c
-       logical name: input5
+       logical name: input6
        logical name: /dev/input/event6
-       logical name: input5::capslock
-       logical name: input5::numlock
-       logical name: input5::scrolllock
+       logical name: input6::capslock
+       logical name: input6::numlock
+       logical name: input6::scrolllock
        capabilities: i8042

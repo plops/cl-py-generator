@@ -4,7 +4,7 @@ Transient hostname: localhost
            Chassis: laptop 💻
  Chassis Asset Tag: No Asset Information
         Machine ID: ea26fa05a4701425c4326f2b69853219
-           Boot ID: d5f35f56f39e4ff184c17d1b44bb3576
+           Boot ID: d6bab540fed84f8bb95d06e201f5cbe1
       Product UUID: a600af4c-31d2-11b2-a85c-b5045e8f0b79
   Operating System: Gentoo Linux
             Kernel: Linux 6.12.74-gentoo
@@ -15,4 +15,4 @@ Transient hostname: localhost
       Hardware SKU: LENOVO_MT_21M3_BU_Think_FM_ThinkPad E14 Gen 6
   Firmware Version: R2KET35W (1.18 )
      Firmware Date: Thu 2025-07-24
-      Firmware Age: 7month 1w 5d
+      Firmware Age: 7month 1w 6d

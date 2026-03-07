@@ -58,8 +58,8 @@ System         = LENOVO ThinkPad E14 Gen 6 21M30030MZ
 BIOS           = R2KET35W (1.18 )
 EC Firmware    = 1.18
 OS Release     = Gentoo Linux
-Kernel         = 6.12.74-gentoo #1 SMP PREEMPT_RT Thu Mar  5 23:27:55 -00 2026 x86_64
-/proc/cmdline  = BOOT_IMAGE=/boot/vmlinuz_0306 root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e rd.live.dir=/ rd.live.squashimg=gentoo.squashfs_0306 rd.live.ram=1 rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc rd.overlay=/dev/mapper/enc:persistent rd.live.overlay.overlayfs=1
+Kernel         = 6.12.74-gentoo #1 SMP PREEMPT_RT Sat Mar  7 01:31:51 -00 2026 x86_64
+/proc/cmdline  = BOOT_IMAGE=/boot/vmlinuz_0307 root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e rd.live.dir=/ rd.live.squashimg=gentoo.squashfs_0307 rd.live.ram=1 rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc rd.overlay=/dev/mapper/enc:persistent rd.live.overlay.overlayfs=1 nvme_core.default_ps_max_latency_us=0
 Init system    = systemd 
 Boot mode      = UEFI
 Suspend mode   = [s2idle]
@@ -67,7 +67,7 @@ Suspend mode   = [s2idle]
 +++ TLP Status
 State          = enabled
 RDW state      = enabled
-Last run       = 20:11:38, 649 sec(s) ago
+Last run       = 09:02:14, 245 sec(s) ago
 Mode           = AC
 Power source   = AC
 
@@ -97,8 +97,8 @@ CPU model = AMD Ryzen 7 7735HS with Radeon Graphics
 /sys/devices/platform/thinkpad_acpi/dytc_lapmode       = 0
 
 +++ Temperatures
-/proc/acpi/ibm/thermal = 84 0 0 0 0 0 0 -128 [°C]
-/proc/acpi/ibm/fan     =  3000 [/min]
+/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 -128 [°C]
+/proc/acpi/ibm/fan     =     0 [/min]
 
 +++ File System
 /proc/sys/vm/laptop_mode               =     0
@@ -116,7 +116,7 @@ Devices = nvme0n1 sda
   Disk ID    = nvme-ADATA_LEGEND_800_************
   Model      = ADATA LEGEND 800                        
   Firmware   = V1122B0 
-  Temp       = 47 °C
+  Temp       = 45 °C
   Scheduler  = [none] mq-deadline kyber bfq (multi queue)
 
   Runtime PM:
@@ -124,13 +124,13 @@ Devices = nvme0n1 sda
 
   SMART info:
     Critical Warning:                   0x00
-    Temperature:                        47 Celsius
+    Temperature:                        45 Celsius
     Available Spare:                    100%
     Available Spare Threshold:          10%
     Percentage Used:                    3%
-    Data Units Written:                 40,916,891 [20.9 TB]
+    Data Units Written:                 40,942,293 [20.9 TB]
     Power Cycles:                       2,167
-    Power On Hours:                     15,763
+    Power On Hours:                     15,776
     Unsafe Shutdowns:                   465
     Media and Data Integrity Errors:    0
 
@@ -197,7 +197,7 @@ Driver denylist   = mei_me nouveau radeon xhci_hcd
 /sys/bus/pci/devices/0000:05:00.3/power/control = auto (0x0c0330, USB controller, xhci_hcd)
 /sys/bus/pci/devices/0000:05:00.4/power/control = auto (0x0c0330, USB controller, xhci_hcd)
 /sys/bus/pci/devices/0000:05:00.5/power/control = on   (0x048000, Multimedia controller, no driver)
-/sys/bus/pci/devices/0000:05:00.6/power/control = on   (0x040300, Audio device, snd_hda_intel)
+/sys/bus/pci/devices/0000:05:00.6/power/control = auto (0x040300, Audio device, snd_hda_intel)
 /sys/bus/pci/devices/0000:06:00.0/power/control = auto (0x0c0330, USB controller, xhci_hcd)
 /sys/bus/pci/devices/0000:06:00.3/power/control = auto (0x0c0330, USB controller, xhci_hcd)
 /sys/bus/pci/devices/0000:06:00.4/power/control = auto (0x0c0330, USB controller, xhci_hcd)
@@ -241,7 +241,7 @@ Parameter value ranges:
 /sys/class/power_supply/BAT0/cycle_count                    =     98
 /sys/class/power_supply/BAT0/energy_full_design             =  57000 [mWh]
 /sys/class/power_supply/BAT0/energy_full                    =  51790 [mWh]
-/sys/class/power_supply/BAT0/energy_now                     =  41150 [mWh]
+/sys/class/power_supply/BAT0/energy_now                     =  41100 [mWh]
 /sys/class/power_supply/BAT0/power_now                      =      0 [mW]
 /sys/class/power_supply/BAT0/status                         = Not charging
 
@@ -249,6 +249,6 @@ Parameter value ranges:
 /sys/class/power_supply/BAT0/charge_control_end_threshold   =     80 [%]
 /sys/class/power_supply/BAT0/charge_behaviour               = [auto] inhibit-charge force-discharge
 
-Charge                                                      =   79.5 [%]
+Charge                                                      =   79.4 [%]
 Capacity                                                    =   90.9 [%]
 
