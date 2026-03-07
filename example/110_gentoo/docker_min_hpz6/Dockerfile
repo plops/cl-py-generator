@@ -193,59 +193,31 @@ RUN make modules_install
 RUN make install
 
 
-# System package build
-RUN emerge -e --ask=n @world
-RUN qlist -Iv > /packages.txt
+# System package build in cached chunks:
+# 1) Compute an ordered empty-tree world plan during the Docker build.
+# 2) Split it into 10 files with roughly equal number of packages.
+# 3) Emerge each chunk in its own layer to reduce rebuild cost after failures.
+RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt \
+ && total_lines=$(wc -l < /tmp/world_packages.txt) \
+ && lines_per_stage=$(( (total_lines + 9) / 10 )) \
+ && for i in $(seq 1 10); do \
+      start=$(( (i - 1) * lines_per_stage + 1 )); \
+      end=$(( i * lines_per_stage )); \
+      sed -n "${start},${end}p" /tmp/world_packages.txt > "/tmp/world_stage_${i}.txt"; \
+    done
 
-## Generate the full list of packages to build and split into 10 stages
-#RUN emerge -pqe --columns @world | awk '{print $2}' > /tmp/world_packages.txt && \
-#    total_lines=$(wc -l < /tmp/world_packages.txt) && \
-#    lines_per_stage=$((($total_lines + 9) / 10)) && \
-#    for i in {1..10}; do \
-#      start=$(((i-1) * lines_per_stage + 1)); \
-#      sed -n "${start},$((start + lines_per_stage - 1))p" /tmp/world_packages.txt > /tmp/stage_${i}_packages.txt; \
-#    done
-#
-## Stage 1 of 10
-#RUN if [ -s /tmp/stage_1_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_1_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 2 of 10
-#RUN if [ -s /tmp/stage_2_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_2_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 3 of 10
-#RUN if [ -s /tmp/stage_3_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_3_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 4 of 10
-#RUN if [ -s /tmp/stage_4_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_4_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 5 of 10
-#RUN if [ -s /tmp/stage_5_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_5_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 6 of 10
-#RUN if [ -s /tmp/stage_6_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_6_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 7 of 10
-#RUN if [ -s /tmp/stage_7_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_7_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 8 of 10
-#RUN if [ -s /tmp/stage_8_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_8_packages.txt | awk '{print $NF}'); fi
-#
-## Stage 9 of 10
-#RUN if [ -s /tmp/stage_9_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_9_packages.txt | awk '{print $NF}'); fi
-#
-### Generate the full list of packages to build and split into 10 stages
-### Using 'awk' to extract only the package name and avoiding empty lines
-##RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt && \
-##    total_lines=$(wc -l < /tmp/world_packages.txt) && \
-##    lines_per_stage=$(( (total_lines + 9) / 10 )) && \
-##    for i in {1..10}; do \
-##      start=$(((i-1) * lines_per_stage + 1)); \
-##      sed -n "${start},$((start + lines_per_stage - 1))p" /tmp/world_packages.txt > /tmp/stage_${i}_packages.txt; \
-##    done
-#
-#
-## Stage 10 of 10
-#RUN if [ -s /tmp/stage_10_packages.txt ]; then emerge --ask=n $(cat /tmp/stage_10_packages.txt | grep / | awk '{print $NF}'); fi
+RUN if [ -s /tmp/world_stage_1.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_1.txt); fi
+RUN if [ -s /tmp/world_stage_2.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_2.txt); fi
+RUN if [ -s /tmp/world_stage_3.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_3.txt); fi
+RUN if [ -s /tmp/world_stage_4.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_4.txt); fi
+RUN if [ -s /tmp/world_stage_5.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_5.txt); fi
+RUN if [ -s /tmp/world_stage_6.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_6.txt); fi
+RUN if [ -s /tmp/world_stage_7.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_7.txt); fi
+RUN if [ -s /tmp/world_stage_8.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_8.txt); fi
+RUN if [ -s /tmp/world_stage_9.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_9.txt); fi
+RUN if [ -s /tmp/world_stage_10.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_10.txt); fi
+
+RUN qlist -Iv > /packages.txt
 
 RUN emerge --depclean
 
