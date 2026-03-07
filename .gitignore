@@ -7,6 +7,8 @@
 *.vtt
 *.en.srt
 *.tar.gz
+*.squashfs
+example/110_gentoo/docker_min_hpz6/gentoo-z6-min_*/vmlinuz
+example/110_gentoo/docker_min_hpz6/gentoo-z6-min_*/packages.txt
 example/143_helium_gemini/data/*
 example/143_helium_gemini/Goog*/*
-
