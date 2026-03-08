@@ -61,10 +61,10 @@ logger.info("Use environment variable for API key")
 api_key=os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
  
-MODEL_OPTIONS=["gemini-3-flash-preview| input-price: 0.5 output-price: 3.0 max-context-length: 1_000_000", "gemini-2.5-flash| input-price: 0.3 output-price: 2.5 max-context-length: 1_000_000", "gemini-2.5-flash-lite| input-price: 0.1 output-price: 0.4 max-context-length: 1_000_000", "gemini-2.5-flash-native-audio-preview| input-price: 0.5 output-price: 2.0 max-context-length: 1_000_000", "gemini-embedding-001| input-price: 0.15 output-price: 0.0 max-context-length: 30_720", "gemini-robotics-er-1.5-preview| input-price: 0.3 output-price: 2.5 max-context-length: 1_000_000"]
+MODEL_OPTIONS=["gemini-3.1-flash-lite-preview| input: $0.25 | output: $1.5 | context: 1_000_000 | rpm: 15 | rpd: 500", "gemini-3-flash-preview| input: $0.5 | output: $3.0 | context: 1_000_000 | rpm: 5 | rpd: 20", "gemini-2.5-flash| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 5 | rpd: 20", "gemini-2.5-flash-lite| input: $0.1 | output: $0.4 | context: 1_000_000 | rpm: 10 | rpd: 20", "gemini-robotics-er-1.5-preview| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 10 | rpd: 20"]
  
 # Counters for tracking daily usage
-model_counts={opt.split("|")[0]:0 for opt in MODEL_OPTIONS}
+model_counts={opt.split("|")[0].strip():0 for opt in MODEL_OPTIONS}
 last_reset_day=None
  
 def check_reset_counters():
@@ -213,10 +213,12 @@ def get(request: Request):
     transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width: 60%;", name="transcript", id="transcript-paste")
     selector=[]
     for opt in MODEL_OPTIONS:
-        model_name=opt.split("|")[0]
+        parts=opt.split("|")
+        model_name=parts[0].strip()
+        rpd_limit=int(parts[-1][split(":")].1[].strip())
         used=model_counts.get(model_name, 0)
-        remaining=max(0, ((20)-(used)))
-        label=f"{model_name} | {remaining} requests left"
+        remaining=max(0, ((rpd_limit)-(used)))
+        label=f"{model_name} | {remaining} / {rpd_limit} RPD left"
         selector.append(Option(opt, value=opt, label=label))
     model=Div(Label("Select Model", _for="model-select", cls="visually-hidden"), Select(*selector, id="model-select", style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
     form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link"), Label("(Optional) Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list")
@@ -274,8 +276,8 @@ def generation_preview(identifier):
     sid=f"gen-{identifier}"
     text="Generating ..."
     trigger="every 1s"
-    price_input={("gemini-3-flash-preview"):((0.50    )), ("gemini-2.5-flash"):((0.30    )), ("gemini-2.5-flash-lite"):((0.10    )), ("gemini-2.5-flash-native-audio-preview"):((0.50    )), ("gemini-embedding-001"):((0.150    )), ("gemini-robotics-er-1.5-preview"):((0.30    ))}
-    price_output={("gemini-3-flash-preview"):((3.0    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-2.5-flash-native-audio-preview"):((2.0    )), ("gemini-embedding-001"):((0.    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
+    price_input={("gemini-3.1-flash-lite-preview"):((0.250    )), ("gemini-3-flash-preview"):((0.50    )), ("gemini-2.5-flash"):((0.30    )), ("gemini-2.5-flash-lite"):((0.10    )), ("gemini-robotics-er-1.5-preview"):((0.30    ))}
+    price_output={("gemini-3.1-flash-lite-preview"):((1.50    )), ("gemini-3-flash-preview"):((3.0    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):

@@ -1048,15 +1048,15 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 	    (setf price_input (dict
 			       ,@(loop for e in *models*
 				     collect
-				     (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-				       `((string ,name)
-					 ,input-price)))))
+						 (destructuring-bind (&key name input-price output-price context-length rpm rpd) e 
+						   `((string ,name)
+							 ,input-price)))))
 	  (setf price_output (dict
 			      ,@(loop for e in *models*
 				      collect
-				      (destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-					`((string ,name)
-					  ,output-price))))))
+					      (destructuring-bind (&key name input-price output-price context-length rpm rpd) e 
+						`((string ,name)
+						  ,output-price))))))
 	   (try
 	    (do0
 	     (setf s (aref summaries identifier))
