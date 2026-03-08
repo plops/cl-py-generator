@@ -69,16 +69,24 @@ document.getElementById('summarizeButton').addEventListener('click', async () =>
 // Single source of truth for available models and their display labels
 const MODELS = [
   {
-    value: "gemini-2.5-flash-preview-09-2025| input-price: 0.3 output-price: 2.5 max-context-length: 128_000",
-    label: "gemini-2.5-flash-preview-09-2025"
+    value: "gemini-3.1-flash-lite-preview| input: $0.25 | output: $1.5 | context: 1_000_000 | rpm: 15 | rpd: 500",
+    label: "gemini-3.1-flash-lite-preview"
   },
   {
-    value: "gemini-2.5-flash-lite-preview-09-2025| input-price: 0.1 output-price: 0.4 max-context-length: 128_000",
-    label: "gemini-2.5-flash-lite-preview-09-2025"
+    value: "gemini-3-flash-preview| input: $0.5 | output: $3.0 | context: 1_000_000 | rpm: 5 | rpd: 20",
+    label: "gemini-3-flash-preview"
   },
   {
-    value: "gemini-2.5-pro| input-price: 1.25 output-price: 10 max-context-length: 200_000",
-    label: "gemini-2.5-pro"
+    value: "gemini-2.5-flash| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 5 | rpd: 20",
+    label: "gemini-2.5-flash"
+  },
+  {
+    value: "gemini-2.5-flash-lite| input: $0.1 | output: $0.4 | context: 1_000_000 | rpm: 10 | rpd: 20",
+    label: "gemini-2.5-flash-lite"
+  },
+  {
+    value: "gemini-robotics-er-1.5-preview| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 10 | rpd: 20",
+    label: "gemini-robotics-er-1.5-preview"
   }
 ];
 

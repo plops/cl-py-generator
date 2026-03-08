@@ -60,4 +60,20 @@ To ensure your extension works as expected, try these scenarios in both browsers
 4.  **Test Model Selection:**
     *   Open the popup and select a different model from the dropdown.
     *   Close and reopen the popup to ensure your selection was saved and is still selected.
+
+### Publishing Extensions
+
+**Chrome Extension (v1.2.3):**
+```bash
+cd /home/kiel/stage/cl-py-generator/example/143_helium_gemini/source04
+./publish_chrome.sh
+```
+Upload `chrome_package/rocketrecap-summarizer-v1.2.3.zip` to Chrome Web Store Developer Dashboard.
+
+**Firefox Extension (v1.2.2):**
+```bash
+cd /home/kiel/stage/cl-py-generator/example/143_helium_gemini/source04
+./publish_firefox.sh
+```
+Upload `firefox_package/rocketrecap-summarizer-v1.2.2.zip` to Firefox Add-on Developer Hub.
 ccy
