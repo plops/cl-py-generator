@@ -222,6 +222,7 @@ RUN make modules_install
 
 RUN make install
 
+RUN emerge -e @world
 
 # System package build in cached chunks:
 # 1) Compute an ordered empty-tree world plan during the Docker build.
@@ -330,7 +331,6 @@ COPY config/sysctl.conf /etc/sysctl.conf
 RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 # For chinese font in chrome
-RUN emerge media-libs/fontconfig
 RUN fc-cache -fv
 
 WORKDIR /
