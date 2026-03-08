@@ -333,6 +333,8 @@ RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
 # For chinese font in chrome
 RUN fc-cache -fv
 
+RUN echo 'keymap="colemak"' > /etc/conf.d/keymaps
+
 WORKDIR /
 RUN mksquashfs \
 / \
