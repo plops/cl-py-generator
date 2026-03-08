@@ -255,7 +255,7 @@ RUN make install
 RUN qlist -Iv > /packages.txt
 
 RUN emerge --depclean
-RUN fc-cache -fv
+
 # Sudo policy
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
@@ -326,8 +326,12 @@ USER root
 
 COPY config/sysctl.conf /etc/sysctl.conf
 
-# This is needed for virt-manager (otherwise it crashes (!))
+# For virt-manager (otherwise it crashes (!))
 RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
+
+# For chinese font in chrome
+RUN emerge media-libs/fontconfig
+RUN fc-cache -fv
 
 WORKDIR /
 RUN mksquashfs \
