@@ -59,7 +59,7 @@ x11-misc/redshift
 media-gfx/feh
 media-gfx/scrot
 app-text/mupdf
-www-client/firefox
+#www-client/firefox
 www-client/google-chrome
 www-apps/chromedriver-bin
 net-im/signal-desktop-bin
@@ -95,3 +95,77 @@ app-emulation/qemu
 app-emulation/libvirt
 app-emulation/virt-manager
 sys-firmware/edk2-bin
+
+
+# Grml
+
+
+sys-block/parted # GNU partition manipulation program.
+sys-block/gpart # Tool to guess and recover corrupted partition tables.
+
+### Network Analysis and Sniffing
+#net-analyzer/netsniff-ng # High performance Linux network sniffer and toolkit.
+net-misc/socat # Multipurpose relay for data transfer.
+#net-analyzer/netcat # The TCP/IP swiss army knife for network connections.
+net-analyzer/ngrep # Grep-like tool applied to the network layer.
+
+### Network Monitoring and Scanning
+#net-analyzer/arping # Utility to check if an IP address is used by another host on the LAN.
+net-analyzer/iftop # Displays bandwidth usage on an interface by host.
+net-analyzer/nethogs # A net top tool that groups bandwidth by process.
+net-analyzer/iptraf-ng # Console-based network monitoring utility.
+#net-analyzer/ethstatus # Console-based ethernet statistics monitor.
+#net-misc/speedtest-cli # CLI interface for testing internet bandwidth.
+
+### Network Manipulation and Tools
+net-analyzer/hping # TCP/IP packet assembler and analyzer.
+net-analyzer/macchanger # Utility for manipulating MAC addresses.
+net-misc/bridge-utils # Utilities for configuring the Linux Ethernet bridge.
+
+net-misc/sipcalc # Advanced console-based IP subnet calculator.
+net-misc/ipcalc # Tool for calculating IP broadcast and host ranges.
+net-analyzer/ssmping # Tool to check IPv4/IPv6 multicast connectivity.
+net-misc/whois # Client for the whois directory service.
+net-dns/bind-tools # Includes dig and host for DNS troubleshooting.
+
+### Network Services and Transfer
+net-misc/udpcast # Multicast file transfer tool.
+#sys-fs/sshfs # FUSE-based filesystem client for mounting directories over SSH.
+net-dns/dnsmasq # Lightweight DNS forwarder and DHCP server.
+
+### System Administration and Hardware Info
+sys-apps/inxi # Full-featured CLI system information tool.
+sys-apps/dmidecode # Dumps computer hardware info from BIOS/DMI.
+sys-apps/pciutils # Contains lspci for inspecting PCI devices.
+sys-apps/usbutils # Contains lsusb for inspecting USB devices.
+
+sys-apps/cpuid # Dumps detailed information about CPUs.
+sys-power/acpi # Displays information on ACPI devices and thermal readings.
+
+### Monitoring and Process Management
+sys-process/htop # Interactive process viewer and system monitor.
+sys-process/iotop # Monitor current I/O usage by processes.
+#sys-process/sysstat # Performance monitoring tools including iostat and sar.
+sys-process/psmisc # Utilities for managing processes like fuser and killall.
+sys-process/lsof # Lists open files and the processes that opened them.
+dev-debug/strace # Diagnostic tool for intercepting system calls.
+dev-debug/ltrace # Tool to trace library calls of a given program.
+
+### Boot Management
+sys-boot/grub # The GRand Unified Bootloader.
+sys-boot/efibootmgr # Tool to modify the EFI Boot Manager.
+#sys-boot/os-prober # Utility to detect other operating systems.
+
+### Shell, Editors and Terminal Utilities
+app-shells/zsh # The Z shell, a powerful interactive shell.
+app-misc/tmate # Terminal multiplexer with instant sharing and pairing.
+app-editors/zile # Zile Is Lossy Emacs, a very small and fast Emacs clone.
+app-misc/jq # Lightweight and flexible command-line JSON processor.
+sys-apps/pv # Monitor the progress of data through a pipeline.
+#sys-process/progress # Shows progress for coreutils like cp, mv, and dd.
+app-text/tree # Displays directory profiles in a tree-like format.
+
+
+### Virtualization and Container Support
+app-emulation/qemu # Emulation and virtualization utilities including qemu-img.
+app-emulation/virt-what # Script to detect if the system is running in a VM.
