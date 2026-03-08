@@ -899,7 +899,10 @@ You can choose between three models with different capabilities. While these mod
 			   (do0
 			    (setf parts (dot opt (split (string "|"))))
 			    (setf model_name (dot (aref parts 0) (strip))
-				    rpd_limit (int (dot (aref (aref parts -1) (split (string ":"))) (aref 1) (strip)))
+				    rpd_limit (int (dot (aref parts -1)
+							(aref (split (string ":"))
+							      1)
+							(strip)))
 				    used (model_counts.get model_name 0)
 				    remaining (max 0 (- rpd_limit used))
 				    label (fstring "{model_name} | {remaining} / {rpd_limit} RPD left"))

@@ -215,7 +215,7 @@ def get(request: Request):
     for opt in MODEL_OPTIONS:
         parts=opt.split("|")
         model_name=parts[0].strip()
-        rpd_limit=int(parts[-1][split(":")].1[].strip())
+        rpd_limit=int(parts[-1].split(":")[1].strip())
         used=model_counts.get(model_name, 0)
         remaining=max(0, ((rpd_limit)-(used)))
         label=f"{model_name} | {remaining} / {rpd_limit} RPD left"
