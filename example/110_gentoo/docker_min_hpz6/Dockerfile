@@ -227,29 +227,30 @@ RUN make install
 # 1) Compute an ordered empty-tree world plan during the Docker build.
 # 2) Split it into 10 files with roughly equal number of packages.
 # 3) Emerge each chunk in its own layer to reduce rebuild cost after failures.
-RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt \
- && total_lines=$(wc -l < /tmp/world_packages.txt) \
- && lines_per_stage=$(( (total_lines + 9) / 10 )) \
- && for i in $(seq 1 10); do \
-      start=$(( (i - 1) * lines_per_stage + 1 )); \
-      end=$(( i * lines_per_stage )); \
-      sed -n "${start},${end}p" /tmp/world_packages.txt > "/tmp/world_stage_${i}.txt"; \
-    done
 
-RUN if [ -s /tmp/world_stage_1.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_1.txt); fi
-RUN if [ -s /tmp/world_stage_2.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_2.txt); fi
-RUN if [ -s /tmp/world_stage_3.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_3.txt); fi
-RUN if [ -s /tmp/world_stage_4.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_4.txt); fi
-RUN if [ -s /tmp/world_stage_5.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_5.txt); fi
-RUN if [ -s /tmp/world_stage_6.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_6.txt); fi
-RUN if [ -s /tmp/world_stage_7.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_7.txt); fi
-RUN if [ -s /tmp/world_stage_8.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_8.txt); fi
-RUN if [ -s /tmp/world_stage_9.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_9.txt); fi
-RUN mkdir -p /etc/portage/package.accept_keywords \
- && touch /etc/portage/package.accept_keywords/package.accept_keywords \
- && grep -q '^>=net-misc/freerdp-3.17.2-r1 ~amd64$' /etc/portage/package.accept_keywords/package.accept_keywords \
-    || printf '>=net-misc/freerdp-3.17.2-r1 ~amd64\n' >> /etc/portage/package.accept_keywords/package.accept_keywords
-RUN if [ -s /tmp/world_stage_10.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_10.txt); fi
+# RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt \
+#  && total_lines=$(wc -l < /tmp/world_packages.txt) \
+#  && lines_per_stage=$(( (total_lines + 9) / 10 )) \
+#  && for i in $(seq 1 10); do \
+#       start=$(( (i - 1) * lines_per_stage + 1 )); \
+#       end=$(( i * lines_per_stage )); \
+#       sed -n "${start},${end}p" /tmp/world_packages.txt > "/tmp/world_stage_${i}.txt"; \
+#     done
+
+# RUN if [ -s /tmp/world_stage_1.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_1.txt); fi
+# RUN if [ -s /tmp/world_stage_2.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_2.txt); fi
+# RUN if [ -s /tmp/world_stage_3.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_3.txt); fi
+# RUN if [ -s /tmp/world_stage_4.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_4.txt); fi
+# RUN if [ -s /tmp/world_stage_5.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_5.txt); fi
+# RUN if [ -s /tmp/world_stage_6.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_6.txt); fi
+# RUN if [ -s /tmp/world_stage_7.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_7.txt); fi
+# RUN if [ -s /tmp/world_stage_8.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_8.txt); fi
+# RUN if [ -s /tmp/world_stage_9.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_9.txt); fi
+# RUN mkdir -p /etc/portage/package.accept_keywords \
+#  && touch /etc/portage/package.accept_keywords/package.accept_keywords \
+#  && grep -q '^>=net-misc/freerdp-3.17.2-r1 ~amd64$' /etc/portage/package.accept_keywords/package.accept_keywords \
+#     || printf '>=net-misc/freerdp-3.17.2-r1 ~amd64\n' >> /etc/portage/package.accept_keywords/package.accept_keywords
+# RUN if [ -s /tmp/world_stage_10.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_10.txt); fi
 
 RUN qlist -Iv > /packages.txt
 
@@ -297,7 +298,6 @@ RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
 
 COPY config/xinitrc /home/kiel/.xinitrc
 
-
 RUN emerge --depclean
 
 # Network and services
@@ -308,49 +308,6 @@ COPY config/reverse-ssh-us.service /etc/systemd/system/
 RUN systemctl enable libvirtd.service
 RUN systemctl enable reverse-ssh-eu
 RUN systemctl enable reverse-ssh-us
-
-
-# on my laptop i only need
-# [   61.916836] Loading firmware: regulatory.db
-# [   61.934422] Loading firmware: regulatory.db.p7s
-# [   63.134619] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
-# [   63.136954] Loading firmware: amdgpu/yellow_carp_toc.bin
-# [   63.139761] Loading firmware: amdgpu/yellow_carp_ta.bin
-# [   63.142223] Loading firmware: amdgpu/yellow_carp_dmcub.bin
-# [   63.143726] Loading firmware: amdgpu/yellow_carp_pfp.bin
-# [   63.144158] Loading firmware: amdgpu/yellow_carp_me.bin
-# [   63.144554] Loading firmware: amdgpu/yellow_carp_ce.bin
-# [   63.144991] Loading firmware: amdgpu/yellow_carp_rlc.bin
-# [   63.145354] Loading firmware: amdgpu/yellow_carp_mec.bin
-# [   63.145729] Loading firmware: amdgpu/yellow_carp_mec2.bin
-# [   63.146091] Loading firmware: amdgpu/yellow_carp_sdma.bin
-# [   63.146270] Loading firmware: amdgpu/yellow_carp_vcn.bin
-# [   63.206931] Loading firmware: mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
-# [   63.589195] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
-# [   63.634733] Loading firmware: mediatek/WIFI_RAM_CODE_MT7922_1.bin
-
-# 1. Create a clean temporary workspace
-RUN mkdir -p /tmp/firmware_safe
-WORKDIR /usr/lib/firmware
-
-# 2. Copy the specific files you need, preserving their directory paths
-RUN cp --parents regulatory.db* /tmp/firmware_safe/
-RUN cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_safe/
-RUN cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_safe/
-RUN cp --parents amdgpu/yellow_carp* /tmp/firmware_safe/
-
-# # 3. Wipe the original directory (and /opt/cuda as per your first message)
-# WORKDIR /
-# RUN rm -rf /usr/lib/firmware/*
-
-# # 4. Move everything back in one go
-# RUN mv /tmp/firmware_safe/* /usr/lib/firmware/
-
-# # 5. Cleanup
-# RUN rm -rf /tmp/firmware_safe
-
-# # 12.8GB uncompressed
-# RUN rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}*
 
 # Switch to user 'kiel'
 USER kiel
@@ -368,6 +325,9 @@ RUN emacs --batch \
 USER root
 
 COPY config/sysctl.conf /etc/sysctl.conf
+
+# This is needed for virt-manager (otherwise it crashes (!))
+RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 WORKDIR /
 RUN mksquashfs \
