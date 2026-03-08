@@ -1,6 +1,6 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
   (ql:quickload "cl-py-generator")
-  (ql:quickload "cl-change-case"))1
+  (ql:quickload "cl-change-case"))
 
 (in-package :cl-py-generator)
 

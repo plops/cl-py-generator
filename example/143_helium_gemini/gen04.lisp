@@ -82,80 +82,27 @@
 	(iflash25 .15)
 	(oflash25think 3.5)
 	(oflash25nothink .6))
-    (defparameter *models* `(
-			     
+      (defparameter *models* 
+    '(;; --- Gemini 3.x Series (Latest) ---
+      (:name gemini-3.1-flash-lite-preview :input-price 0.25 :output-price 1.50 :context-length 1_000_000 :rpm 15 :rpd 500)
+      (:name gemini-3-flash-preview :input-price 0.50 :output-price 3.00 :context-length 1_000_000 :rpm 5 :rpd 20)
+      
+      ;; --- Gemini 2.5 Series ---
+      (:name gemini-2.5-flash :input-price 0.30 :output-price 2.50 :context-length 1_000_000 :rpm 5 :rpd 20)
+      (:name gemini-2.5-flash-lite :input-price 0.10 :output-price 0.40 :context-length 1_000_000 :rpm 10 :rpd 20)
+      
+      ;; --- Specialized Models ---
+      (:name gemini-robotics-er-1.5-preview :input-price 0.30 :output-price 2.50 :context-length 1_000_000 :rpm 10 :rpd 20)
 
-			     ;; --- Gemini 3.x Series (Latest) ---
-			     ;(:name gemini-3.1-pro-preview :input-price 2.0 :output-price 12.0 :context-length 2_000_000 :harm-civic nil)
-			     ;(:name gemini-3.1-flash-image-preview :input-price 0.5 :output-price 3.0 :context-length 1_000_000 :harm-civic nil)
-			     ;(:name gemini-3-pro-preview :input-price 2.0 :output-price 12.0 :context-length 2_000_000 :harm-civic nil)
-			     (:name gemini-3-flash-preview :input-price 0.5 :output-price 3.0 :context-length 1_000_000 :harm-civic nil)
-			     
-			     ;; --- Gemini 2.5 Series (Reasoning & Hybrid) ---
-			     ;(:name gemini-2.5-pro :input-price 1.25 :output-price 10.0 :context-length 2_000_000 :harm-civic nil)
-			     (:name gemini-2.5-flash :input-price 0.3 :output-price 2.5 :context-length 1_000_000 :harm-civic nil)
-			     (:name gemini-2.5-flash-lite :input-price 0.1 :output-price 0.4 :context-length 1_000_000 :harm-civic nil)
-			     ;(:name gemini-2.5-flash-native-audio-preview :input-price 0.5 :output-price 2.0 :context-length 1_000_000 :harm-civic nil) ;; this can't make summaries
-			     
-			     ;; --- Gemini 2.0 Series (Efficiency) ---
-			     ;(:name gemini-2.0-flash :input-price 0.1 :output-price 0.4 :context-length 1_000_000 :harm-civic nil) ;; no free quota
-			     ;(:name gemini-2.0-flash-lite :input-price 0.075 :output-price 0.3 :context-length 1_000_000 :harm-civic nil)
-			     
-			     ;; --- Specialized Models ---
-			     ;(:name gemini-embedding-001 :input-price 0.15 :output-price 0.0 :context-length 30_720 :harm-civic nil) ;; this can't make summaries
-			     (:name gemini-robotics-er-1.5-preview :input-price 0.3 :output-price 2.5 :context-length 1_000_000 :harm-civic nil) ;; this can make summaries
+      ;; --- Gemma 3 Series (Note: Requires newer GenAI API / Vertex) ---
+      ;(:name gemma-3-27b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+      ;(:name gemma-3-12b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+      ;(:name gemma-3-4b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+      ;(:name gemma-3-1b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+      ))
 
-			     ;; the gemma models don't work with the old genai api that i am using
-					;(:name gemma-3-27b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-					;(:name gemma-3-12b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-					;(:name gemma-3-4b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-					;(:name gemma-3-1b :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			   
-			     
-			     #+nil
-			     ((:name gemini-2.5-flash-lite-preview-09-2025 :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
-			      (:name gemini-2.5-flash-preview-09-2025 :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
-			      (:name gemini-3-pro-preview :input-price 2.0 :output-price 12 :context-length 200_000 :harm-civic nil)
-			     (:name gemini-2.5-pro :input-price 1.25 :output-price 10 :context-length 200_000 :harm-civic nil)
-			      (:name gemini-2.5-flash :input-price .3 :output-price 2.5 :context-length 128_000 :harm-civic nil)
-			     (:name gemini-2.5-flash-lite :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
 
-			      (:name gemini-2.5-flash-lite-preview-06-17 :input-price .1 :output-price .4 :context-length 128_000 :harm-civic nil)
-			      (:name gemini-2.5-flash-preview-05-20 :input-price ,iflash25 :output-price ,oflash25think :context-length 128_000 :harm-civic nil)
-			      
-			      (:name gemma-3n-e4b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			      (:name gemini-2.5-flash-preview-04-17 :input-price ,iflash25 :output-price ,oflash25think :context-length 128_000 :harm-civic nil)
-			      (:name gemini-2.5-pro-preview-05-06 :input-price 1.25 :output-price 10.0 :context-length 128_000 :harm-civic nil)
-			      (:name gemini-2.5-pro-exp-03-25 :input-price 1.25 :output-price 10.0 :context-length 128_000 :harm-civic nil)
-			      (:name gemini-2.0-flash :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemini-2.0-flash-lite :input-price ,iflashl :output-price ,oflashl :context-length 128_000 :harm-civic t)
-			      (:name gemini-2.0-flash-thinking-exp-01-21 :input-price ,iflashl :output-price ,oflashl :context-length 128_000 :harm-civic t)
-			      
-			      (:name gemini-2.0-flash-exp :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemini-2.0-pro-exp-02-05 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			      (:name gemini-1.5-pro-exp-0827 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			      (:name gemini-2.0-flash-lite-preview-02-05 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemini-2.0-flash-thinking-exp-01-21 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemini-2.0-flash-001 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t) ;; the price is now fixed at $.1 for input and $.4 for output
-			      (:name gemini-exp-1206 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			      (:name gemini-exp-1121 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			      (:name gemini-exp-1114 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			      (:name learnlm-1.5-pro-experimental :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			      (:name gemini-1.5-flash-002 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemini-1.5-pro-002 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic t)
-			      
-			      (:name gemini-1.5-pro-exp-0801 :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
-			      (:name gemini-1.5-flash-exp-0827 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemini-1.5-flash-8b-exp-0924 :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemini-1.5-flash-latest :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic t)
-			      (:name gemma-2-2b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			      (:name gemma-2-9b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			      (:name gemma-2-27b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			      (:name gemma-3-27b-it :input-price -1 :output-price -1 :context-length 128_000 :harm-civic nil)
-			      (:name gemini-1.5-flash :input-price ,iflash :output-price ,oflash :context-length 128_000 :harm-civic nil)
-			      (:name gemini-1.5-pro :input-price ,ipro :output-price ,opro :context-length 128_000 :harm-civic nil)
-			      (:name gemini-1.0-pro :input-price .5 :output-price 1.5 :context-length 128_000 :harm-civic nil))
-			     )))
+)
   (defparameter *languages* `(en ;de fr ch nl pt cz it jp ar
 			      ))
   (defparameter *idx* "04") 
@@ -588,18 +535,19 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 
 	 " "
 	 (setf MODEL_OPTIONS
-	       (list
-		,@(loop for e in *models*
-				collect
-				(destructuring-bind (&key name input-price output-price context-length harm-civic) e 
-				  `(string 
-				   ,(format nil "~a| input-price: ~a output-price: ~a max-context-length: ~a" name input-price output-price context-length))))))
+				 (list
+					 ,@(loop for e in *models*
+									 collect
+									 (destructuring-bind (&key name input-price output-price context-length rpm rpd) e
+										 `(string
+											 ,(format nil "~a| input: $~a | output: $~a | context: ~a | rpm: ~a | rpd: ~a"
+																name input-price output-price context-length rpm rpd))))))
 
 	 " "
-	 (comments "Counters for tracking daily usage")
-	 (setf model_counts (curly (for-generator (opt MODEL_OPTIONS)
-						  "opt.split(\"|\")[0]:0"))
-	       last_reset_day None)
+	   (comments "Counters for tracking daily usage")
+	   (setf model_counts (curly (for-generator (opt MODEL_OPTIONS)
+					"opt.split(\"|\")[0].strip():0"))
+		   last_reset_day None)
 
 	 " "
 	 (def check_reset_counters ()
@@ -946,14 +894,17 @@ You can choose between three models with different capabilities. While these mod
 				      :name (string "transcript")
 				      :id (string "transcript-paste")))
 	   
-	    (setf selector (list))
-	    (for (opt MODEL_OPTIONS)
-		 (setf model_name (dot opt (aref (split (string "|")) 0))
-		       used (model_counts.get model_name 0)
-		       remaining (max 0 (- 20 used))
-		       label (fstring "{model_name} | {remaining} requests left"))
-		 (selector.append (Option opt :value opt
-					  :label label)))
+		    (setf selector (list))
+		    (for (opt MODEL_OPTIONS)
+			   (do0
+			    (setf parts (dot opt (split (string "|"))))
+			    (setf model_name (dot (aref parts 0) (strip))
+				    rpd_limit (int (dot (aref (aref parts -1) (split (string ":"))) (aref 1) (strip)))
+				    used (model_counts.get model_name 0)
+				    remaining (max 0 (- rpd_limit used))
+				    label (fstring "{model_name} | {remaining} / {rpd_limit} RPD left"))
+			    (selector.append (Option opt :value opt
+							     :label label))))
 	    (setf model (Div
 		    (Label (string "Select Model")
 			   :_for (string "model-select")

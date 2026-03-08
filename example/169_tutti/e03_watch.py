@@ -219,13 +219,9 @@ def evaluate_items(df, category="phones", min_price=None, max_price=None, skip_s
     # --- 3. Prompt Construction ---
     if category == "phones":
         system_prompt = (
-            "I need phones to use as permanently plugged-in 5G routers. Requirements:\n"
-            "- MUST have 5G (fast preferred).\n"
+            "I search a used IPhone 15 Pro Max for my grandfather. Requirements:\n"
             "- Display/Touch must work (scratches fine, cracks bad).\n"
-            "- If USB-C to HDMI works, screen state matters less.\n"
-            "- Prefer Pixel over iPhone, then LineageOS supported phones.\n"
-            "- key_feature = True if it definitely has 5G.\n"
-            "- Print the most fitting candidates.\n"
+            "- Print the most fitting candidates (cheaper is better).\n"
         )
     elif category == "watches":
         system_prompt = (
