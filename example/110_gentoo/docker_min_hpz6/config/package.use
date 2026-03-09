@@ -46,6 +46,9 @@ media-gfx/feh -curl -debug -exif inotify -test -xinerama
 
 # Audio, Bluetooth, Multimedia
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
+# PipeWire defaults required for HP Z6 audio interfaces
+media-video/pipewire X dbus pipewire-alsa pulseaudio readline sound-server ssl systemd -system-service
+media-video/wireplumber systemd -system-service
 media-sound/pulseaudio-daemon X alsa alsa-plugin asyncns gdbm glib orc ssl systemd udev webrtc-aec -aptx bluetooth dbus -elogind -equalizer -fftw -gstreamer -jack -ldac -lirc ofono-headset -oss -selinux -sox -system-wide -tcpd -test -valgrind -zeroconf
 media-libs/libpulse X asyncns glib systemd dbus -doc -gtk -selinux -test -valgrind
 media-libs/libcanberra gtk3 sound udev alsa pulseaudio

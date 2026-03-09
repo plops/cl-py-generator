@@ -343,3 +343,114 @@ sudo umount /mnt
 2. Unlock LUKS when prompted.
 3. Verify persistence by creating a test file and rebooting again.
 4. Keep older `_0306` artifacts for rollback until the new boot path is validated.
+
+## 10. Audio configuration (PipeWire, HP Z6 specific)
+
+Short orientation (why this matters on both HP Z6 and E14):
+- `ALSA` is the kernel/user-space hardware layer (`snd_*` drivers + `libasound`): it exposes the real sound cards/devices.
+- Direct ALSA access can be enough for simple/single-app scenarios; with multiple desktop apps at once, a sound server is typically needed for safe mixing/routing.
+- `PipeWire` is the session audio/video server on top of ALSA: routing, per-app volumes, device switching, low-latency graph.
+- `PulseAudio` was the older userspace audio server for similar desktop tasks. In this image, the real PulseAudio daemon is replaced by PipeWire.
+- `pipewire-pulse` is a compatibility server that provides a PulseAudio-compatible socket/API.
+- Apps like Chrome usually use the PulseAudio client API; here they connect to `pipewire-pulse` and are handled by PipeWire internally.
+- `pavucontrol` still works as before because it configures PulseAudio-compatible streams/devices, which are backed by PipeWire here.
+- `dbus` is important for session integration (service discovery, policy/session coordination, RTKit interaction). With `-dbus`, device/session behavior can degrade or appear incomplete.
+
+Can PulseAudio be removed completely?
+- The separate package `media-sound/pulseaudio-daemon` can be removed (and was removed here).
+- The PulseAudio compatibility interface in PipeWire (`pipewire-pulse`, `pipewire[pulseaudio]`) should usually stay enabled, otherwise apps expecting PulseAudio (including Chrome in typical Linux builds) may lose audio integration.
+- There is no common "native PipeWire audio API path" used by Chrome for normal playback; PipeWire in Chrome is mainly used for features like screen capture, not as the primary playback API.
+
+Validated on this HP Z6 image (`2026-03-09`):
+- ALSA cards: `HDA NVidia` (GA104 HDMI/DP audio) and `HD-Audio Generic` (ALC222 analog codec)
+- Working default output/input after fix:
+  - Sink: `alsa_output.pci-0000_05_00.7.analog-stereo`
+  - Source: `alsa_input.pci-0000_05_00.7.analog-stereo`
+
+### 10.1 Critical fix: PipeWire USE flags
+
+If `wpctl status` only shows `Dummy Output` or no sources, check PipeWire build flags first.
+
+Problem observed on this machine:
+- `media-video/pipewire` was built with `-dbus -pipewire-alsa -pulseaudio -sound-server`
+- Result: ALSA devices existed in kernel, but were not exposed as usable PipeWire sinks/sources
+
+Required `/etc/portage/package.use/package.use` entries:
+
+```text
+media-video/pipewire X dbus pipewire-alsa pulseaudio readline sound-server ssl systemd -system-service
+media-video/wireplumber systemd -system-service
+```
+
+Rebuild:
+
+```bash
+sudo emerge -1v media-video/pipewire media-video/wireplumber
+```
+
+Note:
+- `media-sound/pulseaudio-daemon` may be removed due to PipeWire `sound-server` soft block. This is expected in this setup.
+
+### 10.2 Enable and start user services
+
+```bash
+systemctl --user enable --now pipewire pipewire-pulse wireplumber
+systemctl --user --no-pager status pipewire pipewire-pulse wireplumber
+```
+
+### 10.3 Verify devices and set defaults
+
+```bash
+wpctl status
+```
+
+On this host, working IDs were:
+
+```bash
+wpctl set-default 52
+wpctl set-default 53
+wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.40
+wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.70
+wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 0
+```
+
+Final verification:
+
+```bash
+wpctl status
+```
+
+Expected in `Settings -> Default Configured Devices`:
+- `Audio/Sink -> alsa_output.pci-0000_05_00.7.analog-stereo`
+- `Audio/Source -> alsa_input.pci-0000_05_00.7.analog-stereo`
+
+### 10.4 Low-level diagnostics used on this machine
+
+Kernel/driver layer:
+
+```bash
+cat /proc/asound/cards
+lsmod | rg '^snd|^sof|^audio'
+lspci -nnk | rg -i "audio|multimedia|nvidia" -n -A4
+```
+
+PipeWire internal objects:
+
+```bash
+pw-cli ls Device
+pw-cli ls Node
+```
+
+If `aplay`/`arecord` are missing, install `media-sound/alsa-utils` first.
+
+### 10.5 Optional warning cleanup
+
+The following warning is harmless for basic playback/recording but appeared in this image:
+- `RTKit error: org.freedesktop.DBus.Error.ServiceUnknown`
+
+Optional fix:
+
+```bash
+sudo emerge -1v sys-auth/rtkit
+```
