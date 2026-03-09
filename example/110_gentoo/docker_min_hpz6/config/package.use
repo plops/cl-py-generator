@@ -99,7 +99,7 @@ app-misc/mime-types nginx
 
 # Virtualization
 # Virtualization for Windows guests
-app-emulation/qemu spice usbredir
+app-emulation/qemu spice usbredir zstd
 app-emulation/libvirt policykit
 app-emulation/virt-manager gui policykit
 net-misc/spice-gtk usbredir

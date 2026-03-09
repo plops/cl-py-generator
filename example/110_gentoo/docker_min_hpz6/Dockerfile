@@ -92,6 +92,21 @@ CONFIG_OPTS=(
   -m VIRTIO_BLK
   -m VIRTIO_NET
 
+  # libvirt default NAT (virbr0) via iptables needs netfilter reject/nat/conntrack modules
+  -m NETFILTER_XTABLES
+  -m NF_CONNTRACK
+  -m NF_NAT
+  -m IP_NF_IPTABLES
+  -m IP_NF_FILTER
+  -m IP_NF_NAT
+  -m IP_NF_TARGET_MASQUERADE
+  -m NF_REJECT_IPV4
+  -m IP_NF_TARGET_REJECT
+  -m NF_REJECT_IPV6
+  -m IP6_NF_TARGET_REJECT
+  -m BRIDGE
+  -m BR_NETFILTER
+
   # --- Bluetooth ---
   -m BT_BCM
   -m BT_BNEP
