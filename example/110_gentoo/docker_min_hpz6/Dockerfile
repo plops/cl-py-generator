@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260306 AS portage
+FROM gentoo/portage:20260309 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20260302
+FROM gentoo/stage3:nomultilib-systemd-20260309
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -32,6 +32,7 @@ RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.license /etc/portage/package.license
 COPY config/package.use /etc/portage/package.use
+# Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
 
