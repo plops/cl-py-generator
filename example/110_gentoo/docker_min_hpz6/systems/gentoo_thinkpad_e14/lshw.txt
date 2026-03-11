@@ -1,4 +1,4 @@
-localhost
+e14
     description: Notebook
     product: 21M30030MZ (LENOVO_MT_21M3_BU_Think_FM_ThinkPad E14 Gen 6)
     vendor: LENOVO
@@ -477,13 +477,13 @@ localhost
                       logical name: input5::kana
                       logical name: input5::numlock
                       logical name: input5::scrolllock
+                      logical name: input6
+                      logical name: /dev/input/event6
+                      logical name: /dev/input/mouse1
                       logical name: input7
                       logical name: /dev/input/event7
-                      logical name: /dev/input/mouse1
                       logical name: input8
                       logical name: /dev/input/event8
-                      logical name: input9
-                      logical name: /dev/input/event9
                       version: 24.10
                       capabilities: usb-2.00 usb
                       configuration: driver=usbhid maxpower=98mA speed=12Mbit/s
@@ -839,62 +839,62 @@ localhost
        logical name: /dev/input/event1
        capabilities: platform
   *-input:2
-       product: ELAN06C7:00 04F3:3193 Mouse
+       product: AT Translated Set 2 keyboard
        physical id: 4
+       logical name: input13
+       logical name: /dev/input/event11
+       logical name: input13::capslock
+       logical name: input13::numlock
+       logical name: input13::scrolllock
+       capabilities: i8042
+  *-input:3
+       product: ELAN06C7:00 04F3:3193 Mouse
+       physical id: 5
        logical name: input14
-       logical name: /dev/input/event10
+       logical name: /dev/input/event9
        logical name: /dev/input/mouse2
        capabilities: i2c
-  *-input:3
+  *-input:4
        product: ELAN06C7:00 04F3:3193 Touchpad
-       physical id: 5
+       physical id: 6
        logical name: input16
-       logical name: /dev/input/event11
+       logical name: /dev/input/event10
        logical name: /dev/input/mouse3
        capabilities: i2c
-  *-input:4
+  *-input:5
        product: Video Bus
-       physical id: 6
+       physical id: 7
        logical name: input17
        logical name: /dev/input/event12
        capabilities: platform
-  *-input:5
+  *-input:6
        product: ThinkPad Extra Buttons
-       physical id: 7
+       physical id: 8
        logical name: input18
        logical name: /dev/input/event14
        capabilities: platform
-  *-input:6
+  *-input:7
        product: PC Speaker
-       physical id: 8
+       physical id: 9
        logical name: input19
        logical name: /dev/input/event13
        capabilities: isa
-  *-input:7
+  *-input:8
        product: Sleep Button
-       physical id: 9
+       physical id: a
        logical name: input2
        logical name: /dev/input/event2
        capabilities: platform
-  *-input:8
+  *-input:9
        product: Power Button
-       physical id: a
+       physical id: b
        logical name: input3
        logical name: /dev/input/event3
        capabilities: platform
-  *-input:9
+  *-input:10
        product: TPPS/2 Elan TrackPoint
-       physical id: b
+       physical id: c
        logical name: input4
        logical name: /dev/input/event4
        logical name: /dev/input/mouse0
-       capabilities: i8042
-  *-input:10
-       product: AT Translated Set 2 keyboard
-       physical id: c
-       logical name: input6
-       logical name: /dev/input/event6
-       logical name: input6::capslock
-       logical name: input6::numlock
-       logical name: input6::scrolllock
        capabilities: i8042
