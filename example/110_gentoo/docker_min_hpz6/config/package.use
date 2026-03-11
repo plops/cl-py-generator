@@ -97,6 +97,9 @@ app-text/xmlto -latex text
 app-misc/mime-types nginx
 
 # Virtualization
+app-containers/docker container-init overlay2 seccomp systemd
+app-containers/docker-cli -selinux
+app-containers/containerd cri seccomp -selinux
 # Virtualization for Windows guests
 app-emulation/qemu spice usbredir zstd
 app-emulation/libvirt policykit

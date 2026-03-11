@@ -1,5 +1,4 @@
 # Toolchain, Compiler, Runtime
-=sys-devel/gcc-16.0.1* **
 dev-libs/jemalloc ~amd64
 dev-util/ruff ~amd64
 

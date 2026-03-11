@@ -14,16 +14,16 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 
-# Install GCC 16
-RUN emerge --ask=n --verbose sys-devel/gcc:16 \
- && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]') \
- && eselect gcc set "${gcc_16}" \
+# Install GCC 14
+RUN emerge --ask=n --verbose sys-devel/gcc:14 \
+ && gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
+ && eselect gcc set "${gcc_14}" \
  && source /etc/profile \
  && emerge --ask=n --oneshot --verbose libtool \
  # Use || true to prevent failure if it's not in world
- # && (emerge --deselect=y sys-devel/gcc:14 || true) 
+ && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
  # Use || true so build doesn't die if Portage refuses to remove it
- # && (emerge --ask=n --depclean sys-devel/gcc:14 || true) 
+ && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
  && emerge --ask=n @preserved-rebuild
 
  
