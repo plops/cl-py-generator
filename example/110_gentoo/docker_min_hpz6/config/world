@@ -6,7 +6,7 @@ app-portage/cpuid2cpuflags
 dev-build/ninja
 #dev-build/steve
 dev-vcs/git
-dev-lang/rust-bin
+#dev-lang/rust-bin
 dev-python/uv
 #dev-lisp/sbcl
 #dev-util/android-tools
@@ -18,7 +18,6 @@ dev-python/uv
 # Base System and Kernel
 net-misc/dhcp
 net-misc/chrony
-sys-devel/gcc
 sys-fs/cryptsetup
 sys-fs/squashfs-tools
 sys-kernel/dracut

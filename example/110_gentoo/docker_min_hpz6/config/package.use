@@ -39,11 +39,19 @@ x11-libs/gtk+ X -aqua -broadway -cloudproviders -colord -cups -examples -gtk-doc
 x11-libs/pango X -debug -examples introspection -sysprof -test
 x11-libs/gdk-pixbuf introspection -gif -gtk-doc -jpeg -test -tiff
 x11-libs/libdrm video_cards_radeon
-x11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland
+# Video / Mesa / LLVM reduction
 media-libs/mesa X gles2 -llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
-app-accessibility/at-spi2-core X systemd -dbus-broker -gtk-doc introspection -test
+media-libs/libplacebo -shaderc -opengl -vulkan
+media-video/mpv -lua -javascript -rubberband -zimg -lcms -vulkan
 
-# Graphics, Fonts, Rendering
+# QEMU size reduction
+app-emulation/qemu aio bzip2 curl fdt filecaps gnutls jpeg ncurses nls oss pam pin-upstream-blobs png seccomp slirp spice udev usbredir vhost-net vnc xattr zstd -accessibility -alsa -bpf -capstone -debug -doc -fuse -glusterfs -gtk -infiniband -io-uring -iscsi -jack -jemalloc -keyutils -lzo -multipath -nfs -numa -opengl -passt -pipewire -plugins -pulseaudio -python -rbd -sasl -sdl -sdl-image -selinux -smartcard -snappy -ssh -static-user -systemtap -test -usb -valgrind -vde -virgl -virtfs -vte -wayland -xdp -xen -X -smartcard -spice -vnc -curl
+
+
+
+# Freerdp size reduction
+net-misc/freerdp X client ffmpeg fuse icu systemd aad -alsa -cups -debug -gstreamer -jpeg -kerberos -openh264 -pulseaudio -sdl -server -smartcard -test -usb -valgrind -verify-sig -wayland -xinerama -xv
+
 media-libs/freetype X adobe-cff brotli bzip2 cleartype-hinting png -debug -doc -fontforge harfbuzz -static-libs -svg -utils
 media-libs/harfbuzz cairo glib graphite truetype -debug -doc -experimental -icu introspection -test
 gnome-base/librsvg introspection vala -debug -gtk-doc
@@ -68,7 +76,7 @@ media-libs/libaom -examples -doc -test
 media-libs/libvpx postproc
 media-libs/libv4l utils
 media-video/ffmpeg X alsa bzip2 dav1d drm encode gnutls gpl iconv network opus pipewire postproc pulseaudio threads vaapi vdpau x264 xml zlib -amf -amr -amrenc -appkit -bluray -bs2b -cdio -chromaprint -chromium -codec2 -cpudetection -cuda -debug -doc -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -glslang -gme -gmp -gsm -hardcoded-tables -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lcms -libaom -libaribb24 -libass -libcaca -libilbc -libplacebo -librtmp -libsoxr -libtesseract -libv4l -lv2 -lzma -mipsdspr1 -mipsdspr2 -mipsfpu -modplug -mp3 -nvenc -openal -opencl -opengl -openh264 -openssl -oss -pic -qsv -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -soc -speex -srt -ssh -static-libs -svg -svt-av1 -test -theora -truetype -twolame -v4l -verify-sig -vidstab -vmaf -vorbis -vpx -vulkan -webp -x265 -xvid -zeromq -zimg -zvbi
-media-video/mpv X alsa cli libmpv openal opengl pipewire pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet vdpau vulkan -wayland -xv -zimg
+media-video/mpv X alsa cli libmpv openal opengl pipewire pulseaudio vaapi zlib -aqua -archive -bluray -cdda -coreaudio -debug drm -dvb -dvd -egl -gamepad -iconv -jack -javascript -jpeg -lcms -libcaca -lua -mmal -nvenc -raspberry-pi -rubberband -sdl -selinux -sixel -sndio -test -tools -uchardet vdpau -vulkan -wayland -xv -zimg
 media-libs/libsdl2 X gles2 haptic joystick kms opengl pipewire pulseaudio sound udev video -alsa -aqua -custom-cflags -dbus -doc -fcitx -gles1 -ibus -jack -libsamplerate -nas -oss -sndio -static-libs -test -vulkan -wayland -xscreensaver
 
 # Qt Stack

@@ -1,0 +1,7 @@
+# Prevent upgrade to GCC 15 to save build time and space
+>=sys-devel/gcc-15.0.0
+
+# Prevent LLVM/Clang from being pulled in (unless explicitly required by something we can't avoid)
+# This helps ensure we stick to the "no llvm" strategy where possible
+sys-devel/llvm
+sys-devel/clang

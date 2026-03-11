@@ -13,6 +13,7 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 # Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
+COPY config/package.mask /etc/portage/package.mask/package.mask
 
 # Debug stage before GCC 14
 FROM base AS debug-pre-gcc
@@ -36,6 +37,7 @@ RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
 
 FROM builder AS debug-post-gcc
 COPY config/make.conf /etc/portage/make.conf
+COPY config/package.mask /etc/portage/package.mask/package.mask
 COPY config/package.license /etc/portage/package.license
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
@@ -45,6 +47,7 @@ RUN emerge -pD @world | grep "ebuild" | wc -l
 
 FROM builder AS post-config
 COPY config/make.conf /etc/portage/make.conf
+COPY config/package.mask /etc/portage/package.mask/package.mask
 COPY config/package.license /etc/portage/package.license
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
@@ -402,7 +405,7 @@ RUN echo 'keymap="colemak"' > /etc/conf.d/keymaps
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size
 
-RUN emerge -C dev-lang/rust-bin virtual/rust
+RUN emerge -C dev-lang/rust-bin virtual/rust dev-lang/go dev-lang/go-bootstrap dev-util/cargo-c || true
 
 WORKDIR /
 RUN mksquashfs \
