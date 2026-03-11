@@ -6,7 +6,7 @@ app-portage/cpuid2cpuflags
 dev-build/ninja
 #dev-build/steve
 dev-vcs/git
-#dev-lang/rust
+dev-lang/rust-bin
 dev-python/uv
 #dev-lisp/sbcl
 #dev-util/android-tools
@@ -41,6 +41,7 @@ sys-process/btop
 #app-misc/fastfetch
 app-misc/tmux
 app-misc/mc
+sys-apps/ripgrep
 #app-misc/fdupes
 #app-pda/ifuse
 
@@ -56,18 +57,20 @@ x11-apps/xkill
 x11-misc/xclip
 x11-misc/xtrlock
 x11-misc/redshift
+x11-terms/alacritty
 #media-gfx/feh
 #media-gfx/scrot
 #app-text/mupdf
 #www-client/firefox
-www-client/google-chrome
+#www-client/google-chrome
+www-client/firefox-bin
 #www-apps/chromedriver-bin
 #net-im/signal-desktop-bin
 #media-fonts/wqy-zenhei
 
 # Audio and Media
-#media-video/mpv
-media-sound/pavucontrol
+media-video/mpv
+##media-sound/pavucontrol
 media-sound/pulsemixer
 media-video/pipewire
 media-video/wireplumber
@@ -79,12 +82,12 @@ net-misc/freerdp
 net-misc/autossh
 net-misc/mosh
 #net-misc/socat
-net-wireless/iwd
-net-wireless/iw
+#net-wireless/iwd
+#net-wireless/iw
 #net-wireless/iwgtk
 #net-analyzer/openbsd-netcat
 #net-analyzer/nmap
-net-analyzer/wireshark
+#net-analyzer/wireshark
 
 # Crypto
 app-crypt/p11-kit
@@ -95,8 +98,9 @@ app-containers/docker-buildx
 app-containers/docker-cli
 app-emulation/qemu
 app-emulation/libvirt
-app-emulation/virt-manager
+#app-emulation/virt-manager
 sys-firmware/edk2-bin
+
 
 
 # Grml

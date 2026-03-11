@@ -30,9 +30,20 @@ RUN emerge --ask=n --verbose sys-devel/gcc:14 \
  && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
  && emerge --ask=n @preserved-rebuild
 
- 
+
 # Repository tooling and package configuration
 RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
+
+FROM builder AS debug-post-gcc
+COPY config/make.conf /etc/portage/make.conf
+COPY config/package.license /etc/portage/package.license
+COPY config/package.use /etc/portage/package.use
+COPY config/package.env /etc/portage/package.env
+COPY config/env /etc/portage/env
+COPY config/world /var/lib/portage/world
+RUN emerge -pD @world | grep "ebuild" | wc -l
+
+FROM builder AS post-config
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.license /etc/portage/package.license
 COPY config/package.use /etc/portage/package.use
@@ -390,6 +401,8 @@ RUN fc-cache -fv
 RUN echo 'keymap="colemak"' > /etc/conf.d/keymaps
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size
+
+RUN emerge -C dev-lang/rust-bin virtual/rust
 
 WORKDIR /
 RUN mksquashfs \

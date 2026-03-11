@@ -4,8 +4,9 @@
 # Faster build configuration:
 sys-devel/gcc cxx nls pie ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -fortran -go -graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc -openmp -pch -pgo -rust -sanitize -systemtap -test -time64 -valgrind -vanilla -vtv
 llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -verify-sig -xml
+virtual/rust rustfmt
 dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
-dev-lang/rust rustfmt clippy system-llvm
+# dev-lang/rust rustfmt clippy system-llvm
 dev-lang/R X libdeflate nls readline cairo -doc -icu -java jpeg -lto -minimal -openmp -perl png -prefix -profile -test -tiff tk
 
 # Init, Kernel, Filesystem, Core System
@@ -39,7 +40,7 @@ x11-libs/pango X -debug -examples introspection -sysprof -test
 x11-libs/gdk-pixbuf introspection -gif -gtk-doc -jpeg -test -tiff
 x11-libs/libdrm video_cards_radeon
 x11-drivers/nvidia-drivers X modules static-libs strip -tools -dist-kernel kernel-open -modules-compress -modules-sign -persistenced -powerd -wayland
-media-libs/mesa X gles2 llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
+media-libs/mesa X gles2 -llvm proprietary-codecs vaapi zstd -d3d9 -debug -gles1 -lm-sensors -opencl -osmesa -selinux -test -unwind -valgrind -vdpau vulkan vulkan-overlay -wayland -xa -zink
 app-accessibility/at-spi2-core X systemd -dbus-broker -gtk-doc introspection -test
 
 # Graphics, Fonts, Rendering
@@ -60,9 +61,9 @@ media-video/wireplumber systemd -system-service
 media-libs/libpulse X asyncns glib systemd dbus -doc -gtk -selinux -test -valgrind
 media-libs/libcanberra gtk3 sound udev alsa pulseaudio
 media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack
-net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs
-net-wireless/blueman nls network -policykit pulseaudio
-net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth -doc -dundee -examples -tools -upower
+# net-wireless/bluez -mesh -obex readline systemd udev -btpclient -cups -debug -deprecated -doc -experimental -extra-tools -midi -selinux -test -test-programs
+# net-wireless/blueman nls network -policykit pulseaudio
+# net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth -doc -dundee -examples -tools -upower
 media-libs/libaom -examples -doc -test
 media-libs/libvpx postproc
 media-libs/libv4l utils
@@ -93,15 +94,15 @@ dev-cpp/glog gflags libunwind -llvm-libunwind -test
 net-libs/gnutls tools pkcs11
 
 # Network and Communication
-net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
+# net-wireless/iwd client -crda -monitor systemd -ofono -standalone -wired
 net-misc/dhcp client ipv6 -server ssl -ldap -selinux -vim-syntax
 net-dns/dnsmasq script
 net-libs/grpc -doc -examples -test
-net-libs/nodejs icu snapshot ssl system-icu system-ssl -corepack -debug -doc -inspector -lto npm -pax-kernel -test
-net-analyzer/wireshark plugins ssl maxminddb sdjournal smi sshdump wifi http2 brotli snappy lua lua_single_target_lua5-4
+# net-libs/nodejs icu snapshot ssl system-icu system-ssl -corepack -debug -doc -inspector -lto npm -pax-kernel -test
+# net-analyzer/wireshark plugins ssl maxminddb sdjournal smi sshdump wifi http2 brotli snappy lua lua_single_target_lua5-4
 
 # Misc / Build Helpers
-app-text/xmlto -latex text
+# app-text/xmlto -latex text
 app-misc/mime-types nginx
 
 # Virtualization
@@ -111,8 +112,8 @@ app-containers/containerd cri seccomp -selinux
 # Virtualization for Windows guests
 app-emulation/qemu spice usbredir zstd
 app-emulation/libvirt policykit
-app-emulation/virt-manager gui policykit
-net-misc/spice-gtk usbredir
+# app-emulation/virt-manager gui policykit
+# net-misc/spice-gtk usbredir
 
 # Optional / currently disabled
 #net-vpn/tor man seccomp -server systemd -caps -doc -hardened -lzma -scrypt -selinux -test -verify-sig -zstd
