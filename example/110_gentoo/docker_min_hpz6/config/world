@@ -67,15 +67,15 @@ www-client/google-chrome
 
 # Audio and Media
 #media-video/mpv
-#media-sound/pavucontrol
-#media-sound/pulsemixer
+media-sound/pavucontrol
+media-sound/pulsemixer
 media-video/pipewire
 media-video/wireplumber
 #media-libs/libv4l
 
 # Networking and Remote Access
 #net-fs/sshfs
-#net-misc/freerdp
+net-misc/freerdp
 net-misc/autossh
 net-misc/mosh
 #net-misc/socat
@@ -84,7 +84,7 @@ net-wireless/iw
 #net-wireless/iwgtk
 #net-analyzer/openbsd-netcat
 #net-analyzer/nmap
-#net-analyzer/wireshark
+net-analyzer/wireshark
 
 # Crypto
 app-crypt/p11-kit
