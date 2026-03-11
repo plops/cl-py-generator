@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260309 AS portage
+FROM gentoo/portage:20260311 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20260309
+FROM gentoo/stage3:nomultilib-systemd-20260309 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -14,7 +14,11 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 
+# Debug stage before GCC 14
+FROM base AS debug-pre-gcc
+
 # Install GCC 14
+FROM base AS builder
 RUN emerge --ask=n --verbose sys-devel/gcc:14 \
  && gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
  && eselect gcc set "${gcc_14}" \
@@ -445,51 +449,51 @@ RUN dracut \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
 
-# Create ThinkPad E14 squashfs image (no NVIDIA runtime files, includes AMD/WiFi firmware)
-RUN set -e \
- && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
- && mkdir -p /tmp/firmware_e14 || true \
- \
- # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
- && cp --parents regulatory.db* /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents amdgpu/yellow_carp* /tmp/firmware_e14/ 2>/dev/null || true \
- \
- # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size
- && echo "Stripping NVIDIA/CUDA and Firefox for E14 squashfs" \
- && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}* /usr/lib64/libnvidia* 2>/dev/null || true \
- && rm -rf /usr/lib64/firefox /usr/lib/firefox /usr/bin/firefox /usr/share/applications/firefox.desktop /usr/share/icons/hicolor/*/apps/firefox* /usr/share/pixmaps/firefox* /usr/share/man/man1/firefox.1* 2>/dev/null || true \
- && rm -rf /usr/lib64/libnvoptix.so* /usr/share/nvidia/nvoptix.bin 2>/dev/null || true \
- && rm -rf /nvidia${KVER} 2>/dev/null || true \
- && mksquashfs / /gentoo.squashfs_e14 \
-   -comp zstd \
-   -Xcompression-level 19 \
-   -b 256K \
-   -mem 10G \
-   -xattrs \
-   -noappend \
-   -not-reproducible \
-   -progress \
-   -one-file-system-x \
-   -noI -noX \
-   -wildcards \
-   -e \
-     usr/src \
-     var/cache/binpkgs \
-     var/cache/distfiles \
-     "gentoo*squashfs" \
-     "usr/lib64/libQt*.a" \
-     usr/share/genkernel/distfiles \
-     usr/src/linux \
-     usr/share/sgml \
-     var/cache/eix/previous.eix \
-     boot \
-     persistent \
-     home/*/.cache \
-     var/log/journal \
-     var/cache/genkernel \
-     var/tmp \
-     initramfs-with-squashfs.img \
-     lost+found \
-   || true
+# # Create ThinkPad E14 squashfs image (no NVIDIA runtime files, includes AMD/WiFi firmware)
+# RUN set -e \
+#  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
+#  && mkdir -p /tmp/firmware_e14 || true \
+#  \
+#  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
+#  && cp --parents regulatory.db* /tmp/firmware_e14/ 2>/dev/null || true \
+#  && cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_e14/ 2>/dev/null || true \
+#  && cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_e14/ 2>/dev/null || true \
+#  && cp --parents amdgpu/yellow_carp* /tmp/firmware_e14/ 2>/dev/null || true \
+#  \
+#  # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size
+#  && echo "Stripping NVIDIA/CUDA and Firefox for E14 squashfs" \
+#  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}* /usr/lib64/libnvidia* 2>/dev/null || true \
+#  && rm -rf /usr/lib64/firefox /usr/lib/firefox /usr/bin/firefox /usr/share/applications/firefox.desktop /usr/share/icons/hicolor/*/apps/firefox* /usr/share/pixmaps/firefox* /usr/share/man/man1/firefox.1* 2>/dev/null || true \
+#  && rm -rf /usr/lib64/libnvoptix.so* /usr/share/nvidia/nvoptix.bin 2>/dev/null || true \
+#  && rm -rf /nvidia${KVER} 2>/dev/null || true \
+#  && mksquashfs / /gentoo.squashfs_e14 \
+#    -comp zstd \
+#    -Xcompression-level 19 \
+#    -b 256K \
+#    -mem 10G \
+#    -xattrs \
+#    -noappend \
+#    -not-reproducible \
+#    -progress \
+#    -one-file-system-x \
+#    -noI -noX \
+#    -wildcards \
+#    -e \
+#      usr/src \
+#      var/cache/binpkgs \
+#      var/cache/distfiles \
+#      "gentoo*squashfs" \
+#      "usr/lib64/libQt*.a" \
+#      usr/share/genkernel/distfiles \
+#      usr/src/linux \
+#      usr/share/sgml \
+#      var/cache/eix/previous.eix \
+#      boot \
+#      persistent \
+#      home/*/.cache \
+#      var/log/journal \
+#      var/cache/genkernel \
+#      var/tmp \
+#      initramfs-with-squashfs.img \
+#      lost+found \
+#    || true
