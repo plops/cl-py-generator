@@ -62,7 +62,8 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config6.12.41 .config # we base our configuration on this old file
+COPY config/config6.12.41 .config
+# we base our configuration on this old file
 # cd example/110_gentoo/docker_min_hpz6/systems
 # find .|grep lsmod|xargs cat|sort|uniq|grep -v nouveau > /dev/shm/lsmod
 # yes "" | make LSMOD=/dev/shm/lsmod localmodconfig
