@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260309 AS portage
+FROM gentoo/portage:20260311 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-systemd-20260309
+FROM gentoo/stage3:nomultilib-systemd-20260309 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -14,16 +14,20 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 RUN eselect profile set default/linux/amd64/23.0/no-multilib/systemd
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 
-# Install GCC 16
-RUN emerge --ask=n --verbose sys-devel/gcc:16 \
- && gcc_16=$(eselect gcc list | grep "16" | awk '{print $1}' | tr -d '[]') \
- && eselect gcc set "${gcc_16}" \
+# Debug stage before GCC 14
+FROM base AS debug-pre-gcc
+
+# Install GCC 14
+FROM base AS builder
+RUN emerge --ask=n --verbose sys-devel/gcc:14 \
+ && gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
+ && eselect gcc set "${gcc_14}" \
  && source /etc/profile \
  && emerge --ask=n --oneshot --verbose libtool \
  # Use || true to prevent failure if it's not in world
- # && (emerge --deselect=y sys-devel/gcc:14 || true) 
+ && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
  # Use || true so build doesn't die if Portage refuses to remove it
- # && (emerge --ask=n --depclean sys-devel/gcc:14 || true) 
+ && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
  && emerge --ask=n @preserved-rebuild
 
  
@@ -43,8 +47,8 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && . /etc/profile
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-RUN eselect repository enable guru \
- && emaint sync --repo guru
+
+#RUN eselect repository enable guru && emaint sync --repo guru
 #RUN emerge --update --deep --changed-use @world --fetchonly
 
 # Kernel build
@@ -59,8 +63,7 @@ RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
 COPY config/config6.12.41 .config
-#  Update current config utilising a provided .config as base
-RUN make oldconfig
+# we base our configuration on this old file
 # cd example/110_gentoo/docker_min_hpz6/systems
 # find .|grep lsmod|xargs cat|sort|uniq|grep -v nouveau > /dev/shm/lsmod
 # yes "" | make LSMOD=/dev/shm/lsmod localmodconfig
@@ -75,18 +78,51 @@ RUN make oldconfig
 RUN <<EOF
 set -e
 CONFIG_OPTS=(
-  # --- System / Core ---
+  # =========================================================================
+  # --- Hardware & Kernel Profile (HP Z6 / AMD Ryzen Threadripper PRO) ---
+  # =========================================================================
+  # To make this Dockerfile generic, comment out the "Specific Options"
+  # and uncomment the "Generic Options" below.
+
+  # --- Specific Options (Optimized for Threadripper / Workstation) ---
+  -d PREEMPT_RT
+  -d PREEMPT
+  -e PREEMPT_VOLUNTARY
+  -d GENERIC_CPU
+  -e MK8
+  -m KVM_AMD
+
+  # --- Generic Options (Commented out by default) ---
+  # -e PREEMPT_RT
+  # -e PREEMPT
+  # -d PREEMPT_VOLUNTARY
+  # -e GENERIC_CPU
+  # -d MK8
+  # -m KVM_INTEL
+  # -m KVM_AMD
+  # =========================================================================
+
+  # --- System / Core (Docker, Namespaces, Storage) ---
   -e CUSE
   -e EFI_PARTITION
   -e SQUASHFS
   -e SQUASHFS_4K_DEVBLK_SIZE
+  -e CGROUPS
+  -e NAMESPACES
+  -e OVERLAY_FS
   -e TUN
   -m PPDEV
 
-  # --- Virtualization ---
+  # --- Boot / Crypto ---
+  -e BLK_DEV_INITRD
+  -m DM_CRYPT
+  -m CRYPTO_AES_NI_INTEL
+  -m CRYPTO_XTS
+  -e MD
+
+  # --- Virtualization / QEMU Base ---
   -m KVM
-  -m KVM_AMD
-  -m KVM_INTEL
+  -e VETH
   -m MACVTAP
   -m VHOST_NET
   -m VIRTIO_BALLOON
@@ -220,7 +256,7 @@ CONFIG_OPTS=(
 )
 
 ./scripts/config --file .config "${CONFIG_OPTS[@]}"
-make olddefconfig
+make olddefconfig # accept default for new options to avoid interactive prompts
 EOF
 
 
@@ -278,17 +314,17 @@ RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 
-# Ryzen SMU kernel module
-WORKDIR /usr/src
-RUN git clone https://github.com/amkillam/ryzen_smu
-WORKDIR /usr/src/ryzen_smu
-# Path should be like /lib/modules/6.13.5-gentoo/
-# Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
-RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
-RUN make -j7
-RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
-RUN depmod -a ${KVER}
-RUN rm *.o
+# # Ryzen SMU kernel module
+# WORKDIR /usr/src
+# RUN git clone https://github.com/amkillam/ryzen_smu
+# WORKDIR /usr/src/ryzen_smu
+# # Path should be like /lib/modules/6.13.5-gentoo/
+# # Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
+# RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
+# RUN make -j7
+# RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
+# RUN depmod -a ${KVER}
+# RUN rm *.o
 
 # Keep video modules out of /lib/modules during boot. They are activated later by /video.sh.
 # I suspect the RT_PREEMPT kernel is causing issues with the nvidia video modules, i've also abserved instability on amd apu driver on the thinkpad e14
@@ -330,13 +366,13 @@ RUN systemctl enable reverse-ssh-us
 USER kiel
 ENV HOME=/home/kiel
 
-# Install Emacs packages from MELPA in batch mode
-RUN emacs --batch \
-    --eval "(require 'package)" \
-    --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
-    --eval "(package-initialize)" \
-    --eval "(package-refresh-contents)" \
-    --eval "(dolist (pkg '(magit paredit slime)) (package-install pkg))"
+# # Install Emacs packages from MELPA in batch mode
+# RUN emacs --batch \
+#     --eval "(require 'package)" \
+#     --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
+#     --eval "(package-initialize)" \
+#     --eval "(package-refresh-contents)" \
+#     --eval "(dolist (pkg '(magit paredit slime)) (package-install pkg))"
 
 # Switch back to root user for the remaining steps
 USER root
@@ -350,6 +386,8 @@ RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
 RUN fc-cache -fv
 
 RUN echo 'keymap="colemak"' > /etc/conf.d/keymaps
+
+RUN rm -rf /var/tmp/portage/* # reduce docker layer size
 
 WORKDIR /
 RUN mksquashfs \
@@ -377,14 +415,14 @@ usr/share/sgml \
 var/cache/eix/previous.eix \
 boot \
 persistent \
-home/martin/.cache/mozilla \
-home/martin/.cache/google-chrome \
-home/martin/.cache/mesa_shader_cache \
-home/martin/.cache/fontconfig \
-home/martin/Downloads \
-home/martin/.config \
-home/martin/.mozilla \
-home/martin/stage \
+home/kiel/.cache/mozilla \
+home/kiel/.cache/google-chrome \
+home/kiel/.cache/mesa_shader_cache \
+home/kiel/.cache/fontconfig \
+home/kiel/Downloads \
+home/kiel/.config \
+home/kiel/.mozilla \
+home/kiel/stage \
 var/log/journal \
 var/cache/genkernel \
 var/tmp/portage \
@@ -412,51 +450,51 @@ RUN dracut \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
 
-# Create ThinkPad E14 squashfs image (no NVIDIA runtime files, includes AMD/WiFi firmware)
-RUN set -e \
- && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
- && mkdir -p /tmp/firmware_e14 || true \
- \
- # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
- && cp --parents regulatory.db* /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents amdgpu/yellow_carp* /tmp/firmware_e14/ 2>/dev/null || true \
- \
- # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size
- && echo "Stripping NVIDIA/CUDA and Firefox for E14 squashfs" \
- && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}* /usr/lib64/libnvidia* 2>/dev/null || true \
- && rm -rf /usr/lib64/firefox /usr/lib/firefox /usr/bin/firefox /usr/share/applications/firefox.desktop /usr/share/icons/hicolor/*/apps/firefox* /usr/share/pixmaps/firefox* /usr/share/man/man1/firefox.1* 2>/dev/null || true \
- && rm -rf /usr/lib64/libnvoptix.so* /usr/share/nvidia/nvoptix.bin 2>/dev/null || true \
- && rm -rf /nvidia${KVER} 2>/dev/null || true \
- && mksquashfs / /gentoo.squashfs_e14 \
-   -comp zstd \
-   -Xcompression-level 19 \
-   -b 256K \
-   -mem 10G \
-   -xattrs \
-   -noappend \
-   -not-reproducible \
-   -progress \
-   -one-file-system-x \
-   -noI -noX \
-   -wildcards \
-   -e \
-     usr/src \
-     var/cache/binpkgs \
-     var/cache/distfiles \
-     "gentoo*squashfs" \
-     "usr/lib64/libQt*.a" \
-     usr/share/genkernel/distfiles \
-     usr/src/linux \
-     usr/share/sgml \
-     var/cache/eix/previous.eix \
-     boot \
-     persistent \
-     home/*/.cache \
-     var/log/journal \
-     var/cache/genkernel \
-     var/tmp \
-     initramfs-with-squashfs.img \
-     lost+found \
-   || true
+# # Create ThinkPad E14 squashfs image (no NVIDIA runtime files, includes AMD/WiFi firmware)
+# RUN set -e \
+#  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
+#  && mkdir -p /tmp/firmware_e14 || true \
+#  \
+#  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
+#  && cp --parents regulatory.db* /tmp/firmware_e14/ 2>/dev/null || true \
+#  && cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_e14/ 2>/dev/null || true \
+#  && cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_e14/ 2>/dev/null || true \
+#  && cp --parents amdgpu/yellow_carp* /tmp/firmware_e14/ 2>/dev/null || true \
+#  \
+#  # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size
+#  && echo "Stripping NVIDIA/CUDA and Firefox for E14 squashfs" \
+#  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}* /usr/lib64/libnvidia* 2>/dev/null || true \
+#  && rm -rf /usr/lib64/firefox /usr/lib/firefox /usr/bin/firefox /usr/share/applications/firefox.desktop /usr/share/icons/hicolor/*/apps/firefox* /usr/share/pixmaps/firefox* /usr/share/man/man1/firefox.1* 2>/dev/null || true \
+#  && rm -rf /usr/lib64/libnvoptix.so* /usr/share/nvidia/nvoptix.bin 2>/dev/null || true \
+#  && rm -rf /nvidia${KVER} 2>/dev/null || true \
+#  && mksquashfs / /gentoo.squashfs_e14 \
+#    -comp zstd \
+#    -Xcompression-level 19 \
+#    -b 256K \
+#    -mem 10G \
+#    -xattrs \
+#    -noappend \
+#    -not-reproducible \
+#    -progress \
+#    -one-file-system-x \
+#    -noI -noX \
+#    -wildcards \
+#    -e \
+#      usr/src \
+#      var/cache/binpkgs \
+#      var/cache/distfiles \
+#      "gentoo*squashfs" \
+#      "usr/lib64/libQt*.a" \
+#      usr/share/genkernel/distfiles \
+#      usr/src/linux \
+#      usr/share/sgml \
+#      var/cache/eix/previous.eix \
+#      boot \
+#      persistent \
+#      home/*/.cache \
+#      var/log/journal \
+#      var/cache/genkernel \
+#      var/tmp \
+#      initramfs-with-squashfs.img \
+#      lost+found \
+#    || true

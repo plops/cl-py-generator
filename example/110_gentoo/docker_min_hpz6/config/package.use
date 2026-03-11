@@ -1,8 +1,11 @@
 # Toolchain, Compiler, Runtime
-sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
+# Performant configuration (slow to build):
+# sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double jit -libssp lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
+# Faster build configuration:
+sys-devel/gcc cxx nls pie ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -fortran -go -graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc -openmp -pch -pgo -rust -sanitize -systemtap -test -time64 -valgrind -vanilla -vtv
 llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -verify-sig -xml
 dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
-dev-lang/rust rustfmt clippy
+dev-lang/rust rustfmt clippy system-llvm
 dev-lang/R X libdeflate nls readline cairo -doc -icu -java jpeg -lto -minimal -openmp -perl png -prefix -profile -test -tiff tk
 
 # Init, Kernel, Filesystem, Core System
@@ -23,6 +26,11 @@ dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -c
 app-text/doxygen -clang -debug -doc dot -doxysearch -gui -test
 
 # Desktop, X11, UI Stack
+# LLVM Dependency Note: LLVM is currently pulled in primarily by mesa[llvm] and rust[system-llvm].
+# To avoid LLVM in the future:
+# 1. Use media-libs/mesa -llvm (Caution: may break/slow down some drivers).
+# 2. Use dev-lang/rust -system-llvm (Will build internal LLVM instead, no net size gain).
+# 3. Avoid llvm-core/clang if not strictly needed for build/tools.
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 x11-wm/dwm savedconfig -xinerama
 x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
@@ -46,10 +54,9 @@ media-gfx/feh -curl -debug -exif inotify -test -xinerama
 
 # Audio, Bluetooth, Multimedia
 media-plugins/alsa-plugins mix usb_stream -arcam_av -debug -ffmpeg -jack -libsamplerate -oss pulseaudio -speex
-# PipeWire defaults required for HP Z6 audio interfaces
+# PipeWire is the sound server; PulseAudio compatibility comes from libpulse.
 media-video/pipewire X dbus pipewire-alsa pulseaudio readline sound-server ssl systemd -system-service
 media-video/wireplumber systemd -system-service
-media-sound/pulseaudio-daemon X alsa alsa-plugin asyncns gdbm glib orc ssl systemd udev webrtc-aec -aptx bluetooth dbus -elogind -equalizer -fftw -gstreamer -jack -ldac -lirc ofono-headset -oss -selinux -sox -system-wide -tcpd -test -valgrind -zeroconf
 media-libs/libpulse X asyncns glib systemd dbus -doc -gtk -selinux -test -valgrind
 media-libs/libcanberra gtk3 sound udev alsa pulseaudio
 media-sound/sox openmp -alsa -amr -ao -encode -flac -id3tag -ladspa -mad -magic -ogg -opus -oss -png pulseaudio -sndfile -sndio -static-libs -twolame -wavpack
@@ -98,6 +105,9 @@ app-text/xmlto -latex text
 app-misc/mime-types nginx
 
 # Virtualization
+app-containers/docker container-init overlay2 seccomp systemd
+app-containers/docker-cli -selinux
+app-containers/containerd cri seccomp -selinux
 # Virtualization for Windows guests
 app-emulation/qemu spice usbredir zstd
 app-emulation/libvirt policykit
