@@ -75,18 +75,51 @@ RUN make oldconfig
 RUN <<EOF
 set -e
 CONFIG_OPTS=(
-  # --- System / Core ---
+  # =========================================================================
+  # --- Hardware & Kernel Profile (HP Z6 / AMD Ryzen Threadripper PRO) ---
+  # =========================================================================
+  # To make this Dockerfile generic, comment out the "Specific Options"
+  # and uncomment the "Generic Options" below.
+
+  # --- Specific Options (Optimized for Threadripper / Workstation) ---
+  -d PREEMPT_RT
+  -d PREEMPT
+  -e PREEMPT_VOLUNTARY
+  -d GENERIC_CPU
+  -e MK8
+  -m KVM_AMD
+
+  # --- Generic Options (Commented out by default) ---
+  # -e PREEMPT_RT
+  # -e PREEMPT
+  # -d PREEMPT_VOLUNTARY
+  # -e GENERIC_CPU
+  # -d MK8
+  # -m KVM_INTEL
+  # -m KVM_AMD
+  # =========================================================================
+
+  # --- System / Core (Docker, Namespaces, Storage) ---
   -e CUSE
   -e EFI_PARTITION
   -e SQUASHFS
   -e SQUASHFS_4K_DEVBLK_SIZE
+  -e CGROUPS
+  -e NAMESPACES
+  -e OVERLAY_FS
   -e TUN
   -m PPDEV
 
-  # --- Virtualization ---
+  # --- Boot / Crypto ---
+  -e BLK_DEV_INITRD
+  -m DM_CRYPT
+  -m CRYPTO_AES_NI_INTEL
+  -m CRYPTO_XTS
+  -e MD
+
+  # --- Virtualization / QEMU Base ---
   -m KVM
-  -m KVM_AMD
-  -m KVM_INTEL
+  -e VETH
   -m MACVTAP
   -m VHOST_NET
   -m VIRTIO_BALLOON
