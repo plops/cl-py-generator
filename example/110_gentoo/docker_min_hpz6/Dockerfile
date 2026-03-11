@@ -47,8 +47,8 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && . /etc/profile
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-RUN eselect repository enable guru \
- && emaint sync --repo guru
+
+#RUN eselect repository enable guru && emaint sync --repo guru
 #RUN emerge --update --deep --changed-use @world --fetchonly
 
 # Kernel build
@@ -62,9 +62,7 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config6.12.41 .config
-#  Update current config utilising a provided .config as base
-RUN make oldconfig
+COPY config/config6.12.41 .config # we base our configuration on this old file
 # cd example/110_gentoo/docker_min_hpz6/systems
 # find .|grep lsmod|xargs cat|sort|uniq|grep -v nouveau > /dev/shm/lsmod
 # yes "" | make LSMOD=/dev/shm/lsmod localmodconfig
@@ -257,7 +255,7 @@ CONFIG_OPTS=(
 )
 
 ./scripts/config --file .config "${CONFIG_OPTS[@]}"
-make olddefconfig
+make olddefconfig # accept default for new options to avoid interactive prompts
 EOF
 
 
@@ -315,17 +313,17 @@ RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
 
-# Ryzen SMU kernel module
-WORKDIR /usr/src
-RUN git clone https://github.com/amkillam/ryzen_smu
-WORKDIR /usr/src/ryzen_smu
-# Path should be like /lib/modules/6.13.5-gentoo/
-# Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
-RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
-RUN make -j7
-RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
-RUN depmod -a ${KVER}
-RUN rm *.o
+# # Ryzen SMU kernel module
+# WORKDIR /usr/src
+# RUN git clone https://github.com/amkillam/ryzen_smu
+# WORKDIR /usr/src/ryzen_smu
+# # Path should be like /lib/modules/6.13.5-gentoo/
+# # Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
+# RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
+# RUN make -j7
+# RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
+# RUN depmod -a ${KVER}
+# RUN rm *.o
 
 # Keep video modules out of /lib/modules during boot. They are activated later by /video.sh.
 # I suspect the RT_PREEMPT kernel is causing issues with the nvidia video modules, i've also abserved instability on amd apu driver on the thinkpad e14
@@ -367,13 +365,13 @@ RUN systemctl enable reverse-ssh-us
 USER kiel
 ENV HOME=/home/kiel
 
-# Install Emacs packages from MELPA in batch mode
-RUN emacs --batch \
-    --eval "(require 'package)" \
-    --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
-    --eval "(package-initialize)" \
-    --eval "(package-refresh-contents)" \
-    --eval "(dolist (pkg '(magit paredit slime)) (package-install pkg))"
+# # Install Emacs packages from MELPA in batch mode
+# RUN emacs --batch \
+#     --eval "(require 'package)" \
+#     --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
+#     --eval "(package-initialize)" \
+#     --eval "(package-refresh-contents)" \
+#     --eval "(dolist (pkg '(magit paredit slime)) (package-install pkg))"
 
 # Switch back to root user for the remaining steps
 USER root
@@ -387,6 +385,8 @@ RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
 RUN fc-cache -fv
 
 RUN echo 'keymap="colemak"' > /etc/conf.d/keymaps
+
+RUN rm -rf /var/tmp/portage/* # reduce docker layer size
 
 WORKDIR /
 RUN mksquashfs \
@@ -414,14 +414,14 @@ usr/share/sgml \
 var/cache/eix/previous.eix \
 boot \
 persistent \
-home/martin/.cache/mozilla \
-home/martin/.cache/google-chrome \
-home/martin/.cache/mesa_shader_cache \
-home/martin/.cache/fontconfig \
-home/martin/Downloads \
-home/martin/.config \
-home/martin/.mozilla \
-home/martin/stage \
+home/kiel/.cache/mozilla \
+home/kiel/.cache/google-chrome \
+home/kiel/.cache/mesa_shader_cache \
+home/kiel/.cache/fontconfig \
+home/kiel/Downloads \
+home/kiel/.config \
+home/kiel/.mozilla \
+home/kiel/stage \
 var/log/journal \
 var/cache/genkernel \
 var/tmp/portage \
