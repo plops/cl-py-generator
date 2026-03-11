@@ -9,8 +9,8 @@ It is not a clean-slate install:
 - Kernel, initramfs, and squashfs remain on an unencrypted partition.
 
 Current image set used in this guide:
-- Build directory: `gentoo-z6-min_20260309`
-- Version suffix for copied boot artifacts: `0309`
+- Build directory: `gentoo-z6-min_20260311`
+- Version suffix for copied boot artifacts: `0311`
 
 ## 0. Preflight and safety checks
 
@@ -103,38 +103,37 @@ Confirm:
 ## 4. Copy new build artifacts with date suffix
 
 Artifacts were copied from container output (`setup03_copy_from_container.sh`) and are located in:
-- `gentoo-z6-min_20260309/`
-- `/dev/shm/gentoo-z6-min_20260309/`
+- `gentoo-z6-min_20260311/`
+- `/dev/shm/gentoo-z6-min_20260311/`
 
 Example listing:
 
 ```bash
-ls -tlrh /dev/shm/gentoo-z6-min_20260309/
+ls -tlrh /dev/shm/gentoo-z6-min_20260311/
 ```
 
 Expected files:
 - `gentoo.squashfs`
-- `gentoo.squashfs_e14` (ignore on HP Z6; laptop-only image)
 - `vmlinuz`
 - `initramfs_squash_sda1-x86_64.img`
 - `packages.txt`
 
 Important:
-- For HP Z6, copy only `gentoo.squashfs` (without `_e14` suffix).
+- For HP Z6, copy only `gentoo.squashfs` (the `_e14` suffix image is for the laptop).
 
 Copy to boot partition with rollback-friendly suffixes:
 
 ```bash
-sudo cp -av /dev/shm/gentoo-z6-min_20260309/gentoo.squashfs /0p3/gentoo.squashfs_0309
-sudo cp -av /dev/shm/gentoo-z6-min_20260309/vmlinuz /0p3/boot/vmlinuz_0309
-sudo cp -av /dev/shm/gentoo-z6-min_20260309/initramfs_squash_sda1-x86_64.img /0p3/boot/initramfs_squash_sda1-x86_64.img_0309
+sudo cp -av /dev/shm/gentoo-z6-min_20260311/gentoo.squashfs /0p3/gentoo.squashfs_0311
+sudo cp -av /dev/shm/gentoo-z6-min_20260311/vmlinuz /0p3/boot/vmlinuz_0311
+sudo cp -av /dev/shm/gentoo-z6-min_20260311/initramfs_squash_sda1-x86_64.img /0p3/boot/initramfs_squash_sda1-x86_64.img_0311
 ```
 
 Verify copied files:
 
 ```bash
-ls -lh /0p3/gentoo.squashfs_0309
-ls -lh /0p3/boot/vmlinuz_0309 /0p3/boot/initramfs_squash_sda1-x86_64.img_0309
+ls -lh /0p3/gentoo.squashfs_0311
+ls -lh /0p3/boot/vmlinuz_0311 /0p3/boot/initramfs_squash_sda1-x86_64.img_0311
 ```
 
 ## 5. Create encrypted persistent partition (`nvme0n1p5`)
@@ -190,10 +189,10 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
     insmod btrfs
     search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
 
-    linux /boot/vmlinuz_0309 \
+    linux /boot/vmlinuz_0311 \
       root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
       rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs_0309 \
+      rd.live.squashimg=gentoo.squashfs_0311 \
       rd.live.ram=1 \
       rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
       rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
@@ -201,27 +200,27 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5)' {
       rd.live.overlay.overlayfs=1 \
       modprobe.blacklist=hp_bioscfg
 
-    initrd /boot/initramfs_squash_sda1-x86_64.img_0309
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0311
 }
 ```
 
 Recommended menu title convention:
-- `Gentoo Dracut (persist on nvme0n1p5 0309)`
+- `Gentoo Dracut (persist on nvme0n1p5 0311)`
 
 Example append command:
 
 ```bash
 cat <<'EOF' | sudo tee -a /0p3/boot/grub/custom.cfg >/dev/null
-menuentry 'Gentoo Dracut (persist on nvme0n1p5 0309)' {
+menuentry 'Gentoo Dracut (persist on nvme0n1p5 0311)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
 
-    linux /boot/vmlinuz_0309 \
+    linux /boot/vmlinuz_0311 \
       root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
       rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs_0309 \
+      rd.live.squashimg=gentoo.squashfs_0311 \
       rd.live.ram=1 \
       rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
       rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
@@ -229,7 +228,7 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5 0309)' {
       rd.live.overlay.overlayfs=1 \
       modprobe.blacklist=hp_bioscfg
 
-    initrd /boot/initramfs_squash_sda1-x86_64.img_0309
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0311
 }
 EOF
 ```
@@ -244,37 +243,28 @@ sudo cp -av /0p3/boot/grub/grub.cfg /0p3/boot/grub/grub.cfg.bak_migrate_$(date +
 
 # 2) Write the entry into /boot/grub/custom.cfg
 cat <<'EOF' | sudo tee /0p3/boot/grub/custom.cfg >/dev/null
-menuentry 'Gentoo Dracut (persist on nvme0n1p5 0309)' {
+menuentry 'Gentoo Dracut (persist on nvme0n1p5 0311)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
 
-    linux /boot/vmlinuz_0309 \
+    linux /boot/vmlinuz_0311 \
     root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
     rd.live.dir=/ \
-    rd.live.squashimg=gentoo.squashfs_0309 \
+    rd.live.squashimg=gentoo.squashfs_0311 \
     rd.live.ram=1 \
     rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
     rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
     rd.overlay=/dev/mapper/enc:persistent \
     rd.live.overlay.overlayfs=1 \
     modprobe.blacklist=hp_bioscfg
-    initrd /boot/initramfs_squash_sda1-x86_64.img_0309
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0311
 }
 EOF
 
-# 3) Remove only that menuentry block from grub.cfg
-sudo awk '
-BEGIN{skip=0}
-/^menuentry '\''Gentoo Dracut \(persist on nvme0n1p5 0309\)'\'' \{$/{skip=1;next}
-skip==1 && /^[[:space:]]*}[[:space:]]*$/{skip=0;next}
-skip==0{print}
-' /0p3/boot/grub/grub.cfg > /tmp/grub.cfg.migrated
-sudo cp -av /tmp/grub.cfg.migrated /0p3/boot/grub/grub.cfg
-
 # 4) Verify the entry exists in custom.cfg and not in grub.cfg
-sudo rg -n "Gentoo Dracut \\(persist on nvme0n1p5 0309\\)" /0p3/boot/grub/custom.cfg /0p3/boot/grub/grub.cfg
+sudo rg -n "Gentoo Dracut \\(persist on nvme0n1p5 0311\\)" /0p3/boot/grub/custom.cfg /0p3/boot/grub/grub.cfg
 ```
 
 Notes:
