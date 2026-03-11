@@ -36,6 +36,8 @@ RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.license /etc/portage/package.license
 COPY config/package.use /etc/portage/package.use
+COPY config/package.env /etc/portage/package.env
+COPY config/env /etc/portage/env
 # Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
