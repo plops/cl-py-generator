@@ -1,6 +1,20 @@
-# Gentoo System Information - ThinkPad E14 (0306 Update)
+# Gentoo System Information - ThinkPad E14 (0308 Update)
 
-This directory contains system snapshots of the Gentoo installation on the ThinkPad E14 workstation, updated on **2026-03-06** (Build `0306`).
+This directory contains system snapshots of the Gentoo installation on the ThinkPad E14 workstation, refreshed on **2026-03-10** (Build `0308`).
+
+## Latest Snapshot (0308 — 2026-03-10)
+
+- **Summary:** several runtime and hardware snapshot files were refreshed on 2026-03-10 to capture current power, NVMe, and system-state metrics.
+- **Refreshed snapshots:** `cpuinfo.txt`, `df.txt`, `dmesg.txt`, `dmidecode.txt`, `fastfetch.txt`, `fdisk.txt`, `free.txt`, `hostnamectl.txt`, `lsblk_all.txt`, `lsblk_devices.txt`, `lscpu.txt`, `lshw.txt`, `lsmod.txt`, `meminfo.txt`, `sensors.txt`, `smartctl_nvme0n1.txt`, `smartctl_nvme1n1.txt`, `tlp-stat.txt`, `uname.txt`.
+
+- **NVMe safety notes:** the SMART counters show that unsafe shutdown counts have increased slightly since the 0306 snapshot (details below).
+
+## Health delta since 0306
+
+- `nvme0n1` (ADATA LEGEND 800, 1TB): Unsafe Shutdowns increased from **465** (0306) to **471** (0308) — +6.
+- `nvme1n1` (SKHynix 512GB): Unsafe Shutdowns increased from **88** (0306) to **94** (0308) — +6.
+
+Conclusion: unsafe shutdown occurrences have not reduced since the 0306 snapshot; they have in fact increased slightly in the latest 0308 refresh.
 
 ## Version Summary
 
