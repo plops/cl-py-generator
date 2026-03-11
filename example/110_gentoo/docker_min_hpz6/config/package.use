@@ -26,6 +26,11 @@ dev-vcs/git blksha1 curl gpg iconv nls pcre -perl safe-directory -webdav -cgi -c
 app-text/doxygen -clang -debug -doc dot -doxysearch -gui -test
 
 # Desktop, X11, UI Stack
+# LLVM Dependency Note: LLVM is currently pulled in primarily by mesa[llvm] and rust[system-llvm].
+# To avoid LLVM in the future:
+# 1. Use media-libs/mesa -llvm (Caution: may break/slow down some drivers).
+# 2. Use dev-lang/rust -system-llvm (Will build internal LLVM instead, no net size gain).
+# 3. Avoid llvm-core/clang if not strictly needed for build/tools.
 x11-base/xorg-server systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 x11-wm/dwm savedconfig -xinerama
 x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
