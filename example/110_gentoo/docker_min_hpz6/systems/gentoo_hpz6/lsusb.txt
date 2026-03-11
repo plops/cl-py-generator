@@ -1,15 +1,13 @@
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
-Bus 001 Device 002: ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
-Bus 001 Device 003: ID 0bda:5418 Realtek Semiconductor Corp. USB2.1 Hub
-Bus 001 Device 004: ID 046a:0023 CHERRY Keyboard
-Bus 001 Device 005: ID 03f0:134a HP, Inc Optical Mouse
-Bus 001 Device 006: ID 0bda:1100 Realtek Semiconductor Corp. HID Device
+Bus 001 Device 002: ID 0489:e0d8 Foxconn / Hon Hai Bluetooth 5.2 Adapter [MediaTek MT7922]
 Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
-Bus 002 Device 002: ID 0bda:0411 Realtek Semiconductor Corp. Hub
-Bus 002 Device 003: ID 0bda:0418 Realtek Semiconductor Corp. USB3.2 Hub
 Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
-Bus 003 Device 002: ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
+Bus 003 Device 002: ID 046d:c52b Logitech, Inc. Unifying Receiver
+Bus 003 Device 003: ID 10a5:d805 FPC FPC L:0005 FW:2127093
 Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
-Bus 004 Device 002: ID 0bda:0411 Realtek Semiconductor Corp. Hub
 Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
-Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
+Bus 005 Device 002: ID 174f:1820 Syntek Integrated Camera
+Bus 006 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
+Bus 007 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
+Bus 008 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
+Bus 009 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub

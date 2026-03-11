@@ -1,16 +1,17 @@
-   Static hostname: (unset)
-Transient hostname: localhost
-         Icon name: computer-desktop
-           Chassis: desktop 🖥️
-        Machine ID: 3bc5cd7540d300807a0a4a1d68c3ef75
-           Boot ID: ac50cb1bf9964b90b9417a23370989b2
-      Product UUID: 3381a3ab-3053-4069-b0c3-d3d7a6573c81
-  Operating System: Gentoo Linux
-            Kernel: Linux 6.12.41-gentoo
-      Architecture: x86-64
-   Hardware Vendor: HP
-    Hardware Model: HP Z6 G5 A Workstation Desktop PC
-   Hardware Serial: CZC4177H9W
-  Firmware Version: U65 Ver. 01.01.21
-     Firmware Date: Thu 2024-08-15
-      Firmware Age: 1y 2month 1w 1d
+  Static hostname: e14
+        Icon name: computer-laptop
+          Chassis: laptop 💻
+Chassis Asset Tag: No Asset Information
+       Machine ID: ea26fa05a4701425c4326f2b69853219
+          Boot ID: b0107cf78efb4523804ef55f3697c39f
+     Product UUID: a600af4c-31d2-11b2-a85c-b5045e8f0b79
+ Operating System: Gentoo Linux
+           Kernel: Linux 6.12.74-gentoo
+     Architecture: x86-64
+  Hardware Vendor: Lenovo
+   Hardware Model: ThinkPad E14 Gen 6
+  Hardware Serial: PF53Q1A0
+     Hardware SKU: LENOVO_MT_21M3_BU_Think_FM_ThinkPad E14 Gen 6
+ Firmware Version: R2KET35W (1.18 )
+    Firmware Date: Thu 2025-07-24
+     Firmware Age: 7month 2w 2d
