@@ -45,29 +45,14 @@ COPY config/env /etc/portage/env
 COPY config/world /var/lib/portage/world
 RUN emerge -pD @world | grep "ebuild" | wc -l
 
-FROM builder AS post-config
+FROM builder AS kernel-build
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.mask /etc/portage/package.mask/package.mask
 COPY config/package.license /etc/portage/package.license
-COPY config/package.use /etc/portage/package.use
-COPY config/package.env /etc/portage/package.env
-COPY config/env /etc/portage/env
-# Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
-COPY config/world /var/lib/portage/world
-COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
+# Delay copying volatile config (package.use, world, etc) to the next stage
+# to allow iteration without rebuilding the kernel.
 
-# Clean up the locales
-RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
- && locale-gen \
- && env-update \
- && . /etc/profile
-ENV LANG=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8
-
-#RUN eselect repository enable guru && emaint sync --repo guru
-#RUN emerge --update --deep --changed-use @world --fetchonly
-
-# Kernel build
+RUN emerge -pD @world | grep "ebuild" | wc -l
 ENV KVER_PURE=6.12.74
 ENV KVER=${KVER_PURE}-gentoo
 
@@ -290,7 +275,23 @@ RUN make modules_install
 
 RUN make install
 
-RUN emerge -e @world
+FROM kernel-build AS post-config
+COPY config/package.use /etc/portage/package.use
+COPY config/package.env /etc/portage/package.env
+COPY config/env /etc/portage/env
+# Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
+COPY config/world /var/lib/portage/world
+COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
+
+# Clean up the locales
+RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
+ && locale-gen \
+ && env-update \
+ && . /etc/profile
+ENV LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
+
+RUN emerge -uDN @world
 
 # System package build in cached chunks:
 # 1) Compute an ordered empty-tree world plan during the Docker build.
