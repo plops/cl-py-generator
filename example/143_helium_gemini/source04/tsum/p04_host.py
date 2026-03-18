@@ -61,7 +61,7 @@ logger.info("Use environment variable for API key")
 api_key=os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
  
-MODEL_OPTIONS=["gemini-3.1-flash-lite-preview| input: $0.25 | output: $1.5 | context: 1_000_000 | rpm: 15 | rpd: 500", "gemini-3-flash-preview| input: $0.5 | output: $3.0 | context: 1_000_000 | rpm: 5 | rpd: 20", "gemini-2.5-flash| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 5 | rpd: 20", "gemini-2.5-flash-lite| input: $0.1 | output: $0.4 | context: 1_000_000 | rpm: 10 | rpd: 20", "gemini-robotics-er-1.5-preview| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 10 | rpd: 20"]
+MODEL_OPTIONS=["gemini-3-flash-preview| input: $0.5 | output: $3.0 | context: 1_000_000 | rpm: 5 | rpd: 20", "gemini-3.1-flash-lite-preview| input: $0.25 | output: $1.5 | context: 1_000_000 | rpm: 15 | rpd: 500", "gemini-2.5-flash| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 5 | rpd: 20", "gemini-2.5-flash-lite| input: $0.1 | output: $0.4 | context: 1_000_000 | rpm: 10 | rpd: 20", "gemini-robotics-er-1.5-preview| input: $0.3 | output: $2.5 | context: 1_000_000 | rpm: 10 | rpd: 20"]
  
 # Counters for tracking daily usage
 model_counts={opt.split("|")[0].strip():0 for opt in MODEL_OPTIONS}
@@ -276,8 +276,8 @@ def generation_preview(identifier):
     sid=f"gen-{identifier}"
     text="Generating ..."
     trigger="every 1s"
-    price_input={("gemini-3.1-flash-lite-preview"):((0.250    )), ("gemini-3-flash-preview"):((0.50    )), ("gemini-2.5-flash"):((0.30    )), ("gemini-2.5-flash-lite"):((0.10    )), ("gemini-robotics-er-1.5-preview"):((0.30    ))}
-    price_output={("gemini-3.1-flash-lite-preview"):((1.50    )), ("gemini-3-flash-preview"):((3.0    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
+    price_input={("gemini-3-flash-preview"):((0.50    )), ("gemini-3.1-flash-lite-preview"):((0.250    )), ("gemini-2.5-flash"):((0.30    )), ("gemini-2.5-flash-lite"):((0.10    )), ("gemini-robotics-er-1.5-preview"):((0.30    ))}
+    price_output={("gemini-3-flash-preview"):((3.0    )), ("gemini-3.1-flash-lite-preview"):((1.50    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
     try:
         s=summaries[identifier]
         if ( s.timestamps_done ):

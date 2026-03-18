@@ -84,8 +84,9 @@
 	(oflash25nothink .6))
       (defparameter *models* 
     '(;; --- Gemini 3.x Series (Latest) ---
-      (:name gemini-3.1-flash-lite-preview :input-price 0.25 :output-price 1.50 :context-length 1_000_000 :rpm 15 :rpd 500)
       (:name gemini-3-flash-preview :input-price 0.50 :output-price 3.00 :context-length 1_000_000 :rpm 5 :rpd 20)
+      (:name gemini-3.1-flash-lite-preview :input-price 0.25 :output-price 1.50 :context-length 1_000_000 :rpm 15 :rpd 500)
+      
       
       ;; --- Gemini 2.5 Series ---
       (:name gemini-2.5-flash :input-price 0.30 :output-price 2.50 :context-length 1_000_000 :rpm 5 :rpd 20)
