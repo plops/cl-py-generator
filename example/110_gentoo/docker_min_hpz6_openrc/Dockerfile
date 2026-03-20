@@ -5,7 +5,7 @@ FROM gentoo/portage:20260320 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-openrc-20260316 AS base
+FROM gentoo/stage3:nomultilib-20260316 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
