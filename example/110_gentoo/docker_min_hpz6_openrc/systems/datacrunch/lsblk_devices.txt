@@ -1,0 +1,2 @@
+sr0  rom   368K QEMU DVD-ROM QEMU    
+vda  disk   50G              0x1af4

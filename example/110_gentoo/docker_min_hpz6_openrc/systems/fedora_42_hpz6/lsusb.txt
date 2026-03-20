@@ -1,0 +1,14 @@
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
+Bus 001 Device 002: ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
+Bus 002 Device 002: ID 0bda:0411 Realtek Semiconductor Corp. Hub
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
+Bus 003 Device 002: ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
+Bus 003 Device 003: ID 03f0:134a HP, Inc Optical Mouse
+Bus 003 Device 004: ID 047f:0127 Plantronics, Inc. Plantronics Voyager Focus UC
+Bus 003 Device 005: ID 046a:0023 CHERRY Keyboard
+Bus 003 Device 006: ID 05ac:12a8 Apple, Inc. iPhone 5/5C/5S/6/SE/7/8/X/XR
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub
+Bus 004 Device 002: ID 0bda:0411 Realtek Semiconductor Corp. Hub
+Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 [REDACTED_USER] hub
+Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 [REDACTED_USER] hub

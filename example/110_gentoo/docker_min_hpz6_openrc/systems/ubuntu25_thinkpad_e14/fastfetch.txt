@@ -1,0 +1,49 @@
+                             ....
+              .',:clooo:  .:looooo:.
+           .;looooooooc  .oooooooooo'
+        .;looooool:,''.  :ooooooooooc
+       ;looool;.         'oooooooooo,
+      ;clool'             .cooooooc.  ,,
+         ...                ......  .:oo,
+  .;clol:,.                        .loooo'
+ :ooooooooo,                        'ooool
+'ooooooooooo.                        loooo.
+'ooooooooool                         coooo.
+ ,loooooooc.                        .loooo.
+   .,;;;'.                          ;ooooc
+       ...                         ,ooool.
+    .cooooc.              ..',,'.  .cooo.
+      ;ooooo:.           ;oooooooc.  :l.
+       .coooooc,..      coooooooooo.
+         .:ooooooolc:. .ooooooooooo'
+           .':loooooo;  ,oooooooooc
+               ..';::c'  .;loooo:'[1G[19A[47C[REDACTED_USER]@kiel-ThinkPad-E14-Gen-6
+[47C----------------------------
+[47COS: [REDACTED_USER] 25.10 x86_64
+[47CHost: 21M30030MZ (ThinkPad E14 Gen 6)
+[47CKernel: Linux 6.17.0-6-generic
+[47CUptime: 5 mins
+[47CPackages: 1705 (dpkg), 12 (snap)
+[47CShell: bash 5.2.37
+[47CDisplay (eDP-1): 3072x1920 @ 60 Hz in 14" [Built-in]
+[47CDE: GNOME
+[47CWM: Mutter (X11)
+[47CWM Theme: Yaru
+[47CTheme: Yaru [GTK2/3/4]
+[47CIcons: Yaru [GTK2/3/4]
+[47CFont: [REDACTED_USER] Sans (11pt) [GTK2/3/4]
+[47CCursor: Yaru (24px)
+[47CTerminal: Ptyxis 49.1
+[47CTerminal Font: [REDACTED_USER] Sans Mono (11pt)
+[47CCPU: AMD Ryzen 7 7735HS (16) @ 4.83 GHz
+[47CGPU: AMD Radeon 680M [Integrated]
+[47CMemory: 2.20 GiB / 13.89 GiB (16%)
+[47CSwap: Disabled
+[47CDisk (/): 8.05 GiB / 46.57 GiB (17%) - btrfs
+[47CDisk (/mnt): 42.91 GiB / 109.43 GiB (39%) - ext4
+[47CLocal IP (wlp3s0): [REDACTED_IP]/21
+[47CBattery (L23D3PG2): 79% [AC Connected]
+[47CLocale: en_US.UTF-8
+[47C
+[47C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[47C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m

@@ -1,0 +1,13 @@
+PRETTY_NAME="[REDACTED_USER] 24.04.3 LTS"
+NAME="[REDACTED_USER]"
+VERSION_ID="24.04"
+VERSION="24.04.3 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=[REDACTED_USER]
+ID_LIKE=[REDACTED_USER]
+HOME_URL="https://www.[REDACTED_USER].com/"
+SUPPORT_URL="https://help.[REDACTED_USER].com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/[REDACTED_USER]/"
+PRIVACY_POLICY_URL="https://www.[REDACTED_USER].com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=[REDACTED_USER]-logo

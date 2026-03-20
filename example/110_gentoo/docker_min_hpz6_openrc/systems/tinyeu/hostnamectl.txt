@@ -1,0 +1,14 @@
+ Static hostname: tinyeu
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: 9a2923b8a3964967b1d32b5c9b34f461
+         Boot ID: 7ccc960cc70141c583ad423bf80e1db2
+  Virtualization: microsoft
+Operating System: [REDACTED_USER] 24.04.3 LTS
+          Kernel: Linux 6.11.0-1018-azure
+    Architecture: x86-64
+ Hardware Vendor: Microsoft Corporation
+  Hardware Model: Virtual Machine
+Firmware Version: Hyper-V UEFI Release v4.1
+   Firmware Date: Fri 2024-03-08
+    Firmware Age: 1y 6month 2w 6d

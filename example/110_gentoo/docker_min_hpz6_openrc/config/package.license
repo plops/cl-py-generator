@@ -1,0 +1,12 @@
+# Firmware, Drivers, GPU
+sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
+dev-util/nvidia-cuda-toolkit NVIDIA-CUDA
+x11-drivers/nvidia-drivers NVIDIA-2025
+
+# IDE / Editor
+dev-util/clion IDEA
+app-editors/vscode Microsoft-vscode
+
+# Browser Stack
+www-apps/chromedriver-bin google-chrome
+www-client/google-chrome google-chrome

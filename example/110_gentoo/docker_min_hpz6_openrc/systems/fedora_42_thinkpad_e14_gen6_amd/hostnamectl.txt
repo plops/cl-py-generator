@@ -1,0 +1,19 @@
+     Static hostname: (unset)
+  Transient hostname: fedora
+           Icon name: computer-laptop
+             Chassis: laptop 💻
+          Machine ID: a7f98636703f49dda29ba1eb73c4d650
+             Boot ID: e7a35b0ed0554756aea7f0f14a63d496
+        Product UUID: a600af4c-31d2-11b2-a85c-b5045e8f0b79
+    Operating System: Fedora Linux 42 (Workstation Edition)
+         CPE OS Name: cpe:/o:fedoraproject:fedora:42
+      OS Support End: Wed 2026-05-13
+OS Support Remaining: 6month 1w 5d
+              Kernel: Linux 6.17.5-200.fc42.x86_64
+        Architecture: x86-64
+     Hardware Vendor: Lenovo
+      Hardware Model: ThinkPad E14 Gen 6
+     Hardware Serial: PF53Q1A0
+    Firmware Version: R2KET35W (1.18 )
+       Firmware Date: Thu 2025-07-24
+        Firmware Age: 3month 6d

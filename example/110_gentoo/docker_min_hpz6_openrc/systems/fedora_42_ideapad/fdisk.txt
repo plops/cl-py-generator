@@ -1,0 +1,33 @@
+Disk /dev/sda: 238.47 GiB, 256060514304 bytes, 500118192 sectors
+Disk model: SanDisk SD7TB3Q-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: dos
+Disk identifier: 0xd57c45d6
+
+Device     Boot   Start       End   Sectors   Size Id Type
+/dev/sda1          2048   5939199   5937152   2.8G 83 Linux
+/dev/sda3       5939200 500118191 494178992 235.6G 83 Linux
+
+
+Disk /dev/nvme0n1: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk model: ADATA LEGEND 800                        
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: DF7F2FF5-FE39-46DF-A4E2-E4821501DFCE
+
+Device             Start        End    Sectors   Size Type
+/dev/nvme0n1p1      2048    2099199    2097152     1G EFI System
+/dev/nvme0n1p2   2099200   39847935   37748736    18G Linux swap
+/dev/nvme0n1p3  39847936  144705535  104857600    50G Linux filesystem
+/dev/nvme0n1p4 144705536  379080703  234375168 111.8G Linux filesystem
+/dev/nvme0n1p5 379080704 1953523711 1574443008 750.8G Linux filesystem
+
+
+Disk /dev/zram0: 8 GiB, 8589934592 bytes, 2097152 sectors
+Units: sectors of 1 * 4096 = 4096 bytes
+Sector size (logical/physical): 4096 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes

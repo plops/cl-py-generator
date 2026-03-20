@@ -1,0 +1,12 @@
+Disk /dev/vda: 50 GiB, 53687091200 bytes, 104857600 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: DCDD7CFE-DCA3-4181-877E-B1DFCF70E9AA
+
+Device       Start       End   Sectors  Size Type
+/dev/vda1     2048     10239      8192    4M BIOS boot
+/dev/vda2    10240    227327    217088  106M EFI System
+/dev/vda3   227328   2097152   1869825  913M Linux extended boot
+/dev/vda4  2097280 104857566 102760287   49G Linux filesystem

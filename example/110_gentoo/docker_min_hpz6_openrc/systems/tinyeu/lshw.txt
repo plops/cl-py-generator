@@ -1,0 +1,191 @@
+tinyeu
+    description: Desktop Computer
+    product: Virtual Machine (None)
+    vendor: Microsoft Corporation
+    version: Hyper-V UEFI Release v4.1
+    serial: 0000-0002-0417-8512-3518-1039-01
+    width: 64 bits
+    capabilities: smbios-3.1.0 dmi-3.1.0 vsyscall32
+    configuration: boot=normal chassis=desktop family=Virtual Machine sku=None uuid=1c55e0c0-82f9-415d-8ae9-343637b65c00
+  *-core
+       description: Motherboard
+       product: Virtual Machine
+       vendor: Microsoft Corporation
+       physical id: 0
+       version: Hyper-V UEFI Release v4.1
+       serial: 0000-0010-0095-8905-4275-2143-36
+       slot: Virtual Machine
+     *-firmware
+          description: BIOS
+          vendor: Microsoft Corporation
+          physical id: 0
+          version: Hyper-V UEFI Release v4.1
+          date: 03/08/2024
+          size: 1MiB
+          capabilities: acpi uefi virtualmachine
+     *-cpu
+          description: CPU
+          product: Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
+          vendor: Intel Corp.
+          physical id: 4
+          bus info: [REDACTED_USER]@0
+          version: 6.79.1
+          serial: None
+          slot: None
+          size: 2300MHz
+          capacity: 3600MHz
+          width: 64 bits
+          clock: 100MHz
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp x86-64 constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch pti fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt md_clear
+          configuration: cores=1 enabledcores=1 microcode=4294967295 threads=1
+     *-memory
+          description: System Memory
+          physical id: 6
+          slot: System board or motherboard
+          size: 512MiB
+        *-bank
+             product: None
+             vendor: Microsoft Corporation
+             physical id: 0
+             serial: None
+             slot: M0001
+             size: 512MiB
+     *-pnp00:00
+          product: PnP device PNP0501
+          physical id: 1
+          capabilities: pnp
+          configuration: driver=serial
+     *-pnp00:01
+          product: PnP device PNP0501
+          physical id: 2
+          capabilities: pnp
+          configuration: driver=serial
+     *-pnp00:02
+          product: PnP device PNP0b00
+          physical id: 3
+          capabilities: pnp
+          configuration: driver=rtc_cmos
+     *-scsi
+          physical id: 5
+          logical name: scsi0
+        *-disk:0
+             description: SCSI Disk
+             product: Virtual Disk
+             vendor: Msft
+             physical id: 0.0.0
+             bus info: [REDACTED_USER]@0:0.0.0
+             logical name: /dev/sda
+             version: 1.0
+             size: 30GiB (32GB)
+             capabilities: gpt-1.00 partitioned partitioned:gpt
+             configuration: ansiversion=5 guid=589b114c-f227-4a0e-a77c-342f9e2d7ec4 logicalsectorsize=512 sectorsize=4096
+           *-volume:0
+                description: EXT4 volume
+                vendor: Linux
+                physical id: 1
+                bus info: [REDACTED_USER]@0:0.0.0,1
+                logical name: /dev/sda1
+                logical name: /
+                version: 1.0
+                serial: d94cf068-79bd-4ea3-bfce-5b904a911668
+                size: 28GiB
+                capacity: 28GiB
+                capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
+                configuration: created=2024-04-23 15:33:14 filesystem=ext4 label=cloudimg-rootfs lastmountpoint=/ modified=2025-09-27 06:51:50 mount.fstype=ext4 mount.options=rw,relatime,discard,errors=remount-ro,commit=30 mounted=2025-09-22 15:17:19 state=mounted
+           *-volume:1
+                description: BIOS Boot partition
+                vendor: EFI
+                physical id: e
+                bus info: [REDACTED_USER]@0:0.0.0,14
+                logical name: /dev/sda14
+                serial: f14395a1-0f16-445d-97c2-233fd5558508
+                capacity: 4095KiB
+                capabilities: nofs
+           *-volume:2
+                description: Windows FAT volume
+                vendor: mkfs.fat
+                physical id: f
+                bus info: [REDACTED_USER]@0:0.0.0,15
+                logical name: /dev/sda15
+                logical name: /boot/efi
+                version: FAT32
+                serial: 4bef-11a3
+                size: 100MiB
+                capacity: 105MiB
+                capabilities: boot fat initialized
+                configuration: FATs=2 filesystem=fat label=UEFI mount.fstype=vfat mount.options=rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro state=mounted
+           *-volume:3
+                description: EXT4 volume
+                vendor: Linux
+                physical id: 10
+                bus info: [REDACTED_USER]@0:0.0.0,16
+                logical name: /dev/sda16
+                logical name: /boot
+                version: 1.0
+                serial: 7c371a43-f718-4afb-935b-c3ac0146883d
+                size: 913MiB
+                capacity: 913MiB
+                capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
+                configuration: created=2024-04-23 15:33:19 filesystem=ext4 label=BOOT lastmountpoint=/boot modified=2025-09-22 15:17:23 mount.fstype=ext4 mount.options=rw,relatime,discard mounted=2025-09-22 15:17:23 state=mounted
+        *-disk:1
+             description: SCSI Disk
+             product: Virtual Disk
+             vendor: Msft
+             physical id: 0.0.1
+             bus info: [REDACTED_USER]@0:0.0.1
+             logical name: /dev/sdb
+             version: 1.0
+             size: 4GiB (4294MB)
+             capabilities: partitioned partitioned:dos
+             configuration: ansiversion=5 logicalsectorsize=512 sectorsize=4096 signature=1c55e0c0
+           *-volume
+                description: EXT4 volume
+                vendor: Linux
+                physical id: 1
+                bus info: [REDACTED_USER]@0:0.0.1,1
+                logical name: /dev/sdb1
+                logical name: /mnt
+                version: 1.0
+                serial: f904f199-495d-4da9-84f9-8fb5e4c5153e
+                size: 4094MiB
+                capacity: 4094MiB
+                capabilities: primary journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
+                configuration: created=2024-05-17 09:12:47 filesystem=ext4 lastmountpoint=/mnt modified=2025-09-22 15:17:29 mount.fstype=ext4 mount.options=rw,relatime mounted=2025-09-22 15:17:29 state=mounted
+        *-cdrom
+             description: SCSI CD-ROM
+             product: Virtual DVD-ROM
+             vendor: Msft
+             physical id: 0.0.2
+             bus info: [REDACTED_USER]@0:0.0.2
+             logical name: /dev/cdrom
+             logical name: /dev/sr0
+             version: 1.0
+             capabilities: removable audio
+             configuration: status=nodisc
+  *-graphics
+       product: hyperv_drmdrmfb
+       physical id: 1
+       logical name: /dev/fb0
+       capabilities: fb
+       configuration: depth=32 resolution=1024,768
+  *-input:0
+       product: AT Translated Set 2 keyboard
+       physical id: 2
+       logical name: input0
+       logical name: /dev/input/event0
+       capabilities: i8042
+  *-input:1
+       product: Microsoft Vmbus HID-compliant Mouse
+       physical id: 3
+       logical name: input1
+       logical name: /dev/input/event1
+       logical name: /dev/input/js0
+       logical name: /dev/input/mouse0
+       capabilities: virtual
+  *-network
+       description: Ethernet interface
+       physical id: 4
+       logical name: eth0
+       serial: [REDACTED_MAC]
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=hv_netvsc driverversion=6.11.0-1018-azure duplex=full firmware=N/A ip=[REDACTED_IP] link=yes multicast=yes

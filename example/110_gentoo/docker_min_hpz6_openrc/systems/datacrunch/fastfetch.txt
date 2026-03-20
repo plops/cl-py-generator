@@ -1,0 +1,39 @@
+                             ....
+              .',:clooo:  .:looooo:.
+           .;looooooooc  .oooooooooo'
+        .;looooool:,''.  :ooooooooooc
+       ;looool;.         'oooooooooo,
+      ;clool'             .cooooooc.  ,,
+         ...                ......  .:oo,
+  .;clol:,.                        .loooo'
+ :ooooooooo,                        'ooool
+'ooooooooooo.                        loooo.
+'ooooooooool                         coooo.
+ ,loooooooc.                        .loooo.
+   .,;;;'.                          ;ooooc
+       ...                         ,ooool.
+    .cooooc.              ..',,'.  .cooo.
+      ;ooooo:.           ;oooooooc.  :l.
+       .coooooc,..      coooooooooo.
+         .:ooooooolc:. .ooooooooooo'
+           .':loooooo;  ,oooooooooc
+               ..';::c'  .;loooo:'[1G[19A[47Croot@tall-heart-bounces-fin-01
+[47C------------------------------
+[47COS: Ubuntu 24.04.3 LTS x86_64
+[47CHost: KVM/QEMU Standard PC (Q35 + ICH9, 2009) (pc-q35-6.2)
+[47CKernel: Linux 6.8.0-84-generic
+[47CUptime: 7 mins
+[47CPackages: 688 (dpkg)
+[47CShell: bash 5.2.21
+[47CTerminal: 
+[47CCPU: 4 x AMD EPYC 7B12 64-Core (4) @ 2.25 GHz
+[47CGPU: Unknown Device 1111 (VGA compatible)
+[47CMemory: 505.73 MiB / 15.62 GiB (3%)
+[47CSwap: Disabled
+[47CDisk (/): 2.33 GiB / 47.39 GiB (5%) - ext4
+[47CLocal IP (eth0): 65.109.75.32/26
+[47CLocale: C.UTF-8
+[47C
+[47C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[47C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m
+
