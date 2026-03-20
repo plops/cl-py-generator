@@ -15,33 +15,11 @@ RUN eselect profile set default/linux/amd64/23.0/no-multilib/openrc
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/package.mask /etc/portage/package.mask/package.mask
 
-# Debug stage before GCC 14
-FROM base AS debug-pre-gcc
-
-# Install GCC 14
-FROM base AS builder
-
 # Repository tooling and package configuration
 RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
-
-FROM builder AS debug-post-gcc
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.mask /etc/portage/package.mask/package.mask
 COPY config/package.license /etc/portage/package.license
-COPY config/package.use /etc/portage/package.use
-COPY config/package.env /etc/portage/package.env
-COPY config/env /etc/portage/env
-COPY config/world /var/lib/portage/world
-RUN emerge -pD @world | grep "ebuild" | wc -l
-
-FROM builder AS kernel-build
-COPY config/make.conf /etc/portage/make.conf
-COPY config/package.mask /etc/portage/package.mask/package.mask
-COPY config/package.license /etc/portage/package.license
-# Delay copying volatile config (package.use, world, etc) to the next stage
-# to allow iteration without rebuilding the kernel.
-
-RUN emerge -pD @world | grep "ebuild" | wc -l
 ENV KVER_PURE=6.12.74
 ENV KVER=${KVER_PURE}-gentoo
 
@@ -53,17 +31,6 @@ RUN eselect kernel set linux-${KVER}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
 COPY config/config6.12.41 .config
-# we base our configuration on this old file
-# cd example/110_gentoo/docker_min_hpz6/systems
-# find .|grep lsmod|xargs cat|sort|uniq|grep -v nouveau > /dev/shm/lsmod
-# yes "" | make LSMOD=/dev/shm/lsmod localmodconfig
-
-
-# RUN ./scripts/config --file .config \
-# --set-val MODPROBE_PATH "/usr/sbin/modprobe" \
-# --set-val EXTRA_FIRMWARE "amd-ucode/microcode_amd_fam19h.bin rtw89/rtw8852b_fw.bin regulatory.db" \
-# --set-val EXTRA_FIRMWARE_DIR "/usr/lib/firmware" \
-# -e SQUASHFS
 # amd/sof/* and amd/sof-tplg/* firmware blobs
 RUN <<EOF
 set -e
@@ -81,6 +48,21 @@ CONFIG_OPTS=(
   -e GENERIC_CPU
   -d MK8
   -m KVM_AMD
+
+  # --- DAX / Ext4 Options ---
+  -e FS_DAX
+  -e DAX
+  -e EXT4_FS
+  -m EXT4_FS_POSIX_ACL
+  -m EXT4_FS_SECURITY
+  -m BLK_DEV_PMEM
+  -e ZONE_DEVICE
+  -m LIBNVDIMM
+  -m BTT
+  -m NVDIMM_PFN
+  -m NVDIMM_BLK
+  -m DEV_DAX
+  -m DEV_DAX_PMEM
 
   # --- Generic Options (Commented out by default) ---
   # -e PREEMPT_RT
@@ -243,6 +225,7 @@ CONFIG_OPTS=(
   -m USB4
   -d USB4_NET
   -m USB_SERIAL_CH341
+  -m USB_SERIAL_FTDI_SIO
 )
 
 ./scripts/config --file .config "${CONFIG_OPTS[@]}"
@@ -264,7 +247,8 @@ RUN make modules_install
 
 RUN make install
 
-FROM kernel-build AS post-config
+# Delaying the copy of volatile configs (package.use, world, etc) until after the kernel build
+# enables Docker to cache the long kernel compilation even if world/use flags change!
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
 COPY config/env /etc/portage/env
@@ -396,6 +380,7 @@ RUN rm -rf /var/tmp/portage/* # reduce docker layer size
 RUN emerge -C dev-lang/rust-bin virtual/rust dev-lang/go dev-lang/go-bootstrap dev-util/cargo-c || true
 
 WORKDIR /
+RUN emerge --ask=n sys-fs/e2fsprogs || true
 RUN mksquashfs \
 / \
 /gentoo.squashfs \
@@ -410,10 +395,20 @@ RUN mksquashfs \
 -mem 10G \
 -wildcards \
 -e \
+bin \
+sbin \
+lib \
+lib64 \
+usr/bin \
+usr/sbin \
+usr/lib \
+usr/lib64 \
+opt \
 usr/src \
 var/cache/binpkgs \
 var/cache/distfiles \
 "gentoo*squashfs" \
+"gentoo*ext4" \
 "usr/lib64/libQt*.a" \
 usr/share/genkernel/distfiles \
 usr/src/linux \
@@ -443,6 +438,18 @@ var/log \
 usr/share/gtk-doc \
 usr/share/doc \
 usr/share/locale
+
+# Ext4 image creation with e2fsprogs (sparse initial file)
+# Contains ONLY binaries and libraries for DAX Execute-In-Place
+RUN set -e \
+ && echo "Building gentoo.ext4 with DAX capabilities..." \
+ && mkdir -p /tmp/ext4_root/usr /tmp/ext4_root/opt \
+ && rsync -a /bin /sbin /lib /lib64 /tmp/ext4_root/ \
+ && rsync -a /usr/bin /usr/sbin /usr/lib /usr/lib64 /tmp/ext4_root/usr/ \
+ && rsync -a /opt/ /tmp/ext4_root/opt/ \
+ && truncate -s 10G /gentoo.ext4 \
+ && mke2fs -t ext4 -b 4096 -O ^has_journal -d /tmp/ext4_root /gentoo.ext4 \
+ && rm -rf /tmp/ext4_root
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
@@ -490,6 +497,7 @@ RUN set -e \
      var/cache/binpkgs \
      var/cache/distfiles \
      "gentoo*squashfs" \
+     "gentoo*ext4" \
      "usr/lib64/libQt*.a" \
      usr/share/genkernel/distfiles \
      usr/src/linux \
