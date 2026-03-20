@@ -1,1 +1,0 @@
-Linux e14 6.12.74-gentoo #1 SMP PREEMPT_RT Tue Mar 10 06:37:59 -00 2026 x86_64 AMD Ryzen 7 7735HS with Radeon Graphics AuthenticAMD GNU/Linux

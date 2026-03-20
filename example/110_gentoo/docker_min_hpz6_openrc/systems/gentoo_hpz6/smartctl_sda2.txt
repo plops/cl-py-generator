@@ -1,1 +1,0 @@
-smartctl failed for /dev/sda2
