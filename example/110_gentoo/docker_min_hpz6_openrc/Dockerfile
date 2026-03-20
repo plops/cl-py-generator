@@ -11,7 +11,7 @@ FROM gentoo/stage3:nomultilib-20260316 AS base
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 # Portage configuration
-RUN eselect profile set default/linux/amd64/23.0/no-multilib/openrc
+RUN eselect profile set default/linux/amd64/23.0/no-multilib
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/package.mask /etc/portage/package.mask/package.mask
 
