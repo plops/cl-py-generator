@@ -23,6 +23,7 @@ sys-fs/squashfs-tools
 sys-kernel/dracut
 sys-kernel/gentoo-sources
 sys-kernel/linux-firmware
+sys-firmware/sof-firmware
 sys-power/tlp
 sys-process/btop
 

@@ -475,19 +475,20 @@ RUN dracut \
 # Create ThinkPad E14 squashfs image (no NVIDIA runtime files, includes AMD/WiFi firmware)
 RUN set -e \
  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
- && mkdir -p /tmp/firmware_e14 || true \
- \
  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
- && cp --parents regulatory.db* /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents mediatek/WIFI_RAM_CODE_MT7922_1.bin /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin /tmp/firmware_e14/ 2>/dev/null || true \
- && cp --parents amdgpu/yellow_carp* /tmp/firmware_e14/ 2>/dev/null || true \
+ && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt || true \
+ && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
+ && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
+ && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
+ && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
+ && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
+ && rm -rf /usr/lib/firmware/* \
+ && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
  \
  # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size
  && echo "Stripping NVIDIA/CUDA and Firefox for E14 squashfs" \
- && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}* /usr/lib64/libnvidia* 2>/dev/null || true \
+ && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
  && rm -rf /usr/lib64/firefox /usr/lib/firefox /usr/bin/firefox /usr/share/applications/firefox.desktop /usr/share/icons/hicolor/*/apps/firefox* /usr/share/pixmaps/firefox* /usr/share/man/man1/firefox.1* 2>/dev/null || true \
- && rm -rf /usr/lib64/libnvoptix.so* /usr/share/nvidia/nvoptix.bin 2>/dev/null || true \
  && rm -rf /nvidia${KVER} 2>/dev/null || true \
  && mksquashfs / /gentoo.squashfs_e14 \
    -comp zstd \
