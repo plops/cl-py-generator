@@ -766,7 +766,112 @@ You can choose between three models with different capabilities. While these mod
 	   )
 	 #+dl
 	 (def get_transcript (url identifier)
-	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string")
+	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string. Install yt-dlp using `uv tool install yt-dlp --with yt-dlp-get-pot --with yt-dlp-get-pot-rustypipe --with curl-cffi --force`")
+	   (try
+	    (do0
+	     (setf youtube_id (validate_youtube_url url))
+	     (unless youtube_id
+	       (logger.warning (fstring "Invalid YouTube URL: {url}"))
+	       (return (string "URL couldn't be validated")))
+	     (unless (validate_youtube_id youtube_id)
+	       (logger.warning (fstring "Invalid YouTube ID format: {youtube_id}"))
+	       (return (string "Invalid YouTube ID format")))
+
+	     ;; List command: Swap deno for node and use the web client for consistency
+	     (setf list_cmd (list (string "uvx")
+				  (string "yt-dlp")
+				  (string "--list-subs")
+				  (string "--cookies-from-browser")
+				  (string "firefox")
+				  (string "--js-runtimes")
+				  (string "node")
+				  (string "--extractor-args")
+				  (string "youtube:player-client=web")
+				  (string "--")
+				  youtube_id))
+	     (logger.info (fstring "Listing subtitles: {' '.join(list_cmd)}"))
+	     (setf list_res (subprocess.run list_cmd
+					    :capture_output True
+					    :text True
+					    :timeout 60))
+	     (when (!= 0 list_res.returncode)
+	       (logger.warning (fstring "yt-dlp --list-subs failed: {list_res.stderr}"))
+	       (return (string "Error: Could not list subtitles")))
+	     (setf chosen_lang (pick_best_language list_res.stdout))
+	     (unless chosen_lang
+	       (logger.error (string "No subtitles listed by yt-dlp"))
+	       (return (string "Error: No subtitles found for this video. Please provide the transcript manually.")))
+	     
+	     (setf sub_file_prefix (fstring "/dev/shm/o_{identifier}"))
+	     
+	     ;; Download command: Node runtime + web client + automatic PO Token handling via GetPOT
+	     (setf dl_cmd (list (string "uvx")
+				 (string "yt-dlp")
+				 (string "--skip-download")
+				 (string "--write-auto-subs")
+				 (string "--write-subs")
+				 (string "--cookies-from-browser")
+				 (string "firefox")
+				 (string "--js-runtimes")
+				 (string "node")
+				 (string "--extractor-args")
+				 (string "youtube:player-client=web")
+				 (string "--sub-langs")
+				 chosen_lang
+				 (string "-o")
+				 (fstring "{sub_file_prefix}.%(ext)s")
+				 (string "--")
+				 youtube_id))
+	     
+	     (logger.info (fstring "Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}"))
+	     (setf dl_res
+		   (subprocess.run dl_cmd
+				   :capture_output True
+				   :text True
+				   :timeout 60))
+	     (when (!= dl_res.returncode 0)
+	       (logger.warning (fstring "yt-dlp download failed: {dl_res.stderr}")))
+	     
+	     ;; Look for the resulting VTT file
+	     (setf vtt_files (glob.glob (fstring "{sub_file_prefix}.*.vtt")))
+	     (unless vtt_files
+	       (logger.error (string "No subtitle file downloaded"))
+	       (return (string "Error: No subtitles found for this video. Please provide the transcript manually.")))
+	     (setf sub_file_to_parse (aref vtt_files 0))
+
+	     (try
+	      (do0
+	       (setf ostr (parse_vtt_file sub_file_to_parse))
+	       (logger.info (fstring "Successfully parsed subtitle file: {sub_file_to_parse}")))
+	      (FileNotFoundError
+	       (do0 (logger.error (fstring "Subtitle file not found: {sub_file_to_parse}"))
+		    (setf ostr (string "Error: Subtitle file disappeared or was not present"))))
+	      (PermissionError
+	       (do0 (logger.error (fstring "Permission denied removing file: {sub_file_to_parse}"))
+		    (setf ostr (string "Error: Permission denied cleaning up subtitle file")))
+	       )
+	      ("Exception as e"
+	       (logger.error (fstring "Error processing subtitle file: {e}"))
+	       (setf ostr (fstring "Error: problem when processing subtitle file {e}"))))
+
+	     ;; Clean up all globbed files matching the identifier
+	     (for (sub (glob.glob (fstring "{sub_file_prefix}.*")))
+		  (try
+		   (os.remove sub)
+		   ("OSError as e"
+		    (logger.warning (fstring "Error removing file {sub}: {e}")))))
+	     
+	     (return ostr))
+	    (subprocess.TimeoutExpired
+	     (logger.error (fstring "yt-dlp timeout for identifier {identifier}"))
+	     (return (string "Error: Download timeout")))
+	    ("Exception as e"
+	     (logger.error (fstring "Unexpected error in get_transcript: {e}"))
+	     (return (fstring "Error712: {str(e)}")))))
+
+	 #+nil
+	 (def get_transcript (url identifier)
+	   (comments "Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string. Install yt-dlp using `uv tool install yt-dlp --with yt-dlp-get-pot --with yt-dlp-get-pot-rustypipe --with curl-cffi --force`")
 	   (try
 	    (do0
 	     (setf youtube_id (validate_youtube_url url))
@@ -803,22 +908,22 @@ You can choose between three models with different capabilities. While these mod
 	     
 	     (setf sub_file_prefix (fstring "/dev/shm/o_{identifier}"))
 	     (setf dl_cmd (list (string "uvx")
-				 (string "yt-dlp")
-				 (string "--skip-download")
-				 (string "--write-auto-subs")
-				 (string "--write-subs")
-				 (string "--cookies-from-browser")
-				 (string "firefox")
-				 (string "--js-runtimes")
-				 (string "deno")
-				 (string "--remote-components")
-				 (string "ejs:npm")
-				 (string "--sub-langs")
-				 chosen_lang
-				 (string "-o")
-				 sub_file_prefix
-				 (string "--")
-				 youtube_id))
+				(string "yt-dlp")
+				(string "--skip-download")
+				(string "--write-auto-subs")
+				(string "--write-subs")
+				(string "--cookies-from-browser")
+				(string "firefox")
+				(string "--js-runtimes")
+				(string "deno")
+				(string "--remote-components")
+				(string "ejs:npm")
+				(string "--sub-langs")
+				chosen_lang
+				(string "-o")
+				sub_file_prefix
+				(string "--")
+				youtube_id))
 	     (logger.info (fstring "Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}"))
 	     (setf dl_res
 		   (subprocess.run dl_cmd

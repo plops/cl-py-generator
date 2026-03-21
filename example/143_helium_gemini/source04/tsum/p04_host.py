@@ -149,7 +149,7 @@ def pick_best_language(list_output: str)->str | None:
             return l
     return sorted(langs)[0]
 def get_transcript(url, identifier):
-    # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string
+    # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string. Install yt-dlp using `uv tool install yt-dlp --with yt-dlp-get-pot --with yt-dlp-get-pot-rustypipe --with curl-cffi --force`
     try:
         youtube_id=validate_youtube_url(url)
         if ( not(youtube_id) ):
@@ -158,7 +158,7 @@ def get_transcript(url, identifier):
         if ( not(validate_youtube_id(youtube_id)) ):
             logger.warning(f"Invalid YouTube ID format: {youtube_id}")
             return "Invalid YouTube ID format"
-        list_cmd=["uvx", "yt-dlp", "--list-subs", "--cookies-from-browser", "firefox", "--js-runtimes", "deno", "--remote-components", "ejs:npm", "--", youtube_id]
+        list_cmd=["uvx", "yt-dlp", "--list-subs", "--cookies-from-browser", "firefox", "--js-runtimes", "node", "--extractor-args", "youtube:player-client=web", "--", youtube_id]
         logger.info(f"Listing subtitles: {' '.join(list_cmd)}")
         list_res=subprocess.run(list_cmd, capture_output=True, text=True, timeout=60)
         if ( ((0)!=(list_res.returncode)) ):
@@ -169,7 +169,7 @@ def get_transcript(url, identifier):
             logger.error("No subtitles listed by yt-dlp")
             return "Error: No subtitles found for this video. Please provide the transcript manually."
         sub_file_prefix=f"/dev/shm/o_{identifier}"
-        dl_cmd=["uvx", "yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--js-runtimes", "deno", "--remote-components", "ejs:npm", "--sub-langs", chosen_lang, "-o", sub_file_prefix, "--", youtube_id]
+        dl_cmd=["uvx", "yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--js-runtimes", "node", "--extractor-args", "youtube:player-client=web", "--sub-langs", chosen_lang, "-o", f"{sub_file_prefix}.%(ext)s", "--", youtube_id]
         logger.info(f"Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}")
         dl_res=subprocess.run(dl_cmd, capture_output=True, text=True, timeout=60)
         if ( ((dl_res.returncode)!=(0)) ):
@@ -191,7 +191,7 @@ def get_transcript(url, identifier):
         except Exception as e:
             logger.error(f"Error processing subtitle file: {e}")
             ostr=f"Error: problem when processing subtitle file {e}"
-        for sub in glob.glob(f"{sub_file_prefix}.*.vtt"):
+        for sub in glob.glob(f"{sub_file_prefix}.*"):
             try:
                 os.remove(sub)
             except OSError as e:
