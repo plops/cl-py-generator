@@ -357,7 +357,9 @@ RUN emerge --depclean
 COPY config/resolv.conf /etc/
 COPY config/reverse-ssh-eu.initd /etc/init.d/reverse-ssh-eu
 COPY config/reverse-ssh-us.initd /etc/init.d/reverse-ssh-us
+COPY config/qemu-debug.initd /etc/init.d/qemu-debug
 RUN chmod +x /etc/init.d/reverse-ssh-* \
+ && chmod 0755 /etc/init.d/qemu-debug \
  && rc-update add reverse-ssh-eu default \
  && rc-update add reverse-ssh-us default
 # Switch to user 'kiel'
@@ -396,11 +398,33 @@ RUN printf '%s\n' \
  && printf '%s\n' \
       'keymap="colemak"' \
       > /etc/conf.d/keymaps \
+ && if grep -q '^rc_logger=' /etc/rc.conf 2>/dev/null; then \
+      sed -i 's/^rc_logger=.*/rc_logger="YES"/' /etc/rc.conf; \
+    else \
+      printf '%s\n' 'rc_logger="YES"' >> /etc/rc.conf; \
+    fi \
+ && if grep -q '^rc_log_path=' /etc/rc.conf 2>/dev/null; then \
+      sed -i 's|^rc_log_path=.*|rc_log_path="/var/log/rc.log"|' /etc/rc.conf; \
+    else \
+      printf '%s\n' 'rc_log_path="/var/log/rc.log"' >> /etc/rc.conf; \
+    fi \
+ && if grep -q '^rc_verbose=' /etc/rc.conf 2>/dev/null; then \
+      sed -i 's/^rc_verbose=.*/rc_verbose="YES"/' /etc/rc.conf; \
+    else \
+      printf '%s\n' 'rc_verbose="YES"' >> /etc/rc.conf; \
+    fi \
+ && if ! grep -q '^s0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100$' /etc/inittab; then \
+      printf '%s\n' 's0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100' >> /etc/inittab; \
+    fi \
+ && if ! grep -qx 'ttyS0' /etc/securetty; then \
+      printf '%s\n' 'ttyS0' >> /etc/securetty; \
+    fi \
  && rc-update add udev sysinit \
  && rc-update add udev-trigger sysinit \
  && rc-update add udev-settle sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
+ && rc-update add qemu-debug default \
  && rc-update add dbus default \
  && rc-update add iwd default
 
@@ -420,6 +444,9 @@ RUN mksquashfs \
 -Xcompression-level 19 \
 -progress \
 -one-file-system-x \
+-p "/dev d 755 0 0" \
+-p "/proc d 555 0 0" \
+-p "/sys d 555 0 0" \
 -b 256K -noI -noX \
 -mem 10G \
 -wildcards \
@@ -520,6 +547,9 @@ RUN set -e \
    -not-reproducible \
    -progress \
    -one-file-system-x \
+   -p "/dev d 755 0 0" \
+   -p "/proc d 555 0 0" \
+   -p "/sys d 555 0 0" \
    -noI -noX \
    -wildcards \
    -e \

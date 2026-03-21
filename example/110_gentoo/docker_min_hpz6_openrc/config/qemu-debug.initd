@@ -1,0 +1,37 @@
+#!/sbin/openrc-run
+
+description="Emit QEMU boot diagnostics to serial console and a boot log"
+
+start() {
+  local log_file="/var/log/qemu-boot-debug.log"
+  local serial="/dev/ttyS0"
+  local stamp
+
+  stamp="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+
+  mkdir -p /var/log
+
+  {
+    echo "=== qemu-debug start ${stamp} ==="
+    echo "hostname: $(hostname 2>/dev/null || echo unknown)"
+    echo "kernel: $(uname -a 2>/dev/null || echo unknown)"
+    echo "cmdline: $(cat /proc/cmdline 2>/dev/null || echo unavailable)"
+    echo "--- mounts ---"
+    mount 2>/dev/null || true
+    echo "--- block devices ---"
+    blkid 2>/dev/null || true
+    echo "--- inittab ttyS0 ---"
+    grep 'ttyS0' /etc/inittab 2>/dev/null || echo "ttyS0 not found in /etc/inittab"
+    echo "--- securetty ttyS0 ---"
+    grep '^ttyS0$' /etc/securetty 2>/dev/null || echo "ttyS0 not found in /etc/securetty"
+    echo "--- agetty processes ---"
+    ps -ef 2>/dev/null | grep '[a]getty' || true
+    echo "--- rc-status ---"
+    rc-status -a 2>/dev/null || true
+    echo "=== qemu-debug end ==="
+  } >> "${log_file}" 2>&1
+
+  if [ -c "${serial}" ]; then
+    cat "${log_file}" > "${serial}" 2>/dev/null || true
+  fi
+}
