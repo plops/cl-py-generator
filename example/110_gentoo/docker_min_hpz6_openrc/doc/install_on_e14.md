@@ -72,19 +72,37 @@ EOF
 This image uses **PipeWire** as the primary sound server, replacing PulseAudio.
 
 ### OpenRC Session Bringup
-On the OpenRC image, PipeWire, `pipewire-pulse`, and WirePlumber are started from the user X session. After `startx`, verify the user-session audio stack first:
+On the OpenRC image, PipeWire, `pipewire-pulse`, and WirePlumber are started from the user X session. On the current live image, a working recovery path is to launch them explicitly with the helper script in the home directory:
+
+```bash
+~/start-pipewire.sh
+```
+
+The helper script handles the two failure modes that showed up on the E14 live image:
+
+- If `/run/user/$UID` is missing, it falls back to `/tmp/pipewire-runtime-$UID`.
+- If stale PipeWire or PulseAudio sockets/lock files are left behind, it removes them before restart.
+- It exports `PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native` so PulseAudio clients use the PipeWire Pulse socket.
+- It writes `~/.config/pulse/client.conf` with a fixed `default-server`, so `pulsemixer`, Firefox, and other PulseAudio clients keep working even when `XDG_RUNTIME_DIR` is non-standard.
+
+After `startx` or after running the helper script, verify the user-session audio stack first:
 
 ```bash
 ps -ef | grep -E 'pipewire|wireplumber' | grep -v grep
+pactl info
 wpctl status
 ```
 
-If those processes are missing, restart X or start them manually as user `kiel`:
+If those processes are missing and the helper script is unavailable, start them manually as user `kiel` with a writable runtime directory:
 
 ```bash
+export XDG_RUNTIME_DIR=/tmp/pipewire-runtime-$(id -u)
+mkdir -p "$XDG_RUNTIME_DIR/pulse"
+export PULSE_SERVER="unix:$XDG_RUNTIME_DIR/pulse/native"
 pipewire >/tmp/pipewire.log 2>&1 &
 pipewire-pulse >/tmp/pipewire-pulse.log 2>&1 &
 wireplumber >/tmp/wireplumber.log 2>&1 &
+pactl info
 wpctl status
 ```
 
@@ -123,8 +141,9 @@ Current bringup status on the OpenRC E14:
 
 - Analog microphone input works.
 - The microphone array is not exposed yet as a separate ALSA/PipeWire capture device.
-- Analog speaker/headphone playback works on the Conexant `CX8070` path when accessed directly via ALSA.
-- The generic `default` playback path is currently broken on the live system because ALSA is configured to hand `default` to PipeWire, while no working PipeWire user session is running yet.
+- Speaker/headphone playback works through PipeWire once the user-session stack is started with `~/start-pipewire.sh`.
+- `pulsemixer`, `pactl`, and Firefox audio work after the PulseAudio client side is pinned to `unix:/tmp/pipewire-runtime-1000/pulse/native`.
+- Direct ALSA playback to the Conexant `CX8070` path remains a useful fallback if the user-session PipeWire stack is down.
 
 Useful low-level checks:
 
@@ -139,8 +158,20 @@ The current E14 shows:
 - `card1`: `CX8070 Analog`
 - `01-00: CX8070 Analog : playback 1 : capture 1`
 
-### Working mpv Audio Output
-At the moment, audio output works reliably when `mpv` is pointed directly at the Conexant ALSA device instead of the broken `default`/PipeWire path:
+### Working Audio Output
+On the recovered live image, the normal PipeWire/PulseAudio path works again:
+
+```bash
+~/start-pipewire.sh
+pactl info
+pulsemixer
+mpv --no-video /path/to/test-audio-file
+```
+
+Firefox must be fully restarted after the PulseAudio socket becomes available.
+
+### ALSA Fallback
+If the PipeWire user session is not available, audio output still works reliably when `mpv` is pointed directly at the Conexant ALSA device:
 
 ```bash
 mpv --no-video --ao=alsa --audio-device=alsa/sysdefault:CARD=Generic_1 /home/kiel/stage/olisun_psych/download.wav
@@ -158,10 +189,10 @@ To list the currently visible `mpv` audio devices:
 mpv --audio-device=help /home/kiel/stage/olisun_psych/download.wav
 ```
 
-Interpretation of the current failure mode:
+Interpretation of the fallback-only failure mode:
 
-- `mpv --ao=pipewire ...` fails because no PipeWire user session is available.
-- `mpv --ao=pulse ...` fails because `pipewire-pulse` is not available as a running user service.
+- `mpv --ao=pipewire ...` fails when no PipeWire user session is available.
+- `mpv --ao=pulse ...` fails when `pipewire-pulse` is not available as a running user service or clients cannot find the Pulse socket.
 - `mpv --ao=alsa ...` without an explicit device fails because ALSA `default` is redirected to PipeWire by `/etc/alsa/conf.d/50-pipewire.conf`.
 - `mpv --ao=alsa --audio-device=alsa/sysdefault:CARD=Generic_1 ...` works because it bypasses the broken default routing and opens the analog Conexant device directly.
 
