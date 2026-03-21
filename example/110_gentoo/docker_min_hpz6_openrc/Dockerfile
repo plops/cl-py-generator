@@ -295,7 +295,16 @@ RUN emerge -uDN @world
 #     || printf '>=net-misc/freerdp-3.17.2-r1 ~amd64\n' >> /etc/portage/package.accept_keywords/package.accept_keywords
 # RUN if [ -s /tmp/world_stage_10.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_10.txt); fi
 
-RUN qlist -Iv > /packages.txt
+# Temporarily install package analysis tools
+RUN emerge --ask=n app-portage/genlop app-portage/gentoolkit \
+ && echo "Generating package statistics..." \
+ && for pkg in $(qlist -I); do \
+      SIZE=$(qsize -m "$pkg" | awk '{print $5$6}'); \
+      TIME=$(genlop -t "$pkg" | grep "merge time" | tail -n 1 | sed 's/.*merge time: //'); \
+      echo "$pkg | Size: ${SIZE:-N/A} | Build Time: ${TIME:-N/A}"; \
+    done > /packages.txt \
+ && emerge -C app-portage/genlop app-portage/gentoolkit
+
 
 RUN emerge --depclean
 
