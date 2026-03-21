@@ -5,11 +5,54 @@ try_modprobe() {
   modprobe "$1" 2>/dev/null || true
 }
 
+sync_initd() {
+  src="$1"
+  dst="$2"
+  if [ -r "${src}" ]; then
+    cp "${src}" "${dst}"
+    chmod 0755 "${dst}"
+  fi
+}
+
+config_root=/usr/local/share/e14-bringup
+if [ ! -d "${config_root}" ] && [ -d /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6_openrc/config ]; then
+  config_root=/home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6_openrc/config
+fi
+
+is_e14=0
+if [ -r /sys/class/dmi/id/product_version ] \
+  && grep -q "ThinkPad E14" /sys/class/dmi/id/product_version 2>/dev/null; then
+  is_e14=1
+fi
+
 rc-service udev start
 rc-service udev-trigger start
 rc-service udev-settle start
 rc-service hostname start
 rc-service dbus start
+
+sync_initd "${config_root}/reverse-ssh-eu.initd" /etc/init.d/reverse-ssh-eu
+sync_initd "${config_root}/reverse-ssh-us.initd" /etc/init.d/reverse-ssh-us
+sync_initd "${config_root}/tailscale.initd" /etc/init.d/tailscale
+sync_initd "${config_root}/openvpn.initd" /etc/init.d/openvpn
+rc-update -u 2>/dev/null || true
+
+for svc in reverse-ssh-eu reverse-ssh-us; do
+  if [ "${is_e14}" -eq 1 ]; then
+    rc-update del "${svc}" default 2>/dev/null || true
+  else
+    rc-update add "${svc}" default 2>/dev/null || true
+    rc-service "${svc}" start 2>/dev/null || true
+  fi
+done
+
+if [ "${is_e14}" -eq 1 ]; then
+  if grep -q '^rc_autostart_user=' /etc/rc.conf 2>/dev/null; then
+    sed -i 's/^rc_autostart_user=.*/rc_autostart_user="NO"/' /etc/rc.conf
+  else
+    printf '\n%s\n' 'rc_autostart_user="NO"' >> /etc/rc.conf
+  fi
+fi
 
 KEYMAP_PATH="$(find /usr/share/keymaps -path '*/colemak/en.latin*.gz' | sort | head -n 1)"
 if [ -n "${KEYMAP_PATH}" ]; then

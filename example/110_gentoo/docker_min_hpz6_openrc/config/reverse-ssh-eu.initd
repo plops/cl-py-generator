@@ -9,5 +9,7 @@ command_user="kiel"
 supervise_daemon_args="-e HOME=/home/kiel"
 
 depend() {
-    need net
+    use net
+    after iwd
+    want tailscale
 }

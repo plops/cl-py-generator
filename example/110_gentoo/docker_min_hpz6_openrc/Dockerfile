@@ -377,6 +377,11 @@ USER root
 
 COPY config/sysctl.conf /etc/sysctl.conf
 COPY config/activate /activate
+RUN mkdir -p /usr/local/share/e14-bringup
+COPY config/reverse-ssh-eu.initd /usr/local/share/e14-bringup/reverse-ssh-eu.initd
+COPY config/reverse-ssh-us.initd /usr/local/share/e14-bringup/reverse-ssh-us.initd
+COPY config/tailscale.initd /usr/local/share/e14-bringup/tailscale.initd
+COPY config/openvpn.initd /usr/local/share/e14-bringup/openvpn.initd
 RUN chmod 0755 /activate
 
 # For virt-manager (otherwise it crashes (!))

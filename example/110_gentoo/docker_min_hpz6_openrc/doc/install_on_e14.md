@@ -278,6 +278,13 @@ For the OpenRC-based `0321` image, some systems may boot without the expected ke
 sudo /home/kiel/activate
 ```
 
+Keep `/home/kiel/activate` in sync with the repo copy when iterating on bringup from the running E14:
+
+```bash
+cp /home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6_openrc/config/activate /home/kiel/activate
+chmod 0755 /home/kiel/activate
+```
+
 If desktop applications still fail with loader/runtime errors after that, refresh the dynamic linker cache as well:
 
 ```bash
@@ -289,6 +296,10 @@ ldconfig
 This helper currently performs:
 
 ```bash
+sync repo-provided OpenRC service overrides into /etc/init.d
+rc-update -u
+on E14: remove reverse-ssh-eu and reverse-ssh-us from default
+on E14: set rc_autostart_user="NO" in /etc/rc.conf
 rc-service udev start
 rc-service udev-trigger start
 rc-service udev-settle start
@@ -311,6 +322,34 @@ modprobe snd_sof_amd_acp63
 > This `ldconfig` step is important when booting with a persistent overlay partition. An older `/etc/ld.so.cache` can survive there and still point to runtime libraries from a previous image build.
 
 After that, retry `startx` without changing permissions on `/dev/tty*`.
+
+### OpenRC Services on E14
+
+The E14 image keeps the reverse tunnel scripts installed, but does not start them automatically. This avoids unwanted outbound tunnels from the laptop while keeping the services available for manual testing:
+
+```bash
+sudo rc-service reverse-ssh-eu start
+sudo rc-service reverse-ssh-us start
+```
+
+The OpenRC service overrides in this repo also replace package defaults for `tailscale` and `openvpn` so they no longer depend on the non-existent `net` aggregate service on this image.
+
+### Login Failure: `user kiel`
+
+If login prints `Starting user kiel ... failed to start user kiel`, the important thing to check is not stale persistent OpenRC user state first, but the login environment. On this OpenRC image there is no `elogind`, so `pam_openrc` can try to start user services without a valid `XDG_RUNTIME_DIR`. In that case `openrc-user` exits immediately.
+
+Current workaround on the E14:
+
+```bash
+grep -n 'rc_autostart_user' /etc/rc.conf
+env | grep XDG_RUNTIME_DIR
+```
+
+Expected current state:
+
+- `rc_autostart_user="NO"` is present in `/etc/rc.conf`.
+- `XDG_RUNTIME_DIR` may be unset on console login.
+- PipeWire and WirePlumber are started from `~/.xinitrc` instead of OpenRC user services.
 
 ### Bringup notes from the current `0321` test
 
