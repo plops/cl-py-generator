@@ -30,7 +30,7 @@ sys-process/btop
 # Hardware and Diagnostics
 #sys-apps/smartmontools
 #sys-apps/nvme-cli
-#sys-apps/pciutils
+sys-apps/pciutils
 #sys-apps/usbutils
 #sys-apps/cpuid
 #sys-apps/lshw
@@ -91,6 +91,8 @@ net-wireless/iw
 
 # Crypto
 app-crypt/p11-kit
+dev-libs/nss
+net-print/cups
 
 # Virtualization
 app-containers/docker

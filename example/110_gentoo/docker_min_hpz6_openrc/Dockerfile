@@ -238,6 +238,7 @@ RUN make prepare
 # compile the kernel
 RUN make -j32
 RUN make modules_install
+RUN depmod -a ${KVER}
 
 # I found that linux hangs after booting (just before you can log into the console). I also found that
 # removing the modules helps.
@@ -375,6 +376,8 @@ RUN emacs --batch \
 USER root
 
 COPY config/sysctl.conf /etc/sysctl.conf
+COPY config/activate /activate
+RUN chmod 0755 /activate
 
 # For virt-manager (otherwise it crashes (!))
 RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
@@ -382,7 +385,19 @@ RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
 # For chinese font in chrome
 RUN fc-cache -fv
 
-RUN echo 'keymap="colemak"' > /etc/conf.d/keymaps
+RUN printf '%s\n' \
+      'modules="amdgpu mt7921e"' \
+      > /etc/conf.d/modules \
+ && printf '%s\n' \
+      'keymap="colemak"' \
+      > /etc/conf.d/keymaps \
+ && rc-update add udev sysinit \
+ && rc-update add udev-trigger sysinit \
+ && rc-update add udev-settle sysinit \
+ && rc-update add modules boot \
+ && rc-update add keymaps boot \
+ && rc-update add dbus default \
+ && rc-update add iwd default
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size
 

@@ -32,7 +32,7 @@ app-text/doxygen -clang -debug -doc dot -doxysearch -gui -test
 # 1. Use media-libs/mesa -llvm (Caution: may break/slow down some drivers).
 # 2. Use dev-lang/rust -system-llvm (Will build internal LLVM instead, no net size gain).
 # 3. Avoid llvm-core/clang if not strictly needed for build/tools.
-x11-base/xorg-server -systemd udev xorg -debug -elogind -minimal -selinux -suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
+x11-base/xorg-server -systemd udev xorg -debug -elogind -minimal -selinux suid -test -unwind -xcsecurity -xephyr -xnest -xvfb
 x11-wm/dwm savedconfig -xinerama
 x11-terms/xterm openpty unicode -Xaw3d -sixel -toolbar -truetype -verify-sig -xinerama
 x11-libs/gtk+ X -aqua -broadway -cloudproviders -colord -cups -examples -gtk-doc introspection -sysprof -test -vim-syntax -wayland -xinerama
@@ -89,6 +89,7 @@ dev-qt/qtdeclarative -jit network opengl sql ssl svg vulkan widgets -accessibili
 # tor firefox binary requires libdbus-glib
 dev-libs/dbus-glib -debug -static-libs -test
 www-client/firefox X dbus hwaccel jumbo-build openh264 pulseaudio system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-pipewire system-webp -clang -gmp-autoupdate -wifi -debug -eme-free -gnome-shell -hardened -jack -libproxy -pgo -sndio -telemetry -test -wasm-sandbox -wayland
+net-print/cups -X -acl -pam -dbus -zeroconf -usb -xinetd -openssl -kerberos
 net-misc/freerdp X client ffmpeg fuse icu -systemd aad -alsa -cups -debug -gstreamer -jpeg -kerberos -openh264 -pulseaudio -sdl -server -smartcard -test -usb -valgrind -verify-sig -wayland -xinerama -xv
 #net-misc/tigervnc drm nls -opengl -server viewer -dri3 -gnutls -java -xinerama
 
