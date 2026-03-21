@@ -11,11 +11,13 @@ A Docker-based Gentoo Linux build system that creates a compressed squashfs root
 # Extract artifacts to host
 ./setup03_copy_from_container.sh
 
-# Create QEMU test image (optional)
+# Create a QEMU test image with:
+#   p1 = unencrypted boot/live partition with kernel + initramfs + gentoo.squashfs
+#   p2 = LUKS2 -> ext4 persistent overlay storage
 sudo ./setup04_create_qemu.sh
 
-# Boot in QEMU (optional)
-sudo ./setup05_run_qemu.sh
+# Boot in QEMU and unlock with the passphrase printed by setup04
+./setup05_run_qemu.sh
 ```
 
 ## Artifacts
@@ -36,6 +38,21 @@ Build outputs are copied to `/dev/shm/gentoo-z6-min_YYYYMMDD/`:
 | `config/make.conf` | GCC 14, -march=native optimization |
 | `config/config6.12.41` | Kernel configuration base |
 | `config/mount-overlayfs.sh` | Custom dracut module for encrypted overlay mounting |
+| `setup04_create_qemu.sh` | Builds a BIOS/QEMU disk image that boots squashfs from LUKS-ext4 |
+| `setup05_run_qemu.sh` | Runs the test image on the serial console |
+
+## QEMU Test Flow
+
+`setup04_create_qemu.sh` looks for the newest `/dev/shm/gentoo-z6-min-openrc_*` export by default. You can override that with `ARTIFACT_DIR=/dev/shm/gentoo-z6-min-openrc_YYYYMMDD`.
+
+Useful overrides:
+
+```bash
+sudo IMAGE_SIZE=12G ./setup04_create_qemu.sh
+QEMU_MEMORY=8192 QEMU_SMP=8 ./setup05_run_qemu.sh
+```
+
+At boot, enter the fixed test LUKS passphrase `openrc-test` on the serial console when dracut prompts for it. The builder uses the hygienic host-side mapper name `qemuenc` during image construction, but the guest kernel command line opens the encrypted persistence partition as `/dev/mapper/enc` so it matches the current initramfs logic in the image. The live squashfs remains on the unencrypted boot partition for this QEMU test setup.
 
 ## Documentation
 
