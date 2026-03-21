@@ -2,7 +2,7 @@
 # Performant configuration (slow to build):
 # sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double jit -libssp lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
 # Faster build configuration:
-sys-devel/gcc cxx nls pie ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -fortran -go -graphite -hardened -ieee-long-double -jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -sanitize -systemtap -test -time64 -valgrind -vanilla -vtv
+sys-devel/gcc cxx nls pie ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -fortran -go -graphite -hardened -ieee-long-double jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -sanitize -systemtap -test -time64 -valgrind -vanilla -vtv
 llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -verify-sig -xml
 virtual/rust rustfmt
 dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig
@@ -19,7 +19,7 @@ sys-libs/zlib minizip -static-libs -verify-sig
 sys-apps/smartmontools -daemon -systemd update-drivedb -caps -selinux -static
 
 # Shell, Editor, CLI Tools
-app-editors/emacs -acl gmp inotify ssl -systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source sqlite -svg -tiff -toolkit-scroll-bars tree-sitter -valgrind -wide-int -xft -xwidgets
+app-editors/emacs -acl gmp inotify ssl -systemd threads xpm zlib Xaw3d -alsa -aqua athena -cairo dbus dynamic-loading -games -gfile -gif -gpm -gsettings -gtk gui -gzip-el -harfbuzz -imagemagick -jit -jpeg -json -kerberos -lcms -libxml2 -livecd -m17n-lib -mailutils -motif -png -selinux -sound -source sqlite -svg -tiff -toolkit-scroll-bars tree-sitter -valgrind -wide-int -xft -xwidgets
 app-emacs/emacs-common -games gui
 app-misc/tmux -systemd -debug -selinux -utempter -vim-syntax
 app-misc/fdupes ncurses
@@ -83,7 +83,7 @@ media-libs/libsdl2 X gles2 haptic joystick kms opengl pipewire pulseaudio sound 
 dev-qt/qtbase X concurrent dbus gui libinput network nls sql sqlite ssl udev widgets xml zstd -accessibility -brotli -cups -custom-cflags -eglfs -evdev -gles2-only -gssapi -gtk -icu -journald -libproxy -mysql -oci8 -odbc opengl -postgres -renderdoc -sctp -syslog -test -tslib vulkan -wayland
 dev-qt/qttools assistant linguist qdbus widgets (zstd) -clang -custom-cflags -designer -distancefieldgenerator -gles2-only opengl -pixeltool -qdoc -qml -qmlls -qtattributionsscanner -qtdiag -qtplugininfo vulkan
 dev-qt/qtmultimedia X dbus ffmpeg vaapi -alsa -custom-cflags -eglfs -gstreamer opengl pipewire pulseaudio -qml -test -v4l vulkan -wayland
-dev-qt/qtdeclarative jit network opengl sql ssl svg vulkan widgets -accessibility -custom-cflags -qmlls
+dev-qt/qtdeclarative -jit network opengl sql ssl svg vulkan widgets -accessibility -custom-cflags -qmlls
 
 # Browser, Remote Desktop, UI Dependencies
 # tor firefox binary requires libdbus-glib
@@ -97,7 +97,7 @@ app-crypt/p11-kit libffi nls -systemd gtk-doc -test
 app-crypt/gcr -systemd vala -gnutls gtk -gtk-doc introspection -test
 app-crypt/libsecret crypt gcrypt pam test-rust vala -gnutls -gtk-doc introspection -test -tpm
 dev-libs/glib dbus elf introspection mime xattr -debug -doc -selinux -static-libs -sysprof -systemtap -test -utils
-dev-libs/libpcre2 bzip2 jit pcre16 pcre32 readline unicode zlib -libedit -split-usr -static-libs
+dev-libs/libpcre2 bzip2 -jit pcre16 pcre32 readline unicode zlib -libedit -split-usr -static-libs
 dev-cpp/glog gflags libunwind -llvm-libunwind -test
 net-libs/gnutls tools pkcs11
 
