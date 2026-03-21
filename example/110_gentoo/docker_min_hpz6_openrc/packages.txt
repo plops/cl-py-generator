@@ -99,7 +99,6 @@ app-portage/cpuid2cpuflags-17
 app-portage/eix-0.36.9
 app-portage/elt-patches-20250718
 app-portage/gemato-20.11
-app-portage/gentoolkit-0.7.1
 app-portage/getuto-1.15-r1
 app-portage/portage-utils-0.97
 app-shells/bash-5.3_p9
@@ -473,6 +472,7 @@ sys-devel/gettext-0.23.2
 sys-devel/gnuconfig-20250710
 sys-devel/m4-1.4.21
 sys-devel/patch-2.8-r1
+sys-firmware/sof-firmware-2025.12
 sys-fs/cryptsetup-2.8.4
 sys-fs/e2fsprogs-1.47.3-r1
 sys-fs/lvm2-2.03.37

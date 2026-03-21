@@ -8,10 +8,10 @@ This guide describes how to install a new live Gentoo image on the ThinkPad E14 
 - **Artifacts Partition (Kernel/Squashfs)**: `/dev/nvme0n1p2` (UUID `df544e10-90c0-4315-860c-92a58ec8499e`)
 - **GRUB Config Partition**: `/dev/nvme1n1p2` (currently mounted at `/1p2`)
 - **Persistent Partition**: `/dev/nvme0n1p4` (LUKS UUID `bbac9bb8-39d9-42fa-8d04-94610ced9839`)
-- **Build Date Suffix**: `0320` (aktuell, OpenRC), `0310` (Fallback, Systemd)
+- **Build Date Suffix**: `0321` (aktuell, OpenRC), `0310` (Fallback, Systemd)
 
 > [!NOTE]
-> Ab 0320 wird OpenRC anstelle von Systemd genutzt. Das squashfs-Image für das E14 heißt lokal `gentoo.squashfs_e14` und wird als `gentoo.squashfs_0320` abgelegt. Du kannst sehr alte Versionen löschen, um Platz auf der Partition zu machen, aber behalte die Version `0310` als funktionierendes Fallback.
+> Ab 0320 wird OpenRC anstelle von Systemd genutzt. Das squashfs-Image für das E14 heißt lokal `gentoo.squashfs_e14` und wird als `gentoo.squashfs_0321` abgelegt. Du kannst sehr alte Versionen löschen, um Platz auf der Partition zu machen, aber behalte die Version `0310` als funktionierendes Fallback.
 
 
 ## 1. Copy New Build Artifacts
@@ -25,32 +25,32 @@ sudo mount -o remount,rw /run/initramfs/live
 # Optional: Alte Images löschen (z.B. von *vor* 0310), falls der Platz knapp wird:
 # sudo rm /run/initramfs/live/*_0308* 
 
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260320/gentoo.squashfs_e14 /run/initramfs/live/gentoo.squashfs_0320
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260320/vmlinuz /run/initramfs/live/vmlinuz_0320
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260320/initramfs_squash_sda1-x86_64.img /run/initramfs/live/initramfs_squash_sda1-x86_64_0320.img
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260320/packages.txt /run/initramfs/live/packages_0320.txt
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260321/gentoo.squashfs_e14 /run/initramfs/live/gentoo.squashfs_0321
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260321/vmlinuz /run/initramfs/live/vmlinuz_0321
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260321/initramfs_squash_sda1-x86_64.img /run/initramfs/live/initramfs_squash_sda1-x86_64_0321.img
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260321/packages.txt /run/initramfs/live/packages_0321.txt
 ```
 
 
 ## 2. Update GRUB Configuration
 
 Die GRUB-Konfiguration liegt auf `/dev/nvme1n1p2` (gemountet als `/1p2`).
-Füge einen neuen Eintrag für die 0320-Version (OpenRC) in `/1p2/boot/grub/custom.cfg` hinzu. Lass den alten 0310-Eintrag (Systemd) dort als Fallback stehen:
+Füge einen neuen Eintrag für die 0321-Version (OpenRC) in `/1p2/boot/grub/custom.cfg` hinzu. Lass den alten 0310-Eintrag (Systemd) dort als Fallback stehen:
 
 ```bash
 cat <<'EOF' | sudo tee -a /1p2/boot/grub/custom.cfg >/dev/null
 
-menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0320)' {
+menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0321)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     # Search for the partition containing the artifacts (nvme0n1p2)
     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
 
-    linux /vmlinuz_0320 \
+    linux /vmlinuz_0321 \
       root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
       rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs_0320 \
+      rd.live.squashimg=gentoo.squashfs_0321 \
       rd.live.ram=1 \
       rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
       rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
@@ -58,7 +58,7 @@ menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0320)' {
       rd.live.overlay.overlayfs=1 \
       nvme_core.default_ps_max_latency_us=0
 
-    initrd /initramfs_squash_sda1-x86_64_0320.img
+    initrd /initramfs_squash_sda1-x86_64_0321.img
 }
 EOF
 ```
