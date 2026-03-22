@@ -70,6 +70,8 @@ EOF
 
 The current `gentoo.squashfs_e14` was tested in QEMU before deployment.
 
+Re-tested on 2026-03-22 after rebuilding the image with the early GCC 14 pinning change, using artifacts copied from `/dev/shm/gentoo-z6-min-openrc_20260322` and a freshly regenerated QEMU disk image.
+
 ### What worked
 
 - Boot to login prompt works.
@@ -87,12 +89,23 @@ The current `gentoo.squashfs_e14` was tested in QEMU before deployment.
   - `qemu-debug`
 - Firefox is present in the E14 image:
   - `firefox-bin --version` reported `Mozilla Firefox 148.0.2`
+- C++ works in the guest:
+  - `g++` compiled and ran a minimal hello-world program successfully.
 - Ada/SPARK toolchain works in the guest:
   - `gnatmake`
   - `gnatprove`
   - `why3`
   - `alt-ergo`
   - minimal Ada compile/run and minimal SPARK proof both succeeded
+- Emacs works in the guest:
+  - `emacs -Q --batch` completed successfully.
+- SBCL works in the guest:
+  - `sbcl --script` completed successfully.
+- OpenRC user-session services came up for `kiel`:
+  - `dbus`
+  - `pipewire`
+  - `pipewire-pulse`
+  - `wireplumber`
 
 ### Known QEMU-specific issues
 
@@ -118,7 +131,15 @@ ping -c 1 10.0.2.2
 ```
 
 - `tailscale` still complains about missing service `net`.
-- `reverse-ssh-eu` and `reverse-ssh-us` ended up failed in the QEMU guest.
+- `reverse-ssh-eu` and `reverse-ssh-us` are still reached during boot in the QEMU guest and end up failed/stopped.
+- `hostname` was still `stopped` after boot, so the login prompt showed `(none)` until:
+
+```bash
+sudo rc-service hostname start
+hostname
+```
+
+On the current QEMU retest this set the hostname to `localhost`.
 
 ### Relevant logs
 
@@ -428,7 +449,7 @@ After that, retry `startx` without changing permissions on `/dev/tty*`.
 
 ### OpenRC Services on E14
 
-The E14 image keeps the reverse tunnel scripts installed, but does not start them automatically. This avoids unwanted outbound tunnels from the laptop while keeping the services available for manual testing:
+The E14 image keeps the reverse tunnel scripts installed. On the 2026-03-22 QEMU retest they were still reached during boot and ended up failed/stopped in the guest, so they should currently be treated as available for manual testing rather than as verified clean boot services:
 
 ```bash
 sudo rc-service reverse-ssh-eu start
