@@ -1,6 +1,8 @@
 # Toolchain, Compiler, Runtime
 dev-libs/jemalloc ~amd64
 dev-util/ruff ~amd64
+dev-lang/spark ~amd64
+~dev-ada/gpr-24.2.0-r1 ~amd64
 
 # Development Tools
 dev-util/clion ~amd64

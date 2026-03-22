@@ -10,6 +10,8 @@ dev-vcs/git
 #dev-lang/rust-bin
 dev-python/uv
 dev-lisp/sbcl
+dev-ada/gprbuild
+dev-lang/spark
 #dev-util/android-tools
 #dev-db/postgresql
 app-editors/emacs

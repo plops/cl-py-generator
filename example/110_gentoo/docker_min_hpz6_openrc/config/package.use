@@ -2,7 +2,13 @@
 # Performant configuration (slow to build):
 # sys-devel/gcc cet cxx default-stack-clash-protection default-znow fortran nls pie sanitize ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -go graphite -hardened -ieee-long-double jit -libssp lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch pgo -rust -systemtap -test -time64 -valgrind -vanilla -vtv
 # Faster build configuration:
-sys-devel/gcc cxx nls pie ssp zstd -ada -custom-cflags -d -debug -doc -fixed-point -fortran -go -graphite -hardened -ieee-long-double jit -libssp -lto -modula2 -multilib -objc -objc++ -objc-gc openmp -pch -pgo -rust -sanitize -systemtap -test -time64 -valgrind -vanilla -vtv
+sys-devel/gcc cxx nls pie ssp zstd ada -custom-cflags -d -debug -doc -fixed-point -fortran -go -graphite -hardened -ieee-long-double jit -libssp lto -modula2 -multilib -objc -objc++ -objc-gc openmp pch -pgo -rust sanitize systemtap -test -time64 -valgrind -vanilla -vtv
+sys-devel/gcc:14 ada
+dev-lang/spark ada_target_gcc_14
+dev-ada/gpr ada_target_gcc_14
+dev-ada/gprbuild ada_target_gcc_14
+dev-ada/gnatcoll-core ada_target_gcc_14
+dev-ada/gnatcoll-bindings gmp ada_target_gcc_14
 llvm-core/clang extra pie static-analyzer -debug -doc -ieee-long-double -test -verify-sig -xml
 virtual/rust rustfmt
 dev-lang/rust-bin -big-endian -clippy -doc -prefix -rust-analyzer -rust-src -rustfmt -verify-sig

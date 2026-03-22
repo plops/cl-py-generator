@@ -267,6 +267,13 @@ ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
 RUN emerge -uDN @world
+RUN gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
+ && eselect gcc set "${gcc_14}" \
+ && source /etc/profile \
+ && emerge --ask=n --oneshot --verbose libtool \
+ && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
+ && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
+ && emerge --ask=n @preserved-rebuild
 
 # System package build in cached chunks:
 # 1) Compute an ordered empty-tree world plan during the Docker build.
@@ -545,7 +552,86 @@ RUN dracut \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
 
-# Create ThinkPad E14 squashfs image (no NVIDIA runtime files, includes AMD/WiFi firmware)
+# Ensure SPARK proof tooling can find the Gentoo-installed Why3 helper.
+RUN ln -sf /usr/bin/gnatwhy3 /usr/libexec/spark/bin/gnatwhy3 \
+ && if [ -x /usr/bin/why3 ]; then ln -sf /usr/bin/why3 /usr/libexec/spark/bin/why3; fi
+
+# Regenerate package reports late so they match the final image contents.
+RUN set -e \
+ && emerge --ask=n --oneshot app-portage/genlop \
+ && printf 'package\tsize_mib\tbuild_seconds\tbuild_time_human\n' > /packages.tsv \
+ && time_threshold_mib=50 \
+ && for pkg in $(qlist -I); do \
+      size_line=$(qsize -m "$pkg" | head -n 1 || true); \
+      size_mib=$(printf '%s\n' "$size_line" | sed -nE 's/.*,[[:space:]]*([0-9.]+)[[:space:]]+MiB$/\1/p'); \
+      if [ -z "$size_mib" ]; then \
+        size_kib=$(printf '%s\n' "$size_line" | sed -nE 's/.*,[[:space:]]*([0-9.]+)[[:space:]]+KiB$/\1/p'); \
+        if [ -n "$size_kib" ]; then \
+          size_mib=$(awk "BEGIN { printf \"%.3f\", ${size_kib}/1024 }"); \
+        else \
+          size_mib=0; \
+        fi; \
+      fi; \
+      is_large=$(awk "BEGIN { print (${size_mib} >= ${time_threshold_mib}) ? 1 : 0 }"); \
+      if [ "$is_large" -eq 1 ]; then \
+        time_human=$(genlop -t "$pkg" 2>/dev/null | sed -nE 's/.*merge time: (.*)/\1/p' | tail -n 1 | sed -E 's/\x1B\[[0-9;]*[[:alpha:]]//g'); \
+        build_seconds=$(TIME_HUMAN="$time_human" awk 'BEGIN{t=ENVIRON["TIME_HUMAN"]; gsub(/,/, "", t); n=split(t, a, / +/); s=0; for (i=1; i<=n; i++) { if (a[i] ~ /^[0-9]+$/) { v=a[i]+0; u=a[i+1]; if (u ~ /^day/) s+=v*86400; else if (u ~ /^hour/) s+=v*3600; else if (u ~ /^minute/) s+=v*60; else if (u ~ /^second/) s+=v; } } print s }'); \
+      else \
+        time_human='-'; \
+        build_seconds=0; \
+      fi; \
+      printf '%s\t%s\t%s\t%s\n' "$pkg" "$size_mib" "${build_seconds:-0}" "${time_human:-N/A}" >> /packages.tsv; \
+    done \
+ && { \
+      printf '%-40s %10s %14s  %s\n' "Package" "Size MiB" "Build Seconds" "Build Time"; \
+      tail -n +2 /packages.tsv | sort -t "$(printf '\t')" -k2,2nr -k3,3nr | awk -F '\t' '{printf "%-40s %10s %14s  %s\n", $1, $2, $3, $4}'; \
+    } > /packages.txt \
+ && emerge -C app-portage/genlop || true
+
+# Create NVIDIA/full-runtime squashfs image.
+RUN set -e \
+ && echo "Preparing NVIDIA squashfs" \
+ && mkdir -p /tmp/tmpfw_nv/nvidia/590.48.01 \
+ && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw_nv/ 2>/dev/null || true \
+ && cp -a /usr/lib/firmware/nvidia/590.48.01/gsp_ga10x.bin /tmp/tmpfw_nv/nvidia/590.48.01/ 2>/dev/null || true \
+ && rm -rf /usr/lib/firmware/* \
+ && mv /tmp/tmpfw_nv/* /usr/lib/firmware/ 2>/dev/null || true \
+ && mksquashfs / /gentoo.squashfs_nv \
+   -comp zstd \
+   -Xcompression-level 19 \
+   -b 256K \
+   -mem 10G \
+   -xattrs \
+   -noappend \
+   -not-reproducible \
+   -progress \
+   -one-file-system-x \
+   -p "/dev d 755 0 0" \
+   -p "/proc d 555 0 0" \
+   -p "/sys d 555 0 0" \
+   -noI -noX \
+   -wildcards \
+   -e \
+     usr/src \
+     var/cache/binpkgs \
+     var/cache/distfiles \
+     "gentoo*squashfs" \
+     "gentoo*ext4" \
+     "usr/lib64/libQt*.a" \
+     usr/share/genkernel/distfiles \
+     usr/src/linux \
+     usr/share/sgml \
+     var/cache/eix/previous.eix \
+     boot \
+     persistent \
+     home/*/.cache \
+     var/log/journal \
+    var/cache/genkernel \
+    var/tmp \
+    initramfs-with-squashfs.img \
+    lost+found
+
+# Create ThinkPad E14 squashfs image (keep Firefox, remove NVIDIA runtime files, include AMD/WiFi firmware)
 RUN set -e \
  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
@@ -558,10 +644,9 @@ RUN set -e \
  && rm -rf /usr/lib/firmware/* \
  && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
  \
- # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size
- && echo "Stripping NVIDIA/CUDA and Firefox for E14 squashfs" \
+ # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size, but keep Firefox
+ && echo "Stripping NVIDIA/CUDA for E14 squashfs" \
  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
- && rm -rf /usr/lib64/firefox /usr/lib/firefox /usr/bin/firefox /usr/share/applications/firefox.desktop /usr/share/icons/hicolor/*/apps/firefox* /usr/share/pixmaps/firefox* /usr/share/man/man1/firefox.1* 2>/dev/null || true \
  && rm -rf /nvidia${KVER} 2>/dev/null || true \
  && mksquashfs / /gentoo.squashfs_e14 \
    -comp zstd \
