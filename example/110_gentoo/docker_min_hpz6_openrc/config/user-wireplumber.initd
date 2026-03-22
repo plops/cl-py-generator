@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+description="WirePlumber session manager"
+command="/usr/bin/wireplumber"
+command_background="yes"
+pidfile="${XDG_RUNTIME_DIR}/wireplumber.pid"
+
+depend() {
+  need pipewire dbus
+}

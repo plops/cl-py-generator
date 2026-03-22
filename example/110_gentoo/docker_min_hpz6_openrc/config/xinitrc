@@ -3,13 +3,11 @@ xrandr --output DP-0 --scale 1x1 --rotate left; xrandr --output DP-2 --scale 1x1
 # xrandr --output DP-0 --scale 2x2; xrandr --output DP-2 --scale 2x2 --pos 2160x0
 # xrandr --output DP-0 --scale 2x2; xrandr --output DP-2 --scale 2x2 --below DP-0 --pos 0x3840
 
-setxkbmap -layout us -variant colemak
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=${XDG_RUNTIME_DIR}/bus}"
+export PULSE_SERVER="${PULSE_SERVER:-unix:${XDG_RUNTIME_DIR}/pulse/native}"
 
-# OpenRC does not provide a user service manager here, so start the
-# PipeWire session stack from X startup if it is not running yet.
-pgrep -u "${USER}" -x pipewire >/dev/null 2>&1 || pipewire >/tmp/pipewire.log 2>&1 &
-pgrep -u "${USER}" -x pipewire-pulse >/dev/null 2>&1 || pipewire-pulse >/tmp/pipewire-pulse.log 2>&1 &
-pgrep -u "${USER}" -x wireplumber >/dev/null 2>&1 || wireplumber >/tmp/wireplumber.log 2>&1 &
+setxkbmap -layout us -variant colemak
 
 xterm -e btop &
 slstatus &

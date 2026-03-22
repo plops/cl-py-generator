@@ -30,6 +30,7 @@ rc-service udev-trigger start
 rc-service udev-settle start
 rc-service hostname start
 rc-service dbus start
+rc-service user-runtime start 2>/dev/null || true
 
 sync_initd "${config_root}/reverse-ssh-eu.initd" /etc/init.d/reverse-ssh-eu
 sync_initd "${config_root}/reverse-ssh-us.initd" /etc/init.d/reverse-ssh-us
@@ -53,6 +54,14 @@ if [ "${is_e14}" -eq 1 ]; then
     printf '\n%s\n' 'rc_autostart_user="NO"' >> /etc/rc.conf
   fi
 fi
+
+if [ ! -d /run/user/1000 ]; then
+  mkdir -p /run/user/1000
+  chown kiel:kiel /run/user/1000
+  chmod 0700 /run/user/1000
+fi
+
+rc-service user.kiel start 2>/dev/null || true
 
 KEYMAP_PATH="$(find /usr/share/keymaps -path '*/colemak/en.latin*.gz' | sort | head -n 1)"
 if [ -n "${KEYMAP_PATH}" ]; then

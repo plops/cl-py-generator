@@ -73,5 +73,7 @@ At boot, enter the fixed test LUKS passphrase `openrc-test` on the serial consol
 
 This build is part of a larger Gentoo live system project. See the parent directory for other variants including a minimal QEMU-optimized build.
 
+The image now provisions an OpenRC user session for `kiel` at boot (`user.kiel`) and prepares `/run/user/1000` so `dbus`, `pipewire`, `pipewire-pulse`, and `wireplumber` run as user services instead of being launched from `~/.xinitrc`.
+
 Wiki pages you might want to explore:
 - [Gentoo Linux Live Systems (plops/cl-py-generator)](https://deepwiki.com/plops/cl-py-generator/5-gentoo-linux-live-systems)

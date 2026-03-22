@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+description="PipeWire PulseAudio compatibility server"
+command="/usr/bin/pipewire-pulse"
+command_background="yes"
+pidfile="${XDG_RUNTIME_DIR}/pipewire-pulse.pid"
+
+depend() {
+  need pipewire dbus
+}

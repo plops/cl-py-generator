@@ -72,7 +72,19 @@ EOF
 This image uses **PipeWire** as the primary sound server, replacing PulseAudio.
 
 ### OpenRC Session Bringup
-On the OpenRC image, PipeWire, `pipewire-pulse`, and WirePlumber are started from the user X session. On the current live image, a working recovery path is to launch them explicitly with the helper script in the home directory:
+On the OpenRC image, PipeWire, `pipewire-pulse`, and WirePlumber are started by the lingering OpenRC user session for `kiel` (`user.kiel`). The image disables PAM auto-start with `rc_autostart_user="NO"` and prepares `/run/user/1000` so the user OpenRC instance can come up before login.
+
+Check the expected services first:
+
+```bash
+rc-service user-runtime status
+rc-service user.kiel status
+rc-status --user
+pactl info
+wpctl status
+```
+
+If the user session stack still needs to be recovered manually, use the helper script in the home directory:
 
 ```bash
 ~/start-pipewire.sh
@@ -85,7 +97,7 @@ The helper script handles the two failure modes that showed up on the E14 live i
 - It exports `PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native` so PulseAudio clients use the PipeWire Pulse socket.
 - It writes `~/.config/pulse/client.conf` with a fixed `default-server`, so `pulsemixer`, Firefox, and other PulseAudio clients keep working even when `XDG_RUNTIME_DIR` is non-standard.
 
-After `startx` or after running the helper script, verify the user-session audio stack first:
+After boot or after running the helper script, verify the user-session audio stack first:
 
 ```bash
 ps -ef | grep -E 'pipewire|wireplumber' | grep -v grep
@@ -141,8 +153,8 @@ Current bringup status on the OpenRC E14:
 
 - Analog microphone input works.
 - The microphone array is not exposed yet as a separate ALSA/PipeWire capture device.
-- Speaker/headphone playback works through PipeWire once the user-session stack is started with `~/start-pipewire.sh`.
-- `pulsemixer`, `pactl`, and Firefox audio work after the PulseAudio client side is pinned to `unix:/tmp/pipewire-runtime-1000/pulse/native`.
+- Speaker/headphone playback works through PipeWire once the OpenRC user session (`user.kiel`) is running.
+- `pulsemixer`, `pactl`, and Firefox audio work when the PulseAudio client side points at `unix:/run/user/1000/pulse/native`.
 - Direct ALSA playback to the Conexant `CX8070` path remains a useful fallback if the user-session PipeWire stack is down.
 
 Useful low-level checks:
@@ -162,7 +174,7 @@ The current E14 shows:
 On the recovered live image, the normal PipeWire/PulseAudio path works again:
 
 ```bash
-~/start-pipewire.sh
+rc-status --user
 pactl info
 pulsemixer
 mpv --no-video /path/to/test-audio-file
@@ -245,7 +257,7 @@ The E14 Gen 6 uses an **AMD Pink Sardine (ACP 6.3)** coprocessor for its digital
         ```
     *   Restart services: 
         *   Mit Systemd: `systemctl --user restart wireplumber pipewire`
-        *   Mit OpenRC: Die Prozesse (z.B. `killall wireplumber pipewire`) killen, damit sie durch den X-Session-Autostart (`gentoo-pipewire-launcher`) neu gestartet werden.
+        *   Mit OpenRC: `rc-service --user wireplumber restart && rc-service --user pipewire restart`
 
 ### Microphone Array Test Sequence
 Use this order on the E14 so it is obvious where the failure is:
@@ -379,8 +391,8 @@ env | grep XDG_RUNTIME_DIR
 Expected current state:
 
 - `rc_autostart_user="NO"` is present in `/etc/rc.conf`.
-- `XDG_RUNTIME_DIR` may be unset on console login.
-- PipeWire and WirePlumber are started from `~/.xinitrc` instead of OpenRC user services.
+- `XDG_RUNTIME_DIR=/run/user/1000` is exported for user logins.
+- PipeWire and WirePlumber are managed by OpenRC user services instead of `~/.xinitrc`.
 
 ### Bringup notes from the current `0321` test
 

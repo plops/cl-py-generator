@@ -1,0 +1,28 @@
+#!/sbin/openrc-run
+
+description="Prepare XDG runtime directories for lingering OpenRC user sessions"
+
+depend() {
+  need localmount
+  before user.kiel
+}
+
+start() {
+  ebegin "Preparing XDG runtime directory for kiel"
+  checkpath -d -m 0755 /run/user
+  checkpath -d -o kiel:kiel -m 0700 /run/user/1000
+  checkpath -d -o kiel:kiel -m 0755 /home/kiel/.config
+  checkpath -d -o kiel:kiel -m 0755 /home/kiel/.config/rc
+  checkpath -d -o kiel:kiel -m 0755 /home/kiel/.config/rc/runlevels
+  checkpath -d -o kiel:kiel -m 0755 /home/kiel/.config/rc/runlevels/default
+  ln -snf /etc/user/init.d/dbus /home/kiel/.config/rc/runlevels/default/dbus
+  ln -snf /etc/user/init.d/pipewire /home/kiel/.config/rc/runlevels/default/pipewire
+  ln -snf /etc/user/init.d/pipewire-pulse /home/kiel/.config/rc/runlevels/default/pipewire-pulse
+  ln -snf /etc/user/init.d/wireplumber /home/kiel/.config/rc/runlevels/default/wireplumber
+  chown -h kiel:kiel \
+    /home/kiel/.config/rc/runlevels/default/dbus \
+    /home/kiel/.config/rc/runlevels/default/pipewire \
+    /home/kiel/.config/rc/runlevels/default/pipewire-pulse \
+    /home/kiel/.config/rc/runlevels/default/wireplumber
+  eend $?
+}

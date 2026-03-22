@@ -350,6 +350,12 @@ RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
     done
 
 COPY config/xinitrc /home/kiel/.xinitrc
+COPY config/user-runtime.initd /etc/init.d/user-runtime
+COPY config/zz-openrc-user-session.sh /etc/profile.d/zz-openrc-user-session.sh
+COPY config/user-dbus.initd /etc/user/init.d/dbus
+COPY config/user-pipewire.initd /etc/user/init.d/pipewire
+COPY config/user-pipewire-pulse.initd /etc/user/init.d/pipewire-pulse
+COPY config/user-wireplumber.initd /etc/user/init.d/wireplumber
 
 RUN emerge --depclean
 
@@ -413,20 +419,39 @@ RUN printf '%s\n' \
     else \
       printf '%s\n' 'rc_verbose="YES"' >> /etc/rc.conf; \
     fi \
+ && if grep -q '^rc_autostart_user=' /etc/rc.conf 2>/dev/null; then \
+      sed -i 's/^rc_autostart_user=.*/rc_autostart_user="NO"/' /etc/rc.conf; \
+    else \
+      printf '%s\n' 'rc_autostart_user="NO"' >> /etc/rc.conf; \
+    fi \
  && if ! grep -q '^s0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100$' /etc/inittab; then \
       printf '%s\n' 's0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100' >> /etc/inittab; \
     fi \
  && if ! grep -qx 'ttyS0' /etc/securetty; then \
       printf '%s\n' 'ttyS0' >> /etc/securetty; \
     fi \
+ && chmod 0755 /etc/init.d/user-runtime /etc/profile.d/zz-openrc-user-session.sh \
+      /etc/user/init.d/dbus /etc/user/init.d/pipewire /etc/user/init.d/pipewire-pulse /etc/user/init.d/wireplumber \
+ && install -d -m 0755 /run/user \
+ && install -d -o kiel -g kiel -m 0700 /run/user/1000 \
+ && test -e /etc/init.d/user \
+ && ln -sf /etc/init.d/user /etc/init.d/user.kiel \
+ && install -d -o kiel -g kiel -m 0755 /home/kiel/.config/rc/runlevels/default \
+ && ln -sf /etc/user/init.d/dbus /home/kiel/.config/rc/runlevels/default/dbus \
+ && ln -sf /etc/user/init.d/pipewire /home/kiel/.config/rc/runlevels/default/pipewire \
+ && ln -sf /etc/user/init.d/pipewire-pulse /home/kiel/.config/rc/runlevels/default/pipewire-pulse \
+ && ln -sf /etc/user/init.d/wireplumber /home/kiel/.config/rc/runlevels/default/wireplumber \
  && rc-update add udev sysinit \
  && rc-update add udev-trigger sysinit \
  && rc-update add udev-settle sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
+ && rc-update add user-runtime default \
+ && rc-update add user.kiel default \
  && rc-update add qemu-debug default \
  && rc-update add dbus default \
- && rc-update add iwd default
+ && rc-update add iwd default \
+ && chown -R kiel:kiel /home/kiel/.config
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size
 
