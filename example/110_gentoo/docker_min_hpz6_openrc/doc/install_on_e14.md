@@ -66,6 +66,66 @@ EOF
 > [!NOTE]
 > The `nvme_core.default_ps_max_latency_us=0` parameter is added to prevent "Unsafe Shutdown" logs on the DRAM-less NVMe drives (ADATA/Hynix) used in this machine. It ensures the controller is ready for the shutdown signal from OpenRC/systemd.
 
+## 3. Verified QEMU Bringup (2026-03-22)
+
+The current `gentoo.squashfs_e14` was tested in QEMU before deployment.
+
+### What worked
+
+- Boot to login prompt works.
+- LUKS unlock works with the test passphrase `openrc-test`.
+- Login as `kiel` works with the seeded test password `kiel`.
+- Overlay/persistence works:
+  - `/` is mounted as overlay.
+  - `/dev/mapper/enc` is mounted read-write on `/run/enc`.
+  - A file created in `/home/kiel` survived a full poweroff/reboot cycle.
+- OpenRC base services came up:
+  - `dbus`
+  - `iwd`
+  - `user-runtime`
+  - `user.kiel`
+  - `qemu-debug`
+- Firefox is present in the E14 image:
+  - `firefox-bin --version` reported `Mozilla Firefox 148.0.2`
+- Ada/SPARK toolchain works in the guest:
+  - `gnatmake`
+  - `gnatprove`
+  - `why3`
+  - `alt-ergo`
+  - minimal Ada compile/run and minimal SPARK proof both succeeded
+
+### Known QEMU-specific issues
+
+- The default `setup04_create_qemu.sh` boot partition size is too small for the current E14 squashfs.
+  Use a larger boot partition when creating the QEMU image, for example:
+
+```bash
+sudo BOOT_SIZE_MIB=5200 IMAGE_SIZE=12288M ARTIFACT_DIR=/dev/shm/gentoo-z6-min-openrc_20260322 \
+  bash ./setup04_create_qemu.sh
+```
+
+- Network does not currently come up automatically in the QEMU guest.
+  The virtio NIC is visible on PCI, but `virtio_net` was not auto-loaded.
+  Manual recovery that worked in QEMU:
+
+```bash
+sudo modprobe virtio_net
+sudo ip link set eth0 up
+sudo dhclient eth0
+ip addr show eth0
+ip route
+ping -c 1 10.0.2.2
+```
+
+- `tailscale` still complains about missing service `net`.
+- `reverse-ssh-eu` and `reverse-ssh-us` ended up failed in the QEMU guest.
+
+### Relevant logs
+
+- `logs/qemu_boot_20260322_e14_test.log`
+- `logs/qemu_boot_20260322_e14_reboot_check.log`
+- `logs/qemu_boot_20260322_e14_ada_test.log`
+
 
 ## 4. Audio Configuration (PipeWire)
 

@@ -273,7 +273,9 @@ RUN gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
  && emerge --ask=n --oneshot --verbose libtool \
  && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
  && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
- && emerge --ask=n @preserved-rebuild
+ && emerge --ask=n @preserved-rebuild \
+ && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
+ && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true)
 
 # System package build in cached chunks:
 # 1) Compute an ordered empty-tree world plan during the Docker build.
@@ -556,6 +558,11 @@ RUN dracut \
 RUN ln -sf /usr/bin/gnatwhy3 /usr/libexec/spark/bin/gnatwhy3 \
  && if [ -x /usr/bin/why3 ]; then ln -sf /usr/bin/why3 /usr/libexec/spark/bin/why3; fi
 
+# The top-level OCaml package is not needed for runtime proof use in the image:
+# gnatprove/why3/alt-ergo still work after removing it, while build-time OCaml
+# was required earlier to install the prover stack.
+RUN emerge -C dev-lang/ocaml || true
+
 # Regenerate package reports late so they match the final image contents.
 RUN set -e \
  && emerge --ask=n --oneshot app-portage/genlop \
@@ -589,8 +596,12 @@ RUN set -e \
  && emerge -C app-portage/genlop || true
 
 # Create NVIDIA/full-runtime squashfs image.
+# Restore the original firmware tree afterwards so later artifact steps
+# start from the same final rootfs state.
 RUN set -e \
  && echo "Preparing NVIDIA squashfs" \
+ && mkdir -p /tmp/fw_original \
+ && cp -a /usr/lib/firmware/. /tmp/fw_original/ \
  && mkdir -p /tmp/tmpfw_nv/nvidia/590.48.01 \
  && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw_nv/ 2>/dev/null || true \
  && cp -a /usr/lib/firmware/nvidia/590.48.01/gsp_ga10x.bin /tmp/tmpfw_nv/nvidia/590.48.01/ 2>/dev/null || true \
@@ -615,7 +626,7 @@ RUN set -e \
      usr/src \
      var/cache/binpkgs \
      var/cache/distfiles \
-     "gentoo*squashfs" \
+     "gentoo*squashfs*" \
      "gentoo*ext4" \
      "usr/lib64/libQt*.a" \
      usr/share/genkernel/distfiles \
@@ -629,9 +640,13 @@ RUN set -e \
     var/cache/genkernel \
     var/tmp \
     initramfs-with-squashfs.img \
-    lost+found
+    lost+found \
+ && rm -rf /usr/lib/firmware/* \
+ && cp -a /tmp/fw_original/. /usr/lib/firmware/ \
+ && rm -rf /tmp/fw_original /tmp/tmpfw_nv
 
-# Create ThinkPad E14 squashfs image (keep Firefox, remove NVIDIA runtime files, include AMD/WiFi firmware)
+# Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
+# keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
 RUN set -e \
  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
@@ -644,9 +659,21 @@ RUN set -e \
  && rm -rf /usr/lib/firmware/* \
  && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
  \
- # Build ThinkPad E14 image: hide/remove NVIDIA runtime to minimize size, but keep Firefox
- && echo "Stripping NVIDIA/CUDA for E14 squashfs" \
+ # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
+ && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
+ && rm -rf /usr/bin/nvidia* \
+      /usr/lib/elogind/system-sleep/nvidia \
+      /usr/lib/systemd/system/nvidia-* \
+      /usr/lib/systemd/system-sleep/nvidia \
+      /usr/lib/dracut/dracut.conf.d/10-nvidia-drivers.conf \
+      /usr/share/applications/nvidia-settings.desktop \
+      /usr/share/pixmaps/nvidia-settings.png \
+      /usr/share/doc/nvidia-drivers-* \
+      /usr/share/nvidia \
+      /usr/lib64/nvidia \
+      /usr/lib64/gbm/nvidia-drm_gbm.so \
+      /usr/lib64/vdpau/libvdpau_nvidia.so* 2>/dev/null || true \
  && rm -rf /nvidia${KVER} 2>/dev/null || true \
  && mksquashfs / /gentoo.squashfs_e14 \
    -comp zstd \
@@ -667,7 +694,7 @@ RUN set -e \
      usr/src \
      var/cache/binpkgs \
      var/cache/distfiles \
-     "gentoo*squashfs" \
+     "gentoo*squashfs*" \
      "gentoo*ext4" \
      "usr/lib64/libQt*.a" \
      usr/share/genkernel/distfiles \
