@@ -88,6 +88,7 @@ net-wireless/iw
 #net-analyzer/openbsd-netcat
 #net-analyzer/nmap
 #net-analyzer/wireshark
+net-vpn/tailscale
 
 # Crypto
 app-crypt/p11-kit
