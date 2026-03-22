@@ -15,12 +15,30 @@ RUN eselect profile set default/linux/amd64/23.0/no-multilib
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 COPY config/package.mask /etc/portage/package.mask/package.mask
 
+FROM base AS builder
+RUN emerge --ask=n --verbose sys-devel/gcc:14 \
+ && gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
+ && eselect gcc set "${gcc_14}" \
+ && source /etc/profile \
+ && emerge --ask=n --oneshot --verbose libtool \
+ && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
+ && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
+ && emerge --ask=n @preserved-rebuild
+
+FROM builder
+
 # Repository tooling and package configuration
 RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
 RUN emerge --ask=n sys-devel/mold
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.mask /etc/portage/package.mask/package.mask
 COPY config/package.license /etc/portage/package.license
+COPY config/package.use /etc/portage/package.use
+COPY config/package.env /etc/portage/package.env
+COPY config/env /etc/portage/env
+# Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
+COPY config/world /var/lib/portage/world
+COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
 ENV KVER_PURE=6.12.77
 ENV KVER=${KVER_PURE}-gentoo
 
@@ -249,15 +267,6 @@ RUN depmod -a ${KVER}
 
 RUN make install
 
-# Delaying the copy of volatile configs (package.use, world, etc) until after the kernel build
-# enables Docker to cache the long kernel compilation even if world/use flags change!
-COPY config/package.use /etc/portage/package.use
-COPY config/package.env /etc/portage/package.env
-COPY config/env /etc/portage/env
-# Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
-COPY config/world /var/lib/portage/world
-COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-
 # Clean up the locales
 RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && locale-gen \
@@ -267,15 +276,7 @@ ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
 RUN emerge -uDN @world
-RUN gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
- && eselect gcc set "${gcc_14}" \
- && source /etc/profile \
- && emerge --ask=n --oneshot --verbose libtool \
- && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
- && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
- && emerge --ask=n @preserved-rebuild \
- && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
- && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true)
+RUN gcc-config -l
 
 # System package build in cached chunks:
 # 1) Compute an ordered empty-tree world plan during the Docker build.
@@ -308,6 +309,7 @@ RUN gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
 
 # Temporarily install package analysis tools
 RUN emerge --ask=n app-portage/genlop app-portage/gentoolkit \
+ && qlist -Iv sys-devel/gcc \
  && echo "Generating package statistics..." \
  && for pkg in $(qlist -I); do \
       SIZE=$(qsize -m "$pkg" | awk '{print $5$6}'); \

@@ -1,22 +1,22 @@
 Package                                    Size MiB  Build Seconds  Build Time
 sys-kernel/linux-firmware                      1725             47  47 seconds.
-sys-kernel/gentoo-sources                      1465            129  2 minutes and 9 seconds.
-x11-drivers/nvidia-drivers                      971             53  53 seconds.
-sys-devel/gcc                                   303           1635  27 minutes and 15 seconds.
-sys-devel/gcc                                   303           1635  27 minutes and 15 seconds.
-www-client/firefox-bin                          296             10  10 seconds.
+sys-kernel/gentoo-sources                      1465            136  2 minutes and 16 seconds.
+sys-kernel/gentoo-sources                      1465            136  2 minutes and 16 seconds.
+x11-drivers/nvidia-drivers                      972             54  54 seconds.
+sys-devel/gcc                                   390           1636  27 minutes and 16 seconds.
+www-client/firefox-bin                          296              9  9 seconds.
 app-editors/emacs                               173             44  44 seconds.
-dev-libs/boost                                  153            146  2 minutes and 26 seconds.
-sci-mathematics/why3-for-spark                   94             91  1 minute and 31 seconds.
+dev-libs/boost                                  153            142  2 minutes and 22 seconds.
+sci-mathematics/why3-for-spark                   94             90  1 minute and 30 seconds.
 app-containers/containerd                        93             17  17 seconds.
 dev-ml/ppxlib                                    80              9  9 seconds.
-app-containers/docker                            79            138  2 minutes and 18 seconds.
-dev-ada/gprbuild                                 65             41  41 seconds.
-app-containers/docker-buildx                     65             16  16 seconds.
-dev-python/uv                                    62            130  2 minutes and 10 seconds.
-dev-lang/spark                                   59             63  1 minute and 3 seconds.
-sci-mathematics/alt-ergo                         56              8  8 seconds.
-x11-libs/gtk+                                    52             66  1 minute and 6 seconds.
+app-containers/docker                            79            148  2 minutes and 28 seconds.
+dev-ada/gprbuild                                 65             40  40 seconds.
+app-containers/docker-buildx                     65             17  17 seconds.
+dev-python/uv                                    62            140  2 minutes and 20 seconds.
+dev-lang/spark                                   59             62  1 minute and 2 seconds.
+sci-mathematics/alt-ergo                         56              7  7 seconds.
+x11-libs/gtk+                                    52             67  1 minute and 7 seconds.
 dev-lang/python                                  52              0  N/A
 dev-lang/python                                  52              0  N/A
 dev-build/cmake                                  51              0  N/A
@@ -28,7 +28,7 @@ app-text/docbook-xsl-ns-stylesheets              44              0  -
 app-containers/docker-cli                        42              0  -
 sys-firmware/sof-firmware                        42              0  -
 dev-ml/ppx_tools                                 40              0  -
-media-libs/mesa                                  40              0  -
+media-libs/mesa                                  39              0  -
 dev-ml/base                                      38              0  -
 dev-ada/gpr                                      35              0  -
 dev-util/vulkan-headers                          33              0  -
@@ -37,8 +37,8 @@ dev-vcs/git                                      28              0  -
 sys-devel/binutils                               28              0  -
 dev-ml/dune                                      26              0  -
 dev-ml/ocaml-migrate-parsetree                   25              0  -
-dev-libs/protobuf                                24              0  -
 media-video/ffmpeg                               24              0  -
+dev-libs/protobuf                                23              0  -
 sys-apps/portage                                 23              0  -
 sys-devel/mold                                   23              0  -
 dev-python/cython                                22              0  -
@@ -79,11 +79,11 @@ sys-apps/hwdata                                  10              0  -
 sys-apps/texinfo                                 10              0  -
 x11-misc/xkeyboard-config                        10              0  -
 dev-ml/yojson                                     9              0  -
+dev-util/spirv-tools                              9              0  -
 media-fonts/font-misc-misc                        9              0  -
 app-shells/bash                                   8              0  -
 dev-cpp/eigen                                     8              0  -
 dev-ml/menhir                                     8              0  -
-dev-util/spirv-tools                              8              0  -
 net-misc/openssh                                  8              0  -
 app-misc/mc                                       7              0  -
 dev-ml/ocamlbuild                                 7              0  -
