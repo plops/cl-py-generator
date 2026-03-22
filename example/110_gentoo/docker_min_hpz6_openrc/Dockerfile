@@ -17,6 +17,7 @@ COPY config/package.mask /etc/portage/package.mask/package.mask
 
 # Repository tooling and package configuration
 RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
+RUN emerge --ask=n sys-devel/mold
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.mask /etc/portage/package.mask/package.mask
 COPY config/package.license /etc/portage/package.license

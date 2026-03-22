@@ -4,6 +4,7 @@ app-portage/eix
 app-portage/gentoolkit
 app-portage/cpuid2cpuflags
 dev-build/ninja
+sys-devel/mold
 #dev-build/steve
 dev-vcs/git
 #dev-lang/rust-bin
