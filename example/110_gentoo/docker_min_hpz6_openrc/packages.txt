@@ -1,22 +1,22 @@
 Package                                    Size MiB  Build Seconds  Build Time
-sys-kernel/linux-firmware                      1725             47  47 seconds.
-sys-kernel/gentoo-sources                      1465            136  2 minutes and 16 seconds.
-sys-kernel/gentoo-sources                      1465            136  2 minutes and 16 seconds.
-x11-drivers/nvidia-drivers                      972             54  54 seconds.
-sys-devel/gcc                                   390           1636  27 minutes and 16 seconds.
-www-client/firefox-bin                          296              9  9 seconds.
+sys-kernel/linux-firmware                      1725             49  49 seconds.
+sys-kernel/gentoo-sources                      1465             48  48 seconds.
+sys-kernel/gentoo-sources                      1465             48  48 seconds.
+x11-drivers/nvidia-drivers                      972             52  52 seconds.
+sys-devel/gcc                                   390           1639  27 minutes and 19 seconds.
+www-client/firefox-bin                          296              8  8 seconds.
 app-editors/emacs                               173             44  44 seconds.
-dev-libs/boost                                  153            142  2 minutes and 22 seconds.
-sci-mathematics/why3-for-spark                   94             90  1 minute and 30 seconds.
+dev-libs/boost                                  153            141  2 minutes and 21 seconds.
+sci-mathematics/why3-for-spark                   94             91  1 minute and 31 seconds.
 app-containers/containerd                        93             17  17 seconds.
 dev-ml/ppxlib                                    80              9  9 seconds.
-app-containers/docker                            79            148  2 minutes and 28 seconds.
-dev-ada/gprbuild                                 65             40  40 seconds.
+app-containers/docker                            79             66  1 minute and 6 seconds.
+dev-python/uv                                    68            160  2 minutes and 40 seconds.
+dev-ada/gprbuild                                 65             20  20 seconds.
 app-containers/docker-buildx                     65             17  17 seconds.
-dev-python/uv                                    62            140  2 minutes and 20 seconds.
-dev-lang/spark                                   59             62  1 minute and 2 seconds.
-sci-mathematics/alt-ergo                         56              7  7 seconds.
-x11-libs/gtk+                                    52             67  1 minute and 7 seconds.
+dev-lang/spark                                   59             42  42 seconds.
+sci-mathematics/alt-ergo                         56              8  8 seconds.
+x11-libs/gtk+                                    52             22  22 seconds.
 dev-lang/python                                  52              0  N/A
 dev-lang/python                                  52              0  N/A
 dev-build/cmake                                  51              0  N/A
@@ -42,9 +42,9 @@ dev-libs/protobuf                                23              0  -
 sys-apps/portage                                 23              0  -
 sys-devel/mold                                   23              0  -
 dev-python/cython                                22              0  -
+sys-apps/util-linux                              21              0  -
 app-text/docbook-xsl-stylesheets                 20              0  -
 dev-debug/systemtap                              20              0  -
-sys-apps/util-linux                              20              0  -
 dev-libs/openssl                                 19              0  -
 dev-build/meson                                  18              0  -
 dev-ml/ppx_deriving                              18              0  -
@@ -99,6 +99,7 @@ media-video/mpv                                   6              0  -
 sys-fs/lvm2                                       6              0  -
 x11-base/xorg-server                              6              0  -
 x11-terms/alacritty                               6              0  -
+app-crypt/p11-kit                                 5              0  -
 dev-libs/elfutils                                 5              0  -
 dev-ml/ppx_sexp_conv                              5              0  -
 dev-ml/re                                         5              0  -
@@ -110,7 +111,6 @@ sys-apps/shadow                                   5              0  -
 sys-fs/e2fsprogs                                  5              0  -
 x11-misc/shared-mime-info                         5              0  -
 app-accessibility/at-spi2-core                    4              0  -
-app-crypt/p11-kit                                 4              0  -
 dev-db/sqlite                                     4              0  -
 dev-libs/gobject-introspection                    4              0  -
 dev-ml/parsexp                                    4              0  -
