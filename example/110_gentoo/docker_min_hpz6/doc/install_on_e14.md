@@ -21,6 +21,8 @@ Remount als `rw` ist ggf. nötig:
 
 > [!NOTE]
 > Neues Build-Verzeichnis: `~/gentoo-z6-min-openrc_20260324` (OpenRC).
+>
+> **Be careful:** we *add* new `_0324` artifacts side-by-side and only delete old ones if space is tight.
 
 ```bash
 sudo mount -o remount,rw /run/initramfs/live
@@ -28,7 +30,7 @@ sudo mount -o remount,rw /run/initramfs/live
 # Optional: check free space before copying
 df -h /run/initramfs/live
 
-# Copy new artifacts (0324)
+# Copy new artifacts (0324) - do not overwrite older versions
 sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260324/gentoo.squashfs_e14 /run/initramfs/live/gentoo.squashfs_0324
 sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260324/vmlinuz /run/initramfs/live/vmlinuz_0324
 sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260324/initramfs_squash_sda1-x86_64.img /run/initramfs/live/initramfs_squash_sda1-x86_64_0324.img
@@ -40,8 +42,8 @@ ls -lh /run/initramfs/live | egrep 'gentoo\.squashfs_|vmlinuz_|initramfs_squash_
 
 ### If it does not fit (not enough free space)
 
-The artifacts partition (`/dev/nvme0n1p2`, mounted at `/run/initramfs/live`) is typically just a small FAT partition.
-If you run out of space, delete older versions first (safest: keep at least one known-good entry you can boot):
+The artifacts partition (`/dev/nvme0n1p2`, mounted at `/run/initramfs/live`) is typically a small FAT partition.
+If you run out of space, delete older versions first **but keep at least one known-good boot entry**:
 
 ```bash
 # Show current space usage
@@ -49,6 +51,7 @@ df -h /run/initramfs/live
 ls -lh /run/initramfs/live
 
 # Suggested deletions (old artifacts you no longer boot)
+# (Delete oldest suffixes first; example below removes 0310)
 sudo rm -v /run/initramfs/live/gentoo.squashfs_0310
 sudo rm -v /run/initramfs/live/vmlinuz_0310
 sudo rm -v /run/initramfs/live/initramfs_squash_sda1-x86_64_0310.img
