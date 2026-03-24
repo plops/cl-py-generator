@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260320 AS portage
+FROM gentoo/portage:20260323 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260316 AS base
+FROM gentoo/stage3:nomultilib-20260323 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -74,14 +74,18 @@ CONFIG_OPTS=(
   -e EXT4_FS
   -m EXT4_FS_POSIX_ACL
   -m EXT4_FS_SECURITY
-  -m BLK_DEV_PMEM
+  -e X86_PMEM_LEGACY
   -e ZONE_DEVICE
-  -m LIBNVDIMM
-  -m BTT
-  -m NVDIMM_PFN
-  -m NVDIMM_BLK
-  -m DEV_DAX
-  -m DEV_DAX_PMEM
+  -e LIBNVDIMM
+  -e BLK_DEV_PMEM
+  -e BTT
+  -e ND_BTT
+  -e NVDIMM_PFN
+  -e ND_PFN
+  -e NVDIMM_DAX
+  -e DEV_DAX
+  -e DEV_DAX_PMEM
+  -e ND_BLK
 
   # --- Generic Options (Commented out by default) ---
   # -e PREEMPT_RT
@@ -551,6 +555,7 @@ RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
       --filesystems "squashfs vfat ext4 overlay btrfs" \
+      --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
       --kver=${KVER} \
       --install "stat blockdev" \
       --force \
