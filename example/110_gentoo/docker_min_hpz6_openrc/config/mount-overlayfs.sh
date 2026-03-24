@@ -6,6 +6,19 @@ command -v getarg > /dev/null || . /lib/dracut-lib.sh
 getargbool 0 rd.live.overlay.overlayfs && overlayfs="yes"
 getargbool 0 rd.live.overlay.readonly && readonly_overlay="--readonly" || readonly_overlay=""
 ROOTFLAGS="$(getarg rootflags)"
+LOWER_EXT4_DEV="$(getarg rd.live.overlay.lower.ext4dev=)"
+LOWER_EXT4_OPTS="$(getarg rd.live.overlay.lower.ext4opts=)"
+[ -n "${LOWER_EXT4_OPTS}" ] || LOWER_EXT4_OPTS="ro"
+
+mount_lower_ext4() {
+    [ -n "${LOWER_EXT4_DEV}" ] || return 1
+    mkdir -p /run/rootfsdax
+    if mount -t ext4 -o "${LOWER_EXT4_OPTS}" "${LOWER_EXT4_DEV}" /run/rootfsdax; then
+        return 0
+    fi
+    warn "failed to mount ${LOWER_EXT4_DEV} with options '${LOWER_EXT4_OPTS}', retrying read-only without DAX"
+    mount -t ext4 -o ro "${LOWER_EXT4_DEV}" /run/rootfsdax
+}
 
 if [ -n "$overlayfs" ]; then
     # Build overlay lowerdir options
@@ -13,6 +26,10 @@ if [ -n "$overlayfs" ]; then
         ovlfs=lowerdir=/run/overlayfs-r:/run/rootfsbase
     else
         ovlfs=lowerdir=/run/rootfsbase
+    fi
+
+    if mount_lower_ext4; then
+        ovlfs=lowerdir=/run/rootfsdax:/run/rootfsbase
     fi
 
     # Persistent encrypted upper/work layers
