@@ -207,9 +207,42 @@ def get_transcript(url, identifier):
 documentation_html=markdown.markdown(documentation)
 @rt("/")
 def get(request: Request):
+
+
+    # 1. Get the country code from Nginx header
+    country = request.headers.get('x-country-code', 'XX')
+    
+    # 2. Define the forbidden regions (EEA, UK, Switzerland)
+    FORBIDDEN_COUNTRIES = {
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'CH', 'GB', 'LI', 'IS', 'NO'
+    }
+    is_forbidden = country in FORBIDDEN_COUNTRIES
+
+    logger.info(f"Request from: {request.client.host} (Country: {country})")
+    
     logger.info(f"Request from host: {request.client.host}")
     check_reset_counters()
     nav=Nav(Ul(Li(H1("RocketRecap Content Summarizer"))), Ul(Li(A("Map", href="https://rocketrecap.com/exports/index.html")), Li(A("FAQ", href="https://rocketrecap.com/exports/faq.html")), Li(A("Extension", href="https://rocketrecap.com/exports/extension.html")), Li(A("Privacy Policy", href="https://rocketrecap.com/exports/privacy.html")), Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
+
+    # 3. Create a notice for forbidden users
+    error_notice = ""
+    if is_forbidden:
+        error_notice = Div(
+            P(B("Notice: "), "Due to Google's Terms of Service for Gemini in the EU/UK/CH, the free tier of this tool is currently unavailable in your region."),
+            style="color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;"
+        )
+
+    # 4. Conditionally add 'disabled' attribute to inputs
+    # In FastHTML, passing disabled=True adds the attribute; disabled=False omits it.
+    yt_input = Textarea(
+        placeholder="Link to youtube video..." if not is_forbidden else "Service unavailable in your region",
+        id="youtube-link", 
+        name="original_source_link",
+        disabled=is_forbidden
+    )
+    
     transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width: 60%;", name="transcript", id="transcript-paste")
     selector=[]
     for opt in MODEL_OPTIONS:
