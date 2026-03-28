@@ -34,3 +34,39 @@ Key files and directories:
 ## Configuration & Secrets
 - Set `GEMINI_API_KEY` before running the app; requests will fail without it.
 - Logs are written to `transcript_summarizer.log`; include relevant excerpts when reporting issues.
+
+## S-Expression Transpiler (cl-py-generator)
+
+### Overview
+This project uses `cl-py-generator` to transpile Common Lisp S-expressions into Python code. The main transpiler source is in `gen04.lisp`, which generates the main application file `p04_host.py`.
+
+### Key Files
+- **`gen04.lisp`**: Main Lisp source file containing S-expressions that generate Python code
+- **`p04_host.py`**: Generated Python file (do not edit directly - changes will be lost)
+- **`SUPPORTED_FORMS.md`**: Complete reference of supported S-expression forms and their Python output
+
+### Running the Transpiler
+```bash
+cd /path/to/cl-py-generator/example/143_helium_gemini
+sbcl --non-interactive --load gen04.lisp
+```
+
+### Supported Instructions
+- **Main Repository README**: `/home/kiel/stage/cl-py-generator/README.md`
+- **Transpiler Documentation**: `/home/kiel/stage/cl-py-generator/SUPPORTED_FORMS.md`
+- **Test Suite**: Run `./run-tests.sh` from the cl-py-generator root directory
+- **Generate Documentation**: Run `./generate-docs.sh` from the cl-py-generator root directory
+
+### Common S-Expression Patterns
+- **Function Definitions**: `(def function-name (params) ...)`
+- **Variable Assignment**: `(setf variable-name value)`
+- **Dictionary Creation**: `(dict ((key1 val1) (key2 val2))` or `(dictionary :key1 val1 :key2 val2)`
+- **List Creation**: `(list item1 item2 item3)`
+- **Conditional Logic**: `(when condition ...)` or `(if condition then-form else-form)`
+- **Imports**: `(imports (module1 module2))` or `(imports-from (module1 symbol1 symbol2))`
+
+### Important Notes
+- Always regenerate `p04_host.py` from `gen04.lisp` after making changes
+- Use `cl-py-generator:in` for Python's `in` operator
+- Use `aref` for Python list/dict access with string keys
+- The transpiler follows Lisp conventions with hyphenated names (e.g., `cl-py-generator:in`)
