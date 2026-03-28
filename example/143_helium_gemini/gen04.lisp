@@ -1003,6 +1003,11 @@ You can choose between three models with different capabilities. While these mod
 			   (Li (A (string "Log out")
 				  :href (string "/logout"))))))
 
+	   (setf error_notice (string ""))
+	   (when is_forbidden
+	     (setf error_notice (Div (P (B (string "Notice: ")) (string "Due to Google's Terms of Service for Gemini in the EU/UK/CH, manual transcript submission is disabled in your region. YouTube link processing is still available."))
+				    :style (string "color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;"))))
+
 	   (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				      :style (string "height: 300px; width: 60%;")
 				      :name (string "transcript")
@@ -1102,6 +1107,7 @@ You can choose between three models with different capabilities. While these mod
 			    (Main nav
 				  (NotStr documentation_html)
 				  #+nil chrome_ext_promo
+				  error_notice
 				  form
 				  summary_list_container 
 				  (Script (string3 "function copyPreContent(elementId) {

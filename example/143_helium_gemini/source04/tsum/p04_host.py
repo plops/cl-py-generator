@@ -214,6 +214,9 @@ def get(request: Request):
     logger.info(f"Request from host: {request.client.host}")
     check_reset_counters()
     nav=Nav(Ul(Li(H1("RocketRecap Content Summarizer"))), Ul(Li(A("Map", href="https://rocketrecap.com/exports/index.html")), Li(A("FAQ", href="https://rocketrecap.com/exports/faq.html")), Li(A("Extension", href="https://rocketrecap.com/exports/extension.html")), Li(A("Privacy Policy", href="https://rocketrecap.com/exports/privacy.html")), Li(A("Demo Video", href="https://www.youtube.com/watch?v=ttuDW1YrkpU")), Li(A("Documentation", href="https://github.com/plops/gemini-competition/blob/main/README.md"))))
+    error_notice=""
+    if ( is_forbidden ):
+        error_notice=Div(P(B("Notice: "), "Due to Google's Terms of Service for Gemini in the EU/UK/CH, manual transcript submission is disabled in your region. YouTube link processing is still available."), style="color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;")
     transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width: 60%;", name="transcript", id="transcript-paste", disabled=is_forbidden)
     selector=[]
     for opt in MODEL_OPTIONS:
@@ -228,7 +231,7 @@ def get(request: Request):
     form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link"), Label("(Optional) Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list")
     summaries_to_show=summaries(order_by="identifier DESC", limit=3)
     summary_list_container=Div(*summaries_to_show, id="summary-list")
-    return Title("Video Transcript Summarizer"), Meta(name="description", content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps."), Main(nav, NotStr(documentation_html), form, summary_list_container, Script("""function copyPreContent(elementId) {
+    return Title("Video Transcript Summarizer"), Meta(name="description", content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps."), Main(nav, NotStr(documentation_html), error_notice, form, summary_list_container, Script("""function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
 
