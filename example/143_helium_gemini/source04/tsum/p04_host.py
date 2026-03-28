@@ -230,20 +230,19 @@ def get(request: Request):
     error_notice = ""
     if is_forbidden:
         error_notice = Div(
-            P(B("Notice: "), "Due to Google's Terms of Service for Gemini in the EU/UK/CH, the free tier of this tool is currently unavailable in your region."),
+            P(B("Notice: "), "Due to Google's Terms of Service for Gemini in the EU/UK/CH, manual transcript submission is disabled in your region. YouTube link processing is still available."),
             style="color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;"
         )
 
     # 4. Conditionally add 'disabled' attribute to inputs
     # In FastHTML, passing disabled=True adds the attribute; disabled=False omits it.
     yt_input = Textarea(
-        placeholder="Link to youtube video..." if not is_forbidden else "Service unavailable in your region",
+        placeholder="Link to youtube video...",
         id="youtube-link", 
-        name="original_source_link",
-        disabled=is_forbidden
+        name="original_source_link"
     )
     
-    transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width: 60%;", name="transcript", id="transcript-paste")
+    transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width: 60%;", name="transcript", id="transcript-paste", disabled=is_forbidden)
     selector=[]
     for opt in MODEL_OPTIONS:
         parts=opt.split("|")
