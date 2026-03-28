@@ -634,7 +634,7 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 
 	 ;; Create database and table separately to avoid transform=True
 	 (setf db (database (string "data/summaries.db")))
-	 (setf summaries (db.t (string "summaries")))
+	 (setf summaries (aref db.t (string "summaries")))
 	 (when (not (cl-py-generator:in (string "summaries") db.tables))
 	   (summaries.create
 	    :identifier int

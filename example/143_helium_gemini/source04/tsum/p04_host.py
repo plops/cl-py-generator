@@ -110,7 +110,7 @@ def render(summary: Summary):
 logger.info("Create website app")
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
 db=database("data/summaries.db")
-summaries=db.t("summaries")
+summaries=db.t["summaries"]
 if ( not(("summaries" in db.tables)) ):
     summaries.create(identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier", transform=False)
 app, rt, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, htmlkw=dict(lang="en-US"))
