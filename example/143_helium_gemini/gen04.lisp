@@ -1093,10 +1093,10 @@ You can choose between three models with different capabilities. While these mod
 		  :data_hx_target (string "#summary-list") ))
 
 
-	   (setf summaries_to_show (summaries :order_by (string "identifier DESC")
+	   (setf summaries_to_show (summaries.rows_where :order_by (string "-identifier")
 					      :limit 3))
 	   
-	   (setf summary_list_container (Div *summaries_to_show
+	   (setf summary_list_container (Div summaries_to_show
 					     :id (string "summary-list")))
 	   
 	   (return (ntuple (Title (string "Video Transcript Summarizer"))
@@ -1186,9 +1186,9 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 	     (setf s (aref summaries identifier))
 	     
 	     (cond
-	       ((aref s (string "timestamps_done"))
+	       (s.timestamps_done
 		(comments "this is for <= 128k tokens")
-		(setf real_model (dot (aref s (string "model")) (aref (split (string "|")) 0)))
+		(setf real_model (dot s.model (aref (split (string "|")) 0)))
 		(setf price_input_token_usd_per_mio -1)
 		(setf price_output_token_usd_per_mio -1)
 		(try
@@ -1197,24 +1197,24 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 		 ("Exception as e"
 		  pass))
 		#+nil
-		(if (or (dot (aref s (string "model")) (startswith (string "gemini-1.5-pro")))
-			(dot (aref s (string "model")) (startswith (string "gemini-2.0-pro")))
-			(dot (aref s (string "model")) (startswith (string "gemini-2.5-pro")))) 
+		(if (or (dot s.model (startswith (string "gemini-1.5-pro")))
+			(dot s.model (startswith (string "gemini-2.0-pro")))
+			(dot s.model (startswith (string "gemini-2.5-pro")))) 
 		    (setf price_input_token_usd_per_mio 1.25
 			  price_output_token_usd_per_mio 5.0)
-		    (if (in (string "flash") (dot (aref s (string "model")) )) 
+		    (if (in (string "flash") (dot s.model )) 
 			(setf price_input_token_usd_per_mio 0.1
 			      price_output_token_usd_per_mio 0.4)
-			(if (dot (aref s (string "model")) (startswith (string "gemini-1.0-pro")))
+			(if (dot s.model (startswith (string "gemini-1.0-pro")))
 			    (setf price_input_token_usd_per_mio 0.5
 				  price_output_token_usd_per_mio 1.5)
 			    (setf price_input_token_usd_per_mio -1
 				  price_output_token_usd_per_mio -1)))
 		    )
-		(setf input_tokens (+ (aref s (string "summary_input_tokens"))
-				      (aref s (string "timestamps_input_tokens")))
-		      output_tokens (+ (aref s (string "summary_output_tokens"))
-				       (aref s (string "timestamps_output_tokens")))
+		(setf input_tokens (+ s.summary_input_tokens
+				      s.timestamps_input_tokens)
+		      output_tokens (+ s.summary_output_tokens
+				       s.timestamps_output_tokens)
 		      )
 		(setf cost (+ (* (/ input_tokens 1_000_000)
 				 price_input_token_usd_per_mio)
@@ -1227,19 +1227,19 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 		    (setf cost_str (fstring "${cost:.2f}")))
 		(setf text (fstring3 "*AI Summary*
 
-{s['timestamped_summary_in_youtube_format']}
+{s.timestamped_summary_in_youtube_format}
 
-AI-generated summary created with {s['model'].split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str}).")
+AI-generated summary created with {s.model.split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str}).")
 
 		      
 		      trigger (string ""))
 
 
 		)
-	       ((aref s (string "summary_done"))
-		(setf text (aref s (string "summary"))))
-	       ((and (aref s (string "summary")) (< 0 (len (aref s (string "summary")))))
-		(setf text (aref s (string "summary"))))
+	       (s.summary_done
+		(setf text s.summary))
+	       ((and (s.summary) (< 0 (len s.summary)))
+		(setf text s.summary))
 
 	       ((< (len (aref s (string "transcript"))))
 		(setf text (fstring "Generating from transcript: {s[\"transcript\"][0:min(100,len(s[\"transcript\"]))]}"))))
@@ -1254,9 +1254,9 @@ AI-generated summary created with {s['model'].split('|')[0]} for free via Rocket
 				   (unless no-show
 				     (cond ((eq name 'original_source_link)
 					    `(A
-					      (fstring "{(aref s (string \"original_source_link\"))}")
+					      (fstring "{s.original_source_link}")
 					      :target (string "_blank")
-					      :href (fstring "{(aref s (string \"original_source_link\"))}")
+					      :href (fstring "{s.original_source_link}")
 					      :id (fstring "source-link-{identifier}")))
 					   ((member name `(embedding
 							   full_embedding
@@ -1264,7 +1264,7 @@ AI-generated summary created with {s['model'].split('|')[0]} for free via Rocket
 					    nil)
 					   (t `(P
 						(B (string ,(format nil "~a:" name)))
-						(Span (fstring ,(format nil "{(aref s (string \"~a\"))}"
+						(Span (fstring ,(format nil "{s.~a}"
 									(string-downcase name)))))))
 				     #+nil
 				     (format nil "~a: {s.~a}" name (string-downcase name))))))
@@ -1274,13 +1274,13 @@ AI-generated summary created with {s['model'].split('|')[0]} for free via Rocket
 	     (setf summary_container (Div summary_details
 					  :cls (string "summary-container")))
 	     (setf title summary_container)
-	     (setf html0 (markdown.markdown (aref s (string "summary")) ; :extensions (list (string "nl2br"))
+	     (setf html0 (markdown.markdown s.summary ; :extensions (list (string "nl2br"))
 					    ))
 	     (if (== (string "") html0)
 		 (do0
-		  (setf real_model (dot (aref s (string "model")) (aref (split (string "|")) 0)))
+		  (setf real_model (dot s.model (aref (split (string "|")) 0)))
 		  (setf html (fstring "Waiting for {real_model} to respond to request...")))
-		 (setf html (replace_timestamps_in_html html0 (aref s (string "original_source_link")))))
+		 (setf html (replace_timestamps_in_html html0 s.original_source_link)))
 	     
 	     #+copy-prompt
 	     (do0
@@ -1473,7 +1473,7 @@ AI-generated summary created with {s['model'].split('|')[0]} for free via Rocket
 				    :summary (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
 				    :summary_done True)
 		  (return)))
-	      (logger.info (fstring "Processing link: {(aref s (string \"original_source_link\"))}"))
+	      (logger.info (fstring "Processing link: {s.original_source_link}"))
 	      (summaries.update :pk_values identifier
 				:summary (string ""))
 	      (generate_and_save identifier))
@@ -1575,13 +1575,13 @@ Here is the real transcript. What would be a good group of people to review this
 	       (return))
 	     (comments "Update usage counter")
 	     (check_reset_counters)
-	     (setf real_model (dot s model (aref (split (string "|")) 0)))
+	     (setf real_model (dot (aref s (string "model")) (aref (split (string "|")) 0)))
 	     (when (in real_model model_counts)
 	       (incf (aref model_counts real_model)))
-	     (logger.info (fstring "generate_and_save model={s.model}"))
+	     (logger.info (fstring "generate_and_save model={s[\"model\"]}"))
 	     #-emulate
 	     (do0
-	      (setf m (genai.GenerativeModel (dot s model (aref (split (string "|")) 0))
+	      (setf m (genai.GenerativeModel (dot (aref s (string "model")) (aref (split (string "|")) 0))
 					     :system_instruction
 					     (rstring3 "### CORE INSTRUCTION
 You are an advanced, adaptive knowledge synthesis engine. Your goal is to provide high-fidelity summaries of input material. You possess the capability to analyze text, determine the specific domain of expertise required to understand it, and fully adopt the persona of a senior expert in that field to perform the summary.
