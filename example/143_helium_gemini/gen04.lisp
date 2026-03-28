@@ -59,12 +59,12 @@
 				     )))
 (setf *features* (set-difference *features* '(;:example
 					      :emulate
-					      ;:simple
-					      ;:dl
+					;:simple
+					;:dl
 					      :auth
 					      :optional-abstract
 					      :copy-prompt
-					      ;:show-ip
+					;:show-ip
 					      )))
 
 (progn
@@ -82,28 +82,28 @@
 	(iflash25 .15)
 	(oflash25think 3.5)
 	(oflash25nothink .6))
-      (defparameter *models* 
-    '(;; --- Gemini 3.x Series (Latest) ---
-      (:name gemini-3-flash-preview :input-price 0.50 :output-price 3.00 :context-length 1_000_000 :rpm 5 :rpd 20)
-      (:name gemini-3.1-flash-lite-preview :input-price 0.25 :output-price 1.50 :context-length 1_000_000 :rpm 15 :rpd 500)
-      
-      
-      ;; --- Gemini 2.5 Series ---
-      (:name gemini-2.5-flash :input-price 0.30 :output-price 2.50 :context-length 1_000_000 :rpm 5 :rpd 20)
-      (:name gemini-2.5-flash-lite :input-price 0.10 :output-price 0.40 :context-length 1_000_000 :rpm 10 :rpd 20)
-      
-      ;; --- Specialized Models ---
-      (:name gemini-robotics-er-1.5-preview :input-price 0.30 :output-price 2.50 :context-length 1_000_000 :rpm 10 :rpd 20)
+    (defparameter *models* 
+      '(;; --- Gemini 3.x Series (Latest) ---
+	(:name gemini-3-flash-preview :input-price 0.50 :output-price 3.00 :context-length 1_000_000 :rpm 5 :rpd 20)
+	(:name gemini-3.1-flash-lite-preview :input-price 0.25 :output-price 1.50 :context-length 1_000_000 :rpm 15 :rpd 500)
+	
+	
+	;; --- Gemini 2.5 Series ---
+	(:name gemini-2.5-flash :input-price 0.30 :output-price 2.50 :context-length 1_000_000 :rpm 5 :rpd 20)
+	(:name gemini-2.5-flash-lite :input-price 0.10 :output-price 0.40 :context-length 1_000_000 :rpm 10 :rpd 20)
+	
+	;; --- Specialized Models ---
+	(:name gemini-robotics-er-1.5-preview :input-price 0.30 :output-price 2.50 :context-length 1_000_000 :rpm 10 :rpd 20)
 
-      ;; --- Gemma 3 Series (Note: Requires newer GenAI API / Vertex) ---
-      ;(:name gemma-3-27b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
-      ;(:name gemma-3-12b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
-      ;(:name gemma-3-4b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
-      ;(:name gemma-3-1b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
-      ))
+	;; --- Gemma 3 Series (Note: Requires newer GenAI API / Vertex) ---
+					;(:name gemma-3-27b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+					;(:name gemma-3-12b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+					;(:name gemma-3-4b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+					;(:name gemma-3-1b :input-price 0.0 :output-price 0.0 :context-length 128_000 :rpm 30 :rpd 14400)
+	))
 
 
-)
+    )
   (defparameter *languages* `(en ;de fr ch nl pt cz it jp ar
 			      ))
   (defparameter *idx* "04") 
@@ -170,7 +170,7 @@
 				 (string3 "Validates various YouTube URL formats. Returns normalized YouTube video identifier as a string where unneccessary information has been removed. False if the Link doesn't match acceptable patterns.")
 				 (setf patterns
 				       (list
-					 ;; standard watch link
+					;; standard watch link
 					(rstring3 "^https://((www|m)\\.)?youtube\\.com/watch\\?v=([A-Za-z0-9_-]{11}).*")
 					;; live stream link
 					(rstring3 "^https://((www|m)\\.)?youtube\\.com/live/([A-Za-z0-9_-]{11}).*")
@@ -321,42 +321,42 @@
 			       "#!/usr/bin/env python3"
 			       (imports (re))
 			       (def convert_markdown_to_youtube_format (text)
-			 (rstring3 "In its comments YouTube only allows *word* for bold text, not **word**. Colons or comma can not be fat (e.g. *Description:* must be written as *Description*: to be formatted properly. YouTube comments containing links seem to cause severe censoring. So we replace links.")
-			 (do0
-			  (comments "adapt the markdown to YouTube formatting")
-			  ,@(loop for e in `(":" "," ";" ".")
-				  collect
-				  `(setf text (text.replace (string ,(format nil "**~a" e))
-							    (string ,(format nil "~a**" e)))))
-			  (setf text (text.replace (string "**")
-						   (string "*")))
+				 (rstring3 "In its comments YouTube only allows *word* for bold text, not **word**. Colons or comma can not be fat (e.g. *Description:* must be written as *Description*: to be formatted properly. YouTube comments containing links seem to cause severe censoring. So we replace links.")
+				 (do0
+				  (comments "adapt the markdown to YouTube formatting")
+				  ,@(loop for e in `(":" "," ";" ".")
+					  collect
+					  `(setf text (text.replace (string ,(format nil "**~a" e))
+								    (string ,(format nil "~a**" e)))))
+				  (setf text (text.replace (string "**")
+							   (string "*")))
 
-			  ,@(loop for e in `(":" "," ";" ".")
-				  collect
-				  `(setf text (text.replace (string ,(format nil "*~a" e))
-							    (string ,(format nil "~a*" e)))))
-			  
+				  ,@(loop for e in `(":" "," ";" ".")
+					  collect
+					  `(setf text (text.replace (string ,(format nil "*~a" e))
+								    (string ,(format nil "~a*" e)))))
+				  
 
-			  
+				  
 
-			  (comments "markdown title starting with ## with fat text")
-			  (setf text (re.sub (rstring3 "^##\\s*(.*)")
-					     (rstring3 "*\\1*")
-					     text))
+				  (comments "markdown title starting with ## with fat text")
+				  (setf text (re.sub (rstring3 "^##\\s*(.*)")
+						     (rstring3 "*\\1*")
+						     text))
 
 
-			  (comments "find any text that looks like an url and replace the . with -dot-")
+				  (comments "find any text that looks like an url and replace the . with -dot-")
 
-	      
-			  ;; text = re.sub(r"((?:https?://)?(?:www\.)?[^\s]+)\.((?:com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))", r"\1-dot-\2", text)
+				  
+				  ;; text = re.sub(r"((?:https?://)?(?:www\.)?[^\s]+)\.((?:com|org|de|us|gov|net|edu|info|io|co\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr))", r"\1-dot-\2", text)
 
-			  (setf text (re.sub (rstring3 "((?:https?://)?(?:www\\.)?\\S+)\\.(com|org|de|us|gov|net|edu|info|io|co\\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)")
-					     (rstring3 "\\1-dot-\\2")
-					     text))
-			  (return text))))
+				  (setf text (re.sub (rstring3 "((?:https?://)?(?:www\\.)?\\S+)\\.(com|org|de|us|gov|net|edu|info|io|co\\.uk|ca|fr|au|jp|ru|ch|it|nl|se|es|br|mx|in|kr)")
+						     (rstring3 "\\1-dot-\\2")
+						     text))
+				  (return text))))
 			:test (do0
 			       (setf r (convert_markdown_to_youtube_format
-				     (rstring3 "**Title:**
+					(rstring3 "**Title:**
 Let's **go** to http://www.google.com/search?q=hello.")))
 			       (assert
 				(== (rstring3 "*Title:*
@@ -397,14 +397,14 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 					;google.generativeai.types.answer_types
 		   #+auth os
 		   google.api_core.exceptions
-		   ;re
+					;re
 		   markdown
 					; uvicorn
 		   sqlite_minutils.db
 		   datetime
-		   ;difflib
+					;difflib
 		   #+dl subprocess
-		   ;#+dl webvtt
+					;#+dl webvtt
 		   time
 		   glob 
 		   (np numpy)
@@ -423,7 +423,6 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 #-emulate (imports-from (google.generativeai.types HarmCategory HarmBlockThreshold))
 
 	 (imports-from (fasthtml.common *)
-		       (fastlite database)
 		       #+auth (fasthtml.oauth OAuth GoogleAppClient)
 		       (s01_validate_youtube_url *)
 		       (s02_parse_vtt_file *)
@@ -463,33 +462,33 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 
 	 
 	 #+nil (do0
-	  (comments "Configure Uvicorn's logging to use UTC timestamps.")
-	  (comments "Modify the format for the default and access loggers.")
-	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
-		      (string "default")
-		      (string "fmt"))
-		(string "%(asctime)s.%(msecs)03dZ [%(name)s] %(levelprefix)s %(message)s"))
-	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
-		      (string "default")
-		      (string "datefmt"))
-		(string "%Y-%m-%dT%H:%M:%S"))
-	  
-	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
-		      (string "access")
-		      (string "fmt"))
-		(string "%(asctime)s.%(msecs)03dZ [%(name)s] %(levelprefix)s %(client_addr)s - \"%(request_line)s\" %(status_code)s"))
-	  (setf (aref (aref LOGGING_CONFIG (string "formatters"))
-		      (string "access")
-		      (string "datefmt"))
-		(string "%Y-%m-%dT%H:%M:%S"))
+		(comments "Configure Uvicorn's logging to use UTC timestamps.")
+		(comments "Modify the format for the default and access loggers.")
+		(setf (aref (aref LOGGING_CONFIG (string "formatters"))
+			    (string "default")
+			    (string "fmt"))
+		      (string "%(asctime)s.%(msecs)03dZ [%(name)s] %(levelprefix)s %(message)s"))
+		(setf (aref (aref LOGGING_CONFIG (string "formatters"))
+			    (string "default")
+			    (string "datefmt"))
+		      (string "%Y-%m-%dT%H:%M:%S"))
+		
+		(setf (aref (aref LOGGING_CONFIG (string "formatters"))
+			    (string "access")
+			    (string "fmt"))
+		      (string "%(asctime)s.%(msecs)03dZ [%(name)s] %(levelprefix)s %(client_addr)s - \"%(request_line)s\" %(status_code)s"))
+		(setf (aref (aref LOGGING_CONFIG (string "formatters"))
+			    (string "access")
+			    (string "datefmt"))
+		      (string "%Y-%m-%dT%H:%M:%S"))
 
-	  (comments "Monkey-patch Uvicorn's formatters to use time.gmtime for UTC conversion.")
-	  (setf uvicorn.logging.DefaultFormatter.converter time.gmtime)
-	  (setf uvicorn.logging.AccessFormatter.converter time.gmtime)
+		(comments "Monkey-patch Uvicorn's formatters to use time.gmtime for UTC conversion.")
+		(setf uvicorn.logging.DefaultFormatter.converter time.gmtime)
+		(setf uvicorn.logging.AccessFormatter.converter time.gmtime)
 
-	  (comments "Get a logger for application-specific messages.")
-	  (setf logger (logging.getLogger __name__))
-	  (logger.info (string "Uvicorn logging configured to use UTC timestamps.")))
+		(comments "Get a logger for application-specific messages.")
+		(setf logger (logging.getLogger __name__))
+		(logger.info (string "Uvicorn logging configured to use UTC timestamps.")))
 	 
 	 #+auth
 	 (do0
@@ -524,8 +523,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 				 f)
 			     (setf ,var (dot f (read)))))))
 	   ((as FileNotFoundError e)
-			      (logger.error (fstring "Required example file not found: {e}"))
-			      raise)))
+	    (logger.error (fstring "Required example file not found: {e}"))
+	    raise)))
 
 	 (do0
 	  " "
@@ -537,19 +536,19 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 
 	 " "
 	 (setf MODEL_OPTIONS
-				 (list
-					 ,@(loop for e in *models*
-									 collect
-									 (destructuring-bind (&key name input-price output-price context-length rpm rpd) e
-										 `(string
-											 ,(format nil "~a| input: $~a | output: $~a | context: ~a | rpm: ~a | rpd: ~a"
-																name input-price output-price context-length rpm rpd))))))
+	       (list
+		,@(loop for e in *models*
+			collect
+			(destructuring-bind (&key name input-price output-price context-length rpm rpd) e
+			  `(string
+			    ,(format nil "~a| input: $~a | output: $~a | context: ~a | rpm: ~a | rpd: ~a"
+				     name input-price output-price context-length rpm rpd))))))
 
 	 " "
-	   (comments "Counters for tracking daily usage")
-	   (setf model_counts (curly (for-generator (opt MODEL_OPTIONS)
-					"opt.split(\"|\")[0].strip():0"))
-		   last_reset_day None)
+	 (comments "Counters for tracking daily usage")
+	 (setf model_counts (curly (for-generator (opt MODEL_OPTIONS)
+						  "opt.split(\"|\")[0].strip():0"))
+	       last_reset_day None)
 
 	 " "
 	 (def check_reset_counters ()
@@ -588,8 +587,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	   (declare (values bool)
 		    (type str youtube_id))
 	   (when (or (not youtube_id)
-		      (!= (len youtube_id)
-		       11))
+		     (!= (len youtube_id)
+			 11))
 	     (return False))
 	   
 	   (comments "YouTube IDs are alphanumeric with _ and -")
@@ -616,8 +615,8 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 		       :id sid
 		       :data_hx_post (fstring "/generations/{identifier}")
 		       :data_hx_trigger (? summary.timestamps_done
-				      (string "")	
-				      (string #+emulate "" #-emulate "every 1s"))
+					   (string "")	
+					   (string #+emulate "" #-emulate "every 1s"))
 		       :data_hx_swap (string "outerHTML"))))
 	     (t
 	      (return (Div		;(Pre summary.summary)
@@ -631,58 +630,32 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 " "
 	 (logger.info (string "Create website app"))
 	 (comments "summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table")
-	 
-	 ;; Create database and table separately to avoid transform=True
-	 (setf db (database (string "data/summaries.db")))
-	 (setf summaries (aref db.t (string "summaries")))
-	 (when (not (cl-py-generator:in (string "summaries") db.tables))
-	   (summaries.create
-	    :identifier int
-	    :model str
-	    :transcript str
-	    :host str
-	    :original_source_link str
-	    :include_comments bool
-	    :include_timestamps bool
-	    :include_glossary bool
-	    :output_language str
-	    :summary str
-	    :summary_done bool
-	    :summary_input_tokens int
-	    :summary_output_tokens int
-	    :summary_timestamp_start str
-	    :summary_timestamp_end str
-	    :timestamps str
-	    :timestamps_done bool
-	    :timestamps_input_tokens int
-	    :timestamps_output_tokens int
-	    :timestamps_timestamp_start str
-	    :timestamps_timestamp_end str
-	    :timestamped_summary_in_youtube_format str
-	    :cost float
-	    :embedding bytes
-	    :embedding_model str
-	    :full_embedding bytes
-	    :pk (string "identifier")
-	    :transform False))
-
-	 (setf (ntuple app rt Summary)
+	 (setf (ntuple app rt summaries Summary)
 	       (fast_app :db_file (string "data/summaries.db")
 			 :live False	;True
 			 :render render
-			 :htmlkw (dictionary :lang (string "en-US"))))
+			 :htmlkw (dictionary :lang (string "en-US"))
+			 ,@(loop for e in db-cols
+				 appending
+				 (destructuring-bind (&key name type no-show) e
+				   `(,(make-keyword (string-upcase (format nil "~a" name)))
+				     ,type)))
 
-	     (do0
-      (comments "Optimization: Ensure indexes exist for fast deduplication lookups.")
-      (try
-       (do0
-        ;; We index the columns used in the WHERE clause of the deduplication query
-        (summaries.create_index (list (string "original_source_link") 
-                                      (string "model") 
-                                      (string "summary_timestamp_start"))
-                                :if_not_exists True))
-       ("Exception as e"
-        (logger.warning (fstring "Index creation failed (this is harmless if they exist): {e}")))))
+			 
+			 :pk (string "identifier")
+			 ))
+
+	 (do0
+	  (comments "Optimization: Ensure indexes exist for fast deduplication lookups.")
+	  (try
+	   (do0
+            ;; We index the columns used in the WHERE clause of the deduplication query
+            (summaries.create_index (list (string "original_source_link") 
+					  (string "model") 
+					  (string "summary_timestamp_start"))
+                                    :if_not_exists True))
+	   ("Exception as e"
+            (logger.warning (fstring "Index creation failed (this is harmless if they exist): {e}")))))
 
 	 #+auth
 	 (do0
@@ -833,22 +806,22 @@ You can choose between three models with different capabilities. While these mod
 	     
 	     ;; Download command: Node runtime + web client + automatic PO Token handling via GetPOT
 	     (setf dl_cmd (list (string "uvx")
-				 (string "yt-dlp")
-				 (string "--skip-download")
-				 (string "--write-auto-subs")
-				 (string "--write-subs")
-				 (string "--cookies-from-browser")
-				 (string "firefox")
-				 (string "--js-runtimes")
-				 (string "node")
-				 (string "--extractor-args")
-				 (string "youtube:player-client=web")
-				 (string "--sub-langs")
-				 chosen_lang
-				 (string "-o")
-				 (fstring "{sub_file_prefix}.%(ext)s")
-				 (string "--")
-				 youtube_id))
+				(string "yt-dlp")
+				(string "--skip-download")
+				(string "--write-auto-subs")
+				(string "--write-subs")
+				(string "--cookies-from-browser")
+				(string "firefox")
+				(string "--js-runtimes")
+				(string "node")
+				(string "--extractor-args")
+				(string "youtube:player-client=web")
+				(string "--sub-langs")
+				chosen_lang
+				(string "-o")
+				(fstring "{sub_file_prefix}.%(ext)s")
+				(string "--")
+				youtube_id))
 	     
 	     (logger.info (fstring "Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}"))
 	     (setf dl_res
@@ -999,41 +972,41 @@ You can choose between three models with different capabilities. While these mod
 	       (markdown.markdown documentation))
 	 (@rt (string "/"))
 	 (def get (request)
-	    (declare (type Request request))
-	    ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
-	    
-	    ;; 1. Get the country code from Nginx header
-	    (setf country (request.headers.get (string "x-country-code") (string "XX")))
-	    
-	    ;; 2. Define the forbidden regions (EEA, UK, Switzerland)
-	    (setf FORBIDDEN_COUNTRIES (set (list (string "AT") (string "BE") (string "BG") (string "HR") (string "CY") (string "CZ") (string "DK") (string "EE") (string "FI") (string "FR") (string "DE") (string "GR") (string "HU") (string "IE") (string "IT") (string "LV") (string "LT") (string "LU") (string "MT") (string "NL") (string "PL") (string "PT") (string "RO") (string "SK") (string "SI") (string "ES") (string "SE") (string "CH") (string "GB") (string "LI") (string "IS") (string "NO"))))
-	    (setf is_forbidden (cl-py-generator:in country FORBIDDEN_COUNTRIES))
+	   (declare (type Request request))
+	   ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
+	   
+	   ;; 1. Get the country code from Nginx header
+	   (setf country (request.headers.get (string "x-country-code") (string "XX")))
+	   
+	   ;; 2. Define the forbidden regions (EEA, UK, Switzerland)
+	   (setf FORBIDDEN_COUNTRIES (set (list (string "AT") (string "BE") (string "BG") (string "HR") (string "CY") (string "CZ") (string "DK") (string "EE") (string "FI") (string "FR") (string "DE") (string "GR") (string "HU") (string "IE") (string "IT") (string "LV") (string "LT") (string "LU") (string "MT") (string "NL") (string "PL") (string "PT") (string "RO") (string "SK") (string "SI") (string "ES") (string "SE") (string "CH") (string "GB") (string "LI") (string "IS") (string "NO"))))
+	   (setf is_forbidden (cl-py-generator:in country FORBIDDEN_COUNTRIES))
 
-	    (logger.info (fstring "Request from: {request.client.host} (Country: {country})"))
-	    (logger.info (fstring "Request from host: {request.client.host}"))
-	    (check_reset_counters)
-	    (setf nav (Nav
-		       (Ul (Li (H1 (string "RocketRecap Content Summarizer"))))
-		       (Ul (Li (A (string "Map")
-				  :href (string "https://rocketrecap.com/exports/index.html")))
-			   (Li (A (string "FAQ")
-				  :href (string "https://rocketrecap.com/exports/faq.html")))
-			   (Li (A (string "Extension")
-				  :href (string "https://rocketrecap.com/exports/extension.html")))
-			   (Li (A (string "Privacy Policy")
-				  :href (string "https://rocketrecap.com/exports/privacy.html")))
-			   (Li (A (string "Demo Video")
-				  :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
-			   (Li (A (string "Documentation")
-				  :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
-			   #+auth
-			   (Li (A (string "Log out")
-				  :href (string "/logout"))))))
+	   (logger.info (fstring "Request from: {request.client.host} (Country: {country})"))
+	   (logger.info (fstring "Request from host: {request.client.host}"))
+	   (check_reset_counters)
+	   (setf nav (Nav
+		      (Ul (Li (H1 (string "RocketRecap Content Summarizer"))))
+		      (Ul (Li (A (string "Map")
+				 :href (string "https://rocketrecap.com/exports/index.html")))
+			  (Li (A (string "FAQ")
+				 :href (string "https://rocketrecap.com/exports/faq.html")))
+			  (Li (A (string "Extension")
+				 :href (string "https://rocketrecap.com/exports/extension.html")))
+			  (Li (A (string "Privacy Policy")
+				 :href (string "https://rocketrecap.com/exports/privacy.html")))
+			  (Li (A (string "Demo Video")
+				 :href (string "https://www.youtube.com/watch?v=ttuDW1YrkpU")))
+			  (Li (A (string "Documentation")
+				 :href (string "https://github.com/plops/gemini-competition/blob/main/README.md")))
+			  #+auth
+			  (Li (A (string "Log out")
+				 :href (string "/logout"))))))
 
 	   (setf error_notice (string ""))
 	   (when is_forbidden
 	     (setf error_notice (Div (P (B (string "Notice: ")) (string "Due to Google's Terms of Service for Gemini in the EU/UK/CH, manual transcript submission is disabled in your region. YouTube link processing is still available."))
-				    :style (string "color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;"))))
+				     :style (string "color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;"))))
 
 	   (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				      :style (string "height: 300px; width: 60%;")
@@ -1041,103 +1014,103 @@ You can choose between three models with different capabilities. While these mod
 				      :id (string "transcript-paste")
 				      :disabled is_forbidden))
 	   
-		    (setf selector (list))
-		    (for (opt MODEL_OPTIONS)
-			   (do0
-			    (setf parts (dot opt (split (string "|"))))
-			    (setf model_name (dot (aref parts 0) (strip))
-				    rpd_limit (int (dot (aref parts -1)
-							(aref (split (string ":"))
-							      1)
-							(strip)))
-				    used (model_counts.get model_name 0)
-				    remaining (max 0 (- rpd_limit used))
-				    label (fstring "{model_name} | {remaining} / {rpd_limit} RPD left"))
-			    (selector.append (Option opt :value opt
-							     :label label))))
-	    (setf model (Div
-		    (Label (string "Select Model")
-			   :_for (string "model-select")
-			   :cls (string "visually-hidden"))
-		    (Select
-		     *selector
-		     :id (string "model-select")
-		     :style (string "width: 100%;")
-		     :name (string "model"))
+	   (setf selector (list))
+	   (for (opt MODEL_OPTIONS)
+		(do0
+		 (setf parts (dot opt (split (string "|"))))
+		 (setf model_name (dot (aref parts 0) (strip))
+		       rpd_limit (int (dot (aref parts -1)
+					   (aref (split (string ":"))
+						 1)
+					   (strip)))
+		       used (model_counts.get model_name 0)
+		       remaining (max 0 (- rpd_limit used))
+		       label (fstring "{model_name} | {remaining} / {rpd_limit} RPD left"))
+		 (selector.append (Option opt :value opt
+					      :label label))))
+	   (setf model (Div
+			(Label (string "Select Model")
+			       :_for (string "model-select")
+			       :cls (string "visually-hidden"))
+			(Select
+			 *selector
+			 :id (string "model-select")
+			 :style (string "width: 100%;")
+			 :name (string "model"))
 			:style (string "display: flex; align-items: center; width: 100%;")))
-	    #+nil (setf model (aref (model.split (string "\\n"))
-				    0))
-	    #+nil ,(lprint :vars `((type model)))
-	    
-	    (setf form
-		  (Form
-                   (Fieldset 
-			     (Legend (string "Submit Text for Summarization"))
-			     (Div 
-			      (Label (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
-				     :_for (string "youtube-link"))
-			      (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
-					:id (string "youtube-link")
-					:name (string "original_source_link"))
-			      (Label (string "(Optional) Paste YouTube transcript here")
-				     :_for (string "transcript-paste"))
-			      transcript
-			      model
-			      #+nil
-			      (Div (Label (string "Output Language") :_for (string "output_language"))
-				   (Select
-				    ,@(loop for e in *languages*
-					    collect
-					    `(Option (string ,e)))
-				    :style (string "width: 100%;")
-				    :name (string "output_language")
-				    :id (string "output_language"))
-				   :style (string #+simple "display: none; align-items: center; width: 100%;"
-						  #-simple "display: flex; align-items: center; width: 100%;"))
-		     
-			      #+nil
-			      ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
-							     (include_timestamps "Include Timestamps" True)
-							     (include_glossary "Include Glossary" False)
-							     #+optional-abstract (generate_abstract "Generate Abstract" True)
-							     )
-				      collect
-				      `(Div
-			       
-					(Input :type (string "checkbox")
-					       :id (string ,e)
-					       :name (string ,e)
-					       :checked ,default)
-					(Label (string ,f) :_for (string ,e))
-					:style #+simple (string "display: none; align-items: center; width: 100%;")
-					#-simple (string "display: flex; align-items: center; width: 100%;")))
-		     
-			      (Button (string "Summarize Transcript"))
-			      :style (string "display: flex; flex-direction:column;"))
-		    )
-		   :data_hx_post (string "/process_transcript")
-		   :data_hx_swap (string "afterbegin")
-		   :data_hx_target (string "#summary-list") ))
+	   #+nil (setf model (aref (model.split (string "\\n"))
+				   0))
+	   #+nil ,(lprint :vars `((type model)))
+	   
+	   (setf form
+		 (Form
+                  (Fieldset 
+		   (Legend (string "Submit Text for Summarization"))
+		   (Div 
+		    (Label (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
+			   :_for (string "youtube-link"))
+		    (Textarea :placeholder (string "Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)")
+			      :id (string "youtube-link")
+			      :name (string "original_source_link"))
+		    (Label (string "(Optional) Paste YouTube transcript here")
+			   :_for (string "transcript-paste"))
+		    transcript
+		    model
+		    #+nil
+		    (Div (Label (string "Output Language") :_for (string "output_language"))
+			 (Select
+			  ,@(loop for e in *languages*
+				  collect
+				  `(Option (string ,e)))
+			  :style (string "width: 100%;")
+			  :name (string "output_language")
+			  :id (string "output_language"))
+			 :style (string #+simple "display: none; align-items: center; width: 100%;"
+					#-simple "display: flex; align-items: center; width: 100%;"))
+		    
+		    #+nil
+		    ,@(loop for (e f default) in `((include_comments "Include User Comments" False)
+						   (include_timestamps "Include Timestamps" True)
+						   (include_glossary "Include Glossary" False)
+						   #+optional-abstract (generate_abstract "Generate Abstract" True)
+						   )
+			    collect
+			    `(Div
+			      
+			      (Input :type (string "checkbox")
+				     :id (string ,e)
+				     :name (string ,e)
+				     :checked ,default)
+			      (Label (string ,f) :_for (string ,e))
+			      :style #+simple (string "display: none; align-items: center; width: 100%;")
+			      #-simple (string "display: flex; align-items: center; width: 100%;")))
+		    
+		    (Button (string "Summarize Transcript"))
+		    :style (string "display: flex; flex-direction:column;"))
+		   )
+		  :data_hx_post (string "/process_transcript")
+		  :data_hx_swap (string "afterbegin")
+		  :data_hx_target (string "#summary-list") ))
 
 
-	    (setf summaries_to_show (summaries :order_by (string "identifier DESC")
-					       :limit 3))
+	   (setf summaries_to_show (summaries :order_by (string "identifier DESC")
+					      :limit 3))
 	   
-	    (setf summary_list_container (Div *summaries_to_show
-					      :id (string "summary-list")))
+	   (setf summary_list_container (Div *summaries_to_show
+					     :id (string "summary-list")))
 	   
-	    (return (ntuple (Title (string "Video Transcript Summarizer"))
-			    (Meta :name (string "description")
-			      :content (string "Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps.")
-			      )
+	   (return (ntuple (Title (string "Video Transcript Summarizer"))
+			   (Meta :name (string "description")
+				 :content (string "Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps.")
+				 )
 			   
-			    (Main nav
-				  (NotStr documentation_html)
-				  #+nil chrome_ext_promo
-				  error_notice
-				  form
-				  summary_list_container 
-				  (Script (string3 "function copyPreContent(elementId) {
+			   (Main nav
+				 (NotStr documentation_html)
+				 #+nil chrome_ext_promo
+				 error_notice
+				 form
+				 summary_list_container 
+				 (Script (string3 "function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
 
@@ -1174,9 +1147,9 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
     }
 });
 "))
-				  :cls (string "container"))
-			    (Style
-			     (string3 ".visually-hidden {
+				 :cls (string "container"))
+			   (Style
+			    (string3 ".visually-hidden {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1198,16 +1171,16 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 	   (do0
 	    (setf price_input (dict
 			       ,@(loop for e in *models*
-				     collect
-						 (destructuring-bind (&key name input-price output-price context-length rpm rpd) e 
-						   `((string ,name)
-							 ,input-price)))))
-	  (setf price_output (dict
-			      ,@(loop for e in *models*
-				      collect
-					      (destructuring-bind (&key name input-price output-price context-length rpm rpd) e 
-						`((string ,name)
-						  ,output-price))))))
+				       collect
+				       (destructuring-bind (&key name input-price output-price context-length rpm rpd) e 
+					 `((string ,name)
+					   ,input-price)))))
+	    (setf price_output (dict
+				,@(loop for e in *models*
+					collect
+					(destructuring-bind (&key name input-price output-price context-length rpm rpd) e 
+					  `((string ,name)
+					    ,output-price))))))
 	   (try
 	    (do0
 	     (setf s (aref summaries identifier))
@@ -1314,8 +1287,8 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	      (setf
 	       prompt_id (fstring "pompt-pre-{identifier}")
 	       hidden_pre_for_prompt
-		    (Pre (get_prompt s)
-			 :id prompt_id)
+	       (Pre (get_prompt s)
+		    :id prompt_id)
 	       prompt_button (Button (string "Copy Prompt")
 				     :onclick (fstring "copyPreContent('{prompt_id}')"))))
 
@@ -1347,10 +1320,10 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 		 (do0
 		  ;; Polling  state. Create attributes and add the spinner only if still loading.
 		  (setf attrs (dictionary
-				   :id sid
-				   :data_hx_post (fstring "/generations/{identifier}")
-				   :data_hx_trigger trigger
-				   :data_hx_swap (string "outerHTML")))
+			       :id sid
+			       :data_hx_post (fstring "/generations/{identifier}")
+			       :data_hx_trigger trigger
+			       :data_hx_swap (string "outerHTML")))
 		  ;; The process is still loading if the end timestamp has not yet been written.
 		  ;; This should handle success, all errors, and in-progress states.
 		  (unless (or s.summary_timestamp_end
@@ -1377,8 +1350,8 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 		      :data_hx_trigger trigger
 		      :data_hx_swap (string "outerHTML")
 		      :style (string "border-color: var(--pico-del-color);"))))
-	 
-	 ))
+	    
+	    ))
 	 
 	 " "
 	 (@app.post (string "/generations/{identifier}"))
@@ -1435,14 +1408,14 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	     
 	     (setf t_end (time.perf_counter)) ;; End Timer
              (setf duration (- t_end t_start))
-	      (if (> duration 0.5)
-		  (logger.warning (fstring "Slow deduplication lookup: {duration:.4f}s"))
-		  (logger.info (fstring "Deduplication lookup took: {duration:.4f}s")))
-	      
-	      (when existing_entry
-		(comments " If a duplicate is found, log it and return the PREVIEW of the existing entry instead of starting a new generation job.")
-		(logger.info (fstring "Duplicate request detected (ID: {existing_entry.identifier}). Skipping new generation."))
-		(return (generation_preview existing_entry.identifier))))
+	     (if (> duration 0.5)
+		 (logger.warning (fstring "Slow deduplication lookup: {duration:.4f}s"))
+		 (logger.info (fstring "Deduplication lookup took: {duration:.4f}s")))
+	     
+	     (when existing_entry
+	       (comments " If a duplicate is found, log it and return the PREVIEW of the existing entry instead of starting a new generation job.")
+	       (logger.info (fstring "Duplicate request detected (ID: {existing_entry.identifier}). Skipping new generation."))
+	       (return (generation_preview existing_entry.identifier))))
 	    ;; --- END DEDUPLICATION LOGIC ---
 
 	    
@@ -1457,11 +1430,11 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	  " "
 	  @threaded
 	  (def download_and_generate (identifier)
-	   (declare (type int identifier))
+	    (declare (type int identifier))
 
 	    (try
 	     (do0
-	     
+	      
 	      (setf s (wait_until_row_exists identifier))
 	      (when (== s -1)
 		(logger.error (fstring "Row {identifier} never appeared in database"))
@@ -1583,7 +1556,7 @@ Here is the real transcript. What would be a good group of people to review this
 	   )
 	 " "
 	 (def generate_and_save (identifier)
-	  (declare (type int identifier))
+	   (declare (type int identifier))
 	   (string3 "
     Generates a summary for the given identifier, stores it in the database, and computes embeddings for both
     the transcript and the summary. Handles errors and updates the database accordingly.
@@ -1593,7 +1566,7 @@ Here is the real transcript. What would be a good group of people to review this
 	   (logger.info (fstring "generate_and_save id={identifier}"))
 	   (try
 	    (do0
-	    
+	     
 	     
 	     
 	     (setf s (wait_until_row_exists identifier))
@@ -1638,94 +1611,94 @@ For every input provided, follow this strict three-step process:
 					;(HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY HarmBlockThreshold.BLOCK_NONE)
 				 )))
 	     (do0 ;try
-	      (do0
-	       (do0 
-		(setf prompt (get_prompt s))
-		(do0
-		 (setf response (m.generate_content
-				 prompt
-				 ;:tools (string "google_search_retrieval")
-				 :safety_settings safety
-				 :stream True))
-		 (for (chunk response)
-		      (try
-		       (do0
-			(logger.debug (fstring #+nil
-					       "Adding text chunk to id={identifier}: {chunk.text}"
-					       "Adding text chunk to id={identifier}"))
-		      
-			(summaries.update :pk_values identifier
-					  :summary (+ (dot (aref summaries identifier)
-							   summary)
-						      chunk.text)))
-		       ((as ValueError e)
-				   (logger.warning (fstring "ValueError processing chunk for {identifier}: {e}"))
-			(summaries.update :pk_values identifier
-					  :summary (+ (dot (aref summaries identifier)
-							   summary)
-						      (fstring "\\nError: value error {str(e)}")))
-				   )
-		       ("Exception as e"
-			(logger.error (fstring "Error processing chunk for {identifier}: {e}"))
-			(summaries.update :pk_values identifier
-					  :summary (+ (dot (aref summaries identifier)
-							   summary)
-						      (fstring "\\n[Error1189: {str(e)}]"))))
-		       )
-		      )))
-	       (setf prompt_token_count response.usage_metadata.prompt_token_count
-		     candidates_token_count response.usage_metadata.candidates_token_count)
-	       (try
-		(do0
-		 (logger.info (fstring "Usage metadata: {response.usage_metadata}"))
-		 (setf thinking_token_count response.usage_metadata.thinking_token_count)
-		 )
-		(AttributeError
-		 (logger.info (string "No thinking token count available"))
-		 (setf thinking_token_count 0)))
-	       
-	       (summaries.update :pk_values identifier
-				 :summary_done True
-				 :summary_input_tokens #+emulate 0 #-emulate prompt_token_count
-				 :summary_output_tokens #+emulate 0 #-emulate (+ candidates_token_count
-										 thinking_token_count)
-				 :summary_timestamp_end (dot datetime
-							     datetime
-							     (now)
-							     (isoformat))
+		  (do0
+		   (do0 
+		    (setf prompt (get_prompt s))
+		    (do0
+		     (setf response (m.generate_content
+				     prompt
+					;:tools (string "google_search_retrieval")
+				     :safety_settings safety
+				     :stream True))
+		     (for (chunk response)
+			  (try
+			   (do0
+			    (logger.debug (fstring #+nil
+						   "Adding text chunk to id={identifier}: {chunk.text}"
+						   "Adding text chunk to id={identifier}"))
+			    
+			    (summaries.update :pk_values identifier
+					      :summary (+ (dot (aref summaries identifier)
+							       summary)
+							  chunk.text)))
+			   ((as ValueError e)
+			    (logger.warning (fstring "ValueError processing chunk for {identifier}: {e}"))
+			    (summaries.update :pk_values identifier
+					      :summary (+ (dot (aref summaries identifier)
+							       summary)
+							  (fstring "\\nError: value error {str(e)}")))
+			    )
+			   ("Exception as e"
+			    (logger.error (fstring "Error processing chunk for {identifier}: {e}"))
+			    (summaries.update :pk_values identifier
+					      :summary (+ (dot (aref summaries identifier)
+							       summary)
+							  (fstring "\\n[Error1189: {str(e)}]"))))
+			   )
+			  )))
+		   (setf prompt_token_count response.usage_metadata.prompt_token_count
+			 candidates_token_count response.usage_metadata.candidates_token_count)
+		   (try
+		    (do0
+		     (logger.info (fstring "Usage metadata: {response.usage_metadata}"))
+		     (setf thinking_token_count response.usage_metadata.thinking_token_count)
+		     )
+		    (AttributeError
+		     (logger.info (string "No thinking token count available"))
+		     (setf thinking_token_count 0)))
+		   
+		   (summaries.update :pk_values identifier
+				     :summary_done True
+				     :summary_input_tokens #+emulate 0 #-emulate prompt_token_count
+				     :summary_output_tokens #+emulate 0 #-emulate (+ candidates_token_count
+										     thinking_token_count)
+				     :summary_timestamp_end (dot datetime
+								 datetime
+								 (now)
+								 (isoformat))
 
-				 :timestamps (string "") 
-				 :timestamps_timestamp_start (dot datetime
-								  datetime
-								  (now)
-								  (isoformat))))
-	       
-	       )
+				     :timestamps (string "") 
+				     :timestamps_timestamp_start (dot datetime
+								      datetime
+								      (now)
+								      (isoformat))))
+		  
+		  )
 
-	   
 	     
-	   
+	     
+	     
 	     )
 
 	    ((as google.api_core.exceptions.ResourceExhausted e)
-	       (logger.error (fstring "Resource exhausted for {identifier}: {e}"))
-	       (summaries.update :pk_values identifier
-				 :summary_done False
+	     (logger.error (fstring "Resource exhausted for {identifier}: {e}"))
+	     (summaries.update :pk_values identifier
+			       :summary_done False
 			       
-				 :summary (+ (dot (aref summaries identifier)
-						  summary)
-					     (string "\\nError1234: resource exhausted. Try again with a different model."))
-				 :summary_timestamp_end (dot datetime
-							     datetime
-							     (now)
-							     (isoformat))
+			       :summary (+ (dot (aref summaries identifier)
+						summary)
+					   (string "\\nError1234: resource exhausted. Try again with a different model."))
+			       :summary_timestamp_end (dot datetime
+							   datetime
+							   (now)
+							   (isoformat))
 
-				 :timestamps (string "") 
-				 :timestamps_timestamp_start (dot datetime
-								  datetime
-								  (now)
-								  (isoformat)))
-	       (return))
+			       :timestamps (string "") 
+			       :timestamps_timestamp_start (dot datetime
+								datetime
+								(now)
+								(isoformat)))
+	     (return))
 
 	    ("Exception as e"
 	     (logger.error (fstring "Unexpected error in generate_and_save for {identifier}: {e}") )
@@ -1763,7 +1736,7 @@ For every input provided, follow this strict three-step process:
 		     (np.array (aref embedding_result (string "embedding"))
 			       :dtype np.float32)
 		     vector_blob (dot vector_array
-			  (tobytes))
+				      (tobytes))
 		     )
 	       (summaries.update :pk_values identifier
 				 :full_embedding vector_blob)
@@ -1824,7 +1797,7 @@ For every input provided, follow this strict three-step process:
 		     (np.array (aref embedding_result (string "embedding"))
 			       :dtype np.float32)
 		     vector_blob (dot vector_array
-			  (tobytes))
+				      (tobytes))
 		     )
 	       (summaries.update :pk_values identifier
 				 :embedding vector_blob
