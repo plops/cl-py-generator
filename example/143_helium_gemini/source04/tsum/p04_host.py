@@ -217,7 +217,7 @@ def get(request: Request):
     error_notice=""
     if ( is_forbidden ):
         error_notice=Div(P(B("Notice: "), "Due to Google's Terms of Service for Gemini in the EU/UK/CH, manual transcript submission is disabled in your region. YouTube link processing is still available."), style="color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;")
-    transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width: 60%;", name="transcript", id="transcript-paste", disabled=is_forbidden)
+    summaries_to_show=summaries.rows_where(order_by="-identifier", limit=3)
     selector=[]
     for opt in MODEL_OPTIONS:
         parts=opt.split("|")
@@ -227,8 +227,30 @@ def get(request: Request):
         remaining=max(0, ((rpd_limit)-(used)))
         label=f"{model_name} | {remaining} / {rpd_limit} RPD left"
         selector.append(Option(opt, value=opt, label=label))
+    return Main(
+            H1("RocketRecap Content Summarizer"),
+            P(Em("Summarize YouTube videos and transcripts with AI-powered analysis.")),
+            Div(
+                H2("Recent Summaries", cls="summary-list"),
+                error_notice,
+                Div(*summaries_to_show, cls="summary-cards")
+            ),
+            Section(
+                H3("Submit New Transcript"),
+                P("Paste a YouTube URL or transcript to generate an AI-powered summary with timestamps."),
+                Form(
+                    Fieldset(
+                        Legend("Input Options", cls="legend"),
+                        *selector,
+                        Input_(name="transcript", placeholder="Paste YouTube transcript here", style="height: 300px; width: 60%;", id="transcript-paste", disabled=is_forbidden),
+                        Button("Generate Summary", type="submit")
+                    )
+                )
+                )
+            )
+        )
     model=Div(Label("Select Model", _for="model-select", cls="visually-hidden"), Select(*selector, id="model-select", style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
-    form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link"), Label("(Optional) Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list")
+    form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link"), Label("Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list")
     summaries_to_show=summaries.rows_where(order_by="-identifier", limit=3)
     summary_list_container=Div(summaries_to_show, id="summary-list")
     return Title("Video Transcript Summarizer"), Meta(name="description", content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps."), Main(nav, NotStr(documentation_html), error_notice, form, summary_list_container, Script("""function copyPreContent(elementId) {
@@ -327,7 +349,27 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
         else:
             html=replace_timestamps_in_html(html0, s.original_source_link)
         hidden_pre_for_copy=Div(Pre(text, id=f"pre-{identifier}"), id=f"hidden-markdown-{identifier}", style="display: none;")
-        card_content=[Header(H4(A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}")), P(f"ID: {s.identifier} | Model: {s.model.split('|')[0]}", style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")), Div(NotStr(html), style="white-space: normal;"), Footer(hidden_pre_for_copy, Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')", cls="outline"))]
+        card_content=[
+            Header(
+                H4(
+                    A(f"{s.original_source_link}", 
+                      target="_blank", 
+                      href=f"{s.original_source_link}", 
+                      id=f"source-link-{identifier}",
+                      style="text-decoration: none; color: var(--pico-primary);")
+                ),
+                P(f"ID: {s.identifier} | Model: {s.model.split('|')[0]}", 
+                  style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0.5em;"),
+                Div(NotStr(html), 
+                   style="margin: 1em 0; padding: 1em; border: 1px solid var(--pico-muted); border-radius: 0.5em; background: var(--pico-background-color);")
+            ),
+            Footer(
+                hidden_pre_for_copy, 
+                Button("Copy Summary", 
+                        onclick=f"copyPreContent('pre-{identifier}')", 
+                        cls="outline secondary")
+            )
+        ]
         if ( ((trigger)==("")) ):
             return Article(*card_content, id=sid)
         else:
