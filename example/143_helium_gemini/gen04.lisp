@@ -599,28 +599,28 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 	 " "
 	 (def render (summary)
 	   (declare (type Summary summary))
-	   (setf identifier summary.identifier)
+	   (setf identifier (aref summary (string "identifier")))
 	   (setf sid (fstring "gen-{identifier}"))
 	   (cond
-	     (summary.timestamps_done
+	     ((aref summary (string "timestamps_done"))
 	      (return (generation_preview identifier)
-		      #+nil(Div (Pre summary.timestamped_summary_in_youtube_format)
+		      #+nil(Div (Pre (aref summary (string "timestamped_summary_in_youtube_format")))
 				:id sid
 				:data_hx_post (fstring "/generations/{identifier}")
 				:data_hx_trigger (string "")
 				:data_hx_swap (string "outerHTML"))))
-	     (summary.summary_done
-	      (return (Div		;(Pre summary.summary)
-		       (NotStr (markdown.markdown summary.summary))
+	     ((aref summary (string "summary_done"))
+	      (return (Div		;(Pre (aref summary (string "summary")))
+		       (NotStr (markdown.markdown (aref summary (string "summary"))))
 		       :id sid
 		       :data_hx_post (fstring "/generations/{identifier}")
-		       :data_hx_trigger (? summary.timestamps_done
+		       :data_hx_trigger (? (aref summary (string "timestamps_done"))
 					   (string "")	
 					   (string #+emulate "" #-emulate "every 1s"))
 		       :data_hx_swap (string "outerHTML"))))
 	     (t
-	      (return (Div		;(Pre summary.summary)
-		       (NotStr (markdown.markdown summary.summary))
+	      (return (Div		;(Pre (aref summary (string "summary")))
+		       (NotStr (markdown.markdown (aref summary (string "summary"))))
 		       :id sid
 		       :data_hx_post (fstring "/generations/{identifier}")
 		       :data_hx_trigger (string #+emulate "" #-emulate "every 1s")
@@ -1254,9 +1254,9 @@ AI-generated summary created with {s['model'].split('|')[0]} for free via Rocket
 				   (unless no-show
 				     (cond ((eq name 'original_source_link)
 					    `(A
-					      (fstring "{s.original_source_link}")
+					      (fstring "{(aref s (string \"original_source_link\"))}")
 					      :target (string "_blank")
-					      :href (fstring "{s.original_source_link}")
+					      :href (fstring "{(aref s (string \"original_source_link\"))}")
 					      :id (fstring "source-link-{identifier}")))
 					   ((member name `(embedding
 							   full_embedding
@@ -1264,7 +1264,7 @@ AI-generated summary created with {s['model'].split('|')[0]} for free via Rocket
 					    nil)
 					   (t `(P
 						(B (string ,(format nil "~a:" name)))
-						(Span (fstring ,(format nil "{s.~a}"
+						(Span (fstring ,(format nil "{(aref s (string \"~a\"))}"
 									(string-downcase name)))))))
 				     #+nil
 				     (format nil "~a: {s.~a}" name (string-downcase name))))))
@@ -1274,13 +1274,13 @@ AI-generated summary created with {s['model'].split('|')[0]} for free via Rocket
 	     (setf summary_container (Div summary_details
 					  :cls (string "summary-container")))
 	     (setf title summary_container)
-	     (setf html0 (markdown.markdown s.summary ; :extensions (list (string "nl2br"))
+	     (setf html0 (markdown.markdown (aref s (string "summary")) ; :extensions (list (string "nl2br"))
 					    ))
 	     (if (== (string "") html0)
 		 (do0
-		  (setf real_model (dot s model (aref (split (string "|")) 0)))
+		  (setf real_model (dot (aref s (string "model")) (aref (split (string "|")) 0)))
 		  (setf html (fstring "Waiting for {real_model} to respond to request...")))
-		 (setf html (replace_timestamps_in_html html0 s.original_source_link)))
+		 (setf html (replace_timestamps_in_html html0 (aref s (string "original_source_link")))))
 	     
 	     #+copy-prompt
 	     (do0
