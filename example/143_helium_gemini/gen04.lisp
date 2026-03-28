@@ -635,13 +635,16 @@ Let's *go* to http://www.google-dot-com/search?q=hello.")
 			 :live False	;True
 			 :render render
 			 :htmlkw (dictionary :lang (string "en-US"))
-			 :transform False
-			 :pk (string "identifier")
-			 ,@(loop for e in db-cols
-				 appending
-				 (destructuring-bind (&key name type no-show) e
-				   `(,(make-keyword (string-upcase (format nil "~a" name)))
-				     ,type)))))
+			 :tbls (dict ((string "summaries")
+					  (dictionary
+					   :cls (dictionary
+						  ,@(loop for e in db-cols
+							  appending
+							  (destructuring-bind (&key name type no-show) e
+							    `(,(make-keyword (string-upcase (format nil "~a" name)))
+							      ,type))))
+					   :pk (string "identifier")
+					   :transform False)))))
 
 	     (do0
       (comments "Optimization: Ensure indexes exist for fast deduplication lookups.")
