@@ -320,7 +320,7 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
         summary_details=Div(P(B("identifier:"), Span(f"{s.identifier}")), P(B("model:"), Span(f"{s.model}")), A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}", id=f"source-link-{identifier}"), P(B("embedding_model:"), Span(f"{s.embedding_model}")), cls="summary-details")
         summary_container=Div(summary_details, cls="summary-container")
         title=summary_container
-        html0=markdown.markdown(s.summary)
+        html0=markdown.markdown(text)
         if ( (("")==(html0)) ):
             real_model=s.model.split("|")[0]
             html=f"Waiting for {real_model} to respond to request..."
