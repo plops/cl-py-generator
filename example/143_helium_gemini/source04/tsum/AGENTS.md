@@ -21,6 +21,11 @@ Key files and directories:
 - Script naming is ordinal and role-based: `p##_` for main pipeline, `s##_` for helpers, `t##_` for tests.
 - Keep modules small and single-purpose; match existing patterns for logging and validation.
 
+Use the following emacs command to occasionally format the codes (and always before commits):
+```
+ emacs --batch -l ~/.emacs gen04.lisp       --eval "(package-initialize)"       --eval "(require 'slime)"       --eval "(slime-setup '(slime-cl-indent))"       --eval "(setq lisp-indent-function 'common-lisp-indent-function)"       --eval "(indent-region (point-min) (point-max))"       -f save-buffer
+```
+
 ## Testing Guidelines
 - Tests are simple scripts with top-level `assert` statements; no pytest harness.
 - Add or update `t##_*.py` scripts when modifying `s##_*.py` behavior.
