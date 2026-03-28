@@ -975,6 +975,14 @@ You can choose between three models with different capabilities. While these mod
 	    (declare (type Request request))
 	    ;; how to format markdown: https://isaac-flath.github.io/website/posts/boots/FasthtmlTutorial.html
 	    
+	    ;; 1. Get the country code from Nginx header
+	    (setf country (request.headers.get (string "x-country-code") (string "XX")))
+	    
+	    ;; 2. Define the forbidden regions (EEA, UK, Switzerland)
+	    (setf FORBIDDEN_COUNTRIES (set (string "AT") (string "BE") (string "BG") (string "HR") (string "CY") (string "CZ") (string "DK") (string "EE") (string "FI") (string "FR") (string "DE") (string "GR") (string "HU") (string "IE") (string "IT") (string "LV") (string "LT") (string "LU") (string "MT") (string "NL") (string "PL") (string "PT") (string "RO") (string "SK") (string "SI") (string "ES") (string "SE") (string "CH") (string "GB") (string "LI") (string "IS") (string "NO")))
+	    (setf is_forbidden (cl-py-generator:in country FORBIDDEN_COUNTRIES))
+
+	    (logger.info (fstring "Request from: {request.client.host} (Country: {country})"))
 	    (logger.info (fstring "Request from host: {request.client.host}"))
 	    (check_reset_counters)
 	    (setf nav (Nav
@@ -998,7 +1006,8 @@ You can choose between three models with different capabilities. While these mod
 	   (setf transcript (Textarea :placeholder (string "(Optional) Paste YouTube transcript here")
 				      :style (string "height: 300px; width: 60%;")
 				      :name (string "transcript")
-				      :id (string "transcript-paste")))
+				      :id (string "transcript-paste")
+				      :disabled is_forbidden))
 	   
 		    (setf selector (list))
 		    (for (opt MODEL_OPTIONS)
