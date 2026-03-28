@@ -97,14 +97,14 @@ def validate_youtube_id(youtube_id: str)->bool:
     return all(((c.isalnum()) or ((c in "_-"))) for c in youtube_id)
  
 def render(summary: Summary):
-    identifier=summary["identifier"]
+    identifier=summary.identifier
     sid=f"gen-{identifier}"
-    if ( summary["timestamps_done"] ):
+    if ( summary.timestamps_done ):
         return generation_preview(identifier)
-    elif ( summary["summary_done"] ):
-        return Div(NotStr(markdown.markdown(summary["summary"])), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger=("") if (summary["timestamps_done"]) else ("every 1s"), data_hx_swap="outerHTML")
+    elif ( summary.summary_done ):
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), data_hx_swap="outerHTML")
     else:
-        return Div(NotStr(markdown.markdown(summary["summary"])), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger="every 1s", data_hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger="every 1s", data_hx_swap="outerHTML")
  
 logger.info("Create website app")
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
