@@ -18,7 +18,6 @@ from zoneinfo import ZoneInfo
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
-from fastlite import database
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
@@ -109,11 +108,7 @@ def render(summary: Summary):
  
 logger.info("Create website app")
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
-db=database("data/summaries.db")
-summaries=db.t["summaries"]
-if ( not(("summaries" in db.tables)) ):
-    summaries.create(identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier", transform=False)
-app, rt, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, htmlkw=dict(lang="en-US"))
+app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, htmlkw=dict(lang="en-US"), identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier")
 # Optimization: Ensure indexes exist for fast deduplication lookups.
 try:
     summaries.create_index(["original_source_link", "model", "summary_timestamp_start"], if_not_exists=True)
@@ -292,9 +287,9 @@ def generation_preview(identifier):
     price_output={("gemini-3-flash-preview"):((3.0    )), ("gemini-3.1-flash-lite-preview"):((1.50    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
     try:
         s=summaries[identifier]
-        if ( s.timestamps_done ):
+        if ( s["timestamps_done"] ):
             # this is for <= 128k tokens
-            real_model=s.model.split("|")[0]
+            real_model=s["model"].split("|")[0]
             price_input_token_usd_per_mio=-1
             price_output_token_usd_per_mio=-1
             try:
@@ -302,8 +297,8 @@ def generation_preview(identifier):
                 price_output_token_usd_per_mio=price_output[real_model]
             except Exception as e:
                 pass
-            input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
-            output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
+            input_tokens=((s["summary_input_tokens"])+(s["timestamps_input_tokens"]))
+            output_tokens=((s["summary_output_tokens"])+(s["timestamps_output_tokens"]))
             cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
             summaries.update(pk_values=identifier, cost=cost)
             if ( ((cost)<((2.00e-2))) ):
@@ -312,32 +307,32 @@ def generation_preview(identifier):
                 cost_str=f"${cost:.2f}"
             text=f"""*AI Summary*
 
-{s.timestamped_summary_in_youtube_format}
+{s["timestamped_summary_in_youtube_format"]}
 
-AI-generated summary created with {s.model.split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str})."""
+AI-generated summary created with {s["model"].split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str})."""
             trigger=""
-        elif ( s.summary_done ):
-            text=s.summary
-        elif ( ((s.summary is not None) and (((0)<(len(s.summary))))) ):
-            text=s.summary
-        elif ( ((len(s.transcript))) ):
-            text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
-        summary_details=Div(P(B("identifier:"), Span(f"{s.identifier}")), P(B("model:"), Span(f"{s.model}")), A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}", id=f"source-link-{identifier}"), P(B("embedding_model:"), Span(f"{s.embedding_model}")), cls="summary-details")
+        elif ( s["summary_done"] ):
+            text=s["summary"]
+        elif ( ((s["summary"] is not None) and (((0)<(len(s["summary"]))))) ):
+            text=s["summary"]
+        elif ( ((len(s["transcript"]))) ):
+            text=f"Generating from transcript: {s["transcript"][0:min(100,len(s["transcript"]))]}"
+        summary_details=Div(P(B("identifier:"), Span(f"{s["identifier"]}")), P(B("model:"), Span(f"{s["model"]}")), A(f"{s["original_source_link"]}", target="_blank", href=f"{s["original_source_link"]}", id=f"source-link-{identifier}"), P(B("embedding_model:"), Span(f"{s["embedding_model"]}")), cls="summary-details")
         summary_container=Div(summary_details, cls="summary-container")
         title=summary_container
-        html0=markdown.markdown(s.summary)
+        html0=markdown.markdown(s["summary"])
         if ( (("")==(html0)) ):
-            real_model=s.model.split("|")[0]
+            real_model=s["model"].split("|")[0]
             html=f"Waiting for {real_model} to respond to request..."
         else:
-            html=replace_timestamps_in_html(html0, s.original_source_link)
+            html=replace_timestamps_in_html(html0, s["original_source_link"])
         hidden_pre_for_copy=Div(Pre(text, id=f"pre-{identifier}"), id=f"hidden-markdown-{identifier}", style="display: none;")
-        card_content=[Header(H4(A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}")), P(f"ID: {s.identifier} | Model: {s.model.split('|')[0]}", style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")), Div(NotStr(html), style="white-space: normal;"), Footer(hidden_pre_for_copy, Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')", cls="outline"))]
+        card_content=[Header(H4(A(f"{s["original_source_link"]}", target="_blank", href=f"{s["original_source_link"]}")), P(f"ID: {s["identifier"]} | Model: {s["model"].split('|')[0]}", style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")), Div(NotStr(html), style="white-space: normal;"), Footer(hidden_pre_for_copy, Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')", cls="outline"))]
         if ( ((trigger)==("")) ):
             return Article(*card_content, id=sid)
         else:
             attrs=dict(id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger=trigger, data_hx_swap="outerHTML")
-            if ( not(((s.summary_timestamp_end) or (s.summary_done))) ):
+            if ( not(((s["summary_timestamp_end"]) or (s["summary_done"]))) ):
                 attrs["aria-busy"]="true"
                 attrs["aria-live"]="polite"
             return Article(*card_content, **attrs)
@@ -391,28 +386,28 @@ def download_and_generate(identifier: int):
         if ( ((s)==(-1)) ):
             logger.error(f"Row {identifier} never appeared in database")
             return 
-        if ( (((s.transcript is None)) or (((0)==(len(s.transcript))))) ):
+        if ( (((s["transcript"] is None)) or (((0)==(len(s["transcript"]))))) ):
             # No transcript given, try to download from URL
-            transcript=get_transcript(s.original_source_link, identifier)
+            transcript=get_transcript(s["original_source_link"], identifier)
             summaries.update(pk_values=identifier, transcript=transcript)
         # re-fetch summary with transcript
         s=summaries[identifier]
         # Validate transcript length
         try:
-            validate_transcript_length(s.transcript)
+            validate_transcript_length(s["transcript"])
         except ValueError as e:
             logger.error(f"Transcript validation failed for {identifier}: {e}")
             summaries.update(pk_values=identifier, summary=f"Error1031: {str(e)}", summary_done=True)
             return 
-        words=s.transcript.split()
+        words=s["transcript"].split()
         if ( ((len(words))<(30)) ):
             summaries.update(pk_values=identifier, summary="Error: Transcript is too short. Probably I couldn't download it. You can provide it manually.", summary_done=True)
             return 
         if ( ((280_000)<(len(words))) ):
-            if ( ("-pro" in s.model) ):
+            if ( ("-pro" in s["model"]) ):
                 summaries.update(pk_values=identifier, summary="Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.", summary_done=True)
                 return 
-        logger.info(f"Processing link: {s.original_source_link}")
+        logger.info(f"Processing link: {s["original_source_link"]}")
         summaries.update(pk_values=identifier, summary="")
         generate_and_save(identifier)
     except Exception as e:
@@ -465,11 +460,11 @@ def generate_and_save(identifier: int):
             return 
         # Update usage counter
         check_reset_counters()
-        real_model=s.model.split("|")[0]
+        real_model=s["model"].split("|")[0]
         if ( (real_model in model_counts) ):
             model_counts[real_model] += 1
-        logger.info(f"generate_and_save model={s.model}")
-        m=genai.GenerativeModel(s.model.split("|")[0], system_instruction=r"""### CORE INSTRUCTION
+        logger.info(f"generate_and_save model={s["model"]}")
+        m=genai.GenerativeModel(s["model"].split("|")[0], system_instruction=r"""### CORE INSTRUCTION
 You are an advanced, adaptive knowledge synthesis engine. Your goal is to provide high-fidelity summaries of input material. You possess the capability to analyze text, determine the specific domain of expertise required to understand it, and fully adopt the persona of a senior expert in that field to perform the summary.
 
 ### PROCESS PROTOCOL
