@@ -1186,9 +1186,9 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 	     (setf s (aref summaries identifier))
 	     
 	     (cond
-	       (s.timestamps_done
+	       ((aref s (string "timestamps_done"))
 		(comments "this is for <= 128k tokens")
-		(setf real_model (dot s model (aref (split (string "|")) 0)))
+		(setf real_model (dot (aref s (string "model")) (aref (split (string "|")) 0)))
 		(setf price_input_token_usd_per_mio -1)
 		(setf price_output_token_usd_per_mio -1)
 		(try
@@ -1197,24 +1197,24 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 		 ("Exception as e"
 		  pass))
 		#+nil
-		(if (or (dot s model (startswith (string "gemini-1.5-pro")))
-			(dot s model (startswith (string "gemini-2.0-pro")))
-			(dot s model (startswith (string "gemini-2.5-pro")))) 
+		(if (or (dot (aref s (string "model")) (startswith (string "gemini-1.5-pro")))
+			(dot (aref s (string "model")) (startswith (string "gemini-2.0-pro")))
+			(dot (aref s (string "model")) (startswith (string "gemini-2.5-pro")))) 
 		    (setf price_input_token_usd_per_mio 1.25
 			  price_output_token_usd_per_mio 5.0)
-		    (if (in (string "flash") (dot s model )) 
+		    (if (in (string "flash") (dot (aref s (string "model")) )) 
 			(setf price_input_token_usd_per_mio 0.1
 			      price_output_token_usd_per_mio 0.4)
-			(if (dot s model (startswith (string "gemini-1.0-pro")))
+			(if (dot (aref s (string "model")) (startswith (string "gemini-1.0-pro")))
 			    (setf price_input_token_usd_per_mio 0.5
 				  price_output_token_usd_per_mio 1.5)
 			    (setf price_input_token_usd_per_mio -1
 				  price_output_token_usd_per_mio -1)))
 		    )
-		(setf input_tokens (+ s.summary_input_tokens
-				      s.timestamps_input_tokens)
-		      output_tokens (+ s.summary_output_tokens
-				       s.timestamps_output_tokens)
+		(setf input_tokens (+ (aref s (string "summary_input_tokens"))
+				      (aref s (string "timestamps_input_tokens")))
+		      output_tokens (+ (aref s (string "summary_output_tokens"))
+				       (aref s (string "timestamps_output_tokens")))
 		      )
 		(setf cost (+ (* (/ input_tokens 1_000_000)
 				 price_input_token_usd_per_mio)
@@ -1227,22 +1227,22 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
 		    (setf cost_str (fstring "${cost:.2f}")))
 		(setf text (fstring3 "*AI Summary*
 
-{s.timestamped_summary_in_youtube_format}
+{s['timestamped_summary_in_youtube_format']}
 
-AI-generated summary created with {s.model.split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str}).")
+AI-generated summary created with {s['model'].split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str}).")
 
 		      
 		      trigger (string ""))
 
 
 		)
-	       (s.summary_done
-		(setf text s.summary))
-	       ((and "s.summary is not None" (< 0 (len s.summary)))
-		(setf text s.summary))
+	       ((aref s (string "summary_done"))
+		(setf text (aref s (string "summary"))))
+	       ((and (aref s (string "summary")) (< 0 (len (aref s (string "summary")))))
+		(setf text (aref s (string "summary"))))
 
-	       ((< (len s.transcript))
-		(setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
+	       ((< (len (aref s (string "transcript"))))
+		(setf text (fstring "Generating from transcript: {s[\"transcript\"][0:min(100,len(s[\"transcript\"]))]}"))))
 
 	     ;; title of row
 	     (setf summary_details
@@ -1407,7 +1407,7 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 
 	     
 	     (setf t_end (time.perf_counter)) ;; End Timer
-             (setf duration (- t_end t_start))
+	     (setf duration (- t_end t_start))
 	     (if (> duration 0.5)
 		 (logger.warning (fstring "Slow deduplication lookup: {duration:.4f}s"))
 		 (logger.info (fstring "Deduplication lookup took: {duration:.4f}s")))
@@ -1440,10 +1440,10 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 		(logger.error (fstring "Row {identifier} never appeared in database"))
 		(return))
 
-	      (when (or (is s.transcript None)
-			(== 0 (len s.transcript)))
+	      (when (or (is (aref s (string "transcript")) None)
+			(== 0 (len (aref s (string "transcript")))))
 		(comments "No transcript given, try to download from URL")
-		(setf transcript (get_transcript s.original_source_link identifier))
+		(setf transcript (get_transcript (aref s (string "original_source_link")) identifier))
 		(summaries.update :pk_values identifier
 				  :transcript transcript))
 
@@ -1453,7 +1453,7 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 	      (do0
 	       (comments "Validate transcript length")
 	       (try
-		(validate_transcript_length s.transcript)
+		(validate_transcript_length (aref s (string "transcript")))
 		((as ValueError e)
 		 (logger.error (fstring "Transcript validation failed for {identifier}: {e}"))
 		 (summaries.update :pk_values identifier
@@ -1461,19 +1461,19 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 				   :summary_done True)
 		 (return))))
 	      
-	      (setf words (s.transcript.split))
+	      (setf words (dot (aref s (string "transcript")) (split)))
 	      (when (< (len words) 30)
 		(summaries.update :pk_values identifier
 				  :summary (string "Error: Transcript is too short. Probably I couldn't download it. You can provide it manually.")
 				  :summary_done True)
 		(return))
 	      (when (< 280_000 (len words))
-		(when (in (string "-pro") s.model)
+		(when (in (string "-pro") (aref s (string "model")))
 		  (summaries.update :pk_values identifier
 				    :summary (string "Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.")
 				    :summary_done True)
 		  (return)))
-	      (logger.info (fstring "Processing link: {s.original_source_link}"))
+	      (logger.info (fstring "Processing link: {(aref s (string \"original_source_link\"))}"))
 	      (summaries.update :pk_values identifier
 				:summary (string ""))
 	      (generate_and_save identifier))
