@@ -208,7 +208,7 @@ documentation_html=markdown.markdown(documentation)
 @rt("/")
 def get(request: Request):
     country=request.headers.get("x-country-code", "XX")
-    FORBIDDEN_COUNTRIES=set("AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "CH", "GB", "LI", "IS", "NO")
+    FORBIDDEN_COUNTRIES=set(["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "CH", "GB", "LI", "IS", "NO"])
     is_forbidden=(country in FORBIDDEN_COUNTRIES)
     logger.info(f"Request from: {request.client.host} (Country: {country})")
     logger.info(f"Request from host: {request.client.host}")
