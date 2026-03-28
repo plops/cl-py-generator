@@ -1238,11 +1238,11 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
 		)
 	       (s.summary_done
 		(setf text s.summary))
-	       ((and (s.summary) (< 0 (len s.summary)))
+	       ((and s.summary (< 0 (len s.summary)))
 		(setf text s.summary))
 
-	       ((< (len (aref s (string "transcript"))))
-		(setf text (fstring "Generating from transcript: {s[\"transcript\"][0:min(100,len(s[\"transcript\"]))]}"))))
+	       ((< (len s.transcript))
+		(setf text (fstring "Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"))))
 
 	     ;; title of row
 	     (setf summary_details
