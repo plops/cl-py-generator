@@ -97,14 +97,14 @@ def validate_youtube_id(youtube_id: str)->bool:
     return all(((c.isalnum()) or ((c in "_-"))) for c in youtube_id)
  
 def render(summary: Summary):
-    identifier=summary.identifier
+    identifier=summary["identifier"]
     sid=f"gen-{identifier}"
-    if ( summary.timestamps_done ):
+    if ( summary["timestamps_done"] ):
         return generation_preview(identifier)
-    elif ( summary.summary_done ):
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger=("") if (summary.timestamps_done) else ("every 1s"), data_hx_swap="outerHTML")
+    elif ( summary["summary_done"] ):
+        return Div(NotStr(markdown.markdown(summary["summary"])), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger=("") if (summary["timestamps_done"]) else ("every 1s"), data_hx_swap="outerHTML")
     else:
-        return Div(NotStr(markdown.markdown(summary.summary)), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger="every 1s", data_hx_swap="outerHTML")
+        return Div(NotStr(markdown.markdown(summary["summary"])), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger="every 1s", data_hx_swap="outerHTML")
  
 logger.info("Create website app")
 # summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
@@ -229,8 +229,8 @@ def get(request: Request):
         selector.append(Option(opt, value=opt, label=label))
     model=Div(Label("Select Model", _for="model-select", cls="visually-hidden"), Select(*selector, id="model-select", style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
     form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link"), Label("(Optional) Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list")
-    summaries_to_show=summaries(order_by="identifier DESC", limit=3)
-    summary_list_container=Div(*summaries_to_show, id="summary-list")
+    summaries_to_show=summaries.rows_where(order_by="-identifier", limit=3)
+    summary_list_container=Div(summaries_to_show, id="summary-list")
     return Title("Video Transcript Summarizer"), Meta(name="description", content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps."), Main(nav, NotStr(documentation_html), error_notice, form, summary_list_container, Script("""function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
@@ -287,9 +287,9 @@ def generation_preview(identifier):
     price_output={("gemini-3-flash-preview"):((3.0    )), ("gemini-3.1-flash-lite-preview"):((1.50    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
     try:
         s=summaries[identifier]
-        if ( s["timestamps_done"] ):
+        if ( s.timestamps_done ):
             # this is for <= 128k tokens
-            real_model=s["model"].split("|")[0]
+            real_model=s.model.split("|")[0]
             price_input_token_usd_per_mio=-1
             price_output_token_usd_per_mio=-1
             try:
@@ -297,8 +297,8 @@ def generation_preview(identifier):
                 price_output_token_usd_per_mio=price_output[real_model]
             except Exception as e:
                 pass
-            input_tokens=((s["summary_input_tokens"])+(s["timestamps_input_tokens"]))
-            output_tokens=((s["summary_output_tokens"])+(s["timestamps_output_tokens"]))
+            input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
+            output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
             cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
             summaries.update(pk_values=identifier, cost=cost)
             if ( ((cost)<((2.00e-2))) ):
@@ -307,32 +307,32 @@ def generation_preview(identifier):
                 cost_str=f"${cost:.2f}"
             text=f"""*AI Summary*
 
-{s["timestamped_summary_in_youtube_format"]}
+{s.timestamped_summary_in_youtube_format}
 
-AI-generated summary created with {s["model"].split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str})."""
+AI-generated summary created with {s.model.split('|')[0]} for free via RocketRecap-dot-com. (Input: {input_tokens:,} tokens, Output: {output_tokens:,} tokens, Est. cost: {cost_str})."""
             trigger=""
-        elif ( s["summary_done"] ):
-            text=s["summary"]
-        elif ( ((s["summary"] is not None) and (((0)<(len(s["summary"]))))) ):
-            text=s["summary"]
-        elif ( ((len(s["transcript"]))) ):
-            text=f"Generating from transcript: {s["transcript"][0:min(100,len(s["transcript"]))]}"
-        summary_details=Div(P(B("identifier:"), Span(f"{s["identifier"]}")), P(B("model:"), Span(f"{s["model"]}")), A(f"{s["original_source_link"]}", target="_blank", href=f"{s["original_source_link"]}", id=f"source-link-{identifier}"), P(B("embedding_model:"), Span(f"{s["embedding_model"]}")), cls="summary-details")
+        elif ( s.summary_done ):
+            text=s.summary
+        elif ( ((s.summary) and (((0)<(len(s.summary))))) ):
+            text=s.summary
+        elif ( ((len(s.transcript))) ):
+            text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
+        summary_details=Div(P(B("identifier:"), Span(f"{s.identifier}")), P(B("model:"), Span(f"{s.model}")), A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}", id=f"source-link-{identifier}"), P(B("embedding_model:"), Span(f"{s.embedding_model}")), cls="summary-details")
         summary_container=Div(summary_details, cls="summary-container")
         title=summary_container
-        html0=markdown.markdown(s["summary"])
+        html0=markdown.markdown(s.summary)
         if ( (("")==(html0)) ):
-            real_model=s["model"].split("|")[0]
+            real_model=s.model.split("|")[0]
             html=f"Waiting for {real_model} to respond to request..."
         else:
-            html=replace_timestamps_in_html(html0, s["original_source_link"])
+            html=replace_timestamps_in_html(html0, s.original_source_link)
         hidden_pre_for_copy=Div(Pre(text, id=f"pre-{identifier}"), id=f"hidden-markdown-{identifier}", style="display: none;")
-        card_content=[Header(H4(A(f"{s["original_source_link"]}", target="_blank", href=f"{s["original_source_link"]}")), P(f"ID: {s["identifier"]} | Model: {s["model"].split('|')[0]}", style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")), Div(NotStr(html), style="white-space: normal;"), Footer(hidden_pre_for_copy, Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')", cls="outline"))]
+        card_content=[Header(H4(A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}")), P(f"ID: {s.identifier} | Model: {s.model.split('|')[0]}", style="font-size: 0.9em; color: var(--pico-secondary-foreground); margin-bottom: 0;")), Div(NotStr(html), style="white-space: normal;"), Footer(hidden_pre_for_copy, Button("Copy Summary", onclick=f"copyPreContent('pre-{identifier}')", cls="outline"))]
         if ( ((trigger)==("")) ):
             return Article(*card_content, id=sid)
         else:
             attrs=dict(id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger=trigger, data_hx_swap="outerHTML")
-            if ( not(((s["summary_timestamp_end"]) or (s["summary_done"]))) ):
+            if ( not(((s.summary_timestamp_end) or (s.summary_done))) ):
                 attrs["aria-busy"]="true"
                 attrs["aria-live"]="polite"
             return Article(*card_content, **attrs)
@@ -407,7 +407,7 @@ def download_and_generate(identifier: int):
             if ( ("-pro" in s["model"]) ):
                 summaries.update(pk_values=identifier, summary="Error: Transcript exceeds 280,000 words. Please shorten it or don't use the pro model.", summary_done=True)
                 return 
-        logger.info(f"Processing link: {s["original_source_link"]}")
+        logger.info(f"Processing link: {s.original_source_link}")
         summaries.update(pk_values=identifier, summary="")
         generate_and_save(identifier)
     except Exception as e:
