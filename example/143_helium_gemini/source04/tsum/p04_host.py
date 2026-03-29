@@ -18,6 +18,7 @@ from zoneinfo import ZoneInfo
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from fasthtml.common import *
+from fastlite import database
 from s01_validate_youtube_url import *
 from s02_parse_vtt_file import *
 from s03_convert_markdown_to_youtube_format import *
@@ -96,7 +97,7 @@ def validate_youtube_id(youtube_id: str)->bool:
     # YouTube IDs are alphanumeric with _ and -
     return all(((c.isalnum()) or ((c in "_-"))) for c in youtube_id)
  
-def render(summary: Summary):
+def render(summary):
     identifier=summary.identifier
     sid=f"gen-{identifier}"
     if ( summary.timestamps_done ):
@@ -106,9 +107,30 @@ def render(summary: Summary):
     else:
         return Div(NotStr(markdown.markdown(summary.summary)), id=sid, data_hx_post=f"/generations/{identifier}", data_hx_trigger="every 1s", data_hx_swap="outerHTML")
  
-logger.info("Create website app")
-# summaries is of class 'sqlite_minutils.db.Table, see https://github.com/AnswerDotAI/sqlite-minutils. Reference documentation: https://sqlite-utils.datasette.io/en/stable/reference.html#sqlite-utils-db-table
-app, rt, summaries, Summary=fast_app(db_file="data/summaries.db", live=False, render=render, htmlkw=dict(lang="en-US"), identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier")
+logger.info("Initialize database manually")
+db = database("data/summaries.db")
+summaries = db.t.items
+if not summaries.exists():
+    summaries.create(identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier")
+
+logger.info("Create website app without automatic db loading")
+app, rt = fast_app(live=False, render=render, htmlkw=dict(lang="en-US"))
+
+def get_summaries(limit=3, order_by="-identifier"):
+    """Get summaries with proper error handling."""
+    try:
+        return [AttrDict(row) for row in summaries.rows_where(order_by=order_by, limit=limit)]
+    except Exception as e:
+        logger.error(f"Error fetching summaries: {e}")
+        return []
+
+def get_summary(identifier: int):
+    """Get a single summary by identifier."""
+    try:
+        return AttrDict(summaries[identifier])
+    except Exception as e:
+        logger.error(f"Error fetching summary {identifier}: {e}")
+        return None
 # Optimization: Ensure indexes exist for fast deduplication lookups.
 try:
     summaries.create_index(["original_source_link", "model", "summary_timestamp_start"], if_not_exists=True)
@@ -217,7 +239,7 @@ def get(request: Request):
     error_notice=""
     if ( is_forbidden ):
         error_notice=Div(P(B("Notice: "), "Due to Google's Terms of Service for Gemini in the EU/UK/CH, manual transcript submission is disabled in your region. YouTube link processing is still available."), style="color: #d9534f; background: #f9f2f2; padding: 10px; border-radius: 5px; margin-bottom: 20px;")
-    summaries_to_show=summaries.rows_where(order_by="-identifier", limit=3)
+    summaries_to_show=[render(s) for s in get_summaries(limit=3, order_by="-identifier")]
     selector=[]
     for opt in MODEL_OPTIONS:
         parts=opt.split("|")
@@ -230,11 +252,6 @@ def get(request: Request):
     return Main(
             H1("RocketRecap Content Summarizer"),
             P(Em("Summarize YouTube videos and transcripts with AI-powered analysis.")),
-            Div(
-                H2("Recent Summaries", cls="summary-list"),
-                error_notice,
-                Div(*summaries_to_show, cls="summary-cards")
-            ),
             Section(
                 H3("Submit New Transcript"),
                 P("Paste a YouTube URL or transcript to generate an AI-powered summary with timestamps."),
@@ -242,16 +259,20 @@ def get(request: Request):
                     Fieldset(
                         Legend("Input Options", cls="legend"),
                         *selector,
-                        Input_(name="transcript", placeholder="Paste YouTube transcript here", style="height: 300px; width: 60%;", id="transcript-paste", disabled=is_forbidden),
+                        Textarea(name="transcript", placeholder="Paste YouTube transcript here", style="height: 300px; width: 60%;", id="transcript-paste", disabled=is_forbidden),
                         Button("Generate Summary", type="submit")
                     )
                 )
-                )
+            ),
+            Div(
+                H2("Recent Summaries", cls="summary-list"),
+                error_notice,
+                Div(*summaries_to_show, cls="summary-cards")
             )
-        )
+            )
     model=Div(Label("Select Model", _for="model-select", cls="visually-hidden"), Select(*selector, id="model-select", style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
     form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link"), Label("Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list")
-    summaries_to_show=summaries.rows_where(order_by="-identifier", limit=3)
+    summaries_to_show=[render(s) for s in get_summaries(limit=3, order_by="-identifier")]
     summary_list_container=Div(summaries_to_show, id="summary-list")
     return Title("Video Transcript Summarizer"), Meta(name="description", content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps."), Main(nav, NotStr(documentation_html), error_notice, form, summary_list_container, Script("""function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
@@ -308,7 +329,9 @@ def generation_preview(identifier):
     price_input={("gemini-3-flash-preview"):((0.50    )), ("gemini-3.1-flash-lite-preview"):((0.250    )), ("gemini-2.5-flash"):((0.30    )), ("gemini-2.5-flash-lite"):((0.10    )), ("gemini-robotics-er-1.5-preview"):((0.30    ))}
     price_output={("gemini-3-flash-preview"):((3.0    )), ("gemini-3.1-flash-lite-preview"):((1.50    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
     try:
-        s=summaries[identifier]
+        s=get_summary(identifier)
+        if not s:
+            return Div(P("Summary not found"))
         if ( s.timestamps_done ):
             # this is for <= 128k tokens
             real_model=s.model.split("|")[0]
@@ -386,7 +409,7 @@ def get(identifier: int):
     return generation_preview(identifier)
  
 @rt("/process_transcript")
-def post(summary: Summary, request: Request):
+def post(summary, request: Request):
     summary.host=request.client.host
     summary.summary_timestamp_start=datetime.datetime.now().isoformat()
     summary.summary=""
@@ -396,14 +419,14 @@ def post(summary: Summary, request: Request):
     existing_entry=None
     if ( ((summary.original_source_link) and (((0)<(len(summary.original_source_link.strip()))))) ):
         # Criteria 1: Check by YouTube Link + Model
-        matches=summaries(where="original_source_link = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.original_source_link.strip(), summary.model, lookback_limit.isoformat()], order_by="identifier DESC", limit=1)
+        matches=list(summaries.rows_where(where="original_source_link = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.original_source_link.strip(), summary.model, lookback_limit.isoformat()], order_by="-identifier", limit=1))
         if ( ((0)<(len(matches))) ):
-            existing_entry=matches[0]
+            existing_entry=AttrDict(matches[0])
     elif ( ((summary.transcript) and (((0)<(len(summary.transcript.strip()))))) ):
         # Criteria 2: Check by Raw Transcript + Model (if no link provided)
-        matches=summaries(where="transcript = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.transcript, summary.model, lookback_limit.isoformat()], order_by="identifier DESC", limit=1)
+        matches=list(summaries.rows_where(where="transcript = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.transcript, summary.model, lookback_limit.isoformat()], order_by="-identifier", limit=1))
         if ( ((0)<(len(matches))) ):
-            existing_entry=matches[0]
+            existing_entry=AttrDict(matches[0])
     t_end=time.perf_counter()
     duration=((t_end)-(t_start))
     if ( ((duration)>((0.50    ))) ):
@@ -433,7 +456,7 @@ def download_and_generate(identifier: int):
             transcript=get_transcript(s["original_source_link"], identifier)
             summaries.update(pk_values=identifier, transcript=transcript)
         # re-fetch summary with transcript
-        s=summaries[identifier]
+        s=get_summary(identifier)
         # Validate transcript length
         try:
             validate_transcript_length(s["transcript"])
@@ -461,18 +484,14 @@ def download_and_generate(identifier: int):
  
 def wait_until_row_exists(identifier):
     for i in range(400):
-        try:
-            s=summaries[identifier]
+        s=get_summary(identifier)
+        if s:
             return s
-        except sqlite_minutils.db.NotFoundError:
-            logger.debug(f"Entry {identifier} not found, attempt {i + 1}")
-        except Exception as e:
-            logger.error(f"Unknown exception waiting for row {identifier}: {e}")
         time.sleep((0.10    ))
     logger.error(f"Row {identifier} did not appear after 400 attempts")
     return -1
  
-def get_prompt(summary: Summary)->str:
+def get_prompt(summary)->str:
     r"""Generate prompt from a given Summary object. It will use the contained transcript."""
     prompt=f"""Below, I will provide input for an example video (comprising of title, description, and transcript, in this order) and the corresponding abstract and summary I expect. Afterward, I will provide a new transcript that I want a summarization in the same format. 
 
@@ -527,13 +546,13 @@ For every input provided, follow this strict three-step process:
         for chunk in response:
             try:
                 logger.debug(f"Adding text chunk to id={identifier}")
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(chunk.text)))
+                summaries.update(pk_values=identifier, summary=((get_summary(identifier).summary)+(chunk.text)))
             except ValueError as e:
                 logger.warning(f"ValueError processing chunk for {identifier}: {e}")
                 summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: value error {str(e)}")))
             except Exception as e:
                 logger.error(f"Error processing chunk for {identifier}: {e}")
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\n[Error1189: {str(e)}]")))
+                summaries.update(pk_values=identifier, summary=((get_summary(identifier).summary)+(f"\n[Error1189: {str(e)}]")))
         prompt_token_count=response.usage_metadata.prompt_token_count
         candidates_token_count=response.usage_metadata.candidates_token_count
         try:
@@ -545,17 +564,17 @@ For every input provided, follow this strict three-step process:
         summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=prompt_token_count, summary_output_tokens=((candidates_token_count)+(thinking_token_count)), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted as e:
         logger.error(f"Resource exhausted for {identifier}: {e}")
-        summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+("\nError1234: resource exhausted. Try again with a different model.")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        summaries.update(pk_values=identifier, summary_done=False, summary=((get_summary(identifier).summary)+("\nError1234: resource exhausted. Try again with a different model.")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return 
     except Exception as e:
         logger.error(f"Unexpected error in generate_and_save for {identifier}: {e}")
         try:
-            summaries.update(pk_values=identifier, summary_done=False, summary=((summaries[identifier].summary)+(f"Error1254: {str(e)}")), summary_timestamp_end=datetime.datetime.now().isoformat())
+            summaries.update(pk_values=identifier, summary_done=False, summary=((get_summary(identifier).summary)+(f"Error1254: {str(e)}")), summary_timestamp_end=datetime.datetime.now().isoformat())
         except Exception as update_error:
             logger.error(f"Failed to update database with error for {identifier}: {update_error}")
         return 
     try:
-        text=summaries[identifier].summary
+        text=get_summary(identifier).summary
         text=convert_markdown_to_youtube_format(text)
         summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=0, timestamps_output_tokens=0, timestamps_timestamp_end=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
@@ -565,7 +584,7 @@ For every input provided, follow this strict three-step process:
         logger.error(f"Error during summary update for identifier {identifier}: {e}")
     try:
         # Generate and store the embedding of the summary
-        summary_text=summaries[identifier].summary
+        summary_text=get_summary(identifier).summary
         if ( summary_text ):
             logger.info(f"Generating summary embedding for identifier {identifier}...")
             embedding_model="gemini-embedding-001"
