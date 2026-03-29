@@ -19,3 +19,5 @@ example/162_genai/*.yamlexample/110_gentoo/docker_min_hpz6/logs/
 *.db
 *.db-shm
 *.db-wal
+*.pyc
+*.log
