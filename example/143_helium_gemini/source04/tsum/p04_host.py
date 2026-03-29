@@ -249,32 +249,29 @@ def get(request: Request):
         remaining=max(0, ((rpd_limit)-(used)))
         label=f"{model_name} | {remaining} / {rpd_limit} RPD left"
         selector.append(Option(opt, value=opt, label=label))
-    return Main(
-            H1("RocketRecap Content Summarizer"),
-            P(Em("Summarize YouTube videos and transcripts with AI-powered analysis.")),
-            Section(
-                H3("Submit New Transcript"),
-                P("Paste a YouTube URL or transcript to generate an AI-powered summary with timestamps."),
-                Form(
-                    Fieldset(
-                        Legend("Input Options", cls="legend"),
-                        *selector,
-                        Textarea(name="transcript", placeholder="Paste YouTube transcript here", style="height: 300px; width: 60%;", id="transcript-paste", disabled=is_forbidden),
-                        Button("Generate Summary", type="submit")
-                    )
-                )
-            ),
-            Div(
-                H2("Recent Summaries", cls="summary-list"),
-                error_notice,
-                Div(*summaries_to_show, cls="summary-cards")
-            )
-            )
     model=Div(Label("Select Model", _for="model-select", cls="visually-hidden"), Select(*selector, id="model-select", style="width: 100%;", name="model"), style="display: flex; align-items: center; width: 100%;")
-    form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link"), Label("Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list")
-    summaries_to_show=[render(s) for s in get_summaries(limit=3, order_by="-identifier")]
-    summary_list_container=Div(summaries_to_show, id="summary-list")
-    return Title("Video Transcript Summarizer"), Meta(name="description", content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps."), Main(nav, NotStr(documentation_html), error_notice, form, summary_list_container, Script("""function copyPreContent(elementId) {
+    transcript=Textarea(placeholder="(Optional) Paste YouTube transcript here", style="height: 300px; width: 60%;", name="transcript", id="transcript-paste", disabled=is_forbidden)
+    form=Form(Fieldset(Legend("Submit Text for Summarization"), Div(Label("Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", _for="youtube-link"), Textarea(placeholder="Link to youtube video (e.g. https://youtube.com/watch?v=j9fzsGuTTJA)", id="youtube-link", name="original_source_link", style="width: 60%;"), Label("Paste YouTube transcript here", _for="transcript-paste"), transcript, model, Button("Summarize Transcript"), style="display: flex; flex-direction:column;")), data_hx_post="/process_transcript", data_hx_swap="afterbegin", data_hx_target="#summary-list-container")
+    
+    summary_cards_div=Div(*summaries_to_show, cls="summary-cards", id="summary-list-container")
+    
+    main_body = Main(
+        nav, 
+        NotStr(documentation_html),
+        H1("RocketRecap Content Summarizer"),
+        P(Em("Summarize YouTube videos and transcripts with AI-powered analysis.")),
+        Section(
+            H3("Submit New Transcript"),
+            P("Paste a YouTube URL or transcript to generate an AI-powered summary with timestamps."),
+            form
+        ),
+        Div(
+            H2("Recent Summaries", cls="summary-list"),
+            error_notice,
+            summary_cards_div
+        )
+    )
+    return Title("Video Transcript Summarizer"), Meta(name="description", content="Get AI-powered summaries of YouTube videos and websites. Paste a link or transcript to receive a concise summary with timestamps."), main_body, Script("""function copyPreContent(elementId) {
   var preElement = document.getElementById(elementId);
   var textToCopy = preElement.textContent;
 
@@ -309,8 +306,8 @@ document.getElementById('transcript-paste').addEventListener('paste', (e) => {
         const cleanText = container.innerText.replace(/[ ]+/g, ' ').trim();
         document.execCommand("insertText", false, cleanText);
     }
-});
-"""), cls="container"), Style(""".visually-hidden {
+})
+""") , Style(""".visually-hidden {
     position: absolute;
     width: 1px;
     height: 1px;
