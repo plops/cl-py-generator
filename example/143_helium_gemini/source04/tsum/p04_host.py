@@ -406,8 +406,19 @@ def get(identifier: int):
     return generation_preview(identifier)
  
 @rt("/process_transcript")
-def post(summary, request: Request):
-    summary.host=request.client.host
+def post(request: Request, model: str = "", transcript: str = "", original_source_link: str = ""):
+    summary = AttrDict(
+        model=model,
+        transcript=transcript,
+        original_source_link=original_source_link,
+        include_comments=False,
+        include_timestamps=True,
+        include_glossary=False,
+        output_language="en",
+        summary_done=False,
+        timestamps_done=False
+    )
+    summary.host=request.client.host if request.client else "unknown"
     summary.summary_timestamp_start=datetime.datetime.now().isoformat()
     summary.summary=""
     t_start=time.perf_counter()
@@ -437,7 +448,7 @@ def post(summary, request: Request):
     if ( (summary.transcript is not None) ):
         if ( ((0)==(len(summary.transcript))) ):
             summary.summary="Downloading transcript..."
-    s2=summaries.insert(summary)
+    s2=AttrDict(summaries.insert(summary))
     download_and_generate(s2.identifier)
     return generation_preview(s2.identifier)
  
