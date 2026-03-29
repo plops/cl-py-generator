@@ -38,7 +38,9 @@ Requirements:
 
 Testing procedure:
 Execute the following command to test the full program:
-/home/kiel/stage/cl-py-generator/example/143_helium_gemini/source04/tsum/.venv/bin/python /home/kiel/stage/cl-py-generator/example/143_helium_gemini/source04/tsum/.venv/bin/uvicorn p04_host:app --port 5001
+cd /home/kiel/stage/cl-py-generator/example/143_helium_gemini/source04/tsum/
+source .venv/bin/activate
+uvicorn p04_host:app --port 5001
 
 Verify the response contains properly formatted database entries like:
 ```
@@ -51,6 +53,8 @@ Abstract:
 
 This lecture provides a comparative analysis of the enduring legal, philosophical, and cultural contributions of ancient Hebrew civilization (Judaism/Israelites) to contemporary Western society. The presentation begins by
 ```
+
+Make sure to use the DeepWiki MCP if you are unsure how to use a dependency.
 
 EOF
 
