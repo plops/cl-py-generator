@@ -1,0 +1,1 @@
+root=live:/dev/vda1 rd.live.dir=/ rd.live.squashimg=gentoo.squashfs rd.live.overlay.overlayfs=1 rd.luks.uuid=2615cd6c-7e55-434f-8add-e0866555d407 rd.luks.name=2615cd6c-7e55-434f-8add-e0866555d407=enc console=tty0 console=ttyS0,115200

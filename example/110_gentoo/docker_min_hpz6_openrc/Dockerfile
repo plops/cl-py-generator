@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260323 AS portage
+FROM gentoo/portage:20260330 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260323 AS base
+FROM gentoo/stage3:nomultilib-20260330 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -279,6 +279,16 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
+RUN sed -i \
+    -e '/^net-analyzer\/arping\>/d' \
+    -e '/^net-misc\/speedtest-cli\>/d' \
+    -e '/^sys-process\/progress\>/d' \
+    -e '/^sys-process\/sysstat\>/d' \
+    /var/lib/portage/world
+RUN mkdir -p /etc/portage/package.use \
+ && touch /etc/portage/package.use/zz-late-world \
+ && grep -qxF 'app-text/xmlto text' /etc/portage/package.use/zz-late-world \
+ || printf '\napp-text/xmlto text\n' >> /etc/portage/package.use/zz-late-world
 RUN emerge -uDN @world
 RUN gcc-config -l
 
@@ -562,13 +572,13 @@ RUN dracut \
       /boot/initramfs_squash_sda1-x86_64.img
 
 # Ensure SPARK proof tooling can find the Gentoo-installed Why3 helper.
-RUN ln -sf /usr/bin/gnatwhy3 /usr/libexec/spark/bin/gnatwhy3 \
- && if [ -x /usr/bin/why3 ]; then ln -sf /usr/bin/why3 /usr/libexec/spark/bin/why3; fi
+#RUN ln -sf /usr/bin/gnatwhy3 /usr/libexec/spark/bin/gnatwhy3 \
+# && if [ -x /usr/bin/why3 ]; then ln -sf /usr/bin/why3 /usr/libexec/spark/bin/why3; fi
 
 # The top-level OCaml package is not needed for runtime proof use in the image:
 # gnatprove/why3/alt-ergo still work after removing it, while build-time OCaml
 # was required earlier to install the prover stack.
-RUN emerge -C dev-lang/ocaml || true
+#RUN emerge -C dev-lang/ocaml || true
 
 # Regenerate package reports late so they match the final image contents.
 RUN set -e \
