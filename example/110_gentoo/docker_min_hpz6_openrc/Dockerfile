@@ -376,6 +376,9 @@ RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
     done
 
 COPY config/xinitrc /home/kiel/.xinitrc
+COPY config/setup_network.sh /home/kiel/setup_network.sh
+COPY config/rotate-console.sh /home/kiel/rotate-console.sh
+COPY config/colemak.sh /home/kiel/colemak.sh
 COPY config/user-runtime.initd /etc/init.d/user-runtime
 COPY config/zz-openrc-user-session.sh /etc/profile.d/zz-openrc-user-session.sh
 COPY config/user-dbus.initd /etc/user/init.d/dbus
@@ -456,6 +459,7 @@ RUN printf '%s\n' \
  && if ! grep -qx 'ttyS0' /etc/securetty; then \
       printf '%s\n' 'ttyS0' >> /etc/securetty; \
     fi \
+ && chmod 0755 /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
  && chmod 0755 /etc/init.d/user-runtime /etc/profile.d/zz-openrc-user-session.sh \
       /etc/user/init.d/dbus /etc/user/init.d/pipewire /etc/user/init.d/pipewire-pulse /etc/user/init.d/wireplumber \
  && install -d -m 0755 /run/user \
@@ -477,6 +481,7 @@ RUN printf '%s\n' \
  && rc-update add qemu-debug default \
  && rc-update add dbus default \
  && rc-update add iwd default \
+ && chown kiel:kiel /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
  && chown -R kiel:kiel /home/kiel/.config
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size
@@ -613,17 +618,27 @@ RUN set -e \
  && emerge -C app-portage/genlop || true
 
 # Create NVIDIA/full-runtime squashfs image.
-# Restore the original firmware tree afterwards so later artifact steps
-# start from the same final rootfs state.
+# Stage the exact firmware paths requested by the installed nvidia.ko so the
+# exported HP Z6 image contains the files at their runtime paths instead of as
+# leftover build scratch state under /tmp.
 RUN set -e \
  && echo "Preparing NVIDIA squashfs" \
- && mkdir -p /tmp/fw_original \
+ && test -e /lib/modules/${KVER}/video/nvidia.ko \
+ && rm -rf /tmp/fw_original /tmp/fw_nv_root \
+ && mkdir -p /tmp/fw_original /tmp/fw_nv_root/usr/lib/firmware \
  && cp -a /usr/lib/firmware/. /tmp/fw_original/ \
- && mkdir -p /tmp/tmpfw_nv/nvidia/590.48.01 \
- && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw_nv/ 2>/dev/null || true \
- && cp -a /usr/lib/firmware/nvidia/590.48.01/gsp_ga10x.bin /tmp/tmpfw_nv/nvidia/590.48.01/ 2>/dev/null || true \
+ && modinfo -F firmware /lib/modules/${KVER}/video/nvidia.ko \
+      | sort -u \
+      | while IFS= read -r rel; do \
+          test -n "${rel}"; \
+          src="/usr/lib/firmware/${rel}"; \
+          dst="/tmp/fw_nv_root/usr/lib/firmware/${rel}"; \
+          test -e "${src}"; \
+          mkdir -p "$(dirname "${dst}")"; \
+          cp -a "${src}" "${dst}"; \
+        done \
  && rm -rf /usr/lib/firmware/* \
- && mv /tmp/tmpfw_nv/* /usr/lib/firmware/ 2>/dev/null || true \
+ && cp -a /tmp/fw_nv_root/usr/lib/firmware/. /usr/lib/firmware/ \
  && mksquashfs / /gentoo.squashfs_nv \
    -comp zstd \
    -Xcompression-level 19 \
@@ -653,6 +668,8 @@ RUN set -e \
      boot \
      persistent \
      home/*/.cache \
+     tmp/fw_original \
+     tmp/fw_nv_root \
      var/log/journal \
     var/cache/genkernel \
     var/tmp \
@@ -660,7 +677,7 @@ RUN set -e \
     lost+found \
  && rm -rf /usr/lib/firmware/* \
  && cp -a /tmp/fw_original/. /usr/lib/firmware/ \
- && rm -rf /tmp/fw_original /tmp/tmpfw_nv
+ && rm -rf /tmp/fw_original /tmp/fw_nv_root
 
 # Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
 # keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
