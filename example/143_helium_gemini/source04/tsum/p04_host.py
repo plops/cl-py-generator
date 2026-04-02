@@ -9,11 +9,11 @@ import sqlite_minutils.db
 import datetime
 import subprocess
 import time
-import glob
 import numpy as np
 import os
 import logging
 import re
+import tempfile
 from zoneinfo import ZoneInfo
 from google.generativeai import types
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
@@ -137,41 +137,28 @@ try:
 except Exception as e:
     logger.warning(f"Index creation failed (this is harmless if they exist): {e}")
 documentation=((""""""))
-PREFERRED_BASE=["en", "de", "fr", "pl", "ar", "bn", "bg", "zh-Hans", "zh-Hant", "hr", "cs", "da", "nl", "et", "fi", "el", "iw", "hi", "hu", "id", "it", "ja", "ko", "lv", "lt", "no", "pt", "ro", "ru", "sr", "sk", "sl", "es", "sw", "sv", "th", "tr", "uk", "vi"]
-def pick_best_language(list_output: str)->str | None:
-    # Collect available language codes from yt-dlp --list-subs output
-    langs=set()
-    for line in list_output.splitlines():
-        m=re.match(r"""^\s*([A-Za-z0-9\-]+)\s+""", line)
+def extract_yt_dlp_error(output: str)->str | None:
+    for line in reversed(output.splitlines()):
+        stripped=line.strip()
+        if ( stripped.startswith("ERROR:") ):
+            return stripped[6:].strip()
+    return None
+
+def extract_subtitle_filename(output: str)->str | None:
+    for line in output.splitlines():
+        m=re.search(r"""(?:Writing video subtitles to:|Destination:)\s+(.+\.vtt)\s*$""", line)
         if ( m ):
-            langs.add(m.group(1))
-    if ( not(langs) ):
+            return os.path.basename(m.group(1).strip())
+    return None
+
+def parse_subtitle_metadata(filename: str, youtube_id: str)->tuple[str, str] | None:
+    m=re.match(rf"""^(?P<title>.+)\s\[{re.escape(youtube_id)}\]\.(?P<language>[^.]+)\.vtt$""", filename)
+    if ( not(m) ):
         return None
-    def base(code: str)->str:
-        # Group langs by base code (strip trailing -orig if present)
-        return (code[:-5]) if (code.endswith("-orig")) else (code)
-    orig_langs=[l for l in langs if (l.endswith("-orig"))]
-    # 1) Prefer any -orig. If multiple, choose by PREFERRED_BASE order using base code
-    if ( orig_langs ):
-        # Map base -> full code with orig
-        base_to_orig={base(l):l for l in orig_langs}
-        for pref in PREFERRED_BASE:
-            if ( (pref in base_to_orig) ):
-                return base_to_orig[pref]
-        # If none of the bases are in the list, pick the first deterministically
-        return sorted(orig_langs)[0]
-    # 2) No -orig, choose by PREFERRED_BASE
-    available_bases={l for l in langs}
-    for pref in PREFERRED_BASE:
-        if ( (pref in available_bases) ):
-            return pref
-    # 3) Fallbacks
-    for l in sorted(langs):
-        if ( l.startswith("en") ):
-            return l
-    return sorted(langs)[0]
+    return (m.group("title").strip(), m.group("language"))
+
 def get_transcript(url, identifier):
-    # Call yt-dlp to download the subtitles. Modifies the timestamp to have second granularity. Returns a single string. Install yt-dlp using `uv tool install yt-dlp --with yt-dlp-get-pot --with yt-dlp-get-pot-rustypipe --with curl-cffi --force`
+    # Call yt-dlp once, let yt-dlp choose the subtitle filename, and prepend title/language metadata to the parsed transcript.
     try:
         youtube_id=validate_youtube_url(url)
         if ( not(youtube_id) ):
@@ -180,45 +167,44 @@ def get_transcript(url, identifier):
         if ( not(validate_youtube_id(youtube_id)) ):
             logger.warning(f"Invalid YouTube ID format: {youtube_id}")
             return "Invalid YouTube ID format"
-        list_cmd=["uvx", "yt-dlp", "--list-subs", "--cookies-from-browser", "firefox", "--js-runtimes", "node", "--extractor-args", "youtube:player-client=web", "--", youtube_id]
-        logger.info(f"Listing subtitles: {' '.join(list_cmd)}")
-        list_res=subprocess.run(list_cmd, capture_output=True, text=True, timeout=60)
-        if ( ((0)!=(list_res.returncode)) ):
-            logger.warning(f"yt-dlp --list-subs failed: {list_res.stderr}")
-            return "Error: Could not list subtitles"
-        chosen_lang=pick_best_language(list_res.stdout)
-        if ( not(chosen_lang) ):
-            logger.error("No subtitles listed by yt-dlp")
-            return "Error: No subtitles found for this video. Please provide the transcript manually."
-        sub_file_prefix=f"/dev/shm/o_{identifier}"
-        dl_cmd=["uvx", "yt-dlp", "--skip-download", "--write-auto-subs", "--write-subs", "--cookies-from-browser", "firefox", "--js-runtimes", "node", "--extractor-args", "youtube:player-client=web", "--sub-langs", chosen_lang, "-o", f"{sub_file_prefix}.%(ext)s", "--", youtube_id]
-        logger.info(f"Downloading subtitles ({chosen_lang}): {' '.join(dl_cmd)}")
-        dl_res=subprocess.run(dl_cmd, capture_output=True, text=True, timeout=60)
-        if ( ((dl_res.returncode)!=(0)) ):
-            logger.warning(f"yt-dlp download failed: {dl_res.stderr}")
-        vtt_files=glob.glob(f"{sub_file_prefix}.*.vtt")
-        if ( not(vtt_files) ):
-            logger.error("No subtitle file downloaded")
-            return "Error: No subtitles found for this video. Please provide the transcript manually."
-        sub_file_to_parse=vtt_files[0]
-        try:
-            ostr=parse_vtt_file(sub_file_to_parse)
-            logger.info(f"Successfully parsed subtitle file: {sub_file_to_parse}")
-        except FileNotFoundError:
-            logger.error(f"Subtitle file not found: {sub_file_to_parse}")
-            ostr="Error: Subtitle file disappeared or was not present"
-        except PermissionError:
-            logger.error(f"Permission denied removing file: {sub_file_to_parse}")
-            ostr="Error: Permission denied cleaning up subtitle file"
-        except Exception as e:
-            logger.error(f"Error processing subtitle file: {e}")
-            ostr=f"Error: problem when processing subtitle file {e}"
-        for sub in glob.glob(f"{sub_file_prefix}.*"):
+        temp_dir_base="/dev/shm" if ( os.path.isdir("/dev/shm") ) else None
+        with tempfile.TemporaryDirectory(prefix=f"yt-dlp-{identifier}-", dir=temp_dir_base) as temp_dir:
+            dl_cmd=["uvx", "yt-dlp", "--cookies-from-browser", "firefox", "--write-subs", "--write-auto-subs", "--skip-download", "--sub-langs", ".*-orig", "--", youtube_id]
+            logger.info(f"Downloading subtitles: {' '.join(dl_cmd)} (cwd={temp_dir})")
+            dl_res=subprocess.run(dl_cmd, capture_output=True, text=True, timeout=60, cwd=temp_dir)
+            combined_output="\n".join([part for part in [dl_res.stdout, dl_res.stderr] if part])
+            if ( ((dl_res.returncode)!=(0)) ):
+                error_message=extract_yt_dlp_error(combined_output)
+                logger.warning(f"yt-dlp download failed: {combined_output}")
+                if ( error_message ):
+                    return f"Error: {error_message}"
+                return "Error: Could not download subtitles"
+            subtitle_filename=extract_subtitle_filename(combined_output)
+            if ( not(subtitle_filename) ):
+                logger.error(f"Could not determine subtitle filename from yt-dlp output: {combined_output}")
+                return "Error: No subtitles found for this video. Please provide the transcript manually."
+            metadata=parse_subtitle_metadata(subtitle_filename, youtube_id)
+            if ( not(metadata) ):
+                logger.error(f"Could not parse subtitle metadata from filename: {subtitle_filename}")
+                return "Error: Could not determine subtitle metadata"
+            title, language=metadata
+            sub_file_to_parse=os.path.join(temp_dir, subtitle_filename)
+            if ( not(os.path.exists(sub_file_to_parse)) ):
+                logger.error(f"Subtitle file missing after download: {sub_file_to_parse}")
+                return "Error: Subtitle file disappeared or was not present"
             try:
-                os.remove(sub)
-            except OSError as e:
-                logger.warning(f"Error removing file {sub}: {e}")
-        return ostr
+                transcript_body=parse_vtt_file(sub_file_to_parse)
+                logger.info(f"Successfully parsed subtitle file: {sub_file_to_parse}")
+            except FileNotFoundError:
+                logger.error(f"Subtitle file not found: {sub_file_to_parse}")
+                return "Error: Subtitle file disappeared or was not present"
+            except PermissionError:
+                logger.error(f"Permission denied reading subtitle file: {sub_file_to_parse}")
+                return "Error: Permission denied processing subtitle file"
+            except Exception as e:
+                logger.error(f"Error processing subtitle file: {e}")
+                return f"Error: problem when processing subtitle file {e}"
+            return f"Title: {title}\nLanguage: {language}\n\n{transcript_body}"
     except subprocess.TimeoutExpired:
         logger.error(f"yt-dlp timeout for identifier {identifier}")
         return "Error: Download timeout"
