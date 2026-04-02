@@ -12,6 +12,7 @@ import time
 import numpy as np
 import os
 import logging
+import hashlib
 import re
 import tempfile
 from zoneinfo import ZoneInfo
@@ -111,32 +112,61 @@ logger.info("Initialize database manually")
 db = database("data/summaries.db")
 summaries = db.t.items
 if not summaries.exists():
-    summaries.create(identifier=int, model=str, transcript=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier")
+    summaries.create(identifier=int, model=str, transcript=str, transcript_hash=str, host=str, original_source_link=str, include_comments=bool, include_timestamps=bool, include_glossary=bool, output_language=str, summary=str, summary_done=bool, summary_input_tokens=int, summary_output_tokens=int, summary_timestamp_start=str, summary_timestamp_end=str, timestamps=str, timestamps_done=bool, timestamps_input_tokens=int, timestamps_output_tokens=int, timestamps_timestamp_start=str, timestamps_timestamp_end=str, timestamped_summary_in_youtube_format=str, cost=float, embedding=bytes, embedding_model=str, full_embedding=bytes, pk="identifier")
+existing_columns={column.name for column in summaries.columns}
+if ( "transcript_hash" not in existing_columns ):
+    logger.info("Adding transcript_hash column for fast transcript deduplication")
+    db.execute("alter table [items] add column [transcript_hash] text")
 
 logger.info("Create website app without automatic db loading")
 app, rt = fast_app(live=False, render=render, htmlkw=dict(lang="en-US"))
 
+SUMMARY_LIST_SELECT="identifier, summary, summary_done, timestamps_done"
+SUMMARY_PREVIEW_SELECT="""identifier, model, original_source_link, embedding_model, summary, summary_done,
+summary_timestamp_end, timestamps_done, summary_input_tokens, timestamps_input_tokens,
+summary_output_tokens, timestamps_output_tokens, timestamped_summary_in_youtube_format, cost,
+substr(coalesce(transcript, ''), 1, 100) as transcript_preview"""
+SUMMARY_STREAM_FLUSH_SECONDS=(0.50    )
+SUMMARY_STREAM_FLUSH_CHARS=512
+
+def fetch_summary_row(where: str, where_args, select: str = "*"):
+    try:
+        rows=list(summaries.rows_where(where=where, where_args=where_args, select=select, limit=1))
+    except Exception as e:
+        logger.error(f"Error fetching summary row ({where}): {e}")
+        return None
+    if ( not(rows) ):
+        return None
+    return AttrDict(rows[0])
+
 def get_summaries(limit=3, order_by="-identifier"):
     """Get summaries with proper error handling."""
     try:
-        return [AttrDict(row) for row in summaries.rows_where(order_by=order_by, limit=limit)]
+        return [AttrDict(row) for row in summaries.rows_where(order_by=order_by, limit=limit, select=SUMMARY_LIST_SELECT)]
     except Exception as e:
         logger.error(f"Error fetching summaries: {e}")
         return []
 
-def get_summary(identifier: int):
+def get_summary(identifier: int, select: str = "*"):
     """Get a single summary by identifier."""
-    try:
-        return AttrDict(summaries[identifier])
-    except Exception as e:
-        logger.error(f"Error fetching summary {identifier}: {e}")
-        return None
+    return fetch_summary_row("identifier = ?", [identifier], select=select)
+
+def get_summary_preview(identifier: int):
+    return get_summary(identifier, select=SUMMARY_PREVIEW_SELECT)
 # Optimization: Ensure indexes exist for fast deduplication lookups.
 try:
     summaries.create_index(["original_source_link", "model", "summary_timestamp_start"], if_not_exists=True)
+    summaries.create_index(["model", "summary_timestamp_start"], if_not_exists=True)
+    summaries.create_index(["transcript_hash", "model", "summary_timestamp_start"], if_not_exists=True)
 except Exception as e:
     logger.warning(f"Index creation failed (this is harmless if they exist): {e}")
 documentation=((""""""))
+def compute_transcript_hash(transcript: str | None)->str | None:
+    if ( ((transcript is None)) or (not(transcript.strip())) ):
+        return None
+    normalized=transcript.strip()
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
 def extract_yt_dlp_error(output: str)->str | None:
     for line in reversed(output.splitlines()):
         stripped=line.strip()
@@ -312,7 +342,7 @@ def generation_preview(identifier):
     price_input={("gemini-3-flash-preview"):((0.50    )), ("gemini-3.1-flash-lite-preview"):((0.250    )), ("gemini-2.5-flash"):((0.30    )), ("gemini-2.5-flash-lite"):((0.10    )), ("gemini-robotics-er-1.5-preview"):((0.30    ))}
     price_output={("gemini-3-flash-preview"):((3.0    )), ("gemini-3.1-flash-lite-preview"):((1.50    )), ("gemini-2.5-flash"):((2.50    )), ("gemini-2.5-flash-lite"):((0.40    )), ("gemini-robotics-er-1.5-preview"):((2.50    ))}
     try:
-        s=get_summary(identifier)
+        s=get_summary_preview(identifier)
         if not s:
             return Div(P("Summary not found"))
         if ( s.timestamps_done ):
@@ -328,7 +358,8 @@ def generation_preview(identifier):
             input_tokens=((s.summary_input_tokens)+(s.timestamps_input_tokens))
             output_tokens=((s.summary_output_tokens)+(s.timestamps_output_tokens))
             cost=((((((input_tokens)/(1_000_000)))*(price_input_token_usd_per_mio)))+(((((output_tokens)/(1_000_000)))*(price_output_token_usd_per_mio))))
-            summaries.update(pk_values=identifier, cost=cost)
+            if ( ((s.cost is None)) or (((1.00e-12)<(abs(((s.cost)-(cost)))))) ):
+                summaries.update(pk_values=identifier, cost=cost)
             if ( ((cost)<((2.00e-2))) ):
                 cost_str=f"${cost:.4f}"
             else:
@@ -343,8 +374,8 @@ AI-generated summary created with {s.model.split('|')[0]} for free via RocketRec
             text=s.summary
         elif ( ((s.summary) and (((0)<(len(s.summary))))) ):
             text=s.summary
-        elif ( ((len(s.transcript))) ):
-            text=f"Generating from transcript: {s.transcript[0:min(100,len(s.transcript))]}"
+        elif ( ((s.transcript_preview) and (((0)<(len(s.transcript_preview))))) ):
+            text=f"Generating from transcript: {s.transcript_preview}"
         summary_details=Div(P(B("identifier:"), Span(f"{s.identifier}")), P(B("model:"), Span(f"{s.model}")), A(f"{s.original_source_link}", target="_blank", href=f"{s.original_source_link}", id=f"source-link-{identifier}"), P(B("embedding_model:"), Span(f"{s.embedding_model}")), cls="summary-details")
         summary_container=Div(summary_details, cls="summary-container")
         title=summary_container
@@ -396,6 +427,7 @@ def post(request: Request, model: str = "", transcript: str = "", original_sourc
     summary = AttrDict(
         model=model,
         transcript=transcript,
+        transcript_hash=compute_transcript_hash(transcript),
         original_source_link=original_source_link,
         include_comments=False,
         include_timestamps=True,
@@ -413,12 +445,12 @@ def post(request: Request, model: str = "", transcript: str = "", original_sourc
     existing_entry=None
     if ( ((summary.original_source_link) and (((0)<(len(summary.original_source_link.strip()))))) ):
         # Criteria 1: Check by YouTube Link + Model
-        matches=list(summaries.rows_where(where="original_source_link = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.original_source_link.strip(), summary.model, lookback_limit.isoformat()], order_by="-identifier", limit=1))
+        matches=list(summaries.rows_where(where="original_source_link = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.original_source_link.strip(), summary.model, lookback_limit.isoformat()], order_by="-identifier", select="identifier", limit=1))
         if ( ((0)<(len(matches))) ):
             existing_entry=AttrDict(matches[0])
-    elif ( ((summary.transcript) and (((0)<(len(summary.transcript.strip()))))) ):
-        # Criteria 2: Check by Raw Transcript + Model (if no link provided)
-        matches=list(summaries.rows_where(where="transcript = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.transcript, summary.model, lookback_limit.isoformat()], order_by="-identifier", limit=1))
+    elif ( summary.transcript_hash ):
+        # Criteria 2: Check by transcript hash + Model (if no link provided)
+        matches=list(summaries.rows_where(where="transcript_hash = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.transcript_hash, summary.model, lookback_limit.isoformat()], order_by="-identifier", select="identifier", limit=1))
         if ( ((0)<(len(matches))) ):
             existing_entry=AttrDict(matches[0])
     t_end=time.perf_counter()
@@ -448,7 +480,7 @@ def download_and_generate(identifier: int):
         if ( (((s["transcript"] is None)) or (((0)==(len(s["transcript"]))))) ):
             # No transcript given, try to download from URL
             transcript=get_transcript(s["original_source_link"], identifier)
-            summaries.update(pk_values=identifier, transcript=transcript)
+            summaries.update(pk_values=identifier, transcript=transcript, transcript_hash=compute_transcript_hash(transcript))
         # re-fetch summary with transcript
         s=get_summary(identifier)
         # Validate transcript length
@@ -508,6 +540,9 @@ def generate_and_save(identifier: int):
     Args:
         identifier (int): The unique identifier for the summary entry in the database."""
     logger.info(f"generate_and_save id={identifier}")
+    summary_text=""
+    persisted_summary=""
+    last_summary_flush=time.perf_counter()
     try:
         s=wait_until_row_exists(identifier)
         if ( ((s)==(-1)) ):
@@ -518,7 +553,9 @@ def generate_and_save(identifier: int):
         real_model=s["model"].split("|")[0]
         if ( (real_model in model_counts) ):
             model_counts[real_model] += 1
-        logger.info(f"generate_and_save model={s["model"]}")
+        summary_text=(s["summary"] or "")
+        persisted_summary=summary_text
+        logger.info(f"generate_and_save model={s['model']}")
         m=genai.GenerativeModel(s["model"].split("|")[0], system_instruction=r"""### CORE INSTRUCTION
 You are an advanced, adaptive knowledge synthesis engine. Your goal is to provide high-fidelity summaries of input material. You possess the capability to analyze text, determine the specific domain of expertise required to understand it, and fully adopt the persona of a senior expert in that field to perform the summary.
 
@@ -540,13 +577,30 @@ For every input provided, follow this strict three-step process:
         for chunk in response:
             try:
                 logger.debug(f"Adding text chunk to id={identifier}")
-                summaries.update(pk_values=identifier, summary=((get_summary(identifier).summary)+(chunk.text)))
+                chunk_text=(chunk.text or "")
             except ValueError as e:
                 logger.warning(f"ValueError processing chunk for {identifier}: {e}")
-                summaries.update(pk_values=identifier, summary=((summaries[identifier].summary)+(f"\nError: value error {str(e)}")))
+                summary_text += f"\nError: value error {str(e)}"
+                summaries.update(pk_values=identifier, summary=summary_text)
+                persisted_summary=summary_text
+                last_summary_flush=time.perf_counter()
             except Exception as e:
                 logger.error(f"Error processing chunk for {identifier}: {e}")
-                summaries.update(pk_values=identifier, summary=((get_summary(identifier).summary)+(f"\n[Error1189: {str(e)}]")))
+                summary_text += f"\n[Error1189: {str(e)}]"
+                summaries.update(pk_values=identifier, summary=summary_text)
+                persisted_summary=summary_text
+                last_summary_flush=time.perf_counter()
+            else:
+                if ( not(chunk_text) ):
+                    continue
+                summary_text += chunk_text
+                now=time.perf_counter()
+                if ( (((SUMMARY_STREAM_FLUSH_CHARS)<=(((len(summary_text))-(len(persisted_summary)))))) or (((SUMMARY_STREAM_FLUSH_SECONDS)<=((now)-(last_summary_flush)))) ):
+                    summaries.update(pk_values=identifier, summary=summary_text)
+                    persisted_summary=summary_text
+                    last_summary_flush=now
+        if ( summary_text != persisted_summary ):
+            summaries.update(pk_values=identifier, summary=summary_text)
         prompt_token_count=response.usage_metadata.prompt_token_count
         candidates_token_count=response.usage_metadata.candidates_token_count
         try:
@@ -555,20 +609,22 @@ For every input provided, follow this strict three-step process:
         except AttributeError:
             logger.info("No thinking token count available")
             thinking_token_count=0
-        summaries.update(pk_values=identifier, summary_done=True, summary_input_tokens=prompt_token_count, summary_output_tokens=((candidates_token_count)+(thinking_token_count)), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        summaries.update(pk_values=identifier, summary=summary_text, summary_done=True, summary_input_tokens=prompt_token_count, summary_output_tokens=((candidates_token_count)+(thinking_token_count)), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted as e:
         logger.error(f"Resource exhausted for {identifier}: {e}")
-        summaries.update(pk_values=identifier, summary_done=False, summary=((get_summary(identifier).summary)+("\nError1234: resource exhausted. Try again with a different model.")), summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
+        summary_text += "\nError1234: resource exhausted. Try again with a different model."
+        summaries.update(pk_values=identifier, summary_done=False, summary=summary_text, summary_timestamp_end=datetime.datetime.now().isoformat(), timestamps="", timestamps_timestamp_start=datetime.datetime.now().isoformat())
         return 
     except Exception as e:
         logger.error(f"Unexpected error in generate_and_save for {identifier}: {e}")
         try:
-            summaries.update(pk_values=identifier, summary_done=False, summary=((get_summary(identifier).summary)+(f"Error1254: {str(e)}")), summary_timestamp_end=datetime.datetime.now().isoformat())
+            summary_text += f"Error1254: {str(e)}"
+            summaries.update(pk_values=identifier, summary_done=False, summary=summary_text, summary_timestamp_end=datetime.datetime.now().isoformat())
         except Exception as update_error:
             logger.error(f"Failed to update database with error for {identifier}: {update_error}")
         return 
     try:
-        text=get_summary(identifier).summary
+        text=summary_text
         text=convert_markdown_to_youtube_format(text)
         summaries.update(pk_values=identifier, timestamps_done=True, timestamped_summary_in_youtube_format=text, timestamps_input_tokens=0, timestamps_output_tokens=0, timestamps_timestamp_end=datetime.datetime.now().isoformat())
     except google.api_core.exceptions.ResourceExhausted:
@@ -578,7 +634,6 @@ For every input provided, follow this strict three-step process:
         logger.error(f"Error during summary update for identifier {identifier}: {e}")
     try:
         # Generate and store the embedding of the summary
-        summary_text=get_summary(identifier).summary
         if ( summary_text ):
             logger.info(f"Generating summary embedding for identifier {identifier}...")
             embedding_model="gemini-embedding-001"
