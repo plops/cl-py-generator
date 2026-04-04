@@ -11,7 +11,8 @@ def multiply(a: int, b: int) -> int:
 # Initialize chat  
 chat = Chat(  
     model="openai/gemma4:e2b",  
-    api_base="http://localhost:11434",  
+    api_base="http://localhost:11434",
+    max_tokens=4096,  # Add this line  
     api_key="ollama",  # ollama doesn't need real API key  
     tools=[add_numbers, multiply]  
 )  
