@@ -5,7 +5,8 @@
   "description": "Sends the current YouTube URL or webpage (or selection) to RocketRecap for summarization.",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "host_permissions": [
     "https://rocketrecap.com/*"

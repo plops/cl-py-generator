@@ -7,6 +7,8 @@ import google.api_core.exceptions
 import markdown
 import sqlite_minutils.db
 import datetime
+import gzip
+import json
 import subprocess
 import time
 import numpy as np
@@ -166,6 +168,69 @@ def compute_transcript_hash(transcript: str | None)->str | None:
         return None
     normalized=transcript.strip()
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+def normalize_request_text(value)->str:
+    if ( value is None ):
+        return ""
+    if isinstance(value, str):
+        return value
+    return str(value)
+
+def parse_request_bool(value, default: bool = False)->bool:
+    if ( value is None ):
+        return default
+    if isinstance(value, bool):
+        return value
+    normalized=normalize_request_text(value).strip().lower()
+    if ( normalized in {"1", "true", "on", "yes"} ):
+        return True
+    if ( normalized in {"0", "false", "off", "no", ""} ):
+        return False
+    return default
+
+async def parse_process_transcript_payload(request: Request)->AttrDict:
+    content_type=request.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+    content_encoding=request.headers.get("content-encoding", "").strip().lower()
+    if ( content_type == "application/json" ):
+        raw_body=await request.body()
+        if ( content_encoding == "gzip" ):
+            try:
+                raw_body=gzip.decompress(raw_body)
+            except OSError as e:
+                raise ValueError("Could not decompress gzip request body") from e
+        elif ( content_encoding not in {"", "identity"} ):
+            raise ValueError(f"Unsupported Content-Encoding: {content_encoding}")
+        try:
+            payload=json.loads(raw_body.decode("utf-8")) if raw_body else {}
+        except (UnicodeDecodeError, json.JSONDecodeError) as e:
+            raise ValueError("Could not parse JSON request body") from e
+    else:
+        payload=dict(await request.form())
+    return AttrDict(
+        model=normalize_request_text(payload.get("model")).strip(),
+        transcript=normalize_request_text(payload.get("transcript")),
+        original_source_link=normalize_request_text(payload.get("original_source_link")).strip(),
+        include_timestamps=parse_request_bool(payload.get("include_timestamps"), default=True),
+        output_language=(normalize_request_text(payload.get("output_language")).strip() or "en")
+    )
+
+def build_summary_request(payload: AttrDict, request: Request)->AttrDict:
+    summary=AttrDict(
+        model=payload.model,
+        transcript=payload.transcript,
+        transcript_hash=compute_transcript_hash(payload.transcript),
+        original_source_link=payload.original_source_link,
+        include_comments=False,
+        include_timestamps=payload.include_timestamps,
+        include_glossary=False,
+        output_language=payload.output_language,
+        summary_done=False,
+        timestamps_done=False
+    )
+    summary.host=request.client.host if request.client else "unknown"
+    summary.summary_timestamp_start=datetime.datetime.now().isoformat()
+    summary.summary=""
+    return summary
 
 def extract_yt_dlp_error(output: str)->str | None:
     for line in reversed(output.splitlines()):
@@ -423,34 +488,26 @@ def get(identifier: int):
     return generation_preview(identifier)
  
 @rt("/process_transcript")
-def post(request: Request, model: str = "", transcript: str = "", original_source_link: str = ""):
-    summary = AttrDict(
-        model=model,
-        transcript=transcript,
-        transcript_hash=compute_transcript_hash(transcript),
-        original_source_link=original_source_link,
-        include_comments=False,
-        include_timestamps=True,
-        include_glossary=False,
-        output_language="en",
-        summary_done=False,
-        timestamps_done=False
-    )
-    summary.host=request.client.host if request.client else "unknown"
-    summary.summary_timestamp_start=datetime.datetime.now().isoformat()
-    summary.summary=""
+async def post(request: Request):
+    try:
+        payload=await parse_process_transcript_payload(request)
+    except ValueError as e:
+        logger.warning(f"Rejected /process_transcript request: {e}")
+        return Response(str(e), status_code=400, media_type="text/plain")
+    summary=build_summary_request(payload, request)
     t_start=time.perf_counter()
     # Define a lookback window (e.g., 5 minutes) to catch double-clicks or re-submissions.
     lookback_limit=((datetime.datetime.now())-(datetime.timedelta(minutes=5)))
     existing_entry=None
-    if ( ((summary.original_source_link) and (((0)<(len(summary.original_source_link.strip()))))) ):
-        # Criteria 1: Check by YouTube Link + Model
-        matches=list(summaries.rows_where(where="original_source_link = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.original_source_link.strip(), summary.model, lookback_limit.isoformat()], order_by="-identifier", select="identifier", limit=1))
+    if ( summary.transcript_hash ):
+        if ( ((summary.original_source_link) and (((0)<(len(summary.original_source_link.strip()))))) ):
+            matches=list(summaries.rows_where(where="original_source_link = ? AND transcript_hash = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.original_source_link.strip(), summary.transcript_hash, summary.model, lookback_limit.isoformat()], order_by="-identifier", select="identifier", limit=1))
+        else:
+            matches=list(summaries.rows_where(where="transcript_hash = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.transcript_hash, summary.model, lookback_limit.isoformat()], order_by="-identifier", select="identifier", limit=1))
         if ( ((0)<(len(matches))) ):
             existing_entry=AttrDict(matches[0])
-    elif ( summary.transcript_hash ):
-        # Criteria 2: Check by transcript hash + Model (if no link provided)
-        matches=list(summaries.rows_where(where="transcript_hash = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.transcript_hash, summary.model, lookback_limit.isoformat()], order_by="-identifier", select="identifier", limit=1))
+    elif ( ((summary.original_source_link) and (((0)<(len(summary.original_source_link.strip()))))) ):
+        matches=list(summaries.rows_where(where="original_source_link = ? AND model = ? AND summary_timestamp_start > ?", where_args=[summary.original_source_link.strip(), summary.model, lookback_limit.isoformat()], order_by="-identifier", select="identifier", limit=1))
         if ( ((0)<(len(matches))) ):
             existing_entry=AttrDict(matches[0])
     t_end=time.perf_counter()
