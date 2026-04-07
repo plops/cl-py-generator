@@ -10,10 +10,10 @@ It follows the same partition layout already in use on this machine:
 
 Current deployment target:
 
-- New build directory: `/dev/shm/gentoo-z6-min-openrc_20260324/`
-- New HP Z6 squashfs source: `/dev/shm/gentoo-z6-min-openrc_20260324/gentoo.squashfs_nv`
-- New version suffix: `0324`
-- Current booted fallback that must be kept: `0311`
+- New build directory: `/dev/shm/gentoo-z6-min-openrc_20260331/`
+- New HP Z6 squashfs source: `/dev/shm/gentoo-z6-min-openrc_20260331/gentoo.squashfs_nv`
+- New version suffix: `0331`
+- Current booted fallback that must be kept: `0324`
 
 ## 0. Current machine state
 
@@ -22,10 +22,10 @@ On this HP Z6, the relevant runtime state is:
 - `/run/initramfs/live` is mounted from `/dev/nvme0n1p3`
 - `/proc/cmdline` currently uses:
   - `root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23`
-  - `rd.live.squashimg=gentoo.squashfs_0311`
+  - `rd.live.squashimg=gentoo.squashfs_0324`
   - `rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca`
   - `rd.overlay=/dev/mapper/enc:persistent`
-- Current GRUB custom entry uses the `0311` kernel/initramfs/squashfs set
+- Current GRUB custom entry uses the `0324` kernel/initramfs/squashfs set
 
 Currently present squashfs files on `/dev/nvme0n1p3`:
 
@@ -34,8 +34,9 @@ Currently present squashfs files on `/dev/nvme0n1p3`:
 - `gentoo.squashfs_0306` about `2.7G`
 - `gentoo.squashfs_0309` about `2.6G`
 - `gentoo.squashfs_0311` about `2.4G`
+- `gentoo.squashfs_0324` about `2.3G`
 
-There is currently about `19G` free on `/dev/nvme0n1p3`, so there should be enough space to keep all existing squashfs files and add the new `0324` set.
+There is currently about `17G` free on `/dev/nvme0n1p3`, so there should be enough space to keep all existing squashfs files and add the new `0331` set.
 
 ## 1. Preflight checks
 
@@ -80,13 +81,13 @@ Expected result:
 Check that the expected OpenRC HP Z6 artifacts exist:
 
 ```bash
-ls -lh /dev/shm/gentoo-z6-min-openrc_20260324/
+ls -lh /dev/shm/gentoo-z6-min-openrc_20260331/
 ls -lh \
-  /dev/shm/gentoo-z6-min-openrc_20260324/gentoo.squashfs_nv \
-  /dev/shm/gentoo-z6-min-openrc_20260324/vmlinuz \
-  /dev/shm/gentoo-z6-min-openrc_20260324/initramfs_squash_sda1-x86_64.img \
-  /dev/shm/gentoo-z6-min-openrc_20260324/packages.txt \
-  /dev/shm/gentoo-z6-min-openrc_20260324/packages.tsv
+  /dev/shm/gentoo-z6-min-openrc_20260331/gentoo.squashfs_nv \
+  /dev/shm/gentoo-z6-min-openrc_20260331/vmlinuz \
+  /dev/shm/gentoo-z6-min-openrc_20260331/initramfs_squash_sda1-x86_64.img \
+  /dev/shm/gentoo-z6-min-openrc_20260331/packages.txt \
+  /dev/shm/gentoo-z6-min-openrc_20260331/packages.tsv
 ```
 
 Important for HP Z6:
@@ -101,14 +102,14 @@ Important for HP Z6:
 
 Recommended keep set:
 
-- Keep `gentoo.squashfs_0311` because that is the currently booted known-good fallback
+- Keep `gentoo.squashfs_0324` because that is the currently booted known-good fallback
 - Keep the older squashfs files as long as free space remains comfortable
 - Keep matching kernel and initramfs files for the versions you keep bootable in GRUB
 
-With about `19G` free on `/dev/nvme0n1p3`, the current recommendation is:
+With about `17G` free on `/dev/nvme0n1p3`, the current recommendation is:
 
 - Keep all existing squashfs files
-- Add the new `0324` files without deleting anything first
+- Add the new `0331` files without deleting anything first
 
 If the copy later fails because space becomes tight, delete in this order:
 
@@ -116,12 +117,13 @@ If the copy later fails because space becomes tight, delete in this order:
 2. `gentoo.squashfs_0302` and its matching `boot/vmlinuz_0302` and `boot/initramfs_squash_sda1-x86_64.img_0302`
 3. `gentoo.squashfs_0306` and its matching `boot/vmlinuz_0306` and `boot/initramfs_squash_sda1-x86_64.img_0306`
 4. `gentoo.squashfs_0309` and its matching `boot/vmlinuz_0309` and `boot/initramfs_squash_sda1-x86_64.img_0309`
+5. `gentoo.squashfs_0311` and its matching `boot/vmlinuz_0311` and `boot/initramfs_squash_sda1-x86_64.img_0311`
 
 Do not delete:
 
-- `gentoo.squashfs_0311`
-- `boot/vmlinuz_0311`
-- `boot/initramfs_squash_sda1-x86_64.img_0311`
+- `gentoo.squashfs_0324`
+- `boot/vmlinuz_0324`
+- `boot/initramfs_squash_sda1-x86_64.img_0324`
 
 Optional cleanup commands if needed later:
 
@@ -137,52 +139,52 @@ Re-check free space after each cleanup step:
 df -h /run/initramfs/live
 ```
 
-## 5. Copy the new `0324` artifacts
+## 5. Copy the new `0331` artifacts
 
 Copy the new OpenRC HP Z6 artifacts with versioned names:
 
 ```bash
-sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260324/gentoo.squashfs_nv \
-  /run/initramfs/live/gentoo.squashfs_0324
-sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260324/vmlinuz \
-  /run/initramfs/live/boot/vmlinuz_0324
-sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260324/initramfs_squash_sda1-x86_64.img \
-  /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0324
-sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260324/packages.txt \
-  /run/initramfs/live/packages_0324.txt
-sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260324/packages.tsv \
-  /run/initramfs/live/packages_0324.tsv
+sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260331/gentoo.squashfs_nv \
+  /run/initramfs/live/gentoo.squashfs_0331
+sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260331/vmlinuz \
+  /run/initramfs/live/boot/vmlinuz_0331
+sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260331/initramfs_squash_sda1-x86_64.img \
+  /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0331
+sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260331/packages.txt \
+  /run/initramfs/live/packages_0331.txt
+sudo cp -av /dev/shm/gentoo-z6-min-openrc_20260331/packages.tsv \
+  /run/initramfs/live/packages_0331.tsv
 ```
 
 Verify:
 
 ```bash
-ls -lh /run/initramfs/live/gentoo.squashfs_0324
-ls -lh /run/initramfs/live/boot/vmlinuz_0324
-ls -lh /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0324
-ls -lh /run/initramfs/live/packages_0324.txt /run/initramfs/live/packages_0324.tsv
+ls -lh /run/initramfs/live/gentoo.squashfs_0331
+ls -lh /run/initramfs/live/boot/vmlinuz_0331
+ls -lh /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0331
+ls -lh /run/initramfs/live/packages_0331.txt /run/initramfs/live/packages_0331.tsv
 df -h /run/initramfs/live
 ```
 
-## 6. Add a new GRUB entry and keep `0311` as fallback
+## 6. Add a new GRUB entry and keep `0324` as fallback
 
-Append a new entry to `/run/initramfs/live/boot/grub/custom.cfg` and keep the existing `0311` entry unchanged.
+Append a new entry to `/run/initramfs/live/boot/grub/custom.cfg` and keep the existing `0324` entry unchanged.
 
 Recommended new entry:
 
 ```bash
 cat <<'EOF' | sudo tee -a /run/initramfs/live/boot/grub/custom.cfg >/dev/null
 
-menuentry 'Gentoo Dracut (persist on nvme0n1p5 0324 OpenRC NV)' {
+menuentry 'Gentoo Dracut (persist on nvme0n1p5 0331 OpenRC NV)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
 
-    linux /boot/vmlinuz_0324 \
+    linux /boot/vmlinuz_0331 \
       root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
       rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs_0324 \
+      rd.live.squashimg=gentoo.squashfs_0331 \
       rd.live.ram=1 \
       rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
       rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
@@ -190,7 +192,7 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5 0324 OpenRC NV)' {
       rd.live.overlay.overlayfs=1 \
       modprobe.blacklist=hp_bioscfg
 
-    initrd /boot/initramfs_squash_sda1-x86_64.img_0324
+    initrd /boot/initramfs_squash_sda1-x86_64.img_0331
 }
 EOF
 ```
@@ -198,7 +200,7 @@ EOF
 Verify that both the old and new entries are present:
 
 ```bash
-rg -n "0311|0324" /run/initramfs/live/boot/grub/custom.cfg
+rg -n "0324|0331" /run/initramfs/live/boot/grub/custom.cfg
 ```
 
 ## 7. Final checks before reboot
@@ -207,19 +209,19 @@ Run:
 
 ```bash
 sync
-ls -lh /run/initramfs/live/gentoo.squashfs_0311 /run/initramfs/live/gentoo.squashfs_0324
-ls -lh /run/initramfs/live/boot/vmlinuz_0311 /run/initramfs/live/boot/vmlinuz_0324
-ls -lh /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0311 /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0324
-ls -lh /run/initramfs/live/packages_0324.txt /run/initramfs/live/packages_0324.tsv
+ls -lh /run/initramfs/live/gentoo.squashfs_0324 /run/initramfs/live/gentoo.squashfs_0331
+ls -lh /run/initramfs/live/boot/vmlinuz_0324 /run/initramfs/live/boot/vmlinuz_0331
+ls -lh /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0324 /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0331
+ls -lh /run/initramfs/live/packages_0331.txt /run/initramfs/live/packages_0331.tsv
 sed -n '1,220p' /run/initramfs/live/boot/grub/custom.cfg
 ```
 
 Checklist:
 
-- `0311` files still exist
-- `0324` files exist and have non-zero size
-- `packages_0324.txt` and `packages_0324.tsv` are present if you copied the manifests
-- `custom.cfg` contains both the existing `0311` entry and the new `0324` entry
+- `0324` files still exist
+- `0331` files exist and have non-zero size
+- `packages_0331.txt` and `packages_0331.tsv` are present if you copied the manifests
+- `custom.cfg` contains both the existing `0324` entry and the new `0331` entry
 - `/dev/mapper/enc` is still the overlay target referenced by the new entry
 
 ## 8. Reboot and select the new entry
@@ -232,8 +234,8 @@ sudo reboot
 
 At the GRUB menu:
 
-- Select `Gentoo Dracut (persist on nvme0n1p5 0324 OpenRC NV)` for the new image
-- Keep using the `0311` entry as rollback fallback if the new image has a regression
+- Select `Gentoo Dracut (persist on nvme0n1p5 0331 OpenRC NV)` for the new image
+- Keep using the `0324` entry as rollback fallback if the new image has a regression
 
 ## 9. Re-establish network configuration after boot
 
@@ -404,18 +406,18 @@ sed -n '1,120p' /etc/resolv.conf
 If the new image does not boot cleanly:
 
 - Reboot
-- Select the existing `0311` menu entry
-- Leave the `0324` files on disk for later inspection unless you need the space immediately
+- Select the existing `0324` menu entry
+- Leave the `0331` files on disk for later inspection unless you need the space immediately
 
-If you want to remove the `0324` deployment after a failed test:
+If you want to remove the `0331` deployment after a failed test:
 
 ```bash
 sudo mount -o remount,rw /run/initramfs/live
-sudo rm -v /run/initramfs/live/gentoo.squashfs_0324
-sudo rm -v /run/initramfs/live/boot/vmlinuz_0324
-sudo rm -v /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0324
-sudo rm -v /run/initramfs/live/packages_0324.txt
-sudo rm -v /run/initramfs/live/packages_0324.tsv
+sudo rm -v /run/initramfs/live/gentoo.squashfs_0331
+sudo rm -v /run/initramfs/live/boot/vmlinuz_0331
+sudo rm -v /run/initramfs/live/boot/initramfs_squash_sda1-x86_64.img_0331
+sudo rm -v /run/initramfs/live/packages_0331.txt
+sudo rm -v /run/initramfs/live/packages_0331.tsv
 ```
 
-Then remove the corresponding `0324` GRUB entry from `/run/initramfs/live/boot/grub/custom.cfg`.
+Then remove the corresponding `0331` GRUB entry from `/run/initramfs/live/boot/grub/custom.cfg`.
