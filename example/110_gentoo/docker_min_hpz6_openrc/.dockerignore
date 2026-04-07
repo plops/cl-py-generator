@@ -1,0 +1,22 @@
+# Ignore VCS
+.git
+
+# Local logs, build artifacts, and large generated images
+logs/
+qemu/
+stage/
+gentoo.squashfs*
+gentoo.ext4
+initramfs-with-squashfs.img
+
+# Portage caches and binary/distfile caches
+var/cache/distfiles
+var/cache/binpkgs
+
+# User caches
+home/kiel/.cache
+home/kiel/.cache/**
+
+# Other large or temporary directories
+var/tmp
+var/tmp/**

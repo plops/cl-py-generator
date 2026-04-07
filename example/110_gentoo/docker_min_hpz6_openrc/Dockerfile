@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260330 AS portage
+FROM gentoo/portage:20260407 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260330 AS base
+FROM gentoo/stage3:nomultilib-20260406 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -31,7 +31,6 @@ FROM builder
 RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
 RUN emerge --ask=n sys-devel/mold
 COPY config/make.conf /etc/portage/make.conf
-COPY config/package.mask /etc/portage/package.mask/package.mask
 COPY config/package.license /etc/portage/package.license
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
