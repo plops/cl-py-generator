@@ -14,6 +14,10 @@ modules=(
   r8169
   igc
 )
+reverse_tunnel_services=(
+  reverse-ssh-eu
+  reverse-ssh-us
+)
 
 case "$rotation" in
   0|1|2|3)
@@ -53,6 +57,11 @@ echo "Applying static addresses on ${static_if}"
 sudo ip -4 addr flush dev "$static_if" scope global || true
 for addr in "${static_addrs[@]}"; do
   sudo ip addr add "$addr" dev "$static_if"
+done
+
+echo "Starting reverse SSH OpenRC services"
+for svc in "${reverse_tunnel_services[@]}"; do
+  sudo rc-service "$svc" restart || sudo rc-service "$svc" start
 done
 
 echo

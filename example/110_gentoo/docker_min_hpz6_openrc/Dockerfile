@@ -375,6 +375,7 @@ RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
     done
 
 COPY config/xinitrc /home/kiel/.xinitrc
+COPY config/start /home/kiel/start
 COPY config/setup_network.sh /home/kiel/setup_network.sh
 COPY config/rotate-console.sh /home/kiel/rotate-console.sh
 COPY config/colemak.sh /home/kiel/colemak.sh
@@ -458,7 +459,7 @@ RUN printf '%s\n' \
  && if ! grep -qx 'ttyS0' /etc/securetty; then \
       printf '%s\n' 'ttyS0' >> /etc/securetty; \
     fi \
- && chmod 0755 /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
+ && chmod 0755 /home/kiel/start /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
  && chmod 0755 /etc/init.d/user-runtime /etc/profile.d/zz-openrc-user-session.sh \
       /etc/user/init.d/dbus /etc/user/init.d/pipewire /etc/user/init.d/pipewire-pulse /etc/user/init.d/wireplumber \
  && install -d -m 0755 /run/user \
@@ -480,7 +481,7 @@ RUN printf '%s\n' \
  && rc-update add qemu-debug default \
  && rc-update add dbus default \
  && rc-update add iwd default \
- && chown kiel:kiel /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
+ && chown kiel:kiel /home/kiel/start /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
  && chown -R kiel:kiel /home/kiel/.config
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size

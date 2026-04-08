@@ -247,6 +247,20 @@ On the currently working HP Z6 setup, network state looks like this:
   - Tailscale-managed `/etc/resolv.conf`, or
   - fallback `/etc/resolv.pre-tailscale-backup.conf`
 
+For the OpenRC image, the repo-provided helper [`/home/kiel/start`](/home/kiel/stage/cl-py-generator/example/110_gentoo/docker_min_hpz6_openrc/config/start) is the intended manual bringup path after boot. It applies the console rotation and keymap, reloads the network modules, re-establishes the `eno1` DHCP lease, restores the static addresses on `enp65s0`, and then starts the OpenRC reverse-SSH services `reverse-ssh-eu` and `reverse-ssh-us` so remote login via `tinyeu` and `tinyus` is available again.
+
+Run:
+
+```bash
+/home/kiel/start
+```
+
+If you want a different console rotation, pass `0`, `1`, `2`, or `3` as the first argument:
+
+```bash
+/home/kiel/start 3
+```
+
 Relevant config files on this machine:
 
 - `/etc/systemd/network/10-eno1.network`
