@@ -8,49 +8,70 @@ This guide describes how to install a new live Gentoo image on the ThinkPad E14 
 - **Artifacts Partition (Kernel/Squashfs)**: `/dev/nvme0n1p2` (UUID `df544e10-90c0-4315-860c-92a58ec8499e`)
 - **GRUB Config Partition**: `/dev/nvme1n1p2` (currently mounted at `/1p2`)
 - **Persistent Partition**: `/dev/nvme0n1p4` (LUKS UUID `bbac9bb8-39d9-42fa-8d04-94610ced9839`)
-- **Build Date Suffix**: `0331` (aktuell, OpenRC), `0324` (vorheriger OpenRC-Fallback), `0310` (Systemd-Fallback)
+- **Current Export Bundle**: `/home/kiel/gentoo-z6-min-openrc_20260407/`
+- **Build Date Suffix**: `0407` (installiert am 2026-04-08), `0331` (OpenRC-Fallback vor dem ersten Reboot), `0324` (älterer OpenRC-Fallback), `0310` (Systemd-Fallback)
 
 > [!NOTE]
-> Ab 0320 wird OpenRC anstelle von Systemd genutzt. Das squashfs-Image für das E14 heißt lokal `gentoo.squashfs_e14` und wird als `gentoo.squashfs_0331` abgelegt. Du kannst sehr alte Versionen löschen, um Platz auf der Partition zu machen, aber behalte mindestens `0324` und `0310` als funktionierende Fallbacks.
+> Ab `0320` wird OpenRC anstelle von Systemd genutzt. Das E14-spezifische squashfs-Image heißt im Export-Verzeichnis lokal `gentoo.squashfs_e14` und wird auf `/run/initramfs/live` mit einem datierten Suffix wie `gentoo.squashfs_0407` abgelegt. Beim Install am 2026-04-08 waren auf `/dev/nvme0n1p2` nur noch etwa `525M` frei, daher wurde der ältere `0321`-Satz entfernt. Behalte mindestens `0331`, `0324` und `0310` als bootbare Fallbacks.
 
 
-## 1. Copy New Build Artifacts
+## 1. Preflight, Cleanup, and Copy New Build Artifacts
 
-Wir kopieren die neuen Artefakte auf die Storage-Partition (aktuell `/run/initramfs/live`).
-Remount als `rw` ist ggf. nötig:
+Wir kopieren die neuen Artefakte auf die Storage-Partition `/run/initramfs/live`.
+Auf dem E14 war diese Partition am 2026-04-08 fast voll, daher gehören Preflight und ggf. gezielte Bereinigung ausdrücklich dazu.
 
 ```bash
+df -h /run/initramfs/live
+ls -lh /run/initramfs/live/gentoo.squashfs_* \
+  /run/initramfs/live/vmlinuz_* \
+  /run/initramfs/live/initramfs_squash_sda1-x86_64_*.img \
+  /run/initramfs/live/packages_*.txt
+
 sudo mount -o remount,rw /run/initramfs/live
 
-# Optional: Alte Images löschen (z.B. von *vor* 0310), falls der Platz knapp wird:
-# sudo rm /run/initramfs/live/*_0308* 
+# Beim Install am 2026-04-08 war dieser gezielte Cleanup nötig, um genug Platz für 0407 zu schaffen:
+sudo rm -v /run/initramfs/live/gentoo.squashfs_0321
+sudo rm -v /run/initramfs/live/vmlinuz_0321
+sudo rm -v /run/initramfs/live/initramfs_squash_sda1-x86_64_0321.img
+sudo rm -v /run/initramfs/live/packages_0321.txt
 
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260331/gentoo.squashfs_e14 /run/initramfs/live/gentoo.squashfs_0331
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260331/vmlinuz /run/initramfs/live/vmlinuz_0331
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260331/initramfs_squash_sda1-x86_64.img /run/initramfs/live/initramfs_squash_sda1-x86_64_0331.img
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260331/packages.txt /run/initramfs/live/packages_0331.txt
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260407/gentoo.squashfs_e14 /run/initramfs/live/gentoo.squashfs_0407
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260407/vmlinuz /run/initramfs/live/vmlinuz_0407
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260407/initramfs_squash_sda1-x86_64.img /run/initramfs/live/initramfs_squash_sda1-x86_64_0407.img
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260407/packages.txt /run/initramfs/live/packages_0407.txt
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260407/packages.tsv /run/initramfs/live/packages_0407.tsv
+
+ls -lh /run/initramfs/live/gentoo.squashfs_0407 \
+  /run/initramfs/live/vmlinuz_0407 \
+  /run/initramfs/live/initramfs_squash_sda1-x86_64_0407.img \
+  /run/initramfs/live/packages_0407.txt \
+  /run/initramfs/live/packages_0407.tsv
+df -h /run/initramfs/live
 ```
 
 
 ## 2. Update GRUB Configuration
 
 Die GRUB-Konfiguration liegt auf `/dev/nvme1n1p2`. Wenn `/1p2` noch nicht gemountet ist, mounte die Partition zuerst mit `sudo mount /dev/nvme1n1p2 /1p2`.
-Füge einen neuen Eintrag für die `0331`-Version (OpenRC) in `/1p2/boot/grub/custom.cfg` hinzu. Lass `0324` (OpenRC) und `0310` (Systemd) als Fallback stehen:
+Wenn du alte Artefakte löscht, entferne den passenden GRUB-Eintrag ebenfalls. Beim Install am 2026-04-08 wurde daher der `0321`-Eintrag entfernt. Danach füge den neuen Eintrag für die `0407`-Version (OpenRC) in `/1p2/boot/grub/custom.cfg` hinzu. Lass `0331`, `0324` und `0310` als Fallback stehen:
 
 ```bash
+sudo perl -0pi -e 's/^menuentry '\''Gentoo Dracut \(E14 persist OpenRC nvme0n1p4 0321\)'\'' \{\n.*?^\}\n\n//ms' \
+  /1p2/boot/grub/custom.cfg
+
 cat <<'EOF' | sudo tee -a /1p2/boot/grub/custom.cfg >/dev/null
 
-menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0331)' {
+menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0407)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     # Search for the partition containing the artifacts (nvme0n1p2)
     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
 
-    linux /vmlinuz_0331 \
+    linux /vmlinuz_0407 \
       root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
       rd.live.dir=/ \
-      rd.live.squashimg=gentoo.squashfs_0331 \
+      rd.live.squashimg=gentoo.squashfs_0407 \
       rd.live.ram=1 \
       rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
       rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
@@ -58,9 +79,11 @@ menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0331)' {
       rd.live.overlay.overlayfs=1 \
       nvme_core.default_ps_max_latency_us=0
 
-    initrd /initramfs_squash_sda1-x86_64_0331.img
+    initrd /initramfs_squash_sda1-x86_64_0407.img
 }
 EOF
+
+rg -n "0310|0324|0331|0407" /1p2/boot/grub/custom.cfg
 ```
 
 > [!NOTE]
@@ -68,7 +91,7 @@ EOF
 
 ## 3. Verified QEMU Bringup (2026-03-22)
 
-The current `gentoo.squashfs_e14` was tested in QEMU before deployment.
+The `2026-03-22` `gentoo.squashfs_e14` image was tested in QEMU before deployment.
 
 Re-tested on 2026-03-22 after rebuilding the image with the early GCC 14 pinning change, using artifacts copied from `/dev/shm/gentoo-z6-min-openrc_20260322` and a freshly regenerated QEMU disk image.
 
@@ -396,7 +419,7 @@ For a visual interface in `dwm`:
 
 ## 6. OpenRC First-Boot Recovery
 
-For the OpenRC-based `0321` image, some systems may boot without the expected keyboard layout, kernel module dependency map, GPU module, or WiFi module being activated automatically yet. If `startx` opens a screen but keyboard and mouse do not work, or if WiFi is missing until manual `modprobe`, run:
+For the OpenRC-based E14 images (`0321` onward, including `0331` and `0407`), some systems may boot without the expected keyboard layout, kernel module dependency map, GPU module, or WiFi module being activated automatically yet. If `startx` opens a screen but keyboard and mouse do not work, or if WiFi is missing until manual `modprobe`, run:
 
 ```bash
 sudo /home/kiel/activate
@@ -475,9 +498,9 @@ Expected current state:
 - `XDG_RUNTIME_DIR=/run/user/1000` is exported for user logins.
 - PipeWire and WirePlumber are managed by OpenRC user services instead of `~/.xinitrc`.
 
-### Bringup notes from the current `0321` test
+### Bringup notes from the March 2026 `0321` test
 
-Die folgenden Punkte sind der aktuelle Zwischenstand auf dem laufenden OpenRC-E14-System und noch keine final bereinigte Anleitung:
+Die folgenden Punkte dokumentieren den damaligen Zwischenstand auf dem laufenden OpenRC-E14-System und noch keine final bereinigte Anleitung:
 
 - `hostname` war zur Laufzeit zunächst `(none)`, obwohl `/etc/hostname` bereits `e14` enthält. Ursache war, dass der OpenRC-Dienst `hostname` noch `stopped` war. `rc-service hostname start` setzt den laufenden Hostname korrekt auf `e14`.
 - `emacs` und sogar `rg` konnten mit `libgcc_s.so.1 must be installed for pthread_exit to work` bzw. `error while loading shared libraries: libgcc_s.so.1` abstürzen, obwohl die Bibliothek im Image vorhanden war.
@@ -511,13 +534,13 @@ rc-service hostname status
 ldd ~/Downloads/Antigravity/antigravity | grep -E 'nspr|not found'
 ldconfig -p | grep -E 'libnspr4|libnss3|libnssutil3|libsmime3|libcups\\.so\\.2'
 find /usr/lib /usr/lib64 -name 'libstdc++.so*' 2>/dev/null
-ls -l /run/initramfs/live/packages_0321.txt
-grep 'sys-devel/gcc' /run/initramfs/live/packages_0321.txt
+ls -l /run/initramfs/live/packages_0407.txt
+grep 'sys-devel/gcc' /run/initramfs/live/packages_0407.txt
 ```
 
 ### Temporary X11 workaround on the live system
 
-On the currently running `0321` live system, plain `startx` can still fail with:
+On affected OpenRC live systems, plain `startx` can still fail with:
 
 ```text
 parse_vt_settings: Cannot open /dev/tty0 (Permission denied)
