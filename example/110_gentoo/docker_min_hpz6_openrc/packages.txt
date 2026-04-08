@@ -1,71 +1,64 @@
 Package                                    Size MiB  Build Seconds  Build Time
-sys-kernel/linux-firmware                      1725             49  49 seconds.
-sys-kernel/gentoo-sources                      1465             48  48 seconds.
-sys-kernel/gentoo-sources                      1465             48  48 seconds.
-x11-drivers/nvidia-drivers                      972             52  52 seconds.
-sys-devel/gcc                                   390           1639  27 minutes and 19 seconds.
-www-client/firefox-bin                          296              8  8 seconds.
-app-editors/emacs                               173             44  44 seconds.
-dev-libs/boost                                  153            141  2 minutes and 21 seconds.
-sci-mathematics/why3-for-spark                   94             91  1 minute and 31 seconds.
+sys-kernel/linux-firmware                      1757             52  52 seconds.
+sys-kernel/gentoo-sources                      1465             32  32 seconds.
+sys-kernel/gentoo-sources                      1465             32  32 seconds.
+x11-drivers/nvidia-drivers                      930             56  56 seconds.
+net-im/signal-desktop-bin                       467             64  1 minute and 4 seconds.
+www-client/firefox-bin                          298             44  44 seconds.
+sys-devel/gcc                                   281           1393  23 minutes and 13 seconds.
+app-editors/emacs                               173             43  43 seconds.
+dev-libs/boost                                  153            140  2 minutes and 20 seconds.
+net-analyzer/wireshark                          114            102  1 minute and 42 seconds.
 app-containers/containerd                        93             17  17 seconds.
-dev-ml/ppxlib                                    80              9  9 seconds.
-app-containers/docker                            79             66  1 minute and 6 seconds.
-dev-python/uv                                    68            160  2 minutes and 40 seconds.
-dev-ada/gprbuild                                 65             20  20 seconds.
-app-containers/docker-buildx                     65             17  17 seconds.
-dev-lang/spark                                   59             42  42 seconds.
-sci-mathematics/alt-ergo                         56              8  8 seconds.
-x11-libs/gtk+                                    52             22  22 seconds.
-dev-lang/python                                  52              0  N/A
-dev-lang/python                                  52              0  N/A
-dev-build/cmake                                  51              0  N/A
+app-containers/docker                            79            265  4 minutes and 25 seconds.
+dev-python/uv                                    67            143  2 minutes and 23 seconds.
+app-containers/docker-buildx                     65             18  18 seconds.
+dev-qt/qtbase                                    61            194  3 minutes and 14 seconds.
+dev-build/cmake                                  54              0  N/A
+app-text/mupdf                                   52            245  4 minutes and 5 seconds.
+x11-libs/gtk+                                    52             31  31 seconds.
+dev-lang/python                                  51             34  34 seconds.
+dev-lang/python                                  51             34  34 seconds.
 dev-lang/perl                                    50              0  N/A
 sys-libs/glibc                                   50              0  N/A
 net-vpn/tailscale                                49              0  -
 dev-lisp/sbcl                                    48              0  -
 app-text/docbook-xsl-ns-stylesheets              44              0  -
+dev-libs/icu                                     43              0  -
 app-containers/docker-cli                        42              0  -
 sys-firmware/sof-firmware                        42              0  -
-dev-ml/ppx_tools                                 40              0  -
 media-libs/mesa                                  39              0  -
-dev-ml/base                                      38              0  -
-dev-ada/gpr                                      35              0  -
-dev-util/vulkan-headers                          33              0  -
+dev-util/vulkan-headers                          36              0  -
 dev-libs/glib                                    29              0  -
+dev-python/mypy                                  29              0  -
 dev-vcs/git                                      28              0  -
 sys-devel/binutils                               28              0  -
-dev-ml/dune                                      26              0  -
-dev-ml/ocaml-migrate-parsetree                   25              0  -
 media-video/ffmpeg                               24              0  -
 dev-libs/protobuf                                23              0  -
+dev-python/cython                                23              0  -
 sys-apps/portage                                 23              0  -
 sys-devel/mold                                   23              0  -
-dev-python/cython                                22              0  -
 sys-apps/util-linux                              21              0  -
 app-text/docbook-xsl-stylesheets                 20              0  -
 dev-debug/systemtap                              20              0  -
 dev-libs/openssl                                 19              0  -
 dev-build/meson                                  18              0  -
-dev-ml/ppx_deriving                              18              0  -
-dev-ml/sedlex                                    18              0  -
 gnome-base/librsvg                               18              0  -
+dev-lang/ruby                                    17              0  -
 sys-apps/coreutils                               17              0  -
 sys-apps/systemd-utils                           17              0  -
-dev-lang/ruby                                    15              0  -
-dev-lang/ruby                                    15              0  -
+media-fonts/noto-emoji                           16              0  -
+media-fonts/wqy-zenhei                           16              0  -
 dev-python/pygments                              15              0  -
-dev-ada/gnatcoll-core                            13              0  -
+dev-qt/qttranslations                            15              0  -
 dev-lang/vala                                    13              0  -
 dev-python/docutils                              13              0  -
 net-print/cups                                   13              0  -
 x11-themes/adwaita-icon-theme                    13              0  -
 app-crypt/gnupg                                  12              0  -
-dev-ada/xmlada                                   12              0  -
 dev-util/ragel                                   12              0  -
 sys-apps/file                                    12              0  -
 app-containers/runc                              11              0  -
-dev-ada/libgpr                                   11              0  -
 media-video/pipewire                             11              0  -
 sys-apps/groff                                   11              0  -
 sys-devel/gettext                                11              0  -
@@ -73,21 +66,19 @@ dev-lang/tcl                                     10              0  -
 dev-libs/nss                                     10              0  -
 dev-perl/Date-Manip                              10              0  -
 dev-python/setuptools                            10              0  -
-dev-ruby/rbs                                     10              0  -
-sci-mathematics/psmt2-frontend                   10              0  -
 sys-apps/hwdata                                  10              0  -
 sys-apps/texinfo                                 10              0  -
 x11-misc/xkeyboard-config                        10              0  -
-dev-ml/yojson                                     9              0  -
 dev-util/spirv-tools                              9              0  -
 media-fonts/font-misc-misc                        9              0  -
 app-shells/bash                                   8              0  -
+app-shells/zsh                                    8              0  -
 dev-cpp/eigen                                     8              0  -
-dev-ml/menhir                                     8              0  -
+dev-qt/qtmultimedia                               8              0  -
 net-misc/openssh                                  8              0  -
+sys-apps/lshw                                     8              0  -
 app-misc/mc                                       7              0  -
-dev-ml/ocamlbuild                                 7              0  -
-dev-ruby/prism                                    7              0  -
+sys-apps/nvme-cli                                 7              0  -
 sys-kernel/linux-headers                          7              0  -
 sys-libs/binutils-libs                            7              0  -
 sys-libs/ncurses                                  7              0  -
@@ -95,17 +86,21 @@ app-admin/sudo                                    6              0  -
 dev-cpp/abseil-cpp                                6              0  -
 dev-lang/tk                                       6              0  -
 dev-python/lxml                                   6              0  -
+dev-qt/qtshadertools                              6              0  -
+dev-qt/qttools                                    6              0  -
 media-video/mpv                                   6              0  -
+net-dns/bind                                      6              0  -
+net-misc/freerdp                                  6              0  -
 sys-fs/lvm2                                       6              0  -
 x11-base/xorg-server                              6              0  -
 x11-terms/alacritty                               6              0  -
 app-crypt/p11-kit                                 5              0  -
 dev-libs/elfutils                                 5              0  -
-dev-ml/ppx_sexp_conv                              5              0  -
-dev-ml/re                                         5              0  -
 dev-python/ensurepip-pip                          5              0  -
 dev-python/pillow                                 5              0  -
+dev-ruby/rbs                                      5              0  -
 media-libs/harfbuzz                               5              0  -
+media-libs/tiff                                   5              0  -
 sys-apps/ripgrep                                  5              0  -
 sys-apps/shadow                                   5              0  -
 sys-fs/e2fsprogs                                  5              0  -
@@ -113,9 +108,6 @@ x11-misc/shared-mime-info                         5              0  -
 app-accessibility/at-spi2-core                    4              0  -
 dev-db/sqlite                                     4              0  -
 dev-libs/gobject-introspection                    4              0  -
-dev-ml/parsexp                                    4              0  -
-dev-ml/sexplib                                    4              0  -
-dev-ruby/rdoc                                     4              0  -
 dev-util/colm                                     4              0  -
 dev-util/glslang                                  4              0  -
 media-fonts/liberation-fonts                      4              0  -
@@ -133,10 +125,7 @@ dev-lang/nasm                                     3              0  -
 dev-libs/gmp                                      3              0  -
 dev-libs/libgit2                                  3              0  -
 dev-libs/libpcre2                                 3              0  -
-dev-ml/ocplib-simplex                             3              0  -
-dev-ml/topkg                                      3              0  -
-dev-ruby/bundler                                  3              0  -
-dev-ruby/rubygems                                 3              0  -
+dev-ruby/prism                                    3              0  -
 dev-util/gtk-doc                                  3              0  -
 dev-util/re2c                                     3              0  -
 dev-util/spirv-headers                            3              0  -
@@ -147,10 +136,10 @@ sys-apps/kbd                                      3              0  -
 sys-apps/man-pages                                3              0  -
 sys-fs/cryptsetup                                 3              0  -
 sys-libs/pam                                      3              0  -
+sys-process/procps                                3              0  -
 x11-libs/gdk-pixbuf                               3              0  -
 x11-libs/libxcb                                   3              0  -
 app-text/docbook-dsssl-stylesheets                2              0  -
-dev-ada/gnatcoll-bindings                         2              0  -
 dev-build/autoconf                                2              0  -
 dev-build/autoconf-archive                        2              0  -
 dev-build/automake                                2              0  -
@@ -165,15 +154,12 @@ dev-libs/libinput                                 2              0  -
 dev-libs/libpcre                                  2              0  -
 dev-libs/libunistring                             2              0  -
 dev-libs/libxml2                                  2              0  -
-dev-ml/cmdliner                                   2              0  -
-dev-ml/dune-configurator                          2              0  -
-dev-ml/findlib                                    2              0  -
-dev-ml/gen                                        2              0  -
 dev-python/jinja2                                 2              0  -
 dev-python/pybind11                               2              0  -
 dev-python/scikit-build-core                      2              0  -
 dev-python/urllib3                                2              0  -
-dev-ruby/asciidoctor                              2              0  -
+dev-ruby/rdoc                                     2              0  -
+dev-ruby/rubygems                                 2              0  -
 media-libs/alsa-lib                               2              0  -
 media-libs/dav1d                                  2              0  -
 media-libs/fontconfig                             2              0  -
@@ -189,11 +175,12 @@ sys-apps/diffutils                                2              0  -
 sys-apps/findutils                                2              0  -
 sys-apps/man-db                                   2              0  -
 sys-apps/openrc                                   2              0  -
+sys-apps/qdirstat                                 2              0  -
 sys-devel/bison                                   2              0  -
 sys-libs/readline                                 2              0  -
 sys-libs/slang                                    2              0  -
 sys-process/btop                                  2              0  -
-sys-process/procps                                2              0  -
+www-client/w3m                                    2              0  -
 x11-libs/cairo                                    2              0  -
 x11-libs/libX11                                   2              0  -
 x11-libs/pango                                    2              0  -
@@ -207,11 +194,15 @@ app-arch/zstd                                     1              0  -
 app-crypt/argon2                                  1              0  -
 app-crypt/gpgme                                   1              0  -
 app-i18n/gnulib-l10n                              1              0  -
+app-misc/fastfetch                                1              0  -
+app-misc/tmate                                    1              0  -
 app-misc/tmux                                     1              0  -
+app-pda/libimobiledevice                          1              0  -
 app-portage/gemato                                1              0  -
 app-text/lowdown                                  1              0  -
 dev-build/bmake                                   1              0  -
 dev-lang/lua                                      1              0  -
+dev-libs/boehm-gc                                 1              0  -
 dev-libs/ell                                      1              0  -
 dev-libs/expat                                    1              0  -
 dev-libs/libatomic_ops                            1              0  -
@@ -222,13 +213,9 @@ dev-libs/libxslt                                  1              0  -
 dev-libs/mpfr                                     1              0  -
 dev-libs/nettle                                   1              0  -
 dev-libs/nspr                                     1              0  -
+dev-libs/oniguruma                                1              0  -
+dev-libs/yyjson                                   1              0  -
 dev-lisp/asdf                                     1              0  -
-dev-ml/camlzip                                    1              0  -
-dev-ml/cppo                                       1              0  -
-dev-ml/num                                        1              0  -
-dev-ml/ocaml-compiler-libs                        1              0  -
-dev-ml/sexplib0                                   1              0  -
-dev-ml/zarith                                     1              0  -
 dev-perl/IO-Socket-SSL                            1              0  -
 dev-perl/Net-SSLeay                               1              0  -
 dev-python/charset-normalizer                     1              0  -
@@ -238,47 +225,56 @@ dev-python/installer                              1              0  -
 dev-python/mako                                   1              0  -
 dev-python/more-itertools                         1              0  -
 dev-python/packaging                              1              0  -
+dev-python/psutil                                 1              0  -
 dev-python/pyyaml                                 1              0  -
 dev-python/requests                               1              0  -
 dev-python/setuptools-scm                         1              0  -
-dev-ruby/date                                     1              0  -
-dev-ruby/debug                                    1              0  -
-dev-ruby/irb                                      1              0  -
-dev-ruby/json                                     1              0  -
+dev-python/typing-extensions                      1              0  -
+dev-qt/qt5compat                                  1              0  -
+dev-ruby/asciidoctor                              1              0  -
+dev-ruby/bundler                                  1              0  -
 dev-ruby/net-imap                                 1              0  -
-dev-ruby/rexml                                    1              0  -
-dev-ruby/rss                                      1              0  -
-dev-ruby/test-unit                                1              0  -
-dev-ruby/typeprof                                 1              0  -
 dev-util/gdbus-codegen                            1              0  -
 dev-util/pahole                                   1              0  -
 media-fonts/encodings                             1              0  -
 media-libs/alsa-ucm-conf                          1              0  -
 media-libs/flac                                   1              0  -
+media-libs/imlib2                                 1              0  -
 media-libs/lcms                                   1              0  -
 media-libs/libplacebo                             1              0  -
 media-libs/libpng                                 1              0  -
 media-libs/libsndfile                             1              0  -
 media-libs/libva                                  1              0  -
 media-libs/libvorbis                              1              0  -
+media-libs/libwebp                                1              0  -
+media-libs/openjpeg                               1              0  -
 media-libs/opus                                   1              0  -
+media-libs/speexdsp                               1              0  -
 media-sound/lame                                  1              0  -
 media-sound/mpg123-base                           1              0  -
+net-analyzer/macchanger                           1              0  -
+net-dns/dnsmasq                                   1              0  -
 net-dns/libidn2                                   1              0  -
 net-libs/libmicrohttpd                            1              0  -
+net-libs/libpcap                                  1              0  -
+net-libs/libssh                                   1              0  -
 net-libs/libssh2                                  1              0  -
 net-misc/chrony                                   1              0  -
 net-misc/mosh                                     1              0  -
 net-misc/rsync                                    1              0  -
+net-misc/socat                                    1              0  -
 sys-apps/dbus                                     1              0  -
+sys-apps/ethtool                                  1              0  -
 sys-apps/grep                                     1              0  -
 sys-apps/net-tools                                1              0  -
 sys-apps/sed                                      1              0  -
+sys-apps/smartmontools                            1              0  -
 sys-devel/flex                                    1              0  -
 sys-devel/m4                                      1              0  -
 sys-fs/squashfs-tools                             1              0  -
 sys-kernel/dracut                                 1              0  -
 sys-libs/gdbm                                     1              0  -
+sys-libs/libnvme                                  1              0  -
 sys-libs/timezone-data                            1              0  -
 sys-power/tlp                                     1              0  -
 sys-process/psmisc                                1              0  -
@@ -296,9 +292,11 @@ x11-misc/compose-tables                           1              0  -
 x11-misc/xorg-cf-files                            1              0  -
 acct-group/audio                                  0              0  -
 acct-group/cdrom                                  0              0  -
+acct-group/cuse                                   0              0  -
 acct-group/dhcp                                   0              0  -
 acct-group/dialout                                0              0  -
 acct-group/disk                                   0              0  -
+acct-group/dnsmasq                                0              0  -
 acct-group/docker                                 0              0  -
 acct-group/floppy                                 0              0  -
 acct-group/input                                  0              0  -
@@ -310,10 +308,14 @@ acct-group/lpadmin                                0              0  -
 acct-group/mail                                   0              0  -
 acct-group/man                                    0              0  -
 acct-group/messagebus                             0              0  -
+acct-group/named                                  0              0  -
 acct-group/netdev                                 0              0  -
+acct-group/ngrep                                  0              0  -
 acct-group/ntp                                    0              0  -
 acct-group/nullmail                               0              0  -
+acct-group/pcap                                   0              0  -
 acct-group/pipewire                               0              0  -
+acct-group/plugdev                                0              0  -
 acct-group/portage                                0              0  -
 acct-group/render                                 0              0  -
 acct-group/root                                   0              0  -
@@ -329,14 +331,18 @@ acct-group/usb                                    0              0  -
 acct-group/utmp                                   0              0  -
 acct-group/video                                  0              0  -
 acct-user/dhcp                                    0              0  -
+acct-user/dnsmasq                                 0              0  -
 acct-user/mail                                    0              0  -
 acct-user/man                                     0              0  -
 acct-user/messagebus                              0              0  -
+acct-user/named                                   0              0  -
+acct-user/ngrep                                   0              0  -
 acct-user/ntp                                     0              0  -
 acct-user/nullmail                                0              0  -
 acct-user/portage                                 0              0  -
 acct-user/postmaster                              0              0  -
 acct-user/sshd                                    0              0  -
+acct-user/usbmux                                  0              0  -
 app-admin/eselect                                 0              0  -
 app-admin/metalog                                 0              0  -
 app-admin/perl-cleaner                            0              0  -
@@ -372,8 +378,15 @@ app-eselect/eselect-ruby                          0              0  -
 app-eselect/eselect-rust                          0              0  -
 app-misc/ca-certificates                          0              0  -
 app-misc/editor-wrapper                           0              0  -
+app-misc/fdupes                                   0              0  -
+app-misc/jq                                       0              0  -
 app-misc/mime-types                               0              0  -
 app-misc/pax-utils                                0              0  -
+app-pda/ifuse                                     0              0  -
+app-pda/libimobiledevice-glue                     0              0  -
+app-pda/libplist                                  0              0  -
+app-pda/libusbmuxd                                0              0  -
+app-pda/usbmuxd                                   0              0  -
 app-portage/cpuid2cpuflags                        0              0  -
 app-portage/elt-patches                           0              0  -
 app-portage/genlop                                0              0  -
@@ -392,18 +405,22 @@ app-text/libpaper                                 0              0  -
 app-text/manpager                                 0              0  -
 app-text/scdoc                                    0              0  -
 app-text/sgml-common                              0              0  -
+app-text/tree                                     0              0  -
 app-text/xmlto                                    0              0  -
-dev-ada/gprconfig_kb                              0              0  -
 dev-build/autoconf-wrapper                        0              0  -
 dev-build/automake-wrapper                        0              0  -
 dev-build/gtk-doc-am                              0              0  -
 dev-build/meson-format-array                      0              0  -
 dev-build/ninja                                   0              0  -
+dev-debug/ltrace                                  0              0  -
 dev-lang/python-exec                              0              0  -
 dev-lang/python-exec-conf                         0              0  -
 dev-libs/blake3                                   0              0  -
+dev-libs/cJSON                                    0              0  -
+dev-libs/double-conversion                        0              0  -
 dev-libs/fribidi                                  0              0  -
 dev-libs/gobject-introspection-common             0              0  -
+dev-libs/gumbo                                    0              0  -
 dev-libs/jansson                                  0              0  -
 dev-libs/json-c                                   0              0  -
 dev-libs/jsoncpp                                  0              0  -
@@ -417,22 +434,20 @@ dev-libs/libksba                                  0              0  -
 dev-libs/libltdl                                  0              0  -
 dev-libs/libpipeline                              0              0  -
 dev-libs/libtasn1                                 0              0  -
+dev-libs/libusb                                   0              0  -
 dev-libs/libuv                                    0              0  -
 dev-libs/libyaml                                  0              0  -
+dev-libs/md4c                                     0              0  -
 dev-libs/mimalloc                                 0              0  -
 dev-libs/mpc                                      0              0  -
 dev-libs/mpdecimal                                0              0  -
+dev-libs/msgpack                                  0              0  -
 dev-libs/npth                                     0              0  -
 dev-libs/popt                                     0              0  -
 dev-libs/tree-sitter                              0              0  -
 dev-libs/vala-common                              0              0  -
 dev-libs/xxhash                                   0              0  -
 dev-lisp/uiop                                     0              0  -
-dev-ml/csexp                                      0              0  -
-dev-ml/dune-build-info                            0              0  -
-dev-ml/ppx_derivers                               0              0  -
-dev-ml/result                                     0              0  -
-dev-ml/stdlib-shims                               0              0  -
 dev-perl/Capture-Tiny                             0              0  -
 dev-perl/Class-Inspector                          0              0  -
 dev-perl/Clone                                    0              0  -
@@ -488,11 +503,11 @@ dev-python/flit-core                              0              0  -
 dev-python/gentoo-common                          0              0  -
 dev-python/gpep517                                0              0  -
 dev-python/hatch-vcs                              0              0  -
-dev-python/jaraco-collections                     0              0  -
 dev-python/jaraco-context                         0              0  -
 dev-python/jaraco-functools                       0              0  -
 dev-python/jaraco-text                            0              0  -
 dev-python/markupsafe                             0              0  -
+dev-python/mypy-extensions                        0              0  -
 dev-python/olefile                                0              0  -
 dev-python/pathspec                               0              0  -
 dev-python/platformdirs                           0              0  -
@@ -501,9 +516,13 @@ dev-python/pyproject-metadata                     0              0  -
 dev-python/pysocks                                0              0  -
 dev-python/trove-classifiers                      0              0  -
 dev-python/wheel                                  0              0  -
+dev-ruby/date                                     0              0  -
+dev-ruby/debug                                    0              0  -
 dev-ruby/did_you_mean                             0              0  -
 dev-ruby/forwardable                              0              0  -
 dev-ruby/io-console                               0              0  -
+dev-ruby/irb                                      0              0  -
+dev-ruby/json                                     0              0  -
 dev-ruby/kpeg                                     0              0  -
 dev-ruby/logger                                   0              0  -
 dev-ruby/matrix                                   0              0  -
@@ -514,16 +533,21 @@ dev-ruby/net-protocol                             0              0  -
 dev-ruby/net-smtp                                 0              0  -
 dev-ruby/power_assert                             0              0  -
 dev-ruby/pp                                       0              0  -
+dev-ruby/prettyprint                              0              0  -
 dev-ruby/prime                                    0              0  -
 dev-ruby/psych                                    0              0  -
 dev-ruby/racc                                     0              0  -
 dev-ruby/rake                                     0              0  -
 dev-ruby/reline                                   0              0  -
+dev-ruby/rexml                                    0              0  -
+dev-ruby/rss                                      0              0  -
 dev-ruby/singleton                                0              0  -
 dev-ruby/stringio                                 0              0  -
 dev-ruby/strscan                                  0              0  -
+dev-ruby/test-unit                                0              0  -
 dev-ruby/time                                     0              0  -
 dev-ruby/timeout                                  0              0  -
+dev-ruby/typeprof                                 0              0  -
 dev-util/debugedit                                0              0  -
 dev-util/desktop-file-utils                       0              0  -
 dev-util/glib-utils                               0              0  -
@@ -538,13 +562,25 @@ gui-libs/display-manager-init                     0              0  -
 mail-mta/nullmailer                               0              0  -
 media-fonts/font-alias                            0              0  -
 media-fonts/font-util                             0              0  -
+media-gfx/feh                                     0              0  -
 media-gfx/graphite2                               0              0  -
+media-gfx/scrot                                   0              0  -
 media-libs/alsa-topology-conf                     0              0  -
+media-libs/giflib                                 0              0  -
+media-libs/jbig2dec                               0              0  -
 media-libs/libass                                 0              0  -
 media-libs/libcanberra                            0              0  -
 media-libs/libdisplay-info                        0              0  -
 media-libs/libogg                                 0              0  -
 media-sound/pulsemixer                            0              0  -
+net-analyzer/hping                                0              0  -
+net-analyzer/iftop                                0              0  -
+net-analyzer/iptraf-ng                            0              0  -
+net-analyzer/netcat                               0              0  -
+net-analyzer/nethogs                              0              0  -
+net-analyzer/ngrep                                0              0  -
+net-analyzer/ssmping                              0              0  -
+net-dns/bind-tools                                0              0  -
 net-dns/c-ares                                    0              0  -
 net-libs/libasyncns                               0              0  -
 net-libs/liblockfile                              0              0  -
@@ -557,8 +593,13 @@ net-libs/nghttp2                                  0              0  -
 net-libs/nghttp3                                  0              0  -
 net-mail/mailbase                                 0              0  -
 net-misc/autossh                                  0              0  -
+net-misc/bridge-utils                             0              0  -
+net-misc/ipcalc                                   0              0  -
 net-misc/iputils                                  0              0  -
 net-misc/netifrc                                  0              0  -
+net-misc/sipcalc                                  0              0  -
+net-misc/udpcast                                  0              0  -
+net-misc/whois                                    0              0  -
 net-wireless/iw                                   0              0  -
 net-wireless/wireless-regdb                       0              0  -
 perl-core/File-Temp                               0              0  -
@@ -566,16 +607,21 @@ sec-keys/openpgp-keys-gentoo-release              0              0  -
 sys-apps/acl                                      0              0  -
 sys-apps/attr                                     0              0  -
 sys-apps/baselayout                               0              0  -
+sys-apps/cpuid                                    0              0  -
+sys-apps/dmidecode                                0              0  -
 sys-apps/gentoo-functions                         0              0  -
 sys-apps/help2man                                 0              0  -
 sys-apps/install-xattr                            0              0  -
 sys-apps/kmod                                     0              0  -
 sys-apps/less                                     0              0  -
+sys-apps/lm-sensors                               0              0  -
 sys-apps/locale-gen                               0              0  -
 sys-apps/lsb-release                              0              0  -
 sys-apps/pciutils                                 0              0  -
+sys-apps/pv                                       0              0  -
 sys-apps/sandbox                                  0              0  -
 sys-apps/sysvinit                                 0              0  -
+sys-apps/usbutils                                 0              0  -
 sys-apps/which                                    0              0  -
 sys-auth/pambase                                  0              0  -
 sys-auth/passwdqc                                 0              0  -
@@ -584,6 +630,9 @@ sys-devel/binutils-config                         0              0  -
 sys-devel/gcc-config                              0              0  -
 sys-devel/gnuconfig                               0              0  -
 sys-devel/patch                                   0              0  -
+sys-fs/fuse                                       0              0  -
+sys-fs/fuse                                       0              0  -
+sys-fs/fuse-common                                0              0  -
 sys-fs/udev-init-scripts                          0              0  -
 sys-libs/libcap                                   0              0  -
 sys-libs/libseccomp                               0              0  -
@@ -591,6 +640,10 @@ sys-libs/libutempter                              0              0  -
 sys-libs/libxcrypt                                0              0  -
 sys-libs/mtdev                                    0              0  -
 sys-libs/zlib                                     0              0  -
+sys-power/acpi                                    0              0  -
+sys-process/htop                                  0              0  -
+sys-process/iotop                                 0              0  -
+sys-process/lsof                                  0              0  -
 virtual/acl                                       0              0  -
 virtual/commonlisp                                0              0  -
 virtual/dev-manager                               0              0  -
@@ -602,9 +655,11 @@ virtual/libelf                                    0              0  -
 virtual/libiconv                                  0              0  -
 virtual/libintl                                   0              0  -
 virtual/libudev                                   0              0  -
+virtual/libusb                                    0              0  -
 virtual/linux-sources                             0              0  -
 virtual/logger                                    0              0  -
 virtual/man                                       0              0  -
+virtual/minizip                                   0              0  -
 virtual/mta                                       0              0  -
 virtual/openssh                                   0              0  -
 virtual/os-headers                                0              0  -
@@ -645,6 +700,7 @@ virtual/ssh                                       0              0  -
 virtual/tmpfiles                                  0              0  -
 virtual/ttf-fonts                                 0              0  -
 virtual/udev                                      0              0  -
+virtual/w3m                                       0              0  -
 virtual/zlib                                      0              0  -
 x11-apps/bdftopcf                                 0              0  -
 x11-apps/fonttosfnt                               0              0  -
@@ -659,6 +715,7 @@ x11-apps/xinit                                    0              0  -
 x11-apps/xkbcomp                                  0              0  -
 x11-apps/xkill                                    0              0  -
 x11-apps/xmessage                                 0              0  -
+x11-apps/xprop                                    0              0  -
 x11-apps/xrandr                                   0              0  -
 x11-apps/xrdb                                     0              0  -
 x11-apps/xset                                     0              0  -
@@ -694,13 +751,18 @@ x11-libs/libXtst                                  0              0  -
 x11-libs/libXv                                    0              0  -
 x11-libs/libXxf86vm                               0              0  -
 x11-libs/xcb-util                                 0              0  -
+x11-libs/xcb-util-cursor                          0              0  -
+x11-libs/xcb-util-image                           0              0  -
 x11-libs/xcb-util-keysyms                         0              0  -
+x11-libs/xcb-util-renderutil                      0              0  -
+x11-libs/xcb-util-wm                              0              0  -
 x11-libs/xtrans                                   0              0  -
 x11-misc/imake                                    0              0  -
 x11-misc/redshift                                 0              0  -
 x11-misc/util-macros                              0              0  -
 x11-misc/xbitmaps                                 0              0  -
 x11-misc/xclip                                    0              0  -
+x11-misc/xdg-utils                                0              0  -
 x11-misc/xtrlock                                  0              0  -
 x11-themes/hicolor-icon-theme                     0              0  -
 x11-themes/sound-theme-freedesktop                0              0  -
