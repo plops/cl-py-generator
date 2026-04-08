@@ -401,7 +401,54 @@ sudo tailscale up
 sed -n '1,120p' /etc/resolv.conf
 ```
 
-## 10. Rollback
+## 10. Required X11 configuration on HP Z6
+
+On the `0407` OpenRC HP Z6 image, X11 was only usable after the OpenRC hotplug and session services were running. If X starts and renders windows but keyboard and mouse do not work, check these services first:
+
+```bash
+sudo rc-service udev status
+sudo rc-service udev-trigger status
+sudo rc-service udev-settle status
+sudo rc-service dbus status
+sudo rc-service user-runtime status
+```
+
+If any of them are stopped, start them before `startx`:
+
+```bash
+sudo rc-service udev start
+sudo rc-service udev-trigger start
+sudo rc-service udev-settle start
+sudo rc-service dbus start
+sudo rc-service user-runtime start
+```
+
+Then start X as user `kiel`:
+
+```bash
+startx ~/.xinitrc -- :0 vt1
+```
+
+Important note about X configuration on this machine:
+
+- `/etc/X11/xorg.conf` may still be an old `nvidia-xconfig` file with static `kbd` and `mouse` `InputDevice` sections
+- Xorg hotplugging disables those legacy input devices
+- actual keyboard and mouse input only came back once `udev` and `dbus` were running and `libinput` could attach the real `/dev/input/event*` devices
+
+Useful checks after X starts:
+
+```bash
+ps -ef | grep -E 'Xorg|xinit|dwm|xterm|slstatus' | grep -v grep
+sudo tail -n 120 /var/log/Xorg.0.log
+```
+
+Expected Xorg log clues for the working case:
+
+- `Using input driver 'libinput'`
+- `Adding extended input device "PixArt HP USB Optical Mouse"`
+- `Adding extended input device "HID 046a:0023"`
+
+## 11. Rollback
 
 If the new image does not boot cleanly:
 

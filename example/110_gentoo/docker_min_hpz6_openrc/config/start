@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rotation="${1:-3}"
+rotate_path="/sys/class/graphics/fbcon/rotate_all"
+keymap="/usr/share/keymaps/i386/colemak/en-latin9.map.gz"
+dhcp_if="eno1"
+static_if="enp65s0"
+static_addrs=(
+  "192.168.254.123/24"
+  "192.168.178.122/24"
+)
+modules=(
+  r8169
+  igc
+)
+
+case "$rotation" in
+  0|1|2|3)
+    ;;
+  *)
+    echo "Usage: $0 [0|1|2|3]" >&2
+    exit 1
+    ;;
+esac
+
+sudo -v
+
+echo "Loading Colemak console keymap"
+sudo loadkeys "$keymap"
+
+echo "Rotating console to $rotation"
+printf '%s\n' "$rotation" | sudo tee "$rotate_path" >/dev/null
+
+echo "Loading network modules"
+for module in "${modules[@]}"; do
+  sudo modprobe "$module"
+done
+
+echo "Bringing up ${dhcp_if} and ${static_if}"
+sudo ip link set dev "$dhcp_if" up
+sudo ip link set dev "$static_if" up
+
+if command -v pkill >/dev/null 2>&1; then
+  sudo pkill -f "dhclient.*${dhcp_if}" || true
+fi
+
+echo "Refreshing DHCP on ${dhcp_if}"
+sudo dhclient -r "$dhcp_if" || true
+sudo dhclient -v "$dhcp_if"
+
+echo "Applying static addresses on ${static_if}"
+sudo ip -4 addr flush dev "$static_if" scope global || true
+for addr in "${static_addrs[@]}"; do
+  sudo ip addr add "$addr" dev "$static_if"
+done
+
+echo
+ip -br addr show dev "$dhcp_if"
+ip -br addr show dev "$static_if"
