@@ -81,6 +81,7 @@ media-video/wireplumber
 
 # Networking and Remote Access
 #net-fs/sshfs
+net-misc/openssh
 net-misc/freerdp
 net-misc/autossh
 net-misc/mosh

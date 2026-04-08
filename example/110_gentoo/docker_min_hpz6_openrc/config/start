@@ -15,6 +15,7 @@ modules=(
   igc
 )
 reverse_tunnel_services=(
+  sshd
   reverse-ssh-eu
   reverse-ssh-us
 )

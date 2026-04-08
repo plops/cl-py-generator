@@ -395,6 +395,7 @@ COPY config/reverse-ssh-us.initd /etc/init.d/reverse-ssh-us
 COPY config/qemu-debug.initd /etc/init.d/qemu-debug
 RUN chmod +x /etc/init.d/reverse-ssh-* \
  && chmod 0755 /etc/init.d/qemu-debug \
+ && rc-update add sshd default \
  && rc-update add reverse-ssh-eu default \
  && rc-update add reverse-ssh-us default
 # Switch to user 'kiel'
