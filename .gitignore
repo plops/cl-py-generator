@@ -23,3 +23,9 @@ example/162_genai/*.yamlexample/110_gentoo/docker_min_hpz6/logs/
 *.log
 *.meta
 vmlinuz
+*.squashfs*
+packages.tsv
+packages.txt
+gentoo-z6-min-openrc_20*/
+.sesskey
+uv.lock
