@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260407 AS portage
+FROM gentoo/portage:20260415 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260406 AS base
+FROM gentoo/stage3:nomultilib-20260413 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -38,7 +38,7 @@ COPY config/env /etc/portage/env
 # Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-ENV KVER_PURE=6.12.77
+ENV KVER_PURE=5.15.200 #6.12.77
 ENV KVER=${KVER_PURE}-gentoo
 
 RUN df -h
