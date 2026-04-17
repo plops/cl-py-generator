@@ -1,0 +1,7 @@
+####################################################
+## ATTENTION: THIS IS THE FSTAB ON THE LIVECD     ##
+## PLEASE EDIT THE FSTAB at /mnt/gentoo/etc/fstab ##
+####################################################
+
+# fstab tweaks
+tmpfs				/			tmpfs	defaults	0 0

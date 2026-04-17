@@ -1,0 +1,10 @@
+Filesystem      Size  Used Avail Use% Mounted on
+devtmpfs         10M     0   10M   0% /dev
+tmpfs           7.2G     0  7.2G   0% /dev/shm
+tmpfs           7.2G  4.5G  2.8G  62% /run
+/dev/sda1       4.3G  4.3G     0 100% /run/initramfs/live
+/dev/loop0      4.1G  4.1G     0 100% /run/rootfsbase
+LiveOS_rootfs   7.2G  4.5G  2.8G  62% /
+efivarfs        248K   84K  160K  35% /sys/firmware/efi/efivars
+tmpfs           1.5G   44K  1.5G   1% /run/[REDACTED_USER]/1000
+/dev/mapper/vg  110G  100G  4.6G  96% /media

@@ -1,0 +1,165 @@
+Module                  Size  Used by
+dm_crypt               65536  1
+snd_seq_dummy          12288  0
+snd_hrtimer            12288  1
+snd_seq               126976  7 snd_seq_dummy
+snd_seq_device         12288  1 snd_seq
+fuse                  249856  2
+qrtr                   49152  2
+binfmt_misc            24576  1
+amdgpu              19304448  52
+wl                   6455296  0
+amd_atl                69632  1
+intel_rapl_msr         16384  0
+intel_rapl_common      49152  1 intel_rapl_msr
+snd_soc_dmic           12288  1
+snd_acp6x_pdm_dma      12288  1
+snd_soc_acp6x_mach     45056  4
+snd_sof_amd_acp70      12288  0
+snd_sof_amd_acp63      12288  0
+snd_sof_amd_vangogh    12288  0
+snd_sof_amd_rembrandt    12288  0
+snd_sof_amd_renoir     12288  0
+mt7921e                24576  0
+snd_sof_amd_acp        61440  5 snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_sof_amd_renoir
+snd_sof_pci            20480  5 snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_sof_amd_renoir
+snd_sof_xtensa_dsp     16384  1 snd_sof_amd_acp
+mt7921_common          90112  1 mt7921e
+snd_sof               417792  2 snd_sof_amd_acp,snd_sof_pci
+mt792x_lib             69632  2 mt7921e,mt7921_common
+edac_mce_amd           32768  0
+mt76_connac_lib       102400  3 mt792x_lib,mt7921e,mt7921_common
+snd_sof_utils          16384  1 snd_sof
+snd_pci_ps             28672  0
+mt76                  159744  4 mt792x_lib,mt7921e,mt7921_common,mt76_connac_lib
+snd_soc_acpi_amd_match    12288  3 snd_sof_amd_acp70,snd_sof_amd_acp63,snd_pci_ps
+snd_amd_sdw_acpi       16384  2 snd_sof_amd_acp,snd_pci_ps
+kvm_amd               217088  0
+snd_ctl_led            24576  0
+soundwire_amd          45056  2 snd_sof_amd_acp,snd_pci_ps
+snd_hda_codec_conexant    28672  1
+snd_hda_codec_atihdmi    16384  1
+soundwire_generic_allocation    20480  1 soundwire_amd
+soundwire_bus        1179648  2 soundwire_generic_allocation,soundwire_amd
+snd_hda_codec_generic   122880  1 snd_hda_codec_conexant
+snd_hda_codec_hdmi     57344  1 snd_hda_codec_atihdmi
+mac80211             1654784  4 mt792x_lib,mt76,mt7921_common,mt76_connac_lib
+snd_soc_sdca          122880  1 soundwire_bus
+snd_hda_intel          61440  11
+kvm                  1310720  1 kvm_amd
+btusb                  77824  0
+snd_soc_core          421888  6 snd_soc_acp6x_mach,snd_sof,snd_soc_sdca,snd_acp6x_pdm_dma,soundwire_amd,snd_soc_dmic
+snd_hda_codec         200704  5 snd_hda_codec_generic,snd_hda_codec_conexant,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_atihdmi
+amdxcp                 12288  1 amdgpu
+drm_panel_backlight_quirks    12288  1 amdgpu
+uvcvideo              159744  0
+btmtk                  32768  1 btusb
+spd5118                12288  0
+drm_ttm_helper         16384  2 amdgpu
+ttm                   122880  2 amdgpu,drm_ttm_helper
+uvc                    12288  1 uvcvideo
+snd_compress           28672  1 snd_soc_core
+videobuf2_vmalloc      16384  1 uvcvideo
+i2c_algo_bit           16384  1 amdgpu
+ac97_bus               12288  1 snd_soc_core
+videobuf2_memops       16384  1 videobuf2_vmalloc
+snd_pcm_dmaengine      20480  1 snd_soc_core
+drm_suballoc_helper    16384  1 amdgpu
+btrtl                  36864  1 btusb
+videobuf2_v4l2         36864  1 uvcvideo
+snd_hda_core          135168  6 snd_hda_codec_generic,snd_hda_codec_conexant,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_atihdmi
+gpu_sched              61440  1 amdgpu
+btbcm                  20480  1 btusb
+snd_rpl_pci_acp6x      16384  0
+drm_client_lib         16384  1 amdgpu
+videobuf2_common       86016  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
+snd_intel_dspcfg       45056  2 snd_hda_intel,snd_sof
+drm_exec               12288  1 amdgpu
+snd_acp_pci            12288  0
+btintel                69632  1 btusb
+drm_buddy              32768  1 amdgpu
+snd_intel_sdw_acpi     16384  1 snd_intel_dspcfg
+snd_amd_acpi_mach      12288  1 snd_acp_pci
+dm_multipath           45056  0
+drm_display_helper    299008  1 amdgpu
+videodev              360448  2 videobuf2_v4l2,uvcvideo
+snd_acp_legacy_common    24576  1 snd_acp_pci
+bluetooth             987136  6 btrtl,btmtk,btintel,btbcm,btusb
+snd_pci_acp6x          16384  0
+thinkpad_acpi         151552  0
+snd_hwdep              20480  1 snd_hda_codec
+irqbypass              16384  1 kvm
+speakup_soft           12288  0
+cfg80211             1249280  5 wl,mt76,mac80211,mt7921_common,mt76_connac_lib
+snd_pcm               188416  17 snd_sof_amd_acp,snd_hda_codec_hdmi,snd_pci_acp6x,snd_acp_legacy_common,snd_hda_intel,snd_hda_codec,snd_sof,snd_soc_sdca,snd_acp6x_pdm_dma,snd_compress,snd_soc_core,snd_sof_utils,soundwire_amd,snd_hda_core,snd_pci_ps,snd_pcm_dmaengine
+rapl                   16384  0
+think_lmi              40960  0
+sparse_keymap          12288  1 thinkpad_acpi
+mc                     81920  4 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
+speakup               192512  1 speakup_soft
+joydev                 32768  0
+cec                    94208  2 drm_display_helper,amdgpu
+snd_pci_acp5x          16384  0
+snd_timer              49152  3 snd_seq,snd_hrtimer,snd_pcm
+platform_profile       20480  1 thinkpad_acpi
+drm_kms_helper        233472  4 drm_display_helper,amdgpu,drm_ttm_helper,drm_client_lib
+rfkill                 40960  6 mt7921e,bluetooth,thinkpad_acpi,cfg80211
+snd_rn_pci_acp3x       20480  0
+libarc4                12288  1 mac80211
+snd                   135168  47 snd_ctl_led,snd_hda_codec_generic,snd_seq,snd_hda_codec_conexant,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_sof,snd_soc_sdca,snd_timer,snd_compress,thinkpad_acpi,snd_soc_core,snd_pcm
+snd_acp_config         20480  10 snd_rn_pci_acp3x,snd_sof_amd_acp70,snd_pci_acp6x,snd_pci_acp5x,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_acp_pci,snd_pci_ps,snd_sof_amd_renoir
+firmware_attributes_class    12288  1 think_lmi
+snd_soc_acpi           16384  5 snd_sof_amd_acp,snd_acp_legacy_common,snd_acp_config,snd_amd_acpi_mach,snd_pci_ps
+soundcore              12288  2 snd_ctl_led,snd
+snd_pci_acp3x          16384  0
+i2c_piix4              36864  0
+k10temp                12288  0
+i2c_smbus              16384  1 i2c_piix4
+pcspkr                 12288  0
+amd_pmc                53248  0
+wmi_bmof               12288  0
+acpi_tad               16384  0
+overlay               221184  1
+squashfs               90112  1
+isofs                  61440  1
+ucsi_acpi              12288  0
+nvme                   65536  1
+typec_ucsi             69632  1 ucsi_acpi
+nvme_core             225280  2 nvme
+hid_multitouch         36864  0
+r8169                 131072  0
+typec                 102400  1 typec_ucsi
+uas                    32768  0
+ghash_clmulni_intel    12288  0
+usb_storage            86016  2 uas
+serio_raw              16384  0
+video                  73728  2 thinkpad_acpi,amdgpu
+nvme_keyring           16384  1 nvme_core
+i2c_hid_acpi           12288  0
+nvme_auth              28672  1 nvme_core
+i2c_hid                40960  1 i2c_hid_acpi
+realtek                49152  1
+hkdf                   16384  1 nvme_auth
+thunderbolt           520192  1 typec
+sp5100_tco             16384  0
+wmi                    24576  3 video,wmi_bmof,think_lmi
+sunrpc                749568  1
+be2iscsi              192512  0
+bnx2i                  81920  0
+cnic                   86016  1 bnx2i
+uio                    28672  1 cnic
+cxgb4i                 57344  0
+cxgb4                 696320  1 cxgb4i
+tls                   155648  1 cxgb4
+cxgb3i                 40960  0
+cxgb3                 233472  1 cxgb3i
+mdio                   12288  1 cxgb3
+libcxgbi               90112  2 cxgb4i,cxgb3i
+libcxgb                28672  2 libcxgbi,cxgb3i
+qla4xxx               409600  0
+iscsi_boot_sysfs       16384  2 be2iscsi,qla4xxx
+iscsi_tcp              24576  0
+libiscsi_tcp           36864  4 libcxgbi,iscsi_tcp,cxgb4i,cxgb3i
+libiscsi               81920  8 be2iscsi,libiscsi_tcp,bnx2i,libcxgbi,iscsi_tcp,qla4xxx,cxgb4i,cxgb3i
+scsi_transport_iscsi   131072  7 be2iscsi,libiscsi_tcp,bnx2i,libcxgbi,iscsi_tcp,qla4xxx,libiscsi
+loop                   40960  2

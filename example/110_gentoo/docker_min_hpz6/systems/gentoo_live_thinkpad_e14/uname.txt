@@ -1,0 +1,1 @@
+Linux livecd 6.19.12-gentoo-dist #1 SMP PREEMPT_DYNAMIC Sun Apr 12 21:16:16 UTC 2026 x86_64 AMD Ryzen 7 7735HS with Radeon Graphics AuthenticAMD GNU/Linux
