@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+description="PipeWire media server"
+command="/usr/bin/pipewire"
+command_background="yes"
+pidfile="${XDG_RUNTIME_DIR}/pipewire.pid"
+
+depend() {
+  need dbus
+}

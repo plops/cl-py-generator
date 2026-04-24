@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+
+name="reverse-ssh-eu"
+description="Reverse SSH tunnel to tinyeu"
+supervisor="supervise-daemon"
+command="/usr/bin/autossh"
+command_args="-M 0 -N -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -R 2332:localhost:22 tinyeu"
+command_user="kiel"
+supervise_daemon_args="-e HOME=/home/kiel"
+
+depend() {
+    use net
+    after iwd
+    want tailscale
+}

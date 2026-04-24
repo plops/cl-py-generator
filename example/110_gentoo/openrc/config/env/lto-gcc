@@ -1,0 +1,9 @@
+# GCC LTO for selected leaf packages.
+WARNING_FLAGS="-Werror=odr -Werror=lto-type-mismatch -Werror=strict-aliasing"
+LTO_FLAGS="-flto ${WARNING_FLAGS}"
+
+CFLAGS="${CFLAGS} ${LTO_FLAGS}"
+CXXFLAGS="${CXXFLAGS} ${LTO_FLAGS}"
+FCFLAGS="${FCFLAGS} ${LTO_FLAGS}"
+FFLAGS="${FFLAGS} ${LTO_FLAGS}"
+LDFLAGS="${LDFLAGS} ${LTO_FLAGS}"

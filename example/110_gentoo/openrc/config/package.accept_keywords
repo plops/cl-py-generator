@@ -1,0 +1,29 @@
+# Toolchain, Compiler, Runtime
+dev-libs/jemalloc ~amd64
+dev-util/ruff ~amd64
+dev-lang/spark ~amd64
+~dev-ada/gpr-24.2.0-r1 ~amd64
+
+# Development Tools
+dev-util/clion ~amd64
+
+# Graphics, GPU, CUDA
+dev-util/nvidia-cuda-toolkit ~amd64
+x11-drivers/nvidia-drivers ~amd64
+
+# Documents / Publishing
+app-text/typst ~amd64
+
+# Networking, Remote, Wireless
+net-misc/apt-cacher-ng ~amd64
+net-misc/moonlight ~amd64
+net-misc/sunshine ~amd64
+net-wireless/iwgtk ~amd64
+>=net-misc/freerdp-3.17.2-r1 ~amd64
+
+# Initramfs / Kernel
+sys-kernel/dracut-crypt-ssh ~amd64
+#sys-kernel/gentoo-sources ~amd64
+
+
+app-misc/jo ~amd64

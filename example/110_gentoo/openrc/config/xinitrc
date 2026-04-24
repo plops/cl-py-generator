@@ -1,0 +1,16 @@
+xrandr --output DP-0 --scale 1x1 --rotate left; xrandr --output DP-2 --scale 1x1 --rotate right; xrandr --output DP-2 --right-of DP-0
+
+# xrandr --output DP-0 --scale 2x2; xrandr --output DP-2 --scale 2x2 --pos 2160x0
+# xrandr --output DP-0 --scale 2x2; xrandr --output DP-2 --scale 2x2 --below DP-0 --pos 0x3840
+
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=${XDG_RUNTIME_DIR}/bus}"
+export PULSE_SERVER="${PULSE_SERVER:-unix:${XDG_RUNTIME_DIR}/pulse/native}"
+
+setxkbmap -layout us -variant colemak
+
+xterm -e btop &
+slstatus &
+#xterm &
+exec dwm
+#exec /usr/local/bin/plwm

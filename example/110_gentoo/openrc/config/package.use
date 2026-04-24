@@ -1,0 +1,7 @@
+x11-libs/libdrm video_cards_radeon
+media-libs/vulkan-loader X
+media-libs/libpulse X
+media-plugins/alsa-plugins pulseaudio
+sys-libs/minizip-ng compat
+x11-wm/dwm savedconfig -xinerama
+sys-fs/lvm2 lvm

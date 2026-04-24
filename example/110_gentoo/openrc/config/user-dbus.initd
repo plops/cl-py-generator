@@ -1,0 +1,7 @@
+#!/sbin/openrc-run
+
+description="User D-Bus session bus"
+command="/usr/bin/dbus-daemon"
+command_args="--session --address=unix:path=${XDG_RUNTIME_DIR}/bus --nofork --nopidfile --nosyslog"
+command_background="yes"
+pidfile="${XDG_RUNTIME_DIR}/dbus-session.pid"
