@@ -12,5 +12,10 @@ setxkbmap -layout us -variant colemak
 xterm -e btop &
 slstatus &
 #xterm &
-exec dwm
+# Start PipeWire stack
+~/start-pipewire.sh &
+
+cd /home/kiel
+# Use dbus-run-session to ensure a working session bus
+exec dbus-run-session dwm
 #exec /usr/local/bin/plwm

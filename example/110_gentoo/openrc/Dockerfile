@@ -167,6 +167,8 @@ RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
     done
 
 COPY config/xinitrc /home/kiel/.xinitrc
+COPY config/start-pipewire.sh /home/kiel/start-pipewire.sh
+RUN chmod +x /home/kiel/start-pipewire.sh && chown kiel:kiel /home/kiel/start-pipewire.sh
 COPY config/user-runtime.initd /etc/init.d/user-runtime
 COPY config/zz-openrc-user-session.sh /etc/profile.d/zz-openrc-user-session.sh
 COPY config/user-dbus.initd /etc/user/init.d/dbus
@@ -249,9 +251,9 @@ RUN printf '%s\n' \
  && ln -sf /etc/init.d/user /etc/init.d/user.kiel \
  && install -d -o kiel -g kiel -m 0755 /home/kiel/.config/rc/runlevels/default \
  && ln -sf /etc/user/init.d/dbus /home/kiel/.config/rc/runlevels/default/dbus \
- && ln -sf /etc/user/init.d/pipewire /home/kiel/.config/rc/runlevels/default/pipewire \
- && ln -sf /etc/user/init.d/pipewire-pulse /home/kiel/.config/rc/runlevels/default/pipewire-pulse \
- && ln -sf /etc/user/init.d/wireplumber /home/kiel/.config/rc/runlevels/default/wireplumber \
+#  && ln -sf /etc/user/init.d/pipewire /home/kiel/.config/rc/runlevels/default/pipewire \
+#  && ln -sf /etc/user/init.d/pipewire-pulse /home/kiel/.config/rc/runlevels/default/pipewire-pulse \
+#  && ln -sf /etc/user/init.d/wireplumber /home/kiel/.config/rc/runlevels/default/wireplumber \
  && rc-update add udev sysinit \
  && rc-update add udev-trigger sysinit \
  && rc-update add udev-settle sysinit \
