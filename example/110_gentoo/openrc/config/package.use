@@ -7,3 +7,4 @@ x11-wm/dwm savedconfig -xinerama
 sys-fs/lvm2 lvm
 media-video/pipewire alsa dbus sound-server udev
 media-video/wireplumber dbus
+sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd
