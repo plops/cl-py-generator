@@ -161,14 +161,18 @@ RUN make -j32
 RUN make install
 RUN make clean
 
-RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
+RUN groupadd -f input \
+ && useradd -m -G users,wheel,audio,video,input -s /bin/bash kiel \
  && for grp in libvirt kvm qemu; do \
       if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi; \
     done
 
 COPY config/xinitrc /home/kiel/.xinitrc
+COPY config/activate /home/kiel/activate
+COPY config/start2 /home/kiel/start2
 COPY config/start-pipewire.sh /home/kiel/start-pipewire.sh
-RUN chmod +x /home/kiel/start-pipewire.sh && chown kiel:kiel /home/kiel/start-pipewire.sh
+RUN chmod +x /home/kiel/activate /home/kiel/start2 /home/kiel/start-pipewire.sh \
+ && chown kiel:kiel /home/kiel/activate /home/kiel/start2 /home/kiel/start-pipewire.sh
 COPY config/user-runtime.initd /etc/init.d/user-runtime
 COPY config/zz-openrc-user-session.sh /etc/profile.d/zz-openrc-user-session.sh
 COPY config/user-dbus.initd /etc/user/init.d/dbus
@@ -203,9 +207,11 @@ RUN emacs --batch \
 USER root
 
 
-RUN mkdir -p /usr/local/share/e14-bringup
-COPY config/reverse-ssh-eu.initd /usr/local/share/e14-bringup/reverse-ssh-eu.initd
-COPY config/reverse-ssh-us.initd /usr/local/share/e14-bringup/reverse-ssh-us.initd
+RUN mkdir -p /usr/local/share/openrc-host-config
+COPY config/activate /usr/local/share/openrc-host-config/activate
+COPY config/start2 /usr/local/share/openrc-host-config/start2
+COPY config/reverse-ssh-eu.initd /usr/local/share/openrc-host-config/reverse-ssh-eu.initd
+COPY config/reverse-ssh-us.initd /usr/local/share/openrc-host-config/reverse-ssh-us.initd
 
 
 # For chinese font in chrome

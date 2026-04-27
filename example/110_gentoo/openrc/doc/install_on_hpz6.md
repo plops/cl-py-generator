@@ -35,6 +35,16 @@ Installed files:
 
 The HP Z6 squashfs source is `gentoo.squashfs_nv`. The E14-specific `gentoo.squashfs_e14` was not used.
 
+The OpenRC image now also carries the host bring-up helpers as installed files:
+
+```text
+/home/kiel/activate
+/home/kiel/start2
+```
+
+These are built from the repo-managed sources in `example/110_gentoo/openrc/config/`
+so the image no longer depends on ad-hoc copies under `/home/kiel`.
+
 ## Verified Partition Layout
 
 Relevant identifiers:
@@ -52,6 +62,24 @@ BOOT_IMAGE=/boot/0424/vmlinuz root=UUID=19b4ec1e-0403-4820-98e6-4ed57ba819f0
 ```
 
 This confirms the machine was booted from the direct OpenRC install while the squashfs artifacts were installed onto `/dev/nvme0n1p3`.
+
+## Host Bring-Up Notes
+
+On the HP Z6, `kiel` had to be in the `input` group for `startx` to get working
+keyboard and mouse input. The image build now creates that group if needed and
+adds `kiel` to it in the Dockerfile.
+
+Compared with the Lenovo ThinkPad E14 Gen 2 setup:
+
+- `/home/kiel/activate` is now stored in the repo and uses
+  `/usr/local/share/openrc-host-config` as its primary config source instead of
+  the stale `docker_min_hpz6_openrc` fallback path.
+- `/home/kiel/start2` is now stored in the repo and keeps the HP Z6 network
+  bring-up defaults (`eno1`, `enp65s0`, `r8169`, `igc`) while tolerating other
+  machines by skipping missing interfaces and switching to `mt7921e` module
+  loading on ThinkPad E14 hardware.
+- Reverse SSH OpenRC services remain enabled by default on the HP Z6 path and
+  are still disabled on ThinkPad E14 hardware by the `activate` script.
 
 ## Mount Target
 
