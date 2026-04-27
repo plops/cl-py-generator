@@ -8,7 +8,10 @@ getargbool 0 rd.live.overlay.readonly && readonly_overlay="--readonly" || readon
 ROOTFLAGS="$(getarg rootflags)"
 LOWER_EXT4_DEV="$(getarg rd.live.overlay.lower.ext4dev=)"
 LOWER_EXT4_OPTS="$(getarg rd.live.overlay.lower.ext4opts=)"
+LOWER_EROFS_DEV="$(getarg rd.live.overlay.lower.erofsdev=)"
+LOWER_EROFS_OPTS="$(getarg rd.live.overlay.lower.erofsopts=)"
 [ -n "${LOWER_EXT4_OPTS}" ] || LOWER_EXT4_OPTS="ro"
+[ -n "${LOWER_EROFS_OPTS}" ] || LOWER_EROFS_OPTS="ro,dax=always"
 
 mount_lower_ext4() {
     [ -n "${LOWER_EXT4_DEV}" ] || return 1
@@ -20,6 +23,16 @@ mount_lower_ext4() {
     mount -t ext4 -o ro "${LOWER_EXT4_DEV}" /run/rootfsdax
 }
 
+mount_lower_erofs() {
+    [ -n "${LOWER_EROFS_DEV}" ] || return 1
+    mkdir -p /run/rootfsdax
+    if mount -t erofs -o "${LOWER_EROFS_OPTS}" "${LOWER_EROFS_DEV}" /run/rootfsdax; then
+        return 0
+    fi
+    warn "failed to mount ${LOWER_EROFS_DEV} with options '${LOWER_EROFS_OPTS}', retrying read-only without DAX"
+    mount -t erofs -o ro "${LOWER_EROFS_DEV}" /run/rootfsdax
+}
+
 if [ -n "$overlayfs" ]; then
     # Build overlay lowerdir options
     if [ -n "$readonly_overlay" ] && [ -h /run/overlayfs-r ]; then
@@ -28,7 +41,7 @@ if [ -n "$overlayfs" ]; then
         ovlfs=lowerdir=/run/rootfsbase
     fi
 
-    if mount_lower_ext4; then
+    if mount_lower_erofs || mount_lower_ext4; then
         ovlfs=lowerdir=/run/rootfsdax:/run/rootfsbase
     fi
 

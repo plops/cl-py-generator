@@ -276,7 +276,7 @@ RUN rm -rf /var/tmp/portage/* # reduce docker layer size
 RUN emerge -C dev-lang/rust-bin virtual/rust dev-lang/go dev-lang/go-bootstrap dev-util/cargo-c || true
 
 WORKDIR /
-RUN emerge --ask=n sys-fs/e2fsprogs || true
+RUN emerge --ask=n sys-fs/e2fsprogs sys-fs/erofs-utils || true
 RUN mksquashfs \
 / \
 /gentoo.squashfs \
@@ -356,7 +356,7 @@ COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
 RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
-      --filesystems "squashfs vfat ext4 overlay btrfs" \
+      --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
       --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
       --kver=${KVER_RELEASE} \
       --install "stat blockdev" \
@@ -531,3 +531,17 @@ RUN set -e \
      initramfs-with-squashfs.img \
      lost+found \
    || true
+
+# Create a companion ThinkPad E14 EROFS image for DAX/XIP-style access to
+# binaries and libraries. Keep it uncompressed and 4 KiB block-aligned so it
+# can be mounted with dax=always on DAX-capable storage.
+RUN set -e \
+ && echo "Building ThinkPad E14 EROFS image for binaries and libraries" \
+ && rm -rf /tmp/erofs_e14_root \
+ && mkdir -p /tmp/erofs_e14_root/usr /tmp/erofs_e14_root/opt \
+ && rsync -a /bin /sbin /lib /lib64 /tmp/erofs_e14_root/ \
+ && rsync -a /usr/bin /usr/sbin /usr/lib /usr/lib64 /tmp/erofs_e14_root/usr/ \
+ && rsync -a /opt/ /tmp/erofs_e14_root/opt/ \
+ && rm -f /gentoo.erofs_e14 \
+ && mkfs.erofs -b 4096 /gentoo.erofs_e14 /tmp/erofs_e14_root \
+ && rm -rf /tmp/erofs_e14_root
