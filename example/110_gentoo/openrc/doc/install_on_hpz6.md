@@ -143,7 +143,7 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5 0427 OpenRC NV folder)' {
       pcie_aspm=off \
       modprobe.blacklist=hp_bioscfg
 
-    initrd /boot/0427/initramfs_squash_sda1-x86_64.img
+    initrd /boot/amd-uc.img /boot/0427/initramfs_squash_sda1-x86_64.img
 }
 ```
 
@@ -165,6 +165,9 @@ rd.live.squashimg=gentoo.squashfs
 ```
 
 This differs from the older flat layout, which used `rd.live.dir=/` and filenames such as `gentoo.squashfs_0407`.
+
+The `0427` entry also preloads the existing shared AMD microcode image from
+`/boot/amd-uc.img` before the `0427` initramfs.
 
 ## Existing Fallbacks
 
