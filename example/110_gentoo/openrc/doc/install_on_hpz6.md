@@ -140,10 +140,21 @@ menuentry 'Gentoo Dracut (persist on nvme0n1p5 0427 OpenRC NV folder)' {
       rd.luks.name=0d7c5e23-6bab-4dce-b744-a5d61d497aca=enc \
       rd.overlay=/dev/mapper/enc:persistent \
       rd.live.overlay.overlayfs=1 \
+      pcie_aspm=off \
       modprobe.blacklist=hp_bioscfg
 
     initrd /boot/0427/initramfs_squash_sda1-x86_64.img
 }
+```
+
+The `pcie_aspm=off` kernel option is included to work around the ASPM and ACPI
+errors seen on boot:
+
+```text
+[ 1379.718135] igc 0000:41:00.0: can't disable ASPM; OS doesn't have ASPM control
+[ 1386.880909] ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PCI1.GPPB.UP00.DP60.XH00], AE_NOT_FOUND (20250807/psargs-332)
+[ 1386.880931] ACPI Error: Aborting method \_GPE._L08 due to previous error (AE_NOT_FOUND) (20250807/psparse-529)
+[ 1386.880946] ACPI Error: AE_NOT_FOUND, while evaluating GPE method [_L08] (20250807/evgpe-511)
 ```
 
 Important detail: because the squashfs is inside `/boot/0427`, the entry uses:
