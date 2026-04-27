@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260415 AS portage
+FROM gentoo/portage:20260424 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260413 AS base
+FROM gentoo/stage3:nomultilib-20260420 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -13,254 +13,45 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 # Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
-COPY config/package.mask /etc/portage/package.mask/package.mask
 
-FROM base AS builder
-RUN emerge --ask=n --verbose sys-devel/gcc:14 \
- && gcc_14=$(eselect gcc list | grep "14" | awk '{print $1}' | tr -d '[]') \
- && eselect gcc set "${gcc_14}" \
- && source /etc/profile \
- && emerge --ask=n --oneshot --verbose libtool \
- && (emerge --deselect=y sys-devel/gcc:15 sys-devel/gcc:16 || true) \
- && (emerge --ask=n --depclean sys-devel/gcc:15 sys-devel/gcc:16 || true) \
- && emerge --ask=n @preserved-rebuild
-
-FROM builder
 
 # Repository tooling and package configuration
 RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
-RUN emerge --ask=n sys-devel/mold
+#RUN emerge --ask=n sys-devel/mold
 COPY config/make.conf /etc/portage/make.conf
-COPY config/package.license /etc/portage/package.license
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
 COPY config/env /etc/portage/env
 # Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-ENV KVER_PURE=5.15.200 #6.12.77
-ENV KVER=${KVER_PURE}-gentoo
+ENV KVER_PURE=6.18.18
+ENV KVER_SOURCE=${KVER_PURE}-gentoo
+ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
 RUN df -h
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
-RUN eselect kernel set linux-${KVER}
+RUN eselect kernel set linux-${KVER_SOURCE}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config6.12.41 .config
+COPY config/config6.18.18 .config
+RUN sed -i \
+    -e 's/^CONFIG_LOCALVERSION="-gentoo-dist"/CONFIG_LOCALVERSION="-dist"/' \
+    -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/' \
+    -e 's/^CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y/# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set/' \
+    -e 's/^CONFIG_DEBUG_INFO_BTF=y/# CONFIG_DEBUG_INFO_BTF is not set/' \
+    -e 's/^CONFIG_DEBUG_INFO_BTF_MODULES=y/# CONFIG_DEBUG_INFO_BTF_MODULES is not set/' \
+    .config
 # amd/sof/* and amd/sof-tplg/* firmware blobs
-RUN <<EOF
-set -e
-CONFIG_OPTS=(
-  # =========================================================================
-  # --- Hardware & Kernel Profile (HP Z6 / AMD Ryzen Threadripper PRO) ---
-  # =========================================================================
-  # To make this Dockerfile generic, comment out the "Specific Options"
-  # and uncomment the "Generic Options" below.
-
-  # --- Specific Options (Optimized for Threadripper / Workstation) ---
-  -d PREEMPT_RT
-  -e PREEMPT
-  -d PREEMPT_VOLUNTARY
-  -e GENERIC_CPU
-  -d MK8
-  -m KVM_AMD
-
-  # --- DAX / Ext4 Options ---
-  -e FS_DAX
-  -e DAX
-  -e EXT4_FS
-  -m EXT4_FS_POSIX_ACL
-  -m EXT4_FS_SECURITY
-  -e X86_PMEM_LEGACY
-  -e ZONE_DEVICE
-  -e LIBNVDIMM
-  -e BLK_DEV_PMEM
-  -e BTT
-  -e ND_BTT
-  -e NVDIMM_PFN
-  -e ND_PFN
-  -e NVDIMM_DAX
-  -e DEV_DAX
-  -e DEV_DAX_PMEM
-  -e ND_BLK
-
-  # --- Generic Options (Commented out by default) ---
-  # -e PREEMPT_RT
-  # -e PREEMPT
-  # -d PREEMPT_VOLUNTARY
-  # -e GENERIC_CPU
-  # -d MK8
-  # -m KVM_INTEL
-  # -m KVM_AMD
-  # =========================================================================
-
-  # --- System / Core (Docker, Namespaces, Storage) ---
-  -e CUSE
-  -e EFI_PARTITION
-  -e SQUASHFS
-  -e SQUASHFS_4K_DEVBLK_SIZE
-  -e CGROUPS
-  -e NAMESPACES
-  -e OVERLAY_FS
-  -e TUN
-  -m PPDEV
-
-  # --- Boot / Crypto ---
-  -e BLK_DEV_INITRD
-  -m DM_CRYPT
-  -m CRYPTO_AES_NI_INTEL
-  -m CRYPTO_XTS
-  -e MD
-
-  # --- Virtualization / QEMU Base ---
-  -m KVM
-  -e VETH
-  -m MACVTAP
-  -m VHOST_NET
-  -m VIRTIO_BALLOON
-  -m VIRTIO_BLK
-  -m VIRTIO_NET
-
-  # libvirt default NAT (virbr0) via iptables needs netfilter reject/nat/conntrack modules
-  -m NETFILTER_XTABLES
-  -m NF_CONNTRACK
-  -m NF_NAT
-  -m IP_NF_IPTABLES
-  -m IP_NF_FILTER
-  -m IP_NF_NAT
-  -m IP_NF_TARGET_MASQUERADE
-  -m NF_REJECT_IPV4
-  -m IP_NF_TARGET_REJECT
-  -m NF_REJECT_IPV6
-  -m IP6_NF_TARGET_REJECT
-  -m BRIDGE
-  -m BR_NETFILTER
-
-  # --- Bluetooth ---
-  -m BT_BCM
-  -m BT_BNEP
-  -m BT_HCIBTUSB
-  -m BT_INTEL
-  -m BT_INTEL_PCIE
-  -m BT_MTK
-  -m BT_RFCOMM
-  -e BT_RFCOMM_TTY
-  -m BT_RTL
-
-  # --- Network (Ethernet, WiFi, WWAN) ---
-  -m MT7921E
-  -m QRTR
-  -m R8169
-  -m RTW88_8821C
-  -m RTW88_8821CU
-  -m RTW89_8852B
-  -m RTW89_8852BE
-  -m RTW89_8852B_COMMON
-  -m USB_IPHETH
-  -m USB_NET_CDCETHER
-  -m USB_NET_CDC_NCM
-  -m USB_NET_QMI_WWAN
-  -m USB_USBNET
-
-  # --- HID / Input Devices ---
-  -m APPLE_MFI_FASTCHARGE
-  -m HID_CHERRY
-  -m HID_GENERIC
-  -m HID_LENOVO
-  -m HID_LOGITECH
-  -m HID_LOGITECH_HIDPP
-  -m HID_MULTITOUCH
-  -m HID_PLANTRONICS
-  -d TOUCHSCREEN_SUR40
-
-  # --- Laptop / Platform / WMI ---
-  -m AMD_PMC
-  -m ASUS_WMI
-  -m EEEPC_WMI
-  -m HP_WMI
-  -m IDEAPAD_LAPTOP
-  -m LENOVO_WMI_CAMERA
-  -m THINKPAD_ACPI
-  -m THINKPAD_LMI
-
-  # --- Hardware Sensors / Power ---
-  -m EDAC_DECODE_MCE
-  -m EEPROM_EE1004
-  -m INTEL_RAPL
-  -m INTEL_RAPL_CORE
-  -m SENSORS_K10TEMP
-  -m SENSORS_SPD5118
-  -e SENSORS_SPD5118_DETECT
-
-  # --- Sound / Audio ---
-  -m SND_HDA_CODEC_CONEXANT
-  -m SND_HDA_CODEC_REALTEK
-  -m SND_HDA_INTEL
-  -m SND_SOC_AMD_ACP6x
-  -m SND_SOC_AMD_ACP_COMMON
-  -m SND_SOC_AMD_ACP_LEGACY_COMMON
-  -m SND_SOC_AMD_ACP_PCI
-  -m SND_SOC_AMD_PS
-  -m SND_SOC_AMD_PS_MACH
-  -m SND_SOC_DMIC
-  -m SND_SOC_SDCA
-  -m SND_SOC_SOF_AMD_ACP63
-  -m SND_SOC_SOF_AMD_REMBRANDT
-  -m SND_SOC_SOF_AMD_RENOIR
-  -m SND_SOC_SOF_AMD_TOPLEVEL
-  -m SND_SOC_SOF_AMD_VANGOGH
-  -m SND_SOC_SOF_PCI
-  -m SND_SOC_SOF_TOPLEVEL
-  -m SOUNDWIRE
-  -m SOUNDWIRE_AMD
-  -m SOUNDWIRE_BUS
-  -m SOUNDWIRE_GENERIC_ALLOCATION
-  -d MFD_CS42L43_SDW
-
-  # --- Media / Video ---
-  -e MEDIA_USB_SUPPORT
-  -m MEDIA_CAMERA_SUPPORT
-  -m MEDIA_SUPPORT
-  -m USB_VIDEO_CLASS
-  -m VIDEO_DEV
-  -m VIDEO_V4L2
-  -d USB_GSPCA
-  -d USB_PWC
-
-  # --- Storage ---
-  -m NVME_AUTH
-  -m NVME_KEYRING
-
-  # --- Crypto ---
-  -m CRYPTO_CMAC
-  -m CRYPTO_GHASH_CLMUL_NI_INTEL
-  -m CRYPTO_SHA1_SSSE3
-  -m CRYPTO_SHA256_SSSE3
-  -m CRYPTO_SHA512_SSSE3
-  -m CRYPTO_USER_API_HASH
-  -m CRYPTO_USER_API_SKCIPHER
-
-  # --- USB / Thunderbolt ---
-  -m THUNDERBOLT
-  -m USB4
-  -d USB4_NET
-  -m USB_SERIAL_CH341
-  -m USB_SERIAL_FTDI_SIO
-)
-
-./scripts/config --file .config "${CONFIG_OPTS[@]}"
-make olddefconfig # accept default for new options to avoid interactive prompts
-EOF
-
 
 RUN make prepare
 
 # compile the kernel
 RUN make -j32
 RUN make modules_install
-RUN depmod -a ${KVER}
+RUN depmod -a ${KVER_RELEASE}
 
 # I found that linux hangs after booting (just before you can log into the console). I also found that
 # removing the modules helps.
@@ -288,7 +79,8 @@ RUN mkdir -p /etc/portage/package.use \
  && touch /etc/portage/package.use/zz-late-world \
  && grep -qxF 'app-text/xmlto text' /etc/portage/package.use/zz-late-world \
  || printf '\napp-text/xmlto text\n' >> /etc/portage/package.use/zz-late-world
-RUN emerge -uDN @world
+RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
+    PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
 RUN gcc-config -l
 
 # System package build in cached chunks:
@@ -375,10 +167,6 @@ RUN useradd -m -G users,wheel,audio,video -s /bin/bash kiel \
     done
 
 COPY config/xinitrc /home/kiel/.xinitrc
-COPY config/start /home/kiel/start
-COPY config/setup_network.sh /home/kiel/setup_network.sh
-COPY config/rotate-console.sh /home/kiel/rotate-console.sh
-COPY config/colemak.sh /home/kiel/colemak.sh
 COPY config/user-runtime.initd /etc/init.d/user-runtime
 COPY config/zz-openrc-user-session.sh /etc/profile.d/zz-openrc-user-session.sh
 COPY config/user-dbus.initd /etc/user/init.d/dbus
@@ -392,9 +180,8 @@ RUN emerge --depclean
 COPY config/resolv.conf /etc/
 COPY config/reverse-ssh-eu.initd /etc/init.d/reverse-ssh-eu
 COPY config/reverse-ssh-us.initd /etc/init.d/reverse-ssh-us
-COPY config/qemu-debug.initd /etc/init.d/qemu-debug
+
 RUN chmod +x /etc/init.d/reverse-ssh-* \
- && chmod 0755 /etc/init.d/qemu-debug \
  && rc-update add sshd default \
  && rc-update add reverse-ssh-eu default \
  && rc-update add reverse-ssh-us default
@@ -413,17 +200,11 @@ RUN emacs --batch \
 # Switch back to root user for the remaining steps
 USER root
 
-COPY config/sysctl.conf /etc/sysctl.conf
-COPY config/activate /activate
+
 RUN mkdir -p /usr/local/share/e14-bringup
 COPY config/reverse-ssh-eu.initd /usr/local/share/e14-bringup/reverse-ssh-eu.initd
 COPY config/reverse-ssh-us.initd /usr/local/share/e14-bringup/reverse-ssh-us.initd
-COPY config/tailscale.initd /usr/local/share/e14-bringup/tailscale.initd
-COPY config/openvpn.initd /usr/local/share/e14-bringup/openvpn.initd
-RUN chmod 0755 /activate
 
-# For virt-manager (otherwise it crashes (!))
-RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 # For chinese font in chrome
 RUN fc-cache -fv
@@ -460,7 +241,6 @@ RUN printf '%s\n' \
  && if ! grep -qx 'ttyS0' /etc/securetty; then \
       printf '%s\n' 'ttyS0' >> /etc/securetty; \
     fi \
- && chmod 0755 /home/kiel/start /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
  && chmod 0755 /etc/init.d/user-runtime /etc/profile.d/zz-openrc-user-session.sh \
       /etc/user/init.d/dbus /etc/user/init.d/pipewire /etc/user/init.d/pipewire-pulse /etc/user/init.d/wireplumber \
  && install -d -m 0755 /run/user \
@@ -479,10 +259,8 @@ RUN printf '%s\n' \
  && rc-update add keymaps boot \
  && rc-update add user-runtime default \
  && rc-update add user.kiel default \
- && rc-update add qemu-debug default \
  && rc-update add dbus default \
  && rc-update add iwd default \
- && chown kiel:kiel /home/kiel/start /home/kiel/setup_network.sh /home/kiel/rotate-console.sh /home/kiel/colemak.sh \
  && chown -R kiel:kiel /home/kiel/.config
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size
@@ -572,7 +350,7 @@ RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
       --filesystems "squashfs vfat ext4 overlay btrfs" \
       --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
-      --kver=${KVER} \
+      --kver=${KVER_RELEASE} \
       --install "stat blockdev" \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
@@ -624,11 +402,11 @@ RUN set -e \
 # leftover build scratch state under /tmp.
 RUN set -e \
  && echo "Preparing NVIDIA squashfs" \
- && test -e /lib/modules/${KVER}/video/nvidia.ko \
+ && test -e /lib/modules/${KVER_RELEASE}/video/nvidia.ko \
  && rm -rf /tmp/fw_original /tmp/fw_nv_root \
  && mkdir -p /tmp/fw_original /tmp/fw_nv_root/usr/lib/firmware \
  && cp -a /usr/lib/firmware/. /tmp/fw_original/ \
- && modinfo -F firmware /lib/modules/${KVER}/video/nvidia.ko \
+ && modinfo -F firmware /lib/modules/${KVER_RELEASE}/video/nvidia.ko \
       | sort -u \
       | while IFS= read -r rel; do \
           test -n "${rel}"; \
@@ -709,7 +487,7 @@ RUN set -e \
       /usr/lib64/nvidia \
       /usr/lib64/gbm/nvidia-drm_gbm.so \
       /usr/lib64/vdpau/libvdpau_nvidia.so* 2>/dev/null || true \
- && rm -rf /nvidia${KVER} 2>/dev/null || true \
+ && rm -rf /nvidia${KVER_RELEASE} 2>/dev/null || true \
  && mksquashfs / /gentoo.squashfs_e14 \
    -comp zstd \
    -Xcompression-level 19 \
