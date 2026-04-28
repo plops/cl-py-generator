@@ -79,8 +79,9 @@ RUN mkdir -p /etc/portage/package.use \
  && touch /etc/portage/package.use/zz-late-world \
  && grep -qxF 'app-text/xmlto text' /etc/portage/package.use/zz-late-world \
  || printf '\napp-text/xmlto text\n' >> /etc/portage/package.use/zz-late-world
-RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
-    PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
+# RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
+#     PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
+RUN emerge -uDN @world
 RUN gcc-config -l
 
 # System package build in cached chunks:
@@ -277,78 +278,83 @@ RUN emerge -C dev-lang/rust-bin virtual/rust dev-lang/go dev-lang/go-bootstrap d
 
 WORKDIR /
 RUN emerge --ask=n sys-fs/e2fsprogs sys-fs/erofs-utils || true
-RUN mksquashfs \
-/ \
-/gentoo.squashfs \
--comp zstd \
--xattrs \
--noappend \
--not-reproducible \
--Xcompression-level 19 \
--progress \
--one-file-system-x \
--p "/dev d 755 0 0" \
--p "/proc d 555 0 0" \
--p "/sys d 555 0 0" \
--b 256K -noI -noX \
--mem 10G \
--wildcards \
--e \
-bin \
-sbin \
-lib \
-lib64 \
-usr/bin \
-usr/sbin \
-usr/lib \
-usr/lib64 \
-opt \
-usr/src \
-var/cache/binpkgs \
-var/cache/distfiles \
-"gentoo*squashfs" \
-"gentoo*ext4" \
-"usr/lib64/libQt*.a" \
-usr/share/genkernel/distfiles \
-usr/src/linux \
-usr/share/sgml \
-var/cache/eix/previous.eix \
-boot \
-persistent \
-home/kiel/.cache/mozilla \
-home/kiel/.cache/google-chrome \
-home/kiel/.cache/mesa_shader_cache \
-home/kiel/.cache/fontconfig \
-home/kiel/Downloads \
-home/kiel/.config \
-home/kiel/.mozilla \
-home/kiel/stage \
-var/log/journal \
-var/cache/genkernel \
-var/tmp/portage \
-mnt/ \
-mnt2/ \
-mnt4/ \
-mnt5/ \
-var/tmp \
-initramfs-with-squashfs.img \
-lost+found \
-var/log \
-usr/share/gtk-doc \
-usr/share/doc \
-usr/share/locale
+# RUN mksquashfs \
+# / \
+# /gentoo.squashfs \
+# -comp zstd \
+# -xattrs \
+# -noappend \
+# -not-reproducible \
+# -Xcompression-level 19 \
+# -progress \
+# -one-file-system-x \
+# -p "/dev d 755 0 0" \
+# -p "/proc d 555 0 0" \
+# -p "/sys d 555 0 0" \
+# -b 256K -noI -noX \
+# -mem 10G \
+# -wildcards \
+# -e \
+# bin \
+# sbin \
+# lib \
+# lib64 \
+# usr/bin \
+# usr/sbin \
+# usr/lib \
+# usr/lib64 \
+# opt \
+# usr/src \
+# var/cache/binpkgs \
+# var/cache/distfiles \
+# "gentoo*squashfs" \
+# "gentoo*ext4" \
+# "usr/lib64/libQt*.a" \
+# usr/share/genkernel/distfiles \
+# usr/src/linux \
+# usr/share/sgml \
+# var/cache/eix/previous.eix \
+# boot \
+# persistent \
+# home/kiel/.cache/mozilla \
+# home/kiel/.cache/google-chrome \
+# home/kiel/.cache/mesa_shader_cache \
+# home/kiel/.cache/fontconfig \
+# home/kiel/Downloads \
+# home/kiel/.config \
+# home/kiel/.mozilla \
+# home/kiel/stage \
+# var/log/journal \
+# var/cache/genkernel \
+# var/tmp/portage \
+# mnt/ \
+# mnt2/ \
+# mnt4/ \
+# mnt5/ \
+# var/tmp \
+# initramfs-with-squashfs.img \
+# lost+found \
+# var/log \
+# usr/share/gtk-doc \
+# usr/share/doc \
+# usr/share/locale
 
 # Ext4 image creation with e2fsprogs (sparse initial file)
 # Contains ONLY binaries and libraries for DAX Execute-In-Place
-RUN set -e \
- && echo "Building gentoo.ext4 with DAX capabilities..." \
- && mkdir -p /tmp/ext4_root/usr /tmp/ext4_root/opt \
- && rsync -a /bin /sbin /lib /lib64 /tmp/ext4_root/ \
- && rsync -a /usr/bin /usr/sbin /usr/lib /usr/lib64 /tmp/ext4_root/usr/ \
- && rsync -a /opt/ /tmp/ext4_root/opt/ \
- && truncate -s 10G /gentoo.ext4 \
- && mke2fs -t ext4 -b 4096 -O ^has_journal -d /tmp/ext4_root /gentoo.ext4 \
- && rm -rf /tmp/ext4_root
+# RUN set -e \
+#  && echo "Building gentoo.ext4 with DAX capabilities..." \
+#  && rm -rf /tmp/ext4_root \
+#  && mkdir -p /tmp/ext4_root \
+#  && cd / \
+#  && find bin sbin usr/bin usr/sbin \
+#       \( -type l -o \( -type f -perm /111 \) \) -print0 \
+#       | xargs -0 -r -I{} cp -a --parents "{}" /tmp/ext4_root/ \
+#  && find lib lib64 usr/lib usr/lib64 \
+#       \( -type l -o \( -type f \( -name '*.so' -o -name '*.so.*' -o -name 'ld-linux*.so*' -o -name 'ld-musl-*.so*' \) \) \) -print0 \
+#       | xargs -0 -r -I{} cp -a --parents "{}" /tmp/ext4_root/ \
+#  && truncate -s 24G /gentoo.ext4 \
+#  && mke2fs -t ext4 -b 4096 -O ^has_journal -d /tmp/ext4_root /gentoo.ext4 \
+#  && rm -rf /tmp/ext4_root
 
 # Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 
@@ -408,6 +414,7 @@ RUN set -e \
 # Stage the exact firmware paths requested by the installed nvidia.ko so the
 # exported HP Z6 image contains the files at their runtime paths instead of as
 # leftover build scratch state under /tmp.
+RUN df -h
 RUN set -e \
  && echo "Preparing NVIDIA squashfs" \
  && test -e /lib/modules/${KVER_RELEASE}/video/nvidia.ko \
@@ -468,80 +475,80 @@ RUN set -e \
 
 # Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
 # keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
-RUN set -e \
- && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
- # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
- && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt || true \
- && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
- && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
- && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
- && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
- && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
- && rm -rf /usr/lib/firmware/* \
- && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
- \
- # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
- && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
- && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
- && rm -rf /usr/bin/nvidia* \
-      /usr/lib/elogind/system-sleep/nvidia \
-      /usr/lib/systemd/system/nvidia-* \
-      /usr/lib/systemd/system-sleep/nvidia \
-      /usr/lib/dracut/dracut.conf.d/10-nvidia-drivers.conf \
-      /usr/share/applications/nvidia-settings.desktop \
-      /usr/share/pixmaps/nvidia-settings.png \
-      /usr/share/doc/nvidia-drivers-* \
-      /usr/share/nvidia \
-      /usr/lib64/nvidia \
-      /usr/lib64/gbm/nvidia-drm_gbm.so \
-      /usr/lib64/vdpau/libvdpau_nvidia.so* 2>/dev/null || true \
- && rm -rf /nvidia${KVER_RELEASE} 2>/dev/null || true \
- && mksquashfs / /gentoo.squashfs_e14 \
-   -comp zstd \
-   -Xcompression-level 19 \
-   -b 256K \
-   -mem 10G \
-   -xattrs \
-   -noappend \
-   -not-reproducible \
-   -progress \
-   -one-file-system-x \
-   -p "/dev d 755 0 0" \
-   -p "/proc d 555 0 0" \
-   -p "/sys d 555 0 0" \
-   -noI -noX \
-   -wildcards \
-   -e \
-     usr/src \
-     var/cache/binpkgs \
-     var/cache/distfiles \
-     "gentoo*squashfs*" \
-     "gentoo*ext4" \
-     "usr/lib64/libQt*.a" \
-     usr/share/genkernel/distfiles \
-     usr/src/linux \
-     usr/share/sgml \
-     var/cache/eix/previous.eix \
-     boot \
-     persistent \
-     home/*/.cache \
-     var/log/journal \
-     var/cache/genkernel \
-     var/tmp \
-     initramfs-with-squashfs.img \
-     lost+found \
-   || true
+# RUN set -e \
+#  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
+#  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
+#  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt || true \
+#  && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
+#  && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
+#  && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
+#  && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
+#  && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
+#  && rm -rf /usr/lib/firmware/* \
+#  && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
+#  \
+#  # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
+#  && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
+#  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
+#  && rm -rf /usr/bin/nvidia* \
+#       /usr/lib/elogind/system-sleep/nvidia \
+#       /usr/lib/systemd/system/nvidia-* \
+#       /usr/lib/systemd/system-sleep/nvidia \
+#       /usr/lib/dracut/dracut.conf.d/10-nvidia-drivers.conf \
+#       /usr/share/applications/nvidia-settings.desktop \
+#       /usr/share/pixmaps/nvidia-settings.png \
+#       /usr/share/doc/nvidia-drivers-* \
+#       /usr/share/nvidia \
+#       /usr/lib64/nvidia \
+#       /usr/lib64/gbm/nvidia-drm_gbm.so \
+#       /usr/lib64/vdpau/libvdpau_nvidia.so* 2>/dev/null || true \
+#  && rm -rf /nvidia${KVER_RELEASE} 2>/dev/null || true \
+#  && mksquashfs / /gentoo.squashfs_e14 \
+#    -comp zstd \
+#    -Xcompression-level 19 \
+#    -b 256K \
+#    -mem 10G \
+#    -xattrs \
+#    -noappend \
+#    -not-reproducible \
+#    -progress \
+#    -one-file-system-x \
+#    -p "/dev d 755 0 0" \
+#    -p "/proc d 555 0 0" \
+#    -p "/sys d 555 0 0" \
+#    -noI -noX \
+#    -wildcards \
+#    -e \
+#      usr/src \
+#      var/cache/binpkgs \
+#      var/cache/distfiles \
+#      "gentoo*squashfs*" \
+#      "gentoo*ext4" \
+#      "usr/lib64/libQt*.a" \
+#      usr/share/genkernel/distfiles \
+#      usr/src/linux \
+#      usr/share/sgml \
+#      var/cache/eix/previous.eix \
+#      boot \
+#      persistent \
+#      home/*/.cache \
+#      var/log/journal \
+#      var/cache/genkernel \
+#      var/tmp \
+#      initramfs-with-squashfs.img \
+#      lost+found \
+#    || true
 
 # Create a companion ThinkPad E14 EROFS image for DAX/XIP-style access to
 # binaries and libraries. Keep it uncompressed and 4 KiB block-aligned so it
 # can be mounted with dax=always on DAX-capable storage.
-RUN set -e \
- && echo "Building ThinkPad E14 EROFS image for binaries and libraries" \
- && rm -rf /tmp/erofs_e14_root \
- && mkdir -p /tmp/erofs_e14_root/usr /tmp/erofs_e14_root/opt \
- && rsync -a /bin /sbin /lib /lib64 /tmp/erofs_e14_root/ \
- && rsync -a /usr/bin /usr/sbin /usr/lib /usr/lib64 /tmp/erofs_e14_root/usr/ \
- && rsync -a /opt/ /tmp/erofs_e14_root/opt/ \
- && rm -f /gentoo.erofs_e14 \
- && mkfs.erofs -b 4096 /gentoo.erofs_e14 /tmp/erofs_e14_root \
- && rm -rf /tmp/erofs_e14_root
+# RUN set -e \
+#  && echo "Building ThinkPad E14 EROFS image for binaries and libraries" \
+#  && rm -rf /tmp/erofs_e14_root \
+#  && mkdir -p /tmp/erofs_e14_root/usr /tmp/erofs_e14_root/opt \
+#  && rsync -a /bin /sbin /lib /lib64 /tmp/erofs_e14_root/ \
+#  && rsync -a /usr/bin /usr/sbin /usr/lib /usr/lib64 /tmp/erofs_e14_root/usr/ \
+#  && rsync -a /opt/ /tmp/erofs_e14_root/opt/ \
+#  && rm -f /gentoo.erofs_e14 \
+#  && mkfs.erofs -b 4096 /gentoo.erofs_e14 /tmp/erofs_e14_root \
+#  && rm -rf /tmp/erofs_e14_root
