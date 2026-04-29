@@ -1,1 +1,4 @@
-x11-libs/libXtst # for clion
+amdgpu module (and everything else for e14)
+picocom
+gdb
+dpkg
