@@ -3,3 +3,5 @@ picocom
 gdb
 dpkg
 elogind with dbus (perhaps desktop profile)
+xfreerdp
+mupdf

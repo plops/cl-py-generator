@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260427 AS portage
+FROM gentoo/portage:20260608 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260427 AS base
+FROM gentoo/stage3:nomultilib-20260608 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -16,16 +16,16 @@ COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package
 
 
 # Repository tooling and package configuration
-RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
-#RUN emerge --ask=n sys-devel/mold
 COPY config/make.conf /etc/portage/make.conf
+#RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
+#RUN emerge --ask=n sys-devel/mold
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
 COPY config/env /etc/portage/env
 # Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-ENV KVER_PURE=6.18.18
+ENV KVER_PURE=6.18.34
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
@@ -68,6 +68,11 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && . /etc/profile
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
+
+#RUN eselect python set python3.14
+RUN env-update && source /etc/profile
+
+RUN emerge -1 sys-apps/portage
 
 RUN sed -i \
     -e '/^net-analyzer\/arping\>/d' \
@@ -125,7 +130,7 @@ RUN emerge --ask=n app-portage/genlop app-portage/gentoolkit \
  && emerge -C app-portage/genlop app-portage/gentoolkit
 
 
-RUN emerge --depclean
+# RUN emerge --depclean
 
 # Sudo policy
 RUN mkdir -p /etc/sudoers.d
@@ -181,7 +186,7 @@ COPY config/user-pipewire.initd /etc/user/init.d/pipewire
 COPY config/user-pipewire-pulse.initd /etc/user/init.d/pipewire-pulse
 COPY config/user-wireplumber.initd /etc/user/init.d/wireplumber
 
-RUN emerge --depclean
+#RUN emerge --depclean
 
 # Network and services
 COPY config/resolv.conf /etc/
