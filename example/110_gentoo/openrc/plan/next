@@ -1,0 +1,7 @@
+amdgpu module (and everything else for e14)
+picocom
+gdb
+dpkg
+elogind with dbus (perhaps desktop profile)
+xfreerdp
+mupdf

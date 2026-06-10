@@ -23,7 +23,7 @@ net-wireless/iwgtk ~amd64
 
 # Initramfs / Kernel
 sys-kernel/dracut-crypt-ssh ~amd64
-#sys-kernel/gentoo-sources ~amd64
+sys-kernel/gentoo-sources ~amd64
 
 
 app-misc/jo ~amd64
