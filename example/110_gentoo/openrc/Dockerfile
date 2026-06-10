@@ -480,69 +480,69 @@ RUN set -e \
 
 # Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
 # keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
-# RUN set -e \
-#  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
-#  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
-#  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt || true \
-#  && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
-#  && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
-#  && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
-#  && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
-#  && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
-#  && rm -rf /usr/lib/firmware/* \
-#  && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
-#  \
-#  # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
-#  && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
-#  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
-#  && rm -rf /usr/bin/nvidia* \
-#       /usr/lib/elogind/system-sleep/nvidia \
-#       /usr/lib/systemd/system/nvidia-* \
-#       /usr/lib/systemd/system-sleep/nvidia \
-#       /usr/lib/dracut/dracut.conf.d/10-nvidia-drivers.conf \
-#       /usr/share/applications/nvidia-settings.desktop \
-#       /usr/share/pixmaps/nvidia-settings.png \
-#       /usr/share/doc/nvidia-drivers-* \
-#       /usr/share/nvidia \
-#       /usr/lib64/nvidia \
-#       /usr/lib64/gbm/nvidia-drm_gbm.so \
-#       /usr/lib64/vdpau/libvdpau_nvidia.so* 2>/dev/null || true \
-#  && rm -rf /nvidia${KVER_RELEASE} 2>/dev/null || true \
-#  && mksquashfs / /gentoo.squashfs_e14 \
-#    -comp zstd \
-#    -Xcompression-level 19 \
-#    -b 256K \
-#    -mem 10G \
-#    -xattrs \
-#    -noappend \
-#    -not-reproducible \
-#    -progress \
-#    -one-file-system-x \
-#    -p "/dev d 755 0 0" \
-#    -p "/proc d 555 0 0" \
-#    -p "/sys d 555 0 0" \
-#    -noI -noX \
-#    -wildcards \
-#    -e \
-#      usr/src \
-#      var/cache/binpkgs \
-#      var/cache/distfiles \
-#      "gentoo*squashfs*" \
-#      "gentoo*ext4" \
-#      "usr/lib64/libQt*.a" \
-#      usr/share/genkernel/distfiles \
-#      usr/src/linux \
-#      usr/share/sgml \
-#      var/cache/eix/previous.eix \
-#      boot \
-#      persistent \
-#      home/*/.cache \
-#      var/log/journal \
-#      var/cache/genkernel \
-#      var/tmp \
-#      initramfs-with-squashfs.img \
-#      lost+found \
-#    || true
+ RUN set -e \
+  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
+  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
+  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt || true \
+  && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
+  && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
+  && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
+  && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
+  && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
+  && rm -rf /usr/lib/firmware/* \
+  && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
+  \
+  # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
+  && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
+  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
+  && rm -rf /usr/bin/nvidia* \
+       /usr/lib/elogind/system-sleep/nvidia \
+       /usr/lib/systemd/system/nvidia-* \
+       /usr/lib/systemd/system-sleep/nvidia \
+       /usr/lib/dracut/dracut.conf.d/10-nvidia-drivers.conf \
+       /usr/share/applications/nvidia-settings.desktop \
+       /usr/share/pixmaps/nvidia-settings.png \
+       /usr/share/doc/nvidia-drivers-* \
+       /usr/share/nvidia \
+       /usr/lib64/nvidia \
+       /usr/lib64/gbm/nvidia-drm_gbm.so \
+       /usr/lib64/vdpau/libvdpau_nvidia.so* 2>/dev/null || true \
+  && rm -rf /nvidia${KVER_RELEASE} 2>/dev/null || true \
+  && mksquashfs / /gentoo.squashfs_e14 \
+    -comp zstd \
+    -Xcompression-level 19 \
+    -b 256K \
+    -mem 10G \
+    -xattrs \
+    -noappend \
+    -not-reproducible \
+    -progress \
+    -one-file-system-x \
+    -p "/dev d 755 0 0" \
+    -p "/proc d 555 0 0" \
+    -p "/sys d 555 0 0" \
+    -noI -noX \
+    -wildcards \
+    -e \
+      usr/src \
+      var/cache/binpkgs \
+      var/cache/distfiles \
+      "gentoo*squashfs*" \
+      "gentoo*ext4" \
+      "usr/lib64/libQt*.a" \
+      usr/share/genkernel/distfiles \
+      usr/src/linux \
+      usr/share/sgml \
+      var/cache/eix/previous.eix \
+      boot \
+      persistent \
+      home/*/.cache \
+      var/log/journal \
+      var/cache/genkernel \
+      var/tmp \
+      initramfs-with-squashfs.img \
+      lost+found \
+    || true
 
 # Create a companion ThinkPad E14 EROFS image for DAX/XIP-style access to
 # binaries and libraries. Keep it uncompressed and 4 KiB block-aligned so it
