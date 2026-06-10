@@ -5,67 +5,66 @@ This guide describes how to install a new live Gentoo image on the ThinkPad E14 
 
 ## 0. Identifiers for this Machine (E14)
 
-- **Artifacts Partition (Kernel/Squashfs)**: `/dev/nvme0n1p2` (UUID `df544e10-90c0-4315-860c-92a58ec8499e`)
-- **GRUB Config Partition**: `/dev/nvme1n1p2` (currently mounted at `/1p2`)
+- **Artifacts Partition (Kernel/Squashfs)**: `/dev/nvme1n1p2` (UUID `df544e10-90c0-4315-860c-92a58ec8499e`, normally mounted at `/1p2` or `/run/initramfs/live` when booted live)
+- **GRUB Config Partition**: `/dev/nvme0n1p2` (UUID `cfb582a8-a460-40bc-bdf8-c760c5ecebb6`, currently mounted at `/mnt`, or `/boot` in Kubuntu)
 - **Persistent Partition**: `/dev/nvme0n1p4` (LUKS UUID `bbac9bb8-39d9-42fa-8d04-94610ced9839`)
-- **Current Export Bundle**: `/home/kiel/gentoo-z6-min-openrc_20260428/`
-- **Build Date Suffix**: `0428` (installiert am 2026-04-28), `0331` (OpenRC-Fallback), `0324` (älterer OpenRC-Fallback), `0310` (Systemd-Fallback)
+- **Current Export Bundle**: `/home/kiel/gentoo-z6-min-openrc_20260610/`
+- **Build Date Suffix**: `0610` (installed on 2026-06-10), `0428` (OpenRC-Fallback)
+
+> [!WARNING]
+> **NVMe Device Name Swapping**: The device letters `/dev/nvme0n1` and `/dev/nvme1n1` may swap dynamically after a reboot. Always identify the partitions using their unique UUIDs in GRUB configurations, scripts, and manual mounting.
 
 > [!NOTE]
-> Ab `0320` wird OpenRC anstelle von Systemd genutzt. Ab `0428` werden Artefakte in datierten Unterverzeichnissen wie `/0428/` abgelegt, um die Dateinamen sauber zu halten. Das E14-spezifische squashfs-Image heißt im Export-Verzeichnis lokal `gentoo.squashfs_e14` und wird auf `/run/initramfs/live/0428/gentoo.squashfs` abgelegt. Beim Install am 2026-04-28 waren auf `/dev/nvme0n1p2` nur noch etwa `211M` frei, daher wurde der ältere `0322`-Satz entfernt. Behalte mindestens `0331`, `0324` und `0310` als bootbare Fallbacks.
+> Ab `0320` wird OpenRC anstelle von Systemd genutzt. Ab `0428` werden Artefakte in datierten Unterverzeichnissen wie `/0428/` abgelegt, um die Dateinamen sauber zu halten. Das E14-spezifische squashfs-Image heißt im Export-Verzeichnis lokal `gentoo.squashfs_e14` und wird auf `/1p2/0610/gentoo.squashfs` abgelegt. Beim Install am 2026-06-10 wurde der alte `0428`-Satz als Fallback behalten, da genug Speicher vorhanden war, während die älteren, verwaisten `03xx`-Einträge aus der GRUB-Konfiguration entfernt wurden.
 
 
 ## 1. Preflight, Cleanup, and Copy New Build Artifacts
 
-Wir kopieren die neuen Artefakte auf die Storage-Partition `/run/initramfs/live`.
-Auf dem E14 war diese Partition am 2026-04-28 fast voll, daher gehören Preflight und ggf. gezielte Bereinigung ausdrücklich dazu.
+Wir kopieren die neuen Artefakte auf die Storage-Partition. Wenn wir vom laufenden System aus installieren, mounten wir die Partition zuerst (z.B. nach `/1p2`):
 
 ```bash
-df -h /run/initramfs/live
-ls -lh /run/initramfs/live/
-ls -lh /run/initramfs/live/0428/
+# Partition mounten (falls nicht bereits gemountet)
+sudo mount /dev/nvme1n1p2 /1p2  # Device-Name ggf. anhand von UUID df544e10... anpassen!
 
-sudo mount -o remount,rw /run/initramfs/live
-
-# Beim Install am 2026-04-28 war dieser gezielte Cleanup nötig, um genug Platz für 0428 zu schaffen:
-sudo rm -v /run/initramfs/live/gentoo.squashfs_0322
-sudo rm -v /run/initramfs/live/vmlinuz_0322
-sudo rm -v /run/initramfs/live/initramfs_squash_sda1-x86_64_0322.img
-sudo rm -v /run/initramfs/live/packages_0322.txt
+df -h /1p2
+ls -lh /1p2/
+ls -lh /1p2/0428/
 
 # Neue Verzeichnisstruktur anlegen
-sudo mkdir -p /run/initramfs/live/0428
+sudo mkdir -p /1p2/0610
 
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260428/gentoo.squashfs_e14 /run/initramfs/live/0428/gentoo.squashfs
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260428/vmlinuz /run/initramfs/live/0428/vmlinuz
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260428/initramfs_squash_sda1-x86_64.img /run/initramfs/live/0428/initramfs.img
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260428/packages.txt /run/initramfs/live/0428/packages.txt
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260428/packages.tsv /run/initramfs/live/0428/packages.tsv
+# Dateien kopieren
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/gentoo.squashfs_e14 /1p2/0610/gentoo.squashfs
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/vmlinuz /1p2/0610/vmlinuz
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/initramfs_squash_sda1-x86_64.img /1p2/0610/initramfs.img
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/packages.txt /1p2/0610/packages.txt
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/packages.tsv /1p2/0610/packages.tsv
 
-# Microcode kopieren (hier von einem bestehenden 0418-Satz)
-sudo cp -v /run/initramfs/live/boot/0418/amd-uc.img /run/initramfs/live/0428/amd-uc.img
+# Microcode kopieren (vom bestehenden 0428-Satz)
+sudo cp -v /1p2/0428/amd-uc.img /1p2/0610/amd-uc.img
 
-ls -lh /run/initramfs/live/0428/
-df -h /run/initramfs/live
+ls -lh /1p2/0610/
+df -h /1p2
 ```
 
 
 ## 2. Update GRUB Configuration
 
-Die GRUB-Konfiguration liegt auf `/dev/nvme1n1p2`. Wenn `/1p2` noch nicht gemountet ist, mounte die Partition zuerst mit `sudo mount /dev/nvme1n1p2 /1p2`.
-Wenn du alte Artefakte löscht, entferne den passenden GRUB-Eintrag ebenfalls. Beim Install am 2026-04-28 wurde daher der `0322`-Eintrag entfernt. Danach füge den neuen Eintrag für die `0428`-Version (OpenRC) in `/1p2/boot/grub/custom.cfg` hinzu. Lass `0331`, `0324` und `0310` als Fallback stehen:
+Die aktive GRUB-Konfiguration liegt auf `/dev/nvme0n1p2` (Kubuntu Boot-Partition, UUID `cfb582a8...`). Wenn sie noch nicht gemountet ist, mounte sie (z.B. nach `/mnt`):
 
 ```bash
-sudo perl -0pi -e 's/^menuentry '\''Gentoo Dracut \(E14 persist OpenRC nvme0n1p4 0322\)'\'' \{\n.*?^\}\n\n//ms' \
-  /1p2/boot/grub/custom.cfg
+sudo mount /dev/nvme0n1p2 /mnt  # Device-Name ggf. anhand von UUID cfb582a8... anpassen!
+```
 
-cat <<'EOF' | sudo tee -a /1p2/boot/grub/custom.cfg >/dev/null
+Die Boot-Einträge liegen in `/mnt/grub/custom.cfg`. Wir bereinigen veraltete Einträge und fügen den neuen Eintrag für `0610` hinzu, während `0428` als Fallback erhalten bleibt:
 
+```bash
+cat <<'EOF' | sudo tee /mnt/grub/custom.cfg >/dev/null
 menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0428)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
-    # Search for the partition containing the artifacts (nvme0n1p2)
+    # Search for the partition containing the artifacts
     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
 
     linux /0428/vmlinuz \
@@ -81,9 +80,43 @@ menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0428)' {
 
     initrd /0428/amd-uc.img /0428/initramfs.img
 }
+
+menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0610)' {
+    insmod part_gpt
+    insmod fat
+    insmod btrfs
+    # Search for the partition containing the artifacts
+    search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
+
+    linux /0610/vmlinuz \
+      root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
+      rd.live.dir=/0610/ \
+      rd.live.squashimg=gentoo.squashfs \
+      rd.live.ram=1 \
+      rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
+      rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc \
+      rd.overlay=/dev/mapper/enc:persistent \
+      rd.live.overlay.overlayfs=1 \
+      nvme_core.default_ps_max_latency_us=0
+
+    initrd /0610/amd-uc.img /0610/initramfs.img
+}
+
+menuentry 'Gentoo 041' {
+    insmod part_gpt
+    insmod fat
+    insmod btrfs
+    search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
+
+    linux /boot/0418/vmlinuz \
+    root=UUID=d030d0c2-f260-4b6f-a986-f53409241f95 \
+    rd.luks.uuid=50081d78-88bb-4d2d-a827-b10410890775 \
+    rd.debug rd.shell loglevel=7
+    initrd /boot/0418/amd-uc.img  /boot/0418/initramfs.img
+}
 EOF
 
-rg -n "0310|0324|0331|0428" /1p2/boot/grub/custom.cfg
+rg -n "0428|0610" /mnt/grub/custom.cfg
 ```
 
 > [!NOTE]
