@@ -483,12 +483,14 @@ RUN set -e \
  RUN set -e \
   && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
   # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
-  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt || true \
+  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt /tmp/tmpfw/rtl_nic || true \
   && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
   && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
   && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
   && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
   && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
+  && cp -a /usr/lib/firmware/rtl_nic /tmp/tmpfw/ 2>/dev/null || true \
+  && cp -a /usr/lib/firmware/rtl_bt /tmp/tmpfw/ 2>/dev/null || true \
   && rm -rf /usr/lib/firmware/* \
   && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
   \
