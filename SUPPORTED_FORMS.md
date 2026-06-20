@@ -2036,3 +2036,17 @@ Tests symbol fallback for complex number literals like 1j or 0j.
 
 ```
 
+### `(- "1/8" x)`
+Tests raw code insertion inside an expression using a bare string.
+
+**Lisp S-Expression:**
+```lisp
+(- "1/8" x)
+```
+
+**Generated Python (after formatting):**
+```python
+1 / 8 - x
+
+```
+

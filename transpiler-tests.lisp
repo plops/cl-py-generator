@@ -917,7 +917,13 @@ except (
      :description "Tests symbol fallback for complex number literals like 1j or 0j."
      :lisp (tuple 0j 1j)
      :python "(0j, 1j,)"
-     :tags '(:core :symbol))))
+     :tags '(:core :symbol))
+
+    (:name "raw-code-in-expression"
+     :description "Tests raw code insertion inside an expression using a bare string."
+     :lisp (- "1/8" x)
+     :python "1/8 - x"
+     :tags '(:core :utility))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF
