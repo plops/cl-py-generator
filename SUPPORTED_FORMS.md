@@ -1385,3 +1385,235 @@ print(5 + 8)
 
 ```
 
+### `(tuple (- x) (/ x))`
+Tests unary minus and unary division operators.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (- x) (/ x))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    -x,
+    1.0 / x,
+)
+
+```
+
+### `(~ x)`
+Tests unary bitwise negation operator.
+
+**Lisp S-Expression:**
+```lisp
+(~ x)
+```
+
+**Generated Python (after formatting):**
+```python
+~(x)
+
+```
+
+### `#C(1.0 2.0)`
+Tests representation of complex numbers.
+
+**Lisp S-Expression:**
+```lisp
+#C(1.0 2.0)
+```
+
+**Generated Python (after formatting):**
+```python
+1.0 + 1j * 2.0
+
+```
+
+### `(not a)`
+Tests unary logical negation operator.
+
+**Lisp S-Expression:**
+```lisp
+(not a)
+```
+
+**Generated Python (after formatting):**
+```python
+not a
+
+```
+
+### `("list" generator)`
+Tests raw string in function call position.
+
+**Lisp S-Expression:**
+```lisp
+("list" generator)
+```
+
+**Generated Python (after formatting):**
+```python
+list(generator)
+
+```
+
+### `(tuple (aref xf (slice)) (aref xf (slice "" max_len)))`
+Tests empty slice and slice with raw strings.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (aref xf (slice)) (aref xf (slice "" max_len)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    xf[:],
+    xf[:max_len],
+)
+
+```
+
+### `(tuple (paren* * (+ a b)) (paren* + (+ a b)))`
+Tests paren* construct for precedence-aware parentheses.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (paren* * (+ a b)) (paren* + (+ a b)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    (a + b),
+    a + b,
+)
+
+```
+
+### `(do0 "df = pd.read_csv('data.csv')" "@threaded" (def func nil (return 1)))`
+Tests raw code insertion via bare strings at block level.
+
+**Lisp S-Expression:**
+```lisp
+(do0 "df = pd.read_csv('data.csv')" "@threaded" (def func nil (return 1)))
+```
+
+**Generated Python (after formatting):**
+```python
+df = pd.read_csv("data.csv")
+
+
+@threaded
+def func():
+    return 1
+
+```
+
+### `(do0
+      (for (i (range 5))
+       (if (== i 2)
+           break
+           continue)))`
+Tests loop control statements break and continue.
+
+**Lisp S-Expression:**
+```lisp
+(do0
+ (for (i (range 5))
+  (if (== i 2)
+      break
+      continue)))
+```
+
+**Generated Python (after formatting):**
+```python
+for i in range(5):
+    if i == 2:
+        break
+    else:
+        continue
+
+```
+
+### `(do0 yield (yield x))`
+Tests yield statement and yield function call variants.
+
+**Lisp S-Expression:**
+```lisp
+(do0 yield (yield x))
+```
+
+**Generated Python (after formatting):**
+```python
+yield
+yield (x)
+
+```
+
+### `(tuple (lambda () 42) (lambda (x y) (+ x y)))`
+Tests lambda functions with zero or multiple arguments.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (lambda () 42) (lambda (x y) (+ x y)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    lambda: 42,
+    lambda x, y: x + y,
+)
+
+```
+
+### `(tuple (super) (super ImageModel self))`
+Tests calling superclass methods in Python.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (super) (super ImageModel self))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    super(),
+    super(ImageModel, self),
+)
+
+```
+
+### `(dot model (aref weights i j) (item))`
+Tests chained dot access including functions and array references.
+
+**Lisp S-Expression:**
+```lisp
+(dot model (aref weights i j) (item))
+```
+
+**Generated Python (after formatting):**
+```python
+model.weights[i, j].item()
+
+```
+
+### `(setf (ntuple a b) (tuple 1 2))`
+Tests assignment to unpacked values on the left hand side.
+
+**Lisp S-Expression:**
+```lisp
+(setf (ntuple a b) (tuple 1 2))
+```
+
+**Generated Python (after formatting):**
+```python
+a, b = (
+    1,
+    2,
+)
+
+```
+

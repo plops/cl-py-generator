@@ -627,7 +627,99 @@ except Exception as e:
      :python "print(5 + 8)"
      :exec-test t
      :expected-output "13"
-     :tags '(:operator :arithmetic :functional))))
+     :tags '(:operator :arithmetic :functional))
+
+    (:name "unary-division-minus"
+     :description "Tests unary minus and unary division operators."
+     :lisp (tuple (- x) (/ x))
+     :python "(-x, 1.0 / x,)"
+     :tags '(:operator :arithmetic))
+
+    (:name "unary-bitwise-not"
+     :description "Tests unary bitwise negation operator."
+     :lisp (~ x)
+     :python "~(x)"
+     :tags '(:operator :bitwise))
+
+    (:name "complex-numbers"
+     :description "Tests representation of complex numbers."
+     :lisp #c(1.0 2.0)
+     :python "1.0 + 1j * 2.0"
+     :tags '(:core :number))
+
+    (:name "logical-not"
+     :description "Tests unary logical negation operator."
+     :lisp (not a)
+     :python "not a"
+     :tags '(:operator :boolean))
+
+    (:name "raw-string-ident"
+     :description "Tests raw string in function call position."
+     :lisp ("list" generator)
+     :python "list(generator)"
+     :tags '(:core :call))
+
+    (:name "slice-empty-raw-string"
+     :description "Tests empty slice and slice with raw strings."
+     :lisp (tuple (aref xf (slice)) (aref xf (slice "" max_len)))
+     :python "(xf[:], xf[:max_len],)"
+     :tags '(:core :indexing))
+
+    (:name "paren-conditional-parentheses"
+     :description "Tests paren* construct for precedence-aware parentheses."
+     :lisp (tuple (paren* * (+ a b)) (paren* + (+ a b)))
+     :python "((a + b), a + b,)"
+     :tags '(:core :utility))
+
+    (:name "raw-code-insertion"
+     :description "Tests raw code insertion via bare strings at block level."
+     :lisp (do0 "df = pd.read_csv('data.csv')" "@threaded" (def func () (return 1)))
+     :python "df = pd.read_csv('data.csv')
+@threaded
+def func():
+    return 1"
+     :tags '(:core :utility))
+
+    (:name "loop-control"
+     :description "Tests loop control statements break and continue."
+     :lisp (do0 (for (i (range 5)) (if (== i 2) break continue)))
+     :python "for i in range(5):
+    if i == 2:
+        break
+    else:
+        continue"
+     :tags '(:control-flow))
+
+    (:name "yield-statements"
+     :description "Tests yield statement and yield function call variants."
+     :lisp (do0 yield (yield x))
+     :python "yield
+yield(x)"
+     :tags '(:control-flow))
+
+    (:name "lambda-variants"
+     :description "Tests lambda functions with zero or multiple arguments."
+     :lisp (tuple (lambda () 42) (lambda (x y) (+ x y)))
+     :python "(lambda: 42, lambda x, y: x + y,)"
+     :tags '(:core :lambda))
+
+    (:name "class-super-call"
+     :description "Tests calling superclass methods in Python."
+     :lisp (tuple (super) (super ImageModel self))
+     :python "(super(), super(ImageModel, self),)"
+     :tags '(:core :call))
+
+    (:name "chained-dot-access"
+     :description "Tests chained dot access including functions and array references."
+     :lisp (dot model (aref weights i j) (item))
+     :python "model.weights[i,j].item()"
+     :tags '(:core :accessor))
+
+    (:name "unpacking-assignment"
+     :description "Tests assignment to unpacked values on the left hand side."
+     :lisp (setf (ntuple a b) (tuple 1 2))
+     :python "a, b = (1, 2,)"
+     :tags '(:core :assignment))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF

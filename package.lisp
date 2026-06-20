@@ -20,7 +20,7 @@
    ;:*env-macros*  
   
    ;; DSL node names handled by emit-py  
-   :tuple :paren :ntuple :list :curly  
+   :tuple :paren :paren* :ntuple :list :curly  
    :dict :dictionary  
   
    :indent :do :do0 :class :cell :export :space  
