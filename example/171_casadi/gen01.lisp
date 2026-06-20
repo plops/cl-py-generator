@@ -63,7 +63,8 @@
 	   fu (+ (* 3 u) v))
 
 
-     (setf (aref u 0 0) (aref v 0))
+     (setf (aref u 0 0)
+	   v)
      )
    ))
 

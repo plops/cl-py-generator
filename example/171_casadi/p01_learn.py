@@ -18,4 +18,4 @@ C_sparse=C.sparse()
 u=MX.sym("u", 2, 2)
 v=MX.sym("v")
 fu=((((3)*(u)))+(v))
-u[0,0]=v[0]
+u[0,0]=v
