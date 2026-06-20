@@ -18,3 +18,10 @@ This file tracks the patterns found in high-numbered example files that have bee
 | Class Super Call | `(super)`, `(super ImageModel self)` | `super()`, `super(ImageModel, self)` | `example/130_torch_optim/gen01.lisp` |
 | Chained Dot Access | `(dot model (aref weights i j) (item))` | `model.weights[i,j].item()` | `example/130_torch_optim/gen01.lisp` |
 | Unpacking Assignment | `(setf (ntuple a b) (tuple 1 2))` | `a, b = (1, 2,)` | `example/144_fasthtml/gen01.lisp` |
+| Multiple Context Managers `with` | `(with (ntuple (as (open (string "a.txt")) f) (as (open (string "b.txt")) g)) (setf a 1))` | `with open("a.txt") as f, open("b.txt") as g:\n    a = 1` | `example/109_mediapipe_segment/gen01.lisp` (multiple with statements context) |
+| `export` Cell Comment | `(export (setf a 1))` | `# |export\na = 1` | `example/88_plotly/gen01.lisp` |
+| `indent` Construct | `(indent a)` | `a` (at current indent level) | `py.lisp` (internal formatting) |
+| Lambda Keyword Arguments | `(lambda (x &key (y 2)) (+ x y))` | `lambda x, y=2: x + y` | `example/103_co2_sensor/gen01.lisp` |
+| Indexing Raw Slice String | `(aref arr ":" 0)` | `arr[:, 0]` | `example/107_ofdm/gen01.lisp` |
+| Simple `with` Statement | `(with conn (setf a 1))` | `with conn:\n    a = 1` | `example/103_co2_sensor/gen05.lisp` |
+| Empty Dictionary | `(tuple (dict) (dictionary))` | `({}, dict(),)` | `py.lisp` (dict literals) |

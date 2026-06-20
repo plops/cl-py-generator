@@ -1617,3 +1617,110 @@ a, b = (
 
 ```
 
+### `(with
+      (ntuple (as (open (string "a.txt")) f) (as (open (string "b.txt")) g))
+      (setf a 1))`
+Tests with-statement with multiple context managers using ntuple.
+
+**Lisp S-Expression:**
+```lisp
+(with (ntuple (as (open (string "a.txt")) f) (as (open (string "b.txt")) g))
+ (setf a 1))
+```
+
+**Generated Python (after formatting):**
+```python
+with open("a.txt") as f, open("b.txt") as g:
+    a = 1
+
+```
+
+### `(export (setf a 1))`
+Tests 'export' comment cell construct.
+
+**Lisp S-Expression:**
+```lisp
+(export (setf a 1))
+```
+
+**Generated Python (after formatting):**
+```python
+# |export
+a = 1
+
+```
+
+### `(indent a)`
+Tests standalone 'indent' formatting construct.
+
+**Lisp S-Expression:**
+```lisp
+(indent a)
+```
+
+**Generated Python (after formatting):**
+```python
+a
+
+```
+
+### `(lambda (x &key (y 2)) (+ x y))`
+Tests lambda expression with keyword arguments.
+
+**Lisp S-Expression:**
+```lisp
+(lambda (x &key (y 2)) (+ x y))
+```
+
+**Generated Python (after formatting):**
+```python
+lambda x, y=2: x + y
+
+```
+
+### `(aref arr ":" 0)`
+Tests raw string index insertion inside aref.
+
+**Lisp S-Expression:**
+```lisp
+(aref arr ":" 0)
+```
+
+**Generated Python (after formatting):**
+```python
+arr[:, 0]
+
+```
+
+### `(with conn (setf a 1))`
+Tests with-statement with a simple variable context manager.
+
+**Lisp S-Expression:**
+```lisp
+(with conn (setf a 1))
+```
+
+**Generated Python (after formatting):**
+```python
+with conn:
+    a = 1
+
+```
+
+### `(tuple (dict) (dictionary))`
+Tests empty dict literal and empty dictionary constructor.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (dict) (dictionary))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    {},
+    dict(),
+)
+
+```
+
