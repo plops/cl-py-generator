@@ -48,22 +48,22 @@ ax_pl=axs[0,1]
 ax_oh=axs[1,0]
 ax_ph=axs[1,1]
 E_low=(8.3330e-2)
-y0_low=[(-0.250    ), (-0.150    ), (-5.00e-2), (5.00e-2), (0.150    ), (0.250    ), (0.350    ), (0.420    )]
-results_low=simulate_hh(E_low, y0_low, t_max=(2.00e+3), n_steps=200000)
+y0_low=np.linspace((-0.250    ), (0.420    ), 12).tolist()
+results_low=simulate_hh(E_low, y0_low, t_max=(5.00e+3), n_steps=500000)
 E_high=(0.150    )
-y0_high=[(-0.350    ), (-0.20    ), (-5.00e-2), (0.10    ), (0.250    ), (0.40    ), (0.550    )]
-results_high=simulate_hh(E_high, y0_high, t_max=(2.00e+3), n_steps=200000)
+y0_high=np.linspace((-0.350    ), (0.550    ), 12).tolist()
+results_high=simulate_hh(E_high, y0_high, t_max=(5.00e+3), n_steps=500000)
 x_g=np.linspace((-1.20    ), (1.20    ), 200)
 y_g=np.linspace((-1.20    ), (1.20    ), 200)
 X, Y=np.meshgrid(x_g, y_g)
 Z=(((((0.50    ))*(((((X)**(2)))+(((Y)**(2)))))))+(((((((X)**(2)))*(Y)))-(((((Y)**(3)))/((3.0    )))))))
 for res in results_low:
     ax_ol.plot(res["x"], res["y"], alpha=(0.50    ))
-    ax_pl.scatter(res["y_cross"], res["py_cross"], s=(1.50    ), alpha=(0.80    ))
+    ax_pl.scatter(res["y_cross"], res["py_cross"], s=(0.60    ), alpha=(0.80    ))
 ax_ol.contour(X, Y, Z, levels=[E_low], colors="red", linestyles="dashed")
 for res in results_high:
     ax_oh.plot(res["x"], res["y"], alpha=(0.50    ))
-    ax_ph.scatter(res["y_cross"], res["py_cross"], s=(1.50    ), alpha=(0.80    ))
+    ax_ph.scatter(res["y_cross"], res["py_cross"], s=(0.60    ), alpha=(0.80    ))
 ax_oh.contour(X, Y, Z, levels=[E_high], colors="red", linestyles="dashed")
 ax_ol.set_aspect("equal")
 ax_ol.set_title(f"Orbits (E = {E_low})")
