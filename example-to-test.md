@@ -44,5 +44,6 @@ This file tracks the patterns found in high-numbered example files that have bee
 | Multiple Exceptions in Except | `(try (f) ((tuple KeyError ValueError) (print (string "error"))))` | `try: f() except (KeyError, ValueError): print("error")` | `example/51_django/gen00.lisp` |
 | Member Access via Dotted Symbol | `(setf image.flags.writeable False)` | `image.flags.writeable = False` | `example/38_mediapipe/gen01.lisp` |
 | Complex Number Symbol Fallback | `(tuple 0j 1j)` | `(0j, 1j,)` | `example/29_ondrejs_challenge/gen00.lisp` |
+| Raw Code in Expression | `(- "1/8" x)` | `1/8 - x` | `example/53_topopt/gen00.lisp` |
 
 
