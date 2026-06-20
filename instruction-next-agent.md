@@ -2,8 +2,8 @@
 
 ## Context & Objectives
 You are tasked with continuing the task of identifying transpiler input language use patterns in `example/*/gen*.lisp` files that are not yet covered in [transpiler-tests.lisp](file:///home/kiel/stage/cl-py-generator/transpiler-tests.lisp).
-- Currently, examples from index 130 to 171 have been analyzed.
-- Your focus is to analyze the remaining examples from **index 1 to 129**.
+- Currently, examples from index 103 to 171 have been analyzed.
+- Your focus is to analyze the remaining examples from **index 1 to 102**.
 - Locate 5 to 7 undocumented or untested transpiler constructs/patterns.
 
 ## Target Repositories & Files
@@ -14,7 +14,7 @@ You are tasked with continuing the task of identifying transpiler input language
 ## Step-by-Step Execution Plan
 
 ### 1. Research & Analysis
-- Browse example folders starting from index 129 downwards (e.g. `example/129_color_conv`, `example/128_jax_gemma`, etc.).
+- Browse example folders starting from index 102 downwards (e.g. `example/102_fisher`, `example/101_tex_layout`, etc.).
 - Look inside their `gen*.lisp` files for structures that do not match the existing list of test cases in [transpiler-tests.lisp](file:///home/kiel/stage/cl-py-generator/transpiler-tests.lisp).
 - Target areas of interest:
   - Complex arithmetic, array slices, or matrix operations.
@@ -41,7 +41,13 @@ You are tasked with continuing the task of identifying transpiler input language
   ```
 - Verify that `SUPPORTED_FORMS.md` is updated.
 
-### 4. Important Alerts
+### 4. Git Commits
+- Commit changes using Conventional Commits guidelines with a thorough description of the added constructs. E.g.:
+  ```bash
+  git commit -m "test(core): add unit tests for <pattern1>, <pattern2>" -m "Add unit tests and documentation mappings for newly identified transpiler constructs (<pattern1>, <pattern2>)."
+  ```
+
+## Important Alerts
 > [!IMPORTANT]
 > **Symbol Package Matching Alert**:
 > The transpiler dispatcher uses exact symbol equality (`eq`) to match DSL keywords (like `slice`, `paren*`, etc.).

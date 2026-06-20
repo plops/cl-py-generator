@@ -719,7 +719,52 @@ yield(x)"
      :description "Tests assignment to unpacked values on the left hand side."
      :lisp (setf (ntuple a b) (tuple 1 2))
      :python "a, b = (1, 2,)"
-     :tags '(:core :assignment))))
+     :tags '(:core :assignment))
+
+    (:name "with-multiple"
+     :description "Tests with-statement with multiple context managers using ntuple."
+     :lisp (with (ntuple (as (open (string "a.txt")) f) (as (open (string "b.txt")) g)) (setf a 1))
+     :python "with open(\"a.txt\") as f, open(\"b.txt\") as g:
+    a = 1"
+     :tags '(:control-flow))
+
+    (:name "export-cell"
+     :description "Tests 'export' comment cell construct."
+     :lisp (export (setf a 1))
+     :python "# |export
+a = 1"
+     :tags '(:core :utility))
+
+    (:name "indent-construct"
+     :description "Tests standalone 'indent' formatting construct."
+     :lisp (indent a)
+     :python "a"
+     :tags '(:core :utility))
+
+    (:name "lambda-keywords"
+     :description "Tests lambda expression with keyword arguments."
+     :lisp (lambda (x &key (y 2)) (+ x y))
+     :python "lambda x, y=2: x + y"
+     :tags '(:core :lambda))
+
+    (:name "aref-raw-string"
+     :description "Tests raw string index insertion inside aref."
+     :lisp (aref arr ":" 0)
+     :python "arr[:, 0]"
+     :tags '(:core :indexing))
+
+    (:name "with-simple"
+     :description "Tests with-statement with a simple variable context manager."
+     :lisp (with conn (setf a 1))
+     :python "with conn:
+    a = 1"
+     :tags '(:control-flow))
+
+    (:name "empty-dictionary"
+     :description "Tests empty dict literal and empty dictionary constructor."
+     :lisp (tuple (dict) (dictionary))
+     :python "({}, dict(),)"
+     :tags '(:core :collection))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF
