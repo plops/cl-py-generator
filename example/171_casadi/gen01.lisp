@@ -34,7 +34,7 @@
 		10)
 	   f (sqrt f))
 
-     (setf g (+ (* 3 z) y))
+     (setf g (+ (* 3 z) x))
      
      
      ;; constants
