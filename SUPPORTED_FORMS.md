@@ -12,7 +12,7 @@ Tests the '+' operator with two integer arguments.
 
 **Generated Python (after formatting):**
 ```python
-((1) + (2))
+1 + 2
 
 ```
 
@@ -330,7 +330,7 @@ Tests logical and emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) and (b))
+a and b
 
 ```
 
@@ -344,7 +344,7 @@ Tests logical or emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) or (b))
+a or b
 
 ```
 
@@ -358,7 +358,7 @@ Tests equality comparison emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) == (b))
+a == b
 
 ```
 
@@ -372,7 +372,7 @@ Tests inequality comparison emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) != (b))
+a != b
 
 ```
 
@@ -386,7 +386,7 @@ Tests less-than comparison emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) < (b))
+a < b
 
 ```
 
@@ -400,7 +400,7 @@ Tests less-than-or-equal comparison emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) <= (b))
+a <= b
 
 ```
 
@@ -414,7 +414,7 @@ Tests greater-than comparison emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) > (b))
+a > b
 
 ```
 
@@ -428,7 +428,7 @@ Tests greater-than-or-equal comparison emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) >= (b))
+a >= b
 
 ```
 
@@ -498,7 +498,7 @@ Tests modulo operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) % (b))
+a % b
 
 ```
 
@@ -512,7 +512,7 @@ Tests subtraction operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) - (b))
+a - b
 
 ```
 
@@ -527,7 +527,7 @@ Tests multiplication operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) * (b) * (c))
+a * b * c
 
 ```
 
@@ -541,7 +541,7 @@ Tests division operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) / (b))
+a / b
 
 ```
 
@@ -555,7 +555,7 @@ Tests matrix-multiplication operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) @ (b))
+a @ b
 
 ```
 
@@ -569,7 +569,7 @@ Tests floor division operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) // (b))
+a // b
 
 ```
 
@@ -583,7 +583,7 @@ Tests exponentiation operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) ** (b))
+a**b
 
 ```
 
@@ -597,7 +597,7 @@ Tests left shift operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) << (b))
+a << b
 
 ```
 
@@ -611,7 +611,7 @@ Tests right shift operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) >> (b))
+a >> b
 
 ```
 
@@ -625,7 +625,7 @@ Tests bitwise and operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) & (b))
+a & b
 
 ```
 
@@ -641,7 +641,7 @@ Tests logand emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) & (b) & (c))
+a & b & c
 
 ```
 
@@ -655,7 +655,7 @@ Tests bitwise xor operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) ^ (b))
+a ^ b
 
 ```
 
@@ -669,7 +669,7 @@ Tests logxor emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) ^ (b))
+a ^ b
 
 ```
 
@@ -683,7 +683,7 @@ Tests bitwise or operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) | (b))
+a | b
 
 ```
 
@@ -699,7 +699,7 @@ Tests bitwise or operator emission.
 
 **Generated Python (after formatting):**
 ```python
-((a) | (b) | (c))
+a | b | c
 
 ```
 
@@ -868,7 +868,7 @@ Tests lambda emission with a single expression body.
 
 **Generated Python (after formatting):**
 ```python
-lambda x: ((x) + (1))
+lambda x: x + 1
 
 ```
 
@@ -886,7 +886,7 @@ Tests if/else emission.
 
 **Generated Python (after formatting):**
 ```python
-if (a) == (b):
+if a == b:
     return 1
 else:
     return 2
@@ -905,7 +905,7 @@ Tests when emission.
 
 **Generated Python (after formatting):**
 ```python
-if (a) > (b):
+if a > b:
     return a
 
 ```
@@ -922,7 +922,7 @@ Tests unless emission.
 
 **Generated Python (after formatting):**
 ```python
-if not ((a) > (b)):
+if not a > b:
     return b
 
 ```
@@ -940,8 +940,8 @@ Tests while loop emission.
 
 **Generated Python (after formatting):**
 ```python
-while (a) < (b):
-    a = (a) + (1)
+while a < b:
+    a = a + 1
 
 ```
 
@@ -978,7 +978,7 @@ Tests for-generator emission.
 
 **Generated Python (after formatting):**
 ```python
-((i)*(2)) for i in range(3)
+i*2 for i in range(3)
 ```
 
 ### `(class cl-py-generator/tests::Foo nil
@@ -1229,9 +1229,9 @@ Tests cond emission.
 
 **Generated Python (after formatting):**
 ```python
-if (a) > (b):
+if a > b:
     return a
-elif (a) < (b):
+elif a < b:
     return b
 else:
     return 0
@@ -1250,7 +1250,7 @@ Tests ternary emission.
 
 **Generated Python (after formatting):**
 ```python
-(a) if ((a) > (b)) else (b)
+a if a > b else b
 
 ```
 
@@ -1294,7 +1294,7 @@ Verifies that the generated code for '+' executes correctly.
 
 **Generated Python (after formatting):**
 ```python
-print(((5) + (8)))
+print(5 + 8)
 
 ```
 

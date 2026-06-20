@@ -16,7 +16,7 @@
     (:name "simple-addition"
      :description "Tests the '+' operator with two integer arguments."
      :lisp (+ 1 2)
-     :python "((1) + (2))" ; <-- Ruff will format this and the output to be identical
+     :python "1 + 2"
      :tags '(:operator :arithmetic))
 
     (:name "function-definition"
@@ -147,49 +147,49 @@ except Exception as e:
     (:name "logical-and"
      :description "Tests logical and emission."
      :lisp (and a b)
-     :python "((a) and (b))"
+     :python "a and b"
      :tags '(:operator :boolean))
 
     (:name "logical-or"
      :description "Tests logical or emission."
      :lisp (or a b)
-     :python "((a) or (b))"
+     :python "a or b"
      :tags '(:operator :boolean))
 
     (:name "eq-compare"
      :description "Tests equality comparison emission."
      :lisp (== a b)
-     :python "((a)==(b))"
+     :python "a == b"
      :tags '(:operator :comparison))
 
     (:name "neq-compare"
      :description "Tests inequality comparison emission."
      :lisp (!= a b)
-     :python "((a)!=(b))"
+     :python "a != b"
      :tags '(:operator :comparison))
 
     (:name "lt-compare"
      :description "Tests less-than comparison emission."
      :lisp (< a b)
-     :python "((a)<(b))"
+     :python "a < b"
      :tags '(:operator :comparison))
 
     (:name "lte-compare"
      :description "Tests less-than-or-equal comparison emission."
      :lisp (<= a b)
-     :python "((a)<=(b))"
+     :python "a <= b"
      :tags '(:operator :comparison))
 
     (:name "gt-compare"
      :description "Tests greater-than comparison emission."
      :lisp (> a b)
-     :python "((a)>(b))"
+     :python "a > b"
      :tags '(:operator :comparison))
 
     (:name "gte-compare"
      :description "Tests greater-than-or-equal comparison emission."
      :lisp (>= a b)
-     :python "((a)>=(b))"
+     :python "a >= b"
      :tags '(:operator :comparison))
 
     (:name "in-compare"
@@ -219,91 +219,91 @@ except Exception as e:
     (:name "mod-operator"
      :description "Tests modulo operator emission."
      :lisp (% a b)
-     :python "((a)%(b))"
+     :python "a % b"
      :tags '(:operator :arithmetic))
 
     (:name "sub-operator"
      :description "Tests subtraction operator emission."
      :lisp (- a b)
-     :python "((a)-(b))"
+     :python "a - b"
      :tags '(:operator :arithmetic))
 
     (:name "mul-operator"
      :description "Tests multiplication operator emission."
      :lisp (* a b c)
-     :python "((a)*(b)*(c))"
+     :python "a * b * c"
      :tags '(:operator :arithmetic))
 
     (:name "div-operator"
      :description "Tests division operator emission."
      :lisp (/ a b)
-     :python "((a)/(b))"
+     :python "a / b"
      :tags '(:operator :arithmetic))
 
     (:name "matmul-operator"
      :description "Tests matrix-multiplication operator emission."
      :lisp (@ a b)
-     :python "((a)@(b))"
+     :python "a @ b"
      :tags '(:operator :arithmetic))
 
     (:name "floor-div-operator"
      :description "Tests floor division operator emission."
      :lisp (// a b)
-     :python "((a)//(b))"
+     :python "a // b"
      :tags '(:operator :arithmetic))
 
     (:name "pow-operator"
      :description "Tests exponentiation operator emission."
      :lisp (** a b)
-     :python "((a)**(b))"
+     :python "a**b"
      :tags '(:operator :arithmetic))
 
     (:name "shift-left-operator"
      :description "Tests left shift operator emission."
      :lisp (<< a b)
-     :python "((a)<<(b))"
+     :python "a << b"
      :tags '(:operator :bitwise))
 
     (:name "shift-right-operator"
      :description "Tests right shift operator emission."
      :lisp (>> a b)
-     :python "((a)>>(b))"
+     :python "a >> b"
      :tags '(:operator :bitwise))
 
     (:name "bitwise-and-operator"
      :description "Tests bitwise and operator emission."
      :lisp (& a b)
-     :python "((a) & (b))"
+     :python "a & b"
      :tags '(:operator :bitwise))
 
     (:name "logand-operator"
      :description "Tests logand emission."
      :lisp (logand a b c)
-     :python "((a) & (b) & (c))"
+     :python "a & b & c"
      :tags '(:operator :bitwise))
 
     (:name "bitwise-xor-operator"
      :description "Tests bitwise xor operator emission."
      :lisp (^ a b)
-     :python "((a) ^ (b))"
+     :python "a ^ b"
      :tags '(:operator :bitwise))
 
     (:name "logxor-operator"
      :description "Tests logxor emission."
      :lisp (logxor a b)
-     :python "((a) ^ (b))"
+     :python "a ^ b"
      :tags '(:operator :bitwise))
 
     (:name "bitwise-or-operator"
      :description "Tests bitwise or operator emission."
      :lisp (cl-py-generator::|\|| a b)
-     :python "((a) | (b))"
+     :python "a | b"
      :tags '(:operator :bitwise))
 
     (:name "bitwise-ior-operator"
      :description "Tests bitwise or operator emission."
      :lisp (logior a b c)
-     :python "((a) | (b) | (c))"
+     :python "a | b | c"
      :tags '(:operator :bitwise))
 
     (:name "keyword-args-call"
@@ -376,13 +376,13 @@ except Exception as e:
     (:name "lambda-basic"
      :description "Tests lambda emission with a single expression body."
      :lisp (lambda (x) (+ x 1))
-     :python "lambda x: ((x)+(1))"
+     :python "lambda x: x + 1"
      :tags '(:core :lambda))
 
     (:name "if-else-basic"
      :description "Tests if/else emission."
      :lisp (if (== a b) (return 1) (return 2))
-     :python "if ( ((a)==(b)) ):
+     :python "if a == b:
     return 1
 else:
     return 2"
@@ -391,22 +391,22 @@ else:
     (:name "when-basic"
      :description "Tests when emission."
      :lisp (when (> a b) (return a))
-     :python "if ( ((a)>(b)) ):
+     :python "if a > b:
     return a"
      :tags '(:control-flow))
 
     (:name "unless-basic"
      :description "Tests unless emission."
      :lisp (unless (> a b) (return b))
-     :python "if ( not(((a)>(b))) ):
+     :python "if not a > b:
     return b"
      :tags '(:control-flow))
 
     (:name "while-basic"
      :description "Tests while loop emission."
      :lisp (while (< a b) (setf a (+ a 1)))
-     :python "while (((a)<(b))):
-    a=((a)+(1))"
+     :python "while a < b:
+    a=a + 1"
      :tags '(:control-flow))
 
     (:name "for-basic"
@@ -419,7 +419,7 @@ else:
     (:name "for-generator-basic"
      :description "Tests for-generator emission."
      :lisp (for-generator (i (range 3)) (* i 2))
-     :python "((i)*(2)) for i in range(3)"
+     :python "i*2 for i in range(3)"
      :tags '(:control-flow))
 
     (:name "class-basic"
@@ -515,9 +515,9 @@ finally:
     (:name "cond-basic"
      :description "Tests cond emission."
      :lisp (cond ((> a b) (return a)) ((< a b) (return b)) (t (return 0)))
-     :python "if ( ((a)>(b)) ):
+     :python "if a > b:
     return a
-elif ( ((a)<(b)) ):
+elif a < b:
     return b
 else:
     return 0"
@@ -526,7 +526,7 @@ else:
     (:name "ternary-basic"
      :description "Tests ternary emission."
      :lisp (? (> a b) a b)
-     :python "(a) if (((a)>(b))) else (b)"
+     :python "a if a > b else b"
      :tags '(:control-flow))
 
     (:name "return_-basic"
@@ -545,7 +545,7 @@ else:
     (:name "functional-addition"
      :description "Verifies that the generated code for '+' executes correctly."
      :lisp (print (+ 5 8))
-     :python "print(((5) + (8)))"
+     :python "print(5 + 8)"
      :exec-test t
      :expected-output "13"
      :tags '(:operator :arithmetic :functional))))
