@@ -602,6 +602,25 @@ except Exception as e:
      :python "func(**tub.input)"
      :tags '(:core :call))
 
+    (:name "def-unpacking-parameters"
+     :description "Tests function definitions with *args and **kwargs unpacking parameters."
+     :lisp (def foo (self *args **kwargs) (return 1))
+     :python "def foo(self, *args, **kwargs):
+    return 1"
+     :tags '(:core :function))
+
+    (:name "empty-call"
+     :description "Tests function/constructor call with no arguments."
+     :lisp (foo)
+     :python "foo()"
+     :tags '(:core :call))
+
+    (:name "float-notation"
+     :description "Tests single-float and double-float number representations."
+     :lisp (tuple 2.2s0 2.2d0)
+     :python "(2.2, 2.2,)"
+     :tags '(:core :number))
+
     (:name "functional-addition"
      :description "Verifies that the generated code for '+' executes correctly."
      :lisp (print (+ 5 8))
@@ -719,26 +738,27 @@ except Exception as e:
 
 (defun generate-documentation (&key (tests *test-cases*) (output-file "SUPPORTED_FORMS.md"))
   "Generates a markdown documentation file from the test cases."
-  (with-open-file (s output-file :direction :output :if-exists :supersede)
-    (format s "# Supported S-Expression Forms~%")
-    (format s "This documentation is auto-generated from the test suite. Do not edit manually.~2%")
+  (let ((*package* (find-package :cl-py-generator/tests)))
+    (with-open-file (s output-file :direction :output :if-exists :supersede)
+      (format s "# Supported S-Expression Forms~%")
+      (format s "This documentation is auto-generated from the test suite. Do not edit manually.~2%")
 
-    (let ((tagged-tests (make-hash-table :test 'equal)))
-      ;; Group tests by their primary tag for better organization
-      (dolist (test-case tests)
-        (let ((primary-tag (first (getf test-case :tags))))
-          (push test-case (gethash primary-tag tagged-tests))))
-      
-      (loop for tag in (sort (alexandria:hash-table-keys tagged-tests) #'string<)
-            do
-               (format s "## ~(~a~) Forms~%" tag)
-               (dolist (test-case (reverse (gethash tag tagged-tests)))
-                 ;; Run ruff format here as well to ensure docs are clean
-                 (let ((formatted-python (run-ruff-format (getf test-case :python))))
-                   (format s "### `~S`~%" (getf test-case :lisp))
-                   (format s "~A~2%" (getf test-case :description))
-                   (format s "**Lisp S-Expression:**~%```lisp~%~S~%```~2%" (getf test-case :lisp))
-                   (format s "**Generated Python (after formatting):**~%```python~%~A~%```~2%" formatted-python)))))))
+      (let ((tagged-tests (make-hash-table :test 'equal)))
+        ;; Group tests by their primary tag for better organization
+        (dolist (test-case tests)
+          (let ((primary-tag (first (getf test-case :tags))))
+            (push test-case (gethash primary-tag tagged-tests))))
+        
+        (loop for tag in (sort (alexandria:hash-table-keys tagged-tests) #'string<)
+              do
+                 (format s "## ~(~a~) Forms~%" tag)
+                 (dolist (test-case (reverse (gethash tag tagged-tests)))
+                   ;; Run ruff format here as well to ensure docs are clean
+                   (let ((formatted-python (run-ruff-format (getf test-case :python))))
+                     (format s "### `~S`~%" (getf test-case :lisp))
+                     (format s "~A~2%" (getf test-case :description))
+                     (format s "**Lisp S-Expression:**~%```lisp~%~S~%```~2%" (getf test-case :lisp))
+                     (format s "**Generated Python (after formatting):**~%```python~%~A~%```~2%" formatted-python))))))))
 
 
 
