@@ -58,12 +58,14 @@
      ;; matrix expression (MX)
      ;; can be more economical when working with operations that are naturally vector or matrix valued
      ;; they are also more general than SX
-     (setf u (MX.sym (string "u") 2 2)
-	   v (MX.sym (string "v"))
+     (setf
+      u (MX.sym (string "u") 2 2)
+      u2 (MX (string "u") 2 2)
+      v (MX.sym (string "v"))
 	   fu (+ (* 3 u) v))
 
 
-     (setf (aref u 0 0)
+     (setf (aref u2 0 0)
 	   v)
      )
    ))
