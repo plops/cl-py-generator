@@ -2,7 +2,7 @@ from __future__ import annotations
 from casadi import *
 x=SX.sym("x")
 y=SX.sym("y", 5)
-z=SX.sym("y", 4, 2)
+z=SX.sym("z", 4, 2)
 f=((((x)**(2)))+(10))
 f=sqrt(f)
 g=((((3)*(z)))+(x))
@@ -15,3 +15,7 @@ C=DM(2, 3)
 C_dense=C.full()
 C_dense2=np.array(C)
 C_sparse=C.sparse()
+u=MX.sym("u", 2, 2)
+v=MX.sym("v")
+fu=((((3)*(u)))+(v))
+u[0,0]=v[0]

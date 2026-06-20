@@ -25,10 +25,10 @@
 					;(pd pandas)
 			  ))
 	  )
-     ;; symbolic variables
+     ;; symbolic expression (meaning of SX?)
      (setf x (SX.sym (string "x"))     ;; scalar
 	   y (SX.sym (string "y") 5)   ;; vector
-	   z (SX.sym (string "y") 4 2) ;;matrix
+	   z (SX.sym (string "z") 4 2) ;;matrix
 	   )
      (setf f (+ (** x 2)
 		10)
@@ -46,7 +46,7 @@
      (setf M (SX (list (list 1 2)       ;; dense matrix
 		       (list 2 3)
 		       (list 4 5))))
-     ;; DM is to store numerical values as inputs and outputs of
+     ;; DM (data matrix ?) is to store numerical values as inputs and outputs of
      ;; functions (but not intended for calculations). use numpy in
      ;; python or eigen, ublas, mtl in C++ instead
 
@@ -54,6 +54,16 @@
 	   C_dense (C.full)
 	   C_dense2 (np.array C)
 	   C_sparse (C.sparse))
+
+     ;; matrix expression (MX)
+     ;; can be more economical when working with operations that are naturally vector or matrix valued
+     ;; they are also more general than SX
+     (setf u (MX.sym (string "u") 2 2)
+	   v (MX.sym (string "v"))
+	   fu (+ (* 3 u) v))
+
+
+     (setf (aref u 0 0) (aref v 0))
      )
    ))
 
