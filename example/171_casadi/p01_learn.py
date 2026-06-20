@@ -1,0 +1,22 @@
+from __future__ import annotations
+from casadi import *
+x=SX.sym("x")
+y=SX.sym("y", 5)
+z=SX.sym("z", 4, 2)
+f=((((x)**(2)))+(10))
+f=sqrt(f)
+g=((((3)*(z)))+(x))
+B1=SX.zeros(4, 5)
+B2=SX(4, 5)
+B3=SX.eye(4)
+v=SX([1, 2, 3])
+M=SX([[1, 2], [2, 3], [4, 5]])
+C=DM(2, 3)
+C_dense=C.full()
+C_dense2=np.array(C)
+C_sparse=C.sparse()
+u=MX.sym("u", 2, 2)
+u2=MX(2, 2)
+v=MX.sym("v")
+fu=((((3)*(u)))+(v))
+u2[0,0]=v

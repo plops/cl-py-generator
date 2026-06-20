@@ -1,0 +1,13 @@
+rfkill unblock wlan
+iwctl -P 'XXXX' station wlan0 connect NETWORKSSID
+sudo iw dev wlan0 set power_save off
+
+sudo iw dev wlan0 set txpower auto
+sudo iw dev
+sudo iw dev wlan0 link
+
+# Clean up stale dhclient processes before starting a new lease
+sudo dhclient -r wlan0 2>/dev/null
+sudo killall dhclient 2>/dev/null
+
+sudo dhclient wlan0
