@@ -25,7 +25,7 @@ in der Meridianebene reduzieren. Die Koordinaten (x, y) beschreiben die Bewegung
 dieser rotierenden Ebene, während px und py die zugehörigen Impulse (Geschwindigkeiten) darstellen.
 
 3. Warum ist die Kraft im Zentrum der Galaxie linear?
-- Taylor-Entwicklung: Um ein stabile Minimum (das Zentrum) bei r = 0 ist die Kraft F = -\nabla V.
+- Taylor-Entwicklung: Um ein stabiles Minimum (das Zentrum) bei r = 0 ist die Kraft F = -\nabla V.
   Da es sich um ein Minimum handelt, verschwindet die erste Ableitung (die Kraft am Ursprung ist 0).
   Der erste nicht-verschwindende Term im Potenzial ist quadratisch: V(r) \approx 1/2 k r^2.
   Die Kraft F \approx -k r ist somit linear (harmonischer Oszillator).
@@ -76,19 +76,19 @@ verteilen sich ungeordnet.
 	     lambda_val 1.0
 	     V (+ (* 0.5 (+ (** x 2) (** y 2)))
 		  (* lambda_val (- (* (** x 2) y)
-				   (/ (** y 3) 3.0))))
-	     T_kin (* 0.5 (+ (** px 2) (** py 2)))
-	     H (+ T_kin V)
-	     ode (vertcat px
+				   (/ (** y 3) 3.0)))))
+       (setf T_kin (* 0.5 (+ (** px 2) (** py 2))))
+       (setf H (+ T_kin V))
+       (setf ode (vertcat px
 			  py
 			  (* -1 (jacobian H x))
-			  (* -1 (jacobian H y)))
-	     dae (dict ((string "x") state)
-		       ((string "ode") ode))
-	     t_grid (np.linspace 0.0 t_max n_steps)
-	     F (integrator (string "F") (string "cvodes") dae (dict ((string "grid") t_grid)
-								    ((string "output_t0") True)))
-	     results (list))
+			  (* -1 (jacobian H y))))
+       (setf dae (dict ((string "x") state)
+		       ((string "ode") ode)))
+       (setf t_grid (np.linspace 0.0 t_max n_steps))
+       (setf F (integrator (string "F") (string "cvodes") dae (dict ((string "grid") t_grid)
+								    ((string "output_t0") True))))
+       (setf results (list))
        (for (y0 y0_list)
 	    (setf V_0 (- (* 0.5 (** y0 2))
 			 (/ (** y0 3) 3.0)))
@@ -139,12 +139,12 @@ verteilen sich ungeordnet.
 	    ax_ph (aref axs 1 1)
 	    
 	    E_low 0.08333
-	    y0_low (list -0.25 -0.15 -0.05 0.05 0.15 0.25 0.35 0.42)
-	    results_low (simulate_hh E_low y0_low :t_max 2000.0 :n_steps 200000)
+	    y0_low (dot (np.linspace -0.25 0.42 12) (tolist))
+	    results_low (simulate_hh E_low y0_low :t_max 5000.0 :n_steps 500000)
 	    
 	    E_high 0.15
-	    y0_high (list -0.35 -0.2 -0.05 0.1 0.25 0.4 0.55)
-	    results_high (simulate_hh E_high y0_high :t_max 2000.0 :n_steps 200000)
+	    y0_high (dot (np.linspace -0.35 0.55 12) (tolist))
+	    results_high (simulate_hh E_high y0_high :t_max 5000.0 :n_steps 500000)
 	    
 	    x_g (np.linspace -1.2 1.2 200)
 	    y_g (np.linspace -1.2 1.2 200)
@@ -156,7 +156,7 @@ verteilen sich ungeordnet.
       ;; Plot low energy orbits & Poincaré
       (for (res results_low)
 	   (dot ax_ol (plot (aref res (string "x")) (aref res (string "y")) :alpha 0.5))
-	   (dot ax_pl (scatter (aref res (string "y_cross")) (aref res (string "py_cross")) :s 1.5 :alpha 0.8))
+	   (dot ax_pl (scatter (aref res (string "y_cross")) (aref res (string "py_cross")) :s 0.6 :alpha 0.8))
 	   )
       ;; Zero velocity curve for low energy
       (dot ax_ol (contour X Y Z :levels (list E_low) :colors (string "red") :linestyles (string "dashed")))
@@ -164,7 +164,7 @@ verteilen sich ungeordnet.
       ;; Plot high energy orbits & Poincaré
       (for (res results_high)
 	   (dot ax_oh (plot (aref res (string "x")) (aref res (string "y")) :alpha 0.5))
-	   (dot ax_ph (scatter (aref res (string "y_cross")) (aref res (string "py_cross")) :s 1.5 :alpha 0.8))
+	   (dot ax_ph (scatter (aref res (string "y_cross")) (aref res (string "py_cross")) :s 0.6 :alpha 0.8))
 	   )
       ;; Zero velocity curve for high energy
       (dot ax_oh (contour X Y Z :levels (list E_high) :colors (string "red") :linestyles (string "dashed")))
