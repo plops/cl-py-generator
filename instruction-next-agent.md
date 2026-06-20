@@ -2,19 +2,8 @@
 
 ## Context & Objectives
 You are tasked with continuing the task of identifying transpiler input language use patterns in `example/*/gen*.lisp` files that are not yet covered in [transpiler-tests.lisp](file:///home/kiel/stage/cl-py-generator/transpiler-tests.lisp).
-- Currently, examples from index 56 to 171 have been analyzed.
-- In the index 1 to 55 range, the following folders were analyzed and sampled:
-  - `example/01_plot`
-  - `example/02_qt`
-  - `example/03_cl`
-  - `example/05_trellis_qt`
-  - `example/27_thinkpad_fanspeed`
-  - `example/36_cadquery`
-  - `example/44_zernike`
-  - `example/46_opticspy`
-- All other folders within the **index 1 to 55** range remain **UNCHECKED**.
-- **INSTRUCTION FOR NEXT AGENT**: Do not take shortcuts by scanning or skipping folders. You must systematically inspect the remaining folders index-by-index to identify unusual patterns or variant usages of existing forms (e.g., edge cases of existing DSL nodes, complex nested expressions, or combinations of arguments) that might not be adequately tested.
-- Locate 5 to 7 undocumented or untested transpiler constructs/patterns.
+- Currently, all examples from index 1 to 171 have been fully analyzed and checked for undocumented/untested transpiler constructs and patterns.
+- There are no remaining unchecked folders in this range.
 
 ## Target Repositories & Files
 1. [transpiler-tests.lisp](file:///home/kiel/stage/cl-py-generator/transpiler-tests.lisp): Append new test cases here under `*test-cases*`.
@@ -31,8 +20,8 @@ You are tasked with continuing the task of identifying transpiler input language
     - Multi-line templates or raw string manipulation.
     - Special decorators, inline functions, or custom macros.
     - Package dependencies or custom package exports.
-    - Usages that rely on awkward workarounds (such as raw string code injection or parenthesized statements like `raise(...)` or `assert(...)`) that would benefit from introducing a new, first-class S-expression form in `py.lisp`. Add any such suggestions to [suggestions-new-forms.md](file:///home/kiel/stage/cl-py-generator/suggestions-new-forms.md).
-
+    - Usages that rely on awkward workarounds (such as raw string code injection or parenthesized statements like `raise(...)` or `assert(...)`) that would benefit from introducing a new, first-class S-expression form in `py.lisp`. Add any such suggestions to [suggestions-new-forms.md](file:///home/kiel/stage/cl-py-generator/suggestions-new-forms.md). But do not implement them yet in py.lisp.
+    - If you find interesting usage of lisp macros that hasn't been documented in the cl-py-generator skill, add the information to the skill.
 ### 2. Implementation
 - For each identified pattern (aim for 5 to 7 patterns), add a test case in `transpiler-tests.lisp`.
 - Add a new row to the table in `example-to-test.md` with:

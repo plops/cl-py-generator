@@ -121,3 +121,29 @@ Provide a shadow-safe dedicated assertion form that formats as a statement.
 # Expected Python Output
 assert x == y, "x and y must be equal"
 ```
+
+---
+
+## 5. Global Statement (`global_` / `py-global`)
+
+### Current Approach (Raw String Code Injection)
+Currently, `global` statements are written using raw string injection:
+```lisp
+;; Lisp Input
+"global f_num"
+```
+```python
+# Emitted Python
+global f_num
+```
+
+### Proposed Form: `global_`
+Provide a dedicated statement form that prints `global` followed by space-separated variable names.
+```lisp
+;; Proposed Lisp Input
+(global_ f_num)
+```
+```python
+# Expected Python Output
+global f_num
+```

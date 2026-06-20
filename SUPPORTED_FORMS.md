@@ -1955,3 +1955,84 @@ a @ b @ c
 
 ```
 
+### `(for ((ntuple root folders files) (os.walk (string "."))) (print root))`
+Tests unpacking multiple loop variables directly inside a for loop.
+
+**Lisp S-Expression:**
+```lisp
+(for ((ntuple root folders files) (os.walk (string "."))) (print root))
+```
+
+**Generated Python (after formatting):**
+```python
+for root, folders, files in os.walk("."):
+    print(root)
+
+```
+
+### `(def foo (&key (x 1) (y 2)) (return (+ x y)))`
+Tests function definition with only keyword arguments.
+
+**Lisp S-Expression:**
+```lisp
+(def foo (&key (x 1) (y 2)) (return (+ x y)))
+```
+
+**Generated Python (after formatting):**
+```python
+def foo(x=1, y=2):
+    return x + y
+
+```
+
+### `(try (f) ((tuple KeyError ValueError) (print (string "error"))))`
+Tests try-except clause with a tuple of exceptions.
+
+**Lisp S-Expression:**
+```lisp
+(try (f) ((tuple KeyError ValueError) (print (string "error"))))
+```
+
+**Generated Python (after formatting):**
+```python
+try:
+    f()
+except (
+    KeyError,
+    ValueError,
+):
+    print("error")
+
+```
+
+### `(setf image.flags.writeable False)`
+Tests symbol emission containing dots as member access.
+
+**Lisp S-Expression:**
+```lisp
+(setf image.flags.writeable False)
+```
+
+**Generated Python (after formatting):**
+```python
+image.flags.writeable = False
+
+```
+
+### `(tuple |0J| |1J|)`
+Tests symbol fallback for complex number literals like 1j or 0j.
+
+**Lisp S-Expression:**
+```lisp
+(tuple |0J| |1J|)
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    0j,
+    1j,
+)
+
+```
+

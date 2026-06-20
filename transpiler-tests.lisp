@@ -875,7 +875,49 @@ def f3():
      :description "Tests matrix multiplication chaining with multiple operands."
      :lisp (@ a b c)
      :python "a @ b @ c"
-     :tags '(:operator :arithmetic))))
+     :tags '(:operator :arithmetic))
+
+    (:name "for-unpacking"
+     :description "Tests unpacking multiple loop variables directly inside a for loop."
+     :lisp (for ((ntuple root folders files) (os.walk (string ".")))
+             (print root))
+     :python "for root, folders, files in os.walk(\".\"):
+    print(root)"
+     :tags '(:control-flow))
+
+    (:name "def-key-only-parameters"
+     :description "Tests function definition with only keyword arguments."
+     :lisp (def foo (&key (x 1) (y 2))
+             (return (+ x y)))
+     :python "def foo(x=1, y=2):
+    return x + y"
+     :tags '(:core :function))
+
+    (:name "try-except-tuple"
+     :description "Tests try-except clause with a tuple of exceptions."
+     :lisp (try (f)
+                ((tuple KeyError ValueError)
+                 (print (string "error"))))
+     :python "try:
+    f()
+except (
+    KeyError,
+    ValueError,
+):
+    print(\"error\")"
+     :tags '(:control-flow))
+
+    (:name "dot-access-symbol-fallback"
+     :description "Tests symbol emission containing dots as member access."
+     :lisp (setf image.flags.writeable False)
+     :python "image.flags.writeable = False"
+     :tags '(:core :symbol))
+
+    (:name "complex-symbol-fallback"
+     :description "Tests symbol fallback for complex number literals like 1j or 0j."
+     :lisp (tuple 0j 1j)
+     :python "(0j, 1j,)"
+     :tags '(:core :symbol))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF
