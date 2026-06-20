@@ -8,4 +8,5 @@ dependencies = [
     "casadi>=3.7.2",
     "gekko>=1.3.2",
     "jax>=0.10.1",
+    "matplotlib>=3.11.0",
 ]
