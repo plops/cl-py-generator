@@ -25,10 +25,10 @@
 					;(pd pandas)
 			  ))
 	  )
-     ;; symbolic expression (meaning of SX?)
-     (setf x (SX.sym (string "x"))     ;; scalar
-	   y (SX.sym (string "y") 5)   ;; vector
-	   z (SX.sym (string "z") 4 2) ;;matrix
+     ;; SX symbolics: Scalar-based expression graphs, fast and lightweight for low-level math.
+     (setf x (SX.sym (string "x"))     ;; 1-by-1 scalar symbolic primitive
+	   y (SX.sym (string "y") 5)   ;; 5-by-1 vector symbolic primitive
+	   z (SX.sym (string "z") 4 2) ;; 4-by-2 matrix symbolic primitive
 	   )
      (setf f (+ (** x 2)
 		10)
@@ -37,27 +37,25 @@
      (setf g (+ (* 3 z) x))
      
      
-     ;; constants
-     (setf B1 (SX.zeros 4 5) ;; dense
-	   B2 (SX 4 5)	     ;; sparse
-	   B3 (SX.eye 4)     ;; sparse diagonal
+     ;; Creating constant SX matrices (structural vs. actual zeros)
+     (setf B1 (SX.zeros 4 5) ;; Dense 4-by-5 matrix of actual zeros
+	   B2 (SX 4 5)	     ;; Sparse 4-by-5 matrix of structural zeros
+	   B3 (SX.eye 4)     ;; Identity matrix (sparse diagonal)
 	   )
-     (setf v (SX (list 1  2 3)))	;; column vector
-     (setf M (SX (list (list 1 2)       ;; dense matrix
+     (setf v (SX (list 1  2 3)))	;; Column vector from literal list
+     (setf M (SX (list (list 1 2)       ;; Dense matrix from nested literal lists
 		       (list 2 3)
 		       (list 4 5))))
-     ;; DM (data matrix ?) is to store numerical values as inputs and outputs of
-     ;; functions (but not intended for calculations). use numpy in
-     ;; python or eigen, ublas, mtl in C++ instead
+     ;; DM (Data Matrix): Used to store concrete numerical values for function inputs/outputs.
+     ;; Not intended for general-purpose numerical linear algebra; use NumPy instead for calculations.
 
      (setf C (DM 2 3)
 	   C_dense (C.full)
 	   C_dense2 (np.array C)
 	   C_sparse (C.sparse))
 
-     ;; matrix expression (MX)
-     ;; can be more economical when working with operations that are naturally vector or matrix valued
-     ;; they are also more general than SX
+     ;; MX symbolics: Matrix-based expression graphs, where nodes are matrix operations rather than scalar operations.
+     ;; More general than SX and more memory/computationally efficient for large-scale block-structured matrix operations.
      (setf
       u (MX.sym (string "u") 2 2)
       u2 (MX 2 2)
