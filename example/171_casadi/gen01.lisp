@@ -60,7 +60,7 @@
      ;; they are also more general than SX
      (setf
       u (MX.sym (string "u") 2 2)
-      u2 (MX (string "u") 2 2)
+      u2 (MX 2 2)
       v (MX.sym (string "v"))
 	   fu (+ (* 3 u) v))
 
