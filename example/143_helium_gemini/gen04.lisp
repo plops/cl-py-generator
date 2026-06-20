@@ -107,7 +107,7 @@
   (defparameter *languages* `(en ;de fr ch nl pt cz it jp ar
 			      ))
   (defparameter *idx* "04") 
-  (defparameter *path* (format nil "/home/martin/stage/cl-py-generator/example/~a" *project*))
+  (defparameter *path* (format nil "/home/kiel/stage/cl-py-generator/example/~a" *project*))
   (defparameter *day-names*
     '("Monday" "Tuesday" "Wednesday"
       "Thursday" "Friday" "Saturday"
