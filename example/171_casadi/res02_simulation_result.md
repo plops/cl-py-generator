@@ -8,15 +8,21 @@ We have successfully formulated the Hénon-Heiles system, integrated it using Ca
 
 ---
 
-## Physical Analysis
+## Detailed Physical Analysis of the Visualizations
 
-### 1. Low Energy ($E = 0.08333 \approx 1/12$)
-* **Orbits (Top-Left):** The trajectories are regular, bounded, and exhibit symmetry. They are confined well within the zero-velocity curve (red dashed line).
-* **Poincaré Section (Top-Right):** Slicing the phase space at $x=0, p_x > 0$ yields neat, closed 1-dimensional curves. Each curve corresponds to a different initial vertical coordinate $y_0$. These closed curves are 2D slices of 3D invariant tori. This confirms that a **third integral of motion** is conserved, restricting the star's motion to a torus rather than letting it fill the entire 3D energy surface.
+### 1. The Zero-Velocity Curves (ZVCs) & Forbidden Regions
+The red dashed lines in the left plots represent the **Zero-Velocity Curves (Nullgeschwindigkeitskurven)** defined by $V(x, y) = E$.
+* **Why are there no paths outside?** The total energy of the system is conserved: $H = T_{\text{kin}} + V(x, y) = E$. Because the kinetic energy $T_{\text{kin}} = \frac{1}{2}(p_x^2 + p_y^2)$ must always be non-negative ($T_{\text{kin}} \ge 0$), the star is energetically confined to regions where $V(x, y) \le E$. Crossing the red dashed line would require negative kinetic energy ($T_{\text{kin}} < 0$), which is physically impossible. At the boundary itself, the star's velocity is exactly zero.
+* **The "Triangles that seem to rotate":** At the higher energy level ($E = 0.15$), the zero-velocity curve takes the shape of a triangle with rounded corners. This is due to the $C_3$ (threefold) symmetry of the cubic perturbation term $x^2y - \frac{1}{3}y^3$. The three vertices of this triangle point towards the potential's three saddle points (escape channels) located at $V = 1/6 \approx 0.1667$. The star orbits inside this triangular well, and because of non-linear coupling, the orbits precess over time. This precession creates the visual appearance of a rotating triangle.
 
-### 2. High Energy ($E = 0.15$)
-* **Orbits (Bottom-Left):** The trajectories appear highly irregular and fill the space inside the zero-velocity curve.
-* **Poincaré Section (Bottom-Right):** The concentric tori have mostly broken down. Instead of neat closed curves, we observe a scattered "sea" of points, representing **chaotic motion**. This indicates that the third integral of motion has been destroyed by the non-linear coupling. However, some smaller concentric loop structures ("stability islands") still persist, representing resonant regular orbits that resist chaos.
+### 2. Meaning of the Colored Orbits (Left Plots)
+* Each colored curve represents a single star's trajectory originating from a different initial vertical displacement $y(0)$ in the meridian plane (with $x(0)=0, p_y(0)=0$, and $p_x(0) > 0$ calculated to satisfy the energy constraint $H = E$).
+* The colors allow us to visually distinguish between different orbital families (such as regular box orbits versus chaotic orbits).
+
+### 3. The Poincaré Sections (Right Plots)
+* Slicing the 4D phase space $(x, y, p_x, p_y)$ at $x=0$ with $p_x > 0$ projects the 3D energy surface onto the $(y, p_y)$ plane.
+* **At Low Energy ($E = 0.08333 \approx 1/12$):** The section shows clean, nested concentric loops. Each loop represents a stable 2D torus (Invariant Torus) in phase space, demonstrating the existence of a conserved **third integral of motion**.
+* **At High Energy ($E = 0.15$):** The tori break down. We see a scattered "sea" of chaotic points, representing the loss of the third integral. However, small concentric islands of stability persist, representing resonant regular orbits (like 1:1 or 2:1 vertical-to-radial oscillations).
 
 ---
 
