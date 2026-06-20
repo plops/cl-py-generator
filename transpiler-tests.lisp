@@ -542,6 +542,66 @@ else:
      :python "alpha beta"
      :tags '(:core :utility))
 
+    (:name "setf-aref"
+     :description "Tests assigning to a specific index via aref inside setf."
+     :lisp (setf (aref u2 0 0) v)
+     :python "u2[0, 0] = v"
+     :tags '(:core :assignment))
+
+    (:name "def-type-annotations"
+     :description "Tests function definitions with parameter and return type declarations."
+     :lisp (def simulate (E y &key (t_max 1.0))
+             (declare (type float E)
+                      (type list y)
+                      (type float t_max)
+                      (values list))
+             (return y))
+     :python "def simulate(E: float, y: list, t_max: float = 1.0) -> list:
+    return y"
+     :tags '(:core :function))
+
+    (:name "async-def"
+     :description "Tests async function definitions using space construct."
+     :lisp (space async (def time_generator () (return 1)))
+     :python "async def time_generator():
+    return 1"
+     :tags '(:core :function))
+
+    (:name "decorators"
+     :description "Tests function decorators using the symbol fallback starting with @."
+     :lisp (do0 (@rt (string "/")) (def get (request) (return 1)))
+     :python "@rt(\"/\")
+def get(request):
+    return 1"
+     :tags '(:core :function))
+
+    (:name "dict-comprehension"
+     :description "Tests dictionary comprehension using curly, for-generator and slice."
+     :lisp (curly (for-generator ((ntuple i s) (enumerate chars)) (slice s (+ i 1))))
+     :python "{s: i + 1 for i, s in enumerate(chars)}"
+     :tags '(:core :comprehension))
+
+    (:name "list-comprehension"
+     :description "Tests list comprehension using list and for-generator."
+     :lisp (list (for-generator (r responses) r))
+     :python "[r for r in responses]"
+     :tags '(:core :comprehension))
+
+    (:name "try-except-string"
+     :description "Tests try/except block using string directly for except clause."
+     :lisp (try (setf a 1) ("Exception as e" (print e)))
+     :python "try:
+    a = 1
+except Exception as e:
+    print(e)"
+     :tags '(:control-flow))
+
+    (:name "argument-unpacking"
+     :description "Tests keyword argument unpacking in function calls."
+     :lisp (func **tub.input)
+     :python "func(**tub.input)"
+     :tags '(:core :call))
+
     (:name "functional-addition"
      :description "Verifies that the generated code for '+' executes correctly."
      :lisp (print (+ 5 8))
