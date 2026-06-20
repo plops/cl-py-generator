@@ -266,15 +266,17 @@ Returns:
 		 The string representation of the number with sufficient digits."
 	(let* ((a f)
 				 (digits 1)
-				 (b (- a 1)))
+				 (b (- a 1))
+				 (threshold (if (typep f 'double-float) 1d-12 1e-7))
+				 (*read-default-float-format* (if (typep f 'double-float) 'double-float 'single-float)))
 		(unless (= a 0)
-			(loop while (< 1d-12
+			(loop while (< threshold
 										 (/ (abs (- a b))
 												(abs a)))
 						do
 						(setf b (read-from-string (format nil "~,vG" digits a)))
 						(incf digits)))
-		(substitute #\e #\d (format nil "~,vG" digits a))))
+		(substitute #\e #\d (format nil "~,vG" (max 1 (1- digits)) a))))
 
 
 					;(print-sufficient-digits-f64 1d0)
