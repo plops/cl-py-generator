@@ -24,6 +24,12 @@ The primary public entrypoints are:
 
 The transpiler uses an `:invert` readtable-case, meaning that lower-case code is preserved and maps naturally to lower-case Python identifiers.
 
+> [!IMPORTANT]
+> **Symbol Package Matching Alert**:
+> The transpiler dispatcher uses exact symbol equality (`eq`) to match DSL keywords (like `slice`, `paren*`, etc.).
+> - When generating or testing code from a different package (e.g., `cl-user` or in tests), make sure the DSL symbols are either exported by `:cl-py-generator` or package-qualified (e.g. `cl-py-generator::paren*`).
+> - Unexported symbols read in another package will fail to match the emitter dispatcher and default to a Python function call representation (e.g., `symbol-name()`).
+
 ---
 
 ## DSL Reference & Mapping Guide
@@ -111,7 +117,11 @@ All operators wrap their operands in parentheses to preserve operator precedence
 - **Loops**:
   - While: `(while (< a b) (setf a (+ a 1)))` &rarr; `while (a < b):\n    a = a + 1`
   - For: `(for (i (range 3)) (print i))` &rarr; `for i in range(3):\n    print(i)`
+  - Loop Control: `break` and `continue` keywords can be placed inside loops as atoms.
   - List Comprehension Generator: `(for-generator (i (range 3)) (* i 2))` &rarr; `i * 2 for i in range(3)`
+- **Yield Statements**:
+  - Generator yield: `yield` &rarr; `yield`
+  - Generator yield value: `(yield x)` &rarr; `yield(x)`
 - **Try/Except/Finally**:
   ```lisp
   (try (setf a 1)
@@ -156,6 +166,9 @@ All operators wrap their operands in parentheses to preserve operator precedence
   `(lambda (x) (+ x 1))` &rarr; `lambda x: x + 1`
 - **Class Definitions**:
   `(class Foo (ParentClass) body*)` &rarr; `class Foo(ParentClass):\n    body*`
+- **Class Super Call**:
+  - Zero-argument super call: `(super)` &rarr; `super()`
+  - Explicit super call: `(super ImageModel self)` &rarr; `super(ImageModel, self)`
 - **Return Statement**:
   - `(return expr)` or `(return_ expr)` &rarr; `return expr`
 
@@ -186,12 +199,15 @@ All operators wrap their operands in parentheses to preserve operator precedence
 - **Comments**:
   - Single line: `(comment "note")` &rarr; `# note`
   - Multi line: `(comments "line1" "line2")` &rarr; `# line1\n# line2`
-- **Grouping**:
+- **Grouping & Code Insertion**:
   - `do`: Combines forms sequentially and indents them (adds block indentation level).
   - `do0`: Combines forms sequentially at the current indentation level.
   - `space`: Combines forms separated by space (e.g. `(space a b)` &rarr; `a b`).
   - `symbol`: Replaces hyphens with colons (e.g. `(symbol foo-bar)` &rarr; `foo:bar`).
   - `cell` / `export`: Prefixes the forms with Jupyter cell export comments (`# export` or `# |export`).
+  - Raw Code Insertion: A bare Common Lisp string literal inside code blocks (like `do0`) is emitted directly as raw, unquoted text (e.g. `"@threaded"` &rarr; `@threaded`).
+- **Conditional Parentheses**:
+  - Precedence-aware: `(paren* parent-op arg)` wraps parenthesises around the argument only if the operator precedence demands it (e.g., `(paren* * (+ a b))` &rarr; `(a + b)` whereas `(paren* + (+ a b))` &rarr; `a + b`).
 
 ### 8. Compile-Time Code Generation & Templating
 Since `cl-py-generator` transpiles Lisp S-Expressions at compile time, you can leverage standard Common Lisp list processing and macro/loop constructs (like `loop`, `backquote`, and comma evaluation) to avoid boilerplate.
