@@ -65,6 +65,11 @@
 
      (setf (aref u2 0 0)
 	   v)
+
+     ;; SX ist besser fuer sequenz skalarer operationen (rechte seite
+     ;; fuer DAE), MX ist besser fuer glue also z.b constraints of NLP
+     ;; wo aufrufe fuer ODE integratoren enthalten sein koennten, die
+     ;; eine zu grosse expression werden wuerden
      )
    ))
 
