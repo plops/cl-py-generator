@@ -3,7 +3,24 @@
 ## Context & Objectives
 You are tasked with continuing the task of identifying transpiler input language use patterns in `example/*/gen*.lisp` files that are not yet covered in [transpiler-tests.lisp](file:///home/kiel/stage/cl-py-generator/transpiler-tests.lisp).
 - Currently, examples from index 103 to 171 have been analyzed.
-- Your focus is to analyze the remaining examples from **index 1 to 102**.
+- In the index 1 to 102 range, the following 15 folders were analyzed and sampled:
+  - `example/01_plot`
+  - `example/02_qt`
+  - `example/03_cl`
+  - `example/05_trellis_qt`
+  - `example/27_thinkpad_fanspeed`
+  - `example/36_cadquery`
+  - `example/44_zernike`
+  - `example/46_opticspy`
+  - `example/56_myhdl`
+  - `example/60_py_webull`
+  - `example/68_arith`
+  - `example/74_gr_plot`
+  - `example/80_fulltext`
+  - `example/84_lte`
+  - `example/88_plotly`
+- All other folders within the **index 1 to 102** range remain **UNCHECKED**.
+- **INSTRUCTION FOR NEXT AGENT**: Do not take shortcuts by scanning or skipping folders. You must systematically inspect the remaining folders index-by-index to identify unusual patterns or variant usages of existing forms (e.g., edge cases of existing DSL nodes, complex nested expressions, or combinations of arguments) that might not be adequately tested.
 - Locate 5 to 7 undocumented or untested transpiler constructs/patterns.
 
 ## Target Repositories & Files
@@ -16,11 +33,12 @@ You are tasked with continuing the task of identifying transpiler input language
 ### 1. Research & Analysis
 - Browse example folders starting from index 102 downwards (e.g. `example/102_fisher`, `example/101_tex_layout`, etc.).
 - Look inside their `gen*.lisp` files for structures that do not match the existing list of test cases in [transpiler-tests.lisp](file:///home/kiel/stage/cl-py-generator/transpiler-tests.lisp).
-- Target areas of interest:
-  - Complex arithmetic, array slices, or matrix operations.
-  - Multi-line templates or raw string manipulation.
-  - Special decorators, inline functions, or custom macros.
-  - Package dependencies or custom package exports.
+  - Target areas of interest:
+    - Complex arithmetic, array slices, or matrix operations.
+    - Multi-line templates or raw string manipulation.
+    - Special decorators, inline functions, or custom macros.
+    - Package dependencies or custom package exports.
+    - Usages that rely on awkward workarounds (such as raw string code injection or parenthesized statements like `raise(...)` or `assert(...)`) that would benefit from introducing a new, first-class S-expression form in `py.lisp`. Add any such suggestions to [suggestions-new-forms.md](file:///home/kiel/stage/cl-py-generator/suggestions-new-forms.md).
 
 ### 2. Implementation
 - For each identified pattern (aim for 5 to 7 patterns), add a test case in `transpiler-tests.lisp`.
@@ -46,6 +64,10 @@ You are tasked with continuing the task of identifying transpiler input language
   ```bash
   git commit -m "test(core): add unit tests for <pattern1>, <pattern2>" -m "Add unit tests and documentation mappings for newly identified transpiler constructs (<pattern1>, <pattern2>)."
   ```
+
+### 5. Update this file
+
+Change the index of the remaining examples, so that the next agent knows which example folders have been checked already.
 
 ## Important Alerts
 > [!IMPORTANT]

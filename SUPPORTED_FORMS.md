@@ -1724,3 +1724,125 @@ Tests empty dict literal and empty dictionary constructor.
 
 ```
 
+### `(tuple (< a b c) (<= x y z) (== d e f))`
+Tests chained comparison operators with multiple arguments.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (< a b c) (<= x y z) (== d e f))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a < b < c,
+    x <= y <= z,
+    d == e == f,
+)
+
+```
+
+### `(tuple (and a b c) (or d e f))`
+Tests logical and/or operators with more than two arguments.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (and a b c) (or d e f))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a and b and c,
+    d or e or f,
+)
+
+```
+
+### `(tuple (logand a b c) (logxor x y z) (logior p q r))`
+Tests bitwise and/xor/or operators with more than two arguments.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (logand a b c) (logxor x y z) (logior p q r))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a & b & c,
+    x ^ y ^ z,
+    p | q | r,
+)
+
+```
+
+### `(do0 (def f1 nil (return)) (def f2 nil (return x))
+      (def f3 nil (return (ntuple x y))))`
+Tests return statement variants including empty return, single value, and multi-value returns.
+
+**Lisp S-Expression:**
+```lisp
+(do0 (def f1 nil (return)) (def f2 nil (return x))
+ (def f3 nil (return (ntuple x y))))
+```
+
+**Generated Python (after formatting):**
+```python
+def f1():
+    return
+
+
+def f2():
+    return x
+
+
+def f3():
+    return x, y
+
+```
+
+### `(def f nil pass)`
+Tests standalone 'pass' statement representation.
+
+**Lisp S-Expression:**
+```lisp
+(def f nil pass)
+```
+
+**Generated Python (after formatting):**
+```python
+def f():
+    pass
+
+```
+
+### `(curly (for-generator (x (range 5)) x))`
+Tests set comprehension using curly braces and for-generator.
+
+**Lisp S-Expression:**
+```lisp
+(curly (for-generator (x (range 5)) x))
+```
+
+**Generated Python (after formatting):**
+```python
+{x for x in range(5)}
+
+```
+
+### `(for (x items) (print x))`
+Tests looping over a sequence variable (without explicit range/function call).
+
+**Lisp S-Expression:**
+```lisp
+(for (x items) (print x))
+```
+
+**Generated Python (after formatting):**
+```python
+for x in items:
+    print(x)
+
+```
+

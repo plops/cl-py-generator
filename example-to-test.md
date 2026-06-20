@@ -25,3 +25,11 @@ This file tracks the patterns found in high-numbered example files that have bee
 | Indexing Raw Slice String | `(aref arr ":" 0)` | `arr[:, 0]` | `example/107_ofdm/gen01.lisp` |
 | Simple `with` Statement | `(with conn (setf a 1))` | `with conn:\n    a = 1` | `example/103_co2_sensor/gen05.lisp` |
 | Empty Dictionary | `(tuple (dict) (dictionary))` | `({}, dict(),)` | `py.lisp` (dict literals) |
+| Chained Comparisons | `(< a b c)` | `a < b < c` | `example/03_cl/gen.lisp` |
+| Chained Logicals | `(and a b c)` | `a and b and c` | `example/160_udp_holepunch/gen01.lisp` |
+| Chained Bitwise | `(logand a b c)` | `a & b & c` | `py.lisp` |
+| Return Variants | `(return (ntuple x y))` | `return x, y` | `example/56_myhdl/gen00.lisp` |
+| Pass Statement | `pass` | `pass` | `example/02_qt/gen.lisp` |
+| Set Comprehension | `(curly (for-generator (x (range 5)) x))` | `{x for x in range(5)}` | `example/103_co2_sensor/gen01.lisp` |
+| For Loop Sequence Variable | `(for (x items) (print x))` | `for x in items:\n    print(x)` | `example/05_trellis_qt/gen00.lisp` |
+
