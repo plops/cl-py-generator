@@ -37,6 +37,10 @@
 	   B2 (SX 4 5) ;; sparse
 	   B3 (SX.eye 4) ;; sparse diagonal
 	   )
+     (setf v (SX (list 1  2 3)))	;; column vector
+     (setf M (SX (list (list 1 2)       ;; dense matrix
+		       (list 2 3)
+		       (list 4 5))))
      )
    ))
 
