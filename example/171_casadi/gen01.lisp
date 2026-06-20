@@ -21,6 +21,7 @@
      (do0 (imports-from (__future__ annotations)
 			(casadi *))
 	  #+nil (imports (	     ;os
+			  (np numpy)
 					;(pd pandas)
 			  ))
 	  )
@@ -32,15 +33,27 @@
      (setf f (+ (** x 2)
 		10)
 	   f (sqrt f))
+
+     (setf g (+ (* 3 z) y))
+     
+     
      ;; constants
      (setf B1 (SX.zeros 4 5) ;; dense
-	   B2 (SX 4 5) ;; sparse
-	   B3 (SX.eye 4) ;; sparse diagonal
+	   B2 (SX 4 5)	     ;; sparse
+	   B3 (SX.eye 4)     ;; sparse diagonal
 	   )
      (setf v (SX (list 1  2 3)))	;; column vector
      (setf M (SX (list (list 1 2)       ;; dense matrix
 		       (list 2 3)
 		       (list 4 5))))
+     ;; DM is to store numerical values as inputs and outputs of
+     ;; functions (but not intended for calculations). use numpy in
+     ;; python or eigen, ublas, mtl in C++ instead
+
+     (setf C (DM 2 3)
+	   C_dense (C.full)
+	   C_dense2 (np.array C)
+	   C_sparse (C.sparse))
      )
    ))
 
