@@ -39,5 +39,10 @@ This file tracks the patterns found in high-numbered example files that have bee
 | Slice with Negative Step | `(aref arr (slice nil nil -1))` | `arr[::-1]` | `example/76_opencv_cuda/gen01.lisp` |
 | Logical Not Precedence | `(tuple (not (== a b)) (not (and a b)))` | `(not a == b, not (a and b),)` | `py.lisp` (intrinsic precedence) |
 | Chained Matrix Multiplication | `(@ a b c)` | `a @ b @ c` | `py.lisp` (intrinsic chaining) |
+| Loop Variable Unpacking | `(for ((ntuple root folders files) (os.walk (string "."))) (print root))` | `for root, folders, files in os.walk("."): print(root)` | `example/42_android_repl/gen00.lisp` |
+| Keyword-only Parameters | `(def foo (&key (x 1) (y 2)) (return (+ x y)))` | `def foo(x=1, y=2): return x + y` | `example/49_wgpu/gen00.lisp` |
+| Multiple Exceptions in Except | `(try (f) ((tuple KeyError ValueError) (print (string "error"))))` | `try: f() except (KeyError, ValueError): print("error")` | `example/51_django/gen00.lisp` |
+| Member Access via Dotted Symbol | `(setf image.flags.writeable False)` | `image.flags.writeable = False` | `example/38_mediapipe/gen01.lisp` |
+| Complex Number Symbol Fallback | `(tuple 0j 1j)` | `(0j, 1j,)` | `example/29_ondrejs_challenge/gen00.lisp` |
 
 
