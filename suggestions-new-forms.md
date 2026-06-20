@@ -147,3 +147,147 @@ Provide a dedicated statement form that prints `global` followed by space-separa
 # Expected Python Output
 global f_num
 ```
+
+---
+
+## 6. Nonlocal Statement (`nonlocal_` / `py-nonlocal`)
+
+### Current Approach (Raw String Code Injection)
+Currently, `nonlocal` statements are written using raw string injection:
+```lisp
+;; Lisp Input
+"nonlocal x"
+```
+```python
+# Emitted Python
+nonlocal x
+```
+
+### Proposed Form: `nonlocal_`
+Provide a dedicated statement form that prints `nonlocal` followed by space-separated variable names.
+```lisp
+;; Proposed Lisp Input
+(nonlocal_ x)
+```
+```python
+# Expected Python Output
+nonlocal x
+```
+
+---
+
+## 7. Asynchronous Function/Statements (`async-def` / `async_` and `await_` / `py-await`)
+
+### Current Approach (Workaround using `space`)
+Asynchronous functions and awaits currently rely on joining `async` and `await` with spaces as a prefix:
+```lisp
+;; Lisp Input
+(space async (def post (comment)
+               (return (space await (self.cli.request ...)))))
+```
+```python
+# Emitted Python
+async def post(comment):
+    return await self.cli.request(...)
+```
+
+### Proposed Forms: `async-def` and `await_`
+Introduce semantic forms for asynchronous functions and await expressions.
+```lisp
+;; Proposed Lisp Input
+(async-def post (comment)
+  (return (await_ (self.cli.request ...))))
+```
+```python
+# Expected Python Output
+async def post(comment):
+    return await self.cli.request(...)
+```
+
+---
+
+## 8. Delete Statement (`del_` / `py-del`)
+
+### Current Approach (Fallback to Function Call)
+Writing `(del x)` falls back to function-call syntax `del(x)`.
+```lisp
+;; Lisp Input
+(del (aref _job_store uid))
+```
+```python
+# Emitted Python
+del(_job_store[uid])
+```
+
+### Proposed Form: `del_`
+Provide a dedicated statement form that prints `del` followed by space-separated expressions.
+```lisp
+;; Proposed Lisp Input
+(del_ (aref _job_store uid))
+```
+```python
+# Expected Python Output
+del _job_store[uid]
+```
+
+---
+
+## 9. First-Class Class Attribute Type Annotations
+
+### Current Approach (Raw String Code Injection)
+Class variable type annotations (often required by `@dataclass` or schema definitions) are currently written as raw string literals.
+```lisp
+;; Lisp Input
+(class GenerationConfig ()
+  "prompt_text:str"
+  (setf "model:str" (string "gemini-flash-latest")))
+```
+```python
+# Emitted Python
+class GenerationConfig:
+    prompt_text: str
+    model: str = "gemini-flash-latest"
+```
+
+### Proposed Form: `typed-var` or type declarations in class
+Allow declaring typed attributes in classes natively.
+```lisp
+;; Proposed Lisp Input
+(class GenerationConfig ()
+  (typed-var prompt_text str)
+  (setf (typed-var model str) (string "gemini-flash-latest")))
+```
+```python
+# Expected Python Output
+class GenerationConfig:
+    prompt_text: str
+    model: str = "gemini-flash-latest"
+```
+
+---
+
+## 10. Yield Expressions (`yield_` / `py-yield` and `yield-from`)
+
+### Current Approach (Fallback to Function Call)
+Writing `(yield x)` falls back to function-call syntax `yield(x)`.
+```lisp
+;; Lisp Input
+(yield (dictionary :type (string "thought") :text part.text))
+```
+```python
+# Emitted Python
+yield({"type": "thought", "text": part.text})
+```
+
+### Proposed Forms: `yield_` and `yield-from`
+Support yield as a keyword/expression statement without parenthesizing its argument.
+```lisp
+;; Proposed Lisp Input
+(yield_ (dictionary :type (string "thought") :text part.text))
+(yield-from iterable)
+```
+```python
+# Expected Python Output
+yield {"type": "thought", "text": part.text}
+yield from iterable
+```
