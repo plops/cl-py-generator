@@ -20,6 +20,23 @@ We have successfully formulated the Hénon-Heiles system, integrated it using Ca
 
 ---
 
+## Astrophysical Interpretation & Significance
+
+The Hénon-Heiles system represents a landmark model for understanding **secular evolution** and **stochasticity** in real galaxies.
+
+### 1. Stability of Galactic Bars
+* **The "Skeleton" of a Bar:** In barred spiral galaxies, the structural integrity of the bar is held together by stars on stable, non-axisymmetric orbits (predominantly the $x_1$ orbit family) that stretch along the bar.
+* **Dissolving Bars:** If stars within the bar gain energy or angular momentum (due to gravitational perturbations, gas accretion, or interaction with giant molecular clouds), they cross the chaotic energy threshold. Their orbits transition from stable tori into the "chaotic sea," causing them to disperse randomly. This process can weaken or completely dissolve the galactic bar over cosmological timescales.
+
+### 2. Bulge Thickening and "Boxy/Peanut" Shapes
+* **Vertical Resonances:** Edge-on observations of disk galaxies often reveal boxy or peanut-shaped central bulges. This profile is formed by stars that undergo vertical resonance, bending their orbits out of the galactic plane.
+* **Growth of Central Masses:** When a galaxy grows a massive central bulge or a supermassive black hole (SMBH), the central potential steepens. This change disrupts regular box orbits, scattering stars into chaotic trajectories that diffuse vertically. This "chaotic heating" puffs up the galactic core, turning a thin triaxial distribution into a thick boxy/peanut bulge.
+
+### 3. Chaotic Diffusion
+* Stars on chaotic orbits undergo slow diffusion in phase space. Over billions of years, this chaotic diffusion dynamically heats the stellar disk and alters the density profiles of galactic halos, explaining the fuzzy, non-uniform structures observed in stellar envelopes.
+
+---
+
 ## Code Files
 * **Lisp Generator Code:** [gen02.lisp](gen02.lisp)
 * **Generated Python Code:** [p02_hh.py](p02_hh.py)

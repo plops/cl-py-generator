@@ -9,7 +9,9 @@
 (in-package #:g)
 
 #|
-Das Hénon-Heiles-System: Ein Meilenstein der nichtlinearen Dynamik und Galaxienbewegung
+================================================================================
+DAS HÉNON-HEILES-SYSTEM IN DER GALAXIENDYNAMIK
+================================================================================
 
 1. Historie und Entdeckung:
 Im Jahr 1964 untersuchten die Astronomen Michel Hénon und Carl Heiles die Bewegung von Sternen
@@ -21,31 +23,9 @@ in Chaos übergehen.
 
 2. Physikalischer Kontext und Dimensionsreduktion:
 Ein dreidimensionales, axialsymmetrisches galaktisches Potenzial lässt sich auf eine 2D-Bewegung
-in der Meridianebene reduzieren. Die Koordinaten (x, y) beschreiben die Bewegung des Sterns in
-dieser rotierenden Ebene, während px und py die zugehörigen Impulse (Geschwindigkeiten) darstellen.
-
-3. Warum ist die Kraft im Zentrum der Galaxie linear?
-- Taylor-Entwicklung: Um ein stabiles Minimum (das Zentrum) bei r = 0 ist die Kraft F = -\nabla V.
-  Da es sich um ein Minimum handelt, verschwindet die erste Ableitung (die Kraft am Ursprung ist 0).
-  Der erste nicht-verschwindende Term im Potenzial ist quadratisch: V(r) \approx 1/2 k r^2.
-  Die Kraft F \approx -k r ist somit linear (harmonischer Oszillator).
-- Homogener Kern: Astrophysikalisch besitzt das Galaxienzentrum oft eine nahezu konstante Dichte \rho.
-  Nach dem Newtonschen Schalentheorem wächst die eingeschlossene Masse M(r) proportional zu r^3.
-  Die Gravitationskraft F_g = -G M(r)/r^2 ist daher proportional zu -r (also linear).
-
-4. Erhaltungsgröße Energie E:
-Die Energie E ist der Wert des Hamiltonians H:
-E = T + V = 1/2 (px^2 + py^2) + 1/2 (x^2 + y^2) + \lambda (x^2 y - 1/3 y^3) = const.
-Die Bewegung ist auf den Bereich V(x, y) <= E beschränkt. Die Grenze V(x, y) = E ist die
-Nullgeschwindigkeitskurve (T = 0).
-
-5. Torus-Visualisierung:
-Der 4D-Phasenraum (x, y, px, py) wird durch H = E auf eine 3D-Energiehyperfläche reduziert.
-Wenn eine weitere Erhaltungsgröße (das dritte Integral) existiert, schrumpft der Bewegungsraum
-auf eine 2D-Fläche zusammen. Topologisch entspricht diese geschlossene Fläche einem Torus (Doughnut).
-Ein Schnitt mit der Ebene x = 0 (Poincaré-Schnitt) schneidet diesen 2D-Torus und erzeugt eine
-1D-geschlossene Kurve (einen Ring) im (y, py)-Schnitt. Bei Chaos zerfällt der Torus, und die Punkte
-verteilen sich ungeordnet.
+in der Meridianebene (r, z) reduzieren. Die Koordinaten (x, y) beschreiben die Bewegung des Sterns
+in dieser rotierenden Meridianebene, während px und py die zugehörigen Impulse (radialer und vertikaler
+Impuls in der Ebene) darstellen.
 |#
 
 (progn
@@ -62,6 +42,27 @@ verteilen sich ungeordnet.
 		    (plt matplotlib.pyplot)))
 	  )
      
+     #|
+     ==========================================================================
+     WARUM IST DIE KRAFT IM ZENTRUM DER GALAXIE LINEAR?
+     ==========================================================================
+     - Taylor-Entwicklung: Um ein stabiles Minimum (das Zentrum) bei r = 0 ist die Kraft F = -\nabla V.
+       Da es sich um ein Minimum handelt, verschwindet die erste Ableitung (die Kraft am Ursprung ist 0).
+       Der erste nicht-verschwindende Term im Potenzial ist quadratisch: V(r) \approx 1/2 k r^2.
+       Die Kraft F \approx -k r ist somit linear (harmonischer Oszillator).
+     - Homogener Kern: Astrophysikalisch besitzt das Galaxienzentrum oft eine nahezu konstante Dichte \rho.
+       Nach dem Newtonschen Schalentheorem wächst die eingeschlossene Masse M(r) proportional zu r^3.
+       Die Gravitationskraft F_g = -G M(r)/r^2 ist daher proportional zu -r (also linear).
+
+     ==========================================================================
+     DIE INTEGRATIONSMETHODE UND EVENT-DETEKTION
+     ==========================================================================
+     Wir verwenden CasADis built-in Integrator mit der CVodes-Bibliothek. Der Integrator
+     berechnet die Trajektorien über ein dichtes Zeitraster. Um die Durchgänge durch
+     die Poincaré-Schnittfläche (x = 0, px > 0) präzise zu ermitteln, führt das Skript
+     eine lineare Interpolation zwischen den Zeitschritten durch, bei denen sich das
+     Vorzeichen von x ändert.
+     |#
      (def simulate_hh (E y0_list &key (t_max 1000.0) (n_steps 100000))
        (declare (type float E)
 		(type list y0_list)
@@ -129,6 +130,17 @@ verteilen sich ungeordnet.
 		))
        (return results))
      
+     #|
+     ==========================================================================
+     SIMULATION UND VISUALISIERUNG
+     ==========================================================================
+     Wir simulieren Orbits bei zwei Energieniveaus:
+     - E_low = 0.08333 (quasi-integrabler Bereich, geordnete Bewegung)
+     - E_high = 0.15 (chaotischer Bereich nahe der Fluchtenergie E_escape = 0.1667)
+     
+     Die Nullgeschwindigkeitskurve (ZVC) wird über Matplotlib contour eingezeichnet, um
+     die energetischen Grenzen der Bewegung in der Galaxie aufzuzeigen.
+     |#
      (do0
       (setf fig_and_axs (plt.subplots 2 2 :figsize (tuple 12 10))
 	    (ntuple fig axs) fig_and_axs
@@ -188,3 +200,38 @@ verteilen sich ungeordnet.
       )
     )
    ))
+
+#|
+================================================================================
+ASTROPHYSIKALISCHE INTERPRETATION & BEDEUTUNG
+================================================================================
+
+1. Struktur des Phasenraums und Erhaltungsgrößen (Invariant Tori):
+Bei niedriger Energie (E_low) sind die Bahnen fast vollständig regulär. Die Poincaré-Schnitte zeigen
+geschlossene, glatte 1D-Kurven. Dies sind Schnitte durch zweidimensionale Tori (Invariant Tori) im
+vierdimensionalen Phasenraum. Die Existenz dieser Tori beweist das Vorhandensein eines "drittes
+Integrals der Bewegung". Für echte Galaxien bedeutet dies, dass Sterne auf solchen Orbits stabile,
+geordnete Umlaufbahnen einnehmen und ihre Bahnparameter über Jahrmilliarden nicht driften.
+
+2. Zusammenbruch der Stabilität und Übergang zu Chaos:
+Bei hoher Energie (E_high) bricht das dritte Integral für die meisten Anfangsbedingungen zusammen.
+Die Poincaré-Punkte streuen chaotisch über die Energiehyperfläche ("chaotic sea").
+Einige Inseln geordneter Bewegung ("stability islands") bleiben jedoch bestehen. Sie entsprechen
+starken Orbitalresonanzen (z.B. 1:1 oder 2:1 Resonanzen zwischen radialer und vertikaler Schwingung).
+
+3. Relevanz für reale Galaxienstrukturen:
+- Galaktische Balken (Galactic Bars): In Balkenspiralgalaxien wird die Struktur des Balkens durch
+  stabile, nicht-achsen-symmetrische Orbit-Familien (wie die x1-Orbitfamilie) gestützt, die sich
+  entlang des Balkens erstrecken. Werden Sterne durch gravitative Störungen (z. B. Vorbeiflüge anderer
+  Galaxien oder Gasakkumulation im Zentrum) energiereicher, können ihre Orbits chaotisch werden.
+  Dies führt dazu, dass sie den Balken verlassen, sich ungeordnet im Raum verteilen und der Balken
+  sich auflöst.
+- Säkulare Galaxienevolution & Verdickung von Bulges: Wenn in einer Galaxie das Zentrum an Masse gewinnt
+  (z. B. durch das Wachstum eines supermassereichen Schwarzen Lochs oder eines dichten Bulges),
+  wird das Potenzial im Zentrum steiler. Dies destabilisiert regelmäßige Bahnen (insb. Box-Orbits)
+  und streut Sterne chaotisch in die vertikale Richtung. Die Folge ist eine dynamische Aufheizung
+  der galaktischen Scheibe und die Entstehung von kasten- oder erdnussförmigen Wölbungen ("boxy/peanut bulges").
+- Chaotische Diffusion: In realen Systemen führt Chaos dazu, dass Sterne sich langsam in ihrem Orbit
+  verändern (chaotische Diffusion). Dies moduliert die Verteilung von Sternen im galaktischen Halo
+  und der Scheibe über kosmologische Zeitskalen hinweg.
+|#
