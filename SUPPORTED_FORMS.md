@@ -657,12 +657,12 @@ a ^ b
 
 ```
 
-### `(cl-py-generator::|\|| a b)`
+### `(|\|| a b)`
 Tests bitwise or operator emission.
 
 **Lisp S-Expression:**
 ```lisp
-(cl-py-generator::|\|| a b)
+(|\|| a b)
 ```
 
 **Generated Python (after formatting):**
@@ -1412,7 +1412,7 @@ Tests unary bitwise negation operator.
 
 **Generated Python (after formatting):**
 ```python
-~(x)
+~x
 
 ```
 
@@ -1843,6 +1843,115 @@ Tests looping over a sequence variable (without explicit range/function call).
 ```python
 for x in items:
     print(x)
+
+```
+
+### `(def outer (x) (def inner (y) (return (+ x y))) (return inner))`
+Tests nested function definition emission.
+
+**Lisp S-Expression:**
+```lisp
+(def outer (x) (def inner (y) (return (+ x y))) (return inner))
+```
+
+**Generated Python (after formatting):**
+```python
+def outer(x):
+    def inner(y):
+        return x + y
+
+    return inner
+
+```
+
+### `(class Outer nil (class Inner nil (def f (self) pass)))`
+Tests nested class definition emission.
+
+**Lisp S-Expression:**
+```lisp
+(class Outer nil (class Inner nil (def f (self) pass)))
+```
+
+**Generated Python (after formatting):**
+```python
+class Outer:
+    class Inner:
+        def f(self):
+            pass
+
+```
+
+### `(def foo (x &key (y (+ 1 2))) (return (* x y)))`
+Tests default parameters in function definitions with expression values.
+
+**Lisp S-Expression:**
+```lisp
+(def foo (x &key (y (+ 1 2))) (return (* x y)))
+```
+
+**Generated Python (after formatting):**
+```python
+def foo(x, y=1 + 2):
+    return x * y
+
+```
+
+### `(setf x (? c1 a (? c2 b d)))`
+Tests nested ternary operations with precedence-aware parenthesis formatting.
+
+**Lisp S-Expression:**
+```lisp
+(setf x (? c1 a (? c2 b d)))
+```
+
+**Generated Python (after formatting):**
+```python
+x = a if c1 else b if c2 else d
+
+```
+
+### `(aref arr (slice nil nil -1))`
+Tests slice with open bounds and a negative step value.
+
+**Lisp S-Expression:**
+```lisp
+(aref arr (slice nil nil -1))
+```
+
+**Generated Python (after formatting):**
+```python
+arr[::-1]
+
+```
+
+### `(tuple (not (== a b)) (not (and a b)))`
+Tests logical not precedence parenting.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (not (== a b)) (not (and a b)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    not a == b,
+    not (a and b),
+)
+
+```
+
+### `(@ a b c)`
+Tests matrix multiplication chaining with multiple operands.
+
+**Lisp S-Expression:**
+```lisp
+(@ a b c)
+```
+
+**Generated Python (after formatting):**
+```python
+a @ b @ c
 
 ```
 

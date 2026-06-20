@@ -2,8 +2,8 @@
 
 ## Context & Objectives
 You are tasked with continuing the task of identifying transpiler input language use patterns in `example/*/gen*.lisp` files that are not yet covered in [transpiler-tests.lisp](file:///home/kiel/stage/cl-py-generator/transpiler-tests.lisp).
-- Currently, examples from index 103 to 171 have been analyzed.
-- In the index 1 to 102 range, the following 15 folders were analyzed and sampled:
+- Currently, examples from index 56 to 171 have been analyzed.
+- In the index 1 to 55 range, the following folders were analyzed and sampled:
   - `example/01_plot`
   - `example/02_qt`
   - `example/03_cl`
@@ -12,14 +12,7 @@ You are tasked with continuing the task of identifying transpiler input language
   - `example/36_cadquery`
   - `example/44_zernike`
   - `example/46_opticspy`
-  - `example/56_myhdl`
-  - `example/60_py_webull`
-  - `example/68_arith`
-  - `example/74_gr_plot`
-  - `example/80_fulltext`
-  - `example/84_lte`
-  - `example/88_plotly`
-- All other folders within the **index 1 to 102** range remain **UNCHECKED**.
+- All other folders within the **index 1 to 55** range remain **UNCHECKED**.
 - **INSTRUCTION FOR NEXT AGENT**: Do not take shortcuts by scanning or skipping folders. You must systematically inspect the remaining folders index-by-index to identify unusual patterns or variant usages of existing forms (e.g., edge cases of existing DSL nodes, complex nested expressions, or combinations of arguments) that might not be adequately tested.
 - Locate 5 to 7 undocumented or untested transpiler constructs/patterns.
 

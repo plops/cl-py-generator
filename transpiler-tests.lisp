@@ -638,7 +638,7 @@ except Exception as e:
     (:name "unary-bitwise-not"
      :description "Tests unary bitwise negation operator."
      :lisp (~ x)
-     :python "~(x)"
+     :python "~x"
      :tags '(:operator :bitwise))
 
     (:name "complex-numbers"
@@ -819,7 +819,63 @@ def f3():
      :lisp (for (x items) (print x))
      :python "for x in items:
     print(x)"
-     :tags '(:control-flow))))
+     :tags '(:control-flow))
+
+    (:name "nested-function-def"
+     :description "Tests nested function definition emission."
+     :lisp (def outer (x)
+             (def inner (y)
+               (return (+ x y)))
+             (return inner))
+     :python "def outer(x):
+    def inner(y):
+        return x + y
+    return inner"
+     :tags '(:core :function))
+
+    (:name "nested-class-def"
+     :description "Tests nested class definition emission."
+     :lisp (class Outer ()
+             (class Inner ()
+               (def f (self)
+                 pass)))
+     :python "class Outer:
+    class Inner:
+        def f(self):
+            pass"
+     :tags '(:core :class))
+
+    (:name "def-key-default-expression"
+     :description "Tests default parameters in function definitions with expression values."
+     :lisp (def foo (x &key (y (+ 1 2)))
+             (return (* x y)))
+     :python "def foo(x, y=1 + 2):
+    return x * y"
+     :tags '(:core :function))
+
+    (:name "nested-ternary"
+     :description "Tests nested ternary operations with precedence-aware parenthesis formatting."
+     :lisp (setf x (? c1 a (? c2 b d)))
+     :python "x = a if c1 else b if c2 else d"
+     :tags '(:control-flow))
+
+    (:name "slice-negative-step"
+     :description "Tests slice with open bounds and a negative step value."
+     :lisp (aref arr (slice nil nil -1))
+     :python "arr[::-1]"
+     :tags '(:core :indexing))
+
+    (:name "logical-not-precedence"
+     :description "Tests logical not precedence parenting."
+     :lisp (tuple (not (== a b)) (not (and a b)))
+     :python "(not a == b, not (a and b),)"
+     :tags '(:operator :boolean))
+
+    (:name "chained-matmul"
+     :description "Tests matrix multiplication chaining with multiple operands."
+     :lisp (@ a b c)
+     :python "a @ b @ c"
+     :tags '(:operator :arithmetic))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF
