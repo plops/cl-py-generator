@@ -30,7 +30,7 @@
    := :+ :- :* :@ :== :<< :!= :< :> :<= :>= :>> :/ :** :// :%  
   
    :& :^ :logand :logxor :logior  
-   :and :or  
+   :and :or :~ :|\||  
   
    :setf :incf :decf :aref :slice :dot  
   

@@ -32,4 +32,12 @@ This file tracks the patterns found in high-numbered example files that have bee
 | Pass Statement | `pass` | `pass` | `example/02_qt/gen.lisp` |
 | Set Comprehension | `(curly (for-generator (x (range 5)) x))` | `{x for x in range(5)}` | `example/103_co2_sensor/gen01.lisp` |
 | For Loop Sequence Variable | `(for (x items) (print x))` | `for x in items:\n    print(x)` | `example/05_trellis_qt/gen00.lisp` |
+| Nested Function Definition | `(def outer (x) (def inner (y) (return (+ x y))) (return inner))` | `def outer(x):\n    def inner(y):\n        return x + y\n    return inner` | `example/56_myhdl/gen01.lisp` |
+| Nested Class Definition | `(class Outer () (class Inner () (def f (self) pass)))` | `class Outer:\n    class Inner:\n        def f(self):\n            pass` | `example/70_star_tracker/gen01.lisp` |
+| Keyword Parameter Default Expression | `(def foo (x &key (y (+ 1 2))) (return (* x y)))` | `def foo(x, y=1 + 2):\n    return x * y` | `example/87_semiconductor/gen01.lisp` |
+| Nested Ternary Operators | `(? c1 (? c2 a b) d)` | `(a if c2 else b) if c1 else d` | `py.lisp` (intrinsic operator nesting) |
+| Slice with Negative Step | `(aref arr (slice nil nil -1))` | `arr[::-1]` | `example/76_opencv_cuda/gen01.lisp` |
+| Logical Not Precedence | `(tuple (not (== a b)) (not (and a b)))` | `(not a == b, not (a and b),)` | `py.lisp` (intrinsic precedence) |
+| Chained Matrix Multiplication | `(@ a b c)` | `a @ b @ c` | `py.lisp` (intrinsic chaining) |
+
 
