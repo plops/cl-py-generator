@@ -1284,6 +1284,163 @@ Tests space emission.
 alpha beta
 ```
 
+### `(setf (aref cl-py-generator/tests::u2 0 0) cl-py-generator/tests::v)`
+Tests assigning to a specific index via aref inside setf.
+
+**Lisp S-Expression:**
+```lisp
+(setf (aref cl-py-generator/tests::u2 0 0) cl-py-generator/tests::v)
+```
+
+**Generated Python (after formatting):**
+```python
+u2[0, 0] = v
+
+```
+
+### `(cl-py-generator:def cl-py-generator/tests::simulate
+      (cl-py-generator/tests::E cl-py-generator/tests::y &key
+       (cl-py-generator/tests::t_max 1.0))
+      (declare (type float cl-py-generator/tests::E)
+               (type list cl-py-generator/tests::y)
+               (type float cl-py-generator/tests::t_max)
+               (values list))
+      (return cl-py-generator/tests::y))`
+Tests function definitions with parameter and return type declarations.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:def cl-py-generator/tests::simulate
+ (cl-py-generator/tests::E cl-py-generator/tests::y &key
+  (cl-py-generator/tests::t_max 1.0))
+ (declare (type float cl-py-generator/tests::E)
+          (type list cl-py-generator/tests::y)
+          (type float cl-py-generator/tests::t_max)
+          (values list))
+ (return cl-py-generator/tests::y))
+```
+
+**Generated Python (after formatting):**
+```python
+def simulate(E: float, y: list, t_max: float = 1.0) -> list:
+    return y
+
+```
+
+### `(space cl-py-generator/tests::async
+      (cl-py-generator:def cl-py-generator/tests::time_generator nil
+       (return 1)))`
+Tests async function definitions using space construct.
+
+**Lisp S-Expression:**
+```lisp
+(space cl-py-generator/tests::async
+ (cl-py-generator:def cl-py-generator/tests::time_generator nil (return 1)))
+```
+
+**Generated Python (after formatting):**
+```python
+async def time_generator():
+    return 1
+
+```
+
+### `(cl-py-generator:do0 (cl-py-generator/tests::@rt (string "/"))
+      (cl-py-generator:def get (cl-py-generator/tests::request) (return 1)))`
+Tests function decorators using the symbol fallback starting with @.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:do0 (cl-py-generator/tests::@rt (string "/"))
+ (cl-py-generator:def get (cl-py-generator/tests::request) (return 1)))
+```
+
+**Generated Python (after formatting):**
+```python
+@rt("/")
+def get(request):
+    return 1
+
+```
+
+### `(cl-py-generator:curly
+      (cl-py-generator:for-generator
+       ((cl-py-generator:ntuple cl-py-generator/tests::i
+         cl-py-generator/tests::s)
+        (cl-py-generator/tests::enumerate cl-py-generator/tests::chars))
+       (cl-py-generator:slice cl-py-generator/tests::s
+        (+ cl-py-generator/tests::i 1))))`
+Tests dictionary comprehension using curly, for-generator and slice.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:curly
+ (cl-py-generator:for-generator
+  ((cl-py-generator:ntuple cl-py-generator/tests::i cl-py-generator/tests::s)
+   (cl-py-generator/tests::enumerate cl-py-generator/tests::chars))
+  (cl-py-generator:slice cl-py-generator/tests::s
+   (+ cl-py-generator/tests::i 1))))
+```
+
+**Generated Python (after formatting):**
+```python
+{s: i + 1 for i, s in enumerate(chars)}
+
+```
+
+### `(list
+      (cl-py-generator:for-generator
+       (cl-py-generator/tests::r cl-py-generator/tests::responses)
+       cl-py-generator/tests::r))`
+Tests list comprehension using list and for-generator.
+
+**Lisp S-Expression:**
+```lisp
+(list
+ (cl-py-generator:for-generator
+  (cl-py-generator/tests::r cl-py-generator/tests::responses)
+  cl-py-generator/tests::r))
+```
+
+**Generated Python (after formatting):**
+```python
+[r for r in responses]
+
+```
+
+### `(cl-py-generator:try (setf cl-py-generator/tests::a 1)
+      ("Exception as e" (print cl-py-generator/tests::e)))`
+Tests try/except block using string directly for except clause.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator:try (setf cl-py-generator/tests::a 1)
+ ("Exception as e" (print cl-py-generator/tests::e)))
+```
+
+**Generated Python (after formatting):**
+```python
+try:
+    a = 1
+except Exception as e:
+    print(e)
+
+```
+
+### `(cl-py-generator/tests::func cl-py-generator/tests::**tub.input)`
+Tests keyword argument unpacking in function calls.
+
+**Lisp S-Expression:**
+```lisp
+(cl-py-generator/tests::func cl-py-generator/tests::**tub.input)
+```
+
+**Generated Python (after formatting):**
+```python
+func(**tub.input)
+
+```
+
 ### `(print (+ 5 8))`
 Verifies that the generated code for '+' executes correctly.
 
