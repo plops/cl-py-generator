@@ -33,6 +33,7 @@ Below is a complete reference of the Lisp forms supported by the transpiler and 
 ### 1. Variables & Assignments
 - Direct assignment: `(= a b)` &rarr; `a = b`
 - Multiple assignments: `(setf a 1 b 2)` &rarr; `a = 1\nb = 2`
+  - **Best Practice:** Merge consecutive variable assignments into a single `setf` block (e.g. `(setf a 1 b 2)`) rather than using multiple consecutive `(setf ...)` statements. This is cleaner and ensures correct indentation within nested blocks.
 - Increment / Decrement:
   - `(incf a 2)` &rarr; `a += 2`
   - `(decf a 3)` &rarr; `a -= 3`
@@ -191,6 +192,22 @@ All operators wrap their operands in parentheses to preserve operator precedence
   - `space`: Combines forms separated by space (e.g. `(space a b)` &rarr; `a b`).
   - `symbol`: Replaces hyphens with colons (e.g. `(symbol foo-bar)` &rarr; `foo:bar`).
   - `cell` / `export`: Prefixes the forms with Jupyter cell export comments (`# export` or `# |export`).
+
+### 8. Compile-Time Code Generation & Templating
+Since `cl-py-generator` transpiles Lisp S-Expressions at compile time, you can leverage standard Common Lisp list processing and macro/loop constructs (like `loop`, `backquote`, and comma evaluation) to avoid boilerplate.
+
+For example, instead of repeating formatting code or wrapping many strings in `(fstring ...)` manually, define a loop that evaluates at Lisp compile time to generate S-expression blocks:
+```lisp
+,@(loop for (ax title xl yl eq) in `((ax_ol "Orbits (E = {E_low})" "x" "y" t)
+                                     (ax_pl "Poincare Section x=0, px>0" "y" "py" nil))
+        collect
+        `(do0
+          ,@(when eq `((dot ,ax (set_aspect (string "equal")))))
+          (dot ,ax (set_title (fstring ,title)))
+          (dot ,ax (set_xlabel (string ,xl)))
+          (dot ,ax (set_ylabel (string ,yl)))))
+```
+This compile-time expansion generates clean, repeated S-expression logic dynamically while separating raw data from the Python S-expression templates.
 
 ---
 
