@@ -764,7 +764,62 @@ a = 1"
      :description "Tests empty dict literal and empty dictionary constructor."
      :lisp (tuple (dict) (dictionary))
      :python "({}, dict(),)"
-     :tags '(:core :collection))))
+     :tags '(:core :collection))
+
+    (:name "chained-comparison"
+     :description "Tests chained comparison operators with multiple arguments."
+     :lisp (tuple (< a b c) (<= x y z) (== d e f))
+     :python "(a < b < c, x <= y <= z, d == e == f,)"
+     :tags '(:operator :comparison))
+
+    (:name "chained-logical"
+     :description "Tests logical and/or operators with more than two arguments."
+     :lisp (tuple (and a b c) (or d e f))
+     :python "(a and b and c, d or e or f,)"
+     :tags '(:operator :boolean))
+
+    (:name "chained-bitwise"
+     :description "Tests bitwise and/xor/or operators with more than two arguments."
+     :lisp (tuple (logand a b c) (logxor x y z) (logior p q r))
+     :python "(a & b & c, x ^ y ^ z, p | q | r,)"
+     :tags '(:operator :bitwise))
+
+    (:name "return-variants"
+     :description "Tests return statement variants including empty return, single value, and multi-value returns."
+     :lisp (do0 (def f1 () (return))
+                (def f2 () (return x))
+                (def f3 () (return (ntuple x y))))
+     :python "def f1():
+    return
+
+
+def f2():
+    return x
+
+
+def f3():
+    return x, y"
+     :tags '(:core :control-flow))
+
+    (:name "pass-statement"
+     :description "Tests standalone 'pass' statement representation."
+     :lisp (def f () pass)
+     :python "def f():
+    pass"
+     :tags '(:core :control-flow))
+
+    (:name "set-comprehension"
+     :description "Tests set comprehension using curly braces and for-generator."
+     :lisp (curly (for-generator (x (range 5)) x))
+     :python "{x for x in range(5)}"
+     :tags '(:core :comprehension))
+
+    (:name "for-sequence"
+     :description "Tests looping over a sequence variable (without explicit range/function call)."
+     :lisp (for (x items) (print x))
+     :python "for x in items:
+    print(x)"
+     :tags '(:control-flow))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF
