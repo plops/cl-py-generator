@@ -24,8 +24,20 @@
 					;(pd pandas)
 			  ))
 	  )
-     (setf x (SX.sym (string "x")))
-     x)
+     ;; symbolic variables
+     (setf x (SX.sym (string "x"))     ;; scalar
+	   y (SX.sym (string "y") 5)   ;; vector
+	   z (SX.sym (string "y") 4 2) ;;matrix
+	   )
+     (setf f (+ (** x 2)
+		10)
+	   f (sqrt f))
+     ;; constants
+     (setf B1 (SX.zeros 4 5) ;; dense
+	   B2 (SX 4 5) ;; sparse
+	   B3 (SX.eye 4) ;; sparse diagonal
+	   )
+     )
    ))
 
 
