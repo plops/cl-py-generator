@@ -166,3 +166,34 @@ Im Porkchop-Diagramm ist zu erkennen, dass die Höhenlinien am unteren Rand (bei
 *   **Der Grund für den visuellen Cutoff**: 
     1.  **Plot-Grenze**: Im Diagramm ist die Y-Achse standardmäßig auf eine Untergrenze (z. B. 100 oder 80 Tage) eingestellt. Das Abschneiden ist also primär eine Darstellungsbegrenzung (Axis Limit), da Flugzeiten unter 80 Tagen astronomische Energiemengen erfordern, die technisch irrelevant sind.
     2.  **Solver-Divergenz**: Für extrem kurze Flugzeiten (z. B. < 50 Tage) divergiert das Newton-Verfahren komplett, da die benötigten Geschwindigkeiten zu extrem sind und weit außerhalb des Konvergenzradius unserer einfachen Startschätzung liegen. Diese Punkte werden im Plot als NaNs (weiße Flächen) dargestellt.
+
+---
+
+## 9. Analyse der Sonnensturm-Expositions-Indizes & Pfadunterschiede
+
+Wir haben den kumulierten **Sonnensturm-Dosis-Index** für alle 5 synodischen Fenster integriert. Dieser Index bemisst die Strahlungsdosis in "Äquivalenten Erden-Jahren" (EE-Jahren), wobei die Strahlungsintensität quadratisch mit dem Sonnenabstand abnimmt ($1/r^2$). Eine Dosis von $1.0$ entspricht der Dosis, die eine Sonde auf einer kreisförmigen Erdumlaufbahn ($r=1.0$ AU) in einem Jahr akkumuliert.
+
+### Strahlungsvergleich der 5 Minima:
+
+| Fenster | Abflugsdatum | Flugzeit ($t_{\text{tof}}$) | Delta-v | Perihel / Aphel | Strahlungsdosis |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **F1 (Suboptimal)** | 01.01.2026 | 180.8 Tage | 17.18 km/s | 1.000 / 1.544 AU | **0.272 EE-Jahre** |
+| **F2 (Optimal)** | 19.12.2027 | 155.6 Tage | 9.65 km/s | 1.000 / 1.524 AU | **0.281 EE-Jahre** |
+| **F3 (Optimal)** | 02.02.2030 | 154.9 Tage | 9.63 km/s | 1.000 / 1.524 AU | **0.283 EE-Jahre** |
+| **F4 (Optimal)** | 26.03.2032 | 155.6 Tage | 9.63 km/s | 1.000 / 1.524 AU | **0.281 EE-Jahre** |
+| **F5 (Optimal)** | 11.05.2034 | 154.9 Tage | 9.62 km/s | 1.000 / 1.524 AU | **0.283 EE-Jahre** |
+
+### Physikalische Erkenntnisse zu den Pfadunterschieden:
+
+1. **Reisezeit vs. Bahnradius**:
+   - Obwohl das **Fenster 1** am Rand des Suchbereichs liegt und mit $17.18$ km/s ein extrem hohes $\Delta v$ (suboptimaler Launch) aufweist, hat es mit **0.272 EE-Jahren** die geringste Strahlungsdosis. Dies liegt daran, dass der Pfad weiter nach außen ausweicht ($r_{\text{max}} = 1.544$ AU). Durch die größere durchschnittliche Entfernung von der Sonne ist die quadratisch abfallende Strahlung trotz der längeren Flugzeit ($180.8$ Tage) geringer.
+   - Die optimalen Fenster 2 bis 5 zeigen eine nahezu identische Dosis von $\approx 0.282$ EE-Jahren.
+
+2. **Divergierende Einflüsse bei Ausweich-Trajektorien (Type I vs. Type II)**:
+   - **Type-I-Transfers** (wie die hier berechneten Minima) fliegen auf direktem Weg zum Mars ($< 180^\circ$ Flugwinkel). Sie bleiben immer im Bereich $1.0 \le r \le 1.524$ AU.
+   - Würde man sich für eine schnellere Flugbahn entscheiden (z. B. $t_{\text{tof}} < 100$ Tage), verkürzt sich zwar die Dauer, aber die Bahn muss flacher werden, wodurch sie ggf. ins Innere der Erdbahn einschneidet ($r < 1.0$ AU). Da die Sonnensturm-Dosis mit $1/r^2$ skaliert, führt bereits ein geringfügiges Absinken des Perihels (z. B. auf $0.8$ AU) zu einer drastisch erhöhten Strahlungsintensität ($1.56$-fache Dosisleistung).
+   - Bei **Type-II-Transfers** ($> 180^\circ$ Flugwinkel) fliegt die Sonde eine längere Bahn. Dies erhöht die Aufenthaltsdauer im interplanetaren Raum und damit die akkumulierte Strahlung massiv, selbst wenn die Sonde weiter außen fliegt.
+
+### Visualisierung der Pfade:
+
+Die 5 interplanetaren Trajektorien bilden im heliozentrischen Koordinatensystem ein symmetrisches, blütenförmiges Muster (siehe den rechten Subplot in [porkchop_cpp.png](file:///home/kiel/stage/cl-py-generator/example/171_casadi/cpp_10/porkchop_cpp.png)). Jede Kurve repräsentiert die optimale Bahn für ein synodisches Fenster. Die farbigen Kreise zeigen den Abflugort der Erde und die Dreiecke den Ankunftsort am Mars. Da die Planetenbahnen im Modell als kreisförmig angenommen werden, sind die Trajektorien geometrisch kongruent, aber aufgrund des Phasenwinkels der Planeten zueinander gedreht.

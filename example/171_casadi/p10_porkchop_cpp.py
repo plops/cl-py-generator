@@ -88,11 +88,11 @@ lambert_eval = Function(
 # ========================================================================
 # C++ CODEGEN EXPORT & VERSCHIEBUNG NACH 'cpp_10'
 # ========================================================================
-os.makedirs("cpp_10", exist_ok=True)
+file_dir = os.path.dirname(os.path.abspath(__file__))
+target_dir = os.path.join(file_dir, "cpp_10")
+os.makedirs(target_dir, exist_ok=True)
 opts = {("cpp"): (True), ("with_header"): (True)}
 lambert_eval.generate("lambert_solver.cpp", opts)
-shutil.move("lambert_solver.cpp", "cpp_10/lambert_solver.cpp")
-shutil.move("lambert_solver.h", "cpp_10/lambert_solver.h")
-print(
-    "C++-Code erfolgreich exportiert nach cpp_10/lambert_solver.cpp und cpp_10/lambert_solver.h"
-)
+shutil.move("lambert_solver.cpp", os.path.join(target_dir, "lambert_solver.cpp"))
+shutil.move("lambert_solver.h", os.path.join(target_dir, "lambert_solver.h"))
+print("C++-Code erfolgreich exportiert")
