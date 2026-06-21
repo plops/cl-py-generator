@@ -37,6 +37,14 @@ Below is a complete reference of the Lisp forms supported by the transpiler and 
 - Increment / Decrement:
   - `(incf a 2)` &rarr; `a += 2`
   - `(decf a 3)` &rarr; `a -= 3`
+- **Global Declarations**:
+  - Do **NOT** write `(global x)` as it transpiles to a function-like call `global(x)` in Python, which is a `SyntaxError`.
+  - Use the `space` keyword instead: `(space global x)` &rarr; `global x`.
+  - For multiple global variables, write them as separate statements to keep the Lisp code clean and avoid comma generation issues:
+    ```lisp
+    (space global var1)
+    (space global var2)
+    ```
 
 ### 2. Basic Operators
 All operators wrap their operands in parentheses to preserve operator precedence.
@@ -208,6 +216,56 @@ For example, instead of repeating formatting code or wrapping many strings in `(
           (dot ,ax (set_ylabel (string ,yl)))))
 ```
 This compile-time expansion generates clean, repeated S-expression logic dynamically while separating raw data from the Python S-expression templates.
+
+#### Custom Helper Functions & S-Expression Builders
+Instead of manually typing nested backquotes (\`) and commas (,) everywhere in your generator code, you can define helper functions in Lisp to wrap repetitive patterns. 
+
+Using `destructuring-bind` with keyword parameters on a single list argument is a powerful way to simulate **named arguments (keyword arguments)** inside forms, without cluttering the syntax with backquotes/commas at the call site.
+
+Here is an example demonstrating:
+1. `sym` & `sym1`: Helper functions to generate CasADi symbolic variable declarations with automatic dimension naming.
+2. `fun`: An S-Expression builder that accepts keyword arguments inside a single list parameter.
+
+##### Lisp Helper Definition:
+```lisp
+;; Generiert: (SX.sym "name" n1 n2 ...)
+(defun sym (name vals)
+  `(SX.sym (string ,name) ,@vals))
+
+;; Generiert: (SX.sym "name" "nname")
+(defun sym1 (name)
+  (sym name (list (format nil "n~a" name))))
+
+;; Generiert: (Function "name" [args] [vals])
+;; destructuring-bind &key auf einer Liste ermoeglicht saubere named arguments
+(defun fun (name-args-vals)
+  (destructuring-bind (&key name args vals) name-args-vals
+    `(Function (string ,name)
+               (list ,@args)
+               (list ,@vals))))
+```
+
+##### Usage in Lisp Generator Code:
+```lisp
+(write-source "p05_rootfinder"
+  `(do0
+     ;; Die Helfer werten zu reinen S-Expressions aus
+     (setf z ,(sym1 "z")       ; Generiert: z = SX.sym('z', 'nz')
+           x ,(sym1 "x")       ; Generiert: x = SX.sym('x', 'nx')
+           g0 (sin (+ x z))
+           g1 (cos (- x z))
+           
+           ;; fun nutzt named arguments in einer flachen Liste
+           g ,(fun `(:name g :args (z x) :vals (g0 g1))))))
+```
+
+This keeps the Lisp code highly readable, modular, and easy to maintain.
+
+##### Templating Warning: Comma-Evaluation inside Backquotes (`,`)
+When using custom Lisp helper functions or S-expression builders inside a backquoted template (such as the one passed to `write-source`), remember that:
+1. **Forms are NOT evaluated automatically** inside a backquote. Writing `(my-helper args)` inside ` `(do0 (my-helper args))` will result in the transpiler emitting a Python function call: `my_helper(args)`.
+2. **Use Comma-Evaluation**: To force Lisp to evaluate your helper function at compile time and merge its output into the S-expression tree, you must prefix it with a comma:
+   `,(my-helper args)`
 
 ---
 
