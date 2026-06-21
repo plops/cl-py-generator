@@ -49,3 +49,33 @@ Wenn der Controller zukünftige Störungen (z. B. ein vorausliegendes Straßenpr
 ## 6. Sprache und Struktur
 *   **Deutsche Kommentare**: Wenn nicht anders spezifiziert, sind ausführliche deutsche Kommentare im Lisp-Quellcode und im generierten Python-Skript zu verwenden.
 *   **Modulstruktur**: Hilfsfunktionen in Lisp zur Codegenerierung (z. B. S-Expression-Generatoren) müssen eigene Docstrings besitzen, die deren Funktionsweise erklären.
+
+---
+
+## 7. CasADi Schleifen-Äquivalente (For-Loop Equivalents)
+*   **Vermeidung von ausgefalteten Schleifen**: Um die symbolische Graphgröße auf $O(1)$ oder $O(\log N)$ zu reduzieren, sollten für wiederholte Funktionsaufrufe CasADi-Kontrollflussäquivalente anstelle von Host-Schleifen verwendet werden.
+*   **`.map(N)`**: Zu verwenden für das parallele Abbilden unabhängiger Berechnungen (z. B. Zustandskosten und Dynamik-Residuen beim Multiple Shooting).
+*   **`.mapaccum(N)`**: Zu verwenden für rekursive Berechnungen (Akkumulation), bei denen das Ergebnis eines Zeitschritts als Zustandseingang für den nächsten dient (z. B. Open-Loop-Simulationen).
+*   **Ausführliche Erklärungen**: Wo `.map()` oder `.mapaccum()` eingeführt werden, müssen detaillierte deutsche Kommentare den Zweck und die Funktionsweise für den Leser erläutern.
+
+---
+
+## 8. Abkürzungen und Fachbegriffe
+*   **Begriffserklärung**: Kurze Fachbegriffe und mathematische Abkürzungen wie z. B. **QP** dürfen nicht unkommentiert verwendet werden. Schreiben Sie immer die vollständige Bedeutung in Klammern dahinter: z. B. *QP (Quadratische Programmierung / Quadratic Programming)*.
+
+---
+
+## 9. MPC-Horizon-Visualisierung und Vorhersagen
+*   **Visualisierung der Vorschau**: Um das vorausschauende Verhalten der modellprädiktiven Regelung (MPC) zu demonstrieren, sollen zusätzlich zu den vollen Trajektorien auch die vorhergesagten Bahnen (Prediction Horizons) für charakteristische Zeitschritte geplottet werden.
+*   **Typische Messpunkte**: Visualisieren Sie die geplante Trajektorie über den Horizont $N$:
+    1. *Vor der Störung*: Zum Nachweis der Vorausschau (Look-Ahead).
+    2. *Während der Störung*: Zum Nachweis des Reglereingriffs und von Begrenzungseffekten.
+    3. *Nach der Störung*: Zum Nachweis der Stabilisierung von Nachschwingungen.
+*   **Physikalische Diskussion**: Die vorhergesagten Verläufe müssen im Code direkt nach der Plot-Erzeugung in einem Kommentar-Block physikalisch interpretiert und diskutiert werden.
+
+---
+
+## 10. Repository-Hygiene
+*   **Keine Plots einchecken**: Generierte Ergebnis-Grafiken (`.png`) dürfen nicht in Git eingecheckt werden.
+*   **Lokales `.gitignore`**: Jedes Beispielverzeichnis muss ein lokales `.gitignore` enthalten, das `*.png` (und gegebenenfalls temporäre C-Code-Generierungen) ignoriert.
+
