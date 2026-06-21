@@ -81,3 +81,51 @@ Die C++20 Parallel-STL Implementierung wurde auf zwei unterschiedlichen Systemen
     *   `user`: `1m14.638s`
     *   `sys`: `0m0.055s`
 *   **Effizienz**: Nahezu $1.9$-fache CPU-Auslastung bei 2 Kernen.
+
+---
+
+## 5. Physikalische Bedeutung des Delta-v für 200 kg Payload
+
+Die Raketengleichung von Ziolkowski beschreibt den Zusammenhang zwischen dem benötigten $\Delta v$, der Triebwerkseffizienz ($I_{sp}$) und der Masse:
+
+$$m_0 = m_f \cdot e^{\frac{\Delta v}{I_{sp} \cdot g_0}}$$
+
+### Beispielberechnung für eine Mars-Sonde:
+*   **Nutzlast (Payload)**: $200$ kg.
+*   **Trockenmasse der Sonde** (Struktur, Avionik, Solarpanels): $150$ kg.
+*   **Endmasse beim Mars-Einschuss ($m_f$)**: $350$ kg.
+*   **Spezifischer Impuls ($I_{sp}$)** (Standard-Zweistoff-Triebwerk im Vakuum): $320$ s (entspricht $I_{sp} \cdot g_0 \approx 3.14$ km/s Ausströmgeschwindigkeit).
+
+Wir berechnen die benötigte Startmasse ($m_0$) in der Erdumlaufbahn für verschiedene $\Delta v$-Werte:
+
+| Szenario | Benötigtes $\Delta v$ | Startmasse in LEO ($m_0$) | Treibstoffmasse ($m_{\text{prop}}$) | Erläuterung |
+| :--- | :--- | :--- | :--- | :--- |
+| **Hohmann-Fenster (Optimum)** | **$6.0$ km/s** | **$2.362$ kg** | **$2.012$ kg** | Leicht zu starten, passt auf eine kleine Trägerrakete (z. B. Electron/Falcon 9 Rideshare). |
+| **Abweichung (Suboptimal)** | **$10.0$ km/s** | **$8.435$ kg** | **$8.085$ kg** | Startmasse vervierfacht sich! Benötigt eine mittlere bis schwere Trägerrakete. |
+| **Ungünstiges Startdatum** | **$15.0$ km/s** | **$41.580$ kg** | **$41.230$ kg** | Nahezu unmöglich. Benötigt eine Schwerlastrakete (z. B. Falcon Heavy / Ariane 6) für dieselbe winzige 200-kg-Nutzlast. |
+
+> [!IMPORTANT]
+> Da das $\Delta v$ exponentiell in die Startmasse einfließt, entscheidet das Porkchop-Diagramm direkt darüber, ob eine Mission physikalisch und finanziell überhaupt durchführbar ist.
+
+---
+
+## 6. Diskussion zur Optimierung des Suchbereichs (Gitter vs. Pruning)
+
+Kann man den Suchraum eingrenzen (z. B. nur entlang bekannter Linien suchen) oder besteht die Gefahr, Minima zu übersehen?
+
+### Physikalische Plausibilität & Glattheit des Suchraums
+Die Bahndynamik im Sonnensystem ist stetig und stetig differenzierbar. Delta-v-Landschaften sind glatt und bilden Täler (Hohmann-Täler). 
+Ja, man kann lokal die Gradienten nutzen, um Linien zu folgen (wie in der Continuation-Methode aus `gen04`).
+
+### Die Gefahr lokaler Minima (Warum Gitter-Suchen notwendig sind)
+Ein radikales Abschneiden des Suchraums birgt die große Gefahr, alternative, physikalisch vorteilhafte Minima zu übersehen:
+*   **Transfer-Typen**: Es gibt **Typ-I** (Transitwinkel $< 180^{\circ}$) und **Typ-II** (Transitwinkel $> 180^{\circ}$) Transfers, die völlig separate Täler im Porkchop-Plot bilden.
+*   **Multi-Revolutionen**: Bei längeren Flugzeiten existieren Minima, bei denen die Sonde die Sonne mehrfach umkreist, bevor sie den Mars trifft.
+*   **Broken-Plane-Manöver**: Durch Hinzufügen einer Bahnkorrektur außerhalb der Ekliptik können sich neue Minima an Stellen auftun, die im klassischen 2-Impuls-Modell blockiert sind.
+
+> [!WARNING]
+> Eine rein lokale Suche in der Nähe eines bekannten Minimums findet niemals diese anderen, oft günstigeren Trajektorienklassen. Daher ist die vollständige Gitterberechnung (Grid Search) unerlässlich für das Missionsdesign.
+
+### Ursache der Konvergenzfehler (Weiße Bereiche)
+Die weißen Bereiche im Plot entstehen nicht, weil dort keine physikalische Trajektorie existiert, sondern weil das lokale Newton-Verfahren ausgehend von der naiven Startschätzung (`1.1 * Erdgeschwindigkeit`) in Regionen starker Nichtlinearität divergiert.
+*   *Lösung zur Behebung*: Einbau eines analytischen Lambert-Approximators (z. B. Izzo-Algorithmus) zur Generierung einer präzisen Startschätzung für jeden Gitterpunkt. Damit konvergiert das Verfahren für 100% aller Punkte.
