@@ -2,28 +2,49 @@ from __future__ import annotations
 from casadi import *
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.linalg import expm
 
 # ========================================================================
-# ACTIVE SUSPENSION CONTROL USING LINEAR MODEL PREDICTIVE CONTROL (MPC)
+# AKTIVE FAHRWERKSREGELUNG MITTELS MODELLPRÄDIKTIVER REGELUNG (MPC)
 # ========================================================================
-# Topic: Quarter-Car Active Suspension System Model Predictive Control
+# Thema: Aktive Fahrwerksregelung fuer ein Viertelfahrzeug-Modell (Quarter-Car)
 #
-# Why it is interesting:
-# Active suspension systems improve ride comfort (reducing passenger
-# chassis acceleration) and road holding (maintaining tire contact) by dynamically
-# adjusting actuator forces between the chassis and wheel assembly.
-# It represents a classic engineering trade-off: comfort vs. handling.
+# Modellbeschreibung:
+# Es handelt sich hierbei um ein Viertelfahrzeug-Modell (Quarter-Car Model).
+# Dieses Modell repraesentiert genau ein Rad und die dazugehoerige Ecke der
+# Karosserie. Es wird die Annahme getroffen, dass die Dynamik der vier Ecken
+# des Fahrzeugs voneinander entkoppelt ist. Dies ist eine Standardannahme
+# in der Fahrwerkstechnik fuer den Entwurf von Dämpferregelungen.
 #
-# Why QP is advantageous here:
-# 1. Hard Physical Constraints: Actuators have force limits (saturation),
-#    and the suspension has physical travel limits (stroke bounds).
-#    Linear controllers (like LQR or PID) cannot handle these constraints
-#    optimally and safely.
-# 2. Predictive Action: By solving a Quadratic Program at each step,
-#    the controller 'looks ahead' at future road disturbances (if known or
-#    estimated) and pre-emptively adjusts the suspension force.
-# 3. Speed: A QP solver is extremely fast and guarantees finding the global
-#    optimum, making real-time execution in vehicle hardware feasible.
+# Zustandsdefinitionen des Vektors x = [x1, x2, x3, x4]^T:
+#   x1: zs - zu  -> Einfederweg der Karosserie relativ zum Rad (m).
+#                   Grenze: +/- 0.08 m (Aufhaengungsanschlag).
+#   x2: dot_zs   -> Vertikalgeschwindigkeit der gefederten Masse (Chassis) (m/s).
+#   x3: zu - zr  -> Einfederweg des Reifens relativ zur Strasse (m).
+#                   Reifeneinfederung ist proportional zur Radlast.
+#   x4: dot_zu   -> Vertikalgeschwindigkeit der ungefederten Masse (Rad) (m/s).
+#
+# Eingangsdefinitionen:
+#   u:  Aktive Kraft des Dämpfer-Aktuators (N). Grenze: +/- 1500 N.
+#   vr: Strassengeschwindigkeitsstoerung dot_zr (m/s) (Differentieller Strasseneinfluss).
+#
+# Vorschau der Strassenstoerung (Look-Ahead Preview):
+# Modellpraediktive Regelung (MPC) erlaubt es, zukuenftige Strassenstoerungen
+# im Voraus zu beruecksichtigen. In einem realen Fahrzeug wird dieses
+# Strassenprofil durch LiDAR-Sensoren oder Kameras vor dem Fahrzeug erfasst,
+# die die Fahrbahn abtasten. In dieser Simulation simulieren wir diese
+# Vorschau (Look-Ahead), indem wir das Strassenprofil ueber den gesamten
+# Vorhersagehorizont an den Controller uebergeben (Perfect Preview).
+#
+# Vorteil des QP-Lösers (Quadratic Programming):
+# 1. Einhaltung von Grenzen: Der Stellweg des Daempfers (+/- 8cm) und die
+#    maximale Aktuatorkraft (+/- 1500N) werden als harte Grenzen
+#    beruecksichtigt. LQR- oder PID-Regler koennen diese nicht garantieren.
+# 2. Praediktion: Der Regler reagiert bereits *bevor* die Schwelle erreicht
+#    wird, um die Beschleunigung weich zu daempfen.
+# 3. Numerische Stabilitaet: Wir verwenden die exakte Matrix-Exponential-
+#    Diskretisierung (expm) anstelle der expliziten Euler-Methode, um
+#    Instabilitaeten bei der schnellen Raddynamik zu vermeiden.
 # ========================================================================
 ms = 3.0e2
 mu = 4.0e1
@@ -32,6 +53,12 @@ cs = 1.0e3
 kt = 1.5e5
 dt = 1.0e-2
 N = 30
+# --- Physikalische Systemmatrizen (Kontinuierlich) ---
+# Die Matrizen A_np, B_np und G_np definieren das kontinuierliche System:
+# dot_x = A_c * x + B_c * u + G_c * vr
+# Da der Reifen sehr steif ist (hohe Eigenfrequenz), fuehrt eine einfache
+# Euler-Diskretisierung zu numerischer Instabilitaet. Daher diskretisieren
+# wir das System exakt mit dem Matrix-Exponential (ZOH-Diskretisierung).
 A_np = np.array(
     [
         [0.0, 1.0, 0.0, -1.0],
@@ -42,10 +69,35 @@ A_np = np.array(
 )
 B_np = np.array([0.0, 1.0 / ms, 0.0, -1.0 / mu])
 G_np = np.array([0.0, 0.0, -1.0, 0.0])
-A = DM(A_np)
-B = DM(B_np)
-G = DM(G_np)
-# --- MPC Weights ---
+# --- Exakte ZOH-Diskretisierung via Matrix-Exponential ---
+# Wir erstellen ein erweitertes System M, um A_d, B_d und G_d gleichzeitig exakt zu loesen.
+M = np.zeros(
+    (
+        6,
+        6,
+    )
+)
+M[0:4, 0:4] = A_np
+M[0:4, 4] = B_np
+M[0:4, 5] = G_np
+M_disc = expm(M * dt)
+A_d_np = M_disc[0:4, 0:4]
+B_d_np = M_disc[0:4, 4]
+G_d_np = M_disc[0:4, 5]
+A = DM(A_d_np)
+B = DM(B_d_np)
+G = DM(G_d_np)
+# --- MPC Gewichtungsfaktoren ---
+# q1: Strafe fuer Auslenkung der Aufhaengung (Einheit: 1/m^2).
+#     Verhindert das Durchschlagen auf den Endanschlag (Stroke Limit).
+# q2: Strafe fuer die vertikale Geschwindigkeit des Chassis (Einheit: 1/(m/s)^2).
+#     Dies ist das primaere Mass fuer den Fahrkomfort (Reduktion von Aufbaubeschleunigungen).
+# q3: Strafe fuer die Reifenauslenkung (Einheit: 1/m^2).
+#     Stellt den Strassenkontakt und damit die Fahrsicherheit sicher.
+# q4: Strafe fuer die Radgeschwindigkeit (Einheit: 1/(m/s)^2).
+#     Daempft schnelle Radbewegungen.
+# r:  Strafe fuer die Stellkraft des aktiven Daempfers (Einheit: 1/N^2).
+#     Begrenzt den Energieaufwand des Aktuators.
 q1 = 1.0e5
 q2 = 5.0e3
 q3 = 1.0e5
@@ -55,7 +107,7 @@ q1_N = 1.0e1 * q1
 q2_N = 1.0e1 * q2
 q3_N = 1.0e1 * q3
 q4_N = 1.0e1 * q4
-# --- Symbolic QP formulation ---
+# --- Symbolische QP-Formulierung in CasADi ---
 X = [
     SX.sym("x_0", 4),
     SX.sym("x_1", 4),
@@ -134,7 +186,7 @@ f = (
     + q4 * ((X[0][3]) ** 2)
     + r * ((U[0]) ** 2)
 )
-g.append((X[1]) - (X[0] + dt * (A @ X[0] + B @ U[0] + G * V_r[0])))
+g.append((X[1]) - (A @ X[0] + B @ U[0] + G * V_r[0]))
 f = (
     f
     + q1 * ((X[1][0]) ** 2)
@@ -143,7 +195,7 @@ f = (
     + q4 * ((X[1][3]) ** 2)
     + r * ((U[1]) ** 2)
 )
-g.append((X[2]) - (X[1] + dt * (A @ X[1] + B @ U[1] + G * V_r[1])))
+g.append((X[2]) - (A @ X[1] + B @ U[1] + G * V_r[1]))
 f = (
     f
     + q1 * ((X[2][0]) ** 2)
@@ -152,7 +204,7 @@ f = (
     + q4 * ((X[2][3]) ** 2)
     + r * ((U[2]) ** 2)
 )
-g.append((X[3]) - (X[2] + dt * (A @ X[2] + B @ U[2] + G * V_r[2])))
+g.append((X[3]) - (A @ X[2] + B @ U[2] + G * V_r[2]))
 f = (
     f
     + q1 * ((X[3][0]) ** 2)
@@ -161,7 +213,7 @@ f = (
     + q4 * ((X[3][3]) ** 2)
     + r * ((U[3]) ** 2)
 )
-g.append((X[4]) - (X[3] + dt * (A @ X[3] + B @ U[3] + G * V_r[3])))
+g.append((X[4]) - (A @ X[3] + B @ U[3] + G * V_r[3]))
 f = (
     f
     + q1 * ((X[4][0]) ** 2)
@@ -170,7 +222,7 @@ f = (
     + q4 * ((X[4][3]) ** 2)
     + r * ((U[4]) ** 2)
 )
-g.append((X[5]) - (X[4] + dt * (A @ X[4] + B @ U[4] + G * V_r[4])))
+g.append((X[5]) - (A @ X[4] + B @ U[4] + G * V_r[4]))
 f = (
     f
     + q1 * ((X[5][0]) ** 2)
@@ -179,7 +231,7 @@ f = (
     + q4 * ((X[5][3]) ** 2)
     + r * ((U[5]) ** 2)
 )
-g.append((X[6]) - (X[5] + dt * (A @ X[5] + B @ U[5] + G * V_r[5])))
+g.append((X[6]) - (A @ X[5] + B @ U[5] + G * V_r[5]))
 f = (
     f
     + q1 * ((X[6][0]) ** 2)
@@ -188,7 +240,7 @@ f = (
     + q4 * ((X[6][3]) ** 2)
     + r * ((U[6]) ** 2)
 )
-g.append((X[7]) - (X[6] + dt * (A @ X[6] + B @ U[6] + G * V_r[6])))
+g.append((X[7]) - (A @ X[6] + B @ U[6] + G * V_r[6]))
 f = (
     f
     + q1 * ((X[7][0]) ** 2)
@@ -197,7 +249,7 @@ f = (
     + q4 * ((X[7][3]) ** 2)
     + r * ((U[7]) ** 2)
 )
-g.append((X[8]) - (X[7] + dt * (A @ X[7] + B @ U[7] + G * V_r[7])))
+g.append((X[8]) - (A @ X[7] + B @ U[7] + G * V_r[7]))
 f = (
     f
     + q1 * ((X[8][0]) ** 2)
@@ -206,7 +258,7 @@ f = (
     + q4 * ((X[8][3]) ** 2)
     + r * ((U[8]) ** 2)
 )
-g.append((X[9]) - (X[8] + dt * (A @ X[8] + B @ U[8] + G * V_r[8])))
+g.append((X[9]) - (A @ X[8] + B @ U[8] + G * V_r[8]))
 f = (
     f
     + q1 * ((X[9][0]) ** 2)
@@ -215,7 +267,7 @@ f = (
     + q4 * ((X[9][3]) ** 2)
     + r * ((U[9]) ** 2)
 )
-g.append((X[10]) - (X[9] + dt * (A @ X[9] + B @ U[9] + G * V_r[9])))
+g.append((X[10]) - (A @ X[9] + B @ U[9] + G * V_r[9]))
 f = (
     f
     + q1 * ((X[10][0]) ** 2)
@@ -224,7 +276,7 @@ f = (
     + q4 * ((X[10][3]) ** 2)
     + r * ((U[10]) ** 2)
 )
-g.append((X[11]) - (X[10] + dt * (A @ X[10] + B @ U[10] + G * V_r[10])))
+g.append((X[11]) - (A @ X[10] + B @ U[10] + G * V_r[10]))
 f = (
     f
     + q1 * ((X[11][0]) ** 2)
@@ -233,7 +285,7 @@ f = (
     + q4 * ((X[11][3]) ** 2)
     + r * ((U[11]) ** 2)
 )
-g.append((X[12]) - (X[11] + dt * (A @ X[11] + B @ U[11] + G * V_r[11])))
+g.append((X[12]) - (A @ X[11] + B @ U[11] + G * V_r[11]))
 f = (
     f
     + q1 * ((X[12][0]) ** 2)
@@ -242,7 +294,7 @@ f = (
     + q4 * ((X[12][3]) ** 2)
     + r * ((U[12]) ** 2)
 )
-g.append((X[13]) - (X[12] + dt * (A @ X[12] + B @ U[12] + G * V_r[12])))
+g.append((X[13]) - (A @ X[12] + B @ U[12] + G * V_r[12]))
 f = (
     f
     + q1 * ((X[13][0]) ** 2)
@@ -251,7 +303,7 @@ f = (
     + q4 * ((X[13][3]) ** 2)
     + r * ((U[13]) ** 2)
 )
-g.append((X[14]) - (X[13] + dt * (A @ X[13] + B @ U[13] + G * V_r[13])))
+g.append((X[14]) - (A @ X[13] + B @ U[13] + G * V_r[13]))
 f = (
     f
     + q1 * ((X[14][0]) ** 2)
@@ -260,7 +312,7 @@ f = (
     + q4 * ((X[14][3]) ** 2)
     + r * ((U[14]) ** 2)
 )
-g.append((X[15]) - (X[14] + dt * (A @ X[14] + B @ U[14] + G * V_r[14])))
+g.append((X[15]) - (A @ X[14] + B @ U[14] + G * V_r[14]))
 f = (
     f
     + q1 * ((X[15][0]) ** 2)
@@ -269,7 +321,7 @@ f = (
     + q4 * ((X[15][3]) ** 2)
     + r * ((U[15]) ** 2)
 )
-g.append((X[16]) - (X[15] + dt * (A @ X[15] + B @ U[15] + G * V_r[15])))
+g.append((X[16]) - (A @ X[15] + B @ U[15] + G * V_r[15]))
 f = (
     f
     + q1 * ((X[16][0]) ** 2)
@@ -278,7 +330,7 @@ f = (
     + q4 * ((X[16][3]) ** 2)
     + r * ((U[16]) ** 2)
 )
-g.append((X[17]) - (X[16] + dt * (A @ X[16] + B @ U[16] + G * V_r[16])))
+g.append((X[17]) - (A @ X[16] + B @ U[16] + G * V_r[16]))
 f = (
     f
     + q1 * ((X[17][0]) ** 2)
@@ -287,7 +339,7 @@ f = (
     + q4 * ((X[17][3]) ** 2)
     + r * ((U[17]) ** 2)
 )
-g.append((X[18]) - (X[17] + dt * (A @ X[17] + B @ U[17] + G * V_r[17])))
+g.append((X[18]) - (A @ X[17] + B @ U[17] + G * V_r[17]))
 f = (
     f
     + q1 * ((X[18][0]) ** 2)
@@ -296,7 +348,7 @@ f = (
     + q4 * ((X[18][3]) ** 2)
     + r * ((U[18]) ** 2)
 )
-g.append((X[19]) - (X[18] + dt * (A @ X[18] + B @ U[18] + G * V_r[18])))
+g.append((X[19]) - (A @ X[18] + B @ U[18] + G * V_r[18]))
 f = (
     f
     + q1 * ((X[19][0]) ** 2)
@@ -305,7 +357,7 @@ f = (
     + q4 * ((X[19][3]) ** 2)
     + r * ((U[19]) ** 2)
 )
-g.append((X[20]) - (X[19] + dt * (A @ X[19] + B @ U[19] + G * V_r[19])))
+g.append((X[20]) - (A @ X[19] + B @ U[19] + G * V_r[19]))
 f = (
     f
     + q1 * ((X[20][0]) ** 2)
@@ -314,7 +366,7 @@ f = (
     + q4 * ((X[20][3]) ** 2)
     + r * ((U[20]) ** 2)
 )
-g.append((X[21]) - (X[20] + dt * (A @ X[20] + B @ U[20] + G * V_r[20])))
+g.append((X[21]) - (A @ X[20] + B @ U[20] + G * V_r[20]))
 f = (
     f
     + q1 * ((X[21][0]) ** 2)
@@ -323,7 +375,7 @@ f = (
     + q4 * ((X[21][3]) ** 2)
     + r * ((U[21]) ** 2)
 )
-g.append((X[22]) - (X[21] + dt * (A @ X[21] + B @ U[21] + G * V_r[21])))
+g.append((X[22]) - (A @ X[21] + B @ U[21] + G * V_r[21]))
 f = (
     f
     + q1 * ((X[22][0]) ** 2)
@@ -332,7 +384,7 @@ f = (
     + q4 * ((X[22][3]) ** 2)
     + r * ((U[22]) ** 2)
 )
-g.append((X[23]) - (X[22] + dt * (A @ X[22] + B @ U[22] + G * V_r[22])))
+g.append((X[23]) - (A @ X[22] + B @ U[22] + G * V_r[22]))
 f = (
     f
     + q1 * ((X[23][0]) ** 2)
@@ -341,7 +393,7 @@ f = (
     + q4 * ((X[23][3]) ** 2)
     + r * ((U[23]) ** 2)
 )
-g.append((X[24]) - (X[23] + dt * (A @ X[23] + B @ U[23] + G * V_r[23])))
+g.append((X[24]) - (A @ X[23] + B @ U[23] + G * V_r[23]))
 f = (
     f
     + q1 * ((X[24][0]) ** 2)
@@ -350,7 +402,7 @@ f = (
     + q4 * ((X[24][3]) ** 2)
     + r * ((U[24]) ** 2)
 )
-g.append((X[25]) - (X[24] + dt * (A @ X[24] + B @ U[24] + G * V_r[24])))
+g.append((X[25]) - (A @ X[24] + B @ U[24] + G * V_r[24]))
 f = (
     f
     + q1 * ((X[25][0]) ** 2)
@@ -359,7 +411,7 @@ f = (
     + q4 * ((X[25][3]) ** 2)
     + r * ((U[25]) ** 2)
 )
-g.append((X[26]) - (X[25] + dt * (A @ X[25] + B @ U[25] + G * V_r[25])))
+g.append((X[26]) - (A @ X[25] + B @ U[25] + G * V_r[25]))
 f = (
     f
     + q1 * ((X[26][0]) ** 2)
@@ -368,7 +420,7 @@ f = (
     + q4 * ((X[26][3]) ** 2)
     + r * ((U[26]) ** 2)
 )
-g.append((X[27]) - (X[26] + dt * (A @ X[26] + B @ U[26] + G * V_r[26])))
+g.append((X[27]) - (A @ X[26] + B @ U[26] + G * V_r[26]))
 f = (
     f
     + q1 * ((X[27][0]) ** 2)
@@ -377,7 +429,7 @@ f = (
     + q4 * ((X[27][3]) ** 2)
     + r * ((U[27]) ** 2)
 )
-g.append((X[28]) - (X[27] + dt * (A @ X[27] + B @ U[27] + G * V_r[27])))
+g.append((X[28]) - (A @ X[27] + B @ U[27] + G * V_r[27]))
 f = (
     f
     + q1 * ((X[28][0]) ** 2)
@@ -386,7 +438,7 @@ f = (
     + q4 * ((X[28][3]) ** 2)
     + r * ((U[28]) ** 2)
 )
-g.append((X[29]) - (X[28] + dt * (A @ X[28] + B @ U[28] + G * V_r[28])))
+g.append((X[29]) - (A @ X[28] + B @ U[28] + G * V_r[28]))
 f = (
     f
     + q1 * ((X[29][0]) ** 2)
@@ -395,7 +447,7 @@ f = (
     + q4 * ((X[29][3]) ** 2)
     + r * ((U[29]) ** 2)
 )
-g.append((X[30]) - (X[29] + dt * (A @ X[29] + B @ U[29] + G * V_r[29])))
+g.append((X[30]) - (A @ X[29] + B @ U[29] + G * V_r[29]))
 f = (
     f
     + q1_N * ((X[N][0]) ** 2)
@@ -406,11 +458,11 @@ f = (
 g.insert(0, (X[0]) - x_init)
 qp = {("x"): (vertcat(*(X + U))), ("p"): (p), ("f"): (f), ("g"): (vertcat(*g))}
 S = qpsol("S", "qpoases", qp, {("printLevel"): ("none")})
-# --- Simulation Setup ---
+# --- Simulations-Setup ---
 sim_time = 3.0
 N_steps = int(sim_time / dt)
 t_vec = np.linspace(0.0, sim_time, N_steps)
-# Create road profile (a 5cm high bump at t = 0.5s to 0.7s)
+# Definition des Strassenprofils: Eine 5cm hohe Bodenschwelle von t=0.5s bis t=0.7s
 z_r_vec = np.zeros(N_steps)
 v_r_vec = np.zeros(N_steps)
 for j in range(N_steps):
@@ -425,7 +477,7 @@ for j in range(N_steps):
     else:
         z_r_vec[j] = 0.0
         v_r_vec[j] = 0.0
-# Initialize histories for Active (MPC) and Passive suspension systems
+# Initialisierung der Messhistorie fuer das aktive (MPC) und das passive Fahrwerk
 x_hist_mpc = np.zeros(
     (
         4,
@@ -441,7 +493,14 @@ x_hist_passive = np.zeros(
 )
 x_curr = np.array([0.0, 0.0, 0.0, 0.0])
 x_curr_passive = np.array([0.0, 0.0, 0.0, 0.0])
-# Define bounds for optimization variables
+# --- Erklaerung der Solver-Parameter ---
+# lbx / ubx: Untere und obere Grenzen fuer die Optimierungsvariablen.
+#            Diese enthalten die zulaessigen Zustaende (z.B. Federweg) und Stellkraefte.
+# lbg / ubg: Grenzen fuer Nebenbedingungen. Da dies Gleichheitsnebenbedingungen
+#            (Systemdynamik und Anfangszustand) sind, sind lbg/ubg beide 0.
+# x0_guess:  Startschätzung fuer die Entscheidungsvariablen des Solvers.
+# p_val:     Parameterwerte fuer die Optimierung (aktueller Zustand x_0 und
+#            Strassenstoerungs-Vorschau V_r fuer den Horizont).
 lb_state = np.array([-8.0e-2, -1.0e1, -5.0e-2, -2.0e1])
 ub_state = np.array([8.0e-2, 1.0e1, 5.0e-2, 2.0e1])
 lb_input = np.array([-1.5e3])
@@ -461,7 +520,7 @@ ubx = np.concatenate(
 lbg = np.zeros(4 * (N + 1))
 ubg = np.zeros(4 * (N + 1))
 x0_guess = np.zeros(4 * (N + 1) + N)
-# Simulation Loop
+# Simulations-Hauptschleife
 for j in range(N_steps - 1):
     x_hist_mpc[:, j] = x_curr
     x_hist_passive[:, j] = x_curr_passive
@@ -482,11 +541,11 @@ for j in range(N_steps - 1):
     x_opt = sol["x"]
     u_opt = float(x_opt[4 * (N + 1)])
     u_hist_mpc[j] = u_opt
-    x_curr = x_curr + dt * (A_np @ x_curr + B_np * u_opt + G_np * v_r_vec[j])
-    x_curr_passive = x_curr_passive + dt * (A_np @ x_curr_passive + G_np * v_r_vec[j])
+    x_curr = A_d_np @ x_curr + B_d_np * u_opt + G_d_np * v_r_vec[j]
+    x_curr_passive = A_d_np @ x_curr_passive + G_d_np * v_r_vec[j]
 x_hist_mpc[:, -1] = x_curr
 x_hist_passive[:, -1] = x_curr_passive
-# --- Post-processing and Reconstruction of Physical Quantities ---
+# --- Nachbereitung und Rekonstruktion physikalischer Messgroessen ---
 acc_mpc = (
     (-ks / ms) * x_hist_mpc[0]
     + (-cs / ms) * ((x_hist_mpc[1]) - (x_hist_mpc[3]))
