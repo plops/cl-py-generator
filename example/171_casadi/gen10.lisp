@@ -128,14 +128,16 @@
      (comments "========================================================================"
 	       "C++ CODEGEN EXPORT & VERSCHIEBUNG NACH 'cpp_10'"
 	       "========================================================================")
-     (dot os (makedirs (string "cpp_10") :exist_ok True))
+     (setf file_dir (dot os path (dirname (os.path.abspath __file__)))
+           target_dir (dot os path (join file_dir (string "cpp_10"))))
+     (dot os (makedirs target_dir :exist_ok True))
 
      (setf opts (dict ((string "cpp") True)
 		      ((string "with_header") True)))
      
      (dot lambert_eval (generate (string "lambert_solver.cpp") opts))
      
-     (dot shutil (move (string "lambert_solver.cpp") (string "cpp_10/lambert_solver.cpp")))
-     (dot shutil (move (string "lambert_solver.h") (string "cpp_10/lambert_solver.h")))
-     (print (string "C++-Code erfolgreich exportiert nach cpp_10/lambert_solver.cpp und cpp_10/lambert_solver.h"))
+     (dot shutil (move (string "lambert_solver.cpp") (dot os path (join target_dir (string "lambert_solver.cpp")))))
+     (dot shutil (move (string "lambert_solver.h") (dot os path (join target_dir (string "lambert_solver.h")))))
+     (print (string "C++-Code erfolgreich exportiert"))
      )))
