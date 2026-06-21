@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260608 AS portage
+FROM gentoo/portage:20260619 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260608 AS base
+FROM gentoo/stage3:nomultilib-20260616 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -25,11 +25,30 @@ COPY config/env /etc/portage/env
 # Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-ENV KVER_PURE=6.18.34
+ENV KVER_PURE=6.18.36
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
 RUN df -h
+# Recreate the gentoo-sources-6.18.36 ebuild
+RUN cat <<'EOF' > /var/db/repos/gentoo/sys-kernel/gentoo-sources/gentoo-sources-6.18.36.ebuild
+EAPI="8"
+ETYPE="sources"
+K_WANT_GENPATCHES="base extras experimental"
+K_GENPATCHES_VER="42"
+
+inherit kernel-2
+detect_version
+detect_arch
+
+DESCRIPTION="Full sources including the Gentoo patchset for the ${KV_MAJOR}.${KV_MINOR} kernel tree"
+HOMEPAGE="https://dev.gentoo.org/~alicef/genpatches"
+SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI}"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86"
+IUSE="experimental"
+EOF
+RUN ebuild /var/db/repos/gentoo/sys-kernel/gentoo-sources/gentoo-sources-6.18.36.ebuild manifest
+
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
