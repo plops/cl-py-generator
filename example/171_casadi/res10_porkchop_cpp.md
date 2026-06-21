@@ -57,3 +57,27 @@ Um die maximale Leistung ohne OpenMP zu erzielen, haben wir zwei C++20-Konzepte 
     }
     ```
 *   **Vorteil**: **100% plattformunabhängig und ohne Abhängigkeiten**. Läuft out-of-the-box ohne `libtbb-dev` oder root-Rechte zur Installation. Die Performance ist identisch zur Parallel-STL, da die Last gleichmäßig verteilt wird.
+
+---
+
+## 4. Performance-Messungen und Vergleich
+
+Die C++20 Parallel-STL Implementierung wurde auf zwei unterschiedlichen Systemen für $250.000$ Trajektorien ($500 \times 500$ Gitter) evaluiert:
+
+### System A: Laptop (16 logische Kerne)
+*   **Kommando**: `time ./porkchop_sim`
+*   **Simulationszeit**: $6395.86$ ms ($6.4$ Sekunden)
+*   **Ressourcenauslastung**:
+    *   `real`: `0m6.430s`
+    *   `user`: `1m41.441s`
+    *   `sys`: `0m0.037s`
+*   **Effizienz**: Hervorragende Thread-Skalierung ($\approx 15.8$-fache CPU-Auslastung bei 16 Kernen).
+
+### System B: Virtual Private Server (VPS, 2 logische Kerne)
+*   **Kommando**: `time ./porkchop_sim`
+*   **Simulationszeit**: $39318.2$ ms ($39.3$ Sekunden)
+*   **Ressourcenauslastung**:
+    *   `real`: `0m39.343s`
+    *   `user`: `1m14.638s`
+    *   `sys`: `0m0.055s`
+*   **Effizienz**: Nahezu $1.9$-fache CPU-Auslastung bei 2 Kernen.
