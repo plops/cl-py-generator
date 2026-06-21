@@ -1,6 +1,6 @@
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
 # Global plot styling
 plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
@@ -11,20 +11,48 @@ plt.rcParams.update({
     'grid.color': '#eeeeee'
 })
 
-print("Lese CSV-Daten...")
-df = pd.read_csv("porkchop_cpp.csv")
+print("Lese CSV-Daten ohne Pandas...")
+t_dep_list = []
+tof_days_list = []
+dv_tot_list = []
 
-print("Erstelle Grid via Pivot...")
-pivot_df = df.pivot(index="tof_days", columns="t_dep", values="dv_tot")
+# CSV einlesen
+with open("porkchop_cpp.csv", "r") as f:
+    reader = csv.reader(f)
+    next(reader)  # Header überspringen
+    for row in reader:
+        if row:
+            t_dep_list.append(float(row[0]))
+            tof_days_list.append(float(row[1]))
+            dv_tot_list.append(float(row[2]))
 
-X = pivot_df.columns.values
-Y = pivot_df.index.values
-Z = pivot_df.values
+t_dep = np.array(t_dep_list)
+tof_days = np.array(tof_days_list)
+dv_tot = np.array(dv_tot_list)
 
-# Finde das Minimum
-min_idx = df["dv_tot"].idxmin()
-min_row = df.loc[min_idx]
-print(f"Globales Minimum gefunden bei Delta-v = {min_row['dv_tot']:.2f} km/s (t_dep={min_row['t_dep']:.3f}, tof={min_row['tof_days']:.1f} Tage)")
+# Finden der eindeutigen sortierten Achsenbeschriftungen für das Gitter
+X = np.unique(t_dep)
+Y = np.unique(tof_days)
+
+# 2D-Gitter mit NaNs vorbelegen
+Z = np.full((len(Y), len(X)), np.nan)
+
+# Zuordnungstabellen für schnellen Index-Lookup
+x_map = {val: idx for idx, val in enumerate(X)}
+y_map = {val: idx for idx, val in enumerate(Y)}
+
+# Werte in das 2D-Gitter einsortieren
+for t, tof, dv in zip(t_dep, tof_days, dv_tot):
+    ix = x_map[t]
+    iy = y_map[tof]
+    Z[iy, ix] = dv
+
+# Globales Minimum finden
+min_idx = np.argmin(dv_tot)
+min_t = t_dep[min_idx]
+min_tof = tof_days[min_idx]
+min_dv = dv_tot[min_idx]
+print(f"Globales Minimum gefunden bei Delta-v = {min_dv:.2f} km/s (t_dep={min_t:.3f}, tof={min_tof:.1f} Tage)")
 
 # Plot erstellen
 fig, ax = plt.subplots(1, 1, figsize=(11, 8))
@@ -44,13 +72,13 @@ cbar = fig.colorbar(contourf, ax=ax)
 cbar.set_label("Gesamt-$\\Delta v$ [km/s]", fontsize=12)
 
 # Minimum eintragen
-ax.plot(min_row["t_dep"], min_row["tof_days"],
+ax.plot(min_t, min_tof,
         marker="*", color="gold", markersize=16,
         markeredgecolor="black", markeredgewidth=1.2, zorder=10)
 
-ax.annotate(f"$\\Delta v_{{min}}$ = {min_row['dv_tot']:.2f} km/s\n(Hohmann)",
-            xy=(min_row["t_dep"], min_row["tof_days"]),
-            xytext=(min_row["t_dep"] + 0.1, min_row["tof_days"] + 20),
+ax.annotate(f"$\\Delta v_{{min}}$ = {min_dv:.2f} km/s\n(Hohmann)",
+            xy=(min_t, min_tof),
+            xytext=(min_t + 0.1, min_tof + 20),
             fontsize=10, fontweight="bold",
             arrowprops=dict(arrowstyle="->", color="black", lw=1.2))
 
