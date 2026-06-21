@@ -97,12 +97,12 @@ int main() {
 
     std::vector<double> t_dep_grid(N_dep);
     for (int i = 0; i < N_dep; ++i) {
-        t_dep_grid[i] = 0.0 + i * (2.5 - 0.0) / (N_dep - 1);
+        t_dep_grid[i] = 0.0 + i * (10.0 - 0.0) / (N_dep - 1); // 10 Jahre Suchbereich
     }
 
     std::vector<double> tof_days_grid(N_tof);
     for (int j = 0; j < N_tof; ++j) {
-        tof_days_grid[j] = 100.0 + j * (450.0 - 100.0) / (N_tof - 1);
+        tof_days_grid[j] = 80.0 + j * (450.0 - 80.0) / (N_tof - 1); // Flugzeiten ab 80 Tagen
     }
 
     // Gitterpunkte für STL parallel algorithm flach strukturieren

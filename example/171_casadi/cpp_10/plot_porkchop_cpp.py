@@ -65,7 +65,7 @@ print(f"  Abflugsdatum: {min_date.strftime('%Y-%m-%d')} (t_dep={min_t:.3f} Jahre
 print(f"  Flugzeit:     {min_tof:.1f} Tage")
 
 # Plot erstellen
-fig, ax = plt.subplots(1, 1, figsize=(12, 8))
+fig, ax = plt.subplots(1, 1, figsize=(14, 8))
 
 # 1. Vollständige Heatmap aller berechneten Punkte zeichnen
 im = ax.pcolormesh(X_dates, Y, Z, cmap="RdYlGn_r", shading="auto", vmin=5.5, vmax=25.0)
@@ -76,7 +76,6 @@ cbar.set_label("Gesamt-$\\Delta v$ [km/s]", fontsize=12)
 
 # 2. Ausgewählte schwarze Höhenlinien für markante Werte drüberlegen
 levels = [6.0, 7.0, 8.0, 10.0, 12.0, 15.0, 20.0, 25.0]
-# Um die Konturlinien über Dates zu zeichnen, übergeben wir X_dates an contour
 contour = ax.contour(X_dates, Y, Z, levels=levels, colors="black", linewidths=0.6, alpha=0.8)
 ax.clabel(contour, inline=True, fmt="%.1f", fontsize=8, colors="black")
 
@@ -87,26 +86,26 @@ ax.plot(min_date, min_tof,
 
 ax.annotate(f"$\\Delta v_{{min}}$ = {min_dv:.2f} km/s\n({min_date.strftime('%d.%m.%Y')})",
             xy=(min_date, min_tof),
-            xytext=(min_date + datetime.timedelta(days=45), min_tof + 30),
+            xytext=(min_date + datetime.timedelta(days=150), min_tof + 30),
             fontsize=10, fontweight="bold",
             arrowprops=dict(arrowstyle="->", color="black", lw=1.2))
 
-# Datumsachsenformatierung
-ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3))  # Beschriftung alle 3 Monate
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))  # Format: Jan 2026
-fig.autofmt_xdate()  # Schräge Datumsbeschriftung für bessere Lesbarkeit
+# Datumsachsenformatierung für 10 Jahre (Ticks alle 12 Monate)
+ax.xaxis.set_major_locator(mdates.YearLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+fig.autofmt_xdate()
 
 # Achsenbeschriftung und Titel
 ax.set_xlabel("Abflugsdatum", fontsize=12)
 ax.set_ylabel("Flugzeit [Tage]", fontsize=12)
-ax.set_title("Erde -> Mars Porkchop-Diagramm (Missionsfenster ab 2026)\n(Berechnet in C++ auf mehreren CPU-Kernen)", 
+ax.set_title("Erde -> Mars Porkchop-Diagramm (10-Jahres-Missionsfenster ab 2026)\n(Berechnet in C++ auf mehreren CPU-Kernen)", 
              fontsize=14, fontweight="bold")
 
 # Grenzen der Datumsachse festlegen
 date_min = start_epoch
-date_max = start_epoch + datetime.timedelta(days=2.5 * 365.25)
+date_max = start_epoch + datetime.timedelta(days=10.0 * 365.25)
 ax.set_xlim(date_min, date_max)
-ax.set_ylim(100, 450)
+ax.set_ylim(80, 450)
 
 plt.tight_layout()
 output_png = "porkchop_cpp.png"
