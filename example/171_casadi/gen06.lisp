@@ -19,103 +19,134 @@
      (do0 (imports-from (__future__ annotations))
 	  (imports ((ca casadi)
 		    (np numpy)
-		    (plt matplotlib.pyplot))))
+		    (plt matplotlib.pyplot)
+		    (time time))))
 
      (comments "========================================================================"
 	       "2-STUFIGER DIODEN-GEKLEMMTER KONDENSATORFILTER (DAE-SYSTEM)"
 	       "========================================================================"
 	       ""
-	       "1. BESCHREIBUNG DER SCHALTUNG & VERWENDUNGSZWECK:"
-	       "   Diese Schaltung repraesentiert einen zweistufigen passiven Tiefpassfilter,"
-	       "   bei dem jeder Kondensatorstufe eine Diode parallel geschaltet ist."
-	       "   Die Dioden dienen als Spannungsbegrenzer (Clamping-Dioden)."
+	       "1. BESCHREIBUNG DER SCHALTUNG & TOPOLOGIE:"
+	       "   Diese Schaltung ist ein zweistufiger passiver Tiefpassfilter."
+	       "   An jedem Kondensatorknoten liegt eine Halbleiterdiode nach Masse."
 	       "   Die Schaltung wird von einer konstanten Ladestromquelle I_in gespeist."
 	       ""
-	       "   Anwendungsbereiche:"
-	       "   - Signalbegrenzung (Cipping/Limiting) in HF- und Mischsignalschaltungen,"
-	       "     um empfindliche nachfolgende Stufen vor Ueberspannungen zu schuetzen."
-	       "   - Spitzenwertdetektoren (Peak Detector) und Huellkurvendetektoren."
-	       "   - Ueberspannungsschutz- und Gleichrichterschaltungen."
+	       "   Dieselbe Grundtopologie (RC + Diode) dient je nach Beschaltung"
+	       "   unterschiedlichen Zwecken:"
 	       ""
-	       "2. VOR- UND NACHTEILE DER SCHALTUNG:"
+	       "   (a) Signalbegrenzung (Clipping/Clamping):"
+	       "       Die Dioden sind PARALLEL zu einer Signalleitung geschaltet."
+	       "       Sobald die Spannung am Knoten die Dioden-Schwellspannung erreicht,"
+	       "       leitet die Diode und klemmt die Spannung. Die Ausgangsspannung"
+	       "       am SELBEN Knoten wird so begrenzt. Anwendung: Schutz empfindlicher"
+	       "       HF-Eingaenge oder ADC-Vorstufen vor Ueberspannungsspitzen."
+	       ""
+	       "   (b) Spitzenwertdetektor (Peak Detector):"
+	       "       Die Diode ist IN SERIE zum Signalpfad geschaltet (Kathode zum"
+	       "       Kondensator). Der Kondensator laedt sich ueber die Diode bis zum"
+	       "       Spitzenwert auf und haelt ihn, weil die Diode den Rueckfluss sperrt."
+	       "       Die Ausgangsspannung wird AM KONDENSATOR abgegriffen."
+	       "       Anwendung: Huellkurvendemodulatoren, AGC-Regelschleifen."
+	       ""
+	       "   In unserem Modell verwenden wir die parallele Beschaltung (Fall a)."
+	       "   Die Dioden sind PARALLEL zu den Kondensatoren nach Masse geschaltet."
+	       ""
+	       "2. VOR- UND NACHTEILE:"
 	       "   Vorteile:"
 	       "   - Einfaches, rein passives Design mit sehr wenigen Bauelementen."
-	       "   - Sehr schnelle Reaktionszeit (Klemmung) durch das passive Diodenverhalten."
-	       "   - Effektive Begrenzung von Spannungsspitzen."
+	       "   - Sehr schnelle Reaktion (Klemmung beginnt sofort bei Ueberspannung)."
+	       "   - Keine Versorgungsspannung noetig."
 	       "   Nachteile:"
-	       "   - Starke Abhaengigkeit von Diodeneigenschaften (Schnittspannung, Sättigungsstrom),"
-	       "     die stark temperaturabhaengig sind."
-	       "   - Verlustleistung ueber die Dioden."
-	       "   - Schwer manuell abzustimmen wegen der exponentiellen Nichtlinearitaeten."
+	       "   - Starke Abhaengigkeit von Diodeneigenschaften (Sperrstrom Is,"
+	       "     Temperaturspannung Vt), die stark temperaturabhaengig sind."
+	       "   - Verlustleistung ueber die Dioden (Waermeentwicklung)."
+	       "   - Die exponentiellen Nichtlinearitaeten machen eine analytische"
+	       "     Dimensionierung der Kapazitaeten praktisch unmoeglich."
 	       ""
 	       "3. RELEVANZ FUER ELEKTRONIKINGENIEURE & ZIELSETZUNG:"
-	       "   Fuer das Design solcher Schaltungen ist die korrekte Dimensionierung"
-	       "   der Kapazitaeten C1 und C2 entscheidend, um Spannungsziele bei bestimmten"
-	       "   Zeitkonstanten einzuhalten. Hier nutzen wir die Sensitivitaetsanalyse und"
-	       "   die DAE-beschraenkte Optimierung (IPOPT mit CasADi IDAS), um die Kapazitaeten"
-	       "   automatisch so zu optimieren, dass die Ausgangsspannung V_C2 am Ende eines"
-	       "   Zeitraums maximiert wird, waehrend das gesamte Kapazitaetsbudget beschraenkt ist."
+	       "   Bei der Dimensionierung dieser Schaltung stellt sich die Frage:"
+	       "   'Wie muss ich die Kapazitaeten C1 und C2 aufteilen, wenn mir ein"
+	       "    festes Gesamtkapazitaetsbudget (z.B. C1+C2 = 2F) zur Verfuegung"
+	       "    steht, um ein bestimmtes Ziel am Ausgang zu erreichen?'"
+	       ""
+	       "   Diese Frage beantworten wir mithilfe von CasADi (symbolisches DAE)."
+	       "   Wir vergleichen hier ZWEI moegliche Entwicklungsziele (Optima):"
+	       "   1. Spannungs-Maximierung: Wenn nur ein Spannungspegel triggern soll"
+	       "      (z.B. CMOS-Logikgatter, hochohmiger Eingang)."
+	       "   2. Energie-Maximierung: Wenn die Schaltung danach eine Last treiben"
+	       "      soll oder die Energie geerntet wird (Energy Harvesting). Hier"
+	       "      nuetzt eine hohe Spannung nichts, wenn die Kapazitaet C2 zu winzig"
+	       "      ist, um relevante Ladungsmengen bereitzustellen."
 	       ""
 	       "4. SCHALTPLAN (ASCII-ART):"
 	       ""
 	       "                   Knoten 1           Knoten 2"
 	       "   I_in              V_C1               V_C2"
-	       "    o-------+-----------o------[ R ]-------o-----------o (Ausgang V_out)"
+	       "    o-------+-----------o------[ R ]-------o-----------o (Ausgang)"
 	       "            |           |                  |"
+	       "            |        ---+---            ---+---"
+	       "          [I_in]     | C1  |            | C2  |"
+	       "            |        ---+---            ---+---"
 	       "            |           |                  |"
-	       "          [I_in]      [ C1 ]             [ C2 ]"
+	       "            |         D1|                D2|"
+	       "            |          /|                 /|"
+	       "            |         / |                / |"
+	       "            |        v  |               v  |"
 	       "            |           |                  |"
-	       "            |         + | -              + | -"
-	       "            |         ( | )              ( | )"
-	       "            |           |                  |"
-	       "            |       D1  |              D2  |"
-	       "            |          / \\                / \\ "
-	       "            |         / v \\              / v \\"
-	       "            |         -----              -----"
-	       "            |           |                  |"
-	       "            |           |                  |"
-	       "   ---------+-----------+------------------+----------- GND"
+	       "   ---------+-----------+------------------+--------- GND"
 	       ""
-	       "5. ERGEBNISSE DIESES PROJEKTS (ZUSAMMENFASSUNG):"
-	       "   - DAE-Modellierung: Formulierung eines Widerstands-Kondensator-Dioden-Netzwerks"
-	       "     in symbolischen CasADi-Ausdruecken mit 2 differenziellen Zustaenden (Spannungen),"
-	       "     2 algebraischen Zustaenden (Diodenstroemen) und 3 Parametern."
-	       "   - Integrator-Erstellung: Initialisierung von Einschritt- und Zeitgitter-Lösern"
-	       "     ueber die CasADi 'integrator'-Schnittstelle mit dem IDAS-Plugin."
-	       "   - Sensitivitaetsanalyse: Symbolisches Einwickeln des DAE-Lösers zur Berechnung"
-	       "     von Gradienten (1. Ordnung) und praezise Kreuzvalidierung der Hessian-Matrizen"
-	       "     (2. Ordnung) mittels Adjoint-over-Adjoint (AOA) und Forward-over-Adjoint (FOA)."
-	       "   - DAE-Optimierung: Erfolgreiches Auffinden der optimalen Kapazitaetsaufteilung"
-	       "     (C1 = 1.9F, C2 = 0.1F), um die Ausgangsspannung V_C2 zu maximieren."
+	       "   Stromfluss an Knoten 1 (KCL): I_in = I_C1 + I_R + I_D1"
+	       "     I_C1 = C1 * dV_C1/dt"
+	       "     I_R  = (V_C1 - V_C2)/R"
+	       "     I_D1 = Is1*(exp(V_C1/Vt1) - 1)"
+	       ""
+	       "   Stromfluss an Knoten 2 (KCL): I_R = I_C2 + I_D2"
+	       "     I_C2 = C2 * dV_C2/dt"
+	       "     I_D2 = Is2*(exp(V_C2/Vt2) - 1)"
+	       ""
+	       "5. BEOBACHTUNGEN UND INTERPRETATION DER ERGEBNISSE:"
+	       "   - Verlustleistung (Panel 3):"
+	       "     Die Dioden sollen Ueberspannungen ableiten. In einem schlecht"
+	       "     dimensionierten (nominalen) Filter oeffnen sie zu frueh, und"
+	       "     massiv viel Leistung (P = V * I) wird als Waerme verbrannt."
+	       "     Das belastet die Quelle und kann die Dioden zerstoeren."
+	       "     Die optimierten Designs lenken den Strom in die Kondensatoren"
+	       "     und minimieren so den thermischen Verlust (Flaeche unter der Kurve)."
+	       "   - Optima-Lage (Panel 5 & 6):"
+	       "     Spannungs-Optimum (Panel 5): Liegt am aeussersten physikalischen Rand"
+	       "     (C2=0.1F). Ein winziges C2 ist immer schneller voll. Es gibt hier keinen"
+	       "     Sweet Spot im Inneren."
+	       "     Energie-Optimum (Panel 6): Energie (E = 0.5*C2*V_C2^2) erfordert einen"
+	       "     Kompromiss. Ein zu kleines C2 speichert keine Energie, ein zu grosses"
+	       "     C2 erreicht keine Spannung. Hier liegt das Optimum tief im Inneren"
+	       "     des Parameterraums! Dies ist ein klassischer Sweet Spot."
 	       "========================================================================")
 
-     ;; Symbolische Variablen fuer CasADi definieren
-     (setf x (ca.SX.sym (string "x") 2) ; Differenzielle Zustaende (Knotenspannungen in Volt)
-	   z (ca.SX.sym (string "z") 2) ; Algebraische Zustaende (Diodenstroeme in Ampere)
-	   p (ca.SX.sym (string "p") 3)) ; Systemparameter (Eingangsstrom, Kapazitaeten)
+     (comments "========================================================================"
+	       "SYMBOLISCHE DAE-DEFINITION"
+	       "========================================================================")
+     (setf x (ca.SX.sym (string "x") 2)
+	   z (ca.SX.sym (string "z") 2)
+	   p (ca.SX.sym (string "p") 3))
 
-     ;; Zustaende und Parameter fuer bessere Lesbarkeit entpacken
-     (setf V_C1 (aref x 0) ; Spannung am Kondensator 1 (in Volt)
-	   V_C2 (aref x 1) ; Spannung am Kondensator 2 (in Volt)
-	   I_D1 (aref z 0) ; Strom durch Diode 1 (in Ampere)
-	   I_D2 (aref z 1) ; Strom durch Diode 2 (in Ampere)
-	   I_in (aref p 0) ; Eingangsladestrom (in Ampere)
-	   C1   (aref p 1) ; Kapazitaet von Kondensator 1 (in Farad)
-	   C2   (aref p 2)) ; Kapazitaet von Kondensator 2 (in Farad)
+     (setf V_C1 (aref x 0)
+	   V_C2 (aref x 1)
+	   I_D1 (aref z 0)
+	   I_D2 (aref z 1)
+	   I_in (aref p 0)
+	   C1   (aref p 1)
+	   C2   (aref p 2))
 
-     ;; Dioden- und Bauelementkonstanten festlegen
-     (setf R 2.0   ; Kopplungswiderstand zwischen den Stufen (in Ohm)
-	   Is1 0.1 ; Sättigungsstrom der Diode 1 (in Ampere)
-	   Is2 0.1 ; Sättigungsstrom der Diode 2 (in Ampere)
-	   Vt1 0.5 ; Temperaturspannung der Diode 1 (in Volt, steuert die Kennlinie)
-	   Vt2 0.5) ; Temperaturspannung der Diode 2 (in Volt, steuert die Kennlinie)
+     (setf R 2.0
+	   Is1 0.1
+	   Is2 0.1
+	   Vt1 0.5
+	   Vt2 0.5)
 
-     ;; DAE-Gleichungen aufstellen (Ladungsbilanz und algebraische Nebenbedingungen)
-     ;; ode: Ableitungen der Zustandsspannungen (Knotengleichungen nach KCL dividiert durch C)
      (setf ode (ca.vertcat (/ (- I_in I_D1 (/ (- V_C1 V_C2) R)) C1)
-			   (/ (- (/ (- V_C1 V_C2) R) I_D2) C2))
-	   ;; alg: Algebraische Gleichungen (Shockley-Dioden-Nichtlinearitaeten)
-	   alg (ca.vertcat (- I_D1 (* Is1 (- (ca.exp (/ V_C1 Vt1)) 1.0)))
+			   (/ (- (/ (- V_C1 V_C2) R) I_D2) C2)))
+
+     (setf alg (ca.vertcat (- I_D1 (* Is1 (- (ca.exp (/ V_C1 Vt1)) 1.0)))
 			   (- I_D2 (* Is2 (- (ca.exp (/ V_C2 Vt2)) 1.0)))))
 
      (setf dae (dict ((string "x") x)
@@ -124,165 +155,246 @@
 		     ((string "ode") ode)
 		     ((string "alg") alg)))
 
-     ;; Zeitraster fuer die Simulation definieren
-     (setf t0 0.0 ; Startzeitpunkt der Integration (in Sekunden)
-	   t_grid (np.linspace 0.0 1.0 100)) ; Diskretisiertes Gitter von 0.0 bis 1.0 Sekunden mit 100 Schritten
-
-     (comments "Integratoren unter Verwendung des 'idas'-Plugins definieren"
-	       "F_tf   - Integriert bis zur Endzeit tf=1.0 (optimiert fuer NLP/Hessian)"
-	       "F_grid - Integriert auf dem gesamten t_grid (fuer Trajektorien und Sensitivitaetsverlaeufe)")
+     (setf t0 0.0
+	   t_grid (np.linspace 0.0 1.0 100))
      (setf F_tf (ca.integrator (string "F_tf") (string "idas") dae 0.0 1.0)
 	   F_grid (ca.integrator (string "F_grid") (string "idas") dae t0 t_grid))
 
      (comments "========================================================================"
-	       "SYMBOLIC SENSITIVITY WRAPPERS"
-	       "========================================================================"
-	       "Wir wickeln die DAE-Integration in eine Standard-CasADi-Funktion ein,"
-	       "um analytische Ableitungen durch den Solver-Block zu ermoeglichen.")
+	       "SENSITIVITAETSANALYSE: GRADIENT UND HESSIAN"
+	       "========================================================================")
      (setf res_tf (F_tf :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p)
 	   V_C2_tf (aref (aref res_tf (string "xf")) 1))
 
-     (comments "Gradient (Sensitivitaet 1. Ordnung) von V_C2(t_f) bzgl. der Parameter [I_in, C1, C2]")
      (setf grad_V_C2 (dot (ca.jacobian V_C2_tf p) T))
 
-     (comments "Hessian (Sensitivitaet 2. Ordnung) von V_C2(t_f) bzgl. der Parameter")
-     (comments "Modus 1: Adjoint-over-Adjoint (AOA) - Rueckwaerts-ueber-Adjungierte")
      (setf (ntuple H_aoa g_aoa) (ca.hessian V_C2_tf p))
      (setf f_aoa (ca.Function (string "f_aoa") (list p) (list H_aoa g_aoa)))
 
-     (comments "Modus 2: Forward-over-Adjoint (FOA) - Vorwaerts-Ableitung des adjungierten Gradienten")
      (setf H_foa (ca.jacobian grad_V_C2 p))
      (setf f_foa (ca.Function (string "f_foa") (list p) (list H_foa)))
 
-     (comments "========================================================================"
-	       "NOMINALE SENSITIVITAETSANALYSE"
-	       "========================================================================")
      (setf p_nom (list 2.0 1.0 1.0))
-     (setf (ntuple H_aoa_val g_aoa_val) (f_aoa p_nom)
-	   H_foa_val (f_foa p_nom))
+     (setf t_start (time.time))
+     (setf (ntuple H_aoa_val g_aoa_val) (f_aoa p_nom))
+     (setf t_aoa (- (time.time) t_start))
 
-     (print (string "--- Nominal Parameter Sensitivity (p = [I_in=2.0, C1=1.0, C2=1.0]) ---"))
-     (print (fstring "Gradient (AOA):\\n{g_aoa_val}"))
-     (print (fstring "Hessian (AOA):\\n{H_aoa_val}"))
-     (print (fstring "Hessian (FOA):\\n{H_foa_val}"))
-     (print (fstring "Hessian agreement check (max absolute difference): {np.max(np.abs(np.array(H_aoa_val) - np.array(H_foa_val)))}"))
+     (setf t_start (time.time))
+     (setf H_foa_val (f_foa p_nom))
+     (setf t_foa (- (time.time) t_start))
 
-     (comments "========================================================================"
-	       "DAE-BESCHRAENKTE PARAMETEROPTIMIERUNG"
-	       "========================================================================"
-	       "Maximierung der Ausgangsspannung V_C2(t_f) unter der Randbedingung"
-	       "der Gesamtkapazitaet C1 + C2 = 2.0 F, bei festem Ladestrom I_in = 2.0 A.")
-     (setf opti (ca.Opti)
-	   p_var (opti.variable 3))
-
-     (opti.subject_to (== (aref p_var 0) 2.0))
-     (opti.subject_to (== (+ (aref p_var 1) (aref p_var 2)) 2.0))
-     (opti.subject_to (>= (aref p_var 1) 0.1))
-     (opti.subject_to (>= (aref p_var 2) 0.1))
-     (opti.set_initial p_var p_nom)
-
-     (setf res_opt (F_tf :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_var)
-	   V_C2_tf_opt (aref (aref res_opt (string "xf")) 1))
-
-     (opti.minimize (* -1.0 V_C2_tf_opt))
-     (opti.solver (string "ipopt") (dict) (dict ((string "print_level") 0)))
-     (setf sol (opti.solve)
-	   p_opt (sol.value p_var)
-	   V_C2_tf_max (sol.value V_C2_tf_opt))
-
-     (print (string "--- DAE-Constrained Optimization Results ---"))
-     (print (fstring "Optimal Capacitances: C1 = {p_opt[1]:.4f} F, C2 = {p_opt[2]:.4f} F"))
-     (print (fstring "Maximum V_C2(t_f): {V_C2_tf_max:.4f} V (Nominal: {float(F_tf(x0=[0,0], z0=[0,0], p=p_nom)[\"xf\"][1]):.4f} V)"))
+     (print (string "--- Nominale Sensitivitaeten (p = [I_in=2.0 A, C1=1.0 F, C2=1.0 F]) ---"))
+     (print (fstring "Gradient: {g_aoa_val}"))
+     (print (fstring "Hessian (AOA): {H_aoa_val}  (Rechenzeit: {t_aoa*1000:.2f} ms)"))
+     (print (fstring "Hessian (FOA): {H_foa_val}  (Rechenzeit: {t_foa*1000:.2f} ms)"))
+     (print (fstring "Max. Abweichung AOA vs FOA: {np.max(np.abs(np.array(H_aoa_val) - np.array(H_foa_val))):.2e}"))
 
      (comments "========================================================================"
-	       "TRAJEKTORIEN-SIMULATION UND SENSITIVITAETS-VERLAEUFE"
+	       "OPTIMIERUNG 1: SPANNUNGS-MAXIMIERUNG"
 	       "========================================================================")
+     (setf opti_V (ca.Opti)
+	   p_var_V (opti_V.variable 3))
+
+     (opti_V.subject_to (== (aref p_var_V 0) 2.0))
+     (opti_V.subject_to (== (+ (aref p_var_V 1) (aref p_var_V 2)) 2.0))
+     (opti_V.subject_to (>= (aref p_var_V 1) 0.1))
+     (opti_V.subject_to (>= (aref p_var_V 2) 0.1))
+     (opti_V.set_initial p_var_V p_nom)
+
+     (setf res_opt_V (F_tf :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_var_V)
+	   V_C2_tf_opt_V (aref (aref res_opt_V (string "xf")) 1))
+
+     (opti_V.minimize (* -1.0 V_C2_tf_opt_V))
+     (opti_V.solver (string "ipopt") (dict) (dict ((string "print_level") 0)))
+
+     (setf t_start (time.time))
+     (setf sol_V (opti_V.solve)
+	   p_opt_V (sol_V.value p_var_V)
+	   V_C2_tf_max (sol_V.value V_C2_tf_opt_V))
+     (setf t_opt_V (- (time.time) t_start))
+
+     (print (string "--- DAE-beschraenkte Optimierung: Spannung ---"))
+     (print (fstring "Optimale Kapazitaeten: C1 = {p_opt_V[1]:.4f} F, C2 = {p_opt_V[2]:.4f} F"))
+     (print (fstring "Max V_C2(t_f): {V_C2_tf_max:.4f} V"))
+     (print (fstring "Rechenzeit IPOPT: {t_opt_V*1000:.1f} ms"))
+
+     (comments "========================================================================"
+	       "OPTIMIERUNG 2: ENERGIE-MAXIMIERUNG"
+	       "========================================================================")
+     (setf opti_E (ca.Opti)
+	   p_var_E (opti_E.variable 3))
+
+     (opti_E.subject_to (== (aref p_var_E 0) 2.0))
+     (opti_E.subject_to (== (+ (aref p_var_E 1) (aref p_var_E 2)) 2.0))
+     (opti_E.subject_to (>= (aref p_var_E 1) 0.1))
+     (opti_E.subject_to (>= (aref p_var_E 2) 0.1))
+     (opti_E.set_initial p_var_E p_nom)
+
+     (setf res_opt_E (F_tf :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_var_E)
+	   V_C2_tf_opt_E (aref (aref res_opt_E (string "xf")) 1)
+	   E_opt_E (* 0.5 (aref p_var_E 2) (** V_C2_tf_opt_E 2)))
+
+     (opti_E.minimize (* -1.0 E_opt_E))
+     (opti_E.solver (string "ipopt") (dict) (dict ((string "print_level") 0)))
+
+     (setf t_start (time.time))
+     (setf sol_E (opti_E.solve)
+	   p_opt_E (sol_E.value p_var_E)
+	   E_tf_max (sol_E.value E_opt_E))
+     (setf t_opt_E (- (time.time) t_start))
+
+     (print (string "--- DAE-beschraenkte Optimierung: Energie ---"))
+     (print (fstring "Optimale Kapazitaeten: C1 = {p_opt_E[1]:.4f} F, C2 = {p_opt_E[2]:.4f} F"))
+     (print (fstring "Max Energie E(t_f): {E_tf_max:.4f} J"))
+     (print (fstring "Rechenzeit IPOPT: {t_opt_E*1000:.1f} ms"))
+
+
+     (comments "========================================================================"
+	       "TRAJEKTORIEN-SIMULATION, VERLUSTLEISTUNG UND ZEITAUFGELOESTE SENSITIVITAETEN"
+	       "========================================================================")
+     (setf t_start (time.time))
      (setf sim_nom (F_grid :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_nom)
-	   sim_opt (F_grid :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_opt))
+	   sim_optV (F_grid :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_opt_V)
+	   sim_optE (F_grid :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_opt_E))
+     (setf t_sim (- (time.time) t_start))
 
      (setf xf_nom (np.array (aref sim_nom (string "xf")))
 	   zf_nom (np.array (aref sim_nom (string "zf")))
-	   xf_opt (np.array (aref sim_opt (string "xf")))
-	   zf_opt (np.array (aref sim_opt (string "zf"))))
+	   xf_optV (np.array (aref sim_optV (string "xf")))
+	   zf_optV (np.array (aref sim_optV (string "zf")))
+	   xf_optE (np.array (aref sim_optE (string "xf")))
+	   zf_optE (np.array (aref sim_optE (string "zf"))))
 
-     (comments "Berechnung der Zeitverlaeufe der Sensitivitaeten erster Ordnung fuer V_C2(t)")
+     ;; Verlustleistung P_loss = V_C1 * I_D1 + V_C2 * I_D2
+     (setf P_loss_nom (+ (* (aref xf_nom 0 (slice)) (aref zf_nom 0 (slice)))
+			 (* (aref xf_nom 1 (slice)) (aref zf_nom 1 (slice))))
+	   P_loss_optV (+ (* (aref xf_optV 0 (slice)) (aref zf_optV 0 (slice)))
+			  (* (aref xf_optV 1 (slice)) (aref zf_optV 1 (slice))))
+	   P_loss_optE (+ (* (aref xf_optE 0 (slice)) (aref zf_optE 0 (slice)))
+			  (* (aref xf_optE 1 (slice)) (aref zf_optE 1 (slice)))))
+
      (setf res_grid_sym (F_grid :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p)
 	   V_C2_traj_sym (aref (aref res_grid_sym (string "xf")) 1 (slice)))
+     (setf t_start (time.time))
      (setf J_traj_sym (ca.jacobian V_C2_traj_sym p)
 	   J_func (ca.Function (string "J_func") (list p) (list J_traj_sym))
 	   J_val (np.array (J_func p_nom)))
+     (setf t_jac (- (time.time) t_start))
 
-     (comments "2D Parametersweep ueber C1 und C2 zur Konturdarstellung")
+     (comments "========================================================================"
+	       "2D PARAMETERSWEEP FUER HEATMAPS (SPANNUNG UND ENERGIE)"
+	       "========================================================================")
      (setf C1_vals (np.linspace 0.1 3.0 40)
 	   C2_vals (np.linspace 0.1 3.0 40))
      (setf (ntuple C1_grid C2_grid) (np.meshgrid C1_vals C2_vals)
-	   V_C2_tf_grid (np.zeros_like C1_grid))
+	   V_C2_tf_grid (np.zeros_like C1_grid)
+	   E_tf_grid (np.zeros_like C1_grid))
 
+     (setf t_start (time.time))
      (for (i (range (len C2_vals)))
 	  (for (j (range (len C1_vals)))
 	       (setf p_val_ij (list 2.0 (aref C1_grid i j) (aref C2_grid i j)))
 	       (setf out (F_tf :x0 (list 0.0 0.0) :z0 (list 0.0 0.0) :p p_val_ij))
-	       (setf (aref V_C2_tf_grid i j) (float (aref (aref out (string "xf")) 1)))))
+	       (setf v_tf (float (aref (aref out (string "xf")) 1)))
+	       (setf (aref V_C2_tf_grid i j) v_tf)
+	       (setf (aref E_tf_grid i j) (* 0.5 (aref C2_grid i j) (** v_tf 2)))))
+     (setf t_sweep (- (time.time) t_start))
 
      (comments "========================================================================"
-	       "VISUALISIERUNG UND PLOT-ERSTELLUNG"
+	       "VISUALISIERUNG (2x3 GRID)"
 	       "========================================================================")
-     (setf (ntuple fig axs) (plt.subplots 2 2 :figsize (tuple 14 10)))
-     (if (in (string "seaborn-v0_8-whitegrid") plt.style.available)
-	 (plt.style.use (string "seaborn-v0_8-whitegrid"))
-	 (plt.style.use (string "default")))
+     (setf (ntuple fig axs) (plt.subplots 2 3 :figsize (tuple 18 10)))
 
      ;; Panel 1: Kondensatorspannungen
-     (dot (aref axs 0 0) (plot t_grid (aref xf_nom 0 (slice)) (string "b-") :label (string "V_C1 (Nominal)")))
-     (dot (aref axs 0 0) (plot t_grid (aref xf_nom 1 (slice)) (string "r-") :label (string "V_C2 (Nominal)")))
-     (dot (aref axs 0 0) (plot t_grid (aref xf_opt 0 (slice)) (string "b--") :alpha 0.7 :label (string "V_C1 (Optimal)")))
-     (dot (aref axs 0 0) (plot t_grid (aref xf_opt 1 (slice)) (string "r--") :alpha 0.7 :label (string "V_C2 (Optimal)")))
-     (dot (aref axs 0 0) (set_title (string "Kondensatorspannungen ueber die Zeit") :fontsize 12 :fontweight (string "bold")))
-     (dot (aref axs 0 0) (set_xlabel (string "Zeit [s]")))
-     (dot (aref axs 0 0) (set_ylabel (string "Spannung [V]")))
-     (dot (aref axs 0 0) (legend))
-     (dot (aref axs 0 0) (grid True :alpha 0.5))
+     (setf ax (aref axs 0 0))
+     ,@(loop for (data idx style label alpha) in
+	     '((xf_nom 1 "r:" "Nominal" nil)
+	       (xf_optV 1 "r--" "Optimum (Spannung)" 0.8)
+	       (xf_optE 1 "r-" "Optimum (Energie)" 0.8))
+	     collect
+	     `(dot ax (plot t_grid (aref ,data ,idx (slice)) (string ,style)
+			    ,@(when alpha `(:alpha ,alpha))
+			    :label (string ,label))))
+     (dot ax (set_title (string "Ausgangsspannung V_C2(t)") :fontsize 12 :fontweight (string "bold")))
+     (dot ax (set_xlabel (string "Zeit [s]")))
+     (dot ax (set_ylabel (string "Spannung [V]")))
+     (dot ax (legend))
+     (dot ax (grid True :alpha 0.5))
 
-     ;; Panel 2: Diodenstroeme
-     (dot (aref axs 0 1) (plot t_grid (aref zf_nom 0 (slice)) (string "g-") :label (string "I_D1 (Nominal)")))
-     (dot (aref axs 0 1) (plot t_grid (aref zf_nom 1 (slice)) (string "m-") :label (string "I_D2 (Nominal)")))
-     (dot (aref axs 0 1) (plot t_grid (aref zf_opt 0 (slice)) (string "g--") :alpha 0.7 :label (string "I_D1 (Optimal)")))
-     (dot (aref axs 0 1) (plot t_grid (aref zf_opt 1 (slice)) (string "m--") :alpha 0.7 :label (string "I_D2 (Optimal)")))
-     (dot (aref axs 0 1) (set_title (string "Diodenstroeme ueber die Zeit") :fontsize 12 :fontweight (string "bold")))
-     (dot (aref axs 0 1) (set_xlabel (string "Zeit [s]")))
-     (dot (aref axs 0 1) (set_ylabel (string "Strom [A]")))
-     (dot (aref axs 0 1) (legend))
-     (dot (aref axs 0 1) (grid True :alpha 0.5))
+     ;; Panel 2: Diodenstroeme I_D1
+     (setf ax (aref axs 0 1))
+     ,@(loop for (data idx style label alpha) in
+	     '((zf_nom 0 "g:" "Nominal" nil)
+	       (zf_optV 0 "g--" "Optimum (Spannung)" 0.8)
+	       (zf_optE 0 "g-" "Optimum (Energie)" 0.8))
+	     collect
+	     `(dot ax (plot t_grid (aref ,data ,idx (slice)) (string ,style)
+			    ,@(when alpha `(:alpha ,alpha))
+			    :label (string ,label))))
+     (dot ax (set_title (string "Verluststrom durch Diode 1") :fontsize 12 :fontweight (string "bold")))
+     (dot ax (set_xlabel (string "Zeit [s]")))
+     (dot ax (set_ylabel (string "Strom [A]")))
+     (dot ax (legend))
+     (dot ax (grid True :alpha 0.5))
 
-     ;; Panel 3: Trajektorien-Sensitivitaeten
-     (dot (aref axs 1 0) (plot t_grid (aref J_val (slice) 0) (string "k-") :label (string "dV_C2/dI_in")))
-     (dot (aref axs 1 0) (plot t_grid (aref J_val (slice) 1) (string "c-") :label (string "dV_C2/dC1")))
-     (dot (aref axs 1 0) (plot t_grid (aref J_val (slice) 2) (string "y-") :label (string "dV_C2/dC2")))
-     (dot (aref axs 1 0) (set_title (string "Sensitivitaet von V_C2(t) bzgl. der Parameter") :fontsize 12 :fontweight (string "bold")))
-     (dot (aref axs 1 0) (set_xlabel (string "Zeit [s]")))
-     (dot (aref axs 1 0) (set_ylabel (string "Sensitivitaet")))
-     (dot (aref axs 1 0) (legend))
-     (dot (aref axs 1 0) (grid True :alpha 0.5))
+     ;; Panel 3: Verlustleistung
+     (setf ax (aref axs 0 2))
+     (dot ax (plot t_grid P_loss_nom (string "k:") :label (string "Nominal")))
+     (dot ax (plot t_grid P_loss_optV (string "k--") :label (string "Optimum (Spannung)") :alpha 0.8))
+     (dot ax (plot t_grid P_loss_optE (string "k-") :label (string "Optimum (Energie)") :alpha 0.8))
+     (dot ax (fill_between t_grid 0 P_loss_nom :color (string "gray") :alpha 0.2))
+     (dot ax (set_title (string "Verlustleistung (Waerme in Dioden)") :fontsize 12 :fontweight (string "bold")))
+     (dot ax (set_xlabel (string "Zeit [s]")))
+     (dot ax (set_ylabel (string "Leistung [W]")))
+     (dot ax (legend))
+     (dot ax (grid True :alpha 0.5))
 
-     ;; Panel 4: Heatmap von V_C2(tf) bzgl. C1 und C2
-     (setf contour (dot (aref axs 1 1) (contourf C1_grid C2_grid V_C2_tf_grid :levels 20 :cmap (string "viridis")))
-	   cbar (fig.colorbar contour :ax (aref axs 1 1)))
-     (dot cbar (set_label (string "V_C2(t_f) [V]") :fontsize 11))
+     ;; Panel 4: Sensitivitaets-Zeitverlaeufe
+     (setf ax (aref axs 1 0))
+     ,@(loop for (idx style label) in
+	     '((0 "k-" "dV_C2/dI_in [V/A]")
+	       (1 "c-" "dV_C2/dC1 [V/F]")
+	       (2 "y-" "dV_C2/dC2 [V/F]"))
+	     collect
+	     `(dot ax (plot t_grid (aref J_val (slice) ,idx) (string ,style)
+			    :label (string ,label))))
+     (dot ax (set_title (string "Nominale Sensitivitaeten") :fontsize 12 :fontweight (string "bold")))
+     (dot ax (set_xlabel (string "Zeit [s]")))
+     (dot ax (set_ylabel (string "Sensitivitaet [V/Einheit]")))
+     (dot ax (legend))
+     (dot ax (grid True :alpha 0.5))
 
+     ;; Panel 5: Heatmap Spannung
+     (setf ax (aref axs 1 1))
+     (setf contour (dot ax (contourf C1_grid C2_grid V_C2_tf_grid :levels 20 :cmap (string "Blues"))))
+     (dot (fig.colorbar contour :ax ax) (set_label (string "V_C2(t_f) [V]") :fontsize 11))
      (setf c1_line (np.linspace 0.1 1.9 100)
 	   c2_line (- 2.0 c1_line))
-     (dot (aref axs 1 1) (plot c1_line c2_line (string "r--") :lw 2.0 :label (string "Constraint: C1 + C2 = 2.0")))
-     (dot (aref axs 1 1) (plot (list (aref p_nom 1)) (list (aref p_nom 2)) (string "wo") :ms 8 :markeredgecolor (string "black") :label (string "Nominal Point")))
-     (dot (aref axs 1 1) (plot (list (aref p_opt 1)) (list (aref p_opt 2)) (string "r*") :ms 12 :markeredgecolor (string "black") :label (string "Optimal Point")))
-     (dot (aref axs 1 1) (set_title (string "V_C2(t_f) vs Kapazitaeten") :fontsize 12 :fontweight (string "bold")))
-     (dot (aref axs 1 1) (set_xlabel (string "C1 [F]")))
-     (dot (aref axs 1 1) (set_ylabel (string "C2 [F]")))
-     (dot (aref axs 1 1) (legend))
-     (dot (aref axs 1 1) (grid True :alpha 0.3))
+     (dot ax (plot c1_line c2_line (string "r--") :lw 2.0 :label (string "Budget C1+C2=2.0F")))
+     (dot ax (plot (list (aref p_nom 1)) (list (aref p_nom 2)) (string "ko") :ms 8 :markeredgecolor (string "white") :label (string "Nominal")))
+     (dot ax (plot (list (aref p_opt_V 1)) (list (aref p_opt_V 2)) (string "r*") :ms 12 :markeredgecolor (string "black") :label (string "Optimum (Spannung)")))
+     (dot ax (set_title (string "Zielfunktion: Spannung") :fontsize 12 :fontweight (string "bold")))
+     (dot ax (set_xlabel (string "C1 [F]")))
+     (dot ax (set_ylabel (string "C2 [F]")))
+     (dot ax (legend :fontsize 9))
+     (dot ax (grid True :alpha 0.3))
 
-     (plt.suptitle (string "2-Stufiger Dioden-Geklemmter Kondensatorfilter: Simulation, Sensitivitaeten & Optimierung")
-		   :fontsize 14 :fontweight (string "bold") :y 0.98)
+     ;; Panel 6: Heatmap Energie
+     (setf ax (aref axs 1 2))
+     (setf contour (dot ax (contourf C1_grid C2_grid E_tf_grid :levels 20 :cmap (string "Oranges"))))
+     (dot (fig.colorbar contour :ax ax) (set_label (string "E(t_f) [J]") :fontsize 11))
+     (dot ax (plot c1_line c2_line (string "r--") :lw 2.0 :label (string "Budget C1+C2=2.0F")))
+     (dot ax (plot (list (aref p_nom 1)) (list (aref p_nom 2)) (string "ko") :ms 8 :markeredgecolor (string "white") :label (string "Nominal")))
+     (dot ax (plot (list (aref p_opt_E 1)) (list (aref p_opt_E 2)) (string "r*") :ms 12 :markeredgecolor (string "black") :label (string "Optimum (Energie)")))
+     (dot ax (set_title (string "Zielfunktion: Gespeicherte Energie") :fontsize 12 :fontweight (string "bold")))
+     (dot ax (set_xlabel (string "C1 [F]")))
+     (dot ax (set_ylabel (string "C2 [F]")))
+     (dot ax (legend :fontsize 9))
+     (dot ax (grid True :alpha 0.3))
+
+     (plt.suptitle (string "Design-Tradeoffs im Dioden-Geklemmten Filter: Spannung vs. Energie")
+		   :fontsize 16 :fontweight (string "bold") :y 0.98)
      (plt.tight_layout)
-     (plt.savefig (string "diode_sensitivities.png") :dpi 150)
-     (print (string "Plot saved to diode_sensitivities.png"))
+     (plt.savefig (string "diode_optima.png") :dpi 150)
+     (print (string "Plot gespeichert: diode_optima.png"))
      )))
