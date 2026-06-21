@@ -11,7 +11,7 @@ plt.rcParams.update({
     'grid.color': '#eeeeee'
 })
 
-print("Lese CSV-Daten ohne Pandas...")
+print("Lese CSV-Daten...")
 t_dep_list = []
 tof_days_list = []
 dv_tot_list = []
@@ -57,19 +57,18 @@ print(f"Globales Minimum gefunden bei Delta-v = {min_dv:.2f} km/s (t_dep={min_t:
 # Plot erstellen
 fig, ax = plt.subplots(1, 1, figsize=(11, 8))
 
-# Konturstufen festlegen
-levels = np.arange(5.5, 15.0, 0.5)
-
-# Konturen zeichnen
-contour = ax.contour(X, Y, Z, levels=levels, cmap="RdYlGn_r", linewidths=1.5)
-ax.clabel(contour, inline=True, fmt="%.1f", fontsize=9, colors="black")
-
-# Konturen ausfüllen für bessere Ästhetik
-contourf = ax.contourf(X, Y, Z, levels=levels, cmap="RdYlGn_r", alpha=0.3)
+# 1. Vollständige Heatmap aller berechneten Punkte zeichnen (pcolormesh)
+# vmin und vmax begrenzen die Farbskala auf sinnvolle Werte (z.B. bis 25 km/s)
+im = ax.pcolormesh(X, Y, Z, cmap="RdYlGn_r", shading="auto", vmin=5.5, vmax=25.0)
 
 # Colorbar hinzufügen
-cbar = fig.colorbar(contourf, ax=ax)
+cbar = fig.colorbar(im, ax=ax)
 cbar.set_label("Gesamt-$\\Delta v$ [km/s]", fontsize=12)
+
+# 2. Ausgewählte schwarze Höhenlinien für markante Werte drüberlegen
+levels = [6.0, 7.0, 8.0, 10.0, 12.0, 15.0, 20.0, 25.0]
+contour = ax.contour(X, Y, Z, levels=levels, colors="black", linewidths=0.6, alpha=0.8)
+ax.clabel(contour, inline=True, fmt="%.1f", fontsize=8, colors="black")
 
 # Minimum eintragen
 ax.plot(min_t, min_tof,
@@ -78,15 +77,18 @@ ax.plot(min_t, min_tof,
 
 ax.annotate(f"$\\Delta v_{{min}}$ = {min_dv:.2f} km/s\n(Hohmann)",
             xy=(min_t, min_tof),
-            xytext=(min_t + 0.1, min_tof + 20),
+            xytext=(min_t + 0.15, min_tof + 20),
             fontsize=10, fontweight="bold",
             arrowprops=dict(arrowstyle="->", color="black", lw=1.2))
 
 # Achsenbeschriftung und Titel
 ax.set_xlabel("Abflugsdatum [Jahre ab Epoche]", fontsize=12)
 ax.set_ylabel("Flugzeit [Tage]", fontsize=12)
-ax.set_title("Erde -> Mars Porkchop-Diagramm\n(Berechnet in C++ auf mehreren CPU-Kernen)", 
+ax.set_title("Erde -> Mars Porkchop-Diagramm (Komplette Karte)\n(Berechnet in C++ auf mehreren CPU-Kernen)", 
              fontsize=14, fontweight="bold")
+
+ax.set_xlim(0.0, 2.5)
+ax.set_ylim(100, 450)
 
 plt.tight_layout()
 output_png = "porkchop_cpp.png"
