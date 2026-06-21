@@ -34,7 +34,7 @@ g_dyn = F_dyn(X[:, 1:], X[:, 0:N], U, V_r)
 ```
 
 ### B. Simulation mit `.mapaccum()`
-Für die Open-Loop-Simulation des passiven Systems ($u=0$) verwenden wir `mapaccum`, das den Zustand akkumuliert und die Störungen $v_k$ spaltenweise einliest:
+Für die Open-Loop-Simulation des passiven Systems ($u=0$) verwenden wir `mapaccum` (akkumulierendes Mapping / AkkuMap), das den Zustand akkumuliert und die Störungen $v_k$ spaltenweise einliest:
 ```python
 f_passive_step = Function("f_passive_step", [x_curr_sym, v_curr_sym], [A @ x_curr_sym + G * v_curr_sym])
 f_passive_sim = f_passive_step.mapaccum("f_passive_sim", N_steps - 1)
@@ -44,10 +44,25 @@ Dies eliminiert die Simulations-Schleife für das passive System komplett.
 
 ---
 
-## 3. Simulationsergebnisse
+## 3. Simulationsergebnisse und Vorhersagehorizonte
 
 Das aktive Map-MPC-Fahrwerk verhält sich identisch zum vorherigen Ansatz, benötigt jedoch weniger Overhead für die Problemformulierung.
 
 ![Zustandsvergleich und Aktuatorkraft](active_suspension_mpc_map.png)
 
-Die Aufbaubeschleunigung (Chassis Acceleration) wird um über **70%** reduziert, was den Fahrkomfort in der Komfortzone (nach ISO 2631) hält.
+### Diskussion der MPC-Vorhersagetrajektorien:
+Die gestrichelten Linien zeigen die vom MPC-Regler (Modellprädiktive Regelung, gelöst als quadratisches Programm / QP) zu bestimmten Zeitschritten ($t=0.35\text{s}$, $t=0.55\text{s}$, $t=0.85\text{s}$) vorhergesagten Trajektorien über den Vorhersagehorizont $N = 30$ Zeitschritte ($0.3\text{s}$):
+
+1. **Vor der Störung ($t = 0.35\text{s}$, orange gepunktete Linie):**
+   - Das Fahrzeug ist noch im Nullzustand (Ruhelage).
+   - Durch die Straßenvorschau (Look-Ahead Preview, erfasst z. B. per LiDAR) sieht der Regler, dass bei $t = 0.5\text{s}$ eine Schwelle kommt.
+   - Der Regler zieht das Rad vorausschauend aktiv ein (Stellkraft sinkt ab $t=0.35\text{s}$ ins Negative), um den kommenden Stoß weich abzufedern.
+
+2. **Während der Störung ($t = 0.55\text{s}$, lila gepunktete Linie):**
+   - Das Fahrzeug fährt gerade über die Bodenschwelle.
+   - Der Regler reagiert mit maximaler Gegenkraft (Sättigung an der Aktuatorgrenze von $-1500\text{ N}$).
+   - Die Vorhersage zeigt, wie der Regler plant, die Kraft nach Erreichen der Spitze weich abzubauen.
+
+3. **Nach der Störung ($t = 0.85\text{s}$, türkis gepunktete Linie):**
+   - Die Bodenschwelle ist überfahren, aber das System schwingt noch leicht nach.
+   - Die Vorhersage zeigt, wie der Regler die Chassis-Schwingung innerhalb seines $0.3\text{s}$-Horizonts komplett auf $0$ zurückführt.

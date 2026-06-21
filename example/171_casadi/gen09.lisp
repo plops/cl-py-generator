@@ -60,10 +60,32 @@ Parameter:
       "AKTIVE FAHRWERKSREGELUNG MITTELS KOMPAKTER MAP-MPC (GEN09)"
       "========================================================================"
       "Thema: Aktive Fahrwerksregelung fuer ein Viertelfahrzeug-Modell (Quarter-Car)"
-      "Dieses Skript implementiert die MPC-Formulierung effizient unter Verwendung"
-      "von CasADi's map() und mapaccum() Funktions-Objekten anstelle von klassischen"
-      "For-Schleifen. Dies reduziert die Groesse des Ausdrucksgraphen von O(N) auf O(1)"
-      "und beschleunigt die Initialisierungszeit erheblich."
+      ""
+      "ERKLAERUNG DER NEUEN CASADI-KONZEPTE (MAP & AKKUMULIERENDES MAP):"
+      "1. CasADi map() Operation:"
+      "   Klassisch wuerde man das Vorhersageproblem mittels einer For-Schleife"
+      "   ausrollen. Dies vergroessert jedoch den symbolischen Ausdrucksgraphen"
+      "   linear mit dem Horizont N (O(N) Komplexitaet), was zu langen"
+      "   Kompilierungs- und Initialisierungszeiten des Solvers fuehrt."
+      "   Die map()-Methode erzeugt ein einziges Funktions-Objekt, das dieselbe"
+      "   Schritt-Funktion spaltenweise ueber alle N Spalten einer Matrix parallel"
+      "   auswertet. Dies haelt die Graphgroesse konstant auf O(1)."
+      ""
+      "2. CasADi mapaccum() Operation (Akkumulierendes Map / AkkuMap):"
+      "   Waehrend map() die Spalten unabhaengig voneinander berechnet, wird"
+      "   mapaccum() fuer Rekursionen verwendet, bei denen der Ausgang eines Schritts"
+      "   (Zustand x_{k+1}) als Eingang in den naechsten Schritt (Zustand x_k)"
+      "   eingeht. Dies erlaubt eine vollstaendig vektorisierte Simulation"
+      "   von Systemen ueber den gesamten Zeithorizont im symbolischen Graph."
+      ""
+      "Was bedeutet QP?"
+      "   QP steht fuer Quadratische Programmierung (Quadratic Programming)."
+      "   Ein QP ist eine spezielle Klasse von Optimierungsproblemen, bei denen"
+      "   die Zielfunktion quadratisch ist (z. B. quadratische Abweichungen von"
+      "   Zustaenden und Stellwerten) und die Nebenbedingungen linear sind"
+      "   (z. B. Systemdynamik und harte physikalische Grenzen)."
+      "   Dank der quadratischen Struktur koennen diese Probleme extrem schnell"
+      "   und global optimal geloest werden (z. B. mit qpOASES)."
       ""
       "Modellbeschreibung:"
       "Viertelfahrzeug-Modell (Quarter-Car Model) zur Entkopplung der Ecken."
@@ -134,7 +156,7 @@ Parameter:
 	   q3_N (* 10.0 q3)
 	   q4_N (* 10.0 q4))
 
-     (comments "--- Symbolische QP-Formulierung mit map() in CasADi ---")
+     (comments "--- Symbolische QP (Quadratische Programmierung) Formulierung mit map() in CasADi ---")
      ;; Zustaende und Stellgroessen als kompakte 2D Matrix-Symbolics
      (setf X (SX.sym (string "X") 4 (+ N 1))
 	   U (SX.sym (string "U") 1 N))
@@ -150,7 +172,10 @@ Parameter:
 	   u_curr_sym (SX.sym (string "u_curr") 1)
 	   v_curr_sym (SX.sym (string "v_curr") 1))
 
-     ;; 1. Schrittfunktion fuer die diskrete Dynamik-Residualgleichung
+     (comments "Kompakte Abbildung der Systemdynamik-Residuen mittels map():"
+	       "Wir definieren eine Funktion f_dyn fuer einen Zeitschritt und erzeugen"
+	       "mittels f_dyn.map(N) ein neues Funktions-Objekt, das diese Gleichung"
+	       "simultan ueber den Horizont N auswertet.")
      (setf f_dyn (Function (string "f_dyn")
 			   (list x_next_sym x_curr_sym u_curr_sym v_curr_sym)
 			   (list ,(discrete-dynamics 'x_next_sym 'x_curr_sym 'u_curr_sym 'v_curr_sym 'A 'B 'G))))
@@ -170,7 +195,9 @@ Parameter:
      ;; Gesamt-Nebenbedingungen-Vektor assemblieren (lbg/ubg sind 0)
      (setf g (vertcat g_init (reshape g_dyn -1 1)))
 
-     ;; 2. Schrittfunktion fuer die Zustandskosten (Stage Cost)
+     (comments "Kompakte Abbildung der Zustandskosten mittels map():"
+	       "Wir definieren f_stage fuer einen Einzelschritt und wenden map(N) an."
+	       "Das Resultat ist ein Zeilenvektor der Laenge N, den wir per sum2() summieren.")
      (setf f_stage (Function (string "f_stage")
 			     (list x_curr_sym u_curr_sym)
 			     (list ,(stage-cost 'x_curr_sym 'u_curr_sym 'q1 'q2 'q3 'q4 'r))))
@@ -215,9 +242,11 @@ Parameter:
 	       (setf (aref z_r_vec j) 0.0)
 	       (setf (aref v_r_vec j) 0.0))))
 
-     (comments "--- Simulation des passiven Systems mittels mapaccum() ---"
+     (comments "--- Simulation des passiven Systems mittels mapaccum() (AkkuMap) ---"
 	       "Da das passive System ohne aktiven Regler u=0 laeuft, koennen wir"
-	       "die gesamte Zustandshistorie ohne Schleife mit mapaccum() berechnen.")
+	       "die gesamte Zustandshistorie ohne Schleife mit mapaccum() berechnen."
+	       "Dazu definieren wir einen rekursiven Schritt f_passive_step, der den Zustand"
+	       "akkumuliert und die Strassenstoerungen v_curr_p spaltenweise einliest.")
      (setf x_curr_sym_p (SX.sym (string "x_curr_p") 4)
 	   v_curr_sym_p (SX.sym (string "v_curr_p") 1))
      (setf f_passive_step (Function (string "f_passive_step")
@@ -233,6 +262,26 @@ Parameter:
      (setf x_hist_mpc (np.zeros (tuple 4 N_steps))
 	   u_hist_mpc (np.zeros N_steps)
 	   x_curr (np.array (list 0.0 0.0 0.0 0.0)))
+
+     (comments "Definition der Indizes fuer die Aufnahme von Vorhersehungstrajektorien:"
+	       "j_before: vor der Stoerung (t=0.35s)"
+	       "j_during: waehrend der Stoerung (t=0.55s)"
+	       "j_after:  nach der Stoerung (t=0.85s)")
+     (setf j_before 35
+	   j_during 55
+	   j_after 85)
+
+     (setf X_pred_before None
+	   U_pred_before None
+	   z_r_horiz_before None)
+
+     (setf X_pred_during None
+	   U_pred_during None
+	   z_r_horiz_during None)
+
+     (setf X_pred_after None
+	   U_pred_after None
+	   z_r_horiz_after None)
 
      (setf lb_state (np.array (list -0.08 -10.0 -0.05 -20.0))
 	   ub_state (np.array (list 0.08 10.0 0.05 20.0))
@@ -262,6 +311,35 @@ Parameter:
 	  (setf sol (S :x0 x0_guess :p p_val :lbx lbx :ubx ubx :lbg lbg :ubg ubg)
 		x_opt (aref sol (string "x")))
 
+	  ;; Aufzeichnen der vorhergesagten Bahnen des Reglers
+	  (cond ((== j j_before)
+		 (do0
+		  (setf X_pred_before (dot (np.array (aref x_opt (slice nil (* 4 (+ N 1))))) (reshape 4 (+ N 1)))
+			U_pred_before (dot (np.array (aref x_opt (slice (* 4 (+ N 1)) nil))) (flatten))
+			z_r_horiz_before (np.zeros (+ N 1)))
+		  (for (k (range (+ N 1)))
+		       (setf idx (+ j k))
+		       (if (< idx N_steps)
+			   (setf (aref z_r_horiz_before k) (aref z_r_vec idx))))))
+		((== j j_during)
+		 (do0
+		  (setf X_pred_during (dot (np.array (aref x_opt (slice nil (* 4 (+ N 1))))) (reshape 4 (+ N 1)))
+			U_pred_during (dot (np.array (aref x_opt (slice (* 4 (+ N 1)) nil))) (flatten))
+			z_r_horiz_during (np.zeros (+ N 1)))
+		  (for (k (range (+ N 1)))
+		       (setf idx (+ j k))
+		       (if (< idx N_steps)
+			   (setf (aref z_r_horiz_during k) (aref z_r_vec idx))))))
+		((== j j_after)
+		 (do0
+		  (setf X_pred_after (dot (np.array (aref x_opt (slice nil (* 4 (+ N 1))))) (reshape 4 (+ N 1)))
+			U_pred_after (dot (np.array (aref x_opt (slice (* 4 (+ N 1)) nil))) (flatten))
+			z_r_horiz_after (np.zeros (+ N 1)))
+		  (for (k (range (+ N 1)))
+		       (setf idx (+ j k))
+		       (if (< idx N_steps)
+			   (setf (aref z_r_horiz_after k) (aref z_r_vec idx)))))))
+
 	  (setf u_opt (float (aref x_opt (* 4 (+ N 1)))))
 	  (setf (aref u_hist_mpc j) u_opt)
 
@@ -289,18 +367,33 @@ Parameter:
 				((string "grid.linestyle") (string "-"))))
 
      (setf (ntuple fig axes) (plt.subplots 2 2 :figsize (tuple 14 10)))
-     (dot fig (suptitle (string "Kompaktes Active MPC vs. Passives Fahrwerk (CasADi Map-Formulierung)") :fontsize 16 :fontweight (string "bold") :y 0.98))
+     (dot fig (suptitle (string "Kompaktes Active MPC vs. Passives Fahrwerk (mit Trajektorien-Vorhersagen)") :fontsize 16 :fontweight (string "bold") :y 0.98))
 
-     ;; Plot 1: Road Profile and Chassis Displacement
+     ;; Plot 1: Road Profile and Chassis Displacement with overlaid predictions
      (setf ax1 (aref axes 0 0))
      (dot ax1 (fill_between t_vec 0 z_r_vec :color (string "#e0e0e0") :alpha 0.5 :label (string "Strassenprofil (Schwelle)")))
      (dot ax1 (plot t_vec zs_passive :label (string "Passives Fahrwerk") :color (string "#ff4d4d") :linestyle (string "--") :lw 1.5))
      (dot ax1 (plot t_vec zs_mpc :label (string "Aktives Fahrwerk (Map-MPC)") :color (string "#1a73e8") :lw 2.5))
+
+     ;; Vorhersagen auf Plot 1 (Chassis-Position) zeichnen
+     (dot ax1 (plot (aref t_vec (slice j_before (+ j_before N 1)))
+		    (+ (aref X_pred_before 0) (aref X_pred_before 2) z_r_horiz_before)
+		    :color (string "#e67e22") :linestyle (string ":") :lw 2.0
+		    :label (string "Vorhersage vor Schwelle (t=0.35s)")))
+     (dot ax1 (plot (aref t_vec (slice j_during (+ j_during N 1)))
+		    (+ (aref X_pred_during 0) (aref X_pred_during 2) z_r_horiz_during)
+		    :color (string "#9b59b6") :linestyle (string ":") :lw 2.0
+		    :label (string "Vorhersage bei Schwelle (t=0.55s)")))
+     (dot ax1 (plot (aref t_vec (slice j_after (+ j_after N 1)))
+		    (+ (aref X_pred_after 0) (aref X_pred_after 2) z_r_horiz_after)
+		    :color (string "#1abc9c") :linestyle (string ":") :lw 2.0
+		    :label (string "Vorhersage nach Schwelle (t=0.85s)")))
+
      (dot ax1 (set_title (string "Aufbauposition (zs)") :fontsize 12 :fontweight (string "bold")))
      (dot ax1 (set_xlabel (string "Zeit (s)") :fontsize 10))
      (dot ax1 (set_ylabel (string "Auslenkung (m)") :fontsize 10))
      (dot ax1 (grid True :alpha 0.6))
-     (dot ax1 (legend :frameon True :facecolor (string "white") :edgecolor (string "none")))
+     (dot ax1 (legend :frameon True :facecolor (string "white") :edgecolor (string "none") :fontsize 8))
      (dot (aref (dot ax1 spines) (string "top")) (set_visible False))
      (dot (aref (dot ax1 spines) (string "right")) (set_visible False))
 
@@ -332,21 +425,68 @@ Parameter:
      (dot (aref (dot ax3 spines) (string "top")) (set_visible False))
      (dot (aref (dot ax3 spines) (string "right")) (set_visible False))
 
-     ;; Plot 4: Actuator Control Force
+     ;; Plot 4: Actuator Control Force with overlaid predictions
      (setf ax4 (aref axes 1 1))
      (dot ax4 (axhspan -1500.0 1500.0 :color (string "#f1f3f4") :alpha 0.6 :zorder 0))
      (dot ax4 (step t_vec u_hist_mpc :label (string "Aktive Stellkraft (Map-MPC)") :color (string "#34a853") :lw 2 :where (string "post")))
+
+     ;; Stellkraft-Vorhersagen auf Plot 4 zeichnen
+     (dot ax4 (plot (aref t_vec (slice j_before (+ j_before N)))
+		    U_pred_before
+		    :color (string "#e67e22") :linestyle (string ":") :lw 2.0
+		    :label (string "Vorhersage Kraft (t=0.35s)")))
+     (dot ax4 (plot (aref t_vec (slice j_during (+ j_during N)))
+		    U_pred_during
+		    :color (string "#9b59b6") :linestyle (string ":") :lw 2.0
+		    :label (string "Vorhersage Kraft (t=0.55s)")))
+     (dot ax4 (plot (aref t_vec (slice j_after (+ j_after N)))
+		    U_pred_after
+		    :color (string "#1abc9c") :linestyle (string ":") :lw 2.0
+		    :label (string "Vorhersage Kraft (t=0.85s)")))
+
      (dot ax4 (axhline :y 1500.0 :color (string "#cc0000") :linestyle (string ":") :lw 1.2 :label (string "Aktuator-Kraftgrenze (+/- 1500N)")))
      (dot ax4 (axhline :y -1500.0 :color (string "#cc0000") :linestyle (string ":") :lw 1.2))
      (dot ax4 (set_title (string "Aktuator-Stellkraft") :fontsize 12 :fontweight (string "bold")))
      (dot ax4 (set_xlabel (string "Zeit (s)") :fontsize 10))
      (dot ax4 (set_ylabel (string "Kraft (N)") :fontsize 10))
      (dot ax4 (grid True :alpha 0.6))
-     (dot ax4 (legend :frameon True :facecolor (string "white") :edgecolor (string "none")))
+     (dot ax4 (legend :frameon True :facecolor (string "white") :edgecolor (string "none") :fontsize 8))
      (dot (aref (dot ax4 spines) (string "top")) (set_visible False))
      (dot (aref (dot ax4 spines) (string "right")) (set_visible False))
 
      (plt.tight_layout)
      (plt.savefig (string "active_suspension_mpc_map.png") :dpi 150)
      (print (string "Plot gespeichert als active_suspension_mpc_map.png"))
+
+     (comments
+      "========================================================================"
+      "DISKUSSION DER STRASSENVORSCHAU UND DER MPC-VORHERDAGETRAJEKTORIEN"
+      "========================================================================"
+      "Die gestrichelten Linien zeigen die vom MPC-Regler (Modellpraediktive Regelung)"
+      "zu bestimmten Zeitschritten (t=0.35s, t=0.55s, t=0.85s) vorhergesagten Trajektorien"
+      "ueber den Vorhersagehorizont N = 30 Zeitschritte (0.3s):"
+      ""
+      "1. Vor der Stoerung (t = 0.35s, orange gepunktete Linie):"
+      "   - Der aktuelle Zustand ist noch im Nullzustand (Ruhelage)."
+      "   - Durch die Strassenvorschau (Look-Ahead Preview, z.B. per Kamera/LiDAR erfasst)"
+      "     sieht der Regler, dass bei t = 0.5s eine Bodenschwelle auf das Rad zukommt."
+      "   - Da der Regler die Stoerung voraussieht, laesst er die Stellkraft des Aktuators"
+      "     schon kurz vor dem Eintreffen der Schwelle ansteigen (aktives Einziehen des Rades)."
+      "   - In der Vorhersage der Chassis-Auslenkung sieht man, wie das Chassis weich"
+      "     angehoben werden soll, um den Impuls beim Auffahren auf die Schwelle zu daempfen."
+      ""
+      "2. Waehrend der Stoerung (t = 0.55s, lila gepunktete Linie):"
+      "   - Das Fahrzeug faehrt gerade ueber die Bodenschwelle."
+      "   - Der Regler reagiert mit maximaler Gegenkraft (er stoesst praezise an seine"
+      "     Aktuatorgrenze von -1500 N, um das Chassis stabil zu halten)."
+      "   - Die Vorhersage zeigt, wie der Regler plant, nach der Spitze der Schwelle die"
+      "     Kraft wieder weich abzubauen und die Schwingungen abzufangen."
+      ""
+      "3. Nach der Stoerung (t = 0.85s, tuerkis gepunktete Linie):"
+      "   - Die Bodenschwelle ist bereits ueberfahren (zr ist wieder 0)."
+      "   - Es sind jedoch noch transiente Eigenschwingungen im System (Chassis schwingt leicht)."
+      "   - Die Vorhersage zeigt, wie der MPC-Regler innerhalb seines 0.3s-Horizonts"
+      "     die Schwingung der gefederten Masse gegen 0 daempft, indem er kleine, kraeftige"
+      "     Stellimpulse setzt."
+      "========================================================================")
      )))

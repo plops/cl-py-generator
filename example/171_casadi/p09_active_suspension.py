@@ -8,10 +8,32 @@ from scipy.linalg import expm
 # AKTIVE FAHRWERKSREGELUNG MITTELS KOMPAKTER MAP-MPC (GEN09)
 # ========================================================================
 # Thema: Aktive Fahrwerksregelung fuer ein Viertelfahrzeug-Modell (Quarter-Car)
-# Dieses Skript implementiert die MPC-Formulierung effizient unter Verwendung
-# von CasADi's map() und mapaccum() Funktions-Objekten anstelle von klassischen
-# For-Schleifen. Dies reduziert die Groesse des Ausdrucksgraphen von O(N) auf O(1)
-# und beschleunigt die Initialisierungszeit erheblich.
+#
+# ERKLAERUNG DER NEUEN CASADI-KONZEPTE (MAP & AKKUMULIERENDES MAP):
+# 1. CasADi map() Operation:
+#    Klassisch wuerde man das Vorhersageproblem mittels einer For-Schleife
+#    ausrollen. Dies vergroessert jedoch den symbolischen Ausdrucksgraphen
+#    linear mit dem Horizont N (O(N) Komplexitaet), was zu langen
+#    Kompilierungs- und Initialisierungszeiten des Solvers fuehrt.
+#    Die map()-Methode erzeugt ein einziges Funktions-Objekt, das dieselbe
+#    Schritt-Funktion spaltenweise ueber alle N Spalten einer Matrix parallel
+#    auswertet. Dies haelt die Graphgroesse konstant auf O(1).
+#
+# 2. CasADi mapaccum() Operation (Akkumulierendes Map / AkkuMap):
+#    Waehrend map() die Spalten unabhaengig voneinander berechnet, wird
+#    mapaccum() fuer Rekursionen verwendet, bei denen der Ausgang eines Schritts
+#    (Zustand x_{k+1}) als Eingang in den naechsten Schritt (Zustand x_k)
+#    eingeht. Dies erlaubt eine vollstaendig vektorisierte Simulation
+#    von Systemen ueber den gesamten Zeithorizont im symbolischen Graph.
+#
+# Was bedeutet QP?
+#    QP steht fuer Quadratische Programmierung (Quadratic Programming).
+#    Ein QP ist eine spezielle Klasse von Optimierungsproblemen, bei denen
+#    die Zielfunktion quadratisch ist (z. B. quadratische Abweichungen von
+#    Zustaenden und Stellwerten) und die Nebenbedingungen linear sind
+#    (z. B. Systemdynamik und harte physikalische Grenzen).
+#    Dank der quadratischen Struktur koennen diese Probleme extrem schnell
+#    und global optimal geloest werden (z. B. mit qpOASES).
 #
 # Modellbeschreibung:
 # Viertelfahrzeug-Modell (Quarter-Car Model) zur Entkopplung der Ecken.
@@ -77,7 +99,7 @@ q1_N = 1.0e1 * q1
 q2_N = 1.0e1 * q2
 q3_N = 1.0e1 * q3
 q4_N = 1.0e1 * q4
-# --- Symbolische QP-Formulierung mit map() in CasADi ---
+# --- Symbolische QP (Quadratische Programmierung) Formulierung mit map() in CasADi ---
 X = SX.sym("X", 4, N + 1)
 U = SX.sym("U", 1, N)
 p = SX.sym("p", 4 + N)
@@ -87,6 +109,10 @@ x_curr_sym = SX.sym("x_curr", 4)
 x_next_sym = SX.sym("x_next", 4)
 u_curr_sym = SX.sym("u_curr", 1)
 v_curr_sym = SX.sym("v_curr", 1)
+# Kompakte Abbildung der Systemdynamik-Residuen mittels map():
+# Wir definieren eine Funktion f_dyn fuer einen Zeitschritt und erzeugen
+# mittels f_dyn.map(N) ein neues Funktions-Objekt, das diese Gleichung
+# simultan ueber den Horizont N auswertet.
 f_dyn = Function(
     "f_dyn",
     [x_next_sym, x_curr_sym, u_curr_sym, v_curr_sym],
@@ -96,6 +122,9 @@ F_dyn = f_dyn.map(N)
 g_dyn = F_dyn(X[:, 1:], X[:, 0:N], U, V_r)
 g_init = (X[:, 0]) - x_init
 g = vertcat(g_init, reshape(g_dyn, -1, 1))
+# Kompakte Abbildung der Zustandskosten mittels map():
+# Wir definieren f_stage fuer einen Einzelschritt und wenden map(N) an.
+# Das Resultat ist ein Zeilenvektor der Laenge N, den wir per sum2() summieren.
 f_stage = Function(
     "f_stage",
     [x_curr_sym, u_curr_sym],
@@ -142,9 +171,11 @@ for j in range(N_steps):
     else:
         z_r_vec[j] = 0.0
         v_r_vec[j] = 0.0
-# --- Simulation des passiven Systems mittels mapaccum() ---
+# --- Simulation des passiven Systems mittels mapaccum() (AkkuMap) ---
 # Da das passive System ohne aktiven Regler u=0 laeuft, koennen wir
 # die gesamte Zustandshistorie ohne Schleife mit mapaccum() berechnen.
+# Dazu definieren wir einen rekursiven Schritt f_passive_step, der den Zustand
+# akkumuliert und die Strassenstoerungen v_curr_p spaltenweise einliest.
 x_curr_sym_p = SX.sym("x_curr_p", 4)
 v_curr_sym_p = SX.sym("v_curr_p", 1)
 f_passive_step = Function(
@@ -165,6 +196,22 @@ x_hist_mpc = np.zeros(
 )
 u_hist_mpc = np.zeros(N_steps)
 x_curr = np.array([0.0, 0.0, 0.0, 0.0])
+# Definition der Indizes fuer die Aufnahme von Vorhersehungstrajektorien:
+# j_before: vor der Stoerung (t=0.35s)
+# j_during: waehrend der Stoerung (t=0.55s)
+# j_after:  nach der Stoerung (t=0.85s)
+j_before = 35
+j_during = 55
+j_after = 85
+X_pred_before = None
+U_pred_before = None
+z_r_horiz_before = None
+X_pred_during = None
+U_pred_during = None
+z_r_horiz_during = None
+X_pred_after = None
+U_pred_after = None
+z_r_horiz_after = None
 lb_state = np.array([-8.0e-2, -1.0e1, -5.0e-2, -2.0e1])
 ub_state = np.array([8.0e-2, 1.0e1, 5.0e-2, 2.0e1])
 lb_input = np.array([-1.5e3])
@@ -201,6 +248,30 @@ for j in range(N_steps - 1):
     )
     sol = S(x0=x0_guess, p=p_val, lbx=lbx, ubx=ubx, lbg=lbg, ubg=ubg)
     x_opt = sol["x"]
+    if j == j_before:
+        X_pred_before = np.array(x_opt[: 4 * (N + 1)]).reshape(4, N + 1)
+        U_pred_before = np.array(x_opt[4 * (N + 1) :]).flatten()
+        z_r_horiz_before = np.zeros(N + 1)
+        for k in range(N + 1):
+            idx = j + k
+            if idx < N_steps:
+                z_r_horiz_before[k] = z_r_vec[idx]
+    elif j == j_during:
+        X_pred_during = np.array(x_opt[: 4 * (N + 1)]).reshape(4, N + 1)
+        U_pred_during = np.array(x_opt[4 * (N + 1) :]).flatten()
+        z_r_horiz_during = np.zeros(N + 1)
+        for k in range(N + 1):
+            idx = j + k
+            if idx < N_steps:
+                z_r_horiz_during[k] = z_r_vec[idx]
+    elif j == j_after:
+        X_pred_after = np.array(x_opt[: 4 * (N + 1)]).reshape(4, N + 1)
+        U_pred_after = np.array(x_opt[4 * (N + 1) :]).flatten()
+        z_r_horiz_after = np.zeros(N + 1)
+        for k in range(N + 1):
+            idx = j + k
+            if idx < N_steps:
+                z_r_horiz_after[k] = z_r_vec[idx]
     u_opt = float(x_opt[4 * (N + 1)])
     u_hist_mpc[j] = u_opt
     x_curr = A_d_np @ x_curr + B_d_np * u_opt + G_d_np * v_r_vec[j]
@@ -236,7 +307,7 @@ fig, axes = plt.subplots(
     ),
 )
 fig.suptitle(
-    "Kompaktes Active MPC vs. Passives Fahrwerk (CasADi Map-Formulierung)",
+    "Kompaktes Active MPC vs. Passives Fahrwerk (mit Trajektorien-Vorhersagen)",
     fontsize=16,
     fontweight="bold",
     y=0.98,
@@ -254,11 +325,35 @@ ax1.plot(
     lw=1.5,
 )
 ax1.plot(t_vec, zs_mpc, label="Aktives Fahrwerk (Map-MPC)", color="#1a73e8", lw=2.5)
+ax1.plot(
+    t_vec[j_before : j_before + N + 1],
+    X_pred_before[0] + X_pred_before[2] + z_r_horiz_before,
+    color="#e67e22",
+    linestyle=":",
+    lw=2.0,
+    label="Vorhersage vor Schwelle (t=0.35s)",
+)
+ax1.plot(
+    t_vec[j_during : j_during + N + 1],
+    X_pred_during[0] + X_pred_during[2] + z_r_horiz_during,
+    color="#9b59b6",
+    linestyle=":",
+    lw=2.0,
+    label="Vorhersage bei Schwelle (t=0.55s)",
+)
+ax1.plot(
+    t_vec[j_after : j_after + N + 1],
+    X_pred_after[0] + X_pred_after[2] + z_r_horiz_after,
+    color="#1abc9c",
+    linestyle=":",
+    lw=2.0,
+    label="Vorhersage nach Schwelle (t=0.85s)",
+)
 ax1.set_title("Aufbauposition (zs)", fontsize=12, fontweight="bold")
 ax1.set_xlabel("Zeit (s)", fontsize=10)
 ax1.set_ylabel("Auslenkung (m)", fontsize=10)
 ax1.grid(True, alpha=0.6)
-ax1.legend(frameon=True, facecolor="white", edgecolor="none")
+ax1.legend(frameon=True, facecolor="white", edgecolor="none", fontsize=8)
 ax1.spines["top"].set_visible(False)
 ax1.spines["right"].set_visible(False)
 ax2 = axes[0, 1]
@@ -303,6 +398,30 @@ ax4.step(
     lw=2,
     where="post",
 )
+ax4.plot(
+    t_vec[j_before : j_before + N],
+    U_pred_before,
+    color="#e67e22",
+    linestyle=":",
+    lw=2.0,
+    label="Vorhersage Kraft (t=0.35s)",
+)
+ax4.plot(
+    t_vec[j_during : j_during + N],
+    U_pred_during,
+    color="#9b59b6",
+    linestyle=":",
+    lw=2.0,
+    label="Vorhersage Kraft (t=0.55s)",
+)
+ax4.plot(
+    t_vec[j_after : j_after + N],
+    U_pred_after,
+    color="#1abc9c",
+    linestyle=":",
+    lw=2.0,
+    label="Vorhersage Kraft (t=0.85s)",
+)
 ax4.axhline(
     y=1.5e3,
     color="#cc0000",
@@ -315,9 +434,39 @@ ax4.set_title("Aktuator-Stellkraft", fontsize=12, fontweight="bold")
 ax4.set_xlabel("Zeit (s)", fontsize=10)
 ax4.set_ylabel("Kraft (N)", fontsize=10)
 ax4.grid(True, alpha=0.6)
-ax4.legend(frameon=True, facecolor="white", edgecolor="none")
+ax4.legend(frameon=True, facecolor="white", edgecolor="none", fontsize=8)
 ax4.spines["top"].set_visible(False)
 ax4.spines["right"].set_visible(False)
 plt.tight_layout()
 plt.savefig("active_suspension_mpc_map.png", dpi=150)
 print("Plot gespeichert als active_suspension_mpc_map.png")
+# ========================================================================
+# DISKUSSION DER STRASSENVORSCHAU UND DER MPC-VORHERDAGETRAJEKTORIEN
+# ========================================================================
+# Die gestrichelten Linien zeigen die vom MPC-Regler (Modellpraediktive Regelung)
+# zu bestimmten Zeitschritten (t=0.35s, t=0.55s, t=0.85s) vorhergesagten Trajektorien
+# ueber den Vorhersagehorizont N = 30 Zeitschritte (0.3s):
+#
+# 1. Vor der Stoerung (t = 0.35s, orange gepunktete Linie):
+#    - Der aktuelle Zustand ist noch im Nullzustand (Ruhelage).
+#    - Durch die Strassenvorschau (Look-Ahead Preview, z.B. per Kamera/LiDAR erfasst)
+#      sieht der Regler, dass bei t = 0.5s eine Bodenschwelle auf das Rad zukommt.
+#    - Da der Regler die Stoerung voraussieht, laesst er die Stellkraft des Aktuators
+#      schon kurz vor dem Eintreffen der Schwelle ansteigen (aktives Einziehen des Rades).
+#    - In der Vorhersage der Chassis-Auslenkung sieht man, wie das Chassis weich
+#      angehoben werden soll, um den Impuls beim Auffahren auf die Schwelle zu daempfen.
+#
+# 2. Waehrend der Stoerung (t = 0.55s, lila gepunktete Linie):
+#    - Das Fahrzeug faehrt gerade ueber die Bodenschwelle.
+#    - Der Regler reagiert mit maximaler Gegenkraft (er stoesst praezise an seine
+#      Aktuatorgrenze von -1500 N, um das Chassis stabil zu halten).
+#    - Die Vorhersage zeigt, wie der Regler plant, nach der Spitze der Schwelle die
+#      Kraft wieder weich abzubauen und die Schwingungen abzufangen.
+#
+# 3. Nach der Stoerung (t = 0.85s, tuerkis gepunktete Linie):
+#    - Die Bodenschwelle ist bereits ueberfahren (zr ist wieder 0).
+#    - Es sind jedoch noch transiente Eigenschwingungen im System (Chassis schwingt leicht).
+#    - Die Vorhersage zeigt, wie der MPC-Regler innerhalb seines 0.3s-Horizonts
+#      die Schwingung der gefederten Masse gegen 0 daempft, indem er kleine, kraeftige
+#      Stellimpulse setzt.
+# ========================================================================
