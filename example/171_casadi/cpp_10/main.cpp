@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <execution>
 #include <thread>
+#include <atomic>
 #include "lambert_solver.h"
 
 // Führt das Lösen des Lambert BVP und die Berechnung des Delta-V aus.
@@ -116,6 +117,14 @@ int main() {
     // Puffer für Ergebnisse
     std::vector<double> dv_results(N_dep * N_tof, 0.0);
 
+    // Logging / Statistik-Variablen (Thread-sichere atomare Datentypen)
+    std::atomic<int> failed_convergences{0};
+    std::atomic<int> high_dv_points{0};
+    std::atomic<int> useful_points{0};
+    std::atomic<long long> time_failed_us{0};
+    std::atomic<long long> time_high_dv_us{0};
+    std::atomic<long long> time_useful_us{0};
+
     std::cout << "Starte Simulation auf " << std::thread::hardware_concurrency() 
               << " logischen Kernen..." << std::endl;
     std::cout << "Berechne " << N_dep * N_tof << " Trajektorien..." << std::endl;
@@ -129,21 +138,57 @@ int main() {
         double t_dep = t_dep_grid[i];
         double tof = tof_days_grid[j] / 365.25;
 
+        auto t_start = std::chrono::high_resolution_clock::now();
+
         double dv = 0.0, vx0 = 0.0, vy0 = 0.0;
         bool success = solve_lambert(t_dep, tof, dv, vx0, vy0);
 
+        auto t_end = std::chrono::high_resolution_clock::now();
+        long long elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(t_end - t_start).count();
+
         if (success) {
             dv_results[i * N_tof + j] = dv;
+            if (dv > 20.0) { // Trajektorie ist energetisch unbrauchbar
+                high_dv_points++;
+                time_high_dv_us += elapsed_us;
+            } else {
+                useful_points++;
+                time_useful_us += elapsed_us;
+            }
         } else {
             dv_results[i * N_tof + j] = NAN;
+            failed_convergences++;
+            time_failed_us += elapsed_us;
         }
     });
 
     auto end_time = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration = end_time - start_time;
 
-    std::cout << "Simulation erfolgreich abgeschlossen in " << duration.count() 
-              << " ms." << std::endl;
+    // Auswertung der Logging-Statistiken
+    int total_points = N_dep * N_tof;
+    double total_cpu_time_ms = (time_failed_us + time_high_dv_us + time_useful_us) / 1000.0;
+    double wasted_cpu_time_ms = (time_failed_us + time_high_dv_us) / 1000.0;
+
+    std::cout << "Simulation erfolgreich abgeschlossen in " << duration.count() << " ms." << std::endl;
+    std::cout << "========================================================================" << std::endl;
+    std::cout << "STATISTIK & UNNÜTZE PUNKTE REPORT (Kumulierte CPU-Zeit):" << std::endl;
+    std::cout << "========================================================================" << std::endl;
+    std::cout << "Gesamtanzahl Rasterpunkte:   " << total_points << std::endl;
+    std::cout << "1. Konvergenzfehler (NaN):   " << failed_convergences 
+              << " (" << (failed_convergences * 100.0 / total_points) << "%) | CPU-Zeit: " 
+              << (time_failed_us / 1000.0) << " ms" << std::endl;
+    std::cout << "2. Zu hohes Delta-v (>20):   " << high_dv_points 
+              << " (" << (high_dv_points * 100.0 / total_points) << "%) | CPU-Zeit: " 
+              << (time_high_dv_us / 1000.0) << " ms" << std::endl;
+    std::cout << "3. Nutzbare Transferfenster: " << useful_points 
+              << " (" << (useful_points * 100.0 / total_points) << "%) | CPU-Zeit: " 
+              << (time_useful_us / 1000.0) << " ms" << std::endl;
+    std::cout << "------------------------------------------------------------------------" << std::endl;
+    std::cout << "Vergeudete CPU-Rechenleistung: " << wasted_cpu_time_ms << " ms von " 
+              << total_cpu_time_ms << " ms gesamt (" << (wasted_cpu_time_ms * 100.0 / total_cpu_time_ms) 
+              << "% der Rechenleistung)" << std::endl;
+    std::cout << "========================================================================" << std::endl;
 
     // Speichern der Ergebnisse in CSV
     std::string csv_filename = "porkchop_cpp.csv";
