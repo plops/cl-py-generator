@@ -498,6 +498,16 @@ acc_passive = (-ks / ms) * x_hist_passive[0] + (-cs / ms) * (
 zs_mpc = x_hist_mpc[0] + x_hist_mpc[2] + z_r_vec
 zs_passive = x_hist_passive[0] + x_hist_passive[2] + z_r_vec
 # --- Plotting Results ---
+plt.rcParams.update(
+    {
+        ("font.family"): ("sans-serif"),
+        ("font.sans-serif"): (["DejaVu Sans", "Arial"]),
+        ("axes.edgecolor"): ("#cccccc"),
+        ("axes.linewidth"): (0.8),
+        ("grid.color"): ("#eeeeee"),
+        ("grid.linestyle"): ("-"),
+    }
+)
 fig, axes = plt.subplots(
     2,
     2,
@@ -506,44 +516,71 @@ fig, axes = plt.subplots(
         10,
     ),
 )
-ax1 = axes[0, 0]
-ax1.plot(
-    t_vec, z_r_vec, label="Road Profile (Bump)", color="gray", linestyle="--", lw=1.5
+fig.suptitle(
+    "Active MPC vs. Passive Suspension System Comparison",
+    fontsize=16,
+    fontweight="bold",
+    y=0.98,
 )
-ax1.plot(t_vec, zs_passive, label="Passive Chassis", color="crimson", lw=2)
-ax1.plot(t_vec, zs_mpc, label="Active Chassis (MPC)", color="royalblue", lw=2)
-ax1.set_title("Chassis Vertical Displacement")
-ax1.set_xlabel("Time (s)")
-ax1.set_ylabel("Displacement (m)")
-ax1.grid(True, alpha=0.3)
-ax1.legend()
+ax1 = axes[0, 0]
+ax1.fill_between(
+    t_vec, 0, z_r_vec, color="#e0e0e0", alpha=0.5, label="Road Profile (Bump)"
+)
+ax1.plot(
+    t_vec, zs_passive, label="Passive Chassis", color="#ff4d4d", linestyle="--", lw=1.5
+)
+ax1.plot(t_vec, zs_mpc, label="Active Chassis (MPC)", color="#1a73e8", lw=2.5)
+ax1.set_title("Chassis Position (zs)", fontsize=12, fontweight="bold")
+ax1.set_xlabel("Time (s)", fontsize=10)
+ax1.set_ylabel("Displacement (m)", fontsize=10)
+ax1.grid(True, alpha=0.6)
+ax1.legend(frameon=True, facecolor="white", edgecolor="none")
+ax1.spines["top"].set_visible(False)
+ax1.spines["right"].set_visible(False)
 ax2 = axes[0, 1]
-ax2.plot(t_vec, acc_passive, label="Passive", color="crimson", lw=2)
-ax2.plot(t_vec, acc_mpc, label="Active (MPC)", color="royalblue", lw=2)
-ax2.set_title("Chassis Vertical Acceleration (Comfort Metric)")
-ax2.set_xlabel("Time (s)")
-ax2.set_ylabel("Acceleration (m/s^2)")
-ax2.grid(True, alpha=0.3)
-ax2.legend()
+ax2.axhspan(-0.5, 0.5, color="#e2f0d9", alpha=0.6, label="Comfort Zone (ISO 2631)")
+ax2.plot(t_vec, acc_passive, label="Passive", color="#ff4d4d", linestyle="--", lw=1.5)
+ax2.plot(t_vec, acc_mpc, label="Active (MPC)", color="#1a73e8", lw=2.5)
+ax2.set_title("Chassis Vertical Acceleration", fontsize=12, fontweight="bold")
+ax2.set_xlabel("Time (s)", fontsize=10)
+ax2.set_ylabel("Acceleration (m/s^2)", fontsize=10)
+ax2.grid(True, alpha=0.6)
+ax2.legend(frameon=True, facecolor="white", edgecolor="none")
+ax2.spines["top"].set_visible(False)
+ax2.spines["right"].set_visible(False)
 ax3 = axes[1, 0]
-ax3.plot(t_vec, x_hist_passive[0], label="Passive", color="crimson", lw=2)
-ax3.plot(t_vec, x_hist_mpc[0], label="Active (MPC)", color="royalblue", lw=2)
-ax3.axhline(y=8.0e-2, color="black", linestyle=":", label="Stroke Limit (+/- 8cm)")
-ax3.axhline(y=-8.0e-2, color="black", linestyle=":")
-ax3.set_title("Suspension Deflection (Travel)")
-ax3.set_xlabel("Time (s)")
-ax3.set_ylabel("Deflection (m)")
-ax3.grid(True, alpha=0.3)
-ax3.legend()
+ax3.axhspan(-8.0e-2, 8.0e-2, color="#f1f3f4", alpha=0.6, zorder=0)
+ax3.plot(
+    t_vec, x_hist_passive[0], label="Passive", color="#ff4d4d", linestyle="--", lw=1.5
+)
+ax3.plot(t_vec, x_hist_mpc[0], label="Active (MPC)", color="#1a73e8", lw=2.5)
+ax3.axhline(
+    y=8.0e-2, color="#cc0000", linestyle=":", lw=1.2, label="Stroke Limit (+/- 8cm)"
+)
+ax3.axhline(y=-8.0e-2, color="#cc0000", linestyle=":", lw=1.2)
+ax3.set_title("Suspension Deflection (Travel)", fontsize=12, fontweight="bold")
+ax3.set_xlabel("Time (s)", fontsize=10)
+ax3.set_ylabel("Deflection (m)", fontsize=10)
+ax3.grid(True, alpha=0.6)
+ax3.legend(frameon=True, facecolor="white", edgecolor="none")
+ax3.spines["top"].set_visible(False)
+ax3.spines["right"].set_visible(False)
 ax4 = axes[1, 1]
-ax4.step(t_vec, u_hist_mpc, label="Active Force (MPC)", color="forestgreen", lw=2)
-ax4.axhline(y=1.5e3, color="black", linestyle=":", label="Actuator Limit (+/- 1500N)")
-ax4.axhline(y=-1.5e3, color="black", linestyle=":")
-ax4.set_title("Actuator Control Force")
-ax4.set_xlabel("Time (s)")
-ax4.set_ylabel("Force (N)")
-ax4.grid(True, alpha=0.3)
-ax4.legend()
+ax4.axhspan(-1.5e3, 1.5e3, color="#f1f3f4", alpha=0.6, zorder=0)
+ax4.step(
+    t_vec, u_hist_mpc, label="Active Force (MPC)", color="#34a853", lw=2, where="post"
+)
+ax4.axhline(
+    y=1.5e3, color="#cc0000", linestyle=":", lw=1.2, label="Actuator Limit (+/- 1500N)"
+)
+ax4.axhline(y=-1.5e3, color="#cc0000", linestyle=":", lw=1.2)
+ax4.set_title("Actuator Control Force", fontsize=12, fontweight="bold")
+ax4.set_xlabel("Time (s)", fontsize=10)
+ax4.set_ylabel("Force (N)", fontsize=10)
+ax4.grid(True, alpha=0.6)
+ax4.legend(frameon=True, facecolor="white", edgecolor="none")
+ax4.spines["top"].set_visible(False)
+ax4.spines["right"].set_visible(False)
 plt.tight_layout()
 plt.savefig("active_suspension_mpc.png", dpi=150)
 print("Plot saved as active_suspension_mpc.png")
