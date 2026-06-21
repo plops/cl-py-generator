@@ -245,7 +245,7 @@ Returns:
 					(write-sequence code-str s))
 				#+nil
 				(sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
-				;(sb-ext:run-program "/usr/bin/ruff" (list "format" (namestring fn)))
+				(sb-ext:run-program "/snap/bin/uvx" (list "ruff" "format" (namestring fn)))
 				#+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
 				#+nil
 				(progn
@@ -266,25 +266,65 @@ Returns:
 		 The string representation of the number with sufficient digits."
 	(let* ((a f)
 				 (digits 1)
-				 (b (- a 1)))
+				 (b (- a 1))
+				 (threshold (if (typep f 'double-float) 1d-12 1e-7))
+				 (*read-default-float-format* (if (typep f 'double-float) 'double-float 'single-float)))
 		(unless (= a 0)
-			(loop while (< 1d-12
+			(loop while (< threshold
 										 (/ (abs (- a b))
 												(abs a)))
 						do
 						(setf b (read-from-string (format nil "~,vG" digits a)))
 						(incf digits)))
-		(substitute #\e #\d (format nil "~,vG" digits a))))
+		(substitute #\e #\d (format nil "~,vG" (max 1 (1- digits)) a))))
 
 
 					;(print-sufficient-digits-f64 1d0)
 
 
+(defparameter *precedence*
+  `((:op (paren paren* dict list tuple curly aref dot) :assoc l)
+    (:op (**) :assoc r)
+    (:op (unary- unary+ ~) :assoc r)
+    (:op (* @ / // %) :assoc l)
+    (:op (+ -) :assoc l)
+    (:op (<< >>) :assoc l)
+    (:op (& logand) :assoc l)
+    (:op (^ logxor) :assoc l)
+    (:op (|\|| logior) :assoc l)
+    (:op (< <= > >= != == in not-in is is-not) :assoc l)
+    (:op (not) :assoc r)
+    (:op (and) :assoc l)
+    (:op (or) :assoc l)
+    (:op (? ternary) :assoc r)
+    (:op (= setf) :assoc r)))
+
+(defparameter *operators*
+  (loop for e in *precedence*
+        append (getf e :op)))
+
+(defun lookup-precedence (operator)
+  (loop for e in *precedence*
+        and e-i from 0
+        do
+           (destructuring-bind (&key op assoc) e
+             (declare (ignore assoc))
+             (when (member operator op)
+               (return e-i)))))
+
+(defun lookup-associativity (operator)
+  (loop for e in *precedence*
+        do
+           (destructuring-bind (&key op (assoc 'l)) e
+             (declare (ignore op))
+             (when (member operator op)
+               (return assoc)))))
+
 (defparameter *env-functions* nil "docstring")
 (defparameter *env-macros* nil)
 
 
-(defun emit-py (&key code (str nil) (clear-env nil) (level 0))
+(defun emit-py (&key code (str nil) (clear-env nil) (level 0) (omit-redundant-parentheses t))
 	"Emit Python code based on the given parameters.
 
 	Args:
@@ -300,7 +340,7 @@ Returns:
     (setf *env-functions* nil
 	  *env-macros* nil))
   (flet ((emit (code &optional (dl 0))
-	   (emit-py :code code :clear-env nil :level (+ dl level))))
+	   (emit-py :code code :clear-env nil :level (+ dl level) :omit-redundant-parentheses omit-redundant-parentheses)))
 					;(format nil "emit-py ~a" level)
     (if code
 	(if (listp code)
@@ -427,62 +467,178 @@ Returns:
 	      (dot (let ((args (cdr code)))
 		     ;; don't print . for nil arguments
 		     (format nil "~{~a~^.~}" (mapcar #'emit (remove-if #'null args)))))
+	      (paren*
+	       ;; paren* parent-op arg
+	       ;; place a pair of parentheses only when needed
+	       (if (not omit-redundant-parentheses)
+		   (destructuring-bind (parent-op &rest args) (cdr code)
+		     (declare (ignore parent-op))
+		     (format nil "(~{~a~^, ~})" (mapcar #'emit args)))
+		   (progn
+		     (unless (eq 3 (length code))
+		       (break "paren* expects only two arguments: ~a" code))
+		     (destructuring-bind (parent-op arg &rest rest) (cdr code)
+		       (declare (ignore rest))
+		       (cond
+			 ((symbolp arg)
+			  (format nil "~a" (emit arg)))
+			 ((numberp arg)
+			  (if (<= 0 arg)
+			      (format nil "~a" (emit arg))
+			      (format nil " ~a" (emit arg))))
+			 ((stringp arg)
+			  (format nil "~a" arg))
+			 ((listp arg)
+			  ;; a list can be an arbitrary abstract syntax tree of operators
+			  (cond
+			    ((<= (length arg) 2)
+			     ;; two or one elements doesn't need paren
+			     (let ((op0 (car arg))
+				   (rest (cdr arg)))
+			       (assert (or (symbolp op0)
+					   (stringp op0)))
+			       (assert (listp rest))
+			       (emit `(,op0 ,@rest))))
+			    (t
+			     (let ((op0 parent-op)
+				   (rest (cdr arg)))
+			       (assert (or (symbolp op0)
+					   (stringp op0)))
+			       (assert (listp rest))
+			       (if (and (member op0 *operators*)
+					(member (car arg) *operators*))
+				   (let* ((p0 (lookup-precedence op0))
+					  (p0assoc (lookup-associativity op0))
+					  (op1 (car arg))
+					  (p1 (lookup-precedence op1))
+					  (p1assoc (lookup-associativity op1)))
+				     (if
+				      (or (< p0 p1)
+					  (and (eq p0 p1)
+					       (not (eq p0assoc p1assoc)))
+					  (member op0 '(/ // % - **))
+					  (member op1 '(/ // % - **)))
+				      (format nil "(~a)" (emit `(,op1 ,@rest)))
+				      (format nil "~a" (emit `(,op1 ,@rest)))))
+				   (emit `(,(car arg) ,@rest)))))))
+			 (t
+			  (break "unsupported argument for paren* '~a' type='~a'" arg (type-of arg))))))))
 	      (+ (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^+~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (format nil "~{~a~^+~}" (mapcar #'(lambda (x) (emit `(paren* + ,x))) args))
+		       (format nil "(~{(~a)~^+~})" (mapcar #'emit args)))))
 	      (- (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^-~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (if (eq 1 (length args))
+			   (format nil "-~a" (emit `(paren* unary- ,(car args))))
+			   (format nil "~{~a~^-~}" (mapcar #'(lambda (x) (emit `(paren* - ,x))) args)))
+		       (format nil "(~{(~a)~^-~})" (mapcar #'emit args)))))
 	      (* (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^*~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (format nil "~{~a~^*~}" (mapcar #'(lambda (x) (emit `(paren* * ,x))) args))
+		       (format nil "(~{(~a)~^*~})" (mapcar #'emit args)))))
 	      (@ (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^@~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (format nil "~{~a~^@~}" (mapcar #'(lambda (x) (emit `(paren* @ ,x))) args))
+		       (format nil "(~{(~a)~^@~})" (mapcar #'emit args)))))
 	      (== (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^==~})" (mapcar #'emit args))))
+		    (if omit-redundant-parentheses
+			(format nil "~{~a~^==~}" (mapcar #'(lambda (x) (emit `(paren* == ,x))) args))
+			(format nil "(~{(~a)~^==~})" (mapcar #'emit args)))))
 	      (<< (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^<<~})" (mapcar #'emit args))))
+		    (if omit-redundant-parentheses
+			(format nil "~{~a~^<<~}" (mapcar #'(lambda (x) (emit `(paren* << ,x))) args))
+			(format nil "(~{(~a)~^<<~})" (mapcar #'emit args)))))
 	      (!= (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^!=~})" (mapcar #'emit args))))
+		    (if omit-redundant-parentheses
+			(format nil "~{~a~^!=~}" (mapcar #'(lambda (x) (emit `(paren* != ,x))) args))
+			(format nil "(~{(~a)~^!=~})" (mapcar #'emit args)))))
 	      (< (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^<~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (format nil "~{~a~^<~}" (mapcar #'(lambda (x) (emit `(paren* < ,x))) args))
+		       (format nil "(~{(~a)~^<~})" (mapcar #'emit args)))))
 	      (> (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^>~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (format nil "~{~a~^>~}" (mapcar #'(lambda (x) (emit `(paren* > ,x))) args))
+		       (format nil "(~{(~a)~^>~})" (mapcar #'emit args)))))
 	      (<= (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^<=~})" (mapcar #'emit args))))
+		    (if omit-redundant-parentheses
+			(format nil "~{~a~^<=~}" (mapcar #'(lambda (x) (emit `(paren* <= ,x))) args))
+			(format nil "(~{(~a)~^<=~})" (mapcar #'emit args)))))
 	      (>= (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^>=~})" (mapcar #'emit args))))
+		    (if omit-redundant-parentheses
+			(format nil "~{~a~^>=~}" (mapcar #'(lambda (x) (emit `(paren* >= ,x))) args))
+			(format nil "(~{(~a)~^>=~})" (mapcar #'emit args)))))
 	      (>> (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^>>~})" (mapcar #'emit args))))
+		    (if omit-redundant-parentheses
+			(format nil "~{~a~^>>~}" (mapcar #'(lambda (x) (emit `(paren* >> ,x))) args))
+			(format nil "(~{(~a)~^>>~})" (mapcar #'emit args)))))
 	      (/ (let ((args (cdr code)))
-		   (format nil "((~a)/(~a))"
-			   (emit (first args))
-			   (emit (second args)))))
+		   (if omit-redundant-parentheses
+		       (if (eq 1 (length args))
+			   (format nil "1.0/~a" (emit `(paren* / ,(car args))))
+			   (format nil "~a/~a" (emit `(paren* / ,(first args))) (emit `(paren* / ,(second args)))))
+		       (format nil "((~a)/(~a))"
+			       (emit (first args))
+			       (emit (second args))))))
 	      (** (let ((args (cdr code)))
-		    (format nil "((~a)**(~a))"
-			    (emit (first args))
-			    (emit (second args)))))
+		    (if omit-redundant-parentheses
+			(format nil "~a**~a" (emit `(paren* ** ,(first args))) (emit `(paren* ** ,(second args))))
+			(format nil "((~a)**(~a))"
+				(emit (first args))
+				(emit (second args))))))
 	      (// (let ((args (cdr code)))
-		    (format nil "((~a)//(~a))"
-			    (emit (first args))
-			    (emit (second args)))))
+		    (if omit-redundant-parentheses
+			(format nil "~a//~a" (emit `(paren* // ,(first args))) (emit `(paren* // ,(second args))))
+			(format nil "((~a)//(~a))"
+				(emit (first args))
+				(emit (second args))))))
 	      (% (let ((args (cdr code)))
-		   (format nil "((~a)%(~a))"
-			   (emit (first args))
-			   (emit (second args)))))
+		   (if omit-redundant-parentheses
+		       (format nil "~a%~a" (emit `(paren* % ,(first args))) (emit `(paren* % ,(second args))))
+		       (format nil "((~a)%(~a))"
+			       (emit (first args))
+			       (emit (second args))))))
+	      (not (destructuring-bind (arg) (cdr code)
+		     (if omit-redundant-parentheses
+			 (format nil "not ~a" (emit `(paren* not ,arg)))
+			 (format nil "(not ~a)" (emit arg)))))
+	      (~ (destructuring-bind (arg) (cdr code)
+		   (if omit-redundant-parentheses
+		       (format nil "~~~a" (emit `(paren* ~ ,arg)))
+		       (format nil "(~~~a)" (emit arg)))))
 	      (and (let ((args (cdr code)))
-		     (format nil "(~{(~a)~^ and ~})" (mapcar #'emit args))))
+		     (if omit-redundant-parentheses
+			 (format nil "~{~a~^ and ~}" (mapcar #'(lambda (x) (emit `(paren* and ,x))) args))
+			 (format nil "(~{(~a)~^ and ~})" (mapcar #'emit args)))))
 	      (& (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (format nil "~{~a~^ & ~}" (mapcar #'(lambda (x) (emit `(paren* & ,x))) args))
+		       (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args)))))
 	      (logand (let ((args (cdr code)))
-			(format nil "(~{(~a)~^ & ~})" (mapcar #'emit args))))
+			(if omit-redundant-parentheses
+			    (format nil "~{~a~^ & ~}" (mapcar #'(lambda (x) (emit `(paren* logand ,x))) args))
+			    (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args)))))
 	      (logxor (let ((args (cdr code)))
-			(format nil "(~{(~a)~^ ^ ~})" (mapcar #'emit args))))
+			(if omit-redundant-parentheses
+			    (format nil "~{~a~^ ^ ~}" (mapcar #'(lambda (x) (emit `(paren* logxor ,x))) args))
+			    (format nil "(~{(~a)~^ ^ ~})" (mapcar #'emit args)))))
 	      (|\|| (let ((args (cdr code)))
-		      (format nil "(~{(~a)~^ | ~})" (mapcar #'emit args))))
+		      (if omit-redundant-parentheses
+			  (format nil "~{~a~^ | ~}" (mapcar #'(lambda (x) (emit `(paren* |\|| ,x))) args))
+			  (format nil "(~{(~a)~^ | ~})" (mapcar #'emit args)))))
 	      (^ (let ((args (cdr code)))
-		   (format nil "(~{(~a)~^ ^ ~})" (mapcar #'emit args))))
+		   (if omit-redundant-parentheses
+		       (format nil "~{~a~^ ^ ~}" (mapcar #'(lambda (x) (emit `(paren* ^ ,x))) args))
+		       (format nil "(~{(~a)~^ ^ ~})" (mapcar #'emit args)))))
 	      (logior (let ((args (cdr code)))
-			(format nil "(~{(~a)~^ | ~})" (mapcar #'emit args))))
+			(if omit-redundant-parentheses
+			    (format nil "~{~a~^ | ~}" (mapcar #'(lambda (x) (emit `(paren* logior ,x))) args))
+			    (format nil "(~{(~a)~^ | ~})" (mapcar #'emit args)))))
 	      (or (let ((args (cdr code)))
-		    (format nil "(~{(~a)~^ or ~})" (mapcar #'emit args))))
+		    (if omit-redundant-parentheses
+			(format nil "~{~a~^ or ~}" (mapcar #'(lambda (x) (emit `(paren* or ,x))) args))
+			(format nil "(~{(~a)~^ or ~})" (mapcar #'emit args)))))
 	      (comment (format nil "# ~a~%" (cadr code)))
 	      (comments (let ((args (cdr code)))
 			  (format nil "~{# ~a~%~}" (mapcar #'(lambda (arg)
@@ -518,15 +674,20 @@ Returns:
 			 (emit ls))))
 	      (while (destructuring-bind (vs &rest body) (cdr code)
 		       (with-output-to-string (s)
-			 (format s "while ~a:~%"
-				 (emit `(paren ,vs)))
+			 (if omit-redundant-parentheses
+			     (format s "while ~a:~%" (emit vs))
+			     (format s "while ~a:~%" (emit `(paren ,vs))))
 			 (format s "~a" (emit `(do ,@body))))))
 
 	      (if (destructuring-bind (condition true-statement &optional false-statement) (cdr code)
 		    (with-output-to-string (s)
-		      (format s "if ( ~a ):~%~a"
-			      (emit condition)
-			      (emit `(do ,true-statement)))
+		      (if omit-redundant-parentheses
+			  (format s "if ~a:~%~a"
+				  (emit condition)
+				  (emit `(do ,true-statement)))
+			  (format s "if ( ~a ):~%~a"
+				  (emit condition)
+				  (emit `(do ,true-statement))))
 		      (when false-statement
 			(format s "~&~a:~%~a"
 				(emit `(indent "else"))
@@ -540,23 +701,39 @@ Returns:
 				(format s "~&~a:~%~a"
 					(cond ((and (eq condition 't) (eq i 0))
 					       ;; this special case may happen when you comment out all but the last cond clauses
-					       (format nil "if ( True )"))
-					      ((eq i 0) (format nil "if ( ~a )" (emit condition)))
+					       (if omit-redundant-parentheses
+						   (format nil "if True")
+						   (format nil "if ( True )")))
+					      ((eq i 0)
+					       (if omit-redundant-parentheses
+						   (format nil "if ~a" (emit condition))
+						   (format nil "if ( ~a )" (emit condition))))
 					      ((eq condition 't) (emit `(indent "else")))
-					      (t (emit `(indent ,(format nil "elif ( ~a )" (emit condition)))))
+					      (t (emit `(indent ,(if omit-redundant-parentheses
+								     (format nil "elif ~a" (emit condition))
+								     (format nil "elif ( ~a )" (emit condition))))))
 					      )
 					(emit `(do ,@statements)))))
 			)))
 	      (? (destructuring-bind (condition true-statement &optional (false-statement "None" false-statement-supplied-p))
 		     (cdr code)
-		   (if false-statement-supplied-p
-		       (format nil "(~a) if (~a) else (~a)"
-			       (emit true-statement)
-			       (emit condition)
-			       (emit false-statement))
-		       (format nil "~a if (~a)"
-			       (emit true-statement)
-			       (emit condition)))))
+		   (if omit-redundant-parentheses
+		       (if false-statement-supplied-p
+			   (format nil "~a if ~a else ~a"
+				   (emit `(paren* ternary ,true-statement))
+				   (emit `(paren* ternary ,condition))
+				   (emit `(paren* ternary ,false-statement)))
+			   (format nil "~a if ~a"
+				   (emit `(paren* ternary ,true-statement))
+				   (emit `(paren* ternary ,condition))))
+		       (if false-statement-supplied-p
+			   (format nil "(~a) if (~a) else (~a)"
+				   (emit true-statement)
+				   (emit condition)
+				   (emit false-statement))
+			   (format nil "~a if (~a)"
+				   (emit true-statement)
+				   (emit condition))))))
 	      (when (destructuring-bind (condition &rest forms) (cdr code)
                       (emit `(if ,condition
                                  (do0
@@ -609,7 +786,7 @@ Returns:
 			     (format s "~a" (emit `(do ,@body)))
 			     (format s "~a~%~a"
 				     (emit "except Exception as e:")
-				     (emit `(do "print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)"))))))
+				     (emit `(do "print('Error on line {}.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)"))))))
 	      (t (destructuring-bind (name &rest args) code
 
 		   (if (listp name)
@@ -643,10 +820,15 @@ Returns:
 	      ((numberp code) ;; print constants
 	       (cond ((integerp code) (format str "~a" code))
 		     ((floatp code)
-		      (format str "(~a)" (print-sufficient-digits-f64 code)))
+		      (if omit-redundant-parentheses
+			  (format str "~a" (print-sufficient-digits-f64 code))
+			  (format str "(~a)" (print-sufficient-digits-f64 code))))
 		     ((complexp code)
-		      (format str "((~a) + 1j * (~a))"
-			      (print-sufficient-digits-f64 (realpart code))
-			      (print-sufficient-digits-f64 (imagpart code))))))))
+		      (if omit-redundant-parentheses
+			  (format str "~a + 1j * ~a"
+				  (print-sufficient-digits-f64 (realpart code))
+				  (print-sufficient-digits-f64 (imagpart code)))
+			  (format str "((~a) + 1j * (~a))"
+				  (print-sufficient-digits-f64 (realpart code))
+				  (print-sufficient-digits-f64 (imagpart code)))))))))
 	"")))
-

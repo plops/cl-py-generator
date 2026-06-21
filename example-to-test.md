@@ -1,0 +1,49 @@
+# Transpiler Patterns registered from Examples
+
+This file tracks the patterns found in high-numbered example files that have been integrated into the transpiler unit tests.
+
+| Pattern | Lisp Form | Python Output | Reference File |
+|---|---|---|---|
+| Unary Minus / Division | `(- x)`, `(/ x)` | `-x`, `1.0/x` | `example/171_casadi/gen02.lisp` |
+| Unary Bitwise NOT | `(~ x)` | `~x` | `example/161_sqlite_embed/gen01.lisp` |
+| Complex Numbers | `#c(1.0 2.0)` | `1.0 + 1j * 2.0` | `py.lisp` (intrinsic support) |
+| Unary Logical NOT | `(not x)` | `not x` | `example/160_udp_holepunch/gen03.lisp` |
+| Raw String Call / Ident | `("list" x)` | `list(x)` | `example/149_host_videos/gen01.lisp` |
+| Empty / Open Slice | `(slice)`, `(slice "" max)` | `:`, `:max` | `example/171_casadi/gen02.lisp`, `example/157_tkinter/gen01.lisp` |
+| Conditional Parentheses | `(paren* * (+ a b))` | `(a + b)` | `py.lisp` (precedence rules) |
+| Raw Code Insertion | `"@threaded"`, `"#!/usr/bin/env python3"` | `@threaded`, `#!/usr/bin/env python3` | `example/143_helium_gemini/gen01.lisp` |
+| Loop Control | `break`, `continue` | `break`, `continue` | `example/136_tbs/gen01.lisp` |
+| Yield Statements | `yield`, `(yield x)` | `yield`, `yield(x)` | `example/163_fasthtml_sse/gen01.lisp` |
+| Lambda Variants | `(lambda () 42)`, `(lambda (x y) (+ x y))` | `lambda: 42`, `lambda x, y: x + y` | `example/103_co2_sensor/gen01.lisp` |
+| Class Super Call | `(super)`, `(super ImageModel self)` | `super()`, `super(ImageModel, self)` | `example/130_torch_optim/gen01.lisp` |
+| Chained Dot Access | `(dot model (aref weights i j) (item))` | `model.weights[i,j].item()` | `example/130_torch_optim/gen01.lisp` |
+| Unpacking Assignment | `(setf (ntuple a b) (tuple 1 2))` | `a, b = (1, 2,)` | `example/144_fasthtml/gen01.lisp` |
+| Multiple Context Managers `with` | `(with (ntuple (as (open (string "a.txt")) f) (as (open (string "b.txt")) g)) (setf a 1))` | `with open("a.txt") as f, open("b.txt") as g:\n    a = 1` | `example/109_mediapipe_segment/gen01.lisp` (multiple with statements context) |
+| `export` Cell Comment | `(export (setf a 1))` | `# |export\na = 1` | `example/88_plotly/gen01.lisp` |
+| `indent` Construct | `(indent a)` | `a` (at current indent level) | `py.lisp` (internal formatting) |
+| Lambda Keyword Arguments | `(lambda (x &key (y 2)) (+ x y))` | `lambda x, y=2: x + y` | `example/103_co2_sensor/gen01.lisp` |
+| Indexing Raw Slice String | `(aref arr ":" 0)` | `arr[:, 0]` | `example/107_ofdm/gen01.lisp` |
+| Simple `with` Statement | `(with conn (setf a 1))` | `with conn:\n    a = 1` | `example/103_co2_sensor/gen05.lisp` |
+| Empty Dictionary | `(tuple (dict) (dictionary))` | `({}, dict(),)` | `py.lisp` (dict literals) |
+| Chained Comparisons | `(< a b c)` | `a < b < c` | `example/03_cl/gen.lisp` |
+| Chained Logicals | `(and a b c)` | `a and b and c` | `example/160_udp_holepunch/gen01.lisp` |
+| Chained Bitwise | `(logand a b c)` | `a & b & c` | `py.lisp` |
+| Return Variants | `(return (ntuple x y))` | `return x, y` | `example/56_myhdl/gen00.lisp` |
+| Pass Statement | `pass` | `pass` | `example/02_qt/gen.lisp` |
+| Set Comprehension | `(curly (for-generator (x (range 5)) x))` | `{x for x in range(5)}` | `example/103_co2_sensor/gen01.lisp` |
+| For Loop Sequence Variable | `(for (x items) (print x))` | `for x in items:\n    print(x)` | `example/05_trellis_qt/gen00.lisp` |
+| Nested Function Definition | `(def outer (x) (def inner (y) (return (+ x y))) (return inner))` | `def outer(x):\n    def inner(y):\n        return x + y\n    return inner` | `example/56_myhdl/gen01.lisp` |
+| Nested Class Definition | `(class Outer () (class Inner () (def f (self) pass)))` | `class Outer:\n    class Inner:\n        def f(self):\n            pass` | `example/70_star_tracker/gen01.lisp` |
+| Keyword Parameter Default Expression | `(def foo (x &key (y (+ 1 2))) (return (* x y)))` | `def foo(x, y=1 + 2):\n    return x * y` | `example/87_semiconductor/gen01.lisp` |
+| Nested Ternary Operators | `(? c1 (? c2 a b) d)` | `(a if c2 else b) if c1 else d` | `py.lisp` (intrinsic operator nesting) |
+| Slice with Negative Step | `(aref arr (slice nil nil -1))` | `arr[::-1]` | `example/76_opencv_cuda/gen01.lisp` |
+| Logical Not Precedence | `(tuple (not (== a b)) (not (and a b)))` | `(not a == b, not (a and b),)` | `py.lisp` (intrinsic precedence) |
+| Chained Matrix Multiplication | `(@ a b c)` | `a @ b @ c` | `py.lisp` (intrinsic chaining) |
+| Loop Variable Unpacking | `(for ((ntuple root folders files) (os.walk (string "."))) (print root))` | `for root, folders, files in os.walk("."): print(root)` | `example/42_android_repl/gen00.lisp` |
+| Keyword-only Parameters | `(def foo (&key (x 1) (y 2)) (return (+ x y)))` | `def foo(x=1, y=2): return x + y` | `example/49_wgpu/gen00.lisp` |
+| Multiple Exceptions in Except | `(try (f) ((tuple KeyError ValueError) (print (string "error"))))` | `try: f() except (KeyError, ValueError): print("error")` | `example/51_django/gen00.lisp` |
+| Member Access via Dotted Symbol | `(setf image.flags.writeable False)` | `image.flags.writeable = False` | `example/38_mediapipe/gen01.lisp` |
+| Complex Number Symbol Fallback | `(tuple 0j 1j)` | `(0j, 1j,)` | `example/29_ondrejs_challenge/gen00.lisp` |
+| Raw Code in Expression | `(- "1/8" x)` | `1/8 - x` | `example/53_topopt/gen00.lisp` |
+
+
