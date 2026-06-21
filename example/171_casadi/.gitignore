@@ -1,0 +1,5 @@
+*.png
+cpp_10/build/
+cpp_10/lambert_solver.cpp
+cpp_10/lambert_solver.h
+cpp_10/porkchop_cpp.csv

@@ -403,7 +403,7 @@ die Berechnung trivial mit multiprocessing.Pool parallelisieren.
        
        ;; Farbskala mit physikalischer Einheit.
        (setf cbar (plt.colorbar cf :ax ax))
-       (cbar.set_label (string "Total $\\\\Delta v$ [km/s]") :fontsize 13)
+       (cbar.set_label (string "Total $\\Delta v$ [km/s]") :fontsize 13)
        
        ;; Globales Minimum markieren.
        (when (np.any valid_mask)
@@ -414,7 +414,7 @@ die Berechnung trivial mit multiprocessing.Pool parallelisieren.
 		  :markeredgecolor (string "black")
 		  :markeredgewidth 1.5
 		  :zorder 10)
-	 (ax.annotate (fstring "$\\\\Delta v_{{min}}$ = {dv_min:.2f} km/s")
+	 (ax.annotate (fstring "$\\Delta v_{{min}}$ = {dv_min:.2f} km/s")
 		      :xy (tuple t_dep_min tof_min)
 		      :xytext (tuple (+ t_dep_min 0.15) (+ tof_min 25))
 		      :fontsize 11
@@ -427,7 +427,7 @@ die Berechnung trivial mit multiprocessing.Pool parallelisieren.
        ;; Achsenbeschriftungen und Titel.
        (ax.set_xlabel (string "Departure date [years from epoch]") :fontsize 13)
        (ax.set_ylabel (string "Transfer duration [days]") :fontsize 13)
-       (ax.set_title (string "Earth $\\\\rightarrow$ Mars: Pork Chop Diagram (Impulsive $\\\\Delta v$)")
+       (ax.set_title (string "Earth $\\rightarrow$ Mars: Pork Chop Diagram (Impulsive $\\Delta v$)")
 		     :fontsize 15 :fontweight (string "bold"))
        (ax.grid True :alpha 0.3 :color (string "white") :linestyle (string "--"))
        

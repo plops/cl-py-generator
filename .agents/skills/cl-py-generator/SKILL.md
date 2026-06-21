@@ -24,6 +24,12 @@ The primary public entrypoints are:
 
 The transpiler uses an `:invert` readtable-case, meaning that lower-case code is preserved and maps naturally to lower-case Python identifiers.
 
+> [!IMPORTANT]
+> **Symbol Package Matching Alert**:
+> The transpiler dispatcher uses exact symbol equality (`eq`) to match DSL keywords (like `slice`, `paren*`, etc.).
+> - When generating or testing code from a different package (e.g., `cl-user` or in tests), make sure the DSL symbols are either exported by `:cl-py-generator` or package-qualified (e.g. `cl-py-generator::paren*`).
+> - Unexported symbols read in another package will fail to match the emitter dispatcher and default to a Python function call representation (e.g., `symbol-name()`).
+
 ---
 
 ## DSL Reference & Mapping Guide
@@ -37,6 +43,14 @@ Below is a complete reference of the Lisp forms supported by the transpiler and 
 - Increment / Decrement:
   - `(incf a 2)` &rarr; `a += 2`
   - `(decf a 3)` &rarr; `a -= 3`
+- **Global Declarations**:
+  - Do **NOT** write `(global x)` as it transpiles to a function-like call `global(x)` in Python, which is a `SyntaxError`.
+  - Use the `space` keyword instead: `(space global x)` &rarr; `global x`.
+  - For multiple global variables, write them as separate statements to keep the Lisp code clean and avoid comma generation issues:
+    ```lisp
+    (space global var1)
+    (space global var2)
+    ```
 
 ### 2. Basic Operators
 All operators wrap their operands in parentheses to preserve operator precedence.
@@ -111,7 +125,11 @@ All operators wrap their operands in parentheses to preserve operator precedence
 - **Loops**:
   - While: `(while (< a b) (setf a (+ a 1)))` &rarr; `while (a < b):\n    a = a + 1`
   - For: `(for (i (range 3)) (print i))` &rarr; `for i in range(3):\n    print(i)`
+  - Loop Control: `break` and `continue` keywords can be placed inside loops as atoms.
   - List Comprehension Generator: `(for-generator (i (range 3)) (* i 2))` &rarr; `i * 2 for i in range(3)`
+- **Yield Statements**:
+  - Generator yield: `yield` &rarr; `yield`
+  - Generator yield value: `(yield x)` &rarr; `yield(x)`
 - **Try/Except/Finally**:
   ```lisp
   (try (setf a 1)
@@ -156,6 +174,9 @@ All operators wrap their operands in parentheses to preserve operator precedence
   `(lambda (x) (+ x 1))` &rarr; `lambda x: x + 1`
 - **Class Definitions**:
   `(class Foo (ParentClass) body*)` &rarr; `class Foo(ParentClass):\n    body*`
+- **Class Super Call**:
+  - Zero-argument super call: `(super)` &rarr; `super()`
+  - Explicit super call: `(super ImageModel self)` &rarr; `super(ImageModel, self)`
 - **Return Statement**:
   - `(return expr)` or `(return_ expr)` &rarr; `return expr`
 
@@ -186,12 +207,15 @@ All operators wrap their operands in parentheses to preserve operator precedence
 - **Comments**:
   - Single line: `(comment "note")` &rarr; `# note`
   - Multi line: `(comments "line1" "line2")` &rarr; `# line1\n# line2`
-- **Grouping**:
+- **Grouping & Code Insertion**:
   - `do`: Combines forms sequentially and indents them (adds block indentation level).
   - `do0`: Combines forms sequentially at the current indentation level.
   - `space`: Combines forms separated by space (e.g. `(space a b)` &rarr; `a b`).
   - `symbol`: Replaces hyphens with colons (e.g. `(symbol foo-bar)` &rarr; `foo:bar`).
   - `cell` / `export`: Prefixes the forms with Jupyter cell export comments (`# export` or `# |export`).
+  - Raw Code Insertion: A bare Common Lisp string literal inside code blocks (like `do0`) is emitted directly as raw, unquoted text (e.g. `"@threaded"` &rarr; `@threaded`).
+- **Conditional Parentheses**:
+  - Precedence-aware: `(paren* parent-op arg)` wraps parenthesises around the argument only if the operator precedence demands it (e.g., `(paren* * (+ a b))` &rarr; `(a + b)` whereas `(paren* + (+ a b))` &rarr; `a + b`).
 
 ### 8. Compile-Time Code Generation & Templating
 Since `cl-py-generator` transpiles Lisp S-Expressions at compile time, you can leverage standard Common Lisp list processing and macro/loop constructs (like `loop`, `backquote`, and comma evaluation) to avoid boilerplate.
@@ -208,6 +232,56 @@ For example, instead of repeating formatting code or wrapping many strings in `(
           (dot ,ax (set_ylabel (string ,yl)))))
 ```
 This compile-time expansion generates clean, repeated S-expression logic dynamically while separating raw data from the Python S-expression templates.
+
+#### Custom Helper Functions & S-Expression Builders
+Instead of manually typing nested backquotes (\`) and commas (,) everywhere in your generator code, you can define helper functions in Lisp to wrap repetitive patterns. 
+
+Using `destructuring-bind` with keyword parameters on a single list argument is a powerful way to simulate **named arguments (keyword arguments)** inside forms, without cluttering the syntax with backquotes/commas at the call site.
+
+Here is an example demonstrating:
+1. `sym` & `sym1`: Helper functions to generate CasADi symbolic variable declarations with automatic dimension naming.
+2. `fun`: An S-Expression builder that accepts keyword arguments inside a single list parameter.
+
+##### Lisp Helper Definition:
+```lisp
+;; Generiert: (SX.sym "name" n1 n2 ...)
+(defun sym (name vals)
+  `(SX.sym (string ,name) ,@vals))
+
+;; Generiert: (SX.sym "name" "nname")
+(defun sym1 (name)
+  (sym name (list (format nil "n~a" name))))
+
+;; Generiert: (Function "name" [args] [vals])
+;; destructuring-bind &key auf einer Liste ermoeglicht saubere named arguments
+(defun fun (name-args-vals)
+  (destructuring-bind (&key name args vals) name-args-vals
+    `(Function (string ,name)
+               (list ,@args)
+               (list ,@vals))))
+```
+
+##### Usage in Lisp Generator Code:
+```lisp
+(write-source "p05_rootfinder"
+  `(do0
+     ;; Die Helfer werten zu reinen S-Expressions aus
+     (setf z ,(sym1 "z")       ; Generiert: z = SX.sym('z', 'nz')
+           x ,(sym1 "x")       ; Generiert: x = SX.sym('x', 'nx')
+           g0 (sin (+ x z))
+           g1 (cos (- x z))
+           
+           ;; fun nutzt named arguments in einer flachen Liste
+           g ,(fun `(:name g :args (z x) :vals (g0 g1))))))
+```
+
+This keeps the Lisp code highly readable, modular, and easy to maintain.
+
+##### Templating Warning: Comma-Evaluation inside Backquotes (`,`)
+When using custom Lisp helper functions or S-expression builders inside a backquoted template (such as the one passed to `write-source`), remember that:
+1. **Forms are NOT evaluated automatically** inside a backquote. Writing `(my-helper args)` inside ` `(do0 (my-helper args))` will result in the transpiler emitting a Python function call: `my_helper(args)`.
+2. **Use Comma-Evaluation**: To force Lisp to evaluate your helper function at compile time and merge its output into the S-expression tree, you must prefix it with a comma:
+   `,(my-helper args)`
 
 ---
 
