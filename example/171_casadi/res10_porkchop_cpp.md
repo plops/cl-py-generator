@@ -56,7 +56,7 @@ Um die maximale Leistung ohne OpenMP zu erzielen, haben wir zwei C++20-Konzepte 
         }));
     }
     ```
-*   **Vorteil**: **100% plattformunabhängig und ohne Abhängigkeiten**. Läuft out-of-the-box ohne `libtbb-dev` oder root-Rechte zur Installation. Die Performance ist identisch zur Parallel-STL, da die Last gleichmäßig verteilt wird.
+*   **Vorteil**: **100% plattformunabhängig und ohne Abhängigkeiten**. Läuft out-of-the-box ohne `libtbb-dev` or root-Rechte zur Installation. Die Performance ist identisch zur Parallel-STL, da die Last gleichmäßig verteilt wird.
 
 ---
 
@@ -66,12 +66,16 @@ Die C++20 Parallel-STL Implementierung wurde auf zwei unterschiedlichen Systemen
 
 ### System A: Laptop (16 logische Kerne)
 *   **Kommando**: `time ./porkchop_sim`
-*   **Simulationszeit**: $6395.86$ ms ($6.4$ Sekunden)
+*   **Simulationszeit**: $5565.52$ ms ($5.5$ Sekunden)
 *   **Ressourcenauslastung**:
-    *   `real`: `0m6.430s`
-    *   `user`: `1m41.441s`
-    *   `sys`: `0m0.037s`
-*   **Effizienz**: Hervorragende Thread-Skalierung ($\approx 15.8$-fache CPU-Auslastung bei 16 Kernen).
+    *   `real`: `0m5.586s`
+    *   `user`: `1m27.305s`
+    *   `sys`: `0m1.145s`
+*   **Statistik & Unnütze Punkte Report (Kumulierte CPU-Zeit)**:
+    *   *Konvergenzfehler (NaN)*: $191.444$ ($76.5776\%$) | CPU-Zeit: $71.433$ ms
+    *   *Zu hohes Delta-v (>20)*: $53.123$ ($21.2492\%$) | CPU-Zeit: $15.149,3$ ms
+    *   *Nutzbare Transferfenster*: $5.433$ ($2.1732\%$) | CPU-Zeit: $1.673,48$ ms
+    *   *Vergeudete CPU-Rechenleistung*: **$86.582,3$ ms von $88.255,8$ ms gesamt ($98.1038\%$ der Rechenleistung)**.
 
 ### System B: Virtual Private Server (VPS, 2 logische Kerne)
 *   **Kommando**: `time ./porkchop_sim`
@@ -80,7 +84,11 @@ Die C++20 Parallel-STL Implementierung wurde auf zwei unterschiedlichen Systemen
     *   `real`: `0m39.343s`
     *   `user`: `1m14.638s`
     *   `sys`: `0m0.055s`
-*   **Effizienz**: Nahezu $1.9$-fache CPU-Auslastung bei 2 Kernen.
+*   **Statistik & Unnütze Punkte Report (Kumulierte CPU-Zeit)**:
+    *   *Konvergenzfehler (NaN)*: $191.407$ ($76.5628\%$) | CPU-Zeit: $63.622,7$ ms
+    *   *Zu hohes Delta-v (>20)*: $53.160$ ($21.264\%$) | CPU-Zeit: $13.453,3$ ms
+    *   *Nutzbare Transferfenster*: $5.433$ ($2.1732\%$) | CPU-Zeit: $1.406,09$ ms
+    *   *Vergeudete CPU-Rechenleistung*: **$77.076$ ms von $78.482,1$ ms gesamt ($98.2084\%$ der Rechenleistung)**.
 
 ---
 
@@ -128,4 +136,33 @@ Ein radikales Abschneiden des Suchraums birgt die große Gefahr, alternative, ph
 
 ### Ursache der Konvergenzfehler (Weiße Bereiche)
 Die weißen Bereiche im Plot entstehen nicht, weil dort keine physikalische Trajektorie existiert, sondern weil das lokale Newton-Verfahren ausgehend von der naiven Startschätzung (`1.1 * Erdgeschwindigkeit`) in Regionen starker Nichtlinearität divergiert.
-*   *Lösung zur Behebung*: Einbau eines analytischen Lambert-Approximators (z. B. Izzo-Algorithmus) zur Generierung einer präzisen Startschätzung für jeden Gitterpunkt. Damit konvergiert das Verfahren für 100% aller Punkte.
+*   *Lösung zur Behebung*: Einbau eines algebraischen Lambert-Approximators (z. B. Izzo-Algorithmus) zur Generierung einer präzisen Startschätzung für jeden Gitterpunkt. Damit konvergiert das Verfahren für 100% aller Punkte.
+
+---
+
+## 7. Report über "unnütze Punkte" und Rechenzeitverschwendung
+
+Im optimierten C++-Programm wurden Zähler eingeführt, um zu analysieren, wie viel Rechenleistung auf energetisch unbrauchbare oder nicht konvergierte Trajektorien entfällt. 
+
+Für ein Raster von $250.000$ Punkten ergab sich auf dem VPS (2 CPU-Kerne) folgendes Bild:
+
+*   **Konvergenzfehler (NaN)** (Konstellation ungünstig für lokale Startschätzung): **76.56%** ($191.407$ Punkte) | Kumulierte CPU-Zeit: $63.622,7$ ms
+*   **Zu hohes Delta-v (>20 km/s)** (Sonde fliegt energetisch unsinnige Umwege): **21.26%** ($53.160$ Punkte) | Kumulierte CPU-Zeit: $13.453,3$ ms
+*   **Nutzbare Transferfenster (<=20 km/s)**: **2.17%** ($5.433$ Punkte) | Kumulierte CPU-Zeit: $1.406,1$ ms
+
+### Fazit der Rechenzeitverteilung:
+**98,2% der kumulierten CPU-Rechenleistung** ($77.076$ ms von $78.482$ ms) wurde für unbrauchbare Trajektorien aufgewendet. 
+Dies demonstriert eindrucksvoll, warum im echten Missionsdesign fortgeschrittene Methoden (wie die Arc-Length-Continuation aus `gen04`) oder neuronale Netze zur Vorselektion eingesetzt werden, um die Berechnungen auf das 2%-Intervall der nutzbaren Transferfenster zu fokussieren.
+
+---
+
+## 8. Physikalische Begründung des Abschneidens (Untergrenze der Flugzeit)
+
+Im Porkchop-Diagramm ist zu erkennen, dass die Höhenlinien am unteren Rand (bei kurzen Flugzeiten) abgeschnitten werden.
+
+### Warum geht das Minimum nicht einfach wieder nach oben?
+*   **Die physikalische Realität**: Wenn die Flugzeit ($t_{\text{tof}}$) kürzer wird, muss die Sonde einen direkteren, viel schnelleren Weg fliegen. Dies bedeutet, dass sie sich nicht mehr auf einer energiesparenden Ellipse (Hohmann-Transfer) bewegt, sondern die Flugbahn gestreckt werden muss. Die Sonde benötigt eine weitaus höhere kinetische Energie.
+*   **Grenzverhalten**: Wenn die Flugzeit gegen Null geht ($t_{\text{tof}} \rightarrow 0$), geht die benötigte Start- und Bremsgeschwindigkeit gegen Unendlich ($\Delta v \rightarrow \infty$). Physikalisch steigt das Delta-V im unteren Teil der Karte also extrem steil und unbegrenzt an.
+*   **Der Grund für den visuellen Cutoff**: 
+    1.  **Plot-Grenze**: Im Diagramm ist die Y-Achse standardmäßig auf eine Untergrenze (z. B. 100 oder 80 Tage) eingestellt. Das Abschneiden ist also primär eine Darstellungsbegrenzung (Axis Limit), da Flugzeiten unter 80 Tagen astronomische Energiemengen erfordern, die technisch irrelevant sind.
+    2.  **Solver-Divergenz**: Für extrem kurze Flugzeiten (z. B. < 50 Tage) divergiert das Newton-Verfahren komplett, da die benötigten Geschwindigkeiten zu extrem sind und weit außerhalb des Konvergenzradius unserer einfachen Startschätzung liegen. Diese Punkte werden im Plot als NaNs (weiße Flächen) dargestellt.
