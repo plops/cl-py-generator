@@ -214,6 +214,12 @@ for idx, m in enumerate(minima):
     dt_yr = (m['tof'] / 365.25) / 150
     rad_index = np.sum(1.0 / (r_t**2)) * dt_yr
     
+    # Sonnenzyklus-Multiplikator: M(t) = 1.0 + 0.9 * cos(2*pi*(t + 1)/11)
+    # t ist Jahre ab 2026.0 (t_dep). Der Peak von Zyklus 25 lag um 2025.0 (t = -1.0).
+    times = m['t_dep'] + np.arange(len(r_t)) * dt_yr
+    multipliers = 1.0 + 0.9 * np.cos(2.0 * np.pi * (times + 1.0) / 11.0)
+    rad_index_dyn = np.sum(multipliers / (r_t**2)) * dt_yr
+    
     # Pfad zeichnen
     label_str = f"Fenster {m['idx']} ({m['date'].strftime('%Y')}): {m['dv']:.1f} km/s"
     ax2.plot(x_t, y_t, color=color, lw=2.0, label=label_str, zorder=8)
@@ -226,7 +232,7 @@ for idx, m in enumerate(minima):
     ax2.plot([0, xe], [0, ye], color=color, alpha=0.15, lw=0.8)
     ax2.plot([0, xm], [0, ym], color=color, alpha=0.15, lw=0.8)
     
-    box_lines.append(f"F{m['idx']} ({m['date'].strftime('%Y')}): Rad={rad_index:.3f} EE-J, ToF={m['tof']:.1f}d")
+    box_lines.append(f"F{m['idx']} ({m['date'].strftime('%Y')}): ToF={m['tof']:.1f}d | Const={rad_index:.3f} | Dyn={rad_index_dyn:.3f} EE-J")
 
 ax2.set_aspect("equal")
 ax2.set_xlim(-1.8, 1.8)

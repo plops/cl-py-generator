@@ -169,29 +169,41 @@ Im Porkchop-Diagramm ist zu erkennen, dass die Höhenlinien am unteren Rand (bei
 
 ---
 
-## 9. Analyse der Sonnensturm-Expositions-Indizes & Pfadunterschiede
+## 9. Analyse der Sonnensturm-Expositions-Indizes & Pfadunterschiede (inkl. 11-Jahres-Sonnenzyklus)
 
 Wir haben den kumulierten **Sonnensturm-Dosis-Index** für alle 5 synodischen Fenster integriert. Dieser Index bemisst die Strahlungsdosis in "Äquivalenten Erden-Jahren" (EE-Jahren), wobei die Strahlungsintensität quadratisch mit dem Sonnenabstand abnimmt ($1/r^2$). Eine Dosis von $1.0$ entspricht der Dosis, die eine Sonde auf einer kreisförmigen Erdumlaufbahn ($r=1.0$ AU) in einem Jahr akkumuliert.
 
-### Strahlungsvergleich der 5 Minima:
+### Einbindung der solaren Aktivitätsfluktuation (11-Jahres-Sonnenzyklus)
+Um der zeitlichen Fluktuation der Sonnenaktivität (Schwabe-Zyklus) Rechnung zu tragen, wurde ein Aktivitätsmodell $M(t)$ implementiert:
+$$M(t) = 1.0 + 0.9 \cos\left(\frac{2\pi (t + 1.0)}{11.0}\right)$$
+Dabei ist $t$ die Kalenderzeit ab der Epoche 2026.0. Der Peak des Solarzyklus 25 lag um Anfang 2025 (entspricht $t = -1.0$). Der Multiplikator $M(t)$ skaliert die Häufigkeit und Stärke solarer Teilchenstürme (Solar Proton Events, SPE) zwischen einem Minimum von $0.1$ (sehr ruhige Sonne) und einem Maximum von $1.9$ (sehr aktive Sonne).
 
-| Fenster | Abflugsdatum | Flugzeit ($t_{\text{tof}}$) | Delta-v | Perihel / Aphel | Strahlungsdosis |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **F1 (Suboptimal)** | 01.01.2026 | 180.8 Tage | 17.18 km/s | 1.000 / 1.544 AU | **0.272 EE-Jahre** |
-| **F2 (Optimal)** | 19.12.2027 | 155.6 Tage | 9.65 km/s | 1.000 / 1.524 AU | **0.281 EE-Jahre** |
-| **F3 (Optimal)** | 02.02.2030 | 154.9 Tage | 9.63 km/s | 1.000 / 1.524 AU | **0.283 EE-Jahre** |
-| **F4 (Optimal)** | 26.03.2032 | 155.6 Tage | 9.63 km/s | 1.000 / 1.524 AU | **0.281 EE-Jahre** |
-| **F5 (Optimal)** | 11.05.2034 | 154.9 Tage | 9.62 km/s | 1.000 / 1.524 AU | **0.283 EE-Jahre** |
+Für die Flugbahnen ergibt sich der dynamische Expositionsindex durch:
+$$\text{Dosis-Index}_{\text{dyn}} = \int_{0}^{t_{\text{tof}}} \frac{M(t_{\text{dep}} + \tau)}{r(\tau)^2} d\tau$$
+
+### Strahlungsvergleich der 5 Minima (Konstant vs. Dynamisch):
+
+| Fenster | Abflugsdatum | Flugzeit ($t_{\text{tof}}$) | Delta-v | Perihel / Aphel | Dosis (Konstant) | Dosis (Dynamisch) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **F1 (Suboptimal)** | 01.01.2026 | 180.8 Tage | 17.18 km/s | 1.000 / 1.544 AU | 0.272 EE-Jahre | **0.460 EE-Jahre** (Solar Max) |
+| **F2 (Optimal)** | 19.12.2027 | 155.6 Tage | 9.65 km/s | 1.000 / 1.524 AU | 0.281 EE-Jahre | **0.224 EE-Jahre** (Abfallend) |
+| **F3 (Optimal)** | 02.02.2030 | 154.9 Tage | 9.63 km/s | 1.000 / 1.524 AU | 0.283 EE-Jahre | **0.031 EE-Jahre** (Solar Min) |
+| **F4 (Optimal)** | 26.03.2032 | 155.6 Tage | 9.63 km/s | 1.000 / 1.524 AU | 0.281 EE-Jahre | **0.165 EE-Jahre** (Ansteigend) |
+| **F5 (Optimal)** | 11.05.2034 | 154.9 Tage | 9.62 km/s | 1.000 / 1.524 AU | 0.283 EE-Jahre | **0.454 EE-Jahre** (Solar Max) |
 
 ### Physikalische Erkenntnisse zu den Pfadunterschieden:
 
-1. **Reisezeit vs. Bahnradius**:
-   - Obwohl das **Fenster 1** am Rand des Suchbereichs liegt und mit $17.18$ km/s ein extrem hohes $\Delta v$ (suboptimaler Launch) aufweist, hat es mit **0.272 EE-Jahren** die geringste Strahlungsdosis. Dies liegt daran, dass der Pfad weiter nach außen ausweicht ($r_{\text{max}} = 1.544$ AU). Durch die größere durchschnittliche Entfernung von der Sonne ist die quadratisch abfallende Strahlung trotz der längeren Flugzeit ($180.8$ Tage) geringer.
-   - Die optimalen Fenster 2 bis 5 zeigen eine nahezu identische Dosis von $\approx 0.282$ EE-Jahren.
+1. **Massiver Einfluss des solaren Zyklus**:
+   - Die Hinzunahme des 11-Jahres-Sonnenzyklus verändert die Missionsplanung drastisch: **Fenster 3 (Februar 2030)** liegt ideal am solaren Minimum. Die Strahlungsbelastung durch solare Teilchenstürme sinkt dort mit **0.031 EE-Jahren** um das **15-Fache** gegenüber den Maxima-Fenstern F1 (2026) und F5 (2034)!
+   - *Hinweis zur Risikoabwägung*: Während des Solarminimums ist die Gefahr akuter solarer Teilchenereignisse (SPEs) minimal. Astronauten müssen jedoch mit einem Anstieg der galaktischen kosmischen Strahlung (GCR) um ca. 50-100% rechnen, da das schwächere solare Magnetfeld die Galaxis-Strahlung weniger ablenkt. GCR ist eine kontinuierliche, schwer abschirmbare Hintergrundstrahlung (hochenergetische Atomkerne), während SPEs akute, lebensbedrohliche Protonenschauer sind. Ein Start im Solarminimum (2030) minimiert das Risiko akuter tödlicher Strahlungsdosen.
 
-2. **Divergierende Einflüsse bei Ausweich-Trajektorien (Type I vs. Type II)**:
+2. **Reisezeit vs. Bahnradius**:
+   - Im konstanten Modell hatte Fenster 1 die geringste Strahlungsdosis, da der Pfad weiter nach außen ausweicht ($r_{\text{max}} = 1.544$ AU).
+   - Unter Berücksichtigung des Sonnenzyklus verliert dieser Effekt an Bedeutung: F1 startet im Solarmaximum, was zu einer hohen Gesamtdosis von $0.460$ EE-Jahren führt. Die geomagnetische Phase der Sonne dominiert also die rein geometrischen Unterschiede der Bahnen.
+
+3. **Divergierende Einflüsse bei Ausweich-Trajektorien (Type I vs. Type II)**:
    - **Type-I-Transfers** (wie die hier berechneten Minima) fliegen auf direktem Weg zum Mars ($< 180^\circ$ Flugwinkel). Sie bleiben immer im Bereich $1.0 \le r \le 1.524$ AU.
-   - Würde man sich für eine schnellere Flugbahn entscheiden (z. B. $t_{\text{tof}} < 100$ Tage), verkürzt sich zwar die Dauer, aber die Bahn muss flacher werden, wodurch sie ggf. ins Innere der Erdbahn einschneidet ($r < 1.0$ AU). Da die Sonnensturm-Dosis mit $1/r^2$ skaliert, führt bereits ein geringfügiges Absinken des Perihels (z. B. auf $0.8$ AU) zu einer drastisch erhöhten Strahlungsintensität ($1.56$-fache Dosisleistung).
+   - Würde man sich für eine schnellere Flugbahn entscheiden (z. B. $t_{\text{tof}} < 100$ Tage), verkürzt sich zwar die Dauer, aber die Bahn muss flacher werden, wodurch sie ggf. ins Innere der Erdbahn einschneidet ($r < 1.0$ AU). Da die Sonnensturm-Dosis mit $1/r^2$ und solarer Aktivität skaliert, führt bereits ein geringfügiges Absinken des Perihels (z. B. auf $0.8$ AU) während des Solarmaximums zu extremen Strahlungsspitzen.
    - Bei **Type-II-Transfers** ($> 180^\circ$ Flugwinkel) fliegt die Sonde eine längere Bahn. Dies erhöht die Aufenthaltsdauer im interplanetaren Raum und damit die akkumulierte Strahlung massiv, selbst wenn die Sonde weiter außen fliegt.
 
 ### Visualisierung der Pfade:
