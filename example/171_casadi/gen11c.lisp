@@ -91,8 +91,8 @@
 	     self.max_force (self.opti.parameter))
 
        (comments "Symbolische Variablen für die Dynamik (dx/dt = f(x,u))")
-       (setf x (SX.sym (string "x") self.nx)
-	     u (SX.sym (string "u") self.nu)
+       (setf x (MX.sym (string "x") self.nx)
+	     u (MX.sym (string "u") self.nu)
 	     s_ (aref x 0) v_ (aref x 1) theta_ (aref x 2) omega_ (aref x 3) F_ u
 	     sin_theta (np.sin theta_) cos_theta (np.cos theta_)
 	     den (+ self.M_p (* self.m_p (- 1.0 (* cos_theta cos_theta))))
@@ -101,7 +101,7 @@
 	     dv (/ (+ F_total (* self.m_p self.l_p omega_ omega_ sin_theta) (* self.m_p 9.81 cos_theta sin_theta)) den)
 	     dtheta omega_
 	     domega (/ (- (* -1.0 F_total cos_theta) (* self.m_p self.l_p omega_ omega_ sin_theta cos_theta) (* (+ self.M_p self.m_p) 9.81 sin_theta)) (* self.l_p den)))
-       (setf self.f_ode (Function (string "f_ode") (list x u) (list (vertcat ds dv dtheta domega))))
+       (setf self.f_ode (Function (string "f_ode") (list x u) (list (vertcat ds dv dtheta domega)) (dictionary :allow_free True)))
 
        (comments "Lagrange Collocation Polynome via Radau-Punkten berechnen")
        (setf tau_root (np.append 0.0 (collocation_points self.d (string "radau")))
@@ -170,8 +170,17 @@
      (def step (self state target_state params)
        (self.opti.set_value self.current_x state)
        (self.opti.set_value self.target_x target_state)
-       ,@(loop for key in '("M" "m" "l" "wind" "Q_s" "Q_v" "Q_theta" "Q_omega" "R_F" "max_pos" "max_force")
-	       for sym = (intern (string-upcase (format nil "self.~A_p" key)))
+       ,@(loop for (key sym) in '(("M" self.M_p)
+                                  ("m" self.m_p)
+                                  ("l" self.l_p)
+                                  ("wind" self.wind_p)
+                                  ("Q_s" self.Q_s)
+                                  ("Q_v" self.Q_v)
+                                  ("Q_theta" self.Q_theta)
+                                  ("Q_omega" self.Q_omega)
+                                  ("R_F" self.R_F)
+                                  ("max_pos" self.max_pos)
+                                  ("max_force" self.max_force))
 	       collect `(self.opti.set_value ,sym (aref params (string ,key))))
 
        (if (!= self.sol None)
@@ -182,7 +191,11 @@
 					    (aref X_res (slice nil nil) (slice -1 nil))))
 		  U_guess (np.append (aref U_res (slice 1 nil)) (aref U_res -1)))
 	    (self.opti.set_initial self.X X_guess)
-	    (self.opti.set_initial self.U U_guess)))
+	    (self.opti.set_initial self.U U_guess))
+	   (do0
+	    (setf X_res (np.zeros (tuple self.nx (+ self.N 1)))
+		  U_res (np.zeros (tuple self.nu self.N))
+		  U_guess (np.zeros self.nu))))
 
        (setf t0 (time.time))
        (try

@@ -80,8 +80,8 @@ class PendulumMPC:
         self.max_pos = self.opti.parameter()
         self.max_force = self.opti.parameter()
         # Symbolische Variablen für die Dynamik (dx/dt = f(x,u))
-        x = SX.sym("x", self.nx)
-        u = SX.sym("u", self.nu)
+        x = MX.sym("x", self.nx)
+        u = MX.sym("u", self.nu)
         s_ = x[0]
         v_ = x[1]
         theta_ = x[2]
@@ -103,7 +103,9 @@ class PendulumMPC:
             - (self.m_p * self.l_p * omega_ * omega_ * sin_theta * cos_theta)
             - ((self.M_p + self.m_p) * 9.81 * sin_theta)
         ) / (self.l_p * den)
-        self.f_ode = Function("f_ode", [x, u], [vertcat(ds, dv, dtheta, domega)])
+        self.f_ode = Function(
+            "f_ode", [x, u], [vertcat(ds, dv, dtheta, domega)], dict(allow_free=True)
+        )
         # Lagrange Collocation Polynome via Radau-Punkten berechnen
         tau_root = np.append(0.0, collocation_points(self.d, "radau"))
         self.C = np.zeros(
@@ -183,17 +185,17 @@ class PendulumMPC:
     def step(self, state, target_state, params):
         self.opti.set_value(self.current_x, state)
         self.opti.set_value(self.target_x, target_state)
-        self.opti.set_value(self.m_p, params["M"])
+        self.opti.set_value(self.M_p, params["M"])
         self.opti.set_value(self.m_p, params["m"])
         self.opti.set_value(self.l_p, params["l"])
         self.opti.set_value(self.wind_p, params["wind"])
-        self.opti.set_value(self.q_s_p, params["Q_s"])
-        self.opti.set_value(self.q_v_p, params["Q_v"])
-        self.opti.set_value(self.q_theta_p, params["Q_theta"])
-        self.opti.set_value(self.q_omega_p, params["Q_omega"])
-        self.opti.set_value(self.r_f_p, params["R_F"])
-        self.opti.set_value(self.max_pos_p, params["max_pos"])
-        self.opti.set_value(self.max_force_p, params["max_force"])
+        self.opti.set_value(self.Q_s, params["Q_s"])
+        self.opti.set_value(self.Q_v, params["Q_v"])
+        self.opti.set_value(self.Q_theta, params["Q_theta"])
+        self.opti.set_value(self.Q_omega, params["Q_omega"])
+        self.opti.set_value(self.R_F, params["R_F"])
+        self.opti.set_value(self.max_pos, params["max_pos"])
+        self.opti.set_value(self.max_force, params["max_force"])
         if self.sol != None:
             X_res = self.sol.value(self.X)
             U_res = self.sol.value(self.U)
@@ -206,6 +208,20 @@ class PendulumMPC:
             U_guess = np.append(U_res[1:], U_res[-1])
             self.opti.set_initial(self.X, X_guess)
             self.opti.set_initial(self.U, U_guess)
+        else:
+            X_res = np.zeros(
+                (
+                    self.nx,
+                    self.N + 1,
+                )
+            )
+            U_res = np.zeros(
+                (
+                    self.nu,
+                    self.N,
+                )
+            )
+            U_guess = np.zeros(self.nu)
         t0 = time.time()
         try:
             self.sol = self.opti.solve()
