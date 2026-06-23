@@ -306,7 +306,7 @@ class MainWindow(QMainWindow):
         self.history_curves["s"] = ax.plot(pen=pg.mkPen("w", width=2))
         if "s" != "t_solve":
             self.pred_curves["s"] = ax.plot(
-                pen=pg.mkPen("y", width=2, style=QtCore.Qt.DashLine)
+                pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
         ax = self.plot_layout.addPlot(row=1, col=0, title="Pendelwinkel")
         ax.showGrid(x=True, y=True)
@@ -316,7 +316,7 @@ class MainWindow(QMainWindow):
         self.history_curves["theta"] = ax.plot(pen=pg.mkPen("w", width=2))
         if "theta" != "t_solve":
             self.pred_curves["theta"] = ax.plot(
-                pen=pg.mkPen("y", width=2, style=QtCore.Qt.DashLine)
+                pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
         ax = self.plot_layout.addPlot(row=2, col=0, title="Wagengeschwindigkeit")
         ax.showGrid(x=True, y=True)
@@ -326,7 +326,7 @@ class MainWindow(QMainWindow):
         self.history_curves["v"] = ax.plot(pen=pg.mkPen("w", width=2))
         if "v" != "t_solve":
             self.pred_curves["v"] = ax.plot(
-                pen=pg.mkPen("y", width=2, style=QtCore.Qt.DashLine)
+                pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
         ax = self.plot_layout.addPlot(row=0, col=1, title="Winkelgeschw.")
         ax.showGrid(x=True, y=True)
@@ -336,7 +336,7 @@ class MainWindow(QMainWindow):
         self.history_curves["omega"] = ax.plot(pen=pg.mkPen("w", width=2))
         if "omega" != "t_solve":
             self.pred_curves["omega"] = ax.plot(
-                pen=pg.mkPen("y", width=2, style=QtCore.Qt.DashLine)
+                pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
         ax = self.plot_layout.addPlot(row=1, col=1, title="Aktuatorkraft")
         ax.showGrid(x=True, y=True)
@@ -346,7 +346,7 @@ class MainWindow(QMainWindow):
         self.history_curves["F"] = ax.plot(pen=pg.mkPen("w", width=2))
         if "F" != "t_solve":
             self.pred_curves["F"] = ax.plot(
-                pen=pg.mkPen("y", width=2, style=QtCore.Qt.DashLine)
+                pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
         ax = self.plot_layout.addPlot(row=2, col=1, title="Solver Rechenzeit")
         ax.showGrid(x=True, y=True)
@@ -356,7 +356,7 @@ class MainWindow(QMainWindow):
         self.history_curves["t_solve"] = ax.plot(pen=pg.mkPen("w", width=2))
         if "t_solve" != "t_solve":
             self.pred_curves["t_solve"] = ax.plot(
-                pen=pg.mkPen("y", width=2, style=QtCore.Qt.DashLine)
+                pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
         slider_layout = QGridLayout()
         slider_widget = QWidget()
