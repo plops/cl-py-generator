@@ -274,7 +274,7 @@
 		 (setf (aref self.plots (string ,key)) ax
 		       (aref self.history_curves (string ,key)) (ax.plot :pen (pg.mkPen (string "w") :width 2)))
 		 (if (!= (string ,key) (string "t_solve"))
-		     (setf (aref self.pred_curves (string ,key)) (ax.plot :pen (pg.mkPen (string "y") :width 2 :style QtCore.Qt.DashLine))))))
+		     (setf (aref self.pred_curves (string ,key)) (ax.plot :pen (pg.mkPen (string "y") :width 2 :style Qt.DashLine))))))
 		     
        (setf slider_layout (QGridLayout)
 	     slider_widget (QWidget))
