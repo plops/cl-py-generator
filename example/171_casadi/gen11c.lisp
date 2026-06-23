@@ -18,9 +18,9 @@
    (imports-from (__future__ annotations)
 		 (casadi *))
    (imports ((np numpy)
-	     (time time)
-	     (sys sys)
-	     (pyqtgraph pg)))
+	     time
+	     sys
+	     (pg pyqtgraph)))
    (imports-from (PySide6.QtWidgets QApplication QMainWindow QWidget QVBoxLayout QHBoxLayout QSlider QLabel QGridLayout)
 		 (PySide6.QtCore Qt QTimer)
 		 (PySide6.QtGui QPainter QPen QBrush QColor))
@@ -170,17 +170,9 @@
      (def step (self state target_state params)
        (self.opti.set_value self.current_x state)
        (self.opti.set_value self.target_x target_state)
-       (self.opti.set_value self.M_p (aref params (string "M")))
-       (self.opti.set_value self.m_p (aref params (string "m")))
-       (self.opti.set_value self.l_p (aref params (string "l")))
-       (self.opti.set_value self.wind_p (aref params (string "wind")))
-       (self.opti.set_value self.Q_s (aref params (string "Q_s")))
-       (self.opti.set_value self.Q_v (aref params (string "Q_v")))
-       (self.opti.set_value self.Q_theta (aref params (string "Q_theta")))
-       (self.opti.set_value self.Q_omega (aref params (string "Q_omega")))
-       (self.opti.set_value self.R_F (aref params (string "R_F")))
-       (self.opti.set_value self.max_pos (aref params (string "max_pos")))
-       (self.opti.set_value self.max_force (aref params (string "max_force")))
+       ,@(loop for key in '("M" "m" "l" "wind" "Q_s" "Q_v" "Q_theta" "Q_omega" "R_F" "max_pos" "max_force")
+	       for sym = (intern (string-upcase (format nil "self.~A_p" key)))
+	       collect `(self.opti.set_value ,sym (aref params (string ,key))))
 
        (if (!= self.sol None)
 	   (do0
@@ -195,7 +187,7 @@
        (setf t0 (time.time))
        (try
 	(setf self.sol (self.opti.solve))
-	(except (e Exception)
+	("Exception as e"
 		(return (tuple (aref U_guess 0) X_res U_res (- (time.time) t0) False))))
        (setf t_solve (- (time.time) t0)
 	     X_res (self.sol.value self.X)
@@ -204,7 +196,7 @@
 
    (class PendulumWidget (QWidget)
      (def __init__ (self)
-       (super.__init__)
+       (QWidget.__init__ self)
        (self.setMinimumSize 400 400)
        (setf self.state (np.array (list 0.0 0.0 np.pi 0.0))
 	     self.l 0.5 self.force 0.0 self.wind 0.0 self.max_pos 2.0))
@@ -245,7 +237,7 @@
 
    (class MainWindow (QMainWindow)
      (def __init__ (self)
-       (super.__init__)
+       (QMainWindow.__init__ self)
        (self.setWindowTitle (string "MPC Inverted Pendulum"))
        (self.resize 1400 900)
        
@@ -323,17 +315,17 @@
        (self.timer.start 33))
 
      (def get_params (self)
-       (return (dict ((string "M") (/ (dot (aref self.sliders (string "M")) (value)) 10.0))
-		     ((string "m") (/ (dot (aref self.sliders (string "m")) (value)) 10.0))
-		     ((string "l") 0.5)
-		     ((string "wind") (/ (dot (aref self.sliders (string "wind")) (value)) 10.0))
-		     ((string "Q_s") (float (dot (aref self.sliders (string "Q_s")) (value))))
-		     ((string "Q_v") 1.0)
-		     ((string "Q_theta") (float (dot (aref self.sliders (string "Q_theta")) (value))))
-		     ((string "Q_omega") 1.0)
-		     ((string "R_F") (/ (dot (aref self.sliders (string "R_F")) (value)) 100.0))
-		     ((string "max_pos") (/ (dot (aref self.sliders (string "max_pos")) (value)) 10.0))
-		     ((string "max_force") 15.0))))
+       (return (dictionary :M (/ (dot (aref self.sliders (string "M")) (value)) 10.0)
+		     :m (/ (dot (aref self.sliders (string "m")) (value)) 10.0)
+		     :l 0.5
+		     :wind (/ (dot (aref self.sliders (string "wind")) (value)) 10.0)
+		     :Q_s (float (dot (aref self.sliders (string "Q_s")) (value)))
+		     :Q_v 1.0
+		     :Q_theta (float (dot (aref self.sliders (string "Q_theta")) (value)))
+		     :Q_omega 1.0
+		     :R_F (/ (dot (aref self.sliders (string "R_F")) (value)) 100.0)
+		     :max_pos (/ (dot (aref self.sliders (string "max_pos")) (value)) 10.0)
+		     :max_force 15.0)))
        
      (def update_loop (self)
        (setf params (self.get_params)
@@ -364,10 +356,8 @@
 	     self.time (+ self.time self.dt))
 	     
        (dot self.t_hist (append self.time))
-       (dot (aref self.hist (string "s")) (append (aref self.state 0)))
-       (dot (aref self.hist (string "v")) (append (aref self.state 1)))
-       (dot (aref self.hist (string "theta")) (append (aref self.state 2)))
-       (dot (aref self.hist (string "omega")) (append (aref self.state 3)))
+       ,@(loop for (key val) in '(("s" 0) ("v" 1) ("theta" 2) ("omega" 3))
+	       collect `(dot (aref self.hist (string ,key)) (append (aref self.state ,val))))
        (dot (aref self.hist (string "F")) (append F_motor))
        (dot (aref self.hist (string "t_solve")) (append (* t_solve 1000.0)))
        
