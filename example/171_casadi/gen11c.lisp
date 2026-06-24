@@ -29,42 +29,46 @@
     "========================================================================================="
     " INVERTED PENDULUM MPC (MODEL PREDICTIVE CONTROL) DASHBOARD"
     "========================================================================================="
-    " PURPOSE AND SCOPE:"
-    " This application demonstrates real-time Model Predictive Control of a nonlinear, "
-    " underactuated mechanical system (an inverted pendulum on a cart). "
-    " The GUI provides interactive sliders to change physical parameters (like mass and wind) "
-    " and tuning parameters (like cost weights) on the fly, visualizing the solver's "
-    " future predictions versus the actual system trajectory."
+    " ZWECK UND ZIELGRUPPE:"
+    " Diese Applikation demonstriert in Echtzeit die modellprädiktive Regelung (MPC) eines"
+    " nichtlinearen, unteraktuierten mechanischen Systems (invertiertes Pendel auf einem Wagen)."
+    " Sie ist so gestaltet, dass Physiker und Ingenieure die Auswirkungen von physikalischen"
+    " Parametern (Masse, Wind) sowie Regelungsgewichten (Q-Matrizen) interaktiv erforschen können."
     ""
-    " PHYSICAL MODEL & DYNAMICS:"
-    " We consider a cart of mass M moving on a 1D track, and a pendulum of mass m and length l "
-    " attached to it. The system is underactuated: we only control the horizontal force F "
-    " on the cart, but we want to control both the cart's position (s) and the pendulum's "
-    " angle (theta). The state vector is x = [s, v, theta, omega]."
-    " Using Lagrangian mechanics, the nonlinear ODEs are derived considering kinetic and "
-    " potential energies. A simulated wind force applies a disturbing torque."
+    " PHYSIKALISCHES MODELL & DYNAMIK (LAGRANGE-MECHANIK):"
+    " Wir betrachten einen Wagen der Masse M auf einer 1D-Schiene (Position s). Auf diesem Wagen"
+    " ist ein Pendel der Masse m und Länge l montiert (Winkel theta). Das System ist unteraktuiert:"
+    " Wir können nur eine horizontale Kraft F auf den Wagen ausüben, wollen aber s und theta regeln."
+    " Der Zustandsvektor ist x = [s, v, theta, omega]."
+    " Die Differentialgleichungen (ODEs) werden über die Euler-Lagrange-Gleichungen T - V hergeleitet:"
+    " - Die kinetische Energie T berücksichtigt die Translation des Wagens und die Rotation/Translation des Pendels."
+    " - Die potentielle Energie V berücksichtigt die Höhe der Pendelmasse im Gravitationsfeld."
+    " Eine externe Störkraft (Wind) wirkt zusätzlich als Drehmoment auf das Pendel ein."
     ""
-    " CONTROL THEORY (MODEL PREDICTIVE CONTROL):"
-    " MPC solves a finite-horizon optimal control problem (OCP) at every sampling time. "
-    " It calculates a trajectory of control inputs that minimizes a cost function "
-    " (e.g., deviations from the target state) while satisfying constraints (e.g., track limits). "
-    " Only the very first control input is applied to the real system. In the next step, "
-    " the horizon shifts and the problem is solved again (Receding Horizon Control)."
+    " REGELUNGSTHEORIE (MODEL PREDICTIVE CONTROL - MPC):"
+    " MPC löst zu jedem diskreten Zeitschritt ein Optimierungsproblem über einen endlichen"
+    " Zeithorizont (T_horizon). Der Algorithmus berechnet eine zukünftige Trajektorie von"
+    " Steuerkräften F, die eine Kostenfunktion (Abweichung vom Soll-Zustand + Energieverbrauch)"
+    " minimiert, während Systemgrenzen (z.B. Schienenende, Maximalkraft) strikt eingehalten werden."
+    " Nur der allererste berechnete Kraftwert wird tatsächlich an das System gesendet. Im nächsten"
+    " Schritt verschiebt sich der Horizont (Receding Horizon) und das Problem wird neu gelöst."
     ""
-    " MATHEMATICS OF DIRECT COLLOCATION:"
-    " Instead of integrating the ODEs step-by-step (like in Multiple Shooting), Direct "
-    " Collocation discretizes the state trajectory using polynomials (e.g., Lagrange polynomials). "
-    " The states at specific collocation points (here: Radau points) become optimization variables. "
-    " The system dynamics are enforced as equality constraints mapping the derivative of "
-    " the polynomials to the vector field f(x,u). This transforms the continuous-time optimal "
-    " control problem into a huge but sparse Nonlinear Programming (NLP) problem."
+    " MATHEMATIK DER DIREKTEN KOLLOKATION (DIRECT COLLOCATION):"
+    " Um die kontinuierlichen Differentialgleichungen (ODE) für den NLP-Solver nutzbar zu machen,"
+    " diskretisieren wir die Zustands-Trajektorie mittels Lagrange-Polynomen über Radau-Punkte."
+    " Anstatt die ODE numerisch zu integrieren (Multiple Shooting), werden die Zustände an den"
+    " Kollokationspunkten zu freien Optimierungsvariablen. Die Systemdynamik dx/dt = f(x,u) wird"
+    " als strikte Gleichheitsbedingung (Equality Constraint) aufgezwungen."
+    " Dies transformiert das Problem in ein riesiges, aber sehr dünnbesetztes (sparse) NLP-Problem."
     ""
-    " CASADI & IPOPT:"
-    " CasADi (Computer algebra system for automatic differentiation) is used to mathematically "
-    " formulate the NLP. It computes exact gradients and sparse Jacobians automatically using AD. "
-    " IPOPT (Interior Point OPTimizer) is the backend solver. To achieve real-time performance "
-    " (under 33ms), we use 'Warm-Starting': the optimal trajectory from the previous time step "
-    " is passed as an initial guess to IPOPT, reducing the number of required iterations to just 1-3."
+    " CASADI & IPOPT (IMPLEMENTIERUNGSDETAILS):"
+    " CasADi ist ein Computer-Algebra-System für algorithmische Differentiation (AD). Es berechnet"
+    " exakte und effiziente Jacobians (erste Ableitungen) und Hessians (zweite Ableitungen) des NLP."
+    " Wir nutzen 'SX' (Scalar Expression) Graphen für die ODE, da diese für mathematische Operationen"
+    " auf Skalarebene deutlich schneller ausgewertet werden als Matrix-Ausdrücke ('MX')."
+    " IPOPT (Interior Point Optimizer) nutzt Barrierefunktionen, um die Constraints zu lösen."
+    " Für Echtzeitfähigkeit nutzen wir 'Warm-Starting': Die optimale Lösung des vorherigen Schrittes"
+    " dient als Startschätzung für den aktuellen, wodurch IPOPT oft nur 1-3 Iterationen benötigt."
     "=========================================================================================")
 
    (class PendulumMPC ()
@@ -73,22 +77,16 @@
 	     self.nx 4
 	     self.nu 1
 	     self.N 20
-	     self.T_horizon 1.0
-	     self.h (/ self.T_horizon self.N)
 	     self.d 3)
 
-       (comments "Parameter für Physik (M: Wagenmasse, m: Pendelmasse, l: Länge, wind: Störkraft)")
-       (setf self.M_p (self.opti.parameter)
-	     self.m_p (self.opti.parameter)
-	     self.l_p (self.opti.parameter)
-	     self.wind_p (self.opti.parameter)
-	     self.Q_s (self.opti.parameter)
-	     self.Q_v (self.opti.parameter)
-	     self.Q_theta (self.opti.parameter)
-	     self.Q_omega (self.opti.parameter)
-	     self.R_F (self.opti.parameter)
-	     self.max_pos (self.opti.parameter)
-	     self.max_force (self.opti.parameter))
+       (comments 
+        " Parameter für Physik und Optimierung."
+        " Wir definieren diese als CasADi 'Parameter' (opti.parameter), anstatt sie fest zu"
+        " verdrahten. Das ermöglicht es uns, Massen, Wind, Grenzen oder auch den Vorhersagehorizont"
+        " (T_horizon) zur Laufzeit der GUI zu ändern, ohne den kompletten CasADi Optimierungs-"
+        " Graphen neu aufbauen und kompilieren zu müssen (was extrem rechenintensiv wäre).")
+       ,@(loop for sym in '(M_p m_p l_p wind_p Q_s Q_v Q_theta Q_omega R_F max_pos max_force T_horizon_p)
+               collect `(setf (dot self ,sym) (self.opti.parameter)))
 
        (comments "Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)).")
        (comments "Wir nutzen SX (Scalar Expression) anstelle von MX (Matrix Expression) für die ODE.")
@@ -152,7 +150,7 @@
 		 (setf f_eval (self.f_ode (aref (aref self.Xc k) (- j 1))
 					  (aref self.U (slice nil nil) k)
 					  (vertcat self.M_p self.m_p self.l_p self.wind_p)))
-		 (self.opti.subject_to (== xp (* self.h f_eval))))
+		 (self.opti.subject_to (== xp (* (/ self.T_horizon_p self.N) f_eval))))
 	    (for (r (range self.d))
 		 (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref (aref self.Xc k) r)))))
 	    (self.opti.subject_to (== (aref self.X (slice nil nil) (+ k 1)) x_end)))
@@ -189,7 +187,8 @@
                                   ("Q_omega" self.Q_omega)
                                   ("R_F" self.R_F)
                                   ("max_pos" self.max_pos)
-                                  ("max_force" self.max_force))
+                                  ("max_force" self.max_force)
+                                  ("T_horizon" self.T_horizon_p))
 	       collect `(self.opti.set_value ,sym (aref params (string ,key))))
 
        (if (!= self.sol None)
@@ -305,8 +304,8 @@
        (def add_slider (layout name label min_val max_val default_val row tooltip)
 	 (setf slider (QSlider Qt.Horizontal)
 	       lbl (QLabel (fstring "{label}: {default_val}")))
-	 (slider.setToolTip (string tooltip))
-	 (lbl.setToolTip (string tooltip))
+	 (slider.setToolTip tooltip)
+	 (lbl.setToolTip tooltip)
 	 (slider.setMinimum min_val)
 	 (slider.setMaximum max_val)
 	 (slider.setValue default_val)
@@ -317,20 +316,23 @@
 
        ,@(loop for (tab-name sliders) in
                '(("Physik"
-                  (("M" "Wagenmasse [kg]" 1 50 10 "Masse des Wagens. Schwerer = träger.")
-                   ("m" "Pendelmasse [kg]" 1 20 1 "Masse des Pendels am Kopfende.")
-                   ("l" "Pendellänge [m]" 1 20 5 "Länge des Pendels (Wert/10 in m).")
-                   ("wind" "Windkraft [N]" -300 300 0 "Konstante Störkraft (Wind) auf das Pendel.")))
+                  (("M" "Wagenmasse [kg]" 1 50 10 "Masse des Wagens. Schwerer = Träger gegen Bewegungsänderungen.")
+                   ("m" "Pendelmasse [kg]" 1 20 1 "Punktmasse des Pendels am Kopfende.")
+                   ("l" "Pendellänge [m]" 1 20 5 "Abstand vom Wagen zum Pendelschwerpunkt (Wert/10 in m).")
+                   ("wind" "Windkraft [N]" -300 300 0 "Konstante Störkraft, die horizontal auf das Pendel drückt.")))
                  ("Kostenfunktion"
-                  (("Q_s" "Gewicht Position" 0 200 10 "Strafe für Abweichung der Wagenposition.")
-                   ("Q_v" "Gewicht Wagengeschw." 0 100 10 "Strafe für hohe Wagengeschwindigkeit.")
-                   ("Q_theta" "Gewicht Pendelwinkel" 0 500 100 "Strafe für Abweichung vom aufrechten Winkel.")
-                   ("Q_omega" "Gewicht Winkelgeschw." 0 100 10 "Strafe für Pendelrotation.")
-                   ("R_F" "Gewicht Kraftaufwand" 1 200 10 "Strafe für hohe Stellkraft (Energiesparen, Wert/100).")))
+                  (("Q_s" "Gewicht Position" 0 200 10 "Strafe (Penalty) für Abweichung des Wagens von der Ziel-Position.")
+                   ("Q_v" "Gewicht Wagengeschw." 0 100 10 "Strafe für hohe Geschwindigkeit des Wagens (verhindert Überschwingen).")
+                   ("Q_theta" "Gewicht Pendelwinkel" 0 500 100 "Strafe für das Abweichen des Pendels vom instabilen Gleichgewicht (0 rad).")
+                   ("Q_omega" "Gewicht Winkelgeschw." 0 100 10 "Strafe für schnelle Rotationen des Pendels.")
+                   ("R_F" "Gewicht Kraftaufwand" 1 200 10 "Kostenfaktor für die Stellkraft F (Wert/100). Zwingt den Solver, Energie zu sparen.")))
                  ("Grenzen & Ziel"
-                  (("target_s" "Ziel-Position [m]" -20 20 10 "Soll-Position des Wagens (Wert/10).")
-                   ("max_pos" "Schiene Limit [m]" 10 100 20 "Begrenzung der Schiene (Wert/10).")
-                   ("max_force" "Max Kraft [N]" 10 300 150 "Stellgrößenbeschränkung für den Aktuator (Wert/10)."))))
+                  (("target_s" "Ziel-Position [m]" -20 20 10 "Soll-Position des Wagens auf der Schiene (Wert/10).")
+                   ("max_pos" "Schiene Limit [m]" 10 100 20 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten (Wert/10).")
+                   ("max_force" "Max Kraft [N]" 10 300 150 "Stellgrößenbeschränkung für den Aktuator. (Wert/10).")))
+                 ("Simulation & MPC"
+                  (("T_horizon" "Zeithorizont [s]" 1 50 10 "Wie weit blickt die MPC in die Zukunft? (Wert/10). Längerer Horizont plant besser, erfordert aber komplexere Trajektorien.")
+                   ("dt_sim" "Simulations-dt [ms]" 1 100 33 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))))
                collect
                `(do0
                  (setf tab_widget (QWidget)
@@ -364,7 +366,9 @@
 		     :Q_omega (float (dot (aref self.sliders (string "Q_omega")) (value)))
 		     :R_F (/ (dot (aref self.sliders (string "R_F")) (value)) 100.0)
 		     :max_pos (/ (dot (aref self.sliders (string "max_pos")) (value)) 10.0)
-		     :max_force (/ (dot (aref self.sliders (string "max_force")) (value)) 10.0))))
+		     :max_force (/ (dot (aref self.sliders (string "max_force")) (value)) 10.0)
+		     :T_horizon (/ (dot (aref self.sliders (string "T_horizon")) (value)) 10.0)
+		     :dt_sim (/ (dot (aref self.sliders (string "dt_sim")) (value)) 1000.0))))
        
      (def update_loop (self)
        (setf params (self.get_params)
@@ -374,6 +378,8 @@
        (setf (ntuple u_opt X_pred U_pred t_solve success) (self.mpc.step self.state target_state params)
 	     F_motor u_opt
 	     wind_force (aref params (string "wind")))
+       (setf self.dt (aref params (string "dt_sim")))
+       (self.timer.setInterval (int (* self.dt 1000.0)))
 	     
        (comments "Physik-Simulation: Runge-Kutta 4 Integrationsschritt mit echter Windstörung")
        (def f_real (st)
@@ -413,7 +419,7 @@
 	       
        (if success
 	   (do0
-	    (setf t_pred (np.linspace self.time (+ self.time self.mpc.T_horizon) (+ self.mpc.N 1)))
+	    (setf t_pred (np.linspace self.time (+ self.time (aref params (string "T_horizon"))) (+ self.mpc.N 1)))
 	    ,@(loop for (key idx) in '(("s" 0) ("v" 1) ("theta" 2) ("omega" 3))
 		    collect `(dot (aref self.pred_curves (string ,key)) (setData t_pred (aref X_pred ,idx (slice nil nil)))))
 	    (dot (aref self.pred_curves (string "F")) (setData (aref t_pred (slice 0 -1)) U_pred))))))
