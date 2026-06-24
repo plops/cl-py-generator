@@ -88,12 +88,51 @@ class PendulumMPC:
         self.R_F = self.opti.parameter()
         self.max_pos = self.opti.parameter()
         self.max_force = self.opti.parameter()
-        # Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)).
-        # Wir nutzen SX (Scalar Expression) anstelle von MX (Matrix Expression) für die ODE.
-        # SX ist für solche mathematischen Ausdrücke auf Skalarebene deutlich effizienter bei der
-        # Berechnung von Ableitungen (Jacobian/Hessian) innerhalb des NLP Solvers.
-        # Um Fehler durch das Mischen von SX und den MX-Parametern des Opti-Stacks zu vermeiden,
-        # übergeben wir die physikalischen Parameter explizit als SX-Vektor an die ODE-Funktion.
+        # =============================================================================
+        #  PHYSIK-HERLEITUNG & DYNAMISCHE GLEICHUNGEN (LAGRANGE & HAMILTON)
+        # =============================================================================
+        #  Systemzustand: x = [s, v, theta, omega]^T
+        #  - s: Position des Wagens (Schiene) [m]
+        #  - v: Geschwindigkeit des Wagens (ds/dt) [m/s]
+        #  - theta: Pendelwinkel relativ zur Ruhelage [rad]
+        #           (theta = 0 ist die physikalisch stabile Ruhelage nach unten im ODE-Modell;
+        #           in der GUI-Zeichnung wird theta = 0 jedoch als aufrechte Position gezeichnet)
+        #  - omega: Winkelgeschwindigkeit des Pendels (dtheta/dt) [rad/s]
+        #  - u: Stellkraft F [N] (horizontale Kraft auf den Wagen)
+        #
+        #  1. KINETISCHE ENERGIE (T):
+        #     Die kinetische Energie setzt sich aus der Translation des Wagens und der Bewegung der
+        #     Pendel-Punktmasse zusammen:
+        #     T = 0.5 * M * v^2 + 0.5 * m * (v_p^2)
+        #     wobei x_p = s + l*sin(theta), y_p = -l*cos(theta) (y-Achse nach oben).
+        #     Ableitungen: dx_p = v + l*omega*cos(theta), dy_p = l*omega*sin(theta)
+        #     v_p^2 = dx_p^2 + dy_p^2 = v^2 + 2*v*l*omega*cos(theta) + l^2*omega^2
+        #     T = 0.5 * (M + m) * v^2 + m * v * l * omega * cos(theta) + 0.5 * m * l^2 * omega^2
+        #
+        #  2. POTENTIELLE ENERGIE (V):
+        #     Unter Berücksichtigung der Höhe y_p der Pendelmasse:
+        #     V = m * g * y_p = -m * g * l * cos(theta)
+        #     (Minimum bei theta = 0, d.h. die physikalisch stabile Ruhelage ist unten)
+        #
+        #  3. HAMILTONIAN (H = T + V):
+        #     Die Hamilton-Funktion repräsentiert die mechanische Gesamtenergie des Systems:
+        #     H = 0.5*(M + m)*v^2 + m*v*l*omega*cos(theta) + 0.5*m*l^2*omega^2 - m*g*l*cos(theta)
+        #
+        #  4. EULER-LAGRANGE-GLEICHUNGEN & BEWEGUNGSGLEICHUNGEN:
+        #     Lagrange-Funktion: L = T - V
+        #     Gleichungen: d/dt(dL/dv) - dL/ds = F_total
+        #                  d/dt(dL/domega) - dL/dtheta = 0
+        #     wobei F_total = F + F_wind*cos(theta) (horizontale Kraft + Windstörkraft)
+        #     Dies führt auf das gekoppelte System:
+        #     (1) (M + m)*dv/dt + m*l*domega/dt*cos(theta) - m*l*omega^2*sin(theta) = F_total
+        #     (2) m*l*dv/dt*cos(theta) + m*l^2*domega/dt + m*g*l*sin(theta) = 0
+        #
+        #     Durch Auflösen nach den Beschleunigungen dv/dt (dv) und domega/dt (domega) erhalten wir:
+        #     Nenner: den = M + m * sin(theta)^2
+        #     dv = (F_total + m*l*omega^2*sin(theta) + m*g*cos(theta)*sin(theta)) / den
+        #     domega = (-F_total*cos(theta) - m*l*omega^2*sin(theta)*cos(theta) - (M+m)*g*sin(theta)) / (l * den)
+        #
+        #  Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)):
         x = SX.sym("x", self.nx)
         u = SX.sym("u", self.nu)
         p_ode = SX.sym("p_ode", 4)
@@ -123,7 +162,35 @@ class PendulumMPC:
             - ((M_s + m_s) * 9.81 * sin_theta)
         ) / (l_s * den)
         self.f_ode = Function("f_ode", [x, u, p_ode], [vertcat(ds, dv, dtheta, domega)])
-        # Lagrange Collocation Polynome via Radau-Punkten berechnen
+        # =============================================================================
+        #  MATHEMATISCHE DIREKTE KOLLOKATION (DIRECT COLLOCATION)
+        # =============================================================================
+        #  Bei der direkten Kollokation wird die Zustandstrajektorie x(t) über jedes
+        #  Zeitintervall h_mpc durch ein Polynom vom Grad d (hier d=3) approximiert.
+        #  Die Optimierungsvariablen sind die Zustände an den Intervallgrenzen (X)
+        #  sowie an den d inneren Kollokationspunkten (Xc).
+        #
+        #  Koordinaten & Dimensionen:
+        #  - d (Polynomgrad) = 3
+        #  - tau_root: Zeitstützstellen normiert auf das Intervall [0, 1]. Enthält 0.0 und die
+        #    d Wurzeln des Radau-Polynoms (Länge: d+1 = 4). Dimension: (4,)
+        #  - C: Kollokationsmatrix (Koeffizienten der zeitlichen Ableitung) der Dimension (d+1) x (d+1), d.h. 4x4.
+        #  - D: Extrapolationsvektor (Endwerte der Lagrange-Polynome bei tau=1.0) der Dimension d+1, d.h. 4.
+        #
+        #  Funktionsweise von NumPy Hilfsfunktionen:
+        #  - np.poly1d([1.0, -tau_r]): Erstellt ein symbolisches 1D-Polynom (tau - tau_r).
+        #    Wird verwendet, um das Lagrange-Basispolynom L_j(tau) = prod_{r != j} (tau - tau_r)/(tau_j - tau_r)
+        #    zu konstruieren, welches an tau_j den Wert 1 und an allen anderen tau_r den Wert 0 hat.
+        #  - np.polyder(p): Berechnet die analytische Ableitung dL_j/dtau des Lagrange-Polynoms.
+        #
+        #  Bedeutung der Matrizen C und D:
+        #  - Matrix C (C[j, r] = dL_j/dtau(tau_r)): Repräsentiert die Ableitung des j-ten Basispolynoms
+        #    am Kollokationspunkt r. Ermöglicht die lineare Berechnung der Ableitung dx/dt
+        #    an allen Kollokationspunkten über die Zustände: dx/dt(tau_r) = 1/h * sum(C[j,r]*x_j).
+        #    Damit wird die Gleichheitsbedingung der ODE dx/dt = f(x,u) zu: sum(C[j,r]*x_j) = h * f(x_r, u).
+        #  - Vektor D (D[j] = L_j(1.0)): Extrapoliert den Zustand am Ende des Intervalls (tau=1.0)
+        #    aus den Kollokationspunkten: x_end = sum(D[j]*x_j). Dies erzwingt die Kontinuität
+        #    des Zustands zum nächsten Intervallstart: X_{k+1} == x_end.
         tau_root = np.append(0.0, collocation_points(self.d, "radau"))
         self.C = np.zeros(
             (
@@ -178,7 +245,17 @@ class PendulumMPC:
             for r in range(self.d):
                 x_end = x_end + self.D[r + 1] * self.Xc[k][r]
             self.opti.subject_to(self.X[:, k + 1] == x_end)
-        # Kostenfunktion (Objective): Abweichung vom Ziel und Stellenergie minimieren
+        # =============================================================================
+        #  KOSTENFUNKTION (OBJECTIVE FUNCTION)
+        # =============================================================================
+        #  Die Kostenfunktion J minimiert die Abweichungen vom Zielzustand und den Energieaufwand.
+        #  J = sum_{k=0}^{N-1} ( err_k^T * Q * err_k + R_F * u_k^2 ) + 10 * err_N^T * Q * err_N
+        #
+        #  Stellenergie-Formel (Control Effort Penalty):
+        #  - Für jeden Zeitschritt k penalisiert der Term R_F * (U[0, k])^2 den quadratischen Stellaufwand.
+        #  - Formel: Stellenergie = R_F * u_k^2
+        #    wobei u_k (Kraft F) die Stellgröße und R_F der Gewichtungsfaktor (Stellkosten) ist.
+        #  - Dies verhindert extrem aggressive Steueraktionen und schont die Aktuatoren.
         cost = 0.0
         Q = diag(vertcat(self.Q_s, self.Q_v, self.Q_theta, self.Q_omega))
         for k in range(self.N):
@@ -189,7 +266,17 @@ class PendulumMPC:
         err_term = (self.X[:, self.N]) - self.target_x
         cost = cost + 1.0e1 * mtimes(mtimes(err_term.T, Q), err_term)
         self.opti.minimize(cost)
-        # IPOPT Konfiguration (ohne JIT Komplexität, Python API reicht aus)
+        # =============================================================================
+        #  IPOPT SOLVER KONFIGURATION & PARAMETER
+        # =============================================================================
+        #  IPOPT (Interior Point Optimizer) löst das nichtlineare Optimierungsproblem (NLP).
+        #  Zur Optimierung der Echtzeitfähigkeit konfigurieren wir folgende Parameter:
+        #  - print_time = False: Deaktiviert die Ausgabe der Rechenzeitstatistik durch CasADi
+        #    nach jedem Solver-Durchlauf, um das Terminal sauber zu halten.
+        #  - print_level = 0: Unterdrückt alle detaillierten IPOPT-Iterationen-Logs (Standard: 5).
+        #  - sb = 'yes' (Suppress Banner): Unterdrückt das IPOPT-Lizenz- und Start-Banner.
+        #  - Warm-Starting (siehe step-Methode): Durch Wiederverwendung der verschobenen Lösung
+        #    des vorherigen Schritts benötigt IPOPT im GUI-Betrieb meist nur 1-3 Iterationen.
         self.opti.solver(
             "ipopt", {("print_time"): (False)}, {("print_level"): (0), ("sb"): ("yes")}
         )
@@ -412,10 +499,15 @@ class MainWindow(QMainWindow):
         left_layout.addLayout(slider_layout)
 
         def add_slider(
-            layout, name, label, min_val, max_val, default_val, row, tooltip
+            layout, name, label, min_val, max_val, default_val, scale, row, tooltip
         ):
             slider = QSlider(Qt.Horizontal)
-            lbl = QLabel(f"{label}: {default_val}")
+            init_val = default_val * scale
+            lbl = QLabel(
+                f"{label}: {init_val:.2f}"
+                if isinstance(scale, float)
+                else f"{label}: {int(init_val)}"
+            )
             slider.setToolTip(tooltip)
             lbl.setToolTip(tooltip)
             slider.setMinimum(min_val)
@@ -424,7 +516,11 @@ class MainWindow(QMainWindow):
             layout.addWidget(lbl, row, 0)
             layout.addWidget(slider, row, 1)
             slider.valueChanged.connect(
-                lambda: lbl.setText(f"{label}: {slider.value()}")
+                lambda: lbl.setText(
+                    f"{label}: {slider.value() * scale:.2f}"
+                    if isinstance(scale, float)
+                    else f"{label}: {int(slider.value() * scale)}"
+                )
             )
             self.sliders[name] = slider
 
@@ -435,6 +531,7 @@ class MainWindow(QMainWindow):
             1,
             50,
             10,
+            0.1,
             0,
             "Masse des Wagens. Schwerer = Träger gegen Bewegungsänderungen.",
         )
@@ -445,6 +542,7 @@ class MainWindow(QMainWindow):
             1,
             20,
             1,
+            0.1,
             1,
             "Punktmasse des Pendels am Kopfende.",
         )
@@ -455,8 +553,9 @@ class MainWindow(QMainWindow):
             1,
             20,
             5,
+            0.1,
             2,
-            "Abstand vom Wagen zum Pendelschwerpunkt (Wert/10 in m).",
+            "Abstand vom Wagen zum Pendelschwerpunkt.",
         )
         add_slider(
             slider_layout,
@@ -465,6 +564,7 @@ class MainWindow(QMainWindow):
             -300,
             300,
             0,
+            0.1,
             3,
             "Konstante Störkraft, die horizontal auf das Pendel drückt.",
         )
@@ -475,6 +575,7 @@ class MainWindow(QMainWindow):
             0,
             200,
             10,
+            1,
             4,
             "Strafe (Penalty) für Abweichung des Wagens von der Ziel-Position.",
         )
@@ -484,7 +585,8 @@ class MainWindow(QMainWindow):
             "Gewicht Wagengeschw.",
             0,
             100,
-            10,
+            1,
+            1,
             5,
             "Strafe für hohe Geschwindigkeit des Wagens (verhindert Überschwingen).",
         )
@@ -495,6 +597,7 @@ class MainWindow(QMainWindow):
             0,
             500,
             100,
+            1,
             6,
             "Strafe für das Abweichen des Pendels vom instabilen Gleichgewicht (0 rad).",
         )
@@ -504,7 +607,8 @@ class MainWindow(QMainWindow):
             "Gewicht Winkelgeschw.",
             0,
             100,
-            10,
+            1,
+            1,
             7,
             "Strafe für schnelle Rotationen des Pendels.",
         )
@@ -515,28 +619,31 @@ class MainWindow(QMainWindow):
             1,
             200,
             10,
+            1.0e-2,
             8,
-            "Kostenfaktor für die Stellkraft F (Wert/100). Zwingt den Solver, Energie zu sparen.",
+            "Kostenfaktor für die Stellkraft F. Zwingt den Solver, Energie zu sparen.",
         )
         add_slider(
             slider_layout,
             "target_s",
             "Ziel-Position [m]",
-            -20,
-            20,
+            -100,
+            100,
             10,
+            0.1,
             9,
-            "Soll-Position des Wagens auf der Schiene (Wert/10).",
+            "Soll-Position des Wagens auf der Schiene.",
         )
         add_slider(
             slider_layout,
             "max_pos",
             "Schiene Limit [m]",
             10,
-            100,
-            20,
+            200,
+            50,
+            0.1,
             10,
-            "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten (Wert/10).",
+            "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten.",
         )
         add_slider(
             slider_layout,
@@ -545,8 +652,9 @@ class MainWindow(QMainWindow):
             10,
             300,
             150,
+            0.1,
             11,
-            "Stellgrößenbeschränkung für den Aktuator. (Wert/10).",
+            "Stellgrößenbeschränkung für den Aktuator.",
         )
         add_slider(
             slider_layout,
@@ -555,6 +663,7 @@ class MainWindow(QMainWindow):
             1,
             50,
             20,
+            1,
             12,
             "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.",
         )
@@ -565,6 +674,7 @@ class MainWindow(QMainWindow):
             1,
             200,
             50,
+            1,
             13,
             "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.",
         )
@@ -575,6 +685,7 @@ class MainWindow(QMainWindow):
             1,
             100,
             33,
+            1,
             14,
             "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver.",
         )
@@ -666,18 +777,19 @@ class MainWindow(QMainWindow):
             cos_t = np.cos(theta_st)
             den = params["M"] + params["m"] * (1.0 - (cos_t * cos_t))
             F_tot = F_motor + wind_force * cos_t
+            l_val = params["l"]
             ds = v_st
             dv = (
                 F_tot
-                + params["m"] * 0.5 * omega_st * omega_st * sin_t
+                + params["m"] * l_val * omega_st * omega_st * sin_t
                 + params["m"] * 9.81 * cos_t * sin_t
             ) / den
             dtheta = omega_st
             domega = (
                 (-1.0 * F_tot * cos_t)
-                - (params["m"] * 0.5 * omega_st * omega_st * sin_t * cos_t)
+                - (params["m"] * l_val * omega_st * omega_st * sin_t * cos_t)
                 - ((params["M"] + params["m"]) * 9.81 * sin_t)
-            ) / (0.5 * den)
+            ) / (l_val * den)
             return np.array([ds, dv, dtheta, domega])
 
         k1 = f_real(self.state)

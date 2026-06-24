@@ -90,12 +90,52 @@
        ,@(loop for sym in '(M_p m_p l_p wind_p Q_s Q_v Q_theta Q_omega R_F max_pos max_force)
                collect `(setf (dot self ,sym) (self.opti.parameter)))
 
-       (comments "Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)).")
-       (comments "Wir nutzen SX (Scalar Expression) anstelle von MX (Matrix Expression) für die ODE.")
-       (comments "SX ist für solche mathematischen Ausdrücke auf Skalarebene deutlich effizienter bei der")
-       (comments "Berechnung von Ableitungen (Jacobian/Hessian) innerhalb des NLP Solvers.")
-       (comments "Um Fehler durch das Mischen von SX und den MX-Parametern des Opti-Stacks zu vermeiden,")
-       (comments "übergeben wir die physikalischen Parameter explizit als SX-Vektor an die ODE-Funktion.")
+       (comments
+        "============================================================================="
+        " PHYSIK-HERLEITUNG & DYNAMISCHE GLEICHUNGEN (LAGRANGE & HAMILTON)"
+        "============================================================================="
+        " Systemzustand: x = [s, v, theta, omega]^T"
+        " - s: Position des Wagens (Schiene) [m]"
+        " - v: Geschwindigkeit des Wagens (ds/dt) [m/s]"
+        " - theta: Pendelwinkel relativ zur Ruhelage [rad]"
+        "          (theta = 0 ist die physikalisch stabile Ruhelage nach unten im ODE-Modell;"
+        "          in der GUI-Zeichnung wird theta = 0 jedoch als aufrechte Position gezeichnet)"
+        " - omega: Winkelgeschwindigkeit des Pendels (dtheta/dt) [rad/s]"
+        " - u: Stellkraft F [N] (horizontale Kraft auf den Wagen)"
+        ""
+        " 1. KINETISCHE ENERGIE (T):"
+        "    Die kinetische Energie setzt sich aus der Translation des Wagens und der Bewegung der"
+        "    Pendel-Punktmasse zusammen:"
+        "    T = 0.5 * M * v^2 + 0.5 * m * (v_p^2)"
+        "    wobei x_p = s + l*sin(theta), y_p = -l*cos(theta) (y-Achse nach oben)."
+        "    Ableitungen: dx_p = v + l*omega*cos(theta), dy_p = l*omega*sin(theta)"
+        "    v_p^2 = dx_p^2 + dy_p^2 = v^2 + 2*v*l*omega*cos(theta) + l^2*omega^2"
+        "    T = 0.5 * (M + m) * v^2 + m * v * l * omega * cos(theta) + 0.5 * m * l^2 * omega^2"
+        ""
+        " 2. POTENTIELLE ENERGIE (V):"
+        "    Unter Berücksichtigung der Höhe y_p der Pendelmasse:"
+        "    V = m * g * y_p = -m * g * l * cos(theta)"
+        "    (Minimum bei theta = 0, d.h. die physikalisch stabile Ruhelage ist unten)"
+        ""
+        " 3. HAMILTONIAN (H = T + V):"
+        "    Die Hamilton-Funktion repräsentiert die mechanische Gesamtenergie des Systems:"
+        "    H = 0.5*(M + m)*v^2 + m*v*l*omega*cos(theta) + 0.5*m*l^2*omega^2 - m*g*l*cos(theta)"
+        ""
+        " 4. EULER-LAGRANGE-GLEICHUNGEN & BEWEGUNGSGLEICHUNGEN:"
+        "    Lagrange-Funktion: L = T - V"
+        "    Gleichungen: d/dt(dL/dv) - dL/ds = F_total"
+        "                 d/dt(dL/domega) - dL/dtheta = 0"
+        "    wobei F_total = F + F_wind*cos(theta) (horizontale Kraft + Windstörkraft)"
+        "    Dies führt auf das gekoppelte System:"
+        "    (1) (M + m)*dv/dt + m*l*domega/dt*cos(theta) - m*l*omega^2*sin(theta) = F_total"
+        "    (2) m*l*dv/dt*cos(theta) + m*l^2*domega/dt + m*g*l*sin(theta) = 0"
+        "    "
+        "    Durch Auflösen nach den Beschleunigungen dv/dt (dv) und domega/dt (domega) erhalten wir:"
+        "    Nenner: den = M + m * sin(theta)^2"
+        "    dv = (F_total + m*l*omega^2*sin(theta) + m*g*cos(theta)*sin(theta)) / den"
+        "    domega = (-F_total*cos(theta) - m*l*omega^2*sin(theta)*cos(theta) - (M+m)*g*sin(theta)) / (l * den)"
+        ""
+        " Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)):")
        (setf x (SX.sym (string "x") self.nx)
 	     u (SX.sym (string "u") self.nu)
 	     p_ode (SX.sym (string "p_ode") 4)
@@ -110,11 +150,40 @@
 	     domega (/ (- (* -1.0 F_total cos_theta) (* m_s l_s omega_ omega_ sin_theta cos_theta) (* (+ M_s m_s) 9.81 sin_theta)) (* l_s den)))
        (setf self.f_ode (Function (string "f_ode") (list x u p_ode) (list (vertcat ds dv dtheta domega))))
 
-       (comments "Lagrange Collocation Polynome via Radau-Punkten berechnen")
-       (setf tau_root (np.append 0.0 (collocation_points self.d (string "radau")))
+        (comments
+         "============================================================================="
+         " MATHEMATISCHE DIREKTE KOLLOKATION (DIRECT COLLOCATION)"
+         "============================================================================="
+         " Bei der direkten Kollokation wird die Zustandstrajektorie x(t) über jedes"
+         " Zeitintervall h_mpc durch ein Polynom vom Grad d (hier d=3) approximiert."
+         " Die Optimierungsvariablen sind die Zustände an den Intervallgrenzen (X)"
+         " sowie an den d inneren Kollokationspunkten (Xc)."
+         ""
+         " Koordinaten & Dimensionen:"
+         " - d (Polynomgrad) = 3"
+         " - tau_root: Zeitstützstellen normiert auf das Intervall [0, 1]. Enthält 0.0 und die"
+         "   d Wurzeln des Radau-Polynoms (Länge: d+1 = 4). Dimension: (4,)"
+         " - C: Kollokationsmatrix (Koeffizienten der zeitlichen Ableitung) der Dimension (d+1) x (d+1), d.h. 4x4."
+         " - D: Extrapolationsvektor (Endwerte der Lagrange-Polynome bei tau=1.0) der Dimension d+1, d.h. 4."
+         ""
+         " Funktionsweise von NumPy Hilfsfunktionen:"
+         " - np.poly1d([1.0, -tau_r]): Erstellt ein symbolisches 1D-Polynom (tau - tau_r)."
+         "   Wird verwendet, um das Lagrange-Basispolynom L_j(tau) = prod_{r != j} (tau - tau_r)/(tau_j - tau_r)"
+         "   zu konstruieren, welches an tau_j den Wert 1 und an allen anderen tau_r den Wert 0 hat."
+         " - np.polyder(p): Berechnet die analytische Ableitung dL_j/dtau des Lagrange-Polynoms."
+         ""
+         " Bedeutung der Matrizen C und D:"
+         " - Matrix C (C[j, r] = dL_j/dtau(tau_r)): Repräsentiert die Ableitung des j-ten Basispolynoms"
+         "   am Kollokationspunkt r. Ermöglicht die lineare Berechnung der Ableitung dx/dt"
+         "   an allen Kollokationspunkten über die Zustände: dx/dt(tau_r) = 1/h * sum(C[j,r]*x_j)."
+         "   Damit wird die Gleichheitsbedingung der ODE dx/dt = f(x,u) zu: sum(C[j,r]*x_j) = h * f(x_r, u)."
+         " - Vektor D (D[j] = L_j(1.0)): Extrapoliert den Zustand am Ende des Intervalls (tau=1.0)"
+         "   aus den Kollokationspunkten: x_end = sum(D[j]*x_j). Dies erzwingt die Kontinuität"
+         "   des Zustands zum nächsten Intervallstart: X_{k+1} == x_end.")
+        (setf tau_root (np.append 0.0 (collocation_points self.d (string "radau")))
 	     self.C (np.zeros (tuple (+ self.d 1) (+ self.d 1)))
 	     self.D (np.zeros (+ self.d 1)))
-       (for (j (range (+ self.d 1)))
+        (for (j (range (+ self.d 1)))
 	    (setf p (np.poly1d (list 1.0)))
 	    (for (r (range (+ self.d 1)))
 		 (if (!= r j)
@@ -157,24 +226,46 @@
 		 (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref (aref self.Xc k) r)))))
 	    (self.opti.subject_to (== (aref self.X (slice nil nil) (+ k 1)) x_end)))
 
-       (comments "Kostenfunktion (Objective): Abweichung vom Ziel und Stellenergie minimieren")
-       (setf cost 0.0
+        (comments 
+         "============================================================================="
+         " KOSTENFUNKTION (OBJECTIVE FUNCTION)"
+         "============================================================================="
+         " Die Kostenfunktion J minimiert die Abweichungen vom Zielzustand und den Energieaufwand."
+         " J = sum_{k=0}^{N-1} ( err_k^T * Q * err_k + R_F * u_k^2 ) + 10 * err_N^T * Q * err_N"
+         " "
+         " Stellenergie-Formel (Control Effort Penalty):"
+         " - Für jeden Zeitschritt k penalisiert der Term R_F * (U[0, k])^2 den quadratischen Stellaufwand."
+         " - Formel: Stellenergie = R_F * u_k^2"
+         "   wobei u_k (Kraft F) die Stellgröße und R_F der Gewichtungsfaktor (Stellkosten) ist."
+         " - Dies verhindert extrem aggressive Steueraktionen und schont die Aktuatoren.")
+        (setf cost 0.0
 	     Q (diag (vertcat self.Q_s self.Q_v self.Q_theta self.Q_omega)))
-       (for (k (range self.N))
+        (for (k (range self.N))
 	    (setf err (- (aref self.X (slice nil nil) k) self.target_x)
 		  cost (+ cost (+ (mtimes (mtimes err.T Q) err)
 				  (* self.R_F (** (aref self.U 0 k) 2))))))
-       (setf err_term (- (aref self.X (slice nil nil) self.N) self.target_x)
+        (setf err_term (- (aref self.X (slice nil nil) self.N) self.target_x)
 	     cost (+ cost (* 10.0 (mtimes (mtimes err_term.T Q) err_term))))
-       (self.opti.minimize cost)
+        (self.opti.minimize cost)
 
-       (comments "IPOPT Konfiguration (ohne JIT Komplexität, Python API reicht aus)")
-       (self.opti.solver (string "ipopt") 
+        (comments 
+         "============================================================================="
+         " IPOPT SOLVER KONFIGURATION & PARAMETER"
+         "============================================================================="
+         " IPOPT (Interior Point Optimizer) löst das nichtlineare Optimierungsproblem (NLP)."
+         " Zur Optimierung der Echtzeitfähigkeit konfigurieren wir folgende Parameter:"
+         " - print_time = False: Deaktiviert die Ausgabe der Rechenzeitstatistik durch CasADi"
+         "   nach jedem Solver-Durchlauf, um das Terminal sauber zu halten."
+         " - print_level = 0: Unterdrückt alle detaillierten IPOPT-Iterationen-Logs (Standard: 5)."
+         " - sb = 'yes' (Suppress Banner): Unterdrückt das IPOPT-Lizenz- und Start-Banner."
+         " - Warm-Starting (siehe step-Methode): Durch Wiederverwendung der verschobenen Lösung"
+         "   des vorherigen Schritts benötigt IPOPT im GUI-Betrieb meist nur 1-3 Iterationen.")
+        (self.opti.solver (string "ipopt") 
 			 (dict ((string "print_time") False))
 			 (dict ((string "print_level") 0) ((string "sb") (string "yes"))))
-       
-       (self.opti.set_initial self.X (dot (np.linspace (np.array (list 0.0 0.0 np.pi 0.0)) (np.array (list 1.0 0.0 0.0 0.0)) (+ self.N 1)) T))
-       (setf self.sol None))
+        
+        (self.opti.set_initial self.X (dot (np.linspace (np.array (list 0.0 0.0 np.pi 0.0)) (np.array (list 1.0 0.0 0.0 0.0)) (+ self.N 1)) T))
+        (setf self.sol None))
 
      (def step (self state target_state params)
        (self.opti.set_value self.current_x state)
@@ -316,9 +407,12 @@
              slider_layout (QGridLayout))
        (left_layout.addLayout slider_layout)
        
-       (def add_slider (layout name label min_val max_val default_val row tooltip)
+       (def add_slider (layout name label min_val max_val default_val scale row tooltip)
 	 (setf slider (QSlider Qt.Horizontal)
-	       lbl (QLabel (fstring "{label}: {default_val}")))
+	       init_val (* default_val scale)
+	       lbl (QLabel (? (isinstance scale float)
+			      (fstring "{label}: {init_val:.2f}")
+			      (fstring "{label}: {int(init_val)}"))))
 	 (slider.setToolTip tooltip)
 	 (lbl.setToolTip tooltip)
 	 (slider.setMinimum min_val)
@@ -326,28 +420,31 @@
 	 (slider.setValue default_val)
 	 (layout.addWidget lbl row 0)
 	 (layout.addWidget slider row 1)
-	 (slider.valueChanged.connect (lambda () (lbl.setText (fstring "{label}: {slider.value()}"))))
+	 (slider.valueChanged.connect (lambda () 
+					(lbl.setText (? (isinstance scale float)
+							(fstring "{label}: {slider.value() * scale:.2f}")
+							(fstring "{label}: {int(slider.value() * scale)}")))))
 	 (setf (aref self.sliders name) slider))
 
-       ,@(loop for (key label min-val max-val def-val tooltip) in
-               '(("M" "Wagenmasse [kg]" 1 50 10 "Masse des Wagens. Schwerer = Träger gegen Bewegungsänderungen.")
-                 ("m" "Pendelmasse [kg]" 1 20 1 "Punktmasse des Pendels am Kopfende.")
-                 ("l" "Pendellänge [m]" 1 20 5 "Abstand vom Wagen zum Pendelschwerpunkt (Wert/10 in m).")
-                 ("wind" "Windkraft [N]" -300 300 0 "Konstante Störkraft, die horizontal auf das Pendel drückt.")
-                 ("Q_s" "Gewicht Position" 0 200 10 "Strafe (Penalty) für Abweichung des Wagens von der Ziel-Position.")
-                 ("Q_v" "Gewicht Wagengeschw." 0 100 10 "Strafe für hohe Geschwindigkeit des Wagens (verhindert Überschwingen).")
-                 ("Q_theta" "Gewicht Pendelwinkel" 0 500 100 "Strafe für das Abweichen des Pendels vom instabilen Gleichgewicht (0 rad).")
-                 ("Q_omega" "Gewicht Winkelgeschw." 0 100 10 "Strafe für schnelle Rotationen des Pendels.")
-                 ("R_F" "Gewicht Kraftaufwand" 1 200 10 "Kostenfaktor für die Stellkraft F (Wert/100). Zwingt den Solver, Energie zu sparen.")
-                 ("target_s" "Ziel-Position [m]" -20 20 10 "Soll-Position des Wagens auf der Schiene (Wert/10).")
-                 ("max_pos" "Schiene Limit [m]" 10 100 20 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten (Wert/10).")
-                 ("max_force" "Max Kraft [N]" 10 300 150 "Stellgrößenbeschränkung für den Aktuator. (Wert/10).")
-                 ("N" "Knotenpunkte (N)" 1 50 20 "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.")
-                 ("h_mpc" "MPC Schritt [ms]" 1 200 50 "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.")
-                 ("dt_sim" "Simulations-dt [ms]" 1 100 33 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))
+       ,@(loop for (key label min-val max-val def-val scale tooltip) in
+               '(("M" "Wagenmasse [kg]" 1 50 10 0.1 "Masse des Wagens. Schwerer = Träger gegen Bewegungsänderungen.")
+                 ("m" "Pendelmasse [kg]" 1 20 1 0.1 "Punktmasse des Pendels am Kopfende.")
+                 ("l" "Pendellänge [m]" 1 20 5 0.1 "Abstand vom Wagen zum Pendelschwerpunkt.")
+                 ("wind" "Windkraft [N]" -300 300 0 0.1 "Konstante Störkraft, die horizontal auf das Pendel drückt.")
+                 ("Q_s" "Gewicht Position" 0 200 10 1 "Strafe (Penalty) für Abweichung des Wagens von der Ziel-Position.")
+                 ("Q_v" "Gewicht Wagengeschw." 0 100 1 1 "Strafe für hohe Geschwindigkeit des Wagens (verhindert Überschwingen).")
+                 ("Q_theta" "Gewicht Pendelwinkel" 0 500 100 1 "Strafe für das Abweichen des Pendels vom instabilen Gleichgewicht (0 rad).")
+                 ("Q_omega" "Gewicht Winkelgeschw." 0 100 1 1 "Strafe für schnelle Rotationen des Pendels.")
+                 ("R_F" "Gewicht Kraftaufwand" 1 200 10 0.01 "Kostenfaktor für die Stellkraft F. Zwingt den Solver, Energie zu sparen.")
+                 ("target_s" "Ziel-Position [m]" -100 100 10 0.1 "Soll-Position des Wagens auf der Schiene.")
+                 ("max_pos" "Schiene Limit [m]" 10 200 50 0.1 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten.")
+                 ("max_force" "Max Kraft [N]" 10 300 150 0.1 "Stellgrößenbeschränkung für den Aktuator.")
+                 ("N" "Knotenpunkte (N)" 1 50 20 1 "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.")
+                 ("h_mpc" "MPC Schritt [ms]" 1 200 50 1 "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.")
+                 ("dt_sim" "Simulations-dt [ms]" 1 100 33 1 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))
                for row from 0
                collect
-               `(add_slider slider_layout (string ,key) (string ,label) ,min-val ,max-val ,def-val ,row (string ,tooltip)))
+               `(add_slider slider_layout (string ,key) (string ,label) ,min-val ,max-val ,def-val ,scale ,row (string ,tooltip)))
        
        (setf self.timer (QTimer))
        (self.timer.timeout.connect self.update_loop)
@@ -416,10 +513,11 @@
 	       sin_t (np.sin theta_st) cos_t (np.cos theta_st)
 	       den (+ (aref params (string "M")) (* (aref params (string "m")) (- 1.0 (* cos_t cos_t))))
 	       F_tot (+ F_motor (* wind_force cos_t))
+	       l_val (aref params (string "l"))
 	       ds v_st
-	       dv (/ (+ F_tot (* (aref params (string "m")) 0.5 omega_st omega_st sin_t) (* (aref params (string "m")) 9.81 cos_t sin_t)) den)
+	       dv (/ (+ F_tot (* (aref params (string "m")) l_val omega_st omega_st sin_t) (* (aref params (string "m")) 9.81 cos_t sin_t)) den)
 	       dtheta omega_st
-	       domega (/ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) 0.5 omega_st omega_st sin_t cos_t) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* 0.5 den)))
+	       domega (/ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) l_val omega_st omega_st sin_t cos_t) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* l_val den)))
 	 (return (np.array (list ds dv dtheta domega))))
 	 
        (setf k1 (f_real self.state)
