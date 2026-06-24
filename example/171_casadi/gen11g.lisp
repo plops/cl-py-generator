@@ -227,8 +227,8 @@
                      self.t_curr 0.0)
 
                ;; Timer Setup
-               (setf self.timer (QTimer)
-                     self.timer.timeout.connect self.sim_step)
+               (setf self.timer (QTimer))
+               (self.timer.timeout.connect self.sim_step)
                (self.timer.start (int (* dt 1000))))
 
              (def sim_step (self)
@@ -286,7 +286,7 @@
                       (setf x_est (aref X_res (slice nil nil) -1)) ; Aktueller Zustand
                       ;; Update Prior für den nächsten Schritt (Moving the horizon)
                       (setf self.x_prior_val (aref X_res (slice nil nil) 1)))
-                     (Exception e
+                     ((as Exception e)
                       (print (string "MHE Failed!"))))))
 
                ;; 5. Regelung via MPC (Gefüttert ausschließlich mit x_est!)
@@ -295,7 +295,7 @@
                 (do0
                  (setf sol_mpc (opti_mpc.solve))
                  (setf self.u_last (aref (sol_mpc.value U_mpc) 0)))
-                (Exception e
+                ((as Exception e)
                  (print (string "MPC Failed!"))))
 
                ;; 6. Delay Warnung berechnen
@@ -327,6 +327,6 @@
       (setf app (QApplication sys.argv)
             win (MainWindow))
       (win.show)
-      (sys.exit (app.exec_))))
+      (sys.exit (app.exec))))
   
   (write-source *code-file* *source*))

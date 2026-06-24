@@ -136,7 +136,7 @@ class MainWindow(QMainWindow):
         self.th_est_data = []
         self.t_curr = 0.0
         self.timer = QTimer()
-        self.timer.timeout.connect = self.sim_step
+        self.timer.timeout.connect(self.sim_step)
         self.timer.start(int(dt * 1000))
 
     def sim_step(self):
@@ -175,15 +175,13 @@ class MainWindow(QMainWindow):
                 X_res = sol_mhe.value(X_mhe)
                 x_est = X_res[:, -1]
                 self.x_prior_val = X_res[:, 1]
-            except Exception:
-                e
+            except Exception as e:
                 print("MHE Failed!")
         opti_mpc.set_value(X_current_param, x_est)
         try:
             sol_mpc = opti_mpc.solve()
             self.u_last = sol_mpc.value(U_mpc)[0]
-        except Exception:
-            e
+        except Exception as e:
             print("MPC Failed!")
         t_end = time.time()
         t_calc = t_end - t_start
@@ -214,4 +212,4 @@ class MainWindow(QMainWindow):
 app = QApplication(sys.argv)
 win = MainWindow()
 win.show()
-sys.exit(app.exec_())
+sys.exit(app.exec())
