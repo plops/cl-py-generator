@@ -21,7 +21,7 @@
 	     time
 	     sys
 	     (pg pyqtgraph)))
-   (imports-from (PySide6.QtWidgets QApplication QMainWindow QWidget QVBoxLayout QHBoxLayout QSlider QLabel QGridLayout)
+   (imports-from (PySide6.QtWidgets QApplication QMainWindow QWidget QVBoxLayout QHBoxLayout QSlider QLabel QGridLayout QTabWidget)
 		 (PySide6.QtCore Qt QTimer)
 		 (PySide6.QtGui QPainter QPen QBrush QColor))
 
@@ -298,31 +298,48 @@
 		 (if (!= (string ,key) (string "t_solve"))
 		     (setf (aref self.pred_curves (string ,key)) (ax.plot :pen (pg.mkPen (string "y") :width 2 :style Qt.DashLine))))))
 		     
-       (setf slider_layout (QGridLayout)
-	     slider_widget (QWidget))
-       (slider_widget.setLayout slider_layout)
-       (left_layout.addWidget slider_widget)
+       (setf self.tabs (QTabWidget))
+       (left_layout.addWidget self.tabs)
        (setf self.sliders (dict))
        
-       (def add_slider (name label min_val max_val default_val row col)
+       (def add_slider (layout name label min_val max_val default_val row tooltip)
 	 (setf slider (QSlider Qt.Horizontal)
 	       lbl (QLabel (fstring "{label}: {default_val}")))
+	 (slider.setToolTip (string tooltip))
+	 (lbl.setToolTip (string tooltip))
 	 (slider.setMinimum min_val)
 	 (slider.setMaximum max_val)
 	 (slider.setValue default_val)
-	 (slider_layout.addWidget lbl row (* col 2))
-	 (slider_layout.addWidget slider row (+ (* col 2) 1))
+	 (layout.addWidget lbl row 0)
+	 (layout.addWidget slider row 1)
 	 (slider.valueChanged.connect (lambda () (lbl.setText (fstring "{label}: {slider.value()}"))))
 	 (setf (aref self.sliders name) slider))
-	 
-       (add_slider (string "target_s") (string "Ziel-Position") -20 20 10 0 0) 
-       (add_slider (string "wind") (string "Windkraft") -100 100 0 1 0)     
-       (add_slider (string "M") (string "Wagenmasse") 1 50 10 2 0)          
-       (add_slider (string "m") (string "Pendelmasse") 1 20 1 3 0)          
-       (add_slider (string "Q_s") (string "Gewicht Position") 0 100 10 0 1)
-       (add_slider (string "Q_theta") (string "Gewicht Winkel") 0 200 100 1 1)
-       (add_slider (string "R_F") (string "Gewicht Kraft") 1 100 1 2 1)     
-       (add_slider (string "max_pos") (string "Schiene Limit") 10 50 20 3 1) 
+
+       ,@(loop for (tab-name sliders) in
+               '(("Physik"
+                  (("M" "Wagenmasse [kg]" 1 50 10 "Masse des Wagens. Schwerer = träger.")
+                   ("m" "Pendelmasse [kg]" 1 20 1 "Masse des Pendels am Kopfende.")
+                   ("l" "Pendellänge [m]" 1 20 5 "Länge des Pendels (Wert/10 in m).")
+                   ("wind" "Windkraft [N]" -300 300 0 "Konstante Störkraft (Wind) auf das Pendel.")))
+                 ("Kostenfunktion"
+                  (("Q_s" "Gewicht Position" 0 200 10 "Strafe für Abweichung der Wagenposition.")
+                   ("Q_v" "Gewicht Wagengeschw." 0 100 10 "Strafe für hohe Wagengeschwindigkeit.")
+                   ("Q_theta" "Gewicht Pendelwinkel" 0 500 100 "Strafe für Abweichung vom aufrechten Winkel.")
+                   ("Q_omega" "Gewicht Winkelgeschw." 0 100 10 "Strafe für Pendelrotation.")
+                   ("R_F" "Gewicht Kraftaufwand" 1 200 10 "Strafe für hohe Stellkraft (Energiesparen, Wert/100).")))
+                 ("Grenzen & Ziel"
+                  (("target_s" "Ziel-Position [m]" -20 20 10 "Soll-Position des Wagens (Wert/10).")
+                   ("max_pos" "Schiene Limit [m]" 10 100 20 "Begrenzung der Schiene (Wert/10).")
+                   ("max_force" "Max Kraft [N]" 10 300 150 "Stellgrößenbeschränkung für den Aktuator (Wert/10)."))))
+               collect
+               `(do0
+                 (setf tab_widget (QWidget)
+                       tab_layout (QGridLayout tab_widget))
+                 (self.tabs.addTab tab_widget (string ,tab-name))
+                 ,@(loop for (key label min-val max-val def-val tooltip) in sliders
+                         for row from 0
+                         collect
+                         `(add_slider tab_layout (string ,key) (string ,label) ,min-val ,max-val ,def-val ,row (string ,tooltip)))))
        
        (setf self.mpc (PendulumMPC)
 	     self.state (np.array (list 0.0 0.0 np.pi 0.0))
@@ -339,15 +356,15 @@
      (def get_params (self)
        (return (dictionary :M (/ (dot (aref self.sliders (string "M")) (value)) 10.0)
 		     :m (/ (dot (aref self.sliders (string "m")) (value)) 10.0)
-		     :l 0.5
+		     :l (/ (dot (aref self.sliders (string "l")) (value)) 10.0)
 		     :wind (/ (dot (aref self.sliders (string "wind")) (value)) 10.0)
 		     :Q_s (float (dot (aref self.sliders (string "Q_s")) (value)))
-		     :Q_v 1.0
+		     :Q_v (float (dot (aref self.sliders (string "Q_v")) (value)))
 		     :Q_theta (float (dot (aref self.sliders (string "Q_theta")) (value)))
-		     :Q_omega 1.0
+		     :Q_omega (float (dot (aref self.sliders (string "Q_omega")) (value)))
 		     :R_F (/ (dot (aref self.sliders (string "R_F")) (value)) 100.0)
 		     :max_pos (/ (dot (aref self.sliders (string "max_pos")) (value)) 10.0)
-		     :max_force 15.0)))
+		     :max_force (/ (dot (aref self.sliders (string "max_force")) (value)) 10.0))))
        
      (def update_loop (self)
        (setf params (self.get_params)
@@ -389,7 +406,7 @@
 	    ,@(loop for key in '("s" "v" "theta" "omega" "F" "t_solve")
 		    collect `(dot (aref self.hist (string ,key)) (pop 0)))))
 		    
-       (self.pendulum_widget.update_state self.state F_motor wind_force 0.5 (aref params (string "max_pos")))
+       (self.pendulum_widget.update_state self.state F_motor wind_force (aref params (string "l")) (aref params (string "max_pos")))
        
        ,@(loop for key in '("s" "v" "theta" "omega" "F" "t_solve")
 	       collect `(dot (aref self.history_curves (string ,key)) (setData self.t_hist (aref self.hist (string ,key)))))
@@ -399,7 +416,7 @@
 	    (setf t_pred (np.linspace self.time (+ self.time self.mpc.T_horizon) (+ self.mpc.N 1)))
 	    ,@(loop for (key idx) in '(("s" 0) ("v" 1) ("theta" 2) ("omega" 3))
 		    collect `(dot (aref self.pred_curves (string ,key)) (setData t_pred (aref X_pred ,idx (slice nil nil)))))
-	    (dot (aref self.pred_curves (string "F")) (setData (aref t_pred (slice 0 -1)) (aref U_pred 0 (slice nil nil))))))))
+	    (dot (aref self.pred_curves (string "F")) (setData (aref t_pred (slice 0 -1)) U_pred))))))
 
    (if (== __name__ (string "__main__"))
        (do0
