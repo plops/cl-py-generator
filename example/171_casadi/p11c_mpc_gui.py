@@ -13,7 +13,6 @@ from PySide6.QtWidgets import (
     QSlider,
     QLabel,
     QGridLayout,
-    QTabWidget,
     QPushButton,
 )
 from PySide6.QtCore import Qt, QTimer
@@ -65,13 +64,13 @@ from PySide6.QtGui import QPainter, QPen, QBrush, QColor
 #  dient als Startschätzung für den aktuellen, wodurch IPOPT oft nur 1-3 Iterationen benötigt.
 # =========================================================================================
 class PendulumMPC:
-    def __init__(self, T_horizon=1.0, N=20):
+    def __init__(self, h_mpc=5.0e-2, N=20):
         self.opti = Opti()
         self.nx = 4
         self.nu = 1
         self.N = N
-        self.T_horizon = T_horizon
-        self.h = self.T_horizon / self.N
+        self.h_mpc = h_mpc
+        self.T_horizon = self.N * self.h_mpc
         self.d = 3
         #  Parameter für Physik und Optimierung.
         #  Wir definieren diese als CasADi 'Parameter' (opti.parameter), anstatt sie fest zu
@@ -175,7 +174,7 @@ class PendulumMPC:
                     self.U[:, k],
                     vertcat(self.M_p, self.m_p, self.l_p, self.wind_p),
                 )
-                self.opti.subject_to(xp == self.h * f_eval)
+                self.opti.subject_to(xp == self.h_mpc * f_eval)
             for r in range(self.d):
                 x_end = x_end + self.D[r + 1] * self.Xc[k][r]
             self.opti.subject_to(self.X[:, k + 1] == x_end)
@@ -396,8 +395,6 @@ class MainWindow(QMainWindow):
             self.pred_curves["t_solve"] = ax.plot(
                 pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
-        self.tabs = QTabWidget()
-        left_layout.addWidget(self.tabs)
         # Steuerungs-Buttons für Simulation
         btn_layout = QHBoxLayout()
         self.btn_start = QPushButton("Start")
@@ -411,6 +408,8 @@ class MainWindow(QMainWindow):
         self.btn_stop.clicked.connect(self.stop_sim)
         self.btn_reset.clicked.connect(self.reset_sim)
         self.sliders = {}
+        slider_layout = QGridLayout()
+        left_layout.addLayout(slider_layout)
 
         def add_slider(
             layout, name, label, min_val, max_val, default_val, row, tooltip
@@ -429,11 +428,8 @@ class MainWindow(QMainWindow):
             )
             self.sliders[name] = slider
 
-        tab_widget = QWidget()
-        tab_layout = QGridLayout(tab_widget)
-        self.tabs.addTab(tab_widget, "Physik")
         add_slider(
-            tab_layout,
+            slider_layout,
             "M",
             "Wagenmasse [kg]",
             1,
@@ -443,7 +439,7 @@ class MainWindow(QMainWindow):
             "Masse des Wagens. Schwerer = Träger gegen Bewegungsänderungen.",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "m",
             "Pendelmasse [kg]",
             1,
@@ -453,7 +449,7 @@ class MainWindow(QMainWindow):
             "Punktmasse des Pendels am Kopfende.",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "l",
             "Pendellänge [m]",
             1,
@@ -463,7 +459,7 @@ class MainWindow(QMainWindow):
             "Abstand vom Wagen zum Pendelschwerpunkt (Wert/10 in m).",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "wind",
             "Windkraft [N]",
             -300,
@@ -472,123 +468,114 @@ class MainWindow(QMainWindow):
             3,
             "Konstante Störkraft, die horizontal auf das Pendel drückt.",
         )
-        tab_widget = QWidget()
-        tab_layout = QGridLayout(tab_widget)
-        self.tabs.addTab(tab_widget, "Kostenfunktion")
         add_slider(
-            tab_layout,
+            slider_layout,
             "Q_s",
             "Gewicht Position",
             0,
             200,
             10,
-            0,
+            4,
             "Strafe (Penalty) für Abweichung des Wagens von der Ziel-Position.",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "Q_v",
             "Gewicht Wagengeschw.",
             0,
             100,
             10,
-            1,
+            5,
             "Strafe für hohe Geschwindigkeit des Wagens (verhindert Überschwingen).",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "Q_theta",
             "Gewicht Pendelwinkel",
             0,
             500,
             100,
-            2,
+            6,
             "Strafe für das Abweichen des Pendels vom instabilen Gleichgewicht (0 rad).",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "Q_omega",
             "Gewicht Winkelgeschw.",
             0,
             100,
             10,
-            3,
+            7,
             "Strafe für schnelle Rotationen des Pendels.",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "R_F",
             "Gewicht Kraftaufwand",
             1,
             200,
             10,
-            4,
+            8,
             "Kostenfaktor für die Stellkraft F (Wert/100). Zwingt den Solver, Energie zu sparen.",
         )
-        tab_widget = QWidget()
-        tab_layout = QGridLayout(tab_widget)
-        self.tabs.addTab(tab_widget, "Grenzen & Ziel")
         add_slider(
-            tab_layout,
+            slider_layout,
             "target_s",
             "Ziel-Position [m]",
             -20,
             20,
             10,
-            0,
+            9,
             "Soll-Position des Wagens auf der Schiene (Wert/10).",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "max_pos",
             "Schiene Limit [m]",
             10,
             100,
             20,
-            1,
+            10,
             "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten (Wert/10).",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
             "max_force",
             "Max Kraft [N]",
             10,
             300,
             150,
-            2,
+            11,
             "Stellgrößenbeschränkung für den Aktuator. (Wert/10).",
         )
-        tab_widget = QWidget()
-        tab_layout = QGridLayout(tab_widget)
-        self.tabs.addTab(tab_widget, "Simulation & MPC")
         add_slider(
-            tab_layout,
-            "T_horizon",
-            "Zeithorizont [s]",
-            1,
-            50,
-            10,
-            0,
-            "Wie weit blickt die MPC in die Zukunft? (Wert/10). Längerer Horizont plant besser, erfordert aber komplexere Trajektorien.",
-        )
-        add_slider(
-            tab_layout,
+            slider_layout,
             "N",
             "Knotenpunkte (N)",
-            5,
+            1,
             50,
             20,
-            1,
-            "Auflösung des Solvers. Mehr Knoten = präzisere Planung, aber langsamer.",
+            12,
+            "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.",
         )
         add_slider(
-            tab_layout,
+            slider_layout,
+            "h_mpc",
+            "MPC Schritt [ms]",
+            1,
+            200,
+            50,
+            13,
+            "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.",
+        )
+        add_slider(
+            slider_layout,
             "dt_sim",
             "Simulations-dt [ms]",
             1,
             100,
             33,
-            2,
+            14,
             "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver.",
         )
         self.timer = QTimer()
@@ -599,12 +586,12 @@ class MainWindow(QMainWindow):
     def start_sim(self):
         self.dt = (self.sliders["dt_sim"].value()) / 1.0e3
         self.timer.start(int(self.dt * 1.0e3))
-        self.sliders["T_horizon"].setEnabled(False)
+        self.sliders["h_mpc"].setEnabled(False)
         self.sliders["N"].setEnabled(False)
 
     def stop_sim(self):
         self.timer.stop()
-        self.sliders["T_horizon"].setEnabled(True)
+        self.sliders["h_mpc"].setEnabled(True)
         self.sliders["N"].setEnabled(True)
 
     def reset_sim(self):
@@ -623,7 +610,7 @@ class MainWindow(QMainWindow):
             ("t_solve"): ([]),
         }
         # MPC mit neuen Parametern neu kompilieren
-        self.mpc = PendulumMPC(T_horizon=params["T_horizon"], N=params["N"])
+        self.mpc = PendulumMPC(h_mpc=params["h_mpc"], N=params["N"])
         self.pendulum_widget.update_state(
             self.state, 0.0, 0.0, params["l"], params["max_pos"]
         )
@@ -652,7 +639,7 @@ class MainWindow(QMainWindow):
             R_F=(self.sliders["R_F"].value()) / 1.0e2,
             max_pos=(self.sliders["max_pos"].value()) / 1.0e1,
             max_force=(self.sliders["max_force"].value()) / 1.0e1,
-            T_horizon=(self.sliders["T_horizon"].value()) / 1.0e1,
+            h_mpc=(self.sliders["h_mpc"].value()) / 1.0e3,
             N=int(self.sliders["N"].value()),
             dt_sim=(self.sliders["dt_sim"].value()) / 1.0e3,
         )
