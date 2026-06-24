@@ -21,7 +21,7 @@
 	     time
 	     sys
 	     (pg pyqtgraph)))
-   (imports-from (PySide6.QtWidgets QApplication QMainWindow QWidget QVBoxLayout QHBoxLayout QSlider QLabel QGridLayout QTabWidget)
+   (imports-from (PySide6.QtWidgets QApplication QMainWindow QWidget QVBoxLayout QHBoxLayout QSlider QLabel QGridLayout QTabWidget QPushButton)
 		 (PySide6.QtCore Qt QTimer)
 		 (PySide6.QtGui QPainter QPen QBrush QColor))
 
@@ -72,11 +72,13 @@
     "=========================================================================================")
 
    (class PendulumMPC ()
-     (def __init__ (self)
+     (def __init__ (self &key (T_horizon 1.0) (N 20))
        (setf self.opti (Opti)
 	     self.nx 4
 	     self.nu 1
-	     self.N 20
+	     self.N N
+	     self.T_horizon T_horizon
+	     self.h (/ self.T_horizon self.N)
 	     self.d 3)
 
        (comments 
@@ -85,7 +87,7 @@
         " verdrahten. Das ermöglicht es uns, Massen, Wind, Grenzen oder auch den Vorhersagehorizont"
         " (T_horizon) zur Laufzeit der GUI zu ändern, ohne den kompletten CasADi Optimierungs-"
         " Graphen neu aufbauen und kompilieren zu müssen (was extrem rechenintensiv wäre).")
-       ,@(loop for sym in '(M_p m_p l_p wind_p Q_s Q_v Q_theta Q_omega R_F max_pos max_force T_horizon_p)
+       ,@(loop for sym in '(M_p m_p l_p wind_p Q_s Q_v Q_theta Q_omega R_F max_pos max_force)
                collect `(setf (dot self ,sym) (self.opti.parameter)))
 
        (comments "Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)).")
@@ -150,7 +152,7 @@
 		 (setf f_eval (self.f_ode (aref (aref self.Xc k) (- j 1))
 					  (aref self.U (slice nil nil) k)
 					  (vertcat self.M_p self.m_p self.l_p self.wind_p)))
-		 (self.opti.subject_to (== xp (* (/ self.T_horizon_p self.N) f_eval))))
+		 (self.opti.subject_to (== xp (* self.h f_eval))))
 	    (for (r (range self.d))
 		 (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref (aref self.Xc k) r)))))
 	    (self.opti.subject_to (== (aref self.X (slice nil nil) (+ k 1)) x_end)))
@@ -187,8 +189,7 @@
                                   ("Q_omega" self.Q_omega)
                                   ("R_F" self.R_F)
                                   ("max_pos" self.max_pos)
-                                  ("max_force" self.max_force)
-                                  ("T_horizon" self.T_horizon_p))
+                                  ("max_force" self.max_force))
 	       collect `(self.opti.set_value ,sym (aref params (string ,key))))
 
        (if (!= self.sol None)
@@ -299,6 +300,21 @@
 		     
        (setf self.tabs (QTabWidget))
        (left_layout.addWidget self.tabs)
+
+       (comments "Steuerungs-Buttons für Simulation")
+       (setf btn_layout (QHBoxLayout)
+             self.btn_start (QPushButton (string "Start"))
+             self.btn_stop (QPushButton (string "Stop"))
+             self.btn_reset (QPushButton (string "Reset / Apply Params")))
+       (btn_layout.addWidget self.btn_start)
+       (btn_layout.addWidget self.btn_stop)
+       (btn_layout.addWidget self.btn_reset)
+       (left_layout.addLayout btn_layout)
+       
+       (self.btn_start.clicked.connect self.start_sim)
+       (self.btn_stop.clicked.connect self.stop_sim)
+       (self.btn_reset.clicked.connect self.reset_sim)
+
        (setf self.sliders (dict))
        
        (def add_slider (layout name label min_val max_val default_val row tooltip)
@@ -332,6 +348,7 @@
                    ("max_force" "Max Kraft [N]" 10 300 150 "Stellgrößenbeschränkung für den Aktuator. (Wert/10).")))
                  ("Simulation & MPC"
                   (("T_horizon" "Zeithorizont [s]" 1 50 10 "Wie weit blickt die MPC in die Zukunft? (Wert/10). Längerer Horizont plant besser, erfordert aber komplexere Trajektorien.")
+                   ("N" "Knotenpunkte (N)" 5 50 20 "Auflösung des Solvers. Mehr Knoten = präzisere Planung, aber langsamer.")
                    ("dt_sim" "Simulations-dt [ms]" 1 100 33 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))))
                collect
                `(do0
@@ -343,17 +360,39 @@
                          collect
                          `(add_slider tab_layout (string ,key) (string ,label) ,min-val ,max-val ,def-val ,row (string ,tooltip)))))
        
-       (setf self.mpc (PendulumMPC)
-	     self.state (np.array (list 0.0 0.0 np.pi 0.0))
-	     self.t_hist (list)
-	     self.hist (dict ((string "s") (list)) ((string "v") (list)) ((string "theta") (list))
-			     ((string "omega") (list)) ((string "F") (list)) ((string "t_solve") (list)))
-	     self.time 0.0
-	     self.dt 0.033)
-	     
        (setf self.timer (QTimer))
        (self.timer.timeout.connect self.update_loop)
-       (self.timer.start 33))
+       (self.reset_sim)
+       (self.start_sim))
+
+     (def start_sim (self)
+       (setf self.dt (/ (dot (aref self.sliders (string "dt_sim")) (value)) 1000.0))
+       (self.timer.start (int (* self.dt 1000.0)))
+       (dot (aref self.sliders (string "T_horizon")) (setEnabled False))
+       (dot (aref self.sliders (string "N")) (setEnabled False)))
+
+     (def stop_sim (self)
+       (self.timer.stop)
+       (dot (aref self.sliders (string "T_horizon")) (setEnabled True))
+       (dot (aref self.sliders (string "N")) (setEnabled True)))
+
+     (def reset_sim (self)
+       (self.stop_sim)
+       (setf params (self.get_params)
+             self.time 0.0
+             self.state (np.array (list 0.0 0.0 np.pi 0.0))
+             self.t_hist (list)
+             self.dt (aref params (string "dt_sim"))
+             self.hist (dict ((string "s") (list)) ((string "v") (list)) ((string "theta") (list))
+                             ((string "omega") (list)) ((string "F") (list)) ((string "t_solve") (list))))
+       (comments "MPC mit neuen Parametern neu kompilieren")
+       (setf self.mpc (PendulumMPC :T_horizon (aref params (string "T_horizon"))
+                                   :N (aref params (string "N"))))
+       (self.pendulum_widget.update_state self.state 0.0 0.0 (aref params (string "l")) (aref params (string "max_pos")))
+       ,@(loop for key in '("s" "v" "theta" "omega" "F" "t_solve")
+               collect `(dot (aref self.history_curves (string ,key)) (setData (list) (list))))
+       ,@(loop for key in '("s" "v" "theta" "omega" "F")
+               collect `(dot (aref self.pred_curves (string ,key)) (setData (list) (list)))))
 
      (def get_params (self)
        (return (dictionary :M (/ (dot (aref self.sliders (string "M")) (value)) 10.0)
@@ -368,6 +407,7 @@
 		     :max_pos (/ (dot (aref self.sliders (string "max_pos")) (value)) 10.0)
 		     :max_force (/ (dot (aref self.sliders (string "max_force")) (value)) 10.0)
 		     :T_horizon (/ (dot (aref self.sliders (string "T_horizon")) (value)) 10.0)
+		     :N (int (dot (aref self.sliders (string "N")) (value)))
 		     :dt_sim (/ (dot (aref self.sliders (string "dt_sim")) (value)) 1000.0))))
        
      (def update_loop (self)
@@ -419,7 +459,7 @@
 	       
        (if success
 	   (do0
-	    (setf t_pred (np.linspace self.time (+ self.time (aref params (string "T_horizon"))) (+ self.mpc.N 1)))
+	    (setf t_pred (np.linspace self.time (+ self.time self.mpc.T_horizon) (+ self.mpc.N 1)))
 	    ,@(loop for (key idx) in '(("s" 0) ("v" 1) ("theta" 2) ("omega" 3))
 		    collect `(dot (aref self.pred_curves (string ,key)) (setData t_pred (aref X_pred ,idx (slice nil nil)))))
 	    (dot (aref self.pred_curves (string "F")) (setData (aref t_pred (slice 0 -1)) U_pred))))))
