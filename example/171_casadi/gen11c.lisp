@@ -21,7 +21,7 @@
 	     time
 	     sys
 	     (pg pyqtgraph)))
-   (imports-from (PySide6.QtWidgets QApplication QMainWindow QWidget QVBoxLayout QHBoxLayout QSlider QLabel QGridLayout QTabWidget QPushButton)
+   (imports-from (PySide6.QtWidgets QApplication QMainWindow QWidget QVBoxLayout QHBoxLayout QSlider QLabel QGridLayout QPushButton)
 		 (PySide6.QtCore Qt QTimer)
 		 (PySide6.QtGui QPainter QPen QBrush QColor))
 
@@ -72,13 +72,13 @@
     "=========================================================================================")
 
    (class PendulumMPC ()
-     (def __init__ (self &key (T_horizon 1.0) (N 20))
+     (def __init__ (self &key (h_mpc 0.05) (N 20))
        (setf self.opti (Opti)
 	     self.nx 4
 	     self.nu 1
 	     self.N N
-	     self.T_horizon T_horizon
-	     self.h (/ self.T_horizon self.N)
+	     self.h_mpc h_mpc
+	     self.T_horizon (* self.N self.h_mpc)
 	     self.d 3)
 
        (comments 
@@ -152,7 +152,7 @@
 		 (setf f_eval (self.f_ode (aref (aref self.Xc k) (- j 1))
 					  (aref self.U (slice nil nil) k)
 					  (vertcat self.M_p self.m_p self.l_p self.wind_p)))
-		 (self.opti.subject_to (== xp (* self.h f_eval))))
+		 (self.opti.subject_to (== xp (* self.h_mpc f_eval))))
 	    (for (r (range self.d))
 		 (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref (aref self.Xc k) r)))))
 	    (self.opti.subject_to (== (aref self.X (slice nil nil) (+ k 1)) x_end)))
@@ -298,9 +298,6 @@
 		 (if (!= (string ,key) (string "t_solve"))
 		     (setf (aref self.pred_curves (string ,key)) (ax.plot :pen (pg.mkPen (string "y") :width 2 :style Qt.DashLine))))))
 		     
-       (setf self.tabs (QTabWidget))
-       (left_layout.addWidget self.tabs)
-
        (comments "Steuerungs-Buttons für Simulation")
        (setf btn_layout (QHBoxLayout)
              self.btn_start (QPushButton (string "Start"))
@@ -315,7 +312,9 @@
        (self.btn_stop.clicked.connect self.stop_sim)
        (self.btn_reset.clicked.connect self.reset_sim)
 
-       (setf self.sliders (dict))
+       (setf self.sliders (dict)
+             slider_layout (QGridLayout))
+       (left_layout.addLayout slider_layout)
        
        (def add_slider (layout name label min_val max_val default_val row tooltip)
 	 (setf slider (QSlider Qt.Horizontal)
@@ -330,35 +329,25 @@
 	 (slider.valueChanged.connect (lambda () (lbl.setText (fstring "{label}: {slider.value()}"))))
 	 (setf (aref self.sliders name) slider))
 
-       ,@(loop for (tab-name sliders) in
-               '(("Physik"
-                  (("M" "Wagenmasse [kg]" 1 50 10 "Masse des Wagens. Schwerer = Träger gegen Bewegungsänderungen.")
-                   ("m" "Pendelmasse [kg]" 1 20 1 "Punktmasse des Pendels am Kopfende.")
-                   ("l" "Pendellänge [m]" 1 20 5 "Abstand vom Wagen zum Pendelschwerpunkt (Wert/10 in m).")
-                   ("wind" "Windkraft [N]" -300 300 0 "Konstante Störkraft, die horizontal auf das Pendel drückt.")))
-                 ("Kostenfunktion"
-                  (("Q_s" "Gewicht Position" 0 200 10 "Strafe (Penalty) für Abweichung des Wagens von der Ziel-Position.")
-                   ("Q_v" "Gewicht Wagengeschw." 0 100 10 "Strafe für hohe Geschwindigkeit des Wagens (verhindert Überschwingen).")
-                   ("Q_theta" "Gewicht Pendelwinkel" 0 500 100 "Strafe für das Abweichen des Pendels vom instabilen Gleichgewicht (0 rad).")
-                   ("Q_omega" "Gewicht Winkelgeschw." 0 100 10 "Strafe für schnelle Rotationen des Pendels.")
-                   ("R_F" "Gewicht Kraftaufwand" 1 200 10 "Kostenfaktor für die Stellkraft F (Wert/100). Zwingt den Solver, Energie zu sparen.")))
-                 ("Grenzen & Ziel"
-                  (("target_s" "Ziel-Position [m]" -20 20 10 "Soll-Position des Wagens auf der Schiene (Wert/10).")
-                   ("max_pos" "Schiene Limit [m]" 10 100 20 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten (Wert/10).")
-                   ("max_force" "Max Kraft [N]" 10 300 150 "Stellgrößenbeschränkung für den Aktuator. (Wert/10).")))
-                 ("Simulation & MPC"
-                  (("T_horizon" "Zeithorizont [s]" 1 50 10 "Wie weit blickt die MPC in die Zukunft? (Wert/10). Längerer Horizont plant besser, erfordert aber komplexere Trajektorien.")
-                   ("N" "Knotenpunkte (N)" 5 50 20 "Auflösung des Solvers. Mehr Knoten = präzisere Planung, aber langsamer.")
-                   ("dt_sim" "Simulations-dt [ms]" 1 100 33 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))))
+       ,@(loop for (key label min-val max-val def-val tooltip) in
+               '(("M" "Wagenmasse [kg]" 1 50 10 "Masse des Wagens. Schwerer = Träger gegen Bewegungsänderungen.")
+                 ("m" "Pendelmasse [kg]" 1 20 1 "Punktmasse des Pendels am Kopfende.")
+                 ("l" "Pendellänge [m]" 1 20 5 "Abstand vom Wagen zum Pendelschwerpunkt (Wert/10 in m).")
+                 ("wind" "Windkraft [N]" -300 300 0 "Konstante Störkraft, die horizontal auf das Pendel drückt.")
+                 ("Q_s" "Gewicht Position" 0 200 10 "Strafe (Penalty) für Abweichung des Wagens von der Ziel-Position.")
+                 ("Q_v" "Gewicht Wagengeschw." 0 100 10 "Strafe für hohe Geschwindigkeit des Wagens (verhindert Überschwingen).")
+                 ("Q_theta" "Gewicht Pendelwinkel" 0 500 100 "Strafe für das Abweichen des Pendels vom instabilen Gleichgewicht (0 rad).")
+                 ("Q_omega" "Gewicht Winkelgeschw." 0 100 10 "Strafe für schnelle Rotationen des Pendels.")
+                 ("R_F" "Gewicht Kraftaufwand" 1 200 10 "Kostenfaktor für die Stellkraft F (Wert/100). Zwingt den Solver, Energie zu sparen.")
+                 ("target_s" "Ziel-Position [m]" -20 20 10 "Soll-Position des Wagens auf der Schiene (Wert/10).")
+                 ("max_pos" "Schiene Limit [m]" 10 100 20 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten (Wert/10).")
+                 ("max_force" "Max Kraft [N]" 10 300 150 "Stellgrößenbeschränkung für den Aktuator. (Wert/10).")
+                 ("N" "Knotenpunkte (N)" 1 50 20 "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.")
+                 ("h_mpc" "MPC Schritt [ms]" 1 200 50 "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.")
+                 ("dt_sim" "Simulations-dt [ms]" 1 100 33 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))
+               for row from 0
                collect
-               `(do0
-                 (setf tab_widget (QWidget)
-                       tab_layout (QGridLayout tab_widget))
-                 (self.tabs.addTab tab_widget (string ,tab-name))
-                 ,@(loop for (key label min-val max-val def-val tooltip) in sliders
-                         for row from 0
-                         collect
-                         `(add_slider tab_layout (string ,key) (string ,label) ,min-val ,max-val ,def-val ,row (string ,tooltip)))))
+               `(add_slider slider_layout (string ,key) (string ,label) ,min-val ,max-val ,def-val ,row (string ,tooltip)))
        
        (setf self.timer (QTimer))
        (self.timer.timeout.connect self.update_loop)
@@ -368,12 +357,12 @@
      (def start_sim (self)
        (setf self.dt (/ (dot (aref self.sliders (string "dt_sim")) (value)) 1000.0))
        (self.timer.start (int (* self.dt 1000.0)))
-       (dot (aref self.sliders (string "T_horizon")) (setEnabled False))
+       (dot (aref self.sliders (string "h_mpc")) (setEnabled False))
        (dot (aref self.sliders (string "N")) (setEnabled False)))
 
      (def stop_sim (self)
        (self.timer.stop)
-       (dot (aref self.sliders (string "T_horizon")) (setEnabled True))
+       (dot (aref self.sliders (string "h_mpc")) (setEnabled True))
        (dot (aref self.sliders (string "N")) (setEnabled True)))
 
      (def reset_sim (self)
@@ -386,7 +375,7 @@
              self.hist (dict ((string "s") (list)) ((string "v") (list)) ((string "theta") (list))
                              ((string "omega") (list)) ((string "F") (list)) ((string "t_solve") (list))))
        (comments "MPC mit neuen Parametern neu kompilieren")
-       (setf self.mpc (PendulumMPC :T_horizon (aref params (string "T_horizon"))
+       (setf self.mpc (PendulumMPC :h_mpc (aref params (string "h_mpc"))
                                    :N (aref params (string "N"))))
        (self.pendulum_widget.update_state self.state 0.0 0.0 (aref params (string "l")) (aref params (string "max_pos")))
        ,@(loop for key in '("s" "v" "theta" "omega" "F" "t_solve")
@@ -406,7 +395,7 @@
 		     :R_F (/ (dot (aref self.sliders (string "R_F")) (value)) 100.0)
 		     :max_pos (/ (dot (aref self.sliders (string "max_pos")) (value)) 10.0)
 		     :max_force (/ (dot (aref self.sliders (string "max_force")) (value)) 10.0)
-		     :T_horizon (/ (dot (aref self.sliders (string "T_horizon")) (value)) 10.0)
+		     :h_mpc (/ (dot (aref self.sliders (string "h_mpc")) (value)) 1000.0)
 		     :N (int (dot (aref self.sliders (string "N")) (value)))
 		     :dt_sim (/ (dot (aref self.sliders (string "dt_sim")) (value)) 1000.0))))
        
