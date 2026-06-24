@@ -90,18 +90,25 @@
 	     self.max_pos (self.opti.parameter)
 	     self.max_force (self.opti.parameter))
 
-       (comments "Symbolische Variablen für die Dynamik (dx/dt = f(x,u))")
-       (setf x (MX.sym (string "x") self.nx)
-	     u (MX.sym (string "u") self.nu)
+       (comments "Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)).")
+       (comments "Wir nutzen SX (Scalar Expression) anstelle von MX (Matrix Expression) für die ODE.")
+       (comments "SX ist für solche mathematischen Ausdrücke auf Skalarebene deutlich effizienter bei der")
+       (comments "Berechnung von Ableitungen (Jacobian/Hessian) innerhalb des NLP Solvers.")
+       (comments "Um Fehler durch das Mischen von SX und den MX-Parametern des Opti-Stacks zu vermeiden,")
+       (comments "übergeben wir die physikalischen Parameter explizit als SX-Vektor an die ODE-Funktion.")
+       (setf x (SX.sym (string "x") self.nx)
+	     u (SX.sym (string "u") self.nu)
+	     p_ode (SX.sym (string "p_ode") 4)
 	     s_ (aref x 0) v_ (aref x 1) theta_ (aref x 2) omega_ (aref x 3) F_ u
+	     M_s (aref p_ode 0) m_s (aref p_ode 1) l_s (aref p_ode 2) wind_s (aref p_ode 3)
 	     sin_theta (np.sin theta_) cos_theta (np.cos theta_)
-	     den (+ self.M_p (* self.m_p (- 1.0 (* cos_theta cos_theta))))
-	     F_total (+ F_ (* self.wind_p cos_theta))
+	     den (+ M_s (* m_s (- 1.0 (* cos_theta cos_theta))))
+	     F_total (+ F_ (* wind_s cos_theta))
 	     ds v_
-	     dv (/ (+ F_total (* self.m_p self.l_p omega_ omega_ sin_theta) (* self.m_p 9.81 cos_theta sin_theta)) den)
+	     dv (/ (+ F_total (* m_s l_s omega_ omega_ sin_theta) (* m_s 9.81 cos_theta sin_theta)) den)
 	     dtheta omega_
-	     domega (/ (- (* -1.0 F_total cos_theta) (* self.m_p self.l_p omega_ omega_ sin_theta cos_theta) (* (+ self.M_p self.m_p) 9.81 sin_theta)) (* self.l_p den)))
-       (setf self.f_ode (Function (string "f_ode") (list x u) (list (vertcat ds dv dtheta domega)) (dictionary :allow_free True)))
+	     domega (/ (- (* -1.0 F_total cos_theta) (* m_s l_s omega_ omega_ sin_theta cos_theta) (* (+ M_s m_s) 9.81 sin_theta)) (* l_s den)))
+       (setf self.f_ode (Function (string "f_ode") (list x u p_ode) (list (vertcat ds dv dtheta domega))))
 
        (comments "Lagrange Collocation Polynome via Radau-Punkten berechnen")
        (setf tau_root (np.append 0.0 (collocation_points self.d (string "radau")))
@@ -142,7 +149,9 @@
 		 (setf xp (* (aref self.C 0 j) Xk))
 		 (for (r (range self.d))
 		      (setf xp (+ xp (* (aref self.C (+ r 1) j) (aref (aref self.Xc k) r)))))
-		 (setf f_eval (self.f_ode (aref (aref self.Xc k) (- j 1)) (aref self.U (slice nil nil) k)))
+		 (setf f_eval (self.f_ode (aref (aref self.Xc k) (- j 1))
+					  (aref self.U (slice nil nil) k)
+					  (vertcat self.M_p self.m_p self.l_p self.wind_p)))
 		 (self.opti.subject_to (== xp (* self.h f_eval))))
 	    (for (r (range self.d))
 		 (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref (aref self.Xc k) r)))))
@@ -150,7 +159,7 @@
 
        (comments "Kostenfunktion (Objective): Abweichung vom Ziel und Stellenergie minimieren")
        (setf cost 0.0
-	     Q (np.diag (vertcat self.Q_s self.Q_v self.Q_theta self.Q_omega)))
+	     Q (diag (vertcat self.Q_s self.Q_v self.Q_theta self.Q_omega)))
        (for (k (range self.N))
 	    (setf err (- (aref self.X (slice nil nil) k) self.target_x)
 		  cost (+ cost (+ (mtimes (mtimes err.T Q) err)
