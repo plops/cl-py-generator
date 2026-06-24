@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QSlider,
     QLabel,
     QGridLayout,
+    QTabWidget,
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QPainter, QPen, QBrush, QColor
@@ -386,33 +387,156 @@ class MainWindow(QMainWindow):
             self.pred_curves["t_solve"] = ax.plot(
                 pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
-        slider_layout = QGridLayout()
-        slider_widget = QWidget()
-        slider_widget.setLayout(slider_layout)
-        left_layout.addWidget(slider_widget)
+        self.tabs = QTabWidget()
+        left_layout.addWidget(self.tabs)
         self.sliders = {}
 
-        def add_slider(name, label, min_val, max_val, default_val, row, col):
+        def add_slider(
+            layout, name, label, min_val, max_val, default_val, row, tooltip
+        ):
             slider = QSlider(Qt.Horizontal)
             lbl = QLabel(f"{label}: {default_val}")
+            slider.setToolTip("tooltip")
+            lbl.setToolTip("tooltip")
             slider.setMinimum(min_val)
             slider.setMaximum(max_val)
             slider.setValue(default_val)
-            slider_layout.addWidget(lbl, row, col * 2)
-            slider_layout.addWidget(slider, row, col * 2 + 1)
+            layout.addWidget(lbl, row, 0)
+            layout.addWidget(slider, row, 1)
             slider.valueChanged.connect(
                 lambda: lbl.setText(f"{label}: {slider.value()}")
             )
             self.sliders[name] = slider
 
-        add_slider("target_s", "Ziel-Position", -20, 20, 10, 0, 0)
-        add_slider("wind", "Windkraft", -100, 100, 0, 1, 0)
-        add_slider("M", "Wagenmasse", 1, 50, 10, 2, 0)
-        add_slider("m", "Pendelmasse", 1, 20, 1, 3, 0)
-        add_slider("Q_s", "Gewicht Position", 0, 100, 10, 0, 1)
-        add_slider("Q_theta", "Gewicht Winkel", 0, 200, 100, 1, 1)
-        add_slider("R_F", "Gewicht Kraft", 1, 100, 1, 2, 1)
-        add_slider("max_pos", "Schiene Limit", 10, 50, 20, 3, 1)
+        tab_widget = QWidget()
+        tab_layout = QGridLayout(tab_widget)
+        self.tabs.addTab(tab_widget, "Physik")
+        add_slider(
+            tab_layout,
+            "M",
+            "Wagenmasse [kg]",
+            1,
+            50,
+            10,
+            0,
+            "Masse des Wagens. Schwerer = träger.",
+        )
+        add_slider(
+            tab_layout,
+            "m",
+            "Pendelmasse [kg]",
+            1,
+            20,
+            1,
+            1,
+            "Masse des Pendels am Kopfende.",
+        )
+        add_slider(
+            tab_layout,
+            "l",
+            "Pendellänge [m]",
+            1,
+            20,
+            5,
+            2,
+            "Länge des Pendels (Wert/10 in m).",
+        )
+        add_slider(
+            tab_layout,
+            "wind",
+            "Windkraft [N]",
+            -300,
+            300,
+            0,
+            3,
+            "Konstante Störkraft (Wind) auf das Pendel.",
+        )
+        tab_widget = QWidget()
+        tab_layout = QGridLayout(tab_widget)
+        self.tabs.addTab(tab_widget, "Kostenfunktion")
+        add_slider(
+            tab_layout,
+            "Q_s",
+            "Gewicht Position",
+            0,
+            200,
+            10,
+            0,
+            "Strafe für Abweichung der Wagenposition.",
+        )
+        add_slider(
+            tab_layout,
+            "Q_v",
+            "Gewicht Wagengeschw.",
+            0,
+            100,
+            10,
+            1,
+            "Strafe für hohe Wagengeschwindigkeit.",
+        )
+        add_slider(
+            tab_layout,
+            "Q_theta",
+            "Gewicht Pendelwinkel",
+            0,
+            500,
+            100,
+            2,
+            "Strafe für Abweichung vom aufrechten Winkel.",
+        )
+        add_slider(
+            tab_layout,
+            "Q_omega",
+            "Gewicht Winkelgeschw.",
+            0,
+            100,
+            10,
+            3,
+            "Strafe für Pendelrotation.",
+        )
+        add_slider(
+            tab_layout,
+            "R_F",
+            "Gewicht Kraftaufwand",
+            1,
+            200,
+            10,
+            4,
+            "Strafe für hohe Stellkraft (Energiesparen, Wert/100).",
+        )
+        tab_widget = QWidget()
+        tab_layout = QGridLayout(tab_widget)
+        self.tabs.addTab(tab_widget, "Grenzen & Ziel")
+        add_slider(
+            tab_layout,
+            "target_s",
+            "Ziel-Position [m]",
+            -20,
+            20,
+            10,
+            0,
+            "Soll-Position des Wagens (Wert/10).",
+        )
+        add_slider(
+            tab_layout,
+            "max_pos",
+            "Schiene Limit [m]",
+            10,
+            100,
+            20,
+            1,
+            "Begrenzung der Schiene (Wert/10).",
+        )
+        add_slider(
+            tab_layout,
+            "max_force",
+            "Max Kraft [N]",
+            10,
+            300,
+            150,
+            2,
+            "Stellgrößenbeschränkung für den Aktuator (Wert/10).",
+        )
         self.mpc = PendulumMPC()
         self.state = np.array([0.0, 0.0, np.pi, 0.0])
         self.t_hist = []
@@ -434,15 +558,15 @@ class MainWindow(QMainWindow):
         return dict(
             M=(self.sliders["M"].value()) / 1.0e1,
             m=(self.sliders["m"].value()) / 1.0e1,
-            l=0.5,
+            l=(self.sliders["l"].value()) / 1.0e1,
             wind=(self.sliders["wind"].value()) / 1.0e1,
             Q_s=float(self.sliders["Q_s"].value()),
-            Q_v=1.0,
+            Q_v=float(self.sliders["Q_v"].value()),
             Q_theta=float(self.sliders["Q_theta"].value()),
-            Q_omega=1.0,
+            Q_omega=float(self.sliders["Q_omega"].value()),
             R_F=(self.sliders["R_F"].value()) / 1.0e2,
             max_pos=(self.sliders["max_pos"].value()) / 1.0e1,
-            max_force=1.5e1,
+            max_force=(self.sliders["max_force"].value()) / 1.0e1,
         )
 
     def update_loop(self):
@@ -503,7 +627,7 @@ class MainWindow(QMainWindow):
             self.hist["F"].pop(0)
             self.hist["t_solve"].pop(0)
         self.pendulum_widget.update_state(
-            self.state, F_motor, wind_force, 0.5, params["max_pos"]
+            self.state, F_motor, wind_force, params["l"], params["max_pos"]
         )
         self.history_curves["s"].setData(self.t_hist, self.hist["s"])
         self.history_curves["v"].setData(self.t_hist, self.hist["v"])
@@ -519,7 +643,7 @@ class MainWindow(QMainWindow):
             self.pred_curves["v"].setData(t_pred, X_pred[1, :])
             self.pred_curves["theta"].setData(t_pred, X_pred[2, :])
             self.pred_curves["omega"].setData(t_pred, X_pred[3, :])
-            self.pred_curves["F"].setData(t_pred[0:-1], U_pred[0, :])
+            self.pred_curves["F"].setData(t_pred[0:-1], U_pred)
 
 
 if __name__ == "__main__":
