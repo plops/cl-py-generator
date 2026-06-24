@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QGridLayout,
     QTabWidget,
+    QPushButton,
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QPainter, QPen, QBrush, QColor
@@ -64,11 +65,13 @@ from PySide6.QtGui import QPainter, QPen, QBrush, QColor
 #  dient als Startschätzung für den aktuellen, wodurch IPOPT oft nur 1-3 Iterationen benötigt.
 # =========================================================================================
 class PendulumMPC:
-    def __init__(self):
+    def __init__(self, T_horizon=1.0, N=20):
         self.opti = Opti()
         self.nx = 4
         self.nu = 1
-        self.N = 20
+        self.N = N
+        self.T_horizon = T_horizon
+        self.h = self.T_horizon / self.N
         self.d = 3
         #  Parameter für Physik und Optimierung.
         #  Wir definieren diese als CasADi 'Parameter' (opti.parameter), anstatt sie fest zu
@@ -86,7 +89,6 @@ class PendulumMPC:
         self.R_F = self.opti.parameter()
         self.max_pos = self.opti.parameter()
         self.max_force = self.opti.parameter()
-        self.T_horizon_p = self.opti.parameter()
         # Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)).
         # Wir nutzen SX (Scalar Expression) anstelle von MX (Matrix Expression) für die ODE.
         # SX ist für solche mathematischen Ausdrücke auf Skalarebene deutlich effizienter bei der
@@ -173,7 +175,7 @@ class PendulumMPC:
                     self.U[:, k],
                     vertcat(self.M_p, self.m_p, self.l_p, self.wind_p),
                 )
-                self.opti.subject_to(xp == (self.T_horizon_p / self.N) * f_eval)
+                self.opti.subject_to(xp == self.h * f_eval)
             for r in range(self.d):
                 x_end = x_end + self.D[r + 1] * self.Xc[k][r]
             self.opti.subject_to(self.X[:, k + 1] == x_end)
@@ -216,7 +218,6 @@ class PendulumMPC:
         self.opti.set_value(self.R_F, params["R_F"])
         self.opti.set_value(self.max_pos, params["max_pos"])
         self.opti.set_value(self.max_force, params["max_force"])
-        self.opti.set_value(self.T_horizon_p, params["T_horizon"])
         if self.sol != None:
             X_res = self.sol.value(self.X)
             U_res = self.sol.value(self.U)
@@ -397,6 +398,18 @@ class MainWindow(QMainWindow):
             )
         self.tabs = QTabWidget()
         left_layout.addWidget(self.tabs)
+        # Steuerungs-Buttons für Simulation
+        btn_layout = QHBoxLayout()
+        self.btn_start = QPushButton("Start")
+        self.btn_stop = QPushButton("Stop")
+        self.btn_reset = QPushButton("Reset / Apply Params")
+        btn_layout.addWidget(self.btn_start)
+        btn_layout.addWidget(self.btn_stop)
+        btn_layout.addWidget(self.btn_reset)
+        left_layout.addLayout(btn_layout)
+        self.btn_start.clicked.connect(self.start_sim)
+        self.btn_stop.clicked.connect(self.stop_sim)
+        self.btn_reset.clicked.connect(self.reset_sim)
         self.sliders = {}
 
         def add_slider(
@@ -560,17 +573,47 @@ class MainWindow(QMainWindow):
         )
         add_slider(
             tab_layout,
+            "N",
+            "Knotenpunkte (N)",
+            5,
+            50,
+            20,
+            1,
+            "Auflösung des Solvers. Mehr Knoten = präzisere Planung, aber langsamer.",
+        )
+        add_slider(
+            tab_layout,
             "dt_sim",
             "Simulations-dt [ms]",
             1,
             100,
             33,
-            1,
+            2,
             "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver.",
         )
-        self.mpc = PendulumMPC()
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_loop)
+        self.reset_sim()
+        self.start_sim()
+
+    def start_sim(self):
+        self.dt = (self.sliders["dt_sim"].value()) / 1.0e3
+        self.timer.start(int(self.dt * 1.0e3))
+        self.sliders["T_horizon"].setEnabled(False)
+        self.sliders["N"].setEnabled(False)
+
+    def stop_sim(self):
+        self.timer.stop()
+        self.sliders["T_horizon"].setEnabled(True)
+        self.sliders["N"].setEnabled(True)
+
+    def reset_sim(self):
+        self.stop_sim()
+        params = self.get_params()
+        self.time = 0.0
         self.state = np.array([0.0, 0.0, np.pi, 0.0])
         self.t_hist = []
+        self.dt = params["dt_sim"]
         self.hist = {
             ("s"): ([]),
             ("v"): ([]),
@@ -579,11 +622,22 @@ class MainWindow(QMainWindow):
             ("F"): ([]),
             ("t_solve"): ([]),
         }
-        self.time = 0.0
-        self.dt = 3.3e-2
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_loop)
-        self.timer.start(33)
+        # MPC mit neuen Parametern neu kompilieren
+        self.mpc = PendulumMPC(T_horizon=params["T_horizon"], N=params["N"])
+        self.pendulum_widget.update_state(
+            self.state, 0.0, 0.0, params["l"], params["max_pos"]
+        )
+        self.history_curves["s"].setData([], [])
+        self.history_curves["v"].setData([], [])
+        self.history_curves["theta"].setData([], [])
+        self.history_curves["omega"].setData([], [])
+        self.history_curves["F"].setData([], [])
+        self.history_curves["t_solve"].setData([], [])
+        self.pred_curves["s"].setData([], [])
+        self.pred_curves["v"].setData([], [])
+        self.pred_curves["theta"].setData([], [])
+        self.pred_curves["omega"].setData([], [])
+        self.pred_curves["F"].setData([], [])
 
     def get_params(self):
         return dict(
@@ -599,6 +653,7 @@ class MainWindow(QMainWindow):
             max_pos=(self.sliders["max_pos"].value()) / 1.0e1,
             max_force=(self.sliders["max_force"].value()) / 1.0e1,
             T_horizon=(self.sliders["T_horizon"].value()) / 1.0e1,
+            N=int(self.sliders["N"].value()),
             dt_sim=(self.sliders["dt_sim"].value()) / 1.0e3,
         )
 
@@ -672,7 +727,7 @@ class MainWindow(QMainWindow):
         self.history_curves["t_solve"].setData(self.t_hist, self.hist["t_solve"])
         if success:
             t_pred = np.linspace(
-                self.time, self.time + params["T_horizon"], self.mpc.N + 1
+                self.time, self.time + self.mpc.T_horizon, self.mpc.N + 1
             )
             self.pred_curves["s"].setData(t_pred, X_pred[0, :])
             self.pred_curves["v"].setData(t_pred, X_pred[1, :])
