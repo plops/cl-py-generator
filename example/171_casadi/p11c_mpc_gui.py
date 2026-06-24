@@ -79,33 +79,41 @@ class PendulumMPC:
         self.R_F = self.opti.parameter()
         self.max_pos = self.opti.parameter()
         self.max_force = self.opti.parameter()
-        # Symbolische Variablen für die Dynamik (dx/dt = f(x,u))
-        x = MX.sym("x", self.nx)
-        u = MX.sym("u", self.nu)
+        # Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)).
+        # Wir nutzen SX (Scalar Expression) anstelle von MX (Matrix Expression) für die ODE.
+        # SX ist für solche mathematischen Ausdrücke auf Skalarebene deutlich effizienter bei der
+        # Berechnung von Ableitungen (Jacobian/Hessian) innerhalb des NLP Solvers.
+        # Um Fehler durch das Mischen von SX und den MX-Parametern des Opti-Stacks zu vermeiden,
+        # übergeben wir die physikalischen Parameter explizit als SX-Vektor an die ODE-Funktion.
+        x = SX.sym("x", self.nx)
+        u = SX.sym("u", self.nu)
+        p_ode = SX.sym("p_ode", 4)
         s_ = x[0]
         v_ = x[1]
         theta_ = x[2]
         omega_ = x[3]
         F_ = u
+        M_s = p_ode[0]
+        m_s = p_ode[1]
+        l_s = p_ode[2]
+        wind_s = p_ode[3]
         sin_theta = np.sin(theta_)
         cos_theta = np.cos(theta_)
-        den = self.M_p + self.m_p * (1.0 - (cos_theta * cos_theta))
-        F_total = F_ + self.wind_p * cos_theta
+        den = M_s + m_s * (1.0 - (cos_theta * cos_theta))
+        F_total = F_ + wind_s * cos_theta
         ds = v_
         dv = (
             F_total
-            + self.m_p * self.l_p * omega_ * omega_ * sin_theta
-            + self.m_p * 9.81 * cos_theta * sin_theta
+            + m_s * l_s * omega_ * omega_ * sin_theta
+            + m_s * 9.81 * cos_theta * sin_theta
         ) / den
         dtheta = omega_
         domega = (
             (-1.0 * F_total * cos_theta)
-            - (self.m_p * self.l_p * omega_ * omega_ * sin_theta * cos_theta)
-            - ((self.M_p + self.m_p) * 9.81 * sin_theta)
-        ) / (self.l_p * den)
-        self.f_ode = Function(
-            "f_ode", [x, u], [vertcat(ds, dv, dtheta, domega)], dict(allow_free=True)
-        )
+            - (m_s * l_s * omega_ * omega_ * sin_theta * cos_theta)
+            - ((M_s + m_s) * 9.81 * sin_theta)
+        ) / (l_s * den)
+        self.f_ode = Function("f_ode", [x, u, p_ode], [vertcat(ds, dv, dtheta, domega)])
         # Lagrange Collocation Polynome via Radau-Punkten berechnen
         tau_root = np.append(0.0, collocation_points(self.d, "radau"))
         self.C = np.zeros(
@@ -152,14 +160,18 @@ class PendulumMPC:
                 xp = self.C[0, j] * Xk
                 for r in range(self.d):
                     xp = xp + self.C[r + 1, j] * self.Xc[k][r]
-                f_eval = self.f_ode(self.Xc[k][j - 1], self.U[:, k])
+                f_eval = self.f_ode(
+                    self.Xc[k][j - 1],
+                    self.U[:, k],
+                    vertcat(self.M_p, self.m_p, self.l_p, self.wind_p),
+                )
                 self.opti.subject_to(xp == self.h * f_eval)
             for r in range(self.d):
                 x_end = x_end + self.D[r + 1] * self.Xc[k][r]
             self.opti.subject_to(self.X[:, k + 1] == x_end)
         # Kostenfunktion (Objective): Abweichung vom Ziel und Stellenergie minimieren
         cost = 0.0
-        Q = np.diag(vertcat(self.Q_s, self.Q_v, self.Q_theta, self.Q_omega))
+        Q = diag(vertcat(self.Q_s, self.Q_v, self.Q_theta, self.Q_omega))
         for k in range(self.N):
             err = (self.X[:, k]) - self.target_x
             cost = (
