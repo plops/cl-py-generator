@@ -9,4 +9,6 @@ dependencies = [
     "gekko>=1.3.2",
     "jax>=0.10.1",
     "matplotlib>=3.11.0",
+    "pyqtgraph>=0.14.0",
+    "pyside6>=6.11.1",
 ]
