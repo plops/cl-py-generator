@@ -340,9 +340,9 @@
            den (+ M (* m (- 1.0 (* cos_t cos_t))))
            F_tot (+ F_motor (* wind_force cos_t))
            ds v_st
-           dv (/ (+ F_tot (* m l omega_st omega_st sin_t) (* m 9.81 cos_t sin_t)) den)
+           dv (/ (- (+ F_tot (* m l omega_st omega_st sin_t)) (* m 9.81 cos_t sin_t)) den)
            dtheta omega_st
-           domega (/ (- (* -1.0 F_tot cos_t) (* m l omega_st omega_st sin_t cos_t) (* (+ M m) 9.81 sin_t)) (* l den)))
+           domega (/ (+ (- (* -1.0 F_tot cos_t) (* m l omega_st omega_st sin_t cos_t)) (* (+ M m) 9.81 sin_t)) (* l den)))
      (return (np.array (list ds dv dtheta domega))))
 
    (def rk4_step (st F_motor params dt use_corrected_l)

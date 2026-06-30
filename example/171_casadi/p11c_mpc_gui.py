@@ -895,15 +895,16 @@ class MainWindow(QMainWindow):
             l_val = params["l"]
             ds = v_st
             dv = (
-                F_tot
-                + params["m"] * l_val * omega_st * omega_st * sin_t
-                + params["m"] * 9.81 * cos_t * sin_t
+                (F_tot + params["m"] * l_val * omega_st * omega_st * sin_t)
+                - (params["m"] * 9.81 * cos_t * sin_t)
             ) / denom
             dtheta = omega_st
             domega = (
-                (-1.0 * F_tot * cos_t)
-                - (params["m"] * l_val * omega_st * omega_st * sin_t * cos_t)
-                - ((params["M"] + params["m"]) * 9.81 * sin_t)
+                (
+                    (-1.0 * F_tot * cos_t)
+                    - (params["m"] * l_val * omega_st * omega_st * sin_t * cos_t)
+                )
+                + (params["M"] + params["m"]) * 9.81 * sin_t
             ) / (l_val * denom)
             return np.array([ds, dv, dtheta, domega])
 
