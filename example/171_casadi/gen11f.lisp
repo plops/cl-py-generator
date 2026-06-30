@@ -460,7 +460,7 @@
                  ("R_F" "Gewicht Kraftaufwand" 1 200 10 0.01 "Kostenfaktor für die Stellkraft F. Zwingt den Solver, Energie zu sparen.")
                  ("target_s" "Ziel-Position [m]" -100 100 10 0.1 "Soll-Position des Wagens auf der Schiene.")
                  ("max_pos" "Schiene Limit [m]" 10 200 50 0.1 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten.")
-                 ("max_force" "Max Kraft [N]" 10 300 150 0.1 "Stellgrößenbeschränkung für den Aktuator.")
+                 ("max_force" "Max Kraft [N]" 0 300 150 0.1 "Stellgrößenbeschränkung für den Aktuator.")
                  ("N" "Knotenpunkte (N)" 1 500 20 1 "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.")
                  ("h_mpc" "MPC Schritt [ms]" 1 200 50 1 "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.")
                  ("dt_sim" "Simulations-dt [ms]" 1 100 33 1 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))

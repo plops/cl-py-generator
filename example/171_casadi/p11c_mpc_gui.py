@@ -739,7 +739,7 @@ class MainWindow(QMainWindow):
             slider_layout,
             "max_force",
             "Max Kraft [N]",
-            10,
+            0,
             300,
             150,
             0.1,
