@@ -557,13 +557,13 @@
        (def f_real (st)
 	 (setf s_st (aref st 0) v_st (aref st 1) theta_st (aref st 2) omega_st (aref st 3)
 	       sin_t (np.sin theta_st) cos_t (np.cos theta_st)
-	       den (+ (aref params (string "M")) (* (aref params (string "m")) (- 1.0 (* cos_t cos_t))))
+	       denom (+ (aref params (string "M")) (* (aref params (string "m")) (- 1.0 (* cos_t cos_t))))
 	       F_tot (+ F_motor (* wind_force cos_t))
 	       l_val (aref params (string "l"))
 	       ds v_st
-	       dv (/ (+ F_tot (* (aref params (string "m")) l_val omega_st omega_st sin_t) (* (aref params (string "m")) 9.81 cos_t sin_t)) den)
+	       dv (/ (+ F_tot (* (aref params (string "m")) l_val omega_st omega_st sin_t) (* (aref params (string "m")) 9.81 cos_t sin_t)) denom)
 	       dtheta omega_st
-	       domega (/ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) l_val omega_st omega_st sin_t cos_t) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* l_val den)))
+	       domega (/ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) l_val omega_st omega_st sin_t cos_t) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* l_val denom)))
 	 (return (np.array (list ds dv dtheta domega))))
 	 
        (setf k1 (f_real self.state)
