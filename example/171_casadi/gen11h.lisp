@@ -35,11 +35,11 @@
                                (list (ca.vertcat
                                       v_
                                       (/ (+ (+ u_sym (* w_ cos_th))
-                                            (* m_ sin_th (+ (* l_ (** om_ 2)) (* 9.81 cos_th))))
+                                            (* m_ sin_th (- (* l_ (** om_ 2)) (* 9.81 cos_th))))
                                          denom)
                                       om_
-                                      (/ (- (* -1 (+ u_sym (* w_ cos_th)) cos_th)
-                                            (* m_ l_ (** om_ 2) sin_th cos_th)
+                                      (/ (+ (- (* -1 (+ u_sym (* w_ cos_th)) cos_th)
+                                               (* m_ l_ (** om_ 2) sin_th cos_th))
                                             (* (+ M_ m_) 9.81 sin_th))
                                          (* l_ denom))))))
       (setf rk4_k1 (f_ode x_sym u_sym p_dyn)
