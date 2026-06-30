@@ -59,15 +59,16 @@ class PendulumMPC:
         F_total = F_ + wind_s * cos_theta
         ds = v_
         dv = (
-            F_total
-            + m_s * l_s * omega_ * omega_ * sin_theta
-            + m_s * 9.81 * cos_theta * sin_theta
+            (F_total + m_s * l_s * omega_ * omega_ * sin_theta)
+            - (m_s * 9.81 * cos_theta * sin_theta)
         ) / den
         dtheta = omega_
         domega = (
-            (-1.0 * F_total * cos_theta)
-            - (m_s * l_s * omega_ * omega_ * sin_theta * cos_theta)
-            - ((M_s + m_s) * 9.81 * sin_theta)
+            (
+                (-1.0 * F_total * cos_theta)
+                - (m_s * l_s * omega_ * omega_ * sin_theta * cos_theta)
+            )
+            + (M_s + m_s) * 9.81 * sin_theta
         ) / (l_s * den)
         self.f_ode = Function("f_ode", [x, u, p_ode], [vertcat(ds, dv, dtheta, domega)])
         tau_root = np.append(0.0, collocation_points(self.d, "radau"))
