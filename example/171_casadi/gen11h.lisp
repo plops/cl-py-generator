@@ -260,7 +260,7 @@
                   '(("N_mpc"     "Horizont N_mpc"    2  80  40  1.0  "MPC steps — needs Rebuild")
                     ("target_s"  "Ziel s [m]"      -100 100  10  0.1  "Target cart position")
                     ("max_pos"   "Schienenlimit [m]" 10 200  50  0.1  "Track position limit")
-                    ("max_force" "Max Kraft [N]"     10 300 150  0.1  "Actuator force limit"))
+                    ("max_force" "Max Kraft [N]"      0 300 150  0.1  "Actuator force limit"))
                   for row from 0
                   collect `(make_slider g (string ,key) (string ,label)
                                         ,min-v ,max-v ,def ,scale ,row (string ,tip)))

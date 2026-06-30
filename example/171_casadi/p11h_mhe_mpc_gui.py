@@ -342,15 +342,7 @@ class MainWindow(QMainWindow):
             "Track position limit",
         )
         make_slider(
-            g,
-            "max_force",
-            "Max Kraft [N]",
-            10,
-            300,
-            150,
-            0.1,
-            3,
-            "Actuator force limit",
+            g, "max_force", "Max Kraft [N]", 0, 300, 150, 0.1, 3, "Actuator force limit"
         )
         self.sliders["N_mpc_label"] = self.sliders["N_mpc"]
         g = make_group("MPC — Kostenfunktion")
