@@ -1,6 +1,6 @@
 # Multi-Dimensional Inverted Pendulum MPC Grid Sweep
 
-This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$) for different prediction horizons ($N=25$, $N=30$, and $N=100$).
+This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$) for different prediction horizons ($N=25$, $N=30$, $N=50$, and $N=100$).
 
 ---
 
@@ -31,6 +31,7 @@ Across the 280 simulations of the parameter grid, changing the prediction horizo
 | :---: | :---: | :---: | :---: |
 | **$N = 25$** | 108 / 280 | **38.6%** | **32.23 s** (0.115 s/sim) |
 | **$N = 30$** | 88 / 280 | **31.4%** | **35.62 s** (0.127 s/sim) |
+| **$N = 50$** | 42 / 280 | **15.0%** | **41.48 s** (0.148 s/sim) |
 | **$N = 100$** | 4 / 280 | **1.4%** | **35.32 s** (0.126 s/sim) |
 
 ---
@@ -38,55 +39,62 @@ Across the 280 simulations of the parameter grid, changing the prediction horizo
 ## 4. Horizon N = 25 Sweep Results
 * **Execution Time:** 32.23 seconds (0.115s/sim average).
 * **Success Rate:** 38.6% (108/280).
-
-### Parameter Stability Analysis (N = 25)
 * **Optimal Step Size ($h_{mpc}$):** Peaked at $h_{mpc} = 0.047\,\text{s}$ with **62.5%** success rate.
-* **Optimal Length ($l$):** Longer pendulums ($l \ge 1.49\,\text{m}$) were significantly more stable (54.3% success) because their slower falling dynamics gave the controller more time to react.
-* **Actuator Saturation:** Heavy mass ratios ($m/M = 0.50$) had a lower success rate (30.4%) due to control force limit saturation ($20.0\,\text{N}$).
+* **Length ($l$):** Longer pendulums ($l \ge 1.49\,\text{m}$) were stable (54.3% success) due to slower falling dynamics.
 
 ---
 
 ## 5. Horizon N = 30 Sweep Results
 * **Execution Time:** 35.62 seconds (0.127s/sim average).
 * **Success Rate:** 31.4% (88/280).
-
-### Parameter Stability Analysis (N = 30)
 * **Optimal Step Size ($h_{mpc}$):** Peaked at $h_{mpc} = 0.033\,\text{s}$ with **72.5%** success rate.
-* **Mass Ratio:**
-  * $m/M = 0.05$: 39.3% success.
-  * $m/M = 0.50$: 25.0% success.
 * **Step Size Analysis:**
   * $h_{mpc} = 0.020\,\text{s}$: 22.5% success (up from 10.0% at $N=25$).
   * $h_{mpc} = 0.033\,\text{s}$: **72.5%** success (up from 55.0% at $N=25$).
-  * $h_{mpc} \ge 0.060\,\text{s}$: Success rates dropped sharply (e.g., 17.5% at $h=0.073\,\text{s}$, down from 50.0% at $N=25$).
+  * $h_{mpc} \ge 0.060\,\text{s}$: Success rates dropped sharply (e.g., 17.5% at $h=0.073\,\text{s}$).
 
 ---
 
-## 6. Horizon N = 100 Sweep Results
+## 6. Horizon N = 50 Sweep Results
+* **Execution Time:** 41.48 seconds (0.148s/sim average).
+* **Success Rate:** 15.0% (42/280).
+* **Optimal Step Size ($h_{mpc}$):** Peaked at $h_{mpc} = 0.020\,\text{s}$ with **52.5%** success rate.
+* **Step Size Analysis:**
+  * $h_{mpc} = 0.020\,\text{s}$: **52.5%** success (up from 22.5% at $N=30$ and 10.0% at $N=25$).
+  * $h_{mpc} = 0.033\,\text{s}$: 47.5% success.
+  * $h_{mpc} \ge 0.047\,\text{s}$: Drop to 5.0% at $h=0.047\,\text{s}$ and 0.0% for all larger step sizes.
+* **Length ($l$):** Shorter pendulums ($l \le 0.46\,\text{m}$) were completely uncontrollable (0.0% success).
+
+---
+
+## 7. Horizon N = 100 Sweep Results
 * **Execution Time:** 35.32 seconds (0.126s/sim average).
 * **Success Rate:** 1.4% (4/280).
 * **Solver Convergence:** 276 out of 280 simulations failed due to IPOPT solver failures (`success = False`).
 
 ---
 
-## 7. Comparative Analysis: Sweet Spot Shift and Solver Robustness
+## 8. Comparative Analysis: The Shifting Sweet Spot and Solver Robustness
 
-The comparison reveals a highly interesting physical and numerical trade-off in Model Predictive Control:
+The multi-horizon comparison reveals a very clear, physical, and numerical trend in Model Predictive Control:
 
-1. **Shifting Sweet Spot ($N=25$ vs. $N=30$):**
-   * **For $N=25$**, the optimal step size is $h_{mpc} = 0.047\,\text{s}$ (62.5% success).
-   * **For $N=30$**, the optimal step size shifts to $h_{mpc} = 0.033\,\text{s}$ (achieving a peak success rate of **72.5%**).
-   * **Why?** At smaller step sizes (like $0.020\,\text{s}$ and $0.033\,\text{s}$), the slightly longer horizon $N=30$ provides a larger absolute preview window ($30 \times h_{mpc}$), giving the controller enough lookahead (0.6s to 1.0s) to plan a swing-up.
-2. **Discretization and Infeasibility Failure at High Step Sizes:**
-   * For larger step sizes ($h_{mpc} \ge 0.060\,\text{s}$), the success rate for $N=30$ is much worse than $N=25$.
-   * **Why?** A larger horizon combined with large step sizes leads to a very long preview window (e.g., $30 \times 0.073 = 2.19\,\text{s}$). Over such a long window, the cumulative discretization errors of the collocation scheme are very high, and the linear interpolation cold-start guess is extremely far from physical reality. This causes IPOPT to fail with `EXIT: Converged to a point of local infeasibility`.
-3. **Horizon Scalability Limits ($N=100$):**
-   * At $N=100$ (5.0s preview), the optimization problem contains 1700 variables. The non-convexity is so high that the simple linear initial guess fails to converge on almost all steps, resulting in a 98.6% failure rate.
-   * **Conclusion:** Shorter prediction horizons are numerically much more robust for online MPC unless a high-quality trajectory generator is used to seed the initial guess of the solver.
+1. **The Shifting Optimal Step Size (Sweet Spot):**
+   As the prediction horizon $N$ increases, the optimal step size $h_{mpc}$ **shifts steadily towards smaller values**:
+   * **For $N=25$**, the optimum is at $h = 0.047\,\text{s}$ (62.5% success).
+   * **For $N=30$**, the optimum shifts to $h = 0.033\,\text{s}$ (72.5% success).
+   * **For $N=50$**, the optimum shifts to $h = 0.020\,\text{s}$ (52.5% success).
+2. **Physical Reason (Lookahead Window):**
+   To successfully swing up and stabilize the pendulum, the controller requires an absolute prediction window ($N \times h_{mpc}$) in the range of **0.8 s to 1.5 s**:
+   * At $N=25$, a small step size of $0.02\,\text{s}$ covers only 0.5s of the future (too short/blind).
+   * At $N=50$, a small step size of $0.02\,\text{s}$ covers exactly 1.0s of the future (perfect lookahead window).
+3. **Numerical Reason (Solver Convergence & Discretization):**
+   When $N$ is large, using a larger step size (e.g., $h \ge 0.060\,\text{s}$) results in a very long absolute preview window ($> 3.0\,\text{s}$ for $N=50$). Over this long window, the cumulative discretization errors of the collocation scheme are high, and the linear interpolation cold-start guess is extremely far from physical reality. This causes IPOPT to get trapped in local infeasibilities and fail.
+4. **Conclusion:**
+   For real-time control, **shorter horizons ($N=25$ to $30$) are numerically much more robust** and allow stable convergence across a wide range of step sizes. Larger horizons ($N \ge 50$) can only stabilize the system at very small step sizes, where the discretization error is low and the problem remains mathematically solvable.
 
 ---
 
-## 8. Heatmap Visualizations
+## 9. Heatmap Visualizations
 
 ### A. Horizon N = 25 Heatmaps
 ![Heatmap N=25](p11i_grid_heatmaps_20260701_174539.png)
@@ -94,12 +102,16 @@ The comparison reveals a highly interesting physical and numerical trade-off in 
 ### B. Horizon N = 30 Heatmaps
 ![Heatmap N=30](p11i_grid_heatmaps_20260701_175955.png)
 
-### C. Horizon N = 100 Heatmaps
+### C. Horizon N = 50 Heatmaps
+![Heatmap N=50](p11i_grid_heatmaps_20260701_180141.png)
+
+### D. Horizon N = 100 Heatmaps
 ![Heatmap N=100](p11i_grid_heatmaps_20260701_175714.png)
 
 ---
 
-## 9. Raw Data Files
+## 10. Raw Data Files
 * **N = 25 Data:** [p11i_grid_results_20260701_174539.csv](p11i_grid_results_20260701_174539.csv)
 * **N = 30 Data:** [p11i_grid_results_20260701_175955.csv](p11i_grid_results_20260701_175955.csv)
+* **N = 50 Data:** [p11i_grid_results_20260701_180141.csv](p11i_grid_results_20260701_180141.csv)
 * **N = 100 Data:** [p11i_grid_results_20260701_175714.csv](p11i_grid_results_20260701_175714.csv)
