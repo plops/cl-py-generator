@@ -1,6 +1,6 @@
 # Multi-Dimensional Inverted Pendulum MPC Grid Sweep
 
-This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$) for different prediction horizons ($N=25$ vs. $N=100$).
+This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$) for different prediction horizons ($N=25$, $N=30$, and $N=100$).
 
 ---
 
@@ -21,98 +21,85 @@ To validate JIT compilation efficiency, a comparative benchmark of a single MPC 
 | **Pure Python (CasADi VM)** | 221.7 ms | 1.0x (Baseline) |
 | **JIT Compiled (GCC -O3)** | **24.3 ms** | **9.1x Faster** |
 
-> [!NOTE]
-> For small horizons (like $N=20$), the JIT compilation overhead (~2.5s) dominates short runs. However, for larger horizons ($N \ge 100$) or large sweeps, JIT delivers a massive **9x speedup** on active calculations.
+---
+
+## 3. Comparative Summary of Sweep Horizons
+
+Across the 280 simulations of the parameter grid, changing the prediction horizon $N$ has a profound effect on the overall success rate (pendulum stabilized within 12.0s without track boundary violations):
+
+| Prediction Horizon | Successful Runs | Success Rate | Average Simulation Time |
+| :---: | :---: | :---: | :---: |
+| **$N = 25$** | 108 / 280 | **38.6%** | **32.23 s** (0.115 s/sim) |
+| **$N = 30$** | 88 / 280 | **31.4%** | **35.62 s** (0.127 s/sim) |
+| **$N = 100$** | 4 / 280 | **1.4%** | **35.32 s** (0.126 s/sim) |
 
 ---
 
-## 3. Horizon N = 25 Sweep Results
-* **Horizon $N$:** 25
-* **Max Control Force:** 20.0 N
-* **Total Simulations:** 280
-* **Execution Time:** **32.23 seconds** (average of **0.115s** per simulation run).
+## 4. Horizon N = 25 Sweep Results
+* **Execution Time:** 32.23 seconds (0.115s/sim average).
+* **Success Rate:** 38.6% (108/280).
 
 ### Parameter Stability Analysis (N = 25)
-Out of 280 simulations, **108 runs (38.6%)** successfully stabilized the pendulum at the upright position without violating track boundaries ($\pm 5\,\text{m}$) or causing solver failures.
-
-#### A. Influence of Mass Ratio ($m/M$)
-| Mass Ratio ($m/M$) | Success Rate | Mean Stabilization Time |
-| :---: | :---: | :---: |
-| 0.05 | 44.6% | 5.37 s |
-| 0.16 | 42.9% | 5.68 s |
-| 0.28 | 42.9% | 5.79 s |
-| 0.39 | 32.1% | 5.97 s |
-| 0.50 | 30.4% | 6.02 s |
-
-#### B. Influence of Step Size ($h_{mpc}$)
-| Step Size ($h_{mpc}$) | Success Rate | Horizon Window ($N \times h_{mpc}$) |
-| :---: | :---: | :---: |
-| 0.020 s | 10.0% | 0.50 s (Too short) |
-| 0.033 s | 55.0% | 0.83 s |
-| 0.047 s | **62.5%** | 1.18 s (Optimal) |
-| 0.060 s | 60.0% | 1.50 s |
-| 0.073 s | 50.0% | 1.83 s |
-| 0.087 s | 25.0% | 2.18 s |
-| 0.100 s | 7.5% | 2.50 s (Integration failure) |
-
-#### C. Influence of Pendulum Length ($l$)
-| Length ($l$) | Success Rate |
-| :---: | :---: |
-| 0.20 m | 11.4% (Rapid fall) |
-| 0.46 m | 17.1% |
-| 0.71 m | 34.3% |
-| 0.97 m | 42.9% |
-| 1.23 m | 45.7% |
-| 1.49 m | **54.3%** |
-| 1.74 m | 48.6% |
-| 2.00 m | **54.3%** |
+* **Optimal Step Size ($h_{mpc}$):** Peaked at $h_{mpc} = 0.047\,\text{s}$ with **62.5%** success rate.
+* **Optimal Length ($l$):** Longer pendulums ($l \ge 1.49\,\text{m}$) were significantly more stable (54.3% success) because their slower falling dynamics gave the controller more time to react.
+* **Actuator Saturation:** Heavy mass ratios ($m/M = 0.50$) had a lower success rate (30.4%) due to control force limit saturation ($20.0\,\text{N}$).
 
 ---
 
-## 4. Horizon N = 100 Sweep Results
-* **Horizon $N$:** 100
-* **Max Control Force:** 20.0 N
-* **Total Simulations:** 280
-* **Execution Time:** **35.32 seconds** (average of **0.126s** per simulation run).
+## 5. Horizon N = 30 Sweep Results
+* **Execution Time:** 35.62 seconds (0.127s/sim average).
+* **Success Rate:** 31.4% (88/280).
 
-### Parameter Stability Analysis (N = 100)
-Out of 280 simulations, **only 4 runs (1.4%)** successfully stabilized the pendulum. The remaining **276 runs (98.6%) failed due to IPOPT solver failures** (`success = False`).
-
-| Mass Ratio ($m/M$) | Success Rate | Mean Stabilization Time |
-| :---: | :---: | :---: |
-| 0.05 | 0.0% | - |
-| 0.16 | 0.0% | - |
-| 0.28 | 0.0% | - |
-| 0.39 | 5.4% | 5.17 s |
-| 0.50 | 5.4% | 5.25 s |
+### Parameter Stability Analysis (N = 30)
+* **Optimal Step Size ($h_{mpc}$):** Peaked at $h_{mpc} = 0.033\,\text{s}$ with **72.5%** success rate.
+* **Mass Ratio:**
+  * $m/M = 0.05$: 39.3% success.
+  * $m/M = 0.50$: 25.0% success.
+* **Step Size Analysis:**
+  * $h_{mpc} = 0.020\,\text{s}$: 22.5% success (up from 10.0% at $N=25$).
+  * $h_{mpc} = 0.033\,\text{s}$: **72.5%** success (up from 55.0% at $N=25$).
+  * $h_{mpc} \ge 0.060\,\text{s}$: Success rates dropped sharply (e.g., 17.5% at $h=0.073\,\text{s}$, down from 50.0% at $N=25$).
 
 ---
 
-## 5. Comparative Analysis: Why N = 100 Fails
-
-The drastic drop in success rate from **38.6%** ($N=25$) to **1.4%** ($N=100$) exposes critical limitations in the numerical robustness of long-horizon MPC:
-
-1. **Dimensionality & Non-Convexity:**
-   At $N=100$, the NLP contains **1700 optimization variables** and **1700 constraints**. With a preview window of $5.0\,\text{s}$ (at $h_{mpc}=0.05\,\text{s}$), the trajectory spans multiple pendulum swings. The resulting optimization landscape has high non-convexity and multiple local minima.
-2. **Cold Start Infeasibility:**
-   The controller initializes the cold start trajectory (at step 0) using a straight linear interpolation from the current state (hanging down, $\theta=\pi$) to the target state (upright, $\theta=0$).
-   * For $N=25$ (1.25s preview), the linear guess is close enough for IPOPT to find a feasible path.
-   * For $N=100$ (5.0s preview), the linear guess violates dynamics equations so severely over 100 steps that IPOPT gets trapped in a local minimum and fails with `EXIT: Converged to a point of local infeasibility`.
-3. **Robustness Trade-Off:**
-   A shorter horizon of $N=25$ is mathematically and computationally much more robust for online MPC. It converges reliably from poor initial guesses and successfully stabilizes the pendulum, whereas a larger horizon requires advanced trajectory warm-starting or a pre-computed feasible seed trajectory to converge.
+## 6. Horizon N = 100 Sweep Results
+* **Execution Time:** 35.32 seconds (0.126s/sim average).
+* **Success Rate:** 1.4% (4/280).
+* **Solver Convergence:** 276 out of 280 simulations failed due to IPOPT solver failures (`success = False`).
 
 ---
 
-## 6. Heatmap Visualizations
+## 7. Comparative Analysis: Sweet Spot Shift and Solver Robustness
+
+The comparison reveals a highly interesting physical and numerical trade-off in Model Predictive Control:
+
+1. **Shifting Sweet Spot ($N=25$ vs. $N=30$):**
+   * **For $N=25$**, the optimal step size is $h_{mpc} = 0.047\,\text{s}$ (62.5% success).
+   * **For $N=30$**, the optimal step size shifts to $h_{mpc} = 0.033\,\text{s}$ (achieving a peak success rate of **72.5%**).
+   * **Why?** At smaller step sizes (like $0.020\,\text{s}$ and $0.033\,\text{s}$), the slightly longer horizon $N=30$ provides a larger absolute preview window ($30 \times h_{mpc}$), giving the controller enough lookahead (0.6s to 1.0s) to plan a swing-up.
+2. **Discretization and Infeasibility Failure at High Step Sizes:**
+   * For larger step sizes ($h_{mpc} \ge 0.060\,\text{s}$), the success rate for $N=30$ is much worse than $N=25$.
+   * **Why?** A larger horizon combined with large step sizes leads to a very long preview window (e.g., $30 \times 0.073 = 2.19\,\text{s}$). Over such a long window, the cumulative discretization errors of the collocation scheme are very high, and the linear interpolation cold-start guess is extremely far from physical reality. This causes IPOPT to fail with `EXIT: Converged to a point of local infeasibility`.
+3. **Horizon Scalability Limits ($N=100$):**
+   * At $N=100$ (5.0s preview), the optimization problem contains 1700 variables. The non-convexity is so high that the simple linear initial guess fails to converge on almost all steps, resulting in a 98.6% failure rate.
+   * **Conclusion:** Shorter prediction horizons are numerically much more robust for online MPC unless a high-quality trajectory generator is used to seed the initial guess of the solver.
+
+---
+
+## 8. Heatmap Visualizations
 
 ### A. Horizon N = 25 Heatmaps
 ![Heatmap N=25](p11i_grid_heatmaps_20260701_174539.png)
 
-### B. Horizon N = 100 Heatmaps
+### B. Horizon N = 30 Heatmaps
+![Heatmap N=30](p11i_grid_heatmaps_20260701_175955.png)
+
+### C. Horizon N = 100 Heatmaps
 ![Heatmap N=100](p11i_grid_heatmaps_20260701_175714.png)
 
 ---
 
-## 7. Raw Data Files
+## 9. Raw Data Files
 * **N = 25 Data:** [p11i_grid_results_20260701_174539.csv](p11i_grid_results_20260701_174539.csv)
+* **N = 30 Data:** [p11i_grid_results_20260701_175955.csv](p11i_grid_results_20260701_175955.csv)
 * **N = 100 Data:** [p11i_grid_results_20260701_175714.csv](p11i_grid_results_20260701_175714.csv)
