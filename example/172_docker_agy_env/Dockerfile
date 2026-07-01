@@ -41,9 +41,14 @@ FROM ubuntu:26.04 AS runner
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /workspace
 
-# Install the essential tool belt for agy agents (Git, Curl, basic utilities)
+# Copy the modern uv binary directly from Astral's official release container
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# Install the essential tool belt for agy agents (full Python, GCC compilation tools, Git, Curl)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-minimal \
+    python3-full \
+    build-essential \
+    gcc \
     git \
     curl \
     ca-certificates \
