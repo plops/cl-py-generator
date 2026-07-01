@@ -378,6 +378,7 @@ if __name__ == "__main__":
     parser.add_argument("--max-force", type=float, default=15.0, help="Maximum controller actuator force limit")
     parser.add_argument("--threads", type=int, default=None, help="Number of parallel worker processes (default: CPU count)")
     parser.add_argument("--no-jit", action="store_true", help="Disable JIT compilation (force pure Python symbolics)")
+    parser.add_argument("--no-annotate", action="store_true", help="Do not print numbers inside the heatmap cells")
     
     # Sweep Grid parameters
     parser.add_argument("--h-range", type=str, default="0.02,0.10,7", help="Range for h_mpc: 'min,max,count'")
@@ -503,12 +504,13 @@ if __name__ == "__main__":
         ax.set_ylabel("Step size h_mpc [s]")
         
         # Annotate cells
-        for i in range(len(h_vals)):
-            for j in range(len(l_vals)):
-                val = grid_data[i, j]
-                text_val = "NaN" if np.isnan(val) else f"{val:.2f}"
-                ax.text(j, i, text_val, ha="center", va="center", 
-                        color="w" if np.isnan(val) or val > (12.0/2) else "black")
+        if not args.no_annotate:
+            for i in range(len(h_vals)):
+                for j in range(len(l_vals)):
+                    val = grid_data[i, j]
+                    text_val = "NaN" if np.isnan(val) else f"{val:.2f}"
+                    ax.text(j, i, text_val, ha="center", va="center", 
+                            color="w" if np.isnan(val) or val > (12.0/2) else "black")
                 
         fig.colorbar(cax, ax=ax, label="Stabilization Time [s]")
         
