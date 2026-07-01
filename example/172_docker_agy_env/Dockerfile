@@ -59,6 +59,10 @@ COPY --from=builder /root/.local/bin/agy /usr/local/bin/agy
 # Add the Antigravity clean environment tweaks to .bashrc to prevent interactive loop freezing
 RUN echo 'if [[ -n "$ANTIGRAVITY_AGENT" ]]; then export TERM=dumb; export DEBIAN_FRONTEND=noninteractive; unalias -a; export PS1="\$ "; fi' >> /root/.bashrc
 
+# Add the Antigravity clean environment tweaks and dangerous CLI alias to .bashrc
+RUN echo 'if [[ -n "$ANTIGRAVITY_AGENT" ]]; then export TERM=dumb; export DEBIAN_FRONTEND=noninteractive; unalias -a; export PS1="\$ "; fi' >> /root/.bashrc && \
+    echo "alias agy='agy --dangerously-skip-permissions'" >> /root/.bashrc
+
 # Prepend the virtual environment's bin folder to the execution PATH
 ENV PATH="/workspace/.venv/bin:$PATH"
 
