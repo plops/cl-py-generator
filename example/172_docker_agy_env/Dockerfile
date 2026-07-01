@@ -1,51 +1,57 @@
 # =====================================================================
-# Stage 1: Build & Dependency Gathering
+# Stage 1: Build Environment & Cache Dependency Compilation
 # =====================================================================
 FROM ubuntu:26.04 AS builder
 
-# Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
 
-# Install minimal system requirements for Python and dependency compilation
+# Grab the modern uv binary directly from Astral's official release container
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# Install base toolsets required to compile Python dependencies or wheels 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     python3-venv \
     python3-dev \
+    build-essential \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the modern uv binary directly from Astral's official image
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+WORKDIR /workspace
 
-WORKDIR /app
-
-# Copy dependency definitions (pyproject.toml or requirements.txt)
-COPY requirements.txt .
-
-# Use uv to compile and install dependencies straight into a virtual environment
-RUN uv venv .venv && \
-    .venv/bin/pip install --no-cache-dir -r requirements.txt
+# Install the Antigravity SDK and its dependencies directly into a virtual env
+# Leveraging Docker build cache mounts speeds up future rebuilds
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv venv .venv && \
+    uv pip install --no-cache-dir google-antigravity
 
 # =====================================================================
-# Stage 2: Final Slim Runtime Image
+# Stage 2: Insulated Runtime Runner
 # =====================================================================
 FROM ubuntu:26.04 AS runner
 
 ENV DEBIAN_FRONTEND=noninteractive
-WORKDIR /app
+WORKDIR /workspace
 
-# Install ONLY the bare-minimum Python runtime (no compilers, no uv)
+# Install the essential tool belt for agy agents (Git, Curl, basic compilers)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-minimal \
+    git \
+    curl \
     ca-certificates \
+    jq \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the isolated Python environment built by uv from Stage 1
-COPY --from=builder /app/.venv /app/.venv
-COPY . /app
+# Copy the isolated, complete Python virtual environment from the builder
+COPY --from=builder /workspace/.venv /workspace/.venv
 
-# Place the virtual environment's executable pathway onto the system PATH
-ENV PATH="/app/.venv/bin:$PATH"
+# Prepend the virtual environment's bin folder to the execution PATH
+ENV PATH="/workspace/.venv/bin:$PATH"
 
-# Run your Python-based Antigravity Agent script
-CMD ["python", "agent.py"]
+# Expose a default local directory path for mounting code repositories
+VOLUME [ "/workspace/src" ]
+
+# Default to launching a bash shell where 'agy' or your scripts can run safely
+CMD ["/bin/bash"]
