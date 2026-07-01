@@ -377,6 +377,7 @@ if __name__ == "__main__":
     parser.add_argument("-N", "--horizon", type=int, default=20, help="MPC prediction horizon (N)")
     parser.add_argument("--max-force", type=float, default=15.0, help="Maximum controller actuator force limit")
     parser.add_argument("--threads", type=int, default=None, help="Number of parallel worker processes (default: CPU count)")
+    parser.add_argument("--no-jit", action="store_true", help="Disable JIT compilation (force pure Python symbolics)")
     
     # Sweep Grid parameters
     parser.add_argument("--h-range", type=str, default="0.02,0.10,7", help="Range for h_mpc: 'min,max,count'")
@@ -400,7 +401,7 @@ if __name__ == "__main__":
         num_workers = 4
         
     has_gcc = shutil.which("gcc") is not None
-    use_jit_flag = has_gcc
+    use_jit_flag = has_gcc and not args.no_jit
         
     print("=" * 70)
     print(" MPC MULTI-DIMENSIONAL GRID SWEEP (PROCESS-PARALLEL)")
