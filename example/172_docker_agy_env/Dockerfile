@@ -44,7 +44,7 @@ WORKDIR /workspace
 # Copy the modern uv binary directly from Astral's official release container
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Install the essential tool belt for agy agents (full Python, GCC compilation tools, Git, Curl)
+# Install the essential tool belt for agy agents (full Python, GCC compilation tools, Git, Curl, SBCL, Emacs, rlwrap)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-full \
     build-essential \
@@ -53,6 +53,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     jq \
+    sbcl \
+    emacs-nox \
+    rlwrap \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the isolated Python environment
@@ -61,8 +64,42 @@ COPY --from=builder /workspace/.venv /workspace/.venv
 # Copy the actual agy CLI tool from the builder's local path to system binaries
 COPY --from=builder /root/.local/bin/agy /usr/local/bin/agy
 
-# Add the Antigravity clean environment tweaks to .bashrc to prevent interactive loop freezing
-RUN echo 'if [[ -n "$ANTIGRAVITY_AGENT" ]]; then export TERM=dumb; export DEBIAN_FRONTEND=noninteractive; unalias -a; export PS1="\$ "; fi' >> /root/.bashrc
+# Download and install Quicklisp
+RUN curl -O https://beta.quicklisp.org/quicklisp.lisp && \
+    sbcl --non-interactive --load quicklisp.lisp --eval "(quicklisp-quickstart:install)" && \
+    rm quicklisp.lisp
+
+# Append Quicklisp configuration to .sbclrc
+RUN echo '#-quicklisp' >> /root/.sbclrc && \
+    echo '(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))' >> /root/.sbclrc && \
+    echo '  (when (probe-file quicklisp-init)' >> /root/.sbclrc && \
+    echo '    (load quicklisp-init)))' >> /root/.sbclrc
+
+# Pre-create local-projects symlinks (which resolve dynamically when /workspace/src is mounted)
+RUN mkdir -p /root/quicklisp/local-projects && \
+    ln -s /workspace/src/cl-py-generator /root/quicklisp/local-projects/cl-py-generator && \
+    ln -s /workspace/src/cl-cpp-generator2 /root/quicklisp/local-projects/cl-cpp-generator2 && \
+    ln -s /workspace/src/cl-rust-generator /root/quicklisp/local-projects/cl-rust-generator
+
+# Pre-fetch and cache Quicklisp systems and common dependencies
+RUN sbcl --non-interactive \
+    --load /root/quicklisp/setup.lisp \
+    --eval '(ql:quickload "quicklisp-slime-helper")' \
+    --eval '(ql:quickload "alexandria")' \
+    --eval '(ql:quickload "jonathan")' \
+    --eval '(ql:quickload "external-program")' \
+    --eval '(ql:quickload "cl-ppcre")'
+
+# Pre-install Emacs packages
+RUN emacs --batch \
+    --eval "(require 'package)" \
+    --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\"))" \
+    --eval "(package-initialize)" \
+    --eval "(package-refresh-contents)" \
+    --eval "(dolist (pkg '(cmake-mode company gptel magit markdown-mode orderless paredit slime yaml-mode use-package)) (package-install pkg))"
+
+# Copy the modified .emacs configuration from the build context
+COPY .emacs /root/.emacs
 
 # Add the Antigravity clean environment tweaks and dangerous CLI alias to .bashrc
 RUN echo 'if [[ -n "$ANTIGRAVITY_AGENT" ]]; then export TERM=dumb; export DEBIAN_FRONTEND=noninteractive; unalias -a; export PS1="\$ "; fi' >> /root/.bashrc && \
