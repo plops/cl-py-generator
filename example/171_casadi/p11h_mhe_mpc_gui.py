@@ -41,13 +41,15 @@ f_ode = ca.Function(
     [
         ca.vertcat(
             v_,
-            (u_sym + w_ * cos_th + m_ * sin_th * (l_ * (om_**2) + 9.81 * cos_th))
+            (u_sym + w_ * cos_th + m_ * sin_th * ((l_ * (om_**2)) - (9.81 * cos_th)))
             / denom,
             om_,
             (
-                (-1 * (u_sym + w_ * cos_th) * cos_th)
-                - (m_ * l_ * (om_**2) * sin_th * cos_th)
-                - ((M_ + m_) * 9.81 * sin_th)
+                (
+                    (-1 * (u_sym + w_ * cos_th) * cos_th)
+                    - (m_ * l_ * (om_**2) * sin_th * cos_th)
+                )
+                + (M_ + m_) * 9.81 * sin_th
             )
             / (l_ * denom),
         )
@@ -340,15 +342,7 @@ class MainWindow(QMainWindow):
             "Track position limit",
         )
         make_slider(
-            g,
-            "max_force",
-            "Max Kraft [N]",
-            10,
-            300,
-            150,
-            0.1,
-            3,
-            "Actuator force limit",
+            g, "max_force", "Max Kraft [N]", 0, 300, 150, 0.1, 3, "Actuator force limit"
         )
         self.sliders["N_mpc_label"] = self.sliders["N_mpc"]
         g = make_group("MPC — Kostenfunktion")

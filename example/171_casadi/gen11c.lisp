@@ -27,115 +27,26 @@
 
    (comments 
     "========================================================================================="
-    " INVERTED PENDULUM MPC (MODEL PREDICTIVE CONTROL) DASHBOARD"
-    "========================================================================================="
-    " ZWECK UND ZIELGRUPPE:"
-    " Diese Applikation demonstriert in Echtzeit die modellprädiktive Regelung (MPC) eines"
-    " nichtlinearen, unteraktuierten mechanischen Systems (invertiertes Pendel auf einem Wagen)."
-    " Sie ist so gestaltet, dass Physiker und Ingenieure die Auswirkungen von physikalischen"
-    " Parametern (Masse, Wind) sowie Regelungsgewichten (Q-Matrizen) interaktiv erforschen können."
-    ""
-    " PHYSIKALISCHES MODELL & DYNAMIK (LAGRANGE-MECHANIK):"
-    " Wir betrachten einen Wagen der Masse M auf einer 1D-Schiene (Position s). Auf diesem Wagen"
-    " ist ein Pendel der Masse m und Länge l montiert (Winkel theta). Das System ist unteraktuiert:"
-    " Wir können nur eine horizontale Kraft F auf den Wagen ausüben, wollen aber s und theta regeln."
-    " Der Zustandsvektor ist x = [s, v, theta, omega]."
-    " Die Differentialgleichungen (ODEs) werden über die Euler-Lagrange-Gleichungen T - V hergeleitet:"
-    " - Die kinetische Energie T berücksichtigt die Translation des Wagens und die Rotation/Translation des Pendels."
-    " - Die potentielle Energie V berücksichtigt die Höhe der Pendelmasse im Gravitationsfeld."
-    " Eine externe Störkraft (Wind) wirkt zusätzlich als Drehmoment auf das Pendel ein."
-    ""
-    " REGELUNGSTHEORIE (MODEL PREDICTIVE CONTROL - MPC):"
-    " MPC löst zu jedem diskreten Zeitschritt ein Optimierungsproblem über einen endlichen"
-    " Zeithorizont (T_horizon). Der Algorithmus berechnet eine zukünftige Trajektorie von"
-    " Steuerkräften F, die eine Kostenfunktion (Abweichung vom Soll-Zustand + Energieverbrauch)"
-    " minimiert, während Systemgrenzen (z.B. Schienenende, Maximalkraft) strikt eingehalten werden."
-    " Nur der allererste berechnete Kraftwert wird tatsächlich an das System gesendet. Im nächsten"
-    " Schritt verschiebt sich der Horizont (Receding Horizon) und das Problem wird neu gelöst."
-    ""
-    " MATHEMATIK DER DIREKTEN KOLLOKATION (DIRECT COLLOCATION):"
-    " Um die kontinuierlichen Differentialgleichungen (ODE) für den NLP-Solver nutzbar zu machen,"
-    " diskretisieren wir die Zustands-Trajektorie mittels Lagrange-Polynomen über Radau-Punkte."
-    " Anstatt die ODE numerisch zu integrieren (Multiple Shooting), werden die Zustände an den"
-    " Kollokationspunkten zu freien Optimierungsvariablen. Die Systemdynamik dx/dt = f(x,u) wird"
-    " als strikte Gleichheitsbedingung (Equality Constraint) aufgezwungen."
-    " Dies transformiert das Problem in ein riesiges, aber sehr dünnbesetztes (sparse) NLP-Problem."
-    ""
-    " CASADI & IPOPT (IMPLEMENTIERUNGSDETAILS):"
-    " CasADi ist ein Computer-Algebra-System für algorithmische Differentiation (AD). Es berechnet"
-    " exakte und effiziente Jacobians (erste Ableitungen) und Hessians (zweite Ableitungen) des NLP."
-    " Wir nutzen 'SX' (Scalar Expression) Graphen für die ODE, da diese für mathematische Operationen"
-    " auf Skalarebene deutlich schneller ausgewertet werden als Matrix-Ausdrücke ('MX')."
-    " IPOPT (Interior Point Optimizer) nutzt Barrierefunktionen, um die Constraints zu lösen."
-    " Für Echtzeitfähigkeit nutzen wir 'Warm-Starting': Die optimale Lösung des vorherigen Schrittes"
-    " dient als Startschätzung für den aktuellen, wodurch IPOPT oft nur 1-3 Iterationen benötigt."
+    " INVERTED PENDULUM MPC GUI (MAPPED CONSTRAINTS + JIT CACHING - gen11c)"
     "=========================================================================================")
 
    (class PendulumMPC ()
-     (def __init__ (self &key (h_mpc 0.05) (N 20))
+     (def __init__ (self &key (h_mpc 0.05) (N 20) (use_jit False) (use_to_function False) (use_dual_warmstart False) (use_map False))
        (setf self.opti (Opti)
 	     self.nx 4
 	     self.nu 1
 	     self.N N
 	     self.h_mpc h_mpc
 	     self.T_horizon (* self.N self.h_mpc)
-	     self.d 3)
+	     self.d 3
+             self.use_jit use_jit
+             self.use_to_function use_to_function
+             self.use_dual_warmstart use_dual_warmstart
+             self.use_map use_map)
 
-       (comments 
-        " Parameter für Physik und Optimierung."
-        " Wir definieren diese als CasADi 'Parameter' (opti.parameter), anstatt sie fest zu"
-        " verdrahten. Das ermöglicht es uns, Massen, Wind, Grenzen oder auch den Vorhersagehorizont"
-        " (T_horizon) zur Laufzeit der GUI zu ändern, ohne den kompletten CasADi Optimierungs-"
-        " Graphen neu aufbauen und kompilieren zu müssen (was extrem rechenintensiv wäre).")
        ,@(loop for sym in '(M_p m_p l_p wind_p Q_s Q_v Q_theta Q_omega R_F max_pos max_force)
                collect `(setf (dot self ,sym) (self.opti.parameter)))
 
-       (comments
-        "============================================================================="
-        " PHYSIK-HERLEITUNG & DYNAMISCHE GLEICHUNGEN (LAGRANGE & HAMILTON)"
-        "============================================================================="
-        " Systemzustand: x = [s, v, theta, omega]^T"
-        " - s: Position des Wagens (Schiene) [m]"
-        " - v: Geschwindigkeit des Wagens (ds/dt) [m/s]"
-        " - theta: Pendelwinkel relativ zur Ruhelage [rad]"
-        "          (theta = 0 ist die physikalisch stabile Ruhelage nach unten im ODE-Modell;"
-        "          in der GUI-Zeichnung wird theta = 0 jedoch als aufrechte Position gezeichnet)"
-        " - omega: Winkelgeschwindigkeit des Pendels (dtheta/dt) [rad/s]"
-        " - u: Stellkraft F [N] (horizontale Kraft auf den Wagen)"
-        ""
-        " 1. KINETISCHE ENERGIE (T):"
-        "    Die kinetische Energie setzt sich aus der Translation des Wagens und der Bewegung der"
-        "    Pendel-Punktmasse zusammen:"
-        "    T = 0.5 * M * v^2 + 0.5 * m * (v_p^2)"
-        "    wobei x_p = s + l*sin(theta), y_p = -l*cos(theta) (y-Achse nach oben)."
-        "    Ableitungen: dx_p = v + l*omega*cos(theta), dy_p = l*omega*sin(theta)"
-        "    v_p^2 = dx_p^2 + dy_p^2 = v^2 + 2*v*l*omega*cos(theta) + l^2*omega^2"
-        "    T = 0.5 * (M + m) * v^2 + m * v * l * omega * cos(theta) + 0.5 * m * l^2 * omega^2"
-        ""
-        " 2. POTENTIELLE ENERGIE (V):"
-        "    Unter Berücksichtigung der Höhe y_p der Pendelmasse:"
-        "    V = m * g * y_p = -m * g * l * cos(theta)"
-        "    (Minimum bei theta = 0, d.h. die physikalisch stabile Ruhelage ist unten)"
-        ""
-        " 3. HAMILTONIAN (H = T + V):"
-        "    Die Hamilton-Funktion repräsentiert die mechanische Gesamtenergie des Systems:"
-        "    H = 0.5*(M + m)*v^2 + m*v*l*omega*cos(theta) + 0.5*m*l^2*omega^2 - m*g*l*cos(theta)"
-        ""
-        " 4. EULER-LAGRANGE-GLEICHUNGEN & BEWEGUNGSGLEICHUNGEN:"
-        "    Lagrange-Funktion: L = T - V"
-        "    Gleichungen: d/dt(dL/dv) - dL/ds = F_total"
-        "                 d/dt(dL/domega) - dL/dtheta = 0"
-        "    wobei F_total = F + F_wind*cos(theta) (horizontale Kraft + Windstörkraft)"
-        "    Dies führt auf das gekoppelte System:"
-        "    (1) (M + m)*dv/dt + m*l*domega/dt*cos(theta) - m*l*omega^2*sin(theta) = F_total"
-        "    (2) m*l*dv/dt*cos(theta) + m*l^2*domega/dt + m*g*l*sin(theta) = 0"
-        "    "
-        "    Durch Auflösen nach den Beschleunigungen dv/dt (dv) und domega/dt (domega) erhalten wir:"
-        "    Nenner: den = M + m * sin(theta)^2"
-        "    dv = (F_total + m*l*omega^2*sin(theta) + m*g*cos(theta)*sin(theta)) / den"
-        "    domega = (-F_total*cos(theta) - m*l*omega^2*sin(theta)*cos(theta) - (M+m)*g*sin(theta)) / (l * den)"
-        ""
-        " Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)):")
        (setf x (SX.sym (string "x") self.nx)
 	     u (SX.sym (string "u") self.nu)
 	     p_ode (SX.sym (string "p_ode") 4)
@@ -145,45 +56,15 @@
 	     den (+ M_s (* m_s (- 1.0 (* cos_theta cos_theta))))
 	     F_total (+ F_ (* wind_s cos_theta))
 	     ds v_
-	     dv (/ (+ F_total (* m_s l_s omega_ omega_ sin_theta) (* m_s 9.81 cos_theta sin_theta)) den)
+	     dv (/ (- (+ F_total (* m_s l_s omega_ omega_ sin_theta)) (* m_s 9.81 cos_theta sin_theta)) den)
 	     dtheta omega_
-	     domega (/ (- (* -1.0 F_total cos_theta) (* m_s l_s omega_ omega_ sin_theta cos_theta) (* (+ M_s m_s) 9.81 sin_theta)) (* l_s den)))
+	     domega (/ (+ (- (* -1.0 F_total cos_theta) (* m_s l_s omega_ omega_ sin_theta cos_theta)) (* (+ M_s m_s) 9.81 sin_theta)) (* l_s den)))
        (setf self.f_ode (Function (string "f_ode") (list x u p_ode) (list (vertcat ds dv dtheta domega))))
 
-        (comments
-         "============================================================================="
-         " MATHEMATISCHE DIREKTE KOLLOKATION (DIRECT COLLOCATION)"
-         "============================================================================="
-         " Bei der direkten Kollokation wird die Zustandstrajektorie x(t) über jedes"
-         " Zeitintervall h_mpc durch ein Polynom vom Grad d (hier d=3) approximiert."
-         " Die Optimierungsvariablen sind die Zustände an den Intervallgrenzen (X)"
-         " sowie an den d inneren Kollokationspunkten (Xc)."
-         ""
-         " Koordinaten & Dimensionen:"
-         " - d (Polynomgrad) = 3"
-         " - tau_root: Zeitstützstellen normiert auf das Intervall [0, 1]. Enthält 0.0 und die"
-         "   d Wurzeln des Radau-Polynoms (Länge: d+1 = 4). Dimension: (4,)"
-         " - C: Kollokationsmatrix (Koeffizienten der zeitlichen Ableitung) der Dimension (d+1) x (d+1), d.h. 4x4."
-         " - D: Extrapolationsvektor (Endwerte der Lagrange-Polynome bei tau=1.0) der Dimension d+1, d.h. 4."
-         ""
-         " Funktionsweise von NumPy Hilfsfunktionen:"
-         " - np.poly1d([1.0, -tau_r]): Erstellt ein symbolisches 1D-Polynom (tau - tau_r)."
-         "   Wird verwendet, um das Lagrange-Basispolynom L_j(tau) = prod_{r != j} (tau - tau_r)/(tau_j - tau_r)"
-         "   zu konstruieren, welches an tau_j den Wert 1 und an allen anderen tau_r den Wert 0 hat."
-         " - np.polyder(p): Berechnet die analytische Ableitung dL_j/dtau des Lagrange-Polynoms."
-         ""
-         " Bedeutung der Matrizen C und D:"
-         " - Matrix C (C[j, r] = dL_j/dtau(tau_r)): Repräsentiert die Ableitung des j-ten Basispolynoms"
-         "   am Kollokationspunkt r. Ermöglicht die lineare Berechnung der Ableitung dx/dt"
-         "   an allen Kollokationspunkten über die Zustände: dx/dt(tau_r) = 1/h * sum(C[j,r]*x_j)."
-         "   Damit wird die Gleichheitsbedingung der ODE dx/dt = f(x,u) zu: sum(C[j,r]*x_j) = h * f(x_r, u)."
-         " - Vektor D (D[j] = L_j(1.0)): Extrapoliert den Zustand am Ende des Intervalls (tau=1.0)"
-         "   aus den Kollokationspunkten: x_end = sum(D[j]*x_j). Dies erzwingt die Kontinuität"
-         "   des Zustands zum nächsten Intervallstart: X_{k+1} == x_end.")
-        (setf tau_root (np.append 0.0 (collocation_points self.d (string "radau")))
+       (setf tau_root (np.append 0.0 (collocation_points self.d (string "radau")))
 	     self.C (np.zeros (tuple (+ self.d 1) (+ self.d 1)))
 	     self.D (np.zeros (+ self.d 1)))
-        (for (j (range (+ self.d 1)))
+       (for (j (range (+ self.d 1)))
 	    (setf p (np.poly1d (list 1.0)))
 	    (for (r (range (+ self.d 1)))
 		 (if (!= r j)
@@ -194,118 +75,261 @@
 	    (for (r (range (+ self.d 1)))
 		 (setf (aref self.C j r) (pder (aref tau_root r)))))
 
-       (comments "Decision Variables für IPOPT (X: Knoten, Xc: Collocation-Punkte, U: Stellgröße)")
-       (setf self.X (self.opti.variable self.nx (+ self.N 1))
-	     self.Xc (list)
-	     self.U (self.opti.variable self.nu self.N)
-	     self.current_x (self.opti.parameter self.nx)
-	     self.target_x (self.opti.parameter self.nx))
-       (for (k (range self.N))
-	    (setf Xc_k (list))
-	    (for (r (range self.d))
-		 (dot Xc_k (append (self.opti.variable self.nx))))
-	    (dot self.Xc (append Xc_k)))
+       (if self.use_map
+           (do0
+             (setf self.X (self.opti.variable self.nx (+ self.N 1))
+                   self.Xc_var (self.opti.variable (* self.nx self.d) self.N)
+                   self.U (self.opti.variable self.nu self.N)
+                   self.current_x (self.opti.parameter self.nx)
+                   self.target_x (self.opti.parameter self.nx))
+             
+             (setf Xk_sym (SX.sym (string "Xk") self.nx)
+                   Xck_vec_sym (SX.sym (string "Xck_vec") (* self.nx self.d))
+                   Uk_sym (SX.sym (string "Uk") self.nu)
+                   p_sym (SX.sym (string "p") 4)
+                   Xck_mat (reshape Xck_vec_sym self.nx self.d)
+                   x_end (* (aref self.D 0) Xk_sym)
+                   res_list (list))
+             
+             (for (j (range 1 (+ self.d 1)))
+                  (setf xp (* (aref self.C 0 j) Xk_sym))
+                  (for (r (range self.d))
+                       (setf xp (+ xp (* (aref self.C (+ r 1) j) (aref Xck_mat (slice nil nil) r)))))
+                  (setf f_eval (self.f_ode (aref Xck_mat (slice nil nil) (- j 1)) Uk_sym p_sym))
+                  (res_list.append (- xp (* self.h_mpc f_eval))))
+             
+             (for (r (range self.d))
+                  (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref Xck_mat (slice nil nil) r)))))
+             
+             (setf res_vec (vertcat *res_list)
+                   self.colloc_interval (Function (string "colloc_interval")
+                                                  (list Xk_sym Xck_vec_sym Uk_sym p_sym)
+                                                  (list res_vec x_end))
+                   colloc_map (self.colloc_interval.map self.N)
+                   p_stacked (repmat (vertcat self.M_p self.m_p self.l_p self.wind_p) 1 self.N))
+             
+             (setf (ntuple res_all x_end_all) (colloc_map (aref self.X (slice nil nil) (slice nil self.N))
+                                                          self.Xc_var
+                                                          self.U
+                                                          p_stacked))
+             (self.opti.subject_to (== (aref self.X (slice nil nil) 0) self.current_x))
+             (self.opti.subject_to (self.opti.bounded (* -1.0 self.max_pos) (aref self.X 0 (slice nil nil)) self.max_pos))
+             (self.opti.subject_to (self.opti.bounded (* -1.0 self.max_force) self.U self.max_force))
+             (self.opti.subject_to (== res_all 0))
+             (self.opti.subject_to (== (aref self.X (slice nil nil) (slice 1 nil)) x_end_all)))
+           (do0
+             (setf self.X (self.opti.variable self.nx (+ self.N 1))
+                   self.Xc (list)
+                   self.U (self.opti.variable self.nu self.N)
+                   self.current_x (self.opti.parameter self.nx)
+                   self.target_x (self.opti.parameter self.nx))
+             (for (k (range self.N))
+                  (setf Xc_k (list))
+                  (for (r (range self.d))
+                       (dot Xc_k (append (self.opti.variable self.nx))))
+                  (dot self.Xc (append Xc_k)))
+             (self.opti.subject_to (== (aref self.X (slice nil nil) 0) self.current_x))
+             (self.opti.subject_to (self.opti.bounded (* -1.0 self.max_pos) (aref self.X 0 (slice nil nil)) self.max_pos))
+             (self.opti.subject_to (self.opti.bounded (* -1.0 self.max_force) self.U self.max_force))
+             (for (k (range self.N))
+                  (setf Xk (aref self.X (slice nil nil) k)
+                        x_end (* (aref self.D 0) Xk))
+                  (for (j (range 1 (+ self.d 1)))
+                       (setf xp (* (aref self.C 0 j) Xk))
+                       (for (r (range self.d))
+                            (setf xp (+ xp (* (aref self.C (+ r 1) j) (aref (aref self.Xc k) r)))))
+                       (setf f_eval (self.f_ode (aref (aref self.Xc k) (- j 1))
+                                                (aref self.U (slice nil nil) k)
+                                                (vertcat self.M_p self.m_p self.l_p self.wind_p)))
+                       (self.opti.subject_to (== xp (* self.h_mpc f_eval))))
+                  (for (r (range self.d))
+                       (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref (aref self.Xc k) r)))))
+                  (self.opti.subject_to (== (aref self.X (slice nil nil) (+ k 1)) x_end)))))
 
-       (comments "Constraints anwenden: Startzustand, Grenzen und Collocation-Dynamik")
-       (self.opti.subject_to (== (aref self.X (slice nil nil) 0) self.current_x))
-       (self.opti.subject_to (self.opti.bounded (* -1.0 self.max_pos) (aref self.X 0 (slice nil nil)) self.max_pos))
-       (self.opti.subject_to (self.opti.bounded (* -1.0 self.max_force) self.U self.max_force))
-
-       (for (k (range self.N))
-	    (setf Xk (aref self.X (slice nil nil) k)
-		  x_end (* (aref self.D 0) Xk))
-	    (for (j (range 1 (+ self.d 1)))
-		 (setf xp (* (aref self.C 0 j) Xk))
-		 (for (r (range self.d))
-		      (setf xp (+ xp (* (aref self.C (+ r 1) j) (aref (aref self.Xc k) r)))))
-		 (setf f_eval (self.f_ode (aref (aref self.Xc k) (- j 1))
-					  (aref self.U (slice nil nil) k)
-					  (vertcat self.M_p self.m_p self.l_p self.wind_p)))
-		 (self.opti.subject_to (== xp (* self.h_mpc f_eval))))
-	    (for (r (range self.d))
-		 (setf x_end (+ x_end (* (aref self.D (+ r 1)) (aref (aref self.Xc k) r)))))
-	    (self.opti.subject_to (== (aref self.X (slice nil nil) (+ k 1)) x_end)))
-
-        (comments 
-         "============================================================================="
-         " KOSTENFUNKTION (OBJECTIVE FUNCTION)"
-         "============================================================================="
-         " Die Kostenfunktion J minimiert die Abweichungen vom Zielzustand und den Energieaufwand."
-         " J = sum_{k=0}^{N-1} ( err_k^T * Q * err_k + R_F * u_k^2 ) + 10 * err_N^T * Q * err_N"
-         " "
-         " Stellenergie-Formel (Control Effort Penalty):"
-         " - Für jeden Zeitschritt k penalisiert der Term R_F * (U[0, k])^2 den quadratischen Stellaufwand."
-         " - Formel: Stellenergie = R_F * u_k^2"
-         "   wobei u_k (Kraft F) die Stellgröße und R_F der Gewichtungsfaktor (Stellkosten) ist."
-         " - Dies verhindert extrem aggressive Steueraktionen und schont die Aktuatoren.")
-        (setf cost 0.0
+       (setf cost 0.0
 	     Q (diag (vertcat self.Q_s self.Q_v self.Q_theta self.Q_omega)))
-        (for (k (range self.N))
+       (for (k (range self.N))
 	    (setf err (- (aref self.X (slice nil nil) k) self.target_x)
 		  cost (+ cost (+ (mtimes (mtimes err.T Q) err)
 				  (* self.R_F (** (aref self.U 0 k) 2))))))
-        (setf err_term (- (aref self.X (slice nil nil) self.N) self.target_x)
+       (setf err_term (- (aref self.X (slice nil nil) self.N) self.target_x)
 	     cost (+ cost (* 10.0 (mtimes (mtimes err_term.T Q) err_term))))
-        (self.opti.minimize cost)
+       (self.opti.minimize cost)
 
-        (comments 
-         "============================================================================="
-         " IPOPT SOLVER KONFIGURATION & PARAMETER"
-         "============================================================================="
-         " IPOPT (Interior Point Optimizer) löst das nichtlineare Optimierungsproblem (NLP)."
-         " Zur Optimierung der Echtzeitfähigkeit konfigurieren wir folgende Parameter:"
-         " - print_time = False: Deaktiviert die Ausgabe der Rechenzeitstatistik durch CasADi"
-         "   nach jedem Solver-Durchlauf, um das Terminal sauber zu halten."
-         " - print_level = 0: Unterdrückt alle detaillierten IPOPT-Iterationen-Logs (Standard: 5)."
-         " - sb = 'yes' (Suppress Banner): Unterdrückt das IPOPT-Lizenz- und Start-Banner."
-         " - Warm-Starting (siehe step-Methode): Durch Wiederverwendung der verschobenen Lösung"
-         "   des vorherigen Schritts benötigt IPOPT im GUI-Betrieb meist nur 1-3 Iterationen.")
-        (self.opti.solver (string "ipopt") 
-			 (dict ((string "print_time") False))
-			 (dict ((string "print_level") 0) ((string "sb") (string "yes"))))
-        
-        (self.opti.set_initial self.X (dot (np.linspace (np.array (list 0.0 0.0 np.pi 0.0)) (np.array (list 1.0 0.0 0.0 0.0)) (+ self.N 1)) T))
-        (setf self.sol None))
+       (setf self.n_constraints (aref (dot self opti g shape) 0))
+
+       (setf solver_opts (dict ((string "print_time") False) ((string "error_on_fail") True))
+             ipopt_opts (dict ((string "print_level") 0) ((string "sb") (string "yes"))))
+       (if self.use_jit
+           (do0
+             (setf (aref solver_opts (string "jit")) True
+                   (aref solver_opts (string "compiler")) (string "shell")
+                   (aref solver_opts (string "jit_options")) (dict ((string "flags") (list (string "-O3")
+                                                                                          (string "-ffast-math")
+                                                                                          (string "-march=native")))))))
+       (self.opti.solver (string "ipopt") solver_opts ipopt_opts)
+
+       (self.opti.set_initial self.X (dot (np.linspace (np.array (list 0.0 0.0 np.pi 0.0)) (np.array (list 1.0 0.0 0.0 0.0)) (+ self.N 1)) T))
+       (self.opti.set_initial self.U (np.zeros (tuple self.nu self.N)))
+       (if self.use_map
+           (self.opti.set_initial self.Xc_var (np.zeros (tuple (* self.nx self.d) self.N))))
+
+       (setf self.sol None
+             self.last_X (np.zeros (tuple self.nx (+ self.N 1)))
+             self.last_U (np.zeros (tuple self.nu self.N))
+             self.last_lam_g None)
+       (if self.use_map
+           (setf self.last_Xc_var (np.zeros (tuple (* self.nx self.d) self.N))))
+
+       (if self.use_to_function
+           (do0
+             (setf inputs (list self.current_x self.target_x
+                                self.M_p self.m_p self.l_p self.wind_p
+                                self.Q_s self.Q_v self.Q_theta self.Q_omega
+                                self.R_F self.max_pos self.max_force
+                                self.X))
+             (if self.use_map
+                 (inputs.append self.Xc_var))
+             (inputs.append self.U)
+             (if self.use_dual_warmstart
+                 (inputs.append self.opti.lam_g))
+
+             (setf outputs (list (aref self.U 0 0) self.X))
+             (if self.use_map
+                 (outputs.append self.Xc_var))
+             (outputs.append self.U)
+             (if self.use_dual_warmstart
+                 (outputs.append self.opti.lam_g))
+
+             (setf self.mpc_func (self.opti.to_function (string "mpc_solve") inputs outputs)))))
 
      (def step (self state target_state params)
-       (self.opti.set_value self.current_x state)
-       (self.opti.set_value self.target_x target_state)
-       ,@(loop for (key sym) in '(("M" self.M_p)
-                                  ("m" self.m_p)
-                                  ("l" self.l_p)
-                                  ("wind" self.wind_p)
-                                  ("Q_s" self.Q_s)
-                                  ("Q_v" self.Q_v)
-                                  ("Q_theta" self.Q_theta)
-                                  ("Q_omega" self.Q_omega)
-                                  ("R_F" self.R_F)
-                                  ("max_pos" self.max_pos)
-                                  ("max_force" self.max_force))
-	       collect `(self.opti.set_value ,sym (aref params (string ,key))))
-
-       (if (!= self.sol None)
-	   (do0
-	    (setf X_res (self.sol.value self.X)
-		  U_res (self.sol.value self.U)
-		  X_guess (np.hstack (tuple (aref X_res (slice nil nil) (slice 1 nil))
-					    (aref X_res (slice nil nil) (slice -1 nil))))
-		  U_guess (np.append (aref U_res (slice 1 nil)) (aref U_res -1)))
-	    (self.opti.set_initial self.X X_guess)
-	    (self.opti.set_initial self.U U_guess))
-	   (do0
-	    (setf X_res (np.zeros (tuple self.nx (+ self.N 1)))
-		  U_res (np.zeros (tuple self.nu self.N))
-		  U_guess (np.zeros self.nu))))
-
-       (setf t0 (time.time))
-       (try
-	(setf self.sol (self.opti.solve))
-	("Exception as e"
-		(return (tuple (aref U_guess 0) X_res U_res (- (time.time) t0) False))))
-       (setf t_solve (- (time.time) t0)
-	     X_res (self.sol.value self.X)
-	     U_res (self.sol.value self.U))
-       (return (tuple (aref U_res 0) X_res U_res t_solve True))))
+       (if self.use_to_function
+           (do0
+             (setf inputs (list state target_state
+                                (aref params (string "M"))
+                                (aref params (string "m"))
+                                (aref params (string "l"))
+                                (aref params (string "wind"))
+                                (aref params (string "Q_s"))
+                                (aref params (string "Q_v"))
+                                (aref params (string "Q_theta"))
+                                (aref params (string "Q_omega"))
+                                (aref params (string "R_F"))
+                                (aref params (string "max_pos"))
+                                (aref params (string "max_force"))))
+             (if (or (is-not self.sol None) (is-not self.last_lam_g None))
+                 (do0
+                   (setf X_guess (np.hstack (tuple (aref self.last_X (slice nil nil) (slice 1 nil))
+                                                   (aref self.last_X (slice nil nil) (slice -1 nil))))
+                         U_guess (np.append (aref self.last_U (slice 1 nil)) (aref self.last_U -1)))
+                   (if self.use_map
+                       (setf Xc_guess self.last_Xc_var)))
+                 (do0
+                   (setf X_guess (dot (np.linspace state target_state (+ self.N 1)) T)
+                         U_guess (np.zeros self.N))
+                   (if self.use_map
+                       (setf Xc_guess (np.zeros (tuple (* self.nx self.d) self.N))))))
+             (inputs.append X_guess)
+             (if self.use_map
+                 (inputs.append Xc_guess))
+             (inputs.append (aref U_guess np.newaxis (slice nil nil)))
+             (if self.use_dual_warmstart
+                 (do0
+                   (if (is-not self.last_lam_g None)
+                       (setf lam_g_guess self.last_lam_g)
+                       (setf lam_g_guess (np.zeros self.n_constraints)))
+                   (inputs.append lam_g_guess)))
+             (setf t0 (time.time))
+             (try
+               (do0
+                 (setf res (self.mpc_func *inputs))
+                 (cond
+                   ((and self.use_map self.use_dual_warmstart)
+                    (setf (ntuple u_opt X_val Xc_val U_val lam_g_val) res
+                          self.last_X (dot X_val (full))
+                          self.last_Xc_var (dot Xc_val (full))
+                          self.last_U (np.squeeze (dot U_val (full)))
+                          self.last_lam_g (dot lam_g_val (full))))
+                   (self.use_map
+                    (setf (ntuple u_opt X_val Xc_val U_val) res
+                          self.last_X (dot X_val (full))
+                          self.last_Xc_var (dot Xc_val (full))
+                          self.last_U (np.squeeze (dot U_val (full)))))
+                   (self.use_dual_warmstart
+                    (setf (ntuple u_opt X_val U_val lam_g_val) res
+                          self.last_X (dot X_val (full))
+                          self.last_U (np.squeeze (dot U_val (full)))
+                          self.last_lam_g (dot lam_g_val (full))))
+                   (t
+                    (setf (ntuple u_opt X_val U_val) res
+                          self.last_X (dot X_val (full))
+                          self.last_U (np.squeeze (dot U_val (full))))))
+                 (setf u_opt (float u_opt)
+                       t_solve (- (time.time) t0))
+                 (return (tuple u_opt self.last_X self.last_U t_solve True)))
+               ("Exception as e"
+                 (setf t_solve (- (time.time) t0))
+                 (return (tuple (float (aref U_guess 0)) self.last_X self.last_U t_solve False)))))
+           (do0
+             (self.opti.set_value self.current_x state)
+             (self.opti.set_value self.target_x target_state)
+             ,@(loop for (key sym) in '(("M" self.M_p)
+                                        ("m" self.m_p)
+                                        ("l" self.l_p)
+                                        ("wind" self.wind_p)
+                                        ("Q_s" self.Q_s)
+                                        ("Q_v" self.Q_v)
+                                        ("Q_theta" self.Q_theta)
+                                        ("Q_omega" self.Q_omega)
+                                        ("R_F" self.R_F)
+                                        ("max_pos" self.max_pos)
+                                        ("max_force" self.max_force))
+                     collect `(self.opti.set_value ,sym (aref params (string ,key))))
+             (if (is-not self.sol None)
+                 (do0
+                   (setf X_res (self.sol.value self.X)
+                         U_res (self.sol.value self.U)
+                         X_guess (np.hstack (tuple (aref X_res (slice nil nil) (slice 1 nil))
+                                                   (aref X_res (slice nil nil) (slice -1 nil))))
+                         U_guess (np.append (aref U_res (slice 1 nil)) (aref U_res -1)))
+                   (self.opti.set_initial self.X X_guess)
+                   (self.opti.set_initial self.U (aref U_guess np.newaxis (slice nil nil)))
+                   (if self.use_map
+                       (self.opti.set_initial self.Xc_var (self.sol.value self.Xc_var)))
+                   (if self.use_dual_warmstart
+                       (do0
+                         (setf lam_g_res (self.sol.value self.opti.lam_g))
+                         (self.opti.set_initial self.opti.lam_g lam_g_res))))
+                 (do0
+                   (setf X_guess (dot (np.linspace state target_state (+ self.N 1)) T)
+                         U_guess (np.zeros self.N))
+                   (self.opti.set_initial self.X X_guess)
+                   (self.opti.set_initial self.U (aref U_guess np.newaxis (slice nil nil)))
+                   (if self.use_map
+                       (self.opti.set_initial self.Xc_var (np.zeros (tuple (* self.nx self.d) self.N))))
+                   (if self.use_dual_warmstart
+                       (self.opti.set_initial self.opti.lam_g (np.zeros self.n_constraints)))))
+             (setf t0 (time.time)
+                   success True)
+             (try
+               (setf self.sol (self.opti.solve))
+               ("Exception as e"
+                 (setf success False)))
+             (setf t_solve (- (time.time) t0))
+             (if success
+                 (do0
+                   (setf self.last_X (self.sol.value self.X)
+                         self.last_U (np.squeeze (self.sol.value self.U))
+                         u_opt (aref self.last_U 0))
+                   (if self.use_map
+                       (setf self.last_Xc_var (self.sol.value self.Xc_var))))
+                 (do0
+                   (setf self.last_X (np.hstack (tuple (aref self.last_X (slice nil nil) (slice 1 nil))
+                                                       (aref self.last_X (slice nil nil) (slice -1 nil))))
+                         self.last_U (np.append (aref self.last_U (slice 1 nil)) (aref self.last_U -1))
+                         u_opt (aref self.last_U 0))))
+             (return (tuple (float u_opt) self.last_X self.last_U t_solve success))))))
 
    (class PendulumWidget (QWidget)
      (def __init__ (self)
@@ -351,7 +375,7 @@
    (class MainWindow (QMainWindow)
      (def __init__ (self)
        (QMainWindow.__init__ self)
-       (self.setWindowTitle (string "MPC Inverted Pendulum"))
+       (self.setWindowTitle (string "MPC Inverted Pendulum - Map + JIT Caching GUI (gen11c)"))
        (self.resize 1400 900)
        
        (setf central_widget (QWidget)
@@ -371,7 +395,6 @@
 	     self.history_curves (dict)
 	     self.pred_curves (dict))
        
-       (comments "Plots dynamisch generieren mit Lisp Macro Expand")
        ,@(loop for (key title ylabel row col) in '(("s" "Wagenposition" "Position [m]" 0 0)
 						   ("theta" "Pendelwinkel" "Winkel [rad]" 1 0)
 						   ("v" "Wagengeschwindigkeit" "v [m/s]" 2 0)
@@ -389,7 +412,6 @@
 		 (if (!= (string ,key) (string "t_solve"))
 		     (setf (aref self.pred_curves (string ,key)) (ax.plot :pen (pg.mkPen (string "y") :width 2 :style Qt.DashLine))))))
 		     
-       (comments "Steuerungs-Buttons für Simulation")
        (setf btn_layout (QHBoxLayout)
              self.btn_start (QPushButton (string "Start"))
              self.btn_stop (QPushButton (string "Stop"))
@@ -438,8 +460,8 @@
                  ("R_F" "Gewicht Kraftaufwand" 1 200 10 0.01 "Kostenfaktor für die Stellkraft F. Zwingt den Solver, Energie zu sparen.")
                  ("target_s" "Ziel-Position [m]" -100 100 10 0.1 "Soll-Position des Wagens auf der Schiene.")
                  ("max_pos" "Schiene Limit [m]" 10 200 50 0.1 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten.")
-                 ("max_force" "Max Kraft [N]" 10 300 150 0.1 "Stellgrößenbeschränkung für den Aktuator.")
-                 ("N" "Knotenpunkte (N)" 1 50 20 1 "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.")
+                 ("max_force" "Max Kraft [N]" 0 300 150 0.1 "Stellgrößenbeschränkung für den Aktuator.")
+                 ("N" "Knotenpunkte (N)" 1 500 20 1 "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.")
                  ("h_mpc" "MPC Schritt [ms]" 1 200 50 1 "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.")
                  ("dt_sim" "Simulations-dt [ms]" 1 100 33 1 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))
                for row from 0
@@ -448,6 +470,15 @@
        
        (setf self.timer (QTimer))
        (self.timer.timeout.connect self.update_loop)
+       
+       ; First time instantiation of MPC
+       (setf params (self.get_params)
+             self.mpc (PendulumMPC :h_mpc (aref params (string "h_mpc"))
+                                   :N (aref params (string "N"))
+                                   :use_jit True
+                                   :use_to_function True
+                                   :use_dual_warmstart True
+                                   :use_map True))
        (self.reset_sim)
        (self.start_sim))
 
@@ -471,14 +502,30 @@
              self.dt (aref params (string "dt_sim"))
              self.hist (dict ((string "s") (list)) ((string "v") (list)) ((string "theta") (list))
                              ((string "omega") (list)) ((string "F") (list)) ((string "t_solve") (list))))
-       (comments "MPC mit neuen Parametern neu kompilieren")
-       (setf self.mpc (PendulumMPC :h_mpc (aref params (string "h_mpc"))
-                                   :N (aref params (string "N"))))
+       
+       (setf new_N (int (aref params (string "N")))
+             new_h (aref params (string "h_mpc")))
+       
+       (comments "Instanziere den MPC-Solver NUR neu, wenn sich N oder h_mpc geaendert haben.")
+       (if (or (not (hasattr self (string "mpc")))
+               (!= self.mpc.N new_N)
+               (!= self.mpc.h_mpc new_h))
+           (do0
+             (print (string "N oder h_mpc haben sich geaendert. Kompiliere und generiere JIT MPC neu..."))
+             (setf self.mpc (PendulumMPC :h_mpc new_h
+                                         :N new_N
+                                         :use_jit True
+                                         :use_to_function True
+                                         :use_dual_warmstart True
+                                         :use_map True)))
+           (do0
+             (print (string "Parameter N und h_mpc unveraendert. Verwende bereits kompilierten JIT MPC Solver wieder."))))
+             
        (self.pendulum_widget.update_state self.state 0.0 0.0 (aref params (string "l")) (aref params (string "max_pos")))
        ,@(loop for key in '("s" "v" "theta" "omega" "F" "t_solve")
-               collect `(dot (aref self.history_curves (string ,key)) (setData (list) (list))))
+                collect `(dot (aref self.history_curves (string ,key)) (setData (list) (list))))
        ,@(loop for key in '("s" "v" "theta" "omega" "F")
-               collect `(dot (aref self.pred_curves (string ,key)) (setData (list) (list)))))
+                collect `(dot (aref self.pred_curves (string ,key)) (setData (list) (list)))))
 
      (def get_params (self)
        (return (dictionary :M (/ (dot (aref self.sliders (string "M")) (value)) 10.0)
@@ -507,17 +554,16 @@
        (setf self.dt (aref params (string "dt_sim")))
        (self.timer.setInterval (int (* self.dt 1000.0)))
 	     
-       (comments "Physik-Simulation: Runge-Kutta 4 Integrationsschritt mit echter Windstörung")
        (def f_real (st)
 	 (setf s_st (aref st 0) v_st (aref st 1) theta_st (aref st 2) omega_st (aref st 3)
 	       sin_t (np.sin theta_st) cos_t (np.cos theta_st)
-	       den (+ (aref params (string "M")) (* (aref params (string "m")) (- 1.0 (* cos_t cos_t))))
+	       denom (+ (aref params (string "M")) (* (aref params (string "m")) (- 1.0 (* cos_t cos_t))))
 	       F_tot (+ F_motor (* wind_force cos_t))
 	       l_val (aref params (string "l"))
 	       ds v_st
-	       dv (/ (+ F_tot (* (aref params (string "m")) l_val omega_st omega_st sin_t) (* (aref params (string "m")) 9.81 cos_t sin_t)) den)
+	       dv (/ (- (+ F_tot (* (aref params (string "m")) l_val omega_st omega_st sin_t)) (* (aref params (string "m")) 9.81 cos_t sin_t)) denom)
 	       dtheta omega_st
-	       domega (/ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) l_val omega_st omega_st sin_t cos_t) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* l_val den)))
+	       domega (/ (+ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) l_val omega_st omega_st sin_t cos_t)) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* l_val denom)))
 	 (return (np.array (list ds dv dtheta domega))))
 	 
        (setf k1 (f_real self.state)
