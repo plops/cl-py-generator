@@ -11,4 +11,5 @@ dependencies = [
     "matplotlib>=3.11.0",
     "pyqtgraph>=0.14.0",
     "pyside6>=6.11.1",
+    "tqdm>=4.68.3",
 ]
