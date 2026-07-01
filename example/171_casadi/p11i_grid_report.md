@@ -107,10 +107,10 @@ To evaluate horizon scalability, we compare original parameters across different
 ## 6. Heatmap Visualizations
 
 ### A. High-Resolution Heatmaps (N = 30, max_force = 40.0N, 4160 Simulations)
-![High-Res Heatmap 40N](p11i_grid_heatmaps_20260701_184125.png)
+![High-Res Heatmap 40N](p11i_grid_results_20260701_184125_no_annotate.png)
 
 ### B. High-Resolution Heatmaps (N = 30, max_force = 20.0N, 4160 Simulations)
-![High-Res Heatmap 20N](p11i_grid_heatmaps_20260701_181951.png)
+![High-Res Heatmap 20N](p11i_grid_results_20260701_181951_no_annotate.png)
 
 ### C. Horizon N = 25 Heatmaps (max_force = 20.0N, 280 Simulations)
 ![Heatmap N=25](p11i_grid_heatmaps_20260701_174539.png)
