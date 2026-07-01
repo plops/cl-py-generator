@@ -56,9 +56,9 @@
 	     den (+ M_s (* m_s (- 1.0 (* cos_theta cos_theta))))
 	     F_total (+ F_ (* wind_s cos_theta))
 	     ds v_
-	     dv (/ (+ F_total (* m_s l_s omega_ omega_ sin_theta) (* m_s 9.81 cos_theta sin_theta)) den)
+	     dv (/ (- (+ F_total (* m_s l_s omega_ omega_ sin_theta)) (* m_s 9.81 cos_theta sin_theta)) den)
 	     dtheta omega_
-	     domega (/ (- (* -1.0 F_total cos_theta) (* m_s l_s omega_ omega_ sin_theta cos_theta) (* (+ M_s m_s) 9.81 sin_theta)) (* l_s den)))
+	     domega (/ (+ (- (* -1.0 F_total cos_theta) (* m_s l_s omega_ omega_ sin_theta cos_theta)) (* (+ M_s m_s) 9.81 sin_theta)) (* l_s den)))
        (setf self.f_ode (Function (string "f_ode") (list x u p_ode) (list (vertcat ds dv dtheta domega))))
 
        (setf tau_root (np.append 0.0 (collocation_points self.d (string "radau")))
@@ -460,7 +460,7 @@
                  ("R_F" "Gewicht Kraftaufwand" 1 200 10 0.01 "Kostenfaktor für die Stellkraft F. Zwingt den Solver, Energie zu sparen.")
                  ("target_s" "Ziel-Position [m]" -100 100 10 0.1 "Soll-Position des Wagens auf der Schiene.")
                  ("max_pos" "Schiene Limit [m]" 10 200 50 0.1 "Maximaler erlaubter Fahrweg (Constraint). Der Solver darf diesen nie überschreiten.")
-                 ("max_force" "Max Kraft [N]" 10 300 150 0.1 "Stellgrößenbeschränkung für den Aktuator.")
+                 ("max_force" "Max Kraft [N]" 0 300 150 0.1 "Stellgrößenbeschränkung für den Aktuator.")
                  ("N" "Knotenpunkte (N)" 1 500 20 1 "Auflösung des Solvers. N=1 bedeutet nur ein Zeitschritt in die Zukunft.")
                  ("h_mpc" "MPC Schritt [ms]" 1 200 50 1 "Dauer eines MPC-Planungsschritts. T_horizon = N * h_mpc.")
                  ("dt_sim" "Simulations-dt [ms]" 1 100 33 1 "Schrittweite der echten Runge-Kutta Physiksimulation. Hat keinen Einfluss auf den Solver."))
@@ -557,13 +557,13 @@
        (def f_real (st)
 	 (setf s_st (aref st 0) v_st (aref st 1) theta_st (aref st 2) omega_st (aref st 3)
 	       sin_t (np.sin theta_st) cos_t (np.cos theta_st)
-	       den (+ (aref params (string "M")) (* (aref params (string "m")) (- 1.0 (* cos_t cos_t))))
+	       denom (+ (aref params (string "M")) (* (aref params (string "m")) (- 1.0 (* cos_t cos_t))))
 	       F_tot (+ F_motor (* wind_force cos_t))
 	       l_val (aref params (string "l"))
 	       ds v_st
-	       dv (/ (+ F_tot (* (aref params (string "m")) l_val omega_st omega_st sin_t) (* (aref params (string "m")) 9.81 cos_t sin_t)) den)
+	       dv (/ (- (+ F_tot (* (aref params (string "m")) l_val omega_st omega_st sin_t)) (* (aref params (string "m")) 9.81 cos_t sin_t)) denom)
 	       dtheta omega_st
-	       domega (/ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) l_val omega_st omega_st sin_t cos_t) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* l_val den)))
+	       domega (/ (+ (- (* -1.0 F_tot cos_t) (* (aref params (string "m")) l_val omega_st omega_st sin_t cos_t)) (* (+ (aref params (string "M")) (aref params (string "m"))) 9.81 sin_t)) (* l_val denom)))
 	 (return (np.array (list ds dv dtheta domega))))
 	 
        (setf k1 (f_real self.state)

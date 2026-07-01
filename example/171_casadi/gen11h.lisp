@@ -35,11 +35,11 @@
                                (list (ca.vertcat
                                       v_
                                       (/ (+ (+ u_sym (* w_ cos_th))
-                                            (* m_ sin_th (+ (* l_ (** om_ 2)) (* 9.81 cos_th))))
+                                            (* m_ sin_th (- (* l_ (** om_ 2)) (* 9.81 cos_th))))
                                          denom)
                                       om_
-                                      (/ (- (* -1 (+ u_sym (* w_ cos_th)) cos_th)
-                                            (* m_ l_ (** om_ 2) sin_th cos_th)
+                                      (/ (+ (- (* -1 (+ u_sym (* w_ cos_th)) cos_th)
+                                               (* m_ l_ (** om_ 2) sin_th cos_th))
                                             (* (+ M_ m_) 9.81 sin_th))
                                          (* l_ denom))))))
       (setf rk4_k1 (f_ode x_sym u_sym p_dyn)
@@ -260,7 +260,7 @@
                   '(("N_mpc"     "Horizont N_mpc"    2  80  40  1.0  "MPC steps — needs Rebuild")
                     ("target_s"  "Ziel s [m]"      -100 100  10  0.1  "Target cart position")
                     ("max_pos"   "Schienenlimit [m]" 10 200  50  0.1  "Track position limit")
-                    ("max_force" "Max Kraft [N]"     10 300 150  0.1  "Actuator force limit"))
+                    ("max_force" "Max Kraft [N]"      0 300 150  0.1  "Actuator force limit"))
                   for row from 0
                   collect `(make_slider g (string ,key) (string ,label)
                                         ,min-v ,max-v ,def ,scale ,row (string ,tip)))

@@ -24,12 +24,11 @@ sin_th = ca.sin(th_)
 cos_th = ca.cos(th_)
 denom = m_cart + m_pend * (1 - (cos_th**2))
 s_dot = v_
-v_dot = (u_sym + m_pend * sin_th * (l * (om_**2) + g * cos_th)) / denom
+v_dot = (u_sym + m_pend * sin_th * ((l * (om_**2)) - (g * cos_th))) / denom
 th_dot = om_
 om_dot = (
-    (-1 * u_sym * cos_th)
-    - (m_pend * l * (om_**2) * sin_th * cos_th)
-    - ((m_cart + m_pend) * g * sin_th)
+    ((-1 * u_sym * cos_th) - (m_pend * l * (om_**2) * sin_th * cos_th))
+    + (m_cart + m_pend) * g * sin_th
 ) / (l * denom)
 f_ode = ca.Function("f_ode", [x_sym, u_sym], [ca.vertcat(s_dot, v_dot, th_dot, om_dot)])
 k1 = f_ode(x_sym, u_sym)

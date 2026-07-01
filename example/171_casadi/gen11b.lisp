@@ -31,9 +31,9 @@
      (setf sin_theta (np.sin theta_) cos_theta (np.cos theta_)
 	   den (+ M (* m (- 1.0 (* cos_theta cos_theta)))))
      (setf ds v_
-	   dv (/ (+ F_ (* m l omega_ omega_ sin_theta) (* m g cos_theta sin_theta)) den)
+	   dv (/ (- (+ F_ (* m l omega_ omega_ sin_theta)) (* m g cos_theta sin_theta)) den)
 	   dtheta omega_
-	   domega (/ (- (* -1.0 F_ cos_theta) (* m l omega_ omega_ sin_theta cos_theta) (* (+ M m) g sin_theta)) (* l den)))
+	   domega (/ (+ (- (* -1.0 F_ cos_theta) (* m l omega_ omega_ sin_theta cos_theta)) (* (+ M m) g sin_theta)) (* l den)))
      (setf f_ode (Function (string "f_ode") (list x u) (list (vertcat ds dv dtheta domega))))
 
      ;; Kuerzerer MPC Horizont

@@ -24,13 +24,12 @@ def setup_mpc(use_jit):
     den = M + m * (1.0 - (cos_theta * cos_theta))
     ds = v_
     dv = (
-        F_ + m * l * omega_ * omega_ * sin_theta + m * g * cos_theta * sin_theta
+        (F_ + m * l * omega_ * omega_ * sin_theta) - (m * g * cos_theta * sin_theta)
     ) / den
     dtheta = omega_
     domega = (
-        (-1.0 * F_ * cos_theta)
-        - (m * l * omega_ * omega_ * sin_theta * cos_theta)
-        - ((M + m) * g * sin_theta)
+        ((-1.0 * F_ * cos_theta) - (m * l * omega_ * omega_ * sin_theta * cos_theta))
+        + (M + m) * g * sin_theta
     ) / (l * den)
     f_ode = Function("f_ode", [x, u], [vertcat(ds, dv, dtheta, domega)])
     N = 20

@@ -56,12 +56,12 @@
       ;; Differentialgleichungen (ODE)
       (setf s_dot v_
             v_dot (/ (+ u_sym 
-                        (* m_pend sin_th (+ (* l (** om_ 2)) 
+                        (* m_pend sin_th (- (* l (** om_ 2)) 
                                             (* g cos_th)))) 
                      denom)
             th_dot om_
-            om_dot (/ (- (* -1 u_sym cos_th) 
-                         (* m_pend l (** om_ 2) sin_th cos_th) 
+            om_dot (/ (+ (- (* -1 u_sym cos_th) 
+                            (* m_pend l (** om_ 2) sin_th cos_th)) 
                          (* (+ m_cart m_pend) g sin_th)) 
                       (* l denom)))
       

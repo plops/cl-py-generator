@@ -20,51 +20,18 @@ from PySide6.QtGui import QPainter, QPen, QBrush, QColor
 
 
 # =========================================================================================
-#  INVERTED PENDULUM MPC (MODEL PREDICTIVE CONTROL) DASHBOARD
-# =========================================================================================
-#  ZWECK UND ZIELGRUPPE:
-#  Diese Applikation demonstriert in Echtzeit die modellprädiktive Regelung (MPC) eines
-#  nichtlinearen, unteraktuierten mechanischen Systems (invertiertes Pendel auf einem Wagen).
-#  Sie ist so gestaltet, dass Physiker und Ingenieure die Auswirkungen von physikalischen
-#  Parametern (Masse, Wind) sowie Regelungsgewichten (Q-Matrizen) interaktiv erforschen können.
-#
-#  PHYSIKALISCHES MODELL & DYNAMIK (LAGRANGE-MECHANIK):
-#  Wir betrachten einen Wagen der Masse M auf einer 1D-Schiene (Position s). Auf diesem Wagen
-#  ist ein Pendel der Masse m und Länge l montiert (Winkel theta). Das System ist unteraktuiert:
-#  Wir können nur eine horizontale Kraft F auf den Wagen ausüben, wollen aber s und theta regeln.
-#  Der Zustandsvektor ist x = [s, v, theta, omega].
-#  Die Differentialgleichungen (ODEs) werden über die Euler-Lagrange-Gleichungen T - V hergeleitet:
-#  - Die kinetische Energie T berücksichtigt die Translation des Wagens und die Rotation/Translation des Pendels.
-#  - Die potentielle Energie V berücksichtigt die Höhe der Pendelmasse im Gravitationsfeld.
-#  Eine externe Störkraft (Wind) wirkt zusätzlich als Drehmoment auf das Pendel ein.
-#
-#  REGELUNGSTHEORIE (MODEL PREDICTIVE CONTROL - MPC):
-#  MPC löst zu jedem diskreten Zeitschritt ein Optimierungsproblem über einen endlichen
-#  Zeithorizont (T_horizon). Der Algorithmus berechnet eine zukünftige Trajektorie von
-#  Steuerkräften F, die eine Kostenfunktion (Abweichung vom Soll-Zustand + Energieverbrauch)
-#  minimiert, während Systemgrenzen (z.B. Schienenende, Maximalkraft) strikt eingehalten werden.
-#  Nur der allererste berechnete Kraftwert wird tatsächlich an das System gesendet. Im nächsten
-#  Schritt verschiebt sich der Horizont (Receding Horizon) und das Problem wird neu gelöst.
-#
-#  MATHEMATIK DER DIREKTEN KOLLOKATION (DIRECT COLLOCATION):
-#  Um die kontinuierlichen Differentialgleichungen (ODE) für den NLP-Solver nutzbar zu machen,
-#  diskretisieren wir die Zustands-Trajektorie mittels Lagrange-Polynomen über Radau-Punkte.
-#  Anstatt die ODE numerisch zu integrieren (Multiple Shooting), werden die Zustände an den
-#  Kollokationspunkten zu freien Optimierungsvariablen. Die Systemdynamik dx/dt = f(x,u) wird
-#  als strikte Gleichheitsbedingung (Equality Constraint) aufgezwungen.
-#  Dies transformiert das Problem in ein riesiges, aber sehr dünnbesetztes (sparse) NLP-Problem.
-#
-#  CASADI & IPOPT (IMPLEMENTIERUNGSDETAILS):
-#  CasADi ist ein Computer-Algebra-System für algorithmische Differentiation (AD). Es berechnet
-#  exakte und effiziente Jacobians (erste Ableitungen) und Hessians (zweite Ableitungen) des NLP.
-#  Wir nutzen 'SX' (Scalar Expression) Graphen für die ODE, da diese für mathematische Operationen
-#  auf Skalarebene deutlich schneller ausgewertet werden als Matrix-Ausdrücke ('MX').
-#  IPOPT (Interior Point Optimizer) nutzt Barrierefunktionen, um die Constraints zu lösen.
-#  Für Echtzeitfähigkeit nutzen wir 'Warm-Starting': Die optimale Lösung des vorherigen Schrittes
-#  dient als Startschätzung für den aktuellen, wodurch IPOPT oft nur 1-3 Iterationen benötigt.
+#  INVERTED PENDULUM MPC GUI (MAPPED CONSTRAINTS + JIT CACHING - gen11c)
 # =========================================================================================
 class PendulumMPC:
-    def __init__(self, h_mpc=5.0e-2, N=20):
+    def __init__(
+        self,
+        h_mpc=5.0e-2,
+        N=20,
+        use_jit=False,
+        use_to_function=False,
+        use_dual_warmstart=False,
+        use_map=False,
+    ):
         self.opti = Opti()
         self.nx = 4
         self.nu = 1
@@ -72,11 +39,10 @@ class PendulumMPC:
         self.h_mpc = h_mpc
         self.T_horizon = self.N * self.h_mpc
         self.d = 3
-        #  Parameter für Physik und Optimierung.
-        #  Wir definieren diese als CasADi 'Parameter' (opti.parameter), anstatt sie fest zu
-        #  verdrahten. Das ermöglicht es uns, Massen, Wind, Grenzen oder auch den Vorhersagehorizont
-        #  (T_horizon) zur Laufzeit der GUI zu ändern, ohne den kompletten CasADi Optimierungs-
-        #  Graphen neu aufbauen und kompilieren zu müssen (was extrem rechenintensiv wäre).
+        self.use_jit = use_jit
+        self.use_to_function = use_to_function
+        self.use_dual_warmstart = use_dual_warmstart
+        self.use_map = use_map
         self.M_p = self.opti.parameter()
         self.m_p = self.opti.parameter()
         self.l_p = self.opti.parameter()
@@ -88,51 +54,6 @@ class PendulumMPC:
         self.R_F = self.opti.parameter()
         self.max_pos = self.opti.parameter()
         self.max_force = self.opti.parameter()
-        # =============================================================================
-        #  PHYSIK-HERLEITUNG & DYNAMISCHE GLEICHUNGEN (LAGRANGE & HAMILTON)
-        # =============================================================================
-        #  Systemzustand: x = [s, v, theta, omega]^T
-        #  - s: Position des Wagens (Schiene) [m]
-        #  - v: Geschwindigkeit des Wagens (ds/dt) [m/s]
-        #  - theta: Pendelwinkel relativ zur Ruhelage [rad]
-        #           (theta = 0 ist die physikalisch stabile Ruhelage nach unten im ODE-Modell;
-        #           in der GUI-Zeichnung wird theta = 0 jedoch als aufrechte Position gezeichnet)
-        #  - omega: Winkelgeschwindigkeit des Pendels (dtheta/dt) [rad/s]
-        #  - u: Stellkraft F [N] (horizontale Kraft auf den Wagen)
-        #
-        #  1. KINETISCHE ENERGIE (T):
-        #     Die kinetische Energie setzt sich aus der Translation des Wagens und der Bewegung der
-        #     Pendel-Punktmasse zusammen:
-        #     T = 0.5 * M * v^2 + 0.5 * m * (v_p^2)
-        #     wobei x_p = s + l*sin(theta), y_p = -l*cos(theta) (y-Achse nach oben).
-        #     Ableitungen: dx_p = v + l*omega*cos(theta), dy_p = l*omega*sin(theta)
-        #     v_p^2 = dx_p^2 + dy_p^2 = v^2 + 2*v*l*omega*cos(theta) + l^2*omega^2
-        #     T = 0.5 * (M + m) * v^2 + m * v * l * omega * cos(theta) + 0.5 * m * l^2 * omega^2
-        #
-        #  2. POTENTIELLE ENERGIE (V):
-        #     Unter Berücksichtigung der Höhe y_p der Pendelmasse:
-        #     V = m * g * y_p = -m * g * l * cos(theta)
-        #     (Minimum bei theta = 0, d.h. die physikalisch stabile Ruhelage ist unten)
-        #
-        #  3. HAMILTONIAN (H = T + V):
-        #     Die Hamilton-Funktion repräsentiert die mechanische Gesamtenergie des Systems:
-        #     H = 0.5*(M + m)*v^2 + m*v*l*omega*cos(theta) + 0.5*m*l^2*omega^2 - m*g*l*cos(theta)
-        #
-        #  4. EULER-LAGRANGE-GLEICHUNGEN & BEWEGUNGSGLEICHUNGEN:
-        #     Lagrange-Funktion: L = T - V
-        #     Gleichungen: d/dt(dL/dv) - dL/ds = F_total
-        #                  d/dt(dL/domega) - dL/dtheta = 0
-        #     wobei F_total = F + F_wind*cos(theta) (horizontale Kraft + Windstörkraft)
-        #     Dies führt auf das gekoppelte System:
-        #     (1) (M + m)*dv/dt + m*l*domega/dt*cos(theta) - m*l*omega^2*sin(theta) = F_total
-        #     (2) m*l*dv/dt*cos(theta) + m*l^2*domega/dt + m*g*l*sin(theta) = 0
-        #
-        #     Durch Auflösen nach den Beschleunigungen dv/dt (dv) und domega/dt (domega) erhalten wir:
-        #     Nenner: den = M + m * sin(theta)^2
-        #     dv = (F_total + m*l*omega^2*sin(theta) + m*g*cos(theta)*sin(theta)) / den
-        #     domega = (-F_total*cos(theta) - m*l*omega^2*sin(theta)*cos(theta) - (M+m)*g*sin(theta)) / (l * den)
-        #
-        #  Symbolische Variablen für die Dynamik (dx/dt = f(x,u,p)):
         x = SX.sym("x", self.nx)
         u = SX.sym("u", self.nu)
         p_ode = SX.sym("p_ode", 4)
@@ -151,46 +72,18 @@ class PendulumMPC:
         F_total = F_ + wind_s * cos_theta
         ds = v_
         dv = (
-            F_total
-            + m_s * l_s * omega_ * omega_ * sin_theta
-            + m_s * 9.81 * cos_theta * sin_theta
+            (F_total + m_s * l_s * omega_ * omega_ * sin_theta)
+            - (m_s * 9.81 * cos_theta * sin_theta)
         ) / den
         dtheta = omega_
         domega = (
-            (-1.0 * F_total * cos_theta)
-            - (m_s * l_s * omega_ * omega_ * sin_theta * cos_theta)
-            - ((M_s + m_s) * 9.81 * sin_theta)
+            (
+                (-1.0 * F_total * cos_theta)
+                - (m_s * l_s * omega_ * omega_ * sin_theta * cos_theta)
+            )
+            + (M_s + m_s) * 9.81 * sin_theta
         ) / (l_s * den)
         self.f_ode = Function("f_ode", [x, u, p_ode], [vertcat(ds, dv, dtheta, domega)])
-        # =============================================================================
-        #  MATHEMATISCHE DIREKTE KOLLOKATION (DIRECT COLLOCATION)
-        # =============================================================================
-        #  Bei der direkten Kollokation wird die Zustandstrajektorie x(t) über jedes
-        #  Zeitintervall h_mpc durch ein Polynom vom Grad d (hier d=3) approximiert.
-        #  Die Optimierungsvariablen sind die Zustände an den Intervallgrenzen (X)
-        #  sowie an den d inneren Kollokationspunkten (Xc).
-        #
-        #  Koordinaten & Dimensionen:
-        #  - d (Polynomgrad) = 3
-        #  - tau_root: Zeitstützstellen normiert auf das Intervall [0, 1]. Enthält 0.0 und die
-        #    d Wurzeln des Radau-Polynoms (Länge: d+1 = 4). Dimension: (4,)
-        #  - C: Kollokationsmatrix (Koeffizienten der zeitlichen Ableitung) der Dimension (d+1) x (d+1), d.h. 4x4.
-        #  - D: Extrapolationsvektor (Endwerte der Lagrange-Polynome bei tau=1.0) der Dimension d+1, d.h. 4.
-        #
-        #  Funktionsweise von NumPy Hilfsfunktionen:
-        #  - np.poly1d([1.0, -tau_r]): Erstellt ein symbolisches 1D-Polynom (tau - tau_r).
-        #    Wird verwendet, um das Lagrange-Basispolynom L_j(tau) = prod_{r != j} (tau - tau_r)/(tau_j - tau_r)
-        #    zu konstruieren, welches an tau_j den Wert 1 und an allen anderen tau_r den Wert 0 hat.
-        #  - np.polyder(p): Berechnet die analytische Ableitung dL_j/dtau des Lagrange-Polynoms.
-        #
-        #  Bedeutung der Matrizen C und D:
-        #  - Matrix C (C[j, r] = dL_j/dtau(tau_r)): Repräsentiert die Ableitung des j-ten Basispolynoms
-        #    am Kollokationspunkt r. Ermöglicht die lineare Berechnung der Ableitung dx/dt
-        #    an allen Kollokationspunkten über die Zustände: dx/dt(tau_r) = 1/h * sum(C[j,r]*x_j).
-        #    Damit wird die Gleichheitsbedingung der ODE dx/dt = f(x,u) zu: sum(C[j,r]*x_j) = h * f(x_r, u).
-        #  - Vektor D (D[j] = L_j(1.0)): Extrapoliert den Zustand am Ende des Intervalls (tau=1.0)
-        #    aus den Kollokationspunkten: x_end = sum(D[j]*x_j). Dies erzwingt die Kontinuität
-        #    des Zustands zum nächsten Intervallstart: X_{k+1} == x_end.
         tau_root = np.append(0.0, collocation_points(self.d, "radau"))
         self.C = np.zeros(
             (
@@ -210,52 +103,83 @@ class PendulumMPC:
             pder = np.polyder(p)
             for r in range(self.d + 1):
                 self.C[j, r] = pder(tau_root[r])
-        # Decision Variables für IPOPT (X: Knoten, Xc: Collocation-Punkte, U: Stellgröße)
-        self.X = self.opti.variable(self.nx, self.N + 1)
-        self.Xc = []
-        self.U = self.opti.variable(self.nu, self.N)
-        self.current_x = self.opti.parameter(self.nx)
-        self.target_x = self.opti.parameter(self.nx)
-        for k in range(self.N):
-            Xc_k = []
-            for r in range(self.d):
-                Xc_k.append(self.opti.variable(self.nx))
-            self.Xc.append(Xc_k)
-        # Constraints anwenden: Startzustand, Grenzen und Collocation-Dynamik
-        self.opti.subject_to(self.X[:, 0] == self.current_x)
-        self.opti.subject_to(
-            self.opti.bounded(-1.0 * self.max_pos, self.X[0, :], self.max_pos)
-        )
-        self.opti.subject_to(
-            self.opti.bounded(-1.0 * self.max_force, self.U, self.max_force)
-        )
-        for k in range(self.N):
-            Xk = self.X[:, k]
-            x_end = self.D[0] * Xk
+        if self.use_map:
+            self.X = self.opti.variable(self.nx, self.N + 1)
+            self.Xc_var = self.opti.variable(self.nx * self.d, self.N)
+            self.U = self.opti.variable(self.nu, self.N)
+            self.current_x = self.opti.parameter(self.nx)
+            self.target_x = self.opti.parameter(self.nx)
+            Xk_sym = SX.sym("Xk", self.nx)
+            Xck_vec_sym = SX.sym("Xck_vec", self.nx * self.d)
+            Uk_sym = SX.sym("Uk", self.nu)
+            p_sym = SX.sym("p", 4)
+            Xck_mat = reshape(Xck_vec_sym, self.nx, self.d)
+            x_end = self.D[0] * Xk_sym
+            res_list = []
             for j in range(1, self.d + 1):
-                xp = self.C[0, j] * Xk
+                xp = self.C[0, j] * Xk_sym
                 for r in range(self.d):
-                    xp = xp + self.C[r + 1, j] * self.Xc[k][r]
-                f_eval = self.f_ode(
-                    self.Xc[k][j - 1],
-                    self.U[:, k],
-                    vertcat(self.M_p, self.m_p, self.l_p, self.wind_p),
-                )
-                self.opti.subject_to(xp == self.h_mpc * f_eval)
+                    xp = xp + self.C[r + 1, j] * Xck_mat[:, r]
+                f_eval = self.f_ode(Xck_mat[:, j - 1], Uk_sym, p_sym)
+                res_list.append(xp - (self.h_mpc * f_eval))
             for r in range(self.d):
-                x_end = x_end + self.D[r + 1] * self.Xc[k][r]
-            self.opti.subject_to(self.X[:, k + 1] == x_end)
-        # =============================================================================
-        #  KOSTENFUNKTION (OBJECTIVE FUNCTION)
-        # =============================================================================
-        #  Die Kostenfunktion J minimiert die Abweichungen vom Zielzustand und den Energieaufwand.
-        #  J = sum_{k=0}^{N-1} ( err_k^T * Q * err_k + R_F * u_k^2 ) + 10 * err_N^T * Q * err_N
-        #
-        #  Stellenergie-Formel (Control Effort Penalty):
-        #  - Für jeden Zeitschritt k penalisiert der Term R_F * (U[0, k])^2 den quadratischen Stellaufwand.
-        #  - Formel: Stellenergie = R_F * u_k^2
-        #    wobei u_k (Kraft F) die Stellgröße und R_F der Gewichtungsfaktor (Stellkosten) ist.
-        #  - Dies verhindert extrem aggressive Steueraktionen und schont die Aktuatoren.
+                x_end = x_end + self.D[r + 1] * Xck_mat[:, r]
+            res_vec = vertcat(*res_list)
+            self.colloc_interval = Function(
+                "colloc_interval",
+                [Xk_sym, Xck_vec_sym, Uk_sym, p_sym],
+                [res_vec, x_end],
+            )
+            colloc_map = self.colloc_interval.map(self.N)
+            p_stacked = repmat(
+                vertcat(self.M_p, self.m_p, self.l_p, self.wind_p), 1, self.N
+            )
+            res_all, x_end_all = colloc_map(
+                self.X[:, : self.N], self.Xc_var, self.U, p_stacked
+            )
+            self.opti.subject_to(self.X[:, 0] == self.current_x)
+            self.opti.subject_to(
+                self.opti.bounded(-1.0 * self.max_pos, self.X[0, :], self.max_pos)
+            )
+            self.opti.subject_to(
+                self.opti.bounded(-1.0 * self.max_force, self.U, self.max_force)
+            )
+            self.opti.subject_to(res_all == 0)
+            self.opti.subject_to(self.X[:, 1:] == x_end_all)
+        else:
+            self.X = self.opti.variable(self.nx, self.N + 1)
+            self.Xc = []
+            self.U = self.opti.variable(self.nu, self.N)
+            self.current_x = self.opti.parameter(self.nx)
+            self.target_x = self.opti.parameter(self.nx)
+            for k in range(self.N):
+                Xc_k = []
+                for r in range(self.d):
+                    Xc_k.append(self.opti.variable(self.nx))
+                self.Xc.append(Xc_k)
+            self.opti.subject_to(self.X[:, 0] == self.current_x)
+            self.opti.subject_to(
+                self.opti.bounded(-1.0 * self.max_pos, self.X[0, :], self.max_pos)
+            )
+            self.opti.subject_to(
+                self.opti.bounded(-1.0 * self.max_force, self.U, self.max_force)
+            )
+            for k in range(self.N):
+                Xk = self.X[:, k]
+                x_end = self.D[0] * Xk
+                for j in range(1, self.d + 1):
+                    xp = self.C[0, j] * Xk
+                    for r in range(self.d):
+                        xp = xp + self.C[r + 1, j] * self.Xc[k][r]
+                    f_eval = self.f_ode(
+                        self.Xc[k][j - 1],
+                        self.U[:, k],
+                        vertcat(self.M_p, self.m_p, self.l_p, self.wind_p),
+                    )
+                    self.opti.subject_to(xp == self.h_mpc * f_eval)
+                for r in range(self.d):
+                    x_end = x_end + self.D[r + 1] * self.Xc[k][r]
+                self.opti.subject_to(self.X[:, k + 1] == x_end)
         cost = 0.0
         Q = diag(vertcat(self.Q_s, self.Q_v, self.Q_theta, self.Q_omega))
         for k in range(self.N):
@@ -266,20 +190,16 @@ class PendulumMPC:
         err_term = (self.X[:, self.N]) - self.target_x
         cost = cost + 1.0e1 * mtimes(mtimes(err_term.T, Q), err_term)
         self.opti.minimize(cost)
-        # =============================================================================
-        #  IPOPT SOLVER KONFIGURATION & PARAMETER
-        # =============================================================================
-        #  IPOPT (Interior Point Optimizer) löst das nichtlineare Optimierungsproblem (NLP).
-        #  Zur Optimierung der Echtzeitfähigkeit konfigurieren wir folgende Parameter:
-        #  - print_time = False: Deaktiviert die Ausgabe der Rechenzeitstatistik durch CasADi
-        #    nach jedem Solver-Durchlauf, um das Terminal sauber zu halten.
-        #  - print_level = 0: Unterdrückt alle detaillierten IPOPT-Iterationen-Logs (Standard: 5).
-        #  - sb = 'yes' (Suppress Banner): Unterdrückt das IPOPT-Lizenz- und Start-Banner.
-        #  - Warm-Starting (siehe step-Methode): Durch Wiederverwendung der verschobenen Lösung
-        #    des vorherigen Schritts benötigt IPOPT im GUI-Betrieb meist nur 1-3 Iterationen.
-        self.opti.solver(
-            "ipopt", {("print_time"): (False)}, {("print_level"): (0), ("sb"): ("yes")}
-        )
+        self.n_constraints = self.opti.g.shape[0]
+        solver_opts = {("print_time"): (False), ("error_on_fail"): (True)}
+        ipopt_opts = {("print_level"): (0), ("sb"): ("yes")}
+        if self.use_jit:
+            solver_opts["jit"] = True
+            solver_opts["compiler"] = "shell"
+            solver_opts["jit_options"] = {
+                ("flags"): (["-O3", "-ffast-math", "-march=native"])
+            }
+        self.opti.solver("ipopt", solver_opts, ipopt_opts)
         self.opti.set_initial(
             self.X,
             np.linspace(
@@ -288,69 +208,241 @@ class PendulumMPC:
                 self.N + 1,
             ).T,
         )
-        self.sol = None
-
-    def step(self, state, target_state, params):
-        self.opti.set_value(self.current_x, state)
-        self.opti.set_value(self.target_x, target_state)
-        self.opti.set_value(self.M_p, params["M"])
-        self.opti.set_value(self.m_p, params["m"])
-        self.opti.set_value(self.l_p, params["l"])
-        self.opti.set_value(self.wind_p, params["wind"])
-        self.opti.set_value(self.Q_s, params["Q_s"])
-        self.opti.set_value(self.Q_v, params["Q_v"])
-        self.opti.set_value(self.Q_theta, params["Q_theta"])
-        self.opti.set_value(self.Q_omega, params["Q_omega"])
-        self.opti.set_value(self.R_F, params["R_F"])
-        self.opti.set_value(self.max_pos, params["max_pos"])
-        self.opti.set_value(self.max_force, params["max_force"])
-        if self.sol != None:
-            X_res = self.sol.value(self.X)
-            U_res = self.sol.value(self.U)
-            X_guess = np.hstack(
-                (
-                    X_res[:, 1:],
-                    X_res[:, -1:],
-                )
-            )
-            U_guess = np.append(U_res[1:], U_res[-1])
-            self.opti.set_initial(self.X, X_guess)
-            self.opti.set_initial(self.U, U_guess)
-        else:
-            X_res = np.zeros(
-                (
-                    self.nx,
-                    self.N + 1,
-                )
-            )
-            U_res = np.zeros(
+        self.opti.set_initial(
+            self.U,
+            np.zeros(
                 (
                     self.nu,
                     self.N,
                 )
-            )
-            U_guess = np.zeros(self.nu)
-        t0 = time.time()
-        try:
-            self.sol = self.opti.solve()
-        except Exception as e:
-            return (
-                U_guess[0],
-                X_res,
-                U_res,
-                time.time() - t0,
-                False,
-            )
-        t_solve = time.time() - t0
-        X_res = self.sol.value(self.X)
-        U_res = self.sol.value(self.U)
-        return (
-            U_res[0],
-            X_res,
-            U_res,
-            t_solve,
-            True,
+            ),
         )
+        if self.use_map:
+            self.opti.set_initial(
+                self.Xc_var,
+                np.zeros(
+                    (
+                        self.nx * self.d,
+                        self.N,
+                    )
+                ),
+            )
+        self.sol = None
+        self.last_X = np.zeros(
+            (
+                self.nx,
+                self.N + 1,
+            )
+        )
+        self.last_U = np.zeros(
+            (
+                self.nu,
+                self.N,
+            )
+        )
+        self.last_lam_g = None
+        if self.use_map:
+            self.last_Xc_var = np.zeros(
+                (
+                    self.nx * self.d,
+                    self.N,
+                )
+            )
+        if self.use_to_function:
+            inputs = [
+                self.current_x,
+                self.target_x,
+                self.M_p,
+                self.m_p,
+                self.l_p,
+                self.wind_p,
+                self.Q_s,
+                self.Q_v,
+                self.Q_theta,
+                self.Q_omega,
+                self.R_F,
+                self.max_pos,
+                self.max_force,
+                self.X,
+            ]
+            if self.use_map:
+                inputs.append(self.Xc_var)
+            inputs.append(self.U)
+            if self.use_dual_warmstart:
+                inputs.append(self.opti.lam_g)
+            outputs = [self.U[0, 0], self.X]
+            if self.use_map:
+                outputs.append(self.Xc_var)
+            outputs.append(self.U)
+            if self.use_dual_warmstart:
+                outputs.append(self.opti.lam_g)
+            self.mpc_func = self.opti.to_function("mpc_solve", inputs, outputs)
+
+    def step(self, state, target_state, params):
+        if self.use_to_function:
+            inputs = [
+                state,
+                target_state,
+                params["M"],
+                params["m"],
+                params["l"],
+                params["wind"],
+                params["Q_s"],
+                params["Q_v"],
+                params["Q_theta"],
+                params["Q_omega"],
+                params["R_F"],
+                params["max_pos"],
+                params["max_force"],
+            ]
+            if (self.sol is not None) or (self.last_lam_g is not None):
+                X_guess = np.hstack(
+                    (
+                        self.last_X[:, 1:],
+                        self.last_X[:, -1:],
+                    )
+                )
+                U_guess = np.append(self.last_U[1:], self.last_U[-1])
+                if self.use_map:
+                    Xc_guess = self.last_Xc_var
+            else:
+                X_guess = np.linspace(state, target_state, self.N + 1).T
+                U_guess = np.zeros(self.N)
+                if self.use_map:
+                    Xc_guess = np.zeros(
+                        (
+                            self.nx * self.d,
+                            self.N,
+                        )
+                    )
+            inputs.append(X_guess)
+            if self.use_map:
+                inputs.append(Xc_guess)
+            inputs.append(U_guess[np.newaxis, :])
+            if self.use_dual_warmstart:
+                if self.last_lam_g is not None:
+                    lam_g_guess = self.last_lam_g
+                else:
+                    lam_g_guess = np.zeros(self.n_constraints)
+                inputs.append(lam_g_guess)
+            t0 = time.time()
+            try:
+                res = self.mpc_func(*inputs)
+                if self.use_map and self.use_dual_warmstart:
+                    u_opt, X_val, Xc_val, U_val, lam_g_val = res
+                    self.last_X = X_val.full()
+                    self.last_Xc_var = Xc_val.full()
+                    self.last_U = np.squeeze(U_val.full())
+                    self.last_lam_g = lam_g_val.full()
+                elif self.use_map:
+                    u_opt, X_val, Xc_val, U_val = res
+                    self.last_X = X_val.full()
+                    self.last_Xc_var = Xc_val.full()
+                    self.last_U = np.squeeze(U_val.full())
+                elif self.use_dual_warmstart:
+                    u_opt, X_val, U_val, lam_g_val = res
+                    self.last_X = X_val.full()
+                    self.last_U = np.squeeze(U_val.full())
+                    self.last_lam_g = lam_g_val.full()
+                else:
+                    u_opt, X_val, U_val = res
+                    self.last_X = X_val.full()
+                    self.last_U = np.squeeze(U_val.full())
+                u_opt = float(u_opt)
+                t_solve = time.time() - t0
+                return (
+                    u_opt,
+                    self.last_X,
+                    self.last_U,
+                    t_solve,
+                    True,
+                )
+            except Exception as e:
+                t_solve = time.time() - t0
+                return (
+                    float(U_guess[0]),
+                    self.last_X,
+                    self.last_U,
+                    t_solve,
+                    False,
+                )
+        else:
+            self.opti.set_value(self.current_x, state)
+            self.opti.set_value(self.target_x, target_state)
+            self.opti.set_value(self.M_p, params["M"])
+            self.opti.set_value(self.m_p, params["m"])
+            self.opti.set_value(self.l_p, params["l"])
+            self.opti.set_value(self.wind_p, params["wind"])
+            self.opti.set_value(self.Q_s, params["Q_s"])
+            self.opti.set_value(self.Q_v, params["Q_v"])
+            self.opti.set_value(self.Q_theta, params["Q_theta"])
+            self.opti.set_value(self.Q_omega, params["Q_omega"])
+            self.opti.set_value(self.R_F, params["R_F"])
+            self.opti.set_value(self.max_pos, params["max_pos"])
+            self.opti.set_value(self.max_force, params["max_force"])
+            if self.sol is not None:
+                X_res = self.sol.value(self.X)
+                U_res = self.sol.value(self.U)
+                X_guess = np.hstack(
+                    (
+                        X_res[:, 1:],
+                        X_res[:, -1:],
+                    )
+                )
+                U_guess = np.append(U_res[1:], U_res[-1])
+                self.opti.set_initial(self.X, X_guess)
+                self.opti.set_initial(self.U, U_guess[np.newaxis, :])
+                if self.use_map:
+                    self.opti.set_initial(self.Xc_var, self.sol.value(self.Xc_var))
+                if self.use_dual_warmstart:
+                    lam_g_res = self.sol.value(self.opti.lam_g)
+                    self.opti.set_initial(self.opti.lam_g, lam_g_res)
+            else:
+                X_guess = np.linspace(state, target_state, self.N + 1).T
+                U_guess = np.zeros(self.N)
+                self.opti.set_initial(self.X, X_guess)
+                self.opti.set_initial(self.U, U_guess[np.newaxis, :])
+                if self.use_map:
+                    self.opti.set_initial(
+                        self.Xc_var,
+                        np.zeros(
+                            (
+                                self.nx * self.d,
+                                self.N,
+                            )
+                        ),
+                    )
+                if self.use_dual_warmstart:
+                    self.opti.set_initial(self.opti.lam_g, np.zeros(self.n_constraints))
+            t0 = time.time()
+            success = True
+            try:
+                self.sol = self.opti.solve()
+            except Exception as e:
+                success = False
+            t_solve = time.time() - t0
+            if success:
+                self.last_X = self.sol.value(self.X)
+                self.last_U = np.squeeze(self.sol.value(self.U))
+                u_opt = self.last_U[0]
+                if self.use_map:
+                    self.last_Xc_var = self.sol.value(self.Xc_var)
+            else:
+                self.last_X = np.hstack(
+                    (
+                        self.last_X[:, 1:],
+                        self.last_X[:, -1:],
+                    )
+                )
+                self.last_U = np.append(self.last_U[1:], self.last_U[-1])
+                u_opt = self.last_U[0]
+            return (
+                float(u_opt),
+                self.last_X,
+                self.last_U,
+                t_solve,
+                success,
+            )
 
 
 class PendulumWidget(QWidget):
@@ -405,7 +497,7 @@ class PendulumWidget(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        self.setWindowTitle("MPC Inverted Pendulum")
+        self.setWindowTitle("MPC Inverted Pendulum - Map + JIT Caching GUI (gen11c)")
         self.resize(1400, 900)
         central_widget = QWidget()
         main_layout = QHBoxLayout(central_widget)
@@ -421,7 +513,6 @@ class MainWindow(QMainWindow):
         self.plots = {}
         self.history_curves = {}
         self.pred_curves = {}
-        # Plots dynamisch generieren mit Lisp Macro Expand
         ax = self.plot_layout.addPlot(row=0, col=0, title="Wagenposition")
         ax.showGrid(x=True, y=True)
         ax.setLabel("left", "Position [m]")
@@ -482,7 +573,6 @@ class MainWindow(QMainWindow):
             self.pred_curves["t_solve"] = ax.plot(
                 pen=pg.mkPen("y", width=2, style=Qt.DashLine)
             )
-        # Steuerungs-Buttons für Simulation
         btn_layout = QHBoxLayout()
         self.btn_start = QPushButton("Start")
         self.btn_stop = QPushButton("Stop")
@@ -649,7 +739,7 @@ class MainWindow(QMainWindow):
             slider_layout,
             "max_force",
             "Max Kraft [N]",
-            10,
+            0,
             300,
             150,
             0.1,
@@ -661,7 +751,7 @@ class MainWindow(QMainWindow):
             "N",
             "Knotenpunkte (N)",
             1,
-            50,
+            500,
             20,
             1,
             12,
@@ -691,6 +781,15 @@ class MainWindow(QMainWindow):
         )
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_loop)
+        params = self.get_params()
+        self.mpc = PendulumMPC(
+            h_mpc=params["h_mpc"],
+            N=params["N"],
+            use_jit=True,
+            use_to_function=True,
+            use_dual_warmstart=True,
+            use_map=True,
+        )
         self.reset_sim()
         self.start_sim()
 
@@ -720,8 +819,25 @@ class MainWindow(QMainWindow):
             ("F"): ([]),
             ("t_solve"): ([]),
         }
-        # MPC mit neuen Parametern neu kompilieren
-        self.mpc = PendulumMPC(h_mpc=params["h_mpc"], N=params["N"])
+        new_N = int(params["N"])
+        new_h = params["h_mpc"]
+        # Instanziere den MPC-Solver NUR neu, wenn sich N oder h_mpc geaendert haben.
+        if not hasattr(self, "mpc") or self.mpc.N != new_N or self.mpc.h_mpc != new_h:
+            print(
+                "N oder h_mpc haben sich geaendert. Kompiliere und generiere JIT MPC neu..."
+            )
+            self.mpc = PendulumMPC(
+                h_mpc=new_h,
+                N=new_N,
+                use_jit=True,
+                use_to_function=True,
+                use_dual_warmstart=True,
+                use_map=True,
+            )
+        else:
+            print(
+                "Parameter N und h_mpc unveraendert. Verwende bereits kompilierten JIT MPC Solver wieder."
+            )
         self.pendulum_widget.update_state(
             self.state, 0.0, 0.0, params["l"], params["max_pos"]
         )
@@ -767,7 +883,6 @@ class MainWindow(QMainWindow):
         self.dt = params["dt_sim"]
         self.timer.setInterval(int(self.dt * 1.0e3))
 
-        # Physik-Simulation: Runge-Kutta 4 Integrationsschritt mit echter Windstörung
         def f_real(st):
             s_st = st[0]
             v_st = st[1]
@@ -775,21 +890,22 @@ class MainWindow(QMainWindow):
             omega_st = st[3]
             sin_t = np.sin(theta_st)
             cos_t = np.cos(theta_st)
-            den = params["M"] + params["m"] * (1.0 - (cos_t * cos_t))
+            denom = params["M"] + params["m"] * (1.0 - (cos_t * cos_t))
             F_tot = F_motor + wind_force * cos_t
             l_val = params["l"]
             ds = v_st
             dv = (
-                F_tot
-                + params["m"] * l_val * omega_st * omega_st * sin_t
-                + params["m"] * 9.81 * cos_t * sin_t
-            ) / den
+                (F_tot + params["m"] * l_val * omega_st * omega_st * sin_t)
+                - (params["m"] * 9.81 * cos_t * sin_t)
+            ) / denom
             dtheta = omega_st
             domega = (
-                (-1.0 * F_tot * cos_t)
-                - (params["m"] * l_val * omega_st * omega_st * sin_t * cos_t)
-                - ((params["M"] + params["m"]) * 9.81 * sin_t)
-            ) / (l_val * den)
+                (
+                    (-1.0 * F_tot * cos_t)
+                    - (params["m"] * l_val * omega_st * omega_st * sin_t * cos_t)
+                )
+                + (params["M"] + params["m"]) * 9.81 * sin_t
+            ) / (l_val * denom)
             return np.array([ds, dv, dtheta, domega])
 
         k1 = f_real(self.state)
