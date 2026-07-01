@@ -1,6 +1,8 @@
 # Multi-Dimensional Inverted Pendulum MPC Grid Sweep
 
-This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$).
+This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$) for different prediction horizons ($N=25$ vs. $N=100$).
+
+---
 
 ## 1. System Configuration & Architecture
 * **Hardware:** 16 Cores / 32 Threads CPU.
@@ -24,20 +26,16 @@ To validate JIT compilation efficiency, a comparative benchmark of a single MPC 
 
 ---
 
-## 3. Full Sweep Execution
+## 3. Horizon N = 25 Sweep Results
 * **Horizon $N$:** 25
 * **Max Control Force:** 20.0 N
 * **Total Simulations:** 280
 * **Execution Time:** **32.23 seconds** (average of **0.115s** per simulation run).
 
----
-
-## 4. Parameter Stability Analysis
+### Parameter Stability Analysis (N = 25)
 Out of 280 simulations, **108 runs (38.6%)** successfully stabilized the pendulum at the upright position without violating track boundaries ($\pm 5\,\text{m}$) or causing solver failures.
 
-### A. Influence of Mass Ratio ($m/M$)
-A heavier pendulum bob (higher mass ratio) creates more inertia, making stabilization more difficult:
-
+#### A. Influence of Mass Ratio ($m/M$)
 | Mass Ratio ($m/M$) | Success Rate | Mean Stabilization Time |
 | :---: | :---: | :---: |
 | 0.05 | 44.6% | 5.37 s |
@@ -46,11 +44,7 @@ A heavier pendulum bob (higher mass ratio) creates more inertia, making stabiliz
 | 0.39 | 32.1% | 5.97 s |
 | 0.50 | 30.4% | 6.02 s |
 
-* **Physical Trend:** As $m/M$ increases from $0.05$ to $0.50$, the success rate drops by 14.2% and the stabilization time increases. A heavier pendulum requires larger forces, which easily saturates the actuator limit of $20\,\text{N}$, leading to instability.
-
-### B. Influence of Step Size ($h_{mpc}$)
-The choice of discretization step size $h_{mpc}$ is a critical trade-off between the prediction horizon window and integration accuracy:
-
+#### B. Influence of Step Size ($h_{mpc}$)
 | Step Size ($h_{mpc}$) | Success Rate | Horizon Window ($N \times h_{mpc}$) |
 | :---: | :---: | :---: |
 | 0.020 s | 10.0% | 0.50 s (Too short) |
@@ -61,13 +55,7 @@ The choice of discretization step size $h_{mpc}$ is a critical trade-off between
 | 0.087 s | 25.0% | 2.18 s |
 | 0.100 s | 7.5% | 2.50 s (Integration failure) |
 
-* **Short Horizon Blindness ($h_{mpc} = 0.020\,\text{s}$):** The control horizon covers only 0.5s of the future. The controller cannot plan the multi-second swing-up trajectory and fails.
-* **Optimal Window ($h_{mpc} \in [0.033, 0.073]\,\text{s}$):** High success rates peaking at $h_{mpc}=0.047\,\text{s}$ (62.5% success).
-* **Discretization Divergence ($h_{mpc} \ge 0.087\,\text{s}$):** Large step sizes lead to high discretization errors in the Runge-Kutta 4 integrator, causing the model's predictions to diverge from continuous reality.
-
-### C. Influence of Pendulum Length ($l$)
-Shorter pendulums act as faster, high-frequency unstable systems, making control challenging:
-
+#### C. Influence of Pendulum Length ($l$)
 | Length ($l$) | Success Rate |
 | :---: | :---: |
 | 0.20 m | 11.4% (Rapid fall) |
@@ -79,29 +67,52 @@ Shorter pendulums act as faster, high-frequency unstable systems, making control
 | 1.74 m | 48.6% |
 | 2.00 m | **54.3%** |
 
-* **Physical Trend:** Longer pendulums fall slower due to a lower gravitational angular frequency ($\omega \propto \sqrt{g/l}$). This grants the controller more time to coordinate cart movements, increasing stability up to 54.3%.
+---
+
+## 4. Horizon N = 100 Sweep Results
+* **Horizon $N$:** 100
+* **Max Control Force:** 20.0 N
+* **Total Simulations:** 280
+* **Execution Time:** **35.32 seconds** (average of **0.126s** per simulation run).
+
+### Parameter Stability Analysis (N = 100)
+Out of 280 simulations, **only 4 runs (1.4%)** successfully stabilized the pendulum. The remaining **276 runs (98.6%) failed due to IPOPT solver failures** (`success = False`).
+
+| Mass Ratio ($m/M$) | Success Rate | Mean Stabilization Time |
+| :---: | :---: | :---: |
+| 0.05 | 0.0% | - |
+| 0.16 | 0.0% | - |
+| 0.28 | 0.0% | - |
+| 0.39 | 5.4% | 5.17 s |
+| 0.50 | 5.4% | 5.25 s |
 
 ---
 
-## 5. Stability Band Analysis (Heatmap Observations)
-The generated heatmaps reveal a distinct **diagonal stable operating band**:
+## 5. Comparative Analysis: Why N = 100 Fails
 
-1. **The Diagonal Stable Region:**
-   * For short lengths (e.g. $l = 0.20\,\text{m}$), the system is only stable at very small step sizes ($h_{mpc} \le 0.033\,\text{s}$). If $h_{mpc}$ is larger, the rapid gravitational fall of the short pendulum occurs faster than the controller's sampling interval, leading to immediate tips.
-   * For longer lengths (e.g. $l = 2.00\,\text{m}$), the system is only stable at larger step sizes ($h_{mpc} \ge 0.047\,\text{s}$). If $h_{mpc}$ is too small, the prediction window ($25 \times h_{mpc}$) is too short to capture the slow pendulum dynamics required for swing-up planning.
-2. **Shrinking Window via Mass Load:**
-   * Comparing $m/M = 0.05$ to $m/M = 0.50$, the diagonal stable band shrinks significantly.
-   * At $m/M = 0.50$, short pendulums ($l \le 0.46\,\text{m}$) are almost completely uncontrollable within the $20\,\text{N}$ force limits.
+The drastic drop in success rate from **38.6%** ($N=25$) to **1.4%** ($N=100$) exposes critical limitations in the numerical robustness of long-horizon MPC:
 
----
-
-## 6. Heatmap Visualization
-The subplots below illustrate the stabilization times across all step sizes ($h_{mpc}$, y-axis) and pendulum lengths ($l$, x-axis) for each mass ratio panel. Cells containing `NaN` represent unstable configurations:
-
-![Heatmap Plot](p11i_grid_heatmaps_20260701_174539.png)
+1. **Dimensionality & Non-Convexity:**
+   At $N=100$, the NLP contains **1700 optimization variables** and **1700 constraints**. With a preview window of $5.0\,\text{s}$ (at $h_{mpc}=0.05\,\text{s}$), the trajectory spans multiple pendulum swings. The resulting optimization landscape has high non-convexity and multiple local minima.
+2. **Cold Start Infeasibility:**
+   The controller initializes the cold start trajectory (at step 0) using a straight linear interpolation from the current state (hanging down, $\theta=\pi$) to the target state (upright, $\theta=0$).
+   * For $N=25$ (1.25s preview), the linear guess is close enough for IPOPT to find a feasible path.
+   * For $N=100$ (5.0s preview), the linear guess violates dynamics equations so severely over 100 steps that IPOPT gets trapped in a local minimum and fails with `EXIT: Converged to a point of local infeasibility`.
+3. **Robustness Trade-Off:**
+   A shorter horizon of $N=25$ is mathematically and computationally much more robust for online MPC. It converges reliably from poor initial guesses and successfully stabilizes the pendulum, whereas a larger horizon requires advanced trajectory warm-starting or a pre-computed feasible seed trajectory to converge.
 
 ---
 
-## 7. Raw Data
-The numerical results of the sweep are stored in the same repository folder:
-* **Numerical CSV Data:** [p11i_grid_results_20260701_174539.csv](p11i_grid_results_20260701_174539.csv)
+## 6. Heatmap Visualizations
+
+### A. Horizon N = 25 Heatmaps
+![Heatmap N=25](p11i_grid_heatmaps_20260701_174539.png)
+
+### B. Horizon N = 100 Heatmaps
+![Heatmap N=100](p11i_grid_heatmaps_20260701_175714.png)
+
+---
+
+## 7. Raw Data Files
+* **N = 25 Data:** [p11i_grid_results_20260701_174539.csv](p11i_grid_results_20260701_174539.csv)
+* **N = 100 Data:** [p11i_grid_results_20260701_175714.csv](p11i_grid_results_20260701_175714.csv)
