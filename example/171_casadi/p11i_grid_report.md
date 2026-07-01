@@ -1,6 +1,6 @@
 # Multi-Dimensional Inverted Pendulum MPC Grid Sweep
 
-This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$) for different prediction horizons ($N=25$, $N=30$, $N=50$, and $N=100$), culminating in a high-resolution 4160-simulation grid sweep.
+This report documents the performance benchmarks, stability analysis, and physical findings of the inverted pendulum Model Predictive Controller (MPC) across step sizes ($h_{mpc}$), pendulum lengths ($l$), and mass ratios ($m/M$) for different prediction horizons ($N=25$, $N=30$, $N=50$, and $N=100$), culminating in two comparative high-resolution 4160-simulation grid sweeps under different control force limits ($20.0\,\text{N}$ vs. $40.0\,\text{N}$).
 
 ---
 
@@ -23,79 +23,77 @@ To validate JIT compilation efficiency, a comparative benchmark of a single MPC 
 
 ---
 
-## 3. High-Resolution Sweep Results (N = 30, Focus Band)
-To map the stability boundary in fine detail, a high-resolution grid sweep was conducted. By limiting the step size range $h_{mpc}$ to the active stable band ($[0.02, 0.06]\,\text{s}$), we eliminated the unstable regions ($h > 0.06\,\text{s}$) and focused all computational resources on the transition zone.
-* **Horizon $N$:** 30
-* **Max Control Force:** 20.0 N
-* **Grid Dimensions:**
-  * $h_{mpc}$ (step size): 20 values in $0.020\,\text{s} - 0.060\,\text{s}$
-  * $l$ (pendulum length): 26 values in $0.20\,\text{m} - 2.00\,\text{m}$
-  * $m/M$ (mass ratio): 8 values in $0.05 - 0.50$
-* **Total Simulations:** 4,160
-* **Execution Time:** **694.57 seconds (11.57 minutes)**, averaging **0.167s per simulation** on 16 processes.
-* **Overall Success Rate:** **55.9% (2,325 / 4,160 runs)** successfully stabilized.
+## 3. High-Resolution Sweep Comparative Summary (N = 30)
+
+To map the stability boundary in fine detail, two high-resolution grid sweeps of **4,160 simulations** each were conducted. We limited the step size range $h_{mpc}$ to the active stable band ($[0.02, 0.06]\,\text{s}$) and compared the system behavior under two actuator force limits ($20.0\,\text{N}$ vs. $40.0\,\text{N}$):
+
+| Actuator Force Limit | Successful Runs | Success Rate | Average Simulation Time |
+| :---: | :---: | :---: | :---: |
+| **$20.0\,\text{N}$** | 2,325 / 4,160 | **55.9%** | **694.57 s** (0.167 s/sim) |
+| **$40.0\,\text{N}$** | 2,680 / 4,160 | **64.4%** | **701.85 s** (0.169 s/sim) |
 
 ---
 
-## 4. High-Resolution Parameter Stability Analysis
+## 4. Parameter Stability Comparison: 20N vs. 40N
 
 ### A. Influence of Mass Ratio ($m/M$)
-Increasing the mass ratio (heavier pendulum bob relative to the cart) increases inertia, raising the control force requirements:
+Increasing the mass ratio (heavier pendulum bob relative to the cart) increases inertia. Doubling the control force limit to $40.0\,\text{N}$ drastically mitigates actuator saturation:
 
-| Mass Ratio ($m/M$) | Success Rate | Mean Stabilization Time |
-| :---: | :---: | :---: |
-| 0.050 | 66.0% | 5.82 s |
-| 0.114 | 61.7% | 5.91 s |
-| 0.179 | 61.2% | 6.00 s |
-| 0.243 | 58.7% | 6.12 s |
-| 0.307 | 54.2% | 6.23 s |
-| 0.371 | 50.0% | 6.42 s |
-| 0.436 | 48.8% | 6.43 s |
-| 0.500 | 46.5% | 6.46 s |
+| Mass Ratio ($m/M$) | 20N Success Rate | 20N Mean Settling Time | 40N Success Rate | 40N Mean Settling Time |
+| :---: | :---: | :---: | :---: | :---: |
+| 0.050 | 66.0% | 5.82 s | **70.6%** | **4.99 s** |
+| 0.114 | 61.7% | 5.91 s | **69.4%** | **5.13 s** |
+| 0.179 | 61.2% | 6.00 s | **69.0%** | **5.16 s** |
+| 0.243 | 58.7% | 6.12 s | **64.4%** | **5.33 s** |
+| 0.307 | 54.2% | 6.23 s | **63.7%** | **5.38 s** |
+| 0.371 | 50.0% | 6.42 s | **62.1%** | **5.45 s** |
+| 0.436 | 48.8% | 6.43 s | **58.8%** | **5.59 s** |
+| 0.500 | 46.5% | 6.46 s | **57.3%** | **5.74 s** |
 
-* **Physical Trend:** We observe a perfect, monotonic decrease in success rate and an increase in mean stabilization time as the mass ratio increases. Heavier pendulum bobs require larger force inputs to swing up, causing the control output to saturate the actuator limit ($20.0\,\text{N}$), which leads to instability.
+* **Analysis:** With $40.0\,\text{N}$ of force, the heaviest pendulum ($m/M = 0.500$) achieves a success rate of **57.3%** (higher than the $m/M = 0.307$ case under $20.0\,\text{N}$). Furthermore, the mean settling time for all mass ratios drops by **~0.8 seconds** because the cart can apply larger forces to pump energy into the swing-up and stabilize the pendulum much faster.
 
 ### B. Influence of Step Size ($h_{mpc}$)
-| Step Size ($h_{mpc}$) | Success Rate | Lookahead Window ($N \times h_{mpc}$) |
-| :---: | :---: | :---: |
-| 0.020 s | 17.3% | 0.60 s (Too short / blind) |
-| 0.024 s | 40.4% | 0.72 s |
-| 0.028 s | 60.1% | 0.84 s |
-| **0.033 s** | **72.6%** | 0.99 s (Optimal) |
-| 0.037 s | 69.7% | 1.11 s |
-| 0.041 s | 71.6% | 1.23 s |
-| 0.045 s | 58.2% | 1.35 s |
-| 0.049 s | 58.2% | 1.47 s |
-| 0.054 s | 51.4% | 1.62 s |
-| 0.058 s | 43.3% | 1.74 s |
-| 0.060 s | 41.8% | 1.80 s |
+| Step Size ($h_{mpc}$) | 20N Success Rate | 40N Success Rate | Lookahead Window ($N \times h_{mpc}$) |
+| :---: | :---: | :---: | :---: |
+| 0.020 s | 17.3% | **24.5%** | 0.60 s (Too short / blind) |
+| 0.024 s | 40.4% | **61.5%** | 0.72 s |
+| 0.028 s | 60.1% | **75.5%** | 0.84 s |
+| **0.033 s** | **72.6%** | **88.0%** | 0.99 s (Optimal Peak) |
+| 0.037 s | 69.7% | **79.8%** | 1.11 s |
+| 0.041 s | 71.6% | **72.1%** | 1.23 s |
+| 0.045 s | 58.2% | **68.8%** | 1.35 s |
+| 0.049 s | 58.2% | **60.6%** | 1.47 s |
+| 0.054 s | 51.4% | **57.7%** | 1.62 s |
+| 0.058 s | 43.3% | **51.4%** | 1.74 s |
+| 0.060 s | 41.8% | **45.2%** | 1.80 s |
 
-* **Sweet Spot:** The step size success rate exhibits a clear bell curve, peaking in the region $h \in [0.033, 0.041]\,\text{s}$ (71.6% to 72.6% success). This corresponds to a preview window of $1.0 - 1.2\,\text{s}$, which provides the ideal horizon length for the swing-up trajectory while keeping discretization errors minimal.
+* **Analysis:** The peak success rate at $h_{mpc} = 0.033\,\text{s}$ rises to an outstanding **88.0%** under $40.0\,\text{N}$. The overall success rate is higher across all step sizes, widening the stable operating window of the controller.
 
 ### C. Influence of Pendulum Length ($l$)
-| Length ($l$) | Success Rate | Physical Characteristics |
-| :---: | :---: | :--- |
-| 0.20 m | 10.6% | Rapid fall (High natural frequency $\omega \propto \sqrt{g/l}$) |
-| 0.34 m | 30.0% | |
-| 0.56 m | 39.4% | |
-| 0.78 m | 50.6% | |
-| 0.99 m | 68.1% | |
-| **1.21 m** | **76.2%** | **Optimal Region** |
-| 1.42 m | 73.8% | |
-| 1.64 m | 66.9% | |
-| 1.86 m | 61.3% | |
-| 2.00 m | 53.1% | Slow dynamics, but requires large cart displacement |
+| Length ($l$) | 20N Success Rate | 40N Success Rate | Physical Characteristics |
+| :---: | :---: | :---: | :--- |
+| **0.20 m** | 10.6% | **78.1%** | Rapid fall (High natural frequency $\omega \propto \sqrt{g/l}$) |
+| 0.34 m | 30.0% | **41.9%** | |
+| 0.56 m | 39.4% | **45.6%** | |
+| 0.78 m | 50.6% | **53.1%** | |
+| 0.99 m | 68.1% | **63.7%** | |
+| 1.21 m | 76.2% | **76.9%** | Optimal Region |
+| **1.42 m** | 73.8% | **83.8%** | Peak Region (40N) |
+| 1.64 m | 66.9% | **79.4%** | |
+| 1.86 m | 61.3% | **75.0%** | |
+| 2.00 m | 53.1% | **70.0%** | Slow dynamics, but requires large cart displacement |
 
-* **Physical Interpretation:**
-  * **Short Pendulums ($l \le 0.34\,\text{m}$):** Have very fast falling dynamics. The controller's step size is often too large to catch the pendulum in time, leading to rapid tips.
-  * **Long Pendulums ($l \ge 1.86\,\text{m}$):** Fall slower (easier to catch), but their large length requires a massive cart displacement to swing up. This displacement exceeds the track boundary limits ($\pm 5\,\text{m}$) or takes longer than the 12.0s limit to settle, resulting in failure.
-  * **Optimal Length ($l \approx 1.20\,\text{m}$):** Represents the perfect physical balance between manageable natural frequencies and acceptable track space requirements.
+* **The Short Pendulum Miracle ($l = 0.20\,\text{m}$):**
+  At $20.0\,\text{N}$, the success rate for $l = 0.20\,\text{m}$ was only **10.6%**. Under $40.0\,\text{N}$, it skyrockets to **78.1%**!
+  * **Physical Explanation:** Shorter pendulums fall extremely fast due to their high natural frequency. To catch them, the cart must accelerate aggressively before the angle deviates beyond a critical tip-over threshold. At $20.0\,\text{N}$, the cart was too slow to catch the pendulum. At $40.0\,\text{N}$, the cart can accelerate twice as fast, successfully catching and stabilizing the short pendulum in almost all step configurations.
+* **Long Pendulums ($l = 2.00\,\text{m}$):**
+  Success rate increases from 53.1% to **70.0%** because the higher force limit allows the cart to swing up the massive, long pendulum quickly enough to stabilize it within the 12.0s limit without drifting off track.
 
 ---
 
 ## 5. Comparative Summary of Sweep Horizons
 
-To evaluate horizon scalability, we compare the original parameters across the different horizons:
+To evaluate horizon scalability, we compare original parameters across different horizons:
 
 | Prediction Horizon | Successful Runs | Success Rate | Average Simulation Time |
 | :---: | :---: | :---: | :---: |
@@ -104,32 +102,33 @@ To evaluate horizon scalability, we compare the original parameters across the d
 | **$N = 50$** | 42 / 280 | **15.0%** | **41.48 s** (0.148 s/sim) |
 | **$N = 100$** | 4 / 280 | **1.4%** | **35.32 s** (0.126 s/sim) |
 
-### The Shifting Sweet Spot and Solver Robustness
-As $N$ increases, the optimal step size $h_{mpc}$ shifts steadily to the left (smaller steps) to maintain lookahead windows ($N \times h_{mpc}$) in the stable 0.8–1.5s range without accumulating excessive discretization error. Larger horizons ($N \ge 50$) combined with larger step sizes create massive, non-convex NLPs that fail to solve under cold-start conditions, confirming that shorter horizons ($N=25 - 30$) are numerically much more robust for online MPC.
-
 ---
 
 ## 6. Heatmap Visualizations
 
-### A. High-Resolution Heatmaps (N = 30, 4160 Simulations)
-![High-Res Heatmap](p11i_grid_heatmaps_20260701_181951.png)
+### A. High-Resolution Heatmaps (N = 30, max_force = 40.0N, 4160 Simulations)
+![High-Res Heatmap 40N](p11i_grid_heatmaps_20260701_184125.png)
 
-### B. Horizon N = 25 Heatmaps (280 Simulations)
+### B. High-Resolution Heatmaps (N = 30, max_force = 20.0N, 4160 Simulations)
+![High-Res Heatmap 20N](p11i_grid_heatmaps_20260701_181951.png)
+
+### C. Horizon N = 25 Heatmaps (max_force = 20.0N, 280 Simulations)
 ![Heatmap N=25](p11i_grid_heatmaps_20260701_174539.png)
 
-### C. Horizon N = 30 Heatmaps (280 Simulations)
+### D. Horizon N = 30 Heatmaps (max_force = 20.0N, 280 Simulations)
 ![Heatmap N=30](p11i_grid_heatmaps_20260701_175955.png)
 
-### D. Horizon N = 50 Heatmaps (280 Simulations)
+### E. Horizon N = 50 Heatmaps (max_force = 20.0N, 280 Simulations)
 ![Heatmap N=50](p11i_grid_heatmaps_20260701_180141.png)
 
-### E. Horizon N = 100 Heatmaps (280 Simulations)
+### F. Horizon N = 100 Heatmaps (max_force = 20.0N, 280 Simulations)
 ![Heatmap N=100](p11i_grid_heatmaps_20260701_175714.png)
 
 ---
 
 ## 7. Raw Data Files
-* **High-Res Data (N=30):** [p11i_grid_results_20260701_181951.csv](p11i_grid_results_20260701_181951.csv)
+* **High-Res 40N Data:** [p11i_grid_results_20260701_184125.csv](p11i_grid_results_20260701_184125.csv)
+* **High-Res 20N Data:** [p11i_grid_results_20260701_181951.csv](p11i_grid_results_20260701_181951.csv)
 * **N = 25 Data:** [p11i_grid_results_20260701_174539.csv](p11i_grid_results_20260701_174539.csv)
 * **N = 30 Data:** [p11i_grid_results_20260701_175955.csv](p11i_grid_results_20260701_175955.csv)
 * **N = 50 Data:** [p11i_grid_results_20260701_180141.csv](p11i_grid_results_20260701_180141.csv)
