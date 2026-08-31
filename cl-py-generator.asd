@@ -4,7 +4,9 @@
     :maintainer " <kielhorn.martin@gmail.com>"
     :author " <kielhorn.martin@gmail.com>"
     :licence "GPL"
-    :depends-on ("alexandria" "jonathan" "external-program")
+    ;; external-program is not used by the library itself anymore (uiop is used
+    ;; instead), but a few examples in example/ still call external-program:run.
+    :depends-on ("alexandria" "jonathan" "uiop" "external-program")
     :serial t
     :components ((:file "package")
 		 (:file "py")
