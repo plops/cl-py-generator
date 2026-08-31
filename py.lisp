@@ -348,6 +348,10 @@ Returns:
 
 
 (defparameter *precedence*
+  ;; Binding power of the operators, from the tightest binding group (index 0)
+  ;; to the loosest one.  The index and the associativity are all that
+  ;; `operand-needs-parentheses-p' needs to decide whether an operand has to be
+  ;; wrapped in parentheses.
   `((:op (paren paren* dict list tuple curly aref dot) :assoc l)
     (:op (**) :assoc r)
     (:op (unary- unary+ ~) :assoc r)
@@ -362,7 +366,12 @@ Returns:
     (:op (and) :assoc l)
     (:op (or) :assoc l)
     (:op (? ternary) :assoc r)
-    (:op (= setf) :assoc r)))
+    (:op (= setf) :assoc r)
+    ;; the loosest constructs of the language.  They are not emitted by
+    ;; `emit-operator', but they must be known here: a lambda or a bare comma
+    ;; list swallows everything to its right, so it always needs parentheses
+    ;; when it appears inside a larger expression.
+    (:op (lambda ntuple) :assoc r)))
 
 (defparameter *operators*
   (loop for e in *precedence*
@@ -384,9 +393,337 @@ Returns:
              (when (member operator op)
                (return assoc)))))
 
+(defun join-strings (separator strings)
+  "Concatenate STRINGS and put SEPARATOR between two consecutive elements."
+  (with-output-to-string (s)
+    (loop for string in strings
+          and i from 0
+          do (unless (zerop i)
+               (write-string separator s))
+             (write-string string s))))
+
+;;; How the operators of the DSL are printed.  This used to be ~25 nearly
+;;; identical CASE clauses in `emit-py'; all that ever differed between them is
+;;; collected in the two tables below.  Adding an operator means: add one line
+;;; here and one group entry in `*precedence*'.
+;;;
+;;; Recognized keys of an entry of `*infix-operators*':
+;;;   :separator            string printed between two operands (required)
+;;;   :min-args, :max-args  arity check, NIL means "any number of arguments"
+;;;   :style                :infix (default) parenthesizes operands only where
+;;;                         the precedence requires it, :always-paren keeps one
+;;;                         pair of parentheses around the whole expression
+;;;                         (`in', `is', ... where python needs no parentheses
+;;;                         but they have always been emitted)
+;;;   :unary-format         format string (one ~a: the operand) used when the
+;;;                         operator is called with a single argument, e.g.
+;;;                         (- x) -> -x and (/ x) -> 1.0/x
+;;;   :unary-legacy-format  same, but for the fully parenthesized output
+;;;   :unary-operand-op     operator used for the precedence lookup of the
+;;;                         operand of the unary form (defaults to the operator
+;;;                         itself; unary minus binds tighter than binary minus)
+(defparameter *infix-operators*
+  '((+      :separator "+")
+    (-      :separator "-"  :unary-format "-~a" :unary-operand-op unary-
+            ;; NOTE: without this the fully parenthesized mode used to print
+            ;; (- x) as ((x)) -- it silently dropped the minus sign
+            :unary-legacy-format "(-(~a))")
+    (*      :separator "*")
+    (@      :separator "@")
+    (/      :separator "/"  :min-args 1
+            :unary-format "1.0/~a" :unary-legacy-format "(1.0/(~a))")
+    ;; python's / // % are left associative, just like common lisp's:
+    ;; (/ a b c) is a/b/c
+    (//     :separator "//" :min-args 2)
+    (%      :separator "%"  :min-args 2)
+    ;; python's ** is right associative, cl's expt only takes two arguments.
+    ;; don't guess, let the user be explicit.
+    (**     :separator "**" :min-args 2 :max-args 2)
+    (<<     :separator "<<")
+    (>>     :separator ">>")
+    (<      :separator "<")
+    (>      :separator ">")
+    (<=     :separator "<=")
+    (>=     :separator ">=")
+    (==     :separator "==")
+    (!=     :separator "!=")
+    (&      :separator " & ")
+    (logand :separator " & ")
+    (^      :separator " ^ ")
+    (logxor :separator " ^ ")
+    (|\||   :separator " | ")
+    (logior :separator " | ")
+    (and    :separator " and ")
+    (or     :separator " or ")
+    (in     :separator " in "     :min-args 2 :max-args 2 :style :always-paren)
+    (not-in :separator " not in " :min-args 2 :max-args 2 :style :always-paren)
+    (is     :separator " is "     :min-args 2 :max-args 2 :style :always-paren)
+    (is-not :separator " is not " :min-args 2 :max-args 2 :style :always-paren)))
+
+;;; Unary operators that are printed in front of their operand.  Recognized
+;;; keys: :prefix (the string, required) and :min-args/:max-args as above.
+(defparameter *prefix-operators*
+  '((not :prefix "not " :min-args 1 :max-args 1)
+    (~   :prefix "~"    :min-args 1 :max-args 1)))
+
+(defparameter *chaining-operators*
+  '(< <= > >= != == in not-in is is-not)
+  "The comparison operators.  Python chains them: a<b==c means (a<b) and (b==c),
+   so a comparison that appears as an operand of a comparison always keeps its
+   parentheses, no matter on which side it stands.")
+
+(defparameter *associative-operators*
+  '((+) (*) (@) (& logand) (^ logxor) (|\|| logior) (and) (or))
+  "Groups of operators that may be nested into each other without parentheses,
+   i.e. where a+(b+c) may be printed as a+b+c.  Two operators of the same
+   precedence that do not share a group need parentheses on the side that their
+   associativity does not favour: `*' and `@' sit in one precedence row, but
+   a*(b@c) is not (a*b)@c, and `&'/`logand' are two spellings of the same
+   python operator and therefore associative with each other.
+
+   NOTE: `+' and `*' are treated as associative although for floats that only
+   holds up to rounding.  The emitter has always done this.")
+
+(defun mutually-associative-p (op1 op2)
+  "Return T when OP1 and OP2 may be nested without parentheses, see
+   `*associative-operators*'."
+  (loop for group in *associative-operators*
+        thereis (and (member op1 group)
+                     (member op2 group))))
+
+(defun infix-operator-spec (name)
+  "Return the property list that describes the infix operator NAME, or NIL."
+  (cdr (assoc name *infix-operators*)))
+
+(defun prefix-operator-spec (name)
+  "Return the property list that describes the prefix operator NAME, or NIL."
+  (cdr (assoc name *prefix-operators*)))
+
+(defun check-operator-tables ()
+  "Make sure every operator mentioned in one of the emitter tables also has an
+   entry in `*precedence*'.  Without it the parenthesis elision would not know
+   how tightly the operator binds and would silently drop parentheses -- a
+   missing entry (or a typo) has to be loud, not subtly wrong."
+  (flet ((check (op where)
+           (when (and op (not (member op *operators*)))
+             (error "the operator ~a of ~a is missing in *precedence*"
+                    op where))))
+    (loop for entry in (append *infix-operators* *prefix-operators*)
+          do (destructuring-bind (name &rest spec) entry
+               (check name '*infix-operators*)
+               (check (getf spec :unary-operand-op) '*infix-operators*)))
+    (loop for op in *chaining-operators*
+          do (check op '*chaining-operators*))
+    (loop for group in *associative-operators*
+          do (loop for op in group
+                   do (check op '*associative-operators*))))
+  t)
+
+(check-operator-tables)
+
+(defun check-operator-arity (name args spec form)
+  "Signal an error when the number of ARGS does not fit the :MIN-ARGS and
+   :MAX-ARGS entries of SPEC.  FORM is only used for the error message."
+  (let ((min (getf spec :min-args))
+        (max (getf spec :max-args))
+        (n (length args)))
+    (if (and min max (eql min max))
+        (unless (eql n min)
+          (error "~a expects exactly ~r argument~:p: ~a" name min form))
+        (progn
+          (when (and min (< n min))
+            (error "~a requires at least ~r argument~:p: ~a" name min form))
+          (when (and max (< max n))
+            (error "~a accepts at most ~r argument~:p: ~a" name max form))))))
+
+(defun operand-needs-parentheses-p (parent-op child-op &optional position)
+  "Return T when an operand that prints the operator CHILD-OP has to be wrapped
+   in parentheses to keep its meaning inside PARENT-OP.
+
+   POSITION is `:left' for the first (left) operand, `:right' for every
+   following one, and NIL when the position does not matter.  With NIL only an
+   operand that binds strictly looser gets parentheses; this is used for the
+   object of `dot' and the sequence of `aref', where parentheses around an
+   operand of the same precedence would be wrong (a.(b[i]) is not python).
+
+   An operand that is not an operator (a function call, a literal, a form that
+   brings its own parentheses) has CHILD-OP NIL and never needs parentheses.
+
+   `/', `//', `%', `-' and `**' get parentheses whenever they take part.  The
+   position rule below would be enough for the ones on the left, but the
+   emitter has always been generous here and that only costs readability, so it
+   stays: it keeps the output of ~165 examples stable."
+  (let ((parent-precedence (lookup-precedence parent-op))
+        (child-precedence (lookup-precedence child-op)))
+    (when (and parent-precedence child-precedence)
+      (or ;; the parent binds tighter than the child
+       (< parent-precedence child-precedence)
+       ;; python chains comparisons: a==(b<c) printed as a==b<c would mean
+       ;; (a==b) and (b<c), so a comparison inside a comparison always keeps
+       ;; its parentheses -- on either side
+       (and (member parent-op *chaining-operators*)
+            (member child-op *chaining-operators*))
+       ;; same precedence: the operand on the side that the associativity does
+       ;; not favour would be regrouped, e.g. a-(b-c) -> a-b-c or
+       ;; a<<(b>>c) -> a<<b>>c or 2**(3**4) -> 2**3**4
+       (and position
+            (eql parent-precedence child-precedence)
+            (not (mutually-associative-p parent-op child-op))
+            (if (eq 'r (lookup-associativity parent-op))
+                (eq :left position)
+                (eq :right position)))
+       (member parent-op '(/ // % - **))
+       (member child-op '(/ // % - **))))))
+
+(defun effective-operator (form)
+  "Return the operator that FORM really prints, or NIL when FORM is a primary
+   expression that never needs parentheses (a function call, a literal, a form
+   that brings its own parentheses).
+
+   The printed operator is not always the head of the form:
+
+     (- x)     prints -x         -> unary-
+     (/ x)     prints 1.0/x      -> /
+     (+ x)     prints x          -> the operator of x, recursively
+     (in a b)  prints (a in b)   -> NIL, it is parenthesized already
+     (f x y)   prints f(x, y)    -> NIL
+
+   Asking the head of the form instead (or the old shortcut `a form with two
+   elements needs no parentheses') silently dropped the parentheses of unary
+   forms: (** (- a) 2) has to be (-a)**2 and not -a**2."
+  (unless (atom form)
+    (let* ((head (first form))
+           (args (rest form))
+           (spec (infix-operator-spec head)))
+      (cond
+        ;; (in a b), (is a b), ... are printed with their own parentheses
+        ((and spec (eq :always-paren (getf spec :style :infix)))
+         nil)
+        ((and spec (eql 1 (length args)))
+         (if (getf spec :unary-format)
+             ;; (- x) prints the unary operator, (/ x) prints 1.0/x
+             (getf spec :unary-operand-op head)
+             ;; an n-ary operator with a single argument prints just that
+             ;; argument, e.g. (or 255) -> 255
+             (effective-operator (first args))))
+        ((member head *operators*) head)))))
+
+(defun emit-operand (parent-op arg emit &optional position)
+  "Emit ARG as an operand of PARENT-OP, wrapped in parentheses only when
+   `operand-needs-parentheses-p' asks for them.  EMIT is the recursive emitter
+   closure of `emit-py', POSITION is documented at
+   `operand-needs-parentheses-p'.  This is what the `paren*' form of the DSL
+   does."
+  (flet ((parenthesize-p (child-op)
+           (operand-needs-parentheses-p parent-op child-op position)))
+    (cond
+      ((symbolp arg)			; variable name (or NIL, which emits "")
+       (funcall emit arg))
+      ((complexp arg)
+       ;; a complex literal is printed as the expression (re + 1j * im), so it
+       ;; always needs parentheses
+       (format nil "(~a)" (funcall emit arg)))
+      ((and (realp arg) (minusp arg))
+       ;; a negative literal prints as a unary minus expression, so (** -2 2)
+       ;; must not become -2**2 (which python reads as -(2**2))
+       (if (parenthesize-p 'unary-)
+           (format nil "(~a)" (funcall emit arg))
+           ;; keep a space, otherwise (- a -1) would turn into a--1
+           (format nil " ~a" (funcall emit arg))))
+      ((numberp arg)
+       (funcall emit arg))
+      ((stringp arg)			; raw python code, inserted verbatim
+       arg)
+      ((listp arg)
+       (if (parenthesize-p (effective-operator arg))
+           (format nil "(~a)" (funcall emit arg))
+           (funcall emit arg)))
+      (t (error "unsupported operand of ~a: '~a' type='~a'"
+                parent-op arg (type-of arg))))))
+
+(defun emit-infix-operator (name args emit omit-redundant-parentheses form)
+  "Emit the python code for the n-ary operator NAME applied to ARGS.
+
+   EMIT is the recursive emitter closure of `emit-py', FORM the whole
+   s-expression (used for error messages only).  With
+   OMIT-REDUNDANT-PARENTHESES the operands are parenthesized only where the
+   operator precedence requires it, otherwise the fully parenthesized legacy
+   output is produced, e.g. (+ a b) -> ((a)+(b))."
+  (let* ((spec (infix-operator-spec name))
+         (separator (getf spec :separator))
+         (unary-format (if omit-redundant-parentheses
+                           (getf spec :unary-format)
+                           (getf spec :unary-legacy-format))))
+    (check-operator-arity name args spec form)
+    (cond
+      ((eq :always-paren (getf spec :style :infix))
+       ;; the whole expression is parenthesized, but an operand may still need
+       ;; parentheses of its own: ((a==b) in c) must not become (a==b in c),
+       ;; which python reads as the chained comparison (a==b) and (b in c)
+       (format nil "(~a)"
+               (join-strings separator
+                             (loop for arg in args
+                                   and i from 0
+                                   collect (if omit-redundant-parentheses
+                                               (emit-operand name arg emit
+                                                             (if (zerop i)
+                                                                 :left
+                                                                 :right))
+                                               (funcall emit arg))))))
+      ((and unary-format (eql 1 (length args)))
+       (format nil unary-format
+               (if omit-redundant-parentheses
+                   (emit-operand (getf spec :unary-operand-op name)
+                                 (first args) emit :right)
+                   (funcall emit (first args)))))
+      (omit-redundant-parentheses
+       (join-strings separator
+                     (loop for arg in args
+                           and i from 0
+                           ;; the first operand stands on the left of the
+                           ;; operator, all others on its right
+                           collect (emit-operand name arg emit
+                                                 (if (zerop i) :left :right)))))
+      (t (format nil "(~a)"
+                 (join-strings separator
+                               (loop for arg in args
+                                     collect (format nil "(~a)"
+                                                     (funcall emit arg)))))))))
+
+(defun emit-prefix-operator (name args emit omit-redundant-parentheses form)
+  "Emit the python code for the unary prefix operator NAME applied to ARGS,
+   e.g. (not x) -> not x and (~ x) -> ~x.  See `emit-infix-operator' for the
+   meaning of the arguments."
+  (let ((spec (prefix-operator-spec name)))
+    (check-operator-arity name args spec form)
+    (let ((prefix (getf spec :prefix))
+          (arg (first args)))
+      (if omit-redundant-parentheses
+          (format nil "~a~a" prefix (emit-operand name arg emit :right))
+          (format nil "(~a~a)" prefix (funcall emit arg))))))
+
+(defun emit-operator (form emit omit-redundant-parentheses)
+  "Emit FORM when its head is an operator of `*infix-operators*' or
+   `*prefix-operators*', otherwise return NIL (`emit-py' then falls through to
+   its CASE clauses)."
+  (let ((name (first form)))
+    (cond ((infix-operator-spec name)
+           (emit-infix-operator name (rest form) emit
+                                omit-redundant-parentheses form))
+          ((prefix-operator-spec name)
+           (emit-prefix-operator name (rest form) emit
+                                 omit-redundant-parentheses form)))))
+
+(defun emit-condition (keyword condition emit omit-redundant-parentheses)
+  "Emit the KEYWORD (\"if\", \"elif\" or \"while\") of a python statement
+   together with its CONDITION.  Without OMIT-REDUNDANT-PARENTHESES the
+   condition is wrapped in parentheses."
+  (if omit-redundant-parentheses
+      (format nil "~a ~a" keyword (funcall emit condition))
+      (format nil "~a ( ~a )" keyword (funcall emit condition))))
+
 (defparameter *env-functions* nil "docstring")
 (defparameter *env-macros* nil)
-
 
 (defun emit-py (&key code (str nil) (clear-env nil) (level 0) (omit-redundant-parentheses t))
 	"Emit Python code based on the given parameters.
@@ -408,8 +745,9 @@ Returns:
 					;(format nil "emit-py ~a" level)
     (if code
 	(if (listp code)
-            
-                
+	    ;; the operators are table driven (see `*infix-operators*'), NIL
+	    ;; means: FORM is not an operator, fall through to the CASE below
+	    (or (emit-operator code #'emit omit-redundant-parentheses)
 	    (case (car code)
 	      (tuple (let ((args (cdr code)))
 		       (format nil "(~{~a,~})" (mapcar #'emit args))))
@@ -499,14 +837,6 @@ Returns:
 		     (format s "~a" (emit `(do ,@body)))))))
 	      (= (destructuring-bind (a b) (cdr code)
 		   (format nil "~a=~a" (emit a) (emit b))))
-	      (in (destructuring-bind (a b) (cdr code)
-		    (format nil "(~a in ~a)" (emit a) (emit b))))
-	      (not-in (destructuring-bind (a b) (cdr code)
-		    (format nil "(~a not in ~a)" (emit a) (emit b))))
-	      (is (destructuring-bind (a b) (cdr code)
-		    (format nil "(~a is ~a)" (emit a) (emit b))))
-	      (is-not (destructuring-bind (a b) (cdr code)
-		    (format nil "(~a is not ~a)" (emit a) (emit b))))
 	      (as (destructuring-bind (a b) (cdr code)
 		    (format nil "~a as ~a" (emit a) (emit b))))
 	      (setf (let ((args (cdr code)))
@@ -523,194 +853,44 @@ Returns:
 			      (emit target)
 			      (emit val))))
 	      (aref (destructuring-bind (name &rest indices) (cdr code)
-		      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
+		      ;; the indices are delimited by the brackets, only the
+		      ;; sequence itself may need parentheses: (aref (+ a b) i)
+		      ;; is (a+b)[i]
+		      (format nil "~a[~{~a~^,~}]"
+			      (if omit-redundant-parentheses
+				  (emit-operand 'aref name #'emit)
+				  (emit name))
+			      (mapcar #'emit indices))))
 	      (slice (let ((args (cdr code)))
 		       (if (null args)
 			   (format nil ":")
 			   (format nil "~{~a~^:~}" (mapcar #'emit args)))))
-	      (dot (let ((args (cdr code)))
-		     ;; don't print . for nil arguments
-		     (format nil "~{~a~^.~}" (mapcar #'emit (remove-if #'null args)))))
+	      (dot (let ((args (remove-if #'null (cdr code))))
+		     ;; don't print . for nil arguments.  Only the object may
+		     ;; need parentheses: (dot (- a b) c) is (a-b).c, whereas
+		     ;; the attributes and method calls behind the dots are
+		     ;; primary expressions.
+		     (format nil "~{~a~^.~}"
+			     (loop for arg in args
+				   and i from 0
+				   collect (if (and omit-redundant-parentheses
+						    (zerop i))
+					       (emit-operand 'dot arg #'emit)
+					       (emit arg))))))
 	      (paren*
-	       ;; paren* parent-op arg
-	       ;; place a pair of parentheses only when needed
-	       (if (not omit-redundant-parentheses)
-		   (destructuring-bind (parent-op &rest args) (cdr code)
-		     (declare (ignore parent-op))
-		     (format nil "(~{~a~^, ~})" (mapcar #'emit args)))
+	       ;; (paren* parent-op operand &optional position)
+	       ;; place a pair of parentheses only when needed, see
+	       ;; `emit-operand' and `operand-needs-parentheses-p'
+	       (if omit-redundant-parentheses
 		   (progn
-		     (unless (eq 3 (length code))
-		       (error "paren* expects only two arguments: ~a" code))
-		     (destructuring-bind (parent-op arg &rest rest) (cdr code)
-		       (declare (ignore rest))
-		       (cond
-			 ((symbolp arg)
-			  (format nil "~a" (emit arg)))
-			 ((numberp arg)
-			  (if (<= 0 arg)
-			      (format nil "~a" (emit arg))
-			      (format nil " ~a" (emit arg))))
-			 ((stringp arg)
-			  (format nil "~a" arg))
-			 ((listp arg)
-			  ;; a list can be an arbitrary abstract syntax tree of operators
-			  (cond
-			    ((<= (length arg) 2)
-			     ;; two or one elements doesn't need paren
-			     (let ((op0 (car arg))
-				   (rest (cdr arg)))
-			       (assert (or (symbolp op0)
-					   (stringp op0)))
-			       (assert (listp rest))
-			       (emit `(,op0 ,@rest))))
-			    (t
-			     (let ((op0 parent-op)
-				   (rest (cdr arg)))
-			       (assert (or (symbolp op0)
-					   (stringp op0)))
-			       (assert (listp rest))
-			       (if (and (member op0 *operators*)
-					(member (car arg) *operators*))
-				   (let* ((p0 (lookup-precedence op0))
-					  (p0assoc (lookup-associativity op0))
-					  (op1 (car arg))
-					  (p1 (lookup-precedence op1))
-					  (p1assoc (lookup-associativity op1)))
-				     (if
-				      (or (< p0 p1)
-					  (and (eq p0 p1)
-					       (not (eq p0assoc p1assoc)))
-					  (member op0 '(/ // % - **))
-					  (member op1 '(/ // % - **)))
-				      (format nil "(~a)" (emit `(,op1 ,@rest)))
-				      (format nil "~a" (emit `(,op1 ,@rest)))))
-				   (emit `(,(car arg) ,@rest)))))))
-			 (t
-			  (error "unsupported argument for paren* '~a' type='~a'" arg (type-of arg))))))))
-	      (+ (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^+~}" (mapcar #'(lambda (x) (emit `(paren* + ,x))) args))
-		       (format nil "(~{(~a)~^+~})" (mapcar #'emit args)))))
-	      (- (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (if (eq 1 (length args))
-			   (format nil "-~a" (emit `(paren* unary- ,(car args))))
-			   (format nil "~{~a~^-~}" (mapcar #'(lambda (x) (emit `(paren* - ,x))) args)))
-		       (format nil "(~{(~a)~^-~})" (mapcar #'emit args)))))
-	      (* (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^*~}" (mapcar #'(lambda (x) (emit `(paren* * ,x))) args))
-		       (format nil "(~{(~a)~^*~})" (mapcar #'emit args)))))
-	      (@ (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^@~}" (mapcar #'(lambda (x) (emit `(paren* @ ,x))) args))
-		       (format nil "(~{(~a)~^@~})" (mapcar #'emit args)))))
-	      (== (let ((args (cdr code)))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^==~}" (mapcar #'(lambda (x) (emit `(paren* == ,x))) args))
-			(format nil "(~{(~a)~^==~})" (mapcar #'emit args)))))
-	      (<< (let ((args (cdr code)))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^<<~}" (mapcar #'(lambda (x) (emit `(paren* << ,x))) args))
-			(format nil "(~{(~a)~^<<~})" (mapcar #'emit args)))))
-	      (!= (let ((args (cdr code)))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^!=~}" (mapcar #'(lambda (x) (emit `(paren* != ,x))) args))
-			(format nil "(~{(~a)~^!=~})" (mapcar #'emit args)))))
-	      (< (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^<~}" (mapcar #'(lambda (x) (emit `(paren* < ,x))) args))
-		       (format nil "(~{(~a)~^<~})" (mapcar #'emit args)))))
-	      (> (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^>~}" (mapcar #'(lambda (x) (emit `(paren* > ,x))) args))
-		       (format nil "(~{(~a)~^>~})" (mapcar #'emit args)))))
-	      (<= (let ((args (cdr code)))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^<=~}" (mapcar #'(lambda (x) (emit `(paren* <= ,x))) args))
-			(format nil "(~{(~a)~^<=~})" (mapcar #'emit args)))))
-	      (>= (let ((args (cdr code)))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^>=~}" (mapcar #'(lambda (x) (emit `(paren* >= ,x))) args))
-			(format nil "(~{(~a)~^>=~})" (mapcar #'emit args)))))
-	      (>> (let ((args (cdr code)))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^>>~}" (mapcar #'(lambda (x) (emit `(paren* >> ,x))) args))
-			(format nil "(~{(~a)~^>>~})" (mapcar #'emit args)))))
-	      (/ (let ((args (cdr code)))
-		   (when (null args)
-		     (error "/ requires at least one argument: ~a" code))
-		   (if omit-redundant-parentheses
-		       (if (eq 1 (length args))
-			   (format nil "1.0/~a" (emit `(paren* / ,(car args))))
-			   ;; python's / is left associative, just like cl's:
-			   ;; (/ a b c) is a/b/c
-			   (format nil "~{~a~^/~}" (mapcar #'(lambda (x) (emit `(paren* / ,x))) args)))
-		       (if (eq 1 (length args))
-			   (format nil "(1.0/(~a))" (emit (car args)))
-			   (format nil "(~{(~a)~^/~})" (mapcar #'emit args))))))
-	      (** (let ((args (cdr code)))
-		    (unless (eq 2 (length args))
-		      ;; python's ** is right associative, cl's expt only takes
-		      ;; two arguments. don't guess, let the user be explicit.
-		      (error "** expects exactly two arguments: ~a" code))
-		    (if omit-redundant-parentheses
-			(format nil "~a**~a" (emit `(paren* ** ,(first args))) (emit `(paren* ** ,(second args))))
-			(format nil "((~a)**(~a))"
-				(emit (first args))
-				(emit (second args))))))
-	      (// (let ((args (cdr code)))
-		    (when (< (length args) 2)
-		      (error "// requires at least two arguments: ~a" code))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^//~}" (mapcar #'(lambda (x) (emit `(paren* // ,x))) args))
-			(format nil "(~{(~a)~^//~})" (mapcar #'emit args)))))
-	      (% (let ((args (cdr code)))
-		   (when (< (length args) 2)
-		     (error "% requires at least two arguments: ~a" code))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^%~}" (mapcar #'(lambda (x) (emit `(paren* % ,x))) args))
-		       (format nil "(~{(~a)~^%~})" (mapcar #'emit args)))))
-	      (not (destructuring-bind (arg) (cdr code)
-		     (if omit-redundant-parentheses
-			 (format nil "not ~a" (emit `(paren* not ,arg)))
-			 (format nil "(not ~a)" (emit arg)))))
-	      (~ (destructuring-bind (arg) (cdr code)
-		   (if omit-redundant-parentheses
-		       (format nil "~~~a" (emit `(paren* ~ ,arg)))
-		       (format nil "(~~~a)" (emit arg)))))
-	      (and (let ((args (cdr code)))
-		     (if omit-redundant-parentheses
-			 (format nil "~{~a~^ and ~}" (mapcar #'(lambda (x) (emit `(paren* and ,x))) args))
-			 (format nil "(~{(~a)~^ and ~})" (mapcar #'emit args)))))
-	      (& (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^ & ~}" (mapcar #'(lambda (x) (emit `(paren* & ,x))) args))
-		       (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args)))))
-	      (logand (let ((args (cdr code)))
-			(if omit-redundant-parentheses
-			    (format nil "~{~a~^ & ~}" (mapcar #'(lambda (x) (emit `(paren* logand ,x))) args))
-			    (format nil "(~{(~a)~^ & ~})" (mapcar #'emit args)))))
-	      (logxor (let ((args (cdr code)))
-			(if omit-redundant-parentheses
-			    (format nil "~{~a~^ ^ ~}" (mapcar #'(lambda (x) (emit `(paren* logxor ,x))) args))
-			    (format nil "(~{(~a)~^ ^ ~})" (mapcar #'emit args)))))
-	      (|\|| (let ((args (cdr code)))
-		      (if omit-redundant-parentheses
-			  (format nil "~{~a~^ | ~}" (mapcar #'(lambda (x) (emit `(paren* |\|| ,x))) args))
-			  (format nil "(~{(~a)~^ | ~})" (mapcar #'emit args)))))
-	      (^ (let ((args (cdr code)))
-		   (if omit-redundant-parentheses
-		       (format nil "~{~a~^ ^ ~}" (mapcar #'(lambda (x) (emit `(paren* ^ ,x))) args))
-		       (format nil "(~{(~a)~^ ^ ~})" (mapcar #'emit args)))))
-	      (logior (let ((args (cdr code)))
-			(if omit-redundant-parentheses
-			    (format nil "~{~a~^ | ~}" (mapcar #'(lambda (x) (emit `(paren* logior ,x))) args))
-			    (format nil "(~{(~a)~^ | ~})" (mapcar #'emit args)))))
-	      (or (let ((args (cdr code)))
-		    (if omit-redundant-parentheses
-			(format nil "~{~a~^ or ~}" (mapcar #'(lambda (x) (emit `(paren* or ,x))) args))
-			(format nil "(~{(~a)~^ or ~})" (mapcar #'emit args)))))
+		     (unless (member (length code) '(3 4))
+		       (error "paren* expects two or three arguments: ~a" code))
+		     (unless (member (fourth code) '(nil :left :right))
+		       (error "the operand position of paren* must be :left, :right or omitted: ~a" code))
+		     (emit-operand (second code) (third code) #'emit
+				   (fourth code)))
+		   ;; without the precedence machinery paren* degenerates into paren
+		   (format nil "(~{~a~^, ~})" (mapcar #'emit (cddr code)))))
 	      (comment (format nil "# ~a~%" (cadr code)))
 	      (comments (let ((args (cdr code)))
 			  (format nil "~{# ~a~%~}" (mapcar #'(lambda (arg)
@@ -746,20 +926,16 @@ Returns:
 			 (emit ls))))
 	      (while (destructuring-bind (vs &rest body) (cdr code)
 		       (with-output-to-string (s)
-			 (if omit-redundant-parentheses
-			     (format s "while ~a:~%" (emit vs))
-			     (format s "while ~a:~%" (emit `(paren ,vs))))
+			 (format s "~a:~%" (emit-condition "while" vs #'emit
+							   omit-redundant-parentheses))
 			 (format s "~a" (emit `(do ,@body))))))
 
 	      (if (destructuring-bind (condition true-statement &optional false-statement) (cdr code)
 		    (with-output-to-string (s)
-		      (if omit-redundant-parentheses
-			  (format s "if ~a:~%~a"
-				  (emit condition)
-				  (emit `(do ,true-statement)))
-			  (format s "if ( ~a ):~%~a"
-				  (emit condition)
-				  (emit `(do ,true-statement))))
+		      (format s "~a:~%~a"
+			      (emit-condition "if" condition #'emit
+					      omit-redundant-parentheses)
+			      (emit `(do ,true-statement)))
 		      (when false-statement
 			(format s "~&~a:~%~a"
 				(emit `(indent "else"))
@@ -773,33 +949,39 @@ Returns:
 				(format s "~&~a:~%~a"
 					(cond ((and (eq condition 't) (eq i 0))
 					       ;; this special case may happen when you comment out all but the last cond clauses
-					       (if omit-redundant-parentheses
-						   (format nil "if True")
-						   (format nil "if ( True )")))
+					       (emit-condition "if" "True" #'emit
+							       omit-redundant-parentheses))
 					      ((eq i 0)
-					       (if omit-redundant-parentheses
-						   (format nil "if ~a" (emit condition))
-						   (format nil "if ( ~a )" (emit condition))))
+					       (emit-condition "if" condition #'emit
+							       omit-redundant-parentheses))
 					      ((eq condition 't) (emit `(indent "else")))
-					      (t (emit `(indent ,(if omit-redundant-parentheses
-								     (format nil "elif ~a" (emit condition))
-								     (format nil "elif ( ~a )" (emit condition))))))
-					      )
+					      (t (emit `(indent ,(emit-condition
+								  "elif" condition #'emit
+								  omit-redundant-parentheses)))))
 					(emit `(do ,@statements)))))
 			)))
 	      (? (destructuring-bind (condition true-statement &optional (false-statement "None" false-statement-supplied-p))
 		     (cdr code)
 		   (if omit-redundant-parentheses
+		       ;; <true> if <condition> else <false>.  The conditional
+		       ;; expression is right associative, so only the false
+		       ;; branch may contain another one without parentheses.
 		       (if false-statement-supplied-p
 			   (format nil "~a if ~a else ~a"
-				   (emit `(paren* ternary ,true-statement))
-				   (emit `(paren* ternary ,condition))
-				   (emit `(paren* ternary ,false-statement)))
+				   (emit-operand 'ternary true-statement #'emit :left)
+				   (emit-operand 'ternary condition #'emit :left)
+				   (emit-operand 'ternary false-statement #'emit :right))
 			   (format nil "~a if ~a"
-				   (emit `(paren* ternary ,true-statement))
-				   (emit `(paren* ternary ,condition))))
+				   (emit-operand 'ternary true-statement #'emit :left)
+				   (emit-operand 'ternary condition #'emit :left)))
 		       (if false-statement-supplied-p
-			   (format nil "(~a) if (~a) else (~a)"
+			   ;; NOTE: the outer parentheses matter.  Without them a
+			   ;; conditional expression used as the object of dot or
+			   ;; as the sequence of aref regrouped, e.g.
+			   ;; (aref (? c a b) i) became (a) if (c) else (b)[i].
+			   ;; The two argument form must stay unparenthesized: it
+			   ;; is the filter of a comprehension.
+			   (format nil "((~a) if (~a) else (~a))"
 				   (emit true-statement)
 				   (emit condition)
 				   (emit false-statement))
@@ -878,7 +1060,7 @@ Returns:
 				 (emit `(paren ,@(append
 						  positional
 						  (loop for e in props collect
-							`(= ,(format nil "~a" e) ,(getf plist e))))))))))))
+							`(= ,(format nil "~a" e) ,(getf plist e)))))))))))))
 	    (cond
 	      ((symbolp code) ;; print variable
 	       (format nil "~a" code))

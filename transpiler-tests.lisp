@@ -964,7 +964,143 @@ w = 1.0e30"
      :description "Tests the two-argument ternary as the filter of a comprehension (the else branch is omitted)."
      :lisp (list (? (> x 0) (for-generator (x xs) x)))
      :python "[x for x in xs if x > 0]"
-     :tags (:core :comprehension))))
+     :tags (:core :comprehension))
+
+    ;; ---------------------------------------------------------------
+    ;; Parenthesis elision: an operand keeps its parentheses whenever
+    ;; dropping them would regroup the expression.  See
+    ;; plan/20260831_02_omit_paren/walkthrough.md; run-paren-tests.sh
+    ;; additionally compares both emitter modes numerically.
+    ;; ---------------------------------------------------------------
+    (:name "precedence-power-of-unary-minus"
+     :description "Tests that a unary minus below ** keeps its parentheses: python reads -a**2 as -(a**2)."
+     :lisp (** (- a) 2)
+     :python "(-a) ** 2"
+     :tags (:operator :precedence))
+
+    (:name "precedence-power-of-negative-literal"
+     :description "Tests that a negative literal below ** keeps its parentheses."
+     :lisp (print (** -2 2))
+     :python "print((-2) ** 2)"
+     :exec-test t
+     :expected-output "4"
+     :tags (:operator :precedence))
+
+    (:name "precedence-power-of-reciprocal"
+     :description "Tests that the one-argument division below ** keeps its parentheses."
+     :lisp (** (/ a) 2)
+     :python "(1.0 / a) ** 2"
+     :tags (:operator :precedence))
+
+    (:name "precedence-comparison-nested"
+     :description "Tests that a comparison inside a comparison keeps its parentheses: python chains a==b==c."
+     :lisp (== a (== b c))
+     :python "a == (b == c)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-comparison-both-sides"
+     :description "Tests that a comparison keeps its parentheses on either side of a comparison."
+     :lisp (print (== (< 1 2) (< 3 4)))
+     :python "print((1 < 2) == (3 < 4))"
+     :exec-test t
+     :expected-output "True"
+     :tags (:operator :precedence))
+
+    (:name "precedence-comparison-chain"
+     :description "Tests that an n-ary comparison is emitted as a python comparison chain, like in Common Lisp."
+     :lisp (print (< 1 2 3))
+     :python "print(1 < 2 < 3)"
+     :exec-test t
+     :expected-output "True"
+     :tags (:operator :precedence))
+
+    (:name "precedence-shift-right-operand"
+     :description "Tests that a shift as the right operand of a shift keeps its parentheses (<< is left associative)."
+     :lisp (print (<< 1 (>> 8 1)))
+     :python "print(1 << (8 >> 1))"
+     :exec-test t
+     :expected-output "16"
+     :tags (:operator :precedence))
+
+    (:name "precedence-matmul-and-mul"
+     :description "Tests that @ and * keep their parentheses inside each other although they share a precedence level."
+     :lisp (tuple (@ a (* b c)) (* a (@ b c)))
+     :python "(a @ (b * c), a * (b @ c),)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-associative-chains"
+     :description "Tests that operators which are associative with each other stay flat."
+     :lisp (tuple (+ a (+ b c)) (* a (* b c)) (and a (and b c)) (logand a (& b c)))
+     :python "(a + b + c, a * b * c, a and b and c, a & b & c,)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-and-or"
+     :description "Tests that 'or' below 'and' is parenthesized while 'and' below 'or' is not."
+     :lisp (tuple (and a (or b c)) (or a (and b c)))
+     :python "(a and (b or c), a or b and c,)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-ternary-nested"
+     :description "Tests the conditional expression: only the else branch may contain another one without parentheses."
+     :lisp (tuple (? c (? d e f) g) (? c a (? d e f)))
+     :python "((e if d else f) if c else g, a if c else e if d else f,)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-dot-of-expression"
+     :description "Tests that the object of a dot form is parenthesized when it is an operator expression."
+     :lisp (dot (- a b) c)
+     :python "(a - b).c"
+     :tags (:operator :precedence))
+
+    (:name "precedence-aref-of-expression"
+     :description "Tests that the sequence of an aref form is parenthesized when it is an operator expression."
+     :lisp (print (aref (+ (list 1 2) (list 3)) 2))
+     :python "print(([1, 2] + [3])[2])"
+     :exec-test t
+     :expected-output "3"
+     :tags (:operator :precedence))
+
+    (:name "precedence-aref-and-dot-chain"
+     :description "Tests that indexing and attribute access are not parenthesized inside each other."
+     :lisp (tuple (aref (dot a b) i) (dot (aref a i) b) (aref (aref a i) j))
+     :python "(a.b[i], a[i].b, a[i][j],)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-in-with-comparison"
+     :description "Tests that a comparison inside 'in' keeps its parentheses, otherwise python would chain them."
+     :lisp (in (== a b) c)
+     :python "((a == b) in c)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-lambda-as-operand"
+     :description "Tests that a lambda used inside an expression is parenthesized, otherwise its body would swallow the rest."
+     :lisp (dot (lambda (x) x) __name__)
+     :python "(lambda x: x).__name__"
+     :tags (:operator :precedence))
+
+    (:name "precedence-ntuple-as-operand"
+     :description "Tests that a bare comma list used inside an expression is parenthesized."
+     :lisp (? c (ntuple a b) (ntuple d e))
+     :python "(a, b) if c else (d, e)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-negative-literal-operand"
+     :description "Tests a negative literal as the right operand of the non-associative operators."
+     :lisp (tuple (- a -1) (/ a -1) (* a -1))
+     :python "(a - (-1), a / (-1), a * -1,)"
+     :tags (:operator :precedence))
+
+    (:name "precedence-complex-literal-operand"
+     :description "Tests that a complex literal, which is emitted as a sum, is parenthesized when used as an operand."
+     :lisp (setf z (+ #C(1.0d0 2.0d0) 1))
+     :python "z = (1.0 + 1j * 2.0) + 1"
+     :tags (:operator :precedence :number))
+
+    (:name "precedence-unary-nesting"
+     :description "Tests that nested unary operators need no parentheses."
+     :lisp (tuple (- (- a)) (~ (~ a)) (not (not a)))
+     :python "(--a, ~~a, not not a,)"
+     :tags (:operator :precedence))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF
