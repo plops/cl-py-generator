@@ -57,6 +57,11 @@ By default (`:omit-redundant-parentheses t`) the emitter only inserts
 parentheses where operator precedence requires them, so the generated Python
 looks hand-written. Pass `:omit-redundant-parentheses nil` to `emit-py` to get
 the older, fully parenthesized output (`((a) + (b))`).
+
+The operators live in two tables in `py.lisp` (`*infix-operators*` and
+`*prefix-operators*`), the binding strength in `*precedence*`. Adding an
+operator means adding one line to each. `run-paren-tests.sh` compares both
+emitter modes numerically and is the place to look when parentheses are wrong.
 - **Arithmetic**:
   - `(+ a b)` &rarr; `a + b`
   - `(- a b)` &rarr; `a - b`, `(- a)` &rarr; `-a`
@@ -91,6 +96,15 @@ the older, fully parenthesized output (`((a) + (b))`).
 > [!NOTE]
 > `**` takes exactly two arguments, `//` and `%` at least two. Passing a third
 > argument to `**` signals an error instead of silently dropping it.
+
+> [!NOTE]
+> Operands keep the parentheses they need: `(** (- a) 2)` &rarr; `(-a) ** 2`
+> (python reads `-a**2` as `-(a**2)`), `(== a (== b c))` &rarr; `a == (b == c)`
+> (python chains `a == b == c`), `(<< 1 (>> 8 1))` &rarr; `1 << (8 >> 1)`,
+> `(dot (- a b) c)` &rarr; `(a - b).c`, `(aref (+ a b) i)` &rarr; `(a + b)[i]`,
+> and a `lambda` or `ntuple` inside an expression is parenthesized as well.
+> Operators that are associative with each other stay flat: `(+ a (+ b c))`
+> &rarr; `a + b + c`.
 
 ### 3. Collections & Accessors
 - **List Literal**: `(list 1 2)` &rarr; `[1, 2]`

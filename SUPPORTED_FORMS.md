@@ -2132,3 +2132,309 @@ a // b // c
 
 ```
 
+### `(** (- a) 2)`
+Tests that a unary minus below ** keeps its parentheses: python reads -a**2 as -(a**2).
+
+**Lisp S-Expression:**
+```lisp
+(** (- a) 2)
+```
+
+**Generated Python (after formatting):**
+```python
+(-a) ** 2
+
+```
+
+### `(print (** -2 2))`
+Tests that a negative literal below ** keeps its parentheses.
+
+**Lisp S-Expression:**
+```lisp
+(print (** -2 2))
+```
+
+**Generated Python (after formatting):**
+```python
+print((-2) ** 2)
+
+```
+
+### `(** (/ a) 2)`
+Tests that the one-argument division below ** keeps its parentheses.
+
+**Lisp S-Expression:**
+```lisp
+(** (/ a) 2)
+```
+
+**Generated Python (after formatting):**
+```python
+(1.0 / a) ** 2
+
+```
+
+### `(== a (== b c))`
+Tests that a comparison inside a comparison keeps its parentheses: python chains a==b==c.
+
+**Lisp S-Expression:**
+```lisp
+(== a (== b c))
+```
+
+**Generated Python (after formatting):**
+```python
+a == (b == c)
+
+```
+
+### `(print (== (< 1 2) (< 3 4)))`
+Tests that a comparison keeps its parentheses on either side of a comparison.
+
+**Lisp S-Expression:**
+```lisp
+(print (== (< 1 2) (< 3 4)))
+```
+
+**Generated Python (after formatting):**
+```python
+print((1 < 2) == (3 < 4))
+
+```
+
+### `(print (< 1 2 3))`
+Tests that an n-ary comparison is emitted as a python comparison chain, like in Common Lisp.
+
+**Lisp S-Expression:**
+```lisp
+(print (< 1 2 3))
+```
+
+**Generated Python (after formatting):**
+```python
+print(1 < 2 < 3)
+
+```
+
+### `(print (<< 1 (>> 8 1)))`
+Tests that a shift as the right operand of a shift keeps its parentheses (<< is left associative).
+
+**Lisp S-Expression:**
+```lisp
+(print (<< 1 (>> 8 1)))
+```
+
+**Generated Python (after formatting):**
+```python
+print(1 << (8 >> 1))
+
+```
+
+### `(tuple (@ a (* b c)) (* a (@ b c)))`
+Tests that @ and * keep their parentheses inside each other although they share a precedence level.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (@ a (* b c)) (* a (@ b c)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a @ (b * c),
+    a * (b @ c),
+)
+
+```
+
+### `(tuple (+ a (+ b c)) (* a (* b c)) (and a (and b c)) (logand a (& b c)))`
+Tests that operators which are associative with each other stay flat.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (+ a (+ b c)) (* a (* b c)) (and a (and b c)) (logand a (& b c)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a + b + c,
+    a * b * c,
+    a and b and c,
+    a & b & c,
+)
+
+```
+
+### `(tuple (and a (or b c)) (or a (and b c)))`
+Tests that 'or' below 'and' is parenthesized while 'and' below 'or' is not.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (and a (or b c)) (or a (and b c)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a and (b or c),
+    a or b and c,
+)
+
+```
+
+### `(tuple (? c (? d e f) g) (? c a (? d e f)))`
+Tests the conditional expression: only the else branch may contain another one without parentheses.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (? c (? d e f) g) (? c a (? d e f)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    (e if d else f) if c else g,
+    a if c else e if d else f,
+)
+
+```
+
+### `(dot (- a b) c)`
+Tests that the object of a dot form is parenthesized when it is an operator expression.
+
+**Lisp S-Expression:**
+```lisp
+(dot (- a b) c)
+```
+
+**Generated Python (after formatting):**
+```python
+(a - b).c
+
+```
+
+### `(print (aref (+ (list 1 2) (list 3)) 2))`
+Tests that the sequence of an aref form is parenthesized when it is an operator expression.
+
+**Lisp S-Expression:**
+```lisp
+(print (aref (+ (list 1 2) (list 3)) 2))
+```
+
+**Generated Python (after formatting):**
+```python
+print(([1, 2] + [3])[2])
+
+```
+
+### `(tuple (aref (dot a b) i) (dot (aref a i) b) (aref (aref a i) j))`
+Tests that indexing and attribute access are not parenthesized inside each other.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (aref (dot a b) i) (dot (aref a i) b) (aref (aref a i) j))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a.b[i],
+    a[i].b,
+    a[i][j],
+)
+
+```
+
+### `(in (== a b) c)`
+Tests that a comparison inside 'in' keeps its parentheses, otherwise python would chain them.
+
+**Lisp S-Expression:**
+```lisp
+(in (== a b) c)
+```
+
+**Generated Python (after formatting):**
+```python
+((a == b) in c)
+
+```
+
+### `(dot (lambda (x) x) __name__)`
+Tests that a lambda used inside an expression is parenthesized, otherwise its body would swallow the rest.
+
+**Lisp S-Expression:**
+```lisp
+(dot (lambda (x) x) __name__)
+```
+
+**Generated Python (after formatting):**
+```python
+(lambda x: x).__name__
+
+```
+
+### `(? c (ntuple a b) (ntuple d e))`
+Tests that a bare comma list used inside an expression is parenthesized.
+
+**Lisp S-Expression:**
+```lisp
+(? c (ntuple a b) (ntuple d e))
+```
+
+**Generated Python (after formatting):**
+```python
+(a, b) if c else (d, e)
+
+```
+
+### `(tuple (- a -1) (/ a -1) (* a -1))`
+Tests a negative literal as the right operand of the non-associative operators.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (- a -1) (/ a -1) (* a -1))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    a - (-1),
+    a / (-1),
+    a * -1,
+)
+
+```
+
+### `(setf z (+ #C(1.0d0 2.0d0) 1))`
+Tests that a complex literal, which is emitted as a sum, is parenthesized when used as an operand.
+
+**Lisp S-Expression:**
+```lisp
+(setf z (+ #C(1.0d0 2.0d0) 1))
+```
+
+**Generated Python (after formatting):**
+```python
+z = (1.0 + 1j * 2.0) + 1
+
+```
+
+### `(tuple (- (- a)) (~ (~ a)) (not (not a)))`
+Tests that nested unary operators need no parentheses.
+
+**Lisp S-Expression:**
+```lisp
+(tuple (- (- a)) (~ (~ a)) (not (not a)))
+```
+
+**Generated Python (after formatting):**
+```python
+(
+    --a,
+    ~~a,
+    not not a,
+)
+
+```
+

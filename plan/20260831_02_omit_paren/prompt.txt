@@ -1,0 +1,11 @@
+du befindest dich in einem docker container mit ubuntu 26 und solltest alle programme haben um die aufgabe zu loesen.
+falls programme fehlen, installiere sie im container.
+
+du arbeitest fuer wol pumba (wolpumba@gmail.com)
+
+schau dir ../../py.lisp und ../../transpiler-tests.lisp an (und sonstige dateien die dir helfen).
+
+code um unnuetze klammern zu entfernen sieht sehr redundant aus. versuche einen weg zu finden diesen code besser lesbar und wartbarer zu machen
+
+speichere die resultate und unerwartete findings deiner untersuchung in diesem plan ordner als walkthrough.md ab
+commite die aenderungen
