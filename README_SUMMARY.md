@@ -5,14 +5,14 @@ This repository is a small Common Lisp system that provides a DSL and emitter fo
 ### What you get
 
 - **`emit-py`**: converts supported S-expression forms into Python text.
-- **`write-source`**: writes generated Python to `<name>.py` (with a hash-table to avoid rewriting identical output).
+- **`write-source`**: writes generated Python to `<name>.py` (with a hash-table to avoid rewriting identical output) and pretty-prints it with `ruff format` if a formatter is available.
 - **`write-notebook`**: builds a `.ipynb` JSON file from `(markdown ...)` and `(python ...)` cells, then formats it via `jq`.
 
 ### Key files
 
 #### `cl-py-generator.asd` (ASDF system definition)
 - Defines one ASDF system: `cl-py-generator`
-- Depends on: `alexandria`, `jonathan`, `external-program`
+- Depends on: `alexandria`, `jonathan`, `uiop` (and `external-program`, only for the sake of two old examples)
 - Components loaded in order (`:serial t`): `package.lisp`, `py.lisp`, and conditionally `pipe.lisp` on SBCL.
 
 #### `package.lisp` (public API + DSL surface)
@@ -25,7 +25,7 @@ This repository is a small Common Lisp system that provides a DSL and emitter fo
 - Implements:
   - **Emitter**: `emit-py` as a large dispatcher on the head symbol of each form.
   - **Function parsing / typing**: `consume-declare` + `parse-defun` read leading `(declare ...)` forms and emit Python type annotations when available.
-  - **File output**: `write-source` emits code and writes only if output content has changed since last write.
+  - **File output**: `write-source` emits code and writes only if output content has changed since last write. The external formatter is looked up at runtime (`*python-format-command*`, defaulting to `ruff` from `PATH`, then `uvx ruff format`); a missing formatter only warns.
   - **Notebook output**: `write-notebook` builds notebook JSON (`jonathan:to-json`) and pretty-prints it with `jq`.
 
 #### `pipe.lisp` (SBCL-only interactive helper)

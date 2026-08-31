@@ -2,76 +2,86 @@
 					;(ql:quickload "alexandria")
 
 (in-package :cl-py-generator)
+
+(defun notebook-cell-source (cell)
+  "Convert one entry of the `nb-code' list of `write-notebook' into the list of
+source lines of a notebook cell."
+  (destructuring-bind (name &rest rest) cell
+    ;; NOTE: the clause keys must be plain symbols. Writing `markdown here
+    ;; reads as (quasiquote markdown), i.e. as a key *list* of two keys, so
+    ;; every clause would additionally match the symbol QUASIQUOTE.
+    (case name
+      (markdown (loop for p in rest
+		      collect (format nil "~a~c" p #\Newline)))
+      (python (loop for p in rest
+		    appending
+		    (let ((tempfn (namestring
+				   (merge-pathnames "cl-py-generator-cell"
+						    (uiop:temporary-directory)))))
+		      (write-source tempfn p)
+		      (with-open-file (stream (format nil "~a.py" tempfn))
+			(loop for line = (read-line stream nil)
+			      while line
+			      collect (format nil "~a~c" line #\Newline))))))
+      (t (error "unsupported notebook cell type ~a, expected markdown or python" name)))))
+
 (defun write-notebook (&key nb-file nb-code)
 	"Writes a notebook to a file.
 
-    The notebook is written in JSON format and formatted using the jq tool.
-    
+    The notebook is written in JSON format and pretty printed with the jq tool
+    (if jq is available in PATH).
+
 	Args:
-		nb-file (string): The path to the notebook file.
-		nb-code (string): The code to be written to the notebook.
+		nb-file (string): The path to the notebook file, including the `.ipynb' suffix.
+		nb-code (list): A list of cells. Every cell is a list that starts with
+			the symbol `markdown' (followed by strings) or `python' (followed by
+			s-expressions that are transpiled to python).
 
 	Returns:
-		None"
+		The pathname of the notebook."
+  ;; NOTE: the json keys are given as strings and the structure is built as
+  ;; alists on purpose. jonathan prints keyword keys with the current
+  ;; readtable-case, and it folds constant keys at compile time, so with the
+  ;; :invert readtable of this library the top level keys used to end up as
+  ;; "CELLS"/"NBFORMAT", which nbformat/jupyter rejects.
   (let ((tmp (format nil "~a.tmp" nb-file)))
     (with-output-to-file (s tmp :if-exists :supersede
 			    :if-does-not-exist :create)
       (format s "~a~%"
 	      (jonathan:to-json
-	       `( :cells
-		  ;:|cells|
-		  ,(loop for e in nb-code
-			 collect
-			 (destructuring-bind (name &rest rest) e
-			   (case name
-			     (`markdown `(:cell_type "markdown"
-						     :metadata :empty
-						     :source
-						     ,(loop for p in rest
-							    collect
-							    (format nil "~a~c" p #\Newline))))
-			     (`python `(:cell_type "code"
-						   :metadata :empty
-						   :execution_count :null
-						   :outputs ()
-						   :source
-						   ,(loop for p in rest
-							  appending
-							  (let ((tempfn #+sbcl "/dev/shm/cell"
-									#+ecl (format nil "~a_tmp_cell" nb-file)))
-							    (write-source tempfn p)
-							    (with-open-file (stream (format nil "~a.py" tempfn))
-							      (loop for line = (read-line stream nil)
-								    while line
-								    collect
-								    (format nil "~a~c" line #\Newline)))))))
-			     )))
-		  #+nil (:|metadata| (:|kernelspec| (:|display_name| "Python 3"
-						      :|language| "python"
-						      :|name| "python3"))
-			  :|nbformat| 4
-			  :|nbformat_minor| 2)
-
-
-		  :metadata (:kernelspec (:display_name "Python 3"
-							:language "python"
-							:name "python3"))
-		  :nbformat 4
-		  :nbformat_minor 2))))
-    #+nil
-    (sb-ext:run-program "/usr/bin/python3" `("-mjson.tool" ,nb-file))
-    #-sbcl
-    (external-program:run
-     "/usr/bin/jq"
-     `("-M" "." ,tmp)
-     :output nb-file
-     :if-output-exists :supersede
-     )
-    #+sbcl
-    (sb-ext:run-program "/usr/bin/jq" `("-M" "." ,tmp)
-			:output nb-file
-			:if-output-exists :supersede)
-    (delete-file tmp)))
+	       (list (cons "cells"
+			   (loop for e in nb-code
+				 collect
+				 (let ((source (notebook-cell-source e)))
+				   (if (eq 'markdown (first e))
+				       (list (cons "cell_type" "markdown")
+					     (cons "metadata" :empty)
+					     (cons "source" source))
+				       (list (cons "cell_type" "code")
+					     (cons "metadata" :empty)
+					     (cons "execution_count" :null)
+					     (cons "outputs" nil)
+					     (cons "source" source))))))
+		     (cons "metadata"
+			   (list (cons "kernelspec"
+				       (list (cons "display_name" "Python 3")
+					     (cons "language" "python")
+					     (cons "name" "python3")))))
+		     (cons "nbformat" 4)
+		     (cons "nbformat_minor" 2))
+	       :from :alist)))
+    ;; pretty print the json with jq. if jq is not installed, keep the
+    ;; (valid, but single line) json that jonathan produced.
+    (if (program-in-path-p "jq")
+	(progn
+	  (uiop:run-program (list "jq" "-M" "." (namestring tmp))
+			    :output (pathname nb-file)
+			    :if-output-exists :supersede)
+	  (delete-file tmp)
+	  (pathname nb-file))
+	(progn
+	  (warn "jq was not found in PATH, the notebook ~a is not pretty printed." nb-file)
+	  (rename-file tmp nb-file)))))
 
 (setf (readtable-case *readtable*) :invert)
 
@@ -83,7 +93,7 @@
 (defun consume-declare (body)
   "Take a list of instructions from `body`, parse type declarations,
 return the `body` without them and a hash table with an environment. The
-entry `return-values` contains a list of return values. Currently supports `type`, `values`.
+entry `return-values` contains a list of return values. Currently supports `type`, `values` and `capture`.
 
 Parameters:
 - `body` (list): The list of instructions to process.
@@ -92,6 +102,7 @@ Returns:
 - `new-body` (list): The modified `body` without type declarations.
 - `env` (hash-table): The hash table representing the environment with captured variables and return values."
   (let ((env (make-hash-table))
+	(captures nil)
 	(looking-p t)
 	(new-body nil))
     (loop for e in body do
@@ -129,6 +140,8 @@ Returns:
 		(setf looking-p nil)
 		(push e new-body)))
 	  (push e new-body)))
+    (when captures
+      (setf (gethash 'captures env) (reverse captures)))
     (values (reverse new-body) env)))
 
 (defun parse-defun (code emit )
@@ -201,7 +214,7 @@ Returns:
 			(progn
 			  ;; https://stackoverflow.com/questions/40181344/how-to-annotate-types-of-multiple-return-values
 			  ;; python 3.9 supports tuple[bool, str],  previous version Tuple[bool, str]
-			  (break "multiple return values unsupported: ~a"
+			  (error "multiple return values unsupported: ~a"
 				 r))
 			(if (car r)
 			    (case (car r)
@@ -212,18 +225,77 @@ Returns:
 	  (format s "~a" (funcall emit `(do ,@body))))))))
 
 
+(defparameter *python-format-command* nil
+	"Command that is used to pretty print the generated python files.
+
+	 A list of strings; the name of the file to format is appended to it, e.g.
+	 (list \"ruff\" \"format\").  NIL means: auto-detect (`ruff' from PATH, then
+	 `uvx ruff format').  :NONE disables formatting.")
+
+(defparameter *python-format-command-detected* nil
+	"Cached result of the formatter auto detection: a command list or :NONE.")
+
+(defparameter *python-format-warned* nil
+	"Remembers whether the 'no formatter found' warning was already issued.")
+
+(defun program-in-path-p (program)
+	"Return T if PROGRAM can be found in PATH."
+	(multiple-value-bind (out err code)
+			(uiop:run-program (list "sh" "-c" (format nil "command -v ~a" program))
+												:output nil :error-output nil :ignore-error-status t)
+		(declare (ignore out err))
+		(eql 0 code)))
+
+(defun python-format-command ()
+	"Return the command (a list of strings) that formats a python file when the
+	 file name is appended, or NIL if formatting is disabled or no formatter is
+	 available."
+	(cond ((eq :none *python-format-command*) nil)
+				(*python-format-command* *python-format-command*)
+				(t (unless *python-format-command-detected*
+						 (setf *python-format-command-detected*
+									 (cond ((program-in-path-p "ruff") (list "ruff" "format"))
+												 ((program-in-path-p "uvx") (list "uvx" "ruff" "format"))
+												 (t :none))))
+					 (if (eq :none *python-format-command-detected*)
+							 nil
+							 *python-format-command-detected*))))
+
+(defun format-python-file (fn)
+	"Run the external python formatter on the file FN.
+
+	 Never signals an error: a missing or failing formatter only leads to a
+	 warning, the (unformatted) file stays on disk.  Returns FN."
+	(let ((cmd (python-format-command)))
+		(cond (cmd
+					 (multiple-value-bind (out err code)
+							 (uiop:run-program (append cmd (list (namestring fn)))
+																 :output nil :error-output :string :ignore-error-status t)
+						 (declare (ignore out))
+						 (unless (eql 0 code)
+							 (warn "~{~a~^ ~} failed with exit code ~a on ~a: ~a" cmd code fn err))))
+					;; formatting explicitly switched off by the user
+					((eq :none *python-format-command*))
+					(t (unless *python-format-warned*
+							 (setf *python-format-warned* t)
+							 (warn "No python formatter found (tried `ruff' and `uvx'); generated code is written unformatted. Bind cl-py-generator:*python-format-command* to a command list to override."))))
+		fn))
+
 (defun write-source (name code &optional (dir (user-homedir-pathname))
 								 ignore-hash)
 		"Writes the Python source code to a file.
 
+		Note that `.py' is appended to `name', so pass \"code\" and not
+		\"code.py\".  A relative `name' is merged with `dir'.
+
 		Args:
-				name (string): The name of the file.
+				name (string): The name of the file, without the `.py' suffix.
 				code (s-expr): The Python source code.
 				dir (pathname): The directory where the file will be saved. Defaults to the user's home directory.
 				ignore-hash (boolean): If true, ignores the hash check and always writes the code to the file.
 
 		Returns:
-				None"
+				The pathname of the generated file."
 
 	(let* ((fn (merge-pathnames (format nil "~a.py" name)
 									dir))
@@ -243,40 +315,33 @@ Returns:
 									 :if-exists :supersede
 									 :if-does-not-exist :create)
 					(write-sequence code-str s))
-				#+nil
-				(sb-ext:run-program "/usr/bin/autopep8" (list "--max-line-length 80" (namestring fn)))
-				(sb-ext:run-program "/snap/bin/uvx" (list "ruff" "format" (namestring fn)))
-				#+nil (sb-ext:run-program "/usr/bin/yapf" (list "-i" (namestring fn)))
-				#+nil
-				(progn
-					;; python3 -m pip install --user black
-					;; should i use --fast option?xs
-				  (sb-ext:run-program "/home/martin/.local/bin/black"
-							(list "--fast"
-										(namestring  fn))))))))
+				(format-python-file fn)))
+		fn))
 
 (defun print-sufficient-digits-f64 (f)
-	"Prints a double floating point number as a string with a given number of digits.
-	 Parses the string representation and increases the number of digits until the same bit pattern is obtained.
+	"Print a floating point number as a string that reads back as the very same
+	 number (shortest round-trip representation) and that is valid Python.
+
+	 The Common Lisp printer already guarantees read/print consistency for
+	 floats (CLHS 22.1.3.1.3).  The only thing that has to be taken care of is
+	 the exponent marker: it is `d0'/`s0' etc. whenever the type of the number
+	 differs from `*read-default-float-format*', so bind that variable to the
+	 type of `f' and normalize any remaining marker to `e'.
 
 	 Args:
-		 f: The double floating point number to be printed.
+		 f: The floating point number to be printed.
 
 	 Returns:
-		 The string representation of the number with sufficient digits."
-	(let* ((a f)
-				 (digits 1)
-				 (b (- a 1))
-				 (threshold (if (typep f 'double-float) 1d-12 1e-7))
-				 (*read-default-float-format* (if (typep f 'double-float) 'double-float 'single-float)))
-		(unless (= a 0)
-			(loop while (< threshold
-										 (/ (abs (- a b))
-												(abs a)))
-						do
-						(setf b (read-from-string (format nil "~,vG" digits a)))
-						(incf digits)))
-		(substitute #\e #\d (format nil "~,vG" (max 1 (1- digits)) a))))
+		 The string representation of the number."
+	(let* ((*read-default-float-format* (if (typep f 'double-float)
+																					'double-float
+																					'single-float))
+				 (s (prin1-to-string f)))
+		(map 'string (lambda (c)
+									 (if (member c '(#\d #\D #\f #\F #\s #\S #\l #\L))
+											 #\e
+											 c))
+				 s)))
 
 
 					;(print-sufficient-digits-f64 1d0)
@@ -316,7 +381,6 @@ Returns:
   (loop for e in *precedence*
         do
            (destructuring-bind (&key op (assoc 'l)) e
-             (declare (ignore op))
              (when (member operator op)
                (return assoc)))))
 
@@ -411,7 +475,7 @@ Returns:
 									 `(= ,(emit name) ,init)
 									 `(= ,(emit name) "None")))))))
 				    (if (cdr body)
-					(break "body ~a should have only one entry" body)
+					(error "body ~a should have only one entry" body)
 					(emit (car body))))))))
 	      (def (parse-defun code #'emit)
 	       #+nil (destructuring-bind (name lambda-list &rest body) (cdr code)
@@ -476,7 +540,7 @@ Returns:
 		     (format nil "(~{~a~^, ~})" (mapcar #'emit args)))
 		   (progn
 		     (unless (eq 3 (length code))
-		       (break "paren* expects only two arguments: ~a" code))
+		       (error "paren* expects only two arguments: ~a" code))
 		     (destructuring-bind (parent-op arg &rest rest) (cdr code)
 		       (declare (ignore rest))
 		       (cond
@@ -522,7 +586,7 @@ Returns:
 				      (format nil "~a" (emit `(,op1 ,@rest)))))
 				   (emit `(,(car arg) ,@rest)))))))
 			 (t
-			  (break "unsupported argument for paren* '~a' type='~a'" arg (type-of arg))))))))
+			  (error "unsupported argument for paren* '~a' type='~a'" arg (type-of arg))))))))
 	      (+ (let ((args (cdr code)))
 		   (if omit-redundant-parentheses
 		       (format nil "~{~a~^+~}" (mapcar #'(lambda (x) (emit `(paren* + ,x))) args))
@@ -574,31 +638,39 @@ Returns:
 			(format nil "~{~a~^>>~}" (mapcar #'(lambda (x) (emit `(paren* >> ,x))) args))
 			(format nil "(~{(~a)~^>>~})" (mapcar #'emit args)))))
 	      (/ (let ((args (cdr code)))
+		   (when (null args)
+		     (error "/ requires at least one argument: ~a" code))
 		   (if omit-redundant-parentheses
 		       (if (eq 1 (length args))
 			   (format nil "1.0/~a" (emit `(paren* / ,(car args))))
-			   (format nil "~a/~a" (emit `(paren* / ,(first args))) (emit `(paren* / ,(second args)))))
-		       (format nil "((~a)/(~a))"
-			       (emit (first args))
-			       (emit (second args))))))
+			   ;; python's / is left associative, just like cl's:
+			   ;; (/ a b c) is a/b/c
+			   (format nil "~{~a~^/~}" (mapcar #'(lambda (x) (emit `(paren* / ,x))) args)))
+		       (if (eq 1 (length args))
+			   (format nil "(1.0/(~a))" (emit (car args)))
+			   (format nil "(~{(~a)~^/~})" (mapcar #'emit args))))))
 	      (** (let ((args (cdr code)))
+		    (unless (eq 2 (length args))
+		      ;; python's ** is right associative, cl's expt only takes
+		      ;; two arguments. don't guess, let the user be explicit.
+		      (error "** expects exactly two arguments: ~a" code))
 		    (if omit-redundant-parentheses
 			(format nil "~a**~a" (emit `(paren* ** ,(first args))) (emit `(paren* ** ,(second args))))
 			(format nil "((~a)**(~a))"
 				(emit (first args))
 				(emit (second args))))))
 	      (// (let ((args (cdr code)))
+		    (when (< (length args) 2)
+		      (error "// requires at least two arguments: ~a" code))
 		    (if omit-redundant-parentheses
-			(format nil "~a//~a" (emit `(paren* // ,(first args))) (emit `(paren* // ,(second args))))
-			(format nil "((~a)//(~a))"
-				(emit (first args))
-				(emit (second args))))))
+			(format nil "~{~a~^//~}" (mapcar #'(lambda (x) (emit `(paren* // ,x))) args))
+			(format nil "(~{(~a)~^//~})" (mapcar #'emit args)))))
 	      (% (let ((args (cdr code)))
+		   (when (< (length args) 2)
+		     (error "% requires at least two arguments: ~a" code))
 		   (if omit-redundant-parentheses
-		       (format nil "~a%~a" (emit `(paren* % ,(first args))) (emit `(paren* % ,(second args))))
-		       (format nil "((~a)%(~a))"
-			       (emit (first args))
-			       (emit (second args))))))
+		       (format nil "~{~a~^%~}" (mapcar #'(lambda (x) (emit `(paren* % ,x))) args))
+		       (format nil "(~{(~a)~^%~})" (mapcar #'emit args)))))
 	      (not (destructuring-bind (arg) (cdr code)
 		     (if omit-redundant-parentheses
 			 (format nil "not ~a" (emit `(paren* not ,arg)))

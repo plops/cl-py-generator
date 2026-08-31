@@ -19,10 +19,10 @@
 - Avoid editing generated artifacts directly; regenerate them from source tests instead.
 
 ## Testing Guidelines
-- Add new forms to `*test-cases*` in `transpiler-tests.lisp` with `:name`, `:description`, `:lisp`, `:python`, and `:tags`.
+- Add new forms to `*test-cases*` in `transpiler-tests.lisp` with `:name`, `:description`, `:lisp`, `:python`, and `:tags`. The list is already quoted, so write `:tags (:core :call)` — an extra quote breaks tag filtering and doc grouping.
 - Use `:exec-test t` and `:expected-output` when validating runtime behavior.
 - The test runner formats Python using `ruff format` and executes with `python3`; ensure both are available.
-- **Float Reader Precision Alert**: When formatting and parsing floating-point representations in Lisp (`read-from-string`), be aware of `*read-default-float-format*`. A mismatch between the default read format (`single-float`) and the printed float type (e.g. double-float) will cause precision mismatches and infinite print-reconstruct loops. Always bind `*read-default-float-format*` to match the target float type.
+- **Float Precision**: `print-sufficient-digits-f64` relies on the ANSI read/print consistency guarantee: it binds `*read-default-float-format*` to the type of the number being printed and uses `prin1-to-string`, then normalizes the exponent marker (`d`/`s`/`f`/`l`) to `e` so the literal is valid Python. Never print floats with `~G`/a fixed digit count here — a mismatch between `*read-default-float-format*` and the printed float type causes precision loss (double literals were previously truncated to 12 significant digits) or infinite print-reconstruct loops.
 
 ## Commit & Pull Request Guidelines
 - Recent history shows short, descriptive messages (e.g., “pose plotter”) and occasional Conventional Commits (`feat(scope): ...`). Keep messages concise and specific.

@@ -1,4 +1,4 @@
-Th# cl-py-generator
+# cl-py-generator
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/plops/cl-py-generator)
 
@@ -16,14 +16,17 @@ A Common Lisp library that transpiles S-expressions into Python code. Write Pyth
 ```lisp
 (ql:quickload "cl-py-generator")
 
-(cl-py-generator:write-source 
-  "output.py"
+;; note: write-source appends ".py" and, for a relative name, writes into the
+;; third argument (default: your home directory)
+(cl-py-generator:write-source
+  "output"
   '(do0
      (imports ((np numpy)))
      (def calculate-mean (data)
        (return (np.mean data)))
      (setf result (calculate-mean (list 1 2 3 4 5)))
-     (print result)))
+     (print result))
+  #p"/tmp/")
 ```
 
 This generates clean, readable Python:
@@ -57,8 +60,18 @@ Key features include:
 The main exported functions are:
 
 - `emit-py` - Convert S-expressions to Python code
-- `write-source` - Write generated Python code to a file
-- `write-notebook` - Generate Jupyter notebook files 
+- `write-source` - Write generated Python code to a file (`(write-source name code &optional dir ignore-hash)`; `.py` is appended to `name`)
+- `write-notebook` - Generate Jupyter notebook files
+
+### External tools
+
+Generated files are pretty printed with an external formatter. `write-source`
+looks for `ruff` in `PATH` and falls back to `uvx ruff format`; if neither is
+available the code is written unformatted and a warning is signalled. Bind
+`cl-py-generator:*python-format-command*` to a command list (e.g.
+`(list "black" "-q")`) to choose a different formatter, or to `:none` to switch
+formatting off. `write-notebook` additionally uses `jq` to pretty print the
+notebook JSON, and the test suite needs `ruff` and `python3`.
 
 ## Examples
 

@@ -14,6 +14,7 @@
    ;:print-sufficient-digits-f64  
   
    ;; public state (if you need them externally)  
+   :*python-format-command*
    ;:*warn-breaking*  
    ;:*file-hashes*  
    ;:*env-functions*  

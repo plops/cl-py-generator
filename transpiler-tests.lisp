@@ -9,7 +9,10 @@
 
 (in-package :cl-py-generator/tests)
 
-;; NOTE: The :lisp forms are now correctly quoted with ' instead of `
+;; NOTE: The :lisp forms are quoted with ' instead of `, and :tags is a plain
+;; list (not '(...)): the whole *test-cases* list is already quoted, so an
+;; additional quote would make (getf tc :tags) return (QUOTE (...)) and break
+;; both tag filtering and the grouping in generate-documentation.
 (defparameter *test-cases*
   '(;; Test for simple addition. Note the expected python is simple.
     ;; ruff will add the parentheses automatically for us.
@@ -17,123 +20,123 @@
      :description "Tests the '+' operator with two integer arguments."
      :lisp (+ 1 2)
      :python "1 + 2"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "function-definition"
      :description "Tests a simple function definition with one argument and a return statement."
      :lisp (def foo (x) (return x))
      :python "def foo(x):
     return x"
-     :tags '(:core :control-flow))
+     :tags (:core :control-flow))
 
     (:name "setf-multiple"
      :description "Tests 'setf' for assigning multiple variables in sequence."
      :lisp (setf a 1 b 2)
      :python "a = 1
 b = 2"
-     :tags '(:core :assignment))
+     :tags (:core :assignment))
 
     (:name "assignment-basic"
      :description "Tests direct assignment emission."
      :lisp (= a 1)
      :python "a=1"
-     :tags '(:core :assignment))
+     :tags (:core :assignment))
 
     (:name "list-literal"
      :description "Tests list literal emission."
      :lisp (list 1 2)
      :python "[1, 2]"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "tuple-literal"
      :description "Tests tuple literal emission."
      :lisp (tuple 1 2 3)
      :python "(1, 2, 3,)"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "paren-literal"
      :description "Tests paren emission for comma-separated values."
      :lisp (paren a b)
      :python "(a, b)"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "ntuple-literal"
      :description "Tests ntuple emission without surrounding parentheses."
      :lisp (ntuple a b c)
      :python "a, b, c"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "curly-literal"
      :description "Tests curly emission for set literals."
      :lisp (curly 1 2 3)
      :python "{1, 2, 3}"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "dict-literal"
      :description "Tests dict literal emission with explicit key/value pairs."
      :lisp (dict ((string "a") 1) ((string "b") 2))
      :python "{(\"a\"): (1), (\"b\"): (2)}"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "dictionary-constructor"
      :description "Tests keyword-based dictionary constructor emission."
      :lisp (dictionary :a 1 :b 2)
      :python "dict(a=1, b=2)"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "incf-basic"
      :description "Tests incf emission with explicit increment."
      :lisp (incf a 2)
      :python "a += 2"
-     :tags '(:operator :assignment))
+     :tags (:operator :assignment))
 
     (:name "decf-basic"
      :description "Tests decf emission with explicit decrement."
      :lisp (decf a 3)
      :python "a -= 3"
-     :tags '(:operator :assignment))
+     :tags (:operator :assignment))
 
     (:name "aref-index"
      :description "Tests array reference emission."
      :lisp (aref arr 1)
      :python "arr[1]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "slice-index"
      :description "Tests slice emission inside indexing."
      :lisp (aref arr (slice 1 2))
      :python "arr[1:2]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "slice-step"
      :description "Tests slice emission with a step."
      :lisp (aref arr (slice 1 5 2))
      :python "arr[1:5:2]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "slice-open-start"
      :description "Tests slice emission with an open start."
      :lisp (aref arr (slice nil 3))
      :python "arr[:3]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "slice-open-end"
      :description "Tests slice emission with an open end."
      :lisp (aref arr (slice 1 nil))
      :python "arr[1:]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "aref-multi-index"
      :description "Tests multi-index emission."
      :lisp (aref arr i j)
      :python "arr[i,j]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "dot-access"
      :description "Tests dot form emission."
      :lisp (dot obj attr)
      :python "obj.attr"
-     :tags '(:core :accessor))
+     :tags (:core :accessor))
 
     (:name "try-except-as"
      :description "Tests as-form emission in except clauses."
@@ -142,242 +145,242 @@ b = 2"
     a=1
 except Exception as e:
     a=2"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "logical-and"
      :description "Tests logical and emission."
      :lisp (and a b)
      :python "a and b"
-     :tags '(:operator :boolean))
+     :tags (:operator :boolean))
 
     (:name "logical-or"
      :description "Tests logical or emission."
      :lisp (or a b)
      :python "a or b"
-     :tags '(:operator :boolean))
+     :tags (:operator :boolean))
 
     (:name "eq-compare"
      :description "Tests equality comparison emission."
      :lisp (== a b)
      :python "a == b"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "neq-compare"
      :description "Tests inequality comparison emission."
      :lisp (!= a b)
      :python "a != b"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "lt-compare"
      :description "Tests less-than comparison emission."
      :lisp (< a b)
      :python "a < b"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "lte-compare"
      :description "Tests less-than-or-equal comparison emission."
      :lisp (<= a b)
      :python "a <= b"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "gt-compare"
      :description "Tests greater-than comparison emission."
      :lisp (> a b)
      :python "a > b"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "gte-compare"
      :description "Tests greater-than-or-equal comparison emission."
      :lisp (>= a b)
      :python "a >= b"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "in-compare"
      :description "Tests membership comparison emission."
      :lisp (in a b)
      :python "(a in b)"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "not-in-compare"
      :description "Tests negative membership comparison emission."
      :lisp (not-in a b)
      :python "(a not in b)"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "is-compare"
      :description "Tests identity comparison emission."
      :lisp (is a b)
      :python "(a is b)"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "is-not-compare"
      :description "Tests negative identity comparison emission."
      :lisp (is-not a b)
      :python "(a is not b)"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "mod-operator"
      :description "Tests modulo operator emission."
      :lisp (% a b)
      :python "a % b"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "sub-operator"
      :description "Tests subtraction operator emission."
      :lisp (- a b)
      :python "a - b"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "mul-operator"
      :description "Tests multiplication operator emission."
      :lisp (* a b c)
      :python "a * b * c"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "div-operator"
      :description "Tests division operator emission."
      :lisp (/ a b)
      :python "a / b"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "matmul-operator"
      :description "Tests matrix-multiplication operator emission."
      :lisp (@ a b)
      :python "a @ b"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "floor-div-operator"
      :description "Tests floor division operator emission."
      :lisp (// a b)
      :python "a // b"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "pow-operator"
      :description "Tests exponentiation operator emission."
      :lisp (** a b)
      :python "a**b"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "shift-left-operator"
      :description "Tests left shift operator emission."
      :lisp (<< a b)
      :python "a << b"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "shift-right-operator"
      :description "Tests right shift operator emission."
      :lisp (>> a b)
      :python "a >> b"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "bitwise-and-operator"
      :description "Tests bitwise and operator emission."
      :lisp (& a b)
      :python "a & b"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "logand-operator"
      :description "Tests logand emission."
      :lisp (logand a b c)
      :python "a & b & c"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "bitwise-xor-operator"
      :description "Tests bitwise xor operator emission."
      :lisp (^ a b)
      :python "a ^ b"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "logxor-operator"
      :description "Tests logxor emission."
      :lisp (logxor a b)
      :python "a ^ b"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "bitwise-or-operator"
      :description "Tests bitwise or operator emission."
      :lisp (cl-py-generator::|\|| a b)
      :python "a | b"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "bitwise-ior-operator"
      :description "Tests bitwise or operator emission."
      :lisp (logior a b c)
      :python "a | b | c"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "keyword-args-call"
      :description "Tests keyword argument emission in function calls."
      :lisp (foo 1 :bar 2 :baz 3)
      :python "foo(1, bar=2, baz=3)"
-     :tags '(:core :call))
+     :tags (:core :call))
 
     (:name "keyword-only-call"
      :description "Tests keyword-only call emission."
      :lisp (foo :bar 2)
      :python "foo(bar=2)"
-     :tags '(:core :call))
+     :tags (:core :call))
 
     (:name "string-literal"
      :description "Tests string literal emission."
      :lisp (string "hi")
      :python "\"hi\""
-     :tags '(:core :string))
+     :tags (:core :string))
 
     (:name "string-bytes-literal"
      :description "Tests byte string literal emission."
      :lisp (string-b "data")
      :python "b\"data\""
-     :tags '(:core :string))
+     :tags (:core :string))
 
     (:name "string3-literal"
      :description "Tests triple-quoted string literal emission."
      :lisp (string3 "block")
      :python "\"\"\"block\"\"\""
-     :tags '(:core :string))
+     :tags (:core :string))
 
     (:name "rstring3-literal"
      :description "Tests raw triple-quoted string literal emission."
      :lisp (rstring3 "raw")
      :python "r\"\"\"raw\"\"\""
-     :tags '(:core :string))
+     :tags (:core :string))
 
     (:name "fstring-literal"
      :description "Tests f-string emission."
      :lisp (fstring "{x}")
      :python "f\"{x}\""
-     :tags '(:core :string))
+     :tags (:core :string))
 
     (:name "fstring3-literal"
      :description "Tests triple-quoted f-string emission."
      :lisp (fstring3 "{x}")
      :python "f\"\"\"{x}\"\"\""
-     :tags '(:core :string))
+     :tags (:core :string))
 
     (:name "comment-literal"
      :description "Tests single line comment emission."
      :lisp (comment "note")
      :python "# note"
-     :tags '(:core :comment))
+     :tags (:core :comment))
 
     (:name "comments-literal"
      :description "Tests multi-line comment emission."
      :lisp (comments "line1" "line2")
      :python "# line1
 # line2"
-     :tags '(:core :comment))
+     :tags (:core :comment))
 
     (:name "symbol-literal"
      :description "Tests symbol emission with hyphen to colon conversion."
      :lisp (symbol foo-bar)
      :python "foo:bar"
-     :tags '(:core :symbol))
+     :tags (:core :symbol))
 
     (:name "lambda-basic"
      :description "Tests lambda emission with a single expression body."
      :lisp (lambda (x) (+ x 1))
      :python "lambda x: x + 1"
-     :tags '(:core :lambda))
+     :tags (:core :lambda))
 
     (:name "if-else-basic"
      :description "Tests if/else emission."
@@ -386,41 +389,41 @@ except Exception as e:
     return 1
 else:
     return 2"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "when-basic"
      :description "Tests when emission."
      :lisp (when (> a b) (return a))
      :python "if a > b:
     return a"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "unless-basic"
      :description "Tests unless emission."
      :lisp (unless (> a b) (return b))
      :python "if not a > b:
     return b"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "while-basic"
      :description "Tests while loop emission."
      :lisp (while (< a b) (setf a (+ a 1)))
      :python "while a < b:
     a=a + 1"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "for-basic"
      :description "Tests for loop emission."
      :lisp (for (i (range 3)) (print i))
      :python "for i in range(3):
     print(i)"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "for-generator-basic"
      :description "Tests for-generator emission."
      :lisp (for-generator (i (range 3)) (* i 2))
      :python "i*2 for i in range(3)"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "class-basic"
      :description "Tests class emission with a simple initializer."
@@ -428,7 +431,7 @@ else:
      :python "class Foo:
     def __init__(self, x):
         self.x=x"
-     :tags '(:core :class))
+     :tags (:core :class))
 
     (:name "class-parent"
      :description "Tests class emission with a parent class."
@@ -436,19 +439,19 @@ else:
      :python "class Child(Base):
     def __init__(self):
         return 1"
-     :tags '(:core :class))
+     :tags (:core :class))
 
     (:name "import-basic"
      :description "Tests single import emission."
      :lisp (import sys)
      :python "import sys"
-     :tags '(:import))
+     :tags (:import))
 
     (:name "import-alias"
      :description "Tests import emission with alias."
      :lisp (import (np numpy))
      :python "import numpy as np"
-     :tags '(:import))
+     :tags (:import))
 
     (:name "imports-basic"
      :description "Tests multiple import emissions with aliases."
@@ -456,48 +459,48 @@ else:
      :python "import sys
 import numpy as np
 import matplotlib.pyplot as plt"
-     :tags '(:import))
+     :tags (:import))
 
     (:name "import-from-basic"
      :description "Tests from-import emission."
      :lisp (import-from math sin cos)
      :python "from math import sin, cos"
-     :tags '(:import))
+     :tags (:import))
 
     (:name "imports-from-basic"
      :description "Tests multiple from-import emissions."
      :lisp (imports-from (math sin cos) (pathlib Path))
      :python "from math import sin, cos
 from pathlib import Path"
-     :tags '(:import))
+     :tags (:import))
 
     (:name "with-basic"
      :description "Tests with-statement emission."
      :lisp (with (open \"f.txt\") (setf data (dot f read)))
      :python "with open(\"f.txt\"):
     data=f.read"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "with-as-basic"
      :description "Tests with-statement emission using 'as'."
      :lisp (with (as (open \"f.txt\") f) (setf data (dot f read)))
      :python "with open(\"f.txt\") as f:
     data=f.read"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "do0-basic"
      :description "Tests do0 emission without extra indentation."
      :lisp (do0 (setf a 1) (setf b 2))
      :python "a=1
 b=2"
-     :tags '(:core :utility))
+     :tags (:core :utility))
 
     (:name "cell-basic"
      :description "Tests cell emission with export comment."
      :lisp (cell (setf a 1))
      :python "# export
 a=1"
-     :tags '(:core :utility))
+     :tags (:core :utility))
 
     (:name "try-basic"
      :description "Tests try/except/else/finally emission."
@@ -510,7 +513,7 @@ else:
     a=3
 finally:
     a=4"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "cond-basic"
      :description "Tests cond emission."
@@ -521,32 +524,32 @@ elif a < b:
     return b
 else:
     return 0"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "ternary-basic"
      :description "Tests ternary emission."
      :lisp (? (> a b) a b)
      :python "a if a > b else b"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "return_-basic"
      :description "Tests return_ emission inside a function."
      :lisp (def foo () (return_ (x)))
      :python "def foo():
     return x"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "space-basic"
      :description "Tests space emission."
      :lisp (space alpha beta)
      :python "alpha beta"
-     :tags '(:core :utility))
+     :tags (:core :utility))
 
     (:name "setf-aref"
      :description "Tests assigning to a specific index via aref inside setf."
      :lisp (setf (aref u2 0 0) v)
      :python "u2[0, 0] = v"
-     :tags '(:core :assignment))
+     :tags (:core :assignment))
 
     (:name "def-type-annotations"
      :description "Tests function definitions with parameter and return type declarations."
@@ -558,14 +561,14 @@ else:
              (return y))
      :python "def simulate(E: float, y: list, t_max: float = 1.0) -> list:
     return y"
-     :tags '(:core :function))
+     :tags (:core :function))
 
     (:name "async-def"
      :description "Tests async function definitions using space construct."
      :lisp (space async (def time_generator () (return 1)))
      :python "async def time_generator():
     return 1"
-     :tags '(:core :function))
+     :tags (:core :function))
 
     (:name "decorators"
      :description "Tests function decorators using the symbol fallback starting with @."
@@ -573,19 +576,19 @@ else:
      :python "@rt(\"/\")
 def get(request):
     return 1"
-     :tags '(:core :function))
+     :tags (:core :function))
 
     (:name "dict-comprehension"
      :description "Tests dictionary comprehension using curly, for-generator and slice."
      :lisp (curly (for-generator ((ntuple i s) (enumerate chars)) (slice s (+ i 1))))
      :python "{s: i + 1 for i, s in enumerate(chars)}"
-     :tags '(:core :comprehension))
+     :tags (:core :comprehension))
 
     (:name "list-comprehension"
      :description "Tests list comprehension using list and for-generator."
      :lisp (list (for-generator (r responses) r))
      :python "[r for r in responses]"
-     :tags '(:core :comprehension))
+     :tags (:core :comprehension))
 
     (:name "try-except-string"
      :description "Tests try/except block using string directly for except clause."
@@ -594,32 +597,32 @@ def get(request):
     a = 1
 except Exception as e:
     print(e)"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "argument-unpacking"
      :description "Tests keyword argument unpacking in function calls."
      :lisp (func **tub.input)
      :python "func(**tub.input)"
-     :tags '(:core :call))
+     :tags (:core :call))
 
     (:name "def-unpacking-parameters"
      :description "Tests function definitions with *args and **kwargs unpacking parameters."
      :lisp (def foo (self *args **kwargs) (return 1))
      :python "def foo(self, *args, **kwargs):
     return 1"
-     :tags '(:core :function))
+     :tags (:core :function))
 
     (:name "empty-call"
      :description "Tests function/constructor call with no arguments."
      :lisp (foo)
      :python "foo()"
-     :tags '(:core :call))
+     :tags (:core :call))
 
     (:name "float-notation"
      :description "Tests single-float and double-float number representations."
      :lisp (tuple 2.2s0 2.2d0)
      :python "(2.2, 2.2,)"
-     :tags '(:core :number))
+     :tags (:core :number))
 
     (:name "functional-addition"
      :description "Verifies that the generated code for '+' executes correctly."
@@ -627,49 +630,49 @@ except Exception as e:
      :python "print(5 + 8)"
      :exec-test t
      :expected-output "13"
-     :tags '(:operator :arithmetic :functional))
+     :tags (:operator :arithmetic :functional))
 
     (:name "unary-division-minus"
      :description "Tests unary minus and unary division operators."
      :lisp (tuple (- x) (/ x))
      :python "(-x, 1.0 / x,)"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "unary-bitwise-not"
      :description "Tests unary bitwise negation operator."
      :lisp (~ x)
      :python "~x"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "complex-numbers"
      :description "Tests representation of complex numbers."
      :lisp #c(1.0 2.0)
      :python "1.0 + 1j * 2.0"
-     :tags '(:core :number))
+     :tags (:core :number))
 
     (:name "logical-not"
      :description "Tests unary logical negation operator."
      :lisp (not a)
      :python "not a"
-     :tags '(:operator :boolean))
+     :tags (:operator :boolean))
 
     (:name "raw-string-ident"
      :description "Tests raw string in function call position."
      :lisp ("list" generator)
      :python "list(generator)"
-     :tags '(:core :call))
+     :tags (:core :call))
 
     (:name "slice-empty-raw-string"
      :description "Tests empty slice and slice with raw strings."
      :lisp (tuple (aref xf (slice)) (aref xf (slice "" max_len)))
      :python "(xf[:], xf[:max_len],)"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "paren-conditional-parentheses"
      :description "Tests paren* construct for precedence-aware parentheses."
      :lisp (tuple (paren* * (+ a b)) (paren* + (+ a b)))
      :python "((a + b), a + b,)"
-     :tags '(:core :utility))
+     :tags (:core :utility))
 
     (:name "raw-code-insertion"
      :description "Tests raw code insertion via bare strings at block level."
@@ -678,7 +681,7 @@ except Exception as e:
 @threaded
 def func():
     return 1"
-     :tags '(:core :utility))
+     :tags (:core :utility))
 
     (:name "loop-control"
      :description "Tests loop control statements break and continue."
@@ -688,101 +691,101 @@ def func():
         break
     else:
         continue"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "yield-statements"
      :description "Tests yield statement and yield function call variants."
      :lisp (do0 yield (yield x))
      :python "yield
 yield(x)"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "lambda-variants"
      :description "Tests lambda functions with zero or multiple arguments."
      :lisp (tuple (lambda () 42) (lambda (x y) (+ x y)))
      :python "(lambda: 42, lambda x, y: x + y,)"
-     :tags '(:core :lambda))
+     :tags (:core :lambda))
 
     (:name "class-super-call"
      :description "Tests calling superclass methods in Python."
      :lisp (tuple (super) (super ImageModel self))
      :python "(super(), super(ImageModel, self),)"
-     :tags '(:core :call))
+     :tags (:core :call))
 
     (:name "chained-dot-access"
      :description "Tests chained dot access including functions and array references."
      :lisp (dot model (aref weights i j) (item))
      :python "model.weights[i,j].item()"
-     :tags '(:core :accessor))
+     :tags (:core :accessor))
 
     (:name "unpacking-assignment"
      :description "Tests assignment to unpacked values on the left hand side."
      :lisp (setf (ntuple a b) (tuple 1 2))
      :python "a, b = (1, 2,)"
-     :tags '(:core :assignment))
+     :tags (:core :assignment))
 
     (:name "with-multiple"
      :description "Tests with-statement with multiple context managers using ntuple."
      :lisp (with (ntuple (as (open (string "a.txt")) f) (as (open (string "b.txt")) g)) (setf a 1))
      :python "with open(\"a.txt\") as f, open(\"b.txt\") as g:
     a = 1"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "export-cell"
      :description "Tests 'export' comment cell construct."
      :lisp (export (setf a 1))
      :python "# |export
 a = 1"
-     :tags '(:core :utility))
+     :tags (:core :utility))
 
     (:name "indent-construct"
      :description "Tests standalone 'indent' formatting construct."
      :lisp (indent a)
      :python "a"
-     :tags '(:core :utility))
+     :tags (:core :utility))
 
     (:name "lambda-keywords"
      :description "Tests lambda expression with keyword arguments."
      :lisp (lambda (x &key (y 2)) (+ x y))
      :python "lambda x, y=2: x + y"
-     :tags '(:core :lambda))
+     :tags (:core :lambda))
 
     (:name "aref-raw-string"
      :description "Tests raw string index insertion inside aref."
      :lisp (aref arr ":" 0)
      :python "arr[:, 0]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "with-simple"
      :description "Tests with-statement with a simple variable context manager."
      :lisp (with conn (setf a 1))
      :python "with conn:
     a = 1"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "empty-dictionary"
      :description "Tests empty dict literal and empty dictionary constructor."
      :lisp (tuple (dict) (dictionary))
      :python "({}, dict(),)"
-     :tags '(:core :collection))
+     :tags (:core :collection))
 
     (:name "chained-comparison"
      :description "Tests chained comparison operators with multiple arguments."
      :lisp (tuple (< a b c) (<= x y z) (== d e f))
      :python "(a < b < c, x <= y <= z, d == e == f,)"
-     :tags '(:operator :comparison))
+     :tags (:operator :comparison))
 
     (:name "chained-logical"
      :description "Tests logical and/or operators with more than two arguments."
      :lisp (tuple (and a b c) (or d e f))
      :python "(a and b and c, d or e or f,)"
-     :tags '(:operator :boolean))
+     :tags (:operator :boolean))
 
     (:name "chained-bitwise"
      :description "Tests bitwise and/xor/or operators with more than two arguments."
      :lisp (tuple (logand a b c) (logxor x y z) (logior p q r))
      :python "(a & b & c, x ^ y ^ z, p | q | r,)"
-     :tags '(:operator :bitwise))
+     :tags (:operator :bitwise))
 
     (:name "return-variants"
      :description "Tests return statement variants including empty return, single value, and multi-value returns."
@@ -799,27 +802,27 @@ def f2():
 
 def f3():
     return x, y"
-     :tags '(:core :control-flow))
+     :tags (:core :control-flow))
 
     (:name "pass-statement"
      :description "Tests standalone 'pass' statement representation."
      :lisp (def f () pass)
      :python "def f():
     pass"
-     :tags '(:core :control-flow))
+     :tags (:core :control-flow))
 
     (:name "set-comprehension"
      :description "Tests set comprehension using curly braces and for-generator."
      :lisp (curly (for-generator (x (range 5)) x))
      :python "{x for x in range(5)}"
-     :tags '(:core :comprehension))
+     :tags (:core :comprehension))
 
     (:name "for-sequence"
      :description "Tests looping over a sequence variable (without explicit range/function call)."
      :lisp (for (x items) (print x))
      :python "for x in items:
     print(x)"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "nested-function-def"
      :description "Tests nested function definition emission."
@@ -831,7 +834,7 @@ def f3():
     def inner(y):
         return x + y
     return inner"
-     :tags '(:core :function))
+     :tags (:core :function))
 
     (:name "nested-class-def"
      :description "Tests nested class definition emission."
@@ -843,7 +846,7 @@ def f3():
     class Inner:
         def f(self):
             pass"
-     :tags '(:core :class))
+     :tags (:core :class))
 
     (:name "def-key-default-expression"
      :description "Tests default parameters in function definitions with expression values."
@@ -851,31 +854,31 @@ def f3():
              (return (* x y)))
      :python "def foo(x, y=1 + 2):
     return x * y"
-     :tags '(:core :function))
+     :tags (:core :function))
 
     (:name "nested-ternary"
      :description "Tests nested ternary operations with precedence-aware parenthesis formatting."
      :lisp (setf x (? c1 a (? c2 b d)))
      :python "x = a if c1 else b if c2 else d"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "slice-negative-step"
      :description "Tests slice with open bounds and a negative step value."
      :lisp (aref arr (slice nil nil -1))
      :python "arr[::-1]"
-     :tags '(:core :indexing))
+     :tags (:core :indexing))
 
     (:name "logical-not-precedence"
      :description "Tests logical not precedence parenting."
      :lisp (tuple (not (== a b)) (not (and a b)))
      :python "(not a == b, not (a and b),)"
-     :tags '(:operator :boolean))
+     :tags (:operator :boolean))
 
     (:name "chained-matmul"
      :description "Tests matrix multiplication chaining with multiple operands."
      :lisp (@ a b c)
      :python "a @ b @ c"
-     :tags '(:operator :arithmetic))
+     :tags (:operator :arithmetic))
 
     (:name "for-unpacking"
      :description "Tests unpacking multiple loop variables directly inside a for loop."
@@ -883,7 +886,7 @@ def f3():
              (print root))
      :python "for root, folders, files in os.walk(\".\"):
     print(root)"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "def-key-only-parameters"
      :description "Tests function definition with only keyword arguments."
@@ -891,7 +894,7 @@ def f3():
              (return (+ x y)))
      :python "def foo(x=1, y=2):
     return x + y"
-     :tags '(:core :function))
+     :tags (:core :function))
 
     (:name "try-except-tuple"
      :description "Tests try-except clause with a tuple of exceptions."
@@ -905,25 +908,63 @@ except (
     ValueError,
 ):
     print(\"error\")"
-     :tags '(:control-flow))
+     :tags (:control-flow))
 
     (:name "dot-access-symbol-fallback"
      :description "Tests symbol emission containing dots as member access."
      :lisp (setf image.flags.writeable False)
      :python "image.flags.writeable = False"
-     :tags '(:core :symbol))
+     :tags (:core :symbol))
 
     (:name "complex-symbol-fallback"
      :description "Tests symbol fallback for complex number literals like 1j or 0j."
      :lisp (tuple 0j 1j)
      :python "(0j, 1j,)"
-     :tags '(:core :symbol))
+     :tags (:core :symbol))
 
     (:name "raw-code-in-expression"
      :description "Tests raw code insertion inside an expression using a bare string."
      :lisp (- "1/8" x)
      :python "1/8 - x"
-     :tags '(:core :utility))))
+     :tags (:core :utility))
+
+    (:name "div-chained"
+     :description "Tests division with more than two arguments (left associative, like Common Lisp and Python)."
+     :lisp (/ a b c)
+     :python "a / b / c"
+     :tags (:operator :arithmetic))
+
+    (:name "floor-div-chained"
+     :description "Tests floor division with more than two arguments."
+     :lisp (// a b c)
+     :python "a // b // c"
+     :tags (:operator :arithmetic))
+
+    (:name "float-round-trip"
+     :description "Tests that float literals are emitted with enough digits to read back as the very same number."
+     :lisp (setf x 0.3333333333333333d0
+                 y 1.2345678901234567d5
+                 z 1.0d-20
+                 w 1.0d30)
+     :python "x = 0.3333333333333333
+y = 123456.78901234567
+z = 1.0e-20
+w = 1.0e30"
+     :tags (:core :number))
+
+    (:name "functional-float-precision"
+     :description "Verifies that an emitted double float literal is bit-identical to the value Python computes."
+     :lisp (print (== 0.3333333333333333d0 (/ 1 3)))
+     :python "print(0.3333333333333333 == (1 / 3))"
+     :exec-test t
+     :expected-output "True"
+     :tags (:core :number :functional))
+
+    (:name "comprehension-filter"
+     :description "Tests the two-argument ternary as the filter of a comprehension (the else branch is omitted)."
+     :lisp (list (? (> x 0) (for-generator (x xs) x)))
+     :python "[x for x in xs if x > 0]"
+     :tags (:core :comprehension))))
 
 ;; ===================================================================
 ;; NEW HELPER FUNCTION TO RUN RUFF
@@ -984,45 +1025,48 @@ except (
 
     (dolist (test-case selected-tests)
       (incf test-count)
-      (let* ((name (getf test-case :name))
-             (lisp-code (getf test-case :lisp))
-             (expected-python-raw (getf test-case :python))
-             (actual-python-raw (emit-py :clear-env t :code lisp-code))
-             (expected-python (run-ruff-format expected-python-raw))
-             (actual-python (run-ruff-format actual-python-raw)))
+      ;; NOTE: a named block is required here. A plain (return) would leave the
+      ;; implicit NIL block of DOLIST, i.e. it would abort the whole test run
+      ;; instead of skipping the current test case.
+      (block one-test
+        (let* ((name (getf test-case :name))
+               (lisp-code (getf test-case :lisp))
+               (expected-python-raw (getf test-case :python))
+               (actual-python-raw (emit-py :clear-env t :code lisp-code))
+               (expected-python (run-ruff-format expected-python-raw))
+               (actual-python (run-ruff-format actual-python-raw)))
 
-        (format t "~&[~D] Testing '~A'... " test-count name)
+          (format t "~&[~D] Testing '~A'... " test-count name)
 
-        ;; TIER 1: Transpilation Correctness
-        (if (string= (normalize-string actual-python) (normalize-string expected-python))
-            (format t "TRANSPILATION [PASS]")
-            (progn
-              (incf failed)
-              (format t "TRANSPILATION [FAIL]~%  Expected (after ruff):~%---~%~A~%---~%  Got (after ruff):~%---~%~A~%---"
-                      expected-python actual-python)
-              ;; Skip to the next test case in the dolist loop
-              (return)))
+          ;; TIER 1: Transpilation Correctness
+          (if (string= (normalize-string actual-python) (normalize-string expected-python))
+              (format t "TRANSPILATION [PASS]")
+              (progn
+                (incf failed)
+                (format t "TRANSPILATION [FAIL]~%  Expected (after ruff):~%---~%~A~%---~%  Got (after ruff):~%---~%~A~%---"
+                        expected-python actual-python)
+                ;; Skip the execution test and continue with the next test case
+                (return-from one-test)))
 
-        ;; TIER 2: Functional Execution Correctness
-        ;; The entire functional test logic is now correctly wrapped.
-        (if (getf test-case :exec-test)
-            ;; THEN branch: Run the execution test
-            (uiop:with-temporary-file (:pathname p :stream s :type "py")
-              (write-string actual-python s)
-              (finish-output s)
-              (close s)
-              (multiple-value-bind (output error-output exit-code)
-                  (uiop:run-program (list "python3" (uiop:native-namestring p))
-                                    :output :string :error-output :string :ignore-error-status t)
-                (if (and (= exit-code 0)
-                         (string= (normalize-string output) (normalize-string (getf test-case :expected-output))))
-                    (progn (incf passed) (format t ", EXECUTION [PASS]"))
-                    (progn
-                      (incf failed)
-                      (format t ", EXECUTION [FAIL]~%  Exit Code: ~D~%  Expected Output: ~S~%  Actual Output:   ~S~%  Stderr: ~S"
-                              exit-code (getf test-case :expected-output) output error-output)))))
-            ;; ELSE branch: No execution test, just count the transpilation pass
-            (incf passed))))
+          ;; TIER 2: Functional Execution Correctness
+          (if (getf test-case :exec-test)
+              ;; THEN branch: Run the execution test
+              (uiop:with-temporary-file (:pathname p :stream s :type "py")
+                (write-string actual-python s)
+                (finish-output s)
+                (close s)
+                (multiple-value-bind (output error-output exit-code)
+                    (uiop:run-program (list "python3" (uiop:native-namestring p))
+                                      :output :string :error-output :string :ignore-error-status t)
+                  (if (and (= exit-code 0)
+                           (string= (normalize-string output) (normalize-string (getf test-case :expected-output))))
+                      (progn (incf passed) (format t ", EXECUTION [PASS]"))
+                      (progn
+                        (incf failed)
+                        (format t ", EXECUTION [FAIL]~%  Exit Code: ~D~%  Expected Output: ~S~%  Actual Output:   ~S~%  Stderr: ~S"
+                                exit-code (getf test-case :expected-output) output error-output)))))
+              ;; ELSE branch: No execution test, just count the transpilation pass
+              (incf passed)))))
     
     (format t "~2&--- Test Summary ---~%")
     (format t "Total Tests Run: ~D~%" test-count)

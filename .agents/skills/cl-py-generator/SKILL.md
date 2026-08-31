@@ -53,36 +53,44 @@ Below is a complete reference of the Lisp forms supported by the transpiler and 
     ```
 
 ### 2. Basic Operators
-All operators wrap their operands in parentheses to preserve operator precedence.
+By default (`:omit-redundant-parentheses t`) the emitter only inserts
+parentheses where operator precedence requires them, so the generated Python
+looks hand-written. Pass `:omit-redundant-parentheses nil` to `emit-py` to get
+the older, fully parenthesized output (`((a) + (b))`).
 - **Arithmetic**:
-  - `(+ a b)` &rarr; `((a) + (b))`
-  - `(- a b)` &rarr; `((a) - (b))`
-  - `(* a b c)` &rarr; `((a) * (b) * (c))`
-  - `(/ a b)` &rarr; `((a) / (b))`
-  - `(// a b)` &rarr; `((a) // (b))` (floor division)
-  - `(% a b)` &rarr; `((a) % (b))` (modulo)
-  - `(** a b)` &rarr; `((a) ** (b))` (exponentiation)
-  - `(@ a b)` &rarr; `((a) @ (b))` (matrix multiplication)
+  - `(+ a b)` &rarr; `a + b`
+  - `(- a b)` &rarr; `a - b`, `(- a)` &rarr; `-a`
+  - `(* a b c)` &rarr; `a * b * c`
+  - `(/ a b)` &rarr; `a / b`, `(/ a)` &rarr; `1.0 / a`, `(/ a b c)` &rarr; `a / b / c`
+  - `(// a b)` &rarr; `a // b` (floor division)
+  - `(% a b)` &rarr; `a % b` (modulo)
+  - `(** a b)` &rarr; `a**b` (exponentiation, exactly two arguments)
+  - `(@ a b)` &rarr; `a @ b` (matrix multiplication)
 - **Bitwise**:
-  - `(& a b)` or `(logand a b)` &rarr; `((a) & (b))`
-  - `(^ a b)` or `(logxor a b)` &rarr; `((a) ^ (b))`
-  - `(logior a b)` or `cl-py-generator::|\||` &rarr; `((a) | (b))`
-  - `(<< a b)` &rarr; `((a) << (b))`
-  - `(>> a b)` &rarr; `((a) >> (b))`
+  - `(& a b)` or `(logand a b)` &rarr; `a & b`
+  - `(^ a b)` or `(logxor a b)` &rarr; `a ^ b`
+  - `(logior a b)` or `cl-py-generator::|\||` &rarr; `a | b`
+  - `(<< a b)` &rarr; `a << b`
+  - `(>> a b)` &rarr; `a >> b`
 - **Comparison**:
-  - `(== a b)` &rarr; `((a) == (b))`
-  - `(!= a b)` &rarr; `((a) != (b))`
-  - `(< a b)` &rarr; `((a) < (b))`
-  - `(<= a b)` &rarr; `((a) <= (b))`
-  - `(> a b)` &rarr; `((a) > (b))`
-  - `(>= a b)` &rarr; `((a) >= (b))`
+  - `(== a b)` &rarr; `a == b`
+  - `(!= a b)` &rarr; `a != b`
+  - `(< a b)` &rarr; `a < b` (more arguments chain: `(< a b c)` &rarr; `a < b < c`)
+  - `(<= a b)` &rarr; `a <= b`
+  - `(> a b)` &rarr; `a > b`
+  - `(>= a b)` &rarr; `a >= b`
   - `(in a b)` &rarr; `(a in b)`
   - `(not-in a b)` &rarr; `(a not in b)`
   - `(is a b)` &rarr; `(a is b)`
   - `(is-not a b)` &rarr; `(a is not b)`
 - **Logical**:
-  - `(and a b)` &rarr; `((a) and (b))`
-  - `(or a b)` &rarr; `((a) or (b))`
+  - `(and a b)` &rarr; `a and b`
+  - `(or a b)` &rarr; `a or b`
+  - `(not a)` &rarr; `not a`
+
+> [!NOTE]
+> `**` takes exactly two arguments, `//` and `%` at least two. Passing a third
+> argument to `**` signals an error instead of silently dropping it.
 
 ### 3. Collections & Accessors
 - **List Literal**: `(list 1 2)` &rarr; `[1, 2]`
@@ -106,7 +114,7 @@ All operators wrap their operands in parentheses to preserve operator precedence
   - If/Else: `(if condition true-stmt false-stmt)` &rarr; `if condition:\n    true-stmt\nelse:\n    false-stmt`
   - When: `(when condition body*)` &rarr; `if condition:\n    body*`
   - Unless: `(unless condition body*)` &rarr; `if not condition:\n    body*`
-  - Ternary: `(? condition true-expr false-expr)` &rarr; `(true-expr) if (condition) else (false-expr)`
+  - Ternary: `(? condition true-expr false-expr)` &rarr; `true-expr if condition else false-expr`
   - Cond (multi-branch):
     ```lisp
     (cond ((> a b) (return a))
@@ -115,18 +123,21 @@ All operators wrap their operands in parentheses to preserve operator precedence
     ```
     Emits:
     ```python
-    if ( a > b ):
+    if a > b:
         return a
-    elif ( a < b ):
+    elif a < b:
         return b
     else:
         return 0
     ```
 - **Loops**:
-  - While: `(while (< a b) (setf a (+ a 1)))` &rarr; `while (a < b):\n    a = a + 1`
+  - While: `(while (< a b) (setf a (+ a 1)))` &rarr; `while a < b:\n    a = a + 1`
   - For: `(for (i (range 3)) (print i))` &rarr; `for i in range(3):\n    print(i)`
   - Loop Control: `break` and `continue` keywords can be placed inside loops as atoms.
   - List Comprehension Generator: `(for-generator (i (range 3)) (* i 2))` &rarr; `i * 2 for i in range(3)`
+  - Comprehension filter: wrap the generator in the **two-argument** ternary,
+    which emits `<expr> if <cond>` without an `else` branch:
+    `(list (? (> x 0) (for-generator (x xs) x)))` &rarr; `[x for x in xs if x > 0]`
 - **Yield Statements**:
   - Generator yield: `yield` &rarr; `yield`
   - Generator yield value: `(yield x)` &rarr; `yield(x)`
@@ -197,6 +208,14 @@ All operators wrap their operands in parentheses to preserve operator precedence
   ```
 
 ### 7. Literals & Code Structure
+- **Numbers**:
+  - Integers are emitted verbatim.
+  - Floats are printed with the shortest representation that reads back as the
+    very same value, and the Lisp exponent marker is normalized to `e`
+    (`0.3333333333333333d0` &rarr; `0.3333333333333333`, `1d30` &rarr; `1.0e30`).
+    Write double-float literals (`1.5d0`) when you need double precision in the
+    generated Python; a single-float literal (`1.5`) only carries ~7 digits.
+  - Complex numbers: `#c(1.0 2.0)` &rarr; `1.0 + 1j * 2.0`.
 - **Strings**:
   - Double quotes: `(string "hello")` &rarr; `"hello"`
   - Byte string: `(string-b "data")` &rarr; `b"data"`
@@ -295,6 +314,17 @@ When altering the transpiler codebase or checking how forms render:
 
 2. **Adding Test Cases**:
    - Add new cases to `*test-cases*` in `transpiler-tests.lisp` with `:name`, `:description`, `:lisp`, `:python`, and optionally `:exec-test t` and `:expected-output`.
+   - `*test-cases*` is one big quoted list, so do **not** quote the `:tags` value
+     again (`:tags (:core :call)`, not `:tags '(:core :call)`). An extra quote
+     makes the first tag the symbol `quote` and breaks both `:tags` filtering
+     (`(run-transpiler-tests :tags '(:operator))`) and the section grouping in
+     `SUPPORTED_FORMS.md`.
 
 3. **Regenerating Docs**:
    - Run `./generate-docs.sh` to update `SUPPORTED_FORMS.md` with the latest mappings from the test suite. Do not edit `SUPPORTED_FORMS.md` by hand.
+
+4. **External tools**:
+   - `write-source` pretty prints with `ruff` (from `PATH`) or `uvx ruff format`.
+     Bind `cl-py-generator:*python-format-command*` to override the command, or
+     to `:none` to disable formatting. A missing formatter only warns; the
+     unformatted file is still written.
