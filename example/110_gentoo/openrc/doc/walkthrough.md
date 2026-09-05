@@ -352,3 +352,264 @@ findmnt /run/initramfs/live -o SOURCE,TARGET,FSTYPE,OPTIONS
 
 The additional fallbacks are `0608`, `0428`, and the direct `Gentoo OpenRC
 disk` entry.
+
+## 0826 Post-Boot Overlay Audit (2026-08-26)
+
+The `0826` deployment booted successfully. The LUKS volume was unlocked, the
+user `kiel` logged in, and X11 was started after running:
+
+```text
+~/activate
+sudo chmod a+rwx /dev/tty*
+startx
+```
+
+`Handy_0.9.4_amd64.AppImage` successfully captured microphone input and
+performed speech-to-text. This validates the application and an audio-input
+path, but not the intended PipeWire/Pulse session setup: at audit time no
+`pipewire`, `pipewire-pulse`, or `wireplumber` process was running, and
+`pactl info` failed with `Connection refused`.
+
+No remediation described below was performed during this audit.
+
+### Why the new squashfs does not replace old programs
+
+The running root is mounted as:
+
+```text
+lowerdir=/run/rootfsbase
+upperdir=/run/overlayfs -> /run/enc/persistent/upper
+workdir=/run/ovlwork    -> /run/enc/persistent/work
+```
+
+`/run/rootfsbase` is the read-only `0826` squashfs and the encrypted LUKS
+directory is the OverlayFS upper layer. OverlayFS always chooses an upper
+object when the same path is present in both layers. Installing a newer
+squashfs therefore cannot supersede a binary, library, symlink, package
+database record, home-directory file, or opaque directory already copied into
+the persistent upper layer.
+
+The merged Portage database currently exposes both the old LUKS record and the
+new squashfs record for four upgraded applications:
+
+| Package | LUKS upper | 0826 squashfs | Runtime result |
+| --- | --- | --- | --- |
+| `app-editors/emacs` | `30.2-r3` | `30.2-r6` | The old upper `/usr/bin/emacs-30` wins. |
+| `media-video/ffmpeg` | `8.1.1` | `8.1.2` | Old upper `ffmpeg` and `ffprobe` win, along with some copied-up library links. |
+| `app-text/mupdf` | `1.26.3` with `X` | `1.27.2` without `X` | Old upper `mutool`, `mupdf`, `mupdf-x11`, and `libmupdf.so` win. The squashfs has a newer `mutool` but no GUI executable. |
+| `net-misc/freerdp` | `3.26.0` with `X` | `3.30.0` without `X` | The old upper `xfreerdp` executable loads newer 3.30 squashfs libraries and reports 3.30.0. This mixed installation is the highest-risk case. |
+
+The directly observed differing executable overlaps were:
+
+```text
+/usr/bin/ctags-emacs-30
+/usr/bin/ebrowse-emacs-30
+/usr/bin/emacs-30
+/usr/bin/emacsclient-emacs-30
+/usr/bin/etags-emacs-30
+/usr/bin/ffmpeg
+/usr/bin/ffprobe
+/usr/bin/mutool
+```
+
+`/usr/bin/xfreerdp` is also stale, although it is not a same-path overlap: the
+0826 FreeRDP build omitted the executable because its `X` USE flag was off.
+Do not simply remove the upper MuPDF or FreeRDP files before rebuilding the
+squashfs with the required GUI USE flags, or those two GUI programs will
+disappear.
+
+Two same-version package records also occur in both layers:
+`app-emacs/emacs-common-1.14` and `x11-libs/libXtst-1.2.5`. They are not an
+observed version regression, but they demonstrate that Portage state is being
+merged from two independently managed installations.
+
+The LUKS upper contains another 61 package records that have no corresponding
+package name in the squashfs. These are not candidates for automatic
+replacement; they are local additions that must either remain persistent or
+be selected explicitly for future images:
+
+```text
+app-arch: 7zip, brotli, deb2targz, dpkg, upx-bin, zip
+app-containers: nvidia-container-toolkit
+app-eselect: eselect-repository
+app-misc: screen
+app-text: qpdf
+dev-cpp: ada, nlohmann_json, simdutf
+dev-debug: gdb
+dev-go: go-md2man
+dev-lang: go, rust, rust-bin, rust-common
+dev-libs: cJSON, jemalloc, simde, simdjson, uthash
+dev-python: defusedxml
+dev-qt: qtsvg
+dev-util: difftastic, include-what-you-use, nvidia-cuda-toolkit, xxd
+dev-vcs: git-lfs
+kde-frameworks: extra-cmake-modules
+llvm-core: clang, clang-common, clang-linker-config,
+  clang-toolchain-symlinks
+llvm-runtimes: clang-rtlib-config, clang-runtime, clang-stdlib-config,
+  clang-unwindlib-config, compiler-rt, compiler-rt-sanitizers, openmp
+media-libs: libsamplerate, libva, rnnoise, x264
+media-sound: alsa-utils
+media-video: obs-studio
+net-dialup: picocom
+net-libs: mbedtls, nodejs, rpcsvc-proto
+sci-mathematics: cadical, lean
+sys-libs: libnvidia-container
+sys-process: numactl
+www-client: httrack
+x11-libs: libXaw3d, libXres
+x11-misc: xcb
+```
+
+This list is based on `/var/db/pkg` records, not a dependency closure. Some are
+support packages rather than user-facing programs, and some may now be
+unneeded. Review them before adding them wholesale to `config/world`.
+
+### Other squashfs state hidden by LUKS
+
+The most consequential hidden directory is `/etc/runlevels/default`. Its LUKS
+upper copy has `trusted.overlay.opaque=y`, so its contents replace rather than
+merge with the squashfs directory. Only `cgroups`, `reverse-ssh-eu`, and
+`reverse-ssh-us` are present there. These seven 0826 default-runlevel links are
+therefore invisible:
+
+```text
+dbus
+iwd
+local
+netmount
+sshd
+user-runtime
+user.kiel
+```
+
+This explains much of the work currently done by `~/activate`. It also means
+that adding `rc-update` commands to the Dockerfile alone will not repair an
+existing shared upper layer.
+
+The following user files are also old LUKS copies and mask the Dockerfile
+versions:
+
+| Visible path | LUKS copy | Squashfs copy | Important difference |
+| --- | --- | --- | --- |
+| `~/activate` | 4,370 bytes, modified May 11 | 1,877 bytes | The LUKS script contains Z6 network setup but points first at `/usr/local/share/e14-bringup`, from a different build project. |
+| `~/.xinitrc` | 1,145 bytes, modified April 29 | 792 bytes | The LUKS version has the four-monitor NVIDIA layout and its own D-Bus launch, but does not start `~/start-pipewire.sh`. |
+| `~/start2` | 133 bytes, modified April 28 | 2,005 bytes | The LUKS version merely redirects to `~/activate`; the image contains the newer split setup logic. |
+
+These files contain machine/user policy, so treating the squashfs versions as
+unconditional replacements would also discard deliberate local changes. They
+need a versioned migration policy rather than silent overwrite.
+
+The persistent upper also masks the squashfs copies of:
+
+```text
+/etc/portage/package.use/package.use
+/etc/portage/package.accept_keywords/package.accept_keywords
+/var/lib/portage/world
+```
+
+Consequently, package operations performed after boot use old persistent
+configuration even though the squashfs was built from the current repository
+files.
+
+Running `env-update` and `ldconfig` from `~/activate` copied several generated
+library symlinks into the upper layer at boot. This can create new shadowing
+even when the library payload itself still comes from the squashfs. Generated
+linker state should not be refreshed unconditionally into a long-lived upper
+layer.
+
+### TTY and graphical-session finding
+
+After the broad `chmod`, `/dev/tty`, `/dev/tty0`, `/dev/tty1`, and `/dev/tty2`
+were all mode `0777`. User `kiel` is already a member of group `tty`, and
+`/dev/tty1` is owned by `kiel:tty`. `sys-auth/elogind` is installed but its
+service is stopped, and the current default runlevel does not include it. The
+successful Xorg log uses VT 7 and contains no permission error, but the chmod
+changed the evidence before that log was written, so this audit cannot prove
+which original device access failed.
+
+Do not automate `chmod a+rwx /dev/tty*`: it grants every local process access
+to every terminal. Fix seat/session ownership through elogind (or another
+deliberately selected seat manager), PAM/OpenRC session setup, and normal udev
+permissions. Add a boot test that starts X as `kiel` without changing device
+modes.
+
+### Recommended installation and image changes
+
+1. **Stop sharing one operating-system upper layer across releases.** Add an
+   explicit release/slot argument to `mount-overlayfs.sh`, for example a custom
+   `rd.live.overlay.slot=0826`, and use separate
+   `persistent/slots/0826/{upper,work}` directories. A new squashfs should boot
+   with a fresh upper. Retain the previous slot's upper for rollback.
+
+2. **Separate persistent data from persistent OS mutations.** Keep selected
+   data such as `/home/kiel`, SSH material, Docker data, and other declared
+   state in dedicated encrypted directories mounted or bound after the root is
+   assembled. Do not use one unrestricted upper as both the package manager
+   and the home/data partition. This is the structural fix that allows new
+   squashfs files to become visible reliably.
+
+3. **Provide an explicit, reversible migration step.** Before first boot of a
+   new slot, generate a report of upper paths that collide with the new lower,
+   back up the old upper, seed a fresh slot, and migrate only an allowlist. Do
+   not edit an active upper while it is mounted as `/`. Record the source slot,
+   destination slot, migrated paths, and hashes in the deployment directory.
+
+4. **Fix the two incomplete GUI builds in `openrc/config/package.use`.** Add
+   explicit `X` USE flags for at least `app-text/mupdf` and
+   `net-misc/freerdp`, then make the Docker build fail unless the expected
+   commands exist. Suitable checks include `test -x /usr/bin/mupdf-x11` and
+   `test -x /usr/bin/xfreerdp`. Also run version smoke tests from the finished
+   squashfs before export.
+
+5. **Choose which LUKS-only applications belong in the immutable image.** Add
+   frequently required programs to `config/world` and rebuild them with the
+   squashfs. Keep large or experimental toolchains out unless their boot-to-
+   boot availability is required. Avoid normal `emerge` upgrades into the
+   shared upper; they recreate the mixed-package problem seen above.
+
+6. **Move root boot work out of `~/activate`.** Split module loading, network
+   setup, reverse tunnels, runtime-directory creation, and linker maintenance
+   into small idempotent OpenRC services with dependencies. Enable the needed
+   services, including the chosen elogind/session path, in the image. Keep
+   user-specific display layout in a user-owned configuration file.
+
+7. **Make the user session single-owner and automatic.** Decide whether D-Bus
+   and PipeWire are managed by OpenRC user services or by `.xinitrc`, not both.
+   The Dockerfile currently creates the D-Bus user link but leaves PipeWire,
+   PipeWire Pulse, and WirePlumber links commented out. After validating those
+   services, enable them and remove the ad-hoc process startup. Optionally add
+   a console-login guard that invokes `startx` once on the intended VT.
+
+8. **Treat home files as managed defaults.** Store `activate`, `start2`,
+   `.xinitrc`, and audio/session defaults under a versioned
+   `/usr/local/share/openrc-host-config` tree. On a release transition, compare
+   the installed user copy, preserve local edits, and offer or apply a
+   three-way migration. A Dockerfile `COPY` into `/home/kiel` cannot update a
+   path already present in the persistent upper.
+
+9. **Do not run `env-update`/`ldconfig` on every login.** Run them in the image
+   build and, if necessary, once in a controlled release migration. Add an
+   audit that reports generated upper symlinks and package files after first
+   boot.
+
+10. **Make export/deployment release-driven and atomic.** Replace independent
+    `date` calls in `setup03_copy_from_container.sh` and `copy_files.sh` with a
+    required release ID passed through both scripts. Export into a temporary
+    directory, verify all required artifacts and hashes, write `SOURCE.txt`,
+    then rename into place. Avoid `chmod -R a+rwx`; use explicit ownership and
+    read modes. A deployment helper can then install the dated slot, update
+    GRUB, verify references, and restore the live filesystem read-only in one
+    checked workflow.
+
+11. **Add an overlay-collision artifact to every build.** Alongside
+    `packages.txt` and `packages.tsv`, produce a machine-readable manifest of
+    managed executables, libraries, service links, and configuration hashes.
+    A pre-reboot audit can compare that manifest with the selected LUKS upper
+    and block deployment when stale binaries or opaque runlevel directories
+    would hide the new image.
+
+The first implementation priority should be per-slot upper directories plus a
+small, explicit persistent-data allowlist. Dockerfile service and package
+fixes are still necessary, but a shared unrestricted upper will continue to
+mask those improvements on every later squashfs update.
