@@ -1,0 +1,441 @@
+[   544.553] 
+X.Org X Server 1.21.1.24
+X Protocol Version 11, Revision 0
+[   544.554] Current Operating System: Linux localhost 6.18.48-gentoo-dist #1 SMP PREEMPT_DYNAMIC Thu Sep  3 21:52:37 -00 2026 x86_64
+[   544.555] Kernel command line: BOOT_IMAGE=/0904/vmlinuz root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e rd.live.dir=/0904/ rd.live.squashimg=gentoo.squashfs rd.live.ram=1 rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 rd.luks.name=bbac9bb8-39d9-42fa-8d04-94610ced9839=enc rd.overlay=/dev/mapper/enc:persistent rd.live.overlay.overlayfs=1 nvme_core.default_ps_max_latency_us=0
+[   544.556]  
+[   544.557] Current version of pixman: 0.46.4
+[   544.558] 	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+[   544.558] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[   544.561] (==) Log file: "/home/kiel/.local/share/xorg/Xorg.0.log", Time: Sat Sep  5 07:06:43 2026
+[   544.561] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+[   544.562] (==) No Layout section.  Using the first Screen section.
+[   544.562] (==) No screen section available. Using defaults.
+[   544.562] (**) |-->Screen "Default Screen Section" (0)
+[   544.562] (**) |   |-->Monitor "<default monitor>"
+[   544.562] (==) No monitor specified for screen "Default Screen Section".
+	Using a default monitor configuration.
+[   544.562] (**) Allowing byte-swapped clients
+[   544.562] (==) Automatically adding devices
+[   544.562] (==) Automatically enabling devices
+[   544.562] (==) Automatically adding GPU devices
+[   544.562] (==) Automatically binding GPU devices
+[   544.562] (==) Max clients allowed: 256, resource mask: 0x1fffff
+[   544.562] (WW) The directory "/usr/share/fonts/TTF" does not exist.
+[   544.562] 	Entry deleted from font path.
+[   544.562] (WW) The directory "/usr/share/fonts/OTF" does not exist.
+[   544.562] 	Entry deleted from font path.
+[   544.562] (WW) The directory "/usr/share/fonts/Type1" does not exist.
+[   544.562] 	Entry deleted from font path.
+[   544.562] (WW) `fonts.dir' not found (or not valid) in "/usr/share/fonts/100dpi".
+[   544.562] 	Entry deleted from font path.
+[   544.562] 	(Run 'mkfontdir' on "/usr/share/fonts/100dpi").
+[   544.562] (WW) `fonts.dir' not found (or not valid) in "/usr/share/fonts/75dpi".
+[   544.562] 	Entry deleted from font path.
+[   544.562] 	(Run 'mkfontdir' on "/usr/share/fonts/75dpi").
+[   544.562] (==) FontPath set to:
+	/usr/share/fonts/misc
+[   544.562] (==) ModulePath set to "/usr/lib64/xorg/modules"
+[   544.562] (II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+[   544.562] (II) Module ABI versions:
+[   544.562] 	X.Org ANSI C Emulation: 0.4
+[   544.562] 	X.Org Video Driver: 25.2
+[   544.562] 	X.Org XInput driver : 24.4
+[   544.562] 	X.Org Server Extension : 10.0
+[   544.563] (--) using VT number 7
+
+[   544.563] (II) systemd-logind: logind integration requires -keeptty and -keeptty was not provided, disabling logind integration
+[   544.566] (II) xfree86: Adding drm device (/dev/dri/card0)
+[   544.566] (II) Platform probe for /sys/devices/pci0000:00/0000:00:08.1/0000:05:00.0/drm/card0
+[   544.594] (--) PCI:*(5@0:0:0) 1002:1681:17aa:50ec rev 10, Mem @ 0x4b0000000/268435456, 0x4c0000000/2097152, 0x80600000/524288, I/O @ 0x00001000/256
+[   544.594] (II) LoadModule: "glx"
+[   544.594] (II) Loading /usr/lib64/xorg/modules/extensions/libglx.so
+[   544.596] (II) Module glx: vendor="X.Org Foundation"
+[   544.596] 	compiled for 1.21.1.24, module version = 1.0.0
+[   544.596] 	ABI class: X.Org Server Extension, version 10.0
+[   544.596] (II) Applying OutputClass "AMDgpu" to /dev/dri/card0
+[   544.596] 	loading driver: amdgpu
+[   544.596] (==) Matched amdgpu as autoconfigured driver 0
+[   544.596] (==) Matched ati as autoconfigured driver 1
+[   544.596] (==) Matched modesetting as autoconfigured driver 2
+[   544.596] (==) Matched fbdev as autoconfigured driver 3
+[   544.596] (==) Matched vesa as autoconfigured driver 4
+[   544.596] (==) Assigned the driver to the xf86ConfigLayout
+[   544.596] (II) LoadModule: "amdgpu"
+[   544.596] (II) Loading /usr/lib64/xorg/modules/drivers/amdgpu_drv.so
+[   544.596] (II) Module amdgpu: vendor="X.Org Foundation"
+[   544.596] 	compiled for 1.21.1.24, module version = 25.0.0
+[   544.596] 	Module class: X.Org Video Driver
+[   544.596] 	ABI class: X.Org Video Driver, version 25.2
+[   544.596] (II) LoadModule: "ati"
+[   544.596] (II) Loading /usr/lib64/xorg/modules/drivers/ati_drv.so
+[   544.596] (II) Module ati: vendor="X.Org Foundation"
+[   544.596] 	compiled for 1.21.1.24, module version = 22.0.0
+[   544.596] 	Module class: X.Org Video Driver
+[   544.596] 	ABI class: X.Org Video Driver, version 25.2
+[   544.623] (II) LoadModule: "modesetting"
+[   544.623] (II) Loading /usr/lib64/xorg/modules/drivers/modesetting_drv.so
+[   544.624] (II) Module modesetting: vendor="X.Org Foundation"
+[   544.624] 	compiled for 1.21.1.24, module version = 1.21.1
+[   544.624] 	Module class: X.Org Video Driver
+[   544.624] 	ABI class: X.Org Video Driver, version 25.2
+[   544.624] (II) LoadModule: "fbdev"
+[   544.624] (WW) Warning, couldn't open module fbdev
+[   544.624] (EE) Failed to load module "fbdev" (module does not exist, 0)
+[   544.624] (II) LoadModule: "vesa"
+[   544.624] (WW) Warning, couldn't open module vesa
+[   544.624] (EE) Failed to load module "vesa" (module does not exist, 0)
+[   544.624] (II) AMDGPU: Driver for AMD Radeon:
+	All GPUs supported by the amdgpu kernel driver
+[   544.624] (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+[   544.662] (WW) Falling back to old probe method for modesetting
+[   544.663] (WW) VGA arbiter: cannot open kernel arbiter, no multi-card support
+[   544.663] (II) AMDGPU(0): Creating default Display subsection in Screen section
+	"Default Screen Section" for depth/fbbpp 24/32
+[   544.663] (==) AMDGPU(0): Depth 24, (--) framebuffer bpp 32
+[   544.663] (II) AMDGPU(0): Pixel depth = 24 bits stored in 4 bytes (32 bpp pixmaps)
+[   544.663] (==) AMDGPU(0): Default visual is TrueColor
+[   544.663] (II) Applying OutputClass "AMDgpu" options to /dev/dri/card0
+[   544.663] (==) AMDGPU(0): RGB weight 888
+[   544.663] (II) AMDGPU(0): Using 8 bits per RGB (8 bit DAC)
+[   544.663] (--) AMDGPU(0): Chipset: "AMD Radeon 680M" (ChipID = 0x1681)
+[   544.663] (II) Loading sub module "fb"
+[   544.663] (II) LoadModule: "fb"
+[   544.663] (II) Module "fb" already built-in
+[   544.663] (II) Loading sub module "dri2"
+[   544.663] (II) LoadModule: "dri2"
+[   544.663] (II) Module "dri2" already built-in
+[   544.693] (II) Loading sub module "glamoregl"
+[   544.693] (II) LoadModule: "glamoregl"
+[   544.693] (II) Loading /usr/lib64/xorg/modules/libglamoregl.so
+[   544.695] (II) Module glamoregl: vendor="X.Org Foundation"
+[   544.695] 	compiled for 1.21.1.24, module version = 1.0.1
+[   544.695] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[   544.704] (II) AMDGPU(0): glamor: Using OpenGL 4.6 context.
+[   544.704] (II) AMDGPU(0): glamor X acceleration enabled on AMD Radeon 680M (radeonsi, rembrandt, ACO, DRM 3.64, 6.18.48-gentoo-dist)
+[   544.704] (II) AMDGPU(0): glamor detected, initialising EGL layer.
+[   544.704] (==) AMDGPU(0): TearFree property default: auto
+[   544.704] (==) AMDGPU(0): VariableRefresh: disabled
+[   544.704] (==) AMDGPU(0): AsyncFlipSecondaries: disabled
+[   544.704] (II) AMDGPU(0): KMS Pageflipping: enabled
+[   544.706] (II) AMDGPU(0): Output eDP has no monitor section
+[   544.706] (II) AMDGPU(0): Output HDMI-A-0 has no monitor section
+[   544.706] (II) AMDGPU(0): Output DisplayPort-0 has no monitor section
+[   544.706] (II) AMDGPU(0): Output DisplayPort-1 has no monitor section
+[   544.706] (II) AMDGPU(0): Output DisplayPort-2 has no monitor section
+[   544.707] (II) AMDGPU(0): Output DisplayPort-3 has no monitor section
+[   544.707] (II) AMDGPU(0): Output DisplayPort-4 has no monitor section
+[   544.707] (II) AMDGPU(0): Output DisplayPort-5 has no monitor section
+[   544.741] (WW) AMDGPU(0): 8 ZaphodHeads crtcs unavailable. Some outputs will stay off.
+[   544.742] (II) AMDGPU(0): EDID for output eDP
+[   544.742] (II) AMDGPU(0): Manufacturer: LEN  Model: 403d  Serial#: 0
+[   544.742] (II) AMDGPU(0): Year: 2021  Week: 20
+[   544.742] (II) AMDGPU(0): EDID Version: 1.4
+[   544.742] (II) AMDGPU(0): Digital Display Input
+[   544.742] (II) AMDGPU(0): 8 bits per channel
+[   544.742] (II) AMDGPU(0): Digital interface is DisplayPort
+[   544.742] (II) AMDGPU(0): Max Image Size [cm]: horiz.: 30  vert.: 19
+[   544.742] (II) AMDGPU(0): Gamma: 2.20
+[   544.742] (II) AMDGPU(0): DPMS capabilities: StandBy Suspend Off
+[   544.742] (II) AMDGPU(0): Supported color encodings: RGB 4:4:4 
+[   544.742] (II) AMDGPU(0): First detailed timing is preferred mode
+[   544.742] (II) AMDGPU(0): Preferred mode is native pixel format and refresh rate
+[   544.742] (II) AMDGPU(0): Display is continuous-frequency
+[   544.742] (II) AMDGPU(0): redX: 0.596 redY: 0.369   greenX: 0.348 greenY: 0.575
+[   544.742] (II) AMDGPU(0): blueX: 0.159 blueY: 0.126   whiteX: 0.313 whiteY: 0.329
+[   544.742] (II) AMDGPU(0): Manufacturer's mask: 0
+[   544.742] (II) AMDGPU(0): Supported detailed timing:
+[   544.742] (II) AMDGPU(0): clock: 161.8 MHz   Image Size:  302 x 189 mm
+[   544.742] (II) AMDGPU(0): h_active: 1920  h_sync: 1968  h_sync_end 2000 h_blank_end 2140 h_border: 0
+[   544.742] (II) AMDGPU(0): v_active: 1200  v_sync: 1203  v_sync_end 1209 v_blanking: 1260 v_border: 0
+[   544.742] (II) AMDGPU(0): Ranges: V min: 40 V max: 60 Hz, H min: 76 H max: 76 kHz, PixClock max 165 MHz
+[   544.742] (II) AMDGPU(0): Unknown vendor-specific block f
+[   544.743] (II) AMDGPU(0):  NV140WUM-N43
+[   544.743] (II) AMDGPU(0): EDID (in hex):
+[   544.743] (II) AMDGPU(0): 	00ffffffffffff0030ae3d4000000000
+[   544.743] (II) AMDGPU(0): 	141f0104a51e1378e3a1d5985e599328
+[   544.743] (II) AMDGPU(0): 	20505400000001010101010101010101
+[   544.743] (II) AMDGPU(0): 	010101010101333f80dc70b03c403020
+[   544.743] (II) AMDGPU(0): 	36002ebd1000001a000000fd00283c4c
+[   544.743] (II) AMDGPU(0): 	4c10010a2020202020200000000f00d1
+[   544.743] (II) AMDGPU(0): 	0a3cd10a281e0a0009e5350a000000fe
+[   544.743] (II) AMDGPU(0): 	004e5631343057554d2d4e34330a007b
+[   544.743] (II) AMDGPU(0): Printing probed modes for output eDP
+[   544.743] (II) AMDGPU(0): Modeline "1920x1200"x60.0  161.79  1920 1968 2000 2140  1200 1203 1209 1260 +hsync -vsync (75.6 kHz eP)
+[   544.743] (II) AMDGPU(0): Modeline "1920x1080"x60.0  161.79  1920 1968 2000 2140  1080 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "1600x1200"x60.0  161.79  1600 1968 2000 2140  1200 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "1680x1050"x60.0  161.79  1680 1968 2000 2140  1050 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "1280x1024"x60.0  161.79  1280 1968 2000 2140  1024 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "1440x900"x60.0  161.79  1440 1968 2000 2140  900 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "1280x800"x60.0  161.79  1280 1968 2000 2140  800 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "1280x720"x60.0  161.79  1280 1968 2000 2140  720 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "1024x768"x60.0  161.79  1024 1968 2000 2140  768 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "800x600"x60.0  161.79  800 1968 2000 2140  600 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): Modeline "640x480"x60.0  161.79  640 1968 2000 2140  480 1203 1209 1260 +hsync -vsync (75.6 kHz e)
+[   544.743] (II) AMDGPU(0): EDID for output HDMI-A-0
+[   544.743] (II) AMDGPU(0): EDID for output DisplayPort-0
+[   544.743] (II) AMDGPU(0): EDID for output DisplayPort-1
+[   544.743] (II) AMDGPU(0): EDID for output DisplayPort-2
+[   544.743] (II) AMDGPU(0): EDID for output DisplayPort-3
+[   544.743] (II) AMDGPU(0): EDID for output DisplayPort-4
+[   544.743] (II) AMDGPU(0): EDID for output DisplayPort-5
+[   544.743] (II) AMDGPU(0): Output eDP connected
+[   544.743] (II) AMDGPU(0): Output HDMI-A-0 disconnected
+[   544.743] (II) AMDGPU(0): Output DisplayPort-0 disconnected
+[   544.743] (II) AMDGPU(0): Output DisplayPort-1 disconnected
+[   544.743] (II) AMDGPU(0): Output DisplayPort-2 disconnected
+[   544.743] (II) AMDGPU(0): Output DisplayPort-3 disconnected
+[   544.743] (II) AMDGPU(0): Output DisplayPort-4 disconnected
+[   544.743] (II) AMDGPU(0): Output DisplayPort-5 disconnected
+[   544.743] (II) AMDGPU(0): Using exact sizes for initial modes
+[   544.743] (II) AMDGPU(0): Output eDP using initial mode 1920x1200 +0+0
+[   544.743] (II) AMDGPU(0): mem size init: gart size :1cbbd5000 vram size: s:3df67000 visible:3df67000
+[   544.743] (==) AMDGPU(0): DPI set to (96, 96)
+[   544.743] (==) AMDGPU(0): Using gamma correction (1.0, 1.0, 1.0)
+[   544.743] (II) Loading sub module "ramdac"
+[   544.743] (II) LoadModule: "ramdac"
+[   544.743] (II) Module "ramdac" already built-in
+[   544.743] (II) UnloadModule: "modesetting"
+[   544.743] (II) Unloading modesetting
+[   544.743] (II) AMDGPU(0): [DRI2] Setup complete
+[   544.743] (II) AMDGPU(0): [DRI2]   DRI driver: radeonsi
+[   544.743] (II) AMDGPU(0): [DRI2]   VDPAU driver: radeonsi
+[   544.743] (II) AMDGPU(0): Front buffer pitch: 7680 bytes
+[   544.744] (II) AMDGPU(0): SYNC extension fences enabled
+[   544.744] (II) AMDGPU(0): Present extension enabled
+[   544.744] (==) AMDGPU(0): DRI3 enabled
+[   544.744] (==) AMDGPU(0): Backing store enabled
+[   544.744] (II) AMDGPU(0): Direct rendering enabled
+[   544.750] (II) AMDGPU(0): Use GLAMOR acceleration.
+[   544.750] (II) AMDGPU(0): Acceleration enabled
+[   544.750] (==) AMDGPU(0): DPMS enabled
+[   544.750] (==) AMDGPU(0): Silken mouse enabled
+[   544.750] (II) AMDGPU(0): Set up textured video (glamor)
+[   544.757] (WW) AMDGPU(0): Option "HotplugDriver" is not used
+[   544.757] (II) Initializing extension Generic Event Extension
+[   544.757] (II) Initializing extension SHAPE
+[   544.757] (II) Initializing extension MIT-SHM
+[   544.757] (II) Initializing extension XInputExtension
+[   544.757] (II) Initializing extension XTEST
+[   544.757] (II) Initializing extension BIG-REQUESTS
+[   544.757] (II) Initializing extension SYNC
+[   544.757] (II) Initializing extension XKEYBOARD
+[   544.757] (II) Initializing extension XC-MISC
+[   544.757] (II) Initializing extension XFIXES
+[   544.757] (II) Initializing extension RENDER
+[   544.757] (II) Initializing extension RANDR
+[   544.757] (II) Initializing extension COMPOSITE
+[   544.757] (II) Initializing extension DAMAGE
+[   544.757] (II) Initializing extension MIT-SCREEN-SAVER
+[   544.757] (II) Initializing extension DOUBLE-BUFFER
+[   544.757] (II) Initializing extension RECORD
+[   544.757] (II) Initializing extension DPMS
+[   544.757] (II) Initializing extension Present
+[   544.757] (II) Initializing extension DRI3
+[   544.757] (II) Initializing extension X-Resource
+[   544.757] (II) Initializing extension XVideo
+[   544.757] (II) Initializing extension XVideo-MotionCompensation
+[   544.757] (II) Initializing extension GLX
+[   544.764] (II) AIGLX: Loaded and initialized radeonsi
+[   544.764] (II) GLX: Initialized DRI2 GL provider for screen 0
+[   544.764] (II) Initializing extension XFree86-VidModeExtension
+[   544.764] (II) Initializing extension XFree86-DGA
+[   544.764] (II) Initializing extension XFree86-DRI
+[   544.764] (II) Initializing extension DRI2
+[   544.765] (II) AMDGPU(0): Setting screen physical size to 508 x 317
+[   544.866] (II) config/udev: Adding input device Power Button (/dev/input/event3)
+[   544.866] (**) Power Button: Applying InputClass "libinput keyboard catchall"
+[   544.866] (II) LoadModule: "libinput"
+[   544.866] (II) Loading /usr/lib64/xorg/modules/input/libinput_drv.so
+[   544.866] (II) Module libinput: vendor="X.Org Foundation"
+[   544.866] 	compiled for 1.21.1.24, module version = 1.5.0
+[   544.866] 	Module class: X.Org XInput Driver
+[   544.866] 	ABI class: X.Org XInput driver, version 24.4
+[   544.866] (II) Using input driver 'libinput' for 'Power Button'
+[   544.866] (**) Power Button: always reports core events
+[   544.866] (**) Option "Device" "/dev/input/event3"
+[   544.869] (II) event3  - Power Button: is tagged by udev as: Keyboard
+[   544.869] (II) event3  - Power Button: device is a keyboard
+[   544.869] (II) event3  - Power Button: device removed
+[   544.930] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXPWRBN:00/input/input3/event3"
+[   544.930] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD, id 6)
+[   544.932] (II) event3  - Power Button: is tagged by udev as: Keyboard
+[   544.932] (II) event3  - Power Button: device is a keyboard
+[   544.934] (II) config/udev: Adding input device Video Bus (/dev/input/event4)
+[   544.934] (**) Video Bus: Applying InputClass "libinput keyboard catchall"
+[   544.934] (II) Using input driver 'libinput' for 'Video Bus'
+[   544.934] (**) Video Bus: always reports core events
+[   544.934] (**) Option "Device" "/dev/input/event4"
+[   544.935] (II) event4  - Video Bus: is tagged by udev as: Keyboard
+[   544.935] (II) event4  - Video Bus: device is a keyboard
+[   544.935] (II) event4  - Video Bus: device removed
+[   544.963] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:0e/LNXVIDEO:00/input/input4/event4"
+[   544.963] (II) XINPUT: Adding extended input device "Video Bus" (type: KEYBOARD, id 7)
+[   544.965] (II) event4  - Video Bus: is tagged by udev as: Keyboard
+[   544.965] (II) event4  - Video Bus: device is a keyboard
+[   544.967] (II) config/udev: Adding input device Power Button (/dev/input/event0)
+[   544.967] (**) Power Button: Applying InputClass "libinput keyboard catchall"
+[   544.967] (II) Using input driver 'libinput' for 'Power Button'
+[   544.967] (**) Power Button: always reports core events
+[   544.967] (**) Option "Device" "/dev/input/event0"
+[   544.968] (II) event0  - Power Button: is tagged by udev as: Keyboard
+[   544.968] (II) event0  - Power Button: device is a keyboard
+[   544.968] (II) event0  - Power Button: device removed
+[   544.997] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0C:00/input/input0/event0"
+[   544.997] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD, id 8)
+[   544.999] (II) event0  - Power Button: is tagged by udev as: Keyboard
+[   544.999] (II) event0  - Power Button: device is a keyboard
+[   545.000] (II) config/udev: Adding input device Lid Switch (/dev/input/event1)
+[   545.000] (II) No input driver specified, ignoring this device.
+[   545.000] (II) This device may have been added with another device file.
+[   545.001] (II) config/udev: Adding input device Sleep Button (/dev/input/event2)
+[   545.001] (**) Sleep Button: Applying InputClass "libinput keyboard catchall"
+[   545.001] (II) Using input driver 'libinput' for 'Sleep Button'
+[   545.001] (**) Sleep Button: always reports core events
+[   545.001] (**) Option "Device" "/dev/input/event2"
+[   545.002] (II) event2  - Sleep Button: is tagged by udev as: Keyboard
+[   545.002] (II) event2  - Sleep Button: device is a keyboard
+[   545.002] (II) event2  - Sleep Button: device removed
+[   545.030] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input2/event2"
+[   545.030] (II) XINPUT: Adding extended input device "Sleep Button" (type: KEYBOARD, id 9)
+[   545.032] (II) event2  - Sleep Button: is tagged by udev as: Keyboard
+[   545.032] (II) event2  - Sleep Button: device is a keyboard
+[   545.034] (II) config/udev: Adding input device HD-Audio Generic HDMI/DP,pcm=3 (/dev/input/event8)
+[   545.034] (II) No input driver specified, ignoring this device.
+[   545.034] (II) This device may have been added with another device file.
+[   545.035] (II) config/udev: Adding input device HD-Audio Generic HDMI/DP,pcm=7 (/dev/input/event9)
+[   545.035] (II) No input driver specified, ignoring this device.
+[   545.035] (II) This device may have been added with another device file.
+[   545.036] (II) config/udev: Adding input device HD-Audio Generic HDMI/DP,pcm=8 (/dev/input/event10)
+[   545.036] (II) No input driver specified, ignoring this device.
+[   545.036] (II) This device may have been added with another device file.
+[   545.038] (II) config/udev: Adding input device Logitech USB Receiver (/dev/input/event14)
+[   545.038] (**) Logitech USB Receiver: Applying InputClass "libinput keyboard catchall"
+[   545.038] (II) Using input driver 'libinput' for 'Logitech USB Receiver'
+[   545.038] (**) Logitech USB Receiver: always reports core events
+[   545.038] (**) Option "Device" "/dev/input/event14"
+[   545.040] (II) event14 - Logitech USB Receiver: is tagged by udev as: Keyboard
+[   545.040] (II) event14 - Logitech USB Receiver: device is a keyboard
+[   545.040] (II) event14 - Logitech USB Receiver: device removed
+[   545.090] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:08.1/0000:05:00.4/usb3/3-1/3-1:1.0/0003:046D:C52B.0001/input/input15/event14"
+[   545.090] (II) XINPUT: Adding extended input device "Logitech USB Receiver" (type: KEYBOARD, id 10)
+[   545.093] (II) event14 - Logitech USB Receiver: is tagged by udev as: Keyboard
+[   545.093] (II) event14 - Logitech USB Receiver: device is a keyboard
+[   545.095] (II) config/udev: Adding input device Logitech USB Receiver Mouse (/dev/input/event15)
+[   545.095] (**) Logitech USB Receiver Mouse: Applying InputClass "libinput pointer catchall"
+[   545.095] (II) Using input driver 'libinput' for 'Logitech USB Receiver Mouse'
+[   545.095] (**) Logitech USB Receiver Mouse: always reports core events
+[   545.095] (**) Option "Device" "/dev/input/event15"
+[   545.097] (II) event15 - Logitech USB Receiver Mouse: is tagged by udev as: Mouse
+[   545.097] (II) event15 - Logitech USB Receiver Mouse: device is a pointer
+[   545.097] (II) event15 - Logitech USB Receiver Mouse: device removed
+[   545.147] (II) libinput: Logitech USB Receiver Mouse: Step value 0 was provided, libinput Fallback acceleration function is used.
+[   545.147] (II) libinput: Logitech USB Receiver Mouse: Step value 0 was provided, libinput Fallback acceleration function is used.
+[   545.147] (II) libinput: Logitech USB Receiver Mouse: Step value 0 was provided, libinput Fallback acceleration function is used.
+[   545.147] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:08.1/0000:05:00.4/usb3/3-1/3-1:1.1/0003:046D:C52B.0002/input/input16/event15"
+[   545.147] (II) XINPUT: Adding extended input device "Logitech USB Receiver Mouse" (type: MOUSE, id 11)
+[   545.147] (**) Option "AccelerationScheme" "none"
+[   545.147] (**) Logitech USB Receiver Mouse: (accel) selected scheme none/0
+[   545.147] (**) Logitech USB Receiver Mouse: (accel) acceleration factor: 2.000
+[   545.147] (**) Logitech USB Receiver Mouse: (accel) acceleration threshold: 4
+[   545.150] (II) event15 - Logitech USB Receiver Mouse: is tagged by udev as: Mouse
+[   545.150] (II) event15 - Logitech USB Receiver Mouse: device is a pointer
+[   545.151] (II) config/udev: Adding input device Logitech USB Receiver Mouse (/dev/input/mouse1)
+[   545.151] (II) No input driver specified, ignoring this device.
+[   545.151] (II) This device may have been added with another device file.
+[   545.153] (II) config/udev: Adding input device Logitech USB Receiver Consumer Control (/dev/input/event16)
+[   545.153] (**) Logitech USB Receiver Consumer Control: Applying InputClass "libinput keyboard catchall"
+[   545.153] (II) Using input driver 'libinput' for 'Logitech USB Receiver Consumer Control'
+[   545.153] (**) Logitech USB Receiver Consumer Control: always reports core events
+[   545.153] (**) Option "Device" "/dev/input/event16"
+[   545.155] (II) event16 - Logitech USB Receiver Consumer Control: is tagged by udev as: Keyboard
+[   545.155] (II) event16 - Logitech USB Receiver Consumer Control: device is a keyboard
+[   545.155] (II) event16 - Logitech USB Receiver Consumer Control: device removed
+[   545.210] (II) libinput: Logitech USB Receiver Consumer Control: needs a virtual subdevice
+[   545.210] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:08.1/0000:05:00.4/usb3/3-1/3-1:1.1/0003:046D:C52B.0002/input/input17/event16"
+[   545.210] (II) XINPUT: Adding extended input device "Logitech USB Receiver Consumer Control" (type: MOUSE, id 12)
+[   545.210] (**) Option "AccelerationScheme" "none"
+[   545.210] (**) Logitech USB Receiver Consumer Control: (accel) selected scheme none/0
+[   545.210] (**) Logitech USB Receiver Consumer Control: (accel) acceleration factor: 2.000
+[   545.210] (**) Logitech USB Receiver Consumer Control: (accel) acceleration threshold: 4
+[   545.213] (II) event16 - Logitech USB Receiver Consumer Control: is tagged by udev as: Keyboard
+[   545.214] (II) event16 - Logitech USB Receiver Consumer Control: device is a keyboard
+[   545.215] (II) config/udev: Adding input device Logitech USB Receiver System Control (/dev/input/event17)
+[   545.215] (**) Logitech USB Receiver System Control: Applying InputClass "libinput keyboard catchall"
+[   545.215] (II) Using input driver 'libinput' for 'Logitech USB Receiver System Control'
+[   545.215] (**) Logitech USB Receiver System Control: always reports core events
+[   545.215] (**) Option "Device" "/dev/input/event17"
+[   545.217] (II) event17 - Logitech USB Receiver System Control: is tagged by udev as: Keyboard
+[   545.217] (II) event17 - Logitech USB Receiver System Control: device is a keyboard
+[   545.218] (II) event17 - Logitech USB Receiver System Control: device removed
+[   545.273] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:08.1/0000:05:00.4/usb3/3-1/3-1:1.1/0003:046D:C52B.0002/input/input18/event17"
+[   545.273] (II) XINPUT: Adding extended input device "Logitech USB Receiver System Control" (type: KEYBOARD, id 13)
+[   545.277] (II) event17 - Logitech USB Receiver System Control: is tagged by udev as: Keyboard
+[   545.277] (II) event17 - Logitech USB Receiver System Control: device is a keyboard
+[   545.278] (II) config/udev: Adding input device HD-Audio Generic Mic (/dev/input/event11)
+[   545.278] (II) No input driver specified, ignoring this device.
+[   545.278] (II) This device may have been added with another device file.
+[   545.279] (II) config/udev: Adding input device HD-Audio Generic Headphone (/dev/input/event12)
+[   545.279] (II) No input driver specified, ignoring this device.
+[   545.279] (II) This device may have been added with another device file.
+[   545.280] (II) config/udev: Adding input device AT Translated Set 2 keyboard (/dev/input/event5)
+[   545.280] (**) AT Translated Set 2 keyboard: Applying InputClass "libinput keyboard catchall"
+[   545.280] (II) Using input driver 'libinput' for 'AT Translated Set 2 keyboard'
+[   545.280] (**) AT Translated Set 2 keyboard: always reports core events
+[   545.280] (**) Option "Device" "/dev/input/event5"
+[   545.281] (II) event5  - AT Translated Set 2 keyboard: is tagged by udev as: Keyboard
+[   545.281] (II) event5  - AT Translated Set 2 keyboard: device is a keyboard
+[   545.281] (II) event5  - AT Translated Set 2 keyboard: device removed
+[   545.337] (**) Option "config_info" "udev:/sys/devices/platform/i8042/serio0/input/input5/event5"
+[   545.337] (II) XINPUT: Adding extended input device "AT Translated Set 2 keyboard" (type: KEYBOARD, id 14)
+[   545.338] (II) event5  - AT Translated Set 2 keyboard: is tagged by udev as: Keyboard
+[   545.338] (II) event5  - AT Translated Set 2 keyboard: device is a keyboard
+[   545.340] (II) config/udev: Adding input device TPPS/2 Elan TrackPoint (/dev/input/event6)
+[   545.340] (**) TPPS/2 Elan TrackPoint: Applying InputClass "libinput pointer catchall"
+[   545.340] (II) Using input driver 'libinput' for 'TPPS/2 Elan TrackPoint'
+[   545.340] (**) TPPS/2 Elan TrackPoint: always reports core events
+[   545.340] (**) Option "Device" "/dev/input/event6"
+[   545.341] (II) event6  - TPPS/2 Elan TrackPoint: is tagged by udev as: Mouse Pointingstick
+[   545.341] (II) event6  - TPPS/2 Elan TrackPoint: device is a pointer
+[   545.342] (II) event6  - TPPS/2 Elan TrackPoint: device removed
+[   545.360] (II) libinput: TPPS/2 Elan TrackPoint: Step value 0 was provided, libinput Fallback acceleration function is used.
+[   545.360] (II) libinput: TPPS/2 Elan TrackPoint: Step value 0 was provided, libinput Fallback acceleration function is used.
+[   545.360] (II) libinput: TPPS/2 Elan TrackPoint: Step value 0 was provided, libinput Fallback acceleration function is used.
+[   545.360] (**) Option "config_info" "udev:/sys/devices/platform/i8042/serio1/input/input7/event6"
+[   545.360] (II) XINPUT: Adding extended input device "TPPS/2 Elan TrackPoint" (type: MOUSE, id 15)
+[   545.360] (**) Option "AccelerationScheme" "none"
+[   545.360] (**) TPPS/2 Elan TrackPoint: (accel) selected scheme none/0
+[   545.360] (**) TPPS/2 Elan TrackPoint: (accel) acceleration factor: 2.000
+[   545.360] (**) TPPS/2 Elan TrackPoint: (accel) acceleration threshold: 4
+[   545.362] (II) event6  - TPPS/2 Elan TrackPoint: is tagged by udev as: Mouse Pointingstick
+[   545.362] (II) event6  - TPPS/2 Elan TrackPoint: device is a pointer
+[   545.364] (II) config/udev: Adding input device TPPS/2 Elan TrackPoint (/dev/input/mouse0)
+[   545.364] (II) No input driver specified, ignoring this device.
+[   545.364] (II) This device may have been added with another device file.
+[   545.365] (II) config/udev: Adding input device PC Speaker (/dev/input/event7)
+[   545.365] (II) No input driver specified, ignoring this device.
+[   545.365] (II) This device may have been added with another device file.
+[   545.370] (II) config/udev: Adding input device ThinkPad Extra Buttons (/dev/input/event13)
+[   545.370] (**) ThinkPad Extra Buttons: Applying InputClass "libinput keyboard catchall"
+[   545.370] (II) Using input driver 'libinput' for 'ThinkPad Extra Buttons'
+[   545.370] (**) ThinkPad Extra Buttons: always reports core events
+[   545.370] (**) Option "Device" "/dev/input/event13"
+[   545.371] (II) event13 - ThinkPad Extra Buttons: is tagged by udev as: Keyboard Switch
+[   545.371] (II) event13 - ThinkPad Extra Buttons: device is a keyboard
+[   545.371] (II) event13 - ThinkPad Extra Buttons: device removed
+[   545.430] (**) Option "config_info" "udev:/sys/devices/platform/thinkpad_acpi/input/input9/event13"
+[   545.430] (II) XINPUT: Adding extended input device "ThinkPad Extra Buttons" (type: KEYBOARD, id 16)
+[   545.432] (II) event13 - ThinkPad Extra Buttons: is tagged by udev as: Keyboard Switch
+[   545.432] (II) event13 - ThinkPad Extra Buttons: device is a keyboard
+[   545.440] (**) Logitech USB Receiver Consumer Control: Applying InputClass "libinput keyboard catchall"
+[   545.440] (II) Using input driver 'libinput' for 'Logitech USB Receiver Consumer Control'
+[   545.440] (**) Logitech USB Receiver Consumer Control: always reports core events
+[   545.440] (**) Option "Device" "/dev/input/event16"
+[   545.440] (II) libinput: Logitech USB Receiver Consumer Control: is a virtual subdevice
+[   545.440] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:08.1/0000:05:00.4/usb3/3-1/3-1:1.1/0003:046D:C52B.0002/input/input17/event16"
+[   545.440] (II) XINPUT: Adding extended input device "Logitech USB Receiver Consumer Control" (type: KEYBOARD, id 17)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

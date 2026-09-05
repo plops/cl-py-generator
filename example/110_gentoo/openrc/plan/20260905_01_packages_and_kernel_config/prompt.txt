@@ -1,0 +1,141 @@
+# Author: wolpumba (wolpumba@gmail.com)
+
+Aufgabe
+Erweitere und optimiere das Gentoo OpenRC Docker- und Squashfs-Image im Verzeichnis
+`/workspace/src/cl-py-generator/example/110_gentoo/openrc`.
+Behebe die fehlenden Kernel-Netzwerk-/Filter-Konfigurationen, aktiviere 32-Thread-Parallelität
+in Portage, füge geforderte Softwarepakete und Desktop-Komponenten hinzu, bereinige
+Hinweise aus dem aktuellen Build-Log und stelle eine funktionierende D-Bus-/elogind-Sitzung sicher.
+Erstelle nach der Umsetzung ein vollständiges `walkthrough.md` im selben Planverzeichnis.
+
+
+Kontext und Referenzen
+- Arbeitsverzeichnis: `/workspace/src/cl-py-generator/example/110_gentoo/openrc`
+- Dockerfile & Image-Skripte:
+  - `Dockerfile`
+  - `setup01_build_image.sh`
+  - `setup01_run_with_log.sh`
+  - `setup03_copy_from_container.sh`
+  - `copy_files.sh`
+- Konfigurationsdateien in `config/`:
+  - `config/make.conf` (Portage-Flags, Parallelität)
+  - `config/world` (installierte Pakete)
+  - `config/package.use` (Paket-spezifische USE-Flags)
+  - `config/package.accept_keywords` (Architektur-/Keyword-Freigaben)
+  - `config/config6.18.35` (Kernel `.config`)
+  - `config/activate`, `config/start2`, `config/xinitrc` (Session- und Startup-Skripte)
+  - `config/user-*.initd`, `config/reverse-ssh-*.initd` (OpenRC-Dienste)
+- Letzter Build-Log zur Analyse:
+  - `logs/setup01_run_20260905_072631.log`
+- Verwandte Referenzen und Vorgängerpläne:
+  - `plan/20260610_01_elogin/dbus-elogind-openrc-plan.md` (frühere Analyse zu D-Bus und OpenRC-User-Runtime)
+  - `doc/install_on_e14.md` und `doc/install_on_hpz6.md` (Deployment-Ziele ThinkPad E14 und HP Z6)
+  - `/workspace/src/cl-cl-generator/example/05_dockerfile_meta/source01/examples/01_gentoo/Dockerfile`
+  - `/workspace/src/cl-cl-generator/example/05_dockerfile_meta/source01/examples/01_gentoo/gen_gentoo.lisp`
+
+
+Detaillierte Anforderungen
+
+1. Kernel-Konfiguration reparieren (`config/config6.18.35`)
+Im Build-Log (`logs/setup01_run_20260905_072631.log`) meldeten `app-containers/runc`
+und `net-libs/libnftnl` fehlende Kernel-Optionen für Container-Networking, NAT und Firewalls:
+  * CONFIG_BRIDGE
+  * CONFIG_BRIDGE_NETFILTER
+  * CONFIG_IP_NF_FILTER
+  * CONFIG_IP_NF_TARGET_MASQUERADE
+  * CONFIG_NETFILTER_XT_MATCH_ADDRTYPE
+  * CONFIG_NETFILTER_XT_MATCH_COMMENT
+  * CONFIG_NETFILTER_XT_MATCH_CONNTRACK
+  * CONFIG_NETFILTER_XT_MATCH_IPVS
+  * CONFIG_IP_NF_NAT
+  * CONFIG_NF_NAT
+  * CONFIG_RT_GROUP_SCHED
+  * CONFIG_IP_NF_TARGET_REDIRECT
+  * CONFIG_IP_VS
+  * CONFIG_IP_VS_NFCT
+  * CONFIG_IP_VS_PROTO_TCP
+  * CONFIG_IP_VS_PROTO_UDP
+  * CONFIG_IP_VS_RR
+  * CONFIG_NF_TABLES
+Aktiviere diese Optionen in `config/config6.18.35` als Modul (`=m`) oder Built-in (`=y`),
+unter Berücksichtigung etwaiger Kconfig-Abhängigkeiten.
+
+2. Parallelität in `make.conf` aktivieren
+- Derzeit fehlt in `config/make.conf` die Definition von `MAKEOPTS`. Dadurch kompiliert
+  Portage nur mit einem Thread.
+- Setze `MAKEOPTS="-j32"` (oder `-j32 -l32`) und konfiguriere `EMERGE_DEFAULT_OPTS="--jobs=32 --load-average=32"`
+  (oder passende Werte), um alle 32 CPU-Threads des Build-Hosts voll auszunutzen.
+
+3. Pakete und Hardware-Unterstützung hinzufügen
+Passe `config/world`, `config/package.use` sowie bei Bedarf `Dockerfile` an:
+- `amdgpu`:
+  - Prüfe die Unterstützung für ThinkPad E14 (AMD Rembrandt / Yellow Carp).
+  - Verifiziere, dass im Kernel `CONFIG_DRM_AMDGPU=m`, `CONFIG_MT7921E=m` (MediaTek Wi-Fi) etc.
+    gesetzt sind.
+  - Prüfe in `Dockerfile` den E14-Squashfs-Abschnitt (`gentoo.squashfs_e14`), ob alle benötigten
+    Firmware-Blobs (`amdgpu/yellow_carp*`, `amdgpu/rembrandt*`, `mediatek/`, `rtl_bt/`, `rtl_nic/`, `regulatory.db*`)
+    enthalten sind.
+- `picocom`:
+  - Füge `net-dialout/picocom` zu `config/world` hinzu.
+- `gdb`:
+  - Füge `dev-debug/gdb` zu `config/world` hinzu.
+- `dpkg`:
+  - Füge `app-arch/dpkg` zu `config/world` hinzu.
+- `elogind with dbus`:
+  - Ziel: Eine zuverlässig funktionierende User-D-Bus- und Session-Infrastruktur unter OpenRC
+    für GUI-Anwendungen, PipeWire und Benutzerdienste.
+  - Untersuche das Gentoo-Profil in `Dockerfile`: Aktuell steht dort
+    `RUN eselect profile set default/linux/amd64/23.0/no-multilib`.
+    Prüfe, ob ein Wechsel zum Desktop-Profil (`default/linux/amd64/23.0/no-multilib/desktop`)
+    sinnvoll ist oder ob die explizite Konfiguration von `USE="... X elogind dbus policykit pam ..."`
+    mit OpenRC-Dienstaktivierung (`rc-update add elogind boot` oder `default`) ausreicht.
+  - Stelle sicher, dass `sys-auth/elogind` installiert ist, PAM-Integration greift
+    und `/run/user/$UID` sowie der D-Bus-Session-Bus sauber bereitgestellt werden.
+- `xfreerdp`:
+  - `net-misc/freerdp` ist in `config/world`, wird aber derzeit mit `USE="-X"` kompiliert.
+    Dadurch existiert das X11-Binary `xfreerdp` nicht!
+  - Aktiviere in `config/package.use` für `net-misc/freerdp` das USE-Flag `X` (sowie ggf. `pulseaudio`,
+    `alsa`, `ffmpeg`, `client`).
+- `mupdf`:
+  - `app-text/mupdf` ist in `config/world`, wird aber mit `USE="-X -opengl"` gebaut.
+    Dadurch fehlt der interaktive PDF-Viewer.
+  - Aktiviere in `config/package.use` für `app-text/mupdf` mindestens `X opengl` (und optional `javascript`).
+
+4. Build-Log-Meldungen & Portage-Hinweise bereinigen ("If you...")
+Analysiere die Hinweise aus dem Build-Log `logs/setup01_run_20260905_072631.log`:
+- `docker-buildx`: `docker-cli` warnt, dass `docker build` veraltet ist. `app-containers/docker-buildx`
+  ist bereits in `config/world`; stelle sicher, dass der Docker-CLI-Plugin-Pfad eingerichtet ist.
+- `nftables`: Hinweis `rc-update add nftables default` und `rc-service nftables save` beachten;
+  prüfe, ob der OpenRC-Dienst `nftables` per default aktiviert werden soll.
+- `fontconfig`: Warnung `Skipping fontcache update (media-libs/fontconfig not installed)`.
+  In `Dockerfile` wird `RUN fc-cache -fv` aufgerufen. `media-libs/fontconfig` muss vorher
+  garantiert vorhanden sein.
+- `app-shells/gentoo-zsh-completions`: Ergänze das Paket in `config/world`, um Zsh-Completions
+  für Portage und Gentoo-Tools bereitzustellen.
+- `sys-kernel/gentoo-sources` Version-Drift:
+  Im Log hat `emerge -uDN @world` unbemerkt `gentoo-sources-7.2.3` installiert, während der
+  Kernel gegen 6.18.48 kompiliert wird.
+  Fixiere die gentoo-sources Version (z.B. in `config/world` mit Pin oder in `package.mask`)
+  damit keine unerwünschten Kernel-Quellen das Image aufblähen.
+
+5. Abgleich mit `cl-cl-generator/example/05_dockerfile_meta/source01/examples/01_gentoo/`
+- Untersuche `Dockerfile` und `gen_gentoo.lisp` im Referenzordner.
+- Überprüfe `package.env` (z.B. `low-mem` für speicherintensive Builds von gcc/llvm/rust
+  und `lto-gcc` für optimierte Binaries).
+- Prüfe dort definierte Werkzeuge und übernehme nützliche Konfigurationen.
+
+
+Arbeitsablauf & Deliverables
+1. Erstelle zuerst `implementation_plan.md` in diesem Planverzeichnis:
+   - Detaillierte Analyse des Ist-Zustands mit konkreten Zeilennummern.
+   - Geplante Änderungen an `config/make.conf`, `config/world`, `config/package.use`,
+     `config/config6.18.35`, `Dockerfile` und Session-Skripten.
+   - Risiken, Abhängigkeiten und Verifikationsschritte.
+2. Führe die Änderungen an den Konfigurationsdateien und dem `Dockerfile` durch.
+3. Starte einen Build-Lauf (oder verifiziere die Syntax/Konfiguration):
+   `./setup01_run_with_log.sh`
+4. Dokumentation in `walkthrough.md`:
+   - Erstelle `walkthrough.md` im selben Planverzeichnis.
+   - Liste aller tatsächlich geänderten Dateien und Begründung der Änderungen.
+   - Ergebnisse des Build-Laufs, Log-Auszüge für Kernel-Warnings und neue Pakete.
+   - Test- und Verifikationsanleitung für HP Z6 und ThinkPad E14.
