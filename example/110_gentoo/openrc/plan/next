@@ -91,6 +91,12 @@ maybe i should do this (perhaps i can install a lot of my emacs dependencies usi
 #38 1886.0  * installed. Please look at /usr/share/doc/emacs-common-1.14/README.gentoo*
 #38 1886.0  * for future reference)
 
+#38 1886.0  * Messages for package sys-fs/lvm2-2.03.39:
+#38 1886.0
+#38 1886.0  * Make sure the "lvm" init script is in the runlevels:
+#38 1886.0  * # rc-update add lvm boot
+#38 1886.0  * Make sure to enable lvmetad in /etc/lvm/lvm.conf if you want
+#38 1886.0  * to enable lvm autoactivation and metadata caching.
 
 maybe we need the crypto stuff:
 #38 1886.0  * Messages for package sys-kernel/dracut-111-r2:
@@ -99,6 +105,82 @@ maybe we need the crypto stuff:
 #38 1886.0  *   sys-fs/cryptsetup[-static-libs] for Decrypt devices encrypted with cryptsetup/LUKS
 #38 1886.0  *   sys-fs/lvm2[lvm] for Support Logical Volume Manager
 
+
+#38 1886.0  * Messages for package media-video/pipewire-1.6.8:
+#38 1886.0
+#38 1886.0  * For latest tips and tricks, troubleshooting information, and documentation
+#38 1886.0  * in general, please refer to https://wiki.gentoo.org/wiki/PipeWire
+#38 1886.0  * The following can be installed for optional runtime features:
+#38 1886.0  *   media-plugins/alsa-plugins[pulseaudio] for ALSA plugin to use PulseAudio interface for output
+#38 1886.0
+
+kiel should be in video group
+
+#38 1886.0  * Messages for package x11-drivers/nvidia-drivers-610.57.04:
+#38 1886.0
+#38 1886.0  * Trusted users should be in the 'video' group to use NVIDIA devices.
+#38 1886.0  * You can add yourself by using: gpasswd -a my-user video
+#38 1886.0  * Like all out-of-tree kernel modules, it is necessary to rebuild
+#38 1886.0  * nvidia-drivers after upgrading or rebuilding the Linux kernel
+#38 1886.0  * by for example running `emerge @module-rebuild`. Alternatively,
+#38 1886.0  * if using a distribution kernel (sys-kernel/gentoo-kernel{,-bin}),
+#38 1886.0  * this can be automated by setting USE=dist-kernel globally.
+#38 1886.0  * Loaded kernel modules also must not mismatch with the installed
+#38 1886.0  * nvidia-drivers version (excluding -r revision), meaning should
+#38 1886.0  * ensure `eselect kernel list` points to the kernel that will be
+#38 1886.0  * booted before building and preferably reboot after upgrading
+#38 1886.0  * nvidia-drivers (the ebuild will emit a warning if mismatching).
+#38 1886.0  * See '/etc/modprobe.d/nvidia.conf' for modules options.
+#38 1886.0  * Note that without USE=abi_x86_32 on nvidia-drivers, 32bit applications
+#38 1886.0  * (typically using wine / steam) will not be able to use GPU acceleration.
+#38 1886.0  * For additional information or for troubleshooting issues, please see
+#38 1886.0  * https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers and NVIDIA's own
+#38 1886.0  * documentation that is installed alongside this README.
+#38 1886.0  * (Note: Above message is only printed the first time package is
+#38 1886.0  * installed. Please look at /usr/share/doc/nvidia-drivers-610.57.04/README.gentoo*
+#38 1886.0  * for future reference)
+#38 1886.0
+
+kiel in pcap group
+#38 1886.0  * Messages for package net-analyzer/wireshark-4.6.7:
+#38 1886.0
+#38 1886.0  * NOTE: To capture traffic with wireshark as normal user you have to
+#38 1886.0  * add yourself to the pcap group. This security measure ensures
+#38 1886.0  * that only trusted users are allowed to sniff your traffic.
+
+
+enable DoH
+#38 1886.0  * Messages for package www-client/firefox-bin-155.0:
+#38 1886.0
+#38 1886.0  * Note regarding Trusted Recursive Resolver aka DNS-over-HTTPS (DoH):
+#38 1886.0  * Due to privacy concerns (encrypting DNS might be a good thing, sending all
+#38 1886.0  * DNS traffic to Cloudflare by default is not a good idea and applications
+#38 1886.0  * should respect OS configured settings), "network.trr.mode" was set to 5
+#38 1886.0  * ("Off by choice") by default.
+#38 1886.0  * You can enable DNS-over-HTTPS in Firefox-bin's preferences.
+#38 1886.0  * Upstream operates a service named Normandy which allows Mozilla to
+#38 1886.0  * push changes for default settings or even install new add-ons remotely.
+#38 1886.0  * While this can be useful to address problems like 'Armagadd-on 2.0' or
+#38 1886.0  * revert previous decisions to disable TLS 1.0/1.1, privacy and security
+#38 1886.0  * concerns prevail, which is why we have switched off the use of this
+#38 1886.0  * service by default.
+#38 1886.0  * To re-enable this service set
+#38 1886.0  *     app.normandy.enabled=true
+#38 1886.0  * in about:config.
+#38 1886.0  * Optional programs for extra features:
+#38 1886.0  *   app-accessibility/speech-dispatcher for speech syntesis (text-to-speech) support
+#38 1886.0  *   gnome-base/gsettings-desktop-schemas for fallback mouse cursor theme e.g. on WMs
+#38 1886.0  *   x11-libs/libnotify for desktop notifications
+
+
+kiel should be in plugdev group
+#38 1886.0  * Messages for package net-misc/networkmanager-1.56.0:
+#38 1886.0
+#38 1886.0  * To modify system network connections without needing to enter the
+#38 1886.0  * root password, add your user account to the 'plugdev' group.
+#38 1886.0  * (Note: Above message is only printed the first time package is
+#38 1886.0  * installed. Please look at /usr/share/doc/networkmanager-1.56.0/README.gentoo*
+#38 1886.0  * for future reference)
 
 #38 1886.0  * Messages for package app-shells/zsh-5.9-r7:
 #38 1886.0
