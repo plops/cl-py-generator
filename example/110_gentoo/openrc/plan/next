@@ -24,3 +24,84 @@ some warnings during squashfs creation
 
 is there  a way to copy only the files we definetly need (whitelist) and create smoke tests for all the programs that i want to use
 to ensure they work (e.g. xorg, emacs, gcc, rust, git, firefox)
+
+
+look for "Messages for" in logs/setup01_run_20260905_095049.log (latest build)
+
+e.g
+
+#38 1886.0  * Messages for package x11-apps/xinit-1.4.4:
+#38 1886.0
+#38 1886.0  * If you use startx to start X instead of a login manager like gdm/kdm,
+#38 1886.0  * you can set the XSESSION variable to anything in /etc/X11/Sessions/ or
+#38 1886.0  * any executable. When you run startx, it will run this as the login session.
+#38 1886.0  * You can set this in a file in /etc/env.d/ for the entire system,
+#38 1886.0  * or set it per-user in ~/.bash_profile (or similar for other shells).
+#38 1886.0  * Here's an example of setting it for the whole system:
+#38 1886.0  *     echo XSESSION="Gnome" > /etc/env.d/90xsession
+#38 1886.0  *     env-update && source /etc/profile
+
+
+
+#38 1886.0  * Messages for package media-fonts/wqy-zenhei-0.9.46:
+#38 1886.0
+#38 1886.0  * This font installs two fontconfig configuration files.
+#38 1886.0  * To activate preferred rendering, run:
+#38 1886.0  * eselect fontconfig enable 44-wqy-zenhei.conf
+#38 1886.0  * To make the font only use embedded bitmap fonts when available, run:
+#38 1886.0  * eselect fontconfig enable 43-wqy-zenhei-sharp.conf
+#38 1886.0  * (Note: Above message is only printed the first time package is
+#38 1886.0  * installed. Please look at /usr/share/doc/wqy-zenhei-0.9.46/README.gentoo*
+#38 1886.0  * for future reference)
+
+
+perhaps this could be used to keep the size of the docker image smaller: (i only need wifi, nvidia, amdgpu, i think)
+
+#38 1886.0  * Messages for package sys-kernel/linux-firmware-20260622:
+#38 1886.0
+#38 1886.0  * Your configuration for sys-kernel/linux-firmware-20260622 has been saved in
+#38 1886.0  * "/etc/portage/savedconfig/sys-kernel/linux-firmware-20260622" for your editing pleasure.
+#38 1886.0  * You can edit these files by hand and remerge this package with
+#38 1886.0  * USE=savedconfig to customise the configuration.
+#38 1886.0  * You can rename this file/directory to one of the following for
+#38 1886.0  * its configuration to apply to multiple versions:
+#38 1886.0  * ${PORTAGE_CONFIGROOT}/etc/portage/savedconfig/
+#38 1886.0  * [${CTARGET}|${CHOST}|""]/${CATEGORY}/[${PF}|${P}|${PN}]
+#38 1886.0  * If you are only interested in particular firmware files, edit the saved
+#38 1886.0  * configfile and remove those that you do not want.
+
+
+#38 1886.0  * Messages for package sys-process/htop-3.5.3:
+#38 1886.0
+#38 1886.0  * Install additional packages for optional runtime features:
+#38 1886.0  *   dev-debug/strace for Tracing system calls and signals of processes
+
+this is interesting we should add those:
+#38 1886.0  * Messages for package net-wireless/iwd-3.12:
+#38 1886.0
+#38 1886.0  *   CONFIG_CRYPTO_MD4:       is not set when it should be.
+#38 1886.0  *   CONFIG_PKCS8_PRIVATE_KEY_PARSER:         is not set when it should be.
+#38 1886.0  * Please check to make sure these options are set correctly.
+
+
+#38 1886.0  * Messages for package net-wireless/wireless-regdb-20260530:
+#38 1886.0
+#38 1886.0  * You can safely disable CFG80211_CRDA_SUPPORT
+
+#38 1886.0  * Messages for package media-fonts/liberation-fonts-2.1.5:
+#38 1886.0
+#38 1886.0  * The following fontconfig configuration files have been installed:
+#38 1886.0  *   60-liberation.conf
+#38 1886.0  * Use `eselect fontconfig` to enable/disable them.
+
+
+i don't care about PPP, however:
+
+#38 1886.0  *   CONFIG_PPP:      missing PPP support (REQUIRED)
+#38 1886.0  *   CONFIG_PPP_ASYNC:        missing asynchronous serial line discipline (optional, but highly recommended)
+#38 1886.0  *   CONFIG_PPP_SYNC_TTY:     missing synchronous serial line discipline (optional; used by 'sync' pppd option)
+#38 1886.0  *   CONFIG_PPP_DEFLATE:      missing Deflate compression (optional, but highly recommended)
+#38 1886.0  *   CONFIG_PPP_BSDCOMP:      missing BSD-Compress compression (optional, but highly recommended)
+#38 1886.0  *   CONFIG_PPP_MPPE:         missing MPPE encryption (optional, mostly used by PPTP links)
+#38 1886.0  *   CONFIG_PPPOE:    missing PPPoE support (optional, needed by pppoe plugin)
+#38 1886.0  * Please check to make sure these options are set correctly.
