@@ -71,6 +71,103 @@ perhaps this could be used to keep the size of the docker image smaller: (i only
 #38 1886.0  * configfile and remove those that you do not want.
 
 
+
+maybe i should do this (perhaps i can install a lot of my emacs dependencies using gentoo?):
+
+#38 1886.0  * Messages for package app-emacs/emacs-common-1.14:
+#38 1886.0
+#38 1886.0  * All site initialisation for Gentoo-installed packages is added to
+#38 1886.0  * /usr/share/emacs/site-lisp/site-gentoo.el.
+#38 1886.0  * In order for this site initialisation to be loaded for all users
+#38 1886.0  * automatically, a default site startup file /etc/emacs/site-start.el
+#38 1886.0  * is installed. You are responsible for maintenance of this file.
+#38 1886.0  * Alternatively, individual users can add the following command:
+#38 1886.0  * (require 'site-gentoo)
+#38 1886.0  * to their ~/.emacs initialisation files, or, for greater flexibility,
+#38 1886.0  * users may load single package-specific initialisation files from the
+#38 1886.0  * /usr/share/emacs/site-lisp/site-gentoo.d/ directory.
+#38 1886.0  * See README.daemon for documentation of the Emacs daemon init script.
+#38 1886.0  * (Note: Above message is only printed the first time package is
+#38 1886.0  * installed. Please look at /usr/share/doc/emacs-common-1.14/README.gentoo*
+#38 1886.0  * for future reference)
+
+
+maybe we need the crypto stuff:
+#38 1886.0  * Messages for package sys-kernel/dracut-111-r2:
+#38 1886.0
+#38 1886.0  * Install additional packages for optional runtime features:
+#38 1886.0  *   sys-fs/cryptsetup[-static-libs] for Decrypt devices encrypted with cryptsetup/LUKS
+#38 1886.0  *   sys-fs/lvm2[lvm] for Support Logical Volume Manager
+
+
+#38 1886.0  * Messages for package app-shells/zsh-5.9-r7:
+#38 1886.0
+#38 1886.0  * If you want to enable Portage completions and Gentoo prompt,
+#38 1886.0  * emerge app-shells/gentoo-zsh-completions and add
+#38 1886.0  *   autoload -U compinit promptinit
+#38 1886.0  *   compinit
+#38 1886.0  *   promptinit; prompt gentoo
+#38 1886.0  * to your ~/.zshrc
+#38 1886.0  * Also, if you want to enable cache for the completions, add
+#38 1886.0  *   zstyle ':completion::complete:*' use-cache 1
+#38 1886.0  * to your ~/.zshrc
+
+
+#38 1886.0  * Messages for package sys-apps/lm-sensors-3.6.2:
+#38 1886.0
+#38 1886.0  *   sensors-detect requires CONFIG_I2C_CHARDEV to be enabled.
+
+
+#38 1886.0  * Messages for package sys-auth/elogind-255.24:
+#38 1886.0
+#38 1886.0  * elogind is currently not started from any runlevel.
+#38 1886.0  * You may add it to the boot runlevel by:
+#38 1886.0  * # rc-update add elogind boot
+#38 1886.0  * Alternatively, you can leave elogind out of any
+#38 1886.0  * runlevel. It will then be started automatically
+#38 1886.0  * when the first service calls it via dbus, or
+#38 1886.0  * the first user logs into the system.
+
+
+#38 1886.0  * Messages for package sys-apps/dbus-1.16.2:
+#38 1886.0
+#38 1886.0  * Some applications require a session bus in addition to the system
+#38 1886.0  * bus. Please see `man dbus-launch` for more information.
+
+
+we should add xauth:
+#38 1886.0  * Messages for package net-misc/openssh-10.4_p1-r1:
+#38 1886.0
+#38 1886.0  * Install additional packages for optional runtime features:
+#38 1886.0  *   x11-apps/xauth for x11 forwarding
+
+#38 1886.0  * Messages for package media-fonts/font-misc-misc-1.1.3:
+#38 1886.0
+#38 1886.0  * Installed fonts changed. Run 'xset fp rehash' if you are using non-fontconfig applications.
+
+
+why did it install 6.18.49?  i don't think that is a stable kernel
+
+#38 1886.0  * Messages for package sys-kernel/gentoo-sources-6.18.49:
+#38 1886.0
+#38 1886.0  * If you are upgrading from a previous kernel, you may be interested
+#38 1886.0  * in the following document:
+#38 1886.0  *   - General upgrade guide: https://wiki.gentoo.org/wiki/Kernel/Upgrade
+#38 1886.0  * Install additional packages for optional runtime features:
+#38 1886.0  *   sys-kernel/installkernel for versioned kernel image installation and optionally automating tasks such as generating an initramfs or unified kernel image
+
+
+
+#38 1886.0  * Messages for package net-firewall/nftables-1.1.6:
+#38 1886.0
+#38 1886.0  * If you wish to enable the firewall rules on boot (on openrc) you
+#38 1886.0  * will need to enable the nftables service.
+#38 1886.0  *     'rc-update add nftables default'
+#38 1886.0  * If you are creating or updating the firewall rules and wish to save
+#38 1886.0  * them to be loaded on the next restart, use the "save" functionality
+#38 1886.0  * in the init script.
+#38 1886.0  *     'rc-service nftables save'
+
 #38 1886.0  * Messages for package sys-process/htop-3.5.3:
 #38 1886.0
 #38 1886.0  * Install additional packages for optional runtime features:
