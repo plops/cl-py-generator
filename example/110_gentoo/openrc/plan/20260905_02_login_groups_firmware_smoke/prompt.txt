@@ -1,0 +1,175 @@
+# Author: wolpumba (wolpumba@gmail.com)
+
+Aufgabe
+Erweitere und haerte das Gentoo OpenRC Docker- und Squashfs-Image im Verzeichnis
+`/workspace/src/cl-py-generator/example/110_gentoo/openrc`.
+Basis ist die Rohnotiz `plan/next` zum Build-Log `logs/setup01_run_20260905_095049.log`.
+Schwerpunkte: passwortloser Login fuer `kiel` (Fall ohne entschluesselte Platte),
+robuste Go-/Rust-Bereinigung, Triage der Squashfs-Warnungen, Aufraeumen aller
+`Messages for package`-Hinweise, Firmware-Trim (nur wifi, nvidia, amdgpu),
+Whitelist-Ansatz plus Smoke-Tests fuer Kernprogramme. Erstelle nach der Umsetzung
+ein vollstaendiges `walkthrough.md` im selben Planverzeichnis.
+
+Kontext und Referenzen
+- Arbeitsverzeichnis: `/workspace/src/cl-py-generator/example/110_gentoo/openrc`
+- Dieser Plan: `plan/20260905_02_login_groups_firmware_smoke/` (`prompt.txt`,
+  `implementation_plan.md`, spaeter `walkthrough.md`)
+- Vorgaengerplan: `plan/20260905_01_packages_and_kernel_config/` (`prompt.txt`,
+  `implementation_plan.md`, `next_beforethis_plan.txt`)
+- Rohnotiz fuer diesen Plan: `plan/next` (enth. Log-Auszuege aus
+  `logs/setup01_run_20260905_095049.log`, Stand `#38 1886.0`)
+- Dockerfile & Image-Skripte:
+  - `Dockerfile` (User-Setup Zeile ~173ff, Go/Rust-Cleanup Zeile ~288,
+    NVIDIA-Squashfs Zeile ~447ff, E14-Squashfs Zeile ~489ff, `fc-cache` Zeile ~229,
+    Runlevel-Aktivierungen Zeile ~274ff, Kernel-Version `KVER_PURE=6.18.48` Zeile ~30)
+  - `setup01_build_image.sh`, `setup01_run_with_log.sh`,
+    `setup03_copy_from_container.sh`, `copy_files.sh`
+- Konfiguration in `config/`: `world` (112 Eintraege, u.a. `cryptsetup`, `lvm2`,
+  `strace`, `fontconfig` bereits enthalten; `xauth`, `rtkit`, `alsa-plugins`
+  fehlen), `package.use` (15 Zeilen), `package.mask`
+  (`>=sys-kernel/gentoo-sources-6.19`), `package.accept_keywords`, `make.conf`
+  (`MAKEOPTS="-j32"` bereits gesetzt), `config6.18.35`, `resolv.conf`,
+  Session-Skripte (`activate`, `start2`, `xinitrc`, `start-pipewire.sh`),
+  OpenRC-Dienste (`user-runtime.initd`, `user-*.initd`, `reverse-ssh-*.initd`)
+- Fruehere D-Bus/elogind-Analyse: `plan/20260610_01_elogin/dbus-elogind-openrc-plan.md`
+- Deployment-Ziele: `doc/install_on_e14.md`, `doc/install_on_hpz6.md`
+
+Detaillierte Anforderungen
+
+1. Passwortloser Login fuer `kiel` (`plan/next` Zeile 1)
+- Leeres zweites Feld fuer `kiel` in `/etc/shadow` setzen (z.B. `passwd -d kiel`
+  im Dockerfile nach dem `useradd`, Zeile ~173ff), damit ein Login ohne Passwort
+  moeglich ist, wenn keine entschluesselte Platte gefunden wird.
+- Sicherheitsimplikation im `walkthrough.md` dokumentieren (Komfort vs. Schutz).
+
+2. Go-/Rust-Bereinigung robust machen (`plan/next` Zeile 6ff, `Dockerfile` Zeile ~288)
+- Aktuell: `emerge -C dev-lang/rust-bin virtual/rust dev-lang/go
+  dev-lang/go-bootstrap dev-util/cargo-c || true` meldet
+  `Couldn't find 'virtual/rust' / 'dev-lang/go-bootstrap' / 'dev-util/cargo-c'`.
+- Im Build-Container mit `qlist -I | grep -Ei 'rust|go|cargo'` die tatsaechlich
+  installierten Atome ermitteln und die Deinstallationsliste darauf korrigieren
+  (nur vorhandene Atome deinstallieren, z.B. `dev-lang/rust-bin`, `dev-lang/go`).
+- Verifizieren, dass danach noch benoetigte Tools laufen (Smoke-Test: `gcc`,
+  falls Rust/Go-Laufzeit gebraucht wird, entsprechend dokumentieren).
+
+3. Squashfs-Warnungen triagieren (`plan/next` Zeile 13ff)
+- `//sys`, `//proc`, `//etc/hosts`, `//etc/resolv.conf`, `//dev is on a different
+  filesystem, ignored` bei `mksquashfs /` (NV-Image Zeile ~447ff, E14-Image
+  Zeile ~519ff, trotz `-one-file-system-x`) als benign bestaetigen oder per
+  `-e`-Ausschluss/`-p`-Pseudoeintrag sauber unterdruecken.
+- `Parallel mksquashfs: Using 32 processors` als OK bestaetigen.
+
+4. Whitelist-Ansatz pruefen + Smoke-Tests bauen (`plan/next` Zeile 25f)
+- Pruefen, ob statt Voll-`/`-Squashfs eine Whitelist (nur definitiv benoetigte
+  Pfade) umsetzbar ist, ohne Boot-/X11-/Firmware-Funktionalitaet zu brechen.
+- Mindestens aber Smoke-Tests fuer alle Kernprogramme einfuehren, z.B.
+  `xorg/Xorg`, `emacs`, `gcc`, `git`, `firefox` (ggf. `firefox-bin --version`),
+  `rustc`/`cargo` (falls im Image), `pipewire`, `iwd`, `nft`, `docker`,
+  `xfreerdp`, `mupdf`, `picocom`, `gdb`.
+- Tests als Skript (z.B. `config/smoke-test.sh` + Dockerfile-`RUN`-Stufe oder
+  separater Testlauf auf den exportierten Squashfs-Images) implementieren und im
+  `walkthrough.md` mit Ausgaben belegen.
+
+5. `Messages for package` aus `logs/setup01_run_20260905_095049.log` abarbeiten
+- `x11-apps/xinit` (Log ~13937): `XSESSION`-Variable setzen
+  (`/etc/env.d/90xsession`, `env-update`), passend zu `dwm`/`.xinitrc`.
+- `media-fonts/wqy-zenhei` (~13628), `media-fonts/liberation-fonts`,
+  `media-libs/fontconfig` (~13840): `eselect fontconfig`-Aktivierungen
+  (`44-wqy-zenhei.conf`, `60-liberation.conf`) im Dockerfile fest verdrahten.
+- `sys-kernel/linux-firmware` (~13676): auf `USE=savedconfig` umstellen und per
+  savedconfig nur wifi/nvidia/amdgpu-Firmware behalten (E14: `amdgpu/yellow_carp*`,
+  `amdgpu/rembrandt*`, `mediatek/`, `rtl_bt/`, `rtl_nic/`, `regulatory.db*`;
+  Z6/NV: zusaetzlich NVIDIA-Blobs aus `modinfo -F firmware nvidia.ko`, vgl.
+  Dockerfile Zeile ~435). Groesse vorher/nachher messen.
+- `app-emacs/emacs-common` (~13689): site-Init (`site-gentoo.el`,
+  `/etc/emacs/site-start.el`) sicherstellen; pruefen, welche Emacs-Abhaengigkeiten
+  sinnvoll ueber Gentoo statt MELPA kommen (nur uebernehmen, was Build-Zeit und
+  Image-Groesse rechtfertigt; bestehendes MELPA-`RUN emacs --batch` in
+  Dockerfile Zeile ~210ff nicht ohne Ersatz entfernen).
+- `sys-kernel/dracut` (~13998ff): fehlende optionale Laufzeit-Features bewusst
+  entscheiden — `sys-fs/cryptsetup` und `sys-fs/lvm2` sind bereits in `world`,
+  Rest (cifs, iscsi, nfs, tpm2, bluez, rng-tools usw.) explizit als Non-Goal
+  ablehnen und dokumentieren.
+- `media-video/pipewire` (~14059): `sys-auth/rtkit` und
+  `media-plugins/alsa-plugins[pulseaudio]` in `world` aufnehmen (klein, direkt
+  vom Log gefordert).
+- Gruppen: `kiel` in `video` (bereits in Dockerfile Zeile ~174),
+  zusaetzlich `plugdev` (NetworkManager, Log ~14101), `pcap` (Wireshark,
+  Log ~14148), `docker` (Docker, Log ~14089) aufnehmen; nur Gruppen verwenden,
+  die im Image existieren.
+- `www-client/firefox-bin` (~14154): DoH-Entscheidung dokumentieren
+  (Default `network.trr.mode=5`, kein Cloudflare-Zwang); optional
+  `speech-dispatcher`, `gsettings-desktop-schemas`, `libnotify` als Non-Goal
+  ablehnen.
+- `app-shells/zsh` (~13712): `~/.zshrc`-Empfehlung (`compinit`, `promptinit`,
+  `prompt gentoo`, Cache-`zstyle`) fuer `kiel` und root ausrollen
+  (`app-shells/gentoo-zsh-completions` ist bereits in `world`).
+- `sys-apps/lm-sensors` (~13797): `CONFIG_I2C_CHARDEV` im Kernel aktivieren und
+  `sensors-detect`/`lm_sensors`-Runlevel-Entscheidung dokumentieren.
+- `sys-auth/elogind` (~13900), `sys-apps/dbus` (~13910): `rc-update add elogind
+  boot` ist bereits in Dockerfile Zeile ~279 — als erledigt verifizieren, nicht
+  doppelt anlegen; Session-Bus-Hinweis (`man dbus-launch`) mit User-Session
+  (`user-runtime`, `user.kiel`, `dbus` in Zeile ~280ff) abgleichen.
+- `net-misc/openssh` (~13875): `x11-apps/xauth` in `world` aufnehmen (X11-Forwarding).
+- `x11-drivers/nvidia-drivers` (~14109): `@module-rebuild`- bzw.
+  Rebuild-Hinweis nach Kernel-Upgrade im `walkthrough.md` festhalten.
+- `net-wireless/iwd` (~13998): `CONFIG_CRYPTO_MD4` und
+  `CONFIG_PKCS8_PRIVATE_KEY_PARSER` im Kernel aktivieren.
+- `net-wireless/wireless-regdb`: `CFG80211_CRDA_SUPPORT`-Abschaltung pruefen.
+- `net-dialup/ppp` (~13863, `plan/next` Zeile 277ff): PPP-Kerneloptionen
+  (`CONFIG_PPP*`, `CONFIG_PPPOE` usw.) bewusst deaktivieren lassen — der Autor
+  braucht kein PPP; Entscheidung im `walkthrough.md` als Non-Goal festhalten.
+- `net-print/cups` (~14047): `CONFIG_USB_PRINTER` aktivieren oder `cups[usb]`
+  als Alternative dokumentieren.
+- `sys-process/iotop` (~13823): `kernel.task_delayacct=1` persistent setzen
+  (`/etc/sysctl.conf` bzw. `/etc/sysctl.d/`).
+- `sys-process/htop` (~13671): `dev-debug/strace` ist bereits in `world` — als
+  erledigt verifizieren.
+- `net-firewall/nftables` (~13738): `rc-update add nftables default` bewusst
+  entscheiden (Default: aus lassen, dokumentieren).
+- `sys-fs/lvm2` (~14040): `rc-update add lvm boot` + `lvmetad`-Entscheidung
+  dokumentieren (nur wenn LVM wirklich genutzt wird).
+- `mail-mta/nullmailer` (~13835): `emerge --config` initial einrichten oder als
+  ungenutzt dokumentieren.
+- `app-admin/sudo` (~14078): Askpass-Pakete als Non-Goal ablehnen (NOPASSWD fuer
+  `wheel` ist bereits gesetzt, Dockerfile Zeile ~140).
+- `sys-apps/util-linux` (~13885, `USE=-tty-helpers`): so lassen, dokumentieren.
+- `x11-libs/gtk+-3` (~14072, `evince`-Hinweis), `dev-libs/libinput`
+  (`libevdev`-Tools, ~13880), `app-misc/mc` (`mc.sh`, ~14033),
+  `sys-power/tlp` (~14133), `media-video/mpv`/`libpulse`, `net-misc/dhcp`
+  (Client-Deprecation, ~14067), `net-misc/modemmanager`/`wpa_supplicant`,
+  `sys-apps/cpuid`-nahe Hinweise: jeweis als übernommen/Non-Goal in einer
+  Tabelle im `walkthrough.md` abhaken.
+
+6. Kernel-Versions-Drift beenden (Log ~13783, `plan/next` Zeile 231ff)
+- `Dockerfile` baut `KVER_PURE=6.18.48` (Zeile ~30), `emerge -uDN @world` zog
+  aber `gentoo-sources-6.18.49`. `package.mask` (`>=6.19`) und `world`
+  (`<6.19`) greifen zu grob.
+- Auf exakt `=sys-kernel/gentoo-sources-6.18.48` pinnen (in `world` und/oder
+  `package.mask`) und verifizieren, dass kein `6.18.49`-Eintrag mehr im Log
+  auftaucht. Ob `6.18.49` stabil ist, ist dabei egal — Reproduzierbarkeit zaehlt.
+
+7. Kernel-`.config` ergaenzen (`config/config6.18.35`)
+- `CONFIG_CRYPTO_MD4=m`, `CONFIG_PKCS8_PRIVATE_KEY_PARSER=y` (iwd).
+- `CONFIG_I2C_CHARDEV=m` (lm-sensors).
+- `CONFIG_USB_PRINTER=y` oder `cups[usb]`-Alternative (cups).
+- PPP aus lassen (Non-Goal, siehe oben).
+- Mit `make olddefconfig` gegenpruefen, ob Abhaengigkeiten weitere Symbole
+  nachziehen.
+
+Arbeitsablauf & Deliverables
+1. Zuerst `implementation_plan.md` in diesem Planverzeichnis finalisieren
+   (Ist-Zustand mit konkreten Zeilennummern, geplante Aenderungen an
+   `Dockerfile`, `config/world`, `config/package.use`, `config/config6.18.35`,
+   `config/package.mask`, Gruppensetup, sysctl/eselect-Konfiguration,
+   Smoke-Test-Skript; Risiken, Abhaengigkeiten, Verifikation).
+2. Aenderungen an Konfiguration und `Dockerfile` durchfuehren; dabei nichts
+   ohne Log-Beleg als erledigt markieren.
+3. Build-Lauf starten (`./setup01_run_with_log.sh`) oder mindestens
+   Syntax-/Config-Verifikation; Log auf `Couldn't find`-, `Messages for`- und
+   Kernel-Warnungs-Zeilen scannen.
+4. `walkthrough.md` im selben Planverzeichnis erstellen: Liste aller geaenderten
+   Dateien mit Begruendung, Build-Ergebnisse mit Log-Auszuegen (Cleanup ohne
+   `Couldn't find`, Gruppenmitgliedschaften, `XSESSION`, fontconfig-eselect,
+   Firmware-Groessen, Kernel-Pin ohne `6.18.49`, Smoke-Test-Ausgaben),
+   Non-Goal-Tabelle, Test-/Verifikationsanleitung fuer HP Z6 und ThinkPad E14.
