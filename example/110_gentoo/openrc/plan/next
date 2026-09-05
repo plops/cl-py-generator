@@ -20,3 +20,7 @@ some warnings during squashfs creation
 #84 4.163 //etc/hosts is on a different filesystem, ignored
 #84 4.169 //etc/resolv.conf is on a different filesystem, ignored
 #84 4.938 //dev is on a different filesystem, ignored
+
+
+is there  a way to copy only the files we definetly need (whitelist) and create smoke tests for all the programs that i want to use
+to ensure they work (e.g. xorg, emacs, gcc, rust, git, firefox)
