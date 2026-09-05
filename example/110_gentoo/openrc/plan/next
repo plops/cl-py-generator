@@ -1,7 +1,15 @@
-amdgpu module (and everything else for e14)
+amdgpu module (and everything else for e14) DONE
 picocom
 gdb
 dpkg
 elogind with dbus (perhaps desktop profile)
 xfreerdp
 mupdf
+
+look at the build log. a few packets are complaining about missing kernel configs (related to network mostly). try to fix those
+also look in general in the log for things that can be improved
+
+the make.conf currently uses only a single  thread to compile. use all 32 threads
+
+schaue dir in den anderen ordnern an was noch konfiguriert/installiert werden koennte
+auch in cl-cl-generator/ex*/05*/s*/e*/01*
