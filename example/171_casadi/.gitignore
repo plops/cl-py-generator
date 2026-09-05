@@ -1,3 +1,5 @@
+*.c
+*.csv
 *.png
 cpp_10/build/
 cpp_10/lambert_solver.cpp
