@@ -65,6 +65,37 @@ Die aktive GRUB-Konfiguration liegt auf `/dev/nvme0n1p2` (Kubuntu Boot-Partition
 sudo mount /dev/nvme0n1p2 /mnt  # Device-Name ggf. anhand von UUID cfb582a8... anpassen!
 ```
 
+```
+menuentry 'Gentoo 0614' {
+    insmod part_gpt
+    insmod fat
+    insmod btrfs
+    # Search for the partition containing the artifacts (nvme1n1p2)
+    search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
+
+    linux /boot/0614/vmlinuz \
+    root=UUID=d030d0c2-f260-4b6f-a986-f53409241f95 \
+    rd.luks.uuid=50081d78-88bb-4d2d-a827-b10410890775 \
+    rd.debug rd.shell loglevel=7
+    initrd /boot/0614/amd-uc.img  /boot/0614/initramfs-6.18.35-gentoo-r1-gentoo-dist.img
+}
+
+blkid|grep d03
+/dev/mapper/luks-50081d78-88bb-4d2d-a827-b10410890775: LABEL="rootfs" UUID="d030d0c2-f260-4b6f-a986-f53409241f95" UUID_SUB="74bbfa2d-e734-485a-ab23-b31789cf13e2" BLOCK_SIZE="4096" TYPE="btrfs"
+
+blkid|grep bbac
+/dev/nvme0n1p4: UUID="bbac9bb8-39d9-42fa-8d04-94610ced9839" TYPE="crypto_LUKS" PARTUUID="0667cf98-34a2-7647-ae98-69c0917e5aa4"
+
+blkid|grep df5
+/dev/nvme0n1p2: UUID="df544e10-90c0-4315-860c-92a58ec8499e" UUID_SUB="e80ad8f0-c7fe-47b3-8b1a-93d35aca3579" BLOCK_SIZE="4096" TYPE="btrfs" PARTUUID="81a3124b-cd69-4440-ae4a-1355bf8835d7"
+
+SRC=d03; mkdir /$SRC && cryptsetup luksOpen /dev/disk/by-uuid/$SRC* $SRC && mount /dev/mapper/$SRC /$SRC
+
+SRC=bbac; mkdir /$SRC && cryptsetup luksOpen /dev/disk/by-uuid/$SRC* $SRC && mount /dev/mapper/$SRC /$SRC
+
+
+```
+
 Die Boot-Einträge liegen in `/mnt/grub/custom.cfg`. Wir bereinigen veraltete Einträge und fügen den neuen Eintrag für `0824` hinzu, während `0428` als Fallback erhalten bleibt:
 
 ```bash
