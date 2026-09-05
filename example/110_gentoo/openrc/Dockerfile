@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260903 AS portage
+FROM gentoo/portage:20260905 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
@@ -37,7 +37,7 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER_SOURCE}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config6.18.18 .config
+COPY config/config6.18.35 .config
 RUN sed -i \
     -e 's/^CONFIG_LOCALVERSION="-gentoo-dist"/CONFIG_LOCALVERSION="-dist"/' \
     -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/' \
