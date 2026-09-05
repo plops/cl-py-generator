@@ -6,16 +6,20 @@ This guide describes how to install a new live Gentoo image on the ThinkPad E14 
 ## 0. Identifiers for this Machine (E14)
 
 - **Artifacts Partition (Kernel/Squashfs)**: `/dev/nvme1n1p2` (UUID `df544e10-90c0-4315-860c-92a58ec8499e`, normally mounted at `/1p2` or `/run/initramfs/live` when booted live)
+```
+sudo mount /dev/disk/by-uuid/df544e10-90c0-4315-860c-92a58ec8499e  /1p2
+sudo mount /dev/disk/by-uuid/cfb582a8-a460-40bc-bdf8-c760c5ecebb6 /mnt
+```
 - **GRUB Config Partition**: `/dev/nvme0n1p2` (UUID `cfb582a8-a460-40bc-bdf8-c760c5ecebb6`, currently mounted at `/mnt`, or `/boot` in Kubuntu)
 - **Persistent Partition**: `/dev/nvme0n1p4` (LUKS UUID `bbac9bb8-39d9-42fa-8d04-94610ced9839`)
-- **Current Export Bundle**: `/home/kiel/gentoo-z6-min-openrc_20260610/`
-- **Build Date Suffix**: `0610` (installed on 2026-06-10), `0428` (OpenRC-Fallback)
+- **Current Export Bundle**: `/home/kiel/gentoo-z6-min-openrc_20260824/`
+- **Build Date Suffix**: `0824` (installed on 2026-06-10), `0428` (OpenRC-Fallback)
 
 > [!WARNING]
 > **NVMe Device Name Swapping**: The device letters `/dev/nvme0n1` and `/dev/nvme1n1` may swap dynamically after a reboot. Always identify the partitions using their unique UUIDs in GRUB configurations, scripts, and manual mounting.
 
 > [!NOTE]
-> Ab `0320` wird OpenRC anstelle von Systemd genutzt. Ab `0428` werden Artefakte in datierten Unterverzeichnissen wie `/0428/` abgelegt, um die Dateinamen sauber zu halten. Das E14-spezifische squashfs-Image heißt im Export-Verzeichnis lokal `gentoo.squashfs_e14` und wird auf `/1p2/0610/gentoo.squashfs` abgelegt. Beim Install am 2026-06-10 wurde der alte `0428`-Satz als Fallback behalten, da genug Speicher vorhanden war, während die älteren, verwaisten `03xx`-Einträge aus der GRUB-Konfiguration entfernt wurden.
+> Ab `0320` wird OpenRC anstelle von Systemd genutzt. Ab `0428` werden Artefakte in datierten Unterverzeichnissen wie `/0428/` abgelegt, um die Dateinamen sauber zu halten. Das E14-spezifische squashfs-Image heißt im Export-Verzeichnis lokal `gentoo.squashfs_e14` und wird auf `/1p2/0824/gentoo.squashfs` abgelegt. Beim Install am 2026-06-10 wurde der alte `0428`-Satz als Fallback behalten, da genug Speicher vorhanden war, während die älteren, verwaisten `03xx`-Einträge aus der GRUB-Konfiguration entfernt wurden.
 
 
 ## 1. Preflight, Cleanup, and Copy New Build Artifacts
@@ -31,19 +35,24 @@ ls -lh /1p2/
 ls -lh /1p2/0428/
 
 # Neue Verzeichnisstruktur anlegen
-sudo mkdir -p /1p2/0610
+sudo mkdir -p /1p2/0824
 
 # Dateien kopieren
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/gentoo.squashfs_e14 /1p2/0610/gentoo.squashfs
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/vmlinuz /1p2/0610/vmlinuz
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/initramfs_squash_sda1-x86_64.img /1p2/0610/initramfs.img
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/packages.txt /1p2/0610/packages.txt
-sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260610/packages.tsv /1p2/0610/packages.tsv
+
+export NOW=0904
+export SRC=/1p3/yt/gentoo-z6-min-openrc_2026$NOW/
+
+sudo mkdir -p /1p2/$NOW
+sudo cp -av $SRC/gentoo.squashfs_e14 /1p2/$NOW/gentoo.squashfs
+sudo cp -av $SRC/vmlinuz /1p2/$NOW/vmlinuz
+sudo cp -av $SRC/initramfs_squash_sda1-x86_64.img /1p2/$NOW/initramfs.img
+sudo cp -av $SRC/packages.txt /1p2/$NOW/packages.txt
+sudo cp -av $SRC/packages.tsv /1p2/$NOW/packages.tsv
 
 # Microcode kopieren (vom bestehenden 0428-Satz)
-sudo cp -v /1p2/0428/amd-uc.img /1p2/0610/amd-uc.img
+sudo cp -v /1p2/0428/amd-uc.img /1p2/$NOW/amd-uc.img
 
-ls -lh /1p2/0610/
+ls -lh /1p2/0824/
 df -h /1p2
 ```
 
@@ -56,7 +65,7 @@ Die aktive GRUB-Konfiguration liegt auf `/dev/nvme0n1p2` (Kubuntu Boot-Partition
 sudo mount /dev/nvme0n1p2 /mnt  # Device-Name ggf. anhand von UUID cfb582a8... anpassen!
 ```
 
-Die Boot-Einträge liegen in `/mnt/grub/custom.cfg`. Wir bereinigen veraltete Einträge und fügen den neuen Eintrag für `0610` hinzu, während `0428` als Fallback erhalten bleibt:
+Die Boot-Einträge liegen in `/mnt/grub/custom.cfg`. Wir bereinigen veraltete Einträge und fügen den neuen Eintrag für `0824` hinzu, während `0428` als Fallback erhalten bleibt:
 
 ```bash
 cat <<'EOF' | sudo tee /mnt/grub/custom.cfg >/dev/null
@@ -81,16 +90,16 @@ menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0428)' {
     initrd /0428/amd-uc.img /0428/initramfs.img
 }
 
-menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0610)' {
+menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0824)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     # Search for the partition containing the artifacts
     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
 
-    linux /0610/vmlinuz \
+    linux /0824/vmlinuz \
       root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
-      rd.live.dir=/0610/ \
+      rd.live.dir=/0824/ \
       rd.live.squashimg=gentoo.squashfs \
       rd.live.ram=1 \
       rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
@@ -99,7 +108,7 @@ menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0610)' {
       rd.live.overlay.overlayfs=1 \
       nvme_core.default_ps_max_latency_us=0
 
-    initrd /0610/amd-uc.img /0610/initramfs.img
+    initrd /0824/amd-uc.img /0824/initramfs.img
 }
 
 menuentry 'Gentoo 041' {
@@ -116,7 +125,7 @@ menuentry 'Gentoo 041' {
 }
 EOF
 
-rg -n "0428|0610" /mnt/grub/custom.cfg
+rg -n "0428|0824" /mnt/grub/custom.cfg
 ```
 
 > [!NOTE]
