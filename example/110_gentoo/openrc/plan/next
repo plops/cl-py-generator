@@ -1,15 +1,81 @@
-amdgpu module (and everything else for e14) DONE
+erzeuge einen neuen datierten plan fuer einen agenten. du sollst die datei prompt.txt erstellen in 
+/workspace/src/cl-py-generator/example/110_gentoo/openrc/plan/20260905.../
+es ist wichtig den autor (wolpumba) anzugeben und dass ein walkthrough geschrieben werden soll
+
+ich moechte die folgenden dinge zum openrc gentoo image hinzufuegen (der agent muss vermutlich dateien  in config/
+anpassen oder Dockerfile)
+
+amdgpu module (and everything else for e14) [ ich denke das ist bereits integriert ]
 picocom
 gdb
 dpkg
-elogind with dbus (perhaps desktop profile)
+elogind with dbus (perhaps desktop profile) [ ich denke das wurde angefangen mit einem vorherigen plan, scheint aber noch nicht richtig zu gehen ]
 xfreerdp
 mupdf
 
+
+es befindet sich gerade ein build in der ausfuehrung
+
 look at the build log. a few packets are complaining about missing kernel configs (related to network mostly). try to fix those
+
+root@de21544e50dd:/workspace/src/cl-py-generator/example/110_gentoo/openrc/plan# grep '  *  CONFIG_' ../logs/setup01_run_20260905_072631.log
+#36 463.1  *   CONFIG_BRIDGE:    is not set when it should be.
+#36 463.1  *   CONFIG_BRIDGE_NETFILTER:  is not set when it should be.
+#36 463.2  *   CONFIG_IP_NF_FILTER:      is not set when it should be.
+#36 463.2  *   CONFIG_IP_NF_TARGET_MASQUERADE:   is not set when it should be.
+#36 463.2  *   CONFIG_NETFILTER_XT_MATCH_ADDRTYPE:       is not set when it should be.
+#36 463.2  *   CONFIG_NETFILTER_XT_MATCH_COMMENT:        is not set when it should be.
+#36 463.2  *   CONFIG_NETFILTER_XT_MATCH_CONNTRACK:      is not set when it should be.
+#36 463.2  *   CONFIG_NETFILTER_XT_MATCH_IPVS:   is not set when it should be.
+#36 463.2  *   CONFIG_IP_NF_NAT:         is not set when it should be.
+#36 463.2  *   CONFIG_NF_NAT:    is not set when it should be.
+#36 463.3  *   CONFIG_RT_GROUP_SCHED:    is not set when it should be.
+#36 463.3  *   CONFIG_IP_NF_TARGET_REDIRECT:     is not set when it should be.
+#36 463.3  *   CONFIG_IP_VS:     is not set when it should be.
+#36 463.3  *   CONFIG_IP_VS_NFCT:        is not set when it should be.
+#36 463.3  *   CONFIG_IP_VS_PROTO_TCP:   is not set when it should be.
+#36 463.3  *   CONFIG_IP_VS_PROTO_UDP:   is not set when it should be.
+#36 463.3  *   CONFIG_IP_VS_RR:  is not set when it should be.
+#36 759.9  *   CONFIG_NF_TABLES:         is not set when it should be.
+
+
 also look in general in the log for things that can be improved
+
+such notes are often colored in the log and contain "If you"
+
+like this:
+
+#36 496.0 >>> Installing (147 of 456) app-containers/docker-cli-29.5.2::gentoo
+#36 496.9  ESC[33;01m*ESC[0m the 'docker build' command is deprecated and will be removed in a
+#36 496.9  ESC[33;01m*ESC[0m future release. If you need this functionality, install
+#36 496.9  ESC[33;01m*ESC[0m app-containers/docker-buildx.
+
+#36 762.1 >>> Installing (232 of 456) net-firewall/nftables-1.1.6::gentoo
+#36 763.0  ESC[32;01m*ESC[0m If you wish to enable the firewall rules on boot (on openrc) you
+#36 763.0  ESC[32;01m*ESC[0m will need to enable the nftables service.
+#36 763.0  ESC[32;01m*ESC[0m     'rc-update add nftables default'
+#36 763.0  ESC[32;01m*ESC[0m
+#36 763.0  ESC[32;01m*ESC[0m If you are creating or updating the firewall rules and wish to save
+#36 763.0  ESC[32;01m*ESC[0m them to be loaded on the next restart, use the "save" functionality
+#36 763.0  ESC[32;01m*ESC[0m in the init script.
+#36 763.0  ESC[32;01m*ESC[0m     'rc-service nftables save'
+
+
+# grep "If you" ../logs/setup01_run_20260905_072631.log
+#20 112.2  * If you are upgrading from a previous kernel, you may be interested
+#20 114.0  * If you are upgrading from a previous kernel, you may be interested
+#36 293.9  * If you are only interested in particular firmware files, edit the saved
+#36 496.9  * future release. If you need this functionality, install
+#36 595.4 contributed modules. If you would like to run more extensive tests on
+#36 763.0  * If you wish to enable the firewall rules on boot (on openrc) you
+#36 763.0  * If you are creating or updating the firewall rules and wish to save
+#36 878.9  * If you are upgrading from a previous kernel, you may be interested
+#36 934.7  * If you want to enable Portage completions and Gentoo prompt,
 
 the make.conf currently uses only a single  thread to compile. use all 32 threads
 
 schaue dir in den anderen ordnern an was noch konfiguriert/installiert werden koennte
-auch in cl-cl-generator/ex*/05*/s*/e*/01*
+auch in /workspace/src/cl-cl-generator/ex*/05*/s*/e*/01*
+insbesondere
+/workspace/src/cl-cl-generator/example/05_dockerfile_meta/source01/examples/01_gentoo/Dockerfile
+/workspace/src/cl-cl-generator/example/05_dockerfile_meta/source01/examples/01_gentoo/gen_gentoo.lisp
