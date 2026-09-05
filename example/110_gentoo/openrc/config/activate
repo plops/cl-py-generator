@@ -29,7 +29,9 @@ rc-service udev start
 rc-service udev-trigger start
 rc-service udev-settle start
 rc-service hostname start
+rc-service elogind start 2>/dev/null || true
 rc-service dbus start
+rc-service user-runtime start 2>/dev/null || true
 
 sync_initd "${config_root}/reverse-ssh-eu.initd" /etc/init.d/reverse-ssh-eu
 sync_initd "${config_root}/reverse-ssh-us.initd" /etc/init.d/reverse-ssh-us

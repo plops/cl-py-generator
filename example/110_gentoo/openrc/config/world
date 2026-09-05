@@ -1,5 +1,6 @@
 app-admin/sudo
 app-admin/sysklogd
+app-arch/dpkg
 app-containers/docker
 app-containers/docker-buildx
 app-containers/docker-cli
@@ -16,10 +17,12 @@ app-portage/cpuid2cpuflags
 app-portage/eix
 app-portage/gentoolkit
 app-shells/bash-completion
+app-shells/gentoo-zsh-completions
 app-shells/zsh
 app-text/mupdf
 app-text/tree
 dev-build/ninja
+dev-debug/gdb
 dev-debug/ltrace
 dev-debug/strace
 dev-libs/nss
@@ -30,6 +33,7 @@ dev-vcs/git
 media-fonts/wqy-zenhei
 media-gfx/feh
 media-gfx/scrot
+media-libs/fontconfig
 media-sound/pulsemixer
 media-video/mpv
 media-video/pipewire
@@ -43,6 +47,7 @@ net-analyzer/nethogs
 net-analyzer/ngrep
 net-analyzer/ssmping
 net-analyzer/wireshark
+net-dialout/picocom
 net-dns/bind-tools
 net-dns/dnsmasq
 net-im/signal-desktop-bin
@@ -82,7 +87,7 @@ sys-fs/erofs-utils
 sys-fs/lvm2
 sys-fs/squashfs-tools
 sys-kernel/dracut
-sys-kernel/gentoo-sources
+<sys-kernel/gentoo-sources-6.19
 sys-kernel/linux-firmware
 sys-power/acpi
 sys-power/tlp
