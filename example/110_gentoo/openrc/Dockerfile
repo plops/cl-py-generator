@@ -13,6 +13,8 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 # Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
+RUN mkdir -p /etc/portage/package.mask
+COPY config/package.mask /etc/portage/package.mask/package.mask
 
 
 # Repository tooling and package configuration
@@ -47,7 +49,7 @@ RUN sed -i \
     .config
 # amd/sof/* and amd/sof-tplg/* firmware blobs
 
-RUN make prepare
+RUN make olddefconfig && make prepare
 
 # compile the kernel
 RUN make -j32
@@ -175,6 +177,8 @@ RUN groupadd -f input \
     done
 
 COPY config/xinitrc /home/kiel/.xinitrc
+RUN mkdir -p /etc/X11/xorg.conf.d
+COPY config/40-touchpad.conf /etc/X11/xorg.conf.d/40-touchpad.conf
 COPY config/activate /home/kiel/activate
 COPY config/start2 /home/kiel/start2
 COPY config/start-pipewire.sh /home/kiel/start-pipewire.sh
@@ -272,6 +276,7 @@ RUN printf '%s\n' \
  && rc-update add udev-settle sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
+ && rc-update add elogind boot \
  && rc-update add user-runtime default \
  && rc-update add user.kiel default \
  && rc-update add dbus default \
