@@ -1,3 +1,12 @@
+large png files have been added from the repo (they should have never been added)
+
+ example/171_casadi/henon_heiles_chaos.png
+  example/171_casadi/diode_sensitivities.png                                       |  Bin 0 -> 305066 bytes
+ example/171_casadi/diode_sweetspot.png  
+
+`mpv --ao=alsa --audio-device=alsa/sysdefault:CARD=Generic_1` is needed for audio to work on e14
+
+
 an empty second field for kiel user in /etc/shadow will allow login without password (useful if no encrypted disk is found)
 
 the clean up (deletion of go and rust may need some work)
