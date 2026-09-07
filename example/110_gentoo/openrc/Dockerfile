@@ -10,6 +10,10 @@ FROM gentoo/stage3:nomultilib-20260907 AS base
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
+ARG BUILD_GIT_COMMIT=unknown
+ARG BUILD_REPOSITORY=unknown
+ARG BUILD_DATE=unknown
+
 # Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib
 COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
@@ -289,6 +293,23 @@ RUN emerge -C dev-lang/rust-bin virtual/rust dev-lang/go dev-lang/go-bootstrap d
 
 WORKDIR /
 RUN emerge --ask=n sys-fs/e2fsprogs sys-fs/erofs-utils || true
+RUN printf '%s\n' \
+  'OpenRC Gentoo image build' \
+  '==========================' \
+  "Git commit: ${BUILD_GIT_COMMIT}" \
+  "Repository: ${BUILD_REPOSITORY}" \
+  'Source Dockerfile: openrc/Dockerfile' \
+  "Build date (UTC): ${BUILD_DATE}" \
+  '' \
+  'Audio note' \
+  '----------' \
+  'PipeWire/WirePlumber are enabled, but the ALSA card is hardware-dependent.' \
+  'On the ThinkPad E14, mpv may need:' \
+  '  mpv --ao=alsa --audio-device=alsa/sysdefault:CARD=Generic_1' \
+  'Do not use Generic_1 as a global default for the HP Z6; inspect aplay -l,' \
+  'wpctl status, or pactl list short sinks there and select the host-specific' \
+  'device/profile.' \
+  > /IMAGE-BUILD-INFO.txt
 # RUN mksquashfs \
 # / \
 # /gentoo.squashfs \
@@ -373,8 +394,8 @@ COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
 RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
-      --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
-      --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
+  --filesystems "squashfs vfat ext4 overlay btrfs" \
+  --add-drivers "libnvdimm nd_pmem nd_btt dax device_dax dax_pmem dax_pmem_core nd_e820" \
       --kver=${KVER_RELEASE} \
       --install "stat blockdev" \
       --force \
