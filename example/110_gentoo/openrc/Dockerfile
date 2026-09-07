@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260905 AS portage
+FROM gentoo/portage:20260907 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260831 AS base
+FROM gentoo/stage3:nomultilib-20260907 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
@@ -39,7 +39,7 @@ RUN eselect kernel list
 RUN eselect kernel set linux-${KVER_SOURCE}
 #RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config6.18.35 .config
+COPY config/config6.18.48 .config
 RUN sed -i \
     -e 's/^CONFIG_LOCALVERSION="-gentoo-dist"/CONFIG_LOCALVERSION="-dist"/' \
     -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/' \
@@ -172,10 +172,10 @@ RUN make clean
 
 RUN groupadd -f input \
  && useradd -m -G users,wheel,audio,video,input -s /bin/bash kiel \
- && for grp in libvirt kvm qemu; do \
+ && for grp in libvirt kvm qemu plugdev pcap docker; do \
       if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi; \
-    done
-
+    done && passwd -d kiel
+    
 COPY config/xinitrc /home/kiel/.xinitrc
 RUN mkdir -p /etc/X11/xorg.conf.d
 COPY config/40-touchpad.conf /etc/X11/xorg.conf.d/40-touchpad.conf
