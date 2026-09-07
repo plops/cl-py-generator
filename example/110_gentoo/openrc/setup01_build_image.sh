@@ -1,5 +1,17 @@
 # Build the docker image for ThinkPad E14 minimal (no NVIDIA)
 
+# Warn before starting a large build when Docker's backing filesystem is low.
+MIN_FREE_GB=120
+AVAILABLE_KB=$(df -Pk . | awk 'NR == 2 {print $4}')
+AVAILABLE_GB=$((AVAILABLE_KB / 1024 / 1024))
+if (( AVAILABLE_GB < MIN_FREE_GB )); then
+  printf '\nWARNING: only %s GiB is available; this build can consume a large amount of Docker storage.\n' "${AVAILABLE_GB}" >&2
+  printf 'Inspect usage with: docker system df\n' >&2
+  printf 'Remove unused builder cache with: docker builder prune -af\n' >&2
+  printf 'Remove unused images/containers/networks with: docker system prune -af\n' >&2
+  printf 'Also remove unused volumes (DESTRUCTIVE): docker system prune -af --volumes\n\n' >&2
+fi
+
 # Extract the public key line for kiel@localhost from the user's ~/.ssh/authorized_keys
 AUTHKEY=""
 if [ -f "${HOME}/.ssh/authorized_keys" ]; then
