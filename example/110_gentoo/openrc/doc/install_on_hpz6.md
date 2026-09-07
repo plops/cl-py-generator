@@ -1,7 +1,7 @@
 # Install Gentoo OpenRC Image on HP Z6
 
 This document records the HP Z6 OpenRC squashfs deployments from April 27,
-2026 through August 26, 2026.
+2026 through September 7, 2026.
 
 - April 27, 2026: initial `0427` squashfs deployment.
 - April 28, 2026: new dated `0428` deployment from
@@ -11,6 +11,10 @@ This document records the HP Z6 OpenRC squashfs deployments from April 27,
 - August 26, 2026: new dated `0826` deployment from
   `/dev/shm/gentoo-z6-min-openrc_20260826/`. The old `0427` slot was removed
   for space; the running `0625` slot was preserved.
+- September 7, 2026: replacement of the existing `0907` deployment from
+  `/home/kiel/gentoo-z6-min-openrc_20260907/`. The files were overwritten
+  in place to avoid requiring a second full squashfs in the nearly full
+  artifact partition.
 
 ## Stable Device References
 
@@ -37,7 +41,7 @@ These correspond to:
   `label=gentoo`
   `UUID=4f708c84-185d-437b-a03a-7a565f598a23`
   Btrfs artifact partition with GRUB and `/boot/0428`, `/boot/0608`,
-  `/boot/0625`, `/boot/0826`.
+  `/boot/0625`, `/boot/0826`, `/boot/0907`.
 - `/dev/disk/by-id/nvme-MTFDKBA1T0TFH-1BC1AABHA_UMDMD01J1IZ9A9-part5`
   `UUID=0d7c5e23-6bab-4dce-b744-a5d61d497aca`
   LUKS partition used for the persistent overlay.
@@ -330,27 +334,79 @@ cdbe3d3a6224602d8f86238da99dd68434813d9bbe4f5a861a2b07a8f32ea5d5  /run/initramfs
 0869d2c073b155c0d685a2ffff3dc4ec1132d1b0d8e65e7345ac5e767a80fb7e  /run/initramfs/live/boot/0826/packages.tsv
 ```
 
-## GRUB Update
+## September 7 Deployment
+
+Source build:
+
+```bash
+/home/kiel/gentoo-z6-min-openrc_20260907/
+```
+
+The existing `0907` slot was overwritten in place while the machine was
+running the known-good `0826` slot. This avoided needing enough free space for
+both the old and new 2.4 GiB squashfs images. The HP Z6 uses
+`gentoo.squashfs_nv`; `gentoo.squashfs_e14` was not installed.
+
+Install or replace the HP Z6 artifacts:
+
+```bash
+sudo mount -o remount,rw /run/initramfs/live
+sudo cp -av /run/initramfs/live/boot/grub/custom.cfg \
+  /run/initramfs/live/boot/grub/custom.cfg.before-0907
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260907/gentoo.squashfs_nv \
+  /run/initramfs/live/boot/0907/gentoo.squashfs
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260907/vmlinuz \
+  /run/initramfs/live/boot/0907/vmlinuz
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260907/initramfs_squash_sda1-x86_64.img \
+  /run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260907/packages.txt \
+  /run/initramfs/live/boot/0907/packages.txt
+sudo cp -av /home/kiel/gentoo-z6-min-openrc_20260907/packages.tsv \
+  /run/initramfs/live/boot/0907/packages.tsv
+sync
+```
+
+Observed installed sizes:
+
+```text
+/run/initramfs/live/boot/0907/gentoo.squashfs 2478039040 bytes
+/run/initramfs/live/boot/0907/vmlinuz 20046336 bytes
+/run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img 13810535 bytes
+/run/initramfs/live/boot/0907/packages.txt 53448 bytes
+/run/initramfs/live/boot/0907/packages.tsv 19784 bytes
+```
+
+Verification checksums:
+
+```text
+f6605d22bc285c0f0b7985a2d005843f6cf9d862852c9b366f834a8a508965e0  /run/initramfs/live/boot/0907/gentoo.squashfs
+29a8d6ffa51cc94767fd636a7b1fedb4e13ccf1efcec6106b66892db36f23d58  /run/initramfs/live/boot/0907/vmlinuz
+f8332b21c7264be21e5a237970ec622fa21908ba6764f8c4475d415321bd4ae5  /run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img
+f5cdb36675215e056da2c551c089ba8e9e0c799158f25ed068a6a8e11ab92d20  /run/initramfs/live/boot/0907/packages.txt
+3a8ef5d0f6f54f9026dc64074a61db5b7adedff4d2f6bf55b7e39be19a9f3adb  /run/initramfs/live/boot/0907/packages.tsv
+```
+
+## September 7 GRUB Update
 
 Before editing, back up the existing custom GRUB config:
 
 ```bash
 sudo cp -av /run/initramfs/live/boot/grub/custom.cfg \
-  /run/initramfs/live/boot/grub/custom.cfg.before-0826
+  /run/initramfs/live/boot/grub/custom.cfg.before-0907
 ```
 
 Install this entry before the older entries:
 
 ```grub
-menuentry 'Gentoo Dracut (persist on luks overlay 0826 OpenRC NV folder)' {
+menuentry 'Gentoo Dracut (persist on luks overlay 0907 OpenRC NV folder)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     search --no-floppy --fs-uuid --set=root 4f708c84-185d-437b-a03a-7a565f598a23
 
-    linux /boot/0826/vmlinuz \
+    linux /boot/0907/vmlinuz \
       root=live:UUID=4f708c84-185d-437b-a03a-7a565f598a23 \
-      rd.live.dir=/boot/0826 \
+      rd.live.dir=/boot/0907 \
       rd.live.squashimg=gentoo.squashfs \
       rd.live.ram=1 \
       rd.luks.uuid=0d7c5e23-6bab-4dce-b744-a5d61d497aca \
@@ -360,32 +416,34 @@ menuentry 'Gentoo Dracut (persist on luks overlay 0826 OpenRC NV folder)' {
       pcie_aspm=off acpi_mask_gpe=0x08 \
       modprobe.blacklist=hp_bioscfg
 
-    initrd /boot/amd-uc.img /boot/0826/initramfs_squash_sda1-x86_64.img
+    initrd /boot/amd-uc.img /boot/0907/initramfs_squash_sda1-x86_64.img
 }
 ```
 
 Important details:
 
-- `rd.live.dir=/boot/0826` and `rd.live.squashimg=gentoo.squashfs` must match
+- `rd.live.dir=/boot/0907` and `rd.live.squashimg=gentoo.squashfs` must match
   the dated folder layout.
 - `pcie_aspm=off` remains in place for the HP Z6 ASPM and ACPI boot issues.
 - `acpi_mask_gpe=0x08` is retained from the known-good `0625` command line.
 - The entry preloads `/boot/amd-uc.img` before the dated initramfs.
 
-The `0625`, `0608`, and `0428` entries remain as dated fallbacks. The deleted
-`0427` slot's entry was removed so GRUB does not advertise a missing payload.
+The `0826`, `0625`, `0608`, and `0428` entries remain as dated fallbacks. The
+deleted `0427` slot's entry was removed so GRUB does not advertise a missing
+payload.
 
 ## Expected GRUB Choice
 
 Select this on the next reboot:
 
 ```text
-Gentoo Dracut (persist on luks overlay 0826 OpenRC NV folder)
+Gentoo Dracut (persist on luks overlay 0907 OpenRC NV folder)
 ```
 
 Fallbacks still available:
 
 - `Gentoo Dracut (persist on luks overlay 0625 OpenRC NV folder)`
+- `Gentoo Dracut (persist on luks overlay 0826 OpenRC NV folder)`
 - `Gentoo Dracut (persist on luks overlay 0608 OpenRC NV folder)`
 - `Gentoo Dracut (persist on luks overlay 0428 OpenRC NV folder)`
 - `Gentoo Dracut (persist on nvme0n1p5 0407 OpenRC NV)`
@@ -403,18 +461,19 @@ findmnt /run/initramfs/live -o SOURCE,TARGET,FSTYPE,OPTIONS
 ls -lh /run/initramfs/live/boot/0608
 ls -lh /run/initramfs/live/boot/0625
 ls -lh /run/initramfs/live/boot/0826
-grep -n "0826\\|0625\\|0608 OpenRC NV folder\\|0428\\|Gentoo OpenRC disk" \
+ls -lh /run/initramfs/live/boot/0907
+grep -n "0907\|0826\|0625\|0608 OpenRC NV folder\|0428\|Gentoo OpenRC disk" \
   /run/initramfs/live/boot/grub/custom.cfg
-sha256sum /run/initramfs/live/boot/0826/gentoo.squashfs \
-  /dev/shm/gentoo-z6-min-openrc_20260826/gentoo.squashfs_nv
-sha256sum /run/initramfs/live/boot/0826/vmlinuz \
-  /dev/shm/gentoo-z6-min-openrc_20260826/vmlinuz
-sha256sum /run/initramfs/live/boot/0826/initramfs_squash_sda1-x86_64.img \
-  /dev/shm/gentoo-z6-min-openrc_20260826/initramfs_squash_sda1-x86_64.img
-sha256sum /run/initramfs/live/boot/0826/packages.txt \
-  /dev/shm/gentoo-z6-min-openrc_20260826/packages.txt
-sha256sum /run/initramfs/live/boot/0826/packages.tsv \
-  /dev/shm/gentoo-z6-min-openrc_20260826/packages.tsv
+sha256sum /run/initramfs/live/boot/0907/gentoo.squashfs \
+  /home/kiel/gentoo-z6-min-openrc_20260907/gentoo.squashfs_nv
+sha256sum /run/initramfs/live/boot/0907/vmlinuz \
+  /home/kiel/gentoo-z6-min-openrc_20260907/vmlinuz
+sha256sum /run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img \
+  /home/kiel/gentoo-z6-min-openrc_20260907/initramfs_squash_sda1-x86_64.img
+sha256sum /run/initramfs/live/boot/0907/packages.txt \
+  /home/kiel/gentoo-z6-min-openrc_20260907/packages.txt
+sha256sum /run/initramfs/live/boot/0907/packages.tsv \
+  /home/kiel/gentoo-z6-min-openrc_20260907/packages.tsv
 sync
 ```
 
@@ -426,23 +485,23 @@ sudo mount -o remount,ro /run/initramfs/live
 findmnt /run/initramfs/live -o SOURCE,TARGET,FSTYPE,OPTIONS
 ```
 
-On August 26 all checksum pairs matched, the final checks passed, and the
-artifact filesystem was returned to read-only. About 1.9 GiB remained free;
-`df` rounded the utilization display to 100%.
+On September 7 all checksum pairs matched, the final checks passed, and the
+artifact filesystem was returned to read-only. The existing 0907 GRUB entry
+was already first and points to the replaced files.
 
 ## Rollback
 
-To remove only the August 26 deployment and restore the pre-install GRUB file:
+To remove only the September 7 deployment and restore the pre-install GRUB file:
 
 ```bash
 sudo mount -o remount,rw /run/initramfs/live
-sudo rm -rf /run/initramfs/live/boot/0826
-sudo cp -av /run/initramfs/live/boot/grub/custom.cfg.before-0826 \
+sudo rm -rf /run/initramfs/live/boot/0907
+sudo cp -av /run/initramfs/live/boot/grub/custom.cfg.before-0907 \
   /run/initramfs/live/boot/grub/custom.cfg
 sync
 sudo mount -o remount,ro /run/initramfs/live
 ```
 
-If the new entry fails, reboot and select `0625`, `0608`, `0428`, or the direct
-`Gentoo OpenRC disk` entry. Do not remove `0625` until `0826` has booted and
-been validated independently.
+If the new entry fails, reboot and select `0826`, `0625`, `0608`, `0428`, or
+the direct `Gentoo OpenRC disk` entry. Do not remove `0826` until `0907` has
+booted and been validated independently.

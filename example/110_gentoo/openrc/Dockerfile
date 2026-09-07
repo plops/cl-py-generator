@@ -90,7 +90,9 @@ RUN sed -i \
 RUN mkdir -p /etc/portage/package.use \
  && touch /etc/portage/package.use/zz-late-world \
  && grep -qxF 'app-text/xmlto text' /etc/portage/package.use/zz-late-world \
- || printf '\napp-text/xmlto text\n' >> /etc/portage/package.use/zz-late-world
+ || printf '\napp-text/xmlto text\n' >> /etc/portage/package.use/zz-late-world \
+ && grep -qxF 'media-libs/libglvnd X' /etc/portage/package.use/zz-late-world \
+ || printf '\nmedia-libs/libglvnd X\n' >> /etc/portage/package.use/zz-late-world
 # RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
 #     PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
 RUN emerge -uDN @world
