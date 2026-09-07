@@ -176,7 +176,8 @@ RUN make clean
 
 RUN groupadd -f input \
  && useradd -m -G users,wheel,audio,video,input -s /bin/bash kiel \
- && for grp in libvirt kvm qemu plugdev pcap docker; do \
+ && if getent group tty >/dev/null; then usermod -aG tty kiel; fi \
+ && for grp in libvirt kvm qemu plugdev pcap docker dialout; do \
       if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi; \
     done && passwd -d kiel
     
@@ -280,6 +281,7 @@ RUN printf '%s\n' \
  && rc-update add udev-settle sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
+ && rc-update add cgroups boot \
  && rc-update add elogind boot \
  && rc-update add user-runtime default \
  && rc-update add user.kiel default \
@@ -482,12 +484,14 @@ RUN set -e \
    -wildcards \
    -e \
      usr/src \
+    var/cache/binhost \
      var/cache/binpkgs \
      var/cache/distfiles \
      "gentoo*squashfs*" \
      "gentoo*ext4" \
      "usr/lib64/libQt*.a" \
      usr/share/genkernel/distfiles \
+    usr/share/doc \
      usr/src/linux \
      usr/share/sgml \
      var/cache/eix/previous.eix \
@@ -499,6 +503,7 @@ RUN set -e \
      var/log/journal \
     var/cache/genkernel \
     var/tmp \
+    opt/Signal/Licenses.chromium.html \
     initramfs-with-squashfs.img \
     lost+found \
  && rm -rf /usr/lib/firmware/* \
@@ -556,10 +561,12 @@ RUN set -e \
       usr/src \
       var/cache/binpkgs \
       var/cache/distfiles \
+      var/cache/binhost \
       "gentoo*squashfs*" \
       "gentoo*ext4" \
       "usr/lib64/libQt*.a" \
       usr/share/genkernel/distfiles \
+      usr/share/doc \
       usr/src/linux \
       usr/share/sgml \
       var/cache/eix/previous.eix \
@@ -569,6 +576,7 @@ RUN set -e \
       var/log/journal \
       var/cache/genkernel \
       var/tmp \
+      opt/Signal/Licenses.chromium.html \
       initramfs-with-squashfs.img \
       lost+found \
     || true

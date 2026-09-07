@@ -4,6 +4,7 @@ media-libs/libpulse X
 media-plugins/alsa-plugins pulseaudio
 sys-libs/minizip-ng compat
 x11-wm/dwm savedconfig -xinerama
+app-editors/emacs Xaw3d
 sys-fs/lvm2 lvm
 media-video/pipewire alsa dbus sound-server udev
 media-video/wireplumber dbus
