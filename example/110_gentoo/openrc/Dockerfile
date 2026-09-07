@@ -394,8 +394,8 @@ COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
 RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
-  --filesystems "squashfs vfat ext4 overlay btrfs" \
-  --add-drivers "libnvdimm nd_pmem nd_btt dax device_dax dax_pmem dax_pmem_core nd_e820" \
+  --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
+  --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
       --kver=${KVER_RELEASE} \
       --install "stat blockdev" \
       --force \
