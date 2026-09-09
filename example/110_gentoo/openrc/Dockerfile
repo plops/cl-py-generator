@@ -477,8 +477,15 @@ RUN set -e \
 # Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
 # keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
 
-# According to dmesg the following firmware files are loaded:
-
+# Minimal firmware set for the ThinkPad E14 Gen 6 (21M30030MZ, Ryzen 7 7735HS),
+# extracted as the unique "Loading firmware:" lines in dmesg_e14 (also stable
+# across the suspend/resume reload cycles at 21210s and 26879s):
+#
+# regulatory.db
+# regulatory.db.p7s
+# mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
+# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
 # amdgpu/yellow_carp_toc.bin
 # amdgpu/yellow_carp_ta.bin
 # amdgpu/yellow_carp_dmcub.bin
@@ -490,43 +497,43 @@ RUN set -e \
 # amdgpu/yellow_carp_mec2.bin
 # amdgpu/yellow_carp_sdma.bin
 # amdgpu/yellow_carp_vcn.bin
-# amdgpu/yellow_carp_toc.bin
-# amdgpu/yellow_carp_ta.bin
-# amdgpu/yellow_carp_dmcub.bin
-# amdgpu/yellow_carp_pfp.bin
-# amdgpu/yellow_carp_me.bin
-# amdgpu/yellow_carp_ce.bin
-# amdgpu/yellow_carp_rlc.bin
-# amdgpu/yellow_carp_mec.bin
-# amdgpu/yellow_carp_mec2.bin
-# amdgpu/yellow_carp_sdma.bin
-# amdgpu/yellow_carp_vcn.bin
-
-# mediatek/WIFI_RAM_CODE_MT7922_1.bin
-# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
-# mediatek/WIFI_RAM_CODE_MT7922_1.bin
-# mediatek/WIFI_RAM_CODE_MT7922_1.bin
-# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
-# mediatek/WIFI_RAM_CODE_MT7922_1.bin
-# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
-# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
-# mediatek/WIFI_RAM_CODE_MT7922_1.bin
-# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
-# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
+#
+# Additionally kept beyond the dmesg set:
+# - amd-ucode/*: required for microcode late loading
+#   (CONFIG_MICROCODE_LATE_LOADING=y); applied at runtime with
+#   echo 1 > /sys/devices/system/cpu/microcode/reload
+# - rtl_nic/* + rtl_bt/*: the onboard RTL8168h needs no firmware, but a
+#   not-always-plugged USB adapter does, so it never showed in dmesg_e14
+#
+# Deliberately dropped (no load request in dmesg_e14, no driver errors):
+# - amdgpu/rembrandt*: VBIOS string says REMBRANDT but the driver loads yellow_carp
+# - mediatek/* beyond the 3 files above (other chipsets: MT7925/MT7996/...)
+# - amd/* beyond amd-ucode (SEV/TEE blobs for server silicon)
 
  RUN set -e \
   && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
-  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
-  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt /tmp/tmpfw/rtl_nic || true \
-  && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/rtl_nic /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/rtl_bt /tmp/tmpfw/ 2>/dev/null || true \
+  # gather minimal firmware for E14: exact per-file copies, see list above
+  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek \
+  && cp -a /usr/lib/firmware/regulatory.db /usr/lib/firmware/regulatory.db.p7s /tmp/tmpfw/ \
+  && cp -a /usr/lib/firmware/mediatek/WIFI_RAM_CODE_MT7922_1.bin \
+      /usr/lib/firmware/mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin \
+      /usr/lib/firmware/mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin /tmp/tmpfw/mediatek/ \
+  && cp -a /usr/lib/firmware/amdgpu/yellow_carp_toc.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_ta.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_dmcub.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_pfp.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_me.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_ce.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_rlc.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_mec.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_mec2.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_sdma.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_vcn.bin /tmp/tmpfw/amdgpu/ \
+  && cp -a /usr/lib/firmware/amd-ucode \
+      /usr/lib/firmware/rtl_nic \
+      /usr/lib/firmware/rtl_bt /tmp/tmpfw/ \
   && rm -rf /usr/lib/firmware/* \
-  && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
+  && mv /tmp/tmpfw/* /usr/lib/firmware/ \
   \
   # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
   && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
