@@ -1,7 +1,7 @@
 # Install Gentoo OpenRC Image on HP Z6
 
 This document records the HP Z6 OpenRC squashfs deployments from April 27,
-2026 through September 7, 2026.
+2026 through September 8, 2026.
 
 - April 27, 2026: initial `0427` squashfs deployment.
 - April 28, 2026: new dated `0428` deployment from
@@ -15,6 +15,9 @@ This document records the HP Z6 OpenRC squashfs deployments from April 27,
   `/home/kiel/gentoo-z6-min-openrc_20260907/`. The files were overwritten
   in place to avoid requiring a second full squashfs in the nearly full
   artifact partition.
+- September 8, 2026: the existing `0907` deployment was overwritten again
+  from the same source directory while running `0826`; the GRUB entry was
+  retained and the artifact partition was returned to read-only.
 
 ## Stable Device References
 
@@ -343,8 +346,10 @@ Source build:
 ```
 
 The existing `0907` slot was overwritten in place while the machine was
-running the known-good `0826` slot. This avoided needing enough free space for
-both the old and new 2.4 GiB squashfs images. The HP Z6 uses
+running the known-good `0826` slot. This avoids needing enough free space for
+both the old and new squashfs images. The same replacement procedure was
+repeated on September 8, 2026 after another `0907` build had been installed
+the previous day. The HP Z6 uses
 `gentoo.squashfs_nv`; `gentoo.squashfs_e14` was not installed.
 
 Install or replace the HP Z6 artifacts:
@@ -369,21 +374,21 @@ sync
 Observed installed sizes:
 
 ```text
-/run/initramfs/live/boot/0907/gentoo.squashfs 2478039040 bytes
-/run/initramfs/live/boot/0907/vmlinuz 20046336 bytes
-/run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img 13810535 bytes
-/run/initramfs/live/boot/0907/packages.txt 53448 bytes
-/run/initramfs/live/boot/0907/packages.tsv 19784 bytes
+/run/initramfs/live/boot/0907/gentoo.squashfs 1734602752 bytes
+/run/initramfs/live/boot/0907/vmlinuz 20111872 bytes
+/run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img 13850346 bytes
+/run/initramfs/live/boot/0907/packages.txt 53125 bytes
+/run/initramfs/live/boot/0907/packages.tsv 19699 bytes
 ```
 
 Verification checksums:
 
 ```text
-f6605d22bc285c0f0b7985a2d005843f6cf9d862852c9b366f834a8a508965e0  /run/initramfs/live/boot/0907/gentoo.squashfs
-29a8d6ffa51cc94767fd636a7b1fedb4e13ccf1efcec6106b66892db36f23d58  /run/initramfs/live/boot/0907/vmlinuz
-f8332b21c7264be21e5a237970ec622fa21908ba6764f8c4475d415321bd4ae5  /run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img
-f5cdb36675215e056da2c551c089ba8e9e0c799158f25ed068a6a8e11ab92d20  /run/initramfs/live/boot/0907/packages.txt
-3a8ef5d0f6f54f9026dc64074a61db5b7adedff4d2f6bf55b7e39be19a9f3adb  /run/initramfs/live/boot/0907/packages.tsv
+fac11f249185251378ff2e14b8ff1bc6cddfb0e582d4d602d9125e19dd99c064  /run/initramfs/live/boot/0907/gentoo.squashfs
+c5fe9aedb2933fc650112feb10ed885225303c2063170b1ecc298034bbf72b8a  /run/initramfs/live/boot/0907/vmlinuz
+e810f55518f7692f0ddf3b58e48c989942c95ce5914de08b12b45881d23cce9e  /run/initramfs/live/boot/0907/initramfs_squash_sda1-x86_64.img
+827a7795ed806edf2b85c55c78bb914ee58b4ff6758a7f3829799bd94645ab08  /run/initramfs/live/boot/0907/packages.txt
+51373472c3b8d95c0762ec800b47b1f70ed0ab00437696c5dd55171c33273233  /run/initramfs/live/boot/0907/packages.tsv
 ```
 
 ## September 7 GRUB Update

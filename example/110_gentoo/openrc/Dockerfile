@@ -23,25 +23,19 @@ COPY config/package.mask /etc/portage/package.mask/package.mask
 
 # Repository tooling and package configuration
 COPY config/make.conf /etc/portage/make.conf
-#RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
-#RUN emerge --ask=n sys-devel/mold
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
 COPY config/env /etc/portage/env
-# Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
 ENV KVER_PURE=6.18.48
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
-RUN df -h
-
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
 RUN eselect kernel set linux-${KVER_SOURCE}
-#RUN eselect kernel set 1
 WORKDIR /usr/src/linux
 COPY config/config6.18.48 .config
 RUN sed -i \
@@ -59,13 +53,6 @@ RUN make olddefconfig && make prepare
 RUN make -j32
 RUN make modules_install
 RUN depmod -a ${KVER_RELEASE}
-
-# I found that linux hangs after booting (just before you can log into the console). I also found that
-# removing the modules helps.
-# In order for the computer to boot the nvidia modules must be not present but they must
-# be present for X11 to start. So we will move the modules to /nvidia and add a script /nvidia_start.sh
-# to run depmod -a and modprobe. The user can execute this before starting X11
-
 RUN make install
 
 # Clean up the locales
@@ -76,9 +63,7 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
-#RUN eselect python set python3.14
 RUN env-update && source /etc/profile
-
 RUN emerge -1 sys-apps/portage
 
 # RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
@@ -126,9 +111,6 @@ RUN emerge --ask=n app-portage/genlop app-portage/gentoolkit \
     done > /packages.txt \
  && emerge -C app-portage/genlop app-portage/gentoolkit
 
-
-# RUN emerge --depclean
-
 # Sudo policy
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
@@ -145,15 +127,6 @@ RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 # RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
 # RUN depmod -a ${KVER}
 # RUN rm *.o
-
-# Keep video modules out of /lib/modules during boot. They are activated later by /video.sh.
-# I suspect the RT_PREEMPT kernel is causing issues with the nvidia video modules, i've also abserved instability on amd apu driver on the thinkpad e14
-# RUN if [ -d /lib/modules/${KVER}/video ]; then \
-#       mv /lib/modules/${KVER}/video /video${KVER}; \
-#     fi
-# COPY config/video.sh /video.sh
-# RUN chmod 0755 /video.sh
-
 
 # slstatus
 WORKDIR /usr/src
@@ -269,6 +242,7 @@ RUN printf '%s\n' \
  && rc-update add udev sysinit \
  && rc-update add udev-trigger sysinit \
  && rc-update add udev-settle sysinit \
+ && rc-update add cgroups sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
  && rc-update add cgroups boot \
@@ -493,7 +467,7 @@ RUN set -e \
      var/log/journal \
     var/cache/genkernel \
     var/tmp \
-    opt/Signal/Licenses.chromium.html \
+    opt/Signal/LICENSES.chromium.html \
     initramfs-with-squashfs.img \
     lost+found \
  && rm -rf /usr/lib/firmware/* \
@@ -502,6 +476,44 @@ RUN set -e \
 
 # Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
 # keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
+
+# According to dmesg the following firmware files are loaded:
+
+# amdgpu/yellow_carp_toc.bin
+# amdgpu/yellow_carp_ta.bin
+# amdgpu/yellow_carp_dmcub.bin
+# amdgpu/yellow_carp_pfp.bin
+# amdgpu/yellow_carp_me.bin
+# amdgpu/yellow_carp_ce.bin
+# amdgpu/yellow_carp_rlc.bin
+# amdgpu/yellow_carp_mec.bin
+# amdgpu/yellow_carp_mec2.bin
+# amdgpu/yellow_carp_sdma.bin
+# amdgpu/yellow_carp_vcn.bin
+# amdgpu/yellow_carp_toc.bin
+# amdgpu/yellow_carp_ta.bin
+# amdgpu/yellow_carp_dmcub.bin
+# amdgpu/yellow_carp_pfp.bin
+# amdgpu/yellow_carp_me.bin
+# amdgpu/yellow_carp_ce.bin
+# amdgpu/yellow_carp_rlc.bin
+# amdgpu/yellow_carp_mec.bin
+# amdgpu/yellow_carp_mec2.bin
+# amdgpu/yellow_carp_sdma.bin
+# amdgpu/yellow_carp_vcn.bin
+
+# mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
+# mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
+# mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
+# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
+# mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
+# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
+
  RUN set -e \
   && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
   # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
@@ -566,7 +578,7 @@ RUN set -e \
       var/log/journal \
       var/cache/genkernel \
       var/tmp \
-      opt/Signal/Licenses.chromium.html \
+      opt/Signal/LICENSES.chromium.html \
       initramfs-with-squashfs.img \
       lost+found \
     || true
