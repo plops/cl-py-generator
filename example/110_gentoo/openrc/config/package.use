@@ -15,3 +15,5 @@ app-text/mupdf X opengl javascript
 sys-auth/elogind pam policykit
 sys-auth/polkit elogind
 sys-apps/dbus elogind
+app-text/xmlto text
+media-libs/libglvnd X

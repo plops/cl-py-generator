@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260907 AS portage
+FROM gentoo/portage:20260909 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
@@ -81,18 +81,6 @@ RUN env-update && source /etc/profile
 
 RUN emerge -1 sys-apps/portage
 
-RUN sed -i \
-    -e '/^net-analyzer\/arping\>/d' \
-    -e '/^net-misc\/speedtest-cli\>/d' \
-    -e '/^sys-process\/progress\>/d' \
-    -e '/^sys-process\/sysstat\>/d' \
-    /var/lib/portage/world
-RUN mkdir -p /etc/portage/package.use \
- && touch /etc/portage/package.use/zz-late-world \
- && grep -qxF 'app-text/xmlto text' /etc/portage/package.use/zz-late-world \
- || printf '\napp-text/xmlto text\n' >> /etc/portage/package.use/zz-late-world \
- && grep -qxF 'media-libs/libglvnd X' /etc/portage/package.use/zz-late-world \
- || printf '\nmedia-libs/libglvnd X\n' >> /etc/portage/package.use/zz-late-world
 # RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
 #     PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
 RUN emerge -uDN @world
