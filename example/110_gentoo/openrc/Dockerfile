@@ -1,14 +1,18 @@
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20260905 AS portage
+FROM gentoo/portage:20260909 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib-20260831 AS base
+FROM gentoo/stage3:nomultilib-20260907 AS base
 # https://hub.docker.com/r/gentoo/portage/tags
 # Copy full Portage tree (570MB)
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
+
+ARG BUILD_GIT_COMMIT=unknown
+ARG BUILD_REPOSITORY=unknown
+ARG BUILD_DATE=unknown
 
 # Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib
@@ -19,27 +23,21 @@ COPY config/package.mask /etc/portage/package.mask/package.mask
 
 # Repository tooling and package configuration
 COPY config/make.conf /etc/portage/make.conf
-#RUN emerge --ask=n app-eselect/eselect-repository dev-vcs/git
-#RUN emerge --ask=n sys-devel/mold
 COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
 COPY config/env /etc/portage/env
-# Keep the world set on PipeWire and let PipeWire provide PulseAudio compatibility.
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
 ENV KVER_PURE=6.18.48
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
-RUN df -h
-
 RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
 
 RUN eselect kernel list
 RUN eselect kernel set linux-${KVER_SOURCE}
-#RUN eselect kernel set 1
 WORKDIR /usr/src/linux
-COPY config/config6.18.35 .config
+COPY config/config6.18.48 .config
 RUN sed -i \
     -e 's/^CONFIG_LOCALVERSION="-gentoo-dist"/CONFIG_LOCALVERSION="-dist"/' \
     -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/' \
@@ -55,13 +53,6 @@ RUN make olddefconfig && make prepare
 RUN make -j32
 RUN make modules_install
 RUN depmod -a ${KVER_RELEASE}
-
-# I found that linux hangs after booting (just before you can log into the console). I also found that
-# removing the modules helps.
-# In order for the computer to boot the nvidia modules must be not present but they must
-# be present for X11 to start. So we will move the modules to /nvidia and add a script /nvidia_start.sh
-# to run depmod -a and modprobe. The user can execute this before starting X11
-
 RUN make install
 
 # Clean up the locales
@@ -72,21 +63,9 @@ RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
-#RUN eselect python set python3.14
 RUN env-update && source /etc/profile
-
 RUN emerge -1 sys-apps/portage
 
-RUN sed -i \
-    -e '/^net-analyzer\/arping\>/d' \
-    -e '/^net-misc\/speedtest-cli\>/d' \
-    -e '/^sys-process\/progress\>/d' \
-    -e '/^sys-process\/sysstat\>/d' \
-    /var/lib/portage/world
-RUN mkdir -p /etc/portage/package.use \
- && touch /etc/portage/package.use/zz-late-world \
- && grep -qxF 'app-text/xmlto text' /etc/portage/package.use/zz-late-world \
- || printf '\napp-text/xmlto text\n' >> /etc/portage/package.use/zz-late-world
 # RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
 #     PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
 RUN emerge -uDN @world
@@ -132,9 +111,6 @@ RUN emerge --ask=n app-portage/genlop app-portage/gentoolkit \
     done > /packages.txt \
  && emerge -C app-portage/genlop app-portage/gentoolkit
 
-
-# RUN emerge --depclean
-
 # Sudo policy
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
@@ -152,15 +128,6 @@ RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 # RUN depmod -a ${KVER}
 # RUN rm *.o
 
-# Keep video modules out of /lib/modules during boot. They are activated later by /video.sh.
-# I suspect the RT_PREEMPT kernel is causing issues with the nvidia video modules, i've also abserved instability on amd apu driver on the thinkpad e14
-# RUN if [ -d /lib/modules/${KVER}/video ]; then \
-#       mv /lib/modules/${KVER}/video /video${KVER}; \
-#     fi
-# COPY config/video.sh /video.sh
-# RUN chmod 0755 /video.sh
-
-
 # slstatus
 WORKDIR /usr/src
 RUN git clone https://git.suckless.org/slstatus
@@ -172,10 +139,11 @@ RUN make clean
 
 RUN groupadd -f input \
  && useradd -m -G users,wheel,audio,video,input -s /bin/bash kiel \
- && for grp in libvirt kvm qemu; do \
+ && if getent group tty >/dev/null; then usermod -aG tty kiel; fi \
+ && for grp in libvirt kvm qemu plugdev pcap docker dialout; do \
       if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi; \
-    done
-
+    done && passwd -d kiel
+    
 COPY config/xinitrc /home/kiel/.xinitrc
 RUN mkdir -p /etc/X11/xorg.conf.d
 COPY config/40-touchpad.conf /etc/X11/xorg.conf.d/40-touchpad.conf
@@ -274,8 +242,10 @@ RUN printf '%s\n' \
  && rc-update add udev sysinit \
  && rc-update add udev-trigger sysinit \
  && rc-update add udev-settle sysinit \
+ && rc-update add cgroups sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
+ && rc-update add cgroups boot \
  && rc-update add elogind boot \
  && rc-update add user-runtime default \
  && rc-update add user.kiel default \
@@ -289,6 +259,23 @@ RUN emerge -C dev-lang/rust-bin virtual/rust dev-lang/go dev-lang/go-bootstrap d
 
 WORKDIR /
 RUN emerge --ask=n sys-fs/e2fsprogs sys-fs/erofs-utils || true
+RUN printf '%s\n' \
+  'OpenRC Gentoo image build' \
+  '==========================' \
+  "Git commit: ${BUILD_GIT_COMMIT}" \
+  "Repository: ${BUILD_REPOSITORY}" \
+  'Source Dockerfile: openrc/Dockerfile' \
+  "Build date (UTC): ${BUILD_DATE}" \
+  '' \
+  'Audio note' \
+  '----------' \
+  'PipeWire/WirePlumber are enabled, but the ALSA card is hardware-dependent.' \
+  'On the ThinkPad E14, mpv may need:' \
+  '  mpv --ao=alsa --audio-device=alsa/sysdefault:CARD=Generic_1' \
+  'Do not use Generic_1 as a global default for the HP Z6; inspect aplay -l,' \
+  'wpctl status, or pactl list short sinks there and select the host-specific' \
+  'device/profile.' \
+  > /IMAGE-BUILD-INFO.txt
 # RUN mksquashfs \
 # / \
 # /gentoo.squashfs \
@@ -373,8 +360,8 @@ COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
 RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
 RUN dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
-      --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
-      --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
+  --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
+  --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
       --kver=${KVER_RELEASE} \
       --install "stat blockdev" \
       --force \
@@ -461,12 +448,14 @@ RUN set -e \
    -wildcards \
    -e \
      usr/src \
+    var/cache/binhost \
      var/cache/binpkgs \
      var/cache/distfiles \
      "gentoo*squashfs*" \
      "gentoo*ext4" \
      "usr/lib64/libQt*.a" \
      usr/share/genkernel/distfiles \
+    usr/share/doc \
      usr/src/linux \
      usr/share/sgml \
      var/cache/eix/previous.eix \
@@ -478,6 +467,7 @@ RUN set -e \
      var/log/journal \
     var/cache/genkernel \
     var/tmp \
+    opt/Signal/LICENSES.chromium.html \
     initramfs-with-squashfs.img \
     lost+found \
  && rm -rf /usr/lib/firmware/* \
@@ -486,19 +476,64 @@ RUN set -e \
 
 # Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
 # keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
+
+# Minimal firmware set for the ThinkPad E14 Gen 6 (21M30030MZ, Ryzen 7 7735HS),
+# extracted as the unique "Loading firmware:" lines in dmesg_e14 (also stable
+# across the suspend/resume reload cycles at 21210s and 26879s):
+#
+# regulatory.db
+# regulatory.db.p7s
+# mediatek/WIFI_RAM_CODE_MT7922_1.bin
+# mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
+# mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
+# amdgpu/yellow_carp_toc.bin
+# amdgpu/yellow_carp_ta.bin
+# amdgpu/yellow_carp_dmcub.bin
+# amdgpu/yellow_carp_pfp.bin
+# amdgpu/yellow_carp_me.bin
+# amdgpu/yellow_carp_ce.bin
+# amdgpu/yellow_carp_rlc.bin
+# amdgpu/yellow_carp_mec.bin
+# amdgpu/yellow_carp_mec2.bin
+# amdgpu/yellow_carp_sdma.bin
+# amdgpu/yellow_carp_vcn.bin
+#
+# Additionally kept beyond the dmesg set:
+# - amd-ucode/*: required for microcode late loading
+#   (CONFIG_MICROCODE_LATE_LOADING=y); applied at runtime with
+#   echo 1 > /sys/devices/system/cpu/microcode/reload
+# - rtl_nic/* + rtl_bt/*: the onboard RTL8168h needs no firmware, but a
+#   not-always-plugged USB adapter does, so it never showed in dmesg_e14
+#
+# Deliberately dropped (no load request in dmesg_e14, no driver errors):
+# - amdgpu/rembrandt*: VBIOS string says REMBRANDT but the driver loads yellow_carp
+# - mediatek/* beyond the 3 files above (other chipsets: MT7925/MT7996/...)
+# - amd/* beyond amd-ucode (SEV/TEE blobs for server silicon)
+
  RUN set -e \
   && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
-  # gather firmware for E14 (from dmesg: regulatory, mediatek, amdgpu yellow_carp)
-  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /tmp/tmpfw/amd /tmp/tmpfw/rtl_bt /tmp/tmpfw/rtl_nic || true \
-  && cp -a /usr/lib/firmware/regulatory.db* /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/mediatek /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/amdgpu/yellow_carp* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/amdgpu/rembrandt* /tmp/tmpfw/amdgpu/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/amd /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/rtl_nic /tmp/tmpfw/ 2>/dev/null || true \
-  && cp -a /usr/lib/firmware/rtl_bt /tmp/tmpfw/ 2>/dev/null || true \
+  # gather minimal firmware for E14: exact per-file copies, see list above
+  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek \
+  && cp -a /usr/lib/firmware/regulatory.db /usr/lib/firmware/regulatory.db.p7s /tmp/tmpfw/ \
+  && cp -a /usr/lib/firmware/mediatek/WIFI_RAM_CODE_MT7922_1.bin \
+      /usr/lib/firmware/mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin \
+      /usr/lib/firmware/mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin /tmp/tmpfw/mediatek/ \
+  && cp -a /usr/lib/firmware/amdgpu/yellow_carp_toc.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_ta.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_dmcub.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_pfp.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_me.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_ce.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_rlc.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_mec.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_mec2.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_sdma.bin \
+      /usr/lib/firmware/amdgpu/yellow_carp_vcn.bin /tmp/tmpfw/amdgpu/ \
+  && cp -a /usr/lib/firmware/amd-ucode \
+      /usr/lib/firmware/rtl_nic \
+      /usr/lib/firmware/rtl_bt /tmp/tmpfw/ \
   && rm -rf /usr/lib/firmware/* \
-  && mv /tmp/tmpfw/* /usr/lib/firmware/ 2>/dev/null || true \
+  && mv /tmp/tmpfw/* /usr/lib/firmware/ \
   \
   # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
   && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
@@ -535,10 +570,12 @@ RUN set -e \
       usr/src \
       var/cache/binpkgs \
       var/cache/distfiles \
+      var/cache/binhost \
       "gentoo*squashfs*" \
       "gentoo*ext4" \
       "usr/lib64/libQt*.a" \
       usr/share/genkernel/distfiles \
+      usr/share/doc \
       usr/src/linux \
       usr/share/sgml \
       var/cache/eix/previous.eix \
@@ -548,6 +585,7 @@ RUN set -e \
       var/log/journal \
       var/cache/genkernel \
       var/tmp \
+      opt/Signal/LICENSES.chromium.html \
       initramfs-with-squashfs.img \
       lost+found \
     || true
