@@ -159,7 +159,7 @@ This is governed by the **Curse of Dimensionality on Density Estimation**:
 3. Validate candidate clusterings using **Silhouette score calculated on the original 768D normalized vectors**.
 
 
-du bist innerhalb eines ubuntu 26 containers mit nvidia runtime. uv ist bereits installiert du kannst fehlende programme nachinstallieren. du hast zugriff auf eine nvidia a4000
+du bist innerhalb eines ubuntu 26 containers mit nvidia runtime. uv ist bereits installiert du kannst fehlende programme nachinstallieren. z.b. mit `uv pip install cudf-cu12 --extra-index-url https://pypi.nvidia.com`.  du hast zugriff auf eine nvidia a4000. 
 
 
 CUDA Version 13.4.1
