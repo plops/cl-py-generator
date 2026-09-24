@@ -23,3 +23,8 @@ Alle Treiber akzeptieren `--db <Pfad>` (Default: Live-DB
 
 Outputs: `results_pilot.csv`, `results_width768.csv`, `results_width3072.csv`,
 `plots/best_clusters.png`, `plots/labels.csv (identifier → cluster)`.
+
+Cluster-Titel + interaktive Karte: `python build_cluster_data.py` (braucht GPU),
+dann 12 Titler-Batches (siehe `cluster_data.json`), dann
+`python build_html.py` → `plots/clusters.html` (zoombar, offline),
+`cluster_titles.json` (167 deutsche Titel mit Nachbar-Kontrast).

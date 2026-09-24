@@ -1,0 +1,5 @@
+# generated caches, local DBs and large renderings are not committed
+umap_cache*/
+plots/clusters.html
+__pycache__/
+.venv/
