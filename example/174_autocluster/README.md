@@ -4,6 +4,8 @@ Pure-Python pipeline (no Lisp transpiler). Method: cluster in UMAP-reduced space
 score in the original L2-normalized space
 (`Silhouette_orig × (1 − noise)`); see `plan/20260924_01_cluster_search/plan.md`.
 
+https://rocketrecap.com/exports/clusters.html
+
 ## Run
 
 ```
