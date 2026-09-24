@@ -1,0 +1,7 @@
+numpy==2.4.6
+pandas==3.0.3
+matplotlib==3.11.2
+scikit-learn==1.9.1
+pytest==9.1.1
+cuml-cu12==26.08.00
+cupy-cuda12x==14.2.0

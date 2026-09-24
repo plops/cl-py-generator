@@ -1,0 +1,1 @@
+{"d": 12, "db": "summaries_compact_20260924.db", "md": 0.1, "method": "hdbscan", "min_cluster_size": 15, "n_neighbors": 30, "width": 3072}
