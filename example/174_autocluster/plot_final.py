@@ -47,9 +47,19 @@ def main():
     fig, ax = plt.subplots(figsize=(10, 8))
     noise = labels == -1
     ax.scatter(pts[noise, 0], pts[noise, 1], s=2, c="lightgrey", label="noise")
-    for c in sorted(set(labels) - {-1}):
+    # Review-Fix: bei >167 Clustern keine 168-zeilige Legende mehr —
+    # nur die 12 größten Cluster bekommen Labels, der Rest bleibt lesbar.
+    clusters = sorted(set(labels) - {-1},
+                      key=lambda c: (labels == c).sum(), reverse=True)
+    for c in clusters[:12]:
         m = labels == c
         ax.scatter(pts[m, 0], pts[m, 1], s=4, label="c%d (n=%d)" % (c, m.sum()))
+    rest_n = sum((labels == c).sum() for c in clusters[12:])
+    if clusters[12:]:
+        m_rest = np.isin(labels, clusters[12:])
+        ax.scatter(pts[m_rest, 0], pts[m_rest, 1], s=2, c="tab:gray",
+                   label="weitere %d Cluster (n=%d)" % (
+                       len(clusters[12:]), rest_n))
     ax.legend(markerscale=3, fontsize="small")
     ax.set_title("k=%d d=%d nn=%d md=%s %s" % (a.width, a.d, a.nn, a.md, a.method))
     path = os.path.join(a.outdir, "best_clusters.png")
