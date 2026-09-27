@@ -7,7 +7,7 @@ schau dir review.md an. erzeuge einen neuen ordner in
 /workspace/src/cl-py-generator/example/174_autocluster/
 
 und fuehre die beschriebene untersuchung mittels des design of
-experiments ansatzes durch.
+experiments ansatzes durch. benutze die gpu. die runs sind so schnell, dass du sicher viele eckpunkte untersuchen kannst und gute statistik erheben kannst.
 
 
 below are some ideas you can try, descriptions of the hardware system
