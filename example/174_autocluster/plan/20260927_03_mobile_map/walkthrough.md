@@ -65,3 +65,29 @@ kann kein 390-px-Viewport), Node-Harness-Skripte in `/tmp` (Proben, wie in v1
 nicht committet). Neue Doku: `plan/20260927_03_mobile_map/{task,deps}.md` +
 dieses Dokument. Start: `cd example/174_autocluster/mapmobile && cargo run` →
 `http://127.0.0.1:8080/map`.
+
+## 7. Nachtrag Runde 2: Performance + Bedienung (User-Feedback, 2026-09-27)
+
+Sechs Kritikpunkte, alle im Frontend (`map.html` einzige Produkt-Datei; kein
+Backend-Eingriff, `cargo test` weiter 15/15):
+
+1. **Rendern zu langsam** → Render-Cache: Farbgruppen statisch (nur bei
+   Filterwechsel neu), Container-Koordinaten in `Float32Array` (nur bei
+   Zoom/Resize neu projiziert); Pannen verschiebt den Cache bloß (exakt, da
+   Translation). Gemessen (Headless): Voll-Neuzeichnen 16.692 Punkte **6,1 ms**.
+2. **Zoom zu flach/langsam** → `maxZoom` 5 → **8** (Vektor-Canvas, beliebig tief),
+   Fokus-Flug auf 0,6 s.
+3. **Kein Hover** → Maus-Hover-Label (ID + Cluster-Titel, 10-px-Radius,
+   rAF-gedrosselt). Dabei ECHTER Bug gefunden: langes Label lief über und
+   weitete das mobile Layout-Viewport auf (390→641)! Fix: Kanten-Umklappen +
+   `max-width` + Ellipse, per Viewport-Assertion bewiesen.
+4. **Sheet nicht stufenlos** → Griff-Drag per Pointer Events (140 px … 92 dvh,
+   mit Clamps); Tap toggelt weiter.
+5. **Kein Punktwechsel im Großzustand** → Tap auf Punkt behält Zustand (voll
+   bleibt voll, Höhe bleibt); Leertap klappt stufenweise zurück (voll → Peek → zu).
+6. **Zu wenig Summary im Peek** → 2-Zeilen-Auszug (160 Zeichen) im Peek.
+
+Verifikation: Harness 27/27, CDP-Mobile (Tap exakt, Drag-Höhen + Clamps, Wechsel
+mit Höhenerhalt, Peek-Auszug, Hover-Label, Zoom 8, Screenshots gelesen). Gewonnene
+Erkenntnis: CDP-Viewport-Fallen (DSF/Emulation) stets per `innerWidth`-Assertion
+absichern — zwei „Produkt-Bugs" unterwegs waren Test-Artefakte.

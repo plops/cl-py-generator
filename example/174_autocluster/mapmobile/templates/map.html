@@ -19,7 +19,8 @@
   #overlay { position: absolute; inset: 0; pointer-events: none; }
   #hover { position: absolute; z-index: 700; pointer-events: none; display: block;
     background: #1a1a1a; color: #fff; font-size: 0.8rem; padding: 0.2rem 0.5rem;
-    border-radius: 4px; white-space: nowrap; }
+    border-radius: 4px; white-space: nowrap; max-width: 70vw;
+    overflow: hidden; text-overflow: ellipsis; }
   #hover[hidden] { display: none; }
   #ladehinweis { position: fixed; left: 0.6rem; top: 3rem; z-index: 600;
     background: #fff; padding: 0.3rem 0.6rem; border: 1px solid #ccc; margin: 0; }
@@ -228,9 +229,15 @@ function zeigeHover() {
   const p = naechsterPunkt(ll.lng, ll.lat, datenRadius(HOVER_RADIUS_PX));
   if (!p) { el.hidden = true; return; }
   el.textContent = "ID " + p.id + " · " + clusterTitel(p.cluster);
-  el.style.left = (hoverPos.x + 14) + "px";
-  el.style.top = (hoverPos.y + 14) + "px";
   el.hidden = false;
+  // An Rändern umklappen, damit das Label nie überläuft (Overflow würde auf
+  // Mobilgeräten das Layout-Viewport aufweiten).
+  const wrapBox = document.getElementById("kartenWrap").getBoundingClientRect();
+  let lx = hoverPos.x + 14, ly = hoverPos.y + 14;
+  if (lx + el.offsetWidth > wrapBox.width) lx = Math.max(0, hoverPos.x - el.offsetWidth - 14);
+  if (ly + 30 > wrapBox.height) ly = Math.max(0, hoverPos.y - 30);
+  el.style.left = lx + "px";
+  el.style.top = ly + "px";
 }
 function versteckeHover() {
   hoverPos = null;
