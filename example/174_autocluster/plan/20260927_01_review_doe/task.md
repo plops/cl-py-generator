@@ -107,6 +107,17 @@ committet. Modi: **IMPL** = Implementierung, **HOST** = Host-/CPU-Tests,
 - Validierung: `pytest tests/` grün; Leiden/Grid innen verifiziert
   (res-Erweiterung 5,0/8,0); Plots visuell geprueft.
 
+## Task 16 — TITEL+KARTE: 219 Titel, Plotly-Map, Inkrement-Mechanismus [fertig]
+
+- `doe/titles.py`: Store (Member-Signaturen über Identifiers) + Jaccard-Matching
+  + `plan_update` (Schwelle 0,7); `tests/test_titles.py` (8 Tests).
+- `doe/build_map.py`: Jobs (8 Exemplare + 3 Nachbarn) → 12 Titler-Batches →
+  Store `cluster_titles_phaseb.json` (219 Titel, alle eindeutig) →
+  `plots/clusters.html` (9 MB, ignoriert!) + `plots/labels_phaseb.csv`.
+- Demo: Seed-1337-Reclustering → 156 keep / 64 retitle (71 % Ersparnis).
+- Doku: `doe/TITLING_de.md` (Format, Algorithmus, Limitationen).
+- Validierung: `pytest tests/` grün; Titel-Spotcheck; Karte (220 Traces) gebaut.
+
 ## Task 12 — DOCS: Walkthrough + Commit [fertig]
 
 - `plan/20260927_01_review_doe/walkthrough.md` (DE): Einführung, Scope,
