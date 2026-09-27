@@ -38,6 +38,25 @@ HDBSCAN), `validate.py` (Scoring im Originalraum, 40-%-Noise-Veto), `run_pilot.p
 - Trustworthiness-Elbow + TwoNN/PCA (Prompt-Strategien 2–3) sind offen:
   Config-Ranking steht, Manifold-Fidelity-Plots fehlen noch.
 
+## Hacker-News-Artikel in DB und Clustern
+
+- Ja, die DB enthält HN-Embeddings neben YouTube: Compact-DB 1.399 HN-Links
+  (`news.ycombinator.com`) bei 19.293 Rows (~16,2k YouTube, ~1k sonstige
+  Domains); davon 1.237 HN mit nutzbarem 3072-d-Embedding im Clustering
+  (16.692 Punkte gesamt). Live-DB zum Vergleich: nur 389 HN bei 15.262 Rows.
+- Die HN-Punkte bilden **keine eigenen Gruppen**, sondern überlappen mit den
+  Videos: gestreut über 79 von 167 Clustern (kanonischer Refit,
+  `plots/labels_canonical.csv`), kein einziger reiner HN-Cluster.
+- Nur 3 HN-majoritäre Cluster: cl-116 „Neue Sprachmodelle und
+  Benchmark-Vergleiche“ (118/147 HN, 80 %), cl-111 „Mathematikforschung mit
+  KI-Beweisen“ (27/31, 87 %) — beide enthalten trotzdem YouTube-Videos — sowie
+  cl-11, ein Junk-Cluster aus Leer-/Fehlereinträgen (13/22 HN). Überall sonst
+  ist HN Minderheit, einsortiert nach Thema (Chipindustrie, LLM-Sicherheit,
+  Linux/Container, Lisp, CCC-Vorträge …): das Embedding clustert nach Inhalt,
+  nicht nach Plattform.
+- Auffällig: 52,8 % der HN-Punkte (653/1.237) landen in HDBSCAN-Noise ggü.
+  34,9 % bei YouTube — HN-Texte streuen stärker im Embedding-Raum.
+
 ## Docker-Pakete für das Image
 
 `cuml-cu12==26.08.00`, `cupy-cuda12x==14.2.0` (via `https://pypi.nvidia.com`),
