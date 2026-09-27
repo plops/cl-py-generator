@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cluster-Karte mobil — YouTube-Summaries</title>
+<link rel="stylesheet" href="{{ leaflet_css }}">
+<script src="{{ leaflet_js }}"></script>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { font-family: system-ui, "Segoe UI", Roboto, sans-serif; color: #1a1a1a;
+    display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+  header { flex: 0 0 auto; padding: 0.35rem 0.6rem; font-size: 0.85rem;
+    border-bottom: 1px solid #ccc; background: #fff; }
+  header strong { font-size: 0.95rem; }
+  header span { color: #444; }
+  #kartenWrap { position: relative; flex: 1 1 auto; min-height: 0; }
+  #karte { position: absolute; inset: 0; background: #f2f2f2; }
+  #overlay { position: absolute; inset: 0; pointer-events: none; }
+  #ladehinweis { position: fixed; left: 0.6rem; top: 3rem; z-index: 600;
+    background: #fff; padding: 0.3rem 0.6rem; border: 1px solid #ccc; margin: 0; }
+  #ladehinweis[hidden] { display: none; }
+  p.fehler { color: #a00; }
+  #fab { position: fixed; right: 0.8rem; bottom: 0.8rem; z-index: 600;
+    padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid #888;
+    background: #fff; font-size: 0.95rem; cursor: pointer;
+    -webkit-tap-highlight-color: transparent; }
+  #sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 800;
+    background: #fff; border-top: 1px solid #888; max-height: 85vh; max-height: 85dvh;
+    display: flex; flex-direction: column; transform: translateY(102%);
+    transition: transform 0.18s ease-out; }
+  #sheet.offen { transform: none; }
+  #sheet[hidden] { display: none; }
+  #sheet-griff { padding: 0.5rem; text-align: center; cursor: pointer; }
+  #sheet-griff span { display: inline-block; width: 2.5rem; height: 0.3rem;
+    border-radius: 999px; background: #888; }
+  #sheet-peek { padding: 0 0.8rem 0.7rem; min-height: 3rem; cursor: pointer; }
+  #sheet-peek strong { display: block; font-size: 1rem; }
+  #sheet-peek span { color: #444; font-size: 0.85rem; }
+  #sheet-voll { display: none; overflow: auto; min-height: 0; padding: 0 0.8rem 0.8rem; }
+  #sheet.voll #sheet-voll { display: block; }
+  #sheet-voll pre { white-space: pre-wrap; font-family: inherit; font-size: 0.9rem; }
+  #sheet-voll button { margin-top: 0.4rem; }
+  dialog { max-width: min(92vw, 26rem); max-height: 85vh; max-height: 85dvh;
+    border: 1px solid #888; padding: 0.8rem; }
+  dialog::backdrop { background: rgba(0, 0, 0, 0.35); }
+  #suche { width: 100%; box-sizing: border-box; font-size: 1rem; margin: 0.4rem 0; }
+  #cluster-liste { list-style: none; margin: 0; padding: 0; overflow: auto; max-height: 50vh; }
+  #cluster-liste li { display: flex; gap: 0.5rem; align-items: center;
+    padding: 0.3rem 0; border-bottom: 1px solid #eee; }
+  #cluster-liste li[hidden] { display: none; }
+  #cluster-liste .punkt { flex: 0 0 auto; width: 0.8rem; height: 0.8rem; border-radius: 50%; }
+  #cluster-liste .titel { flex: 1 1 auto; background: none; border: none; padding: 0;
+    text-align: left; font-size: 0.9rem; cursor: pointer; }
+  #cluster-liste .anz { color: #444; font-size: 0.8rem; }
+  dialog .provenienz { font-size: 0.8rem; color: #444; }
+  @media (prefers-reduced-motion: reduce) { #sheet { transition: none; } }
+</style>
+</head>
+<body>
+<header><strong>Cluster-Karte mobil</strong>
+  <span>{{ n_points }} Punkte · {{ n_clusters }} Cluster + Noise ({{ noise_n }})</span></header>
+<div id="kartenWrap">
+  <div id="karte" role="application" aria-label="Interaktive Cluster-Karte. Antippen öffnet die Zusammenfassung."></div>
+  <canvas id="overlay" aria-hidden="true"></canvas>
+</div>
+<p id="ladehinweis">Karte wird geladen …</p>
+<button id="fab" type="button" aria-haspopup="dialog">☰ {{ n_clusters }} Cluster</button>
+<section id="sheet" hidden aria-live="polite" aria-label="Punkt-Details">
+  <div id="sheet-griff" role="button" tabindex="0" aria-label="Details ein-/ausklappen"><span></span></div>
+  <div id="sheet-peek"><strong id="sheet-titel"></strong><span id="sheet-meta"></span></div>
+  <div id="sheet-voll">
+    <p id="sheet-linkzeile"><a id="sheet-link" href="#" target="_blank" rel="noopener">Original öffnen</a></p>
+    <p id="sheet-kein-link" hidden>Kein Original-Link vorhanden.</p>
+    <p><button id="sheet-schliessen" type="button">Schließen</button></p>
+    <pre id="sheet-text"></pre>
+  </div>
+</section>
+<dialog id="legende" aria-label="Cluster-Filter">
+  <strong>Cluster ({{ n_clusters }} + Noise)</strong>
+  <div><input type="search" id="suche" placeholder="Cluster suchen …" aria-label="Cluster suchen"></div>
+  <ul id="cluster-liste"></ul>
+  <p class="provenienz">{{ method }} · Stand {{ date }} · N = {{ n_points }}</p>
+  <details><summary>Methodik (kurz)</summary>
+    <p class="provenienz">GPU-Pipeline (UMAP + HDBSCAN), DoE-Parameterauswahl,
+    LLM-Titel mit Content-Hash-Store. Herleitung: <code>{{ methodik_ref }}</code>.</p></details>
+  <p><button id="legende-schliessen" type="button">Schließen</button></p>
+</dialog>
+<script>
+const NOISE_CLUSTER = -1;
+const TIPP_RADIUS_PX = 20;
+const GITTER_ZELLE = 0.5;
+let karte, clusterListe = [];
+let punkte = []; // {id, x, y, cluster}
+let gitter = new Map();
+let verborgen = new Set();
+let ctx, dprBesetzt = 1, rafGeplant = false;
+
+function clusterCss(cid) {
+  if (cid === NOISE_CLUSTER) return "#9aa0a6";
+  return "hsl(" + ((cid * 137.508) % 360).toFixed(1) + ",65%,45%)";
+}
+function gitterSchluessel(x, y) {
+  return Math.floor(x / GITTER_ZELLE) + "," + Math.floor(y / GITTER_ZELLE);
+}
+function baueGitter() {
+  gitter = new Map();
+  for (let k = 0; k < punkte.length; k++) {
+    const p = punkte[k];
+    const key = gitterSchluessel(p.x, p.y);
+    if (!gitter.has(key)) gitter.set(key, []);
+    gitter.get(key).push(k);
+  }
+}
+// Nächster sichtbarer Punkt im Daten-Radius (Tap-Toleranz), sonst null.
+function naechsterPunkt(x, y, radius) {
+  let best = null, bestD2 = radius * radius;
+  const x0 = Math.floor((x - radius) / GITTER_ZELLE), x1 = Math.floor((x + radius) / GITTER_ZELLE);
+  const y0 = Math.floor((y - radius) / GITTER_ZELLE), y1 = Math.floor((y + radius) / GITTER_ZELLE);
+  for (let ix = x0; ix <= x1; ix++) {
+    for (let iy = y0; iy <= y1; iy++) {
+      const zelle = gitter.get(ix + "," + iy);
+      if (!zelle) continue;
+      for (const k of zelle) {
+        const p = punkte[k];
+        if (verborgen.has(p.cluster)) continue;
+        const dx = p.x - x, dy = p.y - y, d2 = dx * dx + dy * dy;
+        if (d2 <= bestD2) { bestD2 = d2; best = p; }
+      }
+    }
+  }
+  return best;
+}
+function passeCanvasAn() {
+  const r = document.getElementById("karte").getBoundingClientRect();
+  dprBesetzt = window.devicePixelRatio || 1;
+  const cv = document.getElementById("overlay");
+  cv.width = Math.max(1, Math.round(r.width * dprBesetzt));
+  cv.height = Math.max(1, Math.round(r.height * dprBesetzt));
+}
+function zeichne() {
+  rafGeplant = false;
+  const cv = document.getElementById("overlay");
+  const w = cv.width / dprBesetzt, h = cv.height / dprBesetzt;
+  ctx.setTransform(dprBesetzt, 0, 0, dprBesetzt, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  ctx.lineWidth = 0;
+  const proFarbe = new Map();
+  for (const p of punkte) {
+    if (verborgen.has(p.cluster)) continue;
+    const s = karte.latLngToContainerPoint([p.y, p.x]);
+    if (s.x < -8 || s.y < -8 || s.x > w + 8 || s.y > h + 8) continue;
+    if (!proFarbe.has(p.cluster)) proFarbe.set(p.cluster, []);
+    proFarbe.get(p.cluster).push(s);
+  }
+  for (const [cid, arr] of proFarbe) {
+    ctx.fillStyle = clusterCss(cid);
+    ctx.beginPath();
+    for (const s of arr) {
+      ctx.moveTo(s.x + 3, s.y);
+      ctx.arc(s.x, s.y, 3, 0, 6.2832);
+    }
+    ctx.fill();
+  }
+}
+function zeichneBald() {
+  if (rafGeplant) return;
+  rafGeplant = true;
+  requestAnimationFrame(zeichne);
+}
+async function laden() {
+  const hinweis = document.getElementById("ladehinweis");
+  let clusters, points;
+  try {
+    [clusters, points] = await Promise.all([
+      fetch("/api/map/clusters").then((r) => { if (!r.ok) throw new Error("clusters"); return r.json(); }),
+      fetch("/api/map/points").then((r) => { if (!r.ok) throw new Error("points"); return r.json(); }),
+    ]);
+  } catch (e) {
+    hinweis.textContent = "Fehler beim Laden der Kartendaten.";
+    hinweis.className = "fehler";
+    return;
+  }
+  if (typeof L === "undefined") {
+    hinweis.textContent = "Karten-CDN nicht geladen — die Karte braucht Internet (unpkg.com).";
+    hinweis.className = "fehler";
+    return;
+  }
+  clusterListe = clusters.filter((c) => c.id !== NOISE_CLUSTER);
+  punkte = points.map((p) => ({ id: p.identifier, x: p.x, y: p.y, cluster: p.cluster }));
+  baueGitter();
+  karte = L.map("karte", { crs: L.CRS.Simple, minZoom: -6, maxZoom: 5,
+    zoomSnap: 0.25, attributionControl: true });
+  karte.fitBounds(L.latLngBounds(points.map((p) => [p.y, p.x])).pad(0.05));
+  ctx = document.getElementById("overlay").getContext("2d");
+  passeCanvasAn();
+  zeichne();
+  karte.on("move zoom resize viewreset moveend", zeichneBald);
+  karte.on("resize", passeCanvasAn);
+  window.addEventListener("resize", () => { passeCanvasAn(); zeichneBald(); });
+  karte.on("click", (e) => {
+    const ll = karte.containerPointToLatLng(e.containerPoint);
+    const b = karte.getBounds(), s = karte.getSize();
+    const radius = ((b.getEast() - b.getWest()) / s.x) * TIPP_RADIUS_PX;
+    const p = naechsterPunkt(ll.lng, ll.lat, radius);
+    if (p) openSheet(p.id, false); else closeSheet();
+  });
+  baueLegende();
+  window.__mapmobile = {
+    karte: () => karte,
+    punktAnzahl: () => punkte.length,
+    neuzeichnen: () => zeichne(),
+    schirmPos: (id) => {
+      const p = punkte.find((q) => q.id === id);
+      if (!p) return null;
+      const s = karte.latLngToContainerPoint([p.y, p.x]);
+      return { x: Math.round(s.x), y: Math.round(s.y) };
+    },
+  };
+  hinweis.hidden = true;
+  const start = new URLSearchParams(window.location.search).get("point");
+  if (start) openSheet(Number(start), true);
+}
+async function openSheet(id, expandiert) {
+  const sheet = document.getElementById("sheet");
+  const titel = document.getElementById("sheet-titel");
+  const meta = document.getElementById("sheet-meta");
+  const linkzeile = document.getElementById("sheet-linkzeile");
+  const keinLink = document.getElementById("sheet-kein-link");
+  const text = document.getElementById("sheet-text");
+  let d;
+  try {
+    const r = await fetch("/api/map/point/" + id);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    d = await r.json();
+  } catch (e) {
+    console.error("Detail laden fehlgeschlagen:", e);
+    titel.textContent = "Fehler — ID " + id;
+    meta.textContent = "";
+    linkzeile.hidden = true;
+    keinLink.hidden = true;
+    text.textContent = "Details konnten nicht geladen werden (" + e.message + "). " + fehlerHinweis(e.message);
+    sheet.hidden = false;
+    sheet.classList.add("offen", "voll");
+    return;
+  }
+  titel.textContent = d.cluster_title;
+  meta.textContent = "ID " + d.identifier + " · Cluster " + d.cluster + " — tippen für Details";
+  const hatLink = d.original_source_link && d.original_source_link.length > 0;
+  linkzeile.hidden = !hatLink;
+  keinLink.hidden = hatLink;
+  if (hatLink) document.getElementById("sheet-link").href = d.original_source_link;
+  text.textContent =
+    d.summary && d.summary.length > 0 ? d.summary : "Keine Zusammenfassung vorhanden.";
+  sheet.hidden = false;
+  sheet.classList.add("offen");
+  sheet.classList.toggle("voll", !!expandiert);
+}
+function closeSheet() {
+  const sheet = document.getElementById("sheet");
+  sheet.classList.remove("offen", "voll");
+  sheet.hidden = true;
+}
+function sheetUmschalten() {
+  const sheet = document.getElementById("sheet");
+  if (sheet.hidden) return;
+  sheet.classList.toggle("voll");
+}
+function fehlerHinweis(msg) {
+  if (msg.indexOf("429") !== -1) return "Zu viele Anfragen — bitte kurz warten und erneut tippen.";
+  if (msg.indexOf("404") !== -1) return "Für diesen Punkt ist kein Detail vorhanden.";
+  return "Serverfehler — bitte Server-Log prüfen (stimmt der DB-Pfad MAP_DB?).";
+}
+function clusterBBox(cid) {
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const p of punkte) {
+    if (p.cluster !== cid) continue;
+    if (p.x < minX) minX = p.x; if (p.x > maxX) maxX = p.x;
+    if (p.y < minY) minY = p.y; if (p.y > maxY) maxY = p.y;
+  }
+  return L.latLngBounds([[minY, minX], [maxY, maxX]]);
+}
+function fokusCluster(cid) {
+  if (verborgen.has(cid)) {
+    verborgen.delete(cid);
+    zeichneBald();
+    const box = document.querySelector('input[data-cluster="' + cid + '"]');
+    if (box) box.checked = true;
+  }
+  karte.flyToBounds(clusterBBox(cid).pad(0.2));
+  document.getElementById("legende").close();
+}
+function baueLegende() {
+  const ul = document.getElementById("cluster-liste");
+  ul.textContent = "";
+  const zeilen = [];
+  const alle = clusterListe.concat([{ id: NOISE_CLUSTER, title: "Noise",
+    n: punkte.filter((p) => p.cluster === NOISE_CLUSTER).length }]);
+  for (const c of alle) {
+    const li = document.createElement("li");
+    const box = document.createElement("input");
+    box.type = "checkbox";
+    box.checked = true;
+    box.setAttribute("data-cluster", String(c.id));
+    box.setAttribute("aria-label", c.title + " anzeigen");
+    box.addEventListener("change", () => {
+      if (box.checked) verborgen.delete(c.id); else verborgen.add(c.id);
+      zeichneBald();
+    });
+    const dot = document.createElement("span");
+    dot.className = "punkt";
+    dot.style.background = clusterCss(c.id);
+    const name = document.createElement("button");
+    name.type = "button";
+    name.className = "titel";
+    name.textContent = c.title;
+    name.title = "Auf Cluster zoomen";
+    name.addEventListener("click", () => fokusCluster(c.id));
+    const anz = document.createElement("span");
+    anz.className = "anz";
+    anz.textContent = "(" + c.n + ")";
+    li.append(box, dot, name, anz);
+    ul.append(li);
+    zeilen.push({ li, titel: c.title.toLowerCase() });
+  }
+  document.getElementById("suche").addEventListener("input", (ev) => {
+    const q = ev.target.value.toLowerCase();
+    for (const z of zeilen) z.li.hidden = q !== "" && z.titel.indexOf(q) === -1;
+  });
+}
+document.getElementById("fab").addEventListener("click", () => {
+  document.getElementById("legende").showModal();
+});
+document.getElementById("legende-schliessen").addEventListener("click", () => {
+  document.getElementById("legende").close();
+});
+document.getElementById("sheet-schliessen").addEventListener("click", closeSheet);
+document.getElementById("sheet-peek").addEventListener("click", sheetUmschalten);
+document.getElementById("sheet-griff").addEventListener("click", sheetUmschalten);
+document.getElementById("sheet-griff").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); sheetUmschalten(); }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeSheet();
+});
+laden();
+</script>
+</body>
+</html>

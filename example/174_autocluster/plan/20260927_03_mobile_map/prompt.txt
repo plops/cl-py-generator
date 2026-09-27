@@ -1,0 +1,4 @@
+in review.md habe ich einen review erstellen lassen denn das in
+plan/20260927_02_webmap_route/walkthrough.md umgesetzte program/website laesst sich nicht gut auf mobilen geraet nutzen
+
+setze eine zweite version der karte um, wieder als standalone rust program.

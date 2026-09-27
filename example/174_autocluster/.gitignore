@@ -4,3 +4,4 @@ plots/clusters.html
 __pycache__/
 .venv/
 mapserver/target/
+mapmobile/target/
