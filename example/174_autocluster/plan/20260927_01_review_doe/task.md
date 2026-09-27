@@ -83,6 +83,17 @@ committet. Modi: **IMPL** = Implementierung, **HOST** = Host-/CPU-Tests,
 - Validierung: `pytest tests/` 34/34 grün; GPU-Selbstcheck <5e-3 (Dubletten);
   alle 3 Plots visuell verifiziert.
 
+## Task 14 — GPU/RUNDE-2: Phase A (CCD × Dedup) [fertig]
+
+- `doe/run_phasea.py`: CCD mcs/ms/nn (20 Punkte) × Dedup-Block × 5 Seeds,
+  Scoring rueckprojiziert auf Voll-N, RSM+ANOVA, Argmax je Block,
+  Konfirmierung mit 3 frischen Seeds, 3 Plots.
+- `doe/{data,design}.py`: `dedup_map`, `generate_ccd_design`, `rsm_argmax`;
+  +4 Tests in `tests/test_doe.py` (CCD-Struktur, Dedup-Roundtrip, Peak-Findung).
+- Befunde: Dedup Δ=−0,028 (F=860) + 5× Jitter; dedup×nn signifikant,
+  dedup×mcs widerlegt; Zoom-Box flach → mcs=11 behalten. Siehe `doe/PHASEA_de.md`.
+- Validierung: `pytest tests/` grün; R²=0,975; Konfirm-Seeds bestaetigen Levels.
+
 ## Task 12 — DOCS: Walkthrough + Commit [fertig]
 
 - `plan/20260927_01_review_doe/walkthrough.md` (DE): Einführung, Scope,
