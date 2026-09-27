@@ -199,6 +199,9 @@ async fn karten_shell_ohne_volltext() {
     assert!(body.contains("leaflet.js"), "Leaflet-CDN fehlt!");
     assert!(body.contains("id=\"overlay\""), "Canvas-Overlay fehlt!");
     assert!(body.contains("naechsterPunkt"), "Tap-Picking fehlt!");
+    assert!(body.contains("id=\"hover\""), "Hover-Label fehlt!");
+    assert!(body.contains("id=\"sheet-auszug\""), "Peek-Auszug fehlt!");
+    assert!(body.contains("maxZoom: 8"), "Zoomtiefe fehlt!");
     assert!(!body.contains("glify"), "Glify ist raus (CRS-Diskrepanz)!");
     assert!(body.contains("id=\"sheet\""), "Bottom Sheet fehlt!");
     assert!(body.contains("<dialog"), "Legenden-Modal fehlt!");

@@ -17,6 +17,10 @@
   #kartenWrap { position: relative; flex: 1 1 auto; min-height: 0; }
   #karte { position: absolute; inset: 0; background: #f2f2f2; }
   #overlay { position: absolute; inset: 0; pointer-events: none; }
+  #hover { position: absolute; z-index: 700; pointer-events: none; display: block;
+    background: #1a1a1a; color: #fff; font-size: 0.8rem; padding: 0.2rem 0.5rem;
+    border-radius: 4px; white-space: nowrap; }
+  #hover[hidden] { display: none; }
   #ladehinweis { position: fixed; left: 0.6rem; top: 3rem; z-index: 600;
     background: #fff; padding: 0.3rem 0.6rem; border: 1px solid #ccc; margin: 0; }
   #ladehinweis[hidden] { display: none; }
@@ -31,12 +35,14 @@
     transition: transform 0.18s ease-out; }
   #sheet.offen { transform: none; }
   #sheet[hidden] { display: none; }
-  #sheet-griff { padding: 0.5rem; text-align: center; cursor: pointer; }
+  #sheet-griff { padding: 0.5rem; text-align: center; cursor: grab; touch-action: none; }
   #sheet-griff span { display: inline-block; width: 2.5rem; height: 0.3rem;
     border-radius: 999px; background: #888; }
   #sheet-peek { padding: 0 0.8rem 0.7rem; min-height: 3rem; cursor: pointer; }
   #sheet-peek strong { display: block; font-size: 1rem; }
   #sheet-peek span { color: #444; font-size: 0.85rem; }
+  #sheet-auszug { display: block; color: #333; font-size: 0.85rem; margin-top: 0.25rem;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   #sheet-voll { display: none; overflow: auto; min-height: 0; padding: 0 0.8rem 0.8rem; }
   #sheet.voll #sheet-voll { display: block; }
   #sheet-voll pre { white-space: pre-wrap; font-family: inherit; font-size: 0.9rem; }
@@ -63,12 +69,13 @@
 <div id="kartenWrap">
   <div id="karte" role="application" aria-label="Interaktive Cluster-Karte. Antippen öffnet die Zusammenfassung."></div>
   <canvas id="overlay" aria-hidden="true"></canvas>
+  <div id="hover" hidden></div>
 </div>
 <p id="ladehinweis">Karte wird geladen …</p>
 <button id="fab" type="button" aria-haspopup="dialog">☰ {{ n_clusters }} Cluster</button>
 <section id="sheet" hidden aria-live="polite" aria-label="Punkt-Details">
-  <div id="sheet-griff" role="button" tabindex="0" aria-label="Details ein-/ausklappen"><span></span></div>
-  <div id="sheet-peek"><strong id="sheet-titel"></strong><span id="sheet-meta"></span></div>
+  <div id="sheet-griff" role="button" tabindex="0" aria-label="Details ein-/ausklappen oder ziehen"></div>
+  <div id="sheet-peek"><strong id="sheet-titel"></strong><span id="sheet-meta"></span><span id="sheet-auszug"></span></div>
   <div id="sheet-voll">
     <p id="sheet-linkzeile"><a id="sheet-link" href="#" target="_blank" rel="noopener">Original öffnen</a></p>
     <p id="sheet-kein-link" hidden>Kein Original-Link vorhanden.</p>
@@ -89,16 +96,27 @@
 <script>
 const NOISE_CLUSTER = -1;
 const TIPP_RADIUS_PX = 20;
+const HOVER_RADIUS_PX = 10;
 const GITTER_ZELLE = 0.5;
 let karte, clusterListe = [];
 let punkte = []; // {id, x, y, cluster}
 let gitter = new Map();
 let verborgen = new Set();
 let ctx, dprBesetzt = 1, rafGeplant = false;
+// Render-Cache: Farbgruppen (nur bei Filterwechsel neu) + Container-Koordinaten
+// (nur bei Zoom/Resize neu; beim Pannen wird stur verschoben — exakt, da Pannen
+// in Container-Koordinaten reine Translation ist).
+let gruppenStatisch = [];
+let cache = { zoom: null, ox: 0, oy: 0, xs: null, ys: null };
+let hoverAngefragt = false, hoverPos = null, titelJeCluster = new Map();
 
 function clusterCss(cid) {
   if (cid === NOISE_CLUSTER) return "#9aa0a6";
   return "hsl(" + ((cid * 137.508) % 360).toFixed(1) + ",65%,45%)";
+}
+function clusterTitel(cid) {
+  if (cid === NOISE_CLUSTER) return "Noise";
+  return titelJeCluster.get(cid) || ("Cluster " + cid);
 }
 function gitterSchluessel(x, y) {
   return Math.floor(x / GITTER_ZELLE) + "," + Math.floor(y / GITTER_ZELLE);
@@ -112,7 +130,7 @@ function baueGitter() {
     gitter.get(key).push(k);
   }
 }
-// Nächster sichtbarer Punkt im Daten-Radius (Tap-Toleranz), sonst null.
+// Nächster sichtbarer Punkt im Daten-Radius, sonst null.
 function naechsterPunkt(x, y, radius) {
   let best = null, bestD2 = radius * radius;
   const x0 = Math.floor((x - radius) / GITTER_ZELLE), x1 = Math.floor((x + radius) / GITTER_ZELLE);
@@ -131,6 +149,33 @@ function naechsterPunkt(x, y, radius) {
   }
   return best;
 }
+function datenRadius(px) {
+  const b = karte.getBounds(), s = karte.getSize();
+  return ((b.getEast() - b.getWest()) / s.x) * px;
+}
+function gruppenAufbauen() {
+  const proFarbe = new Map();
+  for (let k = 0; k < punkte.length; k++) {
+    const cid = punkte[k].cluster;
+    if (verborgen.has(cid)) continue;
+    if (!proFarbe.has(cid)) proFarbe.set(cid, []);
+    proFarbe.get(cid).push(k);
+  }
+  gruppenStatisch = [...proFarbe].map(([cid, idx]) => ({ css: clusterCss(cid), idx }));
+}
+function vollProjizieren() {
+  const o = karte.getPixelOrigin();
+  cache.zoom = karte.getZoom();
+  cache.ox = o.x; cache.oy = o.y;
+  if (!cache.xs || cache.xs.length !== punkte.length) {
+    cache.xs = new Float32Array(punkte.length);
+    cache.ys = new Float32Array(punkte.length);
+  }
+  for (let k = 0; k < punkte.length; k++) {
+    const s = karte.latLngToContainerPoint([punkte[k].y, punkte[k].x]);
+    cache.xs[k] = s.x; cache.ys[k] = s.y;
+  }
+}
 function passeCanvasAn() {
   const r = document.getElementById("karte").getBoundingClientRect();
   dprBesetzt = window.devicePixelRatio || 1;
@@ -144,21 +189,14 @@ function zeichne() {
   const w = cv.width / dprBesetzt, h = cv.height / dprBesetzt;
   ctx.setTransform(dprBesetzt, 0, 0, dprBesetzt, 0, 0);
   ctx.clearRect(0, 0, w, h);
-  ctx.lineWidth = 0;
-  const proFarbe = new Map();
-  for (const p of punkte) {
-    if (verborgen.has(p.cluster)) continue;
-    const s = karte.latLngToContainerPoint([p.y, p.x]);
-    if (s.x < -8 || s.y < -8 || s.x > w + 8 || s.y > h + 8) continue;
-    if (!proFarbe.has(p.cluster)) proFarbe.set(p.cluster, []);
-    proFarbe.get(p.cluster).push(s);
-  }
-  for (const [cid, arr] of proFarbe) {
-    ctx.fillStyle = clusterCss(cid);
+  for (const g of gruppenStatisch) {
+    ctx.fillStyle = g.css;
     ctx.beginPath();
-    for (const s of arr) {
-      ctx.moveTo(s.x + 3, s.y);
-      ctx.arc(s.x, s.y, 3, 0, 6.2832);
+    for (const k of g.idx) {
+      const x = cache.xs[k], y = cache.ys[k];
+      if (x < -8 || y < -8 || x > w + 8 || y > h + 8) continue;
+      ctx.moveTo(x + 3, y);
+      ctx.arc(x, y, 3, 0, 6.2832);
     }
     ctx.fill();
   }
@@ -167,6 +205,36 @@ function zeichneBald() {
   if (rafGeplant) return;
   rafGeplant = true;
   requestAnimationFrame(zeichne);
+}
+function beiKameraBewegt() {
+  // Zoom/Resize → neu projizieren; Pannen → Cache stur verschieben (billig).
+  if (!cache.xs || karte.getZoom() !== cache.zoom) {
+    vollProjizieren();
+  } else {
+    const o = karte.getPixelOrigin();
+    const dx = cache.ox - o.x, dy = cache.oy - o.y;
+    cache.ox = o.x; cache.oy = o.y;
+    if (dx !== 0 || dy !== 0) {
+      for (let k = 0; k < punkte.length; k++) { cache.xs[k] += dx; cache.ys[k] += dy; }
+    }
+  }
+  zeichneBald();
+}
+function zeigeHover() {
+  hoverAngefragt = false;
+  const el = document.getElementById("hover");
+  if (!hoverPos) { el.hidden = true; return; }
+  const ll = karte.containerPointToLatLng(hoverPos);
+  const p = naechsterPunkt(ll.lng, ll.lat, datenRadius(HOVER_RADIUS_PX));
+  if (!p) { el.hidden = true; return; }
+  el.textContent = "ID " + p.id + " · " + clusterTitel(p.cluster);
+  el.style.left = (hoverPos.x + 14) + "px";
+  el.style.top = (hoverPos.y + 14) + "px";
+  el.hidden = false;
+}
+function versteckeHover() {
+  hoverPos = null;
+  document.getElementById("hover").hidden = true;
 }
 async function laden() {
   const hinweis = document.getElementById("ladehinweis");
@@ -187,29 +255,35 @@ async function laden() {
     return;
   }
   clusterListe = clusters.filter((c) => c.id !== NOISE_CLUSTER);
+  titelJeCluster = new Map(clusterListe.map((c) => [c.id, c.title]));
   punkte = points.map((p) => ({ id: p.identifier, x: p.x, y: p.y, cluster: p.cluster }));
   baueGitter();
-  karte = L.map("karte", { crs: L.CRS.Simple, minZoom: -6, maxZoom: 5,
+  gruppenAufbauen();
+  karte = L.map("karte", { crs: L.CRS.Simple, minZoom: -6, maxZoom: 8,
     zoomSnap: 0.25, attributionControl: true });
   karte.fitBounds(L.latLngBounds(points.map((p) => [p.y, p.x])).pad(0.05));
   ctx = document.getElementById("overlay").getContext("2d");
   passeCanvasAn();
+  vollProjizieren();
   zeichne();
-  karte.on("move zoom resize viewreset moveend", zeichneBald);
-  karte.on("resize", passeCanvasAn);
-  window.addEventListener("resize", () => { passeCanvasAn(); zeichneBald(); });
+  karte.on("move zoom viewreset", beiKameraBewegt);
+  karte.on("resize", () => { passeCanvasAn(); vollProjizieren(); zeichneBald(); });
+  window.addEventListener("resize", () => { passeCanvasAn(); vollProjizieren(); zeichneBald(); });
   karte.on("click", (e) => {
     const ll = karte.containerPointToLatLng(e.containerPoint);
-    const b = karte.getBounds(), s = karte.getSize();
-    const radius = ((b.getEast() - b.getWest()) / s.x) * TIPP_RADIUS_PX;
-    const p = naechsterPunkt(ll.lng, ll.lat, radius);
-    if (p) openSheet(p.id, false); else closeSheet();
+    const p = naechsterPunkt(ll.lng, ll.lat, datenRadius(TIPP_RADIUS_PX));
+    if (p) openSheet(p.id); else leereStelleAngetippt();
   });
+  karte.on("mousemove", (e) => {
+    hoverPos = e.containerPoint;
+    if (!hoverAngefragt) { hoverAngefragt = true; requestAnimationFrame(zeigeHover); }
+  });
+  karte.on("mouseout movestart", versteckeHover);
   baueLegende();
   window.__mapmobile = {
     karte: () => karte,
     punktAnzahl: () => punkte.length,
-    neuzeichnen: () => zeichne(),
+    neuzeichnen: () => { vollProjizieren(); zeichne(); },
     schirmPos: (id) => {
       const p = punkte.find((q) => q.id === id);
       if (!p) return null;
@@ -219,12 +293,15 @@ async function laden() {
   };
   hinweis.hidden = true;
   const start = new URLSearchParams(window.location.search).get("point");
-  if (start) openSheet(Number(start), true);
+  if (start) openSheet(Number(start), "voll");
 }
-async function openSheet(id, expandiert) {
+// modus: "voll" → expandiert, "peek" → eingeklappt, sonst Zustand behalten
+// (geschlossen → Peek). Damit wechselt man Punkte auch im Großzustand.
+async function openSheet(id, modus) {
   const sheet = document.getElementById("sheet");
   const titel = document.getElementById("sheet-titel");
   const meta = document.getElementById("sheet-meta");
+  const auszug = document.getElementById("sheet-auszug");
   const linkzeile = document.getElementById("sheet-linkzeile");
   const keinLink = document.getElementById("sheet-kein-link");
   const text = document.getElementById("sheet-text");
@@ -237,6 +314,7 @@ async function openSheet(id, expandiert) {
     console.error("Detail laden fehlgeschlagen:", e);
     titel.textContent = "Fehler — ID " + id;
     meta.textContent = "";
+    auszug.textContent = "";
     linkzeile.hidden = true;
     keinLink.hidden = true;
     text.textContent = "Details konnten nicht geladen werden (" + e.message + "). " + fehlerHinweis(e.message);
@@ -246,19 +324,33 @@ async function openSheet(id, expandiert) {
   }
   titel.textContent = d.cluster_title;
   meta.textContent = "ID " + d.identifier + " · Cluster " + d.cluster + " — tippen für Details";
+  auszug.textContent = d.summary && d.summary.length > 0
+    ? d.summary.slice(0, 160) + (d.summary.length > 160 ? " …" : "")
+    : "Keine Zusammenfassung vorhanden.";
   const hatLink = d.original_source_link && d.original_source_link.length > 0;
   linkzeile.hidden = !hatLink;
   keinLink.hidden = hatLink;
   if (hatLink) document.getElementById("sheet-link").href = d.original_source_link;
   text.textContent =
     d.summary && d.summary.length > 0 ? d.summary : "Keine Zusammenfassung vorhanden.";
+  const warVersteckt = sheet.hidden;
   sheet.hidden = false;
   sheet.classList.add("offen");
-  sheet.classList.toggle("voll", !!expandiert);
+  if (modus === "voll") sheet.classList.add("voll");
+  else if (modus === "peek") sheet.classList.remove("voll");
+  else if (warVersteckt) sheet.classList.remove("voll");
+}
+function leereStelleAngetippt() {
+  // Stufenweise zurück: groß → Peek (Karte wieder sichtbar) → zu.
+  const sheet = document.getElementById("sheet");
+  if (sheet.hidden) return;
+  if (sheet.classList.contains("voll")) sheet.classList.remove("voll");
+  else closeSheet();
 }
 function closeSheet() {
   const sheet = document.getElementById("sheet");
   sheet.classList.remove("offen", "voll");
+  sheet.style.height = "";
   sheet.hidden = true;
 }
 function sheetUmschalten() {
@@ -283,11 +375,12 @@ function clusterBBox(cid) {
 function fokusCluster(cid) {
   if (verborgen.has(cid)) {
     verborgen.delete(cid);
+    gruppenAufbauen();
     zeichneBald();
     const box = document.querySelector('input[data-cluster="' + cid + '"]');
     if (box) box.checked = true;
   }
-  karte.flyToBounds(clusterBBox(cid).pad(0.2));
+  karte.flyToBounds(clusterBBox(cid).pad(0.2), { duration: 0.6 });
   document.getElementById("legende").close();
 }
 function baueLegende() {
@@ -305,6 +398,7 @@ function baueLegende() {
     box.setAttribute("aria-label", c.title + " anzeigen");
     box.addEventListener("change", () => {
       if (box.checked) verborgen.delete(c.id); else verborgen.add(c.id);
+      gruppenAufbauen();
       zeichneBald();
     });
     const dot = document.createElement("span");
@@ -336,7 +430,29 @@ document.getElementById("legende-schliessen").addEventListener("click", () => {
 });
 document.getElementById("sheet-schliessen").addEventListener("click", closeSheet);
 document.getElementById("sheet-peek").addEventListener("click", sheetUmschalten);
-document.getElementById("sheet-griff").addEventListener("click", sheetUmschalten);
+(function () {
+  // Griff: Antippen klappt um, Ziehen setzt die Höhe stufenlos.
+  const griff = document.getElementById("sheet-griff");
+  let drag = null;
+  griff.addEventListener("pointerdown", (e) => {
+    drag = { y0: e.clientY, h0: document.getElementById("sheet").offsetHeight, bewegt: false };
+    try { griff.setPointerCapture(e.pointerId); } catch (err) { /* tolerate */ }
+  });
+  griff.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    if (Math.abs(e.clientY - drag.y0) > 6) drag.bewegt = true;
+    if (!drag.bewegt) return;
+    const sheet = document.getElementById("sheet");
+    sheet.classList.add("offen", "voll");
+    sheet.style.height = Math.max(140, Math.min(window.innerHeight * 0.92, drag.h0 - (e.clientY - drag.y0))) + "px";
+  });
+  const ende = () => {
+    if (drag && !drag.bewegt) sheetUmschalten();
+    drag = null;
+  };
+  griff.addEventListener("pointerup", ende);
+  griff.addEventListener("pointercancel", () => { drag = null; });
+})();
 document.getElementById("sheet-griff").addEventListener("keydown", (e) => {
   if (e.key === "Enter" || e.key === " ") { e.preventDefault(); sheetUmschalten(); }
 });
