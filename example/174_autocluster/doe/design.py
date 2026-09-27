@@ -124,6 +124,48 @@ def fit_response_surface(df, formula=RESPONSE_FORMULA):
     return model, anova
 
 
+def generate_ccd_design(center, half_range, n_center=6):
+    """Face-centered Central-Composite-Design: Wuerfel + Achsen + Zentrum.
+
+    center/half_range: dicts Faktor -> Wert. Liefert 2^k + 2k + n_center
+    Punkte (k=3, n_center=6 → 20). Int-Faktoren bleiben int, wenn center
+    und half_range int sind (symmetrische Bereiche vorausgesetzt).
+    """
+    import itertools
+
+    factors = list(center.keys())
+    pts = []
+    for signs in itertools.product([-1, 1], repeat=len(factors)):
+        pts.append({f: center[f] + s * half_range[f]
+                    for f, s in zip(factors, signs)})
+    for f in factors:
+        for s in (-1, 1):
+            p = dict(center)
+            p[f] = center[f] + s * half_range[f]
+            pts.append(p)
+    pts += [dict(center) for _ in range(n_center)]
+    return pts
+
+
+def rsm_argmax(model, bounds, fixed=None, resolution=21):
+    """Argmax eines gefitteten RSM-OLS-Modells per dichtem Grid.
+
+    bounds: Faktor -> (lo, hi); fixed: Faktor -> Wert (z. B. Block).
+    Gibt (best dict, predicted) zurueck; Patsy-Transfos (I(), :) wertet
+    model.predict selbst aus.
+    """
+    import itertools
+
+    fixed = fixed or {}
+    names = [f for f in bounds if f not in fixed]
+    grids = [np.linspace(bounds[f][0], bounds[f][1], resolution)
+             for f in names]
+    df = pd.DataFrame([dict(zip(names, v)) | fixed
+                       for v in itertools.product(*grids)])
+    pred = model.predict(df)
+    return df.loc[pred.idxmax()].to_dict(), float(pred.max())
+
+
 def save_design(design, path):
     pd.DataFrame(design).to_csv(path, index=False)
 

@@ -46,3 +46,19 @@ def load_aligned(db_path, widths):
         X, Xn = truncate_norm(base["X"], k)
         per_width[k] = {"X": X, "X_norm": Xn}
     return base, per_width
+
+
+def dedup_map(X):
+    """Exakte Dubletten entfernen: liefert (uniq_idx, backmap).
+
+    uniq_idx: sortierte Vertreter-Indizes (X_dedup = X[uniq_idx]).
+    backmap: (N,)-Array; fitted_labels[backmap] projiziert Labels aus dem
+    Dedup-Fit zurueck auf alle N Rows (fairer Blockvergleich auf identischen
+    Rows: Dedup wirkt nur auf UMAP+HDBSCAN-Fitting, Scoring stets auf N).
+    """
+    _, idx, inv = np.unique(np.ascontiguousarray(X), axis=0,
+                            return_index=True, return_inverse=True)
+    order = np.argsort(idx)
+    remap = np.empty(len(order), dtype=np.int64)
+    remap[order] = np.arange(len(order))
+    return idx[order], remap[inv]

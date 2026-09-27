@@ -1,0 +1,24 @@
+{
+  "dedup0": {
+    "observed_mean": 0.1342,
+    "observed_std": 0.0022,
+    "opt": {
+      "min_cluster_size": 5,
+      "min_samples": 5,
+      "n_neighbors": 50
+    },
+    "predicted": 0.1354
+  },
+  "dedup1": {
+    "observed_mean": 0.1068,
+    "observed_std": 0.0019,
+    "opt": {
+      "min_cluster_size": 5,
+      "min_samples": 5,
+      "n_neighbors": 24
+    },
+    "predicted": 0.113
+  },
+  "rsquared": 0.9752574344127094,
+  "rsquared_adj": 0.9618552113862603
+}
