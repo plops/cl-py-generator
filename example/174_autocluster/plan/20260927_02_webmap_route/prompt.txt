@@ -15,14 +15,17 @@ keinen Punkt anklicken, um die Zusammenfassung zu lesen und dem
 Video-Link zu folgen.
 
 Deine Aufgabe: Baue ein KLEINES, SELBST-GEHOSTETES Rust-Programm
-(Vorschlag: `example/174_autocluster/mapserver/` als eigenes Cargo-Projekt),
-das die Karten-Funktionalitaet bereitstellt und sich HIER im Docker-Image
-testen laesst: (1) Hover-Infos fuer ALLE Punkte inklusive Noise (grau),
-(2) Klick auf einen Punkt oeffnet ein Panel mit der VOLLEN Zusammenfassung
-plus klickbarem Original-Link, (3) Legende mit Cluster-Filtern, Zoom/Pan,
-(4) Herkunfts-Fusszeile (Methode, Parameter, Datum, N). Die UI-Sprache ist
-Deutsch (Titel sind deutsch), das Styling orientiert sich an pico.css/htmx
-(s. Referenz unten), damit eine spaetere Uebernahme leicht faellt.
+(Vorschlag: `example/174_autocluster/mapserver/` als eigenes
+Cargo-Projekt), das die Karten-Funktionalitaet bereitstellt und sich
+HIER im Docker-Image testen laesst: (1) Hover-Infos fuer ALLE Punkte
+inklusive Noise (grau), (2) Klick auf einen Punkt oeffnet ein Panel
+mit der VOLLEN Zusammenfassung plus klickbarem Original-Link, (3)
+Legende mit Cluster-Filtern, Zoom/Pan, (4) Herkunfts-Fusszeile
+(Methode, Parameter, Datum, N). Die UI-Sprache ist Deutsch (Titel sind
+deutsch), das Styling orientiert sich an pico.css/htmx (s. Referenz
+unten), damit eine spaetere Uebernahme leicht faellt (aber du kannst
+den prototyp auch ganz einfach halten ... je einfacher und kuerzer der
+code desto besser).
 
 ENTSCHEIDUNG (User, 2026-09-27, verbindlich): `rs-summarizer` wird NICHT
 geaendert — das Risiko am Produktivprogramm ist zu hoch. Erst validieren
@@ -30,7 +33,7 @@ wir die Funktionalitaet standalone; spaeter reduzieren wir sie auf das
 minimal Notwendige und ueberlegen eine Uebernahme. Beides ist in DIESEM
 Prompt OUT OF SCOPE (kein rs-summarizer-Write, keine Server-/nginx-Arbeit).
 
-## Stand der Technik (verifiziert, nicht raten)
+## Stand der Technik (verifiziert, nicht geraten)
 
 - rocketrecap.com laeuft auf Rust **Axum** in `/workspace/src/rs-summarizer`
   (`src/main.rs`: `PORT` default **5001**, `axum::serve`). Der
@@ -64,10 +67,11 @@ Prompt OUT OF SCOPE (kein rs-summarizer-Write, keine Server-/nginx-Arbeit).
   **rategelimited** (Richtwert: 60/min/IP, Crate nach Wahl, neueste Version).
   Kein Endpunkt liefert je mehr als einen Summary-Text. Tests muessen das
   beweisen (s.u.).
-- **Karten-Rendering:** Scattergl/Canvas-Bibliothek nach Wahl (Plotly o.ae.);
-  CDN ist fuer den oeffentlichen Betrieb okay, aber Tests duerfen kein
-  Internet brauchen (APIs + HTML-Shell testen, kein Rendering). Grösse und
-  Lizenz der Wahl dokumentieren.
+  
+- **Karten-Rendering:** Scattergl/Canvas-Bibliothek nach Wahl
+  (three.js, Plotly o.ae.); CDN ist fuer den oeffentlichen Betrieb
+  okay, aber Tests duerfen kein Internet brauchen (APIs + HTML-Shell
+  testen, kein Rendering). Grösse und Lizenz der Wahl dokumentieren.
 
 ## Requirements (verbindlich)
 
@@ -79,13 +83,15 @@ Prompt OUT OF SCOPE (kein rs-summarizer-Write, keine Server-/nginx-Arbeit).
    toggelbar (default: sichtbar, grau).
 4. Zoom/Pan, 16.692 Punkte fluessig.
 5. Fusszeile: Methode/Parameter/Datum/N + Link auf Methodik (Walkthrough).
-6. Styling angelehnt an pico.css/htmx ( spaetere Uebernahme!), Deutsch.
+6. Optional Styling angelehnt an pico.css/htmx ( spaetere Uebernahme!), Deutsch.
 7. Performance: Punkte-API < 500 ms, Seite < 2 s (lokal, ohne gzip).
 8. Kein Bulk-Text-Endpunkt (s. Empfehlung); Rate-Limit auf Detail-API.
 9. Programm startet per `cargo run` (ENV: PORT, DB-Pfad, Daten-Pfade mit
    sinnvollen Defaults) und ist im Container per curl testbar.
 10. Optional (markieren, nur wenn Zeit): Deep-Links (?cluster=&point=),
     Titelsuche, Konfigurationsdatei statt nur ENV.
+11. Vorschlag wie cl-py-generator/example/174_autocluster/plan/nginx.conf angepasst werden sollte um auf dem server das neue programm zugreifbar zu machen
+
 
 Habe ich alle Requirements aufgelistet, die wichtig sind, oder kannst du dir
 vorstellen, dass noch andere Dinge noetig werden (Accessibility, Mobile,
