@@ -254,6 +254,94 @@ pub fn fetch_detail_row(db_path: &Path, identifier: i64) -> anyhow::Result<Optio
     }
 }
 
+// ---- Web-Layer (Axum; Muster aus rs-summarizer: build_router + State) ----
+
+use axum::{
+    Router,
+    extract::{Path as UrlPath, State},
+    http::{StatusCode, header},
+    response::{IntoResponse, Json},
+    routing::get,
+};
+use std::sync::Arc;
+use tower_governor::{GovernorLayer, governor::GovernorConfigBuilder};
+
+#[derive(Debug, Clone)]
+pub struct AppState {
+    pub data: Arc<AppData>,
+    pub db_path: PathBuf,
+}
+
+/// Router bauen. Das Rate-Limit hängt NUR an der Detail-Route (dort liegt der
+/// einzige Volltext); Bulk-Routen brauchen keines, weil sie nie Text liefern.
+pub fn build_router(state: AppState, detail_per_min: u32) -> Router {
+    let (per_sec, burst) = quota_for_detail(detail_per_min);
+    let detail_conf = GovernorConfigBuilder::default()
+        .per_second(per_sec)
+        .burst_size(burst)
+        .finish()
+        .expect("Governor-Quota ungültig");
+    let limited = Router::new()
+        .route("/api/map/point/{id}", get(point_detail))
+        .layer(GovernorLayer::new(detail_conf));
+    Router::new()
+        .route("/healthz", get(health))
+        .route("/api/map/points", get(points))
+        .route("/api/map/clusters", get(clusters))
+        .merge(limited)
+        .with_state(state)
+}
+
+async fn health(State(st): State<AppState>) -> impl IntoResponse {
+    Json(serde_json::json!({
+        "status": "ok",
+        "points": st.data.points.len(),
+        "clusters": st.data.clusters.len(),
+    }))
+}
+
+/// Punkte sind pro Deployment statisch → lang cachen.
+const CACHE_STATIC: &str = "public, max-age=86400";
+
+async fn points(State(st): State<AppState>) -> impl IntoResponse {
+    ([(header::CACHE_CONTROL, CACHE_STATIC)], Json(st.data.points.clone()))
+}
+
+async fn clusters(State(st): State<AppState>) -> impl IntoResponse {
+    let mut list = st.data.clusters.clone();
+    list.push(ClusterInfo {
+        id: -1,
+        title: NOISE_TITLE.into(),
+        n: st.data.noise_n,
+    });
+    ([(header::CACHE_CONTROL, CACHE_STATIC)], Json(list))
+}
+
+async fn point_detail(State(st): State<AppState>, UrlPath(id): UrlPath<i64>) -> impl IntoResponse {
+    let idx = match st.data.points.binary_search_by_key(&id, |p| p.identifier) {
+        Ok(i) => i,
+        Err(_) => return (StatusCode::NOT_FOUND, "unbekannter Punkt").into_response(),
+    };
+    let cluster = st.data.points[idx].cluster;
+    let db_path = st.db_path.clone();
+    let row = tokio::task::spawn_blocking(move || fetch_detail_row(&db_path, id)).await;
+    let (summary, link) = match row {
+        Ok(Ok(Some((s, l)))) => (s, l),
+        Ok(Ok(None)) => {
+            return (StatusCode::NOT_FOUND, "kein Detail vorhanden").into_response();
+        }
+        _ => return (StatusCode::INTERNAL_SERVER_ERROR, "DB-Fehler").into_response(),
+    };
+    Json(PointDetail {
+        identifier: id,
+        cluster,
+        cluster_title: st.data.title_of(cluster).to_string(),
+        summary,
+        original_source_link: link,
+    })
+    .into_response()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
