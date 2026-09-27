@@ -259,3 +259,7 @@ soll auch ein Walkthrough-Dokument entgeschrieben werden und in plan/2026.../wal
 abgelegt werden. Dieses soll zusammenfassen, was wirklich implementiert wurde, welche Stellen
 aufgrund der Tests oder wie auch immer gemacht wurden, als im Untergrund auch Learnings und mögliche
 Erweiterungen. liste auch die neuen programme die mit in den docker container aufgenommen werden sollten
+
+insbesondere in den walkthrough dokumenten musst du den leser abholen und mitnehmen. schreibe eine ordentliche
+  einfuehrung in das dokument. definiere scope des experiments, die methoden und am ende schreibe eine conclusion wie in einem richtigen
+  wissenschaftlichen paper oder technischen dokument
