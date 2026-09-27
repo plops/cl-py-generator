@@ -167,6 +167,8 @@ async fn karten_shell_ohne_volltext() {
     assert!(body.contains("id=\"karte\""));
     assert!(body.contains("Cluster-Karte"));
     assert!(body.contains("Methodik"));
+    assert!(body.contains("zeigeDetail"), "Detail-Logik fehlt in Shell!");
+    assert!(body.contains("URLSearchParams"), "Deep-Link (?point=) fehlt!");
     assert!(!body.contains(SECRET), "Volltext-Leak in Shell!");
 }
 

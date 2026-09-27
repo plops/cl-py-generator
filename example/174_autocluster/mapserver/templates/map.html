@@ -82,31 +82,51 @@ async function laden() {
       marker: cid === -1 ? { color: "#9aa0a6", size: 3 } : { size: 4 },
     };
   });
+  if (typeof Plotly === "undefined") {
+    hinweis.textContent = "Plotly-CDN nicht geladen — die Karte braucht Internet (cdn.plot.ly).";
+    hinweis.className = "fehler";
+    return;
+  }
   const gd = document.getElementById("karte");
   await Plotly.newPlot(gd, traces, { margin: { t: 10 }, showlegend: true }, { responsive: true });
   hinweis.hidden = true;
-  gd.on("plotly_click", async (ev) => {
-    const id = ev.points[0].customdata;
-    let d;
-    try {
-      const r = await fetch("/api/map/point/" + id);
-      if (!r.ok) throw new Error(r.status);
-      d = await r.json();
-    } catch (e) {
-      return;
-    }
-    document.getElementById("panel-titel").textContent = d.cluster_title + " — ID " + d.identifier;
-    document.getElementById("panel-meta").textContent = "Cluster " + d.cluster + " · ID " + d.identifier;
-    const hatLink = d.original_source_link && d.original_source_link.length > 0;
-    document.getElementById("panel-linkzeile").hidden = !hatLink;
-    document.getElementById("panel-kein-link").hidden = hatLink;
-    if (hatLink) document.getElementById("panel-link").href = d.original_source_link;
-    document.getElementById("panel-text").textContent =
-      d.summary && d.summary.length > 0 ? d.summary : "Keine Zusammenfassung vorhanden.";
-    const panel = document.getElementById("panel");
+  gd.on("plotly_click", (ev) => { zeigeDetail(ev.points[0].customdata); });
+  const start = new URLSearchParams(window.location.search).get("point");
+  if (start) zeigeDetail(start);
+}
+async function zeigeDetail(id) {
+  const panel = document.getElementById("panel");
+  const titel = document.getElementById("panel-titel");
+  const meta = document.getElementById("panel-meta");
+  const linkzeile = document.getElementById("panel-linkzeile");
+  const keinLink = document.getElementById("panel-kein-link");
+  const text = document.getElementById("panel-text");
+  let d;
+  try {
+    const r = await fetch("/api/map/point/" + id);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    d = await r.json();
+  } catch (e) {
+    console.error("Detail laden fehlgeschlagen:", e);
+    titel.textContent = "Fehler — ID " + id;
+    meta.textContent = "";
+    linkzeile.hidden = true;
+    keinLink.hidden = true;
+    text.textContent = "Details konnten nicht geladen werden (" + e.message + "). Läuft der Server?";
     panel.hidden = false;
     panel.focus();
-  });
+    return;
+  }
+  titel.textContent = d.cluster_title + " — ID " + d.identifier;
+  meta.textContent = "Cluster " + d.cluster + " · ID " + d.identifier;
+  const hatLink = d.original_source_link && d.original_source_link.length > 0;
+  linkzeile.hidden = !hatLink;
+  keinLink.hidden = hatLink;
+  if (hatLink) document.getElementById("panel-link").href = d.original_source_link;
+  text.textContent =
+    d.summary && d.summary.length > 0 ? d.summary : "Keine Zusammenfassung vorhanden.";
+  panel.hidden = false;
+  panel.focus();
 }
 function panelSchliessen() {
   document.getElementById("panel").hidden = true;
