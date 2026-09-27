@@ -1,0 +1,67 @@
+=== Jitter (Best-Config × 10 Seeds) ===
+akzeptiert: 10/10
+mean_adj=0.1315 std=0.0013 min=0.1299 max=0.1340
+clusters: {'min': 162.0, 'max': 177.0}  noise: {'min': 0.3376, 'max': 0.3819}
+=== Screening: 53 aggregierte Punkte ===
+R²=0.880 adj-R²=0.816 (n=53)
+--- ANOVA (Typ II, sortiert nach F) ---
+                                    sum_sq    df          F    PR(>F)
+min_cluster_size              3.207847e-05   1.0  12.065112  0.001421
+min_cluster_size:min_samples  2.441417e-05   1.0   9.182472  0.004646
+n_neighbors:min_cluster_size  1.476119e-05   1.0   5.551868  0.024365
+I(min_cluster_size ** 2)      5.278451e-06   1.0   1.985291  0.167915
+n_neighbors                   4.531084e-06   1.0   1.704197  0.200505
+I(n_neighbors ** 2)           4.427911e-06   1.0   1.665392  0.205584
+min_samples                   4.055341e-06   1.0   1.525264  0.225291
+d                             3.384410e-06   1.0   1.272919  0.267118
+n_neighbors:min_dist          3.108492e-06   1.0   1.169142  0.287187
+d:min_dist                    2.431013e-06   1.0   0.914334  0.345717
+min_dist:min_cluster_size     1.039306e-06   1.0   0.390896  0.536003
+I(d ** 2)                     9.416799e-07   1.0   0.354178  0.555698
+min_dist                      9.136274e-07   1.0   0.343627  0.561615
+d:min_samples                 7.974642e-07   1.0   0.299936  0.587500
+d:min_cluster_size            3.770952e-07   1.0   0.141830  0.708808
+n_neighbors:min_samples       1.606524e-07   1.0   0.060423  0.807306
+min_dist:min_samples          1.046123e-07   1.0   0.039346  0.843946
+d:n_neighbors                 1.019261e-07   1.0   0.038336  0.845936
+Residual                      9.039850e-05  34.0        NaN       NaN
+--- Top-5 nach S/N (robust) ---
+    run_id   d  n_neighbors  min_dist  min_cluster_size  min_samples  n_rep  mean_adj  std_adj  sn_ratio  mean_clusters  mean_noise  ari_stability
+11      12  11           45    0.0931                11            8      3    0.1343   0.0018  -17.4426       217.0000      0.3614         0.6635
+39      45   9           34    0.0819                13            5      3    0.1341   0.0006  -17.4505       245.0000      0.3053         0.6186
+41      47   6           22    0.1393                15           10      3    0.1335   0.0007  -17.4938       204.3333      0.3340         0.6955
+24      27  17           30    0.1572                12            8      3    0.1328   0.0022  -17.5386       228.6667      0.3438         0.6689
+28      32   7           33    0.0984                15            8      3    0.1322   0.0005  -17.5729       203.3333      0.3242         0.6832
+--- Top-5 nach Mittelwert (Peak) ---
+    run_id   d  n_neighbors  min_dist  min_cluster_size  min_samples  n_rep  mean_adj  std_adj  sn_ratio  mean_clusters  mean_noise  ari_stability
+11      12  11           45    0.0931                11            8      3    0.1343   0.0018  -17.4426       217.0000      0.3614         0.6635
+39      45   9           34    0.0819                13            5      3    0.1341   0.0006  -17.4505       245.0000      0.3053         0.6186
+41      47   6           22    0.1393                15           10      3    0.1335   0.0007  -17.4938       204.3333      0.3340         0.6955
+24      27  17           30    0.1572                12            8      3    0.1328   0.0022  -17.5386       228.6667      0.3438         0.6689
+7        7  14           26    0.0671                16           16      3    0.1322   0.0015  -17.5794       174.6667      0.3510         0.7315
+ROBUST-OPTIMUM (max S/N): {'run_id': 12.0, 'd': 11.0, 'n_neighbors': 45.0, 'min_dist': 0.0931, 'min_cluster_size': 11.0, 'min_samples': 8.0, 'n_rep': 3.0, 'mean_adj': 0.1343, 'std_adj': 0.0018, 'sn_ratio': -17.4426, 'mean_clusters': 217.0, 'mean_noise': 0.3614, 'ari_stability': 0.6635}
+PEAK-OPTIMUM (max mean): {'run_id': 12.0, 'd': 11.0, 'n_neighbors': 45.0, 'min_dist': 0.0931, 'min_cluster_size': 11.0, 'min_samples': 8.0, 'n_rep': 3.0, 'mean_adj': 0.1343, 'std_adj': 0.0018, 'sn_ratio': -17.4426, 'mean_clusters': 217.0, 'mean_noise': 0.3614, 'ari_stability': 0.6635}
+wrote /workspace/src/cl-py-generator/example/174_autocluster/doe/results/best_doe.json
+=== Breiten-Ablation auf Schnittmenge ===
+k         128     768     3072
+run_id                        
+0          NaN  0.1297  0.1276
+1       0.1144  0.1181  0.1190
+2       0.1148  0.1234  0.1258
+3       0.1148  0.1212  0.1211
+4          NaN  0.1302  0.1297
+6       0.1255  0.1298  0.1320
+7       0.1256  0.1263  0.1265
+8       0.1191  0.1251  0.1276
+9          NaN  0.1300  0.1311
+10         NaN  0.1049  0.1219
+11      0.1237  0.1245  0.1269
+--- Mittel über Design-Punkte ---
+          mean       std
+k                       
+128   0.119700  0.005179
+768   0.123927  0.007450
+3072  0.126291  0.004133
+=== DBSCAN-eps-Kalibrierung ===
+akzeptiert: 28/28
+bester DBSCAN: {'d': 4, 'eps': 0.2, 'accepted': True, 'n_clusters': 135, 'noise_ratio': 0.2425, 'silhouette': 0.1447, 'adjusted': 0.1096}

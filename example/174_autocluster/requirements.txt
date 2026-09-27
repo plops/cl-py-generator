@@ -5,3 +5,6 @@ scikit-learn==1.9.1
 pytest==9.1.1
 cuml-cu12==26.08.00
 cupy-cuda12x==14.2.0
+statsmodels==0.15.0
+patsy==1.0.3
+formulaic==1.2.2

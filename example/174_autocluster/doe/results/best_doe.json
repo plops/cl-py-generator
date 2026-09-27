@@ -1,0 +1,34 @@
+{
+  "peak_optimum": {
+    "ari_stability": 0.6635,
+    "d": 11.0,
+    "mean_adj": 0.1343,
+    "mean_clusters": 217.0,
+    "mean_noise": 0.3614,
+    "min_cluster_size": 11.0,
+    "min_dist": 0.0931,
+    "min_samples": 8.0,
+    "n_neighbors": 45.0,
+    "n_rep": 3.0,
+    "run_id": 12.0,
+    "sn_ratio": -17.4426,
+    "std_adj": 0.0018
+  },
+  "robust_optimum": {
+    "ari_stability": 0.6635,
+    "d": 11.0,
+    "mean_adj": 0.1343,
+    "mean_clusters": 217.0,
+    "mean_noise": 0.3614,
+    "min_cluster_size": 11.0,
+    "min_dist": 0.0931,
+    "min_samples": 8.0,
+    "n_neighbors": 45.0,
+    "n_rep": 3.0,
+    "run_id": 12.0,
+    "sn_ratio": -17.4426,
+    "std_adj": 0.0018
+  },
+  "rsquared": 0.8797089459299384,
+  "rsquared_adj": 0.8160254467163764
+}
