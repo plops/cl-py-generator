@@ -13,6 +13,7 @@ Stand 2026-09-27, verifiziert in `mapserver/Cargo.lock`).
 - `serde-rs/serde` — Serialisierung, Feature `derive`. Version `1.0.229`.
 - `serde-rs/json` — JSON-APIs. Version `1.0.151`.
 - `tokio-rs/tracing` — Logging (`tracing` `0.1.44` + `tracing-subscriber` `0.3.23`).
+- `dtolnay/anyhow` — Fehler-Propagierung mit Kontext. Version `1.0.104`.
 
 ## Neu eingeführt für mapserver
 
