@@ -85,12 +85,16 @@ netzfrei — sie prüfen APIs und HTML-Shell, kein Rendering.
 **Tests:** `cargo test` 12/12 grün (4 Unit, 8 Integration), Release-Build ok
 (Binary 6,3 MB). 5 Conventional Commits (Gerüst → Daten → API → UI → Abnahme).
 
-**Ehrliche Einschränkung:** Im Container gibt es keinen Browser (`chromium`
-fehlt) — das visuelle Protokoll (Hover grau sehen, Panel anklicken, toggeln,
-zoomen; `task.md` Schritt 8) muss der Mensch am eigenen Rechner nachholen:
-`cargo run`, dann `http://127.0.0.1:8080/map` öffnen (Karte braucht Internet
-fürs CDN). Stattdessen maschinell verifiziert: Shell-HTML (200, Div, Counts,
-kein Volltext), JS-Syntax (`node --check` ok), alle APIs + 429 live.
+**Nachtrag Browser-Verifikation (2026-09-27):** Per Chrome-Headless-Shell
+(154.0.8037.57, SwiftShader-WebGL) + CDP-Skript maschinell im echten Browser
+geprüft: Karte rendert in ~1,1 s (Legende da), echter Mausklick öffnet das
+Panel in ~0,2–0,3 s (Titel + Text + Link verifiziert), `?point=`-Deep-Link und
+Fehler-Panel (404) ok, keine JS-Fehler außer dem erwarteten Fehler-Log.
+Dabei gefunden und gefixt: Das Panel wurde per Flex-Layout am Viewport-Rand
+abgeschnitten (`fix(mapserver)`, fixe 360 px + `Plotly.Plots.resize`) — auf
+schmalen Fenstern sah das aus wie „gar kein Panel". Screenshots: `/tmp/shot-*.png`
+(im Container, nicht committet). Manuelles Nachklicken am eigenen Rechner
+(`task.md` Schritt 8) bleibt empfohlen, ist aber nicht mehr der einzige Beleg.
 
 ## 5. Conclusion
 

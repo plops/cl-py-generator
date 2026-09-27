@@ -11,9 +11,9 @@
   h1 { font-size: 1.4rem; margin-bottom: 0.2rem; }
   p.meta { margin-top: 0; color: #444; }
   .layout { display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
-  section.karte { flex: 3 1 600px; min-width: 0; }
+  section.karte { flex: 1 1 0; min-width: min(100%, 560px); }
   #karte { width: 100%; height: 640px; border: 1px solid #ccc; }
-  aside { flex: 1 1 300px; border: 1px solid #ccc; padding: 0.8rem; max-height: 640px; overflow: auto; }
+  aside { flex: 0 0 360px; max-width: 100%; border: 1px solid #ccc; padding: 0.8rem; max-height: 640px; overflow: auto; box-sizing: border-box; }
   aside h2 { font-size: 1.1rem; margin: 0.4rem 0; }
   aside pre { white-space: pre-wrap; font-family: inherit; font-size: 0.9rem; }
   aside[hidden] { display: none; }
@@ -114,6 +114,7 @@ async function zeigeDetail(id) {
     keinLink.hidden = true;
     text.textContent = "Details konnten nicht geladen werden (" + e.message + "). Läuft der Server?";
     panel.hidden = false;
+    karteSkalieren();
     panel.focus();
     return;
   }
@@ -126,10 +127,21 @@ async function zeigeDetail(id) {
   text.textContent =
     d.summary && d.summary.length > 0 ? d.summary : "Keine Zusammenfassung vorhanden.";
   panel.hidden = false;
+  karteSkalieren();
   panel.focus();
 }
 function panelSchliessen() {
   document.getElementById("panel").hidden = true;
+  karteSkalieren();
+}
+// Plotly nach Panel-Toggle auf die neue Breite bringen (rein kosmetisch;
+// darf die Panel-Anzeige nie verhindern).
+function karteSkalieren() {
+  try {
+    Plotly.Plots.resize(document.getElementById("karte"));
+  } catch (e) {
+    console.error("Plotly-Resize fehlgeschlagen:", e);
+  }
 }
 document.getElementById("panel-schliessen").addEventListener("click", panelSchliessen);
 document.addEventListener("keydown", (e) => {
