@@ -18,8 +18,8 @@ Stand 2026-09-27, verifiziert in `mapserver/Cargo.lock`).
 
 - `benwis/tower-governor` — Rate-Limit-Layer (nur Detail-Route). Version `0.8.0`
   (MIT OR Apache-2.0). Transitiv: `antifuchs/governor` `0.10.4`.
-- `rusqlite/rusqlite` — Sync-SQLite für Point-Lookups (Default-Features inkl.
-  gebundeltem SQLite, kein System-lib nötig). Version `0.40.2` (MIT).
+- `rusqlite/rusqlite` — Sync-SQLite für Point-Lookups, Feature `bundled`
+  (SQLite wird mitkompiliert, kein System-lib nötig). Version `0.40.2` (MIT).
 - `plotly/plotly.js` — Karten-Rendering (`scattergl`) via CDN, kein Build-Schritt
   (MIT; Pin + Byte-Größe s. Walkthrough, per curl verifiziert).
 
