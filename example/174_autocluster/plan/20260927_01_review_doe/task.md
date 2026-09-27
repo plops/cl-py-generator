@@ -73,7 +73,17 @@ committet. Modi: **IMPL** = Implementierung, **HOST** = Host-/CPU-Tests,
   (mind. 1 signifikanter Faktor erwartet: min_cluster_size/d).
 - Validierung: alle Checks bestanden, sonst zurück zu Task 6/7 (mehr Punkte).
 
-## Task 12 — DOCS: Walkthrough + Commit [offen]
+## Task 13 — GPU/FOLLOW-UP: Manifold-Fidelity (Trustworthiness, TwoNN, PCA) [fertig]
+
+- `doe/fidelity.py` + `doe/run_fidelity.py`: Trustworthiness-vs-d (cuML, k=5/10,
+  CPU-Orakel-Referenz), TwoNN-ID (mehrstufige Trims), PCA-Baseline (1024 Komp.).
+- `tests/test_fidelity.py`: 10 CPU-Tests (sklearn-Orakel <1e-9, ID-Recovery,
+  Trim-Stabilitaet als Regressionsfang für den F-Normierungs-Bug).
+- `doe/FIDELITY_de.md`: Bericht (Elbow ab d≈6, Kerne-ID ≈13, PCA-80 % = 273).
+- Validierung: `pytest tests/` 34/34 grün; GPU-Selbstcheck <5e-3 (Dubletten);
+  alle 3 Plots visuell verifiziert.
+
+## Task 12 — DOCS: Walkthrough + Commit [fertig]
 
 - `plan/20260927_01_review_doe/walkthrough.md` (DE): Einführung, Scope,
   Methode, Ergebnisse, Conclusion (Paper-Stil), Learnings, Erweiterungen,

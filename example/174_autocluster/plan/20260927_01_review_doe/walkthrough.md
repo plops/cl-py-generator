@@ -70,9 +70,11 @@ reproduzierbare Parameterwahl** — mit bekanntem Rausch­pegel (σ≈0,001),
 nachgewiesenen Interaktionseffekten und einem Optimum, das gleichzeitig
 Spitze und robust ist. Die wichtigste praktische Lehre: Wer UMAP+HDBSCAN
 tunt, sollte seine Zeit in `min_cluster_size`/`min_samples` stecken, nicht
-in die UMAP-Dimension. Die offene Flanke bleibt die Manifold-Fidelity
-(Trustworthiness-Elbow, TwoNN) sowie die Seed-Stabilität einzelner Themen
+in die UMAP-Dimension. Die offene Flanke bleibt die Seed-Stabilität einzelner Themen
 (ARI 0,62–0,78): gut genug für Exploration, zu prüfen vor Produktion.
+Die Manifold-Fidelity (Trustworthiness-Elbow, TwoNN) wurde am 2026-09-27 als
+Follow-up nachgeholt — siehe `doe/FIDELITY_de.md`: Elbow/Saettigung ab d≈6,
+TwoNN-Kerne ≈13 (DoE-Optimum d=11 bestaetigt), PCA-80 % bei 273 Komponenten.
 
 ## 5. Learnings & mögliche Erweiterungen
 
