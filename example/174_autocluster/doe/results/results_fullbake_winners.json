@@ -1,0 +1,176 @@
+{
+  "d08": {
+    "agglo": {
+      "accepted": true,
+      "adjusted": 0.059,
+      "ari_seeds": 0.7301,
+      "n_clusters": 225,
+      "noise_ratio": 0.0,
+      "param": {
+        "link": "ward",
+        "nc": 225
+      },
+      "silhouette": 0.059,
+      "stab_max": 0.059,
+      "stab_min": 0.015
+    },
+    "dbscan": {
+      "accepted": true,
+      "adjusted": 0.1067,
+      "ari_seeds": 0.8154,
+      "n_clusters": 101,
+      "noise_ratio": 0.3861,
+      "param": {
+        "eps": 0.2,
+        "ms": 25
+      },
+      "silhouette": 0.1737,
+      "stab_max": 0.1067,
+      "stab_min": 0.0993
+    },
+    "hdbscan": {
+      "accepted": true,
+      "adjusted": 0.1349,
+      "ari_seeds": 0.6059,
+      "n_clusters": 248,
+      "noise_ratio": 0.3244,
+      "param": {
+        "mcs": 11,
+        "ms": 5
+      },
+      "silhouette": 0.1997,
+      "stab_max": 0.1349,
+      "stab_min": 0.133
+    },
+    "leiden": {
+      "accepted": true,
+      "adjusted": 0.1121,
+      "ari_seeds": 0.7562,
+      "n_clusters": 119,
+      "noise_ratio": 0.0,
+      "param": {
+        "knn": 15,
+        "res": 3.0
+      },
+      "silhouette": 0.1121,
+      "stab_max": 0.1131,
+      "stab_min": 0.1111
+    }
+  },
+  "d11": {
+    "agglo": {
+      "accepted": true,
+      "adjusted": 0.116,
+      "ari_seeds": 0.7653,
+      "n_clusters": 75,
+      "noise_ratio": 0.0,
+      "param": {
+        "link": "ward",
+        "nc": 75
+      },
+      "silhouette": 0.116,
+      "stab_max": 0.116,
+      "stab_min": 0.028
+    },
+    "dbscan": {
+      "accepted": true,
+      "adjusted": 0.1052,
+      "ari_seeds": 0.795,
+      "n_clusters": 104,
+      "noise_ratio": 0.3856,
+      "param": {
+        "eps": 0.2,
+        "ms": 25
+      },
+      "silhouette": 0.1712,
+      "stab_max": 0.1052,
+      "stab_min": 0.094
+    },
+    "hdbscan": {
+      "accepted": true,
+      "adjusted": 0.1351,
+      "ari_seeds": 0.6155,
+      "n_clusters": 249,
+      "noise_ratio": 0.326,
+      "param": {
+        "mcs": 11,
+        "ms": 5
+      },
+      "silhouette": 0.2005,
+      "stab_max": 0.1351,
+      "stab_min": 0.1325
+    },
+    "leiden": {
+      "accepted": true,
+      "adjusted": 0.1124,
+      "ari_seeds": 0.7071,
+      "n_clusters": 81,
+      "noise_ratio": 0.0,
+      "param": {
+        "knn": 15,
+        "res": 1.5
+      },
+      "silhouette": 0.1124,
+      "stab_max": 0.1124,
+      "stab_min": 0.1103
+    }
+  },
+  "d16": {
+    "agglo": {
+      "accepted": true,
+      "adjusted": 0.1161,
+      "ari_seeds": 0.7821,
+      "n_clusters": 75,
+      "noise_ratio": 0.0,
+      "param": {
+        "link": "ward",
+        "nc": 75
+      },
+      "silhouette": 0.1161,
+      "stab_max": 0.1171,
+      "stab_min": 0.0271
+    },
+    "dbscan": {
+      "accepted": true,
+      "adjusted": 0.1071,
+      "ari_seeds": 0.7858,
+      "n_clusters": 108,
+      "noise_ratio": 0.3885,
+      "param": {
+        "eps": 0.2,
+        "ms": 25
+      },
+      "silhouette": 0.1752,
+      "stab_max": 0.1071,
+      "stab_min": 0.1025
+    },
+    "hdbscan": {
+      "accepted": true,
+      "adjusted": 0.1324,
+      "ari_seeds": 0.5851,
+      "n_clusters": 301,
+      "noise_ratio": 0.3211,
+      "param": {
+        "mcs": 8,
+        "ms": 5
+      },
+      "silhouette": 0.195,
+      "stab_max": 0.1351,
+      "stab_min": 0.1324
+    },
+    "leiden": {
+      "accepted": true,
+      "adjusted": 0.1132,
+      "ari_seeds": 0.7695,
+      "n_clusters": 113,
+      "noise_ratio": 0.0,
+      "param": {
+        "knn": 15,
+        "res": 3.0
+      },
+      "silhouette": 0.1132,
+      "stab_max": 0.1132,
+      "stab_min": 0.1121
+    }
+  }
+}

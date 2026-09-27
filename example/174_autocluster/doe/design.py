@@ -24,6 +24,16 @@ SEEDS = [42, 1337, 2026, 7, 99]
 # Breiten-Faktor (kategorial), stets auf der Schnittmenge evaluiert
 WIDTHS = [128, 768, 3072]
 
+# Erweiterte Bounds des Full-Sweeps (alle Raender offen, d ab 2, mcs bis 60)
+FULL_BOUNDS = {
+    "d": (2, 24, int),
+    "n_neighbors": (10, 80, int),
+    "min_dist": (0.0, 0.4, float),
+    "min_cluster_size": (5, 60, int),
+    "min_samples": (3, 30, int),
+}
+FULL_DESIGN_SEED = 20260927
+
 
 def generate_lhs_design(n_samples=48, seed=42):
     """Latin-Hypercube-Plan über den 5-D-Steuergrößenraum (DeepWiki-Verfahren).
@@ -41,6 +51,35 @@ def generate_lhs_design(n_samples=48, seed=42):
         cfg = {}
         for j, name in enumerate(PARAM_NAMES):
             typ = PARAM_BOUNDS[name][2]
+            cfg[name] = typ(np.round(row[j])) if typ is int else float(row[j])
+        design.append(cfg)
+    return design
+
+
+def generate_sobol_design(n_samples=128, seed=FULL_DESIGN_SEED,
+                          bounds=None):
+    """Sobol-Folge-Plan ueber den 5-D-Steuergrößenraum (erweiterbar).
+
+    n_samples muss eine Zweierpotenz sein (random_base2); scramble=True
+    randomisiert die deterministische Folge reproduzierbar per seed.
+    bounds: dict Name -> (lo, hi, typ), default FULL_BOUNDS.
+    """
+    bounds = bounds or FULL_BOUNDS
+    names = list(bounds.keys())
+    m = int(np.log2(n_samples))
+    if 2 ** m != n_samples:
+        raise ValueError("n_samples muss Zweierpotenz sein, war %r"
+                         % (n_samples,))
+    sampler = qmc.Sobol(d=len(names), scramble=True, seed=seed)
+    unit = sampler.random_base2(m=m)
+    lo = [bounds[p][0] for p in names]
+    hi = [bounds[p][1] for p in names]
+    scaled = qmc.scale(unit, lo, hi)
+    design = []
+    for row in scaled:
+        cfg = {}
+        for j, name in enumerate(names):
+            typ = bounds[name][2]
             cfg[name] = typ(np.round(row[j])) if typ is int else float(row[j])
         design.append(cfg)
     return design
@@ -107,6 +146,13 @@ def aggregate_point(cfgs_seed_rows):
 RESPONSE_FORMULA = (
     "mean_adj ~ (d + n_neighbors + min_dist + min_cluster_size + min_samples)**2"
     " + I(d**2) + I(n_neighbors**2) + I(min_cluster_size**2)"
+)
+
+# Full-Sweep: alle 5 quadratischen Terme (md²/ms²-Luecke aus Runde 1 zu)
+FULL_RESPONSE_FORMULA = (
+    "mean_adj ~ (d + n_neighbors + min_dist + min_cluster_size + min_samples)**2"
+    " + I(d**2) + I(n_neighbors**2) + I(min_dist**2)"
+    " + I(min_cluster_size**2) + I(min_samples**2)"
 )
 
 

@@ -10,8 +10,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), "doe"))
 
 from data import dedup_map, truncate_norm  # noqa: E402
-from design import (PARAM_BOUNDS, aggregate_point, generate_ccd_design,  # noqa: E402
-                    generate_lhs_design, pairwise_ari, rsm_argmax,
+from design import (FULL_BOUNDS, PARAM_BOUNDS, aggregate_point,  # noqa: E402
+                    generate_ccd_design, generate_lhs_design,
+                    generate_sobol_design, pairwise_ari, rsm_argmax,
                     taguchi_sn)
 
 
@@ -150,3 +151,50 @@ def test_response_surface_fits_synthetic():
     model, anova = fit_response_surface(df)
     assert 0.0 <= model.rsquared <= 1.0
     assert "F" in anova.columns and "PR(>F)" in anova.columns
+
+
+def test_sobol_respects_full_bounds_and_types():
+    d = generate_sobol_design(32, seed=20260927)
+    assert len(d) == 32
+    for cfg in d:
+        for name, (lo, hi, typ) in FULL_BOUNDS.items():
+            assert lo <= cfg[name] <= hi, (name, cfg[name])
+            assert isinstance(cfg[name], typ), (name, cfg[name])
+
+
+def test_sobol_reproducible_and_unique_rows():
+    a = generate_sobol_design(128, seed=20260927)
+    b = generate_sobol_design(128, seed=20260927)
+    assert a == b
+    rows = [tuple(sorted(c.items())) for c in a]
+    assert len(set(rows)) == 128  # keine exakten Duplikate nach Rundung
+
+
+def test_sobol_requires_power_of_two():
+    import pytest
+
+    with pytest.raises(ValueError):
+        generate_sobol_design(100)
+
+
+def test_full_formula_fits_synthetic():
+    import pandas as pd
+
+    from design import FULL_RESPONSE_FORMULA, fit_response_surface
+
+    rng = np.random.default_rng(3)
+    n = 60
+    df = pd.DataFrame({
+        "d": rng.integers(2, 25, n),
+        "n_neighbors": rng.integers(10, 81, n),
+        "min_dist": rng.uniform(0, 0.4, n),
+        "min_cluster_size": rng.integers(5, 61, n),
+        "min_samples": rng.integers(3, 31, n),
+    })
+    df["mean_adj"] = (0.1 + 0.001 * df["min_cluster_size"]
+                      - 0.0001 * df["min_samples"] ** 2
+                      + rng.normal(0, 0.005, n))
+    model, anova = fit_response_surface(df, formula=FULL_RESPONSE_FORMULA)
+    assert 0.0 <= model.rsquared <= 1.0
+    assert "I(min_dist ** 2)" in anova.index
+    assert "I(min_samples ** 2)" in anova.index
