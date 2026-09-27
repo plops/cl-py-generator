@@ -2,7 +2,7 @@ du laeufst in einem docker image mit ubuntu 26 auf einem linux
 host. falls dir pakete fehlen installiere sie. du arbeitest im
 auftrag von wol pumba (wolpumba@gmail.com)
 
-## Aufgabe: Interaktive UMAP-Clusterkarte als Route auf rocketrecap.com
+## Aufgabe: Map-Funktionalitaet in kleinem selbst-gehosteten Rust-Programm validieren
 
 In `cl-py-generator/example/174_autocluster` liegt ein fertiges,
 wissenschaftlich validiertes Clustering von 16.692 YouTube-Summaries
@@ -14,56 +14,60 @@ aber ungenuegend: Noise-Punkte (grau) haben keine Infos, und man kann
 keinen Punkt anklicken, um die Zusammenfassung zu lesen und dem
 Video-Link zu folgen.
 
-Deine Aufgabe: Baue daraus eine echte oeffentiche Route auf
-rocketrecap.com, z.B. `GET /map`, mit (1) Hover-Infos fuer ALLE Punkte
-inklusive Noise (grau), (2) Klick auf einen Punkt oeffnet ein Panel mit
-der VOLLEN Zusammenfassung plus klickbarem Original-Link, (3) Legende
-mit Cluster-Filtern, Zoom/Pan, (4) Herkunfts-Fusszeile (Methode, Parameter,
-Datum, N). Die UI-Sprache ist Deutsch (Titel sind deutsch), das Styling
-folgt dem Rest der Seite (pico.css, htmx bereits vorhanden).
+Deine Aufgabe: Baue ein KLEINES, SELBST-GEHOSTETES Rust-Programm
+(Vorschlag: `example/174_autocluster/mapserver/` als eigenes Cargo-Projekt),
+das die Karten-Funktionalitaet bereitstellt und sich HIER im Docker-Image
+testen laesst: (1) Hover-Infos fuer ALLE Punkte inklusive Noise (grau),
+(2) Klick auf einen Punkt oeffnet ein Panel mit der VOLLEN Zusammenfassung
+plus klickbarem Original-Link, (3) Legende mit Cluster-Filtern, Zoom/Pan,
+(4) Herkunfts-Fusszeile (Methode, Parameter, Datum, N). Die UI-Sprache ist
+Deutsch (Titel sind deutsch), das Styling orientiert sich an pico.css/htmx
+(s. Referenz unten), damit eine spaetere Uebernahme leicht faellt.
+
+ENTSCHEIDUNG (User, 2026-09-27, verbindlich): `rs-summarizer` wird NICHT
+geaendert — das Risiko am Produktivprogramm ist zu hoch. Erst validieren
+wir die Funktionalitaet standalone; spaeter reduzieren wir sie auf das
+minimal Notwendige und ueberlegen eine Uebernahme. Beides ist in DIESEM
+Prompt OUT OF SCOPE (kein rs-summarizer-Write, keine Server-/nginx-Arbeit).
 
 ## Stand der Technik (verifiziert, nicht raten)
 
 - rocketrecap.com laeuft auf Rust **Axum** in `/workspace/src/rs-summarizer`
   (`src/main.rs`: `PORT` default **5001**, `axum::serve`). Der
   nginx-Kommentar ueber "fasthtml/uvicorn" ist VERALTET — es gibt kein
-  Python-Webapp mehr im Workspace (verifiziert per Suche).
-- Aktive nginx-Config: `example/174_autocluster/plan/nginx.conf`:
-  `location /` proxyt auf `127.0.0.1:5001` (gzip aktiv, inkl. JSON/JS),
-  `/exports/` ist ein statischer Alias (Legacy, unangetastet lassen —
-  die alte Karte unter `/exports/clusters.html` bleibt bis zu einer
-  separaten Cutover-Entscheidung erreichbar, ausserhalb deines Scopes).
+  Python-Webapp mehr im Workspace (verifiziert per Suche). Fuer dich ist
+  rs-summarizer reine REFERENZ (read-only!): Architektur-/Stil-Vorbild
+  (`src/main.rs`, `src/routes/mod.rs`, `templates/`, `static/` mit
+  htmx/pico) und DeepWiki-Quelle. Nichts dort aendern, nichts deployen.
+- Referenz-nginx-Config (nur zum Verstaendnis, NICHT anfassen):
+  `example/174_autocluster/plan/nginx.conf` (`/` → :5001, gzip aktiv,
+  `/exports/` statischer Legacy-Alias).
 - Fertige, committe Eingabedaten in `example/174_autocluster/`:
   `plots/coords_phaseb_2d.csv` (identifier,x,y — 16.692 Zeilen, inkl. Noise),
   `plots/labels_phaseb.csv` (identifier,cluster), `cluster_titles_phaseb.json`
   (219 Titel + Member-Signaturen, Format s. `doe/TITLING_de.md`).
-  Volltexte + Links bleiben in der DB (`summaries`).
-- Rs-summarizer-Quellen galten bisher als read-only. **Dieses Prompt erteilt
-  eine begrenzte Ausnahme**, nur fuer: neues Routen-Modul + Registrierung in
-  `src/routes/`, `templates/map.html` (+JS), Migration + Importer fuer die
-  Kartendaten, Tests, Cargo-Deps. Alles andere (insb. restliches Schema,
-  Summarizer-Logik) bleibt read-only; Produktiv-DBs werden nie beschrieben
-  ausser per reviewed Migration.
+  Volltexte + Links: `summaries_compact_20260924.db` (Tabelle `summaries`,
+  Spalten `summary`, `original_source_link`) — **stets read-only oeffnen**
+  (`mode=ro`), wie in `loader.py`/`ENV.md`.
 
 ## Empfehlung (begruendet, du darfst mit Begruendung abweichen)
 
-- **Route in Axum** (`/map` + 2 JSON-APIs, s.u.): kein neuer Service, kein
-  neuer Port, keine nginx-Aenderung, Rust wie gewuenscht. Separater
-  Microservice (neuer Port + nginx-Location) ist overkill bei gleichem
-  Schutzniveau; statischer Export (eine HTML mit allen Volltexten) ist als
-  Produktion **abgelehnt** (trivial klau­bar, s. Anti-Scraping).
+- **Eigenes Axum-Binary** (`mapserver/`, Port per ENV, default 127.0.0.1:8080
+  fuers lokale Testen): Route `GET /map` (Seite) + `GET /api/map/points`
+  (identifier,x,y,cluster; Titel einmalig via `GET /api/map/clusters`:
+  id,Titel,Groesse) + `GET /api/map/point/{id}` (EIN Volltext + Link +
+  Titel). Daten beim Start laden (CSVs/JSON + read-only DB-Handle); keine
+  Migration noetig (spaetere rs-summarizer-Uebernahme entscheidet das neu).
 - **Anti-Scraping durch Daten-Design, nicht durch Sprache:** Weder Seite noch
   Bulk-API duerfen je Volltexte enthalten (auch keine Hover-Excerpts —
-  16.692 × 220 Zeichen WAERE das Korpus!). Konkret: `GET /api/map/points`
-  liefert nur identifier,x,y,cluster (Titel einmalig via
-  `GET /api/map/clusters`: id,Titel,Groesse); `GET /api/map/point/{id}`
-  liefert EINEN Volltext + Link + Titel, **rategelimited** (Richtwert:
-  60/min/IP, Crate nach Wahl, neueste Version). Kein Endpunkt liefert je
-  mehr als einen Summary-Text. Tests muessen das beweisen (s.u.).
-- **Speicherung:** empfohlen neue Tabelle(n) per Migration
-  (z.B. `map_points(identifier PK, x, y, cluster)` + `map_titles`) plus
-  Importer aus den CSVs/JSON oben — eine DB als einzige Quelle, Volltexte
-  per JOIN. Fallback (nur mit Begruendung): statische JSON-Dateien im Repo.
+  16.692 × 220 Zeichen WAERE das Korpus!). Volltext nur einzeln pro Klick,
+  **rategelimited** (Richtwert: 60/min/IP, Crate nach Wahl, neueste Version).
+  Kein Endpunkt liefert je mehr als einen Summary-Text. Tests muessen das
+  beweisen (s.u.).
+- **Karten-Rendering:** Scattergl/Canvas-Bibliothek nach Wahl (Plotly o.ae.);
+  CDN ist fuer den oeffentlichen Betrieb okay, aber Tests duerfen kein
+  Internet brauchen (APIs + HTML-Shell testen, kein Rendering). Grösse und
+  Lizenz der Wahl dokumentieren.
 
 ## Requirements (verbindlich)
 
@@ -73,64 +77,72 @@ folgt dem Rest der Seite (pico.css, htmx bereits vorhanden).
    `original_source_link` (falls vorhanden), Cluster-Titel, Identifier.
 3. Legende: alle 219 Titel + Groessen, Cluster ein-/ausblendbar, Noise
    toggelbar (default: sichtbar, grau).
-4. Zoom/Pan, 16.692 Punkte fluessig (Scattergl/Canvas; Bibliothek nach Wahl,
-   Grösse/Lizenz dokumentieren).
+4. Zoom/Pan, 16.692 Punkte fluessig.
 5. Fusszeile: Methode/Parameter/Datum/N + Link auf Methodik (Walkthrough).
-6. Site-Styling (pico.css) wiederverwenden; Seite muss sich wie rocketrecap
-   anfuehlen, nicht wie ein Fremdkoerper.
-7. Performance: Punkte-API < 500 ms, Seite < 2 s (hinter nginx-gzip).
+6. Styling angelehnt an pico.css/htmx ( spaetere Uebernahme!), Deutsch.
+7. Performance: Punkte-API < 500 ms, Seite < 2 s (lokal, ohne gzip).
 8. Kein Bulk-Text-Endpunkt (s. Empfehlung); Rate-Limit auf Detail-API.
-9. Optional (markieren, nur wenn Zeit): Deep-Links (?cluster=&point=),
-   Titelsuche, Noise-Default-Aus-Toggle.
+9. Programm startet per `cargo run` (ENV: PORT, DB-Pfad, Daten-Pfade mit
+   sinnvollen Defaults) und ist im Container per curl testbar.
+10. Optional (markieren, nur wenn Zeit): Deep-Links (?cluster=&point=),
+    Titelsuche, Konfigurationsdatei statt nur ENV.
 
 Habe ich alle Requirements aufgelistet, die wichtig sind, oder kannst du dir
 vorstellen, dass noch andere Dinge noetig werden (Accessibility, Mobile,
-SEO, Caching-Header, Abuse-Monitoring)? Liste Luecken und Vorschlaege im Plan.
+Caching-Header, Logging, Health-Check `/healthz`)? Liste Luecken und
+Vorschlaege im Plan.
 
 ## Arbeitsweise (verbindlich, Hausstandard)
 
 Schaue dir den Quellcode an und die Architektur dieser Software. Nutze
 deepwiki mcp fuer plops/rs-summarizer um dokumentation zu bekommen und
-fragen beantworten zu lassen. Falls Abhaengigkeiten eingefuehrt werden
-sind diese mitsamt ihrer github organisation in deps.md aufzuschreiben
-(z.B. tokio/tokio, tower-rs/tower-http), neueste Version nehmen, und schon
-vorab usage examples in den plan aufzunehmen (mit deepwiki mcp zu erfragen).
+fragen beantworten zu lassen (read-only Referenz!). Falls Abhaengigkeiten
+eingefuehrt werden sind diese mitsamt ihrer github organisation in deps.md
+aufzuschreiben (z.B. tokio/tokio, tower-rs/tower-http), neueste Version
+nehmen (cargo update auf Maximum, auch bei Warnungen), und schon vorab
+usage examples in den plan aufzunehmen (mit deepwiki mcp zu erfragen).
 
 Schlage vor, wie wir dieses Feature implementieren koennen (schreibe deinen
-Code in /workspace/src/rs-summarizer im o.g. Scope; neue Tests dito).
-Schreibe einen deutschen Implementierungsplan. Dieser soll einen unabhaengigen
-AI-Agenten dazu befaehigen, selbststaendig einen Kontext aufzubauen (Liste von
-Dateien mit kurzer Beschreibung je Datei, inkl. rs-summarizer main.rs,
-routes/mod.rs, db.rs, templates/, Cargo.toml, migrations/, nginx.conf und den
-174_autocluster-Artefakten + Walkthroughs). Gern mit Architekturdiagrammen als
-ascii oder mermaid. Der Plan enthaelt die Commit-Message-Konvention:
-Conventional Commits mit umfassender Beschreibung (Was/Warum/Validierung).
+Code als neues Cargo-Projekt unter `example/174_autocluster/mapserver/`;
+NICHTS in /workspace/src/rs-summarizer aendern — bei jedem Zweifel fragst
+du, statt dort zu schreiben). Schreibe einen deutschen Implementierungsplan.
+Dieser soll einen unabhaengigen AI-Agenten dazu befaehigen, selbststaendig
+einen Kontext aufzubauen (Liste von Dateien mit kurzer Beschreibung je Datei,
+inkl. rs-summarizer main.rs, routes/mod.rs, db.rs, templates/, Cargo.toml
+(Referenz!), nginx.conf (Referenz!), und den 174_autocluster-Artefakten +
+Walkthroughs). Gern mit Architekturdiagrammen als ascii oder mermaid. Der Plan
+enthaelt die Commit-Message-Konvention: Conventional Commits mit umfassender
+Beschreibung (Was/Warum/Validierung).
 
-Pflicht-Leseliste (mindestens): `src/main.rs` (Port/Serve),
-`src/routes/mod.rs`, `src/db.rs`, `templates/index.html` + `static/`,
-`Cargo.toml`, `migrations/`, `example/174_autocluster/plan/nginx.conf`,
+Pflicht-Leseliste (mindestens): `/workspace/src/rs-summarizer/src/main.rs`
+(Port/Serve-Muster), `.../src/routes/mod.rs`, `.../src/db.rs`,
+`.../templates/index.html` + `.../static/` (Look),
+`example/174_autocluster/plan/nginx.conf` (Referenz!),
 `example/174_autocluster/plan/20260927_01_review_doe/walkthrough.md`
 (Abschnitt 8), `example/174_autocluster/doe/TITLING_de.md`,
-`example/174_autocluster/doe/PHASEB_de.md`.
+`example/174_autocluster/doe/PHASEB_de.md`,
+`example/174_autocluster/ENV.md` (DB-Regeln!).
 
 Neue Unit-Tests und Integration-Tests wie erforderlich, EINFUEHREN UND
-AUSFUEHREN — mindestens: Route 200 + Karten-Div; Punkte-API liefert 16.692
-Punkte OHNE jegliches Textfeld (Anti-Scraping-Assertion!); Detail-API liefert
-Volltext+Link bei bekannter ID, 404 bei unbekannter; Rate-Limit greift
-(mit testweise niedrigem Limit); Cluster-/Titel-/Count-Konsistenz (219 + Noise).
+AUSFUEHREN (`cargo test` + Live-Smoke gegen laufenden Server auf 127.0.0.1) —
+mindestens: Route 200 + Karten-Div; Punkte-API liefert 16.692 Punkte OHNE
+jegliches Textfeld (Anti-Scraping-Assertion!); Detail-API liefert Volltext+Link
+bei bekannter ID, 404 bei unbekannter; Rate-Limit greift (mit testweise
+niedrigem Limit); Cluster-/Titel-/Count-Konsistenz (219 + Noise).
 
 Schreibe task.md wo du die implementierungs und test schritte aufeinander
-abfolgen laesst (inkl. Daten-Import/Migration und manueller Browser-Abnahme:
-Hover grau, Klick-Panel, Link klickbar, Filter, Zoom), so dass ein agent die
-tasks seriell abarbeiten kann und jeder schritt getestet und validiert wird.
+abfolgen laesst (inkl. manuellem Browser-/curl-Abnahmeprotokoll: Hover grau,
+Klick-Panel, Link klickbar, Filter, Zoom, Rate-Limit per curl-Schleife), so
+dass ein agent die tasks seriell abarbeiten kann und jeder schritt getestet
+und validiert wird.
 
 Committe gelegentlich (Conventional Commits). Nach der vollstaendigen
 Implementierung, wenn alle Tests abgeschlossen sind und alles committed ist,
-schreibe ein Walkthrough-Dokument auf deutsch in plan/20260927_02_webmap_route/
-(im rs-summarizer-Repo-Teil des Plans? NEIN — hier in
-example/174_autocluster/plan/20260927_02_webmap_route/walkthrough.md, da der
-Auftrag von hier kommt; Code liegt in rs-summarizer). Mit ordentlicher
-Einfuehrung (Leser abholen!), Scope, Methoden, Ergebnissen, Conclusion wie in
-einem technischen Dokument, Learnings, moeglichen Erweiterungen und den neuen
-Programmen/Crates fuer den Docker-Container. Liste auch, was NICHT umgesetzt
-wurde (optionale Requirements) und warum.
+schreibe ein Walkthrough-Dokument auf deutsch in
+example/174_autocluster/plan/20260927_02_webmap_route/walkthrough.md.
+Mit ordentlicher Einfuehrung (Leser abholen!), Scope, Methoden, Ergebnissen,
+Conclusion wie in einem technischen Dokument, Learnings, moeglichen
+Erweiterungen und den neuen Programmen/Crates fuer den Docker-Container.
+Liste auch, was NICHT umgesetzt wurde (optionale Requirements) und warum —
+sowie eine Einschaetzung, welche Teile spaeter minimal-invasiv nach
+rs-summarizer uebernehmbar waeren (die Uebernahme selbst bleibt out of scope).
