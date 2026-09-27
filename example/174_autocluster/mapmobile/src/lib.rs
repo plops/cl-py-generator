@@ -283,7 +283,9 @@ use axum::{
     routing::get,
 };
 use std::sync::Arc;
-use tower_governor::{GovernorLayer, governor::GovernorConfigBuilder};
+use tower_governor::{
+    GovernorLayer, governor::GovernorConfigBuilder, key_extractor::SmartIpKeyExtractor,
+};
 
 #[derive(Debug, Clone)]
 pub struct AppState {
@@ -297,9 +299,13 @@ pub struct AppState {
 /// einzige Volltext); Bulk-Routen brauchen keines, weil sie nie Text liefern.
 pub fn build_router(state: AppState, detail_per_min: u32) -> Router {
     let (per_sec, burst) = quota_for_detail(detail_per_min);
+    // SmartIp: hinter nginx kämen alle Requests von 127.0.0.1 — das Limit wäre
+    // global statt pro Nutzer. SmartIp nimmt X-Forwarded-For (setzt nginx),
+    // fällt ohne Proxy-Header auf die Peer-IP zurück (Tests, Direktzugriff).
     let detail_conf = GovernorConfigBuilder::default()
         .per_second(per_sec)
         .burst_size(burst)
+        .key_extractor(SmartIpKeyExtractor)
         .finish()
         .expect("Governor-Quota ungültig");
     let limited = Router::new()

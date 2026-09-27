@@ -1,0 +1,29 @@
+[Unit]
+Description=mapmobile Cluster-Karte (Axum, localhost:8080)
+After=network.target
+
+[Service]
+Type=simple
+User=kiel
+Group=kiel
+WorkingDirectory=/home/kiel/mapdeploy
+Environment=HOST=127.0.0.1
+Environment=PORT=8080
+Environment=MAP_DB=/home/kiel/host/data/summaries.db
+Environment=MAP_COORDS=/home/kiel/mapdeploy/data/coords_phaseb_2d.csv
+Environment=MAP_LABELS=/home/kiel/mapdeploy/data/labels_phaseb.csv
+Environment=MAP_TITLES=/home/kiel/mapdeploy/data/cluster_titles_phaseb.json
+Environment=MAP_DETAIL_PER_MIN=60
+ExecStart=/home/kiel/mapdeploy/bin/mapmobile
+Restart=on-failure
+RestartSec=5
+# Haertung: die App liest nur (DB read-only, CSVs read-only),
+# Logs gehen ins Journal. Falls der Start klemmt, diese vier
+# Zeilen zum Testen auskommentieren.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target
