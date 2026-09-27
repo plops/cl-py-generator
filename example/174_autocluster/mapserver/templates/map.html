@@ -112,7 +112,7 @@ async function zeigeDetail(id) {
     meta.textContent = "";
     linkzeile.hidden = true;
     keinLink.hidden = true;
-    text.textContent = "Details konnten nicht geladen werden (" + e.message + "). Läuft der Server?";
+    text.textContent = "Details konnten nicht geladen werden (" + e.message + "). " + fehlerHinweis(e.message);
     panel.hidden = false;
     karteSkalieren();
     panel.focus();
@@ -129,6 +129,11 @@ async function zeigeDetail(id) {
   panel.hidden = false;
   karteSkalieren();
   panel.focus();
+}
+function fehlerHinweis(msg) {
+  if (msg.indexOf("429") !== -1) return "Zu viele Anfragen — bitte kurz warten und erneut klicken.";
+  if (msg.indexOf("404") !== -1) return "Für diesen Punkt ist kein Detail vorhanden.";
+  return "Serverfehler — bitte Server-Log prüfen (stimmt der DB-Pfad MAP_DB?).";
 }
 function panelSchliessen() {
   document.getElementById("panel").hidden = true;

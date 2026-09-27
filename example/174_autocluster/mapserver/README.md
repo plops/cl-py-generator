@@ -33,5 +33,15 @@ Plotly-CDN; alle Tests laufen netzfrei).
 ## Tests
 
 ```sh
-cargo test   # 4 Unit- + 8 Integration-Tests (Fixture-Server, inkl. 429-Nachweis)
+cargo test   # 5 Unit- + 10 Integration-Tests (Fixture-Server, inkl. 429-Nachweis)
 ```
+
+## Fehlerbehebung
+
+- Panel zeigt „Serverfehler (DB-Pfad…)": Die DB-Datei fehlt oder ist unlesbar
+  (366 MB, gehört nach `example/174_autocluster/`). Beim Start steht eine
+  `WARN`-Zeile im Server-Log; `/healthz` zeigt `"db_ok": false`. Pfad oder
+  `MAP_DB` korrigieren und Server neu starten.
+- Leere Karte / „Fehler beim Laden": CSVs/JSON-Pfade prüfen
+  (`MAP_COORDS`/`MAP_LABELS`/`MAP_TITLES`); `cargo run` aus `mapserver/` starten.
+- „Zu viele Anfragen": Detail-Limit erreicht — kurz warten.

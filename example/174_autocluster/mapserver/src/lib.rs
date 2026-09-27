@@ -164,10 +164,28 @@ pub fn load_app_data(
     labels_path: &Path,
     titles_path: &Path,
 ) -> anyhow::Result<AppData> {
-    let coords = parse_coords(&std::fs::read_to_string(coords_path)?)?;
-    let labels = parse_labels(&std::fs::read_to_string(labels_path)?)?;
-    let titles = parse_titles(&std::fs::read_to_string(titles_path)?)?;
+    let read = |p: &Path, what: &str| {
+        std::fs::read_to_string(p)
+            .map_err(|e| anyhow::anyhow!("{what} {}: {e}", p.display()))
+    };
+    let coords = parse_coords(&read(coords_path, "Koordinaten")?)?;
+    let labels = parse_labels(&read(labels_path, "Labels")?)?;
+    let titles = parse_titles(&read(titles_path, "Titel")?)?;
     join(coords, &labels, &titles)
+}
+
+/// Startup-Check: DB-Datei lesbar + `summaries`-Tabelle vorhanden?
+/// Liefert die Zeilenzahl (für Log + `/healthz`).
+pub fn check_db(db_path: &Path) -> anyhow::Result<u64> {
+    let conn = rusqlite::Connection::open_with_flags(
+        db_path,
+        rusqlite::OpenFlags::SQLITE_OPEN_READ_ONLY,
+    )
+    .map_err(|e| anyhow::anyhow!("{}: {e}", db_path.display()))?;
+    let n: i64 = conn
+        .query_row("SELECT COUNT(*) FROM summaries", [], |r| r.get(0))
+        .map_err(|e| anyhow::anyhow!("Tabelle summaries unlesbar: {e}"))?;
+    Ok(n.max(0) as u64)
 }
 
 fn join(
@@ -271,6 +289,8 @@ use tower_governor::{GovernorLayer, governor::GovernorConfigBuilder};
 pub struct AppState {
     pub data: Arc<AppData>,
     pub db_path: PathBuf,
+    pub db_ok: bool,
+    pub db_rows: u64,
 }
 
 /// Router bauen. Das Rate-Limit hängt NUR an der Detail-Route (dort liegt der
@@ -335,6 +355,8 @@ async fn health(State(st): State<AppState>) -> impl IntoResponse {
         "status": "ok",
         "points": st.data.points.len(),
         "clusters": st.data.clusters.len(),
+        "db_ok": st.db_ok,
+        "db_rows": st.db_rows,
     }))
 }
 
@@ -368,7 +390,14 @@ async fn point_detail(State(st): State<AppState>, UrlPath(id): UrlPath<i64>) -> 
         Ok(Ok(None)) => {
             return (StatusCode::NOT_FOUND, "kein Detail vorhanden").into_response();
         }
-        _ => return (StatusCode::INTERNAL_SERVER_ERROR, "DB-Fehler").into_response(),
+        Ok(Err(e)) => {
+            tracing::error!(db = %st.db_path.display(), "Detail-DB-Fehler: {e}");
+            return (StatusCode::INTERNAL_SERVER_ERROR, "DB-Fehler").into_response();
+        }
+        Err(e) => {
+            tracing::error!("Detail-Task abgebrochen: {e}");
+            return (StatusCode::INTERNAL_SERVER_ERROR, "DB-Fehler").into_response();
+        }
     };
     Json(PointDetail {
         identifier: id,
@@ -429,6 +458,23 @@ mod tests {
         )
         .unwrap_err();
         assert!(err.to_string().contains("ID-Mengen"));
+    }
+
+    #[test]
+    fn check_db_ok_und_fehlt() {
+        let tmp = tempfile::tempdir().unwrap();
+        let db = tmp.path().join("fix.db");
+        let conn = rusqlite::Connection::open(&db).unwrap();
+        conn.execute(
+            "CREATE TABLE summaries(identifier INTEGER PRIMARY KEY, summary TEXT, original_source_link TEXT)",
+            [],
+        )
+        .unwrap();
+        conn.execute("INSERT INTO summaries VALUES (1, 'a', 'b')", [])
+            .unwrap();
+        drop(conn);
+        assert_eq!(check_db(&db).unwrap(), 1);
+        assert!(check_db(&tmp.path().join("fehlt.db")).is_err());
     }
 
     #[test]

@@ -4,7 +4,7 @@
 use std::net::SocketAddr;
 use std::sync::Arc;
 
-use mapserver::{AppState, build_router, load_app_data};
+use mapserver::{AppState, build_router, check_db, load_app_data};
 
 const COORDS: &str = "identifier,x,y\n1 1.0 2.0\n2 3.0 4.0\n3 5.0 6.0\n4 7.0 8.0\n";
 const LABELS: &str = "identifier,cluster\n1 -1\n2 0\n3 0\n4 1\n";
@@ -36,7 +36,12 @@ fn write_fixtures(dir: &std::path::Path) {
 }
 
 /// Fixture-Server starten; TempDir-Guard am Leben halten (DB-Datei).
+/// `with_db=false` simuliert fehlende DB (db_ok=false, Detail → 500).
 async fn spawn_server(per_min: u32) -> (u16, tempfile::TempDir) {
+    spawn_server_with(per_min, true).await
+}
+
+async fn spawn_server_with(per_min: u32, with_db: bool) -> (u16, tempfile::TempDir) {
     let tmp = tempfile::tempdir().unwrap();
     write_fixtures(tmp.path());
     let data = load_app_data(
@@ -45,9 +50,16 @@ async fn spawn_server(per_min: u32) -> (u16, tempfile::TempDir) {
         &tmp.path().join("titles.json"),
     )
     .unwrap();
+    let db_path = tmp.path().join(if with_db { "fix.db" } else { "fehlt.db" });
+    let (db_ok, db_rows) = match check_db(&db_path) {
+        Ok(n) => (true, n),
+        Err(_) => (false, 0),
+    };
     let state = AppState {
         data: Arc::new(data),
-        db_path: tmp.path().join("fix.db"),
+        db_path,
+        db_ok,
+        db_rows,
     };
     let app = build_router(state, per_min);
     let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
@@ -100,6 +112,24 @@ async fn health_meldet_counts() {
     assert_eq!(v["status"], "ok");
     assert_eq!(v["points"], 4);
     assert_eq!(v["clusters"], 2);
+    assert_eq!(v["db_ok"], true);
+    assert_eq!(v["db_rows"], 4);
+}
+
+#[tokio::test]
+async fn health_meldet_fehlende_db() {
+    let (port, _tmp) = spawn_server_with(60, false).await;
+    let (status, _, body) = get(port, "/healthz").await;
+    assert_eq!(status, 200);
+    let v: serde_json::Value = serde_json::from_str(&body).unwrap();
+    assert_eq!(v["db_ok"], false);
+}
+
+#[tokio::test]
+async fn detail_api_500_ohne_db() {
+    let (port, _tmp) = spawn_server_with(60, false).await;
+    let (status, _, _) = get(port, "/api/map/point/2").await;
+    assert_eq!(status, 500);
 }
 
 #[tokio::test]
