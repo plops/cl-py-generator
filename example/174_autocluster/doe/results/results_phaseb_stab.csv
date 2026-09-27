@@ -1,0 +1,13 @@
+method,seed,accepted,n_clusters,noise_ratio,silhouette,adjusted
+agglo,42,True,150,0.0,0.0308,0.0308
+agglo,1337,True,150,0.0,0.0276,0.0276
+agglo,2026,True,150,0.0,0.0282,0.0282
+dbscan,42,True,106,0.3837,0.1692,0.1042
+dbscan,1337,True,105,0.3909,0.1601,0.0975
+dbscan,2026,True,98,0.3911,0.1644,0.1001
+hdbscan,42,True,219,0.3592,0.2081,0.1333
+hdbscan,1337,True,220,0.3717,0.2141,0.1345
+hdbscan,2026,True,229,0.3727,0.2128,0.1335
+leiden,42,True,138,0.0,0.115,0.115
+leiden,1337,True,140,0.0,0.0557,0.0557
+leiden,2026,True,135,0.0,0.0654,0.0654

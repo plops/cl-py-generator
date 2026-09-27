@@ -1,0 +1,22 @@
+{
+  "agglo": {
+    "ari_seeds": 0.7542,
+    "mean_adj": 0.0288,
+    "std_adj": 0.0014
+  },
+  "dbscan": {
+    "ari_seeds": 0.7986,
+    "mean_adj": 0.1006,
+    "std_adj": 0.0028
+  },
+  "hdbscan": {
+    "ari_seeds": 0.6739,
+    "mean_adj": 0.1338,
+    "std_adj": 0.0005
+  },
+  "leiden": {
+    "ari_seeds": 0.6984,
+    "mean_adj": 0.0787,
+    "std_adj": 0.026
+  }
+}

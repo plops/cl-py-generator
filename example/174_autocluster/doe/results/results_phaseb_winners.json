@@ -1,0 +1,46 @@
+{
+  "agglo": {
+    "accepted": true,
+    "adjusted": 0.0308,
+    "n_clusters": 150,
+    "noise_ratio": 0.0,
+    "param": {
+      "link": "ward",
+      "nc": 150
+    },
+    "silhouette": 0.0308
+  },
+  "dbscan": {
+    "accepted": true,
+    "adjusted": 0.1042,
+    "n_clusters": 106,
+    "noise_ratio": 0.3837,
+    "param": {
+      "eps": 0.2,
+      "ms": 25
+    },
+    "silhouette": 0.1692
+  },
+  "hdbscan": {
+    "accepted": true,
+    "adjusted": 0.1333,
+    "n_clusters": 219,
+    "noise_ratio": 0.3592,
+    "param": {
+      "mcs": 11,
+      "ms": 8
+    },
+    "silhouette": 0.2081
+  },
+  "leiden": {
+    "accepted": true,
+    "adjusted": 0.115,
+    "n_clusters": 138,
+    "noise_ratio": 0.0,
+    "param": {
+      "knn": 15,
+      "res": 5.0
+    },
+    "silhouette": 0.115
+  }
+}

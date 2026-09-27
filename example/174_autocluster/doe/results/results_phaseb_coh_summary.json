@@ -1,0 +1,31 @@
+{
+  "agglo": {
+    "cohesion_mean": 0.791,
+    "n_rated": 138,
+    "npmi_mean": 0.2436,
+    "npmi_wmean": 0.2544,
+    "pearson_coh_npmi": 0.0871
+  },
+  "dbscan": {
+    "cohesion_mean": 0.8184,
+    "n_rated": 104,
+    "npmi_mean": 0.2313,
+    "npmi_wmean": 0.2542,
+    "pearson_coh_npmi": 0.0041
+  },
+  "hdbscan": {
+    "cohesion_mean": 0.8303,
+    "n_rated": 208,
+    "npmi_mean": 0.2333,
+    "npmi_wmean": 0.256,
+    "pearson_coh_npmi": 0.1554
+  },
+  "leiden": {
+    "cohesion_mean": 0.7986,
+    "n_rated": 131,
+    "npmi_mean": 0.2437,
+    "npmi_wmean": 0.2606,
+    "pearson_coh_npmi": -0.0001
+  },
+  "pooled_pearson_coh_npmi": 0.048
+}

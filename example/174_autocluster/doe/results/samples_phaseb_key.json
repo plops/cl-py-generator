@@ -1,0 +1,101 @@
+{
+ "SEALED": "erst nach Rating lesen!",
+ "key": {
+  "u16": {
+   "method": "agglo",
+   "cluster": 119
+  },
+  "u05": {
+   "method": "agglo",
+   "cluster": 102
+  },
+  "u19": {
+   "method": "agglo",
+   "cluster": 88
+  },
+  "u04": {
+   "method": "agglo",
+   "cluster": 143
+  },
+  "u15": {
+   "method": "agglo",
+   "cluster": 51
+  },
+  "u13": {
+   "method": "agglo",
+   "cluster": 26
+  },
+  "u11": {
+   "method": "dbscan",
+   "cluster": 63
+  },
+  "u01": {
+   "method": "dbscan",
+   "cluster": 25
+  },
+  "u20": {
+   "method": "dbscan",
+   "cluster": 100
+  },
+  "u18": {
+   "method": "dbscan",
+   "cluster": 47
+  },
+  "u09": {
+   "method": "dbscan",
+   "cluster": 17
+  },
+  "u08": {
+   "method": "dbscan",
+   "cluster": 41
+  },
+  "u02": {
+   "method": "hdbscan",
+   "cluster": 42
+  },
+  "u23": {
+   "method": "hdbscan",
+   "cluster": 215
+  },
+  "u14": {
+   "method": "hdbscan",
+   "cluster": 87
+  },
+  "u07": {
+   "method": "hdbscan",
+   "cluster": 27
+  },
+  "u17": {
+   "method": "hdbscan",
+   "cluster": 172
+  },
+  "u06": {
+   "method": "hdbscan",
+   "cluster": 57
+  },
+  "u24": {
+   "method": "leiden",
+   "cluster": 110
+  },
+  "u21": {
+   "method": "leiden",
+   "cluster": 131
+  },
+  "u03": {
+   "method": "leiden",
+   "cluster": 52
+  },
+  "u22": {
+   "method": "leiden",
+   "cluster": 51
+  },
+  "u10": {
+   "method": "leiden",
+   "cluster": 7
+  },
+  "u12": {
+   "method": "leiden",
+   "cluster": 20
+  }
+ }
+}

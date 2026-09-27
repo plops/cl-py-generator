@@ -1,0 +1,9 @@
+method,frac,ari_vs_full,accepted,n_clusters,noise_ratio,silhouette,adjusted
+agglo,0.8,0.6836,True,150,0.0,0.0297,0.0297
+dbscan,0.8,0.6238,False,82,0.4476,nan,nan
+hdbscan,0.8,0.5379,True,180,0.3676,0.2049,0.1296
+leiden,0.8,0.6345,True,124,0.0,0.0569,0.0569
+agglo,0.9,0.7264,True,150,0.0,0.0301,0.0301
+dbscan,0.9,0.7142,False,93,0.4093,nan,nan
+hdbscan,0.9,0.5541,True,206,0.3546,0.204,0.1317
+leiden,0.9,0.6589,True,131,0.0,0.0623,0.0623
