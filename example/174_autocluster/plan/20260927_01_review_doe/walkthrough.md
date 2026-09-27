@@ -107,3 +107,20 @@ nötig): `statsmodels==0.15.0` (ANOVA/RSM), `patsy==1.0.3` und
 - Docs: `plan/20260927_01_review_doe/{prompt,review,deps,plan,task}.md` +
   dies `walkthrough.md`. UMAP-Caches (`doe/umap_cache_doe/`, ~300 `.npy`)
   sind per `.gitignore` (`umap_cache*/`) vom Commit ausgenommen.
+
+## 8. Runde 2 (Phase A + B): Nachtrag vom 2026-09-27
+
+Auf Basis des Follow-up-Vorschlags (`followup_vorschlag_de.md`) lief eine zweite
+DoE-Runde in zwei Phasen: **Phase A** (CCD-Verfeinerung mcs/ms/nn × Dedup-Block,
+206 Fits, Scoring stets auf Voll-N) zeigte, dass Dedup massiv schadet
+(Δ=−0,028, F=860) und 5-fach destabilisiert — Dubletten sind stabilisierende
+Anker, kein Schmutz — und dass die Zoom-Box flach ist (alle p>0,15), weshalb
+mcs=11 bleibt statt mcs=5 zu jagen (Details: `doe/PHASEA_de.md`); **Phase B**
+(Methoden-Bake-off auf fixer d=11-Einbettung + externe Validierung) bestätigte
+HDBSCAN (0,133, stabilste Scores) vor Leiden (0,115, aber peaky: 0,115→0,06 auf
+anderen Seeds → disqualifiziert), DBSCAN (0,104, stabilste Labels) und Agglo
+(0,031, verworfen), während Wort-Kohärenz (NPMI, r≈0,05 zur Geometrie) und
+blindes Author-Rating (Ø 4,1; nur Agglo fällt mit 3,40 ab) belegen, dass der
+Score Dichte/Abstention misst, nicht Themen — der Methoden-Entscheid lautet
+daher HDBSCAN für Produktion mit explizitem Noise-Umgang (Details:
+`doe/PHASEB_de.md`, `ratings_phaseb.md`; Tests nun 45/45 grün).

@@ -94,6 +94,19 @@ committet. Modi: **IMPL** = Implementierung, **HOST** = Host-/CPU-Tests,
   dedup×mcs widerlegt; Zoom-Box flach → mcs=11 behalten. Siehe `doe/PHASEA_de.md`.
 - Validierung: `pytest tests/` grün; R²=0,975; Konfirm-Seeds bestaetigen Levels.
 
+## Task 15 — GPU/RUNDE-2: Phase B (Bake-off + Validitaet) [fertig]
+
+- `doe/run_phaseb.py`: Bake-off (HDBSCAN/DBSCAN/Leiden/Agglo, je 8–20 Runs,
+  fixe d=11-Einbettung), Winner-Seed-Stabilitaet, 80/90-%-Subsamples,
+  NPMI+Kohäsion, verblindete Rating-Samples + versiegelter Key.
+- `doe/coherence.py`: NPMI-Korpus (deutsch), Top-Woerter, Kohäsion;
+  `tests/test_coherence.py` (7 Tests, Themen-vs-Zufall-Orakel).
+- Befunde: HDBSCAN gewinnt (0,133) + stabilste Scores; Leiden peaky
+  (0,115→0,06, disqualifiziert); NPMI-r≈0,05 (Null!); Rating: Agglo 3,40
+  vs. Rest ~4,2–4,5. Siehe `doe/PHASEB_de.md`, `ratings_phaseb.md`.
+- Validierung: `pytest tests/` grün; Leiden/Grid innen verifiziert
+  (res-Erweiterung 5,0/8,0); Plots visuell geprueft.
+
 ## Task 12 — DOCS: Walkthrough + Commit [fertig]
 
 - `plan/20260927_01_review_doe/walkthrough.md` (DE): Einführung, Scope,

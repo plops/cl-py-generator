@@ -19,6 +19,8 @@ verifiziert per `uv pip` im Projekt-`.venv`).
 - `statsmodels/statsmodels` — ANOVA (`anova_lm`) + Response-Surface-Regression (`ols`). Version `0.15.0`.
 - `paulgb/formulaic` — Formel-Parser (Constraint von `statsmodels`, transitiv). Version `1.2.2`.
 - `pydata/patsy` — Design-Matrizen für `statsmodels`-Formeln (transitiv). Version `1.0.3`.
+- `vtraag/leidenalg` — Leiden-Community-Detection (Bake-off). Version `0.12.0`.
+- `igraph/python-igraph` — Graph-Backend für Leiden (transitiv nötig). Version `1.0.0`.
 
 ## DeepWiki-Abfragen (für den Implementierungsagenten)
 
