@@ -108,19 +108,112 @@ nötig): `statsmodels==0.15.0` (ANOVA/RSM), `patsy==1.0.3` und
   dies `walkthrough.md`. UMAP-Caches (`doe/umap_cache_doe/`, ~300 `.npy`)
   sind per `.gitignore` (`umap_cache*/`) vom Commit ausgenommen.
 
-## 8. Runde 2 (Phase A + B): Nachtrag vom 2026-09-27
+## 8. Runde 2 (Phase A + B): Vom Optimum zum Methoden-Entscheid
 
-Auf Basis des Follow-up-Vorschlags (`followup_vorschlag_de.md`) lief eine zweite
-DoE-Runde in zwei Phasen: **Phase A** (CCD-Verfeinerung mcs/ms/nn × Dedup-Block,
-206 Fits, Scoring stets auf Voll-N) zeigte, dass Dedup massiv schadet
-(Δ=−0,028, F=860) und 5-fach destabilisiert — Dubletten sind stabilisierende
-Anker, kein Schmutz — und dass die Zoom-Box flach ist (alle p>0,15), weshalb
-mcs=11 bleibt statt mcs=5 zu jagen (Details: `doe/PHASEA_de.md`); **Phase B**
-(Methoden-Bake-off auf fixer d=11-Einbettung + externe Validierung) bestätigte
-HDBSCAN (0,133, stabilste Scores) vor Leiden (0,115, aber peaky: 0,115→0,06 auf
-anderen Seeds → disqualifiziert), DBSCAN (0,104, stabilste Labels) und Agglo
-(0,031, verworfen), während Wort-Kohärenz (NPMI, r≈0,05 zur Geometrie) und
-blindes Author-Rating (Ø 4,1; nur Agglo fällt mit 3,40 ab) belegen, dass der
-Score Dichte/Abstention misst, nicht Themen — der Methoden-Entscheid lautet
-daher HDBSCAN für Produktion mit explizitem Noise-Umgang (Details:
-`doe/PHASEB_de.md`, `ratings_phaseb.md`; Tests nun 45/45 grün).
+### Einleitung: Zwei unbequeme Fragen blieben übrig
+
+Nach Runde 1 hatten wir, was wir wollten: ein statistisch abgesichertes
+Optimum, einen vermessenen Rauschpegel und den Nachweis, dass die
+UMAP-Dimension keine Rolle spielt. Man hätte aufhören können. Aber zwei
+Dinge nagten — das eine technisch, das andere grundsätzlich.
+
+Erstens: Unser Optimum für `min_cluster_size` lag mit 11 fast genau auf der
+Untergrenze des abgesuchten Bereichs (10–40). Versteckt sich das wahre Optimum
+vielleicht noch darunter, bei 5 oder 6? Und zweitens, fast peinlich: 8 % unserer
+Daten sind exakte Dubletten — der Fidelity-Follow-up hatte 1.324 gefunden,
+vermutlich immer gleiche Fehlermeldungs-Embeddings. Bisher hatten wir sie
+stillschweigend mitgeschleppt. Helfen sie dem Clustering als Anker, oder
+verzerren sie alles, und wir müssten erst einmal putzen?
+
+Und dahinter lauerte die noch größere Frage: Ist HDBSCAN eigentlich das
+richtige Verfahren — oder gewinnt es nur, weil unser eigenes Maß ihm
+schmeichelt? Denn unser Score streicht 36 % aller Punkte als „Noise" aus der
+Wertung, bevor er die Silhouette berechnet. Ein Verfahren, das sich vor den
+schwierigen Punkten drücken darf, hat es leicht, gut auszusehen. Misst unser
+Maß überhaupt Themen-Qualität — oder nur geometrische Bequemlichkeit?
+
+Runde 2 geht diesen Fragen in zwei Phasen nach: **Phase A** bestätigt und
+zoomt (feineres Design ums Optimum, plus Dedup-Experiment), **Phase B** lässt
+vier Verfahren fair gegeneinander antreten und prüft das Ergebnis von außen —
+mit Wortstatistik statt Geometrie und mit 24 von Hand gelesenen Clustern.
+
+### Was wir getan haben (kurz; Details in den Phasen-Berichten)
+
+Phase A fuhr ein Central-Composite-Design über mcs/ms/nn (20 Punkte × 5 Seeds),
+gekreuzt mit Dedup an/aus — 206 Fits insgesamt. Der methodische Clou: Dedup
+wirkt nur auf das Fitting (UMAP + Clustering sehen 15.368 statt 16.692 Punkte),
+gewertet wird aber immer auf denselben vollen 16.692 Rows, indem jede Dublette
+das Label ihres Vertreters erbt. So bleibt der Blockvergleich fair.
+
+Phase B fixierte dann eine einzige Einbettung (d=11, die Sieger-Geometrie) und
+ließ vier Verfahren mit je eigenem Mini-Tuning antreten: HDBSCAN, DBSCAN, Leiden
+(Graph-Communitys, neu im Werkzeugkasten) und Agglomeratives Clustering. Die
+Sieger mussten zweierlei beweisen: Stabilität über UMAP-Seeds und über
+80/90-%-Teilstichproben — wichtig für später: Bleiben Cluster-IDs stabil, wenn
+die Datenbank wächst? Und schließlich der externe Blick: Pro Cluster berechneten
+wir die NPMI-Wortkohärenz — teilen die Wörter eines Clusters gemeinsame
+Kontexte in den Summaries? — und korrelierten sie mit der geometrischen Enge.
+Dazu 24 blind gezogene Cluster mit je 8 Beispiel-Summaries, von Hand gelesen
+und auf einer Skala von 1–5 bewertet; die Methode wurde erst nach dem Rating
+enthüllt.
+
+### Ergebnisse: Zwei Überraschungen und eine Bestätigung
+
+**Überraschung 1: Putzen schadet.** Dedup drückt den Score um −0,028 (ANOVA:
+F=860, mit Abstand der dominanteste Effekt der gesamten Untersuchung) — und
+zwar bei allen 19 Configs einstimmig, mit frischen Seeds bestätigt. Schlimmer
+noch: Ohne Dubletten verfünffacht sich der Seed-Jitter (σ 0,0013 → 0,0072).
+Die Dubletten sind keine Verunreinigung, sondern fixierte Null-Distanz-Anker,
+die UMAP-Graph und HDBSCAN stabilisieren. (Nebenbei die einzige signifikante
+Interaktion: dedup×nn — ohne Anker wäscht großes nn die Struktur aus. Die von
+uns vermutete dedup×mcs-Wechselwirkung wurde widerlegt.)
+
+**Keine Überraschung, aber wichtig: Die Zoom-Box ist flach.** In mcs∈[5,19]
+sind alle Configs statistisch gleichauf (alle p>0,15); der rechnerische Argmax
+bei mcs=5 ist Rausch-Chasing. Dort fragmentiert das Clustering auf ~450 Cluster
+bei mickriger Stabilität (ARI≈0,52) — ohne belastbaren Gewinn. Fazit: mcs=11
+bleibt; die vermeintliche Grenze war keine.
+
+**Überraschung 2 (die bittere): Leidens Sieg war Glück.** Im Bake-off sah alles
+gut aus — HDBSCAN 0,133 vor Leiden 0,115, DBSCAN 0,104, Agglo abgeschlagen bei
+0,031. Doch auf anderen UMAP-Seeds kollabiert Leiden (0,115 → 0,06): Feste
+Resolution plus neu gebauter kNN-Graph ergibt eine andere, viel schlechtere
+Partition. Ohne den Seed-Check hätten wir einen Schein-Sieger gekürt — eine
+Lehre, die den Aufwand von Phase B allein rechtfertigt. HDBSCAN dagegen zeigt
+die stabilsten Scores aller Verfahren (σ=0,0005); DBSCAN die stabilsten Labels
+(ARI 0,80).
+
+**Das Nullresultat, das am meisten lehrt:** Wort-Kohärenz und geometrische Enge
+hängen praktisch nicht zusammen (r≈0,05 über ~600 Cluster), und alle Methoden
+sind im Mittel gleich wort-kohärent (NPMI ≈ 0,23–0,24). Das blinde Rating sagt
+dasselbe: DBSCAN 4,50 ≈ HDBSCAN 4,33 ≈ Leiden 4,17 — nur Agglo fällt ab (3,40,
+inklusive eines 195er Clusters aus leeren Summaries, wie es nur
+Zwangspartitionierung erzeugen kann).
+
+### Diskussion: Was heißt „beste Methode" überhaupt?
+
+Hier müssen wir ehrlich sein — auch zu uns selbst. Unser Score,
+Silhouette×(1−Noise), misst **Dichte plus Abstention**: Er belohnt enge Cluster
+und erlaubt, sich vor 36 % der Daten zu drücken. Menschen und Wortstatistik
+messen **Themen**: Gehören diese Videos inhaltlich zusammen? Das sind
+verschiedene Qualitäten, und Runde 2 zeigt, dass sie auseinanderfallen können.
+Der Score ist damit teil-validiert: Er verwirft Agglo zu Recht, aber sein
+Fein-Ranking (HDBSCAN > Leiden > DBSCAN) findet menschlich keine Deckung.
+
+Für die Praxis heißt das zweierlei. Erstens, die gute Nachricht: Der
+Methoden-Entscheid steht trotzdem — **HDBSCAN für Produktion** (bester Score,
+stabilste Scores, gute Themen, 217 Cluster), DBSCAN als ehrlicher Zweiter für
+gröbere Cluster, Leiden und Agglo verworfen. Zweitens, die unbequeme Nachricht:
+36 % Noise bedeuten 36 % Videos ohne Thema. Ob das in Ordnung ist, kann keine
+Kennzahl entscheiden — das ist eine Produktentscheidung (eigene Anzeige?
+Second-Level-Zuordnung im geplanten Rust-Updater?). Und die Fragmentierungsfrage
+aus Phase A (217 vs. 465 Cluster) bleibt offen: Nur externe Urteile — mehr
+Ratings, idealerweise LLM-bewertet in größerem Maßstab — könnten sie entscheiden.
+
+Grenzen dieser Runde, offen benannt: Das Author-Rating umfasst nur 24 Units von
+einem Rater — schwach, aber protokolliert und versiegelt durchgeführt. Die
+NPMI-Rechnung mit Häufigkeits-Top-Wörtern ist grob (wenn auch mit Orakel-Tests
+validiert). Und statt echter zeitlicher Splits gab es nur Zufalls-Subsamples —
+die DB hat keine Ingestions-Zeitstempel. Wer hier weitergehen will: LLM-Rating
+gegen Clusterzahl, dann der Rust-Updater. (Details: `doe/PHASEA_de.md`,
+`doe/PHASEB_de.md`, `ratings_phaseb.md`; Tests 45/45 grün.)
