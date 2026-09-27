@@ -256,11 +256,12 @@ pub fn fetch_detail_row(db_path: &Path, identifier: i64) -> anyhow::Result<Optio
 
 // ---- Web-Layer (Axum; Muster aus rs-summarizer: build_router + State) ----
 
+use askama::Template;
 use axum::{
     Router,
     extract::{Path as UrlPath, State},
     http::{StatusCode, header},
-    response::{IntoResponse, Json},
+    response::{Html, IntoResponse, Json, Redirect},
     routing::get,
 };
 use std::sync::Arc;
@@ -285,11 +286,48 @@ pub fn build_router(state: AppState, detail_per_min: u32) -> Router {
         .route("/api/map/point/{id}", get(point_detail))
         .layer(GovernorLayer::new(detail_conf));
     Router::new()
+        .route("/", get(|| async { Redirect::permanent("/map") }))
+        .route("/map", get(map_page))
         .route("/healthz", get(health))
         .route("/api/map/points", get(points))
         .route("/api/map/clusters", get(clusters))
         .merge(limited)
         .with_state(state)
+}
+
+/// Plotly-CDN (aus README, per curl verifiziert: 200, 4.815.814 Bytes, MIT).
+pub const PLOTLY_CDN: &str = "https://cdn.plot.ly/plotly-4.1.1.min.js";
+
+#[derive(Template)]
+#[template(path = "map.html")]
+struct MapTemplate {
+    method: &'static str,
+    date: &'static str,
+    methodik_ref: &'static str,
+    plotly_url: &'static str,
+    n_points: usize,
+    n_clusters: usize,
+    noise_n: usize,
+}
+
+async fn map_page(State(st): State<AppState>) -> impl IntoResponse {
+    let t = MapTemplate {
+        method: METHOD,
+        date: CLUSTERING_DATE,
+        methodik_ref: METHODIK_REF,
+        plotly_url: PLOTLY_CDN,
+        n_points: st.data.points.len(),
+        n_clusters: st.data.clusters.len(),
+        noise_n: st.data.noise_n,
+    };
+    match t.render() {
+        Ok(html) => Html(html).into_response(),
+        Err(e) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            format!("Template-Fehler: {e}"),
+        )
+            .into_response(),
+    }
 }
 
 async fn health(State(st): State<AppState>) -> impl IntoResponse {

@@ -160,6 +160,25 @@ async fn detail_api_404_bei_unbekannt() {
 }
 
 #[tokio::test]
+async fn karten_shell_ohne_volltext() {
+    let (port, _tmp) = spawn_server(60).await;
+    let (status, _, body) = get(port, "/map").await;
+    assert_eq!(status, 200);
+    assert!(body.contains("id=\"karte\""));
+    assert!(body.contains("Cluster-Karte"));
+    assert!(body.contains("Methodik"));
+    assert!(!body.contains(SECRET), "Volltext-Leak in Shell!");
+}
+
+#[tokio::test]
+async fn root_leitet_auf_karte() {
+    let (port, _tmp) = spawn_server(60).await;
+    let (status, head, _) = get(port, "/").await;
+    assert_eq!(status, 308);
+    assert!(head.contains("/map"));
+}
+
+#[tokio::test]
 async fn rate_limit_greift() {
     let (port, _tmp) = spawn_server(1).await; // Burst 1
     let (s1, _, _) = get(port, "/api/map/point/2").await;

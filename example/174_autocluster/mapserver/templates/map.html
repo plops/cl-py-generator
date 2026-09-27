@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cluster-Karte — YouTube-Summaries</title>
+<script src="{{ plotly_url }}" charset="utf-8"></script>
+<style>
+  body { font-family: system-ui, "Segoe UI", Roboto, sans-serif; margin: 0; color: #1a1a1a; }
+  main { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+  h1 { font-size: 1.4rem; margin-bottom: 0.2rem; }
+  p.meta { margin-top: 0; color: #444; }
+  .layout { display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+  section.karte { flex: 3 1 600px; min-width: 0; }
+  #karte { width: 100%; height: 640px; border: 1px solid #ccc; }
+  aside { flex: 1 1 300px; border: 1px solid #ccc; padding: 0.8rem; max-height: 640px; overflow: auto; }
+  aside h2 { font-size: 1.1rem; margin: 0.4rem 0; }
+  aside pre { white-space: pre-wrap; font-family: inherit; font-size: 0.9rem; }
+  aside[hidden] { display: none; }
+  button { cursor: pointer; }
+  footer { margin-top: 1rem; font-size: 0.85rem; color: #444; border-top: 1px solid #ccc; padding-top: 0.5rem; }
+  #ladehinweis { color: #444; }
+  p.fehler { color: #a00; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Cluster-Karte: YouTube-Summaries</h1>
+  <p class="meta">{{ method }} · Stand {{ date }} · {{ n_points }} Punkte · {{ n_clusters }} Cluster + Noise ({{ noise_n }})</p>
+  <div class="layout">
+    <section class="karte" aria-label="Streudiagramm der Cluster">
+      <div id="karte" role="img" aria-label="Interaktive Cluster-Karte. Hover zeigt Identifier und Titel, Klick öffnet die Zusammenfassung."></div>
+      <p id="ladehinweis">Karte wird geladen …</p>
+    </section>
+    <aside id="panel" hidden tabindex="-1" aria-live="polite" aria-label="Punkt-Details">
+      <button id="panel-schliessen" type="button">Schließen (Esc)</button>
+      <h2 id="panel-titel"></h2>
+      <p id="panel-meta"></p>
+      <p id="panel-linkzeile"><a id="panel-link" href="#" target="_blank" rel="noopener">Original öffnen</a></p>
+      <p id="panel-kein-link" hidden>Kein Original-Link vorhanden.</p>
+      <pre id="panel-text"></pre>
+    </aside>
+  </div>
+  <footer>
+    <p>{{ method }} · Stand {{ date }} · N = {{ n_points }} · <a href="#methodik">Methodik</a></p>
+    <details id="methodik">
+      <summary>Methodik (kurz)</summary>
+      <p>GPU-Pipeline (UMAP + HDBSCAN), Parameterauswahl per Design of Experiments,
+      Cluster-Titel per LLM mit Content-Hash-Store. Vollständige Herleitung:
+      <code>{{ methodik_ref }}</code> im Repo (Abschnitt 8: Runde 2 / Methoden-Entscheid).</p>
+    </details>
+  </footer>
+</main>
+<script>
+async function laden() {
+  const hinweis = document.getElementById("ladehinweis");
+  let clusters, points;
+  try {
+    [clusters, points] = await Promise.all([
+      fetch("/api/map/clusters").then((r) => { if (!r.ok) throw new Error("clusters"); return r.json(); }),
+      fetch("/api/map/points").then((r) => { if (!r.ok) throw new Error("points"); return r.json(); }),
+    ]);
+  } catch (e) {
+    hinweis.textContent = "Fehler beim Laden der Kartendaten.";
+    hinweis.className = "fehler";
+    return;
+  }
+  const titel = new Map(clusters.map((c) => [c.id, c.title]));
+  const gruppen = new Map();
+  for (const p of points) {
+    if (!gruppen.has(p.cluster)) gruppen.set(p.cluster, { x: [], y: [], ids: [] });
+    const g = gruppen.get(p.cluster);
+    g.x.push(p.x); g.y.push(p.y); g.ids.push(p.identifier);
+  }
+  const traces = [...gruppen.keys()].sort((a, b) => a - b).map((cid) => {
+    const g = gruppen.get(cid);
+    const name = (titel.get(cid) ?? "Noise") + " (" + g.x.length + ")";
+    return {
+      x: g.x, y: g.y, mode: "markers", type: "scattergl", name: name,
+      text: g.ids.map((id) => "ID " + id + " · " + (titel.get(cid) ?? "Noise")),
+      hoverinfo: "text", customdata: g.ids,
+      marker: cid === -1 ? { color: "#9aa0a6", size: 3 } : { size: 4 },
+    };
+  });
+  const gd = document.getElementById("karte");
+  await Plotly.newPlot(gd, traces, { margin: { t: 10 }, showlegend: true }, { responsive: true });
+  hinweis.hidden = true;
+  gd.on("plotly_click", async (ev) => {
+    const id = ev.points[0].customdata;
+    let d;
+    try {
+      const r = await fetch("/api/map/point/" + id);
+      if (!r.ok) throw new Error(r.status);
+      d = await r.json();
+    } catch (e) {
+      return;
+    }
+    document.getElementById("panel-titel").textContent = d.cluster_title + " — ID " + d.identifier;
+    document.getElementById("panel-meta").textContent = "Cluster " + d.cluster + " · ID " + d.identifier;
+    const hatLink = d.original_source_link && d.original_source_link.length > 0;
+    document.getElementById("panel-linkzeile").hidden = !hatLink;
+    document.getElementById("panel-kein-link").hidden = hatLink;
+    if (hatLink) document.getElementById("panel-link").href = d.original_source_link;
+    document.getElementById("panel-text").textContent =
+      d.summary && d.summary.length > 0 ? d.summary : "Keine Zusammenfassung vorhanden.";
+    const panel = document.getElementById("panel");
+    panel.hidden = false;
+    panel.focus();
+  });
+}
+function panelSchliessen() {
+  document.getElementById("panel").hidden = true;
+}
+document.getElementById("panel-schliessen").addEventListener("click", panelSchliessen);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") panelSchliessen();
+});
+laden();
+</script>
+</body>
+</html>
