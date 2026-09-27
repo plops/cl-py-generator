@@ -9,9 +9,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), "doe"))
 
-from data import truncate_norm  # noqa: E402
-from design import (PARAM_BOUNDS, aggregate_point, generate_lhs_design,  # noqa: E402
-                    pairwise_ari, taguchi_sn)
+from data import dedup_map, truncate_norm  # noqa: E402
+from design import (PARAM_BOUNDS, aggregate_point, generate_ccd_design,  # noqa: E402
+                    generate_lhs_design, pairwise_ari, rsm_argmax,
+                    taguchi_sn)
 
 
 def test_lhs_respects_bounds_and_types():
@@ -78,6 +79,55 @@ def test_aggregate_point_needs_two_accepted():
     a = aggregate_point([(cfg, ok, lab), (cfg, ok, lab)])
     assert a["n_rep"] == 2 and abs(a["mean_adj"] - 0.12) < 1e-9
     assert a["ari_stability"] == 1.0
+
+
+def test_ccd_structure_cube_axial_center():
+    c = {"mcs": 12, "ms": 10, "nn": 42}
+    h = {"mcs": 7, "ms": 5, "nn": 18}
+    d = generate_ccd_design(c, h, n_center=6)
+    assert len(d) == 8 + 6 + 6
+    assert all(set(p) == set(c) for p in d)
+    assert all(isinstance(v, int) for p in d for v in p.values())
+    assert sum(1 for p in d if p == c) == 6  # Zentrum 6-fach
+    assert {"mcs": 5, "ms": 5, "nn": 24} in d  # Wuerfelecke - - -
+    assert {"mcs": 19, "ms": 15, "nn": 60} in d  # Wuerfelecke + + +
+    assert {"mcs": 5, "ms": 10, "nn": 42} in d  # Achspunkt mcs-
+    for p in d:  # nur 3 Stufen je Faktor (face-centered)
+        assert p["mcs"] in (5, 12, 19)
+        assert p["ms"] in (5, 10, 15)
+        assert p["nn"] in (24, 42, 60)
+
+
+def test_dedup_map_roundtrip():
+    X = np.array([[1.0, 2.0], [3.0, 4.0], [1.0, 2.0], [5.0, 6.0],
+                  [3.0, 4.0]])
+    uniq, back = dedup_map(X)
+    assert uniq.tolist() == [0, 1, 3]
+    assert back.tolist() == [0, 1, 0, 2, 1]
+    assert (X == X[uniq][back]).all()  # perfekte Rekonstruktion
+    lab = np.array([7, 8, 9])
+    assert lab[back].tolist() == [7, 8, 7, 9, 8]  # Dubletten erben
+
+
+def test_dedup_map_no_dups_identity():
+    X = np.arange(12, dtype=float).reshape(4, 3)
+    uniq, back = dedup_map(X)
+    assert uniq.tolist() == [0, 1, 2, 3]
+    assert back.tolist() == [0, 1, 2, 3]
+
+
+def test_rsm_argmax_finds_known_peak():
+    import pandas as pd
+    from statsmodels.formula.api import ols
+
+    rng = np.random.default_rng(2)
+    df = pd.DataFrame({"x": rng.uniform(-5, 5, 300),
+                       "z": rng.uniform(-5, 5, 300)})
+    df["y"] = 1.0 - (df["x"] - 3.0) ** 2 - (df["z"] + 1.0) ** 2
+    m = ols("y ~ x + z + I(x**2) + I(z**2) + x:z", data=df).fit()
+    best, pred = rsm_argmax(m, {"x": (-5, 5), "z": (-5, 5)}, resolution=21)
+    assert abs(best["x"] - 3.0) < 0.6 and abs(best["z"] + 1.0) < 0.6
+    assert abs(pred - 1.0) < 0.1
 
 
 def test_response_surface_fits_synthetic():
