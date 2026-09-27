@@ -3,3 +3,4 @@ umap_cache*/
 plots/clusters.html
 __pycache__/
 .venv/
+mapserver/target/
