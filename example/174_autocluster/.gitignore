@@ -5,3 +5,8 @@ __pycache__/
 .venv/
 mapserver/target/
 mapmobile/target/
+
+# Face-Re-ID-Validierung: abgeleitete Artefakte (Skripte selbst werden committet)
+lfw_emb.npz
+plots_face/
+results_face*.csv
