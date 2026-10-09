@@ -39,8 +39,8 @@ sudo mkdir -p /1p2/0824
 
 # Dateien kopieren
 
-export NOW=0904
-export SRC=/1p3/yt/gentoo-z6-min-openrc_2026$NOW/
+export NOW=1009
+export SRC=/home/kiel/gentoo-z6-min-openrc_2026$NOW/
 
 sudo mkdir -p /1p2/$NOW
 sudo cp -av $SRC/gentoo.squashfs_e14 /1p2/$NOW/gentoo.squashfs
