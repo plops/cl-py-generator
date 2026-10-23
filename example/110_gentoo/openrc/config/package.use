@@ -8,10 +8,11 @@ sys-fs/lvm2 lvm
 media-video/pipewire alsa dbus sound-server udev
 media-video/wireplumber dbus
 sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd
-net-misc/freerdp X alsa pulseaudio ffmpeg
+net-misc/freerdp X alsa pulseaudio 
 app-text/mupdf X opengl javascript
 sys-auth/elogind pam policykit
 sys-auth/polkit elogind
 sys-apps/dbus elogind
 app-text/xmlto text
 media-libs/libglvnd X
+app-editors/emacs gui X Xaw3d
