@@ -1,0 +1,40 @@
+# QEMU-Testkernel-Fragment für openrc2.
+# Anwendung: Basis ../openrc/config/config6.18.48 kopieren, dann
+#   ./scripts/config --file <fragment> ... bzw. die Symbole einzeln setzen,
+# danach `make olddefconfig`.
+# Ziel: Virtio-Gast + serielle Konsole fest einbauen, Hardware-Grafik/
+# WLAN/Sound abschalten. VFAT bleibt Y (Pico-2-Entwicklung).
+
+# --- Virtio (QEMU-Gast, eingebaut damit die Root-Platte immer gefunden wird) ---
+CONFIG_VIRTIO=y
+CONFIG_VIRTIO_PCI=y
+CONFIG_VIRTIO_BLK=y
+CONFIG_VIRTIO_NET=y
+CONFIG_VIRTIO_CONSOLE=y
+CONFIG_VIRTIO_FS=y
+CONFIG_9P_FS=y
+CONFIG_NET_9P=y
+CONFIG_NET_9P_VIRTIO=y
+
+# --- Serielle Konsole für -nographic ---
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
+
+# --- Root-Stack (Squashfs + Overlay, wie openrc/) ---
+CONFIG_SQUASHFS=y
+CONFIG_SQUASHFS_ZSTD=y
+CONFIG_SQUASHFS_XATTR=y
+CONFIG_OVERLAY_FS=y
+CONFIG_BLK_DEV_DM=y
+CONFIG_DM_CRYPT=y
+CONFIG_EXT4_FS=y
+CONFIG_VFAT_FS=y
+CONFIG_FAT_DEFAULT_UTF8=y
+
+# --- In QEMU nicht gebraucht (Non-Goals, Boot-Beleg via dmesg/lsmod) ---
+# CONFIG_DRM_AMDGPU is not set
+# CONFIG_DRM_NOUVEAU is not set
+# CONFIG_DRM_I915 is not set
+# CONFIG_SND is not set
+# CONFIG_WLAN is not set
+# CONFIG_BT is not set

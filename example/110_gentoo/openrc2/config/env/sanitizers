@@ -1,0 +1,10 @@
+# Verifikationsbuilds mit Sanitizern (nur openrc2, NICHT openrc/).
+# Nutzung: Paketname in /etc/portage/package.env eintragen, z.B.
+#   app-misc/my-test sanitizers
+# Wirkung: C/C++-Testpakete werden mit AddressSanitizer (ASan, enthält auf
+# Linux LeakSanitizer LSan) und UndefinedBehaviorSanitizer (UBSan) gebaut.
+# Absichtlich zuerst kleine Dependencies: Sanitizer-Builds brauchen deutlich
+# mehr RAM und Zeit als normale Builds.
+CFLAGS="${CFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+CXXFLAGS="${CXXFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+LDFLAGS="${LDFLAGS} -fsanitize=address,undefined"

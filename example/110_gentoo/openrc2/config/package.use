@@ -1,0 +1,8 @@
+# Minimal-Testsystem: keine X-USE-Flags, keine Hardware-Treiber.
+sys-fs/lvm2 lvm
+sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd
+sys-auth/elogind pam policykit
+sys-auth/polkit elogind
+sys-apps/dbus elogind
+media-video/pipewire alsa dbus sound-server udev
+media-plugins/alsa-plugins pulseaudio

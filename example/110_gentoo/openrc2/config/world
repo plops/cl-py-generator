@@ -1,0 +1,18 @@
+# Minimal-World openrc2: nur was QEMU-Boot und Tests brauchen.
+# Alles andere (Editoren, X11, Treiber, Desktop, Komfort-Tools) bleibt in ../openrc/.
+# Gestrichen u.a.: gdb, strace, zsh, tmux, htop/iotop/lsof, eix, ripgrep, mold.
+app-admin/sudo
+app-admin/sysklogd
+app-portage/gentoolkit
+dev-vcs/git
+net-dialup/picocom
+net-misc/dhcpcd
+sys-apps/pciutils
+sys-apps/usbutils
+sys-fs/cryptsetup
+sys-fs/dosfstools
+sys-fs/e2fsprogs
+sys-fs/lvm2
+sys-fs/squashfs-tools
+sys-kernel/dracut
+<sys-kernel/gentoo-sources-6.19
