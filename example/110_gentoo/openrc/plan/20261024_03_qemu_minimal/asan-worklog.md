@@ -425,3 +425,142 @@ Laufendes Protokoll: Versuch → Problem → Lösung. Kurz, nur Ergebnisse.
 - Fix wie an anderen Build-Stellen: `export LSAN_OPTIONS=exitcode=0` zu Beginn
   der RUN-Kette (User-Setup + Netz-RUN). Lehre: JEDE RUN-Kette mit
   Sanitizer-Tools braucht den Export, sobald der Zweig wirklich laeuft.
+
+## 2026-10-24, Boot-Gate 5 GRUEN: Gast-7 bis Login + SSH + funktionale Tests
+
+- Run 23 (Netz+DHCPCD+Key): Gast holt 10.0.2.15, SSH als kiel geht, Login-
+  Prompt, 0x "Could not boot". Erster kompletter Sanitizer-Boot.
+- Gast-Beweise: ls/grep/sed/mount sanitisiert, Bash plain. sed (haLlo),
+  grep (hello, Treffer+rc1-ohne), sort (a,b), mountpoint (LiveOS_rootfs),
+  mount-fake rc0. Mit LSAN-Triage alle rc0.
+- Gast-Env: KEIN LSAN/LD_PRELOAD nach switch-root (Pre-Pivot-Unset wirkt,
+  Login-Shells sauber). Ohne LSAN melden Tools Lecks mit rc1 (sichtbar,
+  gewollt streng). Kein systemweites LSAN (bewusst, spaetere Stufe).
+- Fehlalarm mit Lehre: `echo hallo | grep ell` findet nichts, weil "hallo"
+  kein "e" enthaelt (Tippfehler hallo/hello). Host-Plain-grep bestaetigt:
+  rc1 korrekt. Lehre: Testmuster muessen den Treffer WIRKLICH enthalten;
+  rc1 ohne LSAN ist mehrdeutig (kein Treffer ODER Leck) -> immer Output +
+  Triage-Gegenprobe. verify-Skript verschaerft (Output-Vergleich statt -q).
+- Bekannt/naechstes: udev-Dienst steht nach Pivot (0 Prozesse, dlopen-Taint
+  ohne Preload). Fix bereit (conf.d/udev-Exporte), Gate in Batch-2.
+- Commit bef3dc53 + Tag batch-01. Batch-2 (nur sys-apps/openrc) laeuft.
+
+## 2026-10-24, Batch-2 rot: meson stirbt an dlopen-Taint (Preload-Umgebung)
+
+- `emerge --oneshot` (5 Pakete) scheitert bei sys-apps/openrc/compile:
+  `meson setup` stirbt lautlos (kein Output), Build-Verzeichnis fehlt,
+  pushd stirbt. LSAN kam an (Umgebungs-Beweis).
+- Kette: /usr/bin/meson -> python-exec2 (Skript) -> python-exec2c (nativ)
+  -> python3.14 + Meson-Skript. Auch direkt mit plain Python tot.
+  LD_DEBUG: python laedt _blake2/hashlib-Umfeld -> libuuid (Batch-01)
+  -> libasan nicht-an-erster-Stelle -> rc1. Meson importiert hashlib/uuid
+  beim Start; plain `python3 --version` lebt (kein Import).
+- Fix: neue Umgebung env/sanitizers-preload (= sanitizers + LD_PRELOAD per
+  `gcc -print-file-name`, Docker-Beweis meson --version rc0), Zuweisung pro
+  Paket via config/batches/preload.txt (apply-batch kennt HOLD > PRELOAD).
+  Minimal: nur openrc bekommt Preload, Rest unveraendert.
+
+## 2026-10-24, Batch-2 Gate ROT mit ECHTEM FUND: OOB-Read in OpenRC librc
+
+- Gast-8 bootet bis Login, 0x "Could not boot", aber danach startet KEIN
+  Dienst (kein Netz/SSH). Ursache im Protokoll:
+  `librc.c:57: runtime error: index -1 out of bounds for int[17]` +
+  `ASan: global-buffer-overflow, READ, rc_dirfd <- rc_service_state <-
+  service_started` ("Caching service dependencies"). Echter Upstream-Bug,
+  von unseren Sanitizern gefunden (kein Leck, sondern Absturz).
+- Loesungsweg: Quellen patchen (kein Opt-out, boot-relevant). Subagent
+  `openrc-rcdirfd-patch` jagt Ursache + schreibt Patch nach
+  config/patches/sys-apps/openrc/ (Konvention wie bash-Patches, Portage
+  wendet /etc/portage/patches automatisch an). Verifikation per Neubau+Gate.
+
+## 2026-10-24, OpenRC-Patch bereit (Subagent), Fehlalarm meinerseits inklusive
+
+- Subagent-Befund: RC_DIR_INVALID = -1; rc_service_state() ruft rc_dirfd()
+  auch fuer STOPPED/CRASHED (dir=-1) auf; Guard prueft nur `>= RC_DIR_MAX`;
+  dirfds[-1] wird VOR dem switch gelesen. Unsanitisiert unsichtbar, weil der
+  switch-Fall danach zufaellig -1 liefert. Entspricht upstream master.
+- Patch config/patches/sys-apps/openrc/01-rcdirfd-negativ-index.patch:
+  Guard `dir < 0 ||`, toter switch-Fall raus. Ich habe ihn fälschlich fuer
+  abgeschnitten gehalten (3 Kontext-Zeilen am Hunk-Ende sind korrekt) und per
+  Diff an der echten Quelle nachgebaut: Rumpf IDENTISCH. Datei bleibt wie
+  geliefert. Lehre: Hunk-Zeilen nachzaehlen statt nach Gefuehl urteilen.
+- Neubau mit Patch (Gast-8 gestoppt, RAM frei).
+
+## 2026-10-24, SSH-Tod in zwei Akten (pam_openrc + seccomp), Fix zweigleisig
+
+- Akt 1: sshd (plain) legt beim Schluessel-Angebot auf. LD_DEBUG: nach
+  pam_elogind-Init werden libasan+librc+libeinfo gezogen. Aufloesung: es ist
+  nicht elogind (statisch sauber, kein dlopen), sondern `-session optional
+  pam_openrc.so` im PAM-Stapel (Batch-02, DT_NEEDED libasan). Das `-`
+  (ignorieren) hilft nicht: ASan reisst den ganzen Kindprozess.
+- Akt 2 (mit Preload): Anmeldung OK ("Accepted publickey"), dann stirbt das
+  Kind mit Signal 31 (SIGSYS): OpenSSHs Seccomp-Filter (preauth) verbietet
+  Syscalls, die libasan beim Start braucht. Docker-Beweis beidemale.
+- Fix zweigleisig: (a) conf.d/sshd-Exporte (LSAN+Preload, Muster wie udev),
+  (b) openssh plain aus Quellen mit `-seccomp` (package.use, eigener
+  Dockerfile-Schritt mit LSAN-Export fuers configure). Stapel 3 (sanitisiertes
+  openssh) prueft beides neu.
+- Nebenbei: Dockerfile-Doppler (`fi ||`) beim Editieren eingebaut und sofort
+  repariert (vor dem Bau geprueft).
+
+## 2026-10-24, SSH gruen, Udev-Raetsel geloest: /.dockerenv (kein Sanitizer!)
+
+- Gast-11: SSH geht (sshd+Preload und -seccomp bewiesen), Netz geht.
+  Udev-Dienst manuell gestartet: LAEUFT (conf.d-Fix wirkt!). Aber beim
+  Hochfahren lief er nie (rc-status: udev/trigger/settle/devfs/sysfs fehlen).
+- Ursache: Image enthaelt /.dockerenv (Bau-Artefakt). OpenRC haelt den
+  KVM-Gast fuer einen Container und ueberspringt Dienste mit
+  -docker/-containers-Keywords (devfs liefert dev-mount nicht -> udev ohne
+  Abhaengigkeit -> Kette steht). Betrifft ALLE Gaeste seit jeher, nichts mit
+  Sanitizern zu tun. Fix: `rm -f /.dockerenv` vor mksquashfs.
+- Offen/Notiz: elogind startet nicht (2x versucht, gestoppt) — eigener Hunt
+  in Stapel 3 (ist dort dran).
+
+## 2026-10-24, Udev-Blockade die zweite: rc_sys="docker" fest verdrahtet
+
+- Gast-12 ohne /.dockerenv (bestaetigt weg), aber OpenRC meldet weiter
+  `[DOCKER]` und startet kein devfs/udev. Ursache: /etc/rc.conf enthaelt
+  `rc_sys="docker"` — von OpenRCs Installation beim Bauen im Behaelter fest
+  geschrieben (nicht nur Datei-Erkennung!). Fix: per sed auf "" (autodetect).
+  Eigene Lehre angewandt: LSAN-Export im RUN (sed/grep sanitisiert).
+
+## 2026-10-24, Udev-Boot-Hang: Aufsicht kehrt nie zurueck -> Dienste raus
+
+- Mit rc_sys-Autodetect startet "Starting udev", kehrt aber nie zurueck
+  (kein ok/fail, kein Login dahinter). Von Hand gestartet laeuft udevd
+  (Gast-11-Beweis). Hypothese: supervise-daemon wartet ewig (Notify/Pidfile),
+  kein Crash (keine Sanitizer-Meldung). Kein Sanitizer-Befund, reine
+  Init-System-Frage — bewusst NICHT tiefer verfolgt.
+- Entscheidung (Testgast braucht keinen Hotplug/Module): udev/trigger/settle
+  aus sysinit entfernt (rc-update del), manuell nutzbar. Spaetere Stapel mit
+  Shell-Zugang neu bewerten, falls noetig (elogind-Kandidat).
+
+## 2026-10-24, Udev-Del wirkte nicht: Squashfs aelter als der Befehl
+
+- Gast-15 bleibt bei "Starting udev" stehen, obwohl rc-update del laeuft.
+  Ursache: der Befehl stand am DATEIENDE, das Squashfs wird aber vorher
+  gepackt — der Gast startet aus dem alten Stand. Lehre: Gast-relevante
+  Aenderungen MUESSEN VOR mksquashfs stehen (Dateiende ist zu spaet).
+  Behoben: Block vor mksquashfs verschoben, Doppelung am Ende entfernt.
+
+## 2026-10-24, Tor-16/17: Dockerfile trug Udev nach dem Austragen wieder ein
+
+- Gast-16 zeigt weiter "Starting udev" + SSH-Timeout, obwohl rc-update del
+  im Bau-Protokoll "deleted" meldet. Zeitstempel-Beweis: Udev-Links im Image
+  vom Bau-Tag 22:59, del lief auch. Aufloesung: Schritt "Serielle Konsole +
+  minimale Dienste" (Dockerfile, NACH dem del) enthaelt
+  `rc-update add udev/udev-trigger/udev-settle sysinit` und stellt alles
+  wieder her. Fix: die drei add-Zeilen entfernt + Kommentar (Reaktivierung
+  mit Stapel-2). Lehre: add/del-Paare im Dockerfile immer als Paar pruefen.
+- Run-34 baut gruen, Image-Startliste ohne Udev (rc-update show bestaetigt).
+
+## 2026-10-24, SSH-Schluessel fehlte: Bau ohne Umgebungs-Variable
+
+- Gast-17 bootet sauber (0x "Starting udev", Login), aber SSH
+  "Permission denied": /home/kiel/.ssh/authorized_keys fehlt im Image.
+  Ursache: setup01 braucht SSH_PUBKEY aus der Umgebung; mein Run-34 lief
+  ohne. Fix: Rueckfallkette in setup01_build_image.sh (Umgebung, dann
+  /tmp/qemu-guest-key.pub, dann ~/.ssh/authorized_keys). Syntax-geprueft.
+- Run-35 gruen, Docker-Pruefung 13/13 (FAIL=0), Gast-18: Boot ohne Udev,
+  SSH-OK, Startliste sauber, sed/grep/mount-Funktionstest gruen,
+  /bin/sed gegen libasan gelinkt.

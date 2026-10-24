@@ -1,0 +1,5 @@
+# Pakete, deren Build-Werkzeuge LD_PRELOAD=libasan brauchen
+# (dlopen auf Sanitizer-Libs ohne eigene ASan-Linkung).
+# Format wie batches/batch-*.txt (ein Atom pro Zeile).
+# Zuweisung: <atom> sanitizers-preload (s. tools/apply-batch.sh).
+sys-apps/openrc

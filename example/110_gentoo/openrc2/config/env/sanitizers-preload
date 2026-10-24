@@ -1,0 +1,14 @@
+# Wie env/sanitizers, plus LD_PRELOAD=libasan fuer Pakete, deren Build-
+# Werkzeuge (meson/python) sanitisierte Shared Libs per dlopen laden, ohne
+# selbst mit ASan gelinkt zu sein (Beweis: sys-apps/openrc, meson --version
+# stirbt mit "ASan runtime does not come first", weil python hashlib/uuid
+# -> libuuid (Batch-01) -> libasan zieht). Mit Preload an erster Stelle
+# laeuft das Werkzeug sauber (meson --version rc=0, Docker-Beweis).
+# Pfad robust via gcc (plain, immer da), Quotes wegen shlex Pflicht.
+# Zuweisung pro Paket via config/batches/preload.txt (s. apply-batch.sh).
+CFLAGS="${CFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+CXXFLAGS="${CXXFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+LDFLAGS="${LDFLAGS} -fsanitize=address,undefined"
+LSAN_OPTIONS="exitcode=0"
+LD_PRELOAD="$(gcc -print-file-name=libasan.so)"
+FEATURES="-sandbox -usersandbox"

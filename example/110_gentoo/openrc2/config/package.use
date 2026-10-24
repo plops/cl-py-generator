@@ -6,3 +6,8 @@ sys-auth/polkit elogind
 sys-apps/dbus elogind
 media-video/pipewire alsa dbus sound-server udev
 media-plugins/alsa-plugins pulseaudio
+# Testimage: openssh OHNE seccomp-Sandbox (Stapel 2+). Der Seccomp-Filter
+# (preauth-Kind) erschiesst mit SIGSYS jeden Prozess, der libasan per
+# Preload/dlopener-Kette laedt (pam_openrc.so, Batch-02) — Anmeldung stirbt
+# nach "Accepted publickey". Stapel 3 (sanitisiertes openssh) prueft neu.
+net-misc/openssh -seccomp

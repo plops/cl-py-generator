@@ -1,0 +1,34 @@
+From: openrc2 ASan rollout (Hunt-Subagent, verifiziert im Gast)
+Subject: [PATCH] rc_dirfd: reject negative dir before array access
+
+ASan/UBSan melden beim Hochfahren ("Caching service dependencies"):
+librc.c:57 index -1 out of bounds fuer 'int [17]', READ 4 Bytes direkt VOR
+globalem `dirfds`. rc_service_state() iteriert ueber rc_service_state_names[]
+und ruft rc_dirfd() auch fuer die Eintraege RC_SERVICE_STOPPED und
+RC_SERVICE_CRASHED auf, deren dir RC_DIR_INVALID (-1) ist. Der Guard prueft
+nur `dir >= RC_DIR_MAX`, laesst -1 durch, und `dirfds[-1]` wird gelesen, BEVOR
+das switch den Fall RC_DIR_INVALID abfaengt. Unter ASan bricht das ab, der
+Deptree wird nie gecacht und kein Dienst startet mehr (kein Netz/SSH).
+Unsanitisiert liefert die Funktion zufaellig das richtige Ergebnis (-1),
+weil der switch-Fall danach greift — deshalb bisher unsichtbar.
+
+Fix: negative Indizes oben abweisen (Fehler-Rueckgabe -1 statt OOB-Read);
+der dadurch unerreichbare switch-Fall entfaellt. Entspricht dem upstream
+master-Stand von rc_dirfd().
+
+--- a/src/librc/librc.c
++++ b/src/librc/librc.c
+@@ -52,12 +52,10 @@ int rc_dirfd(enum rc_dir dir) {
+ 	int flags = O_RDONLY | O_CLOEXEC | O_DIRECTORY;
+ 	int dirfd;
+ 
+-	if (dir >= RC_DIR_MAX)
++	if (dir < 0 || dir >= RC_DIR_MAX)
+ 		return -1;
+ 	if (dirfds[dir] <= 0) {
+ 		switch (dir) {
+-		case RC_DIR_INVALID:
+-			return -1;
+ 		case RC_DIR_SYSCONF:
+ 			return dirfds[dir] = open(rc_sysconfdir(), flags);
+ 		case RC_DIR_USRCONF:

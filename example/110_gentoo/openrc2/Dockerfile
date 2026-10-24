@@ -115,6 +115,15 @@ RUN if [ -s /tmp/sanitized-packages.txt ]; then \
         grep -a -o "^declare -x \(LSAN_OPTIONS\|ASAN_OPTIONS\|LD_PRELOAD\|FEATURES\|SANDBOX_ON\)=.*" "$e" | head -n 8; \
       done; echo "=== DUMP-ENDE ==="; exit 1; }
 
+# openssh plain AUS QUELLEN neu bauen (package.use: -seccomp, Stapel 2+).
+# Das Binärpaket käme MIT Seccomp-Filter; der erschiesst (SIGSYS) jede
+# Anmeldung, sobald libasan im Prozess ist (pam_openrc.so, Batch-02).
+# Eigener Schritt (nicht im Batch): bleibt plain bis Stapel 3.
+# LSAN-Export, weil configure mit sanitisierten Tools arbeitet.
+RUN export LSAN_OPTIONS="exitcode=0" \
+ && FEATURES="-getbinpkg -binpkg-request-signature" \
+    emerge --oneshot net-misc/openssh
+
 # Sudo + passwortloser Konsolen-User für QEMU-Tests
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
@@ -133,6 +142,33 @@ RUN export LSAN_OPTIONS="exitcode=0" \
 RUN export LSAN_OPTIONS="exitcode=0" \
  && printf 'export LSAN_OPTIONS="exitcode=0"\nfor _f in /usr/lib/gcc/*/*/libasan.so; do [ -f "$_f" ] && { LD_PRELOAD="$_f"; break; }; done\nexport LD_PRELOAD\nunset _f\n' >> /etc/conf.d/udev
 
+# Gleiches Muster fuer sshd: dessen PAM-Stapel laedt pam_openrc.so
+# (Batch-02, DT_NEEDED libasan). Ohne Preload stirbt das Kind beim
+# Schluessel-Angebot ("Connection closed", Docker-Beweis). Mit Preload
+# konsistent. Bleibt auch unter sanitisiertem openssh (Stapel 3) gueltig.
+RUN export LSAN_OPTIONS="exitcode=0" \
+ && printf 'export LSAN_OPTIONS="exitcode=0"\nfor _f in /usr/lib/gcc/*/*/libasan.so; do [ -f "$_f" ] && { LD_PRELOAD="$_f"; break; }; done\nexport LD_PRELOAD\nunset _f\n' >> /etc/conf.d/sshd
+
+# rc_sys autodetect statt "docker": OpenRCs Installation schreibt beim Bauen
+# im Behaelter rc_sys="docker" fest (Container-Erkennung). Im KVM-Gast wuerde
+# das ewig alle Container-Keywords ziehen (kein devfs/udev). Leer = pro
+# Umgebung neu erkennen (Gast: echt, Behaelter: weiter Container).
+RUN export LSAN_OPTIONS="exitcode=0" \
+ && sed -i 's/^rc_sys=.*/rc_sys=""/' /etc/rc.conf \
+ && grep -q '^rc_sys=""$' /etc/rc.conf
+
+# Udev-Dienste aus dem Boot nehmen (Stapel 2+, Testgast): Der Aufwand, den
+# Daemon unter Aufsicht zu starten, haengt (supervise-daemon kehrt nie
+# zurueck; von Hand gestartet laeuft er). Der Testgast braucht ihn nicht:
+# keine Hotplug-Geraete, keine Module (alles builtin), Geraeteknoten kommen
+# aus der Initramfs. Manuell weiter nutzbar. Falls spaetere Stapel ihn
+# brauchen (elogind?), mit Shell-Zugang neu bewerten.
+# MUSS VOR mksquashfs stehen (Gast startet aus dem Squashfs!).
+RUN export LSAN_OPTIONS="exitcode=0" \
+ && rc-update del udev sysinit || true \
+ && rc-update del udev-trigger sysinit || true \
+ && rc-update del udev-settle sysinit || true
+
 ARG SSH_PUBKEY=""
 RUN export LSAN_OPTIONS="exitcode=0" \
  && groupadd -f input \
@@ -149,16 +185,16 @@ RUN export LSAN_OPTIONS="exitcode=0" \
     done && passwd -d kiel
 
 # Serielle Konsole + minimale Dienste (kein X, kein elogind-GUI-Stack nötig,
-# elogind/dbus bleiben für Kompatibilität zum Hardware-Pfad aktiv)
+# elogind/dbus bleiben für Kompatibilität zum Hardware-Pfad aktiv).
+# Hinweis: udev/udev-trigger/udev-settle bleiben ABSICHTLICH aus sysinit
+# (weiter oben per rc-update del entfernt). eudev ist noch nicht sanitisiert;
+# sein Start haengt den Boot auf. Reaktivieren mit Batch-2.
 RUN if ! grep -q '^s0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100$' /etc/inittab; then \
       printf '%s\n' 's0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100' >> /etc/inittab; \
     fi \
  && if ! grep -qx 'ttyS0' /etc/securetty; then \
       printf '%s\n' 'ttyS0' >> /etc/securetty; \
     fi \
- && rc-update add udev sysinit \
- && rc-update add udev-trigger sysinit \
- && rc-update add udev-settle sysinit \
  && rc-update add cgroups sysinit \
  && rc-update add modules boot \
  && rc-update add elogind boot \
@@ -233,6 +269,10 @@ RUN export LSAN_OPTIONS="exitcode=0"; set -e \
 # für virtio, daher kein Firmware-Tausch nötig)
 # LSAN-Policy: df (coreutils, sanitisiert) darf den Schritt nicht kippen.
 RUN export LSAN_OPTIONS="exitcode=0"; df -h
+# Bau-Artefakt entfernen: /.dockerenv gaukelt OpenRC einen Container vor
+# (Keywords -docker/-containers) -> devfs/udev/trigger wuerden nie starten.
+# Muss VOR mksquashfs weg (liegt sonst im Squashfs).
+RUN rm -f /.dockerenv
 RUN mksquashfs / /gentoo.squashfs_qemu \
   -comp zstd \
   -Xcompression-level 19 \
@@ -267,4 +307,10 @@ RUN mksquashfs / /gentoo.squashfs_qemu \
     var/cache/genkernel \
     var/tmp \
     initramfs-with-squashfs.img \
-    lost+found
+    lost+found \
+    .dockerenv
+
+# Letzter Schritt: /.dockerenv erneut entfernen. Jeder RUN-Schritt davor legt
+# sie neu an (Docker-Deamon), auch nach dem rm vor mksquashfs. Das Squashfs
+# ist zusaetzlich ueber die -e-Liste geschuetzt; das hier haelt das Image sauber.
+RUN rm -f /.dockerenv
