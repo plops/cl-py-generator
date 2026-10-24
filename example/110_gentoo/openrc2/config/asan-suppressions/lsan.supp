@@ -1,0 +1,12 @@
+# LSan-Suppressions fuer bekannte Exit-Time-Leaks (openrc2).
+# Format: eine Regel pro Zeile, `leak:<Funktion>` matcht den Alloc-Stack.
+# Grundsatz: Nur belegte, beim Prozessende ohnehin freigegebene Einmal-Leaks
+# kurzlebiger CLI-Werkzeuge. Echte Bugs (Overflow, UAF, UBSan) bleiben scharf.
+# Jede Regel braucht einen Beleg-Eintrag in asan-worklog.md.
+# Wirksam ueber ENV LSAN_OPTIONS=suppressions=... (Dockerfile), Build + Laufzeit.
+
+# --- sys-apps/coreutils: ginstall (make install) ---
+# Beleg: Batch-1-Build, `record_file`-Hashtabelle + `dest_info_init`-Hashtable
+# werden nie freigegeben (Prozessende). Ohne Regel stirbt `make install` (Exit 23).
+leak:record_file
+leak:dest_info_init

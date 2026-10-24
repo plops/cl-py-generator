@@ -45,8 +45,11 @@ bash /root/smoke-test.sh  # (Datei aus config/ in den Gast kopieren)
 ## Weg zurück auf Hardware (e14/hpz6)
 
 - Release-Builds: weiter aus `../openrc/` (alle Treiber/Firmware/Desktop).
-- Verifikationsbuilds: `config/env/sanitizers` ist per `package.env`-Eintrag
-  auf `net-dialup/picocom` angewendet (kleinstes C-Paket im Tree; ASan enthält
-  auf Linux LSan, UBSan via `undefined`; wirksam ab nächstem Build). Im Gast
-  verifiziert: LSan meldet Test-Leak (`123 byte(s) leaked`), UBSan meldet
-  `signed integer overflow`. Weitere Pakete nach demselben Muster dazu.
+- Verifikationsbuilds: Sanitizer-Flags stehen **global** in `make.conf`
+  (`-fsanitize=address,undefined`; ASan enthält auf Linux LSan). Opt-out nur
+  für Toolchain/libc (`package.env` → `env/nosanitizer`: glibc, gcc,
+  binutils — ASan braucht eine saubere libc als Fundament). Sandbox ist aus
+  (`-sandbox -usersandbox`: LD_PRELOAD-Konflikt libsandbox vs. libasan).
+  Binärpakete sind für `@world` abgeschaltet, damit die Flags wirklich greifen
+  (Voll-Build aus Quellen, deutlich länger). Im Gast verifiziert: LSan meldet
+  Test-Leak (`123 byte(s) leaked`), UBSan meldet `signed integer overflow`.

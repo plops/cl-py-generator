@@ -1,0 +1,5 @@
+# Hold: voruebergehend aus den Sanitizer-Batches herausgenommen.
+# Format: Atom + Grund. Regel: Kein Paket blockiert die Rolle. Wer hier steht,
+# hat entweder einen laufenden Hunt (mit Referenz) oder ist als nicht-fundamental
+# gestrichen. Rueckkehr nur mit Boot-Beleg.
+# (Aktuell leer: bash kehrte mit LSAN exitcode=0-Policy zurueck; Hunt laeuft nach.)

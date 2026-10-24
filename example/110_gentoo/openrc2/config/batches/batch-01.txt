@@ -1,0 +1,7 @@
+# Batch 1: Fundament aller Init-Skripte (Boot-Pfad).
+# Scheitert hier der Boot, wird die gemeldete Quelle gepatcht, nicht der Sanitizer.
+app-shells/bash
+sys-apps/coreutils
+sys-apps/util-linux
+sys-apps/grep
+sys-apps/sed

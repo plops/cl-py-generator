@@ -13,4 +13,5 @@ DOCKER_BUILDKIT=1 docker build \
   --build-arg BUILD_GIT_COMMIT="$(git rev-parse --short HEAD 2>/dev/null || echo unknown)" \
   --build-arg BUILD_REPOSITORY="openrc2-minimal-qemu" \
   --build-arg BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --build-arg SSH_PUBKEY="${SSH_PUBKEY:-}" \
   -t gentoo-qemu-min-openrc --progress=plain .

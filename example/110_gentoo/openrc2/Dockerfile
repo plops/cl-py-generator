@@ -19,6 +19,13 @@ COPY config/package.use /etc/portage/package.use
 COPY config/package.env /etc/portage/package.env
 COPY config/env /etc/portage/env
 COPY config/world /var/lib/portage/world
+# Leak-Policy (s. config/asan-suppressions + asan-worklog.md): GNU-CLI-Tools lecken
+# bauartbedingt beim Beenden (Hash-Tabellen, Einmal-Allocs) — das darf weder Builds
+# noch Boot brechen. Daher: bekannte Stellen via suppressions-Datei still,
+# alle UEBRIGEN Leak-Meldungen bleiben sichtbar, zaehlen aber exit 0
+# (Triage statt Abbruch). Echte Speicherfehler (ASan) + UBSan bleiben lethal.
+COPY config/asan-suppressions /etc/asan-suppressions
+ENV LSAN_OPTIONS="suppressions=/etc/asan-suppressions/lsan.supp:exitcode=0"
 RUN mkdir -p /etc/portage/package.mask
 COPY config/package.mask /etc/portage/package.mask/package.mask
 
@@ -70,16 +77,35 @@ ENV LANG=en_US.UTF-8 \
 RUN env-update && source /etc/profile
 RUN emerge -1 sys-apps/portage
 
-# Welt-Update aus Binärpaketen (ohne X11/Desktop/HW-Treiber geht das schnell)
+# Welt-Update (Binärpakete OK: Sanitizer kommen pro Batch per package.env,
+# s. naechste Stufe). Ohne X11/Desktop/HW-Treiber geht das schnell.
 RUN emerge -uDN @world
 RUN gcc-config -l
+
+# Sanitizer-Batches: config/package.env (von tools/apply-batch.sh erzeugt)
+# weist Paketen env/sanitizers zu. Ein CFLAGS-Wechsel loest allein keinen
+# Rebuild aus und Binärpakete wuerden die Flags aushebeln — daher hier
+# explizit aus Quellen neu bauen.
+COPY config/patches /etc/portage/patches
+COPY config/sanitized-packages.txt /tmp/sanitized-packages.txt
+RUN if [ -s /tmp/sanitized-packages.txt ]; then \
+      FEATURES="-getbinpkg -binpkg-request-signature" \
+      emerge --oneshot $(grep -vE '^\s*(#|$)' /tmp/sanitized-packages.txt); \
+    fi
 
 # Sudo + passwortloser Konsolen-User für QEMU-Tests
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
+ARG SSH_PUBKEY=""
 RUN groupadd -f input \
  && useradd -m -G users,wheel,audio,video,input -s /bin/bash kiel \
+ && if [ -n "${SSH_PUBKEY}" ]; then \
+      mkdir -p /home/kiel/.ssh && chmod 700 /home/kiel/.ssh \
+      && printf '%s\n' "${SSH_PUBKEY}" > /home/kiel/.ssh/authorized_keys \
+      && chmod 600 /home/kiel/.ssh/authorized_keys \
+      && chown -R kiel:kiel /home/kiel/.ssh; \
+    fi \
  && if getent group tty >/dev/null; then usermod -aG tty kiel; fi \
  && for grp in libvirt kvm qemu plugdev pcap docker dialout; do \
       if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi; \

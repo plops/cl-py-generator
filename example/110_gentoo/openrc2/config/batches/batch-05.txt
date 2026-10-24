@@ -1,0 +1,5 @@
+# Batch 5: Laufzeiten (Python/Perl-Stack fuer gentoolkit, git, Portage-Werkzeuge).
+# Enthalten implizit ueber Abhaengigkeiten; Liste bleibt Absichtsdokumentation.
+# Konkrete Atome werden beim Anwenden per qlist-Abgleich verfeinert.
+dev-lang/python
+dev-lang/perl

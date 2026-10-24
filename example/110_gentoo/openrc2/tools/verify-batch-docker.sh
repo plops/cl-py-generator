@@ -1,0 +1,38 @@
+#!/bin/bash
+# Schnelle Batch-Verifikation im Docker-Container (statt QEMU/SSH).
+# Nutzung: ./tools/verify-batch-docker.sh [image]  (Default: gentoo-qemu-min-openrc)
+# Prueft: ASan-Coverage der Batch-Binaries, funktionale Laeufe, LSan/UBSan-Demos.
+set -euo pipefail
+IMG="${1:-gentoo-qemu-min-openrc}"
+FAIL=0
+say() { echo "$1"; }
+
+check() { # name, command...
+  local name="$1"; shift
+  if docker run --rm "${IMG}" bash -c "$*" >/dev/null 2>&1; then
+    say "PASS: ${name}"
+  else
+    say "FAIL: ${name}"; FAIL=$((FAIL+1))
+  fi
+}
+
+say "== Image: ${IMG} =="
+# Coverage: Batch-Binaries enthalten AddressSanitizer-Symbolik.
+for bin in /bin/bash /bin/ls /usr/bin/grep /bin/mount; do
+  check "asan-strings $(basename "${bin}")" "strings -a ${bin} | grep -q AddressSanitizer"
+done
+# Funktional: Kernwerkzeuge laufen (Exit 0, kein Sanitizer-Abbruch)
+check "run ls" "ls / >/dev/null"
+check "run grep" "echo hi | grep -q hi"
+check "run sed" "echo hi | sed -e s/h/H/"
+check "run mount" "mount --version"
+check "run bash -c" "bash -c true"
+# LSan-Demo: gewollter Leak muss gemeldet werden (Detektion aktiv)
+check "lsan-demo" "printf '#include <stdlib.h>\nint main(void){malloc(7);return 0;}\n' > /tmp/l.c && gcc -fsanitize=address /tmp/l.c -o /tmp/l && ASAN_OPTIONS=detect_leaks=1 /tmp/l 2>&1 | grep -q 'detected memory leaks'"
+# UBSan-Demo: gewollter Overflow muss gemeldet werden
+check "ubsan-demo" "printf '#include <stdio.h>\nint main(void){int x=2147483647; x=x+1; printf(\"%d\",x);return 0;}\n' > /tmp/u.c && gcc -fsanitize=undefined /tmp/u.c -o /tmp/u && /tmp/u 2>&1 | grep -q 'runtime error'"
+# Schwergewichte duerfen nicht drin sein
+check "no-heavyweights" "! qlist -I 2>/dev/null | grep -qE 'llvm-core/llvm|x11-drivers/nvidia-drivers|media-libs/mesa|app-editors/emacs|www-client/firefox-bin'"
+
+say "== Ergebnis: FAIL=${FAIL} =="
+exit "${FAIL}"

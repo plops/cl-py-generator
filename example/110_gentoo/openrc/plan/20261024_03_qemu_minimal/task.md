@@ -10,3 +10,7 @@
 - [x] Docker-Build gentoo-qemu-min-openrc ohne ASan gestartet (detached, openrc2/logs/setup01_run_20261024_051558.log)
 - [x] setup03-Export (449 MB) + QEMU-Boot + Login + Smoke-Test 10/10 + Ping + Sanitizer-Probe
 - [x] walkthrough.md finalisieren mit Build-/Boot-Belegen
+- [x] Global-Sanitizer-Build gestoppt (erreichte "alle" nicht: -uDN baut Stage3-Systemmenge nicht neu)
+- [x] Stufenmodell: make.conf ohne globale Flags, batches 01-05, apply-batch.sh, Dockerfile-Oneshot-Stufe, patches/
+- [ ] Batch 1 bauen, booten, Smoke + Coverage, ggf. patchen, committen (batch-01-Tag)
+- [ ] Batches 2-5 je gleich; Voll-Coverage-Messung + walkthrough-Batch-Tabelle

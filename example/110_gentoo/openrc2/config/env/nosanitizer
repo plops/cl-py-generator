@@ -1,0 +1,13 @@
+# Opt-out aus den globalen Sanitizern (nur fuer Pakete, die ASan technisch
+# nicht vertragen; s. package.env). Toolchain + libc muessen unsanitisiert
+# bleiben: ASan braucht eine funktionierende libc als Fundament (Interceptor-
+# Konflikt), und gcc/binutils wuerden sich nur selbst verlangsamen.
+SAN_CFLAGS="-O2 -march=znver3 -pipe"
+SAN_CXXFLAGS="-O2 -march=znver3 -pipe"
+SAN_FCFLAGS="-O2 -march=znver3 -pipe"
+SAN_FFLAGS="-O2 -march=znver3 -pipe"
+CFLAGS="${SAN_CFLAGS}"
+CXXFLAGS="${SAN_CXXFLAGS}"
+FCFLAGS="${SAN_FCFLAGS}"
+FFLAGS="${SAN_FFLAGS}"
+LDFLAGS="${LDFLAGS} -fno-sanitize=all"

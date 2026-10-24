@@ -144,10 +144,18 @@ Workstation hpz6) bleibt unverändert.
 5. **Hardware-Pfad offen halten:** `openrc2/README.md` dokumentiert, wie aus dem
    Minimal-Stand später wieder Voll-Builds für e14/hpz6 werden (Release + Verifikation).
    `openrc/` wird nicht verändert.
-6. **Verifikationsbuilds (ASan/LSan/UBSan):** Unter `openrc2/config/env/sanitizers`
-   eine Portage-Env-Datei mit `-fsanitize=address,undefined` (LSan ist auf Linux
-   Teil von ASan) plus Doku, dass zuerst die Dependencies klein gehalten werden,
-   weil Sanitizer-Builds mehr RAM/Zeit brauchen. Kein Voll-Tree mit Sanitizern bauen.
+6. **Verifikationsbuilds (ASan/LSan/UBSan), Stufenmodell:** Alle Programme
+   bekommen Sanitizer — aber Batch für Batch mit Boot-Beweis, nicht auf einmal.
+   `openrc2/config/env/sanitizers` hält `-fsanitize=address,undefined` (LSan ist
+   auf Linux Teil von ASan); `tools/apply-batch.sh` verteilt die Batches aus
+   `config/batches/` nach `config/package.env`, das Dockerfile baut sie explizit
+   aus Quellen neu. Batch-Reihenfolge nach Boot-Kritikalität: 1. bash/coreutils/
+   util-linux/grep/sed, 2. openrc, 3. dbus/elogind/openssh, 4. Welt-Rest,
+   5. Python/Perl-Laufzeiten. Toolchain/libc bleiben per `env/nosanitizer`
+   draußen (ASan braucht saubere libc); Kernel/KASAN ist Non-Goal.
+   **Regel bei Treffer:** Verhindert ein Sanitizer den Boot, wird der gemeldete
+   Bug in der Quelle gepatcht (`config/patches/`, automatisch via
+   `/etc/portage/patches/`), nicht der Sanitizer abgestellt.
 7. **Smoke-Test:** `openrc2/config/smoke-test.sh` prüft im QEMU-Gast Kernel
    (`uname -r`), `/`-Mount, Netzwerk (`ip link`), `gcc --version` und
    Sanitizer-Laufzeit (`ASAN_OPTIONS=detect_leaks=1`).

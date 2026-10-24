@@ -23,7 +23,7 @@ if [ "${1:-}" = "--direct" ]; then
     -smp 16 \
     -m 8G \
     -device virtio-net-pci,netdev=n0 \
-    -netdev user,id=n0 \
+    -netdev user,id=n0,hostfwd=tcp::2222-:22 \
     -kernel "${SRC_DIR}/vmlinuz" \
     -initrd "${SRC_DIR}/initramfs_squash_sda1-x86_64.img" \
     -append "root=live:/dev/vda rd.live.dir=/ rd.live.squashimg=gentoo.squashfs console=ttyS0,115200" \
@@ -36,6 +36,6 @@ else
     -drive file=qemu/sda1.img,format=raw,if=virtio \
     -m 8G \
     -device virtio-net-pci,netdev=n0 \
-    -netdev user,id=n0 \
+    -netdev user,id=n0,hostfwd=tcp::2222-:22 \
     -nographic
 fi
