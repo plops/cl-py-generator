@@ -17,7 +17,7 @@ Das Vollsystem für e14/hpz6-Hardware liegt in `../openrc/` und bleibt unveränd
 | `config/package.use` | Minimal (lvm, elogind/dbus, squashfs-tools) |
 | `config/package.mask` | Gleicher `gentoo-sources`-Pin wie Voll-Image |
 | `config/package.env` | Nur `low-mem` für gcc |
-| `config/env/sanitizers` | Später: `-fsanitize=address,undefined` für Verifikationsbuilds (noch NICHT aktiv) |
+| `config/env/sanitizers` | `-fsanitize=address,undefined` für Verifikationsbuilds (ASan inkl. LSan); per `package.env` aktiv für `net-dialup/picocom` |
 | `config/config-base` | 1:1-Oracle-Kopie von `../openrc/config/config6.18.48` |
 | `config/kernel-qemu.fragment` | Abweichungen davon: Virtio + serielle Konsole rein, Grafik/WLAN/Sound raus, VFAT drin |
 | `config/smoke-test.sh` | Gast-seitiger Smoke-Test (im QEMU-Gast als root laufen lassen) |
@@ -45,7 +45,8 @@ bash /root/smoke-test.sh  # (Datei aus config/ in den Gast kopieren)
 ## Weg zurück auf Hardware (e14/hpz6)
 
 - Release-Builds: weiter aus `../openrc/` (alle Treiber/Firmware/Desktop).
-- Verifikationsbuilds: `config/env/sanitizers` per `package.env`-Eintrag auf
-  kleine Testpakete anwenden, z. B. `app-misc/mein-test sanitizers`
-  (ASan enthält auf Linux LSan; UBSan via `undefined`). Erst Dependencies klein
-  halten — Sanitizer-Builds brauchen deutlich mehr RAM/Zeit.
+- Verifikationsbuilds: `config/env/sanitizers` ist per `package.env`-Eintrag
+  auf `net-dialup/picocom` angewendet (kleinstes C-Paket im Tree; ASan enthält
+  auf Linux LSan, UBSan via `undefined`; wirksam ab nächstem Build). Im Gast
+  verifiziert: LSan meldet Test-Leak (`123 byte(s) leaked`), UBSan meldet
+  `signed integer overflow`. Weitere Pakete nach demselben Muster dazu.

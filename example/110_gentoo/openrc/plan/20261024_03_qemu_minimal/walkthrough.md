@@ -116,8 +116,11 @@ flowchart TD
   noch `user.kiel`-Service (`Cannot determine cgroup ... No medium found`,
   cgroup-frei im Live-Gast) — Login-Shell funktioniert trotzdem; `cfg80211`
   vermisst `regulatory.db` (kein WLAN in QEMU, harmlos).
-- Danach: `package.env`-Eintrag `sanitizers` auf ein kleines Testpaket anwenden
-  und Verifikationsbuild (ASan/LSan/UBSan) im QEMU-Gast laufen lassen.
+- Erledigt: `package.env` enthält `net-dialup/picocom sanitizers` (wirksam ab
+  nächstem Build); Live-Beleg im Gast: LSan `ERROR: LeakSanitizer: detected
+  memory leaks` / `SUMMARY: 123 byte(s) leaked in 1 allocation(s)`, UBSan
+  `runtime error: signed integer overflow: 2147483647 + 1 ...`.
+- Danach: Rebuild mit Sanitizer-`picocom` + weitere kleine Pakete nachziehen.
 - Langfristig: e14/hpz6-Release weiter aus `openrc/`; `openrc2/` als schnelle
   Test-Rampe davor.
 
