@@ -26,7 +26,7 @@ if [ "${1:-}" = "--direct" ]; then
     -netdev user,id=n0,hostfwd=tcp::2222-:22 \
     -kernel "${SRC_DIR}/vmlinuz" \
     -initrd "${SRC_DIR}/initramfs_squash_sda1-x86_64.img" \
-    -append "root=live:/dev/vda rd.live.dir=/ rd.live.squashimg=gentoo.squashfs console=ttyS0,115200" \
+    -append "root=live:/dev/vda rd.live.dir=/ rd.live.squashimg=gentoo.squashfs console=ttyS0,115200 net.ifnames=0 ${EXTRA_KERNEL_ARGS:-}" \
     -drive "file=${SCRIPT_DIR}/qemu/sda1.img,format=raw,if=virtio" \
     -nographic
 else

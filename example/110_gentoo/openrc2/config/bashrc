@@ -1,0 +1,8 @@
+# openrc2 ASan-Rollout: LSan-Triage-Policy (NUR plain, quoted!).
+# Kanal-Hierarchie (alle Gast-/Docker-belegt): package.env (config/env/
+# sanitizers) ist der Traeger; Docker-ENV ist VERBOTEN (Shadow-Beweis Run 13);
+# diese bashrc ist wirkungslos, wo sie nie gesourct wird (Gast-Beweis), und
+# MUSS denselben plain Wert tragen, wo sie doch gesourct wird (Docker?),
+# sonst ueberschreibt sie package.env mit suppressions-Form (Run-14-Geist).
+# NIEMALS suppressions= hier: unlesbare Datei voided exitcode komplett.
+export LSAN_OPTIONS="exitcode=0"

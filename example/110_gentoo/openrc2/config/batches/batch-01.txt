@@ -1,6 +1,10 @@
-# Batch 1: Fundament aller Init-Skripte (Boot-Pfad).
-# Scheitert hier der Boot, wird die gemeldete Quelle gepatcht, nicht der Sanitizer.
-app-shells/bash
+# Batch 1: Werkzeuge im Boot-Pfad (ohne Interpreter).
+# Bash (app-shells/bash) steht bewusst in Batch 6 (Interpreter-zuletzt):
+# Die Shell ist das Werkzeug, unter dem Portage ALLE Installationsschritte
+# ausfuehrt. Mit Sanitizer-Bash sterben diese Schritte im Docker-Build
+# (belegt, Runs 5-15), waehrend die Programme selbst fehlerfrei kompilieren.
+# Erst alle Programme, dann der Interpreter. Patches/sed/Policy bleiben
+# bereit liegen und werden in Batch 6 gebraucht.
 sys-apps/coreutils
 sys-apps/util-linux
 sys-apps/grep

@@ -1,0 +1,26 @@
+From: openrc2 ASan rollout (Hunt-Subagent, verifiziert im Gast)
+Subject: [PATCH 1/2] execute_function: dispose copied body in pipe subshell
+
+ASan-Bash meldet beim Beenden jeder Pipeline-Subshell Leaks und LSan
+erzwingt Exit 1: execute_function() registriert uw_dispose_command() und
+uw_maybe_restore_getopt_state() nur fuer subshell == 0. Der
+Pipe-Subshell-Zweig hat keinen Unwind-Frame; kopierter Funktionsbody +
+getopt-State verwaist. Folge: `f | filter`-Pipelines liefern PIPESTATUS 0=1,
+was Portages __save_ebuild_env-Pipeline (alle Merge-Phasen) abbricht.
+Unsanitisiert unsichtbar, identische Version verhaelt sich ohne ASan normal.
+
+--- a/execute_cmd.c
++++ b/execute_cmd.c
+@@ -5426,6 +5426,12 @@
+ 	pop_args ();
+     }
+ #endif
++  if (subshell)
++    {
++      /* The unwind protects above that dispose the copied function body and restore the getopt state are only registered when subshell is 0. A function run in a subshell, such as the left side of a pipeline, exits right after this; free those explicitly. Otherwise leak checkers report them at subshell exit and clobber the status the parent sees in PIPESTATUS. */
++      dispose_command (tc);
++      uw_maybe_restore_getopt_state (gs);
++    }
+ 
+   function_misc_cleanup ();
+   return (result);

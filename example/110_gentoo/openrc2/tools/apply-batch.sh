@@ -1,27 +1,36 @@
 #!/bin/bash
 # Erzeugt config/package.env und config/sanitized-packages.txt aus den Batches
-# bis zur gewuenschten Stufe: ./tools/apply-batch.sh <1..5>
+# bis zur gewuenschten Stufe: ./tools/apply-batch.sh <1..6>
 # Stufe 0 = keine Sanitizer (Referenz). Idempotent, deterministisch.
+# Stufe 6 = Interpreter-zuletzt (Bash, s. config/batches/batch-06.txt).
 set -euo pipefail
 OPENRC2_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 LEVEL="${1:-}"
-if ! [[ "${LEVEL}" =~ ^[0-5]$ ]]; then
-  echo "Nutzung: $0 <stufe 0..5>" >&2
+if ! [[ "${LEVEL}" =~ ^[0-6]$ ]]; then
+  echo "Nutzung: $0 <stufe 0..6>" >&2
   exit 1
 fi
 
 HELD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/hold.txt" | awk '{print $1}' || true)
+# Statischer Teil (aendert sich nie): frueh im Dockerfile kopiert, damit
+# Kernel- und Welt-Layer bei Batch-Wechseln aus dem Cache kommen.
+{
+  echo "# Erzeugt von tools/apply-batch.sh (statischer Teil)."
+  echo "# NICHT von Hand editieren."
+  echo "sys-devel/gcc low-mem"
+  echo "sys-libs/glibc nosanitizer"
+  echo "sys-devel/gcc nosanitizer"
+  echo "sys-devel/binutils nosanitizer"
+} > "${OPENRC2_DIR}/config/package.env.base"
 {
   echo "# Erzeugt von tools/apply-batch.sh, Stufe ${LEVEL}."
   echo "# NICHT von Hand editieren; Batches + hold.txt liegen in config/batches/."
   echo "# Toolchain/libc bleiben immer unsanitisiert (ASan braucht saubere libc)."
-  echo "sys-libs/glibc nosanitizer"
-  echo "sys-devel/gcc nosanitizer"
-  echo "sys-devel/binutils nosanitizer"
+  cat "${OPENRC2_DIR}/config/package.env.base"
   for h in ${HELD}; do
     echo "${h} nosanitizer"
   done
-  for n in 1 2 3 4 5; do
+  for n in 1 2 3 4 5 6; do
     [ "${n}" -gt "${LEVEL}" ] && break
     f="${OPENRC2_DIR}/config/batches/batch-0${n}.txt"
     echo "# --- batch-0${n} ---"
@@ -36,7 +45,7 @@ HELD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/hold.txt" | awk '{pri
 } > "${OPENRC2_DIR}/config/package.env"
 
 {
-  for n in 1 2 3 4 5; do
+  for n in 1 2 3 4 5 6; do
     [ "${n}" -gt "${LEVEL}" ] && break
     grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/batch-0${n}.txt"
   done | while read -r atom; do

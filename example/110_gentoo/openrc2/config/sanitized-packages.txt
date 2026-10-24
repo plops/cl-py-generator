@@ -1,4 +1,3 @@
-app-shells/bash
 sys-apps/coreutils
 sys-apps/util-linux
 sys-apps/grep

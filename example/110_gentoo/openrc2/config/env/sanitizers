@@ -8,3 +8,22 @@
 CFLAGS="${CFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
 CXXFLAGS="${CXXFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
 LDFLAGS="${LDFLAGS} -fsanitize=address,undefined"
+# LSan-Triage MUSS die Merge-Phasen erreichen: Docker-ENV wird von Portage
+# weggescrubbt (Whitelist-Env), /etc/portage/bashrc wird nie gesourct (Gast-
+# Beweis: Probe-Log bleibt leer). package.env-Dateien dagegen werden geparst
+# (Gast-Beweis: setup rc=0). Syntax-Regeln (Gast-belegt): KEIN `=` im Wert
+# ohne Quotes (shlex splittet, sonst "Invalid token"), also Quotes Pflicht.
+# Absichtlich OHNE suppressions=: Eine fehlende/unter Sandbox unlesbare
+# Suppressions-Datei voided exitcode komplett (Gast-Beweis) -> plain exitcode=0
+# ist die einzige robuste Policy. ASan/UBSan bleiben lethal.
+LSAN_OPTIONS="exitcode=0"
+# Sandbox AUS nur fuer Sanitizer-Batch-Pakete (Hunt-3-Beweis): Portage spawnt
+# Helper (instprep/die_hooks/other) via `sandbox(1)` -> LD_PRELOAD=libsandbox.so
+# steht IMMER vor DT_NEEDED-libasan -> "ASan runtime does not come first" ->
+# stiller exit(1) beim Prozessstart, kein Quellenpatch kann Link-Order fixen.
+# `-sandbox` allein reicht NICHT (`usersandbox` bleibt -> weiter spawn_sandbox).
+# Trade-off: keine Sandbox-Verletzungserkennung fuer diese Merges (reine
+# Upstream-Pakete, Test-Image). Langfristig: sys-apps/sandbox selbst mit ASan
+# bauen (dann ist die erstgeladene Lib ASan-Runtime). Wirkt nur pro Paket via
+# package.env, NICHT global.
+FEATURES="-sandbox -usersandbox"

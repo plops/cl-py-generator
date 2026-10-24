@@ -7,25 +7,19 @@ FROM gentoo/portage:20261021 AS portage
 FROM gentoo/stage3:nomultilib-20261019 AS base
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-ARG BUILD_GIT_COMMIT=unknown
-ARG BUILD_REPOSITORY=unknown
-ARG BUILD_DATE=unknown
-
+# HINWEIS Build-Args: BUILD_* stehen ABSICHTLICH erst spaet (vor Squashfs).
+# BUILD_DATE aendert sich pro Run und wuerde sonst den gesamten Cache ab
+# Zeile 12 entwerten (jeder Build = Voll-Rebuild, belegt Run 12-18).
 RUN eselect profile set default/linux/amd64/23.0/no-multilib
 
-# Minimal-Konfiguration (kein X, keine HW-Treiber)
+# Minimal-Konfiguration (kein X, keine HW-Treiber). Cache-Regel: Hier nur
+# STABILE Dateien — package.env (Batch-wechselnd), Suppressions und ENV kommen
+# spaet (vor der Oneshot-Stufe), damit Kernel-/Welt-Layer aus dem Cache kommen.
 COPY config/make.conf /etc/portage/make.conf
 COPY config/package.use /etc/portage/package.use
-COPY config/package.env /etc/portage/package.env
+COPY config/package.env.base /etc/portage/package.env
 COPY config/env /etc/portage/env
 COPY config/world /var/lib/portage/world
-# Leak-Policy (s. config/asan-suppressions + asan-worklog.md): GNU-CLI-Tools lecken
-# bauartbedingt beim Beenden (Hash-Tabellen, Einmal-Allocs) — das darf weder Builds
-# noch Boot brechen. Daher: bekannte Stellen via suppressions-Datei still,
-# alle UEBRIGEN Leak-Meldungen bleiben sichtbar, zaehlen aber exit 0
-# (Triage statt Abbruch). Echte Speicherfehler (ASan) + UBSan bleiben lethal.
-COPY config/asan-suppressions /etc/asan-suppressions
-ENV LSAN_OPTIONS="suppressions=/etc/asan-suppressions/lsan.supp:exitcode=0"
 RUN mkdir -p /etc/portage/package.mask
 COPY config/package.mask /etc/portage/package.mask/package.mask
 
@@ -85,20 +79,63 @@ RUN gcc-config -l
 # Sanitizer-Batches: config/package.env (von tools/apply-batch.sh erzeugt)
 # weist Paketen env/sanitizers zu. Ein CFLAGS-Wechsel loest allein keinen
 # Rebuild aus und Binärpakete wuerden die Flags aushebeln — daher hier
-# explizit aus Quellen neu bauen.
+# explizit aus Quellen neu bauen. Alles Flüchtige (package.env, Suppressions,
+# ENV, Portage-Workaround) liegt HIER, damit darueber alles gecacht bleibt.
+COPY config/package.env /etc/portage/package.env
 COPY config/patches /etc/portage/patches
 COPY config/sanitized-packages.txt /tmp/sanitized-packages.txt
+COPY config/asan-suppressions /etc/asan-suppressions
+COPY config/bashrc /etc/portage/bashrc
+COPY config/dracut-00-lsan.sh /etc/portage/openrc2-dracut-00-lsan.sh
+COPY config/dracut-99-unset-preload.sh /etc/portage/openrc2-dracut-99-unset-preload.sh
+# Leak-Policy (s. asan-worklog.md): NUR via package.env (config/env/sanitizers)!
+# KEIN Docker-ENV LSAN_OPTIONS: Vererbte Werte ueberschreiben package.env in
+# Merge-Phasen (Gast-/Docker-Beweis: Phasen-Env zeigte Docker-Form statt plain)
+# und suppressions-Pfade voiden exitcode bei Unlesbarkeit. ASan/UBSan lethal.
+# Portage-Workaround (s. asan-worklog.md): __save_ebuild_env() unsetet sich
+# selbst + `declare -fp` in Pipe = Exit 1 unter ASan-Bash (0 sonst) -> alle
+# Merge-Phasen tot. MUSS nach `emerge portage` stehen (Binärpaket wuerde die
+# Datei sonst ueberschreiben). Bis Bash das sauber kann.
+RUN f=/usr/lib/portage/python3.14/save-ebuild-env.sh \
+ && echo "vorher:" && grep -n '__save_ebuild_env$' "$f" \
+ && sed -i '/^\t\t__save_ebuild_env$/d' "$f" \
+ && echo "nachher:" && grep -n '__save_ebuild_env$' "$f" \
+ && test "$(grep -c '__save_ebuild_env$' "$f")" -eq 1
 RUN if [ -s /tmp/sanitized-packages.txt ]; then \
       FEATURES="-getbinpkg -binpkg-request-signature" \
       emerge --oneshot $(grep -vE '^\s*(#|$)' /tmp/sanitized-packages.txt); \
-    fi
+    fi || { echo "=== EVIDENCE-DUMP ==="; \
+      for l in /var/tmp/portage/*/*/temp/build.log; do \
+        [ -f "$l" ] || continue; echo "--- $l"; \
+        grep -a -m2 -B2 -A22 -i "sanitizer\|direct leak\|indirect leak\|runtime error\|READ of size\|heap-" "$l" | head -n 50; \
+        echo "--- tail $l"; tail -n 25 "$l"; \
+      done; \
+      for e in /var/tmp/portage/*/*/temp/environment; do \
+        [ -f "$e" ] || continue; echo "--- env $e"; \
+        grep -a -o "^declare -x \(LSAN_OPTIONS\|ASAN_OPTIONS\|LD_PRELOAD\|FEATURES\|SANDBOX_ON\)=.*" "$e" | head -n 8; \
+      done; echo "=== DUMP-ENDE ==="; exit 1; }
 
 # Sudo + passwortloser Konsolen-User für QEMU-Tests
 RUN mkdir -p /etc/sudoers.d
 RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
 
+# Gast-Netz + schneller SSH-Login: DHCP auf eth0 (QEMU user-net), kein
+# DNS-Reverse-Lookup beim Login (Haenger im Banner ohne DNS).
+RUN export LSAN_OPTIONS="exitcode=0" \
+ && printf 'config_eth0="dhcp"\n' > /etc/conf.d/net \
+ && ln -sf /etc/init.d/net.lo /etc/init.d/net.eth0 \
+ && rc-update add net.eth0 default \
+ && printf 'UseDNS no\n' >> /etc/ssh/sshd_config
+
+# Udev-Dienst unter Sanitizer-Libs: udevd laedt libblkid (Batch-01) per
+# dlopen. Ohne Preload an erster Stelle startet der Dienst nicht (Beweis:
+# Gast-7, Dienst gestoppt). conf.d wird vom Dienst gesourct, Env vererbt.
+RUN export LSAN_OPTIONS="exitcode=0" \
+ && printf 'export LSAN_OPTIONS="exitcode=0"\nfor _f in /usr/lib/gcc/*/*/libasan.so; do [ -f "$_f" ] && { LD_PRELOAD="$_f"; break; }; done\nexport LD_PRELOAD\nunset _f\n' >> /etc/conf.d/udev
+
 ARG SSH_PUBKEY=""
-RUN groupadd -f input \
+RUN export LSAN_OPTIONS="exitcode=0" \
+ && groupadd -f input \
  && useradd -m -G users,wheel,audio,video,input -s /bin/bash kiel \
  && if [ -n "${SSH_PUBKEY}" ]; then \
       mkdir -p /home/kiel/.ssh && chmod 700 /home/kiel/.ssh \
@@ -131,6 +168,10 @@ RUN if ! grep -q '^s0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100$' /etc/initt
 RUN rm -rf /var/tmp/portage/*
 
 WORKDIR /
+# Build-Args spaet (s. Hinweis oben): nur Tail-Layer werden pro Run neu.
+ARG BUILD_GIT_COMMIT=unknown
+ARG BUILD_REPOSITORY=unknown
+ARG BUILD_DATE=unknown
 RUN printf '%s\n' \
   'Minimal OpenRC QEMU test image (openrc2, no ASan)' \
   '=================================================' \
@@ -144,18 +185,27 @@ RUN printf '%s\n' \
 # ist Hardware-spezifisch (LUKS /dev/mapper/enc + persistente Upper/Work-Dirs) und
 # ersetzt dracuts Stock-Hook mount/01-mount-overlayfs.sh — damit würde /sysroot nie
 # gemountet ("Can't mount root filesystem"). QEMU nutzt Stock-dracut mit tmpfs-Overlay.
-RUN dracut \
-      -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
+# LSAN-Policy NUR fuer diesen Bauschritt (Batch-1-Run-16): dracut ruft
+# Sanitizer-Werkzeuge (sort & Co., 8-B-Exit-Leaks, belegt) und bricht bei deren
+# Exit-Code ab. Wirkt nur zur Build-Zeit, nicht im Image.
+RUN LSAN_OPTIONS="exitcode=0" dracut \
+      -m "kernel-modules base dmsquash-live dm udev-rules lvm overlayfs" \
   --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
   --add-drivers "virtio virtio_pci virtio_blk virtio_net virtio_console" \
       --kver=${KVER_RELEASE} \
       --install "stat blockdev" \
+      --include /etc/portage/openrc2-dracut-00-lsan.sh \
+        /var/lib/dracut/hooks/pre-udev/00-lsan.sh \
+      --include /etc/portage/openrc2-dracut-99-unset-preload.sh \
+        /var/lib/dracut/hooks/pre-pivot/99-unset-preload.sh \
       --force \
       /boot/initramfs_squash_sda1-x86_64.img
 
 # Paketbericht (vereinfacht: nur Groessen, keine Build-Zeiten -> kein genlop nötig).
 # gentoolkit (qlist/qsize) steht in config/world.
-RUN set -e \
+# LSAN-Policy (Batch-1): sed/sort sind sanitisiert (Exit-Leaks), set -e wuerde
+# den Loop beim ersten Leak abbrechen. Nur Build-Zeit, nicht im Image.
+RUN export LSAN_OPTIONS="exitcode=0"; set -e \
  && printf 'package\tsize_mib\n' > /packages.tsv \
  && for pkg in $(qlist -I); do \
       size_line=$(qsize -m "$pkg" | head -n 1 || true); \
@@ -167,7 +217,9 @@ RUN set -e \
 
 # Minimalitäts-Garantie: kein LLVM, NVIDIA, Mesa, Emacs oder Firefox im Image.
 # (llvm-core/llvm allein ~395 MiB; wird ohne mesa/nvidia/rust nicht gezogen.)
-RUN set -e \
+# LSAN-Policy: grep ist sanitisiert; falsche Exit-Codes wuerden den Check
+# blind machen (Fund mit Leak-Exit 1 gaelte als "nicht gefunden").
+RUN export LSAN_OPTIONS="exitcode=0"; set -e \
  && for pkg in llvm-core/llvm x11-drivers/nvidia-drivers media-libs/mesa \
       app-editors/emacs www-client/firefox-bin net-im/signal-desktop-bin \
       x11-base/xorg-server sys-kernel/linux-firmware; do \
@@ -179,7 +231,8 @@ RUN set -e \
 
 # EINZIGES QEMU-Squashfs (kein NVIDIA-, kein E14-Image; minimale Firmware reicht
 # für virtio, daher kein Firmware-Tausch nötig)
-RUN df -h
+# LSAN-Policy: df (coreutils, sanitisiert) darf den Schritt nicht kippen.
+RUN export LSAN_OPTIONS="exitcode=0"; df -h
 RUN mksquashfs / /gentoo.squashfs_qemu \
   -comp zstd \
   -Xcompression-level 19 \

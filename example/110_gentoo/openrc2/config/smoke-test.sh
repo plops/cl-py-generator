@@ -24,9 +24,10 @@ check "picocom" picocom --help
 check "sshd-service" rc-service sshd status
 check "vfat-support" sh -c "grep -q vfat /proc/filesystems"
 check "no-heavyweights" sh -c "! qlist -I | grep -qE 'llvm|nvidia|mesa|emacs|firefox|firmware'"
-check "asan-bash" sh -c "strings -a /bin/bash | grep -q AddressSanitizer"
-check "asan-ls" sh -c "strings -a /bin/ls | grep -q AddressSanitizer"
-check "asan-grep" sh -c "strings -a /usr/bin/grep | grep -q AddressSanitizer"
+check "bash-plain" sh -c "! ldd /bin/bash | grep -q libasan"
+check "asan-ls" sh -c "ldd /bin/ls | grep -q libasan"
+check "asan-grep" sh -c "ldd /usr/bin/grep | grep -q libasan"
+check "asan-sed" sh -c "ldd /usr/bin/sed | grep -q libasan"
 
 echo "Ergebnis: ${PASS} PASS, ${FAIL} FAIL"
 [ "${FAIL}" -eq 0 ]

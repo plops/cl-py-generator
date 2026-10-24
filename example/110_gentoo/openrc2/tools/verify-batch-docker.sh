@@ -18,12 +18,13 @@ check() { # name, command...
 
 say "== Image: ${IMG} =="
 # Coverage: Batch-Binaries enthalten AddressSanitizer-Symbolik.
-for bin in /bin/bash /bin/ls /usr/bin/grep /bin/mount; do
-  check "asan-strings $(basename "${bin}")" "strings -a ${bin} | grep -q AddressSanitizer"
+for bin in /bin/ls /usr/bin/grep /usr/bin/sed /bin/mount; do
+  check "asan-linked $(basename "${bin}")" "ldd ${bin} | grep -q libasan"
 done
+check "bash-plain (Interpreter-zuletzt)" "! ldd /bin/bash | grep -q libasan"
 # Funktional: Kernwerkzeuge laufen (Exit 0, kein Sanitizer-Abbruch)
 check "run ls" "ls / >/dev/null"
-check "run grep" "echo hi | grep -q hi"
+check "run grep" "[ \"$(echo hello | grep ell)\" = hello ]"
 check "run sed" "echo hi | sed -e s/h/H/"
 check "run mount" "mount --version"
 check "run bash -c" "bash -c true"

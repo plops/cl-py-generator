@@ -1,0 +1,10 @@
+# Batch 6: Interpreter-zuletzt (app-shells/bash mit ASan/LSan/UBSan).
+# Bash ist das letzte Paket, weil sie das Werkzeug ist, unter dem Portage
+# alle Installationsschritte ausfuehrt (Phasen-Helfer, Umgebungs-Snapshots).
+# Mit Sanitizer-Bash sterben diese Schritte (belegt: Batch-1-Runs 5-15,
+# 7-B-/7030-B-Leaks in Helfer-Pipelines, LD_PRELOAD-Order-Fatal mit Sandbox).
+# Bereit dafuer: config/patches/app-shells/bash/01+02 (Gast-validiert),
+# Zeile-221-sed im Dockerfile, LSAN-Policy + Sandbox-aus in env/sanitizers.
+# Strategie dann: Entweder plain-Bash fuers Werkzeug + Sanitizer-Bash fuers
+# System, oder (falls unloesbar) Bash wie Toolchain dauerhaft sanitizer-frei.
+app-shells/bash

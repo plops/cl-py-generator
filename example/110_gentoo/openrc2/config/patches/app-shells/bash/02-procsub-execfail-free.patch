@@ -1,0 +1,32 @@
+From: openrc2 ASan rollout (Hunt-Subagent, verifiziert im Gast)
+Subject: [PATCH 2/2] free child-private memory before exit (procsub, exec-fail)
+
+Zwei Stellen, an denen sterbende Kinder Allokationen zuruecklassen, die LSan
+meldet und den Exit-Status kipppt (127->1 bei exec-fail):
+- subst.c: procsub-Kind gibt sein privates pathname frei (Parent hat eigene Kopie).
+- execute_cmd.c: exec-fail-Pfad gibt args/command vor exit() frei.
+
+--- a/subst.c
++++ b/subst.c
+@@ -6580,4 +6580,8 @@
+   dev_fd_list[parent_pipe_fd] = 0;
+ #endif /* HAVE_DEV_FD */
+
++  /* The parent keeps its own copy of PATHNAME for the expansion result. This copy is private to the child and is no longer needed: the filename was already consumed above. Free it now so a leak checker does not report it as orphaned when this child exits. */
++  free (pathname);
++  pathname = (char *)NULL;
++
+   /* subshells shouldn't have this flag, which controls using the temporary
+--- a/execute_cmd.c
++++ b/execute_cmd.c
+@@ -5929,5 +5929,9 @@
+ 	 type it in. */
+       args = strvec_from_word_list (words, 0, 0, (int *)NULL);
+-      exit (shell_execve (command, args, export_env));
++      /* shell_execve only returns if the exec fails. Free the argument vector before exiting: leaving it allocated makes leak checkers report it and clobber the exit status we are about to return. */
++      result = shell_execve (command, args, export_env);
++      free (args);
++      free (command);
++      exit (result);
+     }
+   else
