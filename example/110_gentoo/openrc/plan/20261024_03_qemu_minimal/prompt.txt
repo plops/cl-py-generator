@@ -1,0 +1,163 @@
+# ==============================================================================
+# TEIL 1: GENERELLER SYSTEM- & QUALITÄTSRAHMEN (ALLGEMEINE REGELN)
+# ==============================================================================
+
+## 1. Rolle & Umgebung
+- **Arbeitsumgebung:** Du agierst als autonomer Senior-Software-Ingenieur in einem
+  Docker-Container (Ubuntu 26) auf einem Linux-Host. Du arbeitest im Auftrag von
+  wol pumba (wolpumba@gmail.com).
+- **Container-Start:** Der Container wurde auf dem Host wie folgt gestartet
+  (im Container liegt `~/stage` auf `/workspace/src`):
+  ```
+  ~/stage/cl-cl-generator/example/05_dockerfile_meta/source01/examples/03_ai_env $ ./setup02_run.sh --gpu --host-kmsg --usb --source-isolation --docker-sock --x11 --graphics --host-network
+  ```
+  Docker-Referenz: `/workspace/src/cl-cl-generator/example/05_dockerfile_meta/source01/examples/03_ai_env/Dockerfile`.
+  Dir stehen damit Host-Kernel-Messages, USB, der Docker-Socket, X11 und das
+  Host-Netz zur Verfügung. Falls dir Pakete/Tools fehlen (z. B. `qemu-system-x86`,
+  `sbcl`, `ruff`, `python3`), installiere sie selbstständig via `apt-get`.
+- **Paketverwaltung im Zielsystem:** Gentoo/Portage (kein `apt` im Image).
+
+---
+
+## 2. Dependency-Erkundung & Sparsamkeit
+- **Keine Blind-Abhängigkeiten:** Jede neue Abhängigkeit (Gentoo-Paket, Kernel-Option,
+  Firmware-Blob) ist zu begründen: Wofür wird sie gebraucht, was kostet sie
+  (Größe aus `packages.tsv`, Build-Zeit aus dem Build-Log)?
+- **Dokumentation:** Halte kurze Begründungen dort fest, wo sie hingehören
+  (`config/world` bleibt reine Paketliste; Begründungen in `implementation_plan.md`
+  und `walkthrough.md`).
+- **Minimalitätsgebot:** Dieser Plan dient ausdrücklich dazu, die Dependencies
+  klein zu halten (kurze Neubau-Zeit statt ~2h, kleine Sanitizer-Verifikationsbuilds).
+
+---
+
+## 3. Code-Architektur & Dateistruktur-Regeln
+- **Schlank & minimal:** Keine Duplikate des Voll-Images. `openrc2/` referenziert
+  bzw. kopiert nur, was es braucht; hardwarespezifisches bleibt in `openrc/`.
+- **Namenskonvention:** Kleinschreibung mit Bindestrichen (`setup04_create_qemu.sh`,
+  `smoke-test.sh`), Shell-Skripte mit `set -euo pipefail`, ausführbar (`chmod +x`).
+- **Keine generierten Artefakte von Hand editieren:** `SUPPORTED_FORMS.md`-Analogie —
+  Squashfs/Kernel/Initramfs werden gebaut, nie von Hand gepatcht.
+- **Kernel-Regel:** Die voll parenthesierte Kernel-`.config` aus `openrc/config/`
+  ist die Oracle-Basis; `openrc2` wendet nur ein dokumentiertes Fragment darauf an
+  (keine Head-Only-Entscheidungen: jede abgeschaltete Option mit Boot-Beleg).
+
+---
+
+## 4. Tooling & Code-Qualität
+Führe nach jeder Änderung aus:
+1. `bash -n <skript>` für jedes geänderte Shell-Skript (Syntax muss fehlerfrei sein).
+2. `diff` zwischen `openrc/config/world` und `openrc2/config/world` muss genau die
+   begründeten Streichungen zeigen, sonst nichts.
+3. Falls SBCL/ruff/python3 verfügbar: `./run-tests.sh`-Analogie — hier:
+   `tools/check-world-diff.sh` muss grün sein.
+
+---
+
+## 5. Arbeitsweise: 2-Stufen-Planung & Git-Disziplin
+Bevor du Images baust, erstelle zwei Dokumente im selben Planverzeichnis:
+### A. `implementation_plan.md`
+Befähigt einen unabhängigen Agenten ohne Vorwissen zum Weiterarbeiten:
+- **Kontext-Dateien:** Liste aller relevanten Dateien mit Kurzbeschreibung.
+- **Streich-Plan:** Welche Pakete/Treiber mit Größen-/Zeitbeleg aus
+  `openrc/gentoo-z6-min-openrc_20261024/packages.tsv` entfallen und warum.
+- **Architektur-Entscheidungen:** Warum `openrc2/` statt `openrc/` zu ändern;
+  wie der spätere Weg zurück auf Hardware (e14/hpz6, Release + Verifikation) offen bleibt.
+- **Git-Strategie:** Saubere atomare Commits im **Conventional Commits** Format
+  (z. B. `feat(openrc2): add minimal world without X and firmware`,
+  `docs(plan): add qemu-minimal walkthrough`).
+### B. `task.md` (serielle Aufgabenliste)
+- Fein granulierte serielle Checkliste (`- [ ] Task`): Welt-Datei → Dockerfile →
+  Kernel-Fragment → QEMU-Skripte → Smoke-Test → Sanitizer-Env → Build/Verifikation.
+- Erledigtes sukzessive abhaken (`- [x] Task`).
+
+---
+
+## 6. Projektabschluss: Walkthrough-Dokument (`walkthrough.md`)
+Nach Umsetzung (und ggf. Build-Lauf) erstelle `walkthrough.md` im selben
+Planverzeichnis (dort, wo diese `prompt.txt` liegt).
+
+**Strikte Vorgaben für den Walkthrough:**
+- **Sprache & Stil:** Zwingend auf **Deutsch**. Didaktisch hervorragend aufgebaut,
+  flüssig und mitreißend zu lesen; holt Entwickler auf Senior-Niveau ab.
+- **Erklärungen:** Fachbegriffe (Squashfs, dracut, OverlayFS, ASan/LSan/UBSan,
+  Virtio, KVM) werden prägnant und intuitiv erklärt; Abkürzungen bei Erstverwendung
+  einführen.
+- **Visualisierung:** Reichlich Code-Snippets und zwingend **Mermaid-Diagramme**
+  für Build-Pipeline, Boot-Fluss (QEMU → Kernel → Initramfs → Squashfs) und
+  Release-vs-Verifikations-Matrix.
+- **Feste Gliederung:**
+  1. **Was exakt implementiert wurde** (Überblick & Funktionalität).
+  2. **Architektur- und Design-Entscheidungen** (insb. was aufgrund von
+     Tests/Problemen spontan angepasst werden musste).
+  3. **Learnings & zukünftige Erweiterungen** (Weg zurück auf e14/hpz6-Hardware).
+  4. **Docker-Environment-Updates:** Welche Systempakete/Tools dauerhaft in das
+     `Dockerfile` bzw. die Host-Umgebung aufgenommen werden sollten.
+
+# ==============================================================================
+# TEIL 2: SPEZIFISCHER PROJEKTAUFTRAG
+# ==============================================================================
+
+## Ziel
+Baue ein minimales Gentoo-OpenRC-Testsystem, das schnell neu baut und in QEMU
+läuft. Arbeitsordner ist `openrc2/` (neu, neben `openrc/`):
+`/workspace/src/cl-py-generator/example/110_gentoo/openrc2`.
+Das Vollsystem in `openrc/` (Dockerfile, ~2h Neubau, läuft auf Laptop e14 und
+Workstation hpz6) bleibt unverändert.
+
+## Kontext und Referenzen
+- Voll-Image: `/workspace/src/cl-py-generator/example/110_gentoo/openrc/Dockerfile`
+  (605 Zeilen), `openrc/config/world` (112 Einträge), `openrc/config/make.conf`,
+  `openrc/config/package.use`, `openrc/config/config6.18.48` (Kernel-`.config`),
+  letzter Build: `openrc/gentoo-z6-min-openrc_20261024/`
+  (`gentoo.squashfs_e14` 1,3G, `vmlinuz`, `initramfs_squash_sda1-x86_64.img`,
+  `packages.tsv`/`packages.txt`).
+- Frühere Minimal-/QEMU-Versuche (wiederverwenden, nicht neu erfinden):
+  `../docker_min/Dockerfile`, `../docker_min/setup04_create_qemu.sh`,
+  `../docker_min/setup05_run_qemu.sh`, `../docker_min_hpz6/setup04_create_qemu.sh`,
+  `../docker_min_hpz6_openrc/setup06_create_qemu_dual_lower.sh`,
+  `../docker_min_hpz6_openrc/setup07_run_qemu_dual_lower.sh`.
+- Vorgängerpläne: `openrc/plan/20260905_01_packages_and_kernel_config/prompt.txt`,
+  `openrc/plan/20260905_02_login_groups_firmware_smoke/prompt.txt`.
+
+## Spezifische Anforderungen
+1. **Minimal-World (`openrc2/config/world`):** Streiche u. a. `app-editors/emacs`,
+   `x11-drivers/nvidia-drivers` + AMDGPU-Firmware-Stacks, `media-libs/mesa`,
+   `www-client/firefox-bin` (+chrome/signal), X11/dwm/alacritty-Pakete sowie
+   WLAN-/Drucker-/Audio-Pakete, die QEMU nicht braucht. Belege jede Streichung mit
+   Größe aus `packages.tsv` (Top-Treiber: `linux-firmware` ~1841 MiB,
+   `nvidia-drivers` ~1083 MiB, `signal-desktop-bin` ~364 MiB,
+   `firefox-bin` ~325 MiB, `emacs` ~175 MiB; Summe der Streichliste ~4,7G von ~8,4G).
+2. **Minimal-Dockerfile (`openrc2/Dockerfile`):** Gleiche Stage3-Basis wie `openrc/`,
+   gleicher `KVER_PURE`-Pin, aber: kein MELPA-Emacs-Run, kein NVIDIA-Squashfs,
+   nur EIN QEMU-Squashfs, minimale Firmware (nur `virtio`/KVM-Gast-relevantes),
+   dracut mit `virtio`-Treibern. E14-/Z6-Squashfs-Erzeugung bleibt in `openrc/`.
+3. **Kernel für QEMU:** Basis `openrc/config/config6.18.48` + dokumentiertes
+   Fragment (`openrc2/config/kernel-qemu.fragment`): Virtio (`VIRTIO_BLK/NET/CONSOLE`,
+   `VIRTIO_PCI`), serielle Konsole (`SERIAL_8250_CONSOLE`), KVM-Gast; kein
+   `DRM_AMDGPU`/`NVIDIA`/`WLAN`/`SOUND` im QEMU-Kernel. Ausdrücklich `VFAT`
+   eingebaut lassen (Pico-2-Entwicklung braucht VFAT).
+4. **QEMU-Start:** `openrc2/setup04_create_qemu.sh` (optionales GRUB-Disk-Image,
+   angelehnt an `docker_min/setup04_create_qemu.sh`) und
+   `openrc2/setup05_run_qemu.sh` (Direktstart `-kernel/-initrd/-append
+   console=ttyS0 -nographic`, KVM wenn verfügbar, sonst TCG-Fallback).
+5. **Hardware-Pfad offen halten:** `openrc2/README.md` dokumentiert, wie aus dem
+   Minimal-Stand später wieder Voll-Builds für e14/hpz6 werden (Release + Verifikation).
+   `openrc/` wird nicht verändert.
+6. **Verifikationsbuilds (ASan/LSan/UBSan):** Unter `openrc2/config/env/sanitizers`
+   eine Portage-Env-Datei mit `-fsanitize=address,undefined` (LSan ist auf Linux
+   Teil von ASan) plus Doku, dass zuerst die Dependencies klein gehalten werden,
+   weil Sanitizer-Builds mehr RAM/Zeit brauchen. Kein Voll-Tree mit Sanitizern bauen.
+7. **Smoke-Test:** `openrc2/config/smoke-test.sh` prüft im QEMU-Gast Kernel
+   (`uname -r`), `/`-Mount, Netzwerk (`ip link`), `gcc --version` und
+   Sanitizer-Laufzeit (`ASAN_OPTIONS=detect_leaks=1`).
+
+## Arbeitsablauf & Deliverables
+1. `implementation_plan.md` in diesem Planverzeichnis finalisieren.
+2. `openrc2/`-Dateien anlegen (Dockerfile, configs, Skripte, Doku).
+3. Syntax-/Diff-Verifikation (`bash -n`, `tools/check-world-diff.sh`); ein
+   vollständiger Image-Build (`~2h`) ist NICHT Teil dieses Auftrags und wird
+   auf e14/hpz6 nachgeholt — das im `walkthrough.md` so festhalten.
+4. `walkthrough.md` in diesem Planverzeichnis erstellen (deutsch, didaktisch,
+   mit Mermaid-Diagrammen, Dateiliste mit Begründung, QEMU-Testanleitung,
+   Non-Goal-Tabelle, Sanitizer-Anleitung).

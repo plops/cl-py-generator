@@ -1,0 +1,12 @@
+- [x] prompt.txt nach Vorbild schreiben (Teil 1 generell, Teil 2 spezifisch)
+- [x] openrc2/config/world minimal (15 statt 112 Pakete, ohne gdb/strace/llvm)
+- [x] openrc2/config/make.conf ohne X/Wayland, LLVM_TARGETS=X86
+- [x] openrc2/config/kernel-qemu.fragment + config-base-Oracle
+- [x] openrc2/config/env/sanitizers (inaktiv, Doku für später)
+- [x] openrc2/Dockerfile + Minimalitäts-Check-Stufe
+- [x] openrc2 QEMU-Skripte (setup04/setup05) + config/smoke-test.sh
+- [x] tools/check-world-diff.sh grün, bash -n grün
+- [x] openrc2/README.md, implementation_plan.md
+- [x] Docker-Build gentoo-qemu-min-openrc ohne ASan gestartet (detached, openrc2/logs/setup01_run_20261024_051558.log)
+- [x] setup03-Export (449 MB) + QEMU-Boot + Login + Smoke-Test 10/10 + Ping + Sanitizer-Probe
+- [x] walkthrough.md finalisieren mit Build-/Boot-Belegen
