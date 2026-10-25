@@ -6,3 +6,15 @@ sys-apps/openrc
 sys-apps/dbus
 sys-auth/elogind
 net-misc/openssh
+app-admin/sudo
+app-admin/sysklogd
+dev-vcs/git
+net-dialup/picocom
+net-misc/dhcpcd
+sys-apps/pciutils
+sys-apps/usbutils
+sys-fs/cryptsetup
+sys-fs/dosfstools
+sys-fs/e2fsprogs
+sys-fs/lvm2
+sys-fs/squashfs-tools

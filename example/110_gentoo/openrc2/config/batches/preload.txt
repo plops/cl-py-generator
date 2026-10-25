@@ -6,3 +6,5 @@
 sys-apps/openrc
 sys-auth/elogind
 sys-apps/dbus
+sys-apps/usbutils
+dev-vcs/git

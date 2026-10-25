@@ -656,3 +656,22 @@ Laufendes Protokoll: Versuch → Problem → Lösung. Kurz, nur Ergebnisse.
   ueberall libasan) + LSAN per -e in Pruef-Container.
 - Gast-22: SSH-OK, uptime RC=0 mit echten Werten, Preload-Datei im Gast.
   Stapel-3-Tor BESTANDEN (Boot + SSH + sanitisierte Dienste).
+
+## 2026-10-25, Run-45 rot: usbutils ist Meson-Paket ohne Wrapper
+
+- usbutils faellt wie elogind (Meson-Setup tot, Build-Dir fehlt, 6x
+  "does not come first"). Fix: in preload.txt (Meson-Liste) nachgetragen.
+  Lehre: jedes Meson-Paket braucht sanitizers-meson; uebrige Stapel
+  (python/perl/bash) nutzen kein Meson -> Liste bleibt stabil.
+
+## 2026-10-25, Run-46 rot: git ist (auch) Meson + Rust
+
+- usbutils geheilt (20/28). git-2.55 stirbt wie elogind (Meson-Setup tot,
+  cargo_env/meson_src_compile, kein Build-Dir). Fix: in preload.txt.
+  Nebenbei: Rust-Abhaengigkeit (rust-bin) baut mit (Side-by-Side-These).
+
+## 2026-10-25, Run-47 gruen: Stapel-4-Tor bestanden (Gast-23)
+
+- 20 Pakete (sudo, sysklogd, git, picocom, dhcpcd, pciutils, usbutils,
+  cryptsetup, dosfstools, e2fsprogs, lvm2, squashfs-tools + Stapel 1-3).
+  Docker FAIL=0, Gast-23: Boot ohne Udev, SSH-OK, uptime + git laufen.
