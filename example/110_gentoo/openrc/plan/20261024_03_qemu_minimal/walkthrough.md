@@ -141,3 +141,23 @@ Keine neuen Host-Pakete nötig: `qemu-system-x86`, `docker` (mit Socket) und
 - **ASan/LSan/UBSan:** Compiler-Sanitizer für Speicher-, Leak- und
   Undefiniert-Verhalten-Fehler (Verifikation, später).
 - **KVM/TCG:** Hardware-Beschleunigung für QEMU bzw. reine Emulation als Fallback.
+
+## Stapel-Status (Sanitizer-Rollout, Stand 2026-10-24)
+
+Jeder Stapel wird erst per Docker gebaut/geprüft, dann muss er im QEMU-Gast
+bis zum Login booten (Boot-Gate). Tag-Namen in Klammern.
+
+| Stapel | Pakete | Stand |
+|---|---|---|
+| 01 (batch-01) | coreutils, util-linux, grep, sed | GRÜN: Run 23 (Docker 13/13), Gast-7 bis Login + SSH + Funktionstests |
+| 02 (batch-02) | openrc | GRÜN: Run 35, Gast-18 bis Login + SSH (ohne Udev-Dienste) |
+| 03 (batch-03) | dbus, elogind, openssh | GRÜN: Run 44, Gast-22 bis Login + SSH + uptime (mit System-Vorladung) |
+| 04 | Welt-Rest (Plan) | offen |
+| 05 | python, perl (Plan) | offen |
+| 06 | bash, Interpreter-zuletzt (Plan) | offen, Patches bereit |
+
+Gelerntes: LSan-Triage `exitcode=0` (nur Lecks melden); Preload-Trick für
+Programme, die Sanitizer-Bibs per dlopen laden (udevd + libblkid); kein
+Verschlüsselungsmodul in den Startdateien (Endlos-Schleife); Testmuster
+müssen den Treffer wirklich enthalten; jede Bau-Kette mit Sanitizer-Tools
+braucht den LSan-Export.

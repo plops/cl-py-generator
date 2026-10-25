@@ -1,5 +1,8 @@
-# Pakete, deren Build-Werkzeuge LD_PRELOAD=libasan brauchen
-# (dlopen auf Sanitizer-Libs ohne eigene ASan-Linkung).
+# Meson-Pakete: brauchen zusaetzlich den Meson-PATH-Wrapper
+# (config/env/sanitizers-meson), weil Meson/python sanitisierte Shared Libs
+# per dlopen laedt ("ASan runtime does not come first", Run-36/37).
 # Format wie batches/batch-*.txt (ein Atom pro Zeile).
-# Zuweisung: <atom> sanitizers-preload (s. tools/apply-batch.sh).
+# Zuweisung: <atom> sanitizers-meson (s. tools/apply-batch.sh).
 sys-apps/openrc
+sys-auth/elogind
+sys-apps/dbus

@@ -88,6 +88,18 @@ COPY config/asan-suppressions /etc/asan-suppressions
 COPY config/bashrc /etc/portage/bashrc
 COPY config/dracut-00-lsan.sh /etc/portage/openrc2-dracut-00-lsan.sh
 COPY config/dracut-99-unset-preload.sh /etc/portage/openrc2-dracut-99-unset-preload.sh
+# Meson-Wrapper (Run-39): nacktes `meson` der Eclass (setup/test/install)
+# landet hier, wenn config/env/sanitizers-meson den PATH voranstellt.
+# NUR Meson bekommt die Vorladung (python+Meson brauchen libasan zuerst wegen
+# dlopen sanitisierter Libs); Portages eigene Mechanik bleibt unberuehrt
+# (globales LD_PRELOAD bricht __save_ebuild_env, Run-38 rot).
+# Pfad als Literal (kein $(...), Run-37 rot); gcc-Slot bei Wechsel pruefen.
+RUN mkdir -p /usr/local/asan-wrappers \
+ && printf '%s\n' '#!/bin/sh' \
+   'exec env LD_PRELOAD="/usr/lib/gcc/x86_64-pc-linux-gnu/16/libasan.so.8" LSAN_OPTIONS="exitcode=0" /usr/bin/meson "$@"' \
+   > /usr/local/asan-wrappers/meson \
+ && chmod 755 /usr/local/asan-wrappers/meson \
+ && /usr/local/asan-wrappers/meson --version
 # Leak-Policy (s. asan-worklog.md): NUR via package.env (config/env/sanitizers)!
 # KEIN Docker-ENV LSAN_OPTIONS: Vererbte Werte ueberschreiben package.env in
 # Merge-Phasen (Gast-/Docker-Beweis: Phasen-Env zeigte Docker-Form statt plain)
@@ -107,7 +119,7 @@ RUN if [ -s /tmp/sanitized-packages.txt ]; then \
     fi || { echo "=== EVIDENCE-DUMP ==="; \
       for l in /var/tmp/portage/*/*/temp/build.log; do \
         [ -f "$l" ] || continue; echo "--- $l"; \
-        grep -a -m2 -B2 -A22 -i "sanitizer\|direct leak\|indirect leak\|runtime error\|READ of size\|heap-" "$l" | head -n 50; \
+        grep -a -m2 -B2 -A22 -i "sanitizer\|direct leak\|indirect leak\|runtime error\|READ of size\|heap-\|does not come first\|meson setup\|No such file or directory" "$l" | head -n 50; \
         echo "--- tail $l"; tail -n 25 "$l"; \
       done; \
       for e in /var/tmp/portage/*/*/temp/environment; do \
@@ -200,6 +212,17 @@ RUN if ! grep -q '^s0:12345:respawn:/sbin/agetty 115200 ttyS0 vt100$' /etc/initt
  && rc-update add elogind boot \
  && rc-update add dbus default \
  && rc-update add sshd default
+# SSH-Host-Schluessel beim BAU erzeugen (Run-39): sanitisiertes ssh-keygen -A
+# stuerzt ab (SEGV, separater Hunt); Einzeltypen laufen. Stabile Schluessel
+# ersparen die Erzeugung beim ersten Boot und stabilisieren known_hosts.
+# LSAN-Policy: nur Build-Zeit (Exit-Leaks).
+RUN export LSAN_OPTIONS="exitcode=0"; set -o pipefail \
+ && for t in rsa ecdsa ed25519; do \
+      if [ ! -f "/etc/ssh/ssh_host_${t}_key" ]; then \
+        ssh-keygen -q -t "${t}" -f "/etc/ssh/ssh_host_${t}_key" -N ""; \
+      fi; \
+    done \
+ && test "$(ls /etc/ssh/ssh_host_*_key 2>/dev/null | wc -l)" -eq 3
 
 RUN rm -rf /var/tmp/portage/*
 
@@ -273,7 +296,15 @@ RUN export LSAN_OPTIONS="exitcode=0"; df -h
 # (Keywords -docker/-containers) -> devfs/udev/trigger wuerden nie starten.
 # Muss VOR mksquashfs weg (liegt sonst im Squashfs).
 RUN rm -f /.dockerenv
-RUN mksquashfs / /gentoo.squashfs_qemu \
+# Systemweite ASan-Vorladung (Run-42): libasan fuer JEDEN Prozess zuerst.
+# Mischt sanitisierte und unsanitisierte Programme (z.B. uptime -> libproc2
+# -> sanitisiertes libelogind, sonst "does not come first", Gast-Beweis).
+# Behaelter-belegt (uptime/python/ls/mountpoint RC=0). SPAET hier, damit der
+# Neubau klein bleibt; Gast braucht sie im Squashfs -> VOR mksquashfs.
+RUN export LSAN_OPTIONS="exitcode=0"; printf '%s\n' '/usr/lib/gcc/x86_64-pc-linux-gnu/16/libasan.so.8' \
+  > /etc/ld.so.preload && cat /etc/ld.so.preload
+# LSAN-Policy: mksquashfs laeuft jetzt vorbelastet (plain, Exit-Leaks).
+RUN export LSAN_OPTIONS="exitcode=0"; mksquashfs / /gentoo.squashfs_qemu \
   -comp zstd \
   -Xcompression-level 19 \
   -b 256K \
@@ -313,4 +344,5 @@ RUN mksquashfs / /gentoo.squashfs_qemu \
 # Letzter Schritt: /.dockerenv erneut entfernen. Jeder RUN-Schritt davor legt
 # sie neu an (Docker-Deamon), auch nach dem rm vor mksquashfs. Das Squashfs
 # ist zusaetzlich ueber die -e-Liste geschuetzt; das hier haelt das Image sauber.
-RUN rm -f /.dockerenv
+# LSAN-Policy: rm ist sanitisiert und laeuft jetzt vorbelastet.
+RUN export LSAN_OPTIONS="exitcode=0"; rm -f /.dockerenv

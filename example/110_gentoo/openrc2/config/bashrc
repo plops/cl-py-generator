@@ -1,8 +1,12 @@
 # openrc2 ASan-Rollout: LSan-Triage-Policy (NUR plain, quoted!).
 # Kanal-Hierarchie (alle Gast-/Docker-belegt): package.env (config/env/
 # sanitizers) ist der Traeger; Docker-ENV ist VERBOTEN (Shadow-Beweis Run 13);
-# diese bashrc ist wirkungslos, wo sie nie gesourct wird (Gast-Beweis), und
-# MUSS denselben plain Wert tragen, wo sie doch gesourct wird (Docker?),
-# sonst ueberschreibt sie package.env mit suppressions-Form (Run-14-Geist).
+# Global-Exporte hier MUSSEN denselben plain Wert tragen wie package.env,
+# sonst ueberschreiben sie ihn mit suppressions-Form (Run-14-Geist).
 # NIEMALS suppressions= hier: unlesbare Datei voided exitcode komplett.
 export LSAN_OPTIONS="exitcode=0"
+
+# KEINE Phasen-Haken hier (Run-39-Lehre): pre_src_*/post_src_* laufen in einer
+# Umgebung OHNE Paket-Identitaet (CATEGORY/PN/EBUILD/EBUILD_PHASE alle leer),
+# ein Gating ist unmoeglich. Meson-Vorladung laeuft stattdessen ueber einen
+# PATH-Wrapper (config/env/sanitizers-meson + Dockerfile).

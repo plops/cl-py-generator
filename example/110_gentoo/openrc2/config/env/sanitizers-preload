@@ -2,13 +2,17 @@
 # Werkzeuge (meson/python) sanitisierte Shared Libs per dlopen laden, ohne
 # selbst mit ASan gelinkt zu sein (Beweis: sys-apps/openrc, meson --version
 # stirbt mit "ASan runtime does not come first", weil python hashlib/uuid
-# -> libuuid (Batch-01) -> libasan zieht). Mit Preload an erster Stelle
-# laeuft das Werkzeug sauber (meson --version rc=0, Docker-Beweis).
-# Pfad robust via gcc (plain, immer da), Quotes wegen shlex Pflicht.
+# -> libuuid (Batch-01) -> libasan zieht).
+# OBSOLET seit Run-39 (Datei bleibt, wird aber keinem Paket mehr zugewiesen):
+# globales LD_PRELOAD bricht Portages __save_ebuild_env nach jeder Phase.
+# Mechanismus jetzt: phasengenaue Haken in config/bashrc (_ASAN_PRELOAD_PKGS).
+# Pfad als Literal: Portage wertet diese Dateien shlex-artig aus, $(...)
+# stirbt dort mit "bad substitution" (19x in Run-37 belegt). Pfad aus
+# Gast-Spuren (gcc 16); bei Toolchain-Wechsel neu pruefen.
 # Zuweisung pro Paket via config/batches/preload.txt (s. apply-batch.sh).
 CFLAGS="${CFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
 CXXFLAGS="${CXXFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
 LDFLAGS="${LDFLAGS} -fsanitize=address,undefined"
 LSAN_OPTIONS="exitcode=0"
-LD_PRELOAD="$(gcc -print-file-name=libasan.so)"
+LD_PRELOAD="/usr/lib/gcc/x86_64-pc-linux-gnu/16/libasan.so.8"
 FEATURES="-sandbox -usersandbox"

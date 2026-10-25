@@ -9,7 +9,8 @@ say() { echo "$1"; }
 
 check() { # name, command...
   local name="$1"; shift
-  if docker run --rm "${IMG}" bash -c "$*" >/dev/null 2>&1; then
+  # LSAN-Policy global (Run-42): System-Vorladung braucht exitcode=0 auch hier.
+  if docker run --rm -e LSAN_OPTIONS=exitcode=0 "${IMG}" bash -c "$*" >/dev/null 2>&1; then
     say "PASS: ${name}"
   else
     say "FAIL: ${name}"; FAIL=$((FAIL+1))
@@ -18,10 +19,12 @@ check() { # name, command...
 
 say "== Image: ${IMG} =="
 # Coverage: Batch-Binaries enthalten AddressSanitizer-Symbolik.
+# Link-Wahrheit via readelf (Run-42): ldd zeigt seit /etc/ld.so.preload bei
+# JEDEM Binary libasan, beweist also keine Linkung mehr.
 for bin in /bin/ls /usr/bin/grep /usr/bin/sed /bin/mount; do
-  check "asan-linked $(basename "${bin}")" "ldd ${bin} | grep -q libasan"
+  check "asan-linked $(basename "${bin}")" "readelf -d ${bin} | grep -q libasan"
 done
-check "bash-plain (Interpreter-zuletzt)" "! ldd /bin/bash | grep -q libasan"
+check "bash-plain (Interpreter-zuletzt)" "! readelf -d /bin/bash | grep -q libasan"
 # Funktional: Kernwerkzeuge laufen (Exit 0, kein Sanitizer-Abbruch)
 check "run ls" "ls / >/dev/null"
 check "run grep" "[ \"$(echo hello | grep ell)\" = hello ]"

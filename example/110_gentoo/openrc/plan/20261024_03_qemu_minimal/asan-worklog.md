@@ -564,3 +564,95 @@ Laufendes Protokoll: Versuch → Problem → Lösung. Kurz, nur Ergebnisse.
 - Run-35 gruen, Docker-Pruefung 13/13 (FAIL=0), Gast-18: Boot ohne Udev,
   SSH-OK, Startliste sauber, sed/grep/mount-Funktionstest gruen,
   /bin/sed gegen libasan gelinkt.
+
+## 2026-10-24, Run-36/37 rot: Meson-Setup stirbt, Vorladung kommt nie an
+
+- sys-auth/elogind stirbt in src_configure: `meson setup` endet sofort mit
+  "ASan runtime does not come first", Bauverzeichnis fehlt, Fehler erst eine
+  Phase spaeter sichtbar (pushd in meson_src_compile). Ursache laut Helfer-
+  Diagnose: `LD_PRELOAD="$(gcc ...)"` in config/env/sanitizers-preload wird
+  von Portage nie ausgewertet ("bad substitution", 19x in Run-37 belegt;
+  shlex-Regel: ein `=` pro Zeile, kein $(...)). Der Vorlade-Kanal war also
+  in beiden Runs wirkungslos. Nebenbei: openrcs Erfolg in Run-36/37 war
+  Renn-Glueck (Meson lief vor Installation des sanitisierten libuuid),
+  kein Beweis. Fix-Versuch: literaler Pfad statt $(...).
+- Lehre: Beweis-Sammlung um "does not come first|meson setup|No such file"
+  erweitert (Dockerfile), damit der echte Fehler naechstes Mal drinsteht.
+
+## 2026-10-24, Run-38 rot: globales LD_PRELOAD bricht Portages Mechanik
+
+- Mit parsbarer Datei faellt sys-apps/openrc schon beim ENTPACKEN:
+  `__save_ebuild_env failed` direkt nach "Source unpacked". Kette belegt:
+  __save_ebuild_env UND __filter_readonly_variables fallen EINZELN (RC=1),
+  ohne Vorladung geht dieselbe Phase (RC=0). Die Env-Sicherung laeuft nach
+  JEDER Phase -> globaler Kanal grundsaetzlich unbrauchbar.
+- Sackgassen unterwegs (belegt, nicht raten): Datei-Einhaengen ins Docker
+  geht hier nicht (Daemon sieht Host-Pfade nicht; Einbettung noetig);
+  bashrc-Phasen-Haken kennen KEIN Paket (CATEGORY/PN/EBUILD/EBUILD_PHASE
+  alle leer) -> kein Gating moeglich.
+- Neuer Mechanismus (Run-39): PATH-Wrapper /usr/local/asan-wrappers/meson
+  (nur Meson bekommt die Vorladung), pro Paket via config/env/
+  sanitizers-meson (PATH voranstellen). Eclass ruft nacktes `meson` (Beweis:
+  Zeilen 511/552/577). Vortest: Wrapper-Version 1.12.1 ohne Fehler,
+  ebuild-configure RC=0, build.ninja ECHT erzeugt.
+
+## 2026-10-25, Run-39/40 gruen, aber sshd-Tor zu: ssh-keygen + sshd crashen
+
+- Run-39 (Meson-Wrapper) GRUEN, Docker-Pruefung FAIL=0, dbus/sshd/elogind
+  alle gegen libasan gelinkt. Gast-19 bootet (0x Udev), aber sshd startet
+  nicht: `ssh-keygen -A` beim ersten Boot -> SEGV Null-PC.
+- Echter Sanitizer-Fund (Docker-belegt): ssh-keygen UND sshd crashen mit
+  identischer Signatur (pc 0x0) beim Schluessel-Handling. TUECKE: Exit-Code
+  luegt (RC=0, keine Datei) -> kuenftig Artefakte pruefen, nicht RCs! Auch
+  Einzeltypen (`-t rsa`) crashen; "geht" hiess nur "RC=0".
+- Bruecke fuers Boot-Tor: Host-Schluessel (Host-ssh-keygen, plain) in
+  Squashfs injiziert (auspacken/einpacken im priv. Behaelter, zstd-Optionen
+  wie Dockerfile; xz gibt es dort nicht). Gast-20: Schluessel gefunden,
+  aber sshd crasht ebenfalls -> SSH weiter zu. Separater Hunt laeuft
+  (Null-Call in geteilter Schluessel-Ladecode vermutet).
+- Dockerfile-Lehre: `ls | head`-Pipe maskiert Fehler (Schritt blieb gruen
+  trotz Crash) -> End-Kontrollen ohne Pipe bzw. mit pipefail.
+
+## 2026-10-25, SSH-Hunt geloest: fehlendes -lresolv, kein Quellfehler
+
+- Helfer-Befund (bauen-belegt): KEIN Methoden-Tabellen-Fehler. configure
+  prueft base64 per Link-Test; mit ASan-Flags findet der Test libasans
+  SCHWACHE __b64_ntop/__b64_pton-Stuempfe, der mitgelieferte Ersatz wird
+  weggelassen, aber libresolv nie gelinkt -> Sprung nach 0x0 bei jedem
+  base64-Kontakt (Schluessel speichern/laden/Pruefsumme). EIN Build-Flag
+  (-lresolv) heilt alle Pfade ohne Quellen-Patch (Helfer: -A inkl. MLDSA,
+  -t/-y/-l, sshd -T, alles RC=0). Kanal: config/env/sanitizers-resolv +
+  config/batches/resolv.txt (Werkzeug-Zuweisung wie preload).
+- Nebenbefunde: EIN Prozess (kein Fork; RC=0 war Artefakt von
+  LSAN exitcode=0 in ASans Die()); Upstream kennt keinen Fix dafuer.
+  sshd teilt den Pfad (Schluessel laden) -> mitgeheilt, boot-kritisch.
+- Eigene Bruecke (Host-Schluessel injiziert) wird mit Run-41 obsolet:
+  Bau-Keygen laeuft dann selbst. Pipe-Haertung (pipefail + Stueckzahl)
+  bleibt als Lehre drin.
+
+## 2026-10-25, Run-41 rot trotz -lresolv: --as-needed wirft es raus
+
+- Keygen-Schritt (#55, gehaertet) faellt weiter mit Null-PC. Link-Zeile
+  zeigt -lresolv ZWEIMAL, aber --as-needed (Toolchain-Standard) streicht es:
+  Symbol steht zuerst (schwach) in libasan -> nichts mehr unaufgeloest.
+- Behaelter-Beweis (2 Min. statt 25): mit
+  `-Wl,--push-state,--no-as-needed -lresolv -Wl,--pop-state` enthaelt
+  ssh-keygen BEIDE Libs (readelf), `-A` schreibt 4 echte Schluesseldateien,
+  `sshd -T` laeuft. Lehre: Artefakte zaehlen (Dateien), nicht RCs.
+
+## 2026-10-25, Run-42/43/44 gruen: Tor mit SSH bestanden (Stapel-3)
+
+- Run-42: Bau-Keygen erzeugt 3 Schluessel (gehaertete Pruefung besteht),
+  resolv in ssh-keygen-NEEDED (readelf-Beweis). Gast-21: Boot ohne Udev,
+  sshd [ ok ], ABER uptime (plain) stirbt: uptime -> libproc2 ->
+  sanitisiertes libelogind ohne Vorladung ("does not come first").
+- Strategie-Entscheid (gilt ab hier fuer alle Stapel): systemweite
+  /etc/ld.so.preload im Image (Behaelter-Beweis uptime/python/ls RC=0),
+  VOR mksquashfs, SPAET im Dockerfile (kleiner Neubau). Gast braucht keine
+  extra LSAN-Verkabelung (Dracut-Haken traegt Policy, Lecks toeten nicht).
+- Run-43 lehrt zweierlei: (a) cat im Preload-Schritt braucht LSAN-Export
+  (eigener Leck tötet ihn, LSan-Default ist lethal!); (b) Docker-Pruefung
+  auf Link-Wahrheit umstellen (readelf statt ldd: ldd zeigt mit Preload
+  ueberall libasan) + LSAN per -e in Pruef-Container.
+- Gast-22: SSH-OK, uptime RC=0 mit echten Werten, Preload-Datei im Gast.
+  Stapel-3-Tor BESTANDEN (Boot + SSH + sanitisierte Dienste).

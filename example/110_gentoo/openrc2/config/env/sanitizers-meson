@@ -1,0 +1,14 @@
+# Wie env/sanitizers, plus Meson-Wrapper vorne im PATH (Run-39).
+# Warum: Meson/python laedt sanitisierte Shared Libs per dlopen, ohne selbst
+# mit ASan gelinkt zu sein ("ASan runtime does not come first", Run-36/37).
+# Die Eclass ruft nacktes `meson` (setup/test/install) -> PATH-Wrapper
+# /usr/local/asan-wrappers/meson (Dockerfile) legt libasan vor. Pro Paket via
+# package.env, NICHT global: globales LD_PRELOAD bricht Portages
+# __save_ebuild_env nach jeder Phase (Run-38 rot). Syntax-Regeln wie
+# env/sanitizers (Quotes Pflicht, kein $(...), Run-37 rot).
+CFLAGS="${CFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+CXXFLAGS="${CXXFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+LDFLAGS="${LDFLAGS} -fsanitize=address,undefined"
+LSAN_OPTIONS="exitcode=0"
+PATH="/usr/local/asan-wrappers:${PATH}"
+FEATURES="-sandbox -usersandbox"

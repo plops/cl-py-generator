@@ -13,6 +13,7 @@ fi
 
 HELD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/hold.txt" | awk '{print $1}' || true)
 PRELOAD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/preload.txt" | awk '{print $1}' || true)
+RESOLV=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/resolv.txt" | awk '{print $1}' || true)
 # Statischer Teil (aendert sich nie): frueh im Dockerfile kopiert, damit
 # Kernel- und Welt-Layer bei Batch-Wechseln aus dem Cache kommen.
 {
@@ -25,7 +26,7 @@ PRELOAD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/preload.txt" | awk
 } > "${OPENRC2_DIR}/config/package.env.base"
 {
   echo "# Erzeugt von tools/apply-batch.sh, Stufe ${LEVEL}."
-  echo "# NICHT von Hand editieren; Batches + hold.txt + preload.txt liegen in config/batches/."
+  echo "# NICHT von Hand editieren; Batches + hold.txt + preload.txt + resolv.txt liegen in config/batches/."
   echo "# Toolchain/libc bleiben immer unsanitisiert (ASan braucht saubere libc)."
   cat "${OPENRC2_DIR}/config/package.env.base"
   for h in ${HELD}; do
@@ -39,7 +40,9 @@ PRELOAD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/preload.txt" | awk
       if echo "${HELD}" | grep -qxF "${atom}"; then
         echo "# HOLD (s. hold.txt): ${atom}"
       elif echo "${PRELOAD}" | grep -qxF "${atom}"; then
-        echo "${atom} sanitizers-preload"
+        echo "${atom} sanitizers-meson"
+      elif echo "${RESOLV}" | grep -qxF "${atom}"; then
+        echo "${atom} sanitizers-resolv"
       else
         echo "${atom} sanitizers"
       fi
