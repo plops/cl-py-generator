@@ -18,3 +18,4 @@ sys-fs/dosfstools
 sys-fs/e2fsprogs
 sys-fs/lvm2
 sys-fs/squashfs-tools
+dev-lang/python

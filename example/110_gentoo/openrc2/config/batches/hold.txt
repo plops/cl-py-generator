@@ -3,3 +3,7 @@
 # hat entweder einen laufenden Hunt (mit Referenz) oder ist als nicht-fundamental
 # gestrichen. Rueckkehr nur mit Boot-Beleg.
 # (Aktuell leer: bash kehrte mit LSAN exitcode=0-Policy zurueck; Hunt laeuft nach.)
+# Run-49: perl installiert nicht (Install-Helfer laden sanitisierte Libs ohne
+# Vorladung; globale Vorladung bricht Portage-Env-Sicherung, Wrapper greifen
+# nicht bei Relativpfad-Tools). Rueckkehr mit eigenem Hunt.
+dev-lang/perl

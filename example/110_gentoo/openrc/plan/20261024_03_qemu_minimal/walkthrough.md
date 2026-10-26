@@ -152,8 +152,8 @@ bis zum Login booten (Boot-Gate). Tag-Namen in Klammern.
 | 01 (batch-01) | coreutils, util-linux, grep, sed | GRÜN: Run 23 (Docker 13/13), Gast-7 bis Login + SSH + Funktionstests |
 | 02 (batch-02) | openrc | GRÜN: Run 35, Gast-18 bis Login + SSH (ohne Udev-Dienste) |
 | 03 (batch-03) | dbus, elogind, openssh | GRÜN: Run 44, Gast-22 bis Login + SSH + uptime (mit System-Vorladung) |
-| 04 | Welt-Rest (Plan) | offen |
-| 05 | python, perl (Plan) | offen |
+| 04 (batch-04) | sudo, sysklogd, git, picocom, dhcpcd, pciutils, usbutils, cryptsetup, dosfstools, e2fsprogs, lvm2, squashfs-tools | GRÜN: Run 47, Gast-23 bis Login + SSH (git/usbutils Meson-Wrapper) |
+| 05 | python (perl auf Hold) | BAUT (Run 50): Python in Run-49 belegt, Perl-Install braucht eigenen Hunt |
 | 06 | bash, Interpreter-zuletzt (Plan) | offen, Patches bereit |
 
 Gelerntes: LSan-Triage `exitcode=0` (nur Lecks melden); Preload-Trick für

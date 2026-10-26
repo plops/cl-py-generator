@@ -14,6 +14,7 @@ fi
 HELD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/hold.txt" | awk '{print $1}' || true)
 PRELOAD=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/preload.txt" | awk '{print $1}' || true)
 RESOLV=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/resolv.txt" | awk '{print $1}' || true)
+NODIST=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/nodist.txt" | awk '{print $1}' || true)
 # Statischer Teil (aendert sich nie): frueh im Dockerfile kopiert, damit
 # Kernel- und Welt-Layer bei Batch-Wechseln aus dem Cache kommen.
 {
@@ -43,6 +44,8 @@ RESOLV=$(grep -vE '^\s*(#|$)' "${OPENRC2_DIR}/config/batches/resolv.txt" | awk '
         echo "${atom} sanitizers-meson"
       elif echo "${RESOLV}" | grep -qxF "${atom}"; then
         echo "${atom} sanitizers-resolv"
+      elif echo "${NODIST}" | grep -qxF "${atom}"; then
+        echo "${atom} sanitizers-nodist"
       else
         echo "${atom} sanitizers"
       fi

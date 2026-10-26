@@ -675,3 +675,27 @@ Laufendes Protokoll: Versuch → Problem → Lösung. Kurz, nur Ergebnisse.
 - 20 Pakete (sudo, sysklogd, git, picocom, dhcpcd, pciutils, usbutils,
   cryptsetup, dosfstools, e2fsprogs, lvm2, squashfs-tools + Stapel 1-3).
   Docker FAIL=0, Gast-23: Boot ohne Udev, SSH-OK, uptime + git laufen.
+
+## 2026-10-25, Run-48 rot: Python-Link ohne Laufzeit (_bootstrap_python)
+
+- Objekte instrumentiert, aber Bootstrap-Link ohne -fsanitize
+  (unaufgeloeste __asan_*). Kette: Ebuild wischt CFLAGS/LDFLAGS fuer emake
+  leer (sysconfig-Hygiene); Backen (CONFIGURE_LDFLAGS_NODIST) landet nur in
+  PY_LDFLAGS_NODIST (freeze-Modul), Bootstrap braucht LDFLAGS_NODIST zur
+  MAKE-Zeit, das im Makefile NIE zugewiesen wird -> ENV gewinnt.
+- Fix ohne Quellen-Patch: config/env/sanitizers-nodist (CFLAGS/LDFLAGS_
+  NODIST-Exporte) + config/batches/nodist.txt (Werkzeug-Zuweisung).
+  Behaelter-Beweis per make-dry-run (2 Treffer), kein 10-Min-Bau noetig.
+- Nebenlehren: Suchmuster mit Abstand erlaubt (`^LDFLAGS\s*=` fand nichts,
+  obwohl belegt); Datei-Einhaengen geht hier nie (Daemon-blind).
+
+## 2026-10-25, Run-49: Python GRUEN (NODIST wirkt), Perl auf Hold
+
+- dev-lang/python-3.14.7 baut+installiert (18/30) -> NODIST-Kanal im Echtbau
+  bestaetigt. dev-lang/perl-5.44.0 kompiliert, faellt aber beim INSTALLIEREN:
+  Install-Helfer (miniperl, Relativpfad) laden sanitisierte Libs ohne
+  Vorladung ("does not come first", folgenlos gemeldet), danach fehlt das
+  Binary (ln -s stirbt). Alle Vorladungs-Kanaele belegt unbrauchbar
+  (global=Portage-Bruch Run-38, Wrapper=nur-PATH Run-39, Haken=identitaetslos).
+- Entscheid nach Regel (kein Paket blockiert): perl -> hold.txt (nosani-
+  tizer), Rueckkehr mit eigenem Hunt. Stapel-5 = Python solo.

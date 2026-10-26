@@ -1,0 +1,6 @@
+# Pakete, die zusaetzlich _NODIST-Flags brauchen (Run-49).
+# Deren Ebuilds wischen CFLAGS/LDFLAGS fuer emake leer; nur _NODIST wirkt
+# zur Make-Zeit (python: _bootstrap_python-Link, Hunt-Beweis).
+# Format wie batches/batch-*.txt (ein Atom pro Zeile).
+# Zuweisung: <atom> sanitizers-nodist (s. tools/apply-batch.sh).
+dev-lang/python

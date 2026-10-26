@@ -1,0 +1,15 @@
+# Wie env/sanitizers, plus _NODIST-Flags (Run-49, python).
+# Warum: Das Python-Ebuild wischt CFLAGS/LDFLAGS fuer emake absichtlich leer
+# (sysconfig-Hygiene); nur _NODIST wirkt. Backen allein reicht NICHT:
+# CONFIGURE_LDFLAGS_NODIST landet nur in PY_LDFLAGS_NODIST (freeze-Modul),
+# der Bootstrap-Link (_bootstrap_python) braucht LDFLAGS_NODIST zur
+# MAKE-Zeit (PY_LDFLAGS_NOLTO) -> ohne Env unaufgeloeste __asan_*-Symbole.
+# Das Makefile weist CFLAGS/LDFLAGS_NODIST nirgends zu, darum gewinnt ENV.
+# Syntax-Regeln wie env/sanitizers (Quotes Pflicht, kein $(...)).
+CFLAGS="${CFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+CXXFLAGS="${CXXFLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+LDFLAGS="${LDFLAGS} -fsanitize=address,undefined"
+CFLAGS_NODIST="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+LDFLAGS_NODIST="-fsanitize=address,undefined"
+LSAN_OPTIONS="exitcode=0"
+FEATURES="-sandbox -usersandbox"
