@@ -699,3 +699,17 @@ Laufendes Protokoll: Versuch → Problem → Lösung. Kurz, nur Ergebnisse.
   (global=Portage-Bruch Run-38, Wrapper=nur-PATH Run-39, Haken=identitaetslos).
 - Entscheid nach Regel (kein Paket blockiert): perl -> hold.txt (nosani-
   tizer), Rueckkehr mit eigenem Hunt. Stapel-5 = Python solo.
+
+## 2026-10-26, STOPP auf Wunsch: Endstand Stapel-1..5 (Run-50 laeuft noch)
+
+- Gesichert (Tags): batch-01 (coreutils/util-linux/grep/sed),
+  batch-02 (openrc), batch-03 (dbus/elogind/openssh), batch-04 (Welt-Rest).
+  Alle mit Boot-Tor (Login + SSH) im QEMU-Gast belegt.
+- Stapel-5 halb: Python GRUEN (NODIST-Kanal, Run-49), Perl auf Hold
+  (Install-Helfer-Problem, eigener Hunt offen). Run-50 (python solo) lief
+  beim Stopp noch (7/29) -> Ergebnis NICHT abgewartet, kein Tag batch-05.
+- Offen: batch-05-Tag (Tor nach Run-50), Stapel-6 bash (2 Patches bereit),
+  Perl-Hunt, Hardware-Pfad (e14/hpz6) unberuehrt.
+- Wichtigste Lehren: LSan exitcode=0 (nur melden); Meson-Wrapper pro Paket;
+  -lresolv mit --no-as-needed; System-Vorladung + readelf-Pruefung;
+  Artefakte zaehlen statt RCs; globale Vorladung bricht Portage.
