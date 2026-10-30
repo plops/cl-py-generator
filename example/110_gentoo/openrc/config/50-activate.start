@@ -1,0 +1,4 @@
+#!/bin/sh
+# Remaining host bring-up (network addresses, DHCP, sound/net modules, tunnels).
+# Runs in the background so a missing DHCP server does not delay the login prompt.
+SUDO_USER=kiel nohup /home/kiel/activate >/var/log/activate.log 2>&1 &

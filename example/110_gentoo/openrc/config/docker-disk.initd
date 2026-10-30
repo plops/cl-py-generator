@@ -1,0 +1,53 @@
+#!/sbin/openrc-run
+# Unlock LUKS (nvme1n1p3 -> dock), activate ubuntu-vg and mount the LV at /mnt.
+# Docker/containerd data lives in /mnt/docker. Failure only affects services
+# that need docker-disk; the rest of the boot is unaffected.
+
+description="Unlock and mount the Docker data disk"
+
+: "${DOCKER_DISK_LUKS:=/dev/disk/by-uuid/42bbab57-7cb0-465f-8ef9-6b34379da7d3}"
+: "${DOCKER_DISK_MAPPER:=dock}"
+: "${DOCKER_DISK_KEYFILE:=/etc/keys/dock.key}"
+: "${DOCKER_DISK_VG:=ubuntu-vg}"
+: "${DOCKER_DISK_LV:=/dev/mapper/ubuntu--vg-ubuntu--lv}"
+: "${DOCKER_DISK_MOUNT:=/mnt}"
+: "${DOCKER_DISK_DATA:=/mnt/docker}"
+
+depend() {
+	need localmount
+	after udev-settle lvm dmcrypt
+	before containerd docker
+}
+
+start() {
+	ebegin "Unlocking ${DOCKER_DISK_LUKS} as ${DOCKER_DISK_MAPPER}"
+	if [ ! -e "/dev/mapper/${DOCKER_DISK_MAPPER}" ]; then
+		if [ ! -r "${DOCKER_DISK_KEYFILE}" ]; then
+			eend 1 "key file ${DOCKER_DISK_KEYFILE} missing"
+			return 1
+		fi
+		cryptsetup open --key-file "${DOCKER_DISK_KEYFILE}" \
+			"${DOCKER_DISK_LUKS}" "${DOCKER_DISK_MAPPER}" || { eend 1; return 1; }
+	fi
+	eend 0
+
+	ebegin "Activating volume group ${DOCKER_DISK_VG}"
+	vgchange -ay "${DOCKER_DISK_VG}" >/dev/null
+	udevadm settle 2>/dev/null
+	eend $?
+
+	ebegin "Mounting ${DOCKER_DISK_LV} on ${DOCKER_DISK_MOUNT}"
+	if ! mountpoint -q "${DOCKER_DISK_MOUNT}"; then
+		mount -o rw,relatime "${DOCKER_DISK_LV}" "${DOCKER_DISK_MOUNT}" || { eend 1; return 1; }
+	fi
+	# Refuse to continue if the data directory is not on the data disk;
+	# otherwise docker would silently fill the root overlay.
+	[ "$(stat -c %d "${DOCKER_DISK_DATA}")" = "$(stat -c %d "${DOCKER_DISK_MOUNT}")" ] \
+		&& mountpoint -q "${DOCKER_DISK_MOUNT}"
+	eend $? "${DOCKER_DISK_DATA} is not on the data disk"
+}
+
+stop() {
+	# Leave the disk mounted; mount-ro/killprocs handle shutdown.
+	return 0
+}

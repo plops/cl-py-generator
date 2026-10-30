@@ -200,8 +200,9 @@ RUN printf '%s\n' \
       'modules="amdgpu mt7921e"' \
       > /etc/conf.d/modules \
  && printf '%s\n' \
-      'keymap="colemak"' \
+      'keymap="colemak/en-latin9"' \
       > /etc/conf.d/keymaps \
+ && sed -i 's/^rc_sys=.*/rc_sys=""/' /etc/rc.conf \
  && if grep -q '^rc_logger=' /etc/rc.conf 2>/dev/null; then \
       sed -i 's/^rc_logger=.*/rc_logger="YES"/' /etc/rc.conf; \
     else \
@@ -251,6 +252,9 @@ RUN printf '%s\n' \
  && rc-update add user.kiel default \
  && rc-update add dbus default \
  && rc-update add iwd default \
+ && rc-update add sshd default \
+ && rc-update add docker default \
+ && rc-update add local default \
  && chown -R kiel:kiel /home/kiel/.config
 
 RUN rm -rf /var/tmp/portage/* # reduce docker layer size
