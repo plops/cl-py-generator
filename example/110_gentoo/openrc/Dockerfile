@@ -478,6 +478,22 @@ RUN set -e \
  && cp -a /tmp/fw_original/. /usr/lib/firmware/ \
  && rm -rf /tmp/fw_original /tmp/fw_nv_root
 
+# ThinkPad E14 only: iwd owns wlan0 (WLAN, DHCP, DNS via openresolv).
+# Must stay AFTER the gentoo.squashfs_nv step above, so the HP Z6 image
+# is not affected. Background: doc/hotspot_disconnect_report.md
+COPY config/e14-iwd-main.conf /tmp/e14/iwd-main.conf
+COPY config/e14-iwd.confd /tmp/e14/iwd.confd
+COPY config/e14-nm-no-connectivity.conf /tmp/e14/nm-no-connectivity.conf
+RUN set -e \
+ && emerge --ask=n --noreplace net-dns/openresolv \
+ && install -d -m 0755 /etc/iwd /etc/NetworkManager/conf.d \
+ && install -m 0644 /tmp/e14/iwd-main.conf /etc/iwd/main.conf \
+ && install -m 0644 /tmp/e14/iwd.confd /etc/conf.d/iwd \
+ && install -m 0644 /tmp/e14/nm-no-connectivity.conf \
+      /etc/NetworkManager/conf.d/90-e14-no-connectivity.conf \
+ && (rc-update del NetworkManager default 2>/dev/null || true) \
+ && rm -rf /tmp/e14
+
 # Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
 # keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
 

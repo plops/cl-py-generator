@@ -1,0 +1,13 @@
+# /etc/conf.d/iwd (ThinkPad E14 only)
+
+# iwd configures IP itself, so it is the provider of the OpenRC "net"
+# virtual. Services that "need net" then no longer pull in NetworkManager.
+rc_provide="net"
+
+# iwd logs to stderr; without these lines OpenRC discards it.
+output_log="/var/log/iwd.log"
+error_log="/var/log/iwd.log"
+
+# For debugging, uncomment both lines and run: rc-service iwd restart
+#command_args="-d"
+#export IWD_DHCP_DEBUG=debug
