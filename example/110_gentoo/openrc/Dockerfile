@@ -69,37 +69,33 @@ RUN emerge -1 sys-apps/portage
 
 # RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
 #     PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
-RUN emerge -uDN @world
-RUN gcc-config -l
+# World-Update in 10 Blöcken: Ein Fehler stoppt nur seinen Block, die davor
+# liegenden Blöcke sind im Layer-Cache. Atome werden über xargs -d '\n' übergeben,
+# damit Sonderzeichen wie das '<' in sys-kernel/gentoo-sources-6.19 nicht von
+# der Shell interpretiert werden.
+# TEMPORÄR: Wenn alle Blöcke durchlaufen, die Zeilen "grep/split/xargs" entfernen
+# und nur noch `RUN emerge -uDN @world` stehen lassen.
+RUN grep -vE '^\s*(#|$)' /var/lib/portage/world > /tmp/world_atoms.txt \
+ && split -n l/10 -d /tmp/world_atoms.txt /tmp/world_stage_ \
+ && wc -l /tmp/world_stage_*
 
-# System package build in cached chunks:
-# 1) Compute an ordered empty-tree world plan during the Docker build.
-# 2) Split it into 10 files with roughly equal number of packages.
-# 3) Emerge each chunk in its own layer to reduce rebuild cost after failures.
+RUN xargs -r -d '\n' -a /tmp/world_stage_00 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_01 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_02 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_03 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_04 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_05 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_06 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_07 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_08 emerge -uDN
+RUN xargs -r -d '\n' -a /tmp/world_stage_09 emerge -uDN
 
-# RUN emerge -pqe --columns @world | awk '$2 ~ /\// {print $2}' > /tmp/world_packages.txt \
-#  && total_lines=$(wc -l < /tmp/world_packages.txt) \
-#  && lines_per_stage=$(( (total_lines + 9) / 10 )) \
-#  && for i in $(seq 1 10); do \
-#       start=$(( (i - 1) * lines_per_stage + 1 )); \
-#       end=$(( i * lines_per_stage )); \
-#       sed -n "${start},${end}p" /tmp/world_packages.txt > "/tmp/world_stage_${i}.txt"; \
-#     done
-
-# RUN if [ -s /tmp/world_stage_1.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_1.txt); fi
-# RUN if [ -s /tmp/world_stage_2.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_2.txt); fi
-# RUN if [ -s /tmp/world_stage_3.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_3.txt); fi
-# RUN if [ -s /tmp/world_stage_4.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_4.txt); fi
-# RUN if [ -s /tmp/world_stage_5.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_5.txt); fi
-# RUN if [ -s /tmp/world_stage_6.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_6.txt); fi
-# RUN if [ -s /tmp/world_stage_7.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_7.txt); fi
-# RUN if [ -s /tmp/world_stage_8.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_8.txt); fi
-# RUN if [ -s /tmp/world_stage_9.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_9.txt); fi
+# Abschluss-Check: alles bereits installiert, sollte nur noch wenig tun
 # RUN mkdir -p /etc/portage/package.accept_keywords \
 #  && touch /etc/portage/package.accept_keywords/package.accept_keywords \
 #  && grep -q '^>=net-misc/freerdp-3.17.2-r1 ~amd64$' /etc/portage/package.accept_keywords/package.accept_keywords \
 #     || printf '>=net-misc/freerdp-3.17.2-r1 ~amd64\n' >> /etc/portage/package.accept_keywords/package.accept_keywords
-# RUN if [ -s /tmp/world_stage_10.txt ]; then emerge --ask=n $(grep -E '.+/.+' /tmp/world_stage_10.txt); fi
+RUN gcc-config -l
 
 # Temporarily install package analysis tools
 RUN emerge --ask=n app-portage/genlop app-portage/gentoolkit \

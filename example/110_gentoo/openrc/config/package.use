@@ -16,3 +16,5 @@ sys-apps/dbus elogind
 app-text/xmlto text
 media-libs/libglvnd X
 app-editors/emacs gui X Xaw3d
+# alacritty (world) verlangt libxkbcommon[X]; globales -wayland bleibt bestehen
+x11-libs/libxkbcommon X

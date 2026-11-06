@@ -99,73 +99,15 @@ Planverzeichnis (dort, wo diese `prompt.txt` liegt).
 # ==============================================================================
 
 ## Ziel
-Baue ein minimales Gentoo-OpenRC-Testsystem, das schnell neu baut und in QEMU
-läuft. Arbeitsordner ist `openrc2/` (neu, neben `openrc/`):
-`/workspace/src/cl-py-generator/example/110_gentoo/openrc2`.
-Das Vollsystem in `openrc/` (Dockerfile, ~2h Neubau, läuft auf Laptop e14 und
-Workstation hpz6) bleibt unverändert.
 
-## Kontext und Referenzen
-- Voll-Image: `/workspace/src/cl-py-generator/example/110_gentoo/openrc/Dockerfile`
-  (605 Zeilen), `openrc/config/world` (112 Einträge), `openrc/config/make.conf`,
-  `openrc/config/package.use`, `openrc/config/config6.18.48` (Kernel-`.config`),
-  letzter Build: `openrc/gentoo-z6-min-openrc_20261024/`
-  (`gentoo.squashfs_e14` 1,3G, `vmlinuz`, `initramfs_squash_sda1-x86_64.img`,
-  `packages.tsv`/`packages.txt`).
-- Frühere Minimal-/QEMU-Versuche (wiederverwenden, nicht neu erfinden):
-  `../docker_min/Dockerfile`, `../docker_min/setup04_create_qemu.sh`,
-  `../docker_min/setup05_run_qemu.sh`, `../docker_min_hpz6/setup04_create_qemu.sh`,
-  `../docker_min_hpz6_openrc/setup06_create_qemu_dual_lower.sh`,
-  `../docker_min_hpz6_openrc/setup07_run_qemu_dual_lower.sh`.
-- Vorgängerpläne: `openrc/plan/20260905_01_packages_and_kernel_config/prompt.txt`,
-  `openrc/plan/20260905_02_login_groups_firmware_smoke/prompt.txt`.
+ich habe versucht die Dockerfile zu builden
+logs/setup01_run_20261104_070407.log
 
-## Spezifische Anforderungen
-1. **Minimal-World (`openrc2/config/world`):** Streiche u. a. `app-editors/emacs`,
-   `x11-drivers/nvidia-drivers` + AMDGPU-Firmware-Stacks, `media-libs/mesa`,
-   `www-client/firefox-bin` (+chrome/signal), X11/dwm/alacritty-Pakete sowie
-   WLAN-/Drucker-/Audio-Pakete, die QEMU nicht braucht. Belege jede Streichung mit
-   Größe aus `packages.tsv` (Top-Treiber: `linux-firmware` ~1841 MiB,
-   `nvidia-drivers` ~1083 MiB, `signal-desktop-bin` ~364 MiB,
-   `firefox-bin` ~325 MiB, `emacs` ~175 MiB; Summe der Streichliste ~4,7G von ~8,4G).
-2. **Minimal-Dockerfile (`openrc2/Dockerfile`):** Gleiche Stage3-Basis wie `openrc/`,
-   gleicher `KVER_PURE`-Pin, aber: kein MELPA-Emacs-Run, kein NVIDIA-Squashfs,
-   nur EIN QEMU-Squashfs, minimale Firmware (nur `virtio`/KVM-Gast-relevantes),
-   dracut mit `virtio`-Treibern. E14-/Z6-Squashfs-Erzeugung bleibt in `openrc/`.
-3. **Kernel für QEMU:** Basis `openrc/config/config6.18.48` + dokumentiertes
-   Fragment (`openrc2/config/kernel-qemu.fragment`): Virtio (`VIRTIO_BLK/NET/CONSOLE`,
-   `VIRTIO_PCI`), serielle Konsole (`SERIAL_8250_CONSOLE`), KVM-Gast; kein
-   `DRM_AMDGPU`/`NVIDIA`/`WLAN`/`SOUND` im QEMU-Kernel. Ausdrücklich `VFAT`
-   eingebaut lassen (Pico-2-Entwicklung braucht VFAT).
-4. **QEMU-Start:** `openrc2/setup04_create_qemu.sh` (optionales GRUB-Disk-Image,
-   angelehnt an `docker_min/setup04_create_qemu.sh`) und
-   `openrc2/setup05_run_qemu.sh` (Direktstart `-kernel/-initrd/-append
-   console=ttyS0 -nographic`, KVM wenn verfügbar, sonst TCG-Fallback).
-5. **Hardware-Pfad offen halten:** `openrc2/README.md` dokumentiert, wie aus dem
-   Minimal-Stand später wieder Voll-Builds für e14/hpz6 werden (Release + Verifikation).
-   `openrc/` wird nicht verändert.
-6. **Verifikationsbuilds (ASan/LSan/UBSan), Stufenmodell:** Alle Programme
-   bekommen Sanitizer — aber Batch für Batch mit Boot-Beweis, nicht auf einmal.
-   `openrc2/config/env/sanitizers` hält `-fsanitize=address,undefined` (LSan ist
-   auf Linux Teil von ASan); `tools/apply-batch.sh` verteilt die Batches aus
-   `config/batches/` nach `config/package.env`, das Dockerfile baut sie explizit
-   aus Quellen neu. Batch-Reihenfolge nach Boot-Kritikalität: 1. bash/coreutils/
-   util-linux/grep/sed, 2. openrc, 3. dbus/elogind/openssh, 4. Welt-Rest,
-   5. Python/Perl-Laufzeiten. Toolchain/libc bleiben per `env/nosanitizer`
-   draußen (ASan braucht saubere libc); Kernel/KASAN ist Non-Goal.
-   **Regel bei Treffer:** Verhindert ein Sanitizer den Boot, wird der gemeldete
-   Bug in der Quelle gepatcht (`config/patches/`, automatisch via
-   `/etc/portage/patches/`), nicht der Sanitizer abgestellt.
-7. **Smoke-Test:** `openrc2/config/smoke-test.sh` prüft im QEMU-Gast Kernel
-   (`uname -r`), `/`-Mount, Netzwerk (`ip link`), `gcc --version` und
-   Sanitizer-Laufzeit (`ASAN_OPTIONS=detect_leaks=1`).
+this was based on this
+commit 23437af27d36391b2bb6ece57f4bfae0a4e99c4b (HEAD -> master)
+    chore(gentoo): update
 
-## Arbeitsablauf & Deliverables
-1. `implementation_plan.md` in diesem Planverzeichnis finalisieren.
-2. `openrc2/`-Dateien anlegen (Dockerfile, configs, Skripte, Doku).
-3. Syntax-/Diff-Verifikation (`bash -n`, `tools/check-world-diff.sh`); ein
-   vollständiger Image-Build (`~2h`) ist NICHT Teil dieses Auftrags und wird
-   auf e14/hpz6 nachgeholt — das im `walkthrough.md` so festhalten.
-4. `walkthrough.md` in diesem Planverzeichnis erstellen (deutsch, didaktisch,
-   mit Mermaid-Diagrammen, Dateiliste mit Begründung, QEMU-Testanleitung,
-   Non-Goal-Tabelle, Sanitizer-Anleitung).
+
+ich habe die portage version in Dockerfile nochmal angepasst.
+
+deine aufgabe ist die fehler zu analysieren und mir eine loesung vorzuschlagen
