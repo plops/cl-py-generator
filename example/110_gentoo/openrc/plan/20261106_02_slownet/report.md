@@ -214,3 +214,91 @@ Host *
 - Weiter beobachten mit `ss -tin dst <SERVER-IP>` und `nstat`-Differenzen.
   Entscheidend sind `bbr:(bw:...)`, `retrans` und `delivery_rate`
   auf frischen Verbindungen.
+
+## 6. Anhang: `fq`-Ausgabe für Einsteiger
+
+Dieser Abschnitt holt von vorne ab. Kein Vorwissen nötig.
+
+### 6.1 Was ist ein qdisc?
+
+Jedes Netzwerkinterface hat eine Warteschlange für ausgehende Pakete.
+`qdisc` heißt „queueing discipline“. Also: die Regel, wer wann senden
+darf. `fq` heißt Fair Queueing. Jeder Flow bekommt fair seinen Anteil.
+
+### 6.2 Was ist ein Paket, was heißt `p`?
+
+Daten werden in Stücken verschickt. Ein Stück heißt Paket.
+`p` heißt Pakete. `10000p` heißt: maximal 10.000 Pakete puffern.
+
+Warum Pakete und nicht Bytes? Pakete sind verschieden groß. Ein Limit
+in Bytes könnte man mit vielen Minipaketen umgehen. Die Paketanzahl
+begrenzt den Verwaltungsaufwand. Die Bytegröße steht daneben,
+z. B. `backlog 0b 0p`: 0 Bytes, 0 Pakete.
+
+### 6.3 Was ist ein Flow?
+
+Ein Flow ist eine Verbindung. Erkannt an fünf Merkmalen: Quell-IP,
+Ziel-IP, Quell-Port, Ziel-Port, Protokoll. Eine SSH-Sitzung zum Server
+ist ein Flow. Jede Loopback-Verbindung ein weiterer.
+
+### 6.4 Wozu die Hash-Tabelle?
+
+Der Kernel will pro Flow einen eigenen Zähler und Puffer führen. Aber
+viele Flows linear zu durchsuchen ist langsam.
+
+Trick: Hash-Funktion. Sie rechnet aus den fünf Flow-Merkmalen eine
+Zahl. Diese Zahl heißt Bucket. Es gibt 1024 Buckets (`buckets 1024`).
+Jeder Flow landet in genau einem Bucket. Nachschlagen geht dann sofort,
+ohne Suchen. Wie ein Postfachregal mit 1024 Fächern: Der Name auf dem
+Brief bestimmt per Rechenregel das Fach. Der Postbote rechnet statt
+zu suchen.
+
+1024 Fächer, aber beliebig viele Flows. Zwei Flows können dasselbe
+Fach treffen. Das heißt Kollision. Dann teilen sie sich Zähler und
+Puffer. Ungenau, aber selten ein Problem.
+
+Manche Pakete gehören zu keinem bekannten Socket, etwa
+weitergeleitete Pakete. Sie heißen Orphans (Waisen). Sie bekommen
+keine eigene Flow-Verwaltung, sondern teilen sich Buckets.
+`orphan_mask 1023` steuert, wie diese Buckets ausgewählt werden.
+1023 ist 1024 minus 1. Das begrenzt das Hash-Ergebnis auf 0 bis 1023.
+
+### 6.5 Die `fq`-Felder im Einzelnen
+
+Beispiel (zensiert, Werte gerundet):
+
+```text
+qdisc fq 8001: root refcnt 2 limit 10000p flow_limit 100p
+buckets 1024 orphan_mask 1023 bands 3
+quantum 3028b initial_quantum 15140b low_rate_threshold 550Kbit
+refill_delay 40ms timer_slack 10us horizon 10s
+Sent 5845801 bytes 12692 pkt (dropped 0, overlimits 0 requeues 0)
+backlog 0b 0p requeues 0
+flows 17 (inactive 17 throttled 0)
+gc 0 highprio 0 fastpath 9440 throttled 2300 latency 71.9us
+```
+
+- `limit 10000p`: Gesamtpuffer. Erst darüber wird verworfen.
+- `flow_limit 100p`: Puffer pro Flow. Ein Flow kann die Queue nicht
+  allein volllaufen lassen.
+- `bands 3`: drei Prioritätsbänder nach TOS, mit Gewichten grob 9:3:1
+  im Round Robin. Band 0 ist die Überholspur.
+- `quantum 3028b`: Guthaben pro Runde, ca. 2× MTU.
+- `initial_quantum 15140b`: Startguthaben neuer Flows, ca. 10× MTU.
+  Kurze Verbindungen kommen sofort los.
+- `low_rate_threshold 550Kbit`: Flows unter 550 kbit/s gelten als
+  „langsam“ und werden bevorzugt sofort geschickt (`fastpath`).
+  Flows darüber werden per Pacing verzögert (`throttled`). Darum läuft
+  Kleinkram sofort durch, nur Bursts werden geglättet.
+- `refill_delay 40ms`: Takt der Guthaben-Nachfüllung.
+- `timer_slack 10us`: Timer-Toleranz, spart Wakeups.
+- `horizon 10s`: Pakete dürfen höchstens 10 s in die Zukunft terminiert
+  werden. `horizon_drop` ist aus, also wird gewartet statt verworfen.
+- `Sent ..., dropped 0`: nichts verworfen, Queue lief nie über.
+- `backlog 0b 0p`: gerade nichts gepuffert.
+- `flows 17 (inactive 17 throttled 0)`: 17 bekannte Flows, alle idle,
+  keiner gedrosselt.
+- `fastpath 9440, throttled 2300`: ca. 80 % ging sofort raus,
+  ca. 20 % wurde per Pacing geglättet. Genau dafür ist `fq` da.
+- `latency 71.9us`: maximale beobachtete Verweildauer in der Queue.
+  Winzig. Kein Bufferbloat auf dieser Seite.
