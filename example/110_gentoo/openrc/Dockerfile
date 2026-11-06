@@ -1,7 +1,8 @@
+
 # syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
 
 # Base images
-FROM gentoo/portage:20261028 AS portage
+FROM gentoo/portage:20261103 AS portage
 
 # Stage3 base (1GB)
 # https://hub.docker.com/r/gentoo/stage3/tags
@@ -28,7 +29,7 @@ COPY config/package.env /etc/portage/package.env
 COPY config/env /etc/portage/env
 COPY config/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-ENV KVER_PURE=6.18.57
+ENV KVER_PURE=6.18.60
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
