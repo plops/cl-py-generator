@@ -39,8 +39,8 @@ sudo mkdir -p /1p2/0824
 
 # Dateien kopieren
 
-export NOW=1009
-export SRC=/home/kiel/gentoo-z6-min-openrc_2026$NOW/
+export NOW=1106
+export SRC=/1p3/yt/gentoo-z6-min-openrc_2026$NOW/
 
 sudo mkdir -p /1p2/$NOW
 sudo cp -av $SRC/gentoo.squashfs_e14 /1p2/$NOW/gentoo.squashfs
@@ -50,7 +50,7 @@ sudo cp -av $SRC/packages.txt /1p2/$NOW/packages.txt
 sudo cp -av $SRC/packages.tsv /1p2/$NOW/packages.tsv
 
 # Microcode kopieren (vom bestehenden 0428-Satz)
-sudo cp -v /1p2/0428/amd-uc.img /1p2/$NOW/amd-uc.img
+sudo cp -v /1p2/1022/amd-uc.img /1p2/$NOW/amd-uc.img
 
 ls -lh /1p2/0824/
 df -h /1p2
