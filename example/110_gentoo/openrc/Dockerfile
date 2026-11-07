@@ -67,28 +67,30 @@ ENV LANG=en_US.UTF-8 \
 RUN env-update && source /etc/profile
 RUN emerge -1 sys-apps/portage
 
-# RUN --mount=type=tmpfs,target=/var/tmp/portage,size=8g \
-#     PORTAGE_TMPDIR=/var/tmp/portage emerge -uDN @world
-# World-Update in 10 Blöcken: Ein Fehler stoppt nur seinen Block, die davor
-# liegenden Blöcke sind im Layer-Cache. Atome werden über xargs -d '\n' übergeben,
-# damit Sonderzeichen wie das '<' in sys-kernel/gentoo-sources-6.19 nicht von
-# der Shell interpretiert werden.
-# TEMPORÄR: Wenn alle Blöcke durchlaufen, die Zeilen "grep/split/xargs" entfernen
-# und nur noch `RUN emerge -uDN @world` stehen lassen.
-RUN grep -vE '^\s*(#|$)' /var/lib/portage/world > /tmp/world_atoms.txt \
- && split -n l/10 -d /tmp/world_atoms.txt /tmp/world_stage_ \
- && wc -l /tmp/world_stage_*
+# World-Update in einem Schritt.
+# Letzter erfolgreicher Chunk-Build: logs/setup01_run_20261106_182536.log (exit 0).
+# Die Chunk-Variante darunter bleibt auskommentiert erhalten und kann bei Bedarf
+# reaktiviert werden (dann die folgende RUN-Zeile auskommentieren).
+RUN emerge -uDN @world
 
-RUN xargs -r -d '\n' -a /tmp/world_stage_00 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_01 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_02 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_03 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_04 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_05 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_06 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_07 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_08 emerge -uDN
-RUN xargs -r -d '\n' -a /tmp/world_stage_09 emerge -uDN
+# --- Debug-Variante: World-Update in 10 Blöcken (derzeit deaktiviert) ---
+# Ein Fehler stoppt nur seinen Block, die davor liegenden Blöcke sind im
+# Layer-Cache. Atome werden über xargs -d '\n' übergeben, damit Sonderzeichen
+# wie das '<' in sys-kernel/gentoo-sources-6.19 nicht von der Shell
+# interpretiert werden.
+# RUN grep -vE '^\s*(#|$)' /var/lib/portage/world > /tmp/world_atoms.txt \
+#  && split -n l/10 -d /tmp/world_atoms.txt /tmp/world_stage_ \
+#  && wc -l /tmp/world_stage_*
+# RUN xargs -r -d '\n' -a /tmp/world_stage_00 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_01 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_02 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_03 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_04 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_05 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_06 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_07 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_08 emerge -uDN
+# RUN xargs -r -d '\n' -a /tmp/world_stage_09 emerge -uDN
 
 # Abschluss-Check: alles bereits installiert, sollte nur noch wenig tun
 # RUN mkdir -p /etc/portage/package.accept_keywords \
