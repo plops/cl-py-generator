@@ -12,19 +12,27 @@ sudo mount /dev/disk/by-uuid/cfb582a8-a460-40bc-bdf8-c760c5ecebb6 /mnt
 ```
 - **GRUB Config Partition**: `/dev/nvme0n1p2` (UUID `cfb582a8-a460-40bc-bdf8-c760c5ecebb6`, currently mounted at `/mnt`, or `/boot` in Kubuntu)
 - **Persistent Partition**: `/dev/nvme0n1p4` (LUKS UUID `bbac9bb8-39d9-42fa-8d04-94610ced9839`)
-- **Current Export Bundle**: `/home/kiel/gentoo-z6-min-openrc_20260824/`
-- **Build Date Suffix**: `0824` (installed on 2026-06-10), `0428` (OpenRC-Fallback)
+- **Current Export Bundle**: `/home/kiel/stage/cl-py-generator/example/110_gentoo/openrc/gentoo-z6-min-openrc_20261107/`
+- **Build Date Suffix**: `1107` (installed on 2026-11-08), `1106` (Fallback, war beim Install gebootet)
 
 > [!WARNING]
 > **NVMe Device Name Swapping**: The device letters `/dev/nvme0n1` and `/dev/nvme1n1` may swap dynamically after a reboot. Always identify the partitions using their unique UUIDs in GRUB configurations, scripts, and manual mounting.
 
 > [!NOTE]
-> Ab `0320` wird OpenRC anstelle von Systemd genutzt. Ab `0428` werden Artefakte in datierten Unterverzeichnissen wie `/0428/` abgelegt, um die Dateinamen sauber zu halten. Das E14-spezifische squashfs-Image heißt im Export-Verzeichnis lokal `gentoo.squashfs_e14` und wird auf `/1p2/0824/gentoo.squashfs` abgelegt. Beim Install am 2026-06-10 wurde der alte `0428`-Satz als Fallback behalten, da genug Speicher vorhanden war, während die älteren, verwaisten `03xx`-Einträge aus der GRUB-Konfiguration entfernt wurden.
+> Ab `0320` wird OpenRC anstelle von Systemd genutzt. Ab `0428` werden Artefakte in datierten Unterverzeichnissen wie `/0428/` abgelegt, um die Dateinamen sauber zu halten. Das E14-spezifische squashfs-Image heißt im Export-Verzeichnis lokal `gentoo.squashfs_e14` und wird auf `/1p2/1107/gentoo.squashfs` abgelegt. Beim Install am 2026-11-08 wurde der `1106`-Satz als Fallback behalten (4,3 GB frei bei 1,4 GB Bedarf); `amd-uc.img` (299 KB) wurde aus `/1106/` uebernommen. Bevorzugter Weg ist das Script `../install_on_e14.sh` (erst `--dry-run`, dann echter Lauf).
 
 
 ## 1. Preflight, Cleanup, and Copy New Build Artifacts
 
-Wir kopieren die neuen Artefakte auf die Storage-Partition. Wenn wir vom laufenden System aus installieren, mounten wir die Partition zuerst (z.B. nach `/1p2`):
+Bevorzugt das Script verwenden (prueft Preconditions inkl. Platz, kopiert, verifiziert per SHA256 und ergaenzt GRUB; loescht nie selbst):
+
+```bash
+cd /home/kiel/stage/cl-py-generator/example/110_gentoo/openrc
+sudo bash ./install_on_e14.sh --dry-run
+sudo bash ./install_on_e14.sh
+```
+
+Manuell geht es auch: Wir kopieren die neuen Artefakte auf die Storage-Partition. Wenn wir vom laufenden System aus installieren, mounten wir die Partition zuerst (z.B. nach `/1p2`; beim Live-Boot ist sie bereits als `/run/initramfs/live` gemountet, ggf. read-only -> `mount -o remount,rw`):
 
 ```bash
 # Partition mounten (falls nicht bereits gemountet)
@@ -32,15 +40,15 @@ sudo mount /dev/nvme1n1p2 /1p2  # Device-Name ggf. anhand von UUID df544e10... a
 
 df -h /1p2
 ls -lh /1p2/
-ls -lh /1p2/0428/
+ls -lh /1p2/1106/
 
 # Neue Verzeichnisstruktur anlegen
-sudo mkdir -p /1p2/0824
+sudo mkdir -p /1p2/1107
 
 # Dateien kopieren
 
-export NOW=1106
-export SRC=/1p3/yt/gentoo-z6-min-openrc_2026$NOW/
+export NOW=1107
+export SRC=/home/kiel/stage/cl-py-generator/example/110_gentoo/openrc/gentoo-z6-min-openrc_2026$NOW/
 
 sudo mkdir -p /1p2/$NOW
 sudo cp -av $SRC/gentoo.squashfs_e14 /1p2/$NOW/gentoo.squashfs
@@ -49,10 +57,10 @@ sudo cp -av $SRC/initramfs_squash_sda1-x86_64.img /1p2/$NOW/initramfs.img
 sudo cp -av $SRC/packages.txt /1p2/$NOW/packages.txt
 sudo cp -av $SRC/packages.tsv /1p2/$NOW/packages.tsv
 
-# Microcode kopieren (vom bestehenden 0428-Satz)
-sudo cp -v /1p2/1022/amd-uc.img /1p2/$NOW/amd-uc.img
+# Microcode kopieren (vom bestehenden 1106-Satz)
+sudo cp -v /1p2/1106/amd-uc.img /1p2/$NOW/amd-uc.img
 
-ls -lh /1p2/0824/
+ls -lh /1p2/1107/
 df -h /1p2
 ```
 
@@ -96,20 +104,20 @@ SRC=bbac; mkdir /$SRC && cryptsetup luksOpen /dev/disk/by-uuid/$SRC* $SRC && mou
 
 ```
 
-Die Boot-Einträge liegen in `/mnt/grub/custom.cfg`. Wir bereinigen veraltete Einträge und fügen den neuen Eintrag für `0824` hinzu, während `0428` als Fallback erhalten bleibt:
+Die Boot-Einträge liegen in `/mnt/grub/custom.cfg`. Wir bereinigen veraltete Einträge und fügen den neuen Eintrag für `1107` hinzu, während `1106` als Fallback erhalten bleibt (das Script `../install_on_e14.sh` macht das automatisch und legt vorher ein Backup an):
 
 ```bash
 cat <<'EOF' | sudo tee /mnt/grub/custom.cfg >/dev/null
-menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0428)' {
+menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 1106)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     # Search for the partition containing the artifacts
     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
 
-    linux /0428/vmlinuz \
+    linux /1106/vmlinuz \
       root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
-      rd.live.dir=/0428/ \
+      rd.live.dir=/1106/ \
       rd.live.squashimg=gentoo.squashfs \
       rd.live.ram=1 \
       rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
@@ -118,19 +126,19 @@ menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0428)' {
       rd.live.overlay.overlayfs=1 \
       nvme_core.default_ps_max_latency_us=0
 
-    initrd /0428/amd-uc.img /0428/initramfs.img
+    initrd /1106/amd-uc.img /1106/initramfs.img
 }
 
-menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0824)' {
+menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 1107)' {
     insmod part_gpt
     insmod fat
     insmod btrfs
     # Search for the partition containing the artifacts
     search --no-floppy --fs-uuid --set=root df544e10-90c0-4315-860c-92a58ec8499e
 
-    linux /0824/vmlinuz \
+    linux /1107/vmlinuz \
       root=live:UUID=df544e10-90c0-4315-860c-92a58ec8499e \
-      rd.live.dir=/0824/ \
+      rd.live.dir=/1107/ \
       rd.live.squashimg=gentoo.squashfs \
       rd.live.ram=1 \
       rd.luks.uuid=bbac9bb8-39d9-42fa-8d04-94610ced9839 \
@@ -139,7 +147,7 @@ menuentry 'Gentoo Dracut (E14 persist OpenRC nvme0n1p4 0824)' {
       rd.live.overlay.overlayfs=1 \
       nvme_core.default_ps_max_latency_us=0
 
-    initrd /0824/amd-uc.img /0824/initramfs.img
+    initrd /1107/amd-uc.img /1107/initramfs.img
 }
 
 menuentry 'Gentoo 041' {
@@ -156,7 +164,7 @@ menuentry 'Gentoo 041' {
 }
 EOF
 
-rg -n "0428|0824" /mnt/grub/custom.cfg
+rg -n "1106|1107" /mnt/grub/custom.cfg
 ```
 
 > [!NOTE]
@@ -607,8 +615,8 @@ rc-service hostname status
 ldd ~/Downloads/Antigravity/antigravity | grep -E 'nspr|not found'
 ldconfig -p | grep -E 'libnspr4|libnss3|libnssutil3|libsmime3|libcups\\.so\\.2'
 find /usr/lib /usr/lib64 -name 'libstdc++.so*' 2>/dev/null
-ls -l /run/initramfs/live/0428/packages.txt
-grep 'sys-devel/gcc' /run/initramfs/live/0428/packages.txt
+ls -l /run/initramfs/live/1107/packages.txt
+grep 'sys-devel/gcc' /run/initramfs/live/1107/packages.txt
 ```
 
 ### Temporary X11 workaround on the live system

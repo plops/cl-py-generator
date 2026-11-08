@@ -114,14 +114,20 @@ ensure_mounted_rw() {
         existing="$mnt"
     fi
     opts="$(findmnt -rn -M "$existing" -o OPTIONS 2>/dev/null || true)"
-    if [[ ",$opts," == *,ro,* ]]; then
-        [ "$DRY_RUN" -eq 1 ] && fail "$label: dry-run, $existing ist read-only."
-        mount -o remount,rw "$existing" \
-            || fail "$label: $existing ist read-only. Manuell: mount -o remount,rw $existing"
+    if [[ ",$opts," == *",ro,"* ]]; then
+        if [ "$DRY_RUN" -eq 1 ]; then
+            # stderr: stdout wird als Mountpunkt per $(...) aufgefangen.
+            info "[dry-run] $existing ist read-only, wuerde remounten: mount -o remount,rw $existing" >&2
+        else
+            mount -o remount,rw "$existing" \
+                || fail "$label: $existing ist read-only. Manuell: mount -o remount,rw $existing"
+        fi
     fi
-    touch "$existing/.writetest.$$" 2>/dev/null \
-        || fail "$label: $existing ist nicht beschreibbar."
-    rm -f "$existing/.writetest.$$"
+    if [ "$DRY_RUN" -eq 0 ]; then
+        touch "$existing/.writetest.$$" 2>/dev/null \
+            || fail "$label: $existing ist nicht beschreibbar."
+        rm -f "$existing/.writetest.$$"
+    fi
     printf '%s' "$existing"
 }
 
@@ -196,6 +202,12 @@ if [ "$avail" -lt "$need" ]; then
 fi
 ok "Platz reicht aus"
 
+# --- GRUB-Partition (Precondition, auch fuer dry-run relevant) ---
+G_MNT="$(ensure_mounted_rw "$GRUB_UUID" "$GRUB_MNT" "GRUB-Partition")"
+CUSTOM="$G_MNT/grub/custom.cfg"
+[ -f "$CUSTOM" ] || fail "GRUB-Konfiguration fehlt: $CUSTOM (falsche Partition? Inhalt: $(ls "$G_MNT" 2>/dev/null | tr '\n' ' '))"
+ok "GRUB-Konfiguration: $CUSTOM"
+
 if [ "$DRY_RUN" -eq 1 ]; then
     info "dry-run: alle Pruefungen bestanden, keine Aenderungen vorgenommen."
     exit 0
@@ -229,12 +241,7 @@ verify_one "$INITRAMFS_SRC" "$TARGET/initramfs.img"
 verify_one "$UCODE_SRC" "$TARGET/amd-uc.img"
 ok "Kopien verifiziert: $TARGET"
 
-# --- GRUB-Partition ---
-G_MNT="$(ensure_mounted_rw "$GRUB_UUID" "$GRUB_MNT" "GRUB-Partition")"
-CUSTOM="$G_MNT/grub/custom.cfg"
-[ -f "$CUSTOM" ] || fail "GRUB-Konfiguration fehlt: $CUSTOM (falsche Partition? Inhalt: $(ls "$G_MNT" 2>/dev/null | tr '\n' ' '))"
-ok "GRUB-Konfiguration: $CUSTOM"
-
+# --- GRUB-Eintrag schreiben (Partition wurde oben bereits geprueft) ---
 TITLE="Gentoo Dracut (E14 persist OpenRC nvme0n1p4 $SUFFIX)"
 BACKUP="$CUSTOM.bak-$(date +%Y%m%d-%H%M%S)"
 cp -v "$CUSTOM" "$BACKUP"
