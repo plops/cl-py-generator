@@ -94,6 +94,8 @@ Das Python-Testprogramm wurde deklarativ über ein kompaktes Common-Lisp-Skript 
 
 Die gesamte Auswertung ist in den vier Teilgrafiken von `savgol_analyse.png` sowie in den berechneten Kennzahlen zusammengefasst:
 
+![diagram](savgol_analyse.svg)
+
 ### 4.1 Kennzahlen im Vergleich
 
 | Methode | Parameter | MC-RMSE ($n=40$) | Bias-Anteil | Rausch-Anteil | NoiseGain | 2.0-Hz-Störtest RMSE |
