@@ -85,9 +85,9 @@
                freqs (np.fft.rfftfreq n_fft :d dx)
                amp_ideal (* 2.0 np.pi freqs)
                ,@(loop for name in '(sg gauss grad) append
-                       (let ((h (intern (format nil "H_~a" name)))
-                             (ng (intern (format nil "NG_~a" name)))
-                             (amp (intern (format nil "AMP_~a" name))))
+                       (let ((h (intern (string-upcase (format nil "h_~a" name))))
+                             (ng (intern (string-upcase (format nil "ng_~a" name))))
+                             (amp (intern (string-upcase (format nil "amp_~a" name)))))
                          `(,ng (np.sqrt (np.sum (np.square ,h)))
                            ,amp (np.abs (np.fft.rfft ,h :n n_fft)))))
                mask_pos (> freqs 0.0)
