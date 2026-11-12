@@ -87,16 +87,16 @@ h_grad = np.array([(-0.5) / dx, 0.0, 0.5 / dx])
 n_fft = 4096
 freqs = np.fft.rfftfreq(n_fft, d=dx)
 amp_ideal = 2.0 * np.pi * freqs
-NG_sg = np.sqrt(np.sum(np.square(H_sg)))
-AMP_sg = np.abs(np.fft.rfft(H_sg, n=n_fft))
-NG_gauss = np.sqrt(np.sum(np.square(H_gauss)))
-AMP_gauss = np.abs(np.fft.rfft(H_gauss, n=n_fft))
-NG_grad = np.sqrt(np.sum(np.square(H_grad)))
-AMP_grad = np.abs(np.fft.rfft(H_grad, n=n_fft))
-NOISE_sg = ng_sg * noise_std
-BIAS_sg = np.sqrt(np.maximum(0.0, np.square(best_rmse) - np.square(NOISE_sg)))
-NOISE_gauss = ng_gauss * noise_std
-BIAS_gauss = np.sqrt(np.maximum(0.0, np.square(best_rmse_g) - np.square(NOISE_gauss)))
+ng_sg = np.sqrt(np.sum(np.square(h_sg)))
+amp_sg = np.abs(np.fft.rfft(h_sg, n=n_fft))
+ng_gauss = np.sqrt(np.sum(np.square(h_gauss)))
+amp_gauss = np.abs(np.fft.rfft(h_gauss, n=n_fft))
+ng_grad = np.sqrt(np.sum(np.square(h_grad)))
+amp_grad = np.abs(np.fft.rfft(h_grad, n=n_fft))
+noise_sg = ng_sg * noise_std
+bias_sg = np.sqrt(np.maximum(0.0, np.square(best_rmse) - np.square(noise_sg)))
+noise_gauss = ng_gauss * noise_std
+bias_gauss = np.sqrt(np.maximum(0.0, np.square(best_rmse_g) - np.square(noise_gauss)))
 mask_pos = freqs > 0.0
 rel_sg = (amp_sg[mask_pos]) / (amp_ideal[mask_pos])
 f_3db_sg = freqs[mask_pos][np.argmax(rel_sg < (1.0 / np.sqrt(2.0)))]

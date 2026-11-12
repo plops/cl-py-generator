@@ -1,43 +1,33 @@
-Für eine erste qualitative Einordnung sind die Ergebnisse schon sehr aussagekräftig – man kann damit bereits den **Bias-Varianz-Tradeoff** und den **Unterschied zwischen SavGol und Gauß-Filter** sauber erklären.
-
-Für eine wirklich **wasserdichte Diskussion** fallen im Plot aber drei Dinge auf, die noch nach einer kleinen Nachschärfung schreien:
+Jetzt ist die Simulation **komplett rund und absolut belastbar** für eine fundierte Diskussion. Im neuen Plot greifen Zeitbereich, Optimierungskurve und Frequenzraum wie Zahnräder ineinander:
 
 ---
 
-### 1. Was sich aus deinen aktuellen Zahlen bereits brillant herauslesen lässt
-
-Deine Zahlen erlauben direkt eine exakte **Zerlegung in Bias und Varianz** ($\text{RMSE}^2 \approx \text{Bias}^2 + \text{Rauschen}^2$ mit $\sigma_{\text{out}} = \text{NoiseGain} \cdot 0.05$):
-
-* **`np.gradient`:** Der gemessene Noise-Gain ist exakt das theoretische Limit $\frac{1}{\sqrt{2}\,\Delta x} = \frac{1}{\sqrt{2}\cdot 0.02} = 35.355$. Damit ist das erwartete Rauschen $35.355 \cdot 0.05 = 1.768$, was fast 1:1 dem gemessenen RMSE (`1.733`) entspricht.
-* **Der eigentliche Clou (SavGol vs. Gauß):**
-  Obwohl der Gauß-Filter das weiße Rauschen sogar etwas **stärker dämpft** (`NG = 0.434` vs. `0.453`), hat er den **schlechteren RMSE** (`0.02703` vs. `0.02304`). Warum?
-  * **SavGol (`w=97, p=3`):** Rauschanteil $= 0.453 \cdot 0.05 = 0.02265 \implies \text{Bias} = \sqrt{0.02304^2 - 0.02265^2} \approx \mathbf{0.0042}$. SavGol arbeitet hier fast am reinen Rauschlimit.
-  * **Gauss (`s=0.247`):** Rauschanteil $= 0.434 \cdot 0.05 = 0.02170 \implies \text{Bias} = \sqrt{0.02703^2 - 0.02170^2} \approx \mathbf{0.0161}$ – also **fast 4× mehr systematischer Fehler**.
-  * **Physikalische Erklärung im Frequenzgang:** Ein Gauß-Filter flacht $|H(f)|$ schon nahe $f = 0$ quadratisch ab, während `SavGol (p=3)` dem idealen Differentiator $2\pi f$ im Durchlassbereich deutlich länger flach folgt und erst knapp vor $f_{-3\text{dB}} = 0.65\,\text{Hz}$ steil abknickt (genau dort, wo das Spektrum des $\sigma=1$-Gaußsignals ohnehin abklingt).
+### 1. Bias-Varianz-Optimierung (unten links)
+* **Vorher vs. Nachher:** Durch die Erweiterung bis `w = 251` sieht man jetzt das echte globale Optimum für `poly=3` bei **`w = 125`** (statt vorher am Suchrand bei `97`), mit einem Monte-Carlo-RMSE von **`0.02023`** gegenüber **`0.02671`** beim optimierten Gauß-Filter (~24 % besser).
+* **Alle drei U-Kurven sichtbar:**
+  * **`poly=1`** erreicht sein Minimum bei `w ≈ 55` und berührt dort exakt die gestrichelte **`Gauss Opt.`-Linie (`0.0267`)**. Das ist kein Zufall: Sowohl `SavGol (p=1)` (identisch mit `p=2`) als auch der Gauß-Filter haben eine Fehlerordnung von $O(h^2)$ – keiner hat beim Bias-Verhalten einen asymptotischen Vorteil über den anderen.
+  * **`poly=3`** (orange) unterbietet den Gauß-Filter im breiten Bereich `w ≈ 80..175` deutlich (auch inklusive der `±1σ`-Fehlerbänder über 40 Realisierungen – der Vorteil ist also statistisch signifikant, kein Ausreißer eines einzelnen Seeds).
+  * **`poly=5`** (grün) verschiebt das Optimum noch weiter nach rechts (`w ≈ 195..200`), bleibt aber knapp über `poly=3`, weil das 5.-Grad-Polynom mehr Rauschvarianz einfängt.
+* **Optimales Bias-Varianz-Gleichgewicht:** Bei `w = 125` sind Bias (`0.01300`) und Rauschanteil (`0.01550`) nahezu ausbalanciert – genau das charakteristische Zeichen eines gut getroffenen Bias-Varianz-Optimums.
 
 ---
 
-### 2. Wo der aktuelle Plot noch Schwächen hat (warum man nachlegen sollte)
+### 2. Warum SavGol beim weißen Rauschen gewinnt – aber bei `2.0 Hz` verliert (unten rechts)
+Der Frequenzgang-Zoom erklärt **beide** Ausgaben gleichzeitig:
 
-1. **Das Optimum `w=97` klebt direkt an der Suchgrenze (`101`)!**
-   Unten links sieht man, dass `poly=3` (orange) bei `97` und `poly=5` (grün) sogar bei `101` noch kaum wieder ansteigen. Der Suchbereich `5..101` (entspricht nur `2.0` $x$-Einheiten bei einer Signalbreite von $6\sigma = 6.0$) war schlicht **zu schmal**, um den Anstieg durch Bias bei großen Fenstern klar zu zeigen. Zudem drückt die lineare Y-Achse die Minima platt.
-   * **Fix:** Fenster bis `w=251` laufen lassen und `ax10.set_yscale("log")` verwenden – dann sieht man für alle drei Ordnungen die klassische **U-Kurve** (Varianz links, Bias rechts) gestochen scharf.
+1. **Weißes Rauschen (`SavGol: 0.0202` vs. `Gauss: 0.0267`):**
+   * Das graue **Signalspektrum $|g'(f)|$** liegt fast vollständig unterhalb von **`0.5 Hz`**.
+   * `SavGol (w=125, p=3)` bleibt bis ~`0.35 Hz` sehr nah an der idealen Gerade $2\pi f$ (kleiner Bias) und fällt dann bei **`f_-3dB = 0.50 Hz`** steil ab.
+   * Der **Gauß-Filter** dämpft im Signalband etwas früher (`Bias: 0.01559` vs. `0.01300`), lässt aber zwischen **`0.55 Hz` und `1.6 Hz`** (grün über orange!) unnötig viel weißes Rauschen passieren (`Noise: 0.02169` vs. `0.01550`). SavGol schlägt den Gauß-Filter also **gleichzeitig bei Bias und Rauschunterdrückung**.
 
-2. **Im Frequenzgang überstrahlt `Ideal: 2*pi*f` (bis `38`) den eigentlichen Vergleich:**
-   Unten rechts erkennt man kaum, dass **SavGol im Sperrbereich Nebenkeulen (Sidelobes)** bis `~0.6` hat, während **Gauss** oberhalb von `~1.8 Hz` komplett auf Null abfällt.
-   * **Fix:** Auf `f in [0, 3.0]` und `y in [0, 5]` zoomen (oder `semilogy` für $|H(f)|$) – dann wird der Tradeoff *„steile Flanke + Nebenkeulen (SavGol) vs. runde Flanke + perfekte Sperrdämpfung (Gauß)“* sofort sichtbar.
-
-3. **Nur eine einzige Zufalls-Realisierung (`seed=42`):**
-   Weil das RMSE-Tal bei `w = 80..110` extrem flach ist, kann das exakte `best_win` bei einem anderen Seed leicht zwischen z. B. `85` und `105` springen.
+2. **Schmalband-Störtest bei `2.0 Hz` (`SavGol: 0.02610` vs. `Gauss: 0.01967`):**
+   * Bei **`f = 2.0 Hz`** ist der Gauß-Filter praktisch auf **Null** abgeklungen, während `SavGol` dort eine seiner **Nebenkeulen (`|H(2.0)| ≈ 0.3–0.4`)** hat.
+   * Dadurch kehrt sich das Ergebnis beim schmalbandigen Störer um: Der **Gauß-Filter gewinnt um ~25 %**, weil er ohne Überschwinger/Nebenkeulen sperrt.
 
 ---
 
-### 3. Sinnvolle Zusatz-Simulationen (falls du noch mehr herausholen willst)
-
-Je nachdem, wie tief die Diskussion gehen soll, lohnen sich vor allem diese drei Ergänzungen:
-
-1. **Monte-Carlo-Mittelung (z. B. 50–100 Seeds):** Zeigt Mittelwert $\pm$ Standardabweichung des RMSE über `window_length` und bestätigt, dass `p=3` systematisch und nicht nur zufällig besser ist als `p=1`, `p=5` und `Gauss`.
-2. **Sweep über das SNR / Rauschlevel ($\sigma_{\text{noise}} \in [0.005, 0.2]$):** Zeigt schön, wie sich $w_{\text{opt}}$ mit steigendem Rauschen zu breiteren Fenstern verschiebt (und wann `p=1` oder `Gauss` ggf. aufholen).
-3. **Stresstest mit schmalbandigem Störer (z. B. $0.05 \cdot \sin(2\pi \cdot 2.0\, x)$ statt nur weißem Rauschen):** Ein echtes Highlight für die Diskussion – weil SavGol bei $2\,\text{Hz}$ noch Nebenkeulen hat, schlägt dort plötzlich der **Gauß-Filter** den SavGol-Filter deutlich!
-
-**Fazit:** Mit `windows` bis `251` + `log`-Y-Achse im Bias-Varianz-Plot und einem Zoom im Frequenzgang ist der eine Durchlauf bereits komplett rund für eine saubere Diskussion; für wissenschaftliche Belastbarkeit wäre noch die Monte-Carlo-Mittelung über mehrere Seeds das wichtigste Upgrade.
+### Fazit für deine Diskussion
+Du brauchst **keine weiteren Simulationen** mehr – mit diesem einen 2×2-Plot und den drei Kennzahlen-Zeilen kannst du die komplette Geschichte sauber belegen:
+1. Naive finite Differenzen (`np.gradient`) sind wegen $\text{NoiseGain} = 35.4$ bei verrauschten Ableitungen unbrauchbar (`RMSE = 1.785`).
+2. `SavGol (p=3)` verhält sich wie ein optimierter Tiefpass-Differentiator mit flachem Durchlassbereich und steiler Flanke – ideal bei **glattem Signal + weißem Rauschen**.
+3. `Gauss-Deriv` hat das schlechtere Durchlass-/Flankenverhalten, aber ein **monoton abfallendes Sperrband ohne Nebenkeulen** – ideal bei **hochfrequenten schmalbandigen Störern** oder wenn keinerlei Ringing toleriert wird.
