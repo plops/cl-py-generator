@@ -183,6 +183,8 @@
                  collect (apply #'decorate-ax spec))
 
          (plt.tight_layout)
-         (plt.savefig (string "savgol_analyse.png") :dpi 150)
+         (plt.savefig (string "savgol_analyse.svg")
+		      :format (string "svg")
+		      :bbox_inches (string "tight"))
          (plt.show))))
   (write-source "/home/kiel/stage/cl-py-generator/example/175_gemini_hydrogen/source/savgol_test" code))
