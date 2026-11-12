@@ -113,12 +113,12 @@ Tests for-generator emission.
 i*2 for i in range(3)
 ```
 
-### `(with (open |"F.TXT"|) (setf data (dot f read)))`
+### `(with (open (string "f.txt")) (setf data (dot f read)))`
 Tests with-statement emission.
 
 **Lisp S-Expression:**
 ```lisp
-(with (open |"F.TXT"|) (setf data (dot f read)))
+(with (open (string "f.txt")) (setf data (dot f read)))
 ```
 
 **Generated Python (after formatting):**
@@ -128,12 +128,12 @@ with open("f.txt"):
 
 ```
 
-### `(with (as (open |"F.TXT"|) f) (setf data (dot f read)))`
+### `(with (as (open (string "f.txt")) f) (setf data (dot f read)))`
 Tests with-statement emission using 'as'.
 
 **Lisp S-Expression:**
 ```lisp
-(with (as (open |"F.TXT"|) f) (setf data (dot f read)))
+(with (as (open (string "f.txt")) f) (setf data (dot f read)))
 ```
 
 **Generated Python (after formatting):**
@@ -873,8 +873,8 @@ u2[0, 0] = v
 
 ```
 
-### `(def simulate (E y &key (t_max 1.0))
-      (declare (type float E)
+### `(def simulate (e y &key (t_max 1.0))
+      (declare (type float e)
                (type list y)
                (type float t_max)
                (values list))
@@ -883,8 +883,8 @@ Tests function definitions with parameter and return type declarations.
 
 **Lisp S-Expression:**
 ```lisp
-(def simulate (E y &key (t_max 1.0))
- (declare (type float E)
+(def simulate (e y &key (t_max 1.0))
+ (declare (type float e)
           (type list y)
           (type float t_max)
           (values list))
@@ -893,7 +893,7 @@ Tests function definitions with parameter and return type declarations.
 
 **Generated Python (after formatting):**
 ```python
-def simulate(E: float, y: list, t_max: float = 1.0) -> list:
+def simulate(e: float, y: list, t_max: float = 1.0) -> list:
     return y
 
 ```

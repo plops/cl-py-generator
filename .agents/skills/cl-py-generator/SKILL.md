@@ -22,7 +22,7 @@ The primary public entrypoints are:
 - `write-source`: Transpiles code and writes the result to a `.py` file.
 - `write-notebook`: Writes the code to a Jupyter Notebook `.ipynb` file.
 
-The transpiler uses an `:invert` readtable-case, meaning that lower-case code is preserved and maps naturally to lower-case Python identifiers.
+The transpiler no longer mutates the global readtable. Library sources are read with the standard `:upcase` readtable, and the emitter downcases all-uppercase names (`FOO` becomes `foo`), so lower-case code maps naturally to lower-case Python identifiers. Mixed-case names (`Foo`, `Exception`) are only preserved when the source file opts into the `:cl-py-generator` invert readtable (via `named-readtables`, as the test suites do); under plain `:upcase` reading they are folded to lower case.
 
 > [!IMPORTANT]
 > **Symbol Package Matching Alert**:
