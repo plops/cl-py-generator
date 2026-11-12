@@ -1,0 +1,13 @@
+[project]
+name = "savgol-test"
+version = "0.1.0"
+description = "Savitzky-Golay derivative and filter analysis generated with cl-py-generator"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "scipy",
+]
+
+[tool.uv]
+package = false
