@@ -7,7 +7,7 @@
 
 (defun start-python ()
   (unless (and *python*
-	       (eq :running (sb-impl::process-%status *python*)))
+	       (eq :running (sb-ext:process-status *python*)))
     (setf *python*
 	  (sb-ext:run-program "python3" '()
 			      :search t :wait nil
@@ -19,16 +19,16 @@
 	  (sb-thread:make-thread
 	   #'(lambda (standard-output)
 	       (let ((*standard-output* standard-output))
-		 (loop for line = (read-line (sb-impl::process-pty *python*) nil 'foo)
-		       until (eq line 'foo)
+		 (loop for line = (read-line (sb-ext:process-pty *python*) nil nil)
+		       until (null line)
 		       do
 		       (print line))))
 	   :name "python-reader"
 	   :arguments (list *standard-output*)))))
 
 (defun run (code)
-  (assert (eq :running (sb-impl::process-%status *python*)))
-  (let ((s (sb-impl::process-pty *python*)))
+  (assert (eq :running (sb-ext:process-status *python*)))
+  (let ((s (sb-ext:process-pty *python*)))
     (write-sequence
      (cl-py-generator::emit-py  :clear-env t
 				:code code)

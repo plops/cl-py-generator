@@ -10,19 +10,26 @@ source lines of a notebook cell."
     ;; NOTE: the clause keys must be plain symbols. Writing `markdown here
     ;; reads as (quasiquote markdown), i.e. as a key *list* of two keys, so
     ;; every clause would additionally match the symbol QUASIQUOTE.
-    (case name
+    ;; The cell type is compared by name (upcased), so calls from any package
+    ;; and any readtable case match: `python' works from CL-USER as well.
+    (case (intern (string-upcase (symbol-name name)) :cl-py-generator)
       (markdown (loop for p in rest
 		      collect (format nil "~a~c" p #\Newline)))
-      (python (loop for p in rest
-		    appending
-		    (let ((tempfn (namestring
-				   (merge-pathnames "cl-py-generator-cell"
-						    (uiop:temporary-directory)))))
-		      (write-source tempfn p)
-		      (with-open-file (stream (format nil "~a.py" tempfn))
-			(loop for line = (read-line stream nil)
-			      while line
-			      collect (format nil "~a~c" line #\Newline))))))
+      (python (let* ((src (with-output-to-string (s)
+				    (loop for p in rest do
+				      (write-string (emit-py :clear-env t :code p) s)
+				      (terpri s))))
+				     (formatted (uiop:with-temporary-file (:pathname tmp :stream out
+				  :type "py" :keep nil)
+				  (write-string src out)
+				  (finish-output out)
+				  (close out)
+				  (format-python-file tmp)
+				  (uiop:read-file-string tmp))))
+				 (with-input-from-string (in formatted)
+				   (loop for line = (read-line in nil nil)
+				 while line
+				 collect (format nil "~a~c" line #\Newline)))))
       (t (error "unsupported notebook cell type ~a, expected markdown or python" name)))))
 
 (defun write-notebook (&key nb-file nb-code)
@@ -83,26 +90,23 @@ source lines of a notebook cell."
 	  (warn "jq was not found in PATH, the notebook ~a is not pretty printed." nb-file)
 	  (rename-file tmp nb-file)))))
 
-(setf (readtable-case *readtable*) :invert)
-
 (defparameter *warn-breaking* t)
-(defparameter *file-hashes* (make-hash-table))
+(defparameter *file-hashes* (make-hash-table :test 'equal))
 
 
 
 (defun consume-declare (body)
   "Take a list of instructions from `body`, parse type declarations,
 return the `body` without them and a hash table with an environment. The
-entry `return-values` contains a list of return values. Currently supports `type`, `values` and `capture`.
+entry `return-values` contains a list of return values. Currently supports `type` and `values`.
 
 Parameters:
 - `body` (list): The list of instructions to process.
 
 Returns:
 - `new-body` (list): The modified `body` without type declarations.
-- `env` (hash-table): The hash table representing the environment with captured variables and return values."
+- `env` (hash-table): The hash table representing the environment with return values."
   (let ((env (make-hash-table))
-	(captures nil)
 	(looking-p t)
 	(new-body nil))
     (loop for e in body do
@@ -115,12 +119,6 @@ Returns:
 			(declare (ignorable symb))
 			(loop for var in vars do
 			  (setf (gethash var env) type))))
-		    (when (eq (first declaration) 'capture)
-		      (destructuring-bind (symb &rest vars) declaration
-			(declare (ignorable symb))
-			(loop for var in vars do
-			  (push var captures))))
-
 		    
 		    (when (eq (first declaration) 'values)
 		      (destructuring-bind (symb &rest types-opt) declaration
@@ -140,8 +138,6 @@ Returns:
 		(setf looking-p nil)
 		(push e new-body)))
 	  (push e new-body)))
-    (when captures
-      (setf (gethash 'captures env) (reverse captures)))
     (values (reverse new-body) env)))
 
 (defun parse-defun (code emit )
@@ -167,18 +163,35 @@ Returns:
 			    key-param other-key-p aux-param key-exist-p))
 	(with-output-to-string (s)
 	  (format s "def ~a~a~@[->~a~]:~%"
-		  name
-		  ;; 8 positional parameters, followed by key parameters
+		  (py-symbol-name name)
+		  ;; positional, optional and rest parameters, followed by key parameters
 		  (funcall emit `(paren
 				  ;; positional
 				  ,@(loop for p in req-param collect
 							     (format nil "~a~@[: ~a~]"
 								     
-								     p
+								     (py-symbol-name p)
 								     (let ((type (gethash p env)))
 								       (when type
 									 (funcall emit type))
 								       )))
+				  ;; optional parameters (explicit default or None)
+				  ,@(loop for o in opt-param collect
+							     (format nil "~a~@[: ~a~] = ~a"
+								     (py-symbol-name (first o))
+								     (let ((type (gethash (first o) env)))
+								       (when type
+									 (funcall emit type)))
+								     (if (second o)
+									 (funcall emit (second o))
+									 "None")))
+				  ;; rest parameter
+				  ,@(when res-param
+					     (list (format nil "*~a"
+							   (py-symbol-name
+							    (if (listp res-param)
+								(car res-param)
+								res-param)))))
 				  ;; key parameters
 				  ;; http://www.crategus.com/books/alexandria/pages/alexandria.0.dev_fun_parse-ordinary-lambda-list.html
 				  ;; default arguments with type hints in python: def foo(opts: dict = {}):
@@ -191,13 +204,15 @@ Returns:
 					  (progn
 					    (format nil "~a~a ~@[~a~]"
 						    
-						    name
+						    (py-symbol-name name)
 						    (let ((type (gethash name env)))
 						      (if type
 							  (format nil ": ~a" (funcall emit type))
 							  "" ;; can't find type for keyword parameter
 							  ))
-						    (format nil "= ~a" (funcall emit init)))))
+						    (if init
+							 (format nil "= ~a" (funcall emit init))
+							 "= None"))))
 				  ))
 		  #+nil (emit `(paren
 				,@(append (mapcar #'emit req-param)
@@ -219,10 +234,10 @@ Returns:
 			(if (car r)
 			    (case (car r)
 			      (:constructor "") ;; (values :constructor) will not print anything
-			      (t (car r)))
+			      (t (funcall emit (car r))))
 			    nil		;"void"
 			    ))))
-	  (format s "~a" (funcall emit `(do ,@body))))))))
+	  (format s "~a" (funcall emit `(do ,@(or body (list 'pass))))))))))
 
 
 (defparameter *python-format-command* nil
@@ -302,20 +317,17 @@ Returns:
 				 (code-str (emit-py
 										:clear-env t
 										:code code))
-				 (fn-hash (sxhash fn))
-				 (code-hash (sxhash code-str)))
-		(multiple-value-bind (old-code-hash exists) (gethash fn-hash *file-hashes*)
-			(when (or (not exists) ignore-hash (/= code-hash old-code-hash))
-				;; store the sxhash of the c source in the hash table
-				;; *file-hashes* with the key formed by the sxhash of the full
-				;; pathname
-				(setf (gethash fn-hash *file-hashes*) code-hash)
+				 (key (namestring fn)))
+		(multiple-value-bind (old-code exists) (gethash key *file-hashes*)
+			(when (or (not exists) ignore-hash
+			              (not (and (probe-file fn) (string= old-code code-str))))
 				(with-open-file (s fn
 									 :direction :output
 									 :if-exists :supersede
 									 :if-does-not-exist :create)
 					(write-sequence code-str s))
-				(format-python-file fn)))
+				(format-python-file fn)
+				(setf (gethash key *file-hashes*) code-str)))
 		fn))
 
 (defun print-sufficient-digits-f64 (f)
@@ -402,6 +414,29 @@ Returns:
                (write-string separator s))
              (write-string string s))))
 
+(defun py-symbol-name (sym)
+  "Return the Python identifier for the Lisp symbol SYM.
+
+   The library no longer mutates the global readtable, so files are read with
+   the standard :upcase readtable and symbol names arrive in upper case.  Names
+   without any lower-case letter are downcased (FOO -> foo, :A -> a), names
+   that already contain lower-case letters (e.g. |MyVar| or |Optional|) are
+   kept verbatim.  Non-symbols are printed as-is."
+  (let ((name (if (symbolp sym)
+                  (symbol-name sym)
+                  (format nil "~a" sym))))
+    (if (find-if #'lower-case-p name)
+        name
+        (string-downcase name))))
+
+(defun comment-newlines (text)
+  "Replace every newline in TEXT with a newline plus hash and blank."
+  (with-output-to-string (s)
+    (loop for ch across text do
+      (if (char= ch #\Newline)
+          (write-string (format nil "~%# ") s)
+          (write-char ch s)))))
+
 ;;; How the operators of the DSL are printed.  This used to be ~25 nearly
 ;;; identical CASE clauses in `emit-py'; all that ever differed between them is
 ;;; collected in the two tables below.  Adding an operator means: add one line
@@ -423,13 +458,13 @@ Returns:
 ;;;                         operand of the unary form (defaults to the operator
 ;;;                         itself; unary minus binds tighter than binary minus)
 (defparameter *infix-operators*
-  '((+      :separator "+")
-    (-      :separator "-"  :unary-format "-~a" :unary-operand-op unary-
+  '((+      :separator "+" :min-args 1)
+    (-      :separator "-"  :min-args 1 :unary-format "-~a" :unary-operand-op unary-
             ;; NOTE: without this the fully parenthesized mode used to print
             ;; (- x) as ((x)) -- it silently dropped the minus sign
             :unary-legacy-format "(-(~a))")
-    (*      :separator "*")
-    (@      :separator "@")
+    (*      :separator "*" :min-args 1)
+    (@      :separator "@" :min-args 2)
     (/      :separator "/"  :min-args 1
             :unary-format "1.0/~a" :unary-legacy-format "(1.0/(~a))")
     ;; python's / // % are left associative, just like common lisp's:
@@ -439,22 +474,22 @@ Returns:
     ;; python's ** is right associative, cl's expt only takes two arguments.
     ;; don't guess, let the user be explicit.
     (**     :separator "**" :min-args 2 :max-args 2)
-    (<<     :separator "<<")
-    (>>     :separator ">>")
-    (<      :separator "<")
-    (>      :separator ">")
-    (<=     :separator "<=")
-    (>=     :separator ">=")
-    (==     :separator "==")
-    (!=     :separator "!=")
-    (&      :separator " & ")
-    (logand :separator " & ")
-    (^      :separator " ^ ")
-    (logxor :separator " ^ ")
-    (|\||   :separator " | ")
-    (logior :separator " | ")
-    (and    :separator " and ")
-    (or     :separator " or ")
+    (<<     :separator "<<" :min-args 2)
+    (>>     :separator ">>" :min-args 2)
+    (<      :separator "<" :min-args 2)
+    (>      :separator ">" :min-args 2)
+    (<=     :separator "<=" :min-args 2)
+    (>=     :separator ">=" :min-args 2)
+    (==     :separator "==" :min-args 2)
+    (!=     :separator "!=" :min-args 2)
+    (&      :separator " & " :min-args 1)
+    (logand :separator " & " :min-args 1)
+    (^      :separator " ^ " :min-args 1)
+    (logxor :separator " ^ " :min-args 1)
+    (|\||   :separator " | " :min-args 1)
+    (logior :separator " | " :min-args 1)
+    (and    :separator " and " :min-args 1)
+    (or     :separator " or " :min-args 1)
     (in     :separator " in "     :min-args 2 :max-args 2 :style :always-paren)
     (not-in :separator " not in " :min-args 2 :max-args 2 :style :always-paren)
     (is     :separator " is "     :min-args 2 :max-args 2 :style :always-paren)
@@ -725,12 +760,11 @@ Returns:
 (defparameter *env-functions* nil "docstring")
 (defparameter *env-macros* nil)
 
-(defun emit-py (&key code (str nil) (clear-env nil) (level 0) (omit-redundant-parentheses t))
+(defun emit-py (&key code (clear-env nil) (level 0) (omit-redundant-parentheses t))
 	"Emit Python code based on the given parameters.
 
 	Args:
 		code (s-expr): The code to emit.
-		str: A string to emit into.
 		clear-env: Whether to clear the environment.
 		level: The indentation level.
 
@@ -776,7 +810,7 @@ Returns:
 		    (format s "~{~&~a~}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
 	      (class (destructuring-bind (name parents &rest body) (cdr code)
 		       (format nil "class ~a~a:~%~a"
-			       name
+			       (py-symbol-name name)
 			       (if (eq 0 (length parents))
 				    ""
 				    (emit `(paren ,@parents)))
@@ -857,9 +891,9 @@ Returns:
 		      ;; sequence itself may need parentheses: (aref (+ a b) i)
 		      ;; is (a+b)[i]
 		      (format nil "~a[~{~a~^,~}]"
-			      (if omit-redundant-parentheses
-				  (emit-operand 'aref name #'emit)
-				  (emit name))
+			      ;; the sequence may need parentheses even in legacy
+			      ;; mode, e.g. (aref -3 1) is (-3)[1], not -3[1]
+			      (emit-operand 'aref name #'emit)
 			      (mapcar #'emit indices))))
 	      (slice (let ((args (cdr code)))
 		       (if (null args)
@@ -873,33 +907,31 @@ Returns:
 		     (format nil "~{~a~^.~}"
 			     (loop for arg in args
 				   and i from 0
-				   collect (if (and omit-redundant-parentheses
-						    (zerop i))
+				   collect (if (zerop i)
+					       ;; the object may need parentheses even in
+					       ;; legacy mode, e.g. (dot -3 c) is (-3).c
 					       (emit-operand 'dot arg #'emit)
 					       (emit arg))))))
 	      (paren*
 	       ;; (paren* parent-op operand &optional position)
 	       ;; place a pair of parentheses only when needed, see
 	       ;; `emit-operand' and `operand-needs-parentheses-p'
-	       (if omit-redundant-parentheses
-		   (progn
-		     (unless (member (length code) '(3 4))
-		       (error "paren* expects two or three arguments: ~a" code))
-		     (unless (member (fourth code) '(nil :left :right))
-		       (error "the operand position of paren* must be :left, :right or omitted: ~a" code))
+	       (progn
+		 (unless (member (length code) '(3 4))
+		   (error "paren* expects two or three arguments: ~a" code))
+		 (unless (member (fourth code) '(nil :left :right))
+		   (error "the operand position of paren* must be :left, :right or omitted: ~a" code))
+		 (if omit-redundant-parentheses
 		     (emit-operand (second code) (third code) #'emit
-				   (fourth code)))
-		   ;; without the precedence machinery paren* degenerates into paren
-		   (format nil "(~{~a~^, ~})" (mapcar #'emit (cddr code)))))
+				       (fourth code))
+		     ;; without the precedence machinery paren* degenerates into paren
+		     (format nil "(~a)" (emit (third code))))))
 	      (comment (format nil "# ~a~%" (cadr code)))
 	      (comments (let ((args (cdr code)))
 			  (format nil "~{# ~a~%~}" (mapcar #'(lambda (arg)
-							      (cl-ppcre:regex-replace-all
-							       "\\n"
-							       arg
-							       (format nil "~%# ")))
+							      (comment-newlines arg))
 							   args))))
-	      (symbol (substitute #\: #\- (format nil "~a" (cadr code))))
+	      (symbol (substitute #\: #\- (py-symbol-name (cadr code))))
 	      (string (format nil "\"~a\"" (cadr code)))
 	      (string-b (format nil "b\"~a\"" (cadr code)))
 	      (fstring (format nil "f\"~a\"" (cadr code)))
@@ -908,7 +940,11 @@ Returns:
 	      (rstring3 (format nil "r\"\"\"~a\"\"\"" (cadr code)))
 	      (return_ (format nil "return ~a" (emit (caadr code))))
 	      (return (let ((args (cdr code)))
-			(format nil "~a" (emit `(return_ ,args)))))
+			(cond ((null args)
+			       "return")
+			      ((null (cdr args))
+			       (format nil "return ~a" (if (car args) (emit (car args)) "None")))
+			      (t (error "return expects at most 1 argument, use (return (ntuple ...)) for multiple values: ~a" code)))))
 	      #+nil(assert (let ((args (cdr code)))
 			     (format nil "assert ~a" (emit `(ntuple ,@args)))))
 	      (for (destructuring-bind ((vs ls) &rest body) (cdr code)
@@ -1007,8 +1043,8 @@ Returns:
 				      (format s "~a~%" (emit `(import-from ,@e)))))))
 	      (import (destructuring-bind (args) (cdr code)
 			(if (listp args)
-			    (format nil "import ~a as ~a~%" (second args) (first args))
-			    (format nil "import ~a~%" args))))
+			    (format nil "import ~a as ~a~%" (py-symbol-name (second args)) (py-symbol-name (first args)))
+			    (format nil "import ~a~%" (py-symbol-name args)))))
 	      (imports (destructuring-bind (args) (cdr code)
 			 (format nil "~{~a~}" (append (list (emit `(import ,(first args))))
 						      (mapcar #'(lambda (x) (emit `(indent (import ,x))))
@@ -1029,7 +1065,7 @@ Returns:
 			       (if (member form
 					   '(else finally))
 				   (format s "~&~a~%"
-					   (emit `(indent ,(format nil "~a:" form))))
+					   (emit `(indent ,(format nil "~a:" (py-symbol-name form)))))
 				   (format s "~&~a~%"
 					   (emit `(indent ,(format nil "except ~a:" (emit form))))))
 			       (format s "~a" (emit `(do ,@body)))))))
@@ -1056,14 +1092,14 @@ Returns:
 						(elt args i)))
 			      (plist (subseq args (length positional)))
 			      (props (loop for e in plist by #'cddr collect e)))
-			 (format nil "~a~a" name
+			 (format nil "~a~a" (py-symbol-name name)
 				 (emit `(paren ,@(append
 						  positional
 						  (loop for e in props collect
-							`(= ,(format nil "~a" e) ,(getf plist e)))))))))))))
+							`(= ,(py-symbol-name e) ,(getf plist e)))))))))))))
 	    (cond
 	      ((symbolp code) ;; print variable
-	       (format nil "~a" code))
+	       (py-symbol-name code))
 	      ((stringp code)
 	       #+nil (progn
 		       (when *warn-breaking*
@@ -1072,17 +1108,17 @@ Returns:
 	       code ;(substitute #\: #\- (format nil "~a" code))
 	       )
 	      ((numberp code) ;; print constants
-	       (cond ((integerp code) (format str "~a" code))
+	       (cond ((integerp code) (format nil "~a" code))
 		     ((floatp code)
 		      (if omit-redundant-parentheses
-			  (format str "~a" (print-sufficient-digits-f64 code))
-			  (format str "(~a)" (print-sufficient-digits-f64 code))))
+			  (format nil "~a" (print-sufficient-digits-f64 code))
+			  (format nil "(~a)" (print-sufficient-digits-f64 code))))
 		     ((complexp code)
 		      (if omit-redundant-parentheses
-			  (format str "~a + 1j * ~a"
+			  (format nil "~a + 1j * ~a"
 				  (print-sufficient-digits-f64 (realpart code))
 				  (print-sufficient-digits-f64 (imagpart code)))
-			  (format str "((~a) + 1j * (~a))"
+			  (format nil "((~a) + 1j * (~a))"
 				  (print-sufficient-digits-f64 (realpart code))
 				  (print-sufficient-digits-f64 (imagpart code)))))))))
 	"")))

@@ -6,7 +6,7 @@
     :licence "GPL"
     ;; external-program is not used by the library itself anymore (uiop is used
     ;; instead), but a few examples in example/ still call external-program:run.
-    :depends-on ("alexandria" "jonathan" "uiop" "external-program")
+    :depends-on ("alexandria" "jonathan" "uiop" "external-program" "named-readtables")
     :serial t
     :components ((:file "package")
 		 (:file "py")

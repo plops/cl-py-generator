@@ -31,7 +31,7 @@
    := :+ :- :* :@ :== :<< :!= :< :> :<= :>= :>> :/ :** :// :%  
   
    :& :^ :logand :logxor :logior  
-   :and :or :~ :|\||  
+   :and :or :not :~ :|\||  
   
    :setf :incf :decf :aref :slice :dot  
   
@@ -53,3 +53,13 @@
    ;; :| ;;  i think this is or. not sure if i ever use itisth
 
 ))
+
+;; File-local invert readtable for this library's own sources and for test
+;; files that opt in with (named-readtables:in-readtable :cl-py-generator).
+;; Defining it here does NOT touch the global *readtable*: loading this
+;; system leaves the caller's readtable-case unchanged. The emitter itself
+;; downcases all-uppercase names (see py-symbol-name), so forms read with
+;; the standard :upcase readtable still produce lowercase Python.
+(named-readtables:defreadtable :cl-py-generator
+  (:merge :standard)
+  (:case :invert))
