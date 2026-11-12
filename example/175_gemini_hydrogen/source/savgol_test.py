@@ -33,7 +33,8 @@ best_win = 5
 best_poly = 1
 for p in [1, 3, 5]:
     errs = []
-    for w in windows:
+    valid_wins = windows[windows > p]
+    for w in valid_wins:
         dy_tmp = sig.savgol_filter(
             y_noisy, window_length=int(w), polyorder=p, deriv=1, delta=dx
         )
@@ -43,7 +44,7 @@ for p in [1, 3, 5]:
             best_rmse = rmse
             best_win = int(w)
             best_poly = p
-    ax10.plot(windows, errs, label="SavGol poly={}".format(p))
+    ax10.plot(valid_wins, errs, label="SavGol poly={}".format(p))
 dy_savgol = sig.savgol_filter(
     y_noisy, window_length=best_win, polyorder=best_poly, deriv=1, delta=dx
 )

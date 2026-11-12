@@ -28,7 +28,7 @@
                              `(,(intern (format nil "AX~d~d" i j))
                                (aref (aref axes ,i) ,j)))))
 
-         "# 2. SavGol-Sweep (Bias-Varianz-Tradeoff)"
+	 "# 2. SavGol-Sweep (Bias-Varianz-Tradeoff)"
          (setf windows (np.arange 5 103 2)
                best_rmse np.inf
                best_win 5
@@ -36,8 +36,9 @@
 
          (for (p (list 1 3 5))
            (do0
-             (setf errs (list))
-             (for (w windows)
+             (setf errs (list)
+                   valid_wins (aref windows (> windows p)))
+             (for (w valid_wins)
                (do0
                  (setf dy_tmp (sig.savgol_filter y_noisy
                                                  :window_length (int w)
@@ -48,7 +49,7 @@
                    (setf best_rmse rmse
                          best_win (int w)
                          best_poly p))))
-             (ax10.plot windows errs :label (dot (string "SavGol poly={}") (format p)))))
+             (ax10.plot valid_wins errs :label (dot (string "SavGol poly={}") (format p)))))
 
          (setf dy_savgol (sig.savgol_filter y_noisy
                                             :window_length best_win
