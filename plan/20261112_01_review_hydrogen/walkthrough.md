@@ -5,6 +5,25 @@ Dieser Text erklärt Schritt für Schritt, was gebaut wurde, welche
 Entscheidung Tests erzwungen haben, was wir gelernt haben und was noch offen
 ist. Alle Fachbegriffe werden bei erster Verwendung erklärt.
 
+## Nachtrag: Abnahme-Check (PR-Review, 13.11.)
+
+Ein Gegen-Check fand vier kleine Restpunkte, die danach behoben wurden (alle
+Suiten weiterhin grün: 22 Issue-Tests, 160 Transpiler-Tests, Paren-Fuzzer
+0 Fehler):
+
+1. `write-notebook` prüfte den Zelltyp noch per `eq 'markdown` — aus fremden
+   Paketen scheiterte das. Jetzt entscheidet der (großgeschriebene) Name, wie
+   schon in `notebook-cell-source`.
+2. `py-symbol-name` kleinschrieb entgegen seinem Docstring auch rohe Strings
+   (`"API"` → `"api"`). Jetzt werden nur Symbole normalisiert, alles andere
+   läuft unverändert durch.
+3. `dot` auf positiven Zahlen (`3.bit_length()`) ist in Python ein
+   Syntaxfehler; der Fuzzer merkte es nicht, weil beide Modi denselben Fehler
+   warfen. `emit-operand` klammert Zahlen als `dot`-Objekt jetzt (`(3).bit_length()`).
+4. `lambda` ignorierte `&optional`/`&rest` stillschweigend — jetzt wie
+   `parse-defun` als `b = None` bzw. `*c` unterstützt; der Skill-Text erwähnt
+   zusätzlich `|Name|`-Escaping als Alternative zu `named-readtables`.
+
 ## Glossar
 
 - **Readtable**: Die Tabelle in Common Lisp (CL), die festlegt, wie Zeichen beim
