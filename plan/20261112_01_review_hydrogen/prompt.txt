@@ -18,7 +18,10 @@ Fehlende Pakete selbst installieren und im Walkthrough fürs Dockerfile aufliste
 ## Code-Anforderungen
 
 - Kleiner, übersichtlicher, effizienter Code
-
+stelle sicher,
+  dass du beim editieren von klammern auf darauf aufpasst dass du dich nicht verzaehlst, lasse sbcl oft laufen, falls doch ein fehler auftritt
+  vergleiche mit der vorherigen git version um das problem zu identifizieren.
+  
 
 ##  Vorgehen
 

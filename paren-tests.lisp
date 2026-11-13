@@ -21,6 +21,9 @@
 
 (ql:quickload :cl-py-generator)
 (ql:quickload "uiop")
+(ql:quickload "named-readtables")
+
+(named-readtables:in-readtable :cl-py-generator)
 
 (defpackage :cl-py-generator/paren-tests
   (:use :cl :cl-py-generator))
@@ -150,7 +153,14 @@
    (lambda (sub) `(>> ,(funcall sub) (& ,(funcall sub) 3)))
    (lambda (sub) `(// ,(funcall sub) 5))
    (lambda (sub) `(% ,(funcall sub) 5))
-   (lambda (sub) `(** (& ,(funcall sub) 3) 2))))
+   (lambda (sub) `(** (& ,(funcall sub) 3) 2))
+   (lambda (sub) `(in ,(funcall sub) (list 0 1)))
+   (lambda (sub) `(not-in ,(funcall sub) (list 2 3)))
+   (lambda (sub) `(/ ,(funcall sub) 2))
+   (lambda (sub) `(aref (list ,(funcall sub) ,(funcall sub)) 1))
+   (lambda (sub) `(dot ,(funcall sub) (bit_length)))
+   (lambda (sub) `((lambda (x) (+ x 1)) ,(funcall sub)))
+   (lambda (sub) `(? ,(funcall sub) ,(funcall sub) 0))))
 
 (defun random-expression (depth)
   (if (or (zerop depth)

@@ -2,7 +2,9 @@
 
 (ql:quickload :cl-py-generator)
 (ql:quickload "uiop")
-(ql:quickload "cl-ppcre")
+(ql:quickload "named-readtables")
+
+(named-readtables:in-readtable :cl-py-generator)
 
 (defpackage :cl-py-generator/tests
   (:use :cl :cl-py-generator))
@@ -423,7 +425,8 @@ else:
      :description "Tests for-generator emission."
      :lisp (for-generator (i (range 3)) (* i 2))
      :python "i*2 for i in range(3)"
-     :tags (:control-flow))
+     :tags (:control-flow)
+     :skip-ruff t)
 
     (:name "class-basic"
      :description "Tests class emission with a simple initializer."
@@ -476,14 +479,14 @@ from pathlib import Path"
 
     (:name "with-basic"
      :description "Tests with-statement emission."
-     :lisp (with (open \"f.txt\") (setf data (dot f read)))
+     :lisp (with (open (string "f.txt")) (setf data (dot f read)))
      :python "with open(\"f.txt\"):
     data=f.read"
      :tags (:control-flow))
 
     (:name "with-as-basic"
      :description "Tests with-statement emission using 'as'."
-     :lisp (with (as (open \"f.txt\") f) (setf data (dot f read)))
+     :lisp (with (as (open (string "f.txt")) f) (setf data (dot f read)))
      :python "with open(\"f.txt\") as f:
     data=f.read"
      :tags (:control-flow))
@@ -543,7 +546,8 @@ else:
      :description "Tests space emission."
      :lisp (space alpha beta)
      :python "alpha beta"
-     :tags (:core :utility))
+     :tags (:core :utility)
+     :skip-ruff t)
 
     (:name "setf-aref"
      :description "Tests assigning to a specific index via aref inside setf."
@@ -553,13 +557,13 @@ else:
 
     (:name "def-type-annotations"
      :description "Tests function definitions with parameter and return type declarations."
-     :lisp (def simulate (E y &key (t_max 1.0))
-             (declare (type float E)
+     :lisp (def simulate (e y &key (t_max 1.0))
+             (declare (type float e)
                       (type list y)
                       (type float t_max)
                       (values list))
              (return y))
-     :python "def simulate(E: float, y: list, t_max: float = 1.0) -> list:
+     :python "def simulate(e: float, y: list, t_max: float = 1.0) -> list:
     return y"
      :tags (:core :function))
 
@@ -1142,7 +1146,17 @@ w = 1.0e30"
 (defun normalize-string (s)
   "Removes leading/trailing whitespace and normalizes line endings to LF."
   (string-trim '(#\Space #\Newline #\Tab #\Return)
-               (cl-ppcre:regex-replace-all "\\r\\n?" s "\n")))
+               (with-output-to-string (out)
+                 (loop with len = (length s)
+                       for i below len
+                       for ch = (char s i)
+                       do (cond ((char= ch #\Return)
+                                 (unless (and (< (1+ i) len)
+                                              (char= (char s (1+ i)) #\Newline))
+                                   (write-char #\Newline out)))
+                                ((char= ch #\Newline)
+                                 (write-char #\Newline out))
+                                (t (write-char ch out)))))))
 
 ;; ===================================================================
 ;; UPDATED TEST RUNNER
@@ -1169,8 +1183,9 @@ w = 1.0e30"
                (lisp-code (getf test-case :lisp))
                (expected-python-raw (getf test-case :python))
                (actual-python-raw (emit-py :clear-env t :code lisp-code))
-               (expected-python (run-ruff-format expected-python-raw))
-               (actual-python (run-ruff-format actual-python-raw)))
+               (skip-ruff (getf test-case :skip-ruff))
+               (expected-python (if skip-ruff expected-python-raw (run-ruff-format expected-python-raw)))
+               (actual-python (if skip-ruff actual-python-raw (run-ruff-format actual-python-raw))))
 
           (format t "~&[~D] Testing '~A'... " test-count name)
 
@@ -1214,7 +1229,11 @@ w = 1.0e30"
 
 (defun generate-documentation (&key (tests *test-cases*) (output-file "SUPPORTED_FORMS.md"))
   "Generates a markdown documentation file from the test cases."
-  (let ((*package* (find-package :cl-py-generator/tests)))
+  (let ((*package* (find-package :cl-py-generator/tests))
+        ;; Print under the library readtable so upper-case internal names
+        ;; round-trip to the lower-case source spelling (as if the reader
+        ;; had preserved it), instead of staying upper-case or escaped.
+        (*readtable* (named-readtables:find-readtable :cl-py-generator)))
     (with-open-file (s output-file :direction :output :if-exists :supersede)
       (format s "# Supported S-Expression Forms~%")
       (format s "This documentation is auto-generated from the test suite. Do not edit manually.~2%")
@@ -1230,7 +1249,7 @@ w = 1.0e30"
                  (format s "## ~(~a~) Forms~%" tag)
                  (dolist (test-case (reverse (gethash tag tagged-tests)))
                    ;; Run ruff format here as well to ensure docs are clean
-                   (let ((formatted-python (run-ruff-format (getf test-case :python))))
+                   (let ((formatted-python (if (getf test-case :skip-ruff) (getf test-case :python) (run-ruff-format (getf test-case :python)))))
                      (format s "### `~S`~%" (getf test-case :lisp))
                      (format s "~A~2%" (getf test-case :description))
                      (format s "**Lisp S-Expression:**~%```lisp~%~S~%```~2%" (getf test-case :lisp))
